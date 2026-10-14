@@ -155,7 +155,7 @@ void main() {
   });
 
   group('the first-mock token', () {
-    final milestone = RhythmMilestone(id: 'first_full_mock', achievedAt: DateTime.utc(2026, 10, 12, 17, 14));
+    final milestone = RhythmMilestone(id: 'first_full_mock', achievedAt: DateTime.utc(2026, 10, 12, 17, 12));
 
     test('shows only for the server milestone on the only mock', () {
       final d = detail();

@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/api/api.dart' show nowProvider;
+import '../../core/motion/motion.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
+import '../account_access/widgets/problem_slot.dart';
 import '../account_access/widgets/sign_in_methods.dart';
 import '../account_access/widgets/volt_key.dart';
 import 'auth_page.dart';
@@ -115,90 +117,133 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Semantics(
-            header: true,
-            child: Text(
-              AuthCopy.signInTitle,
-              textAlign: TextAlign.center,
-              style: type.display,
+          MmStaggerItem(
+            index: 0,
+            rise: MmSpace.s12,
+            child: Semantics(
+              header: true,
+              child: Text(
+                AuthCopy.signInTitle,
+                textAlign: TextAlign.center,
+                style: type.display,
+              ),
             ),
           ),
           const SizedBox(height: MmSpace.s8),
-          Text(
-            AuthCopy.signInLead,
-            textAlign: TextAlign.center,
-            style: type.lead.copyWith(color: colors.ink2),
-          ),
-          const SizedBox(height: MmSpace.s24),
-          SignInMethods(
-            initialEmail: state.email,
-            busy: state.isBusy,
-            onBusyChanged: (busy) {
-              // Google or the password form is starting: read the remembered route before the
-              // router takes it, so the after-sign-in sheet never covers a deep link.
-              if (busy) notifier.signInStarting();
-              setState(() => _otherBusy = busy);
-            },
-            onSignedIn: notifier.googleSignedIn,
-            emailCode: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                EmailField(
-                  controller: _email,
-                  autofocus: widget.autofocus,
-                  enabled: !held,
-                  hasError: problem == SignInProblem.invalidEmail,
-                  onChanged: (value) {
-                    notifier.setEmail(value);
-                    setState(() {});
-                  },
-                  onSubmitted: _send,
-                ),
-                if (problemText != null) ...[
-                  const SizedBox(height: MmSpace.s12),
-                  ProblemLine(message: problemText),
-                ],
-                const SizedBox(height: MmSpace.s20),
-                if (waiting && !sending) ...[
-                  // The wait is the server's: asking again would only be refused, so the way to
-                  // the code that is already out is the one live key.
-                  VoltKey(
-                    label: AuthCopy.enterSentCode,
-                    onPressed: held ? null : _haveCode,
-                  ),
-                  const SizedBox(height: MmSpace.s4),
-                  ResendRow(
-                    availableAt: until,
-                    now: now,
-                    sending: false,
-                    onResend: _send,
-                    waitLabel: AuthCopy.sendNewIn,
-                    spokenWait: AuthCopy.sendNewInSpoken,
-                    readyLabel: AuthCopy.sendNewCode,
-                    onElapsed: _waitElapsed,
-                  ),
-                ] else ...[
-                  VoltKey(
-                    label: sending ? AuthCopy.sendingCode : AuthCopy.sendCode,
-                    loading: sending,
-                    onPressed: held ? null : _send,
-                  ),
-                  if (haveCode && !held) ...[
-                    const SizedBox(height: MmSpace.s4),
-                    QuietAction(
-                      label: AuthCopy.enterSentCode,
-                      onPressed: _haveCode,
-                    ),
-                  ],
-                ],
-              ],
+          MmStaggerItem(
+            index: 1,
+            rise: MmSpace.s12,
+            child: Text(
+              AuthCopy.signInLead,
+              textAlign: TextAlign.center,
+              style: type.lead.copyWith(color: colors.ink2),
             ),
           ),
-          const SizedBox(height: MmSpace.s16),
-          Text(
-            AuthCopy.newHere,
-            textAlign: TextAlign.center,
-            style: type.small.copyWith(color: colors.ink3),
+          const SizedBox(height: MmSpace.s24),
+          MmStaggerItem(
+            index: 2,
+            rise: MmSpace.s12,
+            child: SignInMethods(
+              initialEmail: state.email,
+              busy: state.isBusy,
+              onBusyChanged: (busy) {
+                // Google or the password form is starting: read the remembered route before the
+                // router takes it, so the after-sign-in sheet never covers a deep link.
+                if (busy) notifier.signInStarting();
+                setState(() => _otherBusy = busy);
+              },
+              onSignedIn: notifier.googleSignedIn,
+              emailCode: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  EmailField(
+                    controller: _email,
+                    autofocus: widget.autofocus,
+                    enabled: !held,
+                    hasError: problem == SignInProblem.invalidEmail,
+                    onChanged: (value) {
+                      notifier.setEmail(value);
+                      setState(() {});
+                    },
+                    onSubmitted: _send,
+                  ),
+                  const SizedBox(height: MmSpace.s8),
+                  // One reserved place under the field. At rest it carries the help for a new
+                  // student; a problem or a long wait takes it over and hands it back, so the
+                  // field above and the key below never move.
+                  StillWorking(
+                    active: sending,
+                    builder: (context, longWait) {
+                      if (problemText != null) {
+                        return ProblemSlot(
+                          messageKey: problem,
+                          child: ProblemLine(message: problemText),
+                        );
+                      }
+                      if (longWait) {
+                        return ProblemSlot(
+                          messageKey: 'still',
+                          child: Text(
+                            AuthCopy.stillSending,
+                            style: type.small.copyWith(color: colors.ink2),
+                          ),
+                        );
+                      }
+                      return ProblemSlot(
+                        messageKey: 'rest',
+                        child: Text(
+                          AuthCopy.newHere,
+                          style: type.small.copyWith(color: colors.ink3),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: MmSpace.s16),
+                  if (waiting && !sending)
+                    // The wait is the server's: asking again would only be refused, so the way to
+                    // the code that is already out is the one live key.
+                    VoltKey(
+                      label: AuthCopy.enterSentCode,
+                      onPressed: held ? null : _haveCode,
+                    )
+                  else
+                    VoltKey(
+                      label: sending ? AuthCopy.sendingCode : AuthCopy.sendCode,
+                      loading: sending,
+                      onPressed: held ? null : _send,
+                    ),
+                  // Under the key: the countdown or the way back to a code that is already out.
+                  // Its height is kept, so the key does not climb when it appears.
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: roomyScreen(context)
+                          ? MmSpace.s4 + MmTarget.min
+                          : 0,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: MmSpace.s4),
+                      child: waiting && !sending
+                          ? ResendRow(
+                              availableAt: until,
+                              now: now,
+                              sending: false,
+                              onResend: _send,
+                              waitLabel: AuthCopy.sendNewIn,
+                              spokenWait: AuthCopy.sendNewInSpoken,
+                              readyLabel: AuthCopy.sendNewCode,
+                              onElapsed: _waitElapsed,
+                            )
+                          : (haveCode && !held && !sending
+                                ? QuietAction(
+                                    label: AuthCopy.enterSentCode,
+                                    onPressed: _haveCode,
+                                  )
+                                : null),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

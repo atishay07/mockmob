@@ -287,30 +287,42 @@ class MmPageTransitionsBuilder extends PageTransitionsBuilder {
   }
 }
 
-/// The tab switch (spec 3.2, ui-blitz 3.5): a fade-through. The outgoing tab fades out in
-/// 90 ms, then the incoming tab fades in over 210 ms from 0.985. The branches stay mounted, like
-/// an `IndexedStack`, so each keeps its own navigation state; only the two involved are painted,
-/// and only for the switch.
+/// The tab switch (DOCK.md section 5.4, MOTION.md C1): the outgoing branch fades out in 90 ms on
+/// exit, drifting 6 dp against the travel; then the incoming branch fades in over 200 ms on
+/// glide, sliding 10 dp in from the side the bar's lens travelled toward (transforms only). The
+/// bar's visual order (Today, Practice, Start, Review, You) keeps branch order, so the branch
+/// index gives the direction. The branches stay mounted, like an `IndexedStack`, so
+/// each keeps its own navigation state; only the two involved are painted, and only for the
+/// switch. Under reduced motion it is a 120 ms fade.
 class FadingBranchContainer extends StatefulWidget {
   const FadingBranchContainer({super.key, required this.currentIndex, required this.children});
 
   final int currentIndex;
   final List<Widget> children;
 
+  static const Duration fadeOut = Duration(milliseconds: 90);
+  static const Duration fadeIn = Duration(milliseconds: 200);
+
+  /// How far the incoming branch slides.
+  static const double slide = 10;
+
+  /// How far the outgoing branch drifts, against the travel.
+  static const double drift = 6;
+
   @override
   State<FadingBranchContainer> createState() => _FadingBranchContainerState();
 }
 
 class _FadingBranchContainerState extends State<FadingBranchContainer> with SingleTickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    vsync: this,
-    duration: Motion.fadeThroughOut + Motion.fadeThroughIn,
-    value: 1,
-  );
+  late final AnimationController _controller = AnimationController(vsync: this, duration: FadingBranchContainer.fadeOut + FadingBranchContainer.fadeIn, value: 1);
   int? _previous;
 
+  /// 1 when the new branch is to the right of the old one (it slides in from the right).
+  double _side = 1;
+  bool _reducedSwitch = false;
+
   double get _split =>
-      Motion.fadeThroughOut.inMicroseconds / (Motion.fadeThroughOut + Motion.fadeThroughIn).inMicroseconds;
+      FadingBranchContainer.fadeOut.inMicroseconds / (FadingBranchContainer.fadeOut + FadingBranchContainer.fadeIn).inMicroseconds;
 
   late final Animation<double> _in = CurvedAnimation(parent: _controller, curve: Interval(_split, 1, curve: Motion.glide));
   late final Animation<double> _out = ReverseAnimation(CurvedAnimation(parent: _controller, curve: Interval(0, _split, curve: Motion.exit)));
@@ -327,13 +339,11 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
   void didUpdateWidget(FadingBranchContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentIndex == widget.currentIndex) return;
-    if (Motion.reduced(context)) {
-      _previous = null;
-      _controller.value = 1;
-    } else {
-      _previous = oldWidget.currentIndex;
-      _controller.forward(from: 0);
-    }
+    _side = widget.currentIndex > oldWidget.currentIndex ? 1 : -1;
+    _reducedSwitch = Motion.reduced(context);
+    _previous = oldWidget.currentIndex;
+    _controller.duration = _reducedSwitch ? Motion.reducedFade : FadingBranchContainer.fadeOut + FadingBranchContainer.fadeIn;
+    _controller.forward(from: 0);
   }
 
   @override
@@ -345,6 +355,7 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
   @override
   Widget build(BuildContext context) {
     final previous = _previous;
+    final reduced = _reducedSwitch;
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -358,12 +369,27 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
                 ignoring: i != widget.currentIndex,
                 child: FadeTransition(
                   opacity: i == widget.currentIndex
-                      ? _in
+                      ? (reduced ? _controller : _in)
                       : i == previous
-                      ? _out
+                      ? (reduced ? ReverseAnimation(_controller) : _out)
                       : kAlwaysCompleteAnimation,
-                  child: ScaleTransition(
-                    scale: i == widget.currentIndex ? _scaleIn : kAlwaysCompleteAnimation,
+                  // Always the same wrapper, so a branch never remounts; only the two branches
+                  // in the switch are offset.
+                  child: AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) => Transform.translate(
+                      offset: Offset(
+                        reduced
+                            ? 0
+                            : i == widget.currentIndex
+                            ? FadingBranchContainer.slide * _side * (1 - _in.value)
+                            : i == previous && _controller.isAnimating
+                            ? -FadingBranchContainer.drift * _side * (1 - _out.value)
+                            : 0,
+                        0,
+                      ),
+                      child: child,
+                    ),
                     child: widget.children[i],
                   ),
                 ),
@@ -373,6 +399,4 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
       ],
     );
   }
-
-  late final Animation<double> _scaleIn = Tween<double>(begin: Motion.fadeThroughScale, end: 1).animate(_in);
 }

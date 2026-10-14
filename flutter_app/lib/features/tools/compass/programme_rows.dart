@@ -42,7 +42,7 @@ class ProgrammeRow extends StatelessWidget {
     return ToolsRowFrame(
       onTap: onTap,
       semanticsLabel: label,
-      padding: const EdgeInsets.fromLTRB(MmSpace.s20, 14, MmSpace.s16, 14),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
       child: Row(
         children: [
           Expanded(
@@ -50,7 +50,7 @@ class ProgrammeRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(group.name, style: type.labelLarge.copyWith(fontSize: 16)),
-                const SizedBox(height: 3),
+                const SizedBox(height: MmSpace.s2),
                 Text(collegesLine, style: type.caption.copyWith(color: colors.ink2)),
                 if (range != null) Text(range, style: type.caption.copyWith(color: colors.ink2)),
                 if (verdict.secondary || group.eligibility.performanceTest || v != null) ...[

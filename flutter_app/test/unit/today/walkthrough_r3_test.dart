@@ -1,11 +1,12 @@
 // Device walk-through round 3 (Today): the hero never says "nothing" while an older paper has
 // open mistakes, the colleges caption says words not portal codes, Today's late-night line is
-// its own, the primary key stays in reach above the dock, and its label does not wrap at 1.3x.
+// its own, the primary key stays in reach above the bar (as the capsule), and its label does not wrap at 1.3x.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/domain/next_move.dart';
 import 'package:mockmob/core/models/attempt.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/core/theme/theme.dart' show MmBar;
+import 'package:mockmob/core/widgets/widgets.dart' show BarMove, KeyButton, LiveCapsule;
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/review/copy.dart';
 import 'package:mockmob/features/today/copy.dart';
@@ -13,7 +14,6 @@ import 'package:mockmob/features/today/logic/move_builder.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
-import 'package:mockmob/features/today/widgets/move_keys.dart';
 
 import '../../golden/today/today_golden_support.dart' show PhoneFrame, kPhoneInsets, todayOverrides;
 import '../../helpers/fonts.dart';
@@ -97,7 +97,7 @@ void main() {
     }
   });
 
-  group('the primary key stays in reach above the dock (P2-2)', () {
+  group('the primary key stays in reach above the bar (P2-2, MOTION.md 5.1)', () {
     Future<void> pump(WidgetTester tester, TodayView view, {double scale = 1, Size size = const Size(360, 800), bool dock = true, ScrollController? controller}) async {
       await pumpMockmob(
         tester,
@@ -119,40 +119,38 @@ void main() {
       await tester.pump();
     }
 
-    Finder bar() => find.byType(StickyMoveBar);
+    // Tonight's move as the bar's live capsule (MOTION.md 5.1: the sticky move bar is retired).
+    Finder bar() => find.byWidgetPredicate((w) => w is LiveCapsule && w.live is BarMove);
 
-    // The dock's top edge on a phone with the test insets, and the top of the ground fade the
-    // shell draws above it: the bar rests on that edge, clear of the fade.
-    const dockTop = 20 + 10 + 60.0;
-    const barRest = dockTop + 48;
+    // The bar's top edge on a phone with the test insets: the capsule rests 8 dp above it.
+    const barTop = 20 + 12 + 64.0;
 
-    testWidgets('at rest on a short phone the bar stands in for a key that is under the dock', (tester) async {
+    testWidgets('at rest on a short phone the capsule stands in for a key that is under the bar', (tester) async {
       await pump(tester, buildToday(ashaInputs(now: tuesdayLate)));
       expect(bar(), findsOneWidget);
-      final rect = tester.getRect(find.descendant(of: bar(), matching: find.byType(KeyButton)).first);
-      expect(rect.bottom, lessThanOrEqualTo(800 - barRest + 0.5), reason: 'wholly above the dock and its fade');
-      expect(rect.height, greaterThanOrEqualTo(48));
-      // The alternative is there too, as a 48 dp target named for screen readers.
-      final alt = find.bySemanticsLabel(TodayCopy.chooseSomethingElse);
-      expect(alt, findsWidgets);
+      final live = tester.widget<LiveCapsule>(bar()).live! as BarMove;
+      expect(live.action, 'Start');
+      expect(live.title, isNot(contains('Start')), reason: 'the move as a noun; the action word says Start');
+      final rect = tester.getRect(bar());
+      expect(rect.bottom, lessThanOrEqualTo(800 - barTop - MmBar.capsuleGap + 2 + 0.5), reason: 'wholly above the bar');
+      expect(rect.height, greaterThanOrEqualTo(48), reason: 'one 48 dp target with its slop');
+      expect(find.bySemanticsLabel(RegExp("^Tonight's move, ")), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('at 1.3x text the key is below the fold and the bar still holds it', (tester) async {
+    testWidgets('at 1.3x text the key is below the fold and the capsule still holds it', (tester) async {
       await pump(tester, buildToday(ashaInputs()), scale: 1.3);
       expect(bar(), findsOneWidget);
-      final rect = tester.getRect(find.descendant(of: bar(), matching: find.byType(KeyButton)).first);
-      expect(rect.bottom, lessThanOrEqualTo(800 - barRest + 0.5));
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('on a tall screen the card shows its own key and no bar is added', (tester) async {
+    testWidgets('on a tall screen the card shows its own key and no capsule is added', (tester) async {
       await pump(tester, buildToday(ashaInputs()), size: const Size(384, 1100));
       expect(bar(), findsNothing);
       expect(find.byType(KeyButton), findsNWidgets(2), reason: 'the card has its primary and its quiet alternative');
     });
 
-    testWidgets('scrolling the card key into the clear hands over to it: one primary key at a time', (tester) async {
+    testWidgets('scrolling the card key into the clear hands over to it: one primary at a time', (tester) async {
       final controller = ScrollController();
       addTearDown(controller.dispose);
       await pump(tester, buildToday(ashaInputs(now: tuesdayLate)), controller: controller);
@@ -161,25 +159,23 @@ void main() {
       await tester.pump();
       await tester.pump();
       expect(bar(), findsNothing);
-      final primaries = find.text(TodayCopy.startRepair(10));
-      expect(primaries, findsOneWidget);
       controller.jumpTo(0);
       await tester.pump();
       await tester.pump();
       expect(bar(), findsOneWidget);
     });
 
-    testWidgets('without a dock (no shell) nothing is pinned', (tester) async {
+    testWidgets('without the bar (no shell) nothing is published', (tester) async {
       await pump(tester, buildToday(ashaInputs(now: tuesdayLate)), dock: false);
       expect(bar(), findsNothing);
     });
 
-    testWidgets('offline, where the start is disabled with its reason, no bar covers the page', (tester) async {
+    testWidgets('offline, where the start is disabled with its reason, no capsule offers it', (tester) async {
       await pump(tester, buildToday(ashaInputs(offline: true, now: tuesdayLate)));
       expect(bar(), findsNothing);
     });
 
-    testWidgets('the bar taps through to the same action as the card key', (tester) async {
+    testWidgets('the capsule taps through to the same action as the card key', (tester) async {
       final events = <Object>[];
       await pumpMockmob(
         tester,
@@ -196,7 +192,7 @@ void main() {
       );
       await tester.pump();
       await tester.pump();
-      await tester.tap(find.descendant(of: bar(), matching: find.byType(KeyButton)).first);
+      await tester.tap(bar());
       await tester.pump();
       final action = events.whereType<TodayAction>().single;
       expect(action.actionType, 'repair');

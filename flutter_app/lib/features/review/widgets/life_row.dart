@@ -110,7 +110,7 @@ class _LifeRowState extends State<LifeRow> with SingleTickerProviderStateMixin {
                   children: [
                     Bubble(state: states[i], size: size, animate: widget.animate, inkOrigin: const Offset(-1, 0)),
                     if (widget.showLabels) ...[
-                      const SizedBox(height: 6),
+                      const SizedBox(height: MmSpace.s4),
                       Text(
                         LifeRow._labels[i],
                         style: type.caption.copyWith(

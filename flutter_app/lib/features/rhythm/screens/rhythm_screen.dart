@@ -110,9 +110,9 @@ class _TurnOffConfirm extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(RhythmCopy.turnOffConfirmBody, style: context.mmType.body.copyWith(color: context.mmColors.ink2)),
-        const SizedBox(height: 24),
+        const SizedBox(height: MmSpace.s24),
         KeyButton.secondary(label: RhythmCopy.turnOffConfirm, onPressed: () => Navigator.of(context).pop(true)),
-        const SizedBox(height: 8),
+        const SizedBox(height: MmSpace.s4),
         Align(child: KeyButton.quiet(label: RhythmCopy.cancel, onPressed: () => Navigator.of(context).pop(false))),
       ],
     );
@@ -130,12 +130,14 @@ class _LoadingBody extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(child: Skeleton.circle(size: 188)),
-          SizedBox(height: 16),
+          // The week hero's own box (232 dp: the 188 dp ring with air), a line under it, then the
+          // run block and the plan rows, so nothing jumps when the data lands.
+          SizedBox(height: 232, child: Center(child: Skeleton.circle(size: 188))),
+          SizedBox(height: MmSpace.s16),
           Center(child: Skeleton.line(width: 220)),
-          SizedBox(height: MmRhythm.section),
+          SizedBox(height: MmSpace.s32),
           MmSkeletonCard(),
-          SizedBox(height: MmRhythm.section),
+          SizedBox(height: MmSpace.s32),
           MmSkeletonRows(rows: 2),
         ],
       ),

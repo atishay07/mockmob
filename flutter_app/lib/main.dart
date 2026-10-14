@@ -6,20 +6,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'app_overrides.dart';
 import 'core/art/subject_emblem.dart' show SubjectEmblem;
 import 'core/permissions/permission_requester.dart';
-import 'core/repositories/repositories.dart';
-import 'core/router/app_shell.dart';
 import 'core/router/error_fallback.dart';
-import 'core/router/quick_start.dart';
+import 'core/router/router.dart' show intendedRouteProvider;
+import 'core/router/router_redirect.dart' show IntendedRoute;
 import 'core/storage/app_prefs.dart';
 import 'core/storage/prefs_store.dart';
 import 'core/theme/glass_quality.dart';
+import 'core/widgets/brand/brand_opening.dart' show BrandOpeningHost;
 import 'core/widgets/skeleton.dart' show SkeletonGroup;
 import 'core/sync/sync.dart';
 import 'features/notifications/services/android_permission_requester.dart';
-import 'features/practice/data/start_entries.dart' show practiceQuickNtaProvider;
-import 'features/review/data/review_providers.dart' show quickRepairFromReviewProvider;
 
 void main() {
   runZonedGuarded(_start, (error, stack) => _report(error, stack));
@@ -32,23 +31,32 @@ Future<void> _start() async {
   SkeletonGroup.shimmerByDefault = true;
   // Animated subject emblems drift in the app; tests keep the static default so screens settle.
   SubjectEmblem.idleEnabled = true;
+  // Subjects wear their photo-real objects from 40 dp up; tests keep the drawn emblems.
+  SubjectEmblem.objectArt = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
-  // The saved glass quality, so a saved Lite or Off is right on the first frame.
-  final glass = await GlassBoot.read(AppPrefs(SharedPrefsStore()));
+  // The first frame is the "mo" alone: the app builds under the opening once the "mo" is on the
+  // glass, so a slow phone does not hold the system splash while the router and the first
+  // screen build.
+  BrandOpeningHost.deferApp = true;
+  // The saved glass quality, so a saved Lite or Off is right on the first frame; and where the
+  // student was heading when the app last died during sign-in (a code read in the mail app,
+  // Google sign-in in the browser): kept on the phone and restored here, so the target page and
+  // the first-sign-in sheet survive the process being killed. Read together, not one after the
+  // other: each is a round trip to the platform before the first frame.
+  final boot = await Future.wait<Object>([
+    GlassBoot.read(AppPrefs(SharedPrefsStore())),
+    IntendedRoute.restored(SharedPrefsStore()),
+  ]);
+  final glass = boot[0] as GlassBoot;
+  final intended = boot[1] as IntendedRoute;
 
   runApp(
     ProviderScope(
-      // The Review tab dot follows results that arrived but have not been opened.
       overrides: [
         glassBootProvider.overrideWithValue(glass),
-        // Start's "Repair the next mistake" opens the ten-minute run from tonight's first mistake
-        // (one pick for Today, Review and Start; the launcher's 10-min repair opens the same).
-        quickStartRepairProvider.overrideWith((ref) => ref.watch(quickRepairFromReviewProvider)),
-        // Start's NTA row follows Practice's quote for the student's practice subject.
-        quickStartNtaProvider.overrideWith((ref) => ref.watch(practiceQuickNtaProvider)),
-        reviewDotProvider.overrideWith((ref) => ref.watch(hasUnopenedResultProvider)),
-        // The dock's Start breathes when a session can be resumed.
-        dockResumeKeyProvider.overrideWith((ref) => ref.watch(resumeDraftProvider)?.sessionId),
+        intendedRouteProvider.overrideWithValue(intended),
+        // Start, the bar's live capsule and its badges (shared with the device demo).
+        ...liveAppOverrides(),
         // Module 11: the Android 13 notification permission.
         permissionRequesterProvider.overrideWith((ref) => ref.watch(androidPermissionRequesterProvider)),
       ],
@@ -89,3 +97,4 @@ void _installErrorHandling() {
 }
 
 void _report(Object error, StackTrace? stack) => ErrorLog.add(error, stack);
+

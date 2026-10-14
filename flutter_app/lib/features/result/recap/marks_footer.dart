@@ -5,6 +5,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
+import '../widgets/result_space.dart';
 import 'reveal_tally.dart';
 
 /// Under the open sheet on card 1: the sheet's tally (each count led by its own bubble, so state
@@ -45,7 +46,7 @@ class MarksFooter extends StatelessWidget {
     final line = _line();
     final m = model;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s12),
+      padding: const EdgeInsets.fromLTRB(ResultSpace.moment, MmSpace.s16, ResultSpace.moment, MmSpace.s12),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/account_access/access_copy.dart';
 import 'package:mockmob/features/auth/copy.dart';
 import 'package:mockmob/features/auth/sign_in_state.dart';
 
@@ -76,6 +77,9 @@ void main() {
       AuthCopy.resend,
       AuthCopy.codeResent,
       AuthCopy.differentEmail,
+      AuthCopy.stillSending,
+      AuthCopy.stillChecking,
+      AccessCopy.stillWorking,
       for (final p in SignInProblem.values)
         for (final s in SignInStep.values) AuthCopy.problem(p, s) ?? '',
     ];

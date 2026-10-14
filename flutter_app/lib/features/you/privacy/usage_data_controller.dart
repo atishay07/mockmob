@@ -43,21 +43,41 @@ class UsageDataController extends Notifier<UsageDataUi> {
   @override
   UsageDataUi build() => const UsageDataUi();
 
+  /// Waits for the consent record when it is not read yet. Without it the repository would write
+  /// the unknown age band with the switch off, which turns an adult's opt-in off on the server with
+  /// no message (you-05). Returns false when the record cannot be read; nothing is written then.
+  Future<bool> _recordReady() async {
+    final repo = ref.read(consentRepositoryProvider.notifier);
+    if (ref.read(consentRepositoryProvider).isLoaded) return true;
+    try {
+      await repo.load();
+    } on Object {
+      // The state below says whether it worked.
+    }
+    return ref.mounted && ref.read(consentRepositoryProvider).isLoaded;
+  }
+
   /// Turns usage data on or off. Off closes the gate before the call (the repository does it),
   /// so the switch reads off at once; the confirmation appears only after the server answers.
+  /// Any failure, API or not, leaves the busy phase (a switch that stays disabled behind a
+  /// spinner for good is the worse outcome).
   Future<void> setAllowed(bool allowed) async {
     if (state.busy) return;
     state = UsageDataUi(phase: allowed ? UsagePhase.enabling : UsagePhase.withdrawing);
     try {
+      if (!await _recordReady()) {
+        if (ref.mounted) state = UsageDataUi(phase: allowed ? UsagePhase.enableFailed : UsagePhase.unreached);
+        return;
+      }
       final result = await ref.read(consentRepositoryProvider.notifier).setAnalyticsAllowed(allowed);
       if (!ref.mounted) return;
       state = allowed ? const UsageDataUi(phase: UsagePhase.enabled) : UsageDataUi(phase: UsagePhase.withdrawn, deletedEvents: result.deletedEvents);
-    } on ApiError catch (e) {
+    } on Object catch (e) {
       if (!ref.mounted) return;
       if (allowed) {
         state = const UsageDataUi(phase: UsagePhase.enableFailed);
       } else {
-        state = UsageDataUi(phase: e.kind == ApiErrorKind.unavailable ? UsagePhase.deleteFailed : UsagePhase.unreached);
+        state = UsageDataUi(phase: e is ApiError && e.kind == ApiErrorKind.unavailable ? UsagePhase.deleteFailed : UsagePhase.unreached);
       }
     }
   }
@@ -69,7 +89,7 @@ class UsageDataController extends Notifier<UsageDataUi> {
     state = const UsageDataUi();
     try {
       await ref.read(consentRepositoryProvider.notifier).setAgeBand(band);
-    } on ApiError {
+    } on Object {
       if (ref.mounted) state = const UsageDataUi(phase: UsagePhase.ageFailed);
     }
   }

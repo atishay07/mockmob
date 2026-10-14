@@ -6,8 +6,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
 import 'package:mockmob/core/models/rhythm.dart';
+import 'package:mockmob/features/rhythm/logic/dates.dart' show formatAchievedDate;
 import 'package:mockmob/features/rhythm/logic/milestone_tracks.dart';
 import 'package:mockmob/features/rhythm/screens/milestones_screen.dart';
+import 'package:mockmob/features/rhythm/widgets/earned_token.dart';
+import 'package:mockmob/features/rhythm/widgets/milestone_track_card.dart';
 import 'package:mockmob/features/rhythm/widgets/proud_mobi.dart';
 
 import '../../golden/rhythm/rhythm_test_kit.dart';
@@ -89,5 +92,28 @@ void main() {
     await tester.pump(const Duration(seconds: 2));
     expect(driver.calls, isEmpty);
     expect(find.text('3'), findsWidgets);
+  });
+  testWidgets('a landed step: Mobi stands beside the token, never over it (clipped logos, 21)', (tester) async {
+    await pumpMockmob(
+      tester,
+      SingleChildScrollView(
+        child: MilestoneTrackCard(
+          track: milestoneTracks([
+            RhythmMilestone(id: 'first_repair', achievedAt: DateTime.utc(2026, 10, 13, 15)),
+            RhythmMilestone(id: 'repairs_5', achievedAt: DateTime.utc(2026, 10, 14, 4)),
+          ])[1],
+          dateOf: (d) => formatAchievedDate(d, 'Asia/Kolkata', kNow),
+          freshIds: const {'repairs_5'},
+          onOpen: () {},
+        ),
+      ),
+      disableAnimations: true,
+      size: const Size(384, 900),
+    );
+    final token = tester.getRect(find.byType(EarnedToken));
+    final mobi = tester.getRect(find.byType(MobiCharacter));
+    expect(mobi.left, greaterThanOrEqualTo(token.right), reason: 'the ring and the token never sit on his side');
+    final title = tester.getRect(find.text('5 repairs').first);
+    expect(mobi.right, lessThanOrEqualTo(title.left), reason: 'his antenna and mittens stay clear of the words');
   });
 }

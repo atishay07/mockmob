@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/logic/plan_week.dart';
@@ -27,6 +28,9 @@ class WeekLedger extends ConsumerWidget {
 
   /// Height of the rail row at 1x text: the weekday letters, the bubbles and today's lit edge.
   static const double railHeight = 62;
+
+  /// Whether the one-line key is shown: only when a rest day or a day not counted is on the rail.
+  static bool needsKey(List<PlanDay> days) => days.any((d) => d.mark == PlanDayMark.rest || d.mark == PlanDayMark.open);
 
   String describe() => [
         week.count,
@@ -96,11 +100,15 @@ class WeekLedger extends ConsumerWidget {
             ),
             const SizedBox(height: MmSpace.s8),
             ExcludeSemantics(child: _Rail(days: week.days, paused: week.paused)),
-            const SizedBox(height: MmSpace.s8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-              child: PlanWeekKey(days: week.days),
-            ),
+            // The key earns its row only when a mark needs words (a rest day, a day not counted);
+            // filled and hollow read on their own, and the week sheet names every mark (audit T3).
+            if (needsKey(week.days)) ...[
+              const SizedBox(height: MmSpace.s8),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+                child: PlanWeekKey(days: week.days),
+              ),
+            ],
           ],
         ),
       ),
@@ -122,7 +130,7 @@ class _Rail extends StatelessWidget {
     final letter = type.micro.copyWith(fontWeight: FontWeight.w500, color: colors.ink2, letterSpacing: 0.4);
     // The rail's ink draws from Monday to today, then the counted days ink in, left to right.
     final draw = todayEnterValue(context, delay: const Duration(milliseconds: 120));
-    final fill = todayEnterValue(context, delay: const Duration(milliseconds: 220), length: const Duration(milliseconds: 520));
+    final fill = todayEnterValue(context, delay: const Duration(milliseconds: 220), length: Motion.drawIn);
     return RepaintBoundary(
       child: SizedBox(
         height: WeekLedger.railHeight + (scaler.scale(16) - 16),

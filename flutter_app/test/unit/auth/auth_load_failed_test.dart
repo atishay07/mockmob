@@ -141,12 +141,11 @@ void main() {
 
       final key = find.text(AuthCopy.signOut);
       expect(key, findsOneWidget);
+      // A quiet key is painted at 40 dp and reaches 48 dp through MmHitSlop (SPACING.md 3.3).
+      final keyButton = find.ancestor(of: key, matching: find.byType(KeyButton)).first;
+      final slop = tester.widget<MmHitSlop>(find.descendant(of: keyButton, matching: find.byType(MmHitSlop)).first).slop;
       expect(
-        tester
-            .getSize(
-              find.ancestor(of: key, matching: find.byType(KeyButton)).first,
-            )
-            .height,
+        tester.getSize(keyButton).height + slop.vertical,
         greaterThanOrEqualTo(48),
       );
 

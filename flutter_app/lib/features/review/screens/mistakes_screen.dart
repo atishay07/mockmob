@@ -13,6 +13,7 @@ import '../data/review_providers.dart';
 import '../widgets/mistake_map.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_bits.dart';
+import '../widgets/review_layout.dart';
 import '../widgets/review_rows.dart';
 import '../widgets/review_state_view.dart';
 import '../widgets/review_status.dart';
@@ -47,6 +48,7 @@ class MistakesScreen extends ConsumerWidget {
       body = ReviewStateView(
         kind: StateViewKind.empty,
         pose: MobiPose.read,
+        scene: index.attempts.isEmpty ? null : StateScene.allClear,
         title: index.attempts.isEmpty ? ReviewCopy.emptyTitle : ReviewCopy.allClearTitle,
         message: index.attempts.isEmpty ? ReviewCopy.emptyMessage : ReviewCopy.allClearMessage,
         primary: index.attempts.isEmpty ? StateAction(ReviewCopy.emptyAction, () => context.go(AppRoutes.practice)) : null,
@@ -66,7 +68,7 @@ class MistakesScreen extends ConsumerWidget {
       body = MmStagger(
         driver: MmStaggerDriver.route,
         child: ListView(
-          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, pad.bottom + MmSpace.s32),
+          padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, MmSpace.s8, ReviewSpace.gutter, pad.bottom + MmSpace.s32),
           children: [
             if (open.isNotEmpty)
               MmStaggerItem(
@@ -76,7 +78,7 @@ class MistakesScreen extends ConsumerWidget {
                   children: [
                     SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)),
                     RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount),
-                    const SizedBox(height: MmRhythm.item),
+                    const SizedBox(height: ReviewSpace.item),
                     MistakeMap(groups: open, clock: clock, onOpen: openRepair, initialOpen: 0, showSubject: spansSubjects(index.groups), leadKeyPrimary: true),
                   ],
                 ),
@@ -87,8 +89,8 @@ class MistakesScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: MmRhythm.section),
-                    const SectionHeading(ReviewCopy.repaired),
+                    const SizedBox(height: ReviewSpace.section),
+                    const SectionHeading(ReviewCopy.repaired, rule: true),
                     MistakeMap(
                       groups: repaired,
                       clock: clock,
@@ -105,8 +107,8 @@ class MistakesScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: MmRhythm.section),
-                    const SectionHeading(ReviewCopy.setAsideHeading),
+                    const SizedBox(height: ReviewSpace.section),
+                    const SectionHeading(ReviewCopy.setAsideHeading, rule: true),
                     MistakeMap(
                       groups: setAside,
                       clock: clock,
@@ -121,7 +123,7 @@ class MistakesScreen extends ConsumerWidget {
               MmStaggerItem(
                 index: 3,
                 child: Padding(
-                  padding: const EdgeInsets.only(top: MmRhythm.group),
+                  padding: const EdgeInsets.only(top: ReviewSpace.group),
                   child: NotAttemptedGroup(group: blanks),
                 ),
               ),

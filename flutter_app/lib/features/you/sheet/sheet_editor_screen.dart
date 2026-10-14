@@ -20,7 +20,7 @@ import 'choice_sheets.dart';
 import 'week_editor.dart';
 
 /// Hairlines of a flat list start where the row text starts: 4 dp, a 28 dp bare icon, 16 dp.
-const double _flatInset = 4 + 28 + MmSpace.s16;
+const double _flatInset = 28 + MmSpace.s16;
 
 /// Everything setup asked, editable after it (owner feedback 11-10: "there is no option to edit
 /// subject"): name, where the student is, course and colleges, subjects and how solid each

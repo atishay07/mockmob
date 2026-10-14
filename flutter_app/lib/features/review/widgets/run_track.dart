@@ -102,7 +102,9 @@ class _SegmentState extends ConsumerState<_Segment> with SingleTickerProviderSta
           state: widget.state,
           fill: _curve,
           track: widget.state == RunSegmentState.current ? colors.lineStrong : colors.line,
-          done: colors.isNight ? colors.volt : colors.accentText,
+          // Volt fill in both themes, with a 1 dp olive rim in Day so it reads on paper.
+          done: colors.volt,
+          rim: colors.isNight ? null : colors.accentText,
           ring: colors.ink2,
           marker: colors.ink,
         ),
@@ -112,13 +114,23 @@ class _SegmentState extends ConsumerState<_Segment> with SingleTickerProviderSta
 }
 
 class _SegmentPainter extends CustomPainter {
-  _SegmentPainter({required this.state, required this.fill, required this.track, required this.done, required this.ring, required this.marker})
-      : super(repaint: fill);
+  _SegmentPainter({
+    required this.state,
+    required this.fill,
+    required this.track,
+    required this.done,
+    required this.rim,
+    required this.ring,
+    required this.marker,
+  }) : super(repaint: fill);
 
   final RunSegmentState state;
   final Animation<double> fill;
   final Color track;
   final Color done;
+
+  /// A 1 dp edge on the filled part in Day, or null on Night.
+  final Color? rim;
   final Color ring;
   final Color marker;
 
@@ -152,6 +164,15 @@ class _SegmentPainter extends CustomPainter {
           canvas.save();
           canvas.clipRRect(r);
           canvas.drawRect(Rect.fromLTWH(bar.left, bar.top, bar.width * t, bar.height), Paint()..color = done);
+          if (rim != null) {
+            canvas.drawRRect(
+              r.deflate(0.5),
+              Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 1
+                ..color = rim!,
+            );
+          }
           canvas.restore();
         }
         if (state == RunSegmentState.current) {
@@ -163,5 +184,5 @@ class _SegmentPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_SegmentPainter old) =>
-      old.state != state || old.fill != fill || old.track != track || old.done != done || old.ring != ring || old.marker != marker;
+      old.state != state || old.fill != fill || old.track != track || old.done != done || old.rim != rim || old.ring != ring || old.marker != marker;
 }

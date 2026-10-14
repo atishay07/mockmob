@@ -45,7 +45,8 @@ class PracticeCard extends ConsumerWidget {
         Text(questionMeta(q), style: type.caption.copyWith(color: colors.ink3)),
         const SizedBox(height: MmSpace.s8),
         if (passage != null && passage.isNotEmpty) ...[_Passage(text: passage), const SizedBox(height: MmSpace.s16)],
-        Text(q.body, style: type.question),
+        // 18/28: a short stem fills more of the screen than the 17/26 body of a long one.
+        Text(q.body, style: type.question.copyWith(fontSize: 18, height: 28 / 18)),
         const SizedBox(height: MmSpace.s16),
         if (!q.hasUsableKey) ...[
           InlineBanner(message: InsightsCopy.noKey, tone: BannerTone.warning),
@@ -95,9 +96,11 @@ class _OptionTile extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final (fill, border, bubble, word) = switch (mark) {
-      _Mark.right => (colors.raised, colors.isNight ? colors.ink2 : colors.ink, BubbleState.filled, 'Your answer, correct'),
+      // The answer states are the strongest thing on the page in both themes: the selected
+      // surface (a step up on Night, the card on Day) and a 2 dp ink border, volt only in the glyph.
+      _Mark.right => (colors.selectedSurface, colors.ink, BubbleState.filled, 'Your answer, correct'),
       _Mark.wrong => (colors.wrongSurface, colors.wrongBorder, BubbleState.wrong, 'Your answer'),
-      _Mark.key => (colors.raised, colors.isNight ? colors.ink2 : colors.ink, BubbleState.filled, 'Correct answer'),
+      _Mark.key => (colors.selectedSurface, colors.ink, BubbleState.filled, 'Correct answer'),
       _Mark.dim || _Mark.open => (colors.raised, colors.line, BubbleState.hollow, null),
     };
     final textColor = switch (mark) {
@@ -117,7 +120,7 @@ class _OptionTile extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: MmTarget.option),
         decoration: ShapeDecoration(
           color: pressed && onTap != null ? colors.raised2 : fill,
-          shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: border, width: mark == _Mark.open || mark == _Mark.dim ? 1 : 1.5)),
+          shape: mmShapeBorder(MmRadius.keyAll, side: BorderSide(color: border, width: mark == _Mark.open || mark == _Mark.dim ? 1 : 2)),
         ),
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s12),
         child: Row(
@@ -198,12 +201,14 @@ class _RevealState extends State<_Reveal> with SingleTickerProviderStateMixin {
         child: Semantics(
           liveRegion: true,
           child: DecoratedBox(
+            // The answer card is a card (raised, hairline), not a well: a sunken slab reads as a
+            // hole on Day's paper.
             decoration: ShapeDecoration(
-              color: colors.sunken,
+              color: colors.raised,
               shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(MmSpace.cardPadding),
+              padding: const EdgeInsets.all(MmSpace.s16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -296,7 +301,7 @@ class _PassageState extends State<_Passage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(InsightsCopy.passage, style: type.label.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s6),
+                  const SizedBox(height: MmSpace.s4),
                   body,
                   if (overflows)
                     ConstrainedBox(

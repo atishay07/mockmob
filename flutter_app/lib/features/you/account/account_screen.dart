@@ -23,7 +23,7 @@ import 'security_rows.dart';
 import 'sign_out_flow.dart';
 
 /// Hairlines of a flat list start where the row text starts: 4 dp, a 28 dp bare icon, 16 dp.
-const double _flatInset = 4 + 28 + MmSpace.s16;
+const double _flatInset = 28 + MmSpace.s16;
 
 /// Account (spec 5.12.4, WEB-PARITY F2 and F3): the plan (the credit balance is the hero), the
 /// name (edited in a sheet and saved to the profile), the subjects, the email, security

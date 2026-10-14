@@ -17,7 +17,9 @@ void leavePractice(BuildContext context) {
   }
 }
 
-/// The top row of a pushed practice screen: a small glass back disc and an optional title.
+/// The top row of a pushed practice screen, on the one sub-page header pattern (SPACING.md 9):
+/// the 44 dp back disc (48 target) with its edge on the gutter, 12, then an optional title inline
+/// in the screen-title style, in a 56 dp row. Kept local until the shared `MmPageHeader` lands.
 class PracticeAppBar extends StatelessWidget {
   const PracticeAppBar({super.key, this.title, this.showBack = true, this.onBack});
 
@@ -29,16 +31,24 @@ class PracticeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The 48 dp target is 2 dp wider than the disc on each side: the disc's edge sits on the gutter
+    // and the title starts 12 dp after it.
+    const slop = (MmTarget.min - GlassBackButton.disc) / 2;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s4, MmSpace.gutter, 0),
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter - slop, MmSpace.s4, MmSpace.gutter, 0),
       child: SizedBox(
         height: 56,
         child: Row(
           children: [
-            if (showBack) GlassBackButton(onTap: onBack ?? () => leavePractice(context)) else const SizedBox(width: MmSpace.s4),
-            const SizedBox(width: MmSpace.s8),
+            if (showBack) GlassBackButton(onTap: onBack ?? () => leavePractice(context)) else const SizedBox(width: slop),
+            const SizedBox(width: MmSpace.s12 - slop),
             if (title != null)
-              Expanded(child: Semantics(header: true, child: Text(title!, style: context.mmType.title, maxLines: 1, overflow: TextOverflow.ellipsis))),
+              Expanded(
+                child: Semantics(
+                  header: true,
+                  child: Text(title!, style: context.mmType.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis),
+                ),
+              ),
           ],
         ),
       ),
@@ -54,6 +64,9 @@ class GlassBackButton extends StatelessWidget {
   final String label;
   final IconData icon;
 
+  /// The visible disc inside the 48 dp target.
+  static const double disc = 44;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -64,7 +77,7 @@ class GlassBackButton extends StatelessWidget {
         dimension: MmTarget.min,
         child: Center(
           child: SizedBox.square(
-            dimension: 44,
+            dimension: disc,
             child: FakeGlass(
               borderRadius: MmRadius.pillAll,
               pressed: pressed,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/copy/copy.dart';
 import '../../../core/models/notification_prefs.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -112,12 +113,19 @@ class _TimeSheetBodyState extends State<TimeSheetBody> {
         ],
         Semantics(
           liveRegion: true,
-          child: Text(
-            readout,
-            // The display cut tracks tight for headlines; as a clock it needs air, or the 1s
-            // and the colon run together.
-            style: type.display.copyWith(letterSpacing: 0.5),
-            textAlign: TextAlign.center,
+          // Each choice answers on the next frame: the new time fades over the old in place
+          // (instant under reduced motion), and nothing around it moves.
+          child: AnimatedSwitcher(
+            duration: Motion.of(context, Motion.release),
+            switchInCurve: Motion.out,
+            child: Text(
+              readout,
+              key: ValueKey(readout),
+              // The display cut tracks tight for headlines; as a clock it needs air, or the 1s
+              // and the colon run together.
+              style: type.display.copyWith(letterSpacing: 0.5),
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         const SizedBox(height: MmSpace.s24),

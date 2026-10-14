@@ -9,8 +9,13 @@ import '../copy.dart';
 /// one volt key, Next, which becomes Review and submit on the last question. No haptic
 /// on these: inside a timed paper only the option tick speaks.
 ///
+/// Both keys take every tap (MOTION.md 1.1: nothing queues, a tap during an entrance works): no
+/// tap lock, so Previous, Previous 150 ms apart goes back two questions. Opening the submit page
+/// twice is guarded by the host, not by the key.
+///
 /// When every question has an answer the volt key carries the soft lit glow beneath it (14% volt,
 /// never behind text): the one resting emphasis on the screen, saying the paper is ready to hand in.
+/// Daylight has no glows (MOTION.md 1.4): there the same emphasis is a 1 dp olive edge round the key.
 class RunnerBottomBar extends StatelessWidget {
   const RunnerBottomBar({
     super.key,
@@ -36,7 +41,9 @@ class RunnerBottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final inset = MediaQuery.viewPaddingOf(context).bottom;
-    final glow = allAnswered && !Motion.reduced(context);
+    final ready = allAnswered && !Motion.reduced(context);
+    final glow = ready && colors.isNight;
+    final edge = ready && !colors.isNight;
     return MediaQuery.withClampedTextScaling(
       maxScaleFactor: 1.5,
       child: DecoratedBox(
@@ -50,12 +57,25 @@ class RunnerBottomBar extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 56),
             child: Row(
               children: [
-                KeyButton.secondary(label: RunnerCopy.previous, onPressed: isFirst ? null : onPrevious, expanded: false, hapticOnCommit: false),
+                KeyButton.secondary(
+                  label: RunnerCopy.previous,
+                  onPressed: isFirst ? null : onPrevious,
+                  expanded: false,
+                  hapticOnCommit: false,
+                  tapLock: Duration.zero,
+                ),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: AnimatedContainer(
                     duration: Motion.glideDuration,
                     curve: Motion.glide,
+                    // Painted over the key, so the edge takes no room and the key never changes size.
+                    foregroundDecoration: edge
+                        ? BoxDecoration(
+                            borderRadius: MmRadius.pillAll,
+                            border: Border.all(color: colors.accentText),
+                          )
+                        : null,
                     decoration: BoxDecoration(
                       borderRadius: MmRadius.pillAll,
                       boxShadow: glow ? [BoxShadow(color: colors.voltGlow, blurRadius: 22, offset: const Offset(0, 6), spreadRadius: -2)] : const [],
@@ -72,6 +92,7 @@ class RunnerBottomBar extends StatelessWidget {
                         semanticsLabel: isLast ? RunnerCopy.reviewAndSubmit : null,
                         onPressed: onNext,
                         hapticOnCommit: false,
+                        tapLock: Duration.zero,
                       ),
                     ),
                   ),

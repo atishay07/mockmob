@@ -71,7 +71,7 @@ class _MistakeRunState extends State<MistakeRun> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Bubble(state: i < _inked ? widget.state : BubbleState.hollow, size: 20, animate: widget.inkIn),
-                const SizedBox(width: MmSpace.s6),
+                const SizedBox(width: MmSpace.s4),
                 Text('Q${numbers[i]}', style: context.mmType.label.copyWith(color: colors.ink)),
               ],
             ),

@@ -24,7 +24,9 @@ class WeekTrack extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final accent = colors.isNight ? colors.volt : colors.accentText;
+    // Lit ticks are strokes on the ground: the text accent (volt Night, olive Day). The chosen
+    // window's bubble is a fill: volt in both themes, rimmed olive on Day (SPACING.md 8.3).
+    final accent = colors.accentText;
     final label = type.caption.copyWith(color: colors.ink3, fontSize: 11.5);
     return ExcludeSemantics(
       child: SizedBox(
@@ -50,6 +52,8 @@ class WeekTrack extends StatelessWidget {
                         dim: colors.ink3.withValues(alpha: 0.45),
                         lamp: colors.lamp,
                         accent: accent,
+                        fill: colors.volt,
+                        rim: colors.isNight ? null : colors.accentText,
                         ground: colors.ground,
                       ),
                     ),
@@ -90,6 +94,8 @@ class _TrackPainter extends CustomPainter {
     required this.dim,
     required this.lamp,
     required this.accent,
+    required this.fill,
+    required this.rim,
     required this.ground,
   });
 
@@ -100,6 +106,8 @@ class _TrackPainter extends CustomPainter {
   final Color dim;
   final Color lamp;
   final Color accent;
+  final Color fill;
+  final Color? rim;
   final Color ground;
 
   @override
@@ -132,7 +140,18 @@ class _TrackPainter extends CustomPainter {
       final c = Offset(px.clamp(6.0, w - 6), base - 23);
       canvas.drawCircle(c, 6.5, Paint()..color = ground);
       if (inked) {
-        canvas.drawCircle(c, 6, Paint()..color = accent);
+        canvas.drawCircle(c, 6, Paint()..color = fill);
+        final r = rim;
+        if (r != null) {
+          canvas.drawCircle(
+            c,
+            5.5,
+            Paint()
+              ..style = PaintingStyle.stroke
+              ..strokeWidth = 1
+              ..color = r,
+          );
+        }
       } else {
         canvas.drawCircle(
           c,
@@ -158,5 +177,5 @@ class _TrackPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_TrackPainter old) =>
-      old.far != far || old.near != near || old.lit != lit || old.chosen != chosen || old.dim != dim || old.accent != accent;
+      old.far != far || old.near != near || old.lit != lit || old.chosen != chosen || old.dim != dim || old.accent != accent || old.fill != fill || old.rim != rim;
 }

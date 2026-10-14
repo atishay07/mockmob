@@ -18,6 +18,10 @@ abstract final class AccessCopy {
   static const String notNow = 'Not now';
   static const String offline = 'You are offline. Connect to continue.';
 
+  /// What an indeterminate wait says once it has run past 12 seconds.
+  static const String stillWorking =
+      'Still working. This can take a moment on a slow connection.';
+
   // Method choice.
   static const String methodsLabel = 'How to sign in';
   static const String methodCode = 'Email code';

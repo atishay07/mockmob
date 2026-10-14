@@ -20,14 +20,14 @@ abstract final class AppRoutes {
   static String signInCode({String? email}) =>
       email == null ? signInCodeBase : Uri(path: signInCodeBase, queryParameters: {'email': email}).toString();
 
-  // Shell tabs.
+  // Shell tabs (the bar: Today, Practice, Review, You).
   static const String today = '/today';
   static const String practice = '/practice';
   static const String review = '/review';
-
-  // Pushed over the shell: You from the avatar, Learn from Practice and Review.
-  static const String learn = '/learn';
   static const String you = '/you';
+
+  // Pushed over the shell: Learn from Practice and Review.
+  static const String learn = '/learn';
 
   // Today.
   static const String todayWeek = '/today/week';
@@ -98,8 +98,9 @@ abstract final class AppRoutes {
   /// Alias of [today].
   static const String dashboard = '/dashboard';
 
-  /// The shell tab roots in tab order (the split dock: Today, Practice, Review).
-  static const List<String> tabRoots = [today, practice, review];
+  /// The shell tab roots in branch order (the bar: Today, Practice, Review, You; Start sits
+  /// between Practice and Review but is an action, not a tab).
+  static const List<String> tabRoots = [today, practice, review, you];
 
   /// The debug-only design lab.
   static const String lab = '/lab';

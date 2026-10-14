@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/art/subject_emblem.dart' show SubjectEmblem;
+import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -65,8 +65,8 @@ class SubjectRow extends ConsumerWidget {
               _Grow(
                 child: included
                     ? Padding(
-                        // Under the name (the 44 dp object and the 12 dp gap come first).
-                        padding: const EdgeInsets.only(left: 56, bottom: MmSpace.s4),
+                        // Under the name (the 40 dp object and the 12 dp gap come first: E2).
+                        padding: const EdgeInsets.only(left: EmblemSizes.chip + MmSpace.s12, bottom: MmSpace.s4),
                         // Unrated reads as Okay, the default the plan uses, so nothing is hidden.
                         child: ConfidenceBubbles(
                           subject: subject.label,
@@ -99,7 +99,7 @@ class _Grow extends StatelessWidget {
   }
 }
 
-/// The 52 dp line of a subject: its lamp-lit object, the name (and an optional note), and the
+/// The 56 dp line of a subject: its lamp-lit object, the name (and an optional note), and the
 /// bubble at the end. Shared by the step and the picker.
 class SubjectLine extends StatelessWidget {
   const SubjectLine({
@@ -126,10 +126,10 @@ class SubjectLine extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 52),
+      constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
-          SubjectObject(id: subject.id, size: 44, marked: chosen),
+          SubjectObject(id: subject.id, size: EmblemSizes.chip, marked: chosen),
           const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Column(
@@ -151,7 +151,7 @@ class SubjectLine extends StatelessWidget {
 /// A subject's code-drawn emblem standing on its own light, its volt mark inked once the subject
 /// is on the sheet ([marked]).
 class SubjectObject extends StatelessWidget {
-  const SubjectObject({super.key, required this.id, this.size = 40, this.marked = false});
+  const SubjectObject({super.key, required this.id, this.size = EmblemSizes.chip, this.marked = false});
 
   final String id;
   final double size;

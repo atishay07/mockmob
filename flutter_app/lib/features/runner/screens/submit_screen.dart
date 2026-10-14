@@ -11,6 +11,7 @@ import '../../../core/sync/session/session_engine.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../data/runner_effects.dart';
 import '../data/runner_session.dart';
@@ -66,8 +67,9 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
     if (!mounted || _left) return;
     final state = _s.submitState.value;
     if (state.stage != SubmitStage.received || _handOff != null) return;
-    // The server has the answers: the success pattern, the follow-up reads, then the result.
-    unawaited(ref.read(hapticsProvider).success());
+    // The server has the answers: the success pattern, the follow-up reads, then the result. The
+    // Celebrations setting Off is words only, so the buzz goes with the rest of the moment.
+    if (ref.read(celebrationModeProvider) != CelebrationMode.off) unawaited(ref.read(hapticsProvider).success());
     ref.read(runnerAfterSubmitProvider)(_s);
     _handOff = Timer(SubmitPage.handOffDelay, _openResult);
   }
@@ -134,6 +136,9 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
     final colors = context.mmColors;
     final type = context.mmType;
     final padding = MediaQuery.viewPaddingOf(context);
+    // Celebrations (MOTION.md 1.2): Full keeps the ink and Mobi's hop, Quiet keeps the ink and the
+    // words, Off shows the end state and the words.
+    final celebrations = ref.watch(celebrationModeProvider);
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -177,7 +182,11 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                       ),
                     ),
                   Expanded(
-                    child: SingleChildScrollView(
+                    child: _Body(
+                      // The exam skin keeps its top-stacked page. The Night Sheet page is a moment
+                      // (SPACING.md 7): its block rests at the optical centre, so no dead band opens
+                      // above the keys, and it scrolls when the sheet is taller than the room.
+                      centred: !nta,
                       padding: EdgeInsets.fromLTRB(MmSpace.gutter, nta ? MmSpace.s20 : MmSpace.s8, MmSpace.gutter, MmSpace.s24),
                       // One authored entrance: the title, then the sheet (never in NTA mode, which keeps
                       // its exam skin still). The key at the foot is never part of it.
@@ -207,6 +216,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                                         session: _s,
                                         lit: state.stage.index <= SubmitStage.received.index,
                                         phase: _phaseOf(state.stage),
+                                        animateInk: celebrations != CelebrationMode.off,
                                         onGoTo: idle ? _goToQuestion : null,
                                       ),
                               ),
@@ -215,8 +225,10 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                               const SizedBox(height: MmSpace.s16),
                               Text(RunnerCopy.cannotChange, style: type.body.copyWith(color: colors.ink2)),
                             ],
-                            // Mobi is there for the hand-in only, once the server holds the sheet.
-                            if (!nta && state.stage == SubmitStage.received) const _HandInMobi(),
+                            // Mobi is there for the hand-in only, once the server holds the sheet. His
+                            // slot is held from the first stage, so the centred block never shifts when
+                            // he lands.
+                            if (!nta && celebrations == CelebrationMode.full) _HandInMobi(active: state.stage == SubmitStage.received),
                           ],
                         ),
                       ),
@@ -224,7 +236,11 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16 + padding.bottom),
-                    child: SubmitStageView(
+                    // The band keeps the height of its tallest stage, so the centred block above it holds
+                    // still when the keys change (confirm, sending, received).
+                    child: _HoldHeight(
+                      hold: !nta,
+                      child: SubmitStageView(
                       state: state,
                       isMock: _s.isMock,
                       timedOut: timeUp,
@@ -234,7 +250,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                       onGoToday: () => _go(AppRoutes.today),
                       onGoPractice: () => _go(AppRoutes.practice),
                       submitLabel: nta ? NtaCopy.submitTestShort : null,
-                      arriveReceipt: !nta,
+                      arriveReceipt: !nta && celebrations != CelebrationMode.off,
                       note: nta
                           ? null
                           : Text(
@@ -252,6 +268,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                               ),
                             )
                           : null,
+                      ),
                     ),
                   ),
                 ],
@@ -266,12 +283,14 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
 }
 
 /// Mobi under the inked sheet: it waits in a fixed slot while the bubbles ink in order, then hops
-/// once for the hand-in (a living vector Mobi playing its cheer). The slot is reserved from the
-/// moment the sheet is received, with the same air above and below, so the page never shifts when
-/// Mobi lands. It says nothing and is never about the student's marks. Present only on the
-/// received stage.
+/// once for the hand-in (a living vector Mobi playing its cheer). The slot is held from the first
+/// stage, with the same air above and below, so the centred page never shifts when Mobi lands. It
+/// says nothing and is never about the student's marks. He appears only once the sheet is received.
 class _HandInMobi extends StatefulWidget {
-  const _HandInMobi();
+  const _HandInMobi({required this.active});
+
+  /// The server holds the sheet: Mobi lands. Until then only his slot is held.
+  final bool active;
 
   /// Mobi's own height and the air above and below it.
   static const double size = 128;
@@ -289,7 +308,17 @@ class _HandInMobiState extends State<_HandInMobi> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_started) return;
+    _start();
+  }
+
+  @override
+  void didUpdateWidget(_HandInMobi old) {
+    super.didUpdateWidget(old);
+    _start();
+  }
+
+  void _start() {
+    if (_started || !widget.active) return;
     _started = true;
     if (Motion.reduced(context)) {
       _landed = true;
@@ -316,29 +345,96 @@ class _HandInMobiState extends State<_HandInMobi> {
         height: _HandInMobi.size + 2 * _HandInMobi.air,
         child: Center(
           child: _landed
-              // A pool of volt light under Mobi (the one warm light of the page), so its dark
-              // feet and antenna read against the near-black ground.
+              // At Night a pool of volt light under Mobi (the one warm light of the page), so its dark
+              // feet and antenna read against the near-black ground. Daylight has no glows
+              // (MOTION.md 1.4): Mobi reads on the paper as he is.
               ? Stack(
                   alignment: Alignment.center,
                   clipBehavior: Clip.none,
                   children: [
-                    ExcludeSemantics(
-                      child: SizedBox.square(
-                        dimension: _HandInMobi.size * 1.9,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: RadialGradient(colors: [colors.volt.withValues(alpha: colors.isNight ? 0.16 : 0.28), colors.volt.withValues(alpha: 0)]),
+                    if (colors.isNight)
+                      ExcludeSemantics(
+                        child: SizedBox.square(
+                          dimension: _HandInMobi.size * 1.9,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: RadialGradient(colors: [colors.volt.withValues(alpha: 0.16), colors.volt.withValues(alpha: 0)]),
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     const Mobi(pose: MobiPose.cheer, size: _HandInMobi.size),
                   ],
                 )
               : const SizedBox.shrink(),
         ),
       ),
+    );
+  }
+}
+
+/// The scrolling body of the submit page. [centred] lays the content block out as a moment
+/// (SPACING.md 7): it rests at the optical centre of the room above the keys (the air above and below
+/// in the ratio 2 to 3), and scrolls from the top when the block is taller than the room.
+class _Body extends StatelessWidget {
+  const _Body({required this.centred, required this.padding, required this.child});
+
+  final bool centred;
+  final EdgeInsets padding;
+  final Widget child;
+
+  /// Flex 2 above and 3 below the block puts its centre at 40% of the free height.
+  static const Alignment optical = Alignment(0, -0.2);
+
+  @override
+  Widget build(BuildContext context) {
+    if (!centred) return SingleChildScrollView(padding: padding, child: child);
+    return LayoutBuilder(
+      builder: (context, box) => SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+        padding: padding,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: (box.maxHeight - padding.vertical).clamp(0.0, double.infinity)),
+          // The block keeps the height of its tallest stage (the confirm page shows a way back under
+          // each count that the later stages drop), so it never steps when the stage changes.
+          child: Align(alignment: optical, child: _HoldHeight(hold: true, child: child)),
+        ),
+      ),
+    );
+  }
+}
+
+/// Keeps its child at least as tall as the tallest it has been ([hold]), top aligned. The submit
+/// keys change with the stage and the page above centres in what is left, so without this the
+/// whole block would step when the stage did.
+class _HoldHeight extends StatefulWidget {
+  const _HoldHeight({required this.hold, required this.child});
+
+  final bool hold;
+  final Widget child;
+
+  @override
+  State<_HoldHeight> createState() => _HoldHeightState();
+}
+
+class _HoldHeightState extends State<_HoldHeight> {
+  final GlobalKey _inner = GlobalKey();
+  double _held = 0;
+
+  void _measure() {
+    final box = _inner.currentContext?.findRenderObject();
+    if (!mounted || box is! RenderBox || !box.hasSize) return;
+    if (box.size.height > _held + 0.5) setState(() => _held = box.size.height);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!widget.hold) return widget.child;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _measure());
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: _held),
+      child: Align(alignment: Alignment.topCenter, child: KeyedSubtree(key: _inner, child: widget.child)),
     );
   }
 }

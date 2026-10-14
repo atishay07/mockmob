@@ -180,6 +180,13 @@ class SessionEngine extends ChangeNotifier {
       startedAtMs: view.startedAt.millisecondsSinceEpoch,
       expiresAtMs: view.expiresAt.millisecondsSinceEpoch,
     );
+    // A start whose deadline is missing (read as the epoch) or not after the server's own clock
+    // anchors at zero time left: the first tick would submit a fresh paper empty and show "time
+    // up". Refused before anything is saved or sent; the same generation key returns the same
+    // session on the next try (practice-04).
+    if (view.questions.isNotEmpty && clock.remainingMs <= 0) {
+      throw const ApiError(kind: ApiErrorKind.server, code: 'unusable_response');
+    }
     final draftKey = SessionDraft.keyFor(
       userId: services.userId,
       subject: subject,
@@ -320,7 +327,13 @@ class SessionEngine extends ChangeNotifier {
   static Future<SessionEngine?> restore({required SessionEngineServices services, required SessionDraft draft}) async {
     if (!resumableDraft(draft, sessionId: draft.sessionId, nowMs: services.now().millisecondsSinceEpoch)) return null;
     final clock = services.clockFactory?.call() ?? SessionClock();
-    clock.restore(startedRefWallMs: draft.startedRefWallMs, endsAtWallMs: draft.endsAtWallMs);
+    clock.restore(
+      startedRefWallMs: draft.startedRefWallMs,
+      endsAtWallMs: draft.endsAtWallMs,
+      // The phone's clock cannot be earlier than the last save: a clock set back while the app was
+      // closed never gives the paper time back (offline-05).
+      notBeforeWallMs: draft.updatedAtMs > 0 ? draft.updatedAtMs : null,
+    );
     final journal = await SessionJournal.open(services.db, userId: services.userId, sessionId: draft.sessionId, now: services.now);
     final engine = SessionEngine._(services: services, draft: draft, clock: clock, journal: journal);
     // Time passed while the app was away: one visit for the question the student returns to.
@@ -511,8 +524,17 @@ class SessionEngine extends ChangeNotifier {
     _clock.markPaused();
     // Answers first: the draft then records the acknowledgement that came back.
     await _journal.idle();
-    await _syncer.flushNow();
-    await flushDraft();
+    try {
+      await _syncer.flushNow();
+    } on Object {
+      // Whatever the send does, the draft, the status and the backup job below must still run:
+      // going to the background is when a kill is most likely (review-03).
+    }
+    try {
+      await flushDraft();
+    } on Object {
+      // The draft was also written on every change.
+    }
     if (_submitStarted && submitState.value.stage != SubmitStage.received) {
       await _s.status.showSending(_draft);
     } else if (!_submitStarted) {
@@ -689,6 +711,12 @@ class SessionEngine extends ChangeNotifier {
   void _onAcknowledged(int ack, DateTime at) {
     _lastAckAt = at;
     _draft = _draft.copyWith(acknowledgedSequence: ack, lastAckAtMs: at.millisecondsSinceEpoch);
+    if (_disposed) {
+      // The PUT was still in flight when the student left. Nothing else will write this
+      // acknowledgement, so reopening would show answers the server already holds as unsent.
+      unawaited(_persistLateAcknowledgement());
+      return;
+    }
     _updateSaveState();
     _scheduleDraftSave();
     _notify();
@@ -704,6 +732,24 @@ class SessionEngine extends ChangeNotifier {
         : derived;
     if (saveState.value != next) saveState.value = next;
     _s.onPendingWork?.call('session:${_draft.sessionId}', next.unsyncedAnswers > 0 || _draft.pendingSubmission);
+  }
+
+  /// Writes only the acknowledgement onto the stored row, and only while that row is still this
+  /// session's (a newer session of the same selection may own it now). Never throws.
+  Future<void> _persistLateAcknowledgement() async {
+    try {
+      if (submitState.value.stage == SubmitStage.received) return;
+    } on Object {
+      // The notifier is disposed with the engine: nothing was received through it.
+    }
+    try {
+      final stored = await _s.drafts.byKey(_draft.draftKey);
+      if (stored == null || stored.sessionId != _draft.sessionId) return;
+      if (_draft.acknowledgedSequence <= stored.acknowledgedSequence) return;
+      await _s.drafts.saveIfOwned(stored.copyWith(acknowledgedSequence: _draft.acknowledgedSequence, lastAckAtMs: _draft.lastAckAtMs));
+    } on Object {
+      // The next sync acknowledges again.
+    }
   }
 
   void _scheduleDraftSave() {
@@ -726,7 +772,9 @@ class SessionEngine extends ChangeNotifier {
       startedRefWallMs: _clock.startedRefWallMs,
       endsAtWallMs: _clock.endsAtWallMs,
     );
-    await _s.drafts.save(_draft);
+    // Only while the row is still this session's: an engine closing late must not write its draft
+    // over the row of a newer session of the same selection (practice-02).
+    await _s.drafts.saveIfOwned(_draft);
   }
 
   Future<void> _scheduleBackgroundSubmit({DateTime? runAt}) {
@@ -766,28 +814,82 @@ class SessionEngine extends ChangeNotifier {
     if (!_submitStarted) unawaited(submit(timedOut: true));
   }
 
-  /// `EVENT_CONFLICT`: the server holds a different log. Resume from it and rebuild.
+  bool _recovering = false;
+  Timer? _conflictTimer;
+  Completer<void>? _conflictWait;
+
+  // What the recovery in progress holds between its attempts: the local answers as they were when
+  // the server's log replaced the journal, the questions whose answer the server never
+  // acknowledged, and the server's last sequence. Kept so a later attempt re-appends exactly those.
+  Map<String, int>? _conflictLocal;
+  Set<String>? _conflictUnsynced;
+  int _conflictServerSeq = 0;
+
+  /// `EVENT_CONFLICT`: the server holds a different log. Resume from it and rebuild, and keep
+  /// trying (the sync back-off) until it works: one failed resume call, or a database error that is
+  /// not an [ApiError], used to leave the pill on "waiting for network" with nothing scheduled
+  /// (offline-04). Stops when the student leaves the runner (practice-06).
   Future<void> _recoverFromConflict() async {
+    if (_recovering) return;
+    _recovering = true;
     try {
+      for (var attempt = 0; !_disposed; attempt++) {
+        try {
+          await _recoverOnce();
+          return;
+        } on Object {
+          // Offline, a server error, or a failed local write: the answers are safe in the local
+          // journal. The pill stays honest (the syncer still reports the conflict).
+          if (_disposed) return;
+          _updateSaveState();
+          await _waitBeforeRecoveryRetry(syncBackoff[attempt.clamp(0, syncBackoff.length - 1)]);
+        }
+      }
+    } finally {
+      _recovering = false;
+    }
+  }
+
+  Future<void> _waitBeforeRecoveryRetry(Duration delay) {
+    final wait = _conflictWait = Completer<void>();
+    final factory = _s.timerFactory ?? Timer.new;
+    _conflictTimer = factory(delay, () {
+      if (!wait.isCompleted) wait.complete();
+    });
+    return wait.future;
+  }
+
+  Future<void> _recoverOnce() async {
+    if (_conflictLocal == null) {
       final view = await _s.api.resume(_draft.sessionId);
+      if (_disposed) return;
       // Answers typed on this phone that the server never acknowledged must survive the
       // rebuild: the server's log wins, then the differing local answers are appended again.
       final local = Map<String, int>.of(_journal.answers);
       final unsynced = _journal.unsyncedQuestionIds(_syncer.acknowledgedSequence);
       await _journal.replaceWith(view.events);
-      _syncer.resumeAfterConflict(acknowledgedSequence: _journal.lastSeq);
-      final rebuilt = _journal.answers;
-      var restored = false;
-      for (final qid in unsynced) {
-        if (local[qid] == rebuilt[qid]) continue;
-        if (await _journal.recordAnswer(qid, local[qid], _clock) != null) restored = true;
-      }
-      if (restored) _syncer.notifyChanged();
-      _updateSaveState();
-      _notify();
-    } on ApiError {
-      // Try again on the next change or retry; the answers are safe in the local journal.
+      _conflictLocal = local;
+      _conflictUnsynced = {...unsynced};
+      _conflictServerSeq = _journal.lastSeq;
     }
+    if (_disposed) return;
+    final local = _conflictLocal!;
+    final pending = _conflictUnsynced!;
+    final rebuilt = _journal.answers;
+    for (final qid in List.of(pending)) {
+      if (local[qid] != rebuilt[qid]) {
+        // A write that does not land fails this attempt; the next one re-appends from here.
+        if (await _journal.recordAnswer(qid, local[qid], _clock) == null) throw StateError('journal write failed');
+      }
+      pending.remove(qid);
+    }
+    if (_disposed) return;
+    // Only now is the conflict over: the server's log is in and every local answer is back on it.
+    _conflictLocal = null;
+    _conflictUnsynced = null;
+    _syncer.resumeAfterConflict(acknowledgedSequence: _conflictServerSeq);
+    _updateSaveState();
+    _notify();
   }
 
   /// Stops timers and listeners. Does not touch the draft: leaving never discards.
@@ -797,6 +899,9 @@ class SessionEngine extends ChangeNotifier {
     _disposed = true;
     _ticker?.cancel();
     _draftTimer?.cancel();
+    _conflictTimer?.cancel();
+    final conflictWait = _conflictWait;
+    if (conflictWait != null && !conflictWait.isCompleted) conflictWait.complete();
     _syncer.status.removeListener(_updateSaveState);
     _syncer.dispose();
     unawaited(_heartbeat.clear(_draft.sessionId));

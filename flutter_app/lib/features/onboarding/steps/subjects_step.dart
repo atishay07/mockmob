@@ -106,7 +106,7 @@ class _SubjectsStepState extends ConsumerState<SubjectsStep> {
             ),
           if (rest.isNotEmpty) ...[
             Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s12, MmSpace.s4, MmSpace.s8),
+              padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s8),
               child: Text(OnboardingCopy.commonPicks, style: context.mmType.label.copyWith(color: colors.ink3)),
             ),
             for (final s in rest) row(s),
@@ -193,7 +193,7 @@ class _Note extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s4, MmSpace.s4, 0),
+      padding: const EdgeInsets.only(top: MmSpace.s4),
       child: Semantics(
         liveRegion: true,
         container: true,

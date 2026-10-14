@@ -10,6 +10,7 @@ import '../access_copy.dart';
 import '../access_gateway.dart';
 import '../state/password_hints.dart';
 import 'access_field.dart';
+import 'form_message.dart';
 
 /// Sets or changes the signed-in student's password: one field with Show, the rule beside it,
 /// "Save password" with a working state, and "Password saved" only after Supabase said yes.
@@ -193,11 +194,9 @@ class _SetPasswordFormState extends ConsumerState<SetPasswordForm> {
                 ),
               ],
             ),
-            if (_problem != null) ...[
-              const SizedBox(height: MmSpace.s12),
-              AccessProblemLine(message: _problem!),
-            ],
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.s8),
+            FormMessage(problem: _problem, working: _working),
+            const SizedBox(height: MmSpace.s16),
             KeyButton(
               label: _working
                   ? AccessCopy.savingPassword
@@ -206,7 +205,7 @@ class _SetPasswordFormState extends ConsumerState<SetPasswordForm> {
               onPressed: _working ? null : _save,
             ),
             if (widget.onSkip != null) ...[
-              const SizedBox(height: MmSpace.s8),
+              const SizedBox(height: MmSpace.s4),
               Align(
                 child: KeyButton.quiet(
                   label: AccessCopy.notNow,

@@ -153,10 +153,29 @@ class _PaperEdgePainter extends CustomPainter {
   final bool squareBottom;
   final Color lamp;
 
+  /// Night's `edgeTop` light (the sheet is a Night object in both themes).
+  static const Color _edgeTop = Color(0x24FFF6E4);
+
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
     final path = paperPath(size, notch: notch, squareTop: squareTop, squareBottom: squareBottom);
+    // The rim: a 6% lamp line all the way round, so the charcoal sheet keeps an edge on the
+    // charcoal desk at Night (audit X2), plus the shared top-edge light along the top.
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = lamp.withValues(alpha: 0.06),
+    );
+    canvas.drawLine(
+      Offset(squareTop ? 0 : 10, 0.5),
+      Offset(size.width - (notch == PaperNotch.topRight ? 22 : 10), 0.5),
+      Paint()
+        ..strokeWidth = 1
+        ..shader = const LinearGradient(colors: [_edgeTop, Color(0x00FFF6E4)]).createShader(rect),
+    );
     canvas.drawPath(
       path,
       Paint()

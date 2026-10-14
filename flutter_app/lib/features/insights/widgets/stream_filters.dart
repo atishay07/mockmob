@@ -172,8 +172,8 @@ class _FilterKey extends StatelessWidget {
         child: Center(
           child: DecoratedBox(
             decoration: ShapeDecoration(
-              color: active ? colors.raised2 : colors.raised,
-              shape: StadiumBorder(side: BorderSide(color: active ? colors.ink2 : colors.line)),
+              color: active ? colors.selectedSurface : colors.raised,
+              shape: StadiumBorder(side: active ? BorderSide(color: colors.ink, width: 1.5) : BorderSide(color: colors.line)),
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s12, MmSpace.s8),
@@ -185,7 +185,7 @@ class _FilterKey extends StatelessWidget {
                     constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width - 2 * MmSpace.gutter - 56),
                     child: Text(label, style: type.label.copyWith(color: colors.ink), maxLines: 1, overflow: TextOverflow.ellipsis),
                   ),
-                  const SizedBox(width: MmSpace.s6),
+                  const SizedBox(width: MmSpace.s4),
                   Icon(LucideIcons.chevronDown, size: 16, color: colors.ink2),
                 ],
               ),

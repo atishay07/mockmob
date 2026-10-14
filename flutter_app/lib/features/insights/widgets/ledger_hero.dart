@@ -15,7 +15,7 @@ import 'insights_bits.dart';
 /// it, and Show me under the legend opens the sessions behind it.
 ///
 /// This is the screen's one lit element. The figure rolls and the sheet inks once per visit
-/// (500 ms and 900 ms); a rebuild with the same record does neither, and reduced motion shows
+/// (500 ms and 700 ms); a rebuild with the same record does neither, and reduced motion shows
 /// the final state.
 ///
 /// While the share right is not known (nothing answered yet), a sparse card stands in for the
@@ -46,7 +46,7 @@ class LedgerHero extends StatelessWidget {
           children: [
             Positioned.fill(child: IgnorePointer(child: LightField.lamp(context, strength: 0.8, center: const Alignment(-1.1, -1.25)))),
             Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s12),
+              padding: const EdgeInsets.all(MmSpace.s20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -70,7 +70,7 @@ class LedgerHero extends StatelessWidget {
                     _SparseCard(answered: l.right + l.wrong, blank: l.blank),
                   if (a.known && a.low != null && a.high != null) ...[
                     const SizedBox(height: MmSpace.s4),
-                    Text(InsightsCopy.accuracyHeroLine(a.low!, a.high!), style: type.body.copyWith(fontSize: 15, color: colors.ink2)),
+                    Text(InsightsCopy.accuracyHeroLine(a.low!, a.high!), style: type.body.copyWith(color: colors.ink2)),
                   ],
                   const SizedBox(height: MmSpace.s20),
                   if (counts.cells > 0) AnswerSheet(right: l.right, wrong: l.wrong, blank: l.blank),
@@ -100,7 +100,6 @@ class LedgerHero extends StatelessWidget {
                   ],
                   const SizedBox(height: MmSpace.s12),
                   Text(InsightsCopy.ledgerNote, style: type.caption.copyWith(color: colors.ink3)),
-                  const SizedBox(height: MmSpace.s4),
                 ],
               ),
             ),
@@ -243,7 +242,7 @@ class _LeadFinding extends StatelessWidget {
         shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s8),
+        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -260,7 +259,7 @@ class _LeadFinding extends StatelessWidget {
             const SizedBox(height: MmSpace.s16),
             Text(f.headline, style: type.title.copyWith(fontSize: 22, height: 26 / 22)),
             const SizedBox(height: MmSpace.s12),
-            Text(f.detail, style: type.small.copyWith(color: colors.ink2, fontSize: 15, height: 22 / 15)),
+            Text(f.detail, style: type.body.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s12),
             BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
             if (onAction != null && f.actionLabel != null) ...[
@@ -290,14 +289,14 @@ class _FindingRow extends StatelessWidget {
     final f = finding;
     final rail = f.isLeak ? colors.wrongMark : (f.isGood ? colors.volt : colors.ink4);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s16, 0, MmSpace.s4),
+      padding: const EdgeInsets.fromLTRB(0, MmSpace.s16, 0, MmSpace.s4),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: MmSpace.s12),
-              child: DecoratedBox(decoration: BoxDecoration(color: rail, borderRadius: BorderRadius.circular(2)), child: const SizedBox(width: 3)),
+              child: DecoratedBox(decoration: BoxDecoration(color: rail, borderRadius: BorderRadius.circular(MmSpace.s2)), child: const SizedBox(width: MmSpace.s4)),
             ),
             const SizedBox(width: MmSpace.s12),
             Expanded(
@@ -307,7 +306,7 @@ class _FindingRow extends StatelessWidget {
                   Text(f.headline, style: type.cardTitle),
                   const SizedBox(height: MmSpace.s4),
                   Text(f.detail, style: type.small.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s6),
+                  const SizedBox(height: MmSpace.s8),
                   BasisLink(text: InsightsCopy.basedOn(f.n), attempts: evidence, what: InsightsCopy.behindFinding),
                   if (onAction != null && f.actionLabel != null)
                     ActionLink(label: f.id == 'chapter' ? InsightsCopy.practiseThisChapter : f.actionLabel!, onTap: onAction!)

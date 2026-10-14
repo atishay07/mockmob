@@ -238,5 +238,7 @@ abstract final class ResultCopy {
   static const loadFailed = 'We could not load this result. Your result was recorded. Try again.';
   static const notFound = 'This result is not on this account.';
   static const loading = 'Loading your result';
+  static const slowTitle = 'Your result is taking longer to load';
+  static const slowBody = 'It is saved on the server. Try again, or find it later in Review.';
   static const backToReview = 'Go to Review';
 }

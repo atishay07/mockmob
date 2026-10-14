@@ -41,8 +41,10 @@ abstract final class PracticeCopy {
   static String chapterReasonPractice(int missed) =>
       missed == 1 ? 'You missed 1 here in your last practice.' : 'You missed $missed here in your last practice.';
 
-  static String subjectTitle(String subject) => '$subject, quick practice';
-  static const String subjectKicker = 'Mixed chapters';
+  /// The hero's title is the subject alone, so it never wraps to an ellipsis beside the object;
+  /// the kind of paper is the kicker under it.
+  static String subjectTitle(String subject) => subject;
+  static const String subjectKicker = 'Quick practice, mixed chapters';
   static String subjectReason(String subject, String when) => 'Your last $subject paper was $when.';
 
   static const String startingTitle = 'Your starting point';
@@ -221,6 +223,9 @@ abstract final class PracticeCopy {
   // Auto start.
   static const String gettingReady = 'Getting your questions ready.';
   static const String gettingReadyNote = 'This can take a few seconds.';
+
+  /// The start is still waiting after [PracticeStartScreen.slowAfter] (MOTION.md P1-7).
+  static const String gettingReadySlow = 'Still fetching. This sometimes takes a moment on slow networks.';
   static const String backToPractice = 'Back to Practice';
   static const String chooseAnother = 'Choose another';
 

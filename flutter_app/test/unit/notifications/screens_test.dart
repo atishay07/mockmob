@@ -529,7 +529,9 @@ void main() {
     testWidgets('the first ask uses the original wording', (tester) async {
       await pumpSheet(tester);
       expect(_text('Remind me when it matters'), findsOneWidget);
-      expect(_text('Three kinds of reminder, and you choose which ones stay on.'), findsOneWidget);
+      // The examples below already say what the lead says, so the sheet leaves it out (audit F2);
+      // the screen reader still hears it in the sheet's label.
+      expect(_text('Three kinds of reminder, and you choose which ones stay on.'), findsNothing);
     });
 
     testWidgets('each ask after a refusal or a close uses the next wording, chosen by the ask count', (tester) async {
@@ -749,8 +751,10 @@ void main() {
       for (final rect in [allow, notNow]) {
         expect(rect.top, greaterThanOrEqualTo(0));
         expect(rect.bottom, lessThanOrEqualTo(screen.height), reason: 'in view without scrolling');
-        expect(rect.height, greaterThanOrEqualTo(48));
+        // The primary key is 56 and the quiet one paints 40; each reaches 48 through its hit slop.
+        expect(rect.height, greaterThanOrEqualTo(40));
       }
+      expect(allow.height, greaterThanOrEqualTo(48));
       // The keys sit in the sheet's footer, outside the body's scroll, so scrolling the body never moves them.
       final body = find.ancestor(of: find.byType(RemindersPromptSheet), matching: find.byType(SingleChildScrollView));
       expect(body, findsOneWidget);

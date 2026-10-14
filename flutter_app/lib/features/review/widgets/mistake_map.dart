@@ -81,9 +81,15 @@ class MistakeMap extends ConsumerStatefulWidget {
 }
 
 class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProviderStateMixin {
-  late final AnimationController _enter = AnimationController(vsync: this, duration: const Duration(milliseconds: 900));
+  /// Each bar draws over 420 ms (`drawIn`), the next one starting 45 ms after it.
+  static const Duration _draw = Duration(milliseconds: 420);
+  static const Duration _step = Duration(milliseconds: 45);
+
+  late final AnimationController _enter = AnimationController(vsync: this, duration: _total(widget.groups.length));
   String? _open;
   bool _started = false;
+
+  static Duration _total(int rows) => _draw + _step * (rows > 0 ? rows - 1 : 0);
 
   static String keyOf(ChapterGroup g) => '${g.subjectId}|${g.chapter}';
 
@@ -109,6 +115,11 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
   void dispose() {
     _enter.dispose();
     super.dispose();
+  }
+
+  Interval _interval(int i, int rows) {
+    final total = _total(rows).inMicroseconds;
+    return Interval(i * _step.inMicroseconds / total, (i * _step.inMicroseconds + _draw.inMicroseconds) / total, curve: Motion.emphasized);
   }
 
   void _toggle(ChapterGroup g) {
@@ -143,10 +154,8 @@ class _MistakeMapState extends ConsumerState<MistakeMap> with SingleTickerProvid
             nameSubject: i == 0 || groups[i].subjectId != groups[i - 1].subjectId,
             open: _open == keyOf(groups[i]),
             leadKeyPrimary: widget.leadKeyPrimary,
-            // Rows grow in one after another: the bar of row i starts at i * 0.07 of the run.
-            grow: _enter.drive(
-              CurveTween(curve: Interval((i * 0.07).clamp(0.0, 0.5), (i * 0.07 + 0.55).clamp(0.2, 1.0), curve: Motion.emphasized)),
-            ),
+            // Rows grow in one after another: the bar of row i starts 45 ms after the one above it.
+            grow: _enter.drive(CurveTween(curve: _interval(i, groups.length))),
             onToggle: () => _toggle(groups[i]),
             onOpen: widget.onOpen,
           ),
@@ -184,7 +193,7 @@ class _ChapterRow extends StatelessWidget {
   final VoidCallback onToggle;
   final ValueChanged<MistakeItem> onOpen;
 
-  static const _stripGlyph = 40.0;
+  static const _stripGlyph = EmblemSizes.chip;
 
   Widget _paperKey(List<PaperOpen> papers, int i) {
     final label = papers.length == 1
@@ -211,7 +220,6 @@ class _ChapterRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
     final g = group;
     final summary = ReviewCopy.groupLine(subjectName(g.subjectId), g.openCount, g.repairedCount, g.setAsideCount);
     final papers = g.openByPaper;
@@ -225,7 +233,35 @@ class _ChapterRow extends StatelessWidget {
     ].join(', ');
     final indent = showSubject ? _stripGlyph + MmSpace.s12 : 0.0;
 
-    // No surface under the row, open or shut: the thread and its keys sit on the ground.
+    // Shut, a row is typeset on the ground. Open, the chapter lifts onto `raised` (a fade of its own
+    // surface, never a layout change) and its thread and keys sit on it.
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              duration: Motion.of(context, Motion.card),
+              curve: Motion.emphasized,
+              opacity: open ? 1 : 0,
+              child: DecoratedBox(
+                decoration: ShapeDecoration(
+                  color: colors.raised,
+                  shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
+                ),
+              ),
+            ),
+          ),
+        ),
+        _body(context, summary, caption, indent),
+      ],
+    );
+  }
+
+  Widget _body(BuildContext context, String summary, String caption, double indent) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final g = group;
+    final papers = g.openByPaper;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -235,7 +271,7 @@ class _ChapterRow extends StatelessWidget {
           focusRadius: MmRadius.panelAll,
           semanticsLabel: '${g.chapter}. $summary. ${ReviewCopy.groupExpandHint(open)}',
           builder: (context, pressed, _) => Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s12, 14, MmSpace.s12, 14),
+            padding: const EdgeInsets.all(MmSpace.s12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -251,7 +287,7 @@ class _ChapterRow extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(g.chapter, style: type.cardTitle, maxLines: 4, overflow: TextOverflow.ellipsis),
-                          const SizedBox(height: 2),
+                          const SizedBox(height: MmSpace.s2),
                           Text(
                             caption,
                             style: type.caption.copyWith(color: colors.ink2),
@@ -284,7 +320,7 @@ class _ChapterRow extends StatelessWidget {
                         turns: open ? 0.5 : 0,
                         duration: Motion.of(context, Motion.card),
                         curve: Motion.emphasized,
-                        child: Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2),
+                        child: Icon(LucideIcons.chevronDown, size: 16, color: colors.ink2),
                       ),
                     ],
                   ),
@@ -346,7 +382,8 @@ class _Count extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text('$n', style: type.figureCompact.copyWith(fontSize: 28, height: 1.05, color: color)),
+          // A change rolls on from the number it showed (a repair finished), never from zero.
+          MmCountUp(value: n, from: n, style: type.figureCompact.copyWith(fontSize: 28, height: 1.05, color: color)),
           Text(word, style: type.caption.copyWith(fontSize: 11, height: 1.2, color: colors.ink2)),
         ],
       ),
@@ -504,7 +541,10 @@ class _Thread extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < items.length; i++)
-          MistakeRow(item: items[i], clock: clock, first: i == 0, last: i == items.length - 1, onTap: () => onOpen(items[i])),
+          ThreadRowIn(
+            index: i,
+            child: MistakeRow(item: items[i], clock: clock, first: i == 0, last: i == items.length - 1, onTap: () => onOpen(items[i])),
+          ),
       ],
     );
   }
@@ -513,6 +553,10 @@ class _Thread extends StatelessWidget {
 /// One mistake on the thread: its bubble on the rail, the question number, where and when it was
 /// found, its stage in words.
 class MistakeRow extends StatelessWidget {
+  /// The rail column: 12 dp of row padding plus the 40 dp plate and its 12 dp gap, measured from
+  /// the row's left edge (the card text edge E1), so the text begins on E2.
+  static const double railWidth = 64;
+
   const MistakeRow({super.key, required this.item, required this.clock, required this.onTap, this.first = true, this.last = true});
 
   final MistakeItem item;
@@ -550,7 +594,9 @@ class MistakeRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
-                width: 64,
+                // The rail column ends on E2 (gutter 16 + 12 + 52), so the question text starts there;
+                // its dot sits on the centre of the chapter's 40 dp mark above.
+                width: MistakeRow.railWidth,
                 child: CustomPaint(
                   painter: _RailPainter(color: colors.line, top: !first, bottom: !last),
                   child: Align(
@@ -573,7 +619,7 @@ class MistakeRow extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(ReviewCopy.questionLabel(item.number), style: type.labelLarge),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: MmSpace.s2),
                       Text(found, style: type.caption.copyWith(color: colors.ink2)),
                     ],
                   ),
@@ -584,7 +630,10 @@ class MistakeRow extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Text(_stageWord(item.stage), style: type.caption.copyWith(color: colors.ink2)),
               ),
-              SizedBox(width: 28, child: tappable ? Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3) : null),
+              // The word and the chevron end on E1 from the right (12 dp from the card edge).
+              const SizedBox(width: MmSpace.s8),
+              SizedBox(width: 16, child: tappable ? Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3) : null),
+              const SizedBox(width: MmSpace.s12),
             ],
           ),
         ),
@@ -619,4 +668,61 @@ class _RailPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RailPainter old) => old.color != color || old.top != top || old.bottom != bottom;
+}
+
+
+/// A thread row fading in as its chapter opens: 160 ms, each row 30 ms after the one above it
+/// (capped, so a long chapter never takes long), the first starting when the section's own content
+/// fade does ([MmCollapsible.fadeLead]), so the stagger is seen and not played under it. The rows are only built while the chapter is open,
+/// so this plays on every opening and never while the list scrolls. Under reduced motion the row
+/// is simply there.
+@visibleForTesting
+class ThreadRowIn extends StatefulWidget {
+  const ThreadRowIn({super.key, required this.index, required this.child});
+
+  final int index;
+  final Widget child;
+
+  @override
+  State<ThreadRowIn> createState() => _ThreadRowInState();
+}
+
+class _ThreadRowInState extends State<ThreadRowIn> with SingleTickerProviderStateMixin {
+  static const Duration _fade = Duration(milliseconds: 160);
+  static const Duration _step = Duration(milliseconds: 30);
+  static const int _cap = 8;
+
+  late final AnimationController _c;
+  late final Animation<double> _opacity;
+  bool _started = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final delay = MmCollapsible.fadeLead + _step * (widget.index < _cap ? widget.index : _cap);
+    final total = delay + _fade;
+    _c = AnimationController(vsync: this, duration: total);
+    _opacity = CurvedAnimation(parent: _c, curve: Interval(delay.inMicroseconds / total.inMicroseconds, 1, curve: Curves.easeOut));
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _c.value = 1;
+    } else {
+      _c.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => FadeTransition(opacity: _opacity, child: widget.child);
 }

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
+import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import 'runner_motion.dart';
 
 /// "19 of 20" in the top bar. When the number changes the old one slides out and the new one
 /// rises in from the side the student is travelling towards (180 ms, glide), never a roll from
-/// zero. Settled, it is the same condensed [MonumentalNumber] as before and never moves.
+/// zero. Settled, it is the condensed [MonumentalNumber] and never moves. "of 20" is not part of
+/// that slide (it does not change): it is set in the body face at 13 sp, semibold, ink 2, with its
+/// cap line on the figure's, so it reads at a glance beside the 30 sp figure.
 class RunnerCount extends StatefulWidget {
   const RunnerCount({
     super.key,
@@ -43,16 +46,35 @@ class _RunnerCountState extends State<RunnerCount> {
     final number = MonumentalNumber(
       key: incoming,
       value: '${widget.current}',
-      unit: 'of ${widget.total}',
       roll: false,
       style: widget.style,
-      unitColor: widget.unitColor,
       semanticsLabel: widget.semanticsLabel,
     );
-    if (reduced) return number;
+    final scale = MediaQuery.textScalerOf(context).scale(1);
+    final unit = Padding(
+      // The unit's cap line meets the figure's: the figure's ink starts about 17% of its size below
+      // its box top, the 13 sp unit's about 15% of its own.
+      padding: EdgeInsets.only(top: ((widget.style.fontSize ?? 30) * 0.17 - 13 * 0.15) * scale),
+      child: Text(
+        'of ${widget.total}',
+        style: context.mmType.label.copyWith(fontSize: 13, height: 1, fontWeight: FontWeight.w600, color: widget.unitColor),
+        maxLines: 1,
+        softWrap: false,
+      ),
+    );
+    Widget pair(Widget figure) => Semantics(
+      label: widget.semanticsLabel,
+      excludeSemantics: true,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [figure, const SizedBox(width: MmSpace.s4), unit],
+      ),
+    );
+    if (reduced) return pair(number);
     final direction = _direction;
     // Clipped to the number's own box: whatever slides out of it is cut, not smeared over the bar.
-    return ClipRect(
+    return pair(ClipRect(
       child: AnimatedSwitcher(
         duration: RunnerMotion.countFlip,
         switchInCurve: Motion.glide,
@@ -77,6 +99,6 @@ class _RunnerCountState extends State<RunnerCount> {
         },
         child: number,
       ),
-    );
+    ));
   }
 }

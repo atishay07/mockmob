@@ -56,7 +56,7 @@ class ComboCard extends ConsumerWidget {
                         child: DecoratedBox(
                           decoration: BoxDecoration(color: colors.volt, borderRadius: MmRadius.pillAll),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
                             child: Text(ToolsCopy.bestFit, style: type.labelLarge.copyWith(fontSize: 13, color: colors.voltInk)),
                           ),
                         ),

@@ -5,6 +5,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import 'reveal_in.dart';
 
 /// A subject's syllabus chapters that have no lesson yet, folded under one line ("4 chapters
 /// without a lesson yet"). Open, each chapter has only a Practise key: practice is ready for it,
@@ -28,6 +29,9 @@ class UntaughtChapters extends StatefulWidget {
 class _UntaughtChaptersState extends State<UntaughtChapters> {
   late bool _open = widget.initiallyOpen;
 
+  /// The student opened it: its content eases in. Open on arrival it is simply there.
+  bool _toggled = false;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -43,14 +47,14 @@ class _UntaughtChaptersState extends State<UntaughtChapters> {
           focusRadius: MmRadius.panelAll,
           haptic: MmPressHaptic.selection,
           highlight: true,
-          onTap: () => setState(() => _open = !_open),
+          onTap: () => setState(() {
+            _open = !_open;
+            _toggled = true;
+          }),
           builder: (context, pressed, _) => ConstrainedBox(
             constraints: const BoxConstraints(minHeight: 56),
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: MmSpace.s4,
-                vertical: MmSpace.s8,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
               child: Row(
                 children: [
                   Expanded(
@@ -76,7 +80,7 @@ class _UntaughtChaptersState extends State<UntaughtChapters> {
                     curve: Motion.out,
                     child: Icon(
                       LucideIcons.chevronDown,
-                      size: 18,
+                      size: 16,
                       color: colors.ink3,
                     ),
                   ),
@@ -85,41 +89,39 @@ class _UntaughtChaptersState extends State<UntaughtChapters> {
             ),
           ),
         ),
-        AnimatedSize(
-          duration: Motion.of(context, Motion.card),
-          curve: Motion.out,
-          alignment: Alignment.topCenter,
-          child: !_open
-              ? const SizedBox(width: double.infinity)
-              : Padding(
-                  padding: const EdgeInsets.only(
-                    left: MmSpace.s4,
-                    bottom: MmSpace.s8,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        LearnCopy.untaughtNote,
-                        style: type.small.copyWith(color: colors.ink2),
-                      ),
-                      const SizedBox(height: MmSpace.s4),
-                      for (final c in widget.chapters)
-                        Row(
-                          children: [
-                            Expanded(child: Text(c, style: type.body)),
-                            KeyButton.quiet(
-                              label: LearnCopy.practiseKey,
-                              semanticsLabel: '${LearnCopy.practiseKey} $c',
-                              onPressed: () => widget.onPractise(c),
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
-                ),
-        ),
+        // The height changes at once (the student's own tap, and nothing below it is mid-motion);
+        // the content eases in with a fade and an 8 dp rise. No AnimatedSize: a card with
+        // siblings below it never resizes during an animation (SPACING.md 10).
+        if (_open)
+          _toggled ? RevealIn(child: _list(type, colors)) : _list(type, colors),
       ],
+    );
+  }
+
+  Widget _list(MmType type, MmColors colors) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: MmSpace.s8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            LearnCopy.untaughtNote,
+            style: type.small.copyWith(color: colors.ink2),
+          ),
+          const SizedBox(height: MmSpace.s4),
+          for (final c in widget.chapters)
+            Row(
+              children: [
+                Expanded(child: Text(c, style: type.body)),
+                KeyButton.quiet(
+                  label: LearnCopy.practiseKey,
+                  semanticsLabel: '${LearnCopy.practiseKey} $c',
+                  onPressed: () => widget.onPractise(c),
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 }

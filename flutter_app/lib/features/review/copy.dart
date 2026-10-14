@@ -9,6 +9,9 @@ abstract final class ReviewCopy {
   // ---- The tab --------------------------------------------------------------------------
 
   static const title = 'Review';
+
+  /// The header key that opens Ask Mobi (it answers from the record).
+  static const askKey = 'Ask Mobi';
   static String tonightOverline(DateTime now, String subject) => "${tonightOrTodayTitle(now)}'s repair, $subject";
   static const mistakesHeading = 'Mistakes to repair';
   static const recordHeading = 'Repair record';
@@ -205,15 +208,26 @@ abstract final class ReviewCopy {
 
   static String endingUnit(int n) => n == 1 ? 'mistake repaired' : 'mistakes repaired';
   /// The one fact the hero's number does not carry: what is left in the chapter, and anything set
-  /// aside or read with the key. [left] is null when the open count is not known.
-  static String endingFact(String chapter, int? left, {int setAside = 0, int reviewed = 0}) {
+  /// aside or read with the key. [left] is the open mistakes of this chapter in this paper (what
+  /// the run covered), null when the open count is not known; [elsewhere] is the same chapter's
+  /// open mistakes in other papers, which the run never touched, so the two are said apart.
+  static String endingFact(String chapter, int? left, {int elsewhere = 0, int setAside = 0, int reviewed = 0}) {
     final name = shortChapter(chapter);
+    final other = elsewhere > 0 ? ' $elsewhere ${left == 0 ? '' : 'more '}in other papers.' : '';
     return [
-      if (left != null) (left == 0 ? 'Nothing left in $name.' : '$left left in $name.'),
+      if (left != null)
+        left == 0
+            ? (elsewhere > 0 ? 'Nothing left in $name from this paper.$other' : 'Nothing left in $name.')
+            : (elsewhere > 0 ? '$left left in $name.$other' : '$left left in $name.'),
       if (setAside > 0) '$setAside set aside while ${setAside == 1 ? 'its key is' : 'their keys are'} checked.',
       if (reviewed > 0) '$reviewed read with the key explanation.',
     ].join(' ');
   }
+
+  /// Under the result's repair key when the paper's wrong answers span chapters: what the key
+  /// opens (one chapter of this paper) and where the rest are.
+  static String repairKeyNote(String chapter, int others) =>
+      '${shortChapter(chapter)}. The other $others ${others == 1 ? 'is' : 'are'} in Review.';
 
   static const checkedLater = 'Checked comes later, on fresh questions.';
   static const firstRepair = 'This is your first repair.';

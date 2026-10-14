@@ -18,6 +18,7 @@ import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/recap_model.dart';
 import '../result_nav.dart';
+import '../widgets/result_space.dart';
 import 'breakdown_card.dart';
 import 'first_fix_card.dart';
 import 'recap_room.dart';
@@ -212,7 +213,7 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
           opacity: 1 - e,
           child: Transform(
             alignment: Alignment.topCenter,
-            transform: Matrix4.translationValues(0, -14 * dir * e, 0)..scaleByDouble(1 - 0.04 * e, 1 - 0.04 * e, 1, 1),
+            transform: Matrix4.translationValues(0, -12 * dir * e, 0)..scaleByDouble(1 - 0.04 * e, 1 - 0.04 * e, 1, 1),
             child: child,
           ),
         );
@@ -296,8 +297,10 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
 
 /// Shown while the attempt is not known yet, or could not be read. Loading takes the shape of
 /// what will arrive: the folded sheet on the recap, the summary, the sheet and the answer rows on
-/// the full result ([page]).
-class RecapPlaceholder extends StatelessWidget {
+/// the full result ([page]). A load still running after [slowAfter] says so, with "Try again" and
+/// the way to Review (robustness result-03: each read can take up to 45 s, retried twice, and the
+/// skeleton alone gave no way on).
+class RecapPlaceholder extends StatefulWidget {
   const RecapPlaceholder({super.key, required this.data, required this.onRetry, required this.attemptId, this.page = false});
 
   final RecapData data;
@@ -307,11 +310,56 @@ class RecapPlaceholder extends StatelessWidget {
   /// The full result's shape instead of the sealed sheet's.
   final bool page;
 
+  static const Duration slowAfter = Duration(seconds: 6);
+
+  @override
+  State<RecapPlaceholder> createState() => _RecapPlaceholderState();
+}
+
+class _RecapPlaceholderState extends State<RecapPlaceholder> {
+  Timer? _timer;
+  bool _slow = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _arm();
+  }
+
+  void _arm() {
+    _timer?.cancel();
+    _timer = Timer(RecapPlaceholder.slowAfter, () {
+      if (mounted) setState(() => _slow = true);
+    });
+  }
+
+  void _retry() {
+    setState(() => _slow = false);
+    _arm();
+    widget.onRetry();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final data = widget.data;
+    final page = widget.page;
     final error = data.error;
     final Widget body;
-    if (error == null && page) {
+    if (error == null && _slow) {
+      body = StateView(
+        kind: StateViewKind.error,
+        title: ResultCopy.slowTitle,
+        message: ResultCopy.slowBody,
+        primary: StateAction(ResultCopy.tryAgain, _retry),
+        secondary: StateAction(ResultCopy.backToReview, () => context.go(AppRoutes.review)),
+      );
+    } else if (error == null && page) {
       // The shape of the result: the date, the big figure beside the subject's emblem, its meter,
       // the two lines under it, the answers as rows of bubbles, then a section heading and rows.
       // One soft light sweeps across it where the app lights its skeletons.
@@ -332,12 +380,12 @@ class RecapPlaceholder extends StatelessWidget {
                       children: [
                         Skeleton.line(width: 190, height: 12),
                         SizedBox(height: MmSpace.s16),
-                        Skeleton(width: 210, height: 84, radius: 10),
+                        Skeleton(width: 210, height: 84, radius: 12),
                       ],
                     ),
                   ),
                   SizedBox(width: MmSpace.s8),
-                  Skeleton.circle(size: 96),
+                  Skeleton.circle(size: ResultSpace.emblem),
                 ],
               ),
               const SizedBox(height: MmSpace.s12),
@@ -363,21 +411,21 @@ class RecapPlaceholder extends StatelessWidget {
         ),
       );
     } else if (error == null) {
-      // The sealed screen's shape: the headline lines at the top, the sheet resting low, and the
-      // key under it.
+      // The sealed screen's shape: the headline lines at the top, the folded sheet in the middle
+      // of the band below them, and the key under it.
       body = const SkeletonGroup(
         label: ResultCopy.loading,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s24 + 56, MmSpace.cardGutter, MmSpace.s32),
+          padding: EdgeInsets.fromLTRB(ResultSpace.moment, MmSpace.s24 + 56, ResultSpace.moment, MmSpace.s32),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Skeleton(width: 250, height: 34, radius: 8),
+              Skeleton(width: 250, height: 34, radius: 12),
               SizedBox(height: MmSpace.s12),
               Skeleton.line(width: 160, height: 14),
               Spacer(),
-              Skeleton(height: 300, radius: 10),
-              SizedBox(height: MmSpace.s24),
+              Skeleton(height: 280, radius: 12),
+              Spacer(),
               Skeleton(height: 56, radius: 28),
             ],
           ),
@@ -387,7 +435,7 @@ class RecapPlaceholder extends StatelessWidget {
       body = StateView(
         kind: error.isOffline ? StateViewKind.offline : StateViewKind.error,
         title: error.kind == ApiErrorKind.notFound ? ResultCopy.notFound : ResultCopy.loadFailed,
-        primary: StateAction(ResultCopy.tryAgain, onRetry),
+        primary: StateAction(ResultCopy.tryAgain, _retry),
         secondary: StateAction(ResultCopy.backToReview, () => context.go(AppRoutes.review)),
       );
     }

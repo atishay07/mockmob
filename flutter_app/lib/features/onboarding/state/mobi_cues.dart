@@ -5,32 +5,40 @@ import '../copy.dart';
 import '../model/answers.dart';
 import '../model/deck.dart';
 
-/// What the guide Mobi does after a change to the sheet: an [act], a short [line], and the
-/// sheet bubble to point at ([pointAt], a step id). Pure, so the choreography is testable.
+/// What the guide Mobi does after a change to the sheet: an [act] and a short [line]. Pure, so
+/// the choreography is testable.
+///
+/// MOTION.md 1.3 and 4.2: he is a presence, not a show. He never points at the sheet as a bubble
+/// inks (the tile the student touched already gets his glance); he speaks on arriving at a step
+/// only where that step changes something (the worry, the warm-up, the plan); a warm-up answer
+/// gets `correct` or `encourage`, never a frown; the seal is the one celebration.
 @immutable
 class MobiCue {
-  const MobiCue({this.act, this.line, this.pointAt});
+  const MobiCue({this.act, this.line});
 
   final MobiAct? act;
   final String? line;
-  final String? pointAt;
+
+  /// The seal's celebration: the flow plays it only once the stamp has landed, and only when
+  /// the Celebrations setting is Full.
+  bool get celebrates => act == MobiAct.celebrate;
 
   @override
-  bool operator ==(Object other) => other is MobiCue && other.act == act && other.line == line && other.pointAt == pointAt;
+  bool operator ==(Object other) => other is MobiCue && other.act == act && other.line == line;
 
   @override
-  int get hashCode => Object.hash(act, line, pointAt);
+  int get hashCode => Object.hash(act, line);
 
   @override
-  String toString() => 'MobiCue($act, $line, $pointAt)';
+  String toString() => 'MobiCue($act, $line)';
 }
 
-/// The steps whose answer Mobi points out on the sheet as its bubble inks.
-const Set<String> _pointed = {Steps.stage, Steps.course, Steps.subjects, Steps.rhythm};
+/// The steps where Mobi says a line on arrival: each changes what happens next.
+const Set<String> spokenOnArrival = {Steps.worry, Steps.question, Steps.plan};
 
 /// The cue for the change from [before] to [after], or null when Mobi has nothing to do.
-/// The order is the order of importance: the seal, the warm-up, the worry, a newly inked
-/// bubble, then simply arriving on a step.
+/// The order is the order of importance: the seal, the warm-up, the worry, then simply arriving
+/// on a step.
 MobiCue? mobiCueFor(OnboardingAnswers? before, OnboardingAnswers after) {
   if (before == null) return null;
   if (!before.sealed && after.sealed) return const MobiCue(act: MobiAct.celebrate, line: OnboardingCopy.mobiSealed);
@@ -39,21 +47,18 @@ MobiCue? mobiCueFor(OnboardingAnswers? before, OnboardingAnswers after) {
   if (w != null && before.warmup == null) {
     final seconds = (w.millis / 1000).round();
     return w.correct
-        ? MobiCue(act: MobiAct.cheer, line: OnboardingCopy.mobiRight(seconds))
-        : const MobiCue(act: MobiAct.oops, line: OnboardingCopy.mobiTrap);
+        ? MobiCue(act: MobiAct.correct, line: OnboardingCopy.mobiRight(seconds))
+        : const MobiCue(act: MobiAct.encourage, line: OnboardingCopy.mobiTrap);
   }
 
   final worry = after.worry;
   if (worry != null && worry != before.worry) {
-    return MobiCue(act: MobiAct.idle, line: worry.mobiShort, pointAt: Steps.worry);
+    return MobiCue(act: MobiAct.idle, line: worry.mobiShort);
   }
 
-  for (final id in _pointed) {
-    if (after.isDone(id) && !before.isDone(id)) return MobiCue(pointAt: id);
-  }
-
-  if (after.step != before.step && after.step != null) {
-    return MobiCue(act: enterAct(after.step!), line: OnboardingCopy.mobiArrive[after.step!]);
+  final step = after.step;
+  if (step != before.step && step != null) {
+    return MobiCue(act: enterAct(step), line: spokenOnArrival.contains(step) ? OnboardingCopy.mobiArrive[step] : null);
   }
   return null;
 }

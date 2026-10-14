@@ -11,13 +11,15 @@ import '../models/session_draft.dart';
 import '../repositories/session_draft_repository.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
-import '../widgets/dock/morph_sheet_route.dart' show MorphSheetRoute;
+import '../widgets/bar/morph_sheet_route.dart' show MorphSheetRoute;
+import '../widgets/controls/chip.dart';
 import '../widgets/bubbles/sheet_glyph.dart';
 import '../widgets/materials/edge_light.dart';
 import '../widgets/materials/light_field.dart';
 import '../widgets/materials/lit_edge.dart';
 import '../widgets/mobi.dart';
 import '../widgets/pressable.dart';
+import '../../features/practice/widgets/choice_deck.dart';
 import '../../features/practice/widgets/quick_start_deck.dart';
 import 'routes.dart';
 
@@ -35,10 +37,17 @@ class ResumeOffer {
 
 /// The open session Start can resume, known at once from the live draft, so the sheet draws its
 /// Resume row on the first frame. Its answer count follows in [resumeOfferProvider].
+///
+/// [nowProvider] is a plain clock that never ticks, so the provider re-reads itself when the
+/// draft stops being resumable (at its end, or at the end of the submission grace): a sheet or
+/// capsule left open past 10:40 PM never offers a session that has ended (today-03).
 final resumeDraftProvider = Provider.autoDispose<SessionDraft?>((ref) {
   final draft = ref.watch(latestSessionDraftProvider).value;
-  final now = ref.watch(nowProvider)();
-  if (draft == null || !resumableDraft(draft, sessionId: draft.sessionId, nowMs: now.millisecondsSinceEpoch)) return null;
+  final nowMs = ref.watch(nowProvider)().millisecondsSinceEpoch;
+  if (draft == null || !resumableDraft(draft, sessionId: draft.sessionId, nowMs: nowMs)) return null;
+  final until = draft.endsAtWallMs > nowMs ? draft.endsAtWallMs : draft.endsAtWallMs + submissionGraceMs;
+  final timer = Timer(Duration(milliseconds: until - nowMs + 1), ref.invalidateSelf);
+  ref.onDispose(timer.cancel);
   return draft;
 });
 
@@ -95,12 +104,72 @@ class QuickNta {
 
 final quickStartNtaProvider = Provider<QuickNta?>((ref) => null);
 
-/// The quick-start sheet that Start morphs into, ranked instead of five equal boxes: one hero
-/// choice (resume the open session when there is one, else Quick 10), the practice modes as
-/// tiles (Quick 10, Full mock, NTA mode when offered), then the quieter choices in one grouped
-/// list (Repair the next mistake when there is one, Ask your record), never more than five
-/// choices. They arrive in order with the sheet. Costs are not here; they live on the confirm
-/// sheet each choice opens.
+/// Tonight's move as the Start sheet's hero offers it: the same move Today's hero builds, so the
+/// two can never disagree. `main.dart` wires it to Today's next action.
+class StartMove {
+  const StartMove({required this.title, required this.location, this.kind});
+
+  /// What the move says ("Repair 4 mistakes in Ledgers").
+  final String title;
+  final String location;
+
+  /// `repair`, `practice`, `mock` or `resume`, when known. A repair hero hides the sheet's
+  /// separate repair row.
+  final String? kind;
+
+  bool get isRepair => kind == 'repair';
+}
+
+final startTonightMoveProvider = Provider<StartMove?>((ref) => null);
+
+/// The subjects Start can start in (the student's practice-supported subjects), in their order.
+/// Empty hides the chips. `main.dart` wires it.
+final startSubjectsProvider = Provider<List<String>>((ref) => const []);
+
+/// The subject Start opens in when the student has not picked one in the sheet: tonight's subject.
+/// `main.dart` wires it to Practice's subject.
+final startDefaultSubjectProvider = Provider<String?>((ref) => null);
+
+/// The subject the Start sheet's modes start in. It follows [startDefaultSubjectProvider] until the
+/// student picks a chip, then holds that pick.
+class StartSubject extends Notifier<String?> {
+  @override
+  String? build() => ref.watch(startDefaultSubjectProvider);
+
+  void select(String id) => state = id;
+}
+
+final startSubjectProvider = NotifierProvider<StartSubject, String?>(StartSubject.new);
+
+/// Where Start's modes go in a subject (null keeps the setup page's own default).
+abstract final class StartLocations {
+  static String quick10(String? subject) =>
+      Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10', 'subject': ?subject}).toString();
+
+  static String fullMock(String? subject) => Uri(path: AppRoutes.practiceSetup('full'), queryParameters: {'subject': ?subject}).toString();
+
+  /// NTA mode in [subject]: the offer's own location with its subject swapped.
+  static String nta(QuickNta offer, String? subject) {
+    if (subject == null || subject == offer.subject) return offer.location;
+    final uri = Uri.parse(offer.location);
+    return uri.replace(queryParameters: {...uri.queryParameters, 'subject': subject}).toString();
+  }
+}
+
+/// The Start sheet that the bar's Start key morphs into (DOCK.md section 6). Start means "go
+/// now": one tap on a row starts work with good defaults (the only step left is the cost confirm
+/// when credits apply). Practice means "choose": the sheet never offers a choice Practice cannot
+/// make, and never browses. Rows, five at most:
+///
+/// 1. The hero: resume the open session, else tonight's move (the same move as Today's hero),
+///    else Quick 10.
+/// 2. The subject chips: which subject the modes below start in, visible before anything starts.
+/// 3. Quick 10 and Full mock in that subject.
+/// 4. NTA mode in that subject, with a Pro tag when the quote says so.
+/// 5. Repair the next mistake, unless the hero already is a repair.
+///
+/// Then one quiet text key, "Choose your own in Practice", which closes the sheet and switches to
+/// the Practice tab. Ask lives in Review's header now.
 class QuickStartSheet extends ConsumerStatefulWidget {
   const QuickStartSheet({super.key});
 
@@ -137,6 +206,10 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
   final GlobalKey _hero = GlobalKey(debugLabel: 'quick-start-hero');
   Animation<double>? _route;
   bool _landed = false;
+
+  /// A row has been chosen and the sheet is on its way out: further taps do nothing, so a
+  /// second tap can neither pop the page under the sheet nor push a second run (today-01).
+  bool _leaving = false;
 
   @override
   void didChangeDependencies() {
@@ -181,12 +254,12 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
     final offer = ref.watch(resumeOfferProvider).value;
     final draft = offer?.draft ?? ref.watch(resumeDraftProvider);
     final answered = offer != null && draft != null && offer.draft.sessionId == draft.sessionId ? offer.answered : null;
-    final repair = ref.watch(quickStartRepairProvider);
-    final nta = ref.watch(quickStartNtaProvider);
     final now = ref.watch(nowProvider)();
     final reduced = Motion.reduced(context);
 
     void go(String location) {
+      if (_leaving) return;
+      setState(() => _leaving = true);
       final router = GoRouter.of(context);
       Navigator.of(context).pop();
       // Screens that sit outside the tab shell are pushed over it, so system Back returns to the
@@ -266,85 +339,35 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
                 child: SingleChildScrollView(
                   // The choices arrive with the sheet, in order, while the glass opens; a sheet
                   // that is already up never moves them.
-                  child: Listener(
-                    behavior: HitTestBehavior.translucent,
-                    onPointerDown: (e) => _mobi.lookAt(e.position),
-                    onPointerUp: (_) => _pointAtHero(),
-                    onPointerCancel: (_) => _pointAtHero(),
-                    child: MmStagger(
-                      driver: MmStaggerDriver.route,
-                      // The choices come up with the growing glass (from 12% of the morph), so the
-                      // shape is never an empty slab on its way up.
-                      routeStart: 0.12,
-                      routeStep: 0.06,
-                      routeLength: 0.4,
-                      // The choices as a deck (practice track): the first leads as a hero with its
-                      // lit object, the next pair up as tiles, Ask closes as a quiet row.
-                      child: MmStaggerItem(
-                        index: 0,
-                        child: QuickStartDeck(
-                          leadKey: _hero,
-                          animateIn: false,
-                          options: [
-                            if (draft != null)
-                              ChoiceOption(
-                                id: 'resume',
-                                glyph: QuickStartDeck.glyphFor('resume'),
-                                // The title never changes when the answered count resolves; the count lives on
-                                // the note line, which already holds a sentence.
-                                title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}',
-                                note: draft.isMock
-                                    ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
-                                          '${answered == null ? '' : ' $answered of ${draft.view.questions.length} answered.'}'
-                                    : answered == null
-                                    ? 'Pick up where you left off.'
-                                    : 'Pick up at $answered of ${draft.view.questions.length}.',
-                                // The note keeps room for its longest form, so nothing moves when
-                                // the count lands. A mock's "Ends at 10:40 PM. 12 of 50 answered."
-                                // can run to three lines in the hero on a 360 dp phone.
-                                noteLines: draft.isMock ? 3 : 2,
-                                onTap: () => go(AppRoutes.run(draft.sessionId)),
-                              ),
-                            ChoiceOption(
-                              id: 'quick',
-                              glyph: QuickStartDeck.glyphFor('quick'),
-                              title: 'Quick 10',
-                              note: '10 questions, about 10 minutes.',
-                              onTap: () => go(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
-                            ),
-                            ChoiceOption(
-                              id: 'mock',
-                              glyph: QuickStartDeck.glyphFor('mock'),
-                              title: 'Full mock',
-                              note: '50 questions, 60 minutes, timed like the exam.',
-                              onTap: () => go(AppRoutes.practiceSetup('full')),
-                            ),
-                            if (nta != null)
-                              ChoiceOption(
-                                id: 'nta',
-                                glyph: QuickStartDeck.glyphFor('nta'),
-                                title: nta.proOnly ? 'NTA mode, with Pro' : 'NTA mode',
-                                note: 'The exam-day screen in ${subjectDisplayName(nta.subject)}, as on the day.',
-                                onTap: () => go(nta.location),
-                              ),
-                            if (repair != null)
-                              ChoiceOption(
-                                id: 'repair',
-                                glyph: QuickStartDeck.glyphFor('repair'),
-                                title: 'Repair the next mistake',
-                                note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
-                                onTap: () => go(repair.shortcutLocation),
-                              ),
-                            // Never more than five choices: Ask gives way to a resume.
-                            if (draft == null || nta == null || repair == null)
-                              ChoiceOption(
-                                id: QuickStartDeck.askId,
-                                glyph: QuickStartDeck.glyphFor(QuickStartDeck.askId),
-                                title: 'Ask Mobi about your marks',
-                                note: 'Answered from your own record.',
-                                onTap: () => go(AppRoutes.ask),
-                              ),
-                          ],
+                  child: AbsorbPointer(
+                    absorbing: _leaving,
+                    child: Listener(
+                      behavior: HitTestBehavior.translucent,
+                      onPointerDown: (e) => _mobi.lookAt(e.position),
+                      onPointerUp: (_) => _pointAtHero(),
+                      onPointerCancel: (_) => _pointAtHero(),
+                      child: MmStagger(
+                        driver: MmStaggerDriver.route,
+                        // The choices arrive once the glass has its shape (MOTION.md C8: 38% to 78%
+                        // of the morph, with the route's content reveal).
+                        routeStart: 0.38,
+                        routeStep: 0.06,
+                        routeLength: 0.4,
+                        child: MmStaggerItem(
+                          index: 0,
+                          child: _StartRows(
+                            heroKey: _hero,
+                            draft: draft,
+                            answered: answered,
+                            go: go,
+                            onPractice: () {
+                              if (_leaving) return;
+                              setState(() => _leaving = true);
+                              final router = GoRouter.of(context);
+                              Navigator.of(context).pop();
+                              router.go(AppRoutes.practice);
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -354,6 +377,208 @@ class _QuickStartSheetState extends ConsumerState<QuickStartSheet> {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+/// The sheet's rows under the title band (the row contract above).
+class _StartRows extends ConsumerWidget {
+  const _StartRows({required this.heroKey, required this.draft, required this.answered, required this.go, required this.onPractice});
+
+  final GlobalKey heroKey;
+  final SessionDraft? draft;
+  final int? answered;
+  final void Function(String location) go;
+  final VoidCallback onPractice;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final move = ref.watch(startTonightMoveProvider);
+    final repair = ref.watch(quickStartRepairProvider);
+    final nta = ref.watch(quickStartNtaProvider);
+    final subjects = ref.watch(startSubjectsProvider);
+    final picked = ref.watch(startSubjectProvider);
+    final subject = picked ?? (subjects.isEmpty ? null : subjects.first);
+    final now = ref.watch(nowProvider)();
+    final draft = this.draft;
+    final answered = this.answered;
+    final subjectName = subject == null ? null : subjectDisplayName(subject);
+
+    final quick = ChoiceOption(
+      id: 'quick',
+      glyph: QuickStartDeck.glyphFor('quick'),
+      title: 'Quick 10',
+      note: subjectName == null ? '10 questions, about 10 minutes.' : '10 $subjectName questions, about 10 minutes.',
+      onTap: () => go(StartLocations.quick10(subject)),
+    );
+
+    final ChoiceOption hero;
+    var heroIsRepair = false;
+    var quickIsHero = false;
+    if (draft != null) {
+      hero = ChoiceOption(
+        id: 'resume',
+        glyph: QuickStartDeck.glyphFor('resume'),
+        // The title never changes when the answered count resolves; the count lives on the
+        // note line, which already holds a sentence.
+        title: 'Resume ${subjectDisplayName(draft.subject)} ${draft.isMock ? 'mock' : 'practice'}',
+        note: draft.isMock
+            ? 'Ends at ${formatTime12(DateTime.fromMillisecondsSinceEpoch(draft.endsAtWallMs))}.'
+                  '${answered == null ? '' : ' $answered of ${draft.view.questions.length} answered.'}'
+            : answered == null
+            ? 'Pick up where you left off.'
+            : 'Pick up at $answered of ${draft.view.questions.length}.',
+        // The note keeps room for its longest form, so nothing moves when the count lands.
+        noteLines: draft.isMock ? 3 : 2,
+        onTap: () => go(AppRoutes.run(draft.sessionId)),
+      );
+    } else if (move != null) {
+      heroIsRepair = move.isRepair;
+      final when = tonightOrToday(now);
+      hero = ChoiceOption(
+        id: 'tonight',
+        glyph: QuickStartDeck.glyphFor(switch (move.kind) {
+          'repair' => 'repair',
+          'mock' => 'mock',
+          'resume' => 'resume',
+          _ => 'quick',
+        }),
+        title: move.title,
+        note: "${when[0].toUpperCase()}${when.substring(1)}'s move.",
+        onTap: () => go(move.location),
+      );
+    } else {
+      hero = quick;
+      quickIsHero = true;
+    }
+
+    final full = ChoiceOption(
+      id: 'mock',
+      glyph: QuickStartDeck.glyphFor('mock'),
+      title: 'Full mock',
+      note: '50 questions, 60 minutes, timed like the exam.',
+      onTap: () => go(StartLocations.fullMock(subject)),
+    );
+    final ntaOption = nta == null
+        ? null
+        : ChoiceOption(
+            id: 'nta',
+            glyph: QuickStartDeck.glyphFor('nta'),
+            title: 'NTA mode',
+            // The quote is for the default subject; the tag shows only where it is known.
+            tag: nta.proOnly && (subject == null || subject == nta.subject) ? 'Pro' : null,
+            note: 'The exam-day screen${subjectName == null ? '' : ' in $subjectName'}, as on the day.',
+            onTap: () => go(StartLocations.nta(nta, subject)),
+          );
+    final repairOption = repair == null || heroIsRepair
+        ? null
+        : ChoiceOption(
+            id: 'repair',
+            glyph: QuickStartDeck.glyphFor('repair'),
+            title: 'Repair the next mistake',
+            note: 'A worked explanation for your next mistake, in ${repair.chapter}.',
+            onTap: () => go(repair.shortcutLocation),
+          );
+
+    final modes = <ChoiceRow>[
+      if (quickIsHero) ChoiceRow.wide(full) else ChoiceRow.pair(quick, full),
+      if (ntaOption != null) ChoiceRow.wide(ntaOption),
+      if (repairOption != null) ChoiceRow.wide(repairOption),
+    ];
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ChoiceDeck(rows: [ChoiceRow.lead(hero)], onSheet: true, leadKey: heroKey, animateIn: false),
+        if (subjects.length > 1) ...[
+          const SizedBox(height: MmSpace.s12),
+          _SubjectChips(subjects: subjects, selected: subject),
+        ],
+        const SizedBox(height: MmSpace.s12),
+        ChoiceDeck(rows: modes, onSheet: true, animateIn: false),
+        const SizedBox(height: MmSpace.s4),
+        Center(
+          child: TextButton(
+            key: const ValueKey('start-choose-in-practice'),
+            onPressed: onPractice,
+            style: TextButton.styleFrom(
+              minimumSize: const Size(48, 48),
+              foregroundColor: colors.isNight ? colors.ink : colors.accentText,
+              textStyle: type.labelLarge,
+            ),
+            child: const Text('Choose your own in Practice'),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// One row of subject chips: the subject the modes start in, the current one selected. The row
+/// scrolls the selected chip fully into view when the sheet opens and whenever the pick changes,
+/// so a chip is never left cut off at the edge (device walk-through, 14 Oct).
+class _SubjectChips extends ConsumerStatefulWidget {
+  const _SubjectChips({required this.subjects, required this.selected});
+
+  final List<String> subjects;
+  final String? selected;
+
+  @override
+  ConsumerState<_SubjectChips> createState() => _SubjectChipsState();
+}
+
+class _SubjectChipsState extends ConsumerState<_SubjectChips> {
+  final Map<String, GlobalKey> _chipKeys = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _reveal(animate: false);
+  }
+
+  @override
+  void didUpdateWidget(_SubjectChips old) {
+    super.didUpdateWidget(old);
+    if (old.selected != widget.selected) _reveal(animate: true);
+  }
+
+  void _reveal({required bool animate}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final target = _chipKeys[widget.selected]?.currentContext;
+      if (!mounted || target == null) return;
+      Scrollable.ensureVisible(
+        target,
+        alignment: 0.5,
+        duration: animate && !Motion.reduced(context) ? Motion.ui : Duration.zero,
+        curve: Motion.glide,
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      key: const ValueKey('start-subject-chips'),
+      scrollDirection: Axis.horizontal,
+      clipBehavior: Clip.none,
+      child: Row(
+        children: [
+          for (final (i, id) in widget.subjects.indexed) ...[
+            if (i > 0) const SizedBox(width: MmSpace.s8),
+            KeyedSubtree(
+              key: _chipKeys.putIfAbsent(id, GlobalKey.new),
+              child: MmChip(
+                label: subjectDisplayName(id),
+                selected: id == widget.selected,
+                onTap: () => ref.read(startSubjectProvider.notifier).select(id),
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }

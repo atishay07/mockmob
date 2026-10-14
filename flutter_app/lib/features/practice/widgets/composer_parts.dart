@@ -156,7 +156,7 @@ class _DifficultyChips extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    const radius = BorderRadius.all(Radius.circular(16));
+    const radius = MmRadius.smallAll;
     return Semantics(
       container: true,
       label: PracticeCopy.difficultyLabel,

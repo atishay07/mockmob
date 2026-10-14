@@ -52,7 +52,7 @@ class MmPressable extends StatefulWidget {
     required this.builder,
     required this.onTap,
     this.onLongPress,
-    this.pressedScale = Springs.pressedScale,
+    this.pressedScale,
     this.focusRadius = MmRadius.pillAll,
     this.semanticsLabel,
     this.button = true,
@@ -72,7 +72,10 @@ class MmPressable extends StatefulWidget {
   /// Null disables the surface.
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
-  final double pressedScale;
+
+  /// How far the surface sinks. Null derives it from the surface's width ([Motion.pressedScaleFor]):
+  /// 0.96 for a key, about 0.976 for a 340 dp hero, so a large surface never sinks more than 8 dp.
+  final double? pressedScale;
 
   /// The shape of the focus ring.
   final BorderRadius focusRadius;
@@ -132,7 +135,8 @@ class _MmPressableState extends State<MmPressable> with SingleTickerProviderStat
     if (!_enabled) return;
     _downAt = event.position;
     _pressed.value = true;
-    _springTo(widget.pressedScale);
+    final width = context.size?.width;
+    _springTo(widget.pressedScale ?? (width == null ? Springs.pressedScale : Motion.pressedScaleFor(width)));
   }
 
   void _move(PointerMoveEvent event) {

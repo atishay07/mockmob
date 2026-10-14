@@ -1,6 +1,6 @@
-// The page frame shared by the You screens of this feature: the lit back key, a large title,
-// the lamp in the upper left, and a scrolling body no wider than 600 dp. Same frame as the rest
-// of You, so moving between them never jumps.
+// The page frame shared by the You screens of this feature: the lit back key with the title inline
+// on one 56 dp row, the lamp in the upper left, and a scrolling body no wider than 600 dp, every
+// left edge on the 16 dp gutter (SPACING.md 1.1 and 9).
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -9,10 +9,12 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/key_button.dart';
 import '../../../core/widgets/pressable.dart';
-import '../../you/widgets/you_page.dart' show YouHeader, YouHeaderLamp;
+import '../../you/widgets/you_page.dart' show YouHeaderLamp;
+import 'milestone_backdrop.dart' show MilestoneBackdrop;
+import 'rhythm_layout.dart';
 
 class RhythmPage extends StatelessWidget {
-  const RhythmPage({super.key, required this.title, required this.child, this.scrollable = true, this.padded = true});
+  const RhythmPage({super.key, required this.title, required this.child, this.scrollable = true, this.padded = true, this.backdrop});
 
   final String title;
   final Widget child;
@@ -22,6 +24,10 @@ class RhythmPage extends StatelessWidget {
 
   /// Gives [child] the screen gutter. Off for children that bring their own (panels).
   final bool padded;
+
+  /// A decorative picture under the content, at the top of the page (the Milestones backdrop). It
+  /// never takes a tap or a semantics node and sits above the lamp's pool.
+  final Widget? backdrop;
 
   void _back(BuildContext context) {
     final router = GoRouter.maybeOf(context);
@@ -38,7 +44,7 @@ class RhythmPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
-    final header = [YouHeader(title: title, onBack: () => _back(context))];
+    final header = RhythmHeader(title: title, onBack: () => _back(context));
     final body = padded ? Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: child) : child;
 
     return Scaffold(
@@ -46,6 +52,8 @@ class RhythmPage extends StatelessWidget {
       body: Stack(
         children: [
           const Positioned(left: 0, right: 0, top: 0, height: 300, child: YouHeaderLamp()),
+          if (backdrop != null)
+            Positioned(left: 0, right: 0, top: 0, height: MilestoneBackdrop.height, child: IgnorePointer(child: ExcludeSemantics(child: backdrop!))),
           SafeArea(
             bottom: false,
             child: Center(
@@ -53,12 +61,12 @@ class RhythmPage extends StatelessWidget {
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
                 child: scrollable
                     ? ListView(
-                        padding: EdgeInsets.only(bottom: MmSpace.s48 + bottom),
-                        children: [...header, const SizedBox(height: MmSpace.s8), body],
+                        padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
+                        children: [header, const SizedBox(height: MmSpace.s16), body],
                       )
                     : Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [...header, Expanded(child: child)],
+                        children: [header, Expanded(child: child)],
                       ),
               ),
             ),
@@ -97,25 +105,6 @@ class HairlineRow extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// A group heading: sentence case, quiet, no kicker caps.
-class GroupHeading extends StatelessWidget {
-  const GroupHeading(this.text, {super.key, this.trailing});
-
-  final String text;
-
-  /// An optional action at the end of the line.
-  final Widget? trailing;
-
-  @override
-  Widget build(BuildContext context) {
-    final label = Semantics(header: true, child: Text(text, style: context.mmType.labelLarge.copyWith(color: context.mmColors.ink2)));
-    return Padding(
-      padding: const EdgeInsets.only(left: 4, bottom: MmSpace.s8),
-      child: trailing == null ? label : Row(children: [Expanded(child: label), trailing!]),
     );
   }
 }

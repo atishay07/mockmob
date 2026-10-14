@@ -87,7 +87,9 @@ class _RecoverySectionsState extends State<RecoverySections> {
       children: [
         const SectionTitle(InsightsCopy.checksHeading, caption: InsightsCopy.checksCaption),
         if (record.checks.isEmpty) const _Quiet(InsightsCopy.checksEmpty) else _Checks(checks: record.checks),
-        const SizedBox(height: MmSpace.group + MmSpace.s8),
+        const SizedBox(height: MmSpace.group),
+        Divider(height: 1, color: context.mmColors.line),
+        const SizedBox(height: MmSpace.s16),
         const SectionTitle(InsightsCopy.playbookHeading, caption: InsightsCopy.playbookCaption),
         if (!record.playbookAvailable)
           const _Quiet(InsightsCopy.playbookUnavailable)
@@ -198,7 +200,7 @@ class _PlaybookRow extends StatelessWidget {
                 ),
                 const SizedBox(height: MmSpace.s4),
                 Text(reason, style: type.small.copyWith(color: entry.reflection.isEmpty ? colors.ink3 : colors.ink2)),
-                const SizedBox(height: MmSpace.s6),
+                const SizedBox(height: MmSpace.s8),
                 Text(InsightsCopy.playbookEvidence, style: type.caption.copyWith(color: colors.ink3)),
               ],
             ),
@@ -279,7 +281,7 @@ class _Failed extends StatelessWidget {
           shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
         ),
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s12, MmSpace.s8, MmSpace.s12),
+          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s8, MmSpace.s12),
           child: Row(
             children: [
               if (retrying) ...[MmSpinner(color: colors.ink2), const SizedBox(width: MmSpace.s12)],

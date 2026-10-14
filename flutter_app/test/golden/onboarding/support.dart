@@ -22,6 +22,7 @@ import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -84,6 +85,8 @@ List<Override> onboardingOverrides({
     networkStatusProvider.overrideWith(() => _FakeNetwork(network)),
     appPrefsProvider.overrideWithValue(AppPrefs(appPrefs)),
     shouldPlayColdOpenProvider.overrideWith((ref) async => false),
+    // The Celebrations setting is read from this phone's store (Full until changed).
+    rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
     // The picker reads the live list; the default is what the server returns today.
     onboardingRegistryProvider.overrideWith((ref) async => registry ?? SubjectRegistry.fromRows(kSubjectRows)),
     apiClientProvider.overrideWithValue(newApiClient(http ?? FakeHttpAdapter())),
@@ -108,6 +111,9 @@ void onboardingGolden(
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
     testWidgets('$name, $tag', (tester) async {
+      // Mobi's once-a-run and once-a-day gates must not carry from one golden to the next.
+      MobiRation.reset();
+      addTearDown(MobiRation.reset);
       tester.view.padding = const FakeViewPadding(top: 56, bottom: 40);
       final boundary = GlobalKey();
       await pumpMockmob(

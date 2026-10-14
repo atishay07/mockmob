@@ -83,10 +83,22 @@ class _Pip extends StatelessWidget {
 /// apart): one pip per card or step put away. With reduced motion they are simply full.
 /// [onSettled] runs once the last pip is in, so the ending can follow the inking.
 class SettlingPips extends StatefulWidget {
-  const SettlingPips({super.key, required this.total, this.onSettled});
+  const SettlingPips({
+    super.key,
+    required this.total,
+    this.onSettled,
+    this.animate = true,
+    this.skip = false,
+  });
 
   final int total;
   final VoidCallback? onSettled;
+
+  /// False shows every pip full at once (the Celebrations setting is Off).
+  final bool animate;
+
+  /// True jumps to the end state: the student tapped the moment away.
+  final bool skip;
 
   @override
   State<SettlingPips> createState() => _SettlingPipsState();
@@ -102,7 +114,7 @@ class _SettlingPipsState extends State<SettlingPips> {
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    if (Motion.reduced(context) || widget.total <= 0) {
+    if (!widget.animate || Motion.reduced(context) || widget.total <= 0) {
       _filled = widget.total;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) widget.onSettled?.call();
@@ -117,6 +129,18 @@ class _SettlingPipsState extends State<SettlingPips> {
         widget.onSettled?.call();
       }
     });
+  }
+
+  @override
+  void didUpdateWidget(SettlingPips old) {
+    super.didUpdateWidget(old);
+    if (widget.skip && !old.skip && _filled < widget.total) {
+      _timer?.cancel();
+      setState(() => _filled = widget.total);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) widget.onSettled?.call();
+      });
+    }
   }
 
   @override

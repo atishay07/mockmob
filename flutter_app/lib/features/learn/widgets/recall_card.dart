@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import 'screen_bits.dart';
 
 /// The question side of a card: the idea it belongs to, the prompt, and a sentence with a gap
 /// when the task has one.
@@ -23,16 +24,14 @@ class PromptCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: colors.raised,
-        borderRadius: MmRadius.panelAll,
-        border: Border.all(color: colors.line),
-        boxShadow: colors.cardShadow,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(MmSpace.cardPadding),
+    // One plain card (the same edge light and depth as every card in the app). It keeps a
+    // minimum height with its words centred, so a short question still reads as the one thing on
+    // the page instead of a strip above a hole.
+    return MmSurface.plain(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 144),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (objective != null) ...[
@@ -80,14 +79,21 @@ class RevealPanel extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final panel = GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    // The whole well is the target and answers a touch at once: it sinks on the press spring and
+    // shows the veil, even while the tap's answer is still on its way.
+    final panel = MmPressable(
       onTap: loading ? null : onTap,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
+      highlight: true,
+      focusRadius: MmRadius.panelAll,
+      pressedScale: 0.985,
+      semanticsLabel: announce ? LearnCopy.tapToReveal : null,
+      builder: (context, pressed, _) => DecoratedBox(
+        decoration: ShapeDecoration(
           color: colors.sunken,
-          borderRadius: MmRadius.panelAll,
-          border: Border.all(color: colors.line),
+          shape: mmShapeBorder(
+            MmRadius.panelAll,
+            side: BorderSide(color: colors.line),
+          ),
         ),
         child: ConstrainedBox(
           constraints: const BoxConstraints(minHeight: 112),
@@ -122,13 +128,7 @@ class RevealPanel extends StatelessWidget {
       ),
     );
     if (!announce) return ExcludeSemantics(child: panel);
-    return Semantics(
-      button: true,
-      label: LearnCopy.tapToReveal,
-      excludeSemantics: true,
-      onTap: loading ? null : onTap,
-      child: panel,
-    );
+    return panel;
   }
 }
 
@@ -154,13 +154,17 @@ class AnswerPanel extends StatelessWidget {
       liveRegion: true,
       container: true,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.raised2,
-          borderRadius: MmRadius.panelAll,
-          border: Border.all(color: colors.lineStrong),
+        // The answer is the strongest surface on the page in both themes: the selected fill and
+        // an ink rim (Day's taupe slab read as disabled).
+        decoration: ShapeDecoration(
+          color: learnSelectedSurface(colors),
+          shape: mmShapeBorder(
+            MmRadius.panelAll,
+            side: MmSelection.side(colors, selected: true),
+          ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(MmSpace.cardPadding),
+          padding: const EdgeInsets.all(MmRhythm.plainPad),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

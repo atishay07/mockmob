@@ -162,9 +162,13 @@ class _Node extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    // A node is a filled mark: volt on both themes (the dark accent text colour is for strokes and
+    // words on the ground), with the 1 dp dark volt edge on Daylight so it reads on cream.
+    final fill = colors.volt;
+    final edge = colors.isNight ? null : Border.all(color: colors.voltEdge);
     if (passed) {
       return DecoratedBox(
-        decoration: BoxDecoration(shape: BoxShape.circle, color: volt),
+        decoration: BoxDecoration(shape: BoxShape.circle, color: fill, border: edge),
         child: SizedBox.square(dimension: 20, child: Icon(LucideIcons.check, size: 13, color: colors.voltInk)),
       );
     }
@@ -172,9 +176,10 @@ class _Node extends StatelessWidget {
       return DecoratedBox(
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: volt,
-          border: Border.all(color: colors.raised, width: 3),
-          boxShadow: [BoxShadow(color: volt.withValues(alpha: 0.55), blurRadius: 10, spreadRadius: 1)],
+          color: fill,
+          border: Border.all(color: colors.isNight ? colors.raised : colors.voltEdge, width: colors.isNight ? 3 : 2),
+          // The halo is light on Night; on Daylight the heavier edge carries "now" (no glows).
+          boxShadow: colors.isNight ? [BoxShadow(color: fill.withValues(alpha: 0.55), blurRadius: 12, spreadRadius: 1)] : null,
         ),
         child: const SizedBox.square(dimension: 20),
       );
@@ -217,7 +222,7 @@ class _Section extends StatelessWidget {
         ToolsHeading(section.heading),
         for (final p in section.body)
           Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter + 4, MmSpace.s12),
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
             child: Text(p, style: type.body.copyWith(color: context.mmColors.ink2)),
           ),
       ],

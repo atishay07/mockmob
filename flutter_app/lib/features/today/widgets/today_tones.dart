@@ -6,8 +6,9 @@ import 'package:flutter/painting.dart';
 import '../../../core/theme/theme.dart';
 
 extension TodayTones on MmColors {
-  /// The band of light that crosses the hero once when it opens.
-  Color get sweepPeak => isNight ? const Color(0x24FFF4D6) : const Color(0x38FFFFFF);
+  /// The band of light that crosses the hero once when it opens: soft lamp-white at night, a 14%
+  /// volt band on paper, where a white band is invisible (MOTION.md 1.4, `MmLight.sweepColor`).
+  Color get sweepPeak => isNight ? const Color(0x24FFF4D6) : volt.withValues(alpha: 0.14);
 
   /// The sealed sheet: its face, the flap folded over it, the crease and the folded corner.
   Color get foldPaper => isNight ? const Color(0xFF1A1915) : const Color(0xFFE9DFCB);

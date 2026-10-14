@@ -81,16 +81,33 @@ void main() {
     OnboardingAnswers? answers,
     bool goalThrows = false,
     List<Duration> retryDelays = const [],
+    Map<String, List<String>> serverSubjects = const {},
+    Map<String, Object?>? serverConsent,
   }) {
     wakeups = StreamController<void>.broadcast();
     today = DateTime(2026, 10, 13, 21, 45);
     db = newTestDb();
     // The server keeps what it was last told, as the real one does.
-    var band = 'unknown';
+    var band = (serverConsent?['ageBand'] as String?) ?? 'unknown';
+    ProviderContainer? container;
+    // The server's own profile: the signed-in account, with the subjects it really has (the
+    // snapshot's, unless the test says the server knows more than the phone's cached copy).
+    FakeReply me() {
+      final now = container?.read(authSnapshotProvider) ?? auth;
+      final id = now.userId;
+      if (id == null) return const FakeReply(401, {'error': 'unauthorized'});
+      return FakeReply(200, {
+        'user': {'id': id, 'subjects': serverSubjects[id] ?? now.subjects},
+        'needsOnboarding': false,
+      });
+    }
+
     http = FakeHttpAdapter()
       ..handler = (o) => switch (o.path) {
+            '/api/auth/me' => me(),
             '/api/me/consent' => FakeReply(200, {
                 ..._consent,
+                ...?serverConsent,
                 'ageBand': o.method == 'PUT' ? band = (o.data as Map)['ageBand'] as String : band,
               }),
             '/api/me/goal' => const FakeReply(200, _goal),
@@ -112,6 +129,7 @@ void main() {
       sheetSyncRetryDelaysProvider.overrideWithValue(retryDelays),
       if (goalThrows) goalRepositoryProvider.overrideWith(_SignedOutGoal.new),
     ]);
+    container = c;
     addTearDown(() async {
       c.dispose();
       await wakeups.close();
@@ -161,6 +179,52 @@ void main() {
     expect(writes().map((r) => r.path), isNot(contains('/api/users/u1')));
     expect(writes().map((r) => r.path), isNot(contains('/api/me/goal')));
     expect(writes().map((r) => r.path), isNot(contains('/api/me/consent')), reason: 'their consent stays as it is');
+  });
+
+  // ROBUSTNESS onboarding-01: a profile cached on the phone while the account had no subjects
+  // must not make an account that has since been set up elsewhere look new.
+  test('a cached profile with no subjects never lets the sheet overwrite the plan on the server', () async {
+    final c = start(serverSubjects: const {'u1': ['english', 'accountancy']});
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.kept);
+    expect(writes(), isEmpty, reason: 'no goal, study time, subjects or age band written over the plan');
+    expect(http.requests.map((r) => r.path), contains('/api/auth/me'), reason: 'decided from the server, not the cache');
+  });
+
+  test('when the server profile cannot be read, nothing is written and the run fails to retry', () async {
+    final c = start();
+    final ok = http.handler!;
+    http.handler = (o) => o.path == '/api/auth/me' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed);
+    expect(writes(), isEmpty);
+  });
+
+  // ROBUSTNESS onboarding-02: writing the age band before the consent record is read sent
+  // analyticsAllowed false and switched the student's usage-data opt-in off.
+  test("an age band the account already has is kept, with its usage-data choice", () async {
+    final c = start(serverConsent: const {'ageBand': 'adult', 'analyticsAllowed': true});
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.saved);
+    expect(writes().map((r) => r.path), isNot(contains('/api/me/consent')), reason: 'usage data stays on, the age band stays adult');
+    expect(writes().map((r) => r.path), contains('/api/users/u1'));
+  });
+
+  test('a consent record that cannot be read stops the age write instead of guessing', () async {
+    final c = start();
+    final ok = http.handler!;
+    http.handler = (o) => o.path == '/api/me/consent' && o.method == 'GET' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
+    await c.read(onboardingAnswersProvider.future);
+    c.read(sheetSyncProvider);
+    await settle();
+    expect(c.read(sheetSyncProvider).phase, SheetSyncPhase.failed);
+    expect(writes().map((r) => r.path), isNot(contains('/api/me/consent')));
   });
 
   test('a failed write keeps the sheet on the phone and Try again finishes it', () async {
@@ -487,8 +551,9 @@ void main() {
       final gate = http.hold = Completer<void>();
       c.read(sheetSyncProvider);
       await settle();
-      expect(writes(), isNotEmpty, reason: "the first write is out with A's token");
-      expect(writes().map((r) => r.headers['Authorization']).toSet(), {'Bearer tok-1'});
+      // The first request out (the server's own profile, read before anything is written).
+      expect(http.requests, isNotEmpty, reason: "the first request is out with A's token");
+      expect(http.requests.map((r) => r.headers['Authorization']).toSet(), {'Bearer tok-1'});
       // B signs in while that request is out; the signed-in state has not caught up yet.
       tokens
         ..token = 'tok-b'

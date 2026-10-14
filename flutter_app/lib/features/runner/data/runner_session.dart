@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 
 import '../../../core/models/question.dart';
+import '../../../core/repositories/session_draft_repository.dart';
 import '../../../core/sync/session/save_state.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/sync/session/session_submitter.dart';
@@ -19,6 +20,8 @@ abstract class RunnerSession implements Listenable {
   /// `full`, `nta` or `quick` (chapter practice runs as `quick`).
   String get mode;
   String get subject;
+  /// The chapter a chapter practice was started for; null for a mixed paper (the question's own
+  /// chapter then shows in the runner's header, never in the paper's name).
   String? get chapter;
   int? get mockNumber;
   bool get isTicketMode;
@@ -63,9 +66,13 @@ abstract class RunnerSession implements Listenable {
 
 /// The production [RunnerSession]: a thin forwarder over the core engine.
 class EngineRunnerSession implements RunnerSession {
-  EngineRunnerSession(this.engine) : submitOwedOnOpen = engine.draft.pendingSubmission;
+  EngineRunnerSession(this.engine, {this.drafts}) : submitOwedOnOpen = engine.draft.pendingSubmission;
 
   final SessionEngine engine;
+
+  /// Where drafts live. Closing reads the row before it writes, so a leaving engine never writes
+  /// over a newer session that took the same selection's row (practice-02).
+  final SessionDraftRepository? drafts;
 
   @override
   final bool submitOwedOnOpen;
@@ -87,7 +94,7 @@ class EngineRunnerSession implements RunnerSession {
   @override
   String get subject => engine.draft.subject;
   @override
-  String? get chapter => engine.draft.chapter ?? (engine.questions.isEmpty ? null : engine.currentQuestion.chapter);
+  String? get chapter => engine.draft.chapter;
   @override
   int? get mockNumber => engine.draft.mockNumber;
   @override
@@ -136,7 +143,15 @@ class EngineRunnerSession implements RunnerSession {
   @override
   void dismissAway() => engine.dismissAway();
   @override
-  Future<void> onPaused() => engine.onPaused();
+  Future<void> onPaused() async {
+    try {
+      await engine.onPaused();
+    } on Object {
+      // A failure sending answers (anything past an ApiError) must not skip the draft: going to the
+      // background is when a kill is most likely, and the place in the paper is what comes back.
+      await _writeDraft();
+    }
+  }
   @override
   Future<void> onResumed() => engine.onResumed();
   @override
@@ -156,26 +171,73 @@ class EngineRunnerSession implements RunnerSession {
     await closing.done.future;
   }
 
+  /// Waits until every close of a session saved under [draftKey] has finished (cutting its wait for
+  /// the server short), so a new session with the same selection never starts while an older one is
+  /// still about to write its draft (ROBUSTNESS practice-02). Returns at once when none is closing.
+  static Future<void> closedUnderKey(String draftKey) async {
+    final waiting = [for (final c in _closing.values) if (c.draftKey == draftKey) c];
+    for (final closing in waiting) {
+      if (!closing.hurry.isCompleted) closing.hurry.complete();
+    }
+    for (final closing in waiting) {
+      await closing.done.future;
+    }
+  }
+
+  /// Writes the draft, unless the row now belongs to a different session (a new practice with the
+  /// same selection started while this one was still closing). A row that cannot be read is
+  /// written as before: the draft is never left unsaved for want of a check.
+  Future<void> _writeDraft() async {
+    try {
+      final repo = drafts;
+      if (repo != null) {
+        final stored = await repo.byKey(engine.draft.draftKey);
+        if (stored != null && stored.sessionId != sessionId) return;
+      }
+      await engine.flushDraft();
+    } on Object {
+      // The draft was written on every change already.
+    }
+  }
+
+  /// An acknowledgement that came back after the engine was disposed: written onto the stored row
+  /// by itself, never the whole draft (a newer engine of the same session may have moved the place
+  /// on), so reopening does not show answers the server already holds as unsent (practice-05).
+  Future<void> _persistLateAck() async {
+    try {
+      final repo = drafts;
+      if (repo == null) return;
+      final ack = engine.draft.acknowledgedSequence;
+      final stored = await repo.byKey(engine.draft.draftKey);
+      if (stored == null || stored.sessionId != sessionId || ack <= stored.acknowledgedSequence) return;
+      await repo.save(stored.copyWith(acknowledgedSequence: ack, lastAckAtMs: engine.draft.lastAckAtMs));
+    } on Object {
+      // The next sync acknowledges again.
+    }
+  }
+
   @override
   Future<void> close() async {
     if (_closed) return;
     _closed = true;
     final id = sessionId;
-    final closing = _Closing();
+    final closing = _Closing(engine.draft.draftKey);
     _closing[id] = closing;
     try {
+      // Never throws, so a late failure cannot become an unhandled error after this returns.
+      final flushing = engine.flushAnswers().then<void>((_) {}, onError: (Object _) {});
+      var flushed = false;
+      unawaited(flushing.whenComplete(() => flushed = true));
       try {
         // Bounded: leaving must never hang on a slow network. Whatever is not acknowledged stays
         // in the journal and goes with the next sync or the backup submit job.
-        await Future.any<void>([engine.flushAnswers().timeout(const Duration(seconds: 6)), closing.hurry.future]);
+        await Future.any<void>([flushing.timeout(const Duration(seconds: 6)), closing.hurry.future]);
       } on Object {
         // Offline or slow; the answers are on this phone.
       }
-      try {
-        await engine.flushDraft();
-      } on Object {
-        // The draft was written on every change already.
-      }
+      await _writeDraft();
+      // The PUT is still out: when it comes back its acknowledgement is written (only that).
+      if (!flushed) unawaited(flushing.then((_) => _persistLateAck()));
       engine.dispose();
     } finally {
       if (identical(_closing[id], closing)) _closing.remove(id);
@@ -185,6 +247,9 @@ class EngineRunnerSession implements RunnerSession {
 }
 
 class _Closing {
+  _Closing(this.draftKey);
+
+  final String draftKey;
   final Completer<void> hurry = Completer<void>();
   final Completer<void> done = Completer<void>();
 }

@@ -12,7 +12,7 @@ class ToolsIconTile extends StatelessWidget {
 
   final IconData icon;
 
-  static const double size = 44;
+  static const double size = 40;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ToolsIconTile extends StatelessWidget {
     return ExcludeSemantics(
       child: DecoratedBox(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(MmRadius.small),
           color: colors.isNight ? colors.raised2 : colors.sunken,
           border: Border.all(color: colors.line),
         ),
@@ -38,11 +38,11 @@ class ToolsFlatList extends StatelessWidget {
   final List<Widget> children;
   final EdgeInsetsGeometry margin;
 
-  /// The row's own side padding (the 4 dp the screen titles use past the gutter).
-  static const double edge = 4;
+  /// The row's own side padding: none, the rows sit on the gutter like the titles above them.
+  static const double edge = 0;
 
   /// Where the hairlines start: past the edge, the tile and its gap.
-  static const double textStart = edge + ToolsIconTile.size + MmSpace.s16;
+  static const double textStart = edge + ToolsIconTile.size + MmSpace.s12;
 
   @override
   Widget build(BuildContext context) {

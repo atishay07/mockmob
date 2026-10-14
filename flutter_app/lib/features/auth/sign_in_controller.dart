@@ -171,6 +171,20 @@ class SignInController extends Notifier<SignInState> {
     await _offerSheet(remembered);
   }
 
+  /// The account turned signed in while a sign-in screen is up. Every sign-in this controller
+  /// runs (a code, Google, a browser return) offers the first-sign-in sheet from its own future
+  /// or stream, and those die with the process: the student who left for the mail app or the
+  /// Google browser and came back to a restarted app is signed in by the core listener alone.
+  /// This offers the sheet from that event, so a first-time student still gets it.
+  ///
+  /// It does nothing while one of this controller's own flows is running (it offers the sheet
+  /// itself, with the route it read before sign-in), and the launcher opens at most one sheet
+  /// per run, so a second offer for the same sign-in is harmless.
+  Future<void> signedInFromAuth() async {
+    if (state.isBusy || state.googleInBrowser || _returns != null) return;
+    await _offerSheet(_rememberedAtStart ?? _remembered());
+  }
+
   /// Waits for a browser sign-in started by [signInWithGoogle]. Listens for one result only: a
   /// later browser sign-in (after a sign-out, say) belongs to whatever started it.
   void _watchBrowserReturn(IntendedRoute remembered) {

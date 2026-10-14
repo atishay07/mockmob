@@ -4,10 +4,19 @@ import '../../../core/storage/prefs_store.dart';
 import '../../../core/sync/outbox_repository.dart';
 import '../../../core/sync/sync_providers.dart';
 
-/// Where a report about an AI reply goes. The server does not have this endpoint yet (see the
-/// package report): until it does, a report is kept in the outbox, the flush gets a 404, and the
-/// student is told it did not reach us. Never a false "Reported".
+/// Where a report about an AI reply goes. The server does not have this endpoint yet: a report
+/// would be kept in the outbox, the flush would get a 404 and the student would be told it did
+/// not reach us, every time. So the Report key is not shown at all until the endpoint is live
+/// (see [aiReplyReportAvailableProvider]). Never a false "Reported", and never a control that is
+/// known to fail.
 const String aiReplyReportPath = '/api/ai/mentor/report';
+
+/// Flip to true in the build that ships with `POST /api/ai/mentor/report` on the server. Until
+/// then Ask shows no Report key.
+const bool aiReplyReportLive = false;
+
+/// Whether the Report this reply key is shown. Tests replace it.
+final aiReplyReportAvailableProvider = Provider<bool>((ref) => aiReplyReportLive);
 
 /// The outbox kind of a reply report.
 const String aiReplyReportKind = 'ai_reply_report';
@@ -59,7 +68,15 @@ Future<ReplyReportOutcome> reportAiReply(
 }
 
 /// The insights feature's own per-phone flags.
-final insightsPrefsStoreProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
+final insightsPrefsStoreProvider = Provider<PrefsStore>((ref) {
+  try {
+    return SharedPrefsStore();
+  } on Object {
+    // No platform store (a test, a background isolate without the plugin): flags and the
+    // remembered question live for this run only, which is the worst case the callers expect.
+    return MemoryPrefsStore();
+  }
+});
 
 const String _aiDisclosedKey = 'ask_ai_service_disclosed';
 

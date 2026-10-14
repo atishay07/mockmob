@@ -27,6 +27,7 @@ class RecapData {
     this.fetchedAt,
     this.stale = false,
     this.detailPending = false,
+    this.listPending = false,
   });
 
   final RecapModel? model;
@@ -43,6 +44,14 @@ class RecapData {
   /// nor failed. The server's tone and the held questions live only on the detail, so the
   /// variant of such a model can still change: the sealed reveal waits for it.
   final bool detailPending;
+
+  /// The attempts list that numbers this mock was last read before the mock was finished, and a
+  /// fresh read is under way. The mock's number and the first-mock token depend on that list (a
+  /// mock taken on the web is missing from an old one), so the sealed reveal waits for it.
+  final bool listPending;
+
+  /// The reveal waits: for the detail, or for the list that numbers the mock.
+  bool get revealPending => detailPending || listPending;
 }
 
 /// When this phone received the acknowledgment for the attempt ("Saved on the server at ...").
@@ -89,6 +98,12 @@ final recapDataProvider = Provider.autoDispose.family<RecapData, String>((ref, a
       loading: listState.error == null,
     );
   }
+  // A list last read before this mock was finished may miss an earlier mock taken elsewhere:
+  // read it once more before numbering (robustness result-04). Once per result: a failed read
+  // falls back to the cached list rather than asking again.
+  final listAt = listState.fetchedAt;
+  final listStale = listAt == null || listAt.isBefore(attempt.completedAt);
+  if (listStale) ref.watch(_listRecheckProvider(attemptId));
   final pending = ref.watch(resultReceivedProvider(attemptId)).value;
   final model = buildRecapModel(
     attempt: attempt,
@@ -110,7 +125,20 @@ final recapDataProvider = Provider.autoDispose.family<RecapData, String>((ref, a
     fetchedAt: detailState.fetchedAt,
     stale: detailState.isStale,
     detailPending: detail == null && detailState.error == null,
+    listPending: listStale && listState.loading,
   );
+});
+
+/// Asks for the attempts list once while [attemptId]'s result is open with a list older than it.
+final _listRecheckProvider = Provider.autoDispose.family<void, String>((ref, attemptId) {
+  final list = ref.read(attemptsRepositoryProvider.notifier);
+  scheduleMicrotask(() {
+    try {
+      unawaited(list.refresh(force: true).catchError((Object _) {}));
+    } on Object {
+      // The cached list stands.
+    }
+  });
 });
 
 /// "Try again" on the result placeholder: reads the result and the list that numbers it again.
@@ -144,12 +172,14 @@ class RecapRitual {
 
 final recapRitualProvider = FutureProvider.autoDispose.family<RecapRitual, String>((ref, attemptId) async {
   final prefs = ref.watch(appPrefsProvider);
+  final ritual = RitualStore(ref.watch(resultPrefsStoreProvider), prefs, ref.watch(userIdProvider));
   try {
     final pending = await ref.watch(pendingResultRepositoryProvider).find(attemptId);
     return RecapRitual(
-      sheetsOpened: await prefs.sheetsOpened(),
+      sheetsOpened: await ritual.sheetsOpened(),
+      // A setting of this phone (You > Appearance), the same for every account on it.
       openDirectly: await prefs.openResultsDirectly(),
-      skipHintShown: await prefs.skipRevealHintShown(),
+      skipHintShown: await ritual.skipHintShown(),
       alreadyOpened: pending?.isOpened ?? false,
     );
   } on Object {
@@ -157,8 +187,54 @@ final recapRitualProvider = FutureProvider.autoDispose.family<RecapRitual, Strin
   }
 });
 
-/// Per-phone store for recap progress ("Continue recap, card 3 of 4").
+/// Per-phone store for recap progress ("Continue recap, card 3 of 4") and the ritual counts.
 final resultPrefsStoreProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
+
+/// The sealed ritual's counts, kept per account (robustness result-05): how many sheets this
+/// student opened (the swipe decays to a tap from the fourth) and whether "Prefer to skip the
+/// reveal?" was shown. They were kept once per phone, so a second account on the phone inherited
+/// the first one's ritual. The old per-phone values go, once, to the first account that reads
+/// them after the update (on nearly every phone, its only account).
+class RitualStore {
+  RitualStore(this._store, this._legacy, String? userId) : _user = userId ?? 'none';
+
+  final PrefsStore _store;
+  final AppPrefs _legacy;
+  final String _user;
+
+  static const legacyClaimedKey = 'recap_ritual_legacy_claimed';
+  static String openedKey(String user) => 'recap_sheets_opened_$user';
+  static String hintKey(String user) => 'recap_skip_hint_$user';
+
+  Future<void> _claimLegacy() async {
+    if (await _store.getBool(legacyClaimedKey) ?? false) return;
+    await _store.setBool(legacyClaimedKey, true);
+    final opened = await _legacy.sheetsOpened();
+    if (opened > 0 && await _store.getInt(openedKey(_user)) == null) await _store.setInt(openedKey(_user), opened);
+    if (await _legacy.skipRevealHintShown() && await _store.getBool(hintKey(_user)) == null) await _store.setBool(hintKey(_user), true);
+  }
+
+  Future<int> sheetsOpened() async {
+    await _claimLegacy();
+    return await _store.getInt(openedKey(_user)) ?? 0;
+  }
+
+  Future<int> markOpened() async {
+    final next = await sheetsOpened() + 1;
+    await _store.setInt(openedKey(_user), next);
+    return next;
+  }
+
+  Future<bool> skipHintShown() async {
+    await _claimLegacy();
+    return await _store.getBool(hintKey(_user)) ?? false;
+  }
+
+  Future<void> markSkipHintShown() async {
+    await _claimLegacy();
+    await _store.setBool(hintKey(_user), true);
+  }
+}
 
 String _progressKey(String userId, String attemptId) => 'recap_card_${userId}_$attemptId';
 
@@ -181,6 +257,8 @@ class ResultActions {
 
   final Ref _ref;
 
+  RitualStore get _ritual => RitualStore(_ref.read(resultPrefsStoreProvider), _ref.read(appPrefsProvider), _ref.read(userIdProvider));
+
   /// The sheet was opened: clears the Today slot and the Review dot, counts the ritual.
   Future<void> markOpened(String attemptId, {required String mode, required String variant}) async {
     try {
@@ -189,7 +267,7 @@ class ResultActions {
       // The dot clears on the next successful open.
     }
     try {
-      await _ref.read(appPrefsProvider).incrementSheetsOpened();
+      await _ritual.markOpened();
     } on Object {
       // The ritual simply stays full one more time.
     }
@@ -253,7 +331,7 @@ class ResultActions {
 
   Future<void> markSkipHintShown() async {
     try {
-      await _ref.read(appPrefsProvider).setSkipRevealHintShown(true);
+      await _ritual.markSkipHintShown();
     } on Object {
       // Shown again next time at worst.
     }

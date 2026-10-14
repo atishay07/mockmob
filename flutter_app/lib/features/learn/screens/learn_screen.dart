@@ -48,6 +48,9 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   String? _startMessage;
   bool _howMarked = false;
 
+  /// The skeleton stood in for the first load: the content then arrives on the cross-fade alone.
+  bool _afterSkeleton = false;
+
   /// Armed while the first load has nothing to show; when it fires the skeleton gives way to an error.
   Timer? _slowTimer;
   bool _slow = false;
@@ -81,6 +84,15 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
   Future<void> _refresh() async {
     ref.invalidate(pendingRunIdsProvider);
     await ref.read(learnCatalogProvider.notifier).refresh();
+  }
+
+  /// The pull: the same reload, but a failed one is told to the ring so it empties instead of
+  /// inking as if the page were fresh.
+  Future<void> _pull() async {
+    await _refresh();
+    if (!mounted) return;
+    final error = ref.read(learnCatalogProvider).error;
+    if (error != null) throw error;
   }
 
   Future<void> _open(String path) async {
@@ -132,15 +144,19 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     final catalog = state.value;
 
     Widget body;
+    String kind;
     if (catalog == null) {
       body = _emptyBody(state);
+      kind = _slow || state.isFailedEmpty ? 'error' : 'skeleton';
     } else if (catalog.isDisabled) {
       _disarmSlow();
       _leave();
       body = const SizedBox.shrink();
+      kind = 'leaving';
     } else {
       _disarmSlow();
       body = _content(catalog, state);
+      kind = 'content';
     }
 
     return LearnBackScope(
@@ -169,7 +185,14 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                         ? context.pop()
                         : context.go(AppRoutes.practice),
                   ),
-                  Expanded(child: body),
+                  // Skeleton to content is one 200 ms cross-fade (MOTION.md C11); the content's own
+                  // entrance is off when it follows a skeleton, so nothing fades up twice.
+                  Expanded(
+                    child: AnimatedSwitcher(
+                      duration: Motion.of(context, Motion.ui),
+                      child: KeyedSubtree(key: ValueKey(kind), child: body),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -201,6 +224,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
       );
     }
     _armSlow();
+    _afterSkeleton = true;
     return const _LearnSkeleton();
   }
 
@@ -243,16 +267,14 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
     final showNextCard =
         !hasResume && next != null && next.id.isNotEmpty && !nextInList;
 
-    return RefreshIndicator(
-      color: colors.ink,
-      backgroundColor: colors.raised,
-      onRefresh: _refresh,
+    return MmPullRefresh(
+      onRefresh: _pull,
       child: ListView(
         controller: _scroll,
         physics: const AlwaysScrollableScrollPhysics(),
         padding: EdgeInsets.fromLTRB(
           MmSpace.gutter,
-          MmSpace.s4,
+          MmSpace.s16,
           MmSpace.gutter,
           MmSpace.s32 + MediaQuery.paddingOf(context).bottom,
         ),
@@ -265,6 +287,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
               // One authored entrance when the content first arrives: the words, the card that
               // holds the one action, then the lessons in reading order. Never on scroll.
               child: MmStagger(
+                enabled: !_afterSkeleton,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -273,25 +296,19 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          // One two-line intro. "How Concepts work" is the first visit's own
+                          // explainer and is gone after it (SPACING-AUDIT E1).
                           Padding(
-                            padding: const EdgeInsets.only(
-                              left: MmSpace.s4,
-                              bottom: MmSpace.s20,
-                            ),
+                            padding: const EdgeInsets.only(bottom: MmSpace.s16),
                             child: Text(
                               LearnCopy.subtitle,
                               style: type.body.copyWith(color: colors.ink2),
                             ),
                           ),
-                          if (!noLessons)
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                left: MmSpace.s4,
-                                bottom: MmSpace.s20,
-                              ),
-                              child: HowConcepts(
-                                withMobi: firstVisit || _howMarked,
-                              ),
+                          if (!noLessons && (firstVisit || _howMarked))
+                            const Padding(
+                              padding: EdgeInsets.only(bottom: MmSpace.s16),
+                              child: HowConcepts(withMobi: true),
                             ),
                         ],
                       ),
@@ -341,18 +358,18 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                         ),
                       ),
                     ],
-                    SizedBox(height: showDue ? MmSpace.group : MmSpace.s8),
+                    SizedBox(height: showDue ? MmRhythm.group : MmSpace.s8),
                     if (noLessons)
                       Padding(
-                        padding: const EdgeInsets.only(bottom: MmSpace.group),
+                        padding: const EdgeInsets.only(bottom: MmRhythm.group),
                         child: Column(
                           children: [
                             const Mobi(
                               pose: MobiPose.read,
-                              size: 112,
+                              size: 140,
                               say: LearnCopy.noLessonsMobi,
                             ),
-                            const SizedBox(height: MmSpace.s16),
+                            const SizedBox(height: MmSpace.s24),
                             Semantics(
                               header: true,
                               child: Text(
@@ -376,6 +393,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            // A new section: 32, a hairline, 16, then its heading.
+                            if (i > 0) const SectionBreak(),
                             if (catalog.unitsOf(subject.id).isNotEmpty)
                               SubjectLessons(
                                 subject: subject,
@@ -408,10 +427,9 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: MmRhythm.group),
                     ],
                     if (catalog.units.isNotEmpty) ...[
-                      const SizedBox(height: MmSpace.s8),
+                      const SectionBreak(),
                       OfflinePacks(
                         subjects: subjects,
                         state: offline,

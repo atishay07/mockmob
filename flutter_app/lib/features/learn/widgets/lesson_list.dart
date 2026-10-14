@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -50,20 +51,21 @@ class SubjectLessons extends StatelessWidget {
         ),
         if (onReadChapter != null && chapters.isNotEmpty) ...[
           const SizedBox(height: MmRhythm.group),
+          // On the gutter, exactly under the card edge (E0), 12 above its content.
           Padding(
-            padding: const EdgeInsets.only(left: MmSpace.s4, bottom: MmSpace.s8),
+            padding: const EdgeInsets.only(bottom: MmSpace.s12),
             child: Semantics(header: true, child: Text(LearnCopy.chapterSummariesHeading, style: type.label.copyWith(color: colors.ink2))),
           ),
+          // Leading plates are 40 dp, so the hairlines start at E1 + 52 (the default indent).
           MmRowGroup(
-            dividerIndent: 64,
             children: [
               for (final c in chapters)
                 MmRow(
-                  leading: Icon(LucideIcons.bookOpenText, size: 20, color: colors.ink2),
+                  leading: _Plate(child: Icon(LucideIcons.bookOpenText, size: 20, color: colors.ink2)),
                   title: c,
                   subtitle: LearnCopy.readSummary,
                   semanticsLabel: '${LearnCopy.readSummary}. $c',
-                  trailing: Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+                  trailing: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
                   onTap: () => onReadChapter!(c),
                 ),
             ],
@@ -86,8 +88,23 @@ class SubjectLessons extends StatelessWidget {
       subtitle: next ? ['${LearnCopy.upNext}. $status', ?reason].join('\n') : status,
       subtitleLines: next ? 4 : 2,
       semanticsLabel: [if (next) LearnCopy.upNext, unit.title, word, ?minutes, ?reason].join('. '),
-      trailing: Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+      trailing: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
       onTap: () => onOpen(unit),
+    );
+  }
+}
+
+/// A 40 dp leading plate (12 dp radius) for a row's glyph: a well, so it reads in both themes.
+class _Plate extends StatelessWidget {
+  const _Plate({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(color: context.mmColors.sunken, borderRadius: MmRadius.smallAll),
+      child: SizedBox.square(dimension: 40, child: Center(child: child)),
     );
   }
 }
@@ -107,7 +124,7 @@ class SubjectHeader extends StatelessWidget {
     final type = context.mmType;
     return Row(
       children: [
-        SubjectMark(subjectId: subject.id, name: subject.title, size: 56),
+        SubjectMark(subjectId: subject.id, name: subject.title, size: EmblemSizes.tile),
         const SizedBox(width: MmSpace.s12),
         Expanded(
           child: Column(
@@ -143,10 +160,10 @@ class ChapterSummaryRow extends StatelessWidget {
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
+          padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
           child: Row(
             children: [
-              Icon(LucideIcons.bookOpenText, size: 18, color: colors.ink2),
+              Icon(LucideIcons.bookOpenText, size: 20, color: colors.ink2),
               const SizedBox(width: MmSpace.s12),
               Expanded(
                 child: Column(
@@ -157,7 +174,7 @@ class ChapterSummaryRow extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+              Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
             ],
           ),
         ),

@@ -39,7 +39,7 @@ class RhythmStep extends ConsumerWidget {
     );
 
     Widget label(String text) => Padding(
-          padding: const EdgeInsets.only(bottom: MmSpace.s8, left: MmSpace.s4),
+          padding: const EdgeInsets.only(bottom: MmSpace.s12),
           child: Text(text, style: type.label.copyWith(color: colors.ink2)),
         );
 
@@ -69,10 +69,7 @@ class RhythmStep extends ConsumerWidget {
                 label(OnboardingCopy.daysLabel),
                 DayPicker(days: answers.days, onToggle: c.toggleDay),
                 const SizedBox(height: MmSpace.s8),
-                Padding(
-                  padding: const EdgeInsets.only(left: MmSpace.s4),
-                  child: Text(OnboardingCopy.restDays, style: type.caption.copyWith(color: colors.ink3)),
-                ),
+                Text(OnboardingCopy.restDays, style: type.caption.copyWith(color: colors.ink3)),
               ],
             ),
           ),

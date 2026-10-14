@@ -62,7 +62,7 @@ class _PaceLineState extends State<PaceLine> with SingleTickerProviderStateMixin
                 at: at,
                 tick: PaceLine.pace / PaceLine.span,
                 track: colors.lineStrong,
-                ink: colors.isNight ? colors.volt : colors.accentText,
+                ink: colors.accentText,
                 mark: colors.volt,
                 markRim: colors.isNight ? colors.ground : colors.ink,
                 tickColor: colors.ink3,

@@ -9,10 +9,12 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/dates.dart';
 import '../logic/tokens.dart';
+import 'earned_token.dart';
 import 'locked_coin.dart';
+import 'rhythm_layout.dart' show contactShadowColor;
 
 class TokenShelf extends StatelessWidget {
-  const TokenShelf({super.key, required this.slots, required this.zone, required this.now, this.loading = false});
+  const TokenShelf({super.key, required this.slots, required this.zone, required this.now, this.loading = false, this.freshIds = const {}});
 
   final List<TokenSlot> slots;
 
@@ -22,6 +24,11 @@ class TokenShelf extends StatelessWidget {
 
   /// The rhythm is still loading: recesses without words, announced as loading.
   final bool loading;
+
+  /// Milestone ids that landed since the student last looked (the celebration controller's fresh
+  /// rows). A slot whose latest step is among them plays the token's landing once (T3, MOTION.md
+  /// 4.13): it settles on the celebrate spring while its ring draws. Empty under Quiet and Off.
+  final Set<String> freshIds;
 
   static const double band = 122;
   static const double token = 92;
@@ -48,7 +55,9 @@ class TokenShelf extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 4),
-                          child: slot.earned && !loading ? _Token(slot.token) : _Ghost(slot.token, loading: loading),
+                          child: slot.earned && !loading
+                              ? _Token(slot.token, fresh: slot.latestId != null && freshIds.contains(slot.latestId))
+                              : _Ghost(slot.token, loading: loading),
                         ),
                       ),
                     ),
@@ -117,9 +126,12 @@ class _Label extends StatelessWidget {
 }
 
 class _Token extends StatelessWidget {
-  const _Token(this.token);
+  const _Token(this.token, {this.fresh = false});
 
   final MilestoneToken token;
+
+  /// The token just landed: it settles in with its ring instead of simply standing there.
+  final bool fresh;
 
   @override
   Widget build(BuildContext context) {
@@ -132,11 +144,16 @@ class _Token extends StatelessWidget {
           // The contact shadow where the coin's rim meets the ledge.
           Positioned(
             bottom: 0,
-            child: CustomPaint(size: const Size(TokenShelf.token * 0.72, 10), painter: _ContactShadow()),
+            child: CustomPaint(size: const Size(TokenShelf.token * 0.72, 10), painter: _ContactShadow(contactShadowColor(context.mmColors))),
           ),
           Positioned(
             bottom: 3,
-            child: ArtImage(token.art, height: TokenShelf.token, placeholder: const SizedBox.square(dimension: 76)),
+            child: fresh
+                ? EarnedToken(
+                    size: TokenShelf.token,
+                    child: ArtImage(token.art, height: TokenShelf.token - 10, placeholder: const SizedBox.square(dimension: 66)),
+                  )
+                : ArtImage(token.art, height: TokenShelf.token, placeholder: const SizedBox.square(dimension: 76)),
           ),
         ],
       ),
@@ -145,18 +162,24 @@ class _Token extends StatelessWidget {
 }
 
 class _ContactShadow extends CustomPainter {
+  const _ContactShadow(this.color);
+
+  /// Black on Night, warm ink on Daylight (`contactShadowColor`), a little stronger here because
+  /// the coin is large.
+  final Color color;
+
   @override
   void paint(Canvas canvas, Size size) {
     canvas.drawOval(
       Offset.zero & size,
       Paint()
-        ..color = const Color(0x8C000000)
+        ..color = color.withValues(alpha: (color.a * 1.5).clamp(0.0, 0.5))
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 4),
     );
   }
 
   @override
-  bool shouldRepaint(_ContactShadow old) => false;
+  bool shouldRepaint(_ContactShadow old) => old.color != color;
 }
 
 /// A slot not earned yet: the token itself, small, grey and faint, waiting on the shelf.

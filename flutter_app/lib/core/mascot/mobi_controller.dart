@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'mobi_acts.dart';
+import 'mobi_ration.dart';
 
 /// A line Mobi is saying. [id] changes with every [MobiController.say], even for the same text.
 @immutable
@@ -87,6 +88,14 @@ class MobiController extends ChangeNotifier {
   void say(String text, {bool live = false}) {
     _speech.value = MobiSpeech(text, live: live, id: ++_ids);
     _host?.play(MobiAct.talk, seconds: MobiTyping.duration(text) + 0.25);
+  }
+
+  /// Says [text] only if [screen] has not spoken yet in this app run (Mobi speaks at most once
+  /// per screen per run). Returns whether he said it.
+  bool sayOnce(String screen, String text, {bool live = false}) {
+    if (!MobiRation.speakOnce(screen)) return false;
+    say(text, live: live);
+    return true;
   }
 
   /// Clears the speech bubble.

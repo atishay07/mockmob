@@ -184,9 +184,13 @@ class _CodeSlotsState extends State<CodeSlots> with TickerProviderStateMixin {
   }
 }
 
-const double _slotFace = 60;
+const double _slotFace = 44;
 const double _ringRoom = 4;
-const double _gap = 6;
+
+/// The box's corner (the 12 dp control radius) and how far the volt ring stands off it.
+const double _slotRadius = MmRadius.small;
+const double _ringOffset = 3.5;
+const double _gap = MmSpace.s8;
 
 /// A band of volt light crossing its child once per turn of [animation], painted only over what
 /// the child has already drawn. Under reduced motion it rests mid-row, so the busy state still
@@ -219,9 +223,11 @@ class _Sweep extends StatelessWidget {
       child: child,
     );
     if (reduced) return lit(0.5);
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, _) => lit(animation.value),
+    return RepaintBoundary(
+      child: AnimatedBuilder(
+        animation: animation,
+        builder: (context, _) => lit(animation.value),
+      ),
     );
   }
 }
@@ -262,7 +268,7 @@ class _Slot extends StatelessWidget {
     final night = colors.isNight;
 
     final Color fill = filled
-        ? (night ? colors.raised2 : colors.raised)
+        ? colors.selectedSurface
         : (night ? colors.raised : colors.sunken);
     final Color edge = hasError
         ? colors.badText
@@ -287,7 +293,7 @@ class _Slot extends StatelessWidget {
               child: DecoratedBox(
                 decoration: ShapeDecoration(
                   shape: RoundedSuperellipseBorder(
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(_slotRadius),
                   ),
                   shadows: [
                     BoxShadow(
@@ -303,7 +309,7 @@ class _Slot extends StatelessWidget {
             decoration: ShapeDecoration(
               color: fill,
               shape: RoundedSuperellipseBorder(
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(_slotRadius),
                 side: BorderSide(color: edge, width: edgeWidth),
               ),
               shadows: filled && !night ? colors.cardShadow : null,
@@ -349,15 +355,15 @@ class _Slot extends StatelessWidget {
           if (current && !hasError)
             // The volt ring sits just outside the box, so nothing in the row moves.
             Positioned(
-              left: -3.5,
-              right: -3.5,
-              top: -3.5,
-              bottom: -3.5,
+              left: -_ringOffset,
+              right: -_ringOffset,
+              top: -_ringOffset,
+              bottom: -_ringOffset,
               child: IgnorePointer(
                 child: DecoratedBox(
                   decoration: ShapeDecoration(
                     shape: RoundedSuperellipseBorder(
-                      borderRadius: BorderRadius.circular(17.5),
+                      borderRadius: BorderRadius.circular(_slotRadius + _ringOffset),
                       side: BorderSide(color: colors.volt, width: 2.5),
                     ),
                   ),

@@ -11,6 +11,7 @@ import '../access_copy.dart';
 import '../access_gateway.dart';
 import '../state/password_hints.dart';
 import 'access_field.dart';
+import 'form_message.dart';
 import 'volt_key.dart';
 
 /// Email and password. Signing in hands the session to the core auth state and the router
@@ -118,8 +119,6 @@ class _PasswordSignInFormState extends ConsumerState<PasswordSignInForm> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
     final enabled = !_working && !widget.busy;
 
     return AutofillGroup(
@@ -154,18 +153,22 @@ class _PasswordSignInFormState extends ConsumerState<PasswordSignInForm> {
               if (_bad != null) setState(() => _bad = null);
             },
           ),
-          if (_problem != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            AccessProblemLine(message: _problem!),
-          ],
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s8),
+          // The reserved place under the fields: the help for a student with no password yet at
+          // rest, then a problem or the words for a long wait. The key below never moves.
+          FormMessage(
+            problem: _problem,
+            working: _working,
+            rest: AccessCopy.noPasswordYet,
+          ),
+          const SizedBox(height: MmSpace.s16),
           VoltKey(
             label: _working ? AccessCopy.signingIn : AccessCopy.signIn,
             loading: _working,
             onPressed: enabled ? _submit : null,
           ),
           if (widget.onForgotPassword != null) ...[
-            const SizedBox(height: MmSpace.s8),
+            const SizedBox(height: MmSpace.s4),
             Align(
               alignment: Alignment.centerLeft,
               child: KeyButton.quiet(
@@ -174,11 +177,6 @@ class _PasswordSignInFormState extends ConsumerState<PasswordSignInForm> {
               ),
             ),
           ],
-          const SizedBox(height: MmSpace.s12),
-          Text(
-            AccessCopy.noPasswordYet,
-            style: type.small.copyWith(color: colors.ink3),
-          ),
         ],
       ),
     );

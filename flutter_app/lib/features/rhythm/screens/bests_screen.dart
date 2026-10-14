@@ -1,6 +1,7 @@
 // `/you/bests`: best and latest marks per comparable mock type (spec 6.6). Observed marks with
 // their denominators; no percentile, no rank, no comparison with others. Shown only for formats
-// the server returned with a comparable id, mocks only.
+// the server returned with a comparable id, mocks only. Everything sits on the 16 dp gutter; the
+// hero is typeset on the page and the other formats are plain rows (SPACING.md 3.1, 4.3).
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,6 +17,7 @@ import '../copy.dart';
 import '../data/bests.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
+import '../widgets/rhythm_layout.dart';
 import '../widgets/rhythm_page.dart';
 
 /// "general_test" to "General test". Subject names are not in core yet, so this keeps the
@@ -145,35 +147,32 @@ class BestsList extends StatelessWidget {
     // One entrance as the page arrives: the hero first, then the rest in reading order.
     return MmStagger(
       driver: MmStaggerDriver.route,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (asOf != null) ...[
-              Padding(
-                padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
-              ),
-            ],
-            MmStaggerItem(index: 0, child: _BestHero(best: hero, dates: _dates(hero))),
-            if (others.isNotEmpty) ...[
-              const SizedBox(height: MmRhythm.section),
-              MmStaggerItem(
-                index: 1,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SectionTitle(RhythmCopy.otherBests, padding: const EdgeInsets.only(bottom: MmSpace.s8)),
-                    for (var i = 0; i < others.length; i++) _BestRow(best: others[i], first: i == 0),
-                  ],
-                ),
-              ),
-            ],
-            const SizedBox(height: MmRhythm.group),
-            Text(RhythmCopy.bestsFootnote, style: type.caption.copyWith(color: colors.ink2)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (asOf != null) ...[
+            Padding(
+              padding: const EdgeInsets.only(bottom: MmSpace.s8),
+              child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
+            ),
           ],
-        ),
+          MmStaggerItem(index: 0, child: _BestHero(best: hero, dates: _dates(hero))),
+          if (others.isNotEmpty) ...[
+            const SectionBreak(),
+            MmStaggerItem(
+              index: 1,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SectionTitle(RhythmCopy.otherBests, padding: const EdgeInsets.only(bottom: MmSpace.s12)),
+                  for (var i = 0; i < others.length; i++) _BestRow(best: others[i], first: i == 0),
+                ],
+              ),
+            ),
+          ],
+          const SizedBox(height: MmRhythm.group),
+          Text(RhythmCopy.bestsFootnote, style: type.caption.copyWith(color: colors.ink2)),
+        ],
       ),
     );
   }
@@ -206,11 +205,11 @@ class _BestHero extends ConsumerWidget {
             value: formatSignedNumber(best.best.marks),
             unit: RhythmCopy.outOf(best.best.max),
             style: type.figureHero,
-            delay: Motion.enterDuration,
+            delay: kNumberRollDelay,
             onLanded: () => ref.read(hapticsProvider).selection(),
           ),
           if (best.attempts >= 2) ...[
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.s16),
             _MarksBar(label: RhythmCopy.barBest, marks: best.best.marks, max: best.best.max, best: true),
             const SizedBox(height: MmSpace.s12),
             _MarksBar(label: RhythmCopy.barLatest, marks: best.latest.marks, max: best.latest.max, best: false),
@@ -249,12 +248,16 @@ class _BestRow extends StatelessWidget {
       excludeSemantics: true,
       child: HairlineRow(
         first: first,
-        padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
         trailing: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(formatSignedNumber(best.best.marks), style: type.figureCompact.copyWith(fontSize: 32, height: 1)),
+            Text(
+              formatSignedNumber(best.best.marks),
+              style: type.figureCompact.copyWith(fontSize: 32),
+              textHeightBehavior: MmType.figureHeightBehavior,
+            ),
             Text(RhythmCopy.outOf(best.best.max), style: type.caption.copyWith(color: colors.ink2)),
           ],
         ),
@@ -290,26 +293,7 @@ class _MarksBar extends StatelessWidget {
     return Row(
       children: [
         SizedBox(width: 56, child: Text(label, style: type.caption.copyWith(color: colors.ink2))),
-        Expanded(
-          child: ClipRRect(
-            borderRadius: MmRadius.pillAll,
-            child: SizedBox(
-              height: 10,
-              child: Stack(
-                children: [
-                  Positioned.fill(child: ColoredBox(color: colors.ink.withValues(alpha: 0.10))),
-                  Positioned.fill(
-                    child: FractionallySizedBox(
-                      alignment: Alignment.centerLeft,
-                      widthFactor: fraction,
-                      child: ColoredBox(color: best ? (colors.isNight ? colors.volt : colors.accentText) : colors.ink3),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        Expanded(child: FillBar(fraction: fraction, volt: best)),
         const SizedBox(width: MmSpace.s12),
         SizedBox(
           width: 44,

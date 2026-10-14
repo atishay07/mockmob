@@ -353,9 +353,15 @@ class BrandOpening extends ConsumerStatefulWidget {
     this.ready = true,
     this.progress,
     this.shown,
+    this.onSeen,
   });
 
   final VoidCallback onDone;
+
+  /// Called once when the "mo" is on the glass (the platform answered, or its answer timed out):
+  /// from here the opening's clock runs. The host builds the app under the opening from this
+  /// moment, so the app's first build is never part of the wait for the first frame.
+  final VoidCallback? onSeen;
 
   /// Called once shortly before the fade, while the opening is still opaque, so whatever is
   /// underneath can paint its first frame out of sight.
@@ -426,6 +432,7 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
   /// Whether the platform said the "mo" is on the glass and its splash is gone (not just the
   /// [_glassCap] net, and not a release that timed out).
   bool _confirmed = false;
+  bool _seenReported = false;
 
   /// The "mo" is on the glass. [answered] is false when the platform did not say its splash is
   /// gone (a release that timed out): the timeline still starts, but the hand-off lifts the
@@ -433,15 +440,20 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
   void _markSeen({bool answered = true}) {
     if (!mounted) return;
     if (answered) _confirmed = true;
+    if (!_seenReported) {
+      _seenReported = true;
+      widget.onSeen?.call();
+    }
     // A late answer after the net started the timeline restarts it from the "mo", which is what
     // has been on the glass, unless the hand-off has begun.
     if (_seenAt != null || _fading) return;
     _seenAt = _clock.value;
   }
 
-  /// Runs the unfold's poses and paint once, off screen, while the splash still covers the "mo",
-  /// so a slow phone (or a debug build compiling them) does not pay for it in the unfold's own
-  /// frames.
+  /// Builds the unfold's poses once and paints them into a recording that is thrown away, while
+  /// the splash still covers the "mo". That warms the Dart side only (the pose maths and the
+  /// logo's cached paths), so the unfold's own frames do not pay for them. It rasterizes
+  /// nothing: the GPU's first draw of the letters still happens in the unfold.
   void _warmUp() {
     if (_reduced || !mounted) return;
     final size = MediaQuery.sizeOf(context);
@@ -734,6 +746,14 @@ class BrandOpeningHost extends ConsumerStatefulWidget {
   /// Passed to [BrandOpening.shown] (tests).
   final Future<void>? shown;
 
+  /// Whether the app is built only once the "mo" is on the glass. On a cold start the app's first
+  /// build (router, first screen, providers) used to sit in the very frame the system splash
+  /// waited for, so a budget phone held the "mo" for seconds before the unfold could begin. With
+  /// this on, the first frame is the opening alone; the app builds under it during the hold, and
+  /// the hand-off waits for that build (never past the opening's own cap). `main` turns it on;
+  /// tests keep the app built at once.
+  static bool deferApp = false;
+
   @override
   ConsumerState<BrandOpeningHost> createState() => _BrandOpeningHostState();
 }
@@ -749,22 +769,45 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
   bool _painted = false;
   bool _live = false;
 
+  /// The app is in the tree, and has had a frame since. See [BrandOpeningHost.deferApp].
+  late bool _appBuilt = !BrandOpeningHost.deferApp;
+  late bool _appFramed = !BrandOpeningHost.deferApp;
+
+  void _buildApp() {
+    if (_appBuilt || !mounted) return;
+    setState(() => _appBuilt = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_appFramed) setState(() => _appFramed = true);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // A load that failed is settled too: the router shows its retry screen, so hand off to it.
-    final ready = ref.watch(authSnapshotProvider.select((a) => a.status != AuthStatus.unknown || a.loadFailed));
+    final authReady = ref.watch(authSnapshotProvider.select((a) => a.status != AuthStatus.unknown || a.loadFailed));
+    final ready = authReady && _appFramed;
     return Stack(
       fit: StackFit.expand,
       children: [
-        ExcludeSemantics(
-          excluding: _showing,
-          child: Offstage(offstage: !_painted, child: TickerMode(enabled: _live, child: widget.child)),
-        ),
+        // A placeholder, not a missing child, so the opening keeps its place in the Stack.
+        if (_appBuilt)
+          ExcludeSemantics(
+            excluding: _showing,
+            child: Offstage(offstage: !_painted, child: TickerMode(enabled: _live, child: widget.child)),
+          )
+        else
+          const SizedBox.shrink(),
         if (_showing)
           BrandOpening(
             ready: ready,
             shown: widget.shown,
-            onPrepaint: () => setState(() => _painted = true),
+            onSeen: _buildApp,
+            onPrepaint: () {
+              // Never uncover an app that was not built (the opening ran out its net unseen).
+              _appBuilt = true;
+              _appFramed = true;
+              setState(() => _painted = true);
+            },
             onReveal: () => setState(() => _live = true),
             onDone: () => setState(() => _showing = false),
           ),

@@ -73,14 +73,11 @@ class _SubjectPickerState extends ConsumerState<SubjectPicker> {
       children: [
         _SearchField(controller: _query, onChanged: (_) => setState(() {})),
         const SizedBox(height: MmSpace.s8),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-          child: Semantics(
-            liveRegion: true,
-            child: Text(
-              _capped ? OnboardingCopy.fiveMax : OnboardingCopy.pickerCount(chosen.length),
-              style: type.small.copyWith(color: _capped ? colors.warnText : colors.ink2),
-            ),
+        Semantics(
+          liveRegion: true,
+          child: Text(
+            _capped ? OnboardingCopy.fiveMax : OnboardingCopy.pickerCount(chosen.length),
+            style: type.small.copyWith(color: _capped ? colors.warnText : colors.ink2),
           ),
         ),
         ...groups,
@@ -107,7 +104,7 @@ class _SubjectPickerState extends ConsumerState<SubjectPicker> {
           )
         else if (!registry.live && q.isEmpty)
           Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s16, left: MmSpace.s4),
+            padding: const EdgeInsets.only(top: MmSpace.s16),
             child: Text(OnboardingCopy.registryOffline, style: type.caption.copyWith(color: colors.ink3)),
           ),
       ],
@@ -140,7 +137,7 @@ class _SearchField extends StatelessWidget {
         fillColor: colors.sunken,
         isDense: true,
         constraints: const BoxConstraints(minHeight: 52),
-        contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
         enabledBorder: border(colors.line, 1),
         focusedBorder: border(colors.focusRing, 1.5),
       ),
@@ -159,13 +156,14 @@ class _Header extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s20, MmSpace.s4, MmSpace.s4),
+      padding: const EdgeInsets.only(top: MmSpace.s20, bottom: MmSpace.s4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Semantics(header: true, child: Text(text.toUpperCase(), style: type.caption.copyWith(color: colors.ink3, letterSpacing: 0.8, fontWeight: FontWeight.w600))),
+          // Sentence case, like every other label (no all-caps tracked eyebrows).
+          Semantics(header: true, child: Text(text, style: type.label.copyWith(color: colors.ink2))),
           if (note != null) ...[
-            const SizedBox(height: 2),
+            const SizedBox(height: MmSpace.s2),
             Text(note!, style: type.caption.copyWith(color: colors.ink3)),
           ],
         ],
@@ -226,7 +224,7 @@ class _UnofferedBlock extends StatelessWidget {
       label: '$label: ${names.join(', ')}. ${OnboardingCopy.notOfferedShort}',
       excludeSemantics: true,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s12, MmSpace.s4, 0),
+        padding: const EdgeInsets.only(top: MmSpace.s12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -240,7 +238,7 @@ class _UnofferedBlock extends StatelessWidget {
                   DecoratedBox(
                     decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: colors.lineStrong))),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
                       child: Text(n, style: type.caption.copyWith(color: colors.ink3)),
                     ),
                   ),

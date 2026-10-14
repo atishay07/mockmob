@@ -48,9 +48,16 @@ class SessionClock {
   }
 
   /// Re-anchors after a process kill from the wall-clock estimates saved in the draft.
-  void restore({required int startedRefWallMs, required int endsAtWallMs}) {
+  ///
+  /// [notBeforeWallMs] is when the draft was last written. The phone's wall clock cannot really
+  /// be earlier than that, so a clock set back while the app was closed is read as no earlier:
+  /// the restored time left is never more than it was at the last save. Without it, setting the
+  /// clock back 15 minutes gave the paper 15 minutes it did not have, until the next online
+  /// anchor corrected it (offline-05).
+  void restore({required int startedRefWallMs, required int endsAtWallMs, int? notBeforeWallMs}) {
     final nowMono = _mono();
-    final nowWall = _wall();
+    final wall = _wall();
+    final nowWall = notBeforeWallMs != null && notBeforeWallMs > wall ? notBeforeWallMs : wall;
     final elapsed = nowWall > startedRefWallMs ? nowWall - startedRefWallMs : 0;
     final remaining = endsAtWallMs > nowWall ? endsAtWallMs - nowWall : 0;
     _startedRefMono = nowMono - elapsed;

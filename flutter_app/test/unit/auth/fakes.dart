@@ -9,6 +9,7 @@ import 'package:mockmob/core/connectivity/connectivity_providers.dart'
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/auth/after_sign_in.dart';
 import 'package:mockmob/features/auth/sign_in_gateway.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 
 /// A gateway whose answers the test decides.
 class FakeGateway implements SignInGateway {
@@ -26,6 +27,9 @@ class FakeGateway implements SignInGateway {
   /// When set, verifying waits for it (to hold a screen in its signing-in state).
   Completer<void>? verifyHold;
 
+  /// When set, sending a code waits for it (to hold a screen in its sending state).
+  Completer<void>? sendHold;
+
   final List<String> sent = [];
   final List<(String, String)> verified = [];
   int googleCalls = 0;
@@ -39,6 +43,7 @@ class FakeGateway implements SignInGateway {
   @override
   Future<void> sendCode(String email) async {
     sent.add(email);
+    await sendHold?.future;
     final e = sendError;
     if (e != null) throw e;
   }
@@ -161,6 +166,8 @@ List<Override> authOverrides({
       if (gateway.sheetOpens) unawaited(markBeforeYouStartOffered(store));
     }),
     signInPrefsStoreProvider.overrideWithValue(store),
+    // The sign-in celebration reads the Celebrations setting (MOTION.md P0-6).
+    rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
     nowProvider.overrideWithValue(c.call),
     networkStatusProvider.overrideWith(() => FakeNetwork(network)),
   ];

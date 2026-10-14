@@ -29,6 +29,18 @@ abstract final class OnboardingCopy {
   /// A sheet this build cannot read was kept aside, and the key starts a new one.
   static const String sheetFromNewer = 'Your saved sheet is from a newer MockMob. Update to pick it up, or start a new one here. The old one is kept.';
   static const String sheetBroken = "Your saved sheet couldn't be read, so this starts a new one. The old one is kept.";
+
+  /// The way out when the saved sheet cannot be read or kept aside (the phone's storage is full
+  /// or failing): starting a new sheet gives up the old one, so it is confirmed first.
+  static const String startOver = 'Start a new sheet';
+  static const String startOverTitle = 'Start a new sheet?';
+  static const String startOverBody =
+      "The sheet saved on this phone can't be opened or copied aside, so starting again replaces it. Freeing some space on the phone and trying again may bring it back.";
+  static const String startOverConfirm = 'Start a new sheet';
+  static const String startOverKeep = 'Keep trying';
+
+  /// An answer that could not be written to the phone (storage full or failing).
+  static const String saveFailed = "Couldn't save your last answer on this phone. It's still on screen.";
   static String welcomeBackLine(int filled, int of) => '$filled of $of filled';
   static const String mobiHello = 'Mobi, the MockMob mascot, waving hello';
   static const String mobiSleepy = 'Mobi, the MockMob mascot, yawning';
@@ -154,6 +166,7 @@ abstract final class OnboardingCopy {
   static const String sealing = 'Keep holding';
   static const String sealIt = 'Tap to seal instead';
   static const String sealed = 'Sealed';
+  static const String planSet = 'Your plan is set.';
   static const String changeSomething = 'Change something';
   static const String sharpens = 'It sharpens after your first check.';
   static const String changeTitle = 'What do you want to change?';

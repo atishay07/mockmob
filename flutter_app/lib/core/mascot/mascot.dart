@@ -5,6 +5,8 @@
 /// - [MobiFigure]: Mobi held in one [MobiRig] (previews, goldens).
 /// - [MobiFace]: the head alone, alive, for avatars and list rows.
 /// - [MobiMoments]: which act answers which moment (right, wrong, waiting, milestone...).
+/// - [MobiRation]: how often he may greet, glance, nudge, speak and shrug; [MobiCelebrations]
+///   carries the Celebrations setting to every Mobi.
 /// - `Mobi` (in `widgets/mobi.dart`): the pose-based API used across the app.
 library;
 
@@ -15,6 +17,7 @@ export 'mobi_controller.dart';
 export 'mobi_face.dart';
 export 'mobi_figure.dart';
 export 'mobi_moments.dart';
+export 'mobi_ration.dart';
 export 'mobi_rig.dart';
 export 'mobi_sim.dart';
 export 'mobi_stage.dart';

@@ -17,8 +17,8 @@ import '../widgets/week_ahead.dart';
 
 /// Step 11 for a student who chose "Not now": the first move, ready. Practice is marked on the
 /// server, so the start key asks for the account first; "Tonight" keeps it waiting here. Mobi
-/// stands above the card, says his line and points down at the start key; if no finger lands for
-/// 1.2 s he nudges at it once.
+/// stands above the card, says his line and points down at the start key once; if no finger
+/// lands for 4 s he nudges at it, once (MOTION.md 1.3: sooner reads as nagging).
 class FirstMoveStep extends ConsumerStatefulWidget {
   const FirstMoveStep({super.key, required this.answers, required this.onStart, this.mobi});
 
@@ -29,6 +29,9 @@ class FirstMoveStep extends ConsumerStatefulWidget {
 
   /// Drives the step's Mobi; the step makes its own when null (tests pass one to watch it).
   final MobiController? mobi;
+
+  /// How long without a touch before Mobi nudges at the start key (once per visit).
+  static const Duration nudgeAfter = Duration(seconds: 4);
 
   @override
   ConsumerState<FirstMoveStep> createState() => _FirstMoveStepState();
@@ -44,16 +47,17 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
   Offset? _aimed;
   bool _queued = false;
 
-  /// One nudge per visit: if no finger lands within [_nudgeAfter] of the first point, Mobi jabs
+  /// One nudge per visit: if no finger lands within [FirstMoveStep.nudgeAfter] of the first point, Mobi jabs
   /// at the start key twice and keeps pointing.
   Timer? _nudge;
   bool _nudgeSpent = false;
-  static const Duration _nudgeAfter = Duration(milliseconds: 1200);
 
   @override
   void initState() {
     super.initState();
-    _mobi.say(OnboardingCopy.mobiFirstMove);
+    // He speaks once per run on this screen (MOTION.md 1.3); a Back and forward again finds him
+    // quiet, with the card to read.
+    _mobi.sayOnce('onboarding_first_move', OnboardingCopy.mobiFirstMove);
   }
 
   @override
@@ -85,7 +89,9 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
   void _armNudge() {
     if (_nudgeSpent) return;
     _nudgeSpent = true;
-    _nudge = Timer(_nudgeAfter, () {
+    // Once per screen per day, however often the step is opened.
+    if (!MobiRation.nudgeToday('onboarding_first_move')) return;
+    _nudge = Timer(FirstMoveStep.nudgeAfter, () {
       _nudge = null;
       if (mounted) _mobi.play(MobiAct.nudge);
     });
@@ -143,9 +149,13 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                         ),
                       ],
                     ),
+                    // The title lifts with the step (only Welcome and the plan rise word by word).
                     Padding(
-                      padding: const EdgeInsets.only(left: MmSpace.s4, top: MmSpace.s20, bottom: MmSpace.s16),
-                      child: Semantics(header: true, child: RiseHeadline(move.title, style: type.headline)),
+                      padding: const EdgeInsets.only(top: MmSpace.s20, bottom: MmSpace.s16),
+                      child: EntranceItem(
+                        at: Entrance.headline,
+                        child: Semantics(header: true, child: Text(move.title, style: type.headline)),
+                      ),
                     ),
                     // Faded in only: Mobi aims at its start key as it lays out, so it never moves.
                     EntranceItem(
@@ -163,17 +173,15 @@ class _FirstMoveStepState extends ConsumerState<FirstMoveStep> {
                         onNumberLanded: () => ref.read(hapticsProvider).selection(),
                       ),
                     ),
+                    // Group gap from the hero to the next block (SPACING.md 3.1).
                     const SizedBox(height: MmSpace.s24),
                     EntranceItem.answer(
                       2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-                        child: WeekAhead(
-                          days: widget.answers.days,
-                          minutes: widget.answers.minutes,
-                          window: widget.answers.window,
-                          now: ref.watch(nowProvider)(),
-                        ),
+                      child: WeekAhead(
+                        days: widget.answers.days,
+                        minutes: widget.answers.minutes,
+                        window: widget.answers.window,
+                        now: ref.watch(nowProvider)(),
                       ),
                     ),
                   ],

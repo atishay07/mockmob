@@ -5,6 +5,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../models/run_item.dart';
+import 'screen_bits.dart';
 
 const _letters = ['A', 'B', 'C', 'D', 'E', 'F'];
 
@@ -33,6 +34,28 @@ class OptionLetter extends StatelessWidget {
               style: context.mmType.label.copyWith(color: colors.ink2),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The mark of a right answer: a volt disc with an ink check, the same in Night and Day (volt is a
+/// fill with `voltInk` on it; as a bare glyph on the card it would vanish on paper).
+class CorrectMark extends StatelessWidget {
+  const CorrectMark({super.key, this.size = 24});
+
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: colors.volt, shape: BoxShape.circle),
+        child: SizedBox.square(
+          dimension: size,
+          child: Icon(LucideIcons.check, size: size * 0.66, color: colors.voltInk),
         ),
       ),
     );
@@ -129,7 +152,7 @@ class ResultOptions extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: MmSpace.s20,
+                        horizontal: MmSpace.s16,
                         vertical: MmSpace.s12,
                       ),
                       child: Row(
@@ -163,18 +186,18 @@ class ResultOptions extends StatelessWidget {
                               ],
                             ),
                           ),
-                          if (isCorrect)
-                            Icon(
-                              LucideIcons.check,
-                              size: 20,
-                              color: colors.ink,
-                            ),
-                          if (isWrongPick)
+                          if (isCorrect) ...[
+                            const SizedBox(width: MmSpace.s8),
+                            const CorrectMark(),
+                          ],
+                          if (isWrongPick) ...[
+                            const SizedBox(width: MmSpace.s8),
                             Icon(
                               LucideIcons.x,
-                              size: 20,
-                              color: colors.wrongText,
+                              size: 24,
+                              color: colors.wrongMark,
                             ),
+                          ],
                         ],
                       ),
                     ),
@@ -227,7 +250,7 @@ class AnswerField extends StatelessWidget {
         filled: true,
         fillColor: colors.raised,
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: MmSpace.s20,
+          horizontal: MmSpace.s16,
           vertical: MmSpace.s16,
         ),
         enabledBorder: border(colors.lineStrong, 1),
@@ -265,26 +288,30 @@ class FeedbackPanel extends StatelessWidget {
       liveRegion: true,
       container: true,
       child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: right ? colors.raised2 : colors.wrongSurface,
-          borderRadius: MmRadius.panelAll,
-          border: Border.all(
-            color: right ? colors.lineStrong : colors.wrongBorder,
-            width: right ? 1 : 1.5,
+        decoration: ShapeDecoration(
+          color: right ? learnSelectedSurface(colors) : colors.wrongSurface,
+          shape: mmShapeBorder(
+            MmRadius.panelAll,
+            side: right
+                ? MmSelection.side(colors, selected: true)
+                : BorderSide(color: colors.wrongBorder, width: 1.5),
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(MmSpace.cardPadding),
+          padding: const EdgeInsets.all(MmRhythm.plainPad),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 children: [
-                  Icon(
-                    right ? LucideIcons.check : LucideIcons.circleAlert,
-                    size: 20,
-                    color: right ? colors.ink : colors.wrongText,
-                  ),
+                  if (right)
+                    const CorrectMark()
+                  else
+                    Icon(
+                      LucideIcons.circleAlert,
+                      size: 24,
+                      color: colors.wrongMark,
+                    ),
                   const SizedBox(width: MmSpace.s8),
                   Text(
                     headline,

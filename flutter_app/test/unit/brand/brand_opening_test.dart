@@ -473,6 +473,73 @@ void main() {
       handle.dispose();
     });
 
+    group('the app is built under the opening, not in front of it (cold start, finding 24)', () {
+      setUp(() => BrandOpeningHost.deferApp = true);
+      tearDown(() => BrandOpeningHost.deferApp = false);
+
+      testWidgets('the first frame is the "mo" alone: the app builds once the "mo" is on the glass', (tester) async {
+        final glass = Completer<void>();
+        var builds = 0;
+        final auth = _Auth(const AuthSnapshot(status: AuthStatus.signedOut));
+        await _pump(
+          tester,
+          BrandOpeningHost(
+            shown: glass.future,
+            child: Builder(builder: (context) {
+              builds++;
+              return const Scaffold(body: Center(child: Text('First screen')));
+            }),
+          ),
+          overrides: [authSnapshotProvider.overrideWith(() => auth)],
+        );
+        // The splash is still up for seconds: nothing of the app has been built or laid out, so
+        // the first frame the splash waits for costs only the logo.
+        await tester.pump(const Duration(seconds: 5));
+        expect(builds, 0, reason: 'the app does not sit in the frame the splash waits for');
+        expect(find.text('First screen', skipOffstage: false), findsNothing);
+        expect(find.byType(BrandOpening), findsOneWidget);
+
+        glass.complete();
+        await tester.pump();
+        await tester.pump();
+        expect(builds, greaterThan(0), reason: 'built under the hold, as the "mo" shows');
+        expect(find.text('First screen', skipOffstage: false), findsOneWidget);
+        expect(find.byType(BrandOpening), findsOneWidget, reason: 'still covered');
+        expect(find.text('First screen'), findsNothing, reason: 'built and laid out, not painted yet');
+      });
+
+      testWidgets('it still plays and hands off on the nominal timeline once the app is built', (tester) async {
+        final auth = _Auth(const AuthSnapshot(status: AuthStatus.signedOut));
+        await _pump(
+          tester,
+          BrandOpeningHost(shown: _onGlass(), child: const Scaffold(body: Center(child: Text('First screen')))),
+          overrides: [authSnapshotProvider.overrideWith(() => auth)],
+        );
+        // The "mo" is seen at once; the app builds in the first frames (real frames, 16 ms
+        // apart); the word is composed at 1000 ms and the opening lifts by about 1300 ms.
+        for (var ms = 0; ms < 1400; ms += 16) {
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+        expect(find.byType(BrandOpening), findsNothing);
+        expect(find.text('First screen'), findsOneWidget);
+      });
+
+      testWidgets('with the app deferred, a late glass answer cannot leave the app unbuilt after hand-off', (tester) async {
+        final auth = _Auth(const AuthSnapshot(status: AuthStatus.signedOut));
+        await _pump(
+          tester,
+          BrandOpeningHost(shown: Completer<void>().future, child: const Scaffold(body: Center(child: Text('First screen')))),
+          overrides: [authSnapshotProvider.overrideWith(() => auth)],
+        );
+        // Tapping the opening hands off at once, whatever stage it is at.
+        await tester.pump(const Duration(milliseconds: 100));
+        await tester.tap(find.byType(BrandOpening));
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 400));
+        expect(tester.takeException(), isNull);
+      });
+    });
+
     testWidgets('a frozen frame paints, repaints when moved, and never hands off', (tester) async {
       var done = 0;
       await _pump(tester, BrandOpening(onDone: () => done++, progress: 0.6));

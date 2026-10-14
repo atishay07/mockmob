@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/art.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -19,7 +20,7 @@ const _tabular = [FontFeature.tabularFigures()];
 /// Chapters by the marks their wrong and blank answers were worth, as a ranked bar chart: each
 /// bar is that chapter's open marks against the largest, the figure sits at its end, and the
 /// counts behind it are under it. Free accounts see the first three, as on the website. The bars
-/// grow in one after another (70 ms apart) once per visit.
+/// grow in one after another (45 ms apart, 450 ms each) when the chart is in view, once per visit.
 class ChaptersSection extends StatefulWidget {
   const ChaptersSection({super.key, required this.ranked, required this.thin, required this.pro, required this.onPractise});
 
@@ -48,7 +49,7 @@ class _ChaptersSectionState extends State<ChaptersSection> {
       children: [
         for (var i = 0; i < shown.length; i++) ...[
           if (i > 0) Divider(height: 1, color: colors.line),
-          _ChapterRow(rank: i + 1, line: shown[i], maxOpen: maxOpen, delay: Duration(milliseconds: 70 * i), onPractise: () => widget.onPractise(shown[i])),
+          _ChapterRow(rank: i + 1, line: shown[i], maxOpen: maxOpen, delay: Duration(milliseconds: 45 * i), onPractise: () => widget.onPractise(shown[i])),
         ],
         if (locked > 0) ...[const SizedBox(height: MmSpace.s12), ProRow(InsightsCopy.proMore(locked))],
         if (widget.thin.isNotEmpty) ...[
@@ -152,7 +153,7 @@ class _ChapterRow extends StatelessWidget {
             ),
             const SizedBox(width: MmSpace.s8),
             Padding(
-              padding: const EdgeInsets.only(top: 2),
+              padding: const EdgeInsets.only(top: MmSpace.s2),
               child: Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3),
             ),
           ],
@@ -175,7 +176,6 @@ class _OpenBar extends StatelessWidget {
     return ExcludeSemantics(
       child: GrowIn(
         delay: delay,
-        duration: const Duration(milliseconds: 420),
         builder: (context, t) => SizedBox(
           height: 12,
           child: CustomPaint(painter: _BarPainter(fraction: fraction * t, fill: colors.wrongMark, track: colors.sunken, line: colors.line)),
@@ -215,9 +215,15 @@ class _BarPainter extends CustomPainter {
 
 /// A labelled figure in a small grid.
 class _Figure extends StatelessWidget {
-  const _Figure({required this.value, required this.label, this.color, this.align = CrossAxisAlignment.start});
+  const _Figure({this.value, this.count, this.format, required this.label, this.color, this.align = CrossAxisAlignment.start})
+      : assert(value != null || count != null);
 
-  final String value;
+  /// A figure that is already text (a time such as 0:58), shown as it is.
+  final String? value;
+
+  /// A figure that counts up when it comes into view and rolls from its old value when it changes.
+  final int? count;
+  final String Function(num value)? format;
   final String label;
   final Color? color;
   final CrossAxisAlignment align;
@@ -225,13 +231,15 @@ class _Figure extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
+    final style = type.figureCompact.copyWith(fontSize: 36, height: 1.1, fontFeatures: _tabular, color: color);
+    final text = value ?? (format ?? (n) => n.round().toString())(count!);
     return Semantics(
-      label: '$label, $value',
+      label: '$label, $text',
       excludeSemantics: true,
       child: Column(
         crossAxisAlignment: align,
         children: [
-          Text(value, style: type.figureCompact.copyWith(fontSize: 36, height: 1.1, fontFeatures: _tabular, color: color)),
+          if (value != null) Text(value!, style: style) else CountOnView(value: count!, format: format, style: style),
           Text(label, style: type.caption.copyWith(color: context.mmColors.ink2)),
         ],
       ),
@@ -286,14 +294,13 @@ class ChangesSection extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Expanded(child: _Figure(value: '+${c.marksGained}', label: '${c.gains} helped', color: colors.isNight ? colors.volt : colors.accentText)),
-              Expanded(child: _Figure(value: InsightsCopy.signed(-c.marksLost), label: '${c.losses} hurt', color: colors.wrongMark, align: CrossAxisAlignment.end)),
+              Expanded(child: _Figure(count: c.marksGained, format: (n) => '+${n.round()}', label: '${c.gains} helped', color: colors.isNight ? colors.volt : colors.accentText)),
+              Expanded(child: _Figure(count: -c.marksLost, format: (n) => InsightsCopy.signed(n.round()), label: '${c.losses} hurt', color: colors.wrongMark, align: CrossAxisAlignment.end)),
             ],
           ),
           const SizedBox(height: MmSpace.s12),
           ExcludeSemantics(
             child: GrowIn(
-              duration: const Duration(milliseconds: 500),
               builder: (context, t) => SizedBox(
                 height: 14,
                 width: double.infinity,
@@ -363,12 +370,15 @@ class PaceSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _pair(_Figure(value: _sec(p.medianSec), label: InsightsCopy.paceTypical), _Figure(value: _sec(p.p90Sec), label: InsightsCopy.paceSlow)),
+          _pair(
+            p.medianSec == null ? _Figure(value: _sec(null), label: InsightsCopy.paceTypical) : _Figure(count: p.medianSec, format: (n) => _sec(n.round()), label: InsightsCopy.paceTypical),
+            p.p90Sec == null ? _Figure(value: _sec(null), label: InsightsCopy.paceSlow) : _Figure(count: p.p90Sec, format: (n) => _sec(n.round()), label: InsightsCopy.paceSlow),
+          ),
           if (right != null || wrong != null) ...[
             const SizedBox(height: MmSpace.s20),
             if (right != null) _SecondsBar(label: InsightsCopy.paceRight, seconds: right, fraction: right / scale, color: colors.volt, delay: Duration.zero),
             if (right != null && wrong != null) const SizedBox(height: MmSpace.s12),
-            if (wrong != null) _SecondsBar(label: InsightsCopy.paceWrong, seconds: wrong, fraction: wrong / scale, color: colors.wrongMark, delay: const Duration(milliseconds: 90)),
+            if (wrong != null) _SecondsBar(label: InsightsCopy.paceWrong, seconds: wrong, fraction: wrong / scale, color: colors.wrongMark, delay: const Duration(milliseconds: 45)),
           ],
           const SizedBox(height: MmSpace.s16),
           if (p.shareOnWrong != null) Text(InsightsCopy.paceShare(p.shareOnWrong!), style: type.small.copyWith(color: colors.ink)),
@@ -401,13 +411,12 @@ class _SecondsBar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(label, style: type.caption.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s6),
+          const SizedBox(height: MmSpace.s4),
           Row(
             children: [
               Expanded(
                 child: GrowIn(
                   delay: delay,
-                  duration: const Duration(milliseconds: 460),
                   builder: (context, t) => SizedBox(
                     height: 12,
                     child: CustomPaint(painter: _BarPainter(fraction: fraction * t, fill: color, track: colors.sunken, line: colors.line)),
@@ -488,7 +497,7 @@ class WeekSection extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(InsightsCopy.signed(w.net), style: type.figureCompact.copyWith(fontSize: 36, height: 1.1, fontFeatures: _tabular)),
+                  CountOnView(value: w.net, format: (n) => InsightsCopy.signed(n.round()), style: type.figureCompact.copyWith(fontSize: 36, height: 1.1, fontFeatures: _tabular)),
                   Text(InsightsCopy.netLabel, style: type.caption.copyWith(color: colors.ink2)),
                 ],
               ),
@@ -560,9 +569,9 @@ class _DayBars extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: d.net == null
-                          ? DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: colors.line), child: const SizedBox.square(dimension: 5))
+                          ? DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: colors.line), child: const SizedBox.square(dimension: MmSpace.s4))
                           : GrowIn(
-                              duration: const Duration(milliseconds: 420),
+                              delay: Duration(milliseconds: 45 * days.indexOf(d)),
                               builder: (context, t) => DecoratedBox(
                                 decoration: BoxDecoration(
                                   color: d.net! >= 0 ? colors.volt : colors.wrongMark,
@@ -605,13 +614,9 @@ class SubjectsSection extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(child: RiseIn(delay: Duration(milliseconds: 60 * (r % 4)), child: _SubjectPlate(line: lines[r]))),
+                Expanded(child: _SubjectPlate(line: lines[r])),
                 const SizedBox(width: MmSpace.s12),
-                Expanded(
-                  child: r + 1 < lines.length
-                      ? RiseIn(delay: Duration(milliseconds: 60 * ((r + 1) % 4)), child: _SubjectPlate(line: lines[r + 1]))
-                      : const SizedBox.shrink(),
-                ),
+                Expanded(child: r + 1 < lines.length ? _SubjectPlate(line: lines[r + 1]) : const SizedBox.shrink()),
               ],
             ),
           ),
@@ -652,7 +657,7 @@ class _SubjectPlate extends StatelessWidget {
             children: [
               // The subject's object, then its name on the full width: a long name wraps at a
               // word and is never cut.
-              SubjectThumb(subject: l.subject, size: 60),
+              SubjectThumb(subject: l.subject, size: EmblemSizes.tile),
               const SizedBox(height: MmSpace.s8),
               Text(name, style: type.labelLarge),
               const SizedBox(height: MmSpace.s4),
@@ -663,9 +668,9 @@ class _SubjectPlate extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text('$pct', style: type.figure.copyWith(fontSize: 48, height: 1, fontFeatures: _tabular)),
+                    CountOnView(value: pct, style: type.figure.copyWith(fontSize: 48, height: 1, fontFeatures: _tabular)),
                     Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 2),
+                      padding: const EdgeInsets.only(top: MmSpace.s4, left: MmSpace.s2),
                       child: Text('%', style: type.figureCompact.copyWith(fontSize: 22, height: 1, color: colors.ink2)),
                     ),
                   ],

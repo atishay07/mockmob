@@ -25,6 +25,8 @@ import '../widgets/ending_sheet.dart';
 import '../widgets/foil_burst.dart';
 import '../widgets/life_row.dart';
 import '../widgets/review_bits.dart' show FlushKey;
+import '../widgets/review_layout.dart';
+import '../widgets/review_moment.dart';
 import '../widgets/share_card.dart';
 import '../data/ending_model.dart';
 
@@ -32,9 +34,10 @@ import '../data/ending_model.dart';
 /// sheet with tonight's repairs ringing in, the count, the life row, the receipt from the last
 /// acknowledgement, one proud Mobi, and the next move. Nothing here claims the repair holds.
 ///
-/// The beat, when the celebration is on: the sheet arrives, the rings draw one by one, the thread
-/// lights its Repaired node, and then, together, the number lands with a small pop, the foil burst
-/// opens behind it (centred on the digits, under the type) and Mobi stands proud.
+/// The beat, when the celebration is on (a T2 moment, [RepairEndingTiming]): the sheet arrives, the
+/// rings draw one by one (at most three ticks), the thread draws to its Repaired node, the number
+/// rolls in, and as it lands the foil burst opens behind it (centred on the digits, under the
+/// type, with no bloom and no sweep) and Mobi stands proud.
 ///
 /// The `repairFinished` moment is fired from here, after the first frame, into the
 /// `CelebrationSlot` this screen mounts in the receipt's place, so it is never spent unseen.
@@ -47,8 +50,33 @@ class RepairEndingScreen extends ConsumerStatefulWidget {
   ConsumerState<RepairEndingScreen> createState() => _RepairEndingScreenState();
 }
 
+/// The ending's beat, from the first frame. The moment is the rings through the end of the burst
+/// and stays inside the T2 ceiling of 1200 ms (MOTION.md 1.2); the sheet's own arrival comes
+/// before it.
+abstract final class RepairEndingTiming {
+  /// The handed-back sheet rises in.
+  static const Duration arrive = Motion.result;
+
+  /// The rings start drawing, and take this long between them.
+  static const Duration ringsStart = Duration(milliseconds: 200);
+  static const Duration rings = Duration(milliseconds: 400);
+
+  /// The number holds this long, then rolls for [Motion.numberRoll] and lands.
+  static const Duration numberDelay = Duration(milliseconds: 300);
+  static const Duration numberLands = Duration(milliseconds: 300 + 500);
+
+  /// The burst opens as the number lands.
+  static const Duration end = Duration(milliseconds: 300 + 500 + 600);
+
+  /// Rings, roll and burst together: the length of the moment.
+  static const Duration moment = Duration(milliseconds: 300 + 500 + 600 - 200);
+
+  /// At most this many selection ticks while the rings draw.
+  static const int maxRingTicks = 3;
+}
+
 class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with TickerProviderStateMixin {
-  late final AnimationController _ink = AnimationController(vsync: this, duration: const Duration(milliseconds: 1100));
+  late final AnimationController _ink = AnimationController(vsync: this, duration: RepairEndingTiming.rings);
 
   /// The number's pop on the beat: a small swell and settle, 360 ms.
   late final AnimationController _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 360));
@@ -66,6 +94,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
   bool _celebrating = false;
   int _ticked = 0;
   Timer? _reviewAsk;
+  Timer? _ringsTimer;
 
   @override
   void didChangeDependencies() {
@@ -80,30 +109,22 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
       _beat = true;
     } else {
       _celebrating = true;
-      // The sheet arrives (320 ms), then the rings draw one by one (each with a tick). The thread
-      // lights Repaired at 60% of the rings, so it leads; when the last ring closes the beat lands.
-      Future<void>.delayed(Motion.result, () {
+      // The sheet arrives (320 ms) and the rings draw one by one a moment into it, with at most
+      // three ticks. When the last ring closes the thread draws to Repaired; the number rolls in
+      // on its own clock and its landing opens the burst and stands Mobi proud.
+      _ringsTimer = Timer(RepairEndingTiming.ringsStart, () {
         if (mounted) _ink.forward();
       });
-      final rings = model.repairedNowIds.length;
+      final ticks = math.min(model.repairedNowIds.length, RepairEndingTiming.maxRingTicks);
       _ink.addListener(() {
-        if (!mounted) return;
-        if (!_lifeInked && _ink.value >= 0.6) setState(() => _lifeInked = true);
-        if (rings == 0 || _ticked >= math.min(rings, 6)) return;
-        if (_ink.value >= _ticked / (rings + 1)) {
+        if (!mounted || ticks == 0 || _ticked >= ticks) return;
+        if (_ink.value >= _ticked / ticks) {
           _ticked++;
           unawaited(ref.read(hapticsProvider).tick());
         }
       });
       _ink.addStatusListener((s) {
-        if (s == AnimationStatus.completed && mounted) {
-          setState(() {
-            _lifeInked = true;
-            _beat = true;
-          });
-          _pop.forward(from: 0);
-          _mobi.play(MobiAct.proud);
-        }
+        if (s == AnimationStatus.completed && mounted) setState(() => _lifeInked = true);
       });
     }
     if (model.repaired > 0) {
@@ -128,6 +149,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
   @override
   void dispose() {
     _reviewAsk?.cancel();
+    _ringsTimer?.cancel();
     _ink.dispose();
     _pop.dispose();
     _mobi.dispose();
@@ -138,6 +160,15 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
       EndingModel.of(attemptId: widget.attemptId, run: ref.read(repairRunProvider(widget.attemptId)), index: ref.read(reviewIndexProvider));
 
   void _finish() => context.go(AppRoutes.review);
+
+  /// The number has landed: the burst opens behind it, it swells a little and Mobi stands proud.
+  /// Once: a later change of the count rolls the digits but does not celebrate again.
+  void _landed() {
+    if (!mounted || !_celebrating || _beat) return;
+    setState(() => _beat = true);
+    _pop.forward(from: 0);
+    _mobi.play(MobiAct.proud);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,14 +186,9 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
     final next = index?.nextAfter(widget.attemptId, model.touchedKeys);
     final ackedAt = model.lastAckedAt;
     final nothing = model.repaired == 0;
-    // What is still open in this chapter, across papers: the one fact the number does not carry.
-    int? left;
-    if (index != null && model.chapter.isNotEmpty) {
-      left = 0;
-      for (final g in index.openGroups) {
-        if (g.chapter == model.chapter && g.subjectId == model.subjectId) left = g.openCount;
-      }
-    }
+    // What is still open in this chapter: in this paper (what the run covered) and in other papers,
+    // said apart so the line never contradicts the entry's count.
+    final open = chapterOpenSplit(index, attemptId: widget.attemptId, chapter: model.chapter, subjectId: model.subjectId);
     // After nothing was repaired, the same mistakes can be tried again: the first one still open.
     final retry = nothing && index != null ? index.openIn(widget.attemptId, model.chapter) : const <MistakeItem>[];
     // The fired moment takes the receipt's place and, for a first repair, says so with its own
@@ -189,6 +215,53 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
 
     final showMobi = full && !(momentShown && moment.mobiHop);
 
+    // The pinned action band: the one volt key and the quiet one under it. Only these sit at the
+    // bottom; everything else is the centred block above.
+    final band = Padding(
+      padding: const EdgeInsets.fromLTRB(ReviewSpace.moment, MmSpace.s4, ReviewSpace.moment, MmSpace.s16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (retry.isNotEmpty) ...[
+            KeyButton(
+              label: ReviewCopy.tryAgainKey,
+              semanticsLabel: '${ReviewCopy.tryAgainKey}. ${ReviewCopy.repairMoreLine(model.chapter, repairMinutes(retry.length))}',
+              onPressed: () => context.pushReplacement(AppRoutes.reviewRepair(widget.attemptId, retry.first.questionId)),
+            ),
+            const SizedBox(height: MmSpace.s4),
+            ExcludeSemantics(
+              child: Text(
+                ReviewCopy.repairMoreLine(model.chapter, repairMinutes(retry.length)),
+                style: type.caption.copyWith(color: colors.ink2),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Align(
+              child: KeyButton.quiet(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
+            ),
+          ] else if (next != null) ...[
+            KeyButton(
+              label: ReviewCopy.repairMore(next.items.length),
+              semanticsLabel: '${ReviewCopy.repairMore(next.items.length)}. ${ReviewCopy.repairMoreLine(next.chapter, repairMinutes(next.items.length))}',
+              onPressed: () => context.pushReplacement(AppRoutes.reviewRepair(next.attemptId, next.items.first.questionId)),
+            ),
+            const SizedBox(height: MmSpace.s4),
+            ExcludeSemantics(
+              child: Text(
+                ReviewCopy.repairMoreLine(next.chapter, repairMinutes(next.items.length)),
+                style: type.caption.copyWith(color: colors.ink2),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Align(
+              child: KeyButton.quiet(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
+            ),
+          ] else
+            KeyButton(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
+        ],
+      ),
+    );
+
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -203,163 +276,94 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
               child: IgnorePointer(child: Grain(opacity: colors.grain)),
             ),
             SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    // The hero and the sheet sit at the top; the close (what was recorded, and
-                    // sharing) sits at the bottom, just above the key. Short content leaves its air
-                    // between the two, on purpose: spaceBetween inside a minimum height, so no
-                    // intrinsic-height pass runs through the celebration slot.
-                    child: LayoutBuilder(
-                      builder: (context, box) => SingleChildScrollView(
-                        padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s12, MmSpace.cardGutter, MmSpace.s16),
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(minHeight: math.max(0, box.maxHeight - MmSpace.s12 - MmSpace.s16)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  if (attempt != null)
-                                    _Arrive(
-                                      child: EndingSheet(
-                                        title: '${model.source}, ${subjectName(model.subjectId)}',
-                                        cells: sheetCells(
-                                          attempt,
-                                          repairedNow: model.repairedNowIds,
-                                          repairedBefore: model.repairedEarlierIds,
-                                        ),
-                                        progress: _ink,
-                                        firstRepair: !model.repairedBefore && !nothing,
-                                      ),
-                                    ),
-                                  if (nothing) ...[
-                                    // The hero sits in the air under the sheet, not stuck to it.
-                                    const SizedBox(height: MmSpace.s48),
-                                    _NothingHero(
-                                      title: ReviewCopy.nothingRepairedTitle,
-                                      line: ReviewCopy.nothingRepaired(model.setAside, model.reviewed),
-                                      showMobi: full,
-                                    ),
-                                  ] else ...[
-                                    const SizedBox(height: MmSpace.s24),
-                                    _NumberHero(
-                                      value: model.repaired,
-                                      roll: full,
-                                      pop: _pop,
-                                      burstPlay: _celebrating && _beat,
-                                      celebrating: _celebrating,
-                                      mobi: showMobi
-                                          ? MobiCharacter(
-                                              size: 96,
-                                              controller: _mobi,
-                                              // Standing at rest until the beat, then proud; with the
-                                              // celebration off or motion reduced, proud at once.
-                                              entrance: _celebrating ? MobiAct.rest : MobiAct.proud,
-                                              seed: 19,
-                                            )
-                                          : null,
-                                    ),
-                                    const SizedBox(height: MmSpace.s12),
-                                    Text(
-                                      ReviewCopy.endingFact(model.chapter, left, setAside: model.setAside, reviewed: model.reviewed),
-                                      style: type.lead,
-                                    ),
-                                    const SizedBox(height: MmSpace.s20),
-                                    LifeRow(stage: _lifeInked ? MistakeStage.repaired : MistakeStage.found),
-                                    const SizedBox(height: MmSpace.s12),
-                                    Text(ReviewCopy.checkedLater, style: type.small.copyWith(color: colors.ink2)),
-                                  ],
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  if (!nothing) ...[
-                                    const SizedBox(height: MmSpace.s24),
-                                    if (mobiLine != null) ...[Text(mobiLine, style: type.body), const SizedBox(height: MmSpace.s12)],
-                                    if (momentShown)
-                                      CelebrationSlot(scope: scope)
-                                    else if (firstNote)
-                                      _FirstRepairNote(receipt: receipt)
-                                    else
-                                      receipt,
-                                    const SizedBox(height: MmSpace.s4),
-                                    FlushKey(
-                                      label: 'Share a card',
-                                      onPressed: () => unawaited(
-                                        showShareCardSheet(
-                                          context,
-                                          data: ShareCardData.repair(
-                                            repaired: model.repaired,
-                                            day: clock.now(),
-                                            subject: subjectName(model.subjectId),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                  // The pinned keys below carry their own top padding: a taller gap here
-                                  // left Share a card floating above a dead gap.
-                                  const SizedBox(height: MmSpace.s4),
-                                ],
-                              ),
-                            ],
+              // One block, centred at the optical middle of the room above the keys (2 parts of
+              // air above, 3 below): the sheet, the count, the thread, then directly under it the
+              // receipt and the share key. Nothing is stacked at the top above a hole.
+              child: MomentBody(
+                content: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (attempt != null)
+                      _Arrive(
+                        child: EndingSheet(
+                          title: '${model.source}, ${subjectName(model.subjectId)}',
+                          cells: sheetCells(
+                            attempt,
+                            repairedNow: model.repairedNowIds,
+                            repairedBefore: model.repairedEarlierIds,
+                          ),
+                          progress: _ink,
+                          firstRepair: !model.repairedBefore && !nothing,
+                        ),
+                      ),
+                    if (nothing) ...[
+                      const SizedBox(height: MmSpace.s32),
+                      _NothingHero(
+                        title: ReviewCopy.nothingRepairedTitle,
+                        line: ReviewCopy.nothingRepaired(model.setAside, model.reviewed),
+                        showMobi: full,
+                      ),
+                    ] else ...[
+                      const SizedBox(height: MmSpace.s32),
+                      _NumberHero(
+                        value: model.repaired,
+                        roll: full,
+                        pop: _pop,
+                        burstPlay: _celebrating && _beat,
+                        celebrating: _celebrating,
+                        onLanded: _landed,
+                        mobi: showMobi
+                            ? MobiCharacter(
+                                size: 128,
+                                controller: _mobi,
+                                // Standing at rest until the beat, then proud; with the
+                                // celebration off or motion reduced, proud at once.
+                                entrance: _celebrating ? MobiAct.rest : MobiAct.proud,
+                                seed: 19,
+                              )
+                            : null,
+                      ),
+                      const SizedBox(height: MmSpace.s12),
+                      Text(
+                        ReviewCopy.endingFact(
+                          model.chapter,
+                          open?.here,
+                          elsewhere: open?.elsewhere ?? 0,
+                          setAside: model.setAside,
+                          reviewed: model.reviewed,
+                        ),
+                        style: type.lead,
+                      ),
+                      const SizedBox(height: MmSpace.s24),
+                      LifeRow(stage: _lifeInked ? MistakeStage.repaired : MistakeStage.found),
+                      const SizedBox(height: MmSpace.s12),
+                      Text(ReviewCopy.checkedLater, style: type.small.copyWith(color: colors.ink2)),
+                      const SizedBox(height: MmSpace.s24),
+                      if (mobiLine != null) ...[Text(mobiLine, style: type.body), const SizedBox(height: MmSpace.s12)],
+                      if (momentShown)
+                        CelebrationSlot(scope: scope)
+                      else if (firstNote)
+                        _FirstRepairNote(receipt: receipt)
+                      else
+                        receipt,
+                      const SizedBox(height: MmSpace.s4),
+                      FlushKey(
+                        label: 'Share a card',
+                        onPressed: () => unawaited(
+                          showShareCardSheet(
+                            context,
+                            data: ShareCardData.repair(
+                              repaired: model.repaired,
+                              day: clock.now(),
+                              subject: subjectName(model.subjectId),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, MmSpace.s16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        if (retry.isNotEmpty) ...[
-                          KeyButton(
-                            label: ReviewCopy.tryAgainKey,
-                            semanticsLabel:
-                                '${ReviewCopy.tryAgainKey}. ${ReviewCopy.repairMoreLine(model.chapter, repairMinutes(retry.length))}',
-                            onPressed: () => context.pushReplacement(AppRoutes.reviewRepair(widget.attemptId, retry.first.questionId)),
-                          ),
-                          const SizedBox(height: MmSpace.s4),
-                          ExcludeSemantics(
-                            child: Text(
-                              ReviewCopy.repairMoreLine(model.chapter, repairMinutes(retry.length)),
-                              style: type.caption.copyWith(color: colors.ink2),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Align(
-                            child: KeyButton.quiet(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
-                          ),
-                        ] else if (next != null) ...[
-                          KeyButton(
-                            label: ReviewCopy.repairMore(next.items.length),
-                            semanticsLabel:
-                                '${ReviewCopy.repairMore(next.items.length)}. ${ReviewCopy.repairMoreLine(next.chapter, repairMinutes(next.items.length))}',
-                            onPressed: () => context.pushReplacement(AppRoutes.reviewRepair(next.attemptId, next.items.first.questionId)),
-                          ),
-                          const SizedBox(height: MmSpace.s4),
-                          ExcludeSemantics(
-                            child: Text(
-                              ReviewCopy.repairMoreLine(next.chapter, repairMinutes(next.items.length)),
-                              style: type.caption.copyWith(color: colors.ink2),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Align(
-                            child: KeyButton.quiet(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
-                          ),
-                        ] else
-                          KeyButton(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
-                      ],
-                    ),
-                  ),
-                ],
+                    ],
+                  ],
+                ),
+                bar: band,
               ),
             ),
           ],
@@ -379,6 +383,7 @@ class _NumberHero extends StatelessWidget {
     required this.pop,
     required this.burstPlay,
     required this.celebrating,
+    required this.onLanded,
     this.mobi,
   });
 
@@ -389,6 +394,9 @@ class _NumberHero extends StatelessWidget {
 
   /// The celebration is on (so the burst is mounted at all).
   final bool celebrating;
+
+  /// The roll has landed.
+  final VoidCallback onLanded;
   final Widget? mobi;
 
   static const double _burstBox = 260;
@@ -415,6 +423,9 @@ class _NumberHero extends StatelessWidget {
       value: '$value',
       unit: 'repaired',
       roll: roll,
+      // The roll holds while the rings draw, then lands as the beat.
+      delay: RepairEndingTiming.numberDelay,
+      onLanded: onLanded,
       semanticsLabel: '$value ${ReviewCopy.endingUnit(value)}',
     );
 
@@ -484,7 +495,7 @@ class _NothingHero extends StatelessWidget {
             ),
             if (showMobi) ...[
               const SizedBox(width: MmSpace.s8),
-              const Mobi(pose: MobiPose.encourage, size: 132, motion: MobiMotion.settle),
+              const Mobi(pose: MobiPose.encourage, size: 140, motion: MobiMotion.settle),
             ],
           ],
         ),

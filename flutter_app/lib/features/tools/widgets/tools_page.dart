@@ -6,6 +6,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart' show IconWell;
+import '../copy.dart' show ToolsCopy;
 import 'tools_parts.dart';
 
 export '../../you/widgets/you_page.dart' show BackKey, GlassDisc, GroupHeading, youGutter;
@@ -83,32 +84,30 @@ class ToolsPage extends StatelessWidget {
                   controller: controller,
                   keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                   slivers: [
-                    const SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
-                        child: Row(children: [BackKey()]),
-                      ),
-                    ),
+                    // A short title is the page header. A long one (a programme's full name) would
+                    // be cut to one line there, so the header says the tool and the name follows
+                    // on the gutter in the title cut, wrapping to as many lines as it needs.
                     SliverToBoxAdapter(
-                      child: MmStaggerItem(
-                        index: 0,
+                      child: MmStaggerItem(index: 0, child: YouHeader(title: large ? title : ToolsCopy.compassTitle)),
+                    ),
+                    if (!large)
+                      SliverToBoxAdapter(
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, 0),
-                          child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
+                          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s8),
+                          child: Semantics(header: true, child: Text(title, style: type.title)),
                         ),
                       ),
-                    ),
                     if (lead != null)
                       SliverToBoxAdapter(
                         child: MmStaggerItem(
                           index: 1,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s8, MmSpace.gutter + 4, 0),
+                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, 0),
                             child: Text(lead!, style: type.body.copyWith(color: colors.ink2)),
                           ),
                         ),
                       ),
-                    const SliverToBoxAdapter(child: SizedBox(height: MmRhythm.group)),
+                    SliverToBoxAdapter(child: SizedBox(height: lead != null ? MmRhythm.group : MmSpace.s16)),
                     ..._entering(slivers),
                     SliverToBoxAdapter(child: SizedBox(height: MmSpace.s48 + MediaQuery.viewPaddingOf(context).bottom)),
                   ],
@@ -149,11 +148,11 @@ class ToolTag extends StatelessWidget {
         borderRadius: MmRadius.pillAll,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (icon != null) ...[Icon(icon, size: 13, color: color), const SizedBox(width: 5)],
+            if (icon != null) ...[Icon(icon, size: 13, color: color), const SizedBox(width: MmSpace.s4)],
             Flexible(child: Text(text, style: context.mmType.caption.copyWith(color: color, fontWeight: FontWeight.w600))),
           ],
         ),
@@ -175,7 +174,7 @@ class ToolsNote extends StatelessWidget {
     final colors = context.mmColors;
     final style = context.mmType.caption.copyWith(color: colors.ink3);
     return Padding(
-      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, top, MmSpace.gutter + 4, 0),
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter, top, MmSpace.gutter, 0),
       child: icon == null
           ? Text(text, style: style)
           : Row(
@@ -276,7 +275,7 @@ class ToolsLinkRow extends StatelessWidget {
   final bool external;
   final VoidCallback onTap;
 
-  /// A row of a [ToolsFlatList]: on the ground, with a 44 dp icon tile.
+  /// A row of a [ToolsFlatList]: on the ground, with a 40 dp icon tile.
   final bool flat;
 
   /// Where a [ToolsPanel]'s hairlines start for these rows.
@@ -294,14 +293,14 @@ class ToolsLinkRow extends StatelessWidget {
         child: Row(
           children: [
             ToolsIconTile(icon),
-            const SizedBox(width: MmSpace.s16),
+            const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title, style: type.labelLarge.copyWith(fontSize: 16)),
                   if (note != null) ...[
-                    const SizedBox(height: 2),
+                    const SizedBox(height: MmSpace.s2),
                     Text(note!, style: type.caption.copyWith(color: colors.ink2)),
                   ],
                 ],
@@ -353,7 +352,7 @@ class ToolsRowFrame extends StatelessWidget {
     this.onTap,
     this.semanticsLabel,
     this.toggled,
-    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s12),
+    this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
   });
 
   final Widget child;

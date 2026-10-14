@@ -37,6 +37,9 @@ class PracticeStartScreen extends ConsumerStatefulWidget {
   final PracticeMode? mode;
   final PracticeLink link;
 
+  /// After this long still working, the note says so (MOTION.md P1-7: words on every wait).
+  static const Duration slowAfter = Duration(seconds: 12);
+
   @override
   ConsumerState<PracticeStartScreen> createState() => _PracticeStartScreenState();
 }
@@ -48,16 +51,45 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
   PracticeSelection? _selection;
   final MobiController _mobi = MobiController();
 
+  /// The session is being created on the server (the start request is out). Back is held until
+  /// it answers: leaving now would create a session the student never sees (ROBUSTNESS
+  /// practice-08). Before this point back cancels cleanly: nothing has been asked of the server.
+  bool _committed = false;
+
+  /// The wait has run past [PracticeStartScreen.slowAfter].
+  bool _slow = false;
+  Timer? _slowTimer;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_run()));
+    _armSlow();
+  }
+
+  void _armSlow() {
+    _slowTimer?.cancel();
+    _slow = false;
+    _slowTimer = Timer(PracticeStartScreen.slowAfter, () {
+      if (mounted && _working) setState(() => _slow = true);
+    });
   }
 
   @override
   void dispose() {
+    _slowTimer?.cancel();
     _mobi.dispose();
     super.dispose();
+  }
+
+  /// Runs [launch] with back held, and lets go once it has answered.
+  Future<LaunchResult> _commit(Future<LaunchResult> Function() launch) async {
+    setState(() => _committed = true);
+    try {
+      return await launch();
+    } finally {
+      if (mounted) setState(() => _committed = false);
+    }
   }
 
   String get _setupLocation {
@@ -119,7 +151,7 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     }
     final LaunchResult result;
     if (selection.isFreshCheck) {
-      result = await launchFreshCheck(ref, selection);
+      result = await _commit(() => launchFreshCheck(ref, selection));
     } else {
       final PracticeQuote quote;
       try {
@@ -142,7 +174,7 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
       }
       // The questions are on their way: Mobi looks up from the sheet and points the way in.
       if (quote.launchable) _mobi.play(MobiAct.point);
-      result = await launchPractice(ref, selection, quote);
+      result = await _commit(() => launchPractice(ref, selection, quote));
     }
     if (!mounted) return;
     switch (result) {
@@ -159,11 +191,15 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     }
   }
 
-  void _stop(String message, StateViewKind kind) => setState(() {
-    _working = false;
-    _message = message;
-    _kind = kind;
-  });
+  void _stop(String message, StateViewKind kind) {
+    _slowTimer?.cancel();
+    setState(() {
+      _working = false;
+      _slow = false;
+      _message = message;
+      _kind = kind;
+    });
+  }
 
   /// Back online after an offline stop: start again without waiting for a tap.
   void _onlineAgain() {
@@ -176,6 +212,7 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
       _working = true;
       _message = null;
     });
+    _armSlow();
     unawaited(_run());
   }
 
@@ -200,7 +237,9 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     ref.listen(networkStatusProvider, (previous, next) {
       if (previous == NetworkStatus.offline && next == NetworkStatus.online) _onlineAgain();
     });
-    return Scaffold(
+    return PopScope(
+      canPop: !_committed,
+      child: Scaffold(
       backgroundColor: colors.ground,
       body: Stack(
         children: [
@@ -222,10 +261,15 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
                             const SizedBox(height: MmSpace.s20),
                             Text(PracticeCopy.gettingReady, style: type.title, textAlign: TextAlign.center),
                             const SizedBox(height: MmSpace.s8),
-                            Text(
-                              PracticeCopy.gettingReadyNote,
-                              style: type.small.copyWith(color: colors.ink2),
-                              textAlign: TextAlign.center,
+                            // The note changes, in place, when the wait runs long.
+                            AnimatedSwitcher(
+                              duration: Motion.of(context, Motion.ui),
+                              child: Text(
+                                _slow ? PracticeCopy.gettingReadySlow : PracticeCopy.gettingReadyNote,
+                                key: ValueKey(_slow),
+                                style: type.small.copyWith(color: colors.ink2),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                             const SizedBox(height: MmSpace.s32),
                             // The paper being drawn, so the subject and length chosen are seen
@@ -239,6 +283,7 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
                 : _stopped(),
           ),
         ],
+      ),
       ),
     );
   }
@@ -271,6 +316,7 @@ class _PaperTicket extends ConsumerWidget {
         subject: subject,
         count: s.mode.usesCount ? s.count : mockQuestionCount,
         semanticsLabel: PracticeCopy.confirmTitle(mode, subject),
+        heroTag: ComposerTicket.pageHeroTag,
       );
     }
     return ConstrainedBox(

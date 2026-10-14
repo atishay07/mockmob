@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth.dart';
 import '../../../core/connectivity/connectivity.dart' show networkRestoredProvider;
+import '../../../core/models/auth_me.dart' show AuthMe;
+import '../../../core/models/consent.dart' show AgeBand;
 import '../../../core/models/notification_prefs.dart' as prefs;
 import '../../../core/repositories/repositories.dart';
 import '../model/answers.dart';
@@ -41,7 +43,7 @@ class SheetSyncState {
 }
 
 /// After sign-in, writes the parts of the sheet the API supports (APP-API-CONTRACT 2.1 to 2.3):
-/// the age answer (`PUT /api/me/consent`, usage data off), the subjects (`PATCH /api/users/{id}`,
+/// the age answer (`PUT /api/me/consent`, only when the account has no age band yet), the subjects (`PATCH /api/users/{id}`,
 /// only `{subjects}`), the study days (`PUT /api/me/goal`) and the study time
 /// (`PUT /api/me/notification-prefs`, `studyWindow`). Course, colleges, category, confidence,
 /// worry and minutes have no endpoint and stay on the phone.
@@ -182,7 +184,10 @@ class SheetSync extends Notifier<SheetSyncState> {
       runFor = userId;
       state = const SheetSyncState(SheetSyncPhase.saving);
       // An account that already has a plan keeps everything it has, its consent included.
-      if (auth.subjects.isNotEmpty) {
+      // "New" is decided only from the server's own profile, never from the copy cached on the
+      // phone: a cached profile saved while the account had no subjects would make an account
+      // that has since been set up elsewhere look new, and its plan would be written over.
+      if (auth.subjects.isNotEmpty || await _serverHasPlan(userId)) {
         _keptFor = userId;
         _stopRetrying();
         _settle(userId, const SheetSyncState(SheetSyncPhase.kept));
@@ -259,13 +264,45 @@ class SheetSync extends Notifier<SheetSyncState> {
     _wakeups = null;
   }
 
+  /// Reads the signed-in profile from the server (one request, no retries of its own: a failure
+  /// fails this run, which is retried on the usual schedule). True when it already has subjects.
+  Future<bool> _serverHasPlan(String userId) async {
+    _stillSignedInAs(userId);
+    final response = await ref.read(apiClientProvider).get(
+          '/api/auth/me',
+          options: const ApiOptions(retries: 0),
+          expectUserId: userId,
+        );
+    final me = AuthMe.fromJson(response.map);
+    final user = me.user;
+    // No profile in the reply: not known, so nothing is written (this run fails and retries).
+    if (user == null) throw const ApiError(kind: ApiErrorKind.unknown, code: 'no_profile');
+    // A profile for another account (the session changed under the request) is not this one's.
+    if (user.id != userId) throw const _AccountChanged();
+    _stillSignedInAs(userId);
+    return user.subjects.isNotEmpty;
+  }
+
+  /// Writes the age answer only to an account whose age band is not set yet. The consent record
+  /// is read from the server first: writing it blind would send usage data off and replace an
+  /// age band the student already gave. A read that fails fails this run (retried later); it
+  /// never falls through to a write.
   Future<void> _writeAge(String userId, OnboardingAnswers a) async {
     final age = a.age;
     if (age == null) return;
+    final repo = ref.read(consentRepositoryProvider.notifier);
+    if (!ref.read(consentRepositoryProvider).isLoaded) {
+      _stillSignedInAs(userId);
+      await repo.load();
+      _stillSignedInAs(userId);
+    }
     final consent = ref.read(consentRepositoryProvider);
-    if (consent.isLoaded && consent.consent.ageBand == age.band) return;
+    if (!consent.isLoaded) throw const ApiError(kind: ApiErrorKind.unknown, code: 'consent_not_loaded');
+    // Set already (this answer, or one given before): the account keeps it, with its usage-data
+    // choice as it is.
+    if (consent.consent.ageBand != AgeBand.unknown) return;
     _stillSignedInAs(userId);
-    await ref.read(consentRepositoryProvider.notifier).setAgeBand(age.band, expectUserId: userId);
+    await repo.setAgeBand(age.band, expectUserId: userId);
   }
 
   /// The subjects go last: an account with subjects counts as "already has a plan" on the next

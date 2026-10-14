@@ -4,7 +4,7 @@ import '../../art/art.dart';
 import '../../copy/state_words.dart';
 import '../../theme/theme.dart';
 import '../art/mm_art.dart';
-import '../dock/split_dock.dart';
+import '../bar/mm_bar.dart';
 import '../inline_banner.dart';
 import '../key_button.dart';
 import '../materials/fake_glass.dart';
@@ -136,7 +136,7 @@ class LabSubjects extends StatelessWidget {
                   center: const Alignment(0.2, 0),
                   child: Stack(
                     children: [
-                      Positioned(right: 4, top: 6, bottom: 26, left: 40, child: Align(alignment: Alignment.centerRight, child: SubjectEmblem(subject: subject, size: 96, framed: false))),
+                      Positioned(right: 4, top: 6, bottom: 26, left: 40, child: Align(alignment: Alignment.centerRight, child: SubjectEmblem(subject: subject, size: EmblemSizes.tile, framed: false))),
                       Positioned(left: 10, bottom: 8, child: Text(name, style: context.mmType.caption)),
                     ],
                   ),
@@ -233,7 +233,12 @@ class _LabDockState extends State<LabDock> {
           child: MediaQuery.removeViewPadding(
             context: context,
             removeBottom: true,
-            child: SplitDock(currentIndex: _index, showReviewDot: true, onTab: (i) => setState(() => _index = i), onStart: (_) {}),
+            child: MmBottomBar(
+              currentBranch: _index,
+              badges: const BarBadges(reviewCount: 3),
+              onTab: (i) => setState(() => _index = i),
+              onStart: (_) {},
+            ),
           ),
         ),
       ),

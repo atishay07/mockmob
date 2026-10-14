@@ -232,6 +232,32 @@ void main() {
     expect(router.state.uri.queryParameters['count'], '1');
   });
 
+  testWidgets('5 wrong answers across chapters: the key names the one run it opens and says where the rest are', (tester) async {
+    // The demo's paper: wrong answers in three chapters. A repair run covers one chapter of one
+    // paper, so the key counts that chapter (Planning, 2) and the caption says the other 3 stay in Review.
+    final questions = <(String, V)>[
+      ('Nature of management', V.right),
+      ('Principles of management', V.wrong),
+      ('Nature of management', V.right),
+      ('Planning', V.wrong),
+      ('Staffing', V.wrong),
+      ('Nature of management', V.right),
+      ('Planning', V.wrong),
+      ('Staffing', V.wrong),
+      ('Nature of management', V.right),
+      ('Nature of management', V.right),
+    ];
+    final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(questions)));
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.text('Repair these 2'), findsWidgets);
+    expect(find.text('Repair these 5'), findsNothing);
+    expect(find.text('Planning. The other 3 are in Review.'), findsOneWidget);
+    await tester.tap(find.text('Repair these 2'));
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(router.state.uri.path, '/review/repair/p1/p1-q4');
+    expect(router.state.uri.queryParameters['count'], '2');
+  });
+
   testWidgets('with fresh questions ready the Prove step starts 5 in that chapter for this attempt', (tester) async {
     const replay = ReplayInventory(supported: true, chapters: [ReplayChapter(chapter: 'Admission of a partner', available: true)]);
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), replay: replay));

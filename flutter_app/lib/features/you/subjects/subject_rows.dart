@@ -30,10 +30,10 @@ class SubjectChoiceRow extends StatelessWidget {
       child: RowFrame(
         onTap: onTap,
         semanticsLabel: EditCopy.chosenLabel(name, chosen),
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s8),
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: MmSpace.s8),
         child: Row(
           children: [
-            SubjectArt(id, size: 40),
+            SubjectArt(id, size: EmblemSizes.chip),
             const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Text(name, style: type.labelLarge.copyWith(fontSize: 16, color: onTap == null ? colors.ink3 : colors.ink)),
@@ -70,7 +70,7 @@ class StaleSubjectRow extends StatelessWidget {
     final type = context.mmType;
     final colors = context.mmColors;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(4, MmSpace.s12, 0, MmSpace.s12),
+      padding: const EdgeInsets.fromLTRB(0, MmSpace.s12, 0, MmSpace.s12),
       child: Row(
         children: [
           _StaleTile(id),
@@ -102,12 +102,12 @@ class _StaleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (SubjectIdentity.of(id)?.hasEmblem ?? false) return SubjectEmblem(subject: id, size: 40, framed: false);
+    if (SubjectIdentity.of(id)?.hasEmblem ?? false) return SubjectEmblem(subject: id, size: EmblemSizes.chip, framed: false);
     final colors = context.mmColors;
     return ExcludeSemantics(
       child: DecoratedBox(
         decoration: ShapeDecoration(
-          color: colors.raised2,
+          color: colors.isNight ? colors.raised2 : colors.sunken,
           shape: RoundedSuperellipseBorder(
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(color: colors.ink.withValues(alpha: colors.isNight ? 0.08 : 0.06)),

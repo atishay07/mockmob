@@ -105,7 +105,7 @@ class _Checking extends StatelessWidget {
       label: ToolsCopy.checking,
       excludeSemantics: true,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, 0, MmSpace.gutter + 4, MmSpace.s16),
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s16),
         child: Row(
           children: [
             const Mobi(pose: MobiPose.loading, size: 72, motion: MobiMotion.settle),

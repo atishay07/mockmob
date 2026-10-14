@@ -11,6 +11,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/data/rhythm_prefs.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../model/answers.dart';
 import '../model/deck.dart';
@@ -30,6 +31,7 @@ import '../steps/worry_step.dart';
 import '../widgets/answer_sheet_card.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/guide_bar.dart';
+import '../widgets/plan_seal_moment.dart';
 import 'welcome_view.dart';
 
 /// The onboarding ("Your sheet"): the cold open on first launch, Welcome, then the step deck
@@ -54,6 +56,9 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   /// Past Welcome in this visit.
   late bool _inDeck = widget.startInDeck;
 
+  /// The plan's seal moment: the plan step drives it, the room behind the deck draws it.
+  final PlanSealMoment _sealMoment = PlanSealMoment();
+
   /// The direction of the last move, for the slide.
   bool _forward = true;
 
@@ -63,12 +68,32 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   /// The start key was tapped before the stored sheet was read: the deck opens when it is.
   bool _startWhenLoaded = false;
 
-  /// The guide Mobi in the top bar, and the bubble row he points at.
+  /// The guide Mobi in the top bar.
   final MobiController _mobi = MobiController();
-  final GlobalKey _track = GlobalKey();
-  Timer? _settle;
   Timer? _hush;
   Timer? _lookBack;
+
+  /// Mobi's celebration waits for the seal's stamp to land (MOTION.md 1.3: he acts after the
+  /// state lands, never before it).
+  Timer? _cheer;
+
+  /// The first step shows the whole sheet for its cold reveal (1.2 s), then the one-line strip
+  /// every other step uses, so the choices sit above the fold (SPACING-AUDIT O2).
+  bool _sheetRevealed = false;
+  Timer? _reveal;
+  static const Duration revealFor = Duration(milliseconds: 1200);
+
+  /// Writes still out are finished when the app goes to the background.
+  late final AppLifecycleListener _life = AppLifecycleListener(
+    onHide: () => unawaited(_c.flushed()),
+    onPause: () => unawaited(_c.flushed()),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _life;
+  }
 
   AnswersController get _c => ref.read(onboardingAnswersProvider.notifier);
 
@@ -81,19 +106,33 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
 
   @override
   void dispose() {
-    _settle?.cancel();
     _hush?.cancel();
     _lookBack?.cancel();
+    _cheer?.cancel();
+    _reveal?.cancel();
+    _life.dispose();
     _mobi.dispose();
+    _sealMoment.dispose();
     super.dispose();
   }
 
-  /// Plays [cue] on the guide: the act, then the line (Mobi talks over the act), then a point
-  /// at the sheet once the inked bubble is laid out. A point or a line lets go after a beat.
-  void _perform(MobiCue cue, OnboardingAnswers answers) {
+  /// Plays [cue] on the guide: the act, then the line (Mobi talks over the act); the line lets
+  /// go after a beat. The seal's celebration follows the Celebrations setting (MOTION.md 1.2):
+  /// Full, he celebrates once the stamp has landed; Quiet and Off, the words only.
+  void _perform(MobiCue cue) {
     if (!_inDeck) return;
     final act = cue.act;
-    if (act != null) _mobi.play(act);
+    if (cue.celebrates) {
+      final full = ref.read(celebrationModeProvider) == CelebrationMode.full;
+      _cheer?.cancel();
+      if (full && act != null) {
+        _cheer = Timer(Motion.reduced(context) ? Duration.zero : sealLands, () {
+          if (mounted) _mobi.play(act);
+        });
+      }
+    } else if (act != null) {
+      _mobi.play(act);
+    }
     final line = cue.line;
     if (line != null) {
       _mobi.say(line);
@@ -101,15 +140,20 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
       final ms = (MobiTyping.duration(line) * 1000).round() + 2600;
       _hush = Timer(Duration(milliseconds: ms), _mobi.hush);
     }
-    final step = cue.pointAt;
-    if (step == null) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      final at = AnswerSheetCard.bubbleCenter(_track, answers, step);
-      if (at == null) return;
-      _mobi.pointAt(at);
-      _settle?.cancel();
-      _settle = Timer(const Duration(milliseconds: 1500), () => _mobi.play(enterAct(answers.step ?? step)));
+  }
+
+  /// How long the seal's stamp takes to land (the plan step's stamp).
+  static const Duration sealLands = Duration(milliseconds: 420);
+
+  /// Starts the first step's cold reveal once; under reduced motion the strip shows at once.
+  void _armReveal(DeckStep step) {
+    if (_sheetRevealed || _reveal != null) return;
+    if (step.id != Steps.stage || Motion.reduced(context)) {
+      _sheetRevealed = true;
+      return;
+    }
+    _reveal = Timer(revealFor, () {
+      if (mounted) setState(() => _sheetRevealed = true);
     });
   }
 
@@ -151,12 +195,41 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     }
   }
 
-  void _next(OnboardingAnswers a) {
+  /// The next step, once every answer so far is written to the phone (a seal or an age the
+  /// student saw is a seal or an age a relaunch finds). A failed write still moves on: the
+  /// notice says it, with Try again, so storage trouble never traps the student.
+  Future<void> _next(OnboardingAnswers a) async {
+    await _c.flushed();
+    if (!mounted) return;
     final steps = _steps(ref.read(onboardingAnswersProvider).value ?? a);
     final here = steps.indexWhere((s) => s.id == _current(a).id);
     if (here < 0 || here + 1 >= steps.length) return;
     setState(() => _forward = true);
     _c.goTo(steps[here + 1].id);
+  }
+
+  /// The confirmed way out of a saved sheet that can be neither read nor kept aside.
+  Future<void> _startOver() async {
+    final go = await showMmSheet<bool>(
+      context: context,
+      title: OnboardingCopy.startOverTitle,
+      builder: (context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(OnboardingCopy.startOverBody, style: context.mmType.body.copyWith(color: context.mmColors.ink2)),
+          const SizedBox(height: MmSpace.s24),
+          KeyButton(label: OnboardingCopy.startOverConfirm, onPressed: () => Navigator.of(context).pop(true)),
+          const SizedBox(height: MmSpace.s4),
+          Center(child: KeyButton.quiet(label: OnboardingCopy.startOverKeep, onPressed: () => Navigator.of(context).pop(false))),
+        ],
+      ),
+    );
+    if (go != true || !mounted) return;
+    await _c.discardUnreadable();
+    if (!mounted) return;
+    final now = ref.read(onboardingAnswersProvider).value;
+    if (now != null && _c.readError == null) _start(now);
   }
 
   void _back(OnboardingAnswers a) {
@@ -174,11 +247,22 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
 
   void _skip(OnboardingAnswers a) {
     _c.skip(_current(a).id);
-    _next(a);
+    unawaited(_next(a));
   }
 
   @override
   Widget build(BuildContext context) {
+    // The Celebrations setting reaches every Mobi on these screens (the welcome Mobi, the guide,
+    // the first move's), so Quiet calms his big acts and Off keeps him still, as it does the seal.
+    final level = switch (ref.watch(celebrationModeProvider)) {
+      CelebrationMode.full => MobiCelebrationLevel.full,
+      CelebrationMode.quiet => MobiCelebrationLevel.quiet,
+      CelebrationMode.off => MobiCelebrationLevel.off,
+    };
+    return MobiCelebrations(level: level, child: _screen(context));
+  }
+
+  Widget _screen(BuildContext context) {
     final colors = context.mmColors;
     final cold = ref.watch(shouldPlayColdOpenProvider).value ?? false;
     final sheet = ref.watch(onboardingAnswersProvider);
@@ -205,14 +289,14 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         return;
       }
       final before = previous?.value;
-      // A bubble inking on the sheet lands with a light tap (A.8: an onboarding bubble filling).
-      // The seal has its own, firmer one.
+      // A bubble inking on the sheet lands with a selection tick (MOTION.md 1.6: a light impact
+      // on every answer is a buzz on a budget motor). The seal has its own, firmer one.
       if (_inDeck && before != null && !(after.sealed && !before.sealed)) {
         final inked = kOnboardingDeck.sheetSteps.any((s) => after.isDone(s.id) && !before.isDone(s.id));
-        if (inked) ref.read(hapticsProvider).light();
+        if (inked) ref.read(hapticsProvider).selection();
       }
       final cue = mobiCueFor(before, after);
-      if (cue != null) _perform(cue, after);
+      if (cue != null) _perform(cue);
     });
 
     if (!widget.skipColdOpen && cold && !_coldDone) {
@@ -244,6 +328,8 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
             SheetReadFailure.broken => error!.backedUp ? OnboardingCopy.sheetBroken : OnboardingCopy.sheetUnreadable,
           },
           retry: error != null && !error.backedUp,
+          // Read again, or (confirmed) start a new sheet: never a screen with no way forward.
+          onStartOver: error != null && !error.backedUp ? _startOver : null,
           onStart: () => _onStart(sheet),
           onHaveAccount: () => context.push(AppRoutes.signIn),
         ),
@@ -251,6 +337,8 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     }
 
     final step = _current(answers);
+    _armReveal(step);
+    final saveFailed = ref.watch(onboardingSaveFailedProvider);
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -261,6 +349,16 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         body: Stack(
           children: [
             if (step.kind != StepKind.check) Positioned.fill(child: LampScene(strength: 0.85, vignette: false)),
+            // The seal moment's room, full bleed behind the deck: dark until the hold starts, and
+            // fading out with the plan step when the deck moves on.
+            Positioned.fill(
+              child: AnimatedSwitcher(
+                duration: Motion.of(context, Motion.card),
+                child: step.kind == StepKind.reveal
+                    ? PlanSealBackdrop(key: const ValueKey('seal-room'), moment: _sealMoment)
+                    : const SizedBox.shrink(key: ValueKey('no-seal-room')),
+              ),
+            ),
             const Positioned.fill(child: IgnorePointer(child: Grain())),
             SafeArea(
               bottom: false,
@@ -287,13 +385,26 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                                       answers: answers,
                                       now: ref.watch(nowProvider)(),
                                       current: step.id,
-                                      compact: _compact(step, answers),
-                                      // Steps 2 to 7: a one-line strip; the full card is the first step's.
-                                      slim: step.id != Steps.stage,
-                                      trackKey: _track,
+                                      // Compact on every step: the weeks to the window are read under the road on the first
+                                      // step itself, so the reveal card does not say them twice.
+                                      compact: true,
+                                      // A one-line strip on every step; the whole card only for
+                                      // the first step's cold reveal.
+                                      slim: step.id != Steps.stage || _sheetRevealed,
                                     )
                                   : const SizedBox(key: ValueKey('none'), width: double.infinity),
                             ),
+                            // An answer the phone could not keep is said, with a way to retry.
+                            if (saveFailed)
+                              Padding(
+                                padding: const EdgeInsets.only(top: MmSpace.s12),
+                                child: InlineBanner(
+                                  message: OnboardingCopy.saveFailed,
+                                  tone: BannerTone.warning,
+                                  actionLabel: OnboardingCopy.tryAgain,
+                                  onAction: () => unawaited(_c.retrySave()),
+                                ),
+                              ),
                             Expanded(
                               child: GuideGlance(
                                 onGlance: _glance,
@@ -336,15 +447,8 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         _ => true,
       };
 
-  /// The sheet shows its weeks while there is room for them; long steps keep it compact.
-  bool _compact(DeckStep step, OnboardingAnswers a) => switch (step.id) {
-        Steps.stage => false,
-        Steps.course => a.course != null,
-        _ => true,
-      };
-
   Widget _body(DeckStep step, OnboardingAnswers a) {
-    void next() => _next(a);
+    void next() => unawaited(_next(a));
     return switch (step.kind) {
       StepKind.single => StageStep(answers: a, onNext: next),
       StepKind.ladder => CourseStep(answers: a, onNext: next),
@@ -355,6 +459,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
       StepKind.reveal => PlanStep(
           answers: a,
           onNext: next,
+          moment: _sealMoment,
           onChange: (id) {
             setState(() => _forward = false);
             _c.edit((x) => x.copyWith(sealedAt: null, step: id, done: {...x.done}..remove(Steps.plan)));
@@ -385,21 +490,24 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   }
 }
 
-/// The step change (ui-blitz onboarding, section 3). The last step leaves quickly, 16 dp up and
-/// faded (down when going back), as if the page were turned; the next one fades in and builds
-/// itself (its headline rises, its answers lift; see StepEntrance), so nothing slides twice.
+/// The step change (MOTION.md 4.2). The last step leaves quickly, 12 dp up and faded over 200 ms
+/// (down when going back), as if the page were turned; the next one fades in and builds itself
+/// (its headline lifts, its answers follow; see StepEntrance), so nothing slides twice.
 class _StepSwitcher extends StatelessWidget {
   const _StepSwitcher({required this.forward, required this.child});
 
   final bool forward;
   final Widget child;
 
+  /// How long the old step takes to leave.
+  static const Duration leave = Duration(milliseconds: 200);
+
   @override
   Widget build(BuildContext context) {
     final reduced = Motion.reduced(context);
     return AnimatedSwitcher(
       duration: reduced ? Motion.reducedFade : const Duration(milliseconds: 220),
-      reverseDuration: reduced ? Motion.reducedFade : Motion.exitDuration,
+      reverseDuration: reduced ? Motion.reducedFade : leave,
       switchInCurve: Motion.glide,
       switchOutCurve: Motion.exit,
       layoutBuilder: (current, previous) => Stack(
@@ -409,7 +517,7 @@ class _StepSwitcher extends StatelessWidget {
       transitionBuilder: (child, animation) {
         final faded = FadeTransition(opacity: animation, child: child);
         if (reduced || child.key == this.child.key) return faded;
-        final dy = forward ? -16.0 : 16.0;
+        final dy = forward ? -MmSpace.s12 : MmSpace.s12;
         return AnimatedBuilder(
           animation: animation,
           child: IgnorePointer(child: faded),

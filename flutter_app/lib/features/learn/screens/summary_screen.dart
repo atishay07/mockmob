@@ -46,18 +46,11 @@ class LearnSummaryScreen extends ConsumerWidget {
         body: SafeArea(
           child: Column(
             children: [
-              Row(
-                children: [
-                  IconTap(
-                    icon: LucideIcons.arrowLeft,
-                    label: LearnCopy.backToLearn,
-                    onTap: () => _leave(context),
-                  ),
-                  const Spacer(),
-                  if (summary != null && summary.lessons.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(right: MmSpace.s8),
-                      child: IconTap(
+              LearnPageHeader(
+                onBack: () => _leave(context),
+                backLabel: LearnCopy.backToLearn,
+                trailing: summary != null && summary.lessons.isNotEmpty
+                    ? IconTap(
                         icon: LucideIcons.share,
                         label: LearnCopy.shareAsText,
                         onTap: () => unawaited(
@@ -68,9 +61,8 @@ class LearnSummaryScreen extends ConsumerWidget {
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                ],
+                      )
+                    : null,
               ),
               Expanded(
                 child: load.when(
@@ -143,7 +135,7 @@ class _Reader extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.fromLTRB(
         MmSpace.gutter,
-        MmSpace.s8,
+        MmSpace.s16,
         MmSpace.gutter,
         MmSpace.s32 + MediaQuery.paddingOf(context).bottom,
       ),
@@ -173,11 +165,8 @@ class _Reader extends StatelessWidget {
                 for (var i = 0; i < summary.lessons.length; i++) ...[
                   if (i == 0)
                     const SizedBox(height: MmSpace.s24)
-                  else ...[
-                    const SizedBox(height: MmSpace.group),
-                    Divider(height: 1, thickness: 1, color: colors.line),
-                    const SizedBox(height: MmSpace.group),
-                  ],
+                  else
+                    const SectionBreak(),
                   _LessonSection(lesson: summary.lessons[i]),
                 ],
               ],
@@ -207,7 +196,7 @@ class _LessonSection extends StatelessWidget {
             IdeaLine(number: i + 1, text: lesson.objectives[i]),
         ],
         for (final b in lesson.blocks) ...[
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s16),
           LessonBlock(block: b),
         ],
       ],
@@ -224,7 +213,7 @@ class _SummarySkeleton extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.fromLTRB(
           MmSpace.gutter,
-          MmSpace.s8,
+          MmSpace.s16,
           MmSpace.gutter,
           0,
         ),

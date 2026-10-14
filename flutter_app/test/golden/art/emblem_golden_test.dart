@@ -276,10 +276,98 @@ Widget _rows() {
   });
 }
 
+/// The four sizes of [EmblemSizes], each framed and unframed, still: one object, four optical
+/// sizes (SPACING 4.1, audit X5).
+Widget _sizes() {
+  return Builder(builder: (context) {
+    final t = context.mmType;
+    final c = context.mmColors;
+    Widget cell(String id, double size, {required bool framed, required String label}) => Padding(
+          padding: const EdgeInsets.only(right: 16, bottom: 4),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SubjectEmblem(subject: id, size: size, framed: framed),
+            const SizedBox(height: 4),
+            Text(label, style: t.caption.copyWith(color: c.ink3, fontSize: 11)),
+          ]),
+        );
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _Heading('24, 40, 56, 136: framed'),
+          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            for (final s in EmblemSizes.all) cell('accountancy', s, framed: true, label: '${s.toInt()}'),
+          ]),
+          const SizedBox(height: 20),
+          const _Heading('24, 40, 56, 136: unframed, on the screen'),
+          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            for (final s in EmblemSizes.all) cell('chemistry', s, framed: false, label: '${s.toInt()}'),
+          ]),
+          const SizedBox(height: 20),
+          const _Heading('Other subjects at 136 and 40, unframed'),
+          Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            for (final id in const ['economics', 'physics']) cell(id, EmblemSizes.hero, framed: false, label: id),
+          ]),
+          const SizedBox(height: 12),
+          Row(children: [
+            for (final id in const ['history', 'geography', 'computer_science', 'psychology', 'biology']) cell(id, EmblemSizes.chip, framed: false, label: id.split('_').first),
+          ]),
+        ],
+      ),
+    );
+  });
+}
+
+/// The arrival (MOTION 4.1): the pose at five moments, with the resting box outlined so the
+/// 8 dp rise and the 0.94 start show. Drawn by the same `poseAt` the widget animates with.
+Widget _arrive() {
+  return Builder(builder: (context) {
+    final t = context.mmType;
+    final c = context.mmColors;
+    const moments = [0, 190, 240, 320, 580];
+    Widget frame(int ms) {
+      final pose = EmblemArrive.poseAt(Duration(milliseconds: ms));
+      return Padding(
+        padding: const EdgeInsets.only(right: 12, bottom: 12),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            width: 136,
+            height: 136,
+            decoration: BoxDecoration(border: Border.all(color: c.line)),
+            child: Opacity(
+              opacity: pose.opacity,
+              child: Transform.translate(
+                offset: Offset(0, pose.dy),
+                child: Transform.scale(scale: pose.scale, child: const SubjectEmblem(subject: 'accountancy', size: 136, framed: false)),
+              ),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text('$ms ms', style: t.caption.copyWith(color: c.ink3, fontSize: 11)),
+        ]),
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const _Heading('The hero object arrives where it rests (160 ms wait, 420 ms)'),
+          Wrap(children: [for (final ms in moments) frame(ms)]),
+        ],
+      ),
+    );
+  });
+}
+
 void main() {
   setUpAll(loadAppFonts);
   _artGolden('emblem_gallery', _gallery, size: const Size(400, 1480));
   _artGolden('emblem_idle_frames', _idleFrames, size: const Size(400, 800));
   _artGolden('emblem_rows', _rows, size: const Size(400, 700));
   _artGolden('emblem_states', _states, size: const Size(384, 700));
+  _artGolden('emblem_sizes', _sizes, size: const Size(384, 760));
+  _artGolden('emblem_arrive_frames', _arrive, size: const Size(384, 620));
 }

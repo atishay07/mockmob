@@ -7,6 +7,7 @@ import 'package:mockmob/core/connectivity/connectivity_providers.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import 'package:mockmob/features/runner/data/runner_effects.dart';
 import 'package:mockmob/features/runner/data/runner_loader.dart';
 import 'package:mockmob/features/runner/data/runner_session.dart';
@@ -75,6 +76,7 @@ Future<RunnerHarness> pumpRunner(
   /// System bars, in logical px, as a phone reports them (the status bar and the gesture area).
   EdgeInsets systemInsets = EdgeInsets.zero,
   List<Override> overrides = const [],
+  CelebrationMode celebrations = CelebrationMode.full,
   MemoryPrefsStore? prefs,
   String? candidate = 'Asha Verma',
 }) async {
@@ -124,6 +126,7 @@ Future<RunnerHarness> pumpRunner(
         hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: haptics)),
         ntaPrefsProvider.overrideWithValue(store),
         ntaCandidateNameProvider.overrideWithValue(candidate),
+        celebrationModeProvider.overrideWithValue(celebrations),
         ...overrides,
       ],
       child: DefaultAssetBundle(

@@ -16,13 +16,13 @@ void main() {
     expect(PracticeCopy.marksLine(x), '33 of 50 marks. 2 wrong answers cost 12 of the 17 marks you missed.');
   });
 
-  test('80% celebrates, a good run cheers, a mixed one points at the first slip, a blank sheet reads, nothing right encourages', () {
+  test('80% and a good run cheer (a T2 moment, never the celebrate jump), a mixed one points at the first slip, a blank sheet reads, nothing right encourages', () {
     expect(finishToneFor(m(8, 1, 1)), FinishTone.great);
     expect(finishToneFor(m(7, 2, 1)), FinishTone.good);
     expect(finishToneFor(m(5, 4, 1)), FinishTone.mixed);
     expect(finishToneFor(m(2, 1, 7)), FinishTone.blank);
     expect(finishToneFor(m(0, 5, 0)), FinishTone.low);
-    expect(FinishTone.great.act, MobiAct.celebrate);
+    expect(FinishTone.great.act, MobiAct.cheer);
     expect(FinishTone.good.act, MobiAct.cheer);
     expect(FinishTone.mixed.act, MobiAct.point);
     expect(FinishTone.mixed.pointsAtMistake, isTrue);

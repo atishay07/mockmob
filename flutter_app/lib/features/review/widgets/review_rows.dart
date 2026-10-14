@@ -115,7 +115,7 @@ class _BlankRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
-                padding: EdgeInsets.only(top: 2),
+                padding: EdgeInsets.only(top: MmSpace.s2),
                 child: Bubble(state: BubbleState.blank, size: 16, animate: false),
               ),
               const SizedBox(width: MmSpace.s12),
@@ -133,6 +133,7 @@ class _BlankRow extends StatelessWidget {
           ),
         ),
         Padding(
+          // The keys line up under the question text (E2 of the row: its 12 dp, the 16 dp bubble, the gap).
           padding: const EdgeInsets.only(left: MmSpace.s12 + 16),
           child: Wrap(
             children: [
@@ -287,7 +288,7 @@ class PastResultRow extends StatelessWidget {
                 child: Row(
                   children: [
                     // The paper's subject, not a wrong-answer bubble: the row is a result.
-                    SubjectEmblem(subject: attempt.subject, size: 40, framed: false),
+                    SubjectEmblem(subject: attempt.subject, size: EmblemSizes.chip, framed: false),
                     const SizedBox(width: MmSpace.s12),
                     Expanded(
                       child: Column(
@@ -374,7 +375,7 @@ class EvidenceList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 2),
+                    padding: EdgeInsets.only(top: MmSpace.s2),
                     child: Bubble(state: BubbleState.wrong, size: 16, animate: false),
                   ),
                   const SizedBox(width: MmSpace.s12),
@@ -383,7 +384,7 @@ class EvidenceList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('${ReviewCopy.questionLabel(item.number)}, ${item.source}', style: type.label.copyWith(color: colors.ink2)),
-                        const SizedBox(height: 4),
+                        const SizedBox(height: MmSpace.s4),
                         Text(questionText(item), style: type.body),
                       ],
                     ),

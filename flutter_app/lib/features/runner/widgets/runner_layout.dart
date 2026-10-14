@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -9,6 +11,7 @@ import '../data/runner_session.dart';
 import '../logic/sheet_cells.dart';
 import 'lock_flight.dart';
 import 'question_enter.dart';
+import 'question_stage.dart';
 import 'question_view.dart';
 import 'runner_bottom_bar.dart';
 import 'runner_meta_row.dart';
@@ -64,16 +67,40 @@ class _RunnerLayoutState extends State<RunnerLayout> {
 
   RunnerSession get _session => widget.session;
 
-  /// An answer is about to be chosen on a bubble at [from]: fly a dot to the question's cell.
+  /// The mock's cells waiting for their option's wash to arrive (one per quick answer).
+  final Set<Timer> _inkTimers = {};
+
+  @override
+  void dispose() {
+    for (final t in _inkTimers) {
+      t.cancel();
+    }
+    super.dispose();
+  }
+
+  /// An answer is about to be chosen on a bubble at [from]. In a practice a dot flies to the
+  /// question's cell. In a timed mock there is no flight at all (the one place the student
+  /// concentrates): the cell inks by itself as the option's wash arrives.
   void _lockFrom(Offset from) {
     if (RunnerMotion.reduced(context)) return;
     final track = _trackKey.currentState;
-    final flight = _flightKey.currentState;
-    if (track == null || flight == null) return;
+    if (track == null) return;
     final index = _session.currentIndex;
-    final to = track.cellCenterGlobal(index);
-    if (to == null) return;
     final alreadyAnswered = _session.answerFor(_session.questions[index].id) != null;
+    if (_session.isMock) {
+      if (alreadyAnswered) return;
+      track.hold(index);
+      late final Timer timer;
+      timer = Timer(RunnerMotion.wash, () {
+        _inkTimers.remove(timer);
+        track.land(index);
+      });
+      _inkTimers.add(timer);
+      return;
+    }
+    final flight = _flightKey.currentState;
+    final to = track.cellCenterGlobal(index);
+    if (flight == null || to == null) return;
     if (!alreadyAnswered) track.hold(index);
     flight.launch(from: from, to: to, onLanded: () => track.land(index));
   }
@@ -137,7 +164,7 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                         child: _AwayLine(
                           session: s,
                           builder: (context, notice) => RunnerMetaRow(
-                            subjectLine: RunnerCopy.subjectLine(s.subject, q.chapter ?? s.chapter),
+                            subjectLine: RunnerCopy.subjectLine(s.subject, s.chapter ?? q.chapter),
                             save: s.saveState,
                             showSave: s.answeredCount > 0,
                             warning: widget.warning,
@@ -155,9 +182,13 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                     builder: (context, box) {
                       final padTop = trackHeight == TimingTrack.tappableHeight ? MmSpace.s4 : MmSpace.s12;
                       const padBottom = MmSpace.s16;
-                      return _ScrollFade(
-                        child: SingleChildScrollView(
-                          key: ValueKey('question-$index'),
+                      Widget layer(int at, {required bool ghost}) {
+                        final question = s.questions[at];
+                        return SingleChildScrollView(
+                          // The leaving question is a still picture: it never shares the primary
+                          // scroll controller and never scrolls.
+                          primary: ghost ? false : null,
+                          physics: ghost ? const NeverScrollableScrollPhysics() : null,
                           padding: EdgeInsets.fromLTRB(MmSpace.gutter, padTop, MmSpace.gutter, padBottom),
                           child: Align(
                             alignment: Alignment.topCenter,
@@ -171,21 +202,23 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                                 direction: _direction,
                                 animate: arriving,
                                 child: QuestionView(
-                                  question: q,
-                                  selected: s.answerFor(q.id),
-                                  marked: s.marked.contains(q.id),
+                                  question: question,
+                                  selected: s.answerFor(question.id),
+                                  marked: s.marked.contains(question.id),
                                   canAnswer: s.canAnswer,
-                                  onSelect: (option) => widget.onSelect(q.id, option),
-                                  onMark: (value) => s.setMarked(q.id, value),
+                                  onSelect: (option) => widget.onSelect(question.id, option),
+                                  onMark: (value) => s.setMarked(question.id, value),
                                   onLock: _lockFrom,
-                                  passageRange: passageRangeOf(s, index),
-                                  note: !s.isMock && index == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
+                                  passageRange: passageRangeOf(s, at),
+                                  note: !s.isMock && at == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      }
+
+                      return _ScrollFade(child: QuestionStage(index: index, layer: layer));
                     },
                   ),
                 ),
@@ -198,8 +231,8 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                 ),
               ],
             ),
-            // The lock-in dot flies over everything and takes no touches.
-            Positioned.fill(child: LockFlightLayer(key: _flightKey)),
+            // The lock-in dot flies over everything and takes no touches (practice only).
+            if (!s.isMock) Positioned.fill(child: LockFlightLayer(key: _flightKey)),
           ],
         ),
       ),

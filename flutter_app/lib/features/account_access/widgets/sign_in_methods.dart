@@ -15,8 +15,8 @@ import 'password_sign_in_form.dart';
 enum SignInMethod { emailCode, password }
 
 /// Air above and below the "or" divider, so the Google key and the method choice read as two
-/// separate ways in.
-const double _orGap = MmSpace.s20 + MmSpace.s8;
+/// separate ways in (the group gap).
+const double _orGap = MmSpace.s24;
 
 /// Every way to sign in, for the sign-in screen: Google on top (one tap when it works), then a
 /// choice between the email code (the screen's own form, passed in as [emailCode]) and a
@@ -64,6 +64,7 @@ class SignInMethods extends ConsumerStatefulWidget {
 
 class _SignInMethodsState extends ConsumerState<SignInMethods> {
   late SignInMethod _method = widget.initialMethod;
+  late SignInMethod _previous = widget.initialMethod;
   bool _googleBusy = false;
   bool _passwordBusy = false;
 
@@ -138,13 +139,39 @@ class _SignInMethodsState extends ConsumerState<SignInMethods> {
           value: _method,
           onChanged: _otherBusy || widget.busy
               ? null
-              : (m) => setState(() => _method = m),
+              : (m) => setState(() {
+                  _previous = _method;
+                  _method = m;
+                }),
         ),
         const SizedBox(height: MmSpace.s24),
         AnimatedSwitcher(
           duration: reduced ? Duration.zero : const Duration(milliseconds: 180),
           switchInCurve: Motion.glide,
           switchOutCurve: Motion.glide,
+          // The form drifts the way the tab went (12 dp, transform and opacity only): the new
+          // one arrives from that side while the old one leaves the other way.
+          transitionBuilder: (child, animation) {
+            final incoming = child.key == ValueKey(_method);
+            final side = _method.index >= _previous.index ? 1.0 : -1.0;
+            return FadeTransition(
+              opacity: animation,
+              child: AnimatedBuilder(
+                animation: animation,
+                builder: (context, child) => Transform.translate(
+                  offset: Offset(
+                    (incoming ? 1 : -1) *
+                        side *
+                        MmSpace.s12 *
+                        (1 - animation.value),
+                    0,
+                  ),
+                  child: child,
+                ),
+                child: child,
+              ),
+            );
+          },
           child: body,
         ),
         if (methods.phone) ...[
@@ -191,7 +218,6 @@ class _MethodTabs extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
-    final type = context.mmType;
     final entries = labels.entries.toList();
     final n = entries.length;
     final index = entries.indexWhere((e) => e.key == value).clamp(0, n - 1);
@@ -227,7 +253,7 @@ class _MethodTabs extends ConsumerWidget {
                         color: colors.accentText,
                         borderRadius: MmRadius.pillAll,
                       ),
-                      child: const SizedBox(height: 3),
+                      child: const SizedBox(height: MmSpace.s4),
                     ),
                   ),
                 ),
@@ -236,42 +262,106 @@ class _MethodTabs extends ConsumerWidget {
                 children: [
                   for (var i = 0; i < n; i++)
                     Expanded(
-                      child: Semantics(
-                        button: true,
+                      child: _Tab(
+                        label: entries[i].value,
                         selected: i == index,
-                        inMutuallyExclusiveGroup: true,
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
-                          onTap: held || i == index
-                              ? null
-                              : () {
-                                  ref.read(hapticsProvider).selection();
-                                  onChanged!(entries[i].key);
-                                },
-                          child: Center(
-                            child: AnimatedDefaultTextStyle(
-                              duration: Motion.of(context, Motion.ui),
-                              style: type.labelLarge.copyWith(
-                                fontSize: 15,
-                                fontWeight: i == index
-                                    ? FontWeight.w700
-                                    : FontWeight.w500,
-                                color: i == index ? colors.ink : colors.ink2,
-                              ),
-                              child: Text(
-                                entries[i].value,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ),
-                        ),
+                        onTap: held || i == index
+                            ? null
+                            : () {
+                                ref.read(hapticsProvider).selection();
+                                onChanged!(entries[i].key);
+                              },
                       ),
                     ),
                 ],
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// One tab: a full-width 48 dp target. A veil in the control radius answers the touch in the
+/// same frame (sunken in both rooms: the well colour reads on Night's ground and on Day's), the
+/// label thickens when chosen.
+class _Tab extends StatefulWidget {
+  const _Tab({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback? onTap;
+
+  @override
+  State<_Tab> createState() => _TabState();
+}
+
+class _TabState extends State<_Tab> {
+  bool _down = false;
+
+  void _set(bool down) {
+    if (_down != down) setState(() => _down = down);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final selected = widget.selected;
+    return Semantics(
+      button: true,
+      selected: selected,
+      inMutuallyExclusiveGroup: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTapDown: widget.onTap == null ? null : (_) => _set(true),
+        onTapCancel: () => _set(false),
+        onTapUp: (_) => _set(false),
+        onTap: widget.onTap,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned.fill(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                  MmSpace.s8,
+                  MmSpace.s4,
+                  MmSpace.s8,
+                  MmSpace.s8,
+                ),
+                child: IgnorePointer(
+                  child: AnimatedOpacity(
+                    opacity: _down ? 1 : 0,
+                    duration: Motion.of(context, Motion.press),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: colors.sunken,
+                        borderRadius: MmRadius.smallAll,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            AnimatedDefaultTextStyle(
+              duration: Motion.of(context, Motion.ui),
+              style: type.labelLarge.copyWith(
+                fontSize: 15,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                color: selected ? colors.ink : colors.ink2,
+              ),
+              child: Text(
+                widget.label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
         ),
       ),
     );

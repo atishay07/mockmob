@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/mascot/mascot.dart' show MobiBubble, MobiRation;
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
@@ -74,37 +75,124 @@ void main() {
     }
   }
 
-  group('the header Mobi nudges toward the move card once (MOBI-05)', () {
+  group('the header Mobi nudges toward the move card after 4 s, once a day (MOTION 1.3, P0-9)', () {
     late int nudges;
     setUp(() {
       nudges = 0;
+      MobiRation.reset();
       HeaderMobi.debugOnNudge = () => nudges++;
     });
-    tearDown(() => HeaderMobi.debugOnNudge = null);
+    tearDown(() {
+      HeaderMobi.debugOnNudge = null;
+      MobiRation.reset();
+    });
 
-    testWidgets('after his first-open line, when nothing touched the screen; never twice', (tester) async {
+    testWidgets('only after 4 s with nothing touched; never twice', (tester) async {
       HeaderMobi.resetGreeting();
       await pumpToday(tester);
-      await wait(tester, const Duration(milliseconds: 1000));
-      expect(nudges, 0, reason: 'at 1.6 s the line he started at 1.1 s is not cut off');
-      await wait(tester, const Duration(seconds: 5));
+      await wait(tester, const Duration(seconds: 3));
+      expect(nudges, 0, reason: 'at 3.6 s it is too soon: sooner reads as nagging');
+      await wait(tester, const Duration(seconds: 6));
       expect(nudges, 1);
-      await wait(tester, const Duration(seconds: 5));
+      await wait(tester, const Duration(seconds: 6));
       expect(nudges, 1, reason: 'once per screen');
     });
 
-    testWidgets('a touch before 1.2 s cancels it for good', (tester) async {
+    testWidgets('once a day: a second visit the same day does not nudge again', (tester) async {
       await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 8));
+      expect(nudges, 1);
+      await tester.pumpWidget(const SizedBox());
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 8));
+      expect(nudges, 1, reason: 'the gate is per screen per day');
+    });
+
+    testWidgets('a touch before 4 s cancels it for good', (tester) async {
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 2));
       final gesture = await tester.startGesture(const Offset(192, 1500));
       await gesture.up();
-      await wait(tester, const Duration(seconds: 6));
+      await wait(tester, const Duration(seconds: 8));
       expect(nudges, 0);
     });
 
     testWidgets('never under reduced motion', (tester) async {
       await pumpToday(tester, reduced: true);
-      await wait(tester, const Duration(seconds: 6));
+      await wait(tester, const Duration(seconds: 8));
       expect(nudges, 0);
+    });
+  });
+
+  group("the header Mobi's line never covers the greeting (22 Oct finding 22)", () {
+    setUp(() {
+      MobiRation.reset();
+      HeaderMobi.resetGreeting();
+    });
+    tearDown(MobiRation.reset);
+
+    /// The opacity of the date line and greeting column beside Mobi.
+    double greetingOpacity(WidgetTester tester) => tester
+        .widget<AnimatedOpacity>(find.ancestor(of: find.text('Good evening, Asha'), matching: find.byType(AnimatedOpacity)).first)
+        .opacity;
+
+    testWidgets('nothing is said at first paint or in the first 3 s', (tester) async {
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 3));
+      expect(find.byType(MobiBubble), findsNothing, reason: 'the 4 s idle rule decides when he speaks, not the first paint');
+      expect(greetingOpacity(tester), 1);
+    });
+
+    testWidgets('after 4 s idle he says his line, and the greeting steps back while it shows, then returns', (tester) async {
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 5));
+      expect(find.byType(MobiBubble), findsOneWidget);
+      expect(greetingOpacity(tester), 0, reason: 'a bubble never sits on readable text');
+      await wait(tester, const Duration(seconds: 8));
+      expect(find.byType(MobiBubble), findsNothing);
+      expect(greetingOpacity(tester), 1);
+    });
+
+    testWidgets('a touch before 4 s means he stays quiet, and the greeting is never dimmed', (tester) async {
+      await pumpToday(tester);
+      await wait(tester, const Duration(seconds: 2));
+      final gesture = await tester.startGesture(const Offset(192, 1500));
+      await gesture.up();
+      await wait(tester, const Duration(seconds: 8));
+      expect(find.byType(MobiBubble), findsNothing);
+      expect(greetingOpacity(tester), 1);
+    });
+
+    testWidgets('under reduced motion he never speaks on his own', (tester) async {
+      await pumpToday(tester, reduced: true);
+      await wait(tester, const Duration(seconds: 8));
+      expect(find.byType(MobiBubble), findsNothing);
+      expect(greetingOpacity(tester), 1);
+    });
+
+    testWidgets('while the opening still covers the app (tickers muted) his clock does not run', (tester) async {
+      var live = false;
+      late StateSetter set;
+      await pumpMockmob(
+        tester,
+        StatefulBuilder(builder: (context, setState) {
+          set = setState;
+          return TickerMode(
+            enabled: live,
+            child: TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero),
+          );
+        }),
+        size: const Size(384, 1900),
+        overrides: [auth],
+      );
+      await wait(tester, const Duration(seconds: 6));
+      expect(find.byType(MobiBubble), findsNothing, reason: 'nothing is said out of sight');
+      set(() => live = true);
+      await tester.pump();
+      await wait(tester, const Duration(seconds: 3));
+      expect(find.byType(MobiBubble), findsNothing, reason: 'his 4 s start when the app is seen');
+      await wait(tester, const Duration(seconds: 3));
+      expect(find.byType(MobiBubble), findsOneWidget);
     });
   });
 
@@ -112,7 +200,7 @@ void main() {
     testWidgets('lands after the card has arrived, with one selection tick', (tester) async {
       final haptics = _CountingHaptics();
       await pumpToday(tester, haptics: haptics);
-      expect(haptics.selections, 0, reason: 'at 640 ms the stage has landed (540 ms); the number lands at 780 ms');
+      expect(haptics.selections, 0, reason: 'at 640 ms the stage has landed (540 ms); the number lands at 660 ms');
       await wait(tester, const Duration(milliseconds: 300));
       expect(haptics.selections, 1);
       await wait(tester, const Duration(seconds: 2));
@@ -140,7 +228,7 @@ void main() {
   });
 
   for (final brightness in [Brightness.dark, Brightness.light]) {
-    testWidgets('the card keys under the pinned bar are neither announced nor tappable, ${brightness.name}', (tester) async {
+    testWidgets('the card keeps its quiet key announced once and tappable, with no pinned bar copy, ${brightness.name}', (tester) async {
       await pumpMockmob(
         tester,
         PhoneFrame(child: TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero)),
@@ -152,10 +240,10 @@ void main() {
       final handle = tester.ensureSemantics();
       await tester.pump();
       final alternative = TodayCopy.chooseSomethingElse;
-      expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: "only the bar's key, which is on screen");
-      final hidden = find.text(alternative);
-      expect(hidden, findsOneWidget, reason: 'the card keeps its quiet key in layout');
-      expect(hidden.hitTestable(), findsNothing, reason: 'under the bar it takes no touch');
+      expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: 'the capsule replaced the pinned bar: one key, not two');
+      final quiet = find.text(alternative);
+      expect(quiet, findsOneWidget);
+      expect(quiet.hitTestable(), findsOneWidget, reason: 'nothing is pinned over the card any more, so its quiet key takes touches');
       await expectLater(tester, meetsGuideline(textContrastGuideline));
       handle.dispose();
     });

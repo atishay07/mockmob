@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 import '../../../core/copy/copy.dart';
+import '../../../core/haptics/haptics.dart';
 import '../../../core/models/study.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/notification_prefs_repository.dart';
@@ -13,6 +14,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../data/catalog_repository.dart';
 import '../data/run_controller.dart';
@@ -28,6 +30,11 @@ import '../widgets/screen_bits.dart';
 /// came back Forgot, and the receipt line follows. The runner itself stays Mobi-free. Endings that
 /// did not finish (set aside, changed, still on this phone) stay calm with no pose. Under reduced
 /// motion everything is simply there and Mobi holds still. No streak and no score.
+///
+/// The Celebrations setting gates the moment (MOTION.md 1.2, a T2): Full is the pips, Mobi's cheer
+/// and a success tick; Quiet keeps the pips and the words with Mobi seated, still; Off is the
+/// words alone. A tap anywhere skips to the end state. The layout is a moment's: type and art on
+/// a 24 dp gutter, weighted to the optical centre, the keys pinned.
 class LearnRunDoneScreen extends ConsumerStatefulWidget {
   const LearnRunDoneScreen({super.key, required this.runId});
 
@@ -44,6 +51,9 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
   /// True once the pips have inked: Mobi and the receipt follow.
   bool _settled = false;
 
+  /// The student tapped to skip the moment: everything shows its end state at once.
+  bool _skipped = false;
+
   final _mobi = MobiController();
   final _firstAgain = GlobalKey();
   bool _pointed = false;
@@ -54,9 +64,19 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     super.dispose();
   }
 
-  void _onSettled() {
+  void _onSettled({required bool good}) {
     if (!mounted || _settled) return;
     setState(() => _settled = true);
+    // One success tick, after the server's receipt is on screen and the pips have landed. A run
+    // that mostly came back Forgot is calm: no tick. Off is words only.
+    if (good && ref.read(celebrationModeProvider) != CelebrationMode.off) {
+      unawaited(ref.read(hapticsProvider).success());
+    }
+  }
+
+  void _skip() {
+    if (_settled || _skipped) return;
+    setState(() => _skipped = true);
   }
 
   @override
@@ -214,7 +234,9 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     final again = run.againCards;
     final pointAtList = again.isNotEmpty && run.mostlyForgot;
     final reduced = Motion.reduced(context);
-    final settled = _settled || run.total <= 0;
+    final mode = ref.watch(celebrationModeProvider);
+    final off = mode == CelebrationMode.off;
+    final settled = _settled || _skipped || off || run.total <= 0;
     final fade = Motion.of(context, Motion.result);
     return _frame(
       keys: [
@@ -227,19 +249,27 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
         ),
       ],
       children: [
-        // Space is kept for Mobi so nothing below moves when it arrives.
-        SizedBox(
-          height: _mobiSize,
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: settled || reduced
-                ? _mobiFor(pointAtList)
-                : const SizedBox.shrink(),
+        // Space is kept for Mobi so nothing below it moves when it arrives. Off keeps the words
+        // alone: no Mobi, no space.
+        if (!off) ...[
+          SizedBox(
+            height: _mobiSize,
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: settled || reduced
+                  ? _mobiFor(pointAtList, calm: mode == CelebrationMode.quiet)
+                  : const SizedBox.shrink(),
+            ),
           ),
-        ),
-        const SizedBox(height: MmSpace.s16),
+          const SizedBox(height: MmSpace.s24),
+        ],
         if (run.total > 0)
-          SettlingPips(total: run.total, onSettled: _onSettled),
+          SettlingPips(
+            total: run.total,
+            animate: !off,
+            skip: _skipped,
+            onSettled: () => _onSettled(good: !pointAtList),
+          ),
         const SizedBox(height: MmSpace.s24),
         Semantics(
           header: true,
@@ -263,7 +293,7 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
           ),
         ],
         if (again.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.group),
+          const SizedBox(height: MmRhythm.group),
           Semantics(
             header: true,
             child: Text(LearnCopy.doneAgainHeading, style: type.subhead),
@@ -291,17 +321,20 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     );
   }
 
-  static const double _mobiSize = 112;
+  static const double _mobiSize = 140;
   static const int _againShown = 5;
 
-  /// Mobi for a finished run: a cheer, or pointing at the list when most cards came back Forgot.
-  Widget _mobiFor(bool pointAtList) {
+  /// Mobi for a finished run: a cheer (Full), seated and still (Quiet), or pointing at the list
+  /// when most cards came back Forgot (a calm pose either way).
+  Widget _mobiFor(bool pointAtList, {required bool calm}) {
     if (!pointAtList) {
-      return const Mobi(
-        pose: MobiPose.cheer,
-        size: _mobiSize,
-        motion: MobiMotion.hop,
-      );
+      return calm
+          ? const Mobi(pose: MobiPose.rest, size: _mobiSize)
+          : const Mobi(
+              pose: MobiPose.cheer,
+              size: _mobiSize,
+              motion: MobiMotion.hop,
+            );
     }
     if (!_pointed) {
       _pointed = true;
@@ -359,7 +392,6 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     return _frame(
       keys: keys,
       children: [
-        const SizedBox(height: MmSpace.s24),
         if (pending)
           const ReceiptLine.pending()
         else
@@ -376,36 +408,54 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
     );
   }
 
+  /// The moment layout: the content block sits at the optical centre (flex 2 above, flex 3
+  /// below, never closer than 24 to either end), the keys are pinned. When the content is taller
+  /// than the space it scrolls and the air collapses to 24.
   Widget _frame({required List<Widget> children, required List<Widget> keys}) {
     return Column(
       children: [
         Expanded(
-          child: ListView(
-            padding: const EdgeInsets.fromLTRB(
-              MmSpace.gutter,
-              MmSpace.s32,
-              MmSpace.gutter,
-              MmSpace.s24,
-            ),
-            children: [
-              Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: MmSpace.contentMaxWidth,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: children,
+          child: GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: _skip,
+            child: CustomScrollView(
+              slivers: [
+                SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: MmSpace.contentMaxWidth,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: _momentGutter,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const Spacer(flex: 2),
+                            const SizedBox(height: MmSpace.s24),
+                            ...children,
+                            const SizedBox(height: MmSpace.s24),
+                            const Spacer(flex: 3),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
-        PinnedActions(children: keys),
+        PinnedActions(gutter: _momentGutter, children: keys),
       ],
     );
   }
+
+  /// A moment is type and art with no cards: the wider 24 dp gutter (SPACING.md 1.1).
+  static const double _momentGutter = MmSpace.s24;
 }
 
 /// One card that came back Forgot or Hard: its title and, to the right, which of the two.

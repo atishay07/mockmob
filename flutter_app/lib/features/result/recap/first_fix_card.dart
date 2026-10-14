@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -11,8 +12,10 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../result_nav.dart';
 import '../widgets/evidence_link.dart';
+import '../widgets/result_space.dart';
 import 'card_page.dart';
 import 'recap_mobi.dart';
 
@@ -21,7 +24,7 @@ import 'recap_mobi.dart';
 /// ruler of the paper with this chapter's answers under it, each opening that exact answer. Mobi
 /// thinks about it beside the two links, then points down at the ruler. The ruler and its answers
 /// sit on the card itself: no panel.
-class FirstFixCard extends StatefulWidget {
+class FirstFixCard extends ConsumerStatefulWidget {
   const FirstFixCard({super.key, required this.model, required this.onNext, required this.onBack});
 
   final RecapModel model;
@@ -29,10 +32,10 @@ class FirstFixCard extends StatefulWidget {
   final VoidCallback onBack;
 
   @override
-  State<FirstFixCard> createState() => _FirstFixCardState();
+  ConsumerState<FirstFixCard> createState() => _FirstFixCardState();
 }
 
-class _FirstFixCardState extends State<FirstFixCard> {
+class _FirstFixCardState extends ConsumerState<FirstFixCard> {
   final GlobalKey _strip = GlobalKey();
 
   @override
@@ -42,6 +45,8 @@ class _FirstFixCardState extends State<FirstFixCard> {
     final leader = m.chapters.leader;
     final lower = m.variant == RecapVariant.lower;
     final blanksOnly = m.chapters.leaderIsBlanksOnly;
+    // The cost figure rolls (T1) unless the result is calm or Celebrations is Off (words only).
+    final roll = m.variant.celebratory && ref.watch(celebrationModeProvider) != CelebrationMode.off;
 
     final String title;
     final List<Widget> evidence;
@@ -49,14 +54,14 @@ class _FirstFixCardState extends State<FirstFixCard> {
     if (leader != null && blanksOnly) {
       title = ResultCopy.startWithBlanks(leader.chapter);
       evidence = [
-        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost, roll: m.variant.celebratory), const SizedBox(height: MmSpace.s12)],
+        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost, roll: roll), const SizedBox(height: MmSpace.s12)],
         _Line(ResultCopy.blanksEvidence(leader.unattempted, leader.questions)),
       ];
       tiles = [for (final n in leader.blankNumbers) (n, BubbleState.blank)];
     } else if (leader != null) {
       title = ResultCopy.startWith(leader.chapter);
       evidence = [
-        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost, roll: m.variant.celebratory), const SizedBox(height: MmSpace.s12)],
+        if (!m.isHeld) ...[_Cost(stat: leader, missed: m.breakdown.lost, roll: roll), const SizedBox(height: MmSpace.s12)],
         _Line(ResultCopy.costMost),
         const SizedBox(height: MmSpace.s4),
         // The four counts, once, in one line: they are the evidence, not a second figure.
@@ -139,7 +144,7 @@ class _FirstFixCardState extends State<FirstFixCard> {
               ),
               if (!largeText) ...[
                 const SizedBox(width: MmSpace.s12),
-                RecapMobi(pose: MobiPose.think, size: 76, lookAt: _strip),
+                RecapMobi(pose: MobiPose.think, size: ResultSpace.mobi, lookAt: _strip),
               ],
             ],
           )
@@ -161,8 +166,9 @@ class _FirstFixCardState extends State<FirstFixCard> {
     );
   }
 
-  void _why(BuildContext context, ChapterStat stat) {
-    showMmSheet<void>(
+  /// The sheet's future completes when it closes, so the row it rose from stays lit until then.
+  Future<void> _why(BuildContext context, ChapterStat stat) {
+    return showMmSheet<void>(
       context: context,
       title: ResultCopy.whyTitle,
       builder: (context) => Padding(
@@ -508,7 +514,7 @@ class _CostState extends State<_Cost> with SingleTickerProviderStateMixin {
   /// the meter start together after it.
   static const Duration settle = Duration(milliseconds: 360);
 
-  late final AnimationController _fill = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
+  late final AnimationController _fill = AnimationController(vsync: this, duration: ResultMotion.meter);
   late final Animation<double> _curve = CurvedAnimation(parent: _fill, curve: Motion.emphasized);
   Timer? _wait;
   bool _started = false;

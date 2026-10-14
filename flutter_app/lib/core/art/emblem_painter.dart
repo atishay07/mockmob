@@ -9,8 +9,9 @@ import 'emblem_subjects.dart';
 import 'subject_identity.dart';
 
 /// Records the static parts of emblems once and replays them. Keys are a subject id, a theme and a
-/// detail level, so the set is bounded (the 16 known ids, 2 themes, 3 levels, 4 layers; an
-/// unknown id adds one tile per theme and level).
+/// detail level, so the set is bounded: the 16 known ids, 2 themes, 3 levels and 4 layers, plus
+/// one shared set for every id the art does not know (they all print the same initials card in
+/// the same ink, so a new unknown id never adds a picture).
 class EmblemPictures {
   EmblemPictures._();
 
@@ -25,12 +26,14 @@ class EmblemPictures {
   }
 
   /// Drops every recorded picture (tests, or a theme change on a low-memory device).
-  static void clear() {
-    for (final picture in _cache.values) {
-      picture.dispose();
-    }
-    _cache.clear();
-  }
+  ///
+  /// The pictures are released to the garbage collector, not disposed: an emblem that is on
+  /// screen still holds the one it last painted, and painting a disposed picture throws.
+  static void clear() => _cache.clear();
+
+  /// The cache id of [subject]: its own id for the sixteen drawn identities, one shared id for any
+  /// subject that only has initials.
+  static String idOf(SubjectIdentity subject) => subject.hasEmblem ? subject.id : 'other';
 
   /// How many pictures are cached (for tests).
   static int get length => _cache.length;
@@ -38,16 +41,16 @@ class EmblemPictures {
   // Keys name the subject id, not its kind: a picture is painted in the subject's own ink, so two
   // subjects that share a drawing must not share a picture.
   static ui.Picture tile(SubjectIdentity subject, EmblemPalette p, Brightness b, EmblemDetail d) =>
-      _record('tile|${subject.id}|${b.name}|${d.name}', (c) => paintTile(c, p, d));
+      _record('tile|${idOf(subject)}|${b.name}|${d.name}', (c) => paintTile(c, p, d));
 
   static ui.Picture pool(SubjectIdentity subject, EmblemPalette p, Brightness b, EmblemDetail d) =>
-      _record('pool|${subject.id}|${b.name}|${d.name}', (c) => paintPool(c, p));
+      _record('pool|${idOf(subject)}|${b.name}|${d.name}', (c) => paintPool(c, p));
 
   static ui.Picture object(EmblemArt art, SubjectIdentity subject, EmblemPalette p, Brightness b, EmblemDetail d) =>
-      _record('object|${subject.id}|${b.name}|${d.name}', (c) => art.object(Sketch(c, p, d)));
+      _record('object|${idOf(subject)}|${b.name}|${d.name}', (c) => art.object(Sketch(c, p, d)));
 
   static ui.Picture shadow(EmblemArt art, SubjectIdentity subject, EmblemPalette p, Brightness b, EmblemDetail d) =>
-      _record('shadow|${subject.id}|${b.name}|${d.name}', (c) {
+      _record('shadow|${idOf(subject)}|${b.name}|${d.name}', (c) {
         Sketch(c, p, d).softEllipse(Offset(50, art.groundY + 1.5), art.shadowRx, 4.6, p.shadow);
       });
 }
@@ -226,9 +229,10 @@ void paintTile(Canvas canvas, EmblemPalette p, EmblemDetail d) {
 
 /// The picked state of a framed tile: a volt ring around the sheet with a soft light on Night, and
 /// on Daylight a dark hairline under it so the volt holds on paper. [k] is 0 to 1 as it inks.
-void paintSelectionRing(Canvas canvas, EmblemPalette p, EmblemDetail d, double k) {
+/// [shape] rings another tile outline in the same 100 unit space (the object art's plain well).
+void paintSelectionRing(Canvas canvas, EmblemPalette p, EmblemDetail d, double k, {Path? shape}) {
   if (k <= 0) return;
-  final path = _sheetPath(d);
+  final path = shape ?? _sheetPath(d);
   final glyph = d == EmblemDetail.glyph;
   final w = glyph ? 5.0 : 3.4;
   if (p.isNight) {

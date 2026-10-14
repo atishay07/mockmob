@@ -8,6 +8,7 @@ import 'core/motion/reduced_motion.dart';
 import 'core/platform/native_touches.dart';
 import 'core/router/router.dart';
 import 'core/settings/appearance_settings.dart';
+import 'core/settings/theme_cross_fade.dart';
 import 'core/theme/theme.dart';
 import 'core/widgets/brand/brand_opening.dart';
 import 'core/widgets/status_tint.dart';
@@ -67,6 +68,9 @@ class _AppView extends ConsumerWidget {
       theme: buildTheme(Brightness.light),
       darkTheme: buildTheme(Brightness.dark),
       themeMode: ref.watch(themeModeProvider),
+      // The Night to Day switch is a deliberate 250 ms cross-fade of the old frame ([ThemeCrossFade]),
+      // not a 200 ms lerp of every colour: painters and cached pictures showed muddy mid-states.
+      themeAnimationDuration: Duration.zero,
       builder: (context, child) {
         // Large text is allowed up to 2.0 so layouts must reflow, not clip.
         final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 2.0);
@@ -77,7 +81,7 @@ class _AppView extends ConsumerWidget {
             child: MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaler: scaler),
               // The brand opening covers the app on every cold start, then removes itself.
-              child: BrandOpeningHost(child: _StatusBarScrim(child: child ?? const SizedBox.shrink())),
+              child: BrandOpeningHost(child: ThemeCrossFade(child: _StatusBarScrim(child: child ?? const SizedBox.shrink()))),
             ),
           ),
         );

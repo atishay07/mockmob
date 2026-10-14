@@ -106,8 +106,10 @@ void main() {
       final f = firstBusinessStudiesMock(paper: blanksOnlyPaper());
       await open(tester, '/result/a7/recap/3', f.model, f.detail, size: const Size(360, 748), textScale: 1.3);
       for (final label in ['See what is recorded', 'Practise this chapter']) {
-        final box = tester.renderObject<RenderBox>(find.ancestor(of: find.text(label), matching: find.byType(Semantics)).first);
-        expect(box.size.height, greaterThanOrEqualTo(48), reason: label);
+        // The quiet key paints 40 dp and answers a finger in a 48 dp box (MmHitSlop), so the
+        // semantics node, which is what the touch target is measured on, is the 48.
+        final node = tester.getSemantics(find.ancestor(of: find.text(label), matching: find.byType(Semantics)).first);
+        expect(node.rect.height, greaterThanOrEqualTo(48), reason: label);
       }
     });
   });

@@ -38,9 +38,18 @@ class ResumeHeroCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(TodayCopy.resumeOverline, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 2),
-                  Semantics(header: true, child: Text(resume.title, style: type.headline)),
                   const SizedBox(height: MmSpace.s4),
+                  // A two-part title ("Mock 8, Accountancy") takes the title cut, so it stays on
+                  // one line beside the object instead of wrapping into the number (audit T5).
+                  Semantics(
+                    header: true,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(resume.title, style: resume.title.contains(' ') ? type.title : type.headline, maxLines: 1, softWrap: false),
+                    ),
+                  ),
+                  const SizedBox(height: MmSpace.s12),
                   NumberBlock(
                     number: '${resume.answered}',
                     label: TodayCopy.answeredLabel(resume.total),
@@ -49,9 +58,9 @@ class ResumeHeroCard extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: MmSpace.s12),
+            const SizedBox(height: MmSpace.s8),
             Text(resume.line, style: type.body.copyWith(color: colors.ink2)),
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.s16),
             KeyButton(label: resume.keyLabel, onPressed: onContinue),
           ],
         ),

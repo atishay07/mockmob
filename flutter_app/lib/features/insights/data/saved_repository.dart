@@ -5,6 +5,7 @@ import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/models/json_helpers.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
+import '../../../core/repositories/local_scope.dart';
 import '../../../core/repositories/remote_state.dart';
 import 'practice_question.dart';
 
@@ -94,13 +95,25 @@ class SaveController extends Notifier<SaveMarks> {
     return const SaveMarks();
   }
 
+  /// Saves or unsaves [questionId]. The write is for the account that tapped: if another account
+  /// has signed in by the time the answer lands, the outcome is returned but nothing is drawn
+  /// into the new account's marks (its count, limit and saved ticks stay its own), and the
+  /// request names its account so it is refused, not sent, when the account changed before it
+  /// went out.
   Future<SaveOutcome> set(String questionId, {required bool saved, String source = 'explore'}) async {
     if (state.pending.contains(questionId)) return const SaveFailed(ApiError(kind: ApiErrorKind.conflict, code: 'in_progress'));
+    final owner = ref.read(userIdProvider);
+    bool sameAccount() => ref.mounted && ref.read(userIdProvider) == owner;
     state = SaveMarks(acked: state.acked, pending: {...state.pending, questionId}, count: state.count, limit: state.limit);
     try {
-      final res = await ref.read(apiClientProvider).post('/api/bookmarks', body: {'questionId': questionId, 'saved': saved, 'source': source});
+      final res = await ref.read(apiClientProvider).post(
+        '/api/bookmarks',
+        body: {'questionId': questionId, 'saved': saved, 'source': source},
+        expectUserId: owner,
+      );
       final body = res.map;
       final done = SaveDone(saved: asBool(body['saved']) ?? saved, count: asInt(body['count']) ?? 0, limit: asInt(body['limit']));
+      if (!sameAccount()) return done;
       state = SaveMarks(
         acked: {...state.acked, questionId: done.saved},
         pending: {...state.pending}..remove(questionId),
@@ -111,7 +124,9 @@ class SaveController extends Notifier<SaveMarks> {
       ref.read(savedRepositoryProvider.notifier).refresh(force: true);
       return done;
     } on ApiError catch (e) {
-      state = SaveMarks(acked: state.acked, pending: {...state.pending}..remove(questionId), count: state.count, limit: state.limit);
+      if (sameAccount()) {
+        state = SaveMarks(acked: state.acked, pending: {...state.pending}..remove(questionId), count: state.count, limit: state.limit);
+      }
       return e.kind == ApiErrorKind.paymentRequired ? const SaveLimitReached() : SaveFailed(e);
     }
   }

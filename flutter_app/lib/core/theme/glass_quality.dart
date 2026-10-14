@@ -34,8 +34,10 @@ class GlassBoot {
 
   static Future<GlassBoot> read(AppPrefs prefs, {Future<bool> Function()? lowMemory}) async {
     try {
-      final saved = GlassQuality.parse(await prefs.glassQuality());
-      var auto = await prefs.glassAutoLite();
+      // Both reads start together: each is a round trip to the platform before the first frame.
+      final (savedRaw, savedAuto) = await (prefs.glassQuality(), prefs.glassAutoLite()).wait;
+      final saved = GlassQuality.parse(savedRaw);
+      var auto = savedAuto;
       // First launch, nothing chosen yet: a phone with little memory (a weak GPU with it)
       // starts on Lite, as the automatic step, never as the student's choice.
       if (saved == null && !auto && await (lowMemory ?? deviceHasLowMemory)()) {

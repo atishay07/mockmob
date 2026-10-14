@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/copy/formatters.dart';
-import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/onboarding.dart';
@@ -62,8 +61,8 @@ class _GoalEditorState extends ConsumerState<GoalEditor> {
     return spreadDays(goal);
   }
 
+  /// The selection tick is the press's own (`MmPressHaptic.selection` on the day).
   void _toggle(int day) {
-    ref.read(hapticsProvider).tick();
     setState(() {
       _failed = false;
       _days = _days.contains(day) ? ({..._days}..remove(day)) : {..._days, day};
@@ -106,7 +105,7 @@ class _GoalEditorState extends ConsumerState<GoalEditor> {
               Expanded(child: _DayToggle(day: d, chosen: _days.contains(d), onTap: _saving ? null : () => _toggle(d))),
           ],
         ),
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s16),
         Semantics(
           liveRegion: true,
           child: Text(_days.isEmpty ? RhythmCopy.daysNone : RhythmCopy.daysSummary(_days.length), style: type.subhead),
@@ -131,7 +130,8 @@ class _GoalEditorState extends ConsumerState<GoalEditor> {
 }
 
 /// One weekday: an inked bubble when it is a study day, the dashed rest mark when it is not,
-/// with the day's short name beneath. A 48 dp target.
+/// with the day's short name beneath. A 48 dp target that answers on the next frame: it sinks on
+/// the press spring, a veil washes it, and a selection tick fires on release.
 class _DayToggle extends StatelessWidget {
   const _DayToggle({required this.day, required this.chosen, this.onTap});
 
@@ -151,23 +151,30 @@ class _DayToggle extends StatelessWidget {
       label: '$name, ${chosen ? 'study day' : 'rest day'}',
       excludeSemantics: true,
       onTap: onTap,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
+      child: MmPressable(
         onTap: onTap,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: MmTarget.min,
-              child: Center(child: Bubble(state: chosen ? BubbleState.filled : BubbleState.rest, size: 34)),
-            ),
-            const SizedBox(height: MmSpace.s4),
-            Text(
-              name.substring(0, 3),
-              style: type.caption.copyWith(fontSize: 12, fontWeight: FontWeight.w600, color: chosen ? colors.ink : colors.ink3),
-              textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
-            ),
-          ],
+        button: false,
+        highlight: true,
+        focusRadius: MmRadius.smallAll,
+        haptic: MmPressHaptic.selection,
+        // The whole column is the target, not just the bubble and the three letters.
+        builder: (context, pressed, focused) => SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                height: MmTarget.min,
+                child: Center(child: Bubble(state: chosen ? BubbleState.filled : BubbleState.rest, size: 34)),
+              ),
+              const SizedBox(height: MmSpace.s4),
+              Text(
+                name.substring(0, 3),
+                style: type.caption.copyWith(fontSize: 12, fontWeight: FontWeight.w600, color: chosen ? colors.ink : colors.ink3),
+                textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
+              ),
+            ],
+          ),
         ),
       ),
     );

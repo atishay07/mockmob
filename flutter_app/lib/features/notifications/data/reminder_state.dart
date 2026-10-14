@@ -9,6 +9,8 @@ class DeliveredReminder {
     required this.at,
   });
 
+  /// Throws when a field is missing or the wrong type; [ReminderState.parse] skips such an entry
+  /// and keeps the rest.
   factory DeliveredReminder.fromJson(Map<String, Object?> j) =>
       DeliveredReminder(
         taskId: j['t'] as String,
@@ -40,10 +42,12 @@ class CategoryStatus {
     this.hintPending = false,
   });
 
+  /// One wrong-typed field falls back to its default; the mute and the pause that were stored
+  /// beside it stay.
   factory CategoryStatus.fromJson(Map<String, Object?> j) => CategoryStatus(
-    ignoredInRow: (j['i'] as int?) ?? 0,
-    paused: (j['p'] as bool?) ?? false,
-    hintPending: (j['h'] as bool?) ?? false,
+    ignoredInRow: j['i'] is num ? (j['i'] as num).toInt() : 0,
+    paused: j['p'] == true,
+    hintPending: j['h'] == true,
   );
 
   final int ignoredInRow;
@@ -71,6 +75,52 @@ class CategoryStatus {
   };
 }
 
+/// A reminder that was counted as unopened when the app opened, kept for a day with what its
+/// category looked like before it was counted. A tap that arrives after the app already settled
+/// (the resume event runs before the notification's tap callback) can then undo the count: the
+/// student did open it.
+class SettledReminder {
+  const SettledReminder({
+    required this.taskId,
+    required this.prefKey,
+    required this.settledAt,
+    required this.before,
+  });
+
+  factory SettledReminder.fromJson(Map<String, Object?> j) => SettledReminder(
+    taskId: j['t'] as String,
+    prefKey: j['k'] as String,
+    settledAt: DateTime.fromMillisecondsSinceEpoch(j['s'] as int),
+    before: CategoryStatus.fromJson((j['b'] as Map).cast<String, Object?>()),
+  );
+
+  final String taskId;
+  final String prefKey;
+
+  /// When the app counted it as unopened.
+  final DateTime settledAt;
+
+  /// The category's status just before this reminder was counted.
+  final CategoryStatus before;
+
+  Map<String, Object?> toJson() => {
+    't': taskId,
+    'k': prefKey,
+    's': settledAt.millisecondsSinceEpoch,
+    'b': before.toJson(),
+  };
+}
+
+/// What reading the stored text found: the state, and whether the text itself could be read.
+/// An entry that cannot be read is skipped on its own; [unreadable] is only for a text that is
+/// not a JSON object at all.
+class ParsedReminderState {
+  const ParsedReminderState(this.state, {this.unreadable = false});
+
+  final ReminderState state;
+  final bool unreadable;
+}
+
 /// Everything the notifications feature keeps on this phone (never sent to the server): the
 /// mute, the weekly plan choice, unopened-reminder counts and the pre-prompt history.
 class ReminderState {
@@ -80,34 +130,67 @@ class ReminderState {
     this.repairReadyOn = true,
     this.categories = const {},
     this.delivered = const [],
+    this.settled = const [],
     this.prePromptNotNowCount = 0,
   });
 
-  factory ReminderState.fromJsonString(String? raw) {
-    if (raw == null || raw.isEmpty) return const ReminderState();
+  /// The stored state, or an empty one when the text cannot be read at all. One unreadable
+  /// entry never costs the rest: see [parse].
+  factory ReminderState.fromJsonString(String? raw) => parse(raw).state;
+
+  /// Reads the stored text one record at a time. A delivered reminder, a category or a field
+  /// that is the wrong shape is skipped; the mute, the pauses and every other record that can
+  /// be read are kept. Only text that is not a JSON object returns the empty state, and then
+  /// [ParsedReminderState.unreadable] is true so the store can keep a copy before it writes.
+  static ParsedReminderState parse(String? raw) {
+    if (raw == null || raw.isEmpty) return const ParsedReminderState(ReminderState());
+    final Map<String, Object?> j;
     try {
-      final j = jsonDecode(raw) as Map<String, Object?>;
-      final cats = (j['c'] as Map<String, Object?>? ?? const {});
-      return ReminderState(
-        mutedUntil: _date(j['m']),
-        weeklyPlanOn: (j['w'] as bool?) ?? false,
-        repairReadyOn: (j['r'] as bool?) ?? true,
-        categories: {
-          for (final e in cats.entries)
-            e.key: CategoryStatus.fromJson(
-              (e.value as Map).cast<String, Object?>(),
-            ),
-        },
-        delivered: [
-          for (final d in (j['d'] as List? ?? const []))
-            DeliveredReminder.fromJson((d as Map).cast<String, Object?>()),
-        ],
-        prePromptNotNowCount: (j['n'] as int?) ?? 0,
-      );
+      final decoded = jsonDecode(raw);
+      if (decoded is! Map) return const ParsedReminderState(ReminderState(), unreadable: true);
+      j = decoded.cast<String, Object?>();
     } on Object {
-      // Unreadable state is the same as none: nothing here is authoritative.
-      return const ReminderState();
+      return const ParsedReminderState(ReminderState(), unreadable: true);
     }
+
+    final categories = <String, CategoryStatus>{};
+    final cats = j['c'];
+    if (cats is Map) {
+      for (final e in cats.entries) {
+        final value = e.value;
+        if (e.key is! String || value is! Map) continue;
+        try {
+          categories[e.key as String] = CategoryStatus.fromJson(value.cast<String, Object?>());
+        } on Object {
+          // This category alone is lost.
+        }
+      }
+    }
+    List<T> each<T>(Object? list, T Function(Map<String, Object?>) read) {
+      final out = <T>[];
+      if (list is! List) return out;
+      for (final item in list) {
+        if (item is! Map) continue;
+        try {
+          out.add(read(item.cast<String, Object?>()));
+        } on Object {
+          // This record alone is lost.
+        }
+      }
+      return out;
+    }
+
+    return ParsedReminderState(
+      ReminderState(
+        mutedUntil: _date(j['m']),
+        weeklyPlanOn: j['w'] is bool ? j['w'] as bool : false,
+        repairReadyOn: j['r'] is bool ? j['r'] as bool : true,
+        categories: categories,
+        delivered: each(j['d'], DeliveredReminder.fromJson),
+        settled: each(j['s'], SettledReminder.fromJson),
+        prePromptNotNowCount: j['n'] is num ? (j['n'] as num).toInt() : 0,
+      ),
+    );
   }
 
   static DateTime? _date(Object? ms) =>
@@ -126,6 +209,9 @@ class ReminderState {
 
   /// Reminders scheduled earlier whose outcome is still unknown.
   final List<DeliveredReminder> delivered;
+
+  /// Reminders counted as unopened in the last day, so a late tap can still clear its count.
+  final List<SettledReminder> settled;
 
   /// How many times the pre-prompt was put to the student without turning reminders on: the
   /// sheet opened (and then Not now, a refused system question or a closed sheet) or the recap
@@ -148,6 +234,7 @@ class ReminderState {
     bool? repairReadyOn,
     Map<String, CategoryStatus>? categories,
     List<DeliveredReminder>? delivered,
+    List<SettledReminder>? settled,
     int? prePromptNotNowCount,
   }) => ReminderState(
     mutedUntil: clearMute ? null : (mutedUntil ?? this.mutedUntil),
@@ -155,6 +242,7 @@ class ReminderState {
     repairReadyOn: repairReadyOn ?? this.repairReadyOn,
     categories: categories ?? this.categories,
     delivered: delivered ?? this.delivered,
+    settled: settled ?? this.settled,
     prePromptNotNowCount: prePromptNotNowCount ?? this.prePromptNotNowCount,
   );
 
@@ -167,6 +255,7 @@ class ReminderState {
     'r': repairReadyOn,
     'c': {for (final e in categories.entries) e.key: e.value.toJson()},
     'd': [for (final d in delivered) d.toJson()],
+    's': [for (final d in settled) d.toJson()],
     'n': prePromptNotNowCount,
   });
 }

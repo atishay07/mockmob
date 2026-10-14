@@ -10,6 +10,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/data/rhythm_prefs.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../model/answers.dart';
 import '../model/deck.dart';
@@ -17,15 +18,20 @@ import '../model/plan.dart';
 import '../state/answers_controller.dart';
 import '../widgets/answer_sheet_card.dart';
 import '../widgets/hold_to_seal.dart';
+import '../widgets/plan_seal_moment.dart';
 import '../widgets/plan_sheet.dart';
 
-/// Step 9, the climax: the sheet flips over (600 ms, a light tap at the halfway point) and its
+/// Step 9, the climax: the sheet flips over (640 ms, a light tap at the halfway point) and its
 /// back is the plan, engraved line by line, including what the student did not tell us (the
 /// first chapter in MockMob's order, and the board-season taper for Class 12). Holding seals it
 /// (1.2 s, a firm tap when it lands); the "Tap to seal instead" link under the hold seals at
 /// once, and so does TalkBack's double tap on the hold.
+///
+/// The seal is the onboarding's one T3 moment (MOTION.md 1.2) and reads the Celebrations
+/// setting: Full stamps the seal with one ring wave and a firm tap, and Mobi celebrates after it
+/// lands; Quiet stamps it with no wave and a selection tick; Off just shows the seal and says so.
 class PlanStep extends ConsumerStatefulWidget {
-  const PlanStep({super.key, required this.answers, required this.onNext, required this.onChange, this.flipped = false});
+  const PlanStep({super.key, required this.answers, required this.onNext, required this.onChange, this.flipped = false, this.moment});
 
   final OnboardingAnswers answers;
   final VoidCallback onNext;
@@ -35,6 +41,11 @@ class PlanStep extends ConsumerStatefulWidget {
 
   /// Starts on the plan side (a return to this step, goldens).
   final bool flipped;
+
+  /// The full-screen seal moment the flow draws behind the deck. Given, holding brings the
+  /// painted answer sheet up behind the card and presses the volt seal into its impression;
+  /// without it (a plan step on its own) the seal stamps on the card's corner as before.
+  final PlanSealMoment? moment;
 
   @override
   ConsumerState<PlanStep> createState() => _PlanStepState();
@@ -46,6 +57,15 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
 
   /// The seal landing: the foil drops in with a ring wave and the sheet rebounds (420 ms).
   late final AnimationController _stamp = AnimationController(vsync: this, duration: const Duration(milliseconds: 420));
+
+  /// The foil flecks thrown once from the seal's rim on a Full strike (760 ms).
+  late final AnimationController _burst = AnimationController(vsync: this, duration: const Duration(milliseconds: 760));
+
+  /// The moment plays only for a sheet sealed on this visit; a sealed plan seen again is the card.
+  late final bool _momentOn = widget.moment != null && !widget.answers.sealed;
+
+  /// The seal has struck the sheet (the answers are sealed from here).
+  bool _landed = false;
   bool _ticked = false;
 
   /// The thirds of the hold already ticked (a selection tick at one third and two thirds).
@@ -66,9 +86,14 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     _hold.addStatusListener((s) {
       if (s == AnimationStatus.completed) _seal();
     });
+    if (_momentOn) {
+      _hold.addListener(_sync);
+      _stamp.addListener(_sync);
+      _burst.addListener(_sync);
+    }
     _hold.addListener(() {
       final third = (_hold.value * 3).floor().clamp(0, 2);
-      if (_hold.status == AnimationStatus.forward && third > _thirds) {
+      if (_hold.status == AnimationStatus.forward && !_struck && third > _thirds) {
         _thirds = third;
         ref.read(hapticsProvider).selection();
       }
@@ -78,9 +103,31 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     });
   }
 
+  /// Writes the hold, the strike and the flecks into the flow's seal moment.
+  void _sync() {
+    final h = _hold.value;
+    widget.moment?.set(
+      // The room comes up over the first 30% of the hold, so a quick touch that lets go only
+      // dims the card; once struck it stays.
+      reveal: _landed ? 1 : Curves.easeOut.transform((h / 0.3).clamp(0.0, 1.0)),
+      press: ((h - 0.12) / 0.88).clamp(0.0, 1.0),
+      land: _landed ? math.max(_stamp.value, 0.0001) : 0,
+      burst: _burst.value,
+    );
+  }
+
+  bool _precached = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    // The painted sheet is decoded while the student reads the plan, so the hold never waits on
+    // it (and nothing decodes while the seal moves).
+    if (_momentOn && !_precached && context.mmColors.isNight) {
+      _precached = true;
+      final screen = MediaQuery.sizeOf(context);
+      SceneArt.planSeal.precache(context, SealGeometry.of(screen).image.width);
+    }
     if (_flip.value > 0 || _flip.isAnimating) return;
     if (widget.flipped || widget.answers.sealed) {
       _flip.value = 1;
@@ -98,10 +145,13 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     }
   }
 
+  /// At most this many print ticks, however long the plan (MOTION.md 4.2).
+  static const int maxPrintTicks = 6;
+
   /// A selection tick as each plan row prints (the rows print 160 ms apart after the flip).
   Future<void> _printTicks() async {
     if (Motion.reduced(context)) return;
-    final rows = PlanSummary.of(widget.answers, ref.read(nowProvider)()).lines.length;
+    final rows = math.min(maxPrintTicks, PlanSummary.of(widget.answers, ref.read(nowProvider)()).lines.length);
     for (var i = 0; i < rows; i++) {
       if (!mounted) return;
       ref.read(hapticsProvider).selection();
@@ -109,16 +159,49 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     }
   }
 
+  /// The seal has been struck: setting the hold to full below completes it, which asks to seal
+  /// again before the sheet's new state has reached this widget.
+  bool _struck = false;
+
   void _seal() {
-    if (widget.answers.sealed) return;
-    ref.read(hapticsProvider).medium();
+    if (widget.answers.sealed || _struck) return;
+    _struck = true;
+    // A tap (or TalkBack's double tap) seals too: in the moment the seal still comes down onto
+    // the sheet, quickly (180 ms: a tap is a decided seal), and then strikes.
+    if (_momentOn && _hold.value < 1 && !Motion.reduced(context)) {
+      _hold.animateTo(1, duration: const Duration(milliseconds: 180), curve: Motion.out).whenCompleteOrCancel(() {
+        if (mounted) _strike();
+      });
+      return;
+    }
+    _strike();
+  }
+
+  /// The seal lands: the one T3 impact of onboarding (MOTION.md 1.2), read against the
+  /// Celebrations setting. Full: a firm tap, the strike and the foil flecks; Quiet: a selection
+  /// tick and the strike, no flecks; Off: the seal is simply there.
+  void _strike() {
+    if (_landed) return;
+    _landed = true;
+    final mode = ref.read(celebrationModeProvider);
+    final reduced = Motion.reduced(context);
+    switch (mode) {
+      case CelebrationMode.full:
+        ref.read(hapticsProvider).medium();
+      case CelebrationMode.quiet:
+        ref.read(hapticsProvider).selection();
+      case CelebrationMode.off:
+        break;
+    }
     ref.read(onboardingAnswersProvider.notifier).seal();
     _hold.value = 1;
-    if (Motion.reduced(context)) {
+    if (reduced || mode == CelebrationMode.off) {
       _stamp.value = 1;
     } else {
       _stamp.forward(from: 0);
     }
+    if (_momentOn && mode == CelebrationMode.full && !reduced) _burst.forward(from: 0);
+    _sync();
   }
 
   @override
@@ -126,7 +209,11 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     _flip.dispose();
     _hold.dispose();
     _stamp.dispose();
+    _burst.dispose();
     _moreBelow.dispose();
+    // The flow outlives this step: leave its room dark for the next visit (silently: the tree is
+    // locked while this step is torn down, and the room fades out with the step anyway).
+    widget.moment?.clear();
     super.dispose();
   }
 
@@ -178,6 +265,8 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
           revealed: _flip.isCompleted,
           compact: compact,
           stamp: _stamp,
+          // In the seal moment the flecks are the one light event; the card is out of sight.
+          wave: ref.watch(celebrationModeProvider) == CelebrationMode.full && !_momentOn,
         );
 
     // The sheet sinks a little under the finger while the seal charges, and rebounds as the seal
@@ -217,6 +306,68 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
       },
     );
 
+    // In the seal moment the card gives way as the hold starts: it fades, lifts 18 dp and steps
+    // back 5% while the painted sheet comes up behind it, and comes back if the hold lets go.
+    // The tree is the same at every value, so the card keeps its state.
+    Widget giveWay(Widget child) {
+      final m = widget.moment;
+      if (!_momentOn || m == null) return child;
+      return ListenableBuilder(
+        listenable: m,
+        child: child,
+        builder: (context, child) {
+          final r = m.reveal.clamp(0.0, 1.0);
+          final gone = r >= 1;
+          return IgnorePointer(
+            ignoring: gone,
+            child: ExcludeSemantics(
+              excluding: gone,
+              child: Opacity(
+                opacity: 1 - r,
+                child: Transform.translate(
+                  offset: Offset(0, reduced ? 0 : -18 * r),
+                  child: Transform.scale(scale: reduced ? 1 : 1 - 0.05 * r, child: child),
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
+
+    // Once struck, the words of the moment rise in the quiet ground under the seal as it
+    // settles (the second half of the strike).
+    final type = context.mmType;
+    final momentWords = _momentOn && sealed
+        ? AnimatedBuilder(
+            animation: _stamp,
+            builder: (context, child) {
+              final t = Curves.easeOut.transform(((_stamp.value - 0.45) / 0.55).clamp(0.0, 1.0));
+              return Opacity(opacity: t, child: Transform.translate(offset: Offset(0, reduced ? 0 : 8 * (1 - t)), child: child));
+            },
+            child: Semantics(
+              container: true,
+              liveRegion: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      OnboardingCopy.planSet,
+                      style: type.moment,
+                      textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
+                    ),
+                  ),
+                  const SizedBox(height: MmSpace.s8),
+                  Text(OnboardingCopy.sharpens, style: type.body.copyWith(color: context.mmColors.ink2)),
+                ],
+              ),
+            ),
+          )
+        : null;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -251,7 +402,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [card(compact)],
+                              children: [giveWay(card(compact))],
                             ),
                           ),
                         ),
@@ -283,6 +434,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                           ),
                         ),
                       ),
+                      if (momentWords != null) Positioned(left: 0, right: 0, bottom: MmSpace.s24, child: momentWords),
                     ],
                   ),
                 ),
@@ -303,10 +455,12 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                     HoldToSeal(
                       progress: _hold,
                       onHoldStart: () {
+                        if (_struck) return;
                         ref.read(hapticsProvider).selection();
                         _hold.forward();
                       },
                       onHoldEnd: () {
+                        if (_struck) return;
                         if (!_hold.isCompleted) _hold.animateBack(0, duration: const Duration(milliseconds: 220));
                         _thirds = 0;
                       },

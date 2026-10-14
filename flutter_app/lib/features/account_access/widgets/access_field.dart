@@ -209,7 +209,7 @@ class AccessProblemLine extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 3),
+            padding: const EdgeInsets.only(top: MmSpace.s2),
             child: ExcludeSemantics(
               child: Icon(
                 LucideIcons.circleAlert,

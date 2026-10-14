@@ -27,6 +27,7 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/you/you_providers.dart' show PrefToggle, lateNightLinesProvider;
 import 'package:mockmob/features/practice/data/practice_notes.dart';
+import 'package:mockmob/features/review/data/review_providers.dart' show ReviewInputs, reviewInputsProvider;
 import 'package:mockmob/features/practice/data/practice_prefs.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
@@ -384,6 +385,10 @@ List<Override> resultOverrides({
 }) => [
   ...practiceOverrides(catalog: catalog, analytics: analytics, pending: pending, attempts: cachedAttempt == null ? null : [cachedAttempt]),
   replayInventoryProvider.overrideWith((ref, id) async => replay),
+  // The repair key reads Review's index; settled and empty here, so no database stream is opened.
+  reviewInputsProvider.overrideWithValue(
+    ReviewInputs(attempts: RemoteState(value: cachedAttempt == null ? null : [cachedAttempt], fetchedAt: testNow)),
+  ),
   attemptDetailProvider(
     attemptId,
   ).overrideWith(() => FakeDetail(attemptId, detail: detail, error: error, loading: loading, fetchedAt: fetchedAt)),

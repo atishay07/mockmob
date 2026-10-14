@@ -6,10 +6,13 @@ import '../copy.dart';
 
 /// The one main thing to do next, said as what it does.
 class ResultFootAction {
-  const ResultFootAction(this.label, this.onPressed);
+  const ResultFootAction(this.label, this.onPressed, {this.note});
 
   final String label;
   final VoidCallback onPressed;
+
+  /// One caption under the key, when the key alone would not say what it opens.
+  final String? note;
 }
 
 /// The pinned foot of the practice result: the next step (repair these, try the blanks, or
@@ -26,15 +29,31 @@ class ResultFoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line)), color: colors.ground),
+    // Solid ground under the keys; the page above dims into it through a 24 dp fade (BarFade on
+    // the scroller), so there is no rule and no half row (SPACING.md 4.5).
+    return ColoredBox(
+      color: colors.ground,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            KeyButton(label: primary.label, onPressed: primary.onPressed),
+            KeyButton(
+              label: primary.label,
+              semanticsLabel: primary.note == null ? null : '${primary.label}. ${primary.note}',
+              onPressed: primary.onPressed,
+            ),
+            if (primary.note != null) ...[
+              const SizedBox(height: MmSpace.s4),
+              ExcludeSemantics(
+                child: Text(
+                  primary.note!,
+                  style: context.mmType.caption.copyWith(color: colors.ink2),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
             if (showFinish) ...[
               const SizedBox(height: MmSpace.s4),
               Align(child: KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish)),

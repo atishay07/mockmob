@@ -7,6 +7,7 @@ import '../../../core/widgets/widgets.dart';
 import '../access_copy.dart';
 import '../access_gateway.dart';
 import 'access_field.dart';
+import 'form_message.dart';
 
 /// What the phone form does with the number.
 enum PhoneCodePurpose {
@@ -169,11 +170,9 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
             onSubmitted: _verify,
           ),
         ],
-        if (_problem != null) ...[
-          const SizedBox(height: MmSpace.s12),
-          AccessProblemLine(message: _problem!),
-        ],
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s8),
+        FormMessage(problem: _problem, working: _working),
+        const SizedBox(height: MmSpace.s16),
         if (sentTo == null)
           KeyButton(
             label: _working ? AccessCopy.sendingCode : AccessCopy.textMeCode,
@@ -192,7 +191,7 @@ class _PhoneCodeFormState extends ConsumerState<PhoneCodeForm> {
             loading: _working,
             onPressed: _working ? null : _verify,
           ),
-          const SizedBox(height: MmSpace.s8),
+          const SizedBox(height: MmSpace.s4),
           Align(
             alignment: Alignment.centerLeft,
             child: KeyButton.quiet(

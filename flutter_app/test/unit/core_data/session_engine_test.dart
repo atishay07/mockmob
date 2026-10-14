@@ -230,13 +230,22 @@ void main() {
 
   group('clock and deadline', () {
     test('answering stops at zero, the engine flushes and submits once', () async {
-      final e = await start(serverNow: 1700000, expiresAt: 1600000); // already past the deadline
+      final e = await start();
+      // The deadline passes (10 minutes of the session clock); the next tick ends it.
+      advance(700000);
+      await e.onResumed();
       await settle();
       await settle();
       expect(e.canAnswer, isFalse);
       expect(await e.selectAnswer('q1', 1), isFalse);
       expect(api.submits.length, 1);
       expect(e.endedByTimeUp, isTrue);
+    });
+
+    test('a start that is already past its deadline is refused, not submitted empty (practice-04)', () async {
+      await expectLater(start(serverNow: 1700000, expiresAt: 1600000), throwsA(isA<ApiError>()));
+      expect(api.submits, isEmpty);
+      expect(await db.select(db.sessionDrafts).get(), isEmpty);
     });
 
     test('submit stops answering and ends received on a 200', () async {

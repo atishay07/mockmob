@@ -10,6 +10,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/widgets/edge_fade.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
 import 'subject_accent.dart';
@@ -46,6 +47,9 @@ class SubjectTiles extends ConsumerStatefulWidget {
 
   static const double width = 132;
   static const double height = 148;
+
+  /// Room above the tiles for the chosen one's lift, inside the strip's edge fade (which clips).
+  static const double liftRoom = MmSpace.s4;
 
   /// The subject emblem's side in a tile: what the name block leaves above it.
   static double emblemSize(bool withCount) => withCount ? 84 : 96;
@@ -135,17 +139,20 @@ class _SubjectTilesState extends ConsumerState<SubjectTiles> {
       container: true,
       label: PracticeCopy.subjectLabel,
       child: SizedBox(
-        height: SubjectTiles.height,
+        height: SubjectTiles.height + SubjectTiles.liftRoom,
         child: LayoutBuilder(
           builder: (context, constraints) {
             _viewport = constraints.maxWidth;
             // Opens already scrolled to the chosen tile, so it never starts off-screen.
             _controller ??= ScrollController(initialScrollOffset: _target(0));
-            return ListView.separated(
+            // The strip fades out over 24 dp at an edge with more behind it, so the last tile is
+            // never cut hard at the screen edge (SPACING-AUDIT P8).
+            return EdgeFade(
+              extent: MmSpace.s24,
+              child: ListView.separated(
               controller: _controller,
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.symmetric(horizontal: widget.gutter),
-              clipBehavior: Clip.none,
+              padding: EdgeInsets.fromLTRB(widget.gutter, SubjectTiles.liftRoom, widget.gutter, 0),
               itemCount: count,
               separatorBuilder: (_, _) => const SizedBox(width: SubjectTiles.gap),
               itemBuilder: (context, i) {
@@ -163,6 +170,7 @@ class _SubjectTilesState extends ConsumerState<SubjectTiles> {
                   },
                 );
               },
+              ),
             );
           },
         ),
@@ -200,7 +208,7 @@ class SubjectTile extends StatelessWidget {
         duration: reduced ? Duration.zero : Motion.emphasizedDuration,
         curve: Motion.emphasized,
         builder: (context, t, _) => Transform.translate(
-          offset: Offset(0, -3 * t),
+          offset: Offset(0, -SubjectTiles.liftRoom * t),
           child: SizedBox(
             width: SubjectTiles.width,
             height: SubjectTiles.height,
@@ -246,9 +254,9 @@ class SubjectTile extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        left: 10,
-                        right: 8,
-                        bottom: 10,
+                        left: MmSpace.s12,
+                        right: MmSpace.s8,
+                        bottom: MmSpace.s12,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -262,14 +270,19 @@ class SubjectTile extends StatelessWidget {
                               child: SizedBox(width: 14 + 14 * t, height: 3),
                             ),
                             const SizedBox(height: MmSpace.s6),
-                            // A long name ("Political Science") shrinks a little rather than losing letters.
-                            FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                name,
-                                maxLines: 1,
-                                style: type.labelLarge.copyWith(fontSize: 14, color: Color.lerp(colors.ink2, colors.ink, t)),
+                            // A long name ("Political Science") shrinks a little rather than losing
+                            // letters. The line keeps its full height and the name sits on its foot,
+                            // so every tile's name shares one baseline, shrunk or not.
+                            SizedBox(
+                              height: MediaQuery.textScalerOf(context).scale(20),
+                              child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  name,
+                                  maxLines: 1,
+                                  style: type.labelLarge.copyWith(fontSize: 14, color: Color.lerp(colors.ink2, colors.ink, t)),
+                                ),
                               ),
                             ),
                             if (questions != null)
@@ -281,7 +294,7 @@ class SubjectTile extends StatelessWidget {
                           ],
                         ),
                       ),
-                      Positioned(top: 10, left: 10, child: SelectBubble(selected: selected)),
+                      Positioned(top: MmSpace.s12, left: MmSpace.s12, child: SelectBubble(selected: selected)),
                     ],
                   ),
                 ),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -38,6 +39,7 @@ void main() {
   late SessionDraftRepository drafts;
   late PracticeNotes notes;
   late PracticeStarter starter;
+  late PracticeStarter Function(Future<void> Function(String draftKey)? awaitClosing) buildStarter;
   late int wall;
   final engines = <SessionEngine>[];
   final started = <PracticeSelection>[];
@@ -70,7 +72,7 @@ void main() {
     http.handler = (options) =>
         FakeReply(200, sessionViewJson(id: 'sess-9', count: 10, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000));
     final ApiClient api = newApiClient(http);
-    starter = PracticeStarter(
+    buildStarter = (awaitClosing) => PracticeStarter(
       api: api,
       drafts: drafts,
       userId: () => 'u1',
@@ -90,7 +92,9 @@ void main() {
       },
       rememberSession: (id, s) => notes.write(id, chapter: s.chapterLabel, mode: s.mode.apiMode),
       afterStarted: started.add,
+      awaitClosing: awaitClosing,
     );
+    starter = buildStarter(null);
   });
 
   tearDown(() async {
@@ -116,6 +120,29 @@ void main() {
     expect(body.containsKey('chapters'), isFalse);
     expect(body.containsKey('purpose'), isFalse);
     expect(started, hasLength(1));
+  });
+
+  test('a start waits for a runner still closing under its draft key before it saves its own draft (practice-02)', () async {
+    final gate = Completer<void>();
+    String? waitedOn;
+    final waiting = buildStarter((key) {
+      waitedOn = key;
+      return gate.future;
+    });
+    var done = false;
+    final outcome = waiting.start(quick, quote: _quote()).whenComplete(() => done = true);
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    expect(done, isFalse, reason: 'the start is held while the earlier runner closes');
+    expect(engines, isEmpty, reason: 'no draft is saved yet');
+    expect(waitedOn, quick.draftKey('u1'));
+    gate.complete();
+    expect(await outcome, isA<Started>());
+    expect(engines, hasLength(1));
+  });
+
+  test('a start that cannot wait for the close still starts (an ordering guard only)', () async {
+    final outcome = await buildStarter((key) => Future<void>.error(StateError('closing failed'))).start(quick, quote: _quote());
+    expect(outcome, isA<Started>());
   });
 
   test('five fresh questions start as a free recovery session for that attempt and chapter', () async {
@@ -322,5 +349,28 @@ void main() {
       final more = base.copyWith(chapters: const ['Goodwill', 'Issue of shares']);
       expect({base.draftKey('u1'), harder.draftKey('u1'), more.draftKey('u1')}, hasLength(3));
     });
+  });
+
+  group('practice-04: a start whose deadline is missing or already past is refused', () {
+    for (final (name, edit) in <(String, void Function(Map<String, dynamic>))>[
+      ('no expiresAt', (j) => j.remove('expiresAt')),
+      ('an unreadable expiresAt', (j) => j['expiresAt'] = 'soon'),
+      ('expiresAt at the server clock', (j) => j['expiresAt'] = DateTime.fromMillisecondsSinceEpoch(1000000, isUtc: true).toIso8601String()),
+    ]) {
+      test(name, () async {
+        http.handler = (options) {
+          final json = sessionViewJson(id: 'sess-9', count: 10, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000);
+          edit(json);
+          return FakeReply(200, json);
+        };
+        final outcome = await starter.start(quick, quote: _quote());
+        expect(outcome, isA<StartFailed>().having((f) => f.failure, 'failure', StartFailure.generic));
+        // Nothing reached the phone: no engine, no draft, no "started" bookkeeping, so no timer
+        // can submit an empty paper.
+        expect(engines, isEmpty);
+        expect(await drafts.bySessionId('sess-9'), isNull);
+        expect(started, isEmpty);
+      });
+    }
   });
 }

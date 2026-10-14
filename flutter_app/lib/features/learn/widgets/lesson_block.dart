@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../../../core/models/json_helpers.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import 'screen_bits.dart';
 
 /// One teaching block of a lesson (`type: reading`): explanation, steps, worked example,
 /// common mistake, comparison table or word set. Used by the lesson page and by the guided run.
@@ -68,12 +70,12 @@ class LessonBlock extends StatelessWidget {
     if (!emphasised) return content;
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: colors.raised2,
+        color: learnSelectedSurface(colors),
         borderRadius: MmRadius.panelAll,
         border: Border.all(color: colors.line),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(MmSpace.cardPadding),
+        padding: const EdgeInsets.all(MmRhythm.plainPad),
         child: content,
       ),
     );
@@ -106,13 +108,13 @@ class _Formula extends StatelessWidget {
         .toList();
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: nested ? colors.sunken : colors.raised2,
+        color: nested ? colors.sunken : learnSelectedSurface(colors),
         borderRadius: nested ? MmRadius.smallAll : MmRadius.panelAll,
         border: nested ? null : Border.all(color: colors.line),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: nested ? MmSpace.s16 : MmSpace.cardPadding,
+          horizontal: nested ? MmSpace.s16 : MmRhythm.plainPad,
           vertical: nested ? MmSpace.s12 : MmSpace.s16,
         ),
         child: Column(

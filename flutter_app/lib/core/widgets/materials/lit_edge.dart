@@ -24,16 +24,32 @@ class LitEdge extends StatelessWidget {
   final bool glow;
   final double width;
 
+  /// The soft band under the Day line.
+  static const double dayBandWidth = 6;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final day = !colors.isNight;
+    // On Day the olive line on a white card read as a faint hairline, so the one lit element was
+    // only lit on Night (SPACING-AUDIT Y5): the line is 2 dp at least, with a soft olive band of
+    // the same light under it. Night keeps its single volt line.
     Widget lit = CustomPaint(
       foregroundPainter: LitEdgePainter(
-        color: colors.isNight ? colors.volt : colors.accentText,
+        color: day ? colors.accentText : colors.volt,
         radius: borderRadius.topLeft.x,
-        width: width,
+        width: day ? math.max(width, 2.0) : width,
       ),
-      child: child,
+      child: day
+          ? CustomPaint(
+              foregroundPainter: LitEdgePainter(
+                color: colors.accentText.withValues(alpha: 0.16),
+                radius: borderRadius.topLeft.x,
+                width: dayBandWidth,
+              ),
+              child: child,
+            )
+          : child,
     );
     if (glow) {
       lit = CustomPaint(painter: _GlowPainter(color: colors.voltGlow, borderRadius: borderRadius), child: lit);

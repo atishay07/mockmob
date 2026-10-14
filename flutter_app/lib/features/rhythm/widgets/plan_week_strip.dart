@@ -5,8 +5,10 @@
 // and the rhythm screen.
 //
 // With [animateIn] the counted days ink one after another from the left when the strip first
-// appears (the pencil stroke), and with [onDay] each column is a 48 dp target that reports the
-// tap (the rhythm screen answers with a light haptic and the day in words). Under reduced motion
+// appears (the pencil stroke: 120 ms of lead, 260 ms each, 70 ms apart, so even seven counted days
+// are inked inside 800 ms), and with [onDay] each column is a 48 dp target that answers on the next
+// frame (it sinks on the press spring, a veil washes it, and a selection tick fires on release)
+// and reports the tap (the rhythm screen answers with the day in words). Under reduced motion
 // everything is drawn settled.
 import 'dart:math' as math;
 
@@ -14,7 +16,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart' show BubblePaint, BubbleState;
+import '../../../core/widgets/widgets.dart' show BubblePaint, BubbleState, MmPressHaptic, MmPressable;
 import '../copy.dart';
 import '../logic/plan_week.dart';
 
@@ -58,9 +60,10 @@ class _PlanWeekStripState extends State<PlanWeekStrip> with SingleTickerProvider
   List<Animation<double>> _fills = const [];
   bool _started = false;
 
-  /// Each counted day starts inking 110 ms after the one before it and takes 300 ms.
-  static const int _perDayMs = 110;
-  static const int _inkMs = 300;
+  /// Each counted day starts inking 70 ms after the one before it and takes 260 ms.
+  static const int _perDayMs = 70;
+  static const int _inkMs = 260;
+  static const int _leadMs = 120;
 
   int get _counted => widget.days.where((d) => d.mark == PlanDayMark.done).length;
 
@@ -70,17 +73,17 @@ class _PlanWeekStripState extends State<PlanWeekStrip> with SingleTickerProvider
     if (_started) return;
     _started = true;
     if (!widget.animateIn || Motion.reduced(context) || _counted == 0) return;
-    final total = _inkMs + _perDayMs * (_counted - 1) + 160;
+    final total = _leadMs + _inkMs + _perDayMs * (_counted - 1);
     final ink = _ink = AnimationController(vsync: this, duration: Duration(milliseconds: total))..forward();
-    // 160 ms of lead so the numbers and the first ink do not start on the same frame. One curve
+    // 120 ms of lead so the numbers and the first ink do not start on the same frame. One curve
     // per counted day, made once: a curve attaches a listener to the controller.
     _fills = [
       for (var i = 0; i < _counted; i++)
         CurvedAnimation(
           parent: ink,
           curve: Interval(
-            ((160 + i * _perDayMs) / total).clamp(0.0, 1.0),
-            ((160 + i * _perDayMs + _inkMs) / total).clamp(0.0, 1.0),
+            ((_leadMs + i * _perDayMs) / total).clamp(0.0, 1.0),
+            ((_leadMs + i * _perDayMs + _inkMs) / total).clamp(0.0, 1.0),
             curve: Motion.glide,
           ),
         ),
@@ -114,7 +117,17 @@ class _PlanWeekStripState extends State<PlanWeekStrip> with SingleTickerProvider
       );
       final onDay = widget.onDay;
       if (onDay != null) {
-        column = GestureDetector(behavior: HitTestBehavior.opaque, onTap: () => onDay(d), child: column);
+        // The press answers on the next frame: the column sinks, a veil washes it, and the
+        // selection tick fires when the tap lands.
+        final inner = column;
+        column = MmPressable(
+          onTap: () => onDay(d),
+          button: false,
+          highlight: true,
+          focusRadius: MmRadius.smallAll,
+          haptic: MmPressHaptic.selection,
+          builder: (context, pressed, focused) => inner,
+        );
       }
       if (widget.daySemantics) {
         column = Semantics(
@@ -310,7 +323,9 @@ class _DayColumn extends StatelessWidget {
     );
     if (!selected) return column;
     return DecoratedBox(
-      decoration: BoxDecoration(color: colors.isNight ? colors.raised2.withValues(alpha: 0.7) : colors.sunken, borderRadius: BorderRadius.circular(14)),
+      // The chosen column is a well in both themes (Night: a lifted dark well; Daylight: the
+      // sunken cream), on the 12 dp control radius.
+      decoration: BoxDecoration(color: colors.isNight ? colors.raised2.withValues(alpha: 0.7) : colors.sunken, borderRadius: MmRadius.smallAll),
       child: column,
     );
   }

@@ -46,7 +46,7 @@ class OtherSubjectsList extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s8),
                 child: Row(
                   children: [
-                    SubjectEmblem(subject: s.id, size: 40, framed: false),
+                    SubjectEmblem(subject: s.id, size: EmblemSizes.chip, framed: false),
                     const SizedBox(width: MmSpace.s12),
                     Expanded(child: Text(s.name, style: type.labelLarge)),
                     Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),

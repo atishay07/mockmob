@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/physics.dart';
 import 'package:flutter/widgets.dart';
 
@@ -5,6 +7,7 @@ import 'reduced_motion.dart';
 
 export 'entrance.dart';
 export 'launch_rect.dart';
+export 'pull_refresh.dart';
 export 'scroll_effects.dart';
 export 'springs.dart';
 
@@ -117,6 +120,28 @@ abstract final class Motion {
   /// Anything leaving for good: cubic-bezier(0.5, 0, 0.75, 0), 180 ms.
   static const Cubic leave = Cubic(0.5, 0, 0.75, 0);
   static const Duration leaveDuration = Duration(milliseconds: 180);
+
+  // ---- Phase 2 additions (docs/brain/ui-phase2/MOTION.md section 2) --------------------------
+
+  /// The longest a ladder T2 moment (practice set acknowledged, repair finished, mock received)
+  /// may run, from first frame to rest. Celebrations assert against it in tests.
+  static const Duration momentT2 = Duration(milliseconds: 1200);
+
+  /// The longest a ladder T3 moment (plan sealed, first full mock, a milestone) may run.
+  static const Duration momentT3 = Duration(milliseconds: 2000);
+
+  /// The bar and a screen's chrome leaving for a focused task (on [leave]), and coming back
+  /// (on [glide]).
+  static const Duration handOffOut = Duration(milliseconds: 180);
+  static const Duration handOffIn = Duration(milliseconds: 300);
+
+  /// One duration for charts, roads, bars and threads drawing in (on [emphasized]). They used to
+  /// range from 520 to 620 ms.
+  static const Duration drawIn = Duration(milliseconds: 450);
+
+  /// How far a surface of [width] dp sinks when pressed: at most 4% and at most about 8 dp across.
+  /// A 340 dp hero at a flat 0.96 sank 14 dp and read as a bounce; small keys keep 0.96.
+  static double pressedScaleFor(double width) => 1 - math.min(0.04, 8 / math.max(width, 1));
 
   /// [d], or zero when motion is reduced.
   static Duration of(BuildContext c, Duration d) => reduced(c) ? Duration.zero : d;

@@ -19,7 +19,7 @@ RepairResponse? demoRepairResponse(AttemptDetail? paper, String questionId, {Dat
   return RepairResponse.fromJson({
     'status': 'explained',
     'repair': {
-      'why_tempting': chosen == null ? 'It was left blank, which costs nothing but gains nothing.' : '“${option(chosen)}” uses words from the question, so it looks right at a glance.',
+      'why_tempting': chosen == null ? 'It was left blank, which costs nothing but gains nothing.' : '“${option(chosen)}” belongs to the same chapter, so it sounds right when you are moving fast.',
       'why_wrong': 'The answer is “${option(key)}”${chosen == null ? '' : ', not “${option(chosen)}”'}.',
       'key_idea': explanation,
       'next_step': 'Before you choose, say the rule of ${q.chapter ?? 'this chapter'} in one line.',

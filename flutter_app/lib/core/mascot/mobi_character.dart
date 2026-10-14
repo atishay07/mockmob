@@ -15,6 +15,7 @@ import 'mobi_figure.dart';
 import 'mobi_geometry.dart';
 import 'mobi_painter.dart';
 import 'mobi_palette.dart';
+import 'mobi_ration.dart';
 import 'mobi_rig.dart';
 import 'mobi_sim.dart';
 
@@ -62,7 +63,9 @@ class MobiCharacter extends StatefulWidget {
   /// Seeds the idle rhythm, so two Mobis on one screen do not blink in step.
   final int seed;
 
-  /// Glance toward taps anywhere on screen for a moment. Costs nothing until a tap.
+  /// Glance toward taps anywhere on screen for a moment, at most once every
+  /// [MobiRation.glanceGap]. Costs nothing until a tap. Pass false on input-heavy screens and
+  /// glance on purpose at what changed.
   final bool watchTaps;
 
   /// Lite detail for small sizes and lists (see [MobiPainter.lite]). Null (the default) picks it
@@ -99,6 +102,16 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   int _taps = 0;
   DateTime _lastTap = DateTime.fromMillisecondsSinceEpoch(0);
 
+  /// When Mobi last glanced at a tap elsewhere (for the [MobiRation.glanceGap] throttle).
+  DateTime? _lastGlance;
+
+  /// The Celebrations setting in force: big acts are calmed or skipped under it.
+  MobiCelebrationLevel _level = MobiCelebrationLevel.full;
+
+  /// A sheet or dialog covers this Mobi's screen: he hushes, looks at it and leaves the taps on
+  /// it to the sheet's own Mobi (one Mobi per screen).
+  bool _covered = false;
+
   @override
   void initState() {
     super.initState();
@@ -108,13 +121,18 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    _level = MobiCelebrations.of(context);
     final reduced = Motion.reduced(context);
-    if (_started && reduced == _reduced) return;
+    final covered = !(ModalRoute.of(context)?.isCurrent ?? true);
+    if (_started && reduced == _reduced) {
+      _cover(covered);
+      return;
+    }
     _reduced = reduced;
     if (reduced) {
       _sleep();
       _rig.value = MobiMoves.keyPose(
-        _started ? (_sim.act ?? _actForStance()) : widget.entrance,
+        _started ? (_sim.act ?? _actForStance()) : (MobiRation.underLevel(widget.entrance, _level) ?? MobiAct.idle),
         pointAngle: _sim.pointAngle,
         pointSide: _sim.pointSide,
       );
@@ -125,6 +143,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     }
     if (!_started) widget.controller?.attach(this);
     _started = true;
+    _cover(covered);
   }
 
   MobiAct _actForStance() => switch (_sim.stance) {
@@ -181,12 +200,35 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   }
 
   void _onPointer(PointerEvent event) {
-    if (event is! PointerDownEvent || _reduced || !mounted) return;
+    if (event is! PointerDownEvent || _reduced || _covered || !mounted) return;
     final box = context.findRenderObject();
     if (box is! RenderBox || !box.attached || !box.hasSize) return;
     // A tap on Mobi itself is handled by the tap reaction.
     if ((Offset.zero & box.size).contains(box.globalToLocal(event.position))) return;
+    // At most one glance per gap: on a busy screen a glance at every tap reads as twitching.
+    final now = MobiRation.now();
+    final last = _lastGlance;
+    if (last != null && now.difference(last) < MobiRation.glanceGap) return;
+    _lastGlance = now;
     glanceAtGlobal(event.position, 1.1);
+  }
+
+  /// A sheet rose over this Mobi's screen (or went away). Under it he looks down at the sheet
+  /// and stops watching taps; when it goes he looks ahead again.
+  void _cover(bool covered) {
+    if (covered == _covered) return;
+    _covered = covered;
+    if (_reduced) return;
+    // After this frame's layout, so the look is measured from where Mobi stands now.
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || _covered != covered) return;
+      final size = MediaQuery.maybeSizeOf(context);
+      if (!covered) {
+        lookAtGlobal(null);
+      } else if (size != null) {
+        lookAtGlobal(Offset(size.width / 2, size.height * 0.8));
+      }
+    });
   }
 
   // ---- Ticking -----------------------------------------------------------------------------
@@ -224,7 +266,10 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   // ---- MobiHost ----------------------------------------------------------------------------
 
   @override
-  void play(MobiAct act, {double? seconds}) {
+  void play(MobiAct requested, {double? seconds}) {
+    // The Celebrations setting: Quiet turns a celebration into a nod, Off into nothing.
+    final act = MobiRation.underLevel(requested, _level);
+    if (act == null) return;
     if (_reduced) {
       _still?.cancel();
       _still = null;
@@ -353,9 +398,10 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
       ),
     );
     if (widget.interactive && !_reduced) {
+      // The reaction starts on touch down, so the finger is answered on the next frame.
       child = GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTapUp: (d) => _onTapAt(d.globalPosition),
+        onTapDown: (d) => _onTapAt(d.globalPosition),
         child: child,
       );
     }

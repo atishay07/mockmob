@@ -5,9 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/models/rhythm.dart';
+import 'package:mockmob/core/repositories/consent_repository.dart' show ConsentStatus;
 import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show SubjectPlate;
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
+import 'package:mockmob/features/you/edit_copy.dart';
+import 'package:mockmob/features/you/hub/hub_sections.dart' show SettingsPanel;
 import 'package:mockmob/features/you/you_hub_screen.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -59,6 +63,15 @@ void main() {
     }
     expect(find.text('of 4 study days'), findsOneWidget);
     expect(find.text('3 weeks in rhythm'), findsOneWidget);
+  });
+
+  testWidgets('each subject is the shared plate, 136 by 104 dp, not a private tile', (tester) async {
+    await _pumpHub(tester, target: ashaTarget);
+    final plates = find.byType(SubjectPlate);
+    expect(plates, findsNWidgets(4));
+    for (final plate in plates.evaluate()) {
+      expect(tester.getSize(find.byWidget(plate.widget)), const Size(136, 104));
+    }
   });
 
   testWidgets('the course and colleges picked in setup print in order of preference', (tester) async {
@@ -136,6 +149,30 @@ void main() {
     expect(find.text('Off for your account'), findsOneWidget);
   });
 
+  group('the privacy row never says off for a choice it has not read', () {
+    for (final status in [ConsentStatus.notLoaded, ConsentStatus.loading, ConsentStatus.failed]) {
+      testWidgets('$status: no usage-data line at all', (tester) async {
+        await _pumpHub(tester, consent: FakeConsent(consentState(AgeBand.adult, status: status)));
+        expect(find.text('Usage data is off'), findsNothing);
+        expect(find.text('Usage data is on'), findsNothing);
+        expect(find.text('Off for your account'), findsNothing);
+        expect(SettingsPanel.privacyNote(consentState(AgeBand.adult, status: status)), isNull);
+      });
+    }
+
+    testWidgets('a loaded adult sees the real state, on or off', (tester) async {
+      expect(SettingsPanel.privacyNote(consentState(AgeBand.adult, on: true)), 'Usage data is on');
+      expect(SettingsPanel.privacyNote(consentState(AgeBand.adult)), 'Usage data is off');
+      await _pumpHub(tester, consent: FakeConsent(consentState(AgeBand.adult, on: true)));
+      expect(find.text('Usage data is on'), findsOneWidget);
+    });
+
+    test('a withdrawal the server has not acknowledged reads off', () {
+      final pending = consentState(AgeBand.adult, on: true).copyWith(withdrawalPending: true);
+      expect(SettingsPanel.privacyNote(pending), 'Usage data is off');
+    });
+  });
+
   testWidgets('rows and the week field open their screens', (tester) async {
     final router = await _pumpHub(tester);
     await tester.tap(find.text('Weekly goal and rhythm'));
@@ -198,5 +235,33 @@ void main() {
     await _pumpHub(tester);
     expect(tester.getSize(find.bySemanticsLabel('Help and about')).height, greaterThanOrEqualTo(48));
     expect(find.bySemanticsLabel('Appearance and feel. Night'), findsOneWidget);
+  });
+
+  testWidgets('You is a tab root: the title row has the name of the tab, no back key and no avatar', (tester) async {
+    await _pumpHub(tester);
+    expect(find.text('You'), findsOneWidget, reason: 'the tab title');
+    expect(find.bySemanticsLabel('Back'), findsNothing);
+    expect(find.bySemanticsLabel('You, profile and settings'), findsNothing);
+    // One side action, Edit sheet, and it is a full 48 dp target.
+    expect(tester.getSize(find.bySemanticsLabel(EditCopy.editSheetLabel)).height, greaterThanOrEqualTo(48));
+  });
+
+  testWidgets('every block starts on the 16 dp gutter, nothing at 20 or 36', (tester) async {
+    await _pumpHub(tester, target: ashaTarget);
+    // 384 dp wide view (768 px at 2x): the tab title, the sheet words and a section title share one edge.
+    final edge = tester.getTopLeft(find.text('You')).dx;
+    expect(edge, 16);
+    expect(tester.getTopLeft(find.text('Your sheet, CUET UG 2027')).dx, edge);
+    expect(tester.getTopLeft(find.text('Asha Verma')).dx, edge);
+    expect(tester.getTopLeft(find.text('Milestones')).dx, edge);
+    expect(tester.getTopLeft(find.text('Settings')).dx, edge);
+  });
+
+  testWidgets('the milestone shelf is one way into Milestones, beside See all', (tester) async {
+    final router = await _pumpHub(tester, rhythm: FakeRhythm(rhythmState(milestones: earnedMilestones)));
+    await tester.tap(find.bySemanticsLabel(RegExp(r', earned on 27 September$')));
+    await tester.pumpAndSettle();
+    expect(find.text('milestones page'), findsOneWidget);
+    router.pop();
   });
 }

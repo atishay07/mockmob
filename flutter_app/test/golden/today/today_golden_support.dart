@@ -6,7 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
-import 'package:mockmob/core/router/app_shell.dart' show DockScrim;
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
@@ -27,47 +26,89 @@ List<Override> get todayOverrides => [authSnapshotProvider.overrideWithBuild((re
 
 TodayCallbacks get noopCallbacks => TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {});
 
-/// Today as the shell shows it: phone insets, the dock floating over the content, and the
-/// content's bottom padding raised by the dock's clearance.
-class PhoneFrame extends StatelessWidget {
+/// Today as the shell shows it: phone insets, the bar floating over the content with its scrim,
+/// the content's bottom padding raised by the bar's clearance ([MmBarInsets]), and the live
+/// capsule showing tonight's move while Today publishes it (its hero key is off-screen).
+class PhoneFrame extends StatefulWidget {
   const PhoneFrame({super.key, required this.child, this.dock = true});
 
   final Widget child;
+
+  /// Whether the bar is there (false: Today outside the shell).
   final bool dock;
+
+  @override
+  State<PhoneFrame> createState() => _PhoneFrameState();
+}
+
+class _PhoneFrameState extends State<PhoneFrame> {
+  final ValueNotifier<BarMove?> _move = ValueNotifier(null);
+
+  @override
+  void dispose() {
+    _move.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context);
-    const clearance = MmDock.clearanceAbove;
     final insets = media.copyWith(padding: kPhoneInsets, viewPadding: kPhoneInsets);
+    final dock = widget.dock;
     return MediaQuery(
       data: insets,
-      child: BackdropGroup(
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: MediaQuery(
-                data: insets.copyWith(padding: kPhoneInsets.copyWith(bottom: kPhoneInsets.bottom + (dock ? clearance : 0))),
-                child: child,
-              ),
+      child: ValueListenableBuilder<BarMove?>(
+        valueListenable: _move,
+        builder: (context, move, _) {
+          final capsule = dock && move != null;
+          final clearance = dock ? MmBarInsets.clearanceFor(capsule: capsule) : 0.0;
+          final barBottom = kPhoneInsets.bottom + MmBar.lift;
+          return BackdropGroup(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: MmBarInsets(
+                    showing: dock,
+                    capsule: capsule,
+                    tonightMove: dock ? _move : null,
+                    child: MediaQuery(
+                      data: insets.copyWith(padding: kPhoneInsets.copyWith(bottom: kPhoneInsets.bottom + clearance)),
+                      child: widget.child,
+                    ),
+                  ),
+                ),
+                if (dock) ...[
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    height: BarScrim.heightFor(kPhoneInsets.bottom, capsule: capsule),
+                    child: IgnorePointer(child: BarScrim(bottomInset: kPhoneInsets.bottom, capsule: capsule)),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: barBottom + MmBar.height + MmBar.capsuleGap - 2,
+                    child: Center(
+                      child: LiveCapsule(
+                        live: move,
+                        width: BarGeometry(media.size.width).width - 32,
+                        collapse: kAlwaysDismissedAnimation,
+                        onAction: (live) => (live as BarMove).onStart(),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: barBottom,
+                    child: Center(child: MmBottomBar(currentBranch: 0, onTab: (_) {}, onStart: (_) {})),
+                  ),
+                ],
+              ],
             ),
-            if (dock) ...[
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                height: MmDock.height + MmDock.lift + kPhoneInsets.bottom + 48,
-                child: const IgnorePointer(child: DockScrim()),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: SplitDock(currentIndex: 0, onTab: (_) {}, onStart: (_) {}),
-              ),
-            ],
-          ],
-        ),
+          );
+        },
       ),
     );
   }
@@ -87,7 +128,11 @@ void todayGolden(String name, TodayView Function() view, {Size size = kTodaySize
 
 /// Any widget in the phone frame, both themes.
 void screenGolden(String name, Widget Function() build, {Size size = kTodaySize, bool dock = true, bool settle = false, double textScale = 1}) {
-  setUpAll(loadAppFonts);
+  setUpAll(() async {
+    await loadAppFonts();
+    // The bar's tab glyphs are Material icons.
+    await loadMaterialIconFont();
+  });
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
     testWidgets('$name, $tag', (tester) async {

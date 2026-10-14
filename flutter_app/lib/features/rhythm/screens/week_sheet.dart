@@ -17,6 +17,7 @@ import '../data/study_days.dart';
 import '../logic/week_outlook.dart';
 import '../widgets/goal_editor.dart';
 import '../logic/week_view.dart';
+import '../widgets/rhythm_layout.dart' show kNumberRollDelay;
 import '../widgets/rhythm_page.dart';
 import '../logic/plan_week.dart';
 import '../widgets/plan_week_strip.dart';
@@ -41,14 +42,8 @@ class _WeekSheetState extends ConsumerState<WeekSheet> {
     setState(() => _saved = ref.read(rhythmActionsProvider).studyDaysReceipt(saved));
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // Sheet opened: one `open` haptic (spec 3.3).
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) ref.read(hapticsProvider).open();
-    });
-  }
+  // Opening the sheet gives no haptic of its own: the tap on the week row that opened it already
+  // ticked (MOTION.md 1.6).
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +277,7 @@ class _Loaded extends StatelessWidget {
         // The rule is one tap away, not repeated on every sheet.
         const _RuleInfo(),
         if (onChangeDays != null && plan != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, chevron: true, onPressed: onChangeDays!),
-        const SizedBox(height: MmSpace.s4),
+        const SizedBox(height: MmSpace.s8),
         QuietPill(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
       ],
     );
@@ -358,7 +353,9 @@ class _WorkFigure extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MmCountUp(value: value, style: type.figureCompact),
+        // The figure's box is its ink, so the label sits 4 dp under it and the pair reads as one.
+        MonumentalNumber(value: '$value', style: type.figureCompact, delay: kNumberRollDelay),
+        const SizedBox(height: MmSpace.s4),
         Text(label, style: type.caption.copyWith(color: colors.ink2)),
       ],
     );

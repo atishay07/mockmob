@@ -22,8 +22,13 @@ class PrefToggle extends Notifier<bool> {
   final Future<bool> Function(AppPrefs prefs) read;
   final Future<void> Function(AppPrefs prefs, bool value) write;
 
+  /// True once the student has chosen while the stored value was still being read. The choice
+  /// always wins: a read that lands afterwards must not put the old value back (you-02).
+  bool _touched = false;
+
   @override
   bool build() {
+    _touched = false;
     _load();
     return initial;
   }
@@ -31,13 +36,14 @@ class PrefToggle extends Notifier<bool> {
   Future<void> _load() async {
     try {
       final saved = await read(ref.read(appPrefsProvider));
-      if (ref.mounted) state = saved;
+      if (ref.mounted && !_touched) state = saved;
     } on Object {
       // Keep the default.
     }
   }
 
   Future<void> set(bool value) async {
+    _touched = true;
     state = value;
     try {
       await write(ref.read(appPrefsProvider), value);

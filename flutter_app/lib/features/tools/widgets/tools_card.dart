@@ -53,7 +53,7 @@ class ToolsHeading extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     return Padding(
-      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, top, trailing == null ? MmSpace.gutter + 4 : MmSpace.s8, MmRhythm.item),
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter, top, trailing == null ? MmSpace.gutter : MmSpace.s8, MmRhythm.item),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [

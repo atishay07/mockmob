@@ -89,11 +89,28 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
             _header(ui),
             if (offline && ui.load == RunLoad.ready)
               const InlineBanner.offlineStrip(),
-            Expanded(child: _body(ui, controller)),
+            // Skeleton, step or state: one 200 ms cross-fade between them (MOTION.md C11).
+            Expanded(
+              child: AnimatedSwitcher(
+                duration: Motion.of(context, Motion.ui),
+                child: KeyedSubtree(
+                  key: ValueKey(_bodyKind(ui)),
+                  child: _body(ui, controller),
+                ),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  String _bodyKind(RunUiState ui) {
+    if (ui.load != RunLoad.ready) return ui.load.name;
+    final run = ui.run;
+    return run != null && run.isActive && run.currentItem != null
+        ? 'step'
+        : RunLoad.loading.name;
   }
 
   Widget _header(RunUiState ui) {
@@ -105,9 +122,10 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
         ? (run.cursor + 1).clamp(1, run.total == 0 ? 1 : run.total)
         : 0;
     return Padding(
+      // The close key's glyph sits on the gutter (its 48 dp target starts 12 dp left of it).
       padding: const EdgeInsets.fromLTRB(
         MmSpace.s4,
-        MmSpace.s4,
+        MmSpace.s8,
         MmSpace.gutter,
         MmSpace.s8,
       ),
@@ -198,8 +216,18 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
           advance: () => unawaited(controller.advance()),
           retry: () => unawaited(controller.flush()),
         );
+        // The step that is leaving fades out under the new one and takes no touches: a tap
+        // always lands on the step the student is looking at, and a tap during the arrival works.
         return AnimatedSwitcher(
           duration: Motion.of(context, Motion.runner),
+          transitionBuilder: (child, animation) => AnimatedBuilder(
+            animation: animation,
+            child: child,
+            builder: (context, child) => IgnorePointer(
+              ignoring: animation.status == AnimationStatus.reverse,
+              child: FadeTransition(opacity: animation, child: child),
+            ),
+          ),
           child: RunStep(
             key: ValueKey('${run.cursor}:${item.id}'),
             ui: ui,

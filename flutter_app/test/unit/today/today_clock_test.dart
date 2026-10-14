@@ -246,4 +246,43 @@ void main() {
       expect(http.requests.length, asked, reason: 'a recorded paper is not asked about again');
     });
   });
+
+  group('an ended mock the server had not recorded is asked again on resume (ROBUSTNESS today-04)', () {
+    late FakeHttpAdapter http;
+    late ProviderContainer container;
+    var recorded = false;
+
+    setUp(() {
+      recorded = false;
+      http = FakeHttpAdapter()..handler = (o) => recorded ? const FakeReply(200, {'id': 'm8'}) : const FakeReply(404, {'error': 'not_found'});
+      container = ProviderContainer(overrides: [
+        apiClientProvider.overrideWithValue(newApiClient(http)),
+        networkStatusProvider.overrideWith(() => _FakeNetwork(NetworkStatus.online)),
+      ]);
+    });
+
+    tearDown(() => container.dispose());
+
+    test('a 404 is not final: the submit that lands later is seen on the next resume', () async {
+      final sub = container.listen(endedAttemptExistsProvider('m8'), (_, _) {});
+      addTearDown(sub.close);
+      expect(await container.read(endedAttemptExistsProvider('m8').future), isFalse);
+
+      recorded = true; // the background submit reached the server
+      container.read(endedRecheckProvider.notifier).bump(); // what TodayClock.refresh does on resume
+      expect(await container.read(endedAttemptExistsProvider('m8').future), isTrue);
+    });
+
+    test('a recorded paper is not asked about again on resume', () async {
+      recorded = true;
+      final sub = container.listen(endedAttemptExistsProvider('m8'), (_, _) {});
+      addTearDown(sub.close);
+      expect(await container.read(endedAttemptExistsProvider('m8').future), isTrue);
+      final asked = http.requests.length;
+      container.read(endedRecheckProvider.notifier).bump();
+      await Future<void>.delayed(Duration.zero);
+      expect(await container.read(endedAttemptExistsProvider('m8').future), isTrue);
+      expect(http.requests.length, asked);
+    });
+  });
 }

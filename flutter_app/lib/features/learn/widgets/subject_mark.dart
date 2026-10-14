@@ -10,7 +10,7 @@ class SubjectMark extends StatelessWidget {
     super.key,
     required this.subjectId,
     required this.name,
-    this.size = 56,
+    this.size = EmblemSizes.tile,
   });
 
   final String subjectId;

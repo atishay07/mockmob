@@ -1,0 +1,356 @@
+import 'dart:async';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart' show CustomSemanticsAction;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../haptics/haptics.dart';
+import '../theme/theme.dart';
+import 'motion.dart';
+
+/// Pull to refresh in the language of the app (MOTION.md C10), in place of the stock Material
+/// spinner on Today, Review, Insights, Saved and Learn.
+///
+/// The content never moves: the scroll view keeps its clamping physics and the pull is drawn as a
+/// ring under the status bar.
+///
+/// - **Pull.** An answer-bubble ring draws its stroke from nothing to a full circle as the pull grows
+///   from 0 to [threshold] dp, with one selection tick when it closes.
+/// - **Release past the threshold.** The ring becomes a reading arc (one turn in 1.2 s, indeterminate).
+///   After 12 s it says so in words ("Still refreshing. Your page is safe.") and keeps turning.
+/// - **Data returns.** The ring inks volt over 160 ms and lifts away over 200 ms. The screen's
+///   own numbers roll from their old values; this widget never replays an entrance.
+/// - **Failure.** The ring empties and leaves, and [onError] runs so the screen can show its
+///   banner.
+/// - **Reduced motion.** A static ring and the word "Refreshing".
+///
+/// Wrap the scroll view itself; only its first vertical scrollable (notification depth 0) drives
+/// the pull, and a pull that starts away from the top does nothing.
+class MmPullRefresh extends ConsumerStatefulWidget {
+  const MmPullRefresh({
+    super.key,
+    required this.onRefresh,
+    required this.child,
+    this.onError,
+    this.threshold = 72,
+    this.enabled = true,
+  });
+
+  /// Reload the screen's data. A thrown error counts as a failure (the ring empties).
+  final Future<void> Function() onRefresh;
+  final Widget child;
+
+  /// Called after a failed refresh with the error.
+  final void Function(Object error)? onError;
+
+  /// How far the finger pulls (dp) before the ring closes and a release refreshes.
+  final double threshold;
+  final bool enabled;
+
+  /// After this long the arc is joined by words.
+  static const Duration slowAfter = Duration(seconds: 12);
+
+  @override
+  ConsumerState<MmPullRefresh> createState() => _MmPullRefreshState();
+}
+
+enum _PullMode { idle, pulling, refreshing, landing, failing }
+
+class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProviderStateMixin {
+  /// 0 to 1 and beyond: the pull as a share of the threshold.
+  final ValueNotifier<double> _progress = ValueNotifier(0);
+
+  /// The reading arc: one turn per 1.2 s.
+  late final AnimationController _spin = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
+
+  /// Ink (0 to 1 over 160 ms) then lift (1 to 2 over 200 ms) on success; the empty-out on failure.
+  late final AnimationController _land = AnimationController(vsync: this, duration: const Duration(milliseconds: 360));
+
+  _PullMode _mode = _PullMode.idle;
+  double _pull = 0;
+  bool _armed = false;
+  bool _slow = false;
+  Timer? _slowTimer;
+  int _generation = 0;
+
+  @override
+  void dispose() {
+    _slowTimer?.cancel();
+    _progress.dispose();
+    _spin.dispose();
+    _land.dispose();
+    super.dispose();
+  }
+
+  bool get _busy => _mode == _PullMode.refreshing || _mode == _PullMode.landing || _mode == _PullMode.failing;
+
+  bool _onScroll(ScrollNotification n) {
+    if (!widget.enabled || n.depth != 0 || n.metrics.axis != Axis.vertical) return false;
+    if (_busy) return false;
+    if (n is OverscrollNotification && n.dragDetails != null && n.overscroll < 0) {
+      _setPull(_pull - n.overscroll);
+    } else if (n is ScrollUpdateNotification && n.dragDetails != null) {
+      final pixels = n.metrics.pixels;
+      // Bouncing physics reports the pull as negative pixels; away from the top there is no pull.
+      if (pixels < 0) {
+        _setPull(-pixels);
+      } else if (pixels > 0 && _pull > 0) {
+        _setPull(0);
+      }
+    } else if (n is ScrollEndNotification && _pull > 0) {
+      _release();
+    }
+    return false;
+  }
+
+  void _setPull(double pull) {
+    _pull = math.max(0, pull);
+    final p = _pull / widget.threshold;
+    if (_mode == _PullMode.idle && p > 0) _mode = _PullMode.pulling;
+    if (!_armed && p >= 1) {
+      _armed = true;
+      ref.read(hapticsProvider).selection();
+    } else if (_armed && p < 0.9) {
+      _armed = false;
+    }
+    _progress.value = p;
+  }
+
+  void _release() {
+    final go = _armed && _mode == _PullMode.pulling;
+    _pull = 0;
+    _armed = false;
+    if (go) {
+      unawaited(_refresh());
+    } else {
+      _mode = _PullMode.idle;
+      _progress.value = 0;
+    }
+  }
+
+  /// Also the target of the TalkBack "Refresh" action.
+  Future<void> _refresh() async {
+    if (_busy) return;
+    final generation = ++_generation;
+    setState(() {
+      _mode = _PullMode.refreshing;
+      _slow = false;
+    });
+    _progress.value = 1;
+    final reduced = Motion.reduced(context);
+    if (!reduced) _spin.repeat();
+    _slowTimer?.cancel();
+    _slowTimer = Timer(MmPullRefresh.slowAfter, () {
+      if (mounted && generation == _generation) setState(() => _slow = true);
+    });
+    Object? failure;
+    try {
+      await widget.onRefresh();
+    } catch (error) {
+      failure = error;
+    }
+    _slowTimer?.cancel();
+    if (!mounted || generation != _generation) return;
+    _spin.stop();
+    if (failure != null) {
+      setState(() => _mode = _PullMode.failing);
+      widget.onError?.call(failure);
+    } else {
+      setState(() => _mode = _PullMode.landing);
+    }
+    if (Motion.reduced(context)) {
+      _land.value = 1;
+    } else {
+      await _land.forward(from: 0);
+    }
+    if (!mounted || generation != _generation) return;
+    _land.value = 0;
+    _progress.value = 0;
+    setState(() {
+      _mode = _PullMode.idle;
+      _slow = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final reduced = Motion.reduced(context);
+    final top = MediaQuery.paddingOf(context).top;
+    return Semantics(
+      customSemanticsActions: {const CustomSemanticsAction(label: 'Refresh'): () => unawaited(_refresh())},
+      child: NotificationListener<ScrollNotification>(
+        onNotification: _onScroll,
+        child: Stack(
+          children: [
+            widget.child,
+            Positioned(
+              top: top + MmSpace.s8,
+              left: 0,
+              right: 0,
+              child: IgnorePointer(
+                child: Center(
+                  child: ListenableBuilder(
+                    listenable: Listenable.merge([_progress, _spin, _land]),
+                    builder: (context, _) => _PullRing(
+                      progress: _progress.value,
+                      mode: _mode,
+                      spin: _spin.value,
+                      land: _land.value,
+                      reduced: reduced,
+                      slow: _slow,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PullRing extends StatelessWidget {
+  const _PullRing({
+    required this.progress,
+    required this.mode,
+    required this.spin,
+    required this.land,
+    required this.reduced,
+    required this.slow,
+  });
+
+  final double progress;
+  final _PullMode mode;
+  final double spin;
+  final double land;
+  final bool reduced;
+  final bool slow;
+
+  /// The ink takes the first 160 of 360 ms, the lift the last 200.
+  static const double _inkShare = 160 / 360;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    if (mode == _PullMode.idle && progress <= 0) return const SizedBox.shrink();
+
+    var fade = 1.0;
+    var lift = 0.0;
+    var ink = 0.0;
+    var shown = progress.clamp(0.0, 1.0);
+    if (mode == _PullMode.landing) {
+      ink = (land / _inkShare).clamp(0.0, 1.0);
+      final out = ((land - _inkShare) / (1 - _inkShare)).clamp(0.0, 1.0);
+      fade = 1 - out;
+      lift = -16 * Curves.easeIn.transform(out);
+      shown = 1;
+    } else if (mode == _PullMode.failing) {
+      // The ring empties, then leaves.
+      shown = 1 - Motion.emphasized.transform(land);
+      fade = 1 - Curves.easeIn.transform(((land - 0.5) * 2).clamp(0.0, 1.0));
+    } else if (mode == _PullMode.pulling) {
+      fade = Curves.easeOut.transform(progress.clamp(0.0, 0.4) / 0.4);
+    }
+
+    final refreshing = mode == _PullMode.refreshing;
+    final words = refreshing && (reduced || slow);
+    final label = slow ? 'Still refreshing. Your page is safe.' : 'Refreshing';
+
+    return Semantics(
+      liveRegion: refreshing,
+      label: refreshing ? label : null,
+      excludeSemantics: refreshing,
+      child: Opacity(
+        opacity: fade,
+        child: Transform.translate(
+          offset: Offset(0, lift),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              DecoratedBox(
+                decoration: ShapeDecoration(
+                  color: colors.raised,
+                  shape: CircleBorder(side: BorderSide(color: colors.line)),
+                  shadows: colors.isNight ? null : colors.cardShadow,
+                ),
+                child: SizedBox.square(
+                  dimension: 40,
+                  child: CustomPaint(
+                    painter: _RingPainter(
+                      progress: shown,
+                      // A finished pull is a full circle; refreshing is a 28% arc turning.
+                      arc: refreshing && !reduced ? 0.28 : null,
+                      spin: spin,
+                      ink: ink,
+                      stroke: colors.accentText,
+                      track: colors.line,
+                      fill: colors.volt,
+                    ),
+                  ),
+                ),
+              ),
+              if (words) ...[
+                const SizedBox(height: MmSpace.s4),
+                Text(label, style: type.caption.copyWith(color: colors.ink2)),
+              ],
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _RingPainter extends CustomPainter {
+  const _RingPainter({
+    required this.progress,
+    required this.arc,
+    required this.spin,
+    required this.ink,
+    required this.stroke,
+    required this.track,
+    required this.fill,
+  });
+
+  final double progress;
+  final double? arc;
+  final double spin;
+  final double ink;
+  final Color stroke;
+  final Color track;
+  final Color fill;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final center = size.center(Offset.zero);
+    final radius = size.shortestSide / 2 - 9;
+    final rect = Rect.fromCircle(center: center, radius: radius);
+    final base = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round;
+    canvas.drawCircle(center, radius, base..color = track);
+    if (ink > 0) {
+      // The volt is a fill on both themes (a filled bubble), with the stroke riding on it.
+      canvas.drawCircle(center, radius * ink + 0.01, Paint()..color = fill);
+    }
+    final sweep = arc;
+    if (sweep != null) {
+      canvas.drawArc(rect, -math.pi / 2 + spin * 2 * math.pi, sweep * 2 * math.pi, false, base..color = stroke);
+    } else if (progress > 0) {
+      canvas.drawArc(rect, -math.pi / 2, progress * 2 * math.pi, false, base..color = stroke);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_RingPainter old) =>
+      old.progress != progress ||
+      old.arc != arc ||
+      old.spin != spin ||
+      old.ink != ink ||
+      old.stroke != stroke ||
+      old.track != track;
+}

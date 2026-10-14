@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/pressable.dart';
 
 /// A small choice key drawn as an answer bubble: an hour, a minute, AM or PM, a weekly cap. At
 /// least 48 dp. The chosen one is inked (volt, dark numerals) and reads as selected to TalkBack;
-/// pressed shows a fill instead of a ripple; focus shows the ring.
+/// pressed shows a fill instead of a ripple (on the next frame); the ink fades in over 140 ms on
+/// release, and is there at once under reduced motion; focus shows the ring.
 class SelectChip extends ConsumerStatefulWidget {
   const SelectChip({
     super.key,
@@ -53,12 +55,16 @@ class _SelectChipState extends ConsumerState<SelectChip> {
         onTap: enabled ? _commit : null,
         builder: (context, pressed, _) {
           // Chosen reads as an inked answer bubble: volt with dark ink, the ring gone.
+          final pressFill = colors.isNight ? colors.raised2 : colors.sunken;
           final fill = widget.selected
               ? colors.volt
-              : (pressed ? (colors.isNight ? colors.raised2 : colors.sunken) : Colors.transparent);
+              : (pressed ? pressFill : pressFill.withValues(alpha: 0));
           return ConstrainedBox(
             constraints: BoxConstraints(minWidth: widget.minWidth, minHeight: MmTarget.min),
-            child: DecoratedBox(
+            // The press fill is immediate; only the ink coming in or going out eases.
+            child: AnimatedContainer(
+              duration: pressed ? Duration.zero : Motion.of(context, Motion.release),
+              curve: Motion.out,
               decoration: ShapeDecoration(
                 color: fill,
                 shape: StadiumBorder(
@@ -69,13 +75,14 @@ class _SelectChipState extends ConsumerState<SelectChip> {
                 padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
                 child: Center(
                   widthFactor: 1,
-                  child: Text(
-                    widget.label,
+                  child: AnimatedDefaultTextStyle(
+                    duration: pressed ? Duration.zero : Motion.of(context, Motion.release),
                     style: type.button.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: textColor.withValues(alpha: enabled ? 1 : 0.45),
                     ),
+                    child: Text(widget.label),
                   ),
                 ),
               ),

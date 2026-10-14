@@ -86,3 +86,32 @@ class EndingModel {
   final Set<String> touchedKeys;
   final bool repairedBefore;
 }
+
+/// The open mistakes of one chapter, split by whether they are in the paper the repair ran on.
+class ChapterOpen {
+  const ChapterOpen({required this.here, required this.elsewhere});
+
+  /// Open in this paper: what the run covered.
+  final int here;
+
+  /// Open in other papers: the run never touched them.
+  final int elsewhere;
+}
+
+/// What is still open in [chapter] of [subjectId], or null when the index is not known.
+ChapterOpen? chapterOpenSplit(ReviewIndex? index, {required String attemptId, required String chapter, required String subjectId}) {
+  if (index == null || chapter.isEmpty) return null;
+  var here = 0;
+  var elsewhere = 0;
+  for (final g in index.openGroups) {
+    if (g.chapter != chapter || g.subjectId != subjectId) continue;
+    for (final i in g.open) {
+      if (i.attemptId == attemptId) {
+        here++;
+      } else {
+        elsewhere++;
+      }
+    }
+  }
+  return ChapterOpen(here: here, elsewhere: elsewhere);
+}

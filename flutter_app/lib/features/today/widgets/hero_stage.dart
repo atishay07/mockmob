@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/art/art.dart';
+import '../../../core/motion/mm_light.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -16,25 +17,31 @@ import 'today_tones.dart';
 const double heroRadius = 28;
 const BorderRadius heroBorderRadius = BorderRadius.all(Radius.circular(heroRadius));
 
-/// Size of the art corner. The object is drawn this big and bleeds a little past the top and
-/// right edges; content beside it keeps clear of [heroArtWidth] minus the bleed.
-const double heroArtHeight = 212;
-const double heroArtWidth = 212;
+/// The art box on the card's header band (SPACING.md 4.1, audit T1): 156 x 156, the emblem drawn
+/// at [heroEmblemSize] in its centre. It belongs to the band (overline, title and number), not to
+/// the card's corner, so it is never cropped by the top edge and never floats away from the
+/// number it explains.
+const double heroArtHeight = 156;
+const double heroArtWidth = 156;
 
-/// How far the art runs past the panel's top and right edges: the object is cropped by the
-/// corner, so it reads as a prop in the room, not a thumbnail in a box.
-const double heroArtBleed = 44;
+/// The box's top, on the card's padding line: its centre then sits within 8 dp of the band's
+/// centre (title top to number baseline, about 42 to 170 dp), so the object stands beside the
+/// subject and the number instead of hanging above "to repair tonight" with air around it.
+const double heroArtTop = MmSpace.cardPadding;
 
-/// The subject emblem's side inside the art corner.
-const double heroEmblemSize = 168;
+/// The box runs 10 dp past the right edge only; the emblem centred in it ends on the edge itself.
+const double heroArtBleedRight = 10;
 
-/// How far the emblem lags the scroll, as a share of the art corner's height (about 25 dp over
-/// the whole viewport): with the emblem centred in the corner its travel stays inside the box.
-const double heroParallax = 0.12;
+/// The subject emblem's side inside the art box: the hero size of the one emblem scale.
+const double heroEmblemSize = EmblemSizes.hero;
 
-/// What content beside the art keeps clear of, from the panel's right edge: the object's lit
-/// face is the visible part of the art, and the line under it (the number) may overlap its base.
-const double heroArtClear = heroArtWidth - heroArtBleed - 28;
+/// How far the emblem lags the scroll, as a share of the box's height: about 8 dp over the whole
+/// viewport, so it never leaves its place beside the band.
+const double heroParallax = 0.05;
+
+/// What the overline, title and (while its label is beside it) the number keep clear of, from the
+/// panel's right edge: the box's visible part plus 12 dp of air (156 - 10 + 12).
+const double heroArtClear = heroArtWidth - heroArtBleedRight + MmSpace.s12;
 
 class HeroStage extends StatelessWidget {
   const HeroStage({super.key, required this.child, this.subjectId, this.art, this.artWidth = heroArtWidth, this.lit = true, this.lampStrength = 1});
@@ -78,7 +85,7 @@ class HeroStage extends StatelessWidget {
           Positioned.fill(child: LightField(pools: pools)),
           Positioned.fill(child: Grain(opacity: colors.grain)),
           if (art != null)
-            Positioned(top: -heroArtBleed, right: -heroArtBleed, width: artWidth, height: heroArtHeight, child: art!),
+            Positioned(top: heroArtTop, right: -heroArtBleedRight, width: artWidth, height: heroArtHeight, child: art!),
           child,
           if (lit) const Positioned(left: 0, right: 0, top: 0, height: 120, child: IgnorePointer(child: _Sweep())),
         ],
@@ -99,13 +106,20 @@ class HeroStage extends StatelessWidget {
     );
 
     if (!lit) return framed;
-    return LitEdge(glow: true, borderRadius: heroBorderRadius, child: framed);
+    // The volt glow under the lit edge is a Night thing: on paper a glow is a grey smudge, and the
+    // olive edge alone carries the light (MOTION.md 1.4).
+    return LitEdge(glow: MmLight.glows(context), borderRadius: heroBorderRadius, child: framed);
   }
 }
 
-/// The room's one light catching the card: a soft band crosses the top of the stage once, 360 ms
-/// after it opens, over 700 ms. Nothing under reduced motion, and never again until the stage is
-/// built anew.
+/// The room's one light catching the card: a soft band crosses the top of the stage once, after
+/// the number has landed (it starts 700 ms after the stage opens and takes 700 ms). Once per app
+/// run, not per visit (MOTION.md 1.1): a return to Today, a refresh or a rebuilt stage shows the
+/// card still. Nothing under reduced motion. On Daylight the band is a 14% volt (MOTION.md 1.4).
+/// Lets a test see the once-per-run hero sweep again.
+@visibleForTesting
+void debugResetHeroSweep() => _SweepState._played = false;
+
 class _Sweep extends StatefulWidget {
   const _Sweep();
 
@@ -117,10 +131,16 @@ class _SweepState extends State<_Sweep> with SingleTickerProviderStateMixin {
   late final AnimationController _t;
   bool _started = false;
 
+  /// The sweep has played in this app run.
+  static bool _played = false;
+
+  /// The wait before the band starts, as a share of the controller: 700 of 1400 ms.
+  static const double _lead = 0.5;
+
   @override
   void initState() {
     super.initState();
-    _t = AnimationController(vsync: this, duration: const Duration(milliseconds: 1060));
+    _t = AnimationController(vsync: this, duration: const Duration(milliseconds: 1400));
   }
 
   @override
@@ -128,7 +148,9 @@ class _SweepState extends State<_Sweep> with SingleTickerProviderStateMixin {
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    if (!Motion.reduced(context)) _t.forward();
+    if (_played || Motion.reduced(context)) return;
+    _played = true;
+    _t.forward();
   }
 
   @override
@@ -146,8 +168,8 @@ class _SweepState extends State<_Sweep> with SingleTickerProviderStateMixin {
         animation: _t,
         builder: (context, _) {
           final v = _t.value;
-          if (v <= 0.34 || v >= 1) return const SizedBox.shrink();
-          final p = Motion.sweepCurve.transform((v - 0.34) / 0.66);
+          if (v <= _lead || v >= 1) return const SizedBox.shrink();
+          final p = Motion.sweepCurve.transform((v - _lead) / (1 - _lead));
           return CustomPaint(painter: _SweepPainter(progress: p, peak: peakColor), size: Size.infinite);
         },
       ),
@@ -186,11 +208,12 @@ class _SweepPainter extends CustomPainter {
   bool shouldRepaint(_SweepPainter old) => old.progress != progress || old.peak != peak;
 }
 
-/// The hero's art corner: the subject's object in its lamp light, large and bleeding off the
-/// corner. It glides in once from 24 dp to the right at 0.92 scale (600 ms emphasized, 120 ms
-/// after the stage), then never moves. Reduced motion shows it in place.
+/// The hero's art: the subject's object in its lamp light, on the card's header band. It arrives
+/// where it rests (MOTION.md 4.3, P0-9): it scales from 0.94 about its own centre and rises 8 dp,
+/// over 420 ms on emphasized, 160 ms after the card, with no sideways travel ([EmblemArrive]).
+/// After that it never moves except for a slight parallax. Reduced motion shows it in place.
 /// Mobi is not drawn here: at a human moment Mobi stands in the card itself (see MoveHeroCard).
-class HeroArtView extends StatefulWidget {
+class HeroArtView extends StatelessWidget {
   const HeroArtView({super.key, required this.art});
 
   final HeroArt art;
@@ -206,65 +229,18 @@ class HeroArtView extends StatefulWidget {
       };
 
   @override
-  State<HeroArtView> createState() => _HeroArtViewState();
-}
-
-class _HeroArtViewState extends State<HeroArtView> with SingleTickerProviderStateMixin {
-  late final AnimationController _arrive = AnimationController(vsync: this, duration: const Duration(milliseconds: 720));
-  static const Interval _window = Interval(120 / 720, 1, curve: Motion.emphasized);
-  bool _started = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_started) return;
-    _started = true;
-    if (Motion.reduced(context)) {
-      _arrive.value = 1;
-    } else {
-      _arrive.forward();
-    }
-  }
-
-  @override
-  void dispose() {
-    _arrive.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final art = widget.art;
+    final art = this.art;
     final Widget image = art.isMobi
-        ? Align(alignment: const Alignment(0.3, 0.2), child: Mobi(pose: HeroArtView.poseFor(art.art), size: 112))
-        // The subject's code-drawn emblem, unframed on its own light, drifting slowly. It sits
-        // left in the corner so the panel's edge only grazes it, and lags the scroll a little
-        // (a prop standing deeper in the room than the card's words). The parallax box is the
-        // art corner; centred in it, the emblem never reaches the box's clip at either end of
-        // its travel ([heroParallax]).
+        ? Center(child: Mobi(pose: HeroArtView.poseFor(art.art), size: 112))
+        // The subject's code-drawn emblem, unframed on its own light, drifting slowly and lagging
+        // the scroll a little (a prop standing deeper in the room than the card's words).
         : MmParallax(
             factor: heroParallax,
-            child: Align(
-              alignment: const Alignment(-0.5, 0),
+            child: Center(
               child: SubjectEmblem(subject: art.subject, size: heroEmblemSize, framed: false, animate: true),
             ),
           );
-    return RepaintBoundary(
-      child: AnimatedBuilder(
-        animation: _arrive,
-        child: image,
-        builder: (context, child) {
-          final t = _window.transform(_arrive.value);
-          if (t >= 1) return child!;
-          return Opacity(
-            opacity: t,
-            child: Transform.translate(
-              offset: Offset(24 * (1 - t), -6 * (1 - t)),
-              child: Transform.scale(scale: 0.92 + 0.08 * t, child: child),
-            ),
-          );
-        },
-      ),
-    );
+    return RepaintBoundary(child: EmblemArrive(child: image));
   }
 }

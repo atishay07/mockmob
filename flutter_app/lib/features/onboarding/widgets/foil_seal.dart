@@ -70,6 +70,9 @@ class FoilSealPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final c = size.center(Offset.zero);
     final r = size.shortestSide / 2 * 0.94;
+    // Foil is an object, not a surface: its pigments (pale highlight #FFFDE8, white glints, black
+    // 33% contact shadow) are the same in Night and Day. Lime foil reads on
+    // both grounds; it is checked in the Day golden.
     final pale = Color.lerp(volt, const Color(0xFFFFFDE8), 0.55)!;
     final gold = Color.lerp(volt, lamp, 0.55)!;
 

@@ -14,10 +14,11 @@ import '../../today/logic/today_model.dart' show GoTo, TodayAction;
 import '../../today/widgets/move_keys.dart' show fitKeyLabel;
 import '../copy.dart';
 import '../data/result_providers.dart';
-import '../../rhythm/rhythm.dart' show CelebrationScope, CelebrationSlot;
+import '../../rhythm/rhythm.dart' show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationModeProvider;
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
 import '../result_nav.dart';
+import '../widgets/result_space.dart';
 import 'card_page.dart';
 import 'recap_mobi.dart';
 import 'record_parts.dart';
@@ -47,10 +48,17 @@ class RecordCard extends ConsumerStatefulWidget {
 }
 
 class _RecordCardState extends ConsumerState<RecordCard> {
-  late int _minutes = widget.model.defaultRepairMinutes;
+  /// The length the student chose, if any. The default is never frozen here: the model can gain
+  /// its repair candidates after the card mounts (the keys arrive on "Try again"), and a default
+  /// read once then stayed 0 ("Start 0-minute repair", robustness result-01).
+  int? _chosen;
   bool _reminderDismissed = false;
 
   RecapModel get m => widget.model;
+
+  /// The repair length in force: the student's choice while it is still one of the options,
+  /// else the model's default as it is now, never 0 while there is something to repair.
+  int get _minutes => effectiveRepairMinutes(m, _chosen);
 
   @override
   void initState() {
@@ -70,7 +78,9 @@ class _RecordCardState extends ConsumerState<RecordCard> {
   /// The first full mock is a milestone the server has marked: Mobi stands proud (stretches tall,
   /// mittens on hips, three glints). A higher result cheers. A lower or held result gets the
   /// encouraging nod, never a frown and never a celebration.
-  MobiPose get _mobiPose => switch (m.variant) {
+  /// With Celebrations on Quiet or Off he does not act out a celebration: he rests.
+  MobiPose _mobiPose(CelebrationMode mode) => switch (m.variant) {
+    RecapVariant.firstMock || RecapVariant.higher when mode != CelebrationMode.full => MobiPose.rest,
     RecapVariant.firstMock => MobiPose.proud,
     RecapVariant.higher => MobiPose.cheer,
     RecapVariant.standard => MobiPose.rest,
@@ -173,7 +183,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
             ),
             if (!largeText) ...[
               const SizedBox(width: MmSpace.s12),
-              RecapMobi(pose: _mobiPose, size: 76),
+              RecapMobi(pose: _mobiPose(ref.watch(celebrationModeProvider)), size: ResultSpace.mobi),
             ],
           ],
         ),
@@ -189,7 +199,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           minutes: _minutes,
           shortfall: shortfall,
           options: options,
-          onMinutes: (v) => setState(() => _minutes = v),
+          onMinutes: (v) => setState(() => _chosen = v),
           onRetryKeys: widget.onRetryKeys,
         ),
         if (askReminder) ...[
@@ -214,4 +224,15 @@ class _RecordCardState extends ConsumerState<RecordCard> {
       ],
     );
   }
+}
+
+/// The repair length card 4 offers for [m]: [chosen] while it is still one of the duration
+/// options, else the model's default. Never 0 while there is something to repair: with
+/// candidates but no fitting option, the time for every candidate (at least 5 minutes).
+int effectiveRepairMinutes(RecapModel m, int? chosen) {
+  final options = repairDurationOptions(m.tonightCount);
+  if (chosen != null && options.any((o) => o.minutes == chosen)) return chosen;
+  final d = m.defaultRepairMinutes;
+  if (d > 0 || m.candidates.isEmpty) return d;
+  return repairMinutes(m.candidates.length) ?? repairMinutesPerMistake;
 }

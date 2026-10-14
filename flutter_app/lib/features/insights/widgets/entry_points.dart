@@ -27,16 +27,17 @@ class InsightsCard extends ConsumerWidget {
       container: true,
       child: FakeGlass(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s16, MmSpace.cardPadding, MmSpace.s4),
+          padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(InsightsCopy.recordTitle, style: type.label.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s6),
+              const SizedBox(height: MmSpace.s4),
               Text(f.headline, style: type.cardTitle),
-              const SizedBox(height: MmSpace.s4),
-              Text(f.detail, style: type.small.copyWith(color: colors.ink2), maxLines: 3, overflow: TextOverflow.ellipsis),
-              const SizedBox(height: MmSpace.s4),
+              const SizedBox(height: MmSpace.s8),
+              // The card prose is the body style, 16/24, like every other paragraph.
+              Text(f.detail, style: type.body.copyWith(color: colors.ink2), maxLines: 3, overflow: TextOverflow.ellipsis),
+              const SizedBox(height: MmSpace.s8),
               Text(InsightsCopy.basedOn(f.n), style: type.caption.copyWith(color: colors.ink3)),
               ShowMePill(
                 semanticsLabel: InsightsCopy.findingShowMe,

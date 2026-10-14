@@ -254,6 +254,7 @@ abstract final class InsightsCopy {
   static const previewWeek = 'Counts your last 7 days';
   static const costCredit = '1 credit';
   static const askThinking = 'Thinking it through';
+  static const askStillThinking = 'Still thinking. Long questions take a little longer.';
   static const sourceRecord = 'From your record';
   static const sourceModel = 'MockMob AI';
   static const sourcePaused = 'AI replies paused';
@@ -278,6 +279,7 @@ abstract final class InsightsCopy {
   static const failRate = 'That is a lot of questions in a minute. Wait a moment, then send again.';
   static const failTooLong = 'That is too long. Keep it under 1,500 characters.';
   static const failUnavailable = 'MockMob could not answer just now. Nothing was charged.';
+  static const failInterrupted = 'That question was cut off. Send it again. If it was already answered, you will not be charged twice.';
   static const sendAgain = 'Send again';
 
   // AI replies: a plain caveat, a way to report, and a one-time notice before the first send.

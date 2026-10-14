@@ -69,7 +69,7 @@ class _Rhythm extends RhythmRepository {
 }
 
 void main() {
-  final earned = RhythmMilestone(id: 'first_full_mock', achievedAt: DateTime.utc(2026, 10, 12, 17, 14));
+  final earned = RhythmMilestone(id: 'first_full_mock', achievedAt: DateTime.utc(2026, 10, 12, 17, 12));
   final d = detail();
 
   group('result-01: an attempts list that is not loaded never numbers a mock', () {
@@ -141,7 +141,7 @@ void main() {
       final m = c.read(recapDataProvider('a7')).model!;
       expect(m.ordinal, 1);
       expect(m.variant, RecapVariant.firstMock);
-      expect(m.firstMockTokenAt, DateTime.utc(2026, 10, 12, 17, 14).toLocal());
+      expect(m.firstMockTokenAt, DateTime.utc(2026, 10, 12, 17, 12).toLocal());
     });
   });
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -79,13 +81,15 @@ class _AskMessageViewState extends State<AskMessageView> {
           constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.8),
           child: DecoratedBox(
             decoration: ShapeDecoration(
-              color: colors.raised2,
+              // The student's words: the selected surface (a step up on Night, the card on Day, where
+              // raised2 is darker than the page) with the volt hairline.
+              color: colors.selectedSurface,
               shape: mmShapeBorder(
                 const BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(6),
+                  topLeft: Radius.circular(MmRadius.key),
+                  topRight: Radius.circular(MmRadius.key),
+                  bottomLeft: Radius.circular(MmRadius.key),
+                  bottomRight: Radius.circular(MmSpace.s4),
                 ),
                 side: BorderSide(color: colors.volt.withValues(alpha: colors.isNight ? 0.34 : 0.55)),
               ),
@@ -97,42 +101,24 @@ class _AskMessageViewState extends State<AskMessageView> {
           ),
         ),
       );
-      if (widget.animate) bubble = RiseIn(dx: 14, dy: 0, duration: const Duration(milliseconds: 240), child: bubble);
+      if (widget.animate) bubble = RiseIn(dx: MmSpace.s12, dy: 0, duration: Motion.card, child: bubble);
       return bubble;
     }
 
-    if (m.sending) {
-      return Semantics(
-        liveRegion: true,
-        label: InsightsCopy.askSending,
-        excludeSemantics: true,
-        child: RiseIn(
-          dy: 8,
-          duration: const Duration(milliseconds: 240),
-          child: Row(
-            children: [
-              // Working on it: the eyes scan while the three bubbles ink.
-              MobiFace(size: _face, watchTaps: false, entrance: MobiAct.loading, seed: _faceSeed(m)),
-              const SizedBox(width: MmSpace.s12),
-              // Plain on the ground: three bubbles inking and what is happening, no pill.
-              const InkDots(),
-              const SizedBox(width: MmSpace.s12),
-              Flexible(child: Text(InsightsCopy.askThinking, style: type.small.copyWith(color: colors.ink2))),
-            ],
-          ),
-        ),
-      );
-    }
+    if (m.sending) return _Pending(faceSeed: _faceSeed(m), face: _face);
 
     if (m.failure case final failure?) {
       final (text, canRetry) = switch (failure) {
         AskFailure.offline => (InsightsCopy.failOffline, true),
-        AskFailure.noCredits => (InsightsCopy.failNoCredits(m.balance), false),
-        AskFailure.paused => (InsightsCopy.failPaused, false),
+        // Nothing was charged and the question is kept: after topping up (or when the pause ends)
+        // Send again sends the same words, so the student never retypes them.
+        AskFailure.noCredits => (InsightsCopy.failNoCredits(m.balance), true),
+        AskFailure.paused => (InsightsCopy.failPaused, true),
         AskFailure.resend => (InsightsCopy.failResend, true),
         AskFailure.rateLimited => (InsightsCopy.failRate, true),
         AskFailure.tooLong => (InsightsCopy.failTooLong, false),
         AskFailure.unavailable => (InsightsCopy.failUnavailable, true),
+        AskFailure.interrupted => (InsightsCopy.failInterrupted, true),
       };
       // A plain line under Mobi's face, with one retry key: never a card holding a button.
       return Padding(
@@ -222,6 +208,74 @@ class _AskMessageViewState extends State<AskMessageView> {
   }
 }
 
+/// A reply on its way: Mobi's face scanning beside three bubbles inking and what is happening. The
+/// inking is the only loop on the screen, and it does not run for ever: after [_patience] the
+/// bubbles rest half inked and the words change to say it is still working, so a long wait reads
+/// as a wait and not a hang (MOTION.md 1.1).
+class _Pending extends StatefulWidget {
+  const _Pending({required this.faceSeed, required this.face});
+
+  final int faceSeed;
+  final double face;
+
+  @override
+  State<_Pending> createState() => _PendingState();
+}
+
+class _PendingState extends State<_Pending> {
+  /// How long the loop runs before the words change.
+  static const Duration _patience = Duration(seconds: 12);
+
+  Timer? _timer;
+  bool _still = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(_patience, () {
+      if (mounted) setState(() => _still = true);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final words = _still ? InsightsCopy.askStillThinking : InsightsCopy.askThinking;
+    return Semantics(
+      liveRegion: true,
+      label: _still ? InsightsCopy.askStillThinking : InsightsCopy.askSending,
+      excludeSemantics: true,
+      child: RiseIn(
+        dy: MmSpace.s8,
+        duration: Motion.card,
+        child: Row(
+          children: [
+            // Working on it: the eyes scan while the three bubbles ink.
+            MobiFace(size: widget.face, watchTaps: false, entrance: MobiAct.loading, seed: widget.faceSeed),
+            const SizedBox(width: MmSpace.s12),
+            // Plain on the ground: three bubbles inking and what is happening, no pill.
+            InkDots(settleAfter: _patience),
+            const SizedBox(width: MmSpace.s12),
+            Flexible(
+              child: AnimatedSwitcher(
+                duration: Motion.of(context, const Duration(milliseconds: 150)),
+                child: Text(words, key: ValueKey(words), style: type.small.copyWith(color: colors.ink2)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// Where a reply came from, as small glass chips: a record answer says it is from the record,
 /// how many questions it rests on and that no credit was used; a model reply says it used one.
 class _SourceStrip extends StatelessWidget {
@@ -251,14 +305,14 @@ class _SourceStrip extends StatelessWidget {
       excludeSemantics: true,
       child: Wrap(
         spacing: MmSpace.s8,
-        runSpacing: MmSpace.s6,
+        runSpacing: MmSpace.s8,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
           FakeGlass(
             borderRadius: MmRadius.pillAll,
             grain: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 5, 12, 5),
+              padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s4, MmSpace.s12, MmSpace.s4),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -266,7 +320,7 @@ class _SourceStrip extends StatelessWidget {
                     Icon(LucideIcons.sparkles, size: 13, color: colors.ink2)
                   else
                     const Bubble(state: BubbleState.filled, size: 11, animate: false),
-                  const SizedBox(width: MmSpace.s6),
+                  const SizedBox(width: MmSpace.s4),
                   Text(label, style: type.caption.copyWith(fontSize: 12.5, fontWeight: FontWeight.w600, color: colors.ink)),
                 ],
               ),
@@ -372,7 +426,7 @@ class _ReportKey extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(LucideIcons.flag, size: 16, color: pressed ? colors.ink : colors.ink2),
-            const SizedBox(width: MmSpace.s6),
+            const SizedBox(width: MmSpace.s4),
             Text(InsightsCopy.reportReply, style: type.label.copyWith(color: pressed ? colors.ink : colors.ink2)),
           ],
         ),

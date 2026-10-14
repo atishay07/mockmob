@@ -90,7 +90,7 @@ class SessionSubmitter {
     // Persist the intent first: if the process dies mid-call, Today still knows a submit is owed.
     final current = draft.pendingSubmission ? draft : draft.copyWith(pendingSubmission: true);
     try {
-      await drafts.save(current);
+      await _saveOwned(current);
     } on Object {
       // A failed local write must not stop the send: the answers go to the server first.
     }
@@ -126,9 +126,16 @@ class SessionSubmitter {
     }
   }
 
+  /// Writes [draft] to its own row, or to its archive row when a newer session of the same
+  /// selection has taken the row over since (a submit that outlives the screen): the flags of a
+  /// paper still owed must never replace another paper's draft.
+  Future<void> _saveOwned(SessionDraft draft) async {
+    if (!await drafts.saveIfOwned(draft)) await drafts.archive(draft);
+  }
+
   Future<void> _tryDraftSave(SessionDraft draft) async {
     try {
-      await drafts.save(draft);
+      await _saveOwned(draft);
     } on Object {
       // Best effort: the outcome is returned either way.
     }

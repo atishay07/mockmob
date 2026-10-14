@@ -29,12 +29,16 @@ enum SheetPhase {
 /// paper ink, as on the track and the palette), unanswered ones dashed rings, marked ones a ringed dot; [SheetPhase.sending] sweeps a lamp band over it and
 /// [SheetPhase.inked] inks the answered bubbles volt, left to right, row by row.
 class AnswerSheetView extends StatefulWidget {
-  const AnswerSheetView({super.key, required this.cells, required this.phase, this.bubbleSize = 17, this.semanticsLabel});
+  const AnswerSheetView({super.key, required this.cells, required this.phase, this.bubbleSize = 17, this.semanticsLabel, this.animateInk = true});
 
   final List<SheetCell> cells;
   final SheetPhase phase;
   final double bubbleSize;
   final String? semanticsLabel;
+
+  /// False shows the inked sheet at once (the Celebrations setting is Off): the same fact, in its
+  /// end state, with no ink travelling across it.
+  final bool animateInk;
 
   static const int columns = 10;
   static const double minGap = 6;
@@ -74,7 +78,7 @@ class _AnswerSheetViewState extends State<AnswerSheetView> with TickerProviderSt
       case SheetPhase.inked:
         _scan.stop();
         _scan.value = 0;
-        if (reduced) {
+        if (reduced || !widget.animateInk) {
           _ink.value = 1;
         } else {
           _ink.forward(from: 0);

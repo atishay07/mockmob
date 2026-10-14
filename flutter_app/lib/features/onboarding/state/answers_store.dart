@@ -86,6 +86,19 @@ class AnswersStore {
     }
   }
 
+  /// Copies whatever is stored under [key] to [backupKey], as it is. True when there was
+  /// nothing to keep or the copy was written. Run before an unreadable sheet is given up.
+  Future<bool> backUpStored() async {
+    final String? raw;
+    try {
+      raw = await _prefs.getString(key);
+    } on Object {
+      return false;
+    }
+    if (raw == null) return true;
+    return _backUp(raw);
+  }
+
   Future<void> save(OnboardingAnswers answers) => _prefs.setString(key, jsonEncode(answers.toJson()));
 
   Future<void> clear() => _prefs.remove(key);

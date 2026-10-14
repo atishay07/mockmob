@@ -36,6 +36,10 @@ Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded 
         ),
       ),
       GoRoute(
+        path: '/practice',
+        builder: (_, _) => const Scaffold(body: Text('practice screen')),
+      ),
+      GoRoute(
         path: '/ask',
         builder: (_, _) => const Scaffold(body: Text('ask screen')),
       ),
@@ -92,20 +96,20 @@ void main() {
     expect(find.text('Resume Accountancy mock'), findsOneWidget);
   });
 
-  testWidgets('Ask Mobi about your marks opens over the tab, so Back returns to it', (tester) async {
+  testWidgets('Ask is not in the sheet (it lives in Review); the footer chooses in Practice', (tester) async {
     final router = await _pump(tester);
-    await tester.tap(find.text('Ask Mobi about your marks'));
+    expect(find.text('Ask Mobi about your marks'), findsNothing, reason: 'DOCK.md 6: Ask moves to Review');
+    final footer = find.text('Choose your own in Practice');
+    await tester.scrollUntilVisible(footer, 80, scrollable: find.byType(Scrollable).last);
+    await tester.tap(footer);
     await tester.pumpAndSettle();
-    expect(find.text('ask screen'), findsOneWidget);
-    expect(router.canPop(), isTrue, reason: 'there is a screen to go back to');
-    router.pop();
-    await tester.pumpAndSettle();
-    expect(find.text('Start'), findsOneWidget);
+    expect(find.text('practice screen'), findsOneWidget);
+    expect(router.routerDelegate.currentConfiguration.uri.path, '/practice');
   });
 
   testWidgets('NTA mode opens over the tab', (tester) async {
     final router = await _pump(tester, crowded: true);
-    final nta = find.text('NTA mode, with Pro');
+    final nta = find.text('NTA mode');
     await tester.scrollUntilVisible(nta, 80, scrollable: find.byType(Scrollable).last);
     await tester.tap(nta);
     await tester.pumpAndSettle();

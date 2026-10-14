@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/art/art.dart' show SubjectEmblem;
+import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/repair_candidates.dart';
 import '../../../core/motion/motion.dart';
@@ -10,13 +10,16 @@ import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
 import 'mistake_run.dart';
+import 'review_layout.dart';
 
-/// Tonight's repair: the one lit element on Review and the hero of the tab. One surface, nothing
-/// boxed inside it. The subject's light pools in the upper right and its object leans out of the
-/// corner; the chapter is the headline; the number of mistakes is the monumental figure; the
-/// mistakes are written out as the wrong bubbles of the sheet with their question numbers, with
-/// "Show me" at the end of that row; Mobi pointing at the one volt key closes it. The four-step
-/// thread lives on the record and the repair entry, not here.
+/// Tonight's repair: the one lit element on Review and the hero of the tab. One hero card at the
+/// screen gutter (padding 20, radius 28, the volt lit edge on its top), nothing boxed inside it.
+/// The subject's light pools in the card and its object sits in the header band, never cropped
+/// by the top edge: the overline, the chapter and the number of mistakes are the band, the
+/// emblem is a prop beside it. Under the band: what the number means, the mistakes written out
+/// as the wrong bubbles of the sheet with "Show me" at the end of that row, and the one volt key,
+/// full width. There is one object here and no Mobi (a hero carries either, never both); the
+/// four-step thread lives on the record and the repair entry.
 class TonightCard extends StatefulWidget {
   const TonightCard({
     super.key,
@@ -34,7 +37,7 @@ class TonightCard extends StatefulWidget {
   /// The student's clock, for "tonight" or "today".
   final DateTime now;
 
-  /// After 11 PM: sleepy Mobi, and the source line becomes "Repair a little, then sleep." Nothing moves.
+  /// After 11 PM: the source line becomes "Repair a little, then sleep." Nothing moves.
   final bool lateNight;
 
   @override
@@ -42,9 +45,10 @@ class TonightCard extends StatefulWidget {
 }
 
 class _TonightCardState extends State<TonightCard> with SingleTickerProviderStateMixin {
-  /// The object art settling in: 420 ms on the emphasized curve.
+  /// The object art settling in: 420 ms on the emphasized curve, about its own centre.
   late final AnimationController _art = AnimationController(vsync: this, duration: Motion.emphasizedDuration);
   late final CurvedAnimation _artCurve = CurvedAnimation(parent: _art, curve: Motion.emphasized);
+  final GlobalKey _card = GlobalKey(debugLabel: 'tonight-card');
   bool _started = false;
 
   @override
@@ -66,6 +70,14 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
     super.dispose();
   }
 
+  /// The repair entry grows out of this card: the card's rect is recorded for the container
+  /// transform before the route is pushed.
+  void _start() {
+    final cardContext = _card.currentContext;
+    if (cardContext != null) MmLaunchRect.capture(cardContext);
+    widget.onRepair();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -76,95 +88,49 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
     final light = SubjectLight.forSubject(pick.subjectId);
     final large = MediaQuery.textScalerOf(context).scale(10) > 11.5;
 
-    final lit = colors.isNight ? colors.volt : colors.accentText;
-    const bleed = MmSpace.gutter;
+    // At large text the emblem gives way: a smaller prop and less clear, so the title keeps room.
+    final artSize = large ? EmblemSizes.tile : ReviewSpace.artSize;
+    final artBox = artSize + 20;
+    // The header band keeps clear of the emblem: its box, less the bleed, plus 12 dp of air, less
+    // the card's own padding.
+    final bandRight = artBox - ReviewSpace.artBleedRight + MmSpace.s12 - ReviewSpace.heroPad;
 
-    // No card: the hero is a field of light on the ground. The subject's colour pools in the
-    // upper right, a lit volt line crosses the top edge to edge, and the object leans in from the
-    // corner. Nothing is boxed; everything inside sits straight on the ground.
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        if (light != null)
-          Positioned(
-            left: -bleed,
-            right: -bleed,
-            top: -MmSpace.s20,
-            height: 400,
-            child: IgnorePointer(
-              child: LightField(
-                pools: [
-                  LightPool(
-                    color: light.of(Theme.of(context).brightness),
-                    center: const Alignment(0.85, -0.55),
-                    radius: 0.72,
-                    strength: colors.isNight ? 1.25 : 0.95,
+    final card = MmSurface.hero(
+      lit: true,
+      light: light?.of(Theme.of(context).brightness),
+      padding: const EdgeInsets.all(ReviewSpace.heroPad),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // The header band: overline, chapter (never wider than the clear column) and the
+          // number, with the object beside it.
+          Padding(
+            padding: EdgeInsets.only(right: bandRight),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(ReviewCopy.tonightOverline(widget.now, subjectName(pick.subjectId)), style: type.caption.copyWith(color: colors.ink2)),
+                const SizedBox(height: MmSpace.s4),
+                Semantics(
+                  header: true,
+                  child: Text(
+                    pick.chapter,
+                    maxLines: large ? 5 : 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: type.headline.copyWith(fontSize: 22, height: 26 / 22),
                   ),
-                  LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.14 : 0.12), center: const Alignment(-1.1, -1.1), radius: 0.7),
-                ],
-              ),
-            ),
-          ),
-        Positioned(
-          left: -bleed,
-          right: -bleed,
-          top: 0,
-          height: 3,
-          child: IgnorePointer(
-            child: CustomPaint(painter: LitEdgePainter(color: lit, radius: 0, width: 1.5)),
-          ),
-        ),
-        // The subject's emblem leans in from the corner: the one emblem on this screen that
-        // drifts. It settles in over the card's arrival.
-        Positioned(
-          right: -bleed - 24,
-          top: 0,
-          child: IgnorePointer(
-            child: RepaintBoundary(
-              child: AnimatedBuilder(
-                animation: _artCurve,
-                child: SubjectEmblem(subject: pick.subjectId, size: 168, framed: false, animate: true),
-                builder: (context, child) {
-                  final t = _artCurve.value;
-                  return Opacity(
-                    opacity: t.clamp(0.0, 1.0),
-                    child: Transform.translate(
-                      offset: Offset(0, 10 * (1 - t)),
-                      child: Transform.scale(scale: 0.93 + 0.07 * t, child: child),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s24, MmSpace.s4, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // The headline stays clear of the art leaning in from the corner.
-              Padding(
-                padding: EdgeInsets.only(right: large ? 72 : 140),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(ReviewCopy.tonightOverline(widget.now, subjectName(pick.subjectId)), style: type.caption.copyWith(color: colors.ink2)),
-                    const SizedBox(height: MmSpace.s6),
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        pick.chapter,
-                        maxLines: large ? 5 : 3,
-                        overflow: TextOverflow.ellipsis,
-                        style: type.headline.copyWith(fontSize: 26, height: 29 / 26),
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-              const SizedBox(height: MmSpace.s24),
-              MonumentalNumber(
+              ],
+            ),
+          ),
+          const SizedBox(height: MmSpace.s12),
+          // The number's unit sits beside it; the row scales down before it would reach the object.
+          Padding(
+            padding: EdgeInsets.only(right: bandRight),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: MonumentalNumber(
                 value: '$n',
                 unit: n == 1 ? 'mistake' : 'mistakes',
                 style: type.figure.copyWith(fontSize: 72, height: 64 / 72),
@@ -173,51 +139,67 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
                 onLanded: () => mmHapticsOf(context)?.selection(),
                 semanticsLabel: '${plural(n, 'mistake')} to repair',
               ),
-              const SizedBox(height: MmSpace.s8),
-              // After 11 PM the same line says it is fine to stop: the layout stays the day layout.
-              Text(
-                widget.lateNight ? ReviewCopy.lateNight : ReviewCopy.tonightSource(pick.source, n, pick.chapterOpen),
-                style: type.small.copyWith(color: colors.ink2),
+            ),
+          ),
+          const SizedBox(height: MmSpace.s8),
+          // After 11 PM the same line says it is fine to stop: the layout stays the day layout.
+          Text(
+            widget.lateNight ? ReviewCopy.lateNight : ReviewCopy.tonightSource(pick.source, n, pick.chapterOpen),
+            style: type.small.copyWith(color: colors.ink2),
+          ),
+          // The row is a 48 dp target; its own slack above and below the 20 dp bubbles is counted
+          // in the gaps, so the visible air is 16 to 20 dp either side.
+          const SizedBox(height: MmSpace.s4),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: MistakeRun(numbers: [for (final i in pick.items) i.number])),
+              const SizedBox(width: MmSpace.s8),
+              _ShowMeLink(
+                onTap: widget.onShowMe,
+                semanticsLabel: 'Show me the ${n == 1 ? 'question' : '$n questions'} behind this',
               ),
-              const SizedBox(height: MmSpace.s20),
-              // The questions are the evidence; "Show me" opens them. No second control beside it.
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(child: MistakeRun(numbers: [for (final i in pick.items) i.number])),
-                  const SizedBox(width: MmSpace.s8),
-                  _ShowMeLink(
-                    onTap: widget.onShowMe,
-                    semanticsLabel: 'Show me the ${n == 1 ? 'question' : '$n questions'} behind this',
-                  ),
-                ],
-              ),
-              const SizedBox(height: MmSpace.s24),
-              // Mobi stands at the left of the key and points at it (asleep on his feet after 11 PM,
-              // in the same place). The key sits at the same height every time of day.
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Mobi(
-                    pose: widget.lateNight ? MobiPose.sleepy : MobiPose.point,
-                    size: large ? 72 : 96,
-                    motion: widget.lateNight ? MobiMotion.settle : MobiMotion.tilt,
-                  ),
-                  const SizedBox(width: MmSpace.s8),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                      child: KeyButton(
-                        label: ReviewCopy.tonightKey(minutes),
-                        semanticsLabel: ReviewCopy.tonightKeySpoken(n, minutes),
-                        onPressed: widget.onRepair,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: MmSpace.s4),
             ],
+          ),
+          const SizedBox(height: MmSpace.s4),
+          KeyButton(
+            label: ReviewCopy.tonightKey(minutes),
+            semanticsLabel: ReviewCopy.tonightKeySpoken(n, minutes),
+            onPressed: _start,
+          ),
+        ],
+      ),
+    );
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        KeyedSubtree(key: _card, child: card),
+        // The subject's object: a box 8 dp from the top, bled 10 dp past the right edge so the
+        // drawing ends on the card edge. It settles in once (scale 0.94 to 1 about its own
+        // centre, 8 dp of rise) and then stays still.
+        Positioned(
+          right: -ReviewSpace.artBleedRight,
+          top: ReviewSpace.artTop,
+          width: artBox,
+          height: artBox,
+          child: IgnorePointer(
+            child: RepaintBoundary(
+              child: AnimatedBuilder(
+                animation: _artCurve,
+                child: Center(child: SubjectEmblem(subject: pick.subjectId, size: artSize, framed: false)),
+                builder: (context, child) {
+                  final t = _artCurve.value;
+                  return Opacity(
+                    opacity: t.clamp(0.0, 1.0),
+                    child: Transform.translate(
+                      offset: Offset(0, 8 * (1 - t)),
+                      child: Transform.scale(scale: 0.94 + 0.06 * t, child: child),
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
         ),
       ],

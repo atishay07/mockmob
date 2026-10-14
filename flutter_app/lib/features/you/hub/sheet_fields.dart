@@ -8,7 +8,6 @@ import '../../rhythm/logic/plan_week.dart' show PlanDay;
 import '../../rhythm/widgets/plan_week_strip.dart';
 import '../../rhythm/widgets/week_dial.dart';
 import '../copy.dart';
-import '../widgets/subject_art.dart';
 import '../widgets/you_page.dart' show PillKey, youText;
 import 'week_skeleton.dart';
 
@@ -137,66 +136,22 @@ class SubjectList extends StatelessWidget {
   }
 }
 
+/// One chosen subject on the sheet: the shared subject plate (its light pooled behind the object
+/// at the upper right, the name at the bottom left), so a subject looks the same here as on
+/// Practice and Insights. Not tappable on its own; the whole field opens the editor.
 class SubjectTile extends StatelessWidget {
   const SubjectTile(this.id, {super.key});
 
   final String id;
 
-  static const double width = 96;
-  static const double height = 128;
+  static const double width = 136;
+  static const double height = 104;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final light = SubjectLight.forSubject(id);
-    final brightness = Theme.of(context).brightness;
     return SizedBox(
       width: width,
-      height: height,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.raised,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: colors.line),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(19),
-          child: Stack(
-            children: [
-              if (light != null)
-                Positioned.fill(
-                  child: IgnorePointer(
-                    child: LightField(
-                      pools: [LightPool(color: light.of(brightness), center: const Alignment(0, -0.45), radius: 0.62)],
-                    ),
-                  ),
-                ),
-              Column(
-                children: [
-                  const SizedBox(height: MmSpace.s12),
-                  SubjectArt(id, size: 64),
-                  Expanded(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
-                        child: Text(
-                          subjectDisplayName(id),
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3),
-                          style: type.label.copyWith(fontSize: 13, height: 16 / 13, color: colors.ink),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+      child: SubjectPlate(subject: id, label: subjectDisplayName(id), height: height),
     );
   }
 }
@@ -214,7 +169,7 @@ class SubjectsField extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    const side = MmSpace.gutter + 4;
+    const side = MmSpace.gutter;
     final field = Padding(
       padding: const EdgeInsets.only(top: MmSpace.s16, bottom: MmSpace.s16),
       child: Column(

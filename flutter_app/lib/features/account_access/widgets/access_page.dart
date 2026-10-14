@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../auth/auth_page.dart' show BackKey;
 import '../access_copy.dart';
 
 /// The frame of the account-access screens, matching the sign-in screens: the desk lamp's light
@@ -66,33 +66,18 @@ class AccessPage extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            SizedBox(
-                              height: MmTarget.min,
-                              child: onBack == null
-                                  ? null
-                                  : Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: _BackKey(onPressed: onBack!),
-                                    ),
-                            ),
-                            const SizedBox(height: MmSpace.s16),
-                            Semantics(
-                              header: true,
-                              child: Text(
-                                title,
-                                style: type.headline.copyWith(
-                                  color: colors.ink,
-                                ),
-                              ),
-                            ),
+                            // One header pattern: the back key (a 48 dp target, 44 dp drawn),
+                            // 8 dp, the screen title in the 26/30 cut, one 56 dp row; the lead
+                            // sits under it on the gutter.
+                            _Header(title: title, onBack: onBack),
                             if (lead != null) ...[
-                              const SizedBox(height: MmSpace.s8),
+                              const SizedBox(height: MmSpace.s4),
                               Text(
                                 lead!,
                                 style: type.lead.copyWith(color: colors.ink2),
                               ),
                             ],
-                            const SizedBox(height: MmSpace.group),
+                            const SizedBox(height: MmSpace.s24),
                             child,
                           ],
                         ),
@@ -109,29 +94,40 @@ class AccessPage extends ConsumerWidget {
   }
 }
 
-class _BackKey extends StatelessWidget {
-  const _BackKey({required this.onPressed});
+class _Header extends StatelessWidget {
+  const _Header({required this.title, required this.onBack});
 
-  final VoidCallback onPressed;
+  final String title;
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: AccessCopy.back,
-      excludeSemantics: true,
-      child: InkWell(
-        onTap: onPressed,
-        borderRadius: MmRadius.smallAll,
-        child: SizedBox(
-          width: MmTarget.min,
-          height: MmTarget.min,
-          child: Icon(
-            LucideIcons.arrowLeft,
-            size: 22,
-            color: context.mmColors.ink,
+    final type = context.mmType;
+    final colors = context.mmColors;
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 56),
+      child: Row(
+        children: [
+          if (onBack != null) ...[
+            BackKey(
+              onPressed: onBack!,
+              label: AccessCopy.back,
+              onEdge: false,
+            ),
+            const SizedBox(width: MmSpace.s8),
+          ],
+          Expanded(
+            child: Semantics(
+              header: true,
+              child: Text(
+                title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: type.screenTitle.copyWith(color: colors.ink),
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

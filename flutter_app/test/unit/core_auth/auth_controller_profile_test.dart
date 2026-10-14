@@ -309,6 +309,56 @@ void main() {
     });
   });
 
+  // onboarding-01: the cached profile can be older than the account (signed in on this phone while
+  // it had no subjects, then onboarded elsewhere). Only a profile the server sent this run may
+  // decide "this account is new", so the snapshot says which kind it holds.
+  group('a profile that came from the server, not the phone', () {
+    test('is marked fresh; a cached one is not', () async {
+      final auth = await start();
+      await store.setString(
+        'cached_auth_me',
+        jsonEncode({
+          'user': {'id': 'a', 'email': 'a@x.com', 'name': 'Student', 'subjects': <String>[]},
+          'needsOnboarding': true,
+        }),
+      );
+      service.session = _session('a@x.com');
+      final answer = Completer<ApiResponse>();
+      when(() => api.get('/api/auth/me', options: any(named: 'options'))).thenAnswer((_) => answer.future);
+
+      unawaited(auth.reload());
+      await pumpEventQueue();
+      expect(now().status, AuthStatus.signedIn, reason: 'the cached profile opens the app at once');
+      expect(now().subjects, isEmpty);
+      expect(now().profileFresh, isFalse, reason: 'cached subjects must never decide the sealed sheet may overwrite the plan');
+
+      answer.complete(_me('a', 'a@x.com'));
+      await pumpEventQueue();
+      expect(now().subjects, ['accountancy']);
+      expect(now().profileFresh, isTrue);
+    });
+
+    test('stays not fresh when the network fails and the cached copy is all there is', () async {
+      final auth = await start();
+      await store.setString(
+        'cached_auth_me',
+        jsonEncode({
+          'user': {'id': 'a', 'email': 'a@x.com', 'name': 'Student', 'subjects': ['accountancy']},
+          'needsOnboarding': false,
+        }),
+      );
+      service.session = _session('a@x.com');
+      when(() => api.get('/api/auth/me', options: any(named: 'options')))
+          .thenThrow(const ApiError(kind: ApiErrorKind.network, code: 'network'));
+
+      await auth.reload();
+      await pumpEventQueue();
+
+      expect(now().status, AuthStatus.signedIn);
+      expect(now().profileFresh, isFalse);
+    });
+  });
+
   group('a profile load that fails outside the network', () {
     test('a damaged cached profile is skipped: offline with no usable cache says it did not load', () async {
       final auth = await start();

@@ -1,4 +1,8 @@
+import 'dart:async';
+import 'dart:convert';
+
 import '../auth/auth_state.dart';
+import '../storage/prefs_store.dart';
 import 'routes.dart';
 
 /// Remembers where a signed-out (or not yet known) student was heading so sign-in can continue
@@ -8,12 +12,50 @@ import 'routes.dart';
 /// A remembered location is stamped and goes stale after [maxAge] (about ten minutes), so a link
 /// tapped long ago is never restored after a later, unrelated sign-in. Entering the welcome or
 /// onboarding flow also forgets it (see [resolveRedirect]).
+///
+/// With a [store] the location, its stamp and its owner are also kept on the phone, so they
+/// survive the process dying while the student reads a code in the mail app or finishes Google
+/// sign-in in the browser (Android kills a budget phone's app in the background all the time).
+/// Without the store the target page was lost and sign-in landed on Today. Use
+/// [IntendedRoute.restored] at launch.
 class IntendedRoute {
-  IntendedRoute({DateTime Function()? clock, this.maxAge = defaultMaxAge}) : _clock = clock ?? DateTime.now;
+  IntendedRoute({DateTime Function()? clock, this.maxAge = defaultMaxAge, this._store}) : _clock = clock ?? DateTime.now;
+
+  /// An [IntendedRoute] over [store] with whatever it kept from the last run, if that is still
+  /// fresh. Never throws: unreadable or stale storage gives an empty one.
+  static Future<IntendedRoute> restored(PrefsStore store, {DateTime Function()? clock, Duration maxAge = defaultMaxAge}) async {
+    final route = IntendedRoute(clock: clock, maxAge: maxAge, store: store);
+    try {
+      final raw = await store.getString(storeKey);
+      if (raw == null) return route;
+      final map = jsonDecode(raw);
+      if (map is! Map) return route;
+      final location = map['l'];
+      final at = map['t'];
+      final owner = map['o'];
+      if (location is! String || location.isEmpty || at is! int) return route;
+      final stamp = DateTime.fromMillisecondsSinceEpoch(at);
+      if (route._clock().difference(stamp) > maxAge) {
+        unawaited(store.remove(storeKey).catchError((Object _) {}));
+        return route;
+      }
+      route
+        .._location = location
+        .._at = stamp
+        .._owner = owner is String ? owner : null;
+    } on Object {
+      // Storage is a convenience; start empty.
+    }
+    return route;
+  }
+
+  /// The preferences key the location is kept under.
+  static const String storeKey = 'intended_route';
 
   static const Duration defaultMaxAge = Duration(minutes: 10);
 
   final DateTime Function() _clock;
+  final PrefsStore? _store;
 
   /// How long a remembered location stays usable.
   final Duration maxAge;
@@ -40,6 +82,12 @@ class IntendedRoute {
     _location = location;
     _at = _clock();
     _owner = userId;
+    final store = _store;
+    if (store != null) {
+      unawaited(store
+          .setString(storeKey, jsonEncode({'l': location, 't': _at!.millisecondsSinceEpoch, 'o': userId}))
+          .catchError((Object _) {}));
+    }
   }
 
   /// The remembered location as [take] would give it to [userId], without forgetting it: null
@@ -68,9 +116,12 @@ class IntendedRoute {
   }
 
   void clear() {
+    final had = _location != null;
     _location = null;
     _at = null;
     _owner = null;
+    final store = _store;
+    if (had && store != null) unawaited(store.remove(storeKey).catchError((Object _) {}));
   }
 }
 

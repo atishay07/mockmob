@@ -49,6 +49,9 @@ class _QuestionActionsState extends ConsumerState<QuestionActions> {
         break;
       case SaveLimitReached():
         _say(context, InsightsCopy.limitReached);
+      // Another account signed in while this was on its way: not this student's failure to report.
+      case SaveFailed(:final error) when error.isAccountChanged:
+        break;
       case SaveFailed():
         _say(context, InsightsCopy.saveFailed);
     }
@@ -175,7 +178,7 @@ class _ActionKey extends StatelessWidget {
                 SizedBox.square(dimension: 18, child: MmSpinner(color: colors.ink2))
               else
                 Icon(icon, size: 20, color: active ? colors.accentText : ink),
-              const SizedBox(width: MmSpace.s6),
+              const SizedBox(width: MmSpace.s4),
               Text(label, style: type.label.copyWith(color: ink, fontFeatures: const [FontFeature.tabularFigures()])),
             ],
           ),

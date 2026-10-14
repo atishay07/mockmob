@@ -5,11 +5,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/insights_models.dart';
 import 'edge_fade.dart';
+import 'motion_bits.dart';
 
 /// What a prompt asks about. Record intents are answered on the phone from the student's own
 /// sessions (free); the others go to the AI through the server's budget guard (1 credit).
@@ -109,7 +111,7 @@ class AskEyebrow extends StatelessWidget {
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         spacing: MmSpace.s8,
-        runSpacing: 2,
+        runSpacing: MmSpace.s2,
         children: [
           Semantics(header: true, child: Text(label, style: type.label.copyWith(color: colors.ink, letterSpacing: 0.2))),
           if (note != null) Text(note!, style: type.caption.copyWith(color: colors.ink3)),
@@ -247,11 +249,13 @@ class PromptRow extends ConsumerWidget {
 }
 
 /// Up to three prompts the student has not asked yet, in one scrolling rail above the composer.
+/// Each chip rises 60 ms after the one before, starting [delay] after the rail appears.
 class FollowUpRail extends ConsumerWidget {
-  const FollowUpRail({super.key, required this.prompts, required this.onTap});
+  const FollowUpRail({super.key, required this.prompts, required this.onTap, this.delay = Duration.zero});
 
   final List<AskPrompt> prompts;
   final ValueChanged<AskPrompt> onTap;
+  final Duration delay;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -267,7 +271,12 @@ class FollowUpRail extends ConsumerWidget {
         separatorBuilder: (_, _) => const SizedBox(width: MmSpace.s8),
         itemBuilder: (context, i) {
           final p = prompts[i];
-          return MmPressable(
+          return RiseIn(
+            key: ValueKey(p.text),
+            delay: delay + Duration(milliseconds: 60 * i),
+            dy: MmSpace.s8,
+            duration: Motion.card,
+            child: MmPressable(
             semanticsLabel: 'Ask: ${p.text}',
             onTap: () {
               ref.read(hapticsProvider).selection();
@@ -292,6 +301,7 @@ class FollowUpRail extends ConsumerWidget {
                   ),
                 ),
               ),
+            ),
             ),
           );
         },

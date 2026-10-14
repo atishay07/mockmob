@@ -101,7 +101,7 @@ class MmScrollFadeHeader extends StatelessWidget {
 ///
 /// ```dart
 /// CustomScrollView(slivers: [
-///   MmCollapsingTitle(title: 'Review', leading: const YouAvatarButton()),
+///   MmCollapsingTitle(title: 'Review'),
 ///   ...
 /// ])
 /// ```

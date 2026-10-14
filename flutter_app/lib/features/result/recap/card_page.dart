@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../widgets/engrave.dart';
+import '../widgets/result_space.dart';
 
 /// The frame of recap cards 2 to 4: the card's content in a scroll view (it scrolls at large text
 /// sizes, never clips) and its keys pinned below. Swiping past the end goes to the next card,
@@ -10,6 +11,9 @@ import '../widgets/engrave.dart';
 /// One contract for every card: the body ends where the keys begin (it is never laid under
 /// them), and whenever more of it waits below the fold its lower edge fades out, so a cut line of
 /// text reads as "scroll" and never as a broken card.
+///
+/// A card shorter than the screen is weighted, not top-stacked (SPACING 7, audit X3): the free
+/// height splits two parts above the content to three below it, so no hole opens above the key.
 class RecapCardPage extends StatefulWidget {
   const RecapCardPage({super.key, required this.children, required this.footer, required this.onNext, required this.onBack, this.topPadding = MmSpace.s8});
 
@@ -23,8 +27,9 @@ class RecapCardPage extends StatefulWidget {
 
   static const double swipeDistance = 64;
 
-  /// How tall the fade at the lower edge of the body is while more waits below it.
-  static const double fadeHeight = 40;
+  /// How tall the fade at the lower edge of the body is while more waits below it (the pinned
+  /// bar's 24 dp fade, SPACING 4.5).
+  static const double fadeHeight = MmSpace.s24;
 
   @override
   State<RecapCardPage> createState() => _RecapCardPageState();
@@ -65,9 +70,10 @@ class _RecapCardPageState extends State<RecapCardPage> {
     if (more != _more && mounted) setState(() => _more = more);
   }
 
-  /// The card's content arrives in reading order after the card itself: each block rises 16 dp
-  /// and fades in, 55 ms after the one above it (480 ms each, emphasized), so the headline lands
-  /// first and the evidence follows it. Spacers are not animated. Reduced motion: all at once.
+  /// The card's content arrives in reading order after the card itself: each block rises 12 dp
+  /// and fades in, 45 ms after the one above it (420 ms each, emphasized; MOTION 4.8), so the
+  /// headline lands first and the evidence follows it. Spacers are not animated. Reduced
+  /// motion: all at once.
   /// Blocks marked [RecapBleed] run nearly edge to edge; the rest sit in the card's gutters.
   List<Widget> _staggered(List<Widget> children) {
     var n = 0;
@@ -77,11 +83,11 @@ class _RecapCardPageState extends State<RecapCardPage> {
           c
         else
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: c is RecapBleed ? RecapBleed.gutter : MmSpace.cardGutter),
+            padding: EdgeInsets.symmetric(horizontal: c is RecapBleed ? RecapBleed.gutter : ResultSpace.moment),
             child: Arrive(
-              delay: Duration(milliseconds: 90 + 55 * (n++).clamp(0, 8)),
-              duration: const Duration(milliseconds: 480),
-              rise: 16,
+              delay: Duration(milliseconds: 90 + ResultMotion.blockStagger.inMilliseconds * (n++).clamp(0, 8)),
+              duration: ResultMotion.block,
+              rise: ResultMotion.blockRise,
               child: c is RecapBleed ? c.child : c,
             ),
           ),
@@ -96,17 +102,28 @@ class _RecapCardPageState extends State<RecapCardPage> {
         onNotification: _onMetrics,
         child: NotificationListener<ScrollNotification>(
           onNotification: _onScroll,
-          child: CustomScrollView(
-            physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
-            slivers: [
-              SliverPadding(
-                padding: EdgeInsets.only(top: widget.topPadding, bottom: MmSpace.s24),
-                // Built in full, never lazily: every block is in the tree for TalkBack and for tests.
-                sliver: SliverToBoxAdapter(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _staggered(widget.children)),
-                ),
-              ),
-            ],
+          child: LayoutBuilder(
+            builder: (context, box) {
+              final content = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _staggered(widget.children));
+              final free = box.maxHeight.isFinite ? box.maxHeight - widget.topPadding - MmSpace.s24 : 0.0;
+              return CustomScrollView(
+                physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
+                slivers: [
+                  SliverPadding(
+                    padding: EdgeInsets.only(top: widget.topPadding, bottom: MmSpace.s24),
+                    // Built in full, never lazily: every block is in the tree for TalkBack and for
+                    // tests. At least the screen's height, with the content at 2 : 3 in it; a
+                    // taller card simply scrolls from its top.
+                    sliver: SliverToBoxAdapter(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: free > 0 ? free : 0),
+                        child: Align(alignment: const Alignment(0, ResultSpace.momentWeight), child: content),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -116,7 +133,7 @@ class _RecapCardPageState extends State<RecapCardPage> {
         Expanded(
           child: _BottomFade(active: _more, child: scroll),
         ),
-        Padding(padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, MmSpace.s12), child: widget.footer),
+        Padding(padding: const EdgeInsets.fromLTRB(ResultSpace.moment, MmSpace.s8, ResultSpace.moment, MmSpace.s12), child: widget.footer),
       ],
     );
   }

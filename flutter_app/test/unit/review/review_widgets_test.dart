@@ -73,7 +73,9 @@ void main() {
     await tester.pumpAndSettle();
     final share = tester.getRect(find.widgetWithText(KeyButton, 'Share a card').first);
     final viewport = tester.getRect(list);
-    expect(share.height, greaterThanOrEqualTo(48));
+    // A quiet key is drawn 40 dp tall and takes a finger anywhere in a 48 dp box (MmHitSlop).
+    expect(share.height, greaterThanOrEqualTo(40));
+    expect(tester.getSemantics(find.widgetWithText(KeyButton, 'Share a card').first).rect.height, greaterThanOrEqualTo(48));
     // The list ends one list padding (16) plus a 4 dp spacer under the key; the pinned keys add
     // their own top padding. Anything over 32 dp is the dead gap the device walk-through saw.
     expect(viewport.bottom - share.bottom, lessThanOrEqualTo(32));

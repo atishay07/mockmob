@@ -97,8 +97,31 @@ class QuestionView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ...?leading,
+            if (passage != null && passage.isNotEmpty) ...[
+              EnterItem(order: 0, child: _PassageWell(text: passage, range: passageRange)),
+              const SizedBox(height: MmSpace.s16),
+            ],
             EnterItem(
               order: 0,
+              child: Semantics(
+                header: true,
+                child: Text(
+                  question.question,
+                  // A passage question keeps the standard size: the passage is the long read.
+                  style: questionStyle(context, length: passage != null && passage.isNotEmpty ? 200 : question.question.length),
+                ),
+              ),
+            ),
+            if (body != null && body.isNotEmpty) ...[
+              const SizedBox(height: MmSpace.s12),
+              EnterItem(order: 1, child: Text(body, style: type.body.copyWith(color: colors.ink))),
+            ],
+            // The mark key (and the practice's one line) sit 16 dp under the question, not up beside
+            // the top bar: on a short question the gap above the options stays air, and the things
+            // the student reaches for are close to the words they are about.
+            const SizedBox(height: MmSpace.s16),
+            EnterItem(
+              order: 1,
               // From 1.15x text the note would wrap beside the toggle: it takes a line above it.
               child: note != null && MediaQuery.textScalerOf(context).scale(1) >= 1.15
                   ? Column(
@@ -119,26 +142,6 @@ class QuestionView extends StatelessWidget {
                       ],
                     ),
             ),
-            if (passage != null && passage.isNotEmpty) ...[
-              EnterItem(order: 1, child: _PassageWell(text: passage, range: passageRange)),
-              const SizedBox(height: MmSpace.s20),
-            ] else
-              const SizedBox(height: MmSpace.s4),
-            EnterItem(
-              order: 1,
-              child: Semantics(
-                header: true,
-                child: Text(
-                  question.question,
-                  // A passage question keeps the standard size: the passage is the long read.
-                  style: questionStyle(context, length: passage != null && passage.isNotEmpty ? 200 : question.question.length),
-                ),
-              ),
-            ),
-            if (body != null && body.isNotEmpty) ...[
-              const SizedBox(height: MmSpace.s12),
-              EnterItem(order: 2, child: Text(body, style: type.body.copyWith(color: colors.ink))),
-            ],
           ],
         ),
         Column(
@@ -221,7 +224,7 @@ class _PassageWell extends StatelessWidget {
                 Row(
                   children: [
                     Icon(LucideIcons.bookOpen, size: 14, color: colors.ink3),
-                    const SizedBox(width: MmSpace.s6),
+                    const SizedBox(width: MmSpace.s8),
                     Expanded(
                       child: Text(
                         range == null ? RunnerCopy.passage : '${RunnerCopy.passage}. ${RunnerCopy.passageRange(range!.$1, range!.$2)}',

@@ -18,6 +18,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/app.dart';
+import 'package:mockmob/app_overrides.dart';
+import 'package:mockmob/core/art/subject_emblem.dart' show SubjectEmblem;
 import 'package:mockmob/core/analytics/analytics.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
@@ -27,7 +29,7 @@ import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/repositories/consent_repository.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/goal_repository.dart';
-import 'package:mockmob/core/repositories/local_scope.dart' show userIdProvider;
+import 'package:mockmob/core/repositories/local_scope.dart' show localScopeProvider, userIdProvider;
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart'
     show notificationPrefsRepositoryProvider, studentTimezoneProvider;
 import 'package:mockmob/core/repositories/pending_result_repository.dart';
@@ -37,8 +39,6 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
-import 'package:mockmob/core/router/app_shell.dart';
-import 'package:mockmob/core/router/quick_start.dart';
 import 'package:mockmob/core/widgets/skeleton.dart' show SkeletonGroup;
 import 'package:mockmob/core/widgets/status_tint.dart' show SecureWindow, secureWindowProvider;
 import 'package:mockmob/features/insights/data/insights_repository.dart';
@@ -48,12 +48,10 @@ import 'package:mockmob/features/practice/data/practice_catalog.dart';
 import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
-import 'package:mockmob/features/practice/data/start_entries.dart';
 import 'package:mockmob/features/practice/practice_result_screen.dart' show finishFreshProvider, resultReceivedAtProvider;
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/review/data/repair_api.dart';
-import 'package:mockmob/features/review/data/review_providers.dart';
 import 'package:mockmob/features/rhythm/rhythm.dart' show studyDayPlanProvider;
 import 'package:mockmob/features/runner/data/runner_loader.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
@@ -106,6 +104,7 @@ class _Starter implements PracticeStarting {
 
 Future<RunnerLoad> _open(String sessionId) async {
   final session = demoSessions[sessionId];
+  session?.resumeClock();
   return session == null ? const RunnerMissing() : RunnerReady(session);
 }
 
@@ -201,10 +200,8 @@ const _ashaTarget = StudentTarget(course: 'B.Com (Hons)', colleges: ['Shri Ram C
 List<Override> _overrides() {
   final now = DateTime.now();
   return [
-    reviewDotProvider.overrideWith((ref) => false),
-    // Start: the same rows as the real app.
-    quickStartRepairProvider.overrideWith((ref) => ref.watch(quickRepairFromReviewProvider)),
-    quickStartNtaProvider.overrideWith((ref) => ref.watch(practiceQuickNtaProvider)),
+    // Start, the bar's live capsule and its badges: the real app's own wiring.
+    ...liveAppOverrides(),
     authSnapshotProvider.overrideWith(() => practice.FakeAuth(_asha)),
     networkStatusProvider.overrideWith(() => practice.FakeNetwork(NetworkStatus.online)),
     studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
@@ -237,7 +234,10 @@ List<Override> _overrides() {
     ),
     practiceCatalogApiProvider.overrideWithValue(practice.FakeCatalog()),
     practiceStarterProvider.overrideWithValue(_Starter()),
-    latestSessionDraftProvider.overrideWith((ref) => Stream.value(null)),
+    // The open paper (left, not submitted) is a real draft: the bar's Resume capsule, Today's
+    // resume hero and Start's Resume row all show it, with its answers counted from the session.
+    latestSessionDraftProvider.overrideWith((ref) => demoDrafts.watch()),
+    sessionDraftRepositoryProvider.overrideWith((ref) => DemoDraftRepository(ref.watch(localScopeProvider))),
     pendingResultRepositoryProvider.overrideWithValue(practice.FakePendingResults()),
     unopenedResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
     // The receipt says when this run's submit was acknowledged.
@@ -307,6 +307,10 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // Every loading skeleton carries the soft sweep in the app; tests keep the static default.
   SkeletonGroup.shimmerByDefault = true;
+  // Animated subject emblems drift in the app, as in main.dart.
+  SubjectEmblem.idleEnabled = true;
+  // And wear their photo-real objects from 40 dp up, as in main.dart.
+  SubjectEmblem.objectArt = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   runApp(ProviderScope(overrides: _overrides(), child: const MockMobApp()));
 }

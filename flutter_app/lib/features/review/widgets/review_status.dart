@@ -10,7 +10,7 @@ import 'mistake_map.dart' show MistakeBar;
 /// "3 of 12 repaired": how many of the mistakes found so far are repaired, read from the index
 /// and nothing else. The bar beside it is the map's own: one segment per mistake, volt where
 /// repaired, coral where open, a ring where set aside, so it teaches the bars below it. It fills
-/// in over 520 ms on the emphasized curve when the tab opens.
+/// in over 420 ms on the emphasized curve when the tab opens.
 class RepairsProgress extends StatefulWidget {
   const RepairsProgress({super.key, required this.repaired, required this.found, this.setAside = 0});
 
@@ -23,7 +23,7 @@ class RepairsProgress extends StatefulWidget {
 }
 
 class _RepairsProgressState extends State<RepairsProgress> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 520));
+  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 420));
   late final CurvedAnimation _grow = CurvedAnimation(parent: _c, curve: Motion.emphasized);
   bool _started = false;
 
@@ -52,14 +52,19 @@ class _RepairsProgressState extends State<RepairsProgress> with SingleTickerProv
     final type = context.mmType;
     final found = widget.found;
     final open = (found - widget.repaired - widget.setAside).clamp(0, found);
+    final label = type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600);
     return Semantics(
       label: ReviewCopy.repairsProgressSemantics(widget.repaired, found),
       excludeSemantics: true,
       child: Row(
         children: [
-          Text(
-            ReviewCopy.repairsProgress(widget.repaired, found),
-            style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+          // The count rolls on from the number it showed when a repair is finished (never from
+          // zero, and not at all on first show): the words around it stay put.
+          MmCountUp(
+            value: widget.repaired,
+            from: widget.repaired,
+            format: (v) => ReviewCopy.repairsProgress(v.round(), found),
+            style: label,
           ),
           const SizedBox(width: MmSpace.s12),
           Expanded(
@@ -96,7 +101,7 @@ class NoTonightCard extends StatelessWidget {
     ];
     final offer = this.offer;
     return MmSurface.plain(
-      padding: const EdgeInsets.all(MmSpace.cardPadding),
+      padding: const EdgeInsets.all(MmSpace.s16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

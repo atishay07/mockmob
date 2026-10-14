@@ -15,16 +15,27 @@ abstract final class MmSpace {
   static const double s48 = 48;
   static const double s64 = 64;
 
-  /// Horizontal screen gutter.
+  /// Horizontal screen gutter: every screen that holds cards, lists, tiles or forms (all tab
+  /// roots, sub-pages, runner, tools, rhythm, insights, learn, onboarding steps). It is the E0 text
+  /// edge. SPACING.md 1.1.
   static const double gutter = 16;
 
-  /// Gutter on Today cards and moment screens.
+  /// Gutter of a moment: type and art with no cards (welcome, plan reveal, result recap, repair
+  /// entry and ending, sealed sheet). A screen never mixes this with [gutter].
+  static const double momentGutter = 24;
+
+  /// The old 20 dp card gutter. Superseded: cards use [gutter], moments use [momentGutter]. Kept
+  /// only so screens not yet migrated still compile; do not use it in new code.
   static const double cardGutter = 20;
 
-  /// Padding inside a card.
+  /// Padding of a hero card (the plain card is 16: `MmRhythm.plainPad`).
   static const double cardPadding = 20;
 
-  /// Gap between independent groups.
+  /// Side padding of a sheet and its dialogs (the 32 dp top radius needs the optical inset).
+  static const double sheetSide = 20;
+
+  /// Section gap: between independent sections, with a 1 dp hairline rule at the top of the new
+  /// one. A hero to the next block is `s24`; sibling cards are `s12`.
   static const double group = 32;
 
   /// Content never grows wider than this on large screens.
@@ -75,18 +86,49 @@ abstract final class MmElevation {
   static const double sigmaControl = 12;
 }
 
-/// The split glass dock (brief section 6).
-abstract final class MmDock {
-  static const double height = 60;
-  static const double startSize = 60;
+/// The bottom bar (docs/brain/ui-phase2/DOCK.md section 3): one centred glass bar holding Today,
+/// Practice, the Start key, Review and You, with a live capsule that rises above it while
+/// something is in progress.
+abstract final class MmBar {
+  /// The bar's painted height, expanded and compact (scrolled down).
+  static const double height = 64;
+  static const double compactHeight = 52;
 
-  /// Gap between the pill and the Start circle.
-  static const double gap = 12;
+  /// Gap between the bar's bottom edge and the gesture inset (or the 3-button bar).
+  static const double lift = 12;
 
-  /// Lift above the gesture inset.
-  static const double lift = 10;
+  /// Padding inside the bar, every side.
+  static const double pad = 6;
 
-  /// What the shell adds to a tab root's bottom padding (on top of the gesture inset) so the last
-  /// row scrolls clear of the dock and its scrim.
-  static const double clearanceAbove = height + lift + 24;
+  /// The Start slot's width, and on screens narrower than 360 dp.
+  static const double startSlot = 76;
+  static const double startSlotNarrow = 68;
+
+  /// The Start key, expanded and compact.
+  static const Size startKey = Size(60, 40);
+  static const Size startKeyCompact = Size(52, 34);
+
+  /// The live capsule's height and its gap above the bar.
+  static const double capsuleHeight = 44;
+  static const double capsuleGap = 8;
+
+  /// The bar's side gutter and its widest size.
+  static const double gutter = 16;
+  static const double maxWidth = 440;
+
+  /// Space between the bar's top edge and the end of a tab root's content.
+  static const double contentGap = 20;
+
+  /// What the capsule adds to a tab root's bottom padding while it shows.
+  static const double capsuleClearance = capsuleHeight + capsuleGap;
+
+  /// What the shell adds to a tab root's bottom padding (on top of the gesture inset) so the
+  /// last row scrolls clear of the expanded bar.
+  static const double clearanceAbove = lift + height + contentGap;
+
+  /// The bar's width on a screen [screenWidth] wide.
+  static double widthFor(double screenWidth) => (screenWidth - 2 * gutter).clamp(0.0, maxWidth);
+
+  /// The Start slot's width on a screen [screenWidth] wide.
+  static double startSlotFor(double screenWidth) => screenWidth < 360 ? startSlotNarrow : startSlot;
 }

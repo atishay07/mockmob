@@ -14,8 +14,9 @@ abstract final class MmRhythm {
   /// Under the tab-root header, before the first block.
   static const double screenTop = 8;
 
-  /// Between independent sections of a screen.
-  static const double section = 40;
+  /// Between independent sections of a screen: 32 with a hairline rule at the top of the new
+  /// section (SPACING.md 3.1). Only the space above the first section of a hero-less screen is 40.
+  static const double section = 32;
 
   /// Between a group's blocks (a hero and the list under it).
   static const double group = 24;
@@ -26,10 +27,10 @@ abstract final class MmRhythm {
   /// Inside a label and value pair.
   static const double tight = 6;
 
-  /// Padding of each tier.
-  static const double heroPad = 24;
-  static const double plainPad = 20;
-  static const double insetPad = 16;
+  /// Padding of each tier. 24 and 20 stole 8 dp of width from every card (SPACING.md 2).
+  static const double heroPad = 20;
+  static const double plainPad = 16;
+  static const double insetPad = 12;
 
   /// Corner radius of each tier.
   static const double heroRadius = 28;
@@ -40,14 +41,15 @@ abstract final class MmRhythm {
 /// Where a surface sits in the screen's hierarchy.
 enum MmSurfaceTier {
   /// The one focal surface: raised, lit by the lamp (or a subject's light) from the upper left,
-  /// grain, the edge light, optionally the volt lit edge. 28 dp corners, 24 dp padding.
+  /// grain, the edge light, optionally the volt lit edge. 28 dp corners, 20 dp padding.
   hero,
 
-  /// The ordinary card: raised, a 1 dp top edge light and no border. 24 dp, 20 dp.
+  /// The ordinary card: raised, a 1 dp hairline, the top edge light on Night and the card shadow on
+  /// Daylight. 24 dp corners, 16 dp padding.
   plain,
 
-  /// Content nested inside another surface: a sunken well with no border and no light. 18 dp,
-  /// 16 dp. Use it instead of a card inside a card.
+  /// Content nested inside another surface: a sunken well with a hairline and no light. 18 dp,
+  /// 12 dp. Use it instead of a card inside a card.
   inset,
 
   /// No fill: content straight on the ground, padded like a plain card.
@@ -157,6 +159,15 @@ class MmSurface extends StatelessWidget {
         MmSurfaceTier.inset => MmRhythm.insetPad,
       });
 
+  /// A card's fill, hairline and depth. Night's depth is light (the edge light painted over the
+  /// top edge; shadows vanish on charcoal), Daylight's is the card shadow: white on cream with
+  /// neither read as a flat sheet with no edge (SPACING.md 8.2).
+  static ShapeDecoration _cardDecoration(MmColors colors, BorderRadius r) => ShapeDecoration(
+        color: colors.raised,
+        shape: mmShapeBorder(r, side: BorderSide(color: colors.line)),
+        shadows: colors.isNight ? null : colors.cardShadow,
+      );
+
   Widget _face(BuildContext context, bool pressed) {
     final colors = context.mmColors;
     final r = BorderRadius.circular(_radius);
@@ -166,7 +177,7 @@ class MmSurface extends StatelessWidget {
       case MmSurfaceTier.hero:
         final glow = light;
         face = DecoratedBox(
-          decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(r)),
+          decoration: _cardDecoration(colors, r),
           child: MmClip(
             borderRadius: r,
             child: Stack(
@@ -206,7 +217,7 @@ class MmSurface extends StatelessWidget {
         );
       case MmSurfaceTier.plain:
         face = DecoratedBox(
-          decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(r)),
+          decoration: _cardDecoration(colors, r),
           child: CustomPaint(
             foregroundPainter: EdgeLightPainter(
               borderRadius: r,
@@ -220,7 +231,7 @@ class MmSurface extends StatelessWidget {
         );
       case MmSurfaceTier.inset:
         face = DecoratedBox(
-          decoration: ShapeDecoration(color: colors.sunken, shape: mmShapeBorder(r)),
+          decoration: ShapeDecoration(color: colors.sunken, shape: mmShapeBorder(r, side: BorderSide(color: colors.line))),
           child: body,
         );
       case MmSurfaceTier.bare:
@@ -242,7 +253,7 @@ class MmSurface extends StatelessWidget {
       semanticsLabel: semanticsLabel,
       excludeSemantics: semanticsLabel != null,
       focusRadius: BorderRadius.circular(_radius),
-      pressedScale: tier == MmSurfaceTier.hero ? 0.98 : 0.97,
+      // Derived from the width: a 340 dp hero sinks about 8 dp, never 14 (Motion.pressedScaleFor).
       builder: (context, pressed, _) => _face(context, pressed),
     );
   }
@@ -287,7 +298,8 @@ class MmRowGroup extends StatelessWidget {
 }
 
 /// One row of an [MmRowGroup]: a 40 dp leading glyph, a title, an optional note and trailing.
-/// At least 64 dp tall; the whole row is the target.
+/// 64 dp tall with a leading glyph (40 plus 12 and 12); without one, 48 for a line and 56 for two
+/// (SPACING.md 4.3). The whole row is the target.
 class MmRow extends StatelessWidget {
   const MmRow({
     super.key,
@@ -315,7 +327,7 @@ class MmRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     Widget content(bool pressed) => ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 64),
+      constraints: BoxConstraints(minHeight: leading != null ? 64 : (subtitle != null ? 56 : 48)),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
         child: Row(
@@ -328,8 +340,8 @@ class MmRow extends StatelessWidget {
                 children: [
                   Text(title, style: type.labelLarge),
                   if (subtitle != null) ...[
-                    const SizedBox(height: 2),
-                    Text(subtitle!, style: type.caption.copyWith(color: colors.ink2), maxLines: subtitleLines, overflow: TextOverflow.ellipsis),
+                    const SizedBox(height: MmSpace.s2),
+                    Text(subtitle!, style: type.small.copyWith(color: colors.ink2), maxLines: subtitleLines, overflow: TextOverflow.ellipsis),
                   ],
                 ],
               ),
@@ -381,7 +393,7 @@ class MmSection extends StatelessWidget {
                 children: [
                   Semantics(header: true, child: Text(title, style: type.title)),
                   if (caption != null) ...[
-                    const SizedBox(height: 2),
+                    const SizedBox(height: MmSpace.s2),
                     Text(caption!, style: type.caption.copyWith(color: colors.ink2)),
                   ],
                 ],

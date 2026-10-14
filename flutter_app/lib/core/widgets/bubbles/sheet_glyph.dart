@@ -94,7 +94,8 @@ class SheetGlyphPainter extends CustomPainter {
         // Drawn as icons by [SheetGlyphTile].
         break;
       case SheetGlyph.exam:
-        // Three rows of the palette's chips in the exam's own colours.
+        // Three rows of the palette's chips in the exam's own colours. Identical in Night and Day on
+        // purpose: it mirrors the real exam's palette (SPACING.md 8.4, the NTA look is not themed).
         const states = [
           [Color(0xFF309816), Color(0xFF309816), Color(0xFFD84500)],
           [Color(0xFF512593), Color(0xFF309816), Color(0xFFE4E4E4)],

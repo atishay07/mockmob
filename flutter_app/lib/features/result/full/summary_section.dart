@@ -8,6 +8,7 @@ import '../copy.dart';
 import '../model/recap_model.dart';
 import '../sheet/flap_faces.dart' show MarksMeter;
 import '../sheet/sheet_geometry.dart';
+import '../widgets/result_space.dart';
 
 /// The top of the full result (spec 5.7, Lab order): the figure with its denominator, the counts
 /// with theirs, the arithmetic, and the answer sheet itself, flat and settled.
@@ -16,8 +17,8 @@ class SummarySection extends StatelessWidget {
 
   final RecapModel model;
 
-  /// The subject emblem's side beside the figure.
-  static const double emblemSize = 104;
+  /// The subject emblem's side beside the figure: the tile size of the emblem scale (audit X5).
+  static const double emblemSize = ResultSpace.emblem;
 
   @override
   Widget build(BuildContext context) {

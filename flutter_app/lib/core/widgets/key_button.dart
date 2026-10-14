@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/gestures.dart' show kTouchSlop;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../haptics/haptics.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
+import 'hit_slop.dart';
 import 'key_button_face.dart';
 import 'pressable.dart';
 
@@ -34,6 +37,7 @@ class KeyButton extends ConsumerStatefulWidget {
     this.semanticsLabel,
     this.hapticOnCommit = true,
     this.autofocus = false,
+    this.tapLock = defaultTapLock,
   });
 
   const KeyButton.secondary({
@@ -47,6 +51,7 @@ class KeyButton extends ConsumerStatefulWidget {
     this.semanticsLabel,
     this.hapticOnCommit = true,
     this.autofocus = false,
+    this.tapLock = defaultTapLock,
   })  : variant = KeyVariant.secondary,
         selected = false,
         leading = null;
@@ -60,6 +65,7 @@ class KeyButton extends ConsumerStatefulWidget {
     this.semanticsLabel,
     this.hapticOnCommit = true,
     this.autofocus = false,
+    this.tapLock = defaultTapLock,
   })  : variant = KeyVariant.quiet,
         loading = false,
         selected = false,
@@ -76,6 +82,7 @@ class KeyButton extends ConsumerStatefulWidget {
     this.hapticOnCommit = false,
     this.autofocus = false,
   })  : variant = KeyVariant.option,
+        tapLock = Duration.zero,
         loading = false,
         disabledReason = null,
         expanded = true,
@@ -105,6 +112,13 @@ class KeyButton extends ConsumerStatefulWidget {
   final bool hapticOnCommit;
   final bool autofocus;
 
+  /// After a commit the key ignores further commits for this long. A double tap on Next, Skip,
+  /// Submit or Start used to run the action twice (the stream skipped a question the student never
+  /// read; the Start sheet popped twice). Options keep [Duration.zero]: choosing is not a commit.
+  final Duration tapLock;
+
+  static const Duration defaultTapLock = Duration(milliseconds: 300);
+
   @override
   ConsumerState<KeyButton> createState() => _KeyButtonState();
 }
@@ -114,6 +128,7 @@ class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProvider
   bool _focused = false;
   bool _down0 = false;
   Offset _downAt = Offset.zero;
+  Timer? _lockTimer;
 
   bool get _active => widget.onPressed != null && !widget.loading;
 
@@ -125,6 +140,7 @@ class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProvider
 
   @override
   void dispose() {
+    _lockTimer?.cancel();
     _spring.dispose();
     super.dispose();
   }
@@ -148,6 +164,8 @@ class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProvider
 
   void _commit() {
     if (!_active) return;
+    if (_lockTimer?.isActive ?? false) return;
+    if (widget.tapLock > Duration.zero) _lockTimer = Timer(widget.tapLock, () {});
     if (widget.hapticOnCommit) ref.read(hapticsProvider).settle();
     widget.onPressed!();
   }
@@ -218,7 +236,7 @@ class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProvider
       ],
     );
 
-    return Semantics(
+    final semantics = Semantics(
       container: true,
       button: !isOption,
       enabled: !disabled,
@@ -230,5 +248,9 @@ class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProvider
       excludeSemantics: true,
       child: column,
     );
+
+    // A quiet key is painted at 40 dp; its 48 dp target is the hit slop, not layout.
+    if (widget.variant == KeyVariant.quiet) return MmHitSlop.toTarget(visual: 40, child: semantics);
+    return semantics;
   }
 }

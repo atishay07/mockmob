@@ -75,12 +75,20 @@ class AppPrefs {
   Future<int> weeklyCap() async => await _prefs.getInt(_weeklyCap) ?? 3;
   Future<void> setWeeklyCap(int v) => _prefs.setInt(_weeklyCap, v);
 
-  Future<DateTime?> lastPrePromptAt() async {
-    final ms = await _prefs.getInt(_lastPrePrompt);
+  /// When a reminder pre-prompt was last shown. With [userId] it is that account's own time: the
+  /// spacing between asks belongs to the student, not to the phone, so a second account on the
+  /// same phone is not held back by the first one's decline (result-05). Without it, the old
+  /// per-phone value.
+  Future<DateTime?> lastPrePromptAt({String? userId}) async {
+    final ms = await _prefs.getInt(_perUser(_lastPrePrompt, userId));
     return ms == null ? null : DateTime.fromMillisecondsSinceEpoch(ms);
   }
 
-  Future<void> setLastPrePromptAt(DateTime at) => _prefs.setInt(_lastPrePrompt, at.millisecondsSinceEpoch);
+  Future<void> setLastPrePromptAt(DateTime at, {String? userId}) =>
+      _prefs.setInt(_perUser(_lastPrePrompt, userId), at.millisecondsSinceEpoch);
+
+  /// [key] for one account, or the per-phone [key] itself when [userId] is null.
+  static String _perUser(String key, String? userId) => userId == null || userId.isEmpty ? key : '$key:$userId';
 
   Future<bool> notificationPermissionAsked() async => await _prefs.getBool(_notifPermissionAsked) ?? false;
   Future<void> setNotificationPermissionAsked(bool v) => _prefs.setBool(_notifPermissionAsked, v);

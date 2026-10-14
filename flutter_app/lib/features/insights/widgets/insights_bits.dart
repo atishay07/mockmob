@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/art.dart';
@@ -9,7 +8,8 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/subject_names.dart';
 
-/// The top row of a pushed insights page: back, the title, an optional trailing key.
+/// The top row of a pushed insights page: the app's one page header ([MmPageHeader]), the back arrow
+/// on the gutter, the title, a caption and an optional trailing key.
 class InsightsHeader extends StatelessWidget {
   const InsightsHeader({super.key, required this.title, required this.fallback, this.trailing, this.caption});
 
@@ -21,33 +21,8 @@ class InsightsHeader extends StatelessWidget {
   final String? caption;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => context.canPop() ? context.pop() : context.go(fallback),
-            tooltip: 'Back',
-            icon: Icon(LucideIcons.arrowLeft, color: colors.ink),
-          ),
-          const SizedBox(width: MmSpace.s4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Semantics(header: true, child: Text(title, style: context.mmType.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis)),
-                if (caption != null) Text(caption!, style: context.mmType.caption.copyWith(color: colors.ink2)),
-              ],
-            ),
-          ),
-          ?trailing,
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      MmPageHeader(title: title, caption: caption, trailing: trailing, fallbackRoute: fallback);
 }
 
 /// A section title with an optional quiet caption under it.
@@ -72,7 +47,7 @@ class SectionTitle extends StatelessWidget {
               children: [
                 Semantics(header: true, child: Text(title, style: type.title)),
                 if (caption != null) ...[
-                  const SizedBox(height: 2),
+                  const SizedBox(height: MmSpace.s2),
                   Text(caption!, style: type.small.copyWith(color: context.mmColors.ink2)),
                 ],
               ],
@@ -131,7 +106,7 @@ class ProTag extends StatelessWidget {
     return DecoratedBox(
       decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: colors.lineStrong))),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s2),
         child: Text(InsightsCopy.proTag, style: context.mmType.label.copyWith(color: colors.ink2, fontSize: 12)),
       ),
     );
@@ -290,7 +265,7 @@ class LegendItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Bubble(state: state, size: 14, animate: false),
-        const SizedBox(width: MmSpace.s6),
+        const SizedBox(width: MmSpace.s4),
         Text(text, style: context.mmType.caption.copyWith(color: context.mmColors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
       ],
     );
@@ -329,7 +304,7 @@ class ActionLink extends StatelessWidget {
                   style: context.mmType.labelLarge.copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: pressed ? colors.ink2 : colors.ink),
                 ),
               ),
-              const SizedBox(width: MmSpace.s6),
+              const SizedBox(width: MmSpace.s4),
               Icon(LucideIcons.arrowRight, size: 16, color: colors.ink2),
             ],
           ),
@@ -344,7 +319,7 @@ class ActionLink extends StatelessWidget {
 /// this build has no emblem for gets its initials, never another subject's mark (and is logged so
 /// the table can be filled in).
 class SubjectThumb extends StatelessWidget {
-  const SubjectThumb({super.key, required this.subject, this.size = 44});
+  const SubjectThumb({super.key, required this.subject, this.size = EmblemSizes.chip});
 
   final String subject;
   final double size;
@@ -423,7 +398,7 @@ class AskMobiStrip extends StatelessWidget {
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
+          padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
           child: Row(
             children: [
               const MobiFace(size: 34, watchTaps: false),

@@ -57,8 +57,11 @@ class NtaPaper extends StatelessWidget {
     final colors = skin.colors;
     final passage = question.passageText;
     final hasPassage = passage != null && passage.isNotEmpty;
-    final qStyle = skin.type.question(textScale);
-    final oStyle = skin.type.option(textScale);
+    // The A+ step multiplies the phone's own text size; the two together are capped (NTA-04).
+    final system = MediaQuery.textScalerOf(context).scale(1);
+    final step = NtaTextStep.paperStep(textScale, system);
+    final qStyle = skin.type.question(step);
+    final oStyle = skin.type.option(step);
     final open = !NtaExamLook.of(context);
 
     final head = _Head(
@@ -69,7 +72,7 @@ class NtaPaper extends StatelessWidget {
       ],
       onTextStep: onTextStep,
       canShrink: textScale > NtaTextStep.scales.first,
-      canGrow: textScale < NtaTextStep.scales.last,
+      canGrow: NtaTextStep.canGrowPaper(textScale, system),
       open: open,
     );
     final body = Column(
@@ -77,7 +80,7 @@ class NtaPaper extends StatelessWidget {
       children: [
         ...leading,
         if (hasPassage) ...[
-          _Passage(text: passage, range: passageRange, style: skin.type.passage(textScale)),
+          _Passage(text: passage, range: passageRange, style: skin.type.passage(step)),
           const SizedBox(height: MmSpace.s16),
         ],
         MediaQuery.withClampedTextScaling(

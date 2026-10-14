@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_error.dart';
 import '../../../core/models/json_helpers.dart';
@@ -93,13 +92,9 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
         body: SafeArea(
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: IconTap(
-                  icon: LucideIcons.arrowLeft,
-                  label: LearnCopy.backToLearn,
-                  onTap: _leave,
-                ),
+              LearnPageHeader(
+                onBack: _leave,
+                backLabel: LearnCopy.backToLearn,
               ),
               if (load.value?.fromPhone ?? false)
                 const InlineBanner.offlineStrip(),
@@ -199,7 +194,7 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(
               MmSpace.gutter,
-              MmSpace.s8,
+              MmSpace.s16,
               MmSpace.gutter,
               MmSpace.s24,
             ),
@@ -225,26 +220,27 @@ class _LearnUnitScreenState extends ConsumerState<LearnUnitScreen> {
                         const SizedBox(height: MmSpace.s12),
                         Text(unit.summary!, style: type.lead),
                       ],
+                      // Sections are typeset: air, a hairline, then the heading (SPACING.md 3.1).
                       if (unit.objectives.isNotEmpty) ...[
-                        const SizedBox(height: MmSpace.s24),
+                        const SectionBreak(),
                         Semantics(
                           header: true,
                           child: Text(
                             LearnCopy.unitObjectives,
-                            style: type.subhead,
+                            style: type.title,
                           ),
                         ),
-                        const SizedBox(height: MmSpace.s8),
+                        const SizedBox(height: MmSpace.s12),
                         for (var i = 0; i < unit.objectives.length; i++)
                           IdeaLine(number: i + 1, text: unit.objectives[i]),
                       ],
                       if (blocks.isNotEmpty) ...[
-                        const SizedBox(height: MmSpace.group),
+                        const SectionBreak(),
                         Semantics(
                           header: true,
                           child: Text(LearnCopy.unitLesson, style: type.title),
                         ),
-                        const SizedBox(height: MmSpace.s16),
+                        const SizedBox(height: MmSpace.s12),
                         for (final b in blocks) ...[
                           LessonBlock(block: b),
                           const SizedBox(height: MmSpace.s24),

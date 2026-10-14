@@ -4,8 +4,12 @@
 // volt down to the last landed step. A landed step shows its name and date; the next step is
 // ringed and says exactly what lands it and, where the app can count it exactly, how far along
 // it is; later steps are named quietly; the record behind the path ends the section. No locks, no
-// streak pressure, nothing expires. A step that landed since the last visit plays its coin
-// moment once while Mobi hops beside the title.
+// streak pressure, nothing expires. A step that landed since the last visit is the one T3 moment
+// of the screen, played once in order: the token settles, then the step's medal settles with one
+// band of light across it, then Mobi stands proud beside the token (he acts after it lands).
+//
+// Sizes (SPACING.md RH2): the header token is 48 dp with 12 to its words, the rail coins are 36 dp
+// centred on the same 48 dp column, so the path name and the steps share one text edge.
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -20,6 +24,7 @@ import 'earned_token.dart';
 import 'locked_coin.dart';
 import 'medal.dart';
 import 'proud_mobi.dart';
+import 'rhythm_layout.dart' show FillBar;
 import 'rhythm_page.dart' show FlushQuietKey;
 
 /// What is engraved on the coin of each step: nine steps, nine different faces.
@@ -35,6 +40,19 @@ import 'rhythm_page.dart' show FlushQuietKey;
   'weeks_met_4' => (icon: null, text: '4'),
   _ => (icon: LucideIcons.award, text: null),
 };
+
+/// The rail: a 48 dp column with a 36 dp coin centred in it. The header token above is 48 dp on
+/// the same axis, and every word sits 12 dp right of this column.
+const double _rail = 48;
+const double _coin = 36;
+
+/// Where the coin starts in its row, leaving 3 dp of air for the rail line above it.
+const double _coinTop = 4;
+
+/// The order of a landing, in ms from the first frame: the token settles (0 to about 520), the
+/// medal and its band follow (from 280), Mobi arrives once the token has landed (520).
+const Duration _medalDelay = Duration(milliseconds: 280);
+const Duration _mobiDelay = Duration(milliseconds: 520);
 
 class MilestoneTrackCard extends StatefulWidget {
   const MilestoneTrackCard({
@@ -59,7 +77,7 @@ class MilestoneTrackCard extends StatefulWidget {
 }
 
 class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTickerProviderStateMixin {
-  late final AnimationController _trail = AnimationController(vsync: this, duration: const Duration(milliseconds: 420));
+  late final AnimationController _trail = AnimationController(vsync: this, duration: Motion.drawIn);
   bool _started = false;
 
   MilestoneToken get _token => MilestoneToken.values.firstWhere((t) => t.track == widget.track.track);
@@ -125,7 +143,7 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
                             style: type.small.copyWith(color: colors.accentText, fontWeight: FontWeight.w700),
                           ),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: MmSpace.s2),
                         Text(RhythmCopy.trackLanded(track.track.title, earned, total), style: type.small.copyWith(color: colors.ink2)),
                       ],
                     )
@@ -138,14 +156,14 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
                           header: true,
                           child: Text(track.track.title, style: type.headline.copyWith(fontSize: 20, height: 24 / 20)),
                         ),
-                        const SizedBox(height: 2),
+                        const SizedBox(height: MmSpace.s2),
                         Text(RhythmCopy.trackCount(earned, total), style: type.small.copyWith(color: colors.ink2)),
                       ],
                     ),
             ),
           ],
         ),
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s16),
         for (var i = 0; i < track.steps.length; i++)
           _TrailStep(
             view: track.steps[i],
@@ -184,34 +202,49 @@ class _TokenArt extends StatelessWidget {
   /// A step of this path landed since the last visit: the token plays its earned moment.
   final bool justLanded;
 
-  static const double box = 92;
+  /// The header token: 48 dp, on the rail's axis.
+  static const double box = 48;
+
+  /// The token of a step that has just landed is the lead of its moment, so it is larger.
+  static const double landedBox = 72;
+
+  /// Mobi beside a landed token: his own column, never over the token.
+  static const double mobiSize = 64;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final size = justLanded ? landedBox : box;
     final Widget art;
     if (!earned) {
-      art = Center(child: LockedCoin(token, size: 68));
+      art = Center(child: LockedCoin(token, size: box - MmSpace.s4));
     } else if (justLanded) {
-      art = Center(child: EarnedToken(size: 80, child: ArtImage(token.art, width: 66, height: 66)));
+      art = Center(child: EarnedToken(size: landedBox, child: ArtImage(token.art, width: landedBox - 14, height: landedBox - 14)));
     } else {
-      art = Center(child: ArtImage(token.art, width: 76, height: 76));
+      art = Center(child: ArtImage(token.art, width: box, height: box));
     }
     final coinBox = SizedBox.square(
-      dimension: box,
+      dimension: size,
       child: Stack(
         alignment: Alignment.center,
+        clipBehavior: Clip.none,
         children: [
-          // The token's own pool of lamp light, fading to the ground.
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    colors.lamp.withValues(alpha: earned ? (colors.isNight ? 0.22 : 0.20) : 0.06),
-                    colors.lamp.withValues(alpha: 0),
-                  ],
+          // The token's own pool of lamp light, fading to the ground. It reaches past the box.
+          Positioned(
+            left: -MmSpace.s12,
+            top: -MmSpace.s12,
+            right: -MmSpace.s12,
+            bottom: -MmSpace.s12,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      colors.lamp.withValues(alpha: earned ? (colors.isNight ? 0.22 : 0.20) : 0.06),
+                      colors.lamp.withValues(alpha: 0),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -222,15 +255,17 @@ class _TokenArt extends StatelessWidget {
     );
     if (!justLanded) return coinBox;
     // Mobi stands against the token's edge, so the achievement and the one celebrating it read as
-    // one picture.
+    // one picture. He arrives after the token has landed.
+    // He has his own room beside the token: the box is token + figure, so neither covers the
+    // other (at 72 dp tall and 40 dp of room, the token's ring sat over his left side).
     return SizedBox(
-      width: box + 40,
-      height: box,
+      width: landedBox + MmSpace.s4 + MobiFigure.widthFor(mobiSize),
+      height: landedBox,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           Positioned(left: 0, top: 0, child: coinBox),
-          const Positioned(right: 0, bottom: -2, child: ProudMobi(size: 72)),
+          const Positioned(right: 0, bottom: -2, child: ProudMobi(size: mobiSize, delay: _mobiDelay)),
         ],
       ),
     );
@@ -284,8 +319,11 @@ class _TrailStep extends StatelessWidget {
     };
     final counted = count != null && target != null;
 
+    // The first line of words is centred on the coin: a 36 dp coin starting 4 dp down, a 22 dp line
+    // (24 for the next step, which is larger).
+    final lineHeight = status == StepStatus.next ? 24.0 : 22.0;
     final words = Padding(
-      padding: EdgeInsets.only(bottom: last ? 0 : MmSpace.s20, top: 2),
+      padding: EdgeInsets.only(bottom: last ? 0 : MmSpace.s16, top: _coinTop + (_coin - lineHeight) / 2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -297,9 +335,9 @@ class _TrailStep extends StatelessWidget {
               color: status == StepStatus.later ? colors.ink3 : colors.ink,
             ),
           ),
-          if (date != null) ...[const SizedBox(height: 2), Text(date, style: type.caption.copyWith(color: colors.ink2))],
+          if (date != null) ...[const SizedBox(height: MmSpace.s2), Text(date, style: type.caption.copyWith(color: colors.ink2))],
           if (status == StepStatus.next) ...[
-            const SizedBox(height: 2),
+            const SizedBox(height: MmSpace.s2),
             Text(view.step.condition, style: type.small.copyWith(color: colors.ink2)),
             if (counted) ...[const SizedBox(height: MmSpace.s12), _CountBar(count: count!, target: target!)],
           ],
@@ -312,14 +350,15 @@ class _TrailStep extends StatelessWidget {
       label: label,
       excludeSemantics: true,
       child: ConstrainedBox(
-        // Coin (44) plus the line between coins, so a one-line step still leaves room for the line.
-        constraints: BoxConstraints(minHeight: last ? 48 : 70),
+        // Coin (36 plus its 4 dp of air) plus the line between coins, so a one-line step still
+        // leaves room for the line.
+        constraints: BoxConstraints(minHeight: last ? _coinTop + _coin : 64),
         child: IntrinsicHeight(
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               SizedBox(
-                width: 44,
+                width: _rail,
                 child: CustomPaint(
                   painter: _LinePainter(
                     colors: colors,
@@ -334,7 +373,7 @@ class _TrailStep extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 2),
+                      padding: const EdgeInsets.only(top: _coinTop),
                       child: Medal(
                         status: switch (status) {
                           StepStatus.earned => MedalStatus.landed,
@@ -343,7 +382,9 @@ class _TrailStep extends StatelessWidget {
                         },
                         icon: face.icon,
                         text: face.text,
+                        size: _coin,
                         animateLanding: fresh,
+                        delay: _medalDelay,
                       ),
                     ),
                   ),
@@ -357,10 +398,12 @@ class _TrailStep extends StatelessWidget {
       ),
     );
     if (!fresh || Motion.reduced(context)) return step;
+    // The row fades in as its medal starts to land, after the token above it.
+    final total = _medalDelay + Motion.milestone;
     step = TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),
-      duration: Motion.milestone,
-      curve: Motion.out,
+      duration: total,
+      curve: Interval(_medalDelay.inMilliseconds / total.inMilliseconds, 1, curve: Motion.out),
       builder: (context, t, child) => Opacity(opacity: t, child: child),
       child: step,
     );
@@ -392,8 +435,8 @@ class _LinePainter extends CustomPainter {
   final bool topLit;
   final bool bottomLit;
 
-  static const double _medalTop = 2;
-  static const double _medal = 44;
+  static const double _medalTop = _coinTop;
+  static const double _medal = _coin;
 
   double _seg(int k) => segments <= 0 ? 1 : (trail.value * segments - k).clamp(0.0, 1.0);
 
@@ -427,7 +470,8 @@ class _LinePainter extends CustomPainter {
       old.bottomLit != bottomLit;
 }
 
-/// A thin bar with the exact count beside it.
+/// A thin bar with the exact count beside it. The fill is volt on both themes, with a 1 dp dark
+/// volt edge on Daylight so it reads on cream; the track is a well.
 class _CountBar extends StatelessWidget {
   const _CountBar({required this.count, required this.target});
 
@@ -443,26 +487,7 @@ class _CountBar extends StatelessWidget {
       excludeSemantics: true,
       child: Row(
         children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: MmRadius.pillAll,
-              child: SizedBox(
-                height: 6,
-                child: Stack(
-                  children: [
-                    Positioned.fill(child: ColoredBox(color: colors.ink.withValues(alpha: 0.10))),
-                    Positioned.fill(
-                      child: FractionallySizedBox(
-                        alignment: Alignment.centerLeft,
-                        widthFactor: (count / target).clamp(0.0, 1.0),
-                        child: ColoredBox(color: colors.isNight ? colors.volt : colors.accentText),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          Expanded(child: FillBar(fraction: count / target)),
           const SizedBox(width: MmSpace.s12),
           Text(
             RhythmCopy.soFar(count, target),

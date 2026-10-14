@@ -4,14 +4,26 @@ import '../motion/motion.dart';
 import '../theme/theme.dart';
 import 'emblem_painter.dart';
 import 'emblem_palette.dart';
+import 'emblem_sizes.dart';
 import 'emblem_subjects.dart';
+import 'object_art.dart';
 import 'subject_identity.dart';
 
 /// A subject's emblem: one folded-paper object on a piece of the subject's answer sheet, printed
 /// in its form ink, with exactly one volt bubble placed where it means something (the
 /// equilibrium point, the nucleus, the ballot's choice).
 ///
-/// - [size] is the side in dp, legible from 24 to 160. Detail follows size (see [EmblemDetail]).
+/// With [objectArt] on (the app's default), every size from 40 dp up shows the subject's
+/// photo-real object instead ([SubjectRender]: the ledger tied with string, the brass stamp, the
+/// scale with an onion): centred and wholly inside its box, never cropped, with a soft contact
+/// shadow, on a quiet well when framed. The 24 dp glyph and a subject without a render keep the
+/// drawing below. Marked, a framed tile shows the volt ring and tick; an open emblem carries no
+/// mark of its own (a photo has no bubble to ink), so its row's check or ring says it, as below.
+/// The idle float, the picker's dim and lift, and the semantics are the same.
+///
+/// - [size] is the side in dp, legible from 24 to 160. Use the four sizes of [EmblemSizes]
+///   (24, 40, 56, 136) so a subject is the same object on every screen. Detail follows size (see
+///   [EmblemDetail]). A size that is not a positive finite number draws nothing and takes no room.
 /// - [animate] turns on the idle cycle (7.2 s, phase-shifted per subject): a float on every object
 ///   and one signature motion per subject (the atom's orbit sweep, the flask's bubbles, the
 ///   code window's scan, the heads' nod). Off under reduced motion (system or in-app), off by
@@ -36,7 +48,7 @@ class SubjectEmblem extends StatefulWidget {
   const SubjectEmblem({
     super.key,
     required this.subject,
-    this.size = 56,
+    this.size = EmblemSizes.tile,
     this.animate = false,
     this.marked = false,
     this.selectable = false,
@@ -64,6 +76,11 @@ class SubjectEmblem extends StatefulWidget {
   /// the drift itself turns it on and restores it in a tear-down.
   static bool idleEnabled = false;
 
+  /// The app-wide gate for the photo-real objects at 40 dp and up. `main()` turns it on; tests
+  /// keep the static default (off), so the drawn emblems in every other golden stay as they are.
+  /// A test that checks the objects turns it on and restores it in a tear-down.
+  static bool objectArt = false;
+
   @override
   State<SubjectEmblem> createState() => _SubjectEmblemState();
 }
@@ -72,10 +89,21 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
   static const Duration idlePeriod = Duration(milliseconds: 7200);
 
   AnimationController? _idle;
-  late final AnimationController _ink = AnimationController(vsync: this, duration: Motion.ink, value: widget.marked ? 1 : 0);
+  late final AnimationController _ink;
   final ValueNotifier<double> _still = ValueNotifier<double>(0);
   bool _reduced = false;
   bool _tickerOn = true;
+
+  /// The render's file would not load (a broken install): draw the vector object instead.
+  bool _renderMissing = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Created here, not on first use: a build that returns early (no room to draw) must still
+    // leave a controller to dispose.
+    _ink = AnimationController(vsync: this, duration: Motion.ink, value: widget.marked ? 1 : 0);
+  }
 
   @override
   void didChangeDependencies() {
@@ -92,6 +120,7 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
     // The setting may change in the same frame as the props; read it fresh.
     _reduced = Motion.reduced(context);
     if (old.animate != widget.animate) _syncIdle();
+    if (old.subject != widget.subject) _renderMissing = false;
     if (old.marked != widget.marked) {
       final target = widget.marked ? 1.0 : 0.0;
       if (_reduced) {
@@ -119,6 +148,14 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
     }
   }
 
+  void _onRenderMissing() {
+    if (_renderMissing) return;
+    // Called from the image's error builder, inside a build: switch on the next frame.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && !_renderMissing) setState(() => _renderMissing = true);
+    });
+  }
+
   @override
   void dispose() {
     _idle?.dispose();
@@ -129,9 +166,32 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    // A size that is zero, negative, NaN or infinite (a LayoutBuilder with no room, a divide by
+    // zero in a caller) takes no space and paints nothing instead of throwing in layout.
+    final side = widget.size;
+    if (!side.isFinite || side <= 0) return const SizedBox.shrink();
     final brightness = widget.brightness ?? Theme.of(context).brightness;
     final identity = SubjectIdentity.of(widget.subject) ?? SubjectIdentity.of('other')!;
     final palette = EmblemPalette.of(identity, brightness);
+    final render = SubjectEmblem.objectArt && side >= EmblemSizes.chip && !_renderMissing ? SubjectRender.forKind(identity.kind) : null;
+    if (render != null) {
+      return _withSemantics(
+        RepaintBoundary(
+          child: ObjectEmblem(
+            render: render,
+            size: side,
+            palette: palette,
+            framed: widget.framed,
+            selectable: widget.selectable,
+            idle: _idle ?? _still,
+            ink: _ink,
+            phase: identity.phase,
+            reduced: _reduced,
+            onMissing: _onRenderMissing,
+          ),
+        ),
+      );
+    }
     final detail = EmblemDetail.forSize(widget.size);
     final known = EmblemArt.forKind(identity.kind);
     final art = known ?? EmblemArt.monogram;
@@ -190,7 +250,10 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
         ],
       );
     }
-    final boxed = RepaintBoundary(child: SizedBox.square(dimension: widget.size, child: emblem));
+    return _withSemantics(RepaintBoundary(child: SizedBox.square(dimension: widget.size, child: emblem)));
+  }
+
+  Widget _withSemantics(Widget boxed) {
     final label = widget.semanticLabel;
     if (label == null) return ExcludeSemantics(child: boxed);
     return Semantics(

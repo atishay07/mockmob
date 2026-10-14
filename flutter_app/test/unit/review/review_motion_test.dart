@@ -52,7 +52,7 @@ void main() {
   });
 
   group('the hero art', () {
-    testWidgets('the tab shows the subject emblem, once, and it is the one that drifts', (tester) async {
+    testWidgets('the tab shows the subject emblem once, at 136, settling in and then still', (tester) async {
       await pumpMockmob(
         tester,
         const ReviewScreen(),
@@ -62,12 +62,13 @@ void main() {
         overrides: reviewOverrides(records: [repairedRecord]),
       );
       final emblems = tester.widgetList<SubjectEmblem>(find.byType(SubjectEmblem)).toList();
-      expect(emblems.where((e) => e.animate), hasLength(1), reason: 'only one emblem animates per screen');
-      expect(emblems.where((e) => e.animate).single.size, 168);
+      final hero = emblems.where((e) => e.size == 136);
+      expect(hero, hasLength(1), reason: 'one object in the hero, drawn at 136 inside its 156 box');
+      expect(hero.single.animate, isFalse, reason: 'it glides in once and does not loop on a resting screen');
       expect(find.byType(ArtImage), findsNothing, reason: 'the raster object is gone from the hero');
     });
 
-    testWidgets('the repair entry carries the same emblem at 160', (tester) async {
+    testWidgets('the repair entry carries the same emblem at 136, and no Mobi', (tester) async {
       await pumpMockmob(
         tester,
         const RepairScreen(attemptId: 'm7', questionId: 'm7-q0'),
@@ -77,9 +78,11 @@ void main() {
         overrides: reviewOverrides(run: runOf(phase: RepairPhase.entry)),
       );
       final emblem = tester.widget<SubjectEmblem>(find.byType(SubjectEmblem));
-      expect(emblem.size, 160);
-      expect(emblem.animate, isTrue);
+      expect(emblem.size, 136);
+      expect(emblem.animate, isFalse);
       expect(find.byType(ArtImage), findsNothing);
+      expect(find.byType(MobiCharacter), findsNothing);
+      expect(find.byType(Mobi), findsNothing, reason: 'a moment with an object has no second character');
     });
   });
 
@@ -128,7 +131,7 @@ void main() {
         wrapInScaffold: false,
         overrides: reviewOverrides(attemptsState: const RemoteState(loading: true)),
       );
-      expect(find.byType(MmSkeletonCard), findsOneWidget);
+      expect(find.byType(Skeleton), findsWidgets);
       expect(find.byType(MmSkeletonRows), findsOneWidget);
       expect(find.byType(TonightCard), findsNothing);
     });

@@ -8,22 +8,25 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../rhythm/rhythm.dart' show LateNightLine;
+import '../../rhythm/rhythm.dart' show CelebrationMode, LateNightLine, celebrationModeProvider;
 import '../copy.dart';
 import '../model/finish_reaction.dart';
 import 'finish_ceremony.dart';
 import 'marks_bar.dart';
 import 'numbered_sheet.dart';
 
-/// The finish moment of a practice (owner feedback 1110, WEB-PARITY A13). It opens only after
-/// the server has acknowledged the submit (the result route is reached from the receipt). The
-/// student's sheet inks in, bubble by bubble in order (40 ms apart, 800 ms at most), the figure
-/// counts up with each right answer, then the figure is stamped: it lifts and lands with an ink
-/// ring (a medium haptic), and for a good set a burst of volt shards and bubbles flies out while
-/// a light band crosses the sheet (the success haptic, which is allowed here because the server
-/// has already acknowledged). Then Mobi, who has been reading the sheet, reacts: a cheer for a
-/// good run, thinking it over for a mixed one, never sad. A tap anywhere skips to the end;
-/// reduced motion and a result opened again show the end at once.
+/// The finish moment of a practice (owner feedback 1110, WEB-PARITY A13), a T2 moment on the
+/// celebration ladder (MOTION.md 1.2 and 4.7). It opens only after the server has acknowledged
+/// the submit (the result route is reached from the receipt). The student's sheet inks in, bubble
+/// by bubble in order (40 ms apart, 800 ms at most), the figure counts up with each right answer,
+/// then the figure is stamped (a medium haptic as it lands). For a good set one ink ring and 14
+/// shards follow (no sweep, no flash); then Mobi, who has been reading the sheet, reacts once the
+/// number has landed, and the success haptic follows (allowed: the server already acknowledged).
+/// A mixed set gets the stamp alone and Mobi's calm line, never sad.
+///
+/// The Celebrations setting gates it: Quiet keeps the ink, the count and the stamp but no ring,
+/// shards or Mobi act; Off shows the end state at once, with the words. A tap anywhere skips to
+/// the end; reduced motion and a result opened again show the end at once.
 ///
 /// The screen mounts it only once the sheet has rows (or the read has settled without them) and
 /// keys it by the number of bubbles, so rows that arrive after an empty mount make a new stage:
@@ -64,7 +67,14 @@ class FinishStage extends ConsumerStatefulWidget {
   static const Duration stagger = Duration(milliseconds: 40);
   static const Duration inkCap = Duration(milliseconds: 800);
   static const Duration lead = Duration(milliseconds: 200);
-  static const Duration tail = Duration(milliseconds: 260);
+
+  /// The stamp follows the last bubble at once: 200 ms in place, 800 ms of ink at most, then the
+  /// stamp at about 1000 ms (MOTION.md 4.7).
+  static const Duration tail = Duration.zero;
+
+  /// After the landing, Mobi's turn and the success haptic wait this long, so the number has
+  /// visibly landed before he cheers.
+  static const Duration reactAfterLanding = Duration(milliseconds: 160);
 
   /// How long the whole moment runs for [count] questions.
   static Duration durationFor(int count) {
@@ -76,16 +86,19 @@ class FinishStage extends ConsumerStatefulWidget {
   ConsumerState<FinishStage> createState() => _FinishStageState();
 }
 
-const double _mobiSize = 92;
+const double _mobiSize = 80;
 
 class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderStateMixin {
   late final AnimationController _c = AnimationController(vsync: this, duration: FinishStage.durationFor(widget.cells.length));
   late final Animation<double> _ink;
 
-  /// The stamp after the ink (lift, land, ring, burst) and the light band over the sheet.
+  /// The stamp after the ink (lift, land, and for a good set the ring and the burst).
   late final AnimationController _stamp = AnimationController(vsync: this, duration: FinishCeremony.stampDuration);
-  late final AnimationController _sweep = AnimationController(vsync: this, duration: Motion.sweep);
   bool _landed = false;
+  Timer? _reactTimer;
+
+  /// The Celebrations setting, read once when the moment starts.
+  CelebrationMode _mode = CelebrationMode.full;
   final MobiController _mobi = MobiController();
   final GlobalKey _sheetKey = GlobalKey();
   bool _reacted = false;
@@ -108,14 +121,21 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     });
   }
 
-  /// A good or great set gets the burst, the band of light and the success haptic.
+  /// A good or great set: the ring and the burst (on Full) and the success haptic.
   bool get _celebrates => widget.tone == FinishTone.good || widget.tone == FinishTone.great;
 
-  /// The ink is done: stamp the figure. A result opened again, or reduced motion, lands at once.
+  /// The ring and the shards: a good set with Celebrations on Full.
+  bool get _burst => _celebrates && _mode == CelebrationMode.full;
+
+  /// The moment is shown at its end at once: a result opened again, reduced motion, or
+  /// Celebrations off (words only).
+  bool get _still => !widget.fresh || Motion.reduced(context) || _mode == CelebrationMode.off;
+
+  /// The ink is done: stamp the figure. A still moment lands at once.
   void _stampDown() {
     // A skip has already landed it.
     if (_landed) return;
-    if (!widget.fresh || Motion.reduced(context)) {
+    if (_still) {
       _landed = true;
       _react();
       return;
@@ -123,17 +143,16 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     _stamp.forward(from: 0);
   }
 
-  /// The figure touches down: the haptic, the band of light, and Mobi's turn.
+  /// The figure touches down: the medium haptic now, then (once the number has visibly landed)
+  /// Mobi's turn and, for a good set, the success haptic.
   void _land() {
     _landed = true;
-    final haptics = ref.read(hapticsProvider);
-    if (_celebrates) {
-      haptics.success();
-      _sweep.forward(from: 0);
-    } else {
-      haptics.medium();
-    }
-    _react();
+    unawaited(ref.read(hapticsProvider).medium());
+    _reactTimer = Timer(FinishStage.reactAfterLanding, () {
+      if (!mounted) return;
+      if (_celebrates) unawaited(ref.read(hapticsProvider).success());
+      _react();
+    });
   }
 
   /// The ink runs between the lead-in and the tail of a moment [total] long.
@@ -147,7 +166,8 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    if (!widget.fresh || Motion.reduced(context)) {
+    _mode = ref.read(celebrationModeProvider);
+    if (_still) {
       _c.value = 1;
       _react();
     } else {
@@ -163,17 +183,21 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
       _react();
     } else if (_stamp.isAnimating) {
       _stamp.value = 1;
-      _sweep.value = 1;
+      if (_reactTimer?.isActive ?? false) {
+        _reactTimer!.cancel();
+        _react();
+      }
     }
   }
 
-  /// Mobi reacts once, with the line for the tone; a good run gets a light tap of the haptics.
+  /// Mobi reacts once, with the line for the tone. With Celebrations on Quiet or Off he says the
+  /// line without an act: the words stay, the show goes.
   void _react() {
     if (_reacted) return;
     _reacted = true;
-    _mobi.play(widget.tone.act);
+    if (_mode == CelebrationMode.full) _mobi.play(widget.tone.act);
     _mobi.say(PracticeCopy.finishLine(widget.tone, widget.marks));
-    if (!widget.fresh || Motion.reduced(context)) {
+    if (_still) {
       _marksOn = true;
     } else {
       _marksTimer = Timer(const Duration(milliseconds: 260), () {
@@ -203,9 +227,9 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   @override
   void dispose() {
     _marksTimer?.cancel();
+    _reactTimer?.cancel();
     _c.dispose();
     _stamp.dispose();
-    _sweep.dispose();
     _mobi.dispose();
     super.dispose();
   }
@@ -245,7 +269,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             excludeSemantics: true,
             child: StampedFigure(
               stamp: _stamp,
-              burst: _celebrates,
+              burst: _burst,
               digits: '${m.correct}'.length,
               child: AnimatedBuilder(
                 animation: _c,
@@ -260,7 +284,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             ),
           ),
           // And room under it, clear of the ring spreading out from behind the figure.
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s16),
           // The summary line comes in with the count-up's last third, so the result is not given
           // away at 0.
           AnimatedBuilder(
@@ -269,8 +293,8 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             child: Text(PracticeCopy.countsLine(m.correct, m.wrong, m.blank), style: type.lead.copyWith(color: colors.ink)),
           ),
           if (widget.cells.isNotEmpty) ...[
-            const SizedBox(height: MmSpace.s20),
-            _InkSheet(cells: widget.cells, reveal: _ink, sweep: _sweep, onCellTap: widget.onCellTap, stripKey: _sheetKey),
+            const SizedBox(height: MmSpace.s16),
+            _InkSheet(cells: widget.cells, reveal: _ink, onCellTap: widget.onCellTap, stripKey: _sheetKey),
           ],
           const SizedBox(height: MmSpace.s8),
           // Mobi sits under the sheet, reading it while it inks, then turns and says one line.
@@ -295,9 +319,9 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             curve: Motion.out,
             builder: (context, reveal, _) => MarksBar(marks: m, reveal: reveal),
           ),
-          const SizedBox(height: MmSpace.s16),
+          const SizedBox(height: MmSpace.s12),
           // The line keeps its height while the acknowledgement time is read, so nothing jumps.
-          SizedBox(height: 22, child: widget.recordedAt == null ? null : ReceiptLine(text: PracticeCopy.recorded(widget.recordedAt!))),
+          SizedBox(height: MmSpace.s24, child: widget.recordedAt == null ? null : ReceiptLine(text: PracticeCopy.recorded(widget.recordedAt!))),
           // After a calm or good set only: after a mixed one the next step is Repair, not a nudge
           // to stop.
           if (_celebrates) const LateNightLine(),
@@ -328,13 +352,10 @@ class _MobiSays extends StatelessWidget {
 /// The student's sheet on a solid card: one bubble per question, inking in order. Each bubble
 /// is a verdict, and a tap opens that question below (the rows are the accessible path).
 class _InkSheet extends StatelessWidget {
-  const _InkSheet({required this.cells, required this.reveal, required this.sweep, this.onCellTap, this.stripKey});
+  const _InkSheet({required this.cells, required this.reveal, this.onCellTap, this.stripKey});
 
   final List<QuestionCell> cells;
   final Animation<double> reveal;
-
-  /// The band of light that crosses the card once for a good set.
-  final Animation<double> sweep;
   final ValueChanged<int>? onCellTap;
   final Key? stripKey;
 
@@ -349,12 +370,9 @@ class _InkSheet extends StatelessWidget {
           side: BorderSide(color: colors.line),
         ),
       ),
-      child: CustomPaint(
-        foregroundPainter: SheetSweepPainter(sweep: sweep, colors: colors, radius: MmRadius.panel),
-        child: Padding(
-          padding: const EdgeInsets.all(MmSpace.s16),
-          child: NumberedSheet(cells: cells, reveal: reveal, onCellTap: onCellTap, stripKey: stripKey),
-        ),
+      child: Padding(
+        padding: const EdgeInsets.all(MmSpace.s16),
+        child: NumberedSheet(cells: cells, reveal: reveal, onCellTap: onCellTap, stripKey: stripKey),
       ),
     );
   }

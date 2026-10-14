@@ -272,30 +272,32 @@ class MmSkeletonCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (hero) ...[
-          const Skeleton.line(width: 84, height: 11),
-          const SizedBox(height: 10),
-          const Skeleton.line(width: 168, height: 22),
-          const SizedBox(height: 22),
+          // Heights follow the move card (SPACING.md 3.2: overline, 4, title, 12, number block,
+          // 16, key) so the page does not jump when the real card lands.
+          const Skeleton.line(width: 84, height: 12),
+          const SizedBox(height: MmSpace.s4),
+          const Skeleton.line(width: 168, height: 24),
+          const SizedBox(height: MmSpace.s12),
           const Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Skeleton(width: 92, height: 88, radius: 20),
-              SizedBox(width: 16),
+              SizedBox(width: MmSpace.s16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Skeleton.line(width: 132, height: 16), SizedBox(height: 10), Skeleton.line(width: 96, height: 12)],
+                  children: [Skeleton.line(width: 132, height: 16), SizedBox(height: MmSpace.s8), Skeleton.line(width: 96, height: 12)],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 22),
-          const Skeleton(height: 52, radius: 26),
+          const SizedBox(height: MmSpace.s16),
+          const Skeleton(height: 56, radius: 28),
         ] else ...[
           const Skeleton.line(width: 120, height: 18),
-          const SizedBox(height: 14),
+          const SizedBox(height: MmSpace.s12),
           const Skeleton.line(),
-          const SizedBox(height: 8),
+          const SizedBox(height: MmSpace.s8),
           const Skeleton.line(width: 220),
         ],
       ],
@@ -320,15 +322,15 @@ class MmSkeletonRows extends StatelessWidget {
         for (var i = 0; i < rows; i++) ...[
           if (i > 0)
             Padding(
-              padding: const EdgeInsetsDirectional.only(start: 56),
+              padding: const EdgeInsetsDirectional.only(start: 52),
               child: SizedBox(height: 1, child: ColoredBox(color: colors.line.withValues(alpha: 0.8))),
             ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
+            padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
             child: Row(
               children: [
                 const Skeleton.circle(size: 40),
-                const SizedBox(width: 16),
+                const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -344,6 +346,43 @@ class MmSkeletonRows extends StatelessWidget {
           ),
         ],
       ],
+    );
+  }
+}
+
+/// Skeleton to content as one 200 ms cross-fade (MOTION.md C11). While [loading] the [skeleton]
+/// shows; when the data lands the two cross-fade, and the content's own entrance rides that fade
+/// (so the content widget must not fade-up a second time). A cache hit starts with [loading] false
+/// and shows the content at once, with no skeleton flash. Reduced motion shortens the fade to
+/// 120 ms.
+///
+/// Give the skeleton and the content a stable height relationship (the skeletons here follow the
+/// real components' measured heights) so the page does not jump when the data lands.
+class MmSkeletonSwitcher extends StatelessWidget {
+  const MmSkeletonSwitcher({super.key, required this.loading, required this.skeleton, required this.child});
+
+  final bool loading;
+  final Widget skeleton;
+  final Widget child;
+
+  /// The cross-fade between skeleton and content.
+  static const Duration duration = Duration(milliseconds: 200);
+
+  @override
+  Widget build(BuildContext context) {
+    final reduced = Motion.reduced(context);
+    return AnimatedSwitcher(
+      duration: reduced ? Motion.reducedFade : duration,
+      switchInCurve: Curves.easeOut,
+      switchOutCurve: Curves.easeIn,
+      layoutBuilder: (current, previous) => Stack(
+        fit: StackFit.passthrough,
+        alignment: Alignment.topCenter,
+        children: [...previous, ?current],
+      ),
+      child: loading
+          ? KeyedSubtree(key: const ValueKey('mm-skeleton'), child: skeleton)
+          : KeyedSubtree(key: const ValueKey('mm-content'), child: child),
     );
   }
 }

@@ -6,7 +6,6 @@ import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/config/app_config.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/copy/formatters.dart';
-import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -135,12 +134,18 @@ class SaveView extends StatelessWidget {
   final bool busy;
   final String? problem;
 
+  /// Where the content sits in the room above the pinned keys: two parts of the free height
+  /// above it, three below, the optical centre of a moment (SPACING.md 7).
+  static const Alignment weight = Alignment(0, -0.2);
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final answered = age != null;
-    final buttons = Column(
+    // The keys are always laid out, so answering the age moves nothing: until it is answered
+    // they wait, disabled, under the question that unlocks them.
+    final keys = Column(
       key: const ValueKey('buttons'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -151,7 +156,7 @@ class SaveView extends StatelessWidget {
           KeyButton(
             label: googleBusy ? OnboardingCopy.googleBusy : OnboardingCopy.continueWithGoogle,
             loading: googleBusy,
-            onPressed: offline || busy || googleInBrowser ? null : onGoogle,
+            onPressed: !answered || offline || busy || googleInBrowser ? null : onGoogle,
           ),
           if (googleInBrowser) ...[
             const SizedBox(height: MmSpace.s8),
@@ -173,62 +178,58 @@ class SaveView extends StatelessWidget {
           const SizedBox(height: MmSpace.s12),
         ],
         googleEnabled
-            ? KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: offline || busy ? null : onEmail)
-            : KeyButton(label: OnboardingCopy.useEmailCode, onPressed: offline || busy ? null : onEmail),
+            ? KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: !answered || offline || busy ? null : onEmail)
+            : KeyButton(label: OnboardingCopy.useEmailCode, onPressed: !answered || offline || busy ? null : onEmail),
+        const SizedBox(height: MmSpace.s4),
+        Center(child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: busy ? null : onNotNow)),
       ],
     );
 
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (note != null) ...[InlineBanner(message: note!), const SizedBox(height: MmSpace.s16)],
+        if (sheet != null) EntranceItem.answer(0, child: sheet!),
+        if (sheet == null && sealedLine != null) Text(sealedLine!, style: type.small.copyWith(color: colors.ink2)),
+        const SizedBox(height: MmSpace.s24),
+        EntranceItem.answer(
+          2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(OnboardingCopy.ageQuestion, style: type.cardTitle),
+              const SizedBox(height: MmSpace.s12),
+              Wrap(
+                spacing: MmSpace.s8,
+                runSpacing: MmSpace.s8,
+                children: [for (final a in AgeAnswer.values) MmChip(label: a.label, selected: age == a, onTap: () => onAge(a))],
+              ),
+              const SizedBox(height: MmSpace.s8),
+              Text(OnboardingCopy.ageNote, style: type.caption.copyWith(color: colors.ink3)),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    // A moment, not a top-stacked form (SPACING-AUDIT O4): the sealed sheet and the age question
+    // sit at the optical centre of the room, the keys are pinned at the thumb, "Not now" under
+    // them. When the room is too short, the content scrolls and the keys stay put.
     return StepLayout(
       title: OnboardingCopy.saveTitle,
       support: OnboardingCopy.saveSupport,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (note != null) ...[InlineBanner(message: note!), const SizedBox(height: MmSpace.s16)],
-          if (sheet != null) EntranceItem.answer(0, child: sheet!),
-          if (sheet == null && sealedLine != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-              child: Text(sealedLine!, style: type.small.copyWith(color: colors.ink2)),
-            ),
-          ],
-          // The age question and the keys follow the sheet directly, so the step reads as one
-          // group at every height (DEVICE-FINDINGS 2) instead of a sheet up top and keys far below.
-          const SizedBox(height: MmSpace.s24),
-          EntranceItem.answer(
-            2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(OnboardingCopy.ageQuestion, style: type.cardTitle),
-                const SizedBox(height: MmSpace.s8),
-                Wrap(
-                  spacing: MmSpace.s8,
-                  children: [for (final a in AgeAnswer.values) MmChip(label: a.label, selected: age == a, onTap: () => onAge(a))],
-                ),
-                const SizedBox(height: MmSpace.s4),
-                Text(OnboardingCopy.ageNote, style: type.caption.copyWith(color: colors.ink3)),
-              ],
-            ),
+      scroll: false,
+      body: LayoutBuilder(
+        builder: (context, box) => SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: StepLayout.fade + MmSpace.s8),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: (box.maxHeight - StepLayout.fade - MmSpace.s8).clamp(0, double.infinity)),
+            child: Align(alignment: weight, child: content),
           ),
-          const SizedBox(height: MmSpace.s20),
-          AnimatedSwitcher(
-            duration: Motion.of(context, Motion.glideDuration),
-            switchInCurve: Motion.glide,
-            transitionBuilder: (child, animation) => FadeTransition(
-              opacity: animation,
-              child: SizeTransition(sizeFactor: animation, alignment: Alignment.topCenter, child: child),
-            ),
-            child: answered ? buttons : const SizedBox(key: ValueKey('wait'), width: double.infinity),
-          ),
-          const SizedBox(height: MmSpace.s4),
-          Center(
-            child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: busy ? null : onNotNow),
-          ),
-          SizedBox(height: MediaQuery.paddingOf(context).bottom),
-        ],
+        ),
       ),
+      bottom: keys,
     );
   }
 }

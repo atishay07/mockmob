@@ -1,33 +1,40 @@
 import 'dart:math' as math;
-import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
-import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 
-/// The beats of the stamp, as fractions of [FinishCeremony.stampDuration]: the figure lifts
-/// (anticipation), then lands; the ring and the burst start as it lands.
+/// The beats of the stamp, as fractions of [FinishCeremony.stampDuration] (MOTION.md 4.7, a T2
+/// moment): the figure stamps from 1.12 to 1 over the first 420 ms (a short lift, the landing, a
+/// settle); as it lands one ink ring spreads and, for a good set with Celebrations on Full, 14
+/// shards fly out for 600 ms. No flash, no sweep, no second ring: three channels at most (the
+/// number, one light event, Mobi).
 abstract final class FinishCeremony {
-  /// The whole stamp, from lift to the last shard fading.
-  static const Duration stampDuration = Duration(milliseconds: 760);
+  /// The whole stamp: 240 ms to the landing, then 600 ms of ring and shards.
+  static const Duration stampDuration = Duration(milliseconds: 840);
 
-  /// The figure is back at rest (and the haptic lands) at this fraction.
-  static const double landAt = 0.36;
+  /// The figure's own stamp (1.12 to 1), inside [stampDuration].
+  static const Duration figureDuration = Duration(milliseconds: 420);
+
+  /// The figure touches down (the haptic lands) at this fraction.
+  static const double landAt = 240 / 840;
 
   /// Lift ends here.
-  static const double liftEnd = 0.16;
+  static const double liftEnd = 80 / 840;
+
+  /// The figure is at rest from here on.
+  static const double settleEnd = 420 / 840;
 
   /// How far the figure lifts before it lands.
   static const double liftScale = 0.12;
 
   /// The figure's scale at stamp progress [t].
   static double figureScale(double t) {
-    if (t <= 0 || t >= 1) return 1;
+    if (t <= 0 || t >= settleEnd) return 1;
     if (t < liftEnd) return 1 + liftScale * Curves.easeOut.transform(t / liftEnd);
     if (t < landAt) return 1 + liftScale * (1 - Curves.easeInCubic.transform((t - liftEnd) / (landAt - liftEnd)));
     // A small settle after the landing: down to 0.985 and back.
-    final s = (t - landAt) / (1 - landAt);
+    final s = (t - landAt) / (settleEnd - landAt);
     return 1 - 0.015 * math.sin(math.pi * s.clamp(0.0, 1.0)) * (1 - s);
   }
 
@@ -35,15 +42,16 @@ abstract final class FinishCeremony {
   static double afterLanding(double t) => t <= landAt ? 0 : ((t - landAt) / (1 - landAt)).clamp(0.0, 1.0);
 }
 
-/// The figure, stamped: it lifts a little and lands, an ink ring spreads from behind it and, for a
-/// good set, a burst of volt shards and answer bubbles flies out (14 pieces on one canvas, under a
-/// second). [stamp] runs 0 to 1 once; at rest (0 or 1) nothing extra is drawn.
+/// The figure, stamped: it lifts a little and lands; for a good set with Celebrations on Full one
+/// ink ring spreads from behind it and 14 volt shards and answer bubbles fly out (one canvas,
+/// 600 ms). Otherwise the stamp alone. [stamp] runs 0 to 1 once; at rest (0 or 1) nothing extra
+/// is drawn.
 class StampedFigure extends StatelessWidget {
   const StampedFigure({super.key, required this.stamp, required this.burst, required this.digits, required this.child});
 
   final Animation<double> stamp;
 
-  /// Celebrate: shards and bubbles, a volt ring. Otherwise a quiet ink ring only.
+  /// Celebrate: one volt ring, shards and bubbles. Otherwise nothing behind the figure.
   final bool burst;
 
   /// Digits in the figure, to find its centre.
@@ -108,7 +116,8 @@ class StampPainter extends CustomPainter {
   final bool burst;
   final double centerX;
 
-  static const int pieces = 24;
+  /// The burst's pieces (MOTION.md P0-5: 14, one painter).
+  static const int pieces = 14;
 
   /// How far past the figure's own box the ring and the burst may reach: a hair into the page
   /// gutter on the left (the figure starts at the gutter, so the screen edge is 16 dp beyond), and
@@ -120,9 +129,14 @@ class StampPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final a = FinishCeremony.afterLanding(stamp.value);
-    if (a <= 0 || a >= 1) return;
+    // A calm stamp (a mixed set, Quiet) draws nothing behind the figure.
+    if (!burst || a <= 0 || a >= 1) return;
     final c = Offset(centerX, size.height * 0.5);
-    final volt = colors.isNight ? colors.volt : colors.accentText;
+    // Volt is a fill in both themes; on Daylight each volt piece gets a 1 dp olive rim so it reads
+    // on paper (MOTION.md 1.4). The ring is a stroke on the ground, so it takes the readable accent.
+    final volt = colors.volt;
+    final rim = colors.isNight ? null : colors.accentText;
+    final ringColor = colors.isNight ? colors.volt : colors.accentText;
     final base = size.height * 0.42;
 
     // The burst lives in this room and nowhere else, so it is never cut by the screen edge and
@@ -134,46 +148,16 @@ class StampPainter extends CustomPainter {
       ..save()
       ..clipRect(room);
 
-    // The ink ring: spreads and thins as it fades, as an ellipse that fits the room.
+    // The one ink ring: spreads and thins as it fades, as an ellipse that fits the room.
     final ringT = Curves.easeOutCubic.transform(a);
-    final ringColor = burst ? volt : colors.ink3;
     Rect ringRect(double r) => Rect.fromCenter(center: c, width: 2 * math.min(r, rxLeft), height: 2 * math.min(r, ry));
-    if (burst) {
-      // A flash of volt light behind the figure as it lands, gone by the time the shards slow.
-      final flash = math.pow(1 - a, 1.6).toDouble();
-      final radius = math.min(base * (1.6 + 1.4 * ringT), rxLeft + 12);
-      canvas.drawCircle(
-        c,
-        radius,
-        Paint()
-          ..shader = ui.Gradient.radial(c, radius, [
-            volt.withValues(alpha: (colors.isNight ? 0.34 : 0.3) * flash),
-            volt.withValues(alpha: 0),
-          ]),
-      );
-    }
     canvas.drawOval(
       ringRect(base * (0.9 + 0.9 * ringT)),
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = (burst ? 5 : 3.2) * (1 - ringT) + 0.8
-        ..color = ringColor.withValues(alpha: ringColor.a * (burst ? 0.85 : 0.55) * (1 - ringT)),
+        ..strokeWidth = 5 * (1 - ringT) + 0.8
+        ..color = ringColor.withValues(alpha: ringColor.a * 0.85 * (1 - ringT)),
     );
-    if (!burst) {
-      canvas.restore();
-      return;
-    }
-    // A second, later ring for a good set.
-    final ring2 = Curves.easeOutCubic.transform(((a - 0.12) / 0.88).clamp(0.0, 1.0));
-    if (ring2 > 0) {
-      canvas.drawOval(
-        ringRect(base * (0.9 + 1.5 * ring2)),
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.4 * (1 - ring2) + 0.6
-          ..color = volt.withValues(alpha: volt.a * 0.6 * (1 - ring2)),
-      );
-    }
 
     // The burst: shards and bubbles thrown out from the figure, slowing, fading, each held to the
     // room (a piece aimed at the screen edge stops short of it).
@@ -199,11 +183,21 @@ class StampPainter extends CustomPainter {
             Paint()
               ..style = PaintingStyle.stroke
               ..strokeWidth = 1
-              ..color = colors.voltInk.withValues(alpha: 0.5 * fade),
+              ..color = (rim ?? colors.voltInk).withValues(alpha: (rim == null ? 0.5 : 1) * fade),
           );
       } else {
         final len = _shard * (1 - 0.55 * a);
         final shardVolt = i % 3 == 1;
+        if (shardVolt && rim != null) {
+          canvas.drawLine(
+            p,
+            p + dir * len,
+            Paint()
+              ..strokeWidth = 5
+              ..strokeCap = StrokeCap.round
+              ..color = rim.withValues(alpha: fade),
+          );
+        }
         canvas.drawLine(
           p,
           p + dir * len,
@@ -219,43 +213,6 @@ class StampPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(StampPainter old) => old.stamp != stamp || old.colors != colors || old.burst != burst || old.centerX != centerX;
-}
-
-/// A soft band of light crossing the sheet card once (700 ms), for a good set only. Painted over
-/// the card's own fill, inside its shape; no layer.
-class SheetSweepPainter extends CustomPainter {
-  SheetSweepPainter({required this.sweep, required this.colors, required this.radius}) : super(repaint: sweep);
-
-  final Animation<double> sweep;
-  final MmColors colors;
-  final double radius;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final t = sweep.value;
-    if (t <= 0 || t >= 1) return;
-    final x = -size.width * 0.4 + (size.width * 1.8) * Motion.sweepCurve.transform(t);
-    final band = Rect.fromLTWH(x - 60, 0, 120, size.height);
-    final light = colors.isNight ? const Color(0xFFFFF6E4) : const Color(0xFFFFFFFF);
-    final strength = colors.isNight ? 0.10 : 0.45;
-    final shader = LinearGradient(
-      begin: Alignment.centerLeft,
-      end: Alignment.centerRight,
-      colors: [
-        light.withValues(alpha: 0),
-        light.withValues(alpha: strength),
-        light.withValues(alpha: 0),
-      ],
-    ).createShader(band);
-    canvas
-      ..save()
-      ..clipRRect(RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius)))
-      ..drawRect(band, Paint()..shader = shader)
-      ..restore();
-  }
-
-  @override
-  bool shouldRepaint(SheetSweepPainter old) => old.sweep != sweep || old.colors != colors || old.radius != radius;
 }
 
 /// The question numbers under a single row of sheet bubbles, painted (not text widgets: they

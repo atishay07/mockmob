@@ -4,7 +4,7 @@ import '../../../core/widgets/mobi.dart' show MobiAct;
 /// the student: a good run gets a cheer, a mixed one Mobi pointing at the first slip, a sheet
 /// left mostly blank Mobi reading it, and a set with nothing right Mobi encouraging them.
 enum FinishTone {
-  /// 80% right or better: a celebration.
+  /// 80% right or better: a cheer, the top of a T2 moment.
   great,
 
   /// 70% right or better, or better than the last practice in this subject.
@@ -19,10 +19,12 @@ enum FinishTone {
   /// Nothing right yet. Calm, no celebration.
   low;
 
-  /// Mobi's act. A mixed set has him point at the first wrong bubble (see FinishStage); a set
-  /// with nothing right has him encourage, never sad.
+  /// Mobi's act. A practice set is a T2 moment (MOTION.md 1.2), so even a great one gets a cheer,
+  /// not the celebrate jump with its own bubbles (that would be a second burst). A mixed set has
+  /// him point at the first wrong bubble (see FinishStage); a set with nothing right has him
+  /// encourage, never sad.
   MobiAct get act => switch (this) {
-    great => MobiAct.celebrate,
+    great => MobiAct.cheer,
     good => MobiAct.cheer,
     mixed => MobiAct.point,
     blank => MobiAct.read,

@@ -86,7 +86,7 @@ class RunnerMetaRow extends StatelessWidget {
                     child: Row(
                       children: [
                         Icon(LucideIcons.clock, size: 15, color: colors.warnText),
-                        const SizedBox(width: MmSpace.s6),
+                        const SizedBox(width: MmSpace.s8),
                         Flexible(
                           child: Text(
                             warning!,

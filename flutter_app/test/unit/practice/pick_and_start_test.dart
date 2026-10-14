@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/features/practice/widgets/length_dial.dart';
+import 'package:mockmob/features/practice/widgets/suggestion_card.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
@@ -139,7 +140,8 @@ void main() {
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);
-      expect(find.text('Business Studies, quick practice'), findsOneWidget);
+      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsOneWidget);
+      expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
       expect(find.text('No Business Studies paper yet. Ten questions shows where you stand.'), findsOneWidget);
 
       await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start').first);
@@ -234,7 +236,8 @@ void main() {
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);
-      expect(find.text('Business Studies, quick practice'), findsOneWidget);
+      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsOneWidget);
+      expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
       expect(find.textContaining('paper yet'), findsNothing);
       expect(find.text('Ten questions shows where you stand.'), findsOneWidget);
     });
@@ -304,7 +307,9 @@ void main() {
         overrides: practiceOverrides(quotes: _quotes()),
       );
       await _settle(tester);
-      await tester.ensureVisible(find.text('Quick practice'));
+      // The modes sit below the suggestion and the subject tiles on a short phone: scroll to them
+      // (the list builds its rows lazily).
+      await tester.scrollUntilVisible(find.text('Quick practice'), 200, scrollable: find.byType(Scrollable).first);
       await tester.pump();
       await tester.tap(find.text('Quick practice'));
       await _rise(tester);

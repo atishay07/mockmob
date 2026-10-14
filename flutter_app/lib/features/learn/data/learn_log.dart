@@ -25,6 +25,15 @@ abstract final class LearnLog {
   static void unknownStep({required String wireType, required String itemId}) =>
       _add('unknown step type "$wireType" on item $itemId');
 
+  /// A send that failed for a reason other than an API error (an unreadable reply, a phone-side
+  /// fault). Only the error's type is kept, never its message.
+  static void unexpectedSend({required String type, required Object error}) =>
+      _add('$type event failed unexpectedly (${error.runtimeType})');
+
+  /// A write to the phone's own store that failed.
+  static void localWriteFailed({required String what, required Object error}) =>
+      _add('could not $what on this phone (${error.runtimeType})');
+
   @visibleForTesting
   static void clear() => _lines.clear();
 }

@@ -48,11 +48,17 @@ class ConceptsShelf extends ConsumerWidget {
     if (units.isEmpty) return const SizedBox.shrink();
     final names = {for (final s in catalog.subjects) s.id: s.title};
 
+    // A new section (SPACING.md 3.1): 32 of air, a hairline on the gutter, 16, the heading, 12.
     return Padding(
-      padding: const EdgeInsets.only(top: MmSpace.group),
+      padding: const EdgeInsets.only(top: MmSpace.s32),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+            child: Divider(height: 1, thickness: 1, color: context.mmColors.line),
+          ),
+          const SizedBox(height: MmSpace.s16),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
             child: SectionHeading(
@@ -61,7 +67,7 @@ class ConceptsShelf extends ConsumerWidget {
               onAction: () => context.push(AppRoutes.learn),
             ),
           ),
-          const SizedBox(height: MmSpace.s8),
+          const SizedBox(height: MmSpace.s12),
           SizedBox(
             height: 148,
             child: ListView.separated(

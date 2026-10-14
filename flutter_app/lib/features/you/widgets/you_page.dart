@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
+import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 
-/// The frame of a You screen: a lit glass back key, a large Bricolage title and a scrolling body
+/// The frame of a You screen: a lit glass back key, an inline Bricolage title and a scrolling body
 /// at most 600 dp wide on the warm ground. A faint desk lamp sits up and to the left of the
 /// header, so the settings pages share the room's light without putting it behind the rows.
 class YouPage extends StatelessWidget {
@@ -128,38 +129,30 @@ class _Footer extends StatelessWidget {
   }
 }
 
-/// The header every You and Rhythm screen shares: the lit back key, then the title in Bricolage.
-/// One widget so the two feature areas, and both themes, never drift apart.
+/// The header every You, Rhythm and Tools sub-page shares: the core [MmPageHeader] (SPACING.md 9:
+/// back arrow on the gutter, the title inline in the `screenTitle` cut, a 56 dp row, an optional
+/// trailing action) under the status inset, so these pages and every other pushed page in the app
+/// cannot drift. [large] is kept for callers and no longer changes the layout.
 class YouHeader extends StatelessWidget {
-  const YouHeader({super.key, required this.title, this.showBack = true, this.large = true, this.onBack});
+  const YouHeader({super.key, required this.title, this.showBack = true, this.large = true, this.onBack, this.trailing});
 
   final String title;
   final bool showBack;
 
-  /// The 28 sp moment headline (default) or the 22 sp title for a long, quiet page.
+  /// Kept so existing callers compile; every page title is the same size.
   final bool large;
 
   /// Replaces the pop (a screen that may be the first page goes to You instead).
   final VoidCallback? onBack;
 
+  /// An action at the end of the row (a 48 dp target).
+  final Widget? trailing;
+
   @override
   Widget build(BuildContext context) {
-    final type = context.mmType;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.gutter, 0),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: showBack ? BackKey(onTap: onBack) : const SizedBox(height: MmTarget.min),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter + 4, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
-          child: Semantics(header: true, child: Text(title, style: large ? type.headline : type.title)),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: MmRhythm.screenTop, bottom: MmSpace.s8),
+      child: MmPageHeader(title: title, showBack: showBack, onBack: onBack, trailing: trailing, fallbackRoute: AppRoutes.you),
     );
   }
 }
@@ -226,7 +219,7 @@ class GlassDisc extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: colors.isNight ? [Color.lerp(colors.raised2, colors.lamp, 0.08)!, colors.raised] : [colors.raised, colors.raised2],
+          colors: colors.isNight ? [Color.lerp(colors.raised2, colors.lamp, 0.08)!, colors.raised] : [colors.raised, Color.lerp(colors.raised, colors.sunken, 0.5)!],
         ),
         boxShadow: colors.cardShadow,
       ),
@@ -248,8 +241,8 @@ class GlassDisc extends StatelessWidget {
 const EdgeInsets youGutter = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
 
 /// Where the words of a You screen start: the one page margin every section, heading and row
-/// aligns to (20 dp), so left edges never zigzag down a page.
-const double youText = MmSpace.gutter + 4;
+/// aligns to (16 dp), so left edges never zigzag down a page.
+const double youText = MmSpace.gutter;
 
 /// A short sentence-case heading above a group, with an optional trailing action.
 class GroupHeading extends StatelessWidget {
@@ -263,7 +256,7 @@ class GroupHeading extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = context.mmType;
     return Padding(
-      padding: EdgeInsets.fromLTRB(MmSpace.gutter + 4, top, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter, top, trailing == null ? MmSpace.gutter : MmSpace.s4, MmSpace.s8),
       child: Row(
         children: [
           Expanded(

@@ -322,6 +322,9 @@ class GoogleMark extends StatelessWidget {
 class _GoogleMarkPainter extends CustomPainter {
   const _GoogleMarkPainter();
 
+  // Google's brand colours. Google's guidelines require the same four colours on a light and a
+  // dark page, so Night and Day share these values on purpose (the key behind the mark is the
+  // themed secondary key).
   static const _blue = Color(0xFF4285F4);
   static const _red = Color(0xFFEA4335);
   static const _yellow = Color(0xFFFBBC05);

@@ -110,7 +110,7 @@ class InlineBanner extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 5),
+                      padding: const EdgeInsets.only(top: MmSpace.s6),
                       child: Text(
                         message,
                         style: type.small.copyWith(color: tone == BannerTone.error ? colors.wrongText : colors.ink),

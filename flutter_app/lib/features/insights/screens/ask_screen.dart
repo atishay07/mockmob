@@ -26,6 +26,7 @@ import '../widgets/ask_marks.dart';
 import '../widgets/ask_messages.dart';
 import '../widgets/answer_text.dart';
 import '../widgets/ask_prompts.dart';
+import '../widgets/insights_bits.dart';
 import '../widgets/motion_bits.dart';
 import 'insights_screen.dart';
 
@@ -49,7 +50,11 @@ class AskScreen extends ConsumerStatefulWidget {
 }
 
 class _AskScreenState extends ConsumerState<AskScreen> {
-  late final TextEditingController _text = TextEditingController(text: widget.seed);
+  // A seed longer than the field accepts is cut to what Send takes, so it can never be sent as
+  // something that comes back "too long" with the question gone.
+  late final TextEditingController _text = TextEditingController(
+    text: widget.seed != null && widget.seed!.length > askMaxChars ? widget.seed!.substring(0, askMaxChars) : widget.seed,
+  );
   final ScrollController _scroll = ScrollController();
   /// Mobi at the head of the thread: on the stage before the first message, then smaller above
   /// the conversation, where it thinks while a reply is on its way and talks when one lands.
@@ -62,6 +67,11 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   bool _stageGlanced = false;
   bool _railShown = false;
 
+  /// Mobi waves hello the first time Ask opens each day (late at night he is sleepy or asleep) and
+  /// says his opening line once per app run; after that he is simply there. Asked once, here.
+  late final MobiAct _entrance = MobiRation.greeting('ask');
+  late final bool _greets = MobiRation.speakOnce('ask');
+
   /// How many messages were already there when this screen opened or have since settled: those
   /// appear at once; later ones arrive with motion.
   late int _settled = ref.read(askControllerProvider).messages.length;
@@ -73,6 +83,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       if (ref.read(insightsRepositoryProvider).value == null) ref.read(insightsRepositoryProvider.notifier).refresh();
+      // A question that was on its way when the app closed comes back with Send again.
+      ref.read(askControllerProvider.notifier).restoreInterrupted();
     });
   }
 
@@ -95,8 +107,12 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (text == null) _text.clear();
     final sending = ref.read(askControllerProvider.notifier).send(message);
     _toEnd();
-    await sending;
+    final failure = await sending;
     _toEnd();
+    // Too long to send: the words go back into the field to be cut, never lost.
+    if (failure == AskFailure.tooLong && mounted && text == null && _text.text.isEmpty) {
+      _text.value = TextEditingValue(text: message, selection: TextSelection.collapsed(offset: message.length));
+    }
   }
 
   /// Before the first message that would leave the phone for an AI service, says so once and
@@ -227,6 +243,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final name = _firstName(ref.watch(authSnapshotProvider.select((s) => s.name)));
     final pad = MediaQuery.paddingOf(context);
     final conversation = state.messages.isNotEmpty;
+    final canReport = ref.watch(aiReplyReportAvailableProvider);
 
     final attempts = inputs.attempts;
     final evidence = attempts == null || record == null ? null : RecordEvidence(attempts, now: ref.watch(nowProvider)());
@@ -240,6 +257,10 @@ class _AskScreenState extends ConsumerState<AskScreen> {
 
     final asked = {for (final m in state.messages) if (m.fromStudent) m.text};
     final last = state.messages.isEmpty ? null : state.messages.last;
+    // The follow-ups rise once the reply has been read in (the word reveal runs 300 to 900 ms and
+    // the footer takes 240 more), one chip after another 60 ms apart.
+    final lastIsNew = conversation && state.messages.length - 1 >= settled;
+    final revealMs = lastIsNew && !state.messages.last.fromStudent ? (state.messages.last.text.split(RegExp(r'\s+')).length * 18).clamp(300, 900) : 0;
     final followUps = !conversation || state.busy || last == null || last.failure != null
         ? const <AskPrompt>[]
         : [
@@ -290,7 +311,11 @@ class _AskScreenState extends ConsumerState<AskScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _AskHeader(sessions: record != null && record.isReady ? record.sessions : null),
+                InsightsHeader(
+                  title: InsightsCopy.askTitle,
+                  caption: record != null && record.isReady ? InsightsCopy.askCaption(record.sessions) : null,
+                  fallback: AppRoutes.review,
+                ),
                 Expanded(
                   // A conversation sits on the composer: short threads fill upward from the
                   // bottom, never leaving a dead band under the last reply.
@@ -320,7 +345,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                       message: m,
                                       animate: i >= settled,
                                       citation: citationFor(m, record, evidence),
-                                      onReport: m.isModel ? () => _report(m) : null,
+                                      onReport: m.isModel && canReport ? () => _report(m) : null,
                                       onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,
                                       onRetry: () {
                                         ref.read(askControllerProvider.notifier).retry(i);
@@ -340,12 +365,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                 if (followUps.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                    child: RiseIn(
-                      key: _railKey,
-                      delay: const Duration(milliseconds: 500),
-                      dy: 8,
-                      child: FollowUpRail(prompts: followUps, onTap: sendPrompt),
-                    ),
+                    child: FollowUpRail(key: _railKey, prompts: followUps, onTap: sendPrompt, delay: Duration(milliseconds: revealMs == 0 ? 0 : revealMs + 240)),
                   ),
                 _Composer(
                   controller: _text,
@@ -375,7 +395,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       child: MobiStage(
         controller: _stageMobi,
         size: size,
-        say: InsightsCopy.askGreeting(name, ready ? record.sessions : null),
+        entrance: _entrance,
+        say: _greets ? InsightsCopy.askGreeting(name, ready ? record.sessions : null) : null,
         semanticLabel: 'Mobi',
         bubbleWidth: 300,
         interactive: true,
@@ -392,10 +413,11 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     return [
       _head(record, name),
       const SizedBox(height: MmSpace.s24),
-      RiseIn(delay: d(360), child: const AskEyebrow(InsightsCopy.askGroupRecord, note: InsightsCopy.askGroupRecordNote)),
+      RiseIn(delay: d(300), dy: MmSpace.s12, child: const AskEyebrow(InsightsCopy.askGroupRecord, note: InsightsCopy.askGroupRecordNote)),
       RiseIn(
         key: _leadTileKey,
-        delay: d(420),
+        delay: d(380),
+        dy: MmSpace.s12,
         child: PromptTile(prompt: tiles[0], lead: true, onTap: () => send(tiles[0])),
       ),
       const SizedBox(height: MmSpace.s12),
@@ -403,19 +425,19 @@ class _AskScreenState extends ConsumerState<AskScreen> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(child: RiseIn(delay: d(500), child: PromptTile(prompt: tiles[1], onTap: () => send(tiles[1])))),
+            Expanded(child: RiseIn(delay: d(425), dy: MmSpace.s12, child: PromptTile(prompt: tiles[1], onTap: () => send(tiles[1])))),
             const SizedBox(width: MmSpace.s12),
-            Expanded(child: RiseIn(delay: d(570), child: PromptTile(prompt: tiles[2], onTap: () => send(tiles[2])))),
+            Expanded(child: RiseIn(delay: d(470), dy: MmSpace.s12, child: PromptTile(prompt: tiles[2], onTap: () => send(tiles[2])))),
           ],
         ),
       ),
       const SizedBox(height: MmSpace.s12),
-      RiseIn(delay: d(640), child: PromptTile(prompt: tiles[3], wide: true, onTap: () => send(tiles[3]))),
+      RiseIn(delay: d(515), dy: MmSpace.s12, child: PromptTile(prompt: tiles[3], wide: true, onTap: () => send(tiles[3]))),
       const SizedBox(height: MmSpace.s24),
-      RiseIn(delay: d(700), child: const AskEyebrow(InsightsCopy.askGroupOpen, note: InsightsCopy.askGroupOpenNote)),
+      RiseIn(delay: d(560), dy: MmSpace.s12, child: const AskEyebrow(InsightsCopy.askGroupOpen, note: InsightsCopy.askGroupOpenNote)),
       for (final (i, p) in open.indexed) ...[
         if (i > 0) const SizedBox(height: MmSpace.s8),
-        RiseIn(delay: d(760 + i * 70), child: PromptRow(prompt: p, onTap: () => send(p))),
+        RiseIn(delay: d(605 + i * 45), dy: MmSpace.s12, child: PromptRow(prompt: p, onTap: () => send(p))),
       ],
     ];
   }
@@ -424,42 +446,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final t = full?.trim() ?? '';
     if (t.isEmpty) return null;
     return t.split(RegExp(r'\s+')).first;
-  }
-}
-
-/// The top row: back, the title and one line saying how much of the record Mobi has read.
-class _AskHeader extends StatelessWidget {
-  const _AskHeader({required this.sessions});
-
-  final int? sessions;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => context.canPop() ? context.pop() : context.go(AppRoutes.review),
-            tooltip: 'Back',
-            icon: Icon(LucideIcons.arrowLeft, color: colors.ink),
-          ),
-          const SizedBox(width: MmSpace.s4),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Semantics(header: true, child: Text(InsightsCopy.askTitle, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis)),
-                if (sessions != null) Text(InsightsCopy.askCaption(sessions!), style: type.caption.copyWith(color: colors.ink2)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 
@@ -528,7 +514,7 @@ class _ComposerState extends State<_Composer> {
               borderRadius: radius,
               opacity: colors.isNight ? 0.86 : 0.94,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(MmSpace.s20, 4, 6, 4),
+                padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s4, MmSpace.s4, MmSpace.s4),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -608,7 +594,7 @@ class _SendDisc extends StatelessWidget {
             ),
             child: Center(
               child: busy
-                  ? const InkDots(size: 6)
+                  ? const InkDots(size: 6, settleAfter: Duration(seconds: 12))
                   : Icon(LucideIcons.arrowUp, size: 22, color: enabled ? colors.voltInk : colors.ink3),
             ),
           ),

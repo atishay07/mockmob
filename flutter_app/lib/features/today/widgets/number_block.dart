@@ -27,10 +27,15 @@ class NumberBlock extends StatelessWidget {
 
   static const double _gap = MmSpace.s12;
 
-  /// While Today's entrance is playing the roll waits for the stage to arrive, so the number
-  /// lands after its card (ui-blitz/motion.md 3.3). Afterwards (a length chip reshaping the
-  /// task, a page that loaded behind the skeleton) it rolls at once.
-  static const Duration entranceRollDelay = Duration(milliseconds: 280);
+  /// The air `MonumentalNumber` keeps under a figure's baseline, as a share of its size (its box
+  /// is the cap height plus this above and below).
+  static const double _figureAir = 0.025;
+
+  /// While Today's entrance is playing the roll waits a moment, so the number lands at about
+  /// 660 ms from the open, just after its card (MOTION.md 4.3: the roll takes 500 ms). Afterwards
+  /// (a length chip reshaping the task, a page that loaded behind the skeleton, a refresh) it
+  /// rolls at once, from the value it showed.
+  static const Duration entranceRollDelay = Duration(milliseconds: 160);
 
   static Duration rollDelay(BuildContext context) {
     final entrance = TodayEntranceScope.of(context);
@@ -68,15 +73,19 @@ class NumberBlock extends StatelessWidget {
                 final room = (besideWidth ?? box.maxWidth).clamp(0.0, box.maxWidth);
                 final beside = numberWidth + _gap + labelWidth <= room;
                 if (beside) {
+                  // The label's last line sits on the number's baseline (SPACING.md 3.2), by the
+                  // real metrics instead of a padding guess: the figure's box ends a hair of air
+                  // under its baseline, the label's ends its descent under its own.
+                  final air = _figureAir * scaler.scale(numberStyle.fontSize!);
+                  final drop = _descentBelowBaseline(label!, labelStyle, scaler) - air;
                   return Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       figure,
                       const SizedBox(width: _gap),
                       Flexible(
-                        child: Padding(
-                          // Sits the last line on the number's baseline (the hero cut has a short descent).
-                          padding: const EdgeInsets.only(bottom: 14),
+                        child: Transform.translate(
+                          offset: Offset(0, drop),
                           child: Text(label!, style: labelStyle, softWrap: false),
                         ),
                       ),
@@ -98,6 +107,15 @@ class NumberBlock extends StatelessWidget {
               },
             ),
     );
+  }
+
+  /// How far the box of [text]'s last line reaches below that line's baseline.
+  static double _descentBelowBaseline(String text, TextStyle style, TextScaler scaler) {
+    final painter = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler)..layout();
+    final lines = painter.computeLineMetrics();
+    final below = lines.isEmpty ? 0.0 : painter.height - lines.last.baseline;
+    painter.dispose();
+    return below;
   }
 
   static double _width(String text, TextStyle style, TextScaler scaler) {

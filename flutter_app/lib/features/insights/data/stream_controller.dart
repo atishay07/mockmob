@@ -195,14 +195,19 @@ class StreamController extends Notifier<StreamState> {
     _api.log(q.id, 'attempted', flow: _flow, dwellMs: _dwellMs, metadata: {'selected_key': key, 'is_correct': key == q.correctKey});
   }
 
-  /// Moves on without answering.
-  void skip() {
+  /// Moves on without answering. [fromId] is the question the tapped key was drawn for: a second
+  /// tap that lands after the screen has already moved on does nothing, so a double tap never
+  /// skips (or logs a skip for) a question the student has not seen.
+  void skip([String? fromId]) {
     final q = state.current;
+    if (fromId != null && q?.id != fromId) return;
     if (q != null && !state.picks.containsKey(q.id)) _api.log(q.id, 'skip', flow: _flow, dwellMs: _dwellMs);
     next();
   }
 
-  void next() {
+  /// Moves to the next question. [fromId] guards a double tap as in [skip].
+  void next([String? fromId]) {
+    if (fromId != null && state.current?.id != fromId) return;
     final i = state.index + 1;
     if (i >= state.questions.length) {
       if (state.hasMore && state.filters != null) {
@@ -219,7 +224,9 @@ class StreamController extends Notifier<StreamState> {
     if (state.filters != null && state.hasMore && state.questions.length - i <= 3) _loadMore(_generation);
   }
 
-  void previous() {
+  /// Back one question. [fromId] guards a double tap as in [skip].
+  void previous([String? fromId]) {
+    if (fromId != null && state.current?.id != fromId) return;
     if (state.index == 0) return;
     state = state.copyWith(index: state.index - 1, phase: StreamPhase.ready);
     _markSeen();

@@ -191,7 +191,7 @@ class YouRow extends StatelessWidget {
       onTap: onTap,
       hairline: hairline,
       semanticsLabel: label,
-      padding: flat ? const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s12) : const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
+      padding: flat ? const EdgeInsets.symmetric(horizontal: 0, vertical: MmSpace.s12) : const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
       child: Row(
         children: [
           if (flat)
@@ -228,7 +228,7 @@ class YouRow extends StatelessWidget {
 
 /// A switch row. The whole row toggles; the switch is drawn by the theme (volt on, with a
 /// check glyph) so state never depends on colour alone. [flat] sits the row on the ground at the
-/// page's 20 dp margin and draws the switch without the glyph (the thumb's side and the words
+/// page's 16 dp gutter and draws the switch without the glyph (the thumb's side and the words
 /// carry the state).
 class YouSwitchRow extends StatelessWidget {
   const YouSwitchRow({
@@ -262,7 +262,7 @@ class YouSwitchRow extends StatelessWidget {
       hairline: hairline,
       tick: false,
       semanticsLabel: note == null ? title : '$title. $note',
-      padding: flat ? const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s12) : const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
+      padding: flat ? const EdgeInsets.symmetric(horizontal: 0, vertical: MmSpace.s12) : const EdgeInsets.symmetric(horizontal: MmSpace.gutter, vertical: MmSpace.s12),
       child: Row(
         children: [
           Expanded(
@@ -326,7 +326,7 @@ class YouFactRow extends StatelessWidget {
     final type = context.mmType;
     return RowFrame(
       semanticsLabel: semanticsLabel ?? [title, ?note, ?value].join('. '),
-      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: MmSpace.s12),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: MmSpace.s12),
       child: Row(
         children: [
           if (icon != null) ...[

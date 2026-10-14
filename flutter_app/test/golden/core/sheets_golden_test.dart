@@ -57,7 +57,8 @@ void _sheet(BuildContext context) {
 void _quickStart(BuildContext context) {
   Navigator.of(context).push(
     MorphSheetRoute<void>(
-      origin: const Rect.fromLTWH(300, 760, 60, 60),
+      // The bar's Start key on this frame: 60 by 40, centred, the bar 12 dp off the bottom.
+      origin: Rect.fromCenter(center: const Offset(384 / 2, 853 - MmBar.lift - MmBar.height / 2), width: 60, height: 40),
       scrim: context.mmColors.sheetScrim,
       reduced: false,
       builder: (context) => const QuickStartSheet(),
@@ -130,10 +131,10 @@ void main() {
       await tester.pump(const Duration(seconds: 1));
     });
 
-    // The whole opening, frame by frame (0, 50, 100, 150, 210, 290, 420 and 700 ms; two rows of
-    // four): the glass is glass from the first frame, the disc is gone by a quarter of the way,
-    // the rows arrive in order after the shape has opened, and Mobi points at the first row
-    // once it has landed.
+    // The whole opening, frame by frame (0, 50, 126, 160, 210, 252, 330 and 420 ms: 0, 12, 30,
+    // 38, 50, 60, 78 and 100% of the morph; two rows of four). MOTION.md C8: the glass, its tint
+    // and the rim carry the first third alone; the content arrives over 38 to 78%, scaling from
+    // 0.94, so no text shows while the shape is under 80% of its width.
     testWidgets('quick start opening (frames), $tag', (tester) async {
       await pumpMockmob(
         tester,
@@ -153,7 +154,7 @@ void main() {
       final sheet = await frameSheet(
         tester,
         root: find.byType(MaterialApp),
-        atMs: const [0, 50, 100, 150, 210, 290, 420, 700],
+        atMs: const [0, 50, 126, 160, 210, 252, 330, 420],
         scale: 0.5,
         columns: 4,
       );
