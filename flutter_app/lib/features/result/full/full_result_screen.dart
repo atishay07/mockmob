@@ -126,7 +126,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
           return false;
         },
         child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, MmSpace.s48),
+        // The first line sits 12 dp under the bar (audit X6): the recap link, then 8 to the
+        // submitted line, then 12 to the figure.
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s48),
         child: MmStagger(
           driver: MmStaggerDriver.route,
           child: Column(

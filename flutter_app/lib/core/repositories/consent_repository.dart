@@ -58,7 +58,13 @@ class ConsentRepository extends Notifier<ConsentState> {
   /// Reads the consent record. Call after sign-in; the repository also does this itself.
   /// A failure leaves analytics off. A withdrawal that never reached the server is re-sent
   /// first, using the age band the server holds.
-  Future<void> load() async {
+  Future<void> load() => _loading ??= _load().whenComplete(() => _loading = null);
+
+  /// The read in flight, shared so a caller that needs the answer waits for it instead of racing
+  /// a second GET.
+  Future<void>? _loading;
+
+  Future<void> _load() async {
     final id = _userId;
     if (id == null || !ref.mounted) return;
     final prefs = ref.read(appPrefsProvider);
@@ -84,7 +90,18 @@ class ConsentRepository extends Notifier<ConsentState> {
   ///
   /// Each write is for [expectUserId] when given, else for the account this repository holds;
   /// it is never sent with another account's token ([ApiError.accountChanged]).
-  Future<Consent> setAgeBand(AgeBand band, {String? expectUserId}) {
+  ///
+  /// The write waits for the consent read. Without it the repository does not know whether the
+  /// student already allowed usage data, would send `analyticsAllowed: false`, and so switch an
+  /// existing opt-in off on the server with no message (onboarding-02). If the read cannot be
+  /// made the write is refused as a network failure and nothing is sent; the caller keeps the
+  /// answer and tries again.
+  Future<Consent> setAgeBand(AgeBand band, {String? expectUserId}) async {
+    if (_userId == null) throw const ApiError.signedOut();
+    if (!state.isLoaded) {
+      await load();
+      if (!state.isLoaded) throw const ApiError(kind: ApiErrorKind.network, code: 'network');
+    }
     final keepOn = band == AgeBand.adult && state.consent.ageBand == AgeBand.adult && state.consent.analyticsAllowed;
     return _put(band, keepOn, expectUserId);
   }

@@ -149,11 +149,14 @@ class SubjectIdentity {
   static String monogram(String? subjectId) {
     final words = (subjectId ?? '').trim().split(RegExp(r'[\s_-]+')).where((w) => w.isNotEmpty).toList();
     if (words.isEmpty) return '';
+    // Count characters, not UTF-16 units: an id that starts with an emoji or an accented
+    // letter must not be cut through the middle of it.
+    String first(String w) => w.characters.first;
     if (words.length == 1) {
-      final w = words.first;
-      return w.length == 1 ? w.toUpperCase() : w[0].toUpperCase() + w[1].toLowerCase();
+      final letters = words.first.characters;
+      return letters.length == 1 ? first(words.first).toUpperCase() : first(words.first).toUpperCase() + letters.skip(1).first.toLowerCase();
     }
-    return (words[0][0] + words[1][0]).toUpperCase();
+    return (first(words[0]) + first(words[1])).toUpperCase();
   }
 
   static String _titleCase(String id) {

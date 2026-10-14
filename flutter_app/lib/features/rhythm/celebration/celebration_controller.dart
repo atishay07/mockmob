@@ -4,7 +4,7 @@
 //
 // Rules held here: each id fires once (remembered in `rhythm_seen`), a scope gets at most one
 // celebration, the suppressed moments never celebrate, nothing fires while rhythm is turned off,
-// and the Celebrations setting decides how much is shown: Full (ring, Mobi hop, receipt, one open
+// and the Celebrations setting decides how much is shown: Full (ring, Mobi hop, receipt, one success
 // haptic), Quiet (plain text) or Off.
 //
 // Mark-first rule: an id is used up when `celebrate` accepts it, before any slot draws it, so a
@@ -139,7 +139,9 @@ class CelebrationController extends Notifier<CelebrationState> {
       // milestones screen. Ids that are not milestones never match a step there.
       freshRows: quiet ? null : {...state.freshRows, event.id, ...event.extraIds},
     );
-    if (!quiet) await ref.read(hapticsProvider).open();
+    // The server has already acknowledged the fact (the repair, the week, the milestone), so this is
+    // the one place the success pattern is allowed (MOTION.md 1.6): one, never one per effect.
+    if (!quiet) await ref.read(hapticsProvider).success();
     return celebration;
   }
 

@@ -8,6 +8,7 @@ import '../../core/motion/motion.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart' show MobiAct;
+import '../account_access/widgets/problem_slot.dart';
 import '../account_access/widgets/volt_key.dart';
 import 'auth_page.dart';
 import 'code_slots.dart';
@@ -114,66 +115,100 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Semantics(
-            header: true,
-            child: Text(
-              AuthCopy.codeTitle,
-              textAlign: TextAlign.center,
-              style: type.display,
+          MmStaggerItem(
+            index: 0,
+            rise: MmSpace.s12,
+            child: Semantics(
+              header: true,
+              child: Text(
+                AuthCopy.codeTitle,
+                textAlign: TextAlign.center,
+                style: type.display,
+              ),
             ),
           ),
           const SizedBox(height: MmSpace.s8),
-          Text.rich(
-            textAlign: TextAlign.center,
-            TextSpan(
-              style: type.lead.copyWith(color: colors.ink2),
-              children: [
-                const TextSpan(text: AuthCopy.codeLeadPrefix),
-                TextSpan(
-                  text: address,
-                  style: TextStyle(
-                    color: colors.ink,
-                    fontWeight: FontWeight.w600,
+          MmStaggerItem(
+            index: 1,
+            rise: MmSpace.s12,
+            child: Text.rich(
+              textAlign: TextAlign.center,
+              TextSpan(
+                style: type.lead.copyWith(color: colors.ink2),
+                children: [
+                  const TextSpan(text: AuthCopy.codeLeadPrefix),
+                  TextSpan(
+                    text: address,
+                    style: TextStyle(
+                      color: colors.ink,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
           const SizedBox(height: MmSpace.s24),
-          CodeSlots(
-            controller: _code,
-            focusNode: _focus,
-            autofocus: widget.autofocus,
-            enabled: !verifying,
-            hasError: problem == SignInProblem.invalidCode,
-            errorSerial: state.problemSerial,
-            onChanged: (_) {
-              if (state.problemStep == SignInStep.code) notifier.clearProblem();
-              setState(() {});
-            },
-            onCompleted: _verify,
+          MmStaggerItem(
+            index: 2,
+            rise: MmSpace.s12,
+            child: CodeSlots(
+              controller: _code,
+              focusNode: _focus,
+              autofocus: widget.autofocus,
+              enabled: !verifying,
+              hasError: problem == SignInProblem.invalidCode,
+              errorSerial: state.problemSerial,
+              onChanged: (_) {
+                if (state.problemStep == SignInStep.code) {
+                  notifier.clearProblem();
+                }
+                setState(() {});
+              },
+              onCompleted: _verify,
+            ),
           ),
           const SizedBox(height: MmSpace.s8),
-          if (problemText != null)
-            ProblemLine(message: problemText, centered: true)
-          else if (showResentNotice)
-            const _Notice(message: AuthCopy.codeResent)
-          else
-            // While the code is being checked the hint goes quiet but keeps its line, so
-            // nothing below it moves.
-            Visibility(
-              visible: !verifying,
-              maintainSize: true,
-              maintainAnimation: true,
-              maintainState: true,
-              maintainSemantics: false,
-              child: Text(
-                AuthCopy.codeSpamHint,
-                textAlign: TextAlign.center,
-                style: type.small.copyWith(color: colors.ink3),
-              ),
-            ),
-          const SizedBox(height: MmSpace.s20),
+          // One reserved place under the boxes: the hint at rest, then a problem, the note that
+          // a new code is on its way, or the words for a long wait. The key below never moves.
+          StillWorking(
+            active: verifying,
+            builder: (context, longWait) {
+              final Widget line;
+              final Object key;
+              if (problemText != null) {
+                key = problem ?? 'problem';
+                line = ProblemLine(message: problemText, centered: true);
+              } else if (showResentNotice) {
+                key = 'resent';
+                line = const _Notice(message: AuthCopy.codeResent);
+              } else if (longWait) {
+                key = 'still';
+                line = Text(
+                  AuthCopy.stillChecking,
+                  textAlign: TextAlign.center,
+                  style: type.small.copyWith(color: colors.ink2),
+                );
+              } else {
+                // While the code is being checked the hint goes quiet but keeps its line.
+                key = 'rest';
+                line = Opacity(
+                  opacity: verifying ? 0 : 1,
+                  child: Text(
+                    AuthCopy.codeSpamHint,
+                    textAlign: TextAlign.center,
+                    style: type.small.copyWith(color: colors.ink3),
+                  ),
+                );
+              }
+              return ProblemSlot(
+                messageKey: key,
+                alignment: Alignment.center,
+                child: line,
+              );
+            },
+          ),
+          const SizedBox(height: MmSpace.s16),
           VoltKey(
             label: verifying ? AuthCopy.verifying : AuthCopy.verify,
             loading: verifying,
@@ -185,7 +220,7 @@ class _SignInCodeScreenState extends ConsumerState<SignInCodeScreen> {
                       ? _verify
                       : null),
           ),
-          const SizedBox(height: MmSpace.s8),
+          const SizedBox(height: MmSpace.s4),
           ResendRow(
             availableAt: state.resendAvailableAt,
             now: now,

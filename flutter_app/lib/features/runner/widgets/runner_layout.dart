@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -64,16 +66,40 @@ class _RunnerLayoutState extends State<RunnerLayout> {
 
   RunnerSession get _session => widget.session;
 
-  /// An answer is about to be chosen on a bubble at [from]: fly a dot to the question's cell.
+  /// The mock's cells waiting for their option's wash to arrive (one per quick answer).
+  final Set<Timer> _inkTimers = {};
+
+  @override
+  void dispose() {
+    for (final t in _inkTimers) {
+      t.cancel();
+    }
+    super.dispose();
+  }
+
+  /// An answer is about to be chosen on a bubble at [from]. In a practice a dot flies to the
+  /// question's cell. In a timed mock there is no flight at all (the one place the student
+  /// concentrates): the cell inks by itself as the option's wash arrives.
   void _lockFrom(Offset from) {
     if (RunnerMotion.reduced(context)) return;
     final track = _trackKey.currentState;
-    final flight = _flightKey.currentState;
-    if (track == null || flight == null) return;
+    if (track == null) return;
     final index = _session.currentIndex;
-    final to = track.cellCenterGlobal(index);
-    if (to == null) return;
     final alreadyAnswered = _session.answerFor(_session.questions[index].id) != null;
+    if (_session.isMock) {
+      if (alreadyAnswered) return;
+      track.hold(index);
+      late final Timer timer;
+      timer = Timer(RunnerMotion.wash, () {
+        _inkTimers.remove(timer);
+        track.land(index);
+      });
+      _inkTimers.add(timer);
+      return;
+    }
+    final flight = _flightKey.currentState;
+    final to = track.cellCenterGlobal(index);
+    if (flight == null || to == null) return;
     if (!alreadyAnswered) track.hold(index);
     flight.launch(from: from, to: to, onLanded: () => track.land(index));
   }
@@ -198,8 +224,8 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                 ),
               ],
             ),
-            // The lock-in dot flies over everything and takes no touches.
-            Positioned.fill(child: LockFlightLayer(key: _flightKey)),
+            // The lock-in dot flies over everything and takes no touches (practice only).
+            if (!s.isMock) Positioned.fill(child: LockFlightLayer(key: _flightKey)),
           ],
         ),
       ),

@@ -10,6 +10,7 @@ import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/features/notifications/data/reminder_store.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/notifications/logic/reminder_plan.dart' show RepairReady;
 import 'package:mockmob/features/notifications/services/notification_providers.dart';
 
@@ -109,4 +110,6 @@ List<Override> featureOverrides({
       permissionRequesterProvider.overrideWithValue(permission),
       appPrefsProvider.overrideWithValue(appPrefs ?? AppPrefs(MemoryPrefsStore())),
       freshChecksOpenProvider.overrideWithValue(false),
+      // The Celebrations choice is read from memory, never from the phone.
+      rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
     ];

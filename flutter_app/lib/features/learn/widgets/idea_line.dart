@@ -21,17 +21,16 @@ class IdeaLine extends StatelessWidget {
       excludeSemantics: true,
       child: Padding(
         padding: const EdgeInsets.only(bottom: MmSpace.s8),
+        // The label and the sentence share a first baseline: no nudge by a few dp.
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
           children: [
             SizedBox(
               width: 60,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 3),
-                child: Text(
-                  LearnCopy.objectiveNumber(number),
-                  style: type.label.copyWith(color: colors.ink2),
-                ),
+              child: Text(
+                LearnCopy.objectiveNumber(number),
+                style: type.label.copyWith(color: colors.ink2),
               ),
             ),
             Expanded(child: Text(text, style: type.body)),

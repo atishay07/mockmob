@@ -243,15 +243,22 @@ int monthMockCount(Iterable<Attempt> attempts, Attempt attempt, {DateTime Functi
   return n;
 }
 
-/// The brass first-mock token shows only when the server recorded `first_full_mock` and this
-/// attempt is the student's only full or NTA-style mock up to now (any subject).
+/// The brass first-mock token shows only when the server's `first_full_mock` milestone is this
+/// attempt (the server dates it with that mock's own completion time) and no earlier full or
+/// NTA-style mock is in the list. The list alone is not enough: a phone's cached list can miss a
+/// mock taken on the web, and then a later mock looked like the first (robustness result-04).
 DateTime? _firstMockToken(List<Attempt> attempts, Attempt attempt, List<RhythmMilestone> milestones, DateTime Function(DateTime) local) {
   if (!attempt.isMock) return null;
   RhythmMilestone? m;
   for (final x in milestones) {
     if (x.id == 'first_full_mock' && x.earned) m = x;
   }
-  if (m == null) return null;
+  final at = m?.achievedAt;
+  if (at == null || !sameSecond(at, attempt.completedAt)) return null;
   final earlier = attempts.where((a) => a.id != attempt.id && a.isMock && !a.completedAt.isAfter(attempt.completedAt));
-  return earlier.isEmpty ? local(m.achievedAt!) : null;
+  return earlier.isEmpty ? local(at) : null;
 }
+
+/// [a] and [b] are the same instant to within a second (one side may carry sub-second digits
+/// the other rounded away).
+bool sameSecond(DateTime a, DateTime b) => a.difference(b).inMilliseconds.abs() < 1000;

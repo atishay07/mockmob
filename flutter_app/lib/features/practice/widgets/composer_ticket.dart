@@ -28,6 +28,7 @@ class ComposerTicket extends StatelessWidget {
     required this.subject,
     required this.count,
     required this.semanticsLabel,
+    this.heroTag,
   });
 
   final String subjectId;
@@ -35,6 +36,13 @@ class ComposerTicket extends StatelessWidget {
   final String subject;
   final int count;
   final String semanticsLabel;
+
+  /// Set on the full-page tickets (the setup page and the start screen) so the paper flies from
+  /// one page into the next instead of being drawn again (MOTION.md C5). Never on the sheet.
+  final Object? heroTag;
+
+  /// The tag both full-page tickets share.
+  static const String pageHeroTag = 'practice-ticket';
 
   /// The subject object's box, and its smaller size from large text up (the name needs the room).
   static const double object = 96;
@@ -64,7 +72,8 @@ class ComposerTicket extends StatelessWidget {
       ),
     );
 
-    return Semantics(
+    final tag = heroTag;
+    final ticket = Semantics(
       header: true,
       label: semanticsLabel,
       excludeSemantics: true,
@@ -162,6 +171,8 @@ class ComposerTicket extends StatelessWidget {
         ),
       ),
     );
+    if (tag == null) return ticket;
+    return Hero(tag: tag, child: Material(type: MaterialType.transparency, child: ticket));
   }
 }
 
@@ -456,7 +467,7 @@ class _SubjectChip extends StatelessWidget {
     final type = context.mmType;
     final accent = context.subjectAccentOf(id);
     final reduced = Motion.reduced(context);
-    const radius = BorderRadius.all(Radius.circular(16));
+    const radius = MmRadius.smallAll;
     return MmPressable(
       semanticsLabel: name,
       selected: selected,
@@ -486,7 +497,7 @@ class _SubjectChip extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(name, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, color: selected ? colors.ink : colors.ink2)),
-                const SizedBox(height: 3),
+                const SizedBox(height: MmSpace.s4),
                 AnimatedContainer(
                   duration: reduced ? Duration.zero : Motion.emphasizedDuration,
                   curve: Motion.emphasized,
@@ -516,7 +527,7 @@ class _MoreChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    const radius = BorderRadius.all(Radius.circular(16));
+    const radius = MmRadius.smallAll;
     return MmPressable(
       semanticsLabel: PracticeCopy.moreSubjects,
       focusRadius: radius,
@@ -536,7 +547,7 @@ class _MoreChip extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(LucideIcons.plus, size: 18, color: colors.ink2),
-            const SizedBox(width: MmSpace.s6),
+            const SizedBox(width: MmSpace.s4),
             Text(PracticeCopy.moreSubjects, style: type.label.copyWith(color: colors.ink2)),
           ],
         ),

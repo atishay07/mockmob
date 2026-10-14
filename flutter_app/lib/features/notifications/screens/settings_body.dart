@@ -58,6 +58,7 @@ class SettingsBody extends StatelessWidget {
     required this.freshChecksOpen,
     required this.actions,
     this.header,
+    this.footerClearance = 0,
   });
 
   final NotificationPrefs prefs;
@@ -75,8 +76,11 @@ class SettingsBody extends StatelessWidget {
   final bool freshChecksOpen;
   final SettingsActions actions;
 
-  /// Sits above the list, inside the scroll (the title and the save line).
+  /// Sits above the list, inside the scroll (the back key and the title).
   final Widget? header;
+
+  /// Extra room under the last row, for a notice pinned over the foot of the screen.
+  final double footerClearance;
 
   bool _on(String key) {
     if (reminder.category(key).paused) return false;
@@ -132,6 +136,10 @@ class SettingsBody extends StatelessWidget {
     // When all is well the "Notifications are on" row steps aside for whichever status is showing.
     final showPane = panePending || (!showMuteRow && !showHint);
 
+    // Whether anything stands above "Your day": it then sits 24 below it (a hero to the next
+    // block), where the section gaps are 32.
+    final leadShown = showMuteRow || showHint || (permission != null && showPane) || permissionReading;
+
     // One authored entrance, riding the page's own transition: the title, the permission pane,
     // then the day and the channels. The groups further down are simply there.
     Widget group(int index, List<Widget> children) => MmStaggerItem(
@@ -142,11 +150,12 @@ class SettingsBody extends StatelessWidget {
     return MmStagger(
       driver: MmStaggerDriver.route,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(
+        // 32 of air under the last row, then the system bar, then any notice pinned over it.
+        padding: EdgeInsets.fromLTRB(
           MmSpace.gutter,
           0,
           MmSpace.gutter,
-          MmSpace.s48,
+          MmSpace.s32 + MediaQuery.viewPaddingOf(context).bottom + footerClearance,
         ),
         children: [
           if (header != null) MmStaggerItem(index: 0, child: header!),
@@ -155,7 +164,6 @@ class SettingsBody extends StatelessWidget {
           // under Take a break and as a note on each held channel, so nothing is lost.
           if (showMuteRow) ...[
             MutedRow(message: NotificationsCopy.mutedBanner(mutedUntil), onUnmute: actions.onUnmute),
-            const SizedBox(height: MmRhythm.group),
           ],
           if (showHint) ...[
             InlineBanner(
@@ -163,7 +171,6 @@ class SettingsBody extends StatelessWidget {
               actionLabel: NotificationsCopy.fewerRemindersDismiss,
               onAction: () => actions.onHintSeen(hintKey),
             ),
-            const SizedBox(height: MmRhythm.group),
           ],
           if (permission case final known? when showPane)
             MmStaggerItem(
@@ -173,18 +180,18 @@ class SettingsBody extends StatelessWidget {
           else if (permissionReading)
             const PermissionPanelSkeleton(),
           group(2, [
-            const SectionHeading(NotificationsCopy.dayHeading),
+            SectionHeading(NotificationsCopy.dayHeading, topGap: leadShown ? MmSpace.s24 : 0),
             // The hero of the page: it sits straight on the ground, not in a card.
             DayShape(quietStart: prefs.quietStart, quietEnd: prefs.quietEnd, window: window),
           ]),
           group(3, [
             const SectionHeading(NotificationsCopy.channelsHeading),
             if (blocked) ...[
-              const QuietNote(NotificationsCopy.blockedChannels),
+              const QuietNote(NotificationsCopy.blockedChannels, afterHeading: true),
               const SizedBox(height: MmSpace.s8),
             ],
             MmRowGroup(
-              dividerIndent: MmSpace.s20,
+              dividerIndent: MmSpace.s16,
               children: [
                 ChannelRow(
                   title: NotificationsCopy.channelResult,
@@ -236,10 +243,10 @@ class SettingsBody extends StatelessWidget {
           ]),
           const SectionHeading(NotificationsCopy.windowHeading),
           if (window == null)
-            const QuietNote(NotificationsCopy.windowEmpty)
+            const QuietNote(NotificationsCopy.windowEmpty, afterHeading: true)
           else ...[
             MmRowGroup(
-              dividerIndent: MmSpace.s20,
+              dividerIndent: MmSpace.s16,
               children: [
                 ValueRow(label: NotificationsCopy.windowStarts, value: formatClock(window.start), onTap: actions.onWindowStart),
                 ValueRow(label: NotificationsCopy.windowEnds, value: formatClock(window.end), onTap: actions.onWindowEnd),
@@ -249,16 +256,13 @@ class SettingsBody extends StatelessWidget {
               ],
             ),
             if (prefs.studyWindowInQuietHours) ...[
-              const SizedBox(height: MmRhythm.item),
-              Padding(
-                padding: const EdgeInsets.only(left: 4),
-                child: ConflictLine(text: NotificationsCopy.conflict(formatClock(window.start))),
-              ),
+              const SizedBox(height: MmSpace.s12),
+              ConflictLine(text: NotificationsCopy.conflict(formatClock(window.start))),
             ],
           ],
           const SectionHeading(NotificationsCopy.quietHeading),
           MmRowGroup(
-            dividerIndent: MmSpace.s20,
+            dividerIndent: MmSpace.s16,
             children: [
               ValueRow(label: NotificationsCopy.quietStarts, value: formatClock(prefs.quietStart), onTap: actions.onQuietStart),
               ValueRow(label: NotificationsCopy.quietEnds, value: formatClock(prefs.quietEnd), onTap: actions.onQuietEnd),

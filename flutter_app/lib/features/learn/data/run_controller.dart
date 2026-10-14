@@ -170,7 +170,13 @@ class RunController extends Notifier<RunUiState> {
     final cachedJson = await _store.run(runId);
     final stored = await _store.pending(runId);
     if (!ref.mounted) return;
-    final cached = cachedJson == null ? null : StudyRun.fromJson(cachedJson);
+    StudyRun? cached;
+    try {
+      cached = cachedJson == null ? null : StudyRun.fromJson(cachedJson);
+    } on Object catch (e) {
+      // A copy on the phone this build cannot read: treat it as absent and ask the server.
+      LearnLog.localWriteFailed(what: 'read the saved run', error: e);
+    }
     if (cached != null) {
       state = RunUiState(load: RunLoad.ready, run: cached, pending: stored);
     }
@@ -191,6 +197,11 @@ class RunController extends Notifier<RunUiState> {
       } else {
         state = state.copyWith(load: RunLoad.unavailable);
       }
+    } on Object catch (e) {
+      // A reply the app cannot read: the skeleton must not stand forever.
+      LearnLog.unexpectedSend(type: 'run', error: e);
+      if (!ref.mounted) return;
+      if (cached == null) state = state.copyWith(load: RunLoad.unavailable);
     }
   }
 
@@ -262,6 +273,7 @@ class RunController extends Notifier<RunUiState> {
         item == null ||
         !run.isActive ||
         state.pending != null ||
+        state.sending ||
         _busy) {
       return;
     }
@@ -283,7 +295,20 @@ class RunController extends Notifier<RunUiState> {
       return;
     }
     _conflictRetried = false;
-    await _store.putPending(runId, event);
+    // The key shows its spinner on the very next frame; the write to the phone follows. A second
+    // tap in that gap is refused above because `sending` is already set.
+    state = state.copyWith(sending: true, notice: RunNotice.none);
+    try {
+      await _store.putPending(runId, event);
+    } on Object catch (e) {
+      // The phone could not keep the step: nothing was sent, so the student can tap again.
+      LearnLog.localWriteFailed(what: 'putPending', error: e);
+      if (ref.mounted) {
+        state = state.copyWith(sending: false, notice: RunNotice.sendFailed);
+      }
+      return;
+    }
+    if (!ref.mounted) return;
     state = state.copyWith(pending: event, notice: RunNotice.none);
     await _send(event);
   }
@@ -294,8 +319,10 @@ class RunController extends Notifier<RunUiState> {
     state = state.copyWith(sending: true, notice: RunNotice.none);
     try {
       final run = await _api.sendEvent(runId, event);
-      await _store.clearPending(runId);
-      await _cacheRun(run);
+      // The server has the step. A failure to tidy the phone's copy must not hide that: a stale
+      // pending row is dropped on the next load (its revision is behind), so carry on.
+      await _keepGoing('clearPending', () => _store.clearPending(runId));
+      await _keepGoing('cacheRun', () => _cacheRun(run));
       if (!ref.mounted) return;
       if (run.isInvalidated) {
         await _settleChanged(run.units);
@@ -308,9 +335,38 @@ class RunController extends Notifier<RunUiState> {
       );
     } on ApiError catch (e) {
       if (ref.mounted) await _onSendError(event, e);
+    } on Object catch (e) {
+      // Not an API failure: a payload the app cannot read, or a phone-side fault. Whatever it
+      // was, the spinner must end and the step must be sendable again (the retry timer picks
+      // up a kept event).
+      LearnLog.unexpectedSend(type: event.type, error: e);
+      if (ref.mounted) await _onUnexpectedSendError(event);
     } finally {
       _busy = false;
     }
+  }
+
+  /// Runs a write to the phone's own store; a failure is logged and never stops the run.
+  Future<void> _keepGoing(String what, Future<void> Function() write) async {
+    try {
+      await write();
+    } on Object catch (e) {
+      LearnLog.localWriteFailed(what: what, error: e);
+    }
+  }
+
+  Future<void> _onUnexpectedSendError(PendingEvent event) async {
+    if (event.canWaitOffline) {
+      state = state.copyWith(sending: false, notice: RunNotice.sendFailed);
+      return;
+    }
+    await _keepGoing('clearPending', () => _store.clearPending(runId));
+    if (!ref.mounted) return;
+    state = state.copyWith(
+      sending: false,
+      clearPending: true,
+      notice: RunNotice.sendFailed,
+    );
   }
 
   Future<void> _onSendError(PendingEvent event, ApiError e) async {

@@ -98,6 +98,10 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
       _inFlight = null;
       _inFlightFor = null;
     }
+    if (_queuedFor != userId) {
+      _queued = null;
+      _queuedFor = null;
+    }
     if (userId == null) return RemoteState<T>.idle();
     if (autoLoad) scheduleMicrotask(refresh);
     return RemoteState<T>(loading: autoLoad);
@@ -106,10 +110,37 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
   /// Reads the cache (when nothing is showing yet), then the network. Overlapping calls share
   /// one request. A [cacheFirst] resource skips the network when the cache has data, unless
   /// [force] is set (after a submit, or when the student asks to refresh).
+  ///
+  /// A [force] call never joins a read that was already running: that read may have asked the
+  /// server before the change the student just made (a mock finished while the open-time read was
+  /// still in flight), so joining it returned the old list and the new paper never appeared.
+  /// It waits for the running read to end and then starts its own. Forced calls that arrive while
+  /// that second read is waiting share it.
   Future<void> refresh({bool force = false}) {
     final id = userId;
     final running = _inFlight;
-    if (running != null && _inFlightFor == id) return running;
+    if (running != null && _inFlightFor == id) {
+      if (!force) return running;
+      final queued = _queued;
+      if (queued != null && _queuedFor == id) return queued;
+      late final Future<void> next;
+      next = running.then<void>((_) {}, onError: (Object _) {}).then<void>((_) => _start(id, true)).whenComplete(() {
+        if (identical(_queued, next)) {
+          _queued = null;
+          _queuedFor = null;
+        }
+      });
+      _queued = next;
+      _queuedFor = id;
+      return next;
+    }
+    return _start(id, force);
+  }
+
+  Future<void>? _queued;
+  String? _queuedFor;
+
+  Future<void> _start(String? id, bool force) {
     late final Future<void> started;
     started = _refresh(id, force).whenComplete(() {
       if (identical(_inFlight, started)) {

@@ -53,6 +53,21 @@ class SessionDraftRepository {
         );
   }
 
+  /// Writes [draft] only while its row is still this session's, or there is none. The table holds
+  /// one row per selection, so an engine that is still closing (a PUT in flight, a late
+  /// acknowledgement, a pause) must not write its draft over the row of the new session of the
+  /// same selection that started meanwhile: the new session then opens as "not found" and the
+  /// old one reappears (practice-02). Returns false when it did not write. [save] is for the
+  /// start of a session, which does replace the row.
+  Future<bool> saveIfOwned(SessionDraft draft) {
+    return _db.transaction(() async {
+      final row = await (_db.select(_db.sessionDrafts)..where((t) => t.userId.equals(draft.userId) & t.draftKey.equals(draft.draftKey))).getSingleOrNull();
+      if (row != null && row.sessionId != draft.sessionId) return false;
+      await save(draft);
+      return true;
+    });
+  }
+
   /// The key an archived draft lives under: one per session id, so it never meets a selection.
   static String archiveKeyOf(String sessionId) => '$_archivePrefix$sessionId';
 

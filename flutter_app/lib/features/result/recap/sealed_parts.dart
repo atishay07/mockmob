@@ -5,6 +5,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../sheet/open_tab.dart';
+import '../widgets/result_space.dart';
 
 /// The words at the top of the sealed screen, on the same line as the open sheet's headline (so
 /// the headline does not move when the sheet opens). They fade as the flap lifts.
@@ -42,7 +43,7 @@ class SealedControls extends StatelessWidget {
     return Padding(
       // The tab's lower edge sits 96 dp above the screen's bottom edge, clear of the gesture bar,
       // and it runs the full width of the card's gutters like the key on every other card.
-      padding: EdgeInsets.fromLTRB(MmSpace.cardGutter, 0, MmSpace.cardGutter, (96 - MmTarget.min - 4 - bottomInset).clamp(0.0, 96.0)),
+      padding: EdgeInsets.fromLTRB(ResultSpace.moment, 0, ResultSpace.moment, (96 - MmTarget.min - 4 - bottomInset).clamp(0.0, 96.0)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

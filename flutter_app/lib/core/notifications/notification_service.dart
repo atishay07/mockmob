@@ -90,6 +90,23 @@ class NotificationService {
   bool _initialized = false;
   int _clearEpoch = 0;
 
+  /// The tail of the ledger's write queue.
+  Future<void> _ledgerTail = Future<void>.value();
+
+  /// Changes the ledger as one load, change and save with nothing in between, in the order the
+  /// calls came. The reminder scheduler and the background result post both change it. Each used
+  /// to load a snapshot, wait for the plugin, and save that snapshot back, so one erased the
+  /// other's entry and the one-push-a-day cap let a second reminder through (you-04).
+  /// [change] returns the new list, or null to leave the stored one alone (nothing is written).
+  Future<void> _changeLedger(List<LedgerEntry>? Function(List<LedgerEntry> current) change) {
+    final run = _ledgerTail.then((_) async {
+      final next = change(await _ledger.load());
+      if (next != null) await _ledger.save(next);
+    });
+    _ledgerTail = run.then((_) {}, onError: (Object _) {});
+    return run;
+  }
+
   /// Counts the times everything was cancelled. A planning pass that read it before awaiting
   /// and finds it changed knows its student is gone and must stop scheduling.
   int get clearEpoch => _clearEpoch;
@@ -116,6 +133,7 @@ class NotificationService {
     final epoch = _clearEpoch;
     await initialize();
     final now = _now();
+    // The decision reads a snapshot; the write at the end re-reads (see [_changeLedger]).
     var ledger = await _ledger.load();
     // Entries older than two weeks no longer matter for any cap.
     ledger = [for (final e in ledger) if (now.difference(e.at) < const Duration(days: 14)) e];
@@ -162,10 +180,13 @@ class NotificationService {
       await _gateway.cancel(id);
       return const ScheduleOutcome(skipped: NotificationSkip.cleared);
     }
+    // A response to the student's own action never counts against the caps, so it never writes.
     if (!request.respondsToStudentAction) {
-      ledger = [for (final e in ledger) if (e.taskId != request.taskId) e, LedgerEntry(taskId: request.taskId, at: at)];
+      await _changeLedger((current) {
+        final kept = [for (final e in current) if (_now().difference(e.at) < const Duration(days: 14) && e.taskId != request.taskId) e];
+        return [...kept, LedgerEntry(taskId: request.taskId, at: at)];
+      });
     }
-    await _ledger.save(ledger);
     return ScheduleOutcome(deliverAt: at, silent: plan.silent);
   }
 
@@ -196,10 +217,7 @@ class NotificationService {
   Future<void> cancel(String taskId) async {
     await initialize();
     await _gateway.cancel(notificationIdFor(taskId));
-    final ledger = await _ledger.load();
-    if (ledger.any((e) => e.taskId == taskId)) {
-      await _ledger.save([for (final e in ledger) if (e.taskId != taskId) e]);
-    }
+    await _changeLedger((current) => current.any((e) => e.taskId == taskId) ? [for (final e in current) if (e.taskId != taskId) e] : null);
   }
 
   /// Cancels everything (sign-out, account switch).
@@ -207,7 +225,7 @@ class NotificationService {
     _clearEpoch++;
     await initialize();
     await _gateway.cancelAll();
-    await _ledger.save(const []);
+    await _changeLedger((_) => const []);
   }
 
   Future<bool> areNotificationsEnabled() => _gateway.areNotificationsEnabled();

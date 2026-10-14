@@ -1,9 +1,12 @@
 // The week as a ring (you-rhythm spec 2.1): exactly `goal` segments, one inked for every study day
 // counted this week, the count in the middle as a monumental number. Days past the goal draw as
-// small inner arcs; a met week closes the ring with one light sweep and a soft volt glow under the
-// arcs (the signature visual's one permitted glow). A paused week draws dashed grey segments and
-// claims nothing. Everything is one painter on a RepaintBoundary; nothing loops. Reduced motion
-// draws the settled ring.
+// small inner arcs. The segments ink in order with no tick per segment (80 ms of lead, 260 ms
+// each, 70 ms apart). A met week is drawn closed; only when [WeekDial.sweep] is set (the moment a
+// week is met, never an ordinary open) does one light sweep run round it and close it, 420 ms.
+// Night draws a soft volt glow under a met ring; Daylight has no glow and keeps the 1 dp volt edge
+// every arc already carries, and its sweep is a dark volt spot (white is invisible on paper). A
+// paused week draws dashed grey segments and claims nothing. Everything is one painter on a
+// RepaintBoundary; nothing loops. Reduced motion draws the settled ring.
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -22,6 +25,8 @@ class WeekDial extends StatefulWidget {
     this.paused = false,
     this.animate = true,
     this.showWords = true,
+    this.sweep = false,
+    this.onLanded,
   });
 
   /// Study days counted this week (the server's count).
@@ -40,6 +45,33 @@ class WeekDial extends StatefulWidget {
   /// The "of 4 study days" line under the number. Off for the smallest dials.
   final bool showWords;
 
+  /// Runs the closing light round a met ring once: the T2 moment of a week that has just been met.
+  /// Off by default, so opening a screen on a week that is already met only draws it closed.
+  final bool sweep;
+
+  /// Called once when the count in the middle has landed: the screen's lead number gives its one
+  /// selection tick there. Null for a dial that is not the lead of its screen.
+  final VoidCallback? onLanded;
+
+  /// 80 ms of lead, then each segment inks over 260 ms, 70 ms after the one before it. A whole
+  /// seven-segment ring is on screen within 760 ms, inside the 800 ms entrance budget.
+  static const int _lead = 80;
+  static const int _perMs = 70;
+  static const int _inkMs = 260;
+
+  /// The closing light of a met week: one pass, 420 ms, so the whole moment (seven segments plus
+  /// the sweep) ends inside `Motion.momentT2`.
+  static const int _sweepMs = 420;
+
+  /// How long the ring takes from its first frame to rest. A caller that wants something to happen
+  /// once the number has landed (Mobi cheering) waits this long.
+  static Duration settleAfter({required int done, required int goal, bool sweep = false}) {
+    final filled = math.min(done, goal.clamp(1, 7));
+    final gaps = filled > 1 ? filled - 1 : 0;
+    final met = done >= goal && goal > 0;
+    return Duration(milliseconds: _lead + _inkMs + _perMs * gaps + (sweep && met ? _sweepMs : 120));
+  }
+
   @override
   State<WeekDial> createState() => _WeekDialState();
 }
@@ -48,18 +80,10 @@ class _WeekDialState extends State<WeekDial> with SingleTickerProviderStateMixin
   AnimationController? _controller;
   bool _started = false;
 
-  int get _filled => math.min(widget.done, widget.goal);
+  int _total(bool sweeps) => WeekDial.settleAfter(done: widget.done, goal: widget.goal, sweep: sweeps).inMilliseconds;
 
-  /// 160 ms lead, then each segment inks over 300 ms, 110 ms after the one before; a met week
-  /// adds the 700 ms sweep after the last segment.
-  static const int _lead = 160;
-  static const int _perMs = 110;
-  static const int _inkMs = 300;
-
-  int _total(bool met) {
-    final int gaps = _filled > 1 ? _filled - 1 : 0;
-    return _lead + _inkMs + _perMs * gaps + (met ? 700 : 120);
-  }
+  /// The closing light runs only for the moment a week is met.
+  bool get _sweeps => widget.sweep && _met;
 
   bool get _met => !widget.paused && widget.done >= widget.goal && widget.goal > 0;
 
@@ -69,7 +93,7 @@ class _WeekDialState extends State<WeekDial> with SingleTickerProviderStateMixin
     if (_started) return;
     _started = true;
     if (!widget.animate || Motion.reduced(context) || widget.paused || widget.done <= 0) return;
-    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: _total(_met)))..forward();
+    _controller = AnimationController(vsync: this, duration: Duration(milliseconds: _total(_sweeps)))..forward();
   }
 
   @override
@@ -83,7 +107,7 @@ class _WeekDialState extends State<WeekDial> with SingleTickerProviderStateMixin
     }
     _controller ??= AnimationController(vsync: this);
     _controller!
-      ..duration = Duration(milliseconds: _total(_met))
+      ..duration = Duration(milliseconds: _total(_sweeps))
       ..forward(from: 0);
   }
 
@@ -110,7 +134,8 @@ class _WeekDialState extends State<WeekDial> with SingleTickerProviderStateMixin
         else
           MonumentalNumber(
             value: '${widget.done}',
-            style: type.figure.copyWith(fontSize: numberSize, height: 0.94),
+            style: type.figure.copyWith(fontSize: numberSize),
+            onLanded: widget.onLanded,
           ),
         if (widget.showWords) ...[
           SizedBox(height: s * 0.02),
@@ -133,11 +158,12 @@ class _WeekDialState extends State<WeekDial> with SingleTickerProviderStateMixin
             done: widget.done,
             paused: widget.paused,
             progress: controller,
-            lead: _lead,
-            perMs: _perMs,
-            inkMs: _inkMs,
-            totalMs: _total(_met),
+            lead: WeekDial._lead,
+            perMs: WeekDial._perMs,
+            inkMs: WeekDial._inkMs,
+            totalMs: _total(_sweeps),
             met: _met,
+            sweeps: _sweeps,
           ),
           child: Center(child: SizedBox(width: s * 0.66, child: FittedBox(fit: BoxFit.scaleDown, child: center))),
         ),
@@ -186,6 +212,7 @@ class _DialPainter extends CustomPainter {
     required this.inkMs,
     required this.totalMs,
     required this.met,
+    required this.sweeps,
   }) : super(repaint: progress);
 
   final MmColors colors;
@@ -199,6 +226,9 @@ class _DialPainter extends CustomPainter {
   final int totalMs;
   final bool met;
 
+  /// The closing light runs (the moment of a met week); false draws a met ring closed.
+  final bool sweeps;
+
   /// 0 to 1 for the filled segment [i]; 1 when drawn settled.
   double _fill(int i) {
     final p = progress;
@@ -208,14 +238,14 @@ class _DialPainter extends CustomPainter {
     return Curves.easeOutCubic.transform(((ms - start) / inkMs).clamp(0.0, 1.0));
   }
 
-  /// 0 to 1 for the closing sweep of a met week.
+  /// 0 to 1 for the closing sweep of a met week (1 when the ring is only drawn closed).
   double _sweep() {
     final p = progress;
     if (!met) return 0;
-    if (p == null || p.value >= 1) return 1;
+    if (!sweeps || p == null || p.value >= 1) return 1;
     final ms = p.value * totalMs;
     final start = lead + inkMs + perMs * math.max(0, math.min(done, goal) - 1);
-    return ((ms - start) / 700).clamp(0.0, 1.0);
+    return ((ms - start) / WeekDial._sweepMs).clamp(0.0, 1.0);
   }
 
   @override
@@ -255,16 +285,17 @@ class _DialPainter extends CustomPainter {
       return;
     }
 
-    // The glow of a met week sits under the arcs, once the sweep is under way.
+    // Night: the glow of a met week sits under the arcs, once the sweep is under way. Daylight has
+    // no glow (it would be a grey smudge on cream); its arcs carry the 1 dp volt edge instead.
     final sw = _sweep();
-    if (met && sw > 0) {
+    if (met && night && sw > 0) {
       canvas.drawCircle(
         c,
         r,
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = stroke * 1.6
-          ..color = colors.volt.withValues(alpha: (night ? 0.30 : 0.22) * Curves.easeOut.transform(sw))
+          ..color = colors.volt.withValues(alpha: 0.30 * Curves.easeOut.transform(sw))
           ..maskFilter = MaskFilter.blur(BlurStyle.normal, stroke * 1.1),
       );
     }
@@ -325,20 +356,27 @@ class _DialPainter extends CustomPainter {
       }
     }
 
-    // The closing light: a bright spot runs once round the ring.
-    if (met && sw > 0 && sw < 1) {
+    // The closing light: a bright spot runs once round the ring. Night: warm white on volt.
+    // Daylight: the dark volt edge colour, because white on a volt arc over cream cannot be seen.
+    if (sweeps && met && sw > 0 && sw < 1) {
       final a = -math.pi / 2 + 2 * math.pi * Curves.easeInOut.transform(sw);
       final p = c + Offset(math.cos(a), math.sin(a)) * r;
+      final spot = night ? Colors.white.withValues(alpha: 0.85) : edge.withValues(alpha: 0.75);
       canvas.drawCircle(
         p,
         stroke * 0.9,
-        Paint()
-          ..shader = RadialGradient(colors: [Colors.white.withValues(alpha: 0.85), Colors.white.withValues(alpha: 0)]).createShader(Rect.fromCircle(center: p, radius: stroke * 0.9)),
+        Paint()..shader = RadialGradient(colors: [spot, spot.withValues(alpha: 0)]).createShader(Rect.fromCircle(center: p, radius: stroke * 0.9)),
       );
     }
   }
 
   @override
   bool shouldRepaint(_DialPainter old) =>
-      old.colors != colors || old.goal != goal || old.done != done || old.paused != paused || old.met != met || old.progress != progress;
+      old.colors != colors ||
+      old.goal != goal ||
+      old.done != done ||
+      old.paused != paused ||
+      old.met != met ||
+      old.sweeps != sweeps ||
+      old.progress != progress;
 }

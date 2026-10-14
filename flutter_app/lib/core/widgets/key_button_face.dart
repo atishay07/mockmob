@@ -14,7 +14,7 @@ enum KeyVariant {
   /// The glass pill: a secondary action, smoked with an edge light.
   secondary,
 
-  /// A quiet text button, 48 dp tall.
+  /// A quiet text button, 40 dp tall with a 48 dp target (`MmHitSlop`).
   quiet,
 
   /// A solid answer option, 56 dp, that inks its bubble when chosen.
@@ -62,7 +62,7 @@ class KeyButtonFace extends StatelessWidget {
       switch (variant) {
         KeyVariant.primary || KeyVariant.secondary => MmTarget.primaryKey,
         KeyVariant.option => MmTarget.option,
-        KeyVariant.quiet => MmTarget.min,
+        KeyVariant.quiet => 40,
       };
 
   BorderRadius get _radius => variant == KeyVariant.option ? MmRadius.keyAll : MmRadius.pillAll;
@@ -104,10 +104,12 @@ class KeyButtonFace extends StatelessWidget {
         }
         shadow = disabled ? null : colors.cardShadow;
       case KeyVariant.option:
-        fill = selected ? colors.raised2 : Color.lerp(colors.raised, colors.raised2, 0.6 * d)!;
+        // Selected is the strongest thing on the page in both themes: a 2 px ink border on
+        // `selectedSurface` (Night `raised2`, Day `raised`, never Day's darker `raised2`).
+        fill = selected ? colors.selectedSurface : Color.lerp(colors.raised, colors.selectedSurface, 0.6 * d)!;
         text = disabled ? colors.ink3 : colors.ink;
         border = selected ? colors.ink : colors.line;
-        borderWidth = selected ? 1.5 : 1;
+        borderWidth = selected ? 2 : 1;
       case KeyVariant.quiet:
         fill = Color.lerp(colors.sunken.withValues(alpha: 0), colors.sunken, d)!;
         text = disabled ? colors.ink4 : colors.ink;
@@ -145,7 +147,7 @@ class KeyButtonFace extends StatelessWidget {
                 KeyVariant.option => MmSpace.s16,
                 _ => MmSpace.s24,
               },
-              vertical: MmSpace.s12,
+              vertical: variant == KeyVariant.quiet ? MmSpace.s8 : MmSpace.s12,
             ),
             child: content,
           ),

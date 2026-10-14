@@ -8,6 +8,18 @@ import 'nta_integrity.dart' show ntaPrefsProvider;
 /// steps of the question and option text, remembered on this phone.
 class NtaTextStep extends Notifier<int> {
   static const List<double> scales = [0.9, 1.0, 1.15, 1.3];
+
+  /// The most the paper text may grow in all: the phone's text size and the A+ step together.
+  /// The bar and keys around the paper are held to the same 1.3x, so the paper never outgrows them.
+  static const double maxEffective = 1.3;
+
+  /// The step to build the paper's styles with, so that the step times the phone's own text scale
+  /// ([system], which Flutter applies on top of the font size) never passes [maxEffective]. A- still
+  /// shrinks the text at any phone size; A+ stops where the cap is reached.
+  static double paperStep(double step, double system) => system <= 0 ? step : (step < maxEffective / system ? step : maxEffective / system);
+
+  /// True while A+ would still make the paper text larger on this phone.
+  static bool canGrowPaper(double step, double system) => step < scales.last && system * step < maxEffective - 1e-6;
   static const String _key = 'nta.textStep';
 
   @override

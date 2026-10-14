@@ -172,8 +172,8 @@ class _FilterKey extends StatelessWidget {
         child: Center(
           child: DecoratedBox(
             decoration: ShapeDecoration(
-              color: active ? colors.raised2 : colors.raised,
-              shape: StadiumBorder(side: BorderSide(color: active ? colors.ink2 : colors.line)),
+              color: active ? colors.selectedSurface : colors.raised,
+              shape: StadiumBorder(side: active ? BorderSide(color: colors.ink, width: 1.5) : BorderSide(color: colors.line)),
             ),
             child: Padding(
               padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s12, MmSpace.s8),

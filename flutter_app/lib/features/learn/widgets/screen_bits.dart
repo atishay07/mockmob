@@ -6,64 +6,102 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// The keys pinned at the foot of a screen on a raised bar, with an optional plain line above
-/// them. The content above scrolls; these never leave the screen.
+/// The surface for a state that is on: an answer just revealed, a callout in a lesson. Night
+/// lifts it above the card (`raised2`); Day cannot go lighter than the card, so it keeps the card
+/// colour and relies on the border (a taupe slab reads as disabled, SPACING.md 8.1). It follows
+/// the core selection language ([MmSelection]), so it changes with it.
+Color learnSelectedSurface(MmColors colors) =>
+    MmSelection.fill(colors, selected: true);
+
+/// The keys pinned at the foot of a screen, with an optional plain line above them. The content
+/// above scrolls; these never leave the screen. A 24 dp fade from transparent to the ground sits
+/// over the bottom of the content, so a row is never cut by a hard edge (SPACING.md 4.5); the bar
+/// itself is the ground, not a second surface.
 class PinnedActions extends StatelessWidget {
-  const PinnedActions({super.key, required this.children, this.message});
+  const PinnedActions({
+    super.key,
+    required this.children,
+    this.message,
+    this.gutter = MmSpace.gutter,
+  });
 
   final List<Widget> children;
 
   /// A plain, announced line (an error or a state) shown above the keys.
   final String? message;
 
+  /// Side padding: 16 on screens with cards, 24 on moment screens (type and art, no cards).
+  final double gutter;
+
+  static const double fade = MmSpace.s24;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return DecoratedBox(
-      // A faint hairline: the bar is the ground, not a second surface.
-      decoration: BoxDecoration(
-        color: colors.ground,
-        border: Border(
-          top: BorderSide(color: colors.line.withValues(alpha: 0.5)),
-        ),
-      ),
-      child: Center(
-        heightFactor: 1,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-              MmSpace.gutter,
-              MmSpace.s12,
-              MmSpace.gutter,
-              MmSpace.s12,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (message != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: MmSpace.s8),
-                    child: Semantics(
-                      liveRegion: true,
-                      child: Text(message!, style: context.mmType.body),
-                    ),
-                  ),
-                for (var i = 0; i < children.length; i++) ...[
-                  if (i > 0) const SizedBox(height: MmSpace.s8),
-                  children[i],
-                ],
-              ],
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        ColoredBox(
+          color: colors.ground,
+          child: Center(
+            heightFactor: 1,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: MmSpace.contentMaxWidth,
+              ),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                  gutter,
+                  MmSpace.s8,
+                  gutter,
+                  MmSpace.s12,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (message != null)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: MmSpace.s8),
+                        child: Semantics(
+                          liveRegion: true,
+                          child: Text(message!, style: context.mmType.body),
+                        ),
+                      ),
+                    for (var i = 0; i < children.length; i++) ...[
+                      if (i > 0) const SizedBox(height: MmSpace.s8),
+                      children[i],
+                    ],
+                  ],
+                ),
+              ),
             ),
           ),
         ),
-      ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: -fade,
+          height: fade,
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [colors.ground.withAlpha(0), colors.ground],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
-/// A 48 dp icon target with no ripple, named for TalkBack.
+/// A bare 48 dp icon target (the run's close key), named for TalkBack. It answers a touch on the
+/// next frame: it sinks on the press spring and shows the press veil.
 class IconTap extends StatelessWidget {
   const IconTap({
     super.key,
@@ -78,17 +116,13 @@ class IconTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: label,
-      excludeSemantics: true,
+    return MmPressable(
+      semanticsLabel: label,
       onTap: onTap,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: SizedBox(
-          width: 48,
-          height: 48,
+      highlight: true,
+      builder: (context, pressed, _) => SizedBox.square(
+        dimension: MmTarget.min,
+        child: Center(
           child: Icon(icon, size: 24, color: context.mmColors.ink),
         ),
       ),
@@ -96,62 +130,133 @@ class IconTap extends StatelessWidget {
   }
 }
 
-/// The top of the Concepts page: a small glass back disc and the title in the Bricolage cut.
+/// A 44 dp glass disc with an icon inside a 48 dp target: the back key and the share key of a
+/// page header. Answers a touch on the next frame (press spring, brighter edge, veil).
+class GlassIconKey extends StatelessWidget {
+  const GlassIconKey({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return MmPressable(
+      semanticsLabel: label,
+      onTap: onTap,
+      highlight: true,
+      builder: (context, pressed, _) => SizedBox.square(
+        dimension: MmTarget.min,
+        child: Center(
+          child: SizedBox.square(
+            dimension: 44,
+            child: FakeGlass(
+              borderRadius: MmRadius.pillAll,
+              pressed: pressed,
+              grain: false,
+              child: Center(
+                child: Icon(icon, size: 20, color: context.mmColors.ink),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Between two sections of a screen: 32 dp of air, a 1 dp hairline, then 16 dp before the next
+/// heading (SPACING.md 3.1).
+class SectionBreak extends StatelessWidget {
+  const SectionBreak({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s32, bottom: MmSpace.s16),
+      child: SizedBox(
+        height: 1,
+        child: ColoredBox(color: context.mmColors.line),
+      ),
+    );
+  }
+}
+
+/// The top bar of every Concepts page (one pattern, SPACING.md section 9): a 44 dp glass back
+/// disc on the gutter inside a 48 dp target, then the title in the screen-title cut, and an
+/// optional trailing disc on the other gutter. The row is 56 dp. Without a [title] the bar
+/// carries only the back key (a page whose title is its content).
+class LearnPageHeader extends StatelessWidget {
+  const LearnPageHeader({
+    super.key,
+    required this.onBack,
+    this.title,
+    this.trailing,
+    this.backLabel = LearnCopy.back,
+  });
+
+  final VoidCallback onBack;
+  final String? title;
+  final Widget? trailing;
+  final String backLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      // The 44 dp disc sits 2 dp inside its 48 dp target, so the target starts 2 dp left of the
+      // gutter and the disc's edge is exactly on it.
+      padding: const EdgeInsets.fromLTRB(
+        MmSpace.gutter - MmSpace.s2,
+        MmSpace.s8,
+        MmSpace.gutter - MmSpace.s2,
+        0,
+      ),
+      child: SizedBox(
+        height: 56,
+        child: Row(
+          children: [
+            GlassIconKey(
+              icon: LucideIcons.arrowLeft,
+              label: backLabel,
+              onTap: onBack,
+            ),
+            if (title != null) ...[
+              const SizedBox(width: MmSpace.s8),
+              Expanded(
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    title!,
+                    style: context.mmType.screenTitle,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ] else
+              const Spacer(),
+            ?trailing,
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The Concepts tab's bar.
 class ConceptsHeader extends StatelessWidget {
   const ConceptsHeader({super.key, required this.onBack});
 
   final VoidCallback onBack;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-        MmSpace.s12,
-        MmSpace.s4,
-        MmSpace.gutter,
-        MmSpace.s8,
-      ),
-      child: SizedBox(
-        height: 56,
-        child: Row(
-          children: [
-            MmPressable(
-              semanticsLabel: LearnCopy.back,
-              onTap: onBack,
-              builder: (context, pressed, _) => SizedBox.square(
-                dimension: MmTarget.min,
-                child: Center(
-                  child: SizedBox.square(
-                    dimension: 44,
-                    child: FakeGlass(
-                      borderRadius: MmRadius.pillAll,
-                      pressed: pressed,
-                      grain: false,
-                      child: Center(
-                        child: Icon(
-                          LucideIcons.arrowLeft,
-                          size: 20,
-                          color: colors.ink,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: MmSpace.s8),
-            Expanded(
-              child: Semantics(
-                header: true,
-                child: Text(LearnCopy.title, style: context.mmType.screenTitle),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      LearnPageHeader(onBack: onBack, title: LearnCopy.title);
 }
 
 /// Makes system Back on a deep-linked Learn screen go to [fallback] instead of leaving the app.

@@ -167,11 +167,12 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
       decoration: _focused ? ShapeDecoration(shape: focusShape) : const BoxDecoration(),
       child: ClipRect(
         child: ColoredBox(
-          color: _pressed ? colors.raised : const Color(0x00000000),
+          color: _pressed ? colors.raised : Colors.transparent,
           child: CustomPaint(
             painter: _WashPainter(
               progress: _wash,
-              color: colors.isNight ? colors.volt.withValues(alpha: 0.09) : colors.volt.withValues(alpha: 0.26),
+              // 9% on Night, 16% on Daylight: at 9% on paper the chosen row's wash would not read.
+              color: colors.volt.withValues(alpha: colors.isNight ? 0.09 : 0.16),
               bubbleCenter: Offset(_leading + bubbleSize / 2, 0),
             ),
             child: ConstrainedBox(

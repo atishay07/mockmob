@@ -87,11 +87,11 @@ class PermissionPanel extends StatelessWidget {
           ],
         ),
         if (canAsk) ...[
-          const SizedBox(height: MmRhythm.group),
+          const SizedBox(height: MmSpace.s16),
           KeyButton(label: NotificationsCopy.permissionTurnOn, onPressed: onTurnOn),
         ],
         if (blocked && onOpenSettings != null) ...[
-          const SizedBox(height: MmRhythm.group),
+          const SizedBox(height: MmSpace.s16),
           // The one thing to fix, so it is the volt key (as Turn on is when notifications are off).
           KeyButton(label: NotificationsCopy.openAndroidSettings, onPressed: onOpenSettings),
         ],
@@ -101,8 +101,8 @@ class PermissionPanel extends StatelessWidget {
     // reminders can be turned on, a hero without the edge when Android blocks them. When all is
     // well it is a plain row on the ground (no box) and the day below takes the eye.
     final pane = canAsk || blocked
-        ? MmSurface.hero(lit: canAsk, padding: const EdgeInsets.all(MmRhythm.plainPad), child: content)
-        : Padding(padding: const EdgeInsets.symmetric(horizontal: 4), child: content);
+        ? MmSurface.hero(lit: canAsk, padding: const EdgeInsets.all(MmSpace.s20), child: content)
+        : content;
     return Semantics(container: true, child: pane);
   }
 }
@@ -212,7 +212,7 @@ class MuteSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const QuietNote(NotificationsCopy.muteBody),
+        const QuietNote(NotificationsCopy.muteBody, afterHeading: true),
         const SizedBox(height: MmSpace.s12),
         KeyButton.secondary(
           label: NotificationsCopy.muteKey,
@@ -239,8 +239,8 @@ class MutedRow extends StatelessWidget {
     return Semantics(
       container: true,
       liveRegion: true,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
         child: Row(
           children: [
             ExcludeSemantics(child: Icon(LucideIcons.bellOff, size: 18, color: colors.ink2)),
@@ -259,8 +259,9 @@ class MutedRow extends StatelessWidget {
                 haptic: MmPressHaptic.selection,
                 builder: (context, pressed, _) => ConstrainedBox(
                   constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: MmTarget.min),
+                  // Text ends on the gutter: the 48 dp target reaches left, not past the edge.
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
+                    padding: const EdgeInsets.only(left: MmSpace.s12),
                     child: Center(
                       widthFactor: 1,
                       child: Text(

@@ -127,6 +127,10 @@ class PracticeStarter implements PracticeStarting {
     if (view.questions.isEmpty || (view.meta.sessionId.isEmpty && view.id.isEmpty)) {
       return const StartFailed(StartFailure.generic);
     }
+    // A paper with no deadline after the server's own clock would anchor the timer at zero and
+    // submit itself empty on its first tick (ROBUSTNESS practice-04). It is refused before any
+    // draft is written; the same key returns the same session on the next try.
+    if (!hasUsableDeadline(view)) return const StartFailed(StartFailure.generic);
     if (s.mode.isMock && view.questions.length != mockQuestionCount) {
       // Retrying the same key returns the same short paper: forget it.
       await drafts.clearGenerationKey(draftKey);
@@ -164,6 +168,13 @@ class PracticeStarter implements PracticeStarting {
     }
     return Started(sessionId);
   }
+}
+
+/// True when [view] carries a deadline (`expiresAt`) after the server's clock at the response. A
+/// missing or unreadable `expiresAt` parses to the epoch, which this rejects.
+bool hasUsableDeadline(SessionView view) {
+  final expires = view.expiresAt.millisecondsSinceEpoch;
+  return expires > 0 && expires > view.serverNowMs;
 }
 
 final practiceStarterProvider = Provider<PracticeStarting>((ref) {

@@ -61,7 +61,7 @@ class AnswerSheet extends StatefulWidget {
 }
 
 class _AnswerSheetState extends State<AnswerSheet> with SingleTickerProviderStateMixin {
-  late final AnimationController _ink = AnimationController(vsync: this, duration: const Duration(milliseconds: 900), value: 1);
+  late final AnimationController _ink = AnimationController(vsync: this, duration: const Duration(milliseconds: 700), value: 1);
   bool _started = false;
 
   @override

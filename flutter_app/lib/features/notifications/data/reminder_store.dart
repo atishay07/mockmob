@@ -19,19 +19,32 @@ class ReminderStore {
 
   String get _key => 'notif_feature_state_${userId ?? 'none'}';
 
+  /// Where a stored text that could not be read at all is kept before the state is rewritten.
+  String get _backupKey => '${_key}_unreadable';
+
   Future<ReminderState> load() async {
     if (userId == null) return const ReminderState();
     return ReminderState.fromJsonString(await _prefs.getString(_key));
   }
 
   /// Applies [change] to the current state and saves the result. Returns the new state.
+  ///
+  /// One record that cannot be read is skipped on its own, so the mute and the pauses survive
+  /// it. A stored text that is not readable at all is copied under another key before the new
+  /// state replaces it, so nothing is destroyed without a trace.
   Future<ReminderState> update(ReminderState Function(ReminderState) change) {
     final completer = Completer<ReminderState>();
     _queue = _queue.then((_) async {
       try {
-        final current = await load();
-        final next = change(current);
-        if (userId != null) await _prefs.setString(_key, next.toJsonString());
+        if (userId == null) {
+          completer.complete(change(const ReminderState()));
+          return;
+        }
+        final raw = await _prefs.getString(_key);
+        final parsed = ReminderState.parse(raw);
+        if (parsed.unreadable && raw != null) await _prefs.setString(_backupKey, raw);
+        final next = change(parsed.state);
+        await _prefs.setString(_key, next.toJsonString());
         completer.complete(next);
       } on Object catch (error, stack) {
         completer.completeError(error, stack);

@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/domain/session_rules.dart' show submissionGraceMs;
+import '../../../core/models/session_draft.dart';
 import '../../../core/repositories/session_draft_repository.dart';
 import '../../../core/sync/sync_providers.dart';
 import '../nta/nta_copy.dart' show NtaRules;
@@ -64,14 +67,35 @@ final runnerOpenerProvider = Provider<RunnerOpener>((ref) {
       if (draft.mode == 'nta' && draft.view.questions.length != NtaRules.questions) {
         return RunnerBadPaper(count: draft.view.questions.length);
       }
-      final engine = await ref.read(sessionEngineRestorerProvider)(draft);
+      final owed = await _owedAfterTimeUp(ref.read(sessionDraftRepositoryProvider), draft, ref.read(nowProvider)());
+      final engine = await ref.read(sessionEngineRestorerProvider)(owed ?? draft);
       if (engine == null) return RunnerEnded(isMock: draft.isMock);
-      return RunnerReady(EngineRunnerSession(engine));
+      return RunnerReady(EngineRunnerSession(engine, drafts: ref.read(sessionDraftRepositoryProvider)));
     } on Object {
       return const RunnerFailed();
     }
   };
 });
+
+/// A paper whose clock ran out while the app was away, with answers the server does not hold yet,
+/// and whose submission window (end plus 120 s) is still open: the same draft marked as owed a
+/// submit, so the engine is rebuilt, sees no time left and sends at once. Null for every other
+/// draft (still running, already owed, rejected, window closed, or nothing left to send).
+/// Without this the only sender is the backup job, which the phone may hold back past the window.
+Future<SessionDraft?> _owedAfterTimeUp(SessionDraftRepository drafts, SessionDraft draft, DateTime now) async {
+  final nowMs = now.millisecondsSinceEpoch;
+  if (draft.pendingSubmission || draft.rejected || draft.windowClosed) return null;
+  if (draft.endsAtWallMs <= 0 || draft.endsAtWallMs > nowMs) return null;
+  if (nowMs >= draft.endsAtWallMs + submissionGraceMs) return null;
+  var unsent = true; // A journal that cannot be read counts as unsent, as the engine treats it.
+  try {
+    final summary = await drafts.summaryOf(draft);
+    unsent = draft.isTicketMode ? summary.answered > 0 : summary.answered != summary.acknowledgedAnswered;
+  } on Object {
+    // Keep the draft owed rather than let the answers sit.
+  }
+  return unsent ? draft.copyWith(pendingSubmission: true) : null;
+}
 
 /// The open session for a route. Shared by the runner and its submit page, and closed (answers
 /// flushed, draft written, timers stopped) when neither is on screen any more.

@@ -23,7 +23,7 @@ import 'transitions.dart';
 final intendedRouteProvider = Provider<IntendedRoute>((ref) => IntendedRoute());
 
 /// The app's router. Every route of spec 4.2 is declared here; screens come from `screens.dart`.
-/// The shell has three tabs (Today, Practice, Review); You and Learn are pushed over it.
+/// The shell has four tabs (Today, Practice, Review, You) under the bar; Learn is pushed over it.
 final routerProvider = Provider<GoRouter>((ref) {
   final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
   final intended = ref.watch(intendedRouteProvider);
@@ -222,7 +222,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     ]),
     sheet(AppRoutes.beforeYouStart, beforeYouStartScreen),
 
-    // The three tabs. Each branch keeps its own navigation stack and fades in on a switch.
+    // The four tabs. Each branch keeps its own navigation stack and fades through on a switch.
     StatefulShellRoute(
       pageBuilder: (context, state, shell) => mmShellPage<void>(context: context, state: state, child: AppShell(shell: shell)),
       navigatorContainerBuilder: (context, shell, children) =>
@@ -259,29 +259,30 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('repair/:attemptId/:questionId', reviewRepairScreen, root: true),
           ]),
         ]),
+        // You: the student's sheet, the CUET tools and settings. Its own pages cover the bar
+        // (root pages), so their paths and transitions are unchanged.
+        StatefulShellBranch(routes: [
+          tabRoot(AppRoutes.you, youScreen, routes: [
+            page('goal', youGoalScreen, root: true),
+            page('rhythm', youRhythmScreen, root: true),
+            page('notifications', youNotificationsScreen, root: true),
+            page('privacy', youPrivacyScreen, root: true),
+            page('account', youAccountScreen, root: true, routes: [
+              // Set or reset the password (`?mode=reset` after a forgot-password code) and add a phone.
+              page('password', setPasswordScreen, root: true),
+              page('phone', addPhoneScreen, root: true),
+            ]),
+            page('delete', youDeleteScreen, root: true),
+            page('milestones', youMilestonesScreen, root: true),
+            page('bests', youBestsScreen, root: true),
+            page('appearance', youAppearanceScreen, root: true),
+            page('help', youHelpScreen, root: true),
+            page('subjects', youSubjectsScreen, root: true),
+            page('sheet', youSheetScreen, root: true),
+          ]),
+        ]),
       ],
     ),
-
-    // You: rises from the avatar on every tab root, over the dock (a focus page, not a step
-    // sideways). Its own pages push across from it.
-    page(AppRoutes.you, youScreen, transition: MmTransition.rise, root: true, routes: [
-      page('goal', youGoalScreen, root: true),
-      page('rhythm', youRhythmScreen, root: true),
-      page('notifications', youNotificationsScreen, root: true),
-      page('privacy', youPrivacyScreen, root: true),
-      page('account', youAccountScreen, root: true, routes: [
-        // Set or reset the password (`?mode=reset` after a forgot-password code) and add a phone.
-        page('password', setPasswordScreen, root: true),
-        page('phone', addPhoneScreen, root: true),
-      ]),
-      page('delete', youDeleteScreen, root: true),
-      page('milestones', youMilestonesScreen, root: true),
-      page('bests', youBestsScreen, root: true),
-      page('appearance', youAppearanceScreen, root: true),
-      page('help', youHelpScreen, root: true),
-      page('subjects', youSubjectsScreen, root: true),
-      page('sheet', youSheetScreen, root: true),
-    ]),
 
     // CUET tools: pushed from You, Practice and the quiet link under Today's road.
     page(AppRoutes.tools, toolsScreen, root: true, routes: [

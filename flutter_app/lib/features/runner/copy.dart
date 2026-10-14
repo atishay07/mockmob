@@ -139,6 +139,9 @@ abstract final class RunnerCopy {
   static String submitKey(bool isMock) => isMock ? 'Submit mock' : 'Submit practice';
   static const String keepWorking = 'Keep working';
   static const String sending = 'Sending your answers';
+
+  /// After 12 seconds of sending: the wait settles into words, so nothing spins without saying why.
+  static const String stillSending = 'Still sending. Your answers are safe on this phone.';
   static String received(DateTime at) => 'Saved on the server at ${formatTime12(at)}.';
   static String openResult(bool isMock) => isMock ? 'Open your sheet' : 'See your answers';
   /// One honest line for answers the server does not have yet: where they are, and that they go
@@ -166,6 +169,8 @@ abstract final class RunnerCopy {
   static const String badPaperTitle = 'This paper is not complete.';
   static String badPaperBody(int count) =>
       'NTA mode needs all 50 questions and this paper has $count, so it was not opened and no clock is running on this phone. Start it again from Practice.';
+  /// After 8 seconds of opening: what is slow, and that nothing is lost.
+  static const String stillOpening = 'Still opening your session. Your answers are safe on this phone.';
   static const String failedTitle = 'This session did not open.';
   static const String failedBody = 'Your answers are still on this phone. Try again in a moment.';
 }

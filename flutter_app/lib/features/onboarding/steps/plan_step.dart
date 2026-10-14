@@ -10,6 +10,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/data/rhythm_prefs.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../model/answers.dart';
 import '../model/deck.dart';
@@ -19,11 +20,15 @@ import '../widgets/answer_sheet_card.dart';
 import '../widgets/hold_to_seal.dart';
 import '../widgets/plan_sheet.dart';
 
-/// Step 9, the climax: the sheet flips over (600 ms, a light tap at the halfway point) and its
+/// Step 9, the climax: the sheet flips over (640 ms, a light tap at the halfway point) and its
 /// back is the plan, engraved line by line, including what the student did not tell us (the
 /// first chapter in MockMob's order, and the board-season taper for Class 12). Holding seals it
 /// (1.2 s, a firm tap when it lands); the "Tap to seal instead" link under the hold seals at
 /// once, and so does TalkBack's double tap on the hold.
+///
+/// The seal is the onboarding's one T3 moment (MOTION.md 1.2) and reads the Celebrations
+/// setting: Full stamps the seal with one ring wave and a firm tap, and Mobi celebrates after it
+/// lands; Quiet stamps it with no wave and a selection tick; Off just shows the seal and says so.
 class PlanStep extends ConsumerStatefulWidget {
   const PlanStep({super.key, required this.answers, required this.onNext, required this.onChange, this.flipped = false});
 
@@ -98,10 +103,13 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
     }
   }
 
+  /// At most this many print ticks, however long the plan (MOTION.md 4.2).
+  static const int maxPrintTicks = 6;
+
   /// A selection tick as each plan row prints (the rows print 160 ms apart after the flip).
   Future<void> _printTicks() async {
     if (Motion.reduced(context)) return;
-    final rows = PlanSummary.of(widget.answers, ref.read(nowProvider)()).lines.length;
+    final rows = math.min(maxPrintTicks, PlanSummary.of(widget.answers, ref.read(nowProvider)()).lines.length);
     for (var i = 0; i < rows; i++) {
       if (!mounted) return;
       ref.read(hapticsProvider).selection();
@@ -111,10 +119,18 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
 
   void _seal() {
     if (widget.answers.sealed) return;
-    ref.read(hapticsProvider).medium();
+    final mode = ref.read(celebrationModeProvider);
+    switch (mode) {
+      case CelebrationMode.full:
+        ref.read(hapticsProvider).medium();
+      case CelebrationMode.quiet:
+        ref.read(hapticsProvider).selection();
+      case CelebrationMode.off:
+        break;
+    }
     ref.read(onboardingAnswersProvider.notifier).seal();
     _hold.value = 1;
-    if (Motion.reduced(context)) {
+    if (Motion.reduced(context) || mode == CelebrationMode.off) {
       _stamp.value = 1;
     } else {
       _stamp.forward(from: 0);
@@ -178,6 +194,7 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
           revealed: _flip.isCompleted,
           compact: compact,
           stamp: _stamp,
+          wave: ref.watch(celebrationModeProvider) == CelebrationMode.full,
         );
 
     // The sheet sinks a little under the finger while the seal charges, and rebounds as the seal

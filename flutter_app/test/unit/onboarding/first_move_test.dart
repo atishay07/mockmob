@@ -73,10 +73,12 @@ void main() {
     expect(mobi.points.last, offsetMoreOrLessEquals(tester.getCenter(start), epsilon: 0.5));
   });
 
-  testWidgets('with no touch for 1.2 s Mobi nudges at the start key, once', (tester) async {
+  testWidgets('with no touch for 4 s Mobi nudges at the start key, once', (tester) async {
     final mobi = await pump(tester, student);
     expect(mobi.acts, isNot(contains(MobiAct.nudge)));
     await tester.pump(const Duration(milliseconds: 1200));
+    expect(mobi.acts, isNot(contains(MobiAct.nudge)), reason: 'not at 1.2 s: that reads as nagging');
+    await tester.pump(FirstMoveStep.nudgeAfter - const Duration(milliseconds: 1200));
     expect(mobi.acts.where((a) => a == MobiAct.nudge), hasLength(1));
     await tester.pump(const Duration(seconds: 3));
     expect(mobi.acts.where((a) => a == MobiAct.nudge), hasLength(1), reason: 'one nudge per visit');

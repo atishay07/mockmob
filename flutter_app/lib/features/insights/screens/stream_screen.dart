@@ -129,10 +129,11 @@ class _StreamScreenState extends ConsumerState<StreamScreen> {
       ),
       child: ListView(
         key: ValueKey(q.id),
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s32 + MmSpace.s16),
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s48),
         children: [
           PracticeCard(question: q, picked: picked, onPick: _controller.pick),
-          const SizedBox(height: MmSpace.s12),
+          // The keys carry their own 48 dp of reach, so the air that shows is about 16.
+          const SizedBox(height: MmSpace.s4),
           QuestionActions(
             question: q,
             flow: state.saved ? 'review' : 'explore',
@@ -262,13 +263,15 @@ class _BottomBar extends StatelessWidget {
         child: Row(
           children: [
             if (state.index > 0) ...[
-              KeyButton.quiet(label: InsightsCopy.previous, onPressed: controller.previous),
+              KeyButton.quiet(label: InsightsCopy.previous, onPressed: () => controller.previous(q.id)),
               const SizedBox(width: MmSpace.s8),
             ],
             Expanded(
               child: answered
-                  ? KeyButton(label: InsightsCopy.next, onPressed: controller.next)
-                  : KeyButton.secondary(label: InsightsCopy.skip, onPressed: controller.skip),
+                  // Each key names the question it was drawn for, so a double tap moves on once and
+                  // never lands on the next question's key.
+                  ? KeyButton(label: InsightsCopy.next, onPressed: () => controller.next(q.id))
+                  : KeyButton.secondary(label: InsightsCopy.skip, onPressed: () => controller.skip(q.id)),
             ),
           ],
         ),
@@ -292,7 +295,7 @@ class _StreamSkeleton extends StatelessWidget {
             Skeleton.line(width: 200),
             SizedBox(height: MmSpace.s12),
             Skeleton(height: 72),
-            SizedBox(height: MmSpace.s20),
+            SizedBox(height: MmSpace.s16),
             Skeleton(height: 56, radius: MmRadius.key),
             SizedBox(height: MmSpace.s8),
             Skeleton(height: 56, radius: MmRadius.key),

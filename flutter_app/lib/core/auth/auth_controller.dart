@@ -296,7 +296,8 @@ class AuthController extends Notifier<AuthSnapshot> {
     final prefs = ref.read(appPrefsProvider);
     final previous = await prefs.lastUserId();
     if (previous != null && previous != user.id) {
-      // A different account on this phone: the earlier account's drafts, queue and caches go.
+      // A different account on this phone: the earlier account's queue and caches go. A paper the
+      // server can still accept stays, keyed to its own account (see AppDatabase.clearUserData).
       await ref.read(analyticsClientProvider).discardAll();
       await ref.read(appDatabaseProvider).clearUserData(previous);
       await ref.read(notificationServiceProvider).cancelAll();
@@ -331,6 +332,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       subjects: user.subjects,
       needsOnboarding: me.needsOnboarding,
       creditBalance: user.creditBalance,
+      profileFresh: !fromCache,
     );
     // Start the pieces that listen for sign-out, consent and reconnect events, and send
     // anything left over from the last run.
@@ -463,10 +465,12 @@ class AuthController extends Notifier<AuthSnapshot> {
     return service;
   }
 
-  /// Signs out on purpose: clears the tokens, this account's drafts and usage-data queue, and
-  /// scheduled reminders. The queued study writes stay ([keepQueuedWork], the default): they are
-  /// scoped to this account and send when it signs in again; signing in as a different account
-  /// removes them (see [_applyProfile]). Account deletion passes false. The screen warns about
+  /// Signs out on purpose: clears the tokens, this account's finished drafts and usage-data
+  /// queue, and scheduled reminders. The queued study writes stay ([keepQueuedWork], the
+  /// default), and so does any paper the server can still accept, with its answers: they are
+  /// scoped to this account and send or resume when it signs in again. Signing in as a different
+  /// account removes the queued writes but not those papers (see [_applyProfile]). Account
+  /// deletion passes false and removes everything. The screen warns about
   /// unsent answers and queued writes first (spec 5.12.4).
   ///
   /// Once the tokens are gone the student is signed out, whatever local cleanup does after.
@@ -488,7 +492,13 @@ class AuthController extends Notifier<AuthSnapshot> {
       // this account, so a different account clears what is left.
       var cleaned = true;
       if (userId != null) {
-        cleaned = await _bestEffort(() => ref.read(appDatabaseProvider).clearUserData(userId, keepOutbox: keepQueuedWork));
+        cleaned = await _bestEffort(() async {
+          final db = ref.read(appDatabaseProvider);
+          await db.clearUserData(userId, keepOutbox: keepQueuedWork);
+          // Papers the server can still accept stay with a sign-out; only deleting the account
+          // takes them too.
+          if (!keepQueuedWork) await db.purgeUserPapers(userId);
+        });
       }
       final prefs = ref.read(appPrefsProvider);
       if (cleaned && !keepQueuedWork) await _bestEffort(() => prefs.setLastUserId(null));

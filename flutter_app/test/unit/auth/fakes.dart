@@ -26,6 +26,9 @@ class FakeGateway implements SignInGateway {
   /// When set, verifying waits for it (to hold a screen in its signing-in state).
   Completer<void>? verifyHold;
 
+  /// When set, sending a code waits for it (to hold a screen in its sending state).
+  Completer<void>? sendHold;
+
   final List<String> sent = [];
   final List<(String, String)> verified = [];
   int googleCalls = 0;
@@ -39,6 +42,7 @@ class FakeGateway implements SignInGateway {
   @override
   Future<void> sendCode(String email) async {
     sent.add(email);
+    await sendHold?.future;
     final e = sendError;
     if (e != null) throw e;
   }

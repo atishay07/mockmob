@@ -2,7 +2,11 @@
 // (papers, repairs, weeks at your goal), each a card with its brass token, its steps on a rail,
 // the next step with exactly what lands it and an exact count where the app holds the record,
 // and a link to the record behind it. Never a badge wall: no locks, no guessed progress, nothing
-// expires. A step that just landed fades in once (L3).
+// expires. A step that just landed is the screen's one moment (T3), played once; Mobi is on the
+// page once (the landing's, or the end-of-path line) and speaks once per app run.
+//
+// Layout: every block sits on the 16 dp gutter (no inner 4 dp), and the paths are typeset
+// sections: 32 dp of air, a hairline, 16 dp, then the path (SPACING.md 3.1, audit RH2).
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +26,7 @@ import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
 import '../logic/milestone_tracks.dart';
 import '../logic/milestone_progress.dart';
+import '../widgets/rhythm_layout.dart';
 import '../widgets/rhythm_page.dart';
 import '../widgets/medal.dart';
 import '../widgets/proud_mobi.dart';
@@ -56,9 +61,14 @@ class YouMilestonesScreen extends ConsumerStatefulWidget {
 class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
   late final Set<String> _fresh = {...ref.read(celebrationControllerProvider).freshRows};
 
+  /// Mobi speaks his line on this screen once per app run (MOTION.md 1.3). Asked once, here, never
+  /// in build: asking uses the gate up.
+  late final bool _mobiSpeaks;
+
   @override
   void initState() {
     super.initState();
+    _mobiSpeaks = MobiRation.speakOnce('rhythm_milestones');
     // The fresh rows fade in once; remember nothing about them afterwards.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) ref.read(celebrationControllerProvider.notifier).clearFreshRows();
@@ -93,6 +103,7 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
         now: now,
         progress: milestoneProgress(attempts: ref.watch(attemptsRepositoryProvider).value, rhythm: snapshot.rhythm),
         freshIds: _fresh,
+        mobiSpeaks: _mobiSpeaks,
         asOf: snapshot.stale ? snapshot.fetchedAt : null,
       ),
     );
@@ -110,6 +121,7 @@ class MilestoneTimeline extends StatelessWidget {
     required this.now,
     this.progress = const {},
     this.freshIds = const {},
+    this.mobiSpeaks = true,
     this.asOf,
     this.onOpen,
     this.onStart,
@@ -122,6 +134,10 @@ class MilestoneTimeline extends StatelessWidget {
   /// Exact counts toward the next step (see `milestoneProgress`).
   final Map<String, int> progress;
   final Set<String> freshIds;
+
+  /// Mobi says his line at the two ends of the paths. False after he has said it once this app run:
+  /// he is still there, in the same pose, without the bubble.
+  final bool mobiSpeaks;
   final DateTime? asOf;
 
   /// Opens the record behind a path; defaults to pushing its location.
@@ -139,7 +155,10 @@ class MilestoneTimeline extends StatelessWidget {
     // Mobi speaks at the two ends of the paths only: before the first step, and once all landed.
     final none = tracks.every((t) => t.earned.isEmpty);
     final all = tracks.every((t) => t.complete);
-    final mobiLine = none ? RhythmCopy.milestonesMobiEmpty : (all ? RhythmCopy.milestonesMobiComplete : null);
+    // One Mobi on the page: when a step has just landed he stands beside that token, so the
+    // end-of-path Mobi stays away.
+    final landing = [for (final t in tracks) for (final s in t.earned) if (freshIds.contains(s.step.id)) s].isNotEmpty;
+    final mobiLine = landing ? null : (none ? RhythmCopy.milestonesMobiEmpty : (all ? RhythmCopy.milestonesMobiComplete : null));
     final landed = tracks.fold<int>(0, (n, t) => n + t.earned.length);
     final total = tracks.fold<int>(0, (n, t) => n + t.steps.length);
     // One entrance as the page arrives: the summary, Mobi at the ends, then each path in order.
@@ -151,7 +170,7 @@ class MilestoneTimeline extends StatelessWidget {
           MmStaggerItem(index: 0, child: _Summary(tracks: tracks, landed: landed, total: total)),
           if (asOf != null)
             Padding(
-              padding: const EdgeInsets.only(left: 4, top: MmSpace.s16),
+              padding: const EdgeInsets.only(top: MmSpace.s8),
               child: Text(RhythmCopy.asOf(asOf!), style: type.caption.copyWith(color: colors.ink3)),
             ),
           if (mobiLine != null)
@@ -160,34 +179,29 @@ class MilestoneTimeline extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: all
-                    ? ProudMobi(size: 72, say: mobiLine)
-                    : Mobi(pose: MobiPose.pointing, size: 72, motion: MobiMotion.settle, say: mobiLine),
+                    ? ProudMobi(size: 72, say: mobiSpeaks ? mobiLine : null, delay: kNumberLanded)
+                    : Mobi(pose: MobiPose.pointing, size: 72, motion: MobiMotion.settle, say: mobiSpeaks ? mobiLine : null),
               ),
             ),
           // Before the first step the one thing to do is a scored set, so it is the one volt key.
           if (none)
             Padding(
-              padding: const EdgeInsets.fromLTRB(4, MmSpace.s20, 4, 0),
+              padding: const EdgeInsets.only(top: MmSpace.s16),
               child: KeyButton(
                 label: RhythmCopy.startSet,
                 onPressed: onStart ?? () => GoRouter.maybeOf(context)?.push(AppRoutes.practiceStart),
               ),
             ),
           for (var k = 0; k < tracks.length; k++) ...[
-            const SizedBox(height: MmSpace.s32),
-            Divider(height: 1, thickness: 1, color: colors.line),
-            const SizedBox(height: MmSpace.s32),
+            const SectionBreak(),
             MmStaggerItem(
               index: k + 1,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: MilestoneTrackCard(
-                  track: tracks[k],
-                  dateOf: (d) => formatAchievedDate(d, zone, now),
-                  progress: progress,
-                  freshIds: freshIds,
-                  onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
-                ),
+              child: MilestoneTrackCard(
+                track: tracks[k],
+                dateOf: (d) => formatAchievedDate(d, zone, now),
+                progress: progress,
+                freshIds: freshIds,
+                onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
               ),
             ),
           ],
@@ -210,17 +224,15 @@ class _Summary extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Column(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           MonumentalNumber(
             value: '$landed',
             unit: RhythmCopy.ofLanded(total),
-            style: type.figure.copyWith(fontSize: 72, height: 66 / 72),
+            style: type.figure.copyWith(fontSize: 72),
             semanticsLabel: RhythmCopy.landedSummary(landed, total),
-            delay: Motion.enterDuration,
+            delay: kNumberRollDelay,
             onLanded: () => ref.read(hapticsProvider).selection(),
           ),
           const SizedBox(height: MmSpace.s16),
@@ -250,7 +262,6 @@ class _Summary extends ConsumerWidget {
             ),
           ),
         ],
-      ),
     );
   }
 }

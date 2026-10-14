@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
 
 /// A message where the runner cannot open a session: the fact and the way out. No question is
 /// open here, so Mobi may stand with the message ([mobi]); the paper itself never has him.
@@ -59,7 +60,7 @@ class RunnerMessage extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.fromLTRB(
           MmSpace.gutter,
-          padding.top + (centred ? MmSpace.s24 : MmSpace.s64),
+          padding.top + (centred ? MmSpace.s24 : MmSpace.s48),
           MmSpace.gutter,
           padding.bottom + MmSpace.s24,
         ),
@@ -116,7 +117,9 @@ class RunnerLoading extends StatefulWidget {
 
 class _RunnerLoadingState extends State<RunnerLoading> {
   Timer? _timer;
+  Timer? _slow;
   bool _show = false;
+  bool _slowShown = false;
 
   @override
   void initState() {
@@ -124,11 +127,16 @@ class _RunnerLoadingState extends State<RunnerLoading> {
     _timer = Timer(const Duration(milliseconds: 400), () {
       if (mounted) setState(() => _show = true);
     });
+    // After 8 seconds the wait says what is slow, in words (MOTION.md 4.15).
+    _slow = Timer(const Duration(seconds: 8), () {
+      if (mounted) setState(() => _slowShown = true);
+    });
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _slow?.cancel();
     super.dispose();
   }
 
@@ -141,36 +149,56 @@ class _RunnerLoadingState extends State<RunnerLoading> {
       child: !_show
           ? const SizedBox.expand()
           : SkeletonGroup(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(MmSpace.gutter, padding.top + MmSpace.s12, MmSpace.gutter, 0),
-                child: const Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Row(
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(MmSpace.gutter, padding.top + MmSpace.s12, MmSpace.gutter, 0),
+                    child: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Skeleton(width: 44, height: 44, radius: 22),
-                        SizedBox(width: MmSpace.s12),
-                        Skeleton(width: 72, height: 28),
-                        Spacer(),
-                        Skeleton(width: 104, height: 44, radius: 22),
+                        Row(
+                          children: [
+                            Skeleton(width: 44, height: 44, radius: 22),
+                            SizedBox(width: MmSpace.s12),
+                            Skeleton(width: 72, height: 28),
+                            Spacer(),
+                            Skeleton(width: 104, height: 44, radius: 22),
+                          ],
+                        ),
+                        SizedBox(height: MmSpace.s24),
+                        Skeleton.line(),
+                        SizedBox(height: MmSpace.s32),
+                        Skeleton.line(),
+                        SizedBox(height: MmSpace.s8),
+                        Skeleton.line(width: 220),
+                        SizedBox(height: MmSpace.s32),
+                        Skeleton(height: 56, radius: MmRadius.key),
+                        SizedBox(height: MmSpace.s12),
+                        Skeleton(height: 56, radius: MmRadius.key),
+                        SizedBox(height: MmSpace.s12),
+                        Skeleton(height: 56, radius: MmRadius.key),
+                        SizedBox(height: MmSpace.s12),
+                        Skeleton(height: 56, radius: MmRadius.key),
                       ],
                     ),
-                    SizedBox(height: MmSpace.s24),
-                    Skeleton.line(),
-                    SizedBox(height: MmSpace.s32),
-                    Skeleton.line(),
-                    SizedBox(height: MmSpace.s8),
-                    Skeleton.line(width: 220),
-                    SizedBox(height: MmSpace.s32),
-                    Skeleton(height: 56, radius: MmRadius.key),
-                    SizedBox(height: 10),
-                    Skeleton(height: 56, radius: MmRadius.key),
-                    SizedBox(height: 10),
-                    Skeleton(height: 56, radius: MmRadius.key),
-                    SizedBox(height: 10),
-                    Skeleton(height: 56, radius: MmRadius.key),
-                  ],
-                ),
+                  ),
+                  if (_slowShown)
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, padding.bottom + MmSpace.s32),
+                        child: Semantics(
+                          liveRegion: true,
+                          child: Text(
+                            RunnerCopy.stillOpening,
+                            textAlign: TextAlign.center,
+                            style: context.mmType.body.copyWith(color: colors.ink2),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
     );

@@ -72,7 +72,7 @@ class SectionTitle extends StatelessWidget {
               children: [
                 Semantics(header: true, child: Text(title, style: type.title)),
                 if (caption != null) ...[
-                  const SizedBox(height: 2),
+                  const SizedBox(height: MmSpace.s2),
                   Text(caption!, style: type.small.copyWith(color: context.mmColors.ink2)),
                 ],
               ],
@@ -131,7 +131,7 @@ class ProTag extends StatelessWidget {
     return DecoratedBox(
       decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: colors.lineStrong))),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 2),
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s2),
         child: Text(InsightsCopy.proTag, style: context.mmType.label.copyWith(color: colors.ink2, fontSize: 12)),
       ),
     );
@@ -423,7 +423,7 @@ class AskMobiStrip extends StatelessWidget {
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s8),
+          padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
           child: Row(
             children: [
               const MobiFace(size: 34, watchTaps: false),

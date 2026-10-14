@@ -89,7 +89,7 @@ class MistakeView extends StatelessWidget {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                height: 28,
+                height: 24,
                 child: IgnorePointer(
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -142,7 +142,7 @@ class MistakeView extends StatelessWidget {
             label: ReviewCopy.working,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [Skeleton.line(), SizedBox(height: 10), Skeleton.line(), SizedBox(height: 10), Skeleton.line(width: 180)],
+              children: [Skeleton.line(), SizedBox(height: MmSpace.s12), Skeleton.line(), SizedBox(height: MmSpace.s12), Skeleton.line(width: 180)],
             ),
           ),
         ];
@@ -297,7 +297,19 @@ class _StageMomentState extends State<StageMoment> {
     super.didChangeDependencies();
     if (_started) return;
     _started = true;
-    if (!widget.repaired) return;
+    _complete();
+  }
+
+  /// A repair the server acknowledged after this stage was already on screen (the explanation
+  /// landed first, the acknowledgement a moment later) completes it then, with the same beat.
+  @override
+  void didUpdateWidget(StageMoment old) {
+    super.didUpdateWidget(old);
+    if (widget.repaired && !old.repaired) _complete();
+  }
+
+  void _complete() {
+    if (!widget.repaired || _stage == MistakeStage.repaired || (_timer?.isActive ?? false)) return;
     if (Motion.reduced(context)) {
       _stage = MistakeStage.repaired;
     } else {

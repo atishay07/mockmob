@@ -173,6 +173,12 @@ class SessionSyncer {
     } on ApiError catch (e) {
       _handleError(e);
       return;
+    } on Object {
+      // Not an API failure (an unreadable reply, a local error): the pill must not stay on
+      // "sending" with nothing scheduled. Treated as any transient failure, so it backs off and
+      // tries again (review-03).
+      _handleError(const ApiError(kind: ApiErrorKind.unknown, code: 'unknown'));
+      return;
     }
     // More events arrived while this call was in flight.
     if (journal.lastSeq > _sentThroughSeq) _schedule(debounce);
@@ -213,6 +219,9 @@ class SessionSyncer {
   /// After a conflict the engine resumed from the server: adopt its acknowledged sequence and
   /// start sending again.
   void resumeAfterConflict({required int acknowledgedSequence}) {
+    // The student left the runner while the resume call was out: nothing is sent for a session
+    // they are no longer in (practice-06).
+    if (_disposed) return;
     _acknowledged = acknowledgedSequence;
     _sentThroughSeq = acknowledgedSequence;
     _stopped = false;

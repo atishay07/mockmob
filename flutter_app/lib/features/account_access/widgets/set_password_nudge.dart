@@ -29,9 +29,11 @@ class SetPasswordNudge extends ConsumerWidget {
           color: colors.raised,
           borderRadius: MmRadius.panelAll,
           border: Border.all(color: colors.line),
+          // Night draws depth with light and the hairline; Day with the card shadow.
+          boxShadow: colors.isNight ? null : colors.cardShadow,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(MmSpace.cardPadding),
+          padding: const EdgeInsets.all(MmSpace.s16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [

@@ -37,9 +37,13 @@ class CelebrationSlot extends ConsumerWidget {
 
 /// The moment itself. A first (L2) stands on the ground with no box: Mobi at 104 dp in his own
 /// pool of lamp light, the sentence in Bricolage 22, and for a met week the week dial with the
-/// real counts. A plain L1 is one compact glass line. Everything fades in over 240 ms; the lamp
-/// pool blooms once over 700 ms, the dial closes its own ring, Mobi hops once. Quiet mode is the
-/// same words with no motion.
+/// real counts. A plain L1 is one compact glass line. Everything fades in over 240 ms.
+///
+/// The ladder (MOTION.md 1.2): a moment is one number or object landing, then at most one light
+/// event, then Mobi once the thing has landed. A met week is the dial inking in and closing with
+/// its one sweep (the dial's own light, 1180 ms at most, inside `Motion.momentT2`), and Mobi
+/// arrives after it; the lamp pool never blooms on top of a sweep. A first with no ring has the
+/// pool bloom (700 ms) as its one light event. Quiet mode is the same words with no motion.
 class CelebrationMoment extends StatefulWidget {
   const CelebrationMoment({super.key, required this.celebration});
 
@@ -106,19 +110,24 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
     if (first) {
       final mobi = c.mobiHop;
       final lead = counted
-          ? WeekDial(done: c.studyDays!, goal: c.goal!, size: 104, showWords: false, animate: !c.textOnly)
+          ? WeekDial(done: c.studyDays!, goal: c.goal!, size: 104, showWords: false, animate: !c.textOnly, sweep: !c.textOnly)
           : (c.ring ? const RingSweep(label: RhythmCopy.weekDoneLabel, size: 72) : null);
+      // Mobi acts after the number has landed: after the ring's sweep, or after the sentence has
+      // faded in when there is no ring.
+      final mobiAfter = counted
+          ? WeekDial.settleAfter(done: c.studyDays!, goal: c.goal!, sweep: true)
+          : (c.ring ? Motion.milestone : Motion.card);
       // The words get the full width. Mobi sits with the ring (or beside the headline when there
       // is no ring) instead of squeezing the text into a column beside him.
       final Widget top = lead != null
           ? Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              children: [lead, if (mobi) ...[const SizedBox(width: MmSpace.s8), const ProudMobi(size: 104)]],
+              children: [lead, if (mobi) ...[const SizedBox(width: MmSpace.s8), ProudMobi(size: 104, delay: mobiAfter)]],
             )
           : (mobi
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [Expanded(child: headline ?? const SizedBox.shrink()), const SizedBox(width: MmSpace.s8), const ProudMobi(size: 96)],
+                  children: [Expanded(child: headline ?? const SizedBox.shrink()), const SizedBox(width: MmSpace.s8), ProudMobi(size: 96, delay: mobiAfter)],
                 )
               : (headline ?? const SizedBox.shrink()));
       final below = <Widget>[
@@ -128,11 +137,12 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
       body = Stack(
         clipBehavior: Clip.none,
         children: [
-          if (mobi)
+          // The pool is the light event of a first with no ring; with a ring the sweep is, and a
+          // second light would make two.
+          if (mobi && lead == null)
             Positioned(
-              left: lead != null ? 24 : null,
-              right: lead != null ? null : -28,
-              top: lead != null ? -24 : -30,
+              right: -MmSpace.s24 - MmSpace.s4,
+              top: -MmSpace.s32,
               width: 220,
               height: 220,
               child: IgnorePointer(
@@ -171,7 +181,7 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
           children: [
             if (c.ring) ...[
               if (counted)
-                WeekDial(done: c.studyDays!, goal: c.goal!, size: 72, showWords: false, animate: !c.textOnly)
+                WeekDial(done: c.studyDays!, goal: c.goal!, size: 72, showWords: false, animate: !c.textOnly, sweep: !c.textOnly)
               else
                 const RingSweep(label: RhythmCopy.weekDoneLabel, size: 52),
               const SizedBox(width: MmSpace.s16),

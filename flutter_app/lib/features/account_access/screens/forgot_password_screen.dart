@@ -13,6 +13,7 @@ import '../access_gateway.dart';
 import '../access_routes.dart';
 import '../widgets/access_field.dart';
 import '../widgets/access_page.dart';
+import '../widgets/form_message.dart';
 
 /// "Forgot password": the same emailed 8-digit code as the code sign-in (it signs the student
 /// in), then "Choose a new password". It uses MockMob's own login email, so it works without
@@ -182,11 +183,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               onSubmitted: _verify,
             ),
           ],
-          if (_problem != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            AccessProblemLine(message: _problem!),
-          ],
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s8),
+          FormMessage(problem: _problem, working: _sending || _checking),
+          const SizedBox(height: MmSpace.s16),
           if (sentTo == null)
             KeyButton(
               label: _sending ? AccessCopy.sendingCode : AccessCopy.emailMeCode,
@@ -202,7 +201,7 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
               loading: _checking,
               onPressed: _checking ? null : _verify,
             ),
-            const SizedBox(height: MmSpace.s8),
+            const SizedBox(height: MmSpace.s4),
             Wrap(
               spacing: MmSpace.s8,
               children: [

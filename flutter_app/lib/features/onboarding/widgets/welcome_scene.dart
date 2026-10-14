@@ -67,6 +67,10 @@ class ScenePalette {
     required this.night,
   });
 
+  /// Scene art, so its own pigments (SPACING.md 8.4: each raw colour names its Day twin):
+  /// desk walnut #7A5634 blended into the ground (30% Night, 20% Day); lamp shade #26221C Night,
+  /// #3B352C Day; paper #E6DDC9 Night (lamp-warm, never white on charcoal), #FFFCF4 Day; ring
+  /// binding #8E8676 in both (a mid grey that reads on either ground).
   factory ScenePalette.of(MmColors c) => ScenePalette(
         ground: c.ground,
         lamp: c.lamp,

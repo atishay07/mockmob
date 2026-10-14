@@ -22,6 +22,7 @@ import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -84,6 +85,8 @@ List<Override> onboardingOverrides({
     networkStatusProvider.overrideWith(() => _FakeNetwork(network)),
     appPrefsProvider.overrideWithValue(AppPrefs(appPrefs)),
     shouldPlayColdOpenProvider.overrideWith((ref) async => false),
+    // The Celebrations setting is read from this phone's store (Full until changed).
+    rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
     // The picker reads the live list; the default is what the server returns today.
     onboardingRegistryProvider.overrideWith((ref) async => registry ?? SubjectRegistry.fromRows(kSubjectRows)),
     apiClientProvider.overrideWithValue(newApiClient(http ?? FakeHttpAdapter())),

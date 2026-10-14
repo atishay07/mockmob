@@ -33,6 +33,7 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
   late final AnimationController _c = AnimationController(vsync: this);
   late List<double> _schedule;
   bool _reduced = false;
+  bool _begun = false;
 
   @override
   void initState() {
@@ -43,8 +44,18 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _reduced = Motion.reduced(context);
-    _start();
+    final reduced = Motion.reduced(context);
+    // Only the first build starts the line. A later change of the theme, the text scale or the
+    // keyboard insets must never retype a line the student has already read.
+    if (_begun && reduced == _reduced) return;
+    _reduced = reduced;
+    if (!_begun) {
+      _begun = true;
+      _start();
+    } else if (reduced) {
+      _c.stop();
+      _c.value = 1;
+    }
   }
 
   @override

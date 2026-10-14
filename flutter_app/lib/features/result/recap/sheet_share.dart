@@ -83,7 +83,7 @@ class SheetShareCard extends StatelessWidget {
                                 ),
                                 child: PaperFace(
                                   child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
+                                    padding: const EdgeInsets.all(MmSpace.s16),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.stretch,
                                       children: [
@@ -94,7 +94,7 @@ class SheetShareCard extends StatelessWidget {
                                             Text(ResultCopy.answeredOf(count, m.questionCount), style: type.caption.copyWith(color: colors.ink2, fontSize: 11)),
                                           ],
                                         ),
-                                        const SizedBox(height: 10),
+                                        const SizedBox(height: MmSpace.s8),
                                         BubbleGrid(
                                           states: answeredCells(m.cells),
                                           columns: 10,

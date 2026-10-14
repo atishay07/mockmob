@@ -84,32 +84,32 @@ class ChoiceTile extends ConsumerWidget {
             },
       builder: (context, pressed, _) {
         // A flat row (a rung on a ladder) never has a surface: its inked, numbered bubble says it
-        // is chosen. A tile is a raised surface with no rim; chosen, it takes a flat wash of the
-        // lamp's light instead of a frame, so a grid of them does not read as a grid of boxes.
+        // is chosen. A tile is a card; chosen, it is the selected surface with a 2 px ink border
+        // in both themes (SPACING.md 8.1): Night lifts to raised2, Day stays white, because
+        // Day's raised2 is darker than the page and would read as switched off. Volt is only in
+        // the bubble. Unchosen on Day, a hairline gives the white tile its edge on cream.
         final Color fill;
         if (flat) {
           fill = pressed ? colors.raised : Colors.transparent;
         } else if (selected) {
-          fill = Color.alphaBlend(
-            colors.lamp.withValues(alpha: colors.isNight ? 0.17 : 0.22),
-            colors.isNight ? colors.raised2 : colors.raised,
-          );
+          fill = colors.isNight ? colors.raised2 : colors.raised;
         } else {
-          fill = Color.lerp(colors.raised, colors.raised2, pressed ? 0.7 : 0)!;
+          fill = Color.lerp(colors.raised, colors.isNight ? colors.raised2 : colors.sunken, pressed ? 0.7 : 0)!;
+        }
+        final BorderSide side;
+        if (flat) {
+          side = BorderSide.none;
+        } else if (selected) {
+          side = BorderSide(color: colors.ink, width: 2);
+        } else {
+          side = colors.isNight ? BorderSide.none : BorderSide(color: colors.line);
         }
         return AnimatedContainer(
           duration: Motion.of(context, Motion.ui),
           curve: Motion.glide,
-          // A chosen tile (not a flat rung) is edged in volt, so the choice is plain at a glance
-          // and the same in Night and Daylight; the bubble and the wash still say it too.
           decoration: ShapeDecoration(
             color: fill,
-            shape: mmShapeBorder(
-              radius,
-              side: selected && !flat
-                  ? BorderSide(color: colors.isNight ? colors.volt.withValues(alpha: 0.85) : colors.accentText, width: 1.5)
-                  : BorderSide.none,
-            ),
+            shape: mmShapeBorder(radius, side: side),
           ),
           child: CustomPaint(
             foregroundPainter: flat || selected

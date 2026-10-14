@@ -221,6 +221,9 @@ abstract final class PracticeCopy {
   // Auto start.
   static const String gettingReady = 'Getting your questions ready.';
   static const String gettingReadyNote = 'This can take a few seconds.';
+
+  /// The start is still waiting after [PracticeStartScreen.slowAfter] (MOTION.md P1-7).
+  static const String gettingReadySlow = 'Still fetching. This sometimes takes a moment on slow networks.';
   static const String backToPractice = 'Back to Practice';
   static const String chooseAnother = 'Choose another';
 

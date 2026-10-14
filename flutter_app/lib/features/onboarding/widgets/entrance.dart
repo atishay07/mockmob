@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
 
-/// The order a step builds in (docs/brain/ui-blitz/onboarding.md, section 3): the headline rises
-/// word by word, the support line lifts, the answers lift one after another, the key lifts last.
-/// One controller per step drives all of it, so a step costs one ticker for about a second.
+/// The order a step builds in (MOTION.md 4.2): the headline lifts, the support line follows at
+/// 120 ms, the answers at 180 ms, 45 ms apart, the key at 300 ms. Only Welcome and the plan
+/// headline rise word by word ([RiseHeadline]); a step's question just lifts. One controller per
+/// step drives all of it, so a step costs one ticker for at most 800 ms.
 abstract final class Entrance {
-  /// The whole entrance, long enough for the last answer to land.
-  static const Duration total = Duration(milliseconds: 1000);
+  /// The whole entrance, long enough for the last answer to land (MOTION.md 1.1: 800 ms or less).
+  static const Duration total = Duration(milliseconds: 800);
 
   /// Headline words: rise 0.45 em, turned 6 degrees, with a small overshoot.
   static const Cubic rise = Cubic(0.3, 1.35, 0.46, 1);
@@ -17,13 +18,15 @@ abstract final class Entrance {
   static const Duration riseStart = Duration(milliseconds: 40);
   static const Duration wordStagger = Duration(milliseconds: 30);
 
-  /// Support, answers and the key: 14 dp up and 0.97 to 1 on the glide curve.
+  /// The headline, support, answers and the key: 14 dp up and 0.97 to 1 on the glide curve.
   static const Duration liftDuration = Duration(milliseconds: 340);
-  static const Duration support = Duration(milliseconds: 160);
+  static const Duration headline = Duration.zero;
+  static const Duration support = Duration(milliseconds: 120);
   static const Duration key = Duration(milliseconds: 300);
 
-  /// When answer [i] lifts: from 220 ms, 45 ms apart, capped so a long list never waits.
-  static Duration answer(int i) => Duration(milliseconds: 220 + 45 * math.min(i, 8));
+  /// When answer [i] lifts: from 180 ms, 45 ms apart, capped so a long list never waits and the
+  /// last one lands inside [total].
+  static Duration answer(int i) => Duration(milliseconds: 180 + 45 * math.min(i, 6));
 }
 
 /// Runs a step's entrance once, when it first appears. Under reduced motion (and in goldens) it

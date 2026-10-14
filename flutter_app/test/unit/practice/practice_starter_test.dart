@@ -323,4 +323,27 @@ void main() {
       expect({base.draftKey('u1'), harder.draftKey('u1'), more.draftKey('u1')}, hasLength(3));
     });
   });
+
+  group('practice-04: a start whose deadline is missing or already past is refused', () {
+    for (final (name, edit) in <(String, void Function(Map<String, dynamic>))>[
+      ('no expiresAt', (j) => j.remove('expiresAt')),
+      ('an unreadable expiresAt', (j) => j['expiresAt'] = 'soon'),
+      ('expiresAt at the server clock', (j) => j['expiresAt'] = DateTime.fromMillisecondsSinceEpoch(1000000, isUtc: true).toIso8601String()),
+    ]) {
+      test(name, () async {
+        http.handler = (options) {
+          final json = sessionViewJson(id: 'sess-9', count: 10, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000);
+          edit(json);
+          return FakeReply(200, json);
+        };
+        final outcome = await starter.start(quick, quote: _quote());
+        expect(outcome, isA<StartFailed>().having((f) => f.failure, 'failure', StartFailure.generic));
+        // Nothing reached the phone: no engine, no draft, no "started" bookkeeping, so no timer
+        // can submit an empty paper.
+        expect(engines, isEmpty);
+        expect(await drafts.bySessionId('sess-9'), isNull);
+        expect(started, isEmpty);
+      });
+    }
+  });
 }

@@ -76,7 +76,8 @@ class _WorryTile extends StatelessWidget {
     final type = context.mmType;
     final glyphColor = selected ? colors.ink : colors.ink2;
     final glyph = switch (worry) {
-      Worry.knewIt => TrapGlyph(size: 22, color: glyphColor, mark: colors.isNight ? colors.volt : colors.accentText),
+      // The ink in the bubble is a fill: volt in both themes, held by the ink ring (SPACING.md 8.3).
+      Worry.knewIt => TrapGlyph(size: 22, color: glyphColor, mark: colors.volt),
       Worry.time => Icon(LucideIcons.timer, size: 21, color: glyphColor),
       Worry.numericals => Icon(LucideIcons.calculator, size: 21, color: glyphColor),
       Worry.passages => Icon(LucideIcons.bookOpenText, size: 21, color: glyphColor),

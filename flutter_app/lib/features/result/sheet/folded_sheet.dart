@@ -24,7 +24,7 @@ class FoldedSheet extends StatelessWidget {
     required this.inside,
     required this.body,
     this.sweep,
-    this.shadow = 1,
+    this.day = false,
   });
 
   final SheetGeometry geometry;
@@ -36,8 +36,10 @@ class FoldedSheet extends StatelessWidget {
   /// The single light sweep across the open sheet (celebratory variants only).
   final Animation<double>? sweep;
 
-  /// Shadow strength on the desk: softer on warm paper (Daylight) than on charcoal.
-  final double shadow;
+  /// The room is Daylight. The sheet itself is the same charcoal object in both themes; only its
+  /// shadow on the desk changes (SPACING 8.2): a soft sepia shadow on paper, and on charcoal,
+  /// where a shadow cannot show, the paper's own lit edge does the work.
+  final bool day;
 
   static const double perspective = 0.0012;
 
@@ -63,7 +65,7 @@ class FoldedSheet extends StatelessWidget {
             right: 0,
             top: f,
             height: g.bodyHeight,
-            child: _DeskShadow(strength: shadow),
+            child: _DeskShadow(day: day),
           ),
           Positioned(
             left: 0,
@@ -72,7 +74,7 @@ class FoldedSheet extends StatelessWidget {
             height: f,
             child: AnimatedBuilder(
               animation: open,
-              builder: (context, _) => _DeskShadow(strength: shadow * ((open.value - 0.85) / 0.15).clamp(0.0, 1.0)),
+              builder: (context, _) => _DeskShadow(day: day, strength: ((open.value - 0.85) / 0.15).clamp(0.0, 1.0)),
             ),
           ),
           Positioned(
@@ -177,22 +179,32 @@ class _SheetWidth extends CustomClipper<Rect> {
   bool shouldReclip(_SheetWidth oldClipper) => false;
 }
 
+/// The sheet's shadow on the desk. An analytic rounded rect whose blur is at least 1.5 times its
+/// offset, drawn unclipped (SPACING 8.2). Night: a deep, wide shadow under the charcoal (it only
+/// reads at the edges; the paper's lit rim gives the edge). Day: sepia `0x1F2A2010`, blur 28,
+/// so the sheet rests on the cream instead of sitting on a hard grey strip.
 class _DeskShadow extends StatelessWidget {
-  const _DeskShadow({required this.strength});
+  const _DeskShadow({required this.day, this.strength = 1});
 
+  final bool day;
   final double strength;
+
+  static const Color daySepia = Color(0x1F2A2010);
 
   @override
   Widget build(BuildContext context) {
     if (strength <= 0.01) return const SizedBox.expand();
+    final shadows = day
+        ? [
+            BoxShadow(color: daySepia.withValues(alpha: daySepia.a * strength), blurRadius: 28, offset: const Offset(0, 12), spreadRadius: -2),
+            BoxShadow(color: Color.fromRGBO(42, 32, 16, 0.10 * strength), blurRadius: 4, offset: const Offset(0, 1)),
+          ]
+        : [
+            BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.4 * strength), blurRadius: 40, offset: const Offset(0, 16), spreadRadius: -8),
+            BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.16 * strength), blurRadius: 6, offset: const Offset(0, 1)),
+          ];
     return DecoratedBox(
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-        boxShadow: [
-          BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.4 * strength), blurRadius: 40, offset: const Offset(0, 16), spreadRadius: -8),
-          BoxShadow(color: Color.fromRGBO(0, 0, 0, 0.16 * strength), blurRadius: 6, offset: const Offset(0, 1)),
-        ],
-      ),
+      decoration: BoxDecoration(borderRadius: const BorderRadius.all(Radius.circular(10)), boxShadow: shadows),
     );
   }
 }

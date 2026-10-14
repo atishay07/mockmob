@@ -121,10 +121,13 @@ class _StateViewState extends State<StateView> {
   Widget _content(BuildContext context, bool compact) {
     final colors = context.mmColors;
     final type = context.mmType;
-    // Large enough to be the screen's picture, not a speck on an empty canvas (was 112 dp).
-    final artSize = compact ? 96.0 : 148.0;
+    // Large enough to be the screen's picture, not a speck on an empty canvas (SPACING.md 6: 140).
+    final artSize = compact ? 96.0 : 140.0;
 
-    return Center(
+    // The stack sits at the optical centre, about 42% down the free height (SPACING.md 6), not the
+    // geometric one: dead-centre reads as sinking.
+    return Align(
+      alignment: const Alignment(0, -0.16),
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxWidth: 420),
         child: Padding(
@@ -140,7 +143,7 @@ class _StateViewState extends State<StateView> {
                   index: 0,
                   rise: 8,
                   child: SizedBox(
-                    height: artSize * 1.5,
+                    height: artSize * 1.3,
                     child: Stack(
                       alignment: Alignment.bottomCenter,
                       children: [
@@ -177,7 +180,7 @@ class _StateViewState extends State<StateView> {
                   ),
                 ],
                 if (primary != null) ...[
-                  const SizedBox(height: MmSpace.s20),
+                  const SizedBox(height: MmSpace.s24),
                   MmStaggerItem(
                     index: 3,
                     child: KeyedSubtree(key: _action, child: KeyButton(label: primary!.label, onPressed: primary!.onPressed, loading: primary!.loading)),

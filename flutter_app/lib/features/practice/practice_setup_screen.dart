@@ -62,8 +62,10 @@ class _PracticeSetupScreenState extends ConsumerState<PracticeSetupScreen> {
                     const PracticeAppBar(),
                     Expanded(
                       // Start is pinned at the bottom: the dock is hidden here, like the runner.
+                      // Keyed by the page, not the subject: a default that settles late is
+                      // applied inside the composer, keeping what the student already set.
                       child: PracticeComposer(
-                        key: ValueKey(initial.subjectId),
+                        key: ValueKey('setup-${widget.mode.name}'),
                         initial: initial,
                         // A link asking for a length this mode does not offer says so here.
                         askedCount: widget.link.count,

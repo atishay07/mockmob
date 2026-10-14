@@ -14,6 +14,8 @@ import '../data/repair_state.dart';
 import '../data/review_providers.dart';
 import 'life_row.dart';
 import 'mistake_run.dart';
+import 'review_layout.dart';
+import 'review_moment.dart';
 
 /// How the run can start, from the explanation wallet (spec 5.8 entry).
 class EntryPlan {
@@ -60,10 +62,12 @@ class EntryPlan {
   bool get hasWords => headline != null || line != null;
 }
 
-/// The threshold of a repair, on the moment layer: the subject's light and object in the upper
-/// right, the chapter as the headline, the number of mistakes as the monumental figure (rolling
+/// The threshold of a repair, on the moment layer: the subject's light and object in the header
+/// band, the chapter as the headline, the number of mistakes as the monumental figure (rolling
 /// in), the mistakes themselves as bubbles that ink in one after another, the thread they will
-/// walk drawn flat on the ground, what it costs, and Begin pinned at the bottom.
+/// walk drawn flat on the ground, and under the thread what it costs. The block sits at the
+/// optical centre of the room above the pinned action band, which holds Begin alone, full width.
+/// There is one object here (the emblem) and no Mobi.
 class RepairEntryView extends StatefulWidget {
   const RepairEntryView({
     super.key,
@@ -118,6 +122,12 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
     final light = SubjectLight.forSubject(run.subjectId);
     final large = MediaQuery.textScalerOf(context).scale(10) > 11.5;
     final numbers = [for (final s in run.steps) s.item.number];
+    final artSize = large ? 80.0 : ReviewSpace.artSize;
+    final artBox = artSize + 20;
+    // The overline and the title keep clear of the emblem: its box, less the bleed, plus 12 dp of
+    // air. The emblem box bleeds 10 dp past the moment gutter, so it reaches artBox - 10 + 10 into
+    // the content column.
+    final bandRight = artBox + MmSpace.s12 - ReviewSpace.artBleedRight;
 
     return Stack(
       children: [
@@ -133,154 +143,129 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
               child: LightField.subject(context, light, center: const Alignment(0.95, -0.9), strength: colors.isNight ? 1.1 : 0.9),
             ),
           ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s4, MmSpace.gutter, 0),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: widget.onClose,
-                    tooltip: 'Close',
-                    icon: Icon(LucideIcons.x, color: colors.ink),
-                  ),
-                ],
-              ),
+        MomentBody(
+          header: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s4, ReviewSpace.moment, 0),
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: widget.onClose,
+                  tooltip: 'Close',
+                  icon: Icon(LucideIcons.x, color: colors.ink),
+                ),
+              ],
             ),
-            Expanded(
-              child: LayoutBuilder(
-                builder: (context, box) => SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, MmSpace.s16),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: box.maxHeight - MmSpace.s8 - MmSpace.s16),
-                    child: IntrinsicHeight(
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // The header band: overline and chapter, with the emblem beside them, bled 10 dp past
+              // the right edge so its drawing ends on the gutter.
+              ConstrainedBox(
+                constraints: BoxConstraints(minHeight: artBox - ReviewSpace.artBleedRight),
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: bandRight),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(minHeight: 128),
-                            child: Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(right: large ? 40 : 112),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${run.source}, ${subjectName(run.subjectId)}',
-                                        style: type.caption.copyWith(color: colors.ink2),
-                                      ),
-                                      const SizedBox(height: MmSpace.s4),
-                                      Semantics(
-                                        header: true,
-                                        child: Text(
-                                          run.chapter,
-                                          style: type.moment.copyWith(fontSize: 32, height: 34 / 32),
-                                          maxLines: large ? 5 : 4,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Positioned(
-                                  right: -44,
-                                  top: -32,
-                                  child: IgnorePointer(
-                                    child: RepaintBoundary(
-                                      child: AnimatedBuilder(
-                                        animation: _artCurve,
-                                        child: SubjectEmblem(subject: run.subjectId, size: 160, framed: false, animate: true),
-                                        builder: (context, child) {
-                                          final t = _artCurve.value;
-                                          return Opacity(
-                                            opacity: t.clamp(0.0, 1.0),
-                                            child: Transform.translate(
-                                              offset: Offset(0, 10 * (1 - t)),
-                                              child: Transform.scale(scale: 0.92 + 0.08 * t, child: child),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
+                          Text(
+                            '${run.source}, ${subjectName(run.subjectId)}',
+                            style: type.caption.copyWith(color: colors.ink2),
+                          ),
+                          const SizedBox(height: MmSpace.s4),
+                          Semantics(
+                            header: true,
+                            child: Text(
+                              run.chapter,
+                              style: type.moment.copyWith(fontSize: 32, height: 34 / 32),
+                              maxLines: large ? 5 : 4,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          const SizedBox(height: MmSpace.s20),
-                          MonumentalNumber(
-                            value: '$n',
-                            unit: n == 1 ? 'mistake' : 'mistakes',
-                            style: type.hero.copyWith(fontSize: 112, height: 96 / 112),
-                            // The roll waits for the page to arrive, then lands with one tick.
-                            delay: Motion.result,
-                            onLanded: () => mmHapticsOf(context)?.selection(),
-                            semanticsLabel: reopen ? '${plural(n, 'mistake')}, already repaired' : '${plural(n, 'mistake')} to repair',
-                          ),
-                          const SizedBox(height: MmSpace.s8),
-                          Text(
-                            reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n)),
-                            style: type.lead.copyWith(color: colors.ink2),
-                          ),
-                          const SizedBox(height: MmSpace.s24),
-                          MistakeRun(numbers: numbers, state: reopen ? BubbleState.filled : BubbleState.wrong, inkIn: true),
-                          const SizedBox(height: MmSpace.s32),
-                          // The thread, flat on the ground: where each of these is headed.
-                          LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
-                          const SizedBox(height: MmSpace.s16),
-                          Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
-                          const Spacer(),
                         ],
                       ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-            // The close: what it costs in words, then Mobi pointing at the one volt key. The words sit
-            // on their own line, full width, so the hand never touches them.
-            Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, MmSpace.s16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  if (widget.plan.hasWords && !reopen) ...[
-                    if (widget.plan.headline != null)
-                      Semantics(
-                        header: true,
-                        child: Text(widget.plan.headline!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
-                      ),
-                    if (widget.plan.headline != null && widget.plan.line != null) const SizedBox(height: MmSpace.s4),
-                    if (widget.plan.line != null)
-                      Text(widget.plan.line!, style: type.body.copyWith(color: widget.plan.headline == null ? colors.ink : colors.ink2)),
-                    const SizedBox(height: MmSpace.s16),
-                  ],
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      if (!large) ...[
-                        Mobi(pose: reopen ? MobiPose.rest : MobiPose.point, size: 88, motion: MobiMotion.settle),
-                        const SizedBox(width: MmSpace.s12),
-                      ],
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: MmSpace.s4),
-                          child: KeyButton(label: reopen ? ReviewCopy.begin : widget.plan.primary, onPressed: widget.onBegin),
+                    Positioned(
+                      right: -ReviewSpace.artBleedRight,
+                      top: -MmSpace.s8,
+                      width: artBox,
+                      height: artBox,
+                      child: IgnorePointer(
+                        child: RepaintBoundary(
+                          child: AnimatedBuilder(
+                            animation: _artCurve,
+                            child: Center(child: SubjectEmblem(subject: run.subjectId, size: artSize, framed: false)),
+                            builder: (context, child) {
+                              final t = _artCurve.value;
+                              return Opacity(
+                                opacity: t.clamp(0.0, 1.0),
+                                child: Transform.translate(
+                                  offset: Offset(0, 8 * (1 - t)),
+                                  child: Transform.scale(scale: 0.94 + 0.06 * t, child: child),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                  if (widget.plan.offerKeys && !reopen)
-                    Align(
-                      child: KeyButton.quiet(label: ReviewCopy.readKeys, onPressed: widget.onReadKeys),
                     ),
-                ],
+                  ],
+                ),
               ),
+              const SizedBox(height: MmSpace.s12),
+              MonumentalNumber(
+                value: '$n',
+                unit: n == 1 ? 'mistake' : 'mistakes',
+                style: type.hero.copyWith(fontSize: 112, height: 96 / 112),
+                // The roll waits for the page to arrive, then lands with one tick.
+                delay: Motion.result,
+                onLanded: () => mmHapticsOf(context)?.selection(),
+                semanticsLabel: reopen ? '${plural(n, 'mistake')}, already repaired' : '${plural(n, 'mistake')} to repair',
+              ),
+              const SizedBox(height: MmSpace.s8),
+              Text(
+                reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n)),
+                style: type.lead.copyWith(color: colors.ink2),
+              ),
+              const SizedBox(height: MmSpace.s24),
+              MistakeRun(numbers: numbers, state: reopen ? BubbleState.filled : BubbleState.wrong, inkIn: true),
+              const SizedBox(height: MmSpace.s32),
+              // The thread, flat on the ground: where each of these is headed.
+              LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
+              const SizedBox(height: MmSpace.s12),
+              Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
+              // What it costs, in words, directly under the thread.
+              if (widget.plan.hasWords && !reopen) ...[
+                const SizedBox(height: MmSpace.s24),
+                if (widget.plan.headline != null)
+                  Semantics(
+                    header: true,
+                    child: Text(widget.plan.headline!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
+                  ),
+                if (widget.plan.headline != null && widget.plan.line != null) const SizedBox(height: MmSpace.s4),
+                if (widget.plan.line != null)
+                  Text(widget.plan.line!, style: type.body.copyWith(color: widget.plan.headline == null ? colors.ink : colors.ink2)),
+              ],
+            ],
+          ),
+          // The pinned band holds the one volt key and, when the wallet is short, the quiet way to
+          // read the key explanations instead.
+          bar: Padding(
+            padding: const EdgeInsets.fromLTRB(ReviewSpace.moment, MmSpace.s4, ReviewSpace.moment, MmSpace.s16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                KeyButton(label: reopen ? ReviewCopy.begin : widget.plan.primary, onPressed: widget.onBegin),
+                if (widget.plan.offerKeys && !reopen)
+                  Align(
+                    child: KeyButton.quiet(label: ReviewCopy.readKeys, onPressed: widget.onReadKeys),
+                  ),
+              ],
             ),
-          ],
+          ),
         ),
       ],
     );

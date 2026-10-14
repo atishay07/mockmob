@@ -17,6 +17,20 @@ final onboardingAnswersProvider = AsyncNotifierProvider<AnswersController, Onboa
   retry: (count, error) => null,
 );
 
+/// True while the newest change to the sheet could not be written to the phone (a full or
+/// failing storage). The flow says so with a "Try again"; the next successful write clears it.
+final onboardingSaveFailedProvider = NotifierProvider<SaveFailed, bool>(SaveFailed.new);
+
+class SaveFailed extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  /// Called by the write queue after each write.
+  void report({required bool failed}) {
+    if (state != failed) state = failed;
+  }
+}
+
 class AnswersController extends AsyncNotifier<OnboardingAnswers> {
   /// True once the stored sheet was read (or found missing) in this build of the provider, or
   /// the student chose to start fresh over a backed-up one. Writes wait for it.
@@ -68,19 +82,45 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     return true;
   }
 
+  /// The way out when the stored sheet cannot be read and could not be backed up either (a
+  /// full or failing phone storage), so [startFresh] and Retry would leave the student stuck.
+  /// Only after the student confirmed: the unreadable sheet is given up and a new one starts.
+  /// One more backup is tried first, so a sheet is kept whenever the storage allows it.
+  Future<void> discardUnreadable() async {
+    if (readError == null) return;
+    await ref.read(answersStoreProvider).backUpStored();
+    if (!ref.mounted || readError == null) return;
+    _readOk = true;
+    state = const AsyncData(OnboardingAnswers.empty);
+  }
+
   void _set(OnboardingAnswers next) {
     // Until the stored sheet is read, a write would replace it with what is on screen.
     if (!_readOk) return;
     // The per-student seed is picked once, with the first answer.
     if (next.seed == null) next = next.copyWith(seed: ref.read(nowProvider)().millisecondsSinceEpoch & 0x7fffffff);
     state = AsyncData(next);
-    // Saved on the phone in order, in the background; a failed write is retried by the next one.
+    // Saved on the phone in order, in the background; a failed write is reported (see
+    // [onboardingSaveFailedProvider]) and retried by the next one, or by [retrySave].
     final store = ref.read(answersStoreProvider);
     _queue(() => store.save(next));
   }
 
-  /// Completes when every change so far is on the phone (tests, and before leaving the flow).
-  Future<void> flushed() => _writes;
+  bool _lastSaveOk = true;
+
+  /// Completes when every change so far has been written, with whether the newest write
+  /// reached the phone. The flow waits on it before moving to the next step, and when the app
+  /// goes to the background, so an answer the student saw is an answer on the phone.
+  Future<bool> flushed() => _writes.then((_) => _lastSaveOk);
+
+  /// Writes the sheet on screen again after a failed save ("Try again" on the notice).
+  Future<bool> retrySave() {
+    final a = state.value;
+    if (!_readOk || a == null) return flushed();
+    final store = ref.read(answersStoreProvider);
+    _queue(() => store.save(a));
+    return flushed();
+  }
 
   void edit(OnboardingAnswers Function(OnboardingAnswers a) change) => _set(change(_current));
 
@@ -190,36 +230,47 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
   ///   back, or starts a new one.
   ///
   /// Nothing happens while the stored sheet cannot be read.
+  ///
+  /// A change made while the hand-over waits on the phone's storage (a tap on the step still on
+  /// screen) does not stop it: the hand-over decides again with the changed sheet, which is put
+  /// away for its owner, so the signed-in account never keeps the previous one's sheet.
   Future<void> takeFor(String userId) async {
-    final a = state.value;
-    if (!_readOk || a == null || a.owner == userId) return;
     final store = ref.read(answersStoreProvider);
-    final now = ref.read(nowProvider)();
-    if (a.owner == null && !a.blank) {
-      _set(a.copyWith(owner: userId));
-      // A finished sheet made since replaces the one this account had put away.
-      if (a.sealed) _queue(() => store.dropParked(userId, now));
+    for (var attempt = 0; attempt < _takeAttempts; attempt++) {
+      final a = state.value;
+      if (!ref.mounted || !_readOk || a == null || a.owner == userId) return;
+      final now = ref.read(nowProvider)();
+      if (a.owner == null && !a.blank) {
+        _set(a.copyWith(owner: userId));
+        // A finished sheet made since replaces the one this account had put away.
+        if (a.sealed) _queue(() => store.dropParked(userId, now));
+        return;
+      }
+      await _writes;
+      final OnboardingAnswers? own;
+      try {
+        own = await store.parked(userId, now);
+        // The leaving sheet is safely put away before anything replaces it. If that write
+        // fails, nothing changes and the next change tries again.
+        if (identical(state.value, a)) await _putAway(a, store, now);
+      } on Object {
+        return;
+      }
+      if (!ref.mounted || !_readOk) return;
+      // Something changed the sheet meanwhile: decide again with the sheet as it is now.
+      if (!identical(state.value, a)) continue;
+      // A blank sheet nobody owned keeps its place in the deck; another account's starts over.
+      final next = own ?? (a.owner == null ? a : OnboardingAnswers.empty).copyWith(owner: userId);
+      state = AsyncData(next);
+      _queue(() => store.save(next));
+      if (own != null) _queue(() => store.dropParked(userId, now));
+      await _writes;
       return;
     }
-    await _writes;
-    final OnboardingAnswers? own;
-    try {
-      own = await store.parked(userId, now);
-      // The leaving sheet is safely put away before anything replaces it. If that write fails,
-      // nothing changes and the next change tries again.
-      if (identical(state.value, a)) await _putAway(a, store, now);
-    } on Object {
-      return;
-    }
-    // Something changed the sheet meanwhile: the next change decides again.
-    if (!ref.mounted || !identical(state.value, a) || !_readOk) return;
-    // A blank sheet nobody owned keeps its place in the deck; another account's starts over.
-    final next = own ?? (a.owner == null ? a : OnboardingAnswers.empty).copyWith(owner: userId);
-    state = AsyncData(next);
-    _queue(() => store.save(next));
-    if (own != null) _queue(() => store.dropParked(userId, now));
-    await _writes;
   }
+
+  /// How many times [takeFor] decides again when the sheet keeps changing under it.
+  static const int _takeAttempts = 5;
 
   /// Takes the sheet off the screen when [userId] signs out on purpose, so the next student on
   /// this phone starts their own. Unsent answers are put away for [userId] until it signs in
@@ -270,5 +321,15 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     await store.park(a, now);
   }
 
-  void _queue(Future<void> Function() write) => _writes = _writes.then((_) => write()).catchError((Object _) {});
+  void _queue(Future<void> Function() write) {
+    _writes = _writes.then((_) => write()).then(
+      (_) => _reportSave(ok: true),
+      onError: (Object _) => _reportSave(ok: false),
+    );
+  }
+
+  void _reportSave({required bool ok}) {
+    _lastSaveOk = ok;
+    if (ref.mounted) ref.read(onboardingSaveFailedProvider.notifier).report(failed: !ok);
+  }
 }

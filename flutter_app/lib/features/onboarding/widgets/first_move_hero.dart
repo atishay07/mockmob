@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -7,8 +8,10 @@ import '../model/plan.dart';
 
 /// The first move as a hero (brief section 11, step 11): the subject's light field, "10
 /// questions to your starting point" (or "10 questions in Physics" for plain practice) in
-/// monumental figures and the volt start key. The later option is a plain link under the card,
-/// not a second button inside it. No object art: the step's Mobi points at the start key.
+/// monumental figures and the volt start key. The later option ("Tomorrow at 8:00 PM") is a
+/// ghost key 8 dp under it (SPACING-AUDIT O3): a control that looks like one, quieter than the
+/// one volt key. Once chosen it becomes a line saying when. No object art: the step's Mobi
+/// points at the start key.
 class FirstMoveHero extends StatelessWidget {
   const FirstMoveHero({
     super.key,
@@ -79,30 +82,59 @@ class FirstMoveHero extends StatelessWidget {
           Text(move.framing, style: type.body.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s20),
           KeyedSubtree(key: startKey, child: KeyButton(label: move.startLabel, onPressed: onStart)),
+          const SizedBox(height: MmSpace.s8),
+          // The same 48 dp either way, so choosing "later" moves nothing.
+          SizedBox(
+            height: MmTarget.min,
+            child: laterChosen
+                ? Center(
+                    child: Semantics(
+                      liveRegion: true,
+                      child: Text(
+                        OnboardingCopy.setFor(later),
+                        style: type.small.copyWith(color: colors.ink),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                : GhostKey(label: later, onPressed: onLater),
+          ),
         ],
       ),
     );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        card,
-        const SizedBox(height: MmSpace.s8),
-        if (laterChosen)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: MmSpace.s12, horizontal: MmSpace.s4),
-            child: Semantics(
-              liveRegion: true,
-              child: Text(
-                OnboardingCopy.setFor(later),
-                style: type.small.copyWith(color: colors.ink),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          )
-        else
-          Center(child: KeyButton.quiet(label: later, onPressed: onLater)),
-      ],
+    return card;
+  }
+}
+
+/// A ghost key: 48 dp, a 1 dp `line` border and no fill, the label in ink. The second action
+/// under a volt key (SPACING.md 5: one volt pill per screen, every other key ghost or quiet).
+/// It sinks under the finger like every key.
+class GhostKey extends StatelessWidget {
+  const GhostKey({super.key, required this.label, required this.onPressed});
+
+  final String label;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      semanticsLabel: label,
+      focusRadius: MmRadius.pillAll,
+      haptic: MmPressHaptic.selection,
+      onTap: onPressed,
+      builder: (context, pressed, _) => AnimatedContainer(
+        duration: Motion.of(context, Motion.ui),
+        curve: Motion.glide,
+        height: MmTarget.min,
+        alignment: Alignment.center,
+        decoration: ShapeDecoration(
+          color: pressed ? colors.sunken : Colors.transparent,
+          shape: mmShapeBorder(MmRadius.pillAll, side: BorderSide(color: colors.lineStrong)),
+        ),
+        child: Text(label, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.button.copyWith(color: colors.ink)),
+      ),
     );
   }
 }

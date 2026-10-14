@@ -175,7 +175,10 @@ class _DayShapeState extends State<DayShape>
                     track: colors.isNight ? colors.raised : colors.sunken,
                     trackBorder: colors.line,
                     quiet: colors.isNight ? colors.lineStrong : colors.ink4,
-                    study: colors.isNight ? colors.volt : colors.accentText,
+                    // The study window is volt on both themes (a filled mark is volt); on the paper
+                    // track Day edges it with a 1 dp olive rim so it reads.
+                    study: colors.volt,
+                    studyRim: colors.isNight ? null : colors.accentText,
                     clash: _ClashInk.of(colors),
                     ground: colors.ground,
                   ),
@@ -277,9 +280,11 @@ class _LegendLine extends StatelessWidget {
     final colors = context.mmColors;
     final color = switch (swatch) {
       _Swatch.quiet => colors.isNight ? colors.lineStrong : colors.ink4,
-      _Swatch.study => colors.isNight ? colors.volt : colors.accentText,
+      _Swatch.study => colors.volt,
       _Swatch.clash => colors.warnText,
     };
+    // The same Day rim as the bar's study mark.
+    final rim = swatch == _Swatch.study && !colors.isNight ? colors.accentText : null;
     return Row(
       children: [
         SizedBox(
@@ -288,7 +293,11 @@ class _LegendLine extends StatelessWidget {
           child: swatch == _Swatch.clash
               ? CustomPaint(painter: _HatchSwatchPainter(_ClashInk.of(colors)))
               : DecoratedBox(
-                  decoration: BoxDecoration(color: color, borderRadius: MmRadius.pillAll),
+                  decoration: BoxDecoration(
+                    color: color,
+                    borderRadius: MmRadius.pillAll,
+                    border: rim == null ? null : Border.all(color: rim),
+                  ),
                 ),
         ),
         const SizedBox(width: MmSpace.s8),
@@ -325,6 +334,7 @@ class _DayPainter extends CustomPainter {
     required this.trackBorder,
     required this.quiet,
     required this.study,
+    this.studyRim,
     required this.clash,
     required this.ground,
   });
@@ -336,6 +346,9 @@ class _DayPainter extends CustomPainter {
   final Color trackBorder;
   final Color quiet;
   final Color study;
+
+  /// Day only: a 1 dp edge round the study mark.
+  final Color? studyRim;
   final _ClashInk clash;
   final Color ground;
 
@@ -414,10 +427,18 @@ class _DayPainter extends CustomPainter {
     // The study window and any overlap sit over the bar as their own rounded marks, so they are
     // never clipped by the bar's ends.
     for (final s in studySpans) {
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(_markRect(s, size.width, minStudyWidth), const Radius.circular(markRadius)),
-        Paint()..color = study,
-      );
+      final mark = RRect.fromRectAndRadius(_markRect(s, size.width, minStudyWidth), const Radius.circular(markRadius));
+      canvas.drawRRect(mark, Paint()..color = study);
+      final rim = studyRim;
+      if (rim != null) {
+        canvas.drawRRect(
+          mark.deflate(0.5),
+          Paint()
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1
+            ..color = rim,
+        );
+      }
     }
     for (final o in overlapOf(quietSpans, studySpans)) {
       _paintHatch(
@@ -445,6 +466,7 @@ class _DayPainter extends CustomPainter {
       old.hasQuiet != hasQuiet ||
       old.hasWindow != hasWindow ||
       old.study != study ||
+      old.studyRim != studyRim ||
       old.quiet != quiet ||
       old.track != track ||
       old.clash.fill != clash.fill;

@@ -4,13 +4,14 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart' show MmPressHaptic, MmPressable, MmRhythm, Skeleton, SkeletonGroup;
+import '../../../core/widgets/widgets.dart' show MmPressHaptic, MmPressable, Skeleton, SkeletonGroup;
 import '../copy.dart';
 
-/// A group heading in the Bricolage title cut, with the group gap above and the item gap
-/// below, so the page reads as a few clear groups and not one long list.
+/// A group heading in the Bricolage title cut, on the gutter (the same left edge as the cards),
+/// with the section gap above (32) and 12 below, so the page reads as a few clear groups and
+/// not one long list.
 class SectionHeading extends StatelessWidget {
-  const SectionHeading(this.text, {super.key, this.topGap = MmRhythm.group});
+  const SectionHeading(this.text, {super.key, this.topGap = MmSpace.group});
 
   final String text;
   final double topGap;
@@ -18,7 +19,7 @@ class SectionHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top: topGap, bottom: MmRhythm.item, left: 4),
+      padding: EdgeInsets.only(top: topGap, bottom: MmSpace.s12),
       child: Semantics(
         header: true,
         child: Text(text, style: context.mmType.title),
@@ -27,15 +28,17 @@ class SectionHeading extends StatelessWidget {
   }
 }
 
-/// A line of quiet explanation under a heading or a row.
+/// A line of quiet explanation on the gutter. Under a card it sits 8 below it; straight under a
+/// heading ([afterHeading]) the heading's own 12 is the whole gap.
 class QuietNote extends StatelessWidget {
-  const QuietNote(this.text, {super.key});
+  const QuietNote(this.text, {super.key, this.afterHeading = false});
 
   final String text;
+  final bool afterHeading;
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(left: 4, top: MmSpace.s8),
+    padding: EdgeInsets.only(top: afterHeading ? 0 : MmSpace.s8),
     child: Text(
       text,
       style: context.mmType.caption.copyWith(color: context.mmColors.ink2),
@@ -43,8 +46,9 @@ class QuietNote extends StatelessWidget {
   );
 }
 
-/// A row with a label and a time or value in a tappable pill (a picker opens). The whole row is
-/// the target, at least 60 dp tall: it presses edge to edge with the veil and a selection tick.
+/// A row with a label and a time or value (a picker opens). The whole row is the target, 48 dp
+/// tall: it presses edge to edge with the veil and a selection tick. Text starts on E1 (16 in
+/// the card) and the chevron ends on E1 from the right.
 class ValueRow extends StatelessWidget {
   const ValueRow({
     super.key,
@@ -79,9 +83,9 @@ class ValueRow extends StatelessWidget {
         pressedScale: 0.985,
         focusRadius: BorderRadius.zero,
         builder: (context, pressed, _) => ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 60),
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s6),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
             child: Row(
               children: [
                 Expanded(
@@ -134,9 +138,9 @@ class ActionRow extends StatelessWidget {
         pressedScale: 0.985,
         focusRadius: BorderRadius.zero,
         builder: (context, pressed, _) => ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 56),
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s6),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
             child: Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
@@ -208,9 +212,9 @@ class ChannelRow extends ConsumerWidget {
         pressedScale: 0.985,
         focusRadius: BorderRadius.zero,
         builder: (context, pressed, _) => ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 64),
+          constraints: const BoxConstraints(minHeight: 56),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20, vertical: MmSpace.s12),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -219,7 +223,7 @@ class ChannelRow extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: dimmed ? colors.ink2 : colors.ink)),
-                      const SizedBox(height: 2),
+                      const SizedBox(height: MmSpace.s2),
                       Text(body, style: type.caption.copyWith(color: dimmed ? colors.ink3 : colors.ink2)),
                       if (note != null) ...[
                         const SizedBox(height: MmSpace.s4),
@@ -228,7 +232,7 @@ class ChannelRow extends ConsumerWidget {
                           children: [
                             if (noteIsWarning)
                               Padding(
-                                padding: const EdgeInsets.only(top: 2, right: MmSpace.s8),
+                                padding: const EdgeInsets.only(top: MmSpace.s2, right: MmSpace.s8),
                                 child: Icon(LucideIcons.triangleAlert, size: 16, color: colors.warnText),
                               ),
                             Expanded(
@@ -247,7 +251,7 @@ class ChannelRow extends ConsumerWidget {
                 // The row handles the tap, so the switch sits outside the semantics tree.
                 if (blocked)
                   Padding(
-                    padding: const EdgeInsets.only(top: 2),
+                    padding: const EdgeInsets.only(top: MmSpace.s2),
                     child: Text(
                       value ? NotificationsCopy.channelBlockedState : NotificationsCopy.channelOffState,
                       style: type.labelLarge.copyWith(color: colors.ink3),
@@ -275,10 +279,11 @@ class Hairline extends StatelessWidget {
       SizedBox(height: 1, child: ColoredBox(color: context.mmColors.line));
 }
 
-/// The settings list while the first read is in flight, in the real layout: a status block, the
-/// day bar with its hours, then four rows each with a title, a line and a switch. On the ground
-/// with the warm light sweeping across it (it sweeps a few times, then rests; still under
-/// reduced motion).
+/// The settings list while the first read is in flight, in the real layout: a status row, the
+/// day bar with its hours and legend, then four rows each with a title, a line and a switch.
+/// On the ground with the warm light sweeping across it (it sweeps a few times, then rests; still
+/// under reduced motion). Gaps come from the same scale as the page, so the page does not jump
+/// when the settings land.
 class LoadingRows extends StatelessWidget {
   const LoadingRows({super.key});
 
@@ -286,7 +291,7 @@ class LoadingRows extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     Widget row(int i) => Padding(
-      padding: const EdgeInsets.symmetric(vertical: MmSpace.s16),
+      padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
       child: Row(
         children: [
           Expanded(
@@ -310,7 +315,7 @@ class LoadingRows extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // The status pane: a round mark, two lines, and the key.
+          // The status row: a round mark and two lines.
           const Row(
             children: [
               Skeleton.circle(size: 40),
@@ -327,17 +332,20 @@ class LoadingRows extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: MmSpace.s16),
-          const Skeleton(height: 52, radius: 26),
-          const SizedBox(height: MmRhythm.section),
-          const Skeleton.line(width: 84, height: 18),
-          const SizedBox(height: MmRhythm.item),
+          const SizedBox(height: MmSpace.s24),
+          const Skeleton.line(width: 84, height: 20),
+          const SizedBox(height: MmSpace.s12),
+          // The day bar, its hours and its two legend lines.
           const Skeleton(height: 36, radius: 18),
+          const SizedBox(height: MmSpace.s8),
+          const Skeleton.line(height: 12),
           const SizedBox(height: MmSpace.s12),
           const Skeleton.line(width: 200, height: 12),
-          const SizedBox(height: MmRhythm.section),
-          const Skeleton.line(width: 190, height: 18),
           const SizedBox(height: MmSpace.s8),
+          const Skeleton.line(width: 190, height: 12),
+          const SizedBox(height: MmSpace.group),
+          const Skeleton.line(width: 190, height: 20),
+          const SizedBox(height: MmSpace.s12),
           for (var i = 0; i < 4; i++) ...[
             if (i > 0) SizedBox(height: 1, child: ColoredBox(color: colors.line.withValues(alpha: 0.8))),
             row(i),

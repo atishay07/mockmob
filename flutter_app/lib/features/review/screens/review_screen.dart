@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +21,7 @@ import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
 import '../widgets/page_header.dart';
+import '../widgets/review_layout.dart';
 import '../widgets/review_state_view.dart';
 import '../widgets/review_status.dart';
 import '../widgets/tonight_card.dart';
@@ -63,7 +66,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 
     // The offline line lives in the header row, which is tall enough for it: nothing below moves.
     final header = Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16),
+      padding: const EdgeInsets.fromLTRB(ReviewSpace.gutter, MmSpace.s8, ReviewSpace.gutter, MmSpace.s16),
       child: ReviewTabHeader(title: ReviewCopy.title, notice: attempts.isStale ? HeaderNotice.offline : null),
     );
 
@@ -125,7 +128,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final clock = ref.watch(reviewClockProvider);
     final lateNight = clock.isLateNight && ref.watch(lateNightLinesProvider);
     Widget gutter(Widget child, {double top = 0}) =>
-        Padding(padding: EdgeInsets.fromLTRB(MmSpace.gutter, top, MmSpace.gutter, 0), child: child);
+        Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
 
     final unopened = [
       for (final p in inputs.unopened)
@@ -139,7 +142,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     if (index.attempts.isEmpty && unopened.isEmpty) {
       return [
         SizedBox(
-          height: 560,
+          // The empty state is centred in what is left under the header and above the dock.
+          height: math.max(480.0, MediaQuery.sizeOf(context).height - MediaQuery.paddingOf(context).top - 72 - 96),
           child: ReviewStateView(
             kind: StateViewKind.empty,
             pose: MobiPose.read,
@@ -163,7 +167,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     return [
       for (final (id, label) in unopened.take(1))
         item(unopenedAt, gutter(UnopenedResultRow(label: label, onOpen: () => context.push(AppRoutes.resultSealed(id))), top: 0)),
-      if (unopened.isNotEmpty) const SizedBox(height: MmRhythm.group),
+      if (unopened.isNotEmpty) const SizedBox(height: ReviewSpace.group),
       if (tonight != null)
         item(
           heroAt,
@@ -192,10 +196,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           ),
         ),
       if (groups.isNotEmpty) ...[
-        item(mapAt, gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)), top: MmRhythm.section)),
+        item(mapAt, gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)), top: ReviewSpace.section)),
         // The progress line and its bar teach the colours of the map under it.
         item(mapAt, gutter(RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount))),
-        const SizedBox(height: MmRhythm.item),
+        const SizedBox(height: ReviewSpace.item),
         item(
           mapAt,
           gutter(
@@ -209,34 +213,21 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           ),
         ),
         if (groups.length > tabChapterLimit)
-          gutter(
-            Align(
-              alignment: Alignment.centerLeft,
-              child: KeyButton.quiet(
-                label: ReviewCopy.seeAllChapters(groups.length),
-                onPressed: () => context.push(AppRoutes.reviewMistakes),
-              ),
-            ),
-          ),
+          gutter(FlushKey(label: ReviewCopy.seeAllChapters(groups.length), onPressed: () => context.push(AppRoutes.reviewMistakes))),
       ],
-      if (index.blanks case final blanks?) item(belowAt, gutter(NotAttemptedGroup(group: blanks), top: MmRhythm.group)),
+      if (index.blanks case final blanks?) item(belowAt, gutter(NotAttemptedGroup(group: blanks), top: ReviewSpace.group)),
       // The record's numbers and the saved questions (the website's analytics and saved pages).
-      item(belowAt, gutter(const ReviewInsightsRows(), top: MmRhythm.section)),
-      item(belowAt, gutter(SectionHeading(ReviewCopy.recordHeading), top: MmRhythm.section)),
+      item(belowAt, gutter(const ReviewInsightsRows(), top: ReviewSpace.section)),
+      item(belowAt, gutter(SectionHeading(ReviewCopy.recordHeading, rule: true), top: ReviewSpace.section)),
       if (records.isEmpty)
         gutter(Text(ReviewCopy.recordPreviewEmpty, style: context.mmType.body.copyWith(color: context.mmColors.ink2)))
       else ...[
         for (var i = 0; i < records.take(2).length; i++)
           gutter(RecordEntry(item: records[i], clock: clock, first: i == 0, last: i == records.take(2).length - 1)),
-        gutter(
-          Align(
-            alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(label: ReviewCopy.seeRecord, onPressed: () => context.push(AppRoutes.reviewRecord)),
-          ),
-        ),
+        gutter(FlushKey(label: ReviewCopy.seeRecord, onPressed: () => context.push(AppRoutes.reviewRecord))),
       ],
       if (mocks.isNotEmpty) ...[
-        gutter(SectionHeading(ReviewCopy.pastHeading), top: MmRhythm.section),
+        gutter(SectionHeading(ReviewCopy.pastHeading, rule: true), top: ReviewSpace.section),
         for (final a in mocks)
           gutter(
             PastResultRow(
@@ -305,10 +296,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   }
 }
 
-/// No open mistakes: the hero is still one field of light on the ground, not a card. The number of
+/// No open mistakes: the same hero card as the full tab, at the same gutter. The number of
 /// mistakes repaired so far is the figure (only when there are some: a set-aside question is not a
-/// repaired one), the title is its small caption, Mobi reads at its right, and the one volt key
-/// starts the next Quick 10, because that is the next step.
+/// repaired one), the title is its small caption, Mobi reads at its right (the one character on
+/// this screen), and the one volt key starts the next Quick 10, because that is the next step.
 class _AllClear extends StatelessWidget {
   const _AllClear({this.setAside = 0, this.repaired = 0, required this.onStart});
 
@@ -321,111 +312,103 @@ class _AllClear extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final lit = colors.isNight ? colors.volt : colors.accentText;
-    const bleed = MmSpace.gutter;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Positioned(
-          left: -bleed,
-          right: -bleed,
-          top: -MmSpace.s20,
-          height: 360,
-          child: IgnorePointer(
-            child: LightField(
-              pools: [
-                LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.2 : 0.16), center: const Alignment(0.7, -0.5), radius: 0.7, aspect: 1.4),
-                LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.12 : 0.1), center: const Alignment(-1.1, -1.1), radius: 0.7),
+    const mobi = Mobi(pose: MobiPose.read, size: 96, motion: MobiMotion.settle);
+    return MmSurface.hero(
+      lit: true,
+      padding: const EdgeInsets.all(ReviewSpace.heroPad),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (repaired > 0) ...[
+            Semantics(header: true, child: Text(ReviewCopy.allClearTitle, style: type.caption.copyWith(color: colors.ink2))),
+            const SizedBox(height: MmSpace.s8),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerLeft,
+                    child: MonumentalNumber(
+                      value: '$repaired',
+                      unit: 'repaired',
+                      style: type.figure.copyWith(fontSize: 72, height: 64 / 72),
+                      delay: Motion.enterDuration,
+                      onLanded: () => mmHapticsOf(context)?.selection(),
+                      semanticsLabel: '$repaired ${ReviewCopy.endingUnit(repaired)}',
+                    ),
+                  ),
+                ),
+                mobi,
               ],
             ),
-          ),
-        ),
-        Positioned(
-          left: -bleed,
-          right: -bleed,
-          top: 0,
-          height: 3,
-          child: IgnorePointer(
-            child: CustomPaint(painter: LitEdgePainter(color: lit, radius: 0, width: 1.5)),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s24, MmSpace.s4, 0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (repaired > 0) ...[
-                Semantics(header: true, child: Text(ReviewCopy.allClearTitle, style: type.caption.copyWith(color: colors.ink2))),
-                const SizedBox(height: MmSpace.s8),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        alignment: Alignment.centerLeft,
-                        child: MonumentalNumber(
-                          value: '$repaired',
-                          unit: 'repaired',
-                          style: type.figure.copyWith(fontSize: 72, height: 64 / 72),
-                          delay: Motion.enterDuration,
-                          onLanded: () => mmHapticsOf(context)?.selection(),
-                          semanticsLabel: '$repaired ${ReviewCopy.endingUnit(repaired)}',
-                        ),
-                      ),
-                    ),
-                    const Mobi(pose: MobiPose.read, size: 112, motion: MobiMotion.settle),
-                  ],
+          ] else
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Semantics(header: true, child: Text(ReviewCopy.allClearTitle, style: type.headline)),
                 ),
-              ] else
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Semantics(header: true, child: Text(ReviewCopy.allClearTitle, style: type.headline)),
-                    ),
-                    const SizedBox(width: MmSpace.s8),
-                    const Mobi(pose: MobiPose.read, size: 112, motion: MobiMotion.settle),
-                  ],
-                ),
-              const SizedBox(height: MmSpace.s8),
-              Text(
-                setAside > 0 ? ReviewCopy.allClearSetAside(setAside) : ReviewCopy.allClearMessage,
-                style: type.lead.copyWith(color: colors.ink2),
-              ),
-              const SizedBox(height: MmSpace.s24),
-              KeyButton(label: ReviewCopy.allClearAction, onPressed: onStart),
-              const SizedBox(height: MmSpace.s4),
-            ],
+                const SizedBox(width: MmSpace.s8),
+                mobi,
+              ],
+            ),
+          const SizedBox(height: MmSpace.s8),
+          Text(
+            setAside > 0 ? ReviewCopy.allClearSetAside(setAside) : ReviewCopy.allClearMessage,
+            style: type.lead.copyWith(color: colors.ink2),
           ),
-        ),
-      ],
+          const SizedBox(height: MmSpace.s16),
+          KeyButton(label: ReviewCopy.allClearAction, onPressed: onStart),
+        ],
+      ),
     );
   }
 }
 
-/// Loading: the hero's shape, then the map's heading and its rows, on the ground with the shared
-/// shimmer. It mirrors the loaded tab so nothing jumps when the data lands.
+/// Loading: the hero card's shape (overline, two title lines, the number, a line, the bubble row,
+/// the key), then the map's heading and its rows, on the ground with the shared shimmer. Its
+/// heights are the real tab's, so nothing jumps when the data lands.
 class _ReviewSkeleton extends StatelessWidget {
   const _ReviewSkeleton();
 
   @override
   Widget build(BuildContext context) {
-    return const SkeletonGroup(
+    return SkeletonGroup(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+        padding: const EdgeInsets.symmetric(horizontal: ReviewSpace.gutter),
         child: SingleChildScrollView(
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              MmSkeletonCard(hero: true),
-              SizedBox(height: MmRhythm.section),
-              Skeleton.line(width: 200, height: 22),
-              SizedBox(height: MmRhythm.tight),
-              Skeleton.line(width: 150, height: 14),
-              SizedBox(height: MmRhythm.group),
-              MmSkeletonRows(rows: 3),
+              MmSurface.hero(
+                padding: const EdgeInsets.all(ReviewSpace.heroPad),
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Skeleton.line(width: 120, height: 12),
+                    SizedBox(height: MmSpace.s8),
+                    Skeleton.line(width: 160, height: 22),
+                    SizedBox(height: MmSpace.s8),
+                    Skeleton.line(width: 120, height: 22),
+                    SizedBox(height: MmSpace.s12),
+                    Skeleton(width: 120, height: 64),
+                    SizedBox(height: MmSpace.s12),
+                    Skeleton.line(width: 220, height: 14),
+                    SizedBox(height: MmSpace.s16),
+                    Skeleton.line(width: 200, height: 20),
+                    SizedBox(height: MmSpace.s12),
+                    Skeleton(height: 56, radius: 999),
+                  ],
+                ),
+              ),
+              const SizedBox(height: ReviewSpace.section),
+              const Skeleton.line(width: 200, height: 22),
+              const SizedBox(height: MmSpace.s8),
+              const Skeleton.line(width: 150, height: 14),
+              const SizedBox(height: ReviewSpace.group),
+              const MmSkeletonRows(rows: 3),
             ],
           ),
         ),

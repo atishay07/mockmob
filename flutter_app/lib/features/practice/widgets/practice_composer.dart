@@ -23,6 +23,7 @@ import 'failure_copy.dart';
 import 'get_panel.dart';
 import 'other_subjects_sheet.dart';
 import 'plain_notice.dart';
+import 'top_edge_fade.dart' show BarFade;
 
 /// Where the composer sends the student. The host decides how (a sheet pops first).
 class ComposerExits {
@@ -224,6 +225,18 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
     _c.addListener(_changed);
   }
 
+  /// The host's starting subject settled late (the setup page follows the student's default until
+  /// their papers load). It is applied through the controller, so the length, level and chapters
+  /// already set are kept (ROBUSTNESS practice-09); a subject the student picked here wins.
+  @override
+  void didUpdateWidget(PracticeComposer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final next = widget.initial.subjectId;
+    if (next == oldWidget.initial.subjectId || _selection.subjectId == next) return;
+    if (_selection.subjectId != oldWidget.initial.subjectId) return;
+    _c.change(_selection.copyWith(subjectId: next, clearChapters: true));
+  }
+
   void _changed() {
     if (mounted) setState(() {});
   }
@@ -292,6 +305,8 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         subject: subject,
         count: mode.usesCount ? _selection.count : mockQuestionCount,
         semanticsLabel: PracticeCopy.confirmTitle(eyebrow, subject),
+        // On the setup page the paper flies on into the start screen (and back from it).
+        heroTag: widget.pinKey ? ComposerTicket.pageHeroTag : null,
       ),
       const SizedBox(height: MmSpace.s16),
       if (widget.showSubjects) ...[
@@ -514,27 +529,12 @@ class _Pinned extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                  // The last control scrolls fully clear of the fade above Start.
+                  padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, BarFade.extent + MmSpace.s16),
                   children: content,
                 ),
               ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                height: 32,
-                child: IgnorePointer(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [colors.ground.withValues(alpha: 0), colors.ground],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              const BarFade(),
             ],
           ),
         ),

@@ -47,7 +47,12 @@ class ApiSessionApi implements SessionApi {
       options: const ApiOptions(retries: 0),
       expectUserId: userId,
     );
-    return (response.map['acknowledgedSequence'] as num?)?.toInt() ?? 0;
+    final ack = response.map['acknowledgedSequence'];
+    if (ack == null) return 0;
+    // A reply that is not a number is no acknowledgement: an ApiError the syncer retries, not a
+    // TypeError that skips the rest of a pause (review-03).
+    if (ack is! num) throw const ApiError(kind: ApiErrorKind.server, code: unusableAttemptCode);
+    return ack.toInt();
   }
 
   @override

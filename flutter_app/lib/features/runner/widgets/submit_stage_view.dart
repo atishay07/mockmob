@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -67,7 +69,9 @@ class SubmitStageView extends StatelessWidget {
         ],
         SubmitStage.sending => [
           const KeyButton(label: RunnerCopy.sending, onPressed: null, loading: true, semanticsLabel: RunnerCopy.sending),
-          const SizedBox(height: 56),
+          // The room the quiet key takes in the other stages (its gap and its 48 dp target), so
+          // nothing moves when sending starts. After 12 seconds the line of words appears in it.
+          const SizedBox(height: MmSpace.s8 + MmTarget.min, child: _StillSending()),
         ],
         SubmitStage.received => [
           _Arrive(
@@ -98,6 +102,60 @@ class SubmitStageView extends StatelessWidget {
           KeyButton.secondary(label: RunnerCopy.goToPractice, onPressed: onGoPractice),
         ],
       },
+    );
+  }
+}
+
+/// The words an indeterminate wait gets after 12 seconds (MOTION.md 1.1): the sending key keeps
+/// turning, and a line under it says the answers are safe. It fades in over 200 ms in the room
+/// reserved for it (never a layout change) and is read out once as a polite live region.
+class _StillSending extends StatefulWidget {
+  const _StillSending();
+
+  /// How long a wait is silent before it explains itself.
+  static const Duration after = Duration(seconds: 12);
+
+  @override
+  State<_StillSending> createState() => _StillSendingState();
+}
+
+class _StillSendingState extends State<_StillSending> {
+  Timer? _timer;
+  bool _show = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer(_StillSending.after, () {
+      if (mounted) setState(() => _show = true);
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Semantics(
+      liveRegion: true,
+      container: true,
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(top: MmSpace.s12),
+          child: AnimatedOpacity(
+            opacity: _show ? 1 : 0,
+            duration: Motion.of(context, Motion.crossFade),
+            child: _show
+                ? Text(RunnerCopy.stillSending, textAlign: TextAlign.center, style: context.mmType.small.copyWith(color: colors.ink2))
+                : const SizedBox.shrink(),
+          ),
+        ),
+      ),
     );
   }
 }

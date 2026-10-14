@@ -11,6 +11,7 @@ import '../../../core/sync/session/session_engine.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../data/runner_effects.dart';
 import '../data/runner_session.dart';
@@ -66,8 +67,9 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
     if (!mounted || _left) return;
     final state = _s.submitState.value;
     if (state.stage != SubmitStage.received || _handOff != null) return;
-    // The server has the answers: the success pattern, the follow-up reads, then the result.
-    unawaited(ref.read(hapticsProvider).success());
+    // The server has the answers: the success pattern, the follow-up reads, then the result. The
+    // Celebrations setting Off is words only, so the buzz goes with the rest of the moment.
+    if (ref.read(celebrationModeProvider) != CelebrationMode.off) unawaited(ref.read(hapticsProvider).success());
     ref.read(runnerAfterSubmitProvider)(_s);
     _handOff = Timer(SubmitPage.handOffDelay, _openResult);
   }
@@ -134,6 +136,9 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
     final colors = context.mmColors;
     final type = context.mmType;
     final padding = MediaQuery.viewPaddingOf(context);
+    // Celebrations (MOTION.md 1.2): Full keeps the ink and Mobi's hop, Quiet keeps the ink and the
+    // words, Off shows the end state and the words.
+    final celebrations = ref.watch(celebrationModeProvider);
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, _) {
@@ -207,6 +212,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                                         session: _s,
                                         lit: state.stage.index <= SubmitStage.received.index,
                                         phase: _phaseOf(state.stage),
+                                        animateInk: celebrations != CelebrationMode.off,
                                         onGoTo: idle ? _goToQuestion : null,
                                       ),
                               ),
@@ -216,7 +222,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                               Text(RunnerCopy.cannotChange, style: type.body.copyWith(color: colors.ink2)),
                             ],
                             // Mobi is there for the hand-in only, once the server holds the sheet.
-                            if (!nta && state.stage == SubmitStage.received) const _HandInMobi(),
+                            if (!nta && state.stage == SubmitStage.received && celebrations == CelebrationMode.full) const _HandInMobi(),
                           ],
                         ),
                       ),
@@ -234,7 +240,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                       onGoToday: () => _go(AppRoutes.today),
                       onGoPractice: () => _go(AppRoutes.practice),
                       submitLabel: nta ? NtaCopy.submitTestShort : null,
-                      arriveReceipt: !nta,
+                      arriveReceipt: !nta && celebrations != CelebrationMode.off,
                       note: nta
                           ? null
                           : Text(
@@ -316,23 +322,25 @@ class _HandInMobiState extends State<_HandInMobi> {
         height: _HandInMobi.size + 2 * _HandInMobi.air,
         child: Center(
           child: _landed
-              // A pool of volt light under Mobi (the one warm light of the page), so its dark
-              // feet and antenna read against the near-black ground.
+              // At Night a pool of volt light under Mobi (the one warm light of the page), so its dark
+              // feet and antenna read against the near-black ground. Daylight has no glows
+              // (MOTION.md 1.4): Mobi reads on the paper as he is.
               ? Stack(
                   alignment: Alignment.center,
                   clipBehavior: Clip.none,
                   children: [
-                    ExcludeSemantics(
-                      child: SizedBox.square(
-                        dimension: _HandInMobi.size * 1.9,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: RadialGradient(colors: [colors.volt.withValues(alpha: colors.isNight ? 0.16 : 0.28), colors.volt.withValues(alpha: 0)]),
+                    if (colors.isNight)
+                      ExcludeSemantics(
+                        child: SizedBox.square(
+                          dimension: _HandInMobi.size * 1.9,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: RadialGradient(colors: [colors.volt.withValues(alpha: 0.16), colors.volt.withValues(alpha: 0)]),
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     const Mobi(pose: MobiPose.cheer, size: _HandInMobi.size),
                   ],
                 )

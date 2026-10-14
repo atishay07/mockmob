@@ -49,7 +49,20 @@ class EmblemPalette {
     required this.ring,
   });
 
+  /// The palette for [subject] on [brightness]. Built once per identity and theme: a list of
+  /// emblems rebuilds this on every frame it scrolls, and the HSL work is not free on a budget
+  /// phone. Subjects that only have initials share one entry (they share one ink).
   factory EmblemPalette.of(SubjectIdentity subject, Brightness brightness) {
+    final key = '${subject.hasEmblem ? subject.id : 'other'}|${brightness.name}';
+    return _cache.putIfAbsent(key, () => EmblemPalette._compute(subject, brightness));
+  }
+
+  static final Map<String, EmblemPalette> _cache = {};
+
+  /// How many palettes are held (for tests): at most 17 identities by 2 themes.
+  static int get cached => _cache.length;
+
+  factory EmblemPalette._compute(SubjectIdentity subject, Brightness brightness) {
     final night = brightness == Brightness.dark;
     final mid = subject.formInk(brightness);
     final deep = subject.formInkDeep(brightness);
@@ -77,7 +90,9 @@ class EmblemPalette {
         mid: mid,
         midShade: Color.lerp(mid, deep, 0.48)!,
         deep: deep,
-        shadow: const Color(0x99000000),
+        // The soft ellipse fades from this peak to nothing, so its area-weighted mean is about
+        // 0.31 of it: 0xC7 (78%) reads as the 24% black Night contact shadow of SPACING 8.4.
+        shadow: const Color(0xC7000000),
         volt: const Color(0xFFD2F000),
         voltInk: const Color(0xFF0B1000),
         voltRing: const Color(0xFF9DB400),
@@ -104,6 +119,8 @@ class EmblemPalette {
       mid: mid,
       midShade: Color.lerp(mid, deep, 0.45)!,
       deep: deep,
+      // Peak 38%, mean about 12% over the ellipse: the 12% Daylight contact shadow of SPACING 8.4,
+      // tinted with the subject's own deep ink so it reads as sepia on paper, not grey.
       shadow: Color.lerp(deep, const Color(0xFF000000), 0.35)!.withValues(alpha: 0.38),
       volt: const Color(0xFFD2F000),
       voltInk: const Color(0xFF0B1000),

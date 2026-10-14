@@ -6,6 +6,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import 'review_layout.dart';
 
 /// The question as it was answered, on solid ground (the work layer never has art behind
 /// reading): an optional passage, the question, and the options with the student's answer and
@@ -65,12 +66,13 @@ class MarkedOption extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    // One loud row: the correct answer, in a strong ink outline on a lifted surface. Your wrong
+    // One loud row: the correct answer, in a strong 2 px ink outline on the selected surface (lifted
+    // on Night; Day keeps its white, since its raised2 is darker than the page). Your wrong
     // answer is quiet: the same hairline as the others, with its cross and its words doing the
     // work, so the two never shout at once.
     final (fill, border, bubble, word) = switch (mark) {
       OptionMark.yours => (colors.raised, colors.line, BubbleState.wrong, ReviewCopy.yourAnswer),
-      OptionMark.correct => (colors.raised2, colors.ink, BubbleState.filled, ReviewCopy.correctAnswer),
+      OptionMark.correct => (selectedSurfaceOf(colors), colors.ink, BubbleState.filled, ReviewCopy.correctAnswer),
       OptionMark.none => (colors.raised, colors.line, BubbleState.hollow, null),
     };
     final textColor = mark == OptionMark.correct ? colors.ink : colors.ink2;
@@ -94,7 +96,7 @@ class MarkedOption extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 1),
+                  padding: const EdgeInsets.only(top: MmSpace.s2),
                   child: SizedBox.square(
                     dimension: 22,
                     child: Stack(
@@ -114,7 +116,7 @@ class MarkedOption extends StatelessWidget {
                     children: [
                       Text(text, style: type.body.copyWith(color: textColor, fontWeight: mark == OptionMark.correct ? FontWeight.w600 : null)),
                       if (word != null) ...[
-                        const SizedBox(height: 4),
+                        const SizedBox(height: MmSpace.s4),
                         Text(word, style: type.label.copyWith(color: mark == OptionMark.yours ? colors.badText : colors.ink)),
                       ],
                     ],

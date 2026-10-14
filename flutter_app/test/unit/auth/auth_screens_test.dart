@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -10,7 +12,8 @@ import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:mockmob/features/auth/auth_page.dart' show BackKey;
+import 'package:mockmob/features/auth/auth_page.dart' show AuthPage, BackKey;
+import 'package:mockmob/features/account_access/access_copy.dart';
 import 'package:mockmob/features/account_access/access_gateway.dart'
     show accountAccessGatewayProvider;
 import 'package:mockmob/features/auth/auth_routes.dart';
@@ -507,4 +510,197 @@ void main() {
       },
     );
   }
+
+  group('spacing and motion (phase 2)', () {
+    const tall = Size(384, 853);
+
+    testWidgets(
+      'the account turning signed in under the sign-in screen offers the sheet (the app was killed mid sign-in)',
+      (tester) async {
+        final gateway = FakeGateway();
+        await _pump(tester, gateway: gateway, size: tall);
+        final container = ProviderScope.containerOf(
+          tester.element(find.byType(AuthPage)),
+        );
+        // ignore: invalid_use_of_protected_member
+        container.read(authSnapshotProvider.notifier).state =
+            const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1');
+        await tester.pumpAndSettle();
+        expect(gateway.sheetLaunches, 1);
+      },
+    );
+
+    testWidgets('a problem line comes without moving the field or the key', (
+      tester,
+    ) async {
+      await _pump(tester, gateway: FakeGateway(), size: tall);
+      final key = find.widgetWithText(KeyButton, AuthCopy.sendCode);
+      final keyBefore = tester.getTopLeft(key);
+      final fieldBefore = tester.getTopLeft(find.byType(TextField));
+      final titleBefore = tester.getTopLeft(find.text(AuthCopy.signInTitle));
+
+      await _sendCodeFor(tester, 'asha@');
+      expect(find.textContaining('does not look right'), findsOneWidget);
+      expect(tester.getTopLeft(key), keyBefore);
+      expect(tester.getTopLeft(find.byType(TextField)), fieldBefore);
+      expect(tester.getTopLeft(find.text(AuthCopy.signInTitle)), titleBefore);
+    });
+
+    testWidgets('the new-student help rests where a problem will appear', (
+      tester,
+    ) async {
+      await _pump(tester, gateway: FakeGateway(), size: tall);
+      final help = find.text(AuthCopy.newHere);
+      expect(help, findsOneWidget);
+      final helpTop = tester.getTopLeft(help).dy;
+      await _sendCodeFor(tester, 'asha@');
+      expect(find.text(AuthCopy.newHere), findsNothing);
+      final problem = find.textContaining('does not look right');
+      expect(tester.getTopLeft(problem).dy, closeTo(helpTop, 1));
+    });
+
+    testWidgets('a wrong code comes without moving the key', (tester) async {
+      final gateway = FakeGateway()
+        ..verifyError = failure(AuthFailure.invalidCode);
+      await _pump(tester, gateway: gateway, size: tall);
+      await _sendCodeFor(tester, 'asha@example.com');
+      final key = find.widgetWithText(KeyButton, AuthCopy.verify);
+      final before = tester.getTopLeft(key);
+      await tester.enterText(find.byType(TextField), '12345678');
+      await tester.pumpAndSettle();
+      expect(find.textContaining('That code did not work'), findsOneWidget);
+      expect(tester.getTopLeft(key), before);
+    });
+
+    testWidgets('going offline moves nothing on a roomy phone', (tester) async {
+      await _pump(tester, gateway: FakeGateway(), size: tall);
+      final online = tester.getTopLeft(find.text(AuthCopy.signInTitle));
+      await _pump(
+        tester,
+        gateway: FakeGateway(),
+        size: tall,
+        network: NetworkStatus.offline,
+      );
+      expect(find.text(AuthCopy.offlineBanner), findsOneWidget);
+      expect(tester.getTopLeft(find.text(AuthCopy.signInTitle)), online);
+    });
+
+    testWidgets('a code that is slow to send says so after 12 seconds', (
+      tester,
+    ) async {
+      final gateway = FakeGateway()..sendHold = Completer<void>();
+      await _pump(tester, gateway: gateway, size: tall);
+      await tester.enterText(find.byType(TextField), 'asha@example.com');
+      await tester.pump();
+      await tester.tap(find.text(AuthCopy.sendCode));
+      await tester.pump(const Duration(seconds: 11));
+      expect(find.text(AuthCopy.stillSending), findsNothing);
+      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text(AuthCopy.stillSending), findsOneWidget);
+
+      gateway.sendHold!.complete();
+      await tester.pumpAndSettle();
+      expect(find.text(AuthCopy.codeTitle), findsOneWidget);
+    });
+
+    testWidgets('a code that is slow to check says so after 12 seconds', (
+      tester,
+    ) async {
+      final gateway = FakeGateway()..verifyHold = Completer<void>();
+      await _pump(tester, gateway: gateway, size: tall);
+      await _sendCodeFor(tester, 'asha@example.com');
+      await tester.enterText(find.byType(TextField), '12345678');
+      await tester.pump(const Duration(seconds: 11));
+      expect(find.text(AuthCopy.stillChecking), findsNothing);
+      await tester.pump(const Duration(seconds: 2));
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(find.text(AuthCopy.stillChecking), findsOneWidget);
+      gateway.verifyHold!.complete();
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('the code boxes are 44 dp tall in the 12 dp control radius', (
+      tester,
+    ) async {
+      await _pump(tester, gateway: FakeGateway(), size: tall);
+      await _sendCodeFor(tester, 'asha@example.com');
+      // 44 dp of box and 4 dp of room for the volt ring above and below.
+      expect(tester.getSize(find.byType(CodeSlots)).height, 52);
+      final radii = tester
+          .widgetList<DecoratedBox>(
+            find.descendant(
+              of: find.byType(CodeSlots),
+              matching: find.byType(DecoratedBox),
+            ),
+          )
+          .map((d) => d.decoration)
+          .whereType<ShapeDecoration>()
+          .map((d) => d.shape)
+          .whereType<RoundedSuperellipseBorder>()
+          .map((shape) => (shape.borderRadius as BorderRadius).topLeft.x)
+          .toList();
+      expect(radii, isNotEmpty);
+      for (final r in radii) {
+        expect(r, anyOf(12, 15.5), reason: 'the box, or its ring');
+      }
+    });
+
+    testWidgets('a method tab answers a touch in the first frame', (
+      tester,
+    ) async {
+      await _pump(tester, gateway: FakeGateway(), size: tall);
+      final gesture = await tester.startGesture(
+        tester.getCenter(find.text('Password')),
+      );
+      await tester.pump(const Duration(milliseconds: 16));
+      final veil = find.descendant(
+        of: find.ancestor(
+          of: find.text('Password'),
+          matching: find.byType(GestureDetector),
+        ),
+        matching: find.byType(AnimatedOpacity),
+      );
+      expect(veil, findsOneWidget);
+      await tester.pump(const Duration(milliseconds: 120));
+      expect(tester.widget<AnimatedOpacity>(veil).opacity, 1);
+      await gesture.up();
+      await tester.pumpAndSettle();
+    });
+
+    testWidgets('the password form keeps its key still when a problem comes', (
+      tester,
+    ) async {
+      await _pump(tester, gateway: FakeGateway(), size: tall);
+      await tester.tap(find.text('Password'));
+      await tester.pumpAndSettle();
+      final key = find.widgetWithText(KeyButton, AccessCopy.signIn);
+      final before = tester.getTopLeft(key);
+      await tester.tap(key);
+      await tester.pumpAndSettle();
+      expect(
+        find.text(AccessCopy.problem(AccessFailure.invalidEmail)),
+        findsOneWidget,
+      );
+      expect(tester.getTopLeft(key), before);
+    });
+
+    testWidgets('under reduced motion a status line is simply there', (
+      tester,
+    ) async {
+      tester.platformDispatcher.accessibilityFeaturesTestValue =
+          const FakeAccessibilityFeatures(disableAnimations: true);
+      addTearDown(
+        tester.platformDispatcher.clearAccessibilityFeaturesTestValue,
+      );
+      await _pump(
+        tester,
+        gateway: FakeGateway(),
+        size: tall,
+        network: NetworkStatus.offline,
+      );
+      expect(find.text(AuthCopy.offlineBanner), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+  });
 }

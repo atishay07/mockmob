@@ -161,7 +161,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                         index: 1,
                         child: Padding(padding: gutter, child: SuggestionHero()),
                       ),
-                      const SizedBox(height: MmRhythm.section),
+                      // Group gap: the heading under the hero belongs to the page, not to a new
+                      // section, so no rule (SPACING.md 3.1).
+                      const SizedBox(height: MmRhythm.group),
                       MmStaggerItem(
                         index: 2,
                         child: Padding(
@@ -173,7 +175,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: MmRhythm.item),
+                      // 12 to the tiles: the strip holds 4 of it as room for the chosen tile's lift.
+                      const SizedBox(height: MmRhythm.item - SubjectTiles.liftRoom),
                       MmStaggerItem(
                         index: 3,
                         child: SubjectTiles(
@@ -266,7 +269,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: MmSpace.group),
+                      // The exam band closes with its own rule, so the next section opens on air alone.
+                      const SizedBox(height: MmSpace.s32),
                       MmStaggerItem(
                         index: 6,
                         child: Padding(
@@ -315,7 +319,8 @@ class _SubjectLine extends StatelessWidget {
           children: [
             SubjectEmblem(subject: subjectId, size: 32, framed: false),
             const SizedBox(width: MmSpace.s8),
-            Flexible(child: Text(PracticeCopy.subjectLine(name), style: type.labelLarge)),
+            // A group label (15 w600, second ink): the one level under the 22 sp section titles.
+            Flexible(child: Text(PracticeCopy.subjectLine(name), style: type.labelLarge.copyWith(color: colors.ink2))),
             if (questions != null) ...[
               const SizedBox(width: MmSpace.s8),
               Text(PracticeCopy.questionsAvailable(questions!), style: type.caption.copyWith(color: colors.ink3)),

@@ -60,7 +60,7 @@ class WeeklyEndingCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              WeekDial(done: data.studyDays, goal: data.goal.clamp(1, 7), size: 60, showWords: false, animate: ring),
+              WeekDial(done: data.studyDays, goal: data.goal.clamp(1, 7), size: 60, showWords: false, animate: ring, sweep: ring),
               const SizedBox(width: MmSpace.s12),
               Expanded(child: Semantics(header: true, child: Text(RhythmCopy.endingTitle, style: type.subhead))),
               Semantics(

@@ -9,6 +9,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart' show MobiPose;
+import '../../rhythm/rhythm.dart' show celebrationModeProvider;
 import '../copy.dart';
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
@@ -20,6 +21,7 @@ import '../sheet/read_line.dart';
 import '../sheet/sheet_body.dart';
 import '../sheet/sheet_geometry.dart';
 import '../widgets/engrave.dart';
+import '../widgets/result_space.dart';
 import 'marks_footer.dart';
 import 'recap_mobi.dart';
 import 'sealed_parts.dart';
@@ -72,7 +74,7 @@ class SheetStage extends ConsumerStatefulWidget {
 }
 
 class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStateMixin {
-  static const double _mobiSize = 68;
+  static const double _mobiSize = ResultSpace.mobi;
 
   late final AnimationController _open;
   late final AnimationController _reveal;
@@ -95,6 +97,10 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   bool _opened = false;
   bool _figureIn = false;
   bool _calm = false;
+
+  /// The one light event (the sweep) and Mobi's cheer: a higher result with Celebrations on Full
+  /// only (MOTION 1.2 and P0-5). Every other open is T1 at most.
+  bool _lights = false;
   bool _crossFading = false;
   double _dragStart = 0;
   double _dragDy = 0;
@@ -113,8 +119,9 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
     _open = AnimationController(vsync: this, value: _sealed ? 0 : 1);
     // The marking, 1800 ms: the reader passes down the sheet and the rows ink (0 to 900 ms), the
     // figure starts to roll while the read is still under way (from 470 ms) and the meter fills
-    // beside it (540 to 1260 ms), so the score and the counts arrive with the ink rather than
-    // after it, then one warm light crosses the open sheet. The key is there from the start.
+    // beside it (540 to 960 ms), so the score and the counts arrive with the ink rather than
+    // after it. Only a higher result with Celebrations on Full then has one warm light cross the
+    // open sheet (from 1080 ms). The key is there from the start.
     _reveal = AnimationController(vsync: this, duration: const Duration(milliseconds: 1800));
     _fade = AnimationController(vsync: this, duration: const Duration(milliseconds: 160));
     _scan = CurvedAnimation(
@@ -123,7 +130,7 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
     );
     _meter = CurvedAnimation(
       parent: _reveal,
-      curve: const Interval(0.3, 0.7, curve: Motion.emphasized),
+      curve: Interval(0.3, 0.3 + ResultMotion.meter.inMilliseconds / 1800, curve: Motion.emphasized),
     );
     _sweep = CurvedAnimation(parent: _reveal, curve: const Interval(0.6, 0.98));
     _footer = CurvedAnimation(
@@ -144,7 +151,7 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _calm = Motion.reduced(context) || !_variant.celebratory || widget.entry == SheetEntry.settled;
+    _decideLevel();
     if (widget.entry == SheetEntry.settled && !_opened) {
       _opened = true;
       _figureIn = true;
@@ -164,9 +171,17 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
     super.didUpdateWidget(old);
     // The variant can change when the attempt detail lands (lower, held): the calm decision
     // follows it instead of staying fixed to the first model.
-    if (old.model.variant != widget.model.variant) {
-      _calm = Motion.reduced(context) || !_variant.celebratory || widget.entry == SheetEntry.settled;
-    }
+    if (old.model.variant != widget.model.variant) _decideLevel();
+  }
+
+  /// What the reveal may play: the variant, reduced motion and the Celebrations setting decide
+  /// it (Quiet: the ink and the roll, no light; Off: words only). Read again when the variant
+  /// changes, never mid-reveal from the setting.
+  void _decideLevel() {
+    final level = RevealLevel.of(_variant, ref.read(celebrationModeProvider), reduced: Motion.reduced(context));
+    final settled = widget.entry == SheetEntry.settled;
+    _calm = !level.moves || settled;
+    _lights = level.lights && !settled;
   }
 
   @override
@@ -313,7 +328,6 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
     final day = Theme.of(context).brightness == Brightness.light;
     return NightObject(
       child: FoldedSheet(
-        shadow: day ? 0.45 : 1,
         geometry: g,
         open: open,
         outside: FlapOutside(model: m, geometry: g, fade: open == _open ? _outsideWords : null),
@@ -326,7 +340,8 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
           reveal: _calm ? kAlwaysCompleteAnimation : null,
           scan: _calm ? null : _scan,
         ),
-        sweep: _calm ? null : _sweep,
+        sweep: _lights ? _sweep : null,
+        day: day,
       ),
     );
   }
@@ -334,6 +349,9 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   @override
   Widget build(BuildContext context) {
     final m = widget.model;
+    // The setting may still be loading when the sheet arrives: follow it until the reveal starts.
+    ref.watch(celebrationModeProvider);
+    if (_reveal.value == 0 && !_reveal.isAnimating) _decideLevel();
     final bottomInset = MediaQuery.paddingOf(context).bottom;
     final footer = MarksFooter(model: m, onNext: widget.onNext, ink: _calm ? null : _tallyInk);
     final controls = SealedControls(
@@ -354,13 +372,13 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                 // the number line over each, which the sheet is sized to hold.
                 final numbers = BubbleGrid.numberHeightFor(MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2));
                 final g = SheetGeometry.fit(
-                  maxWidth: c.maxWidth - 40,
+                  maxWidth: c.maxWidth - 2 * ResultSpace.moment,
                   maxHeight: c.maxHeight - 8,
                   questions: m.cells.length,
                   numberHeight: numbers,
                   // Held marks have a short message instead of the figure: the flap is as tall as
                   // that message, so no void sits between it and the answers.
-                  flapHeight: m.isHeld ? _heldFlapHeight(context, math.min(c.maxWidth - 40, 400.0)) : null,
+                  flapHeight: m.isHeld ? _heldFlapHeight(context, math.min(c.maxWidth - 2 * ResultSpace.moment, 400.0)) : null,
                 );
                 _rows = GridRows(
                   count: g.rows,
@@ -375,6 +393,11 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                 // size where the counts below take more room, the whole sheet scales down to the
                 // space instead of painting over the counts and the Open tab.
                 final room = c.maxHeight - 8 - g.height;
+                // Folded, only the body shows, and it would rest on the keys with a hole above it
+                // (audit X1). It is lifted to the middle of the band between the words and the keys,
+                // and sinks to its rest as the flap opens, so the open sheet lands where it always
+                // did. Never while the sheet is scaled down to fit.
+                final lift = room < 0 || !_sealed ? 0.0 : _foldedLift(context, c, g);
                 final sheet = Align(
                   alignment: Alignment.bottomCenter,
                   child: ConstrainedBox(
@@ -383,6 +406,7 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                       fit: BoxFit.scaleDown,
                       alignment: Alignment.bottomCenter,
                       child: _arrival(
+                        lift: lift,
                         child: SizedBox(
                           width: g.width,
                           height: g.height,
@@ -409,13 +433,16 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                 // one). Left out where the sheet needs the space. The sheet keeps its place in the
                 // tree either way, so opening never rebuilds it.
                 final showMobi = _opened && room >= 70 && m.variant.celebratory;
+                // No clip: the sheet's desk shadow falls below the sheet, past this box (a clipped
+                // shadow drew a hard strip on Daylight, audit X2).
                 return Stack(
+                  clipBehavior: Clip.none,
                   children: [
                     Positioned.fill(child: sheet),
                     if (!_opened)
                       Positioned(
-                        left: MmSpace.cardGutter,
-                        right: MmSpace.cardGutter,
+                        left: ResultSpace.moment,
+                        right: ResultSpace.moment,
                         top: MmSpace.s24,
                         child: AnimatedBuilder(
                           animation: _open,
@@ -432,8 +459,8 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                       ),
                     if (_opened && room >= 64)
                       Positioned(
-                        left: MmSpace.cardGutter,
-                        right: MmSpace.cardGutter + (showMobi ? _mobiSize + 4 : 0),
+                        left: ResultSpace.moment,
+                        right: ResultSpace.moment + (showMobi ? _mobiSize + MmSpace.s4 : 0),
                         top: MmSpace.s24,
                         child: Engrave(
                           delay: _calm ? Duration.zero : const Duration(milliseconds: 120),
@@ -448,15 +475,15 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
                       ),
                     if (showMobi)
                       Positioned(
-                        right: MmSpace.cardGutter,
+                        right: ResultSpace.moment,
                         top: MmSpace.s16,
                         child: Arrive(
                           delay: _calm ? Duration.zero : const Duration(milliseconds: 500),
-                          rise: 18,
+                          rise: 20,
                           child: RecapMobi(
                             pose: MobiPose.read,
                             size: _mobiSize,
-                            cheerAfter: !_calm && m.variant == RecapVariant.higher ? const Duration(milliseconds: 1500) : null,
+                            cheerAfter: _lights ? const Duration(milliseconds: 1500) : null,
                           ),
                         ),
                       ),
@@ -516,10 +543,44 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   }
 
   /// A sealed sheet is set down on the desk: it rises 28 dp and settles out of a slight turn
-  /// (560 ms, emphasized). Everything on it is live from the first frame.
-  Widget _arrival({required Widget child}) {
+  /// (560 ms, emphasized). Everything on it is live from the first frame. Folded, it rests
+  /// [lift] dp above its open place and sinks there with the unfold (or the cross-fade).
+  Widget _arrival({required Widget child, double lift = 0}) {
     if (!_sealed) return child;
-    return Arrive(duration: const Duration(milliseconds: 560), rise: 28, turn: -0.026, child: child);
+    Widget c = Arrive(duration: const Duration(milliseconds: 560), rise: 28, turn: -0.026, child: child);
+    if (lift > 0) {
+      c = AnimatedBuilder(
+        animation: Listenable.merge([_open, _fade]),
+        child: c,
+        builder: (context, child) {
+          final folded = _crossFading ? 1 - _fade.value : 1 - Motion.glide.transform(_open.value.clamp(0.0, 1.0));
+          return Transform.translate(offset: Offset(0, -lift * folded), child: child);
+        },
+      );
+    }
+    return c;
+  }
+
+  /// How far the folded sheet rises so its body sits in the middle of the band between the
+  /// sealed words and the keys: the body rests at the bottom of [c] and the flap's slot above it
+  /// is empty until the flap lands there.
+  double _foldedLift(BuildContext context, BoxConstraints c, SheetGeometry g) {
+    final type = context.mmType;
+    final scaler = MediaQuery.textScalerOf(context);
+    final width = math.max(40.0, c.maxWidth - 2 * ResultSpace.moment);
+    double height(String text, TextStyle style, int? lines) {
+      final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: lines)
+        ..layout(maxWidth: width);
+      final h = tp.height;
+      tp.dispose();
+      return h;
+    }
+
+    final words = MmSpace.s24 + height(ResultCopy.sheetBack, type.moment, 2) + MmSpace.s8 + height(ResultCopy.openWhenReady, type.body, null);
+    final restTop = c.maxHeight - g.bodyHeight;
+    final centred = words + (c.maxHeight - words - g.bodyHeight) / 2;
+    // Never past the flap's slot: the body stays inside the sheet's own box, where it is hit.
+    return (restTop - centred).clamp(0.0, g.flapHeight);
   }
 
   Widget _crossFade(SheetGeometry g) {

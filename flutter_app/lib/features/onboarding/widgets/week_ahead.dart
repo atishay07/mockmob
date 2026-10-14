@@ -75,21 +75,25 @@ class _Day extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final ink = today ? colors.ink : (study ? colors.ink2 : colors.ink3);
-    final volt = colors.isNight ? colors.volt : colors.accentText;
-    // A study day is a volt ring, today's is filled solid; a rest day is a short bar, not a
-    // greyed ring, so rest reads as chosen rather than switched off.
+    // A study day is a ring, today's is filled solid; a rest day is a short bar, not a greyed
+    // ring, so rest reads as chosen rather than switched off. The fill is volt in both themes
+    // (as on Today's week ledger), with a 1 dp olive rim on Day so it holds on paper; the ring is
+    // a stroke on the ground, so it takes the text accent (volt Night, olive Day). SPACING.md 8.3.
+    final ring = colors.isNight ? colors.volt : colors.accentText;
     final Widget mark = study
         ? DecoratedBox(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: today ? volt : Colors.transparent,
-              border: Border.all(color: volt, width: today ? 0 : 2),
+              color: today ? colors.volt : Colors.transparent,
+              border: today
+                  ? (colors.isNight ? null : Border.all(color: colors.accentText, width: 1))
+                  : Border.all(color: ring, width: 2),
             ),
             child: const SizedBox.square(dimension: 26),
           )
         : DecoratedBox(
             decoration: BoxDecoration(color: colors.ink3, borderRadius: BorderRadius.circular(1)),
-            child: const SizedBox(width: 14, height: 2),
+            child: const SizedBox(width: MmSpace.s12, height: 2),
           );
     return Column(
       children: [

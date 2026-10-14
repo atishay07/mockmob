@@ -66,7 +66,7 @@ class RunnerTopBar extends StatelessWidget {
             current: current,
             total: total,
             style: figure,
-            unitColor: colors.ink3,
+            unitColor: colors.ink2,
             semanticsLabel: RunnerCopy.countSemantics(current, total),
           );
           final key = SheetKey(onTap: onQuestions, compact: compact);

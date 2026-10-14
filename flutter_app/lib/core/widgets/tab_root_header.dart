@@ -9,11 +9,12 @@ import '../theme/theme.dart';
 import 'materials/edge_light.dart';
 import 'pressable.dart';
 
-/// The top row of every tab root (brief section 6): the avatar on the left opens You, then the
-/// screen's title (or Today's date line), then an optional trailing widget (the week bubbles, a
-/// filter). Sits under the status bar; give it the screen's gutter.
+/// The top row of every tab root: the screen's title (or Today's date line), then an optional
+/// trailing widget (the week bubbles, a filter). You is a place on the bar now (DOCK.md 9.1), so
+/// the header carries no avatar unless a caller passes one. Sits under the status bar; give it
+/// the screen's gutter.
 class TabRootHeader extends StatelessWidget {
-  const TabRootHeader({super.key, this.title, this.overline, this.trailing, this.avatar = const YouAvatarButton()});
+  const TabRootHeader({super.key, this.title, this.overline, this.trailing, this.avatar});
 
   /// The screen title ("Practice"), in the Bricolage title cut.
   final String? title;
@@ -21,7 +22,7 @@ class TabRootHeader extends StatelessWidget {
   /// A small line above the title, or alone ("Tuesday, 13 October").
   final String? overline;
   final Widget? trailing;
-  final Widget avatar;
+  final Widget? avatar;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +32,7 @@ class TabRootHeader extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
-          avatar,
-          const SizedBox(width: MmSpace.s12),
+          if (avatar != null) ...[avatar!, const SizedBox(width: MmSpace.s12)],
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,11 +51,12 @@ class TabRootHeader extends StatelessWidget {
 }
 
 /// The avatar that opens You: the student's initial on a small glass disc with an edge light,
-/// or a person glyph before a name is known. 44 dp disc in a 48 dp target.
+/// or a person glyph before a name is known. 44 dp disc in a 48 dp target. You is a tab on the
+/// bar now, so the avatar switches to it (kept for the lab and for headers not yet moved off it).
 class YouAvatarButton extends ConsumerWidget {
   const YouAvatarButton({super.key, this.onTap});
 
-  /// Defaults to pushing `/you`.
+  /// Defaults to switching to the You tab.
   final VoidCallback? onTap;
 
   @override
@@ -68,7 +69,7 @@ class YouAvatarButton extends ConsumerWidget {
     return MmPressable(
       semanticsLabel: 'You, profile and settings',
       haptic: MmPressHaptic.selection,
-      onTap: onTap ?? () => context.push(AppRoutes.you),
+      onTap: onTap ?? () => context.go(AppRoutes.you),
       builder: (context, pressed, _) => SizedBox.square(
         dimension: 48,
         child: Center(

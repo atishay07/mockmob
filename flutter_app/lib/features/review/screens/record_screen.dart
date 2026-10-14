@@ -13,6 +13,7 @@ import '../data/review_providers.dart';
 import '../widgets/life_row.dart';
 import '../widgets/review_state_view.dart';
 import '../widgets/page_header.dart';
+import '../widgets/review_layout.dart';
 import '../widgets/record_entry.dart';
 
 /// `/review/record`: the repair record as one thread, newest first (spec 5.8, 6.4). No pile, no
@@ -48,7 +49,7 @@ class RecordScreen extends ConsumerWidget {
       body = MmStagger(
         driver: MmStaggerDriver.route,
         child: ListView(
-          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, pad.bottom + MmSpace.s32),
+          padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, MmSpace.s8, ReviewSpace.gutter, pad.bottom + MmSpace.s32),
           children: [
             MmStaggerItem(
               index: 0,
@@ -59,7 +60,7 @@ class RecordScreen extends ConsumerWidget {
                   const LifeRow(stage: MistakeStage.repaired, bubbleSize: 16, animate: false),
                   const SizedBox(height: MmSpace.s12),
                   Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s8),
+                  const SizedBox(height: MmSpace.s12),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -73,7 +74,7 @@ class RecordScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: MmRhythm.group),
+                  const SizedBox(height: ReviewSpace.group),
                 ],
               ),
             ),

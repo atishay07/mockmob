@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import '../../core/connectivity/connectivity.dart';
 import '../../core/motion/motion.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../account_access/widgets/problem_slot.dart';
+import '../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import 'copy.dart';
 import 'sign_in_controller.dart';
 import 'sign_in_state.dart';
@@ -56,6 +59,10 @@ class AuthPage extends ConsumerStatefulWidget {
 class _AuthPageState extends ConsumerState<AuthPage> {
   final MobiController _mobi = MobiController();
 
+  /// Mobi shrugs at the first wrong code of a run and then stays calm; a code that works ends
+  /// the run (MOTION 4.15: `oops` once, then idle).
+  bool _shrugged = false;
+
   SignInStep get step => widget.step;
 
   @override
@@ -73,12 +80,16 @@ class _AuthPageState extends ConsumerState<AuthPage> {
       _mobi.play(MobiAct.think);
     } else if (wasWorking && !working) {
       if (now.problem == SignInProblem.invalidCode) {
-        _mobi.play(MobiAct.oops);
+        _shrug();
       } else if (now.problem != null) {
         _mobi.play(MobiAct.idle);
       } else if (before.busy == SignInBusy.verifying ||
           before.busy == SignInBusy.google) {
-        _mobi.play(MobiAct.cheer);
+        _shrugged = false;
+        // Signing in is not a celebration on the ladder; Mobi cheers only when the student
+        // keeps Celebrations on Full, and rests otherwise.
+        final full = ref.read(celebrationModeProvider) == CelebrationMode.full;
+        _mobi.play(full ? MobiAct.cheer : MobiAct.idle);
       } else {
         _mobi.play(MobiAct.idle);
       }
@@ -86,13 +97,28 @@ class _AuthPageState extends ConsumerState<AuthPage> {
         before != null &&
         now.problem == SignInProblem.invalidCode &&
         now.problemSerial != before.problemSerial) {
-      _mobi.play(MobiAct.oops);
+      _shrug();
     }
+  }
+
+  void _shrug() {
+    _mobi.play(_shrugged ? MobiAct.idle : MobiAct.oops);
+    _shrugged = true;
   }
 
   @override
   Widget build(BuildContext context) {
     ref.listen(signInControllerProvider, _react);
+    // A sign-in whose own flow was lost (the app was killed while the mail app or the Google
+    // browser was open) still lands here as the account turning signed in: the first-sign-in
+    // sheet is offered from that event too, not only from the controller's own future.
+    ref.listen(authSnapshotProvider.select((s) => s.isSignedIn), (before, now) {
+      if (now && before != true) {
+        unawaited(
+          ref.read(signInControllerProvider.notifier).signedInFromAuth(),
+        );
+      }
+    });
     final colors = context.mmColors;
     final offline =
         ref.watch(networkStatusProvider) == NetworkStatus.offline ||
@@ -139,24 +165,30 @@ class _AuthPageState extends ConsumerState<AuthPage> {
                     ),
                     // The column is as tall as the screen when its content is shorter, and
                     // Mobi's slot takes the difference.
-                    child: IntrinsicHeight(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          _TopBar(
-                            onBack: widget.onBack,
-                            backLabel: widget.backLabel,
-                          ),
-                          _StatusLines(offline: offline, expired: showExpired),
-                          Expanded(
-                            child: _HeroSlot(
-                              controller: _mobi,
-                              entrance: widget.entrance,
+                    // One authored entrance per visit (MOTION 1.1): Mobi arrives first, then the
+                    // screen's items rise in reading order (they are `MmStaggerItem`s). It plays
+                    // once; a message, a tab change or a data refresh never replays it.
+                    child: MmStagger(
+                      delay: const Duration(milliseconds: 80),
+                      child: IntrinsicHeight(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            _TopBar(
+                              onBack: widget.onBack,
+                              backLabel: widget.backLabel,
                             ),
-                          ),
-                          const SizedBox(height: MmSpace.s8),
-                          widget.child,
-                        ],
+                            _StatusBand(offline: offline, expired: showExpired),
+                            Expanded(
+                              child: _HeroSlot(
+                                controller: _mobi,
+                                entrance: widget.entrance,
+                              ),
+                            ),
+                            const SizedBox(height: MmSpace.s8),
+                            widget.child,
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -198,21 +230,33 @@ class _TopBar extends StatelessWidget {
   }
 }
 
-/// One quiet status line per condition, in the flow under the top bar: a glyph and the words,
-/// no box. It eases open and closed, and Mobi's slot below absorbs the height.
-class _StatusLines extends StatelessWidget {
-  const _StatusLines({required this.offline, required this.expired});
+/// The quiet status lines under the top bar: a glyph and the words, no box, one per condition.
+/// On a roomy phone the band keeps one line of height always (Mobi's slot has air to give), so a
+/// connection change slides the words in without moving anything. On a shorter phone the band
+/// is as tall as its lines and eases open and closed, with Mobi's slot absorbing the height.
+class _StatusBand extends StatelessWidget {
+  const _StatusBand({required this.offline, required this.expired});
 
   final bool offline;
   final bool expired;
 
+  /// One line: 8 above, 20 of text, 8 below.
+  static const double _lineBand = 36;
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedSize(
-      duration: Motion.of(context, Motion.ui),
-      curve: Motion.out,
-      alignment: Alignment.topCenter,
+    final reduced = Motion.reduced(context);
+    final lines = AnimatedSwitcher(
+      duration: reduced ? Duration.zero : Motion.ui,
+      switchInCurve: Motion.out,
+      switchOutCurve: Motion.out,
+      layoutBuilder: (current, previous) => Stack(
+        alignment: Alignment.topCenter,
+        children: [...previous, ?current],
+      ),
+      transitionBuilder: fadeRise,
       child: Column(
+        key: ValueKey<(bool, bool)>((offline, expired)),
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (offline)
@@ -227,6 +271,18 @@ class _StatusLines extends StatelessWidget {
             ),
         ],
       ),
+    );
+    if (roomyScreen(context)) {
+      return ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: _lineBand),
+        child: Align(alignment: Alignment.topCenter, child: lines),
+      );
+    }
+    return AnimatedSize(
+      duration: Motion.of(context, Motion.ui),
+      curve: Motion.out,
+      alignment: Alignment.topCenter,
+      child: lines,
     );
   }
 }
@@ -244,7 +300,7 @@ class _StatusLine extends StatelessWidget {
       liveRegion: true,
       container: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: MmSpace.s6),
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,17 +447,21 @@ class _MobiHero extends StatelessWidget {
   }
 }
 
-/// A 48 dp back arrow whose glyph sits on the content's left edge (the key extends 13 dp past
-/// it, so the touch target stays 48 dp); it sinks into a sunken square while pressed. No ripple.
+/// A 48 dp back target with a 44 dp visual: it sinks to 0.92 on the press and a sunken square
+/// answers in the same frame. No ripple. With [onEdge] (the default) its glyph sits on the
+/// content's left edge, so the key extends 13 dp past the gutter and the touch target stays
+/// 48 dp; without it the key sits inside the gutter, for a header row that has a title beside it.
 class BackKey extends StatefulWidget {
   const BackKey({
     super.key,
     required this.onPressed,
     this.label = AuthCopy.back,
+    this.onEdge = true,
   });
 
   final VoidCallback onPressed;
   final String label;
+  final bool onEdge;
 
   @override
   State<BackKey> createState() => _BackKeyState();
@@ -410,34 +470,54 @@ class BackKey extends StatefulWidget {
 class _BackKeyState extends State<BackKey> {
   bool _down = false;
 
+  void _set(bool down) {
+    if (_down != down) setState(() => _down = down);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return Transform.translate(
-      offset: const Offset(-(MmTarget.min - 22) / 2, 0),
-      child: Semantics(
-        button: true,
-        label: widget.label,
-        excludeSemantics: true,
+    final key = Semantics(
+      button: true,
+      label: widget.label,
+      excludeSemantics: true,
+      onTap: widget.onPressed,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTapDown: (_) => _set(true),
+        onTapCancel: () => _set(false),
+        onTapUp: (_) => _set(false),
         onTap: widget.onPressed,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (_) => setState(() => _down = true),
-          onTapCancel: () => setState(() => _down = false),
-          onTapUp: (_) => setState(() => _down = false),
-          onTap: widget.onPressed,
-          child: Container(
-            width: MmTarget.min,
-            height: MmTarget.min,
-            decoration: BoxDecoration(
-              color: _down ? colors.sunken : Colors.transparent,
-              borderRadius: MmRadius.smallAll,
+        child: SizedBox.square(
+          dimension: MmTarget.min,
+          child: Center(
+            child: AnimatedScale(
+              scale: _down ? 0.92 : 1,
+              duration: Motion.of(context, Motion.press),
+              curve: Motion.out,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: _down ? colors.sunken : Colors.transparent,
+                  borderRadius: MmRadius.smallAll,
+                ),
+                child: SizedBox.square(
+                  dimension: 44,
+                  child: Icon(
+                    LucideIcons.arrowLeft,
+                    size: 22,
+                    color: colors.ink,
+                  ),
+                ),
+              ),
             ),
-            alignment: Alignment.center,
-            child: Icon(LucideIcons.arrowLeft, size: 22, color: colors.ink),
           ),
         ),
       ),
+    );
+    if (!widget.onEdge) return key;
+    return Transform.translate(
+      offset: const Offset(-(MmTarget.min - 22) / 2, 0),
+      child: key,
     );
   }
 }
@@ -463,7 +543,7 @@ class ProblemLine extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 3),
+            padding: const EdgeInsets.only(top: 2),
             child: ExcludeSemantics(
               child: Icon(
                 LucideIcons.circleAlert,

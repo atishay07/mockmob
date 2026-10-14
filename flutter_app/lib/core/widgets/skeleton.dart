@@ -272,30 +272,32 @@ class MmSkeletonCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (hero) ...[
-          const Skeleton.line(width: 84, height: 11),
-          const SizedBox(height: 10),
-          const Skeleton.line(width: 168, height: 22),
-          const SizedBox(height: 22),
+          // Heights follow the move card (SPACING.md 3.2: overline, 4, title, 12, number block,
+          // 16, key) so the page does not jump when the real card lands.
+          const Skeleton.line(width: 84, height: 12),
+          const SizedBox(height: MmSpace.s4),
+          const Skeleton.line(width: 168, height: 24),
+          const SizedBox(height: MmSpace.s12),
           const Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Skeleton(width: 92, height: 88, radius: 20),
-              SizedBox(width: 16),
+              SizedBox(width: MmSpace.s16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Skeleton.line(width: 132, height: 16), SizedBox(height: 10), Skeleton.line(width: 96, height: 12)],
+                  children: [Skeleton.line(width: 132, height: 16), SizedBox(height: MmSpace.s8), Skeleton.line(width: 96, height: 12)],
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 22),
-          const Skeleton(height: 52, radius: 26),
+          const SizedBox(height: MmSpace.s16),
+          const Skeleton(height: 56, radius: 28),
         ] else ...[
           const Skeleton.line(width: 120, height: 18),
-          const SizedBox(height: 14),
+          const SizedBox(height: MmSpace.s12),
           const Skeleton.line(),
-          const SizedBox(height: 8),
+          const SizedBox(height: MmSpace.s8),
           const Skeleton.line(width: 220),
         ],
       ],
@@ -320,15 +322,15 @@ class MmSkeletonRows extends StatelessWidget {
         for (var i = 0; i < rows; i++) ...[
           if (i > 0)
             Padding(
-              padding: const EdgeInsetsDirectional.only(start: 56),
+              padding: const EdgeInsetsDirectional.only(start: 52),
               child: SizedBox(height: 1, child: ColoredBox(color: colors.line.withValues(alpha: 0.8))),
             ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14),
+            padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
             child: Row(
               children: [
                 const Skeleton.circle(size: 40),
-                const SizedBox(width: 16),
+                const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

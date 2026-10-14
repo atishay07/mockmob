@@ -39,6 +39,12 @@ abstract final class AuthCopy {
   static const String resending = 'Sending a code';
   static const String codeResent = 'A new code is on its way.';
 
+  /// What a wait says once it has run past 12 seconds.
+  static const String stillSending =
+      'Still sending. This can take a moment on a slow connection.';
+  static const String stillChecking =
+      'Still checking. This can take a moment on a slow connection.';
+
   /// What a screen reader hears for the code screen's back arrow.
   static const String differentEmail = 'Use a different email';
   static const String back = 'Back';

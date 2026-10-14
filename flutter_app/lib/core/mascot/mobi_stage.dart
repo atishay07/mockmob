@@ -110,7 +110,7 @@ class _MobiStageState extends State<MobiStage> {
                   right: 0,
                   bottom: -widget.size * 0.06,
                   height: widget.size * 0.26,
-                  child: IgnorePointer(child: CustomPaint(painter: _PoolPainter(palette.pool, night: night))),
+                  child: IgnorePointer(child: CustomPaint(painter: _PoolPainter(palette.pool, alpha: palette.poolAlpha))),
                 ),
               character,
             ],
@@ -123,14 +123,14 @@ class _MobiStageState extends State<MobiStage> {
 
 /// A soft ellipse of warm lamp light on the floor.
 class _PoolPainter extends CustomPainter {
-  const _PoolPainter(this.color, {required this.night});
+  const _PoolPainter(this.color, {required this.alpha});
 
   final Color color;
-  final bool night;
+  final double alpha;
 
   @override
   void paint(Canvas canvas, Size size) {
-    final a = night ? 0.26 : 0.3;
+    final a = alpha;
     canvas.save();
     canvas.translate(size.width / 2, size.height / 2);
     canvas.scale(1, size.height / size.width);
@@ -150,5 +150,5 @@ class _PoolPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_PoolPainter old) => old.color != color || old.night != night;
+  bool shouldRepaint(_PoolPainter old) => old.color != color || old.alpha != alpha;
 }

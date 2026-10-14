@@ -171,6 +171,10 @@ class ChoiceDeck extends StatelessWidget {
 
   static const Duration stagger = Duration(milliseconds: 40);
 
+  /// Taps on the same choice closer than this are one tap (a double tap while a sheet opens or
+  /// leaves).
+  static const Duration tapGuard = Duration(milliseconds: 600);
+
   @override
   Widget build(BuildContext context) {
     final children = <Widget>[];
@@ -303,6 +307,23 @@ class _ChoicePressState extends ConsumerState<_ChoicePress> with SingleTickerPro
   bool _wasPressed = false;
   bool _entered = false;
 
+  /// When this choice last committed. A second tap inside [ChoiceDeck.tapGuard] is the same
+  /// intent (ROBUSTNESS today-01): it must not open a second sheet or page, or pop again.
+  DateTime? _committedAt;
+
+  /// True when this tap should start the choice: its route is still the top one (a sheet that is
+  /// already leaving, or a page with a sheet opening over it, ignores taps) and it has not just
+  /// committed.
+  bool _accepts() {
+    final route = ModalRoute.of(context);
+    if (route != null && !route.isCurrent) return false;
+    final now = DateTime.now();
+    final last = _committedAt;
+    if (last != null && now.difference(last) < ChoiceDeck.tapGuard) return false;
+    _committedAt = now;
+    return true;
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -326,7 +347,10 @@ class _ChoicePressState extends ConsumerState<_ChoicePress> with SingleTickerPro
       semanticsLabel: label,
       focusRadius: widget.radius,
       pressedScale: widget.pressedScale,
+      // The page a choice opens can grow out of the tile (MmTransition.container).
+      captureLaunch: true,
       onTap: () {
+        if (!_accepts()) return;
         unawaited(ref.read(hapticsProvider).light());
         o.onTap();
       },
@@ -369,7 +393,7 @@ class _Tag extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: quiet ? 3 : 1),
+        padding: EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: quiet ? MmSpace.s4 : MmSpace.s2),
         child: Text(
           text,
           style: context.mmType.caption.copyWith(fontSize: quiet ? 12 : 11, color: colors.ink2),
@@ -380,7 +404,7 @@ class _Tag extends StatelessWidget {
 }
 
 Widget _facts(List<String> facts) =>
-    Wrap(spacing: MmSpace.s6, runSpacing: MmSpace.s6, children: [for (final f in facts) _Tag(f, quiet: true)]);
+    Wrap(spacing: MmSpace.s8, runSpacing: MmSpace.s8, children: [for (final f in facts) _Tag(f, quiet: true)]);
 
 /// The note text, reserving [lines] lines when asked so a later, longer note never moves the
 /// rows below.
@@ -748,9 +772,10 @@ class _Band extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
+                    // A group label (15 w600, second ink), the level under the 22 sp section titles.
                     Semantics(
                       header: true,
-                      child: Text(title, style: type.label.copyWith(color: colors.ink)),
+                      child: Text(title, style: type.labelLarge.copyWith(color: colors.ink2)),
                     ),
                     if (note != null) ...[
                       const SizedBox(width: MmSpace.s8),

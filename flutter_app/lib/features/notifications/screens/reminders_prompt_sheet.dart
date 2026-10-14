@@ -13,6 +13,7 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../data/reminder_store.dart' show reminderStoreProvider;
 import '../logic/pre_prompt_policy.dart';
@@ -187,6 +188,9 @@ class RemindersPromptSheet extends ConsumerWidget {
         NotificationPrefs.defaults;
     final opened = view.opened;
     final window = prefs.studyWindow;
+    // Mobi cheers that reminders are on only while Celebrations is Full; Quiet and Off keep him
+    // calm (the words say the same thing).
+    final cheer = ref.watch(celebrationModeProvider) == CelebrationMode.full;
     final child = switch (view.phase) {
       // The first frames, until the wording is known: nothing, rather than a wording that then changes.
       _Phase.ask when opened == null => const SizedBox.shrink(key: ValueKey('opening')),
@@ -199,9 +203,9 @@ class RemindersPromptSheet extends ConsumerWidget {
         ),
         primary: prePromptPrimaryFor(opened.permission),
       ),
-      _Phase.granted => const _Outcome(
-        key: ValueKey('granted'),
-        mobi: MobiPose.cheer,
+      _Phase.granted => _Outcome(
+        key: const ValueKey('granted'),
+        mobi: cheer ? MobiPose.cheer : MobiPose.rest,
         title: NotificationsCopy.grantedTitle,
         body: NotificationsCopy.grantedBody,
       ),
@@ -213,13 +217,18 @@ class RemindersPromptSheet extends ConsumerWidget {
       ),
     };
 
-    return AnimatedSwitcher(
-      duration: Motion.of(context, Motion.ui),
-      switchInCurve: Motion.out,
-      child: child,
-    );
+    return _phaseSwitcher(context, child);
   }
 }
+
+/// One state leaves, then the next arrives: the old one fades over the first half, the new one
+/// over the second, so two Mobis are never on the sheet together. Instant under reduced motion.
+Widget _phaseSwitcher(BuildContext context, Widget child) => AnimatedSwitcher(
+  duration: Motion.of(context, Motion.card),
+  switchInCurve: const Interval(0.5, 1, curve: Motion.out),
+  switchOutCurve: const Interval(0.5, 1),
+  child: child,
+);
 
 /// The pre-prompt sheet's keys, for the sheet's footer: Allow reminders (or Open settings) and
 /// Not now while it asks, then the keys of the state it ends on. Pinned under the scrolling
@@ -292,11 +301,7 @@ class RemindersPromptKeys extends ConsumerWidget {
       ),
     };
 
-    return AnimatedSwitcher(
-      duration: Motion.of(context, Motion.ui),
-      switchInCurve: Motion.out,
-      child: KeyedSubtree(key: ValueKey('${view.phase.name}-${opened == null}'), child: keys),
-    );
+    return _phaseSwitcher(context, KeyedSubtree(key: ValueKey('${view.phase.name}-${opened == null}'), child: keys));
   }
 }
 
@@ -410,11 +415,15 @@ class _Ask extends StatelessWidget {
             ],
           ],
         ),
-        const SizedBox(height: MmSpace.s8),
-        Text(
-          variant.line,
-          style: type.body.copyWith(color: colors.ink2),
-        ),
+        // The first ask has no lead: the label and the examples below say it. The other wordings
+        // keep their one line, since that line is the reason for asking this way.
+        if (variant.showLine) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(
+            variant.line,
+            style: type.small.copyWith(color: colors.ink2),
+          ),
+        ],
         const SizedBox(height: MmSpace.s16),
         if (general && !tight) ...[
           Text(

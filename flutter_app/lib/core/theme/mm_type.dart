@@ -107,11 +107,23 @@ class MmType extends ThemeExtension<MmType> {
       // Each static cut is registered at its real weight, so the engine never fakes bold.
       fontWeight: family == MmFonts.condensed ? FontWeight.w700 : FontWeight.w600,
       letterSpacing: size * trackingPercent / 100,
+      // Tight tracking made letters touch in 22 to 36 sp headlines ("Appearance and feel"); the
+      // headline cuts get a little word air so the words stay separate (SPACING.md 9).
+      wordSpacing: size >= 22 && family != MmFonts.condensed ? 0.5 : 0,
       color: color,
       fontFeatures: _tabular,
       leadingDistribution: TextLeadingDistribution.even,
     );
   }
+
+  /// Text-height behaviour for the figure roles ([figureHero], [hero], [figure], [figureCompact]):
+  /// the box is the ink plus about 2 dp, not the ink plus 11 dp of leading above and below. Pass it
+  /// to every `Text` or `RichText` that sets a figure style, so the coded gap equals the visible
+  /// gap (SPACING.md 3.3, audit G8).
+  static const TextHeightBehavior figureHeightBehavior = TextHeightBehavior(
+    applyHeightToFirstAscent: false,
+    applyHeightToLastDescent: false,
+  );
 
   static TextStyle _hanken(double size, double lineHeight, FontWeight weight, Color color, {double tracking = 0}) {
     return TextStyle(
@@ -131,12 +143,12 @@ class MmType extends ThemeExtension<MmType> {
     final ink = colors.ink;
     return MmType(
       figureHero: _bricolage(MmFonts.condensed, 96, 86, -1, ink),
-      display: _bricolage(MmFonts.headline, 36, 38, -2.5, ink),
-      headline: _bricolage(MmFonts.headline, 28, 31, -2, ink),
-      title: _bricolage(MmFonts.title, 22, 27, -1.5, ink),
+      display: _bricolage(MmFonts.headline, 36, 38, -1.5, ink),
+      headline: _bricolage(MmFonts.headline, 28, 31, -1, ink),
+      title: _bricolage(MmFonts.title, 22, 27, -1, ink),
       subhead: _hanken(17, 22, FontWeight.w700, ink, tracking: -0.5),
-      figure: _bricolage(MmFonts.condensed, 52, 50, -1, ink),
-      figureCompact: _bricolage(MmFonts.condensed, 40, 40, -0.5, ink),
+      figure: _bricolage(MmFonts.condensed, 52, 47, -1, ink),
+      figureCompact: _bricolage(MmFonts.condensed, 40, 36, -0.5, ink),
       timer: _bricolage(MmFonts.title, 20, 22, 0, ink),
       button: _hanken(16, 20, FontWeight.w600, ink),
       label: _hanken(13, 18, FontWeight.w600, ink),
@@ -146,8 +158,8 @@ class MmType extends ThemeExtension<MmType> {
       body: _hanken(16, 24, FontWeight.w400, ink),
       small: _hanken(14, 20, FontWeight.w400, ink),
       hero: _bricolage(MmFonts.condensed, 112, 96, -1.5, ink),
-      moment: _bricolage(MmFonts.headline, 36, 38, -2.5, ink),
-      screenTitle: _bricolage(MmFonts.title, 26, 30, -1.5, ink),
+      moment: _bricolage(MmFonts.headline, 36, 38, -1.5, ink),
+      screenTitle: _bricolage(MmFonts.title, 26, 30, -1, ink),
       cardTitle: _hanken(17, 22, FontWeight.w700, ink, tracking: -0.5),
       labelLarge: _hanken(15, 20, FontWeight.w600, ink),
       caption: _hanken(13, 18, FontWeight.w500, ink),

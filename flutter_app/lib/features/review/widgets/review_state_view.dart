@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import 'review_layout.dart';
 
 /// Review's empty, error and offline states: the same grammar as the full tab, so an empty Review
 /// feels like the same app as a full one. A large Mobi stands in his own pool of lamp light, one
@@ -77,8 +78,10 @@ class _ReviewStateViewState extends State<ReviewStateView> {
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: bounded ? box.maxHeight : 0),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s24, MmSpace.cardGutter, MmSpace.s32),
-              child: Center(
+              padding: EdgeInsets.fromLTRB(ReviewSpace.moment, compact ? MmSpace.s24 : MmSpace.s48, ReviewSpace.moment, MmSpace.s32),
+              // The stack sits at about 42% of the height, a little above the middle.
+              child: Align(
+                alignment: const Alignment(0, -0.16),
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 420),
                   // One entrance in reading order: Mobi settles, then the words, then the key.
@@ -97,8 +100,8 @@ class _ReviewStateViewState extends State<ReviewStateView> {
                               alignment: Alignment.bottomCenter,
                               children: [
                                 Positioned(
-                                  left: -MmSpace.cardGutter,
-                                  right: -MmSpace.cardGutter,
+                                  left: -ReviewSpace.moment,
+                                  right: -ReviewSpace.moment,
                                   top: -MmSpace.s32,
                                   bottom: -MmSpace.s16,
                                   child: IgnorePointer(

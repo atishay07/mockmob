@@ -39,8 +39,19 @@ class MarksFlow extends StatelessWidget {
   static const double rowGap = 14;
   static const double numberSize = 28;
 
-  /// The full animation, for whoever drives [grow].
-  static const Duration duration = Duration(milliseconds: 1200);
+  /// The full animation, for whoever drives [grow]: the column grows in 300 ms, then the ribbons
+  /// draw 70 ms apart, 420 ms each (MOTION 4.8: about 700 ms of ribbons, 900 ms in all).
+  static const Duration duration = Duration(milliseconds: 900);
+
+  static const double _ms = 900;
+  static const double _column = 300 / _ms;
+  static const double _ribbonStart = 200 / _ms;
+  static const double _ribbonStep = 70 / _ms;
+  static const double _ribbon = 420 / _ms;
+
+  /// A row's words start once its ribbon is 38% of the way across, and its number lands with it.
+  static const double _wordsLead = _ribbon * 0.38;
+  static const double _words = 320 / _ms;
 
   @override
   Widget build(BuildContext context) {
@@ -171,18 +182,19 @@ class MarksFlow extends StatelessWidget {
     );
   }
 
-  /// The column fills over the first 28%.
-  static double columnAt(double t) => Curves.easeOutCubic.transform((t / 0.28).clamp(0.0, 1.0));
+  /// The column fills over the first 300 ms.
+  static double columnAt(double t) => Curves.easeOutCubic.transform((t / _column).clamp(0.0, 1.0));
 
-  /// Ribbon [i] runs from 18%, each 9% after the one before, over 42% of the time.
-  static double ribbonAt(double t, int i) => Motion.emphasized.transform(((t - 0.18 - i * 0.09) / 0.42).clamp(0.0, 1.0));
+  /// Ribbon [i] runs from 200 ms, each 70 ms after the one before, for 420 ms.
+  static double ribbonAt(double t, int i) => Motion.emphasized.transform(((t - _ribbonStart - i * _ribbonStep) / _ribbon).clamp(0.0, 1.0));
 
-  /// Row [i]'s words arrive as its ribbon reaches them.
-  static double _wordsAt(double t, int i) => ((t - 0.34 - i * 0.09) / 0.32).clamp(0.0, 1.0);
+  /// Row [i]'s words arrive as its ribbon reaches them, rising 12 dp.
+  static double _wordsAt(double t, int i) => ((t - _ribbonStart - _wordsLead - i * _ribbonStep) / _words).clamp(0.0, 1.0);
 
   /// Row [i]'s number counts from when its words start to arrive until its ribbon lands
   /// (`ribbonAt(t, i)` reaches 1 at the same moment).
-  static double countAt(double t, int i) => Motion.emphasized.transform(((t - 0.34 - i * 0.09) / 0.26).clamp(0.0, 1.0));
+  static double countAt(double t, int i) =>
+      Motion.emphasized.transform(((t - _ribbonStart - _wordsLead - i * _ribbonStep) / (_ribbon - _wordsLead)).clamp(0.0, 1.0));
 
   /// A row's words while its number counts: the running number sits right-aligned in the space
   /// the final number takes, so the unit never shifts as digits are added. TalkBack hears the

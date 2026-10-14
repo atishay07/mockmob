@@ -7,6 +7,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../result_copy.dart';
 import '../model/practice_result_model.dart';
+import 'surface_roles.dart';
 
 /// How a not-attempted question is being shown: hidden answer, a private try, or the answer.
 enum BlankMode { question, trying, answer }
@@ -353,7 +354,10 @@ class OptionLine extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final marked = isGiven || isKey;
-    final Color fill = givenWrong ? colors.wrongSurface : colors.ground;
+    // The answer is the selected surface with a 2 dp ink ring and the volt letter, the same weight
+    // on Night and Day (SPACING.md 8.1); a wrong pick keeps the wrong roles; the rest stay flat on
+    // the page.
+    final Color fill = givenWrong ? colors.wrongSurface : (marked ? selectedSurface(colors) : colors.ground);
     final Color border = givenWrong ? colors.wrongBorder : (marked ? colors.ink : colors.line);
     final tag = switch ((isGiven, isKey)) {
       (true, true) => '$givenLabel, the correct answer',
@@ -372,7 +376,7 @@ class OptionLine extends StatelessWidget {
           color: fill,
           shape: RoundedSuperellipseBorder(
             borderRadius: MmRadius.keyAll,
-            side: BorderSide(color: border, width: marked ? 1.5 : 1),
+            side: BorderSide(color: border, width: marked ? 2 : 1),
           ),
         ),
         child: Padding(

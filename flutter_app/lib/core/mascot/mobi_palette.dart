@@ -9,7 +9,10 @@ class MobiPalette {
     required this.rim,
     required this.rimAlpha,
     required this.shadow,
+    required this.shadowAlpha,
     required this.pool,
+    required this.poolAlpha,
+    required this.lit,
     required this.zzz,
     required this.limb,
     required this.limbHi,
@@ -31,8 +34,20 @@ class MobiPalette {
   /// Contact shadow under the boots.
   final Color shadow;
 
+  /// The contact shadow's strength where the boots meet the floor (SPACING.md 8.4: black 24% at
+  /// Night, sepia 12% in Daylight, set here once for every Mobi).
+  final double shadowAlpha;
+
   /// The soft lamp-light pool on a stage.
   final Color pool;
+
+  /// The pool's strength at its centre: a little softer in Daylight than at Night, as the subject
+  /// light fields are.
+  final double poolAlpha;
+
+  /// The lit bulb's edge in Daylight, in place of a glow (MOTION.md 1.4: no glows on paper, a
+  /// 1 dp `#526700` edge instead). Null at Night, where the bulb glows.
+  final Color? lit;
 
   /// Sleepy z's.
   final Color zzz;
@@ -62,7 +77,10 @@ class MobiPalette {
     rim: Color(0xFFF2B865),
     rimAlpha: 0.5,
     shadow: Color(0xFF000000),
+    shadowAlpha: 0.24,
     pool: Color(0xFFF2A93B),
+    poolAlpha: 0.26,
+    lit: null,
     zzz: Color(0xFFF4F0E6),
     limb: Color(0xFF3A3631),
     limbHi: Color(0xFF6A6358),
@@ -74,7 +92,10 @@ class MobiPalette {
     rim: Color(0xFFFFFFFF),
     rimAlpha: 0.22,
     shadow: Color(0xFF3B2A12),
+    shadowAlpha: 0.12,
     pool: Color(0xFFF2C46B),
+    poolAlpha: 0.17,
+    lit: Color(0xFF526700),
     zzz: Color(0xFF17150F),
     limb: black,
     limbHi: blackHi,

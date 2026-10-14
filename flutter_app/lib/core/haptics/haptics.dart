@@ -38,10 +38,11 @@ class PlatformHapticDriver implements HapticDriver {
 /// | --- | --- |
 /// | Tab change, option select, unfold and drag thresholds, chips | [selection] (`selectionClick`) |
 /// | Start, a flip, a primary commit | [light] (`lightImpact`) |
-/// | Seal complete, a sheet opening | [medium] (`mediumImpact`) |
+/// | The seal landing, the unfold opening, the finish stamp | [medium] (`mediumImpact`) |
 /// | Server acknowledged a submission, a repair, a milestone | [success] (only after the ack) |
 ///
-/// Nothing on a wrong answer and nothing on errors.
+/// Opening a sheet gets nothing: the tap that opened it already ticked (MOTION.md 1.6). Nothing on
+/// a wrong answer and nothing on errors.
 class Haptics {
   const Haptics({required this.enabled, this.driver = const PlatformHapticDriver()});
 
@@ -58,7 +59,7 @@ class Haptics {
     if (enabled) await driver.lightImpact();
   }
 
-  /// Sheet opened, submission acknowledged by the server, repair finished, weekly goal met.
+  /// The seal landing, the unfold opening, the finish stamp. Not a sheet opening.
   Future<void> open() async {
     if (enabled) await driver.mediumImpact();
   }

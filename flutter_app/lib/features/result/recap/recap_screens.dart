@@ -54,7 +54,7 @@ class _SealedResultScreenState extends ConsumerState<SealedResultScreen> {
     // server's tone and held questions come only with the detail read. Until that read has a
     // value or has failed, the sheet stays a skeleton so the reveal never celebrates a result
     // that then turns out lower or held.
-    if (data.detailPending) {
+    if (data.revealPending) {
       return RecapPlaceholder(data: data, attemptId: id, onRetry: () => retryRecapData(ref, id));
     }
     return RecapFlow(model: model, entry: ritual.decayed ? SheetEntry.sealedDecayed : SheetEntry.sealed, ritual: ritual);
@@ -76,7 +76,7 @@ class RecapScreen extends ConsumerWidget {
     if (model == null) {
       return RecapPlaceholder(data: data, attemptId: attemptId, onRetry: () => retryRecapData(ref, attemptId));
     }
-    if (data.detailPending) {
+    if (data.revealPending) {
       return RecapPlaceholder(data: data, attemptId: attemptId, onRetry: () => retryRecapData(ref, attemptId));
     }
     return RecapFlow(model: model, entry: SheetEntry.open, initialCard: card);

@@ -124,12 +124,13 @@ void main() {
   });
 
   group('Celebrations setting', () {
-    test('Full: one open haptic, the ring for a met week, a hop for a first', () async {
+    test('Full: one success haptic, the ring for a met week, a hop for a first', () async {
       final week = await controller().celebrate(CelebrationEvent.weekMet(weekStart: '2026-10-05', studyDays: 4, goal: 4));
       expect(week!.ring, isTrue);
       expect(week.mobiHop, isFalse);
       expect(week.receipt, '4 of 4 study days. Saved on the server.');
-      expect(driver.calls, ['medium']);
+      // The success pattern (a medium then a light), once, after the server's acknowledgement.
+      expect(driver.calls, ['medium', 'light']);
       final first = await controller().celebrate(CelebrationEvent.weekMet(weekStart: '2026-10-12', studyDays: 4, goal: 4, firstEver: true));
       expect(first!.mobiHop, isTrue);
       expect(first.sentence, 'Your first week in rhythm is done.');

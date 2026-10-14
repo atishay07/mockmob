@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api_providers.dart';
 import '../../../core/models/attempt.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/router/routes.dart';
@@ -18,7 +19,6 @@ import '../data/subject_names.dart';
 import '../data/trend.dart';
 import '../insights_paths.dart';
 import '../widgets/insights_bits.dart';
-import '../widgets/motion_bits.dart';
 import '../widgets/ledger_hero.dart';
 import '../widgets/recovery_sections.dart';
 import '../widgets/record_sections.dart';
@@ -111,12 +111,12 @@ class InsightsScreen extends ConsumerWidget {
         primary: StateAction(InsightsCopy.emptyAction, () => context.push(Uri(path: AppRoutes.practiceStart, queryParameters: {'mode': 'quick', 'count': '10'}).toString())),
       );
     } else {
-      body = RefreshIndicator(
+      body = MmPullRefresh(
         onRefresh: () => _refresh(ref),
-        color: colors.ink,
-        backgroundColor: colors.raised,
         child: ListView(
-          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s48),
+          // The pull is drawn by the ring, so the list must always take a drag, even when short.
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s32),
           children: [
             // The same rounded inline banner as every other notice, in the flow with the page's gutter.
             if (state.isStale || inputs.attemptsState.isStale || inputs.recovery.isStale) ...[
@@ -125,7 +125,9 @@ class InsightsScreen extends ConsumerWidget {
             ],
             ..._sections(context, ref, value, inputs),
             if (RecoverySections.shows(inputs.recovery)) ...[
-              const SizedBox(height: MmSpace.group + MmSpace.s8),
+              const SizedBox(height: MmSpace.group),
+              Divider(height: 1, color: colors.line),
+              const SizedBox(height: MmSpace.s16),
               RecoverySections(
                 state: inputs.recovery,
                 onRetry: () => ref.read(recoveryRecordRepositoryProvider.notifier).refresh(force: true),
@@ -179,13 +181,12 @@ class InsightsScreen extends ConsumerWidget {
       const SizedBox(height: MmSpace.s12),
       AskMobiStrip(onTap: () => context.push(InsightsPaths.ask)),
     ];
-    // A section reveals as it is built (the list builds lazily, so as it nears the viewport).
-    Widget section(String title, Widget child, {String? caption}) => RiseIn(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            // A hairline and space set sections apart; only the hero and the lead finding are cards.
-            children: [Divider(height: 1, color: context.mmColors.line), const SizedBox(height: MmSpace.s24), SectionTitle(title, caption: caption), child],
-          ),
+    // Sections are simply there: no fade-up as they are built or scrolled to (text never moves while
+    // the record scrolls). Only the charts inside them draw, once, as they come into view.
+    Widget section(String title, Widget child, {String? caption}) => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // A hairline and space set sections apart; only the hero and the lead finding are cards.
+          children: [Divider(height: 1, color: context.mmColors.line), const SizedBox(height: MmSpace.s16), SectionTitle(title, caption: caption), child],
         );
     final chapters = <Widget>[
       if (v.ranked.isNotEmpty || v.thin.isNotEmpty) ...[
@@ -362,13 +363,13 @@ class _HeroSkeleton extends StatelessWidget {
         shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s20),
+        padding: const EdgeInsets.all(MmSpace.s20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Skeleton.line(width: 190, height: 14),
             const SizedBox(height: MmSpace.s12),
-            const Skeleton(width: 150, height: 84, radius: 20),
+            const Skeleton(width: 150, height: 84, radius: MmRadius.key),
             const SizedBox(height: MmSpace.s12),
             const Skeleton.line(width: 230, height: 14),
             const SizedBox(height: MmSpace.s20),

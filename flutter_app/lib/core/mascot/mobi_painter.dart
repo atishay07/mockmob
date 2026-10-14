@@ -259,9 +259,13 @@ void _contactShadow(Canvas c, MobiRig r, double lift, MobiPalette p) {
   final k = (1 - lift / 70).clamp(0.35, 1.0);
   final center = Offset(71 + r.x * 0.6, MobiGeo.ground + 0.5);
   // A wide soft pool, and under it a tighter, firmer contact core where the boots meet the floor
-  // (on the cream Day ground a single faint ellipse read as a smudge, not as weight).
-  _shadowEllipse(c, center, 104 * k, 12 * k, (p.night ? 0.62 : 0.34) * k, p);
-  _shadowEllipse(c, center, 66 * k, 6.5 * k, (p.night ? 0.5 : 0.5) * k, p);
+  // (a single faint ellipse reads as a smudge, not as weight). Together they reach the palette's
+  // [MobiPalette.shadowAlpha] under the boots and no more.
+  final peak = p.shadowAlpha;
+  final pool = peak / 2;
+  final core = 1 - (1 - peak) / (1 - pool);
+  _shadowEllipse(c, center, 104 * k, 12 * k, pool * k, p);
+  _shadowEllipse(c, center, 66 * k, 6.5 * k, core * k, p);
 }
 
 void _shadowEllipse(Canvas c, Offset center, double width, double height, double alpha, MobiPalette p) {

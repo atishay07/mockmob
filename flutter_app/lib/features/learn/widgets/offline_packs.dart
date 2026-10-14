@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/lesson_loader.dart';
 import '../models/learn_catalog.dart';
@@ -22,37 +23,29 @@ class OfflinePacks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
     final type = context.mmType;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
-          padding: const EdgeInsets.only(bottom: MmSpace.s8, left: MmSpace.s4),
+          padding: const EdgeInsets.only(bottom: MmSpace.s12),
           child: Semantics(
             header: true,
             child: Text(LearnCopy.offlineHeading, style: type.subhead),
           ),
         ),
-        DecoratedBox(
-          decoration: BoxDecoration(
-            color: colors.raised,
-            borderRadius: MmRadius.panelAll,
-            border: Border.all(color: colors.line),
-          ),
-          child: Column(
-            children: [
-              for (var i = 0; i < subjects.length; i++) ...[
-                if (i > 0) Divider(height: 1, thickness: 1, color: colors.line),
-                _PackRow(
-                  subject: subjects[i],
-                  kept: state.kept.contains(subjects[i].id),
-                  bytes: state.sizeOf(subjects[i].id),
-                  onChanged: (keep) => onChanged(subjects[i].id, keep),
-                ),
-              ],
-            ],
-          ),
+        // The same grouped list as the lessons, so the card has the same edge in Night and Day.
+        MmRowGroup(
+          dividerIndent: MmSpace.s16,
+          children: [
+            for (final subject in subjects)
+              _PackRow(
+                subject: subject,
+                kept: state.kept.contains(subject.id),
+                bytes: state.sizeOf(subject.id),
+                onChanged: (keep) => onChanged(subject.id, keep),
+              ),
+          ],
         ),
       ],
     );
@@ -81,13 +74,23 @@ class _PackRow extends StatelessWidget {
               ? LearnCopy.keepSize(LearnCopy.bytes(bytes))
               : LearnCopy.keepNothingYet)
         : null;
-    return MergeSemantics(
-      child: ConstrainedBox(
+    final label = '${LearnCopy.keepForOffline}, ${subject.title}';
+    // The whole row is the switch's target and answers a touch at once; the Switch inside is
+    // only the picture of the state, so TalkBack hears one control.
+    return MmPressable(
+      semanticsLabel: label,
+      checked: kept,
+      button: false,
+      onTap: () => onChanged(!kept),
+      highlight: true,
+      pressedScale: 0.985,
+      focusRadius: BorderRadius.zero,
+      builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: MmSpace.s16,
-            vertical: MmSpace.s8,
+            vertical: MmSpace.s12,
           ),
           child: Row(
             children: [
@@ -95,26 +98,25 @@ class _PackRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      subject.title,
-                      style: type.body.copyWith(fontWeight: FontWeight.w500),
-                    ),
+                    Text(subject.title, style: type.labelLarge),
+                    const SizedBox(height: MmSpace.s2),
                     Text(
                       LearnCopy.keepForOffline,
-                      style: type.small.copyWith(color: colors.ink2),
+                      style: type.caption.copyWith(color: colors.ink2),
                     ),
                     if (detail != null)
                       Text(
                         detail,
-                        style: type.small.copyWith(color: colors.ink2),
+                        style: type.caption.copyWith(color: colors.ink2),
                       ),
                   ],
                 ),
               ),
               const SizedBox(width: MmSpace.s12),
-              Semantics(
-                label: '${LearnCopy.keepForOffline}, ${subject.title}',
-                child: Switch(value: kept, onChanged: onChanged),
+              ExcludeSemantics(
+                child: IgnorePointer(
+                  child: Switch(value: kept, onChanged: (_) {}),
+                ),
               ),
             ],
           ),

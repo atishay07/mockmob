@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/core/repositories/repositories.dart' show SignedOutException;
 import 'package:mockmob/core/theme/theme.dart';
@@ -151,7 +152,7 @@ void main() {
   });
 
   for (final scale in [1.0, 1.3]) {
-    testWidgets('practice-06: a long suggestion title stays clear of Mobi at ${scale}x text', (tester) async {
+    testWidgets('practice-06: a long suggestion title stays clear of the subject object at ${scale}x text', (tester) async {
       tester.view.physicalSize = const Size(360, 640) * 2;
       tester.view.devicePixelRatio = 2;
       addTearDown(tester.view.reset);
@@ -178,8 +179,11 @@ void main() {
       );
       await tester.pump(const Duration(milliseconds: 600));
       final title = tester.getRect(find.textContaining('Accounting for Partnership'));
-      final mobi = tester.getRect(find.byType(MobiCharacter));
-      expect(title.right, lessThanOrEqualTo(mobi.left));
+      // The object is drawn 136 dp, centred in its 156 dp box: its ink starts 10 dp inside the box.
+      final art = tester.getRect(find.byType(SubjectEmblem));
+      expect(title.right + MmSpace.s12, lessThanOrEqualTo(art.left));
+      // One object on the card, no Mobi beside it (SPACING.md 5).
+      expect(find.byType(MobiCharacter), findsNothing);
       expect(tester.takeException(), isNull);
     });
   }

@@ -215,6 +215,11 @@ class _Grow extends StatelessWidget {
   }
 }
 
+/// The bubbles that complete a row of the sheet (where you are, the seat, the subjects, the
+/// plan): only these burst as they ink. The rest ink quietly, so the flourish is not the same
+/// nine times in two minutes (MOTION.md 4.2).
+const Set<String> burstSteps = {Steps.stage, Steps.course, Steps.subjects, Steps.plan};
+
 /// One column of the answer sheet per step: a 22 dp bubble (inked when answered, dashed when
 /// skipped, ringed for the step on screen) in a fixed 30 dp box, so the ring never pushes its
 /// label down, and the step's label beneath ("2 of 7" above already counts). Every label has
@@ -260,11 +265,12 @@ class _BubbleTrack extends StatelessWidget {
                           : (answers.isSkipped(steps[i].id) ? BubbleState.blank : BubbleState.hollow),
                       emphasis: steps[i].id == current,
                       animate: animate,
+                      burst: burstSteps.contains(steps[i].id),
                     ),
                   ),
                 ),
                 if (labels) ...[
-                  const SizedBox(height: 4),
+                  const SizedBox(height: MmSpace.s4),
                   SizedBox(
                     height: scaler.scale(11.5 * 1.15),
                     child: OverflowBox(
@@ -287,15 +293,17 @@ class _BubbleTrack extends StatelessWidget {
   }
 }
 
-/// A bubble on the sheet's track. When it inks, a volt ring bursts out of it once (1x to 2.4x,
-/// fading, 520 ms), so an answer landing on the sheet is seen from anywhere on the screen.
-/// Transform-free: one painter on its own layer, ticking only while the ring is out.
+/// A bubble on the sheet's track. When a [burst] bubble inks, a ring bursts out of it once (1x
+/// to 2.4x, fading, 520 ms), so a finished row of the sheet is seen from anywhere on the screen;
+/// any other bubble just inks. Transform-free: one painter on its own layer, ticking only while
+/// the ring is out.
 class _TrackBubble extends StatefulWidget {
-  const _TrackBubble({required this.state, required this.emphasis, required this.animate});
+  const _TrackBubble({required this.state, required this.emphasis, required this.animate, required this.burst});
 
   final BubbleState state;
   final bool emphasis;
   final bool animate;
+  final bool burst;
 
   @override
   State<_TrackBubble> createState() => _TrackBubbleState();
@@ -307,7 +315,7 @@ class _TrackBubbleState extends State<_TrackBubble> with SingleTickerProviderSta
   @override
   void didUpdateWidget(_TrackBubble old) {
     super.didUpdateWidget(old);
-    if (widget.animate && old.state != BubbleState.filled && widget.state == BubbleState.filled && !Motion.reduced(context)) {
+    if (widget.burst && widget.animate && old.state != BubbleState.filled && widget.state == BubbleState.filled && !Motion.reduced(context)) {
       _burst.forward(from: 0);
     }
   }
@@ -322,6 +330,7 @@ class _TrackBubbleState extends State<_TrackBubble> with SingleTickerProviderSta
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return CustomPaint(
+      // A stroke on the ground: volt Night, olive Day (SPACING.md 8.3).
       foregroundPainter: _BurstPainter(progress: _burst, color: colors.isNight ? colors.volt : colors.accentText),
       child: Bubble(state: widget.state, size: 22, emphasis: widget.emphasis, inkOrigin: const Offset(-1, 0), animate: widget.animate),
     );

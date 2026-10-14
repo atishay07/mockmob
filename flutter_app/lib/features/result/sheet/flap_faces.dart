@@ -69,7 +69,7 @@ class FlapOutside extends StatelessWidget {
                             Text(model.mockLabel, style: type.figure.copyWith(fontSize: 44, height: 1)),
                             const SizedBox(height: 2),
                             Text(model.subjectName, style: type.title.copyWith(color: colors.ink2, fontSize: 20)),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: MmSpace.s8),
                             SizedBox(
                               width: geometry.width * 0.58,
                               child: Text(

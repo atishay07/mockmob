@@ -16,6 +16,7 @@ import '../copy.dart';
 import '../data/trend.dart';
 import 'edge_fade.dart';
 import 'evidence.dart';
+import 'motion_bits.dart';
 
 /// Marks per session in one format, with a chip per format the student has played. A single
 /// session is a point and a sentence, never a line.
@@ -24,8 +25,10 @@ import 'evidence.dart';
 /// the latest session until a dot is tapped, then it follows that dot (its marks, its change on
 /// the session before, its day and paper length), with one Show me opening that session. There is
 /// no second card repeating it.
-/// The line draws in left to right (500 ms) once per visit and again when the format changes;
-/// never on a rebuild with the same data, and never under reduced motion.
+/// The line draws in left to right (450 ms) when the chart is 72 dp into the viewport, once per
+/// visit, and again when the format changes; never on a rebuild with the same data, and never
+/// under reduced motion. The latest dot's halo blooms over the last 30% of the draw. A tapped dot
+/// grows its ring over 150 ms and the readout cross-fades.
 class TrendSection extends ConsumerStatefulWidget {
   const TrendSection({super.key, required this.series});
 
@@ -35,14 +38,25 @@ class TrendSection extends ConsumerStatefulWidget {
   ConsumerState<TrendSection> createState() => _TrendSectionState();
 }
 
-class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerProviderStateMixin {
+class _TrendSectionState extends ConsumerState<TrendSection> with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   String? _key;
   int? _picked;
   String? _drawnKey;
+
+  /// Whether the chart has been 72 dp inside the viewport yet; the line waits for it.
+  bool _seen = false;
   late final AnimationController _draw = AnimationController(vsync: this, duration: _drawIn, value: 1);
 
+  /// The ring of a tapped dot growing.
+  late final AnimationController _ring = AnimationController(vsync: this, duration: _ringIn, value: 1);
+
   /// The line drawing in, left to right.
-  static const Duration _drawIn = Duration(milliseconds: 600);
+  static const Duration _drawIn = Motion.drawIn;
+  static const Duration _ringIn = Duration(milliseconds: 150);
+
+  /// The format and the tapped dot survive scrolling away and back.
+  @override
+  bool get wantKeepAlive => true;
 
   static const double _chartHeight = 168;
 
@@ -65,22 +79,38 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
     _maybeDraw();
   }
 
-  /// Draws the line in when the series on screen is new to this visit.
+  /// Draws the line in when the series on screen is new to this visit and the chart can be seen.
   void _maybeDraw() {
     final s = _selected;
     final key = '${s.key}:${s.points.length}:${s.points.last.attemptId}';
     if (_drawnKey == key) return;
-    _drawnKey = key;
     if (Motion.reduced(context) || s.points.length < 2) {
+      _drawnKey = key;
       _draw.value = 1;
+    } else if (!_seen) {
+      // Waiting for the chart to come into view: the plot is empty until then.
+      _draw.value = 0;
     } else {
+      _drawnKey = key;
       _draw.forward(from: 0);
     }
+  }
+
+  void _onSeen() {
+    if (!mounted) return;
+    _seen = true;
+    _maybeDraw();
+  }
+
+  void _pickPoint(int? i) {
+    setState(() => _picked = i);
+    if (i != null && !Motion.reduced(context)) _ring.forward(from: 0);
   }
 
   @override
   void dispose() {
     _draw.dispose();
+    _ring.dispose();
     super.dispose();
   }
 
@@ -98,6 +128,7 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final colors = context.mmColors;
     final type = context.mmType;
     final s = _selected;
@@ -167,9 +198,18 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
                 liveRegion: true,
                 label: _describe(point),
                 excludeSemantics: true,
-                child: Text(
-                  InsightsCopy.trendReadout(formatDayMonthShort(point.at.toLocal()), point.maxMarks ~/ 5),
-                  style: type.caption.copyWith(color: colors.ink2),
+                // The note cross-fades when another dot is tapped (150 ms); nothing else moves.
+                child: AnimatedSwitcher(
+                  duration: Motion.of(context, const Duration(milliseconds: 150)),
+                  layoutBuilder: (current, previous) => Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [...previous, ?current],
+                  ),
+                  child: Text(
+                    InsightsCopy.trendReadout(formatDayMonthShort(point.at.toLocal()), point.maxMarks ~/ 5),
+                    key: ValueKey(point.attemptId),
+                    style: type.caption.copyWith(color: colors.ink2),
+                  ),
                 ),
               ),
             ),
@@ -198,19 +238,24 @@ class _TrendSectionState extends ConsumerState<TrendSection> with SingleTickerPr
                   onTapUp: (d) {
                     final i = geo.nearest(d.localPosition);
                     ref.read(hapticsProvider).selection();
-                    setState(() => _picked = i == _picked ? null : i);
+                    _pickPoint(i == _picked ? null : i);
                   },
-                  child: AnimatedBuilder(
-                    animation: _draw,
-                    builder: (context, _) => CustomPaint(
-                      painter: _TrendPainter(
-                        geo: geo,
-                        colors: colors,
-                        labelStyle: type.caption.copyWith(color: colors.ink3),
-                        progress: Motion.out.transform(_draw.value),
-                        picked: picked,
-                        describe: (i) => _describe(shown[i]),
-                        onPoint: (i) => setState(() => _picked = i),
+                  child: WhenInView(
+                    onVisible: _onSeen,
+                    child: AnimatedBuilder(
+                      animation: Listenable.merge([_draw, _ring]),
+                      builder: (context, _) => CustomPaint(
+                        painter: _TrendPainter(
+                          geo: geo,
+                          colors: colors,
+                          labelStyle: type.caption.copyWith(color: colors.ink3),
+                          progress: Motion.emphasized.transform(_draw.value),
+                          bloom: ((_draw.value - 0.7) / 0.3).clamp(0.0, 1.0),
+                          ring: Motion.out.transform(_ring.value),
+                          picked: picked,
+                          describe: (i) => _describe(shown[i]),
+                          onPoint: _pickPoint,
+                        ),
                       ),
                     ),
                   ),
@@ -285,6 +330,8 @@ class _TrendPainter extends CustomPainter {
     required this.colors,
     required this.labelStyle,
     required this.progress,
+    required this.bloom,
+    required this.ring,
     required this.picked,
     required this.describe,
     required this.onPoint,
@@ -296,6 +343,12 @@ class _TrendPainter extends CustomPainter {
 
   /// How far the line has drawn in, 0 to 1.
   final double progress;
+
+  /// The latest dot's halo, blooming over the last 30% of the draw, 0 to 1.
+  final double bloom;
+
+  /// The tapped dot's ring growing, 0 to 1.
+  final double ring;
   final int? picked;
   final String Function(int i) describe;
   final ValueChanged<int> onPoint;
@@ -381,24 +434,26 @@ class _TrendPainter extends CustomPainter {
       final lastPoint = i == shown.length - 1;
       final isPicked = i == picked;
       final r = lastPoint || isPicked ? 7.0 : 4.0;
-      if (lastPoint) {
-        // The latest session carries a halo, the one lit point of the chart.
-        canvas.drawCircle(c, r + 7, Paint()..color = line.withValues(alpha: 0.16));
+      if (lastPoint && bloom > 0) {
+        // The latest session carries a halo, the one lit point of the chart. It blooms as the
+        // line arrives, and on Daylight it is a 1 dp ring only (a glow is invisible on paper).
+        if (colors.isNight) canvas.drawCircle(c, (r + 7) * bloom, Paint()..color = line.withValues(alpha: 0.16 * bloom));
         canvas.drawCircle(
           c,
-          r + 4,
+          (r + 4) * bloom,
           Paint()
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.2
-            ..color = line.withValues(alpha: 0.55),
+            ..color = line.withValues(alpha: 0.55 * bloom),
         );
       }
       canvas.drawCircle(c, r + 1, Paint()..color = colors.ground);
       bubbles.paint(canvas, c, r, lastPoint || isPicked ? BubbleState.filled : BubbleState.hollow);
       if (isPicked && !lastPoint) {
+        // The ring grows from the dot to its full size over 150 ms.
         canvas.drawCircle(
           c,
-          r + 4,
+          (r + 4) * (1 + 0.3 * ring),
           Paint()
             ..style = PaintingStyle.stroke
             ..strokeWidth = 1.5
@@ -424,7 +479,13 @@ class _TrendPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_TrendPainter old) =>
-      old.geo.points != geo.points || old.geo.size != geo.size || old.colors != colors || old.progress != progress || old.picked != picked;
+      old.geo.points != geo.points ||
+      old.geo.size != geo.size ||
+      old.colors != colors ||
+      old.progress != progress ||
+      old.bloom != bloom ||
+      old.ring != ring ||
+      old.picked != picked;
 }
 
 /// The change from the session before, in marks: a small outlined chip that says what it compares
@@ -447,7 +508,7 @@ class _DeltaChip extends StatelessWidget {
       child: DecoratedBox(
         decoration: ShapeDecoration(shape: StadiumBorder(side: BorderSide(color: tint.withValues(alpha: 0.6)))),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s6),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,

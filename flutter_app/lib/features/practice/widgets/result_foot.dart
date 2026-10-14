@@ -26,10 +26,12 @@ class ResultFoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line)), color: colors.ground),
+    // Solid ground under the keys; the page above dims into it through a 24 dp fade (BarFade on
+    // the scroller), so there is no rule and no half row (SPACING.md 4.5).
+    return ColoredBox(
+      color: colors.ground,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s8),
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,

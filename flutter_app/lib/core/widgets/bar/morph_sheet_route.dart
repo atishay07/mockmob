@@ -8,8 +8,8 @@ import '../../motion/motion.dart';
 import '../../theme/theme.dart';
 import '../materials/glass_surface.dart';
 
-/// A container transform from a small glass shape (the Start circle) into a glass sheet at the
-/// bottom of the screen (brief section 6): the glass grows out of [origin] in 420 ms while the
+/// A container transform from the bar's Start key into a glass sheet at the bottom of the
+/// screen (DOCK.md section 5.4): the glass grows out of [origin] in 420 ms while the
 /// sheet's content comes up with it, scaling out of the origin from the first fifth of the
 /// morph, so the growing shape is never an empty slab. Back,
 /// the scrim and a drag down close it the same way: the sheet follows the finger, closes past
@@ -23,8 +23,47 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
     required this.reduced,
     this.semanticsLabel,
     this.volt = const Color(0xFFD2F000),
+    this.interactive = false,
     super.settings,
   });
+
+  /// Opened by a drag up from Start: the sheet follows the finger ([dragTo]) instead of
+  /// playing its morph, and [settle] opens it or folds it back into the key.
+  final bool interactive;
+
+  @override
+  TickerFuture didPush() {
+    final future = super.didPush();
+    if (interactive) {
+      // Hold at the key; the finger drives the morph from here.
+      controller!.stop();
+      controller!.value = _minDrag;
+    }
+    return future;
+  }
+
+  /// Kept above zero so the route never reads as dismissed while the finger holds it.
+  static const double _minDrag = 0.001;
+
+  /// Follows a drag: [progress] of the way open (0 to 1).
+  void dragTo(double progress) {
+    final c = controller;
+    if (!interactive || c == null || !isActive) return;
+    c.value = progress.clamp(_minDrag, 1.0);
+  }
+
+  /// The finger lifted: opens the rest of the way, or folds back into the key and pops.
+  void settle({required bool open}) {
+    final c = controller;
+    if (c == null || !isActive) return;
+    if (open) {
+      if (interactive) c.forward();
+    } else if (isCurrent) {
+      navigator?.pop();
+    } else {
+      navigator?.removeRoute(this);
+    }
+  }
 
   /// The shape the sheet grows from, in global coordinates.
   final Rect origin;
@@ -57,7 +96,10 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
   Duration get transitionDuration => reduced ? Motion.crossFade : Motion.emphasizedDuration;
 
   @override
-  Duration get reverseTransitionDuration => reduced ? Motion.crossFade : const Duration(milliseconds: 300);
+  Duration get reverseTransitionDuration => reduced ? Motion.crossFade : const Duration(milliseconds: 280);
+
+  /// Closing: 280 ms on an accelerating curve, so the sheet gathers back into the key.
+  static const Cubic closeCurve = Cubic(0.3, 0, 0.8, 0.15);
 
   /// Where the content scales out of: the origin's centre, as an alignment inside the sheet.
   Alignment _anchor(Size screen) {
@@ -97,9 +139,10 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
               animation: animation,
               builder: (context, child) {
                 if (reduced) return FadeTransition(opacity: animation, child: child);
+                final closing = animation.status == AnimationStatus.reverse;
                 final clipper = _MorphClipper(
                   origin: origin,
-                  progress: _growCurve.transform(animation.value),
+                  progress: closing ? 1 - closeCurve.transform(1 - animation.value) : _growCurve.transform(animation.value),
                   screen: media.size,
                   bottom: bottom,
                   margin: margin,
@@ -154,8 +197,9 @@ class MorphSheetRoute<T> extends PopupRoute<T> {
       ),
     );
     if (reduced) return sheet;
-    // Start's volt disc stays where it was and dissolves as the glass grows out of it (and
-    // gathers again as the sheet closes into it), so the eye never loses the object it touched.
+    // Start's volt key stays where it was and dissolves as the glass grows out of it over the
+    // first 30% (and gathers again as the sheet closes into it), so the eye never loses the
+    // object it touched.
     return Stack(
       children: [
         sheet,
@@ -227,7 +271,7 @@ class _MorphRim extends CustomPainter {
   bool shouldRepaint(_MorphRim old) => old.animation != animation || old.clipper != clipper || old.lamp != lamp || old.edge != edge;
 }
 
-/// The volt disc left at the origin: full at 0, swelling a little and gone by 30% of the morph.
+/// The volt key left at the origin: full at 0, swelling a little and gone by 30% of the morph.
 class _OriginDisc extends CustomPainter {
   _OriginDisc({required this.animation, required this.color}) : super(repaint: animation);
 
@@ -242,7 +286,8 @@ class _OriginDisc extends CustomPainter {
     if (t >= 1) return;
     final e = Motion.glide.transform(t);
     final alpha = (1 - e) * (1 - e);
-    canvas.drawCircle(size.center(Offset.zero), 23 * (1 + 0.2 * e), Paint()..color = color.withValues(alpha: alpha));
+    final rect = Rect.fromCenter(center: size.center(Offset.zero), width: size.width * (1 + 0.2 * e), height: size.height * (1 + 0.2 * e));
+    canvas.drawRRect(RRect.fromRectAndRadius(rect, Radius.circular(rect.shortestSide / 2)), Paint()..color = color.withValues(alpha: alpha));
   }
 
   @override

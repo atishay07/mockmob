@@ -4,8 +4,9 @@
 // the callbacks, and goldens render it directly.
 //
 // One dominant volt key per state: Resume rhythm while paused (right under the status line), Turn
-// on rhythm while off (the plan and the pause are hidden then). Everything sits on one 20 dp
-// inset: the page gutter of 16 plus 4.
+// on rhythm while off (the plan and the pause are hidden then). Everything sits on the 16 dp page
+// gutter; the sections under the week are typeset (32 dp, a hairline, 16 dp, the heading) and the
+// lists are plain cards with one row padding (SPACING.md 3.1 and 4.3).
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -22,15 +23,13 @@ import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/week_view.dart';
+import 'rhythm_layout.dart';
 import 'rhythm_page.dart';
 import '../logic/plan_week.dart';
 import 'plan_week_strip.dart';
 import 'proud_mobi.dart';
 import 'run_ribbon.dart';
 import 'week_dial.dart';
-
-/// The page gutter is 16; everything on this screen sits 4 further in, on one 20 dp line.
-const double _inset = 4;
 
 class RhythmBody extends StatelessWidget {
   const RhythmBody({
@@ -90,9 +89,7 @@ class RhythmBody extends StatelessWidget {
 
     // One authored entrance as the page arrives (route driver): this week first, then the run,
     // the plan, the pause and the celebrations in reading order. Nothing moves once it is up.
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: _inset),
-      child: MmStagger(
+    return MmStagger(
         driver: MmStaggerDriver.route,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -120,7 +117,7 @@ class RhythmBody extends StatelessWidget {
             // The run: two numbers, then every week the server sent as a ribbon of capsules. Without
             // a run there is one plain line (never a zero).
             if (showRun) ...[
-              const SizedBox(height: MmRhythm.section),
+              const SectionBreak(),
               MmStaggerItem(
                 index: 1,
                 child: Column(
@@ -137,7 +134,7 @@ class RhythmBody extends StatelessWidget {
               ),
             ],
             if (!rhythmOff) ...[
-              const SizedBox(height: MmRhythm.section),
+              const SectionBreak(),
               MmStaggerItem(
                 index: 2,
                 child: Column(
@@ -164,14 +161,14 @@ class RhythmBody extends StatelessWidget {
               // A paused week already has its one key (Resume, under the ring), so the pause options
               // wait until the week is running again.
               if (!paused) ...[
-                const SizedBox(height: MmRhythm.section),
+                const SectionBreak(),
                 MmStaggerItem(
                   index: 3,
                   child: _PauseGroup(busy: busy, onThisWeek: onPauseThisWeek, onTwoWeeks: onPauseTwoWeeks, onUntilOn: onPauseUntilOn),
                 ),
               ],
             ],
-            const SizedBox(height: MmRhythm.section),
+            const SectionBreak(),
             MmStaggerItem(
               index: 4,
               child: Column(
@@ -180,7 +177,7 @@ class RhythmBody extends StatelessWidget {
                   const _Title(RhythmCopy.celebrationsTitle),
                   CelebrationsPicker(mode: mode, onMode: onMode),
                   if (!rhythmOff) ...[
-                    const SizedBox(height: MmRhythm.section),
+                    const SizedBox(height: MmRhythm.group),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: IntrinsicWidth(child: QuietPill(label: RhythmCopy.turnOff, danger: true, onPressed: busy ? null : onTurnOff)),
@@ -191,7 +188,6 @@ class RhythmBody extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }
@@ -267,9 +263,21 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
                     ),
                   ),
                 ),
-                WeekDial(done: week.studyDays, goal: week.goal, size: 188, paused: paused),
+                // The lead number of the screen: it ticks once where it lands. An ordinary open
+                // draws a met ring closed; the closing sweep belongs to the moment it is met.
+                WeekDial(
+                  done: week.studyDays,
+                  goal: week.goal,
+                  size: 188,
+                  paused: paused,
+                  onLanded: () => ref.read(hapticsProvider).selection(),
+                ),
                 if (week.met)
-                  const Align(alignment: Alignment(1, 0.95), child: ProudMobi(size: 76))
+                  // He cheers once the ring has inked in, never before.
+                  Align(
+                    alignment: const Alignment(1, 0.95),
+                    child: ProudMobi(size: 76, delay: WeekDial.settleAfter(done: week.studyDays, goal: week.goal)),
+                  )
                 else if (paused)
                   const Align(alignment: Alignment(1, 0.95), child: Mobi(pose: MobiPose.rest, size: 72)),
               ],
@@ -288,7 +296,7 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
           const SizedBox(height: MmSpace.s4),
           Text(RhythmCopy.pausedKeepsRun, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
           if (widget.onResume != null || widget.busy) ...[
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.s16),
             // The one dominant action of a paused screen.
             KeyButton(label: RhythmCopy.resume, onPressed: widget.busy ? null : widget.onResume),
           ],
@@ -297,7 +305,9 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
         LitEdge(
           child: FakeGlass(
             child: Padding(
-              padding: const EdgeInsets.all(MmSpace.s12),
+              // The day columns want every dp of width (a 48 dp target each), so the card's side
+              // padding is 8; the legend below is inset 8 more, onto the card's 16 dp text edge.
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: MmSpace.s12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -308,26 +318,32 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
                     daySemantics: true,
                     animateIn: true,
                     selected: _selected,
-                    onDay: (d) {
-                      ref.read(hapticsProvider).tick();
-                      setState(() => _selected = _selected == d.index ? null : d.index);
-                    },
+                    onDay: (d) => setState(() => _selected = _selected == d.index ? null : d.index),
                   ),
                   const SizedBox(height: MmSpace.s4),
-                  Padding(padding: const EdgeInsets.only(left: MmSpace.s8), child: PlanWeekKey(days: days)),
-                  AnimatedSize(
-                    duration: Motion.of(context, const Duration(milliseconds: 160)),
-                    curve: Motion.glide,
-                    alignment: Alignment.topCenter,
-                    child: picked == null
-                        ? const SizedBox(width: double.infinity)
-                        : Padding(
-                            padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s12, MmSpace.s8, MmSpace.s4),
-                            child: Semantics(
-                              liveRegion: true,
-                              child: Text(_sentence(picked), style: type.small.copyWith(color: colors.ink2)),
+                  // One slot for the legend and for the chosen day in words: a tap swaps them with
+                  // a 160 ms cross-fade and the card never changes height, so nothing below it
+                  // moves (MOTION.md 10).
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: MmSpace.s20),
+                    child: AnimatedSwitcher(
+                      duration: Motion.of(context, const Duration(milliseconds: 160)),
+                      layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+                      child: picked == null
+                          ? Padding(
+                              key: const ValueKey('legend'),
+                              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                              child: Align(alignment: Alignment.centerLeft, child: PlanWeekKey(days: days)),
+                            )
+                          : Padding(
+                              key: ValueKey('day-${picked.index}'),
+                              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                              child: Semantics(
+                                liveRegion: true,
+                                child: Text(_sentence(picked), style: type.small.copyWith(color: colors.ink2)),
+                              ),
                             ),
-                          ),
+                    ),
                   ),
                 ],
               ),
@@ -372,7 +388,10 @@ class _RunStats extends StatelessWidget {
   }
 }
 
-class _Stat extends ConsumerWidget {
+/// One of the run's two secondary figures: 40 sp, with its label 4 dp under the figure's box (the
+/// box is the ink plus about 2 dp, so the two read as one pair). The screen's lead number is the
+/// ring, so these roll in without a tick.
+class _Stat extends StatelessWidget {
   const _Stat({required this.value, required this.label, required this.semantics});
 
   final String value;
@@ -380,7 +399,7 @@ class _Stat extends ConsumerWidget {
   final String semantics;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     return Semantics(
@@ -390,13 +409,8 @@ class _Stat extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Rolls in after the screen has arrived and ticks once where it lands.
-          MonumentalNumber(
-            value: value,
-            style: type.figure.copyWith(fontSize: 56, height: 54 / 56),
-            delay: Motion.enterDuration,
-            onLanded: () => ref.read(hapticsProvider).selection(),
-          ),
+          // Rolls in after the screen has arrived, inside the 800 ms entrance.
+          MonumentalNumber(value: value, style: type.figureCompact, delay: kNumberRollDelay),
           const SizedBox(height: MmSpace.s4),
           Text(label, style: type.caption.copyWith(color: colors.ink2)),
         ],
@@ -460,7 +474,7 @@ class _OffBlock extends StatelessWidget {
           Semantics(header: true, child: Text(RhythmCopy.rhythmOffTitle, style: type.headline)),
           const SizedBox(height: MmSpace.s8),
           Text(RhythmCopy.rhythmOffBody, style: type.body.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s24),
+          const SizedBox(height: MmSpace.s16),
           KeyButton(label: RhythmCopy.turnOnRhythm, onPressed: onTurnOn),
         ],
       ),

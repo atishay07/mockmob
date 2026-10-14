@@ -6,6 +6,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
+import 'mistake_map.dart' show MistakeRow;
 
 /// The record's entries: every mistake that moved past Found, newest first. Reviewed entries
 /// have no server time and come last.
@@ -79,18 +80,20 @@ class RecordEntry extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // The same rail as the chapter threads on the map: the dot on the rail's centre and the
+            // text on E2, so a mistake reads the same on the tab, the list and the record.
             SizedBox(
-              width: 28,
+              width: MistakeRow.railWidth,
               child: CustomPaint(
                 painter: _RailPainter(color: colors.line, top: !first, bottom: !last),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 2),
+                    padding: const EdgeInsets.only(top: MmSpace.s2),
                     child: ColoredBox(
                       color: colors.ground,
                       child: Padding(
-                        padding: const EdgeInsets.all(3),
+                        padding: const EdgeInsets.all(MmSpace.s4),
                         child: Bubble(state: node, size: 16, animate: false),
                       ),
                     ),
@@ -98,7 +101,6 @@ class RecordEntry extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(bottom: MmSpace.s24),
@@ -111,10 +113,7 @@ class RecordEntry extends StatelessWidget {
                         Expanded(child: Text(title, style: type.labelLarge)),
                         const SizedBox(width: MmSpace.s12),
                         // The stage, said in words: the legend on the record page explains the thread.
-                        Padding(
-                          padding: const EdgeInsets.only(top: 1),
-                          child: Text(chip, style: type.caption.copyWith(color: chipColor, fontWeight: FontWeight.w700)),
-                        ),
+                        Text(chip, style: type.caption.copyWith(color: chipColor, fontWeight: FontWeight.w700)),
                       ],
                     ),
                     const SizedBox(height: MmSpace.s4),
@@ -143,7 +142,7 @@ class _RailPainter extends CustomPainter {
     final paint = Paint()
       ..color = color
       ..strokeWidth = 2;
-    canvas.drawLine(Offset(x, top ? 0 : 12), Offset(x, bottom ? size.height : 12), paint);
+    canvas.drawLine(Offset(x, top ? 0 : 14), Offset(x, bottom ? size.height : 14), paint);
   }
 
   @override

@@ -7,6 +7,7 @@ import '../../../core/domain/repair_candidates.dart' show repairDurationOptions;
 import '../../../core/models/attempt.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/attempts_repository.dart';
+import '../../../core/repositories/dismissal_repository.dart' show DismissalKey;
 import '../../../core/repositories/notification_prefs_repository.dart';
 import '../../../core/repositories/pending_result_repository.dart';
 import '../../../core/repositories/remote_state.dart';
@@ -14,6 +15,8 @@ import '../../../core/repositories/repair_local_repository.dart';
 import '../../../core/router/quick_start.dart' show QuickRepair;
 import '../../../core/router/routes.dart';
 import '../../learn/data/catalog_repository.dart';
+import '../../today/data/today_providers.dart' show todayDismissalsProvider;
+import '../../today/logic/move_builder.dart' show dismissalKeyFor;
 import 'mistake_index.dart';
 
 /// What the Review tab reads, in one place so tests and goldens can replace it whole.
@@ -50,11 +53,26 @@ int tenMinuteRepairCount(int open) {
   return open;
 }
 
-/// Start's "Repair the next mistake": tonight's first mistake, or null when there is none. The
-/// launcher's "10-min repair" opens the same mistake with a 10-minute count.
+/// Whether "Not today" has hidden tonight's repair [attemptId] on Today: the same key Today builds
+/// for the paper (kind, subject, source attempt), read from the same live dismissals, so the Start
+/// sheet and Today never name different things for one paper. The dismissal hides the suggestion
+/// only: Review itself still lists the mistakes and tonight's hero (it never deletes or hides
+/// anything there).
+bool repairDismissedForToday(ReviewIndex index, Set<DismissalKey> dismissed, String attemptId) {
+  if (dismissed.isEmpty) return false;
+  final attempt = index.attempt(attemptId);
+  return attempt != null && dismissed.contains(dismissalKeyFor(attempt));
+}
+
+/// Start's "Repair the next mistake": tonight's first mistake, or null when there is none or
+/// when Today's "Not today" has hidden it until 4 AM. The launcher's "10-min repair" opens the
+/// same mistake with a 10-minute count and follows the same rule.
 final quickRepairFromReviewProvider = Provider<QuickRepair?>((ref) {
-  final tonight = ref.watch(reviewIndexProvider)?.tonight;
-  if (tonight == null) return null;
+  final index = ref.watch(reviewIndexProvider);
+  final tonight = index?.tonight;
+  if (index == null || tonight == null) return null;
+  final dismissed = ref.watch(todayDismissalsProvider).value ?? const <DismissalKey>{};
+  if (repairDismissedForToday(index, dismissed, tonight.attemptId)) return null;
   final first = AppRoutes.reviewRepair(tonight.attemptId, tonight.items.first.questionId);
   return QuickRepair(
     location: first,

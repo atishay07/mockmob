@@ -37,8 +37,8 @@ enum ChoiceGlyphKind {
 }
 
 /// How long one glyph gesture runs. Every gesture ends where it began, so a cut-short frame never
-/// leaves a glyph half drawn.
-const Duration choiceGlyphGesture = Duration(milliseconds: 640);
+/// leaves a glyph half drawn. 420 ms, and only on the pressed tile (MOTION.md P1-6).
+const Duration choiceGlyphGesture = Duration(milliseconds: 420);
 
 /// Drives a glyph's gesture: [play] runs it once (a press), and [playAfter] once after a delay
 /// (the leading choice's entrance). Nothing runs under reduced motion.
@@ -114,6 +114,10 @@ class ChoiceGlyphPainter extends CustomPainter {
   final Animation<double> t;
   final bool lit;
 
+  // Light and shade, not paint (SPACING.md 8.4 parity): white lifts a lit face and black deepens
+  // a shaded one by a fraction, on whatever role colour they are mixed into, so the same object
+  // reads in both themes. Night and Day differ only through the role colours ([_body], [_face],
+  // [_accent]) and the shade strength (Day drops cast 55% of Night's, see `_drop`).
   static const Color _white = Color(0xFFFFFFFF);
   static const Color _black = Color(0xFF000000);
 
@@ -413,7 +417,9 @@ class ChoiceGlyphPainter extends CustomPainter {
   // ---- nta: the question palette --------------------------------------------------------
 
   void _nta(Canvas canvas, double p) {
-    // The exam palette's own colours: answered, not answered, marked, not visited.
+    // The exam palette's own colours: answered, not answered, marked, not visited, on the exam's
+    // pale panel with its navy header. Identical in Night and Day on purpose: it must look like
+    // the real NTA screen (SPACING.md 8.4, the NTA exam look).
     const answered = Color(0xFF309816);
     const notAnswered = Color(0xFFD84500);
     const marked = Color(0xFF512593);

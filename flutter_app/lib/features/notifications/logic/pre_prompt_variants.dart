@@ -5,10 +5,19 @@ enum PrePromptFocus { all, study, repair, result, weekly }
 
 /// One way the sheet asks: its title, the line under it, and which examples back it up.
 class PrePromptVariant {
-  const PrePromptVariant({required this.title, required this.line, this.focus = PrePromptFocus.all});
+  const PrePromptVariant({
+    required this.title,
+    required this.line,
+    this.focus = PrePromptFocus.all,
+    this.showLine = true,
+  });
 
   final String title;
   final String line;
+
+  /// False when the examples below already say what the line says (the first, general ask), so
+  /// the sheet leaves the line out. The wording stays here, and for the screen reader's label.
+  final bool showLine;
 
   /// The ask about a repair shows the repair reminder, not all three: one ask, one example.
   final PrePromptFocus focus;
@@ -58,6 +67,7 @@ PrePromptVariant prePromptVariantFor(int asks, {String? studyTime}) {
     _ => const PrePromptVariant(
       title: NotificationsCopy.promptTitle,
       line: NotificationsCopy.promptLead,
+      showLine: false,
     ),
   };
 }

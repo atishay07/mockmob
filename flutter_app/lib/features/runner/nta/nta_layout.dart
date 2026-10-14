@@ -52,7 +52,7 @@ class NtaActions {
 /// The exam screen (NTA-MODE-SPEC section 9.2): the blue bar with the clock and the progress, the
 /// section strip, the paper, and the two rows of exam keys. At 840 dp and wider the palette
 /// stands as a 320 dp column on the right, as on the website's desktop console.
-class NtaLayout extends StatelessWidget {
+class NtaLayout extends StatefulWidget {
   const NtaLayout({
     super.key,
     required this.session,
@@ -82,7 +82,25 @@ class NtaLayout extends StatelessWidget {
   final String? warning;
 
   @override
+  State<NtaLayout> createState() => _NtaLayoutState();
+}
+
+class _NtaLayoutState extends State<NtaLayout> {
+  /// The paper's column keeps its element when the layout crosses the wide breakpoint (a rotation,
+  /// a foldable, a resized window): the question's scroll offset, the passage's own scroll and the
+  /// open rules disclosure all live in it, and a GlobalKey carries them to the new parent.
+  final GlobalKey _paperKey = GlobalKey(debugLabel: 'nta-paper-column');
+
+  @override
   Widget build(BuildContext context) {
+    final session = widget.session;
+    final actions = widget.actions;
+    final canAnswer = widget.canAnswer;
+    final modalUp = widget.modalUp;
+    final strikes = widget.strikes;
+    final textScale = widget.textScale;
+    final candidate = widget.candidate;
+    final warning = widget.warning;
     final colors = context.mmColors;
     final s = session;
     final index = s.currentIndex;
@@ -91,7 +109,7 @@ class NtaLayout extends StatelessWidget {
     final subject = NtaCopy.subject(s.subject);
     final selected = s.answerFor(q.id);
     final marked = s.marked.contains(q.id);
-    final wide = MediaQuery.sizeOf(context).width >= wideBreakpoint;
+    final wide = MediaQuery.sizeOf(context).width >= NtaLayout.wideBreakpoint;
 
     final main = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,10 +175,11 @@ class NtaLayout extends StatelessWidget {
       ],
     );
 
+    final paper = KeyedSubtree(key: _paperKey, child: main);
     if (!wide) {
       return ExcludeSemantics(
         excluding: modalUp,
-        child: ColoredBox(color: colors.ground, child: main),
+        child: ColoredBox(color: colors.ground, child: paper),
       );
     }
     return ExcludeSemantics(
@@ -170,13 +189,13 @@ class NtaLayout extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(child: main),
+            Expanded(child: paper),
             DecoratedBox(
               decoration: BoxDecoration(
                 border: Border(left: BorderSide(color: colors.line)),
               ),
               child: SizedBox(
-                width: panelWidth,
+                width: NtaLayout.panelWidth,
                 child: Padding(
                   padding: EdgeInsets.only(top: MediaQuery.viewPaddingOf(context).top, bottom: MediaQuery.viewPaddingOf(context).bottom),
                   child: NtaPalettePanel(

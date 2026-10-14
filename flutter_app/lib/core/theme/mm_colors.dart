@@ -213,8 +213,19 @@ class MmColors extends ThemeExtension<MmColors> {
   /// The dim behind a sheet (the quick-start morph and every glass sheet). Lighter than [scrim],
   /// which still covers whole pages: the page behind a sheet stays readable, and the sheet sits in
   /// the same palette as the page instead of on a grey slab. Night is a warm black at 45%; Day is
-  /// a warm sepia at 26%, so cream stays cream (the old ink scrim at 40% turned it muddy grey).
-  Color get sheetScrim => isNight ? const Color(0x73080705) : const Color(0x425A4528);
+  /// a warm umber at 18% (about #DDD6C8 over cream), so cream stays cream. At 26% sepia the page
+  /// behind every Day sheet turned taupe (#CBC3B5), which is what the owner read as inconsistent.
+  Color get sheetScrim => isNight ? const Color(0x73080705) : const Color(0x2E4A3A20);
+
+  /// The surface of a selected, active or answer-state row. Night steps up to `raised2`; Day
+  /// cannot go lighter than `raised`, and its `raised2` is darker than the ground (it reads as a
+  /// hole), so Day keeps `raised` and the 2 px ink border carries the state. Use this, not a raw
+  /// `raised2`, for "selected", "correct" and "answer" surfaces (SPACING.md 8.1).
+  Color get selectedSurface => isNight ? raised2 : raised;
+
+  /// A filled mark (a dot, bubble or key) is volt on both themes; only volt as text or stroke on
+  /// the ground needs [accentText]. Named so a call site says which of the two it means.
+  Color get markFill => volt;
 
   /// The one colour of a wrong mark (a wrong bubble, the wrong part of a marks bar), the same on
   /// every screen of a theme.

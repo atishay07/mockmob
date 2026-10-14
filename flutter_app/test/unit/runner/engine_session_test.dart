@@ -22,10 +22,14 @@ import '../core_data/support/test_db.dart';
 class _GatedApi extends FakeSessionApi {
   Completer<void>? gate;
 
+  /// Thrown by the next PUTs: something other than an ApiError, like a malformed reply.
+  Object? failWith;
+
   @override
   Future<int> putEvents({required String sessionId, required List<SessionEvent> events}) async {
     final held = gate;
     if (held != null) await held.future;
+    if (failWith != null) throw failWith!;
     return super.putEvents(sessionId: sessionId, events: events);
   }
 }
@@ -204,5 +208,66 @@ void main() {
     expect(draft!.currentIndex, 2, reason: 'the old engine wrote its stale place over the new one');
     expect(draft.marked, contains('q3'));
     await second.close();
+  });
+
+  test('going to the background saves the place even when sending throws something odd (review-03)', () async {
+    await startLikePractice();
+    final session = ((await container().read(runnerOpenerProvider)('sess-1')) as RunnerReady).session;
+    await session.goTo(2);
+    await session.selectAnswer('q3', 0);
+    api.failWith = StateError('unexpected reply');
+
+    await session.onPaused(); // must neither throw nor skip the draft
+
+    final draft = await drafts.bySessionId('sess-1');
+    expect(draft!.currentIndex, 2, reason: 'the draft is the place a kill brings the student back to');
+    api.failWith = null;
+    await session.close();
+  });
+
+  test('a close that lands after a newer session took the same selection does not replace its draft (practice-02)', () async {
+    await startLikePractice();
+    final c = container();
+    final first = ((await c.read(runnerOpenerProvider)('sess-1')) as RunnerReady).session as EngineRunnerSession;
+    await first.goTo(1);
+
+    // The same selection starts a new session while the first is still closing: it takes the row.
+    final second = await SessionEngine.start(
+      services: services,
+      view: sessionViewOf(id: 'sess-2', count: 3, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000),
+      subject: 'accountancy',
+      mode: 'full',
+      count: 3,
+      generationKey: 'gen-2',
+      mockNumber: 7,
+    );
+    addTearDown(second.dispose);
+
+    await first.close(); // writes its own draft, unless the row is no longer its own
+
+    final stored = await drafts.byKey(second.draft.draftKey);
+    expect(stored!.sessionId, 'sess-2', reason: 'the old engine wrote its draft over the new session');
+    expect(await drafts.bySessionId('sess-2'), isNotNull, reason: 'opening the new session must still find it');
+  });
+
+  test('an acknowledgement that comes back after the close is still written to the draft (practice-05)', () async {
+    await startLikePractice();
+    final c = container();
+    final session = ((await c.read(runnerOpenerProvider)('sess-1')) as RunnerReady).session as EngineRunnerSession;
+    await session.selectAnswer('q1', 1);
+
+    // Leaving on a slow network: the PUT is still out when the wait is cut short.
+    api.gate = Completer<void>();
+    final closing = session.close();
+    await Future<void>.delayed(const Duration(milliseconds: 20));
+    await EngineRunnerSession.closed('sess-1'); // cuts the wait short, as reopening the session does
+    await closing;
+    expect((await drafts.bySessionId('sess-1'))!.acknowledgedSequence, 0, reason: 'nothing acknowledged yet');
+
+    // The PUT answers late: the acknowledgement is persisted, so a reopen does not count the answer as unsent.
+    api.gate!.complete();
+    api.gate = null;
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    expect((await drafts.bySessionId('sess-1'))!.acknowledgedSequence, greaterThan(0));
   });
 }

@@ -1,8 +1,10 @@
 // The earned moment of a milestone path (owner 13 Oct: milestones should feel earned, Mobi
-// animated like Duo). When a step lands, the path's brass token settles into place while one
-// ring sweeps round it, once, within the 500 ms milestone ceiling. The ring then stays as a thin
-// mark of "landed on this visit". Under reduced motion the finished state is drawn at once:
-// token in place, ring closed. One painter on a RepaintBoundary, no loops.
+// animated like Duo). When a step lands, the path's brass token is the object that lands (T3, the
+// lead of the moment): it settles into place on `Springs.celebrate` while its ring draws round it,
+// once, within the 500 ms milestone ceiling. The ring then stays as a thin mark of "landed on this
+// visit". The light event of the moment is the band across the step's own medal, not this ring.
+// Under reduced motion the finished state is drawn at once: token in place, ring closed. One
+// painter on a RepaintBoundary, no loops.
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -24,8 +26,14 @@ class EarnedToken extends StatefulWidget {
   State<EarnedToken> createState() => _EarnedTokenState();
 }
 
-class _EarnedTokenState extends State<EarnedToken> with SingleTickerProviderStateMixin {
+class _EarnedTokenState extends State<EarnedToken> with TickerProviderStateMixin {
+  /// The ring and the fade, 0 to 1 over the milestone ceiling.
   late final AnimationController _controller = AnimationController(vsync: this, duration: Motion.milestone);
+
+  /// The settle: from 0 (0.94 scale, 4 dp low) to 1 on the celebrate spring, which may pass 1 a
+  /// little before it rests.
+  late final AnimationController _settle = AnimationController.unbounded(vsync: this);
+  late final CurvedAnimation _sweep = CurvedAnimation(parent: _controller, curve: Motion.out);
   bool _started = false;
 
   @override
@@ -35,14 +43,18 @@ class _EarnedTokenState extends State<EarnedToken> with SingleTickerProviderStat
     _started = true;
     if (!widget.animate || Motion.reduced(context)) {
       _controller.value = 1;
+      _settle.value = 1;
     } else {
       _controller.forward();
+      _settle.animateWith(Motion.spring(Springs.celebrate, 0, 1));
     }
   }
 
   @override
   void dispose() {
+    _sweep.dispose();
     _controller.dispose();
+    _settle.dispose();
     super.dispose();
   }
 
@@ -50,9 +62,9 @@ class _EarnedTokenState extends State<EarnedToken> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     // The settle: from 0.94 and a little below its place, with a soft overshoot. Never from 0.
-    final settle = CurvedAnimation(parent: _controller, curve: const Interval(0, 0.8, curve: Curves.easeOutBack));
-    final sweep = CurvedAnimation(parent: _controller, curve: Motion.out);
-    final ring = colors.isNight ? colors.volt : colors.accentText;
+    final settle = _settle;
+    final sweep = _sweep;
+    final ring = colors.accentText;
     return ExcludeSemantics(
       child: SizedBox.square(
         dimension: widget.size,
@@ -64,7 +76,7 @@ class _EarnedTokenState extends State<EarnedToken> with SingleTickerProviderStat
                 child: CustomPaint(painter: _SweepPainter(progress: sweep, color: ring, track: colors.line)),
               ),
               AnimatedBuilder(
-                animation: settle,
+                animation: Listenable.merge([settle, _controller]),
                 builder: (context, child) {
                   final t = settle.value;
                   return Opacity(

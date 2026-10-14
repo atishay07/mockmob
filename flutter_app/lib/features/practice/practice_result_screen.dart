@@ -304,11 +304,17 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                     children: [
                       const PracticeAppBar(),
                       Expanded(
-                        child: TopEdgeFade(
+                        // The rows dim into the ground over the last 24 dp above the pinned foot,
+                        // never a half row cut at a hard edge (SPACING-AUDIT G10, P5).
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: TopEdgeFade(
                           controller: _scroll,
                           child: ListView(
                             controller: _scroll,
-                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                            // The last row scrolls fully clear of the fade above the foot.
+                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, BarFade.extent + MmSpace.s16),
                             children: [
                               // The moment waits the few milliseconds it takes to know whether
                               // this is the first open (so it never plays twice or not at all), and
@@ -367,6 +373,10 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                               ],
                             ],
                           ),
+                        ),
+                            ),
+                            const BarFade(),
+                          ],
                         ),
                       ),
                       ResultFoot(primary: _primary(attempt, model), showFinish: !large, onFinish: _finish),

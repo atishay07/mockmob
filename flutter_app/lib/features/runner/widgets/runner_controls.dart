@@ -6,32 +6,49 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// Small solid controls of the work layer. They answer a press with a fill change only: the
-/// runner keeps everything still while the student thinks.
+/// Small solid controls of the work layer. They answer a press on the next frame: the fill
+/// changes and the key sinks on the app's one press spring ([MmPressSpring]), then rises on
+/// release. Nothing around them moves: the press is a transform of the key alone.
 class _SolidKey extends StatefulWidget {
-  const _SolidKey({required this.builder, required this.onTap, required this.semanticsLabel, this.toggled});
+  const _SolidKey({required this.builder, required this.onTap, required this.semanticsLabel, this.toggled, this.pressedScale = Springs.pressedScale});
 
   final Widget Function(BuildContext context, bool pressed) builder;
   final VoidCallback? onTap;
   final String semanticsLabel;
   final bool? toggled;
 
+  /// How far the key sinks. A wide key sinks less, so it never drops more than a few dp.
+  final double pressedScale;
+
   @override
   State<_SolidKey> createState() => _SolidKeyState();
 }
 
-class _SolidKeyState extends State<_SolidKey> {
+class _SolidKeyState extends State<_SolidKey> with SingleTickerProviderStateMixin {
+  late final MmPressSpring _spring = MmPressSpring(this);
   bool _pressed = false;
   bool _focused = false;
 
   void _set(bool v) {
-    if (_pressed != v) setState(() => _pressed = v);
+    if (_pressed == v) return;
+    setState(() => _pressed = v);
+    _spring.to(v ? widget.pressedScale : 1, reduced: Motion.reduced(context));
+  }
+
+  @override
+  void dispose() {
+    _spring.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    Widget body = widget.builder(context, _pressed);
+    Widget body = AnimatedBuilder(
+      animation: _spring.scale,
+      child: widget.builder(context, _pressed),
+      builder: (context, child) => Transform.scale(scale: _spring.scale.value, child: child),
+    );
     if (_focused) {
       body = DecoratedBox(
         position: DecorationPosition.foreground,
@@ -77,8 +94,8 @@ class _SolidKeyState extends State<_SolidKey> {
   }
 }
 
-/// The flag of the mark toggle. When the question becomes marked it pops from 0.7 to full size
-/// (240 ms, emphasized); unmarking, and every rebuild, is still.
+/// The flag of the mark toggle. When the question becomes marked it pops from 0.8 to full size
+/// (180 ms, emphasized); unmarking, and every rebuild, is still.
 class _FlagGlyph extends StatefulWidget {
   const _FlagGlyph({required this.marked, required this.color});
 
@@ -90,7 +107,7 @@ class _FlagGlyph extends StatefulWidget {
 }
 
 class _FlagGlyphState extends State<_FlagGlyph> with SingleTickerProviderStateMixin {
-  late final AnimationController _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 240), value: 1);
+  late final AnimationController _pop = AnimationController(vsync: this, duration: const Duration(milliseconds: 180), value: 1);
 
   @override
   void didUpdateWidget(_FlagGlyph old) {
@@ -109,7 +126,7 @@ class _FlagGlyphState extends State<_FlagGlyph> with SingleTickerProviderStateMi
     return AnimatedBuilder(
       animation: _pop,
       child: Icon(LucideIcons.flag, size: 15, color: widget.color),
-      builder: (context, child) => Transform.scale(scale: 0.7 + 0.3 * Motion.emphasized.transform(_pop.value), child: child),
+      builder: (context, child) => Transform.scale(scale: 0.8 + 0.2 * Motion.emphasized.transform(_pop.value), child: child),
     );
   }
 }
@@ -232,6 +249,7 @@ class MarkToggle extends StatelessWidget {
       onTap: onChanged == null ? null : () => onChanged!(!marked),
       semanticsLabel: RunnerCopy.mark,
       toggled: marked,
+      pressedScale: 0.97,
       builder: (context, pressed) => SizedBox(
         height: 48,
         child: Align(
@@ -239,20 +257,22 @@ class MarkToggle extends StatelessWidget {
           widthFactor: 1,
           child: DecoratedBox(
             decoration: ShapeDecoration(
-              color: marked ? colors.raised2 : (pressed ? colors.raised2 : colors.ground),
+              // Selected is the strongest thing in both themes: a selected surface (Night lighter than
+              // the page, Day white, never Day's darker raised2) with a 2 dp ink ring.
+              color: marked ? colors.selectedSurface : (pressed ? colors.raised2 : colors.ground),
               shape: StadiumBorder(
-                side: BorderSide(color: marked ? colors.ink2 : colors.line, width: marked ? 1.5 : 1),
+                side: BorderSide(color: marked ? colors.ink : colors.line, width: marked ? 2 : 1),
               ),
             ),
             child: SizedBox(
               height: 36,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(MmSpace.s12, 0, MmSpace.s12 + 2, 0),
+                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     _FlagGlyph(marked: marked, color: marked ? colors.ink : colors.ink3),
-                    const SizedBox(width: MmSpace.s6),
+                    const SizedBox(width: MmSpace.s8),
                     Text(
                       marked ? RunnerCopy.marked : RunnerCopy.mark,
                       style: type.label.copyWith(color: marked ? colors.ink : colors.ink2),

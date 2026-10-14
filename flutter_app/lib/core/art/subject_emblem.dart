@@ -4,6 +4,7 @@ import '../motion/motion.dart';
 import '../theme/theme.dart';
 import 'emblem_painter.dart';
 import 'emblem_palette.dart';
+import 'emblem_sizes.dart';
 import 'emblem_subjects.dart';
 import 'subject_identity.dart';
 
@@ -11,7 +12,9 @@ import 'subject_identity.dart';
 /// in its form ink, with exactly one volt bubble placed where it means something (the
 /// equilibrium point, the nucleus, the ballot's choice).
 ///
-/// - [size] is the side in dp, legible from 24 to 160. Detail follows size (see [EmblemDetail]).
+/// - [size] is the side in dp, legible from 24 to 160. Use the four sizes of [EmblemSizes]
+///   (24, 40, 56, 136) so a subject is the same object on every screen. Detail follows size (see
+///   [EmblemDetail]). A size that is not a positive finite number draws nothing and takes no room.
 /// - [animate] turns on the idle cycle (7.2 s, phase-shifted per subject): a float on every object
 ///   and one signature motion per subject (the atom's orbit sweep, the flask's bubbles, the
 ///   code window's scan, the heads' nod). Off under reduced motion (system or in-app), off by
@@ -36,7 +39,7 @@ class SubjectEmblem extends StatefulWidget {
   const SubjectEmblem({
     super.key,
     required this.subject,
-    this.size = 56,
+    this.size = EmblemSizes.tile,
     this.animate = false,
     this.marked = false,
     this.selectable = false,
@@ -72,10 +75,18 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
   static const Duration idlePeriod = Duration(milliseconds: 7200);
 
   AnimationController? _idle;
-  late final AnimationController _ink = AnimationController(vsync: this, duration: Motion.ink, value: widget.marked ? 1 : 0);
+  late final AnimationController _ink;
   final ValueNotifier<double> _still = ValueNotifier<double>(0);
   bool _reduced = false;
   bool _tickerOn = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Created here, not on first use: a build that returns early (no room to draw) must still
+    // leave a controller to dispose.
+    _ink = AnimationController(vsync: this, duration: Motion.ink, value: widget.marked ? 1 : 0);
+  }
 
   @override
   void didChangeDependencies() {
@@ -129,6 +140,10 @@ class _SubjectEmblemState extends State<SubjectEmblem> with TickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
+    // A size that is zero, negative, NaN or infinite (a LayoutBuilder with no room, a divide by
+    // zero in a caller) takes no space and paints nothing instead of throwing in layout.
+    final side = widget.size;
+    if (!side.isFinite || side <= 0) return const SizedBox.shrink();
     final brightness = widget.brightness ?? Theme.of(context).brightness;
     final identity = SubjectIdentity.of(widget.subject) ?? SubjectIdentity.of('other')!;
     final palette = EmblemPalette.of(identity, brightness);

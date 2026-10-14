@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
@@ -71,6 +72,10 @@ List<Override> insightsOverrides({
   AskState ask = const AskState(),
   AiCredits? credits,
   SaveMarks marks = const SaveMarks(),
+
+  /// Leaves Ask's controller real (it sends through the api client the test supplies) instead of
+  /// fixing its state to [ask].
+  bool realAsk = false,
 }) {
   final record = insights ?? RemoteState(value: rich(), fetchedAt: _evening);
   return [
@@ -88,7 +93,7 @@ List<Override> insightsOverrides({
     ),
     saveControllerProvider.overrideWith(() => _FixedSave(marks)),
     if (stream != null) streamControllerProvider.overrideWith(() => FixedStream(stream)),
-    askControllerProvider.overrideWith(() => _FixedAsk(ask)),
+    if (!realAsk) askControllerProvider.overrideWith(() => _FixedAsk(ask)),
   ];
 }
 
@@ -105,6 +110,11 @@ void insightsGolden(
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
     testWidgets('$name, $tag', (tester) async {
+      // Mobi greets once a day and speaks once a run, by a clock: a fixed evening and fresh gates
+      // make every frame the same whatever order the goldens run in, or the hour they run at.
+      MobiRation.reset();
+      MobiRation.now = () => DateTime(2026, 10, 13, 19, 30);
+      addTearDown(MobiRation.reset);
       final boundary = GlobalKey();
       await pumpMockmob(
         tester,

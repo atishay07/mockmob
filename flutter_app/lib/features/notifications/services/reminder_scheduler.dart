@@ -203,7 +203,8 @@ class ReminderScheduler {
 
   /// The student tapped a reminder (or its Start action).
   Future<void> reminderOpened(String taskId) async {
-    await _store.update((s) => markEngaged(s, taskId));
+    final now = _now();
+    await _store.update((s) => markEngaged(s, taskId, now: now));
     _onStateChanged?.call();
   }
 

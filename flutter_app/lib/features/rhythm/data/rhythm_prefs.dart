@@ -36,12 +36,24 @@ final rhythmPrefsStoreProvider = Provider<PrefsStore>((ref) => SharedPrefsStore(
 class RhythmPrefs extends Notifier<RhythmPrefsState> {
   Completer<void>? _loading;
 
+  /// Bumped every time the notifier is rebuilt (an account switch). A read that started under an
+  /// earlier generation belongs to the previous account and must not touch the new state.
+  int _generation = 0;
+
+  /// A choice made while the stored values were still being read. The student's tap always wins:
+  /// the read then fills only the fields that were not touched.
+  bool _hiddenTouched = false;
+  bool _modeTouched = false;
+
   String? get _user => ref.read(userIdProvider);
-  String _key(String name) => 'rhythm_${name}_${_user ?? 'none'}';
+  static String _keyFor(String? user, String name) => 'rhythm_${name}_${user ?? 'none'}';
 
   @override
   RhythmPrefsState build() {
     ref.watch(userIdProvider);
+    _generation++;
+    _hiddenTouched = false;
+    _modeTouched = false;
     _loading = null;
     scheduleMicrotask(ensureLoaded);
     return const RhythmPrefsState();
@@ -52,14 +64,23 @@ class RhythmPrefs extends Notifier<RhythmPrefsState> {
     final existing = _loading;
     if (existing != null) return existing.future;
     final done = _loading = Completer<void>();
+    // Both keys are for the account that asked, read once before the first await.
+    final generation = _generation;
+    final user = _user;
     () async {
       final store = ref.read(rhythmPrefsStoreProvider);
       try {
-        final hidden = await store.getBool(_key('hidden')) ?? false;
-        final mode = CelebrationMode.fromName(await store.getString(_key('celebrations')));
-        if (ref.mounted) state = RhythmPrefsState(loaded: true, hidden: hidden, mode: mode);
+        final hidden = await store.getBool(_keyFor(user, 'hidden')) ?? false;
+        final mode = CelebrationMode.fromName(await store.getString(_keyFor(user, 'celebrations')));
+        if (ref.mounted && generation == _generation) {
+          state = RhythmPrefsState(
+            loaded: true,
+            hidden: _hiddenTouched ? state.hidden : hidden,
+            mode: _modeTouched ? state.mode : mode,
+          );
+        }
       } on Object {
-        if (ref.mounted) state = state.copyWith(loaded: true);
+        if (ref.mounted && generation == _generation) state = state.copyWith(loaded: true);
       } finally {
         done.complete();
       }
@@ -68,13 +89,17 @@ class RhythmPrefs extends Notifier<RhythmPrefsState> {
   }
 
   Future<void> setHidden(bool hidden) async {
+    _hiddenTouched = true;
+    final user = _user;
     state = state.copyWith(hidden: hidden, loaded: true);
-    await ref.read(rhythmPrefsStoreProvider).setBool(_key('hidden'), hidden);
+    await ref.read(rhythmPrefsStoreProvider).setBool(_keyFor(user, 'hidden'), hidden);
   }
 
   Future<void> setMode(CelebrationMode mode) async {
+    _modeTouched = true;
+    final user = _user;
     state = state.copyWith(mode: mode, loaded: true);
-    await ref.read(rhythmPrefsStoreProvider).setString(_key('celebrations'), mode.name);
+    await ref.read(rhythmPrefsStoreProvider).setString(_keyFor(user, 'celebrations'), mode.name);
   }
 }
 

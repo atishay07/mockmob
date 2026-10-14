@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -207,22 +208,29 @@ class _RunStepState extends ConsumerState<RunStep> {
         prompt,
         const SizedBox(height: MmSpace.s16),
         if (item.type == RunItemType.choice)
-          revealed
-              ? ResultOptions(
-                  options: item.options,
-                  correct: item.answerIndex,
-                  chosen: chosen == -1 ? null : chosen,
-                )
-              : LiveOptions(
-                  options: item.options,
-                  selected: _selected,
-                  onSelect: _sending
-                      ? (_) {}
-                      : (i) {
-                          ref.read(hapticsProvider).tick();
-                          setState(() => _selected = i);
-                        },
-                )
+          // Picked becomes decided in one 200 ms cross-fade; the option rows keep their places.
+          AnimatedSwitcher(
+            duration: Motion.of(context, Motion.ui),
+            child: KeyedSubtree(
+              key: ValueKey(revealed),
+              child: revealed
+                  ? ResultOptions(
+                      options: item.options,
+                      correct: item.answerIndex,
+                      chosen: chosen == -1 ? null : chosen,
+                    )
+                  : LiveOptions(
+                      options: item.options,
+                      selected: _selected,
+                      onSelect: _sending
+                          ? (_) {}
+                          : (i) {
+                              ref.read(hapticsProvider).tick();
+                              setState(() => _selected = i);
+                            },
+                    ),
+            ),
+          )
         else ...[
           AnswerField(
             controller: _text,
@@ -453,7 +461,7 @@ class _SupersededLine extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: const EdgeInsets.only(top: MmSpace.s2),
             child: Icon(
               LucideIcons.monitorSmartphone,
               size: 16,

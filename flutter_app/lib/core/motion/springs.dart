@@ -34,6 +34,10 @@ abstract final class Springs {
   static final SpringDescription iconPop =
       SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 420), bounce: 0.18);
 
+  /// A T3 stamp and Mobi: 520 ms, bounce 0.22. Nothing else may use it.
+  static final SpringDescription celebrate =
+      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 520), bounce: 0.22);
+
   /// The pressed scale of every tappable surface.
   static const double pressedScale = 0.96;
 }

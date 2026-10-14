@@ -6,16 +6,18 @@ import '../../../core/motion/motion.dart';
 /// is a transform or an opacity inside a RepaintBoundary; nothing reflows under the student's
 /// eyes, and every piece is skipped under reduced motion.
 abstract final class RunnerMotion {
-  /// A question arriving: its text, then each option 20 ms behind the one above (close enough that
-  /// several options are already in view halfway through).
+  /// A question arriving: its text, then each option 35 ms behind the one above (MOTION.md 4.6).
+  /// A rapid Next, Next cancels each arrival where it stands: every question is a fresh widget with
+  /// its own controller, so nothing queues.
   static const Duration enter = Duration(milliseconds: 260);
-  static const Duration stagger = Duration(milliseconds: 20);
+  static const Duration stagger = Duration(milliseconds: 35);
 
   /// The count "19 of 20" changing.
   static const Duration countFlip = Duration(milliseconds: 220);
 
-  /// The lock-in dot flying from the option's badge, up the gutter and along the track.
-  static const Duration flight = Duration(milliseconds: 380);
+  /// The lock-in dot flying from the option's badge, up the gutter and along the track (practice
+  /// only: a timed mock has no flight).
+  static const Duration flight = Duration(milliseconds: 240);
 
   /// The spark on the track cell: it floods volt, then cools to paper ink.
   static const Duration spark = Duration(milliseconds: 640);

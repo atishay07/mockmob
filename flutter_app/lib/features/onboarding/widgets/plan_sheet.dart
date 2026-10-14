@@ -16,8 +16,10 @@ import 'glyphs.dart';
 /// The back of the sheet: the plan, printed like the rows of an answer sheet. Each row's
 /// numbered bubble inks in turn and its line engraves after it; timing marks run down the left
 /// edge; the lamp pools behind the card. While the student holds to seal, a volt light runs
-/// around the edge ([seal]); when the seal lands ([stamp]) the foil seal drops into the corner
-/// with a ring wave. Volt appears only in the inked bubbles, the edge light and the seal.
+/// around the edge ([seal]); when the seal lands ([stamp]) the foil seal drops into the corner,
+/// with one ring wave when [wave] (the Celebrations setting is Full). That wave is the screen's
+/// one light event (MOTION.md 1.1), so the sheet turning face up has no sweep of its own.
+/// Volt appears only in the inked bubbles, the edge light and the seal.
 class PlanSheet extends StatelessWidget {
   const PlanSheet({
     super.key,
@@ -30,6 +32,7 @@ class PlanSheet extends StatelessWidget {
     this.animate = true,
     this.compact = false,
     this.stamp,
+    this.wave = true,
   });
 
   final PlanSummary plan;
@@ -49,8 +52,11 @@ class PlanSheet extends StatelessWidget {
   /// Tighter rows and a smaller seal, for a short window.
   final bool compact;
 
-  /// 0 to 1 as the seal lands (the ring wave); null draws it at rest.
+  /// 0 to 1 as the seal lands; null draws it at rest.
   final Animation<double>? stamp;
+
+  /// A ring wave spreads from the seal as it lands.
+  final bool wave;
 
   static const BorderRadius radius = MmRadius.panelAll;
   static const Duration stagger = Duration(milliseconds: 160);
@@ -117,7 +123,7 @@ class PlanSheet extends StatelessWidget {
                         ),
                         if (sealed) ...[
                           const SizedBox(width: MmSpace.s12),
-                          _StampedSeal(sealed: true, size: compact ? 56 : 72, animate: animate, stamp: stamp),
+                          _StampedSeal(sealed: true, size: compact ? 56 : 72, animate: animate, stamp: stamp, wave: wave),
                         ],
                       ],
                     ),
@@ -134,9 +140,7 @@ class PlanSheet extends StatelessWidget {
     // under the finger repaint only themselves, never the card.
     return CustomPaint(
       foregroundPainter: _SealTrace(progress: seal, color: colors.isNight ? colors.volt : colors.accentText),
-      child: RepaintBoundary(
-        child: _LampSweep(run: revealed && animate && !sealed, child: RepaintBoundary(child: card)),
-      ),
+      child: RepaintBoundary(child: card),
     );
   }
 }
@@ -175,87 +179,6 @@ class _Headline extends StatelessWidget {
       child: rise ? StepEntrance(child: words) : words,
     );
   }
-}
-
-/// One soft band of lamp light crossing the sheet once as it lands face up (700 ms), the moment
-/// layer's light sweep. Never repeats; off under reduced motion.
-class _LampSweep extends StatefulWidget {
-  const _LampSweep({required this.run, required this.child});
-
-  final bool run;
-  final Widget child;
-
-  @override
-  State<_LampSweep> createState() => _LampSweepState();
-}
-
-class _LampSweepState extends State<_LampSweep> with SingleTickerProviderStateMixin {
-  late final AnimationController _t = AnimationController(vsync: this, duration: Motion.sweep);
-  bool _done = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _maybeRun();
-  }
-
-  @override
-  void didUpdateWidget(_LampSweep old) {
-    super.didUpdateWidget(old);
-    _maybeRun();
-  }
-
-  void _maybeRun() {
-    if (_done || !widget.run) return;
-    _done = true;
-    if (!Motion.reduced(context)) _t.forward();
-  }
-
-  @override
-  void dispose() {
-    _t.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return CustomPaint(
-      foregroundPainter: _SweepPainter(progress: _t, color: colors.lamp.withValues(alpha: colors.isNight ? 0.16 : 0.22)),
-      child: widget.child,
-    );
-  }
-}
-
-class _SweepPainter extends CustomPainter {
-  _SweepPainter({required this.progress, required this.color}) : super(repaint: progress);
-
-  final Animation<double> progress;
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final p = progress.value;
-    if (p <= 0 || p >= 1) return;
-    final x = -size.width * 0.6 + size.width * 2.2 * Motion.sweepCurve.transform(p);
-    final band = size.width * 0.45;
-    canvas.save();
-    canvas.clipRRect(PlanSheet.radius.toRRect(Offset.zero & size));
-    final rect = Rect.fromLTWH(x - band, 0, band * 2, size.height);
-    canvas.drawRect(
-      rect,
-      Paint()
-        ..shader = LinearGradient(
-          begin: const Alignment(-1, -0.3),
-          end: const Alignment(1, 0.3),
-          colors: [color.withValues(alpha: 0), color, color.withValues(alpha: 0)],
-        ).createShader(rect),
-    );
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(_SweepPainter old) => old.color != color || old.progress != progress;
 }
 
 /// One printed row: a numbered answer bubble that inks at its turn, then the line engraving.
@@ -379,12 +302,13 @@ class _PlanRowState extends State<_PlanRow> with SingleTickerProviderStateMixin 
 /// The foil seal in the sheet's corner, landing with a ring wave as [stamp] runs: it drops from
 /// 1.35x to its size on the overshoot curve while a volt ring spreads from it and fades.
 class _StampedSeal extends StatelessWidget {
-  const _StampedSeal({required this.sealed, required this.size, required this.animate, required this.stamp});
+  const _StampedSeal({required this.sealed, required this.size, required this.animate, required this.stamp, required this.wave});
 
   final bool sealed;
   final double size;
   final bool animate;
   final Animation<double>? stamp;
+  final bool wave;
 
   static const Cubic _land = Cubic(0.3, 1.35, 0.46, 1);
 
@@ -404,7 +328,8 @@ class _StampedSeal extends StatelessWidget {
         if (t >= 1) return child!;
         final scale = 1.35 - 0.35 * _land.transform(t);
         return CustomPaint(
-          foregroundPainter: _WavePainter(t: t, color: colors.isNight ? colors.volt : colors.accentText),
+          // A stroke on the ground: volt Night, olive Day (SPACING.md 8.3).
+          foregroundPainter: wave ? _WavePainter(t: t, color: colors.isNight ? colors.volt : colors.accentText) : null,
           child: Opacity(opacity: (t * 4).clamp(0.0, 1.0), child: Transform.scale(scale: scale, child: child)),
         );
       },

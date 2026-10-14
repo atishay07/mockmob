@@ -15,7 +15,7 @@ import 'insights_bits.dart';
 /// it, and Show me under the legend opens the sessions behind it.
 ///
 /// This is the screen's one lit element. The figure rolls and the sheet inks once per visit
-/// (500 ms and 900 ms); a rebuild with the same record does neither, and reduced motion shows
+/// (500 ms and 700 ms); a rebuild with the same record does neither, and reduced motion shows
 /// the final state.
 ///
 /// While the share right is not known (nothing answered yet), a sparse card stands in for the
@@ -46,7 +46,7 @@ class LedgerHero extends StatelessWidget {
           children: [
             Positioned.fill(child: IgnorePointer(child: LightField.lamp(context, strength: 0.8, center: const Alignment(-1.1, -1.25)))),
             Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s12),
+              padding: const EdgeInsets.all(MmSpace.s20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -100,7 +100,6 @@ class LedgerHero extends StatelessWidget {
                   ],
                   const SizedBox(height: MmSpace.s12),
                   Text(InsightsCopy.ledgerNote, style: type.caption.copyWith(color: colors.ink3)),
-                  const SizedBox(height: MmSpace.s4),
                 ],
               ),
             ),
@@ -243,7 +242,7 @@ class _LeadFinding extends StatelessWidget {
         shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line)),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.cardPadding, MmSpace.s20, MmSpace.cardPadding, MmSpace.s8),
+        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -290,14 +289,14 @@ class _FindingRow extends StatelessWidget {
     final f = finding;
     final rail = f.isLeak ? colors.wrongMark : (f.isGood ? colors.volt : colors.ink4);
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s16, 0, MmSpace.s4),
+      padding: const EdgeInsets.fromLTRB(0, MmSpace.s16, 0, MmSpace.s4),
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: MmSpace.s12),
-              child: DecoratedBox(decoration: BoxDecoration(color: rail, borderRadius: BorderRadius.circular(2)), child: const SizedBox(width: 3)),
+              child: DecoratedBox(decoration: BoxDecoration(color: rail, borderRadius: BorderRadius.circular(MmSpace.s2)), child: const SizedBox(width: MmSpace.s4)),
             ),
             const SizedBox(width: MmSpace.s12),
             Expanded(

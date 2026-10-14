@@ -8,6 +8,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../../core/widgets/materials/edge_light.dart';
+import 'surface_roles.dart';
 
 /// How many questions, as a piece of paper you can feel: each stop is its number over a small
 /// answer sheet sized to it (5 is one row of five bubbles, 20 is four rows), the chosen stop
@@ -68,7 +69,8 @@ class _LengthDialState extends ConsumerState<LengthDial> {
     final index = _index;
     final enabled = widget.onChanged != null;
     final reduced = Motion.reduced(context);
-    const radius = BorderRadius.all(Radius.circular(22));
+    // The well is a selectable-row radius (18); the thumb inside it, 4 dp in, a control's (12).
+    const radius = MmRadius.keyAll;
 
     return Semantics(
       container: true,
@@ -97,7 +99,8 @@ class _LengthDialState extends ConsumerState<LengthDial> {
                     padding: const EdgeInsets.all(4),
                     child: Stack(
                       children: [
-                        // The thumb: a raised pane with the glass edge light, gliding to the stop.
+                        // The thumb: the selected surface with a 2 dp ink ring (SPACING.md 8.1, the
+                        // same weight in both themes), gliding to the stop.
                         AnimatedAlign(
                           alignment: Alignment(n == 1 ? 0 : -1 + 2 * index / (n - 1), 0),
                           duration: reduced ? Duration.zero : Motion.emphasizedDuration,
@@ -107,13 +110,16 @@ class _LengthDialState extends ConsumerState<LengthDial> {
                             heightFactor: 1,
                             child: DecoratedBox(
                               decoration: ShapeDecoration(
-                                color: colors.isNight ? colors.raised2 : colors.raised,
-                                shape: const RoundedSuperellipseBorder(borderRadius: BorderRadius.all(Radius.circular(18))),
-                                shadows: colors.cardShadow,
+                                color: selectedSurface(colors),
+                                shape: RoundedSuperellipseBorder(
+                                  borderRadius: MmRadius.smallAll,
+                                  side: BorderSide(color: colors.ink, width: 2),
+                                ),
+                                shadows: colors.isNight ? null : colors.cardShadow,
                               ),
                               child: CustomPaint(
                                 foregroundPainter: EdgeLightPainter(
-                                  borderRadius: const BorderRadius.all(Radius.circular(18)),
+                                  borderRadius: MmRadius.smallAll,
                                   top: colors.edgeTop,
                                   bottom: colors.edgeBottom,
                                 ),
@@ -208,10 +214,17 @@ class _StopState extends State<_Stop> with SingleTickerProviderStateMixin {
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(height: top),
-        AnimatedDefaultTextStyle(
-          duration: Motion.of(context, Motion.ui),
-          style: widget.style.copyWith(fontSize: 28, height: numberLine / 28, color: selected ? colors.ink : colors.ink2),
-          child: Text('${widget.count}'),
+        // One size and one box for every numeral, chosen or not: only the ink changes, so all the
+        // numbers share a baseline (SPACING-AUDIT P6).
+        SizedBox(
+          height: MediaQuery.textScalerOf(context).scale(numberLine),
+          child: Center(
+            child: AnimatedDefaultTextStyle(
+              duration: Motion.of(context, Motion.ui),
+              style: widget.style.copyWith(fontSize: 28, height: numberLine / 28, color: selected ? colors.ink : colors.ink2),
+              child: Text('${widget.count}', textHeightBehavior: const TextHeightBehavior(leadingDistribution: TextLeadingDistribution.even)),
+            ),
+          ),
         ),
         const SizedBox(height: gap),
         RepaintBoundary(

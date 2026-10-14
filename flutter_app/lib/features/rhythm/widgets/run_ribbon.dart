@@ -2,18 +2,18 @@
 // each is the study days of that week out of seven, and a short tick across it marks that week's
 // own goal. A week that met its goal is volt, one that did not is a quiet grey, a paused week is
 // dashed, this week is outlined until it is met. The ribbon scrolls (44 dp a week, so every week is
-// a full-size target) and opens at this week; tapping a week says it in words and ticks. Every
-// capsule is a number the server sent. Capsules grow in left to right once; reduced motion draws
-// them settled.
+// a full-size target) and opens at this week; tapping a week answers on the next frame (it sinks,
+// a veil washes it, a selection tick fires) and says the week in words. Every capsule is a number
+// the server sent. Capsules grow in left to right once, the whole ribbon drawing in over
+// `Motion.drawIn` (450 ms); reduced motion draws them settled.
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/haptics/haptics.dart';
 import '../../../core/models/rhythm.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/pressable.dart';
 import '../copy.dart';
 import '../logic/dates.dart';
 import '../logic/week_view.dart';
@@ -103,7 +103,7 @@ String? ribbonSummary(List<RibbonWeek> weeks) {
   return RhythmCopy.ribbonSummary(met, closed.length);
 }
 
-class RunRibbon extends ConsumerStatefulWidget {
+class RunRibbon extends StatefulWidget {
   const RunRibbon({super.key, required this.weeks, this.animate = true, this.showCounts = false});
 
   final List<RibbonWeek> weeks;
@@ -117,11 +117,11 @@ class RunRibbon extends ConsumerStatefulWidget {
   static const double height = 76;
 
   @override
-  ConsumerState<RunRibbon> createState() => _RunRibbonState();
+  State<RunRibbon> createState() => _RunRibbonState();
 }
 
-class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProviderStateMixin {
-  late final AnimationController _grow = AnimationController(vsync: this, duration: Duration(milliseconds: _totalMs(widget.weeks.length)));
+class _RunRibbonState extends State<RunRibbon> with SingleTickerProviderStateMixin {
+  late final AnimationController _grow = AnimationController(vsync: this, duration: Motion.drawIn);
   late List<Animation<double>> _curves = _makeCurves(widget.weeks.length);
   final ScrollController _scroll = ScrollController();
   bool _started = false;
@@ -152,16 +152,20 @@ class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProvider
     super.dispose();
   }
 
-  static int _totalMs(int n) => 360 + 40 * math.max(0, n - 1);
+  /// Each capsule grows over two thirds of the ribbon's 450 ms, and the starts are spread over the
+  /// other third, so a long ribbon is still drawn in the same time as a short one.
+  static const double _own = 2 / 3;
 
   /// One curve per week, made once: a curve attaches a listener to the controller.
   List<Animation<double>> _makeCurves(int n) {
-    final total = _totalMs(n);
     return [
       for (var i = 0; i < n; i++)
         CurvedAnimation(
           parent: _grow,
-          curve: Interval((40 * i / total).clamp(0.0, 0.9), ((40 * i + 360) / total).clamp(0.0, 1.0), curve: Motion.glide),
+          curve: () {
+            final start = n <= 1 ? 0.0 : (1 - _own) * i / (n - 1);
+            return Interval(start, start + _own, curve: Motion.glide);
+          }(),
         ),
     ];
   }
@@ -173,7 +177,6 @@ class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProvider
     for (final c in _curves) {
       (c as CurvedAnimation).dispose();
     }
-    _grow.duration = Duration(milliseconds: _totalMs(widget.weeks.length));
     _curves = _makeCurves(widget.weeks.length);
     _selected = null;
   }
@@ -199,20 +202,17 @@ class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProvider
             itemBuilder: (context, i) {
               final w = weeks[i];
               final selected = _selected == i;
-              return Semantics(
-                container: true,
-                button: true,
-                selected: selected,
-                label: w.words,
-                excludeSemantics: true,
+              return MmPressable(
                 onTap: () => _pick(i),
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => _pick(i),
-                  child: DecoratedBox(
+                semanticsLabel: w.words,
+                selected: selected,
+                highlight: true,
+                focusRadius: MmRadius.smallAll,
+                haptic: MmPressHaptic.selection,
+                builder: (context, pressed, focused) => DecoratedBox(
                     decoration: BoxDecoration(
                       color: selected ? (colors.isNight ? colors.raised2.withValues(alpha: 0.7) : colors.sunken) : null,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: MmRadius.smallAll,
                     ),
                     child: Column(
                       children: [
@@ -241,7 +241,6 @@ class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProvider
                       ],
                     ),
                   ),
-                ),
               );
             },
           ),
@@ -261,10 +260,8 @@ class _RunRibbonState extends ConsumerState<RunRibbon> with SingleTickerProvider
     );
   }
 
-  void _pick(int i) {
-    ref.read(hapticsProvider).tick();
-    setState(() => _selected = _selected == i ? null : i);
-  }
+  /// The selection tick is the press's own (`MmPressHaptic.selection`).
+  void _pick(int i) => setState(() => _selected = _selected == i ? null : i);
 }
 
 class _CapsulePainter extends CustomPainter {
@@ -313,7 +310,8 @@ class _CapsulePainter extends CustomPainter {
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.5
-          ..color = week.met ? colors.volt : colors.ink2,
+          // A stroke on the ground: volt on Night, the dark volt on Daylight (`accentText`).
+          ..color = week.met ? colors.accentText : colors.ink2,
       );
     }
     if (week.goal > 0 && week.goal <= 7) {

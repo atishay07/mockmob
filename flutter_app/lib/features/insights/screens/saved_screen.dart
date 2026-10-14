@@ -56,12 +56,12 @@ class SavedScreen extends ConsumerWidget {
         );
       } else {
         final count = marks.count ?? list.count;
-        body = RefreshIndicator(
+        body = MmPullRefresh(
           onRefresh: refresh,
-          color: colors.ink,
-          backgroundColor: colors.raised,
           child: ListView(
-            padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s48),
+            // The pull is drawn by the ring, so the list must always take a drag, even when short.
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, pad.bottom + MmSpace.s32),
             children: [
               if (state.isStale) ...[
                 const InlineBanner(message: InsightsCopy.staleNote, tone: BannerTone.offline),
@@ -123,7 +123,7 @@ class _SavedRow extends ConsumerWidget {
       final outcome = await controller.set(q.id, saved: true, source: 'saved');
       if (outcome is SaveLimitReached) {
         say(InsightsCopy.limitReached);
-      } else if (outcome is SaveFailed) {
+      } else if (outcome is SaveFailed && !outcome.error.isAccountChanged) {
         say(InsightsCopy.saveFailed);
       }
     }
@@ -131,7 +131,7 @@ class _SavedRow extends ConsumerWidget {
     Future<void> remove() async {
       final outcome = await controller.set(q.id, saved: false, source: 'saved');
       if (outcome is SaveFailed) {
-        say(InsightsCopy.saveFailed);
+        if (!outcome.error.isAccountChanged) say(InsightsCopy.saveFailed);
       } else if (outcome is SaveDone) {
         say(InsightsCopy.removedFromSaved, action: SnackBarAction(label: InsightsCopy.undo, onPressed: undo));
       }
@@ -209,7 +209,7 @@ class _SavedSkeleton extends StatelessWidget {
           children: [
             Skeleton.line(width: 160),
             SizedBox(height: MmSpace.s16),
-            Skeleton(height: 56, radius: 28),
+            Skeleton(height: 56, radius: MmRadius.panel + MmSpace.s4),
             SizedBox(height: MmSpace.s24),
             MmSkeletonRows(rows: 4),
           ],

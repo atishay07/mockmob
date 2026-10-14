@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import '../theme/theme.dart';
 import 'bubbles/bubble_painter.dart';
 import 'bubbles/bubble_row.dart';
+import 'hit_slop.dart';
 import 'pressable.dart';
 
 /// "Show me" (brief 12.1, evidence first): the one quiet pill under any claim the app makes
-/// about the student, opening the exact questions or attempts behind it. A 32 dp pill inside a
-/// 48 dp target: three 6 dp evidence bubbles, then "Show me". The same on every tab.
+/// about the student, opening the exact questions or attempts behind it. A 32 dp pill with a 48 dp
+/// target (the touch band is [MmHitSlop], not layout, so the pill takes 32 dp of height): three 6 dp evidence bubbles, then "Show me". The same on every tab.
 class ShowMePill extends StatelessWidget {
   const ShowMePill({
     super.key,
@@ -31,16 +32,17 @@ class ShowMePill extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    return MmPressable(
-      semanticsLabel: semanticsLabel,
-      focusRadius: MmRadius.pillAll,
-      onTap: onTap,
-      builder: (context, pressed, _) => SizedBox(
-        height: MmTarget.min,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          widthFactor: 1,
-          child: DecoratedBox(
+    return MmHitSlop.toTarget(
+      visual: 32,
+      child: Align(
+        alignment: Alignment.centerLeft,
+        widthFactor: 1,
+        heightFactor: 1,
+        child: MmPressable(
+          semanticsLabel: semanticsLabel,
+          focusRadius: MmRadius.pillAll,
+          onTap: onTap,
+          builder: (context, pressed, _) => DecoratedBox(
             decoration: ShapeDecoration(
               color: pressed ? colors.raised2 : colors.ground.withValues(alpha: colors.isNight ? 0.55 : 0.6),
               shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
@@ -48,17 +50,22 @@ class ShowMePill extends StatelessWidget {
             child: SizedBox(
               height: 32,
               child: Padding(
-                padding: EdgeInsets.only(left: marks.isEmpty ? 12 : 10, right: 12),
+                padding: EdgeInsets.only(left: marks.isEmpty ? MmSpace.s12 : MmSpace.s8, right: MmSpace.s12),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     if (marks.isNotEmpty) ...[
-                      BubbleRow(states: marks.take(3).toList(), bubbleSize: 6, gap: 3),
+                      BubbleRow(states: marks.take(3).toList(), bubbleSize: 6, gap: 4),
                       const SizedBox(width: MmSpace.s8),
                     ],
                     Text(
                       label,
-                      style: type.caption.copyWith(fontSize: 13, height: 1.2, fontWeight: FontWeight.w600, color: colors.ink),
+                      style: type.caption.copyWith(
+                        fontSize: 13,
+                        height: 1.2,
+                        fontWeight: FontWeight.w600,
+                        color: colors.ink,
+                      ),
                     ),
                   ],
                 ),

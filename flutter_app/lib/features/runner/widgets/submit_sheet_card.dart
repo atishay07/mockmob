@@ -18,7 +18,7 @@ import 'answer_sheet_view.dart';
 /// "5 not answered" takes them to question 9, the first without an answer. The counts are a
 /// ledger of numerals, so the sheet reads first, then what is left to settle.
 class SubmitSheetCard extends StatelessWidget {
-  const SubmitSheetCard({super.key, required this.session, this.lit = true, this.phase = SheetPhase.review, this.onGoTo});
+  const SubmitSheetCard({super.key, required this.session, this.lit = true, this.phase = SheetPhase.review, this.onGoTo, this.animateInk = true});
 
   final RunnerSession session;
 
@@ -30,6 +30,9 @@ class SubmitSheetCard extends StatelessWidget {
 
   /// Zero-based question to go back to; null while the page is no longer a review.
   final ValueChanged<int>? onGoTo;
+
+  /// False when Celebrations is Off: the sheet shows its inked end state at once.
+  final bool animateInk;
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +67,14 @@ class SubmitSheetCard extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: MmSpace.s20),
+        const SizedBox(height: MmSpace.s16),
         // A marked answer has a ring outside its disc: 3 dp each side keeps it inside the gutter.
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3),
           child: AnswerSheetView(
             cells: cells,
             phase: phase,
+            animateInk: animateInk,
             bubbleSize: 17,
             semanticsLabel: RunnerCopy.sheetSummary(answered: counts.answered, notAnswered: counts.notAnswered, marked: counts.marked),
           ),
@@ -119,7 +123,7 @@ class _SheetLegend extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox.square(dimension: 22, child: Center(child: glyph)),
-        const SizedBox(width: MmSpace.s6),
+        const SizedBox(width: MmSpace.s8),
         Text(label, style: type.caption.copyWith(color: colors.ink2)),
       ],
     );
@@ -128,7 +132,7 @@ class _SheetLegend extends StatelessWidget {
       child: ExcludeSemantics(
         child: Wrap(
           spacing: MmSpace.s16,
-          runSpacing: MmSpace.s6,
+          runSpacing: MmSpace.s8,
           children: [
             if (markedAnswered)
               item(CustomPaint(size: const Size.square(22), painter: _MarkedAnsweredGlyph(colors)), RunnerCopy.legendMarkedAnswered),
@@ -270,7 +274,7 @@ class _CountRowState extends State<_CountRow> {
                     ),
                   )
                 : const BoxDecoration(),
-            child: ColoredBox(color: _pressed ? colors.raised2 : const Color(0x00000000), child: body),
+            child: ColoredBox(color: _pressed ? colors.raised2 : Colors.transparent, child: body),
           ),
         ),
       ),

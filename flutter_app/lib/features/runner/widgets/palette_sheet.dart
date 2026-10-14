@@ -87,7 +87,7 @@ class PaletteSheet extends StatelessWidget {
         ),
         // A short paper keeps its key at the foot; a long one gets a pinned footer instead.
         if (showSubmit) ...[
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s16),
           KeyButton(label: RunnerCopy.reviewAndSubmit, onPressed: onReview, hapticOnCommit: false),
         ],
       ],
@@ -220,6 +220,9 @@ class _Legend extends StatelessWidget {
   }
 }
 
+/// Every legend glyph is drawn in the same 16 dp box, so the four states read as one set.
+const double _legendGlyph = 16;
+
 class _LegendItem extends StatelessWidget {
   const _LegendItem({required this.sample, required this.label, required this.count});
 
@@ -235,12 +238,12 @@ class _LegendItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox.square(
-          dimension: 22,
+          dimension: _legendGlyph,
           child: CustomPaint(
             painter: _MiniBubble(sample: sample, colors: colors),
           ),
         ),
-        const SizedBox(width: MmSpace.s6),
+        const SizedBox(width: MmSpace.s8),
         Text('$label $count', style: type.caption.copyWith(color: colors.ink2)),
       ],
     );
@@ -256,7 +259,7 @@ class _MiniBubble extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final c = size.center(Offset.zero);
-    final r = size.width / 2 - 2;
+    final r = size.width / 2 - 1.5;
     final b = BubblePaint(colors);
     if (sample.answered) {
       AnsweredMark.paint(canvas, c, r, colors);
@@ -272,6 +275,13 @@ class _MiniBubble extends CustomPainter {
   bool shouldRepaint(_MiniBubble old) => old.colors != colors || old.sample != sample;
 }
 
+class _FlagIcon extends StatelessWidget {
+  const _FlagIcon();
+
+  @override
+  Widget build(BuildContext context) => Icon(LucideIcons.flag, size: _legendGlyph, color: context.mmColors.ink);
+}
+
 class _FlagLegend extends StatelessWidget {
   const _FlagLegend({required this.count});
 
@@ -284,8 +294,8 @@ class _FlagLegend extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox.square(dimension: 22, child: Icon(LucideIcons.flag, size: 15, color: colors.ink)),
-        const SizedBox(width: MmSpace.s6),
+        const SizedBox.square(dimension: _legendGlyph, child: _FlagIcon()),
+        const SizedBox(width: MmSpace.s8),
         Text('${RunnerCopy.markedShort} $count', style: type.caption.copyWith(color: colors.ink2)),
       ],
     );
@@ -306,10 +316,10 @@ class _PhoneLegend extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox.square(
-          dimension: 22,
+          dimension: _legendGlyph,
           child: CustomPaint(painter: _PhoneDot(colors: colors)),
         ),
-        const SizedBox(width: MmSpace.s6),
+        const SizedBox(width: MmSpace.s8),
         Text('${RunnerCopy.onThisPhone} $count', style: type.caption.copyWith(color: colors.ink2)),
       ],
     );
@@ -325,8 +335,8 @@ class _PhoneDot extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final c = size.center(Offset.zero);
     // An answered bubble with the dot at its corner, as it appears in the grid.
-    AnsweredMark.paint(canvas, c, size.width / 2 - 3.5, colors);
-    SheetCellPainter.paintUnsyncedDot(canvas, c + Offset(size.width * 0.27, size.width * 0.27), colors);
+    AnsweredMark.paint(canvas, c, size.width / 2 - 2.5, colors);
+    SheetCellPainter.paintUnsyncedDot(canvas, c + Offset(size.width * 0.3, size.width * 0.3), colors);
   }
 
   @override

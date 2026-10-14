@@ -206,7 +206,7 @@ class _FiledSheet extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(MmSpace.s20, sealSize / 2 + MmSpace.s16, MmSpace.s20, MmSpace.s20),
                 child: m == null || cells.isEmpty
-                    ? const SizedBox(height: 28)
+                    ? const SizedBox(height: MmSpace.s24)
                     : Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,

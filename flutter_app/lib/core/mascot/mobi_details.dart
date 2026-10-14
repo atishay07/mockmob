@@ -189,7 +189,8 @@ abstract final class MobiDetails {
     }
 
     const r = MobiGeo.antennaBall;
-    if (glow > 0.01) {
+    final lit = p.lit;
+    if (glow > 0.01 && lit == null) {
       // The bulb lights up: a soft volt halo, a unit circle scaled so the shader is reused.
       final g = glow.clamp(0.0, 1.0);
       c.save();
@@ -209,15 +210,19 @@ abstract final class MobiDetails {
         ], const [0, 0.5, 1]),
     );
     if (glow > 0.01) {
-      c.drawCircle(tip, r * 0.62, Paint()..color = MobiPalette.limeHi.withValues(alpha: 0.85 * glow.clamp(0.0, 1.0)));
+      final g = glow.clamp(0.0, 1.0);
+      c.drawCircle(tip, r * 0.62, Paint()..color = MobiPalette.limeHi.withValues(alpha: 0.85 * g));
+      // Daylight: no glow on paper. The lit bulb carries a crisp olive edge instead, a little
+      // wider the brighter it is, so "lit" still reads on cream.
+      if (lit != null) c.drawCircle(tip, r + 1.2 + 1.6 * g, _stroke(lit.withValues(alpha: g), 1));
     }
     c.drawCircle(tip + const Offset(-1.9, -2.1), 1.3, Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.8));
   }
 
   static final Map<(bool, int), Shader> _halos = {};
 
-  /// The bulb's halo on a unit circle. At Night it is a pale volt glow; on the cream Day ground
-  /// pale volt vanishes, so the halo is a deeper, warmer volt that still reads as light.
+  /// The bulb's halo on a unit circle: a pale volt glow. The Day palette draws no halo (it has a
+  /// [MobiPalette.lit] edge instead); the Day shader is kept for a palette without one.
   static Shader _newHalo(bool night, int q) {
     final a = q / 255;
     final inner = night ? MobiPalette.limeHi : MobiPalette.limeLight;

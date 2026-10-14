@@ -500,6 +500,76 @@ void main() {
     });
   });
 
+  group('a sign-in whose own flow died with the app (onboarding-05)', () {
+    test(
+      'the account turning signed in still offers the sheet to a first-time student',
+      () async {
+        final prefs = MemoryPrefsStore();
+        final gateway = FakeGateway();
+        final c = _container(gateway, prefs: prefs);
+        // A fresh controller: the Google browser started its sign-in in a process that was
+        // killed, so no future or stream of this controller will ever report the result.
+        final notifier = c.read(signInControllerProvider.notifier);
+        await notifier.signedInFromAuth();
+        expect(gateway.sheetLaunches, 1);
+        expect(await prefs.getBool('auth_before_you_start_offered'), isTrue);
+
+        await notifier.signedInFromAuth();
+        expect(gateway.sheetLaunches, 1, reason: 'once per phone');
+      },
+    );
+
+    test('a phone that has shown the sheet is not shown it again', () async {
+      final prefs = MemoryPrefsStore();
+      await prefs.setBool('auth_before_you_start_offered', true);
+      final gateway = FakeGateway();
+      final c = _container(gateway, prefs: prefs);
+      await c.read(signInControllerProvider.notifier).signedInFromAuth();
+      expect(gateway.sheetLaunches, 0);
+    });
+
+    test('a deep link remembered before sign-in still wins', () async {
+      final gateway = FakeGateway()..signsInAs = 'u1';
+      final c = _container(gateway);
+      c.read(intendedRouteProvider).remember('/result/abc', userId: 'u1');
+      final notifier = c.read(signInControllerProvider.notifier)
+        ..signInStarting();
+      // The redirect takes the route as the account loads, before the event reaches us.
+      c.read(intendedRouteProvider).take(userId: 'u1');
+      await notifier.signedInFromAuth();
+      expect(gateway.sheetLaunches, 0);
+    });
+
+    test('it stays out of the way while the controller runs the flow itself', () async {
+      final gateway = FakeGateway();
+      final hold = gateway.verifyHold = Completer<void>();
+      final c = _container(gateway);
+      final notifier = c.read(signInControllerProvider.notifier)
+        ..setEmail('asha@example.com');
+      final verifying = notifier.verify('12345678');
+      await Future<void>.delayed(Duration.zero);
+      await notifier.signedInFromAuth();
+      expect(
+        gateway.sheetLaunches,
+        0,
+        reason: 'verify offers the sheet itself once it has read the route',
+      );
+      hold.complete();
+      await verifying;
+      expect(gateway.sheetLaunches, 1);
+    });
+
+    test('it stays out of the way while the Google browser wait is live', () async {
+      final gateway = FakeGateway()
+        ..googleOutcome = GoogleOutcome.browserOpened;
+      final c = _container(gateway);
+      final notifier = c.read(signInControllerProvider.notifier);
+      await notifier.signInWithGoogle();
+      await notifier.signedInFromAuth();
+      expect(gateway.sheetLaunches, 0);
+    });
+  });
+
   group('a browser sign-in from onboarding', () {
     test(
       'stops listening once it has an answer, so a later browser sign-in does not reopen the sheet',

@@ -26,6 +26,7 @@ class AuthSnapshot {
     this.sessionExpired = false,
     this.loadFailed = false,
     this.retrying = false,
+    this.profileFresh = false,
   });
 
   final AuthStatus status;
@@ -58,6 +59,13 @@ class AuthSnapshot {
   /// instead of dropping back to the splash with nothing to press.
   final bool retrying;
 
+  /// The profile came from the server in this run, not from the copy kept on the phone. The cached
+  /// copy can be older than the account (signed in on this phone while it had no subjects, then
+  /// onboarded elsewhere), so anything that decides "is this account new" or writes the plan over
+  /// the server's (the sealed-sheet sync) must wait for this to be true. False for a cached
+  /// profile, for signed-out and for unknown.
+  final bool profileFresh;
+
   bool get isSignedIn => status == AuthStatus.signedIn;
 
   static const unknown = AuthSnapshot(status: AuthStatus.unknown);
@@ -77,10 +85,11 @@ class AuthSnapshot {
       other.creditBalance == creditBalance &&
       other.sessionExpired == sessionExpired &&
       other.loadFailed == loadFailed &&
-      other.retrying == retrying;
+      other.retrying == retrying &&
+      other.profileFresh == profileFresh;
 
   @override
-  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying);
+  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying, profileFresh);
 }
 
 /// The live session. Starts as [AuthSnapshot.unknown], then settles to signed in (with the

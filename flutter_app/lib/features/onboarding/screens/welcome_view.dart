@@ -23,6 +23,7 @@ class WelcomeView extends StatefulWidget {
     this.pending = false,
     this.notice,
     this.retry = false,
+    this.onStartOver,
   });
 
   /// From 11 PM until 5 AM: one honest line about the hour.
@@ -50,6 +51,13 @@ class WelcomeView extends StatefulWidget {
 
   /// The key reads the stored sheet again ("Try again") instead of starting.
   final bool retry;
+
+  /// Offered beside Try again when the saved sheet can be neither read nor kept aside: starts a
+  /// new sheet after the student confirms, so the screen always has a way forward.
+  final VoidCallback? onStartOver;
+
+  /// Welcome is a moment (type and art, no cards): it sits on the moment gutter (SPACING.md 1.1).
+  static const double gutter = MmSpace.s24;
 
   /// Where the desk's back edge sits in the scene.
   static const double deskAt = 0.82;
@@ -146,7 +154,7 @@ class _WelcomeViewState extends State<WelcomeView> {
     // The words build after Mobi has started his wave: the headline rises word by word, the
     // promise lifts, then the key (ui-blitz onboarding, Welcome).
     final words = Padding(
-      padding: EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s8, MmSpace.cardGutter, pad.bottom + MmSpace.s12),
+      padding: EdgeInsets.fromLTRB(WelcomeView.gutter, MmSpace.s8, WelcomeView.gutter, pad.bottom + MmSpace.s12),
       child: StepEntrance(
         delay: const Duration(milliseconds: 260),
         child: Builder(builder: (context) => Column(
@@ -167,7 +175,7 @@ class _WelcomeViewState extends State<WelcomeView> {
           const SizedBox(height: MmSpace.s12),
           EntranceItem(
             at: const Duration(milliseconds: 520),
-            rise: 10,
+            rise: 8,
             child: Text(OnboardingCopy.welcomeSupport, style: type.body.copyWith(color: colors.ink2)),
           ),
           const SizedBox(height: MmSpace.s24),
@@ -181,7 +189,7 @@ class _WelcomeViewState extends State<WelcomeView> {
                 BubbleRow(
                   states: [for (var i = 0; i < 7; i++) i < widget.filled ? BubbleState.filled : BubbleState.hollow],
                   bubbleSize: 12,
-                  gap: 5,
+                  gap: MmSpace.s4,
                 ),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
@@ -207,7 +215,17 @@ class _WelcomeViewState extends State<WelcomeView> {
                   loading: widget.pending,
                 ),
                 const SizedBox(height: MmSpace.s4),
-                Align(child: KeyButton.quiet(label: OnboardingCopy.haveAccount, onPressed: widget.onHaveAccount)),
+                if (widget.onStartOver != null)
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: MmSpace.s8,
+                    children: [
+                      KeyButton.quiet(label: OnboardingCopy.startOver, onPressed: widget.onStartOver),
+                      KeyButton.quiet(label: OnboardingCopy.haveAccount, onPressed: widget.onHaveAccount),
+                    ],
+                  )
+                else
+                  Align(child: KeyButton.quiet(label: OnboardingCopy.haveAccount, onPressed: widget.onHaveAccount)),
               ],
             ),
           ),
@@ -226,7 +244,7 @@ class _WelcomeViewState extends State<WelcomeView> {
           ),
           const Positioned.fill(child: IgnorePointer(child: Grain())),
           Positioned(
-            left: MmSpace.cardGutter,
+            left: WelcomeView.gutter,
             top: pad.top + MmSpace.s16,
             child: Wordmark(height: 26, color: colors.ink),
           ),

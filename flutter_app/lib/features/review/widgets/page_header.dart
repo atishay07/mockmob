@@ -27,7 +27,7 @@ class HeaderNotice extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ExcludeSemantics(child: Icon(LucideIcons.wifiOff, size: 14, color: colors.ink)),
-          const SizedBox(width: MmSpace.s6),
+          const SizedBox(width: MmSpace.s4),
           Expanded(child: Text(message, style: type.small.copyWith(color: colors.ink))),
         ],
       ),
@@ -69,7 +69,8 @@ class ReviewTabHeader extends StatelessWidget {
   }
 }
 
-/// The top row of a pushed Review page: back, then the title in the Bricolage title cut, and the
+/// The top row of a pushed Review page: the back key (a 48 dp target whose arrow sits on the
+/// gutter), then the title in the tab roots' `screenTitle` cut on the same 56 dp row, and the
 /// offline line under it when the page shows the last loaded copy.
 class PageHeader extends StatelessWidget {
   const PageHeader({super.key, required this.title, this.trailing, this.notice});
@@ -82,6 +83,8 @@ class PageHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return Padding(
+      // The arrow's glyph is 24 dp centred in its 48 dp target, so 4 dp of row padding puts it on
+      // the gutter (16) like every other screen's left edge.
       padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),
@@ -92,7 +95,7 @@ class PageHeader extends StatelessWidget {
               tooltip: 'Back',
               icon: Icon(LucideIcons.arrowLeft, color: colors.ink),
             ),
-            const SizedBox(width: MmSpace.s4),
+            const SizedBox(width: MmSpace.s8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

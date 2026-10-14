@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -78,9 +80,15 @@ class _DueCardState extends State<DueCard> {
   final _mobi = MobiController();
   final _key = GlobalKey();
   bool _pointed = false;
+  Timer? _nudge;
+
+  /// Mobi points at the key only after the screen has been quiet this long (MOTION.md 1.3: a
+  /// nudge is not a greeting), and once per visit.
+  static const Duration nudgeAfter = Duration(seconds: 4);
 
   @override
   void dispose() {
+    _nudge?.cancel();
     _mobi.dispose();
     super.dispose();
   }
@@ -100,7 +108,7 @@ class _DueCardState extends State<DueCard> {
     final pointAtKey = widget.showMobi && due == 0 && canStart;
     if (pointAtKey && !_pointed) {
       _pointed = true;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      _nudge = Timer(nudgeAfter, () {
         if (mounted) _mobi.pointAtWidget(_key);
       });
     }
@@ -174,7 +182,7 @@ class _DueCardState extends State<DueCard> {
                     size: 64,
                     controller: _mobi,
                   ),
-                  const SizedBox(width: MmSpace.s16),
+                  const SizedBox(width: MmSpace.s12),
                 ],
                 Expanded(
                   child: Semantics(
@@ -201,7 +209,7 @@ class _DueCardState extends State<DueCard> {
               ),
             ),
           if (canStart) ...[
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.s16),
             KeyedSubtree(
               key: _key,
               child: primary
@@ -290,8 +298,10 @@ class ResumeCard extends StatelessWidget {
           ),
           const SizedBox(height: MmSpace.s8),
           if (run.title != null) Text(run.title!, style: type.body),
-          if (run.position != null)
+          if (run.position != null) ...[
+            const SizedBox(height: MmSpace.s2),
             Text(run.position!, style: type.small.copyWith(color: colors.ink2)),
+          ],
           if (pendingCount > 0) ...[
             const SizedBox(height: MmSpace.s12),
             Row(
@@ -307,7 +317,7 @@ class ResumeCard extends StatelessWidget {
               ],
             ),
           ],
-          const SizedBox(height: MmSpace.s20),
+          const SizedBox(height: MmSpace.s16),
           KeyButton(label: LearnCopy.resumeKey, onPressed: onContinue),
         ],
       ),
@@ -361,7 +371,7 @@ class NextLessonCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: MmSpace.s12),
-          Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3),
+          Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
         ],
       ),
     );

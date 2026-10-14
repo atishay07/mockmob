@@ -26,7 +26,7 @@ enum MilestoneToken {
 }
 
 class TokenSlot {
-  const TokenSlot(this.token, this.earnedAt, {this.title});
+  const TokenSlot(this.token, this.earnedAt, {this.title, this.latestId});
 
   final MilestoneToken token;
 
@@ -35,6 +35,9 @@ class TokenSlot {
 
   /// The latest step's name ("5 repairs"), shown under an earned token.
   final String? title;
+
+  /// The milestone id of that step, so the shelf can tell when it is the one that just landed.
+  final String? latestId;
 
   bool get earned => earnedAt != null;
 }
@@ -46,7 +49,7 @@ List<TokenSlot> tokenSlots(List<RhythmMilestone> milestones) {
     for (final token in MilestoneToken.values)
       () {
         final latest = tracks[token.track]?.latest;
-        return TokenSlot(token, latest?.earnedAt, title: latest?.step.name);
+        return TokenSlot(token, latest?.earnedAt, title: latest?.step.name, latestId: latest?.step.id);
       }(),
   ];
 }

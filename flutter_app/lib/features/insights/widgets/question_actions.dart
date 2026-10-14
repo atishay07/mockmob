@@ -49,6 +49,9 @@ class _QuestionActionsState extends ConsumerState<QuestionActions> {
         break;
       case SaveLimitReached():
         _say(context, InsightsCopy.limitReached);
+      // Another account signed in while this was on its way: not this student's failure to report.
+      case SaveFailed(:final error) when error.isAccountChanged:
+        break;
       case SaveFailed():
         _say(context, InsightsCopy.saveFailed);
     }

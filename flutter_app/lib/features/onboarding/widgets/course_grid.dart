@@ -71,10 +71,10 @@ class CourseTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('${course.collegeCount}', style: type.figureCompact),
-              const SizedBox(width: 4),
+              const SizedBox(width: MmSpace.s4),
               // The unit at 55% of the figure, top-aligned (brief section 4).
               Padding(
-                padding: const EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.only(top: MmSpace.s4),
                 child: Text(
                   OnboardingCopy.collegesUnit(course.collegeCount),
                   style: type.figureCompact.copyWith(
@@ -91,6 +91,8 @@ class CourseTile extends StatelessWidget {
           LadderGlyph(
             scores: scores,
             color: colors.ink3,
+            // A 4 dp bar reads as a stroke on the tile, so it takes the text accent (olive on Day,
+            // where a volt bar on white would vanish). SPACING.md 8.3.
             accent: selected ? (colors.isNight ? colors.volt : colors.accentText) : colors.ink2,
           ),
           const SizedBox(height: MmSpace.s12),
