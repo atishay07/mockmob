@@ -8,13 +8,15 @@ import { reportFinalisedEpisodeCheck } from '@/lib/server/finaliseEpisodeCheck';
 export const dynamic = 'force-dynamic';
 const NO_STORE = { 'Cache-Control': 'no-store' };
 
-// GET /api/attempts/summary?cursor=&limit= : the caller's own attempts, slim and paged.
+// GET /api/attempts/summary?cursor=&limit=&finalise=0 : the caller's own attempts, slim and paged.
+// finalise=0 is a read-only peek (the home page asks "has this member scored a session yet?"):
+// it skips the finalisation writes that every first-page read otherwise runs.
 export async function GET(request) {
   const session = await auth(request);
   if (!session?.user?.id) return NextResponse.json({ error: 'unauthorized', message: 'Sign in to see your attempts.' }, { status: 401, headers: NO_STORE });
   const params = new URL(request.url).searchParams;
   try {
-    if (!params.get('cursor')) await finaliseExpiredSessionsForUser(supabaseSessionStore(supabaseAdmin(), { userId: session.user.id }), { onEpisodeCheck: reportFinalisedEpisodeCheck });
+    if (!params.get('cursor') && params.get('finalise') !== '0') await finaliseExpiredSessionsForUser(supabaseSessionStore(supabaseAdmin(), { userId: session.user.id }), { onEpisodeCheck: reportFinalisedEpisodeCheck });
     const result = await listAttemptSummaries(supabaseAdmin(), session.user.id, { cursor: params.get('cursor'), limit: params.get('limit') });
     if (result.error) return NextResponse.json({ error: 'bad_cursor', message: 'That page marker is not valid. Start again from the first page.' }, { status: 400, headers: NO_STORE });
     return NextResponse.json(result, { headers: NO_STORE });
