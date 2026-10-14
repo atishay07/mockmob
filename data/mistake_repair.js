@@ -5,13 +5,36 @@
 // A disagreement never produces an explanation: the question is treated as uncertain (withheld
 // and re-checked) and the student is not charged. AI text explains; it never changes a score.
 
+import { sameKeyOption } from './option_compare.js';
+
 export const REPAIR_CREDIT_COST = 1;
 const LIMITS = { why_tempting: 320, why_wrong: 320, key_idea: 320, next_step: 220 };
 export const MISTAKE_REPAIR_SCHEMA = {
   required: ['solved_index', 'agrees_with_key', 'why_tempting', 'why_wrong', 'key_idea', 'next_step'],
   types: { solved_index: 'number', why_tempting: 'string', why_wrong: 'string', key_idea: 'string', next_step: 'string' },
 };
-const BANNED = /\b(guarantee[ds]?|you will (?:score|gain|get)|marks? you (?:will|can) (?:gain|recover)|rank|percentile|admission chance|cut-?off you)\b/i;
+// What the repair text must never claim: a predicted mark, score, rank or percentile, a cut-off or admission
+// outcome, or a guaranteed gain. These are CLAIMS ABOUT THE STUDENT, so the bare words stay allowed: "rank" in
+// Spearman's rank correlation, "percentile" in statistics, "the Constitution guarantees ...", "you will get x = 3".
+const METRIC = String.raw`(?:marks?|points?|scores?|ranks?|percentiles?|cut-?offs?)`;
+const claim = (source) => new RegExp(String.raw`\b(?:${source})`, 'i');
+const BANNED_CLAIMS = [
+  // predicted marks or scores: "you will score / gain / earn ...", "you will get 5 more marks"
+  claim(String.raw`you(?:'ll|’ll|\s+will|\s+would|\s+are\s+going\s+to|\s+can\s+expect\s+to)\s+(?:score|gain|earn|secure)\b`),
+  claim(String.raw`you(?:'ll|’ll|\s+will)\s+get\s+(?:[\w+%.-]+\s+){0,3}?${METRIC}\b`),
+  claim(String.raw`marks?\s+you\s+(?:will|can|could|would|should)\s+(?:gain|recover|earn|score|get|win)\b`),
+  // a prediction about the student's own result: "your rank will", "your percentile improves", "your expected score"
+  claim(String.raw`your\s+(?:\w+\s+)?(?:rank|percentile)\b`),
+  claim(String.raw`(?:predicted|projected|expected|likely)\s+(?:\w+\s+)?${METRIC}\b`),
+  claim(String.raw`your\s+(?:\w+\s+)?(?:score|marks?)\s+(?:will|would|should|can|could|may|might|is\s+going\s+to|improves?|rises?|goes\s+up|increases?)\b`),
+  // guaranteed gains: "guaranteed marks / selection", "this guarantees a better rank"
+  claim(String.raw`guarantee[ds]?\s+(?:[\w-]+\s+){0,3}?(?:${METRIC}|selection|admission|seat|improvement|gains?|success|results?)\b`),
+  // admission and cut-off outcomes
+  claim(String.raw`admission\s+(?:chances?|probability|odds)\b`),
+  claim(String.raw`cut-?offs?\s+you\b`),
+  claim(String.raw`(?:clear|cross|beat|reach|meet|miss)\w*\s+(?:the\s+|your\s+)?(?:\w+\s+)?cut-?offs?\b`),
+];
+export const violatesTruthRules = (text) => BANNED_CLAIMS.some((pattern) => pattern.test(text));
 
 const letter = i => 'ABCDEFGH'[i] || String(i + 1);
 const optionTextOf = o => (typeof o === 'string' ? o : o?.text ?? '');
@@ -32,9 +55,22 @@ export function repairEligibility({ attempt, questionId, userId, current }) {
   if (['pending', 'quarantined', 'rejected', 'invalid'].includes(current.status) || current.verification_state === 'disputed')
     return { ok: false, code: 'question_under_review', http: 409, message: 'This question is being re-checked, so it is not explained right now. You were not charged.' };
   const currentKey = correctIndexOf(current);
-  if (currentKey !== keyIndex) return { ok: false, code: 'key_changed', http: 409, message: 'This question’s answer was corrected after your session, so the old result is not explained.' };
+  // By option identity, not position: an NTA paper serves its options shuffled, so the snapshot's key index can
+  // legitimately differ from the live row's while pointing at the same option (data/option_compare.js).
+  if (!sameKeyOption(q.options, keyIndex, current.options, currentKey)) return { ok: false, code: 'key_changed', http: 409, message: 'This question’s answer was corrected after your session, so the old result is not explained.' };
   return { ok: true, question: q, chosenIndex: d.givenIndex, keyIndex };
 }
+
+// A passage-based question (English reading, case studies) cannot be solved or explained without its passage. Attempt
+// snapshots carry it as `passageText` / `passageTitle` (data/db.js questionOut); raw question rows as `passage_text`.
+const passageText = (q) => { const t = q?.passageText ?? q?.passage_text; return typeof t === 'string' ? t.trim() : ''; };
+const passageTitle = (q) => { const t = q?.passageTitle ?? q?.passage_title; return typeof t === 'string' ? t.trim() : ''; };
+const passageBlock = (q) => {
+  const text = passageText(q);
+  if (!text) return '';
+  const title = passageTitle(q);
+  return `Passage${title ? ` (${title})` : ''}:\n${text}\n`;
+};
 
 export function buildRepairPrompt({ question, chosenIndex, keyIndex, subject }) {
   const options = question.options.map((o, i) => `${letter(i)} (index ${i}). ${optionTextOf(o)}`).join('\n');
@@ -48,9 +84,9 @@ A student chose a wrong option. Work in this order:
    - "key_idea": the rule or distinction that picks the correct answer (max 45 words)
    - "next_step": one concrete thing to do in the next 10 minutes (max 30 words)
 If you disagree with the key, set every text field to "".
-Never mention marks to gain, ranks, percentiles, cutoffs or admission chances. Do not add facts the answer does not need.
+Never predict marks, scores, ranks, percentiles, cutoffs or admission chances for the student, and never promise a gain. Words such as rank or percentile are fine when they are part of the subject itself. Do not add facts the answer does not need.
 Return JSON only: {"solved_index": number, "agrees_with_key": boolean, "why_tempting": string, "why_wrong": string, "key_idea": string, "next_step": string}`;
-  const user = `Chapter: ${question.chapter || 'unknown'}\nQuestion: ${question.question ?? question.body ?? ''}\n${question.passage_text ? `Passage: ${question.passage_text}\n` : ''}Options:\n${options}\nStudent chose index ${chosenIndex}.`;
+  const user = `Chapter: ${question.chapter || 'unknown'}\n${passageBlock(question)}Question: ${question.question ?? question.body ?? ''}\nOptions:\n${options}\nStudent chose index ${chosenIndex}.`;
   return { system, user };
 }
 
@@ -59,7 +95,7 @@ export function buildBlindSolvePrompt({ question, subject }) {
   const options = question.options.map((o, i) => `${letter(i)} (index ${i}). ${optionTextOf(o)}`).join('\n');
   return {
     system: `You are checking a CUET UG ${subject || ''} multiple-choice question. Solve it carefully. Return JSON only: {"solved_index": number, "confident": boolean}`,
-    user: `Question: ${question.question ?? question.body ?? ''}\n${question.passage_text ? `Passage: ${question.passage_text}\n` : ''}Options:\n${options}`,
+    user: `${passageBlock(question)}Question: ${question.question ?? question.body ?? ''}\nOptions:\n${options}`,
   };
 }
 
@@ -73,7 +109,7 @@ export function interpretRepair(data, { keyIndex, optionCount }) {
   if (solved !== keyIndex || data.agrees_with_key !== true) return { kind: 'disputed', solvedIndex: solved };
   const repair = Object.fromEntries(Object.entries(LIMITS).map(([k, max]) => [k, clean(data[k], max)]));
   if (Object.values(repair).some(v => v.length < 8)) return { kind: 'unusable' };
-  if (Object.values(repair).some(v => BANNED.test(v))) return { kind: 'unusable' };
+  if (Object.values(repair).some(violatesTruthRules)) return { kind: 'unusable' };
   return { kind: 'explained', repair };
 }
 

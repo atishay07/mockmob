@@ -1,10 +1,12 @@
 import { correctIndexOf } from './mistake_repair.js';
+import { alignOptions } from './option_compare.js';
 
 const text = value => String(value ?? '').replace(/\s+/g, ' ').trim();
 const optionText = option => text(typeof option === 'string' ? option : option?.text);
+const sameQuestionText = (before, after) => text(before.question ?? before.body) === text(after.question ?? after.body)
+  && text(before.passageText ?? before.passage_text) === text(after.passageText ?? after.passage_text);
 export function sameQuestionContent(before, after) {
-  return text(before.question ?? before.body) === text(after.question ?? after.body)
-    && text(before.passageText ?? before.passage_text) === text(after.passageText ?? after.passage_text)
+  return sameQuestionText(before, after)
     && Array.isArray(before.options) && Array.isArray(after.options)
     && before.options.length === after.options.length
     && before.options.every((option, i) => optionText(option) === optionText(after.options[i]));
@@ -32,19 +34,24 @@ export function answerReview(snapshot, current, detail, { evidenceEligible = fal
   if (!current || current.is_deleted) return { state: 'withdrawn', originalIndex };
   if (current.status !== 'live' || current.verification_state === 'disputed') return { state: 'under_review', originalIndex };
   const currentIndex = correctIndexOf(current);
-  if (!sameQuestionContent(snapshot, current)) return { state: 'content_changed', originalIndex };
+  // The snapshot holds the options in the order the student saw them; the live row may hold the same options in
+  // another order (an NTA paper serves them shuffled) or with their own letter prefixes. Same question and same
+  // option set is the same content; the key is then compared by option identity, in the snapshot's order.
+  const placed = alignOptions(snapshot.options, current.options);
+  if (!sameQuestionText(snapshot, current) || !(placed || sameQuestionContent(snapshot, current))) return { state: 'content_changed', originalIndex };
   if (!Number.isInteger(currentIndex) || currentIndex < 0 || currentIndex >= current.options.length) return { state: 'under_review', originalIndex };
-  if (currentIndex === originalIndex) return null;
+  const servedIndex = placed ? placed.indexOf(currentIndex) : currentIndex;
+  if (servedIndex === originalIndex) return null;
   const receipt = current.id === CIRCULAR_QUEUE_CORRECTION.questionId
     && sameQuestionContent(CIRCULAR_QUEUE_CORRECTION, current)
     && currentIndex === CIRCULAR_QUEUE_CORRECTION.correctIndex ? CIRCULAR_QUEUE_CORRECTION : null;
-  if (!receipt && !evidenceEligible) return { state: 'key_changed_unverified', originalIndex, currentIndex };
+  if (!receipt && !evidenceEligible) return { state: 'key_changed_unverified', originalIndex, currentIndex: servedIndex };
   const chosenIndex = detail?.givenIndex;
   const marksFor = index => !Number.isInteger(chosenIndex) ? 0 : chosenIndex === index ? 5 : -1;
-  return { state: 'corrected', originalIndex, currentIndex,
+  return { state: 'corrected', originalIndex, currentIndex: servedIndex,
     explanation: receipt?.explanation || text(current.explanation), source: receipt?.source || null,
     chosenIndex: Number.isInteger(chosenIndex) ? chosenIndex : null,
-    originalMarks: marksFor(originalIndex), correctedMarks: marksFor(currentIndex),
-    adjustment: marksFor(currentIndex) - marksFor(originalIndex),
+    originalMarks: marksFor(originalIndex), correctedMarks: marksFor(servedIndex),
+    adjustment: marksFor(servedIndex) - marksFor(originalIndex),
     scoreState: 'derived_display_only', checkedAt: receipt?.checkedAt || current.validated_at || null };
 }

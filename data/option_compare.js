@@ -15,6 +15,8 @@
 // ordinary prose ("co-ordinate" = "co ordinate"), and the articles a / an / the in a prose option ("The cell" = "cell").
 // A single-letter option ("A") is not special-cased here; the validity rule in each caller still rejects it.
 
+import { plainOptionTexts } from './option_text.js';
+
 const SUPERSCRIPTS = '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁼⁽⁾ⁿⁱˣʸᵀᵃᵇᶜᵈᵉᶠᵍʰʲᵏˡᵐᵒᵖʳˢᵗᵘᵛʷᶻ';
 const SUBSCRIPTS = '₀₁₂₃₄₅₆₇₈₉₊₋₌₍₎ₐₑₒₓₕₖₗₘₙₚₛₜᵢᵣᵤᵥ';
 const SUPERSCRIPT_RUN = new RegExp(`[${SUPERSCRIPTS}]+`, 'g');
@@ -90,4 +92,46 @@ export function normalizeOptionComparable(value) {
   const tokens = out.replace(/\s+/g, ' ').trim().split(' ').filter(Boolean);
   if (!mathy) return dropArticles(tokens, originalWords).join(' ');
   return tokens.join(' ');
+}
+
+// ---- Option identity across a reorder -------------------------------------------------------------
+// An NTA paper serves each question's options in a seeded order and remaps the key to that order, so an
+// attempt snapshot and the live question row can hold the SAME options in a different order (and the live
+// text may still carry the "A. " letter prefix that the served text dropped). Comparing key INDICES position
+// by position then calls a harmless shuffle a changed key. These helpers compare by option identity instead:
+//   * an option id (`id`), when every option on both sides has one;
+//   * otherwise the comparable text (normalizeOptionComparable) of the option with its own letter prefix removed.
+const idOf = (option) => {
+  if (!option || typeof option !== 'object') return null;
+  const id = option.id;
+  return (typeof id === 'string' || typeof id === 'number') && String(id).trim() !== '' ? `id:${String(id).trim()}` : null;
+};
+
+/**
+ * Where each option of `from` sits in `to`: map[i] is the index in `to` of the option shown at `from[i]`.
+ * Returns null unless the two lists are the same set of options (same length, one-to-one by identity, no
+ * ambiguous duplicates), which includes the plain unchanged case. null means "edited, not just reordered".
+ */
+export function alignOptions(from, to) {
+  const a = Array.isArray(from) ? from : [];
+  const b = Array.isArray(to) ? to : [];
+  if (!a.length || a.length !== b.length) return null;
+  const useIds = a.every((o) => idOf(o)) && b.every((o) => idOf(o));
+  const keys = (list) => (useIds ? list.map(idOf) : plainOptionTexts(list).map((text) => `text:${normalizeOptionComparable(text)}`));
+  const ka = keys(a);
+  const kb = keys(b);
+  if (new Set(ka).size !== ka.length || new Set(kb).size !== kb.length) return null;
+  const where = new Map(kb.map((key, index) => [key, index]));
+  const map = ka.map((key) => where.get(key));
+  return map.every((index) => index !== undefined) ? map : null;
+}
+
+/**
+ * Is the key of `current` still the option the snapshot scored as correct? By identity when the two lists
+ * are the same options in some order; when the options were edited the old positional rule applies.
+ */
+export function sameKeyOption(snapshotOptions, snapshotKey, currentOptions, currentKey) {
+  if (!Number.isInteger(snapshotKey) || !Number.isInteger(currentKey)) return false;
+  const map = alignOptions(snapshotOptions, currentOptions);
+  return map ? map[snapshotKey] === currentKey : currentKey === snapshotKey;
 }
