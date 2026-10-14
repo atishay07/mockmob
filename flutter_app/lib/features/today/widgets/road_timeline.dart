@@ -13,6 +13,7 @@ import '../../../core/theme/theme.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'today_entrance.dart';
+import 'today_reveal.dart';
 
 class RoadTimeline extends StatelessWidget {
   const RoadTimeline({super.key, required this.today, required this.stops, required this.end});
@@ -26,10 +27,12 @@ class RoadTimeline extends StatelessWidget {
   static const double height = 136;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => TodayReveal(child: Builder(builder: _drawn));
+
+  Widget _drawn(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final draw = todayEnterValue(context, delay: const Duration(milliseconds: 300), length: const Duration(milliseconds: 560));
+    final draw = todayEnterValue(context, delay: const Duration(milliseconds: 80), length: const Duration(milliseconds: 620));
     final small = type.caption.copyWith(fontSize: 11, height: 1, fontWeight: FontWeight.w600, color: colors.ink3);
     return Semantics(
       label: 'Timeline from ${TodayCopy.nowLabel.toLowerCase()} to ${_monthName(end.subtract(const Duration(days: 1)))}',

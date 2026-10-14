@@ -14,6 +14,7 @@ import '../copy.dart';
 import '../logic/today_model.dart';
 import 'section_heading.dart';
 import 'today_entrance.dart';
+import 'today_reveal.dart';
 
 class CollegeLadder extends StatelessWidget {
   const CollegeLadder({super.key, required this.road, this.onChoose});
@@ -174,10 +175,13 @@ class _Scale extends StatelessWidget {
   final List<bool> dream;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => TodayReveal(child: Builder(builder: _drawn));
+
+  Widget _drawn(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final rise = todayEnterValue(context, delay: const Duration(milliseconds: 360), length: const Duration(milliseconds: 400));
+    // The spread inks along the groove, then the picks rise onto their scores.
+    final rise = todayEnterValue(context, delay: const Duration(milliseconds: 60), length: const Duration(milliseconds: 520));
     return ExcludeSemantics(
       child: RepaintBoundary(
         child: CustomPaint(
@@ -245,7 +249,7 @@ class _ScalePainter extends CustomPainter {
       if (major) _text(canvas, v.toStringAsFixed(0), tick, Offset(tx, _axisY + 18));
     }
     final highest = scores.reduce(math.max);
-    final spreadT = rise.value;
+    final spreadT = (rise.value * 1.6).clamp(0.0, 1.0);
     if (x(highest) - x(lowest) > 1) {
       final a = x(lowest), b = a + (x(highest) - a) * spreadT;
       canvas.drawRRect(
@@ -265,7 +269,7 @@ class _ScalePainter extends CustomPainter {
       }
       placed.add((i: i, x: px, row: row));
     }
-    final t = rise.value;
+    final t = ((rise.value - 0.3) / 0.7).clamp(0.0, 1.0);
     double yOf(int row) => _axisY - 18 - row * (_r * 2 + 4) + (1 - t) * 10;
     // Stems first: each from its bubble down to its score on the axis.
     for (final p in placed) {

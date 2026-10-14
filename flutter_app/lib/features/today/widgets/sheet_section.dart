@@ -15,6 +15,8 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'section_heading.dart';
+import 'today_entrance.dart';
+import 'today_reveal.dart';
 
 class SheetSection extends StatelessWidget {
   const SheetSection({super.key, required this.rows, required this.onOpen});
@@ -166,24 +168,34 @@ class _SplitBar extends StatelessWidget {
   final int wrong;
   final int blank;
 
+  // The marks run in from the left the first time the row comes into view.
   @override
-  Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: CustomPaint(
-        size: const Size(double.infinity, 6),
-        painter: _SplitPainter(right: right, wrong: wrong, blank: blank, colors: context.mmColors),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => TodayReveal(
+        child: Builder(
+          builder: (context) => RepaintBoundary(
+            child: CustomPaint(
+              size: const Size(double.infinity, 6),
+              painter: _SplitPainter(
+                right: right,
+                wrong: wrong,
+                blank: blank,
+                colors: context.mmColors,
+                draw: todayEnterValue(context, delay: const Duration(milliseconds: 40), length: const Duration(milliseconds: 560)),
+              ),
+            ),
+          ),
+        ),
+      );
 }
 
 class _SplitPainter extends CustomPainter {
-  _SplitPainter({required this.right, required this.wrong, required this.blank, required this.colors});
+  _SplitPainter({required this.right, required this.wrong, required this.blank, required this.colors, required this.draw}) : super(repaint: draw);
 
   final int right;
   final int wrong;
   final int blank;
   final MmColors colors;
+  final Animation<double> draw;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -194,6 +206,7 @@ class _SplitPainter extends CustomPainter {
     canvas.drawRRect(groove, Paint()..color = colors.isNight ? colors.ink.withValues(alpha: 0.08) : colors.ink.withValues(alpha: 0.07));
     canvas.save();
     canvas.clipRRect(groove);
+    canvas.clipRect(Rect.fromLTWH(0, 0, size.width * draw.value, h));
     const gap = 2.0;
     var x = 0.0;
     void segment(int n, Color color) {
@@ -211,5 +224,5 @@ class _SplitPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_SplitPainter old) =>
-      old.right != right || old.wrong != wrong || old.blank != blank || old.colors != colors;
+      old.right != right || old.wrong != wrong || old.blank != blank || old.colors != colors || old.draw != draw;
 }

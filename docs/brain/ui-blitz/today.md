@@ -57,16 +57,16 @@ Spacing: 4-point scale. Header to week 16; week to hero 24; hero to first sectio
 
 The owner named it. It becomes a real timeline with progress and the next milestone.
 - Title "The road to May". The countdown: "28" condensed 64 sp with "weeks to the expected CUET window, May 2027" beside it (days under a week; "Exam window open" with days left during the window).
-- **The road** (CustomPainter, one RepaintBoundary, paths cached by size): a 10 dp rounded track from the start of this month to the month after the window. The stretch already travelled this month is solid ink; ahead, the track is a quiet groove marked with one small tick per week, so the 28 weeks are countable. Registration and boards ride as labelled lanes above the track; the expected exam window is the one volt block at the end. "Now" is an ink disc with a halo, and a hairline flag with the date ("Now, 13 Oct").
+- **The road** (CustomPainter, one RepaintBoundary, paths cached by size): a 10 dp rounded track from the start of this month to the month after the window. The stretch already travelled this month is solid ink; ahead, the track is a quiet groove marked with one small tick per week, so the 28 weeks are countable. Registration and boards ride as lanes above the track, each named where it starts ("Registration", "Boards"); the expected exam window is the one volt block at the end (with a soft halo at night), flagged by a hairline up to its name ("CUET UG") at the right of the first lane. "Now" is an ink disc with a halo, and a hairline flag with the date ("Now, 13 Oct"). **The next milestone on the road itself**: a bracket runs from Now to where the next stop starts, with its length in a small pill ("15 weeks"), and the groove under that stretch is lit a little, so the eye goes from Now to the next thing to do. Text in the painter is laid out once per painter, not per frame.
 - **The stops** as a vertical timeline under it: a rail with a node per stop (its key mark), the title, its dates, its note, and on the right how far it is ("in 16 weeks", "on now" while inside it). The first stop still ahead is marked "Next" and drawn at full ink; later ones are quieter. "Expected dates" stays as one caption when every date is expected.
 - The sessions line ("About 100 study sessions at 4 a week.") closes the section.
-- Motion: on first paint the travelled ink draws to Now (420 ms emphasized), the Now halo blooms once (300 ms); reduced motion shows it drawn.
+- Motion: the road is usually below the fold, so it draws itself in when it scrolls into view (see 2.6): the travelled ink runs to Now and the bracket runs to the next stop (620 ms emphasized), the pill fades in over the last 45 %, the Now halo blooms with it; reduced motion shows it drawn.
 - Integrity: calendar arithmetic and the student's own goal only. No marks, chances or ranks.
 
 ### 2.5 Your colleges
 
 - On the ground, right after the road. Title "Your colleges" with "Change" as a quiet key.
-- **A closing-score scale**: one horizontal axis, its range fitted to the picks (rounded to 50 below the lowest pick, up to 1000), ticks every 50 with labels. Each pick is a numbered bubble (1, 2, 3) sitting at its closing score; the dream pick is the filled bubble. The gaps between colleges are visible at a glance.
+- **A closing-score scale**: one horizontal axis drawn as a 6 dp groove (the road's material), its range fitted to the picks (rounded to 50 below the lowest pick, up to 1000), ticks every 50 with labels. The stretch from the lowest to the highest pick is inked, so how far apart the picks close reads at a glance. Each pick is a numbered bubble (1, 2, 3) on a stem at its closing score; the dream pick is the filled bubble; picks too close stack a row up. When it scrolls into view the spread inks along the groove first, then the picks rise 10 dp onto their stems (520 ms).
 - Under the scale, the numbered rows: bubble number, the college (never truncated, two lines allowed), the course, and the score in condensed 26 sp with "of 1000".
 - The caption keeps the category in words ("Last year's DU closing scores, unreserved").
 - "Target vs score": Today has no honest CUET score for the student (a short check is never projected to a CUET score), so the scale shows the targets against each other and the 1000 scale, and nothing pretends to place the student on it. Empty state: one line and "Choose your colleges".
@@ -79,6 +79,8 @@ The owner named it. It becomes a real timeline with progress and the next milest
 ### 2.6 Choreography of the whole screen
 
 On the first build with data (not on every rebuild, not on tab reselect): header 0 ms, week 60 ms, hero 120 ms, the sections 220 ms and 280 ms. Each: opacity 0 to 1 and 16 dp rise, 420 ms `emphasized`. All transform and opacity, in one controller, each piece in a RepaintBoundary. Reduced motion (system or in-app): everything in place at once. Total under 800 ms; every control is live from the first frame.
+
+The sections below the fold have their own moment: `TodayReveal` watches the scroll position once and, the first time a piece's top edge is 72 dp into the viewport, plays that piece's draw-in on its own controller (the papers' right, wrong and blank bars run in from the left, the road draws to Now and the next stop, the colleges' spread inks and the picks rise). Once per page life, then the listener is removed; painters only, so nothing reflows; reduced motion shows everything drawn.
 
 ## 3. Budget phone
 
@@ -93,4 +95,7 @@ No new BackdropFilter (the hero and the week use fake glass or none). Painters c
 
 ## 5. For the merge
 
-See the branch report.
+- Everything lives under `lib/features/today/**`; no shared file was edited. New local helpers: `widgets/today_reveal.dart` (scroll-in draw-in), `widgets/session_glyph.dart` (drawn session sheets), `widgets/section_heading.dart`, `widgets/week_ledger.dart`, `widgets/college_ladder.dart`, `widgets/today_entrance.dart`.
+- `WeekLedger` uses `PlanWeekKey` and `PlanDay` from `features/rhythm/widgets/plan_week_strip.dart`; if the rhythm track renames it, the import in `week_ledger.dart` follows.
+- `today_road` golden is now 384 by 1000 (the colleges are in frame).
+- Fixture note (not changed here): `today_returning` is dated Saturday 17 October but the fixture week still marks Tuesday as today; the week comes from the fixture's rhythm, not from Today.
