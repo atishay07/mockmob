@@ -128,7 +128,11 @@ void todayGolden(String name, TodayView Function() view, {Size size = kTodaySize
 
 /// Any widget in the phone frame, both themes.
 void screenGolden(String name, Widget Function() build, {Size size = kTodaySize, bool dock = true, bool settle = false, double textScale = 1}) {
-  setUpAll(loadAppFonts);
+  setUpAll(() async {
+    await loadAppFonts();
+    // The bar's tab glyphs are Material icons.
+    await loadMaterialIconFont();
+  });
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
     testWidgets('$name, $tag', (tester) async {

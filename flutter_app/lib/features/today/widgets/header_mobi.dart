@@ -2,10 +2,12 @@
 // 56 dp living Mobi beside the greeting: he breathes and blinks, cheers only when today's opened
 // result improved or held, waves for any other submission, yawns after 11 PM, points at the move
 // card when one is ready (aimed at the card itself, again after layout and scroll) and says his
-// short line about it the first time the move is ready in an app run (never under reduced
-// motion), and says one short line when tapped. If the student has neither touched nor scrolled the screen for 4 s
-// after he first points, he nudges toward the card once (two short jabs), once a day at most
-// (MOTION.md 1.3: sooner reads as nagging). When the hero already has Mobi (day one, coming back, late night) the
+// short line about it the first time the move is ready in an app run, when the student has
+// neither touched nor scrolled for 4 s (never under reduced motion; never while the opening still
+// covers the app), and says one short line when tapped. After that line, or at once when he has
+// already said it, he nudges toward the card once (two short jabs), once a day at most
+// (MOTION.md 1.3: sooner reads as nagging). While his line is up the greeting beside him steps
+// back (see [HeaderMobi.speaking]), so a bubble never sits on top of text. When the hero already has Mobi (day one, coming back, late night) the
 // header leaves him out, so there is never a second Mobi on the screen.
 import 'dart:async';
 
@@ -17,9 +19,13 @@ import '../../../core/widgets/widgets.dart';
 import '../logic/today_model.dart';
 
 class HeaderMobi extends StatefulWidget {
-  const HeaderMobi({super.key, required this.cue, this.aim});
+  const HeaderMobi({super.key, required this.cue, this.aim, this.speaking});
 
   final HeaderMobiCue cue;
+
+  /// True while his line is on screen. The header dims the greeting and date line then: the
+  /// line floats where they are, and must never cover readable text.
+  final ValueNotifier<bool>? speaking;
 
   /// The move card's key: where Mobi points when the cue is [HeaderMobiKind.point].
   final GlobalKey? aim;
@@ -50,7 +56,6 @@ class HeaderMobi extends StatefulWidget {
 class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   final MobiController _mobi = MobiController();
   Timer? _hush;
-  Timer? _first;
 
   /// The one nudge on this screen: armed when he first points, cancelled by any touch.
   Timer? _nudge;
@@ -65,6 +70,10 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   Offset? _aimedVector;
   bool _aimQueued = false;
 
+  /// The app is on screen (the brand opening has lifted, the tab is current): his clock for the
+  /// line and the nudge only runs from here, so neither plays out of sight.
+  bool _onScreen = false;
+
   MobiAct get _entrance => switch (widget.cue.kind) {
         HeaderMobiKind.cheer => MobiAct.cheer,
         HeaderMobiKind.sleepy => MobiAct.sleepy,
@@ -76,13 +85,22 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    _mobi.speech.addListener(_syncSpeaking);
     _reaim();
-    _greet();
   }
+
+  void _syncSpeaking() => widget.speaking?.value = _mobi.speech.value != null;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    final onScreen = TickerMode.valuesOf(context).enabled;
+    if (onScreen != _onScreen) {
+      _onScreen = onScreen;
+      // Aimed while covered, armed only once seen: aim again so the nudge's 4 s start now.
+      if (onScreen) _aimedVector = null;
+      _reaim();
+    }
     // The page scrolls under him: keep the aim on the card as it moves.
     final position = Scrollable.maybeOf(context)?.position;
     if (position == _position) return;
@@ -98,7 +116,6 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     if (old.cue.kind != widget.cue.kind) {
       _mobi.play(_entrance);
       _aimedVector = null;
-      _greet();
     }
     _reaim();
   }
@@ -110,9 +127,9 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _mobi.speech.removeListener(_syncSpeaking);
     _position?.removeListener(_reaim);
     _hush?.cancel();
-    _first?.cancel();
     _nudge?.cancel();
     _talking?.cancel();
     _stopListening();
@@ -149,7 +166,7 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   /// this screen. Once a day at most ([MobiRation.nudgeToday], asked only when he would nudge).
   /// Not under reduced motion, where he holds a still pose.
   void _armNudge() {
-    if (_nudgeArmed || Motion.reduced(context)) return;
+    if (_nudgeArmed || !_onScreen || Motion.reduced(context)) return;
     _nudgeArmed = true;
     GestureBinding.instance.pointerRouter.addGlobalRoute(_onPointer);
     _listening = true;
@@ -187,20 +204,19 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
       _nudgeAfterTalk = true;
       return;
     }
+    // The first idle 4 s of an app run: he says his line about the card, and the nudge follows
+    // it (a touch in between cancels the nudge, not the line).
+    final lines = widget.cue.lines;
+    if (!HeaderMobi._greeted && lines.isNotEmpty) {
+      HeaderMobi._greeted = true;
+      _speak(lines.first);
+      _nudgeAfterTalk = true;
+      return;
+    }
     _stopListening();
     if (!MobiRation.nudgeToday(HeaderMobi.screen)) return;
     _mobi.play(MobiAct.nudge);
     HeaderMobi.debugOnNudge?.call();
-  }
-
-  /// The first time a move is ready in this app run he points and says so, once the page has
-  /// settled. Not under reduced motion: the line types in and floats over the greeting.
-  void _greet() {
-    if (HeaderMobi._greeted || widget.cue.kind != HeaderMobiKind.point || widget.cue.lines.isEmpty) return;
-    HeaderMobi._greeted = true;
-    _first = Timer(const Duration(milliseconds: 1100), () {
-      if (mounted && !Motion.reduced(context)) _speak(widget.cue.lines.first);
-    });
   }
 
   void _onTap() {

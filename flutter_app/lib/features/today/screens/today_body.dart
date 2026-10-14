@@ -110,6 +110,9 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   void initState() {
     super.initState();
     _scroll.addListener(_queueMeasure);
+    // The hero rises into place over the entrance, so its key is lower than it will rest while
+    // that plays. The move is judged again on every frame of it, and decided at its end.
+    _entrance.addListener(_queueMeasure);
   }
 
   @override
@@ -136,6 +139,7 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   @override
   void dispose() {
     _scroll.removeListener(_queueMeasure);
+    _entrance.removeListener(_queueMeasure);
     _ownScroll?.dispose();
     _publish(null);
     _entrance.dispose();
@@ -155,6 +159,10 @@ class _TodayBodyState extends State<TodayBody> with SingleTickerProviderStateMix
   /// capsule takes over the bar: partly under the bar or the capsule, or past the fold. The line
   /// is measured from the bar, not from the capsule, so the capsule arriving never moves it.
   void _measure() {
+    // While the entrance plays the hero is not where it will rest (it rises 16 dp), so a key that
+    // is in view at rest could read as below the line and raise a capsule that then never goes
+    // (device walk-through 22:07: the capsule and the hero's own key showed together).
+    if (_entrance.isAnimating) return;
     final hero = widget.view.hero;
     final key = _primaryKey.currentContext?.findRenderObject();
     final stack = _stackKey.currentContext?.findRenderObject();

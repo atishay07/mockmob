@@ -29,7 +29,7 @@ enum ChoiceGlyphKind {
   /// The exam's own question palette on its panel: the exam-day screen. The cells dip in a wave.
   nta,
 
-  /// A wrong bubble that a volt ring closes around: the mistake about to be repaired.
+  /// An inked bubble with a tick that a volt ring closes around: the mistake put right.
   repair,
 
   /// A solid speech bubble whose dots hop in turn: ask about your record.
@@ -471,8 +471,16 @@ class ChoiceGlyphPainter extends CustomPainter {
     const c = Offset(12, 12);
     final disc = Path()..addOval(Rect.fromCircle(center: c, radius: 7));
     _drop(canvas, disc, alpha: 0.4);
-    _bubble(canvas, c, 7 * (1 - 0.12 * b), BubbleState.wrong);
+    // Inked, never a cross: a red cross in a ring read as a close button. The bubble is the
+    // answer being put right, with a tick through it.
+    final r = 7 * (1 - 0.12 * b);
+    _bubble(canvas, c, r, BubbleState.filled);
     _rim(canvas, disc, disc.getBounds(), alpha: 0.4);
+    final tick = Path()
+      ..moveTo(c.dx - r * 0.42, c.dy + r * 0.02)
+      ..lineTo(c.dx - r * 0.1, c.dy + r * 0.36)
+      ..lineTo(c.dx + r * 0.46, c.dy - r * 0.34);
+    canvas.drawPath(tick, _stroke(colors.voltInk, math.max(1.3, r * 0.2)));
     const ring = 10.6;
     final sweep = p <= 0.001 || p >= 0.999 ? 2 * math.pi : 2 * math.pi * Curves.easeOutCubic.transform(p);
     if (sweep < 2 * math.pi) canvas.drawCircle(c, ring, _stroke(_accent.withValues(alpha: 0.2), 1.1));

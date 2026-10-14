@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/features/practice/widgets/length_dial.dart';
+import 'package:mockmob/features/practice/widgets/suggestion_card.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
@@ -139,7 +140,8 @@ void main() {
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);
-      expect(find.text('Business Studies, quick practice'), findsOneWidget);
+      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsOneWidget);
+      expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
       expect(find.text('No Business Studies paper yet. Ten questions shows where you stand.'), findsOneWidget);
 
       await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start').first);
@@ -234,7 +236,8 @@ void main() {
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);
-      expect(find.text('Business Studies, quick practice'), findsOneWidget);
+      expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsOneWidget);
+      expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
       expect(find.textContaining('paper yet'), findsNothing);
       expect(find.text('Ten questions shows where you stand.'), findsOneWidget);
     });

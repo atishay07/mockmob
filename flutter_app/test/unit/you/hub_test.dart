@@ -5,10 +5,13 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/models/rhythm.dart';
+import 'package:mockmob/core/repositories/consent_repository.dart' show ConsentStatus;
 import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show SubjectPlate;
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
+import 'package:mockmob/features/you/hub/hub_sections.dart' show SettingsPanel;
 import 'package:mockmob/features/you/you_hub_screen.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -60,6 +63,15 @@ void main() {
     }
     expect(find.text('of 4 study days'), findsOneWidget);
     expect(find.text('3 weeks in rhythm'), findsOneWidget);
+  });
+
+  testWidgets('each subject is the shared plate, 136 by 104 dp, not a private tile', (tester) async {
+    await _pumpHub(tester, target: ashaTarget);
+    final plates = find.byType(SubjectPlate);
+    expect(plates, findsNWidgets(4));
+    for (final plate in plates.evaluate()) {
+      expect(tester.getSize(find.byWidget(plate.widget)), const Size(136, 104));
+    }
   });
 
   testWidgets('the course and colleges picked in setup print in order of preference', (tester) async {
@@ -135,6 +147,30 @@ void main() {
   testWidgets('the privacy row reflects the account', (tester) async {
     await _pumpHub(tester, consent: FakeConsent(consentState(AgeBand.minor)));
     expect(find.text('Off for your account'), findsOneWidget);
+  });
+
+  group('the privacy row never says off for a choice it has not read', () {
+    for (final status in [ConsentStatus.notLoaded, ConsentStatus.loading, ConsentStatus.failed]) {
+      testWidgets('$status: no usage-data line at all', (tester) async {
+        await _pumpHub(tester, consent: FakeConsent(consentState(AgeBand.adult, status: status)));
+        expect(find.text('Usage data is off'), findsNothing);
+        expect(find.text('Usage data is on'), findsNothing);
+        expect(find.text('Off for your account'), findsNothing);
+        expect(SettingsPanel.privacyNote(consentState(AgeBand.adult, status: status)), isNull);
+      });
+    }
+
+    testWidgets('a loaded adult sees the real state, on or off', (tester) async {
+      expect(SettingsPanel.privacyNote(consentState(AgeBand.adult, on: true)), 'Usage data is on');
+      expect(SettingsPanel.privacyNote(consentState(AgeBand.adult)), 'Usage data is off');
+      await _pumpHub(tester, consent: FakeConsent(consentState(AgeBand.adult, on: true)));
+      expect(find.text('Usage data is on'), findsOneWidget);
+    });
+
+    test('a withdrawal the server has not acknowledged reads off', () {
+      final pending = consentState(AgeBand.adult, on: true).copyWith(withdrawalPending: true);
+      expect(SettingsPanel.privacyNote(pending), 'Usage data is off');
+    });
   });
 
   testWidgets('rows and the week field open their screens', (tester) async {

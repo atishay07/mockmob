@@ -31,6 +31,20 @@ Future<void> loadAppFonts() async {
   }
 }
 
+/// The Material icon font from the Flutter SDK, for screens that draw `Icons.*` (the bar's tab
+/// glyphs, a switch thumb's check). The test font loader does not include it, so without this
+/// every such icon renders as an empty box. Does nothing when the SDK's font is not found.
+Future<void> loadMaterialIconFont() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  final root = Platform.environment['FLUTTER_ROOT'];
+  if (root == null) return;
+  final file = File('$root/bin/cache/artifacts/material_fonts/materialicons-regular.otf');
+  if (!file.existsSync()) return;
+  final bytes = await file.readAsBytes();
+  final loader = FontLoader('MaterialIcons')..addFont(Future.value(ByteData.sublistView(Uint8List.fromList(bytes))));
+  await loader.load();
+}
+
 Future<void> _loadFamily(String family, List<String> paths) async {
   final loader = FontLoader(family);
   for (final path in paths) {

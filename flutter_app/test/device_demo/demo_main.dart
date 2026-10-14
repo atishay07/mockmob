@@ -29,7 +29,7 @@ import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/repositories/consent_repository.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/goal_repository.dart';
-import 'package:mockmob/core/repositories/local_scope.dart' show userIdProvider;
+import 'package:mockmob/core/repositories/local_scope.dart' show localScopeProvider, userIdProvider;
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart'
     show notificationPrefsRepositoryProvider, studentTimezoneProvider;
 import 'package:mockmob/core/repositories/pending_result_repository.dart';
@@ -104,6 +104,7 @@ class _Starter implements PracticeStarting {
 
 Future<RunnerLoad> _open(String sessionId) async {
   final session = demoSessions[sessionId];
+  session?.resumeClock();
   return session == null ? const RunnerMissing() : RunnerReady(session);
 }
 
@@ -233,7 +234,10 @@ List<Override> _overrides() {
     ),
     practiceCatalogApiProvider.overrideWithValue(practice.FakeCatalog()),
     practiceStarterProvider.overrideWithValue(_Starter()),
-    latestSessionDraftProvider.overrideWith((ref) => Stream.value(null)),
+    // The open paper (left, not submitted) is a real draft: the bar's Resume capsule, Today's
+    // resume hero and Start's Resume row all show it, with its answers counted from the session.
+    latestSessionDraftProvider.overrideWith((ref) => demoDrafts.watch()),
+    sessionDraftRepositoryProvider.overrideWith((ref) => DemoDraftRepository(ref.watch(localScopeProvider))),
     pendingResultRepositoryProvider.overrideWithValue(practice.FakePendingResults()),
     unopenedResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
     // The receipt says when this run's submit was acknowledged.

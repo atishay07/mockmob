@@ -2,6 +2,7 @@
 // greeting by first name with the living Mobi beside it, then the week as a ledger on the
 // ground (see WeekLedger). When Today shows what it last loaded, a quiet time line takes the date
 // line's place, so a Wi-Fi flip never moves the page (audit T6).
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -12,7 +13,7 @@ import 'header_mobi.dart';
 import 'today_entrance.dart';
 import 'week_ledger.dart';
 
-class TodayHeader extends StatelessWidget {
+class TodayHeader extends StatefulWidget {
   const TodayHeader({super.key, required this.header, this.onWeek, this.aim});
 
   final HeaderModel header;
@@ -22,7 +23,25 @@ class TodayHeader extends StatelessWidget {
   final GlobalKey? aim;
 
   @override
+  State<TodayHeader> createState() => _TodayHeaderState();
+}
+
+class _TodayHeaderState extends State<TodayHeader> {
+  /// True while the header Mobi's line is up: it floats over the greeting, so the greeting steps
+  /// back for those seconds instead of being read through a bubble.
+  final ValueNotifier<bool> _speaking = ValueNotifier<bool>(false);
+
+  @override
+  void dispose() {
+    _speaking.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final header = widget.header;
+    final onWeek = widget.onWeek;
+    final aim = widget.aim;
     final week = header.week;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -37,13 +56,19 @@ class TodayHeader extends StatelessWidget {
             dateLine: header.dateLine,
             updatedLine: header.updatedLine,
             greeting: header.greeting,
-            trailing: header.mobi == null ? null : HeaderMobi(cue: header.mobi!, aim: aim),
+            speaking: _speaking,
+            trailing: header.mobi == null
+                ? null
+                : HeaderMobi(cue: header.mobi!, aim: aim, speaking: _speaking),
           ),
         ),
         if (week != null) ...[
           // Header to the week: 12 (SPACING.md 3.1, audit T3).
           const SizedBox(height: MmSpace.s12),
-          TodayEnter(delay: const Duration(milliseconds: 60), child: WeekLedger(week: week, onTap: onWeek)),
+          TodayEnter(
+            delay: const Duration(milliseconds: 60),
+            child: WeekLedger(week: week, onTap: onWeek),
+          ),
         ],
       ],
     );
@@ -54,7 +79,16 @@ class TodayHeader extends StatelessWidget {
 /// difference: "Good evening, Asha" is a full sentence, so a long one scales down to fit beside
 /// Mobi instead of ending in an ellipsis.
 class _GreetingRow extends StatelessWidget {
-  const _GreetingRow({required this.dateLine, required this.greeting, this.updatedLine, this.trailing});
+  const _GreetingRow({
+    required this.dateLine,
+    required this.greeting,
+    required this.speaking,
+    this.updatedLine,
+    this.trailing,
+  });
+
+  /// Mobi's line is up: the words beside him step back (never a bubble over readable text).
+  final ValueListenable<bool> speaking;
 
   final String dateLine;
 
@@ -73,43 +107,75 @@ class _GreetingRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AnimatedSwitcher(
-                  duration: Motion.of(context, Motion.crossFade),
-                  layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
-                  child: updatedLine == null
-                      ? Text(dateLine, key: const ValueKey('date'), style: type.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis)
-                      : Row(
-                          key: const ValueKey('updated'),
-                          children: [
-                            Icon(LucideIcons.cloudOff, size: 14, color: colors.ink2),
-                            const SizedBox(width: MmSpace.s6),
-                            Flexible(
-                              child: Text(
-                                updatedLine!,
-                                style: type.caption.copyWith(color: colors.ink2),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+            child: ValueListenableBuilder<bool>(
+              valueListenable: speaking,
+              builder: (context, hushed, child) => AnimatedOpacity(
+                opacity: hushed ? 0 : 1,
+                duration: Motion.of(context, Motion.crossFade),
+                curve: Motion.out,
+                child: child,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AnimatedSwitcher(
+                    duration: Motion.of(context, Motion.crossFade),
+                    layoutBuilder: (current, previous) => Stack(
+                      alignment: Alignment.centerLeft,
+                      children: [...previous, ?current],
+                    ),
+                    child: updatedLine == null
+                        ? Text(
+                            dateLine,
+                            key: const ValueKey('date'),
+                            style: type.caption.copyWith(color: colors.ink2),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        : Row(
+                            key: const ValueKey('updated'),
+                            children: [
+                              Icon(
+                                LucideIcons.cloudOff,
+                                size: 14,
+                                color: colors.ink2,
                               ),
-                            ),
-                          ],
-                        ),
-                ),
-                Semantics(
-                  header: true,
-                  child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    alignment: Alignment.centerLeft,
-                    child: Text(greeting, style: type.screenTitle, maxLines: 1, softWrap: false),
+                              const SizedBox(width: MmSpace.s6),
+                              Flexible(
+                                child: Text(
+                                  updatedLine!,
+                                  style: type.caption.copyWith(
+                                    color: colors.ink2,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
                   ),
-                ),
-              ],
+                  Semantics(
+                    header: true,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        greeting,
+                        style: type.screenTitle,
+                        maxLines: 1,
+                        softWrap: false,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-          if (trailing != null) ...[const SizedBox(width: MmSpace.s12), trailing!],
+          if (trailing != null) ...[
+            const SizedBox(width: MmSpace.s12),
+            trailing!,
+          ],
         ],
       ),
     );

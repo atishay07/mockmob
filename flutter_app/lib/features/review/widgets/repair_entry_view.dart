@@ -215,7 +215,7 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                   ],
                 ),
               ),
-              const SizedBox(height: MmSpace.s12),
+              const SizedBox(height: MmSpace.s16),
               MonumentalNumber(
                 value: '$n',
                 unit: n == 1 ? 'mistake' : 'mistakes',
@@ -230,7 +230,7 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                 reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n)),
                 style: type.lead.copyWith(color: colors.ink2),
               ),
-              const SizedBox(height: MmSpace.s24),
+              const SizedBox(height: MmSpace.s32),
               MistakeRun(numbers: numbers, state: reopen ? BubbleState.filled : BubbleState.wrong, inkIn: true),
               const SizedBox(height: MmSpace.s32),
               // The thread, flat on the ground: where each of these is headed.
@@ -239,7 +239,7 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
               Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
               // What it costs, in words, directly under the thread.
               if (widget.plan.hasWords && !reopen) ...[
-                const SizedBox(height: MmSpace.s24),
+                const SizedBox(height: MmSpace.s32),
                 if (widget.plan.headline != null)
                   Semantics(
                     header: true,

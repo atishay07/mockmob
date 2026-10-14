@@ -186,14 +186,9 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
     final next = index?.nextAfter(widget.attemptId, model.touchedKeys);
     final ackedAt = model.lastAckedAt;
     final nothing = model.repaired == 0;
-    // What is still open in this chapter, across papers: the one fact the number does not carry.
-    int? left;
-    if (index != null && model.chapter.isNotEmpty) {
-      left = 0;
-      for (final g in index.openGroups) {
-        if (g.chapter == model.chapter && g.subjectId == model.subjectId) left = g.openCount;
-      }
-    }
+    // What is still open in this chapter: in this paper (what the run covered) and in other papers,
+    // said apart so the line never contradicts the entry's count.
+    final open = chapterOpenSplit(index, attemptId: widget.attemptId, chapter: model.chapter, subjectId: model.subjectId);
     // After nothing was repaired, the same mistakes can be tried again: the first one still open.
     final retry = nothing && index != null ? index.openIn(widget.attemptId, model.chapter) : const <MistakeItem>[];
     // The fired moment takes the receipt's place and, for a first repair, says so with its own
@@ -309,7 +304,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                         showMobi: full,
                       ),
                     ] else ...[
-                      const SizedBox(height: MmSpace.s24),
+                      const SizedBox(height: MmSpace.s32),
                       _NumberHero(
                         value: model.repaired,
                         roll: full,
@@ -319,7 +314,7 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                         onLanded: _landed,
                         mobi: showMobi
                             ? MobiCharacter(
-                                size: 96,
+                                size: 128,
                                 controller: _mobi,
                                 // Standing at rest until the beat, then proud; with the
                                 // celebration off or motion reduced, proud at once.
@@ -330,14 +325,20 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                       ),
                       const SizedBox(height: MmSpace.s12),
                       Text(
-                        ReviewCopy.endingFact(model.chapter, left, setAside: model.setAside, reviewed: model.reviewed),
+                        ReviewCopy.endingFact(
+                          model.chapter,
+                          open?.here,
+                          elsewhere: open?.elsewhere ?? 0,
+                          setAside: model.setAside,
+                          reviewed: model.reviewed,
+                        ),
                         style: type.lead,
                       ),
-                      const SizedBox(height: MmSpace.s20),
+                      const SizedBox(height: MmSpace.s24),
                       LifeRow(stage: _lifeInked ? MistakeStage.repaired : MistakeStage.found),
                       const SizedBox(height: MmSpace.s12),
                       Text(ReviewCopy.checkedLater, style: type.small.copyWith(color: colors.ink2)),
-                      const SizedBox(height: MmSpace.s24),
+                      const SizedBox(height: MmSpace.s32),
                       if (mobiLine != null) ...[Text(mobiLine, style: type.body), const SizedBox(height: MmSpace.s12)],
                       if (momentShown)
                         CelebrationSlot(scope: scope)

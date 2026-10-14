@@ -183,7 +183,13 @@ class _StateViewState extends State<StateView> {
                   child: scene != null
                       // The painted room is the picture: Mobi sits in its lit ellipse, the scene
                       // brings its own lamp, so no extra light pool is laid under it.
-                      ? SceneVignette(scene: scene, maxHeight: compact ? 150 : 248, controller: _mobi)
+                      ? SceneVignette(
+                          scene: scene,
+                          maxHeight: compact ? 150 : 248,
+                          controller: _mobi,
+                          // Mobi sits in the scene; asleep at the unplugged desk is the one other seat.
+                          pose: pose == MobiPose.sleepy ? MobiPose.sleepy : MobiPose.rest,
+                        )
                       : SizedBox(
                     height: artSize * 1.3,
                     child: Stack(

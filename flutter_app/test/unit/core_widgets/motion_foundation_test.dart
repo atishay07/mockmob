@@ -399,12 +399,13 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('rows in a group are 64 dp targets at least', (tester) async {
+    testWidgets('rows in a group are 48 dp targets at least, 56 with a second line (SPACING 3.3)', (tester) async {
       await tester.pumpWidget(_app(MmRowGroup(children: [
         MmRow(title: 'Partnership', subtitle: '4 mistakes', onTap: () {}),
         MmRow(title: 'Goodwill', onTap: () {}),
       ])));
-      expect(tester.getSize(find.byType(MmRow).last).height, greaterThanOrEqualTo(64));
+      expect(tester.getSize(find.byType(MmRow).first).height, greaterThanOrEqualTo(56), reason: 'two-line row');
+      expect(tester.getSize(find.byType(MmRow).last).height, greaterThanOrEqualTo(48), reason: 'one-line row');
     });
   });
 }

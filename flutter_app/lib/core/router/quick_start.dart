@@ -518,27 +518,65 @@ class _StartRows extends ConsumerWidget {
   }
 }
 
-/// One row of subject chips: the subject the modes start in, the current one selected.
-class _SubjectChips extends ConsumerWidget {
+/// One row of subject chips: the subject the modes start in, the current one selected. The row
+/// scrolls the selected chip fully into view when the sheet opens and whenever the pick changes,
+/// so a chip is never left cut off at the edge (device walk-through, 14 Oct).
+class _SubjectChips extends ConsumerStatefulWidget {
   const _SubjectChips({required this.subjects, required this.selected});
 
   final List<String> subjects;
   final String? selected;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_SubjectChips> createState() => _SubjectChipsState();
+}
+
+class _SubjectChipsState extends ConsumerState<_SubjectChips> {
+  final Map<String, GlobalKey> _chipKeys = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _reveal(animate: false);
+  }
+
+  @override
+  void didUpdateWidget(_SubjectChips old) {
+    super.didUpdateWidget(old);
+    if (old.selected != widget.selected) _reveal(animate: true);
+  }
+
+  void _reveal({required bool animate}) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final target = _chipKeys[widget.selected]?.currentContext;
+      debugPrint('REVEAL ${widget.selected} $target $animate');
+      if (!mounted || target == null) return;
+      Scrollable.ensureVisible(
+        target,
+        alignment: 0.5,
+        duration: animate && !Motion.reduced(context) ? Motion.ui : Duration.zero,
+        curve: Motion.glide,
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       key: const ValueKey('start-subject-chips'),
       scrollDirection: Axis.horizontal,
       clipBehavior: Clip.none,
       child: Row(
         children: [
-          for (final (i, id) in subjects.indexed) ...[
+          for (final (i, id) in widget.subjects.indexed) ...[
             if (i > 0) const SizedBox(width: MmSpace.s8),
-            MmChip(
-              label: subjectDisplayName(id),
-              selected: id == selected,
-              onTap: () => ref.read(startSubjectProvider.notifier).select(id),
+            KeyedSubtree(
+              key: _chipKeys.putIfAbsent(id, GlobalKey.new),
+              child: MmChip(
+                label: subjectDisplayName(id),
+                selected: id == widget.selected,
+                onTap: () => ref.read(startSubjectProvider.notifier).select(id),
+              ),
             ),
           ],
         ],

@@ -20,6 +20,8 @@ abstract class RunnerSession implements Listenable {
   /// `full`, `nta` or `quick` (chapter practice runs as `quick`).
   String get mode;
   String get subject;
+  /// The chapter a chapter practice was started for; null for a mixed paper (the question's own
+  /// chapter then shows in the runner's header, never in the paper's name).
   String? get chapter;
   int? get mockNumber;
   bool get isTicketMode;
@@ -92,7 +94,7 @@ class EngineRunnerSession implements RunnerSession {
   @override
   String get subject => engine.draft.subject;
   @override
-  String? get chapter => engine.draft.chapter ?? (engine.questions.isEmpty ? null : engine.currentQuestion.chapter);
+  String? get chapter => engine.draft.chapter;
   @override
   int? get mockNumber => engine.draft.mockNumber;
   @override

@@ -244,7 +244,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('setup/:mode', practiceSetupScreen, transition: MmTransition.container, root: true),
             // The untimed question stream (the website's Explore), full screen over the dock.
             page('stream', practiceStreamScreen, root: true),
-            page('start', practiceStartScreen, transition: MmTransition.fade, root: true),
+            page('start', practiceStartScreen, transition: MmTransition.container, root: true),
             page('result/:attemptId', practiceResultScreen, transition: MmTransition.container, root: true),
           ]),
         ]),

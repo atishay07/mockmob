@@ -42,7 +42,13 @@ class SubmitSheetCard extends StatelessWidget {
     final counts = sheetCountsOf(cells);
     final firstOpen = cells.indexWhere((c) => !c.answered);
     final firstMarked = cells.indexWhere((c) => c.marked);
-    final title = RunnerCopy.sessionLabel(isMock: session.isMock, mode: session.mode, mockNumber: session.mockNumber);
+    final paper = RunnerCopy.paperName(
+      isMock: session.isMock,
+      mode: session.mode,
+      subject: session.subject,
+      mockNumber: session.mockNumber,
+      chapter: session.chapter,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,7 +56,7 @@ class SubmitSheetCard extends StatelessWidget {
         // A whole rule, edge to edge (never a gradient that fades out at its ends).
         SizedBox(height: 2, child: ColoredBox(color: lit ? colors.volt : colors.line)),
         const SizedBox(height: MmSpace.s16),
-        Text('$title, ${RunnerCopy.subjectLine(session.subject, null)}', style: type.caption.copyWith(color: colors.ink3)),
+        Text(paper, style: type.caption.copyWith(color: colors.ink3)),
         const SizedBox(height: MmSpace.s8),
         Align(
           alignment: Alignment.centerLeft,

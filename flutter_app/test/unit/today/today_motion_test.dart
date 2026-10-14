@@ -156,7 +156,7 @@ void main() {
   });
 
   for (final brightness in [Brightness.dark, Brightness.light]) {
-    testWidgets('the card keys under the pinned bar are neither announced nor tappable, ${brightness.name}', (tester) async {
+    testWidgets('the card keeps its quiet key announced once and tappable, with no pinned bar copy, ${brightness.name}', (tester) async {
       await pumpMockmob(
         tester,
         PhoneFrame(child: TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero)),
@@ -168,10 +168,10 @@ void main() {
       final handle = tester.ensureSemantics();
       await tester.pump();
       final alternative = TodayCopy.chooseSomethingElse;
-      expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: "only the bar's key, which is on screen");
-      final hidden = find.text(alternative);
-      expect(hidden, findsOneWidget, reason: 'the card keeps its quiet key in layout');
-      expect(hidden.hitTestable(), findsNothing, reason: 'under the bar it takes no touch');
+      expect(announced(tester).where((l) => l == alternative), hasLength(1), reason: 'the capsule replaced the pinned bar: one key, not two');
+      final quiet = find.text(alternative);
+      expect(quiet, findsOneWidget);
+      expect(quiet.hitTestable(), findsOneWidget, reason: 'nothing is pinned over the card any more, so its quiet key takes touches');
       await expectLater(tester, meetsGuideline(textContrastGuideline));
       handle.dispose();
     });

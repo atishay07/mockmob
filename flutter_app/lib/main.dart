@@ -15,6 +15,7 @@ import 'core/router/router_redirect.dart' show IntendedRoute;
 import 'core/storage/app_prefs.dart';
 import 'core/storage/prefs_store.dart';
 import 'core/theme/glass_quality.dart';
+import 'core/widgets/brand/brand_opening.dart' show BrandOpeningHost;
 import 'core/widgets/skeleton.dart' show SkeletonGroup;
 import 'core/sync/sync.dart';
 import 'features/notifications/services/android_permission_requester.dart';
@@ -33,12 +34,21 @@ Future<void> _start() async {
   // Subjects wear their photo-real objects from 40 dp up; tests keep the drawn emblems.
   SubjectEmblem.objectArt = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
-  // The saved glass quality, so a saved Lite or Off is right on the first frame.
-  final glass = await GlassBoot.read(AppPrefs(SharedPrefsStore()));
-  // Where the student was heading when the app last died during sign-in (a code read in the mail
-  // app, Google sign-in in the browser): kept on the phone and restored here, so the target page
-  // and the first-sign-in sheet survive the process being killed.
-  final intended = await IntendedRoute.restored(SharedPrefsStore());
+  // The first frame is the "mo" alone: the app builds under the opening once the "mo" is on the
+  // glass, so a slow phone does not hold the system splash while the router and the first
+  // screen build.
+  BrandOpeningHost.deferApp = true;
+  // The saved glass quality, so a saved Lite or Off is right on the first frame; and where the
+  // student was heading when the app last died during sign-in (a code read in the mail app,
+  // Google sign-in in the browser): kept on the phone and restored here, so the target page and
+  // the first-sign-in sheet survive the process being killed. Read together, not one after the
+  // other: each is a round trip to the platform before the first frame.
+  final boot = await Future.wait<Object>([
+    GlassBoot.read(AppPrefs(SharedPrefsStore())),
+    IntendedRoute.restored(SharedPrefsStore()),
+  ]);
+  final glass = boot[0] as GlassBoot;
+  final intended = boot[1] as IntendedRoute;
 
   runApp(
     ProviderScope(

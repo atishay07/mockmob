@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/features/practice/widgets/length_dial.dart';
+import 'package:mockmob/features/practice/widgets/suggestion_card.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
@@ -131,7 +132,8 @@ void main() {
       overrides: practiceOverrides(quotes: _quotes(), attempts: [practice]),
     );
     await settle(tester);
-    expect(find.text('English, quick practice'), findsOneWidget);
+    expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('English')), findsOneWidget);
+    expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
     expect(find.text('Your last English paper was yesterday.'), findsOneWidget);
   });
 

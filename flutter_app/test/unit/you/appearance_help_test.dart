@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/motion/reduced_motion.dart';
@@ -20,6 +21,7 @@ Future<ProviderContainer> _pumpAppearance(
   required MemoryPrefsStore store,
   required MemoryPrefsStore celebrations,
   bool systemReduces = false,
+  List<Override> extra = const [],
 }) async {
   await pumpMockmob(
     tester,
@@ -27,10 +29,17 @@ Future<ProviderContainer> _pumpAppearance(
     wrapInScaffold: false,
     disableAnimations: systemReduces,
     size: const Size(384, 1400),
-    overrides: youOverrides(prefs: AppPrefs(store), rhythmStore: celebrations),
+    overrides: [...youOverrides(prefs: AppPrefs(store), rhythmStore: celebrations), ...extra],
   );
   await tester.pump();
   return ProviderScope.containerOf(tester.element(find.byType(AppearanceScreen)));
+}
+
+/// Whether the segment that shows [label] is the selected one: read from the segment's own
+/// Semantics widget, which does not depend on how the semantics tree merges the nodes.
+bool _segmentSelected(WidgetTester tester, String label) {
+  final semantics = find.ancestor(of: find.text(label).first, matching: find.byWidgetPredicate((w) => w is Semantics && w.properties.selected != null));
+  return tester.widget<Semantics>(semantics.first).properties.selected!;
 }
 
 /// Where the rhythm feature keeps the Celebrations choice for the test account.
@@ -83,6 +92,26 @@ void main() {
       await tester.pump();
       expect(container.read(glassQualityProvider), GlassQuality.lite);
       expect(await AppPrefs(store).glassQuality(), 'lite');
+    });
+
+    testWidgets('while the app runs Lite for Full, Lite is the selected segment and the line says so', (tester) async {
+      final container = await _pumpAppearance(
+        tester,
+        store: MemoryPrefsStore(),
+        celebrations: MemoryPrefsStore(),
+        extra: [glassBootProvider.overrideWithValue(const GlassBoot(chosen: GlassQuality.full, autoLite: true))],
+      );
+      expect(container.read(glassQualityProvider), GlassQuality.lite);
+      expect(_segmentSelected(tester, 'Lite'), isTrue);
+      expect(_segmentSelected(tester, 'Full'), isFalse);
+      expect(find.text('Running Lite to keep scrolling smooth. Pick Full to try it again.'), findsOneWidget);
+      expect(find.textContaining('Switched to Lite'), findsNothing);
+      // Full is one tap away and then the line goes.
+      await tester.tap(find.text('Full').first);
+      await tester.pump();
+      expect(container.read(glassQualityProvider), GlassQuality.full);
+      expect(_segmentSelected(tester, 'Full'), isTrue);
+      expect(find.textContaining('Running Lite'), findsNothing);
     });
 
     testWidgets('Reduce motion sets the in-app override and clears it again', (tester) async {

@@ -35,16 +35,17 @@ class EndingSheet extends StatelessWidget {
   final Animation<double> progress;
   final bool firstRepair;
 
-  static const double _cell = 22;
-  static const double _gap = 8;
-  static const int _columns = 10;
+  /// A full paper is ten bubbles to a row. A short one (a 10-question practice) is two rows of
+  /// five, drawn larger, so the sheet is a real object and not a thin strip in a hollow screen.
+  static _Grid gridFor(int cells) => cells <= 10 ? const _Grid(5, 40, 12) : const _Grid(10, 22, 8);
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final rows = (cells.length / _columns).ceil();
-    final cols = math.min(_columns, math.max(cells.length, 1));
+    final grid = gridFor(cells.length);
+    final rows = (cells.length / grid.columns).ceil();
+    final cols = math.min(grid.columns, math.max(cells.length, 1));
     final repairedNow = cells.where((c) => c == SheetCell.repairedNow).length;
 
     final sheet = MmClip(
@@ -67,8 +68,8 @@ class EndingSheet extends StatelessWidget {
                     label: 'Answer sheet. $repairedNow repaired just now.',
                     child: RepaintBoundary(
                       child: CustomPaint(
-                        size: Size(cols * _cell + (cols - 1) * _gap, rows * _cell + (rows - 1) * _gap),
-                        painter: _SheetPainter(cells: cells, colors: colors, progress: progress),
+                        size: Size(cols * grid.cell + (cols - 1) * grid.gap, rows * grid.cell + (rows - 1) * grid.gap),
+                        painter: _SheetPainter(cells: cells, grid: grid, colors: colors, progress: progress),
                       ),
                     ),
                   ),
@@ -103,17 +104,26 @@ class EndingSheet extends StatelessWidget {
   }
 }
 
+class _Grid {
+  const _Grid(this.columns, this.cell, this.gap);
+
+  final int columns;
+  final double cell;
+  final double gap;
+}
+
 class _SheetPainter extends CustomPainter {
-  _SheetPainter({required this.cells, required this.colors, required this.progress}) : super(repaint: progress);
+  _SheetPainter({required this.cells, required this.grid, required this.colors, required this.progress}) : super(repaint: progress);
 
   final List<SheetCell> cells;
+  final _Grid grid;
   final MmColors colors;
   final Animation<double> progress;
 
   @override
   void paint(Canvas canvas, Size size) {
     final bubbles = BubblePaint(colors);
-    const cell = EndingSheet._cell, gap = EndingSheet._gap;
+    final cell = grid.cell, gap = grid.gap;
     final r = cell / 2 - 2;
     final ring = colors.isNight ? colors.volt : colors.accentText;
     final now = [
@@ -123,7 +133,7 @@ class _SheetPainter extends CustomPainter {
     final p = progress.value;
 
     for (var i = 0; i < cells.length; i++) {
-      final c = Offset((i % EndingSheet._columns) * (cell + gap) + cell / 2, (i ~/ EndingSheet._columns) * (cell + gap) + cell / 2);
+      final c = Offset((i % grid.columns) * (cell + gap) + cell / 2, (i ~/ grid.columns) * (cell + gap) + cell / 2);
       switch (cells[i]) {
         case SheetCell.right:
           bubbles.paint(canvas, c, r, BubbleState.filled);
@@ -161,5 +171,5 @@ class _SheetPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_SheetPainter old) => old.colors != colors || old.progress != progress || !identical(old.cells, cells);
+  bool shouldRepaint(_SheetPainter old) => old.colors != colors || old.grid.cell != grid.cell || old.progress != progress || !identical(old.cells, cells);
 }

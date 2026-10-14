@@ -11,6 +11,7 @@ import '../data/runner_session.dart';
 import '../logic/sheet_cells.dart';
 import 'lock_flight.dart';
 import 'question_enter.dart';
+import 'question_stage.dart';
 import 'question_view.dart';
 import 'runner_bottom_bar.dart';
 import 'runner_meta_row.dart';
@@ -163,7 +164,7 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                         child: _AwayLine(
                           session: s,
                           builder: (context, notice) => RunnerMetaRow(
-                            subjectLine: RunnerCopy.subjectLine(s.subject, q.chapter ?? s.chapter),
+                            subjectLine: RunnerCopy.subjectLine(s.subject, s.chapter ?? q.chapter),
                             save: s.saveState,
                             showSave: s.answeredCount > 0,
                             warning: widget.warning,
@@ -181,9 +182,13 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                     builder: (context, box) {
                       final padTop = trackHeight == TimingTrack.tappableHeight ? MmSpace.s4 : MmSpace.s12;
                       const padBottom = MmSpace.s16;
-                      return _ScrollFade(
-                        child: SingleChildScrollView(
-                          key: ValueKey('question-$index'),
+                      Widget layer(int at, {required bool ghost}) {
+                        final question = s.questions[at];
+                        return SingleChildScrollView(
+                          // The leaving question is a still picture: it never shares the primary
+                          // scroll controller and never scrolls.
+                          primary: ghost ? false : null,
+                          physics: ghost ? const NeverScrollableScrollPhysics() : null,
                           padding: EdgeInsets.fromLTRB(MmSpace.gutter, padTop, MmSpace.gutter, padBottom),
                           child: Align(
                             alignment: Alignment.topCenter,
@@ -197,21 +202,23 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                                 direction: _direction,
                                 animate: arriving,
                                 child: QuestionView(
-                                  question: q,
-                                  selected: s.answerFor(q.id),
-                                  marked: s.marked.contains(q.id),
+                                  question: question,
+                                  selected: s.answerFor(question.id),
+                                  marked: s.marked.contains(question.id),
                                   canAnswer: s.canAnswer,
-                                  onSelect: (option) => widget.onSelect(q.id, option),
-                                  onMark: (value) => s.setMarked(q.id, value),
+                                  onSelect: (option) => widget.onSelect(question.id, option),
+                                  onMark: (value) => s.setMarked(question.id, value),
                                   onLock: _lockFrom,
-                                  passageRange: passageRangeOf(s, index),
-                                  note: !s.isMock && index == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
+                                  passageRange: passageRangeOf(s, at),
+                                  note: !s.isMock && at == 0 && s.answeredCount == 0 ? const _PracticeNote() : null,
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
+                        );
+                      }
+
+                      return _ScrollFade(child: QuestionStage(index: index, layer: layer));
                     },
                   ),
                 ),

@@ -11,6 +11,21 @@ abstract final class RunnerCopy {
     return mode == 'nta' ? 'NTA mode' : 'Full mock';
   }
 
+  /// The one name a paper carries on the submit page and the receipt (finding 25). A practice is
+  /// "Accountancy practice", with its chapter after a comma when it was started for one: the same
+  /// words the practice result opens with. A mock is "Mock 7, Accountancy".
+  static String paperName({
+    required bool isMock,
+    required String mode,
+    required String subject,
+    int? mockNumber,
+    String? chapter,
+  }) {
+    final name = subjectDisplayName(subject);
+    if (isMock) return '${sessionLabel(isMock: true, mode: mode, mockNumber: mockNumber)}, $name';
+    return chapter == null || chapter.isEmpty ? '$name practice' : '$name practice, $chapter';
+  }
+
   static String subjectLine(String subject, String? chapter) {
     final name = subjectDisplayName(subject);
     return chapter == null || chapter.isEmpty ? name : '$name, $chapter';

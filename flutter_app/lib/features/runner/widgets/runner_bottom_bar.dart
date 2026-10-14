@@ -9,6 +9,10 @@ import '../copy.dart';
 /// one volt key, Next, which becomes Review and submit on the last question. No haptic
 /// on these: inside a timed paper only the option tick speaks.
 ///
+/// Both keys take every tap (MOTION.md 1.1: nothing queues, a tap during an entrance works): no
+/// tap lock, so Previous, Previous 150 ms apart goes back two questions. Opening the submit page
+/// twice is guarded by the host, not by the key.
+///
 /// When every question has an answer the volt key carries the soft lit glow beneath it (14% volt,
 /// never behind text): the one resting emphasis on the screen, saying the paper is ready to hand in.
 /// Daylight has no glows (MOTION.md 1.4): there the same emphasis is a 1 dp olive edge round the key.
@@ -53,7 +57,13 @@ class RunnerBottomBar extends StatelessWidget {
             constraints: const BoxConstraints(minHeight: 56),
             child: Row(
               children: [
-                KeyButton.secondary(label: RunnerCopy.previous, onPressed: isFirst ? null : onPrevious, expanded: false, hapticOnCommit: false),
+                KeyButton.secondary(
+                  label: RunnerCopy.previous,
+                  onPressed: isFirst ? null : onPrevious,
+                  expanded: false,
+                  hapticOnCommit: false,
+                  tapLock: Duration.zero,
+                ),
                 const SizedBox(width: MmSpace.s12),
                 Expanded(
                   child: AnimatedContainer(
@@ -82,6 +92,7 @@ class RunnerBottomBar extends StatelessWidget {
                         semanticsLabel: isLast ? RunnerCopy.reviewAndSubmit : null,
                         onPressed: onNext,
                         hapticOnCommit: false,
+                        tapLock: Duration.zero,
                       ),
                     ),
                   ),

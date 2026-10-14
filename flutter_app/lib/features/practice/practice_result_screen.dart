@@ -14,6 +14,9 @@ import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../insights/data/saved_repository.dart'
     show SaveDone, SaveLimitReached, SaveFailed, saveControllerProvider, savedRepositoryProvider;
+import '../review/copy.dart' show ReviewCopy;
+import '../review/data/repair_key_plan.dart';
+import '../review/data/review_providers.dart' show reviewIndexProvider;
 import 'copy.dart';
 import 'data/default_subject.dart' show publicIdOf;
 import 'data/practice_catalog.dart';
@@ -213,14 +216,23 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   }
 
   ResultFootAction _primary(Attempt attempt, PracticeResultModel model) {
-    final wrong = model.wrong;
-    if (wrong.isNotEmpty) {
-      // Mistake Repair, starting at the first wrong answer and walking the rest of this set.
+    // The key opens one repair run: one chapter of this paper (the chapter with the most open
+    // mistakes), so its count and its caption name that run, not every wrong answer on the page.
+    final plan = RepairKeyPlan.of(
+      [for (final q in model.wrong) RepairKeyRow(qid: q.qid, number: q.number, chapter: q.question?.chapter)],
+      attemptId: attempt.id,
+      index: ref.watch(reviewIndexProvider),
+    );
+    if (plan != null) {
       final location = Uri(
-        path: AppRoutes.reviewRepair(attempt.id, wrong.first.qid),
-        queryParameters: {'count': '${wrong.length}'},
+        path: AppRoutes.reviewRepair(attempt.id, plan.firstQid),
+        queryParameters: {'count': '${plan.count}'},
       ).toString();
-      return ResultFootAction(PracticeCopy.repairThese(wrong.length), () => context.push(location));
+      return ResultFootAction(
+        PracticeCopy.repairThese(plan.count),
+        () => context.push(location),
+        note: plan.others > 0 ? ReviewCopy.repairKeyNote(plan.chapter, plan.others) : null,
+      );
     }
     if (model.blank.isNotEmpty) {
       return ResultFootAction(PracticeCopy.tryTheBlanks, () => _jumpTo(model.blank.first));
