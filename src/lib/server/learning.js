@@ -12,16 +12,18 @@ import { pathwayDigest } from '@/../data/pathway_validation';
 import { studyRecord, getStudyPreferences } from './study';
 import { withPlanActions } from './actionFields';
 import { guidedSequence, istDay } from '@/../data/study_engine';
+import { composeLearningRecord, allInOrder, memoValidator } from './learningRecordCompose';
 
 export const durableLearningEnabled = () => process.env.LEARNING_SESSIONS_ENABLED === 'true';
 const readManifest = () => JSON.parse(readFileSync(`${process.cwd()}/data/recovery_pathways.json`, 'utf8'));
 
-export async function releasedPathways() {
+export async function releasedPathways(validate = validateCurrentPathway) {
   const manifest = readManifest();
   if (!durableLearningEnabled() || process.env.RECOVERY_PATHWAYS_ENABLED !== 'true' || manifest.state !== 'released') return [];
   const pathways = manifest.pathways.map(validatePathway);
-  // Every item must match current authenticated evidence, not just a release flag.
-  for (const p of pathways) await validateCurrentPathway(p);
+  // Every item must match current authenticated evidence, not just a release flag. The checks
+  // run in parallel; the first failure by position is thrown, as the sequential loop did.
+  await allInOrder(pathways.map(p => () => validate(p)));
   return pathways;
 }
 
@@ -44,50 +46,23 @@ export async function validateCurrentPathway(p) {
   }
 }
 
-export async function learningRecord(userId, { subject, minutes } = {}) {
-  if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
-    try {
-      const prefs=await getStudyPreferences(userId);
-      const weekday=(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7;
-      const weekly=prefs.premium ? prefs.weeklyPlan?.[weekday] : null;
-      if(!subject) subject=weekly?.subject;
-      if(![10,20,30].includes(minutes)) minutes=weekly?.minutes || prefs.minutes;
-    } catch { /* Existing learning record remains available if study storage is not deployed. */ }
-  }
+// The plan behind Today and the next-step card. The reads run in parallel (see
+// learningRecordCompose.js); data/tests/learning_plan_speed.test.mjs proves the result matches
+// the earlier sequential version. view 'step' leaves out the episode list, supported concepts
+// and milestones, which the next-step card does not show.
+export async function learningRecord(userId, { subject, minutes, view } = {}) {
   const db = supabaseAdmin();
-  const attempts = await Database.getAttempts(userId);
-  const [episodeResult, sessionResult] = await Promise.all([
-    db.from('learning_episodes').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
-    db.from('recovery_sessions').select('id,subject,mode,expires_at,selection_meta').eq('user_id', userId).eq('state', 'active').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(1),
-  ]);
-  const episodes = [];
-  for (const row of episodeResult.data || []) {
-    try { await validateCurrentPathway(row.pathway); episodes.push(publicEpisode(row.pathway, row.projection, Date.now())); }
-    catch { episodes.push({ id: row.id, title: row.pathway.title, state: 'blocked_content', evidenceLabel: 'Current evidence unavailable; progress claims paused', sampleSize: 0 }); }
-  }
-  const active = sessionResult.data?.[0];
-  let available = [];
-  try { available = await releasedPathways(); } catch { /* fail closed; ordinary review remains useful */ }
-  const activeSession = active ? { id: active.id, href: `/test?${new URLSearchParams({ subject: active.subject, mode: active.mode, sessionId: active.id, experience: active.selection_meta?.learningPurpose === 'ordinary_practice' ? 'practice' : 'recovery' })}` } : null;
-  const plan = learningPlan({ episodes, activeSession, attempts, subject, minutes, availableConcepts: available.map(p => p.id) });
-  let suite = {};
-  if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
-    try {
-      const weakConcepts=attempts.flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>attempt.questionsSnapshot?.find(q=>q.id===answer.qid)?.conceptId).filter(Boolean));
-      // Chapters behind recent ordinary mistakes point to the matching lesson, if one is published.
-      const weakChapters=attempts.slice(0,10).flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>{const q=attempt.questionsSnapshot?.find(q=>q.id===answer.qid);return q?.chapter ? {subject:q.subject || attempt.subject,chapter:q.chapter} : null;}).filter(Boolean));
-      const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts,weakChapters});
-      if (study.state === 'ready') {
-        const sequence = guidedSequence(plan,study,plan.minutes);
-        suite = { sequence, primary:sequence[0] || plan.primary, study:{dueCards:study.queue.dueCount,lessonsRead:study.progress.lessonsRead,preferences:study.preferences,weekday:(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7} };
-      }
-    } catch { suite = { studyState:'unavailable' }; } // Existing practice remains usable during rollback.
-  }
-  const withActions = withPlanActions({ ...plan, ...suite });
-  return { ...withActions, episodes,
-    pathwayState: available.length ? 'available' : 'blocked_content', supportedConcepts: available.map(p => ({ id: p.id, subject: p.subject, title: p.title })),
-    recordState: episodeResult.error ? 'unavailable' : 'ready', ordinaryAttemptCount: attempts.length,
-    tonight: tonightCompletion(attempts), milestones: studyMilestones(attempts, episodes) };
+  const validate = memoValidator(validateCurrentPathway);
+  return composeLearningRecord(userId, { subject, minutes, view }, {
+    env: { STUDY_GUIDED_PLAN_ENABLED: process.env.STUDY_GUIDED_PLAN_ENABLED },
+    getStudyPreferences,
+    getAttempts: id => Database.getAttempts(id),
+    loadEpisodes: id => db.from('learning_episodes').select('*').eq('user_id', id).order('created_at', { ascending: false }),
+    loadActiveSession: id => db.from('recovery_sessions').select('id,subject,mode,expires_at,selection_meta').eq('user_id', id).eq('state', 'active').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(1),
+    validateCurrentPathway: validate,
+    releasedPathways: () => releasedPathways(validate),
+    studyRecord, publicEpisode, learningPlan, guidedSequence, istDay, withPlanActions, tonightCompletion, studyMilestones,
+  });
 }
 
 export async function loadEpisode(userId, id) {
