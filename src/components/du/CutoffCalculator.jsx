@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check, ChevronDown, Printer, RotateCcw, Search, Share2, Sparkles, X } from 'lucide-react';
+import { Check, ChevronDown, Printer, RotateCcw, Search, Share2, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { SubjectPicker } from '@/components/du/SubjectPicker';
 import EligibleMeter, { RollingCount } from '@/components/du/EligibleMeter';
@@ -37,6 +37,7 @@ import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import '@/components/du/du.css';
+import '@/components/du/du-flat.css';
 
 const PAGE_SIZE = 25;
 
@@ -153,7 +154,7 @@ function CutoffTable({ group, catIndex, category, score }) {
     return state.rows.filter((r) => ['r1', 'r2', 'r3'].includes(seatStatus(score, r, catIndex).id)).length;
   }, [state.rows, score, catIndex]);
 
-  if (state.status === 'loading') return <p className="du-state">Loading college cutoffs…</p>;
+  if (state.status === 'loading') return <p className="du-state">Loading college cutoffs</p>;
   if (state.status === 'error') {
     return (
       <div className="du-state du-state--error">
@@ -285,7 +286,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   const sideRef = useRef(null);
   const resultsRef = useRef(null);
 
-  // Load the data, then take the starting selection from the link (teaser, Radar, a shared URL)
+  // Load the data, then take the starting selection from the link (teaser, chapter review, a shared URL)
   // or from this device. After applying a link we remove its parameters, so a later reload
   // cannot override edits made since. The address bar is never rewritten while editing.
   useEffect(() => {
@@ -549,7 +550,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
 
               {unlocks.length > 0 ? (
                 <div className="du-unlocks">
-                  <p><Sparkles size={15} aria-hidden="true" /> Add one subject to open more programmes</p>
+                  <p>Add one subject to open more programmes</p>
                   <ul>
                     {unlocks.map((u) => (
                       <li key={u.id}>
@@ -646,12 +647,12 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         <div>
           <h2 id="du-cta-title" className="du-h2">Cutoffs are only half the plan.</h2>
           <p className="du-sub">
-            A cutoff gives you the target. Radar shows the chapters standing between you and it: finish one mock and every miss is traced back to its chapter.
+            A cutoff gives you the target. Chapter review shows the chapters standing between you and it: finish one mock and every miss is traced back to its chapter.
           </p>
           {practiceSubjects.length > 0 ? (
             <ul className="du-hubs" aria-label="Practise your subjects">
               {practiceSubjects.slice(0, 5).map((id) => (
-                <li key={id}><Link href={PRACTICE_HUBS[id]}>{subjectName(id)} practice<ArrowRight size={14} aria-hidden="true" /></Link></li>
+                <li key={id}><Link href={PRACTICE_HUBS[id]}>{subjectName(id)} practice</Link></li>
               ))}
             </ul>
           ) : null}
@@ -659,10 +660,9 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         <div className="du-cta__actions">
           <Link href={isAuthenticated ? '/dashboard' : '/signup'} className="mm-btn mm-btn--primary">
             {isAuthenticated ? 'Go to Practice' : 'Start a free mock'}
-            <ArrowRight size={18} aria-hidden="true" />
           </Link>
           <Link href={isAuthenticated ? '/analytics' : '/features'} className="mm-btn mm-btn--secondary">
-            {isAuthenticated ? 'Open my Radar' : 'See how Radar works'}
+            {isAuthenticated ? 'Open my chapter review' : 'See how chapter review works'}
           </Link>
         </div>
       </section>

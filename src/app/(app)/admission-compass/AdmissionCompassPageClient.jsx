@@ -9,10 +9,10 @@ import { CutoffCalculator } from '@/components/du/CutoffCalculator';
 import CompassPro from '@/components/du/CompassPro';
 import { DU_SOURCES } from '@/lib/du/sources';
 import { useAuth } from '@/components/AuthProvider';
-import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useInsights } from '@/components/ai/useInsights';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
+import './compass.css';
 
 // Profile subject ids -> DU catalog ids (they match, except the aptitude test).
 const toDuId = (id) => (id === 'general_test' ? 'gat' : id);
@@ -41,7 +41,6 @@ export default function AdmissionCompassPageClient() {
     <main className="cmp">
       <header className="cmp-head">
         <div>
-          <div className="eyebrow">Admission Compass</div>
           <h1 className="display-md">Which DU courses can your subjects get?</h1>
           <p>
             {seed.length > 0
@@ -50,16 +49,13 @@ export default function AdmissionCompassPageClient() {
           </p>
         </div>
         <ol className="cmp-steps" aria-label="How it works">
-          <li><AppIcon name="saved" size={16} /><span><b>1. Subjects</b>Checked against DU’s 2026 Bulletin rules</span></li>
-          <li><AppIcon name="compass" size={16} /><span><b>2. Category and score</b>Real minimum allocation scores, Rounds I to III</span></li>
-          <li><AppIcon name="progress" size={16} /><span><b>3. The gap</b>Compare the 2026 cutoff, college by college</span></li>
+          <li><i aria-hidden="true">1</i><span><b>Subjects</b>Checked against DU’s 2026 Bulletin rules</span></li>
+          <li><i aria-hidden="true">2</i><span><b>Category and score</b>Real minimum allocation scores, Rounds I to III</span></li>
+          <li><i aria-hidden="true">3</i><span><b>The gap</b>Compare the 2026 cutoff, college by college</span></li>
         </ol>
       </header>
 
-      <div className="cmp-note" role="note">
-        <StatusIcon kind="info" size={16} />
-        <p>The calculator compares scores with published history. Compass Pro adds a projection from your own practice, labelled as such: it is not a prediction or a normalised CUET score. 2027 rules stay provisional until DU publishes them. Your choices are saved on this device.</p>
-      </div>
+      <p className="cmp-note" role="note">The calculator compares scores with published history. Compass Pro adds a projection from your own practice, labelled as such: it is not a prediction or a normalised CUET score. 2027 rules stay provisional until DU publishes them. Your choices are saved on this device.</p>
 
       {user?.id ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
       {user?.id && !user?.isPremium ? <PracticeBridge userId={user.id} /> : null}
@@ -67,7 +63,7 @@ export default function AdmissionCompassPageClient() {
       <CutoffCalculator seedSubjects={seed} />
 
       <SmoothDetails className="cmp-sources" chevron summary="Official source documents">
-        <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a> · {s.use}</li>)}</ul>
+        <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>. {s.use}</li>)}</ul>
       </SmoothDetails>
     </main>
   );

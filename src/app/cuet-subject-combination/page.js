@@ -45,15 +45,12 @@ export default function ComboPlannerPage() {
       <main id="main-content">
         <section className="du-hero">
           <div className="lp-bg lp-bg--static" aria-hidden="true">
-            <div className="lp-bg__aurora" />
             <div className="lp-bg__grid" />
             <div className="lp-bg__dots" />
           </div>
           <div className="mm-wrap du-hero__inner">
-            <p className="cp-new">New · Combo Planner</p>
             <h1 className="du-title">
-              Pick the CUET subjects that open the most DU doors.
-              <span> Before you fill the form.</span>
+              Pick the CUET subjects that open the most DU doors, before you fill the form.
             </h1>
             <p className="lp-lead">
               Choose the programmes you want and the subjects you could take. We check every possible combination against

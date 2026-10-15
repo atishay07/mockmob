@@ -6,7 +6,7 @@
 // prediction, a normalised CUET score or an admission chance, and the copy says so.
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Lock, Plus, Sparkles, Target, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { decodeSelection, formatScore, loadIndex, loadOfferings, readSaved } from '@/lib/du/client';
 import { CATEGORY_LABELS, MAIN_CATEGORIES, effectiveCutoff, evaluateGroup } from '@/lib/du/eligibility';
 import { compareToCutoff } from '@/../data/compass_projection';
@@ -54,7 +54,7 @@ function PaperRow({ paper, max }) {
   const pct = (v) => `${(v / max) * 100}%`;
   return (
     <li className="cpro-paper">
-      <span className="cpro-paper__name">{paper.name}<small>{paper.n} questions · {paper.accuracy.pct}% accuracy · {paper.attemptShare}% attempted</small></span>
+      <span className="cpro-paper__name">{paper.name}<small>{paper.n} questions, {paper.accuracy.pct}% accuracy, {paper.attemptShare}% attempted</small></span>
       <span className="cpro-paper__track" aria-hidden="true">
         <i style={{ left: pct(paper.low), width: `calc(${pct(paper.high)} - ${pct(paper.low)})` }} />
         <b style={{ left: pct(paper.mid) }} />
@@ -68,17 +68,16 @@ function Locked() {
   return (
     <section className="cpro cpro--locked" aria-labelledby="cpro-title">
       <div className="cpro-head">
-        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />Compass Pro</span>
-        <h2 id="cpro-title">Map your practice to the colleges you want.</h2>
+        <h2 id="cpro-title">Compass Pro: map your practice to the colleges you want.</h2>
         <p>Pro turns your own practice into a projected score band, checks it against the DU cutoffs for your shortlist, and names the paper that can move your total the most.</p>
       </div>
       <ul className="cpro-features">
-        <li><Target size={18} aria-hidden="true" /><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, with an honest range.</span></li>
-        <li><Plus size={18} aria-hidden="true" /><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared round by round in your category.</span></li>
-        <li><ArrowRight size={18} aria-hidden="true" /><b>Next move</b><span>The paper with the most marks open, and its weakest chapter, one tap from practice.</span></li>
+        <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, with an honest range.</span></li>
+        <li><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared round by round in your category.</span></li>
+        <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter, one tap from practice.</span></li>
       </ul>
       <div className="cpro-cta">
-        <Link href="/pricing" className="btn-volt md"><Lock size={16} aria-hidden="true" />Unlock Compass Pro</Link>
+        <Link href="/pricing" className="btn-volt md">Unlock Compass Pro</Link>
         <span>Eligibility and published cutoffs below stay free for everyone.</span>
       </div>
     </section>
@@ -125,7 +124,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
   }, [index, seedSubjects]);
 
   if (state.status === 'locked') return <Locked />;
-  if (state.status === 'loading') return <section className="cpro" aria-busy="true"><p className="cpro-muted">Reading your practice record…</p></section>;
+  if (state.status === 'loading') return <section className="cpro" aria-busy="true"><p className="cpro-muted">Reading your practice record</p></section>;
   if (state.status === 'error') return <section className="cpro"><p className="cpro-muted">Compass Pro could not read your record just now. <button type="button" className="pr-link" onClick={retry}>Try again</button></p></section>;
 
   const { projection } = state;
@@ -146,7 +145,6 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
   return (
     <section className="cpro" aria-labelledby="cpro-title">
       <div className="cpro-head">
-        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />Compass Pro</span>
         <h2 id="cpro-title">Your practice, mapped to your colleges.</h2>
         <p>If exam day went exactly like your practice so far, this is what each paper would be worth. It is a projection from your own record, not a prediction: CUET scores are normalised and your practice will change it.</p>
       </div>
@@ -161,7 +159,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
             </>
           ) : <p className="cpro-muted">Practise at least {projection.minSample} questions in a subject to project its paper.</p>}
           <ul className="cpro-papers">{papers.map((p) => <PaperRow key={p.subject} paper={p} max={paperMax} />)}</ul>
-          {!papers.length ? <Link href="/dashboard" className="pr-link">Start a practice session<ArrowRight size={14} aria-hidden="true" /></Link> : null}
+          {!papers.length ? <Link href="/dashboard" className="pr-link">Start a practice session</Link> : null}
         </article>
 
         <article className="cpro-card cpro-next">
@@ -170,7 +168,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
             <>
               <p className="cpro-next__lead"><b>{next.name}</b> has the most room: {next.open} of {paperMax} marks are still open in your practice.</p>
               {next.chapter ? <p className="cpro-muted">Start with {next.chapter.name}: {next.chapter.wrong} wrong and {next.chapter.skip} blank in {next.chapter.n} questions.</p> : null}
-              <Link href={`/dashboard?subject=${encodeURIComponent(next.subject)}&mode=quick`} className="btn-volt md">Practise {next.name}<ArrowRight size={16} aria-hidden="true" /></Link>
+              <Link href={`/dashboard?subject=${encodeURIComponent(next.subject)}&mode=quick`} className="btn-volt md">Practise {next.name}</Link>
             </>
           ) : <p className="cpro-muted">Your next move appears once a paper has enough practice.</p>}
         </article>
@@ -187,17 +185,17 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
           <div className="cpro-add">
             <label className="cpro-select"><span id="cpro-l-programme">Programme you are eligible for</span>
               <Listbox labelledBy="cpro-l-programme" sheetTitle="Programme" size="sm" value={programme} disabled={!index}
-                placeholder={index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes…'}
+                placeholder={index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes'}
                 options={eligible.map((g) => ({ value: g.id, label: g.name }))}
                 onChange={(value) => { setProgramme(value); setCollege(''); }} />
             </label>
             <label className="cpro-select"><span id="cpro-l-college">College</span>
               <Listbox labelledBy="cpro-l-college" sheetTitle="College" size="sm" value={college} disabled={!colleges.length}
-                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges…') : 'Choose a programme first'}
+                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges') : 'Choose a programme first'}
                 options={colleges.map((c) => ({ value: c, label: c }))}
                 onChange={setCollege} />
             </label>
-            <button type="button" className="btn-outline md" onClick={add} disabled={!programme || !college}><Plus size={16} aria-hidden="true" />Add target</button>
+            <button type="button" className="btn-outline md" onClick={add} disabled={!programme || !college}>Add target</button>
           </div>
         ) : <p className="cpro-muted">Your shortlist is full. Remove a target to add another.</p>}
 
@@ -212,7 +210,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
               const verdict = ready && total.complete ? compareToCutoff(band, first) : null;
               return (
                 <li key={`${t.groupId}::${t.college}`} className="cpro-target" data-position={verdict?.position || 'unknown'}>
-                  <div className="cpro-target__who"><b>{t.college}</b><span>{data?.name || '…'}</span></div>
+                  <div className="cpro-target__who"><b>{t.college}</b><span>{data?.name || ''}</span></div>
                   <dl className="cpro-target__rounds">
                     {cutoffs.map((c, i) => <div key={ROUNDS[i]}><dt>{ROUNDS[i]}</dt><dd className="mm-measure">{c === null ? 'Not listed' : formatScore(c)}</dd></div>)}
                   </dl>

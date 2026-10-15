@@ -5,10 +5,11 @@
 // published 2026 eligibility rules. Choices stay on this device.
 import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check, Search, Target, X } from 'lucide-react';
+import { Check, Search, X } from 'lucide-react';
 import { encodeSelection, loadIndex, PRESETS } from '@/lib/du/client';
 import { describeGap } from '@/lib/du/eligibility';
 import { DEFAULT_MAX_PAPERS, MAX_POOL, planCombos } from '@/lib/du/combos';
+import '@/components/du/du-flat.css';
 
 const STORE = 'mm.du.combo.v1';
 const MAX_TARGETS = 6;
@@ -55,7 +56,7 @@ export default function ComboPlanner() {
   const stale = dPool !== pool || dTargets !== targets || dMax !== maxPapers;
 
   if (error) return <div className="du-state du-state--error" role="alert"><p>{error}</p><button type="button" className="du-link" onClick={() => { setError(''); setAttempt((n) => n + 1); }}>Try again</button></div>;
-  if (!index) return <div className="du-state" role="status"><p>Loading DU programmes…</p></div>;
+  if (!index) return <div className="du-state" role="status"><p>Loading DU programmes</p></div>;
 
   const nameOf = (item) => item.kind === 'gat' ? 'General Aptitude Test' : (item.kind === 'language' ? index.languages : index.domains).find((s) => s.id === item.id)?.name || item.id;
   const inPool = (item) => pool.some((p) => key(p) === key(item));
@@ -90,7 +91,7 @@ export default function ComboPlanner() {
         {matches.length ? (
           <ul className="cp-results">{matches.map((g) => (
             <li key={g.id}><button type="button" aria-pressed={targets.includes(g.id)} onClick={() => toggleTarget(g.id)} disabled={!targets.includes(g.id) && targets.length >= MAX_TARGETS}>
-              {targets.includes(g.id) ? <Check size={15} aria-hidden="true" /> : <Target size={15} aria-hidden="true" />}{g.name}<small>{g.stream}</small>
+              {targets.includes(g.id) ? <Check size={15} aria-hidden="true" /> : <span className="cp-results__dot" aria-hidden="true" />}{g.name}<small>{g.stream}</small>
             </button></li>))}</ul>
         ) : null}
         {targets.length ? (
@@ -141,7 +142,7 @@ export default function ComboPlanner() {
                   <li key={m.id}><X size={14} aria-hidden="true" /><span><b>{m.name}</b>{m.nearest ? ` needs: ${m.nearest.gaps.map((g) => describeGap(g, index).replace(/^Add /, '')).join(', ')}` : ''}</span></li>
                 ))}</ul>
               ) : targets.length ? <p className="cp-combo__ok"><Check size={14} aria-hidden="true" />Meets every target’s subject rules.</p> : null}
-              <Link className="du-link cp-combo__go" href={`/cuet-cutoff-calculator?s=${encodeURIComponent(encodeSelection(r.selection))}`}>See the programmes and cutoffs for this combination<ArrowRight size={15} aria-hidden="true" /></Link>
+              <Link className="du-link cp-combo__go" href={`/cuet-cutoff-calculator?s=${encodeURIComponent(encodeSelection(r.selection))}`}>See the programmes and cutoffs for this combination</Link>
             </li>
           ))}
         </ol>

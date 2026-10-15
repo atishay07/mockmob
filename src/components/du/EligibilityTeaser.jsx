@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { evaluateAll } from '@/lib/du/eligibility';
 import { PRESETS, STREAM_ORDER, encodeSelection, loadRules } from '@/lib/du/client';
 import '@/components/du/du.css';
@@ -134,7 +134,7 @@ export function EligibilityTeaser() {
         <Link href={href} className="du-live">
           <span className="mm-measure">{counted ? eligible.length : total}</span>
           <span>{counted ? `of ${total} programmes open` : 'DU programmes'}</span>
-          <b>See cutoffs<ArrowRight size={14} aria-hidden="true" /></b>
+          <b>See cutoffs</b>
         </Link>
       </div>
 
@@ -151,7 +151,7 @@ export function EligibilityTeaser() {
               {counted
                 ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
                 : hasDomains
-                  ? 'Checking them against DU’s 2026 rules…'
+                  ? 'Checking them against DU’s 2026 rules.'
                   : selection.languages.length
                     ? 'Tick your domain subjects to see which are open to you.'
                     : 'Tick your subjects to see which are open to you.'}
@@ -171,7 +171,6 @@ export function EligibilityTeaser() {
         )}
         <Link href={href} className="mm-btn mm-btn--primary">
           See programmes and past cutoffs
-          <ArrowRight size={18} aria-hidden="true" />
         </Link>
         <p className="du-teaser__fine">Free, no signup. Built from DU’s official 2026 documents.</p>
       </div>
