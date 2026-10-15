@@ -352,6 +352,7 @@ export default function AdminDashboardClient({ adminEmail, initialData }) {
           </Link>
           <Link href="/admin/question-factory" className="inline-flex min-h-11 items-center rounded-md border border-volt/30 px-3 py-2 text-sm text-volt hover:bg-volt/10">Question factory</Link>
           <Link href="/admin/funnel" className="inline-flex min-h-11 items-center rounded-md border border-white/10 px-3 py-2 text-sm text-zinc-300 hover:bg-white/10 hover:text-white">Landing funnel</Link>
+          <Link href="/admin/app-errors" className="inline-flex min-h-11 items-center rounded-md border border-white/10 px-3 py-2 text-sm text-zinc-300 hover:bg-white/10 hover:text-white">App errors</Link>
         </header>
 
         {error ? (
