@@ -782,21 +782,25 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
           offset: shown ? Offset.zero : const Offset(0, 0.25),
           duration: Motion.of(context, Motion.card),
           curve: Motion.out,
-          child: Semantics(
-            button: true,
-            label: TodayCopy.moreBelow,
-            excludeSemantics: true,
-            child: MmHitSlop.toTarget(
-              visual: MoreBelowCue.height,
+          // The touch box owns the node, so TalkBack gets the pill's width and the full 48 dp.
+          child: MmHitSlop.toTarget(
+            visual: MoreBelowCue.height,
+            child: Semantics(
+              button: true,
+              label: TodayCopy.moreBelow,
+              excludeSemantics: true,
               child: MmPressable(
                 onTap: widget.onTap,
                 builder: (context, pressed, focused) => Container(
                   height: MoreBelowCue.height,
                   padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s8),
-                  alignment: Alignment.center,
+                  // No alignment: a Container with one fills the gap's whole width, and the cue
+                  // would stretch edge to edge. The row centres its own children in the 24 dp.
+                  // No outline either: a 1 px stroke around 13 sp text is more pixels than the
+                  // words, and the contrast check then measures the stroke instead of them.
                   decoration: ShapeDecoration(
-                    color: pressed ? colors.raised2 : colors.ground,
-                    shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+                    color: pressed ? colors.raised2 : null,
+                    shape: const StadiumBorder(),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,

@@ -74,15 +74,29 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   @override
   void initState() {
     super.initState();
-    _scroll.addListener(_trackActive);
+    _scroll.addListener(_trackAfterFrame);
   }
 
   @override
   void dispose() {
-    _scroll.removeListener(_trackActive);
+    _scroll.removeListener(_trackAfterFrame);
     _scroll.dispose();
     _active.dispose();
     super.dispose();
+  }
+
+  bool _trackQueued = false;
+
+  /// A scroll notifies before the page is laid out at its new offset, so the sections would be
+  /// measured where they were one frame ago (a jump would never be seen at all). Measure once
+  /// the frame has landed.
+  void _trackAfterFrame() {
+    if (_trackQueued) return;
+    _trackQueued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _trackQueued = false;
+      if (mounted) _trackActive();
+    });
   }
 
   /// The chip of the last section whose top has reached the row. Nothing is lit above the first
@@ -107,7 +121,9 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     final viewport = RenderAbstractViewport.maybeOf(box);
     if (viewport == null) return;
     final position = _scroll.position;
-    final target = (viewport.getOffsetToReveal(box, 0).offset - _ChipsHeader.extent).clamp(position.minScrollExtent, position.maxScrollExtent);
+    // The viewport already leaves room for the pinned row when it reveals a box at its leading
+    // edge, so the section lands just under the row without taking the row's height off again.
+    final target = viewport.getOffsetToReveal(box, 0).offset.clamp(position.minScrollExtent, position.maxScrollExtent);
     final duration = Motion.of(context, const Duration(milliseconds: 420));
     if (duration == Duration.zero) {
       _scroll.jumpTo(target);

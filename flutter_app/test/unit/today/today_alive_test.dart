@@ -20,6 +20,7 @@ import 'package:mockmob/features/today/logic/week_chip.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/header_mobi.dart';
 import 'package:mockmob/features/today/widgets/hero_stage.dart';
+import 'package:mockmob/features/today/widgets/length_pill.dart' show LengthPanel, LengthPill;
 import 'package:mockmob/features/today/widgets/paper_trend.dart' show trendDot;
 import 'package:mockmob/features/today/widgets/resume_hero.dart';
 import 'package:mockmob/features/today/widgets/road_timeline.dart';
@@ -130,7 +131,7 @@ void main() {
       cues.dispose();
     });
 
-    testWidgets('picking a chip makes the hero Mobi listen, and today counted makes him nod', (tester) async {
+    testWidgets('picking a length makes the hero Mobi listen, and today counted makes him nod', (tester) async {
       final start = todayMobiCue.count;
       var view = buildToday(ashaInputs());
       late StateSetter set;
@@ -151,8 +152,11 @@ void main() {
         disableAnimations: true,
         overrides: [auth],
       );
-      await tester.tap(find.text('5 min'));
-      await tester.pump();
+      // The length is a pill that opens a small panel; choosing a row is the pick.
+      await tester.tap(find.byType(LengthPill));
+      await tester.pumpAndSettle();
+      await tester.tap(find.descendant(of: find.byType(LengthPanel), matching: find.text('5 min')));
+      await tester.pumpAndSettle();
       expect(todayMobiCue.count, start + 1);
       expect(todayMobiCue.value, MobiAct.listen);
       set(() => view = buildToday(ashaInputs(week: _tuesdayCounted)));

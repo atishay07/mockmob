@@ -206,9 +206,9 @@ void main() {
   testWidgets('a road below the first screen gets a cue that glides to it and goes once scrolled', (tester) async {
     final view = buildToday(TodayInputs(now: tuesdayEvening, firstName: 'Asha', attempts: [accountancyMock('m1', daysBefore(tuesdayEvening, 1))]));
     expect(view.road, isNotNull);
-    // Tall enough that the gap under the hero is on the first screen, short enough that the road
-    // is still below it.
-    await pumpBody(tester, view, const Size(384, 1000));
+    // The gap under the hero sits at about 461 to 485 dp and the road heading at 670: a screen
+    // 600 dp tall shows the gap (so the cue can be tapped) and still has the road below it.
+    await pumpBody(tester, view, const Size(384, 600));
     await tester.pump();
     await tester.pump();
     final cue = find.bySemanticsLabel(TodayCopy.moreBelow);
