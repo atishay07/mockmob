@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/models/models.dart' show ReplayChip;
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
@@ -22,6 +23,7 @@ import '../recap/recap_flow.dart' show RecapPlaceholder;
 import '../widgets/answer_reactor.dart';
 import '../widgets/evidence_link.dart';
 import 'full_sections.dart';
+import 'replay_section.dart';
 import 'summary_section.dart';
 import 'swot_section.dart';
 import 'time_section.dart';
@@ -72,6 +74,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   void dispose() {
     _reactor.dispose();
     _mobi.dispose();
+    _replayFilter.dispose();
     super.dispose();
   }
 
@@ -127,6 +130,25 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
 
   /// The "Every answer you changed" heading of Time and decisions.
   final GlobalKey _changesKey = GlobalKey();
+
+  /// The Replay, and the chip it has on (a ledger row's "See it in the replay" sets both).
+  final GlobalKey _replayKey = GlobalKey();
+  final ValueNotifier<String> _replayFilter = ValueNotifier<String>(ReplayChip.all);
+
+  /// A ledger row's "See it in the replay": the Replay with that group's chip on, under the bar.
+  void _seeInReplay(String group) {
+    _replayFilter.value = group;
+    final ctx = _replayKey.currentContext;
+    if (ctx == null || !ctx.mounted) return;
+    unawaited(
+      Scrollable.ensureVisible(
+        ctx,
+        alignment: 0.04,
+        duration: Motion.of(context, Motion.emphasizedDuration),
+        curve: Motion.emphasized,
+      ),
+    );
+  }
 
   /// The Lab's "See every change": scroll Time and decisions' list of changes under the bar.
   void _seeChanges() {
@@ -190,19 +212,23 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
       body = RecapPlaceholder(data: data, attemptId: id, page: true, onRetry: () => retryRecapData(ref, id));
     } else {
       // Time and decisions: read once the detail (and so every answer review) is known, because the
-      // marks effect of a change leaves held and corrected questions out.
+      // marks effect of a change leaves held and corrected questions out. The server's finished read
+      // (`lab.time`, slice 2) is shown as sent; an older server's result is read here.
       final detail = data.detail;
       final questionById = {for (final q in attempt.questions) q.id: q};
       final timeRead = detail == null
           ? null
-          : buildTimeDecisions(
+          : resolveTimeDecisions(
               attempt,
+              serverTime: detail.lab?.time,
               answerReviews: {for (final e in detail.answerReviews.entries) e.key: e.value.state},
               letterOf: (qid, i) {
                 final options = questionById[qid]?.options ?? const [];
                 return i >= 0 && i < options.length ? options[i].key : String.fromCharCode(65 + i);
               },
             );
+      // The Replay (slice 2): the paper as a clock, the Lab's Find step, above Time and decisions.
+      final replay = model.isHeld ? null : detail?.lab?.replay;
       final groups = buildAnswerGroups(
         attempt,
         detail: data.detail,
@@ -291,6 +317,21 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                     lab: data.detail?.lab,
                     onOpenQuestion: _openFromMap,
                     onSeeChanges: timeRead != null && timeRead.isReady ? _seeChanges : null,
+                    onSeeInReplay: replay == null ? null : _seeInReplay,
+                  ),
+                ),
+              ],
+              if (replay != null) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(
+                  KeyedSubtree(
+                    key: _replayKey,
+                    child: ReplaySection(
+                      replay: replay,
+                      onOpenQuestion: _openFromMap,
+                      numbersOf: detail!.lab!.numbersOf,
+                      filter: _replayFilter,
+                    ),
                   ),
                 ),
               ],

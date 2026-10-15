@@ -327,6 +327,29 @@ abstract final class ResultCopy {
   static String labQuestionChip(int n) => swotQuestionChip(n);
   static String labGoToQuestion(int n) => swotGoToQuestion(n);
 
+  // ---- Replay (Mistake Lab v4 slice 2): the server writes every sentence. The moving clock reads the
+  // server's own row words ("By {clock}: {a} answered. Even pace: {p}.") at the moment shown, and
+  // the rest are what a screen reader hears. -------------------------------------------------------
+
+  /// The server's `replay.row.pace` / `noPace` words at any moment.
+  static String replayAnsweredBy(String clock, int answered, int? evenPace) =>
+      evenPace == null ? 'By $clock: $answered answered.' : 'By $clock: $answered answered. Even pace: $evenPace.';
+
+  static String replayClockSpoken(String clock) => 'Replay at $clock';
+
+  static String replayMapSpoken(int answered, int opened, int total) => '$answered of $total questions answered and $opened opened at this moment.';
+
+  static String replayBarSpoken(int n, String result, String from, String to, List<String> away) {
+    final word = switch (result) {
+      'right' => 'right',
+      'wrong' => 'wrong',
+      'held' => 'under re-check',
+      _ => 'left blank',
+    };
+    final gaps = away.where((a) => a.isNotEmpty).map((a) => ' $a.').join();
+    return 'Question $n, $word, on screen from $from to $to.$gaps Open the answer.';
+  }
+
   /// The heading word of a group when the server sends none (it always should).
   static String swotGroupWord(String id) => switch (id) {
     'strength' => 'Strengths',

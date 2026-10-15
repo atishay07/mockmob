@@ -45,9 +45,10 @@ Widget whereSection(
   MistakeLab? lab,
   ValueChanged<int>? onOpenQuestion,
   VoidCallback? onSeeChanges,
+  ValueChanged<String>? onSeeInReplay,
 }) {
   if (lab != null && lab.showsLedger && onOpenQuestion != null) {
-    return LabLedgerSection(attemptId: m.attemptId, lab: lab, onOpenQuestion: onOpenQuestion, onSeeChanges: onSeeChanges);
+    return LabLedgerSection(attemptId: m.attemptId, lab: lab, onOpenQuestion: onOpenQuestion, onSeeChanges: onSeeChanges, onSeeInReplay: onSeeInReplay);
   }
   return MmSection(
     title: ResultCopy.sectionWhere,

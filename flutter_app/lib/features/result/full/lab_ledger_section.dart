@@ -26,7 +26,7 @@ import '../copy.dart';
 /// dims the other segments to 40% and lifts its own by 2 dp. Under reduced motion the ledger is
 /// at rest at once and only the dimming remains.
 class LabLedgerSection extends StatefulWidget {
-  const LabLedgerSection({super.key, required this.attemptId, required this.lab, required this.onOpenQuestion, this.onSeeChanges});
+  const LabLedgerSection({super.key, required this.attemptId, required this.lab, required this.onOpenQuestion, this.onSeeChanges, this.onSeeInReplay});
 
   final String attemptId;
   final MistakeLab lab;
@@ -37,6 +37,10 @@ class LabLedgerSection extends StatefulWidget {
   /// "See every change": scrolls to "Every answer you changed" in Time and decisions. Null hides
   /// it (no Time and decisions section on this result).
   final VoidCallback? onSeeChanges;
+
+  /// "See it in the replay" on an opened row (slice 2): opens the Replay with that group's chip on.
+  /// Shown only for groups the replay has a chip for; null hides it (no replay on this result).
+  final ValueChanged<String>? onSeeInReplay;
 
   /// Forgets which attempts have played their split (tests only).
   @visibleForTesting
@@ -217,6 +221,10 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
                   onToggle: () => _toggle(groups[i].id),
                   onShowAll: () => setState(() => _allChips.add(groups[i].id)),
                   onOpenQuestion: widget.onOpenQuestion,
+                  seeInReplay: lab.replay?.labels.seeInReplay,
+                  onSeeInReplay: widget.onSeeInReplay != null && (lab.replay?.chips.any((c) => c.id == groups[i].id) ?? false)
+                      ? () => widget.onSeeInReplay!(groups[i].id)
+                      : null,
                 ),
               ),
             ],
@@ -316,7 +324,8 @@ class LabSwatchStyle {
   /// The pattern's colour.
   final Color ink;
 
-  /// The style of group [id] in [colors]' theme: amber for right then changed, hatched grey for
+  /// The style of group [id] in [colors]' theme: amber for right then changed, cross-hatched amber
+  /// for crossed out the key (slice 2), hatched grey for
   /// never opened, striped coral for long stays, solid coral for quick wrong, deep coral for other
   /// wrong answers, plain grey for opened blanks, dotted line colour for held (spec 4.1).
   static LabSwatchStyle of(String id, MmColors colors) {
@@ -325,6 +334,13 @@ class LabSwatchStyle {
     final deep = night ? const Color(0xFFC9604F) : colors.wrongBorder;
     return switch (id) {
       LabGroup.changedFromRight => LabSwatchStyle(fill: night ? colors.warnText : const Color(0xFFB97C10)),
+      // Crossed out the key: the same amber as a changed answer (both are a decision about an
+      // option), crossed both ways like the strike itself.
+      LabGroup.struckKey => LabSwatchStyle(
+          fill: night ? const Color(0xFFB98A3A) : const Color(0xFF9A6A12),
+          pattern: LabPattern.cross,
+          ink: night ? const Color(0x6612110E) : const Color(0x8CFFFDF8),
+        ),
       LabGroup.neverOpened => LabSwatchStyle(
           fill: night ? const Color(0xFF5D584F) : const Color(0xFF9C9485),
           pattern: LabPattern.hatch,
@@ -350,7 +366,7 @@ class LabSwatchStyle {
   int get hashCode => Object.hash(fill, pattern, ink);
 }
 
-enum LabPattern { solid, hatch, stripe, dots }
+enum LabPattern { solid, hatch, stripe, dots, cross }
 
 /// Paints [style]'s pattern over [rect] (already clipped by the caller).
 void _paintPattern(Canvas canvas, Rect rect, LabSwatchStyle style, double strength) {
@@ -368,6 +384,17 @@ void _paintPattern(Canvas canvas, Rect rect, LabSwatchStyle style, double streng
       final h = rect.height;
       for (var x = rect.left - h; x < rect.right + h; x += period) {
         canvas.drawLine(Offset(x, rect.bottom), Offset(x + h, rect.top), paint);
+      }
+    case LabPattern.cross:
+      // Both diagonals, like a struck-out option.
+      final paint = Paint()
+        ..color = ink
+        ..strokeWidth = 1.5
+        ..isAntiAlias = true;
+      final h = rect.height;
+      for (var x = rect.left - h; x < rect.right + h; x += 7) {
+        canvas.drawLine(Offset(x, rect.bottom), Offset(x + h, rect.top), paint);
+        canvas.drawLine(Offset(x, rect.top), Offset(x + h, rect.bottom), paint);
       }
     case LabPattern.dots:
       final paint = Paint()..color = ink;
@@ -624,6 +651,8 @@ class _LegendRow extends StatelessWidget {
     required this.onToggle,
     required this.onShowAll,
     required this.onOpenQuestion,
+    this.seeInReplay,
+    this.onSeeInReplay,
   });
 
   final LabGroup group;
@@ -635,6 +664,8 @@ class _LegendRow extends StatelessWidget {
   final VoidCallback onToggle;
   final VoidCallback onShowAll;
   final ValueChanged<int> onOpenQuestion;
+  final String? seeInReplay;
+  final VoidCallback? onSeeInReplay;
 
   /// Left edge of the open panel: the row's padding, the swatch and its gap, so the do line sits
   /// under the label.
@@ -721,6 +752,7 @@ class _LegendRow extends StatelessWidget {
                               onMore: folded ? onShowAll : null,
                             ),
                           ],
+                          if (onSeeInReplay != null && seeInReplay != null) _TextAction(label: seeInReplay!, onTap: onSeeInReplay!),
                         ],
                       ),
                     ),

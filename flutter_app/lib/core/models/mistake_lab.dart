@@ -22,6 +22,8 @@ class MistakeLab {
     this.cohort,
     this.fine = const [],
     this.byQuestion = const {},
+    this.replay,
+    this.time,
   });
 
   /// A paper with a usable record of its time and picks: the full split.
@@ -75,6 +77,8 @@ class MistakeLab {
       cohort: j['cohort'] is Map ? LabCohort.tryParse(asJson(j['cohort'])) : null,
       fine: _texts(j['fine']),
       byQuestion: byQuestion,
+      replay: LabReplay.tryParse(j['replay']),
+      time: j['time'] is Map ? asJson(j['time']) : null,
     );
   }
 
@@ -110,6 +114,22 @@ class MistakeLab {
 
   /// Per question id: its group and how other students answered it.
   final Map<String, LabQuestion> byQuestion;
+
+  /// The paper replayed as a clock (slice 2, spec 4.5). Null without a usable record, or when the
+  /// server's replay cannot be read honestly.
+  final LabReplay? replay;
+
+  /// The finished Time and decisions read (slice 2: `lab.time`, the same object the website shows),
+  /// read by the result's own model. Null from an older server.
+  final Json? time;
+
+  /// The question numbers of group [id] (a replay chip's filter), empty when it has none.
+  List<int> numbersOf(String id) {
+    for (final g in groups) {
+      if (g.id == id) return g.numbers;
+    }
+    return const [];
+  }
 
   /// Whether the ledger draws: a full or basic split with at least one group.
   bool get showsLedger => (state == ready || state == basic) && groups.isNotEmpty;
@@ -159,8 +179,9 @@ class LabHeadline {
   final String text;
 }
 
-/// One way marks were lost: `changed_from_right`, `never_opened`, `long_stay`, `quick_wrong`,
-/// `other_wrong`, `other_blank` and `held` (state ready), or `wrong`, `blank` and `held` (basic).
+/// One way marks were lost: `changed_from_right`, `struck_key`, `never_opened`, `long_stay`,
+/// `quick_wrong`, `other_wrong`, `other_blank` and `held` (state ready), or `wrong`, `blank` and
+/// `held` (basic).
 class LabGroup {
   const LabGroup({
     required this.id,
@@ -174,6 +195,9 @@ class LabGroup {
   });
 
   static const changedFromRight = 'changed_from_right';
+
+  /// Wrong, and the key was crossed out at some point (slice 2, with strike-outs captured).
+  static const struckKey = 'struck_key';
   static const neverOpened = 'never_opened';
   static const longStay = 'long_stay';
   static const quickWrong = 'quick_wrong';
@@ -337,6 +361,330 @@ class LabOthers {
 
   /// What a screen reader hears for option [i], or null.
   String? labelFor(int i) => i >= 0 && i < optionLabels.length ? optionLabels[i] : null;
+}
+
+/// `lab.replay` (Mistake Lab v4 slice 2, spec 4.5, built by the website's `data/replay.js`): the
+/// paper as a clock of 10-minute rows. Each visit is a bar from entering to leaving, with its picks,
+/// marks for review and time away; every sentence (row ends, the end, the three facts, the chips)
+/// arrives finished. Times are whole seconds from the start of the paper.
+///
+/// Read strictly: a row or a bar that cannot be read sets the whole replay aside (null), so the app
+/// never draws a clock that is missing part of the paper.
+class LabReplay {
+  const LabReplay({
+    required this.version,
+    required this.rowSec,
+    required this.durationSec,
+    required this.recordSec,
+    required this.playMs,
+    required this.total,
+    required this.labels,
+    required this.rows,
+    this.end,
+    this.facts = const [],
+    this.chips = const [],
+  });
+
+  static LabReplay? tryParse(Object? v) {
+    if (v is! Map) return null;
+    final j = asJson(v);
+    final rowSec = asInt(j['rowSec']);
+    final durationSec = asInt(j['durationSec']);
+    final recordSec = asInt(j['recordSec']);
+    final total = asInt(j['total']);
+    if (rowSec == null || rowSec <= 0 || recordSec == null || recordSec <= 0 || total == null || total <= 0) return null;
+    final rawRows = j['rows'] is List ? j['rows'] as List : const [];
+    final rows = <ReplayRow>[];
+    for (final r in rawRows) {
+      final row = r is Map ? ReplayRow.tryParse(asJson(r), total: total) : null;
+      if (row == null) return null;
+      rows.add(row);
+    }
+    if (rows.isEmpty) return null;
+    final chips = <ReplayChip>[
+      for (final c in (j['chips'] is List ? j['chips'] as List : const []))
+        if (c is Map) ?ReplayChip.tryParse(asJson(c)),
+    ];
+    return LabReplay(
+      version: asInt(j['version']) ?? 1,
+      rowSec: rowSec,
+      durationSec: durationSec != null && durationSec > 0 ? durationSec : recordSec,
+      recordSec: recordSec,
+      playMs: (asInt(j['playMs']) ?? 15000).clamp(3000, 60000),
+      total: total,
+      labels: ReplayLabels.fromJson(asJson(j['labels'])),
+      rows: rows,
+      end: j['end'] is Map ? ReplayEnd.tryParse(asJson(j['end'])) : null,
+      facts: _texts(j['facts']),
+      chips: chips,
+    );
+  }
+
+  final int version;
+
+  /// Seconds a row covers (600: 10 minutes, so a row fits a phone).
+  final int rowSec;
+
+  /// The paper's own length in seconds (the even pace counts against it).
+  final int durationSec;
+
+  /// Where the record ends, in seconds (the end event, or the last event).
+  final int recordSec;
+
+  /// How long Play takes for the whole record.
+  final int playMs;
+
+  /// Questions in the paper.
+  final int total;
+  final ReplayLabels labels;
+  final List<ReplayRow> rows;
+  final ReplayEnd? end;
+
+  /// The three facts under the grid.
+  final List<String> facts;
+
+  /// The filter chips, the ledger's own words; the first is "All".
+  final List<ReplayChip> chips;
+
+  /// Every visit, in time order.
+  List<ReplayBar> get bars => [for (final r in rows) ...r.bars];
+
+  /// Whether the rows carry the even pace (the paper's limit is known).
+  bool get hasPace => rows.every((r) => r.evenPaceBy != null);
+
+  /// Questions answered at [sec]: each question's latest pick at or before it, a clear counting as
+  /// unanswered. The same count as each row's "By 10:00: 9 answered".
+  int answeredAt(num sec) => answeredSetAt(sec).length;
+
+  /// The question numbers answered at [sec].
+  Set<int> answeredSetAt(num sec) {
+    final latest = <int, ({int at, int? option})>{};
+    for (final b in bars) {
+      for (final p in b.picks) {
+        if (p.at > sec) continue;
+        final had = latest[b.n];
+        if (had == null || p.at >= had.at) latest[b.n] = (at: p.at, option: p.option);
+      }
+    }
+    return {for (final e in latest.entries) if (e.value.option != null) e.key};
+  }
+
+  /// The question numbers opened at or before [sec].
+  Set<int> openedAt(num sec) => {for (final b in bars) if (b.from <= sec) b.n};
+
+  /// The visit on screen at [sec], or null (before the first or after the record).
+  ReplayBar? barAt(num sec) {
+    final all = bars;
+    for (final b in all) {
+      if (b.from <= sec && sec < b.to) return b;
+    }
+    final last = all.isEmpty ? null : all.last;
+    return last != null && sec >= last.to && sec <= recordSec ? last : null;
+  }
+
+  /// The even pace at [sec]: the questions the paper's own time a question reaches by then. A
+  /// reference only, never a target.
+  int evenPaceAt(num sec) => (sec * total / durationSec).floor().clamp(0, total);
+
+  /// Every moment the record shows, in order: each visit's start, each pick and mark, and the end.
+  /// Previous and Next step through these (reduced motion).
+  List<int> get moments {
+    final out = <int>{0};
+    for (final b in bars) {
+      out.add(b.from);
+      for (final p in b.picks) {
+        out.add(p.at);
+      }
+      out.addAll(b.marks);
+    }
+    out.add(recordSec);
+    return [for (final m in out) if (m >= 0 && m <= recordSec) m]..sort();
+  }
+}
+
+/// The replay's own words.
+class ReplayLabels {
+  const ReplayLabels({
+    this.title = 'Replay',
+    this.sub = 'Your paper, minute by minute',
+    this.play = 'Play',
+    this.pause = 'Pause',
+    this.previous = 'Previous',
+    this.next = 'Next',
+    this.seeInReplay = 'See it in the replay',
+    this.clockNote = 'Clock times count from the start of the paper.',
+    this.evenPaceNote = "Even pace is the paper's own time a question. It is a reference, not a target.",
+  });
+
+  factory ReplayLabels.fromJson(Json j) {
+    const d = ReplayLabels();
+    return ReplayLabels(
+      title: _text(j['title']) ?? d.title,
+      sub: _text(j['sub']) ?? d.sub,
+      play: _text(j['play']) ?? d.play,
+      pause: _text(j['pause']) ?? d.pause,
+      previous: _text(j['previous']) ?? d.previous,
+      next: _text(j['next']) ?? d.next,
+      seeInReplay: _text(j['seeInReplay']) ?? d.seeInReplay,
+      clockNote: _text(j['clockNote']) ?? d.clockNote,
+      evenPaceNote: _text(j['evenPaceNote']) ?? d.evenPaceNote,
+    );
+  }
+
+  final String title;
+  final String sub;
+  final String play;
+  final String pause;
+  final String previous;
+  final String next;
+  final String seeInReplay;
+  final String clockNote;
+  final String evenPaceNote;
+}
+
+/// How the record ended: "Submitted at 51:46." ([reason] `submit`, `time_up` or `nta_strikes`).
+class ReplayEnd {
+  const ReplayEnd({required this.at, required this.reason, required this.label});
+
+  static ReplayEnd? tryParse(Json j) {
+    final at = asInt(j['at']);
+    final label = _text(j['label']);
+    if (at == null || at < 0 || label == null) return null;
+    return ReplayEnd(at: at, reason: asStringOr(j['reason'], ''), label: label);
+  }
+
+  final int at;
+  final String reason;
+  final String label;
+}
+
+/// One 10-minute row: "By 20:00: 14 answered. Even pace: 16." and its visits.
+class ReplayRow {
+  const ReplayRow({required this.from, required this.to, required this.label, required this.answeredBy, this.evenPaceBy, this.bars = const []});
+
+  static ReplayRow? tryParse(Json j, {required int total}) {
+    final from = asInt(j['from']);
+    final to = asInt(j['to']);
+    final label = _text(j['label']);
+    if (from == null || to == null || from < 0 || to <= from || label == null) return null;
+    final bars = <ReplayBar>[];
+    for (final b in (j['bars'] is List ? j['bars'] as List : const [])) {
+      final bar = b is Map ? ReplayBar.tryParse(asJson(b), total: total) : null;
+      if (bar == null || bar.from < from || bar.to > to) return null;
+      bars.add(bar);
+    }
+    return ReplayRow(from: from, to: to, label: label, answeredBy: asInt(j['answeredBy']) ?? 0, evenPaceBy: asInt(j['evenPaceBy']), bars: bars);
+  }
+
+  final int from;
+  final int to;
+  final String label;
+  final int answeredBy;
+
+  /// Null when the paper's limit is not known.
+  final int? evenPaceBy;
+  final List<ReplayBar> bars;
+}
+
+/// One visit: question [n] on screen from [from] to [to], filled by its final [result].
+class ReplayBar {
+  const ReplayBar({
+    required this.qid,
+    required this.n,
+    required this.from,
+    required this.to,
+    required this.result,
+    this.picks = const [],
+    this.marks = const [],
+    this.away = const [],
+  });
+
+  static const right = 'right';
+  static const wrong = 'wrong';
+  static const blank = 'blank';
+  static const held = 'held';
+  static const _results = {right, wrong, blank, held};
+
+  static ReplayBar? tryParse(Json j, {required int total}) {
+    final qid = asStringOr(j['qid'], '');
+    final n = asInt(j['n']);
+    final from = asInt(j['from']);
+    final to = asInt(j['to']);
+    final result = asStringOr(j['result'], '');
+    if (qid.isEmpty || n == null || n < 1 || n > total || from == null || to == null || to < from || !_results.contains(result)) return null;
+    return ReplayBar(
+      qid: qid,
+      n: n,
+      from: from,
+      to: to,
+      result: result,
+      picks: [
+        for (final p in (j['picks'] is List ? j['picks'] as List : const []))
+          if (p is Map && asInt(p['at']) != null) ReplayPick(at: asInt(p['at'])!, option: asInt(p['option']), change: asBool(p['change']) ?? false),
+      ],
+      marks: [for (final m in (j['marks'] is List ? j['marks'] as List : const [])) ?asInt(m)],
+      away: [
+        for (final a in (j['away'] is List ? j['away'] as List : const []))
+          if (a is Map && asInt(a['from']) != null && asInt(a['to']) != null)
+            ReplaySpan(from: asInt(a['from'])!, to: asInt(a['to'])!, label: _text(a['label']) ?? ''),
+      ],
+    );
+  }
+
+  final String qid;
+
+  /// The question's number in this paper.
+  final int n;
+  final int from;
+  final int to;
+
+  /// [right], [wrong], [blank] or [held] (under re-check or corrected).
+  final String result;
+  final List<ReplayPick> picks;
+
+  /// When it was marked for review.
+  final List<int> marks;
+
+  /// Time away from the paper (or, on an old record, a break of over 30 minutes) inside this visit.
+  final List<ReplaySpan> away;
+
+  int get length => to - from;
+}
+
+/// A pick: the served [option] (null for a clear) at [at]; [change] when it replaced an answer.
+class ReplayPick {
+  const ReplayPick({required this.at, this.option, this.change = false});
+
+  final int at;
+  final int? option;
+  final bool change;
+}
+
+/// A stretch inside a visit with its own words ("Away 1m 10s", "Not counted 41m").
+class ReplaySpan {
+  const ReplaySpan({required this.from, required this.to, required this.label});
+
+  final int from;
+  final int to;
+  final String label;
+}
+
+/// A filter chip: "All", or a ledger group with its count.
+class ReplayChip {
+  const ReplayChip({required this.id, required this.label, this.count});
+
+  static ReplayChip? tryParse(Json j) {
+    final id = asStringOr(j['id'], '');
+    final label = _text(j['label']);
+    if (id.isEmpty || label == null) return null;
+    return ReplayChip(id: id, label: label, count: asInt(j['count']));
+  }
+
+  static const all = 'all';
+
+  final String id;
+  final String label;
+  final int? count;
 }
 
 String? _text(Object? v) {
