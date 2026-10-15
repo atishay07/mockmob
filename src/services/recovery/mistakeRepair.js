@@ -59,6 +59,16 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
       if (error) throw new Error('open_reservations_unavailable');
       return data || [];
     },
+    // The trap type, subject and chapter of the student's newest 300 committed repairs, for the free pattern line
+    // (data/repair_pattern.js). One read on the existing (user_id, created_at desc) index; v1 and v2 rows carry no trap.
+    findRepairTraps: async (userId) => {
+      const { data, error } = await supabaseAdmin().from('ai_credit_reservations')
+        .select('operation_key,trap:receipt->repair->>trap_type,subject:receipt->>subject,chapter:receipt->>chapter')
+        .eq('user_id', userId).eq('action', 'score_recovery_repair').eq('state', 'committed')
+        .order('created_at', { ascending: false }).limit(300);
+      if (error) throw new Error('repair_traps_unavailable');
+      return data || [];
+    },
     withhold: (args) => withheldForRecheck(supabaseAdmin(), args),
     readWallet: (u) => readAIWallet(u).catch(() => null),
     now: Date.now,

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { runRepair, REPAIR_BUDGET, isDeadReservation, mistakeId } from '../../src/services/recovery/repairFlow.js';
+import { runRepair, REPAIR_BUDGET, isDeadReservation, mistakeId, PATTERN_BUDGET_MS } from '../../src/services/recovery/repairFlow.js';
+import { buildRepairPrompt, MISTAKE_REPAIR_SCHEMA, MISTAKE_REPAIR_SCHEMA_V3 } from '../mistake_repair.js';
 
 // Fakes only: no database, no wallet, no model. Every credit movement and every model call is recorded.
 const T0 = Date.parse('2026-10-14T06:00:00Z');
@@ -14,7 +15,19 @@ const passage = 'Maya read the notice twice before she signed. The clause on lat
 const snapshot = { id: 'q1', subject: 'english', chapter: 'Reading', question: 'Why did Maya read the notice twice?', passageText: passage, passageTitle: 'The Notice', options: [{ key: 'A', text: 'It was long' }, { key: 'B', text: 'The clause was hard to see' }, { key: 'C', text: 'She disliked it' }, { key: 'D', text: 'She was late' }], correctIndex: 1 };
 const attempt = { id: 'a1', userId: 'u1', subject: 'english', questionsSnapshot: [snapshot], details: [{ qid: 'q1', isCorrect: false, givenIndex: 0 }] };
 const live = { id: 'q1', status: 'live', verification_state: 'verified', options: snapshot.options.map(o => ({ ...o })), correct_answer: 'B', passage_text: passage };
-const good = { solved_index: 1, agrees_with_key: true, why_tempting: 'The notice is long, so length looks like the reason.', why_wrong: 'The passage names the clause printed in small type.', key_idea: 'Look for the reason the passage itself gives.', next_step: 'Underline the sentence that answers the question.' };
+// v3 is the default prompt. The v1 shape stays for the REPAIR_PROMPT_VERSION=1 rollback.
+const good = {
+  solved_index: 1, agrees_with_key: true, trap_type: 'not_in_passage',
+  trap: 'The notice is long, so length looks like the reason.',
+  why_wrong: 'The passage never says the length made her read it twice.',
+  why_right: 'The passage names the late-fee clause printed in the smallest type.',
+  contrast: 'If the question asked what the notice was like, option A would fit. It asks why she read it twice, so option B.',
+  others: [{ index: 2, why: 'The passage never says she disliked the notice.' }, { index: 3, why: 'Nothing in the passage says she was late.' }],
+  rule: 'Answer a why question with the reason the passage gives.',
+  memory_hook: 'True about it is not why it happened.',
+  another_way: 'Ask what the passage says caused the action. Here it is the tiny print, not the length.',
+};
+const goodV1 = { solved_index: 1, agrees_with_key: true, why_tempting: 'The notice is long, so length looks like the reason.', why_wrong: 'The passage names the clause printed in small type.', key_idea: 'Look for the reason the passage itself gives.', next_step: 'Underline the sentence that answers the question.' };
 const usage = { provider: 'openai', model: 'gpt-6-luna', inputTokens: 300, outputTokens: 120 };
 const okAI = (data = good, extra = {}) => ({ ok: true, data, usage, fallbackUsed: false, failure: null, ...extra });
 const failedAI = (kind, extra = {}) => ({ ok: false, data: null, usage: null, fallbackUsed: false, failure: { stage: 'primary', provider: 'openai', model: 'gpt-6-luna', kind, status: null, code: null, ...extra } });
@@ -27,6 +40,7 @@ function harness(over = {}) {
     loadQuestion: async () => ({ data: 'live' in over ? over.live : live, error: null }),
     evidenceEligible: () => false,
     findStored: async () => over.stored ?? null,
+    findRepairTraps: async (userId) => { calls.push(['traps', userId]); return over.traps ? over.traps(userId) : []; },
     findOpenReservations: async () => over.open ?? [],
     gateOpen: () => over.gateOpen ?? true,
     reserve: async (a) => { calls.push(['reserve', a.operationKey]); return over.reserve ? over.reserve(a) : { ok: true, state: 'reserved', balance: 9 }; },
@@ -68,7 +82,7 @@ test('an NTA paper with shuffled options is repaired instead of being refused as
   assert.equal(body.status, 'explained', 'was 409 key_changed before the fix');
   assert.equal(body.keyIndex, order.indexOf(1), 'the letters are the ones the student saw');
   const prompt = h.calls.find(c => c[0] === 'generate')[2];
-  assert.match(prompt.systemPrompt, new RegExp(`answer key is index ${order.indexOf(1)}`));
+  assert.match(prompt.systemPrompt, new RegExp(`answer key is option D \\(index ${order.indexOf(1)}\\)`));
 });
 
 test('success: reserve, execute, generate, commit once; the receipt names the provider and model that ran', async () => {
@@ -79,14 +93,15 @@ test('success: reserve, execute, generate, commit once; the receipt names the pr
   assert.equal(body.charged, 1);
   assert.equal(body.repair.model, 'claude-haiku-5-5');
   assert.deepEqual(body.wallet, { total: 8, state: 'ok' });
-  assert.deepEqual(kinds(h.calls), ['reserve', 'executing', 'generate', 'commit']);
+  assert.deepEqual(kinds(h.calls), ['reserve', 'executing', 'generate', 'commit', 'traps']);
   const receipt = h.calls.find(c => c[0] === 'commit')[2];
   assert.equal(receipt.provider, 'anthropic');
   assert.equal(receipt.model, 'claude-haiku-5-5');
   assert.equal(receipt.fallbackUsed, true);
   assert.equal(receipt.fallbackReason, 'quota');
   assert.equal(receipt.inputTokens, 310);
-  assert.equal(h.logs.length, 0, 'a good repair logs nothing');
+  assert.equal(h.logs.length, 1, 'a good repair logs only its interpret line');
+  assert.deepEqual(JSON.parse(h.logs[0]), { route: 'repair', stage: 'interpret', kind: 'explained', dropped: [] });
 });
 
 test('the model work is given a deadline, per-call caps and the Haiku fallback route; the blind check gets its own caps', async () => {
@@ -171,7 +186,7 @@ test('unreadable output and unclassified failures keep the code the app already 
     const { http, body } = await h.run();
     assert.equal(http, 502); assert.equal(body.error, 'unusable_output'); assert.deepEqual(releases(h.calls), ['unusable_output']);
   }
-  const short = harness({ generate: async () => okAI({ ...good, key_idea: '' }) });
+  const short = harness({ generate: async () => okAI({ ...good, rule: '' }) });
   assert.equal((await short.run()).body.error, 'unusable_output');
   assert.deepEqual(releases(short.calls), ['unusable_output']);
   const thrown = harness({ generate: async () => { throw new Error('boom'); } });
@@ -252,7 +267,7 @@ test('a dead reservation under another request id is released and the new repair
   const { http, body } = await h.run();
   assert.equal(http, 200);
   assert.equal(body.status, 'explained');
-  assert.deepEqual(kinds(h.calls), ['release', 'reserve', 'executing', 'generate', 'commit']);
+  assert.deepEqual(kinds(h.calls), ['release', 'reserve', 'executing', 'generate', 'commit', 'traps']);
   assert.deepEqual(h.calls[0], ['release', old.operation_key, 'expired']);
 });
 
@@ -268,7 +283,7 @@ test('a stored repair still reopens free, even with an open reservation or the g
   const h = harness({ stored: { ...good, model: 'gpt-6-luna' }, gateOpen: false, open: [{ operation_key: OP, state: 'executing', created_at: new Date(T0 - 1000).toISOString(), expires_at: new Date(T0 + 1000).toISOString() }] });
   const { http, body } = await h.run();
   assert.equal(http, 200); assert.equal(body.status, 'stored'); assert.equal(body.charged, 0);
-  assert.deepEqual(h.calls, []);
+  assert.deepEqual(kinds(h.calls), ['traps'], 'only the free pattern read; nothing reserved, no model call');
 });
 
 test('the commit is retried once; if it still fails the credit is handed back instead of kept', async () => {
@@ -284,7 +299,7 @@ test('the commit is retried once; if it still fails the credit is handed back in
   assert.equal(b.body.charged, 0);
   assert.deepEqual(releases(dead.calls), ['commit_failed'], 'and the credit is released, not left reserved');
   assert.equal(kinds(dead.calls).filter(k => k === 'commit').length, 2);
-  assert.equal(JSON.parse(dead.logs[0]).code, 'commit_failed');
+  assert.equal(JSON.parse(dead.logs.at(-1)).code, 'commit_failed');
 
   const landed = harness({ commit: async () => { throw new Error('response lost'); }, release: async () => ({ ok: false, error: 'already_committed' }) });
   assert.equal((await landed.run()).body.charged, 1, 'if the commit had in fact landed, the charge is reported as made');
@@ -330,4 +345,114 @@ test('a bad request id and a withdrawn question never reserve anything', async (
   const missing = harness({ live: null });
   assert.equal((await missing.run()).body.error, 'question_withdrawn');
   assert.deepEqual(kinds(h.calls).concat(kinds(missing.calls)), []);
+});
+
+// ---- Repair v3 wiring (build spec 15 Oct 2026, A.2, A.3, A.6, A.7) ----
+test('v3: one call with maxTokens 1400 and the v3 schema; the user message names the subject, never the student', async () => {
+  const h = harness();
+  const { http, body } = await h.run();
+  assert.equal(http, 200); assert.equal(body.status, 'explained');
+  const gen = h.calls.filter(c => c[0] === 'generate');
+  assert.equal(gen.length, 1, 'one model call: "another way" comes in the same response');
+  const p = gen[0][2];
+  assert.equal(p.maxTokens, 1400);
+  assert.equal(p.responseSchema, MISTAKE_REPAIR_SCHEMA_V3);
+  assert.match(p.userMessage, /^Subject: English\nChapter: Reading\n/);
+  assert.match(p.systemPrompt, /tutor for CUET UG English\. A student chose option A \(index 0\)/);
+  for (const secret of ['u1', 'a1', REQ]) assert.ok(!`${p.systemPrompt}\n${p.userMessage}`.includes(secret), secret);
+});
+
+test('v3: the receipt carries promptVersion, subject, chapter and the trap type; the stored repair has no aliases, the response has them', async () => {
+  const h = harness();
+  const { body } = await h.run();
+  const receipt = h.calls.find(c => c[0] === 'commit')[2];
+  assert.equal(receipt.promptVersion, 3);
+  assert.equal(receipt.subject, 'english');
+  assert.equal(receipt.chapter, 'Reading');
+  assert.equal(receipt.repair.version, 3);
+  assert.equal(receipt.repair.trap_type, 'not_in_passage');
+  assert.equal(receipt.repair.why_right, good.why_right);
+  assert.deepEqual(receipt.repair.others.map(o => o.index), [2, 3]);
+  assert.ok(!('why_tempting' in receipt.repair) && !('key_idea' in receipt.repair), 'aliases are never stored');
+  assert.equal(body.repair.version, 3);
+  assert.equal(body.repair.why_tempting, good.trap, 'older app builds read why_tempting');
+  assert.equal(body.repair.key_idea, good.rule, 'older app builds read key_idea');
+  assert.ok(!('next_step' in body.repair), 'the model no longer writes a next step');
+  assert.equal(body.pattern, null, 'no earlier typed repairs: no pattern line');
+});
+
+const OTHER = (n) => `repair:${mistakeId('u1', 'a1', `other${n}`)}:req_${String(n).padStart(16, '0')}`;
+test('v3: the pattern line is read after the commit, counting this repair once', async () => {
+  const rows = [
+    { operation_key: OTHER(1), trap: 'not_in_passage', subject: 'english', chapter: 'Reading' },
+    { operation_key: OTHER(2), trap: 'look_alike_term', subject: 'english', chapter: 'Reading' },
+    { operation_key: `repair:${mistakeId('u1', 'a1', 'q1')}:old_request_0000001`, trap: 'not_in_passage', subject: 'english', chapter: 'Reading' },
+  ];
+  const h = harness({ traps: async () => rows });
+  const { body } = await h.run();
+  assert.deepEqual(body.pattern, { line: '2 of your 3 repaired mistakes in Reading had the same trap: not in the passage.', scope: 'chapter', k: 2, n: 3, trapType: 'not_in_passage' });
+  assert.deepEqual(h.calls.find(c => c[0] === 'traps'), ['traps', 'u1']);
+  assert.ok(kinds(h.calls).indexOf('traps') > kinds(h.calls).indexOf('commit'), 'read after the commit');
+});
+
+test('v3: a failing or slow pattern read gives pattern null and the repair still arrives', async () => {
+  const failing = harness({ traps: async () => { throw new Error('db down'); } });
+  const a = await failing.run();
+  assert.equal(a.body.status, 'explained'); assert.equal(a.body.pattern, null); assert.equal(a.body.charged, 1);
+  const slow = harness({ traps: () => new Promise(() => {}) });
+  const started = Date.now();
+  const b = await slow.run();
+  assert.equal(b.body.status, 'explained'); assert.equal(b.body.pattern, null);
+  assert.ok(Date.now() - started < PATTERN_BUDGET_MS + 1000, 'stopped at the 1.5 s cap');
+  assert.equal(PATTERN_BUDGET_MS, 1500);
+  const noCommit = harness({ commit: async () => ({ ok: false }), traps: async () => [] });
+  const c = await noCommit.run();
+  assert.equal(c.body.pattern, null); assert.ok(!kinds(noCommit.calls).includes('traps'), 'no pattern for a repair that was not stored');
+});
+
+test('v3: a stored reopen returns the pattern; a failing pattern read gives null and the status stays stored', async () => {
+  const stored = { version: 3, trap_type: 'not_in_passage', trap: good.trap, why_wrong: good.why_wrong, why_right: good.why_right, others: [], rule: good.rule, model: 'gpt-6-luna' };
+  const rows = [
+    { operation_key: OTHER(1), trap: 'not_in_passage', subject: 'english', chapter: 'Reading' },
+    { operation_key: OTHER(2), trap: 'reversed', subject: 'english', chapter: 'Reading' },
+  ];
+  const h = harness({ stored, traps: async () => rows });
+  const { body } = await h.run();
+  assert.equal(body.status, 'stored'); assert.equal(body.charged, 0);
+  assert.equal(body.pattern.line, '2 of your 3 repaired mistakes in Reading had the same trap: not in the passage.');
+  assert.equal(body.repair.key_idea, good.rule);
+  const broken = harness({ stored, traps: async () => { throw new Error('db down'); } });
+  const r = await broken.run();
+  assert.equal(r.http, 200); assert.equal(r.body.status, 'stored'); assert.equal(r.body.pattern, null);
+  const v1Stored = harness({ stored: { ...goodV1, model: 'gpt-6-luna' } });
+  const v1 = await v1Stored.run();
+  assert.equal(v1.body.pattern, null); assert.ok(!kinds(v1Stored.calls).includes('traps'), 'a v1 repair has no trap type, so nothing is read');
+  assert.equal(v1.body.repair.why_tempting, goodV1.why_tempting); assert.ok(!('version' in v1.body.repair), 'a v1 payload comes back as stored');
+});
+
+test('v3: the interpret line is logged for an unusable answer, with the reason, and the credit is released', async () => {
+  const h = harness({ generate: async () => okAI({ ...good, trap: 'You rushed and picked the longest option here.' }) });
+  const { http, body } = await h.run();
+  assert.equal(http, 502); assert.equal(body.error, 'unusable_output'); assert.deepEqual(releases(h.calls), ['unusable_output']);
+  assert.deepEqual(JSON.parse(h.logs[0]), { route: 'repair', stage: 'interpret', kind: 'unusable', reason: 'trap', dropped: [] });
+  const dropped = harness({ generate: async () => okAI({ ...good, memory_hook: good.rule }) });
+  await dropped.run();
+  assert.deepEqual(JSON.parse(dropped.logs[0]).dropped, ['memory_hook']);
+  for (const line of [...h.logs, ...dropped.logs]) for (const secret of ['u1', 'q1', 'a1', REQ, 'Maya', good.trap]) assert.ok(!line.includes(secret), secret);
+});
+
+test('REPAIR_PROMPT_VERSION=1 rollback: today\'s prompt, schema, interpreter and default token cap, and no interpret line', async () => {
+  const h = harness({ generate: async () => okAI(goodV1) });
+  const { http, body } = await h.run({ config: { ...config, promptVersion: 1 } });
+  assert.equal(http, 200); assert.equal(body.status, 'explained');
+  const p = h.calls.find(c => c[0] === 'generate')[2];
+  const expected = buildRepairPrompt({ question: snapshot, chosenIndex: 0, keyIndex: 1, subject: 'english' });
+  assert.equal(p.systemPrompt, expected.system);
+  assert.equal(p.userMessage, expected.user);
+  assert.equal(p.responseSchema, MISTAKE_REPAIR_SCHEMA);
+  assert.ok(!('maxTokens' in p), 'the default token cap');
+  assert.equal(body.repair.key_idea, goodV1.key_idea); assert.ok(!('version' in body.repair));
+  assert.equal(body.pattern, null);
+  assert.equal(h.logs.length, 0);
+  assert.equal(h.calls.find(c => c[0] === 'commit')[2].promptVersion, 1);
 });

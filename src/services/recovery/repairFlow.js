@@ -12,7 +12,10 @@ import { answerReview } from '../../../data/answer_corrections.mjs';
 import {
   repairEligibility, buildRepairPrompt, buildBlindSolvePrompt, interpretRepair,
   MISTAKE_REPAIR_SCHEMA, REPAIR_CREDIT_COST, practiceHref,
+  REPAIR_PROMPT_VERSION, REPAIR_V3_MAX_TOKENS, MISTAKE_REPAIR_SCHEMA_V3, buildRepairPromptV3, interpretRepairV3, withLegacyAliases,
 } from '../../../data/mistake_repair.js';
+import { buildRepairPattern } from '../../../data/repair_pattern.js';
+import { getSubjectById } from '../../../data/subjects.js';
 import { repairFailureForKind, composeFailureMessage, WALLET_UNAVAILABLE } from '../../../data/repair_failures.js';
 import { PREPOS_PAUSED_MESSAGE } from '../prepos/modelReply.js';
 
@@ -51,10 +54,25 @@ function hardStop(promise, ms, fallback) {
   const stop = new Promise((resolve) => { timer = setTimeout(() => resolve(fallback), Math.max(1, ms)); });
   return Promise.race([promise, stop]).finally(() => clearTimeout(timer));
 }
+// The pattern line is a free extra: it never delays a repair by more than this, and any failure is simply no line.
+export const PATTERN_BUDGET_MS = 1_500;
+const subjectDisplayName = (subject) => getSubjectById(subject)?.name || String(subject || '');
+
+/** "2 of your 3 repaired mistakes in X had the same trap: ..." from the student's committed v3 repairs, or null. */
+async function patternFor({ deps, userId, mistakeKey, trapType, subject, chapter }) {
+  if (typeof deps.findRepairTraps !== 'function' || !trapType || trapType === 'other') return null;
+  try {
+    const rows = await hardStop(Promise.resolve().then(() => deps.findRepairTraps(userId)), PATTERN_BUDGET_MS, null);
+    if (!Array.isArray(rows)) return null;
+    return buildRepairPattern({ rows, current: { mistakeKey, trapType, subject, chapter }, subjectName: subjectDisplayName(subject) });
+  } catch { return null; }
+}
+
 const timedOut = (stage) => ({ ok: false, data: null, raw: null, usage: null, fallbackUsed: false, failure: { stage, provider: null, model: null, kind: 'timeout', status: null, code: null } });
 
 export async function runRepair({ user, attemptId, questionId, requestId, startedAt, deps, config }) {
-  const { route, effort, fallbackRoute = null, budget = REPAIR_BUDGET } = config;
+  const { route, effort, fallbackRoute = null, budget = REPAIR_BUDGET, promptVersion = REPAIR_PROMPT_VERSION } = config;
+  const v3 = promptVersion !== 1;
   const t0 = Number.isFinite(startedAt) ? startedAt : deps.now();
   const elapsed = () => deps.now() - t0;
 
@@ -75,7 +93,10 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
 
   // A finished repair is stored on its committed reservation and reopens free.
   const stored = await deps.findStored(user.id, id);
-  if (stored) return out(200, { ok: true, status: 'stored', repair: stored, charged: 0, ...base });
+  if (stored) {
+    const pattern = await patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: stored.trap_type, subject: attempt.subject, chapter: eligible.question.chapter });
+    return out(200, { ok: true, status: 'stored', repair: withLegacyAliases(stored), pattern, charged: 0, ...base });
+  }
 
   if (!deps.gateOpen()) return out(503, { ok: false, error: 'paused', charged: 0, message: PREPOS_PAUSED_MESSAGE });
   const operationKey = `repair:${id}:${requestId}`;
@@ -130,20 +151,29 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   try { const marked = await deps.markExecuting(operationKey, operationKey); if (!marked?.ok) return await fail('could_not_start', 503, 'The repair could not start.', { stage: 'start' }); }
   catch { return await fail('could_not_start', 503, 'The repair could not start.', { stage: 'start' }); }
 
-  const prompt = buildRepairPrompt({ question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, subject: attempt.subject });
+  // v3 by default; REPAIR_PROMPT_VERSION=1 brings back the v1 builder, schema, interpreter and default token cap.
+  const prompt = v3
+    ? buildRepairPromptV3({ question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, subjectName: subjectDisplayName(attempt.subject) })
+    : buildRepairPrompt({ question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, subject: attempt.subject });
   const mainDeadline = Math.min(t0 + budget.totalMs, t0 + budget.mainMs);
   let ai;
   try {
     ai = await hardStop(
       deps.generate({
-        requestKey: operationKey, tier: 'fast', ...route, reasoningEffort: effort.repair, systemPrompt: prompt.system, userMessage: prompt.user, responseSchema: MISTAKE_REPAIR_SCHEMA,
+        requestKey: operationKey, tier: 'fast', ...route, reasoningEffort: effort.repair, systemPrompt: prompt.system, userMessage: prompt.user,
+        responseSchema: v3 ? MISTAKE_REPAIR_SCHEMA_V3 : MISTAKE_REPAIR_SCHEMA, ...(v3 ? { maxTokens: REPAIR_V3_MAX_TOKENS } : {}),
         fallbackRoute, deadlineAt: mainDeadline, callTimeoutMs: budget.callMs,
       }),
       mainDeadline - deps.now() + budget.hardStopSlackMs, timedOut('service_deadline'),
     );
   } catch { return await fail('provider_error', 502, 'The repair service did not answer.', { stage: 'generate' }); }
   if (!ai?.data) return await failForModel(ai, 'generate');
-  const verdict = interpretRepair(ai.data, { keyIndex: eligible.keyIndex, optionCount: eligible.question.options.length });
+  const optionCount = eligible.question.options.length;
+  const verdict = v3
+    ? interpretRepairV3(ai.data, { keyIndex: eligible.keyIndex, chosenIndex: eligible.chosenIndex, optionCount })
+    : interpretRepair(ai.data, { keyIndex: eligible.keyIndex, optionCount });
+  // One line per v3 interpretation, so the drop and unusable rates can be watched. No student, question or text.
+  if (v3) deps.log?.(JSON.stringify({ route: 'repair', stage: 'interpret', kind: verdict.kind, ...(verdict.reason ? { reason: verdict.reason } : {}), dropped: verdict.dropped ?? [] }));
   if (verdict.kind === 'unusable') return await fail('unusable_output', 502, 'The repair could not be prepared reliably this time.', { stage: 'interpret', model: ai.usage?.model });
 
   if (verdict.kind === 'disputed') {
@@ -173,14 +203,19 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   }
 
   // The receipt names the provider and model that actually produced the repair (Haiku 5.5 after a fallback).
-  const repair = { ...verdict.repair, model: ai.usage?.model || null, generatedAt: new Date(deps.now()).toISOString() };
+  // The stored repair has no aliases; they are added to the response only (withLegacyAliases).
+  const repair = { ...verdict.repair, ...(v3 ? { version: 3 } : {}), model: ai.usage?.model || null, generatedAt: new Date(deps.now()).toISOString() };
   const receipt = {
     provider: ai.usage?.provider || null, model: ai.usage?.model || null, inputTokens: ai.usage?.inputTokens || 0, outputTokens: ai.usage?.outputTokens || 0,
     repair, fallbackUsed: !!ai.fallbackUsed, fallbackReason: ai.fallbackReason || null,
+    // For the trap pattern read (findRepairTraps): which prompt wrote it, and the subject and chapter it belongs to.
+    promptVersion: v3 ? 3 : 1, subject: attempt.subject || null, chapter: eligible.question.chapter || null,
   };
   const tryCommit = async () => { try { return (await deps.commit(operationKey, receipt))?.ok === true; } catch { return false; } };
   let charged = REPAIR_CREDIT_COST;
+  let committed = true;
   if (!(await tryCommit()) && !(await tryCommit())) {
+    committed = false;
     // The repair exists but the charge could not be finalised. Hand the credit back rather than keep it: the student
     // is shown the repair, it is not stored, and a reopen will ask for the credit again. If the first commit did
     // land after all, the release says so and the credit stays charged.
@@ -189,6 +224,10 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
     charged = released?.ok === false && released?.error === 'already_committed' ? REPAIR_CREDIT_COST : 0;
     logFailure('commit', 'commit_failed', { model: ai.usage?.model, released: charged === 0 && released?.ok !== false });
   }
-  const wallet = await deps.readWallet(user);
-  return out(200, { ok: true, status: 'explained', repair, charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
+  // The pattern read and the wallet read run side by side; the pattern never waits more than 1.5 s.
+  const [pattern, wallet] = await Promise.all([
+    committed && v3 ? patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: repair.trap_type, subject: attempt.subject, chapter: eligible.question.chapter }) : null,
+    deps.readWallet(user),
+  ]);
+  return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
 }

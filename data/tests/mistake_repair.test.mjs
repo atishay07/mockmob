@@ -177,3 +177,220 @@ test('NTA shuffled options with a distractor reworded after the session: the rec
   const broken = { ...ntaAttempt, questionsSnapshot: [{ ...ntaSnapshot, optionOrder: [0, 0, 1, 2] }] };
   assert.equal(eligible(live, broken).code, 'key_changed');
 });
+
+// ---- Repair v3 (build spec 15 Oct 2026, sections A.2 to A.4) ----
+import {
+  buildRepairPromptV3, interpretRepairV3, fitSentence, cleanRepairText, claimsAboutStudent, contradictsKey, withLegacyAliases,
+  repairPromptVersion, REPAIR_PROMPT_VERSION, MISTAKE_REPAIR_SCHEMA_V3, LIMITS_V3, TRAP_TYPES, REFERENCE_EXPLANATION_CAP,
+} from '../mistake_repair.js';
+
+// Today's v1 prompt, captured before v3 was added. REPAIR_PROMPT_VERSION=1 must reproduce it exactly.
+const V1_PROMPT = {"system":"You are MockMob's Score Recovery tutor for CUET UG accountancy.\nA student chose a wrong option. Work in this order:\n1. Solve the question yourself from scratch. Put the 0-based index of the option you believe is correct in \"solved_index\".\n2. The platform's answer key is index 2. Set \"agrees_with_key\" to true only if your solved_index is 2.\n3. Only if you agree, explain for a 17-year-old in plain English:\n   - \"why_tempting\": why the student's option (index 0) looks right — the specific trap (max 45 words)\n   - \"why_wrong\": the exact reason that option fails (max 45 words)\n   - \"key_idea\": the rule or distinction that picks the correct answer (max 45 words)\n   - \"next_step\": one concrete thing to do in the next 10 minutes (max 30 words)\nIf you disagree with the key, set every text field to \"\".\nNever predict marks, scores, ranks, percentiles, cutoffs or admission chances for the student, and never promise a gain. Words such as rank or percentile are fine when they are part of the subject itself. Do not add facts the answer does not need.\nReturn JSON only: {\"solved_index\": number, \"agrees_with_key\": boolean, \"why_tempting\": string, \"why_wrong\": string, \"key_idea\": string, \"next_step\": string}","user":"Chapter: Admission of a Partner\nQuestion: A and B share 3:2...\nOptions:\nA (index 0). 3:2\nB (index 1). 1:1\nC (index 2). 1:3\nD (index 3). 2:3\nStudent chose index 0."};
+
+test('v3 is the default; REPAIR_PROMPT_VERSION=1 is the rollback and the v1 prompt is unchanged to the character', () => {
+  assert.equal(REPAIR_PROMPT_VERSION, 3);
+  assert.equal(repairPromptVersion({}), 3);
+  assert.equal(repairPromptVersion({ REPAIR_PROMPT_VERSION: '3' }), 3);
+  assert.equal(repairPromptVersion({ REPAIR_PROMPT_VERSION: 'banana' }), 3);
+  assert.equal(repairPromptVersion({ REPAIR_PROMPT_VERSION: '1' }), 1);
+  assert.equal(repairPromptVersion({ REPAIR_PROMPT_VERSION: ' 1 ' }), 1);
+  assert.deepEqual(buildRepairPrompt({ question: q, chosenIndex: 0, keyIndex: 2, subject: 'accountancy' }), V1_PROMPT);
+});
+
+const v3q = {
+  id: 'q9', chapter: 'Correct Word Usage', topic: 'Commonly confused words', questionType: 'mcq', difficulty: 'hard',
+  question: 'Choose the word that fits: The new rule will ___ everyone in the office.',
+  options: ['effect', 'affect', 'infect', 'afflict'], correctIndex: 1,
+  explanation: 'Affect is the verb meaning to influence. Effect is usually a noun meaning a result.',
+  timeSpentMs: 41000, userId: 'student-7', answerChanges: [{ before: 1, after: 0 }],
+};
+
+test('the v3 prompt carries the subject name, chapter, topic, question type and the reference explanation, and nothing about the student', () => {
+  const p = buildRepairPromptV3({ question: v3q, chosenIndex: 0, keyIndex: 1, subjectName: 'English' });
+  assert.match(p.system, /^You are MockMob's tutor for CUET UG English\. A student chose option A \(index 0\)\./);
+  assert.match(p.system, /The platform's answer key is option B \(index 1\)\. Set "agrees_with_key" to true only if solved_index is 1\./);
+  assert.match(p.system, /Return JSON only with exactly these keys: solved_index, agrees_with_key, trap_type, trap, why_wrong, why_right, contrast, others, rule, memory_hook, another_way\./);
+  for (const type of TRAP_TYPES) assert.ok(p.system.includes(type), type);
+  assert.match(p.user, /^Subject: English\nChapter: Correct Word Usage\nTopic: Commonly confused words\nQuestion type: mcq\nQuestion: Choose the word/);
+  assert.match(p.user, /\nOptions:\nA \(index 0\)\. effect\nB \(index 1\)\. affect\nC \(index 2\)\. infect\nD \(index 3\)\. afflict\nStudent chose option A \(index 0\)\./);
+  assert.match(p.user, /Reference explanation from the question bank \(may be brief\):\nAffect is the verb meaning to influence\./);
+  const both = `${p.system}\n${p.user}`;
+  for (const personal of ['student-7', '41', 'hard', 'difficulty', 'answerChanges', 'seconds', 'Mock ', 'earlier', 'accuracy'])
+    assert.ok(!both.includes(personal), `the prompt must not carry ${personal}`);
+  assert.doesNotMatch(both, /[—–]/, 'the v3 prompt itself uses no dashes between clauses');
+});
+
+test('the v3 prompt leaves out a topic equal to the chapter, a missing type and a missing explanation, and keeps a passage before the question', () => {
+  const plain = buildRepairPromptV3({ question: { ...v3q, topic: 'correct word usage', questionType: null, explanation: '' }, chosenIndex: 0, keyIndex: 1, subjectName: 'English' });
+  assert.doesNotMatch(plain.user, /Topic:|Question type:|Reference explanation/);
+  const reading = buildRepairPromptV3({ question: { ...readingQuestion, passageText: passage, passageTitle: 'The Notice' }, chosenIndex: 0, keyIndex: 1, subjectName: 'English' });
+  assert.match(reading.user, /Passage \(The Notice\):\nMaya read the notice twice/);
+  assert.ok(reading.user.indexOf('Maya read') < reading.user.indexOf('Why did Maya'));
+  assert.match(buildRepairPromptV3({ question: v3q, chosenIndex: 0, keyIndex: 1, subjectName: '' }).system, /CUET UG practice\./);
+});
+
+test('a long reference explanation is cut at a sentence end within 1,200 characters', () => {
+  const sentence = 'Affect is a verb that means to influence something. ';
+  const long = sentence.repeat(40);
+  const p = buildRepairPromptV3({ question: { ...v3q, explanation: long }, chosenIndex: 0, keyIndex: 1, subjectName: 'English' });
+  const sent = p.user.split('Reference explanation from the question bank (may be brief):\n')[1];
+  assert.ok(sent.length <= REFERENCE_EXPLANATION_CAP, `${sent.length} characters`);
+  assert.ok(sent.endsWith('something.'), 'ends on a full sentence');
+  assert.ok(sent.length > REFERENCE_EXPLANATION_CAP - sentence.length);
+});
+
+const goodV3 = {
+  solved_index: 1, agrees_with_key: true, trap_type: 'look_alike_term',
+  trap: 'Option A sounds the same as the key and is a common word in this sense.',
+  why_wrong: 'Effect is a noun for a result, so it cannot follow "will" as a verb here.',
+  why_right: 'Affect is the verb meaning to influence, which is what the rule does to everyone.',
+  contrast: 'If the sentence said "will have an ___ on everyone", option A would fit. It says "will ___ everyone", so option B.',
+  others: [{ index: 3, why: 'Afflict means to cause pain or trouble, too strong for a rule.' }, { index: 2, why: 'Infect is about spreading disease, not influence.' }],
+  rule: 'After "will", use the verb form: affect, not effect.',
+  memory_hook: 'Affect is the Action, Effect is the End result.',
+  another_way: 'Think of affect as the push and effect as what the push leaves behind. Rain can affect a match; the effect is a wet pitch.',
+};
+const ctx = { keyIndex: 1, chosenIndex: 0, optionCount: 4 };
+
+test('a full v3 answer is explained with every field, the other options in served order', () => {
+  const out = interpretRepairV3(goodV3, ctx);
+  assert.equal(out.kind, 'explained');
+  assert.deepEqual(out.dropped, []);
+  assert.equal(out.repair.trap_type, 'look_alike_term');
+  assert.deepEqual(out.repair.others.map((o) => o.index), [2, 3], 'sorted into the order the student saw');
+  for (const field of ['trap', 'why_wrong', 'why_right', 'contrast', 'rule', 'memory_hook', 'another_way']) assert.equal(typeof out.repair[field], 'string', field);
+  assert.ok(!('why_tempting' in out.repair) && !('key_idea' in out.repair), 'no aliases in what is stored');
+  assert.deepEqual(MISTAKE_REPAIR_SCHEMA_V3.required.slice(0, 2), ['solved_index', 'agrees_with_key']);
+});
+
+test('step 1 and 2: unusable output and disagreement with the key', () => {
+  assert.deepEqual(interpretRepairV3(null, ctx), { kind: 'unusable', reason: 'not_an_object' });
+  assert.equal(interpretRepairV3([], ctx).kind, 'unusable');
+  assert.equal(interpretRepairV3({ ...goodV3, solved_index: 9 }, ctx).kind, 'unusable');
+  assert.equal(interpretRepairV3({ ...goodV3, solved_index: '1' }, ctx).kind, 'unusable');
+  assert.deepEqual(interpretRepairV3({ ...goodV3, solved_index: 3 }, ctx), { kind: 'disputed', solvedIndex: 3 });
+  assert.deepEqual(interpretRepairV3({ ...goodV3, agrees_with_key: 'true' }, ctx), { kind: 'disputed', solvedIndex: 1 });
+});
+
+test('step 3: whitespace collapses, dashes between words become commas, "!" becomes ".", a leading label goes', () => {
+  assert.equal(cleanRepairText('  Effect   is a noun —  a result.  '), 'Effect is a noun, a result.');
+  assert.equal(cleanRepairText('Effect—a noun–not a verb.'), 'Effect, a noun, not a verb.');
+  assert.equal(cleanRepairText('Pages 10–12 cover it.'), 'Pages 10-12 cover it.', 'a number range stays a range');
+  assert.equal(cleanRepairText('That is the trap!'), 'That is the trap.');
+  assert.equal(cleanRepairText('Watch out!! It reverses.'), 'Watch out. It reverses.');
+  assert.equal(cleanRepairText('5! is 120 and x != y.'), '5! is 120 and x != y.', 'a factorial and != are maths, not exclamations');
+  assert.equal(cleanRepairText('Answer: Affect is the verb.'), 'Affect is the verb.');
+  assert.equal(cleanRepairText('Rule: Use the verb after will.'), 'Use the verb after will.');
+  const out = interpretRepairV3({ ...goodV3, trap: 'Trap: Option A sounds right — it is a real word!' }, ctx);
+  assert.equal(out.repair.trap, 'Option A sounds right, it is a real word.');
+});
+
+test('step 4: fitSentence keeps text at the cap, cuts after a sentence end past 60%, never mid-sentence and never with an ellipsis', () => {
+  assert.equal(fitSentence('a'.repeat(100), 100), 'a'.repeat(100), 'exactly at the cap is kept');
+  const two = `${'x'.repeat(70)}. ${'y'.repeat(40)}.`;
+  assert.equal(fitSentence(two, 100), `${'x'.repeat(70)}.`);
+  const early = `${'x'.repeat(40)}. ${'y'.repeat(80)}.`;
+  assert.equal(fitSentence(early, 100), null, 'the only break is before 60% of the cap');
+  assert.equal(fitSentence('z'.repeat(120), 100), null, 'no sentence end: the field fails');
+  assert.equal(fitSentence(`${'x'.repeat(65)}; ${'y'.repeat(60)}`, 100), `${'x'.repeat(65)}.`, 'a semicolon break ends as a full stop');
+  assert.equal(fitSentence(`${'x'.repeat(65)}? ${'y'.repeat(60)}`, 100), `${'x'.repeat(65)}?`);
+  // Through the interpreter: a required field over its cap with no break is unusable, an optional one is dropped.
+  assert.deepEqual(interpretRepairV3({ ...goodV3, why_right: 'w'.repeat(LIMITS_V3.why_right + 5) }, ctx), { kind: 'unusable', reason: 'why_right' });
+  const longWay = interpretRepairV3({ ...goodV3, another_way: 'v'.repeat(LIMITS_V3.another_way + 5) }, ctx);
+  assert.equal(longWay.kind, 'explained'); assert.ok(!('another_way' in longWay.repair)); assert.deepEqual(longWay.dropped, ['another_way']);
+  const cut = interpretRepairV3({ ...goodV3, why_wrong: `${'Effect is a noun. '.repeat(16)}And more words here` }, ctx);
+  assert.ok(cut.repair.why_wrong.length <= LIMITS_V3.why_wrong && cut.repair.why_wrong.endsWith('noun.'));
+  assert.doesNotMatch(cut.repair.why_wrong, /…|\.\.\./);
+});
+
+test('step 5: required fields must exist and be long enough', () => {
+  for (const field of ['trap', 'why_wrong', 'why_right', 'rule'])
+    assert.deepEqual(interpretRepairV3({ ...goodV3, [field]: '' }, ctx), { kind: 'unusable', reason: field }, field);
+  assert.equal(interpretRepairV3({ ...goodV3, trap: 'Too short.' }, ctx).kind, 'unusable', 'trap needs 12 characters');
+  assert.equal(interpretRepairV3({ ...goodV3, rule: 'Use it.' }, ctx).kind, 'unusable', 'rule needs 8 characters');
+  assert.equal(interpretRepairV3({ ...goodV3, rule: 'Use verbs.' }, ctx).kind, 'explained');
+});
+
+test('step 6: a score, rank or admission claim makes a required field unusable and drops an optional one', () => {
+  assert.equal(interpretRepairV3({ ...goodV3, rule: 'Learn this and you will gain 5 marks.' }, ctx).kind, 'unusable');
+  const out = interpretRepairV3({ ...goodV3, another_way: 'This guarantees a better rank in the exam.' }, ctx);
+  assert.equal(out.kind, 'explained'); assert.ok(!('another_way' in out.repair)); assert.deepEqual(out.dropped, ['another_way']);
+});
+
+test('step 7: each claim about the student is caught, and teaching text is not', () => {
+  for (const text of [
+    'You rushed past the verb.', 'You probably guessed between the two.', 'You may have misread the blank.', 'You might have overthought it.',
+    'You panicked and picked the familiar word.', 'You skimmed the sentence.',
+    "You're careless with homophones.", 'You are confused by these words.', 'You were rushing at the end.', 'You were tired.',
+    "You didn't read the whole sentence.", 'You did not check the tense.', 'You didnt notice the article.', 'You did not think about it.',
+  ]) assert.equal(claimsAboutStudent(text), true, text);
+  for (const text of ['This option borrows a true fact.', 'When you read "will", expect a verb.', 'Read the sentence to the end before choosing.', 'If you checked the tense, B fits.'])
+    assert.equal(claimsAboutStudent(text), false, text);
+  assert.equal(interpretRepairV3({ ...goodV3, trap: 'You rushed and picked the familiar spelling here.' }, ctx).kind, 'unusable');
+  const hook = interpretRepairV3({ ...goodV3, memory_hook: 'You were careless, so slow down.' }, ctx);
+  assert.ok(!('memory_hook' in hook.repair)); assert.deepEqual(hook.dropped, ['memory_hook']);
+});
+
+test('step 8: naming another option as correct is caught; statement labels, the key and conditionals are not', () => {
+  const letters = ['A', 'B', 'C', 'D'];
+  assert.equal(contradictsKey('So option C is correct here.', 'B', letters), true);
+  assert.equal(contradictsKey('Option (A) is the right answer.', 'B', letters), true);
+  assert.equal(contradictsKey('The correct answer is option D.', 'B', letters), true);
+  assert.equal(contradictsKey('The right answer is A.', 'B', letters), true);
+  assert.equal(contradictsKey('Statement (A) is correct, but it is not the reason.', 'B', letters), false, 'a statement label is not an option');
+  assert.equal(contradictsKey('Option B is correct because affect is a verb.', 'B', letters), false, 'the key itself');
+  assert.equal(contradictsKey('The right answer is a verb.', 'B', letters), false, 'a lower-case word is not an option name');
+  assert.equal(contradictsKey('Option A is correct only if a noun is needed.', 'B', letters), false, 'a conditional');
+  assert.equal(contradictsKey('Option E is correct.', 'B', letters), false, 'not a listed letter');
+  for (const t of ['Option A is also correct.', 'Option C is actually the right answer.', 'Option D is in fact correct.', 'Option A is the only correct option.'])
+    assert.equal(contradictsKey(t, 'B', letters), true, t);
+  assert.equal(contradictsKey('Option B is also correct in every case.', 'B', letters), false, 'the key itself');
+  assert.equal(contradictsKey('Option A is not correct.', 'B', letters), false);
+  assert.equal(interpretRepairV3({ ...goodV3, why_right: 'Option C is the correct answer since it fits the verb slot.' }, ctx).kind, 'unusable');
+  const contrast = interpretRepairV3({ ...goodV3, contrast: 'The correct answer is option A, since effect names a result.' }, ctx);
+  assert.equal(contrast.kind, 'explained'); assert.ok(!('contrast' in contrast.repair));
+});
+
+test('step 9: the other options are all or nothing', () => {
+  const rows = goodV3.others;
+  const run = (others) => { const out = interpretRepairV3({ ...goodV3, others }, ctx); assert.equal(out.kind, 'explained'); return out; };
+  for (const [name, others] of [
+    ['one missing', [rows[0]]],
+    ['a duplicate', [rows[0], rows[0]]],
+    ['the key included', [rows[0], { index: 1, why: 'Affect is wrong here for some reason.' }]],
+    ['the chosen option included', [rows[0], { index: 0, why: 'Effect is a noun, not a verb.' }]],
+    ['an index that is not an integer', [rows[0], { index: '2', why: 'Infect is about disease.' }]],
+    ['an empty reason', [rows[0], { index: 2, why: '' }]],
+    ['a claim about the student', [rows[0], { index: 2, why: 'You rushed past this one.' }]],
+    ['an extra row', [...rows, { index: 2, why: 'Infect is about disease again.' }]],
+  ]) {
+    const out = run(others);
+    assert.deepEqual(out.repair.others, [], name);
+    assert.deepEqual(out.dropped, ['others'], name);
+  }
+  assert.deepEqual(run([]).dropped, [], 'absent is not a drop');
+  const twoOptions = interpretRepairV3({ ...goodV3, others: [] }, { keyIndex: 1, chosenIndex: 0, optionCount: 2 });
+  assert.deepEqual(twoOptions.repair.others, []); assert.deepEqual(twoOptions.dropped, []);
+  assert.deepEqual(interpretRepairV3({ ...goodV3, others: rows }, { keyIndex: 1, chosenIndex: 0, optionCount: 2 }).dropped, ['others'], 'a 2-option question expects none');
+});
+
+test('step 10 and 11: a hook that repeats the rule is dropped; empty optional fields are simply absent; unknown trap types read as other', () => {
+  for (const hook of ['After "will", use the verb form: affect, not effect.', 'after will use the verb form affect not effect', 'Use the verb form', 'Remember: after "will", use the verb form: affect, not effect, always.']) {
+    const out = interpretRepairV3({ ...goodV3, memory_hook: hook }, ctx);
+    assert.ok(!('memory_hook' in out.repair), hook); assert.deepEqual(out.dropped, ['memory_hook'], hook);
+  }
+  const bare = interpretRepairV3({ ...goodV3, contrast: '', memory_hook: '', another_way: '   ', others: [] }, ctx);
+  assert.equal(bare.kind, 'explained'); assert.deepEqual(bare.dropped, []);
+  for (const f of ['contrast', 'memory_hook', 'another_way']) assert.ok(!(f in bare.repair), f);
+  const missing = { ...goodV3 }; delete missing.contrast; delete missing.memory_hook; delete missing.another_way; delete missing.others;
+  assert.equal(interpretRepairV3(missing, ctx).kind, 'explained');
+  for (const t of ['made_up', '', null, 42, '__proto__']) assert.equal(interpretRepairV3({ ...goodV3, trap_type: t }, ctx).repair.trap_type, 'other', String(t));
+});
+
+test('legacy aliases are added on the way out for v3 only, never invented for older payloads', () => {
+  const out = withLegacyAliases({ version: 3, trap: 'T', why_right: 'R', rule: 'Rule' });
+  assert.equal(out.why_tempting, 'T'); assert.equal(out.key_idea, 'Rule');
+  const v1 = { why_tempting: 'a', why_wrong: 'b', key_idea: 'c', next_step: 'd' };
+  assert.equal(withLegacyAliases(v1), v1);
+  assert.equal(withLegacyAliases(null), null);
+});

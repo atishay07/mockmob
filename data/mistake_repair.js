@@ -113,6 +113,210 @@ export function interpretRepair(data, { keyIndex, optionCount }) {
   return { kind: 'explained', repair };
 }
 
+// ---- Repair v3 (build spec 15 Oct 2026, section A) -------------------------------------------------------------
+// The model writes only about the question: why the chosen option tempts, where it breaks, why the key is right,
+// why each other option is wrong, one rule with a memory hook and a second explanation, all from one call. Nothing
+// about the student is sent or written by the model; the personal lines are built on the server from records.
+
+// Rollback switch: REPAIR_PROMPT_VERSION=1 brings back the v1 builder, schema, interpreter and default token cap.
+export function repairPromptVersion(env = globalThis.process?.env) {
+  return String(env?.REPAIR_PROMPT_VERSION ?? '').trim() === '1' ? 1 : 3;
+}
+export const REPAIR_PROMPT_VERSION = repairPromptVersion();
+// The visible-output cap for v3, with headroom so an over-long answer is not cut into invalid JSON.
+export const REPAIR_V3_MAX_TOKENS = 1400;
+
+export const TRAP_TYPES = Object.freeze(['partly_true', 'reversed', 'look_alike_term', 'missed_not_except', 'not_in_passage', 'calculation_slip', 'wrong_rule', 'one_step_short', 'extreme_word', 'assertion_reason_link', 'other']);
+// Server caps in characters. The prompt asks for words (30, 35, 35, 35, 18, 15, 12, 60); these leave room for that.
+export const LIMITS_V3 = Object.freeze({ trap: 260, why_wrong: 280, why_right: 280, contrast: 280, others: 150, rule: 130, memory_hook: 100, another_way: 460 });
+const REQUIRED_V3 = ['trap', 'why_wrong', 'why_right', 'rule'];
+const OPTIONAL_V3 = ['contrast', 'memory_hook', 'another_way'];
+const MIN_LENGTH_V3 = { trap: 12, why_wrong: 12, why_right: 12, rule: 8 };
+export const MISTAKE_REPAIR_SCHEMA_V3 = {
+  required: ['solved_index', 'agrees_with_key', 'trap_type', 'trap', 'why_wrong', 'why_right', 'rule'],
+  types: { solved_index: 'number', trap: 'string', why_wrong: 'string', why_right: 'string', rule: 'string' },
+};
+
+// The reference explanation from the bank: its first 1,200 characters, cut at a sentence end.
+export const REFERENCE_EXPLANATION_CAP = 1200;
+function referenceExplanation(value, cap = REFERENCE_EXPLANATION_CAP) {
+  const raw = typeof value === 'string' ? value : typeof value?.text === 'string' ? value.text : '';
+  const text = raw.replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+  if (!text || text.length <= cap) return text;
+  const head = text.slice(0, cap + 1);
+  let cut = -1;
+  for (const m of head.matchAll(/[.?!](?=\s)/g)) if (m.index + 1 <= cap) cut = m.index + 1;
+  if (cut > 0) return text.slice(0, cut);
+  const space = head.lastIndexOf(' ', cap);
+  return text.slice(0, space > 0 ? space : cap);
+}
+
+const optionalLine = (label, value) => (value ? `${label}: ${value}\n` : '');
+
+/** The v3 prompt (spec A.3). Question data only: no time, history, accuracy, difficulty or anything about the student. */
+export function buildRepairPromptV3({ question, chosenIndex, keyIndex, subjectName }) {
+  const subject = String(subjectName || '').trim() || 'practice';
+  const C = letter(chosenIndex), K = letter(keyIndex);
+  const options = question.options.map((o, i) => `${letter(i)} (index ${i}). ${optionTextOf(o)}`).join('\n');
+  const system = `You are MockMob's tutor for CUET UG ${subject}. A student chose option ${C} (index ${chosenIndex}).
+Work in this order.
+1. Solve the question yourself from the question, passage and options. Put the 0-based index of your answer in "solved_index".
+2. The platform's answer key is option ${K} (index ${keyIndex}). Set "agrees_with_key" to true only if solved_index is ${keyIndex}. If it is not, set every text field to "", "trap_type" to "other" and "others" to [].
+3. If you agree, write for a 17-year-old in plain English. Write about the options and the idea, never about the student's mind or habits: write "This option borrows a true fact", never "You rushed".
+- "trap_type": one of ${TRAP_TYPES.join(', ')}.
+- "trap": why option ${C} looks right at first. Max 30 words.
+- "why_wrong": the exact point where option ${C} fails. Max 35 words.
+- "why_right": why option ${K} is right. Max 35 words. When a reference explanation is given, use it as evidence and do not contradict it.
+- "contrast": one worked contrast, "If the question said X, option ${C} would fit. It says Y, so option ${K}." Max 35 words. Use "" when no clean contrast exists.
+- "others": for each option other than ${C} and ${K}, {"index": n, "why": why it is wrong, max 18 words}. Use [] when there are none.
+- "rule": one rule to carry to new questions, as an instruction. Max 15 words.
+- "memory_hook": a short way to remember the rule: a contrast pair, an example sentence or a mnemonic. Max 12 words. Not a repeat of the rule. Use "" if none fits.
+- "another_way": the same idea explained a second way, more simply than the reference explanation, with one fresh example. Max 60 words.
+Name options as "option A", "option B" and so on, using only the letters listed. Use only facts in the question, passage, options and reference explanation. If the reference explanation conflicts with the key, ignore it. If its option letters do not match the options listed, rely on the option text.
+Never predict marks, scores, ranks, percentiles, cut-offs or admission chances for the student, and never promise a gain. Words such as rank or percentile are fine when they belong to the subject. Plain sentences. No exclamation marks. No dashes between clauses.
+Return JSON only with exactly these keys: solved_index, agrees_with_key, trap_type, trap, why_wrong, why_right, contrast, others, rule, memory_hook, another_way.`;
+  const chapter = String(question.chapter || '').trim();
+  const topic = String(question.topic || '').trim();
+  const questionType = String(question.questionType ?? question.question_type ?? '').trim();
+  const passage = passageText(question);
+  const title = passageTitle(question);
+  const explanation = referenceExplanation(question.explanation);
+  const user = `Subject: ${subject}
+Chapter: ${chapter || 'unknown'}
+${optionalLine('Topic', topic && topic.toLowerCase() !== chapter.toLowerCase() ? topic : '')}${optionalLine('Question type', questionType)}${passage ? `Passage${title ? ` (${title})` : ''}:\n${passage}\n` : ''}Question: ${question.question ?? question.body ?? ''}
+Options:
+${options}
+Student chose option ${C} (index ${chosenIndex}).${explanation ? `\nReference explanation from the question bank (may be brief):\n${explanation}` : ''}`;
+  return { system, user };
+}
+
+// ---- v3 validation (spec A.4) ----
+const LEADING_LABEL = /^(?:answer|explanation|solution|trap|why\s+(?:it\s+is\s+)?(?:wrong|right)|rule|memory\s+hook|hook|contrast|another\s+way|reason|note|tip|key\s+idea)\s*:\s*/i;
+/** Step 3: collapse whitespace, turn dashes between words into commas and "!" into ".", strip a leading label. */
+export function cleanRepairText(value) {
+  let text = String(value ?? '').replace(/\s+/g, ' ').trim();
+  text = text
+    .replace(/(\d)\s*–\s*(?=\d)/g, '$1-') // an en dash in a number range is a range, not a clause break
+    .replace(/\s*[—–]\s*/g, ', ')
+    .replace(/(?<!\d)!+(?!=)/g, '.')
+    .replace(/,\s*,/g, ',')
+    .replace(/\.(?:\s*\.)+/g, '.')
+    .replace(/,\s*([.?;:])/g, '$1')
+    .replace(/^[,\s]+|[,\s]+$/g, '');
+  for (let i = 0; i < 2 && LEADING_LABEL.test(text); i += 1) text = text.replace(LEADING_LABEL, '').trim();
+  return text;
+}
+
+/** Step 4: keep text at or under the cap; otherwise cut after the last ". ", "? " or "; " at or past 60% of the cap. */
+export function fitSentence(text, cap) {
+  const value = String(text ?? '');
+  if (value.length <= cap) return value;
+  let cut = -1;
+  for (const m of value.matchAll(/[.?;](?= )/g)) {
+    const end = m.index + 1;
+    if (end > cap) break;
+    if (end >= Math.ceil(cap * 0.6)) cut = end;
+  }
+  if (cut < 0) return null;
+  const kept = value.slice(0, cut).trim();
+  return kept.endsWith(';') ? `${kept.slice(0, -1)}.` : kept;
+}
+
+// Step 7: a claim about the student's mind or habits. The model writes about the options, never about the student.
+const STUDENT_CLAIMS = [
+  /\byou\s+(?:probably\s+|likely\s+|may\s+have\s+|might\s+have\s+)?(?:rushed|panicked|guessed|skimmed|misread|overthought)\b/i,
+  /\byou(?:'re|’re|\s+are|\s+were)\s+(?:careless|rushing|nervous|tired|confused|lazy)\b/i,
+  /\byou\s+(?:did\s*n[o'’]?t|didn['’]t|did\s+not)\s+(?:read|think|check|notice)\b/i,
+];
+export const claimsAboutStudent = (text) => STUDENT_CLAIMS.some((pattern) => pattern.test(String(text ?? '')));
+
+// Step 8: text that names another listed option as the right one. "Statement (B) is correct" is a statement label, not
+// an option, so the word "option" or "answer" is required. A conditional ("option B is correct only if ...") is allowed.
+const NOT_CONDITIONAL = String.raw`(?!\s*,?\s*(?:only|if|when|unless|under)\b)`;
+const KEY_CLAIMS = [
+  // "is also / actually / in fact / indeed / really (the only) correct" names a second right answer just as plainly.
+  new RegExp(String.raw`\boption\s+\(?([A-Za-z])\)?\s+is\s+(?:(?:also|actually|in\s+fact|indeed|really)\s+)?(?:the\s+)?(?:only\s+)?(?:correct|right)(?:\s+(?:answer|option|one))?\b${NOT_CONDITIONAL}`, 'gi'),
+  new RegExp(String.raw`\b(?:correct|right)\s+(?:answer|option)\s+is\s+(?:option\s+)?\(?([A-Za-z])\)?(?![\w'’])${NOT_CONDITIONAL}`, 'gi'),
+];
+export function contradictsKey(text, keyLetter, letters) {
+  const listed = new Set(Array.from(letters || []));
+  for (const pattern of KEY_CLAIMS) {
+    for (const m of String(text ?? '').matchAll(pattern)) {
+      const named = m[1];
+      // Only an upper-case listed letter is an option name: "the right answer is a ratio" names nothing.
+      if (named === named.toUpperCase() && listed.has(named) && named !== keyLetter) return true;
+    }
+  }
+  return false;
+}
+
+const comparable = (s) => String(s ?? '').toLowerCase().replace(/[^\p{L}\p{N}\s]+/gu, ' ').replace(/\s+/g, ' ').trim();
+
+/**
+ * Turn v3 model output into explained | disputed | unusable (spec A.4).
+ * @returns {{kind:'explained', repair:object, dropped:string[]} | {kind:'disputed', solvedIndex:number} | {kind:'unusable', reason:string}}
+ */
+export function interpretRepairV3(data, { keyIndex, chosenIndex, optionCount }) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return { kind: 'unusable', reason: 'not_an_object' };
+  const solved = data.solved_index;
+  if (!Number.isInteger(solved) || solved < 0 || solved >= optionCount) return { kind: 'unusable', reason: 'solved_index' };
+  if (solved !== keyIndex || data.agrees_with_key !== true) return { kind: 'disputed', solvedIndex: solved };
+
+  const letters = Array.from({ length: optionCount }, (_, i) => letter(i));
+  const keyLetter = letter(keyIndex);
+  const breaksRules = (text) => violatesTruthRules(text) || claimsAboutStudent(text) || contradictsKey(text, keyLetter, letters);
+  const prepare = (value, cap) => {
+    const fitted = fitSentence(cleanRepairText(value), cap);
+    return fitted && !breaksRules(fitted) ? fitted : null;
+  };
+  const dropped = [];
+  const repair = { trap_type: TRAP_TYPES.includes(data.trap_type) ? data.trap_type : 'other' };
+
+  for (const field of REQUIRED_V3) {
+    const value = prepare(data[field], LIMITS_V3[field]);
+    if (!value || value.length < MIN_LENGTH_V3[field]) return { kind: 'unusable', reason: field };
+    repair[field] = value;
+  }
+  for (const field of OPTIONAL_V3) {
+    const present = typeof data[field] === 'string' && data[field].trim() !== '';
+    const value = present ? prepare(data[field], LIMITS_V3[field]) : null;
+    if (value && value.length >= 8) repair[field] = value;
+    else if (present) dropped.push(field);
+  }
+  // A hook that only repeats the rule adds nothing.
+  if (repair.memory_hook) {
+    const hook = comparable(repair.memory_hook), rule = comparable(repair.rule);
+    if (!hook || hook === rule || hook.includes(rule) || rule.includes(hook)) { delete repair.memory_hook; dropped.push('memory_hook'); }
+  }
+
+  // Others: all or nothing. Every remaining option exactly once, each line clean.
+  const remaining = letters.map((_, i) => i).filter((i) => i !== keyIndex && i !== chosenIndex);
+  const given = Array.isArray(data.others) ? data.others : [];
+  let others = [];
+  if (remaining.length && given.length) {
+    const seen = new Set();
+    const rows = [];
+    let ok = given.length === remaining.length;
+    for (const row of ok ? given : []) {
+      const index = row?.index;
+      const why = prepare(row?.why, LIMITS_V3.others);
+      if (!Number.isInteger(index) || !remaining.includes(index) || seen.has(index) || !why || why.length < 8) { ok = false; break; }
+      seen.add(index);
+      rows.push({ index, why });
+    }
+    if (ok && seen.size === remaining.length) others = rows.sort((a, b) => a.index - b.index);
+    else dropped.push('others');
+  } else if (!remaining.length && given.length) dropped.push('others');
+  repair.others = others;
+  return { kind: 'explained', repair, dropped };
+}
+
+/** v3 payloads also answer to the v1 names, for older app builds. The aliases are added on the way out, never stored. */
+export function withLegacyAliases(repair) {
+  if (!repair || typeof repair !== 'object' || typeof repair.why_right !== 'string') return repair;
+  return { ...repair, why_tempting: repair.trap, key_idea: repair.rule };
+}
+
 /** Fresh practice on the same chapter, reusing the existing recovery replay route shape. */
 export function practiceHref({ subject, chapter, attemptId }) {
   return `/test?${new URLSearchParams({ subject: subject || '', mode: 'quick', count: '5', ...(chapter ? { chapter } : {}), recoveryFrom: attemptId })}`;
