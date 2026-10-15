@@ -102,3 +102,30 @@ Sources this consolidates (his words win; read them when in doubt):
 - Say whether students can reach Razorpay checkout today (this decides when to move to Vercel Pro).
 - Play Store: the upload key, the Google client ID, Play Console.
 - One Mistake Repair on the site, to verify the v3 cost.
+
+## 6. CEO direction: the next horizon (set 15 Oct about 23:20 IST)
+
+The owner, 15 Oct night: "Being the CEO of the company, also act as the CEO and take decisions... You have the direction and taste now." These are the bets every wave serves:
+
+1. **Convert the visitor in the first 60 seconds.**
+   - The path: a subject-aware sample, then their own result, then "Save your answers" (sign up).
+   - Measure it with the privacy-safe aggregate funnel (Q10), then tune the hero and the dock from real numbers, never guesses.
+2. **The Mistake Lab is the moat.**
+   - It gets better with every student: cohort picks and times, the trap atlas, the key-quality loop.
+   - Ship slices 4 and 5, then make the Lab the hero of the landing and of the app's result moment.
+3. **Return every evening.**
+   - Tonight's move, "same mistakes later" (1, 3, 7 and 21 days) and study-day reminders in the student's window.
+   - A streak that never punishes.
+   - Mobi as the companion who notices progress.
+4. **Trust above all.**
+   - Every number true, with its denominator.
+   - NTA exam-faithful.
+   - The newest, CUET-fit questions.
+   - Sign-in that never fails.
+5. **Growth loops.**
+   - A shareable post-mock card (the app has sheet_share; bring it to the web).
+   - Then a friend invite tied to credits: an owner decision before money is involved.
+6. **Stay lean until launch.**
+   - Free plans: usage fixes 1-5 and the self-maintaining NTA index.
+   - Move to Pro at about 1,000 daily students.
+   - Play Store release as soon as the owner's keys are in.
