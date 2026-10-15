@@ -54,7 +54,7 @@ function SessionCard({ a, fresh = false, index = 0 }) {
   return (
     <li data-fresh={fresh || undefined} style={fresh ? { '--ov-i': index } : undefined}>
       <Link className="ov-session" href={`/result/${a.id}`}>
-        <span className="ov-session__icon ov-session__icon--obj" aria-hidden="true"><SubjectObject id={a.subject} size={52} /></span>
+        <span className="ov-session__icon ov-session__icon--obj" aria-hidden="true"><SubjectObject id={a.subject} size={68} framed={false} /></span>
         <span className="ov-session__main">
           <b>{label(a.subject)}{fresh ? <> <span className="ov-new">New since your last look</span></> : null}</b>
           <span>{when(a.completedAt)}{when(a.completedAt) ? ' · ' : ''}{a.correct}/{a.total} correct</span>
@@ -80,6 +80,16 @@ export default function RecoveryOverview({ view }) {
   const toReview = review.reduce((s, a) => s + (a.mistakes || 0), 0);
   const answered = review.reduce((s, a) => s + (a.total || 0), 0);
   const correct = review.reduce((s, a) => s + (a.correct || 0), 0);
+  // "Your first session is on the record." is true only while there is one. With more saved, the same
+  // card points at the newest instead, so it never argues with Mobi's count above it.
+  const newest = review[0] || null;
+  const milestoneLine = (m) => {
+    if (m.kind === 'first_session' && review.length > 1 && newest) {
+      return { title: `Newest: ${[label(newest.subject), when(newest.completedAt)].filter(Boolean).join(', ')}`, detail: null, link: 'Open it', href: `/result/${newest.id}` };
+    }
+    const said = MILESTONES[m.kind];
+    return { title: said?.title || m.title, detail: said ? null : m.detail, link: said?.link || 'Open record', href: m.href };
+  };
 
   const Mobis = view === 'progress' ? OneMobi : Fragment;
   return (
@@ -94,7 +104,7 @@ export default function RecoveryOverview({ view }) {
       {!data && !error ? <div className="na__skeleton" role="status" aria-label="Loading your record"><i /><i /><i /></div> : null}
       {!data ? <ArenaCompanion compact act={error ? (shrug ? 'oops' : 'idle') : wait === 'long' ? 'loading' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Your record can wait a moment.' : 'Opening your saved record.'}>{error ? 'Try again when you are ready.' : 'Your sessions and checks will appear here.'}</ArenaCompanion> : null}
       {data && review.length > 0 ? <ArenaCompanion compact act="read" pose="attentive" title={`${count(review.length, 'session')} saved.`}>{toReview ? `${count(toReview, 'question')} to look at.` : 'Nothing left to look at. Every answer was right.'}</ArenaCompanion> : null}
-      {data?.milestones?.length ? <section className="ov-section" aria-label="Recorded milestones">{data.milestones.map(m => { const said = MILESTONES[m.kind]; return <div key={m.kind}><b>{said?.title || m.title}</b><p>{said ? null : <>{m.detail} </>}<Link className="pr-link" href={m.href}>{said?.link || 'Open record'}</Link></p></div>; })}</section> : null}
+      {data?.milestones?.length ? <section className="ov-section" aria-label="Recorded milestones">{data.milestones.map(m => { const line = milestoneLine(m); return <div key={m.kind}><b>{line.title}</b><p>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></p></div>; })}</section> : null}
 
       {data && view === 'review' ? (
         <>

@@ -127,10 +127,13 @@ html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest
 
 /* ---------- 4. Phones: the statement holds the screen while it plays ----------
    The landing is phone-first, so on a phone the statement is a short scroll story, like the desktop's pinned
-   cinema: the section becomes a 200svh track and its scene (words and shelf) stays between the nav and the
-   dock while the words light and the four objects land one by one (home.css). Only where the scene fits
-   (780px tall and up) and scroll timelines exist; elsewhere, and under reduced motion, it scrolls as one
-   finished composition. */
+   cinema: the section becomes a 160svh track and its scene (words and shelf) stays between the nav and the
+   dock. The scene is whole from the first frame: the four objects already stand on the table, low, small and
+   dim (scale 0.92, opacity 0.35), their names and lamps barely on. As the words light, each object in turn
+   lifts onto its mark and its lamp comes up, English with the first words, Economics with the last, so the
+   words and the shelf finish together and the hold ends there: no void before, no dead stretch after. Only
+   where the scene fits (780px tall and up) and scroll timelines exist; elsewhere, and under reduced motion, it
+   scrolls as one finished composition. */
 @supports (animation-timeline: view()) {
   @media (max-width: 959px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
     :root:not([data-motion='reduced']) .lp-statement {
@@ -138,8 +141,7 @@ html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest
       --pin-bottom: 84px;
       --shelf-obj: min(42vw, 18.5svh, 11rem);
       --shelf-stagger: 1.75rem;
-      --fall: -0.7px;
-      height: 185svh;
+      height: 160svh;
       padding-block: 0;
     }
     :root:not([data-motion='reduced']) .lp-statement__grid {
@@ -150,25 +152,50 @@ html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest
       gap: clamp(1rem, 3svh, 1.75rem);
     }
     :root:not([data-motion='reduced']) .lp-statement__text { font-size: clamp(1.6rem, min(7.4vw, 3.7svh), 2.25rem); }
+    /* 21 words over 0 to 88% of the hold. */
     :root:not([data-motion='reduced']) .lp-statement__w {
-      animation-range-start: contain calc(var(--p) * 48%);
-      animation-range-end: contain calc(5% + var(--p) * 48%);
+      animation-range-start: contain calc(var(--p) * 80%);
+      animation-range-end: contain calc(8% + var(--p) * 80%);
     }
+    /* Object k lifts while its quarter of the words lights: 4% + 21% k to 24% + 21% k (the last ends at 87%). */
     :root:not([data-motion='reduced']) .lp-statement .lp-shelf .subj-obj--alive .subj-obj__float {
-      animation-range: normal, contain calc(5% + var(--k, 0) * 10%) contain calc(37% + var(--k, 0) * 10%), exit 0% exit 100%;
+      animation-name: subj-obj-float, lp-shelf-rise, lp-shelf-out;
+      animation-range: normal, contain calc(4% + var(--k, 0) * 21%) contain calc(24% + var(--k, 0) * 21%), exit 0% exit 100%;
     }
     :root:not([data-motion='reduced']) .lp-statement .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
-      animation-range: contain calc(5% + var(--k, 0) * 10%) contain calc(37% + var(--k, 0) * 10%), exit 0% exit 100%;
+      animation-name: lp-shelf-ground-rise, lp-shelf-ground-out;
+      animation-range: contain calc(4% + var(--k, 0) * 21%) contain calc(24% + var(--k, 0) * 21%), exit 0% exit 100%;
     }
+    :root:not([data-motion='reduced']) .lp-statement .lp-shelf__name { animation-name: lp-shelf-name-rise; }
+    :root:not([data-motion='reduced']) .lp-statement .lp-shelf .subj-obj__light { animation-name: lp-shelf-lamp-rise; }
     :root:not([data-motion='reduced']) .lp-statement :is(.lp-shelf__name, .lp-shelf .subj-obj__light) {
-      animation-range: contain calc(13% + var(--k, 0) * 10%) contain calc(37% + var(--k, 0) * 10%);
+      animation-range: contain calc(8% + var(--k, 0) * 21%) contain calc(24% + var(--k, 0) * 21%);
     }
-    :root:not([data-motion='reduced']) .lp-statement .lp-shelf::before { animation-range: contain 2% contain 50%; }
+    :root:not([data-motion='reduced']) .lp-statement .lp-shelf::before { animation-name: lp-shelf-lamp-rise; animation-range: contain 0% contain 88%; }
   }
   /* Phones: the even 2 by 2 (home.css) at a size that keeps the words, both rows and their names in the held scene. */
   @media (max-width: 760px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
     :root:not([data-motion='reduced']) .lp-statement { --shelf-obj: min(38vw, 18svh, 9.5rem); }
   }
+}
+/* The lift: up on the app's emphasized curve with a small squash as it settles on its mark. */
+@keyframes lp-shelf-rise {
+  0% { translate: 0 0.6rem; rotate: calc(var(--tilt, 0deg) * -1); scale: 0.92; opacity: 0.35; animation-timing-function: var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)); }
+  70% { opacity: 1; }
+  86% { translate: 0 -0.15rem; rotate: 0deg; scale: 1.02 0.985; animation-timing-function: cubic-bezier(0.34, 1.3, 0.64, 1); }
+  100% { translate: 0 0; rotate: 0deg; scale: 1; opacity: 1; }
+}
+@keyframes lp-shelf-ground-rise {
+  from { scale: 0.86; opacity: 0.4; animation-timing-function: var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)); }
+  to { scale: 1; opacity: 1; }
+}
+@keyframes lp-shelf-name-rise {
+  from { opacity: 0.35; animation-timing-function: var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
+  to { opacity: 1; }
+}
+@keyframes lp-shelf-lamp-rise {
+  from { opacity: 0.2; animation-timing-function: var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)); }
+  to { opacity: 1; }
 }
 
 /* ---------- 5. Hero finish ----------
@@ -204,3 +231,56 @@ html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest
   html[data-theme] .mm.lp .lp-dockgate .mm-dock { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
 }
 html[data-motion='reduced'] .mm.lp .lp-dockgate .mm-dock { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
+
+/* ---------- 7. The eligibility bar takes the dock's slot ----------
+   While the DU teaser's chips hold the screen, its live count bar (sticky, du.css) is the one action at the
+   bottom: HeroDockGate lowers the dock (data-yield='elig') and the bar settles into the dock's place, on the
+   same safe-area floor, so one bar shows, never two stacked over the second row of chips. */
+@media (max-width: 899px) {
+  .mm.lp .du-teaser .du-live { transition: bottom var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
+  .mm.lp:has(.lp-dockgate[data-yield='elig']) .du-teaser .du-live { bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px)); }
+}
+
+/* ---------- 8. Mobi rides in the phone dock (DockMobi, HeroDockGate.jsx) ----------
+   He stands in the dock's left slot, his antenna just over the glass, and answers the page: he hops in when the
+   dock rises, greets the first time, and nods, tilts, points or thinks as each new section takes the screen.
+   Where a section has its own seat for him, he leaves the dock (shrinks down out of the slot) and arrives in the
+   seat instead, so one Mobi is ever in view; he hops back when the seat has gone. Reduce motion: he stands
+   still and simply swaps. */
+.lp-dockmobi { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+.lp-dockmobi__seat {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: end center;
+  width: 40px;
+  height: 46px;
+  margin-top: -10px;
+  transition: width var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), margin-right var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+.lp-dockmobi__seat .mobi-react {
+  transform-origin: 50% 100%;
+  transition: opacity 240ms var(--mm-ease-out, ease-out), translate var(--mm-dur-enter, 360ms) var(--mm-spring-celebrate, var(--mm-ease-out, ease-out)), scale var(--mm-dur-enter, 360ms) var(--mm-spring-celebrate, var(--mm-ease-out, ease-out));
+}
+.lp-dockmobi[data-away='true'] .lp-dockmobi__seat { width: 0; margin-right: -0.55rem; transition-duration: var(--mm-dur-leave, 180ms); transition-timing-function: var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0)); }
+.lp-dockmobi[data-away='true'] .lp-dockmobi__seat .mobi-react { opacity: 0; translate: 0 45%; scale: 0.55; transition-duration: var(--mm-dur-leave, 180ms); transition-timing-function: var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0)); }
+.lp-dockmobi__line { display: grid; min-width: 0; line-height: 1.3; }
+.lp-dockmobi__line b { font-weight: 700; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) {
+  .lp-dockmobi__seat, .lp-dockmobi__seat .mobi-react { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
+}
+html[data-motion='reduced'] :is(.lp-dockmobi__seat, .lp-dockmobi__seat .mobi-react) { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
+
+/* ---------- 9. Day glass on the landing's bar ----------
+   Low-alpha paper over the near-black demo card, Compass ladder, exam console and tour screens read as a grey
+   smear. In Day the bar is near-solid paper (92%) with a saturated blur, so whatever passes under it shows only
+   as a faint, clean tint, plus a hairline and a soft lift so the glass still reads as a surface. */
+:root[data-theme='light'] .mm.lp .mm-nav {
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+  -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  backdrop-filter: saturate(1.4) blur(14px);
+  box-shadow: 0 1px 0 rgba(23, 32, 22, 0.07), 0 10px 24px -20px rgba(20, 32, 14, 0.35);
+}
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  :root[data-theme='light'] .mm.lp .mm-nav { background: var(--paper); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}

@@ -70,6 +70,7 @@ function measureSlack(root, stage) {
 export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, ...rest }) {
   const rootRef = useRef(null);
   const stageRef = useRef(null);
+  const trackRef = useRef(null);
   const beatsRef = useRef([]);
   const crossing = useRef(new Set());
   const [pinned, setPinned] = useState(true);
@@ -92,19 +93,34 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     return () => { calm.removeEventListener?.('change', sync); watch?.disconnect(); };
   }, []);
 
-  // The beat crossing the middle of the window owns the step.
+  // The beat crossing the middle of the window owns the step. With no beat crossing, the side the
+  // reader comes from does: a story still below the middle waits on its first step, one already
+  // above it on its last. A second observer, a window larger than the screen, settles this before
+  // the stage shows, so a jump back up (a nav link, a fast fling, the top button) never enters a
+  // story on its stale last step and then snaps back.
   useEffect(() => {
     if (!pinned) return undefined;
     const held = crossing.current;
+    const track = trackRef.current;
+    const fromSide = () => {
+      if (held.size > 0 || !track) return;
+      const box = track.getBoundingClientRect();
+      const middle = window.innerHeight / 2;
+      if (box.top > middle) setStep(0);
+      else if (box.bottom < middle) setStep(steps - 1);
+    };
     const io = new IntersectionObserver((entries) => {
       for (const entry of entries) {
         const i = Number(entry.target.dataset.beat);
         if (entry.isIntersecting) { held.add(i); setStep(i); } else held.delete(i);
       }
       setLive(held.size > 0);
+      fromSide();
     }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
     beatsRef.current.slice(0, steps).forEach((node) => node && io.observe(node));
-    return () => { io.disconnect(); held.clear(); };
+    const near = track ? new IntersectionObserver(fromSide, { rootMargin: '100% 0px 100% 0px', threshold: 0 }) : null;
+    if (track) near.observe(track);
+    return () => { io.disconnect(); near?.disconnect(); held.clear(); };
   }, [pinned, steps]);
 
   useEffect(() => { onStepRef.current?.(step); }, [step]);
@@ -163,7 +179,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       data-live={live ? 'true' : 'false'}
       style={{ '--ss-steps': steps, '--ss-step': step, ...(beat ? { '--ss-beat': beat } : null) }}
     >
-      <div className="ss__track">
+      <div className="ss__track" ref={trackRef}>
         <div className="ss__stage" ref={stageRef} onFocus={onFocus} role={label ? 'group' : undefined} aria-label={label}>
           <Content {...rest} {...api} />
         </div>

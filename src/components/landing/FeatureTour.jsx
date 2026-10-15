@@ -207,7 +207,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                 <article className="ft__card">
                   <div className="ft__media">
                     <div className="ft__shot">
-                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <DemoPlaybackContext.Provider key={on ? i + ':on:' + visit : String(i)} value={{ active: on, reduced }}><Screen play={on && running} /></DemoPlaybackContext.Provider> : slide.screen}
+                      {slide.video ? <TourVideo slide={slide} playing={on && running} /> : Screen ? <DemoPlaybackContext.Provider key={on ? i + ':on:' + visit : String(i)} value={{ active: on, reduced, paused }}><Screen play={on && running} /></DemoPlaybackContext.Provider> : slide.screen}
                     </div>
                   </div>
                   <div className="ft__copy">

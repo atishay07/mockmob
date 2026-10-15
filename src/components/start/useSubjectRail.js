@@ -24,7 +24,8 @@ const FLING_TAU_MS = 130;
 // A fling carries on for about this long at the hand's speed (the integral of an exponential decay).
 const FLING_CARRY_MS = 260;
 const WHEEL_IDLE_MS = 160;
-// Room kept between a chip that must be seen and the row's edge, so it clears the fade.
+// Room kept between a chip that must be seen and the row's edge, so it clears the fade: at least this,
+// and with a mouse the scroll padding (start.css), which is as wide as the fade under the arrows.
 const CLEAR_PX = 44;
 
 function reducedMotion() {
@@ -122,11 +123,12 @@ export function useSubjectRail(selected, active = true) {
     const el = railRef.current;
     if (!el || !chip || !el.contains(chip)) return;
     const from = heading();
+    const clear = Math.max(CLEAR_PX, padStart(el));
     const left = chip.offsetLeft;
     const right = left + chip.offsetWidth;
     let target = from;
-    if (left - CLEAR_PX < from) target = left - CLEAR_PX;
-    else if (right + CLEAR_PX > from + el.clientWidth) target = right + CLEAR_PX - el.clientWidth;
+    if (left - clear < from) target = left - clear;
+    else if (right + clear > from + el.clientWidth) target = right + clear - el.clientWidth;
     if (Math.abs(target - from) < 1) return;
     if (instant) { stop(); el.scrollLeft = clamp(target, 0, maxScroll(el)); measure(); return; }
     glideTo(target, SETTLE_TAU_MS);

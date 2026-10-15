@@ -28,12 +28,13 @@ const FILES = { accountancy, business, economics, english, generaltest, mathemat
 
 /**
  * One subject object, centred and never cropped, standing on a soft contact shadow under its foot,
- * in a pool of lamp light. `size` is the box in px (square unless `height` is given).
+ * in a pool of lamp light. `size` is the box in px (square unless `height` is given). `floor` stands it on
+ * the box's floor line with little air around it (the subject chips, where objects share one shelf).
  */
-export function SubjectObject({ subject, size = 64, height = size, lit = true, priority = false, className = '' }) {
+export function SubjectObject({ subject, size = 64, height = size, lit = true, floor = false, priority = false, className = '' }) {
   const a = subjectArt(subject);
   const file = a ? FILES[a.name] : null;
-  const box = a ? artBox(a, size, height) : null;
+  const box = a ? artBox(a, size, height, floor ? { pad: 0.04, align: 'bottom' } : undefined) : null;
   if (!a || !file || !box) return <span className={`st-obj st-obj--none ${className}`} style={{ width: size, height }} aria-hidden="true" />;
   return (
     <span className={`st-obj ${lit ? 'st-obj--lit' : ''} ${className}`} style={{ width: size, height }} aria-hidden="true" data-art={a.name}>

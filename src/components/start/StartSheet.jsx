@@ -260,7 +260,8 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                 {subjects.map((id) => (
                   <label key={id} className="st-chip mk-press" data-on={id === subject || undefined} data-subject={id}>
                     <input type="radio" name={`${titleId}-subject`} value={id} checked={id === subject} onChange={() => selectSubject(id)} />
-                    <SubjectObject subject={id} size={36} lit={false} />
+                    {/* A 48 px stage: the object stands on one floor line and leans out over the chip's top edge. */}
+                    <SubjectObject subject={id} size={48} lit={false} floor />
                     <span>{subjectName(id)}</span>
                   </label>
                 ))}

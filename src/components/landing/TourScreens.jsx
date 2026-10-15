@@ -3,13 +3,22 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Check, ShieldCheck, X } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
+import { durations } from '@/lib/motion/tokens.g.js';
 
-export const DemoPlaybackContext = createContext({ active: false, reduced: false });
+export const DemoPlaybackContext = createContext({ active: false, reduced: false, paused: false });
+
+// Every screen reaches its finished layout within about 600 ms of its tool coming on: rows arrive one
+// shared stagger step apart (the app's staggerStep), and only flourishes (a tap, a bar's sweep, a
+// verdict flipping) run after that. A reader who scrolls on after a second never sees a half-built screen.
+const STAGGER = durations.staggerStep;
+const lineUp = (count, from = 60) => Array.from({ length: count }, (_, i) => from + i * STAGGER);
 
 function useSequence(play, events, settled) {
-  const { active, reduced } = useContext(DemoPlaybackContext);
+  const { active, reduced, paused } = useContext(DemoPlaybackContext);
   const clock = useRef(null);
-  const [value, setValue] = useState(settled);
+  // A screen that will play starts from its first frame (no flash of the finished screen before the
+  // build); a paused, reduced or inactive one starts finished.
+  const [value, setValue] = useState(() => (active && !reduced && !paused ? events[0]?.value ?? settled : settled));
   useEffect(() => {
     if (!active || reduced) {
       const timer = setTimeout(() => setValue(settled), 0);
@@ -27,10 +36,11 @@ function useSequence(play, events, settled) {
 }
 
 // Compact product screens for the feature tour. Each one plays a short scripted demo every time its
-// slide becomes active, then holds the finished state. Paused and hidden demos retain their current
-// stage. Inactive and reduced-motion screens are settled. Values are illustrative. Every screen carries two
-// beats of real content (the moment, then what follows from it) and they all come out about the same
-// height, because the tour's tools share one card and a short screen would leave an empty slab.
+// slide becomes active (in place within about 600 ms, see STAGGER), then holds the finished state.
+// Paused and hidden demos retain their current stage. Inactive and reduced-motion screens are settled.
+// Values are illustrative. Every screen carries two beats of real content (the moment, then what
+// follows from it) and they all come out about the same height, because the tour's tools share one
+// card and a short screen would leave an empty slab.
 
 /** Steps through `timeline` (ms offsets) while `play` is true; returns the current step. */
 function useSteps(play, timeline) {
@@ -43,13 +53,6 @@ function useCountdown(play, from) {
   const events = useMemo(() => Array.from({ length: 6 }, (_, i) => ({ at: i * 1000, value: Math.max(0, from - i) })), [from]);
   const left = useSequence(play, events, from);
   return `${String(Math.floor(left / 60)).padStart(2, '0')}:${String(left % 60).padStart(2, '0')}`;
-}
-
-/** Types `text` out while playing; shows it whole otherwise. */
-function useTyped(play, text, { delay = 250, every = 38 } = {}) {
-  const events = useMemo(() => [{ at: 0, value: 0 }, ...Array.from({ length: text.length }, (_, i) => ({ at: delay + (i + 1) * every, value: i + 1 }))], [text, delay, every]);
-  const count = useSequence(play, events, text.length);
-  return text.slice(0, count);
 }
 
 function Frame({ title, right, step, className = '', children }) {
@@ -68,7 +71,7 @@ function Frame({ title, right, step, className = '', children }) {
 const on = (value) => (value ? 'true' : 'false');
 
 // ---------- 1. Practice ----------
-const PRACTICE_T = [200, 400, 600, 800, 1500, 2300];
+const PRACTICE_T = [...lineUp(4), 520, 820];
 const PRACTICE_OPTS = ['Liabilities side', 'Assets side', 'Reserves and surplus', 'Not shown at all'];
 export function PracticeScreen({ play }) {
   const step = useSteps(play, PRACTICE_T);
@@ -93,7 +96,7 @@ export function PracticeScreen({ play }) {
 }
 
 // ---------- 2. Mistake Repair ----------
-const REPAIR_T = [250, 750, 1250, 1750, 2350];
+const REPAIR_T = lineUp(5);
 const REPAIR_ROWS = [
   ['Why A looked right', 'Capital usually sits on the liabilities side.'],
   ['Where it breaks', 'A debit balance means the partner owes the firm.'],
@@ -120,7 +123,7 @@ export function RepairScreen({ play }) {
 
 // ---------- 2b. Learn ----------
 // A real released recall card (WordNet 3.0 sense and example), shown as it appears after a lesson.
-const LEARN_T = [300, 700, 1100, 1500, 2300, 3000];
+const LEARN_T = [...lineUp(3), 380, 520, 600];
 const LEARN_OPTS = ['not eager', 'characterized by directness in manner or speech; without subtlety or evasion','easily tricked because of being too trusting'];
 export function LearnScreen({ play }) {
   const step = useSteps(play, LEARN_T);
@@ -144,7 +147,7 @@ export function LearnScreen({ play }) {
 }
 
 // ---------- 3. Mistake Replay ----------
-const REPLAY_T = [250, 650, 1050, 1700, 2300, 2800];
+const REPLAY_T = [...lineUp(3), 420, 480, 540];
 const REPLAY_MORE = [['Q8', 'A at 1:05, then C at 2:41', '−6', 'bad'], ['Q9', 'D at 0:30, then B at 1:50', '+6', 'good']];
 export function ReplayScreen({ play }) {
   const step = useSteps(play, REPLAY_T);
@@ -170,7 +173,7 @@ export function ReplayScreen({ play }) {
 }
 
 // ---------- 4. Radar ----------
-const RADAR_T = [200, 400, 600, 800, 1000, 1200, 1800];
+const RADAR_T = [...lineUp(6), 400];
 const RADAR_ROWS = [
   ['Partner retirement', 'Accountancy', 38],
   ['Money and banking', 'Economics', 52],
@@ -198,23 +201,23 @@ export function RadarScreen({ play }) {
 }
 
 // ---------- 5. PrepOS ----------
-const PREP_T = [1150, 1650, 1950, 2250, 2550, 2950];
+// Your question lands, Mobi types for a beat, then the reply and its three steps line up.
+const PREP_T = [40, 160, ...lineUp(5, 420)];
 const PREP_PLAN = [['20 min', 'Retirement: 10 fresh questions'], ['10 min', 'Re-read the two you changed'], ['Tomorrow', 'One timed half mock']];
 export function PrepOSScreen({ play }) {
   const step = useSteps(play, PREP_T);
-  const asked = useTyped(play, 'What should I do tonight?');
   return (
     <Frame title="PrepOS" step={step} right={<span className="ts__badge">Your record</span>}>
-      <p className="ts__bubble ts__bubble--me">{asked}<i className="ts__caret" data-on={on(asked.length < 25)} aria-hidden="true" /></p>
+      <p className="ts__bubble ts__bubble--me" data-in={on(step >= 1)}>What should I do tonight?</p>
       <div className="ts__reply">
-        {step === 1 ? <p className="ts__typing" aria-hidden="true"><i /><i /><i /></p> : null}
-        <div className="ts__bubble ts__bubble--ai" data-in={on(step >= 2)}>
+        {step === 2 ? <p className="ts__typing" aria-hidden="true"><i /><i /><i /></p> : null}
+        <div className="ts__bubble ts__bubble--ai" data-in={on(step >= 3)}>
           <p className="ts__ai-head"><span className="ts__mobi" aria-hidden="true"><i /><i /></span><b>Mobi</b><small>from your last 3 mocks</small></p>
           <p>Retirement in Accountancy cost you the most this week. Tonight:</p>
           <ol>
-            {PREP_PLAN.map(([time, what], i) => <li key={what} data-in={on(step >= 3 + i)}><b>{time}</b>{what}</li>)}
+            {PREP_PLAN.map(([time, what], i) => <li key={what} data-in={on(step >= 4 + i)}><b>{time}</b>{what}</li>)}
           </ol>
-          <p className="ts__replies" data-in={on(step >= 6)}><span data-main="true">Start the 10<ArrowRight size={12} aria-hidden="true" /></span><span>Why this?</span></p>
+          <p className="ts__replies" data-in={on(step >= 7)}><span data-main="true">Start the 10<ArrowRight size={12} aria-hidden="true" /></span><span>Why this?</span></p>
         </div>
       </div>
     </Frame>
@@ -222,7 +225,7 @@ export function PrepOSScreen({ play }) {
 }
 
 // ---------- 6. Compass ----------
-const COMPASS_T = [250, 600, 950, 1300, 1800, 2300];
+const COMPASS_T = [...lineUp(4), 360, 420];
 const COMPASS_ROWS = [['SRCC', 'B.Com (Hons)', 80, 'Stretch', 'far'], ['Hindu College', 'B.A. (Hons) Economics', 72, 'Close', 'near'], ['Hansraj College', 'B.Com (Hons)', 62, 'Clears it', 'in'], ['Kirori Mal College', 'B.Com (Hons)', 58, 'Clears it', 'in']];
 export function CompassScreen({ play }) {
   const step = useSteps(play, COMPASS_T);
@@ -245,7 +248,7 @@ export function CompassScreen({ play }) {
 }
 
 // ---------- 7. Combo Planner ----------
-const COMBO_T = [250, 450, 650, 850, 1050, 1600, 2200];
+const COMBO_T = [...lineUp(5), 330, 420];
 const COMBO_PAPERS = ['English', 'Accountancy', 'Business Studies', 'Economics', 'Mathematics'];
 export function ComboScreen({ play }) {
   const step = useSteps(play, COMBO_T);
@@ -270,7 +273,8 @@ export function ComboScreen({ play }) {
 }
 
 // ---------- 8. Benchmarks ----------
-const BENCH_T = [250, 1900, 2500];
+// The two bars sweep in as the flourish; the facts and the ladder are already in place behind them.
+const BENCH_T = lineUp(3);
 const BENCH_LADDER = [['DU level', '88%'], ['College level', '82%'], ['Daily', '78%', 'target'], ['You, today', '72%', 'you']];
 export function BenchmarkScreen({ play }) {
   const step = useSteps(play, BENCH_T);
@@ -279,8 +283,8 @@ export function BenchmarkScreen({ play }) {
     <Frame title="Daily benchmark" step={step} right={<span className="ts__timer">{clock}</span>}>
       <p className="ts__meta">25 questions. Hold 78% accuracy at 55 seconds a question.</p>
       <div className="ts__lanes">
-        <div className="ts__lane" data-run={on(step >= 1)}><span>Your run</span><i><b style={{ '--w': '72%', '--t': '1.7s' }} /></i><em>72%</em></div>
-        <div className="ts__lane" data-run={on(step >= 1)} data-target="true"><span>Target</span><i><b style={{ '--w': '78%', '--t': '1.2s' }} /></i><em>78%</em></div>
+        <div className="ts__lane" data-run={on(step >= 1)}><span>Your run</span><i><b style={{ '--w': '72%', '--t': '1.1s' }} /></i><em>72%</em></div>
+        <div className="ts__lane" data-run={on(step >= 1)} data-target="true"><span>Target</span><i><b style={{ '--w': '78%', '--t': '0.8s' }} /></i><em>78%</em></div>
       </div>
       <div className="ts__facts" data-in={on(step >= 2)}>
         <p><b>52s</b>a question</p>

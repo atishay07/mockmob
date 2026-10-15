@@ -85,6 +85,9 @@ export default function DashboardPageClient() {
   const [quote, setQuote] = useState(null);
   const [quoteStatus, setQuoteStatus] = useState('idle');
   const [quoteNonce, setQuoteNonce] = useState(0);
+  // Phones: the dock above the tab bar, shown while the in-page session card is out of sight.
+  const summaryRef = useRef(null);
+  const [dockShown, setDockShown] = useState(false);
 
   // After a mock attempt the test page sets `mm:postTest=1` in sessionStorage
   // before redirecting. When the user lands back here (Arena), pop the modal
@@ -222,6 +225,18 @@ export default function DashboardPageClient() {
     return () => { alive = false; window.clearTimeout(id); };
   }, [status, selSubj, effectiveModeId, quoteCount, quoteNonce, user?.id]);
 
+  // On a phone the session card sits four screens down, under Subject, Mode, NTA Mode and Questions, so
+  // the dock carries the session and its Start until the card itself comes into view (as the app does).
+  // The bottom 150 px are the tab bar and the dock, so the card only counts once it clears them.
+  const hasSession = status === 'ready' && mySubs.length > 0;
+  useEffect(() => {
+    const card = summaryRef.current;
+    if (!hasSession || !card || typeof IntersectionObserver !== 'function') return undefined;
+    const io = new IntersectionObserver(([entry]) => setDockShown(!entry.isIntersecting), { rootMargin: '0px 0px -150px 0px' });
+    io.observe(card);
+    return () => io.disconnect();
+  }, [hasSession]);
+
   // Click handler — also clamps count and resets difficulty when needed. Locked modes
   // stay selectable so the server quote can say what access they need.
   function chooseMode(id) {
@@ -304,6 +319,35 @@ export default function DashboardPageClient() {
     : quoteStatus === 'loading' ? 'Checking…'
       : !quoteLaunchable ? 'Not available'
         : `Start ${mode.label}`;
+  // The dock's short price: the server quote once it is in, the mode's own price until then.
+  const dockBlocked = quoteStatus === 'ready' && quoteMatches && !quote.launchable;
+  const dockCost = quoteStatus === 'ready' && quoteMatches
+    ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : 'Not available')
+      : isPremium ? 'Included'
+        : quote.creditCost === 0 ? 'Free today'
+          : `${quote.creditCost} credits`
+    : modeBadge(effectiveModeId).text;
+
+  function launch() {
+    if (isLaunching || launchingKeyRef.current || !quoteLaunchable) return;
+    if (Date.parse(quote.expiresAt) <= Date.now()) { setQuoteNonce((n) => n + 1); return; }
+    setCreditError(null);
+    setIsLaunching(true);
+    launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
+    setLaunchSuccess(`Launching ${mode.label}…`);
+    toast.success('Entering the arena…');
+    const tonight = new URLSearchParams();
+    for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
+    router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
+  }
+
+  // A session that cannot start says why in the card, so the dock takes the student there.
+  function showSession() {
+    const card = summaryRef.current;
+    if (!card) return;
+    card.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
+    card.querySelector('.pr-summary__reason')?.focus?.({ preventScroll: true });
+  }
 
   return (
     <div className="pr view">
@@ -489,7 +533,7 @@ export default function DashboardPageClient() {
             </SmoothDetails>
           </div>
 
-          <aside className="pr-summary" aria-label="Session summary">
+          <aside className="pr-summary" aria-label="Session summary" ref={summaryRef}>
             <h2>Your session</h2>
             <dl>
               <div><dt>Subject</dt><dd>{selectedSubject?.name || '—'}</dd></div>
@@ -499,7 +543,7 @@ export default function DashboardPageClient() {
               <div><dt>Marking</dt><dd>+5 / −1</dd></div>
               <div data-emph="true"><dt>Cost</dt><dd>{costLabel}</dd></div>
             </dl>
-            <p className="pr-summary__reason" role="status" aria-live="polite">
+            <p className="pr-summary__reason" role="status" aria-live="polite" tabIndex={-1}>
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
               {quoteStatus === 'error' && <>Could not check this session. Nothing was charged. <button type="button" onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button></>}
               {quoteStatus === 'ready' && quoteMatches && quote.reason}
@@ -507,24 +551,35 @@ export default function DashboardPageClient() {
                 <> <Link href={quote.upgradeHref}>{quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link></>
               )}
             </p>
-            <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable}
-              onClick={() => {
-                if (isLaunching || launchingKeyRef.current || !quoteLaunchable) return;
-                if (Date.parse(quote.expiresAt) <= Date.now()) { setQuoteNonce((n) => n + 1); return; }
-                setCreditError(null);
-                setIsLaunching(true);
-                launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
-                setLaunchSuccess(`Launching ${mode.label}…`);
-                toast.success('Entering the arena…');
-                const tonight = new URLSearchParams();
-                for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
-                router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
-              }}>
+            <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable} onClick={launch}>
               <AppIcon name="practice" size={18} />{startLabel}
             </Button>
           </aside>
         </div>
       )}
+
+      {/* Phones and tablets (practice.css): the session in one line above the tab bar, with its Start, until
+          the session card scrolls into view. Out of the tab order and the reading order while it is away. */}
+      {mySubs.length > 0 ? (
+        <div className="pr-dock" role="region" aria-label="Your session" data-shown={dockShown || undefined} inert={!dockShown}>
+          <span className="pr-dock__obj" key={selSubj}>
+            <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
+          </span>
+          <span className="pr-dock__text">
+            <b>{mode.label}</b>
+            <span><span className="sr-only">{selectedSubject?.name}, </span>{quoteCount} Q<span className="pr-dock__min"> · {approximate ? 'about ' : ''}{minutes} min</span> · <i data-tone={dockBlocked ? 'locked' : undefined}>{dockCost}</i></span>
+          </span>
+          {/* One width in every state: "Start" waits, disabled, while the quote is checked. A session that cannot
+              start (or a quote that failed) sends the student to the card, which says why. */}
+          {dockBlocked || quoteStatus === 'error' ? (
+            <button type="button" className="pr-dock__go pr-dock__go--why mk-press" onClick={showSession}>See why</button>
+          ) : (
+            <button type="button" className="pr-dock__go mk-press" onClick={launch} disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || !quoteLaunchable || undefined}>
+              <AppIcon name="practice" size={17} />Start
+            </button>
+          )}
+        </div>
+      ) : null}
 
       <ArenaCompanion compact act={creditError ? 'oops' : isLaunching ? 'think' : 'idle'} pose="attentive" title={effectiveModeId === 'nta' ? 'Meet the exam before exam day.' : `Set up ${mode.label}.`}>{effectiveModeId === 'nta' ? 'Choose your screen below. Mobi stays outside while you answer.' : 'Check the subject, time and access before you start.'}</ArenaCompanion>
 

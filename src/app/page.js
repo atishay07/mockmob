@@ -10,7 +10,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
-import { HeroDockGate } from '@/components/landing/HeroDockGate';
+import { HeroDockGate, DockMobi } from '@/components/landing/HeroDockGate';
 import { Reveal } from '@/components/landing/Reveal';
 import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
@@ -408,10 +408,10 @@ export default function LandingPage() {
       </main>
       <MarketingFooter />
       <PipGuide />
-      {/* The phone bar waits until the hero's buttons have gone and steps aside while the demo is on screen. */}
+      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo or the DU teaser holds the screen, and carries Mobi. */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
-        <MobileDock note={OFFER.purchasable === 'monthly' ? `Free to start. Pro ₹${OFFER.monthly.rupees}/month.` : 'Five CUET questions. No signup.'} label="Try a CUET question" href="/#try-practice" />
+        <MobileDock note={<DockMobi line={<><b>No signup.</b>Free to start.</>} />} label="Try a CUET question" href="/#try-practice" />
       </HeroDockGate>
     </div>
   );

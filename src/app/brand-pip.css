@@ -123,22 +123,34 @@
 .lp-close .pip-seat { grid-template-columns: 140px minmax(0,1fr); width: 330px; }
 .lp-close .pip-seat__art { width: 140px; height: 180px; }
 /* Mobi's desktop lane: the right 174px of the window (PipGuide seats him at innerWidth - 174), plus 40px of air.
-   The page keeps one left edge: main gives up only as much width as the lane still needs once its 75rem column
-   (.lp .mm-wrap, 40px gutters) is centred, none on a wide screen, and the header and footer columns start where
-   main's does. 100% is the page width in both places. */
+   The lane belongs to the content, never to the page: main and its sections stay full bleed (bands, rules and
+   auroras reach both edges), and each top-level content column (.mm-wrap) grows by the lane and pads it on its
+   right, so it is centred exactly where it was and its text stops short of Mobi. The lane is only as wide as a
+   centred 75rem column still needs, none on a wide screen. The header and footer columns grow the same way but
+   keep a plain gutter on the right: one left edge for header, content and footer, and a header row that sits
+   symmetric in the window (Mobi never flies above y = 100, so the bar's right end is his to keep).
+   100% is the page width in both places. Reduce motion (either switch) seats him in the flow: no lane. */
 @media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
-  .mm.lp { --pip-lane: clamp(0px, 75rem + 348px - 100%, 180px); }
-  .mm.lp main { padding-right: var(--pip-lane); }
-  .mm.lp :is(.mm-nav, .mm-foot) > .mm-wrap { margin-left: max(0px, calc((100% - var(--pip-lane) - 75rem) / 2)); margin-right: auto; }
-  .lp-hero__greeting { position: relative; }
-  .lp-hero__greeting .pip-seat { position: absolute; top: 0; }
-  .mm.lp .pip-seat[data-pip-station] { width: 160px; grid-template-columns: 1fr; text-align: center; justify-items: center; flex-basis: 160px; }
-  .mm.lp .pip-seat[data-pip-station] .pip-seat__art { width: 160px; height: 180px; }
+  :root:not([data-motion='reduced']) .mm.lp { --pip-lane: clamp(0px, 75rem + 348px - 100%, 180px); }
+  :root:not([data-motion='reduced']) .mm.lp main .mm-wrap:not(.mm-wrap .mm-wrap) {
+    max-width: calc(75rem + var(--pip-lane));
+    padding-right: calc(var(--gutter) + var(--pip-lane));
+  }
+  :root:not([data-motion='reduced']) .mm.lp main .mm-wrap--tight:not(.mm-wrap .mm-wrap) { max-width: calc(51rem + var(--pip-lane)); }
+  :root:not([data-motion='reduced']) .mm.lp :is(.mm-nav, .mm-foot) > .mm-wrap { max-width: calc(75rem + var(--pip-lane)); }
+  :root:not([data-motion='reduced']) .lp-hero__greeting { position: relative; }
+  :root:not([data-motion='reduced']) .lp-hero__greeting .pip-seat { position: absolute; top: 0; }
+  :root:not([data-motion='reduced']) .mm.lp .pip-seat[data-pip-station] { width: 160px; grid-template-columns: 1fr; text-align: center; justify-items: center; flex-basis: 160px; }
+  :root:not([data-motion='reduced']) .mm.lp .pip-seat[data-pip-station] .pip-seat__art { width: 160px; height: 180px; }
 }
+/* Phones: the hero seat is a real stage, not a sticker: Mobi stands 104px tall at the row's right end, with his
+   line beside him, both on the pill's floor (he arrives and waves on load: Round 6 below). */
 @media (max-width: 760px) {
-  .lp-hero__greeting .pip-seat { width: 70px; display: block; flex: 0 0 70px; }
-  .lp-hero__greeting .pip-seat__art { width: 64px; height: 76px; }
-  .lp-hero__greeting .pip-seat figcaption { display: none; }
+  .lp-hero__greeting { align-items: end; margin-bottom: 14px; }
+  .lp-hero__greeting .pip-seat { display: grid; grid-template-columns: minmax(0, 1fr) 80px; align-items: end; gap: 8px; width: auto; flex: 1 1 auto; min-width: 0; }
+  .lp-hero__greeting .pip-seat__art { grid-column: 2; grid-row: 1; width: 80px; height: 104px; }
+  .lp-hero__greeting .pip-seat figcaption { grid-column: 1; grid-row: 1; align-self: center; padding-bottom: 6px; text-align: right; font-size: 12px; line-height: 1.35; text-wrap: balance; }
+  .lp-hero__greeting .pip-seat figcaption span { display: none; }
   .lp-guide-head > .pip-seat { flex-basis: 100px; }
   .lp-guide-head .pip-seat__art { width: 96px; height: 116px; }
   .lp-exam-bottom .pip-seat--demo { grid-template-columns: 96px minmax(0,1fr); }
@@ -166,7 +178,7 @@
 @keyframes pip-pose-in { from {opacity:.65} to {opacity:1} }
 @media(prefers-reduced-motion:reduce){.pip-pose-in{animation:none}}
 .pip-seat--utility { margin: 0 0 24px auto; }
-@media(min-width:1100px) and (prefers-reduced-motion:no-preference){.pip-seat--utility{height:0;margin-bottom:0;overflow:visible}}
+@media(min-width:1100px) and (prefers-reduced-motion:no-preference){:root:not([data-motion='reduced']) .pip-seat--utility{height:0;margin-bottom:0;overflow:visible}}
 
 /* ---- Round 6: Mobi alive on the landing ----
    The rig is the pose's own shape, standing on the floor of its seat, so the eyes layer lines up with the art.

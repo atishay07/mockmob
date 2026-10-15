@@ -103,9 +103,11 @@ export function pickSubject(subjects = [], stored = null) {
 /**
  * Where the object sits in a box of `w` x `h` px: centred and wholly inside (never cropped), with
  * room under it for the contact shadow, which sits under the object's foot. Mirrors the app's
- * SubjectRender.rectIn. Returns { x, y, width, height, shadow: { x, y, width } } in px, or null.
+ * SubjectRender.rectIn. `align: 'bottom'` stands every object on the same floor line instead (a row of
+ * chips, where a wide calculator and a tall stamp must share one shelf). Returns
+ * { x, y, width, height, shadow: { x, y, width } } in px, or null.
  */
-export function artBox(a, w, h = w, { pad = 0.08 } = {}) {
+export function artBox(a, w, h = w, { pad = 0.08, align = 'center' } = {}) {
   if (!a || !(w > 0) || !(h > 0)) return null;
   const inner = { l: w * pad, t: h * pad, r: w * (1 - pad), b: h * (1 - pad * 1.6) };
   const iw = inner.r - inner.l;
@@ -114,7 +116,7 @@ export function artBox(a, w, h = w, { pad = 0.08 } = {}) {
   const width = a.width * scale;
   const height = a.height * scale;
   const x = inner.l + (iw - width) / 2;
-  const y = inner.t + (ih - height) / 2;
+  const y = align === 'bottom' ? inner.b - height : inner.t + (ih - height) / 2;
   const r = (v) => Math.round(v * 10) / 10;
   return { x: r(x), y: r(y), width: r(width), height: r(height),
     shadow: { x: r(x + width * (a.footX - a.footWidth / 2)), y: r(y + height * a.ground), width: r(width * a.footWidth) } };

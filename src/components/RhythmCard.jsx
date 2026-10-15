@@ -69,6 +69,9 @@ function WeekRing({ rhythm, armed, size }) {
   );
 }
 
+// What a day says about itself. Today always says so, counted or not ("Today, Thu 15, counted").
+const dayWords = (d) => (d.isToday && !d.chip.startsWith('Today') ? `Today, ${d.chip}` : d.chip);
+
 function DayBubbles({ week, armed, picked, onPick }) {
   return (
     <ul className="rc-days" aria-label="This week, day by day">
@@ -78,10 +81,12 @@ function DayBubbles({ week, armed, picked, onPick }) {
             type="button"
             className="rc-day"
             data-state={d.state}
+            data-today={d.isToday ? 'true' : undefined}
             data-picked={picked === i ? 'true' : 'false'}
             data-armed={armed ? 'true' : 'false'}
             style={{ '--rc-i': i }}
-            aria-label={d.chip}
+            aria-label={dayWords(d)}
+            aria-current={d.isToday ? 'date' : undefined}
             onClick={() => onPick(i)}
             onPointerEnter={(e) => { if (e.pointerType === 'mouse') onPick(i); }}
             onFocus={() => onPick(i)}
@@ -91,11 +96,32 @@ function DayBubbles({ week, armed, picked, onPick }) {
                 <svg viewBox="0 0 24 24" focusable="false"><path d="M6 12.5l4 4 8-9" pathLength="1" /></svg>
               ) : null}
             </span>
-            <span className="rc-day__name" aria-hidden="true">{d.name[0]}</span>
+            <span className="rc-day__name" aria-hidden="true">{d.name}</span>
           </button>
         </li>
       ))}
     </ul>
+  );
+}
+
+/**
+ * The caption sits under the day it describes, on the same seven columns as the dots: centred under a
+ * middle day, held to the strip's edge under the first two and the last two so it never leaves the card.
+ * It re-enters (a short settle) each time the day changes, so the eye follows it to the new day.
+ */
+function DayCaption({ week, index }) {
+  const d = index >= 0 ? week[index] : null;
+  let column = '1 / 8';
+  let align = 'start';
+  if (d) {
+    if (index <= 1) column = `${index + 1} / 8`;
+    else if (index >= 5) { column = `1 / ${index + 2}`; align = 'end'; }
+    else { const k = Math.min(index, 6 - index); column = `${index + 1 - k} / ${index + 2 + k}`; align = 'center'; }
+  }
+  return (
+    <div className="rc-caption" role="status" aria-live="polite">
+      {d ? <p key={index} className="rc-chip" data-align={align} data-today={d.isToday ? 'true' : undefined} style={{ gridColumn: column }}>{dayWords(d)}</p> : null}
+    </div>
   );
 }
 
@@ -243,7 +269,6 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
   const armed = inView || reduced;
   const todayIndex = week.findIndex((d) => d.isToday);
   const shownIndex = picked != null ? picked : todayIndex;
-  const chip = shownIndex >= 0 ? week[shownIndex].chip : '';
   const met = rhythm.metThisWeek;
   const pick = state.pick;
   const status = weekStatus(rhythm);
@@ -264,7 +289,7 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
         <WeekRing rhythm={rhythm} armed={armed} size={compact ? 92 : 132} />
         <div className="rc__week">
           <DayBubbles week={week} armed={armed} picked={picked} onPick={setPicked} />
-          <p className="rc-chip" role="status" aria-live="polite">{chip}</p>
+          <DayCaption week={week} index={shownIndex} />
           {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <> · best run {rhythm.bestRun}</> : null}</p> : null}
         </div>
       </div>

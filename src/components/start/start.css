@@ -225,14 +225,19 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 @property --st-fade-l { syntax: '<length>'; inherits: false; initial-value: 0px; }
 @property --st-fade-r { syntax: '<length>'; inherits: false; initial-value: 0px; }
 .st-rail { position: relative; }
+/* The fade: --st-fade-* is its width at each edge and --st-hold the share of it that is fully clear, so on
+   a mouse the chips are gone under the arrow and only come back past it (no ring peeking round the disc).
+   The top padding is the room the objects lean out into above the chips (the row clips what overflows). */
 .st-chips {
   --st-fade-l: 0px;
   --st-fade-r: 0px;
+  --st-fade: 40px;
+  --st-hold: 0;
   position: relative;
   display: flex;
   gap: 8px;
-  margin: -3px calc(var(--st-pad) * -1) 0;
-  padding: 5px var(--st-pad) 6px;
+  margin: -11px calc(var(--st-pad) * -1) 0;
+  padding: 13px var(--st-pad) 6px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
@@ -240,26 +245,30 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   scrollbar-width: none;
   -webkit-user-select: none;
   user-select: none;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--st-fade-l), #000 calc(100% - var(--st-fade-r)), transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 var(--st-fade-l), #000 calc(100% - var(--st-fade-r)), transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, transparent calc(var(--st-fade-l) * var(--st-hold)), #000 var(--st-fade-l), #000 calc(100% - var(--st-fade-r)), transparent calc(100% - var(--st-fade-r) * var(--st-hold)), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, transparent calc(var(--st-fade-l) * var(--st-hold)), #000 var(--st-fade-l), #000 calc(100% - var(--st-fade-r)), transparent calc(100% - var(--st-fade-r) * var(--st-hold)), transparent 100%);
   transition: --st-fade-l var(--mm-dur-glide) var(--mm-ease-out), --st-fade-r var(--mm-dur-glide) var(--mm-ease-out);
 }
 .st-chips::-webkit-scrollbar { display: none; }
-.st-rail[data-overflow]:not([data-at-start]) .st-chips { --st-fade-l: 56px; }
-.st-rail[data-overflow]:not([data-at-end]) .st-chips { --st-fade-r: 56px; }
+.st-rail[data-overflow]:not([data-at-start]) .st-chips { --st-fade-l: var(--st-fade); }
+.st-rail[data-overflow]:not([data-at-end]) .st-chips { --st-fade-r: var(--st-fade); }
 .st-chips > .st-chip { scroll-snap-align: start; }
 /* While the row glides or is dragged it owns the position; snap waits for it to land on a chip. */
 .st-chips:is([data-gliding], [data-dragging]) { scroll-snap-type: none; }
 @media (hover: hover) and (pointer: fine) {
+  /* 76 px under each arrow, the first 44 of it clear; a step lands its chip just past the fade
+     (useSubjectRail.js reads this scroll padding as the place a chip comes to rest). */
+  .st-chips { --st-fade: 76px; --st-hold: 0.58; scroll-padding-inline: 80px; }
   .st-rail[data-overflow] .st-chips { cursor: grab; }
   .st-chips[data-dragging], .st-chips[data-dragging] .st-chip, .st-chips[data-dragging] .st-chip input { cursor: grabbing; }
 }
 
 /* The arrows: mouse only, and only toward chips that are out of view. They sit in the fade, at the sheet's
-   edge, as 44 px targets around a 34 px glass disc, and leave on the exit curve once their end is reached. */
+   edge, as 44 px targets around a 34 px glass disc, centred on the chips, and leave on the exit curve once
+   their end is reached. */
 .st-rail__arrow {
   position: absolute;
-  top: 5px;
+  top: 3px;
   z-index: 2;
   display: none;
   place-items: center;
@@ -316,9 +325,9 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   align-items: center;
   gap: 8px;
   flex: none;
-  min-height: 44px;
-  /* 36 px objects fill the 44 px chip with 3 px of air (and the 1 px rim) above and below. */
-  padding: 3px 15px 3px 5px;
+  min-height: 46px;
+  /* The object stands at the left on its own 48 px stage (absolutely placed, below), so the words start past it. */
+  padding: 3px 16px 3px 58px;
   border: 1px solid var(--a-line);
   border-radius: 999px;
   background: var(--a-raised-2);
@@ -331,7 +340,23 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .st-chip:hover { border-color: var(--a-line-strong); color: var(--a-ink); }
 .st-chip[data-on] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); font-weight: 700; box-shadow: inset 0 0 0 1px var(--a-select); }
 .st-chip:has(input:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.st-chip .st-obj { pointer-events: none; }
+/* The chip's object: 36 to 44 px of picture on a 48 px stage whose floor line is 35 px down the chip, so a
+   tall stamp or flask leans about 8 px out over the top edge and a wide calculator rests on the same line.
+   The chosen one rises a little and takes the lamp's shadow on the settle spring; hover lifts it by a hair. */
+.st-chip .st-obj {
+  position: absolute;
+  left: 6px;
+  top: -10px;
+  pointer-events: none;
+  transform-origin: 50% 92%;
+  transition: translate var(--mm-spring-settle-dur) var(--mm-spring-settle), scale var(--mm-spring-settle-dur) var(--mm-spring-settle);
+}
+.st-chip .st-obj__shadow { opacity: 0.8; }
+.st-chip[data-on] .st-obj { translate: 0 -2px; scale: 1.08; }
+.st-chip[data-on] .st-obj__img { filter: drop-shadow(0 5px 6px var(--st-shadow)); }
+@media (hover: hover) and (pointer: fine) {
+  .st-chip:not([data-on]):hover .st-obj { translate: 0 -1px; scale: 1.03; }
+}
 
 /* The next move: the one lit card. */
 .st-hero {
@@ -528,7 +553,9 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 /* ---------- Reduced motion: hover and press without movement ---------- */
 :root[data-motion='reduced'] :is(.st-row, .st-chip, .st-close, .stk__disc, .st-row__art > *) { transition-property: background-color, border-color, color, box-shadow; transform: none !important; }
 :root[data-motion='reduced'] :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; transition-property: opacity, background-color, border-color; }
+:root[data-motion='reduced'] .st-chip .st-obj { translate: none !important; scale: none !important; transition: none; }
 @media (prefers-reduced-motion: reduce) {
   :is(.st-row, .st-chip, .st-close, .stk__disc, .st-row__art > *) { transition-property: background-color, border-color, color, box-shadow; transform: none !important; }
   :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; transition-property: opacity, background-color, border-color; }
+  .st-chip .st-obj { translate: none !important; scale: none !important; transition: none; }
 }

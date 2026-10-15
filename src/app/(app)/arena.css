@@ -1660,10 +1660,51 @@ html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
 }
 
 /* ---------- Review: each session shows its subject's object, the way Practice and the Start sheet do ---------- */
-.app-shell .ov-session__icon.ov-session__icon--obj { width: 52px; height: 52px; border: 0; border-radius: 0; background: none; overflow: visible; }
+/* The object reads at about 46 px (a calculator, a scale): a 68 px unframed object in a 56 px cell, its
+   spare transparent edge spilling into the row's padding so the row stays the same height. */
+.app-shell .ov-session__icon.ov-session__icon--obj { width: 56px; height: 56px; border: 0; border-radius: 0; background: none; overflow: visible; }
+.app-shell .ov-session__icon--obj .subj-obj { margin: -6px; }
 @media (max-width: 480px) { .app-shell .ov-session__icon--obj { grid-row: 1 / span 2; align-self: center; } }
 /* A recorded milestone is one quiet card at every width: what happened, and the way to it */
 .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] > div { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 16px; padding: 10px 16px; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); }
 .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] b { font: 700 15px/1.3 var(--font-display); color: var(--a-ink); }
 .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] p { margin: 0; font-size: 14px; color: var(--a-ink-2); }
 .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] .pr-link { display: inline-flex; align-items: center; min-height: 44px; margin: 0; }
+
+/* ---------- Review: a session's object lifts off its shadow under the pointer, and dips on press ---------- */
+.app-shell .ov-session__icon--obj .subj-obj__img { transition: transform 420ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1)), opacity 320ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)); }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .ov-session:hover .ov-session__icon--obj .subj-obj__img { transform: translateY(-3px) rotate(-4deg); }
+  .app-shell .ov-session:hover .ov-session__icon--obj .subj-obj__shadow { scale: .86; opacity: .75; }
+}
+.app-shell .ov-session:active .ov-session__icon--obj .subj-obj__img { transform: scale(.94); transition-duration: 100ms; }
+html[data-motion='reduced'] .app-shell .ov-session .ov-session__icon--obj :is(.subj-obj__img, .subj-obj__shadow) { transition: none; transform: none; scale: none; }
+@media (prefers-reduced-motion: reduce) { .app-shell .ov-session .ov-session__icon--obj :is(.subj-obj__img, .subj-obj__shadow) { transition: none; transform: none; scale: none; } }
+
+/* ---------- This week (RhythmCard): today is marked, the caption sits under its own day, the days stay grouped ---------- */
+/* Seven days hold together beside the ring (about 460 px) instead of spreading across a wide card. */
+@media (min-width: 421px) {
+  .app-shell .rc .rc__top { grid-template-columns: auto minmax(0, 460px); justify-content: start; }
+}
+.app-shell .rc-day__name { font-size: 11px; letter-spacing: .01em; transition: color 160ms ease; }
+/* Today: a volt ring round its dot and its name in bold ink, counted or not (an open today keeps its breathing ring). */
+.app-shell .rc-day[data-today='true'] .rc-day__name { color: var(--a-ink); font-weight: 800; }
+.app-shell .rc-day[data-today='true']:not([data-state='open']) .rc-day__dot::after { content: ''; position: absolute; inset: -5px; border-radius: 50%; border: 2px solid var(--a-select); pointer-events: none; }
+/* The caption shares the dots' seven columns: centred under a middle day, held to the edge under the outer
+   two, its first letter under the dot's edge. It settles in again whenever the day it describes changes. */
+.app-shell .rc-caption { container-type: inline-size; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); column-gap: 2px; min-height: 22px; }
+.app-shell .rc-caption .rc-chip { --rc-pad: max(0px, calc((100cqw - 12px) / 14 - 17px)); grid-row: 1; margin: 0; white-space: nowrap; animation: rc-chip-in 220ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)) both; }
+.app-shell .rc-caption .rc-chip[data-align='start'] { justify-self: start; padding-inline-start: var(--rc-pad); }
+.app-shell .rc-caption .rc-chip[data-align='end'] { justify-self: end; padding-inline-end: var(--rc-pad); }
+.app-shell .rc-caption .rc-chip[data-align='center'] { justify-self: center; text-align: center; }
+.app-shell .rc-caption .rc-chip[data-today='true'] { color: var(--a-ink); }
+@keyframes rc-chip-in { from { opacity: 0; transform: translateY(-4px); } }
+html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
+@media (prefers-reduced-motion: reduce) { .app-shell .rc-caption .rc-chip { animation: none; } }
+/* Today on a wide screen: the card is one band, the words on the left, the ring and its days on the right. */
+@media (min-width: 1200px) {
+  .app-shell .student-page--today .rc--compact:not(.rc--wait) { grid-template-columns: minmax(220px, 1fr) minmax(0, 580px); grid-template-areas: 'head top' 'more top'; column-gap: 32px; row-gap: 0; align-items: center; padding: 18px 22px; }
+  .app-shell .student-page--today .rc--compact > .rc__head { grid-area: head; align-self: end; }
+  .app-shell .student-page--today .rc--compact > .rc__top { grid-area: top; grid-template-columns: auto minmax(0, 1fr); }
+  .app-shell .student-page--today .rc--compact > .rc__more { grid-area: more; align-self: start; }
+}

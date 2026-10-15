@@ -13,6 +13,7 @@ import { pipReact } from '@/components/brand/pipEvents';
 import { useReadableRegion } from './useReadableRegion';
 import ScrollStory from './ScrollStory';
 import { MascotSeat } from '@/components/brand/Mascot';
+import { durations } from '@/lib/motion/tokens.g.js';
 
 const SESSION = [
   { n: 1, first: 'right', final: 'right', time: '0:48' },
@@ -33,7 +34,9 @@ const STEPS = [
   { key: 'move', title: 'Get one next move', body: 'One next step, the same one Today shows you.', ms: 4800 },
   { key: 'check', title: 'Check it on fresh questions', body: 'New questions, days apart, show whether the fix held.', ms: 4800 },
 ];
-const REVEAL_MS = 360;
+// The ten tiles deal one shared stagger step apart (the app's staggerStep), so the replay is whole within
+// about half a second of its step coming on and a reader scrolling on never meets a half-dealt board.
+const REVEAL_MS = durations.staggerStep;
 
 function statusLabel(tile) {
   const end = tile.final === 'right' ? 'ended right' : tile.final === 'wrong' ? 'ended wrong' : 'left blank';

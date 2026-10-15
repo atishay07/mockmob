@@ -1,6 +1,7 @@
 /* Tour screens: compact "night" product windows that play a short demo when their slide is active.
    Every element starts from its finished look; the demo hides things for a moment (data-in='false')
-   and brings them in. Step 0 switches transitions off so a restart never animates backwards. */
+   and brings them in, one shared stagger step apart, on the app's enter timing, so the whole screen is
+   in place within about 600 ms. Step 0 switches transitions off so a restart never animates backwards. */
 
 .ts { --ts-line: rgba(255,255,255,.09); --ts-ink: #f2f4ec; --ts-ink2: #a3ab9c; --ts-volt: #d2f000; --ts-bad: #ff7a66; --ts-ease: cubic-bezier(.23,1,.32,1);
   margin: 0; display: grid; grid-template-rows: auto 1fr; min-height: 17.25rem; border-radius: 20px; overflow: hidden; text-align: left;
@@ -15,8 +16,8 @@
 .ts__timer { font: 700 .82rem var(--font-mono, ui-monospace, monospace); letter-spacing: 0; color: var(--ts-volt); font-variant-numeric: tabular-nums; }
 .ts__body { display: flex; flex-direction: column; gap: .6rem; padding: .85rem; }
 
-/* Generic entrance used by every screen. */
-.ts [data-in] { transition: opacity .45s ease, transform .5s var(--ts-ease); }
+/* Generic entrance used by every screen (the app's enter: fade on the card time, rise on the emphasized curve). */
+.ts [data-in] { transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out); }
 .ts [data-in='false'] { opacity: 0; transform: translateY(6px); }
 
 .ts__meta { margin: 0; font: 600 .68rem var(--font-mono, ui-monospace, monospace); color: var(--ts-ink2); }
@@ -28,7 +29,7 @@
 .ts__q { margin: 0; font: 700 .86rem/1.35 var(--font-display); letter-spacing: -.01em; }
 .ts__opts { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; }
 .ts__opts li { position: relative; display: flex; align-items: center; gap: .55rem; padding: .48rem .6rem; border-radius: 10px; border: 1px solid var(--ts-line); background: rgba(255,255,255,.03); font: 600 .78rem var(--font-body);
-  transition: opacity .45s ease, transform .5s var(--ts-ease), border-color .3s ease, background .3s ease; }
+  transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out), border-color .3s ease, background .3s ease; }
 .ts__opts li b { display: grid; place-items: center; flex: 0 0 22px; height: 22px; border-radius: 6px; background: rgba(255,255,255,.08); font-size: .68rem; transition: background .3s ease, color .3s ease; }
 .ts__opts li[data-picked='true'] { border-color: var(--ts-volt); background: rgba(210,240,0,.1); }
 .ts__opts li[data-picked='true'] b { background: var(--ts-volt); color: #0b1000; }
@@ -65,7 +66,7 @@
 .ts__node-dot { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; }
 .ts__node-dot[data-tone='good'] { background: var(--ts-volt); color: #0b1000; }
 .ts__node-dot[data-tone='bad'] { background: var(--ts-bad); color: #1a0703; }
-.ts__line { display: block; height: 2px; margin-top: 16px; border-radius: 99px; background: linear-gradient(90deg, var(--ts-volt), var(--ts-bad)); transform-origin: left; transition: transform .55s var(--ts-ease); }
+.ts__line { display: block; height: 2px; margin-top: 16px; border-radius: 99px; background: linear-gradient(90deg, var(--ts-volt), var(--ts-bad)); transform-origin: left; transition: transform var(--mm-dur-enter, 360ms) var(--mm-ease-out, ease-out); }
 .ts .ts__line[data-in='false'] { opacity: 1; transform: scaleX(0); }
 .ts__verdict { display: flex; align-items: center; gap: .65rem; padding: .6rem .7rem; border-radius: 12px; border: 1px solid var(--ts-line); background: rgba(255,255,255,.04); }
 .ts__opt { display: grid; place-items: center; flex: 0 0 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,.08); font: 800 .9rem var(--font-display); }
@@ -90,7 +91,7 @@
 .ts__bars-name b { flex-basis: 100%; font-size: .76rem; }
 .ts__bars-name small { font-size: .64rem; color: var(--ts-ink2); }
 .ts__bars-track { height: 7px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
-.ts__bars-track i { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--ts-volt); transform-origin: left; transition: transform .8s var(--ts-ease) .12s; }
+.ts__bars-track i { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--ts-volt); transform-origin: left; transition: transform var(--mm-dur-sweep, 700ms) var(--ts-ease) 60ms; }
 .ts__bars li[data-low='true'] .ts__bars-track i { background: var(--ts-bad); }
 .ts__bars li[data-in='false'] .ts__bars-track i { transform: scaleX(0); }
 .ts__bars em { font: 700 .7rem var(--font-mono, ui-monospace, monospace); font-style: normal; text-align: right; color: var(--ts-ink2); }
@@ -99,9 +100,6 @@
 /* 5. PrepOS */
 .ts__bubble { margin: 0; max-width: 88%; font-size: .78rem; line-height: 1.4; }
 .ts__bubble--me { align-self: flex-end; min-height: 1.95rem; padding: .45rem .7rem; border-radius: 14px 14px 4px 14px; background: var(--ts-volt); color: #0b1000; font-weight: 700; }
-.ts__caret { display: inline-block; width: 2px; height: .9em; margin-left: 2px; vertical-align: -.1em; background: currentColor; }
-.ts__caret[data-on='true'] { animation: ts-blink .8s steps(1) infinite; }
-.ts__caret[data-on='false'] { display: none; }
 .ts__typing { align-self: flex-start; display: flex; gap: 4px; margin: 0; padding: .55rem .7rem; border-radius: 14px; background: rgba(255,255,255,.06); }
 .ts__typing i { width: 6px; height: 6px; border-radius: 50%; background: var(--ts-ink2); animation: ts-dot 1s ease-in-out infinite; }
 .ts__typing i:nth-child(2) { animation-delay: .15s; }
@@ -183,7 +181,6 @@
 @keyframes ts-pop { 0% { transform: scale(.82); } 60% { transform: scale(1.06); } 100% { transform: scale(1); } }
 @keyframes ts-flip { 0% { transform: rotateX(90deg); } 100% { transform: none; } }
 @keyframes ts-tap { 0% { opacity: .9; transform: scale(.35); } 100% { opacity: 0; transform: scale(1.7); } }
-@keyframes ts-blink { 50% { opacity: 0; } }
 @keyframes ts-dot { 0%, 100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(-3px); opacity: 1; } }
 
 @media (min-width: 900px) {

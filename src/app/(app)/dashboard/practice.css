@@ -185,6 +185,134 @@
 /* ---------- Lower panels: each as tall as its own content, never a tall empty box ---------- */
 .app-shell .pr .pr-lower { align-items: start; }
 
+/* ---------- The dock (phones and tablets): the session and its Start, one line above the tab bar ----------
+   The session card sits four screens down on a phone, so until it scrolls into view (DashboardPageClient.jsx
+   watches it) a glass bar carries it: the chosen subject's object leaning out over the bar's top edge, the
+   mode, the length and the price, and a volt Start. It rises from behind the tab bar on the smooth spring and
+   tucks back on the exit curve; a new subject's object settles in on the settle spring. Reduced motion: a
+   short fade, no movement. From 1024 px the session card is a sticky side panel, so there is no dock. */
+.app-shell .pr .pr-dock { display: none; }
+@media (max-width: 1023px) {
+  /* Room under the last panel, so the dock never covers it. */
+  .app-shell .pr { padding-bottom: 80px; }
+  .app-shell .pr .pr-dock {
+    position: fixed;
+    left: 0;
+    right: 0;
+    /* Clears the tab bar (65 px) and the Start key's disc, which stands 10 px above it. */
+    bottom: calc(82px + env(safe-area-inset-bottom));
+    z-index: 43;
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    width: calc(100% - 24px);
+    max-width: 560px;
+    min-height: 62px;
+    margin: 0 auto;
+    padding: 7px 7px 7px 10px;
+    border: 1px solid var(--a-line-strong);
+    border-radius: 20px;
+    background: var(--a-raised);
+    color: var(--a-ink);
+    box-shadow: inset 0 1px 0 var(--a-edge), 0 18px 40px -16px rgb(0 0 0 / 0.65);
+    opacity: 0;
+    translate: 0 calc(100% + 18px);
+    visibility: hidden;
+    transition:
+      translate var(--mm-dur-exit) var(--mm-ease-exit),
+      opacity var(--mm-dur-exit) var(--mm-ease-exit),
+      visibility 0s linear var(--mm-dur-exit);
+  }
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .app-shell .pr .pr-dock {
+      background: color-mix(in srgb, var(--a-raised) 86%, transparent);
+      -webkit-backdrop-filter: blur(22px) saturate(1.45);
+      backdrop-filter: blur(22px) saturate(1.45);
+    }
+  }
+  html[data-theme='light'] .app-shell .pr .pr-dock { box-shadow: inset 0 1px 0 var(--a-edge), 0 16px 36px -18px rgb(20 32 14 / 0.38); }
+  .app-shell .pr .pr-dock[data-shown] {
+    opacity: 1;
+    translate: 0 0;
+    visibility: visible;
+    transition:
+      translate var(--mm-spring-smooth-dur) var(--mm-spring-smooth),
+      opacity var(--mm-dur-glide) var(--mm-ease-glide),
+      visibility 0s;
+  }
+
+  /* The object: a 60 px stage, foot on the bar's floor line, top leaning about 10 px out over the edge. */
+  .app-shell .pr .pr-dock__obj { position: relative; display: block; width: 52px; height: 44px; }
+  .app-shell .pr .pr-dock__obj > .subj-obj {
+    position: absolute;
+    left: -4px;
+    bottom: -6px;
+    animation: pr-dock-obj-in var(--mm-spring-settle-dur) var(--mm-spring-settle) both;
+  }
+  @keyframes pr-dock-obj-in { from { opacity: 0; translate: 0 8px; scale: 0.86; } }
+
+  .app-shell .pr .pr-dock__text { display: grid; gap: 2px; min-width: 0; }
+  .app-shell .pr .pr-dock__text b {
+    overflow: hidden;
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    font-weight: 750;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .app-shell .pr .pr-dock__text > span {
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 550;
+    line-height: 1.3;
+    color: var(--a-ink-2);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-variant-numeric: tabular-nums;
+  }
+  .app-shell .pr .pr-dock__text i { font-style: normal; font-weight: 700; color: var(--a-accent-text); }
+  /* Under 380 px the length in minutes gives way, so the price is never cut. */
+  @media (max-width: 379px) { .app-shell .pr .pr-dock__min { display: none; } }
+  .app-shell .pr .pr-dock__text i[data-tone='locked'] { color: var(--a-ink-3); }
+
+  .app-shell .pr .pr-dock__go {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 100px;
+    min-height: 48px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 14px;
+    background: var(--volt);
+    color: #182000;
+    font: 700 15px/1 var(--font-display);
+    letter-spacing: -0.005em;
+    cursor: pointer;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.38), 0 10px 22px -14px rgb(210 240 0 / 0.6);
+  }
+  html[data-theme='light'] .app-shell .pr .pr-dock__go { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.35), 0 8px 18px -12px rgb(82 103 0 / 0.45); }
+  .app-shell .pr .pr-dock__go:disabled { cursor: default; opacity: 0.6; transition: opacity var(--mm-dur-ui) var(--mm-ease-out); }
+  .app-shell .pr .pr-dock__go:focus-visible { outline: 2px solid var(--a-ink); outline-offset: 3px; }
+  .app-shell .pr .pr-dock__go--why { border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink); box-shadow: none; }
+  html[data-theme='light'] .app-shell .pr .pr-dock__go--why { box-shadow: none; }
+  .app-shell .pr .pr-summary__reason:focus { outline: none; }
+}
+@media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
+  .app-shell .pr .pr-dock, .app-shell .pr .pr-dock[data-shown] { translate: none; transition: opacity var(--mm-dur-reduced-fade) linear, visibility 0s linear var(--mm-dur-reduced-fade); }
+  .app-shell .pr .pr-dock[data-shown] { transition: opacity var(--mm-dur-reduced-fade) linear, visibility 0s; }
+  .app-shell .pr .pr-dock__obj > .subj-obj { animation: none; }
+}
+@media (max-width: 1023px) {
+  :root[data-motion='reduced'] .app-shell .pr .pr-dock { translate: none; transition: opacity var(--mm-dur-reduced-fade) linear, visibility 0s linear var(--mm-dur-reduced-fade); }
+  :root[data-motion='reduced'] .app-shell .pr .pr-dock[data-shown] { transition: opacity var(--mm-dur-reduced-fade) linear, visibility 0s; }
+  :root[data-motion='reduced'] .app-shell .pr .pr-dock__obj > .subj-obj { animation: none; }
+}
+
 /* ---------- Reduced motion: state changes stay, movement goes ---------- */
 @media (prefers-reduced-motion: reduce) {
   .app-shell .pr .pr-tile__tick { animation: none; }

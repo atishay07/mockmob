@@ -89,6 +89,34 @@ function ChangesPanel() {
         ))}
       </ol>
       <p className="lcp__foot">Times run from the start of the paper. Net effect: <b>{signed(S.net)} marks</b>.</p>
+      <NetStrip />
+    </div>
+  );
+}
+
+// What the changes did to the score: the first answers' total against the final one on a 0 to 50 line,
+// and the two kinds of change with their marks. Wide screens only, where the device has the room.
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+function NetStrip() {
+  const { marks, outOf } = S.facts;
+  const first = marks - S.net;
+  const gained = S.changes.filter((c) => c.net > 0);
+  const lo = Math.min(marks, first) / outOf;
+  const hi = Math.max(marks, first) / outOf;
+  return (
+    <div className="lcp-net" data-tone={S.net < 0 ? 'bad' : 'good'}>
+      <p className="lcp-net__h">Your first answers would have scored <b>{first}</b>. You finished on <b>{marks}</b>.</p>
+      <div className="lcp-net__track" aria-hidden="true">
+        <i className="lcp-net__fill" style={{ '--x': lo }} />
+        <i className="lcp-net__gap" style={{ '--a': lo, '--b': hi }} />
+        <i className="lcp-net__mark" data-k="final" style={{ '--x': marks / outOf }}><small>Final</small><b>{marks}</b></i>
+        <i className="lcp-net__mark" data-k="first" style={{ '--x': first / outOf }}><small>First answers</small><b>{first}</b></i>
+        <span className="lcp-net__ends"><b>0</b><b>{outOf}</b></span>
+      </div>
+      <div className="lcp-net__tally">
+        <p data-tone="bad" style={{ '--i': 0 }}><b>{signed(S.lostToChanges)}</b>{plural(S.lostQuestions.length, 'right answer', 'right answers')} changed to wrong</p>
+        <p data-tone="good" style={{ '--i': 1 }}><b>{signed(gained.reduce((sum, c) => sum + c.net, 0))}</b>{plural(gained.length, 'wrong answer', 'wrong answers')} changed to right</p>
+      </div>
     </div>
   );
 }
@@ -192,8 +220,8 @@ function Stage({ step, pinned, reduced, goTo }) {
         </div>
       </div>
 
-      {/* The mock's subject, the lamp-lit Accountancy object, rests on the screen's top right corner, in
-          front of it on every screen size, and drifts a little with the story. */}
+      {/* The mock's subject, the lamp-lit Accountancy object, sits in the screen's header beside the score
+          on every screen size, inside the bezel, and drifts a little with the story. */}
       <div className="lc__prop" aria-hidden="true">
         <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
       </div>

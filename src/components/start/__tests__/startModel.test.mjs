@@ -58,6 +58,15 @@ test('artBox keeps the object whole and puts the shadow under its foot', () => {
   assert.equal(artBox(a, 0), null);
 });
 
+test('artBox on one floor: a wide and a tall object end on the same line', () => {
+  const opts = { pad: 0.04, align: 'bottom' };
+  const wide = artBox(SUBJECT_ART.accountancy, 48, 48, opts);
+  const tall = artBox(SUBJECT_ART.business, 48, 48, opts);
+  assert.equal(Math.round(wide.y + wide.height), Math.round(tall.y + tall.height));
+  assert.ok(wide.width >= 36 && tall.height >= 36, 'chip objects read at 36 px and up');
+  assert.ok(wide.y >= 0 && tall.y >= 0);
+});
+
 test('cost lines say what is spent against the real balance', () => {
   assert.deepEqual(costLine('quick', { balance: 40 }), { text: 'Uses 10 of your 40 practice credits.', tone: 'cost' });
   assert.deepEqual(costLine('full', { balance: 40 }), { text: 'Uses 50 practice credits. You have 40.', tone: 'short' });
