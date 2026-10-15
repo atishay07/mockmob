@@ -124,7 +124,12 @@ class MistakeView extends StatelessWidget {
             onGoTo: actions.onGoTo,
             child: Stack(
             children: [
-              ListView(
+              // Only the mistake itself moves on: the track above and the key below stay put, so
+              // the track's lift can travel and the key never blinks.
+              Positioned.fill(
+                child: _StepSwap(
+                  index: run.index,
+                  child: ListView(
                 key: PageStorageKey(step.item.key),
                 padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s32),
                 children: [
@@ -160,6 +165,8 @@ class MistakeView extends StatelessWidget {
                     ),
                   ..._outcome(context, outcome, chosenLetter: _letter(chosen), keyLetter: _letter(keyIndex)),
                 ],
+                  ),
+                ),
               ),
               // The words run under the key: a short fade into the ground says there is more, in
               // place of a hard cut or a rule.
@@ -638,6 +645,41 @@ class _TwiceGlyphPainter extends CustomPainter {
   bool shouldRepaint(_TwiceGlyphPainter old) => old.color != color;
 }
 
+/// One mistake hands over to the next as a shared-axis step: the new one glides in from the side
+/// the run is moving to (from the right going on, from the left going back) while the old one
+/// holds, then drifts a little the other way as it fades. The two overlap, so no frame is ever
+/// blank, and the leaving one takes no touch (a quick second tap lands on the new mistake). Under
+/// reduced motion it is a short fade in place.
+class _StepSwap extends StatefulWidget {
+  const _StepSwap({required this.index, required this.child});
+
+  /// The mistake on screen: a lower one than before is a step back.
+  final int index;
+
+  /// Keyed by the mistake, so a new one is a new layer.
+  final Widget child;
+
+  @override
+  State<_StepSwap> createState() => _StepSwapState();
+}
+
+class _StepSwapState extends State<_StepSwap> {
+  late int _last = widget.index;
+  int _direction = 1;
+
+  @override
+  void didUpdateWidget(_StepSwap old) {
+    super.didUpdateWidget(old);
+    if (widget.index != _last) {
+      _direction = widget.index < _last ? -1 : 1;
+      _last = widget.index;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => MmOverlapSwitcher.axis(direction: _direction, fit: StackFit.expand, child: widget.child);
+}
+
 /// A horizontal swipe on the mistake goes back to the one before it (and forward again to one
 /// already reached). Only steps already reached: a swipe never starts a new repair call.
 class _SwipeSteps extends StatelessWidget {
@@ -755,6 +797,7 @@ class _TopBar extends StatelessWidget {
             padding: const EdgeInsets.only(right: MmSpace.s12),
             child: RunTrack(
               segments: [for (var i = 0; i < n; i++) _segment(i)],
+              onScreen: run.index,
               onTap: go == null ? null : (i) => go(i),
               canTap: run.canGoTo,
             ),

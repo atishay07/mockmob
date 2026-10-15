@@ -103,17 +103,26 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       child: Scaffold(
         backgroundColor: colors.ground,
         body: SafeArea(
-          // One mistake hands over to the next in 160 ms with the two overlapping: the incoming
-          // one rises in while the outgoing one holds, so no frame is ever blank, and the leaving
-          // one takes no touch (a quick second tap lands on the new mistake, never the old one).
+          // The entry hands over to the run (and the run to its ending) in 160 ms with the two
+          // overlapping, so no frame is ever blank, and the leaving one takes no touch. Within the
+          // run the page stays: MistakeView moves only the mistake itself, so the track and the key
+          // carry on from one mistake to the next.
           child: MmOverlapSwitcher(
             duration: Motion.of(context, Motion.runner),
             outDuration: Motion.of(context, const Duration(milliseconds: 90)),
-            child: KeyedSubtree(key: ValueKey('${run?.phase}-${run?.current?.item.key}'), child: body),
+            child: KeyedSubtree(key: ValueKey(_stage(run, active)), child: body),
           ),
         ),
       ),
     );
+  }
+
+  /// What the screen is showing, for the hand-over between its stages: a new mistake of the run is
+  /// not a new stage.
+  String _stage(RepairRunState? run, bool active) {
+    if (_missing) return 'missing';
+    if (run == null || !active || run.phase == RepairPhase.ending) return 'loading';
+    return run.phase.name;
   }
 
   /// With nothing done yet there is nothing to end on: close and keep the place.
