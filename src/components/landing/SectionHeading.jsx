@@ -2,16 +2,20 @@
 
 // SectionHeading: a landing section's heading that docks as the reader scrolls into its held story.
 //
-//   <section className="lp-sec lp-sh-host" id="your-prep">
-//     <SectionHeading titleId="your-prep-title" kicker="Mistake Lab" title={<>What’s inside <em>MockMob</em>.</>}
-//       sub="Practice, repair, replay and the plan that ties them together." mini={<>What’s inside <em>MockMob</em></>} />
-//     <div className="mm-wrap"><FeatureTour slides={TOUR} /></div>
+//   <section className="lp-sec lp-sh-host" id="inside-the-lab">
+//     <SectionHeading titleId="inside-the-lab-title" name="Mistake Lab." title="Every mark, traced back to a moment."
+//       sub="A score tells you how it went..." mini="Mistake Lab" />
+//     <LabCinema />
 //   </section>
 //
+// Nothing labels the heading from above. The section's name is the h2's first clause (name, in --ink) and the
+// promise its second (title, in --ink-3, the same size and weight); a heading without a name is one clause in
+// --ink. The lede follows at the page's lede size. (kicker is the old name of name and still works.)
 // It renders two things, both direct children of the section:
 //   1. A dock: a zero-height sticky line under the site bar holding a glass band with the heading's short
-//      form (mini, the <em> in the brand green) and, on phones, the one action the bar above hides there.
-//   2. The full heading (kicker, title, sub) in the page's flow, revealed like every heading on the page.
+//      form (mini; an <em> in it is the one brand word in green) and a 2px rule along its bottom edge that
+//      fills with the held story's progress (section-heading.css). Nothing else on it: no dot, no action.
+//   2. The full heading (name, title, sub) in the page's flow. Text never fades in: it is simply there.
 // The full heading reads whole wherever it rests below the band, so no empty band ever opens between it and
 // the story. Once the title has gone under the band, it fades up and the band comes in (compact); the
 // sub carries on in the flow and slides under the glass, fading there once it is wholly under (docked); the
@@ -21,24 +25,15 @@
 // Motion is opacity and transform (section-heading.css); reduced motion swaps instantly. Without
 // JavaScript (or IntersectionObserver) the heading is a plain heading and the band never shows.
 import { useEffect, useRef } from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import { useAuth } from '@/components/AuthProvider';
-import { recoveryReleased } from '@/../data/capabilities';
-import { Reveal } from './Reveal';
 import { headingPhase } from './sectionHeadingPhase.mjs';
 import '@/app/section-heading.css';
 
-export function SectionHeading({ titleId, kicker, title, sub, mini, aside, asideClassName = '', className = '' }) {
+export function SectionHeading({ titleId, name, kicker, title, sub, mini, aside, asideClassName = '', className = '' }) {
   const dockRef = useRef(null);
   const fullRef = useRef(null);
   const titleRef = useRef(null);
   const subRef = useRef(null);
-  const { isAuthenticated } = useAuth();
-  const released = recoveryReleased();
-  const go = isAuthenticated
-    ? { href: released ? '/recovery' : '/dashboard', text: 'Go to practice' }
-    : { href: released ? '/signup?next=%2Frecovery' : '/signup', text: 'Start free' };
+  const lead = name ?? kicker;
 
   useEffect(() => {
     const dock = dockRef.current;
@@ -100,11 +95,12 @@ export function SectionHeading({ titleId, kicker, title, sub, mini, aside, aside
   }, []);
 
   const heading = (
-    <Reveal className={`lp-head lp-head--left ${className}`.trim()}>
-      {kicker ? <p className="lp-kicker">{kicker}</p> : null}
-      <h2 className="lp-h2" id={titleId} ref={titleRef}>{title}</h2>
+    <div className={`lp-head lp-head--left ${className}`.trim()}>
+      <h2 className="lp-h2" id={titleId} ref={titleRef}>
+        {lead ? <><span className="lp-h2__name">{lead}</span>{' '}<span className="lp-h2__rest">{title}</span></> : title}
+      </h2>
       {sub ? <p className="lp-sub" ref={subRef}>{sub}</p> : null}
-    </Reveal>
+    </div>
   );
 
   return (
@@ -112,8 +108,7 @@ export function SectionHeading({ titleId, kicker, title, sub, mini, aside, aside
       <div className="lp-sh__dock" ref={dockRef} data-on="false">
         <div className="lp-sh__band">
           <div className="mm-wrap lp-sh__row">
-            <p className="lp-sh__mini" aria-hidden="true">{mini || title}</p>
-            <Link href={go.href} className="lp-sh__go">{go.text}<ArrowRight size={16} aria-hidden="true" /></Link>
+            <p className="lp-sh__mini" aria-hidden="true">{mini || lead || title}</p>
           </div>
         </div>
       </div>

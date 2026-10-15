@@ -6,7 +6,9 @@
    Motion: transform and opacity only; reduced motion gets the finished composition.
    ========================================================================== */
 
-/* ---------- Type: Bricolage display, tighter and calmer ---------- */
+/* ---------- Type ----------
+   The hero line is the hero's own (hero-v3.css). Section type comes from the page system in landing.css
+   (--t-headline, --t-lede and the rest): no per-section sizes here. Nothing labels a heading from above. */
 .mm.lp .lp-title {
   font-size: clamp(1.75rem, min(11.6cqi, 13.5svh), 5.1rem);
   line-height: 0.99;
@@ -16,40 +18,7 @@
 @media (max-width: 760px) {
   .mm.lp .lp-title { font-size: clamp(1.5rem, 11cqi, 4.3rem); }
 }
-.mm.lp .lp-h2 {
-  max-width: 18ch;
-  font-size: clamp(2rem, 4.9vw, 3.6rem);
-  line-height: 1.02;
-  letter-spacing: -0.036em;
-}
-.mm.lp .lp-h2--xl { max-width: 15ch; font-size: clamp(2.4rem, 7.2vw, 5rem); }
-.mm.lp .lp-h3 { letter-spacing: -0.028em; line-height: 1.1; }
-.mm.lp .lp-sub { max-width: 50ch; line-height: 1.58; }
-.mm.lp .lp-head { gap: 1.1rem; }
 .mm.lp .lp-statement__text { letter-spacing: -0.04em; line-height: 1.04; }
-
-/* The kicker reads as a quiet sentence-case label, not a tracked monospace eyebrow. */
-.mm.lp .lp-kicker {
-  display: inline-flex;
-  align-items: center;
-  justify-self: start;
-  gap: 0.5rem;
-  width: max-content;
-  max-width: 100%;
-  margin: 0 0 0.25rem;
-  font: 700 0.875rem/1.2 var(--font-body);
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--accent-text);
-}
-.mm.lp .lp-kicker::before {
-  content: '';
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--volt);
-  box-shadow: 0 0 0 4px var(--accent-wash);
-}
 
 /* ---------- Statement with the subject shelf ----------
    The four launch papers as a lamp-lit still life: a staggered 2 by 2 on every screen, each object on its own
@@ -125,29 +94,6 @@
 .lp-shelf__float { display: block; }
 /* One line per name at every width, on one shared baseline under the objects. */
 .lp-shelf__name { font-size: clamp(0.8125rem, 1.2vw, 0.875rem); font-weight: 700; text-align: center; line-height: 1.25; white-space: nowrap; letter-spacing: -0.005em; }
-/* The shelf's own label, set like the page's section labels (the kicker's dot and green), above the four
-   papers it names: a caption with a place in the hierarchy, not a loose line under them. */
-.mm.lp .lp-shelf__label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  max-width: 100%;
-  margin: 0 0 0.35rem;
-  color: var(--accent-text);
-  font: 700 0.875rem/1.25 var(--font-body);
-  text-align: center;
-  text-wrap: balance;
-}
-.mm.lp .lp-shelf__label::before {
-  content: '';
-  flex: none;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--volt);
-  box-shadow: 0 0 0 4px var(--accent-wash);
-}
-
 /* The landing: the statement's pass (its view timeline, set in hero-depth.css), staggered by --k. Two scroll
    animations per layer: in (falls and lands, held before its range) and out (lifts as the section leaves, held
    after it). Between them nothing applies, so the scene simply rests, landed. */
@@ -214,8 +160,7 @@
 }
 
 /* ---------- Mistake Lab cinema frame ---------- */
-.lp-sec--cinema { padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
-.lp-cinema-head { margin-bottom: clamp(1rem, 3vw, 2rem); }
+.lp-sec--cinema { padding-bottom: var(--sp-7); }
 .lp-sec--cinema .lp-h2 { max-width: 16ch; }
 
 /* ---------- First load: skip rendering work for the far end of the page until it nears ---------- */
@@ -223,6 +168,13 @@
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
+/* ---------- The statement: the page's largest words after the hero ----------
+   One ink, no green. The scrub already lights each word in turn; the two words that carry the idea ("reason",
+   "shortlist") are set heavier (800) against the rest (600), so the emphasis is weight, not colour. The phone
+   hold keeps its own fitted size (hero-depth.css); elsewhere the size is the page's --t-statement. */
+.lp-statement__text { font-size: var(--t-statement); }
+.mm.lp .lp-statement__text { font-weight: 600; max-width: 20ch; }
+.mm.lp .lp-statement__w[data-accent] { color: inherit; font-weight: 800; }
 @media (min-width: 960px) {
-  .mm.lp .lp-statement__text { font-size: clamp(2.2rem, 4.2vw, 3.7rem); }
+  .mm.lp .lp-statement__text { font-size: var(--t-statement); }
 }

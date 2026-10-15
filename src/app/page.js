@@ -229,10 +229,10 @@ export default function LandingPage() {
         <section className="lp-sec lp-sec--cinema lp-sh-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
           {/* Without JavaScript the held stories (ScrollStory) simply scroll as plain sections. */}
           <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
-          <SectionHeading titleId="inside-the-lab-title" className="lp-cinema-head" kicker="Mistake Lab"
+          <SectionHeading titleId="inside-the-lab-title" className="lp-cinema-head" name="Mistake Lab."
             title="Every mark, traced back to a moment."
             sub="A score tells you how it went. The Lab shows why: the minutes, the second thoughts, the reason behind each miss, and the plan for the next mock."
-            mini={<>Inside the <em>Mistake Lab</em></>} />
+            mini="Inside the Mistake Lab" />
           <LabCinema />
         </section>
 
@@ -248,10 +248,9 @@ export default function LandingPage() {
 
         {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
         <section className="lp-sec lp-sh-host" id="score-recovery-lab" aria-labelledby="score-recovery-lab-title">
-          <SectionHeading titleId="score-recovery-lab-title" kicker="Score Recovery Lab" title="Fix it once. Check it holds."
+          <SectionHeading titleId="score-recovery-lab-title" name="Score Recovery Lab." title="Fix it once. Check it holds."
             sub="Replay the session, repair the leak, then prove it on fresh questions days later."
-            mini={<><em>Score Recovery</em> Lab</>}
-            aside={<MascotSeat station="lab" pose="attentive" label="Let’s find the lost marks." />} />
+            mini="Score Recovery Lab" />
           <div className="mm-wrap">
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
           </div>
@@ -261,13 +260,12 @@ export default function LandingPage() {
         {SHOWCASE.programmes.length > 0 ? (
           <section className="lp-sec" id="compass">
             <div className="mm-wrap">
-              <div className="lp-guide-head lp-guide-head--lead"><Reveal className="lp-head lp-head--left">
-                <p className="lp-kicker">DU Compass</p>
-                <h2 className="lp-h2">Put your shortlist beside the numbers.</h2>
+              <div className="lp-head lp-head--left">
+                <h2 className="lp-h2"><span className="lp-h2__name">DU Compass.</span> <span className="lp-h2__rest">Put your shortlist beside the numbers.</span></h2>
                 <p className="lp-sub">
                   Slide a score and see which colleges it would have cleared in 2026, by category and round.
                 </p>
-              </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
+              </div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
               <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
                 <div className="lp-cpro__copy">
@@ -290,13 +288,12 @@ export default function LandingPage() {
         {/* ------------------------- FREE DU CALCULATOR --------------------- */}
         <section className="lp-sec" id="du-eligibility">
           <div className="mm-wrap">
-            <MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." className="pip-seat--utility" />
-            <Reveal className="lp-head">
-              <h2 className="lp-h2">Which DU courses fit your subjects?</h2>
+            <div className="lp-head lp-head--left">
+              <h2 className="lp-h2"><span className="lp-h2__name">Which DU courses fit your subjects?</span> <span className="lp-h2__rest">Tick them and see.</span></h2>
               <p className="lp-sub">
-                Tick your subjects to see every DU programme they open under the 2026 rules, then compare college cutoffs in your category. Free, no sign-up.
+                Every DU programme your subjects open under the 2026 rules, then the college cutoffs in your category. Free, no sign-up.
               </p>
-            </Reveal>
+            </div>
             <Reveal>
               <EligibilityTeaser />
             </Reveal>
@@ -326,11 +323,10 @@ export default function LandingPage() {
         {/* ------------------------------ INSTAGRAM ------------------------------ */}
         <section className="lp-sec" id="on-instagram">
           <div className="mm-wrap">
-            <Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">MockMob on Instagram</p>
-              <h2 className="lp-h2">Featured by CUET creators.</h2>
+            <div className="lp-head lp-head--left">
+              <h2 className="lp-h2"><span className="lp-h2__name">MockMob on Instagram.</span> <span className="lp-h2__rest">Featured by CUET creators.</span></h2>
               <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their audiences. Tap a reel to watch it here.</p>
-            </Reveal>
+            </div>
             <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
           </div>
         </section>
@@ -339,10 +335,9 @@ export default function LandingPage() {
         {WALL_VOICES.length > 0 ? (
           <section className="lp-sec" id="wall-of-love">
             <div className="mm-wrap">
-              <Reveal className="lp-head lp-head--left">
-                <p className="lp-kicker">Wall of love</p>
-                <h2 className="lp-h2">The mob speaks.</h2>
-              </Reveal>
+              <div className="lp-head lp-head--left">
+                <h2 className="lp-h2"><span className="lp-h2__name">Wall of love.</span> <span className="lp-h2__rest">What students say.</span></h2>
+              </div>
               <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>
             </div>
           </section>
@@ -351,11 +346,10 @@ export default function LandingPage() {
         {/* ------------------------------ PRICING --------------------------- */}
         <section className="lp-sec" id="pricing">
           <div className="mm-wrap">
-            <MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />
-            <Reveal className="lp-head">
-              <h2 className="lp-h2">Start free. Go Pro when you want more room.</h2>
+            <div className="lp-head lp-head--left">
+              <h2 className="lp-h2"><span className="lp-h2__name">Start free.</span> <span className="lp-h2__rest">Go Pro when you want more room.</span></h2>
               <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `One payment of ₹${OFFER.oneTime.rupees} covers you through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} is coming. Pay once now and keep every day you paid for.`}</p>
-            </Reveal>
+            </div>
             <Reveal className="lp-plans">
               <div className="lp-plan">
                 <h3 className="lp-h4">Free</h3>
@@ -380,33 +374,37 @@ export default function LandingPage() {
         </section>
 
         {/* -------------------------------- FAQ ----------------------------- */}
-        <section className="lp-sec lp-sec--band">
-          <div className="mm-wrap mm-wrap--tight">
-            <Reveal><h2 className="lp-h2">Before your first mock.</h2></Reveal>
-            <Reveal className="mm-faqs">
-              {faqs.map(({ question, answer }) => (
-                <details key={question} className="mm-faq">
-                  <summary>{question}</summary>
-                  <div className="mm-faq__body">{answer}</div>
-                </details>
-              ))}
-            </Reveal>
+        <section className="lp-sec lp-sec--band lp-faq" aria-labelledby="faq-title">
+          <div className="mm-wrap">
+            <div className="lp-faq__grid">
+              <h2 className="lp-h2" id="faq-title"><span className="lp-h2__name">Questions.</span> <span className="lp-h2__rest">Before your first mock.</span></h2>
+              <div className="mm-faqs">
+                {faqs.map(({ question, answer }) => (
+                  <details key={question} className="mm-faq">
+                    <summary>{question}</summary>
+                    <div className="mm-faq__body">{answer}</div>
+                  </details>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
         {/* ------------------------------- CLOSE ---------------------------- */}
-        <section className="lp-close">
-          <div className="lp-bg lp-bg--static" aria-hidden="true">
-            <div className="lp-bg__aurora" />
-            <div className="lp-bg__grid" />
-            <div className="lp-bg__dots" />
+        {/* The page's last word: the line on the left, the one key on the right where Mobi lands (no caption). */}
+        <section className="lp-close" aria-labelledby="close-title">
+          <div className="mm-wrap">
+            <div className="lp-close__inner">
+              <div className="lp-close__copy">
+                <h2 className="lp-h2 lp-h2--xl" id="close-title"><span className="lp-h2__name">Five questions.</span> <span className="lp-h2__rest">Then your next move.</span></h2>
+                <p className="lp-sub">Answer five now. Start free when you want MockMob to keep your record.</p>
+              </div>
+              <div className="lp-close__act">
+                <MascotSeat station="close" pose="greeting" />
+                <CloseActions />
+              </div>
+            </div>
           </div>
-          <Reveal className="mm-wrap lp-close__inner">
-            <MascotSeat station="close" pose="greeting" label="See you at your first mock." />
-            <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
-            <p className="lp-sub">Answer five now. Start free when you want MockMob to keep your record.</p>
-            <CloseActions />
-          </Reveal>
           {/* Every same-page "Try a CUET question" link lands on the live sample question, every time. */}
           <DemoJump />
         </section>

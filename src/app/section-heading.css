@@ -1,8 +1,8 @@
 /* ==========================================================================
    SECTION HEADING (landing): the heading that docks under the site bar (SectionHeading.jsx).
    Phones first. A held section (.lp-sh-host) carries a zero-height sticky dock at its top: a glass band
-   one line tall, right under the site bar, with the heading's short form (the brand word in green) and,
-   on phones, the one action the site bar hides there. The full heading sits in the flow above the story and
+   one line tall, right under the site bar, with the heading's short form (MockMob in green where the owner asked
+   for it) and a 2px progress rule that fills with the held story. The full heading sits in the flow above the story and
    reads whole wherever it rests, so no empty band opens over the story. Once the title has gone under the band
    it fades up while the band slides in with its short form (compact); the sub slides on under the glass and fades there once it is
    wholly under (docked). The story's stage starts under the band, so nothing is ever covered. Only opacity and
@@ -66,73 +66,45 @@
   margin: 0;
   overflow: hidden;
   color: var(--ink);
-  font: 750 1rem/1.2 var(--font-display);
-  letter-spacing: -0.02em;
+  font: 700 var(--t-body, 1rem)/1.2 var(--font-display);
+  letter-spacing: -0.01em;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
-/* The page's label dot (the kicker's), so the band reads as the section's own label. */
-.mm.lp .lp-sh__mini::before {
-  content: '';
-  flex: none;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--volt);
-  box-shadow: 0 0 0 4px var(--accent-wash);
-}
-/* As the band docks the words rise into it a beat behind, and a short green line draws under the brand word. */
+/* No dot, no ring: the band is the section's name in words. Its one accent is the 2px progress rule along its
+   bottom edge, which fills as the held story runs (it carries real state). The words rise into the band a beat
+   behind it. */
 .mm.lp .lp-sh__mini { transform: translate3d(0, 0.45rem, 0); opacity: 0; transition: opacity 200ms ease, transform 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
-.mm.lp .lp-sh__dock[data-on='true'] .lp-sh__mini { transform: none; opacity: 1; transition: opacity 260ms ease 80ms, transform 480ms var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)) 80ms; }
-.mm.lp .lp-sh__mini em { position: relative; }
-.mm.lp .lp-sh__mini em::after {
+.mm.lp .lp-sh__dock[data-on='true'] .lp-sh__mini { transform: none; opacity: 1; transition: opacity 240ms ease 60ms, transform 320ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 60ms; }
+.mm.lp .lp-sh-host { timeline-scope: --ss-track; }
+.mm.lp .lp-sh__band::after {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -0.2rem;
+  bottom: -1px;
   height: 2px;
-  border-radius: 2px;
   background: var(--volt);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 200ms ease;
 }
-.mm.lp .lp-sh__dock[data-on='true'] .lp-sh__mini em::after { transform: scaleX(1); transition: transform 560ms var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)) 220ms; }
-/* The one action: phones only (from 900 px the site bar carries it). */
-.mm.lp .lp-sh__go {
-  display: inline-flex;
-  flex: none;
-  align-items: center;
-  gap: 0.35rem;
-  min-height: 44px;
-  margin-right: -0.25rem;
-  padding: 0 0.95rem;
-  border-radius: 999px;
-  background: var(--volt);
-  color: #0b1000;
-  font: 750 0.875rem/1 var(--font-body);
-  text-decoration: none;
-  white-space: nowrap;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 160ms var(--mm-ease-out, ease-out);
+@supports (animation-timeline: view()) {
+  .mm.lp .lp-sh-host:has(.ss[data-pinned='true']) .lp-sh__band::after {
+    animation: lp-sh-progress linear both;
+    animation-timeline: --ss-track;
+    animation-range: contain 0% contain 100%;
+  }
 }
-.mm.lp .lp-sh__go:active { transform: scale(0.96); }
-.mm.lp .lp-sh__go:focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: 2px; }
-/* The site bar already carries the compact Start key on every width once the hero keys leave, so the band shows only its label. */
-.mm.lp .lp-sh__go { display: none; }
-@media (min-width: 900px) { .mm.lp .lp-sh__mini { font-size: 1.125rem; } }
+@keyframes lp-sh-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 /* ---------- The full heading: the title hands over to the band, then the sub goes under it ---------- */
 .mm.lp .lp-sh__full .lp-head { margin-bottom: 0; }
-.mm.lp .lp-sh__full { margin-bottom: clamp(2rem, 4vw, 3.5rem); }
-.mm.lp .lp-sh__full :is(.lp-kicker, .lp-h2, .lp-sub) {
+.mm.lp .lp-sh__full { margin-bottom: var(--head-after, 3rem); }
+.mm.lp .lp-sh__full :is(.lp-h2, .lp-sub) {
   transition: opacity 320ms ease, transform 480ms var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1));
 }
 .mm.lp .lp-sh__full .lp-h2 { transform-origin: left bottom; }
 .mm.lp .lp-sh__full:is([data-sh='docked'], [data-sh='past']) .lp-sub { opacity: 0; transform: translate3d(0, -0.5rem, 0); }
-.mm.lp .lp-sh__full:is([data-sh='compact'], [data-sh='docked'], [data-sh='past']) .lp-kicker { opacity: 0; transform: translate3d(0, -0.4rem, 0); }
 .mm.lp .lp-sh__full:is([data-sh='compact'], [data-sh='docked'], [data-sh='past']) .lp-h2 { opacity: 0; transform: translate3d(0, -0.6rem, 0) scale(0.94); }
 
 /* ---------- A held story under a docking heading ----------
@@ -149,13 +121,11 @@
 
 /* ---------- Reduced motion: the same states, swapped without travel ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .mm.lp :is(.lp-sh__band, .lp-sh__mini, .lp-sh__go),
-  .mm.lp .lp-sh__full :is(.lp-kicker, .lp-h2, .lp-sub) { transition: none !important; transform: none !important; }
-  .mm.lp .lp-sh__mini em::after { transition: none !important; }
+  .mm.lp :is(.lp-sh__band, .lp-sh__mini),
+  .mm.lp .lp-sh__full :is(.lp-h2, .lp-sub) { transition: none !important; transform: none !important; }
 }
-html[data-motion='reduced'] .mm.lp :is(.lp-sh__band, .lp-sh__mini, .lp-sh__go),
-html[data-motion='reduced'] .mm.lp .lp-sh__full :is(.lp-kicker, .lp-h2, .lp-sub) { transition: none !important; transform: none !important; }
-html[data-motion='reduced'] .mm.lp .lp-sh__mini em::after { transition: none !important; }
+html[data-motion='reduced'] .mm.lp :is(.lp-sh__band, .lp-sh__mini),
+html[data-motion='reduced'] .mm.lp .lp-sh__full :is(.lp-h2, .lp-sub) { transition: none !important; transform: none !important; }
 @media (prefers-reduced-transparency: reduce) {
   .mm.lp .lp-sh__band { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper); }
 }
