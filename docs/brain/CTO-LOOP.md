@@ -27,7 +27,7 @@ Sources this consolidates (his words win; read them when in doubt):
    - Is it mobile-first on the landing?
    - Is it truthful?
    - Is it premium in motion?
-6. **Ship what is safe:**
+6. **Quality gate, then ship (owner, 16 Oct 00:35: "not compromise quality for speed... every small new change, is actually tested and critiqued properly, then deployed").** Website: lint, the suites and a build, then a visual critique: a dev server, headless captures of every changed page at 390 and 1440 in Night and Day, looked at and clicked, with defects fixed. App: analyze, the tests, and the changed goldens opened. Nothing ships on tests alone. Then:
    - the website: merge, deploy, check Vercel;
    - the app: APK, then install on his phone if it is connected, and send the zip.
 7. **Update** this file's status column and the brain checkpoint. Then go back to step 1. Stop only at about 95% usage, with a handoff.
