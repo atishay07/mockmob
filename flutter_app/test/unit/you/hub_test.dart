@@ -68,7 +68,7 @@ void main() {
     for (final subject in ['Accountancy', 'Business Studies', 'Economics', 'English']) {
       expect(find.text(subject), findsOneWidget, reason: subject);
     }
-    expect(find.text('of 4 study days'), findsOneWidget);
+    expect(find.text('3 days to your goal'), findsOneWidget, reason: 'the shared study week says what is left');
     expect(find.text('3 weeks in rhythm'), findsOneWidget);
   });
 
@@ -256,7 +256,7 @@ void main() {
     expect(find.text('milestones page'), findsOneWidget);
     router.pop();
     await tester.pumpAndSettle();
-    await tester.tap(find.text('of 4 study days'));
+    await tester.tap(find.text('This week'));
     await tester.pumpAndSettle();
     expect(find.text('rhythm page'), findsOneWidget);
   });

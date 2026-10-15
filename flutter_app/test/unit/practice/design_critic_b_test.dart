@@ -16,6 +16,7 @@ import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
 import 'package:mockmob/features/practice/widgets/composer_parts.dart';
 import 'package:mockmob/features/practice/widgets/composer_ticket.dart';
 import 'package:mockmob/features/practice/widgets/length_dial.dart';
+import 'package:mockmob/features/practice/widgets/quick_start_deck.dart' show QuickStartDeck;
 import 'package:mockmob/features/practice/widgets/suggestion_card.dart';
 
 import '../../helpers/fonts.dart';
@@ -243,6 +244,42 @@ void main() {
       // The Day bolt's body is the darker volt: its luminance sits well under the cream ground's.
       expect(day.voltEdge.computeLuminance(), lessThan(day.volt.computeLuminance()));
       expect(night.volt.computeLuminance(), greaterThan(0.5));
+    });
+  });
+
+  group('30: one NTA entry per sheet, the same subject in every sample line', () {
+    int ntaGlyphs(WidgetTester tester) =>
+        tester.widgetList<ChoiceGlyph>(find.byType(ChoiceGlyph)).where((g) => g.kind == ChoiceGlyphKind.nta).length;
+
+    testWidgets('the Practice tab exam band has one NTA tile and nothing floating in the band', (tester) async {
+      await _pump(
+        tester,
+        ChoiceDeck(
+          animateIn: false,
+          rows: [
+            ChoiceRow.band(
+              title: 'Exam conditions',
+              rows: [ChoiceRow.pair(_o('full', ChoiceGlyphKind.mock), ChoiceOption(id: 'nta', glyph: ChoiceGlyphKind.nta, title: 'NTA mode', note: 'Note', onTap: () {}))],
+            ),
+          ],
+        ),
+      );
+      expect(find.text('NTA mode'), findsOneWidget);
+      expect(ntaGlyphs(tester), 1, reason: 'the palette glyph is drawn inside its own tile only');
+    });
+
+    testWidgets('the Start sheet deck has one NTA row, and its glyph is inside that row', (tester) async {
+      final options = [
+        ChoiceOption(id: 'quick', glyph: ChoiceGlyphKind.quick, title: 'Quick 10', note: '10 Accountancy questions, about 10 minutes.', onTap: () {}),
+        ChoiceOption(id: 'mock', glyph: ChoiceGlyphKind.mock, title: 'Full mock', note: '50 questions, 60 minutes, timed like the exam.', onTap: () {}),
+        ChoiceOption(id: 'nta', glyph: ChoiceGlyphKind.nta, title: 'NTA mode', note: 'The exam-day screen in Accountancy, as on the day.', onTap: () {}),
+      ];
+      await _pump(tester, QuickStartDeck(options: options, animateIn: false));
+      expect(find.text('NTA mode'), findsOneWidget);
+      expect(ntaGlyphs(tester), 1);
+      final row = tester.getRect(find.byKey(const ValueKey('choice-nta')));
+      final glyph = tester.getRect(find.byWidgetPredicate((w) => w is ChoiceGlyph && w.kind == ChoiceGlyphKind.nta));
+      expect(row.contains(glyph.center), isTrue, reason: 'no NTA glyph floats outside its row');
     });
   });
 }
