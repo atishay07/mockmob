@@ -2,6 +2,7 @@
 // view (device walk-through 22:07, finding 23: the capsule and the key showed together). The key
 // rises into place over the page's entrance, so the line is judged at the end of it.
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
@@ -37,7 +38,9 @@ void main() {
   testWidgets('a layout change with no rebuild or scroll is still judged (the page settles after the capsule was raised)', (tester) async {
     final height = ValueNotifier<double>(560);
     // One body instance: resizing its box relayouts it without rebuilding it.
-    final body = TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero);
+    final controller = ScrollController();
+    addTearDown(controller.dispose);
+    final body = TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero, controller: controller);
     _slot = null;
     await pumpMockmob(
       tester,
@@ -58,11 +61,18 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 1400));
     await tester.pump(const Duration(milliseconds: 100));
-    expect(_slot!.value, isNotNull, reason: 'the key is below the fold of the short box');
-    height.value = 853;
+    expect(_slot!.value, isNull, reason: 'words of the card sit where the capsule would');
+    controller.jumpTo(controller.position.maxScrollExtent);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
-    expect(_slot!.value, isNull, reason: 'the key came into view; the capsule stands down');
+    expect(_slot!.value, isNotNull, reason: 'the whole card is scrolled out of the short box');
+    height.value = 853;
+    await tester.pump();
+    controller.jumpTo(0);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.pump(const Duration(milliseconds: 50));
+    expect(_slot!.value, isNull, reason: 'the card came back into view; the capsule stands down');
   });
 
   testWidgets('a hero key in view at rest raises no capsule, though it rose into place during the entrance', (tester) async {
@@ -75,11 +85,40 @@ void main() {
     expect(_slot!.value, isNull, reason: 'the key is above the bar, so the capsule stays away');
   });
 
-  testWidgets('a hero key below the fold gives the move to the capsule once the entrance ends', (tester) async {
+  testWidgets('a hero key below the fold keeps the capsule away while words of the card sit above the bar', (tester) async {
     await _pump(tester, size: const Size(384, 560));
     await tester.pump(const Duration(milliseconds: 1400));
     await tester.pump(const Duration(milliseconds: 100));
-    expect(_slot!.value, isNotNull);
-    expect(_slot!.value!.label, isNotEmpty);
+    expect(_slot!.value, isNull);
+  });
+
+  testWidgets('at 360 dp with 1.3x text the capsule never sits on a word of the hero card', (tester) async {
+    _slot = null;
+    await pumpMockmob(
+      tester,
+      PhoneFrame(
+        child: Builder(
+          builder: (context) {
+            _slot = MmBarInsets.maybeOf(context)?.tonightMove;
+            return TodayBody(view: buildToday(ashaInputs()), callbacks: noopCallbacks, skeletonDelay: Duration.zero);
+          },
+        ),
+      ),
+      size: const Size(360, 640),
+      textScale: 1.3,
+      overrides: todayOverrides,
+    );
+    await tester.pump(const Duration(milliseconds: 1400));
+    await tester.pump(const Duration(milliseconds: 100));
+    final stack = tester.getSize(find.byType(TodayBody));
+    final line = stack.height - (20 + 12 + 64.0);
+    if (_slot!.value != null) {
+      // The capsule's strip holds no paragraph of the page above the bar's line.
+      for (final p in tester.renderObjectList<RenderParagraph>(find.descendant(of: find.byType(TodayBody), matching: find.byType(RichText)))) {
+        final y = p.localToGlobal(Offset.zero).dy;
+        final covered = y < line && y + p.size.height > line - 52;
+        expect(covered, isFalse, reason: 'the capsule would cover "${p.text.toPlainText()}"');
+      }
+    }
   });
 }

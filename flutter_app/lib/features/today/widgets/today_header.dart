@@ -14,6 +14,7 @@ import '../logic/today_model.dart';
 import 'header_mobi.dart';
 import 'today_entrance.dart';
 import 'week_ledger.dart';
+import 'week_ledger_skeleton.dart';
 
 class TodayHeader extends StatefulWidget {
   const TodayHeader({super.key, required this.header, this.onWeek, this.aim, this.bleed = 0});
@@ -83,6 +84,9 @@ class _TodayHeaderState extends State<TodayHeader> {
             delay: const Duration(milliseconds: 60),
             child: WeekLedger(week: week, onTap: onWeek, bleed: widget.bleed),
           ),
+        ] else if (header.weekLoading) ...[
+          const SizedBox(height: MmSpace.s12),
+          WeekLedgerSkeleton(bleed: widget.bleed),
         ],
       ],
     );

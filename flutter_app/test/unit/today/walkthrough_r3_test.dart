@@ -125,9 +125,26 @@ void main() {
     // The bar's top edge on a phone with the test insets: the capsule rests 8 dp above it.
     const barTop = 20 + 12 + 64.0;
 
-    testWidgets('at rest on a short phone the capsule stands in for a key that is wholly under the bar', (tester) async {
-      // 640 dp tall: the key and the length selector are both below the bar's top edge.
+    // The hero card is scrolled wholly out of view (audit 20: the capsule never covers its words).
+    Future<void> scrollHeroOut(WidgetTester tester, ScrollController controller) async {
+      controller.jumpTo(controller.position.maxScrollExtent);
+      await tester.pump();
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 500));
+    }
+
+    testWidgets('at rest on a short phone the capsule stays away: the hero card still has words above the bar', (tester) async {
+      // 640 dp tall: the key and the length selector are both below the bar's top edge, but words
+      // of the card sit where the capsule would.
       await pump(tester, buildToday(ashaInputs(now: tuesdayLate)), size: const Size(360, 640));
+      expect(bar(), findsNothing);
+    });
+
+    testWidgets('once the whole hero card has scrolled out the capsule stands in for its key', (tester) async {
+      final controller = ScrollController();
+      addTearDown(controller.dispose);
+      await pump(tester, buildToday(ashaInputs(now: tuesdayLate)), size: const Size(360, 640), controller: controller);
+      await scrollHeroOut(tester, controller);
       expect(bar(), findsOneWidget);
       final live = tester.widget<LiveCapsule>(bar()).live! as BarMove;
       expect(live.action, 'Start');
@@ -139,8 +156,12 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('at 1.3x text the key is below the fold and the capsule still holds it', (tester) async {
-      await pump(tester, buildToday(ashaInputs()), scale: 1.3, size: const Size(360, 640));
+    testWidgets('at 1.3x text the capsule never covers the hero, and holds the key once it is out', (tester) async {
+      final controller = ScrollController();
+      addTearDown(controller.dispose);
+      await pump(tester, buildToday(ashaInputs()), scale: 1.3, size: const Size(360, 640), controller: controller);
+      expect(bar(), findsNothing);
+      await scrollHeroOut(tester, controller);
       expect(bar(), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
@@ -155,6 +176,7 @@ void main() {
       final controller = ScrollController();
       addTearDown(controller.dispose);
       await pump(tester, buildToday(ashaInputs(now: tuesdayLate)), size: const Size(360, 640), controller: controller);
+      await scrollHeroOut(tester, controller);
       expect(bar(), findsOneWidget);
       controller.jumpTo(300);
       await tester.pump();
@@ -163,7 +185,7 @@ void main() {
       controller.jumpTo(0);
       await tester.pump();
       await tester.pump();
-      expect(bar(), findsOneWidget);
+      expect(bar(), findsNothing, reason: 'back at the top the card has words above the bar');
     });
 
     testWidgets('without the bar (no shell) nothing is published', (tester) async {
@@ -178,12 +200,15 @@ void main() {
 
     testWidgets('the capsule taps through to the same action as the card key', (tester) async {
       final events = <Object>[];
+      final controller = ScrollController();
+      addTearDown(controller.dispose);
       await pumpMockmob(
         tester,
         PhoneFrame(
           child: TodayBody(
             view: buildToday(ashaInputs(now: tuesdayLate)),
             skeletonDelay: Duration.zero,
+            controller: controller,
             callbacks: TodayCallbacks(onAction: events.add, onTarget: events.add, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}),
           ),
         ),
@@ -193,6 +218,7 @@ void main() {
       );
       await tester.pump();
       await tester.pump();
+      await scrollHeroOut(tester, controller);
       await tester.tap(bar());
       await tester.pump();
       final action = events.whereType<TodayAction>().single;

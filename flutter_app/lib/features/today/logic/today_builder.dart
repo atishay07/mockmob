@@ -40,6 +40,7 @@ TodayView buildToday(TodayInputs i) {
     dateLine: plain.dateLine,
     greeting: plain.greeting,
     week: plain.week,
+    weekLoading: plain.weekLoading,
     updatedLine: plain.updatedLine,
     mobi: _headerMobi(i, hero),
   );
@@ -93,6 +94,7 @@ HeaderModel buildHeader(TodayInputs i) {
     dateLine: formatWeekdayDate(clock),
     greeting: TodayCopy.greeting(clock.hour, i.firstName),
     week: week == null ? null : _week(i, week),
+    weekLoading: week == null && i.weekLoading,
     updatedLine: _updatedLine(i),
   );
 }

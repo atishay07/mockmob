@@ -253,6 +253,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
             met: week.met,
             dates: [for (final d in week.days) d.date?.day],
           ),
+    weekLoading: week == null && ref.watch(rhythmVisibleProvider) && rhythm.isInitialLoading,
     returning: rhythm.rhythm?.returning ?? false,
     draft: ref.watch(todayDraftProvider).value,
     unopened: [

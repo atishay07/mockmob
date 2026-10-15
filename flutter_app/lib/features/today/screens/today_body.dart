@@ -6,7 +6,7 @@ import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart' show RenderAbstractViewport;
+import 'package:flutter/rendering.dart' show RenderAbstractViewport, RenderParagraph;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/next_move.dart' show NextMoveState;
@@ -117,6 +117,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     _heroKind = kind;
     _heroBuilt = true;
   }
+  /// The whole hero card (not just its key): the capsule waits until all of it is out of view.
+  final GlobalKey _heroBoxKey = GlobalKey(debugLabel: 'today-hero-box');
   final GlobalKey _stackKey = GlobalKey(debugLabel: 'today-stack');
 
   /// The road to May, for the "more below" cue: it shows while the road is under the first
@@ -304,17 +306,27 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         // out of view by definition.
         off = true;
       } else {
+        // The capsule floats above the bar, so it could land on words of the card (at 360 dp with
+        // 1.3x text the date line sits there). It stands in for the move when the card is wholly
+        // scrolled up past the status bar, or when the key and its controls are under the bar's
+        // line and no word of the card is in the strip the capsule would cover.
         final keyTop = key.localToGlobal(Offset.zero, ancestor: stack).dy;
         final keyBottom = keyTop + key.size.height;
-        var controlsTop = keyTop;
+        var top = keyTop;
+        var bottom = keyBottom;
+        final card = _heroBoxKey.currentContext?.findRenderObject();
+        if (card is RenderBox && card.attached && card.hasSize) {
+          final cardTop = card.localToGlobal(Offset.zero, ancestor: stack).dy;
+          bottom = math.max(bottom, cardTop + card.size.height);
+        }
         final selector = _controlsKey.currentContext?.findRenderObject();
         if (selector is RenderBox && selector.attached && selector.hasSize) {
-          controlsTop = math.min(controlsTop, selector.localToGlobal(Offset.zero, ancestor: stack).dy);
+          top = math.min(top, selector.localToGlobal(Offset.zero, ancestor: stack).dy);
         }
         final line = stack.size.height - _barTop;
-        final scrolledPast = keyBottom <= _topInset + 0.5;
-        final belowTheBar = controlsTop >= line - 0.5;
-        off = scrolledPast || belowTheBar;
+        final scrolledPast = bottom <= _topInset + 0.5;
+        final belowTheBar = top >= line - 0.5;
+        off = scrolledPast || (belowTheBar && !_wordsIn(card, stack, line - MmBar.capsuleClearance, line));
       }
     }
     // Back in view after the capsule stood in for it: one short pulse says it is the same move.
@@ -322,6 +334,24 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     _keyWasOff = off;
     _publish(off && hero is MoveHero ? _moveOf(hero) : null);
     _judgeCue();
+  }
+
+  /// Whether any text of [card] sits in the horizontal strip [from]..[to] (y in [stack]'s space).
+  bool _wordsIn(RenderObject? card, RenderBox stack, double from, double to) {
+    if (card == null) return false;
+    var found = false;
+    void visit(RenderObject node) {
+      if (found) return;
+      if (node is RenderParagraph && node.attached && node.hasSize) {
+        final y = node.localToGlobal(Offset.zero, ancestor: stack).dy;
+        if (y < to && y + node.size.height > from) found = true;
+        return;
+      }
+      node.visitChildren(visit);
+    }
+
+    visit(card);
+    return found;
   }
 
   /// The cue shows only while the road is wholly below the first screen's bar line, nothing has
@@ -513,7 +543,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       const SizedBox(height: MmSpace.s16),
       // The hero rises 16 dp and fades over 420 ms from 120 ms (MOTION.md 4.3); its object then
       // scales in place and the number lands at about 660 ms.
-      TodayEnter(delay: const Duration(milliseconds: 120), child: hero),
+      TodayEnter(delay: const Duration(milliseconds: 120), child: KeyedSubtree(key: _heroBoxKey, child: hero)),
       if (view.also.isNotEmpty)
         TodayEnter(
           delay: const Duration(milliseconds: 200),
