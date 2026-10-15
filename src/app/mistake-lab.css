@@ -21,7 +21,7 @@
 .ml__bar b { display: block; height: 100%; width: 100%; background: var(--accent-text); transform-origin: left center; transform: scaleX(0); }
 .ml__bar b[data-auto='false'] { animation: none; transform: scaleX(1); }
 .ml__caption { display: grid; }
-.ml__caption p { grid-area: 1 / 1; margin: 0; max-width: 40ch; font-size: var(--t-body, 1rem); line-height: 1.55; color: var(--ink-2); opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .35s var(--ease, ease); }
+.ml__caption p { grid-area: 1 / 1; margin: 0; max-width: 40ch; font-size: var(--t-body, 1rem); line-height: 1.55; color: var(--ink-2); text-wrap: pretty; opacity: 0; transform: translateY(4px); transition: opacity .3s ease, transform .35s var(--ease, ease); }
 .ml__caption p[data-active='true'] { opacity: 1; transform: none; }
 /* The timed fallback's controls: plain text buttons. */
 .ml__pause, .ml__restart { display: inline-flex; align-items: center; justify-content: center; gap: .45rem; min-height: 44px; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--ink-2); font: inherit; font-size: var(--t-label, 0.875rem); font-weight: 600; cursor: pointer; }
@@ -31,7 +31,7 @@
 
 /* A Night device in both themes, like every product screen on the page. */
 .ml__stage { margin: 0; min-width: 0; border-radius: 20px; background: #0e130f; color: #f2f4ec; border: 1px solid rgba(244, 245, 240, 0.16); box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6); overflow: hidden; }
-html[data-theme='light'] .ml__stage { box-shadow: 0 24px 48px -28px rgba(32, 26, 14, 0.5); }
+html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26, 14, 0.32); }
 .ml__bar-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; padding: 0.85rem 1.1rem; border-bottom: 1px solid rgba(244, 245, 240, 0.1); font-size: 0.8125rem; font-weight: 600; color: #bcc5b9; }
 .ml__panels { position: relative; display: grid; min-height: 25.5rem; }
 .ml__reading-region { position: absolute; inset: 0 0 auto; height: min(360px, 45svh); pointer-events: none; }
@@ -101,14 +101,13 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 24px 48px -28px rgba(32, 26,
 
 /* 4. check: three typographic rows with a hairline between, a small unboxed icon */
 .ml__checks { list-style: none; margin: 0; padding: 0; display: grid; border-bottom: 1px solid rgba(244, 245, 240, 0.1); }
-.ml__checks li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.8rem; padding: 0.8rem 0; border-top: 1px solid rgba(244, 245, 240, 0.1); opacity: 0; transform: translateY(8px); }
+.ml__checks li { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 0.8rem; padding: 0.8rem 0; border-top: 1px solid rgba(244, 245, 240, 0.1); opacity: 0; transform: translateY(8px); }
 .ml__panel[data-active='true'] .ml__checks li { animation: ml-rise var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease) forwards; animation-delay: calc(var(--i) * var(--mm-dur-stagger-step, 45ms) + 60ms); }
 .ml__checkicon { display: grid; place-items: center; width: 16px; color: #9aa795; }
 .ml__checks li:first-child .ml__checkicon { color: #d2f000; }
 .ml__checks div { display: grid; }
 .ml__checks b { font: 700 1rem var(--font-display); }
 .ml__checks div span { font-size: 0.8125rem; color: #9aa795; }
-.ml__checks em { font-style: normal; font-size: 0.75rem; font-weight: 600; color: #bcc5b9; text-align: right; }
 .ml__status { margin: 0; font-size: 0.875rem; line-height: 1.5; color: #9aa795; }
 
 /* The session strip at the foot of the leak, move and check panels (wide screens): the ten questions,
@@ -129,7 +128,7 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 24px 48px -28px rgba(32, 26,
   .ml__strip { display: grid; margin-top: auto; }
 }
 
-@media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } .ml__checks li { grid-template-columns: auto minmax(0, 1fr); } .ml__checks em { grid-column: 2; text-align: left; } }
+@media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } }
 @media (prefers-reduced-motion: reduce) {
   .ml__panel, .ml__caption p, .ml__tile { transition: none; }
   .ml__tile[data-state] , .ml__leaks li, .ml__leaks em, .ml__headline, .ml__checks li, .ml__move, .ml__strip { animation: none !important; opacity: 1 !important; transform: none !important; }
@@ -159,9 +158,6 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 24px 48px -28px rgba(32, 26,
   .ml__controls { order: 3; justify-content: space-between; }
   .ml__panel { padding: 1rem; }
   .ml__tiles { grid-template-columns: repeat(auto-fit, minmax(max(16%, 2.75rem), 1fr)); }
-  .ml__checks li { grid-template-columns: auto minmax(0, 1fr); }
-  /* The panel heading already explains that every check uses a fresh question. */
-  .ml__checks em { display: none; }
   .ml__bar-top { padding: .8rem 1rem; }
 }
 

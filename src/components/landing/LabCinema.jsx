@@ -28,6 +28,7 @@ const timeTake = S.time.wrongAllOver && S.time.underAllRight
 const SCENES = [
   { key: 'time', tab: 'Time', title: 'See where every minute went.',
     body: `Each question runs against CUET’s pace of ${S.pace}. The minutes past the line stand out, and so does what they bought.`,
+    bodyPhone: `Every question against CUET’s pace of ${S.pace}, and what the extra minutes bought.`,
     take: timeTake },
   { key: 'changes', tab: 'Changes', title: 'Every answer you changed, on the clock.',
     body: 'Your first pick, what you changed it to and when, and the marks each change won or cost.',

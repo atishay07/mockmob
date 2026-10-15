@@ -41,7 +41,7 @@
 }
 /* Day keeps the Night screen and gives it a sepia drop shadow. */
 html[data-theme='light'] .lc {
-  --s-shadow: 0 24px 48px -28px rgba(32, 26, 14, 0.5);
+  --s-shadow: 0 20px 40px -24px rgba(32, 26, 14, 0.32);
 }
 /* ---------- Copy: the scene's title (--t-title), then its words ---------- */
 .lc-scene__title {
@@ -99,7 +99,7 @@ html[data-theme='light'] .lc {
 .lcd-bar__subject { display: inline-flex; align-items: center; gap: 0.55rem; min-width: 0; }
 .lcd-bar__subject > span { display: grid; color: var(--s-ink); font-weight: 750; line-height: 1.2; }
 .lcd-bar__subject small { color: var(--s-ink-3); font-size: 0.75rem; font-weight: 600; }
-.lcd-bar__title b { color: var(--s-ink); font: 800 1.35rem/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.lcd-bar__title b { color: var(--s-ink); font: 800 1.375rem/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .lcd-bar__title b small { color: var(--s-ink-3); font: 600 0.8125rem var(--font-body); }
 .lcd-bar__tab { margin: 0; color: var(--s-ink); font: 750 1rem/1.2 var(--font-body); }
 /* The screen's own tabs: text over a hairline, a 2px underline sliding to the scene on stage. */
@@ -185,7 +185,7 @@ html[data-theme='light'] .lc {
 .lcc__end { display: grid; justify-items: center; gap: 0.22rem; }
 .lcc__end small { color: var(--s-ink-2); font-size: 0.6875rem; font-weight: 700; line-height: 1; }
 .lcc__chip { position: relative; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 10px; border: 1.5px solid var(--s-line-2); background: var(--s-sunken); }
-.lcc__chip b { font: 800 0.95rem/1 var(--font-display); color: var(--s-ink); }
+.lcc__chip b { font: 800 0.9375rem/1 var(--font-display); color: var(--s-ink); }
 .lcc__chip[data-verdict='right'] { border-color: var(--s-good-fill); background: color-mix(in srgb, var(--s-good-fill) 16%, var(--s-sunken)); }
 .lcc__chip[data-verdict='right'] b { color: var(--s-good); }
 .lcc__chip[data-verdict='wrong'] { border-color: var(--s-bad-fill); background: color-mix(in srgb, var(--s-bad-fill) 12%, var(--s-sunken)); }
@@ -301,7 +301,7 @@ html[data-theme='light'] .lc {
 .lcp-swot__q[data-q='opportunity'] .lcp-swot__label { color: var(--s-accent); }
 .lcp-swot__q[data-q='threat'] .lcp-swot__label { color: var(--s-amber-ink); }
 .lcp-swot__title { margin: 0; font-weight: 700; font-size: 0.875rem; line-height: 1.3; }
-.lcp-swot__detail { margin: 0.2rem 0 0; color: var(--s-ink-2); font-size: 0.78rem; line-height: 1.4; }
+.lcp-swot__detail { margin: 0.2rem 0 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.4; }
 .lcp-swot__see { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin: 0.45rem 0 0; color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 700; }
 .lcp-swot__see b { color: var(--s-ink); font-weight: 700; }
 
@@ -396,7 +396,7 @@ html[data-theme='light'] .lc {
   display: grid; height: 100%;
   grid-template-columns: minmax(0, 1fr);
   grid-template-rows: auto auto minmax(0, 1fr);
-  row-gap: 0.85rem;
+  row-gap: var(--sp-4, 1rem);
 }
 .lc[data-pinned='true'] .lc__rail { grid-column: 1; grid-row: 1; }
 .lc[data-pinned='true'] :is(.lcd, .lc__prop) { grid-column: 1; grid-row: 3; }
@@ -406,7 +406,9 @@ html[data-theme='light'] .lc {
 }
 .lc[data-pinned='true'] .lc-scene[data-on='true'] { z-index: 2; }
 .lc[data-pinned='true'] .lc-scene__mini { display: none; }
-.lc[data-pinned='true'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: end; }
+.lc[data-pinned='true'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: start; padding-top: var(--sp-2, 0.5rem); }
+/* Every scene's title starts at the same place under the tabs, so the eye never hunts for it; the row is
+   sized to the longest scene's words, and any spare height falls between the words and the screen. */
 .lc[data-pinned='true'] .lc-scene__screen { grid-column: 1; grid-row: 3; min-height: 0; padding: calc(var(--lcd-chrome) + 0.6rem) 1rem 1rem; }
 /* The screen never spills past the device, whatever the window. */
 .lc[data-pinned='true'] .lc-scene__screen { overflow: clip; border-radius: 20px; }
@@ -443,7 +445,7 @@ html[data-theme='light'] .lc {
   .lcp--repair .lcp-q { display: none; }
   .lcp--repair .lcr-pair { display: grid; grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 1fr); gap: 0; align-items: stretch; }
   .lcp--repair .lcr-pair li[data-state] { flex-direction: column; flex-wrap: nowrap; justify-content: flex-start; gap: 0.3rem; min-height: 0; padding: 0.75rem 0.5rem 0.65rem; text-align: center; font-size: 0.9375rem; line-height: 1.25; }
-  .lcp--repair .lcr-pair .lcp-q__letter { order: 0; width: 2.5rem; height: 2.5rem; border-radius: 12px; font: 800 1.15rem/1 var(--font-display); }
+  .lcp--repair .lcr-pair .lcp-q__letter { order: 0; width: 2.5rem; height: 2.5rem; border-radius: 12px; font: 800 1.125rem/1 var(--font-display); }
   .lcp--repair .lcr-pair em { order: 1; margin: 0; font-size: 0.75rem; }
   .lcp--repair .lcr-pair span { order: 2; color: var(--s-ink); }
   .lcp--repair .lcr-pair .lcp-q__badge { top: -0.4rem; right: -0.4rem; width: 1.15rem; height: 1.15rem; }
@@ -471,11 +473,11 @@ html[data-theme='light'] .lc {
   .lcp--repair[data-open='true'] :is(.lcp-blocks, .lcr-record) { animation: lcr-swap 320ms var(--lc-ease) backwards; }
 
   /* SWOT, short: the plan in one line each, then four quadrants, each a strong line and its count. */
-  .lcp--swot { gap: 0.75rem; }
+  .lcp--swot { gap: 0.625rem; }
   .lcp--swot .lcp-plan { gap: 0.65rem; padding-block: 0.55rem; }
   .lcp--swot .lcp-plan__why { display: none; }
   .lcp--swot .lcp-plan__label { font-size: 1rem; }
-  .lcp-swot__q { display: flex; flex-direction: column; padding: 0.6rem 0 0.7rem; }
+  .lcp-swot__q { display: flex; flex-direction: column; padding: 0.5rem 0 0.625rem; }
   .lcp-swot__full { display: none; }
   .lcp-swot__brief { display: flex; flex: 1; flex-direction: column; }
   .lcp-swot__label { margin-bottom: 0.35rem; font-size: 0.8125rem; }
@@ -491,6 +493,9 @@ html[data-theme='light'] .lc {
 @media (max-width: 959px) and (orientation: portrait) {
   .lc[data-pinned='true'] .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__screen { overflow: hidden auto; overscroll-behavior: contain; scrollbar-width: none; }
   .lc .lc-scene:is([data-scene='repair'], [data-scene='swot']) .lc-scene__fit { --ss-fit-min: 0.9; }
+  /* The last scene's screen hands a finished scroll on to the page: from the SWOT the next gesture leaves
+     the story, and a contained screen would swallow it (a finger or pointer resting on it went nowhere). */
+  .lc[data-pinned='true'] .lc-scene[data-scene='swot'] .lc-scene__screen { overscroll-behavior: auto; }
 }
 .lc[data-pinned='true'] .lc-scene[data-on='true'] .lc-scene__screen { pointer-events: auto; }
 
@@ -507,7 +512,7 @@ html[data-theme='light'] .lc {
     column-gap: clamp(1.5rem, 5vw, 5.5rem); row-gap: 1rem;
   }
   .lc[data-pinned='true'] :is(.lcd, .lc__prop) { grid-column: 2; grid-row: 1 / -1; }
-  .lc[data-pinned='true'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: center; }
+  .lc[data-pinned='true'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: center; padding-top: 0; }
   .lc[data-pinned='true'] .lc-scene__screen { grid-column: 2; grid-row: 1 / -1; }
 }
 @media (min-width: 960px) and (min-height: 600px) {
@@ -515,7 +520,11 @@ html[data-theme='light'] .lc {
      chrome (title row plus tabs) grows to match; the screen starts a clear 1rem under the tabs. */
   .lc { --lc-obj: 4.5rem; --lc-obj-clear: 6.5rem; --lcd-chrome: calc(var(--lc-obj) + 3.6rem); --ss-beat: 78svh; }
   .lc[data-pinned='true'] .ss__stage { display: flex; align-items: center; }
-  .lc[data-pinned='true'] .lc__grid { height: min(100%, 46rem); row-gap: 2rem; }
+  /* The rail and the scene's words are one group, centred against the screen: the index, then 48 px,
+     then the title and its words. Both sit in fixed rows, so changing scene moves nothing. */
+  .lc[data-pinned='true'] .lc__grid { height: min(100%, 46rem); grid-template-rows: minmax(0, 1fr) auto auto minmax(0, 1fr); row-gap: 0; }
+  .lc[data-pinned='true'] .lc__rail { grid-row: 2; }
+  .lc[data-pinned='true'] .lc-scene__copy { grid-row: 3; align-self: start; padding-top: var(--sp-7, 3rem); }
   .lc-scene__take { display: inline; }
   .lc-scene__body { margin-top: var(--sp-4, 1rem); font-size: var(--t-lede, 1.25rem); line-height: var(--lh-lede, 1.5); }
   .lcd-bar { padding: 0.5rem var(--lc-obj-clear) 0.35rem 1.4rem; }

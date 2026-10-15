@@ -295,7 +295,6 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                 <li key={when} style={{ '--i': i }}>
                   <span className="ml__checkicon">{i === 0 ? <Clock size={16} aria-hidden="true" /> : <Lock size={16} aria-hidden="true" />}</span>
                   <div><b>{when}</b><span>{what}</span></div>
-                  <em>New questions only</em>
                 </li>
               ))}
             </ol>
