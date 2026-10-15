@@ -9,6 +9,7 @@
 //              bars: [{ qid, n, from, to, result, picks: [{ at, option, change }], marks: [at], away: [{ from, to, label }] }] }],
 //   away holds every gap in a bar that is not time on the question: "Away 1m 10s" (the device said the paper was left)
 //   and, on old records without away data only, "Not counted 41m" (a break of over 30 minutes with no event).
+//     opened: [{ n, at, result }]   every question that came on screen: when it first did (seconds) and its result
 //     facts: [string], chips: [{ id, label, count }] }
 // Times are whole seconds on the paper clock. A visit that crosses a row edge is split into one bar per row.
 // result is the question's final result: right, wrong, blank, or held (under re-check or corrected).
@@ -91,27 +92,40 @@ export function buildReplay({ trace, questions, resultOf, groupCounts = {}, pace
     const answered = answeredBy(labelMs);
     const even = evenBy(labelMs);
     const clock = clockLabel(sec(labelMs));
-    rows.push({ from: fromS, to: toS, label: fill(even === null ? R.row.noPace : R.row.pace, { clock, a: answered, p: even }), answeredBy: answered, evenPaceBy: even, bars });
+    rows.push({ from: fromS, to: toS, label: fill(even === null ? R.row.noPace : R.row.pace, { clock, a: answered, total, p: even }), answeredBy: answered, evenPaceBy: even, bars });
   }
 
-  // Three facts under the grid.
+  // Three facts under the grid. A page is one stay on one screen: a question, or a passage set shown whole (the web
+  // runner). The first pass ends with the last page that brought a question on screen for the first time; every page
+  // after it is a return visit (data/paper_trace.js rules 5 and 6). On old records a page is a visit, as before.
   const facts = [];
-  const firstVisit = new Map();
-  for (const v of visits) if (!firstVisit.has(v.qid)) firstVisit.set(v.qid, v);
-  const opened = [...firstVisit.keys()].filter((qid) => numberOf.has(qid)).length;
+  const pages = trace.screens;
+  const firstPage = new Map(); // qid -> index of the page that first showed it
+  pages.forEach((page, i) => { for (const qid of page.qids) if (numberOf.has(qid) && !firstPage.has(qid)) firstPage.set(qid, i); });
+  const opened = firstPage.size;
   facts.push(fill(opened === total ? R.opened.all : form(R.opened, opened), { o: opened, total }));
   if (opened === total) {
-    const lastNew = [...firstVisit.values()].sort((x, y) => x.index - y.index).at(-1);
-    const passEnd = lastNew.to;
-    const returns = visits.filter((v) => v.index > lastNew.index).length;
-    const values = { at: clockLabel(sec(passEnd)), q: numberOf.get(lastNew.qid), n: returns, time: spentLabel((recordMs - passEnd) / 1000) };
-    // Without an end event the last visit has no known leave time, so the pass is dated by when it reached that question.
-    if (!returns && !trace.end) facts.push(fill(R.firstPass.reached, { ...values, at: clockLabel(sec(lastNew.from)) }));
-    else if (!returns) facts.push(fill(R.firstPass.none, values));
+    const lastIndex = Math.max(...firstPage.values());
+    const page = pages[lastIndex];
+    const passEnd = page.to;
+    const later = pages.slice(lastIndex + 1);
+    const returns = later.length;
+    // Time on the return visits: each stay of focus on them, less time away and breaks inside it (never counted).
+    const notCounted = [...trace.awaySpans, ...(trace.breakSpans || [])];
+    const onPage = (p) => trace.spans.slice(p.first, p.last + 1).reduce((s, v) => s + (v.to - v.from)
+      - notCounted.reduce((t, a) => t + Math.max(0, Math.min(a.to, v.to) - Math.max(a.from, v.from)), 0), 0);
+    const returnMs = later.reduce((s, p) => s + onPage(p), 0);
+    const values = { at: clockLabel(sec(passEnd)), q: numberOf.get(trace.spans[page.last].qid), n: returns, time: spentLabel(returnMs / 1000) };
+    // Without an end event the last visit has no known leave time, so the pass is dated by when it reached that page.
+    if (!returns && !trace.end) {
+      const fresh = [...firstPage].filter(([, i]) => i === lastIndex).map(([qid]) => numberOf.get(qid)).sort((a, b) => a - b);
+      if (fresh.length > 1) facts.push(fill(R.firstPass.reachedSet, { q: fresh[0], q2: fresh.at(-1), at: clockLabel(sec(page.from)) }));
+      else facts.push(fill(R.firstPass.reached, { q: numberOf.get(trace.spans[page.first].qid), at: clockLabel(sec(page.from)) }));
+    } else if (!returns) facts.push(fill(R.firstPass.none, values));
     else facts.push(fill(form(trace.end ? R.firstPass.tail : R.firstPass.count, returns), values));
   } else {
     const k = total - opened;
-    facts.push(fill(form(R.noFirstPass, k), { k }));
+    facts.push(fill(form(R.noFirstPass, k), { k, total }));
   }
   if (pace) {
     const checkMs = Math.floor((pace.paperMs * REPLAY_RULES.checkShare) / 60000) * 60000;
@@ -122,5 +136,9 @@ export function buildReplay({ trace, questions, resultOf, groupCounts = {}, pace
     ...REPLAY_RULES.chipGroups.filter((id) => (groupCounts[id] || 0) > 0).map((id) => ({ id, label: R.chips[id], count: groupCounts[id] }))];
 
   const end = trace.end ? { at: sec(trace.end.at), reason: trace.end.reason, label: fill(R.end[trace.end.reason], { at: clockLabel(sec(trace.end.at)) }) } : null;
-  return { version: REPLAY_VERSION, rowSec, durationSec, recordSec, playMs: REPLAY_RULES.playMs, total, labels: { ...R.labels }, end, rows, facts, chips };
+  // When each question first came on screen, with its final result: a question of a passage set that was shown but
+  // never in focus has no bar, and is still opened (the answer map shows it opened, not "never").
+  const openedList = questions.filter((q) => trace.openedAt.has(q.id))
+    .map((q) => ({ n: numberOf.get(q.id), at: sec(trace.openedAt.get(q.id)), result: resultOf(q.id) }));
+  return { version: REPLAY_VERSION, rowSec, durationSec, recordSec, playMs: REPLAY_RULES.playMs, total, labels: { ...R.labels }, end, rows, opened: openedList, facts, chips };
 }

@@ -160,8 +160,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // leaves the answer-key check unread so the panels show their pending state; ?lab=basic|off shows the basic ledger or the
       // page without the Lab. Without ?mock the paper is the 10-question quick practice.
       const mock = fixture.get('mock');
-      // mock=full with the Lab on shows the Replay from its contract (&paper=time_up|nta for the other two; &paper=v1
-      // for the slice 1 paper).
+      // mock=full with the Lab on shows the Replay from its contract (&paper=time_up|nta|bst|english for the others;
+      // &paper=v1 for the slice 1 paper).
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
         return fixtureReplayMock(fixture.get('paper') || 'full').then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState }));
       }

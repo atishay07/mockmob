@@ -12,7 +12,7 @@
 // strike-outs, marks or how a question was reached) also gets the 4.6 lines: "on a later visit" or "without leaving
 // the question" on each change, the mark for review, time away, strike-outs and how the paper ended.
 import { TEST_MODES } from './test_modes.js';
-import { paperTrace, pickSteps as tracePickSteps, capturedStepText, questionTraceLines, untilSubmitted, spentLabel, clockLabel } from './paper_trace.js';
+import { paperTrace, pickSteps as tracePickSteps, capturedStepText, questionTraceLines, untilSubmitted, untilSheet, spentLabel, clockLabel } from './paper_trace.js';
 import { correctIndex } from './recovery.js';
 
 export const TIME_RULES = Object.freeze({
@@ -79,6 +79,10 @@ export const TIME_COPY = Object.freeze({
   atLeast: (spent) => `At least ${spent}`,
   breakToo: ' A break of over 30 minutes is not counted.',
   notOpened: 'You did not open this question.',
+  // A question of a passage set that was on screen with its set but never in focus (data/paper_trace.js rule 5).
+  shownOnly: (n) => (n > 1
+    ? `Shown with its passage ${n} times. You never answered it or moved to it, so no time is counted on it.`
+    : 'Shown with its passage. You never answered it or moved to it, so no time is counted on it.'),
   first: (l, at) => `Picked ${l} at ${at}.`,
   changed: (l, at, gap) => `Changed to ${l} at ${at}, ${gap} later.`,
   cleared: (at, gap) => `Cleared it at ${at}, ${gap} later.`,
@@ -145,7 +149,8 @@ export function buildTimeDecisions(attempt, { answerReviews = {} } = {}) {
   const excluded = new Set(Object.entries(answerReviews || {}).filter(([, r]) => excludedStates.has(r?.state)).map(([qid]) => qid));
 
   // Time on each question, visits and breaks: the one rule in paper_trace.js.
-  const { dwell, visits, breaks, captured, end } = trace;
+  const { dwell, visits, breaks, captured, end, shownOnly, endedOnSheet } = trace;
+  const lastSheet = trace.sheetSpans.at(-1) || null;
   const lastQid = trace.lastQid; // the question on screen at the last visit or answer
   const tail = trace.openTail ? lastQid : null; // without an end event, its time after the last tap is not recorded
   const pace = paperPace(attempt);
@@ -168,8 +173,10 @@ export function buildTimeDecisions(attempt, { answerReviews = {} } = {}) {
     const held = excluded.has(q.id);
     const net = changes.reduce((s, c) => s + (Number(c.markEffect) || 0), 0);
 
+    const shown = shownOnly.has(q.id);
     let time;
     if (!opened) time = TIME_COPY.notOpened;
+    else if (shown) time = TIME_COPY.shownOnly(visits.get(q.id) || 1);
     else if (ms < TIME_RULES.minTimedMs) time = breaks.has(q.id) ? TIME_COPY.breakOnly : q.id === tail ? TIME_COPY.lastOnly : TIME_COPY.underTwo;
     else {
       const spent = q.id === tail ? TIME_COPY.atLeast(spentLabel(ms / 1000)) : spentLabel(ms / 1000);
@@ -178,11 +185,14 @@ export function buildTimeDecisions(attempt, { answerReviews = {} } = {}) {
         : medianLabel ? TIME_COPY.timeMedian(spent, medianLabel)
         : TIME_COPY.time(spent);
       // The question open at a submit ran to the submit: "2m 05s on this question, until you submitted at 59:58."
-      if (end?.reason === 'submit' && q.id === lastQid) time = time.replace(TIME_COPY.time(spent), untilSubmitted(spent, end.at));
+      // When the submit sheet (or the NTA check) was open at the end, it ran only to the sheet: "..., until you went
+      // to submit at 58:30."
+      if (endedOnSheet && lastSheet && q.id === lastQid) time = time.replace(TIME_COPY.time(spent), untilSheet(spent, lastSheet.from));
+      else if (end?.reason === 'submit' && q.id === lastQid) time = time.replace(TIME_COPY.time(spent), untilSubmitted(spent, end.at));
       if (ratio !== null && ratio >= TIME_RULES.longRatio) time += TIME_COPY.ratio(ratioLabel(ratio));
       if (breaks.has(q.id)) time += TIME_COPY.breakToo;
     }
-    if (opened && (visits.get(q.id) || 0) > 1) time += TIME_COPY.visits(visits.get(q.id));
+    if (opened && !shown && (visits.get(q.id) || 0) > 1) time += TIME_COPY.visits(visits.get(q.id));
     const picks = steps.length ? steps.map((s) => stepText(s, captured)).join(' ') : null;
     const effect = changes.length && !held ? (changes.length === 1 ? TIME_COPY.effectOne(net) : TIME_COPY.effectMany(changes.length, net)) : null;
     const key = correctIndex(q);

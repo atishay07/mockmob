@@ -2,7 +2,7 @@
 // Replay: the paper as a clock you can scrub (spec tmp/mistake-lab-v4/SPEC.md 4.5), the first block of the Mistake
 // Lab's Find step. One row per 10 minutes; each visit is a bar from entering to leaving, filled by the question's
 // final result; a pick is a dot, a change a ringed dot, a mark for review a small flag, and time away from the paper a
-// hatched gap with its label. Each row ends with the server's "By 20:00: 14 answered. Even pace: 16." line.
+// hatched gap with its label. Each row ends with the server's "By 20:00: 14 of 50 answered. Even pace: 16." line.
 // Every sentence, label and number comes finished from the server (lab.replay, data/replay.js; the same words as the
 // app); this file only lays them out and moves them.
 //
@@ -118,7 +118,10 @@ function prepare(replay) {
     if (b.picks?.some((p) => p.change)) present.add('change');
     if (b.marks?.length) present.add('mark');
   }
-  const out = { bars, byN, times, present };
+  // When each question first came on screen (replay.opened): a question of a passage set shown but never in focus has
+  // no bar and is still opened. Older replays without the list fall back to the first bar.
+  const opened = new Map((replay.opened || []).map((o) => [o.n, o]));
+  const out = { bars, byN, times, present, opened };
   PREPARED.set(replay, out);
   return out;
 }
@@ -131,10 +134,12 @@ function mapAt(prep, total, t, settled) {
   const cells = new Array(total);
   for (let k = 0; k < total; k++) {
     const q = prep.byN.get(k + 1);
-    if (settled) { cells[k] = q ? q.result : 'never'; continue; }
-    if (!q || q.first === null || q.first > t) { cells[k] = 'none'; continue; }
+    const o = prep.opened.get(k + 1);
+    if (settled) { cells[k] = q ? q.result : o ? o.result : 'never'; continue; }
+    const first = o ? o.at : q?.first ?? null;
+    if (first === null || first > t) { cells[k] = 'none'; continue; }
     let answered = false;
-    for (const p of q.picks) { if (p.at > t) break; answered = p.option !== null && p.option !== undefined; }
+    for (const p of q?.picks || []) { if (p.at > t) break; answered = p.option !== null && p.option !== undefined; }
     cells[k] = answered ? 'ans' : 'open';
   }
   return cells;

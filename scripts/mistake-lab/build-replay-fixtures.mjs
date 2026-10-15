@@ -12,8 +12,16 @@
 //   replay_time_up_input.json     Full mock, time ran out with Q44 open; 6 questions never opened.
 //   replay_nta_input.json         NTA paper, 50 questions in shuffled option orders; two warnings came back, the third
 //                                 left the paper and submitted it (end reason nta_strikes, with time away to the end).
+//   replay_bst_input.json         Business Studies full mock: two passage sets, Q41 to Q45 and Q46 to Q50, each shown
+//                                 on one page as the web runner does (via 'set' for the questions not in focus); Q45 and
+//                                 Q50 shown but never in focus (Q45 marked), the submit sheet opened twice (once left
+//                                 with Keep answering), a return to the first set by the palette with time away in it.
+//   replay_english_input.json     English NTA paper: two passages (Q1 to Q8, Q9 to Q16) and 34 single questions; Q8 and
+//                                 Q16 shown but never in focus, Q4 skipped on the first read and answered on a return
+//                                 visit, then the NTA submit check (via 'sheet') and the submit.
 //   contract_replay_v1.json       the lab built from replay_full_input, with the sample cohort (the main contract)
-//   contract_replay_time_up_v1.json, contract_replay_nta_v1.json   the lab of the other two papers
+//   contract_replay_time_up_v1.json, contract_replay_nta_v1.json, contract_replay_bst_v1.json,
+//   contract_replay_english_v1.json   the lab of the other papers
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -35,6 +43,14 @@ function recorder() {
     get t() { return t; },
     set t(v) { t = v; },
     visit: (qid, at, via) => push({ qid, at, type: 'visit', ...(via ? { via } : {}) }),
+    // A page coming on screen as the web runner records it: the other questions of its passage set (via 'set'), then
+    // the question in focus.
+    page: (qid, at, via, setQids = []) => {
+      for (const other of setQids) if (other !== qid) push({ qid: other, at, type: 'visit', via: 'set' });
+      push({ qid, at, type: 'visit', ...(via ? { via } : {}) });
+    },
+    // The submit sheet (or the NTA submit check) opening over the question in focus.
+    sheet: (qid, at) => push({ qid, at, type: 'visit', via: 'sheet' }),
     answer: (qid, at, answer) => push({ qid, at, type: 'answer', answer }),
     mark: (qid, at, marked) => push({ qid, at, type: 'mark', marked }),
     strike: (qid, at, option, on) => push({ qid, at, type: 'strike', option, on }),
@@ -148,6 +164,102 @@ function ntaPaper(qs) {
   return e;
 }
 
+// ---------- Business Studies: two passage sets on one page each ----------
+const PASSAGE_A = 'Illustrative case: a small firm plans its production for the festive season.';
+const PASSAGE_B = 'Illustrative case: a retailer chooses how to reach buyers in a new town.';
+const BST_CHAPTERS = ['Nature and Significance of Management', 'Planning', 'Organising', 'Staffing', 'Marketing'];
+function bstQuestions() {
+  return Array.from({ length: 50 }, (_, i) => {
+    const n = i + 1;
+    const set = n >= 41 && n <= 45 ? { passageGroupId: 'bst-case-a', passageText: PASSAGE_A, orderIndex: n - 40 }
+      : n >= 46 ? { passageGroupId: 'bst-case-b', passageText: PASSAGE_B, orderIndex: n - 45 } : {};
+    return { id: `b${n}`, chapter: BST_CHAPTERS[i % BST_CHAPTERS.length], question: `Illustrative question ${n}`,
+      options: [`b${n} statement one`, `b${n} statement two`, `b${n} statement three`, `b${n} statement four`], correctIndex: n % 4, ...set };
+  });
+}
+function bstPaper(qs) {
+  const key = (n) => qs[n - 1].correctIndex;
+  const id = (n) => qs[n - 1].id;
+  const setA = [41, 42, 43, 44, 45].map(id);
+  const setB = [46, 47, 48, 49, 50].map(id);
+  const e = recorder();
+  for (let n = 1; n <= 40; n++) {
+    const t = (n - 1) * 60 * S;
+    e.visit(id(n), t, n === 1 ? undefined : 'next');
+    if (n % 11 === 0) continue; // opened, left blank
+    e.answer(id(n), t + 40 * S, n % 7 === 0 ? (key(n) + 1) % 4 : key(n));
+  }
+  // 40:00, Next: the first set's page. Q41 in focus; picking an answer in Q42 and Q44 moves focus there.
+  let t = 2400 * S;
+  e.page(id(41), t, 'next', setA);
+  e.answer(id(41), t + 150 * S, key(41));
+  e.answer(id(42), t + 190 * S, (key(42) + 2) % 4); e.visit(id(42), t + 190 * S);
+  e.answer(id(44), t + 230 * S, key(44)); e.visit(id(44), t + 230 * S);
+  e.mark(id(45), t + 240 * S, true); // marked on the page; focus stays on Q44
+  // 44:20, Next: the second set's page.
+  t = 2660 * S;
+  e.page(id(46), t, 'next', setB);
+  e.answer(id(46), t + 100 * S, key(46));
+  e.answer(id(47), t + 140 * S, key(47)); e.visit(id(47), t + 140 * S);
+  e.answer(id(48), t + 170 * S, (key(48) + 1) % 4); e.visit(id(48), t + 170 * S);
+  e.answer(id(49), t + 200 * S, key(49)); e.visit(id(49), t + 200 * S);
+  // 48:10, Next on the last page opens the submit sheet; Keep answering 15 s later.
+  e.sheet(id(49), 2890 * S);
+  e.visit(id(49), 2905 * S);
+  // 48:35, the palette: Q43 on the first set's page again, with 15 s away.
+  t = 2915 * S;
+  e.page(id(43), t, 'palette', setA);
+  e.away(id(43), t + 15 * S); e.back(id(43), t + 30 * S);
+  e.answer(id(43), t + 45 * S, key(43));
+  // 49:40, Submit test: the sheet, then Submit now at 50:10.
+  e.sheet(id(43), 2980 * S);
+  e.end(id(43), 3010 * S, 'submit');
+  return e;
+}
+
+// ---------- English (NTA): two passages, then single questions ----------
+const ENGLISH_PASSAGES = ['Illustrative passage: a river town and its old bridge.', 'Illustrative passage: notes from a science fair.'];
+function englishQuestions() {
+  return Array.from({ length: 50 }, (_, i) => {
+    const n = i + 1;
+    const set = n <= 8 ? { passageGroupId: 'eng-p1', passageText: ENGLISH_PASSAGES[0], orderIndex: n }
+      : n <= 16 ? { passageGroupId: 'eng-p2', passageText: ENGLISH_PASSAGES[1], orderIndex: n - 8 } : {};
+    return { id: `e${n}`, chapter: n <= 16 ? 'Reading Comprehension' : ['Vocabulary', 'Grammar', 'Verbal Ability'][n % 3], question: `Illustrative question ${n}`,
+      options: [`e${n} choice one`, `e${n} choice two`, `e${n} choice three`, `e${n} choice four`], correctIndex: (n + 1) % 4, ...set };
+  });
+}
+function englishPaper(qs) {
+  const key = (n) => qs[n - 1].correctIndex;
+  const id = (n) => qs[n - 1].id;
+  const p1 = [1, 2, 3, 4, 5, 6, 7, 8].map(id);
+  const p2 = [9, 10, 11, 12, 13, 14, 15, 16].map(id);
+  const e = recorder();
+  // The paper opens on the first passage: Q1 in focus, Q2 to Q8 shown with it.
+  e.page(id(1), 0, undefined, p1);
+  e.answer(id(1), 120 * S, key(1));
+  for (const [n, at, wrong] of [[2, 160, false], [3, 190, true], [5, 230, false], [6, 260, false], [7, 290, false]]) {
+    e.answer(id(n), at * S, wrong ? (key(n) + 1) % 4 : key(n)); e.visit(id(n), at * S);
+  }
+  // 5:10, Next: the second passage.
+  e.page(id(9), 310 * S, 'next', p2);
+  e.answer(id(9), 460 * S, key(9));
+  for (let n = 10; n <= 15; n++) { const at = (460 + (n - 9) * 30) * S; e.answer(id(n), at, n === 12 ? (key(n) + 2) % 4 : key(n)); e.visit(id(n), at); }
+  // 11:00 to 45:00: the single questions, a minute each.
+  for (let n = 17; n <= 50; n++) {
+    const t = (660 + (n - 17) * 60) * S;
+    e.visit(id(n), t, 'next');
+    if (n % 10 === 0) continue;
+    e.answer(id(n), t + 45 * S, n % 6 === 0 ? (key(n) + 3) % 4 : key(n));
+  }
+  // 45:00, the palette: Q4 on the first passage's page again; answered at 46:00.
+  e.page(id(4), 2700 * S, 'palette', p1);
+  e.answer(id(4), 2760 * S, (key(4) + 1) % 4);
+  // 46:30, Submit: the NTA check (questions left blank), then the submit 5 s later.
+  e.sheet(id(4), 2790 * S);
+  e.end(id(4), 2795 * S, 'submit');
+  return e;
+}
+
 export function buildReplayFixtures() {
   const { inputs, snapshot } = buildAll();
   const fullQs = inputs.full_mock_input.attempt.questionsSnapshot;
@@ -185,13 +297,37 @@ export function buildReplayFixtures() {
     events: ne.ev,
   };
 
+  const bqs = bstQuestions();
+  const be = bstPaper(bqs);
+  const bs = scored(bqs, be, 3600 * S);
+  const bst = {
+    description: 'Business Studies full mock, 50 questions: Q41 to Q45 and Q46 to Q50 are passage sets, each on one page with every question of the set shown (via set); Q45 (marked) and Q50 shown but never in focus; the submit sheet opened at 48:10 and was left with Keep answering, a palette return to Q43 with 15 s away, then the sheet again at 49:40 and the submit at 50:10.',
+    attempt: { id: 'lab-replay-bst-1', subject: 'business_studies', completedAt: T0 + 10800 * S, questionsSnapshot: bqs, details: bs.details,
+      selectionMeta: { ...meta('full', bs), endedBy: 'submit' } },
+    answerReviews: {},
+    events: be.ev,
+  };
+
+  const eqs = englishQuestions();
+  const ee = englishPaper(eqs);
+  const es = scored(eqs, ee, 3600 * S);
+  const english = {
+    description: 'English NTA paper, 50 questions: two passages (Q1 to Q8, Q9 to Q16) shown on one page each, Q8 and Q16 shown but never in focus, Q4 skipped on the first read and answered on a palette return at 46:00, then the NTA submit check at 46:30 and the submit at 46:35.',
+    attempt: { id: 'lab-replay-english-1', subject: 'english', completedAt: T0 + 14400 * S, questionsSnapshot: eqs, details: es.details,
+      selectionMeta: { ...meta('nta', es), endedBy: 'submit' } },
+    answerReviews: {},
+    events: ee.ev,
+  };
+
   const cohort = cohortForAttempt({ attempt: full.attempt, allAttempts: [], answerReviews: full.answerReviews, snapshot });
   const contracts = {
     contract_replay_v1: buildMistakeLab({ attempt: full.attempt, answerReviews: full.answerReviews, cohort }),
     contract_replay_time_up_v1: buildMistakeLab({ attempt: timeUp.attempt, answerReviews: timeUp.answerReviews, cohort: null }),
     contract_replay_nta_v1: buildMistakeLab({ attempt: nta.attempt, answerReviews: nta.answerReviews, cohort: null }),
+    contract_replay_bst_v1: buildMistakeLab({ attempt: bst.attempt, answerReviews: bst.answerReviews, cohort: null }),
+    contract_replay_english_v1: buildMistakeLab({ attempt: english.attempt, answerReviews: english.answerReviews, cohort: null }),
   };
-  return { inputs: { replay_full_input: full, replay_time_up_input: timeUp, replay_nta_input: nta }, contracts };
+  return { inputs: { replay_full_input: full, replay_time_up_input: timeUp, replay_nta_input: nta, replay_bst_input: bst, replay_english_input: english }, contracts };
 }
 
 const json = (v) => `${JSON.stringify(v, null, 2)}\n`;

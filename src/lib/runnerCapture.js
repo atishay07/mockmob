@@ -9,8 +9,20 @@
 //
 // The events, each with seq (rising by one), qid (the question on screen) and at (ms on the paper clock):
 //   answer {answer}   mark {marked}   visit {via?}   strike {option, on}   away   back   end {reason}
+// A visit's via 'set' is a question shown with its passage set (the set's page shows every question of it; the one in
+// focus is the visit that follows), and 'sheet' is the submit sheet (or the NTA submit check) opening over the
+// question in focus: the paper trace counts the first as opened, never as time, and credits the time on the second to
+// no question (data/paper_trace.js rules 5 and 6).
 import { useEffect } from 'react';
 import { END_REASONS, MAX_SESSION_EVENTS, VISIT_VIA } from '@/../data/recovery';
+
+/**
+ * Room in the 5,000-event record (the server refuses more), so an answer always fits. As the record fills, telemetry
+ * goes first: from 4,000 events no away, back or strike is recorded and a visit keeps no via (except 'set' and
+ * 'sheet', which decide what was on screen); from 4,800 no visit or mark either; answers and the end use the rest.
+ */
+export const EVENT_ROOM = Object.freeze({ telemetry: MAX_SESSION_EVENTS - 1000, visits: MAX_SESSION_EVENTS - 200, answers: MAX_SESSION_EVENTS });
+const SCREEN_VIA = new Set(['set', 'sheet']);
 
 /** The capture this runner sends, as `client.appVersion`: "runner.2", with the build's commit when known. */
 export const RUNNER_CAPTURE = 2;
@@ -18,9 +30,9 @@ const COMMIT = (process.env.NEXT_PUBLIC_VERCEL_GIT_COMMIT_SHA || '').slice(0, 12
 export const RUNNER_VERSION = /^[0-9a-f]{7,12}$/.test(COMMIT) ? `runner.${RUNNER_CAPTURE}+${COMMIT}` : `runner.${RUNNER_CAPTURE}`;
 
 /**
- * The next event of the record, or null when none may be added (no start yet, no question, the 5,000-event cap,
- * or a value the server would refuse). `clock` is { startedAt, now, limitMs }: `at` is ms since the device's start
- * and never earlier than the previous event. Only an end is held to the paper's limit (limitMs, the paper's own
+ * The next event of the record, or null when none may be added (no start yet, no question, no room for its kind in
+ * the 5,000-event record (EVENT_ROOM), or a value the server would refuse). `clock` is { startedAt, now, limitMs }:
+ * `at` is ms since the device's start and never earlier than the previous event. Only an end is held to the paper's limit (limitMs, the paper's own
  * length); every other type keeps its own time, exactly as before.
  *   answer: the served index or null   mark: true or false   visit: how it was reached (VISIT_VIA) or nothing
  *   strike: { option, on }             away, back: nothing  end: END_REASONS
@@ -28,7 +40,10 @@ export const RUNNER_VERSION = /^[0-9a-f]{7,12}$/.test(COMMIT) ? `runner.${RUNNER
  * last second, so the device's own clock reads up to a second short of the limit; time ran out at the limit.
  */
 export function nextEvent(events, clock, qid, type, value) {
-  if (!Array.isArray(events) || !clock?.startedAt || !qid || events.length >= MAX_SESSION_EVENTS) return null;
+  if (!Array.isArray(events) || !clock?.startedAt || !qid || events.length >= EVENT_ROOM.answers) return null;
+  const n = events.length;
+  if ((type === 'away' || type === 'back' || type === 'strike') && n >= EVENT_ROOM.telemetry) return null;
+  if ((type === 'visit' || type === 'mark') && n >= EVENT_ROOM.visits) return null;
   const prior = events.at(-1);
   const elapsed = clock.now - clock.startedAt;
   const limited = Number.isFinite(clock.limitMs);
@@ -36,7 +51,9 @@ export function nextEvent(events, clock, qid, type, value) {
   switch (type) {
     case 'answer': return { ...base(elapsed), answer: value };
     case 'mark': return { ...base(elapsed), marked: value === true };
-    case 'visit': return VISIT_VIA.includes(value) ? { ...base(elapsed), via: value } : base(elapsed);
+    case 'visit':
+      if (SCREEN_VIA.has(value)) return { ...base(elapsed), via: value };
+      return VISIT_VIA.includes(value) && n < EVENT_ROOM.telemetry ? { ...base(elapsed), via: value } : base(elapsed);
     case 'strike':
       return Number.isInteger(value?.option) && value.option >= 0 && typeof value.on === 'boolean' ? { ...base(elapsed), option: value.option, on: value.on } : null;
     case 'away': case 'back': return base(elapsed);
@@ -48,13 +65,17 @@ export function nextEvent(events, clock, qid, type, value) {
 }
 
 /**
- * The question on screen as the record has it: the question the last event named (the paper trace credits time to
- * it until the next event), else the runner's current question. On a passage page this is the question last
- * answered or marked; elsewhere it is the one question shown.
+ * The question in focus as the record has it: the one the last answer or visit named (the paper trace credits time to
+ * it until the next event; a mark, a strike or a question shown with its set does not move focus), else the runner's
+ * current question. On a passage page this is the question moved to or last answered; elsewhere the one question shown.
  */
 export function onScreenQid(events, fallback) {
-  return (Array.isArray(events) ? events.at(-1)?.qid : null) || fallback || null;
+  const focus = Array.isArray(events)
+    ? events.findLast((e) => e && (e.type === 'answer' || (e.type === 'visit' && e.via !== 'set')))
+    : null;
+  return focus?.qid || fallback || null;
 }
+
 
 /**
  * Why the paper ends: the reason named now, else the reason of an end already in the record (a submit retried after

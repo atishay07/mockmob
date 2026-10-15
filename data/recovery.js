@@ -12,8 +12,14 @@ export function correctIndex(q) {
 // away and back need not pair up: a back with no open away, or a second away, is accepted and has no effect, and any
 // later event closes an open away (data/paper_trace.js). An end counts only as the last event of the record; an end
 // followed by more events (a submit that failed and a student who carried on) is kept in the log and ignored.
+// A visit's via says how the question was reached (next, previous, palette, swipe, resume), and two more say what was
+// on screen without the student moving to the question:
+//   set    shown with its passage set when the set opened (the web shows every question of a set on one page); the
+//          question in focus is the visit that follows at the same clock. It counts as opened, never as time on it.
+//   sheet  the submit sheet opened over the question named; until the next visit or answer no question is on screen,
+//          so the time spent deciding to submit is credited to none of them.
 export const SESSION_EVENT_TYPES = Object.freeze(['answer', 'visit', 'mark', 'strike', 'away', 'back', 'end']);
-export const VISIT_VIA = Object.freeze(['next', 'previous', 'palette', 'swipe', 'resume']);
+export const VISIT_VIA = Object.freeze(['next', 'previous', 'palette', 'swipe', 'resume', 'set', 'sheet']);
 export const END_REASONS = Object.freeze(['submit', 'time_up', 'nta_strikes']);
 export const MAX_SESSION_EVENTS = 5000;
 export const MAX_EVENT_BYTES = 512; // about 75 bytes in practice; anything near this is not a session event
@@ -120,6 +126,34 @@ export function clientMeta(input, now = Date.now()) {
   if (typeof c.appVersion === 'string' && /^[0-9A-Za-z.+_-]{1,40}$/.test(c.appVersion)) out.appVersion = c.appVersion;
   if (Number.isInteger(c.startedAt) && c.startedAt >= EARLIEST_START && c.startedAt <= now + 86400000) out.startedAt = c.startedAt;
   return out;
+}
+
+/**
+ * A time-up end that reached the server after the deadline (spec 6, item 1). The runner closes the paper when its
+ * countdown shows 0:00 and sends the end with the submit, so with network time the submit often lands just after
+ * expires_at, when the database refuses any new event (record_recovery_events) and the paper must never be extended.
+ * The end is then placed by the server, at the paper's own limit, only when it changes nothing but how the record ends:
+ *   - the device's last event is an end with reason time_up, and
+ *   - every event before it is already stored (the same count, and its seq is the next one), so no answer, visit or
+ *     other event is added or lost by placing it, and
+ *   - it names a question of the paper and the stored record does not already end.
+ * Returns the end event to score beside the stored events ({ seq, qid, at: durationMs, type: 'end', reason }), or
+ * null. It is never written to the session's event log, so expected_event_count stays the stored count.
+ */
+export function lateTimeUpEnd(stored, sent, { durationMs, questionIds } = {}) {
+  if (!Array.isArray(stored) || !Array.isArray(sent) || !Number.isFinite(durationMs) || durationMs <= 0) return null;
+  const end = sent.at(-1);
+  if (!end || typeof end !== 'object' || end.type !== 'end' || end.reason !== 'time_up') return null;
+  if (sent.length !== stored.length + 1 || end.seq !== stored.length + 1 || stored.at(-1)?.type === 'end') return null;
+  const known = questionIds instanceof Set ? questionIds : new Set(questionIds || []);
+  if (typeof end.qid !== 'string' || !known.has(end.qid)) return null;
+  const FIELDS = ['seq', 'qid', 'type', 'at', 'answer', 'marked', 'via', 'option', 'on', 'reason'];
+  for (let i = 0; i < stored.length; i++) {
+    const a = stored[i]; const b = sent[i];
+    if (!a || !b || typeof b !== 'object' || FIELDS.some((k) => a[k] !== b[k])) return null;
+  }
+  if ((stored.at(-1)?.at ?? 0) > durationMs) return null;
+  return { seq: end.seq, qid: end.qid, at: durationMs, type: 'end', reason: 'time_up' };
 }
 
 /** How the session ended: the reason on the record's final end event, else a reason the client named, else null. */

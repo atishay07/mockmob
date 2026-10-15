@@ -11,7 +11,8 @@
 // (replay_full_input.json: time away, strike-outs, marks, an end event) and, as its lab, the committed contract itself
 // (contract_replay_v1.json, what the server builds from that paper with the sample cohort), so the page shows exactly
 // what the website and the app are built against. &paper=time_up and &paper=nta show the other two contracts (time ran
-// out with Q44 open; an NTA paper ended by the third warning); &paper=v1 the slice 1 paper above, built live.
+// out with Q44 open; an NTA paper ended by the third warning); &paper=bst and &paper=english the passage-set papers
+// (questions shown with their set, the submit sheet); &paper=v1 the slice 1 paper above, built live.
 import { scoreSession } from '../../../../data/recovery';
 import { buildSwot } from '../../../../data/mock_swot';
 import { buildMistakeInsights } from '../../../../data/mistake_insights';
@@ -131,11 +132,19 @@ const REPLAY_PAPERS = {
     import('../../../../data/tests/fixtures/mistake_lab/replay_nta_input.json'),
     import('../../../../data/tests/fixtures/mistake_lab/contract_replay_nta_v1.json'),
   ]),
+  bst: () => Promise.all([
+    import('../../../../data/tests/fixtures/mistake_lab/replay_bst_input.json'),
+    import('../../../../data/tests/fixtures/mistake_lab/contract_replay_bst_v1.json'),
+  ]),
+  english: () => Promise.all([
+    import('../../../../data/tests/fixtures/mistake_lab/replay_english_input.json'),
+    import('../../../../data/tests/fixtures/mistake_lab/contract_replay_english_v1.json'),
+  ]),
 };
 
 /**
- * The Replay preview: one slice 2 paper (`paper` is 'full', 'time_up' or 'nta'), completed an hour ago, with its
- * committed lab contract, and the SWOT and record lines built over it as the route would.
+ * The Replay preview: one slice 2 paper (`paper` is 'full', 'time_up', 'nta', 'bst' or 'english'), completed an hour
+ * ago, with its committed lab contract, and the SWOT and record lines built over it as the route would.
  */
 export async function fixtureReplayMock(paperName = 'full') {
   const load = REPLAY_PAPERS[paperName] || REPLAY_PAPERS.full;

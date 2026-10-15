@@ -274,6 +274,16 @@ function TestRunner() {
     if (event) eventsRef.current.push(event);
     return event;
   }, []);
+  // A page coming on screen (data/paper_trace.js rule 5): on a passage set every other question of the set is shown
+  // with it, so each is recorded as opened (via 'set') first; then the question in focus, with how it was reached.
+  const recordPage = useCallback((list, index, via) => {
+    const focus = list?.[index];
+    if (!focus?.id) return;
+    for (const entry of getQuestionBlock(list, index).entries) {
+      if (entry.question?.id && entry.question.id !== focus.id) recordEvent(entry.question.id, 'visit', 'set');
+    }
+    recordEvent(focus.id, 'visit', via);
+  }, [recordEvent]);
   // A device-held session has no server row; the server's signed start time rides in the address so a
   // reload that lost the saved draft is given the same clock, never a new one.
   const rememberStart = useCallback((receipt) => {
@@ -338,7 +348,7 @@ function TestRunner() {
                 for (const qid of Object.keys(saved.marked || {})) if (!recorded[qid]) recordEvent(qid, 'mark', true);
                 // The paper reopened on this device, on the question it was left on (last, so the time from here
                 // is credited to that question).
-                if (saved.questions[resumeIdx]?.id) recordEvent(saved.questions[resumeIdx].id, 'visit', 'resume');
+                recordPage(saved.questions, resumeIdx, 'resume');
               }
               rememberStart(saved.selectionMeta?.startReceipt);
               setSelectionMeta(saved.selectionMeta || null);
@@ -406,7 +416,7 @@ function TestRunner() {
           if (at >= 0) Object.assign(restoredVisited, visitedForBlock(loadedQuestions, at));
         }
         // The first question, reached by a resume when the server already holds events for this session.
-        recordEvent(loadedQuestions[0].id, 'visit', eventsRef.current.length ? 'resume' : undefined);
+        recordPage(loadedQuestions, 0, eventsRef.current.length ? 'resume' : undefined);
         setQuestions(loadedQuestions);
         setAnswers(restored.answers);
         setVisited({ ...restoredVisited, ...visitedForBlock(loadedQuestions, 0) });
@@ -445,7 +455,7 @@ function TestRunner() {
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode, recordEvent, rememberStart, launchKey]);
+  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode, recordEvent, recordPage, rememberStart, launchKey]);
 
   // The saved draft is also kept here, so an away can be written at once: a tab being closed may never render again.
   const draftRef = useRef(null);
@@ -499,6 +509,8 @@ function TestRunner() {
   // via: how the question was reached (next, previous, palette, swipe); none for a question picked inside a passage.
   const gotoQuestion = useCallback((nextIdx, { from = 0, via } = {}) => {
     const safe = Math.max(0, Math.min(questionsRef.current.length - 1, nextIdx));
+    const newPage = questionsRef.current.length > 0
+      && getQuestionBlock(questionsRef.current, idxRef.current).startIdx !== getQuestionBlock(questionsRef.current, safe).startIdx;
     if (practiceRun && questionsRef.current.length) {
       const leaving = getQuestionBlock(questionsRef.current, idxRef.current).startIdx;
       const arriving = getQuestionBlock(questionsRef.current, safe).startIdx;
@@ -512,10 +524,12 @@ function TestRunner() {
     }
     idxRef.current = safe;
     setIdx(safe);
-    if (questionsRef.current[safe]) recordEvent(questionsRef.current[safe].id, 'visit', via);
+    // A new page records every question it shows; inside the same page only the question now in focus.
+    if (newPage) recordPage(questionsRef.current, safe, via);
+    else if (questionsRef.current[safe]) recordEvent(questionsRef.current[safe].id, 'visit', via);
     const patch = visitedForBlock(questionsRef.current, safe);
     setVisited((prev) => ({ ...prev, ...patch }));
-  }, [recordEvent, practiceRun]);
+  }, [recordEvent, recordPage, practiceRun]);
 
   useEffect(() => {
     if (!endsAt) return;
@@ -608,8 +622,17 @@ function TestRunner() {
   const integrity = useExamIntegrity({ enabled: isNtaMode && !loading && !!endsAt, storageKey: integrityKey, fullscreenTarget, onTerminate: submitForStrikes });
   const canAnswer = integrity.canAnswer;
   useEffect(() => { finishExamRef.current = integrity.finish; }, [integrity.finish]);
+  // Picking a crossed-out option brings it back (as the app does): the restore is recorded as a strike, on false, just
+  // before the answer. Strike-outs exist only outside NTA mode, so inside an NTA paper this never runs.
+  const restoreStrike = useCallback((qid, option) => {
+    if (!(struckRef.current[qid] || []).includes(option)) return;
+    struckRef.current = { ...struckRef.current, [qid]: struckRef.current[qid].filter((o) => o !== option) };
+    setStruck((prev) => ({ ...prev, [qid]: (prev[qid] || []).filter((o) => o !== option) }));
+    if (paperLive()) recordEvent(qid, 'strike', { option, on: false });
+  }, [paperLive, recordEvent]);
   const chooseAnswer = useCallback((qid, answer) => {
     if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return false;
+    if (practiceRun && answer !== null) restoreStrike(qid, answer);
     recordEvent(qid, 'answer', answer);
     setLastAnswerSeq(eventsRef.current.at(-1)?.seq || 0);
     setAnswers(prev => {
@@ -617,7 +640,7 @@ function TestRunner() {
       answersRef.current = next; return next;
     });
     return true;
-  }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
+  }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting, practiceRun, restoreStrike]);
 
   // Mark for review is recorded like an answer: an event in the session log, so it is saved on the
   // server and comes back when the session is resumed on another device or after storage is cleared.
@@ -632,6 +655,8 @@ function TestRunner() {
   }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
 
   const toggleStrike = useCallback((qid, option) => {
+    // The chosen option is never crossed out (as in the app); picking a crossed-out one brings it back (chooseAnswer).
+    if (answersRef.current[qid] === option) return;
     lastStrikeAt.current = Date.now();
     setStrikeNote(false);
     setStruck((prev) => {
@@ -645,7 +670,21 @@ function TestRunner() {
     if (on) mirror.add(option); else mirror.delete(option);
     struckRef.current = { ...struckRef.current, [qid]: [...mirror] };
     if (paperLive()) recordEvent(qid, 'strike', { option, on });
+    return true;
   }, [paperLive, recordEvent]);
+
+  // The submit sheet (and the NTA submit check) sits over the question in focus. Opening it is recorded as a visit with
+  // via 'sheet', so the time spent deciding to submit is credited to no question (data/paper_trace.js rule 6); going
+  // back to the paper without submitting is a plain visit to the question in focus. Data only: nothing on the page
+  // changes because of either.
+  const recordSheet = useCallback((open) => {
+    if (!paperLive()) return;
+    recordEvent(onScreenQid(eventsRef.current, questionsRef.current[idxRef.current]?.id), 'visit', open ? 'sheet' : undefined);
+  }, [paperLive, recordEvent]);
+  const closeReview = useCallback(() => {
+    setReviewOpen(false);
+    recordSheet(false);
+  }, [recordSheet]);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
@@ -768,8 +807,7 @@ function TestRunner() {
     pressRef.current = { x: event.clientX, y: event.clientY, timer: setTimeout(() => {
       pressRef.current = null;
       suppressClickRef.current = true;
-      toggleStrike(qid, option);
-      navigator.vibrate?.(8);
+      if (toggleStrike(qid, option)) navigator.vibrate?.(8);
     }, LONG_PRESS_MS) };
   }, [cancelPress, toggleStrike]);
   const movePress = useCallback((event) => {
@@ -811,7 +849,7 @@ function TestRunner() {
     const timer = setTimeout(() => setMobiAct('react'), prefersReducedMotion() ? 0 : 900);
     dialog?.querySelector('[data-autofocus]')?.focus();
     const onKey = (event) => {
-      if (event.key === 'Escape') { event.preventDefault(); setReviewOpen(false); return; }
+      if (event.key === 'Escape') { event.preventDefault(); closeReview(); return; }
       if (event.key !== 'Tab' || !dialog) return;
       const controls = [...dialog.querySelectorAll('button:not(:disabled)')].filter((control) => control.tabIndex !== -1);
       if (!controls.length) return;
@@ -825,7 +863,7 @@ function TestRunner() {
       document.removeEventListener('keydown', onKey);
       reviewReturnRef.current?.focus?.();
     };
-  }, [reviewOpen]);
+  }, [reviewOpen, closeReview]);
 
   if (!subjectId) return (
     <div className="container-narrow max-w-3xl pt-10">
@@ -920,6 +958,7 @@ function TestRunner() {
     reviewReturnRef.current = document.activeElement;
     setMobiAct('reading');
     setMobilePaletteOpen(false);
+    if (!reviewOpen) recordSheet(true);
     setReviewOpen(true);
   };
 
@@ -927,7 +966,8 @@ function TestRunner() {
     if (practiceRun) { openReview(); return; }
     if (pendingCount > 0 || markedCount > 0) {
       const markedText = markedCount ? ` and ${markedCount} marked for review` : '';
-      if (!confirm(`You have ${pendingCount} unanswered question${pendingCount === 1 ? '' : 's'}${markedText}. Submit anyway?`)) return;
+      recordSheet(true);
+      if (!confirm(`You have ${pendingCount} unanswered question${pendingCount === 1 ? '' : 's'}${markedText}. Submit anyway?`)) { recordSheet(false); return; }
     }
     submitTest('submit');
   };
@@ -1403,7 +1443,7 @@ function TestRunner() {
 
       {practiceRun && reviewOpen && (
         <div ref={reviewDialogRef} className="pr-sheet" role="dialog" aria-modal="true" aria-labelledby="pr-sheet-title">
-          <button className="pr-sheet__backdrop" type="button" tabIndex={-1} aria-label="Close" onClick={() => setReviewOpen(false)} />
+          <button className="pr-sheet__backdrop" type="button" tabIndex={-1} aria-label="Close" onClick={closeReview} />
           <div className="pr-sheet__panel">
             <h2 id="pr-sheet-title">{isMockMode ? 'Submit this mock?' : 'Submit this practice?'}</h2>
             <dl className="pr-sheet__counts">
@@ -1418,7 +1458,7 @@ function TestRunner() {
                 : <p>{markedCount > 0 ? `${markedCount} marked for review. Every question has an answer.` : `All ${questions.length} answered.`}</p>}
             </div>
             <div className="pr-sheet__actions">
-              <button type="button" data-autofocus onClick={() => setReviewOpen(false)}>Keep answering</button>
+              <button type="button" data-autofocus onClick={closeReview}>Keep answering</button>
               <button type="button" className="is-primary" disabled={submitting} onClick={() => { setReviewOpen(false); submitTest('submit'); }}>Submit now</button>
             </div>
           </div>

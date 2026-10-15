@@ -6,7 +6,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { scoreSession, scorePracticeSubmission, clientMeta, endedByOf, submitMeta, SESSION_EVENT_TYPES, VISIT_VIA, END_REASONS, MAX_EVENT_BYTES } from '../recovery.js';
+import { scoreSession, scorePracticeSubmission, clientMeta, endedByOf, submitMeta, lateTimeUpEnd, SESSION_EVENT_TYPES, VISIT_VIA, END_REASONS, MAX_EVENT_BYTES } from '../recovery.js';
+import { readTrace, questionTraceLines } from '../paper_trace.js';
 import { scoreExpiredSession } from '../../src/lib/server/sessionFinaliser.js';
 import { progressFromEvents } from '../session_draft.js';
 
@@ -149,8 +150,44 @@ test('the deadline finaliser keeps a final end and how it ended', () => {
   assert.equal('endedBy' in plain.selectionMeta, false);
 });
 
-test('the accepted vocabulary is the spec section 6 list', () => {
+test('the accepted vocabulary is the spec section 6 list, with set and sheet for what was on screen', () => {
   assert.deepEqual([...SESSION_EVENT_TYPES], ['answer', 'visit', 'mark', 'strike', 'away', 'back', 'end']);
-  assert.deepEqual([...VISIT_VIA], ['next', 'previous', 'palette', 'swipe', 'resume']);
+  assert.deepEqual([...VISIT_VIA], ['next', 'previous', 'palette', 'swipe', 'resume', 'set', 'sheet']);
   assert.deepEqual([...END_REASONS], ['submit', 'time_up', 'nta_strikes']);
+});
+
+test('a passage set shown on one page and the submit sheet are visits in the stored timeline, with their via', () => {
+  const events = [ev(1, 'q2', 'visit', { via: 'set' }), ev(2, 'q3', 'visit', { via: 'set' }), ev(3, 'q1', 'visit'),
+    ev(4, 'q1', 'answer', { answer: 0 }), ev(5, 'q1', 'visit', { via: 'sheet' }), ev(6, 'q1', 'end', { reason: 'submit' })];
+  const s = scoreSession(qs, { q1: 0 }, events, 60000);
+  assert.equal(s.recovery.telemetry, 'self_reported');
+  assert.deepEqual(s.recovery.timeline.map((e) => `${e.type}:${e.qid}${e.via ? `:${e.via}` : ''}`), ['visit:q2:set', 'visit:q3:set', 'visit:q1', 'answer:q1', 'visit:q1:sheet']);
+  assert.equal(s.recovery.end.reason, 'submit');
+});
+
+// src/lib/server/recoverySessions.js finishSession: a submit landing after expires_at cannot store events, so a time-up
+// end it carries is placed by the server, at the limit, only when every event before it is already stored.
+test('a time-up that reached the server after the deadline keeps its end, at the limit, and nothing else', () => {
+  const stored = [ev(1, 'q1', 'visit'), ev(2, 'q1', 'answer', { answer: 0 }), ev(3, 'q2', 'visit', { via: 'next' })];
+  const sent = [...stored, { seq: 4, qid: 'q2', type: 'end', at: 59_400, reason: 'time_up' }];
+  const opts = { durationMs: 60_000, questionIds: qs.map((q) => q.id) };
+  const end = lateTimeUpEnd(stored, sent, opts);
+  assert.deepEqual(end, { seq: 4, qid: 'q2', at: 60_000, type: 'end', reason: 'time_up' });
+  const s = scoreSession(qs, { q1: 0 }, [...stored, end], 60_000);
+  assert.deepEqual(s.recovery.end, { seq: 4, qid: 'q2', at: 60_000, reason: 'time_up' });
+  assert.deepEqual(submitMeta({}, [...stored, end]), { endedBy: 'time_up' });
+  const trace = readTrace(s.recovery);
+  assert.deepEqual(questionTraceLines(trace, 'q2'), ['Time ran out at 1:00 with this question open.']);
+  assert.equal(trace.dwell.get('q2'), 60_000 - 3000, 'the last question runs to the limit, never past it');
+  // Anything that would add, drop or change an event is refused: the paper is never extended.
+  const no = (s2, why) => assert.equal(lateTimeUpEnd(stored, s2, opts), null, why);
+  no([...stored, ev(4, 'q2', 'answer', { answer: 1 }), { seq: 5, qid: 'q2', type: 'end', at: 60_000, reason: 'time_up' }], 'an answer after the last save');
+  no([...stored, { seq: 4, qid: 'q2', type: 'end', at: 30_000, reason: 'submit' }], 'a plain submit after the deadline');
+  no([...stored, { seq: 4, qid: 'q9', type: 'end', at: 60_000, reason: 'time_up' }], 'a question not on the paper');
+  no([...stored, { seq: 7, qid: 'q2', type: 'end', at: 60_000, reason: 'time_up' }], 'a seq gap');
+  no([stored[0], ev(2, 'q1', 'answer', { answer: 3 }), stored[2], { seq: 4, qid: 'q2', type: 'end', at: 60_000, reason: 'time_up' }], 'a stored event that differs');
+  no(stored, 'no end at all');
+  assert.equal(lateTimeUpEnd([...stored, { seq: 4, qid: 'q2', type: 'end', at: 60_000, reason: 'time_up' }], [...stored, { seq: 4, qid: 'q2', type: 'end', at: 60_000, reason: 'time_up' }], opts), null, 'an end already stored');
+  assert.equal(lateTimeUpEnd(stored, sent, { durationMs: NaN, questionIds: opts.questionIds }), null);
+  assert.equal(lateTimeUpEnd(null, sent, opts), null);
 });

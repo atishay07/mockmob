@@ -165,9 +165,14 @@
       }
     },
     "untilSubmit": "{spent} on this question, until you submitted at {at}.",
+    "untilSheet": "{spent} on this question, until you went to submit at {at}.",
     "endHere": {
       "time_up": "Time ran out at {at} with this question open.",
       "nta_strikes": "Your answers were submitted at {at}, after the third warning, with this question open."
+    },
+    "endSheet": {
+      "time_up": "Time ran out at {at} with the submit check open over this question.",
+      "nta_strikes": "Your answers were submitted at {at}, after the third warning, with the submit check open over this question."
     },
     "marked": {
       "kept": {
@@ -202,8 +207,8 @@
       "evenPaceNote": "Even pace is the paper's own time a question. It is a reference, not a target."
     },
     "row": {
-      "pace": "By {clock}: {a} answered. Even pace: {p}.",
-      "noPace": "By {clock}: {a} answered."
+      "pace": "By {clock}: {a} of {total} answered. Even pace: {p}.",
+      "noPace": "By {clock}: {a} of {total} answered."
     },
     "away": "Away {time}",
     "gap": "Not counted {time}",
@@ -227,11 +232,12 @@
         "many": "Your first pass ended at {at}, on Q{q}. After it you made {n} return visits."
       },
       "none": "Your first pass ended at {at}, on Q{q}.",
-      "reached": "You opened Q{q}, the last question you had not seen, at {at}."
+      "reached": "You opened Q{q}, the last question you had not seen, at {at}.",
+      "reachedSet": "You opened Q{q} to Q{q2}, the last questions you had not seen, at {at}."
     },
     "noFirstPass": {
-      "one": "You never finished a first pass. 1 question was never opened.",
-      "many": "You never finished a first pass. {k} questions were never opened."
+      "one": "You never finished a first pass. 1 of {total} questions was never opened.",
+      "many": "You never finished a first pass. {k} of {total} questions were never opened."
     },
     "check": "At {clock} you had answered {a} of {total}. Even pace gets to {p}.",
     "chips": {

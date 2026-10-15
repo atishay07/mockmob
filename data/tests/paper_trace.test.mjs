@@ -15,7 +15,7 @@ import { FIXTURE_DIR } from '../../scripts/mistake-lab/build-fixtures.mjs';
 
 const load = (name) => JSON.parse(readFileSync(join(FIXTURE_DIR, `${name}.json`), 'utf8'));
 const OLD = ['full_mock_input', 'quick_set_input', 'no_missed_input', 'nta_shuffled_input'];
-const NEW = ['replay_full_input', 'replay_time_up_input', 'replay_nta_input'];
+const NEW = ['replay_full_input', 'replay_time_up_input', 'replay_nta_input', 'replay_bst_input', 'replay_english_input'];
 const S = 1000;
 
 // Time and decisions' own rule as it was before slice 2 (data/time_decisions.js at eeeaca20), frozen here.
@@ -132,7 +132,7 @@ test("with an end event, a question's visits less its time away add up to its ti
     const t = paperTrace(load(name).attempt);
     const onScreen = new Map();
     for (const s of t.spans) onScreen.set(s.qid, (onScreen.get(s.qid) || 0) + (s.to - s.from));
-    for (const a of t.awaySpans) onScreen.set(a.qid, onScreen.get(a.qid) - (a.to - a.from));
+    for (const a of t.awaySpans) if (a.qid !== null) onScreen.set(a.qid, onScreen.get(a.qid) - (a.to - a.from));
     for (const [qid, ms] of onScreen) assert.equal(t.dwell.get(qid) || 0, ms, `${name} ${qid}`);
   }
 });
@@ -223,4 +223,79 @@ test('time away under half a second is not counted and gets no words (the third 
   assert.equal(t.dwell.get('q1'), 20 * S);
   assert.equal(t.awaySpans.length, 1);
   assert.deepEqual(questionTraceLines(t, 'q1'), ['Your answers were submitted at 0:20, after the third warning, with this question open.']);
+});
+
+// ---- Passage sets on one page and the submit sheet (rules 5 and 6) ---------------------------------------------------
+const fiveQs = ['q1', 'q2', 'q3', 'q4', 'q5'].map((id, i) => ({ id, correctIndex: i % 4, options: ['a', 'b', 'c', 'd'].map((x) => `${id} ${x}`) }));
+function fivePaper(events) {
+  const given = {};
+  for (const x of events) if (x.type === 'answer') { if (x.answer === null) delete given[x.qid]; else given[x.qid] = x.answer; }
+  const s = scoreSession(fiveQs, given, events, 3600 * S);
+  return { questionsSnapshot: fiveQs, details: s.details, selectionMeta: { mode: 'full', durationMinutes: 60, scoringVersion: 'server_snapshot_v1', recovery: s.recovery } };
+}
+
+test('a passage set on one page: every question shown is opened, time stays with the question in focus', () => {
+  // q2 to q4 are one set. Landing on it focuses q2 (q3 and q4 shown); answering q3 moves focus there; q4 is never in
+  // focus. Leaving and coming back by the palette to q3 is a second visit of every question of the set.
+  seq = 0;
+  const a = fivePaper([
+    e('q1', 0, 'visit'), e('q1', 20 * S, 'answer', { answer: 0 }),
+    e('q3', 30 * S, 'visit', { via: 'set' }), e('q4', 30 * S, 'visit', { via: 'set' }), e('q2', 30 * S, 'visit', { via: 'next' }),
+    e('q2', 90 * S, 'answer', { answer: 1 }), e('q3', 120 * S, 'answer', { answer: 2 }), e('q3', 120 * S, 'visit'),
+    e('q4', 130 * S, 'mark', { marked: true }),
+    e('q5', 150 * S, 'visit', { via: 'next' }), e('q5', 170 * S, 'answer', { answer: 0 }),
+    e('q2', 180 * S, 'visit', { via: 'set' }), e('q4', 180 * S, 'visit', { via: 'set' }), e('q3', 180 * S, 'visit', { via: 'palette' }),
+    e('q3', 200 * S, 'end', { reason: 'submit' }),
+  ]);
+  const t = paperTrace(a);
+  assert.equal(t.dwell.get('q2'), 90 * S, '30 to 120: in focus until q3 was answered');
+  assert.equal(t.dwell.get('q3'), 30 * S + 20 * S, '120 to 150, then 180 to 200');
+  assert.equal(t.dwell.has('q4'), false, 'shown, never in focus: no time');
+  assert.deepEqual([...t.shownOnly], ['q4']);
+  assert.deepEqual(Object.fromEntries(t.visits), { q1: 1, q2: 2, q3: 2, q4: 2, q5: 1 }, 'one visit per page it was on');
+  assert.deepEqual(Object.fromEntries(t.openedAt), { q1: 0, q2: 30 * S, q3: 30 * S, q4: 30 * S, q5: 150 * S });
+  assert.deepEqual(t.screens.map((p) => [p.qids.sort().join(','), p.from / S, p.to / S]), [['q1', 0, 30], ['q2,q3,q4', 30, 150], ['q5', 150, 180], ['q2,q3,q4', 180, 200]]);
+  assert.deepEqual(t.spans.map((x) => [x.qid, x.from / S, x.to / S]), [['q1', 0, 30], ['q2', 30, 120], ['q3', 120, 150], ['q5', 150, 180], ['q3', 180, 200]]);
+  const td = buildTimeDecisions(a);
+  const row = (qid) => td.rows.find((r) => r.qid === qid);
+  assert.equal(row('q4').opened, true);
+  assert.deepEqual(row('q4').lines, ['Shown with its passage 2 times. You never answered it or moved to it, so no time is counted on it.', 'You marked it for review at 2:10. It was still marked when you submitted.']);
+  assert.match(row('q2').lines[0], /^1m 30s on this question\..* You opened it 2 times\.$/);
+});
+
+test('the same paper recorded before set visits existed reads exactly as it did (old records are untouched)', () => {
+  seq = 0;
+  const old = readTrace([e('q1', 0, 'visit'), e('q2', 30 * S, 'visit'), e('q3', 120 * S, 'answer', { answer: 2 }), e('q3', 120 * S, 'visit'), e('q2', 140 * S, 'visit')]);
+  assert.deepEqual(Object.fromEntries(old.visits), { q1: 1, q2: 2, q3: 1 });
+  assert.equal(old.screens.length, old.spans.length, 'without set visits every page is one visit');
+  assert.equal(old.shownOnly.size, 0);
+});
+
+test('the submit sheet: its time is on no question, a return to the page is not a new visit, and the last time stops at it', () => {
+  seq = 0;
+  const events = [
+    e('q1', 0, 'visit'), e('q1', 20 * S, 'answer', { answer: 0 }), e('q2', 30 * S, 'visit', { via: 'next' }), e('q2', 50 * S, 'answer', { answer: 1 }),
+    e('q2', 60 * S, 'visit', { via: 'sheet' }), e('q2', 75 * S, 'away'), e('q2', 85 * S, 'back'), e('q2', 90 * S, 'visit'),
+    e('q2', 100 * S, 'answer', { answer: 2 }), e('q2', 110 * S, 'visit', { via: 'sheet' }),
+  ];
+  const submitted = fivePaper([...events, e('q2', 140 * S, 'end', { reason: 'submit' })]);
+  const t = paperTrace(submitted);
+  assert.equal(t.dwell.get('q2'), 30 * S + 20 * S, '30 to 60 and 90 to 110; the two sheets are not counted');
+  assert.equal(t.visits.get('q2'), 1, 'back from the sheet to the same page is the same visit');
+  assert.deepEqual(t.sheetSpans.map((x) => [x.qid, x.from / S, x.to / S]), [['q2', 60, 90], ['q2', 110, 140]]);
+  assert.equal(t.endedOnSheet, true);
+  assert.equal(t.openTail, false);
+  assert.deepEqual(t.awayByQid.get('q2') ?? [], [], 'time away while the sheet was open belongs to no question');
+  const td = buildTimeDecisions(submitted);
+  assert.equal(td.rows[1].lines[0], '50s on this question, until you went to submit at 1:50. The paper gives 12m a question.');
+  // Time ran out with the sheet open: the end line says so.
+  seq = 0;
+  const up = paperTrace(fivePaper([...events.map((x) => ({ ...x })), { seq: 11, qid: 'q2', at: 3600 * S, type: 'end', reason: 'time_up' }]));
+  assert.deepEqual(questionTraceLines(up, 'q2'), ['Time ran out at 60:00 with the submit check open over this question.']);
+  // A sheet left with Keep answering then a move to another question: that question starts a new visit.
+  seq = 0;
+  const moved = readTrace({ timeline: [e('q1', 0, 'visit'), e('q1', 10 * S, 'visit', { via: 'sheet' }), e('q3', 30 * S, 'visit', { via: 'palette' })], end: { seq: 9, qid: 'q3', at: 40 * S, reason: 'submit' } });
+  assert.equal(moved.dwell.get('q1'), 10 * S);
+  assert.equal(moved.dwell.get('q3'), 10 * S);
+  assert.equal(moved.endedOnSheet, false);
 });

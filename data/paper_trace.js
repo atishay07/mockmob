@@ -21,7 +21,15 @@
 //      so the last question's time is "at least" (the record does not say when the student stopped).
 //   4. Only when the record has no away or back data at all, a gap over 30 minutes is skipped as a break (a tab left
 //      open). With away data the device said when the student left, so nothing is guessed.
-// Old records (visits and answers only) get exactly the numbers Time and decisions gave before slice 2.
+//   5. A passage set shown on one page (the web runner): the questions of the set not in focus arrive as visits with
+//      via 'set', just before the visit that brings the set on screen. They count as opened, never as time: rule 1
+//      keeps crediting the question in focus (the one moved to, or last answered). The page is one screen, so moving
+//      focus inside it is not a new visit of the set, and a set opened again is one more visit of each of its questions.
+//   6. The submit sheet: a visit with via 'sheet' means the sheet opened over the question in focus. From there to the
+//      next visit or answer no question is on screen and the time is credited to none, so with an end after it the last
+//      question runs only to the sheet. Coming back from the sheet to the same page is not a new visit.
+// Old records (visits and answers only) get exactly the numbers Time and decisions gave before slice 2: with no set or
+// sheet visits every page holds one question, so its visits, spans and pages are the same thing.
 import COPY from './mistake_lab.copy.json' with { type: 'json' };
 
 export const TRACE_RULES = Object.freeze({
@@ -93,9 +101,20 @@ export function pickSteps(answerEvents, visitOf = () => null) {
   return steps;
 }
 
+const isSetVisit = (e) => e.type === 'visit' && e.via === 'set';
+const isSheetVisit = (e) => e.type === 'visit' && e.via === 'sheet';
+const isFocus = (e) => (e.type === 'answer' || e.type === 'visit') && !isSetVisit(e) && !isSheetVisit(e);
+
 /**
  * The trace of a record: time per question under the one rule, visits, every visit as a span (for the Replay),
  * time away, breaks, marks, strike-outs and the steps of each question's picks. Never null; `timeline` may be empty.
+ *   dwell       qid -> ms on it (rules 1 to 6)
+ *   visits      qid -> pages it was on, in focus or shown with its passage set (old records: its visits)
+ *   openedAt    qid -> ms when it first came on screen
+ *   shownOnly   qids that were on screen only as part of a passage set, never in focus (no time, rule 5)
+ *   spans       every stay of focus on one question: { qid, from, to } in ms (the Replay's bars)
+ *   screens     every stay on one page: { qids, from, to, first, last } (first and last index spans)
+ *   sheetSpans  the submit sheet open: { qid (the question under it), from, to }; endedOnSheet when the record ended so
  */
 export function readTrace(input) {
   const { timeline, marks, presence, strikes, end, events } = recordOf(input);
@@ -104,43 +123,84 @@ export function readTrace(input) {
 
   const dwell = new Map();
   const visits = new Map();
+  const openedAt = new Map();
+  const focused = new Set();
   const breaks = new Set();
   const awayByQid = new Map();
   const awaySpans = [];
   const breakSpans = []; // rule 4 gaps, on records without away data: not counted, and drawn as a gap in the Replay
-  const spans = []; // every visit: { qid, from, to } in ms; `to` is when the next question opened, or the end
+  const sheetSpans = [];
+  const spans = []; // every stay of focus: { qid, from, to } in ms; `to` is when focus moved, the sheet opened, or the end
+  const screens = [];
   const visitIndex = new Map(); // timeline event -> index of its span
   let awayOpen = null;
-  let onScreen = null;
+  let onScreen = null; // the question in focus (still the question under the submit sheet while it is open)
+  let sheet = null; // the submit sheet's span while it is open
+  let pending = []; // set visits waiting for the visit that brings their set on screen
+  const opened = (qid, at) => {
+    visits.set(qid, (visits.get(qid) || 0) + 1);
+    if (!openedAt.has(qid)) openedAt.set(qid, at);
+  };
+  const closeSpan = (at) => { if (spans.length && spans.at(-1).to === null) spans.at(-1).to = at; };
   for (let i = 0; i < events.length; i++) {
     const e = events[i];
-    if (!EXTRA_TYPES.has(e.type)) {
-      if (e.qid !== onScreen) {
-        visits.set(e.qid, (visits.get(e.qid) || 0) + 1);
-        if (spans.length) spans.at(-1).to = e.at;
+    if (isSetVisit(e)) pending.push(e);
+    else if (isSheetVisit(e)) {
+      if (!sheet) {
+        closeSpan(e.at);
+        sheet = { qid: onScreen ?? e.qid, from: e.at, to: null };
+        sheetSpans.push(sheet);
+      }
+    } else if (isFocus(e)) {
+      const shown = pending.filter((x) => x.qid !== e.qid);
+      pending = [];
+      let page = screens.at(-1);
+      if (!page || !page.group.has(e.qid)) {
+        // A new page: the question in focus and every question shown with it.
+        closeSpan(e.at);
+        page = { group: new Set([e.qid]), first: spans.length, last: spans.length };
+        screens.push(page);
+        opened(e.qid, e.at);
+      }
+      // Shown with the set (on a new page, or added to this one when the set was shown again on a resume).
+      for (const x of shown) if (!page.group.has(x.qid)) { page.group.add(x.qid); opened(x.qid, x.at); }
+      // A new stay of focus: another question, or back on the page from the submit sheet.
+      if (e.qid !== onScreen || sheet || !spans.length) {
+        closeSpan(e.at);
         spans.push({ qid: e.qid, from: e.at, to: null });
+        page.last = spans.length - 1;
         onScreen = e.qid;
       }
+      if (sheet) { sheet.to = e.at; sheet = null; }
+      focused.add(e.qid);
       visitIndex.set(e, spans.length - 1);
     }
-    const owner = onScreen ?? e.qid; // rule 1: equal to e.qid for a visit or an answer
+    // Rule 1: equal to e.qid for a visit or an answer. Rule 6: nobody while the sheet is open. Rule 5: a set shown
+    // before any question is in focus owns nothing.
+    const owner = sheet ? null : onScreen ?? (isSetVisit(e) || isSheetVisit(e) ? null : e.qid);
     if (e.type === 'away') {
       if (!awayOpen) awayOpen = { qid: owner, from: e.at };
     } else if (awayOpen) {
       const span = { qid: awayOpen.qid, from: awayOpen.from, to: e.at };
       awaySpans.push(span);
-      awayByQid.set(span.qid, [...(awayByQid.get(span.qid) || []), span]);
+      if (span.qid !== null) awayByQid.set(span.qid, [...(awayByQid.get(span.qid) || []), span]);
       awayOpen = null;
     }
     const next = events[i + 1];
     if (!next || e.type === 'end') continue;
     const gap = next.at - e.at;
     if (awayOpen) continue; // rule 2
+    if (owner === null) continue; // rules 5 and 6: time on no question
     if (!awayKnown && gap > TRACE_RULES.maxGapMs) { breaks.add(owner); breakSpans.push({ qid: owner, from: e.at, to: next.at }); continue; } // rule 4
     if (gap >= 0) dwell.set(owner, (dwell.get(owner) || 0) + gap); // rule 1
   }
+  // A set shown with no visit after it (the event cap): its questions were on screen, on the last page.
+  const lastPage = screens.at(-1);
+  if (lastPage) for (const x of pending) if (!lastPage.group.has(x.qid)) { lastPage.group.add(x.qid); opened(x.qid, x.at); }
   const lastAt = events.length ? events.at(-1).at : 0;
-  if (spans.length) spans.at(-1).to = end ? end.at : Math.max(spans.at(-1).from, lastAt);
+  const endedOnSheet = !!sheet;
+  if (sheet) sheet.to = end ? end.at : lastAt;
+  if (spans.length && spans.at(-1).to === null) spans.at(-1).to = end ? end.at : Math.max(spans.at(-1).from, lastAt);
 
   const stepsByQid = new Map();
   const answersByQid = new Map();
@@ -150,10 +210,12 @@ export function readTrace(input) {
 
   return {
     timeline, events, end, awayKnown, captured,
-    dwell, visits, breaks, breakSpans, spans, awaySpans, awayByQid,
-    lastQid: timeline.length ? timeline.at(-1).qid : null, // the question on screen at the last visit or answer
+    dwell, visits, openedAt, breaks, breakSpans, spans, awaySpans, awayByQid, sheetSpans, endedOnSheet,
+    shownOnly: new Set([...visits.keys()].filter((qid) => !focused.has(qid))),
+    screens: screens.map((x) => ({ qids: [...x.group], first: x.first, last: x.last, from: spans[x.first].from, to: spans[x.last].to })),
+    lastQid: onScreen, // the question in focus at the end of the record (under the submit sheet when it was open)
     lastAt, // the clock of the last event (the end, when there is one)
-    openTail: !end, // rule 3: without an end, the time after the last event is unknown
+    openTail: !end && !endedOnSheet, // rule 3: without an end (or a sheet that stopped it), the last time is unknown
     stepsByQid,
     marksByQid: group(marks),
     strikesByQid: group(strikes),
@@ -208,6 +270,11 @@ export function untilSubmitted(spent, endAt) {
   return fill(TRACE.untilSubmit, { spent, at: clockLabel(sec(endAt)) });
 }
 
+/** "1m 10s on this question, until you went to submit at 58:30.": the submit sheet (or check) stopped its time. */
+export function untilSheet(spent, sheetAt) {
+  return fill(TRACE.untilSheet, { spent, at: clockLabel(sec(sheetAt)) });
+}
+
 /**
  * The lines 4.6 adds under one question's time and picks, in order: strike-outs, the mark for review, time away and,
  * on the question open at the end, how the paper ended (time up, or the third warning; a submit changes the time
@@ -251,8 +318,9 @@ export function questionTraceLines(trace, qid, { keyIndex = null } = {}) {
     lines.push(fill(away.length === 1 ? TRACE.away.one : TRACE.away.many, { n: away.length, time: spentLabel(ms / 1000) }));
   }
 
-  // How the paper ended, on the question that was open.
-  if (trace.end && trace.lastQid === qid && TRACE.endHere[reason]) lines.push(fill(TRACE.endHere[reason], { at: clockLabel(sec(trace.end.at)) }));
+  // How the paper ended, on the question that was open (or under the submit check, when that was open).
+  const endLines = trace.endedOnSheet ? TRACE.endSheet : TRACE.endHere;
+  if (trace.end && trace.lastQid === qid && endLines[reason]) lines.push(fill(endLines[reason], { at: clockLabel(sec(trace.end.at)) }));
   return lines;
 }
 

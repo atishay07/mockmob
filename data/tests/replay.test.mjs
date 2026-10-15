@@ -14,8 +14,9 @@ import { paperPace } from '../time_decisions.js';
 import { scoreSession } from '../recovery.js';
 
 const load = (name) => JSON.parse(readFileSync(join(FIXTURE_DIR, `${name}.json`), 'utf8'));
-const CONTRACTS = ['contract_replay_v1', 'contract_replay_time_up_v1', 'contract_replay_nta_v1'];
-const INPUTS = { contract_replay_v1: 'replay_full_input', contract_replay_time_up_v1: 'replay_time_up_input', contract_replay_nta_v1: 'replay_nta_input' };
+const CONTRACTS = ['contract_replay_v1', 'contract_replay_time_up_v1', 'contract_replay_nta_v1', 'contract_replay_bst_v1', 'contract_replay_english_v1'];
+const INPUTS = { contract_replay_v1: 'replay_full_input', contract_replay_time_up_v1: 'replay_time_up_input', contract_replay_nta_v1: 'replay_nta_input',
+  contract_replay_bst_v1: 'replay_bst_input', contract_replay_english_v1: 'replay_english_input' };
 
 test('the slice 2 fixtures and contracts on disk equal what the code builds today', () => {
   const { inputs, contracts } = buildReplayFixtures();
@@ -82,7 +83,7 @@ test('replay rows: one per 10 minutes up to the end of the record, labelled with
       answered = row.answeredBy;
       const labelSec = i === r.rows.length - 1 && r.end ? Math.min(row.to, r.recordSec) : row.to;
       assert.equal(row.evenPaceBy, Math.min(r.total, Math.floor((labelSec * 1000) / pace.perQuestionMs)), name);
-      assert.match(row.label, /^By \d+:\d\d: \d+ answered\. Even pace: \d+\.$/);
+      assert.equal(row.label, `By ${row.label.slice(3, row.label.indexOf(': '))}: ${row.answeredBy} of ${r.total} answered. Even pace: ${row.evenPaceBy}.`, name);
       for (const bar of row.bars) {
         assert.ok(bar.from >= row.from && bar.to <= row.to && bar.from <= bar.to, `${name} bar inside its row`);
         assert.ok(['right', 'wrong', 'blank', 'held'].includes(bar.result));
@@ -122,16 +123,88 @@ test('replay facts, end and chips for the three papers', () => {
   for (const chip of full.chips.slice(1)) assert.equal(chip.count, lab.groups.find((g) => g.id === chip.id).count);
 
   const up = load('contract_replay_time_up_v1').replay;
-  assert.deepEqual(up.facts, ['You opened 44 of 50 questions.', 'You never finished a first pass. 6 questions were never opened.', 'At 40:00 you had answered 28 of 50. Even pace gets to 33.']);
+  assert.deepEqual(up.facts, ['You opened 44 of 50 questions.', 'You never finished a first pass. 6 of 50 questions were never opened.', 'At 40:00 you had answered 28 of 50. Even pace gets to 33.']);
   assert.equal(up.end.label, 'Time ran out at 60:00.');
   assert.deepEqual(up.chips.map((c) => c.id), ['all', 'long_stay', 'never_opened']);
 
   const nta = load('contract_replay_nta_v1').replay;
-  assert.deepEqual(nta.facts, ['You opened 26 of 50 questions.', 'You never finished a first pass. 24 questions were never opened.']);
+  assert.deepEqual(nta.facts, ['You opened 26 of 50 questions.', 'You never finished a first pass. 24 of 50 questions were never opened.']);
   assert.equal(nta.end.label, 'Submitted at 31:10, after the third warning.');
   const last = nta.rows.at(-1);
-  assert.equal(last.label, 'By 31:10: 24 answered. Even pace: 25.');
+  assert.equal(last.label, 'By 31:10: 24 of 50 answered. Even pace: 25.');
   assert.deepEqual(last.bars.at(-1).away, [{ from: 1855, to: 1870, label: 'Away 15s' }]);
+});
+
+// A passage set on one page (the web runner): every question of the set shown is opened, the time goes to the question
+// in focus, and the ledger, Time and decisions and the Replay say the same about each question.
+test('passage sets: questions shown with their set are opened, never "never opened", and carry no time', () => {
+  const cases = {
+    contract_replay_bst_v1: { shown: { b45: 2, b50: 1 }, opened: 50 },
+    contract_replay_english_v1: { shown: { e8: 2, e16: 1 }, opened: 50 },
+  };
+  for (const [name, want] of Object.entries(cases)) {
+    const c = load(name);
+    const { attempt } = load(INPUTS[name]);
+    const trace = paperTrace(attempt);
+    assert.equal(c.groups.some((g) => g.id === 'never_opened'), false, `${name}: no shown question is "never opened"`);
+    assert.equal(c.replay.facts[0], 'You opened all 50 questions.', name);
+    assert.equal(c.replay.opened.length, want.opened, name);
+    for (const [qid, pages] of Object.entries(want.shown)) {
+      const row = c.time.rows.find((r) => r.qid === qid);
+      assert.equal(row.opened, true, `${name} ${qid}`);
+      assert.equal(row.ms, 0, `${name} ${qid}`);
+      assert.equal(row.lines[0], pages > 1
+        ? `Shown with its passage ${pages} times. You never answered it or moved to it, so no time is counted on it.`
+        : 'Shown with its passage. You never answered it or moved to it, so no time is counted on it.', `${name} ${qid}`);
+      assert.equal(c.byQuestion[qid].group, 'other_blank', `${name} ${qid} sits in "Opened, left blank"`);
+      const n = attempt.questionsSnapshot.findIndex((q) => q.id === qid) + 1;
+      assert.equal(c.replay.rows.flatMap((row2) => row2.bars).some((b) => b.n === n), false, `${name} ${qid} has no bar`);
+      assert.deepEqual(c.replay.opened.find((o) => o.n === n), { n, at: Math.round(trace.openedAt.get(qid) / 1000), result: 'blank' }, `${name} ${qid}`);
+    }
+    // Every question with time has bars that add up to it (the Replay and Time and decisions agree).
+    for (const row of c.time.rows.filter((r) => r.ms > 0)) assert.ok(c.replay.rows.flatMap((x) => x.bars).some((b) => b.qid === row.qid), `${name} ${row.qid}`);
+  }
+});
+
+test('passage sets: the first pass is counted in pages, and the return visits leave out time away and the submit sheet', () => {
+  const bst = load('contract_replay_bst_v1');
+  assert.deepEqual(bst.replay.facts, [
+    'You opened all 50 questions.',
+    'Your first pass ended at 48:35, on Q49. You spent the last 50s on 1 return visit.',
+    'At 40:00 you had answered 37 of 50. Even pace gets to 33.',
+  ]);
+  const row = (c, qid) => c.time.rows.find((r) => r.qid === qid);
+  assert.deepEqual(row(bst, 'b43').lines, [
+    '50s on this question, until you went to submit at 49:40. The paper gives 1m 12s a question, and your median was 1m. You opened it 2 times.',
+    'Picked D at 49:20.',
+    'Away from the paper for 15s while this question was open. Not counted.',
+  ]);
+  assert.equal(row(bst, 'b49').ms, 40000, 'the first submit sheet (48:10 to 48:25) is on no question');
+  assert.equal(row(bst, 'b45').lines[1], 'You marked it for review at 44:00. It was still marked when you submitted.');
+  assert.deepEqual(bst.replay.end, { at: 3010, reason: 'submit', label: 'Submitted at 50:10.' });
+
+  const eng = load('contract_replay_english_v1');
+  assert.deepEqual(eng.replay.facts, [
+    'You opened all 50 questions.',
+    'Your first pass ended at 45:00, on Q50. You spent the last 1m 30s on 1 return visit.',
+    'At 40:00 you had answered 39 of 50. Even pace gets to 33.',
+  ]);
+  assert.equal(row(eng, 'e4').lines[0], '1m 30s on this question, until you went to submit at 46:30. The paper gives 1m 12s a question, and your median was 1m. You opened it 2 times.');
+  assert.equal(row(eng, 'e1').ms, 160000, 'the first read of the passage is on the question in focus');
+});
+
+test('return visits: time away inside them is not counted, like every other line', () => {
+  const qs = ['a1', 'a2', 'a3'].map((id) => ({ id, correctIndex: 0, options: ['w', 'x', 'y', 'z'].map((o) => `${id} ${o}`) }));
+  const events = [
+    { seq: 1, qid: 'a1', at: 0, type: 'visit' }, { seq: 2, qid: 'a1', at: 30000, type: 'answer', answer: 0 },
+    { seq: 3, qid: 'a2', at: 60000, type: 'visit', via: 'next' }, { seq: 4, qid: 'a2', at: 90000, type: 'answer', answer: 0 },
+    { seq: 5, qid: 'a3', at: 120000, type: 'visit', via: 'next' }, { seq: 6, qid: 'a3', at: 150000, type: 'answer', answer: 0 },
+    { seq: 7, qid: 'a1', at: 180000, type: 'visit', via: 'palette' }, { seq: 8, qid: 'a1', at: 200000, type: 'away' },
+    { seq: 9, qid: 'a1', at: 260000, type: 'back' }, { seq: 10, qid: 'a1', at: 300000, type: 'end', reason: 'submit' },
+  ];
+  const s = scoreSession(qs, { a1: 0, a2: 0, a3: 0 }, events, 3600000);
+  const lab = buildMistakeLab({ attempt: { questionsSnapshot: qs, details: s.details, selectionMeta: { mode: 'nta', durationMinutes: 60, scoringVersion: 'server_snapshot_v1', recovery: s.recovery } } });
+  assert.equal(lab.replay.facts[1], 'Your first pass ended at 3:00, on Q3. You spent the last 1m on 1 return visit.', '2 minutes on the clock, 1 minute of it away');
 });
 
 test('NTA shuffled papers: picks carry the served option, and the trace names it in the paper\'s own letters', () => {

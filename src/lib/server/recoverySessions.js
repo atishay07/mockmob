@@ -1,7 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
-import { scoreSession, scorePracticeSubmission, submitMeta } from '@/../data/recovery';
+import { scoreSession, scorePracticeSubmission, submitMeta, lateTimeUpEnd } from '@/../data/recovery';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { randomUUID } from 'node:crypto';
@@ -130,6 +130,12 @@ export async function finishSession(userId, input) {
   }
   const { data: current } = await db.from('recovery_sessions').select('events').eq('id', row.id).eq('user_id', userId).single();
   if (!current) throw new Error('SESSION_NOT_FOUND');
+  // A time-up whose submit landed after the deadline keeps its end: the server places it at the paper's own limit
+  // beside the stored events, only when every event before it is already stored (data/recovery.js lateTimeUpEnd).
+  // Nothing is added to the session's log and no answer is accepted after the deadline.
+  const lateEnd = Date.now() > Date.parse(row.expires_at)
+    ? lateTimeUpEnd(current.events, input.events, { durationMs: duration, questionIds: row.questions.map(q => q.id) }) : null;
+  const scoredEvents = lateEnd ? [...current.events, lateEnd] : current.events;
   const answers = {};
   for (const event of current.events) if (event.type === 'answer') answers[event.qid] = event.answer;
   // Final ordinary answers are accepted only before the deadline. Grace uploads
@@ -139,12 +145,12 @@ export async function finishSession(userId, input) {
   const checked = await checkedAnswersForSubmit(db, row.id, userId);
   const eventAnswers = applyCheckedAnswers(answers, checked);
   const finalAnswers = applyCheckedAnswers(ordinary && Date.now() <= Date.parse(row.expires_at) && input.answers ? input.answers : answers, checked);
-  const score = ordinary ? scorePracticeSubmission(row.questions, finalAnswers, invalidTelemetry ? [] : current.events, Math.min(duration, elapsed + 2000)) : scoreSession(row.questions, eventAnswers, current.events, Math.min(duration, elapsed + 2000));
+  const score = ordinary ? scorePracticeSubmission(row.questions, finalAnswers, invalidTelemetry ? [] : scoredEvents, Math.min(duration, elapsed + 2000)) : scoreSession(row.questions, eventAnswers, scoredEvents, Math.min(duration, elapsed + 2000));
   if (invalidTelemetry) score.recovery.telemetry = 'invalid';
   const result = { ...score, subject: row.subject, questionsSnapshot: row.questions,
     expected_event_count: current.events.length,
     // The runner and how the session ended (spec 6, item 6): descriptions of the device, never used for scoring.
-    selectionMeta: { ...row.selection_meta, scoringVersion: ordinary ? 'server_practice_v1' : 'server_snapshot_v1', recovery: score.recovery, ...submitMeta(input, current.events) } };
+    selectionMeta: { ...row.selection_meta, scoringVersion: ordinary ? 'server_practice_v1' : 'server_snapshot_v1', recovery: score.recovery, ...submitMeta(input, scoredEvents) } };
   const { error: finishError } = await db.rpc('finish_recovery_session', { p_id: row.id, p_user_id: userId, p_result: result });
   if (finishError) throw new Error('SESSION_SUBMIT_FAILED');
   const saved = await Database.getAttemptById(row.id);
