@@ -8,7 +8,7 @@
   },
   "older": {
     "reason": "no_clock",
-    "line": "This paper was taken before MockMob kept the clock for every question, so its time, answer changes and replay are not shown.",
+    "line": "This paper has no clock record, so its time, answer changes and replay are not shown.",
     "action": {
       "label": "Take a timed mock to see your full Lab",
       "subject": "accountancy",
