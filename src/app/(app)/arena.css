@@ -1591,3 +1591,79 @@ html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
   /* Section heads keep the hint under the title instead of squeezed beside it */
   .app-shell :is(.student-page--review, .student-page--progress) .pr-step__head { flex-wrap: wrap; row-gap: 2px; }
 }
+
+/* ---------- Today: tonight's plan is the page's hero (LearningNextAction, full form) ----------
+   Mobi and his line share one compact header row. The plan's why is the headline, with the time choice
+   right under it and the start key under that. The record's why sits beside it on desktop: the chapter,
+   the marks open (a count from saved sessions) and the subject's lamp-lit object. Phones keep one column
+   and bring the why up between the time choice and the start key. */
+.app-shell .na.na--hero { gap: 18px; padding: clamp(16px, 2.4vw, 28px); border-radius: 22px; }
+.app-shell .na--hero > .arena-companion { align-items: center; gap: 14px; margin: 0; padding-bottom: 14px; border-bottom: 1px solid var(--a-line); }
+.app-shell .na--hero > .arena-companion .arena-companion__art { display: grid; place-items: end center; width: 72px; height: 88px; flex: 0 0 72px; }
+.app-shell .na--hero > .arena-companion .arena-companion__art .mobi-react { --mobi-size: 88px !important; }
+.app-shell .na--hero > .arena-companion .arena-companion__art > :not(.mobi-react) { max-width: 100%; max-height: 100%; }
+.app-shell .na--hero > .arena-companion .arena-companion__art img { max-height: 88px; width: auto; }
+.app-shell .na--hero > .arena-companion b { font-size: 16.5px; line-height: 1.25; }
+.app-shell .na--hero > .arena-companion p { margin-top: 2px; font-size: 14px; line-height: 1.45; }
+.app-shell .na__grid { display: grid; gap: 16px; min-width: 0; }
+.app-shell .na__plan { display: grid; gap: 14px; align-content: start; min-width: 0; }
+.app-shell .na__plan > .na__eyebrow, .app-shell .na__plan > .na__time { justify-self: start; }
+.app-shell .na__title--hero { margin: 0; max-width: 22ch; font: 800 clamp(26px, 2.6vw, 36px)/1.08 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); text-wrap: balance; }
+.app-shell .na--hero .na__actions { margin-top: 2px; }
+.app-shell .na--hero .na__note:empty { display: none; }
+
+.app-shell .na__why { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px; min-width: 0; padding: 14px 16px; border-radius: 18px; border: 1px solid var(--a-line); background: radial-gradient(120% 100% at 0% 0%, var(--a-volt-wash), transparent 62%), var(--a-sunken); }
+.app-shell .na__why-art { display: grid; place-items: center; }
+.app-shell .na__why-art .subj-obj { --obj-size: 76px !important; }
+.app-shell .na__why-text { display: grid; gap: 3px; min-width: 0; }
+.app-shell .na__why-kicker { font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); }
+.app-shell .na__why-chapter { font: 700 16px/1.2 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .na__why-marks { display: flex; align-items: baseline; gap: 8px; margin: 2px 0 0; font-size: 14px; font-weight: 600; color: var(--a-ink-2); }
+.app-shell .na__why-marks strong { font: 800 34px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-accent-text); font-variant-numeric: tabular-nums; }
+.app-shell .na__why-detail { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .na__why-link { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; margin-bottom: -10px; }
+.app-shell .na__why--shape, .app-shell .na__why--facts { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+.app-shell .na__why--facts ul { display: grid; gap: 6px; margin: 4px 0 0; padding-left: 18px; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+
+@media (max-width: 1023px) {
+  /* One column: the why moves up between the time choice and the start key */
+  .app-shell .na--hero .na__grid { gap: 14px; }
+  .app-shell .na--hero .na__plan { display: contents; }
+  .app-shell .na--hero .na__why { order: 1; }
+  .app-shell .na--hero .na__plan > :is(.na__reason, .study-sequence, .pr-alert) { order: 2; }
+  .app-shell .na--hero .na__actions { order: 3; }
+  .app-shell .na--hero .na__note { order: 4; }
+}
+@media (max-width: 639px) {
+  .app-shell .student-page--today .na.na--hero { gap: 14px; padding: 16px; }
+  .app-shell .student-page--today .na--hero > .arena-companion { padding-bottom: 12px; }
+  .app-shell .student-page--today .na--hero > .arena-companion .arena-companion__art { width: 56px; height: 68px; flex-basis: 56px; }
+  .app-shell .student-page--today .na--hero > .arena-companion .arena-companion__art .mobi-react { --mobi-size: 66px !important; }
+  .app-shell .student-page--today .na--hero > .arena-companion .arena-companion__art img { max-height: 68px; }
+  .app-shell .student-page--today .na--hero > .arena-companion b { font-size: 16px; }
+  .app-shell .student-page--today .na--hero > .arena-companion p { font-size: 14px; }
+  .app-shell .student-page--today .na__plan > .na__time { justify-self: stretch; }
+  .app-shell .na__why-marks strong { font-size: 30px; }
+}
+@media (min-width: 1024px) {
+  /* The decision on the left, its why on the right */
+  .app-shell .na--hero .na__grid { grid-template-columns: minmax(0, 1.3fr) minmax(250px, 0.7fr); gap: 28px; align-items: stretch; }
+  .app-shell .na__why { grid-template-columns: minmax(0, 1fr); align-content: center; justify-items: start; gap: 4px; padding: 20px 22px 22px; background: radial-gradient(110% 80% at 50% 0%, var(--a-volt-wash), transparent 64%), var(--a-sunken); }
+  .app-shell .na__why-art { justify-self: start; margin: -8px 0 4px -14px; }
+  /* The start key leads on its own line; the other ways sit under it */
+  .app-shell .na--hero .na__actions { display: grid; grid-template-columns: repeat(2, max-content); gap: 10px; }
+  .app-shell .na--hero .na__actions > .na__cta { grid-column: 1 / -1; justify-self: start; min-width: 300px; min-height: 52px; justify-content: center; font-size: 16px; }
+  .app-shell .na__why-art .subj-obj { --obj-size: 124px !important; }
+  .app-shell .na__why-chapter { font-size: 18px; }
+  .app-shell .na__why-marks strong { font-size: 44px; }
+  .app-shell .na__why--shape, .app-shell .na__why--facts { align-content: center; }
+}
+
+/* ---------- Review: each session shows its subject's object, the way Practice and the Start sheet do ---------- */
+.app-shell .ov-session__icon.ov-session__icon--obj { width: 52px; height: 52px; border: 0; border-radius: 0; background: none; overflow: visible; }
+@media (max-width: 480px) { .app-shell .ov-session__icon--obj { grid-row: 1 / span 2; align-self: center; } }
+/* A recorded milestone is one quiet card at every width: what happened, and the way to it */
+.app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] > div { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 16px; padding: 10px 16px; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); }
+.app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] b { font: 700 15px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] p { margin: 0; font-size: 14px; color: var(--a-ink-2); }
+.app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] .pr-link { display: inline-flex; align-items: center; min-height: 44px; margin: 0; }

@@ -8,7 +8,8 @@ import { apiGet } from '@/lib/fetcher';
 import { ArrowRight } from 'lucide-react';
 import LearningNextAction from './LearningNextAction';
 import ArenaHead, { ArenaStats } from './arena/ArenaHead';
-import { AppIcon, StatusIcon, SubjectIcon } from './ui/Glyph';
+import { AppIcon, StatusIcon } from './ui/Glyph';
+import { SubjectObject } from './brand/SubjectObject';
 import ArenaCompanion, { OneMobi } from './brand/ArenaCompanion';
 import SceneVignette from './scenes/SceneVignette';
 import { useWaitStage } from '@/lib/mobiHooks';
@@ -17,6 +18,14 @@ import StudyProgress from './study/StudyProgress';
 import { reviewChanges } from './recovery/reviewChanges';
 import './recovery/review-changes.css';
 
+// Counts in words up to ten, the way the app says them ("Two sessions saved.").
+const WORDS = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+const count = (n, word) => `${n <= 10 ? WORDS[n] : n} ${word}${n === 1 ? '' : 's'}`;
+// Milestones the record names, said plainly; anything new falls back to the record's own words.
+const MILESTONES = {
+  first_session: { title: 'Your first session is on the record.', link: 'Open it' },
+  first_fresh_check: { title: 'A fresh delayed check passed.', link: 'See the check' },
+};
 const label = (id = '') => id.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 const when = (ts) => {
   if (!ts) return '';
@@ -45,7 +54,7 @@ function SessionCard({ a, fresh = false, index = 0 }) {
   return (
     <li data-fresh={fresh || undefined} style={fresh ? { '--ov-i': index } : undefined}>
       <Link className="ov-session" href={`/result/${a.id}`}>
-        <span className="ov-session__icon"><SubjectIcon id={a.subject} size={20} /></span>
+        <span className="ov-session__icon ov-session__icon--obj" aria-hidden="true"><SubjectObject id={a.subject} size={52} /></span>
         <span className="ov-session__main">
           <b>{label(a.subject)}{fresh ? <> <span className="ov-new">New since your last look</span></> : null}</b>
           <span>{when(a.completedAt)}{when(a.completedAt) ? ' · ' : ''}{a.correct}/{a.total} correct</span>
@@ -76,16 +85,16 @@ export default function RecoveryOverview({ view }) {
   return (
     <section className="pr ov"><Mobis>
       {view === 'review' ? (
-        <ArenaHead eyebrow="Review" title="Review what mattered." lede="Open a session to read the explanation for every question you missed or left blank. Reading an explanation is review, not proof you have fixed it." />
+        <ArenaHead eyebrow="Review" title="Review what mattered." lede="Open a session to see why each miss happened." />
       ) : (
-        <ArenaHead eyebrow="Progress" title="Let fresh practice be your evidence." lede="Your saved sessions, your recovery checks and your exam playbook. Repeats, assisted work and ordinary scores cannot certify a recovery episode." />
+        <ArenaHead eyebrow="Progress" title="Let fresh practice be your evidence." lede="Your saved sessions, your recovery checks and your exam playbook, in one place." />
       )}
 
       {error ? <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error} <button type="button" className="pr-link" onClick={retry}>Try again</button></div></div> : null}
       {!data && !error ? <div className="na__skeleton" role="status" aria-label="Loading your record"><i /><i /><i /></div> : null}
       {!data ? <ArenaCompanion compact act={error ? (shrug ? 'oops' : 'idle') : wait === 'long' ? 'loading' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Your record can wait a moment.' : 'Opening your saved record.'}>{error ? 'Try again when you are ready.' : 'Your sessions and checks will appear here.'}</ArenaCompanion> : null}
-      {data && review.length > 0 ? <ArenaCompanion compact act="read" pose="attentive" title="Practice, recorded.">Your saved sessions are ready to revisit. A recorded session is a step taken, not proof of mastery.</ArenaCompanion> : null}
-      {data?.milestones?.length ? <section className="ov-section" aria-label="Recorded milestones">{data.milestones.map(m => <div key={m.kind}><b>{m.title}</b><p>{m.detail} <Link className="pr-link" href={m.href}>Open record</Link></p></div>)}</section> : null}
+      {data && review.length > 0 ? <ArenaCompanion compact act="read" pose="attentive" title={`${count(review.length, 'session')} saved.`}>{toReview ? `${count(toReview, 'question')} to look at.` : 'Nothing left to look at. Every answer was right.'}</ArenaCompanion> : null}
+      {data?.milestones?.length ? <section className="ov-section" aria-label="Recorded milestones">{data.milestones.map(m => { const said = MILESTONES[m.kind]; return <div key={m.kind}><b>{said?.title || m.title}</b><p>{said ? null : <>{m.detail} </>}<Link className="pr-link" href={m.href}>{said?.link || 'Open record'}</Link></p></div>; })}</section> : null}
 
       {data && view === 'review' ? (
         <>
