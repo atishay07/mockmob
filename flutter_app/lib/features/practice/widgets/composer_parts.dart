@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/practice_selection.dart';
 import 'length_dial.dart';
 import 'plain_notice.dart';
+import 'spring_pick.dart';
 
 /// The name of a mode as the student reads it.
 String modeTitle(PracticeMode mode) => switch (mode) {
@@ -176,28 +178,46 @@ class _DifficultyChips extends ConsumerWidget {
                       ref.read(hapticsProvider).selection();
                       onChanged!(d);
                     },
-              builder: (context, pressed, _) => ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: MmTarget.min),
-                child: DecoratedBox(
-                  decoration: ShapeDecoration(
-                    color: MmSelection.fill(colors, selected: d == value, pressed: pressed),
-                    shape: RoundedSuperellipseBorder(
-                      borderRadius: radius,
-                      side: MmSelection.side(colors, selected: d == value),
+              // The pick lands on the switch's detent spring (240 ms, bounce 0.14): the fill, the
+              // rim and the words cross together and the chip swells 3 percent at mid-change,
+              // so nothing cuts. Its size in the row never changes (a scale, not a layout).
+              builder: (context, pressed, _) => SpringPick(
+                on: d == value,
+                spring: Springs.toggle,
+                builder: (context, t, child) {
+                  final c = t.clamp(0.0, 1.0);
+                  final settled = c == 0 || c == 1;
+                  final rest = MmSelection.side(colors, selected: false);
+                  final picked = MmSelection.side(colors, selected: true);
+                  return Transform.scale(
+                    scale: 1 + 0.03 * SpringPick.popAt(t),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: MmTarget.min),
+                      child: DecoratedBox(
+                        decoration: ShapeDecoration(
+                          color: settled
+                              ? MmSelection.fill(colors, selected: c == 1, pressed: pressed)
+                              : Color.lerp(MmSelection.fill(colors, selected: false, pressed: pressed), MmSelection.fill(colors, selected: true), c),
+                          shape: RoundedSuperellipseBorder(
+                            borderRadius: radius,
+                            side: settled ? (c == 1 ? picked : rest) : BorderSide.lerp(rest, picked, c),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SelectBubble(selected: d == value),
+                              const SizedBox(width: MmSpace.s8),
+                              Text(DifficultyPicker.label(d), style: type.labelLarge.copyWith(color: Color.lerp(colors.ink2, colors.ink, c))),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SelectBubble(selected: d == value),
-                        const SizedBox(width: MmSpace.s8),
-                        Text(DifficultyPicker.label(d), style: type.labelLarge.copyWith(color: d == value ? colors.ink : colors.ink2)),
-                      ],
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
         ],

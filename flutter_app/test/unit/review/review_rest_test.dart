@@ -32,6 +32,7 @@ import 'package:mockmob/features/review/screens/repair_ending_screen.dart' show 
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 import 'package:mockmob/features/review/widgets/mistake_view.dart';
 import 'package:mockmob/features/review/widgets/question_panel.dart';
+import 'package:mockmob/features/review/widgets/run_track.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode;
 
@@ -324,8 +325,11 @@ void main() {
       ],
     );
 
+    // The key stays on screen from one mistake to the next, so its tap lock holds: two taps inside
+    // it are one commit (a double tap never skips a mistake unread), two taps after it are two.
     for (final gap in const [Duration(milliseconds: 350), Duration(milliseconds: 60)]) {
-      testWidgets('two Next taps ${gap.inMilliseconds} ms apart move exactly two mistakes, with no blank frame', (tester) async {
+      final moves = gap >= KeyButton.defaultTapLock ? 2 : 1;
+      testWidgets('two Next taps ${gap.inMilliseconds} ms apart move exactly $moves, with no blank frame', (tester) async {
         await pumpRun(tester, runOf(outcomes: [explained, explained, explained2]));
         expect(find.text('1 of 3 mistakes'), findsOneWidget);
 
@@ -342,9 +346,23 @@ void main() {
         await tester.tap(find.widgetWithText(KeyButton, 'Next mistake').hitTestable().last, warnIfMissed: false);
         await watch(const Duration(milliseconds: 400));
         await tester.pump(const Duration(seconds: 2));
-        expect(find.text('3 of 3 mistakes'), findsOneWidget, reason: 'each tap moved one mistake, none skipped');
+        expect(find.text('${1 + moves} of 3 mistakes'), findsOneWidget, reason: 'no mistake skipped unread');
       });
     }
+
+    testWidgets('the track and the key stay put while the mistake moves on', (tester) async {
+      await pumpRun(tester, runOf(outcomes: [explained, explained, explained2]));
+      final track = tester.element(find.byType(RunTrack));
+      final key = tester.element(find.widgetWithText(KeyButton, 'Next mistake'));
+      await tester.tap(find.widgetWithText(KeyButton, 'Next mistake'));
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(find.byType(RunTrack), findsOneWidget, reason: 'one track whose lift travels, not two crossfading');
+      expect(tester.element(find.byType(RunTrack)), same(track));
+      expect(find.byType(MistakeView), findsOneWidget, reason: 'only the mistake inside the page moves');
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text('2 of 3 mistakes'), findsOneWidget);
+      expect(tester.element(find.widgetWithText(KeyButton, 'Next mistake')), same(key));
+    });
 
     testWidgets('a reached segment of the track is a 48 dp key that goes back', (tester) async {
       await pumpRun(tester, runOf(outcomes: [explained, explained], index: 1));

@@ -47,6 +47,13 @@ Future<void> openSheet(WidgetTester tester, Finder target) async {
 
 int _ms(DateTime t) => t.millisecondsSinceEpoch;
 
+/// The longer sessions sit under the tiles, below the first view: scroll the page (not the tile
+/// strip) down to the exam band.
+Future<void> _toExamBand(WidgetTester tester) async {
+  await tester.scrollUntilVisible(find.text('Full mock'), 200, scrollable: find.byType(Scrollable).first);
+  await tester.pump();
+}
+
 void main() {
   setUpAll(loadAppFonts);
 
@@ -157,6 +164,7 @@ void main() {
   testWidgets('the exam-day row says it comes with Pro, warmly and with no price', (tester) async {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes()));
     await settle(tester);
+    await _toExamBand(tester);
     expect(find.text('NTA mode'), findsOneWidget);
     expect(find.text('Pro'), findsOneWidget);
     expect(find.text('Comes with Pro. A Full mock is open to you now.'), findsOneWidget);
@@ -167,6 +175,7 @@ void main() {
   testWidgets('the exam-day row is shown only when the quote returns the mode', (tester) async {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(nta: false)));
     await settle(tester);
+    await _toExamBand(tester);
     expect(find.text('NTA mode'), findsNothing);
     expect(find.text('Full mock'), findsOneWidget);
   });
@@ -219,6 +228,7 @@ void main() {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: quotes));
     await settle(tester);
     await tester.ensureVisible(find.text('English'));
+    await tester.pump();
     await tester.tap(find.text('English'));
     await settle(tester);
     expect(quotes.calls.any((c) => c.subject == 'english' && c.mode == 'full'), isTrue);

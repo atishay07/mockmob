@@ -152,8 +152,9 @@ class FakeSessionApi implements SessionApi {
     required Map<String, int> answers,
     required List<SessionEvent> events,
     String? forUserId,
+    Map<String, Object?>? meta,
   }) async {
-    submits.add({'sessionId': sessionId, 'sessionTicket': sessionTicket, 'answers': answers, 'events': List.of(events), 'forUserId': forUserId});
+    submits.add({'sessionId': sessionId, 'sessionTicket': sessionTicket, 'answers': answers, 'events': List.of(events), 'forUserId': forUserId, 'meta': meta});
     if (submitFailure != null) throw submitFailure!;
     return submitResult;
   }

@@ -92,7 +92,7 @@ class ResultList extends StatelessWidget {
         onTryPick: isBlank ? (j) => controller.pick(q.qid, j) : null,
         save: saveFor?.call(q.qid),
         report: reportFor?.call(q),
-        time: analysis?.dwellMs[q.qid] == null ? null : formatDwell(analysis!.dwellMs[q.qid]!),
+        time: analysis?.timeLabel(q.qid),
         changed: analysis?.changed(q.qid) ?? false,
       ),
     );

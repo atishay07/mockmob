@@ -14,13 +14,16 @@ abstract class SessionApi {
 
   /// `POST /api/attempts`: submits and returns the scored attempt JSON. Idempotent: a repeat
   /// for an existing attempt returns the saved attempt. [forUserId] is the paper's owner: the
-  /// submit is never sent with another account's token (`ApiError.accountChanged`).
+  /// submit is never sent with another account's token (`ApiError.accountChanged`). [meta] adds
+  /// the attempt meta fields to the body (`client`, `endedBy`; spec 6, item 6): a description of
+  /// the device the server stores and never scores with.
   Future<Map<String, dynamic>> submit({
     required String sessionId,
     String? sessionTicket,
     required Map<String, int> answers,
     required List<SessionEvent> events,
     String? forUserId,
+    Map<String, Object?>? meta,
   });
 
   /// `GET /api/attempts/{id}`. Null on 404 (no such attempt for this account). [forUserId] as
@@ -68,6 +71,7 @@ class ApiSessionApi implements SessionApi {
     required Map<String, int> answers,
     required List<SessionEvent> events,
     String? forUserId,
+    Map<String, Object?>? meta,
   }) async {
     final response = await _api.post(
       '/api/attempts',
@@ -76,6 +80,7 @@ class ApiSessionApi implements SessionApi {
         'sessionTicket': ?sessionTicket,
         'answers': answers,
         'events': [for (final e in events) e.toJson()],
+        ...?meta,
       },
       // The final submit never waits behind a 429 hold from the events PUT: the grace window is
       // only 120 s and the syncer already runs its own back-off.

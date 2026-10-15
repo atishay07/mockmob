@@ -1,0 +1,2032 @@
+{
+  "description": "NTA paper, 50 questions in shuffled option orders: two warnings came back (Q4 30 s, Q15 15 s), the third left the paper on Q26 and submitted it 15 s later (nta_strikes); Q9 marked; Q27 to Q50 never opened.",
+  "attempt": {
+    "id": "lab-replay-nta-1",
+    "subject": "accountancy",
+    "completedAt": 1792139400000,
+    "questionsSnapshot": [
+      {
+        "id": "r1",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 1",
+        "options": [
+          "r1 statement three",
+          "r1 statement one",
+          "r1 statement four",
+          "r1 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r2",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 2",
+        "options": [
+          "r2 statement two",
+          "r2 statement four",
+          "r2 statement one",
+          "r2 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r3",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 3",
+        "options": [
+          "r3 statement four",
+          "r3 statement three",
+          "r3 statement two",
+          "r3 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r4",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 4",
+        "options": [
+          "r4 statement one",
+          "r4 statement three",
+          "r4 statement two",
+          "r4 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r5",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 5",
+        "options": [
+          "r5 statement three",
+          "r5 statement four",
+          "r5 statement one",
+          "r5 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r6",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 6",
+        "options": [
+          "r6 statement two",
+          "r6 statement one",
+          "r6 statement four",
+          "r6 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          0,
+          3,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r7",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 7",
+        "options": [
+          "r7 statement four",
+          "r7 statement two",
+          "r7 statement three",
+          "r7 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r8",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 8",
+        "options": [
+          "r8 statement one",
+          "r8 statement two",
+          "r8 statement three",
+          "r8 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r9",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 9",
+        "options": [
+          "r9 statement three",
+          "r9 statement one",
+          "r9 statement four",
+          "r9 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r10",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 10",
+        "options": [
+          "r10 statement two",
+          "r10 statement four",
+          "r10 statement one",
+          "r10 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r11",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 11",
+        "options": [
+          "r11 statement four",
+          "r11 statement three",
+          "r11 statement two",
+          "r11 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r12",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 12",
+        "options": [
+          "r12 statement one",
+          "r12 statement three",
+          "r12 statement two",
+          "r12 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r13",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 13",
+        "options": [
+          "r13 statement three",
+          "r13 statement four",
+          "r13 statement one",
+          "r13 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r14",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 14",
+        "options": [
+          "r14 statement two",
+          "r14 statement one",
+          "r14 statement four",
+          "r14 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          0,
+          3,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r15",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 15",
+        "options": [
+          "r15 statement four",
+          "r15 statement two",
+          "r15 statement three",
+          "r15 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r16",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 16",
+        "options": [
+          "r16 statement one",
+          "r16 statement two",
+          "r16 statement three",
+          "r16 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r17",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 17",
+        "options": [
+          "r17 statement three",
+          "r17 statement one",
+          "r17 statement four",
+          "r17 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r18",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 18",
+        "options": [
+          "r18 statement two",
+          "r18 statement four",
+          "r18 statement one",
+          "r18 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r19",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 19",
+        "options": [
+          "r19 statement four",
+          "r19 statement three",
+          "r19 statement two",
+          "r19 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r20",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 20",
+        "options": [
+          "r20 statement one",
+          "r20 statement three",
+          "r20 statement two",
+          "r20 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r21",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 21",
+        "options": [
+          "r21 statement three",
+          "r21 statement four",
+          "r21 statement one",
+          "r21 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r22",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 22",
+        "options": [
+          "r22 statement two",
+          "r22 statement one",
+          "r22 statement four",
+          "r22 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          0,
+          3,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r23",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 23",
+        "options": [
+          "r23 statement four",
+          "r23 statement two",
+          "r23 statement three",
+          "r23 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r24",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 24",
+        "options": [
+          "r24 statement one",
+          "r24 statement two",
+          "r24 statement three",
+          "r24 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r25",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 25",
+        "options": [
+          "r25 statement three",
+          "r25 statement one",
+          "r25 statement four",
+          "r25 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r26",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 26",
+        "options": [
+          "r26 statement two",
+          "r26 statement four",
+          "r26 statement one",
+          "r26 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r27",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 27",
+        "options": [
+          "r27 statement four",
+          "r27 statement three",
+          "r27 statement two",
+          "r27 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r28",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 28",
+        "options": [
+          "r28 statement one",
+          "r28 statement three",
+          "r28 statement two",
+          "r28 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r29",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 29",
+        "options": [
+          "r29 statement three",
+          "r29 statement four",
+          "r29 statement one",
+          "r29 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r30",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 30",
+        "options": [
+          "r30 statement two",
+          "r30 statement one",
+          "r30 statement four",
+          "r30 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          0,
+          3,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r31",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 31",
+        "options": [
+          "r31 statement four",
+          "r31 statement two",
+          "r31 statement three",
+          "r31 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r32",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 32",
+        "options": [
+          "r32 statement one",
+          "r32 statement two",
+          "r32 statement three",
+          "r32 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r33",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 33",
+        "options": [
+          "r33 statement three",
+          "r33 statement one",
+          "r33 statement four",
+          "r33 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r34",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 34",
+        "options": [
+          "r34 statement two",
+          "r34 statement four",
+          "r34 statement one",
+          "r34 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r35",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 35",
+        "options": [
+          "r35 statement four",
+          "r35 statement three",
+          "r35 statement two",
+          "r35 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r36",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 36",
+        "options": [
+          "r36 statement one",
+          "r36 statement three",
+          "r36 statement two",
+          "r36 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r37",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 37",
+        "options": [
+          "r37 statement three",
+          "r37 statement four",
+          "r37 statement one",
+          "r37 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r38",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 38",
+        "options": [
+          "r38 statement two",
+          "r38 statement one",
+          "r38 statement four",
+          "r38 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          0,
+          3,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r39",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 39",
+        "options": [
+          "r39 statement four",
+          "r39 statement two",
+          "r39 statement three",
+          "r39 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r40",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 40",
+        "options": [
+          "r40 statement one",
+          "r40 statement two",
+          "r40 statement three",
+          "r40 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r41",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 41",
+        "options": [
+          "r41 statement three",
+          "r41 statement one",
+          "r41 statement four",
+          "r41 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r42",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 42",
+        "options": [
+          "r42 statement two",
+          "r42 statement four",
+          "r42 statement one",
+          "r42 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r43",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 43",
+        "options": [
+          "r43 statement four",
+          "r43 statement three",
+          "r43 statement two",
+          "r43 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r44",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 44",
+        "options": [
+          "r44 statement one",
+          "r44 statement three",
+          "r44 statement two",
+          "r44 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r45",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 45",
+        "options": [
+          "r45 statement three",
+          "r45 statement four",
+          "r45 statement one",
+          "r45 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r46",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 46",
+        "options": [
+          "r46 statement two",
+          "r46 statement one",
+          "r46 statement four",
+          "r46 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          0,
+          3,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r47",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 47",
+        "options": [
+          "r47 statement four",
+          "r47 statement two",
+          "r47 statement three",
+          "r47 statement one"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r48",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 48",
+        "options": [
+          "r48 statement one",
+          "r48 statement two",
+          "r48 statement three",
+          "r48 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r49",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 49",
+        "options": [
+          "r49 statement three",
+          "r49 statement one",
+          "r49 statement four",
+          "r49 statement two"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "r50",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 50",
+        "options": [
+          "r50 statement two",
+          "r50 statement four",
+          "r50 statement one",
+          "r50 statement three"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "optionsShuffled": true
+      }
+    ],
+    "details": [
+      {
+        "qid": "r1",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r2",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r3",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r4",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r5",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "r6",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r7",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r8",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r9",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r10",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "r11",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r12",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r13",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r14",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r15",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "r16",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r17",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r18",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r19",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r20",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "r21",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r22",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r23",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r24",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "r25",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "r26",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "r27",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r28",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r29",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r30",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r31",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r32",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r33",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r34",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r35",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r36",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r37",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r38",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r39",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r40",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r41",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r42",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r43",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r44",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r45",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r46",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r47",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r48",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r49",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "r50",
+        "givenIndex": null,
+        "isCorrect": null
+      }
+    ],
+    "selectionMeta": {
+      "mode": "nta",
+      "durationMinutes": 60,
+      "scoringVersion": "server_snapshot_v1",
+      "recovery": {
+        "version": 1,
+        "scoring": "server_snapshot",
+        "telemetry": "self_reported",
+        "observed": {
+          "answerChanges": [],
+          "lostOnChanges": 0,
+          "netFirstToFinal": 0,
+          "unanswered": 26
+        },
+        "timeline": [
+          {
+            "seq": 1,
+            "qid": "r1",
+            "at": 0,
+            "type": "visit"
+          },
+          {
+            "seq": 2,
+            "qid": "r1",
+            "at": 50000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 3,
+            "qid": "r2",
+            "at": 70000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 4,
+            "qid": "r2",
+            "at": 120000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 5,
+            "qid": "r3",
+            "at": 140000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 6,
+            "qid": "r3",
+            "at": 190000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 7,
+            "qid": "r4",
+            "at": 210000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 10,
+            "qid": "r4",
+            "at": 260000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 11,
+            "qid": "r5",
+            "at": 310000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 12,
+            "qid": "r5",
+            "at": 360000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 13,
+            "qid": "r6",
+            "at": 380000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 14,
+            "qid": "r6",
+            "at": 430000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 15,
+            "qid": "r7",
+            "at": 450000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 16,
+            "qid": "r7",
+            "at": 500000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 17,
+            "qid": "r8",
+            "at": 520000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 18,
+            "qid": "r8",
+            "at": 570000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 19,
+            "qid": "r9",
+            "at": 590000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 21,
+            "qid": "r10",
+            "at": 660000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 22,
+            "qid": "r10",
+            "at": 710000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 23,
+            "qid": "r11",
+            "at": 730000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 24,
+            "qid": "r11",
+            "at": 780000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 25,
+            "qid": "r12",
+            "at": 800000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 26,
+            "qid": "r12",
+            "at": 850000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 27,
+            "qid": "r13",
+            "at": 870000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 28,
+            "qid": "r13",
+            "at": 920000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 29,
+            "qid": "r14",
+            "at": 940000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 30,
+            "qid": "r14",
+            "at": 990000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 31,
+            "qid": "r15",
+            "at": 1010000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 34,
+            "qid": "r15",
+            "at": 1060000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 35,
+            "qid": "r16",
+            "at": 1095000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 36,
+            "qid": "r16",
+            "at": 1145000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 37,
+            "qid": "r17",
+            "at": 1165000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 38,
+            "qid": "r17",
+            "at": 1215000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 39,
+            "qid": "r18",
+            "at": 1235000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 40,
+            "qid": "r18",
+            "at": 1285000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 41,
+            "qid": "r19",
+            "at": 1305000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 42,
+            "qid": "r19",
+            "at": 1355000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 43,
+            "qid": "r20",
+            "at": 1375000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 44,
+            "qid": "r20",
+            "at": 1425000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 45,
+            "qid": "r21",
+            "at": 1445000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 46,
+            "qid": "r21",
+            "at": 1495000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 47,
+            "qid": "r22",
+            "at": 1515000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 48,
+            "qid": "r22",
+            "at": 1565000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 49,
+            "qid": "r23",
+            "at": 1585000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 50,
+            "qid": "r24",
+            "at": 1655000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 51,
+            "qid": "r24",
+            "at": 1705000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 52,
+            "qid": "r25",
+            "at": 1725000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 53,
+            "qid": "r25",
+            "at": 1775000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 54,
+            "qid": "r26",
+            "at": 1795000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 55,
+            "qid": "r26",
+            "at": 1845000,
+            "type": "answer",
+            "answer": 3
+          }
+        ],
+        "marks": [
+          {
+            "seq": 20,
+            "qid": "r9",
+            "at": 610000,
+            "marked": true
+          }
+        ],
+        "presence": [
+          {
+            "seq": 8,
+            "qid": "r4",
+            "at": 230000,
+            "type": "away"
+          },
+          {
+            "seq": 9,
+            "qid": "r4",
+            "at": 260000,
+            "type": "back"
+          },
+          {
+            "seq": 32,
+            "qid": "r15",
+            "at": 1020000,
+            "type": "away"
+          },
+          {
+            "seq": 33,
+            "qid": "r15",
+            "at": 1035000,
+            "type": "back"
+          },
+          {
+            "seq": 56,
+            "qid": "r26",
+            "at": 1855000,
+            "type": "away"
+          }
+        ],
+        "end": {
+          "seq": 57,
+          "qid": "r26",
+          "at": 1870000,
+          "reason": "nta_strikes"
+        },
+        "recommendation": {
+          "kind": "concept_repair",
+          "title": "Practise one concept you missed",
+          "reason": "Suggested from this attempt; a fresh check is needed before claiming improvement."
+        }
+      },
+      "client": {
+        "platform": "web",
+        "appVersion": "2026.10.16",
+        "startedAt": 1792128600000
+      },
+      "endedBy": "nta_strikes"
+    }
+  },
+  "answerReviews": {},
+  "events": [
+    {
+      "seq": 1,
+      "qid": "r1",
+      "at": 0,
+      "type": "visit"
+    },
+    {
+      "seq": 2,
+      "qid": "r1",
+      "at": 50000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 3,
+      "qid": "r2",
+      "at": 70000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 4,
+      "qid": "r2",
+      "at": 120000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 5,
+      "qid": "r3",
+      "at": 140000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 6,
+      "qid": "r3",
+      "at": 190000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 7,
+      "qid": "r4",
+      "at": 210000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 8,
+      "qid": "r4",
+      "at": 230000,
+      "type": "away"
+    },
+    {
+      "seq": 9,
+      "qid": "r4",
+      "at": 260000,
+      "type": "back"
+    },
+    {
+      "seq": 10,
+      "qid": "r4",
+      "at": 260000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 11,
+      "qid": "r5",
+      "at": 310000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 12,
+      "qid": "r5",
+      "at": 360000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 13,
+      "qid": "r6",
+      "at": 380000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 14,
+      "qid": "r6",
+      "at": 430000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 15,
+      "qid": "r7",
+      "at": 450000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 16,
+      "qid": "r7",
+      "at": 500000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 17,
+      "qid": "r8",
+      "at": 520000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 18,
+      "qid": "r8",
+      "at": 570000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 19,
+      "qid": "r9",
+      "at": 590000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 20,
+      "qid": "r9",
+      "at": 610000,
+      "type": "mark",
+      "marked": true
+    },
+    {
+      "seq": 21,
+      "qid": "r10",
+      "at": 660000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 22,
+      "qid": "r10",
+      "at": 710000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 23,
+      "qid": "r11",
+      "at": 730000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 24,
+      "qid": "r11",
+      "at": 780000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 25,
+      "qid": "r12",
+      "at": 800000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 26,
+      "qid": "r12",
+      "at": 850000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 27,
+      "qid": "r13",
+      "at": 870000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 28,
+      "qid": "r13",
+      "at": 920000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 29,
+      "qid": "r14",
+      "at": 940000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 30,
+      "qid": "r14",
+      "at": 990000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 31,
+      "qid": "r15",
+      "at": 1010000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 32,
+      "qid": "r15",
+      "at": 1020000,
+      "type": "away"
+    },
+    {
+      "seq": 33,
+      "qid": "r15",
+      "at": 1035000,
+      "type": "back"
+    },
+    {
+      "seq": 34,
+      "qid": "r15",
+      "at": 1060000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 35,
+      "qid": "r16",
+      "at": 1095000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 36,
+      "qid": "r16",
+      "at": 1145000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 37,
+      "qid": "r17",
+      "at": 1165000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 38,
+      "qid": "r17",
+      "at": 1215000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 39,
+      "qid": "r18",
+      "at": 1235000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 40,
+      "qid": "r18",
+      "at": 1285000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 41,
+      "qid": "r19",
+      "at": 1305000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 42,
+      "qid": "r19",
+      "at": 1355000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 43,
+      "qid": "r20",
+      "at": 1375000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 44,
+      "qid": "r20",
+      "at": 1425000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 45,
+      "qid": "r21",
+      "at": 1445000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 46,
+      "qid": "r21",
+      "at": 1495000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 47,
+      "qid": "r22",
+      "at": 1515000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 48,
+      "qid": "r22",
+      "at": 1565000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 49,
+      "qid": "r23",
+      "at": 1585000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 50,
+      "qid": "r24",
+      "at": 1655000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 51,
+      "qid": "r24",
+      "at": 1705000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 52,
+      "qid": "r25",
+      "at": 1725000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 53,
+      "qid": "r25",
+      "at": 1775000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 54,
+      "qid": "r26",
+      "at": 1795000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 55,
+      "qid": "r26",
+      "at": 1845000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 56,
+      "qid": "r26",
+      "at": 1855000,
+      "type": "away"
+    },
+    {
+      "seq": 57,
+      "qid": "r26",
+      "at": 1870000,
+      "type": "end",
+      "reason": "nta_strikes"
+    }
+  ]
+}

@@ -258,7 +258,9 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
 
     final model = PracticeResultModel.from(attempt);
     _model = model;
-    final analysis = SessionAnalysis.of(attempt);
+    // Time per question: the server's own read (`lab.time`) once the detail is here, else the
+    // same one time rule over the attempt's record.
+    final analysis = SessionAnalysis.of(attempt, serverTime: detail?.lab?.time);
     _onFirstData(attempt, model);
     // The receipt waits for the time the server acknowledged on this phone; only a result with
     // no record here (opened later from Review) falls back to the attempt's own time.

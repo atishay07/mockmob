@@ -13,7 +13,7 @@ import 'surface_roles.dart';
 
 /// How many questions, as a piece of paper you can feel: each stop is its number over a small
 /// answer sheet sized to it (5 is one row of five bubbles, 20 is four rows), the chosen stop
-/// sits on a raised thumb that glides on the emphasized curve, and its bubbles ink in order.
+/// sits on a raised thumb that springs to its stop, and its bubbles ink in order.
 /// Drag across the track to scrub: a segment tick at every stop crossed (`SEGMENT_TICK` where the
 /// phone has it, else a selection click). Each stop is a button
 /// with its selected state, so TalkBack reads "10 questions, selected".
@@ -55,15 +55,21 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
   @override
   void didUpdateWidget(LengthDial old) {
     super.didUpdateWidget(old);
-    // A length chosen elsewhere (a tap on a stop, a link) glides there; while the finger is down
-    // the thumb is the finger's.
+    // A length chosen elsewhere (a tap on a stop, a link) springs there, carrying whatever speed
+    // the thumb already had, so a second tap mid-flight turns it without a jolt; while the finger
+    // is down the thumb is the finger's.
     if (_dragging) return;
-    final target = _index.toDouble();
-    if ((_pos.value - target).abs() < 0.001) return;
+    _springTo(_index.toDouble());
+  }
+
+  /// The thumb to [target] on the cards' spring (360 ms, bounce 0.12: a hair past the stop and
+  /// back, a detent you can see). At once under reduced motion.
+  void _springTo(double target) {
+    if ((_pos.value - target).abs() < 0.001 && !_pos.isAnimating) return;
     if (Motion.reduced(context)) {
       _pos.value = target;
     } else {
-      _pos.animateTo(target, duration: Motion.emphasizedDuration, curve: Motion.emphasized);
+      _pos.animateWith(SpringSimulation(Springs.smooth, _pos.value, target, _pos.velocity));
     }
   }
 
@@ -171,7 +177,7 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
                       ? () {
                           _dragging = false;
                           _dragIndex = null;
-                          _pos.animateTo(_index.toDouble(), duration: Motion.of(context, Motion.card), curve: Motion.out);
+                          _springTo(_index.toDouble());
                         }
                       : null,
                   child: Padding(

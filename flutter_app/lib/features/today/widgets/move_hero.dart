@@ -155,7 +155,13 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
           // The number stands clear of the object; its meaning goes beside it only when both
           // fit that column, otherwise under it on one line (where the object has ended).
           LayoutBuilder(
-            builder: (context, box) => NumberBlock(number: m.number!, label: m.numberLabel, besideWidth: box.maxWidth - besideArt),
+            builder: (context, box) => NumberBlock(
+              number: m.number!,
+              label: m.numberLabel,
+              besideWidth: box.maxWidth - besideArt,
+              // One figure per state and subject: a rebuilt hero rolls on from the count it showed.
+              memoryKey: 'today.hero.${m.state.name}.${m.subjectId ?? 'none'}',
+            ),
           ),
         ],
       ],
@@ -177,10 +183,18 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                AnimatedSwitcher(
-                  duration: Motion.of(context, Motion.crossFade),
-                  layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
-                  child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: bodyColor)),
+                // The line under the number changes with the chip ("3 of the 4 open mistakes" to
+                // "All 4"): the words overlap on the shared rule and the card's height eases with a
+                // second line instead of jumping.
+                MmSizeEase(
+                  duration: Motion.ui,
+                  curve: Motion.out,
+                  alignment: Alignment.topLeft,
+                  clipBehavior: Clip.none,
+                  child: MmOverlapSwitcher.fade(
+                    alignment: Alignment.topLeft,
+                    child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: bodyColor)),
+                  ),
                 ),
                 if (headlineBelow) ...[
                   const SizedBox(height: MmSpace.s8),

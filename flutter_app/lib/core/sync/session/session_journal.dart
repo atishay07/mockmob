@@ -37,8 +37,38 @@ class SessionJournal {
               ..where((t) => t.userId.equals(userId) & t.sessionId.equals(sessionId))
               ..orderBy([(t) => OrderingTerm.asc(t.seq)]))
             .get();
-    final events = [for (final r in rows) SessionEvent(seq: r.seq, qid: r.qid, type: r.type, at: r.atMs, answer: r.answer)];
+    final events = [for (final r in rows) decodeRow(seq: r.seq, qid: r.qid, type: r.type, atMs: r.atMs, stored: r.answer)];
     return SessionJournal._(db, userId, sessionId, events, now ?? DateTime.now);
+  }
+
+  // The journal table has one nullable integer per event (`answer`), so the fields of the newer
+  // event types are packed into it rather than adding columns (no local schema change):
+  //   answer  the option, null for a clear        visit  the via's index in [SessionVia.all], or null
+  //   mark    1 marked, 0 removed                 strike option * 2 + (1 when crossed out)
+  //   end     the reason's index in [SessionEndReason.all]      away, back  null
+  // A row written before these types existed (a visit with null) reads back exactly as before.
+
+  /// The integer stored for [e].
+  static int? encodeStored(SessionEvent e) => switch (e.type) {
+    SessionEvent.answerType => e.answer,
+    SessionEvent.visit => e.via == null ? null : SessionVia.all.indexOf(e.via!),
+    SessionEvent.mark => (e.marked ?? false) ? 1 : 0,
+    SessionEvent.strike => (e.option ?? 0) * 2 + ((e.on ?? false) ? 1 : 0),
+    SessionEvent.end => SessionEndReason.all.indexOf(e.reason ?? SessionEndReason.submit),
+    _ => null,
+  };
+
+  /// The event a stored row holds.
+  static SessionEvent decodeRow({required int seq, required String qid, required String type, required int atMs, int? stored}) {
+    String? pick(List<String> values) => stored != null && stored >= 0 && stored < values.length ? values[stored] : null;
+    return switch (type) {
+      SessionEvent.answerType => SessionEvent(seq: seq, qid: qid, type: type, at: atMs, answer: stored),
+      SessionEvent.visit => SessionEvent(seq: seq, qid: qid, type: type, at: atMs, via: pick(SessionVia.all)),
+      SessionEvent.mark => SessionEvent(seq: seq, qid: qid, type: type, at: atMs, marked: stored == 1),
+      SessionEvent.strike => SessionEvent(seq: seq, qid: qid, type: type, at: atMs, option: (stored ?? 0) ~/ 2, on: (stored ?? 0).isOdd),
+      SessionEvent.end => SessionEvent(seq: seq, qid: qid, type: type, at: atMs, reason: pick(SessionEndReason.all) ?? SessionEndReason.submit),
+      _ => SessionEvent(seq: seq, qid: qid, type: type, at: atMs),
+    };
   }
 
   /// Every event so far, in order. Do not modify.
@@ -81,26 +111,58 @@ class SessionJournal {
   /// Completes when every write queued so far has finished (a failed write never fails the queue).
   Future<void> idle() => _queue;
 
-  /// Records that the student is now looking at [qid]. Returns null when the log is nearly
-  /// full and visits are no longer recorded.
-  Future<SessionEvent?> recordVisit(String qid, SessionClock clock) => _append(qid, SessionEvent.visit, null, clock);
+  /// Records that the student is now looking at [qid], reached by [via] ([SessionVia]). Returns
+  /// null when the log is nearly full and visits are no longer recorded.
+  Future<SessionEvent?> recordVisit(String qid, SessionClock clock, {String? via}) => _append(
+    clock,
+    (seq, at) => SessionEvent(seq: seq, qid: qid, type: SessionEvent.visit, at: at, via: kRichSessionEvents && SessionVia.all.contains(via) ? via : null),
+  );
 
   /// Records an answer, or a cleared answer when [answer] is null. Returns null only when the
   /// log is completely full.
-  Future<SessionEvent?> recordAnswer(String qid, int? answer, SessionClock clock) => _append(qid, SessionEvent.answerType, answer, clock);
+  Future<SessionEvent?> recordAnswer(String qid, int? answer, SessionClock clock) =>
+      _append(clock, (seq, at) => SessionEvent(seq: seq, qid: qid, type: SessionEvent.answerType, at: at, answer: answer));
 
-  Future<SessionEvent?> _append(String qid, String type, int? answer, SessionClock clock) {
-    // One writer at a time keeps seq and at strictly ordered even with rapid taps.
+  /// Records [qid] marked for review ([marked] true) or its mark removed.
+  Future<SessionEvent?> recordMark(String qid, bool marked, SessionClock clock) =>
+      _rich(clock, (seq, at) => SessionEvent(seq: seq, qid: qid, type: SessionEvent.mark, at: at, marked: marked));
+
+  /// Records the served [option] of [qid] crossed out ([on] true) or brought back.
+  Future<SessionEvent?> recordStrike(String qid, int option, bool on, SessionClock clock) =>
+      _rich(clock, (seq, at) => SessionEvent(seq: seq, qid: qid, type: SessionEvent.strike, at: at, option: option, on: on));
+
+  /// Records the app leaving the screen ([away] true) or coming back, with [qid] on screen.
+  Future<SessionEvent?> recordPresence(String qid, SessionClock clock, {required bool away}) =>
+      _rich(clock, (seq, at) => SessionEvent(seq: seq, qid: qid, type: away ? SessionEvent.away : SessionEvent.back, at: at));
+
+  /// Records the end of the paper ([SessionEndReason]) with [qid] on screen. Its `at` never passes
+  /// [maxAt] (the session length), so a time-up end lands on the paper's last moment and is not
+  /// filtered out of the submit. Recorded until the log is completely full, like an answer.
+  Future<SessionEvent?> recordEnd(String qid, String reason, SessionClock clock, {required int maxAt}) => _rich(
+    clock,
+    (seq, at) => SessionEvent(seq: seq, qid: qid, type: SessionEvent.end, at: at > maxAt && maxAt >= lastAt ? maxAt : at, reason: reason),
+    essential: true,
+  );
+
+  /// The newer event types, only in a build that sends them.
+  Future<SessionEvent?> _rich(SessionClock clock, SessionEvent Function(int seq, int at) build, {bool essential = false}) =>
+      kRichSessionEvents ? _append(clock, build, essential: essential) : Future<SessionEvent?>.value();
+
+  Future<SessionEvent?> _append(SessionClock clock, SessionEvent Function(int seq, int at) build, {bool essential = false}) {
+    // One writer at a time keeps seq and at strictly ordered even with rapid taps. The time is read
+    // when the student acted, not when the queue reaches the write; it never goes below the last.
+    final calledAt = clock.elapsedMs;
     final result = Completer<SessionEvent?>();
     _queue = _queue.then((_) async {
       try {
         final count = _events.length;
-        final isAnswer = type == SessionEvent.answerType;
-        if (count >= maxEvents || (!isAnswer && count >= visitCutoff)) {
+        final event = build(lastSeq + 1, calledAt < lastAt ? lastAt : calledAt);
+        // Past the cutoff only answers (and the end) are recorded, so answers always have room.
+        final keeps = event.isAnswer || essential;
+        if (count >= maxEvents || (!keeps && count >= visitCutoff)) {
           result.complete(null);
           return;
         }
-        final event = SessionEvent(seq: lastSeq + 1, qid: qid, type: type, at: clock.eventAt(lastAt), answer: isAnswer ? answer : null);
         await _db
             .into(_db.answerJournal)
             .insert(
@@ -111,7 +173,7 @@ class SessionJournal {
                 qid: event.qid,
                 type: event.type,
                 atMs: event.at,
-                answer: Value(event.answer),
+                answer: Value(encodeStored(event)),
                 createdAtMs: _now().millisecondsSinceEpoch,
               ),
             );
@@ -142,7 +204,7 @@ class SessionJournal {
                   qid: e.qid,
                   type: e.type,
                   atMs: e.at,
-                  answer: Value(e.answer),
+                  answer: Value(encodeStored(e)),
                   createdAtMs: _now().millisecondsSinceEpoch,
                 ),
             ]);

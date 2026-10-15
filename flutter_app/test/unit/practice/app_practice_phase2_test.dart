@@ -101,13 +101,6 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('the reactions are pure where they can be', () {
-    test('the emblem floats 3 dp each way on a 6 s sine', () {
-      expect(EmblemFloat.period, const Duration(seconds: 6));
-      expect(EmblemFloat.offsetAt(0), closeTo(0, 1e-9));
-      expect(EmblemFloat.offsetAt(0.25), closeTo(3, 1e-9));
-      expect(EmblemFloat.offsetAt(0.75), closeTo(-3, 1e-9));
-    });
-
     test('the sheen band crosses the key once, from before its left edge to past its right', () {
       expect(StartSheen.bandAt(0), closeTo(-0.3, 1e-9));
       expect(StartSheen.bandAt(1), closeTo(1.3, 1e-9));

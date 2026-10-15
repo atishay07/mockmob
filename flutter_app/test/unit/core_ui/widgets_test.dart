@@ -61,7 +61,7 @@ void main() {
     testWidgets("Review's count is spoken and drawn; the dot adds a hint and no number", (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, badges: BarBadges(reviewCount: 3))));
-      expect(find.bySemanticsLabel('Review, tab 3 of 4, 3 to repair tonight'), findsOneWidget);
+      expect(find.bySemanticsLabel('Review, tab 3 of 4, 3 open mistakes to repair'), findsOneWidget);
       expect(find.text('3'), findsOneWidget);
 
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, badges: BarBadges(reviewDot: true))));

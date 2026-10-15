@@ -1,7 +1,12 @@
 /// Time and decisions on the result: how one paper's time and answer choices went, question by
-/// question. A line-for-line port of the website's `data/time_decisions.js`: the same rules and the
-/// same words, and `test/unit/result/time_decisions_test.dart` checks the same fixture sentences as
-/// the website's `data/tests/time_decisions.test.mjs`.
+/// question.
+///
+/// Since Mistake Lab v4 slice 2 the server sends this read finished (`lab.time`, built by the
+/// website's one time calculator `data/paper_trace.js`, with away time left out, the last question
+/// timed to the end and the question trace lines of spec 4.6): [TimeDecisions.fromServer] reads it
+/// and the app only renders it, so the web and the app cannot drift. [buildTimeDecisions], a
+/// line-for-line port of the website's `data/time_decisions.js` before slice 2, stays for an older
+/// server that sends no `lab.time`; `test/unit/result/time_decisions_test.dart` keeps its sentences.
 ///
 /// Every fact comes from two places only: the device record of the session (visit and answer events
 /// on the paper clock, `selectionMeta.recovery`), used only when the server found it matched the
@@ -278,6 +283,87 @@ class TimeDecisions {
 
   bool get isReady => state == 'ready';
 
+  /// The server's finished read (`lab.time`). Null when it is missing or cannot be read honestly:
+  /// the caller then builds the read itself ([resolveTimeDecisions]).
+  static TimeDecisions? fromServer(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final state = asStringOr(j['state'], '');
+    if (state != 'ready') {
+      final message = _line(j['message']);
+      const known = {'device', 'inconsistent', 'none'};
+      if (!known.contains(state) || message == null) return null;
+      return TimeDecisions._(state: state, message: message);
+    }
+    if (j['rows'] is! List) return null;
+    final rows = <TimeRow>[];
+    for (final r in j['rows'] as List) {
+      if (r is! Map) return null;
+      final row = asJson(r);
+      final qid = asStringOr(row['qid'], '');
+      final number = asInt(row['number']);
+      if (qid.isEmpty || number == null) return null;
+      final changes = row['changes'] is List ? (row['changes'] as List).length : 0;
+      rows.add(TimeRow(
+        qid: qid,
+        number: number,
+        verdict: asStringOr(row['verdict'], 'skipped'),
+        opened: asBool(row['opened']) ?? false,
+        ms: asInt(row['ms']),
+        visits: asInt(row['visits']) ?? 0,
+        ratio: asDouble(row['ratio']),
+        steps: [
+          for (final st in asJsonList(row['steps']))
+            PickStep(kind: asStringOr(st['kind'], 'first'), answer: asInt(st['answer']), at: asDouble(st['at']) ?? 0, gapSeconds: asInt(st['gapSeconds'])),
+        ],
+        changeCount: changes,
+        net: asInt(row['net']) ?? 0,
+        held: asBool(row['held']) ?? false,
+        lines: [for (final l in (row['lines'] is List ? row['lines'] as List : const [])) ?_line(l)],
+      ));
+    }
+    final pace = asJson(j['pace']);
+    final paperMs = asInt(pace['paperMs']);
+    final perQuestionMs = asInt(pace['perQuestionMs']);
+    final total = asInt(pace['total']);
+    final summary = asJson(j['summary']);
+    final changes = asJson(j['changes']);
+    return TimeDecisions._(
+      state: 'ready',
+      pace: paperMs != null && perQuestionMs != null && total != null ? PaperPace(paperMs: paperMs, perQuestionMs: perQuestionMs, total: total) : null,
+      rows: rows,
+      longest: [
+        for (final l in asJsonList(j['longest']))
+          if (asInt(l['number']) case final number?)
+            if (asInt(l['ms']) case final ms?)
+              LongRow(
+                number: number,
+                verdict: asStringOr(l['verdict'], 'skipped'),
+                ms: ms,
+                time: _line(l['time']) ?? spentLabel(ms / 1000),
+                ratio: asDouble(l['ratio']),
+                ratioText: _line(l['ratioText']),
+              ),
+      ],
+      paceLine: _line(summary['pace']),
+      medianLine: _line(summary['median']),
+      splitLine: _line(summary['split']),
+      longestNote: _line(summary['longestNote']),
+      changeCount: asInt(changes['count']) ?? rows.fold<int>(0, (s, r) => s + r.changeCount),
+      changesLead: _line(changes['lead']),
+      changeParts: [
+        for (final part in asJsonList(changes['parts']))
+          if (_line(part['text']) case final text?) ChangePart(kind: asStringOr(part['kind'], 'neutral'), text: text),
+      ],
+      changesHeld: _line(changes['held']),
+      changeRows: [
+        for (final c in asJsonList(changes['rows']))
+          if (asInt(c['number']) case final number?)
+            if (_line(c['text']) case final text?) ChangeRow(number: number, qid: asStringOr(c['qid'], ''), net: asInt(c['net']), text: text),
+      ],
+    );
+  }
+
   /// The row of one question, by id.
   TimeRow? rowFor(String qid) {
     for (final r in rows) {
@@ -286,6 +372,21 @@ class TimeDecisions {
     return null;
   }
 }
+
+String? _line(Object? v) {
+  final s = asString(v)?.trim();
+  return s == null || s.isEmpty ? null : s;
+}
+
+/// The read the result shows: the server's finished one when it sends `lab.time` ([serverTime]),
+/// else the app's own port over the attempt's record (an older server).
+TimeDecisions resolveTimeDecisions(
+  Attempt attempt, {
+  Object? serverTime,
+  Map<String, String> answerReviews = const {},
+  String Function(String qid, int index)? letterOf,
+}) =>
+    TimeDecisions.fromServer(serverTime) ?? buildTimeDecisions(attempt, answerReviews: answerReviews, letterOf: letterOf);
 
 double _median(List<int> values) {
   final v = [...values]..sort();

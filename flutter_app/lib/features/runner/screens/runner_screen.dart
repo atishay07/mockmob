@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/models/session.dart' show SessionVia;
 import '../../../core/router/routes.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/widgets/widgets.dart';
@@ -94,7 +95,7 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
       openSubmit();
     } else {
       unawaited(ref.read(hapticsProvider).tick());
-      goTo(jump);
+      goTo(jump, via: SessionVia.palette);
     }
   }
 
@@ -102,7 +103,7 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
   void _jump(int index) {
     if (index == session.currentIndex) return;
     unawaited(ref.read(hapticsProvider).tick());
-    goTo(index);
+    goTo(index, via: SessionVia.palette);
   }
 
   @override
@@ -125,6 +126,7 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
           onReady: () => unawaited(ref.read(hapticsProvider).tick()),
           onPrevious: previous,
           onNext: next,
+          onSwipe: (step) => step > 0 ? next(via: SessionVia.swipe) : previous(via: SessionVia.swipe),
           onJump: _jump,
           onRetrySave: session.onConnectivityRestored,
         ),

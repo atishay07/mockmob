@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/auth/auth_state.dart';
 import '../../../core/haptics/haptics.dart';
+import '../../../core/models/session.dart' show SessionEndReason, SessionVia;
 import '../../../core/router/routes.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/theme/theme.dart';
@@ -51,7 +52,8 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
     _integrity = NtaIntegrity(
       sessionId: session.sessionId,
       store: ref.read(ntaPrefsProvider),
-      onTerminate: () => unawaited(session.submit()),
+      // The record says how the paper ended (data only; nothing on screen changes).
+      onTerminate: () => unawaited(session.submit(endReason: SessionEndReason.ntaStrikes)),
       isLive: () => session.submitState.value.stage == SubmitStage.idle && session.remaining.value > Duration.zero,
     )..addListener(_onIntegrity);
     unawaited(_integrity.load());
@@ -120,7 +122,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
   void _markAndNext() {
     if (!_canAnswer) return;
     session.setMarked(_qid, true);
-    if (session.currentIndex < session.questions.length - 1) goTo(session.currentIndex + 1);
+    if (session.currentIndex < session.questions.length - 1) goTo(session.currentIndex + 1, via: SessionVia.next);
   }
 
   /// The warning card (or the ended notice) is up: "Return to the exam" is the only live control.
@@ -188,7 +190,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
   void _jump(int i) {
     if (_modalUp) return;
     unawaited(ref.read(hapticsProvider).tick());
-    goTo(i);
+    goTo(i, via: SessionVia.palette);
   }
 
   @override

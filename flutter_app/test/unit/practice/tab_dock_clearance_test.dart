@@ -1,7 +1,9 @@
 // Nothing on the Practice tab rests under the floating bar (owner recording 15 Oct, item 8). The
 // shell adds the bar's clearance to a tab root's bottom padding (MmBarInsets); this pumps the tab
 // on a 360 by 800 dp phone with a 24 dp status bar and a 24 dp gesture inset, wrapped the way
-// the shell wraps it, and checks the last row ends above the bar's top edge once scrolled.
+// the shell wraps it, and checks the last row ends above the bar's top edge once scrolled, and
+// that the quick pair (Quick practice, By chapter) is whole above the bar at first view on a
+// 360 by 780 phone, with no scroll.
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 
 import '../../helpers/fonts.dart';
@@ -93,6 +96,24 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
     for (final title in const ['Quick practice', 'By chapter']) {
       expect(tester.getRect(find.text(title)).bottom, lessThanOrEqualTo(barTop), reason: '$title rests above the bar once scrolled to');
+    }
+  });
+
+  testWidgets('at first view the quick pair starts above the bar, titles and notes in view, on a 360 by 780 phone', (tester) async {
+    const phone = Size(360, 780);
+    tester.view.padding = const FakeViewPadding(top: 48, bottom: _gesture * 2);
+    await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(), attempts: const []), size: phone);
+    for (var i = 0; i < 12; i++) {
+      await tester.pump(const Duration(milliseconds: 150));
+    }
+    final barTop = phone.height - _gesture - MmBar.lift - MmBar.height;
+    // The cards start well above the bar, and each title and the first line of its note rest
+    // above it (the card's foot may pass behind the glass on the shortest phones).
+    for (final (id, title, note) in const [('quick', 'Quick practice', PracticeCopy.quickLine), ('chapter', 'By chapter', PracticeCopy.chapterLine)]) {
+      final card = tester.getRect(find.byKey(ValueKey('choice-$id')));
+      expect(card.top, lessThanOrEqualTo(barTop - 120), reason: 'the $id card starts well above the bar');
+      expect(tester.getRect(find.text(title)).bottom, lessThanOrEqualTo(barTop - MmSpace.s24), reason: '$title rests above the bar at first view');
+      expect(tester.getRect(find.text(note)).top + 20, lessThanOrEqualTo(barTop), reason: 'the first line of the $id note rests above the bar');
     }
   });
 }

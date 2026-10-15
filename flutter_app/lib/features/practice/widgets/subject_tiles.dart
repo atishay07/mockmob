@@ -11,6 +11,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../insights/widgets/edge_fade.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
+import 'spring_pick.dart';
 import 'subject_accent.dart';
 
 /// The subjects as lit tiles that lead the tab: each subject's object in its own light, the name
@@ -238,13 +239,18 @@ class _SubjectTileState extends State<SubjectTile> {
       inMutuallyExclusiveGroup: true,
       focusRadius: MmRadius.keyAll,
       onTap: onTap,
-      builder: (context, pressed, _) => TweenAnimationBuilder<double>(
-        // 0 at rest, 1 chosen: the tile lifts, its object grows into its light and the identity
-        // bar under the name lengthens. One emphasized landing, no loop.
-        tween: Tween(end: selected ? 1 : 0),
-        duration: reduced ? Duration.zero : Motion.emphasizedDuration,
-        curve: Motion.emphasized,
-        builder: (context, t, _) => Transform.translate(
+      // 0 at rest, 1 chosen, on a spring (cards' 360 ms, bounce 0.12): the tile lifts, its lamp
+      // brightens, its object grows into the light and the identity bar under the name lengthens.
+      // A quick change of mind turns back from wherever the tile is; no loop, no hard cut.
+      builder: (context, pressed, _) => SpringPick(
+        on: selected,
+        builder: (context, t, _) {
+          // The fill and the rim cross between their two states with the spring (clamped: a
+          // colour cannot overshoot); the lift and the object's size keep the overshoot.
+          final c = t.clamp(0.0, 1.0);
+          final rest = MmSelection.side(colors, selected: false);
+          final picked = MmSelection.side(colors, selected: true);
+          return Transform.translate(
           offset: Offset(0, -SubjectTiles.liftRoom * t),
           child: SizedBox(
             width: SubjectTiles.width,
@@ -254,18 +260,22 @@ class _SubjectTileState extends State<SubjectTile> {
               decoration: ShapeDecoration(
                 shape: RoundedSuperellipseBorder(
                   borderRadius: MmRadius.keyAll,
-                  side: MmSelection.side(colors, selected: selected),
+                  side: c == 0 ? rest : (c == 1 ? picked : BorderSide.lerp(rest, picked, c)),
                 ),
               ),
               child: MmClip(
                 borderRadius: MmRadius.keyAll,
                 child: ColoredBox(
-                  color: MmSelection.fill(colors, selected: selected, pressed: pressed),
+                  color: c == 0 || c == 1
+                      ? MmSelection.fill(colors, selected: c == 1, pressed: pressed)
+                      : Color.lerp(MmSelection.fill(colors, selected: false, pressed: pressed), MmSelection.fill(colors, selected: true), c)!,
                   child: Stack(
                     children: [
                       if (light != null)
                         Positioned.fill(
-                          child: LightField.subject(context, light, center: const Alignment(0.1, -0.3), strength: 0.7 + 0.3 * t),
+                          // The tile's own lamp: it comes up with the pick, a touch past full on the
+                          // spring's crest, then rests.
+                          child: LightField.subject(context, light, center: const Alignment(0.1, -0.3), strength: (0.7 + 0.3 * t).clamp(0.0, 1.04)),
                         ),
                       Positioned(
                         left: 12,
@@ -284,12 +294,15 @@ class _SubjectTileState extends State<SubjectTile> {
                             // The pick lands on the object itself: it gives and springs back with a
                             // light sparkle, once per pick (nothing moves under reduced motion; the
                             // ring says it).
+                            // Alive at this size too (it would wait for 96 dp): it leans toward a
+                            // resting finger and the strip's scroll, with the lamp's band on it.
                             child: SubjectEmblem(
                               subject: id,
                               size: SubjectTiles.emblemSize(questions != null),
                               framed: false,
                               marked: selected,
                               reaction: _pick,
+                              life: true,
                             ),
                           ),
                         ),
@@ -305,7 +318,7 @@ class _SubjectTileState extends State<SubjectTile> {
                             // The subject's identity mark: its own hue, longer when chosen.
                             DecoratedBox(
                               decoration: ShapeDecoration(
-                                color: accent.withValues(alpha: 0.55 + 0.45 * t),
+                                color: accent.withValues(alpha: 0.55 + 0.45 * c),
                                 shape: const StadiumBorder(),
                               ),
                               child: SizedBox(width: 14 + 14 * t, height: 3),
@@ -322,7 +335,7 @@ class _SubjectTileState extends State<SubjectTile> {
                                 child: Text(
                                   name,
                                   maxLines: 1,
-                                  style: type.labelLarge.copyWith(fontSize: 14, color: Color.lerp(colors.ink2, colors.ink, t)),
+                                  style: type.labelLarge.copyWith(fontSize: 14, color: Color.lerp(colors.ink2, colors.ink, c)),
                                 ),
                               ),
                             ),
@@ -344,7 +357,8 @@ class _SubjectTileState extends State<SubjectTile> {
               ),
             ),
           ),
-        ),
+          );
+        },
       ),
     );
   }

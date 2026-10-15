@@ -22,6 +22,7 @@ import '../storage/app_prefs.dart';
 import '../storage/prefs_store.dart';
 import '../storage/secure_store.dart';
 import 'outbox_repository.dart';
+import 'session/old_server_fallback.dart';
 import 'session/session_api.dart';
 import 'session/session_clock.dart';
 import 'session/session_heartbeat.dart';
@@ -127,7 +128,7 @@ Future<bool> runSubmitSessionTask(BackgroundEnvironment env, Map<String, dynamic
   final clock = SessionClock()..restore(startedRefWallMs: draft.startedRefWallMs, endsAtWallMs: draft.endsAtWallMs);
 
   final submitter = SessionSubmitter(
-    api: ApiSessionApi(env.api, userId: userId),
+    api: OldServerFallbackApi(ApiSessionApi(env.api, userId: userId)),
     drafts: drafts,
     pendingResults: PendingResultRepository(scope),
     cacheAttempt: (attempt) => _cacheAttempt(env, userId, attempt),

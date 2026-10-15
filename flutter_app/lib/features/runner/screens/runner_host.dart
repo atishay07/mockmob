@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/connectivity/connectivity_providers.dart';
 import '../../../core/haptics/haptics.dart';
+import '../../../core/models/session.dart' show SessionVia;
 import '../../../core/router/routes.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../copy.dart';
@@ -113,7 +114,18 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
   void openSubmit() {
     if (_submitOpen) return;
     _submitOpen = true;
-    unawaited(context.push<void>(AppRoutes.runSubmit(session.sessionId)).whenComplete(() => _submitOpen = false));
+    // Data only: the student's own opening of the page stops the time on the question in focus, and
+    // coming back without a submit starts it again (the page opened by a submit already running
+    // records nothing here).
+    final s = session;
+    final byStudent = s.submitState.value.stage == SubmitStage.idle;
+    if (byStudent) s.submitPageOpened();
+    unawaited(
+      context.push<void>(AppRoutes.runSubmit(s.sessionId)).whenComplete(() {
+        _submitOpen = false;
+        if (byStudent) s.submitPageClosed();
+      }),
+    );
   }
 
   /// A tap on an option: the tick fires on the tap itself and the screen shows the answer on the
@@ -129,8 +141,8 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
     await session.selectAnswer(qid, option);
   }
 
-  /// A long press on an option: crosses it out or brings it back. In memory only; it never
-  /// reaches the server and never touches the answer.
+  /// A long press on an option: crosses it out or brings it back. It never touches the answer; the
+  /// session records it for the result's analysis after submit.
   void strike(String qid, int option) {
     if (!session.canAnswer || session.answerFor(qid) == option) return;
     unawaited(ref.read(hapticsProvider).tick());
@@ -138,22 +150,23 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
     session.strikes.toggle(qid, option);
   }
 
-  void goTo(int index) {
+  /// Moves to question [index]; [via] (a `SessionVia`) says how, for the result's replay.
+  void goTo(int index, {String? via}) {
     session.dismissAway();
-    unawaited(session.goTo(index));
+    unawaited(session.goTo(index, via: via));
   }
 
-  void previous() {
-    if (session.currentIndex > 0) goTo(session.currentIndex - 1);
+  void previous({String via = SessionVia.previous}) {
+    if (session.currentIndex > 0) goTo(session.currentIndex - 1, via: via);
   }
 
   /// The next question, or the submit page after the last.
-  void next() {
+  void next({String via = SessionVia.next}) {
     if (session.currentIndex >= session.questions.length - 1) {
       session.dismissAway();
       openSubmit();
     } else {
-      goTo(session.currentIndex + 1);
+      goTo(session.currentIndex + 1, via: via);
     }
   }
 }

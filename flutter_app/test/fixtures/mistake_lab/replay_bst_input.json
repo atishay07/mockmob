@@ -1,0 +1,2476 @@
+{
+  "description": "Business Studies full mock, 50 questions: Q41 to Q45 and Q46 to Q50 are passage sets, each on one page with every question of the set shown (via set); Q45 (marked) and Q50 shown but never in focus; the submit sheet opened at 48:10 and was left with Keep answering, a palette return to Q43 with 15 s away, then the sheet again at 49:40 and the submit at 50:10.",
+  "attempt": {
+    "id": "lab-replay-bst-1",
+    "subject": "business_studies",
+    "completedAt": 1792143000000,
+    "questionsSnapshot": [
+      {
+        "id": "b1",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 1",
+        "options": [
+          "b1 statement one",
+          "b1 statement two",
+          "b1 statement three",
+          "b1 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b2",
+        "chapter": "Planning",
+        "question": "Illustrative question 2",
+        "options": [
+          "b2 statement one",
+          "b2 statement two",
+          "b2 statement three",
+          "b2 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b3",
+        "chapter": "Organising",
+        "question": "Illustrative question 3",
+        "options": [
+          "b3 statement one",
+          "b3 statement two",
+          "b3 statement three",
+          "b3 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b4",
+        "chapter": "Staffing",
+        "question": "Illustrative question 4",
+        "options": [
+          "b4 statement one",
+          "b4 statement two",
+          "b4 statement three",
+          "b4 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b5",
+        "chapter": "Marketing",
+        "question": "Illustrative question 5",
+        "options": [
+          "b5 statement one",
+          "b5 statement two",
+          "b5 statement three",
+          "b5 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b6",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 6",
+        "options": [
+          "b6 statement one",
+          "b6 statement two",
+          "b6 statement three",
+          "b6 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b7",
+        "chapter": "Planning",
+        "question": "Illustrative question 7",
+        "options": [
+          "b7 statement one",
+          "b7 statement two",
+          "b7 statement three",
+          "b7 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b8",
+        "chapter": "Organising",
+        "question": "Illustrative question 8",
+        "options": [
+          "b8 statement one",
+          "b8 statement two",
+          "b8 statement three",
+          "b8 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b9",
+        "chapter": "Staffing",
+        "question": "Illustrative question 9",
+        "options": [
+          "b9 statement one",
+          "b9 statement two",
+          "b9 statement three",
+          "b9 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b10",
+        "chapter": "Marketing",
+        "question": "Illustrative question 10",
+        "options": [
+          "b10 statement one",
+          "b10 statement two",
+          "b10 statement three",
+          "b10 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b11",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 11",
+        "options": [
+          "b11 statement one",
+          "b11 statement two",
+          "b11 statement three",
+          "b11 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b12",
+        "chapter": "Planning",
+        "question": "Illustrative question 12",
+        "options": [
+          "b12 statement one",
+          "b12 statement two",
+          "b12 statement three",
+          "b12 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b13",
+        "chapter": "Organising",
+        "question": "Illustrative question 13",
+        "options": [
+          "b13 statement one",
+          "b13 statement two",
+          "b13 statement three",
+          "b13 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b14",
+        "chapter": "Staffing",
+        "question": "Illustrative question 14",
+        "options": [
+          "b14 statement one",
+          "b14 statement two",
+          "b14 statement three",
+          "b14 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b15",
+        "chapter": "Marketing",
+        "question": "Illustrative question 15",
+        "options": [
+          "b15 statement one",
+          "b15 statement two",
+          "b15 statement three",
+          "b15 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b16",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 16",
+        "options": [
+          "b16 statement one",
+          "b16 statement two",
+          "b16 statement three",
+          "b16 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b17",
+        "chapter": "Planning",
+        "question": "Illustrative question 17",
+        "options": [
+          "b17 statement one",
+          "b17 statement two",
+          "b17 statement three",
+          "b17 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b18",
+        "chapter": "Organising",
+        "question": "Illustrative question 18",
+        "options": [
+          "b18 statement one",
+          "b18 statement two",
+          "b18 statement three",
+          "b18 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b19",
+        "chapter": "Staffing",
+        "question": "Illustrative question 19",
+        "options": [
+          "b19 statement one",
+          "b19 statement two",
+          "b19 statement three",
+          "b19 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b20",
+        "chapter": "Marketing",
+        "question": "Illustrative question 20",
+        "options": [
+          "b20 statement one",
+          "b20 statement two",
+          "b20 statement three",
+          "b20 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b21",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 21",
+        "options": [
+          "b21 statement one",
+          "b21 statement two",
+          "b21 statement three",
+          "b21 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b22",
+        "chapter": "Planning",
+        "question": "Illustrative question 22",
+        "options": [
+          "b22 statement one",
+          "b22 statement two",
+          "b22 statement three",
+          "b22 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b23",
+        "chapter": "Organising",
+        "question": "Illustrative question 23",
+        "options": [
+          "b23 statement one",
+          "b23 statement two",
+          "b23 statement three",
+          "b23 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b24",
+        "chapter": "Staffing",
+        "question": "Illustrative question 24",
+        "options": [
+          "b24 statement one",
+          "b24 statement two",
+          "b24 statement three",
+          "b24 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b25",
+        "chapter": "Marketing",
+        "question": "Illustrative question 25",
+        "options": [
+          "b25 statement one",
+          "b25 statement two",
+          "b25 statement three",
+          "b25 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b26",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 26",
+        "options": [
+          "b26 statement one",
+          "b26 statement two",
+          "b26 statement three",
+          "b26 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b27",
+        "chapter": "Planning",
+        "question": "Illustrative question 27",
+        "options": [
+          "b27 statement one",
+          "b27 statement two",
+          "b27 statement three",
+          "b27 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b28",
+        "chapter": "Organising",
+        "question": "Illustrative question 28",
+        "options": [
+          "b28 statement one",
+          "b28 statement two",
+          "b28 statement three",
+          "b28 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b29",
+        "chapter": "Staffing",
+        "question": "Illustrative question 29",
+        "options": [
+          "b29 statement one",
+          "b29 statement two",
+          "b29 statement three",
+          "b29 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b30",
+        "chapter": "Marketing",
+        "question": "Illustrative question 30",
+        "options": [
+          "b30 statement one",
+          "b30 statement two",
+          "b30 statement three",
+          "b30 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b31",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 31",
+        "options": [
+          "b31 statement one",
+          "b31 statement two",
+          "b31 statement three",
+          "b31 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b32",
+        "chapter": "Planning",
+        "question": "Illustrative question 32",
+        "options": [
+          "b32 statement one",
+          "b32 statement two",
+          "b32 statement three",
+          "b32 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b33",
+        "chapter": "Organising",
+        "question": "Illustrative question 33",
+        "options": [
+          "b33 statement one",
+          "b33 statement two",
+          "b33 statement three",
+          "b33 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b34",
+        "chapter": "Staffing",
+        "question": "Illustrative question 34",
+        "options": [
+          "b34 statement one",
+          "b34 statement two",
+          "b34 statement three",
+          "b34 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b35",
+        "chapter": "Marketing",
+        "question": "Illustrative question 35",
+        "options": [
+          "b35 statement one",
+          "b35 statement two",
+          "b35 statement three",
+          "b35 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b36",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 36",
+        "options": [
+          "b36 statement one",
+          "b36 statement two",
+          "b36 statement three",
+          "b36 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b37",
+        "chapter": "Planning",
+        "question": "Illustrative question 37",
+        "options": [
+          "b37 statement one",
+          "b37 statement two",
+          "b37 statement three",
+          "b37 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "b38",
+        "chapter": "Organising",
+        "question": "Illustrative question 38",
+        "options": [
+          "b38 statement one",
+          "b38 statement two",
+          "b38 statement three",
+          "b38 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "b39",
+        "chapter": "Staffing",
+        "question": "Illustrative question 39",
+        "options": [
+          "b39 statement one",
+          "b39 statement two",
+          "b39 statement three",
+          "b39 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "b40",
+        "chapter": "Marketing",
+        "question": "Illustrative question 40",
+        "options": [
+          "b40 statement one",
+          "b40 statement two",
+          "b40 statement three",
+          "b40 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "b41",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 41",
+        "options": [
+          "b41 statement one",
+          "b41 statement two",
+          "b41 statement three",
+          "b41 statement four"
+        ],
+        "correctIndex": 1,
+        "passageGroupId": "bst-case-a",
+        "passageText": "Illustrative case: a small firm plans its production for the festive season.",
+        "orderIndex": 1
+      },
+      {
+        "id": "b42",
+        "chapter": "Planning",
+        "question": "Illustrative question 42",
+        "options": [
+          "b42 statement one",
+          "b42 statement two",
+          "b42 statement three",
+          "b42 statement four"
+        ],
+        "correctIndex": 2,
+        "passageGroupId": "bst-case-a",
+        "passageText": "Illustrative case: a small firm plans its production for the festive season.",
+        "orderIndex": 2
+      },
+      {
+        "id": "b43",
+        "chapter": "Organising",
+        "question": "Illustrative question 43",
+        "options": [
+          "b43 statement one",
+          "b43 statement two",
+          "b43 statement three",
+          "b43 statement four"
+        ],
+        "correctIndex": 3,
+        "passageGroupId": "bst-case-a",
+        "passageText": "Illustrative case: a small firm plans its production for the festive season.",
+        "orderIndex": 3
+      },
+      {
+        "id": "b44",
+        "chapter": "Staffing",
+        "question": "Illustrative question 44",
+        "options": [
+          "b44 statement one",
+          "b44 statement two",
+          "b44 statement three",
+          "b44 statement four"
+        ],
+        "correctIndex": 0,
+        "passageGroupId": "bst-case-a",
+        "passageText": "Illustrative case: a small firm plans its production for the festive season.",
+        "orderIndex": 4
+      },
+      {
+        "id": "b45",
+        "chapter": "Marketing",
+        "question": "Illustrative question 45",
+        "options": [
+          "b45 statement one",
+          "b45 statement two",
+          "b45 statement three",
+          "b45 statement four"
+        ],
+        "correctIndex": 1,
+        "passageGroupId": "bst-case-a",
+        "passageText": "Illustrative case: a small firm plans its production for the festive season.",
+        "orderIndex": 5
+      },
+      {
+        "id": "b46",
+        "chapter": "Nature and Significance of Management",
+        "question": "Illustrative question 46",
+        "options": [
+          "b46 statement one",
+          "b46 statement two",
+          "b46 statement three",
+          "b46 statement four"
+        ],
+        "correctIndex": 2,
+        "passageGroupId": "bst-case-b",
+        "passageText": "Illustrative case: a retailer chooses how to reach buyers in a new town.",
+        "orderIndex": 1
+      },
+      {
+        "id": "b47",
+        "chapter": "Planning",
+        "question": "Illustrative question 47",
+        "options": [
+          "b47 statement one",
+          "b47 statement two",
+          "b47 statement three",
+          "b47 statement four"
+        ],
+        "correctIndex": 3,
+        "passageGroupId": "bst-case-b",
+        "passageText": "Illustrative case: a retailer chooses how to reach buyers in a new town.",
+        "orderIndex": 2
+      },
+      {
+        "id": "b48",
+        "chapter": "Organising",
+        "question": "Illustrative question 48",
+        "options": [
+          "b48 statement one",
+          "b48 statement two",
+          "b48 statement three",
+          "b48 statement four"
+        ],
+        "correctIndex": 0,
+        "passageGroupId": "bst-case-b",
+        "passageText": "Illustrative case: a retailer chooses how to reach buyers in a new town.",
+        "orderIndex": 3
+      },
+      {
+        "id": "b49",
+        "chapter": "Staffing",
+        "question": "Illustrative question 49",
+        "options": [
+          "b49 statement one",
+          "b49 statement two",
+          "b49 statement three",
+          "b49 statement four"
+        ],
+        "correctIndex": 1,
+        "passageGroupId": "bst-case-b",
+        "passageText": "Illustrative case: a retailer chooses how to reach buyers in a new town.",
+        "orderIndex": 4
+      },
+      {
+        "id": "b50",
+        "chapter": "Marketing",
+        "question": "Illustrative question 50",
+        "options": [
+          "b50 statement one",
+          "b50 statement two",
+          "b50 statement three",
+          "b50 statement four"
+        ],
+        "correctIndex": 2,
+        "passageGroupId": "bst-case-b",
+        "passageText": "Illustrative case: a retailer chooses how to reach buyers in a new town.",
+        "orderIndex": 5
+      }
+    ],
+    "details": [
+      {
+        "qid": "b1",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b2",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b3",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b4",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b5",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b6",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b7",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "b8",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b9",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b10",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b11",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "b12",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b13",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b14",
+        "givenIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "qid": "b15",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b16",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b17",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b18",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b19",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b20",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b21",
+        "givenIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "qid": "b22",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "b23",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b24",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b25",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b26",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b27",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b28",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "b29",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b30",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b31",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b32",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b33",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "b34",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b35",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "b36",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b37",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b38",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b39",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b40",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b41",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b42",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "b43",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b44",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "b45",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "b46",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "b47",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "b48",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "b49",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "b50",
+        "givenIndex": null,
+        "isCorrect": null
+      }
+    ],
+    "selectionMeta": {
+      "mode": "full",
+      "durationMinutes": 60,
+      "scoringVersion": "server_snapshot_v1",
+      "recovery": {
+        "version": 1,
+        "scoring": "server_snapshot",
+        "telemetry": "self_reported",
+        "observed": {
+          "answerChanges": [],
+          "lostOnChanges": 0,
+          "netFirstToFinal": 0,
+          "unanswered": 5
+        },
+        "timeline": [
+          {
+            "seq": 1,
+            "qid": "b1",
+            "at": 0,
+            "type": "visit"
+          },
+          {
+            "seq": 2,
+            "qid": "b1",
+            "at": 40000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 3,
+            "qid": "b2",
+            "at": 60000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 4,
+            "qid": "b2",
+            "at": 100000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 5,
+            "qid": "b3",
+            "at": 120000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 6,
+            "qid": "b3",
+            "at": 160000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 7,
+            "qid": "b4",
+            "at": 180000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 8,
+            "qid": "b4",
+            "at": 220000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 9,
+            "qid": "b5",
+            "at": 240000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 10,
+            "qid": "b5",
+            "at": 280000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 11,
+            "qid": "b6",
+            "at": 300000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 12,
+            "qid": "b6",
+            "at": 340000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 13,
+            "qid": "b7",
+            "at": 360000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 14,
+            "qid": "b7",
+            "at": 400000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 15,
+            "qid": "b8",
+            "at": 420000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 16,
+            "qid": "b8",
+            "at": 460000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 17,
+            "qid": "b9",
+            "at": 480000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 18,
+            "qid": "b9",
+            "at": 520000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 19,
+            "qid": "b10",
+            "at": 540000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 20,
+            "qid": "b10",
+            "at": 580000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 21,
+            "qid": "b11",
+            "at": 600000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 22,
+            "qid": "b12",
+            "at": 660000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 23,
+            "qid": "b12",
+            "at": 700000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 24,
+            "qid": "b13",
+            "at": 720000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 25,
+            "qid": "b13",
+            "at": 760000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 26,
+            "qid": "b14",
+            "at": 780000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 27,
+            "qid": "b14",
+            "at": 820000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 28,
+            "qid": "b15",
+            "at": 840000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 29,
+            "qid": "b15",
+            "at": 880000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 30,
+            "qid": "b16",
+            "at": 900000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 31,
+            "qid": "b16",
+            "at": 940000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 32,
+            "qid": "b17",
+            "at": 960000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 33,
+            "qid": "b17",
+            "at": 1000000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 34,
+            "qid": "b18",
+            "at": 1020000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 35,
+            "qid": "b18",
+            "at": 1060000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 36,
+            "qid": "b19",
+            "at": 1080000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 37,
+            "qid": "b19",
+            "at": 1120000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 38,
+            "qid": "b20",
+            "at": 1140000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 39,
+            "qid": "b20",
+            "at": 1180000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 40,
+            "qid": "b21",
+            "at": 1200000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 41,
+            "qid": "b21",
+            "at": 1240000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 42,
+            "qid": "b22",
+            "at": 1260000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 43,
+            "qid": "b23",
+            "at": 1320000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 44,
+            "qid": "b23",
+            "at": 1360000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 45,
+            "qid": "b24",
+            "at": 1380000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 46,
+            "qid": "b24",
+            "at": 1420000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 47,
+            "qid": "b25",
+            "at": 1440000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 48,
+            "qid": "b25",
+            "at": 1480000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 49,
+            "qid": "b26",
+            "at": 1500000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 50,
+            "qid": "b26",
+            "at": 1540000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 51,
+            "qid": "b27",
+            "at": 1560000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 52,
+            "qid": "b27",
+            "at": 1600000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 53,
+            "qid": "b28",
+            "at": 1620000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 54,
+            "qid": "b28",
+            "at": 1660000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 55,
+            "qid": "b29",
+            "at": 1680000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 56,
+            "qid": "b29",
+            "at": 1720000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 57,
+            "qid": "b30",
+            "at": 1740000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 58,
+            "qid": "b30",
+            "at": 1780000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 59,
+            "qid": "b31",
+            "at": 1800000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 60,
+            "qid": "b31",
+            "at": 1840000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 61,
+            "qid": "b32",
+            "at": 1860000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 62,
+            "qid": "b32",
+            "at": 1900000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 63,
+            "qid": "b33",
+            "at": 1920000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 64,
+            "qid": "b34",
+            "at": 1980000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 65,
+            "qid": "b34",
+            "at": 2020000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 66,
+            "qid": "b35",
+            "at": 2040000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 67,
+            "qid": "b35",
+            "at": 2080000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 68,
+            "qid": "b36",
+            "at": 2100000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 69,
+            "qid": "b36",
+            "at": 2140000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 70,
+            "qid": "b37",
+            "at": 2160000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 71,
+            "qid": "b37",
+            "at": 2200000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 72,
+            "qid": "b38",
+            "at": 2220000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 73,
+            "qid": "b38",
+            "at": 2260000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 74,
+            "qid": "b39",
+            "at": 2280000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 75,
+            "qid": "b39",
+            "at": 2320000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 76,
+            "qid": "b40",
+            "at": 2340000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 77,
+            "qid": "b40",
+            "at": 2380000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 78,
+            "qid": "b42",
+            "at": 2400000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 79,
+            "qid": "b43",
+            "at": 2400000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 80,
+            "qid": "b44",
+            "at": 2400000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 81,
+            "qid": "b45",
+            "at": 2400000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 82,
+            "qid": "b41",
+            "at": 2400000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 83,
+            "qid": "b41",
+            "at": 2550000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 84,
+            "qid": "b42",
+            "at": 2590000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 85,
+            "qid": "b42",
+            "at": 2590000,
+            "type": "visit"
+          },
+          {
+            "seq": 86,
+            "qid": "b44",
+            "at": 2630000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 87,
+            "qid": "b44",
+            "at": 2630000,
+            "type": "visit"
+          },
+          {
+            "seq": 89,
+            "qid": "b47",
+            "at": 2660000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 90,
+            "qid": "b48",
+            "at": 2660000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 91,
+            "qid": "b49",
+            "at": 2660000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 92,
+            "qid": "b50",
+            "at": 2660000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 93,
+            "qid": "b46",
+            "at": 2660000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 94,
+            "qid": "b46",
+            "at": 2760000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 95,
+            "qid": "b47",
+            "at": 2800000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 96,
+            "qid": "b47",
+            "at": 2800000,
+            "type": "visit"
+          },
+          {
+            "seq": 97,
+            "qid": "b48",
+            "at": 2830000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 98,
+            "qid": "b48",
+            "at": 2830000,
+            "type": "visit"
+          },
+          {
+            "seq": 99,
+            "qid": "b49",
+            "at": 2860000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 100,
+            "qid": "b49",
+            "at": 2860000,
+            "type": "visit"
+          },
+          {
+            "seq": 101,
+            "qid": "b49",
+            "at": 2890000,
+            "type": "visit",
+            "via": "sheet"
+          },
+          {
+            "seq": 102,
+            "qid": "b49",
+            "at": 2905000,
+            "type": "visit"
+          },
+          {
+            "seq": 103,
+            "qid": "b41",
+            "at": 2915000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 104,
+            "qid": "b42",
+            "at": 2915000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 105,
+            "qid": "b44",
+            "at": 2915000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 106,
+            "qid": "b45",
+            "at": 2915000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 107,
+            "qid": "b43",
+            "at": 2915000,
+            "type": "visit",
+            "via": "palette"
+          },
+          {
+            "seq": 110,
+            "qid": "b43",
+            "at": 2960000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 111,
+            "qid": "b43",
+            "at": 2980000,
+            "type": "visit",
+            "via": "sheet"
+          }
+        ],
+        "marks": [
+          {
+            "seq": 88,
+            "qid": "b45",
+            "at": 2640000,
+            "marked": true
+          }
+        ],
+        "presence": [
+          {
+            "seq": 108,
+            "qid": "b43",
+            "at": 2930000,
+            "type": "away"
+          },
+          {
+            "seq": 109,
+            "qid": "b43",
+            "at": 2945000,
+            "type": "back"
+          }
+        ],
+        "end": {
+          "seq": 112,
+          "qid": "b43",
+          "at": 3010000,
+          "reason": "submit"
+        },
+        "recommendation": {
+          "kind": "concept_repair",
+          "title": "Practise one concept you missed",
+          "reason": "Suggested from this attempt; a fresh check is needed before claiming improvement."
+        }
+      },
+      "client": {
+        "platform": "web",
+        "appVersion": "2026.10.16",
+        "startedAt": 1792128600000
+      },
+      "endedBy": "submit"
+    }
+  },
+  "answerReviews": {},
+  "events": [
+    {
+      "seq": 1,
+      "qid": "b1",
+      "at": 0,
+      "type": "visit"
+    },
+    {
+      "seq": 2,
+      "qid": "b1",
+      "at": 40000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 3,
+      "qid": "b2",
+      "at": 60000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 4,
+      "qid": "b2",
+      "at": 100000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 5,
+      "qid": "b3",
+      "at": 120000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 6,
+      "qid": "b3",
+      "at": 160000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 7,
+      "qid": "b4",
+      "at": 180000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 8,
+      "qid": "b4",
+      "at": 220000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 9,
+      "qid": "b5",
+      "at": 240000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 10,
+      "qid": "b5",
+      "at": 280000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 11,
+      "qid": "b6",
+      "at": 300000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 12,
+      "qid": "b6",
+      "at": 340000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 13,
+      "qid": "b7",
+      "at": 360000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 14,
+      "qid": "b7",
+      "at": 400000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 15,
+      "qid": "b8",
+      "at": 420000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 16,
+      "qid": "b8",
+      "at": 460000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 17,
+      "qid": "b9",
+      "at": 480000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 18,
+      "qid": "b9",
+      "at": 520000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 19,
+      "qid": "b10",
+      "at": 540000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 20,
+      "qid": "b10",
+      "at": 580000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 21,
+      "qid": "b11",
+      "at": 600000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 22,
+      "qid": "b12",
+      "at": 660000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 23,
+      "qid": "b12",
+      "at": 700000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 24,
+      "qid": "b13",
+      "at": 720000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 25,
+      "qid": "b13",
+      "at": 760000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 26,
+      "qid": "b14",
+      "at": 780000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 27,
+      "qid": "b14",
+      "at": 820000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 28,
+      "qid": "b15",
+      "at": 840000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 29,
+      "qid": "b15",
+      "at": 880000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 30,
+      "qid": "b16",
+      "at": 900000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 31,
+      "qid": "b16",
+      "at": 940000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 32,
+      "qid": "b17",
+      "at": 960000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 33,
+      "qid": "b17",
+      "at": 1000000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 34,
+      "qid": "b18",
+      "at": 1020000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 35,
+      "qid": "b18",
+      "at": 1060000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 36,
+      "qid": "b19",
+      "at": 1080000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 37,
+      "qid": "b19",
+      "at": 1120000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 38,
+      "qid": "b20",
+      "at": 1140000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 39,
+      "qid": "b20",
+      "at": 1180000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 40,
+      "qid": "b21",
+      "at": 1200000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 41,
+      "qid": "b21",
+      "at": 1240000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 42,
+      "qid": "b22",
+      "at": 1260000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 43,
+      "qid": "b23",
+      "at": 1320000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 44,
+      "qid": "b23",
+      "at": 1360000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 45,
+      "qid": "b24",
+      "at": 1380000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 46,
+      "qid": "b24",
+      "at": 1420000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 47,
+      "qid": "b25",
+      "at": 1440000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 48,
+      "qid": "b25",
+      "at": 1480000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 49,
+      "qid": "b26",
+      "at": 1500000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 50,
+      "qid": "b26",
+      "at": 1540000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 51,
+      "qid": "b27",
+      "at": 1560000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 52,
+      "qid": "b27",
+      "at": 1600000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 53,
+      "qid": "b28",
+      "at": 1620000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 54,
+      "qid": "b28",
+      "at": 1660000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 55,
+      "qid": "b29",
+      "at": 1680000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 56,
+      "qid": "b29",
+      "at": 1720000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 57,
+      "qid": "b30",
+      "at": 1740000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 58,
+      "qid": "b30",
+      "at": 1780000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 59,
+      "qid": "b31",
+      "at": 1800000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 60,
+      "qid": "b31",
+      "at": 1840000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 61,
+      "qid": "b32",
+      "at": 1860000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 62,
+      "qid": "b32",
+      "at": 1900000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 63,
+      "qid": "b33",
+      "at": 1920000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 64,
+      "qid": "b34",
+      "at": 1980000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 65,
+      "qid": "b34",
+      "at": 2020000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 66,
+      "qid": "b35",
+      "at": 2040000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 67,
+      "qid": "b35",
+      "at": 2080000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 68,
+      "qid": "b36",
+      "at": 2100000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 69,
+      "qid": "b36",
+      "at": 2140000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 70,
+      "qid": "b37",
+      "at": 2160000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 71,
+      "qid": "b37",
+      "at": 2200000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 72,
+      "qid": "b38",
+      "at": 2220000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 73,
+      "qid": "b38",
+      "at": 2260000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 74,
+      "qid": "b39",
+      "at": 2280000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 75,
+      "qid": "b39",
+      "at": 2320000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 76,
+      "qid": "b40",
+      "at": 2340000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 77,
+      "qid": "b40",
+      "at": 2380000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 78,
+      "qid": "b42",
+      "at": 2400000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 79,
+      "qid": "b43",
+      "at": 2400000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 80,
+      "qid": "b44",
+      "at": 2400000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 81,
+      "qid": "b45",
+      "at": 2400000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 82,
+      "qid": "b41",
+      "at": 2400000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 83,
+      "qid": "b41",
+      "at": 2550000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 84,
+      "qid": "b42",
+      "at": 2590000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 85,
+      "qid": "b42",
+      "at": 2590000,
+      "type": "visit"
+    },
+    {
+      "seq": 86,
+      "qid": "b44",
+      "at": 2630000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 87,
+      "qid": "b44",
+      "at": 2630000,
+      "type": "visit"
+    },
+    {
+      "seq": 88,
+      "qid": "b45",
+      "at": 2640000,
+      "type": "mark",
+      "marked": true
+    },
+    {
+      "seq": 89,
+      "qid": "b47",
+      "at": 2660000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 90,
+      "qid": "b48",
+      "at": 2660000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 91,
+      "qid": "b49",
+      "at": 2660000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 92,
+      "qid": "b50",
+      "at": 2660000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 93,
+      "qid": "b46",
+      "at": 2660000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 94,
+      "qid": "b46",
+      "at": 2760000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 95,
+      "qid": "b47",
+      "at": 2800000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 96,
+      "qid": "b47",
+      "at": 2800000,
+      "type": "visit"
+    },
+    {
+      "seq": 97,
+      "qid": "b48",
+      "at": 2830000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 98,
+      "qid": "b48",
+      "at": 2830000,
+      "type": "visit"
+    },
+    {
+      "seq": 99,
+      "qid": "b49",
+      "at": 2860000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 100,
+      "qid": "b49",
+      "at": 2860000,
+      "type": "visit"
+    },
+    {
+      "seq": 101,
+      "qid": "b49",
+      "at": 2890000,
+      "type": "visit",
+      "via": "sheet"
+    },
+    {
+      "seq": 102,
+      "qid": "b49",
+      "at": 2905000,
+      "type": "visit"
+    },
+    {
+      "seq": 103,
+      "qid": "b41",
+      "at": 2915000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 104,
+      "qid": "b42",
+      "at": 2915000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 105,
+      "qid": "b44",
+      "at": 2915000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 106,
+      "qid": "b45",
+      "at": 2915000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 107,
+      "qid": "b43",
+      "at": 2915000,
+      "type": "visit",
+      "via": "palette"
+    },
+    {
+      "seq": 108,
+      "qid": "b43",
+      "at": 2930000,
+      "type": "away"
+    },
+    {
+      "seq": 109,
+      "qid": "b43",
+      "at": 2945000,
+      "type": "back"
+    },
+    {
+      "seq": 110,
+      "qid": "b43",
+      "at": 2960000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 111,
+      "qid": "b43",
+      "at": 2980000,
+      "type": "visit",
+      "via": "sheet"
+    },
+    {
+      "seq": 112,
+      "qid": "b43",
+      "at": 3010000,
+      "type": "end",
+      "reason": "submit"
+    }
+  ]
+}

@@ -81,7 +81,7 @@ void main() {
     test('a shorter chip shrinks the task and the number', () {
       final m = _move(ashaInputs(selectedMinutes: 5));
       expect(m.number, '2');
-      expect(m.meaning, '2 of the 4 in Partnership fundamentals, from Mock 7 on 11 Oct.');
+      expect(m.meaning, '2 of the 4 open mistakes in Partnership fundamentals, from Mock 7 on 11 Oct.');
       expect((m.primary.target as GoTo).location, endsWith('count=2'));
     });
 

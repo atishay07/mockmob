@@ -340,7 +340,7 @@ class SessionEngine extends ChangeNotifier {
     final qs = draft.view.questions;
     if (qs.isNotEmpty && engine._index < qs.length && !clock.isOver) {
       final qid = qs[engine._index].id;
-      await journal.recordVisit(qid, clock);
+      await journal.recordVisit(qid, clock, via: SessionVia.resume);
       engine._visited.add(qid);
     }
     engine._begin();
@@ -478,9 +478,10 @@ class SessionEngine extends ChangeNotifier {
     return true;
   }
 
-  /// Moves to question [index] and records a visit for it only. The question changes first;
-  /// the visit is written after, and a failed write loses only the visit event.
-  Future<void> goTo(int index) async {
+  /// Moves to question [index] and records a visit for it only, with how it was reached ([via],
+  /// a [SessionVia]). The question changes first; the visit is written after, and a failed write
+  /// loses only the visit event.
+  Future<void> goTo(int index, {String? via}) async {
     if (index < 0 || index >= questions.length || _disposed) return;
     _index = index;
     final qid = questions[index].id;
@@ -488,8 +489,10 @@ class SessionEngine extends ChangeNotifier {
     _notify();
     _scheduleDraftSave();
     if (!canAnswer) return;
+    // A jump from the submit page brings the paper back: this visit closes the page's span.
+    _onSubmitPage = false;
     try {
-      await _journal.recordVisit(qid, _clock);
+      await _journal.recordVisit(qid, _clock, via: via);
       _syncer.notifyChanged();
     } on Object {
       // The visit event is only a trace of where the student looked.
@@ -501,7 +504,53 @@ class SessionEngine extends ChangeNotifier {
     if (!changed) return;
     _notify();
     _scheduleDraftSave();
+    // Kept with the session for the result's "marked for review" lines; never part of the answer.
+    if (canAnswer) unawaited(_trace(() => _journal.recordMark(qid, value, _clock)));
   }
+
+  /// The student crossed out the served [option] of [qid] ([on] true) or brought it back. A scratch
+  /// mark on the paper: recorded for the result's analysis after submit, never part of the answer.
+  void recordStrike(String qid, int option, bool on) {
+    if (!canAnswer) return;
+    unawaited(_trace(() => _journal.recordStrike(qid, option, on, _clock)));
+  }
+
+  /// The student opened the submit page and it is still open, with no visit since.
+  bool _onSubmitPage = false;
+
+  /// The student opened the submit page from the paper (not a page opened because a submit already
+  /// started). Recorded as a visit with via `sheet` on the question in focus, so the time spent
+  /// deciding to submit is credited to no question: with the submit after it, the last question's
+  /// time stops when the page opened (the one time rule, `data/paper_trace.js` rule 6). Data only.
+  void submitPageOpened() {
+    if (!kRichSessionEvents || !canAnswer || questions.isEmpty || _onSubmitPage) return;
+    _onSubmitPage = true;
+    unawaited(_trace(() => _journal.recordVisit(currentQuestion.id, _clock, via: SessionVia.sheet)));
+  }
+
+  /// The submit page closed and the paper is back without a submit: a plain visit to the question in
+  /// focus ends the page's span, as on the website. Nothing when a jump from the page already did,
+  /// or when a submit started.
+  void submitPageClosed() {
+    if (!_onSubmitPage) return;
+    _onSubmitPage = false;
+    if (!canAnswer || questions.isEmpty) return;
+    unawaited(_trace(() => _journal.recordVisit(currentQuestion.id, _clock)));
+  }
+
+  /// Writes one trace event (a mark, a strike, time away) and queues the sync. A failed write loses
+  /// only that trace event: nothing the student sees depends on it.
+  Future<void> _trace(Future<SessionEvent?> Function() write) async {
+    try {
+      final event = await write();
+      if (event != null && !_disposed) _syncer.notifyChanged();
+    } on Object {
+      // A trace of how the paper went, never an answer.
+    }
+  }
+
+  /// An `away` event is open (the app went to the background while answering).
+  bool _awayOpen = false;
 
   void dismissAway() {
     if (!_disposed) away.value = null;
@@ -522,6 +571,15 @@ class SessionEngine extends ChangeNotifier {
   Future<void> onPaused() async {
     _pausedAt = _s.now();
     _clock.markPaused();
+    // Time away from the paper is recorded so the result can leave it out of the time on a question.
+    if (canAnswer && !_awayOpen && questions.isNotEmpty) {
+      _awayOpen = true;
+      try {
+        await _journal.recordPresence(currentQuestion.id, _clock, away: true);
+      } on Object {
+        // Only a trace; the send below carries on.
+      }
+    }
     // Answers first: the draft then records the acknowledgement that came back.
     await _journal.idle();
     try {
@@ -551,6 +609,11 @@ class SessionEngine extends ChangeNotifier {
     _clock.resumeFromPause();
     await _s.status.clear();
     if (_disposed) return;
+    if (_awayOpen) {
+      _awayOpen = false;
+      // Back on the paper. Past the end (time ran out while away) the end event closes the away.
+      if (canAnswer && questions.isNotEmpty) await _trace(() => _journal.recordPresence(currentQuestion.id, _clock, away: false));
+    }
     final paused = _pausedAt;
     _pausedAt = null;
     if (paused != null) {
@@ -589,10 +652,14 @@ class SessionEngine extends ChangeNotifier {
   /// Submits once. `Sending` runs from the call until `POST /api/attempts` answers; only a 200
   /// is `received`. On a network failure the answers stay on the phone with `pendingSubmission`
   /// set, and calling again (or the background job) retries until `endsAt + 120 s`.
-  Future<SubmitOutcome> submit({bool timedOut = false}) async {
+  ///
+  /// The first call writes the paper's `end` event: [endReason] when given (the NTA third
+  /// warning), else time up or the student's own submit.
+  Future<SubmitOutcome> submit({bool timedOut = false, String? endReason}) async {
     if (_submitStarted && submitState.value.stage == SubmitStage.sending) {
       return submitState.value.outcome ?? const SubmitPending(ApiError(kind: ApiErrorKind.unknown, code: 'in_flight'));
     }
+    final firstEnd = !_submitStarted;
     _submitStarted = true;
     _timedOut = _timedOut || timedOut;
     _ticker?.cancel();
@@ -603,6 +670,7 @@ class SessionEngine extends ChangeNotifier {
     // submit (the answers are on the phone and the submit is owed), never a screen with no exit.
     SubmitOutcome outcome;
     try {
+      if (firstEnd) await _recordEnd(endReason ?? (_timedOut ? SessionEndReason.timeUp : SessionEndReason.submit));
       // A tap still being written is part of the paper.
       await _journal.idle();
       try {
@@ -653,6 +721,20 @@ class SessionEngine extends ChangeNotifier {
   }
 
   // Internals.
+
+  /// The paper's `end` event, once: a journal that already ends with one (a submit owed from before
+  /// a restart) keeps it. Never fails the submit.
+  Future<void> _recordEnd(String reason) async {
+    if (questions.isEmpty) return;
+    try {
+      await _journal.idle();
+      final events = _journal.events;
+      if (events.isNotEmpty && events.last.type == SessionEvent.end) return;
+      await _journal.recordEnd(currentQuestion.id, reason, _clock, maxAt: _clock.durationMs);
+    } on Object {
+      // The submit carries `endedBy` as well.
+    }
+  }
 
   /// A submit can finish after the screen closed the engine; late results must not touch the
   /// disposed notifiers.

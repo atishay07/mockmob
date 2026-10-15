@@ -62,7 +62,9 @@ enum OptionMark { none, yours, correct }
 /// The key reveal, on one 1100 ms clock (the website's FoldLine beat): your pick settles 4 dp into
 /// place and "Your answer" fades in; 120 ms after it lands the correct option's outline strokes
 /// round, then its bubble fills and "Correct answer" fades in, with one light haptic as the fill
-/// lands. Each part reads its own window of the clock.
+/// lands. As the outline closes the option's surface and its words warm into the key's over
+/// [landEnd] (no snap), and the border becomes the same 2 px line the stroke drew. Each part
+/// reads its own window of the clock.
 abstract final class KeyRevealTiming {
   static const Duration total = Duration(milliseconds: 1100);
   static const double settleEnd = 300 / 1100;
@@ -71,6 +73,9 @@ abstract final class KeyRevealTiming {
   static const double strokeStart = 420 / 1100;
   static const double strokeEnd = 800 / 1100;
   static const double keyWordStart = 860 / 1100;
+
+  /// The key option's surface and words finish warming into place here.
+  static const double landEnd = 980 / 1100;
 
   /// How far the pick drops as it settles.
   static const double settle = 4;
@@ -220,11 +225,14 @@ class MarkedOption extends StatelessWidget {
         ? KeyRevealTiming.settle * (1 - Motion.out.transform(KeyRevealTiming.window(t, 0, KeyRevealTiming.settleEnd)))
         : 0.0;
     final strong = mark == OptionMark.correct && keyLanded;
-    final textColor = strong ? colors.ink : colors.ink2;
+    // The key's surface and words warm in over the landing window rather than in one frame.
+    final land = strong ? Motion.out.transform(KeyRevealTiming.window(t, KeyRevealTiming.strokeEnd, KeyRevealTiming.landEnd)) : 0.0;
+    final surface = strong ? Color.lerp(colors.raised, fill, land)! : fill;
+    final textColor = strong ? Color.lerp(colors.ink2, colors.ink, land)! : colors.ink2;
     final drawing = mark == OptionMark.correct && reveal != null && !keyLanded;
     final box = DecoratedBox(
         decoration: ShapeDecoration(
-          color: fill,
+          color: surface,
           shape: mmShapeBorder(
             MmRadius.keyAll,
             side: BorderSide(color: border, width: strong ? 2 : 1),

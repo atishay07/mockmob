@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart' show Scrollable;
 import 'package:flutter/painting.dart' show Size;
 // The owner's bug (13 October): "Even when I'm starting from Business Studies ... it's just
 // redirecting me to the accounting page", and a 5-question practice that did not start 5. These
@@ -60,11 +59,14 @@ void main() {
     );
     await _settle(tester);
 
+    // The tiles sit under the quick pair: bring the strip into view before the pick.
+    await tester.ensureVisible(find.bySemanticsLabel(RegExp(r'^Business Studies')).first);
+    await tester.pump();
     await tester.tap(find.bySemanticsLabel(RegExp(r'^Business Studies')).first);
     await _settle(tester, 2);
     final quick = find.text('Quick practice').first;
-    // The modes sit below the suggestion and the tiles: scroll the page (not the tile strip) to them.
-    await tester.scrollUntilVisible(find.text('Quick practice'), 200, scrollable: find.byType(Scrollable).first);
+    // The quick pair sits under the suggestion, above the tiles just used: bring it back into view.
+    await tester.ensureVisible(find.text('Quick practice', skipOffstage: false).first);
     await tester.pump();
     await tester.tap(quick);
     await _settle(tester);
@@ -74,6 +76,7 @@ void main() {
     await _settle(tester);
     final start = find.widgetWithText(KeyButton, 'Start practice');
     await tester.ensureVisible(start);
+    await tester.pump();
     await tester.tap(start);
     await _settle(tester);
 

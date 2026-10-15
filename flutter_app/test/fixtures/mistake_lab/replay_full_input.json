@@ -1,0 +1,2596 @@
+{
+  "description": "Full mock, 50 questions, submitted at 59:58 on a return visit to Q22: the key crossed out (Q6, Q16 restored), right then changed later (Q17) and without leaving (Q31), Q8 changed to the key later, away 1m 10s on Q10 and 4m 10s on Q30, marks on Q20 (removed) and Q28 (kept), Q14 held, every question opened.",
+  "attempt": {
+    "id": "lab-replay-full-1",
+    "subject": "accountancy",
+    "completedAt": 1792132200000,
+    "questionsSnapshot": [
+      {
+        "id": "q1",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 1",
+        "options": [
+          "q1 statement one",
+          "q1 statement two",
+          "q1 statement three",
+          "q1 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q2",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 2",
+        "options": [
+          "q2 statement one",
+          "q2 statement two",
+          "q2 statement three",
+          "q2 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q3",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 3",
+        "options": [
+          "q3 statement one",
+          "q3 statement two",
+          "q3 statement three",
+          "q3 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q4",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 4",
+        "options": [
+          "q4 statement one",
+          "q4 statement two",
+          "q4 statement three",
+          "q4 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q5",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 5",
+        "options": [
+          "q5 statement one",
+          "q5 statement two",
+          "q5 statement three",
+          "q5 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q6",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 6",
+        "options": [
+          "q6 statement one",
+          "q6 statement two",
+          "q6 statement three",
+          "q6 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q7",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 7",
+        "options": [
+          "q7 statement one",
+          "q7 statement two",
+          "q7 statement three",
+          "q7 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q8",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 8",
+        "options": [
+          "q8 statement one",
+          "q8 statement two",
+          "q8 statement three",
+          "q8 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q9",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 9",
+        "options": [
+          "q9 statement one",
+          "q9 statement two",
+          "q9 statement three",
+          "q9 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q10",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 10",
+        "options": [
+          "q10 statement one",
+          "q10 statement two",
+          "q10 statement three",
+          "q10 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q11",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 11",
+        "options": [
+          "q11 statement one",
+          "q11 statement two",
+          "q11 statement three",
+          "q11 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q12",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 12",
+        "options": [
+          "q12 statement one",
+          "q12 statement two",
+          "q12 statement three",
+          "q12 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q13",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 13",
+        "options": [
+          "q13 statement one",
+          "q13 statement two",
+          "q13 statement three",
+          "q13 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q14",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 14",
+        "options": [
+          "q14 statement one",
+          "q14 statement two",
+          "q14 statement three",
+          "q14 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q15",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 15",
+        "options": [
+          "q15 statement one",
+          "q15 statement two",
+          "q15 statement three",
+          "q15 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q16",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 16",
+        "options": [
+          "q16 statement one",
+          "q16 statement two",
+          "q16 statement three",
+          "q16 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q17",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 17",
+        "options": [
+          "q17 statement one",
+          "q17 statement two",
+          "q17 statement three",
+          "q17 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q18",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 18",
+        "options": [
+          "q18 statement one",
+          "q18 statement two",
+          "q18 statement three",
+          "q18 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q19",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 19",
+        "options": [
+          "q19 statement one",
+          "q19 statement two",
+          "q19 statement three",
+          "q19 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q20",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 20",
+        "options": [
+          "q20 statement one",
+          "q20 statement two",
+          "q20 statement three",
+          "q20 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q21",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 21",
+        "options": [
+          "q21 statement one",
+          "q21 statement two",
+          "q21 statement three",
+          "q21 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q22",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 22",
+        "options": [
+          "q22 statement one",
+          "q22 statement two",
+          "q22 statement three",
+          "q22 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q23",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 23",
+        "options": [
+          "q23 statement one",
+          "q23 statement two",
+          "q23 statement three",
+          "q23 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q24",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 24",
+        "options": [
+          "q24 statement one",
+          "q24 statement two",
+          "q24 statement three",
+          "q24 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q25",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 25",
+        "options": [
+          "q25 statement one",
+          "q25 statement two",
+          "q25 statement three",
+          "q25 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q26",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 26",
+        "options": [
+          "q26 statement one",
+          "q26 statement two",
+          "q26 statement three",
+          "q26 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q27",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 27",
+        "options": [
+          "q27 statement one",
+          "q27 statement two",
+          "q27 statement three",
+          "q27 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q28",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 28",
+        "options": [
+          "q28 statement one",
+          "q28 statement two",
+          "q28 statement three",
+          "q28 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q29",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 29",
+        "options": [
+          "q29 statement one",
+          "q29 statement two",
+          "q29 statement three",
+          "q29 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q30",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 30",
+        "options": [
+          "q30 statement one",
+          "q30 statement two",
+          "q30 statement three",
+          "q30 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q31",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 31",
+        "options": [
+          "q31 statement one",
+          "q31 statement two",
+          "q31 statement three",
+          "q31 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q32",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 32",
+        "options": [
+          "q32 statement one",
+          "q32 statement two",
+          "q32 statement three",
+          "q32 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q33",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 33",
+        "options": [
+          "q33 statement one",
+          "q33 statement two",
+          "q33 statement three",
+          "q33 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q34",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 34",
+        "options": [
+          "q34 statement one",
+          "q34 statement two",
+          "q34 statement three",
+          "q34 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q35",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 35",
+        "options": [
+          "q35 statement one",
+          "q35 statement two",
+          "q35 statement three",
+          "q35 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q36",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 36",
+        "options": [
+          "q36 statement one",
+          "q36 statement two",
+          "q36 statement three",
+          "q36 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q37",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 37",
+        "options": [
+          "q37 statement one",
+          "q37 statement two",
+          "q37 statement three",
+          "q37 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q38",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 38",
+        "options": [
+          "q38 statement one",
+          "q38 statement two",
+          "q38 statement three",
+          "q38 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q39",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 39",
+        "options": [
+          "q39 statement one",
+          "q39 statement two",
+          "q39 statement three",
+          "q39 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q40",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 40",
+        "options": [
+          "q40 statement one",
+          "q40 statement two",
+          "q40 statement three",
+          "q40 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q41",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 41",
+        "options": [
+          "q41 statement one",
+          "q41 statement two",
+          "q41 statement three",
+          "q41 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q42",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 42",
+        "options": [
+          "q42 statement one",
+          "q42 statement two",
+          "q42 statement three",
+          "q42 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q43",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 43",
+        "options": [
+          "q43 statement one",
+          "q43 statement two",
+          "q43 statement three",
+          "q43 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q44",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 44",
+        "options": [
+          "q44 statement one",
+          "q44 statement two",
+          "q44 statement three",
+          "q44 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q45",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 45",
+        "options": [
+          "q45 statement one",
+          "q45 statement two",
+          "q45 statement three",
+          "q45 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q46",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 46",
+        "options": [
+          "q46 statement one",
+          "q46 statement two",
+          "q46 statement three",
+          "q46 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "q47",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 47",
+        "options": [
+          "q47 statement one",
+          "q47 statement two",
+          "q47 statement three",
+          "q47 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "q48",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 48",
+        "options": [
+          "q48 statement one",
+          "q48 statement two",
+          "q48 statement three",
+          "q48 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "q49",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 49",
+        "options": [
+          "q49 statement one",
+          "q49 statement two",
+          "q49 statement three",
+          "q49 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "q50",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 50",
+        "options": [
+          "q50 statement one",
+          "q50 statement two",
+          "q50 statement three",
+          "q50 statement four"
+        ],
+        "correctIndex": 2
+      }
+    ],
+    "details": [
+      {
+        "qid": "q1",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q2",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "q3",
+        "givenIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "qid": "q4",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "q5",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "q6",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "q7",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "q8",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "q9",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q10",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "q11",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "q12",
+        "givenIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "qid": "q13",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q14",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "q15",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "q16",
+        "givenIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "qid": "q17",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "q18",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "q19",
+        "givenIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "qid": "q20",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "q21",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q22",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "q23",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "q24",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "q25",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q26",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "q27",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "q28",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "q29",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q30",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "q31",
+        "givenIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "qid": "q32",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "q33",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "q34",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "q35",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "q36",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "q37",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q38",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "q39",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "q40",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "q41",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q42",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "q43",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "q44",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "q45",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "q46",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "q47",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "q48",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "q49",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "q50",
+        "givenIndex": 2,
+        "isCorrect": true
+      }
+    ],
+    "selectionMeta": {
+      "mode": "full",
+      "durationMinutes": 60,
+      "scoringVersion": "server_snapshot_v1",
+      "recovery": {
+        "version": 1,
+        "scoring": "server_snapshot",
+        "telemetry": "self_reported",
+        "observed": {
+          "answerChanges": [
+            {
+              "qid": "q22",
+              "at": 1234000,
+              "before": 3,
+              "after": 0,
+              "markEffect": 0
+            },
+            {
+              "qid": "q31",
+              "at": 2034000,
+              "before": 1,
+              "after": 3,
+              "markEffect": -6
+            },
+            {
+              "qid": "q40",
+              "at": 2433000,
+              "before": 2,
+              "after": null,
+              "markEffect": 1
+            },
+            {
+              "qid": "q8",
+              "at": 2936000,
+              "before": 2,
+              "after": 0,
+              "markEffect": 6
+            },
+            {
+              "qid": "q17",
+              "at": 3061000,
+              "before": 3,
+              "after": 1,
+              "markEffect": -6
+            }
+          ],
+          "lostOnChanges": 12,
+          "netFirstToFinal": -5,
+          "unanswered": 3
+        },
+        "timeline": [
+          {
+            "seq": 1,
+            "qid": "q1",
+            "at": 0,
+            "type": "visit"
+          },
+          {
+            "seq": 2,
+            "qid": "q1",
+            "at": 30000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 3,
+            "qid": "q2",
+            "at": 50000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 4,
+            "qid": "q2",
+            "at": 80000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 5,
+            "qid": "q3",
+            "at": 100000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 6,
+            "qid": "q3",
+            "at": 108000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 7,
+            "qid": "q4",
+            "at": 112000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 8,
+            "qid": "q4",
+            "at": 142000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 9,
+            "qid": "q5",
+            "at": 162000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 10,
+            "qid": "q5",
+            "at": 302000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 11,
+            "qid": "q6",
+            "at": 312000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 13,
+            "qid": "q6",
+            "at": 347000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 14,
+            "qid": "q7",
+            "at": 357000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 15,
+            "qid": "q7",
+            "at": 387000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 16,
+            "qid": "q8",
+            "at": 407000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 17,
+            "qid": "q8",
+            "at": 437000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 18,
+            "qid": "q9",
+            "at": 447000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 19,
+            "qid": "q9",
+            "at": 477000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 20,
+            "qid": "q10",
+            "at": 497000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 23,
+            "qid": "q10",
+            "at": 607000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 24,
+            "qid": "q11",
+            "at": 622000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 26,
+            "qid": "q11",
+            "at": 647000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 27,
+            "qid": "q12",
+            "at": 657000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 28,
+            "qid": "q12",
+            "at": 782000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 29,
+            "qid": "q13",
+            "at": 792000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 30,
+            "qid": "q13",
+            "at": 822000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 31,
+            "qid": "q14",
+            "at": 842000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 32,
+            "qid": "q14",
+            "at": 867000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 33,
+            "qid": "q15",
+            "at": 882000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 34,
+            "qid": "q15",
+            "at": 912000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 35,
+            "qid": "q16",
+            "at": 932000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 38,
+            "qid": "q16",
+            "at": 972000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 39,
+            "qid": "q17",
+            "at": 982000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 40,
+            "qid": "q17",
+            "at": 1002000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 41,
+            "qid": "q18",
+            "at": 1042000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 42,
+            "qid": "q18",
+            "at": 1072000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 43,
+            "qid": "q19",
+            "at": 1092000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 44,
+            "qid": "q19",
+            "at": 1100000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 45,
+            "qid": "q20",
+            "at": 1104000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 47,
+            "qid": "q21",
+            "at": 1134000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 48,
+            "qid": "q21",
+            "at": 1164000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 49,
+            "qid": "q22",
+            "at": 1184000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 50,
+            "qid": "q22",
+            "at": 1204000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 51,
+            "qid": "q22",
+            "at": 1234000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 52,
+            "qid": "q23",
+            "at": 1244000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 53,
+            "qid": "q23",
+            "at": 1274000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 54,
+            "qid": "q24",
+            "at": 1294000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 55,
+            "qid": "q24",
+            "at": 1324000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 56,
+            "qid": "q25",
+            "at": 1344000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 57,
+            "qid": "q25",
+            "at": 1374000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 58,
+            "qid": "q26",
+            "at": 1394000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 59,
+            "qid": "q26",
+            "at": 1429000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 60,
+            "qid": "q27",
+            "at": 1439000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 61,
+            "qid": "q27",
+            "at": 1469000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 62,
+            "qid": "q28",
+            "at": 1489000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 64,
+            "qid": "q29",
+            "at": 1614000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 65,
+            "qid": "q29",
+            "at": 1644000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 66,
+            "qid": "q30",
+            "at": 1664000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 69,
+            "qid": "q30",
+            "at": 1944000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 70,
+            "qid": "q31",
+            "at": 1964000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 71,
+            "qid": "q31",
+            "at": 1979000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 72,
+            "qid": "q31",
+            "at": 2034000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 73,
+            "qid": "q32",
+            "at": 2044000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 74,
+            "qid": "q32",
+            "at": 2074000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 75,
+            "qid": "q33",
+            "at": 2094000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 76,
+            "qid": "q33",
+            "at": 2102000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 77,
+            "qid": "q34",
+            "at": 2106000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 78,
+            "qid": "q34",
+            "at": 2136000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 79,
+            "qid": "q35",
+            "at": 2156000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 80,
+            "qid": "q35",
+            "at": 2186000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 81,
+            "qid": "q36",
+            "at": 2206000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 82,
+            "qid": "q36",
+            "at": 2236000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 83,
+            "qid": "q37",
+            "at": 2256000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 84,
+            "qid": "q37",
+            "at": 2286000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 85,
+            "qid": "q38",
+            "at": 2306000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 86,
+            "qid": "q38",
+            "at": 2341000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 87,
+            "qid": "q39",
+            "at": 2351000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 88,
+            "qid": "q39",
+            "at": 2381000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 89,
+            "qid": "q40",
+            "at": 2401000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 90,
+            "qid": "q40",
+            "at": 2416000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 91,
+            "qid": "q40",
+            "at": 2433000,
+            "type": "answer",
+            "answer": null
+          },
+          {
+            "seq": 92,
+            "qid": "q41",
+            "at": 2441000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 93,
+            "qid": "q41",
+            "at": 2471000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 94,
+            "qid": "q42",
+            "at": 2491000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 95,
+            "qid": "q42",
+            "at": 2526000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 96,
+            "qid": "q43",
+            "at": 2536000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 97,
+            "qid": "q43",
+            "at": 2566000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 98,
+            "qid": "q44",
+            "at": 2586000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 99,
+            "qid": "q44",
+            "at": 2616000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 100,
+            "qid": "q45",
+            "at": 2636000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 101,
+            "qid": "q45",
+            "at": 2666000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 102,
+            "qid": "q46",
+            "at": 2686000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 103,
+            "qid": "q46",
+            "at": 2716000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 104,
+            "qid": "q47",
+            "at": 2736000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 105,
+            "qid": "q48",
+            "at": 2766000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 106,
+            "qid": "q48",
+            "at": 2796000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 107,
+            "qid": "q49",
+            "at": 2816000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 108,
+            "qid": "q49",
+            "at": 2851000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 109,
+            "qid": "q50",
+            "at": 2861000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 110,
+            "qid": "q50",
+            "at": 2891000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 111,
+            "qid": "q8",
+            "at": 2911000,
+            "type": "visit",
+            "via": "palette"
+          },
+          {
+            "seq": 112,
+            "qid": "q8",
+            "at": 2936000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 113,
+            "qid": "q20",
+            "at": 2941000,
+            "type": "visit",
+            "via": "palette"
+          },
+          {
+            "seq": 114,
+            "qid": "q20",
+            "at": 2961000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 116,
+            "qid": "q17",
+            "at": 2971000,
+            "type": "visit",
+            "via": "palette"
+          },
+          {
+            "seq": 117,
+            "qid": "q17",
+            "at": 3061000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 118,
+            "qid": "q22",
+            "at": 3066000,
+            "type": "visit",
+            "via": "palette"
+          }
+        ],
+        "marks": [
+          {
+            "seq": 46,
+            "qid": "q20",
+            "at": 1119000,
+            "marked": true
+          },
+          {
+            "seq": 63,
+            "qid": "q28",
+            "at": 1549000,
+            "marked": true
+          },
+          {
+            "seq": 115,
+            "qid": "q20",
+            "at": 2963000,
+            "marked": false
+          }
+        ],
+        "presence": [
+          {
+            "seq": 21,
+            "qid": "q10",
+            "at": 517000,
+            "type": "away"
+          },
+          {
+            "seq": 22,
+            "qid": "q10",
+            "at": 587000,
+            "type": "back"
+          },
+          {
+            "seq": 67,
+            "qid": "q30",
+            "at": 1674000,
+            "type": "away"
+          },
+          {
+            "seq": 68,
+            "qid": "q30",
+            "at": 1914000,
+            "type": "back"
+          }
+        ],
+        "strikes": [
+          {
+            "seq": 12,
+            "qid": "q6",
+            "at": 322000,
+            "option": 2,
+            "on": true
+          },
+          {
+            "seq": 25,
+            "qid": "q11",
+            "at": 630000,
+            "option": 2,
+            "on": true
+          },
+          {
+            "seq": 36,
+            "qid": "q16",
+            "at": 937000,
+            "option": 0,
+            "on": true
+          },
+          {
+            "seq": 37,
+            "qid": "q16",
+            "at": 947000,
+            "option": 0,
+            "on": false
+          }
+        ],
+        "end": {
+          "seq": 119,
+          "qid": "q22",
+          "at": 3106000,
+          "reason": "submit"
+        },
+        "recommendation": {
+          "kind": "concept_repair",
+          "title": "Practise one concept you missed",
+          "reason": "Suggested from this attempt; a fresh check is needed before claiming improvement."
+        }
+      },
+      "client": {
+        "platform": "web",
+        "appVersion": "2026.10.16",
+        "startedAt": 1792128600000
+      },
+      "endedBy": "submit"
+    }
+  },
+  "answerReviews": {
+    "q14": {
+      "state": "under_review"
+    }
+  },
+  "events": [
+    {
+      "seq": 1,
+      "qid": "q1",
+      "at": 0,
+      "type": "visit"
+    },
+    {
+      "seq": 2,
+      "qid": "q1",
+      "at": 30000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 3,
+      "qid": "q2",
+      "at": 50000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 4,
+      "qid": "q2",
+      "at": 80000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 5,
+      "qid": "q3",
+      "at": 100000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 6,
+      "qid": "q3",
+      "at": 108000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 7,
+      "qid": "q4",
+      "at": 112000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 8,
+      "qid": "q4",
+      "at": 142000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 9,
+      "qid": "q5",
+      "at": 162000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 10,
+      "qid": "q5",
+      "at": 302000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 11,
+      "qid": "q6",
+      "at": 312000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 12,
+      "qid": "q6",
+      "at": 322000,
+      "type": "strike",
+      "option": 2,
+      "on": true
+    },
+    {
+      "seq": 13,
+      "qid": "q6",
+      "at": 347000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 14,
+      "qid": "q7",
+      "at": 357000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 15,
+      "qid": "q7",
+      "at": 387000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 16,
+      "qid": "q8",
+      "at": 407000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 17,
+      "qid": "q8",
+      "at": 437000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 18,
+      "qid": "q9",
+      "at": 447000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 19,
+      "qid": "q9",
+      "at": 477000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 20,
+      "qid": "q10",
+      "at": 497000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 21,
+      "qid": "q10",
+      "at": 517000,
+      "type": "away"
+    },
+    {
+      "seq": 22,
+      "qid": "q10",
+      "at": 587000,
+      "type": "back"
+    },
+    {
+      "seq": 23,
+      "qid": "q10",
+      "at": 607000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 24,
+      "qid": "q11",
+      "at": 622000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 25,
+      "qid": "q11",
+      "at": 630000,
+      "type": "strike",
+      "option": 2,
+      "on": true
+    },
+    {
+      "seq": 26,
+      "qid": "q11",
+      "at": 647000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 27,
+      "qid": "q12",
+      "at": 657000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 28,
+      "qid": "q12",
+      "at": 782000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 29,
+      "qid": "q13",
+      "at": 792000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 30,
+      "qid": "q13",
+      "at": 822000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 31,
+      "qid": "q14",
+      "at": 842000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 32,
+      "qid": "q14",
+      "at": 867000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 33,
+      "qid": "q15",
+      "at": 882000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 34,
+      "qid": "q15",
+      "at": 912000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 35,
+      "qid": "q16",
+      "at": 932000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 36,
+      "qid": "q16",
+      "at": 937000,
+      "type": "strike",
+      "option": 0,
+      "on": true
+    },
+    {
+      "seq": 37,
+      "qid": "q16",
+      "at": 947000,
+      "type": "strike",
+      "option": 0,
+      "on": false
+    },
+    {
+      "seq": 38,
+      "qid": "q16",
+      "at": 972000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 39,
+      "qid": "q17",
+      "at": 982000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 40,
+      "qid": "q17",
+      "at": 1002000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 41,
+      "qid": "q18",
+      "at": 1042000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 42,
+      "qid": "q18",
+      "at": 1072000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 43,
+      "qid": "q19",
+      "at": 1092000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 44,
+      "qid": "q19",
+      "at": 1100000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 45,
+      "qid": "q20",
+      "at": 1104000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 46,
+      "qid": "q20",
+      "at": 1119000,
+      "type": "mark",
+      "marked": true
+    },
+    {
+      "seq": 47,
+      "qid": "q21",
+      "at": 1134000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 48,
+      "qid": "q21",
+      "at": 1164000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 49,
+      "qid": "q22",
+      "at": 1184000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 50,
+      "qid": "q22",
+      "at": 1204000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 51,
+      "qid": "q22",
+      "at": 1234000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 52,
+      "qid": "q23",
+      "at": 1244000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 53,
+      "qid": "q23",
+      "at": 1274000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 54,
+      "qid": "q24",
+      "at": 1294000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 55,
+      "qid": "q24",
+      "at": 1324000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 56,
+      "qid": "q25",
+      "at": 1344000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 57,
+      "qid": "q25",
+      "at": 1374000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 58,
+      "qid": "q26",
+      "at": 1394000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 59,
+      "qid": "q26",
+      "at": 1429000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 60,
+      "qid": "q27",
+      "at": 1439000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 61,
+      "qid": "q27",
+      "at": 1469000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 62,
+      "qid": "q28",
+      "at": 1489000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 63,
+      "qid": "q28",
+      "at": 1549000,
+      "type": "mark",
+      "marked": true
+    },
+    {
+      "seq": 64,
+      "qid": "q29",
+      "at": 1614000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 65,
+      "qid": "q29",
+      "at": 1644000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 66,
+      "qid": "q30",
+      "at": 1664000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 67,
+      "qid": "q30",
+      "at": 1674000,
+      "type": "away"
+    },
+    {
+      "seq": 68,
+      "qid": "q30",
+      "at": 1914000,
+      "type": "back"
+    },
+    {
+      "seq": 69,
+      "qid": "q30",
+      "at": 1944000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 70,
+      "qid": "q31",
+      "at": 1964000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 71,
+      "qid": "q31",
+      "at": 1979000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 72,
+      "qid": "q31",
+      "at": 2034000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 73,
+      "qid": "q32",
+      "at": 2044000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 74,
+      "qid": "q32",
+      "at": 2074000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 75,
+      "qid": "q33",
+      "at": 2094000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 76,
+      "qid": "q33",
+      "at": 2102000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 77,
+      "qid": "q34",
+      "at": 2106000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 78,
+      "qid": "q34",
+      "at": 2136000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 79,
+      "qid": "q35",
+      "at": 2156000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 80,
+      "qid": "q35",
+      "at": 2186000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 81,
+      "qid": "q36",
+      "at": 2206000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 82,
+      "qid": "q36",
+      "at": 2236000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 83,
+      "qid": "q37",
+      "at": 2256000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 84,
+      "qid": "q37",
+      "at": 2286000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 85,
+      "qid": "q38",
+      "at": 2306000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 86,
+      "qid": "q38",
+      "at": 2341000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 87,
+      "qid": "q39",
+      "at": 2351000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 88,
+      "qid": "q39",
+      "at": 2381000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 89,
+      "qid": "q40",
+      "at": 2401000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 90,
+      "qid": "q40",
+      "at": 2416000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 91,
+      "qid": "q40",
+      "at": 2433000,
+      "type": "answer",
+      "answer": null
+    },
+    {
+      "seq": 92,
+      "qid": "q41",
+      "at": 2441000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 93,
+      "qid": "q41",
+      "at": 2471000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 94,
+      "qid": "q42",
+      "at": 2491000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 95,
+      "qid": "q42",
+      "at": 2526000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 96,
+      "qid": "q43",
+      "at": 2536000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 97,
+      "qid": "q43",
+      "at": 2566000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 98,
+      "qid": "q44",
+      "at": 2586000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 99,
+      "qid": "q44",
+      "at": 2616000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 100,
+      "qid": "q45",
+      "at": 2636000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 101,
+      "qid": "q45",
+      "at": 2666000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 102,
+      "qid": "q46",
+      "at": 2686000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 103,
+      "qid": "q46",
+      "at": 2716000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 104,
+      "qid": "q47",
+      "at": 2736000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 105,
+      "qid": "q48",
+      "at": 2766000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 106,
+      "qid": "q48",
+      "at": 2796000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 107,
+      "qid": "q49",
+      "at": 2816000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 108,
+      "qid": "q49",
+      "at": 2851000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 109,
+      "qid": "q50",
+      "at": 2861000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 110,
+      "qid": "q50",
+      "at": 2891000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 111,
+      "qid": "q8",
+      "at": 2911000,
+      "type": "visit",
+      "via": "palette"
+    },
+    {
+      "seq": 112,
+      "qid": "q8",
+      "at": 2936000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 113,
+      "qid": "q20",
+      "at": 2941000,
+      "type": "visit",
+      "via": "palette"
+    },
+    {
+      "seq": 114,
+      "qid": "q20",
+      "at": 2961000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 115,
+      "qid": "q20",
+      "at": 2963000,
+      "type": "mark",
+      "marked": false
+    },
+    {
+      "seq": 116,
+      "qid": "q17",
+      "at": 2971000,
+      "type": "visit",
+      "via": "palette"
+    },
+    {
+      "seq": 117,
+      "qid": "q17",
+      "at": 3061000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 118,
+      "qid": "q22",
+      "at": 3066000,
+      "type": "visit",
+      "via": "palette"
+    },
+    {
+      "seq": 119,
+      "qid": "q22",
+      "at": 3106000,
+      "type": "end",
+      "reason": "submit"
+    }
+  ]
+}

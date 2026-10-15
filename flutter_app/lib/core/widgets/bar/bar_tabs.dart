@@ -35,11 +35,13 @@ int? slotToBranch(int slot) => switch (slot) {
 /// The visual slot of a shell branch.
 int branchToSlot(int branch) => branch < 2 ? branch : branch + 1;
 
-/// The spoken name of a tab: "Review, tab 3 of 4, 3 to repair tonight". Start is not a tab, so
-/// the tabs count to four. "Selected" comes from the selected flag.
+/// The spoken name of a tab: "Review, tab 3 of 4, 4 open mistakes to repair". Start is not a tab,
+/// so the tabs count to four. "Selected" comes from the selected flag. Review's count is tonight's
+/// chapter's open mistakes, the noun Today's hero uses for the same number ("3 of the 4 open
+/// mistakes in ..."), and it names no time of day: the badge is the same at 9 AM and at 11 PM.
 String barTabSemanticsLabel(int branch, {int reviewCount = 0, bool reviewDot = false, bool youDot = false}) {
   final base = '${kBarTabs[branch].label}, tab ${branch + 1} of ${kBarTabs.length}';
-  if (branch == 2 && reviewCount > 0) return '$base, $reviewCount to repair tonight';
+  if (branch == 2 && reviewCount > 0) return '$base, $reviewCount open ${reviewCount == 1 ? 'mistake' : 'mistakes'} to repair';
   if (branch == 2 && reviewDot) return '$base, a result is waiting';
   if (branch == 3 && youDot) return '$base, needs your attention';
   return base;

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
+import '../../../core/models/session.dart' show SessionVia;
 import '../../../core/router/routes.dart';
 import '../../../core/sync/session/session_engine.dart';
 import '../../../core/motion/motion.dart';
@@ -104,7 +105,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
   /// A count on the sheet card takes the student back to the first question it counts.
   void _goToQuestion(int index) {
     if (_s.submitState.value.stage != SubmitStage.idle) return;
-    unawaited(_s.goTo(index));
+    unawaited(_s.goTo(index, via: SessionVia.palette));
     _keepWorking();
   }
 

@@ -1,4 +1,5 @@
 import '../../api/api_error.dart';
+import '../../models/session.dart';
 import '../../models/session_draft.dart';
 import '../../repositories/pending_result_repository.dart';
 import '../../repositories/session_draft_repository.dart';
@@ -57,6 +58,7 @@ class SessionSubmitter {
     required this.pendingResults,
     required this.cacheAttempt,
     this.signedInUserId,
+    this.appVersion,
     DateTime Function()? now,
   }) : _now = now ?? DateTime.now;
 
@@ -72,7 +74,32 @@ class SessionSubmitter {
   /// attempts cache and the result note would land in the other account. Null when the stores
   /// are already pinned to one user (the background job).
   final String? Function()? signedInUserId;
+
+  /// This build's version for the submit's `client` meta ("1.0.0"); empty or null leaves it out.
+  final String Function()? appVersion;
   final DateTime Function() _now;
+
+  /// The attempt meta sent with the submit (spec 6, item 6): which runner (`android`), its version
+  /// and the paper's start on this phone's clock, and how the paper ended when its record says so.
+  /// A description of the device: the server stores it and never scores with it.
+  Map<String, Object?> submitMeta(SessionDraft draft, List<SessionEvent> events) {
+    if (!kRichSessionEvents) return const {};
+    String version;
+    try {
+      version = appVersion?.call() ?? '';
+    } on Object {
+      version = '';
+    }
+    final last = events.isEmpty ? null : events.last;
+    return {
+      'client': {
+        'platform': 'android',
+        if (version.isNotEmpty) 'appVersion': version,
+        if (draft.startedRefWallMs > 0) 'startedAt': draft.startedRefWallMs,
+      },
+      if (last != null && last.type == SessionEvent.end && last.reason != null) 'endedBy': last.reason,
+    };
+  }
 
   /// True while the account that owns [draft] is still the one the stores write for.
   bool _ownerSignedIn(SessionDraft draft) {
@@ -96,11 +123,13 @@ class SessionSubmitter {
     }
 
     try {
+      final events = journal.eventsWithin(durationMs);
       final attempt = await api.submit(
         sessionId: draft.sessionId,
         sessionTicket: draft.view.meta.sessionTicket,
         answers: journal.answers,
-        events: journal.eventsWithin(durationMs),
+        events: events,
+        meta: submitMeta(draft, events),
         // Only ever with the owner's token: sent with another account's, the server would refuse
         // the paper and the refusal would end it. The guard's refusal is not definitive, so the
         // submit stays owed and goes out once the owner is signed in again.

@@ -55,6 +55,28 @@ git-ignored.
 
 ## 3. Build the bundle
 
+**Ship order for the Mistake Lab capture (15 Oct 2026).** The app records how each question was
+reached, marks, strike-outs, time away and the end of the paper, and sends `client` and `endedBy`
+with the submit (`lib/core/models/session.dart`, `kRichSessionEvents`, on by default). Only the
+server from web branch `web/alive-1015` (commit 49760343 and later; the submit page's `sheet` visit
+from dd7a45e9) accepts the new event types.
+The earlier server validates every event strictly: it refuses the whole in-progress save of a paper
+that carries `away`, `back`, `strike` or `end` (`invalid_event_sequence`), and for a paper that is
+not from the legacy bank the submit itself is refused. The app no longer loses a paper to that:
+`OldServerFallbackApi` (`lib/core/sync/session/old_server_fallback.dart`) sends the refused save or
+submit again with the event set the older server knows (answers, visits and, where that server
+takes them, marks; a slice-2 server from before web commit dd7a45e9 gets the submit page's visit
+without its `sheet` value), and keeps to that set for the rest of the app's run. What such a server never
+receives is the new trace (time away, strike-outs, the end). One gap stays: a practice paper (ticket
+mode, no save before the submit) is never refused, only scored with its record marked invalid, so
+the first one of an app run that reaches the older server has no timing; the app learns from that
+reply and sends the older set for the rest of the run. A second gap: when the server is deployed while a
+paper is in progress and the app restarts (or the background job submits) before that paper ends, the
+app starts again from the full log, which no longer matches the older set the server stored, and the
+save and the submit meet `EVENT_CONFLICT`. So deploy that server to production first all the
+same; `--dart-define=MOCKMOB_CAPTURE_V2=false` still turns the capture off entirely. NTA papers are
+unchanged on screen either way.
+
 ```bash
 bash tool/flutter_locked.sh build appbundle --release \
   --dart-define-from-file=dart_defines/prod.json \

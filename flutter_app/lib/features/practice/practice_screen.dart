@@ -35,8 +35,10 @@ import 'widgets/subject_tiles.dart';
 import 'widgets/suggestion_hero.dart';
 
 /// The Practice tab (brief 12): one suggested session at the top, lit, with the reason from the
-/// student's own record; then "Choose your own" (subject, mode, and the length on the confirm
-/// sheet); then the Concepts shelf when study content is on. No cost appears on this screen.
+/// student's own record; straight under it the quick pair (Quick practice, By chapter) in the
+/// chosen subject; then "Choose your own": the subject tiles and the longer sessions (the length
+/// is on the confirm sheet); then the Concepts shelf when study content is on. No cost appears
+/// on this screen.
 class PracticeScreen extends ConsumerStatefulWidget {
   const PracticeScreen({super.key});
 
@@ -60,10 +62,12 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   PracticeQuote? _lastSmart;
   PracticeQuote? _lastNta;
 
-  // The page stages one entrance when it first opens (MmStagger). The modes deck waits for the
-  // blocks above it that once; a deck that rises again for a new subject does not wait at all.
+  // The page stages one entrance when it first opens (MmStagger). The two decks (the quick pair
+  // under the suggestion, the longer sessions under the tiles) wait for the blocks above them
+  // that once; a deck that rises again for a new subject does not wait at all.
   bool _entered = false;
-  static const int _deckSlot = 5;
+  static const int _quickSlot = 3;
+  static const int _deckSlot = 6;
 
   /// Mobi lives in the header: the screen drives his looks and his thinking, the widget owns his
   /// quiet clock and his tap. The entrance is decided once (a wave the first time today).
@@ -205,6 +209,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
 
     final bottom = MediaQuery.paddingOf(context).bottom;
     const gutter = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
+    final quickDelay = _entered ? Duration.zero : Motion.staggerStep * _quickSlot;
     final deckDelay = _entered ? Duration.zero : Motion.staggerStep * _deckSlot;
     _entered = true;
 
@@ -220,8 +225,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                // One authored entrance, in reading order: the header, the suggestion, the subjects,
-                // the subject line, then the modes deck (its own rows) and the shelves.
+                // One authored entrance, in reading order: the header, the suggestion, the subject
+                // line and the quick pair, the heading, the subjects, then the longer modes (their
+                // own rows) and the shelves.
                 child: MmStagger(
                   // The app's own pull (MOTION.md C10): the ring is the only thing that answers it,
                   // so the platform's stretch is off and the figures roll from what they showed.
@@ -282,43 +288,19 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                         index: 1,
                         child: Padding(padding: gutter, child: SuggestionHero(actionKey: _heroKey)),
                       ),
-                      // Group gap: the heading under the hero belongs to the page, not to a new
-                      // section, so no rule (SPACING.md 3.1).
+                      // Group gap. The quick ways in sit straight under the suggestion, under the line
+                      // that says which subject they start in, so on a 360 to 390 dp phone the first
+                      // view shows them whole to their notes, never a card starting under the dock
+                      // (recording v3, item 8). One list entry for the line and the pair, so they
+                      // are built together.
                       const SizedBox(height: MmRhythm.group),
-                      MmStaggerItem(
-                        index: 2,
-                        child: Padding(
-                          padding: gutter,
-                          child: SectionHeading(
-                            title: PracticeCopy.chooseOwn,
-                            action: PracticeCopy.editSubjects,
-                            onAction: () => openEditSubjects(context),
-                          ),
-                        ),
-                      ),
-                      // 12 to the tiles: the strip holds 4 of it as room for the chosen tile's lift.
-                      const SizedBox(height: MmRhythm.item - SubjectTiles.liftRoom),
-                      MmStaggerItem(
-                        index: 3,
-                        child: SubjectTiles(
-                          choices: choices,
-                          selectedId: subject,
-                          countFor: (id) => counts?[internalSubjectFor(id, catalog)],
-                          onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
-                          onPickedAt: _lookAtTile,
-                          onMore: others.isEmpty ? null : () => _pickOther(others),
-                        ),
-                      ),
-                      const SizedBox(height: MmSpace.s16),
-                      // One list entry for the subject line and the modes, so the modes are built
-                      // with the subject line even when the page is long (large text, short phone).
                       Padding(
                         padding: gutter,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             MmStaggerItem(
-                              index: 4,
+                              index: 2,
                               child: _SubjectLine(
                                 subjectId: subject,
                                 name: subjectNameFor(subject, catalog),
@@ -327,10 +309,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                             ),
                             const SizedBox(height: MmRhythm.item),
                             ChoiceDeck(
-                              startDelay: deckDelay,
-                              // Keyed by subject, so a new subject's deck rises in again: the modes
-                              // below visibly belong to the subject just picked.
-                              key: ValueKey('modes-$subject'),
+                              startDelay: quickDelay,
+                              // Keyed by subject, so a new subject's pair rises in again: the modes
+                              // visibly belong to the subject just picked.
+                              key: ValueKey('quick-modes-$subject'),
                               bleed: MmSpace.gutter,
                               rows: [
                                 ChoiceRow.pair(
@@ -349,42 +331,86 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                     onTap: () => _chapter(subject),
                                   ),
                                 ),
-                                if (showSmart)
-                                  ChoiceRow.wide(
-                                    ChoiceOption(
-                                      id: 'smart',
-                                      glyph: ChoiceGlyphKind.smart,
-                                      title: PracticeCopy.smartTitle,
-                                      tag: smartGated ? PracticeCopy.proTag : null,
-                                      note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
-                                      onTap: () => _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject)),
-                                    ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      // Group gap: "Choose your own" opens the strip that chooses the subject and the
+                      // longer sessions under it; it belongs to the page, so no rule (SPACING.md 3.1).
+                      const SizedBox(height: MmRhythm.group),
+                      MmStaggerItem(
+                        index: 4,
+                        child: Padding(
+                          padding: gutter,
+                          child: SectionHeading(
+                            title: PracticeCopy.chooseOwn,
+                            action: PracticeCopy.editSubjects,
+                            onAction: () => openEditSubjects(context),
+                          ),
+                        ),
+                      ),
+                      // 12 to the tiles: the strip holds 4 of it as room for the chosen tile's lift.
+                      const SizedBox(height: MmRhythm.item - SubjectTiles.liftRoom),
+                      MmStaggerItem(
+                        index: 5,
+                        // The tiles' objects lean with the page's own scroll (not the strip's
+                        // sideways one), as the objects in the cards above do.
+                        child: MmParallax(
+                          factor: 0,
+                          lean: true,
+                          child: SubjectTiles(
+                            choices: choices,
+                            selectedId: subject,
+                            countFor: (id) => counts?[internalSubjectFor(id, catalog)],
+                            onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
+                            onPickedAt: _lookAtTile,
+                            onMore: others.isEmpty ? null : () => _pickOther(others),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: MmSpace.s16),
+                      // The longer sessions of the same subject, under the strip that chooses it.
+                      Padding(
+                        padding: gutter,
+                        child: ChoiceDeck(
+                          startDelay: deckDelay,
+                          key: ValueKey('modes-$subject'),
+                          bleed: MmSpace.gutter,
+                          rows: [
+                            if (showSmart)
+                              ChoiceRow.wide(
+                                ChoiceOption(
+                                  id: 'smart',
+                                  glyph: ChoiceGlyphKind.smart,
+                                  title: PracticeCopy.smartTitle,
+                                  tag: smartGated ? PracticeCopy.proTag : null,
+                                  note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
+                                  onTap: () => _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject)),
+                                ),
+                              ),
+                            ChoiceRow.band(
+                              title: PracticeCopy.examBandTitle,
+                              rows: [
+                                _examRow(
+                                  full: ChoiceOption(
+                                    id: 'full',
+                                    glyph: ChoiceGlyphKind.mock,
+                                    title: PracticeCopy.fullMockTitle,
+                                    note: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
+                                    onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
                                   ),
-                                ChoiceRow.band(
-                                  title: PracticeCopy.examBandTitle,
-
-                                  rows: [
-                                    _examRow(
-                                      full: ChoiceOption(
-                                        id: 'full',
-                                        glyph: ChoiceGlyphKind.mock,
-                                        title: PracticeCopy.fullMockTitle,
-                                        note: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
-                                        onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
-                                      ),
-                                      nta: showNta
-                                          ? ChoiceOption(
-                                              id: 'nta',
-                                              glyph: ChoiceGlyphKind.nta,
-                                              title: PracticeCopy.ntaTitle,
-                                              tag: ntaGated ? PracticeCopy.proTag : null,
-                                              note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
-                                              // The exam's own instructions page: the clock starts only after it.
-                                              onTap: () => context.push(NtaRoutes.location(subject)),
-                                            )
-                                          : null,
-                                    ),
-                                  ],
+                                  nta: showNta
+                                      ? ChoiceOption(
+                                          id: 'nta',
+                                          glyph: ChoiceGlyphKind.nta,
+                                          title: PracticeCopy.ntaTitle,
+                                          tag: ntaGated ? PracticeCopy.proTag : null,
+                                          note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
+                                          // The exam's own instructions page: the clock starts only after it.
+                                          onTap: () => context.push(NtaRoutes.location(subject)),
+                                        )
+                                      : null,
                                 ),
                               ],
                             ),
@@ -394,7 +420,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                       // The exam band closes with its own rule, so the next section opens on air alone.
                       const SizedBox(height: MmSpace.s32),
                       MmStaggerItem(
-                        index: 6,
+                        index: 7,
                         child: Padding(
                           padding: gutter,
                           child: PracticeMoreRows(subject: subject),
