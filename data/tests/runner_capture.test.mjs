@@ -106,6 +106,18 @@ test('onScreenQid is the question in focus (the last answer or visit); endReason
   assert.equal(endReason([], { type: 'click' }), 'submit');
 });
 
+test('onScreenQid and endReason work on a browser without Array.prototype.findLast (it runs before the NTA submit check)', () => {
+  const original = Object.getOwnPropertyDescriptor(Array.prototype, 'findLast');
+  delete Array.prototype.findLast;
+  try {
+    assert.equal(onScreenQid([{ qid: 'q3', type: 'visit' }, { qid: 'q5', type: 'mark' }], 'q1'), 'q3');
+    assert.equal(onScreenQid(null, 'q1'), 'q1');
+    assert.equal(endReason([{ type: 'end', reason: 'nta_strikes' }, { type: 'back' }], undefined), 'nta_strikes');
+  } finally {
+    Object.defineProperty(Array.prototype, 'findLast', original);
+  }
+});
+
 test('captureMeta is the client meta and end reason the server keeps as they are', () => {
   const meta = captureMeta({ startedAt: Date.UTC(2026, 9, 15, 10, 0, 0) + 0.4, endedBy: 'time_up' });
   assert.deepEqual(meta.client, { platform: 'web', appVersion: RUNNER_VERSION, startedAt: Date.UTC(2026, 9, 15, 10) });

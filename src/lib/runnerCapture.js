@@ -70,12 +70,19 @@ export function nextEvent(events, clock, qid, type, value) {
  * current question. On a passage page this is the question moved to or last answered; elsewhere the one question shown.
  */
 export function onScreenQid(events, fallback) {
-  const focus = Array.isArray(events)
-    ? events.findLast((e) => e && (e.type === 'answer' || (e.type === 'visit' && e.via !== 'set')))
-    : null;
+  const focus = lastOf(events, (e) => e && (e.type === 'answer' || (e.type === 'visit' && e.via !== 'set')));
   return focus?.qid || fallback || null;
 }
 
+/**
+ * The last event that passes `test`, or null. A plain loop, not Array.prototype.findLast: Next.js does not polyfill
+ * it, and this runs in the NTA submit path, where capture must never throw on an older browser.
+ */
+function lastOf(events, test) {
+  if (!Array.isArray(events)) return null;
+  for (let i = events.length - 1; i >= 0; i--) if (test(events[i])) return events[i];
+  return null;
+}
 
 /**
  * Why the paper ends: the reason named now, else the reason of an end already in the record (a submit retried after
@@ -83,7 +90,7 @@ export function onScreenQid(events, fallback) {
  */
 export function endReason(events, named) {
   if (END_REASONS.includes(named)) return named;
-  const earlier = Array.isArray(events) ? events.findLast((e) => e?.type === 'end') : null;
+  const earlier = lastOf(events, (e) => e?.type === 'end');
   return END_REASONS.includes(earlier?.reason) ? earlier.reason : 'submit';
 }
 

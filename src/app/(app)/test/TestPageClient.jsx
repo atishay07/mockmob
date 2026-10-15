@@ -679,7 +679,12 @@ function TestRunner() {
   // changes because of either.
   const recordSheet = useCallback((open) => {
     if (!paperLive()) return;
-    recordEvent(onScreenQid(eventsRef.current, questionsRef.current[idxRef.current]?.id), 'visit', open ? 'sheet' : undefined);
+    // It runs just before the NTA submit check and the sheet opening: capture may never stop either.
+    try {
+      recordEvent(onScreenQid(eventsRef.current, questionsRef.current[idxRef.current]?.id), 'visit', open ? 'sheet' : undefined);
+    } catch {
+      // The record misses this sheet; the submit and the page go ahead exactly as without capture.
+    }
   }, [paperLive, recordEvent]);
   const closeReview = useCallback(() => {
     setReviewOpen(false);
