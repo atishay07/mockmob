@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -39,11 +40,43 @@ class RunPips extends StatelessWidget {
   }
 }
 
-class _Pip extends StatelessWidget {
+class _Pip extends StatefulWidget {
   const _Pip({required this.filled, required this.current});
 
   final bool filled;
   final bool current;
+
+  @override
+  State<_Pip> createState() => _PipState();
+}
+
+/// One pip. Its fill is a spring on the app's smooth physics ([Springs.smooth]), not a timed
+/// tween: it eases off the left edge and settles without a stop, and a run reopened part-way shows
+/// its done pips already full (nothing replays). Reduced motion fills at once. Transform only, on
+/// its own layer.
+class _PipState extends State<_Pip> with SingleTickerProviderStateMixin {
+  late final AnimationController _fill = AnimationController(
+    vsync: this,
+    value: widget.filled ? 1 : 0,
+  );
+
+  @override
+  void didUpdateWidget(_Pip old) {
+    super.didUpdateWidget(old);
+    if (old.filled == widget.filled) return;
+    final to = widget.filled ? 1.0 : 0.0;
+    if (Motion.reduced(context)) {
+      _fill.value = to;
+      return;
+    }
+    _fill.animateWith(SpringSimulation(Springs.smooth, _fill.value, to, 0));
+  }
+
+  @override
+  void dispose() {
+    _fill.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,17 +88,15 @@ class _Pip extends StatelessWidget {
           decoration: BoxDecoration(
             color: colors.line,
             borderRadius: BorderRadius.circular(3),
-            border: current ? Border.all(color: colors.ink, width: 1.5) : null,
+            border: widget.current ? Border.all(color: colors.ink, width: 1.5) : null,
           ),
         ),
-        TweenAnimationBuilder<double>(
-          tween: Tween(end: filled ? 1 : 0),
-          duration: Motion.of(context, Motion.ui),
-          curve: Motion.out,
-          builder: (context, t, child) => Transform(
+        AnimatedBuilder(
+          animation: _fill,
+          builder: (context, child) => Transform(
             alignment: Alignment.centerLeft,
-            transform: Matrix4.diagonal3Values(t, 1, 1),
-            child: t == 0 ? const SizedBox.shrink() : child,
+            transform: Matrix4.diagonal3Values(_fill.value, 1, 1),
+            child: _fill.value == 0 ? const SizedBox.shrink() : child,
           ),
           child: DecoratedBox(
             decoration: BoxDecoration(

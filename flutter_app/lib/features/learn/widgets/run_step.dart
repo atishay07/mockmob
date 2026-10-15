@@ -60,12 +60,33 @@ class _RunStepState extends ConsumerState<RunStep> {
   int? _selected;
   bool _hintShown = false;
 
+  /// The student answered this step on this phone just now (the server acknowledged it while this
+  /// widget was on screen), as opposed to a step reopened from a saved state: only then does the
+  /// result move, click and get its Mobi.
+  bool _answeredHere = false;
+
   @override
   void initState() {
     super.initState();
     final item = widget.ui.run?.currentItem;
     if (item != null && item.type == RunItemType.unknown) {
       LearnLog.unknownStep(wireType: '${item.raw['type']}', itemId: item.id);
+    }
+  }
+
+  @override
+  void didUpdateWidget(RunStep old) {
+    super.didUpdateWidget(old);
+    final was = old.ui.run;
+    final now = widget.ui.run;
+    if (was == null || now == null || was.revealed || !now.revealed) return;
+    if (was.currentItem?.id != now.currentItem?.id) return;
+    _answeredHere = true;
+    // One soft click for a right answer, and only once the server has said so (this runs on the
+    // acknowledged state). A miss gets none: nothing fires on a wrong answer.
+    final item = now.currentItem;
+    if (item != null && item.isChecked && now.currentFeedback?.correct == true) {
+      ref.read(hapticsProvider).settle();
     }
   }
 
@@ -208,9 +229,10 @@ class _RunStepState extends ConsumerState<RunStep> {
         prompt,
         const SizedBox(height: MmSpace.s16),
         if (item.type == RunItemType.choice)
-          // Picked becomes decided in one 200 ms cross-fade; the option rows keep their places.
-          AnimatedSwitcher(
-            duration: Motion.of(context, Motion.ui),
+          // Picked becomes decided in one overlapped cross-fade (the old rows hold until the new
+          // are half there, so the ground never shows through); the option rows keep their places.
+          MmOverlapSwitcher(
+            fit: StackFit.passthrough,
             child: KeyedSubtree(
               key: ValueKey(revealed),
               child: revealed
@@ -218,6 +240,7 @@ class _RunStepState extends ConsumerState<RunStep> {
                       options: item.options,
                       correct: item.answerIndex,
                       chosen: chosen == -1 ? null : chosen,
+                      animate: _answeredHere,
                     )
                   : LiveOptions(
                       options: item.options,
@@ -253,7 +276,23 @@ class _RunStepState extends ConsumerState<RunStep> {
         if (revealed && feedback != null) ...[
           const SizedBox(height: MmSpace.s16),
           RevealIn(
-            child: FeedbackPanel(feedback: feedback, item: item),
+            child: item.type != RunItemType.choice
+                ? MissNudge(
+                    play:
+                        _answeredHere &&
+                        feedback.correct == false &&
+                        !feedback.skipped,
+                    child: FeedbackPanel(
+                      feedback: feedback,
+                      item: item,
+                      animate: _answeredHere,
+                    ),
+                  )
+                : FeedbackPanel(
+                    feedback: feedback,
+                    item: item,
+                    animate: _answeredHere,
+                  ),
           ),
         ],
       ];
@@ -405,6 +444,9 @@ class _RunStepState extends ConsumerState<RunStep> {
             return KeyButton(
               label: LearnCopy.checkAnswer,
               loading: _sending,
+              // Nothing fires until the server has said which it was: a right answer then gets
+              // its one soft click, a miss none (see didUpdateWidget).
+              hapticOnCommit: false,
               onPressed: !ready || _sending
                   ? null
                   : () => isChoice
@@ -425,6 +467,7 @@ class _RunStepState extends ConsumerState<RunStep> {
               ),
             KeyButton.quiet(
               label: LearnCopy.dontKnow,
+              hapticOnCommit: false,
               onPressed: _sending
                   ? null
                   : () => a.answer(isChoice ? -1 : '', assisted: false),

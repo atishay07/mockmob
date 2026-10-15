@@ -15,6 +15,7 @@ import '../data/run_controller.dart';
 import '../models/run_item.dart';
 import '../widgets/run_pips.dart';
 import '../widgets/run_step.dart';
+import '../widgets/step_swap.dart';
 import '../widgets/screen_bits.dart';
 
 /// A study run (spec 5.9): recall cards or the guided lesson, one step at a time. Every step
@@ -216,18 +217,13 @@ class _LearnRunScreenState extends ConsumerState<LearnRunScreen> {
           advance: () => unawaited(controller.advance()),
           retry: () => unawaited(controller.flush()),
         );
-        // The step that is leaving fades out under the new one and takes no touches: a tap
-        // always lands on the step the student is looking at, and a tap during the arrival works.
-        return AnimatedSwitcher(
-          duration: Motion.of(context, Motion.runner),
-          transitionBuilder: (child, animation) => AnimatedBuilder(
-            animation: animation,
-            child: child,
-            builder: (context, child) => IgnorePointer(
-              ignoring: animation.status == AnimationStatus.reverse,
-              child: FadeTransition(opacity: animation, child: child),
-            ),
-          ),
+        // The step that is leaving goes the way its kind says (a rated card flies off on a
+        // spring, any other step steps off the axis) and takes no touches: a tap always lands on
+        // the step the student is looking at, and a tap during the arrival works. The swap
+        // happens when the server has acknowledged the event that moves the run on.
+        return StepSwap(
+          stepKey: '${run.cursor}:${item.id}',
+          rated: item.isSelfRated,
           child: RunStep(
             key: ValueKey('${run.cursor}:${item.id}'),
             ui: ui,
