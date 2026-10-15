@@ -101,15 +101,16 @@ html[data-theme='light'] .ft__shot .ts { box-shadow: 0 0 0 4px #262b22, 0 0 0 5p
   html[data-theme] .mm.lp .mm-nav { background: color-mix(in srgb, var(--paper) 62%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); }
   .mm.lp .mm-nav::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 26px; pointer-events: none; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
   html[data-theme] .mm.lp .mm-dock { left: .7rem; right: .7rem; bottom: calc(.55rem + env(safe-area-inset-bottom)); padding: .5rem .55rem .5rem .95rem; border: 1px solid var(--line-strong); border-radius: 22px; background: color-mix(in srgb, var(--paper-raised) 66%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 18px 40px -18px rgba(20,32,14,.5); transition: opacity 150ms ease, transform 150ms var(--ease-out); }
-  .lp .rv { filter: blur(6px); transition: opacity .8s var(--ease) var(--d, 0ms), transform .8s var(--ease) var(--d, 0ms), filter .8s var(--ease) var(--d, 0ms); }
-  .lp .rv[data-in="true"] { filter: none; }
+  /* Phones: reveals come into focus by rising and settling to full size (transform and opacity only; a blur
+     repainted large sections on every frame and stuttered under fast scrolls). */
+  .lp .rv { transform: translate3d(0, 1.5rem, 0) scale(.97); transform-origin: 50% 0; }
   .lp-hero__tool, .lp-hero__exam-link { display: none; }
 }
 @media (max-width: 700px) { .lp-cpro__list { display: none; } }
 @media (prefers-reduced-motion: reduce) {
   .ft__slide[data-active='true'] { animation: none; }
   .mm.lp .mm-dock { transition: none; }
-  .lp .rv { filter: none; }
+  .lp .rv { transform: none; }
 }
 @media (prefers-reduced-transparency: reduce) {
   .mm.lp .mm-nav, .mm.lp .mm-dock { -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -135,12 +136,17 @@ html[data-theme='light'] .ft__shot .ts { box-shadow: 0 0 0 4px #262b22, 0 0 0 5p
 .ft-story[data-pinned='true'] .ft__progress span[data-done='true'] { background: var(--line); }
 .ft-story[data-reduced='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none !important; transition: none; }
 .ft-story[data-reduced='true'] .ft__slide { transition-duration: var(--mm-dur-reduced-fade, 120ms); }
-/* Phones: the screen takes the height of its content (every tool's screen is about the same height, and
-   they share one cell), so the title and the one-line description sit right under it. ScrollStory's
-   slack (.ss--centre) centres the card in the held window on every size. */
+/* Phones: the card fills the held window from the docked heading down, so no empty band is left under it.
+   The screen's well takes whatever height the window has beyond the words (all tools share one cell, so
+   changing tool never changes it) and keeps the live screen centred in it, in the upper middle of the
+   phone; the title, the line and the action sit under it. A window too short for the card scales it
+   (data-ss-fit) instead. Wide windows keep the card at its own height, centred (.ss--centre). */
 @media (max-width: 899px) {
   .ft-story[data-pinned='true'] .ft { gap: .6rem; }
-  .ft-story[data-pinned='true'] .ft__card { grid-template-rows: auto auto; }
+  .ft-story[data-pinned='true'] .ft__room { display: flex; flex-direction: column; }
+  .ft-story[data-pinned='true'] .ft__stage { flex: 1 0 auto; display: flex; flex-direction: column; }
+  .ft-story[data-pinned='true'] .ft__track { flex: 1 0 auto; }
+  .ft-story[data-pinned='true'] .ft__card { grid-template-rows: minmax(auto, 1fr) auto; }
   .ft-story[data-pinned='true'] .ft__media { padding-bottom: .85rem; }
   .ft-story[data-pinned='true'] .ft__copy { gap: .4rem; padding-top: .9rem; }
 }

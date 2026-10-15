@@ -125,7 +125,28 @@
 .lp-shelf__float { display: block; }
 /* One line per name at every width, on one shared baseline under the objects. */
 .lp-shelf__name { font-size: clamp(0.8125rem, 1.2vw, 0.875rem); font-weight: 700; text-align: center; line-height: 1.25; white-space: nowrap; letter-spacing: -0.005em; }
-.lp-shelf__note { margin: 0; color: var(--ink-3); font-size: 0.875rem; text-align: center; }
+/* The shelf's own label, set like the page's section labels (the kicker's dot and green), above the four
+   papers it names: a caption with a place in the hierarchy, not a loose line under them. */
+.mm.lp .lp-shelf__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  margin: 0 0 0.35rem;
+  color: var(--accent-text);
+  font: 700 0.875rem/1.25 var(--font-body);
+  text-align: center;
+  text-wrap: balance;
+}
+.mm.lp .lp-shelf__label::before {
+  content: '';
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--volt);
+  box-shadow: 0 0 0 4px var(--accent-wash);
+}
 
 /* The landing: the statement's pass (its view timeline, set in hero-depth.css), staggered by --k. Two scroll
    animations per layer: in (falls and lands, held before its range) and out (lifts as the section leaves, held
