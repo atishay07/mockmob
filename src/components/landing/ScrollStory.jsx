@@ -94,20 +94,30 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   }, []);
 
   // The beat crossing the middle of the window owns the step. With no beat crossing, the side the
-  // reader comes from does: a story still below the middle waits on its first step, one already
-  // above it on its last. A second observer, a window larger than the screen, settles this before
-  // the stage shows, so a jump back up (a nav link, a fast fling, the top button) never enters a
-  // story on its stale last step and then snaps back.
+  // reader comes from does: the beats cover the whole track, so the track then lies wholly on one
+  // side of the middle. Still below it, the story waits on its first step; already above it, on its
+  // last. So a story entered from above always opens on step one and one entered from below on its
+  // last, even after a jump (a nav link, a fling, the top button) that no beat saw. A second observer,
+  // a window three screens tall, settles this before the stage shows and, only while the story is that
+  // near, a passive scroll listener re-checks once a frame when no beat is crossing (one rect read).
   useEffect(() => {
     if (!pinned) return undefined;
     const held = crossing.current;
     const track = trackRef.current;
+    let frame = 0;
+    let listening = false;
     const fromSide = () => {
+      frame = 0;
       if (held.size > 0 || !track) return;
       const box = track.getBoundingClientRect();
-      const middle = window.innerHeight / 2;
-      if (box.top > middle) setStep(0);
-      else if (box.bottom < middle) setStep(steps - 1);
+      setStep(box.top + box.bottom > window.innerHeight ? 0 : steps - 1);
+    };
+    const onScroll = () => { if (!frame && held.size === 0) frame = requestAnimationFrame(fromSide); };
+    const listen = (on) => {
+      if (on === listening) return;
+      listening = on;
+      if (on) window.addEventListener('scroll', onScroll, { passive: true });
+      else window.removeEventListener('scroll', onScroll);
     };
     const io = new IntersectionObserver((entries) => {
       for (const entry of entries) {
@@ -118,9 +128,12 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       fromSide();
     }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
     beatsRef.current.slice(0, steps).forEach((node) => node && io.observe(node));
-    const near = track ? new IntersectionObserver(fromSide, { rootMargin: '100% 0px 100% 0px', threshold: 0 }) : null;
+    const near = track ? new IntersectionObserver((entries) => {
+      listen(entries[entries.length - 1].isIntersecting);
+      fromSide();
+    }, { rootMargin: '100% 0px 100% 0px', threshold: 0 }) : null;
     if (track) near.observe(track);
-    return () => { io.disconnect(); near?.disconnect(); held.clear(); };
+    return () => { io.disconnect(); near?.disconnect(); listen(false); cancelAnimationFrame(frame); held.clear(); };
   }, [pinned, steps]);
 
   useEffect(() => { onStepRef.current?.(step); }, [step]);

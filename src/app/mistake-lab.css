@@ -99,11 +99,29 @@
 .ml__checks em { font-style: normal; font-size: 0.74rem; font-weight: 700; color: #bcc5b9; text-align: right; }
 .ml__status { margin: 0; padding: 0.75rem 0.9rem; border-radius: 12px; border: 1px dashed rgba(244, 245, 240, 0.22); font-size: 0.84rem; line-height: 1.5; color: #c3cbbd; }
 
+/* The session strip at the foot of the leak, move and check panels (wide screens): the ten questions,
+   the ones the step is about lit in their verdict colour, the rest dimmed. It rises once as the panel
+   comes on, one stagger step after the panel's own rows, so the panel is whole within about 600 ms. */
+.ml__strip { display: none; gap: 0.55rem; padding-top: 0.95rem; border-top: 1px solid rgba(244, 245, 240, 0.1); opacity: 0; transform: translateY(8px); }
+.ml__strip p { margin: 0; font-size: 0.76rem; font-weight: 700; color: #9aa795; }
+.ml__strip ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 0.4rem; }
+.ml__strip li { position: relative; display: grid; place-items: center; height: 2.6rem; border-radius: 10px; border: 1px solid rgba(244, 245, 240, 0.12); background: rgba(244, 245, 240, 0.03); color: #8f9a8b; opacity: 0.4; }
+.ml__strip li span { position: absolute; top: 3px; left: 6px; font: 600 0.6rem var(--font-mono); }
+.ml__strip li[data-lit='true'] { opacity: 1; }
+.ml__strip li[data-lit='true'][data-state='right'] { border-color: rgba(210, 240, 0, 0.5); background: rgba(210, 240, 0, 0.1); color: #d2f000; }
+.ml__strip li[data-lit='true'][data-state='wrong'] { border-color: rgba(255, 157, 146, 0.5); background: rgba(255, 122, 107, 0.1); color: #ffb6a9; }
+.ml__strip li[data-lit='true'][data-state='skip'] { border-style: dashed; border-color: rgba(244, 245, 240, 0.32); color: #c3cbbd; }
+.ml__panel[data-active='true'] .ml__strip { animation: ml-rise var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease) forwards; animation-delay: calc(3 * var(--mm-dur-stagger-step, 45ms) + 60ms); }
+@media (min-width: 960px) {
+  .ml__panel { display: flex; flex-direction: column; }
+  .ml__strip { display: grid; margin-top: auto; }
+}
+
 
 @media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } .ml__checks li { grid-template-columns: auto minmax(0, 1fr); } .ml__checks em { grid-column: 2; text-align: left; } }
 @media (prefers-reduced-motion: reduce) {
   .ml__panel, .ml__caption p, .ml__tile { transition: none; }
-  .ml__tile[data-state] , .ml__leaks li, .ml__leaks em, .ml__checks li, .ml__move { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .ml__tile[data-state] , .ml__leaks li, .ml__leaks em, .ml__checks li, .ml__move, .ml__strip { animation: none !important; opacity: 1 !important; transform: none !important; }
   .ml__leaks em { transform: none !important; }
 }
 

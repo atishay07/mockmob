@@ -54,6 +54,31 @@ function inspectorText(tile) {
   return `Q${tile.n}: ${tile.final === 'right' ? 'right' : 'wrong'} in ${tile.time}${tile.slow ? ', about three times your usual pace.' : '.'}`;
 }
 
+// The same ten questions in a row at the foot of the leak, move and check panels, the ones that step is
+// about lit, so every panel keeps its tie to the session and the stage never shows an empty lower half.
+// Wide screens only (phones fit each panel to its content). Drawn from SESSION, nothing new is claimed.
+const STRIP = {
+  leak: { label: 'Where it leaked in the session', lit: (t) => Boolean(t.change || t.slow || t.final === 'skip') },
+  move: { label: 'The three changed answers behind this move', lit: (t) => Boolean(t.change) },
+  check: { label: 'Fresh questions on the idea behind Q4 and Q8', lit: (t) => t.first === 'right' && t.final === 'wrong' },
+};
+function SessionStrip({ kind }) {
+  const { label, lit } = STRIP[kind];
+  return (
+    <div className="ml__strip" aria-hidden="true">
+      <p>{label}</p>
+      <ol>
+        {SESSION.map((t) => (
+          <li key={t.n} data-state={t.final} data-lit={lit(t) ? 'true' : 'false'}>
+            <span>{t.n}</span>
+            {t.change ? <ArrowLeftRight size={10} /> : t.final === 'right' ? <Check size={12} /> : t.final === 'wrong' ? <X size={12} /> : <Minus size={12} />}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoTo }) {
   const rootRef = useRef(null);
   const readingRef = useRef(null);
@@ -242,6 +267,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                 <p>Q6 and Q10. No penalty, no marks earned.</p>
               </li>
             </ul>
+            <SessionStrip kind="leak" />
           </section>
 
           {/* 3. Move */}
@@ -255,6 +281,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
               </div>
             </div>
             <p className="ml__note">Each mock you finish makes the next move sharper.</p>
+            <SessionStrip kind="move" />
           </section>
 
           {/* 4. Check */}
@@ -272,6 +299,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
             <p className="ml__status" data-state={recoveryState}>
               {recoveryState === 'available' ? 'Open for every repair you finish.' : 'Fresh checks open soon.'}
             </p>
+            <SessionStrip kind="check" />
           </section>
         </div>
 
