@@ -97,7 +97,13 @@ void main() {
       ]);
 
   setUp(() => http = FakeHttpAdapter());
-  tearDown(() => c.dispose());
+  tearDown(() {
+    try {
+      c.dispose();
+    } on Error {
+      // A test that never made a container has nothing to dispose.
+    }
+  });
 
   AskController ctl() => c.read(askControllerProvider.notifier);
   AskMessage last() => c.read(askControllerProvider).messages.last;
