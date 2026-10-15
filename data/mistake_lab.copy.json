@@ -417,7 +417,7 @@
     "row": "{trap}: caught {k} of {n} times.",
     "periods": "Before {date}: {k} of {n}. Since: {k2} of {n2}.",
     "status": {
-      "falling": "Falling",
+      "falling": "Catching you less",
       "still": "Still catching you"
     },
     "basis": "A chance is a question you answered where one wrong option carries this trap.",

@@ -138,7 +138,6 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
   return (
     <section ref={ref} className="srl" data-in={inView || undefined} aria-labelledby="srl-title">
       <header className="srl-head">
-        <p className="srl-eyebrow">{lab?.labels?.name || 'Mistake Lab'}</p>
         <h2 id="srl-title">{lab?.heading ? lab.heading : marks.gap ? <>You missed {marks.gap} marks. Here’s where they went.</> : 'You didn’t miss a mark this session.'}</h2>
       </header>
 

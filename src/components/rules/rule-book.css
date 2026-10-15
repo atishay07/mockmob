@@ -157,21 +157,16 @@
 
 /* ---------- Review's way in (RulesEntry.jsx) ---------- */
 .rb-entry {
-  display: grid; grid-template-columns: 44px minmax(0, 1fr) 20px; align-items: center; gap: 14px; min-height: 72px; padding: 14px 16px 14px 14px;
-  border-radius: 18px; border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
+  display: grid; grid-template-columns: minmax(0, 1fr) 20px; align-items: center; gap: 14px; min-height: 64px; padding: 12px 4px;
   color: var(--a-ink, #f2f4ec); text-decoration: none;
 }
-.rb-entry__icon { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: var(--a-volt-wash, rgba(210, 240, 0, .07)); color: var(--a-accent-text, #d2f000); box-shadow: inset 0 0 0 1px var(--a-volt-line, rgba(210, 240, 0, .5)); }
 .rb-entry__text { display: grid; gap: 3px; min-width: 0; }
 .rb-entry__text b { font: 700 16px/1.3 var(--font-display, inherit); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
 .rb-entry__text span { font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2, #bcc5b9); }
 .rb-entry__go { color: var(--a-ink-3, #93a08f); }
-.rb-entry:hover { border-color: var(--a-line-hover, rgba(244, 245, 240, .32)); }
 .rb-entry:hover .rb-entry__go { color: var(--a-ink, #f2f4ec); }
 .rb-entry:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 @media (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']) .rb-entry { transition: border-color 150ms var(--a-ease, ease-out), transform 100ms var(--a-ease, ease-out); }
-  :root:not([data-motion='reduced']) .rb-entry:active { transform: scale(.99); }
   :root:not([data-motion='reduced']) .rb-entry__go { transition: transform 180ms var(--a-ease, ease-out), color 150ms ease-out; }
   :root:not([data-motion='reduced']) .rb-entry:hover .rb-entry__go { transform: translateX(3px); }
   :root:not([data-motion='reduced']) .rb-entry[data-state='ready'] .rb-entry__text { animation: rb-fade 200ms var(--a-ease, ease-out) both; }

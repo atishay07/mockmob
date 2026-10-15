@@ -47,7 +47,8 @@ function Empty() {
 /** Today: the first 3, and a count of the rest. */
 export function TodayColleges({ userId }) {
   const mine = useMyColleges(userId);
-  if (!userId) return null;
+  // Today is a glance, not a place to fail: a list that did not load leaves the card out (Account says so and retries).
+  if (!userId || mine.status === 'error') return null;
   const { shown, more } = ladderView(mine.colleges);
   return (
     <section className="glass mc-card" aria-labelledby="mc-today-h" data-state={mine.status}>
@@ -56,7 +57,6 @@ export function TodayColleges({ userId }) {
         {mine.status === 'ready' && mine.colleges.length ? <Link className="mc-link" href={LIST_HREF}>Edit</Link> : null}
       </header>
       {mine.status === 'loading' || mine.status === 'idle' ? <Loading /> : null}
-      {mine.status === 'error' ? <Failed onRetry={mine.retry} /> : null}
       {mine.status === 'ready' && !mine.colleges.length ? <Empty /> : null}
       {mine.status === 'ready' && mine.colleges.length ? (
         <>
@@ -83,7 +83,7 @@ export function AccountColleges({ userId }) {
     <section className="glass mc-card" id="colleges" aria-labelledby="mc-account-h" data-state={mine.status}>
       <header className="mc-head">
         <h2 id="mc-account-h" className="mc-h2">My colleges</h2>
-        {mine.status === 'ready' ? <span className="mc-count mm-measure">{countLine(colleges.length)}</span> : null}
+        {mine.status === 'ready' ? <span className="mc-count">{countLine(colleges.length)}</span> : null}
       </header>
       <p className="mc-lede">The same list in the app. Today shows your first 3, so put your top choices first.</p>
       {mine.status === 'loading' || mine.status === 'idle' ? <Loading /> : null}
@@ -92,7 +92,7 @@ export function AccountColleges({ userId }) {
       {mine.status === 'ready' && colleges.length ? (
         <ol className="mc-list">
           {colleges.map((c, i) => (
-            <li key={entryKey(c)} className="mc-row">
+            <li key={entryKey(c)} className="mc-row mc-row--edit">
               <Place n={c.position} />
               <span className="mc-name"><b>{c.college}</b>{c.programme ? <span>{c.programme}</span> : null}</span>
               <span className="mc-tools">

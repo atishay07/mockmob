@@ -24,9 +24,9 @@ export default function Today() {
   return (
     <div className="student-page student-page--today">
       <section className="pr ov">
-        <ArenaHead eyebrow={day}
+        <ArenaHead
           title={fresh ? (first ? `${first}, your record starts with one session.` : 'Your record starts with one session.') : first ? `${first}, here is your next step.` : 'Here is your next step.'}
-          lede={fresh ? 'Ten questions is enough to begin. After that, each step is planned from what you got right and wrong.' : 'Planned from your own practice record, one step at a time.'} />
+          lede={fresh ? `${day}. Ten questions is enough to begin. After that, each step is planned from what you got right and wrong.` : `${day}. Planned from your own practice record, one step at a time.`} />
         <LearningNextAction why={top} />
         <RhythmCard compact />
         <TodayColleges userId={user?.id} />

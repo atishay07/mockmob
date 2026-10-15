@@ -165,10 +165,9 @@ html[data-theme='light'] .rpl-bar[data-hover] .rpl-bar__fill { filter: brightnes
 
 /* What moves with the clock. */
 .rpl-veil { fill: var(--rpl-veil); pointer-events: none; }
-.rpl-head line { stroke: var(--rpl-head); stroke-width: 2; stroke-linecap: round; }
-.rpl-head circle { fill: var(--rpl-head); }
-.rpl-head { filter: drop-shadow(0 0 4px rgba(210, 240, 0, 0.55)); pointer-events: none; }
-html[data-theme='light'] .rpl-head { filter: none; }
+.rpl-playhead line { stroke: var(--rpl-head); stroke-width: 2; stroke-linecap: round; }
+.rpl-playhead circle { fill: var(--rpl-head); }
+.rpl-playhead { pointer-events: none; }
 .rpl-nowring { fill: none; stroke: var(--rpl-head); stroke-width: 1.6; pointer-events: none; }
 
 /* ---------- The legend, the chips ---------- */
@@ -257,6 +256,8 @@ html[data-theme='light'] .rpl-sw[data-g='other_wrong'] { background: #7a1d15; }
 @media (max-width: 640px) {
   /* Over the step's connecting line, on the Lab's own ground. */
   .srl-step .rpl { position: relative; z-index: 1; margin-left: -38px; background: var(--a-raised, #131a16); }
+  /* The words line up with the step's own text column (38px in); the stage and rows below keep the full width. */
+  .srl-step .rpl > .rpl-head { margin-left: 38px; }
   .rpl-stage { padding: 12px 12px 8px; border-radius: 14px; }
   /* Chips stay on one line and scroll inside their own row; the page itself never scrolls sideways. */
   .rpl-chips { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 -12px 0 0; padding: 2px 12px 2px 2px; }

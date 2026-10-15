@@ -41,7 +41,6 @@ export default function AdmissionCompassPageClient() {
     <main className="cmp">
       <header className="cmp-head">
         <div>
-          <div className="eyebrow">Admission Compass</div>
           <h1 className="display-md">Which DU courses can your subjects get?</h1>
           <p>
             {seed.length > 0

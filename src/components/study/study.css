@@ -16,7 +16,7 @@
 .sx-link { color: var(--a-accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; background: none; border: 0; padding: 0; font: inherit; cursor: pointer; min-height: 44px; display: inline-flex; align-items: center; }
 .sx-actions { display: flex; flex-wrap: wrap; gap: 10px 12px; align-items: center; margin-top: 20px; }
 .sx-actions .btn-volt { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; }
-@media (max-width: 639px) { .sx-actions .btn-volt { width: 100%; } .sx-actions--sticky { position: sticky; bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 2; padding-block: 10px; background: linear-gradient(to top, var(--a-bg) 70%, transparent); } }
+@media (max-width: 639px) { .sx-feedback { scroll-margin-bottom: calc(76px + 64px + 16px + env(safe-area-inset-bottom)); } .sx-actions .btn-volt { width: 100%; } .sx-actions--sticky { position: sticky; bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 2; padding-block: 10px; background: linear-gradient(to top, var(--a-bg) 70%, transparent); } }
 .sx-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink); font-weight: 700; font-family: var(--font-display); cursor: pointer; }
 .sx-secondary:hover { border-color: var(--a-line-hover); }
 .sx-quiet { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 8px 4px; color: var(--a-ink-2); font-weight: 600; background: none; border: 0; cursor: pointer; font: inherit; }

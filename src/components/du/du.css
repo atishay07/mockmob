@@ -198,10 +198,8 @@
 }
 .du-presets > span {
   width: 100%;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
   color: var(--ink-3);
 }
 .du-preset {

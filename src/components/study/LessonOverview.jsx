@@ -17,21 +17,21 @@ export default function LessonOverview({ unit, api, onOpenRun, onBack }) {
     catch (e) { keys.current[mode] = null; setError(friendlyError(e)); } finally { setBusy(false); }
   };
   const status = p.status || 'new';
-  const primary = status === 'in_progress' ? { label: `Resume lesson · step ${p.inProgress.step} of ${p.inProgress.total}`, run: 'learn' }
-    : status === 'new' ? { label: `Start lesson · ${unit.estimatedMinutes} min`, run: 'learn' }
-    : recall.available ? { label: `Lock it in · ${recall.available} ${recall.available === 1 ? 'card' : 'cards'}`, run: 'recall' }
+  const primary = status === 'in_progress' ? { label: `Resume lesson, step ${p.inProgress.step} of ${p.inProgress.total}`, run: 'learn' }
+    : status === 'new' ? { label: `Start lesson, ${unit.estimatedMinutes} min`, run: 'learn' }
+    : recall.available ? { label: `Lock it in, ${recall.available} ${recall.available === 1 ? 'card' : 'cards'}`, run: 'recall' }
     : { label: `Practise ${unit.chapter}`, href: practiceHref(unit.subject, unit.chapter) };
   const steps = [
     { name: 'Learn', time: `${unit.estimatedMinutes} min`, text: 'Short explanation, worked example, the common mistake, then quick checks with feedback.', state: p.read ? 'Done' : status === 'in_progress' ? `Step ${p.inProgress.step} of ${p.inProgress.total}` : 'Start here' },
-    { name: 'Lock it in', time: '2–3 min', text: `Answer ${memory.cards || ''} recall cards from memory. Each answer schedules the next review so the idea stays for exam day.`, state: !memory.cards ? '—' : memory.reviewed === memory.cards ? (memory.nextDue ? `All in review · next ${whenDue(memory.nextDue)}` : 'All in review') : memory.reviewed ? `${memory.reviewed} of ${memory.cards} started` : p.read ? 'Ready' : 'After the lesson' },
+    { name: 'Lock it in', time: '2–3 min', text: `Answer ${memory.cards || ''} recall cards from memory. Each answer schedules the next review so the idea stays for exam day.`, state: !memory.cards ? '—' : memory.reviewed === memory.cards ? (memory.nextDue ? `All in review, next ${whenDue(memory.nextDue)}` : 'All in review') : memory.reviewed ? `${memory.reviewed} of ${memory.cards} started` : p.read ? 'Ready' : 'After the lesson' },
     { name: 'Apply', time: 'about 10 min', text: `Exam-style ${unit.chapter} questions with marks. Your result shows what to fix next.`, state: 'Any time' },
   ];
   return <div className="sx sx-overview">
     <Link className="sx-back" href={`/learn?subject=${unit.subject}`} onClick={onBack ? e => { e.preventDefault(); onBack(); } : undefined}><ArrowLeft size={16} aria-hidden="true" />{subjectName(unit.subject)} lessons</Link>
     <p className="sx-meta"><SubjectIcon id={unit.subject} size={16} /><span>{unit.chapter}</span>{unit.skill ? <span className="sx-meta__chip">{unit.skill}</span> : null}<span className="sx-meta__chip"><Clock size={14} aria-hidden="true" />{unit.estimatedMinutes} min</span></p>
     <h1>{unit.title}</h1>
-    <p className="sx-lede">{unit.summary}</p>
-    {status !== 'new' ? <p className="sx-status" data-status={status}>{STATUS[status]?.label}{memory.due ? ` · ${memory.due} due now` : ''}</p> : null}
+    <p className="sx-lede">{String(unit.summary || '').replaceAll(' · ', ', ')}</p>
+    {status !== 'new' ? <p className="sx-status" data-status={status}>{STATUS[status]?.label}{memory.due ? `, ${memory.due} due now` : ''}</p> : null}
     {error ? <div className="sx-alert" role="alert"><p>{error.text}</p></div> : null}
     <div className="sx-actions">
       {primary.href ? <Link className="btn-volt md" href={primary.href}>{primary.label}<ArrowRight size={16} aria-hidden="true" /></Link>

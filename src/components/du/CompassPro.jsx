@@ -6,7 +6,7 @@
 // prediction, a normalised CUET score or an admission chance, and the copy says so.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Lock, Plus, Sparkles, Target, Trash2 } from 'lucide-react';
+import { ArrowRight, Lock, Plus, Trash2 } from 'lucide-react';
 import { decodeSelection, formatScore, loadIndex, loadOfferings, readSaved } from '@/lib/du/client';
 import { CATEGORY_LABELS, MAIN_CATEGORIES, effectiveCutoff, evaluateGroup } from '@/lib/du/eligibility';
 import { compareToCutoff } from '@/../data/compass_projection';
@@ -58,7 +58,7 @@ function PaperRow({ paper, max }) {
   const pct = (v) => `${(v / max) * 100}%`;
   return (
     <li className="cpro-paper">
-      <span className="cpro-paper__name">{paper.name}<small>{paper.n} questions · {paper.accuracy.pct}% accuracy · {paper.attemptShare}% attempted</small></span>
+      <span className="cpro-paper__name">{paper.name}<small>{paper.n} questions, {paper.accuracy.pct}% accuracy, {paper.attemptShare}% attempted</small></span>
       <span className="cpro-paper__track" aria-hidden="true">
         <i style={{ left: pct(paper.low), width: `calc(${pct(paper.high)} - ${pct(paper.low)})` }} />
         <b style={{ left: pct(paper.mid) }} />
@@ -72,14 +72,13 @@ function Locked() {
   return (
     <section className="cpro cpro--locked" aria-labelledby="cpro-title">
       <div className="cpro-head">
-        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />Compass Pro</span>
         <h2 id="cpro-title">Map your practice to the colleges you want.</h2>
-        <p>Pro turns your own practice into a projected score band, checks it against the DU cutoffs for your shortlist, and names the paper that can move your total the most.</p>
+        <p>Compass Pro turns your own practice into a projected score band, checks it against the DU cutoffs for your shortlist, and names the paper that can move your total the most.</p>
       </div>
       <ul className="cpro-features">
-        <li><Target size={18} aria-hidden="true" /><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, with an honest range.</span></li>
-        <li><Plus size={18} aria-hidden="true" /><b>My colleges</b><span>Up to 8 college and programme targets, saved to your account and compared round by round in your category.</span></li>
-        <li><ArrowRight size={18} aria-hidden="true" /><b>Next move</b><span>The paper with the most marks open, and its weakest chapter, one tap from practice.</span></li>
+        <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, with an honest range.</span></li>
+        <li><b>My colleges</b><span>Up to 8 college and programme targets, saved to your account and compared round by round in your category.</span></li>
+        <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter, one tap from practice.</span></li>
       </ul>
       <div className="cpro-cta">
         <Link href="/pricing" className="btn-volt md"><Lock size={16} aria-hidden="true" />Unlock Compass Pro</Link>
@@ -167,9 +166,8 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
   return (
     <section className="cpro" aria-labelledby="cpro-title">
       <div className="cpro-head">
-        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />Compass Pro</span>
         <h2 id="cpro-title">Your practice, mapped to your colleges.</h2>
-        <p>If exam day went exactly like your practice so far, this is what each paper would be worth. It is a projection from your own record, not a prediction: CUET scores are normalised and your practice will change it.</p>
+        <p>Compass Pro shows what each paper would be worth if exam day went exactly like your practice so far. It is a projection from your own record, not a prediction: CUET scores are normalised and your practice will change it.</p>
       </div>
 
       <div className="cpro-grid">

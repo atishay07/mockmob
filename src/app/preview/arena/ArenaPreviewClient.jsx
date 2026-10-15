@@ -267,6 +267,39 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       window.__previewRule = { id: rule.id, kind: rule.kind, text: rule.text, since: new Date().toISOString() };
       return wait(json({ active: window.__previewRule }));
     }
+    // My colleges (GET, PUT, POST, DELETE /api/me/colleges; ?colleges=ready|empty|full|down), kept in memory for the page's life.
+    if (url.pathname === '/api/me/colleges') {
+      const kind = fixture.get('colleges') || 'ready';
+      if (kind === 'down') return json({ error: 'unavailable' }, 503);
+      const seed = [
+        ['Shri Ram College of Commerce', 'B.Com (Hons)'], ['Lady Shri Ram College for Women', 'B.Com (Hons)'], ['Hansraj College', 'B.Com (Hons)'],
+        ['Hindu College', 'B.Com (Hons)'], ['Kirori Mal College', 'B.Com (Hons)'], ['Sri Venkateswara College', 'B.Com (Hons)'],
+        ['Ramjas College', 'B.Com (Hons)'], ['Daulat Ram College', 'B.Com (Hons)'],
+      ];
+      if (!window.__previewColleges) {
+        const n = kind === 'empty' || state === 'empty' ? 0 : kind === 'full' ? 8 : 5;
+        window.__previewColleges = seed.slice(0, n).map(([college, programme]) => ({ college, programme, programmeId: 'fixture-bcom-hons' }));
+      }
+      const body = () => {
+        const colleges = window.__previewColleges.slice(0, 8).map((c, i) => ({ ...c, position: i + 1, addedAt: null }));
+        return { colleges, count: colleges.length, max: 8 };
+      };
+      const same = (a, b) => a.programmeId === b.programmeId && a.college === b.college;
+      if (method === 'PUT') { window.__previewColleges = JSON.parse(init.body || '{}').colleges || []; return json(body()); }
+      if (method === 'POST') {
+        const entry = JSON.parse(init.body || '{}');
+        if (window.__previewColleges.some((c) => same(c, entry))) return json({ ...body(), result: 'exists' });
+        if (window.__previewColleges.length >= 8) return json({ error: 'list_full', message: 'My colleges is full. Remove one to add another.', ...body() }, 409);
+        window.__previewColleges = [...window.__previewColleges, entry];
+        return json({ ...body(), result: 'added' }, 201);
+      }
+      if (method === 'DELETE') {
+        const q = url.searchParams;
+        window.__previewColleges = window.__previewColleges.filter((c) => !same(c, { programmeId: q.get('programmeId'), college: q.get('college') }));
+        return json(body());
+      }
+      return json(body());
+    }
     // Traps you meet (GET /api/me/traps; ?traps=empty|down) and Revise (GET /api/me/revise; ?revise=empty|down, POST .../answer).
     if (url.pathname === '/api/me/traps' && method === 'GET') {
       const kind = fixture.get('traps') || 'ready';

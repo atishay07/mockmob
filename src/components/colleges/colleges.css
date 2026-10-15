@@ -8,15 +8,17 @@
 .app-shell .mc-card { display: grid; gap: 14px; align-content: start; min-width: 0; padding: clamp(18px, 3vw, 24px); }
 .app-shell .mc-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; }
 .app-shell .mc-h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
-.app-shell .mc-count { font-size: 13px; font-weight: 700; color: var(--a-ink-2); white-space: nowrap; }
+.app-shell .mc-count { font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 700; color: var(--a-ink-2); white-space: nowrap; }
 .app-shell .mc-lede { margin: -4px 0 0; max-width: 56ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
 .app-shell .mc-note { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
 
-.app-shell .mc-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+/* Plain divided rows: no border or fill of their own inside the card. */
+.app-shell .mc-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
 .app-shell .mc-row {
-  display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 56px; padding: 8px 12px;
-  border: 1px solid var(--a-line); border-radius: 14px; background: var(--a-hover);
+  display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 56px; padding: 10px 0;
+  border-top: 1px solid var(--a-line);
 }
+.app-shell .mc-row:first-child { border-top: 0; }
 .app-shell .mc-row--quiet { min-height: 56px; }
 .app-shell .mc-bar { display: block; width: 62%; height: 12px; border-radius: 6px; background: var(--a-line); opacity: 0.8; }
 .app-shell .mc-place {
@@ -27,7 +29,16 @@
 .app-shell .mc-name { display: grid; gap: 2px; min-width: 0; flex: 1 1 auto; }
 .app-shell .mc-name b { font: 700 15px/1.3 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
 .app-shell .mc-name span { font-size: 13px; line-height: 1.35; color: var(--a-ink-3); overflow-wrap: anywhere; }
+/* Account rows: the name takes the full width; move and remove sit on a second line under it. */
+.app-shell .mc-row--edit { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; row-gap: 2px; align-items: start; }
+.app-shell .mc-row--edit .mc-place { margin-top: 2px; }
+.app-shell .mc-row--edit .mc-tools { grid-column: 2; margin-left: -12px; }
 .app-shell .mc-tools { flex: none; display: flex; align-items: center; gap: 2px; }
+@media (min-width: 560px) {
+  .app-shell .mc-row--edit { grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; }
+  .app-shell .mc-row--edit .mc-place { margin-top: 0; }
+  .app-shell .mc-row--edit .mc-tools { grid-column: 3; margin-left: 0; }
+}
 
 .app-shell .mc-icon {
   display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 12px;
@@ -77,10 +88,6 @@
 @media (hover: hover) and (pointer: fine) { .app-shell .mc-add:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); } }
 .app-shell .mc-full { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--a-ink-3); }
 
-@media (max-width: 480px) {
-  .app-shell .mc-row { gap: 10px; padding: 8px 8px 8px 10px; }
-  .app-shell .mc-icon { width: 44px; }
-}
 @media (prefers-reduced-motion: reduce) {
   .app-shell .mc-icon, .app-shell .mc-key, .app-shell .mc-add { transition: none; }
   .app-shell .mc-icon:active:not(:disabled), .app-shell .mc-key:active, .app-shell .mc-add:active:not(:disabled) { transform: none; }

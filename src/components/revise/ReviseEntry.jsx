@@ -3,7 +3,7 @@
 // twice." from GET /api/me/revise. Revise opens in its own page. While it loads the entry still opens Revise; when the
 // server says it is unavailable (no table yet) or the read fails, the entry hides itself, so nothing points at a dead page.
 import Link from 'next/link';
-import { ArrowRight, RotateCcw } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useRevise } from './useRevise';
 import './revise.css';
 
@@ -16,7 +16,6 @@ export default function ReviseEntry() {
   const detail = data?.summary || 'Questions you got wrong come back after 1, 3, 7 and 21 days.';
   return (
     <Link className="rv-entry" href="/review/revise" data-state={read.state}>
-      <span className="rv-entry__icon" aria-hidden="true"><RotateCcw size={20} strokeWidth={2} /></span>
       <span className="rv-entry__text">
         <b>{data ? data.head : 'Revise'}</b>
         <span>{detail}</span>

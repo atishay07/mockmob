@@ -157,20 +157,20 @@ test('a key that was corrected onto the stored trap option shows no tag', () => 
   assert.equal(trapForOption({ question, index: 1, atlasByHash: atlas.get('k1') }), null, 'the key is never a trap');
 });
 
-test('Traps you meet: chances, caught, the split, Falling and Still catching you, and the 3-chance floor', () => {
+test('Traps you meet: chances, caught, the split, Catching you less and Still catching you, and the 3-chance floor', () => {
   const { sheet, empty } = buildSheetContracts();
   assert.equal(sheet.state, 'ready');
   assert.deepEqual(sheet.rows.map((r) => [r.trapType, r.caught, r.of, r.status]), [['look_alike_term', 5, 10, 'falling'], ['wrong_rule', 4, 6, 'still'], ['assertion_reason_link', 2, 3, null]]);
   assert.equal(sheet.rows[0].text, 'A look-alike term: caught 5 of 10 times.');
   assert.equal(sheet.rows[0].periods.text, 'Before 8 Oct: 4 of 5. Since: 1 of 5.');
-  assert.equal(sheet.rows[0].statusLabel, 'Falling');
+  assert.equal(sheet.rows[0].statusLabel, 'Catching you less');
   assert.equal(sheet.rows[1].statusLabel, 'Still catching you');
   assert.ok(!sheet.rows.some((r) => r.trapType === 'partly_true'), 'two chances show no row');
   assert.equal(sheet.basis, 'A chance is a question you answered where one wrong option carries this trap.');
   assert.deepEqual([empty.state, empty.rows, empty.message], ['empty', [], LAB_COPY.traps.empty]);
 });
 
-test('Falling needs 5 chances in each period and a drop of 30 points; Still catching you needs 4, half caught and a rate not lower', () => {
+test('Catching you less needs 5 chances in each period and a drop of 30 points; Still catching you needs 4, half caught and a rate not lower', () => {
   const p = (k, n) => ({ k, n });
   assert.equal(trapStatus(p(4, 5), p(1, 5)), 'falling');
   assert.equal(trapStatus(p(4, 5), p(2, 5)), 'falling', '80% to 40% is a 40 point drop');

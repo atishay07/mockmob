@@ -20,8 +20,8 @@ export default function PlanCredits({ userId }) {
       <div className="acct-wallet" data-state={line.state} aria-busy={line.state === 'loading' || undefined}>
         <div className="acct-wallet__amount">
           {line.state === 'loading' ? <span className="acct-sk acct-sk--figure skeleton" aria-hidden="true" /> : null}
-          {line.state === 'known' ? <CreditAmount kind="prepos" amount={line.total} unit={false} size={18} /> : null}
-          <span className="acct-wallet__line" role="status">{line.line}</span>
+          {line.state === 'known' ? <CreditAmount kind="prepos" amount={line.total} size={18} /> : null}
+          <span className="acct-wallet__line" role="status">{line.state === 'known' ? line.line.replace(/^AI credits /, '') : line.line}</span>
         </div>
         <span className="acct-wallet__links"><Link href="#credits" className="acct-link">See history</Link><Link href={PREPOS_HREF} className="acct-link">Ask Mobi</Link></span>
       </div>

@@ -279,7 +279,7 @@ export default function ResultPageClient({ previewId = null }) {
       <header className="rp-hero" data-mobi={reaction ? undefined : 'none'}>
         {reaction ? <div className="rp-hero__pip pip-drill-result"><MobiReact act={reaction.act} size={84} label={reaction.alt} still={engaged || reading != null} /></div> : null}
         <div className="rp-hero__main">
-          <p className="rp-eyebrow">Session complete · {subjectName(attempt.subject)} · {attempt.total} questions{timing ? ` · ${formatDuration(timing.totalMs)}` : ''}</p>
+          <p className="rp-eyebrow">Session complete, {subjectName(attempt.subject)}, {attempt.total} questions{timing ? `, ${formatDuration(timing.totalMs)}` : ''}</p>
           <h1 className="rp-hero__score"><b data-tone={marks.scored < 0 ? 'bad' : isPass ? 'good' : 'mid'}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} /></b><span>/ {marks.max} marks</span></h1>
           <p className="rp-hero__line">{verdictLine(analysis)}{reaction?.line ? ` ${reaction.line}` : ''}</p>
         </div>
@@ -389,7 +389,7 @@ export default function ResultPageClient({ previewId = null }) {
                           <li key={j} data-state={corrected || (!review && key) ? 'key' : mine ? 'mine' : undefined} data-others={others ? '' : undefined}>
                             <span className="rp-options__letter">{LETTERS[j]}</span>
                             <span className="rp-options__text">{displayValue(plainOptionTexts(q.options)[j] ?? opt, 'Option')}</span>
-                            {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick · corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick · key at submission' : 'Key at submission' : 'Your pick'}</span> : null}
+                            {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick, corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick, key at submission' : 'Key at submission' : 'Your pick'}</span> : null}
                             {others ? <OptionShare others={others} index={j} tone={shareTone(others, j, given)} /> : null}
                             {trap && trap.index === j && mine ? <TrapTag trap={trap} /> : null}
                           </li>

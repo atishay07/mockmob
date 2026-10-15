@@ -23,6 +23,14 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
   // The new step is a new element (it arrives on its own), so focus waits for it rather than for a frame.
   useEffect(() => { if (focusNext.current) { focusNext.current = false; heading.current?.focus(); } }, [run.cursor, run.state]);
   const item = run.item, isLesson = run.mode === 'learn', unit = run.units?.[0];
+  // A check answered here just now: the feedback panel comes into view above the sticky Next key (its scroll-margin
+  // in study.css clears the key), so the explanation is never hidden behind the button. Instant under reduced motion.
+  const feedbackShown = freshRev !== null && freshRev === run.revision && !!run.revealed;
+  useEffect(() => {
+    if (!feedbackShown) return;
+    const panel = stage.current?.querySelector('.sx-feedback');
+    panel?.scrollIntoView({ block: 'nearest', behavior: isMotionReduced() ? 'auto' : 'smooth' });
+  }, [feedbackShown, run.revision]);
 
   const send = async event => {
     if (flight.current) return;

@@ -1,7 +1,7 @@
 "use client";
 // "Traps you meet" (spec tmp/mistake-lab-v4/SPEC.md 4.11): a disclosure reached from Find ("Your traps across mocks") and
 // from the Rule book. Opened, it reads GET /api/me/traps once and lists, per named trap, "A look-alike term: caught 4 of 6
-// times. Before 1 Oct: 3 of 3. Since: 1 of 3." with the small label "Falling" or "Still catching you" only where its gate
+// times. Before 1 Oct: 3 of 3. Since: 1 of 3." with the small label "Catching you less" or "Still catching you" only where its gate
 // passes (5 chances in each period and a drop of 30 points; or 4 later chances, half caught, rate not lower). Every sentence
 // is finished by the server (data/trap_atlas.js buildTrapsMeet, contract_traps_v1.json `sheet`); the basis line says what a
 // chance is. Each row has a thin bar of the same two numbers (caught of chances), drawn from the server's counts only. Colour

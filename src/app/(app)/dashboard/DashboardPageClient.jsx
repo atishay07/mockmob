@@ -259,7 +259,6 @@ export default function DashboardPageClient() {
     return (
       <div className="flex flex-col gap-6">
         <div>
-          <div className="eyebrow mb-2">Practice</div>
           <div className="h-10 w-72 max-w-full skeleton mb-2" />
           <div className="h-4 w-64 max-w-full skeleton" />
         </div>
@@ -335,7 +334,7 @@ export default function DashboardPageClient() {
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : 'Not available')
       : isPremium ? 'Included'
         : quote.creditCost === 0 ? 'Free today'
-          : `${quote.creditCost} practice credits`
+          : `${quote.creditCost} credits`
     : modeBadge(effectiveModeId).text;
 
   function launch() {
@@ -367,7 +366,6 @@ export default function DashboardPageClient() {
 
       <header className="pr-head">
         <div>
-          <div className="eyebrow">Practice</div>
           <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
           <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to Radar.</p>
           {/* Phones: the credits are one line under the heading (practice.css), not a card above Subject. */}
@@ -406,7 +404,6 @@ export default function DashboardPageClient() {
 
       {mySubs.length === 0 ? (
         <EmptyState
-          eyebrow="Subjects"
           title={staleSubs.length ? 'Choose a subject with practice' : 'Pick your subjects first'}
           message={staleSubs.length ? 'None of your saved subjects has practice yet. Add a supported CUET subject to start.' : 'Choose the CUET UG subjects you want to practise.'}
           actionLabel="Edit subjects"
@@ -621,7 +618,7 @@ export default function DashboardPageClient() {
                     <Link href={`/result/${attempt.id}`}>
                       <span className="pr-recent__icon"><SubjectIcon id={subject?.internalId || attempt.subject} size={18} /></span>
                       <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}<Sep />{attempt.correct}/{attempt.total} correct</i></span>
-                      <span className="pr-recent__score" data-tone={tone}>{attempt.score}%</span>
+                      <span className="pr-recent__score" data-tone={tone}><b>{attempt.score}%</b><small>of marks</small></span>
                     </Link>
                   </li>
                 );

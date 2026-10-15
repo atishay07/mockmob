@@ -59,7 +59,7 @@ function SessionCard({ a, fresh = false, index = 0 }) {
         <span className="ov-session__icon ov-session__icon--obj" aria-hidden="true"><SubjectObject id={a.subject} size={68} framed={false} /></span>
         <span className="ov-session__main">
           <b>{label(a.subject)}{fresh ? <> <span className="ov-new">New since your last look</span></> : null}</b>
-          <span>{when(a.completedAt)}{when(a.completedAt) ? ' · ' : ''}{a.correct}/{a.total} correct</span>
+          <span>{when(a.completedAt)}{when(a.completedAt) ? ', ' : ''}{a.correct}/{a.total} correct</span>
           <i className="ov-bar" aria-hidden="true"><em style={{ transform: `scaleX(${pct / 100})` }} /></i>
         </span>
         <span className="ov-session__side">
@@ -119,8 +119,7 @@ export default function RecoveryOverview({ view }) {
           <LearningNextAction compact />
           <StudyProgress review />
           {data.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
-          <ReviseEntry />
-          <RulesEntry />
+          <div className="ov-links"><ReviseEntry /><RulesEntry /></div>
           <section className="ov-section" aria-labelledby="ov-sessions">
             <div className="pr-step__head"><h2 id="ov-sessions">Your sessions</h2><span className="pr-hint">Newest first</span></div>
             {review.length ? <ul className="ov-list">{review.map(a => <SessionCard key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={review.indexOf(a)} />)}</ul> : (

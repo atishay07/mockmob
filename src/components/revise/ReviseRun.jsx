@@ -33,17 +33,20 @@ export function endText(right, wrong) {
   return null;
 }
 
+// One plain line instead of four stat cards: how many cards come back after each wait ("4 back after 1 day, 1 after 3 days").
+// A card that just moved pulses its own count once.
 function Lanes({ boxes, days, moved }) {
+  const parts = boxes.map((count, i) => ({ count, i, words: days?.[String(i + 1)] })).filter((p) => p.count > 0 && p.words);
+  if (!parts.length) return null;
   return (
-    <ol className="rv-lanes" aria-label="Your cards by box">
-      {boxes.map((count, i) => (
-        <li key={i} className="rv-lane" data-pulse={moved && (moved.from === i || moved.to === i) ? moved.n : undefined}>
-          <span className="rv-lane__name">{fill(R.boxes, { n: i + 1 })}</span>
-          <b className="rv-lane__count">{count}</b>
-          <span className="rv-lane__days">{days?.[String(i + 1)]}</span>
-        </li>
+    <p className="rv-ladder" aria-label="Your cards by how long they wait">
+      <span className="rv-ladder__lead">In rotation:</span>{' '}
+      {parts.map((p, k) => (
+        <span key={p.i} className="rv-ladder__part" data-pulse={moved && (moved.from === p.i || moved.to === p.i) ? moved.n : undefined}>
+          <b>{p.count}</b> {p.words}{k < parts.length - 1 ? ',' : '.'}{' '}
+        </span>
       ))}
-    </ol>
+    </p>
   );
 }
 
