@@ -29,7 +29,9 @@ void main() {
     }
     final file = File(_appCopy);
     expect(file.existsSync(), isTrue, reason: 'generate it with MOCKMOB_WRITE_RIG=1 (see the file header)');
-    expect(file.readAsStringSync(), text, reason: 'the rig table and docs/brain/MOBI-RIG.v2.json have drifted; regenerate and tell the web builder');
+    // Line endings may be CRLF in a Windows checkout; the content is what must match.
+    final onDisk = file.readAsStringSync().replaceAll(String.fromCharCode(13), '');
+    expect(onDisk, text, reason: 'the rig table and docs/brain/MOBI-RIG.v2.json have drifted; regenerate and tell the web builder');
   });
 
   test('the export round-trips: the website reads the same numbers the app plays', () {
