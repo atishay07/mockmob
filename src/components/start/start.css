@@ -55,40 +55,53 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
   html .app-shell .arena-bottomnav:has(> [data-start-key]):has(> :nth-child(5)[aria-current='page']) { --abn-i: 4; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> [data-start-key]):has(> :nth-child(6)[aria-expanded='true']) { --abn-i: 5; --abn-on: 1; }
 
+  /* The key shares the other items' box model: icon slot, 5px gap, label, centred in the same 54px.
+     The volt disc is centred on that icon slot (a 2px lift only), so its centre and label line up. */
   html .app-shell .arena-bottomnav > button.stk--bar {
     position: relative;
     z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-end;
-    gap: 4px;
+    justify-content: center;
+    gap: 5px;
     min-height: 54px;
-    padding: 0 2px 5px;
+    padding: 5px 2px;
     background: transparent;
     color: var(--a-accent-text);
-    font: 700 11px/1.25 var(--font-body);
+    font: 650 11px/1.25 var(--font-body);
   }
   html .app-shell .arena-bottomnav > button.stk--bar .stk__disc {
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    width: 48px;
-    height: 48px;
-    margin-left: -24px;
-    border-radius: 50%;
-    background: var(--volt);
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 19px;
+    height: 19px;
+    flex: none;
     color: #182000;
-    box-shadow: 0 0 0 4px var(--a-bg), 0 10px 22px -10px rgb(210 240 0 / 0.6);
     transition: transform 420ms var(--mk-spring);
   }
-  html .app-shell .arena-bottomnav > button.stk--bar .stk__disc svg { width: 18px; height: 18px; margin-left: 2px; animation: none; }
+  html .app-shell .arena-bottomnav > button.stk--bar .stk__disc::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 34px;
+    height: 34px;
+    margin: -19px 0 0 -17px;
+    border-radius: 50%;
+    background: var(--volt);
+    box-shadow: 0 6px 14px -8px rgb(210 240 0 / 0.65);
+    transition: transform 420ms var(--mk-spring), box-shadow 200ms ease;
+  }
+  html .app-shell .arena-bottomnav > button.stk--bar .stk__disc svg { position: relative; width: 14px; height: 14px; margin: -2px 0 0 2px; animation: none; }
   html .app-shell .arena-bottomnav > button.stk--bar[aria-expanded='true'] { color: var(--a-accent-text); background: transparent; }
-  html .app-shell .arena-bottomnav > button.stk--bar[aria-expanded='true'] .stk__disc { transform: scale(0.94); }
-  html .app-shell .arena-bottomnav > button.stk--bar:active .stk__disc { transform: scale(0.9); transition-duration: 90ms; }
+  html .app-shell .arena-bottomnav > button.stk--bar[aria-expanded='true'] .stk__disc::before { transform: scale(0.94); }
+  html .app-shell .arena-bottomnav > button.stk--bar:active { transform: none; }
+  html .app-shell .arena-bottomnav > button.stk--bar:active .stk__disc::before { transform: scale(0.9); transition-duration: 90ms; }
   html .app-shell .arena-bottomnav > button.stk--bar:focus-visible { outline: none; }
-  html .app-shell .arena-bottomnav > button.stk--bar:focus-visible .stk__disc { box-shadow: 0 0 0 4px var(--a-bg), 0 0 0 6px var(--a-focus); }
-  html[data-theme='light'] .app-shell .arena-bottomnav > button.stk--bar .stk__disc { box-shadow: 0 0 0 4px var(--a-bg), inset 0 0 0 1px rgb(82 103 0 / 0.35), 0 8px 18px -10px rgb(82 103 0 / 0.5); }
+  html .app-shell .arena-bottomnav > button.stk--bar:focus-visible .stk__disc::before { box-shadow: 0 0 0 2px var(--a-bg), 0 0 0 4px var(--a-focus); }
+  html[data-theme='light'] .app-shell .arena-bottomnav > button.stk--bar .stk__disc::before { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.35), 0 6px 12px -8px rgb(82 103 0 / 0.5); }
 }
 
 /* ---------- The sheet ---------- */
