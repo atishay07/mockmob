@@ -15,6 +15,7 @@ import SceneVignette from './scenes/SceneVignette';
 import { useWaitStage } from '@/lib/mobiHooks';
 import { oopsRun } from '@/lib/mobiRation';
 import StudyProgress from './study/StudyProgress';
+import RulesEntry from './rules/RulesEntry';
 import { reviewChanges } from './recovery/reviewChanges';
 import './recovery/review-changes.css';
 
@@ -117,6 +118,7 @@ export default function RecoveryOverview({ view }) {
           <LearningNextAction compact />
           <StudyProgress review />
           {data.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
+          <RulesEntry />
           <section className="ov-section" aria-labelledby="ov-sessions">
             <div className="pr-step__head"><h2 id="ov-sessions">Your sessions</h2><span className="pr-hint">Newest first</span></div>
             {review.length ? <ul className="ov-list">{review.map(a => <SessionCard key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={review.indexOf(a)} />)}</ul> : (
@@ -146,7 +148,7 @@ export default function RecoveryOverview({ view }) {
             <div className="pr-step__head"><h2 id="ov-playbook">Your exam playbook</h2><span className="pr-hint">Strategies you saved from results</span></div>
             {data.playbook.length ? <ul className="ov-list">{data.playbook.map(p => (
               <li key={p.id} className="ov-row"><b>{label(p.strategy)}</b><span>{p.reflection || 'No reflection yet'}</span><span className="pr-badge">Awaiting repeated evidence</span></li>
-            ))}</ul> : <div className="ov-empty"><AppIcon name="saved" size={22} /><b>Your playbook is empty</b><p>Save a strategy and your reasoning from a session result to start it.</p></div>}
+            ))}</ul> : <div className="ov-empty"><AppIcon name="saved" size={22} /><b>Your playbook is empty</b><p>The rule you keep for your next mock is chosen in <Link className="pr-link" href="/review/rules">Your rules</Link>.</p></div>}
           </section>
           {data.note ? <p className="na__note">{data.note}</p> : null}
         </>

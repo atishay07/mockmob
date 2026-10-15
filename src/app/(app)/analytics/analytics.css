@@ -21,3 +21,17 @@
 
 :root[data-motion='reduced'] .tr__halo { animation: none; opacity: 0; }
 .app-shell .rd-chart--scrub { height: auto; }
+
+/* Across your mocks at the top of the record (AcrossMocks.jsx): its link to the Rule book, its wait and its failure. */
+.rd-main > .am { margin-bottom: 20px; }
+.rd-rules {
+  justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px;
+  border: 1px solid var(--a-line-strong); color: var(--a-ink); font: 700 14px/1.2 var(--font-display); text-decoration: none; font-variant-numeric: tabular-nums;
+}
+.rd-rules svg { color: var(--a-accent-text); }
+.rd-rules:hover { border-color: var(--a-volt-line); background: var(--a-volt-wash); }
+.rd-rules:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.rd-across-wait { height: 84px; margin-bottom: 20px; border-radius: 18px; }
+.rd-across-fail { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0 0 20px; font-size: 14px; color: var(--a-ink-2); }
+.rd-across-fail button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--a-accent-text); font: 700 14px/1 var(--font-body); cursor: pointer; }
+.rd-across-fail button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }

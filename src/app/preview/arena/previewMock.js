@@ -13,12 +13,21 @@
 // what the website and the app are built against. &paper=time_up and &paper=nta show the other two contracts (time ran
 // out with Q44 open; an NTA paper ended by the third warning); &paper=bst and &paper=english the passage-set papers
 // (questions shown with their set, the submit sheet); &paper=v1 the slice 1 paper above, built live.
+// Slice 3 (fixtureLabLoop): the Full mock's lab also carries the loop parts the route adds (data/lab_loop.js), from the
+// committed contracts: lab.acrossMocks (&across=none|below_gate for the other states), lab.repairOrder built by the real
+// builder over the paper and its sample cohort (&order=paper for today's order), lab.rules, and lab.prove.ruleCheck
+// (&rulecheck=not_kept|counted|not_checked|none; kept by default).
 import { scoreSession } from '../../../../data/recovery';
 import { buildSwot } from '../../../../data/mock_swot';
 import { buildMistakeInsights } from '../../../../data/mistake_insights';
 import { buildMistakeLab } from '../../../../data/mistake_lab';
 import LAB_PAPER from '../../../../data/tests/fixtures/mistake_lab/full_mock_input.json';
 import LAB_COHORT from '../../../../data/tests/fixtures/mistake_lab/full_mock_cohort.json';
+import ACROSS from '../../../../data/tests/fixtures/mistake_lab/contract_across_v1.json';
+import RULES from '../../../../data/tests/fixtures/mistake_lab/contract_rules_v1.json';
+import RULECHECK from '../../../../data/tests/fixtures/mistake_lab/contract_rulecheck_v1.json';
+import LAB_COPY from '../../../../data/mistake_lab.copy.json';
+import { buildRepairOrder } from '../../../../data/repair_order';
 
 const DAY = 86_400_000;
 const SUBJECT = 'accountancy';
@@ -192,5 +201,44 @@ export function fixtureRepairV3({ stored = false, practiceChapter = 'Share Capit
       why_tempting: 'Illustrative: option A applies the old ratio.', key_idea: 'Illustrative: sacrifice = old share − new share, for each partner.',
       model: 'fixture', generatedAt: new Date().toISOString(),
     },
+  };
+}
+
+// ---------- Slice 3: Across your mocks, the Rule book, the rule check, repair order ----------
+
+/** Across your mocks in one of its three states: the committed contract (ready), or the none and below-gate shells. */
+export function fixtureAcross(state = 'ready') {
+  const A = LAB_COPY.across;
+  const shell = (s, mocks, message) => ({ version: 1, state: s, title: A.title, mocks, message, basis: null, lines: [], more: [], showAll: null, showFewer: A.showFewer });
+  if (state === 'none') return shell('none', 0, A.none);
+  if (state === 'below_gate') return shell('below_gate', 1, A.belowGate.one);
+  return JSON.parse(JSON.stringify(ACROSS));
+}
+
+/** The Rule book in a state: 'ready' (the contract), 'few' (repairs only; the habits below their gate), 'new' (nothing yet). */
+export function fixtureRuleBook(state = 'ready') {
+  const book = JSON.parse(JSON.stringify(RULES.book));
+  if (state === 'ready') return book;
+  const R = LAB_COPY.rules;
+  const habits = { state: 'below_gate', gateLine: R.habitsGate.replace('{n}', state === 'new' ? '0' : '1'), rules: [] };
+  const repairs = state === 'new' ? { empty: R.repairsEmpty, chapters: [] } : book.repairs;
+  const unmark = (r) => ({ ...r, active: false });
+  const kept = { empty: repairs.empty, chapters: repairs.chapters.map((ch) => ({ ...ch, rules: ch.rules.map(unmark) })) };
+  const count = kept.chapters.reduce((n, ch) => n + ch.rules.length, 0);
+  return { ...book, count, countLabel: R.countLabel.replace('{n}', String(count)), active: null, repairs: kept, habits, basis: state === 'new' ? null : LAB_COPY.across.basis.one };
+}
+
+export const FIXTURE_PLAYBOOK = RULES.playbook;
+
+/** The lab with the slice 3 parts the route adds (data/lab_loop.js), for the preview's Full mock. */
+export function fixtureLabLoop({ lab, attempt, answerReviews = {}, across = 'ready', ruleCheck = 'kept', order = 'cohort' } = {}) {
+  if (!lab) return lab;
+  const repairOrder = buildRepairOrder({ lab: order === 'paper' ? { ...lab, byQuestion: {} } : lab, attempt, answerReviews });
+  return {
+    ...lab,
+    acrossMocks: fixtureAcross(across),
+    repairOrder,
+    rules: JSON.parse(JSON.stringify(RULES.summary)),
+    prove: { ...(lab.prove || {}), ruleCheck: ruleCheck === 'none' ? null : JSON.parse(JSON.stringify(RULECHECK[ruleCheck] || RULECHECK.kept)) },
   };
 }

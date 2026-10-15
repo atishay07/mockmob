@@ -8,6 +8,7 @@
 // The repair key counts the same candidates the app does (lib/core/domain/repair_candidates.dart).
 import { answerAct, recapReaction } from '../../../../lib/mobiMoments.js';
 import { reactNow } from '../../../../lib/mobiRation.js';
+import { inRepairOrder } from '../../../../components/result/labLoop.js';
 
 const ALT = {
   proud: 'Mobi, proud of your first mock in this subject.',
@@ -47,9 +48,12 @@ export function answerReaction(verdict, { celebrations = 'full', reduced = false
 
 const HELD_STATES = new Set(['withdrawn', 'under_review', 'content_changed', 'key_changed_unverified', 'corrected']);
 
-// Wrong answers that repair can open, in paper order: not yet handled, and not held for a key check.
-export function repairCandidates(analysis, handled, answerReviews = {}) {
-  return (analysis?.mistakes || []).filter((row) => !handled?.has(row.q.id) && !HELD_STATES.has(answerReviews?.[row.q.id]?.state));
+// Wrong answers that repair can open: not yet handled, and not held for a key check. In paper order, or in the
+// server's repair order when it sends one (lab.repairOrder, spec 4.7: most other students got it right first, then
+// common traps, then paper order).
+export function repairCandidates(analysis, handled, answerReviews = {}, repairOrder = null) {
+  const open = (analysis?.mistakes || []).filter((row) => !handled?.has(row.q.id) && !HELD_STATES.has(answerReviews?.[row.q.id]?.state));
+  return inRepairOrder(open, repairOrder);
 }
 
 // Three minutes a mistake, rounded up to the nearest five (the app's figure).

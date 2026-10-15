@@ -1,0 +1,178 @@
+/* The Rule book (RuleBook.jsx). Arena tokens, so Day and Night both work. Phones: one column, the rule for the next
+   mock first. From 1024 px: the chosen rule and the section links stay beside the list (sticky). Colour always comes
+   with words or an icon. Only opacity and transform move. */
+
+.app-shell .rb { gap: 24px; }
+.rb :is(p, h2, h3) { margin: 0; }
+.rb-back {
+  display: inline-flex; align-items: center; gap: 4px; align-self: flex-start; min-height: 44px; margin: -8px 0 -18px -6px; padding: 0 10px 0 4px;
+  border-radius: 10px; color: var(--a-ink-2, #bcc5b9); font: 600 14px/1 var(--font-body, inherit); text-decoration: none;
+}
+.rb-back:hover { color: var(--a-ink, #f2f4ec); background: var(--a-hover, rgba(244, 245, 240, .04)); }
+.rb-back:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+
+.rb-layout { display: grid; gap: 28px; align-items: start; min-width: 0; }
+.rb-side { display: grid; gap: 14px; min-width: 0; }
+.rb-main { display: grid; gap: 40px; min-width: 0; }
+@media (min-width: 1024px) {
+  .rb-layout { grid-template-columns: minmax(300px, 360px) minmax(0, 1fr); gap: 40px; }
+  .rb-side { position: sticky; top: 88px; }
+}
+
+/* ---------- The rule for the next mock ---------- */
+.rb-now {
+  position: relative; display: grid; gap: 12px; padding: 20px; border-radius: 20px; overflow: hidden;
+  border: 1px solid var(--a-line-strong, #384736); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
+}
+.rb-now[data-set] { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); }
+/* A thin volt rule along the top edge marks the chosen rule; the empty state has none. */
+.rb-now[data-set]::before { content: ''; position: absolute; inset: 0 0 auto; height: 3px; background: var(--a-select, #d2f000); }
+.rb-now__label { display: inline-flex; align-items: center; gap: 8px; font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-accent-text, #d2f000); }
+.rb-now__body { display: grid; gap: 10px; }
+.rb-now__text { font: 700 clamp(19px, 2.2vw, 22px)/1.32 var(--font-display, inherit); letter-spacing: -.015em; color: var(--a-ink, #f2f4ec); text-wrap: pretty; }
+.rb-now__text--empty { font-size: 18px; color: var(--a-ink-2, #bcc5b9); }
+.rb-now__meta { font-size: 13px; line-height: 1.5; color: var(--a-ink-3, #93a08f); }
+
+.rb-jump { display: grid; border-top: 1px solid var(--a-line, #253026); }
+.rb-jump a {
+  display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 48px; padding: 0 6px;
+  border-bottom: 1px solid var(--a-line, #253026); color: var(--a-ink-2, #bcc5b9); font: 600 14px/1.3 var(--font-body, inherit); text-decoration: none;
+}
+.rb-jump a svg { color: var(--a-ink-3, #93a08f); }
+.rb-jump a b { font: 700 15px/1 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
+.rb-jump a:hover { color: var(--a-ink, #f2f4ec); background: var(--a-hover, rgba(244, 245, 240, .04)); }
+.rb-jump a:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 6px; }
+.rb-basis { font-size: 12px; line-height: 1.55; color: var(--a-ink-3, #93a08f); }
+
+/* ---------- Sections ---------- */
+.rb-section { display: grid; gap: 14px; scroll-margin-top: 88px; min-width: 0; }
+.rb-section__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.rb-section__head h2 { font: 700 21px/1.25 var(--font-display, inherit); letter-spacing: -.015em; color: var(--a-ink, #f2f4ec); }
+.rb-section__head span { font-size: 13px; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+.rb-chapter { display: grid; gap: 8px; }
+.rb-chapter + .rb-chapter { margin-top: 10px; }
+.rb-chapter h3 { display: flex; align-items: baseline; gap: 10px; font: 650 14px/1.35 var(--font-display, inherit); color: var(--a-ink-2, #bcc5b9); }
+.rb-chapter h3 span { font: 500 12.5px/1 var(--font-body, inherit); color: var(--a-ink-3, #93a08f); }
+.rb-rules, .rb-habits { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+
+.rb-rule, .rb-habit {
+  min-width: 0; padding: 16px; border-radius: 16px;
+  border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16);
+}
+.rb-rule { display: grid; gap: 8px; }
+.rb-rule[data-active], .rb-habit[data-active] { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); background: color-mix(in oklab, var(--a-raised, #131a16) 92%, var(--a-select, #d2f000)); }
+.rb-rule__meta { font-size: 12.5px; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+.rb-rule__text { font: 650 16px/1.45 var(--font-display, inherit); letter-spacing: -.005em; color: var(--a-ink, #f2f4ec); max-width: 64ch; }
+.rb-rule__hook { font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); max-width: 64ch; }
+.rb-rule__hook span { font-weight: 650; color: var(--a-ink-3, #93a08f); }
+
+.rb-habit { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; }
+.rb-habit__icon {
+  width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center;
+  border: 1px solid var(--a-line, #253026); background: var(--a-sunken, #0f1512); color: var(--a-ink-2, #bcc5b9);
+}
+.rb-habit[data-active] .rb-habit__icon { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); color: var(--a-accent-text, #d2f000); }
+.rb-habit[data-gated] .rb-habit__icon { border-style: dashed; background: transparent; color: var(--a-ink-3, #93a08f); }
+.rb-habit__main { display: grid; gap: 8px; min-width: 0; }
+.rb-habit__text { padding-top: 2px; font: 650 16px/1.45 var(--font-display, inherit); letter-spacing: -.005em; color: var(--a-ink, #f2f4ec); max-width: 60ch; }
+.rb-habit__evidence { font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 64ch; font-variant-numeric: tabular-nums; }
+.rb-habit__evidence .ml-num { font-weight: 700; color: var(--a-ink, #f2f4ec); }
+.rb-habit[data-gated] .rb-habit__evidence { display: flex; align-items: flex-start; gap: 6px; font-size: 14px; color: var(--a-ink-3, #93a08f); }
+.rb-habit[data-gated] .rb-habit__evidence svg { flex: none; margin-top: 3px; }
+
+/* The Wilson interval: the range as a band on 0 to 100%, the share as a dot, and the same in words beside it. */
+.rb-band { display: grid; gap: 6px; max-width: 460px; padding-top: 2px; }
+.rb-band__track { position: relative; height: 10px; border-radius: 999px; background: var(--a-sunken, #0f1512); box-shadow: inset 0 0 0 1px var(--a-line, #253026); }
+.rb-band__range { position: absolute; top: 0; bottom: 0; left: var(--l); width: var(--w); border-radius: 999px; background: color-mix(in oklab, var(--a-accent-text, #d2f000) 30%, transparent); transform-origin: left; }
+.rb-band__dot {
+  position: absolute; top: 50%; left: var(--x); width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+  background: var(--a-accent-text, #d2f000); box-shadow: 0 0 0 3px var(--a-raised, #131a16);
+}
+.rb-band__text { font-size: 12.5px; line-height: 1.45; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+.rb-band__text b { font-weight: 650; color: var(--a-ink-2, #bcc5b9); }
+
+/* ---------- Actions ---------- */
+.rb-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 4px; }
+.rb-use, .rb-copy {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 12px; cursor: pointer;
+  font: 700 14px/1.2 var(--font-display, inherit); letter-spacing: -.003em;
+}
+.rb-use { border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink, #f2f4ec); }
+.rb-use svg { color: var(--a-accent-text, #d2f000); }
+.rb-use:hover:not(:disabled) { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-volt-wash, rgba(210, 240, 0, .07)); }
+.rb-use:disabled { cursor: default; opacity: .5; }
+.rb-use[aria-busy] { opacity: 1; border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); }
+.rb-copy { padding: 0 12px; border: 1px solid transparent; background: transparent; color: var(--a-ink-2, #bcc5b9); font-family: var(--font-body, inherit); font-weight: 600; }
+.rb-copy:hover { background: var(--a-hover, rgba(244, 245, 240, .04)); color: var(--a-ink, #f2f4ec); }
+.rb-copy[data-state='copied'] { color: var(--a-good-text, #b6e36e); }
+.rb-copy[data-state='failed'] { color: var(--a-bad-text, #ff9d92); }
+.rb-use:focus-visible, .rb-copy:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+.rb-inuse {
+  display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 14px; border-radius: 999px;
+  border: 1px solid var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-volt-wash, rgba(210, 240, 0, .07));
+  color: var(--a-accent-text, #d2f000); font: 700 13px/1.2 var(--font-display, inherit);
+}
+.rb-err { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; line-height: 1.45; color: var(--a-bad-text, #ff9d92); }
+.rb-err svg { flex: none; margin-top: 2px; }
+
+/* ---------- Empty, gate, failure, loading ---------- */
+.rb-empty {
+  display: flex; align-items: flex-start; gap: 10px; padding: 16px; border-radius: 16px;
+  border: 1px dashed var(--a-line-strong, #384736); font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9);
+}
+.rb-empty svg { flex: none; margin-top: 1px; color: var(--a-ink-3, #93a08f); }
+.rb-fail { display: grid; justify-items: start; gap: 10px; padding: 18px; border-radius: 16px; border: 1px solid var(--a-line-strong, #384736); background: var(--a-sunken, #0f1512); color: var(--a-ink-2, #bcc5b9); }
+.rb-fail > svg { color: var(--a-bad-text, #ff9d92); }
+.rb-skel { display: block; height: 128px; border-radius: 16px; }
+.rb-skel--now { height: 210px; border-radius: 20px; }
+
+@media (max-width: 560px) {
+  .rb-now { padding: 18px 16px; }
+  .rb-rule, .rb-habit { padding: 14px; }
+  .rb-habit { grid-template-columns: 38px minmax(0, 1fr); gap: 12px; }
+  .rb-habit__icon { width: 38px; height: 38px; border-radius: 11px; }
+  .rb-rule__text, .rb-habit__text { font-size: 15.5px; }
+}
+
+/* ---------- Motion. Everything lands in its final state without it. ---------- */
+.rb-spin { animation: rb-spin 800ms linear infinite; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .rb-side, :root:not([data-motion='reduced']) .rb-section { animation: rb-rise 320ms var(--a-ease, ease-out) both; }
+  :root:not([data-motion='reduced']) .rb-section:nth-child(1) { animation-delay: 45ms; }
+  :root:not([data-motion='reduced']) .rb-section:nth-child(2) { animation-delay: 90ms; }
+  :root:not([data-motion='reduced']) .rb-now__body { animation: rb-rise 260ms var(--a-ease, ease-out) both; }
+  :root:not([data-motion='reduced']) .rb-inuse { animation: rb-pop 200ms var(--a-ease, ease-out) both; }
+  :root:not([data-motion='reduced']) :is(.rb-rule, .rb-habit) { transition: border-color 200ms var(--a-ease, ease-out), background-color 200ms var(--a-ease, ease-out); }
+  :root:not([data-motion='reduced']) :is(.rb-use, .rb-copy) { transition: border-color 150ms var(--a-ease, ease-out), background-color 150ms var(--a-ease, ease-out), color 150ms var(--a-ease, ease-out), transform 100ms var(--a-ease, ease-out); }
+  :root:not([data-motion='reduced']) :is(.rb-use, .rb-copy):active:not(:disabled) { transform: scale(.97); }
+  :root:not([data-motion='reduced']) .rb-band__range { animation: rb-band 420ms var(--a-ease, ease-out) 120ms both; }
+  :root:not([data-motion='reduced']) .rb-band__dot { animation: rb-fade 200ms var(--a-ease, ease-out) 360ms both; }
+}
+@media (prefers-reduced-motion: reduce) { .rb-spin { animation-duration: 2s; } }
+@keyframes rb-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes rb-pop { from { opacity: 0; transform: scale(.95); } to { opacity: 1; transform: none; } }
+@keyframes rb-band { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes rb-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rb-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Review's way in (RulesEntry.jsx) ---------- */
+.rb-entry {
+  display: grid; grid-template-columns: 44px minmax(0, 1fr) 20px; align-items: center; gap: 14px; min-height: 72px; padding: 14px 16px 14px 14px;
+  border-radius: 18px; border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
+  color: var(--a-ink, #f2f4ec); text-decoration: none;
+}
+.rb-entry__icon { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: var(--a-volt-wash, rgba(210, 240, 0, .07)); color: var(--a-accent-text, #d2f000); box-shadow: inset 0 0 0 1px var(--a-volt-line, rgba(210, 240, 0, .5)); }
+.rb-entry__text { display: grid; gap: 3px; min-width: 0; }
+.rb-entry__text b { font: 700 16px/1.3 var(--font-display, inherit); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+.rb-entry__text span { font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2, #bcc5b9); }
+.rb-entry__go { color: var(--a-ink-3, #93a08f); }
+.rb-entry:hover { border-color: var(--a-line-hover, rgba(244, 245, 240, .32)); }
+.rb-entry:hover .rb-entry__go { color: var(--a-ink, #f2f4ec); }
+.rb-entry:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .rb-entry { transition: border-color 150ms var(--a-ease, ease-out), transform 100ms var(--a-ease, ease-out); }
+  :root:not([data-motion='reduced']) .rb-entry:active { transform: scale(.99); }
+  :root:not([data-motion='reduced']) .rb-entry__go { transition: transform 180ms var(--a-ease, ease-out), color 150ms ease-out; }
+  :root:not([data-motion='reduced']) .rb-entry:hover .rb-entry__go { transform: translateX(3px); }
+  :root:not([data-motion='reduced']) .rb-entry[data-state='ready'] .rb-entry__text { animation: rb-fade 200ms var(--a-ease, ease-out) both; }
+}

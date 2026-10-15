@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
+import { Users } from 'lucide-react';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
@@ -26,6 +27,7 @@ import { useMobiPrefs } from '@/lib/mobiPrefs';
 import '@/components/recovery/result.css';
 import { plainOptionTexts } from '@/../data/option_text';
 import { mobiReaction, answerReaction, repairKeyLabel, repairCandidates, verdictWord } from './reaction';
+import { heroRepairKey, inRepairOrder } from '@/components/result/labLoop';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -113,7 +115,10 @@ export default function ResultPageClient({ previewId = null }) {
   const visible = useMemo(() => analysis ? analysis.rows.filter(r => filter === 'all' || r.verdict === filter) : [], [analysis, filter]);
 
   // The run is the paper's mistakes that repair could open when the result loaded (a key held later stays in it, as a set-aside segment).
-  const runIds = useMemo(() => (attempt && analysis ? repairCandidates(analysis, new Set(), attempt.answerReviews).map(r => r.q.id) : []),
+  // In the server's repair order when it sends one (lab.repairOrder, spec 4.7), so the key, the queue, the track and
+  // each repair's "next" all follow the same order; without one, paper order as before.
+  const repairOrder = attempt?.lab?.repairOrder || null;
+  const runIds = useMemo(() => (attempt && analysis ? repairCandidates(analysis, new Set(), attempt.answerReviews, attempt.lab?.repairOrder).map(r => r.q.id) : []),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [attempt?.id, analysis?.rows.length]);
   const runNumbers = useMemo(() => Object.fromEntries((analysis?.rows || []).map(r => [r.q.id, r.number])), [analysis]);
@@ -178,9 +183,9 @@ export default function ResultPageClient({ previewId = null }) {
   }, []);
 
   const repairNext = useCallback(() => {
-    const next = analysis?.mistakes.find(r => !handled.has(r.q.id));
+    const next = inRepairOrder(analysis?.mistakes, repairOrder).find(r => !handled.has(r.q.id));
     if (next) jumpTo(next.number, { repair: true });
-  }, [analysis, handled, jumpTo]);
+  }, [analysis, handled, jumpTo, repairOrder]);
 
   // Long press on a bubble shows its label instead of jumping.
   useEffect(() => {
@@ -213,8 +218,10 @@ export default function ResultPageClient({ previewId = null }) {
   // Mobi's reaction follows the server's recap tone, the same table as the app; none in NTA mode.
   const reaction = mobiReaction(attempt, { celebrations: prefs.celebrations, hour });
   const isNtaAttempt = attempt.selectionMeta?.mode === 'nta';
-  const candidates = repairCandidates(analysis, handled, attempt.answerReviews);
-  const repairKey = repairKeyLabel(candidates);
+  const candidates = repairCandidates(analysis, handled, attempt.answerReviews, repairOrder);
+  // "Repair Q12 first" with "26 of 31 other students got it right." when the first one left is cohort-led; else today's key.
+  const repairKey = heroRepairKey(candidates, repairOrder, repairKeyLabel);
+  const orderedMistakes = inRepairOrder(analysis.mistakes, repairOrder);
   const firstWrong = analysis.rows.findIndex(r => r.verdict === 'wrong');
   const rippleStep = firstWrong > 0 ? Math.min(35, Math.round(700 / firstWrong)) : 0;
   // The ending reads the run's real outcomes; "Try the same mistakes again" reopens exactly those that did not settle.
@@ -294,7 +301,12 @@ export default function ResultPageClient({ previewId = null }) {
             </li>
           ))}
         </ol>
-        {repairKey ? <div className="rp-hero__next"><button type="button" className="rp-repair-key" onClick={() => jumpTo(candidates[0].number, { repair: true })}>{repairKey}</button></div> : null}
+        {repairKey ? (
+          <div className="rp-hero__next" data-why={repairKey.line ? '' : undefined}>
+            <button type="button" className="rp-repair-key" aria-describedby={repairKey.line ? 'rp-key-why' : undefined} onClick={() => jumpTo(candidates[0].number, { repair: true })}>{repairKey.label}</button>
+            {repairKey.line ? <p id="rp-key-why" className="rp-hero__why" key={repairKey.number}><Users size={15} strokeWidth={2.2} aria-hidden="true" /><span>{repairKey.line}</span></p> : null}
+          </div>
+        ) : null}
       </header>
 
       {/* ---------- 2. Mistake Lab: where the marks went (the ledger, from attempt.lab), Find (time and decisions; chapters
@@ -399,7 +411,7 @@ export default function ResultPageClient({ previewId = null }) {
                         isCurrent={!engaged || runCurrent === q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}
                         handover={handover?.qid === q.id ? (handover.n % 2 ? 'a' : 'b') : null}
                         earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissLine(m), href: `/result/${m.attemptId}` } : null; })()}
-                        next={(() => { const n = analysis.mistakes.find(m => m.number > number && !handled.has(m.q.id)) || analysis.mistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
+                        next={(() => { const at = orderedMistakes.findIndex(m => m.q.id === q.id); const n = orderedMistakes.find((m, i) => i > at && !handled.has(m.q.id)) || orderedMistakes.find(m => m.q.id !== q.id && !handled.has(m.q.id)); return n ? { number: n.number, go: () => jumpTo(n.number, { repair: true }) } : null; })()} />
                     ) : null}
                     {review && !(isWrong && Number.isInteger(given)) ? review.state === 'corrected' || review.state === 'key_changed_unverified' ? <AnswerCorrectionNotice review={review} /> : <KeyReviewNotice chosenLetter={Number.isInteger(given) ? LETTERS[given] : null} keyLetter={LETTERS[q.correctIndex]} reviewState={review.state} /> : null}
                     <div className="rp-q__foot">

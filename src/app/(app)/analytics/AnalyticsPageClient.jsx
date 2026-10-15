@@ -3,8 +3,11 @@
 // Radar: where the student's marks are going. The record view (ledger, leaks, chapters, changed
 // answers, pace, week on week) is the same free, model-free analysis PrepOS uses, so the two never
 // disagree. The score trend keeps the attempt-level chart. No invented composite scores.
+// "Across your mocks" (spec tmp/mistake-lab-v4/SPEC.md 4.9) leads the record: the same component and the same server
+// sentences as the end of the Mistake Lab (GET /api/me/rules), open here, with the way into the Rule book.
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { BookMarked, RefreshCw } from 'lucide-react';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import LearningNextAction from '@/components/LearningNextAction';
@@ -14,6 +17,8 @@ import { useAuth } from '@/components/AuthProvider';
 import { AppIcon, SubjectIcon } from '@/components/ui/Glyph';
 import { useInView } from '@/lib/motion';
 import TrendScrub from './TrendScrub';
+import AcrossMocks from '@/components/result/AcrossMocks';
+import { useRuleBook } from '@/components/rules/useRuleBook';
 import './analytics.css';
 
 // A thin bar that inks in when its row scrolls into view. The figure beside it carries the number.
@@ -47,6 +52,7 @@ export default function AnalyticsPageClient() {
   const record = useInsights(user?.id);
   const colors = useChartColors();
   const pro = Boolean(user?.isPremium);
+  const rules = useRuleBook({ enabled: authStatus !== 'loading' && Boolean(user?.id) });
 
   useEffect(() => {
     if (authStatus === 'loading' || !user?.id) return undefined;
@@ -83,6 +89,13 @@ export default function AnalyticsPageClient() {
 
       <div className="rd-cols">
         <div className="pp-arena rd-main">
+          {rules.state === 'ready' && rules.data?.acrossMocks ? (
+            <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={rules.data.book?.countLabel ? (
+              <Link href="/review/rules" className="rd-rules"><BookMarked size={16} strokeWidth={2.1} aria-hidden="true" />{rules.data.book.countLabel}</Link>
+            ) : null} />
+          ) : rules.state === 'error' ? (
+            <p className="rd-across-fail" role="status">{rules.message} <button type="button" onClick={rules.retry}><RefreshCw size={14} strokeWidth={2.2} aria-hidden="true" />Try again</button></p>
+          ) : rules.state === 'loading' ? <div className="rd-across-wait skeleton" aria-hidden="true" /> : null}
           <RecordView state={record} pro={pro} onNavigate={(href) => { window.location.assign(href); }} />
         </div>
 
