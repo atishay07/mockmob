@@ -10,7 +10,8 @@
 //
 // Default is a dry run: nothing is written to any database; the rows' counts, sizes and timing go to
 // --out (default tmp/nta-index-dry-run.json). --write upserts the rows into nta_question_index and
-// removes that subject's rows that no longer verify; it refuses the production project unless
+// removes that subject's rows that no longer verify (the logic lives in data/nta_index.js, which the
+// authored-publish script and the daily cron also use); it refuses the production project unless
 // --allow-production is also given (the owner's call, after the migration is applied).
 // No model is called.
 import fs from 'node:fs';
@@ -44,42 +45,20 @@ if (write && projectRef === PRODUCTION_REF && !flag('--allow-production')) {
 }
 
 const { CUET_PUBLIC_ALLOWED_SUBJECTS, toInternalSubjectId } = await import('../data/cuet_controls.js');
-const { NTA_INDEX_VERSION, ntaScoreIntegrity, ntaScoreOf, signNtaIndex } = await import('../data/nta_engine.js');
-const { loadNtaPoolFull, attachPassages, NTA_SLIM_COLUMNS } = await import('../data/nta_pool.js');
-const { contentHash } = await import('../data/content_evidence.js');
-const { objectiveTagOf } = await import('../data/nta_item_checks.js');
+const { NTA_INDEX_VERSION } = await import('../data/nta_engine.js');
+const { NTA_SLIM_COLUMNS } = await import('../data/nta_pool.js');
+const { buildNtaIndexRows, writeNtaIndexRows } = await import('../data/nta_index.js');
 
 const db = createClient(url, key, { auth: { persistSession: false } });
-const verifiedAt = new Date().toISOString();
-const report = { generatedAt: verifiedAt, project: projectRef, write, indexVersion: NTA_INDEX_VERSION, subjects: [] };
+const report = { generatedAt: new Date().toISOString(), project: projectRef, write, indexVersion: NTA_INDEX_VERSION, subjects: [] };
 
 for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
   if (onlySubject && subject !== onlySubject) continue;
   const internal = toInternalSubjectId(subject);
   const started = Date.now();
-  const pool = await attachPassages(db, await loadNtaPoolFull(db, internal));
+  // verified_at is stamped per subject, at or after that subject's newest live question (data/nta_index.js).
+  const { pool, rows, rejected } = await buildNtaIndexRows(db, internal, { secret });
   const fullMs = Date.now() - started;
-  const rows = [];
-  const rejected = {};
-  for (const row of pool) {
-    const { score, source, luna, gemini } = ntaScoreOf(row);
-    if (source !== 'evidence_judges' || score === null) { rejected.no_evidence_score = (rejected.no_evidence_score || 0) + 1; continue; }
-    const reasons = ntaScoreIntegrity(row, { secret });
-    if (reasons.length) { for (const reason of reasons) rejected[reason] = (rejected[reason] || 0) + 1; continue; }
-    const entry = {
-      question_id: row.id,
-      subject: internal,
-      score,
-      luna,
-      gemini,
-      content_hash: contentHash(row),
-      family_id: row.family_id || row.evidence?.record?.family_id || null,
-      objective_tag: objectiveTagOf(row),
-      index_version: NTA_INDEX_VERSION,
-      verified_at: verifiedAt,
-    };
-    rows.push({ ...entry, signature: signNtaIndex(entry, secret) });
-  }
   const fullBytes = Buffer.byteLength(JSON.stringify(pool));
   // What the runtime would read through the index: the slim rows plus the questions without evidence.
   const slimStarted = Date.now();
@@ -91,26 +70,7 @@ for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
     slimBytes += Buffer.byteLength(JSON.stringify(data || []));
   }
   const slimMs = Date.now() - slimStarted;
-  let written = 0;
-  let removed = 0;
-  if (write && rows.length) {
-    for (let i = 0; i < rows.length; i += 500) {
-      const { error } = await db.from('nta_question_index').upsert(rows.slice(i, i + 500), { onConflict: 'question_id' });
-      if (error) throw error;
-      written += Math.min(500, rows.length - i);
-    }
-  }
-  if (write) {
-    const { data: existing, error } = await db.from('nta_question_index').select('question_id').eq('subject', internal);
-    if (error) throw error;
-    const keep = new Set(ids);
-    const stale = (existing || []).map((row) => row.question_id).filter((id) => !keep.has(id));
-    for (let i = 0; i < stale.length; i += 300) {
-      const { error: deleteError } = await db.from('nta_question_index').delete().in('question_id', stale.slice(i, i + 300));
-      if (deleteError) throw deleteError;
-      removed += Math.min(300, stale.length - i);
-    }
-  }
+  const { written, removed } = write ? await writeNtaIndexRows(db, internal, rows) : { written: 0, removed: 0 };
   const summary = { subject, loaded: pool.length, indexed: rows.length, rejected, fullReadMs: fullMs, fullBytes, slimReadMs: slimMs, slimBytes, written, removed };
   report.subjects.push(summary);
   console.log(subject.padEnd(18), `loaded ${pool.length}`, `indexed ${rows.length}`, `full ${(fullBytes / 1e6).toFixed(2)} MB ${fullMs} ms`, `slim ${(slimBytes / 1e6).toFixed(2)} MB ${slimMs} ms`, write ? `written ${written} removed ${removed}` : '(dry run)');
