@@ -121,9 +121,11 @@ class WelcomeHeroLayout {
   static const double daySheetLeft = 0.61;
 
   /// Day: the painting's width as a share of the screen's (its feathered sides and the plant
-  /// run off the edges; the window, the lamp, the pool and the sheet stay in view), how far its
+  /// run off the edges; the window, the lamp, the pool and the sheet stay in view: 1.5 is the most
+  /// that keeps the whole pinned sheet on a 384 dp screen, and it closes the empty band above the
+  /// room that 1.3 left under the wordmark), how far its
   /// feathered foot runs under the words, and Mobi's height as a share of its height.
-  static const double dayGrow = 1.3;
+  static const double dayGrow = 1.5;
   static const double dayOverlap = MmSpace.s16;
   static const double dayMobiShare = 0.48;
 

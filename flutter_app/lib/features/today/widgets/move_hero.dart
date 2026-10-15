@@ -337,22 +337,30 @@ class MeaningWithShowMe extends StatelessWidget {
               style: type.body.copyWith(color: color),
               children: [
                 TextSpan(text: '$text '),
-                if (shown.isNotEmpty)
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: MmSpace.s6),
-                      child: BubbleRow(states: shown, bubbleSize: 6, gap: 3),
-                    ),
-                  ),
-                TextSpan(
-                  text: TodayCopy.showMe,
-                  style: TextStyle(
-                    color: pressed ? colors.ink2 : colors.ink,
-                    fontWeight: FontWeight.w600,
-                    decoration: TextDecoration.underline,
-                    decorationColor: link,
-                    decorationThickness: 2,
+                // The marks and the words are one unit, so a line break never strands the marks
+                // at the end of the sentence with the link alone on the next line.
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      if (shown.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(right: MmSpace.s6),
+                          child: BubbleRow(states: shown, bubbleSize: 6, gap: 3),
+                        ),
+                      Text(
+                        TodayCopy.showMe,
+                        style: type.body.copyWith(
+                          color: pressed ? colors.ink2 : colors.ink,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.underline,
+                          decorationColor: link,
+                          decorationThickness: 2,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
