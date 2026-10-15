@@ -1,0 +1,95 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { SAMPLE_BANK, dealSet } from './sampleBank.mjs';
+import { SAMPLE_SUBJECTS, SAMPLE_SIZE, sampleSubject } from './sampleSubjects.mjs';
+import { SAMPLE_RECORD_KEY, nextRecord, recordSample } from './sampleRecord.mjs';
+import { CUET_PUBLIC_ALLOWED_SUBJECTS } from '../../../data/cuet_controls.js';
+
+// The landing sample: every subject a visitor can pick has five well-formed questions, the picker offers exactly
+// the subjects MockMob practises, and the record the dock reads follows the contract.
+
+test('the picker offers every practised subject, the five launch chips first', () => {
+  assert.deepEqual([...SAMPLE_SUBJECTS.map((s) => s.id)].sort(), [...CUET_PUBLIC_ALLOWED_SUBJECTS].sort());
+  assert.deepEqual(SAMPLE_SUBJECTS.filter((s) => s.featured).map((s) => s.name), ['Accountancy', 'Business Studies', 'Economics', 'English', 'General Test']);
+  assert.equal(sampleSubject('economics').name, 'Economics');
+  assert.equal(sampleSubject('nope'), null);
+});
+
+test('each subject has five questions with four distinct options and a valid key', () => {
+  for (const { id } of SAMPLE_SUBJECTS) {
+    const set = SAMPLE_BANK[id];
+    assert.ok(Array.isArray(set), `${id} has questions`);
+    assert.equal(set.length, SAMPLE_SIZE, `${id} has ${SAMPLE_SIZE}`);
+    for (const item of set) {
+      assert.equal(item.options.length, 4, item.q);
+      assert.equal(new Set(item.options).size, 4, `distinct options: ${item.q}`);
+      assert.ok(Number.isInteger(item.correct) && item.correct >= 0 && item.correct < 4, item.q);
+      for (const field of ['q', 'why', 'chapter']) assert.ok(typeof item[field] === 'string' && item[field].trim(), `${field}: ${item.q}`);
+    }
+    // The answers are not all in one position, so guessing one letter does not pass a set.
+    assert.ok(new Set(set.map((item) => item.correct)).size >= 2, `${id} spreads its keys`);
+  }
+});
+
+test('the copy follows the house rules: no exclamation marks, em dashes or middle dots', () => {
+  const text = JSON.stringify(SAMPLE_BANK) + JSON.stringify(SAMPLE_SUBJECTS);
+  assert.doesNotMatch(text, /!/);
+  assert.doesNotMatch(text, /—/);
+  assert.doesNotMatch(text, /·/);
+});
+
+test('the record keeps the contract and never steps back once finished', () => {
+  const first = nextRecord(null, { answered: 1, done: false, subject: 'economics', at: 'T1' });
+  assert.deepEqual(first, { answered: 1, done: false, subject: 'economics', at: 'T1' });
+  const finished = nextRecord(first, { answered: 5, done: true, subject: 'economics', at: 'T2' });
+  assert.deepEqual(finished, { answered: 5, done: true, subject: 'economics', at: 'T2' });
+  const again = nextRecord(finished, { answered: 2, done: false, subject: 'physics', at: 'T3' });
+  assert.deepEqual(again, { answered: 5, done: true, subject: 'physics', at: 'T3' });
+  assert.deepEqual(nextRecord({ answered: 'x', done: 'yes' }, { answered: 1, done: false, subject: 'english', at: 'T' }), { answered: 1, done: false, subject: 'english', at: 'T' });
+});
+
+test('recordSample writes the key, announces the right event, and survives blocked storage', () => {
+  const store = new Map();
+  const events = [];
+  class FakeEvent { constructor(type, init) { this.type = type; this.detail = init?.detail; } }
+  const env = {
+    localStorage: { getItem: (k) => store.get(k) ?? null, setItem: (k, v) => store.set(k, v) },
+    CustomEvent: FakeEvent,
+    dispatchEvent: (e) => events.push(e),
+  };
+  recordSample({ answered: 1, done: false, subject: 'english' }, env);
+  recordSample({ answered: 5, done: true, subject: 'english' }, env);
+  const saved = JSON.parse(store.get(SAMPLE_RECORD_KEY));
+  assert.equal(SAMPLE_RECORD_KEY, 'mm:sample:v1');
+  assert.equal(saved.answered, 5);
+  assert.equal(saved.done, true);
+  assert.equal(saved.subject, 'english');
+  assert.ok(!Number.isNaN(Date.parse(saved.at)));
+  assert.deepEqual(events.map((e) => e.type), ['mm:sample-progress', 'mm:sample-done']);
+  assert.equal(events[1].detail.done, true);
+
+  const blocked = { get localStorage() { throw new Error('blocked'); }, CustomEvent: FakeEvent, dispatchEvent: (e) => events.push(e) };
+  const record = recordSample({ answered: 2, done: false, subject: 'physics' }, blocked);
+  assert.equal(record.answered, 2);
+  assert.equal(events.at(-1).type, 'mm:sample-progress');
+  assert.equal(recordSample({ answered: 1, done: false, subject: 'x' }, null), null);
+});
+
+test('dealing shuffles words, keeps ordered scales, and always moves the key with its option', () => {
+  let seed = 7;
+  const random = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  const positions = new Set();
+  for (const { id } of SAMPLE_SUBJECTS) {
+    const dealt = dealSet(id, random);
+    assert.equal(dealt.length, SAMPLE_SIZE);
+    dealt.forEach((item, i) => {
+      const source = SAMPLE_BANK[id][i];
+      assert.equal(item.options[item.correct], source.options[source.correct], `key follows: ${source.q}`);
+      assert.deepEqual([...item.options].sort(), [...source.options].sort());
+      if (source.keep || source.options.every((o) => /^[\d₹+−(.-]/.test(o))) assert.deepEqual(item.options, source.options);
+      positions.add(item.correct);
+    });
+  }
+  assert.equal(positions.size, 4);
+  assert.deepEqual(dealSet('nope'), []);
+});

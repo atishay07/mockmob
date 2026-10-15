@@ -50,6 +50,8 @@ export function HeroBackdrop() {
   return (
     <div ref={ref} className="lp-bg" aria-hidden="true" data-live="false">
       <div className="lp-bg__aurora" />
+      {/* Two soft volt lights that slowly drift and change shape behind the headline (transform only, hero-v3.css). */}
+      <div className="lp-bg__morph"><i /><i /></div>
       <div className="lp-bg__grid" />
       <div className="lp-bg__dots" />
       <div className="lp-bg__spot" />

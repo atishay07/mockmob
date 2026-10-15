@@ -5,7 +5,6 @@ import { readFileSync } from 'node:fs';
 import { SAMPLE_QUESTIONS, SAMPLE_VERSION, validateSampleImport, saveSampleImport } from '../../src/lib/server/sampleImport.js';
 
 const migration = readFileSync(new URL('../../supabase/migrations/20261013093000_sample_imports.sql', import.meta.url), 'utf8');
-const drill = readFileSync(new URL('../../src/components/landing/DemoDrill.jsx', import.meta.url), 'utf8');
 
 const KEY1 = 'import-key-aaaaaaaa';
 const KEY2 = 'import-key-bbbbbbbb';
@@ -33,12 +32,23 @@ async function setup() {
 }
 const save = (client, user, b) => { const v = validateSampleImport(b); assert.ok(v.ok, JSON.stringify(v)); return saveSampleImport(client, user, v.value); };
 
-test('constants match the five DemoDrill questions', () => {
+// The landing sample now asks for a subject first and serves five questions of it (src/components/landing/
+// sampleBank.mjs). The five 'landing-v1' questions keep their place in that bank, unchanged, so a stored import
+// still names real questions: English 1, Accountancy 1 and 2, Economics 1, Business Studies 1.
+test('constants match the five original landing questions, still in the sample bank', async () => {
+  const { SAMPLE_BANK } = await import('../../src/components/landing/sampleBank.mjs');
   assert.equal(SAMPLE_QUESTIONS.length, 5);
-  const subjects = [...drill.matchAll(/subject: '([^']+)'/g)].map(m => m[1]);
-  assert.deepEqual(SAMPLE_QUESTIONS.map(q => q.subject), subjects);
-  const correct = [...drill.matchAll(/correct: (\d)/g)].map(m => 'ABCD'[Number(m[1])]);
-  assert.deepEqual(SAMPLE_QUESTIONS.map(q => q.correctKey), correct);
+  const originals = [
+    ['English', SAMPLE_BANK.english[0]],
+    ['Accountancy', SAMPLE_BANK.accountancy[0]],
+    ['Economics', SAMPLE_BANK.economics[0]],
+    ['Accountancy', SAMPLE_BANK.accountancy[1]],
+    ['Business Studies', SAMPLE_BANK.business_studies[0]],
+  ];
+  assert.deepEqual(SAMPLE_QUESTIONS.map(q => q.subject), originals.map(([subject]) => subject));
+  assert.deepEqual(SAMPLE_QUESTIONS.map(q => q.correctKey), originals.map(([, item]) => 'ABCD'[item.correct]));
+  assert.match(originals[0][1].q, /CANDID/);
+  assert.match(originals[3][1].q, /Goodwill brought in by an incoming partner/);
 });
 
 test('validation accepts a good body and scores it', () => {

@@ -134,6 +134,13 @@ body:has(.mm.lp) {
   opacity: 1;
   transform: none;
 }
+/* Reached at speed (a fling, a hard wheel, a jump) or from above: the same entrance, short and all at once,
+   so the page never settles on half-faded content that is still staggering in (Reveal.jsx, data-snap). */
+.lp .rv[data-snap="true"],
+.lp .rv[data-snap="true"] :is(.rv-item, .mm-readout__fill, .lp-palette span, .mm-compass__rows li) {
+  transition-duration: 0.3s;
+  transition-delay: 0s;
+}
 
 /* ---------- Type ---------- */
 
@@ -1452,7 +1459,9 @@ body:has(.mm.lp) {
    while the phone is still drawing the hero. Once drawn, a section keeps its real height (auto); until then
    it reserves its measured content height (padding comes on top; the held stories scale with the screen's
    height, desktop from 960px), so the scrollbar and in-page links barely move. Nothing is removed: each
-   section renders in full, with its stories and animations, before it reaches the screen. */
+   section renders in full, with its stories and animations, before it reaches the screen. Once the reader
+   first moves, settleUndrawn (components/landing/undrawn.js) draws each waiting section once off screen, so
+   its real height is remembered before a fast scroll arrives and nothing jumps under a held story. */
 .lp main > :is(.lp-sec, .lp-close) { content-visibility: auto; contain-intrinsic-size: auto 1000px; }
 .lp main > #inside-the-lab { contain-intrinsic-size: auto 430svh; }
 .lp main > #your-prep { contain-intrinsic-size: auto 580svh; }

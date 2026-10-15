@@ -1,24 +1,26 @@
 import Link from 'next/link';
-import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
+import { CAPABILITIES, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
 import { ArrowRight, Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
-import { LandingActions } from '@/components/LandingActions';
+import { HeroKeys } from '@/components/landing/HeroKeys';
+import { HeroLive } from '@/components/landing/HeroLive';
+import { MorphWord } from '@/components/landing/MorphWord';
 import { DemoDrill } from '@/components/landing/DemoDrill';
-import { CloseActions, DockLine } from '@/components/landing/CloseActions';
+import { CloseActions } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
-import { HeroDockGate, DockMobi } from '@/components/landing/HeroDockGate';
+import { LandingDock } from '@/components/landing/HeroDockGate';
 import { Reveal } from '@/components/landing/Reveal';
 import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
 import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
 import { ExamComparator } from '@/components/landing/ExamComparator';
 import FeatureTour from '@/components/landing/FeatureTour';
+import { SectionHeading } from '@/components/landing/SectionHeading';
 import MistakeLab from '@/components/landing/MistakeLab';
 import LabCinema from '@/components/landing/LabCinema';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -43,9 +45,10 @@ import './feature-tour.css';
 import './tour-screens.css';
 import './lab-cinema.css';
 import './home.css';
+import './hero-v3.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
-  'Quick Practice and Full Mock on credits',
+  'Quick Practice and Full Mock on Practice credits',
   'Weekly progress tracking',
   '25 saved questions',
   'Leaderboard',
@@ -65,7 +68,7 @@ const DU_FACTS = duIndexFacts();
 
 // The statement scrubs word by word with the scroll (on phones it holds the screen while it does).
 // Words marked with * carry the accent.
-const STATEMENT = 'Your lost marks went somewhere. MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
+const STATEMENT = 'Practise on the exam clock. See where every mark went. Fix the *reason, not just the answer. Then check your DU *shortlist against real cutoffs.';
 // The four launch papers as the app's lamp-lit objects. Each lands on its shadow from its own height as the
 // statement scrolls: depth is how far it falls (px), tilt how far it turns on the way. base is where the
 // object's contact shadow ends, as a share of its square box, so on phones the name sits right under it.
@@ -95,12 +98,12 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 // chips say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
 // Add `video: '/demos/<id>.mp4'` to a slide to play a real screen recording in its place.
 const TOUR = [
-  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Arena', title: 'Practise the way the exam runs.',
+  { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Practice', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
-    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
-  { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
-    body: 'After a wrong answer, see why your pick was tempting, where it breaks and what to remember, written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
-    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' },
+    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 and −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
+  { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just the answer.',
+    body: 'After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the official key.',
+    points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' },
   ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', icon: <BookOpenText size={18} aria-hidden="true" />, line: 'Learn the idea, then keep it', kicker: 'Learn', title: 'Learn the idea behind the mark, then keep it.',
     body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
     points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects, with more on the way`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'Made to sit beside your NCERT.', href: '/learn', cta: 'Open Learn' }] : []),
@@ -112,7 +115,7 @@ const TOUR = [
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'Explore Radar' },
   { id: 'prepos', label: 'PrepOS', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'PrepOS', title: 'Ask what to do tonight. Get one clear step.',
     body: 'PrepOS reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in Radar.',
-    points: ['Questions about your own record are free', 'AI replies use monthly credits: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and Radar.', href: '/mentor', cta: 'Meet PrepOS' },
+    points: ['Questions about your own record are free', 'AI credits each month: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and Radar.', href: '/mentor', cta: 'Meet PrepOS' },
   { id: 'compass', label: 'DU Compass', icon: <Compass size={18} aria-hidden="true" />, line: 'Your shortlist against real DU cutoffs', kicker: 'Admission Compass', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
     points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Your practice, set against DU’s published cutoffs.', href: '/admission-compass', cta: 'Open Compass' },
@@ -120,13 +123,13 @@ const TOUR = [
     body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
     points: ['Free to use', 'Compare combinations side by side'], chip: 'Tested against DU’s published 2026 rules.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
   { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and leaderboard', title: 'Beat the score you’re aiming for.',
-    body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level. It shows whether you can hold that standard when the clock is running.',
+    body: 'Run a short timed set against a fixed target for accuracy and pace, at daily, college or DU level. See whether you hold the standard with the clock running.',
     points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See the leaderboard' },
 ];
 
 const faqs = [
-  { question: 'Can I try it before signing up?', answer: 'Yes. Answer five CUET-style questions at the top of this page, each with the reasoning behind the answer. No account needed.' },
-  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It is built first for English, Accountancy, Business Studies and Economics, with DU eligibility and published cutoffs alongside.' },
+  { question: 'Can I try it before signing up?', answer: 'Yes. Pick your subject at the top of this page and answer five CUET-style questions, each with the reason behind the answer. No account needed.' },
+  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. DU eligibility and published cutoffs sit alongside.' },
   { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
   { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `Monthly Pro at ₹${OFFER.monthly.rupees} a month is opening soon. Until then, ₹${OFFER.oneTime.rupees} once covers access through ${OFFER.oneTime.expires}, with no auto-renewal. Whoever pays now keeps the full term.` },
   { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. The exam pattern and the DU rules you see here come from what NTA and DU publish.' },
@@ -143,54 +146,50 @@ export default function LandingPage() {
       <NavBar />
       <main id="main-content">
         {/* ------------------------------ HERO ------------------------------ */}
-        <section className="lp-hero">
+        <section className="lp-hero lp-hero--v3">
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
+            {/* Everything the reader needs is in the server HTML and visible at first paint: no entrance hides the
+                words or the keys. The life is in the morphing line, the highlight, the live dot and the keys' light. */}
             <div className="lp-hero__copy">
-              <div className="lp-hero__greeting"><a href="#try-practice" className="lp-pill" data-hero style={{ '--h': 0 }}>
-                <span className="lp-pill__dot" aria-hidden="true" />
-                CUET UG 2027
-                <ArrowRight size={14} aria-hidden="true" />
-              </a><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
+              <div className="lp-hero__greeting"><HeroLive /><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
               <h1 className="lp-title">
-                {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
-                <span className="lp-title__line">CUET 2027.</span>
-                <span className="lp-title__line">One mock.</span>
-                <span className="lp-title__line lp-title__morph">A clearer next step.</span>
-                </>}
+                <span className="lp-title__kicker">CUET 2027</span>
+                <span className="lp-title__line">Your lost marks went somewhere.</span>
+                <span className="lp-title__line">MockMob shows you <span className="lp-title__hl">where.</span></span>
               </h1>
-              <p className="lp-lead" data-hero style={{ '--h': 1 }}>
-                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed mock. See where every mark went. Know what to practise tonight.'}
+              <p className="lp-hero__morph">
+                Down to{' '}
+                <MorphWord words={['the chapter.', 'the minute.', 'the changed answer.', 'the reason.']} label="the chapter, the minute, the changed answer and the reason." />
               </p>
-              <div className="lp-cta" data-hero style={{ '--h': 2 }}>
-                <LandingActions />
+              <p className="lp-lead">Then it picks the chapter for tonight and keeps your DU shortlist in sight.</p>
+              <div className="lp-cta">
+                <HeroKeys />
               </div>
-              <ul className="lp-trust" data-hero style={{ '--h': 3 }}>
+              <ul className="lp-trust">
                 <li><Check size={16} aria-hidden="true" />Free to start</li>
                 <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? `Pro ₹${OFFER.monthly.rupees} a month` : `Pro ₹${OFFER.oneTime.rupees} once, through ${OFFER.oneTime.expires}`}</li>
                 <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? 'Cancel anytime' : 'No auto-renewal'}</li>
               </ul>
-              <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool" data-hero style={{ '--h': 4 }}>
+              <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool">
                 Free DU eligibility and cutoff calculator
                 <ArrowRight size={16} aria-hidden="true" />
               </Link>
-              <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day<ArrowRight size={15} aria-hidden="true" /></a>
             </div>
 
             <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
-              <div className="lp-stage__heading"><span><span className="lp-stage__live" />Your first question starts here</span><span>No signup</span></div>
+              <div className="lp-stage__heading"><span><span className="lp-stage__live" />Five questions in your subject</span><span>No sign-up</span></div>
               <div className="lp-stage__card">
                 <DemoDrill />
               </div>
-              <div className="lp-stage__path"><span>Answer</span><i /><span>Read why it’s right</span></div>
-              <p className="lp-stage__note">Five original CUET-style questions, each with the reasoning behind the answer.</p>
+              <div className="lp-stage__path"><span>Pick a subject</span><i /><span>Answer</span><i /><span>Read why it’s right</span></div>
             </div>
           </div>
 
           {/* Second hero beat: real, linked facts on a glass dock over the hero's light. */}
           <div className="mm-wrap">
-            <nav className="lp-proof" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
-              <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>Try them before you sign up</span></a>
+            <nav className="lp-proof" aria-label="What MockMob gives you" data-hero style={{ '--h': 5 }}>
+              <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>In your subject, before you sign up</span></a>
               {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes to check against your subjects</span></a> : null}
               <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style, your pick</span></a>
               <a href="#your-prep"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions, one full CUET mock</span></a>
@@ -209,7 +208,8 @@ export default function LandingPage() {
               ))}
             </p>
             <div className="lp-shelf">
-              <ul className="lp-shelf__row" aria-label="Built first for CUET Commerce and English">
+              <p className="lp-shelf__label" id="lp-shelf-label">Pick your paper</p>
+              <ul className="lp-shelf__row" aria-labelledby="lp-shelf-label">
                 {SHELF.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
                   <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
                     <Link href={href} className="lp-shelf__link">
@@ -219,46 +219,39 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
-              <p className="lp-shelf__note">Built first for CUET Commerce and English.</p>
             </div>
           </div>
         </section>
 
         {/* ------------------- MISTAKE LAB CINEMA (held scroll story) ------------------ */}
-        <section className="lp-sec lp-sec--cinema" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
+        {/* Each held story's heading docks under the site bar while its story runs (SectionHeading). */}
+        <section className="lp-sec lp-sec--cinema lp-sh-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
           {/* Without JavaScript the held stories (ScrollStory) simply scroll as plain sections. */}
           <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
-          <div className="mm-wrap">
-            <Reveal className="lp-head lp-head--left lp-cinema-head">
-              <p className="lp-kicker">Mistake Lab</p>
-              <h2 className="lp-h2" id="inside-the-lab-title">Every mark, traced back to a moment.</h2>
-              <p className="lp-sub">A score tells you how it went. The Lab shows why: the minutes, the second thoughts, the reason behind each miss, and the plan for the next mock.</p>
-            </Reveal>
-          </div>
+          <SectionHeading titleId="inside-the-lab-title" className="lp-cinema-head" kicker="Mistake Lab"
+            title="Every mark, traced back to a moment."
+            sub="A score tells you how it went. The Lab shows why: the minutes, the second thoughts, the reason behind each miss, and the plan for the next mock."
+            mini={<>Inside the <em>Mistake Lab</em></>} />
           <LabCinema />
         </section>
 
         {/* --------------------------- FEATURE TOUR -------------------------- */}
-        <section className="lp-sec lp-sec--tour" id="your-prep">
+        <section className="lp-sec lp-sec--tour lp-sh-host" id="your-prep" aria-labelledby="your-prep-title">
+          <SectionHeading titleId="your-prep-title" title={<>What’s inside <em>MockMob</em>.</>}
+            sub="Practice, repair, replay and the plan that ties them together."
+            mini={<>What’s inside <em>MockMob</em></>} />
           <div className="mm-wrap">
-            <Reveal className="lp-head lp-head--left">
-              <h2 className="lp-h2">What’s inside MockMob.</h2>
-              <p className="lp-sub">Practice, repair, replay and the plan that ties them together.</p>
-            </Reveal>
             <FeatureTour slides={TOUR} />
           </div>
         </section>
 
         {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
-        <section className="lp-sec" id="score-recovery-lab">
+        <section className="lp-sec lp-sh-host" id="score-recovery-lab" aria-labelledby="score-recovery-lab-title">
+          <SectionHeading titleId="score-recovery-lab-title" kicker="Score Recovery Lab" title="Fix it once. Check it holds."
+            sub="Replay the session, repair the leak, then prove it on fresh questions days later."
+            mini={<><em>Score Recovery</em> Lab</>}
+            aside={<MascotSeat station="lab" pose="attentive" label="Let’s find the lost marks." />} />
           <div className="mm-wrap">
-            <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">Score Recovery Lab</p>
-              <h2 className="lp-h2">Fix it once. Check it holds.</h2>
-              <p className="lp-sub">
-                Replay the session, repair the leak, then prove it on fresh questions days later.
-              </p>
-            </Reveal><MascotSeat station="lab" pose="attentive" label="Let’s find the lost marks." /></div>
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
           </div>
         </section>
@@ -287,7 +280,7 @@ export default function LandingPage() {
                   <li><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared with Rounds I to III.</span></li>
                   <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter.</span></li>
                 </ul>
-                <p className="lp-cpro__fine">Comparing cutoffs is free, always.</p>
+                <p className="lp-cpro__fine">Comparing cutoffs stays free.</p>
               </Reveal>
             </div>
           </section>
@@ -300,7 +293,7 @@ export default function LandingPage() {
             <Reveal className="lp-head">
               <h2 className="lp-h2">Which DU courses fit your subjects?</h2>
               <p className="lp-sub">
-                Tick your subjects to see every DU programme they open under the 2026 rules, then compare college cutoffs in your category. Free, no signup.
+                Tick your subjects to see every DU programme they open under the 2026 rules, then compare college cutoffs in your category. Free, no sign-up.
               </p>
             </Reveal>
             <Reveal>
@@ -410,7 +403,7 @@ export default function LandingPage() {
           <Reveal className="mm-wrap lp-close__inner">
             <MascotSeat station="close" pose="greeting" label="See you at your first mock." />
             <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
-            <p className="lp-sub">Answer five now. Sign up when you want MockMob to keep your record.</p>
+            <p className="lp-sub">Answer five now. Start free when you want MockMob to keep your record.</p>
             <CloseActions />
           </Reveal>
           {/* Every same-page "Try a CUET question" link lands on the live sample question, every time. */}
@@ -419,11 +412,9 @@ export default function LandingPage() {
       </main>
       <MarketingFooter />
       <PipGuide />
-      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo, the DU teaser or the close band's actions hold the screen, and carries Mobi. */}
+      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo, the DU teaser or the close band's actions hold the screen, and carries Mobi. Its keys follow the visitor: new, answered some, signed in. */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
-      <HeroDockGate>
-        <MobileDock note={<DockMobi line={<DockLine />} />} label="Try a CUET question" href="/#try-practice" />
-      </HeroDockGate>
+      <LandingDock />
     </div>
   );
 }
