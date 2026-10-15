@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/domain.dart';
+import '../../../core/models/models.dart' show MistakeLab;
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -14,6 +15,7 @@ import '../model/recap_model.dart';
 import '../result_nav.dart';
 import '../widgets/breakdown_section.dart';
 import 'answer_row.dart';
+import 'lab_ledger_section.dart';
 
 /// Held, keys unavailable and corrected keys: said plainly, never a silent rewrite.
 List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {required VoidCallback onRetry}) {
@@ -34,11 +36,24 @@ List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {re
   ];
 }
 
-/// Where the marks went: the same flow as recap card 2, at rest.
-Widget whereSection(BuildContext context, RecapModel m, {ValueChanged<int>? onOpenQuestion}) => MmSection(
-  title: ResultCopy.sectionWhere,
-  child: BreakdownSection(breakdown: m.breakdown, flow: true, cells: onOpenQuestion == null ? null : m.cells, onOpenQuestion: onOpenQuestion),
-);
+/// The Mistake Lab: the marks ledger when the server sends a `ready` or `basic` [lab] (where the
+/// missed marks went, adding up exactly), otherwise today's flow of where the marks went, the same
+/// as recap card 2 at rest (no `lab` from an older server, answer checks not ready, nothing missed).
+Widget whereSection(
+  BuildContext context,
+  RecapModel m, {
+  MistakeLab? lab,
+  ValueChanged<int>? onOpenQuestion,
+  VoidCallback? onSeeChanges,
+}) {
+  if (lab != null && lab.showsLedger && onOpenQuestion != null) {
+    return LabLedgerSection(attemptId: m.attemptId, lab: lab, onOpenQuestion: onOpenQuestion, onSeeChanges: onSeeChanges);
+  }
+  return MmSection(
+    title: ResultCopy.sectionWhere,
+    child: BreakdownSection(breakdown: m.breakdown, flow: true, cells: onOpenQuestion == null ? null : m.cells, onOpenQuestion: onOpenQuestion),
+  );
+}
 
 /// The first thing to fix, from the observed chapter breakdown, with the repair key. Null when
 /// there is nothing to fix.
@@ -92,6 +107,7 @@ Widget answersSection(
   bool blankOpen = false,
   VoidCallback? onToggleBlank,
   ValueChanged<AnswerItem>? onOpened,
+  MistakeLab? lab,
 }) {
   final colors = context.mmColors;
   List<Widget> group(String title, List<AnswerItem> items, {bool titled = true}) {
@@ -111,6 +127,8 @@ Widget answersSection(
             expanded: isOpen(items[i].qid),
             onToggle: () => onToggle(items[i].qid),
             keysOff: keysOff,
+            others: lab?.othersFor(items[i].qid),
+            othersTitle: lab?.labels.othersTitle,
             onOpened: onOpened == null ? null : () => onOpened(items[i]),
             onRepair: items[i].repairable
                 ? () => context.go(

@@ -57,7 +57,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
   }
 
-  testWidgets('the full result shows Time and decisions after the chapters, and each answer its own time and picks', (tester) async {
+  testWidgets('the full result shows Time and decisions after the Mistake Lab, and each answer its own time and picks', (tester) async {
     final r = _withRecord();
     await pump(tester, r.json);
     final at = r.changed * 60;
@@ -68,8 +68,8 @@ void main() {
     expect(find.text(TimeCopy.longestTitle), findsOneWidget);
     expect(find.text(TimeCopy.changesTitle), findsOneWidget);
     expect(find.text('You changed one answer. Net effect on your marks: −6.'), findsOneWidget);
-    // The section reads after "Where the marks went".
-    expect(tester.getTopLeft(find.text('Where the marks went')).dy < tester.getTopLeft(find.text(TimeCopy.title)).dy, isTrue);
+    // The section reads after the Mistake Lab.
+    expect(tester.getTopLeft(find.text('Mistake Lab')).dy < tester.getTopLeft(find.text(TimeCopy.title)).dy, isTrue);
 
     // The first wrong answer opens with the page: its own time and picks, in the same words.
     expect(find.text(TimeCopy.rowLabel), findsOneWidget);

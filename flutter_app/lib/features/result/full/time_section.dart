@@ -10,9 +10,12 @@ import '../model/time_decisions.dart';
 /// comes finished from [buildTimeDecisions], the same words as the website. A row opens its answer
 /// below, where the same question shows its own time and picks.
 class TimeSection extends StatefulWidget {
-  const TimeSection({super.key, required this.read, this.onOpenQuestion});
+  const TimeSection({super.key, required this.read, this.onOpenQuestion, this.changesKey});
 
   final TimeDecisions read;
+
+  /// Marks the "Every answer you changed" heading, so the Lab's "See every change" can scroll to it.
+  final Key? changesKey;
 
   /// Opens the answer of a question number (the answer map's own jump).
   final ValueChanged<int>? onOpenQuestion;
@@ -62,7 +65,10 @@ class _TimeSectionState extends State<TimeSection> {
           ],
           if (read.splitLine != null) ...[const SizedBox(height: MmSpace.s16), Text(read.splitLine!, style: body)],
           const SizedBox(height: MmSpace.s20),
-          Semantics(header: true, child: Text(TimeCopy.changesTitle, style: type.subhead.copyWith(fontSize: 16))),
+          KeyedSubtree(
+            key: widget.changesKey,
+            child: Semantics(header: true, child: Text(TimeCopy.changesTitle, style: type.subhead.copyWith(fontSize: 16))),
+          ),
           const SizedBox(height: MmSpace.s8),
           if (read.changesLead != null) Text(read.changesLead!, style: body),
           if (read.changeParts.length > 1) ...[

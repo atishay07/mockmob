@@ -259,7 +259,9 @@ abstract final class ResultCopy {
   static String continueRecap(int card) => 'Continue recap, card $card of 4';
   static String submittedOn(DateTime at) => 'Submitted at ${formatTime12(at)}, ${formatDayMonth(at)}.';
   static String countsWithDenominators(int c, int w, int u, int n) => '$c of $n correct, $w wrong, $u not attempted.';
-  static const sectionWhere = 'Where the marks went';
+  /// The Lab's section title (Mistake Lab v4: the owner's own word, in place of "Where the marks
+  /// went"). With a server `lab` the ledger uses the server's `labels.name`, the same word.
+  static const sectionWhere = 'Mistake Lab';
   static const sectionFirstFix = 'The first thing to fix';
   static const sectionAnswers = 'Answer by answer';
   static String groupWrong(int n) => 'Wrong answers ($n)';
@@ -319,6 +321,11 @@ abstract final class ResultCopy {
   static const swotSee = 'See';
   static String swotQuestionChip(int n) => 'Q$n';
   static String swotGoToQuestion(int n) => 'Go to question $n';
+
+  // ---- Mistake Lab: the server writes every sentence; these are only the chips. -----------------
+
+  static String labQuestionChip(int n) => swotQuestionChip(n);
+  static String labGoToQuestion(int n) => swotGoToQuestion(n);
 
   /// The heading word of a group when the server sends none (it always should).
   static String swotGroupWord(String id) => switch (id) {
