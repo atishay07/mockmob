@@ -6,10 +6,6 @@
 .mm .pip-seat figcaption { color: var(--ink-2); }
 .mm .pip-seat figcaption b { color: var(--ink); }
 .pip-seat figcaption span { font-size: 12px; }
-.lp-hero__greeting { display: flex; align-items: center; gap: 20px; justify-content: space-between; margin-bottom: 22px; }
-.lp-hero__greeting .lp-pill { margin: 0; flex-shrink: 0; }
-.lp-hero__greeting .pip-seat { grid-template-columns: 68px minmax(0, 1fr); width: 190px; gap: 10px; }
-.lp-hero__greeting .pip-seat__art { width: 68px; height: 78px; }
 .lp-guide-head { display: flex; gap: clamp(20px, 5vw, 80px); justify-content: space-between; align-items: center; }
 .lp-guide-head > .lp-head { flex: 1; min-width: 0; }
 .lp-guide-head > .pip-seat { flex: 0 0 145px; grid-template-columns: 1fr; text-align: center; justify-items: center; align-self: center; }
@@ -35,11 +31,6 @@
   body:has(.student-page--practice) .prepos-launcher { bottom: calc(176px + env(safe-area-inset-bottom)) !important; }
 }
 @media (max-width: 600px) {
-  .lp-hero__greeting { gap: 10px; margin-bottom: 18px; }
-  .lp-hero__greeting .pip-seat { width: 90px; display: block; }
-  .lp-hero__greeting .pip-seat__art { width: 62px; height: 72px; margin-inline: auto; }
-  .lp-hero__greeting .pip-seat figcaption { text-align: center; font-size: 11px; }
-  .lp-hero__greeting .pip-seat figcaption span { display: none; }
   .lp-guide-head { gap: 14px; align-items: start; }
   .lp-guide-head > .pip-seat { flex-basis: 74px; }
   .lp-guide-head .pip-seat__art { width: 70px; height: 82px; }

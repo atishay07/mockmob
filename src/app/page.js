@@ -154,9 +154,9 @@ export default function LandingPage() {
             {/* Everything the reader needs is in the server HTML and visible at first paint: no entrance hides the
                 words or the keys. The headline carries the page: "CUET 2027" in volt as its first line. On phones and
                 tablets Mobi stands on it; on desktop (1100px and up) he stands on the sample card's top edge instead
-                (the second seat, in the card's wrapper) and the first seat steps out. The only things that move are
-                the typed line, which runs two rounds and rests, and the live count's dot, which reads inside its
-                sentence under the keys. Nothing labels the headline from above. */}
+                (the second seat, in the card's wrapper) and the first seat steps out. The one thing that moves is the
+                typed line, which runs two rounds and rests. The count under the keys is a plain sentence. Nothing
+                labels the headline from above. */}
             <div className="lp-hero__copy">
               <div className="lp-hero__head">
                 <h1 className="lp-title">
@@ -179,15 +179,15 @@ export default function LandingPage() {
               <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
             </div>
 
-            <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
-              <div className="lp-stage__heading"><span>Five questions in your subject</span><span>No sign-up needed</span></div>
+            {/* The sample is one surface: its own bar says what it costs ("No sign-up needed", "5 questions") and its
+                first line asks the question, so nothing labels it from above and no path diagram explains it below. */}
+            <div className="lp-stage" id="try-practice" data-hero>
               <div className="lp-stage__card">
-                {/* Desktop only (hero-v3.css): Mobi perched on the card's top edge, standing right of the heading line.
-                    No caption. The phone seat in the headline is the one phones and tablets show. */}
+                {/* Desktop only (hero-v3.css): Mobi perched on the card's top edge at its right end. No caption. The
+                    phone seat in the headline is the one phones and tablets show. */}
                 <MascotSeat station="hero-card" pose="greeting" className="pip-seat--card" />
                 <DemoDrill />
               </div>
-              <p className="lp-stage__path">Pick a subject, answer, read why it’s right.</p>
             </div>
           </div>
 

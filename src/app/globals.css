@@ -1769,14 +1769,12 @@ body:has(.mm) {
   min-height: 44px;
   padding: 0.5rem 0.875rem;
   border-bottom: 1px solid var(--slate-line);
-  /* Panel chrome is a label, not a measurement — mono is reserved for
-     counts, timers, scores and codes. */
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  /* The screen's bar is a plain sentence-case line in the body face: no caps, no tracking, no mono. */
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
   color: var(--chalk-2);
+  font-variant-numeric: tabular-nums;
 }
 .mm-screen__body {
   padding: 1rem 0.875rem 1.125rem;
@@ -1784,23 +1782,6 @@ body:has(.mm) {
 @media (min-width: 768px) {
   .mm-screen__body {
     padding: 1.5rem 1.375rem 1.625rem;
-  }
-}
-.mm-screen__live {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: var(--volt);
-  flex-shrink: 0;
-  animation: mm-breathe 2.4s ease-in-out infinite;
-}
-@keyframes mm-breathe {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.3;
   }
 }
 
@@ -2861,19 +2842,17 @@ body:has(.mm) {
   font-weight: 700;
   line-height: 1.3;
 }
+/* The finished sample's readout is an open area of the screen under one divider, not a panel: a sentence-case
+   line, then the chapters as rows on hairlines. */
 .mm-drill__readout {
-  padding: 0.875rem 1rem;
-  border: 1px solid var(--slate-line);
-  border-radius: var(--r-2);
-  background: var(--slate-2);
+  padding: 0.875rem 0 0;
+  border-top: 1px solid var(--slate-line);
 }
 .mm-drill__readout-head {
-  margin: 0 0 0.625rem;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  margin: 0 0 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.4;
   color: var(--chalk-2);
 }
 .mm-drill__readout-note {
@@ -2886,20 +2865,17 @@ body:has(.mm) {
   margin: 0;
   padding: 0;
   list-style: none;
-  display: grid;
-  gap: 0.5rem;
 }
 .mm-drill__readout li {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--slate-line);
   color: var(--chalk);
-  font-size: 0.9062rem;
+  font-size: 0.9375rem;
   font-weight: 600;
+  line-height: 1.35;
 }
-.mm-drill__readout li svg {
-  color: var(--volt);
-  flex-shrink: 0;
+.mm-drill__readout li:last-child {
+  border-bottom: 0;
 }
 .mm-drill__actions {
   display: grid;

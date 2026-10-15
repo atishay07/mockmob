@@ -7,17 +7,9 @@
    ========================================================================== */
 
 /* ---------- Type ----------
-   The hero line is the hero's own (hero-v3.css). Section type comes from the page system in landing.css
-   (--t-headline, --t-lede and the rest): no per-section sizes here. Nothing labels a heading from above. */
-.mm.lp .lp-title {
-  font-size: clamp(1.75rem, min(11.6cqi, 13.5svh), 5.1rem);
-  line-height: 0.99;
-  letter-spacing: -0.04em;
-  font-optical-sizing: auto;
-}
-@media (max-width: 760px) {
-  .mm.lp .lp-title { font-size: clamp(1.5rem, 11cqi, 4.3rem); }
-}
+   The hero line is the hero's own (hero-v3.css, one source). Section type comes from the page system in
+   landing.css (--t-headline, --t-lede and the rest): no per-section sizes here. Nothing labels a heading from
+   above. */
 .mm.lp .lp-statement__text { letter-spacing: -0.04em; line-height: 1.04; }
 
 /* ---------- Statement with the subject shelf ----------

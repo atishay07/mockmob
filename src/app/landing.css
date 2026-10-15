@@ -284,7 +284,9 @@ body:has(.mm.lp) {
   }
 }
 
-/* ---------- Backdrop: grid + dot matrix + pointer-lit dots ---------- */
+/* ---------- Backdrop ----------
+   The landing hero draws only the faint hairline grid and its fade (HeroBackdrop.jsx). The aurora and dot layers
+   below are kept for the calculator and combination pages, which still render them. */
 
 .lp-bg {
   position: absolute;
@@ -318,29 +320,12 @@ body:has(.mm.lp) {
   -webkit-mask-image: radial-gradient(ellipse 48% 74% at 80% 38%, #000 8%, transparent 78%);
   mask-image: radial-gradient(ellipse 48% 74% at 80% 38%, #000 8%, transparent 78%);
 }
-.lp-bg__spot {
-  background-image: radial-gradient(circle at 1px 1px, #d2f000 1.2px, transparent 1.9px);
-  background-size: 1.5rem 1.5rem;
-  background-position: center top;
-  -webkit-mask-image: radial-gradient(circle 13rem at var(--mx, 70%) var(--my, 30%), #000 0%, transparent 100%);
-  mask-image: radial-gradient(circle 13rem at var(--mx, 70%) var(--my, 30%), #000 0%, transparent 100%);
-  opacity: 0;
-  transition: opacity 0.45s ease;
-}
-.lp-bg[data-live="true"] .lp-bg__spot {
-  opacity: 0.9;
-}
 .lp-bg__fade {
   background: linear-gradient(to bottom, transparent 55%, var(--paper) 100%);
 }
 @media (max-width: 899px) {
   .lp-bg__dots {
     opacity: 0.5;
-  }
-}
-@media (hover: none), (pointer: coarse) {
-  .lp-bg__spot {
-    display: none;
   }
 }
 
@@ -370,40 +355,15 @@ body:has(.mm.lp) {
   min-width: 0;
 }
 
-.lp-hero [data-hero] {
-  animation: lp-rise 0.62s var(--ease) both;
-  animation-delay: calc(var(--h, 0) * 60ms + 40ms);
-}
-/* The lead is the measured text LCP. Show reading content on its first paint;
-   the surrounding controls and preview retain the staged entrance. */
-.lp-hero .lp-lead[data-hero] { animation: none; }
-.lp-hero [data-hero]:focus-within, .rv:focus-within { opacity: 1; transform: none; animation: none; transition-delay: 0ms; }
-@keyframes lp-rise {
-  from {
-    opacity: 0;
-    transform: translate3d(0, 1.125rem, 0);
-  }
-}
-@keyframes lp-ping {
-  from {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(3);
-  }
-}
+/* The hero has no entrance: every word, both keys and the sample are on screen at first paint. */
+.rv:focus-within { opacity: 1; transform: none; animation: none; transition-delay: 0ms; }
 
-/* Type scales with the copy column (container query units), so the longest
-   kinetic phrase always fits its column at any viewport or aspect ratio. */
+/* The hero headline's face and colour; its size, leading and tracking are the hero's own (hero-v3.css). */
 .lp-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, min(12.2cqi, 14svh), 5.25rem);
   font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  font-optical-sizing: auto;
   color: var(--ink);
 }
 .lp-title__line {
@@ -447,14 +407,7 @@ body:has(.mm.lp) {
     font-size: 0.8125rem;
   }
 }
-/* On a phone the dock carries the primary action in the thumb zone. */
-@media (max-width: 899px) {
-  .lp-cta {
-    display: none;
-  }
-}
-
-/* The stage: the playable drill with product chips floating around it. */
+/* The stage: the playable five-question sample, the page's one product device. */
 .lp-stage {
   position: relative;
   display: grid;
@@ -469,37 +422,11 @@ body:has(.mm.lp) {
     justify-self: end;
   }
 }
-/* A framed bay behind the drill gives the playable card a physical place. */
-.lp-stage::before {
-  content: "";
-  position: absolute;
-  inset: -0.7rem;
-  border: 1px solid var(--line);
-  border-radius: 1.75rem;
-  background: linear-gradient(180deg, rgb(var(--tint) / 0.035), rgb(var(--tint) / 0) 60%);
-  pointer-events: none;
-}
-@media (min-width: 960px) {
-  .lp-stage::before {
-    inset: -1.1rem;
-    border-radius: 2rem;
-  }
-}
 .lp-stage .mm-screen {
   position: relative;
-  background: linear-gradient(180deg, #151b14, #0d110c 70%);
-  border-color: rgba(244, 245, 240, 0.22);
 }
 .lp-stage__card {
   position: relative;
-}
-.lp-stage__note {
-  position: relative;
-  margin: 1.25rem 0 0;
-  text-align: center;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  color: var(--ink-3);
 }
 .lp-stage .mm-drill__foot {
   min-height: 8.75rem;
@@ -738,9 +665,6 @@ body:has(.mm.lp) {
     gap: 2rem;
     align-items: start;
   }
-  .lp-cta {
-    display: block;
-  }
   .lp-stage {
     max-width: 26rem;
     justify-self: end;
@@ -760,12 +684,6 @@ body:has(.mm.lp) {
     transform: none;
     transition: none;
   }
-  .lp-hero [data-hero] {
-    animation: none;
-  }
-  .lp-bg__spot {
-    display: none;
-  }
 }
 
 /* Resting-state preview of the explanation the drill reveals, so the reserved
@@ -773,19 +691,15 @@ body:has(.mm.lp) {
 .lp-stage .mm-drill__ghost {
   display: grid;
   gap: 0.5rem;
-  margin-top: 0.875rem;
-  padding: 0.875rem;
-  border: 1px dashed var(--slate-3);
-  border-radius: var(--r-2);
+  margin-top: 0.75rem;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid var(--slate-line);
   font-size: 0.8125rem;
   color: var(--chalk-2);
 }
 .lp-stage .mm-drill__ghost span {
-  font-family: var(--font-display);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  font-weight: 600;
 }
 .lp-stage .mm-drill__ghost i {
   display: block;

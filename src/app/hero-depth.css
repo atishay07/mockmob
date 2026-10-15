@@ -1,7 +1,7 @@
 /* ==========================================================================
    HERO DEPTH, PROOF DOCK AND STATEMENT (landing only)
    Scroll Craft principles adapted to the existing guided-practice grammar:
-   - planes move at different rates (far aurora < grid < page < near drill card),
+   - planes move at different rates (grid < page < near drill card),
      travel stays under 200px, copy rides at 1x and nothing pins;
    - all motion is CSS scroll-driven (compositor work, no JS on scroll) and is a
      progressive enhancement: unsupported browsers and reduced motion get the
@@ -11,28 +11,22 @@
 /* ---------- 1. Scroll depth on the existing hero planes ---------- */
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) {
-    .lp-hero .lp-bg__aurora,
     .lp-hero .lp-bg__grid,
-    .lp-hero .lp-bg__dots,
     .lp-hero .lp-stage__card {
       animation-timing-function: linear;
       animation-fill-mode: both;
       animation-timeline: scroll(root block);
       animation-range: 0 100svh;
     }
-    /* Far: lags the page most, and opens slightly as if the camera moves in. */
-    .lp-hero .lp-bg__aurora { animation-name: lp-depth-far; }
+    /* Far: the hairline grid lags the page. */
     .lp-hero .lp-bg__grid { animation-name: lp-depth-grid; }
-    .lp-hero .lp-bg__dots { animation-name: lp-depth-mid; }
     /* Near: the playable card rises a little faster than the page, so it reads in front.
        Desktop only: on phones the card sits below the fold and would slide into its own label. */
     .lp-hero .lp-stage__card { animation-name: none; }
     @media (min-width: 960px) { .lp-hero .lp-stage__card { animation-name: lp-depth-near; } }
   }
 }
-@keyframes lp-depth-far { to { transform: translate3d(0, 160px, 0) scale(1.08); opacity: 0.55; } }
 @keyframes lp-depth-grid { to { transform: translate3d(0, 110px, 0); } }
-@keyframes lp-depth-mid { to { transform: translate3d(0, 60px, 0); } }
 @keyframes lp-depth-near { to { transform: translate3d(0, -36px, 0); } }
 
 /* ---------- 2. The hero's facts: four plain sentences under a hairline ----------
@@ -167,16 +161,8 @@
 }
 
 /* ---------- 5. Hero finish ----------
-   The headline's last line never strands one word ("A clearer next / step."); on a phone the three
-   reassurances sit in two deliberate rows (the two short ones, then the price), and the bay's line under the
-   drill says what the sample is, without a disclaimer's tone. */
+   The headline's lines never strand one word. */
 .lp-title__line { text-wrap: balance; }
-@media (max-width: 760px) {
-  .lp .lp-trust { gap: 0.3rem 1rem; }
-  .lp .lp-trust li:nth-child(2) { order: 2; flex-basis: 100%; }
-  .lp .lp-trust li:nth-child(3) { order: 1; }
-  .lp .lp-stage__note { margin-top: 0.15rem; color: var(--ink-3); text-align: center; text-wrap: balance; }
-}
 
 /* ---------- 6. The phone action bar waits its turn (HeroDockGate) ----------
    On the first screen the hero's buttons and the demo already offer the question, so the bar stays down until

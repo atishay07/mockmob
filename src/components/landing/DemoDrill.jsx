@@ -173,7 +173,7 @@ export function DemoDrill() {
     return (
       <div className="mm-screen mm-drill mm-drill--pick" ref={rootRef}>
         <div className="mm-screen__bar">
-          Step 1 of 2
+          No sign-up needed
           <span className="mm-drill__timer">{SAMPLE_SIZE} questions</span>
         </div>
         <div className="mm-screen__body">
@@ -221,19 +221,16 @@ export function DemoDrill() {
           </p>
           <p className="mm-drill__verdict">
             {score >= 4
-              ? 'Sharp. A full mock is 50 of these in 60 minutes.'
-              : 'Good start. Radar shows which chapters to fix first.'}
+              ? 'A full mock is 50 of these in 60 minutes.'
+              : 'Radar shows which chapters to fix first.'}
           </p>
 
           {missed.length > 0 ? (
             <div className="mm-drill__readout">
-              <p className="mm-drill__readout-head">After a full mock, Radar would flag:</p>
+              <p className="mm-drill__readout-head">Radar would flag these chapters after a full mock</p>
               <ul>
                 {missed.map((chapter, i) => (
-                  <li key={`${chapter}-${i}`}>
-                    <Icon name="target" style={{ width: '15px', height: '15px' }} aria-hidden="true" />
-                    {chapter}
-                  </li>
+                  <li key={`${chapter}-${i}`}>{chapter}</li>
                 ))}
               </ul>
             </div>

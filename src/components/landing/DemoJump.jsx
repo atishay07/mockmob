@@ -40,6 +40,14 @@ function firstControl(stage) {
     || stage.querySelector('.mm-drill__result');
 }
 
+// Room above the card for Mobi when he stands on its top edge (desktop, hero-v3.css), so the glide never parks
+// him under the site bar with only his feet showing.
+function headroom(stage) {
+  const seat = stage.querySelector('.lp-stage__card > .pip-seat');
+  const tall = seat ? seat.getBoundingClientRect().height : 0;
+  return 12 + (tall > 0 ? Math.round(tall) : 0);
+}
+
 // Keyboard and screen-reader users land where the page went: a section without its own tab stop takes one
 // for the moment, and gives it back when focus leaves.
 function focusSection(node) {
@@ -69,7 +77,7 @@ export function DemoJump() {
       // Focus first, without scrolling: keyboard and screen-reader users land on the question, and the dock
       // (shown while focus is inside it) can leave as the card comes on.
       firstControl(stage)?.focus({ preventScroll: true });
-      cancel = glideTo(() => topFor(stage), () => arrive(stage));
+      cancel = glideTo(() => topFor(stage, headroom(stage)), () => arrive(stage));
     };
 
     const toSection = (node, url) => {
