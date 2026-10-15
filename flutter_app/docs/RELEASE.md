@@ -70,7 +70,10 @@ without its `sheet` value), and keeps to that set for the rest of the app's run.
 receives is the new trace (time away, strike-outs, the end). One gap stays: a practice paper (ticket
 mode, no save before the submit) is never refused, only scored with its record marked invalid, so
 the first one of an app run that reaches the older server has no timing; the app learns from that
-reply and sends the older set for the rest of the run. So deploy that server to production first all the
+reply and sends the older set for the rest of the run. A second gap: when the server is deployed while a
+paper is in progress and the app restarts (or the background job submits) before that paper ends, the
+app starts again from the full log, which no longer matches the older set the server stored, and the
+save and the submit meet `EVENT_CONFLICT`. So deploy that server to production first all the
 same; `--dart-define=MOCKMOB_CAPTURE_V2=false` still turns the capture off entirely. NTA papers are
 unchanged on screen either way.
 
