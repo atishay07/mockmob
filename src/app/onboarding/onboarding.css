@@ -107,7 +107,7 @@ html[data-theme='light'] .ob {
   padding: 16px 44px 16px 16px; text-align: left; border-radius: var(--a-radius, 18px);
   border: 1px solid var(--a-line); background: var(--a-raised); color: var(--a-ink);
   box-shadow: inset 0 1px 0 var(--a-glass-top); font: inherit; cursor: pointer;
-  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 200ms ease, transform 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 200ms ease, transform var(--mm-spring-release-dur) var(--mk-spring);
   animation: ob-tile-in 360ms var(--a-ease) calc(var(--i, 0) * 32ms) backwards;
 }
 @keyframes ob-tile-in { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
@@ -125,7 +125,7 @@ html[data-theme='light'] .ob {
 .ob-tile__art { display: block; margin: -6px 0 6px -8px; transform-origin: 40% 85%; }
 .ob-tile .subj-obj__light { opacity: 0; }
 .ob-tile[data-selected] .subj-obj__light { opacity: 1; }
-.ob-tile[data-selected] .ob-tile__art { animation: ob-art 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)); }
+.ob-tile[data-selected] .ob-tile__art { animation: ob-art var(--mm-spring-release-dur) var(--mk-spring); }
 @keyframes ob-art { from { transform: scale(0.92); } to { transform: none; } }
 .ob-tile__art .subj-obj--glyph {
   border-radius: 18px; background: var(--a-sunken); color: var(--a-accent-text); box-shadow: inset 0 0 0 1px var(--a-line);
@@ -146,7 +146,7 @@ html[data-theme='light'] .ob {
 .ob-tick--on { border-color: transparent; }
 .ob-tick--on::before {
   content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--volt, #d2f000);
-  transform-origin: 100% 0; animation: ob-disc 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both;
+  transform-origin: 100% 0; animation: ob-disc var(--mm-spring-release-dur) var(--mk-spring) both;
 }
 html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow: inset 0 0 0 1px #9db400; }
 @keyframes ob-disc { from { transform: scale(0.2); opacity: 0; } 60% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
@@ -165,7 +165,7 @@ html[data-theme='light'] .ob-track { box-shadow: inset 0 1px 2px rgba(20, 32, 14
   position: absolute; top: 5px; bottom: 5px; left: 5px; width: calc((100% - 10px) / 7); border-radius: 15px; pointer-events: none;
   background: var(--ob-volt); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 8px 18px -10px rgba(158, 182, 0, 0.9);
   transform: translate3d(calc(var(--ob-pick, 3) * 100%), 0, 0);
-  transition: transform 340ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  transition: transform 340ms var(--mk-spring);
 }
 html[data-theme='light'] .ob-track__thumb { box-shadow: inset 0 0 0 1px #9db400, 0 8px 18px -12px rgba(79, 100, 0, 0.7); }
 .ob-track__opt { position: relative; z-index: 1; display: grid; place-items: center; min-height: 60px; border-radius: 15px; cursor: pointer; }
@@ -175,7 +175,7 @@ html[data-theme='light'] .ob-track__thumb { box-shadow: inset 0 0 0 1px #9db400,
 .ob-track__n {
   font-family: var(--font-display); font-size: 22px; font-weight: 800; line-height: 1; color: var(--a-ink-2);
   font-variant-numeric: tabular-nums; pointer-events: none;
-  transition: color 180ms ease, transform 340ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  transition: color 180ms ease, transform 340ms var(--mk-spring);
 }
 @media (hover: hover) { .ob-track__opt:not([data-on]):hover .ob-track__n { color: var(--a-ink); transform: translate3d(0, -2px, 0); } }
 .ob-track__opt[data-on] .ob-track__n { color: var(--ob-on-volt); transform: scale(1.12); }
@@ -214,7 +214,7 @@ html[data-theme='light'] .ob-dial::after { background: radial-gradient(closest-s
 .ob-dial__ring { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; }
 .ob-dial__base { fill: none; stroke: var(--ob-groove); stroke-width: 12; }
 /* The arcs settle into place with a small turn and draw on in order. */
-.ob-dial__arcs { transform-origin: 60px 60px; animation: ob-turn 520ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both; }
+.ob-dial__arcs { transform-origin: 60px 60px; animation: ob-turn 520ms var(--mk-spring) both; }
 @keyframes ob-turn { from { transform: rotate(-16deg); } to { transform: none; } }
 .ob-dial__arc {
   fill: none; stroke: var(--a-select); stroke-width: 9; stroke-linecap: round;
@@ -267,7 +267,7 @@ html[data-theme='light'] .ob-dial::after { background: radial-gradient(closest-s
 }
 .ob-slot[data-on] {
   border: 0; background: var(--ob-volt); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
-  animation: ob-slot-in 380ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) backwards;
+  animation: ob-slot-in var(--mm-spring-release-dur) var(--mk-spring) backwards;
 }
 html[data-theme='light'] .ob-slot[data-on] { box-shadow: inset 0 0 0 1px #9db400; }
 @keyframes ob-slot-in { from { opacity: 0; transform: translate3d(0, -10px, 0) scale(0.8); } to { opacity: 1; transform: none; } }

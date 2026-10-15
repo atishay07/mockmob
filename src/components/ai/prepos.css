@@ -175,11 +175,11 @@
 
 /* Your answer sheet: one bubble per question, grouped by outcome. */
 .as { display: flex; flex-wrap: wrap; gap: 6px; padding: 14px; border: 1px solid var(--pp-line-strong, rgba(244, 245, 240, 0.12)); border-radius: 16px; background: var(--pp-wash, rgba(244, 245, 240, 0.03)); touch-action: pan-y; cursor: crosshair; }
-.as i { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--pp-line-strong, rgba(244, 245, 240, 0.28)); transition: transform 240ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)), opacity 200ms ease, background-color 320ms ease, border-color 320ms ease; transition-delay: 0ms; }
+.as i { flex: 0 0 auto; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--pp-line-strong, rgba(244, 245, 240, 0.28)); transition: transform 240ms var(--mk-spring), opacity 200ms ease, background-color 320ms ease, border-color 320ms ease; transition-delay: 0ms; }
 .as[data-in='false'] i { transform: scale(0.4); opacity: 0.25; background: transparent; }
 .as[data-in='true'] i[data-k='right'] { background: var(--pp-accent, #d2f000); border-color: var(--pp-accent, #d2f000); }
 .as[data-in='true'] i[data-k='wrong'] { background: var(--pp-bad, #ff9d92); border-color: var(--pp-bad, #ff9d92); }
-.as[data-in='true'] i { animation: as-ink 480ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) calc(var(--i, 0) * 9ms) both; }
+.as[data-in='true'] i { animation: as-ink 480ms var(--mk-spring) calc(var(--i, 0) * 9ms) both; }
 @keyframes as-ink { 0% { transform: scale(0.4); opacity: 0.25; background-color: transparent; } 100% { transform: none; opacity: 1; } }
 .as[data-active] i { opacity: 0.32; animation: none; }
 .as[data-active='right'] i[data-k='right'], .as[data-active='wrong'] i[data-k='wrong'], .as[data-active='skip'] i[data-k='skip'] { opacity: 1; transform: scale(1.22); }

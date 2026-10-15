@@ -217,7 +217,7 @@
 .app-shell .rc-days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }
 .app-shell .rc-day { position: relative; display: grid; justify-items: center; gap: 3px; width: 100%; min-height: 54px; padding: 4px 0 0; border: 0; background: transparent; color: var(--a-ink-3); font: 600 11px var(--font-body); cursor: pointer; touch-action: manipulation; }
 .app-shell .rc-day:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 12px; }
-.app-shell .rc-day__dot { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--a-line-strong); background: transparent; transform: scale(.6); opacity: 0; transition: transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)) calc(var(--rc-i, 0) * 55ms), opacity 160ms linear calc(var(--rc-i, 0) * 55ms), background-color 200ms ease, border-color 200ms ease; }
+.app-shell .rc-day__dot { position: relative; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--a-line-strong); background: transparent; transform: scale(.6); opacity: 0; transition: transform var(--mm-spring-release-dur) var(--mk-spring) calc(var(--rc-i, 0) * 55ms), opacity 160ms linear calc(var(--rc-i, 0) * 55ms), background-color 200ms ease, border-color 200ms ease; }
 .app-shell .rc-day[data-armed='true'] .rc-day__dot { transform: scale(1); opacity: 1; }
 .app-shell .rc-day[data-armed='true']:active .rc-day__dot { transform: scale(.9); transition-duration: 90ms, 160ms, 200ms, 200ms; transition-delay: 0ms; }
 .app-shell .rc-day[data-state='counted'] .rc-day__dot { background: var(--volt); border-color: var(--volt); }
@@ -236,7 +236,7 @@
 /* Ribbon: twelve weeks, volt when met */
 .app-shell .rc-ribbon { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; }
 .app-shell .rc-ribbon li { min-width: 0; }
-.app-shell .rc-wk { position: relative; display: block; width: 100%; height: 56px; padding: 0; border: 1px solid var(--a-line-strong); border-radius: 9px; background: var(--a-sunken); overflow: hidden; cursor: pointer; touch-action: manipulation; transition: transform 380ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)), border-color 160ms ease; }
+.app-shell .rc-wk { position: relative; display: block; width: 100%; height: 56px; padding: 0; border: 1px solid var(--a-line-strong); border-radius: 9px; background: var(--a-sunken); overflow: hidden; cursor: pointer; touch-action: manipulation; transition: transform var(--mm-spring-release-dur) var(--mk-spring), border-color 160ms ease; }
 .app-shell .rc-wk:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .app-shell .rc-wk__fill { position: absolute; inset: 0; background: color-mix(in srgb, var(--a-select) 38%, transparent); transform-origin: 50% 100%; transform: scaleY(0); transition: transform 560ms var(--mk-settle, cubic-bezier(.23,1,.32,1)) calc(var(--rc-i, 0) * 45ms); }
 .app-shell .rc-wk[data-armed='true'] .rc-wk__fill { transform: scaleY(var(--rc-fill, 0)); }
@@ -291,7 +291,7 @@ html[data-motion='reduced'] .app-shell .rc-day[data-state='open'] .rc-day__dot::
 .app-shell .pt__plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; clip-path: inset(-6px 100% -6px -6px); transition: clip-path 900ms cubic-bezier(.23,1,.32,1); }
 .app-shell .pt[data-seen='true'] .pt__plot svg { clip-path: inset(-6px -6px -6px -6px); }
 .app-shell .pt__line { fill: none; stroke: var(--a-select, #d2f000); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; opacity: .85; }
-.app-shell .pt__dot { position: absolute; width: 11px; height: 11px; margin: 0 0 -5.5px -5.5px; border-radius: 50%; background: var(--a-raised, #131a16); border: 2px solid var(--a-select, #d2f000); transform: scale(0); transition: transform 420ms cubic-bezier(.34,1.56,.64,1) calc(var(--pt-i, 0) * 150ms + 120ms); }
+.app-shell .pt__dot { position: absolute; width: 11px; height: 11px; margin: 0 0 -5.5px -5.5px; border-radius: 50%; background: var(--a-raised, #131a16); border: 2px solid var(--a-select, #d2f000); transform: scale(0); transition: transform var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop) calc(var(--pt-i, 0) * 150ms + 120ms); }
 .app-shell .pt[data-seen='true'] .pt__dot { transform: scale(1); }
 .app-shell .pt__dot[data-newest='true'] { width: 15px; height: 15px; margin: 0 0 -7.5px -7.5px; background: var(--volt, #d2f000); box-shadow: 0 0 0 4px var(--a-volt-wash, rgba(210,240,0,.12)), 0 0 14px var(--volt-glow, rgba(210,240,0,.25)); }
 .app-shell .pt__marks { list-style: none; margin: 0; padding: 0; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 4px; text-align: center; }

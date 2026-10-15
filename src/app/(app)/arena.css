@@ -499,7 +499,7 @@ html[data-motion='reduced'] .app-shell :is(.arena-sheet, .arena-sheet-scrim, .ar
   flex-shrink: 0;
   border-radius: 999px;
   text-decoration: none;
-  transition: transform 420ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1));
+  transition: transform var(--mm-spring-release-dur) var(--mk-spring);
 }
 .app-shell .arena-you .avatar { width: 36px; height: 36px; font-size: 14px; box-shadow: 0 0 0 1px var(--a-line-strong); }
 .app-shell .arena-you[aria-current='page'] .avatar { box-shadow: 0 0 0 2px var(--a-bg), 0 0 0 4px var(--a-select); }
@@ -1509,7 +1509,7 @@ html[data-theme='light'] .app-shell .cmp {
 /* ---------- Next step: the minutes roll, keys spring (LearningNextAction) ---------- */
 .app-shell .na__mins { margin-left: 4px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--a-volt-line); background: var(--a-volt-wash); color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .na__seg button.mk-press:active:not(:disabled) { transform: scale(0.94); }
-.app-shell .na__seg button[aria-pressed="true"] { transition: background-color 160ms ease, color 160ms ease, transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)); }
+.app-shell .na__seg button[aria-pressed="true"] { transition: background-color 160ms ease, color 160ms ease, transform var(--mm-spring-release-dur) var(--mk-spring); }
 .app-shell .student-page--today .rc--compact { margin: 0; }
 .app-shell .student-page--today .pt { margin: 0; }
 
@@ -1518,16 +1518,16 @@ html[data-theme='light'] .app-shell .cmp {
    current (Explore, Saved and so on) hides it. Opening More moves it to More. */
 @media (max-width: 1023px) {
   html .app-shell .arena-bottomnav { --abn-i: 0; --abn-on: 0; }
-  html .app-shell .arena-bottomnav::before { content: ''; position: absolute; left: 6px; top: 5px; width: calc((100% - 12px) / 5); height: 54px; border-radius: 9px; background: var(--a-volt-wash); box-shadow: inset 0 2px 0 var(--a-accent-text); transform: translate3d(calc(var(--abn-i) * 100%), 0, 0); opacity: var(--abn-on); transition: transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)), opacity 160ms ease; pointer-events: none; }
+  html .app-shell .arena-bottomnav::before { content: ''; position: absolute; left: 6px; top: 5px; width: calc((100% - 12px) / 5); height: 54px; border-radius: 9px; background: var(--a-volt-wash); box-shadow: inset 0 2px 0 var(--a-accent-text); transform: translate3d(calc(var(--abn-i) * 100%), 0, 0); opacity: var(--abn-on); transition: transform var(--mm-spring-release-dur) var(--mk-spring), opacity 160ms ease; pointer-events: none; }
   html .app-shell .arena-bottomnav:has(> :nth-child(1)[aria-current='page']) { --abn-i: 0; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(2)[aria-current='page']) { --abn-i: 1; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(3)[aria-current='page']) { --abn-i: 2; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(4)[aria-current='page']) { --abn-i: 3; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-expanded='true']) { --abn-i: 4; --abn-on: 1; }
-  html .app-shell .arena-bottomnav :is(a, button) { position: relative; z-index: 1; transition: transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)), color 160ms ease; }
+  html .app-shell .arena-bottomnav :is(a, button) { position: relative; z-index: 1; transition: transform var(--mm-spring-release-dur) var(--mk-spring), color 160ms ease; }
   html .app-shell .arena-bottomnav :is(a, button):active { transform: scale(0.92); transition-duration: 90ms, 160ms; }
   html .app-shell .arena-bottomnav [aria-current='page'], html .app-shell .arena-bottomnav [aria-expanded='true'] { background: transparent; }
-  html .app-shell .arena-bottomnav [aria-current='page'] svg, html .app-shell .arena-bottomnav [aria-expanded='true'] svg { animation: abn-pop 460ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)); }
+  html .app-shell .arena-bottomnav [aria-current='page'] svg, html .app-shell .arena-bottomnav [aria-expanded='true'] svg { animation: abn-pop 460ms var(--mk-spring); }
 }
 @keyframes abn-pop { 0% { transform: scale(0.7); } 100% { transform: scale(1); } }
 html[data-motion='reduced'] .app-shell .arena-bottomnav::before, html[data-motion='reduced'] .app-shell .arena-bottomnav :is(a, button) { transition: none; }
@@ -1535,7 +1535,7 @@ html[data-motion='reduced'] .app-shell .arena-bottomnav svg { animation: none !i
 @media (prefers-reduced-motion: reduce) { html .app-shell .arena-bottomnav::before, html .app-shell .arena-bottomnav :is(a, button) { transition: none; } html .app-shell .arena-bottomnav svg { animation: none !important; } }
 
 /* The Start key on the next step: leans in and glows before the press, springs back after */
-.app-shell .na__cta { transition: transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)), box-shadow 240ms ease, background-color 160ms ease; }
+.app-shell .na__cta { transition: transform var(--mm-spring-release-dur) var(--mk-spring), box-shadow 240ms ease, background-color 160ms ease; }
 @media (hover: hover) and (pointer: fine) { .app-shell .na__cta:hover { transform: translateY(-1px); box-shadow: 0 10px 26px -8px var(--volt-glow-strong, rgba(210,240,0,.5)); } }
 .app-shell .na__cta:active { transform: scale(0.965); box-shadow: 0 2px 8px -4px var(--volt-glow-strong, rgba(210,240,0,.5)); transition-duration: 90ms, 120ms, 160ms; }
 html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
@@ -1672,7 +1672,7 @@ html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
 .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] .pr-link { display: inline-flex; align-items: center; min-height: 44px; margin: 0; }
 
 /* ---------- Review: a session's object lifts off its shadow under the pointer, and dips on press ---------- */
-.app-shell .ov-session__icon--obj .subj-obj__img { transition: transform 420ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1)), opacity 320ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)); }
+.app-shell .ov-session__icon--obj .subj-obj__img { transition: transform var(--mm-spring-release-dur) var(--mk-spring), opacity 320ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)); }
 @media (hover: hover) and (pointer: fine) {
   .app-shell .ov-session:hover .ov-session__icon--obj .subj-obj__img { transform: translateY(-3px) rotate(-4deg); }
   .app-shell .ov-session:hover .ov-session__icon--obj .subj-obj__shadow { scale: .86; opacity: .75; }
