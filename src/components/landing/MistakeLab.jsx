@@ -51,7 +51,7 @@ function inspectorText(tile) {
   return `Q${tile.n}: ${tile.final === 'right' ? 'right' : 'wrong'} in ${tile.time}${tile.slow ? ', about three times your usual pace.' : '.'}`;
 }
 
-function LabStage({ recoveryState, recoveryReason, timeline, setTimeline, pinned, goTo: storyGoTo }) {
+function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoTo }) {
   const rootRef = useRef(null);
   const readingRef = useRef(null);
   const progressRef = useRef(null);
@@ -183,14 +183,14 @@ function LabStage({ recoveryState, recoveryReason, timeline, setTimeline, pinned
         </div>
         <div className="ml__controls"><button type="button" className="ml__pause" onClick={() => { keyboardStep.current = false; setPlaying((value) => !value); }} disabled={reduced}>
           {playing ? <Pause size={15} aria-hidden="true" /> : <Play size={15} aria-hidden="true" />}
-          {reduced ? 'Auto-play is off (reduced motion)' : playing ? 'Pause the tour' : 'Resume the tour'}
+          {reduced ? 'Autoplay is off' : playing ? 'Pause the tour' : 'Resume the tour'}
         </button>
         <button type="button" className="ml__restart" onClick={(event) => { keyboardStep.current = event.detail === 0; goTo(0); setPlaying(true); }}><RotateCcw size={15} aria-hidden="true" />Replay</button></div>
       </div>
 
       <figure className="ml__stage" data-ss-fit="0.62" aria-label="Sample Accountancy session, 10 questions">
         <div className="ml__bar-top">
-          <div className="ml__session-label"><span>Sample session · Accountancy · 10 questions</span></div>
+          <div className="ml__session-label"><span>Sample Accountancy session, 10 questions</span></div>
           <MascotSeat station="lab-inline" pose="attentive" label="Mobi follows the replay." className="pip-seat--lab-inline" />
         </div>
 
@@ -231,7 +231,7 @@ function LabStage({ recoveryState, recoveryReason, timeline, setTimeline, pinned
               <li style={{ '--i': 1, '--w': '62%' }}>
                 <div><b>Slowest question</b><span>Q7 took 3:12</span></div>
                 <i aria-hidden="true"><em /></i>
-                <p>About three times the typical 1:05 in this session.</p>
+                <p>About three times the usual 1:05 in this session.</p>
               </li>
               <li style={{ '--i': 2, '--w': '38%' }}>
                 <div><b>Left blank</b><span>2 questions, 10 marks open</span></div>
@@ -251,12 +251,12 @@ function LabStage({ recoveryState, recoveryReason, timeline, setTimeline, pinned
                 <span>Today</span><span>Radar</span><span>PrepOS</span><span>Results</span>
               </div>
             </div>
-            <p className="ml__note">Every mock you take sharpens the next move.</p>
+            <p className="ml__note">Each mock you finish makes the next move sharper.</p>
           </section>
 
           {/* 4. Check */}
           <section className="ml__panel" data-active={step === 3} aria-hidden={step !== 3} inert={step !== 3 ? true : undefined} aria-label="Check it on fresh questions">
-            <p className="ml__eyebrow">Fresh checks, never repeated questions</p>
+            <p className="ml__eyebrow">Fresh questions, never repeats</p>
             <ol className="ml__checks">
               {[['Tomorrow', 'First check'], ['In 3 days', 'Second check'], ['In a week', 'Does it hold?']].map(([when, what], i) => (
                 <li key={when} style={{ '--i': i }}>
@@ -267,7 +267,7 @@ function LabStage({ recoveryState, recoveryReason, timeline, setTimeline, pinned
               ))}
             </ol>
             <p className="ml__status" data-state={recoveryState}>
-              {recoveryState === 'available' ? 'Available on supported concepts.' : 'Rolling out. ' + (recoveryReason || 'Delayed checks open once their questions pass source and calibration review.')}
+              {recoveryState === 'available' ? 'Open for every repair you finish.' : 'Fresh checks open soon.'}
             </p>
           </section>
         </div>

@@ -41,7 +41,7 @@ export default async function SubjectHubPage({ params }) {
       {
         heading: `Practise CUET ${hub.name} on MockMob`,
         body: [
-          `Where practice is available, use a timed drill and review your attempt history to choose what to revisit. Access follows current inventory and plan rules. MockMob NTA Mode uses original practice content; CUET UG 2027 rules remain provisional until NTA publishes its bulletin.`,
+          `Take a timed set or a full 50-question mock, then let Radar show which ${hub.name} chapters cost you marks. Switch to NTA Mode when you want the exam-day screen.`,
         ],
         links: [
           { href: '/signup', label: `Start a free ${hub.name} mock` },
@@ -51,7 +51,7 @@ export default async function SubjectHubPage({ params }) {
       },
       {
         heading: 'More CUET subject practice',
-        body: ['Explore the published subject guides below. Confirm the final 2027 paper choices with NTA and check programme requirements with the university:'],
+        body: ['Guides for the other CUET subjects:'],
         links: otherHubs.map((other) => ({
           href: `/cuet/${other.slug}`,
           label: `CUET ${other.name}`,

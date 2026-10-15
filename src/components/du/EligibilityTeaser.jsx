@@ -130,7 +130,7 @@ export function EligibilityTeaser() {
         </fieldset>
         <Link href={href} className="du-live">
           <span className="mm-measure">{rules && hasDomains ? eligible.length : '–'}</span>
-          <span>of {rules ? rules.groups.length : 73} programmes unlocked</span>
+          <span>of {rules ? rules.groups.length : 73} programmes open</span>
           <b>See cutoffs<ArrowRight size={14} aria-hidden="true" /></b>
         </Link>
       </div>
@@ -146,7 +146,7 @@ export function EligibilityTeaser() {
             </p>
             <p className="du-teaser__lead">
               {rules && hasDomains
-                ? 'unlocked by these subjects under the 2026 rules. Open them for published 2026 college-wise cutoffs.'
+                ? 'accept these subjects under DU’s 2026 rules, each with its 2026 college cutoffs.'
                 : 'Add your domain subjects to see which Delhi University programmes you can apply to.'}
             </p>
             {rules && hasDomains && byStream.length > 0 ? (
@@ -166,7 +166,7 @@ export function EligibilityTeaser() {
           See programmes and past cutoffs
           <ArrowRight size={18} aria-hidden="true" />
         </Link>
-        <p className="du-teaser__fine">Free. No signup. Built from DU’s official 2026 documents.</p>
+        <p className="du-teaser__fine">Free, no signup. Built from DU’s official 2026 documents.</p>
       </div>
     </div>
   );

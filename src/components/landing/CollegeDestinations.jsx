@@ -2,18 +2,18 @@ import Link from 'next/link';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 
 const COLLEGES = [
-  { name: 'SRCC', detail: 'A commerce ambition', position: '0% 0%', course: 'b-com-hons' },
-  { name: 'Hindu College', detail: 'Find your field', position: '100% 0%', course: 'b-a-hons-economics' },
-  { name: 'Hansraj College', detail: 'Your North Campus chapter', position: '0% 100%', course: 'b-com-hons' },
-  { name: 'St. Stephen’s', detail: 'A new perspective', position: '100% 100%', course: 'b-a-hons-english' },
+  { name: 'SRCC', detail: 'B.Com (Hons) cutoffs', position: '0% 0%', course: 'b-com-hons' },
+  { name: 'Hindu College', detail: 'B.A. (Hons) Economics cutoffs', position: '100% 0%', course: 'b-a-hons-economics' },
+  { name: 'Hansraj College', detail: 'B.Com (Hons) cutoffs', position: '0% 100%', course: 'b-com-hons' },
+  { name: 'St. Stephen’s', detail: 'B.A. (Hons) English cutoffs', position: '100% 100%', course: 'b-a-hons-english' },
 ];
 
 export function CollegeDestinations() {
   return (
     <div className="lp-colleges" id="college-destinations">
       <div className="lp-colleges__intro">
-        <div><MapPin size={17} aria-hidden="true" /><h3>Give your preparation a destination.</h3></div>
-        <p>Explore DU programmes and past cutoffs.</p>
+        <div><MapPin size={17} aria-hidden="true" /><h3>Know where you’re headed.</h3></div>
+        <p>Open a college to see its 2026 cutoffs by round and category.</p>
       </div>
       <div className="lp-colleges__grid">
         {COLLEGES.map((college) => (
@@ -24,7 +24,6 @@ export function CollegeDestinations() {
           </Link>
         ))}
       </div>
-      <p className="lp-colleges__note">Campus-inspired illustrations. Explore course cutoffs in the calculator; admission depends on eligibility and allocation.</p>
     </div>
   );
 }

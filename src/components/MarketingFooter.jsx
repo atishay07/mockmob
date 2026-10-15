@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Logo } from './Logo';
 
 const PRODUCT_LINKS = [
-  ['DU eligibility & cutoff calculator', '/cuet-cutoff-calculator'],
+  ['DU eligibility and cutoff calculator', '/cuet-cutoff-calculator'],
   ['CUET subject combination planner', '/cuet-subject-combination'],
   ['Free CUET mock test', '/cuet-mock-test-free'],
   ['Previous year questions', '/cuet-previous-year-questions'],
@@ -36,8 +36,8 @@ export function MarketingFooter() {
           <div>
             <Logo />
             <p className="mm-foot__blurb">
-              Discover where marks slip away, practise a specific change, and check it on
-              fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+              Timed CUET practice, a clear read of every mistake, and one next step for tonight.
+              Built first for English, Accountancy, Business Studies and Economics.
             </p>
             <a
               className="mm-foot__social"
@@ -51,7 +51,7 @@ export function MarketingFooter() {
           </div>
 
           <div>
-            <h3>Practice</h3>
+            <h3>Product</h3>
             <ul>
               {PRODUCT_LINKS.map(([label, href]) => (
                 <li key={href}>
@@ -86,9 +86,8 @@ export function MarketingFooter() {
 
         <div className="mm-foot__base">
           <p>
-            &copy; {new Date().getFullYear()} MockMob. MockMob is an independent exam preparation
-            platform and is not affiliated with NTA, Delhi University, or any official examining
-            body. CUET is a trademark of its respective owner.
+            &copy; {new Date().getFullYear()} MockMob. An independent CUET preparation platform, not
+            affiliated with NTA, the University of Delhi or any official exam body.
           </p>
         </div>
       </div>

@@ -12,7 +12,7 @@ export function MobileDock({ note = 'Free to start. No card.', label, href }) {
   const { isAuthenticated } = useAuth();
 
   const resolvedHref = href || (isAuthenticated ? '/dashboard' : '/signup');
-  const resolvedLabel = label || (isAuthenticated ? 'Go to Arena' : 'Start free');
+  const resolvedLabel = label || (isAuthenticated ? 'Go to Practice' : 'Start free');
 
   return (
     <>

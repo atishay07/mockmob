@@ -23,7 +23,7 @@ export default function LoginPageClient() {
   if (status === 'loading' || status === 'authenticated') {
     return (
       <AuthSessionScreen
-        message={status === 'authenticated' ? 'Opening your dashboard...' : 'Checking existing session...'}
+        message={status === 'authenticated' ? 'Opening MockMob…' : 'Checking your sign-in…'}
       />
     );
   }

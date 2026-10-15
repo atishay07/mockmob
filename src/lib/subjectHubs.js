@@ -16,7 +16,7 @@ export const SUBJECT_HUBS = [
     title: 'CUET English Mock Test & Chapter-Wise Practice | MockMob',
     description:
       'Practise CUET English online: reading comprehension, vocabulary, grammar, and literature questions with timed mocks and chapter-level analytics.',
-    eyebrow: '// CUET English',
+    eyebrow: 'CUET English',
     h1: 'CUET English Mock Tests & Practice',
     intro:
       'CUET English rewards pace above everything: long reading comprehension sets, vocabulary calls you either know in two seconds or lose a minute to, and grammar traps built for second-guessing. Practising it untimed hides exactly the weakness the exam exposes.',
@@ -30,7 +30,7 @@ export const SUBJECT_HUBS = [
       },
       {
         heading: 'CUET English syllabus chapters',
-        body: ['This list follows the subject syllabus. Available MockMob questions and their practice coverage can vary with current inventory.'],
+        body: ['The chapters in the CUET English syllabus.'],
         chips: chaptersFor('english'),
       },
     ],
@@ -38,17 +38,17 @@ export const SUBJECT_HUBS = [
       {
         question: 'How many questions does CUET English have?',
         answer:
-          'MockMob NTA Mode currently uses a 50-question, 60-minute practice format with original content. CUET UG 2027 rules remain provisional until NTA publishes its bulletin.',
+          'In CUET UG 2026 each subject paper had 50 questions in 60 minutes, all compulsory. MockMob’s full mocks use the same format.',
       },
       {
         question: 'Is reading comprehension the most important CUET English topic?',
         answer:
-          'Reading comprehension can take substantial time. Timed passage practice can help you notice where you slow down and what deserves another review.',
+          'It is usually the biggest time sink. Practise full passages under the clock and track seconds per question, because that is where most English marks leak.',
       },
       {
         question: 'Can I practise CUET English free on MockMob?',
         answer:
-          'Yes. Free accounts get credit-gated Quick Practice and Full Mocks, and the landing page drill needs no signup at all.',
+          'Yes. Free accounts get Quick Practice and Full Mocks on credits, and the five-question drill on the home page needs no signup.',
       },
     ],
   },
@@ -59,10 +59,10 @@ export const SUBJECT_HUBS = [
     title: 'CUET Accountancy Mock Test & Chapter Practice | MockMob',
     description:
       'CUET Accountancy practice online: partnership, company accounts, ratios, and cash flow questions with timed mocks and weak-chapter tracking.',
-    eyebrow: '// CUET Accountancy',
+    eyebrow: 'CUET Accountancy',
     h1: 'CUET Accountancy Mock Tests & Practice',
     intro:
-      'Accountancy practice often combines concepts, formats, and calculations. Timed examples can help you notice which steps take longer and which procedures need another review.',
+      'CUET Accountancy is a paper of procedures: goodwill, revaluation, capital adjustments, ratios and cash flow. Know each treatment cold and most questions become quick arithmetic. Hesitate, and the clock takes the marks.',
     sections: [
       {
         heading: 'Where Accountancy scores are won',
@@ -73,7 +73,7 @@ export const SUBJECT_HUBS = [
       },
       {
         heading: 'CUET Accountancy syllabus chapters',
-        body: ['This list follows the subject syllabus. Available MockMob questions and their practice coverage can vary with current inventory.'],
+        body: ['The chapters in the CUET Accountancy syllabus.'],
         chips: chaptersFor('accountancy'),
       },
     ],
@@ -81,7 +81,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Is CUET Accountancy tougher than boards?',
         answer:
-          'CUET Accountancy uses objective questions, but the 2027 paper format has not been confirmed. Check NTA’s bulletin when it is published and practise calculations under a timer.',
+          'It is different rather than tougher. Every question is objective, so there are no marks for working and a slow method costs you time. Practise the calculations under a timer.',
       },
       {
         question: 'Which Accountancy chapters should I prioritise?',
@@ -91,7 +91,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Does MockMob show chapter-wise Accountancy analysis?',
         answer:
-          'Radar organizes available attempt history by subject and chapter. The detail it can show depends on the questions in your practice history.',
+          'Yes. Radar traces every miss to its chapter, so after a mock you can see whether partnership, company accounts or ratios cost you the most.',
       },
     ],
   },
@@ -102,7 +102,7 @@ export const SUBJECT_HUBS = [
     title: 'CUET Economics Mock Test & Practice Questions | MockMob',
     description:
       'CUET Economics practice: macro, Indian economic development, national income, and money-banking MCQs with timed mocks and analytics.',
-    eyebrow: '// CUET Economics',
+    eyebrow: 'CUET Economics',
     h1: 'CUET Economics Mock Tests & Practice',
     intro:
       'CUET Economics splits students into two camps: those who treat macro numericals (national income, multipliers, banking ratios) as pattern drills, and those who re-derive everything in the exam hall. The first camp finishes with minutes to spare.',
@@ -116,7 +116,7 @@ export const SUBJECT_HUBS = [
       },
       {
         heading: 'CUET Economics syllabus chapters',
-        body: ['This list follows the subject syllabus. Available MockMob questions and their practice coverage can vary with current inventory.'],
+        body: ['The chapters in the CUET Economics syllabus.'],
         chips: chaptersFor('economics'),
       },
     ],
@@ -134,7 +134,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'How do I fix a weak Economics chapter fast?',
         answer:
-          'When practice is available, try a short chapter set, review the result, then return to the topic later with fresh questions. Use your attempt history to check what changed.',
+          'Take a short timed set on that chapter, read why each miss was wrong, then come back a few days later with fresh questions. Radar shows whether the chapter moved.',
       },
     ],
   },
@@ -145,7 +145,7 @@ export const SUBJECT_HUBS = [
     title: 'CUET Business Studies Mock Test & Practice | MockMob',
     description:
       'CUET Business Studies practice: management principles, marketing, finance, and case-based MCQs with timed mocks and chapter analytics.',
-    eyebrow: '// CUET Business Studies',
+    eyebrow: 'CUET Business Studies',
     h1: 'CUET Business Studies Mock Tests & Practice',
     intro:
       'Business Studies looks like the easiest commerce subject until the paper arrives: case-based MCQs where every option quotes the textbook and only one matches the scenario. Reading precision, not memory, is what the exam actually tests.',
@@ -159,7 +159,7 @@ export const SUBJECT_HUBS = [
       },
       {
         heading: 'CUET Business Studies syllabus chapters',
-        body: ['This list follows the subject syllabus. Available MockMob questions and their practice coverage can vary with current inventory.'],
+        body: ['The chapters in the CUET Business Studies syllabus.'],
         chips: chaptersFor('business_studies'),
       },
     ],
@@ -177,7 +177,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Can I combine Business Studies with Accountancy practice on MockMob?',
         answer:
-          'Yes. Mocks can mix your selected subjects, and the dashboard tracks each subject and chapter separately.',
+          'Yes. Practise each subject on its own, and Radar tracks every subject and chapter separately.',
       },
     ],
   },
@@ -188,7 +188,7 @@ export const SUBJECT_HUBS = [
     title: 'CUET History Mock Test & Chapter-Wise PYQ Practice | MockMob',
     description:
       'CUET History practice from Harappa to the Constitution: NCERT Themes-based MCQs, source questions, timed mocks, and weak-chapter analytics.',
-    eyebrow: '// CUET History',
+    eyebrow: 'CUET History',
     h1: 'CUET History Mock Tests & Practice',
     intro:
       'CUET History is built almost entirely on NCERT Themes in Indian History, and it loves the details students skim: source excerpts, travellers, inscriptions, and match-the-column sets. It punishes broad-strokes revision and rewards students who practised the exam format itself.',
@@ -197,12 +197,12 @@ export const SUBJECT_HUBS = [
         heading: 'How to revise History for MCQs, not essays',
         body: [
           'Board-style History revision optimises for long answers; CUET wants precise recall of names, dates, sources, and pairings. Convert every Themes chapter into MCQ practice early, because recognising a fact in options is a different skill from writing about it.',
-          'Match-the-column and chronology questions can be challenging. Timed drills on traveller accounts, Bhakti-Sufi figures, and movement chronology can make your review more focused.',
+          'Match-the-column and chronology questions are where loose revision shows. Timed drills on traveller accounts, Bhakti-Sufi figures and movement chronology close that gap.',
         ],
       },
       {
         heading: 'CUET History syllabus chapters',
-        body: ['This list follows the subject syllabus. Available MockMob questions and their practice coverage can vary with current inventory.'],
+        body: ['The chapters in the CUET History syllabus.'],
         chips: chaptersFor('history'),
       },
     ],
@@ -220,7 +220,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'How does MockMob help with History chronology?',
         answer:
-          'Chronology-heavy chapters get dedicated drills, and Mistake Replay resurfaces the exact sequences you got wrong until they stick.',
+          'Practise chronology-heavy chapters as short timed sets. Review then lists every sequence you got wrong, so you know exactly what to go back to.',
       },
     ],
   },
@@ -231,10 +231,10 @@ export const SUBJECT_HUBS = [
     title: 'CUET Political Science Mock Test & Practice | MockMob',
     description:
       'CUET Political Science practice: contemporary world politics and Indian politics since independence, with timed MCQ mocks and analytics.',
-    eyebrow: '// CUET Political Science',
+    eyebrow: 'CUET Political Science',
     h1: 'CUET Political Science Mock Tests & Practice',
     intro:
-      'Political Science is one of the highest-scoring CUET subjects for prepared students because the syllabus is compact: two NCERTs, heavy on events, organisations, and leaders. The risk is complacency, statement-combination questions turn "easy" facts into coin flips for anyone who revised loosely.',
+      'Political Science is one of the highest-scoring CUET subjects for prepared students because the syllabus is compact: two NCERTs, heavy on events, organisations, and leaders. The risk is complacency: statement-combination questions turn "easy" facts into coin flips for anyone who revised loosely.',
     sections: [
       {
         heading: 'The two-book game plan',
@@ -245,7 +245,7 @@ export const SUBJECT_HUBS = [
       },
       {
         heading: 'CUET Political Science syllabus chapters',
-        body: ['This list follows the subject syllabus. Available MockMob questions and their practice coverage can vary with current inventory.'],
+        body: ['The chapters in the CUET Political Science syllabus.'],
         chips: chaptersFor('political_science'),
       },
     ],
@@ -253,7 +253,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Is CUET Political Science scoring?',
         answer:
-          'A compact syllabus still calls for careful revision. Statement-combination and chronology questions reward close reading of each option.',
+          'Yes, for students who revise precisely. The syllabus is compact, but statement-combination and chronology questions punish loose revision.',
       },
       {
         question: 'Which book matters more for CUET Political Science?',
@@ -263,7 +263,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Can I take Political Science chapter drills free?',
         answer:
-          'Practice access depends on available questions and the current plan. Check the practice flow for what is available in your subject today.',
+          'Free accounts practise on credits. Open Practice to see the Political Science sets ready today.',
       },
     ],
   },

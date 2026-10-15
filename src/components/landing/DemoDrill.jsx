@@ -17,7 +17,7 @@ const DRILL = [
     options: ['Hidden', 'Frank', 'Careful', 'Sweet'],
     correct: 1,
     why: 'Candid means frank or honest. Frank is the closest synonym among these options.',
-    chapter: 'Vocabulary · Synonyms',
+    chapter: 'Vocabulary: synonyms',
   },
   {
     subject: 'Accountancy',
@@ -38,7 +38,7 @@ const DRILL = [
     ],
     correct: 2,
     why: 'Commercial banks accept public deposits. The RBI does not.',
-    chapter: 'Money and Banking',
+    chapter: 'Money and banking',
   },
   {
     subject: 'Accountancy',
@@ -46,7 +46,7 @@ const DRILL = [
     options: ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio'],
     correct: 2,
     why: 'Old partners are compensated for their sacrifice, so it is split in the sacrificing ratio.',
-    chapter: 'Partnership · Admission of a Partner',
+    chapter: 'Partnership: admission of a partner',
   },
   {
     subject: 'Business Studies',
@@ -149,12 +149,12 @@ export function DemoDrill() {
           <p className="mm-drill__verdict">
             {score >= 4
               ? 'Sharp. A full mock is 50 of these in 60 minutes.'
-              : 'That is the point — now you know where to start.'}
+              : 'Good. Now you know where to start.'}
           </p>
 
           {missed.length > 0 ? (
             <div className="mm-drill__readout">
-              <p className="mm-drill__readout-head">In a real mock, Radar would flag:</p>
+              <p className="mm-drill__readout-head">After a full mock, Radar would flag:</p>
               <ul>
                 {missed.map((chapter, i) => (
                   <li key={`${chapter}-${i}`}>
@@ -168,18 +168,18 @@ export function DemoDrill() {
             <div className="mm-drill__readout">
               <p className="mm-drill__readout-head">Nothing to flag from these five.</p>
               <p className="mm-drill__readout-note">
-                A full mock runs 50 questions so it can find the chapters five cannot.
+                A full mock runs 50 questions, enough to find what five cannot.
               </p>
             </div>
           )}
 
           <div className="mm-drill__actions">
             <Link href="/signup" className="mm-btn mm-btn--onnight">
-              Open the practice Arena
+              Start practising free
               <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
             </Link>
             <button type="button" className="mm-drill__replay" onClick={restart}>
-              Replay the drill
+              Try the five again
             </button>
           </div>
         </div>
@@ -259,10 +259,10 @@ export function DemoDrill() {
           ) : (
             <>
               <p className="mm-drill__hint">
-                Tap an answer. Five sample questions, no signup.
+                Tap an answer. No signup needed.
               </p>
               <div className="mm-drill__ghost" aria-hidden="true">
-                <span>Why it is right appears here</span>
+                <span>The reasoning shows up here</span>
                 <i />
                 <i />
               </div>

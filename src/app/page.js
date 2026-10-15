@@ -80,39 +80,39 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 const TOUR = [
   { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Arena', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
-    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left'], chip: 'Every answer is scored on our server', href: '/dashboard', cta: 'Start practising' },
+    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Every answer is scored on our server', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
     body: 'After a wrong answer, the AI solves the question itself first. Only when it lands on the official key does it explain why your pick was tempting and what to remember.',
-    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI double-checks itself before it teaches you', href: '/signup', cta: 'Try Mistake Repair' },
+    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'It checks the official key before it teaches you', href: '/signup', cta: 'Try Mistake Repair' },
   ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', icon: <BookOpenText size={18} aria-hidden="true" />, line: 'Learn the idea, then keep it', kicker: 'Learn', title: 'Learn the idea behind the mark, then keep it.',
     body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
-    points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects so far; more chapters as each passes its source checks`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'A companion to your textbook, not a replacement', href: '/learn', cta: 'Open Learn' }] : []),
-  { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'See exactly where the marks went.',
-    body: 'Replay a finished session: answers you changed, questions that ate your time, ones you skipped. Then turn the costly ones into a short drill.',
-    points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'It shows what happened; you decide what to do', href: '/review', cta: 'Review your mistakes' },
+    points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects, with more on the way`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'Made to sit beside your NCERT', href: '/learn', cta: 'Open Learn' }] : []),
+  { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'Replay a mock, answer by answer.',
+    body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
+    points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'The full timeline, so you choose what to fix', href: '/review', cta: 'Review your mistakes' },
   { id: 'radar', label: 'Radar', icon: <Radar size={18} aria-hidden="true" />, line: 'The chapter to fix first', kicker: 'Radar', title: 'Know which chapter to fix first.',
     body: 'A score is just a number. Radar traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Based on your own attempts, nobody else’s', href: '/analytics', cta: 'Explore Radar' },
   { id: 'prepos', label: 'PrepOS', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'PrepOS', title: 'Ask what to do tonight. Get one clear step.',
     body: 'PrepOS reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in Radar.',
-    points: ['Questions about your own record are free', 'AI replies use monthly credits: 10 on Free, 50 on Pro', 'Need more? Top-up credits never expire'], chip: 'One next step, the same everywhere', href: '/mentor', cta: 'Meet PrepOS' },
+    points: ['Questions about your own record are free', 'AI replies use monthly credits: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One next step, the same everywhere', href: '/mentor', cta: 'Meet PrepOS' },
   { id: 'compass', label: 'DU Compass', icon: <Compass size={18} aria-hidden="true" />, line: 'Your shortlist against real DU cutoffs', kicker: 'Admission Compass', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
-    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'A projection from your practice, not an admission promise', href: '/admission-compass', cta: 'Open Compass' },
+    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Built from your practice and DU’s published cutoffs', href: '/admission-compass', cta: 'Open Compass' },
   { id: 'combo', label: 'Combo Planner', icon: <Combine size={18} aria-hidden="true" />, line: 'Choose your five CUET papers', kicker: 'Subject Combo Planner', title: 'Choosing five papers? Check the combination first.',
-    body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open. Recheck once the 2027 rules arrive.',
-    points: ['Free to use', 'Compare combinations side by side'], chip: 'Eligibility is not admission', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
+    body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
+    points: ['Free to use', 'Compare combinations side by side'], chip: 'Built on DU’s published 2026 rules', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
   { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and leaderboard', title: 'Beat the score you’re aiming for.',
     body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level. It shows whether you can hold that standard when the clock is running.',
     points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'A target to beat, not another student', href: '/leaderboard', cta: 'See the leaderboard' },
 ];
 
 const faqs = [
-  { question: 'Can I try it before signing up?', answer: 'Yes. Try five original sample questions here. They show how practice feels, not a subject diagnosis or an official previous-year paper.' },
-  { question: 'What is MockMob built for?', answer: `CUET UG practice, review and one shared next action. ${recoveryReleased() ? 'Recovery pathways support' : 'Recovery content is being prepared for'} English, Accountancy, Business Studies and Economics. DU guidance uses sourced eligibility and historical cutoffs.` },
-  { question: 'What is Score Recovery Lab?', answer: recoveryReleased() ? 'Investigate a specific reasoning gap, complete the missing step and return for fresh unassisted checks. Five questions are an initial signal, not a complete subject diagnosis.' : 'A reasoning-repair workflow being built around source-backed probes, interactive repair and fresh delayed checks. It remains unavailable while sources, calibration and the authenticated journey are checked. The decision replay shown here is an illustrative example.' },
+  { question: 'Can I try it before signing up?', answer: 'Yes. Answer five CUET-style questions at the top of this page, each with the reasoning behind the answer. No account needed.' },
+  { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It is built first for English, Accountancy, Business Studies and Economics, with DU eligibility and published cutoffs alongside.' },
+  { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
   { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `Monthly Pro at ₹${OFFER.monthly.rupees} a month is opening soon. Until then, ₹${OFFER.oneTime.rupees} once covers access through ${OFFER.oneTime.expires}, with no auto-renewal. Whoever pays now keeps the full term.` },
-  { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. Practice scores and DU guidance cannot guarantee a result or admission. The 2027 exam details remain provisional until officially confirmed.' },
+  { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. The exam pattern and the DU rules you see here come from what NTA and DU publish.' },
 ];
 
 export default function LandingPage() {
@@ -143,7 +143,7 @@ export default function LandingPage() {
                 </>}
               </h1>
               <p className="lp-lead" data-hero style={{ '--h': 1 }}>
-                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed session. Review missed answers. Choose your next step.'}
+                {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed mock. See where every mark went. Know what to practise tonight.'}
               </p>
               <div className="lp-cta" data-hero style={{ '--h': 2 }}>
                 <LandingActions />
@@ -165,7 +165,7 @@ export default function LandingPage() {
               <div className="lp-stage__card">
                 <DemoDrill />
               </div>
-              <div className="lp-stage__path"><span>01 · Answer</span><i /><span>02 · Read the explanation</span></div>
+              <div className="lp-stage__path"><span>Answer</span><i /><span>Read why it’s right</span></div>
               <p className="lp-stage__note">Five original CUET-style questions, each with the reasoning behind the answer.</p>
             </div>
           </div>
@@ -173,10 +173,10 @@ export default function LandingPage() {
           {/* Second hero beat: real, linked facts on a glass dock over the hero's light. */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="Why students pick MockMob" data-hero style={{ '--h': 5 }}>
-              <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>Try the sample before you sign up</span></a>
-              {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes · check subject rules free</span></a> : null}
-              <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style · your choice</span></a>
-              <a href="#your-prep"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions · one full CUET mock</span></a>
+              <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>Try them before you sign up</span></a>
+              {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes to check against your subjects</span></a> : null}
+              <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style, your pick</span></a>
+              <a href="#your-prep"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions, one full CUET mock</span></a>
             </nav>
           </div>
         </section>
@@ -254,7 +254,7 @@ export default function LandingPage() {
                 <p className="lp-kicker">DU Compass</p>
                 <h2 className="lp-h2">Put your shortlist beside the numbers.</h2>
                 <p className="lp-sub">
-                  Compare a score with published 2026 DU cutoffs, by college, category and round. Historical context for your plan, not an admission promise.
+                  Slide a score and see which colleges it would have cleared in 2026, by category and round.
                 </p>
               </Reveal><MascotSeat station="compass" pose="pointing" label="Check the source." note="Keep the goal in view." /></div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
@@ -266,11 +266,11 @@ export default function LandingPage() {
                   <Link href="/pricing" className="lp-link">See what Pro includes<ArrowRight size={16} aria-hidden="true" /></Link>
                 </div>
                 <ul className="lp-cpro__list">
-                  <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, with an honest range.</span></li>
+                  <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, shown as a range.</span></li>
                   <li><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared with Rounds I to III.</span></li>
                   <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter.</span></li>
                 </ul>
-                <p className="lp-cpro__fine">A projection from your own record, not a prediction or an admission chance. The cutoff comparison above stays free.</p>
+                <p className="lp-cpro__fine">The cutoff comparison above stays free for everyone.</p>
               </Reveal>
             </div>
           </section>
@@ -279,11 +279,11 @@ export default function LandingPage() {
         {/* ------------------------- FREE DU CALCULATOR --------------------- */}
         <section className="lp-sec" id="du-eligibility">
           <div className="mm-wrap">
-            <MascotSeat station="eligibility" pose="pointing" label="Start with your subjects." note="Eligibility is not admission." className="pip-seat--utility" />
+            <MascotSeat station="eligibility" pose="pointing" label="Start with your subjects." note="Then pick your colleges." className="pip-seat--utility" />
             <Reveal className="lp-head">
               <h2 className="lp-h2">Which DU courses fit your subjects?</h2>
               <p className="lp-sub">
-                Tick your subjects. Check the published 2026 subject rules, then compare college cutoffs in your category. Free to use. Eligibility is not admission.
+                Tick your subjects to see every DU programme they open under the 2026 rules, then compare college cutoffs in your category. Free, no signup.
               </p>
             </Reveal>
             <Reveal>
@@ -291,9 +291,9 @@ export default function LandingPage() {
             </Reveal>
             <Reveal as="aside" className="lp-combo" aria-label="CUET subject combination planner">
               <div>
-                <p className="lp-cpro__badge">New · Combo Planner</p>
+                <p className="lp-cpro__badge">Combo Planner</p>
                 <h3 className="lp-h3">Not sure which CUET subjects to pick?</h3>
-                <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form. Recheck when 2027 rules arrive.</p>
+                <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
               </div>
               <Link href="/cuet-subject-combination" className="mm-btn mm-btn--primary">Plan my subjects<ArrowRight size={17} aria-hidden="true" /></Link>
             </Reveal>
@@ -391,16 +391,16 @@ export default function LandingPage() {
             <div className="lp-bg__dots" />
           </div>
           <Reveal className="mm-wrap lp-close__inner">
-            <MascotSeat station="close" pose="greeting" label="See you in the Arena." note="Start with one session." />
+            <MascotSeat station="close" pose="greeting" label="See you at your first mock." note="Start with one session." />
             <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
-            <p className="lp-sub">Try the sample now. Build your practice record when you’re ready.</p>
+            <p className="lp-sub">Answer five now. Sign up when you want MockMob to keep your record.</p>
             <LandingActions mode="primary" />
           </Reveal>
         </section>
       </main>
       <MarketingFooter />
       <PipGuide />
-      <MobileDock note={OFFER.purchasable === 'monthly' ? `Free to start. Pro ₹${OFFER.monthly.rupees}/month.` : 'Five sample questions. No signup.'} label="Try a CUET question" href="/#try-practice" />
+      <MobileDock note={OFFER.purchasable === 'monthly' ? `Free to start. Pro ₹${OFFER.monthly.rupees}/month.` : 'Five CUET questions. No signup.'} label="Try a CUET question" href="/#try-practice" />
     </div>
   );
 }

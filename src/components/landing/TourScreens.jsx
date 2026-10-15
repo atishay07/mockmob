@@ -72,7 +72,7 @@ export function PracticeScreen({ play }) {
   const step = useSteps(play, PRACTICE_T);
   const clock = useCountdown(play, 38 * 60 + 12);
   return (
-    <Frame title="Full mock · Accountancy" step={step} right={<span className="ts__timer">{clock}</span>}>
+    <Frame title="Accountancy full mock" step={step} right={<span className="ts__timer">{clock}</span>}>
       <p className="ts__meta">Question 22 of 50</p>
       <p className="ts__q">A partner’s capital account shows a debit balance. Where does it go in the balance sheet?</p>
       <ul className="ts__opts">
@@ -94,7 +94,7 @@ export function PracticeScreen({ play }) {
 const REPAIR_T = [300, 950, 1600, 2300, 3000];
 const REPAIR_ROWS = [
   ['AI solved it on its own', 'Its answer: B, assets side'],
-  ['Matches the official key', 'So it is safe to explain'],
+  ['Matches the official key', 'Now it can explain'],
   ['Why A felt right', 'Capital normally sits with liabilities.'],
   ['The idea to keep', 'A debit capital balance is owed to the firm: an asset.'],
 ];
@@ -122,7 +122,7 @@ const LEARN_OPTS = ['not eager', 'characterized by directness in manner or speec
 export function LearnScreen({ play }) {
   const step = useSteps(play, LEARN_T);
   return (
-    <Frame title="Lock it in · Vocabulary" step={step} right={<span className="ts__badge">Card 1 of 5</span>}>
+    <Frame title="Vocabulary recall" step={step} right={<span className="ts__badge">Card 1 of 5</span>}>
       <p className="ts__meta">Meaning in context</p>
       <p className="ts__q">“I gave them my <b>candid</b> opinion.” What does candid mean here?</p>
       <ul className="ts__opts">
@@ -146,7 +146,7 @@ export function ReplayScreen({ play }) {
   const step = useSteps(play, REPLAY_T);
   const changed = step >= 4;
   return (
-    <Frame title="Mistake Replay · Q4" step={step}>
+    <Frame title="Replay, question 4" step={step}>
       <div className="ts__timeline">
         <div className="ts__node" data-in={on(step >= 1)}><span className="ts__node-dot" data-tone="good"><Check size={14} aria-hidden="true" /></span><b>00:42</b><small>Picked B</small></div>
         <i className="ts__line" data-in={on(step >= 2)} aria-hidden="true" />
@@ -157,7 +157,7 @@ export function ReplayScreen({ play }) {
         <p><b>{changed ? 'Incorrect' : 'Correct'}</b>{changed ? 'After the change' : 'First answer'}</p>
         <strong className="ts__marks">{changed ? '−1' : '+5'}<small>marks</small></strong>
       </div>
-      <p className="ts__note" data-in={on(step >= 5)}>Coming back to this one cost you <b>6 marks</b>.</p>
+      <p className="ts__note" data-in={on(step >= 5)}>Going back to this one cost you <b>6 marks</b>.</p>
     </Frame>
   );
 }
@@ -173,7 +173,7 @@ const RADAR_ROWS = [
 export function RadarScreen({ play }) {
   const step = useSteps(play, RADAR_T);
   return (
-    <Frame title="Radar · after one mock" step={step}>
+    <Frame title="Radar after one mock" step={step}>
       <ul className="ts__bars">
         {RADAR_ROWS.map(([chapter, subject, pct], i) => (
           <li key={chapter} data-in={on(step > i)} data-low={on(pct < 50)}>
@@ -214,7 +214,7 @@ const COMPASS_ROWS = [['SRCC', 'B.Com (Hons)', 80, 'Stretch', 'far'], ['Hindu Co
 export function CompassScreen({ play }) {
   const step = useSteps(play, COMPASS_T);
   return (
-    <Frame title="Compass · your shortlist" step={step}>
+    <Frame title="Your Compass shortlist" step={step}>
       <p className="ts__meta">Your practice range against 2026 Round I cutoffs</p>
       <ul className="ts__compass">
         {COMPASS_ROWS.map(([college, course, cut, label, fit], i) => (

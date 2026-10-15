@@ -23,7 +23,7 @@ export function ExamComparator() {
   const [answers, setAnswers] = useState({});
   const [review, setReview] = useState({});
   const [visited, setVisited] = useState({ 0: true });
-  const [notice, setNotice] = useState('Try an answer, then switch interfaces. Your choices stay with you.');
+  const [notice, setNotice] = useState('Pick an answer, then switch screens. Your answers stay put.');
   // The demo clock starts when the visitor first acts and only runs while the console is on
   // screen and the tab is visible. Reduced motion keeps it still.
   const [clock, setClock] = useState(3600);
@@ -54,29 +54,29 @@ export function ExamComparator() {
   function next(mark) {
     setReview((v) => ({ ...v, [index]: mark }));
     if (index < QUESTIONS.length - 1) go(index + 1);
-    else setNotice('You’ve reached the last sample. Use the palette to revisit any of the five questions.');
+    else setNotice('That was the last one. Use the palette to go back to any question.');
   }
   function reset() {
     setAnswers({}); setReview({}); setVisited({ 0: true }); setIndex(0); setStarted(false); setClock(3600);
-    setNotice('Preview reset. Try an answer, then switch interfaces.');
+    setNotice('Cleared. Pick an answer, then switch screens.');
   }
   return (
     <section className="lp-sec lp-exam-section" id="exam-experience" aria-labelledby="exam-title">
       <div className="mm-wrap">
         <div className="lp-exam-intro">
           <div><h2 className="lp-h2" id="exam-title">Your practice space.<br />Your exam-day rehearsal.</h2>
-            <p className="lp-sub">Get comfortable in MockMob. Switch to the familiar NTA-style console when it’s time to rehearse. Same questions. Two ways to focus.</p></div>
+            <p className="lp-sub">Practise on MockMob’s calm screen. As exam day gets close, switch to the NTA-style screen and rehearse the real thing. Same questions, either way.</p></div>
           <div className="lp-exam-switch" role="group" aria-label="Preview interface">
             <button type="button" aria-pressed={!classic} onClick={() => setMode('mockmob')}><Sparkles size={17} />MockMob</button>
             <button type="button" aria-pressed={classic} onClick={() => setMode('nta')}><Monitor size={17} />NTA style<span>Pro</span></button>
           </div>
         </div>
         <div className="lp-exam" data-interface={mode} ref={consoleRef}>
-          <div className="lp-exam__bar"><span><span className="lp-exam__live" />{classic ? 'CUET practice · NTA-style console' : 'MockMob Arena · English'}</span><span className="lp-exam__sample">Interactive preview</span><span className="lp-exam__clock" data-running={started && onScreen}><Clock3 size={15} aria-hidden="true" />{clockText} <small>demo</small></span></div>
+          <div className="lp-exam__bar"><span><span className="lp-exam__live" />{classic ? 'NTA-style screen, English' : 'MockMob Practice, English'}</span><span className="lp-exam__sample">Try it here</span><span className="lp-exam__clock" data-running={started && onScreen}><Clock3 size={15} aria-hidden="true" />{clockText}</span></div>
           <div className="lp-exam__body">
             <div className="lp-exam__paper">
               <div className="lp-exam__meta"><span>English</span><span>+5 correct <i /> −1 incorrect</span></div>
-              <div className="lp-exam__question" aria-live="polite"><p className="lp-exam__number">Question {index + 1} <span>of 5 sample questions</span></p><h3>{question.text}</h3></div>
+              <div className="lp-exam__question" aria-live="polite"><p className="lp-exam__number">Question {index + 1} <span>of 5</span></p><h3>{question.text}</h3></div>
               <fieldset className="lp-exam__options"><legend className="lp-sr">Answer for question {index + 1}</legend>
                 {question.options.map((option, i) => <label key={`${index}-${i}`} data-selected={answers[index] === i}>
                   <input type="radio" name={`preview-answer-${index}`} checked={answers[index] === i} onChange={() => { setStarted(true); pipReact('demo', Object.keys({ ...answers, [index]: i }).length === QUESTIONS.length && Object.keys(answers).length < QUESTIONS.length ? 'celebrate' : 'nod'); setAnswers((a) => ({ ...a, [index]: i })); }} />
@@ -97,14 +97,14 @@ export function ExamComparator() {
               <div className="lp-exam__numbers">{Array.from({ length: 50 }, (_, i) => i < 5
                 ? <button key={i} type="button" className="lp-exam__num" aria-current={index === i ? 'step' : undefined} aria-label={`Preview question ${i + 1}, ${LEGEND.find(([s]) => s === stateFor(i))[1]}`} onClick={() => go(i)}><span className="lp-exam__cell" data-state={stateFor(i)}>{i + 1}</span></button>
                 : <span key={i} className="lp-exam__num lp-exam__num--rest" aria-hidden="true"><span className="lp-exam__cell" data-state="unseen">{i + 1}</span></span>)}</div>
-              <p className="lp-exam__palette-note">Questions 1–5 are interactive. A full mock has 50.</p>
+              <p className="lp-exam__palette-note">Tap 1 to 5 here. A full mock uses all 50.</p>
               <p className="lp-exam__legend-title">Legend</p><ul className="lp-exam__legend">{LEGEND.map(([state, name]) => <li key={state}><span data-state={state} aria-hidden="true">{state === 'review-answered' ? <Check size={10} /> : ''}</span>{name}</li>)}</ul>
             </aside>
           </div>
           <div className="lp-exam__foot"><p role="status">{notice}</p><button type="button" onClick={reset}><RotateCcw size={14} />Reset preview</button></div>
         </div>
-        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" label="Try both screens." note="Your answers stay." className="pip-seat--demo" /><p><Check size={16} />Answers and review flags stay when you switch.<br /><span>Original sample questions. NTA-style practice is independent of NTA; the official CUET 2027 interface may change.</span></p>
-          <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--primary">{user?.isPremium ? 'Set up an NTA mock' : 'Explore Pro'}<ArrowRight size={17} /></Link></div>
+        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" label="Try both screens." note="Your answers stay." className="pip-seat--demo" /><p><Check size={16} />Your answers and review marks stay when you switch screens.</p>
+          <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--primary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}<ArrowRight size={17} /></Link></div>
       </div>
     </section>
   );

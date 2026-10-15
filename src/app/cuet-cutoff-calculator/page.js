@@ -28,12 +28,12 @@ const faqs = [
   {
     question: 'Will the 2027 cutoffs be the same as these?',
     answer:
-      'No. Cutoffs change every year with the number of applicants, difficulty and seats. Treat them as a reference for the 2026 cycle, not a prediction. Rules for 2027 stay provisional until DU publishes its next Bulletin.',
+      'No. Cutoffs move every year with applicants, paper difficulty and seats. Use 2026 as your reference point and aim a little above it. The 2027 rules arrive with DU’s next Bulletin.',
   },
   {
     question: 'What score should I enter?',
     answer:
-      'DU ranks candidates on a programme-specific CUET score and shows it on the CSAS dashboard after results. Before results, enter a target score to compare it with published 2026 cutoffs. Your MockMob mock score is not the same scale.',
+      'DU ranks candidates on a programme-specific CUET score and shows it on the CSAS dashboard after results. Before results, enter the score you are aiming for. A MockMob mock score uses a different scale.',
   },
   {
     question: 'Why does a reserved-category candidate see the lower of two cutoffs?',
@@ -48,7 +48,7 @@ const faqs = [
   {
     question: 'Does MockMob guarantee admission?',
     answer:
-      'No. MockMob is an independent preparation platform and is not affiliated with DU or NTA. This tool helps you plan. Admission depends on your score, your category, seat availability and DU’s rules.',
+      'No. Admission depends on your CUET score, your category, the seats left and DU’s rules. This tool shows where you stand against last year’s numbers.',
   },
 ];
 
@@ -93,8 +93,7 @@ export default function CutoffCalculatorPage() {
             <div>
               <h2 id="du-how" className="lp-h2">How to read this</h2>
               <p className="lp-sub">
-                A cutoff is the lowest score DU allocated a seat at, in one round. These records describe 2026. They do not
-                predict a future allocation or promise a seat.
+                A cutoff is the lowest score that got a seat in one round of DU’s 2026 allocation.
               </p>
             </div>
             <ol className="du-steps">
@@ -160,8 +159,7 @@ export default function CutoffCalculatorPage() {
               ))}
             </div>
             <p className="du-disclaimer">
-              MockMob is an independent exam preparation platform and is not affiliated with the University of Delhi or NTA.
-              Read the official documents before you decide. <Link href="/cuet-2027" className="lp-link">CUET 2027 guide</Link>
+              Planning your papers for 2027? <Link href="/cuet-2027" className="lp-link">Read the CUET 2027 guide</Link>
             </p>
           </div>
         </section>

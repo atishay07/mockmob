@@ -107,7 +107,7 @@ export function NavBar() {
           <ThemeToggle hint />
           {isAuthenticated ? (
             <Link href="/dashboard" className="mm-btn mm-btn--primary mm-nav__cta">
-              My Arena
+              Go to Practice
             </Link>
           ) : (
             <>

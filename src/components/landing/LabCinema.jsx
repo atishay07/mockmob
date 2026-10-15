@@ -24,7 +24,7 @@ const SCENES = [
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', Icon: Wrench, title: 'Repair the reason, not just the answer.',
     body: 'The AI solves the question on its own first. Only when it matches the official key does it explain why your pick looked right and where it breaks.',
-    take: 'If the AI and the key disagree, the question is held back.' },
+    take: 'If the two disagree, the question waits. You never get a guess.' },
   { key: 'swot', tab: 'SWOT', Icon: LayoutGrid, title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, built from your own answers and times, with the set to do next. Free, no credits.',
     take: `Partnership: ${S.partnership.right} of ${S.partnership.of} right. That is the next set.` },
@@ -87,7 +87,7 @@ function ChangesPanel() {
           </li>
         ))}
       </ol>
-      <p className="lcp__foot">Clock times count from the start of the paper. Net effect: <b>{signed(S.net)} marks</b>.</p>
+      <p className="lcp__foot">Times run from the start of the paper. Net effect: <b>{signed(S.net)} marks</b>.</p>
     </div>
   );
 }

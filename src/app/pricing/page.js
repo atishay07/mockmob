@@ -1,6 +1,6 @@
 export const dynamic = "force-dynamic";
 import React from 'react';
-import { CAPABILITIES, newOfferReleased, RECOVERY_PACKAGING_ROWS } from '@/../data/capabilities';
+import { newOfferReleased, RECOVERY_PACKAGING_ROWS } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
@@ -31,14 +31,14 @@ const buildPlans = (offer) => [
     name: 'Free',
     price: '₹0',
     cycle: 'forever',
-    description: 'Enough to find out whether MockMob is for you, with no card involved.',
+    description: 'Enough to see whether MockMob suits you. No card needed.',
     ctaLabel: 'Create a free account',
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
-      'Quick Practice, 5 to 20 questions — credit-gated',
-      'Full Mock, 50 questions in 60 minutes — credit-gated',
+      'Quick Practice, 5 to 20 questions, on credits',
+      'Full Mock, 50 questions in 60 minutes, on credits',
       'Weekly progress tracking',
       '25 saved questions',
-      'Community leaderboard',
+      'Leaderboard',
     ],
   },
   {
@@ -46,7 +46,7 @@ const buildPlans = (offer) => [
     price: `₹${offer.purchasable === 'monthly' ? offer.monthly.rupees : offer.oneTime.rupees}`,
     cycle: offer.purchasable === 'monthly' ? '/month' : 'once',
     description: offer.purchasable === 'monthly'
-      ? 'Everything unlocked. Renews every month, cancel whenever you like.'
+      ? 'Every mode, no limits. Renews monthly, and you can cancel any time.'
       : `One payment covers you through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} opens soon.`,
     ctaLabel: offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`,
     planId: offer.purchasable === 'monthly' ? offer.monthly.planId : offer.oneTime.planId,
@@ -54,18 +54,18 @@ const buildPlans = (offer) => [
     amount: (offer.purchasable === 'monthly' ? offer.monthly.rupees : offer.oneTime.rupees) * 100,
     featured: true,
     footnote: offer.purchasable === 'monthly'
-      ? 'Auto-renews monthly. Cancel in Account; access continues to the end of the paid month.'
+      ? 'Renews automatically each month. Cancel in Account and keep Pro to the end of the month you paid for.'
       : `Access ends ${offer.oneTime.expires}. No auto-renewal on this payment.`,
     features: newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full recovery history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Full priorities and playbook', 'Unlimited saved questions'] : [
       'Unlimited Quick Practice and Full Mocks',
-      'NTA Mode — 2026-format baseline, 50 Q / 60 min; 2027 rules provisional',
-      'Smart Practice — adaptive, targets your weak chapters',
+      'NTA Mode: the exam-day screen, 50 questions in 60 minutes',
+      'Smart Practice: every set aimed at your weak chapters',
       'Full Radar: every ranked chapter, pace and changed-answer detail',
       'Compass Pro: your practice projected paper by paper, against your DU shortlist',
       'Compass Pro next move: the paper and chapter that can move your total most',
-      'Free DU eligibility and sourced historical cutoffs',
+      'DU eligibility and published cutoffs',
       'Difficulty selector: easy, medium, hard or auto',
-      'Unlimited bookmarks',
+      'Unlimited saved questions',
     ],
   },
 ];
@@ -74,22 +74,22 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
   {
     heading: 'Core test modes',
     rows: [
-      ['Quick Practice (5 to 20 Qs)', 'Credit-gated · 10 credits each', 'Unlimited with Pro'],
-      ['Full Mock (50 Qs · 60 min)', 'Credit-gated · 50 credits each', 'Unlimited with Pro'],
+      ['Quick Practice (5 to 20 questions)', '10 credits a session', 'Unlimited'],
+      ['Full Mock (50 questions, 60 minutes)', '50 credits a mock', 'Unlimited'],
     ],
   },
   {
     heading: 'Platform basics',
     rows: [
       ['Saved questions', '25 saves', 'Unlimited saves'],
-      ['Community leaderboard', true, true],
+      ['Leaderboard', true, true],
       ['Weekly progress tracking', true, true],
     ],
   },
   {
     heading: 'Advanced features',
     rows: [
-      ['DU eligibility and historical cutoffs', true, true],
+      ['DU eligibility and published cutoffs', true, true],
       ['Compass Pro: practice projection, DU shortlist and next move', false, true, 'popular'],
       ['Difficulty selector', false, 'Easy, medium, hard, auto'],
       ['Radar: marks ledger, top three chapters, weekly summary', true, true],
@@ -99,8 +99,8 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
   {
     heading: 'Advanced test modes',
     rows: [
-      ['Smart Practice — adaptive', false, 'Unlimited'],
-      ['NTA Mode — CUET exam simulation', false, 'Unlimited'],
+      ['Smart Practice, aimed at your weak chapters', false, 'Unlimited'],
+      ['NTA Mode, the exam-day screen', false, 'Unlimited'],
     ],
   },
 ];
@@ -141,15 +141,15 @@ const buildFaqs = (offer) => [
   },
   {
     q: 'What does Admission Compass compare?',
-    a: 'Compass uses official DU programme rules and published historical allocation scores, free for everyone. Compass Pro adds a practice projection: what each CUET paper would be worth if exam day went like your own practice, with a range, checked against the 2026 cutoffs of the colleges on your shortlist. It is labelled as a projection, not a prediction or an admission chance.',
+    a: 'Compass uses official DU programme rules and published historical allocation scores, free for everyone. Compass Pro adds a practice projection: what each CUET paper would be worth if exam day went like your own practice, with a range, checked against the 2026 cutoffs of the colleges on your shortlist.',
   },
   {
     q: 'Is Compass the same as Radar?',
     a: 'Radar describes your practice history. Compass checks sourced eligibility and historical cutoffs; with Pro, it also maps your practice to your DU shortlist and names the paper with the most marks open.',
   },
   {
-    q: 'Are the community mocks reliable?',
-    a: 'New recovery content must pass source, answer-key, family and independent calibration gates. Uncertain content is withheld. The ordinary legacy bank remains under audit; software checks alone do not establish academic accuracy.',
+    q: 'How do you check the questions?',
+    a: 'New questions pass source and answer-key checks before they reach you, and anything uncertain is held back. If a key looks wrong, report it from your result and we recheck it.',
   },
   {
     q: 'How does the leaderboard work?',
@@ -235,8 +235,7 @@ export default async function PricingPage() {
           <div className="mm-wrap">
             <h2 className="mm-h2">Free and Pro, line by line.</h2>
             <p className="mm-body mm-section__intro">
-              Free is genuinely usable: credits gate how often you can generate, not what you can
-              see.
+              Free is a real plan. Credits decide how often you practise, never what you can see.
             </p>
 
             <div className="mm-cmp">
@@ -276,8 +275,8 @@ export default async function PricingPage() {
               PrepOS reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
             </p>
             <p className="mm-body">
-              Optional model replies use a separate PrepOS wallet: 10 credits a month on Free and 50 on Pro, never mixed with practice credits.
-              Those replies are switched off while spending checks finish, so no credits are being used, and purchased credits you already hold are preserved.
+              Model replies use a separate PrepOS wallet: 10 credits a month on Free and 50 on Pro, kept apart from practice credits.
+              Credits you have already bought stay in your wallet.
             </p>
             <p style={{ marginTop: '1rem' }}>
               <Link href="/pricing/prepos" className="mm-btn mm-btn--secondary">See your PrepOS wallet</Link>
@@ -311,8 +310,6 @@ export default async function PricingPage() {
       </main>
 
       <MarketingFooter />
-      {CAPABILITIES.recovery.state !== 'available' && <section className="container-std px-5 pb-12"><h2 className="display-md">Recovery is still in development</h2><p>{CAPABILITIES.recovery.reason} Planned recovery capabilities are excluded from the live paid comparison.</p></section>}
-      <p className="container-std px-5 pb-8">Unlimited access covers available content and reattempts. It does not promise unlimited unique questions.</p>
       <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label="Start free" href="/signup" />
     </div>
   );

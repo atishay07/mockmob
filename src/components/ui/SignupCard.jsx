@@ -148,7 +148,7 @@ export function SignupCard({ mode = 'signup' }) {
           <path fill="#FBBC05" d="M5.29 14.28a7.2 7.2 0 0 1 0-4.56v-3.1H1.28a12 12 0 0 0 0 10.76l4.01-3.1z" />
           <path fill="#EA4335" d="M12 4.77c1.76 0 3.34.61 4.59 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.28 6.62l4.01 3.1C6.23 6.88 8.88 4.77 12 4.77z" />
         </svg>
-        {googleLoading ? 'Opening Google...' : 'Continue with Google'}
+        {googleLoading ? 'Opening Google…' : 'Continue with Google'}
       </button>
 
       <div className="auth-card__or">or use your email</div>
@@ -190,7 +190,7 @@ export function SignupCard({ mode = 'signup' }) {
           </label>
         )}
         <button type="submit" className="mm-btn mm-btn--primary" disabled={submitDisabled}>
-          {emailLoading ? (otpSent ? 'Checking the code...' : 'Sending...') : otpSent ? 'Verify code and continue' : 'Email me a login code'}
+          {emailLoading ? (otpSent ? 'Checking the code…' : 'Sending…') : otpSent ? 'Verify code and continue' : 'Email me a login code'}
         </button>
         {otpSent ? (
           <div className="auth-card__actions">
@@ -216,7 +216,7 @@ export function SignupCard({ mode = 'signup' }) {
         {isLogin ? 'New here?' : 'Already have an account?'}{' '}
         <Link href={isLogin ? '/signup' : '/login'}>{isLogin ? 'Create an account' : 'Log in'}</Link>
       </p>
-      <p className="auth-card__fine">Your display name appears on the practice board. Your email is used for sign-in. You stay signed in on this device until you sign out.</p>
+      <p className="auth-card__fine">Your display name shows on the leaderboard. Your email is how you sign in, and you stay signed in on this device until you sign out.</p>
     </div>
   );
 }

@@ -23,7 +23,7 @@ export default function SignupPageClient() {
   if (status === 'loading' || status === 'authenticated') {
     return (
       <AuthSessionScreen
-        message={status === 'authenticated' ? 'Opening your dashboard...' : 'Checking existing session...'}
+        message={status === 'authenticated' ? 'Opening MockMob…' : 'Checking your sign-in…'}
       />
     );
   }
@@ -34,8 +34,8 @@ export default function SignupPageClient() {
       lead="Keep your recorded mocks, chapter mistakes and saved questions together."
       points={[
         'Quick Practice and Full Mock on free credits',
-        'Radar shows the chapters behind recorded mistakes',
-        'Choose Pro when unlimited practice fits your routine',
+        'Radar traces every mistake back to its chapter',
+        'Go Pro when you want unlimited practice',
       ]}
     >
       <SignupCard />

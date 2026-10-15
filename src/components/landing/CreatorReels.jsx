@@ -58,7 +58,7 @@ function Card({ item, active, onPlay }) {
           />
           {embedState !== 'loaded' ? (
             <p className="rl__status" role="status" aria-live="polite">
-              {embedState === 'loading' ? 'Loading from Instagram…' : embedState === 'delayed' ? 'Instagram may be blocking this embed.' : 'This embed could not load.'}
+              {embedState === 'loading' ? 'Loading from Instagram…' : embedState === 'delayed' ? 'Still loading. You can open it on Instagram instead.' : 'This one didn’t load. Open it on Instagram instead.'}
             </p>
           ) : null}
           <a ref={openRef} href={url} target="_blank" rel="noopener noreferrer" className="rl__open">
@@ -75,7 +75,7 @@ function Card({ item, active, onPlay }) {
           {item.followers ? (
             <span className="rl__reach">
               <b className="mm-measure">{compactCount(item.followers)}</b>
-              <span>followers{item.also ? <> · also runs <i>@{item.also.handle}</i> ({compactCount(item.also.followers)})</> : null}</span>
+              <span>followers{item.also ? <>, also runs <i>@{item.also.handle}</i> ({compactCount(item.also.followers)})</> : null}</span>
             </span>
           ) : null}
           {item.about ? <span className="rl__about">{item.about}</span> : null}
@@ -87,7 +87,7 @@ function Card({ item, active, onPlay }) {
             </span>
           ) : null}
           <span className="rl__identity">
-            <span className="rl__who"><b>{item.creator}</b><i>@{item.handle}{item.note ? ` · ${item.note}` : ''}</i></span>
+            <span className="rl__who"><b>{item.creator}</b><i>@{item.handle}{item.note ? `, ${item.note}` : ''}</i></span>
             <span className="rl__play" aria-hidden="true"><Play size={18} fill="currentColor" /></span>
           </span>
           <span className="rl__load-label">Load preview <span aria-hidden="true">↗</span></span>
@@ -157,7 +157,7 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
           <Card key={`${item.code}-${activeCode === item.code ? 'active' : 'idle'}`} item={item} active={activeCode === item.code} onPlay={() => setActiveCode(item.code)} />
         ))}
       </ul>
-      <p className="rl__note">Follower counts are public profile numbers{asOf ? ` checked on ${asOf}` : ''}; audiences may overlap. Reel views are our running total as of {REEL_VIEWS_AS_OF}, and likes and comments count only what is recorded on the featured reels. Posts marked Partner are paid collaborations. Instagram loads only when you choose a card.</p>
+      <p className="rl__note">Follower counts from public profiles{asOf ? `, ${asOf}` : ''}. Reel views as of {REEL_VIEWS_AS_OF}. Posts marked Partner are paid collaborations.</p>
     </div>
   );
 }

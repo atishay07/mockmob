@@ -106,7 +106,7 @@ export function SeoContentPage({ page }) {
                   <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
                 </Link>
                 <Link href="/pricing" className="mm-btn mm-btn--secondary">
-                  See what Pro unlocks
+                  See what Pro adds
                 </Link>
               </div>
             </div>

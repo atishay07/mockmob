@@ -343,7 +343,7 @@ export function RazorpayPaymentButton({
 
       <p className="mm-checkout__trust">
         <ShieldCheck aria-hidden="true" />
-        Secured by Razorpay · UPI, cards, netbanking ·{' '}
+        Secured by Razorpay. Pay by UPI, card or netbanking.{' '}
         <a href="/refunds">Refund policy</a>
       </p>
     </div>

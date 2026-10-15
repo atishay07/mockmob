@@ -100,16 +100,16 @@ export function LiveStatsBand({ offer = null } = {}) {
         value={bankSize}
         fallback="…"
         failed={failed}
-        label="questions in the live bank"
-        note="Counts use practice eligibility. Legacy library content is still being audited; bank size does not establish recovery coverage."
+        label="questions to practise"
+        note="Each one scored the CUET way: +5 right, −1 wrong."
         animate={seen}
       />
       <Figure
         value={subjectCount}
         fallback="…"
         failed={failed}
-        label="CUET subjects covered"
-        note="Subjects with available ordinary practice questions. Question counts may be temporarily unavailable."
+        label="CUET subjects"
+        note="Pick one for a quick set or a full mock."
         animate={seen}
       />
       <Figure
