@@ -61,7 +61,6 @@ export default function CutoffCalculatorPage() {
       <main id="main-content">
         <section className="du-hero">
           <div className="lp-bg lp-bg--static" aria-hidden="true">
-            <div className="lp-bg__aurora" />
             <div className="lp-bg__grid" />
             <div className="lp-bg__dots" />
           </div>

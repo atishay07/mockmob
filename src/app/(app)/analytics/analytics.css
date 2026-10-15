@@ -35,3 +35,79 @@
 .rd-across-fail { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0 0 20px; font-size: 14px; color: var(--a-ink-2); }
 .rd-across-fail button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--a-accent-text); font: 700 14px/1 var(--font-body); cursor: pointer; }
 .rd-across-fail button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+
+/* ---------- De-slop pass: open sections and ruled rows instead of boxes ----------
+   The page keeps every part of the record. The side column and the record's blocks lose their
+   boxes, icon tiles, tints and the dashed Pro rows; hairlines and type carry the hierarchy. */
+.app-shell .rd { gap: 28px; }
+.app-shell .rd-ask { min-height: 44px; padding: 0 16px; border-radius: 12px; background: transparent; font-size: 14px; }
+.app-shell .rd-ask:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+
+.app-shell .rd-side { gap: 28px; }
+.app-shell .rd-card { gap: 14px; padding: 0; border: 0; border-radius: 0; background: none; }
+.app-shell .rd-card + .rd-card { padding-top: 24px; border-top: 1px solid var(--a-line); }
+.app-shell .rd-card h2 { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.app-shell .rd-foot { font-size: 13px; }
+.app-shell .tr__chip { padding: 0; border: 0; border-radius: 0; background: none; }
+.app-shell .tr__chip[data-tone='up'] { border: 0; }
+
+.app-shell .rd-subjects li { min-height: 60px; }
+.app-shell .rd-subjects__acc { display: grid; justify-items: end; gap: 0; font: inherit; }
+.app-shell .rd-subjects__acc b { font: 800 20px/1.1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.app-shell .rd-subjects__acc small { font-size: 12px; color: var(--a-ink-3); }
+.app-shell .rd-link { min-height: 44px; }
+
+/* The record (RecordView, shared with the Mentor record tab; only this page is changed here) */
+.app-shell .rd .pp-record { gap: 36px; }
+.app-shell .rd .pp-record > section { padding-top: 28px; border-top: 1px solid var(--a-line); }
+.app-shell .rd .pp-h { margin: 0 0 14px; font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.app-shell .rd .pp-note { font-size: 13px; }
+
+/* Marks ledger: ruled figures, no tinted tile */
+.app-shell .rd .pp-ledger { border: 0; border-block: 1px solid var(--a-line); border-radius: 0; overflow: visible; }
+.app-shell .rd .pp-ledger > div { padding: 16px 0 16px 20px; border: 0; border-left: 1px solid var(--a-line); background: none; }
+.app-shell .rd .pp-ledger > div:first-child { padding-left: 0; border-left: 0; }
+.app-shell .rd .pp-ledger > div[data-emph] { background: none; }
+.app-shell .rd .pp-ledger > div[data-emph] dd { color: var(--a-ink); font-size: 34px; }
+.app-shell .rd .pp-ledger dd { font-size: 28px; }
+.app-shell .rd .pp-ledger small { font-size: 12.5px; }
+@media (max-width: 639px) {
+  .app-shell .rd .pp-ledger > div { padding: 14px 0 14px 14px; border-bottom: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(even) { padding-left: 0; border-left: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(n + 2) { border-top: 1px solid var(--a-line); }
+  .app-shell .rd .pp-ledger > div[data-emph] { grid-column: 1 / -1; border-top: 0; padding-left: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(odd):not([data-emph]) { padding-left: 0; border-left: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(even):not([data-emph]) { padding-left: 14px; border-left: 1px solid var(--a-line); }
+}
+.app-shell .rd .pp-look { margin: 0; padding: 0; border: 0; border-radius: 0; background: none; }
+
+/* What stands out: ruled findings, the action a plain link */
+.app-shell .rd .pp-findings { gap: 0; }
+.app-shell .rd .pp-findings li { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 18px 0; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: none; }
+.app-shell .rd .pp-findings li:first-child { border-top: 0; padding-top: 4px; }
+.app-shell .rd .pp-findings b { font-size: 17px; letter-spacing: -0.01em; }
+.app-shell .rd .pp-findings p { font-size: 14.5px; max-width: 64ch; }
+.app-shell .rd .pp-findings__foot { margin-top: 8px; }
+.app-shell .rd .pp-findings__foot button { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); font: 700 14px var(--font-display); }
+.app-shell .rd .pp-findings__foot button:hover { border: 0; text-decoration: underline; text-underline-offset: 3px; color: var(--a-accent-text); }
+
+/* Chapters: the bar is the data; the rest is type */
+.app-shell .rd .pp-chapters { gap: 20px; }
+.app-shell .rd .pp-chapters__top b { font-size: 15px; }
+.app-shell .rd .pp-chapters__meta { font-size: 12.5px; }
+
+/* Pro rows: one plain line and a text link, no dashed box and no padlock */
+.app-shell .rd .pp-lock { gap: 4px 16px; margin-top: 0; padding: 4px 0; border: 0; border-radius: 0; }
+.app-shell .rd .pp-lock button { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); }
+.app-shell .rd .pp-lock button:hover { border: 0; text-decoration: underline; text-underline-offset: 3px; color: var(--a-accent-text); }
+
+/* Pace and this week: ruled figures */
+.app-shell .rd .pp-pace, .app-shell .rd .pp-week { gap: 0; }
+.app-shell .rd .pp-pace > div, .app-shell .rd .pp-week > div { padding: 4px 0 4px 20px; border: 0; border-left: 1px solid var(--a-line); border-radius: 0; background: none; }
+.app-shell .rd .pp-pace > div:nth-child(odd), .app-shell .rd .pp-week > div:first-child { padding-left: 0; border-left: 0; }
+.app-shell .rd .pp-pace > div:nth-child(n + 3) { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--a-line); }
+.app-shell .rd .pp-pace dd { font-size: 22px; }
+.app-shell .rd .pp-week b { font-size: 28px; }
+.app-shell .rd .pp-week span { font-size: 13px; }
+.app-shell .rd .pp-week small { font-size: 12.5px; }
+.app-shell .rd .pp-empty { padding: 20px 0; border: 0; border-block: 1px solid var(--a-line); border-radius: 0; }

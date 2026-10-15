@@ -14,7 +14,6 @@ import LearningNextAction from '@/components/LearningNextAction';
 import RecordView from '@/components/ai/RecordView';
 import { useInsights } from '@/components/ai/useInsights';
 import { useAuth } from '@/components/AuthProvider';
-import { AppIcon } from '@/components/ui/Glyph';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useInView } from '@/lib/motion';
 import TrendScrub from './TrendScrub';
@@ -66,7 +65,7 @@ export default function AnalyticsPageClient() {
   if (authStatus === 'loading' || !data) {
     return (
       <div className="container-std pb-20">
-        <div className="mb-8"><div className="eyebrow mb-2">Radar</div><div className="h-10 w-72 skeleton mb-2" /></div>
+        <div className="mb-8"><div className="h-10 w-72 skeleton mb-2" /></div>
         <SkeletonCard className="h-[200px]" lines={5} />
       </div>
     );
@@ -79,11 +78,10 @@ export default function AnalyticsPageClient() {
     <div className="rd view">
       <header className="rd-head">
         <div>
-          <div className="eyebrow">Radar</div>
           <h1 className="display-md">Where your marks are going</h1>
           <p>{totalAttempts} session{totalAttempts === 1 ? '' : 's'}, {totalQ} question{totalQ === 1 ? '' : 's'} answered.{data.scoring?.device > 0 ? ` Includes ${data.scoring.device} earlier attempt${data.scoring.device === 1 ? '' : 's'} scored in your browser before server scoring.` : ''}</p>
         </div>
-        <Link href="/mentor?tab=ask" className="rd-ask"><AppIcon name="prepos" size={18} />Ask Mobi</Link>
+        <Link href="/mentor?tab=ask" className="rd-ask">Ask Mobi</Link>
       </header>
 
       <LearningNextAction compact />
@@ -118,13 +116,13 @@ export default function AnalyticsPageClient() {
                 {subjects.map((s, i) => (
                   <li key={s.id}>
                     <span className="rd-subjects__obj"><SubjectObject id={s.id} size={44} framed={false} /></span>
-                    <span className="rd-subjects__name"><b>{s.name}</b><i>{s.tests} session{s.tests === 1 ? '' : 's'} · avg {s.avg}%</i></span>
-                    <span className="rd-subjects__acc" aria-label={`${s.accuracy}% accuracy`}>{s.accuracy}%</span>
+                    <span className="rd-subjects__name"><b>{s.name}</b><i>{s.tests} session{s.tests === 1 ? '' : 's'}, average {s.avg}%</i></span>
+                    <span className="rd-subjects__acc"><b>{s.accuracy}%</b><small>accuracy</small></span>
                     <SubjectBar pct={s.accuracy} delay={i * 80} />
                   </li>
                 ))}
               </ul>
-              <Link href={`/admission-compass`} className="rd-link">Where can these subjects take you? <AppIcon name="compass" size={16} /></Link>
+              <Link href="/admission-compass" className="rd-link">Where can these subjects take you?</Link>
             </section>
           )}
         </aside>

@@ -4,7 +4,6 @@
 import { useEffect, useRef, useState, useId } from 'react';
 import Link from 'next/link';
 import { api, apiGet } from '@/lib/fetcher';
-import { ArrowRight } from 'lucide-react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import InstallPractice from './InstallPractice';
@@ -20,7 +19,7 @@ const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 // The planned minutes, rolling from the old choice to the new one. It first shows the real value.
 function MinutesRoll({ value }) {
   const { value: rolled, ink } = useCountUpState(value, { duration: 520, memoryKey: 'na-planned-minutes' });
-  return <span className="na__mins"><span aria-hidden="true" className="mk-num" data-ink={ink || undefined}>{rolled}</span><span className="sr-only">{value}</span> min</span>;
+  return <span className="na__mins"><span aria-hidden="true" className="mk-num" data-ink={ink || undefined}>{rolled}</span><span className="sr-only">{value}</span> minutes</span>;
 }
 
 // The plan's first sentence: what the session is. The engine's later sentences explain its rules.
@@ -116,15 +115,14 @@ export default function LearningNextAction({ compact = false, why = null }) {
   if (compact) {
     return (
       <section className="na na--compact" aria-label="Your next step">
-        <span className="na__icon" aria-hidden="true"><AppIcon name="today" size={18} /></span>
         {error ? (
           <div className="na__body"><p className="na__reason" role="alert">{error}</p><button type="button" className="pr-link" onClick={retry}>Try again</button></div>
         ) : !plan ? (
           <div className="na__body"><p className="na__reason" role="status">Loading your next step…</p></div>
         ) : (
           <>
-            <div className="na__body"><span className="na__eyebrow">Your next step</span><b className="na__title">{plan.primary.title}</b><p className="na__reason">{firstSentence(plan.primary.reason)}</p></div>
-            <Link className="btn-volt md na__cta mk-press" href={plan.primary.href}>Start<ArrowRight size={16} aria-hidden="true" /></Link>
+            <div className="na__body"><b className="na__title"><span className="na__lead">Your next step: </span>{plan.primary.title}</b><p className="na__reason">{firstSentence(plan.primary.reason)}</p></div>
+            <Link className="btn-volt md na__cta mk-press" href={plan.primary.href}>Start</Link>
           </>
         )}
       </section>
@@ -137,10 +135,9 @@ export default function LearningNextAction({ compact = false, why = null }) {
       <ArenaCompanion act={error ? 'oops' : !plan ? 'think' : listening ? 'tilt' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Try your record again.' : !plan ? 'Reading your record.' : 'Pick the time you have.'}>{error ? 'Review still has your saved sessions.' : !plan ? 'Tonight’s plan is a moment away.' : 'The set fits it, one question a minute.'}</ArenaCompanion>
       <div className="na__grid">
         <div className="na__plan">
-          <span className="na__eyebrow"><AppIcon name="today" size={14} />Tonight’s plan{planned ? <MinutesRoll value={planned} /> : null}</span>
           {plan && !error ? <h2 className="na__title na__title--hero">{heroTitle(plan, top, planned)}</h2> : null}
           <fieldset className="na__time">
-            <legend className="sr-only">Time for practice</legend>
+            <legend className="na__time-label">Tonight’s plan{planned ? <>, <MinutesRoll value={planned} /></> : null}</legend>
             <SegmentedControl size="sm" label="Time for practice" value={minutes ?? plan?.minutes} busy={choosing} onChange={chooseTime} options={TIME_OPTIONS} />
           </fieldset>
           {error ? (
@@ -151,9 +148,9 @@ export default function LearningNextAction({ compact = false, why = null }) {
             <>
               {plan.tonight?.state === 'recorded' ? <div className="pr-alert" data-tone="good" role="status"><AppIcon name="check" size={18} /><div><b>Tonight’s practice is recorded.</b> <Link className="pr-link" href={`/result/${plan.tonight.sessionId}`}>Review that session</Link>{plan.tonight.reviewMinutes ? <p>Your 30-minute plan also has 10 minutes of review.</p> : null}</div></div> : null}
               {plan.primary.kind === 'ordinary_practice' && top ? <p className="na__reason">{firstSentence(plan.primary.reason)}</p> : null}
-              {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link>{step.purpose ? <p>{step.purpose}</p> : null}<small>About {step.estimatedMinutes} min{step.done ? ` · ${step.done}` : ''}</small></div></li>)}</ol> : null}
+              {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link>{step.purpose ? <p>{step.purpose}</p> : null}<small>About {step.estimatedMinutes} min{step.done ? `, ${step.done}` : ''}</small></div></li>)}</ol> : null}
               <div className="na__actions">
-                <Link className="btn-volt md na__cta mk-press" href={startHref} aria-busy={refreshing || undefined} data-stale={refreshing || undefined} onClick={refreshing ? (event) => event.preventDefault() : undefined}>{plan.primary.title}<ArrowRight size={16} aria-hidden="true" /></Link>
+                <Link className="btn-volt md na__cta mk-press" href={startHref} aria-busy={refreshing || undefined} data-stale={refreshing || undefined} onClick={refreshing ? (event) => event.preventDefault() : undefined}>{plan.primary.title}</Link>
                 {plan.sequence?.[1] && <Link className="na__alt" href={plan.sequence[1].href}>Skip ahead a step</Link>}
                 {plan.sequence?.length > 0 && <Link className="na__alt" href="/dashboard?mode=full">Take a mock</Link>}
                 {plan.alternatives.map(a => <Link key={a.kind} className="na__alt" href={a.href}>{a.title}</Link>)}

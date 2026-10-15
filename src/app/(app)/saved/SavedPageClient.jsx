@@ -13,8 +13,6 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { QuestionCard } from '@/components/feed/QuestionCard';
 import MobiReact from '@/components/brand/MobiReact';
 import SceneVignette from '@/components/scenes/SceneVignette';
-import { Icon } from '@/components/ui/Icons';
-import { AppIcon } from '@/components/ui/Glyph';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
@@ -86,14 +84,14 @@ function SavedRow({ question, coarse, pending, shake, onRemove, onPractise, rowR
       data-shake={shake || undefined}
     >
       <div className="sv-under" aria-hidden="true">
-        <span className="sv-under__go"><Icon name="target" /> Practise</span>
+        <span className="sv-under__go">Practise</span>
         <span className="sv-under__rm">Remove</span>
       </div>
       <div {...bind} className={`${bind.className} sv-card`}>
         <QuestionCard row={question} onProgressChange={(event) => { if (event?.type === 'unsave') onRemove(question, { confirmed: true }); }} />
       </div>
       <div className="sv-actions">
-        {hasChapter ? <Link className="sv-act sv-act--go mk-press" href={href}><Icon name="target" /> Practise {question.chapter ? 'this chapter' : subjectName(question.subject)}</Link> : <span />}
+        {hasChapter ? <Link className="sv-act sv-act--go mk-press" href={href}>Practise {question.chapter ? 'this chapter' : subjectName(question.subject)}</Link> : <span />}
         <button type="button" className="sv-act sv-act--rm mk-press" disabled={pending} onClick={() => onRemove(question)}>{pending ? 'Removing…' : 'Remove'}</button>
       </div>
     </li>
@@ -234,7 +232,6 @@ export default function SavedPageClient() {
     return (
       <div className="container-narrow student-page student-page--saved flex flex-col gap-4">
         <div>
-          <div className="eyebrow mb-2">{'Saved'}</div>
           <div className="h-10 w-72 max-w-full skeleton mb-2" />
           <div className="h-4 w-64 max-w-full skeleton" />
         </div>
@@ -263,8 +260,8 @@ export default function SavedPageClient() {
   return (
     <div className="container-narrow view student-page student-page--saved">
       <div className="mb-6">
-        <ArenaHead eyebrow="Saved" title="Saved questions" lede={count ? `${count} saved from Explore, kept here for another look.` : 'Questions you save from Explore wait here for another look.'}
-          aside={<span className="saved-aside"><Link href="/explore" className="na__alt"><AppIcon name="explore" size={16} />Explore questions</Link><Link href="/dashboard" className="na__alt"><AppIcon name="practice" size={16} />Choose practice</Link></span>} />
+        <ArenaHead title="Saved questions" lede={count ? `${count} saved from Explore, kept here for another look.` : 'Questions you save from Explore wait here for another look.'}
+          aside={<span className="saved-aside"><Link href="/explore" className="na__alt">Explore questions</Link><Link href="/dashboard" className="na__alt">Choose practice</Link></span>} />
       </div>
 
       {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
@@ -277,10 +274,9 @@ export default function SavedPageClient() {
         <div className="sv-empty">
           <SceneVignette scene="saved" act={emptyAct === 'read' ? 'rest' : emptyAct} />
           <div>
-            <span className="ui-state__eyebrow">Nothing saved</span>
-            <b>Save questions from Explore</b>
-            <p>Tap Save on any question in the stream and it will wait for you here.</p>
-            <Link href="/explore" className="ui-state__action ui-state__action--primary mk-press sv-empty__link" data-lit={emptyAct === 'point' || emptyAct === 'nudge' ? 'true' : 'false'}>Open the question stream <Icon name="radar" /></Link>
+            <b>Nothing saved yet</b>
+            <p>Tap Save on any question in Explore and it waits for you here.</p>
+            <Link href="/explore" className="ui-state__action ui-state__action--primary mk-press sv-empty__link" data-lit={emptyAct === 'point' || emptyAct === 'nudge' ? 'true' : 'false'}>Open Explore</Link>
           </div>
         </div>
       ) : (

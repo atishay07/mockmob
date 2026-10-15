@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Target } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { AppIcon, CreditAmount, ModeIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { Button } from '@/components/ui/Button';
 import { SkeletonCard, ErrorState, EmptyState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
@@ -12,7 +12,6 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
 import NtaConsolePreview from '@/components/arena/NtaConsolePreview';
-import NtaGlyph from '@/components/arena/NtaGlyph';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { SegmentedControl as Segmented } from '@/components/ui/controls/SegmentedControl';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
@@ -26,8 +25,8 @@ import './practice.css';
 
 const MODE_LIST = ['quick', 'full', 'smart'];
 
-// A drawn dot between short facts (the site keeps the middle dot out of its words). Read out as a comma.
-const Sep = () => <><span className="pr-sep" aria-hidden="true" /><span className="sr-only">, </span></>;
+// Short facts are joined by a comma, never a dot.
+const Sep = () => <>, </>;
 // A pick is a choice, so the object answers it a little more than a passing tap (the app's 0.4).
 const PICK_AMPLITUDE = 0.7;
 
@@ -321,7 +320,7 @@ export default function DashboardPageClient() {
       : isPremium ? 'Included with access'
         : quote.creditCost === 0 ? 'Free: today’s included set'
           : `${quote.creditCost} practice credits`
-    : '—';
+    : 'Checking';
   const startLabel = isLaunching ? 'Starting…'
     : quoteStatus === 'loading' ? 'Checking…'
       : !quoteLaunchable ? 'Not available'
@@ -364,22 +363,15 @@ export default function DashboardPageClient() {
         <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
       )}
 
-      <header className="pr-head">
+      <header className="pr-head pr-head--solo">
         <div>
           <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
           <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to Radar.</p>
-          {/* Phones: the credits are one line under the heading (practice.css), not a card above Subject. */}
+          {/* The balance and the two prices, one line under the lede at every width (the session panel repeats the balance). */}
           <p className="pr-head__credits">
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} size={15} />
-            <span>{isPremium ? 'Quick practice and Full mock are included.' : `Quick practice uses ${TEST_MODES.quick.creditCost} practice credits, Full mock ${TEST_MODES.full.creditCost}.`}</span>
+            <span>{isPremium ? 'Quick practice and Full mock are included with your access.' : `Quick practice costs ${TEST_MODES.quick.creditCost} practice credits and Full mock costs ${TEST_MODES.full.creditCost}.`}</span>
           </p>
-        </div>
-        <div className="pr-wallet" aria-label="Your practice credits">
-          <div className="pr-wallet__row">
-            <span className="pr-wallet__label">Practice credits</span>
-            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={false} size={18} />
-          </div>
-          <p className="pr-wallet__note">{isPremium ? 'Quick practice and Full mock cost nothing with your access.' : `Quick practice costs ${TEST_MODES.quick.creditCost} practice credits and Full mock costs ${TEST_MODES.full.creditCost}.`}</p>
         </div>
       </header>
 
@@ -414,28 +406,27 @@ export default function DashboardPageClient() {
           <div className="pr-steps">
             <section className="pr-step pr-step--subjects" aria-labelledby="pr-s1">
               <div className="pr-step__head">
-                <h2 id="pr-s1"><span>1</span>Subject</h2>
+                <h2 id="pr-s1"><span className="pr-step__n" aria-hidden="true">1</span>Subject</h2>
                 <Link href="/onboarding?edit=true" className="pr-link">Edit subjects</Link>
               </div>
-              {/* practice.css lays the tiles out for the room the step has and how many there are: four
-                  make one row or two pairs, never three and an orphan. */}
-              <div className="pr-subjects" data-count={Math.min(mySubs.length, 6)}>
+              {/* The subject shelf: each subject's object stands on one shared shelf line, its name under it. No box
+                  per subject; the chosen one has its lamp on and a volt rule under its name (practice.css). */}
+              <div className="pr-subjects" role="group" aria-label="Subject" data-count={Math.min(mySubs.length, 6)}>
                 {mySubs.map((subject) => {
                   const on = selSubj === subject.id;
                   const count = stats.subjectCounts?.[subject.internalId || subject.id];
                   return (
-                    <button key={subject.id} type="button" aria-pressed={on} className="pr-tile pr-subject mk-rim"
+                    <button key={subject.id} type="button" aria-pressed={on} className="pr-subject"
                       onClick={(event) => { answerPick(event); setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
-                      {/* Drawn for the largest tile (practice.css sizes it: 60 px on phones, up to 152 px in the
-                          desktop showcase) and alive at every size; the lamp is always there and practice.css
-                          lights it on the chosen tile. */}
-                      <SubjectObject id={subject.internalId || subject.id} size={152} life lit className="pr-subject__obj" />
+                      {/* Drawn at the shelf's largest size and alive at every size; the lamp is always there and
+                          practice.css lights it on the chosen subject. */}
+                      <SubjectObject id={subject.internalId || subject.id} size={132} life lit className="pr-subject__obj" />
                       <span className="pr-subject__name">{subject.name}</span>
+                      {/* The bank count when it is known; never a wall of "unavailable". The NTA code under it. */}
                       <span className="pr-subject__meta">
-                        {subject.officialCode ? <i>{subject.officialCode}</i> : null}
-                        {statsAvailable ? `${Number(count ?? 0).toLocaleString('en-IN')} questions` : stats.state === 'loading' ? 'Checking question count…' : 'Count unavailable'}
+                        {statsAvailable ? <span>{Number(count ?? 0).toLocaleString('en-IN')} questions</span> : stats.state === 'loading' ? <span>Checking…</span> : null}
+                        {subject.officialCode ? <span>Code {subject.officialCode}</span> : null}
                       </span>
-                      {on ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
                     </button>
                   );
                 })}
@@ -443,51 +434,40 @@ export default function DashboardPageClient() {
             </section>
 
             <section className="pr-step pr-step--modes" aria-labelledby="pr-s2">
-              <div className="pr-step__head"><h2 id="pr-s2"><span>2</span>Mode</h2><span className="pr-hint">Every mode uses the same checked questions.</span></div>
-              {/* practice.css arranges the tiles by room. Phones follow the app's start deck: Quick leads, Full mock and
-                  NTA mode pair up as the exam-conditions tiles, Smart practice runs as a row under them. From 720 px
-                  it is Quick, Full and Smart in three columns and NTA mode as its own wide showcase. */}
-              <div className="pr-modes">
+              <div className="pr-step__head"><h2 id="pr-s2"><span className="pr-step__n" aria-hidden="true">2</span>Mode</h2><span className="pr-hint">Every mode uses the same checked questions.</span></div>
+              {/* One list of modes, a radio row each: the name and what it is on the left, the price on the right.
+                  NTA mode carries its exam-screen picture in the row from 1100 px; on narrower screens the picture
+                  opens under the list once NTA mode is chosen. Locked modes stay choosable so the quote can say why. */}
+              <div className="pr-modes" role="group" aria-label="Mode">
                 {MODE_LIST.map((id) => {
                   const m = TEST_MODES[id];
                   const badge = modeBadge(id);
                   const on = effectiveModeId === id;
                   return (
-                    <button key={id} type="button" aria-pressed={on} className="pr-tile pr-mode mk-rim" data-mode={id} data-tone={badge.tone} onClick={() => chooseMode(id)}>
-                      <span className="pr-mode__top">
-                        <span className="pr-mode__icon"><ModeIcon id={id} size={20} /></span>
-                        <span className="pr-badge" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{badge.text}</span>
+                    <button key={id} type="button" aria-pressed={on} className="pr-mode" data-mode={id} data-tone={badge.tone} onClick={() => chooseMode(id)}>
+                      <span className="pr-mode__radio" aria-hidden="true" />
+                      <span className="pr-mode__text">
+                        <span className="pr-mode__name">{m.label}</span>
+                        <span className="pr-mode__spec">{MODE_SPECS[id]}</span>
                       </span>
-                      <span className="pr-mode__name">{m.label}</span>
-                      <span className="pr-mode__spec">{MODE_SPECS[id]}</span>
-                      {on ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
+                      <span className="pr-mode__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
                     </button>
                   );
                 })}
-                {/* NTA mode: the closest thing to exam day. */}
-                <button type="button" aria-pressed={ntaOn} className="pr-tile pr-nta mk-rim" data-mode="nta" data-tone={ntaBadge.tone} onClick={() => chooseMode('nta')}>
-                  <span className="pr-nta__copy">
-                    <span className="pr-mode__top">
-                      <span className="pr-mode__icon"><ModeIcon id="nta" size={20} /></span>
-                      <NtaGlyph className="pr-nta__glyph" size={48} />
-                      <span className="pr-nta__kicker">Closest to exam day</span>
-                      <span className="pr-badge" data-tone={ntaBadge.tone}>{ntaBadge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{ntaBadge.text}</span>
-                    </span>
+                <button type="button" aria-pressed={ntaOn} className="pr-mode pr-nta" data-mode="nta" data-tone={ntaBadge.tone} onClick={() => chooseMode('nta')}>
+                  <span className="pr-mode__radio" aria-hidden="true" />
+                  <span className="pr-mode__text">
                     <span className="pr-mode__name">NTA mode</span>
-                    <span className="pr-mode__spec">50 questions in 60 minutes on an exam-style screen: question palette, mark for review, clear response, and a countdown that submits for you.</span>
-                    <span className="pr-nta__short">The exam-day screen, palette and mark for review.</span>
-                    <span className="pr-nta__chips"><i>50 Q</i><i>60 min</i><i>Question palette</i><i>Mark for review</i></span>
+                    <span className="pr-mode__spec">The closest thing to exam day: 50 questions in 60 minutes on an exam-style screen, with the question palette, mark for review, clear response, and a countdown that submits for you.</span>
                   </span>
                   <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
-                  {ntaOn ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
+                  <span className="pr-mode__price" data-tone={ntaBadge.tone}>{ntaBadge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{ntaBadge.text}</span>
                 </button>
               </div>
               {ntaOn ? (
                 <div className="pr-nta__after">
-                  {/* Phones: the tile is short, so what it holds opens here once NTA mode is chosen. */}
+                  {/* Under 1100 px the row has no room for the exam screen, so it opens here once NTA mode is chosen. */}
                   <div className="pr-nta__more">
-                    <p className="pr-mode__spec">50 questions in 60 minutes on an exam-style screen: question palette, mark for review, clear response, and a countdown that submits for you.</p>
-                    <span className="pr-nta__chips"><i>50 Q</i><i>60 min</i><i>Question palette</i><i>Mark for review</i></span>
                     <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
                   </div>
                   <div className="pr-nta__screen">
@@ -507,7 +487,7 @@ export default function DashboardPageClient() {
             </section>
 
             <section className="pr-step" aria-labelledby="pr-s3">
-              <div className="pr-step__head"><h2 id="pr-s3"><span>3</span>Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `About ${minutes} minutes`}</span></div>
+              <div className="pr-step__head"><h2 id="pr-s3"><span className="pr-step__n" aria-hidden="true">3</span>Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `About ${minutes} minutes`}</span></div>
               {mode.fixedCount ? (
                 <p className="pr-fixed"><b>{mode.fixedCount} questions</b><span>{minutes} minutes, one sitting, exam timing</span></p>
               ) : (
@@ -547,12 +527,13 @@ export default function DashboardPageClient() {
           <aside className="pr-summary" aria-label="Session summary" ref={summaryRef}>
             <h2>Your session</h2>
             <dl>
-              <div><dt>Subject</dt><dd>{selectedSubject?.name || '—'}</dd></div>
+              <div><dt>Subject</dt><dd>{selectedSubject?.name || 'Not chosen'}</dd></div>
               <div><dt>Mode</dt><dd>{mode.label}</dd></div>
               <div><dt>Questions</dt><dd>{quoteCount}</dd></div>
               <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
               <div><dt>Marking</dt><dd>+5 / −1</dd></div>
               <div data-emph="true"><dt>Cost</dt><dd>{costLabel}</dd></div>
+              {!isPremium ? <div data-balance="true"><dt>Your credits</dt><dd>{balance.toLocaleString('en-IN')}</dd></div> : null}
             </dl>
             <p className="pr-summary__reason" role="status" aria-live="polite" tabIndex={-1}>
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
@@ -596,15 +577,16 @@ export default function DashboardPageClient() {
 
       <ArenaCompanion compact act={creditError ? 'oops' : isLaunching ? 'think' : 'idle'} pose="attentive" title={effectiveModeId === 'nta' ? 'Meet the exam before exam day.' : `Set up ${mode.label}.`}>{effectiveModeId === 'nta' ? 'Choose your screen below. Mobi stays outside while you answer.' : 'Check the subject, time and access before you start.'}</ArenaCompanion>
 
-      <dl className="pr-stats">
-        <div><dt><AppIcon name="review" />Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : stats.state === 'loading' ? 'Checking…' : 'Unavailable'}</dd></div>
-        <div><dt><AppIcon name="practice" />Sessions</dt><dd>{attempts.length}</dd></div>
-        <div><dt><AppIcon name="progress" />Average score</dt><dd>{attempts.length ? `${avg}%` : '—'}</dd></div>
-        <div><dt><AppIcon name="ranks" />Leaderboard</dt><dd>{rank ? `#${rank}` : '—'}</dd></div>
+      {/* Ruled figures from the student's own record. The bank size shows only when it is known. */}
+      <dl className="pr-stats" data-count={statsAvailable || stats.state === 'loading' ? 4 : 3}>
+        {statsAvailable || stats.state === 'loading' ? <div><dt>Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : <span className="pr-stats__wait">Checking</span>}</dd></div> : null}
+        <div><dt>Sessions</dt><dd>{attempts.length}</dd></div>
+        <div><dt>Average score</dt><dd>{attempts.length ? `${avg}%` : <span className="pr-stats__wait">No sessions yet</span>}</dd></div>
+        <div><dt>Leaderboard</dt><dd>{rank ? `#${rank}` : <span className="pr-stats__wait">Not ranked yet</span>}</dd></div>
       </dl>
 
       <div className="pr-lower">
-        <section className="pr-panel" aria-labelledby="pr-recent">
+        <section className="pr-panel pr-panel--recent" aria-labelledby="pr-recent">
           <div className="pr-panel__head"><h2 id="pr-recent">Recent sessions</h2>{attempts.length > 0 && <Link href="/review" className="pr-link">Review mistakes</Link>}</div>
           {attempts.length === 0 ? (
             <p className="pr-empty">Your sessions appear here after you submit your first one.</p>
@@ -616,7 +598,7 @@ export default function DashboardPageClient() {
                 return (
                   <li key={attempt.id}>
                     <Link href={`/result/${attempt.id}`}>
-                      <span className="pr-recent__icon"><SubjectIcon id={subject?.internalId || attempt.subject} size={18} /></span>
+                      <span className="pr-recent__icon" aria-hidden="true"><SubjectObject id={subject?.internalId || attempt.subject} size={56} framed={false} life={false} /></span>
                       <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}<Sep />{attempt.correct}/{attempt.total} correct</i></span>
                       <span className="pr-recent__score" data-tone={tone}><b>{attempt.score}%</b><small>of marks</small></span>
                     </Link>
@@ -627,6 +609,7 @@ export default function DashboardPageClient() {
           )}
         </section>
 
+        <div className="pr-lower__side">
         <section className="pr-panel" aria-labelledby="pr-access">
           <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
           <p className="pr-panel__lead">{isPremium
@@ -641,7 +624,7 @@ export default function DashboardPageClient() {
         <section className="pr-panel" aria-labelledby="pr-bank">
           <div className="pr-panel__head"><h2 id="pr-bank">Feed the bank</h2></div>
           <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn practice credits for Quick practice and Full mock.</p>
-          <Link href="/upload" className="pr-link pr-link--strong">Upload a question<AppIcon name="contribute" size={16} /></Link>
+          <Link href="/upload" className="pr-link pr-link--strong"><AppIcon name="contribute" size={16} />Upload a question</Link>
           {submissions.length > 0 && (
             <>
               <div className="pr-panel__head pr-panel__head--sub"><h3>My submissions</h3>
@@ -661,6 +644,7 @@ export default function DashboardPageClient() {
             </>
           )}
         </section>
+        </div>
       </div>
     </div>
   );

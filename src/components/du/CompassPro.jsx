@@ -6,7 +6,7 @@
 // prediction, a normalised CUET score or an admission chance, and the copy says so.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Lock, Plus, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { decodeSelection, formatScore, loadIndex, loadOfferings, readSaved } from '@/lib/du/client';
 import { CATEGORY_LABELS, MAIN_CATEGORIES, effectiveCutoff, evaluateGroup } from '@/lib/du/eligibility';
 import { compareToCutoff } from '@/../data/compass_projection';
@@ -81,7 +81,7 @@ function Locked() {
         <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter, one tap from practice.</span></li>
       </ul>
       <div className="cpro-cta">
-        <Link href="/pricing" className="btn-volt md"><Lock size={16} aria-hidden="true" />Unlock Compass Pro</Link>
+        <Link href="/pricing" className="btn-volt md">Unlock Compass Pro</Link>
         <span>Eligibility and published cutoffs below stay free for everyone.</span>
       </div>
     </section>
@@ -145,7 +145,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
   }, [index, seedSubjects]);
 
   if (state.status === 'locked') return <Locked />;
-  if (state.status === 'loading') return <section className="cpro" aria-busy="true"><p className="cpro-muted">Reading your practice record…</p></section>;
+  if (state.status === 'loading') return <section className="cpro" aria-busy="true"><p className="cpro-muted">Reading your practice record</p></section>;
   if (state.status === 'error') return <section className="cpro"><p className="cpro-muted">Compass Pro could not read your record just now. <button type="button" className="pr-link" onClick={retry}>Try again</button></p></section>;
 
   const { projection } = state;
@@ -180,7 +180,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
             </>
           ) : <p className="cpro-muted">Practise at least {projection.minSample} questions in a subject to project its paper.</p>}
           <ul className="cpro-papers">{papers.map((p) => <PaperRow key={p.subject} paper={p} max={paperMax} />)}</ul>
-          {!papers.length ? <Link href="/dashboard" className="pr-link">Start a practice session<ArrowRight size={14} aria-hidden="true" /></Link> : null}
+          {!papers.length ? <Link href="/dashboard" className="pr-link">Start a practice session</Link> : null}
         </article>
 
         <article className="cpro-card cpro-next">
@@ -189,7 +189,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
             <>
               <p className="cpro-next__lead"><b>{next.name}</b> has the most room: {next.open} of {paperMax} marks are still open in your practice.</p>
               {next.chapter ? <p className="cpro-muted">Start with {next.chapter.name}: {next.chapter.wrong} wrong and {next.chapter.skip} blank in {next.chapter.n} questions.</p> : null}
-              <Link href={`/dashboard?subject=${encodeURIComponent(next.subject)}&mode=quick`} className="btn-volt md">Practise {next.name}<ArrowRight size={16} aria-hidden="true" /></Link>
+              <Link href={`/dashboard?subject=${encodeURIComponent(next.subject)}&mode=quick`} className="btn-volt md">Practise {next.name}</Link>
             </>
           ) : <p className="cpro-muted">Your next move appears once a paper has enough practice.</p>}
         </article>
@@ -206,17 +206,17 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
           <div className="cpro-add">
             <label className="cpro-select"><span id="cpro-l-programme">Programme you are eligible for</span>
               <Listbox labelledBy="cpro-l-programme" sheetTitle="Programme" size="sm" value={programme} disabled={!index}
-                placeholder={index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes…'}
+                placeholder={index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes'}
                 options={eligible.map((g) => ({ value: g.id, label: g.name }))}
                 onChange={(value) => { setProgramme(value); setCollege(''); }} />
             </label>
             <label className="cpro-select"><span id="cpro-l-college">College</span>
               <Listbox labelledBy="cpro-l-college" sheetTitle="College" size="sm" value={college} disabled={!colleges.length}
-                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges…') : 'Choose a programme first'}
+                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges') : 'Choose a programme first'}
                 options={colleges.map((c) => ({ value: c, label: c }))}
                 onChange={setCollege} />
             </label>
-            <button type="button" className="btn-outline md" onClick={add} disabled={!programme || !college || mine.status !== 'ready' || mine.busy}><Plus size={16} aria-hidden="true" />Add target</button>
+            <button type="button" className="btn-outline md" onClick={add} disabled={!programme || !college || mine.status !== 'ready' || mine.busy}>Add target</button>
           </div>
         ) : <p className="cpro-muted">My colleges is full. Remove a target to add another.</p>}
         {mine.notice ? <p className="cpro-muted" role="status">{mine.notice}</p> : null}
@@ -232,7 +232,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
               const verdict = ready && total.complete ? compareToCutoff(band, first) : null;
               return (
                 <li key={`${t.groupId}::${t.college}`} className="cpro-target" data-position={verdict?.position || 'unknown'}>
-                  <div className="cpro-target__who"><b>{t.college}</b><span>{data?.name || t.programme || '…'}</span></div>
+                  <div className="cpro-target__who"><b>{t.college}</b><span>{data?.name || t.programme || ''}</span></div>
                   <dl className="cpro-target__rounds">
                     {cutoffs.map((c, i) => <div key={ROUNDS[i]}><dt>{ROUNDS[i]}</dt><dd className="mm-measure">{c === null ? 'Not listed' : formatScore(c)}</dd></div>)}
                   </dl>
@@ -247,7 +247,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
               );
             })}
           </ul>
-        ) : mine.status === 'error' ? <p className="cpro-muted">My colleges did not load. <button type="button" className="pr-link" onClick={mine.retry}>Try again</button></p> : <p className="cpro-muted">{mine.status === 'ready' ? 'Add colleges you are aiming for. They are saved to your account and show in the app.' : 'Loading My colleges…'}</p>}
+        ) : mine.status === 'error' ? <p className="cpro-muted">My colleges did not load. <button type="button" className="pr-link" onClick={mine.retry}>Try again</button></p> : <p className="cpro-muted">{mine.status === 'ready' ? 'Add colleges you are aiming for. They are saved to your account and show in the app.' : 'Loading My colleges'}</p>}
         <p className="cpro-fine">Cutoffs are DU’s published 2026 minimum allocation scores; reserved categories clear a round at the lower of their own or the UR cutoff. 2027 cutoffs will differ with seats and demand.</p>
       </article>
     </section>

@@ -1,7 +1,7 @@
 "use client";
 
 // Account > Plan and credits: the live plan card (Free with practice credits, or Pro), joined to one
-// line for the PrepOS wallet, so both currencies sit together the way the top bar shows them.
+// line for the AI credits wallet, so both currencies sit together the way the top bar shows them.
 // The wallet is read once per account by useWalletSummary; unknown is never shown as 0.
 import Link from 'next/link';
 import { PlanCard } from '@/components/billing/PlanCard';

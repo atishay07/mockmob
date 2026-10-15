@@ -31,7 +31,3 @@
 .profile-save-note[data-tone='success'] { color: var(--a-accent-text, #d2f000); }
 .profile-save-note[data-tone='success'] .drawn-check { flex: none; }
 .profile-save-note[data-tone='error'] { color: var(--a-bad-text); }
-.profile-open { gap: 4px; }
-.profile-open svg { transition: transform 200ms var(--ease-out); }
-.profile-open:hover svg { transform: translateX(3px); }
-@media (prefers-reduced-motion: reduce) { .profile-open svg { transition: none; } .profile-open:hover svg { transform: none; } }

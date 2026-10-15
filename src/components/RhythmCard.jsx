@@ -154,7 +154,7 @@ function Ribbon({ ribbon, armed }) {
           </li>
         ))}
       </ol>
-      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'Lit weeks met your weekly goal. Tap a week to read it.'}</p>
+      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'A full bar means the goal was met. Tap a week to read it.'}</p>
     </div>
   );
 }

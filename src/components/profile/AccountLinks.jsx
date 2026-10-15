@@ -7,11 +7,8 @@
 // then presses the shell's own Guide button, and says where the guide lives if neither answered.
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, CircleHelp, FilePlus2, Library, Mail, ShieldCheck, Trophy } from 'lucide-react';
 import { COMMUNITY_ROWS, GUIDE_EVENT, HELP_ROWS } from './accountModel.mjs';
 import './account.css';
-
-const ICONS = { leaderboard: Trophy, upload: FilePlus2, 'my-uploads': Library, guide: CircleHelp, contact: Mail, 'privacy-policy': ShieldCheck };
 
 function openGuide() {
   if (typeof window === 'undefined') return false;
@@ -24,16 +21,11 @@ function openGuide() {
 }
 
 function Row({ row, onGuideMissing }) {
-  const Icon = ICONS[row.id] || ChevronRight;
   const body = (
-    <>
-      <span className="acct-row__icon" data-row={row.id}><Icon size={20} strokeWidth={1.75} aria-hidden="true" /></span>
-      <span className="acct-row__text">
-        <span className="acct-row__label">{row.label}</span>
-        {row.note ? <span className="acct-row__note">{row.note}</span> : null}
-      </span>
-      <span className="acct-row__go"><ChevronRight size={18} strokeWidth={1.75} aria-hidden="true" /></span>
-    </>
+    <span className="acct-row__text">
+      <span className="acct-row__label">{row.label}</span>
+      {row.note ? <span className="acct-row__note">{row.note}</span> : null}
+    </span>
   );
   if (row.action === 'guide') {
     return <button type="button" className="acct-row" onClick={() => { if (!openGuide()) onGuideMissing(); }}>{body}</button>;

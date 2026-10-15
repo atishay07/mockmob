@@ -82,7 +82,7 @@ test('profile and onboarding copy', () => {
   const profile = read('src/app/(app)/profile/ProfilePageClient.jsx') + read('src/components/profile/YourSheet.jsx');
   assert.ok(profile.includes('Saved. Your name is updated.'));
   assert.ok(profile.includes("'Saving'"));
-  assert.ok(/Open Today<(svg|ChevronRight)/.test(profile), 'Open Today carries a real icon, not an arrow glyph');
+  assert.ok(/>Open Today</.test(profile) && !/Open Today<(svg|ChevronRight)/.test(profile), 'Open Today is plain text, with no arrow or chevron appended');
   assert.ok(profile.includes('No mocks yet'));
   assert.ok(!profile.includes('Open Today ↗'));
   assert.ok(!profile.includes('Profile updated successfully.'));

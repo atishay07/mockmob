@@ -7,7 +7,6 @@
 // roll to their real values. A subject the art does not know keeps its icon. Nothing here invents a
 // number: a count that has not loaded shows a quiet bar, and one that failed says so with a retry.
 import Link from 'next/link';
-import { ChevronRight, ClipboardCheck, Gauge, Plus } from 'lucide-react';
 import { Avatar } from '@/components/ui/Avatar';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useCountUp } from '@/lib/motion';
@@ -28,10 +27,10 @@ function SheetSubject({ subject, index }) {
   );
 }
 
-function Stat({ icon: Icon, label, children }) {
+function Stat({ label, children }) {
   return (
     <div className="acct-stats__item">
-      <dt><Icon size={15} strokeWidth={1.75} aria-hidden="true" />{label}</dt>
+      <dt>{label}</dt>
       <dd>{children}</dd>
     </div>
   );
@@ -53,8 +52,8 @@ export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', 
           <h2 id="acct-sheet-h">{greeting}</h2>
           {user?.email ? <p className="acct-sheet__mail">Signed in as {user.email}</p> : null}
           <p className="acct-sheet__tags">
-            <span className="acct-tag">{EXAM_LABEL}</span>
-            <span className="acct-tag" data-tone={plan === 'Pro' ? 'pro' : undefined}>{plan === 'Pro' ? 'Pro' : 'Free plan'}</span>
+            <span>{EXAM_LABEL}</span>
+            <span data-tone={plan === 'Pro' ? 'pro' : undefined}>{plan === 'Pro' ? 'Pro plan' : 'Free plan'}</span>
           </p>
         </div>
         <Avatar name={user?.name || user?.email} size="lg" className="acct-sheet__avatar" />
@@ -71,7 +70,7 @@ export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', 
             {room ? (
               <li className="acct-object acct-object--add" style={{ '--i': subjects.length }}>
                 <Link href={SUBJECTS_EDIT_HREF} className="acct-object__add">
-                  <span className="acct-object__stage" aria-hidden="true"><span className="acct-object__plus"><Plus size={22} strokeWidth={1.75} /></span></span>
+                  <span className="acct-object__stage" aria-hidden="true"><span className="acct-object__plus" /></span>
                   <span className="acct-object__name">Add a subject</span>
                 </Link>
               </li>
@@ -87,17 +86,17 @@ export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', 
       </div>
 
       <dl className="acct-stats" aria-label="Your mocks at a glance" aria-busy={mocks.status === 'loading' || undefined}>
-        <Stat icon={ClipboardCheck} label="Mocks taken">
+        <Stat label="Mocks taken">
           {mocks.status === 'loading' ? <><span className="acct-sk acct-sk--figure skeleton" aria-hidden="true" /><span className="sr-only">Loading</span></> : mocks.status === 'error' ? <span className="acct-stats__none">Did not load</span> : <Roll value={mocks.count} />}
         </Stat>
-        <Stat icon={Gauge} label="Average score">
+        <Stat label="Average score">
           {mocks.status === 'loading' ? <><span className="acct-sk acct-sk--figure skeleton" aria-hidden="true" /><span className="sr-only">Loading</span></>
             : mocks.status === 'error' ? <button type="button" className="acct-link acct-link--inline" onClick={onRetry}>Try again</button>
               : mocks.average === null ? <span className="acct-stats__none">No mocks yet</span> : <Roll value={mocks.average} suffix="%" />}
         </Stat>
         <div className="acct-stats__item acct-stats__next">
           <dt>Next session</dt>
-          <dd><Link href="/today" className="acct-link profile-open">Open Today<ChevronRight size={16} strokeWidth={2} aria-hidden="true" /></Link></dd>
+          <dd><Link href="/today" className="acct-link profile-open">Open Today</Link></dd>
         </div>
       </dl>
     </section>

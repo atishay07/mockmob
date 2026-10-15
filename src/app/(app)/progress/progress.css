@@ -1,0 +1,37 @@
+/* Progress: the weekly rhythm (RhythmCard, full form) as an open section rather than a box of boxes.
+   The three paths become ruled columns, and the glows and the looping pulse go: a ring, a border or
+   a heavier label marks the day, week or step that matters. Compact Today card is untouched. */
+
+.app-shell .student-page--progress > .rc:not(.rc--compact) { gap: 24px; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.app-shell .student-page--progress .rc__title { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.app-shell .student-page--progress .rc__status { font-size: 15px; }
+.app-shell .student-page--progress .rc-h { margin: 0 0 12px; font: 700 15px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .student-page--progress .rc-block { padding-top: 20px; border-top: 1px solid var(--a-line); }
+
+/* No glow: met arcs, the picked day, the next step and the current week are marked by line and weight */
+.app-shell .student-page--progress .rc-ring__fill[data-met='true'] { filter: none; }
+.app-shell .student-page--progress .rc-day[data-picked='true'] .rc-day__dot { box-shadow: none; border-color: var(--a-ink-2); }
+.app-shell .student-page--progress .rc-day[data-state='open'] .rc-day__dot::after { animation: none; opacity: 0.5; transform: scale(1); }
+.app-shell .student-page--progress .rc-steps li[data-next='true'] .rc-step__dot { box-shadow: none; border-color: var(--a-ink); }
+.app-shell .student-page--progress .rc-wk[data-current='true'] { box-shadow: none; outline: 1px solid var(--a-ink-3); outline-offset: 2px; }
+
+/* The ring and the week sit on one line from tablets up, and the week gets room to read */
+.app-shell .student-page--progress .rc__top { gap: clamp(20px, 4vw, 40px); }
+
+/* Three paths: ruled columns */
+.app-shell .student-page--progress .rc-paths { gap: 0; }
+.app-shell .student-page--progress .rc-path { gap: 14px; padding: 4px 28px 4px; border: 0; border-radius: 0; background: none; }
+.app-shell .student-page--progress .rc-path:first-child { padding-left: 0; }
+.app-shell .student-page--progress .rc-path:last-child { padding-right: 0; }
+.app-shell .student-page--progress .rc-path + .rc-path { border-left: 1px solid var(--a-line); }
+.app-shell .student-page--progress .rc-path header b { font-size: 16px; }
+.app-shell .student-page--progress .rc-path header span { font-size: 13px; }
+.app-shell .student-page--progress .rc-step__dot { background: transparent; }
+.app-shell .student-page--progress .rc-steps li[data-done='true'] .rc-step__dot { background: var(--volt); }
+.app-shell .student-page--progress .rc-next { font-size: 14px; }
+.app-shell .student-page--progress .rc__foot { padding-top: 4px; }
+@media (max-width: 760px) {
+  .app-shell .student-page--progress .rc-path { padding: 18px 0; }
+  .app-shell .student-page--progress .rc-path + .rc-path { border-left: 0; border-top: 1px solid var(--a-line); }
+  .app-shell .student-page--progress .rc-path:first-child { padding-top: 4px; }
+}
