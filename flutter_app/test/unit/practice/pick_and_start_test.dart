@@ -109,7 +109,7 @@ void main() {
       await _toTop(tester);
       // Its weakest chapter in its own latest paper.
       expect(find.text('Planning'), findsOneWidget);
-      expect(find.text('You missed 2 here in your last practice.'), findsOneWidget);
+      expect(find.text('You missed 2 here last time.'), findsOneWidget);
       expect(find.text('Admission of a partner'), findsNothing);
 
       await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start').first);
@@ -144,7 +144,7 @@ void main() {
       await _toTop(tester);
       expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Business Studies')), findsOneWidget);
       expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
-      expect(find.text('No Business Studies paper yet. Ten questions shows where you stand.'), findsOneWidget);
+      expect(find.text('No paper here yet. Ten questions will do.'), findsOneWidget);
 
       await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start').first);
       await tester.pump();

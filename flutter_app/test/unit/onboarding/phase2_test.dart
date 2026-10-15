@@ -18,6 +18,7 @@ import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
+import 'package:mockmob/features/onboarding/steps/plan_step.dart';
 import 'package:mockmob/features/onboarding/steps/save_step.dart';
 import 'package:mockmob/features/onboarding/widgets/answer_sheet_card.dart';
 import 'package:mockmob/features/onboarding/widgets/first_move_hero.dart';
@@ -236,7 +237,7 @@ void main() {
       for (var i = 0; i < 30; i++) {
         await tester.pump(const Duration(milliseconds: 100));
       }
-      await tester.tap(find.widgetWithText(KeyButton, OnboardingCopy.sealIt));
+      await tester.tap(find.byKey(PlanStep.tapToSealKey));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 200));
       return haptics;

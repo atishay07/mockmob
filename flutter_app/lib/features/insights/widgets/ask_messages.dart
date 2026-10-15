@@ -20,11 +20,15 @@ import 'evidence.dart';
 import 'insights_bits.dart';
 import 'motion_bits.dart';
 
+/// What the student picked in the About sheet of a model reply.
+enum _AboutChoice { record, report }
+
 /// One turn of Ask. The student's words sit on the right in an ink bubble; Mobi's replies sit on
 /// the left beside Mobi's mark, set for reading (a lead, then the rest, figures heavier). A reply
 /// says where it came from: a record answer cites the questions it rests on and opens the
-/// sessions behind it with Show me; a model reply says it cost a credit, that it can be wrong,
-/// and offers Report this reply. A pending reply is three bubbles inking; a failure says
+/// sessions behind it with Show me; a model reply says it cost a credit
+/// and carries one info glyph: the fine print (it can be wrong, what it cost, Open your record,
+/// Report this reply) lives in the sheet behind it, never as a line under every answer. A pending reply is three bubbles inking; a failure says
 /// nothing was charged.
 ///
 /// A message with [animate] set has just arrived: it slides in or reveals word by word, and its
@@ -38,7 +42,6 @@ class AskMessageView extends StatefulWidget {
     this.citation,
     this.animate = false,
     this.onOpenRecord,
-    this.newest = true,
     this.onCredits,
     this.renew,
   });
@@ -61,10 +64,6 @@ class AskMessageView extends StatefulWidget {
   /// The message has just arrived.
   final bool animate;
 
-  /// This is the latest reply in the thread. Only the newest reply's face lives (and nods as the
-  /// reply lands); the faces of older replies hold still, so one Mobi moves at a time.
-  final bool newest;
-
   /// Opens the record from a model reply ("check it against your record"); null hides the key.
   final VoidCallback? onOpenRecord;
 
@@ -75,12 +74,42 @@ class AskMessageView extends StatefulWidget {
 class _AskMessageViewState extends State<AskMessageView> {
   late bool _footer = !widget.animate;
 
-  /// The avatar's side, and the left edge of Mobi's column: the avatar and its gap.
-  static const double _face = 32;
+  /// The side of the small "mo" mark that heads each of Mobi's lines, and the left edge of the
+  /// column beside it. Mobi himself stands once, at the head of the screen; the thread carries
+  /// only this mark, so there is never a second face on the page.
+  static const double _face = 24;
   static const double _indent = _face + MmSpace.s12;
 
-  /// Each face blinks and glances on its own schedule, so a thread never blinks in unison.
-  static int _faceSeed(AskMessage m) => 11 + (m.text.hashCode & 0xff) % 13;
+  /// The one place the fine print lives: what a model reply is, what it cost, and the two things
+  /// to do about it (check it against the record, report it). Opened from the info glyph.
+  Future<void> _openAbout() async {
+    final m = widget.message;
+    final picked = await showMmSheet<_AboutChoice>(
+      context: context,
+      title: InsightsCopy.aboutReply,
+      builder: (sheet) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(InsightsCopy.aiCaveat, style: sheet.mmType.body),
+          const SizedBox(height: MmSpace.s8),
+          Text(InsightsCopy.chargedLine(m.charged, m.left), style: sheet.mmType.small.copyWith(color: sheet.mmColors.ink2)),
+          const SizedBox(height: MmSpace.s8),
+          if (widget.onOpenRecord != null) ActionLink(label: InsightsCopy.openRecord, onTap: () => Navigator.of(sheet).pop(_AboutChoice.record)),
+          if (widget.onReport != null) _ReportKey(onTap: () => Navigator.of(sheet).pop(_AboutChoice.report)),
+        ],
+      ),
+    );
+    if (!mounted) return;
+    switch (picked) {
+      case _AboutChoice.record:
+        widget.onOpenRecord?.call();
+      case _AboutChoice.report:
+        widget.onReport?.call();
+      case null:
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +148,7 @@ class _AskMessageViewState extends State<AskMessageView> {
       return bubble;
     }
 
-    if (m.sending) return _Pending(faceSeed: _faceSeed(m), face: _face);
+    if (m.sending) return const _Pending(face: _face);
 
     if (m.failure case final failure?) {
       final renew = widget.renew ?? renewDay(null, DateTime.now());
@@ -182,19 +211,13 @@ class _AskMessageViewState extends State<AskMessageView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: MmSpace.s12),
-        _SourceStrip(message: m, citation: cite),
+        _SourceStrip(message: m, citation: cite, onAbout: m.isModel ? _openAbout : null),
         if (cite != null && cite.sessions.isNotEmpty)
           EvidencePill(attempts: cite.sessions, what: InsightsCopy.behindAnswer),
-        if (m.isModel) ...[
-          const SizedBox(height: MmSpace.s4),
-          Text(InsightsCopy.aiCaveat, style: type.caption.copyWith(color: colors.ink2)),
-        ],
         for (final (label, location) in actions.take(2)) ...[
           const SizedBox(height: MmSpace.s8),
           _ActionChip(label: label, onTap: () => context.push(location)),
         ],
-        if (m.isModel && widget.onOpenRecord != null) ActionLink(label: InsightsCopy.openRecord, onTap: widget.onOpenRecord!),
-        if (m.isModel && widget.onReport != null) _ReportKey(onTap: widget.onReport!),
       ],
     );
     if (widget.animate) {
@@ -216,15 +239,7 @@ class _AskMessageViewState extends State<AskMessageView> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // A reply that has just landed arrives with a small nod of its own. The thread is a
-          // list of many, so the faces do not follow taps, and only the newest one is alive.
-          MobiFace(
-            size: _face,
-            watchTaps: false,
-            still: !widget.newest,
-            entrance: widget.animate && widget.newest ? MobiAct.correct : MobiAct.idle,
-            seed: _faceSeed(m),
-          ),
+          const MmMark(size: _face),
           const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Column(
@@ -248,14 +263,13 @@ class _AskMessageViewState extends State<AskMessageView> {
   }
 }
 
-/// A reply on its way: Mobi's face scanning beside three bubbles inking and what is happening. The
+/// A reply on its way: Mobi's mark beside three bubbles inking and what is happening. The
 /// inking is the only loop on the screen, and it does not run for ever: after [_patience] the
 /// bubbles rest half inked and the words change to say it is still working, so a long wait reads
 /// as a wait and not a hang (MOTION.md 1.1).
 class _Pending extends StatefulWidget {
-  const _Pending({required this.faceSeed, required this.face});
+  const _Pending({required this.face});
 
-  final int faceSeed;
   final double face;
 
   @override
@@ -297,8 +311,8 @@ class _PendingState extends State<_Pending> {
         duration: Motion.card,
         child: Row(
           children: [
-            // Working on it: the eyes scan while the three bubbles ink.
-            MobiFace(size: widget.face, watchTaps: false, entrance: MobiAct.loading, seed: widget.faceSeed),
+            // Mobi at the head of the screen is the one who thinks; here only his mark and the inking.
+            MmMark(size: widget.face),
             const SizedBox(width: MmSpace.s12),
             // Plain on the ground: three bubbles inking and what is happening, no pill.
             InkDots(settleAfter: _patience),
@@ -319,10 +333,13 @@ class _PendingState extends State<_Pending> {
 /// Where a reply came from, as small glass chips: a record answer says it is from the record,
 /// how many questions it rests on and that no credit was used; a model reply says it used one.
 class _SourceStrip extends StatelessWidget {
-  const _SourceStrip({required this.message, required this.citation});
+  const _SourceStrip({required this.message, required this.citation, this.onAbout});
 
   final AskMessage message;
   final AskCitation? citation;
+
+  /// Opens the About sheet of a model reply; null for a record answer (no fine print to carry).
+  final VoidCallback? onAbout;
 
   @override
   Widget build(BuildContext context) {
@@ -335,6 +352,10 @@ class _SourceStrip extends StatelessWidget {
       _ => (InsightsCopy.sourceRecord, InsightsCopy.noCreditsUsed),
     };
     final questions = citation?.questions;
+    // A model reply whose charge is not known yet says nothing here: the final charge is in the
+    // About sheet and on the credits page, not repeated under the answer.
+    final cost = origin == AskOrigin.model && message.charged == null ? '' : free;
+    final text = questions == null ? cost : (cost.isEmpty ? InsightsCopy.basedOn(questions) : '${InsightsCopy.basedOn(questions)}. $cost');
     return Semantics(
       container: true,
       label: switch (origin) {
@@ -366,11 +387,33 @@ class _SourceStrip extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            questions == null ? free : '${InsightsCopy.basedOn(questions)}. $free',
-            style: type.caption.copyWith(fontSize: 12.5, color: colors.ink3),
-          ),
+          if (text.isNotEmpty)
+            Text(text, style: type.caption.copyWith(fontSize: 12.5, color: colors.ink3)),
+          if (onAbout != null) _AboutKey(onTap: onAbout!),
         ],
+      ),
+    );
+  }
+}
+
+/// The one info glyph of a model reply: 48 dp to reach, a 18 dp mark to look at. It opens the
+/// About sheet, where the caveat, the cost and the report live.
+class _AboutKey extends StatelessWidget {
+  const _AboutKey({required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return MmPressable(
+      semanticsLabel: InsightsCopy.aboutReply,
+      focusRadius: MmRadius.pillAll,
+      haptic: MmPressHaptic.selection,
+      onTap: onTap,
+      builder: (context, pressed, _) => SizedBox.square(
+        dimension: MmTarget.min,
+        child: Center(child: Icon(LucideIcons.info, size: 18, color: pressed ? colors.ink : colors.ink2)),
       ),
     );
   }

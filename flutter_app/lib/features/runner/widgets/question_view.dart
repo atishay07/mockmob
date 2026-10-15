@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/models/question.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
-import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import 'answer_option.dart';
 import 'question_enter.dart';
@@ -15,8 +13,10 @@ import 'runner_controls.dart';
 import 'runner_motion.dart';
 
 /// The question region (spec 5.5, runner.md 3.4 and 3.5): the passage in its own scrolling well,
-/// the question at the top, then the options as the rows of an OMR sheet at the foot. Solid surfaces only. The pieces arrive together when the
-/// question does (see [QuestionEnter]) and then nothing moves except the chosen option's ink.
+/// the question and the mark key in the middle of the space the header leaves, then the options as
+/// soft cards at the foot. Solid surfaces only. The pieces arrive together when the question does
+/// (see [QuestionEnter]) and then nothing moves except the chosen option's ink. "Clear my answer"
+/// is not in here: it is pinned under the region ([ClearBand]).
 class QuestionView extends StatelessWidget {
   const QuestionView({
     super.key,
@@ -97,24 +97,28 @@ class QuestionView extends StatelessWidget {
     final passage = question.passageText;
     final body = question.body;
 
-    final rule = ColoredBox(color: colors.line, child: const SizedBox(height: 1));
-    // On a tall screen the options grow (60 dp up to 78 dp), so the gap between a short question
-    // and its options is spent on bigger keys, not left as air. 640 dp and shorter keeps 60.
+    // On a tall screen the cards grow (56 dp up to 72 dp), so the gap between a short question
+    // and its options is spent on bigger keys, not left as air. 640 dp and shorter keeps 56.
     final screen = MediaQuery.sizeOf(context).height;
-    final optionHeight = (60 + (screen - 700) * 0.12).clamp(60.0, 78.0);
+    final optionHeight = (AnswerOption.cardHeight + (screen - 700) * 0.1).clamp(AnswerOption.cardHeight, 72.0);
 
-    // The question sits at the top and the options at the foot, next to the thumb and the bottom
-    // bar: on a short question the space between them is air, not a dead lower third. The layout
-    // gives this column at least the height of the screen (see RunnerLayout), and the gap is
-    // whatever is left over.
+    // Three groups: the banners and the question block above, the cards at the foot, next to the
+    // thumb and the bottom bar. Whatever height the screen has left over is split into equal
+    // halves above and below the question, so it sits in the middle of the space between the
+    // header and the cards instead of hanging from the header with a hole under it. The layout
+    // gives this column at least the height of the region (see RunnerLayout); a long question
+    // fills it and the gaps are zero.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [...?leading],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ...?leading,
             if (passage != null && passage.isNotEmpty) ...[
               EnterItem(
                 order: 0,
@@ -141,8 +145,7 @@ class QuestionView extends StatelessWidget {
               ),
             ],
             // The mark key (and the practice's one line) sit 16 dp under the question, not up beside
-            // the top bar: on a short question the gap above the options stays air, and the things
-            // the student reaches for are close to the words they are about.
+            // the top bar: the things the student reaches for are close to the words they are about.
             const SizedBox(height: MmSpace.s16),
             EnterItem(
               order: 1,
@@ -168,55 +171,46 @@ class QuestionView extends StatelessWidget {
             ),
           ],
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: MmSpace.s24),
-            // The options are the rows of an OMR sheet: hairline rules between them, no boxes.
-            EnterItem(order: 2, child: rule),
-            _WashGlide(
-              selected: selected,
-              count: question.options.length,
-              builder: (rows, gliding) => Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  for (var i = 0; i < question.options.length; i++)
-                    EnterItem(
-                      order: 2 + i,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          AnswerOption(
-                            key: rows[i],
-                            glide: gliding,
-                            letter: question.options[i].key,
-                            text: question.options[i].text,
-                            selected: selected == i,
-                            onSelect: canAnswer ? () => onSelect(i) : null,
-                            onLock: onLock,
-                            minHeight: optionHeight,
-                            // The chosen option is never crossed out; picking a crossed-out one brings it back.
-                            struck: selected != i && (isStruck?.call(i) ?? false),
-                            onStrike: canAnswer && selected != i && onStrike != null ? () => onStrike!(i) : null,
-                          ),
-                          rule,
-                        ],
+        Padding(
+          padding: const EdgeInsets.only(top: MmSpace.s16),
+          // Soft 56 dp cards of the answer sheet, 8 dp apart: no rules, no boxes inside boxes.
+          child: _WashGlide(
+            selected: selected,
+            count: question.options.length,
+            builder: (rows, gliding) => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                for (var i = 0; i < question.options.length; i++)
+                  EnterItem(
+                    order: 2 + i,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: i == 0 ? 0 : AnswerOption.cardGap),
+                      child: AnswerOption(
+                        key: rows[i],
+                        glide: gliding,
+                        letter: question.options[i].key,
+                        text: question.options[i].text,
+                        selected: selected == i,
+                        onSelect: canAnswer ? () => onSelect(i) : null,
+                        onLock: onLock,
+                        minHeight: optionHeight,
+                        // The chosen option is never crossed out; picking a crossed-out one brings it back.
+                        struck: selected != i && (isStruck?.call(i) ?? false),
+                        onStrike: canAnswer && selected != i && onStrike != null ? () => onStrike!(i) : null,
                       ),
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
-            // Reserve the clear key's height so nothing below jumps when an answer appears.
-            _ClearBand(selected: selected, canAnswer: canAnswer, onSelect: onSelect),
-          ],
+          ),
         ),
       ],
     );
   }
 }
 
-/// Changing the answer from one option to another: the volt wash slides from the old row to the
-/// new one over 240 ms (under the rows, never over their text), and the new row takes it in full
+/// Changing the answer from one option to another: the volt wash slides from the old card to the
+/// new one over 240 ms (under the cards' text, never over it), and the new row takes it in full
 /// as it lands. A first answer, a clear, and reduced motion keep each row's own wash.
 class _WashGlide extends StatefulWidget {
   const _WashGlide({required this.selected, required this.count, required this.builder});
@@ -325,7 +319,7 @@ class _GlidePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Rect.lerp(from, to, Motion.glide.transform(progress.value.clamp(0.0, 1.0)))!;
-    canvas.drawRect(rect, Paint()..color = color);
+    canvas.drawRRect(AnswerOption.cardRadius.toRRect(rect), Paint()..color = color);
   }
 
   @override
@@ -501,108 +495,6 @@ class _PassageWellState extends State<_PassageWell> with SingleTickerProviderSta
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-/// The 48 dp band under the options: "Clear my answer" while there is an answer, and for 4 s after
-/// clearing, "Answer cleared." with an Undo key in the same place, which puts the answer back
-/// through the same path as choosing it. The band's height never changes.
-class _ClearBand extends StatefulWidget {
-  const _ClearBand({required this.selected, required this.canAnswer, required this.onSelect});
-
-  final int? selected;
-  final bool canAnswer;
-  final ValueChanged<int?> onSelect;
-
-  /// How long the Undo stays.
-  static const Duration undoHold = Duration(seconds: 4);
-
-  @override
-  State<_ClearBand> createState() => _ClearBandState();
-}
-
-class _ClearBandState extends State<_ClearBand> {
-  int? _cleared;
-  Timer? _timer;
-
-  @override
-  void didUpdateWidget(_ClearBand old) {
-    super.didUpdateWidget(old);
-    // A new answer (or answering closing) ends the chance to undo.
-    if (_cleared != null && (widget.selected != null || !widget.canAnswer)) _drop();
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  void _drop() {
-    _timer?.cancel();
-    _timer = null;
-    _cleared = null;
-  }
-
-  void _clear() {
-    final was = widget.selected;
-    if (was == null) return;
-    _timer?.cancel();
-    setState(() => _cleared = was);
-    _timer = Timer(_ClearBand.undoHold, () {
-      if (mounted) setState(_drop);
-    });
-    widget.onSelect(null);
-  }
-
-  void _undo() {
-    final back = _cleared;
-    if (back == null) return;
-    setState(_drop);
-    widget.onSelect(back);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final Widget content;
-    if (widget.selected != null && widget.canAnswer) {
-      content = KeyButton.secondary(
-        key: const ValueKey('clear'),
-        label: RunnerCopy.clearAnswer,
-        onPressed: _clear,
-        expanded: false,
-        minHeight: MmTarget.min,
-        hapticOnCommit: false,
-      );
-    } else if (_cleared != null && widget.canAnswer) {
-      content = Row(
-        key: const ValueKey('undo'),
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Semantics(
-            liveRegion: true,
-            child: Text(RunnerCopy.answerCleared, style: type.body.copyWith(color: colors.ink2)),
-          ),
-          const SizedBox(width: MmSpace.s12),
-          KeyButton.secondary(label: RunnerCopy.undo, onPressed: _undo, expanded: false, minHeight: MmTarget.min, hapticOnCommit: false),
-        ],
-      );
-    } else {
-      content = const SizedBox.shrink(key: ValueKey('none'));
-    }
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: MmTarget.min + MmSpace.s12 * 2),
-      child: Align(
-        alignment: Alignment.centerLeft,
-        child: AnimatedSwitcher(
-          duration: Motion.of(context, Motion.ui),
-          layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
-          child: content,
-        ),
       ),
     );
   }

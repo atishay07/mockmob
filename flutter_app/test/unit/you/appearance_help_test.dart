@@ -223,13 +223,11 @@ void main() {
       return mailer;
     }
 
-    testWidgets('shows the support address, the non-affiliation line and the version', (tester) async {
+    testWidgets('shows the support address, one line about the app (no fine print) and the version', (tester) async {
       await pump(tester);
       expect(find.text('support@mockmob.in'), findsOneWidget);
-      expect(
-        find.text('An independent practice app, not affiliated with NTA or the University of Delhi.'),
-        findsOneWidget,
-      );
+      expect(find.text('Practice for CUET UG 2027 Commerce.'), findsOneWidget);
+      expect(find.textContaining('affiliated'), findsNothing);
       expect(find.text('NTA, cuet.nta.nic.in'), findsOneWidget);
       expect(find.text('Version 1.0.0 (1)'), findsOneWidget);
     });

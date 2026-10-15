@@ -141,7 +141,7 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
                   // The wordmark alone: a "mo" tile beside it read as "mo mockmob".
                   ExcludeSemantics(child: Wordmark(height: 26, color: colors.ink)),
                   const SizedBox(height: MmSpace.s16),
-                  Text(YouCopy.helpNonAffiliation, style: type.body.copyWith(color: colors.ink2)),
+                  Text(YouCopy.helpAboutLine, style: type.body.copyWith(color: colors.ink2)),
                   if (version != null) ...[
                     const SizedBox(height: MmSpace.s12),
                     Text(YouCopy.helpVersion(version), style: type.caption.copyWith(color: colors.ink3)),

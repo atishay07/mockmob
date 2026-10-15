@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/alternatives_sheet.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/length_pill.dart';
 import 'package:mockmob/features/today/widgets/road_section.dart';
 import 'package:mockmob/features/today/screens/why_sheet.dart';
 import 'package:mockmob/features/today/logic/why_model.dart';
@@ -50,6 +52,17 @@ void main() {
   screenGolden('today_road', () => _road(ashaInputs()), size: const Size(384, 1000), dock: false);
   screenGolden('today_road_window', () => _road(ashaInputs(now: DateTime.utc(2027, 5, 10, 8))), size: const Size(384, 720), dock: false);
   todayGolden('today_ready_5min', () => _view(ashaInputs(selectedMinutes: 5)));
+  // The first study week of a session explains its marks (design critic 16 Oct, finding 5).
+  todayGolden('today_week_first_look', () => _view(ashaInputs()), firstWeekLook: true);
+  // The length pill opens its three lengths just above it (finding 1).
+  todayGolden(
+    'today_length_panel',
+    () => _view(ashaInputs()),
+    act: (tester) async {
+      await tester.tap(find.byType(LengthPill));
+      await tester.pumpAndSettle();
+    },
+  );
   todayGolden('today_ready_text130', () => _view(ashaInputs()), textScale: 1.3);
   todayGolden('today_morning', () => _view(ashaInputs(now: DateTime.utc(2026, 10, 13, 2, 0))));
 
@@ -130,7 +143,7 @@ void main() {
   );
   screenGolden(
     'today_alternatives_sheet',
-    () => _sheet(AlternativesSheetBody(rows: alternativeRows(subject: 'accountancy'), onRow: (_) {}, onNotToday: () {})),
+    () => _sheet(AlternativesSheetBody(rows: alternativeRows(subject: 'accountancy'), onRow: (_) {}, onNotToday: () {}, animateIn: false)),
     dock: false,
   );
 }

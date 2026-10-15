@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport, RenderParagraph;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -531,7 +532,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       if (mounted) _measure();
     });
     final hero = _heroSwap();
-    final children = <Widget>[
+    final head = <Widget>[
       TodayHeader(
         header: view.header,
         onWeek: callbacks.onWeek,
@@ -544,6 +545,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       // The hero rises 16 dp and fades over 420 ms from 120 ms (MOTION.md 4.3); its object then
       // scales in place and the number lands at about 660 ms.
       TodayEnter(delay: const Duration(milliseconds: 120), child: KeyedSubtree(key: _heroBoxKey, child: hero)),
+    ];
+    final after = <Widget>[
       if (view.also.isNotEmpty)
         TodayEnter(
           delay: const Duration(milliseconds: 200),
@@ -571,6 +574,18 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         if (roadFooter != null) ...[const SizedBox(height: MmSpace.s16), roadFooter],
       ],
     ];
+    // The cue lives in the page, in the gap under the hero (design critic 16 Oct, finding 2): it
+    // takes the place of the first block's own leading gap (at least the 32 between sections), so
+    // it can never sit over a card, a key or a line, and fading it out never moves the page.
+    if (view.road != null && view.hero != null) {
+      final cue = MoreBelowSlot(cue: _moreCue, onTap: _toRoad);
+      if (after.isNotEmpty && after.first is SizedBox) {
+        after[0] = cue;
+      } else {
+        after.insert(0, cue);
+      }
+    }
+    final children = [...head, ...after];
 
     // The week rail borrows [_bleed] of the gutter on each side for its 48 dp day columns, so the
     // masthead is the full width of the list and every other block is padded back in by the same
@@ -624,22 +639,6 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           // "it can be made a bit stronger"): the page blurs as it passes under the clock.
           if (padding.top > 0)
             Positioned(left: 0, right: 0, top: 0, height: padding.top + 20, child: IgnorePointer(child: TodayTopVeil(solidTo: padding.top))),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: (_bar != null ? _barTop : padding.bottom) + MmSpace.s12,
-            // At the right edge, a round key: it never sits over a key or a line of the hero's own.
-            child: Padding(
-              padding: const EdgeInsets.only(right: MmSpace.gutter),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: ValueListenableBuilder<bool>(
-                  valueListenable: _moreCue,
-                  builder: (context, shown, _) => MoreBelowCue(shown: shown, onTap: _toRoad),
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -698,14 +697,38 @@ class TodayTopVeil extends StatelessWidget {
   }
 }
 
-/// A round down chevron (named "Your road to May" for screen readers), just above the bar, while the road is still below the first
-/// screen. It bobs gently three times when it arrives (not under reduced motion), fades away once
-/// the page is scrolled, and its tap glides the page to the road. The key is 48 dp round.
+/// The gap under the hero, holding the "more below" cue centred in it. Always [MmSpace.group]
+/// tall, shown or not, so the page never moves when the cue comes or goes.
+class MoreBelowSlot extends StatelessWidget {
+  const MoreBelowSlot({super.key, required this.cue, required this.onTap});
+
+  final ValueListenable<bool> cue;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+    height: MmSpace.group,
+    child: Center(
+      child: ValueListenableBuilder<bool>(
+        valueListenable: cue,
+        builder: (context, shown, _) => MoreBelowCue(shown: shown, onTap: onTap),
+      ),
+    ),
+  );
+}
+
+/// A small pill, "Your road to May" with a down chevron, in the gap under the hero while the road
+/// is still below the first screen. Its chevron bobs gently three times when it arrives (not
+/// under reduced motion), it fades away once the page is scrolled, and its tap glides the page to
+/// the road. 24 dp to see (it sits inside the 32 dp gap), 48 dp to touch.
 class MoreBelowCue extends StatefulWidget {
   const MoreBelowCue({super.key, required this.shown, required this.onTap});
 
   final bool shown;
   final VoidCallback onTap;
+
+  /// The pill's drawn height.
+  static const double height = 24;
 
   @override
   State<MoreBelowCue> createState() => _MoreBelowCueState();
@@ -747,6 +770,7 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final type = context.mmType;
     final shown = widget.shown;
     return IgnorePointer(
       ignoring: !shown,
@@ -762,25 +786,34 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
             button: true,
             label: TodayCopy.moreBelow,
             excludeSemantics: true,
-            child: MmPressable(
-              onTap: widget.onTap,
-              builder: (context, pressed, focused) => Container(
-                width: 48,
-                height: 48,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: colors.ground,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: colors.lineStrong),
-                ),
-                child: AnimatedBuilder(
-                  animation: _bob,
-                  builder: (context, child) {
-                    // One soft drop and return per bob.
-                    final y = math.sin(_bob.value * math.pi) * 4;
-                    return Transform.translate(offset: Offset(0, y), child: child);
-                  },
-                  child: Icon(LucideIcons.chevronDown, size: 22, color: colors.isNight ? colors.volt : colors.accentText),
+            child: MmHitSlop.toTarget(
+              visual: MoreBelowCue.height,
+              child: MmPressable(
+                onTap: widget.onTap,
+                builder: (context, pressed, focused) => Container(
+                  height: MoreBelowCue.height,
+                  padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s8),
+                  alignment: Alignment.center,
+                  decoration: ShapeDecoration(
+                    color: pressed ? colors.raised2 : colors.ground,
+                    shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(TodayCopy.moreBelow, style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
+                      const SizedBox(width: MmSpace.s4),
+                      AnimatedBuilder(
+                        animation: _bob,
+                        builder: (context, child) {
+                          // One soft drop and return per bob.
+                          final y = math.sin(_bob.value * math.pi) * 2;
+                          return Transform.translate(offset: Offset(0, y), child: child);
+                        },
+                        child: Icon(LucideIcons.chevronDown, size: 16, color: colors.isNight ? colors.volt : colors.accentText),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

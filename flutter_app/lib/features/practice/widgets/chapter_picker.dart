@@ -12,15 +12,17 @@ import '../data/practice_catalog.dart';
 import '../data/suggestion.dart' show RecordChapter, practiceRecordChaptersProvider;
 import '../model/practice_selection.dart';
 
-/// The chapters field of chapter practice: a labelled row that opens the chapter list and says
-/// what is chosen ("Goodwill and Issue of shares"). The names are never truncated.
+/// The chapters field of chapter practice. With nothing chosen it is one labelled row that opens
+/// the chapter list. Once chapters are chosen they show once, as removable chips, and the row
+/// under them becomes "Add chapters" (a summary row above the same chips said each chapter twice,
+/// Design critic 19). The names are never truncated.
 class ChapterField extends StatelessWidget {
   const ChapterField({super.key, required this.chapters, required this.onTap, this.onRemove});
 
   final List<String> chapters;
   final VoidCallback onTap;
 
-  /// Removes one chosen chapter (the chip's own key). Null shows the names without chips.
+  /// Removes one chosen chapter (the chip's own key). Null shows the names in the row, without chips.
   final ValueChanged<String>? onRemove;
 
   @override
@@ -28,18 +30,31 @@ class ChapterField extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final chosen = chapters.isNotEmpty;
-    final text = chosen ? PracticeCopy.chaptersSummary(chapters) : PracticeCopy.chooseChapter;
+    final chips = chosen && onRemove != null;
+    final text = chips
+        ? (chapters.length >= maxChapters ? PracticeCopy.editChapters : PracticeCopy.addChapters)
+        : (chosen ? PracticeCopy.chaptersSummary(chapters) : PracticeCopy.chooseChapter);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(PracticeCopy.chapterLabel, style: type.label.copyWith(color: colors.ink2)),
+        Row(
+          children: [
+            Expanded(child: Text(PracticeCopy.chapterLabel, style: type.label.copyWith(color: colors.ink2))),
+            // The count with its denominator, once there is more than one to count.
+            if (chapters.length > 1) _CountBadge(count: chapters.length, style: type.label.copyWith(color: colors.ink2)),
+          ],
+        ),
         const SizedBox(height: MmSpace.s8),
+        if (chips) ...[
+          ChosenChapterChips(chapters: chapters, onRemove: onRemove!),
+          const SizedBox(height: MmSpace.s8),
+        ],
         MmPressable(
           onTap: onTap,
           focusRadius: MmRadius.keyAll,
           pressedScale: 0.985,
           haptic: MmPressHaptic.selection,
-          semanticsLabel: '${PracticeCopy.chapterLabel}, $text',
+          semanticsLabel: chips ? text : '${PracticeCopy.chapterLabel}, $text',
           builder: (context, pressed, _) => DecoratedBox(
             decoration: ShapeDecoration(
               color: pressed ? colors.raised2 : colors.raised,
@@ -55,15 +70,14 @@ class ChapterField extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
                 child: Row(
                   children: [
-                    Icon(LucideIcons.bookOpen, size: 18, color: chosen ? colors.ink : colors.ink2),
+                    Icon(chips ? LucideIcons.plus : LucideIcons.bookOpen, size: 18, color: chosen && !chips ? colors.ink : colors.ink2),
                     const SizedBox(width: MmSpace.s12),
                     Expanded(
-                      child: Text(text, style: type.labelLarge.copyWith(color: chosen ? colors.ink : colors.ink2)),
+                      child: Text(text, style: type.labelLarge.copyWith(color: chosen && !chips ? colors.ink : colors.ink2)),
                     ),
-                    if (chapters.length > 1) ...[
+                    if (!chips && chapters.length > 1) ...[
                       const SizedBox(width: MmSpace.s8),
-                      // The count pops when it changes (a short scale, no travel).
-                      _CountBadge(count: chapters.length, style: type.label.copyWith(color: colors.ink2)),
+                      Text('${chapters.length}', style: type.label.copyWith(color: colors.ink2)),
                     ],
                     const SizedBox(width: MmSpace.s8),
                     Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
@@ -73,17 +87,13 @@ class ChapterField extends StatelessWidget {
             ),
           ),
         ),
-        if (onRemove != null && chapters.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.s8),
-          ChosenChapterChips(chapters: chapters, onRemove: onRemove!),
-        ],
       ],
     );
   }
 }
 
-/// The chosen count in the field: it pops (scales from 1.3 to 1 on a soft ease) each time it
-/// changes, never on first show. Nothing under reduced motion.
+/// The chosen count against the most one session takes ("3 of 12"): it pops (scales from 1.3 to 1
+/// on a soft ease) each time it changes, never on first show. Nothing under reduced motion.
 class _CountBadge extends StatelessWidget {
   const _CountBadge({required this.count, required this.style});
 
@@ -93,14 +103,18 @@ class _CountBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final duration = Motion.of(context, Motion.card);
-    return AnimatedSwitcher(
-      duration: duration,
-      layoutBuilder: (current, previous) => Stack(alignment: Alignment.center, children: [...previous, ?current]),
-      transitionBuilder: (child, a) => ScaleTransition(
-        scale: Tween<double>(begin: 1.3, end: 1).chain(CurveTween(curve: Curves.easeOutBack)).animate(a),
-        child: FadeTransition(opacity: a, child: child),
+    return Semantics(
+      label: PracticeCopy.chaptersChosenSemantics(count, maxChapters),
+      excludeSemantics: true,
+      child: AnimatedSwitcher(
+        duration: duration,
+        layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerRight, children: [...previous, ?current]),
+        transitionBuilder: (child, a) => ScaleTransition(
+          scale: Tween<double>(begin: 1.3, end: 1).chain(CurveTween(curve: Curves.easeOutBack)).animate(a),
+          child: FadeTransition(opacity: a, child: child),
+        ),
+        child: Text(PracticeCopy.chaptersChosen(count, maxChapters), key: ValueKey(count), style: style),
       ),
-      child: Text('$count', key: ValueKey(count), style: style),
     );
   }
 }

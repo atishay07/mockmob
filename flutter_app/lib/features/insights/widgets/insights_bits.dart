@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -382,7 +384,7 @@ class _Monogram extends StatelessWidget {
             child: Text(
               letters,
               textScaler: TextScaler.noScaling,
-              style: context.mmType.caption.copyWith(fontSize: size * 0.34, fontWeight: FontWeight.w700, color: colors.ink2),
+              style: context.mmType.caption.copyWith(fontSize: math.max(12.0, size * 0.34), fontWeight: FontWeight.w700, color: colors.ink2),
             ),
           ),
         ),
@@ -392,9 +394,10 @@ class _Monogram extends StatelessWidget {
 }
 
 
-/// The way into Ask from the record: Mobi's mark, what it can do with this record, an arrow. A
-/// plain row on the ground (no box, no glass), so the hero stays the page's one lit element and
-/// the chapter to practise its one dominant action.
+/// The way into Ask from the record: a chat glyph in a round key, what Ask can do with this
+/// record, an arrow. A plain row on the ground (no box, no glass), so the hero stays the page's
+/// one lit element and the chapter to practise its one dominant action. Mobi himself stands once
+/// on the record, on the lead finding, so this row carries no face.
 class AskMobiStrip extends StatelessWidget {
   const AskMobiStrip({super.key, required this.onTap});
 
@@ -417,7 +420,14 @@ class AskMobiStrip extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
           child: Row(
             children: [
-              const MobiFace(size: 34, watchTaps: false),
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: colors.isNight ? colors.raised2 : colors.sunken,
+                  border: Border.all(color: colors.line),
+                ),
+                child: SizedBox.square(dimension: 34, child: Icon(LucideIcons.messageCircle, size: 18, color: colors.ink)),
+              ),
               const SizedBox(width: MmSpace.s12),
               Expanded(
                 child: Column(

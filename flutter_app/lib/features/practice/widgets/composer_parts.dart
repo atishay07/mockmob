@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
@@ -246,7 +247,10 @@ class ProTag extends StatelessWidget {
   }
 }
 
-/// The before-mock lines, calm and factual: the marking, the timer rule, and one human aside.
+/// The before-mock lines, calm and factual: the student's own rule first, then the three things
+/// to know in one icon row (the timer keeps running, Submit ends it, silence the phone) and the
+/// one human aside under it. One row instead of three stacked notes, so the last line is never
+/// cut by the pinned Start key (Design critic 12).
 class MockLines extends StatelessWidget {
   const MockLines({super.key, this.ticketBy, this.noLength = false, this.subject});
 
@@ -266,23 +270,61 @@ class MockLines extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    // Plain lines: a bubble here would encode nothing (dots audit, WEB-PARITY section 6).
-    Widget line(String text) => Padding(
-      padding: const EdgeInsets.only(bottom: MmSpace.s8),
-      child: Text(text, style: type.small.copyWith(color: colors.ink)),
-    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (subject case final subject?) StartSheetLine(subject: subject, padding: const EdgeInsets.only(bottom: MmSpace.s16)),
-        line(PracticeCopy.sheetTimer),
-        if (ticketBy != null) line(PracticeCopy.sheetTicket(ticketBy!)),
-        const SizedBox(height: MmSpace.s4),
-        Text(PracticeCopy.sheetAside, style: type.small.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s4),
-        Text(PracticeCopy.sheetDnd, style: type.caption.copyWith(color: colors.ink3)),
+        if (ticketBy != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: MmSpace.s12),
+            child: Text(PracticeCopy.sheetTicket(ticketBy!), style: type.small.copyWith(color: colors.ink)),
+          ),
+        const MockRulesRow(),
+        const SizedBox(height: MmSpace.s12),
+        Text(PracticeCopy.sheetAside, style: type.caption.copyWith(color: colors.ink2)),
         if (noLength) ...[const SizedBox(height: MmSpace.s12), PlainNotice(message: PracticeCopy.sheetNoLength, tone: BannerTone.error)],
       ],
+    );
+  }
+}
+
+/// The three things to know before a mock, as one row of three: an icon over a short line. Spoken
+/// as the two full sentences ([PracticeCopy.sheetTimer], [PracticeCopy.sheetDnd]).
+class MockRulesRow extends StatelessWidget {
+  const MockRulesRow({super.key});
+
+  static const List<(IconData, String)> rules = [
+    (LucideIcons.timer, PracticeCopy.ruleTimer),
+    (LucideIcons.circleCheck, PracticeCopy.ruleSubmit),
+    (LucideIcons.bellOff, PracticeCopy.ruleSilence),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Semantics(
+      container: true,
+      label: '${PracticeCopy.sheetTimer} ${PracticeCopy.sheetDnd}',
+      excludeSemantics: true,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (var i = 0; i < rules.length; i++) ...[
+            if (i > 0) const SizedBox(width: MmSpace.s12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(rules[i].$1, size: 22, color: colors.ink),
+                  const SizedBox(height: MmSpace.s8),
+                  Text(rules[i].$2, style: type.small.copyWith(fontSize: 13, height: 17 / 13, color: colors.ink)),
+                ],
+              ),
+            ),
+          ],
+        ],
+      ),
     );
   }
 }

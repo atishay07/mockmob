@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -51,6 +54,67 @@ class YouHubScreen extends ConsumerStatefulWidget {
 
 class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   bool _openFailed = false;
+
+  // The sticky row of section chips (critic 16 Oct, finding 27): Plan, Look, Study, Alerts,
+  // Colleges. Each chip scrolls to its section, and the chip of the section under the row is lit.
+  final ScrollController _scroll = ScrollController();
+  final GlobalKey _headerKey = GlobalKey();
+  final GlobalKey _weekKey = GlobalKey();
+  final List<GlobalKey> _sectionKeys = List.generate(_chipLabels.length, (_) => GlobalKey());
+  final ValueNotifier<int?> _active = ValueNotifier<int?>(null);
+
+  static const List<String> _chipLabels = [
+    YouCopy.jumpPlan,
+    YouCopy.jumpLook,
+    YouCopy.jumpStudy,
+    YouCopy.jumpAlerts,
+    YouCopy.jumpColleges,
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _scroll.addListener(_trackActive);
+  }
+
+  @override
+  void dispose() {
+    _scroll.removeListener(_trackActive);
+    _scroll.dispose();
+    _active.dispose();
+    super.dispose();
+  }
+
+  /// The chip of the last section whose top has reached the row. Nothing is lit above the first
+  /// section (the row is not pinned yet).
+  void _trackActive() {
+    final header = _headerKey.currentContext?.findRenderObject();
+    if (header is! RenderBox || !header.attached || !header.hasSize) return;
+    final line = header.localToGlobal(Offset.zero).dy + header.size.height + MmSpace.s16;
+    int? active;
+    for (var i = 0; i < _sectionKeys.length; i++) {
+      final box = _sectionKeys[i].currentContext?.findRenderObject();
+      if (box is! RenderBox || !box.attached) continue;
+      if (box.localToGlobal(Offset.zero).dy <= line) active = i;
+    }
+    if (_active.value != active) _active.value = active;
+  }
+
+  /// Scrolls so section [i] starts just under the row. Reduced motion jumps.
+  void _jumpTo(int i) {
+    final box = _sectionKeys[i].currentContext?.findRenderObject();
+    if (box is! RenderBox || !_scroll.hasClients) return;
+    final viewport = RenderAbstractViewport.maybeOf(box);
+    if (viewport == null) return;
+    final position = _scroll.position;
+    final target = (viewport.getOffsetToReveal(box, 0).offset - _ChipsHeader.extent).clamp(position.minScrollExtent, position.maxScrollExtent);
+    final duration = Motion.of(context, const Duration(milliseconds: 420));
+    if (duration == Duration.zero) {
+      _scroll.jumpTo(target);
+    } else {
+      unawaited(_scroll.animateTo(target, duration: duration, curve: Motion.glide));
+    }
+  }
 
   /// The website rows (only when no tools shelf is given): the page itself on www.mockmob.in,
   /// even though the ActionRouter now sends these paths to the native tools.
@@ -106,6 +170,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     final off = prefs.loaded && prefs.hidden;
     final subjects = auth.subjects.isNotEmpty ? auth.subjects : target.subjects;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
+    final week = _week(snapshot, off);
 
     // You is the fourth tab on the bar (DOCK.md 9.1): it uses the tab-root recipe of Practice and
     // Review. The shell has already added the bar's clearance to the bottom padding, so the list
@@ -129,9 +194,15 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
                 child: MmStagger(
                   driver: MmStaggerDriver.route,
-                  child: ListView(
-                    padding: EdgeInsets.only(top: MmRhythm.screenTop, bottom: MmSpace.s32 + bottom),
-                    children: [
+                  child: CustomScrollView(
+                    controller: _scroll,
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.only(top: MmRhythm.screenTop),
+                        sliver: SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
                       // The shared tab header (SPACING.md 9): the title on the gutter, no avatar,
                       // and the one side action as a 48 dp glass pill at the far end.
                       Padding(
@@ -139,7 +210,9 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                         child: TabRootHeader(
                           title: YouCopy.hubTitle,
                           trailing: PillKey(
-                            label: EditCopy.editSheet,
+                            // "Edit profile", or just "Edit" once text is enlarged enough that the longer words would
+                            // push the title off the row (the spoken label is the same either way).
+                            label: MediaQuery.textScalerOf(context).scale(16) > 18.4 ? EditCopy.editSheetShort : EditCopy.editSheet,
                             semanticsLabel: EditCopy.editSheetLabel,
                             onPressed: () => openYouPage(context, YouPaths.sheet),
                           ),
@@ -159,40 +232,86 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           email: auth.email,
                           target: target,
                           subjects: subjects,
-                          week: _week(snapshot, off),
+                          week: week,
                           celebrations: prefs.mode,
                           showTarget: false,
+                          // The ring and the week stand once, in the Study block below.
+                          showWeek: false,
+                          weekKey: _weekKey,
                           onOpenRhythm: () => context.push(AppRoutes.youRhythm),
                           onEdit: () => openYouPage(context, YouPaths.sheet),
                           onEditName: _editName,
                           onEditSubjects: () => openYouPage(context, YouPaths.subjects),
                         ),
                       ),
-                      MmStaggerItem(
-                        index: 1,
-                        child: _HubSection(
-                          title: YouCopy.hubPlan,
-                          trailing: KeyButton.quiet(
-                            label: YouCopy.seeHistory,
-                            semanticsLabel: YouCopy.seeHistoryLabel,
-                            onPressed: () => openCreditsPage(context),
+                            ],
                           ),
-                          child: const PlanCreditsCard(),
                         ),
                       ),
-                      const MmStaggerItem(index: 2, child: _HubSection(title: YouCopy.hubAppearance, child: AppearanceCard())),
-                      const MmStaggerItem(index: 3, child: _HubSection(title: YouCopy.hubStudyDays, child: StudyDaysPanel())),
-                      const MmStaggerItem(index: 4, child: _HubSection(title: YouCopy.hubNotifications, child: NotificationsPanel())),
+                      SliverPersistentHeader(
+                        pinned: true,
+                        delegate: _ChipsHeader(headerKey: _headerKey, active: _active, labels: _chipLabels, onSelected: _jumpTo),
+                      ),
+                      SliverPadding(
+                        padding: EdgeInsets.only(bottom: MmSpace.s32 + bottom),
+                        sliver: SliverToBoxAdapter(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                      MmStaggerItem(
+                        index: 1,
+                        child: KeyedSubtree(
+                          key: _sectionKeys[0],
+                          child: _HubSection(
+                            title: YouCopy.hubPlan,
+                            trailing: KeyButton.quiet(
+                              label: YouCopy.seeHistory,
+                              semanticsLabel: YouCopy.seeHistoryLabel,
+                              onPressed: () => openCreditsPage(context),
+                            ),
+                            child: const PlanCreditsCard(),
+                          ),
+                        ),
+                      ),
+                      MmStaggerItem(
+                        index: 2,
+                        child: KeyedSubtree(key: _sectionKeys[1], child: const _HubSection(title: YouCopy.hubAppearance, child: AppearanceCard())),
+                      ),
+                      // One study block: the ring and the week, then the goal, the planned days and
+                      // the pause (the same week Today shows is not drawn a second time).
+                      MmStaggerItem(
+                        index: 3,
+                        child: KeyedSubtree(
+                          key: _sectionKeys[2],
+                          child: _HubSection(
+                            title: YouCopy.hubStudyDays,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                KeyedSubtree(key: _weekKey, child: WeekField(week: week, onOpen: () => context.push(AppRoutes.youRhythm))),
+                                const StudyDaysPanel(),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      MmStaggerItem(
+                        index: 4,
+                        child: KeyedSubtree(key: _sectionKeys[3], child: const _HubSection(title: YouCopy.hubNotifications, child: NotificationsPanel())),
+                      ),
                       MmStaggerItem(
                         index: 5,
-                        child: _HubSection(
-                          title: YouCopy.hubTarget,
-                          child: TargetFields(
-                            target: target,
-                            subjects: subjects,
-                            ruledTop: false,
-                            onEdit: () => openYouPage(context, YouPaths.sheet),
-                            onEditSubjects: () => openYouPage(context, YouPaths.subjects),
+                        child: KeyedSubtree(
+                          key: _sectionKeys[4],
+                          child: _HubSection(
+                            title: YouCopy.hubTarget,
+                            child: TargetFields(
+                              target: target,
+                              subjects: subjects,
+                              ruledTop: false,
+                              onEdit: () => openYouPage(context, YouPaths.sheet),
+                              onEditSubjects: () => openYouPage(context, YouPaths.subjects),
+                            ),
                           ),
                         ),
                       ),
@@ -210,6 +329,10 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                       ),
                       const MmStaggerItem(index: 11, child: _HubSection(title: YouCopy.hubHelp, child: HelpPanel())),
                       const HubFooter(),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -275,6 +398,56 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
       ),
     );
   }
+}
+
+/// The sticky row of section chips: Plan, Look, Study, Alerts, Colleges. 56 dp tall (a 48 dp rail
+/// with 4 dp above and below), clear on the ground at rest and solid with a hairline once content
+/// slides under it, so it never shows text through it. A [ChipRail] gives each chip its whole
+/// width, so none is cut mid-letter.
+class _ChipsHeader extends SliverPersistentHeaderDelegate {
+  const _ChipsHeader({required this.headerKey, required this.active, required this.labels, required this.onSelected});
+
+  static const double extent = 56;
+
+  final GlobalKey headerKey;
+  final ValueNotifier<int?> active;
+  final List<String> labels;
+  final ValueChanged<int> onSelected;
+
+  @override
+  double get minExtent => extent;
+
+  @override
+  double get maxExtent => extent;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    final colors = context.mmColors;
+    return KeyedSubtree(
+      key: headerKey,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: overlapsContent ? colors.ground : null,
+          border: overlapsContent ? Border(bottom: BorderSide(color: colors.line)) : null,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
+          child: ValueListenableBuilder<int?>(
+            valueListenable: active,
+            builder: (context, selected, _) => ChipRail.labelled(
+              labels: labels,
+              selected: selected,
+              onSelected: onSelected,
+              semanticLabel: YouCopy.jumpLabel,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant _ChipsHeader old) => old.labels != labels || old.active != active || old.onSelected != onSelected;
 }
 
 /// A typeset section of the hub (SPACING.md 3.1): 32 dp of air, a hairline rule, 16 dp, the title

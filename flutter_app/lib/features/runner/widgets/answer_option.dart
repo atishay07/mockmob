@@ -10,12 +10,12 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import 'runner_motion.dart';
 
-/// One answer option (spec 5.5, brief section 12, runner.md 3.3) drawn as a row of the OMR sheet:
-/// a lettered bubble in a column on the left and the text beside it, with no box and no border.
-/// The rows are told apart by the hairline rules the question view draws between them. The bubble
-/// inks from the point the finger touched when chosen, like filling it with a pencil, and the ink
+/// One answer option (spec 5.5, brief section 12, runner.md 3.3) drawn as a soft card of the
+/// answer sheet: a lettered bubble on the left and the text beside it, on a raised surface with a
+/// hairline edge and the key radius (18 dp), at least [cardHeight] (56 dp) tall. The cards sit
+/// [cardGap] apart; the question view draws nothing between them. The bubble inks from the point the finger touched when chosen, like filling it with a pencil, and the ink
 /// bleeds out of it across the row as a flat volt wash: the chosen row is the only lit thing, and
-/// the other rows keep their full ink. A press darkens the row and presses the bubble in (a
+/// the other cards keep their full ink. A press darkens the row and presses the bubble in (a
 /// transform and a fill: nothing reflows). No correctness, ever, while answering.
 class AnswerOption extends StatefulWidget {
   const AnswerOption({
@@ -25,7 +25,7 @@ class AnswerOption extends StatefulWidget {
     required this.selected,
     required this.onSelect,
     this.onLock,
-    this.minHeight = 60,
+    this.minHeight = cardHeight,
     this.struck = false,
     this.onStrike,
     this.glide = false,
@@ -42,7 +42,7 @@ class AnswerOption extends StatefulWidget {
   /// so the layout can fly the lock-in dot from it.
   final ValueChanged<Offset>? onLock;
 
-  /// The row's least height: 60 dp, taller on a tall screen (see `QuestionView`), where the
+  /// The card's least height: 56 dp, taller on a tall screen (see `QuestionView`), where the
   /// room is better spent on larger keys than on a gap above them.
   final double minHeight;
 
@@ -58,6 +58,13 @@ class AnswerOption extends StatefulWidget {
   /// own wash holds off, and the chosen row takes it in full when the slide lands.
   final bool glide;
 
+  /// The card's least height and the gap between cards (finding 4: soft 56 dp cards, not rules).
+  static const double cardHeight = 56;
+  static const double cardGap = 8;
+
+  /// The card's shape: the key radius with continuous corners, shared by the wash and its glide.
+  static const BorderRadius cardRadius = MmRadius.keyAll;
+
   /// How dim a crossed-out row is.
   static const double struckOpacity = 0.55;
 
@@ -72,7 +79,7 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
   static const double _minBubble = 32;
 
   /// The space left of the bubble column: the wash starts a little before the bubble.
-  static const double _leading = 6;
+  static const double _leading = 12;
 
   /// The letter is 14 sp and grows with the system text size; the bubble grows with it.
   static const double _letterSize = 14;
@@ -215,17 +222,24 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
       ),
     );
 
-    final focusShape = RoundedSuperellipseBorder(
-      borderRadius: MmRadius.keyAll,
-      side: BorderSide(color: colors.focusRing, width: 1.5),
-    );
-    // The wash is clipped to the row; a press lays a flat fill under it; focus rings the row.
+    final shape = RoundedSuperellipseBorder(borderRadius: AnswerOption.cardRadius);
+    // The chosen card is the only lit thing: its edge takes the volt edge colour, 1.5 dp. A press
+    // lays a flat fill under the wash; keyboard focus rings the card.
+    final edge = selected ? colors.voltEdge : colors.line;
     final Widget row = DecoratedBox(
       position: DecorationPosition.foreground,
-      decoration: _focused ? ShapeDecoration(shape: focusShape) : const BoxDecoration(),
-      child: ClipRect(
+      decoration: ShapeDecoration(
+        shape: RoundedSuperellipseBorder(
+          borderRadius: AnswerOption.cardRadius,
+          side: _focused
+              ? BorderSide(color: colors.focusRing, width: 1.5)
+              : BorderSide(color: edge, width: selected ? 1.5 : 1),
+        ),
+      ),
+      child: ClipPath(
+        clipper: ShapeBorderClipper(shape: shape),
         child: ColoredBox(
-          color: _pressed ? colors.raised : Colors.transparent,
+          color: _pressed ? colors.raised2 : colors.raised,
           child: CustomPaint(
             painter: _WashPainter(
               progress: _wash,
@@ -236,7 +250,7 @@ class _AnswerOptionState extends State<AnswerOption> with TickerProviderStateMix
             child: ConstrainedBox(
               constraints: BoxConstraints(minHeight: widget.minHeight),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(_leading, MmSpace.s12, MmSpace.s12, MmSpace.s12),
+                padding: const EdgeInsets.fromLTRB(_leading, MmSpace.s12, MmSpace.s16, MmSpace.s12),
                 // A crossed-out row dims as a whole (an opacity, nothing reflows).
                 child: FadeTransition(
                   opacity: _dim,

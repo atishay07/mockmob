@@ -1,6 +1,7 @@
 // What Today's week strip shows while the rhythm loads for the first time: the count line and the
-// seven weekday columns and the key line at the loaded strip's heights (48 dp count row, 62 dp
-// rail, and the rail's growth with large text), so nothing on Today jumps when the week arrives.
+// seven weekday columns at the loaded strip's heights (48 dp count row, 62 dp rail, and the rail's
+// growth with large text), so nothing on Today jumps when the week arrives. The key is not a
+// standing line any more (it unfolds on a first look), so the skeleton keeps no row for it.
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
@@ -58,12 +59,6 @@ class WeekLedgerSkeleton extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            // Most weeks carry a rest or a not-counted day, which earns the one-line key.
-            const SizedBox(height: MmSpace.s8),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: MmSpace.s4 + bleed),
-              child: SizedBox(height: 16, child: const Align(alignment: Alignment.centerLeft, child: Skeleton.line(width: 160, height: 10))),
             ),
           ],
         ),

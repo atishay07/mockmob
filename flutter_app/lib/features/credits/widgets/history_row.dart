@@ -8,9 +8,9 @@ import '../../you/widgets/you_row.dart' show IconWell;
 import '../credits_copy.dart';
 import '../data/credits_models.dart';
 
-/// One line of the history: the pool's glyph, what it was ("Repair, Q7 Accountancy"), the pool
-/// and the count in words with what is left, and at the end the change and the time. Information
-/// only; nothing here opens. The pool is said in words, never by colour alone.
+/// One line of the history: the pool's glyph, what it was ("Practice set"), the pool as a 12 sp
+/// tag with the time, and in the value column the change and what is left ("40 left").
+/// Information only; nothing here opens. The pool is said in words, never by colour alone.
 class HistoryRow extends StatelessWidget {
   const HistoryRow({super.key, required this.entry});
 
@@ -24,6 +24,7 @@ class HistoryRow extends StatelessWidget {
     final type = context.mmType;
     final at = entry.at.toLocal();
     final time = formatTime12(at);
+    final left = CreditsCopy.left(entry);
     final what = entry.what.isEmpty ? CreditsCopy.whatFallback(entry) : entry.what;
     return Semantics(
       container: true,
@@ -43,8 +44,20 @@ class HistoryRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(what, style: type.labelLarge.copyWith(fontSize: 16)),
-                    const SizedBox(height: 2),
-                    Text(CreditsCopy.line(entry), style: type.caption.copyWith(color: colors.ink2)),
+                    const SizedBox(height: MmSpace.s4),
+                    // The pool is the row's icon and, in words, this 12 sp tag (never colour
+                    // alone); the time rides beside it. The count lives in the value column.
+                    // A Wrap, so a narrow phone or large text moves the time under the tag and
+                    // never clips either.
+                    Wrap(
+                      spacing: MmSpace.s8,
+                      runSpacing: 2,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        _PoolTag(label: CreditsCopy.tag(entry)),
+                        Text(time, style: type.caption.copyWith(fontSize: 12, color: colors.ink3)),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -53,13 +66,35 @@ class HistoryRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(changeText(entry.delta), style: type.title.copyWith(color: entry.isSpend ? colors.ink : colors.goodText)),
-                  const SizedBox(height: 2),
-                  Text(time, style: type.caption.copyWith(color: colors.ink3)),
+                  if (left != null) ...[
+                    const SizedBox(height: 2),
+                    Text(left, style: type.caption.copyWith(fontSize: 12, color: colors.ink2)),
+                  ],
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// The pool in words at 12 sp: a hairline pill, so the row keeps one voice (the title) and the
+/// pool reads without colour.
+class _PoolTag extends StatelessWidget {
+  const _PoolTag({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return DecoratedBox(
+      decoration: BoxDecoration(borderRadius: MmRadius.pillAll, border: Border.all(color: colors.line)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 1),
+        child: Text(label, style: context.mmType.caption.copyWith(fontSize: 12, height: 1.3, color: colors.ink2), maxLines: 1),
       ),
     );
   }

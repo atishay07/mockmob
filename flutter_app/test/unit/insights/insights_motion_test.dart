@@ -124,7 +124,7 @@ void main() {
       return record;
     }
 
-    testWidgets('nothing is said on a first look, then a rise of 5 says so for 4 s with a small Mobi hop', (tester) async {
+    testWidgets('nothing is said on a first look, then a rise of 5 says so for 4 s with a small rising mark and no Mobi', (tester) async {
       final record = await pump(tester, 77);
       expect(find.textContaining('since your last look'), findsNothing);
       expect(find.byType(MobiCharacter), findsNothing);
@@ -133,21 +133,23 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('Up 5 points since your last look'), findsOneWidget);
-      expect(find.byType(MobiCharacter), findsOneWidget);
+      expect(find.byType(MobiCharacter), findsNothing, reason: 'Mobi stands once on the record, on the lead finding');
+      expect(find.byKey(const ValueKey('rise-mark')), findsOneWidget);
 
       await tester.pump(LedgerHero.noteFor + const Duration(milliseconds: 500));
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.textContaining('since your last look'), findsNothing);
-      expect(find.byType(MobiCharacter), findsNothing);
+      expect(find.byKey(const ValueKey('rise-mark')), findsNothing);
     });
 
-    testWidgets('a smaller rise is only said in words, and a fall is said calmly without Mobi', (tester) async {
+    testWidgets('a smaller rise is only said in words, and a fall is said calmly without the mark', (tester) async {
       final record = await pump(tester, 77);
       record.value = _record(80);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
       expect(find.text('Up 3 points since your last look'), findsOneWidget);
-      expect(find.byType(MobiCharacter), findsNothing, reason: 'under 5 points there is no hop');
+      expect(find.byType(MobiCharacter), findsNothing);
+      expect(find.byKey(const ValueKey('rise-mark')), findsNothing, reason: 'under 5 points there is no mark');
 
       record.value = _record(79);
       await tester.pump();

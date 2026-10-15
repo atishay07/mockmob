@@ -22,7 +22,8 @@ abstract final class YouCopy {
   static const fieldSubjects = 'Subjects';
   static const fieldWeek = 'This week';
   static const fieldWeekFailed = 'This week did not load.';
-  static const weekOpen = 'Study days';
+  // Under the section title "Study days" the field is named for what it shows, not the title again.
+  static const weekOpen = 'This week';
   static String weekToGo(int left) => left == 1 ? '1 day to your goal' : '$left days to your goal';
   static const rhythmOffLine = 'Study days are off. Your record stays.';
   static String collegeChoice(int rank, String name) => 'Choice $rank, $name';
@@ -46,6 +47,15 @@ abstract final class YouCopy {
   static const hubAccount = 'Account and privacy';
   static const hubTools = 'CUET tools';
   static const hubHelp = 'Help';
+
+  // The sticky row of section chips under the header (critic 16 Oct, finding 27). Each scrolls to
+  // its section: Plan and credits, Appearance, Study days, Notifications, My subjects and colleges.
+  static const jumpLabel = 'Jump to a section';
+  static const jumpPlan = 'Plan';
+  static const jumpLook = 'Look';
+  static const jumpStudy = 'Study';
+  static const jumpAlerts = 'Alerts';
+  static const jumpColleges = 'Colleges';
   static const seeHistory = 'See history';
   static const seeHistoryLabel = 'See credit history';
   static const themeExplainer = 'Night is the dark look. Day is the light look.';
@@ -280,7 +290,8 @@ abstract final class YouCopy {
   static const helpPrivacyPolicy = 'Privacy policy';
   static const helpTerms = 'Terms of use';
   static const aboutHeading = 'About';
-  static const helpNonAffiliation = 'An independent practice app, not affiliated with NTA or the University of Delhi.';
+  // The non-affiliation sentence lives on the Terms page (critic finding 8); About keeps one line of truth.
+  static const helpAboutLine = 'Practice for CUET UG 2027 Commerce.';
   static const sourcesHeading = 'Where the facts come from';
   static const sourceExam = 'Exam pattern and dates';
   static const sourceExamFrom = 'NTA, cuet.nta.nic.in';

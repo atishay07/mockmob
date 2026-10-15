@@ -14,18 +14,18 @@ void main() {
     final view = buildToday(ashaInputs());
     expect(view.sheet, hasLength(4));
     expect(view.papers, 8);
-    expect(TodayCopy.sheetCaption(view.sheet.length, view.papers), 'Newest 4 of 8');
+    expect(TodayCopy.sheetCaption(view.sheet.length, view.papers), 'Last 4 of 8 papers');
 
     final trend = view.trend!;
     expect(trend.points, hasLength(6));
     expect(trend.ofKind, 7);
-    expect(TodayCopy.trendCaption(trend.points.length, trend.ofKind, trend.kind), 'Marks in your newest 6 of 7 Accountancy mocks');
+    expect(TodayCopy.trendCaption(trend.points.length, trend.ofKind, trend.kind), 'Marks in your last 6 of 7 Accountancy mocks');
   });
 
   test('when everything is shown, both captions say all of them', () {
     final record = ashaRecord(tuesdayEvening);
     final view = buildToday(ashaInputs(attempts: [record[0], record[2], record[3]]));
-    expect(TodayCopy.sheetCaption(view.sheet.length, view.papers), 'All 3');
+    expect(TodayCopy.sheetCaption(view.sheet.length, view.papers), 'All 3 papers');
     final trend = view.trend!;
     expect(TodayCopy.trendCaption(trend.points.length, trend.ofKind, trend.kind), 'Marks in all 3 of your Accountancy mocks');
   });

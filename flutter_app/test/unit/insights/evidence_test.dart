@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/evidence.dart';
@@ -192,7 +193,7 @@ void main() {
   });
 
   group('AI replies', () {
-    testWidgets('a model reply says it can be wrong and can be reported; a record answer does not', (tester) async {
+    testWidgets('a model reply carries one info glyph; the caveat and the report live in its sheet; a record answer has none', (tester) async {
       var reported = 0;
       await pumpMockmob(
         tester,
@@ -213,9 +214,19 @@ void main() {
         brightness: Brightness.dark,
         disableAnimations: true,
       );
+      // Nothing of the fine print sits under the answer.
+      expect(find.text(InsightsCopy.aiCaveat), findsNothing);
+      expect(find.text(InsightsCopy.reportReply), findsNothing);
+      expect(find.text('Check your credits for the final charge'), findsNothing);
+      // One glyph, for the model reply only, a 48 dp target.
+      expect(find.byIcon(LucideIcons.info), findsOneWidget);
+      expect(tester.getSize(find.ancestor(of: find.byIcon(LucideIcons.info), matching: find.byType(SizedBox)).first).shortestSide, greaterThanOrEqualTo(48));
+      await tester.tap(find.byIcon(LucideIcons.info));
+      await tester.pumpAndSettle();
       expect(find.text(InsightsCopy.aiCaveat), findsOneWidget);
       expect(find.text(InsightsCopy.reportReply), findsOneWidget);
       await tester.tap(find.text(InsightsCopy.reportReply));
+      await tester.pumpAndSettle();
       expect(reported, 1);
     });
   });

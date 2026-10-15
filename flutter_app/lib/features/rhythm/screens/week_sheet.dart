@@ -20,8 +20,6 @@ import '../logic/week_view.dart';
 import '../widgets/rhythm_layout.dart' show kNumberRollDelay;
 import '../widgets/rhythm_page.dart';
 import '../logic/plan_week.dart';
-import '../widgets/plan_week_strip.dart';
-import '../widgets/week_dial.dart';
 
 class WeekSheet extends ConsumerStatefulWidget {
   const WeekSheet({super.key});
@@ -199,8 +197,6 @@ class _Loaded extends StatelessWidget {
       planned: plan,
       dates: [for (final d in week.days) d.date?.day],
     );
-    final strip = PlanWeekStrip(days: days, bubble: 28, showDates: true, daySemantics: true);
-
     final secondary = switch (week.status) {
       WeekStatus.paused => RhythmCopy.pausedKeepsRun,
       WeekStatus.open => outlook?.sentence ?? RhythmCopy.goalSentence(week.goal, hasPlan: plan != null && plan!.isNotEmpty),
@@ -221,30 +217,19 @@ class _Loaded extends StatelessWidget {
           Text(RhythmCopy.asOf(snapshot.fetchedAt!), style: type.small.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s8),
         ],
-        // The ring and the count in words: what the week is and what is left of it.
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            WeekDial(done: week.studyDays, goal: week.goal, size: 96, paused: week.status == WeekStatus.paused, showWords: false),
-            const SizedBox(width: MmSpace.s16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(week.label, style: type.subhead),
-                  if (secondary != null) ...[
-                    const SizedBox(height: MmSpace.s4),
-                    Text(secondary, style: type.small.copyWith(color: colors.ink2)),
-                  ],
-                ],
-              ),
-            ),
-          ],
+        // The shared study week: the ring and the count in words, then the seven days. Its key
+        // shows on the first view and on a long press, never as a line of its own.
+        StudyWeek(
+          days: bubbleWeek(days),
+          variant: StudyWeekVariant.ring,
+          done: week.studyDays,
+          goal: week.goal.clamp(1, 7),
+          paused: week.status == WeekStatus.paused,
+          headline: week.label,
+          caption: secondary,
+          ringSize: 96,
+          animateIn: true,
         ),
-        const SizedBox(height: MmSpace.s16),
-        strip,
-        const SizedBox(height: MmSpace.s4),
-        PlanWeekKey(days: days),
         if (plan == null && onChangeDays != null) ...[
           const SizedBox(height: MmSpace.s8),
           Text(RhythmCopy.noPlanYet, style: type.small.copyWith(color: colors.ink2)),

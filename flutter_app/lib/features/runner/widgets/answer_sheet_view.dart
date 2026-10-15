@@ -41,6 +41,12 @@ class AnswerSheetView extends StatefulWidget {
   final bool animateInk;
 
   static const int columns = 10;
+
+  /// The question numbers above each bubble: the floor of 12 sp for text a student must read.
+  static const double numberSize = 12;
+
+  /// The height of the number line at normal text size.
+  static const double numberLine = 15;
   static const double minGap = 6;
   static const double maxGap = 20;
   static const double rowGap = 10;
@@ -101,9 +107,17 @@ class _AnswerSheetViewState extends State<AnswerSheetView> with TickerProviderSt
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final scaler = MediaQuery.textScalerOf(context);
-    final numberHeight = BubbleGrid.numberHeightFor(scaler);
-    final scale = scaler.scale(9.5) / 9.5;
-    final style = context.mmType.caption.copyWith(fontSize: 9.5, height: 1, color: colors.ink3, fontWeight: FontWeight.w600);
+    // The question numbers are text a student reads to find a question: 12 sp, never smaller, and
+    // they follow the text size up to 1.3x (past that the grid would outgrow its columns).
+    final scale = (scaler.scale(AnswerSheetView.numberSize) / AnswerSheetView.numberSize).clamp(1.0, 1.3);
+    final numberHeight = (AnswerSheetView.numberLine * scale).ceilToDouble();
+    final style = context.mmType.caption.copyWith(
+      fontSize: AnswerSheetView.numberSize,
+      height: 1,
+      color: colors.ink2,
+      fontWeight: FontWeight.w600,
+      fontFeatures: const [FontFeature.tabularFigures()],
+    );
     final cells = widget.cells;
     final rows = (cells.length / AnswerSheetView.columns).ceil();
     final rowHeight = widget.bubbleSize + (numberHeight > 0 ? numberHeight + 3 : 0);
@@ -128,7 +142,7 @@ class _AnswerSheetViewState extends State<AnswerSheetView> with TickerProviderSt
                 gap: gap,
                 numberStyle: numberHeight > 0 ? style : null,
                 numberHeight: numberHeight,
-                textScaler: TextScaler.linear(scale < 1 ? 1.0 : scale),
+                textScaler: TextScaler.linear(scale),
                 ink: _ink,
                 scan: _scan,
                 phase: widget.phase,

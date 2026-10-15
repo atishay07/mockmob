@@ -93,6 +93,9 @@ abstract final class InsightsCopy {
   static String trendLatest(int marks, int max) => '$marks of $max';
   static String trendSessions(int n) => _n(n, 'session');
 
+  static const trendFormats = 'Paper formats';
+  static const savedSubjects = 'Saved subjects';
+  static const streamFilters = 'Stream filters';
   static const chaptersHeading = 'Chapters by marks left open';
   static const chaptersCaption = 'Ranked once 4 or more questions are answered in a chapter.';
   static String chapterCounts(int r, int w, int b, int n) => '$r right, $w wrong, $b blank of ${_n(n, 'question')}';
@@ -366,6 +369,7 @@ abstract final class InsightsCopy {
 
   // AI replies: a plain caveat, a way to report, and a one-time notice before the first send.
   static const aiCaveat = 'AI wrote this and can be wrong. Check it against your record.';
+  static const aboutReply = 'About this reply';
   static const reportReply = 'Report this reply';
   static const reportTitle = 'What is wrong with this reply?';
   static const reportReasons = ['It is wrong about my record', 'It is wrong about the subject', 'It is unsafe or unkind', 'Something else'];

@@ -3,6 +3,7 @@
 // struck once however it is asked for, the Celebrations setting, and the right painting per
 // theme in the milestone moment and the empty states.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderContainer, ProviderScope;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
@@ -10,14 +11,14 @@ import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
+import 'package:mockmob/features/onboarding/steps/plan_step.dart';
 import 'package:mockmob/features/onboarding/widgets/hold_to_seal.dart';
 import 'package:mockmob/features/onboarding/widgets/plan_seal_moment.dart';
 import 'package:mockmob/features/onboarding/widgets/welcome_scene.dart';
-import 'package:mockmob/features/rhythm/celebration/celebration_slot.dart';
-import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show CelebrationMode, celebrationModeProvider;
-import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderContainer, ProviderScope;
 import 'package:mockmob/features/rhythm/celebration/celebration_controller.dart' show Celebration;
 import 'package:mockmob/features/rhythm/celebration/celebration_event.dart';
+import 'package:mockmob/features/rhythm/celebration/celebration_slot.dart';
+import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show CelebrationMode, celebrationModeProvider;
 
 import '../../golden/art_scenes/scene_kit.dart';
 import '../../golden/onboarding/support.dart';
@@ -82,8 +83,9 @@ void main() {
     test('Mobi stands in the welcome ellipse, as tall as the painting says', () {
       final l = WelcomeHeroLayout.of(kPhone, room: 520);
       final w = l.image.width;
-      expect(w, kPhone.width, reason: 'the painted room is the width of the screen; the ground lies under it');
-      expect(l.image.top, 0, reason: 'room enough: the painting is not moved');
+      expect(w, greaterThanOrEqualTo(kPhone.width), reason: 'the painted room is at least the width of the screen');
+      expect(l.image.left, closeTo((kPhone.width - w) / 2, 0.01), reason: 'grown, it stays centred');
+      expect(l.image.top, greaterThanOrEqualTo(0), reason: 'room enough: the painting is never pushed up');
       expect(l.feet.dx, closeTo(l.image.left + WelcomeHeroLayout.footX * w, 0.01));
       expect(l.feet.dy, closeTo(WelcomeHeroLayout.footY * l.image.height, 0.01));
       expect(l.mobiHeight, closeTo(560 / 1080 * w, 0.01));
@@ -130,7 +132,7 @@ void main() {
       expect(find.text(OnboardingCopy.mobiWelcome), findsOneWidget);
     });
 
-    testWidgets('the welcome room is lamp-lit in Day too (one first impression)', (tester) async {
+    testWidgets('Day welcomes in the daylit room, Night in the lamp-lit one (design critic 3)', (tester) async {
       await pumpMockmob(
         tester,
         const OnboardingFlow(skipColdOpen: true),
@@ -141,9 +143,26 @@ void main() {
         wrapInScaffold: false,
       );
       await tester.pump(const Duration(milliseconds: 200));
-      expect(Theme.of(tester.element(find.byType(MobiStage))).brightness, Brightness.dark);
+      expect(Theme.of(tester.element(find.byType(MobiStage))).brightness, Brightness.light);
       final image = tester.widget<SceneImage>(find.byType(SceneImage));
-      expect(image.art, SceneArt.welcomeHero);
+      expect(image.art, SceneArt.allClearDay);
+      // Mobi stands in the sunlit pool, and his line ends before the pinned sheet.
+      final hero = tester.widget<WelcomeHero>(find.byType(WelcomeHero)).layout;
+      final mobi = tester.getRect(find.byType(MobiStage));
+      expect(mobi.bottom, closeTo(hero.feet.dy, 0.5));
+      final bubble = tester.getRect(find.byType(MobiBubble));
+      expect(bubble.right, lessThanOrEqualTo(hero.sheetX + 0.5));
+    });
+
+    test('the floor reaches the words: no dead band under the scene, Night or Day', () {
+      for (final room in const [520.0, 560.0, 640.0]) {
+        final night = WelcomeHeroLayout.of(kPhone, room: room, topLimit: 82);
+        expect(room - night.ellipse.bottom, lessThanOrEqualTo(WelcomeHeroLayout.floorGap + WelcomeHeroLayout.maxSlide + 40), reason: 'room $room');
+        expect(night.image.width, lessThanOrEqualTo(kPhone.width * WelcomeHeroLayout.maxGrow + 0.01));
+        final day = WelcomeHeroLayout.day(kPhone, room: room, topLimit: 82);
+        expect(day.image.bottom, greaterThanOrEqualTo(room), reason: 'the daylit floor runs into the words');
+        expect(day.sheetX + 0.22 * day.image.width, lessThanOrEqualTo(kPhone.width), reason: 'the pinned sheet is whole on screen');
+      }
     });
   });
 
@@ -180,7 +199,7 @@ void main() {
 
     testWidgets('a double tap on the seal link seals once (regression)', (tester) async {
       final haptics = await _atPlan(tester);
-      final link = find.widgetWithText(KeyButton, OnboardingCopy.sealIt);
+      final link = find.byKey(PlanStep.tapToSealKey);
       await tester.tap(link);
       await _run(tester, 40);
       if (link.evaluate().isNotEmpty) await tester.tap(link, warnIfMissed: false);
@@ -192,7 +211,7 @@ void main() {
 
     testWidgets('Quiet strikes with no flecks', (tester) async {
       final haptics = await _atPlan(tester, mode: CelebrationMode.quiet);
-      await tester.tap(find.widgetWithText(KeyButton, OnboardingCopy.sealIt));
+      await tester.tap(find.byKey(PlanStep.tapToSealKey));
       await _run(tester, 400);
       expect(haptics.medium, 0);
       expect(_moment(tester).burst, 0);
@@ -202,7 +221,7 @@ void main() {
 
     testWidgets('Day draws the impression in code, no painted night room', (tester) async {
       await _atPlan(tester, brightness: Brightness.light);
-      await tester.tap(find.widgetWithText(KeyButton, OnboardingCopy.sealIt));
+      await tester.tap(find.byKey(PlanStep.tapToSealKey));
       await _run(tester, 400);
       expect(find.byType(SceneImage), findsNothing);
       expect(_moment(tester).reveal, 1);

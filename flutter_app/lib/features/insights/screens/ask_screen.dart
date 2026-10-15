@@ -288,8 +288,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final firstPending = state.messages.indexWhere((m) => m.sending);
     final settledNow = firstPending == -1 ? state.messages.length : firstPending;
     final settled = _settled;
-    // Only the newest reply's face moves; the faces of older replies hold still.
-    final newestReply = state.messages.lastIndexWhere((m) => !m.fromStudent);
     WidgetsBinding.instance.addPostFrameCallback((_) => _settled = settledNow < _settled ? _settled : settledNow);
 
     final asked = {for (final m in state.messages) if (m.fromStudent) m.text};
@@ -382,7 +380,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                     AskMessageView(
                                       message: m,
                                       animate: i >= settled,
-                                      newest: i == newestReply,
                                       citation: citationFor(m, record, evidence),
                                       onReport: m.isModel && canReport ? () => _report(m) : null,
                                       onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,

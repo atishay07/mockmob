@@ -52,8 +52,10 @@ sealed class ChoiceRow {
   /// The recommended choice: a hero, full width, lit, a large object and a go disc. One per screen at most.
   const factory ChoiceRow.lead(ChoiceOption option) = LeadRow;
 
-  /// Two borderless tonal tiles side by side, equal height.
-  const factory ChoiceRow.pair(ChoiceOption first, ChoiceOption second) = PairRow;
+  /// Two borderless tonal tiles side by side, equal height. With [weighted] the first leads (a wider,
+  /// lit tile) and the second steps back to a hairline: one primary and one secondary, never two
+  /// of the same weight.
+  const factory ChoiceRow.pair(ChoiceOption first, ChoiceOption second, {bool weighted}) = PairRow;
 
   /// A list row: no card, the object at the left, a rule under it.
   const factory ChoiceRow.wide(ChoiceOption option) = WideRow;
@@ -76,9 +78,12 @@ class LeadRow extends ChoiceRow {
 }
 
 class PairRow extends ChoiceRow {
-  const PairRow(this.first, this.second);
+  const PairRow(this.first, this.second, {this.weighted = false});
   final ChoiceOption first;
   final ChoiceOption second;
+
+  /// The first tile leads and the second steps back (see [ChoiceRow.pair]).
+  final bool weighted;
   @override
   List<ChoiceOption> get options => [first, second];
 }
@@ -194,7 +199,7 @@ class ChoiceDeck extends StatelessWidget {
       case LeadRow(:final option):
         final lead = LeadChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}'));
         return _rise(slot, leadKey == null ? lead : KeyedSubtree(key: leadKey, child: lead));
-      case PairRow(:final first, :final second):
+      case PairRow(:final first, :final second, :final weighted):
         return _rise(
           slot,
           IntrinsicHeight(
@@ -202,11 +207,23 @@ class ChoiceDeck extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Expanded(
-                  child: TileChoice(option: first, onSheet: onSheet, key: ValueKey('choice-${first.id ?? first.title}')),
+                  flex: weighted ? 11 : 10,
+                  child: TileChoice(
+                    option: first,
+                    onSheet: onSheet,
+                    weight: weighted ? TileWeight.primary : TileWeight.even,
+                    key: ValueKey('choice-${first.id ?? first.title}'),
+                  ),
                 ),
                 SizedBox(width: gap),
                 Expanded(
-                  child: TileChoice(option: second, onSheet: onSheet, key: ValueKey('choice-${second.id ?? second.title}')),
+                  flex: weighted ? 9 : 10,
+                  child: TileChoice(
+                    option: second,
+                    onSheet: onSheet,
+                    weight: weighted ? TileWeight.secondary : TileWeight.even,
+                    key: ValueKey('choice-${second.id ?? second.title}'),
+                  ),
                 ),
               ],
             ),
@@ -562,15 +579,28 @@ class _GoDisc extends StatelessWidget {
   }
 }
 
+/// How much a tile of a pair weighs: [even] is two equals (the quick-start sheet), [primary] leads
+/// (a larger, lit object on a lit fill) and [secondary] steps back (the object smaller, no fill,
+/// a hairline), so a pair on the Practice tab has one first choice, never two of the same weight.
+enum TileWeight { even, primary, secondary }
+
 /// A tile of a pair: borderless, a tonal step above the ground, its object large at the top left
 /// and the title and a short note at the bottom.
 class TileChoice extends StatelessWidget {
-  const TileChoice({super.key, required this.option, this.onSheet = false});
+  const TileChoice({super.key, required this.option, this.onSheet = false, this.weight = TileWeight.even});
 
   final ChoiceOption option;
   final bool onSheet;
+  final TileWeight weight;
 
   static const double objectSize = 72;
+
+  /// The object's box for [weight].
+  static double objectFor(TileWeight weight) => switch (weight) {
+    TileWeight.even => objectSize,
+    TileWeight.primary => 84,
+    TileWeight.secondary => 60,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -578,65 +608,110 @@ class TileChoice extends StatelessWidget {
     final type = context.mmType;
     final o = option;
     const radius = MmRadius.panelAll;
+    final primary = weight == TileWeight.primary;
+    final secondary = weight == TileWeight.secondary;
+    final glyphSize = objectFor(weight);
     return _ChoicePress(
       option: o,
-      builder: (context, pressed, motion) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: _tonalFill(colors, pressed: pressed, onSheet: onSheet),
-          shape: const RoundedSuperellipseBorder(borderRadius: radius),
-          shadows: colors.isNight || onSheet ? null : colors.cardShadow,
-        ),
-        child: CustomPaint(
-          foregroundPainter: EdgeLightPainter(
-            borderRadius: radius,
-            top: colors.edgeTop,
-            bottom: colors.edgeBottom.withValues(alpha: 0),
-            boost: pressed ? MmElevation.pressedEdgeBoost : 1,
-            sheen: false,
+      builder: (context, pressed, motion) {
+        // The secondary tile has no fill of its own: a hairline on the ground, and a faint ink
+        // wash while it is pressed.
+        final fill = secondary
+            ? (pressed ? colors.ink.withValues(alpha: 0.06) : null)
+            : _tonalFill(colors, pressed: pressed, onSheet: onSheet);
+        return DecoratedBox(
+          decoration: ShapeDecoration(
+            color: fill,
+            shape: RoundedSuperellipseBorder(borderRadius: radius, side: secondary ? BorderSide(color: colors.lineStrong) : BorderSide.none),
+            shadows: secondary || colors.isNight || onSheet ? null : colors.cardShadow,
           ),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 156),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Transform.translate(
-                        offset: const Offset(-4, 0),
-                        child: ChoiceGlyph(kind: o.glyph, size: objectSize, motion: motion),
-                      ),
-                      // The tag takes what the object leaves: on a 360 dp phone at large text a
-                      // "Pro" tag beside the 72 dp object would run past the tile's edge, so it
-                      // scales down to fit instead.
-                      if (o.tag != null) ...[
-                        const SizedBox(width: MmSpace.s4),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: MmSpace.s4),
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.topRight, child: _Tag(o.tag!)),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ],
+          child: CustomPaint(
+            foregroundPainter: secondary
+                ? null
+                : EdgeLightPainter(
+                    borderRadius: radius,
+                    top: colors.edgeTop,
+                    bottom: primary ? colors.edgeBottom : colors.edgeBottom.withValues(alpha: 0),
+                    boost: pressed ? MmElevation.pressedEdgeBoost : 1,
+                    sheen: false,
                   ),
-                  const SizedBox(height: MmSpace.s12),
-                  const Spacer(),
-                  Text(o.title, style: type.cardTitle.copyWith(fontSize: 17)),
-                  const SizedBox(height: 2),
-                  _note(context, o.note, type.caption.copyWith(color: colors.ink2), o.noteLines),
-                  if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
+            child: MmClip(
+              borderRadius: radius,
+              child: Stack(
+                children: [
+                  // The leading tile's own light: a pool of lamp light where its object sits and a
+                  // faint volt wash low on the left, as the lead of the quick-start sheet has.
+                  if (primary) ...[
+                    Positioned(
+                      left: -40,
+                      top: -50,
+                      width: 220,
+                      height: 200,
+                      child: LightField(
+                        pools: [
+                          LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.26 : 0.2), center: Alignment.center, radius: 0.5),
+                        ],
+                      ),
+                    ),
+                    Positioned(
+                      right: -60,
+                      bottom: -70,
+                      width: 200,
+                      height: 160,
+                      child: LightField(
+                        pools: [
+                          LightPool(color: colors.volt.withValues(alpha: colors.isNight ? 0.07 : 0.14), center: Alignment.center, radius: 0.5),
+                        ],
+                      ),
+                    ),
+                  ],
+                  ConstrainedBox(
+                    constraints: BoxConstraints(minHeight: primary ? 168 : 156),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Transform.translate(
+                                offset: const Offset(-4, 0),
+                                child: ChoiceGlyph(kind: o.glyph, size: glyphSize, lit: primary, motion: motion),
+                              ),
+                              // The tag takes what the object leaves: on a 360 dp phone at large text a
+                              // "Pro" tag beside the 72 dp object would run past the tile's edge, so it
+                              // scales down to fit instead.
+                              if (o.tag != null) ...[
+                                const SizedBox(width: MmSpace.s4),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(top: MmSpace.s4),
+                                    child: Align(
+                                      alignment: Alignment.topRight,
+                                      child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.topRight, child: _Tag(o.tag!)),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                          const SizedBox(height: MmSpace.s12),
+                          const Spacer(),
+                          Text(o.title, style: type.cardTitle.copyWith(fontSize: primary ? 19 : (secondary ? 16 : 17))),
+                          const SizedBox(height: 2),
+                          _note(context, o.note, type.caption.copyWith(color: colors.ink2), o.noteLines),
+                          if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

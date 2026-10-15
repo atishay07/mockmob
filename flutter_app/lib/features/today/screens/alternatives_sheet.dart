@@ -2,35 +2,42 @@
 // then the usual ways to practise, then Review. "Not today" hides only tonight's repair until
 // 4:00 AM or the next submitted paper; nothing in Review or the record changes. Costs are not
 // shown here: they live on the confirm sheet (brief section 8).
+//
+// Design critic 16 Oct, finding 17: the sheet speaks the Start sheet's language (its deck, its
+// lit objects and their gestures, its title cut) instead of four flat grey tiles, so the two
+// sheets for the same job read as one. Quick practice leads, Full mock and One chapter pair up,
+// Review runs as a list row, and "Not today" is a full 48 dp key with its line under it.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/haptics/haptics.dart';
 import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../practice/widgets/choice_deck.dart' show ChoiceDeck, ChoiceOption, ChoiceRow;
+import '../../practice/widgets/choice_glyphs.dart' show ChoiceGlyphKind;
 import '../copy.dart';
 import '../data/today_providers.dart';
 import '../logic/links.dart';
 import '../../../core/domain/repair_candidates.dart' show repairDurationOptions;
 import '../logic/move_builder.dart';
-import '../widgets/session_glyph.dart';
+
+/// The role a way to practise plays in the deck: the lead, one of the pair, or a list row.
+enum AlternativeRole { plan, lead, pair, row }
 
 class AlternativeRow {
-  const AlternativeRow({required this.title, required this.note, required this.location, required this.icon, this.glyph});
+  const AlternativeRow({required this.title, required this.note, required this.location, required this.glyph, required this.role});
 
   final String title;
   final String note;
   final String location;
-  final IconData icon;
 
-  /// The drawn sheet that shows the session's shape; plan rows from the server have none.
-  final SessionGlyphKind? glyph;
+  /// The Start sheet's drawn object for this kind of session.
+  final ChoiceGlyphKind glyph;
+  final AlternativeRole role;
 }
 
 /// The rows for [subject] (public or internal id), with the plan's native alternatives first.
@@ -38,11 +45,28 @@ List<AlternativeRow> alternativeRows({String? subject, List<({String title, Stri
   return [
     for (final a in plan.take(2))
       if (ActionRouter.resolve(a.href) case NativeTarget(:final location))
-        AlternativeRow(title: a.title, note: a.note ?? '', location: location, icon: LucideIcons.sparkles),
-    AlternativeRow(title: TodayCopy.altFullMock, note: TodayCopy.altFullMockLine, location: TodayLinks.fullMock(subject: subject), icon: LucideIcons.fileText, glyph: SessionGlyphKind.fullMock),
-    AlternativeRow(title: TodayCopy.altQuick, note: TodayCopy.altQuickLine, location: TodayLinks.quick(subject: subject), icon: LucideIcons.zap, glyph: SessionGlyphKind.quick),
-    AlternativeRow(title: TodayCopy.altChapter, note: TodayCopy.altChapterLine, location: AppRoutes.practiceSetup('chapter'), icon: LucideIcons.bookOpen, glyph: SessionGlyphKind.chapter),
-    const AlternativeRow(title: TodayCopy.altReview, note: TodayCopy.altReviewLine, location: AppRoutes.review, icon: LucideIcons.listChecks, glyph: SessionGlyphKind.review),
+        AlternativeRow(title: a.title, note: a.note ?? '', location: location, glyph: ChoiceGlyphKind.smart, role: AlternativeRole.plan),
+    AlternativeRow(title: TodayCopy.altQuick, note: TodayCopy.altQuickLine, location: TodayLinks.quick(subject: subject), glyph: ChoiceGlyphKind.quick, role: AlternativeRole.lead),
+    AlternativeRow(title: TodayCopy.altFullMock, note: TodayCopy.altFullMockLine, location: TodayLinks.fullMock(subject: subject), glyph: ChoiceGlyphKind.mock, role: AlternativeRole.pair),
+    AlternativeRow(title: TodayCopy.altChapter, note: TodayCopy.altChapterLine, location: AppRoutes.practiceSetup('chapter'), glyph: ChoiceGlyphKind.chapter, role: AlternativeRole.pair),
+    const AlternativeRow(title: TodayCopy.altReview, note: TodayCopy.altReviewLine, location: AppRoutes.review, glyph: ChoiceGlyphKind.repair, role: AlternativeRole.row),
+  ];
+}
+
+/// The deck's rows for [rows]: plan rows and the review row as list rows, the lead as the lit
+/// hero, and the pair side by side (a lone one of a pair runs as a list row).
+List<ChoiceRow> alternativeDeck(List<AlternativeRow> rows, ValueChanged<AlternativeRow> onRow) {
+  ChoiceOption option(AlternativeRow r) => ChoiceOption(id: r.title, glyph: r.glyph, title: r.title, note: r.note, onTap: () => onRow(r));
+  final pair = [for (final r in rows) if (r.role == AlternativeRole.pair) r];
+  return [
+    for (final r in rows)
+      if (r.role == AlternativeRole.plan) ChoiceRow.wide(option(r)),
+    for (final r in rows)
+      if (r.role == AlternativeRole.lead) ChoiceRow.lead(option(r)),
+    if (pair.length >= 2) ChoiceRow.pair(option(pair[0]), option(pair[1])) else for (final r in pair) ChoiceRow.wide(option(r)),
+    for (final r in pair.skip(2)) ChoiceRow.wide(option(r)),
+    for (final r in rows)
+      if (r.role == AlternativeRole.row) ChoiceRow.wide(option(r)),
   ];
 }
 
@@ -95,6 +119,7 @@ class AlternativesSheetBody extends StatelessWidget {
     this.durations = const [],
     this.minutes,
     this.onMinutes,
+    this.animateIn = true,
   });
 
   final List<AlternativeRow> rows;
@@ -106,18 +131,25 @@ class AlternativesSheetBody extends StatelessWidget {
   final ValueChanged<AlternativeRow> onRow;
   final VoidCallback? onNotToday;
 
+  /// Whether the deck's rows rise in one after another (off for goldens).
+  final bool animateIn;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s4, MmSpace.s20, MmSpace.s20),
+      padding: const EdgeInsets.fromLTRB(MmSpace.sheetSide, MmSpace.s4, MmSpace.sheetSide, MmSpace.s20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Semantics(header: true, child: Text(TodayCopy.alternativesTitle, style: type.title)),
-          const SizedBox(height: MmSpace.s12),
+          // The Start sheet's title cut, so the two sheets for one job read as one.
+          Semantics(
+            header: true,
+            child: Text(TodayCopy.alternativesTitle, style: type.screenTitle.copyWith(fontSize: 24), maxLines: 2, overflow: TextOverflow.ellipsis),
+          ),
+          const SizedBox(height: MmSpace.s16),
           if (durations.length > 1 && minutes != null) ...[
             Text(TodayCopy.repairLength, style: type.labelLarge),
             const SizedBox(height: MmSpace.s8),
@@ -129,155 +161,17 @@ class AlternativesSheetBody extends StatelessWidget {
             ),
             const SizedBox(height: MmSpace.s20),
           ],
-          // The plan's own suggestions as rows, then the usual ways to practise as a 2 by 2 set
-          // of cells divided by hairlines, each with its drawn paper: the shape says how big it is.
-          for (final r in rows.where((r) => r.glyph == null)) ...[
-            _AlternativeTile(row: r, onTap: () => onRow(r)),
-            const SizedBox(height: MmSpace.s8),
-          ],
-          _TileGrid(rows: [for (final r in rows) if (r.glyph != null) r], onRow: onRow),
-          Divider(height: 1, thickness: 1, color: colors.line),
-          const SizedBox(height: MmSpace.s8),
+          ChoiceDeck(rows: alternativeDeck(rows, onRow), onSheet: true, animateIn: animateIn),
           if (onNotToday != null) ...[
-            const SizedBox(height: MmSpace.s4),
-            Center(child: KeyButton.quiet(label: TodayCopy.notToday, onPressed: onNotToday)),
+            const SizedBox(height: MmSpace.s16),
+            Divider(height: 1, thickness: 1, color: colors.line),
+            const SizedBox(height: MmSpace.s12),
+            // A real key, 48 dp tall, with what it does on the line under it.
+            KeyButton.secondary(label: TodayCopy.notToday, onPressed: onNotToday, minHeight: MmTarget.min),
+            const SizedBox(height: MmSpace.s8),
             Text(TodayCopy.notTodayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink2)),
           ],
         ],
-      ),
-    );
-  }
-}
-
-/// One way to practise: an icon, the title and its line, and a chevron. A row opens its screen
-/// when tapped, so it carries no selection ring. 56 dp minimum.
-class _AlternativeTile extends ConsumerWidget {
-  const _AlternativeTile({required this.row, required this.onTap});
-
-  final AlternativeRow row;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return MmPressable(
-      semanticsLabel: row.note.isEmpty ? row.title : '${row.title}. ${row.note}',
-      focusRadius: MmRadius.keyAll,
-      onTap: () {
-        ref.read(hapticsProvider).selection();
-        onTap();
-      },
-      builder: (context, pressed, _) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: MmSelection.fill(colors, selected: false, pressed: pressed),
-          shape: mmShapeBorder(MmRadius.keyAll, side: MmSelection.side(colors, selected: false)),
-        ),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 56),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s8, MmSpace.s12, MmSpace.s8),
-            child: Row(
-              children: [
-                Icon(row.icon, size: 20, color: colors.ink2),
-                const SizedBox(width: MmSpace.s12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(row.title, style: type.body.copyWith(fontWeight: FontWeight.w500, color: colors.ink)),
-                      if (row.note.isNotEmpty) ...[
-                        const SizedBox(height: 2),
-                        Text(row.note, style: type.caption.copyWith(color: colors.ink3)),
-                      ],
-                    ],
-                  ),
-                ),
-                const SizedBox(width: MmSpace.s8),
-                Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// Two ways to practise a row, divided by hairlines (a cross, not four boxes); a lone last one
-/// keeps half the width so the set stays a grid. The left column starts on the sheet's left
-/// edge, like everything else on it.
-class _TileGrid extends StatelessWidget {
-  const _TileGrid({required this.rows, required this.onRow});
-
-  final List<AlternativeRow> rows;
-  final ValueChanged<AlternativeRow> onRow;
-
-  @override
-  Widget build(BuildContext context) {
-    final line = context.mmColors.line;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (var i = 0; i < rows.length; i += 2) ...[
-          Divider(height: 1, thickness: 1, color: line),
-          IntrinsicHeight(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(child: _GlyphTile(row: rows[i], onTap: () => onRow(rows[i]), start: true)),
-                VerticalDivider(width: 1, thickness: 1, color: line),
-                Expanded(child: i + 1 < rows.length ? _GlyphTile(row: rows[i + 1], onTap: () => onRow(rows[i + 1])) : const SizedBox.shrink()),
-              ],
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-/// One way to practise: its drawn paper at 56 dp, the title and what you get. Opens its screen
-/// when tapped (no selection ring); it sinks and tints while pressed.
-class _GlyphTile extends ConsumerWidget {
-  const _GlyphTile({required this.row, required this.onTap, this.start = false});
-
-  final AlternativeRow row;
-  final VoidCallback onTap;
-
-  /// The left column: no inset on its own left edge.
-  final bool start;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return MmPressable(
-      semanticsLabel: row.note.isEmpty ? row.title : '${row.title}. ${row.note}',
-      focusRadius: MmRadius.smallAll,
-      onTap: () {
-        ref.read(hapticsProvider).selection();
-        onTap();
-      },
-      builder: (context, pressed, _) => DecoratedBox(
-        decoration: BoxDecoration(color: pressed ? colors.ink.withValues(alpha: 0.05) : null),
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(start ? 0 : MmSpace.s16, MmSpace.s20, MmSpace.s12, MmSpace.s20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SessionGlyph(kind: row.glyph!),
-              const SizedBox(height: MmSpace.s16),
-              Text(row.title, style: type.labelLarge.copyWith(color: colors.ink)),
-              if (row.note.isNotEmpty) ...[
-                const SizedBox(height: 2),
-                Text(row.note, style: type.caption.copyWith(color: colors.ink2)),
-              ],
-            ],
-          ),
-        ),
       ),
     );
   }

@@ -34,8 +34,10 @@ abstract final class EditCopy {
   // The sheet editor.
   static const sheetTitle = 'Your plan';
   static const sheetIntro = 'Change anything. Today plans from it.';
-  static const editSheet = 'Edit';
-  static const editSheetLabel = 'Edit your plan';
+  static const editSheet = 'Edit profile';
+  /// The label when text is enlarged and "Edit profile" would not fit beside the title and the account key.
+  static const editSheetShort = 'Edit';
+  static const editSheetLabel = 'Edit your profile';
   static const groupAbout = 'About you';
   static const groupTarget = 'Your target';
   static const groupSubjects = 'Subjects';

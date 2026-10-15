@@ -16,10 +16,10 @@ import '../data/practice_question.dart';
 import '../data/saved_repository.dart';
 import '../data/subject_names.dart';
 import '../insights_paths.dart';
-import '../widgets/edge_fade.dart';
 import '../widgets/gesture_motion.dart';
 import '../widgets/insights_bits.dart';
 import '../widgets/practice_card.dart';
+import '../widgets/rail_bleed.dart';
 import '../widgets/saved_bits.dart';
 
 /// `/review/saved` (website Saved): the questions the student kept for another go. Practise
@@ -265,19 +265,14 @@ class _SubjectChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EdgeFade(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        clipBehavior: Clip.none,
-        child: Row(
-          children: [
-            MmChip(label: InsightsCopy.allSubjects, selected: selected == null, onTap: () => onSelect(null)),
-            for (final s in subjects) ...[
-              const SizedBox(width: MmSpace.s8),
-              MmChip(label: subjectDisplayName(s), selected: selected == s, onTap: () => onSelect(s)),
-            ],
-          ],
-        ),
+    final labels = [InsightsCopy.allSubjects, for (final s in subjects) subjectDisplayName(s)];
+    final at = selected == null ? 0 : subjects.indexOf(selected!) + 1;
+    return RailBleed(
+      child: ChipRail.labelled(
+        labels: labels,
+        selected: at < 0 ? 0 : at,
+        onSelected: (i) => onSelect(i == 0 ? null : subjects[i - 1]),
+        semanticLabel: InsightsCopy.savedSubjects,
       ),
     );
   }

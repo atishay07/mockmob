@@ -37,7 +37,17 @@ class SheetCard extends StatefulWidget {
     this.now,
     this.showTarget = true,
     this.onEditName,
+    this.showWeek = true,
+    this.weekKey,
   });
+
+  /// False leaves the week field off: the hub shows it inside its one Study block (critic 16 Oct,
+  /// finding 27), so the ring is not drawn twice on one screen.
+  final bool showWeek;
+
+  /// The key of the week field when it stands somewhere else (the hub's Study block), so Mobi can
+  /// still point at it while it is on screen. Null uses this card's own key.
+  final GlobalKey? weekKey;
 
   /// Opens the name editor. The name stands as a key (a small pencil follows it) when this is set.
   final VoidCallback? onEditName;
@@ -75,7 +85,8 @@ class SheetCard extends StatefulWidget {
 
 class _SheetCardState extends State<SheetCard> {
   final MobiController _mobi = MobiController();
-  final GlobalKey _weekKey = GlobalKey();
+  final GlobalKey _ownWeekKey = GlobalKey();
+  GlobalKey get _weekKey => widget.weekKey ?? _ownWeekKey;
   Timer? _later;
   bool _read = false;
   MobiAct _entrance = MobiAct.idle;
@@ -150,6 +161,9 @@ class _SheetCardState extends State<SheetCard> {
   /// Spends the reading's once-a-day gate and schedules its words or its point. Returns the act
   /// to play now. A reading whose gate is already spent today is just a still Mobi.
   MobiAct _consume(HubMobiReading reading) {
+    // The week is not on this card (it stands lower down, in the Study block): a point at it would
+    // aim at nothing, so the nudge waits, unspent, for a card that has the field.
+    if (!widget.showWeek && reading.gate == HubMobiGate.nudge) return MobiAct.idle;
     // A goal the server has counted as met keeps a proud face all week (a calm one under Off),
     // whether or not today's act is spent: the face is a state, the act is a moment.
     _mobi.setMood(reading.gate == HubMobiGate.met && widget.celebrations != CelebrationMode.off ? MobiMood.proud : MobiMood.calm);
@@ -242,8 +256,10 @@ class _SheetCardState extends State<SheetCard> {
             ],
           ),
         ),
-        const SizedBox(height: MmSpace.s16),
-        KeyedSubtree(key: _weekKey, child: WeekField(week: week, onOpen: widget.onOpenRhythm)),
+        if (widget.showWeek) ...[
+          const SizedBox(height: MmSpace.s16),
+          KeyedSubtree(key: _weekKey, child: WeekField(week: week, onOpen: widget.onOpenRhythm)),
+        ],
         if (widget.showTarget)
           TargetFields(target: target, subjects: subjects, onEdit: onEdit, onEditSubjects: onEditSubjects),
       ],

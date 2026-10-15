@@ -18,6 +18,7 @@ class StepLayout extends StatelessWidget {
     this.bottom,
     this.scroll = true,
     this.titleKey,
+    this.endInset = fade + MmSpace.s8,
   });
 
   final String title;
@@ -30,6 +31,14 @@ class StepLayout extends StatelessWidget {
 
   /// On the question, for tests that measure it.
   final Key? titleKey;
+
+  /// The room under the last answer when the list is scrolled to its end, so it comes fully
+  /// clear of the fade and the key. A step whose answers end in a row of tiles takes more
+  /// ([tileEndInset]).
+  final double endInset;
+
+  /// The end inset of a step whose last answers are tiles (the rhythm step's times).
+  static const double tileEndInset = 72;
 
   /// The fade above the pinned key (SPACING.md 4.5).
   static const double fade = MmSpace.s24;
@@ -74,7 +83,7 @@ class StepLayout extends StatelessWidget {
     final content = scroll
         ? SingleChildScrollView(
             // Clear of the fade above the pinned key, so the last choice can scroll fully clear.
-            padding: const EdgeInsets.only(bottom: fade + MmSpace.s8),
+            padding: EdgeInsets.only(bottom: endInset),
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, body]),
           )
         : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, Expanded(child: body)]);

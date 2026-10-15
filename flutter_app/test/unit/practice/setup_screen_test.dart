@@ -262,9 +262,11 @@ void main() {
     expect(find.bySemanticsLabel('Mock 7, Accountancy'), findsOneWidget);
     expect(text('50 questions, 60 minutes.'), findsOneWidget);
     expect(text('+5 right, −1 wrong, 0 not attempted'), findsOneWidget);
-    await tester.scrollUntilVisible(text('The timer keeps running if you leave the app. Submit ends the mock.'), 120, scrollable: find.byType(Scrollable).first);
-    expect(text('The timer keeps running if you leave the app. Submit ends the mock.'), findsOneWidget);
-    expect(text('For fewer interruptions, turn on Do Not Disturb from Quick Settings.'), findsOneWidget);
+    await tester.scrollUntilVisible(text('Timer keeps running'), 120, scrollable: find.byType(Scrollable).first);
+    // The three things to know are one icon row (the full sentences are what a screen reader hears).
+    expect(text('Submit ends the mock'), findsOneWidget);
+    expect(text('Do Not Disturb on'), findsOneWidget);
+    expect(text('Water, pencil, rough sheet.'), findsOneWidget);
     // The ticket-mode line needs a ticket-mode session, which only exists after the start.
     expect(find.textContaining('open MockMob again'), findsNothing);
     await tester.ensureVisible(text('Start mock'));

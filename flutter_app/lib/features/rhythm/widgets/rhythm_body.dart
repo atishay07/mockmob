@@ -30,7 +30,6 @@ import '../logic/week_view.dart';
 import 'rhythm_layout.dart';
 import 'rhythm_page.dart';
 import '../logic/plan_week.dart';
-import 'plan_week_strip.dart';
 import 'week_mobi_slot.dart';
 import 'run_ribbon.dart';
 import 'week_dial.dart';
@@ -463,33 +462,29 @@ class _WeekHeroState extends ConsumerState<WeekHero> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  PlanWeekStrip(
-                    days: days,
-                    bubble: 28,
-                    showDates: true,
-                    daySemantics: true,
+                  // The shared study week: the days with their dates, and the key only on the
+                  // first view and on a long press (it never takes a line of its own after that).
+                  StudyWeek(
+                    days: bubbleWeek(days),
+                    variant: StudyWeekVariant.full,
                     animateIn: true,
                     selected: _selected,
-                    onDay: (d) => setState(() => _selected = _selected == d.index ? null : d.index),
+                    onDay: (i) => setState(() => _selected = _selected == i ? null : i),
                   ),
-                  const SizedBox(height: MmSpace.s4),
-                  // One slot for the legend and for the chosen day in words: a tap swaps them with
-                  // a 160 ms cross-fade and the card never changes height, so nothing below it
-                  // moves (MOTION.md 10).
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(minHeight: MmSpace.s20),
+                  // The chosen day in words: the card grows by one line and folds back, and it is
+                  // the last thing on the screen's hero, so nothing below it is pushed over.
+                  MmSizeEase(
+                    duration: Motion.of(context, const Duration(milliseconds: 160)),
+                    curve: Motion.emphasized,
+                    alignment: Alignment.topCenter,
                     child: AnimatedSwitcher(
                       duration: Motion.of(context, const Duration(milliseconds: 160)),
-                      layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+                      layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
                       child: picked == null
-                          ? Padding(
-                              key: const ValueKey('legend'),
-                              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
-                              child: Align(alignment: Alignment.centerLeft, child: PlanWeekKey(days: days)),
-                            )
+                          ? const SizedBox(key: ValueKey('no-day'), width: double.infinity)
                           : Padding(
                               key: ValueKey('day-${picked.index}'),
-                              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8),
+                              padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s4, MmSpace.s8, MmSpace.s4),
                               child: Semantics(
                                 liveRegion: true,
                                 child: Text(_sentence(picked), style: type.small.copyWith(color: colors.ink2)),

@@ -92,7 +92,7 @@ void main() {
   testWidgets('fields with nothing in them are left off, never shown as unknown', (tester) async {
     await _pumpHub(tester);
     expect(find.text('Course'), findsNothing);
-    expect(find.text('Colleges'), findsNothing);
+    expect(find.text('Colleges'), findsOneWidget, reason: 'only the section chip: no Colleges field');
     expect(find.textContaining('unknown'), findsNothing);
   });
 
@@ -156,7 +156,8 @@ void main() {
     expect(find.text('Practice credits'), findsOneWidget);
     expect(find.text('AI credits'), findsOneWidget);
     expect(find.text('See history'), findsOneWidget);
-    expect(find.text('Free plan'), findsOneWidget);
+    expect(find.text('Free'), findsOneWidget);
+    expect(find.text('Free plan'), findsNothing);
     expect(find.text('Renews 1 November'), findsOneWidget);
     await tester.tap(find.text('See history'));
     await tester.pumpAndSettle();

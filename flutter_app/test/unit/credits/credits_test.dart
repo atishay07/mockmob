@@ -118,6 +118,8 @@ void main() {
       expect(CreditsCopy.line(o.history[1]), 'Used 1 AI credit. 9 AI credits left.');
       expect(CreditsCopy.line(o.history[2]), 'Added 10 Practice credits. 50 Practice credits left.');
       expect(CreditsCopy.line(o.history[3]), 'Added 1 AI credit. 11 AI credits left.');
+      expect(CreditsCopy.left(o.history[0]), '40 left');
+      expect(CreditsCopy.tag(o.history[1]), 'AI credits');
     });
 
     test('there are two credit names only, and no banned punctuation', () {
@@ -170,15 +172,19 @@ void main() {
       await pump(tester, mine: _loaded());
       expect(find.text('Practice credits'), findsWidgets);
       expect(find.text('AI credits'), findsWidgets);
-      expect(find.text('Free plan'), findsOneWidget);
+      expect(find.text('Free'), findsOneWidget);
+      expect(find.text('Free plan'), findsNothing, reason: 'the pill says it once');
       expect(_card('Practice credits, 40. For mocks and practice sets'), findsOneWidget);
       expect(_card('AI credits, 9. For Ask Mobi and repair explanations'), findsOneWidget);
       expect(find.text('Renews 1 November'), findsOneWidget);
       expect(find.text('Practice set'), findsOneWidget);
       expect(find.text('Repair, Q2 Accountancy'), findsOneWidget);
-      expect(find.text('Used 10 Practice credits. 40 Practice credits left.'), findsOneWidget);
-      expect(find.text('Used 1 AI credit. 9 AI credits left.'), findsOneWidget);
-      expect(find.text('Added 1 AI credit. 11 AI credits left.'), findsOneWidget);
+      // The value column says what is left; the long sentence is for TalkBack only.
+      expect(find.text('40 left'), findsWidgets);
+      expect(find.text('9 left'), findsWidgets);
+      expect(find.text('11 left'), findsWidgets);
+      expect(find.text('Used 10 Practice credits. 40 Practice credits left.'), findsNothing);
+      expect(find.bySemanticsLabel(RegExp('Used 10 Practice credits. 40 Practice credits left.')), findsOneWidget);
       expect(find.text('Today'), findsOneWidget);
       expect(find.text('Yesterday'), findsOneWidget);
       expect(find.text('Show earlier'), findsNothing, reason: 'the fixture has no further page');

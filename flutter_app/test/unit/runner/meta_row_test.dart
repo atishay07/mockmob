@@ -13,7 +13,7 @@ import 'support/harness.dart';
 
 /// The line under the runner's top bar (walk-through round 3, P3-3): a long chapter name used to
 /// be cut to "Business Studies, Princi..." beside the "Open until" chip at normal text size. The time
-/// now lives in the top bar, so the subject has the whole line.
+/// now lives in the Questions sheet (finding 4), so the subject has the whole line.
 void main() {
   setUpAll(loadAppFonts);
 
@@ -46,11 +46,10 @@ void main() {
     final paragraph = subjectParagraph(tester, longChapter);
     expect(paragraph.didExceedMaxLines, isFalse, reason: 'nothing is cut with an ellipsis');
     expect(paragraph.size.height, lessThanOrEqualTo(2 * 18 + 1), reason: 'at most two caption lines');
-    // The time a practice is open until sits in the top bar, where a mock has its clock: it is
-    // not on this line, so it can never touch the subject.
+    // The time a practice is open until sits in the Questions sheet (see the palette tests): it is
+    // not on this line, nor in the top bar, so it can never touch the subject.
     expect(find.descendant(of: find.byType(RunnerMetaRow), matching: find.textContaining('Open until')), findsNothing);
-    expect(find.descendant(of: find.byType(RunnerTopBar), matching: find.text('11:42 PM')), findsOneWidget);
-    expect(find.descendant(of: find.byType(RunnerTopBar), matching: find.text('Open until')), findsOneWidget);
+    expect(find.descendant(of: find.byType(RunnerTopBar), matching: find.textContaining('Open until')), findsNothing);
   });
 
   for (final scale in [1.0, 1.3]) {
@@ -66,7 +65,7 @@ void main() {
 
       expect(long, short, reason: 'the lines are reserved, so nothing under the line moves');
       expect(subjectParagraph(tester, longChapter).didExceedMaxLines, isFalse, reason: 'the long name fits at ${scale}x');
-      expect(find.text('11:42 PM'), findsOneWidget);
+      expect(find.textContaining('Open until'), findsNothing, reason: 'the time moved into the Questions sheet');
       if (scale == 1.0) expect(short, RunnerMetaRow.height);
     });
   }

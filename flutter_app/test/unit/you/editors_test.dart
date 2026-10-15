@@ -60,7 +60,7 @@ void main() {
   group('hub', () {
     testWidgets('Edit opens the sheet editor', (tester) async {
       await _pump(tester, const YouHubScreen(), height: 6000);
-      await tester.tap(find.bySemanticsLabel('Edit your plan'));
+      await tester.tap(find.bySemanticsLabel('Edit your profile'));
       await tester.pumpAndSettle();
       expect(find.byType(SheetEditorScreen), findsOneWidget);
     });

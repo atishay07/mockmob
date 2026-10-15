@@ -206,7 +206,7 @@ class _CreditsScreenState extends ConsumerState<CreditsScreen> {
   }
 }
 
-/// The plan, as a tag and a line: "Free plan", or "Pro until 12 January 2027". No price and no
+/// The plan: the "Free" pill alone, or the "Pro" pill with "Pro until 12 January 2027". No price and no
 /// way to buy here.
 class _PlanLine extends StatelessWidget {
   const _PlanLine({required this.figures});
@@ -219,14 +219,18 @@ class _PlanLine extends StatelessWidget {
     final type = context.mmType;
     final pro = figures.isPro;
     final until = figures.proUntil;
-    final line = pro ? (until == null ? CreditsCopy.planProActive : CreditsCopy.planUntil(until)) : CreditsCopy.planFreeLine;
+    final line = pro ? (until == null ? CreditsCopy.planProActive : CreditsCopy.planUntil(until)) : null;
+    // Free is the pill alone: "Free" and "Free plan" side by side said the same thing twice
+    // (critic 16 Oct, finding 27/28). Pro keeps its line, because the date is news.
     return Padding(
       padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
       child: Row(
         children: [
           PlanTag(pro: pro),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
+          if (line != null) ...[
+            const SizedBox(width: MmSpace.s12),
+            Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
+          ],
         ],
       ),
     );

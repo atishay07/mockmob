@@ -8,9 +8,12 @@ import '../copy.dart';
 import 'runner_controls.dart';
 import 'runner_count.dart';
 
-/// The runner's top bar (spec 5.5): leave, "12 of 50", the timer and the Questions key. The
-/// count and the timer are the only condensed type on the screen; neither moves, and both grow
+/// The runner's top bar (spec 5.5): leave, "12 of 50", the timer and the Questions key, one row.
+/// The count and the timer are the only condensed type on the screen; neither moves, and both grow
 /// with the same text scale (chrome: up to 1.3x), so neither ever shrinks against the other.
+///
+/// A practice has no clock, so its count is a pill (the one fact of the bar, with the dots of the
+/// track right under it) and "Open until 11:42 PM" lives in the Questions sheet, not up here.
 ///
 /// In a mock the timer sits in the middle of the bar, in a slot of its own with equal room on
 /// either side. From [compactScale] (or on a phone too narrow for the labelled key) the Questions
@@ -22,7 +25,6 @@ class RunnerTopBar extends StatelessWidget {
     required this.total,
     required this.isMock,
     required this.remaining,
-    this.openUntil,
     required this.onLeave,
     required this.onQuestions,
   });
@@ -35,9 +37,6 @@ class RunnerTopBar extends StatelessWidget {
   /// Null hides the timer (the practice skin).
   final ValueListenable<Duration>? remaining;
 
-  /// "Open until 11:42 PM": the one fact a practice has instead of a clock, quiet text in the slot
-  /// the mock's timer has. Null in a mock.
-  final String? openUntil;
   final VoidCallback onLeave;
   final VoidCallback onQuestions;
 
@@ -60,15 +59,31 @@ class RunnerTopBar extends StatelessWidget {
         builder: (context, box) {
           final scale = MediaQuery.textScalerOf(context).scale(1);
           final timed = remaining != null;
-          final compact = scale >= compactScale || ((timed || openUntil != null) && box.maxWidth < narrowWidth);
+          final compact = scale >= compactScale || (timed && box.maxWidth < narrowWidth);
           final leave = RoundIconKey(icon: LucideIcons.x, semanticsLabel: RunnerCopy.leaveSemantics(isMock), onTap: onLeave);
-          final count = RunnerCount(
+          final plainCount = RunnerCount(
             current: current,
             total: total,
             style: figure,
             unitColor: colors.ink2,
             semanticsLabel: RunnerCopy.countSemantics(current, total),
           );
+          // With no clock beside it the count is a pill: 44 dp tall like the keys either side.
+          final count = timed
+              ? plainCount
+              : DecoratedBox(
+                  decoration: ShapeDecoration(
+                    color: colors.raised,
+                    shape: StadiumBorder(side: BorderSide(color: colors.line)),
+                  ),
+                  child: SizedBox(
+                    height: 44,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
+                      child: Center(widthFactor: 1, child: plainCount),
+                    ),
+                  ),
+                );
           final key = SheetKey(onTap: onQuestions, compact: compact);
           final Widget row;
           if (timed && !compact) {
@@ -112,11 +127,6 @@ class RunnerTopBar extends StatelessWidget {
                 if (timed) ...[
                   const SizedBox(width: MmSpace.s8),
                   RunnerTimer(remaining: remaining!, style: figure),
-                  const SizedBox(width: MmSpace.s12),
-                ],
-                if (openUntil != null) ...[
-                  const SizedBox(width: MmSpace.s8),
-                  _OpenUntil(text: openUntil!),
                   const SizedBox(width: MmSpace.s12),
                 ],
                 key,
@@ -163,41 +173,6 @@ class RunnerTimer extends StatelessWidget {
             child: Text(formatTimer(left), style: style.copyWith(color: tone)),
           );
         },
-      ),
-    );
-  }
-}
-
-/// "Open until 11:42 PM" on two short lines, right-aligned against the Questions key.
-class _OpenUntil extends StatelessWidget {
-  const _OpenUntil({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    // "Open until" over the time, so the time is one unbroken piece.
-    final at = text.lastIndexOf(' ', text.length - 4);
-    final head = at < 0 ? text : text.substring(0, at);
-    final tail = at < 0 ? '' : text.substring(at + 1);
-    return Semantics(
-      label: text,
-      excludeSemantics: true,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(head, style: type.caption.copyWith(color: colors.ink3, height: 1.2), maxLines: 1, softWrap: false),
-          if (tail.isNotEmpty)
-            Text(
-              tail,
-              style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, height: 1.2),
-              maxLines: 1,
-              softWrap: false,
-            ),
-        ],
       ),
     );
   }

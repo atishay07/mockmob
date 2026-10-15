@@ -20,7 +20,7 @@ import 'hero_stage.dart';
 import 'mobi_moment.dart';
 import 'move_keys.dart';
 import 'number_block.dart';
-import 'show_me_tag.dart';
+import 'length_pill.dart';
 import 'today_entrance.dart';
 import 'today_type.dart';
 
@@ -168,6 +168,8 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
     );
 
     final evidence = m.evidenceId != null && onShowMe != null;
+    // The move can change size: its length is the pill beside the key.
+    final sized = m.durations.length > 1;
     final content = Padding(
       // The card's own rhythm (SPACING.md 3.2): 20 at the top and 20 at the bottom.
       padding: const EdgeInsets.all(MmSpace.cardPadding),
@@ -183,9 +185,10 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // The line under the number changes with the chip ("3 of the 4 open mistakes" to
-                // "All 4"): the words overlap on the shared rule and the card's height eases with a
-                // second line instead of jumping.
+                // The line under the number changes with the length ("3 of the 4 open mistakes"
+                // to "Every open mistake"): the words overlap on the shared rule and the card's
+                // height eases with a second line instead of jumping. "Show me" ends the sentence
+                // as its link, so the evidence is one tap away without a control of its own.
                 MmSizeEase(
                   duration: Motion.ui,
                   curve: Motion.out,
@@ -193,70 +196,70 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                   clipBehavior: Clip.none,
                   child: MmOverlapSwitcher.fade(
                     alignment: Alignment.topLeft,
-                    child: Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: bodyColor)),
+                    child: evidence
+                        ? MeaningWithShowMe(key: ValueKey(m.meaning), text: m.meaning, color: bodyColor, marks: m.evidence, onShowMe: onShowMe)
+                        : Text(m.meaning, key: ValueKey(m.meaning), style: type.body.copyWith(color: bodyColor)),
                   ),
                 ),
                 if (headlineBelow) ...[
                   const SizedBox(height: MmSpace.s8),
                   Text(m.headline!, style: type.caption.copyWith(color: colors.ink2)),
                 ],
-                if (m.basisLine != null || evidence) ...[
+                if (m.basisLine != null) ...[
                   const SizedBox(height: MmSpace.s8),
-                  Row(
-                    children: [
-                      if (evidence) ...[ShowMeTag(onTap: onShowMe, marks: m.evidence), const SizedBox(width: MmSpace.s12)],
-                      if (m.basisLine != null) Expanded(child: Text(m.basisLine!, style: type.caption.copyWith(color: colors.ink3))),
-                    ],
-                  ),
+                  Text(m.basisLine!, style: type.caption.copyWith(color: colors.ink3)),
                 ],
               ],
             ),
           ),
-          // Whenever the move can change size the chips are here, and the key says the same
-          // length the chip does: a repair in minutes, practice in questions.
-          if (m.durations.length > 1) ...[
-            const SizedBox(height: MmSpace.s16),
-            if (m.durationPrompt != null) ...[
-              Text(m.durationPrompt!, style: type.labelLarge),
-              const SizedBox(height: MmSpace.s8),
-            ],
-            KeyedSubtree(
-              key: widget.controlsKey,
-              child: MmSegmented<int>(
-                semanticsLabel: m.durationPrompt ?? (m.durations.first.questions == null ? TodayCopy.repairLength : TodayCopy.practiceLength),
-                segments: [for (final d in m.durations) MmSegment(d.minutes, d.label)],
-                value: m.selectedMinutes ?? m.durations.first.minutes,
-                onChanged: onMinutes,
-              ),
-            ),
-          ],
           const SizedBox(height: MmSpace.s16),
           // Offline, the reason stands above the key where the eye is, not under it (that part
           // of the card sits behind the dock at rest).
           // It opens and closes with the connection instead of cutting in above the key.
           KeyReveal(show: blocked, child: const Padding(padding: EdgeInsets.only(bottom: MmSpace.s8), child: _NeedsConnection())),
-          LayoutBuilder(
-            key: primaryKey,
-            builder: (context, box) => _Pulse(
-              pulse: widget.keyPulse,
-              child: KeyButton(
-                label: fitKeyLabel(context, m.primary, box.maxWidth),
-                semanticsLabel: m.primary.label,
-                onPressed: blocked
-                    ? null
-                    : () {
-                        // The card grows into the page it opens (MOTION.md C4): the router's
-                        // container pages take this rect; any other page ignores it. Its object
-                        // flies on into the page when that page shows the same subject (M2).
-                        if (m.primary.target is GoTo) {
-                          MmLaunchRect.capture(context);
-                          if (!mobi && m.subjectId != null) MmFlight.launch(this.context, m.subjectId);
-                        }
-                        onAction(m.primary);
-                      },
-                loading: retrying && m.primary.target is RetryLoad,
+          // One primary: the key says the verb, and when the move can change size the quiet pill
+          // beside it says the length and opens the three lengths (design critic 16 Oct, 1).
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: LayoutBuilder(
+                  key: primaryKey,
+                  builder: (context, box) => _Pulse(
+                    pulse: widget.keyPulse,
+                    child: KeyButton(
+                      label: sized ? TodayCopy.keyVerb(m.primary.label) : fitKeyLabel(context, m.primary, box.maxWidth),
+                      semanticsLabel: m.primary.label,
+                      onPressed: blocked
+                          ? null
+                          : () {
+                              // The card grows into the page it opens (MOTION.md C4): the router's
+                              // container pages take this rect; any other page ignores it. Its object
+                              // flies on into the page when that page shows the same subject (M2).
+                              if (m.primary.target is GoTo) {
+                                MmLaunchRect.capture(context);
+                                if (!mobi && m.subjectId != null) MmFlight.launch(this.context, m.subjectId);
+                              }
+                              onAction(m.primary);
+                            },
+                      loading: retrying && m.primary.target is RetryLoad,
+                    ),
+                  ),
+                ),
               ),
-            ),
+              if (sized) ...[
+                const SizedBox(width: MmSpace.s8),
+                KeyedSubtree(
+                  key: widget.controlsKey,
+                  child: LengthPill(
+                    durations: m.durations,
+                    selected: m.selectedMinutes ?? m.durations.first.minutes,
+                    title: m.durationPrompt ?? (m.durations.first.questions == null ? TodayCopy.repairLength : TodayCopy.practiceLength),
+                    onChanged: onMinutes,
+                  ),
+                ),
+              ],
+            ],
           ),
           // What sits under the key (the quiet second action, the caption) eases in and out with the
           // move's state: a key that was retrying, or a dismissed line, never makes the card jump.
@@ -298,6 +301,65 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
       react: _react,
       art: mobi ? null : HeroArtView(art: m.art, react: _react, onTap: _touchObject),
       child: content,
+    );
+  }
+}
+
+/// The move's sentence with "Show me" as its last words: three small marks for the wrong answers
+/// it holds, then the link. The whole sentence is the touch target (at least 48 dp tall), so the
+/// link never needs a pill of its own; a screen reader hears the sentence, then what opens.
+class MeaningWithShowMe extends StatelessWidget {
+  const MeaningWithShowMe({super.key, required this.text, required this.color, required this.onShowMe, this.marks});
+
+  final String text;
+  final Color color;
+  final VoidCallback? onShowMe;
+  final List<BubbleState>? marks;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final link = colors.isNight ? colors.volt : colors.accentText;
+    final shown = (marks ?? const <BubbleState>[]).take(3).toList();
+    return MmPressable(
+      semanticsLabel: '$text ${TodayCopy.showMeSemantics}',
+      focusRadius: MmRadius.smallAll,
+      pressedScale: 0.99,
+      haptic: MmPressHaptic.selection,
+      onTap: onShowMe,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: double.infinity),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text.rich(
+            TextSpan(
+              style: type.body.copyWith(color: color),
+              children: [
+                TextSpan(text: '$text '),
+                if (shown.isNotEmpty)
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: MmSpace.s6),
+                      child: BubbleRow(states: shown, bubbleSize: 6, gap: 3),
+                    ),
+                  ),
+                TextSpan(
+                  text: TodayCopy.showMe,
+                  style: TextStyle(
+                    color: pressed ? colors.ink2 : colors.ink,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline,
+                    decorationColor: link,
+                    decorationThickness: 2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

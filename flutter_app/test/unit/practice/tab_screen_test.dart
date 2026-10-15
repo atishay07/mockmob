@@ -62,7 +62,7 @@ void main() {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: quotes, attempts: const []));
     await settle(tester);
     expect(find.text('Your starting point'), findsOneWidget);
-    expect(find.text('Accountancy is first on your list. Ten questions shows where you stand.'), findsOneWidget);
+    expect(find.text('Ten questions shows where you stand.'), findsOneWidget);
     // Costs never appear on the tab, and the defensive tails are gone.
     expect(find.textContaining('credit'), findsNothing);
     expect(find.text('Free today'), findsNothing);
@@ -118,10 +118,10 @@ void main() {
     expect(find.text('Your next practice'), findsNothing);
     await at(DateTime(2026, 10, 12, 23, 30), lines: false);
     expect(find.text('This one, then sleep'), findsNothing);
-    expect(find.text('Your next practice'), findsOneWidget);
+    expect(find.text('Your next practice'), findsNothing);
     await at(DateTime(2026, 10, 12, 20));
     expect(find.text('This one, then sleep'), findsNothing);
-    expect(find.text('Your next practice'), findsOneWidget);
+    expect(find.text('Your next practice'), findsNothing);
   });
 
   testWidgets('without a nameable chapter the suggestion is the last paper\'s subject, with when it was', (tester) async {
@@ -141,7 +141,7 @@ void main() {
     await settle(tester);
     expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('English')), findsOneWidget);
     expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
-    expect(find.text('Your last English paper was yesterday.'), findsOneWidget);
+    expect(find.text('Your last paper was yesterday.'), findsOneWidget);
   });
 
   testWidgets('a mock still running is the suggestion, with its fixed end time, and Resume opens it', (tester) async {
@@ -155,7 +155,7 @@ void main() {
     );
     await settle(tester);
     expect(find.text('Mock 7, Accountancy'), findsOneWidget);
-    expect(find.text('The clock kept running. It ends at 11:47 PM.'), findsOneWidget);
+    expect(find.text('The clock ends at 11:47 PM.'), findsOneWidget);
     await tester.tap(find.widgetWithText(KeyButton, 'Resume').first);
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/run/sess-7');

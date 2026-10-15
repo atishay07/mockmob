@@ -9,9 +9,9 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
-import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
+import 'package:mockmob/features/onboarding/steps/plan_step.dart';
 import 'package:mockmob/features/rhythm/celebration/celebration_slot.dart';
 
 import '../../helpers/fonts.dart';
@@ -72,7 +72,7 @@ void main() {
     overrides: () => onboardingOverrides(answers: studentUpTo(Steps.rhythm, step: Steps.plan)),
     act: (tester) async {
       await tester.pump(const Duration(milliseconds: 500));
-      await tester.tap(find.widgetWithText(KeyButton, OnboardingCopy.sealIt));
+      await tester.tap(find.byKey(PlanStep.tapToSealKey));
       await tester.pump(const Duration(milliseconds: 600));
     },
   );

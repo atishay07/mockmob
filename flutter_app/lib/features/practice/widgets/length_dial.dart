@@ -27,12 +27,22 @@ class LengthDial extends ConsumerStatefulWidget {
   final ValueChanged<int>? onChanged;
   final String? semanticsLabel;
 
-  /// The dial's height for [scaler]: the number line grows with the text size and the tallest
-  /// sheet (the longest length) hangs under it, so no stop is ever cut.
+  /// The dial's height for [scaler]: the pill row (the number line grows with the text size) and,
+  /// under it, the tallest sheet (the longest length), so no stop is ever cut.
   static double heightFor(TextScaler scaler, List<int> counts) {
     final longest = counts.isEmpty ? perRow : counts.reduce((a, b) => a > b ? a : b);
-    return 8 + _StopState.top + scaler.scale(_StopState.numberLine) + _StopState.gap + _SheetPainter.sizeFor(longest).height + 16;
+    return pillHeight(scaler) + sheetGap + _SheetPainter.sizeFor(longest).height + 4;
   }
+
+  /// A pill is the number line with 12 dp above and below: 56 dp at 1x text, never under 48.
+  static double pillHeight(TextScaler scaler) => scaler.scale(_StopState.numberLine) + 2 * MmSpace.s12;
+
+  /// One pill's width in a row of [n] across [width].
+  static double pillWidth(double width, int n) => (width - gap * (n - 1)) / n;
+
+  /// The gap between pills, and between a pill and its sheet.
+  static const double gap = MmSpace.s8;
+  static const double sheetGap = MmSpace.s8;
 
   /// Bubbles per row of a stop's sheet.
   static const int perRow = 5;
@@ -92,16 +102,17 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
   /// Moves the length one stop (TalkBack's increase and decrease).
   void _step(int by) => _choose((_index + by).clamp(0, widget.counts.length - 1));
 
-  /// The thumb under the finger at [x] (local to the track), clamped to the track.
-  double _posAt(double x, double width) {
+  /// The thumb under the finger at [x] (local to the row), in stop units, clamped to the row: a
+  /// pill's centre is its own stop.
+  double _posAt(double x, double pillW, double stride) {
     final n = widget.counts.length;
-    return (x / (width / n) - 0.5).clamp(0.0, (n - 1).toDouble());
+    return ((x - pillW / 2) / stride).clamp(0.0, (n - 1).toDouble());
   }
 
-  void _dragStart(DragStartDetails d, double width) {
+  void _dragStart(DragStartDetails d, double pillW, double stride) {
     _dragging = true;
     _pos.stop();
-    _pos.value = _posAt(d.localPosition.dx - 4, width);
+    _pos.value = _posAt(d.localPosition.dx, pillW, stride);
     // The thumb jumps to the finger when the drag is recognised, which may already be past a
     // stop: that stop is chosen at once (and ticks), not on the next move.
     final index = _pos.value.round().clamp(0, widget.counts.length - 1);
@@ -109,8 +120,8 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
     _choose(index);
   }
 
-  void _dragUpdate(DragUpdateDetails d, double width) {
-    _pos.value = _posAt(d.localPosition.dx - 4, width);
+  void _dragUpdate(DragUpdateDetails d, double pillW, double stride) {
+    _pos.value = _posAt(d.localPosition.dx, pillW, stride);
     // The sheet and the stub follow live: the length is the nearest stop to the thumb.
     final index = _pos.value.round().clamp(0, widget.counts.length - 1);
     if (index == _dragIndex) return;
@@ -118,12 +129,12 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
     _choose(index);
   }
 
-  void _dragEnd(DragEndDetails d, double width) {
+  void _dragEnd(DragEndDetails d, double stride) {
     final n = widget.counts.length;
     _dragging = false;
     _dragIndex = null;
     // Release velocity in stop units per second; a flick carries a little past the nearest stop.
-    final velocity = (d.primaryVelocity ?? 0) / (width / n);
+    final velocity = (d.primaryVelocity ?? 0) / stride;
     final target = (_pos.value + velocity * 0.06).round().clamp(0, n - 1);
     _choose(target);
     if (Motion.reduced(context)) {
@@ -140,10 +151,9 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
     final n = widget.counts.length;
     final index = _index;
     final enabled = widget.onChanged != null;
-    // The well is a selectable-row radius (18); the thumb inside it, 4 dp in, a control's (12).
-    const radius = MmRadius.keyAll;
     final canUp = enabled && index < n - 1;
     final canDown = enabled && index > 0;
+    final scaler = MediaQuery.textScalerOf(context);
 
     return Semantics(
       container: true,
@@ -155,99 +165,90 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
       onDecrease: canDown ? () => _step(-1) : null,
       child: Opacity(
         opacity: enabled ? 1 : 0.5,
-        child: DecoratedBox(
-          decoration: ShapeDecoration(
-            color: colors.sunken,
-            shape: RoundedSuperellipseBorder(
-              borderRadius: radius,
-              side: BorderSide(color: colors.line),
-            ),
-          ),
-          child: SizedBox(
-            height: LengthDial.heightFor(MediaQuery.textScalerOf(context), widget.counts),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final width = constraints.maxWidth - 8;
-                return GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onHorizontalDragStart: enabled ? (d) => _dragStart(d, width) : null,
-                  onHorizontalDragUpdate: enabled ? (d) => _dragUpdate(d, width) : null,
-                  onHorizontalDragEnd: enabled ? (d) => _dragEnd(d, width) : null,
-                  onHorizontalDragCancel: enabled
-                      ? () {
-                          _dragging = false;
-                          _dragIndex = null;
-                          _springTo(_index.toDouble());
-                        }
-                      : null,
-                  child: Padding(
-                    padding: const EdgeInsets.all(4),
-                    child: Stack(
-                      children: [
-                        // The thumb: the selected surface with a 2 dp ink ring (SPACING.md 8.1, the
-                        // same weight in both themes). It rides the finger, then springs to a stop.
-                        Positioned.fill(
-                          child: RepaintBoundary(
-                            child: AnimatedBuilder(
-                              animation: _pos,
-                              builder: (context, child) => Transform.translate(offset: Offset(_pos.value * (width / n), 0), child: child),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: FractionalTranslation(
-                                  translation: Offset.zero,
-                                  child: SizedBox(
-                                    width: width / n,
-                                    height: double.infinity,
-                                    child: DecoratedBox(
-                                      decoration: ShapeDecoration(
-                                        color: selectedSurface(colors),
-                                        shape: RoundedSuperellipseBorder(
-                                          borderRadius: MmRadius.smallAll,
-                                          side: BorderSide(color: colors.ink, width: 2),
-                                        ),
-                                        shadows: colors.isNight ? null : colors.cardShadow,
-                                      ),
-                                      child: CustomPaint(
-                                        foregroundPainter: EdgeLightPainter(
-                                          borderRadius: MmRadius.smallAll,
-                                          top: colors.edgeTop,
-                                          bottom: colors.edgeBottom,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+        // No well around the pills: they sit on the page, so the picker is never a box inside a box.
+        child: SizedBox(
+          height: LengthDial.heightFor(scaler, widget.counts),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final width = constraints.maxWidth;
+              final pillW = LengthDial.pillWidth(width, n);
+              final pillH = LengthDial.pillHeight(scaler);
+              final stride = pillW + LengthDial.gap;
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onHorizontalDragStart: enabled ? (d) => _dragStart(d, pillW, stride) : null,
+                onHorizontalDragUpdate: enabled ? (d) => _dragUpdate(d, pillW, stride) : null,
+                onHorizontalDragEnd: enabled ? (d) => _dragEnd(d, stride) : null,
+                onHorizontalDragCancel: enabled
+                    ? () {
+                        _dragging = false;
+                        _dragIndex = null;
+                        _springTo(_index.toDouble());
+                      }
+                    : null,
+                child: Stack(
+                  children: [
+                    // The thumb: the selected surface with a 2 dp ink ring (SPACING.md 8.1, the
+                    // same weight in both themes) over the chosen pill. It rides the finger, then
+                    // springs to a stop.
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      width: pillW,
+                      height: pillH,
+                      child: RepaintBoundary(
+                        child: AnimatedBuilder(
+                          animation: _pos,
+                          builder: (context, child) => Transform.translate(offset: Offset(_pos.value * stride, 0), child: child),
+                          child: DecoratedBox(
+                            decoration: ShapeDecoration(
+                              color: selectedSurface(colors),
+                              shape: RoundedSuperellipseBorder(
+                                borderRadius: MmRadius.smallAll,
+                                side: BorderSide(color: colors.ink, width: 2),
+                              ),
+                              shadows: colors.isNight ? null : colors.cardShadow,
+                            ),
+                            child: CustomPaint(
+                              foregroundPainter: EdgeLightPainter(
+                                borderRadius: MmRadius.smallAll,
+                                top: colors.edgeTop,
+                                bottom: colors.edgeBottom,
                               ),
                             ),
                           ),
                         ),
-                        // Top-aligned: every number sits on one baseline, whatever the sheet under it.
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            for (var i = 0; i < n; i++)
-                              Expanded(
-                                child: Semantics(
-                                  button: true,
-                                  selected: i == index,
-                                  inMutuallyExclusiveGroup: true,
-                                  label: '${widget.counts[i]} questions',
-                                  excludeSemantics: true,
-                                  child: GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: enabled ? () => _choose(i) : null,
-                                    child: _Stop(count: widget.counts[i], selected: i == index, style: type.title),
-                                  ),
-                                ),
+                      ),
+                    ),
+                    // Top-aligned: every number sits on one line; the chosen length's sheet hangs
+                    // under its pill, so a longer sheet never pushes its number up.
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        for (var i = 0; i < n; i++) ...[
+                          if (i > 0) const SizedBox(width: LengthDial.gap),
+                          SizedBox(
+                            width: pillW,
+                            child: Semantics(
+                              button: true,
+                              selected: i == index,
+                              inMutuallyExclusiveGroup: true,
+                              label: '${widget.counts[i]} questions',
+                              excludeSemantics: true,
+                              child: GestureDetector(
+                                behavior: HitTestBehavior.opaque,
+                                onTap: enabled ? () => _choose(i) : null,
+                                child: _Stop(count: widget.counts[i], selected: i == index, style: type.title, pillHeight: pillH),
                               ),
-                          ],
-                        ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
-                  ),
-                );
-              },
-            ),
+                  ],
+                ),
+              );
+            },
           ),
         ),
       ),
@@ -255,13 +256,15 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
   }
 }
 
-/// One stop: the number over its small sheet. The sheet inks when the stop is chosen.
+/// One stop: the number in its glass pill, and, under the chosen one only, its small sheet. The
+/// pill's own fill is the resting surface; the sheet inks when the stop is chosen.
 class _Stop extends StatefulWidget {
-  const _Stop({required this.count, required this.selected, required this.style});
+  const _Stop({required this.count, required this.selected, required this.style, required this.pillHeight});
 
   final int count;
   final bool selected;
   final TextStyle style;
+  final double pillHeight;
 
   @override
   State<_Stop> createState() => _StopState();
@@ -274,9 +277,7 @@ class _StopState extends State<_Stop> with SingleTickerProviderStateMixin {
     value: widget.selected ? 1 : 0,
   );
 
-  static const double top = 14;
   static const double numberLine = 32;
-  static const double gap = 8;
 
   /// 18 ms between bubbles plus the last bubble's own 200 ms.
   static Duration _inkDuration(int count) => Duration(milliseconds: 200 + 18 * count);
@@ -302,29 +303,42 @@ class _StopState extends State<_Stop> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final selected = widget.selected;
-    // Every number sits on the same line; the sheets hang below it, so a longer sheet never
-    // pushes its number up.
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: top),
+        // The pill: a glass fill and a hairline at rest (the chosen thumb covers it with its own).
         // One size and one box for every numeral, chosen or not: only the ink changes, so all the
         // numbers share a baseline (SPACING-AUDIT P6).
         SizedBox(
-          height: MediaQuery.textScalerOf(context).scale(numberLine),
-          child: Center(
-            child: AnimatedDefaultTextStyle(
-              duration: Motion.of(context, Motion.ui),
-              style: widget.style.copyWith(fontSize: 28, height: numberLine / 28, color: selected ? colors.ink : colors.ink2),
-              child: Text('${widget.count}', textHeightBehavior: const TextHeightBehavior(leadingDistribution: TextLeadingDistribution.even)),
+          height: widget.pillHeight,
+          child: DecoratedBox(
+            decoration: ShapeDecoration(
+              color: selected ? null : colors.raised,
+              shape: RoundedSuperellipseBorder(
+                borderRadius: MmRadius.smallAll,
+                side: BorderSide(color: selected ? Colors.transparent : colors.line),
+              ),
+            ),
+            child: Center(
+              child: AnimatedDefaultTextStyle(
+                duration: Motion.of(context, Motion.ui),
+                style: widget.style.copyWith(fontSize: 28, height: numberLine / 28, color: selected ? colors.ink : colors.ink2),
+                child: Text('${widget.count}', textHeightBehavior: const TextHeightBehavior(leadingDistribution: TextLeadingDistribution.even)),
+              ),
             ),
           ),
         ),
-        const SizedBox(height: gap),
-        RepaintBoundary(
-          child: CustomPaint(
-            size: _SheetPainter.sizeFor(widget.count),
-            painter: _SheetPainter(count: widget.count, ink: _ink, totalMs: _inkDuration(widget.count).inMilliseconds, colors: colors),
+        const SizedBox(height: LengthDial.sheetGap),
+        // Only the chosen length draws its sheet; the room is kept for the longest, so choosing
+        // another length never moves what is below.
+        AnimatedOpacity(
+          duration: Motion.of(context, Motion.ui),
+          opacity: selected ? 1 : 0,
+          child: RepaintBoundary(
+            child: CustomPaint(
+              size: _SheetPainter.sizeFor(widget.count),
+              painter: _SheetPainter(count: widget.count, ink: _ink, totalMs: _inkDuration(widget.count).inMilliseconds, colors: colors),
+            ),
           ),
         ),
       ],

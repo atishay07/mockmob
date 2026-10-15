@@ -246,9 +246,9 @@ void main() {
 
     testWidgets('the key says the same words at 1.0x and at 1.3x, on one line', (tester) async {
       final normal = await keyHeight(tester, scale: 1);
-      expect(find.text(TodayCopy.startRepair(5)), findsOneWidget);
+      expect(find.text('Start repair'), findsOneWidget);
       final large = await keyHeight(tester, scale: 1.3);
-      expect(find.text(TodayCopy.startRepair(5)), findsOneWidget);
+      expect(find.text('Start repair'), findsOneWidget);
       expect(large, lessThan(normal * 1.3 + 8), reason: 'one line of text, so the key only grows with its text size');
     });
 

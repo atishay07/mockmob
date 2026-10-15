@@ -34,25 +34,25 @@ abstract final class PracticeCopy {
   static String resumeMockTitle(String? mockLabel, String subject) => '${mockLabel ?? 'Your mock'}, $subject';
   static String resumePracticeTitle(String subject) => '$subject practice';
   static String resumeOf(int total) => 'of $total';
-  static String resumeMockReason(DateTime endsAt) => 'The clock kept running. It ends at ${formatTime12(endsAt)}.';
+  static String resumeMockReason(DateTime endsAt) => 'The clock ends at ${formatTime12(endsAt)}.';
   static const String resumePracticeReason = 'Pick up where you left off.';
 
   static String chapterKicker(String subject) => '$subject, one chapter';
   static String chapterReasonMock(int marks, String mockLabel) => 'It cost you $marks marks in $mockLabel.';
   static String chapterReasonPractice(int missed) =>
-      missed == 1 ? 'You missed 1 here in your last practice.' : 'You missed $missed here in your last practice.';
+      missed == 1 ? 'You missed 1 here last time.' : 'You missed $missed here last time.';
 
   /// The hero's title is the subject alone, so it never wraps to an ellipsis beside the object;
   /// the kind of paper is the kicker under it.
   static String subjectTitle(String subject) => subject;
   static const String subjectKicker = 'Quick practice, mixed chapters';
-  static String subjectReason(String subject, String when) => 'Your last $subject paper was $when.';
+  static String subjectReason(String subject, String when) => 'Your last paper was $when.';
 
   static const String startingTitle = 'Your starting point';
   static String startingKicker(String subject) => '$subject, mixed chapters';
-  static String startingReason(String subject) => '$subject is first on your list. Ten questions shows where you stand.';
+  static String startingReason(String subject) => 'Ten questions shows where you stand.';
   static String firstOnListReason(String subject) => '$subject is first on your list.';
-  static String pickedStartReason(String subject) => 'No $subject paper yet. Ten questions shows where you stand.';
+  static String pickedStartReason(String subject) => 'No paper here yet. Ten questions will do.';
 
   /// The picked subject while the attempts have not loaded: it claims nothing about papers.
   static const String pickedUnknownReason = 'Ten questions shows where you stand.';
@@ -98,6 +98,10 @@ abstract final class PracticeCopy {
   static const String questionsLabel = 'Questions';
   static const String chapterLabel = 'Chapters';
   static const String chooseChapter = 'Choose chapters';
+  static const String addChapters = 'Add chapters';
+  static const String editChapters = 'Change chapters';
+  static String chaptersChosen(int n, int max) => '$n of $max';
+  static String chaptersChosenSemantics(int n, int max) => '$n of $max chapters chosen';
   static const String chooseChapterFirst = 'Choose a chapter first.';
   static const String chooseChapterTitle = 'Choose chapters';
   static const String searchChapters = 'Search chapters';
@@ -226,6 +230,11 @@ abstract final class PracticeCopy {
   static String sheetTicket(DateTime by) => 'If you leave, open MockMob again before ${formatTime12(by)} so your answers can be sent.';
   static const String sheetDnd = 'For fewer interruptions, turn on Do Not Disturb from Quick Settings.';
   static const String sheetAside = 'Water, pencil, rough sheet.';
+
+  /// The three things to know, one short line each, in the icon row under the mock's details.
+  static const String ruleTimer = 'Timer keeps running';
+  static const String ruleSubmit = 'Submit ends the mock';
+  static const String ruleSilence = 'Do Not Disturb on';
   static const String sheetNoLength = 'We could not confirm how long this mock is. Close this and try again.';
 
   // Auto start.

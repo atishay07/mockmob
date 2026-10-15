@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart' show SchedulerBinding, SchedulerPhase;
 
 import '../../../features/insights/widgets/edge_fade.dart';
 import '../../motion/motion.dart';
@@ -325,8 +326,15 @@ class _ChipRailState extends State<ChipRail> with SingleTickerProviderStateMixin
     return false;
   }
 
-  /// The chips' extents in the scrolled content, or null before the first layout.
+  /// The spans measured outside layout, kept for the moments the rail is asked mid-layout (a
+  /// scroll position settling to new dimensions asks its physics for a rest while the viewport is
+  /// still laying out, when no child may read another's size).
+  List<ChipSpan>? _measuredSpans;
+
+  /// The chips' extents in the scrolled content, or null before the first layout. During layout
+  /// (the persistent-callbacks phase) the last measure is returned instead of reading sizes.
   List<ChipSpan>? _spans() {
+    if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.persistentCallbacks) return _measuredSpans;
     final row = _rowKey.currentContext?.findRenderObject();
     if (row is! RenderBox || !row.hasSize) return null;
     final spans = <ChipSpan>[];
@@ -336,7 +344,7 @@ class _ChipRailState extends State<ChipRail> with SingleTickerProviderStateMixin
       final left = widget.padding.left + box.localToGlobal(Offset.zero, ancestor: row).dx;
       spans.add(ChipSpan(left, left + box.size.width));
     }
-    return spans;
+    return _measuredSpans = spans;
   }
 
   List<double> _stops() {

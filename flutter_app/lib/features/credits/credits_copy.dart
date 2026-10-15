@@ -13,7 +13,6 @@ abstract final class CreditsCopy {
   // Plan.
   static const planFree = 'Free';
   static const planPro = 'Pro';
-  static const planFreeLine = 'Free plan';
   static const planProLine = 'Pro plan';
   static String planUntil(DateTime until) => 'Pro until ${formatDayMonth(until)} ${until.year}';
   static const planProActive = 'Pro is active';
@@ -60,7 +59,13 @@ abstract final class CreditsCopy {
     return after == null ? '$change.' : '$change. ${e.pool.count(after)} left.';
   }
 
-  /// The row's words for TalkBack.
+  /// The value column's second line: what is left, "40 left". Null when the server sent no balance.
+  static String? left(CreditEntry e) => e.balanceAfter == null ? null : '${e.balanceAfter} left';
+
+  /// The 12 sp tag under the title: the pool, said once ("Practice credits", "AI credits").
+  static String tag(CreditEntry e) => e.pool.name;
+
+  /// The row's words for TalkBack (the long form: pool, count and what is left).
   static String rowLabel(CreditEntry e, String when) {
     final what = e.what.isEmpty ? (e.isSpend ? 'Credits used' : 'Credits added') : e.what;
     return '$what. ${line(e)} $when';

@@ -41,7 +41,8 @@ class AnswerSheetCard extends StatelessWidget {
   final String? current;
   final bool compact;
 
-  /// A one-line progress strip (the bubbles and "3 of 7", no title, labels or engraved line):
+  /// A one-line progress strip (the bubbles and "3 of 7" on the ground, no card, title, labels
+  /// or engraved line):
   /// steps 2 to 7, so the question under it keeps the room. The full card stays on the first
   /// step and wherever the sheet itself is the point (the save step). TalkBack still reads the
   /// whole sheet.
@@ -83,33 +84,28 @@ class AnswerSheetCard extends StatelessWidget {
     final keep = short ? 0 : (full ? lines.length : (compact ? 1 : 2));
     final shown = lines.length <= keep ? lines : lines.sublist(lines.length - keep);
 
+    // The strip is the bubbles alone, straight on the ground (design critic 24: no capsule
+    // around them, so the progress is not a box above the step's own boxes). The 8 dp above and
+    // below hold the strip's old height, so nothing under it moves.
     if (slim) {
       return _Grow(
         child: Semantics(
-        container: true,
-        label: '${OnboardingCopy.sheetTitle}, $done of ${steps.length} filled. ${lines.join('. ')}',
-        excludeSemantics: true,
-        child: LitEdge(
-          glow: true,
-          borderRadius: radius,
-          child: FakeGlass(
-            borderRadius: radius,
-            opacity: colors.isNight ? 0.62 : 0.78,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s8, MmSpace.s20, MmSpace.s8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _BubbleTrack(key: trackKey, steps: steps, answers: answers, current: current, animate: animate, labels: false),
-                  ),
-                  const SizedBox(width: MmSpace.s12),
-                  Text('$done of ${steps.length}', style: type.caption.copyWith(color: colors.ink2)),
-                ],
-              ),
+          container: true,
+          label: '${OnboardingCopy.sheetTitle}, $done of ${steps.length} filled. ${lines.join('. ')}',
+          excludeSemantics: true,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
+            child: Row(
+              children: [
+                Expanded(
+                  child: _BubbleTrack(key: trackKey, steps: steps, answers: answers, current: current, animate: animate, labels: false),
+                ),
+                const SizedBox(width: MmSpace.s12),
+                Text('$done of ${steps.length}', style: type.caption.copyWith(color: colors.ink2)),
+              ],
             ),
           ),
         ),
-      ),
       );
     }
 

@@ -83,7 +83,7 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
           const SizedBox(height: MmSpace.s24),
           _Caption(AccountCopy.credits),
           const SizedBox(height: MmSpace.s12),
-          CreditTiles(figures: figures, mobi: true, keyPrefix: 'account', onOpen: () => _open(AccountSheetPaths.credits)),
+          CreditTiles(figures: figures, mobi: true, flat: true, keyPrefix: 'account', onOpen: () => _open(AccountSheetPaths.credits)),
           const SizedBox(height: MmSpace.s24),
           _Caption(AccountCopy.appearance),
           const SizedBox(height: MmSpace.s12),

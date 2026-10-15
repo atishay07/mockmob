@@ -294,7 +294,8 @@ void main() {
       ];
       await _pump(tester, SubjectChips(choices: choices, selectedId: 'accountancy', onSelected: (_) {}, onMore: () {}));
       await tester.pump(const Duration(milliseconds: 100));
-      expect(find.descendant(of: find.byType(SubjectChips), matching: find.byType(ShaderMask)), findsOneWidget);
+      expect(find.descendant(of: find.byType(SubjectChips), matching: find.byType(ChipRail)), findsOneWidget);
+      expect(find.descendant(of: find.byType(SubjectChips), matching: find.byType(ShaderMask)), findsWidgets);
     });
   });
 

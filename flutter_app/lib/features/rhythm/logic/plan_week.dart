@@ -2,6 +2,7 @@
 // are planned study days still ahead, and which are rest days by the student's own choice. Pure,
 // shared by Today's week row and the week sheet, so both always say the same thing.
 import '../../../core/copy/formatters.dart';
+import '../../../core/widgets/widgets.dart' show WeekBubbleDay, WeekDayMark;
 
 /// What one day of the week shows. Every mark is a state the student can read and act on
 /// (owner 13 Oct: a bubble must carry information or go).
@@ -34,6 +35,18 @@ class PlanDay {
   final int? date;
 
   String get initial => weekdayNames[index].substring(0, 1);
+
+  /// The same day in the shared study week ([StudyWeek]): every mark keeps its own meaning.
+  WeekBubbleDay toBubble() => WeekBubbleDay(
+        mark: switch (mark) {
+          PlanDayMark.done => WeekDayMark.done,
+          PlanDayMark.planned => WeekDayMark.planned,
+          PlanDayMark.rest => WeekDayMark.rest,
+          PlanDayMark.open => WeekDayMark.open,
+        },
+        isToday: isToday,
+        date: date,
+      );
 
   String describe() {
     final name = weekdayNames[index];
@@ -70,3 +83,6 @@ List<PlanDay> planWeek({required List<bool> studied, int? todayIndex, Set<int>? 
       ),
   ];
 }
+
+/// The seven days as the shared study week draws them.
+List<WeekBubbleDay> bubbleWeek(List<PlanDay> days) => [for (final d in days) d.toBubble()];

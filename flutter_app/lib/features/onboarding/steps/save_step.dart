@@ -6,6 +6,7 @@ import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/config/app_config.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/copy/formatters.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -19,6 +20,7 @@ import '../model/choices.dart';
 import '../model/plan.dart';
 import '../state/answers_controller.dart';
 import '../widgets/answer_sheet_card.dart';
+import '../widgets/choice_tile.dart';
 import '../widgets/entrance.dart';
 import '../widgets/step_layout.dart';
 
@@ -91,7 +93,12 @@ class _SaveStepState extends ConsumerState<SaveStep> {
 }
 
 /// The pure layout of the save step, rendered by the goldens.
-class SaveView extends StatelessWidget {
+///
+/// The age question is the first thing in the action stack, directly above the sign-in keys
+/// (design critic 7): three 48 dp pills, then the keys. Until it is answered the keys wait under
+/// it, and a tap on a waiting key shakes the question once, so they never read as broken; one
+/// answer brings them to full strength. The sealed sheet keeps its place above.
+class SaveView extends StatefulWidget {
   const SaveView({
     super.key,
     required this.age,
@@ -138,27 +145,82 @@ class SaveView extends StatelessWidget {
   /// above it, three below, the optical centre of a moment (SPACING.md 7).
   static const Alignment weight = Alignment(0, -0.2);
 
+  /// On the age question, for tests that measure it.
+  static const Key ageKey = ValueKey('save-age');
+
+  @override
+  State<SaveView> createState() => _SaveViewState();
+}
+
+class _SaveViewState extends State<SaveView> {
+  /// Each bump shakes the age question once (a key tapped before it was answered).
+  final ValueNotifier<int> _askAge = ValueNotifier<int>(0);
+
+  @override
+  void dispose() {
+    _askAge.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final w = widget;
+    final age = w.age;
     final answered = age != null;
-    // The keys are always laid out, so answering the age moves nothing: until it is answered
-    // they wait, disabled, under the question that unlocks them.
+    final problem = w.problem;
+    final note = w.note;
+    final sheet = w.sheet;
+    final sealedLine = w.sealedLine;
+
+    final ageBlock = MmShake(
+      pulse: _askAge,
+      child: Column(
+        key: SaveView.ageKey,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Semantics(header: true, child: Text(OnboardingCopy.ageQuestion, style: type.cardTitle)),
+          const SizedBox(height: MmSpace.s12),
+          ChoicePills<AgeAnswer>(
+            options: [for (final a in AgeAnswer.values) (a, a.label)],
+            selected: age,
+            onSelected: w.onAge,
+          ),
+          const SizedBox(height: MmSpace.s8),
+          Text(OnboardingCopy.ageNote, style: type.caption.copyWith(color: colors.ink3)),
+        ],
+      ),
+    );
+
+    // Until the age is answered the keys wait (their own disabled look), and a tap on one asks
+    // the question above again instead of doing nothing.
+    Widget waiting(Widget key) => answered || w.offline || w.busy
+        ? key
+        : GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => _askAge.value++,
+            child: Semantics(hint: OnboardingCopy.ageFirst, child: key),
+          );
+
+    // The keys are always laid out, so answering the age moves nothing.
     final keys = Column(
       key: const ValueKey('buttons'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (offline) ...[InlineBanner(message: OnboardingCopy.offline, tone: BannerTone.offline), const SizedBox(height: MmSpace.s12)],
-        if (problem != null) ...[ProblemLine(message: problem!), const SizedBox(height: MmSpace.s12)],
-        if (googleEnabled) ...[
-          KeyButton(
-            label: googleBusy ? OnboardingCopy.googleBusy : OnboardingCopy.continueWithGoogle,
-            loading: googleBusy,
-            onPressed: !answered || offline || busy || googleInBrowser ? null : onGoogle,
-          ),
-          if (googleInBrowser) ...[
+        if (w.offline) ...[InlineBanner(message: OnboardingCopy.offline, tone: BannerTone.offline), const SizedBox(height: MmSpace.s12)],
+        if (problem != null) ...[ProblemLine(message: problem), const SizedBox(height: MmSpace.s12)],
+        ageBlock,
+        const SizedBox(height: MmSpace.s20),
+        if (w.googleEnabled) ...[
+          waiting(KeyButton(
+            label: w.googleBusy ? OnboardingCopy.googleBusy : OnboardingCopy.continueWithGoogle,
+            loading: w.googleBusy,
+            onPressed: !answered || w.offline || w.busy || w.googleInBrowser ? null : w.onGoogle,
+          )),
+          if (w.googleInBrowser) ...[
             const SizedBox(height: MmSpace.s8),
             // What to do in the browser, and the way to stop waiting, on one line.
             Row(
@@ -171,17 +233,17 @@ class SaveView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: MmSpace.s8),
-                KeyButton.quiet(label: OnboardingCopy.cancelBrowser, onPressed: onCancelBrowser),
+                KeyButton.quiet(label: OnboardingCopy.cancelBrowser, onPressed: w.onCancelBrowser),
               ],
             ),
           ],
           const SizedBox(height: MmSpace.s12),
         ],
-        googleEnabled
-            ? KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: !answered || offline || busy ? null : onEmail)
-            : KeyButton(label: OnboardingCopy.useEmailCode, onPressed: !answered || offline || busy ? null : onEmail),
+        waiting(w.googleEnabled
+            ? KeyButton.secondary(label: OnboardingCopy.useEmailCode, onPressed: !answered || w.offline || w.busy ? null : w.onEmail)
+            : KeyButton(label: OnboardingCopy.useEmailCode, onPressed: !answered || w.offline || w.busy ? null : w.onEmail)),
         const SizedBox(height: MmSpace.s4),
-        Center(child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: busy ? null : onNotNow)),
+        Center(child: KeyButton.quiet(label: OnboardingCopy.notNow, onPressed: w.busy ? null : w.onNotNow)),
       ],
     );
 
@@ -189,33 +251,15 @@ class SaveView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (note != null) ...[InlineBanner(message: note!), const SizedBox(height: MmSpace.s16)],
-        if (sheet != null) EntranceItem.answer(0, child: sheet!),
-        if (sheet == null && sealedLine != null) Text(sealedLine!, style: type.small.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s24),
-        EntranceItem.answer(
-          2,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(OnboardingCopy.ageQuestion, style: type.cardTitle),
-              const SizedBox(height: MmSpace.s12),
-              Wrap(
-                spacing: MmSpace.s8,
-                runSpacing: MmSpace.s8,
-                children: [for (final a in AgeAnswer.values) MmChip(label: a.label, selected: age == a, onTap: () => onAge(a))],
-              ),
-              const SizedBox(height: MmSpace.s8),
-              Text(OnboardingCopy.ageNote, style: type.caption.copyWith(color: colors.ink3)),
-            ],
-          ),
-        ),
+        if (note != null) ...[InlineBanner(message: note), const SizedBox(height: MmSpace.s16)],
+        if (sheet != null) EntranceItem.answer(0, child: sheet),
+        if (sheet == null && sealedLine != null) Text(sealedLine, style: type.small.copyWith(color: colors.ink2)),
       ],
     );
 
-    // A moment, not a top-stacked form (SPACING-AUDIT O4): the sealed sheet and the age question
-    // sit at the optical centre of the room, the keys are pinned at the thumb, "Not now" under
-    // them. When the room is too short, the content scrolls and the keys stay put.
+    // A moment, not a top-stacked form (SPACING-AUDIT O4): the sealed sheet sits at the optical
+    // centre of the room; the age question and the keys are pinned at the thumb, "Not now" under
+    // them. When the room is too short, the sheet scrolls and the keys stay put.
     return StepLayout(
       title: OnboardingCopy.saveTitle,
       support: OnboardingCopy.saveSupport,
@@ -225,7 +269,7 @@ class SaveView extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: StepLayout.fade + MmSpace.s8),
           child: ConstrainedBox(
             constraints: BoxConstraints(minHeight: (box.maxHeight - StepLayout.fade - MmSpace.s8).clamp(0, double.infinity)),
-            child: Align(alignment: weight, child: content),
+            child: Align(alignment: SaveView.weight, child: content),
           ),
         ),
       ),

@@ -330,6 +330,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                     note: PracticeCopy.chapterLine,
                                     onTap: () => _chapter(subject),
                                   ),
+                                  // Quick practice leads; By chapter steps back (one primary, one secondary).
+                                  weighted: true,
                                 ),
                               ],
                             ),

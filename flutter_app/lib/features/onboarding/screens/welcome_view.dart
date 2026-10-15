@@ -156,17 +156,13 @@ class _WelcomeViewState extends State<WelcomeView> {
     setState(() => _woken = true);
   }
 
-  /// Welcome is lamp-lit in both themes, like the opening it follows: one dark room, one
-  /// painting, so Day does not get a second, paler first impression.
-  static final ThemeData _night = buildTheme(Brightness.dark);
-
+  /// Welcome follows the theme (design critic 3): by night the lamp-lit study, by day the same
+  /// room in daylight, so a Day student's first impression is their own theme, not a dark room
+  /// that then turns pale.
   @override
-  Widget build(BuildContext context) => Theme(
-        data: _night,
-        child: AnnotatedRegion<SystemUiOverlayStyle>(
-          value: SystemUiOverlayStyle.light,
-          child: Builder(builder: _room),
-        ),
+  Widget build(BuildContext context) => AnnotatedRegion<SystemUiOverlayStyle>(
+        value: context.mmColors.isNight ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+        child: Builder(builder: _room),
       );
 
   Widget _room(BuildContext context) {
@@ -187,16 +183,19 @@ class _WelcomeViewState extends State<WelcomeView> {
     final bubbleRoom = size.height >= 760 + (scale - 1) * 250;
     final sayLine = bubbleRoom ? line : null;
 
-    // The painted room fills the screen behind everything; Mobi stands in its lit ellipse, as
-    // large as the painting says (shrunk only to stay under the wordmark), and his line sits above
-    // him to the left, over the bookshelf, ending before the pinned sheet so it never covers it.
+    // The painted room fills the screen behind everything, its floor reaching the words; Mobi
+    // stands in its lit ellipse, as large as the painting says (shrunk only to stay under the
+    // wordmark), and his line sits above him to the left, ending before the pinned sheet so it
+    // never covers it.
     final wordmarkBottom = pad.top + MmSpace.s16 + 26 + MmSpace.s16;
     final room = LayoutBuilder(
       builder: (context, box) {
-        final layout = WelcomeHeroLayout.of(size, room: box.maxHeight, topLimit: wordmarkBottom);
+        final layout = colors.isNight
+            ? WelcomeHeroLayout.of(size, room: box.maxHeight, topLimit: wordmarkBottom)
+            : WelcomeHeroLayout.day(size, room: box.maxHeight, topLimit: wordmarkBottom);
         final mobiSize = layout.mobiHeight;
         final mobiBox = mobiSize * 1.5;
-        final bubbleMax = math.max(0.0, layout.image.left + layout.image.width * WelcomeHeroLayout.sheetLeft - WelcomeView.gutter);
+        final bubbleMax = math.max(0.0, layout.sheetX - WelcomeView.gutter);
         return Stack(
           clipBehavior: Clip.none,
           children: [

@@ -2,6 +2,7 @@
 // jumps when the week lands (audit finding 24).
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show StudyWeekLegendMemory;
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/widgets/week_ledger.dart';
@@ -24,6 +25,8 @@ void main() {
   });
 
   testWidgets('the skeleton is exactly as tall as the loaded strip, at 1x and 1.3x', (tester) async {
+    // The key is not a standing line: it folds in on a first look (and is measured below).
+    StudyWeekLegendMemory.session.markSeen();
     for (final scale in [1.0, 1.3]) {
       await pumpMockmob(
         tester,

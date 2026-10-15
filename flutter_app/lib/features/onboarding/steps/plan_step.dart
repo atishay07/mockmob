@@ -25,7 +25,7 @@ import '../widgets/plan_sheet.dart';
 /// Step 9, the climax: the sheet flips over (640 ms, a light tap at the halfway point) and its
 /// back is the plan, engraved line by line, including what the student did not tell us (the
 /// first chapter in MockMob's order, and the board-season taper for Class 12). Holding seals it
-/// (1.2 s, a firm tap when it lands); the "Tap to seal instead" link under the hold seals at
+/// (1.2 s, a firm tap when it lands); the hint line under the hold ("or tap here to seal") seals at
 /// once, and so does TalkBack's double tap on the hold.
 ///
 /// The seal is the onboarding's one T3 moment (MOTION.md 1.2) and reads the Celebrations
@@ -47,6 +47,9 @@ class PlanStep extends ConsumerStatefulWidget {
   /// painted answer sheet up behind the card and presses the volt seal into its impression;
   /// without it (a plan step on its own) the seal stamps on the card's corner as before.
   final PlanSealMoment? moment;
+
+  /// On the hint line under the hold, whose tap seals at once.
+  static const Key tapToSealKey = ValueKey('plan-tap-to-seal');
 
   /// The guide Mobi of the flow's top bar. Given, he follows the hold: he looks at the seal when
   /// it starts, braces as it charges (at each third), breathes out with "Still yours to seal."
@@ -89,6 +92,9 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
 
   /// Under this much room the sheet tightens (small phones).
   static const double _compactBelow = 640;
+
+  /// Every plan line is shown ("See all 6"), not just the three that lead.
+  bool _allLines = false;
 
   @override
   void initState() {
@@ -170,7 +176,8 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
   /// A selection tick as each plan row prints (the rows print 160 ms apart after the flip).
   Future<void> _printTicks() async {
     if (Motion.reduced(context)) return;
-    final rows = math.min(maxPrintTicks, PlanSummary.of(widget.answers, ref.read(nowProvider)()).lines.length);
+    final count = PlanSummary.of(widget.answers, ref.read(nowProvider)()).lines.length;
+    final rows = math.min(maxPrintTicks, PlanSheet.shownLines(count, all: _allLines).length);
     for (var i = 0; i < rows; i++) {
       if (!mounted) return;
       ref.read(hapticsProvider).selection();
@@ -320,6 +327,9 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
           stamp: _stamp,
           // In the seal moment the flecks are the one light event; the card is out of sight.
           wave: ref.watch(celebrationModeProvider) == CelebrationMode.full && !_momentOn,
+          allLines: _allLines,
+          onAllLines: () => setState(() => _allLines = !_allLines),
+          onChange: sealed ? null : _change,
         );
 
     // The sheet sinks a little under the finger while the seal charges, and rebounds as the seal
@@ -525,19 +535,59 @@ class _PlanStepState extends ConsumerState<PlanStep> with TickerProviderStateMix
                       onSeal: _seal,
                     ),
                     const SizedBox(height: MmSpace.s4),
-                    Wrap(
-                      alignment: WrapAlignment.center,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      spacing: MmSpace.s8,
-                      children: [
-                        KeyButton.quiet(label: OnboardingCopy.sealIt, onPressed: _seal),
-                        KeyButton.quiet(label: OnboardingCopy.changeSomething, onPressed: _change),
-                      ],
-                    ),
+                    // Not a second key: one hint line on how the hold works, and the whole line
+                    // is the tap for anyone who cannot hold (design critic 20).
+                    _SealHint(key: PlanStep.tapToSealKey, onTap: _seal),
                   ],
                 ),
         ),
       ],
+    );
+  }
+}
+
+/// The line under Hold to seal: "Hold for a second, or tap here to seal." in the caption voice,
+/// "tap here to seal" underlined. The whole line is one 48 dp target that seals at once (the way
+/// for anyone who cannot hold); TalkBack reads it as the button "Tap to seal instead".
+class _SealHint extends StatelessWidget {
+  const _SealHint({super.key, required this.onTap});
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    const hint = OnboardingCopy.sealHint;
+    final cut = hint.indexOf('tap here');
+    final base = type.caption.copyWith(color: colors.ink3);
+    return MmPressable(
+      semanticsLabel: OnboardingCopy.sealIt,
+      onTap: onTap,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Center(
+          child: Text.rich(
+            TextSpan(
+              style: base,
+              children: cut < 0
+                  ? [const TextSpan(text: hint)]
+                  : [
+                      TextSpan(text: hint.substring(0, cut)),
+                      TextSpan(
+                        text: hint.substring(cut),
+                        style: base.copyWith(
+                          color: pressed ? colors.ink : colors.ink2,
+                          decoration: TextDecoration.underline,
+                          decorationColor: colors.ink3,
+                        ),
+                      ),
+                    ],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
     );
   }
 }

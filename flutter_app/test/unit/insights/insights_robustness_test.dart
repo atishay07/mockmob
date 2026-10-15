@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
@@ -397,6 +398,9 @@ void main() {
         wrapInScaffold: false,
       );
       expect(find.text('Accrual is income earned, not yet received.'), findsOneWidget);
+      await tester.tap(find.byIcon(LucideIcons.info));
+      await tester.pumpAndSettle();
+      expect(find.text(InsightsCopy.aiCaveat), findsOneWidget);
       expect(find.text(InsightsCopy.reportReply), findsNothing);
     });
 
@@ -409,6 +413,9 @@ void main() {
         overrides: [...insightsOverrides(ask: modelReply), aiReplyReportAvailableProvider.overrideWithValue(true)],
         wrapInScaffold: false,
       );
+      expect(find.text(InsightsCopy.reportReply), findsNothing, reason: 'the report lives in the About sheet');
+      await tester.tap(find.byIcon(LucideIcons.info));
+      await tester.pumpAndSettle();
       expect(find.text(InsightsCopy.reportReply), findsOneWidget);
     });
   });

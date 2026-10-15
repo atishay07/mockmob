@@ -11,7 +11,7 @@ import '../data/credits_models.dart';
 /// when it renews. Used on You and in the Account sheet; the tiles open the Credits page.
 /// A balance that is not known reads "Not loaded", never 0.
 class CreditTiles extends StatelessWidget {
-  const CreditTiles({super.key, required this.figures, required this.onOpen, this.mobi = false, this.keyPrefix = 'credits'});
+  const CreditTiles({super.key, required this.figures, required this.onOpen, this.mobi = false, this.keyPrefix = 'credits', this.flat = false});
 
   final CreditFigures figures;
 
@@ -22,6 +22,11 @@ class CreditTiles extends StatelessWidget {
   /// he is already in the sheet at the top.
   final bool mobi;
   final String keyPrefix;
+
+  /// Draws the tiles on the surface they stand on (a sheet's own glass), with a hairline between
+  /// them, instead of an inset surface each: a sheet is already a card, so a card in it is a box in
+  /// a box (critic 16 Oct, finding 24).
+  final bool flat;
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +43,14 @@ class CreditTiles extends StatelessWidget {
     final aiMeaning = figures.aiPaused ? 'AI replies are paused' : CreditsCopy.aiMeaning;
     final aiRenews = figures.aiPaused ? null : figures.aiRenews;
 
+    final colors = context.mmColors;
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             child: CreditTile(
+              flat: flat,
               key: ValueKey('$keyPrefix-practice'),
               pool: CreditPool.practice,
               figure: practiceFigure,
@@ -53,9 +60,16 @@ class CreditTiles extends StatelessWidget {
               onTap: onOpen,
             ),
           ),
-          const SizedBox(width: MmSpace.s12),
+          if (flat)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+              child: VerticalDivider(width: 1, thickness: 1, color: colors.line),
+            )
+          else
+            const SizedBox(width: MmSpace.s12),
           Expanded(
             child: CreditTile(
+              flat: flat,
               key: ValueKey('$keyPrefix-ai'),
               pool: CreditPool.ai,
               figure: aiFigure,
@@ -82,6 +96,7 @@ class CreditTile extends StatelessWidget {
     required this.onTap,
     this.footnote,
     this.mobi = false,
+    this.flat = false,
   });
 
   final CreditPool pool;
@@ -94,16 +109,17 @@ class CreditTile extends StatelessWidget {
   final bool mobi;
   final VoidCallback onTap;
 
+  /// No surface of its own: the tile is a pressable row of text on whatever it stands on.
+  final bool flat;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final numeric = known && int.tryParse(figure) != null;
-    return MmSurface.inset(
-      onTap: onTap,
-      semanticsLabel: '${CreditsCopy.balanceLabel(pool, figure, meaning)}. Opens Credits',
-      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s8, MmSpace.s12),
-      child: Column(
+    const padding = EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s8, MmSpace.s12);
+    final semanticsLabel = '${CreditsCopy.balanceLabel(pool, figure, meaning)}. Opens Credits';
+    final content = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
@@ -130,7 +146,18 @@ class CreditTile extends StatelessWidget {
             Text(footnote!, style: type.caption.copyWith(color: colors.ink3), maxLines: 1, overflow: TextOverflow.ellipsis),
           ],
         ],
-      ),
-    );
+      );
+    if (flat) {
+      return MmPressable(
+        onTap: onTap,
+        haptic: MmPressHaptic.selection,
+        highlight: true,
+        pressedScale: 0.98,
+        focusRadius: MmRadius.smallAll,
+        semanticsLabel: semanticsLabel,
+        builder: (context, pressed, focused) => Padding(padding: padding, child: content),
+      );
+    }
+    return MmSurface.inset(onTap: onTap, semanticsLabel: semanticsLabel, padding: padding, child: content);
   }
 }

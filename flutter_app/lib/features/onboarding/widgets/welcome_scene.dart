@@ -6,34 +6,84 @@ import 'package:flutter/material.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/art/scene_art.dart';
+import '../../../core/widgets/art/scene_life.dart';
 
-/// Where everything sits on the painted welcome room (`scene-welcome-hero-night`: the painted
-/// room only, 1296 by 1620, drawn the width of the screen and aligned to the top; under it the
-/// ground, which the painting's foot melts into), for a screen of [screen] whose room (everything
-/// above the words) is [room] tall.
+/// Where everything sits on the painted welcome room, for a screen of [screen] whose room
+/// (everything above the words) is [room] tall.
 ///
-/// Mobi's feet go where the painter left the lit ellipse (50.4% across, 85.7% down the painting)
-/// and he is 51.85% of the painting's width tall, scaled with the painting. On a short screen the
-/// painting slides up just enough that the ellipse stays above the headline, never under it.
+/// Night ([WelcomeHeroLayout.of]) is `scene-welcome-hero-night`: the painted room only, 1296 by
+/// 1620, drawn at least the width of the screen from the top; under it the ground, which the
+/// painting's foot melts into. Mobi's feet go where the painter left the lit ellipse (50.4%
+/// across, 85.7% down the painting) and he is 51.85% of the painting's width tall, scaled with
+/// the painting. The floor reaches down to the words (design critic 3: no dead band under the
+/// scene): the painting grows, up to [maxGrow] of the screen's width (its sides run off the
+/// screen, never anything in the middle), until the ellipse sits [floorGap] above the words;
+/// on a taller phone it then slides down, at most [maxSlide], its dark top melting into the
+/// ground. On a short screen it slides up just enough that the ellipse stays above the headline.
+///
+/// Day ([WelcomeHeroLayout.day]) is the same room lit by day, the painting every all-clear state
+/// uses (`scene-empty-allclear-day`, 3:2, feathered to the Day ground on every edge): drawn
+/// [dayGrow] times the screen's width, centred (the feathered sides run off the screen), its
+/// floor running into the words, the window, the lamp and the pinned sheet in view, and the
+/// wall rising into the ground above it, where Mobi's line sits.
 @immutable
 class WelcomeHeroLayout {
-  const WelcomeHeroLayout._({required this.image, required this.feet, required this.ellipse, required this.mobiHeight});
+  const WelcomeHeroLayout._({
+    required this.art,
+    required this.image,
+    required this.feet,
+    required this.ellipse,
+    required this.mobiHeight,
+    required this.sheetX,
+    this.topFade = 0,
+  });
 
   factory WelcomeHeroLayout.of(Size screen, {required double room, double topLimit = 0}) {
-    final w = imageWidthFor(screen);
-    final h = w * SceneArt.welcomeHero.aspect;
+    final base = imageWidthFor(screen);
+    final aspect = SceneArt.welcomeHero.aspect;
+    // Where the ellipse's foot falls, as a share of the painting's height.
+    const floor = footY + ellipseH / 2;
+    // Grow until the ellipse sits [floorGap] above the words (never shrink, never past maxGrow).
+    final want = (room - floorGap) / (floor * aspect);
+    final w = want.clamp(base, base * maxGrow);
+    final h = w * aspect;
     final left = (screen.width - w) / 2;
     final footAt = footY * h;
-    // Keep the ellipse (half of its height below the feet) above the words.
-    final dy = math.min(0.0, room - ellipseH / 2 * h - footAt);
+    final gap = room - floorGap - floor * h;
+    // Short: slide up so the ellipse stays above the words. Tall: slide down, a little.
+    final dy = gap < 0 ? math.min(0.0, room - ellipseH / 2 * h - footAt) : math.min(gap, maxSlide);
     final feet = Offset(left + footX * w, footAt + dy);
     // As tall as the painting says, but never up into the wordmark.
     final mobi = math.max(0.0, math.min(mobiWidthShare * w, feet.dy - topLimit));
     return WelcomeHeroLayout._(
+      art: SceneArt.welcomeHero,
       image: Rect.fromLTWH(left, dy, w, h),
       feet: feet,
       ellipse: Rect.fromCenter(center: Offset(left + ellipseX * w, ellipseY * h + dy), width: ellipseW * w, height: ellipseH * h),
       mobiHeight: mobi,
+      sheetX: left + sheetLeft * w,
+      topFade: dy > 0 ? math.min(dy + MmSpace.s32, 96.0) : 0,
+    );
+  }
+
+  /// The daylight room (see the class comment).
+  factory WelcomeHeroLayout.day(Size screen, {required double room, double topLimit = 0}) {
+    final art = SceneArt.welcomeRoom(night: false);
+    final w = screen.width * dayGrow;
+    final h = w * art.aspect;
+    final left = (screen.width - w) / 2;
+    // The painting's feathered foot runs a little under the words' top padding, so the floor
+    // reaches them; on a short phone it slides up no further than keeps Mobi under the wordmark.
+    final top = room + dayOverlap - h;
+    final feet = Offset(left + dayFootX * w, top + dayFootY * h);
+    final mobi = math.max(0.0, math.min(dayMobiShare * h, feet.dy - topLimit));
+    return WelcomeHeroLayout._(
+      art: art,
+      image: Rect.fromLTWH(left, top, w, h),
+      feet: feet,
+      ellipse: Rect.fromCenter(center: Offset(left + dayEllipseX * w, top + dayEllipseY * h), width: dayEllipseW * w, height: dayEllipseH * h),
+      mobiHeight: mobi,
+      sheetX: left + daySheetLeft * w,
     );
   }
 
@@ -53,10 +103,39 @@ class WelcomeHeroLayout {
   /// Mobi's line stays left of it, over the bookshelf, so it never covers the sheet.
   static const double sheetLeft = 0.6;
 
-  /// The width the painting is drawn (and decoded) at on [screen]: the screen's.
+  /// Night: how far above the words the ellipse's foot may sit before the painting grows, the
+  /// most it grows (as a share of the screen's width) and the most it then slides down.
+  static const double floorGap = MmSpace.s32;
+  static const double maxGrow = 1.15;
+  static const double maxSlide = MmSpace.s48;
+
+  /// Day: the daylight room's anchors are the all-clear room's own (Mobi's feet and the sunlit
+  /// pool, [SceneAnchor] and the floor-lamp [SceneLifeSpec]); the pool's height and the sheet's
+  /// left edge are measured on the same file.
+  static const double dayFootX = 0.514;
+  static const double dayFootY = 0.796;
+  static const double dayEllipseX = 0.514;
+  static const double dayEllipseY = 0.785;
+  static const double dayEllipseW = 0.55;
+  static const double dayEllipseH = 0.17;
+  static const double daySheetLeft = 0.61;
+
+  /// Day: the painting's width as a share of the screen's (its feathered sides and the plant
+  /// run off the edges; the window, the lamp, the pool and the sheet stay in view), how far its
+  /// feathered foot runs under the words, and Mobi's height as a share of its height.
+  static const double dayGrow = 1.3;
+  static const double dayOverlap = MmSpace.s16;
+  static const double dayMobiShare = 0.48;
+
+  /// The width the night painting is drawn (and decoded) at on [screen], before it grows: the
+  /// screen's.
   static double imageWidthFor(Size screen) => screen.width;
 
-  /// The painting's box on the screen (it may run off the top on a short screen).
+  /// The painting drawn.
+  final SceneArt art;
+
+  /// The painting's box on the screen (it may run off the top on a short screen, and off both
+  /// sides when it grows).
   final Rect image;
 
   /// The point between Mobi's feet.
@@ -65,6 +144,16 @@ class WelcomeHeroLayout {
   /// The lit ellipse on the floor.
   final Rect ellipse;
   final double mobiHeight;
+
+  /// Where the pinned answer sheet starts on the screen: Mobi's line ends before it.
+  final double sheetX;
+
+  /// How tall the fade from the ground into the painting's top edge is, when the painting has
+  /// slid down from the top (0: none).
+  final double topFade;
+
+  /// The daylight room.
+  bool get day => art != SceneArt.welcomeHero;
 }
 
 /// The welcome room: the painted lamp-lit study, and the lamp clicking on as it opens (the
@@ -122,7 +211,8 @@ class _WelcomeHeroState extends State<WelcomeHero> with TickerProviderStateMixin
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_lamp.isAnimating || _lamp.value > 0) return;
-    if (!widget.animate || Motion.reduced(context)) {
+    // By day there is no lamp to come on: the room is lit, and its own life is [SceneLife]'s.
+    if (!widget.animate || Motion.reduced(context) || widget.layout.day) {
       _lamp.value = 1;
     } else {
       _lamp.forward();
@@ -155,11 +245,46 @@ class _WelcomeHeroState extends State<WelcomeHero> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     final l = widget.layout;
-    final lamp = context.mmColors.lamp;
+    final colors = context.mmColors;
+    final lamp = colors.lamp;
+    if (l.day) {
+      // The daylit room: the painting, its sunlit pool breathing a little for a few breaths
+      // (never under reduced motion or with [WelcomeHero.animate] off), nothing else moving.
+      final picture = SceneImage(l.art, width: l.image.width, height: l.image.height, fit: BoxFit.fill);
+      return Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Positioned.fromRect(
+            rect: l.image,
+            child: widget.animate ? SceneLife(scene: StateScene.allClear, night: false, child: picture) : picture,
+          ),
+        ],
+      );
+    }
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Positioned.fromRect(rect: l.image, child: SceneImage(SceneArt.welcomeHero, width: l.image.width, height: l.image.height)),
+        Positioned.fromRect(rect: l.image, child: SceneImage(l.art, width: l.image.width, height: l.image.height)),
+        // Slid down on a tall phone: the painting's dark top edge melts into the ground.
+        if (l.topFade > 0)
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: l.topFade,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [colors.ground, colors.ground.withValues(alpha: 0)],
+                    stops: [(l.image.top / l.topFade).clamp(0.0, 1.0), 1],
+                  ),
+                ),
+              ),
+            ),
+          ),
         // The veil and the floor warmth repaint on their own layer while the lamp comes on, so
         // the decoded painting under them is never drawn again.
         Positioned.fill(

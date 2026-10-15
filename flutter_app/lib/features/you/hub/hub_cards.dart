@@ -52,7 +52,8 @@ class PlanCreditsCard extends ConsumerWidget {
     final type = context.mmType;
     final figures = ref.watch(creditFiguresProvider);
     final until = figures.proUntil;
-    final line = figures.isPro ? (until == null ? CreditsCopy.planProActive : CreditsCopy.planUntil(until)) : CreditsCopy.planFreeLine;
+    // Free is the pill alone; Pro keeps its line (the date is news).
+    final line = figures.isPro ? (until == null ? CreditsCopy.planProActive : CreditsCopy.planUntil(until)) : null;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: youText),
       child: Column(
@@ -61,8 +62,10 @@ class PlanCreditsCard extends ConsumerWidget {
           Row(
             children: [
               PlanTag(pro: figures.isPro),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
+              if (line != null) ...[
+                const SizedBox(width: MmSpace.s12),
+                Expanded(child: Text(line, style: type.body.copyWith(color: colors.ink2))),
+              ],
             ],
           ),
           const SizedBox(height: MmSpace.s12),

@@ -86,6 +86,7 @@ class _RunnerViewState extends ConsumerState<RunnerView> with RunnerHost<RunnerV
           filter: _filter.value,
           onFilter: (f) => _filter.value = f,
           showMobi: showMobi,
+          openUntil: session.isMock ? null : RunnerCopy.openUntil(session.endsAt.toLocal()),
         ),
       ),
     );
