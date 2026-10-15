@@ -131,7 +131,7 @@ function Ribbon({ ribbon, armed }) {
   const pick = useCallback((i) => setPicked(i), []);
   return (
     <div className="rc-block">
-      <h3 className="rc-h">The last 12 weeks</h3>
+      <h3 className="rc-h">{ribbon.length >= 12 ? 'The last 12 weeks' : ribbon.length === 1 ? 'Your first week' : `Your ${ribbon.length} weeks so far`}</h3>
       <ol className="rc-ribbon" aria-label="Weeks, oldest first">
         {ribbon.map((w, i) => (
           <li key={w.key}>
