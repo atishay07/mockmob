@@ -70,7 +70,7 @@ function Card({ item, active, onPlay }) {
           <span className="rl__cover-mark" aria-hidden="true"><span className="rl__cover-orbit" /><span>{initials(item.creator)}</span></span>
           <span className="rl__top">
             <span className="rl__kind"><IgGlyph size={14} />{item.kind === 'reel' ? 'Creator reel' : 'MockMob post'}</span>
-            {item.partnership ? <span className="rl__partner">Partner</span> : null}
+            {item.partnership ? <span className="rl__partner">Paid partner</span> : null}
           </span>
           {item.followers ? (
             <span className="rl__reach">
@@ -95,6 +95,16 @@ function Card({ item, active, onPlay }) {
       )}
     </li>
   );
+}
+
+// "3 October 2026" and "5 October 2026" read as "3–5 October 2026": one short date line under the reels.
+function countsDate(a, b) {
+  if (!a || a === b) return b;
+  const [dayA, ...restA] = a.split(' ');
+  const [dayB, ...restB] = b.split(' ');
+  if (restA.join(' ') !== restB.join(' ')) return `${a} to ${b}`;
+  const [lo, hi] = [Number(dayA), Number(dayB)].sort((x, y) => x - y);
+  return `${lo}–${hi} ${restB.join(' ')}`;
 }
 
 export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
@@ -157,7 +167,7 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
           <Card key={`${item.code}-${activeCode === item.code ? 'active' : 'idle'}`} item={item} active={activeCode === item.code} onPlay={() => setActiveCode(item.code)} />
         ))}
       </ul>
-      <p className="rl__note">Follower counts from public profiles{asOf ? `, ${asOf}` : ''}. Reel views as of {REEL_VIEWS_AS_OF}. Posts marked Partner are paid collaborations.</p>
+      <p className="rl__note">Counts as of {countsDate(asOf, REEL_VIEWS_AS_OF)}.</p>
     </div>
   );
 }

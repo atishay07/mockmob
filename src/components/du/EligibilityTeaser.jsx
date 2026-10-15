@@ -99,6 +99,9 @@ export function EligibilityTeaser() {
   const max = Math.max(1, ...byStream.map(([, n]) => n));
   const query = encodeSelection(selection);
   const href = `/cuet-cutoff-calculator${query ? `?s=${query}` : ''}`;
+  // Until there is a count to show, the number is the whole list, never a placeholder dash.
+  const total = rules ? rules.groups.length : 73;
+  const counted = Boolean(rules && hasDomains);
 
   return (
     <div className="du-teaser" ref={hostRef}>
@@ -129,8 +132,8 @@ export function EligibilityTeaser() {
           </div>
         </fieldset>
         <Link href={href} className="du-live">
-          <span className="mm-measure">{rules && hasDomains ? eligible.length : '–'}</span>
-          <span>of {rules ? rules.groups.length : 73} programmes open</span>
+          <span className="mm-measure">{counted ? eligible.length : total}</span>
+          <span>{counted ? `of ${total} programmes open` : 'DU programmes'}</span>
           <b>See cutoffs<ArrowRight size={14} aria-hidden="true" /></b>
         </Link>
       </div>
@@ -141,13 +144,17 @@ export function EligibilityTeaser() {
         ) : (
           <>
             <p className="du-teaser__big">
-              <span className="mm-measure">{rules && hasDomains ? eligible.length : '–'}</span>
-              <small>of {rules ? rules.groups.length : 73} DU programmes</small>
+              <span className="mm-measure">{counted ? eligible.length : total}</span>
+              <small>{counted ? `of ${total} DU programmes` : 'DU programmes.'}</small>
             </p>
             <p className="du-teaser__lead">
-              {rules && hasDomains
-                ? 'accept these subjects under DU’s 2026 rules, each with its 2026 college cutoffs.'
-                : 'Add your domain subjects to see which Delhi University programmes you can apply to.'}
+              {counted
+                ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
+                : hasDomains
+                  ? 'Checking them against DU’s 2026 rules…'
+                  : selection.languages.length
+                    ? 'Tick your domain subjects to see which are open to you.'
+                    : 'Tick your subjects to see which are open to you.'}
             </p>
             {rules && hasDomains && byStream.length > 0 ? (
               <ul className="du-teaser__streams">

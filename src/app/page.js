@@ -80,31 +80,31 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 const TOUR = [
   { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Arena', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
-    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Every answer is scored on our server', href: '/dashboard', cta: 'Start practising' },
+    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
     body: 'After a wrong answer, the AI solves the question itself first. Only when it lands on the official key does it explain why your pick was tempting and what to remember.',
-    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'It checks the official key before it teaches you', href: '/signup', cta: 'Try Mistake Repair' },
+    points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' },
   ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', icon: <BookOpenText size={18} aria-hidden="true" />, line: 'Learn the idea, then keep it', kicker: 'Learn', title: 'Learn the idea behind the mark, then keep it.',
     body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
-    points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects, with more on the way`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'Made to sit beside your NCERT', href: '/learn', cta: 'Open Learn' }] : []),
+    points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects, with more on the way`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'Made to sit beside your NCERT.', href: '/learn', cta: 'Open Learn' }] : []),
   { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'Replay a mock, answer by answer.',
     body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
-    points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'The full timeline, so you choose what to fix', href: '/review', cta: 'Review your mistakes' },
+    points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'The whole mock in order, so you pick what to fix.', href: '/review', cta: 'Review your mistakes' },
   { id: 'radar', label: 'Radar', icon: <Radar size={18} aria-hidden="true" />, line: 'The chapter to fix first', kicker: 'Radar', title: 'Know which chapter to fix first.',
     body: 'A score is just a number. Radar traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
-    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Based on your own attempts, nobody else’s', href: '/analytics', cta: 'Explore Radar' },
+    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'Explore Radar' },
   { id: 'prepos', label: 'PrepOS', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'PrepOS', title: 'Ask what to do tonight. Get one clear step.',
     body: 'PrepOS reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in Radar.',
-    points: ['Questions about your own record are free', 'AI replies use monthly credits: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One next step, the same everywhere', href: '/mentor', cta: 'Meet PrepOS' },
+    points: ['Questions about your own record are free', 'AI replies use monthly credits: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and Radar.', href: '/mentor', cta: 'Meet PrepOS' },
   { id: 'compass', label: 'DU Compass', icon: <Compass size={18} aria-hidden="true" />, line: 'Your shortlist against real DU cutoffs', kicker: 'Admission Compass', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
-    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Built from your practice and DU’s published cutoffs', href: '/admission-compass', cta: 'Open Compass' },
+    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Your practice, set against DU’s published cutoffs.', href: '/admission-compass', cta: 'Open Compass' },
   { id: 'combo', label: 'Combo Planner', icon: <Combine size={18} aria-hidden="true" />, line: 'Choose your five CUET papers', kicker: 'Subject Combo Planner', title: 'Choosing five papers? Check the combination first.',
     body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
-    points: ['Free to use', 'Compare combinations side by side'], chip: 'Built on DU’s published 2026 rules', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
+    points: ['Free to use', 'Compare combinations side by side'], chip: 'Tested against DU’s published 2026 rules.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
   { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and leaderboard', title: 'Beat the score you’re aiming for.',
     body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level. It shows whether you can hold that standard when the clock is running.',
-    points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'A target to beat, not another student', href: '/leaderboard', cta: 'See the leaderboard' },
+    points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See the leaderboard' },
 ];
 
 const faqs = [
@@ -241,7 +241,7 @@ export default function LandingPage() {
               <p className="lp-sub">
                 Replay the answer changes, the slow questions and the skips, then leave with one clear next move.
               </p>
-            </Reveal><MascotSeat station="lab" pose="attentive" label="Read the pattern." note="Replay, then choose a step." /></div>
+            </Reveal><MascotSeat station="lab" pose="attentive" label="Let’s find the lost marks." /></div>
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
           </div>
         </section>
@@ -256,7 +256,7 @@ export default function LandingPage() {
                 <p className="lp-sub">
                   Slide a score and see which colleges it would have cleared in 2026, by category and round.
                 </p>
-              </Reveal><MascotSeat station="compass" pose="pointing" label="Check the source." note="Keep the goal in view." /></div>
+              </Reveal><MascotSeat station="compass" pose="pointing" label="Got a dream college? Let’s look." /></div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
               <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
                 <div className="lp-cpro__copy">
@@ -279,7 +279,7 @@ export default function LandingPage() {
         {/* ------------------------- FREE DU CALCULATOR --------------------- */}
         <section className="lp-sec" id="du-eligibility">
           <div className="mm-wrap">
-            <MascotSeat station="eligibility" pose="pointing" label="Start with your subjects." note="Then pick your colleges." className="pip-seat--utility" />
+            <MascotSeat station="eligibility" pose="pointing" label="Leave the counting to me." className="pip-seat--utility" />
             <Reveal className="lp-head">
               <h2 className="lp-h2">Which DU courses fit your subjects?</h2>
               <p className="lp-sub">
@@ -340,7 +340,7 @@ export default function LandingPage() {
         {/* ------------------------------ PRICING --------------------------- */}
         <section className="lp-sec" id="pricing">
           <div className="mm-wrap">
-            <MascotSeat station="pricing" pose="attentive" label="Take your time." note="The sample stays free." className="pip-seat--utility" />
+            <MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />
             <Reveal className="lp-head">
               <h2 className="lp-h2">Start free. Go Pro when you want more room.</h2>
               <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `One payment of ₹${OFFER.oneTime.rupees} covers you through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} opens soon, and nobody who pays now loses a day.`}</p>
@@ -391,7 +391,7 @@ export default function LandingPage() {
             <div className="lp-bg__dots" />
           </div>
           <Reveal className="mm-wrap lp-close__inner">
-            <MascotSeat station="close" pose="greeting" label="See you at your first mock." note="Start with one session." />
+            <MascotSeat station="close" pose="greeting" label="See you at your first mock." />
             <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
             <p className="lp-sub">Answer five now. Sign up when you want MockMob to keep your record.</p>
             <LandingActions mode="primary" />
