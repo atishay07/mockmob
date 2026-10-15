@@ -150,6 +150,109 @@
   .app-shell .pr .pr-nta { grid-template-columns: minmax(0, 1fr); gap: 18px; }
 }
 
+/* ---------- The Mode step ----------
+   From 720 px: Quick, Full and Smart in three columns, then NTA mode as its own wide showcase (the grid
+   spans it). Phones follow the app's start deck: Quick leads full width with its lit icon, Full mock and NTA
+   mode pair up as the exam-conditions tiles (NTA with the app's palette picture), Smart practice runs as a
+   row under them. Choosing NTA mode opens what its short tile holds (the screen, its chips and the choice of
+   exam screen) right under the deck. */
+.app-shell .pr .pr-modes > .pr-nta { grid-column: 1 / -1; }
+.app-shell .pr .pr-nta__short, .app-shell .pr .pr-nta__glyph, .app-shell .pr .pr-nta__more { display: none; }
+.app-shell .pr .pr-nta__after { display: grid; gap: 12px; }
+.app-shell .pr .pr-sep { display: inline-block; width: 3px; height: 3px; margin: 0 7px; border-radius: 50%; background: currentColor; opacity: 0.55; vertical-align: middle; }
+
+@media (max-width: 719px) {
+  .app-shell .pr .pr-modes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  /* Full mock and NTA mode: a tile each, the picture on top, the price at the foot. */
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'],
+  .app-shell .pr .pr-modes > .pr-nta {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-areas: 'pic' 'name' 'spec' 'price';
+    align-content: stretch;
+    gap: 3px;
+    min-height: 176px;
+    padding: 14px;
+    border-radius: 18px;
+  }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] { order: 2; grid-column: auto; }
+  .app-shell .pr .pr-modes > .pr-nta { order: 3; grid-column: auto; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-mode__top,
+  .app-shell .pr .pr-modes > .pr-nta .pr-mode__top,
+  .app-shell .pr .pr-modes > .pr-nta .pr-nta__copy { display: contents; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-mode__icon { grid-area: pic; width: 44px; height: 44px; border-radius: 14px; margin-bottom: 8px; }
+  .app-shell .pr .pr-modes > .pr-nta .pr-mode__icon, .app-shell .pr .pr-nta__kicker { display: none; }
+  .app-shell .pr .pr-modes > .pr-nta .pr-nta__glyph { display: block; grid-area: pic; width: 44px; height: 44px; margin-bottom: 8px; filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.28)); }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-mode__name,
+  .app-shell .pr .pr-modes > .pr-nta .pr-mode__name { grid-area: name; margin-top: 0; font-size: 16px; letter-spacing: -0.012em; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-mode__spec { grid-area: spec; }
+  .app-shell .pr .pr-modes > .pr-nta .pr-mode__spec, .app-shell .pr .pr-nta__chips, .app-shell .pr .pr-modes > .pr-nta > .pr-nta__console { display: none; }
+  .app-shell .pr .pr-modes > .pr-nta .pr-nta__short { display: block; grid-area: spec; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-badge,
+  .app-shell .pr .pr-modes > .pr-nta .pr-badge { grid-area: price; justify-self: start; margin: 8px 0 0; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'][aria-pressed='true'] .pr-badge,
+  .app-shell .pr .pr-modes > .pr-nta[aria-pressed='true'] .pr-badge { margin-right: 0; }
+
+  /* Quick practice leads: full width, its icon lit on the right. */
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] {
+    order: 1;
+    grid-column: 1 / -1;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas: 'name pic' 'spec pic' 'price pic';
+    align-items: center;
+    column-gap: 16px;
+    row-gap: 3px;
+    min-height: 132px;
+    padding: 18px 18px 18px 20px;
+    border-radius: 22px;
+  }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__top { display: contents; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__icon {
+    grid-area: pic;
+    width: 76px;
+    height: 76px;
+    border-radius: 24px;
+    border-color: var(--a-volt-line);
+    background: radial-gradient(75% 75% at 50% 30%, var(--a-volt-wash), transparent 80%), var(--a-sunken);
+    box-shadow: 0 14px 30px -18px var(--a-volt-line);
+  }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__icon svg { width: 34px; height: 34px; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__name { grid-area: name; margin-top: 0; font-size: 22px; letter-spacing: -0.02em; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__spec { grid-area: spec; font-size: 13.5px; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-badge { grid-area: price; justify-self: start; margin: 8px 0 0; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'][aria-pressed='true'] .pr-badge { margin-right: 0; }
+
+  /* Smart practice: a row under the pair. */
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] {
+    order: 4;
+    grid-column: 1 / -1;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 14px;
+    row-gap: 2px;
+    padding: 12px 14px;
+  }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-mode__top { display: contents; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-mode__icon { grid-column: 1; grid-row: 1 / span 2; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-mode__name { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-mode__spec { grid-column: 2; grid-row: 2; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-badge { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-tile__tick { top: 50%; margin-top: -11px; }
+
+  /* What the short NTA tile holds. */
+  .app-shell .pr .pr-nta__more {
+    display: grid;
+    gap: 12px;
+    padding: 16px;
+    border: 1px solid var(--a-line-strong);
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--a-volt-wash), transparent 60%), var(--a-raised);
+  }
+  .app-shell .pr .pr-nta__more .pr-mode__spec { font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
+  .app-shell .pr .pr-nta__more .pr-nta__chips { display: flex; }
+  .app-shell .pr .pr-nta__more .pr-nta__console { margin-top: 4px; }
+}
+
 /* ---------- Head: the credits card lines up with the session panel below it ---------- */
 @media (min-width: 1024px) {
   .app-shell .pr .pr-head { grid-template-columns: minmax(0, 1fr) 340px; column-gap: 32px; }

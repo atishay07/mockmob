@@ -12,6 +12,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
 import NtaConsolePreview from '@/components/arena/NtaConsolePreview';
+import NtaGlyph from '@/components/arena/NtaGlyph';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { SegmentedControl as Segmented } from '@/components/ui/controls/SegmentedControl';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
@@ -24,6 +25,9 @@ import StartRule, { useStartRule } from './StartRule';
 import './practice.css';
 
 const MODE_LIST = ['quick', 'full', 'smart'];
+
+// A drawn dot between short facts (the site keeps the middle dot out of its words). Read out as a comma.
+const Sep = () => <><span className="pr-sep" aria-hidden="true" /><span className="sr-only">, </span></>;
 // A pick is a choice, so the object answers it a little more than a passing tap (the app's 0.4).
 const PICK_AMPLITUDE = 0.7;
 
@@ -324,6 +328,8 @@ export default function DashboardPageClient() {
       : !quoteLaunchable ? 'Not available'
         : `Start ${mode.label}`;
   // The dock's short price: the server quote once it is in, the mode's own price until then.
+  const ntaOn = effectiveModeId === 'nta';
+  const ntaBadge = modeBadge('nta');
   const dockBlocked = quoteStatus === 'ready' && quoteMatches && !quote.launchable;
   const dockCost = quoteStatus === 'ready' && quoteMatches
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : 'Not available')
@@ -439,15 +445,18 @@ export default function DashboardPageClient() {
               </div>
             </section>
 
-            <section className="pr-step" aria-labelledby="pr-s2">
+            <section className="pr-step pr-step--modes" aria-labelledby="pr-s2">
               <div className="pr-step__head"><h2 id="pr-s2"><span>2</span>Mode</h2><span className="pr-hint">Every mode uses the same checked questions.</span></div>
+              {/* practice.css arranges the tiles by room. Phones follow the app's start deck: Quick leads, Full mock and
+                  NTA mode pair up as the exam-conditions tiles, Smart practice runs as a row under them. From 720 px
+                  it is Quick, Full and Smart in three columns and NTA mode as its own wide showcase. */}
               <div className="pr-modes">
                 {MODE_LIST.map((id) => {
                   const m = TEST_MODES[id];
                   const badge = modeBadge(id);
                   const on = effectiveModeId === id;
                   return (
-                    <button key={id} type="button" aria-pressed={on} className="pr-tile pr-mode mk-rim" data-tone={badge.tone} onClick={() => chooseMode(id)}>
+                    <button key={id} type="button" aria-pressed={on} className="pr-tile pr-mode mk-rim" data-mode={id} data-tone={badge.tone} onClick={() => chooseMode(id)}>
                       <span className="pr-mode__top">
                         <span className="pr-mode__icon"><ModeIcon id={id} size={20} /></span>
                         <span className="pr-badge" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{badge.text}</span>
@@ -458,46 +467,47 @@ export default function DashboardPageClient() {
                     </button>
                   );
                 })}
-              </div>
-            </section>
-
-            {/* NTA Mode: the closest thing to exam day, so it gets its own row. */}
-            {(() => {
-              const badge = modeBadge('nta');
-              const on = effectiveModeId === 'nta';
-              return (
-                <div className="pr-nta-wrap" data-on={on}>
-                  <button type="button" aria-pressed={on} className="pr-tile pr-nta mk-rim" data-tone={badge.tone} onClick={() => chooseMode('nta')}>
-                    <span className="pr-nta__copy">
-                      <span className="pr-mode__top">
-                        <span className="pr-mode__icon"><ModeIcon id="nta" size={20} /></span>
-                        <span className="pr-nta__kicker">Closest to exam day</span>
-                        <span className="pr-badge" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{badge.text}</span>
-                      </span>
-                      <span className="pr-mode__name">NTA Mode</span>
-                      <span className="pr-mode__spec">50 questions in 60 minutes on an exam-style screen: question palette, mark for review, clear response, a countdown that submits for you. Original practice questions, not official papers.</span>
-                      <span className="pr-nta__chips"><i>50 Q</i><i>60 min</i><i>Question palette</i><i>Mark for review</i></span>
+                {/* NTA Mode: the closest thing to exam day. */}
+                <button type="button" aria-pressed={ntaOn} className="pr-tile pr-nta mk-rim" data-mode="nta" data-tone={ntaBadge.tone} onClick={() => chooseMode('nta')}>
+                  <span className="pr-nta__copy">
+                    <span className="pr-mode__top">
+                      <span className="pr-mode__icon"><ModeIcon id="nta" size={20} /></span>
+                      <NtaGlyph className="pr-nta__glyph" size={48} />
+                      <span className="pr-nta__kicker">Closest to exam day</span>
+                      <span className="pr-badge" data-tone={ntaBadge.tone}>{ntaBadge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{ntaBadge.text}</span>
                     </span>
+                    <span className="pr-mode__name">NTA Mode</span>
+                    <span className="pr-mode__spec">50 questions in 60 minutes on an exam-style screen: question palette, mark for review, clear response, and a countdown that submits for you.</span>
+                    <span className="pr-nta__short">The exam-day screen, palette and mark for review.</span>
+                    <span className="pr-nta__chips"><i>50 Q</i><i>60 min</i><i>Question palette</i><i>Mark for review</i></span>
+                  </span>
+                  <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
+                  {ntaOn ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
+                </button>
+              </div>
+              {ntaOn ? (
+                <div className="pr-nta__after">
+                  {/* Phones: the tile is short, so what it holds opens here once NTA mode is chosen. */}
+                  <div className="pr-nta__more">
+                    <p className="pr-mode__spec">50 questions in 60 minutes on an exam-style screen: question palette, mark for review, clear response, and a countdown that submits for you.</p>
+                    <span className="pr-nta__chips"><i>50 Q</i><i>60 min</i><i>Question palette</i><i>Mark for review</i></span>
                     <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
-                    {on ? <span className="pr-tile__tick" aria-hidden="true"><StatusIcon kind="check" size={14} /></span> : null}
-                  </button>
-                  {on ? (
-                    <div className="pr-nta__screen">
-                      {isPremium ? (
-                        <>
-                          <span className="pr-fine__label">Exam screen</span>
-                          <Segmented label="Exam screen" value={ntaScreen} onChange={setNtaScreen}
-                            options={[{ value: 'mockmob', label: 'MockMob style' }, { value: 'nta', label: 'NTA style' }]} />
-                          <span className="pr-hint">Same questions, timing and scoring. You can switch inside the test.</span>
-                        </>
-                      ) : (
-                        <p className="pr-hint">NTA Mode needs Pro. See how both screens look first: <Link href="/#exam-experience" className="pr-link">Free exam-screen preview</Link></p>
-                      )}
-                    </div>
-                  ) : null}
+                  </div>
+                  <div className="pr-nta__screen">
+                    {isPremium ? (
+                      <>
+                        <span className="pr-fine__label">Exam screen</span>
+                        <Segmented label="Exam screen" value={ntaScreen} onChange={setNtaScreen}
+                          options={[{ value: 'mockmob', label: 'MockMob style' }, { value: 'nta', label: 'NTA style' }]} />
+                        <span className="pr-hint">Same questions, timing and scoring. You can switch inside the test.</span>
+                      </>
+                    ) : (
+                      <p className="pr-hint">NTA Mode needs Pro. See how both screens look first: <Link href="/?stay=1#exam-experience" className="pr-link">Free exam-screen preview</Link></p>
+                    )}
+                  </div>
                 </div>
-              );
-            })()}
+              ) : null}
+            </section>
 
             <section className="pr-step" aria-labelledby="pr-s3">
               <div className="pr-step__head"><h2 id="pr-s3"><span>3</span>Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `About ${minutes} minutes`}</span></div>
@@ -510,7 +520,7 @@ export default function DashboardPageClient() {
 
             <SmoothDetails className="pr-step pr-fine" open={chapterOpen || difficultyMode !== 'auto' || selectedChapters.length > 0} onToggle={(event) => setChapterOpen(event.currentTarget.open)} summary={<>
                 <span>Fine-tune</span>
-                <span className="pr-hint">{difficultyMode === 'auto' && selectedChapters.length === 0 ? 'Optional · balanced mix, all chapters' : `${difficultyMode === 'auto' ? 'Balanced mix' : `${difficultyMode} only`} · ${selectedChapters.length ? `${selectedChapters.length} chapters` : 'all chapters'}`}</span>
+                <span className="pr-hint">{difficultyMode === 'auto' && selectedChapters.length === 0 ? 'Optional: balanced mix, all chapters' : `${difficultyMode === 'auto' ? 'Balanced mix' : `${difficultyMode} only`}, ${selectedChapters.length ? `${selectedChapters.length} ${selectedChapters.length === 1 ? 'chapter' : 'chapters'}` : 'all chapters'}`}</span>
                 <AppIcon name="expand" size={16} className="pr-fine__chev" />
               </>}>
               {mode.allowDifficultyOverride && (
@@ -573,7 +583,7 @@ export default function DashboardPageClient() {
           </span>
           <span className="pr-dock__text">
             <b>{mode.label}</b>
-            <span><span className="sr-only">{selectedSubject?.name}, </span>{quoteCount} Q<span className="pr-dock__min"> · {approximate ? 'about ' : ''}{minutes} min</span> · <i data-tone={dockBlocked ? 'locked' : undefined}>{dockCost}</i></span>
+            <span><span className="sr-only">{selectedSubject?.name}, </span>{quoteCount} Q<span className="pr-dock__min"><Sep />{approximate ? 'about ' : ''}{minutes} min</span><Sep /><i data-tone={dockBlocked ? 'locked' : undefined}>{dockCost}</i></span>
           </span>
           {/* One width in every state: "Start" waits, disabled, while the quote is checked. A session that cannot
               start (or a quote that failed) sends the student to the card, which says why. */}
@@ -610,7 +620,7 @@ export default function DashboardPageClient() {
                   <li key={attempt.id}>
                     <Link href={`/result/${attempt.id}`}>
                       <span className="pr-recent__icon"><SubjectIcon id={subject?.internalId || attempt.subject} size={18} /></span>
-                      <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} · {attempt.correct}/{attempt.total} correct</i></span>
+                      <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}<Sep />{attempt.correct}/{attempt.total} correct</i></span>
                       <span className="pr-recent__score" data-tone={tone}>{attempt.score}%</span>
                     </Link>
                   </li>

@@ -22,6 +22,10 @@ import { RowArt, SubjectObject } from './StartArt';
 import { balanceLine, dragOffset, dragOutcome, springEasing, subjectName } from './startModel.mjs';
 import { useSubjectRail } from './useSubjectRail';
 
+// Full mock and NTA mode are the two exam-conditions sessions: they sit side by side as tiles (the app's deck);
+// the rest run as rows.
+const PAIRED = new Set(['full', 'nta']);
+
 const SETTLE = 'cubic-bezier(0.23, 1, 0.32, 1)';
 const SPRING_FALLBACK = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 const springs = new Map();
@@ -309,7 +313,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
         <h3 className="st-section" data-rise>{hero ? 'Or start something else' : 'Pick a session'}</h3>
         <ul className="st-rows">
           {[...rows, choose].filter(Boolean).map((row) => (
-            <li key={row.id} data-rise>
+            <li key={row.id} data-rise data-pair={PAIRED.has(row.id) ? '' : undefined}>
               <Link className="st-row mk-press" href={linkFor(row.href)} onClick={onFollow} data-row={row.id}>
                 <span className="st-row__art">
                   <RowArt key={row.graphic === 'subject' ? row.subject : row.graphic} graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={56} />
