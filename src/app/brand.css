@@ -1,4 +1,4 @@
-/* Brand layer: the display face, logo B and the photo-real subject objects.
+/* Brand layer: the display face and logo B (the photo-real subject objects: src/components/brand/subject-object.css).
    Owner, 15 Oct 2026: logo B only (the bolt mark is gone), the small volt dot stays with the wordmark, and the
    Bricolage display face and the app's 3D subject objects are switched on. Motion here answers a load, a hover
    or a focus; it uses transform and opacity only and stops when reduced motion is asked for. */
@@ -160,108 +160,18 @@
 }
 
 /* ---------- Subject objects ----------
-   src/components/brand/SubjectObject.jsx draws them. The square box is laid out before the file decodes; the
-   picture and its contact shadow are placed in percent from the app's own measurements (data/subject_art.mjs),
-   so the box can be any size. */
-.subj-obj {
-  --obj-size: 72px;
-  position: relative;
-  display: inline-block;
-  flex: none;
-  width: var(--obj-size);
-  height: var(--obj-size);
-  isolation: isolate;
-  vertical-align: middle;
-}
-.subj-obj__img {
-  position: absolute;
-  z-index: 2;
-  display: block;
-  max-width: none;
-  object-fit: contain;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
-  transform-origin: 50% 92%;
-  transition:
-    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 320ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.subj-obj__shadow {
-  position: absolute;
-  z-index: 1;
-  height: 9%;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.2) 58%, transparent);
-  transform: translateY(-55%);
-  transition:
-    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-:root[data-theme='light'] .subj-obj__shadow {
-  background: radial-gradient(closest-side, rgba(46, 36, 20, 0.32), rgba(46, 36, 20, 0.11) 58%, transparent);
-}
-/* The lamp: a warm pool of light behind a featured object, as in the app's lit scenes. */
-.subj-obj__light {
-  position: absolute;
-  inset: 2% 4% 8%;
-  z-index: 0;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(255, 212, 150, 0.24), rgba(255, 186, 104, 0.09) 55%, transparent 74%);
-  pointer-events: none;
-  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-:root[data-theme='light'] .subj-obj__light {
-  background: radial-gradient(closest-side, rgba(255, 196, 112, 0.3), rgba(255, 210, 150, 0.12) 55%, transparent 74%);
-}
-.subj-obj--glyph {
-  display: inline-grid;
-  place-items: center;
-  color: inherit;
-}
-
-/* The object settles in once when it first appears, and a lamp that comes on (a chosen tile) fades up. */
-@starting-style {
-  .subj-obj__img {
-    opacity: 0;
-    transform: translateY(5%) scale(0.96);
-  }
-  .subj-obj__light {
-    opacity: 0;
-  }
-}
-
-/* It lifts a little while its tile is hovered or focused, and presses with it. */
-@media (hover: hover) and (pointer: fine) {
-  :is(a, button, label, [role='button'], .subj-obj-host):hover .subj-obj__img {
-    transform: translateY(-4%) scale(1.035);
-  }
-  :is(a, button, label, [role='button'], .subj-obj-host):hover .subj-obj__shadow {
-    transform: translateY(-55%) scale(0.9);
-    opacity: 0.75;
-  }
-}
-:is(a, button, label, [role='button'], .subj-obj-host):focus-visible .subj-obj__img {
-  transform: translateY(-4%) scale(1.035);
-}
-:is(a, button, label, [role='button'], .subj-obj-host):active .subj-obj__img {
-  transform: scale(0.97);
-  transition-duration: 120ms;
-}
+   Moved with their life to src/components/brand/subject-object.css (imported by SubjectObject.jsx). */
 
 /* ---------- Reduced motion (device setting or the student's switch) ---------- */
 @media (prefers-reduced-motion: reduce) {
   .logo-b__mobi,
   .logo-b__eyes,
-  .logo-b__dot,
-  .subj-obj__img,
-  .subj-obj__shadow,
-  .subj-obj__light {
+  .logo-b__dot {
     animation: none !important;
     transition: none !important;
   }
 }
-:root[data-motion='reduced'] :is(.logo-b__mobi, .logo-b__eyes, .logo-b__dot, .subj-obj__img, .subj-obj__shadow, .subj-obj__light) {
+:root[data-motion='reduced'] :is(.logo-b__mobi, .logo-b__eyes, .logo-b__dot) {
   animation: none !important;
   transition: none !important;
 }

@@ -1,0 +1,304 @@
+/* ---------- Subject objects ----------
+   src/components/brand/SubjectObject.jsx draws them, ObjectLife.jsx gives the large ones their life. The square
+   box is laid out before the file decodes; the picture and its two-ellipse contact shadow are placed in percent
+   from the app's own measurements (data/subject_art.mjs, ObjectLifeModel.mjs), so the box can be any size.
+   The numbers are the app's ObjectLife (flutter_app/lib/core/art/object_life.dart): change one, change both.
+
+   Layers, back to front: the lamp (lit objects), the sparkle's bloom, the contact shadow, the object (float >
+   tilt > tap spring > picture and its light band), the sparkle's glints. */
+.subj-obj {
+  --obj-size: 72px;
+  --obj-phase: 0;
+  --obj-foot: 50% 92%;
+  --obj-centre: 50% 50%;
+  --obj-shade: 0, 0, 0;
+  --obj-occl: 0.62;
+  --obj-contact: 0.8;
+  --obj-sheen-color: #fff1d6;
+  --obj-sheen-peak: 0.24;
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--obj-size);
+  height: var(--obj-size);
+  isolation: isolate;
+  vertical-align: middle;
+}
+.subj-obj:not([data-framed]) {
+  --obj-occl: 0.55;
+}
+:root[data-theme='light'] .subj-obj {
+  --obj-shade: 59, 42, 20;
+  --obj-occl: 0.2;
+  --obj-contact: 0.34;
+  --obj-sheen-color: #ffffff;
+  --obj-sheen-peak: 0.32;
+}
+.subj-obj__img {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  max-width: none;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform-origin: 50% 92%;
+  transition:
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* The contact shadow under the foot: an occlusion ellipse and a tighter contact ellipse, each a radial
+   gradient with stops at 0, 0.4, 0.72 and 1 (alpha x 1, 0.55, 0.18, 0). Night black, Day sepia. */
+.subj-obj__shadow {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  transform-origin: var(--obj-foot);
+  transition:
+    scale 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.subj-obj__occl,
+.subj-obj__contact {
+  position: absolute;
+  border-radius: 50%;
+  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.subj-obj__occl {
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--obj-shade), var(--obj-occl)) 0%,
+    rgba(var(--obj-shade), calc(var(--obj-occl) * 0.55)) 40%,
+    rgba(var(--obj-shade), calc(var(--obj-occl) * 0.18)) 72%,
+    rgba(var(--obj-shade), 0) 100%
+  );
+}
+.subj-obj__contact {
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--obj-shade), var(--obj-contact)) 0%,
+    rgba(var(--obj-shade), calc(var(--obj-contact) * 0.55)) 40%,
+    rgba(var(--obj-shade), calc(var(--obj-contact) * 0.18)) 72%,
+    rgba(var(--obj-shade), 0) 100%
+  );
+}
+
+/* The lamp: a warm pool of light behind a featured object, as in the app's lit scenes. */
+.subj-obj__light {
+  position: absolute;
+  inset: 2% 4% 8%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 212, 150, 0.24), rgba(255, 186, 104, 0.09) 55%, transparent 74%);
+  pointer-events: none;
+  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+:root[data-theme='light'] .subj-obj__light {
+  background: radial-gradient(closest-side, rgba(255, 196, 112, 0.3), rgba(255, 210, 150, 0.12) 55%, transparent 74%);
+}
+.subj-obj--glyph {
+  display: inline-grid;
+  place-items: center;
+  color: inherit;
+}
+
+/* ---------- Life (96 px and up, or opted in) ---------- */
+.subj-obj__float,
+.subj-obj__tilt,
+.subj-obj__react {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+/* Float: 7.2 s, up 3% of the box and -1.2 deg at the top, about the foot, each subject in its own phase. The
+   two halves ease like the app's (1 - cos) / 2. The shadow tightens 14% and fades 35% at the top. */
+.subj-obj--alive .subj-obj__float {
+  transform-origin: var(--obj-foot);
+  animation: subj-obj-float 7.2s infinite both;
+  animation-delay: calc(var(--obj-phase) * -7.2s);
+}
+.subj-obj--alive .subj-obj__shadow {
+  animation: subj-obj-float-shadow 7.2s infinite both;
+  animation-delay: calc(var(--obj-phase) * -7.2s);
+}
+.subj-obj[data-offscreen] .subj-obj__float,
+.subj-obj[data-offscreen] .subj-obj__shadow {
+  animation-play-state: paused;
+}
+@keyframes subj-obj-float {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  50% {
+    transform: translateY(-3%) rotate(-1.2deg);
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+@keyframes subj-obj-float-shadow {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  50% {
+    transform: scale(0.86);
+    opacity: 0.65;
+    animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/* Tilt: ObjectLife.jsx writes the transform (perspective 909 px, up to 5 deg) about the object's centre. */
+.subj-obj__tilt {
+  transform-origin: var(--obj-centre);
+}
+/* The tap spring (Web Animations) and the hover lift share one layer, so the light band moves with the picture. */
+.subj-obj__react {
+  transform-origin: var(--obj-foot);
+  transition:
+    translate 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    scale 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* The light band: on the object's own pixels only (masked by its picture), clipped 6% above the ground line,
+   at 135 deg across the object. Zero at rest; ObjectLife.jsx sets --sheen (the tilt, 0 to 1) and --along. */
+.subj-obj__sheen {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  background: linear-gradient(
+    135deg,
+    transparent calc((var(--along, 0.5) - 0.11) * 100%),
+    var(--obj-sheen-color) calc(var(--along, 0.5) * 100%),
+    transparent calc((var(--along, 0.5) + 0.11) * 100%)
+  );
+  opacity: calc(var(--sheen, 0) * var(--obj-sheen-peak));
+}
+.subj-obj__life {
+  display: none;
+}
+/* The sparkle's two canvases (only while it plays, 560 ms): the bloom behind the object, the glints in front. */
+.subj-obj__spark {
+  position: absolute;
+  inset: -25%;
+  width: 150%;
+  height: 150%;
+  pointer-events: none;
+}
+.subj-obj__spark--bloom {
+  z-index: 0;
+}
+.subj-obj__spark--glints {
+  z-index: 4;
+}
+
+/* The object settles in once when it first appears, and a lamp that comes on (a chosen tile) fades up. */
+@starting-style {
+  .subj-obj__img {
+    opacity: 0;
+    transform: translateY(5%) scale(0.96);
+  }
+  .subj-obj__light {
+    opacity: 0;
+  }
+}
+
+/* It lifts a little while its tile is hovered or focused, and presses with it. A living object lifts the layer
+   that also carries its light band, and its tap spring answers the press. */
+@media (hover: hover) and (pointer: fine) {
+  :is(a, button, label, [role='button'], .subj-obj-host):hover .subj-obj:not(.subj-obj--alive) .subj-obj__img {
+    transform: translateY(-4%) scale(1.035);
+  }
+  :is(a, button, label, [role='button'], .subj-obj-host):hover .subj-obj--alive .subj-obj__react,
+  .subj-obj--alive:hover .subj-obj__react {
+    translate: 0 -3%;
+    scale: 1.035;
+  }
+  :is(a, button, label, [role='button'], .subj-obj-host):hover .subj-obj__shadow,
+  .subj-obj--alive:hover .subj-obj__shadow {
+    scale: 0.9;
+  }
+  :is(a, button, label, [role='button'], .subj-obj-host):hover :is(.subj-obj__occl, .subj-obj__contact),
+  .subj-obj--alive:hover :is(.subj-obj__occl, .subj-obj__contact) {
+    opacity: 0.75;
+  }
+}
+:is(a, button, label, [role='button'], .subj-obj-host):focus-visible .subj-obj:not(.subj-obj--alive) .subj-obj__img {
+  transform: translateY(-4%) scale(1.035);
+}
+:is(a, button, label, [role='button'], .subj-obj-host):focus-visible .subj-obj--alive .subj-obj__react {
+  translate: 0 -3%;
+  scale: 1.035;
+}
+:is(a, button, label, [role='button'], .subj-obj-host):active .subj-obj:not(.subj-obj--alive) .subj-obj__img {
+  transform: scale(0.97);
+  transition-duration: 120ms;
+}
+
+/* ---------- Flight: the shared element between pages (React <ViewTransition name="subj-<name>">) ----------
+   Forward 420 ms and back 340 ms, on the emphasized curve. Browsers without view transitions navigate as usual. */
+::view-transition-group(.subj-flight) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+:root[data-obj-flight='back']::view-transition-group(.subj-flight) {
+  animation-duration: 340ms;
+}
+
+/* ---------- Reduced motion (device setting or the student's switch): the still picture, a short fade ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .subj-obj__img,
+  .subj-obj__shadow,
+  .subj-obj__light,
+  .subj-obj__float,
+  .subj-obj__react,
+  .subj-obj__occl,
+  .subj-obj__contact {
+    animation: none !important;
+    transition: none !important;
+  }
+  .subj-obj__tilt {
+    transform: none !important;
+  }
+  .subj-obj__sheen,
+  .subj-obj__spark {
+    display: none;
+  }
+  ::view-transition-group(.subj-flight) {
+    animation: none;
+  }
+  ::view-transition-old(.subj-flight),
+  ::view-transition-new(.subj-flight) {
+    animation-duration: 120ms;
+  }
+}
+:root[data-motion='reduced'] :is(.subj-obj__img, .subj-obj__shadow, .subj-obj__light, .subj-obj__float, .subj-obj__react, .subj-obj__occl, .subj-obj__contact) {
+  animation: none !important;
+  transition: none !important;
+}
+:root[data-motion='reduced'] .subj-obj__tilt {
+  transform: none !important;
+}
+:root[data-motion='reduced'] :is(.subj-obj__sheen, .subj-obj__spark) {
+  display: none;
+}
+:root[data-motion='reduced']::view-transition-group(.subj-flight) {
+  animation: none;
+}
+:root[data-motion='reduced']::view-transition-old(.subj-flight),
+:root[data-motion='reduced']::view-transition-new(.subj-flight) {
+  animation-duration: 120ms;
+}
