@@ -160,7 +160,7 @@ const V3_FULL = {
   status: 'explained', charged: 1, wallet: { total: 43, state: 'ok' },
   practiceHref: '/test?subject=english&mode=quick&count=5&chapter=Correct+Word+Usage&recoveryFrom=a1',
   practiceAction: { type: 'practice', subject: 'english', chapter: 'Correct Word Usage', mode: 'quick', count: 5, attemptId: 'a1' },
-  pattern: { line: '2 of your 3 repaired mistakes in Correct Word Usage had the same trap: a look-alike term.', scope: 'chapter', k: 2, n: 3, trapType: 'look_alike_term' },
+  pattern: { line: 'Since 9 Oct, 2 of your 3 repairs in Correct Word Usage had this trap.', scope: 'chapter', k: 2, n: 3, trapType: 'look_alike_term' },
   repair: {
     version: 3, trap_type: 'look_alike_term',
     trap: 'Option B sounds like the key and is a real word.', why_wrong: 'Effect is a noun, so it cannot follow "will".',

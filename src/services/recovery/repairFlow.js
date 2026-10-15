@@ -58,13 +58,13 @@ function hardStop(promise, ms, fallback) {
 export const PATTERN_BUDGET_MS = 1_500;
 const subjectDisplayName = (subject) => getSubjectById(subject)?.name || String(subject || '');
 
-/** "2 of your 3 repaired mistakes in X had the same trap: ..." from the student's committed v3 repairs, or null. */
-async function patternFor({ deps, userId, mistakeKey, trapType, subject, chapter }) {
+/** "Since 9 Oct, 2 of your 3 repairs in X had this trap." from the student's committed v3 repairs, or null. */
+async function patternFor({ deps, userId, mistakeKey, trapType, subject, chapter, at }) {
   if (typeof deps.findRepairTraps !== 'function' || !trapType || trapType === 'other') return null;
   try {
     const rows = await hardStop(Promise.resolve().then(() => deps.findRepairTraps(userId)), PATTERN_BUDGET_MS, null);
     if (!Array.isArray(rows)) return null;
-    return buildRepairPattern({ rows, current: { mistakeKey, trapType, subject, chapter }, subjectName: subjectDisplayName(subject) });
+    return buildRepairPattern({ rows, current: { mistakeKey, trapType, subject, chapter, at }, subjectName: subjectDisplayName(subject) });
   } catch { return null; }
 }
 
@@ -94,7 +94,7 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   // A finished repair is stored on its committed reservation and reopens free.
   const stored = await deps.findStored(user.id, id);
   if (stored) {
-    const pattern = await patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: stored.trap_type, subject: attempt.subject, chapter: eligible.question.chapter });
+    const pattern = await patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: stored.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: stored.generatedAt });
     return out(200, { ok: true, status: 'stored', repair: withLegacyAliases(stored), pattern, charged: 0, ...base });
   }
 
@@ -226,7 +226,7 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   }
   // The pattern read and the wallet read run side by side; the pattern never waits more than 1.5 s.
   const [pattern, wallet] = await Promise.all([
-    committed && v3 ? patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: repair.trap_type, subject: attempt.subject, chapter: eligible.question.chapter }) : null,
+    committed && v3 ? patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: repair.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: repair.generatedAt }) : null,
     deps.readWallet(user),
   ]);
   return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });

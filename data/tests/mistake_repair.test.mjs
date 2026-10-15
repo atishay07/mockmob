@@ -285,6 +285,34 @@ test('step 3: whitespace collapses, dashes between words become commas, "!" beco
   assert.equal(out.repair.trap, 'Option A sounds right, it is a real word.');
 });
 
+test('step 3: a number before "!" at a sentence end is an exclamation; a factorial is kept only when it is clearly maths', () => {
+  // Exclamations, a number before them included.
+  for (const [input, expected] of [
+    ['42!', '42.'],
+    ['The answer is 42!', 'The answer is 42.'],
+    ['It is 42! Then divide by 6.', 'It is 42. Then divide by 6.'],
+    ['That leaves 5!', 'That leaves 5.'],
+    ['Great! now check the sign.', 'Great. now check the sign.'],
+    ['Wow! That works.', 'Wow. That works.'],
+    ['Watch out!! It reverses.', 'Watch out. It reverses.'],
+    ['It is 7!!', 'It is 7.'],
+  ]) assert.equal(cleanRepairText(input), expected, input);
+  // Maths: an operator, "=", a digit or a bracket after it, or a sentence that goes on.
+  for (const text of [
+    '5! = 120, so the count is 120.',
+    '5!=120',
+    '5! + 3 is 123.',
+    '3! × 2 is 12.',
+    'nCr is n!/(r!(n-r)!) for these choices.',
+    'The count is (5!) here.',
+    '5! is 120 and x != y.',
+    'There are 4! ways to seat them.',
+    'n! grows fast.',
+    'Compare 4!, 5! and 6 first.',
+    'x! = 6 gives x = 3.',
+  ]) assert.equal(cleanRepairText(text), text, text);
+});
+
 test('step 4: fitSentence keeps text at the cap, cuts after a sentence end past 60%, never mid-sentence and never with an ellipsis', () => {
   assert.equal(fitSentence('a'.repeat(100), 100), 'a'.repeat(100), 'exactly at the cap is kept');
   const two = `${'x'.repeat(70)}. ${'y'.repeat(40)}.`;
@@ -323,9 +351,32 @@ test('step 7: each claim about the student is caught, and teaching text is not',
     'You panicked and picked the familiar word.', 'You skimmed the sentence.',
     "You're careless with homophones.", 'You are confused by these words.', 'You were rushing at the end.', 'You were tired.',
     "You didn't read the whole sentence.", 'You did not check the tense.', 'You didnt notice the article.', 'You did not think about it.',
+    // A cause stated about the student (review, 15 Oct): confused, forgot, overlooked, missed, misread, ignored, rushed, assumed.
+    'You confused affect with effect.', 'You may have confused the two ratios.', 'You might have mixed up the partners.',
+    'You forgot the minus sign.', 'You probably forgot to divide by 2.', 'You overlooked the word NOT.', 'You missed the word except.',
+    'You misread the question.', 'You ignored the passage.', "You've ignored the base year.", 'You assumed the rate was simple.',
+    'You must have assumed it was annual.', 'If you assumed simple interest, you get option B.',
+    // "you were ..." and "your mistake was ..."
+    'You were thinking of the old ratio.', 'You were in a hurry.', 'Here you were looking at the wrong year.', "You were 'tired' by then.",
+    'Your mistake was reading the ratio backwards.', 'Your main error is the sign.', 'The mistake you made is a common one.',
   ]) assert.equal(claimsAboutStudent(text), true, text);
-  for (const text of ['This option borrows a true fact.', 'When you read "will", expect a verb.', 'Read the sentence to the end before choosing.', 'If you checked the tense, B fits.'])
-    assert.equal(claimsAboutStudent(text), false, text);
+  for (const text of [
+    'This option borrows a true fact.', 'When you read "will", expect a verb.', 'Read the sentence to the end before choosing.', 'If you checked the tense, B fits.',
+    // Teaching text in maths and economics explanations: an instruction or a hypothetical, never a claim.
+    'If you add 3 to both sides, x = 5.', 'If you multiply both sides by 2, you get 10.', 'When you subtract the sacrifice, the gain remains.',
+    'Assume you have 100 shares.', 'If you assume x is positive, the root is 3.', 'If you forget the NOT, option B looks right.',
+    'Suppose you were to double the price, demand falls.', 'If you were the buyer, you would pay less.', 'You were asked to find the new ratio.',
+    'You were given two statements.',
+    // Option or passage text in quotation marks is quoted, not said about the student.
+    'Option D uses "you were", which agrees with the subject.', "Option B says 'you missed the bus', a past event.", 'The passage line “you forgot your keys” is literal.',
+    // The server's own record facts about an earlier miss are not causes.
+    'You chose the same option when you missed this in Mock 1 on 5 Oct.', 'You also missed this question in Mock 2 on 9 Oct.',
+  ]) assert.equal(claimsAboutStudent(text), false, text);
+  assert.equal(interpretRepairV3({ ...goodV3, why_wrong: 'You confused affect with effect, so the noun went in.' }, ctx).kind, 'unusable');
+  const another = interpretRepairV3({ ...goodV3, another_way: 'Your mistake was treating the noun as a verb.' }, ctx);
+  assert.equal(another.kind, 'explained'); assert.ok(!('another_way' in another.repair)); assert.deepEqual(another.dropped, ['another_way']);
+  assert.equal(interpretRepairV3({ ...goodV3, another_way: 'If you add a helper verb, as in "will affect", the verb stays.' }, ctx).repair.another_way,
+    'If you add a helper verb, as in "will affect", the verb stays.', 'teaching text is kept');
   assert.equal(interpretRepairV3({ ...goodV3, trap: 'You rushed and picked the familiar spelling here.' }, ctx).kind, 'unusable');
   const hook = interpretRepairV3({ ...goodV3, memory_hook: 'You were careless, so slow down.' }, ctx);
   assert.ok(!('memory_hook' in hook.repair)); assert.deepEqual(hook.dropped, ['memory_hook']);

@@ -20,7 +20,8 @@ export async function GET(request, { params }) {
     // without it. Each part fails on its own (data/mock_swot.js resultHistory):
     //  - recap: tone and the previous comparable attempt;
     //  - missedBefore: real wrong answers to the same question in the student's other attempts;
-    //  - mistakeInsights: "From your record" lines under each repair (server-built sentences);
+    //  - mistakeInsights: "From your record" lines under each repair (server-built sentences); {} until the answer
+    //    checks are ready, as the SWOT says checks_pending;
     //  - swot: the post-mock SWOT and "Do these next" (left out entirely when SWOT_ENABLED=off).
     const history = await resultHistory({
       attempt,

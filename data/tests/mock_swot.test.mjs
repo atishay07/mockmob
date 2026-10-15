@@ -13,6 +13,7 @@ import { buildMissedBefore } from '../../src/components/recovery/repairRun.js';
 import { buildSwot, resultHistory, SWOT_RULES, SWOT_COPY } from '../mock_swot.js';
 import { buildMistakeInsights } from '../mistake_insights.js';
 import { buildLedger } from '../attempt_ledger.js';
+import { getCanonicalChapters } from '../canonical_syllabus.js';
 
 const DIR = join(dirname(fileURLToPath(import.meta.url)), 'fixtures', 'swot');
 const WRITE = process.env.SWOT_FIXTURES_WRITE === '1';
@@ -294,13 +295,55 @@ test('not opened and blanks gates, and the question list format', () => {
   const s = buildSwot({ attempt: a, allAttempts: [a], now: at(7) });
   const items = s.quadrants.flatMap((q) => q.items);
   const notOpened = items.find((i) => i.kind === 'not_opened');
-  assert.equal(notOpened.detail, '7 questions were never opened: Q38, Q39, Q40, Q47, Q48 and 2 more.');
+  assert.equal(notOpened.detail, '7 of 50 questions were never opened: Q38, Q39, Q40, Q47, Q48 and 2 more.', 'every count with its denominator');
   assert.equal(notOpened.planId, 'p1');
   assert.deepEqual(s.plan[0].practice, { subject: 'accountancy', mode: 'quick', count: 20, chapter: null });
   assert.equal(s.plan[0].label, 'Practise 20, timed');
-  assert.equal(s.plan[0].reason, '7 questions were never opened. Quick sets give 60 seconds a question.');
+  assert.equal(s.plan[0].reason, '7 of 50 questions were never opened. Quick sets give 60 seconds a question.');
   const blanks = items.find((i) => i.kind === 'blanks');
-  assert.equal(blanks.detail, `7 questions left blank: 35 marks not earned.${SWOT_COPY.blanksFourOptions}`);
+  assert.equal(blanks.detail, `7 of 50 questions left blank: 35 marks not earned.${SWOT_COPY.blanksFourOptions}`);
+  // Held questions are not counted, so the denominator is the counted questions, as in the basis line.
+  const heldOne = buildSwot({ attempt: a, allAttempts: [a], answerReviews: { 'no-1': { state: 'under_review', originalIndex: 0 } }, now: at(7) });
+  assert.match(heldOne.quadrants.flatMap((q) => q.items).find((i) => i.kind === 'blanks').detail, /^7 of 49 questions left blank: 35 marks not earned\./);
+  assert.match(heldOne.basis.line, /^From 49 of 50 questions/);
+});
+
+test('repeat misses carry their denominator: k of the m questions of this paper that were missed before', () => {
+  const shared = { shared: { 0: 'rm-a', 1: 'rm-b', 2: 'rm-c' } };
+  const before = makeAttempt({ id: 'rm-1', day: 3, telemetry: false, qs: paper('rm1', [['Share Capital', 'WWWR', shared], ...filler()]) });
+  const cur = makeAttempt({ id: 'rm-2', day: 6, telemetry: false, qs: paper('rm2', [['Share Capital', 'WWRR', shared], ...filler()]) });
+  const all = [cur, before];
+  const s = buildSwot({ attempt: cur, allAttempts: all, missedBefore: buildMissedBefore(all, cur.id), now: at(7) });
+  const item = s.quadrants.flatMap((q) => q.items).find((i) => i.kind === 'repeat_misses');
+  assert.equal(item.detail, '2 of the 3 questions you had missed before were wrong again.', 'rm-c was missed before and is right today: in m, not in k');
+  assert.deepEqual(item.questions, [1, 2]);
+  assert.deepEqual(item.evidence, { questions: 2, missedBefore: 3 });
+  // A miss after this paper is not "before".
+  const afterOnly = buildSwot({ attempt: before, allAttempts: all, missedBefore: buildMissedBefore(all, before.id), now: at(7) });
+  assert.ok(!afterOnly.quadrants.flatMap((q) => q.items).some((i) => i.kind === 'repeat_misses'));
+});
+
+test('untried says what was checked: no answers in the last N papers of the record, every paper in that span looked at', () => {
+  const past = [1, 2, 3].map((d) => makeAttempt({ id: `ut-q${d}`, mode: 'quick', day: d, version: 'server_practice_v1', qs: paper(`ut${d}`, [['Partnership Fundamentals', 'RRRRR']]) }));
+  const cur = makeAttempt({ id: 'ut-mock', day: 6, telemetry: false, qs: paper('utm', [['Accounting Ratios', 'RRRW'], ['Share Capital', 'RRRW'], ['Debentures', 'RRRW'], ['Cash Flow Statement', 'RRRW'], ...filler()]) });
+  const inRecord = new Set([...cur.questionsSnapshot.map((q) => q.chapter), 'Partnership Fundamentals']);
+  const open = getCanonicalChapters('accountancy').filter((c) => !inRecord.has(c));
+  assert.ok(open.length >= 4, 'the fixture leaves at least 4 syllabus chapters open');
+  // A paper scored on the device is not in the record, but it falls inside the record's span (day 4), so a chapter it
+  // answered is not called untried. One from before the span (30 Sep) does not count against the claim.
+  const device = makeAttempt({ id: 'ut-device', mode: 'quick', day: 4, version: 'legacy', qs: paper('utd', [[open[0], 'RRWRR']]) });
+  const older = makeAttempt({ id: 'ut-older', mode: 'quick', day: 0, version: 'legacy', qs: paper('uto', [[open[1], 'RRRRR']]) });
+  const s = buildSwot({ attempt: cur, allAttempts: [cur, ...past, device, older], now: at(7) });
+  const item = s.quadrants.flatMap((q) => q.items).find((i) => i.kind === 'untried');
+  const expected = open.slice(1);
+  const list = expected.length > 3 ? `${expected.slice(0, 3).join(', ')} and ${expected.length - 3} more` : `${expected.slice(0, -1).join(', ')} and ${expected[expected.length - 1]}`;
+  assert.equal(item.title, 'Chapters with no recent answers');
+  assert.equal(item.detail, `${expected.length} syllabus chapters have no answers in your last 4 Accountancy papers: ${list}.`, 'N = this paper and the 3 earlier record papers');
+  assert.equal(item.evidence.recordPapers, 4);
+  assert.ok(!item.evidence.chapters.includes(open[0]), 'answered in a paper inside the span');
+  assert.doesNotMatch(item.detail, /yet|from you/);
+  const row = s.plan.find((p) => p.practice.chapter === expected[0]);
+  assert.equal(row.reason, 'No answers in this chapter in your last 4 Accountancy papers.');
 });
 
 test('the contract file is real buildSwot and buildMistakeInsights output for the 3-mock fixture', () => {
@@ -334,6 +377,18 @@ test('the route helper: a failed history read still returns, with swot null and 
   const broken = await resultHistory({ attempt: s.attempt, loadAttempts: async () => s.allAttempts, recapOf: () => { throw new Error('x'); }, missedBeforeOf: buildMissedBefore, now: s.now });
   assert.equal(broken.recap, null);
   assert.equal(broken.swot.state, 'ready');
+});
+
+test('the route helper: until the answer checks are ready, no record lines are built, as the SWOT says checks_pending', async () => {
+  const s = FIX.three_mocks_repeat_loss;
+  assert.ok(Object.keys(insightsOf(s)).length > 0, 'the same attempt has record lines once the checks are ready');
+  for (const state of ['loading', 'unavailable', 'failed', undefined, null]) {
+    const out = await resultHistory({ attempt: s.attempt, answerReviewState: state, loadAttempts: async () => s.allAttempts, recapOf: () => null, missedBeforeOf: buildMissedBefore, now: s.now });
+    if (state === undefined) { assert.ok(Object.keys(out.mistakeInsights).length > 0, 'the default is ready'); continue; }
+    assert.deepEqual(out.mistakeInsights, {}, String(state));
+    assert.equal(out.swot.state, 'checks_pending', String(state));
+    assert.ok(Object.keys(out.missedBefore).length > 0, 'the earlier-miss facts do not depend on the checks');
+  }
 });
 
 test('fixture directory exists with every scenario', () => {

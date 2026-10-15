@@ -384,13 +384,16 @@ test('v3: the receipt carries promptVersion, subject, chapter and the trap type;
 const OTHER = (n) => `repair:${mistakeId('u1', 'a1', `other${n}`)}:req_${String(n).padStart(16, '0')}`;
 test('v3: the pattern line is read after the commit, counting this repair once', async () => {
   const rows = [
-    { operation_key: OTHER(1), trap: 'not_in_passage', subject: 'english', chapter: 'Reading' },
-    { operation_key: OTHER(2), trap: 'look_alike_term', subject: 'english', chapter: 'Reading' },
-    { operation_key: `repair:${mistakeId('u1', 'a1', 'q1')}:old_request_0000001`, trap: 'not_in_passage', subject: 'english', chapter: 'Reading' },
+    { operation_key: OTHER(1), trap: 'not_in_passage', subject: 'english', chapter: 'Reading', created_at: '2026-10-12T10:00:00+00:00' },
+    { operation_key: OTHER(2), trap: 'look_alike_term', subject: 'english', chapter: 'Reading', created_at: '2026-10-08T19:00:00+00:00' },
+    { operation_key: `repair:${mistakeId('u1', 'a1', 'q1')}:old_request_0000001`, trap: 'not_in_passage', subject: 'english', chapter: 'Reading', created_at: '2026-10-10T10:00:00+00:00' },
+    // A v1 repair from before the earliest counted one: outside the dated period, so the line still stands.
+    { operation_key: OTHER(3), trap: null, subject: null, chapter: null, created_at: '2026-10-03T20:00:00+00:00' },
   ];
   const h = harness({ traps: async () => rows });
   const { body } = await h.run();
-  assert.deepEqual(body.pattern, { line: '2 of your 3 repaired mistakes in Reading had the same trap: not in the passage.', scope: 'chapter', k: 2, n: 3, trapType: 'not_in_passage' });
+  // 8 Oct 19:00 UTC is 9 Oct 00:30 in India: the date is India time.
+  assert.deepEqual(body.pattern, { line: 'Since 9 Oct, 2 of your 3 repairs in Reading had this trap.', scope: 'chapter', k: 2, n: 3, trapType: 'not_in_passage', since: Date.parse('2026-10-08T19:00:00Z') });
   assert.deepEqual(h.calls.find(c => c[0] === 'traps'), ['traps', 'u1']);
   assert.ok(kinds(h.calls).indexOf('traps') > kinds(h.calls).indexOf('commit'), 'read after the commit');
 });
@@ -411,15 +414,15 @@ test('v3: a failing or slow pattern read gives pattern null and the repair still
 });
 
 test('v3: a stored reopen returns the pattern; a failing pattern read gives null and the status stays stored', async () => {
-  const stored = { version: 3, trap_type: 'not_in_passage', trap: good.trap, why_wrong: good.why_wrong, why_right: good.why_right, others: [], rule: good.rule, model: 'gpt-6-luna' };
+  const stored = { version: 3, trap_type: 'not_in_passage', trap: good.trap, why_wrong: good.why_wrong, why_right: good.why_right, others: [], rule: good.rule, model: 'gpt-6-luna', generatedAt: '2026-10-11T04:00:00.000Z' };
   const rows = [
-    { operation_key: OTHER(1), trap: 'not_in_passage', subject: 'english', chapter: 'Reading' },
-    { operation_key: OTHER(2), trap: 'reversed', subject: 'english', chapter: 'Reading' },
+    { operation_key: OTHER(1), trap: 'not_in_passage', subject: 'english', chapter: 'Reading', created_at: '2026-10-13T04:00:00+00:00' },
+    { operation_key: OTHER(2), trap: 'reversed', subject: 'english', chapter: 'Reading', created_at: '2026-10-12T04:00:00+00:00' },
   ];
   const h = harness({ stored, traps: async () => rows });
   const { body } = await h.run();
   assert.equal(body.status, 'stored'); assert.equal(body.charged, 0);
-  assert.equal(body.pattern.line, '2 of your 3 repaired mistakes in Reading had the same trap: not in the passage.');
+  assert.equal(body.pattern.line, 'Since 11 Oct, 2 of your 3 repairs in Reading had this trap.', 'dated from the saved repair, the earliest counted');
   assert.equal(body.repair.key_idea, good.rule);
   const broken = harness({ stored, traps: async () => { throw new Error('db down'); } });
   const r = await broken.run();

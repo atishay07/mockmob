@@ -64,6 +64,14 @@ export const SWOT_COPY = Object.freeze({
   }),
   blanksFourOptions: ' Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and -1 for wrong.',
   later: (date, right, of) => `A set on this chapter on ${date}: ${right} right of ${of}.`,
+  blanks: (b, n) => `${b} of ${n} questions left blank: ${b * GAP.blank} marks not earned.`,
+  notOpened: (u, n, list) => `${u} of ${n} questions were never opened: ${list}.`,
+  notOpenedReason: (u, n, secs) => `${u} of ${n} questions were never opened. Quick sets give ${secs} seconds a question.`,
+  repeatMisses: (k, m) => `${k} of the ${m} questions you had missed before were wrong again.`,
+  // What was checked: the papers of the record (this one and the earlier ones it counts), not every paper ever.
+  untriedTitle: 'Chapters with no recent answers',
+  untried: (k, list, papers, subject) => `${k} syllabus chapters have no answers in your last ${papers} ${subject} papers: ${list}.`,
+  untriedReason: (papers, subject) => `No answers in this chapter in your last ${papers} ${subject} papers.`,
   mixed: 'No single chapter stands out yet. A mixed set adds to your record.',
   mixedOnly: 'A mixed set adds to your record.',
 });
@@ -160,7 +168,22 @@ function chapterItems({ attempt, allAttempts, ledger }) {
 
 // ---------- Paper items ----------
 
-function paperItems({ attempt, ledger, missedBefore, recorded }) {
+/**
+ * Chapters answered (right or wrong) in any paper in this subject from the oldest paper of the record up to this one,
+ * of any scoring and retakes included, so "no answers in your last N papers" holds for every paper in that span.
+ */
+function chaptersAnsweredInRecordSpan(attempt, allAttempts, ledger) {
+  const cur = when(attempt);
+  const oldest = Math.min(cur, ...ledger.earlierAttempts.map(when));
+  const answered = new Set();
+  for (const x of [attempt, ...(allAttempts || [])]) {
+    if (!x || x.subject !== attempt.subject || when(x) < oldest || when(x) > cur) continue;
+    for (const row of paperRows(x)) if (row.outcome !== 'blank') answered.add(row.chapter);
+  }
+  return answered;
+}
+
+function paperItems({ attempt, allAttempts, ledger, missedBefore, recorded }) {
   const R = SWOT_RULES;
   const items = [];
   const counted = ledger.rows.filter((r) => !r.excluded);
@@ -205,9 +228,9 @@ function paperItems({ attempt, ledger, missedBefore, recorded }) {
     const inTail = unopened.filter((n) => n > ledger.total - tail).length;
     if (u >= R.notOpened.unopened && inTail >= Math.ceil((2 * u) / 3)) {
       items.push(makeItem('not_opened', 'threat', { title: 'Questions never opened',
-        detail: `${u} questions were never opened: ${questionList(unopened)}.`, questions: unopened, weight: u * GAP.blank,
-        evidence: { unopened: u, inLastQuarter: inTail, total: ledger.total },
-        plan: { reason: `${u} questions were never opened. Quick sets give ${TEST_MODES.quick.durationPerQuestionSec} seconds a question.`, count: R.plan.timedCount, label: `Practise ${R.plan.timedCount}, timed` } }));
+        detail: SWOT_COPY.notOpened(u, counted.length, questionList(unopened)), questions: unopened, weight: u * GAP.blank,
+        evidence: { unopened: u, counted: counted.length, inLastQuarter: inTail, total: ledger.total },
+        plan: { reason: SWOT_COPY.notOpenedReason(u, counted.length, TEST_MODES.quick.durationPerQuestionSec), count: R.plan.timedCount, label: `Practise ${R.plan.timedCount}, timed` } }));
     }
   }
 
@@ -227,31 +250,44 @@ function paperItems({ attempt, ledger, missedBefore, recorded }) {
     const blanks = counted.filter((row) => row.outcome === 'blank');
     const fourOptions = blanks.every((row) => row.options === 4);
     items.push(makeItem('blanks', 'opportunity', { title: 'Blanks',
-      detail: `${blank} questions left blank: ${blank * GAP.blank} marks not earned.${fourOptions ? SWOT_COPY.blanksFourOptions : ''}`,
-      questions: blanks.map((row) => row.number), weight: blank * GAP.blank, evidence: { blank, fourOptions } }));
+      detail: `${SWOT_COPY.blanks(blank, counted.length)}${fourOptions ? SWOT_COPY.blanksFourOptions : ''}`,
+      questions: blanks.map((row) => row.number), weight: blank * GAP.blank, evidence: { blank, counted: counted.length, fourOptions } }));
   }
 
   if (ledger.earlierPapers >= R.untried.earlierPapers) {
     const inPaper = new Set(ledger.rows.map((row) => row.chapter));
-    const untried = getCanonicalChapters(attempt.subject).filter((c) => !inPaper.has(c) && recordFor(ledger, c).answered === 0);
+    const answeredInSpan = chaptersAnsweredInRecordSpan(attempt, allAttempts, ledger);
+    const untried = getCanonicalChapters(attempt.subject).filter((c) => !inPaper.has(c) && recordFor(ledger, c).answered === 0 && !answeredInSpan.has(c));
     const k = untried.length;
     if (k >= R.untried.chapters) {
       const named = untried.slice(0, R.untried.named);
       const list = k > named.length ? `${named.join(', ')} and ${k - named.length} more` : `${named.slice(0, -1).join(', ')} and ${named[named.length - 1]}`;
-      items.push(makeItem('untried', 'opportunity', { title: 'Chapters with no answers yet',
-        detail: `${k} syllabus chapters have no answers from you yet: ${list}.`, weight: 0,
-        evidence: { chapters: untried, earlierPapers: ledger.earlierPapers },
-        plan: { reason: 'No answers from you in this chapter yet.', candidates: untried } }));
+      // N: the papers of the record L, this one included (spec B.2).
+      const papers = ledger.earlierAttempts.length + 1;
+      const subject = subjectDisplay(attempt.subject);
+      items.push(makeItem('untried', 'opportunity', { title: SWOT_COPY.untriedTitle,
+        detail: SWOT_COPY.untried(k, list, papers, subject), weight: 0,
+        evidence: { chapters: untried, earlierPapers: ledger.earlierPapers, recordPapers: papers },
+        plan: { reason: SWOT_COPY.untriedReason(papers, subject), candidates: untried } }));
     }
   }
 
   const cur = when(attempt);
-  const again = counted.filter((row) => row.outcome === 'wrong'
-    && (Array.isArray(missedBefore?.[row.qid]) ? missedBefore[row.qid] : []).some((m) => m && Number(m.completedAt) < cur));
+  // m: today's questions with a miss (a wrong answer) in an attempt completed before this one, whatever today's answer.
+  // missedBefore lists only today's wrong answers, so the other questions are read from the attempts themselves.
+  // k: the m questions that are wrong again today.
+  const wrongEarlier = new Set();
+  for (const x of allAttempts || []) {
+    if (!x || x.id === attempt.id || !(when(x) < cur)) continue;
+    for (const d of x.details || []) if (d?.isCorrect === false && Number.isInteger(d?.givenIndex)) wrongEarlier.add(d.qid);
+  }
+  const missedEarlier = counted.filter((row) => wrongEarlier.has(row.qid)
+    || (row.outcome === 'wrong' && (Array.isArray(missedBefore?.[row.qid]) ? missedBefore[row.qid] : []).some((m) => m && Number(m.completedAt) < cur)));
+  const again = missedEarlier.filter((row) => row.outcome === 'wrong');
   if (again.length >= R.repeatMisses.questions) {
     items.push(makeItem('repeat_misses', 'threat', { title: 'Missed again',
-      detail: `${again.length} questions you had missed before were wrong again.`, questions: again.map((row) => row.number),
-      weight: again.length * GAP.wrong, evidence: { questions: again.length } }));
+      detail: SWOT_COPY.repeatMisses(again.length, missedEarlier.length), questions: again.map((row) => row.number),
+      weight: again.length * GAP.wrong, evidence: { questions: again.length, missedBefore: missedEarlier.length } }));
   }
   return items;
 }
@@ -341,7 +377,7 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
   const first = book.earlierPapers === 0;
   // First paper in the subject (spec B.3 basis line): history items are skipped, so the read never says "There is no
   // earlier record" beside a line that leans on one (a retake's "Missed again", or blank-only earlier mocks).
-  const all = [...chapterItems({ attempt, allAttempts, ledger: book }), ...paperItems({ attempt, ledger: book, missedBefore, recorded })]
+  const all = [...chapterItems({ attempt, allAttempts, ledger: book }), ...paperItems({ attempt, allAttempts, ledger: book, missedBefore, recorded })]
     .filter((item) => !(first && HISTORY_KINDS.has(item.kind)));
 
   const quadrants = QUADRANTS.map(({ id, label }) => {
@@ -379,6 +415,8 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
  * The additive history fields of GET /api/attempts/:id. Each part fails on its own: a failed history
  * read gives recap null, missedBefore {}, mistakeInsights {} and swot null, and the result still loads.
  * `swotEnabled: false` (env SWOT_ENABLED=off) leaves the swot field out.
+ * Until the answer checks are ready the record lines are not built ({}), as the SWOT says checks_pending: their
+ * counts leave held questions out, and which questions are held is not known yet.
  */
 export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, swotEnabled = true, now = Date.now(), warn = () => {} }) {
   const out = { recap: null, missedBefore: {}, mistakeInsights: {}, ...(swotEnabled ? { swot: null } : {}) };
@@ -387,8 +425,9 @@ export async function resultHistory({ attempt, answerReviews = {}, answerReviewS
   const step = (name, fn, fallback) => { try { return fn() ?? fallback; } catch (e) { warn(name, e); return fallback; } };
   out.recap = step('recap', () => recapOf(attempt, allAttempts, answerReviews, answerReviewState), null);
   out.missedBefore = step('missedBefore', () => missedBeforeOf(allAttempts, attempt.id), {});
-  const ledger = step('ledger', () => buildLedger(attempt, allAttempts, { answerReviews }), null);
-  out.mistakeInsights = step('mistakeInsights', () => buildMistakeInsights({ attempt, allAttempts, ledger, missedBefore: out.missedBefore, answerReviews }), {});
+  const checksReady = answerReviewState === 'ready';
+  const ledger = checksReady ? step('ledger', () => buildLedger(attempt, allAttempts, { answerReviews }), null) : null;
+  if (checksReady) out.mistakeInsights = step('mistakeInsights', () => buildMistakeInsights({ attempt, allAttempts, ledger, missedBefore: out.missedBefore, answerReviews }), {});
   if (swotEnabled) out.swot = step('swot', () => buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore: out.missedBefore, now, ledger }), null);
   return out;
 }

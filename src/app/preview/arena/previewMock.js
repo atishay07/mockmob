@@ -84,7 +84,7 @@ export function fixtureRepairV3({ stored = false, practiceChapter = 'Share Capit
     ok: true, status: stored ? 'stored' : 'explained', charged: stored ? 0 : 1, wallet: stored ? null : { total: 67, state: 'available' },
     chosenIndex: 0, keyIndex: 2, practiceHref,
     practiceAction: { type: 'practice', subject: 'accountancy', chapter: practiceChapter, mode: 'quick', count: 5, attemptId: 'fixture-attempt' },
-    pattern: { line: '2 of your 3 repaired mistakes in Share Capital had the same trap: the wrong rule applied.', scope: 'chapter', k: 2, n: 3, trapType: 'wrong_rule' },
+    pattern: { line: 'Since 9 Oct, 2 of your 3 repairs in Share Capital had this trap.', scope: 'chapter', k: 2, n: 3, trapType: 'wrong_rule' },
     repair: {
       version: 3, trap_type: 'wrong_rule',
       trap: 'Illustrative: option A applies the old ratio. It is the first ratio in the question, and it is the right rule in the most common textbook case.',

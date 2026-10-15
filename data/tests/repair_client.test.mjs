@@ -246,8 +246,8 @@ test('the chip says "explained from", never "checked against"; the loading line 
 
 test('"From your record" shows the server lines in order, then the pattern line; nothing else is written', () => {
   const insights = { lines: [{ kind: 'change', text: 'You first chose C here, then changed to B.' }, { kind: 'time', text: '' }, null, { kind: 'chapter', text: 'Correct Word Usage so far: 7 right of 12 answered across 3 papers, this one included.' }] };
-  assert.deepEqual(recordLines(insights, { line: '2 of your 3 repaired mistakes in X had the same trap: a look-alike term.' }), [
-    'You first chose C here, then changed to B.', 'Correct Word Usage so far: 7 right of 12 answered across 3 papers, this one included.', '2 of your 3 repaired mistakes in X had the same trap: a look-alike term.',
+  assert.deepEqual(recordLines(insights, { line: 'Since 9 Oct, 2 of your 3 repairs in X had this trap.' }), [
+    'You first chose C here, then changed to B.', 'Correct Word Usage so far: 7 right of 12 answered across 3 papers, this one included.', 'Since 9 Oct, 2 of your 3 repairs in X had this trap.',
   ]);
   assert.deepEqual(recordLines(null, null), []);
   assert.deepEqual(recordLines({ lines: 'x' }, { line: '  ' }), []);

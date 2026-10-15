@@ -416,7 +416,7 @@
             "id": "blanks",
             "kind": "blanks",
             "title": "Blanks",
-            "detail": "4 questions left blank: 20 marks not earned. Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and -1 for wrong.",
+            "detail": "4 of 50 questions left blank: 20 marks not earned. Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and -1 for wrong.",
             "chapter": null,
             "questions": [
               5,
@@ -427,6 +427,7 @@
             "planId": null,
             "evidence": {
               "blank": 4,
+              "counted": 50,
               "fourOptions": true
             }
           },

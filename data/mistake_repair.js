@@ -192,13 +192,31 @@ Student chose option ${C} (index ${chosenIndex}).${explanation ? `\nReference ex
 
 // ---- v3 validation (spec A.4) ----
 const LEADING_LABEL = /^(?:answer|explanation|solution|trap|why\s+(?:it\s+is\s+)?(?:wrong|right)|rule|memory\s+hook|hook|contrast|another\s+way|reason|note|tip|key\s+idea)\s*:\s*/i;
+
+// A "!" stays only where it is clearly maths, never at a sentence end:
+//   "!=" (not equal);
+//   a factorial (a digit, a letter or a closing bracket, then "!") followed, with or without a space, by an operator,
+//   "=", a digit or a closing bracket ("5! = 120", "n!/(r!(n-r)!)"), or straight away by an opening bracket;
+//   a factorial of a number, a one-letter variable or a bracket in a sentence that goes on ("5! is 120", "4! ways").
+// Everything else is an exclamation and becomes ".": "The answer is 42!" ends "42.", and so does a factorial at the
+// very end of a sentence, which cannot be told apart from an exclamation (the prompt asks for plain sentences).
+const MATH_AFTER = /^\s*[+\-−×*/÷=<>≤≥^)\]}0-9]|^[([{]/;
+function mathBang(text, at) {
+  const before = text.slice(0, at);
+  const after = text.slice(at + 1);
+  if (after.startsWith('=')) return true;
+  if (!/[A-Za-z0-9)\]]$/.test(before)) return false;
+  if (MATH_AFTER.test(after)) return true;
+  return /(?:^|[^A-Za-z])(?:\d+|[A-Za-z])$|[)\]]$/.test(before) && /^(?:\s+[a-z]|[,;:]\s)/.test(after);
+}
+
 /** Step 3: collapse whitespace, turn dashes between words into commas and "!" into ".", strip a leading label. */
 export function cleanRepairText(value) {
   let text = String(value ?? '').replace(/\s+/g, ' ').trim();
   text = text
     .replace(/(\d)\s*–\s*(?=\d)/g, '$1-') // an en dash in a number range is a range, not a clause break
     .replace(/\s*[—–]\s*/g, ', ')
-    .replace(/(?<!\d)!+(?!=)/g, '.')
+    .replace(/!+/g, (run, at, whole) => (run.length === 1 && mathBang(whole, at) ? run : '.'))
     .replace(/,\s*,/g, ',')
     .replace(/\.(?:\s*\.)+/g, '.')
     .replace(/,\s*([.?;:])/g, '$1')
@@ -222,13 +240,31 @@ export function fitSentence(text, cap) {
   return kept.endsWith(';') ? `${kept.slice(0, -1)}.` : kept;
 }
 
-// Step 7: a claim about the student's mind or habits. The model writes about the options, never about the student.
+// Step 7: a claim about the student: their mind, their habits, or what they did to get it wrong. The model writes
+// about the options, never about the student. Teaching text stays allowed: "If you add 3 to both sides", "When you
+// read 'will', expect a verb", "If you were the buyer", "you were asked to find". Words in quotation marks are option
+// or passage text being quoted ('Option D uses "you were"'), so they are left out of the check.
+// "missed" names a cause ("You missed the word NOT"), except in the record's own fact "you missed this in Mock 2".
+const CAUSE_VERBS = String.raw`(?:confused|mixed\s+up|forgot|forgotten|overlooked|missed(?!\s+(?:this|it|that)(?:\s+question)?\s+(?:in|on|before|earlier|last)\b)|misread|misunderstood|ignored|rushed|assumed|panicked|guessed|skimmed|overthought|neglected)`;
+const HEDGES = String.raw`(?:\s+(?:probably|likely|perhaps|maybe|clearly|simply|just|may|might|must|could|would|have|had|seem\s+to\s+have|seemed\s+to\s+have))*`;
 const STUDENT_CLAIMS = [
-  /\byou\s+(?:probably\s+|likely\s+|may\s+have\s+|might\s+have\s+)?(?:rushed|panicked|guessed|skimmed|misread|overthought)\b/i,
+  // "You confused", "You may have confused", "You forgot", "You probably missed", "You've ignored", "You assumed".
+  new RegExp(String.raw`\byou(?:['’]ve|['’]d)?${HEDGES}\s+${CAUSE_VERBS}\b`, 'i'),
   /\byou(?:'re|’re|\s+are|\s+were)\s+(?:careless|rushing|nervous|tired|confused|lazy)\b/i,
   /\byou\s+(?:did\s*n[o'’]?t|didn['’]t|did\s+not)\s+(?:read|think|check|notice)\b/i,
+  // "You were thinking of ...", "You were in a hurry". Not a hypothetical ("If you were the seller", "Suppose you were
+  // to double it") and not the question's own words ("you were asked / given / told / shown to").
+  /(?<!\b(?:if|suppose|supposing|imagine|unless|wish|though|as\s+if|even\s+if)\s+)\byou\s+were\s+(?!(?:asked|given|told|shown|provided|to)\b)[a-z]/i,
+  // "Your mistake was ...", "Your error is ...", "the mistake you made".
+  /\byour\s+(?:(?:main|real|only|first|big|biggest)\s+)?(?:mistake|error|slip)\s+(?:was|is)\b/i,
+  /\bthe\s+(?:mistake|error)\s+you\s+made\b/i,
 ];
-export const claimsAboutStudent = (text) => STUDENT_CLAIMS.some((pattern) => pattern.test(String(text ?? '')));
+const QUOTED = /"[^"]*"|“[^”]*”|(^|[\s(\[])(?:'[^']*'|‘[^’]*’)(?=$|[\s.,;:?!)\]])/g;
+const withoutQuotes = (text) => String(text ?? '').replace(QUOTED, (_, lead) => `${lead || ''} quoted `);
+export const claimsAboutStudent = (text) => {
+  const plain = withoutQuotes(text);
+  return STUDENT_CLAIMS.some((pattern) => pattern.test(plain));
+};
 
 // Step 8: text that names another listed option as the right one. "Statement (B) is correct" is a statement label, not
 // an option, so the word "option" or "answer" is required. A conditional ("option B is correct only if ...") is allowed.
