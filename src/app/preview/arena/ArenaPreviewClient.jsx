@@ -3,37 +3,19 @@
 import { Suspense, useLayoutEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { AuthContext } from '@/components/AuthProvider';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { RoleProvider } from '@/lib/roleContext';
 import AppLayoutClient from '@/app/(app)/AppLayoutClient';
-import DashboardPageClient from '@/app/(app)/dashboard/DashboardPageClient';
-import TestPageClient from '@/app/(app)/test/TestPageClient';
 import { buildPracticeQuote } from '@/../data/practice_quote';
 import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/../data/learning_engine';
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
 import { previewCompass, previewInsights } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
-import MockMobAIHub from '@/components/ai/MockMobAIHub';
 import AssistantDrawer from '@/components/ai/AssistantDrawer';
-import AdmissionCompassPageClient from '@/app/(app)/admission-compass/AdmissionCompassPageClient';
-import AnalyticsPageClient from '@/app/(app)/analytics/AnalyticsPageClient';
-import SavedPageClient from '@/app/(app)/saved/SavedPageClient';
-import TodayPage from '@/app/(app)/today/page';
-import ProgressPage from '@/app/(app)/progress/page';
-import RecoveryOverview from '@/components/RecoveryOverview';
-import RecoveryJourney from '@/app/(app)/recovery/page';
-import { DiscoveryFeed } from '@/components/feed/DiscoveryFeed';
-import { UploadForm } from '@/components/feed/UploadForm';
-import MyUploadsPageClient from '@/app/(app)/my-uploads/MyUploadsPageClient';
-import ProfilePageClient from '@/app/(app)/profile/ProfilePageClient';
-import LeaderboardPageClient from '@/app/(app)/leaderboard/LeaderboardPageClient';
-import ResultPageClient from '@/app/(app)/result/[id]/ResultPageClient';
-import AIRivalArena from '@/components/ai/AIRivalArena';
-import OnboardingPageClient from '@/app/onboarding/OnboardingPageClient';
-import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
+// The view registry (web IA, IA0): legacy views plus one file per packet in ./views.
+import { packetFixtureReply, previewLinksFor, resolveView, viewNames } from './views';
 
 // Original illustrative questions (the homepage sample set), never real bank rows.
 const SAMPLE = [
@@ -129,6 +111,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     const accountRead = method === 'GET' && !['/api/subjects', '/api/chapters'].includes(url.pathname) && !url.pathname.startsWith('/api/auth/');
     if (accountRead && state === 'loading') return new Promise((resolve, reject) => { init.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')), { once: true }); });
     if (accountRead && state === 'error') return json({ error: 'Illustrative connection failure' }, 503);
+    // Packet fixtures (views/<packet>.jsx handlers) answer first, after the shared loading and error states.
+    const packetReply = packetFixtureReply({ url, method, init, fixture, json });
+    if (packetReply) return packetReply;
     if (fixture.get('recovery') === 'candidate' && window.__previewPathway) {
       const handled = candidateRecovery(url, method, init, fixture);
       if (handled) return handled;
@@ -301,12 +286,12 @@ function PreviewInner({ candidatePathway }) {
   useLayoutEffect(() => { window.__previewPathway = recoveryFixture ? candidatePathway : null; }, [recoveryFixture, candidatePathway]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pro = params.get('plan') === 'pro';
-  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
-  const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
-  const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard' };
-  const route = `/${routeNames[view] || view}`;
-  const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}) })}`;
-  const previewLinks = Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)]));
+  const moderator = params.get('role') === 'moderator';
+  const views = viewNames({ moderator });
+  const { name: view, view: current } = resolveView(params.get('view'), { moderator });
+  const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(moderator ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}) })}`;
+  const previewLinks = previewLinksFor(previewHref, { moderator });
+  const ctx = { params, pro, openDrawer: () => setDrawerOpen(true) };
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('stale') === '1' ? ['hindi', 'teaching_aptitude'] : [])],
@@ -318,8 +303,8 @@ function PreviewInner({ candidatePathway }) {
   return (
     <AuthContext.Provider value={auth}>
       <RoleProvider>
-        <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
+        <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{current.toolbar?.(ctx)}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+        {current.shell === false ? current.render(ctx) : <AppLayoutClient previewRoute={current.route} previewLinks={previewLinks}>{current.render(ctx)}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

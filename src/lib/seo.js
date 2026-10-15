@@ -16,23 +16,17 @@ export const publicRoutes = [
       'Take CUET mock tests, review practice mistakes, track weak chapters, and prepare for CUET UG with MockMob.',
     priority: 1,
   },
-  {
-    path: '/features',
-    title: 'CUET Practice Features, Analytics & Admission Compass | MockMob',
-    description:
-      'Explore MockMob features for CUET mock tests, weakness radar, saved questions, leaderboards, and admission guidance.',
-    priority: 0.8,
-  },
+  // /features is retired (web IA plan 2.4, N9): it redirects to /#how-it-works and is not in the sitemap.
   {
     path: '/pricing',
-    title: 'MockMob Pricing for CUET Mock Tests & Analytics',
+    title: 'MockMob Pricing for CUET Mock Tests',
     description:
-      'Start free or unlock MockMob Pro for unlimited CUET mocks, advanced Radar analytics, bookmarks, and Admission Compass.',
+      'Start free with practice credits and AI credits, or go Pro for practice without credits, NTA mode, Smart practice and your gap to each college.',
     priority: 0.7,
   },
   {
     path: '/cuet-cutoff-calculator',
-    title: 'DU Eligibility & Cutoff Calculator for CUET | MockMob',
+    title: 'CUET Cutoff Calculator: DU Eligibility and Cutoffs | MockMob',
     description:
       'Free tool: pick your CUET subjects, see every Delhi University programme you are eligible for, and compare the previous year’s college-wise cutoffs for your category.',
     priority: 0.95,
@@ -48,21 +42,21 @@ export const publicRoutes = [
     path: '/cuet-mock-test-free',
     title: 'CUET Mock Test Free Online | MockMob',
     description:
-      'Attempt free CUET mock tests online with timed practice, chapter-wise questions, performance insights, and exam-style revision.',
+      'Free CUET mock test online: answer 5 sample questions with no sign-up, then take timed mocks in your subjects and see which chapters cost you marks.',
     priority: 0.95,
   },
   {
     path: '/cuet-previous-year-questions',
-    title: 'CUET Previous Year Questions with Answers | MockMob',
+    title: 'CUET Previous Year Questions: How to Study From Them | MockMob',
     description:
-      'Practise CUET previous year questions, understand exam patterns, revise high-value topics, and build a smarter PYQ routine.',
+      'How to use CUET previous year questions to read the exam pattern and fix mistakes. MockMob’s practice is CUET-style and is not official past-paper material.',
     priority: 0.92,
   },
   {
     path: '/cuet-practice-tests-online',
     title: 'CUET Practice Tests Online for UG Preparation | MockMob',
     description:
-      'Practise CUET online tests by subject, chapter, and difficulty with analytics describing your practice record.',
+      'Online CUET practice tests by subject and chapter. Answer 5 sample questions with no sign-up, then practise in your own subjects and review every miss.',
     priority: 0.9,
   },
   {
@@ -74,13 +68,13 @@ export const publicRoutes = [
   },
   {
     path: '/about',
-    title: 'About MockMob — The CUET-First Mock Test Platform',
-    description: 'Why MockMob exists: one exam, machine-validated questions, and honest analytics for CUET aspirants.',
+    title: 'About MockMob: The CUET-First Mock Test Platform',
+    description: 'Why MockMob exists: one exam, automated answer-key checks, and an honest record of which chapters cost you marks.',
     priority: 0.5,
   },
   {
     path: '/contact',
-    title: 'Contact MockMob — Support, Payments, and Partnerships',
+    title: 'Contact MockMob: Support, Payments and Partnerships',
     description: 'Reach the MockMob team for support, payment questions, question reports, and partnerships.',
     priority: 0.4,
   },

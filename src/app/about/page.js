@@ -3,13 +3,14 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
-import { Icon } from '@/components/ui/Icons';
+import MobiReact from '@/components/brand/MobiReact';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
+import '@/app/public-polish.css';
 
 export const metadata = seoMetadata({
-  title: 'About MockMob — The CUET-First Mock Test Platform',
+  title: 'About MockMob: The CUET-First Mock Test Platform',
   description:
-    'Why MockMob exists: one exam, obsessive focus, machine-validated questions, and honest analytics for CUET aspirants targeting DU and beyond.',
+    'Why MockMob exists: one exam, automated answer-key checks, and an honest record of which chapters cost you marks, for CUET aspirants targeting DU and beyond.',
   path: '/about',
 });
 
@@ -28,7 +29,7 @@ const BELIEFS = [
   },
   {
     title: 'A score should tell you what to do next',
-    body: 'A mock should help you choose what to do next. Radar organizes practice history by subject and chapter, while Admission Compass checks programme eligibility and sourced historical cutoffs separately from practice marks.',
+    body: 'A mock should help you choose what to do next. Your record organizes practice history by subject and chapter, Mistake Repair explains the answers you got wrong, and the Cutoff calculator checks programme eligibility and sourced historical cutoffs separately from practice marks.',
   },
 ];
 
@@ -44,14 +45,15 @@ export default function AboutPage() {
       />
       <NavBar />
 
-      <main>
+      <main id="main-content">
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
           <div className="mm-wrap mm-wrap--tight">
-            <h1 className="mm-h1">Built for one exam. Obsessively.</h1>
+            <h1 className="mm-h1">Built for one exam.</h1>
             <p className="mm-lead" style={{ marginTop: '1rem', maxWidth: '52ch' }}>
               CUET preparation brings subject practice, review, and university requirements into
               one demanding season. We are a small independent team, founded by Atishay Jain,
-              building the platform we wished existed.
+              building the platform we wished existed. MockMob is a Score Recovery platform: it finds the
+              marks you lost, helps you fix each mistake, and points you at the chapter to practise next.
             </p>
           </div>
         </section>
@@ -72,6 +74,23 @@ export default function AboutPage() {
 
         <section className="mm-section mm-section--sunken">
           <div className="mm-wrap mm-wrap--tight">
+            <div className="mm-about-mobi">
+              <div className="mm-about-mobi__art" aria-hidden="true">
+                <MobiReact act="idle" size={104} still />
+              </div>
+              <div>
+                <h2 className="mm-h2">Meet Mobi.</h2>
+                <p className="mm-body" style={{ marginTop: '1rem' }}>
+                  Mobi is the small mascot who keeps you company between questions. He reacts when you
+                  finish a session, and he stays out of the way during a timed mock.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mm-section">
+          <div className="mm-wrap mm-wrap--tight">
             <h2 className="mm-h2">Independent, and clear about it.</h2>
             <p className="mm-body" style={{ marginTop: '1rem' }}>
               MockMob is not affiliated with NTA, Delhi University, or any exam body. We are an
@@ -84,8 +103,7 @@ export default function AboutPage() {
             </p>
             <div className="mm-actions" style={{ marginTop: '2rem' }}>
               <Link href="/signup" className="mm-btn mm-btn--primary">
-                Start a free mock
-                <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
+                Start free
               </Link>
               <Link href="/contact" className="mm-btn mm-btn--secondary">
                 Talk to us

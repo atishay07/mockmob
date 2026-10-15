@@ -1,45 +1,72 @@
-/* Small, route-scoped refinements for public subpages. */
-.mm.public-features .feature-card .feature-dot-layer {
-  opacity: 0;
-  transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1);
+/* Route-scoped refinements for the public pages: pricing, and the reading pages that carry the sample. */
+
+/* ---------- Pricing: the shared table keeps its structure, with sentence-case labels ---------- */
+.mm-pricing :is(#ai-credits, .mm-cmp) { scroll-margin-top: 5.5rem; }
+.mm-pricing .mm-cmp__group {
+  font-size: 0.9375rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
 }
-
-.mm.public-features .feature-icon {
-  transform: scale(1);
-  transition: transform 150ms cubic-bezier(0.23, 1, 0.32, 1);
+.mm-pricing .mm-cmp__cell::before {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
 }
-
-@media (hover: hover) and (pointer: fine) {
-  .mm.public-features .feature-card:hover .feature-dot-layer {
-    opacity: 0.42;
-  }
-
-  .mm.public-features .feature-card:hover .feature-icon {
-    transform: scale(1.04);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mm.public-features .feature-card .feature-dot-layer,
-  .mm.public-features .feature-icon {
-    transition: none;
+@media (min-width: 760px) {
+  .mm-pricing .mm-cmp__head > div {
+    font-size: 0.875rem;
+    letter-spacing: 0;
+    text-transform: none;
   }
 }
+.mm-pricing .mm-cmp__cell { font-variant-numeric: tabular-nums; }
 
-/* PrepOS credit top-ups on /pricing */
+/* ---------- Pricing: two kinds of credits ---------- */
+.mm-credits { display: grid; gap: 2rem; }
+@media (min-width: 860px) { .mm-credits { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(2rem, 5vw, 4rem); align-items: start; } }
+.mm-credits__title { margin: 0 0 0.35rem; font: 800 1.125rem/1.2 var(--font-display); letter-spacing: -0.01em; color: var(--ink); }
+.mm-credits__title--packs { margin-top: 2.5rem; }
+.mm-credits__rows { margin: 0; }
+.mm-credits__row { display: grid; gap: 0.2rem 1rem; padding: 0.85rem 0; border-top: 1px solid var(--line); }
+.mm-credits__row:first-child { border-top-color: var(--line-strong); }
+.mm-credits__row dt { font-size: 0.875rem; font-weight: 600; color: var(--ink-3); }
+.mm-credits__row dd { margin: 0; line-height: 1.55; color: var(--ink); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+@media (min-width: 560px) { .mm-credits__row { grid-template-columns: minmax(8.5rem, 11rem) minmax(0, 1fr); } }
+.mm-credits__mine { margin-top: 2.5rem; padding: 1.1rem 1.25rem; border: 1px solid var(--line-strong); border-radius: var(--r-3, 16px); background: var(--paper-raised); }
+.mm-credits__mine ul { margin: 0.25rem 0 0; padding: 0; list-style: none; display: grid; gap: 0.35rem; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.mm-credits__mine b { color: var(--ink); }
+
+/* AI credit top-ups on /pricing, listed only while checkout is open */
 .mm-packs { list-style: none; margin: 1.25rem 0 0; padding: 0; display: grid; gap: 0.85rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
 .mm-pack { display: grid; gap: 0.35rem; align-content: start; padding: 1.1rem; border-radius: 18px; border: 1px solid var(--line, rgba(23,32,22,.14)); background: var(--paper-raised, #fff); }
-.mm-pack[data-featured='true'] { border-color: var(--accent, #9db400); box-shadow: 0 18px 40px -28px rgba(80,100,0,.55); }
+.mm-pack[data-featured='true'] { border-color: var(--accent-line, #9db400); }
 .mm-pack p { margin: 0; }
 .mm-pack__name { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; font: 700 0.9rem var(--font-body); color: var(--ink-2); }
 .mm-pack__name span { padding: 0.15rem 0.5rem; border-radius: 999px; background: #d2f000; color: #0b1000; font: 700 0.68rem var(--font-body); }
-.mm-pack__price { font: 800 2rem/1 var(--font-display); letter-spacing: -0.03em; color: var(--ink); }
+.mm-pack__price { font: 800 2rem/1 var(--font-display); letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
 .mm-pack__credits { font: 600 0.95rem var(--font-body); color: var(--ink); margin-bottom: 0.5rem; }
 .mm-pack__credits small { display: block; font-weight: 500; color: var(--ink-3); }
 .mm-pack__name span { margin-left: 0.5rem; white-space: nowrap; }
 .mm-pack button { width: 100%; min-height: 46px; border-radius: 14px; border: 1.5px solid var(--line-strong, rgba(23,32,22,.28)); background: transparent; color: var(--ink, #172016); font: 700 0.9rem var(--font-body); box-shadow: none; }
-.mm-pack[data-featured='true'] button { background: #d2f000; border-color: #9db400; color: #0b1000; box-shadow: 0 3px 0 #9db400; }
+.mm-pack[data-featured='true'] button { background: #d2f000; border-color: #9db400; color: #0b1000; }
 .mm-pack button:disabled { opacity: .6; }
+
+/* ---------- Reading pages: the live sample sits above the article (web IA plan 4.2) ---------- */
+.seo-sample { margin: 0 0 clamp(2rem, 5vw, 3rem); display: grid; gap: 0.6rem; }
+.seo-sample__head { display: flex; align-items: center; gap: 0.5rem; margin: 0; font-size: 0.875rem; font-weight: 600; color: var(--ink-2); }
+.seo-sample__head::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-text, var(--volt)); }
+.seo-sample__card { min-width: 0; max-width: 40rem; }
+.seo-sample__note { margin: 0; font-size: 0.8125rem; line-height: 1.5; color: var(--ink-3); }
+.seo-sample .lp-sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* ---------- About: Mobi, once ---------- */
+.mm-about-mobi { display: flex; align-items: center; gap: clamp(1.25rem, 4vw, 2.5rem); }
+.mm-about-mobi__art { flex: none; }
+@media (max-width: 560px) { .mm-about-mobi { flex-direction: column; align-items: flex-start; } }
+
 /* Editable phone fields retain native zoom without triggering focus magnification. */
 @media (max-width: 760px) {
   .mm :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select) { font-size: 16px; }

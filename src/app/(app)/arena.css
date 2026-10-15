@@ -158,137 +158,12 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
   mask-image: linear-gradient(180deg, #000, transparent 75%);
 }
 
-/* ---------- Navigation ---------- */
-.app-shell .arena-sidebar {
-  display: none;
-}
-@media (min-width: 1024px) {
-  .app-shell .arena-sidebar {
-    position: fixed;
-    inset: 0 auto 0 0;
-    z-index: 45;
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
-    width: 232px;
-    padding: 18px 14px 20px;
-    overflow-y: auto;
-    border-right: 1px solid var(--a-line);
-    background: var(--a-sidebar);
-  }
-  .app-shell .arena-topbar .arena-topbar__logo { display: none; }
-  .app-shell .arena-topbar__row { padding-left: 252px !important; }
-  .app-shell .app-main { padding-left: 252px !important; }
-  .app-shell.app-shell--test .app-main { padding-left: 232px !important; }
-}
-.app-shell .arena-nav-group {
-  display: grid;
-  gap: 2px;
-}
-.app-shell .arena-nav-label {
-  margin: 0 0 6px;
-  padding-inline: 12px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--a-ink-3);
-}
-.app-shell .arena-nav-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  min-height: 42px;
-  padding: 0 12px;
-  border: 1px solid transparent;
-  border-radius: 12px;
-  font-family: var(--font-display);
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--a-ink-2);
-  text-decoration: none;
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
-}
-.app-shell .arena-nav-link .icon {
-  width: 17px;
-  height: 17px;
-  color: var(--a-ink-3);
-  transition: color 0.2s ease;
-}
-.app-shell .arena-nav-link:hover {
-  color: var(--a-ink);
-  background: var(--a-hover);
-}
-.app-shell .arena-nav-link[aria-current="page"] {
-  color: var(--a-ink);
-  background: var(--a-raised-2);
-  border-color: var(--a-line);
-}
-.app-shell .arena-nav-link[aria-current="page"]::before {
-  content: "";
-  position: absolute;
-  left: -15px;
-  top: 10px;
-  bottom: 10px;
-  width: 3px;
-  border-radius: 0 3px 3px 0;
-  background: var(--a-select);
-}
-.app-shell .arena-nav-link[aria-current="page"] .icon {
-  color: var(--a-accent-text);
-}
-.app-shell .arena-nav-link:focus-visible,
-.app-shell .arena-iconbtn:focus-visible,
-.app-shell .arena-chip:focus-visible {
-  outline: 2px solid var(--a-focus);
-  outline-offset: 2px;
-}
-.app-shell .arena-sidebar__foot {
-  margin-top: auto;
-  display: grid;
-  gap: 8px;
-}
+/* ---------- Navigation ----------
+   The shell's chrome (sidebar, rail, phone bar, header, Start key and sheet) is styled in
+   src/components/shell/shell.css (web IA, IA1). Only shared pieces stay here. */
 
-/* Horizontal clipping must not create a body scroll container: the topbar sticks
-   to the viewport, including when More opens from the bottom navigation. */
+/* Horizontal clipping must not create a body scroll container: sticky chrome keeps working. */
 body:has(.app-shell) { overflow-x: clip; }
-.app-shell .arena-topbar {
-  position: sticky;
-  top: 0;
-  z-index: 40;
-  border-bottom: 1px solid var(--a-line);
-  background: var(--a-topbar);
-  -webkit-backdrop-filter: blur(18px) saturate(1.2);
-  backdrop-filter: blur(18px) saturate(1.2);
-}
-.app-shell .arena-topbar__row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 62px;
-  max-width: none;
-  padding: 8px 16px;
-}
-@media (min-width: 768px) {
-  .app-shell .arena-topbar__row { padding-inline: 24px; }
-}
-.app-shell .arena-topbar__title {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--a-ink);
-  display: none;
-}
-@media (min-width: 1024px) {
-  .app-shell .arena-topbar__title { display: block; }
-}
-.app-shell .arena-topbar__end {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 .app-shell .arena-chip {
   display: inline-flex;
   align-items: center;
@@ -315,134 +190,10 @@ body:has(.app-shell) { overflow-x: clip; }
   width: 14px;
   height: 14px;
 }
-.app-shell .arena-chip--credits {
-  color: var(--a-ink);
-  font-variant-numeric: tabular-nums;
+.app-shell .arena-chip:focus-visible {
+  outline: 2px solid var(--a-focus);
+  outline-offset: 2px;
 }
-.app-shell .arena-chip--credits .icon {
-  color: var(--a-accent-text);
-}
-.app-shell .arena-chip--credits b {
-  font-family: var(--font-mono);
-  font-weight: 600;
-}
-.app-shell .arena-chip--pro {
-  border-color: var(--a-select);
-  background: var(--volt);
-  color: #0b1000;
-}
-.app-shell .arena-chip--pro:hover {
-  color: #0b1000;
-  border-color: var(--a-select);
-}
-.app-shell .arena-chip--mod {
-  border-color: var(--a-volt-line);
-  background: var(--a-volt-wash);
-  color: var(--a-accent-text);
-}
-.app-shell .arena-profile {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 40px;
-  max-width: 180px;
-  padding: 3px 12px 3px 4px;
-  border: 1px solid var(--a-line);
-  border-radius: 999px;
-  background: var(--a-raised);
-  color: var(--a-ink);
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-}
-.app-shell .arena-profile span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.app-shell .arena-iconbtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-  border: 1px solid var(--a-line);
-  border-radius: 12px;
-  background: var(--a-raised);
-  color: var(--a-ink-2);
-  cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease;
-}
-.app-shell .arena-iconbtn:hover {
-  border-color: var(--a-line-strong);
-  color: var(--a-ink);
-}
-.app-shell .arena-iconbtn--danger:hover {
-  color: var(--a-bad-text);
-  border-color: rgba(255, 157, 146, 0.4);
-}
-.app-shell .arena-sheet {
-  display: grid;
-  position: absolute;
-  inset: 100% 0 auto;
-  max-height: calc(100dvh - 160px - env(safe-area-inset-bottom));
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  gap: 16px;
-  padding: 14px 16px 18px;
-  border-top: 1px solid var(--a-line);
-  background: var(--a-sheet);
-}
-.app-shell .arena-sheet .arena-nav-group {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-}
-.app-shell .arena-sheet .arena-nav-label {
-  grid-column: 1 / -1;
-  padding-inline: 2px;
-}
-.app-shell .arena-sheet .arena-nav-link {
-  min-height: 48px;
-  border-color: var(--a-line);
-  background: var(--a-raised);
-}
-.app-shell .arena-sheet .arena-nav-link[aria-current="page"] {
-  border-color: var(--a-volt-line);
-  background: var(--a-volt-wash);
-}
-.app-shell .arena-sheet .arena-nav-link[aria-current="page"]::before {
-  display: none;
-}
-.app-shell .arena-sheet__account {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 8px;
-  border: 1px solid var(--a-line);
-  border-radius: 14px;
-  background: var(--a-raised);
-}
-.app-shell .arena-modbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 20px;
-  border-top: 1px solid rgba(210, 240, 0, 0.15);
-  background: rgba(210, 240, 0, 0.06);
-  color: var(--a-accent-text);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* Responsive visibility. Tailwind's display utilities live in a cascade layer, so the
-   unlayered component rules above would beat them; these helpers only ever hide. */
-@media (max-width: 639px) { .app-shell .arena-sm-up { display: none !important; } }
-@media (max-width: 767px) { .app-shell .arena-md-up { display: none !important; } }
-@media (max-width: 1023px) { .app-shell .arena-desktop-only { display: none !important; } }
-@media (min-width: 1024px) { .app-shell .arena-mobile-only { display: none !important; } }
 
 /* ---------- Shared app primitives, re-skinned in scope ---------- */
 .app-shell .glass {
@@ -967,7 +718,6 @@ body:has(.app-shell) { overflow-x: clip; }
 
 @media (prefers-reduced-motion: reduce) {
   .app-shell .btn-volt,
-  .app-shell .arena-nav-link,
   .app-shell .arena-subject-card,
   .app-shell .mode-card {
     transition: none;
@@ -1011,8 +761,6 @@ html[data-theme='light'] .arena-dark-island {
 }
 
 /* ---------- Icon language and credit marks ---------- */
-.app-shell .arena-nav-link svg { width: 18px; height: 18px; flex-shrink: 0; color: var(--a-ink-3); transition: color .2s ease; }
-.app-shell .arena-nav-link[aria-current="page"] svg { color: var(--a-accent-text); }
 .app-shell .arena-chip svg:not(.credit-mark) { width: 15px; height: 15px; }
 .credit-amount { display: inline-flex; align-items: center; gap: 7px; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .credit-amount__value { font-family: var(--font-mono); font-weight: 600; letter-spacing: -0.01em; }
@@ -1429,27 +1177,6 @@ html[data-theme='light'] .app-shell .cmp {
 .app-shell .na__seg button[aria-pressed="true"] { transition: background-color 160ms ease, color 160ms ease, transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)); }
 .app-shell .student-page--today .rc--compact { margin: 0; }
 .app-shell .student-page--today .pt { margin: 0; }
-
-/* ---------- Mobile bottom nav: one pill slides between tabs, items spring (AppLayoutClient markup) ----------
-   Five equal columns, so the pill is positioned by the column of the current tab, no script. No tab
-   current (Explore, Saved and so on) hides it. Opening More moves it to More. */
-@media (max-width: 1023px) {
-  html .app-shell .arena-bottomnav { --abn-i: 0; --abn-on: 0; }
-  html .app-shell .arena-bottomnav::before { content: ''; position: absolute; left: 6px; top: 5px; width: calc((100% - 12px) / 5); height: 54px; border-radius: 9px; background: var(--a-volt-wash); box-shadow: inset 0 2px 0 var(--a-accent-text); transform: translate3d(calc(var(--abn-i) * 100%), 0, 0); opacity: var(--abn-on); transition: transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)), opacity 160ms ease; pointer-events: none; }
-  html .app-shell .arena-bottomnav:has(> :nth-child(1)[aria-current='page']) { --abn-i: 0; --abn-on: 1; }
-  html .app-shell .arena-bottomnav:has(> :nth-child(2)[aria-current='page']) { --abn-i: 1; --abn-on: 1; }
-  html .app-shell .arena-bottomnav:has(> :nth-child(3)[aria-current='page']) { --abn-i: 2; --abn-on: 1; }
-  html .app-shell .arena-bottomnav:has(> :nth-child(4)[aria-current='page']) { --abn-i: 3; --abn-on: 1; }
-  html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-expanded='true']) { --abn-i: 4; --abn-on: 1; }
-  html .app-shell .arena-bottomnav :is(a, button) { position: relative; z-index: 1; transition: transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)), color 160ms ease; }
-  html .app-shell .arena-bottomnav :is(a, button):active { transform: scale(0.92); transition-duration: 90ms, 160ms; }
-  html .app-shell .arena-bottomnav [aria-current='page'], html .app-shell .arena-bottomnav [aria-expanded='true'] { background: transparent; }
-  html .app-shell .arena-bottomnav [aria-current='page'] svg, html .app-shell .arena-bottomnav [aria-expanded='true'] svg { animation: abn-pop 460ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)); }
-}
-@keyframes abn-pop { 0% { transform: scale(0.7); } 100% { transform: scale(1); } }
-html[data-motion='reduced'] .app-shell .arena-bottomnav::before, html[data-motion='reduced'] .app-shell .arena-bottomnav :is(a, button) { transition: none; }
-html[data-motion='reduced'] .app-shell .arena-bottomnav svg { animation: none !important; }
-@media (prefers-reduced-motion: reduce) { html .app-shell .arena-bottomnav::before, html .app-shell .arena-bottomnav :is(a, button) { transition: none; } html .app-shell .arena-bottomnav svg { animation: none !important; } }
 
 /* The Start key on the next step: leans in and glows before the press, springs back after */
 .app-shell .na__cta { transition: transform 420ms var(--mk-spring, cubic-bezier(.34,1.56,.64,1)), box-shadow 240ms ease, background-color 160ms ease; }

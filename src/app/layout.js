@@ -1,17 +1,26 @@
-import { Gabarito, Hanken_Grotesk, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Gabarito, Hanken_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./marketing-theme.css";
 import "./brand-pip.css";
 import { Providers } from "@/components/Providers";
 import { JsonLd } from "@/components/JsonLd";
 import { globalJsonLd, seoMetadata, siteConfig } from "@/lib/seo";
-import AssistantLauncherGate from "@/components/ai/AssistantLauncherGate";
+import { brandFlags } from "@/../data/brand_flags.mjs";
 
 const gabarito = Gabarito({
   variable: "--font-gabarito",
   subsets: ["latin"],
   display: "swap",
   weight: ["500", "600", "700", "800", "900"],
+});
+
+// The app's display face (D5), behind data/brand_flags.mjs displayFont. Not preloaded while the
+// flag is off, so it costs nothing until it is used.
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
 });
 
 const hanken = Hanken_Grotesk({
@@ -60,26 +69,53 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#F4F5F0",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F4F5F0" },
+    { media: "(prefers-color-scheme: dark)", color: "#0B100E" },
+  ],
 };
 
+// Runs before first paint (web IA plan 7, 2.1):
+// - Theme. A saved choice always wins (Night, Daylight, or Match device). With no saved choice the
+//   signed-in product starts in Night (D5) and public pages follow the device on the first visit.
+// - Motion. The student's Reduce motion switch, or the device setting.
+// - Visitor. <html data-visitor="new|returning|member"> (plus data-plan and data-started for a
+//   member) from the stored hint (src/lib/navigation.js VISITOR_KEY), so the public header and the
+//   shell paint the right variant without a flash. The hint holds no personal data.
+// Keep the signed-in path list in step with src/app/(app) and /onboarding.
+const FIRST_PAINT = `(function(){var d=document.documentElement,t=null,s=null,o=null,m=0,h=null,k='new';
+try{s=localStorage.getItem('mm:theme:v1');o=localStorage.getItem('mm:theme-mode:v1')}catch(e){}
+if(o!=='system'&&(s==='dark'||s==='light'))t=s;
+else if(o!=='system'&&/^\\/(today|dashboard|practice|start|review|you|ask|analytics|saved|mentor|explore|learn|study|progress|profile|admission-compass|leaderboard|rival|upload|my-uploads|moderation|result|test|recovery|onboarding|preview\\/arena)(\\/|$)/.test(location.pathname))t='dark';
+else{try{t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}catch(e){t='light'}}
+d.dataset.theme=t;
+try{m=localStorage.getItem('mm:motion:v1')==='reduced'}catch(e){}try{m=m||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}if(m)d.dataset.motion='reduced';
+try{h=JSON.parse(localStorage.getItem('mm:visitor:v1')||'null')}catch(e){}
+if(h&&h.kind==='member')k='member';else if(h&&h.kind==='returning')k='returning';d.dataset.visitor=k;
+if(k==='member'){d.dataset.plan=h.plan==='pro'?'pro':'free';if(h.started===true)d.dataset.started='yes';else if(h.started===false)d.dataset.started='no'}})()`;
+
 export default function RootLayout({ children }) {
+  const flags = brandFlags();
+  // Display font switch: every font-display rule reads --font-gabarito, so pointing it at Bricolage
+  // changes the face everywhere at once (and back) without touching a page.
+  const displayStyle = flags.displayFont === "bricolage" ? { "--font-gabarito": "var(--font-bricolage)" } : undefined;
   return (
     <html
       lang="en"
       data-theme="light"
       suppressHydrationWarning
-      className={`${gabarito.variable} ${hanken.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${gabarito.variable} ${bricolage.variable} ${hanken.variable} ${geistMono.variable} h-full antialiased`}
+      style={displayStyle}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,m=0;try{d.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){d.dataset.theme='light'}try{m=localStorage.getItem('mm:motion:v1')==='reduced'}catch(e){}try{m=m||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}if(m)d.dataset.motion='reduced'})()` }} />
+        <script dangerouslySetInnerHTML={{ __html: FIRST_PAINT }} />
         <JsonLd id="global-json-ld" data={globalJsonLd()} />
       </head>
       <body className="min-h-full flex flex-col">
         <div hidden data-impeccable-contract dangerouslySetInnerHTML={{ __html: DIRECTION_CONTRACT }} />
+        {/* The floating assistant launcher is gone (plan 2.1): Ask Mobi lives in Review. */}
         <Providers>
           {children}
-          <AssistantLauncherGate />
         </Providers>
       </body>
     </html>

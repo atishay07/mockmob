@@ -3,12 +3,17 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
-import { Icon } from '@/components/ui/Icons';
+import { DemoDrill } from '@/components/landing/DemoDrill';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
+import '@/app/public-polish.css';
 
 // Read-mode surface inside a Persuade site: comprehension and wayfinding come
 // first, and the conversion rail sits at the end of the article rather than
 // interrupting it. `page.eyebrow` is deliberately not rendered.
+//
+// `page.sample` puts the live 5-question sample above the article (web IA plan 2.4 and IA8). It is the
+// landing's own DemoDrill, imported and not edited: it keeps the answers in this browser and offers
+// "Save this and start free" at the end, so a reader can try the product before reading about it.
 export function SeoContentPage({ page }) {
   return (
     <div className="mm">
@@ -30,7 +35,7 @@ export function SeoContentPage({ page }) {
       />
       <NavBar />
 
-      <main>
+      <main id="main-content">
         <article>
           <header className="mm-article__head">
             <div className="mm-wrap mm-wrap--tight">
@@ -45,6 +50,16 @@ export function SeoContentPage({ page }) {
           </header>
 
           <div className="mm-wrap mm-wrap--tight mm-article">
+            {page.sample ? (
+              <section className="seo-sample" id="try" aria-label="5 sample questions">
+                <p className="seo-sample__head">5 sample questions, no sign-up</p>
+                <div className="seo-sample__card">
+                  <DemoDrill />
+                </div>
+                <p className="seo-sample__note">Original practice questions. They show how a session feels, not a subject diagnosis or a past paper.</p>
+              </section>
+            ) : null}
+
             {page.sections.map((section) => (
               <section key={section.heading} className="mm-article__section">
                 <h2 className="mm-h2">{section.heading}</h2>
@@ -65,11 +80,6 @@ export function SeoContentPage({ page }) {
                     {section.links.map((link) => (
                       <Link key={link.href} href={link.href} className="mm-chip">
                         {link.label}
-                        <Icon
-                          name="arrow"
-                          style={{ width: '14px', height: '14px' }}
-                          aria-hidden="true"
-                        />
                       </Link>
                     ))}
                   </div>
@@ -94,16 +104,14 @@ export function SeoContentPage({ page }) {
             <div className="mm-wrap mm-wrap--tight">
               <h2 className="mm-h2">Reading about it is not practice.</h2>
               <p className="mm-body">
-                Create a free account and sit a timed mock on this syllabus tonight. No card, and
-                the first drill on the home page needs no signup at all.
+                Create a free account and sit a timed mock on this syllabus tonight. No card needed.
               </p>
               <div className="mm-actions" style={{ marginTop: '1.75rem' }}>
                 <Link href="/signup" className="mm-btn mm-btn--primary">
-                  Start a free mock
-                  <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
+                  Start free
                 </Link>
                 <Link href="/pricing" className="mm-btn mm-btn--secondary">
-                  See what Pro unlocks
+                  See pricing
                 </Link>
               </div>
             </div>

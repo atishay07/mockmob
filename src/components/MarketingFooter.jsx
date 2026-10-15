@@ -1,95 +1,42 @@
 import React from 'react';
 import Link from 'next/link';
 import { Logo } from './Logo';
+import { FOOTER_COLUMNS, NON_AFFILIATION_LINE } from '@/lib/navigation';
+import { INSTAGRAM } from '@/lib/social';
 
-const PRODUCT_LINKS = [
-  ['DU eligibility & cutoff calculator', '/cuet-cutoff-calculator'],
-  ['CUET subject combination planner', '/cuet-subject-combination'],
-  ['Free CUET mock test', '/cuet-mock-test-free'],
-  ['Previous year questions', '/cuet-previous-year-questions'],
-  ['Online practice tests', '/cuet-practice-tests-online'],
-  ['Features', '/features'],
-  ['Pricing', '/pricing'],
-];
-
-const SUBJECT_LINKS = [
-  ['English', '/cuet/english'],
-  ['Accountancy', '/cuet/accountancy'],
-  ['Economics', '/cuet/economics'],
-  ['Business Studies', '/cuet/business-studies'],
-  ['CUET 2027 guide', '/cuet-2027'],
-];
-
-const COMPANY_LINKS = [
-  ['About', '/about'],
-  ['Contact', '/contact'],
-  ['Privacy', '/privacy'],
-  ['Terms', '/terms'],
-  ['Refunds', '/refunds'],
-];
-
+// The public footer (web IA plan 2.3): Free tools, Guides, all 15 subjects (each links to its hub
+// where one exists) and Company, then one non-affiliation line (D8). No status or "being prepared"
+// copy lives here.
 export function MarketingFooter() {
   return (
     <footer className="mm-foot">
       <div className="mm-wrap">
-        <div className="mm-foot__cols">
-          <div>
+        <div className="mm-foot__cols mm-foot__cols--ia">
+          <div className="mm-foot__brand">
             <Logo />
-            <p className="mm-foot__blurb">
-              Discover where marks slip away, practise a specific change, and check it on
-              fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
-            </p>
-            <a
-              className="mm-foot__social"
-              href="https://www.instagram.com/mockmob.in/"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <p className="mm-foot__blurb">CUET UG 2027 mocks in your own subjects. See which chapters cost you marks, and fix them before your next mock.</p>
+            <a className="mm-foot__social" href={INSTAGRAM.url} target="_blank" rel="noreferrer">
               <span aria-hidden="true">IG</span>
-              Follow @mockmob.in
+              Follow @{INSTAGRAM.handle}
             </a>
           </div>
 
-          <div>
-            <h3>Practice</h3>
-            <ul>
-              {PRODUCT_LINKS.map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href}>{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3>Subjects</h3>
-            <ul>
-              {SUBJECT_LINKS.map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href}>{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h3>Company</h3>
-            <ul>
-              {COMPANY_LINKS.map(([label, href]) => (
-                <li key={href}>
-                  <Link href={href}>{label}</Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {FOOTER_COLUMNS.map((column) => (
+            <div key={column.id} className={`mm-foot__col mm-foot__col--${column.id}`}>
+              <h3>{column.label}</h3>
+              <ul>
+                {column.links.map((link) => (
+                  <li key={link.label}>
+                    {link.href ? <Link href={link.href}>{link.label}</Link> : <span className="mm-foot__plain">{link.label}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         <div className="mm-foot__base">
-          <p>
-            &copy; {new Date().getFullYear()} MockMob. MockMob is an independent exam preparation
-            platform and is not affiliated with NTA, Delhi University, or any official examining
-            body. CUET is a trademark of its respective owner.
-          </p>
+          <p>&copy; {new Date().getFullYear()} MockMob. {NON_AFFILIATION_LINE} CUET is a trademark of its owner.</p>
         </div>
       </div>
     </footer>

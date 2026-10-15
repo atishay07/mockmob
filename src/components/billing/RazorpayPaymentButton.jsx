@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, ShieldCheck, Tag } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import { loginPathFor } from '@/lib/auth-redirect';
 
 const REF_STORAGE_KEY = 'mm_ref';
 const CODE_PATTERN = /^(offer_[A-Za-z0-9]{6,64}|[a-z0-9._-]{1,64})$/;
@@ -130,7 +131,8 @@ export function RazorpayPaymentButton({
         // Preserve the code the user entered so they don't have to retype
         // it after sign-in.
         if (code) persistRef(normalizeCodeInput(code));
-        window.location.href = '/login';
+        // ?next brings the student back to this page after sign-in (pricing keeps ?ref= too).
+        window.location.href = loginPathFor(`${window.location.pathname}${window.location.search}`);
         return;
       }
 
@@ -336,14 +338,14 @@ export function RazorpayPaymentButton({
           )}
           <span>
             {message}
-            {status === 'error' ? ' Nothing has been charged — you can try again.' : ''}
+            {status === 'error' ? ' Nothing has been charged. You can try again.' : ''}
           </span>
         </p>
       ) : null}
 
       <p className="mm-checkout__trust">
         <ShieldCheck aria-hidden="true" />
-        Secured by Razorpay · UPI, cards, netbanking ·{' '}
+        Secured by Razorpay. UPI, cards and netbanking.{' '}
         <a href="/refunds">Refund policy</a>
       </p>
     </div>

@@ -1,0 +1,44 @@
+{
+  "name": "pro-daytime",
+  "description": "A Pro student at 11 AM: the label reads Today, and practice is included.",
+  "input": {
+    "now": "2026-10-15T05:30:00.000Z",
+    "plan": "pro",
+    "practiceCredits": 0,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      },
+      {
+        "id": "economics",
+        "name": "Economics"
+      }
+    ],
+    "attempts": [
+      {
+        "id": "att-7",
+        "subject": "accountancy",
+        "mode": "nta",
+        "completedAt": "2026-10-13T12:00:00.000Z"
+      }
+    ],
+    "weakChapter": {
+      "subject": "economics",
+      "chapter": "Money and Banking",
+      "source": "record"
+    }
+  },
+  "expect": {
+    "id": "practise",
+    "rule": 5,
+    "label": "Today's move",
+    "title": "Practise Money and Banking, 10 questions",
+    "cost": "Included with Pro.",
+    "primary": {
+      "label": "Set up",
+      "href": "/dashboard?subject=economics&mode=quick&count=10&chapter=Money+and+Banking"
+    },
+    "away": null
+  }
+}

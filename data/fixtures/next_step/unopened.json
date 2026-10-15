@@ -1,0 +1,44 @@
+{
+  "name": "unopened",
+  "description": "A finished mock whose result has not been opened.",
+  "input": {
+    "now": "2026-10-15T14:30:00.000Z",
+    "plan": "free",
+    "practiceCredits": 40,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      },
+      {
+        "id": "economics",
+        "name": "Economics"
+      }
+    ],
+    "attempts": [
+      {
+        "id": "att-9",
+        "subject": "economics",
+        "mode": "full",
+        "completedAt": "2026-10-15T10:00:00.000Z"
+      }
+    ],
+    "unopenedResult": {
+      "attemptId": "att-9",
+      "subject": "economics",
+      "mode": "full"
+    }
+  },
+  "expect": {
+    "id": "unopened",
+    "rule": 2,
+    "label": "Tonight's move",
+    "title": "Your Economics result is ready",
+    "cost": null,
+    "primary": {
+      "label": "Open your result",
+      "href": "/result/att-9"
+    },
+    "away": null
+  }
+}

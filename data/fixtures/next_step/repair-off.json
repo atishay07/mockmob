@@ -1,0 +1,49 @@
+{
+  "name": "repair-off",
+  "description": "Mistakes are open but Mistake Repair is switched off: the next rule wins, never a dead button.",
+  "input": {
+    "now": "2026-10-15T14:30:00.000Z",
+    "plan": "free",
+    "practiceCredits": 40,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      },
+      {
+        "id": "economics",
+        "name": "Economics"
+      }
+    ],
+    "capabilities": {
+      "mistakeRepair": false
+    },
+    "attempts": [
+      {
+        "id": "att-7",
+        "subject": "accountancy",
+        "mode": "full",
+        "completedAt": "2026-10-13T12:00:00.000Z"
+      }
+    ],
+    "repair": {
+      "attemptId": "att-7",
+      "subject": "accountancy",
+      "mode": "full",
+      "completedAt": "2026-10-13T12:00:00.000Z",
+      "open": 4
+    }
+  },
+  "expect": {
+    "id": "quick",
+    "rule": 8,
+    "label": "Tonight's move",
+    "title": "10 questions in Accountancy, about 10 minutes",
+    "cost": "Uses 10 of your 40 practice credits.",
+    "primary": {
+      "label": "Set up",
+      "href": "/dashboard?subject=accountancy&mode=quick&count=10"
+    },
+    "away": null
+  }
+}

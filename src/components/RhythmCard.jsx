@@ -40,15 +40,16 @@ function arcs(goal) {
   });
 }
 
-function WeekRing({ rhythm, armed, size }) {
+function WeekRing({ rhythm, armed, size, unset = false }) {
   const goal = rhythm.daysGoal;
-  const paths = useMemo(() => arcs(goal), [goal]);
+  // With no goal chosen yet there are no goal arcs to fill: one quiet track and the days counted so far.
+  const paths = useMemo(() => arcs(unset ? 1 : goal), [goal, unset]);
   const shown = useCountUp(armed ? rhythm.studyDays : 0, { duration: 900 });
   return (
-    <div className="rc-ring" style={{ '--rc-size': `${size}px` }} role="img" aria-label={`${rhythm.studyDays} of ${goal} study days this week`}>
+    <div className="rc-ring" style={{ '--rc-size': `${size}px` }} role="img" aria-label={unset ? `${rhythm.studyDays} study days this week` : `${rhythm.studyDays} of ${goal} study days this week`}>
       <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
         {paths.map((d, i) => <path key={`t${i}`} d={d} className="rc-ring__track" />)}
-        {paths.map((d, i) => (
+        {!unset && paths.map((d, i) => (
           <path
             key={`f${i}`}
             d={d}
@@ -63,7 +64,7 @@ function WeekRing({ rhythm, armed, size }) {
       </svg>
       <span className="rc-ring__count" aria-hidden="true">
         <b>{shown}</b>
-        <small>of {goal} days</small>
+        <small>{unset ? 'days so far' : `of ${goal} days`}</small>
       </span>
     </div>
   );
@@ -128,7 +129,7 @@ function Ribbon({ ribbon, armed }) {
           </li>
         ))}
       </ol>
-      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'Volt weeks met the goal. Tap a week to read it.'}</p>
+      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'Weeks that met the goal are filled. Tap a week to read it.'}</p>
     </div>
   );
 }
@@ -184,7 +185,7 @@ function pickMobi(rhythm, { cheered, hello, counted, hour }) {
   return { kind: found.kind, act, mood, line, wakeLine: found.wakeLine || '' };
 }
 
-export default function RhythmCard({ compact = false, mobi = !compact }) {
+export default function RhythmCard({ compact = false, mobi = !compact, goal = null }) {
   const { reduced } = useMobiPrefs();
   const [wakeLine, setWakeLine] = useState('');
   const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null });
@@ -248,34 +249,39 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
   const pick = state.pick;
   const status = weekStatus(rhythm);
   const streak = rhythm.weeksMetStreak;
+  // Only an explicit "no goal chosen" changes the card: an older server that says nothing keeps the days in force.
+  const unset = goal?.set === false;
 
   return (
     <section ref={ref} className={`rc${compact ? ' rc--compact' : ''}`} aria-label="Your weekly rhythm" data-met={met ? 'true' : 'false'}>
       <header className="rc__head">
         <div>
           <h2 className="rc__title">{compact ? 'This week' : 'Your weekly rhythm'}</h2>
-          <p className="rc__status">{status}</p>
+          <p className="rc__status">{unset ? 'Choose how many days a week you study. Today plans your week around it.' : status}</p>
           {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line ? <p className="rc__status" role="status">{pick.line}</p> : null}
         </div>
         {pick ? <MobiReact act={pick.act} size={compact ? 56 : 76} mood={pick.mood} interactive={!compact} label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
       </header>
 
       <div className="rc__top">
-        <WeekRing rhythm={rhythm} armed={armed} size={compact ? 92 : 132} />
+        <WeekRing rhythm={rhythm} armed={armed} size={compact ? 92 : 132} unset={unset} />
         <div className="rc__week">
           <DayBubbles week={week} armed={armed} picked={picked} onPick={setPicked} />
           <p className="rc-chip" role="status" aria-live="polite">{chip}</p>
-          {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <> · best run {rhythm.bestRun}</> : null}</p> : null}
+          {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <>, best run {rhythm.bestRun}</> : null}</p> : null}
         </div>
       </div>
 
       {compact ? (
-        <Link className="rc__more" href="/progress">See your weeks and milestones</Link>
+        <div className="rc__links">
+          {unset ? <Link className="rc__more" href="/you#goal">Set your goal</Link> : null}
+          <Link className="rc__more" href="/progress">See your weeks and milestones</Link>
+        </div>
       ) : (
         <>
           <Ribbon ribbon={ribbon} armed={armed} />
           <Paths paths={paths} armed={armed} />
-          <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. Change your days in the app.</p>
+          <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/you#goal">Change your days</Link>.</p>
         </>
       )}
     </section>

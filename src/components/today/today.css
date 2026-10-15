@@ -1,0 +1,130 @@
+/* ==========================================================================
+   TODAY  (web IA, IA2)  scope: .app-shell
+   Tonight's move (the hero), the finding from the record, Finish your sheet and the road to May.
+   Tokens only (--a-*): the shell decides Night or Day, this sheet never names a colour.
+   Layout rules from the plan: a sentence-case title, one line of purpose, one dominant action, then
+   3 to 5 groups about 32 px apart. No nested cards, no row of three equal cards, no loops.
+   Motion answers a tap or shows a state: 150 to 350 ms, ease-out, instant under reduced motion.
+   ========================================================================== */
+
+/* ---------- Page ---------- */
+.app-shell .student-page.today { width: min(100%, 1080px); display: grid; gap: 32px; align-content: start; }
+.app-shell .today__head { display: grid; gap: 6px; }
+.app-shell .today__title { margin: 0; font: 800 clamp(28px, 4vw, 40px)/1.08 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); }
+.app-shell .today__lede { margin: 0; max-width: 56ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .today__h { margin: 0; font: 700 17px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .today__grid { display: grid; gap: 32px; align-items: start; }
+.app-shell .today__col { display: grid; gap: 32px; min-width: 0; align-content: start; }
+@media (min-width: 900px) {
+  .app-shell .today__grid { grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); gap: 32px; }
+}
+
+/* ---------- Tonight's move (TonightMove) ---------- */
+/* The hero keeps one height whether it is loading or loaded: the disclosure sits at the foot of the box. */
+.app-shell .tm { display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 340px; padding: clamp(20px, 3.4vw, 32px); border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-raised); box-shadow: var(--a-shadow-1); }
+@media (min-width: 720px) { .app-shell .tm { min-height: 300px; } }
+.app-shell .tm--compact { min-height: 0; padding: 16px; border-radius: 16px; box-shadow: none; }
+.app-shell .tm__body { display: grid; gap: 20px; min-width: 0; margin-bottom: 12px; }
+.app-shell .tm__main { display: grid; gap: 8px; min-width: 0; align-content: start; justify-items: start; }
+.app-shell .tm__away { margin: 0 0 4px; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .tm__label { margin: 0; font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); }
+.app-shell .tm__title { margin: 0; max-width: 24ch; font: 800 clamp(24px, 3.6vw, 34px)/1.14 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); text-wrap: balance; }
+.app-shell .tm--compact .tm__title { font-size: 18px; line-height: 1.3; letter-spacing: -0.01em; max-width: none; }
+.app-shell .tm__detail { margin: 0; max-width: 56ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .tm__cost { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .tm__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin-top: 12px; }
+.app-shell .tm__primary { min-height: 48px; padding-inline: 24px; text-decoration: none; }
+.app-shell .tm__aside { min-width: 0; display: grid; justify-items: center; align-content: end; gap: 8px; order: -1; justify-self: start; }
+@media (min-width: 720px) {
+  .app-shell .tm__body { grid-template-columns: minmax(0, 1fr) minmax(112px, 176px); gap: 28px; align-items: end; }
+  .app-shell .tm__aside { order: 0; justify-self: end; }
+}
+
+/* Outlined secondary: the second weight of every key on Today (never filled). */
+.app-shell .tm__alt { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 12px; background: transparent; color: var(--a-ink); font: 600 14px/1.2 var(--font-body); text-decoration: none; transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease); }
+.app-shell .tm__alt:active { transform: scale(0.98); }
+.app-shell .tm__alt:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__alt:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
+
+/* Mobi beside the hero, never over its text. His size is set here so a phone gives him less room. */
+.app-shell .tm__mobi { display: grid; justify-items: center; gap: 8px; }
+.app-shell .tm__mobi .mobi-react { --mobi-size: 72px !important; }
+@media (min-width: 720px) { .app-shell .tm__mobi .mobi-react { --mobi-size: 112px !important; } }
+.app-shell .tm__say { margin: 0; max-width: 24ch; font-size: 13px; line-height: 1.45; color: var(--a-ink-2); text-align: center; }
+@media (max-width: 719px) { .app-shell .tm__mobi { justify-items: start; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; } .app-shell .tm__say { text-align: left; max-width: none; } }
+
+/* Something else instead: a labelled disclosure, never hidden for good. */
+.app-shell .tm__others { margin-top: auto; border-top: 1px solid var(--a-line); }
+.app-shell .tm__toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0; border: 0; background: transparent; color: var(--a-ink-2); font: 600 14px/1.2 var(--font-body); cursor: pointer; }
+.app-shell .tm__toggle svg { transition: transform 200ms var(--a-ease); }
+.app-shell .tm__others[data-open='true'] .tm__toggle svg { transform: rotate(180deg); }
+.app-shell .tm__toggle:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 6px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__toggle:hover { color: var(--a-ink); } }
+.app-shell .tm__drawer { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 220ms var(--a-ease); }
+.app-shell .tm__others[data-open='true'] .tm__drawer { grid-template-rows: 1fr; }
+.app-shell .tm__drawer ul { list-style: none; margin: 0; padding: 0; min-height: 0; overflow: hidden; }
+.app-shell .tm__drawer li + li { border-top: 1px solid var(--a-line); }
+.app-shell .tm__drawer a { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 48px; padding: 6px 2px; color: var(--a-ink); font-size: 14.5px; line-height: 1.4; text-decoration: none; transition: background-color 150ms var(--a-ease); }
+.app-shell .tm__drawer a small { flex: none; font-size: 13px; color: var(--a-ink-3); }
+.app-shell .tm__drawer a:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 8px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .tm__drawer a:hover { background: var(--a-hover); } }
+
+/* Loading holds the hero's box, so nothing shifts when the answer arrives. Static: no shimmer, no loop. */
+.app-shell .tm--loading .tm__main { gap: 14px; }
+.app-shell .tm__sk { display: block; border-radius: 8px; background: var(--a-sunken); }
+.app-shell .tm__sk--label { width: 96px; height: 14px; }
+.app-shell .tm__sk--title { width: min(100%, 420px); height: 34px; border-radius: 10px; }
+.app-shell .tm__sk--line { width: min(100%, 260px); height: 14px; }
+.app-shell .tm__sk--btn { width: 168px; height: 48px; border-radius: 12px; margin-top: 12px; }
+.app-shell .tm--error { min-height: 0; }
+.app-shell .tm--loading .tm__main { flex: 1; }
+
+/* ---------- From your record (RecordGlimpse) ---------- */
+.app-shell .tg { display: grid; gap: 24px; min-width: 0; }
+.app-shell .tg:empty { display: none; }
+.app-shell .tg__find { display: grid; gap: 6px; justify-items: start; min-width: 0; }
+.app-shell .tg__find b { display: block; font: 700 17px/1.35 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .tg__find p { margin: 0; max-width: 56ch; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .tg__key { margin-top: 8px; }
+
+/* ---------- Finish your sheet (FinishSheetCard) ---------- */
+.app-shell .fs { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px 14px; padding: 16px 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); min-width: 0; }
+.app-shell .fs__icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--a-sunken); color: var(--a-ink-2); }
+.app-shell .fs__line { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--a-ink); }
+.app-shell .fs__key { grid-column: 2; justify-self: start; }
+@media (min-width: 720px) { .app-shell .fs { grid-template-columns: auto minmax(0, 1fr) auto; } .app-shell .fs__key { grid-column: auto; } }
+
+/* ---------- This week: the compact week card's added links ---------- */
+.app-shell .rc__links { display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px; }
+.app-shell .rc__foot a { color: var(--a-accent-text); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- The road to May (RoadToMay) ---------- */
+.app-shell .road { display: grid; gap: 14px; padding-top: 28px; border-top: 1px solid var(--a-line); min-width: 0; }
+.app-shell .road__line { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .road__stops { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.app-shell .road__stop { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 16px; align-items: center; padding: 12px 0; }
+.app-shell .road__stop + .road__stop { border-top: 1px solid var(--a-line); }
+.app-shell .road__text { display: grid; gap: 2px; min-width: 0; grid-column: 1; grid-row: 1; }
+.app-shell .road__text b { font: 700 15px/1.35 var(--font-display); color: var(--a-ink); }
+.app-shell .road__text span { font-size: 13.5px; line-height: 1.4; color: var(--a-ink-3); }
+.app-shell .road__track { grid-column: 1 / -1; grid-row: 2; position: relative; height: 10px; border-radius: 999px; background: var(--a-sunken); border: 1px solid var(--a-line); overflow: hidden; }
+.app-shell .road__bar { position: absolute; top: 0; bottom: 0; border-radius: 999px; background: var(--a-ink-4); transform: scaleX(0); transform-origin: left center; transition: transform 320ms var(--a-ease) calc(var(--road-i, 0) * 70ms); }
+.app-shell .road[data-armed='true'] .road__bar { transform: scaleX(1); }
+.app-shell .road__stop[data-current='true'] .road__bar, .app-shell .road__stop[data-next='true'] .road__bar { background: var(--a-ink-2); }
+.app-shell .road__stop:last-child .road__bar { background: var(--a-select); }
+.app-shell .road__eta { grid-column: 2; grid-row: 1; display: grid; justify-items: end; gap: 2px; text-align: right; font-variant-numeric: tabular-nums; }
+.app-shell .road__eta span { font: 700 14px/1.3 var(--font-body); color: var(--a-ink); }
+.app-shell .road__eta small { font-size: 12.5px; color: var(--a-ink-3); }
+.app-shell .road__note { margin: 0; font-size: 13px; line-height: 1.5; color: var(--a-ink-3); }
+@media (min-width: 720px) {
+  .app-shell .road__stop { grid-template-columns: minmax(0, 220px) minmax(0, 1fr) 112px; gap: 20px; }
+  .app-shell .road__text, .app-shell .road__track, .app-shell .road__eta { grid-column: auto; grid-row: auto; }
+}
+
+/* ---------- Reduced motion: the same information, no movement ---------- */
+html[data-motion='reduced'] .app-shell :is(.tm__drawer, .tm__toggle svg, .tm__alt, .road__bar) { transition: none; }
+html[data-motion='reduced'] .app-shell .road__bar { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.tm__drawer, .tm__toggle svg, .tm__alt, .road__bar) { transition: none; }
+  .app-shell .road__bar { transform: scaleX(1); }
+}

@@ -1,28 +1,34 @@
 /* The user's preference affects marketing pages; exam-console skins stay independent. */
+/* Night Sheet (web IA plan 7, the app's tokens): warm charcoal ground, raised steps, a warm
+   hairline and warm ink. Volt stays the only action colour. */
 html[data-theme='dark'] .mm {
-  --paper: #0b100e; --paper-raised: #131a16; --paper-sunken: #101612;
-  --ink: #f2f4ec; --ink-2: #bcc5b9; --ink-3: #9aa795;
-  --line: #283329; --line-strong: #42513e; --volt-soft: #263214;
+  --paper: #12110e; --paper-raised: #1b1a16; --paper-sunken: #171612;
+  --ink: #f4f0e6; --ink-2: #c9c3b5; --ink-3: #a39d8f;
+  --line: #312e27; --line-strong: #4a463c; --volt-soft: #2c3110;
   --sh-1: 0 2px 5px #0003; --sh-2: 0 10px 28px #0003; --sh-3: 0 22px 54px #0005;
   --focus-ring: #d2f000; color-scheme: dark;
   --accent-text: #d2f000; --accent-line: rgba(210, 240, 0, 0.5); --accent-wash: rgba(210, 240, 0, 0.06);
-  --tint: 244 245 240; --surface-hover: #18211b; --edge-light: rgba(244, 245, 240, 0.28);
+  --tint: 244 240 230; --surface-hover: #25231e; --edge-light: rgba(244, 240, 230, 0.28);
   --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e;
 }
 html[data-theme='light'] .mm {
-  --paper: #f4f5f0; --paper-raised: #fff; --paper-sunken: #eaece3;
-  --ink: #172016; --ink-2: #424f3e; --ink-3: #5c6855;
-  --line: #d9dfd1; --line-strong: #b5bfaa; --volt-soft: #eef6c3;
-  --slate: #101810; --slate-2: #1a2418; --slate-3: #2d3a29;
-  --sh-1: 0 2px 5px #14200e0a; --sh-2: 0 10px 28px #14200e0d; --sh-3: 0 22px 54px #14200e14;
+  --paper: #f3efe6; --paper-raised: #fffdf8; --paper-sunken: #eae5d9;
+  --ink: #1a1814; --ink-2: #48443b; --ink-3: #5f5a4f;
+  --line: #ddd6c7; --line-strong: #bdb4a2; --volt-soft: #eef3c4;
+  --sh-1: 0 2px 5px #1a18140a; --sh-2: 0 10px 28px #1a18140f; --sh-3: 0 22px 54px #1a181416;
   --focus-ring: #4f6400; color-scheme: light;
   /* Lime-family text that holds 4.5:1 on paper; volt itself stays a fill. */
   --accent-text: #526700; --accent-line: #9caf5d; --accent-wash: rgba(124, 150, 20, 0.07);
-  --tint: 23 32 22; --surface-hover: #f9fbf1; --edge-light: rgba(255, 255, 255, 0.9);
+  --tint: 26 24 20; --surface-hover: #f8f5ee; --edge-light: rgba(255, 255, 255, 0.9);
   --warn-text: #845400; --bad-text: #b0291f; --good-text: #3d6600;
 }
-html[data-theme='light']:has(.mm), html[data-theme='light'] body:has(.mm) { background: #f4f5f0; color-scheme: light; }
-html[data-theme='dark']:has(.mm), html[data-theme='dark'] body:has(.mm) { background: #0b100e; color-scheme: dark; }
+/* Product screens and the footer are night surfaces in both themes: the same warm charcoal family. */
+html[data-theme] .mm {
+  --slate: #1b1a16; --slate-2: #25231e; --slate-3: #3a372f; --slate-line: rgba(244, 240, 230, 0.12);
+  --chalk: #f4f0e6; --chalk-2: #b5afa1;
+}
+html[data-theme='light']:has(.mm), html[data-theme='light'] body:has(.mm) { background: #f3efe6; color-scheme: light; }
+html[data-theme='dark']:has(.mm), html[data-theme='dark'] body:has(.mm) { background: #12110e; color-scheme: dark; }
 /* Theme switch: the thumb is the sun or the moon. The crescent is an inset shadow, so
    sun-to-moon is one interpolated box-shadow; the night sky fades in as a layer, stars
    arrive after the thumb lands, and the travel ends with a small spring. Only opacity,
@@ -80,8 +86,8 @@ html[data-theme='light'] .lp :is(.du-chip[aria-pressed='true'], .du-preset:hover
 html[data-theme='light'] .lp .du-preset { border-color: #b8c591; }
 html[data-theme='light'] .lp :is(.du-stat strong, .du-sum__count, .du-count, .du-live b) { color: var(--accent-text); }
 /* Product stills and the footer retain legible ink on their deliberate dark surfaces. */
-html[data-theme] .mm :is(.mm-screen, .mm-foot) { --ink: #f2f4ec; --ink-2: #bdc8b5; --ink-3: #a3b198; --line: #2a3827; --line-strong: #485841;
-  --accent-text: #d2f000; --accent-line: rgba(210, 240, 0, 0.5); --accent-wash: rgba(210, 240, 0, 0.06); --tint: 244 245 240; --surface-hover: #1a2418; --edge-light: rgba(244, 245, 240, 0.28); --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e; }
+html[data-theme] .mm :is(.mm-screen, .mm-foot) { --ink: #f4f0e6; --ink-2: #c9c3b5; --ink-3: #a39d8f; --line: #312e27; --line-strong: #4a463c;
+  --accent-text: #d2f000; --accent-line: rgba(210, 240, 0, 0.5); --accent-wash: rgba(210, 240, 0, 0.06); --tint: 244 240 230; --surface-hover: #25231e; --edge-light: rgba(244, 245, 240, 0.28); --warn-text: #e0b93f; --bad-text: #ff9d92; --good-text: #b6e36e; }
 @media (min-width: 1024px) and (max-width: 1150px) { .mm .mm-nav__link { padding-inline: .55rem; font-size: .875rem; } .mm .mm-nav__row { gap: .7rem; } }
 @media (prefers-reduced-motion: reduce) { .mm-theme-toggle *, .mm-theme-toggle__sky::before, .mm-theme-toggle__sky::after { transition: none !important; } }
 
@@ -96,3 +102,52 @@ html[data-theme='dark'] .mm-theme-hint b { color: #4f6400; }
 @keyframes mm-theme-nudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(150,185,0,0); } 50% { box-shadow: 0 0 0 7px rgba(150,185,0,.28); } }
 @keyframes mm-theme-hint-in { from { opacity: 0; transform: translateY(-6px) scale(.96); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .mm-theme-toggle[data-hint='true'] .mm-theme-toggle__sky { animation: none; box-shadow: 0 0 0 4px rgba(150,185,0,.28); } .mm-theme-hint { animation: none; } }
+
+/* ---------------------------------------------------------------------------------------------
+   Public chrome (web IA plan 2.3). Who is looking: <html data-visitor> is new | returning | member
+   (set before first paint by the theme init script, and kept true by NavBar once the session check
+   answers); data-visitor-plan='pro' hides upgrade buttons. No attribute means "new". The class
+   names come from src/lib/navigation.js AUDIENCE_CLASS. */
+html[data-visitor='returning'] .vs-new-only,
+html[data-visitor='member'] .vs-new-only,
+html:not([data-visitor='returning']) .vs-returning-only,
+html:not([data-visitor='member']) .vs-member-only,
+html[data-visitor='member'] .vs-guest-only,
+html[data-visitor='member'][data-visitor-plan='pro'] .vs-hide-pro { display: none !important; }
+
+/* Free tools: a disclosure in the header. */
+.mm-nav__tools { position: relative; display: flex; }
+.mm-nav__tools-btn { gap: .3rem; border: 0; background: transparent; cursor: pointer; }
+.mm-nav__tools-btn:focus-visible, .mm-nav__menu a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.mm-nav__caret { color: var(--ink-3); }
+.mm-nav__tools-btn[aria-expanded='true'] .mm-nav__caret { transform: rotate(180deg); }
+.mm-nav__menu { position: absolute; z-index: 70; top: calc(100% + 8px); left: -.25rem; display: grid; gap: 2px; width: 22rem; margin: 0; padding: .4rem; list-style: none;
+  border: 1px solid var(--line-strong); border-radius: 16px; background: var(--paper-raised); box-shadow: var(--sh-3); }
+.mm-nav__menu[hidden] { display: none; }
+.mm-nav__menu a { display: grid; gap: .15rem; min-height: 44px; padding: .65rem .8rem; border-radius: 10px; color: var(--ink); text-decoration: none; }
+.mm-nav__menu b { font-family: var(--font-display); font-size: .9375rem; font-weight: 700; }
+.mm-nav__menu span { font-size: .8125rem; line-height: 1.4; color: var(--ink-2); }
+.mm-nav__menu a[aria-current='page'] { background: var(--paper-sunken); }
+@media (hover: hover) { .mm-nav__menu a:hover { background: var(--paper-sunken); } }
+@media (prefers-reduced-motion: no-preference) {
+  .mm-nav__caret { transition: transform 150ms ease-out; }
+  .mm-nav__menu:not([hidden]) { animation: mm-menu-in 160ms cubic-bezier(.23, 1, .32, 1) both; }
+}
+html[data-motion='reduced'] .mm-nav__caret { transition: none; }
+html[data-motion='reduced'] .mm-nav__menu { animation: none; }
+@keyframes mm-menu-in { from { opacity: 0; transform: translateY(-4px) scale(.98); } to { opacity: 1; transform: none; } }
+.mm-nav__sheet-head { margin: .9rem 0 0; font-size: .8125rem; font-weight: 600; color: var(--ink-3); }
+
+/* Logo B (brand_flags.logo = 'b'): the letters take the text colour, Mobi keeps his own. */
+.logo--b { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-decoration: none; }
+.logo-b { display: block; width: auto; height: 1.35rem; }
+.mm-foot .logo--b { color: var(--chalk); }
+
+/* Footer: brand, then Free tools, Guides, all 15 subjects and Company. */
+@media (min-width: 640px) { .mm-foot__cols--ia { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 960px) { .mm-foot__cols--ia { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; } }
+@media (min-width: 1200px) { .mm-foot__cols--ia { grid-template-columns: 1.3fr 1fr 1.15fr 1.3fr 1fr; gap: 2rem; } }
+.mm-foot__col--subjects ul { columns: 2; column-gap: 1.25rem; }
+.mm-foot__col--subjects li { break-inside: avoid; }
+.mm-foot__plain { display: inline-flex; align-items: center; min-height: 44px; color: var(--chalk-2); font-size: .875rem; }
+.mm-foot h3 { text-transform: none; letter-spacing: 0; font-size: .875rem; }

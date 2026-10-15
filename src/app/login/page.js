@@ -9,6 +9,10 @@ export const metadata = seoMetadata({
   path: '/login',
 });
 
-export default function LoginPage() {
-  return <LoginPageClient />;
+const one = (value) => (Array.isArray(value) ? value[0] : value) ?? null;
+
+// ?next survives log-in (validated again on the client before use).
+export default async function LoginPage({ searchParams }) {
+  const query = (await searchParams) || {};
+  return <LoginPageClient nextPath={one(query.next)} />;
 }

@@ -1,0 +1,14 @@
+[
+  { "name": "day one, no record", "input": { "now": 1760000000000 } },
+  { "name": "mistakes in two papers, 20 minutes", "input": { "now": 1760000000000, "minutes": 20, "subject": "accountancy", "attempts": [
+    { "id": "a1", "subject": "accountancy", "details": [ { "qid": "q1", "isCorrect": false }, { "qid": "q2", "isCorrect": true }, { "qid": "q3", "isCorrect": false } ] },
+    { "id": "a2", "subject": "accountancy", "details": [ { "qid": "q1", "isCorrect": false } ] } ] } },
+  { "name": "a clean paper, 30 minutes", "input": { "now": 1760000000000, "minutes": 30, "subject": "economics", "attempts": [
+    { "id": "a3", "subject": "economics", "details": [ { "qid": "q1", "isCorrect": true }, { "qid": "q2", "isCorrect": true } ] } ] } },
+  { "name": "an open session", "input": { "now": 1760000000000, "activeSession": { "id": "sess-1", "href": "/test?sessionId=sess-1" }, "attempts": [ { "id": "a4", "subject": "economics", "details": [ { "qid": "q1", "isCorrect": false } ] } ] } },
+  { "name": "a fresh check is due", "input": { "now": 1760000000000, "episodes": [ { "id": "e1", "title": "Sacrificing and gaining ratios", "state": "delayed_check_1", "nextDueAt": 1759999990000, "evidenceLabel": "More fresh checks needed", "sampleSize": 0 } ], "attempts": [] } },
+  { "name": "a concept missed in two papers, released pathway", "input": { "now": 1760000000000, "availableConcepts": [ "sacrificing_gaining" ], "attempts": [
+    { "id": "a5", "subject": "accountancy", "details": [ { "qid": "q1", "isCorrect": false } ], "questionsSnapshot": [ { "id": "q1", "conceptId": "sacrificing_gaining" } ] },
+    { "id": "a6", "subject": "accountancy", "details": [ { "qid": "q9", "isCorrect": false } ], "questionsSnapshot": [ { "id": "q9", "conceptId": "sacrificing_gaining" } ] } ] } },
+  { "name": "a baseline for a new subject with released concepts", "input": { "now": 1760000000000, "subject": "english", "availableConcepts": [ "main_idea" ], "attempts": [ { "id": "a7", "subject": "economics", "details": [ { "qid": "q1", "isCorrect": true } ] } ] } }
+]

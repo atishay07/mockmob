@@ -73,7 +73,7 @@ export default function LearningNextAction({ compact = false }) {
     <section className="na" aria-label="Your next step">
       <ArenaCompanion act={error ? 'oops' : !plan ? 'think' : listening ? 'tilt' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Try your record again.' : !plan ? 'Getting your next step.' : 'Your next step is ready.'}> {error ? 'Review still has your saved sessions.' : !plan ? 'Reading your available practice.' : 'Choose the time you have. Start with the step below.'}</ArenaCompanion>
       <div className="na__top">
-        <span className="na__eyebrow"><AppIcon name="today" size={14} />Tonight’s plan{planned ? <MinutesRoll value={planned} /> : null}</span>
+        <span className="na__eyebrow"><AppIcon name="today" size={14} />{"Tonight's move"}{planned ? <MinutesRoll value={planned} /> : null}</span>
         <fieldset className="na__time">
           <legend className="sr-only">Time for practice</legend>
           <div className="na__seg" role="group" aria-label="Time for practice">

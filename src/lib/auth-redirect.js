@@ -3,6 +3,7 @@
 // The return path is never put in the OAuth redirect URL: that would need a looser Supabase
 // redirect allow list. It is kept in this browser's localStorage for a short time instead,
 // and every read is validated again, so a tampered value can only ever name a same-site page.
+import { DEFAULT_START_ON, START_ON_KEY, START_ON_OPTIONS, startOnHref } from './navigation.js';
 
 const STORAGE_KEY = 'mm_auth_next';
 const MAX_AGE_MS = 30 * 60 * 1000;
@@ -73,15 +74,45 @@ export function takeNextPath({ store, now = Date.now() } = {}) {
   return safeNextPath(saved.path);
 }
 
-/** Where a signed-in student goes: onboarding first, then the saved page, then the dashboard. */
+// The student's home after sign-in: the "Start on" setting (web IA plan 2.4, N1), Today unless
+// they chose Practice. Stored by the You page as the option id; read leniently, never trusted.
+function homePath(store) {
+  const target = storage(store);
+  let raw = null;
+  try {
+    raw = target?.getItem(START_ON_KEY) ?? null;
+  } catch {
+    raw = null;
+  }
+  let id = raw;
+  try {
+    const parsed = JSON.parse(raw);
+    id = typeof parsed === 'string' ? parsed : parsed?.id ?? raw;
+  } catch {
+    // A bare id ("practice") is not JSON.
+  }
+  return startOnHref(START_ON_OPTIONS.some((option) => option.id === id) ? id : DEFAULT_START_ON);
+}
+
+/**
+ * Where a signed-in student goes: onboarding first, then the saved page, then their home (Today
+ * by default). A saved page survives onboarding: it is kept for the end of the first run, so a
+ * new student who came from pricing returns to pricing after choosing subjects.
+ */
 export function postSignInPath({ needsOnboarding, store, now } = {}) {
   const next = takeNextPath({ store, now });
-  if (needsOnboarding) return '/onboarding';
-  return next || '/dashboard';
+  if (needsOnboarding) {
+    if (next && !next.toLowerCase().startsWith('/onboarding')) rememberNextPath(next, { store, now });
+    return '/onboarding';
+  }
+  return next || homePath(store);
 }
+
+// The two home places a signed-in student can start on: sign-in lands there anyway.
+const HOME_PATHS = new Set(START_ON_OPTIONS.map((option) => option.href));
 
 /** `/login?next=<current page>` for a gate that found no session. */
 export function loginPathFor(currentPath) {
   const next = safeNextPath(currentPath);
-  return next && next !== '/dashboard' ? `/login?next=${encodeURIComponent(next)}` : '/login';
+  return next && !HOME_PATHS.has(next) ? `/login?next=${encodeURIComponent(next)}` : '/login';
 }

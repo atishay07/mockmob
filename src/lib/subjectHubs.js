@@ -1,4 +1,5 @@
 import { SUBJECTS } from '@/../data/subjects';
+import { PLAN_FACTS } from '@/../data/plan_facts.mjs';
 
 // Subject hub pages: /cuet/[slug]. Each hub targets long-tail CUET queries
 // ("cuet accountancy mock test", "cuet english syllabus chapters") and links
@@ -48,7 +49,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Can I practise CUET English free on MockMob?',
         answer:
-          'Yes. Free accounts get credit-gated Quick Practice and Full Mocks, and the landing page drill needs no signup at all.',
+          `Yes. Free accounts start with ${PLAN_FACTS.practiceCredits.startingBalance.value} practice credits: a Quick practice uses ${PLAN_FACTS.practiceCredits.quickCost.value} and a Full mock uses ${PLAN_FACTS.practiceCredits.fullMockCost.value}. The ${PLAN_FACTS.sessions.sampleQuestions.value} sample questions on the home page need no sign-up.`,
       },
     ],
   },
@@ -91,7 +92,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Does MockMob show chapter-wise Accountancy analysis?',
         answer:
-          'Radar organizes available attempt history by subject and chapter. The detail it can show depends on the questions in your practice history.',
+          'Your record organizes available attempt history by subject and chapter. The detail it can show depends on the questions in your practice history.',
       },
     ],
   },
@@ -220,7 +221,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'How does MockMob help with History chronology?',
         answer:
-          'Chronology-heavy chapters get dedicated drills, and Mistake Replay resurfaces the exact sequences you got wrong until they stick.',
+          'After a mock, your record shows which History chapters cost you marks, so the next practice set can target them.',
       },
     ],
   },

@@ -1,5 +1,93 @@
-/* Onboarding: a picked subject inks its tick from the corner, the cards arrive in order, and the
-   count in the bar rolls. Colours follow the app tokens, so Night and Daylight both hold. */
+/* First run (web IA plan section 3): subjects, then days a week. Colours come from the app tokens
+   (arena.css), so Night and Daylight both hold. Glass only on the fixed bar, with a solid fallback.
+   Motion answers an action: a step slides in once, a picked subject inks its tick, the week pips
+   fill. Reduced motion (device or MockMob setting) drops all of it. */
+
+.ob { min-height: 100dvh; display: flex; flex-direction: column; }
+
+/* Header: logo, where you are, theme. */
+.ob-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 12px 16px; border-bottom: 1px solid var(--a-line);
+}
+.ob-progress { display: grid; justify-items: center; gap: 6px; }
+.ob-progress__text { font-size: 13px; font-weight: 600; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.ob-progress__bar { display: flex; gap: 4px; }
+.ob-progress__bar span { width: 28px; height: 4px; border-radius: 4px; background: var(--a-line-strong); transition: background-color 220ms var(--a-ease); }
+.ob-progress__bar span[data-on] { background: var(--a-select); }
+
+/* Content: centred, at most about 880 px, with room under it for the fixed bar. */
+.ob-main {
+  flex: 1; width: 100%; max-width: 880px; margin: 0 auto; display: grid; align-content: start; gap: 24px;
+  padding: 28px 16px calc(152px + env(safe-area-inset-bottom));
+}
+/* A new step settles in from below; the header and Mobi stay where they are. */
+.ob-step { animation: ob-step-in 260ms var(--a-ease) both; }
+.ob-body { display: grid; gap: 20px; }
+@keyframes ob-step-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.ob-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; }
+.ob-title {
+  margin: 0; font-family: var(--font-display); font-size: clamp(26px, 6.4vw, 40px); font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.08; color: var(--a-ink); text-wrap: balance;
+}
+.ob-title:focus { outline: none; }
+.ob-title:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; border-radius: 6px; }
+.ob-lead { margin: 10px 0 0; max-width: 52ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2); }
+.ob-mobi { width: 72px; height: 72px; display: grid; place-items: center; }
+
+.ob-empty { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2); }
+.ob-error {
+  margin: 0; padding: 10px 12px; border-radius: 10px; font-size: 14px; line-height: 1.5;
+  color: var(--a-bad-text); background: var(--a-bad-wash);
+}
+
+/* Saved subjects that cannot start a practice: shown so they can be removed. */
+.ob-stale { display: grid; gap: 8px; padding: 14px 16px; border: 1px solid var(--a-line); border-radius: 14px; background: var(--a-raised); }
+.ob-stale h2 { margin: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--a-ink); }
+.ob-stale p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-3); }
+.ob-stale__list { display: flex; flex-wrap: wrap; gap: 8px; }
+.ob-chip {
+  min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--a-line-strong);
+  background: transparent; color: var(--a-ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+.ob-chip:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+.ob-chip:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+
+/* Subject tiles: two across on a phone, three from 640 px. */
+.ob-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 640px) { .ob-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; } }
+.ob-tile {
+  position: relative; display: grid; align-content: start; gap: 4px; min-height: 104px; padding: 14px 40px 14px 14px;
+  text-align: left; border-radius: 14px; border: 1px solid var(--a-line); background: var(--a-raised); color: var(--a-ink);
+  font: inherit; cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  animation: ob-tile-in 320ms var(--a-ease) calc(var(--i, 0) * 30ms) backwards;
+}
+@keyframes ob-tile-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.ob-tile:hover { border-color: var(--a-line-hover); }
+.ob-tile:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-tile[data-selected] { border-color: var(--a-select); background: var(--a-raised); background: color-mix(in srgb, var(--a-select) 9%, var(--a-raised)); }
+.ob-tile[aria-disabled='true'] { opacity: 0.62; }
+.ob-tile:disabled { cursor: default; }
+.ob-tile__glyph { display: grid; place-items: center; width: 36px; height: 36px; margin-bottom: 6px; border-radius: 10px; background: var(--a-sunken); color: var(--a-accent-text); }
+.ob-tile__name { font-family: var(--font-display); font-size: 16px; font-weight: 700; line-height: 1.25; }
+.ob-tile__meta { font-size: 12.5px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.ob-tile .ob-tick { position: absolute; top: 14px; right: 12px; }
+
+/* With the app's 3D objects (brand flag): a square stage, the object whole inside it, a soft
+   contact shadow under its foot. Never cropped. */
+.ob-grid--art .ob-tile { padding-top: 10px; }
+.ob-tile__art { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; margin-bottom: 6px; }
+.ob-tile__art img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; padding: 4% 10% 8%; }
+.ob-tile__art::after {
+  content: ''; position: absolute; z-index: 0; left: calc(var(--foot-x, 50%) - var(--foot-w, 80%) * 0.4); bottom: 6%;
+  width: calc(var(--foot-w, 80%) * 0.8); height: 9%; border-radius: 50%; background: rgba(0, 0, 0, 0.22); filter: blur(6px);
+}
+html[data-theme='light'] .ob-tile__art::after { background: rgba(20, 32, 14, 0.16); }
+
+/* Picked tick: the volt disc grows from its corner, then the tick draws over it. */
 .ob-tick {
   position: relative; flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
   border: 1.5px solid var(--a-line-strong, rgba(255, 255, 255, 0.24)); background: transparent;
@@ -7,16 +95,71 @@
 }
 .ob-tick svg { width: 14px; height: 14px; color: #0b1000; position: relative; z-index: 1; }
 .ob-tick--on { border-color: transparent; }
-/* The volt disc grows out of the corner the tick sits in, then the tick draws over it. */
 .ob-tick--on::before {
   content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--volt, #d2f000);
   transform-origin: 100% 0; animation: ob-disc 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both;
 }
 html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow: inset 0 0 0 1px #9db400; }
 @keyframes ob-disc { from { transform: scale(0.2); opacity: 0; } 60% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
-.subject-card[aria-disabled='true'] { opacity: 0.6; }
-.subject-card.selected { transition: border-color 200ms ease, background-color 200ms ease, transform 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)); }
-.ob-count { display: inline-block; min-width: 1ch; font-variant-numeric: tabular-nums; }
-.ob-cap { display: block; margin-top: 2px; min-height: 1.2em; font-size: 13px; color: var(--a-accent-text, #d2f000); }
-.ob-cap:empty { min-height: 0; }
-@media (prefers-reduced-motion: reduce) { .ob-tick--on::before { animation: none; } }
+
+/* Days a week: seven big choices, then the week they make. */
+.ob-days { margin: 0; padding: 0; border: 0; min-width: 0; display: grid; gap: 18px; }
+.ob-days__row { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; max-width: 560px; }
+@media (min-width: 640px) { .ob-days__row { gap: 10px; } }
+.ob-day {
+  position: relative; display: grid; place-items: center; min-height: 56px; border-radius: 14px; cursor: pointer;
+  border: 1px solid var(--a-line); background: var(--a-raised); color: var(--a-ink);
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, transform 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+}
+.ob-day:hover { border-color: var(--a-line-hover); }
+.ob-day input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+.ob-day:has(input:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-day[data-on] { border-color: var(--volt, #d2f000); background: var(--volt, #d2f000); color: #0b1000; }
+.ob-day__n { font-family: var(--font-display); font-size: 20px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.ob-days:disabled .ob-day { cursor: default; opacity: 0.7; }
+
+.ob-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; max-width: 560px; }
+@media (min-width: 640px) { .ob-week { gap: 10px; } }
+.ob-week__pip { height: 8px; border-radius: 8px; background: var(--a-line); transition: background-color 200ms var(--a-ease) calc(var(--i, 0) * 28ms); }
+.ob-week__pip[data-on] { background: var(--a-select); }
+.ob-week__line { margin: 0; font-size: 15px; font-weight: 600; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+
+/* The fixed bar: status on the left, the step's one primary on the right. */
+.ob-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  border-top: 1px solid var(--a-line); background: var(--a-bg);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ob-bar { background: var(--a-topbar); -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2); }
+}
+.ob-bar__inner { max-width: 880px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+.ob-bar__status { margin: 0; display: grid; gap: 2px; font-size: 14px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.ob-bar__status b { color: var(--a-ink); font-weight: 700; }
+.ob-count { display: inline-block; min-width: 1ch; }
+.ob-cap { font-size: 13px; color: var(--a-accent-text); }
+.ob-cap:empty { display: none; }
+.ob-bar__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.ob-primary { min-height: 48px; }
+.ob-quiet {
+  min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--a-ink-2);
+  text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px;
+}
+.ob-quiet:hover { color: var(--a-ink); text-decoration-color: currentColor; }
+.ob-quiet:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-quiet:disabled { opacity: 0.6; cursor: default; }
+/* On a narrow phone the status sits above a full-width action row. */
+@media (max-width: 479px) {
+  .ob-bar__inner { display: grid; grid-template-columns: 1fr; }
+  .ob-bar__actions { margin-left: 0; }
+  .ob-bar__actions .ob-primary { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-step, .ob-tile { animation: none; }
+  .ob-tick--on::before { animation: none; }
+  .ob-week__pip, .ob-progress__bar span { transition: none; }
+}
+html[data-motion='reduced'] .ob-step, html[data-motion='reduced'] .ob-tile, html[data-motion='reduced'] .ob-tick--on::before { animation: none; }
+html[data-motion='reduced'] .ob-week__pip, html[data-motion='reduced'] .ob-progress__bar span { transition: none; }

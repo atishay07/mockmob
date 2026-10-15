@@ -3,12 +3,13 @@ export const seoPages = {
     slug: 'cuet-mock-test-free',
     path: '/cuet-mock-test-free',
     breadcrumb: 'CUET Mock Test Free',
-    eyebrow: '// CUET free mock',
+    eyebrow: 'CUET free mock',
     h1: 'CUET Mock Test Free Online',
     description:
-      'Free CUET mock test preparation with exam-style timing, chapter-wise practice, analytics, and smart revision guidance.',
+      'Free CUET mock test online: answer 5 sample questions with no sign-up, then take timed mocks in your subjects and see which chapters cost you marks.',
     intro:
-      'A free CUET mock test should feel close to the real exam: focused subjects, time pressure, clear scoring, and review that tells you what to fix next.',
+      'A free CUET mock test should feel close to the real exam: focused subjects, time pressure, clear scoring, and review that tells you what to fix next. Try the 5 sample questions below first.',
+    sample: true,
     sections: [
       {
         heading: 'Why Free CUET Mock Tests Matter',
@@ -32,8 +33,8 @@ export const seoPages = {
       {
         heading: 'How To Use MockMob For Free CUET Practice',
         body: [
-          'Create a free account, choose your target exam path, and begin with the practice flow that matches your current preparation stage. If your syllabus coverage is early, use smaller chapter drills and question discovery. If you already know the basics, move toward timed mocks and leaderboard pressure. Saved questions help you build a personal revision bank from the exact items that slowed you down.',
-          'After each attempt, do not stop at the percentage score. Look for repeated mistakes: the same chapter, the same kind of trap, the same section taking too long, or the same careless option choice. MockMob is built to surface those signals through practice history, saved questions, and premium analytics when you need a deeper view. The free layer is enough to start building the habit, and the upgrade path is there when you want unlimited intensity.',
+          'Create a free account, choose your target exam path, and begin with the practice flow that matches your current preparation stage. If your syllabus coverage is early, use short Quick practice sets and the question stream. If you already know the basics, move toward timed full mocks. Saved questions help you build a personal revision bank from the exact items that slowed you down.',
+          'After each attempt, do not stop at the percentage score. Look for repeated mistakes: the same chapter, the same kind of trap, the same section taking too long, or the same careless option choice. MockMob is built to surface those signals through your record, saved questions and Mistake Repair for the answers you got wrong. Free is enough to start building the habit, and Pro removes the credit limit when you want more practice.',
           'Use the free mock experience to set a baseline. Your first few attempts can show which subject feels slow, which chapters need review, how many questions are skipped, and whether accuracy changes near the end. Use those observations to give each later practice session a clear purpose.',
         ],
         links: [
@@ -77,12 +78,12 @@ export const seoPages = {
     slug: 'cuet-previous-year-questions',
     path: '/cuet-previous-year-questions',
     breadcrumb: 'CUET Previous Year Questions',
-    eyebrow: '// CUET PYQs',
-    h1: 'CUET Previous Year Questions: Practice and Review Guide',
+    eyebrow: 'CUET PYQs',
+    h1: 'CUET previous year questions: how to study from them',
     description:
-      'CUET previous year question practice for understanding exam patterns, recurring topics, difficulty, and revision priorities.',
+      'How to use CUET previous year questions to read the exam pattern and fix mistakes. MockMob’s practice is CUET-style and is not official past-paper material.',
     intro:
-      'Learn how to use CUET previous year questions to study exam patterns and review your preparation. MockMob does not currently claim a verified historical question inventory; its ordinary practice content is not presented as official past-paper material.',
+      'How to use CUET previous year questions to study the exam pattern and review your preparation. MockMob does not claim a verified inventory of past papers, so its practice questions are CUET-style practice, not official past-paper material.',
     sections: [
       {
         heading: 'Why CUET Previous Year Questions Are Important',
@@ -111,7 +112,7 @@ export const seoPages = {
           'When a PYQ feels difficult, save it and revisit it after a few days. If you can solve it later without remembering the answer, the concept has started to settle. If you still struggle, it belongs in your priority list. This spaced return is especially useful for CUET subjects where similar ideas appear in different wording across practice sets.',
         ],
         links: [
-          { href: '/features', label: 'See MockMob features' },
+          { href: '/#how-it-works', label: 'See how MockMob works' },
           { href: '/signup', label: 'Create a free account' },
         ],
       },
@@ -143,7 +144,7 @@ export const seoPages = {
       {
         question: 'Can MockMob help with CUET PYQ-style practice?',
         answer:
-          'Yes. MockMob supports CUET-style question practice, saved questions, timed mocks, and analytics that help you act on the weak areas PYQs reveal.',
+          'Yes. MockMob supports CUET-style question practice, saved questions, timed mocks, and a record of which chapters cost you marks, so you can act on the weak areas PYQs reveal. Its questions are not official past papers.',
       },
     ],
   },
@@ -151,12 +152,13 @@ export const seoPages = {
     slug: 'cuet-practice-tests-online',
     path: '/cuet-practice-tests-online',
     breadcrumb: 'CUET Practice Tests Online',
-    eyebrow: '// Online practice',
+    eyebrow: 'Online practice',
     h1: 'CUET Practice Tests Online',
     description:
-      'Online CUET practice tests for subject-wise preparation, chapter drills, mock exam pressure, saved questions, and analytics.',
+      'Online CUET practice tests by subject and chapter. Answer 5 sample questions with no sign-up, then practise in your own subjects and review every miss.',
     intro:
-      'Online CUET practice tests help you turn syllabus coverage into exam-ready performance by combining questions, timing, review, and repeat practice.',
+      'Online CUET practice tests help you turn syllabus coverage into exam-ready performance by combining questions, timing, review, and repeat practice. Start with the 5 sample questions below.',
+    sample: true,
     sections: [
       {
         heading: 'Why Online CUET Practice Tests Work',
@@ -186,7 +188,7 @@ export const seoPages = {
           'Your weekly routine should also include rest from full-length pressure. On lighter days, revise saved questions or practise one chapter at a lower volume. This avoids burnout while keeping the preparation chain unbroken. Consistency is easier when practice has different intensities instead of demanding a full mock every day.',
         ],
         links: [
-          { href: '/features', label: 'Explore analytics and saved questions' },
+          { href: '/#how-it-works', label: 'See how MockMob works' },
           { href: '/pricing', label: 'View CUET practice plans' },
         ],
       },
@@ -194,7 +196,7 @@ export const seoPages = {
         heading: 'Choosing The Right Online CUET Test Platform',
         body: [
           'The right platform should be fast, mobile-friendly, easy to navigate, and focused on preparation outcomes rather than clutter. Look for clean test flows, meaningful answer review, internal links between mocks and practice, and analytics that tell you where marks are leaking. A platform should reduce preparation friction, not add another complicated system to manage.',
-          'MockMob focuses on community-driven questions, timed practice, saved revision, performance signals, and a premium layer for students who want deeper CUET analytics and admission planning. It is built for aspirants who want a serious practice loop without waiting until the last month to discover weak areas.',
+          'MockMob focuses on timed practice in your own subjects, a record of which chapters cost you marks, Mistake Repair for the answers you got wrong, and free DU tools for admission planning. Questions pass automated checks on the answer key, duplicates and difficulty before they reach you. It is built for aspirants who want a serious practice loop without waiting until the last month to discover weak areas.',
           'Before committing to any routine, take one small test and judge whether the platform makes your next action obvious. If you know what to revise after finishing, the practice system is doing its job. If you only receive a score, you still need a separate method for turning that result into improvement.',
         ],
       },
@@ -218,7 +220,7 @@ export const seoPages = {
       {
         question: 'Does MockMob support chapter-wise CUET practice?',
         answer:
-          'MockMob is designed around focused practice, saved questions, mock attempts, and analytics so students can return to the chapters that need work.',
+          'MockMob is designed around focused practice, saved questions, mock attempts, and your record, so students can return to the chapters that need work.',
       },
     ],
   },

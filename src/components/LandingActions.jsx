@@ -1,36 +1,15 @@
-"use client";
-
 import React from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/components/AuthProvider';
-import { Icon } from '@/components/ui/Icons';
-import { recoveryReleased } from '@/../data/capabilities';
+import { AUDIENCE_CLASS, PUBLIC_DOCK, TODAY_HREF } from '@/lib/navigation';
 
-export function LandingActions({ mode = 'hero' }) {
-  const { isAuthenticated } = useAuth();
-  const primaryHref = isAuthenticated ? recoveryReleased() ? '/recovery' : '/dashboard' : recoveryReleased() ? '/signup?next=%2Frecovery' : '/signup';
-  const primaryText = recoveryReleased() ? 'Find my first gap' : 'Start free practice';
-
-  if (mode === 'primary') {
-    return (
-      <div className="mm-actions">
-        <Link href={primaryHref} className="mm-btn mm-btn--primary">
-          {primaryText}
-          <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
-        </Link>
-      </div>
-    );
-  }
-
+// The landing's closing action (web IA plan 4.2, section 7). A guest is sent to the sample; a
+// signed-in student goes to Today. Both are rendered and <html data-visitor> shows one before first
+// paint (marketing-theme.css), so nobody sees the wrong button flash.
+export function LandingActions() {
   return (
-    <div className="mm-actions">
-      <Link href={isAuthenticated ? primaryHref : '/#try-practice'} className="mm-btn mm-btn--primary">
-        {isAuthenticated ? primaryText : 'Try five questions'}
-        <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
-      </Link>
-      <Link href={isAuthenticated ? '/#try-practice' : primaryHref} className="mm-btn mm-btn--secondary">
-        {isAuthenticated ? 'Try five questions' : primaryText}
-      </Link>
+    <div className="mm-actions lp-close__actions">
+      <Link href={PUBLIC_DOCK.href} className={`mm-btn mm-btn--primary ${AUDIENCE_CLASS.guest}`}>{PUBLIC_DOCK.label}</Link>
+      <Link href={TODAY_HREF} className={`mm-btn mm-btn--primary ${AUDIENCE_CLASS.member}`}>Open MockMob</Link>
     </div>
   );
 }

@@ -1,18 +1,18 @@
 "use client";
 
-// From the student's record, under the shared next step on Today. It never creates a second plan:
-// one line that explains why the step matters (with a link to the full record), and, when there
-// are at least three papers of the same kind and length, how the real marks have moved.
+// From the student's record, on Today. It never creates a second plan: one finding from the record (its
+// headline and detail come from the server's checked facts) with "Show me", which opens Your record, and,
+// when there are at least three papers of the same kind and length, how the real marks have moved.
+// With neither there is nothing to say, and the group takes no room.
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
-import { AppIcon } from '@/components/ui/Glyph';
 import { apiGet } from '@/lib/fetcher';
 import { useCountUp } from '@/lib/motion/useCountUp';
 import { useInView } from '@/lib/motion/useInView';
 import { deltaWords, layoutPoints, pickTrend } from '@/lib/paperTrend';
 import { useInsights } from './useInsights';
-import './prepos.css';
+import '@/components/today/today.css';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const dateWords = (ms) => { const d = new Date(ms); return `${d.getDate()} ${MONTHS[d.getMonth()]}`; };
@@ -68,18 +68,16 @@ export default function RecordGlimpse() {
   const state = useInsights(user?.id);
   const f = state.status === 'ready' ? state.findings[0] : null;
   return (
-    <>
+    <section className="tg" aria-label="From your record">
       {f ? (
-        <aside className="rg" aria-label="From your record">
-          <span className="rg__icon"><AppIcon name="prepos" size={16} /></span>
-          <div>
-            <b>{f.headline}</b>
-            <p>{f.detail}</p>
-            <Link href="/mentor?tab=record">See your full record</Link>
-          </div>
-        </aside>
+        <div className="tg__find">
+          <h2 className="today__h">From your record</h2>
+          <b>{f.headline}</b>
+          <p>{f.detail}</p>
+          <Link className="tm__alt tg__key" href="/analytics">Show me</Link>
+        </div>
       ) : null}
       {user?.id ? <PaperTrend /> : null}
-    </>
+    </section>
   );
 }

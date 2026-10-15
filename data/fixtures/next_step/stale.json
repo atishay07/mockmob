@@ -1,0 +1,38 @@
+{
+  "name": "stale",
+  "description": "Six days away. The away line sits above whichever rule matched (here the fallback).",
+  "input": {
+    "now": "2026-10-15T14:30:00.000Z",
+    "plan": "free",
+    "practiceCredits": 40,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      }
+    ],
+    "attempts": [
+      {
+        "id": "att-1",
+        "subject": "accountancy",
+        "mode": "full",
+        "completedAt": "2026-10-09T13:00:00.000Z"
+      }
+    ]
+  },
+  "expect": {
+    "id": "quick",
+    "rule": 8,
+    "label": "Tonight's move",
+    "title": "10 questions in Accountancy, about 10 minutes",
+    "cost": "Uses 10 of your 40 practice credits.",
+    "primary": {
+      "label": "Set up",
+      "href": "/dashboard?subject=accountancy&mode=quick&count=10"
+    },
+    "away": {
+      "days": 6,
+      "line": "Your last mock was on 9 Oct"
+    }
+  }
+}

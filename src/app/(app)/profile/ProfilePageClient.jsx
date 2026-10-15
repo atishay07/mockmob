@@ -1,5 +1,9 @@
 "use client";
 
+// Account (You > Settings): your name, plan and sign-in, then appearance, Start on, privacy and
+// delete account. Every setting that was on this page is still here, and the anchors the You hub
+// links to (#plan, #appearance, #start-on, #privacy, #delete) land on their sections. The page paints
+// at once: only the line about your mocks waits for the server, and a failure there never hides a setting.
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { Avatar } from '@/components/ui/Avatar';
@@ -10,15 +14,16 @@ import { mobiMoment } from '@/lib/mobiMoments';
 import { WAIT_LONG_MS, greeting, oopsRun } from '@/lib/mobiRation';
 import LookAndFeelCard from './LookAndFeelCard';
 import { lookMobiActive, lookMobiServer, subscribeLookMobi } from '@/components/profile/lookMobiStore';
-import { useCountUp } from '@/lib/motion';
-import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
+import StartOnSetting from '@/components/profile/StartOnSetting';
+import SignOutControl from '@/components/profile/SignOutControl';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { PlanCard } from '@/components/billing/PlanCard';
 import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevices';
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
+import { SUBJECTS_EDIT_HREF, YOU_HREF } from '@/lib/navigation';
 import './profile-privacy.css';
-import ArenaHead from '@/components/arena/ArenaHead';
+import '@/components/profile/you.css';
 
 const putJson = (path, data) => api(path, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 const fmtDate = (iso) => { try { return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }); } catch { return ''; } };
@@ -63,11 +68,8 @@ function UsageDataSection() {
   }
 
   return (
-    <section className="glass p-6 privacy-block" aria-labelledby="usage-data-title">
-      <div>
-        <div className="mono-label mb-2">Privacy</div>
-        <h2 id="usage-data-title">Usage data</h2>
-      </div>
+    <section className="privacy-block" id="privacy" aria-labelledby="usage-data-title">
+      <h2 id="usage-data-title">Privacy and usage data</h2>
       <p>Usage data shows us which screens and steps people use, such as starting a session or opening a result, along with the app version. We never collect your answers, marks, free text or contacts.</p>
       <ul>
         <li>First-party only. No third-party tracking and no advertising.</li>
@@ -116,11 +118,8 @@ function DeleteAccountSection() {
   }
 
   return (
-    <section className="glass p-6 privacy-block" aria-labelledby="delete-account-title">
-      <div>
-        <div className="mono-label mb-2">Account</div>
-        <h2 id="delete-account-title">Delete account</h2>
-      </div>
+    <section className="privacy-block" id="delete" aria-labelledby="delete-account-title">
+      <h2 id="delete-account-title">Delete account</h2>
       <p>We delete your account and study records within 30 days. Payment records required by law are kept.</p>
       {pending ? (
         <p className="privacy-note privacy-note--ok" role="status">Deletion pending. You asked on {fmtDate(pending)} and we complete it within 30 days. To cancel, email support@mockmob.in.</p>
@@ -145,18 +144,11 @@ function DeleteAccountSection() {
 
 const firstName = (name) => String(name || '').trim().split(/\s+/)[0] || '';
 
-// A count that rolls to its real value. The caption carries the truth when there is nothing to count.
-function Roll({ value, suffix = '' }) {
-  const shown = useCountUp(value, { from: 0, duration: 800 });
-  return <>{shown}{suffix}</>;
-}
-
 export default function ProfilePageClient() {
   const { user, status, refreshSession } = useAuth();
   const toast = useToast();
   const [attempts, setAttempts] = useState([]);
-  const [pageStatus, setPageStatus] = useState('loading');
-  const [error, setError] = useState(null);
+  const [mocks, setMocks] = useState('loading'); // loading | ready | error: only the line about your mocks waits
   const [draftName, setDraftName] = useState(null);
   const [saveState, setSaveState] = useState({ type: null, message: '' });
   const [isSaving, setIsSaving] = useState(false);
@@ -166,31 +158,27 @@ export default function ProfilePageClient() {
   const lookMobi = useSyncExternalStore(subscribeLookMobi, lookMobiActive, lookMobiServer);
 
   useEffect(() => {
-    if (status === 'loading') return;
-    if (!user?.id) return;
+    if (status === 'loading') return undefined;
+    if (!user?.id) return undefined;
 
     let alive = true;
-    async function load() {
-      try {
-        setPageStatus('loading');
-        const data = await apiGet(`/api/attempts?userId=${user.id}`);
-        if (!alive) return;
-        setAttempts(Array.isArray(data) ? data : []);
-        setPageStatus('ready');
-      } catch (e) {
-        if (!alive) return;
-        setError(e.message);
-        setPageStatus('error');
-      }
-    }
-
-    load();
+    apiGet(`/api/attempts?userId=${user.id}`)
+      .then((data) => { if (!alive) return; setAttempts(Array.isArray(data) ? data : []); setMocks('ready'); })
+      .catch(() => { if (alive) setMocks('error'); });
     return () => { alive = false; };
   }, [status, user]);
 
-  // Mobi says hello the first time you open Profile each day, and is simply there after that.
+  // A link to /profile#privacy (and the rest) lands on its section.
   useEffect(() => {
-    if (pageStatus !== 'ready' || !user?.id) return undefined;
+    const id = window.location.hash.slice(1);
+    if (!id) return undefined;
+    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // Mobi says hello the first time you open Account each day, and is simply there after that.
+  useEffect(() => {
+    if (!user?.id) return undefined;
     const id = window.setTimeout(() => {
       if (greeted.current) return;
       greeted.current = true;
@@ -200,7 +188,7 @@ export default function ProfilePageClient() {
       if (act !== 'idle') setMobi((m) => ({ act, n: m.n + 1 }));
     }, 450);
     return () => window.clearTimeout(id);
-  }, [pageStatus, user?.id]);
+  }, [user?.id]);
 
   const averageScore = useMemo(() => {
     if (attempts.length === 0) return null;
@@ -211,6 +199,7 @@ export default function ProfilePageClient() {
   const trimmed = currentName.trim();
   const dirty = trimmed.length > 0 && trimmed !== (user?.name || '');
   const hi = firstName(user?.name);
+  const subjectCount = user?.subjects?.length || 0;
 
   async function saveName() {
     setIsSaving(true);
@@ -236,44 +225,35 @@ export default function ProfilePageClient() {
     }
   }
 
-  if (pageStatus === 'loading') {
-    return (
-      <div className="student-page student-page--profile flex flex-col gap-6">
-        <div>
-          <div className="eyebrow mb-2">{'Identity'}</div>
-          <div className="h-10 w-64 skeleton mb-2" />
-          <div className="h-4 w-56 skeleton" />
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-4">
-          <SkeletonCard lines={6} />
-          <SkeletonCard lines={4} />
-        </div>
-      </div>
-    );
-  }
-
-  if (pageStatus === 'error') {
-    return <div className="student-page student-page--profile"><ErrorState message={error} onRetry={() => window.location.reload()} /></div>;
-  }
+  const glance = mocks === 'loading' ? 'Loading your mocks.'
+    : mocks === 'error' ? 'Your mocks did not load.'
+      : attempts.length === 0 ? 'No mocks yet'
+        : `${attempts.length} ${attempts.length === 1 ? 'mock' : 'mocks'} taken, average score ${averageScore}%`;
 
   return (
-    <div className="student-page student-page--profile flex flex-col gap-6 view">
-      <ArenaHead eyebrow="Account" title="Your corner of the Arena." lede="Update your name, subjects and plan. Your practice history stays with your account." />
+    <div className="student-page student-page--profile you view">
+      <header className="you__head">
+        <div className="you__head-text">
+          <h1 className="you__title">Account</h1>
+          <p className="you__lede">Your name, plan and sign-in, then appearance, Start on and privacy.</p>
+        </div>
+        <Link className="you-key" href={YOU_HREF}>Back to You</Link>
+      </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-4">
-        <section className="glass p-6" aria-labelledby="profile-identity">
-          <div className="profile-identity">
-            <span className="profile-identity__mobi" style={{ visibility: lookMobi ? 'hidden' : 'visible' }}><MobiReact key={mobi.n} act={mobi.act} size={72} interactive={!lookMobi} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} /></span>
-            <div className="profile-identity__text">
-              <h2 id="profile-identity">{hi ? `Hi, ${hi}.` : 'Hi.'}</h2>
-              <p>{user?.email}</p>
+      <div className="you-acct">
+        <div className="you-acct__col">
+          <section className="you-card" id="account" aria-labelledby="profile-identity">
+            <div className="profile-identity">
+              <span className="profile-identity__mobi" style={{ visibility: lookMobi ? 'hidden' : 'visible' }}><MobiReact key={mobi.n} act={mobi.act} size={72} interactive={!lookMobi} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} /></span>
+              <div className="profile-identity__text">
+                <h2 id="profile-identity">{hi ? `Hi, ${hi}.` : 'Hi.'}</h2>
+                <p>{user?.email}</p>
+              </div>
+              <Avatar name={user?.name || user?.email} size="lg" className="profile-identity__avatar" />
             </div>
-            <Avatar name={user?.name || user?.email} size="lg" className="profile-identity__avatar" />
-          </div>
 
-          <div className="grid gap-4 mt-5">
-            <label className="block">
-              <span className="text-sm text-zinc-400 mb-2 block">Display name</span>
+            <label className="you-field">
+              <span>Display name</span>
               <input
                 className="input"
                 value={currentName}
@@ -282,60 +262,50 @@ export default function ProfilePageClient() {
                 autoComplete="name"
                 aria-describedby="profile-name-help"
               />
-              <span id="profile-name-help" className="text-xs text-zinc-500 mt-2 block">Your initials are your avatar. They update when you save your name.</span>
+              <span id="profile-name-help" className="you-field__help">Your initials are your avatar. They update when you save your name.</span>
             </label>
 
-            <label className="block">
-              <span className="text-sm text-zinc-400 mb-2 block">Email</span>
+            <label className="you-field">
+              <span>Email</span>
               <input className="input" value={user?.email || ''} disabled />
+              <span className="you-field__help">You sign in with this address. It cannot be changed here.</span>
             </label>
-          </div>
 
-          <div className="mt-6 flex items-center justify-between gap-3 flex-wrap border-t border-white/5 pt-4">
-            <div className="profile-save-note" role={saveState.type === 'error' ? 'alert' : 'status'} data-tone={saveState.type || undefined}>
-              {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : 'Save your name to update it across the Arena.'}
-            </div>
-            <Button variant={dirty ? 'volt' : 'outline'} size="md" disabled={isSaving || !dirty} onClick={saveName}>
-              {isSaving ? 'Saving' : 'Save name'}
-            </Button>
-          </div>
-        </section>
-
-        <section className="flex flex-col gap-4">
-          <PlanCard />
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="glass p-5">
-              <div className="mono-label mb-2">Mocks taken</div>
-              <div className="display-md"><Roll value={attempts.length} /></div>
-              {attempts.length === 0 ? <div className="profile-stat-note">No mocks yet</div> : null}
-            </div>
-            <div className="glass p-5">
-              <div className="mono-label mb-2">Avg score</div>
-              <div className="display-md">{averageScore === null ? '—' : <Roll value={averageScore} suffix="%" />}</div>
-              {averageScore === null ? <div className="profile-stat-note">No mocks yet</div> : null}
-            </div>
-            <div className="glass p-5">
-              <div className="flex items-center justify-between mb-2">
-                <div className="mono-label">Subjects</div>
-                <Link href="/onboarding?edit=true" className="account-edit text-volt text-xs font-semibold hover:underline">Edit subjects</Link>
+            <div className="you-card__keys">
+              <div className="profile-save-note" role={saveState.type === 'error' ? 'alert' : 'status'} data-tone={saveState.type || undefined}>
+                {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : 'Save your name to update it everywhere.'}
               </div>
-              <div className="display-md"><Roll value={user?.subjects?.length || 0} /></div>
+              <Button variant={dirty ? 'volt' : 'outline'} size="md" disabled={isSaving || !dirty} onClick={saveName}>
+                {isSaving ? 'Saving' : 'Save name'}
+              </Button>
             </div>
-            <div className="glass p-5">
-              <div className="mono-label mb-2">Next session</div>
-              <Link href="/today" className="account-edit profile-open">Open Today<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></Link>
+
+            <div className="you-glance">
+              <p>{subjectCount} {subjectCount === 1 ? 'subject' : 'subjects'} picked</p>
+              <Link href={SUBJECTS_EDIT_HREF} className="you-link account-edit">Edit subjects</Link>
             </div>
-          </div>
-        </section>
-      </div>
+            <div className="you-glance">
+              <p>{glance}</p>
+              <Link href="/today" className="you-link account-edit profile-open">Open Today<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></Link>
+            </div>
+          </section>
 
-      <LookAndFeelCard />
+          <section id="plan" aria-label="Plan and credits">
+            <PlanCard />
+          </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <UsageDataSection />
-        <SignOutOtherDevicesSection />
-        <DeleteAccountSection />
+          <section className="you-acct__col" id="sign-in" aria-label="Sign-in">
+            <SignOutControl layout="card" />
+            <SignOutOtherDevicesSection />
+          </section>
+        </div>
+
+        <div className="you-acct__col">
+          <div id="appearance"><LookAndFeelCard /></div>
+          <StartOnSetting />
+          <UsageDataSection />
+          <DeleteAccountSection />
+        </div>
       </div>
     </div>
   );

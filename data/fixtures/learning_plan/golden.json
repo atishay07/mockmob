@@ -1,0 +1,334 @@
+[
+  {
+    "name": "day one, no record",
+    "output": {
+      "primary": {
+        "kind": "ordinary_practice",
+        "title": "Start 10 practice questions",
+        "href": "/dashboard?mode=quick&count=10",
+        "reason": "10 questions, about 10 minutes. Recovery content is awaiting source and calibration checks, so this is ordinary practice.",
+        "duration": 10,
+        "availability": "available",
+        "evidence": [],
+        "facts": [
+          {
+            "basis": "record",
+            "text": "0 saved sessions."
+          },
+          {
+            "basis": "rule",
+            "text": "No recovery pathway has passed its release checks yet."
+          }
+        ]
+      },
+      "alternatives": [
+        {
+          "kind": "review",
+          "title": "Review your mistakes",
+          "href": "/review",
+          "reason": "0 saved attempts.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        },
+        {
+          "kind": "practice",
+          "title": "Choose another subject",
+          "href": "/dashboard",
+          "reason": "Practice available content at your own pace.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        }
+      ],
+      "minutes": 10
+    }
+  },
+  {
+    "name": "mistakes in two papers, 20 minutes",
+    "output": {
+      "primary": {
+        "kind": "ordinary_practice",
+        "title": "Start 20 practice questions",
+        "href": "/dashboard?mode=quick&count=20",
+        "reason": "20 questions, about 20 minutes. Recovery content is awaiting source and calibration checks, so this is ordinary practice.",
+        "duration": 20,
+        "availability": "available",
+        "evidence": [],
+        "facts": [
+          {
+            "basis": "record",
+            "text": "2 saved sessions."
+          },
+          {
+            "basis": "rule",
+            "text": "No recovery pathway has passed its release checks yet."
+          }
+        ]
+      },
+      "alternatives": [
+        {
+          "kind": "review",
+          "title": "Review your mistakes",
+          "href": "/review",
+          "reason": "2 saved attempts.",
+          "duration": 20,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        },
+        {
+          "kind": "practice",
+          "title": "Choose another subject",
+          "href": "/dashboard",
+          "reason": "Practice available content at your own pace.",
+          "duration": 20,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        }
+      ],
+      "minutes": 20
+    }
+  },
+  {
+    "name": "a clean paper, 30 minutes",
+    "output": {
+      "primary": {
+        "kind": "ordinary_practice",
+        "title": "Start 20 practice questions",
+        "href": "/dashboard?mode=quick&count=20",
+        "reason": "20 questions, about 20 minutes, then 10 minutes reviewing your mistakes. Recovery content is awaiting source and calibration checks, so this is ordinary practice.",
+        "duration": 30,
+        "availability": "available",
+        "evidence": [],
+        "facts": [
+          {
+            "basis": "record",
+            "text": "1 saved session."
+          },
+          {
+            "basis": "rule",
+            "text": "No recovery pathway has passed its release checks yet."
+          }
+        ]
+      },
+      "alternatives": [
+        {
+          "kind": "review",
+          "title": "Review your mistakes",
+          "href": "/review",
+          "reason": "1 saved attempts.",
+          "duration": 30,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        },
+        {
+          "kind": "practice",
+          "title": "Choose another subject",
+          "href": "/dashboard",
+          "reason": "Practice available content at your own pace.",
+          "duration": 30,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        }
+      ],
+      "minutes": 30
+    }
+  },
+  {
+    "name": "an open session",
+    "output": {
+      "primary": {
+        "kind": "resume_session",
+        "title": "Resume your practice",
+        "href": "/test?sessionId=sess-1",
+        "reason": "Your active session is waiting.",
+        "duration": 10,
+        "availability": "available",
+        "evidence": [
+          "sess-1"
+        ],
+        "facts": [
+          {
+            "basis": "record",
+            "text": "You have an unfinished session that the server is holding for you."
+          }
+        ]
+      },
+      "alternatives": [
+        {
+          "kind": "review",
+          "title": "Review your mistakes",
+          "href": "/review",
+          "reason": "1 saved attempts.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        },
+        {
+          "kind": "practice",
+          "title": "Choose another subject",
+          "href": "/dashboard",
+          "reason": "Practice available content at your own pace.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        }
+      ],
+      "minutes": 10
+    }
+  },
+  {
+    "name": "a fresh check is due",
+    "output": {
+      "primary": {
+        "kind": "fresh_check",
+        "title": "Take your fresh check",
+        "href": "/recovery?episode=e1",
+        "reason": "This check is due; it uses an unseen family.",
+        "duration": 10,
+        "availability": "available",
+        "evidence": [
+          "e1"
+        ],
+        "facts": [
+          {
+            "basis": "record",
+            "text": "Sacrificing and gaining ratios: More fresh checks needed."
+          },
+          {
+            "basis": "record",
+            "text": "0 of 2 delayed checks passed since your last repair. Due since 9 Oct, 2:23 pm IST."
+          },
+          {
+            "basis": "rule",
+            "text": "A check counts only when it is unassisted, uses a question family you have not seen, and comes at least a day after repair."
+          }
+        ]
+      },
+      "alternatives": [
+        {
+          "kind": "review",
+          "title": "Review your mistakes",
+          "href": "/review",
+          "reason": "0 saved attempts.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        },
+        {
+          "kind": "practice",
+          "title": "Choose another subject",
+          "href": "/dashboard",
+          "reason": "Practice available content at your own pace.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        }
+      ],
+      "minutes": 10
+    }
+  },
+  {
+    "name": "a concept missed in two papers, released pathway",
+    "output": {
+      "primary": {
+        "kind": "investigate",
+        "title": "Investigate a repeated mistake",
+        "href": "/recovery?concept=sacrificing_gaining",
+        "reason": "This supported concept was missed in at least two sessions.",
+        "duration": 10,
+        "availability": "available",
+        "evidence": [
+          "a5",
+          "a6"
+        ],
+        "facts": [
+          {
+            "basis": "record",
+            "text": "Missed in 2 separate sessions."
+          },
+          {
+            "basis": "rule",
+            "text": "A repeated miss is a reason to investigate, not a diagnosis."
+          }
+        ]
+      },
+      "alternatives": [
+        {
+          "kind": "review",
+          "title": "Review your mistakes",
+          "href": "/review",
+          "reason": "2 saved attempts.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        },
+        {
+          "kind": "practice",
+          "title": "Choose another subject",
+          "href": "/dashboard",
+          "reason": "Practice available content at your own pace.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        }
+      ],
+      "minutes": 10
+    }
+  },
+  {
+    "name": "a baseline for a new subject with released concepts",
+    "output": {
+      "primary": {
+        "kind": "baseline",
+        "title": "Start a five-question baseline",
+        "href": "/recovery?subject=english",
+        "reason": "Five questions provide an initial signal for this subject.",
+        "duration": 10,
+        "availability": "available",
+        "evidence": [],
+        "facts": [
+          {
+            "basis": "record",
+            "text": "No recorded session in this subject yet."
+          }
+        ]
+      },
+      "alternatives": [
+        {
+          "kind": "review",
+          "title": "Review your mistakes",
+          "href": "/review",
+          "reason": "1 saved attempts.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        },
+        {
+          "kind": "practice",
+          "title": "Choose another subject",
+          "href": "/dashboard",
+          "reason": "Practice available content at your own pace.",
+          "duration": 10,
+          "availability": "available",
+          "evidence": [],
+          "facts": []
+        }
+      ],
+      "minutes": 10
+    }
+  }
+]

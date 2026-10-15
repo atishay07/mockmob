@@ -16,8 +16,8 @@ const page = {
   slug: 'cuet-2027',
   path: '/cuet-2027',
   breadcrumb: 'CUET 2027 Guide',
-  eyebrow: '// CUET 2027',
-  h1: 'CUET 2027: Pattern, Expected Dates, and a Plan That Works',
+  eyebrow: 'CUET 2027',
+  h1: 'CUET 2027: exam pattern, expected dates and a preparation plan',
   intro:
     'A planning guide for CUET UG 2027. NTA has not announced the 2027 bulletin, so dates, paper rules, and marking details remain provisional until the official notice is published.',
   description:
@@ -41,11 +41,11 @@ const page = {
       heading: 'Choosing your five subjects',
       body: [
         'Work backwards from the course and check each university’s current eligibility rules before choosing papers. Programme requirements can differ, and the 2027 rules may change when institutions publish their bulletins.',
-        'MockMob Admission Compass checks sourced DU programme eligibility and historical cutoffs. It does not predict admission, and its historical data does not replace the official 2027 requirements.',
+        'The MockMob Cutoff calculator checks sourced DU programme eligibility and historical cutoffs. It does not predict admission, and its historical data does not replace the official 2027 requirements.',
       ],
       links: [
         { href: '/cuet-subject-combination', label: 'Plan your CUET subject combination' },
-        { href: '/features', label: 'How Admission Compass works' },
+        { href: '/cuet-cutoff-calculator', label: 'Cutoff calculator' },
       ],
     },
     {
@@ -63,7 +63,7 @@ const page = {
     },
     {
       heading: 'Subject-wise practice lanes',
-      body: ['Chapter-tagged question banks with timed drills and weakness analytics, per subject:'],
+      body: ['Chapter-tagged practice with timed sessions and a record of which chapters cost you marks, per subject:'],
       links: [
         { href: '/cuet/english', label: 'CUET English' },
         { href: '/cuet/accountancy', label: 'CUET Accountancy' },

@@ -21,6 +21,10 @@ export const CAPABILITIES = Object.freeze({
   admission: { id: 'admission', version: 1, state: 'available', subjects: [], entitlement: 'free', href: '/cuet-cutoff-calculator', reason: 'Sourced historical comparisons; no admission probabilities.' },
   aiTopUps: { id: 'aiTopUps', version: 1, state: aiCommerceReleased() ? 'available' : 'paused', entitlement: 'purchase', reason: aiCommerceReleased() ? 'PrepOS credit top-ups are on sale.' : 'New PrepOS top-ups are paused. Your monthly PrepOS credits work, and existing credits are preserved.' },
   decisionCoaching: { id: 'decisionCoaching', version: 1, state: 'not_released', subjects: LAUNCH_SUBJECT_IDS, entitlement: 'free', reason: 'Decision experiments will follow the complete recovery release.' },
+  // Mistake Repair: the AI explanation of one wrong answer on a result (web IA plan, IA0). Live since
+  // 4 Oct with runtimeAi; production receipted a repair on 15 Oct. It does not depend on the old
+  // recovery episodes gate: recoveryReleased() now drives only the old episode surfaces.
+  mistakeRepair: { id: 'mistakeRepair', version: 1, state: mistakeRepairReleased() ? 'available' : 'paused', entitlement: 'ai_credits', href: '/review', reason: mistakeRepairReleased() ? 'Repair a wrong answer: why the choice was tempting, why the key is right, and a rule to remember.' : 'Mistake Repair is paused for now. Your AI credits are kept.' },
   optionalAi: { id: 'optionalAi', version: 2, state: runtimeAiReleased() ? 'available' : 'paused', entitlement: 'monthly_wallet', reason: runtimeAiReleased() ? 'PrepOS model replies use your monthly PrepOS credits. Questions about your own record are always free.' : 'PrepOS model replies and new credit top-ups are paused until funding, verified prices and credit reservations pass staging checks. Questions about your own record stay free, and your existing credits are preserved.' },
 });
 // Evidence ladder for product claims (decision: docs/brain/DECISION-2026-10-03-DIFFERENTIATOR.md).
@@ -64,6 +68,15 @@ export function runtimeAiReleased(gates = RELEASE_GATES) {
 export function aiCommerceReleased(gates = RELEASE_GATES) {
   return gates.runtimeAi === true && gates.aiCommerce === true;
 }
+/**
+ * Is Mistake Repair offered? True when student AI is on and the repair route is not switched off
+ * (PREPOS_MODEL_REPLIES_DISABLED, the same kill switch src/services/prepos/replyDeps.js reads). In a
+ * client bundle the env value is absent, so this follows the gate; the server stays the real check.
+ */
+export function mistakeRepairReleased(gates = RELEASE_GATES, env = (typeof process !== 'undefined' && process.env) || {}) {
+  return runtimeAiReleased(gates) && env.PREPOS_MODEL_REPLIES_DISABLED !== 'true';
+}
+/** The old recovery episodes (pathways, probes, delayed checks). Not Mistake Repair. */
 export function recoveryReleased(gates = RELEASE_GATES) {
   return gates.content === true && gates.authenticatedJourney === true;
 }

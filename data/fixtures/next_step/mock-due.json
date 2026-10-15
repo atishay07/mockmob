@@ -1,0 +1,45 @@
+{
+  "name": "mock-due",
+  "description": "Last full mock was 14 days ago. Economics has never had one, so it goes first.",
+  "input": {
+    "now": "2026-10-15T14:30:00.000Z",
+    "plan": "free",
+    "practiceCredits": 120,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      },
+      {
+        "id": "economics",
+        "name": "Economics"
+      }
+    ],
+    "attempts": [
+      {
+        "id": "att-2",
+        "subject": "accountancy",
+        "mode": "quick",
+        "completedAt": "2026-10-14T13:00:00.000Z"
+      },
+      {
+        "id": "att-1",
+        "subject": "accountancy",
+        "mode": "full",
+        "completedAt": "2026-10-01T13:00:00.000Z"
+      }
+    ]
+  },
+  "expect": {
+    "id": "mock",
+    "rule": 6,
+    "label": "Tonight's move",
+    "title": "Full mock, Economics, 60 minutes",
+    "cost": "Uses 50 of your 120 practice credits.",
+    "primary": {
+      "label": "Set up",
+      "href": "/dashboard?subject=economics&mode=full"
+    },
+    "away": null
+  }
+}

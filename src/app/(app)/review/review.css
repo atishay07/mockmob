@@ -1,0 +1,137 @@
+/* ==========================================================================
+   REVIEW  (web IA, IA6)  scope: .app-shell
+   Mistakes to repair, Where your marks go, Past results, Saved questions, Repair record.
+   Tokens only (--a-*): the shell decides Night or Day, this sheet never names a colour.
+   Layout rules from the plan: a sentence-case title, one line of purpose, one dominant action, then
+   groups about 32 px apart. One raised card (the first); everything else is spacing and hairlines.
+   No nested cards, no row of three equal cards, no loops. Motion answers a tap or shows a state:
+   150 to 350 ms, ease-out, instant under reduced motion.
+   ========================================================================== */
+
+/* ---------- Page ---------- */
+.app-shell .student-page.rv { width: min(100%, 1080px); display: grid; gap: 32px; align-content: start; }
+.app-shell .rv-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 20px; }
+.app-shell .rv-head > div { display: grid; gap: 6px; min-width: 0; }
+.app-shell .rv-title { margin: 0; font: 800 clamp(28px, 4vw, 40px)/1.08 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); }
+.app-shell .rv-lede { margin: 0; max-width: 56ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .rv-grid { display: grid; gap: 32px; align-items: start; }
+.app-shell .rv-col { display: grid; gap: 32px; min-width: 0; align-content: start; }
+@media (min-width: 900px) { .app-shell .rv-grid { grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr); } }
+
+.app-shell .rv-section { display: grid; gap: 14px; min-width: 0; align-content: start; }
+.app-shell .rv-h { margin: 0; font: 700 17px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .rv-quiet { margin: 0; max-width: 56ch; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .rv-fine { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+
+/* ---------- Header key: Ask Mobi (outlined, the second weight of every key here) ---------- */
+.app-shell .rv-ask, .app-shell .rv-alt { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 12px; background: transparent; color: var(--a-ink); font: 600 14px/1.2 var(--font-body); text-decoration: none; transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease); }
+.app-shell .rv-ask:active, .app-shell .rv-alt:active { transform: scale(0.98); }
+.app-shell .rv-ask:focus-visible, .app-shell .rv-alt:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .rv-ask:hover, .app-shell .rv-alt:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
+
+/* ---------- 1. Mistakes to repair: the one card ---------- */
+.app-shell .rv-card { display: grid; gap: 20px; min-width: 0; padding: clamp(20px, 3.4vw, 32px); border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-raised); box-shadow: var(--a-shadow-1); }
+.app-shell .rv-card--loading, .app-shell .rv-card--state { min-height: 220px; }
+.app-shell .rv-card__body { display: grid; gap: 16px; min-width: 0; }
+.app-shell .rv-card__main { display: grid; gap: 8px; min-width: 0; align-content: start; justify-items: start; }
+.app-shell .rv-card__label { margin: 0; font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); }
+.app-shell .rv-card__title { margin: 0; max-width: 24ch; font: 800 clamp(24px, 3.6vw, 34px)/1.14 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); text-wrap: balance; }
+.app-shell .rv-card--state .rv-card__title { font-size: clamp(22px, 3vw, 28px); }
+.app-shell .rv-card__text { margin: 0; max-width: 56ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .rv-card__aside { display: grid; justify-items: start; align-content: end; min-width: 0; order: -1; }
+.app-shell .rv-card__aside .mobi-react { --mobi-size: 72px !important; }
+@media (min-width: 720px) {
+  .app-shell .rv-card__body { grid-template-columns: minmax(0, 1fr) minmax(112px, 168px); gap: 28px; align-items: end; }
+  .app-shell .rv-card__aside { order: 0; justify-items: end; }
+  .app-shell .rv-card__aside .mobi-react { --mobi-size: 112px !important; }
+}
+
+/* Chapters: ruled rows, name and questions on the left, the count (with its unit) on the right. */
+.app-shell .rv-chapters { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--a-line); }
+.app-shell .rv-chapters li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 4px 16px; padding: 13px 0; border-bottom: 1px solid var(--a-line); }
+.app-shell .rv-chapters__name { display: grid; gap: 2px; min-width: 0; }
+.app-shell .rv-chapters__name b { font: 700 15px/1.35 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .rv-chapters__name small { font-size: 13px; line-height: 1.4; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .rv-chapters__n { font: 600 14px/1.3 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.app-shell .rv-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin-top: 8px; }
+.app-shell .rv-actions--foot { margin-top: 0; gap: 12px 20px; }
+.app-shell .rv-actions--foot .rv-fine { display: grid; gap: 2px; flex: 1 1 240px; }
+.app-shell .rv-key { min-height: 48px; padding-inline: 24px; text-decoration: none; }
+
+/* A labelled disclosure, never hidden for good. */
+.app-shell .rv-toggle { display: inline-flex; align-items: center; justify-self: start; gap: 6px; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--a-ink-2); font: 600 14px/1.2 var(--font-body); cursor: pointer; }
+.app-shell .rv-toggle svg { transition: transform 200ms var(--a-ease); }
+.app-shell .rv-toggle[aria-expanded='true'] svg { transform: rotate(180deg); }
+.app-shell .rv-toggle:focus-visible, .app-shell .rv-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 6px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .rv-toggle:hover { color: var(--a-ink); } }
+.app-shell .rv-link { padding: 0; border: 0; background: transparent; color: var(--a-accent-text); font: 600 inherit/inherit var(--font-body); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; min-height: 44px; }
+
+/* Loading holds the card's box, so nothing shifts when the answer arrives. Static: no shimmer, no loop. */
+.app-shell .rv-sk { display: grid; gap: 14px; align-content: start; }
+.app-shell .rv-sk i { display: block; height: 14px; border-radius: 8px; background: var(--a-sunken); }
+.app-shell .rv-sk i[data-w='wide'] { width: min(100%, 360px); height: 28px; border-radius: 10px; }
+.app-shell .rv-sk i[data-w='mid'] { width: min(100%, 520px); }
+.app-shell .rv-sk i[data-w='short'] { width: min(100%, 240px); }
+
+/* ---------- 2. Where your marks go ---------- */
+.app-shell .rv-find { display: grid; gap: 6px; justify-items: start; min-width: 0; }
+.app-shell .rv-find b { font: 700 17px/1.35 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .rv-find p { margin: 0; max-width: 56ch; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .rv-find small { font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+
+/* A row that opens another page: hairlines above and below, the whole row is the target. */
+.app-shell .rv-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 64px; padding: 12px 2px; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); color: var(--a-ink); text-decoration: none; transition: background-color 150ms var(--a-ease); }
+.app-shell .rv-row:has(.rv-row__icon) { grid-template-columns: auto minmax(0, 1fr) auto; }
+.app-shell .rv-row__icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--a-sunken); color: var(--a-ink-2); }
+.app-shell .rv-row__main { display: grid; gap: 2px; min-width: 0; }
+.app-shell .rv-row__main b { font: 700 15px/1.35 var(--font-display); color: var(--a-ink); }
+.app-shell .rv-row__main small { font-size: 13.5px; line-height: 1.4; color: var(--a-ink-3); }
+.app-shell .rv-row > svg:last-child, .app-shell .rv-result > svg:last-child { color: var(--a-ink-3); }
+.app-shell .rv-row:focus-visible, .app-shell .rv-result:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 8px; }
+.app-shell .rv-row:active, .app-shell .rv-result:active { background: var(--a-hover); }
+@media (hover: hover) and (pointer: fine) { .app-shell .rv-row:hover, .app-shell .rv-result:hover { background: var(--a-hover); } }
+
+/* ---------- 3. Past results ---------- */
+.app-shell .rv-list { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--a-line); }
+.app-shell .rv-list li { border-bottom: 1px solid var(--a-line); }
+.app-shell .rv-result { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 12px; min-height: 64px; padding: 10px 2px; color: var(--a-ink); text-decoration: none; transition: background-color 150ms var(--a-ease); }
+.app-shell .rv-result__icon { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; background: var(--a-sunken); color: var(--a-ink-2); }
+.app-shell .rv-result__main { display: grid; gap: 2px; min-width: 0; }
+.app-shell .rv-result__main b { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; font: 700 15px/1.35 var(--font-display); color: var(--a-ink); }
+.app-shell .rv-result__main small, .app-shell .rv-result__side small { font-size: 13px; line-height: 1.4; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .rv-result__side { display: grid; gap: 2px; justify-items: end; text-align: right; }
+.app-shell .rv-result__side b { font: 700 15px/1.35 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.app-shell .rv-new { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 999px; font: 650 12px/1.4 var(--font-body); color: var(--a-accent-text); border: 1px solid var(--a-volt-line); }
+
+/* ---------- 5. Repair record ---------- */
+.app-shell .rv-life-wrap { display: grid; gap: 10px; min-width: 0; }
+.app-shell .rv-life { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--a-line); }
+.app-shell .rv-life li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--a-line); min-width: 0; }
+.app-shell .rv-life li:nth-child(odd) { padding-right: 12px; }
+.app-shell .rv-life li:nth-child(even) { padding-left: 12px; border-left: 1px solid var(--a-line); }
+.app-shell .rv-life span { font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); }
+.app-shell .rv-life b { font: 800 24px/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .rv-life li[data-soon='true'] b { font: 600 14.5px/1.4 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
+.app-shell .rv-meter { display: block; position: relative; height: 8px; border-radius: 999px; background: var(--a-sunken); border: 1px solid var(--a-line); overflow: hidden; }
+.app-shell .rv-meter em { position: absolute; inset: 0; border-radius: inherit; background: var(--a-select); transform-origin: left center; transition: transform 320ms var(--a-ease); }
+.app-shell .rv-life-wrap[data-in='false'] .rv-meter em { transform: scaleX(0) !important; }
+.app-shell .rv-latest { list-style: none; margin: 0; padding: 0; display: grid; }
+.app-shell .rv-latest li { display: grid; gap: 2px; padding: 12px 0; border-bottom: 1px solid var(--a-line); }
+.app-shell .rv-latest li:first-child { border-top: 1px solid var(--a-line); }
+.app-shell .rv-latest b { font: 700 15px/1.35 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .rv-latest small { font-size: 13px; line-height: 1.4; color: var(--a-ink-3); }
+
+/* ---------- Narrow phones ---------- */
+@media (max-width: 420px) {
+  .app-shell .rv-result { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .app-shell .rv-result > svg:last-child { display: none; }
+}
+
+/* ---------- Reduced motion: the same information, no movement ---------- */
+html[data-motion='reduced'] .app-shell :is(.rv-ask, .rv-alt, .rv-toggle svg, .rv-meter em) { transition: none; }
+html[data-motion='reduced'] .app-shell .rv-life-wrap[data-in='false'] .rv-meter em { transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.rv-ask, .rv-alt, .rv-toggle svg, .rv-meter em) { transition: none; }
+  .app-shell .rv-life-wrap[data-in='false'] .rv-meter em { transform: none !important; }
+}

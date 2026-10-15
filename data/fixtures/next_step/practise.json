@@ -1,0 +1,48 @@
+{
+  "name": "practise",
+  "description": "Nothing to repair; the SWOT plan[0] names the weak chapter, with its own href and reason.",
+  "input": {
+    "now": "2026-10-15T14:30:00.000Z",
+    "plan": "free",
+    "practiceCredits": 40,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      },
+      {
+        "id": "economics",
+        "name": "Economics"
+      }
+    ],
+    "attempts": [
+      {
+        "id": "att-7",
+        "subject": "accountancy",
+        "mode": "full",
+        "completedAt": "2026-10-13T12:00:00.000Z"
+      }
+    ],
+    "weakChapter": {
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "count": 10,
+      "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Accounting%20Ratios",
+      "reason": "21 marks lost here in this paper, and 7 right of 15 across 3 papers.",
+      "source": "swot"
+    }
+  },
+  "expect": {
+    "id": "practise",
+    "rule": 5,
+    "label": "Tonight's move",
+    "title": "Practise Accounting Ratios, 10 questions",
+    "detail": "21 marks lost here in this paper, and 7 right of 15 across 3 papers.",
+    "cost": "Uses 10 of your 40 practice credits.",
+    "primary": {
+      "label": "Set up",
+      "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Accounting%20Ratios"
+    },
+    "away": null
+  }
+}

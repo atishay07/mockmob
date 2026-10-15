@@ -53,53 +53,23 @@ export function AuthSessionScreen({
         )}
       </div>
       <style jsx global>{`
+        /* Plain ground and a solid card: no glow, grid or scanlines behind a wait (web IA plan 7). */
         .auth-session-bg {
           position: relative;
           isolation: isolate;
           overflow: hidden;
-          background:
-            radial-gradient(ellipse at 50% -22%, rgba(210, 240, 0, 0.18), rgba(210, 240, 0, 0.05) 34%, transparent 64%),
-            linear-gradient(180deg, #090a08 0%, #050505 56%, #0a0a0a 100%);
-        }
-        .auth-session-bg::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          z-index: -2;
-          pointer-events: none;
-          background-image:
-            linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-          background-size: 72px 72px;
-          mask-image: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent 78%);
-        }
-        .auth-session-bg::after {
-          content: "";
-          position: absolute;
-          inset: 0;
-          z-index: -1;
-          pointer-events: none;
-          background:
-            linear-gradient(180deg, rgba(255,255,255,0.055), transparent 22%),
-            repeating-linear-gradient(to bottom, rgba(255,255,255,0.035) 0, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 9px);
-          opacity: 0.18;
+          background: #0b100e;
         }
         .auth-session-card {
           position: relative;
           border: 1px solid rgba(255,255,255,0.09);
           border-radius: 16px;
-          background:
-            linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0.016)),
-            rgba(10,10,10,0.78);
-          box-shadow: 0 24px 90px rgba(0,0,0,0.42);
+          background: #131a16;
+          box-shadow: 0 24px 60px -30px rgba(0,0,0,0.6);
           padding: 32px;
-          backdrop-filter: blur(18px) saturate(130%);
-          -webkit-backdrop-filter: blur(18px) saturate(130%);
         }
         /* Daylight variant: this screen precedes the Arena shell, so it must not flash dark. */
-        html[data-theme='light'] .auth-session-bg { background: radial-gradient(ellipse at 50% -22%, rgba(124, 150, 20, 0.12), transparent 60%), #f4f5f0; }
-        html[data-theme='light'] .auth-session-bg::before { background-image: linear-gradient(rgba(23,32,22,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(23,32,22,0.04) 1px, transparent 1px); }
-        html[data-theme='light'] .auth-session-bg::after { display: none; }
+        html[data-theme='light'] .auth-session-bg { background: #f4f5f0; }
         html[data-theme='light'] .auth-session-card { border-color: #dce1d4; background: #fff; box-shadow: 0 24px 60px -30px rgba(20,32,14,0.25); }
         html[data-theme='light'] .auth-session-card :is(h1, .logo) { color: #172016; }
         html[data-theme='light'] .auth-session-card .logo .dot { color: #4f6400; }
@@ -154,7 +124,7 @@ export function AuthSessionScreen({
         .auth-session-mark--error::before { transform: translate(-50%, -50%) rotate(45deg); }
         .auth-session-mark--error::after { transform: translate(-50%, -50%) rotate(-45deg); }
         .auth-session-bar {
-          background: linear-gradient(90deg, transparent, var(--volt), transparent);
+          background: var(--volt);
           animation: mm-auth-bar 1.15s ease-in-out infinite;
         }
         @keyframes mm-auth-spin { to { transform: rotate(360deg); } }

@@ -1,0 +1,47 @@
+{
+  "name": "repair",
+  "description": "Tuesday's mock left 4 mistakes unrepaired. 4 x 3 minutes = 12, rounded up to 15.",
+  "input": {
+    "now": "2026-10-15T14:30:00.000Z",
+    "plan": "free",
+    "practiceCredits": 40,
+    "aiCredits": 10,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      },
+      {
+        "id": "economics",
+        "name": "Economics"
+      }
+    ],
+    "attempts": [
+      {
+        "id": "att-7",
+        "subject": "accountancy",
+        "mode": "full",
+        "completedAt": "2026-10-13T12:00:00.000Z"
+      }
+    ],
+    "repair": {
+      "attemptId": "att-7",
+      "subject": "accountancy",
+      "mode": "full",
+      "completedAt": "2026-10-13T12:00:00.000Z",
+      "open": 4
+    }
+  },
+  "expect": {
+    "id": "repair",
+    "rule": 3,
+    "label": "Tonight's move",
+    "title": "Repair 4 mistakes from Tuesday's mock, about 15 minutes",
+    "cost": "1 AI credit each. You have 10.",
+    "primary": {
+      "label": "Start repair",
+      "href": "/result/att-7"
+    },
+    "away": null
+  }
+}

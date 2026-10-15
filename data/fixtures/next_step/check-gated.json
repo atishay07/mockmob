@@ -1,0 +1,47 @@
+{
+  "name": "check-gated",
+  "description": "A fresh check is due but the check has not shipped (A.9): rule 4 never matches, the weak chapter wins.",
+  "input": {
+    "now": "2026-10-15T14:30:00.000Z",
+    "plan": "free",
+    "practiceCredits": 40,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      },
+      {
+        "id": "economics",
+        "name": "Economics"
+      }
+    ],
+    "attempts": [
+      {
+        "id": "att-7",
+        "subject": "accountancy",
+        "mode": "full",
+        "completedAt": "2026-10-13T12:00:00.000Z"
+      }
+    ],
+    "freshCheck": {
+      "due": 2
+    },
+    "weakChapter": {
+      "subject": "accountancy",
+      "chapter": "Partnership",
+      "source": "record"
+    }
+  },
+  "expect": {
+    "id": "practise",
+    "rule": 5,
+    "label": "Tonight's move",
+    "title": "Practise Partnership, 10 questions",
+    "cost": "Uses 10 of your 40 practice credits.",
+    "primary": {
+      "label": "Set up",
+      "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Partnership"
+    },
+    "away": null
+  }
+}

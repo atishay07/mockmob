@@ -1,0 +1,37 @@
+{
+  "name": "first",
+  "description": "Day one: no session yet. The first move is 10 questions in the first subject on the sheet.",
+  "input": {
+    "now": "2026-10-15T14:30:00.000Z",
+    "plan": "free",
+    "practiceCredits": 100,
+    "aiCredits": 10,
+    "subjects": [
+      {
+        "id": "accountancy",
+        "name": "Accountancy"
+      },
+      {
+        "id": "economics",
+        "name": "Economics"
+      }
+    ],
+    "attempts": []
+  },
+  "expect": {
+    "id": "first",
+    "rule": 7,
+    "label": "Your first move",
+    "title": "10 questions in Accountancy, about 10 minutes",
+    "cost": "Uses 10 of your 100 practice credits.",
+    "primary": {
+      "label": "Start now",
+      "href": "/dashboard?subject=accountancy&mode=quick&count=10"
+    },
+    "secondary": {
+      "label": "Sit a full mock instead (50 questions, 60 minutes)",
+      "href": "/dashboard?subject=accountancy&mode=full"
+    },
+    "away": null
+  }
+}

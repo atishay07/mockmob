@@ -12,6 +12,8 @@ import { pathwayDigest } from '@/../data/pathway_validation';
 import { studyRecord, getStudyPreferences } from './study';
 import { withPlanActions } from './actionFields';
 import { guidedSequence, istDay } from '@/../data/study_engine';
+import { mistakeRepairReleased } from '@/../data/capabilities';
+import { buildMoveFacts } from './todayFacts';
 
 export const durableLearningEnabled = () => process.env.LEARNING_SESSIONS_ENABLED === 'true';
 const readManifest = () => JSON.parse(readFileSync(`${process.cwd()}/data/recovery_pathways.json`, 'utf8'));
@@ -44,34 +46,36 @@ export async function validateCurrentPathway(p) {
   }
 }
 
+// The student's record for Today and the app's plan. The independent reads (study preferences, every attempt,
+// the episodes, the open session, the repair reservations, the released pathways) run together; only the study
+// suite, which needs the attempts, waits for them. A read that fails keeps its old fallback: ordinary review
+// stays useful, and Today claims nothing it could not read.
 export async function learningRecord(userId, { subject, minutes } = {}) {
-  if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
-    try {
-      const prefs=await getStudyPreferences(userId);
-      const weekday=(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7;
-      const weekly=prefs.premium ? prefs.weeklyPlan?.[weekday] : null;
-      if(!subject) subject=weekly?.subject;
-      if(![10,20,30].includes(minutes)) minutes=weekly?.minutes || prefs.minutes;
-    } catch { /* Existing learning record remains available if study storage is not deployed. */ }
-  }
   const db = supabaseAdmin();
-  const attempts = await Database.getAttempts(userId);
-  const [episodeResult, sessionResult] = await Promise.all([
+  const guided = process.env.STUDY_GUIDED_PLAN_ENABLED === 'true';
+  const [prefs, attempts, episodeResult, sessionResult, reservationResult, available] = await Promise.all([
+    guided ? getStudyPreferences(userId).catch(() => null) : null, // Existing learning record remains available if study storage is not deployed.
+    Database.getAttempts(userId),
     db.from('learning_episodes').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
-    db.from('recovery_sessions').select('id,subject,mode,expires_at,selection_meta').eq('user_id', userId).eq('state', 'active').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(1),
+    db.from('recovery_sessions').select('id,subject,mode,expires_at,selection_meta,events').eq('user_id', userId).eq('state', 'active').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(1),
+    db.from('ai_credit_reservations').select('operation_key,updated_at,receipt').eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair').not('receipt->repair', 'is', null).order('updated_at', { ascending: false }).limit(500).then(result => result, () => ({ error: true })),
+    releasedPathways().catch(() => []), // fail closed; ordinary review remains useful
   ]);
-  const episodes = [];
-  for (const row of episodeResult.data || []) {
-    try { await validateCurrentPathway(row.pathway); episodes.push(publicEpisode(row.pathway, row.projection, Date.now())); }
-    catch { episodes.push({ id: row.id, title: row.pathway.title, state: 'blocked_content', evidenceLabel: 'Current evidence unavailable; progress claims paused', sampleSize: 0 }); }
+  if (prefs) {
+    const weekday = (new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay() + 6) % 7;
+    const weekly = prefs.premium ? prefs.weeklyPlan?.[weekday] : null;
+    if (!subject) subject = weekly?.subject;
+    if (![10, 20, 30].includes(minutes)) minutes = weekly?.minutes || prefs.minutes;
   }
+  const episodes = await Promise.all((episodeResult.data || []).map(async row => {
+    try { await validateCurrentPathway(row.pathway); return publicEpisode(row.pathway, row.projection, Date.now()); }
+    catch { return { id: row.id, title: row.pathway.title, state: 'blocked_content', evidenceLabel: 'Current evidence unavailable; progress claims paused', sampleSize: 0 }; }
+  }));
   const active = sessionResult.data?.[0];
-  let available = [];
-  try { available = await releasedPathways(); } catch { /* fail closed; ordinary review remains useful */ }
   const activeSession = active ? { id: active.id, href: `/test?${new URLSearchParams({ subject: active.subject, mode: active.mode, sessionId: active.id, experience: active.selection_meta?.learningPurpose === 'ordinary_practice' ? 'practice' : 'recovery' })}` } : null;
   const plan = learningPlan({ episodes, activeSession, attempts, subject, minutes, availableConcepts: available.map(p => p.id) });
   let suite = {};
-  if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
+  if (guided) {
     try {
       const weakConcepts=attempts.flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>attempt.questionsSnapshot?.find(q=>q.id===answer.qid)?.conceptId).filter(Boolean));
       // Chapters behind recent ordinary mistakes point to the matching lesson, if one is published.
@@ -83,11 +87,15 @@ export async function learningRecord(userId, { subject, minutes } = {}) {
       }
     } catch { suite = { studyState:'unavailable' }; } // Existing practice remains usable during rollback.
   }
+  // What Today's Tonight's move reads (src/lib/server/todayFacts.js): counted from the record, never guessed.
+  // A failure here must never take the plan down with it: the app reads this route too.
+  let moveFacts = null;
+  try { moveFacts = buildMoveFacts({ userId, attempts, activeRow: active, activeHref: activeSession?.href, reservations: reservationResult.error ? null : reservationResult.data || [], mistakeRepair: mistakeRepairReleased() }); } catch { moveFacts = null; }
   const withActions = withPlanActions({ ...plan, ...suite });
   return { ...withActions, episodes,
     pathwayState: available.length ? 'available' : 'blocked_content', supportedConcepts: available.map(p => ({ id: p.id, subject: p.subject, title: p.title })),
     recordState: episodeResult.error ? 'unavailable' : 'ready', ordinaryAttemptCount: attempts.length,
-    tonight: tonightCompletion(attempts), milestones: studyMilestones(attempts, episodes) };
+    tonight: tonightCompletion(attempts), milestones: studyMilestones(attempts, episodes), moveFacts };
 }
 
 export async function loadEpisode(userId, id) {
