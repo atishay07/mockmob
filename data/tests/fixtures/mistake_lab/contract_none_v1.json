@@ -10,7 +10,7 @@
     "reason": "before_capture",
     "line": "This paper's record has no time away, marks for review or how the paper ended, so those are not shown.",
     "action": {
-      "label": "Take a timed mock to see your full Lab",
+      "label": "Take another timed mock to see your full Lab",
       "subject": "accountancy",
       "mode": "full",
       "href": "/dashboard?subject=accountancy&mode=full"

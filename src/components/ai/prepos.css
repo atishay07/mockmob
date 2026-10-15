@@ -133,6 +133,10 @@
 .pp-ask__switch button[aria-pressed='true'] { background:var(--pp-wash, #263126); color:var(--pp-ink, #f2f4ec); box-shadow:inset 0 0 0 1px var(--pp-line-strong, #354139); }
 .pp-ask__switch small { font-size:11px; font-weight:500; color:var(--pp-ink-3, #a7b3a2); }
 .pp-ask__service { display:grid; gap:6px; padding:16px; border-left:2px solid var(--pp-accent, #d2f000); background:var(--pp-wash, #202920); border-radius:0 12px 12px 0; }
+.pp-ask__service > button { justify-self:start; width:auto; }
+/* The handed-over mistake is a plain hairline card, not an accent stripe. */
+.pp-ask__service--q { border:1px solid var(--pp-line, rgba(255,255,255,.14)); border-radius:12px; background:transparent; }
+.pp-ask__blocked b { font-size:14px; line-height:1.5; color:var(--pp-ink, inherit); }
 .pp-ask__service b { font-size:14px; line-height:1.45; }
 .pp-ask__service p { margin:0; color:var(--pp-ink-2, #c5cebf); font-size:13px; line-height:1.6; }
 .pp-ask__service label { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:6px; font-size:12px; color:var(--pp-ink-3, #a7b3a2); }

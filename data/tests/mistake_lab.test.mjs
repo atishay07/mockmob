@@ -313,5 +313,5 @@ test('older papers: the existing sentences stay (the app reads them), the new li
     assert.doesNotMatch(s, /\b(?:would have|could have|recoverable|potential|forecast)\b/i, s);
     assert.ok(s.length < 140, s);
   }
-  assert.deepEqual(Object.keys(LAB_COPY.older), ['no_clock', 'short', 'not_matched', 'unreadable', 'before_capture', 'action']);
+  assert.deepEqual(Object.keys(LAB_COPY.older), ['no_clock', 'short', 'not_matched', 'unreadable', 'before_capture', 'action', 'actionAgain']);
 });

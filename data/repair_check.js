@@ -38,7 +38,7 @@ export const CHECK_REASONS = Object.freeze({
   not_saved: 'This repair was not saved, so there is no check to open. Nothing was charged.',
   lookup_failed: 'We could not confirm which questions you have already seen, so we are not offering one. Nothing was charged.',
   check_unavailable: 'The check is not available right now. Nothing was charged.',
-  check_changed: 'That question is no longer available for the check. Open it again to get a new one.',
+  check_changed: 'That question was withdrawn before it was marked. Nothing was recorded.',
   invalid_pick: 'Pick one of the four options.',
 });
 export const checkReasonMessage = (code) => CHECK_REASONS[code] || CHECK_REASONS.check_unavailable;
@@ -219,8 +219,9 @@ export function markCheck({ row, order, pick }) {
 export function outcomeLine({ right, basis, revise }) {
   const where = basis === 'concept' ? 'the same concept' : basis === 'topic' ? 'the same topic' : 'the same chapter';
   if (right) return `Right on a new question from ${where}. One question is a check, not a measure.`;
+  // When it comes back is said once, in the Revise line under the answer, so a missed check's outcome only says what happened.
   return revise?.scheduled
-    ? `Missed on a new question from ${where}. It is in Revise ${revise.whenLabel || 'soon'}.`
+    ? `Missed on a new question from ${where}.`
     : `Missed on a new question from ${where}. Read the key and the explanation below.`;
 }
 
@@ -255,6 +256,10 @@ export function planReviseCards({ mistake, checkRow, right, nowMs, mistakeWrongA
 /** The Revise result the client shows. `unavailable` when the table does not exist yet (nothing was written). */
 export function reviseSummary({ written, dueDay, nowMs }) {
   if (!written) return { scheduled: false, reason: 'unavailable', nextAt: null };
-  const tomorrow = addDays(istDate(nowMs), 1);
-  return { scheduled: true, nextAt: dayStartIso(dueDay), dueDay, whenLabel: dueDay === tomorrow ? 'tomorrow' : dayLabel(dueDay), cards: written };
+  const today = istDate(nowMs);
+  const tomorrow = addDays(today, 1);
+  // A card that already existed keeps its own due day, which can be today or already past: it is due now, so it says "today",
+  // never "tomorrow" and never a day that has gone.
+  const whenLabel = dueDay <= today ? 'today' : dueDay === tomorrow ? 'tomorrow' : dayLabel(dueDay);
+  return { scheduled: true, nextAt: dayStartIso(dueDay), dueDay, whenLabel, cards: written };
 }

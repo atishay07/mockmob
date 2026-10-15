@@ -50,7 +50,7 @@ const stored = (index, pick, kind) => {
     right, checkQuestionId: q.checkQuestionId, pick, key: { index: q.key, text: q.options[q.key] }, picked: { index: pick, text: q.options[pick] },
     explanation: q.explanation, ruleLine: CHECK_RULE,
     line: right ? 'Right on a new question from the same topic. One question is a check, not a measure.'
-      : revise.scheduled ? 'Missed on a new question from the same topic. It is in Revise tomorrow.' : 'Missed on a new question from the same topic. Read the key and the explanation below.',
+      : revise.scheduled ? 'Missed on a new question from the same topic.' : 'Missed on a new question from the same topic. Read the key and the explanation below.',
     basis: 'topic', basisLine: `Same topic: ${q.topic}`,
     options: q.options.map((text, i) => ({ index: i, text, isKey: i === q.key, isPick: i === pick })),
     answeredAt: new Date().toISOString(), revise,
@@ -87,7 +87,7 @@ export function fixtureCheckGet(kind = 'ready', memory = freshCheckMemory()) {
 export function fixtureCheckPost(kind = 'ready', body = {}, memory = freshCheckMemory()) {
   const index = kind === 'changed' && memory.writes > 0 ? 1 : 0;
   if (kind === 'markerr' && memory.tries === 0) return { lost: true, remember: { tries: 1 } };
-  if (kind === 'changed' && memory.writes === 0) return { http: 409, delay: 0, body: { ok: false, error: 'check_changed', message: 'That question is no longer available for the check. Open it again to get a new one.' }, remember: { writes: 1 } };
+  if (kind === 'changed' && memory.writes === 0) return { http: 409, delay: 0, body: { ok: false, error: 'check_changed', message: 'That question was withdrawn before it was marked. Nothing was recorded.' }, remember: { writes: 1 } };
   if (!Number.isInteger(body.pick) || body.pick < 0 || body.pick > 3) return { http: 422, delay: 0, body: { ok: false, error: 'invalid_pick', message: 'Pick one of the four options.' } };
   if (memory.answer) return { http: 200, delay: 0, body: { ok: true, status: 'answered', replayed: true, charged: 0, result: stored(memory.answer.index, memory.answer.pick, kind) } };
   return { http: 200, delay: 700, body: { ok: true, status: 'answered', replayed: false, charged: 0, result: stored(index, body.pick, kind) }, remember: { answer: { index, pick: body.pick } } };

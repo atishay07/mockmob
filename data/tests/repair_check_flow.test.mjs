@@ -177,7 +177,7 @@ test('POST wrong: the key and the explanation are shown, the missed question and
   assert.equal(r.body.result.right, false);
   assert.equal(r.body.result.key.text, 'Super profit and the normal rate of return');
   assert.equal(r.body.result.picked.text, 'Sales and the purchase returns');
-  assert.match(r.body.result.line, /^Missed on a new question from the same concept\. It is in Revise tomorrow\./);
+  assert.equal(r.body.result.line, 'Missed on a new question from the same concept.');
   assert.deepEqual(h.calls.find((c) => c[0] === 'revise')[1].rows.map((x) => x.question_id), ['q_mistake', 'q_concept']);
   assert.equal(h.calls.find((c) => c[0] === 'progress')[1].right, false);
   assert.equal(r.body.result.revise.cards, 2);

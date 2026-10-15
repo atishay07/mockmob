@@ -107,7 +107,8 @@
     "not_matched": "The clock from your device did not match your submitted answers, so its time, answer changes and replay are not shown.",
     "unreadable": "The clock record from your device could not be read, so its time, answer changes and replay are not shown.",
     "before_capture": "This paper's record has no time away, marks for review or how the paper ended, so those are not shown.",
-    "action": "Take a timed mock to see your full Lab"
+    "action": "Take a timed mock to see your full Lab",
+    "actionAgain": "Take another timed mock to see your full Lab"
   },
   "remark": {
     "cost": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers cost {d} marks over {k} {questions}.",

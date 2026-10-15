@@ -158,7 +158,8 @@ test('the outcome line says what happened on one question: no forecast, no maste
   assert.match(lines[0], /same concept/);
   assert.match(lines[1], /same topic/);
   assert.match(lines[2], /same chapter/);
-  assert.match(lines[3], /in Revise tomorrow/);
+  assert.equal(lines[3], 'Missed on a new question from the same topic.', 'when it comes back is said once, in the Revise line');
+  assert.doesNotMatch(lines[3], /Revise/);
   assert.doesNotMatch(lines[4], /Revise/, 'no Revise promise when nothing was scheduled');
   for (const line of lines) assert.doesNotMatch(line, /master|learn(ed|t)|will (score|gain)|marks? (you|gained)|improv|predict|%/i, line);
 });
@@ -182,6 +183,9 @@ test('Revise plan: the mistake always goes back tomorrow (IST), the check questi
   const summary = reviseSummary({ written: 2, dueDay: wrong.dueDay, nowMs: now });
   assert.deepEqual(summary, { scheduled: true, nextAt: '2026-10-17T18:30:00.000Z', dueDay: '2026-10-18', whenLabel: 'tomorrow', cards: 2 });
   assert.equal(reviseSummary({ written: 1, dueDay: '2026-10-21', nowMs: now }).whenLabel, 'Wed 21 Oct');
+  // An existing card keeps its own day: due today, or already past, it says today (never tomorrow, never a day that has gone).
+  assert.equal(reviseSummary({ written: 1, dueDay: '2026-10-17', nowMs: now }).whenLabel, 'today');
+  assert.equal(reviseSummary({ written: 1, dueDay: '2026-10-12', nowMs: now }).whenLabel, 'today');
   assert.deepEqual(reviseSummary({ written: 0 }), { scheduled: false, reason: 'unavailable', nextAt: null });
   assert.equal(addDays('2026-12-31', 1), '2027-01-01');
   assert.equal(dayLabel('2026-10-17'), 'Sat 17 Oct');

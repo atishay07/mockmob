@@ -142,7 +142,7 @@ export function olderPaper({ attempt, td, trace }) {
   return {
     reason,
     line: COPY.older[reason],
-    action: { label: COPY.older.action, subject, mode: 'full', href: `/dashboard?${subject ? `subject=${encodeURIComponent(subject)}&` : ''}mode=full` },
+    action: { label: reason === 'before_capture' ? COPY.older.actionAgain : COPY.older.action, subject, mode: 'full', href: `/dashboard?${subject ? `subject=${encodeURIComponent(subject)}&` : ''}mode=full` },
   };
 }
 

@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  CHECK_COPY, CHECK_REQUEST_ID, newCheckRequestId, checkAvailability, safeCheckHref, safeAskHref, poolLine, reviseLine, optionTag,
+  CHECK_COPY, CHECK_REQUEST_ID, newCheckRequestId, checkAvailability, safeCheckHref, safeAskHref, poolLine, reviseLine, leadLine, askLabel, askSeesLine, askOffer, optionTag,
   answeredRows, openRows, isShowableCheck, isShowableResult, requestCheck, submitCheck, planCheckLoad, planCheckAnswer,
 } from '../repair_check_client.mjs';
 
@@ -16,7 +16,7 @@ const options = [0, 1, 2, 3].map((index) => ({ index, text: `Option ${index}` })
 const openCheck = { checkQuestionId: 'q_fresh_1', question: 'A stem', options, basisLine: 'Same topic: Goodwill', pool: { unseen: 7, ofChapter: 41 } };
 const result = {
   right: false, checkQuestionId: 'q_fresh_1', pick: 2, key: { index: 1, text: 'Option 1' }, picked: { index: 2, text: 'Option 2' }, explanation: 'Because.', ruleLine: 'The rule.',
-  line: 'Missed on a new question from the same topic. It is in Revise tomorrow.',
+  line: 'Missed on a new question from the same topic.',
   options: options.map((o) => ({ ...o, isKey: o.index === 1, isPick: o.index === 2 })), revise: { scheduled: true, whenLabel: 'tomorrow', cards: 2 },
 };
 const response = (status, body) => ({ kind: 'response', res: { ok: status >= 200 && status < 300, status }, body });
@@ -66,7 +66,13 @@ test('the Revise line says only what was written: nothing when Revise is unavail
   assert.equal(reviseLine({ scheduled: false, reason: 'unavailable', nextAt: null }, false), null);
   assert.equal(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 1 }, true), 'This mistake comes back tomorrow.');
   assert.equal(reviseLine({ scheduled: true, whenLabel: 'Fri 17 Oct', cards: 1 }, true), 'This mistake comes back on Fri 17 Oct.');
-  assert.equal(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 2 }, false), 'This mistake and the question you just missed both come back.');
+  assert.equal(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 2 }, false), 'Both come back tomorrow: this mistake and the question you just missed.');
+  assert.equal(reviseLine({ scheduled: true, whenLabel: 'today', cards: 1 }, true), 'This mistake comes back today.');
+  // The day is worked out again from the due day when the screen opens, so a stored answer never says "tomorrow" about a day that has gone.
+  const at = Date.parse('2026-10-16T20:00:00Z'); // 17 Oct, 01:30 IST
+  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-18', whenLabel: 'tomorrow', cards: 1 }, true, at), 'This mistake comes back tomorrow.');
+  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-18', whenLabel: 'tomorrow', cards: 1 }, true, Date.parse('2026-10-20T06:00:00Z')), 'This mistake comes back today.');
+  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-21', whenLabel: 'tomorrow', cards: 2 }, false, at), 'Both come back on Wed 21 Oct: this mistake and the question you just missed.');
   assert.doesNotMatch(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 1 }, true), /will (improve|learn|remember)|marks|score/i);
 });
 
@@ -123,7 +129,7 @@ test('POST: the stored result, or a failure that keeps the question and the pick
   assert.equal(ok.state, 'answered'); assert.equal(ok.replayed, false);
   assert.equal(planCheckAnswer(response(200, { ok: true, status: 'answered', replayed: true, charged: 0, result })).replayed, true);
   const changed = planCheckAnswer(response(409, contract.post.errors['409 check_changed']));
-  assert.equal(changed.refetch, true); assert.equal(changed.canRetry, false); assert.match(changed.message, /no longer available/);
+  assert.equal(changed.refetch, true); assert.equal(changed.canRetry, false); assert.match(changed.message, /withdrawn before it was marked\. Nothing was recorded\./);
   const pick = planCheckAnswer(response(422, contract.post.errors['422 invalid_pick']));
   assert.equal(pick.canRetry, true); assert.equal(pick.refetch, false);
   assert.equal(planCheckAnswer(response(409, contract.post.errors['409 repair_first'])).canRetry, false);
@@ -155,8 +161,11 @@ test('the check never touches credits or a model: the client files name neither'
     assert.doesNotMatch(source, /reserve|commit|release|wallet\/charge|openai|anthropic|gpt-|claude-/i, file);
   }
   const component = read('src/components/recovery/RepairCheck.jsx');
-  assert.match(component, /\/mentor|askHref/, 'the Ask follow-up is a link, the student leaves on purpose');
-  assert.match(component, /usesLine\(\{ what: CHECK_COPY\.askCost, cost: 1, pool: 'ai'/, "Ask Mobi's own cost is shown before the student leaves");
+  assert.doesNotMatch(component, /askHref|\/mentor/, 'the Ask follow-up is not part of the check: it belongs to the mistake');
+  const ask = read('src/components/recovery/RepairAsk.jsx');
+  assert.match(ask, /safeAskHref/, 'the Ask follow-up is a link, the student leaves on purpose');
+  assert.match(ask, /usesLine\(\{ what: CHECK_COPY\.askCost, cost: 1, pool: 'ai'/, "Ask Mobi's own cost is shown before the student leaves");
+  assert.doesNotMatch(ask, /reserve|commit|release|wallet\/charge|openai|anthropic|gpt-|claude-/i);
 });
 
 test('the screen is wired in after the explanation, behind the check field, with every state and a reduced-motion path', () => {
@@ -165,6 +174,8 @@ test('the screen is wired in after the explanation, behind the check field, with
   assert.match(repair, /const showCheck = !!\(state\.check && attemptId && questionId\);/);
   assert.match(repair, /showCheck \? <RepairCheck attemptId=\{attemptId\} questionId=\{questionId\} check=\{state\.check\}/);
   assert.ok(repair.indexOf('<RepairCheck') > repair.indexOf('<RuleCard'), 'after the rule');
+  assert.match(repair, /showCheck \? <RepairAsk attemptId=\{attemptId\} questionId=\{questionId\} number=\{number\}/, 'Ask Mobi names the mistake by its number');
+  assert.ok(repair.indexOf('<RepairAsk') > repair.indexOf('<RuleCard') && repair.indexOf('<RepairAsk') < repair.indexOf('<RepairCheck'), 'Ask Mobi (about the mistake) follows the explanation and comes before the check');
   assert.ok(repair.indexOf('<RepairCheck') < repair.indexOf('mr-record'), 'before "From your record"');
   const component = read('src/components/recovery/RepairCheck.jsx');
   for (const phase of ["'loading'", "'ready'", "'sending'", "'answered'", "'none'", "'loadError'"]) assert.ok(component.includes(phase), phase);
@@ -181,4 +192,42 @@ test('user-facing words: sentence case, no exclamation marks, no em dash, no mid
     assert.doesNotMatch(value, /^[A-Z ]{4,}$/, value);
   }
   for (const line of [reviseLine({ scheduled: true, whenLabel: 'tomorrow' }, true), reviseLine({ scheduled: true, whenLabel: 'tomorrow' }, false), poolLine({ unseen: 7, ofChapter: 41 })]) assert.doesNotMatch(line, /[!—·→]/);
+});
+
+test('Ask Mobi is about the mistake and says so: its number is in the label and in what Mobi sees, never the check question', () => {
+  assert.equal(askLabel(3), 'Ask Mobi about Q3');
+  assert.equal(askLabel(null), 'Ask Mobi about this mistake');
+  assert.equal(askLabel(0), 'Ask Mobi about this mistake');
+  assert.equal(askSeesLine(3), 'Mobi sees Q3, your pick, the key and your rule, and nothing else about you.');
+  assert.doesNotMatch(askSeesLine(null), /Q\d|undefined|null/);
+});
+
+test("the repair promises Ask Mobi's credit only while written replies can be bought; paused, empty or unreadable says nothing is charged and offers no link", () => {
+  const price = 'One written reply uses 1 AI credit. You have 68.';
+  assert.deepEqual(askOffer({ state: 'available', known: true, total: 68 }, price), { ask: true, line: price });
+  assert.deepEqual(askOffer(null, price), { ask: true, line: price }, 'before the wallet is read the price is the plain price');
+  const paused = askOffer({ state: 'paused', known: true, total: 68 }, price);
+  assert.equal(paused.ask, false); assert.equal(paused.line, 'Written replies are paused right now. Nothing is charged.');
+  const empty = askOffer({ state: 'empty', known: true, total: 0 }, price);
+  assert.equal(empty.ask, false); assert.match(empty.line, /no AI credits left/); assert.match(empty.line, /Nothing is charged\.$/);
+  const unreadable = askOffer({ state: 'error', known: false, total: null }, price);
+  assert.equal(unreadable.ask, false); assert.match(unreadable.line, /could not be read/); assert.match(unreadable.line, /Nothing is charged\.$/);
+  for (const w of [paused, empty, unreadable]) assert.doesNotMatch(w.line, /1 AI credit|free/i, 'no price and no promise of free asking');
+});
+
+test('the lead names what the question is tied to only when the server said so', () => {
+  assert.match(leadLine('concept'), /^One new question on the same idea that you have not seen\./);
+  assert.match(leadLine('topic'), /on the same topic/);
+  assert.match(leadLine('chapter'), /from the same chapter/);
+  assert.doesNotMatch(leadLine(undefined), /same (idea|topic|chapter)/);
+  assert.match(leadLine('chapter'), /no extra credit\.$/);
+});
+
+test('the Ask screen: a handed-over question with written replies unavailable says Mobi cannot answer it, charges nothing and never offers free asking about it', () => {
+  const hub = read('src/components/ai/MockMobAIHub.jsx');
+  assert.match(hub, /const blockedQuestion = withQuestion && Boolean\(wallet\) && wallet\.state !== 'available';/);
+  assert.match(hub, /Mobi cannot answer this question right now\. Nothing was charged\./);
+  assert.match(hub, /blocked \? 'Ask about my record' : 'Ask something else'/, 'the way out drops the question');
+  assert.match(hub, /\{blockedQuestion \? null : <form className="pp-composer"/, 'no greyed-out composer for a question that cannot be asked');
+  assert.match(hub, /\{blockedQuestion \? null : <div className="pp-ask__switch"/);
 });

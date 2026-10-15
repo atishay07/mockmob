@@ -14,7 +14,7 @@ const LETTERS = 'ABCD';
 
 export const CHECK_COPY = Object.freeze({
   title: 'Check it held',
-  lead: 'One new question on the same idea. It comes with this repair, so there is no extra credit.',
+  lead: 'One new question you have not seen. It comes with this repair, so there is no extra credit.',
   loading: 'Finding a question you have not seen.',
   submit: 'Check my answer',
   marking: 'Marking your answer',
@@ -26,13 +26,19 @@ export const CHECK_COPY = Object.freeze({
   explanation: 'Explanation',
   yourRule: 'Your rule',
   reviseLabel: 'Revise',
-  ask: 'Ask Mobi about this question',
-  askSees: 'Mobi sees this question, your pick, the key and your rule, and nothing else about you.',
   askCost: 'One written reply',
+  askPaused: 'Written replies are paused right now. Nothing is charged.',
+  askEmpty: 'You have no AI credits left, so Mobi cannot write a reply. Nothing is charged.',
+  askUnreadable: 'Your AI credits could not be read just now, so Mobi cannot write a reply. Nothing is charged.',
   loadFailed: 'The question could not be loaded. Nothing was charged.',
-  markFailed: 'We could not confirm the marking. Try again: the same request is reused, so your answer counts once.',
+  markFailed: 'We could not confirm the mark. Try again. Your answer is counted once.',
+  changedMessage: 'That question was withdrawn before it was marked. Nothing was recorded.',
   needPick: 'Pick one of the four options.',
 });
+
+/** Ask Mobi's link and what Mobi sees: they name the mistake being repaired (its number on the paper), never the check question. */
+export const askLabel = (number) => (Number.isInteger(number) && number > 0 ? `Ask Mobi about Q${number}` : 'Ask Mobi about this mistake');
+export const askSeesLine = (number) => `Mobi sees ${Number.isInteger(number) && number > 0 ? `Q${number}` : 'this mistake'}, your pick, the key and your rule, and nothing else about you.`;
 
 // The repair response's `check.reason` codes (data/repair_check.js CHECK_REASONS) where trying again can help.
 const RETRYABLE_REASONS = Object.freeze(['lookup_failed', 'check_unavailable']);
@@ -80,16 +86,56 @@ export function poolLine(pool) {
   return `Of the ${total} questions in this chapter, ${unseen} ${unseen === 1 ? 'is' : 'are'} new to you and can be used for a check.`;
 }
 
-/** The Revise sentence under an answer. Nothing when Revise could not be written: it never promises a card that does not exist. */
-export function reviseLine(revise, right) {
+// India days, like Revise itself. The label is worked out again from the due day when the screen opens, so a stored answer
+// opened days later does not still say "tomorrow" about a day that has passed.
+const IST_OFFSET_MS = 330 * 60 * 1000;
+const DAY_MS = 86_400_000;
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+function reviseWhen(revise, nowMs) {
+  const due = text(revise.dueDay);
+  if (!due || !/^\d{4}-\d{2}-\d{2}$/.test(due) || !Number.isFinite(nowMs)) return text(revise.whenLabel);
+  const dueMs = Date.parse(`${due}T00:00:00Z`);
+  if (!Number.isFinite(dueMs)) return text(revise.whenLabel);
+  const todayMs = Math.floor((nowMs + IST_OFFSET_MS) / DAY_MS) * DAY_MS;
+  if (dueMs <= todayMs) return 'today';
+  if (dueMs === todayMs + DAY_MS) return 'tomorrow';
+  const d = new Date(dueMs);
+  return `${WEEKDAYS[d.getUTCDay()]} ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
+}
+
+/**
+ * The Revise sentence under an answer. Nothing when Revise could not be written: it never promises a card that does not exist.
+ * The screen puts the word "Revise" in front of it as its label, and the outcome line above no longer names Revise, so this
+ * is the one place that says when, and for a miss, which two cards.
+ */
+export function reviseLine(revise, right, nowMs = Date.now()) {
   if (!revise || revise.scheduled !== true) return null;
-  const label = text(revise.whenLabel);
-  const when = !label ? 'soon' : label === 'tomorrow' ? 'tomorrow' : `on ${label}`;
-  // A missed check already says when ("It is in Revise tomorrow", from the server), so this line adds only which cards.
-  // The screen puts the word "Revise" in front of this sentence as its label.
+  const label = reviseWhen(revise, nowMs);
+  const when = !label ? 'soon' : label === 'tomorrow' || label === 'today' ? label : `on ${label}`;
   return right
     ? `This mistake comes back ${when}.`
-    : 'This mistake and the question you just missed both come back.';
+    : `Both come back ${when}: this mistake and the question you just missed.`;
+}
+
+/** The lead under the title. It says what the question is tied to only once the server has said (concept, topic or chapter). */
+export function leadLine(basis) {
+  const tie = basis === 'concept' ? ' on the same idea' : basis === 'topic' ? ' on the same topic' : basis === 'chapter' ? ' from the same chapter' : '';
+  return `One new question${tie} that you have not seen. It comes with this repair, so there is no extra credit.`;
+}
+
+/**
+ * What the repair says about Ask Mobi, from the AI wallet. The price is only promised while written replies can be bought:
+ * `ask` is true when the link is shown (the wallet is available or not read yet), and `line` is the sentence for the screen.
+ * When written replies are paused, empty or unreadable the link goes and the line says so and that nothing is charged.
+ */
+export function askOffer(wallet, price) {
+  const state = wallet?.state;
+  if (!state) return { ask: true, line: price };
+  if (state === 'available') return { ask: true, line: price };
+  if (state === 'empty') return { ask: false, line: CHECK_COPY.askEmpty };
+  if (wallet.known === false && state !== 'paused') return { ask: false, line: CHECK_COPY.askUnreadable };
+  return { ask: false, line: CHECK_COPY.askPaused };
 }
 
 /** The tag on an answered option row. Sentence case, never colour alone. */
@@ -193,7 +239,7 @@ export function planCheckAnswer(outcome) {
   const message = text(body?.message);
   if (res.ok && body?.ok && body.status === 'answered' && isShowableResult(body.result)) return { state: 'answered', result: body.result, replayed: body.replayed === true };
   const error = text(body?.error);
-  if (error === 'check_changed') return { state: 'error', message: message || 'That question is no longer available for the check. Open it again to get a new one.', canRetry: false, refetch: true };
+  if (error === 'check_changed') return { state: 'error', message: message || CHECK_COPY.changedMessage, canRetry: false, refetch: true };
   if (error === 'invalid_pick') return { state: 'error', message: message || CHECK_COPY.needPick, canRetry: true, refetch: false };
   if (error === 'repair_first') return { state: 'error', message: message || 'The check comes with the repair. Explain this mistake first.', canRetry: false, refetch: false };
   if (res.status === 429) return { state: 'error', message: message || 'Please wait a moment before the next check.', canRetry: true, refetch: false };

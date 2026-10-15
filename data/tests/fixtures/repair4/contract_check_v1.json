@@ -34,7 +34,7 @@
     "not_saved": "This repair was not saved, so there is no check to open. Nothing was charged.",
     "lookup_failed": "We could not confirm which questions you have already seen, so we are not offering one. Nothing was charged.",
     "check_unavailable": "The check is not available right now. Nothing was charged.",
-    "check_changed": "That question is no longer available for the check. Open it again to get a new one.",
+    "check_changed": "That question was withdrawn before it was marked. Nothing was recorded.",
     "invalid_pick": "Pick one of the four options."
   },
 
@@ -125,7 +125,7 @@
       "422 invalid_request": "attemptId, questionId, checkQuestionId strings; pick an integer; requestId matching the pattern",
       "422 invalid_pick": { "ok": false, "error": "invalid_pick", "message": "Pick one of the four options." },
       "409 repair_first": { "ok": false, "error": "repair_first" },
-      "409 check_changed": { "ok": false, "error": "check_changed", "message": "That question is no longer available for the check. Open it again to get a new one." },
+      "409 check_changed": { "ok": false, "error": "check_changed", "message": "That question was withdrawn before it was marked. Nothing was recorded." },
       "429": { "ok": false, "error": "rate_limited" }
     }
   },

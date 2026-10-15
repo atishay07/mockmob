@@ -16,6 +16,7 @@ import KeyReviewNotice from './KeyReviewNotice';
 import AnswerCorrectionNotice from './AnswerCorrectionNotice';
 import RepairMobi from './RepairMobi';
 import RepairCheck from './RepairCheck';
+import RepairAsk from './RepairAsk';
 import { RUN_COPY, arrowIntent, swipeIntent } from './repairRun';
 import './mistake-repair.css';
 
@@ -138,12 +139,13 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
   const stake = marksAtStake(scheme);
   const v3 = blocks.version === 3;
   const record = recordLines(insights, state.pattern);
-  // "Check it held" (the fresh question) follows the explanation. It needs the ids to ask the server, and the repair response's `check` field.
+  // "Ask Mobi about Q3" follows the explanation (it is about this mistake), then "Check it held" (the fresh question). Both need the ids
+  // and the repair response's `check` field.
   const showCheck = !!(state.check && attemptId && questionId);
   // Blocks 2 onwards rise in order on a fresh repair (50 ms apart); a stored repair renders at once.
   const order = [
     'head', 'trap', 'wrong', v3 && 'right', v3 && blocks.others.length > 0 && 'others', !v3 && blocks.anotherWay && 'v2another',
-    'rule', v3 && blocks.anotherWay && 'another', !v3 && blocks.nextStep && 'nextStep', showCheck && 'check', record.length > 0 && 'record',
+    'rule', v3 && blocks.anotherWay && 'another', !v3 && blocks.nextStep && 'nextStep', showCheck && 'ask', showCheck && 'check', record.length > 0 && 'record',
     stake && 'marks', state.practiceHref && 'do', 'foot',
   ].filter(Boolean);
   const stagger = (id) => ({ '--mr-i': order.indexOf(id) });
@@ -178,6 +180,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
       <RuleCard rule={blocks.rule} hook={v3 ? blocks.hook : null} style={stagger('rule')} />
       {v3 && blocks.anotherWay ? <AnotherWay text={blocks.anotherWay} style={stagger('another')} /> : null}
       {!v3 && blocks.nextStep ? <div className="mr-block mr-next" data-stagger style={stagger('nextStep')}><h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5><p>{blocks.nextStep}</p></div> : null}
+      {showCheck ? <RepairAsk attemptId={attemptId} questionId={questionId} number={number} askHref={state.check.askHref} style={stagger('ask')} /> : null}
       {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} /> : null}
       {record.length ? (
         <div className="mr-block mr-record" data-stagger style={stagger('record')}>

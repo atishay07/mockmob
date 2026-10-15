@@ -1,33 +1,16 @@
 "use client";
-// Mistake Repair, "Check it held": after the explanation, one fresh bank question on the same idea, answered here and marked
-// by the server. It is part of the repair's credit (no second charge, no model call). Then the Revise line and the
-// "Ask Mobi about this question" follow-up, which carries Ask's own cost line. The key stays visible: the answered rows show it.
+// Mistake Repair, "Check it held": after the explanation, one fresh bank question tied to the mistake, answered here and marked
+// by the server. It is part of the repair's credit (no second charge, no model call). Then the Revise line. The Ask Mobi
+// follow-up is not here: it belongs to the original mistake and lives in RepairAsk. The key stays visible: the answered rows show it.
 // Pure logic (requests, plans, lines, copy) is in data/repair_check_client.mjs; the contract is in
 // data/tests/fixtures/repair4/contract_check_v1.json.
-import { useContext, useEffect, useId, useRef, useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Check, Repeat, RotateCcw } from 'lucide-react';
 import {
-  CHECK_COPY, checkAvailability, safeCheckHref, safeAskHref, newCheckRequestId, requestCheck, submitCheck, planCheckLoad, planCheckAnswer,
-  openRows, answeredRows, poolLine, reviseLine,
+  CHECK_COPY, checkAvailability, safeCheckHref, newCheckRequestId, requestCheck, submitCheck, planCheckLoad, planCheckAnswer,
+  openRows, answeredRows, poolLine, reviseLine, leadLine,
 } from '@/../data/repair_check_client.mjs';
-import { AuthContext } from '@/components/AuthProvider';
-import { useWalletSummary } from '@/components/useWalletSummary';
-import { usesLine } from '@/lib/creditCopy.mjs';
 import './repair-check.css';
-
-// Ask Mobi's own price, shown before the student leaves: the same words the Ask screen shows before sending.
-function AskMobi({ href }) {
-  const auth = useContext(AuthContext);
-  const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
-  const cost = usesLine({ what: CHECK_COPY.askCost, cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null });
-  return (
-    <div className="mr-chk__ask">
-      <Link className="mr-ask" href={href}>{CHECK_COPY.ask}</Link>
-      <p className="mr-chk__fine">{cost} {CHECK_COPY.askSees}</p>
-    </div>
-  );
-}
 
 function Verdict({ right, line, innerRef }) {
   return (
@@ -54,7 +37,6 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
   const focusVerdict = useRef(false);
   const verdict = useRef(null);
   const href = safeCheckHref(check?.href, attemptId, questionId);
-  const askHref = safeAskHref(check?.askHref, attemptId, questionId);
 
   async function load() {
     const mine = ++seq.current;
@@ -118,13 +100,13 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
     <section className="mr-chk" data-stagger style={style} data-phase={phase} aria-labelledby={titleId}>
       <header className="mr-chk__head">
         <h5 className="mr-chk__title" id={titleId}>{CHECK_COPY.title}</h5>
-        {phase === 'none' || phase === 'loadError' ? null : <p className="mr-chk__lead">{CHECK_COPY.lead}</p>}
+        {phase === 'none' || phase === 'loadError' ? null : <p className="mr-chk__lead">{leadLine(open?.basis)}</p>}
       </header>
 
       {phase === 'loading' ? (
         <div className="mr-chk__load" role="status" aria-live="polite">
           <p className="mr-chk__fine">{CHECK_COPY.loading}</p>
-          <div className="mr-chk__skel" aria-hidden="true"><i /><i /><b /><b /><b /><b /></div>
+          <div className="mr-chk__skel" aria-hidden="true"><i /><i /><b /><b /><b /><b /><u /></div>
         </div>
       ) : null}
 
@@ -137,12 +119,17 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
 
       {open && phase !== 'loading' && phase !== 'none' && phase !== 'loadError' ? (
         <form className="mr-chk__body" onSubmit={onSubmit} noValidate>
-          {open.basisLine ? <p className="mr-chk__basis">{open.basisLine}</p> : null}
+          {open.basisLine || (!answered && pool) ? (
+            <div className="mr-chk__tie">
+              {open.basisLine ? <p className="mr-chk__basis">{open.basisLine}</p> : null}
+              {!answered && pool ? <p className="mr-chk__fine">{pool}</p> : null}
+            </div>
+          ) : null}
           <p className="mr-chk__stem" id={stemId}>{open.question}</p>
-          <ul className="rp-options mr-chk__opts" role="radiogroup" aria-labelledby={stemId} data-answered={answered || undefined}>
+          <ul className="rp-options mr-chk__opts" role="radiogroup" aria-labelledby={stemId} data-answered={answered || undefined} data-stale={(!answered && view.refetch) || undefined}>
             {rows.map((row) => {
               const optionId = `${stemId}-o${row.index}`;
-              const picked = !answered && pick === row.index;
+              const picked = !answered && !view.refetch && pick === row.index;
               return (
                 <li
                   key={row.index}
@@ -151,8 +138,8 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
                 >
                   {/* The radio covers the whole row (invisible), so a click or tap lands on the real control and focus behaves natively. */}
                   <input
-                    type="radio" className="mr-chk__radio" name={`${stemId}-pick`} value={row.index} checked={answered ? row.isPick : pick === row.index}
-                    disabled={answered || sending} aria-labelledby={optionId} aria-describedby={answered && row.tag ? `${optionId}-tag` : undefined}
+                    type="radio" className="mr-chk__radio" name={`${stemId}-pick`} value={row.index} checked={answered ? row.isPick : !view.refetch && pick === row.index}
+                    disabled={answered || sending || !!view.refetch} aria-labelledby={optionId} aria-describedby={answered && row.tag ? `${optionId}-tag` : undefined}
                     onChange={() => setPick(row.index)}
                   />
                   <span className="rp-options__letter" aria-hidden="true">{row.letter}</span>
@@ -169,14 +156,13 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
                 <button type="button" className="mr-retry" onClick={load}>{CHECK_COPY.another}</button>
               ) : (
                 <button type="submit" className="mr-chk__submit" disabled={pick === null || sending} data-sending={sending || undefined}>
-                  {sending ? <><span className="mr-chk__ring" aria-hidden="true" />{CHECK_COPY.marking}</> : CHECK_COPY.submit}
+                  {sending ? <><span className="mr-chk__ring" aria-hidden="true" />{CHECK_COPY.marking}</> : view.error && view.canRetry ? CHECK_COPY.retryMark : CHECK_COPY.submit}
                 </button>
               )}
               <span className="mr-chk__fine">{pick === null && !view.refetch ? `Pick one option. ${CHECK_COPY.firstCounts}` : CHECK_COPY.firstCounts}</span>
             </div>
           ) : null}
           {view.error ? <p className="mr-chk__err" role="alert">{view.error}</p> : null}
-          {!answered && pool ? <p className="mr-chk__fine">{pool}</p> : null}
 
           {answered ? (
             <div className="mr-chk__result">
@@ -204,8 +190,6 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
           ) : null}
         </form>
       ) : null}
-
-      <AskMobi href={askHref} />
     </section>
   );
 }
