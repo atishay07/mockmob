@@ -88,7 +88,46 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
 
   MorphSheetRoute<void>? _dragRoute;
 
+  /// Back on Today closes the app only when pressed twice within [_exitWindow]: the first press
+  /// arms it and says so, so a stray press never throws the student out.
+  bool _exitArmed = false;
+  Timer? _exitTimer;
+  static const _exitWindow = Duration(seconds: 2);
+  static const String pressBackAgain = 'Press back again to close';
+
   StatefulNavigationShell get shell => widget.shell;
+
+  /// System back with nothing left to pop inside a tab: another tab goes to Today; on Today the
+  /// first press arms closing (the next one, within [_exitWindow], is let through to Android).
+  void _onBack() {
+    if (shell.currentIndex != 0) {
+      _disarmExit();
+      shell.goBranch(0);
+      return;
+    }
+    setState(() => _exitArmed = true);
+    _exitTimer?.cancel();
+    _exitTimer = Timer(_exitWindow, _disarmExit);
+    unawaited(ref.read(hapticsProvider).selection());
+    final media = MediaQuery.of(context);
+    ScaffoldMessenger.maybeOf(context)
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: const Text(pressBackAgain),
+          behavior: SnackBarBehavior.floating,
+          duration: _exitWindow,
+          // Above the dock, never under it.
+          margin: EdgeInsets.fromLTRB(16, 0, 16, media.viewPadding.bottom + MmBar.lift + MmBar.height + 12),
+        ),
+      );
+  }
+
+  void _disarmExit() {
+    _exitTimer?.cancel();
+    _exitTimer = null;
+    if (mounted && _exitArmed) setState(() => _exitArmed = false);
+  }
 
   @override
   void initState() {
@@ -152,6 +191,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     _keyboard.dispose();
     _transientTimer?.cancel();
     _minute?.cancel();
+    _exitTimer?.cancel();
     super.dispose();
   }
 
@@ -392,9 +432,10 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     );
 
     return PopScope(
-      canPop: shell.currentIndex == 0,
+      // Only the second press on Today reaches Android (which closes the app).
+      canPop: shell.currentIndex == 0 && _exitArmed,
       onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) shell.goBranch(0);
+        if (!didPop) _onBack();
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,

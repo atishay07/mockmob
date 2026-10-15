@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,6 +27,36 @@ class AuthLoadFailedScreen extends ConsumerStatefulWidget {
 class _AuthLoadFailedScreenState extends ConsumerState<AuthLoadFailedScreen> {
   bool _signingOut = false;
 
+  /// A read that fails at once (a refused or offline request) would flip the key back before
+  /// the eye sees it, so a tap looked dead. The key keeps its spinner at least this long.
+  static const _minTry = Duration(milliseconds: 900);
+
+  /// True from a tap until [_minTry] has passed.
+  bool _holding = false;
+
+  /// The student pressed Try again at least once: a failure after it says it tried.
+  bool _tried = false;
+  Timer? _hold;
+
+  @override
+  void dispose() {
+    _hold?.cancel();
+    super.dispose();
+  }
+
+  void _retry() {
+    if (_holding) return;
+    setState(() {
+      _holding = true;
+      _tried = true;
+    });
+    _hold?.cancel();
+    _hold = Timer(_minTry, () {
+      if (mounted) setState(() => _holding = false);
+    });
+    unawaited(ref.read(authSnapshotProvider.notifier).retryStart());
+  }
+
   Future<void> _signOut() async {
     if (_signingOut) return;
     setState(() => _signingOut = true);
@@ -50,19 +82,21 @@ class _AuthLoadFailedScreenState extends ConsumerState<AuthLoadFailedScreen> {
   @override
   Widget build(BuildContext context) {
     // Watched whole: a retry that starts the auth service also changes whether sign-out works.
-    final retrying = ref.watch(authSnapshotProvider).retrying;
+    final snapshot = ref.watch(authSnapshotProvider);
+    final retrying = snapshot.retrying || _holding;
     final auth = ref.read(authSnapshotProvider.notifier);
     return Scaffold(
       body: SafeArea(
         child: StateView(
           kind: StateViewKind.error,
           title: AuthCopy.loadFailedTitle,
-          message: AuthCopy.loadFailedBody,
+          // What failed, in plain words; after a Try again that failed, it says it tried.
+          message: AuthCopy.loadFailedMessage(snapshot.loadProblem, triedAgain: _tried && !retrying),
           // The label changes and the spinner turns in place, so nothing moves while it tries; a
           // loading key ignores taps.
           primary: StateAction(
             retrying ? AuthCopy.tryingAgain : AuthCopy.tryAgain,
-            _signingOut ? () {} : () => auth.retryStart(),
+            _signingOut ? () {} : _retry,
             loading: retrying,
           ),
           secondary: auth.canSignOut

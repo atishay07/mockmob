@@ -55,8 +55,13 @@ class AuthController extends Notifier<AuthSnapshot> {
   @visibleForTesting
   static Duration retryWait = const Duration(seconds: 20);
 
-  static const _failed = AuthSnapshot(status: AuthStatus.unknown, loadFailed: true);
-  static const _retrying = AuthSnapshot(status: AuthStatus.unknown, loadFailed: true, retrying: true);
+  /// The load-failed state, naming what failed so the screen can say it in plain words.
+  static AuthSnapshot _failed([LoadProblem? problem]) =>
+      AuthSnapshot(status: AuthStatus.unknown, loadFailed: true, loadProblem: problem);
+
+  /// A retry is running; the last known cause stays on screen until the retry settles.
+  AuthSnapshot get _retrying =>
+      AuthSnapshot(status: AuthStatus.unknown, loadFailed: true, retrying: true, loadProblem: state.loadProblem);
 
   @override
   AuthSnapshot build() {
@@ -98,7 +103,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       // The service failed to start, which is not the same as "no session": the stored session
       // is untouched and may be fine. Say so (the profile-load-failed state, with a retry)
       // instead of sending the student to sign in.
-      state = _failed;
+      state = _failed(LoadProblem.device);
       _watchForRecovery();
       _scheduleStartRetry();
       return null;
@@ -177,7 +182,8 @@ class AuthController extends Notifier<AuthSnapshot> {
     } on TimeoutException {
       // Still waiting on the network: say so honestly and offer the key again.
     }
-    if (ref.mounted && state.retrying) state = _failed;
+    // Still retrying here means the read is still waiting on the network.
+    if (ref.mounted && state.retrying) state = _failed(LoadProblem.slow);
   }
 
   void _onAuthEvent(AuthService service, AuthChangeEvent event, Session? session) {
@@ -239,9 +245,9 @@ class AuthController extends Notifier<AuthSnapshot> {
     final epoch = _epoch;
     try {
       await _loadProfileOnce(session, epoch);
-    } on Object {
+    } on Object catch (e) {
       if (_stale(epoch, session)) return;
-      if (state.status != AuthStatus.signedIn) state = _failed;
+      if (state.status != AuthStatus.signedIn) state = _failed(LoadProblem.of(e));
     }
   }
 
@@ -271,7 +277,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       if (cached != null) {
         await _applyProfile(cached, session: session, epoch: epoch, fromCache: true);
       } else if (state.status != AuthStatus.signedIn) {
-        state = _failed;
+        state = _failed(LoadProblem.of(e));
       }
     }
     unawaited(prefs.setLastOpenedAt(ref.read(nowProvider)()).catchError((Object _) {}));

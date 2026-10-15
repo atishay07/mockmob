@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/auth/auth.dart' show LoadProblem;
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/theme/theme.dart' show MmBar;
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../rhythm/rhythm.dart';
 import '../data/today_providers.dart';
@@ -81,14 +83,48 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     }
   }
 
+  /// A read that fails at once (offline, refused) would flip the key back before the eye sees
+  /// it, so a tap looked dead. The key keeps its spinner at least this long.
+  static const _minTry = Duration(milliseconds: 900);
+
   Future<void> _retry() async {
     if (_retrying) return;
     setState(() => _retrying = true);
     try {
-      await ref.read(todayActionsProvider).refresh();
+      await Future.wait([ref.read(todayActionsProvider).refresh(), Future<void>.delayed(_minTry)]);
     } finally {
-      if (mounted) setState(() => _retrying = false);
+      if (mounted) {
+        setState(() => _retrying = false);
+        _sayIfStillFailing();
+      }
     }
+  }
+
+  /// After a Try again that changed nothing, say what failed in plain words, so the student
+  /// knows the tap worked and why the card is the same.
+  void _sayIfStillFailing() {
+    final hero = ref.read(todayViewProvider).hero;
+    final stillFailing = (hero is MoveHero && hero.primary.target is RetryLoad) || (hero is EndedHero && hero.action.target is RetryLoad);
+    if (!stillFailing) return;
+    final attempts = ref.read(attemptsRepositoryProvider);
+    final plan = ref.read(planRepositoryProvider(todayPlanMinutes));
+    final LoadProblem problem;
+    if (attempts.value == null && attempts.error != null) {
+      problem = LoadProblem.of(attempts.error);
+    } else if (plan.value?.recordUnavailable ?? false) {
+      problem = LoadProblem.record;
+    } else {
+      problem = LoadProblem.of(plan.error);
+    }
+    ScaffoldMessenger.maybeOf(context)
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text('Still not loading. ${problem.sentence} ${problem.advice}'),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 5),
+        // Above the dock, never under it.
+        margin: EdgeInsets.fromLTRB(16, 0, 16, MediaQuery.viewPaddingOf(context).bottom + MmBar.lift + MmBar.height + 12),
+      ));
   }
 
   void _action(TodayAction action) {

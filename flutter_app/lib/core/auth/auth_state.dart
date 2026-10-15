@@ -5,8 +5,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'auth_controller.dart';
+import 'load_problem.dart';
 
 export 'auth_controller.dart' show AuthController;
+export 'load_problem.dart' show LoadProblem;
 
 enum AuthStatus { unknown, signedOut, signedIn }
 
@@ -26,6 +28,7 @@ class AuthSnapshot {
     this.sessionExpired = false,
     this.loadFailed = false,
     this.retrying = false,
+    this.loadProblem,
     this.profileFresh = false,
   });
 
@@ -59,6 +62,10 @@ class AuthSnapshot {
   /// instead of dropping back to the splash with nothing to press.
   final bool retrying;
 
+  /// With [loadFailed]: what failed, so the load-failed screen can say it in plain words. Null
+  /// when the cause is not known.
+  final LoadProblem? loadProblem;
+
   /// The profile came from the server in this run, not from the copy kept on the phone. The cached
   /// copy can be older than the account (signed in on this phone while it had no subjects, then
   /// onboarded elsewhere), so anything that decides "is this account new" or writes the plan over
@@ -86,10 +93,11 @@ class AuthSnapshot {
       other.sessionExpired == sessionExpired &&
       other.loadFailed == loadFailed &&
       other.retrying == retrying &&
+      other.loadProblem == loadProblem &&
       other.profileFresh == profileFresh;
 
   @override
-  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying, profileFresh);
+  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying, loadProblem, profileFresh);
 }
 
 /// The live session. Starts as [AuthSnapshot.unknown], then settles to signed in (with the
