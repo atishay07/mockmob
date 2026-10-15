@@ -16,6 +16,7 @@ import { WAIT_LONG_MS, greeting, oopsRun } from '@/lib/mobiRation';
 import LookAndFeelCard from './LookAndFeelCard';
 import { lookMobiActive, lookMobiServer, subscribeLookMobi } from '@/components/profile/lookMobiStore';
 import YourSheet from '@/components/profile/YourSheet';
+import { AccountColleges } from '@/components/colleges/MyColleges';
 import PlanCredits from '@/components/profile/PlanCredits';
 import CreditsSection from '@/components/profile/CreditsSection';
 import GoalControl from '@/components/profile/GoalControl';
@@ -244,6 +245,8 @@ export default function ProfilePageClient() {
             mocks={mocks}
             onRetry={() => { setMocks((m) => ({ ...m, status: 'loading' })); setMocksTry((n) => n + 1); }}
           />
+
+          <AccountColleges userId={user?.id} />
 
           <section className="glass acct-card" id="name" aria-labelledby="acct-name-h">
             <h2 className="acct-h2" id="acct-name-h">Your name and sign-in</h2>

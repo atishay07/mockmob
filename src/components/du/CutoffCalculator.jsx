@@ -37,6 +37,7 @@ import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import '@/components/du/du.css';
+import { AddToMyColleges } from '@/components/colleges/MyColleges';
 
 const PAGE_SIZE = 25;
 
@@ -75,7 +76,7 @@ function RulesList({ rows }) {
 
 // ---------------------------------------------------------------------------------------
 
-function SeatRow({ row, catIndex, category, score, groupName }) {
+function SeatRow({ row, catIndex, category, score, groupName, group, userId }) {
   const status = score != null ? seatStatus(score, row, catIndex) : null;
   const subtitle = normName(row[1]) === normName(groupName) ? '' : row[1];
   return (
@@ -100,12 +101,16 @@ function SeatRow({ row, catIndex, category, score, groupName }) {
           );
         })}
       </dl>
-      {status ? <span className="du-seat__status">{status.label}</span> : null}
+      <div className="du-seat__side">
+        {status ? <span className="du-seat__status">{status.label}</span> : null}
+        <AddToMyColleges userId={userId} programmeId={group?.id} programme={group?.name} college={row[0]} />
+      </div>
     </li>
   );
 }
 
 function CutoffTable({ group, catIndex, category, score }) {
+  const { user } = useAuth();
   const [state, setState] = useState({ status: 'loading', rows: [] });
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState(score != null ? 'fit' : 'high');
@@ -188,7 +193,7 @@ function CutoffTable({ group, catIndex, category, score }) {
       ) : (
         <ul className="du-seats">
           {rows.slice(0, shown).map((row) => (
-            <SeatRow key={`${row[0]}|${row[1]}`} row={row} catIndex={catIndex} category={category} score={score} groupName={group.name} />
+            <SeatRow key={`${row[0]}|${row[1]}`} row={row} catIndex={catIndex} category={category} score={score} groupName={group.name} group={group} userId={user?.id} />
           ))}
         </ul>
       )}
