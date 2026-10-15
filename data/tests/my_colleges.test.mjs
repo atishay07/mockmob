@@ -67,7 +67,7 @@ if (process.env.COLLEGES_WRITE_FIXTURE === '1') {
 
 test('the contract file is exactly what the route functions produce', () => {
   assert.ok(existsSync(FIXTURE), 'run once with COLLEGES_WRITE_FIXTURE=1');
-  assert.equal(readFileSync(FIXTURE, 'utf8'), `${JSON.stringify(fixtureBody(), null, 2)}\n`);
+  assert.equal(readFileSync(FIXTURE, 'utf8').replace(/\r\n/g, '\n'), `${JSON.stringify(fixtureBody(), null, 2)}\n`);
 });
 
 test('the contract body round-trips through the page reader and the validators', () => {
