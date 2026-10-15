@@ -28,6 +28,8 @@
 // `still` holds the pose without motion, whatever the settings. `label` makes him an image for
 // screen readers; leave it out and he is decorative (say the same thing in text beside him).
 // To replay the same act, change the component's key.
+// `eagerFirst={false}` loads the first pose lazily, for a Mobi that waits off screen (the landing's phone dock);
+// a pose he changes to later always loads eagerly.
 
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Mascot } from './Mascot';
@@ -54,7 +56,7 @@ function blinkOffset(id) {
 
 export default function MobiReact({
   act = 'idle', size = 96, still = false, label, onDone, facing = 'right', className = '',
-  mood = 'calm', interactive = false, follow = false, onTap,
+  mood = 'calm', interactive = false, follow = false, onTap, eagerFirst = true,
 }) {
   const prefs = useMobiPrefs();
   const id = useId();
@@ -181,7 +183,7 @@ export default function MobiReact({
           <span className="mobi-react__body" key={`body-${bodyKey}`}>
             <span className="mobi-react__lean" key={`lean-${bodyKey}`}>
               {posed.prev && live ? <span className="mobi-react__pose mobi-react__pose--out" key={`out-${posed.prev}`}><Mascot pose={posed.prev} facing={facing} eager /></span> : null}
-              <span className={`mobi-react__pose${posed.prev && live ? ' mobi-react__pose--in' : ''}`} key={spec.pose}><Mascot pose={spec.pose} facing={facing} eager /></span>
+              <span className={`mobi-react__pose${posed.prev && live ? ' mobi-react__pose--in' : ''}`} key={spec.pose}><Mascot pose={spec.pose} facing={facing} eager={eagerFirst || Boolean(posed.prev)} /></span>
               {eyes ? (
                 <span className="mobi-react__lids" aria-hidden="true">
                   {eyes.map(([left, top, width, height]) => <i key={left} style={{ left: `${left}%`, top: `${top}%`, width: `${width}%`, height: `${height}%` }} />)}

@@ -62,7 +62,8 @@ html[data-theme='light'] .lp-stage__live { background: #7d9a00; box-shadow: 0 0 
 .lp-colleges__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
 .lp-college { position: relative; display: block; min-width: 0; color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: .875rem; overflow: hidden; background: var(--paper-raised); transition: border-color .2s; }
 .lp-college:hover { border-color: var(--line-strong); }
-.lp-college__art { display: block; aspect-ratio: 1.5; background-image: url('/images/campus-illustrations.webp'); background-size: 200% 200%; }
+.lp-college__art { display: block; aspect-ratio: 1.5; overflow: hidden; background: var(--paper-sunken); }
+.lp-college__art img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .lp-college__copy { display: grid; gap: .1rem; padding: 1rem 2rem 1rem 1rem; }
 .lp-college__copy strong { font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; }
 .lp-college__copy > span { font-size: .75rem; color: var(--ink-3); }

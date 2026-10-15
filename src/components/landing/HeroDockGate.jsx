@@ -158,7 +158,9 @@ export function DockMobi({ line }) {
   return (
     <span className="lp-dockmobi" data-away={away ? 'true' : 'false'}>
       <span className="lp-dockmobi__seat">
-        <MobiReact key={mobi.n} act={mobi.act} size={50} />
+        {/* The dock waits off screen at first, so its first pose loads lazily, after the hero's own images
+            (eager would preload it in the page head at high priority, ahead of the headline's font). */}
+        <MobiReact key={mobi.n} act={mobi.act} size={50} eagerFirst={mobi.n > 0} />
       </span>
       <span className="lp-dockmobi__line">{line}</span>
     </span>

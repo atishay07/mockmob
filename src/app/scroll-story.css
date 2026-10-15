@@ -1,14 +1,18 @@
 /* ==========================================================================
    SCROLL STORY (landing): .ss, the primitive behind every held section.
-   The stage is sticky inside a taller track; each step owns one beat of the held scroll.
-   Track height = one window + one beat per step, so the hold lasts exactly steps x beat.
-   Beats (invisible) are what the IntersectionObserver watches: the first reaches back to the
-   track's top and the last runs to its end, so the edge steps also own the approach and the exit.
+   The stage is sticky inside a taller track. Track height = one window + one beat per step, so the
+   hold lasts steps x beat. Each step rests at one point of the hold (the first at its start, the last
+   at its end, the rest evenly between, --ss-gap apart): a gesture glides the page from one resting
+   place to the next, and from the last a new gesture carries straight on out of the story.
+   Beats (invisible) are what the IntersectionObserver watches: each covers the band around its step's
+   resting place, the first reaching back to the track's top and the last running to its end, so the
+   edge steps also own the approach and the exit.
    Nothing here animates layout; consumers move only opacity and transform.
    ========================================================================== */
 
 .ss {
   --ss-beat: 72svh;
+  --ss-gap: calc(var(--ss-steps) * var(--ss-beat) / max(1, var(--ss-steps) - 1));
   /* Clear the sticky site bar (61 px on phones) with a little air. */
   --ss-top: calc(61px + env(safe-area-inset-top, 0px) + 0.75rem);
   --ss-bottom: 0.9rem;
@@ -37,9 +41,11 @@
    the story sit at the normal section gap instead of a stage's height of empty page. */
 .ss--centre[data-pinned='true'] { margin-block: calc(var(--ss-slack, 0px) / -2); }
 .ss--centre[data-pinned='true'] .ss__stage > * { translate: 0 calc(var(--ss-slack, 0px) / 2); }
-.ss__beat { position: absolute; left: 0; width: 1px; top: calc(50svh + var(--i) * var(--ss-beat)); height: var(--ss-beat); pointer-events: none; }
-.ss__beat[data-edge='first'] { top: 0; height: calc(50svh + var(--ss-beat)); }
-.ss__beat[data-edge='last'] { height: calc(var(--ss-beat) + 50svh); }
+/* Step i rests where the window's middle sits at 50svh + i x gap down the track; its beat is the gap
+   centred on that point. */
+.ss__beat { position: absolute; left: 0; width: 1px; top: calc(50svh + (var(--i) - 0.5) * var(--ss-gap)); height: var(--ss-gap); pointer-events: none; }
+.ss__beat[data-edge='first'] { top: 0; height: calc(50svh + 0.5 * var(--ss-gap)); }
+.ss__beat[data-edge='last'] { height: calc(50svh + 0.5 * var(--ss-gap)); }
 .ss[data-pinned='false'] .ss__beat { display: none; }
 
 /* A screen that scales (from its top left, laid out 1/fit wider so it keeps its full width) to fit
@@ -47,8 +53,9 @@
 .ss[data-pinned='true'] [data-ss-fit] { width: calc(100% / var(--ss-fit, 1)); transform: scale(var(--ss-fit, 1)); transform-origin: top left; }
 
 /* Progress fills. Give the element .ss-fill, --ss-i (its step) and data-state (done | on | off).
-   Where scroll-driven animation exists the fill follows the reader's scroll through that step on the
-   compositor; elsewhere it fills when the step comes on. */
+   A step's fill is full while that step is on. Where scroll-driven animation exists it grows on the
+   compositor as the page glides from the step before to this one (the first fills as the story
+   arrives), so the fill and the glide are one motion; elsewhere it fills when the step comes on. */
 .ss-fill { display: block; transform-origin: left center; transform: scaleX(0); transition: transform var(--mm-dur-emphasized, 420ms) var(--mm-ease-out, ease-out); }
 .ss-fill[data-state='done'], .ss-fill[data-state='on'] { transform: scaleX(1); }
 .ss-fill--y { transform-origin: center top; transform: scaleY(0); }
@@ -60,7 +67,7 @@
     transition: none;
     animation: ss-fill-x linear both;
     animation-timeline: --ss-track;
-    animation-range: contain calc(var(--ss-i, 0) * 100% / var(--ss-steps)) contain calc((var(--ss-i, 0) + 1) * 100% / var(--ss-steps));
+    animation-range: contain calc((var(--ss-i, 0) - 1) * 100% / max(1, var(--ss-steps) - 1)) contain calc(var(--ss-i, 0) * 100% / max(1, var(--ss-steps) - 1));
   }
   .ss[data-pinned='true'] .ss-fill--y { animation-name: ss-fill-y; }
 }

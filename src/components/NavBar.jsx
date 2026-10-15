@@ -87,7 +87,7 @@ export function NavBar() {
   return (
     <nav ref={navRef} className="mm-nav" data-stuck={stuck ? 'true' : 'false'}>
       <div className="mm-wrap mm-nav__row">
-        <Logo />
+        <Logo prefetch={pathname === '/' ? false : undefined} />
 
         <div ref={linksRef} className="mm-nav__links" onPointerOver={aim} onFocus={aim} onPointerLeave={rest} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) rest(); }}>
           <span className="mm-nav__pill" aria-hidden="true" />

@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { DemoPlaybackContext, TOUR_SCREENS } from './TourScreens';
 import ScrollStory from './ScrollStory';
+import { undrawn } from './undrawn';
 
 export const TOUR_ADVANCE_MS = 4800;
 
@@ -68,7 +69,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
   const alignSlide = useCallback((index, smooth = false) => {
     const track = trackRef.current;
     const slide = track?.querySelector('[data-index="' + index + '"]');
-    if (!track || !slide || track.scrollWidth <= track.clientWidth + 2) return;
+    if (!track || !slide || undrawn(track) || track.scrollWidth <= track.clientWidth + 2) return;
     programmaticRef.current = true;
     track.scrollTo({ left: slide.offsetLeft, behavior: smooth && !reduced ? 'smooth' : 'auto' });
   }, [reduced]);
@@ -78,7 +79,8 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
   const [fade, setFade] = useState('none');
   const readFade = useCallback(() => {
     const nav = navRef.current;
-    if (!nav) return;
+    // Undrawn (content-visibility): the ResizeObserver below reads it once the section is drawn.
+    if (!nav || undrawn(nav)) return;
     const more = nav.scrollWidth - nav.clientWidth;
     const start = nav.scrollLeft > 2;
     const end = more > 2 && nav.scrollLeft < more - 2;
@@ -87,7 +89,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
   useEffect(() => {
     const nav = navRef.current;
     const item = nav?.querySelector('[data-chapter="' + active + '"]');
-    if (nav && item && nav.scrollWidth > nav.clientWidth + 2) nav.scrollTo({ left: item.offsetLeft - (nav.clientWidth - item.offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' });
+    if (nav && item && !undrawn(nav) && nav.scrollWidth > nav.clientWidth + 2) nav.scrollTo({ left: item.offsetLeft - (nav.clientWidth - item.offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' });
   }, [active, reduced]);
   useEffect(() => {
     const nav = navRef.current;

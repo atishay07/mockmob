@@ -5,6 +5,7 @@
 // only after activation, and the original link remains available if Instagram blocks it.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight, ExternalLink, Heart, MessageCircle, Play, Users } from 'lucide-react';
+import { undrawn } from './undrawn';
 import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, embedSrc, floorForPlus, permalink, recordedEngagement } from '@/lib/social';
 
 function IgGlyph({ size = 16 }) {
@@ -117,7 +118,8 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
 
   const updateEnds = useCallback(() => {
     const node = trackRef.current;
-    if (!node) return;
+    // Undrawn (content-visibility): the ResizeObserver below reads it once the section is drawn.
+    if (!node || undrawn(node)) return;
     const max = Math.max(0, node.scrollWidth - node.clientWidth);
     setEnds({ start: node.scrollLeft <= 2, end: node.scrollLeft >= max - 2 });
   }, []);

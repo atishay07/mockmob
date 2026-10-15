@@ -55,9 +55,11 @@ export function LogoMark({ height, className = '', detail, title }) {
   );
 }
 
-export function Logo({ className = '', href = '/', height, detail }) {
+// `prefetch={false}` when the logo already points at the page it sits on (the landing): Next.js would
+// otherwise fetch the landing's own route data again as soon as the header is on screen.
+export function Logo({ className = '', href = '/', height, detail, prefetch }) {
   return (
-    <Link href={href} className={`logo ${className}`.trim()} aria-label="MockMob home">
+    <Link href={href} prefetch={prefetch} className={`logo ${className}`.trim()} aria-label="MockMob home">
       <LogoMark height={height} detail={detail} />
     </Link>
   );

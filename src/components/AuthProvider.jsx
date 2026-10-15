@@ -1,12 +1,7 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import {
-  getSupabaseBrowserClient,
-  signInWithGoogle as signInWithGoogleOAuth,
-  verifyEmailOtp as verifyEmailOtpAuth,
-} from '@/lib/supabase-browser';
-import { isDeadSessionError, isTransientAuthError } from '@/lib/supabase-auth-errors';
+import { hasSupabaseSessionCookie, isDeadSessionError, isTransientAuthError } from '@/lib/supabase-auth-errors';
 import {clearStudyDrafts} from '@/../data/session_draft';
 
 // Exported for the development-only Arena preview (/preview/arena); app code uses useAuth().
@@ -23,6 +18,45 @@ const AUTH_ME_TIMEOUT_MS = 8000;
 // getSession may need a token refresh first; on a slow phone network that takes seconds.
 const SESSION_CHECK_TIMEOUT_MS = 12000;
 const RETRYABLE_AUTH_ME_STATUSES = [429, 500, 502, 503, 504];
+
+// The Supabase client (about 60 KB compressed, 230 KB of script) loads on demand, never in a page's
+// first download. A browser with no Supabase session cookie has no session to check (the proxy decides
+// the same way, sessionProxy.js), so most landing visitors never load it at all. Signing in loads it:
+// verifyEmailOtp below, or Google's redirect, which arrives on a fresh page with the cookie set.
+// One shared import; a failed one (a dropped chunk on a patchy network) is forgotten so the next check
+// tries again, and it reports as a retryable error, which keeps the student signed in.
+function hasSessionCookie() {
+  try {
+    return hasSupabaseSessionCookie(document.cookie.split(';').map((part) => {
+      const at = part.indexOf('=');
+      return at < 0 ? { name: part.trim(), value: '' } : { name: part.slice(0, at).trim(), value: part.slice(at + 1).trim() };
+    }));
+  } catch {
+    return true;
+  }
+}
+
+let authClientModule = null;
+function loadAuthClient() {
+  if (!authClientModule) {
+    authClientModule = import('@/lib/supabase-browser').catch((cause) => {
+      authClientModule = null;
+      const error = new Error('supabase_client did not load');
+      error.name = 'AuthRetryableFetchError';
+      error.cause = cause;
+      throw error;
+    });
+  }
+  return authClientModule;
+}
+
+async function getSupabaseBrowserClient() {
+  return (await loadAuthClient()).getSupabaseBrowserClient();
+}
+
+// A signed-in student's browser starts fetching the client while the page's own scripts run, as it did when
+// the client was bundled, so the session check on mount does not wait an extra round trip.
+if (typeof document !== 'undefined' && hasSessionCookie()) loadAuthClient().catch(() => {});
 
 function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -91,6 +125,7 @@ export function AuthProvider({ children }) {
   const userRef = useRef(null);
   const statusRef = useRef('loading');
   const supabaseUserIdRef = useRef(null);
+  const listenRef = useRef(null);
 
   useEffect(() => {
     userRef.current = user;
@@ -143,7 +178,12 @@ export function AuthProvider({ children }) {
 
     const refreshPromise = (async () => {
       try {
-        supabase = getSupabaseBrowserClient();
+        if (!hasSessionCookie()) {
+          if (isCurrent()) applyUnauthenticated();
+          return null;
+        }
+        supabase = await getSupabaseBrowserClient();
+        listenRef.current?.();
         let session = await readSession(supabase);
         if (!session) {
           if (isCurrent()) applyUnauthenticated();
@@ -207,13 +247,12 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     mountedRef.current = true;
-    const supabase = getSupabaseBrowserClient();
+    let active = true;
+    let subscription = null;
 
     refreshSession({ silent: false });
 
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    const onAuthStateChange = (event, session) => {
       if (!mountedRef.current) return;
 
       if (event === 'SIGNED_OUT') {
@@ -239,11 +278,30 @@ export function AuthProvider({ children }) {
       setTimeout(() => {
         if (mountedRef.current) refreshSession({ silent: Boolean(userRef.current) });
       }, 0);
-    });
+    };
+    // Listens once the client has loaded (every session check that loads it calls this); if it could not
+    // load, the next retry below listens again.
+    const listen = () => {
+      if (subscription) return;
+      getSupabaseBrowserClient().then((supabase) => {
+        if (!active || subscription) return;
+        subscription = supabase.auth.onAuthStateChange(onAuthStateChange).data.subscription;
+      }, () => {
+        // refreshSession reports the failure as unavailable; the retry below tries again.
+      });
+    };
+    listenRef.current = listen;
+    if (hasSessionCookie()) listen();
 
-    // A first check that could not reach the server retries when the connection or the tab returns.
+    // A first check that could not reach the server retries when the connection or the tab returns. A
+    // tab with no session never loaded the client, so it cannot hear a sign-in in another tab: it checks
+    // again when it is shown and the session cookie has appeared.
     const retryIfUnavailable = () => {
-      if (statusRef.current === 'unavailable' && document.visibilityState !== 'hidden') {
+      if (document.visibilityState === 'hidden') return;
+      if (statusRef.current === 'unavailable') {
+        listen();
+        refreshSession({ silent: true });
+      } else if (statusRef.current === 'unauthenticated' && hasSessionCookie()) {
         refreshSession({ silent: true });
       }
     };
@@ -251,8 +309,10 @@ export function AuthProvider({ children }) {
     document.addEventListener('visibilitychange', retryIfUnavailable);
 
     return () => {
+      active = false;
+      if (listenRef.current === listen) listenRef.current = null;
       mountedRef.current = false;
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
       window.removeEventListener('online', retryIfUnavailable);
       document.removeEventListener('visibilitychange', retryIfUnavailable);
     };
@@ -260,7 +320,7 @@ export function AuthProvider({ children }) {
 
   const signInWithGoogle = useCallback(async () => {
     const redirectTo = `${window.location.origin}/auth/callback`;
-    return signInWithGoogleOAuth(redirectTo);
+    return (await loadAuthClient()).signInWithGoogle(redirectTo);
   }, []);
 
   const signInWithEmail = useCallback(async (email) => {
@@ -292,7 +352,7 @@ export function AuthProvider({ children }) {
   }, []);
 
   const verifyEmailOtp = useCallback(async (email, token) => {
-    const result = await verifyEmailOtpAuth(email, token);
+    const result = await (await loadAuthClient()).verifyEmailOtp(email, token);
     if (!result.error) {
       await refreshSession({ silent: false });
     }
@@ -300,7 +360,7 @@ export function AuthProvider({ children }) {
   }, [refreshSession]);
 
   const signOut = useCallback(async () => {
-    const supabase = getSupabaseBrowserClient();
+    const supabase = await getSupabaseBrowserClient();
     const userId = userRef.current?.id;
     requestIdRef.current += 1;
     await signOutLocally(supabase);
@@ -312,7 +372,7 @@ export function AuthProvider({ children }) {
   // one. Resolves to { ok: true } or { ok: false, code: 'offline' | 'signed_out' | 'failed' }.
   const signOutOtherDevices = useCallback(async () => {
     try {
-      const supabase = getSupabaseBrowserClient();
+      const supabase = await getSupabaseBrowserClient();
       const { error } = await supabase.auth.signOut({ scope: 'others' });
       if (!error) return { ok: true };
       if (isTransientAuthError(error)) return { ok: false, code: 'offline' };
