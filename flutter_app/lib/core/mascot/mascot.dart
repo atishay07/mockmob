@@ -4,7 +4,10 @@
 /// - [MobiStage]: Mobi on a pool of lamp light with a typing speech bubble.
 /// - [MobiFigure]: Mobi held in one [MobiRig] (previews, goldens).
 /// - [MobiFace]: the head alone, alive, for avatars and list rows.
-/// - [MobiMood]: the face under every act (calm, happy, proud, curious, sleepy, concerned).
+/// - [MobiMood]: the face under every act (calm, happy, proud, curious, sleepy, concerned,
+///   focused).
+/// - `mobiRigSpec` ([MobiBook] compiles it): every act, stance, mood, overlay, idle timing and
+///   spring as data, exported for the website as `mobi_rig.v2.json`.
 /// - [MobiTapCycle]: what repeated taps on Mobi play; [MobiWalker]: Mobi walking across a row.
 /// - [MobiMoments]: which act answers which moment (right, wrong, waiting, milestone...).
 /// - [MobiRation]: how often he may greet, glance, nudge, speak and shrug; [MobiCelebrations]
@@ -22,6 +25,8 @@ export 'mobi_moments.dart';
 export 'mobi_mood.dart';
 export 'mobi_ration.dart';
 export 'mobi_rig.dart';
+export 'mobi_rig_data.dart' show mobiRigSpec;
+export 'mobi_rig_eval.dart' show MobiBook, MobiCubic, MobiProgram;
 export 'mobi_sim.dart';
 export 'mobi_stage.dart';
 export 'mobi_tap_cycle.dart';

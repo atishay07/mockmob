@@ -43,7 +43,7 @@ void main() {
       for (var i = 0; i < names.length; i++) {
         expect(MobiAct.values[i].name, names[i]);
       }
-      expect(MobiAct.values.sublist(names.length), _newActs);
+      expect(MobiAct.values.sublist(names.length, names.length + _newActs.length), _newActs);
     });
 
     test('each new act moves, then returns to where it started', () {
@@ -216,7 +216,7 @@ void main() {
         played.add(run.tap(t));
         t = t.add(const Duration(milliseconds: 600));
       }
-      expect(played.take(4), [MobiAct.hello, MobiAct.tilt, MobiAct.correct, MobiAct.startle]);
+      expect(played.take(4), [MobiAct.hello, MobiAct.tilt, MobiAct.hop, MobiAct.startle]);
       for (var i = 1; i < played.length; i++) {
         expect(played[i], isNot(played[i - 1]));
       }

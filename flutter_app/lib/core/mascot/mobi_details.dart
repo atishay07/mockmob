@@ -6,6 +6,7 @@ import 'package:flutter/animation.dart' show Curves;
 import 'mobi_geometry.dart';
 import 'mobi_palette.dart';
 import 'mobi_rig.dart';
+import 'mobi_rig_eval.dart';
 
 /// The small per-frame pieces of Mobi: eyes, hands, the antenna, celebration bubbles and sleepy
 /// z's. Each draws in design units on a canvas already placed by the painter.
@@ -15,12 +16,47 @@ abstract final class MobiDetails {
     return t * t * (3 - 2 * t);
   }
 
-  static Paint _stroke(Color color, double width) => Paint()
+  // Mobi paints every frame, so the per-frame pieces reuse one stroke paint, one fill paint and a
+  // few paths instead of allocating them. A draw call copies what it needs, so reconfiguring a
+  // paint or resetting a path after drawing never changes what was drawn.
+  static final Paint _strokePaint = Paint()
     ..style = PaintingStyle.stroke
-    ..strokeWidth = width
     ..strokeCap = StrokeCap.round
-    ..strokeJoin = StrokeJoin.round
+    ..strokeJoin = StrokeJoin.round;
+  static final Paint _fillPaint = Paint();
+  static final Path _pathA = Path();
+  static final Path _pathB = Path();
+  static final Path _pathC = Path();
+
+  static Paint _stroke(Color color, double width) => _strokePaint
+    ..shader = null
+    ..color = color
+    ..strokeWidth = width;
+
+  static Paint _fill(Color color) => _fillPaint
+    ..shader = null
     ..color = color;
+
+  // A shader paints through the paint's colour alpha, so a shaded fill resets it to opaque.
+  static Paint _shaded(Shader shader) => _fillPaint
+    ..color = const Color(0xFF000000)
+    ..shader = shader;
+
+  // ---- Legibility (rig table `paint`) --------------------------------------------------------
+
+  static final Map<String, Object?> _paint = MobiBook.instance.section('paint');
+  static double _p(String group, String k) => ((_paint[group]! as Map<String, Object?>)[k]! as num).toDouble();
+  static final double _fullAt = _p('legibility', 'fullAt');
+  static final double _maxAt = _p('legibility', 'maxAt');
+  static final double _eyeGrow = _p('legibility', 'eyeGrow');
+  static final double _strokeGrow = _p('legibility', 'strokeGrow');
+  static final double _travelShrink = _p('legibility', 'travelShrink');
+  static final double _lidFrom = _p('lidFollow', 'from');
+  static final double _lidK = _p('lidFollow', 'k');
+
+  /// How much the small-size face boost applies at [px] logical pixels per design unit: 0 at a
+  /// hero size, 1 at a 32 dp avatar.
+  static double legibility(double px) => ((_fullAt - px) / (_fullAt - _maxAt)).clamp(0.0, 1.0);
 
   // ---- Eyes --------------------------------------------------------------------------------
 
@@ -44,61 +80,107 @@ abstract final class MobiDetails {
     });
   }
 
-  static void eyes(Canvas c, MobiRig rig) {
+  /// The eyes on the visor. [legible] (0 to 1, see [legibility]) grows them and thickens their
+  /// strokes for small sizes. [glow] lights a soft screen glow behind them (Night only). The upper
+  /// lids follow the gaze down, as real lids do.
+  static void eyes(Canvas c, MobiRig rig, {double legible = 0, bool glow = false}) {
     c.save();
     c.clipRRect(MobiGeo.visorRect.deflate(1.2));
-    final base = MobiGeo.visor + Offset(rig.lookX * MobiGeo.lookTravel.dx, MobiGeo.eyeDrop + rig.lookY * MobiGeo.lookTravel.dy);
-    _eye(c, base + const Offset(-MobiGeo.eyeSpread, 0), rig.eyeL, -1);
-    _eye(c, base + const Offset(MobiGeo.eyeSpread, 0), rig.eyeR, 1);
+    final travel = 1 - _travelShrink * legible;
+    final base = MobiGeo.visor + Offset(rig.lookX * MobiGeo.lookTravel.dx * travel, MobiGeo.eyeDrop + rig.lookY * MobiGeo.lookTravel.dy * travel);
+    final follow = _lidK * (rig.lookY - _lidFrom).clamp(0.0, 1.0);
+    MobiEye lidded(MobiEye e) => follow > e.lid && e.slant.abs() <= 0.01 ? e.copyWith(lid: follow) : e;
+    final grow = 1 + _eyeGrow * legible;
+    final stroke = 1 + _strokeGrow * legible;
+    final l = base + const Offset(-MobiGeo.eyeSpread, 0);
+    final r = base + const Offset(MobiGeo.eyeSpread, 0);
+    if (glow) {
+      _eyeGlow(c, l, rig.eyeL, grow);
+      _eyeGlow(c, r, rig.eyeR, grow);
+    }
+    _eye(c, l, lidded(rig.eyeL), -1, grow, stroke);
+    _eye(c, r, lidded(rig.eyeR), 1, grow, stroke);
     c.restore();
   }
 
-  static void _eye(Canvas c, Offset center, MobiEye e, double side) {
-    final w = MobiGeo.eyeSize.width;
-    final fullH = MobiGeo.eyeSize.height;
+  static final Map<int, Shader> _glows = {};
+
+  static Shader _newGlow(int q) {
+    final a = q / 255;
+    return Gradient.radial(Offset.zero, 1, [
+      MobiPalette.eye.withValues(alpha: a),
+      MobiPalette.eye.withValues(alpha: a * 0.35),
+      MobiPalette.eye.withValues(alpha: 0),
+    ], const [0, 0.45, 1]);
+  }
+
+  /// A lit screen behind the eye on the dark visor glass: a faint glow, strongest when the eye
+  /// is wide open, gone when it is shut or smiling.
+  static void _eyeGlow(Canvas c, Offset center, MobiEye e, double grow) {
+    // Only round, open eyes glow: a lid, a slope or a smile would leave the glow showing where
+    // the eye is cut, like a grey brow.
+    final shown = (e.open.clamp(0.0, 1.2) - 0.25).clamp(0.0, 1.0) *
+        (1 - _smooth(0.0, 0.6, e.happy)) *
+        (1 - _smooth(0.0, 0.12, e.lid)) *
+        (1 - _smooth(0.0, 0.12, e.slant.abs())) *
+        (1 - _smooth(0.05, 0.3, e.smile));
+    if (shown <= 0.02) return;
+    final q = (0.2 * shown * 255).round();
+    if (q <= 0) return;
+    final shader = cacheShaders ? _glows.putIfAbsent(q, () => _newGlow(q)) : _newGlow(q);
+    c.save();
+    c.translate(center.dx, center.dy);
+    c.scale(MobiGeo.eyeSize.width * 1.35 * grow, MobiGeo.eyeSize.height * 0.85 * grow);
+    c.drawCircle(Offset.zero, 1, _shaded(shader));
+    c.restore();
+  }
+
+  static void _eye(Canvas c, Offset center, MobiEye e, double side, [double grow = 1, double stroke = 1]) {
+    final w = MobiGeo.eyeSize.width * grow;
+    final fullH = MobiGeo.eyeSize.height * grow;
     // The oval closes as the smiling arc comes in, like a blink into a smile, so the two shapes
     // never sit on top of each other half-faded.
     final arc = _smooth(0.4, 0.72, e.happy);
-    final closing = 1 - 0.85 * math.max(_smooth(0.0, 0.5, e.happy), _smooth(0.15, 0.45, e.smile));
-    // Warm eyes: the oval gives way to a filled dome (flat-ish base, a soft rise in the lower
-    // lid, blunt rounded ends), so it reads as a content, solid shape and not as the thin
-    // smiling arc of a happy eye.
-    final cres = (1 - arc) * _smooth(0.3, 0.5, e.smile);
-    if (cres > 0) {
-      final k = e.open.clamp(0.0, 1.2);
-      final rx = w * 0.74;
-      final ry = fullH * 0.5 * k + 0.6;
-      final foot = center.dy + 3.4;
-      final path = Path()
-        ..moveTo(center.dx - rx, foot)
-        ..arcToPoint(Offset(center.dx + rx, foot), radius: Radius.elliptical(rx, math.max(ry, 0.1)))
-        ..quadraticBezierTo(center.dx, foot - ry * 0.46, center.dx - rx, foot)
-        ..close();
-      final ink = MobiPalette.eye.withValues(alpha: cres);
-      c.drawPath(path, Paint()..color = ink);
-      // Round the corners: thick, blunt ends.
-      c.drawPath(path, _stroke(ink, 2.2));
-    }
+    final closing = 1 - 0.85 * _smooth(0.0, 0.5, e.happy);
+    // Warm eyes (rig v2): the lower lid rises into the oval as a curve, so a smiling eye is
+    // always one solid shape, from a hint of warmth to a full dome, and never a half-faded
+    // ghost of two shapes. The eye widens a little as it smiles.
+    final lift = _smooth(0.0, 0.7, e.smile);
     // A shut eye is a soft lid line curving down, not a slit: asleep, the peak of a blink, the
     // eyes before they blink on.
     final shut = 1 - _smooth(0.05, 0.22, e.open);
-    final lidLine = shut * (1 - arc) * (1 - cres);
+    final lidLine = shut * (1 - arc);
     if (lidLine > 0.01) {
       final y = center.dy + fullH * 0.16;
-      final path = Path()
-        ..moveTo(center.dx - w * 0.82, y - 0.6)
-        ..quadraticBezierTo(center.dx, y + 4.6, center.dx + w * 0.82, y - 0.6);
-      c.drawPath(path, _stroke(MobiPalette.eye.withValues(alpha: lidLine), 2.9));
+      final path = _pathA
+        ..reset()
+        ..moveTo(center.dx - w * 0.82, y - 0.6 * grow)
+        ..quadraticBezierTo(center.dx, y + 4.6 * grow, center.dx + w * 0.82, y - 0.6 * grow);
+      c.drawPath(path, _stroke(MobiPalette.eye.withValues(alpha: lidLine), 2.9 * stroke));
     }
-    if (arc < 1 && cres < 1 && shut < 1) {
-      final h = math.max(2.4, fullH * e.open.clamp(0.0, 1.2) * closing);
-      final rect = Rect.fromCenter(center: center + Offset(0, (fullH - h) * 0.18), width: w, height: h);
+    if (arc < 1 && shut < 1) {
+      // A smiling eye is wider and a touch shorter: a content, solid dome.
+      final h = math.max(2.4 * stroke, fullH * e.open.clamp(0.0, 1.2) * closing * (1 - 0.06 * lift));
+      final rect = Rect.fromCenter(center: center + Offset(0, (fullH - h) * 0.18), width: w * (1 + 0.5 * lift), height: h);
       c.save();
+      if (lift > 0.01) {
+        // The warm lower lid: a curve rising in the middle, low at the corners.
+        final edge = rect.bottom - lift * h * 0.08;
+        final ctrl = rect.bottom - lift * h * 0.5;
+        c.clipPath(_pathC
+          ..reset()
+          ..moveTo(rect.left - 3, rect.top - 3)
+          ..lineTo(rect.right + 3, rect.top - 3)
+          ..lineTo(rect.right + 3, edge)
+          ..quadraticBezierTo(rect.center.dx, ctrl, rect.left - 3, edge)
+          ..close());
+      }
       if (e.lid > 0.01 && e.slant.abs() <= 0.01) {
         // A heavy lid that sags in the middle: drowsy, never cross.
         final y = rect.top + rect.height * e.lid.clamp(0.0, 0.92);
         final sag = rect.height * 0.22 * e.lid;
-        c.clipPath(Path()
+        c.clipPath(_pathB
+          ..reset()
           ..moveTo(rect.left - 2, y - sag)
           ..quadraticBezierTo(rect.center.dx, y + sag, rect.right + 2, y - sag)
           ..lineTo(rect.right + 2, rect.bottom + 2)
@@ -113,39 +195,42 @@ abstract final class MobiDetails {
         final inner = base - rect.height * 0.04 * s;
         final yLeft = side < 0 ? outer : inner;
         final yRight = side < 0 ? inner : outer;
-        c.clipPath(Path()
+        c.clipPath(_pathB
+          ..reset()
           ..moveTo(rect.left - 2, yLeft)
           ..quadraticBezierTo(rect.center.dx, (yLeft + yRight) / 2 + rect.height * 0.05 * e.lid, rect.right + 2, yRight)
           ..lineTo(rect.right + 2, rect.bottom + 2)
           ..lineTo(rect.left - 2, rect.bottom + 2)
           ..close());
       }
-      final alpha = (1 - arc) * (1 - cres / (1 - arc).clamp(0.001, 1.0)) * (1 - shut);
+      final alpha = (1 - arc) * (1 - shut);
       c.drawRRect(
-        RRect.fromRectXY(rect, w / 2, math.min(h / 2, fullH / 2)),
-        Paint()
-          ..shader = cacheShaders
-              ? _eyeShader(rect, alpha)
-              // The reference: a fresh shader every frame (what the cache must match).
-              : Gradient.linear(rect.topCenter, rect.bottomCenter, [
-                  MobiPalette.eye.withValues(alpha: alpha),
-                  MobiPalette.eye.withValues(alpha: alpha),
-                  MobiPalette.eyeShade.withValues(alpha: alpha),
-                ], const [0, 0.55, 1]),
+        RRect.fromRectXY(rect, rect.width / 2, math.min(h / 2, fullH / 2)),
+        _shaded(cacheShaders
+            ? _eyeShader(rect, alpha)
+            // The reference: a fresh shader every frame (what the cache must match).
+            : Gradient.linear(rect.topCenter, rect.bottomCenter, [
+                MobiPalette.eye.withValues(alpha: alpha),
+                MobiPalette.eye.withValues(alpha: alpha),
+                MobiPalette.eyeShade.withValues(alpha: alpha),
+              ], const [0, 0.55, 1])),
       );
-      if (h > 6 && e.lid < 0.4 && e.slant < 0.5) {
+      // The catchlight: the lamp in the eye. Dropped at small sizes, where it is under a pixel
+      // and only greys the eye.
+      if (h > 6 && e.lid < 0.4 && e.slant < 0.5 && stroke < 1.3 && lift < 0.5) {
         c.drawOval(
           Rect.fromCenter(center: rect.topCenter + Offset(-w * 0.12, h * 0.24), width: w * 0.34, height: h * 0.16),
-          Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.9 * alpha),
+          _fill(const Color(0xFFFFFFFF).withValues(alpha: 0.9 * alpha)),
         );
       }
       c.restore();
     }
     if (arc > 0) {
-      final path = Path()
-        ..moveTo(center.dx - w * 0.82, center.dy + 3)
-        ..quadraticBezierTo(center.dx, center.dy - 7.5, center.dx + w * 0.82, center.dy + 3);
-      c.drawPath(path, _stroke(MobiPalette.eye.withValues(alpha: arc), 3.4));
+      final path = _pathA
+        ..reset()
+        ..moveTo(center.dx - w * 0.82, center.dy + 3 * grow)
+        ..quadraticBezierTo(center.dx, center.dy - 7.5 * grow, center.dx + w * 0.82, center.dy + 3 * grow);
+      c.drawPath(path, _stroke(MobiPalette.eye.withValues(alpha: arc), 3.4 * stroke));
     }
   }
 
@@ -167,6 +252,10 @@ abstract final class MobiDetails {
       final len = 9 * point;
       final finger = RRect.fromLTRBR(-2.5, 9, 2.5, 9 + len, const Radius.circular(2.5));
       c.drawRRect(finger, fill);
+      if (!lite) {
+        // The knuckle crease where the finger leaves the fist.
+        c.drawLine(Offset(-2.1, 9.8 + 1.4 * point), Offset(2.1, 9.8 + 1.4 * point), _stroke(p.limbLo.withValues(alpha: 0.7 * point), 0.9));
+      }
       c.drawRRect(finger.deflate(0.4), _stroke(p.rim.withValues(alpha: p.rimAlpha * 0.6), 0.8));
     }
     c.drawOval(palm, fill);
@@ -192,7 +281,8 @@ abstract final class MobiDetails {
     final tip = rot(MobiGeo.antennaTip, sway);
     final c1 = rot(const Offset(88, 26), sway * 0.35);
     final c2 = rot(const Offset(92, 9), sway * 0.75);
-    final stem = Path()
+    final stem = _pathA
+      ..reset()
       ..moveTo(base.dx, base.dy)
       ..cubicTo(c1.dx, c1.dy, c2.dx, c2.dy, tip.dx, tip.dy);
     c.drawPath(stem, _stroke(p.limb, 4.4));
@@ -211,28 +301,32 @@ abstract final class MobiDetails {
       c.save();
       c.translate(tip.dx, tip.dy);
       c.scale(r * (2.2 + (p.night ? 3.4 : 4.0) * g));
-      c.drawCircle(Offset.zero, 1, Paint()..shader = _haloShader(g * (p.night ? 0.7 : 0.8), p.night));
+      c.drawCircle(Offset.zero, 1, _shaded(_haloShader(g * (p.night ? 0.7 : 0.8), p.night)));
       c.restore();
     }
-    c.drawCircle(
-      tip,
-      r,
-      Paint()
-        ..shader = Gradient.radial(tip + const Offset(-1.8, -2), r * 1.5, const [
-          MobiPalette.limeHi,
-          MobiPalette.lime,
-          MobiPalette.limeLo,
-        ], const [0, 0.5, 1]),
-    );
+    // The bulb: a shader centred on the origin, reused every frame (the bulb is placed by a
+    // translate, not by a new gradient).
+    c.save();
+    c.translate(tip.dx, tip.dy);
+    c.drawCircle(Offset.zero, r, _shaded(cacheShaders ? _bulb : _newBulb()));
+    c.restore();
     if (glow > 0.01) {
       final g = glow.clamp(0.0, 1.0);
-      c.drawCircle(tip, r * 0.62, Paint()..color = MobiPalette.limeHi.withValues(alpha: 0.85 * g));
+      c.drawCircle(tip, r * 0.62, _fill(MobiPalette.limeHi.withValues(alpha: 0.85 * g)));
       // Daylight: no glow on paper. The lit bulb carries a crisp olive edge instead, a little
       // wider the brighter it is, so "lit" still reads on cream.
       if (lit != null) c.drawCircle(tip, r + 1.2 + 1.6 * g, _stroke(lit.withValues(alpha: g), 1));
     }
-    c.drawCircle(tip + const Offset(-1.9, -2.1), 1.3, Paint()..color = const Color(0xFFFFFFFF).withValues(alpha: 0.8));
+    c.drawCircle(tip + const Offset(-1.9, -2.1), 1.3, _fill(const Color(0xFFFFFFFF).withValues(alpha: 0.8)));
   }
+
+  static final Shader _bulb = _newBulb();
+
+  static Shader _newBulb() => Gradient.radial(const Offset(-1.8, -2), MobiGeo.antennaBall * 1.5, const [
+        MobiPalette.limeHi,
+        MobiPalette.lime,
+        MobiPalette.limeLo,
+      ], const [0, 0.5, 1]);
 
   static final Map<(bool, int), Shader> _halos = {};
 
@@ -472,6 +566,7 @@ abstract final class MobiDetails {
     _eyeShaders.clear();
     _handFills.clear();
     _halos.clear();
+    _glows.clear();
   }
 
   /// The sleepy z's, rising from [from] (the top left of the head).
@@ -484,7 +579,8 @@ abstract final class MobiDetails {
       // Drifting up and away to the left of the head, where the antenna and its bulb never are
       // (the antenna leans right when sleepy, and a z on the right ran into the bulb).
       final o = from + Offset(-8 * q - i * 4, -24 * q);
-      final path = Path()
+      final path = _pathA
+        ..reset()
         ..moveTo(o.dx - s / 2, o.dy - s / 2)
         ..lineTo(o.dx + s / 2, o.dy - s / 2)
         ..lineTo(o.dx - s / 2, o.dy + s / 2)

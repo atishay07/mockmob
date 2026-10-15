@@ -352,6 +352,71 @@
       "underOff": "walk",
       "reducedMotion": "still",
       "reaction": true
+    },
+    "hop": {
+      "durationMs": 800,
+      "stance": null,
+      "held": false,
+      "celebration": true,
+      "underQuiet": {
+        "act": "nod",
+        "held": "rest"
+      },
+      "underOff": null,
+      "reducedMotion": "still",
+      "reaction": true
+    },
+    "curious": {
+      "durationMs": 1400,
+      "stance": null,
+      "held": false,
+      "celebration": false,
+      "underQuiet": {
+        "act": "curious",
+        "held": "curious"
+      },
+      "underOff": "curious",
+      "reducedMotion": "still",
+      "reaction": true
+    },
+    "focus": {
+      "durationMs": 1100,
+      "stance": null,
+      "held": false,
+      "celebration": false,
+      "underQuiet": {
+        "act": "focus",
+        "held": "focus"
+      },
+      "underOff": "focus",
+      "reducedMotion": "still",
+      "reaction": true
+    },
+    "sympathy": {
+      "durationMs": 1800,
+      "stance": null,
+      "held": false,
+      "celebration": false,
+      "underQuiet": {
+        "act": "sympathy",
+        "held": "sympathy"
+      },
+      "underOff": "sympathy",
+      "reducedMotion": "still",
+      "reaction": true
+    },
+    "idea": {
+      "durationMs": 1350,
+      "stance": "stand",
+      "held": false,
+      "celebration": false,
+      "underQuiet": {
+        "act": "idea",
+        "held": "idea"
+      },
+      "underOff": "idea",
+      "reducedMotion": "still",
+      "reaction": true
     }
   },
   "events": {
@@ -385,6 +450,7 @@
   "celebrationActs": [
     "celebrate",
     "cheer",
+    "hop",
     "proud"
   ],
   "rateLimits": {
@@ -409,7 +475,7 @@
     "acts": [
       "hello",
       "tilt",
-      "correct",
+      "hop",
       "startle"
     ],
     "resetAfterMs": 8000,
