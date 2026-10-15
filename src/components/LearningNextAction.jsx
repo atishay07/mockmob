@@ -78,22 +78,26 @@ function heroTitle(plan, top, planned) {
 export default function LearningNextAction({ compact = false, why = null }) {
   const tonightKey = `tonight-plan-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const [plan, setPlan] = useState(null), [minutes, setMinutes] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0),[choosing,setChoosing]=useState(false);
+  // The minutes the held plan was asked for. A new choice keeps the plan on screen (the card never collapses to a
+  // skeleton and back); until the new plan arrives the Start key waits.
+  const [planKey, setPlanKey] = useState(null);
   const [listening,setListening]=useState(false);
   const listenTimer=useRef(0);
   const planned = minutes ?? plan?.minutes ?? null;
+  const refreshing = Boolean(plan) && minutes !== planKey;
   useEffect(() => () => window.clearTimeout(listenTimer.current), []);
   // Mobi tilts his head when you choose a time: an answer to the tap, then he settles.
   const listen = () => { setListening(false); window.clearTimeout(listenTimer.current); window.requestAnimationFrame(() => { setListening(true); listenTimer.current = window.setTimeout(() => setListening(false), 950); }); };
   useEffect(() => {
     let alive = true;
-    apiGet(`/api/learning/plan${minutes===null?'':`?minutes=${minutes}`}`).then(p => { if (alive) { setPlan(p); setError(''); } }).catch(() => { if (alive) setError('Your plan could not be loaded. Your saved attempts are still available in Review.'); });
+    apiGet(`/api/learning/plan${minutes===null?'':`?minutes=${minutes}`}`).then(p => { if (alive) { setPlan(p); setPlanKey(minutes); setError(''); } }).catch(() => { if (alive) setError('Your plan could not be loaded. Your saved attempts are still available in Review.'); });
     return () => { alive = false; };
   }, [minutes, retryCount]);
   const retry = () => { setPlan(null); setError(''); setRetryCount(n => n + 1); };
   const chooseTime=async n=>{
     if(choosing || n===(minutes ?? plan?.minutes))return;
     listen();
-    if(!plan?.study?.preferences){setPlan(null);setError('');setMinutes(n);return;}
+    if(!plan?.study?.preferences){setError('');setMinutes(n);return;}
     setChoosing(true);setError('');
     try{
       const prefs=plan.study.preferences;
@@ -149,7 +153,7 @@ export default function LearningNextAction({ compact = false, why = null }) {
               {plan.primary.kind === 'ordinary_practice' && top ? <p className="na__reason">{firstSentence(plan.primary.reason)}</p> : null}
               {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link>{step.purpose ? <p>{step.purpose}</p> : null}<small>About {step.estimatedMinutes} min{step.done ? ` · ${step.done}` : ''}</small></div></li>)}</ol> : null}
               <div className="na__actions">
-                <Link className="btn-volt md na__cta mk-press" href={startHref}>{plan.primary.title}<ArrowRight size={16} aria-hidden="true" /></Link>
+                <Link className="btn-volt md na__cta mk-press" href={startHref} aria-busy={refreshing || undefined} data-stale={refreshing || undefined} onClick={refreshing ? (event) => event.preventDefault() : undefined}>{plan.primary.title}<ArrowRight size={16} aria-hidden="true" /></Link>
                 {plan.sequence?.[1] && <Link className="na__alt" href={plan.sequence[1].href}>Skip ahead a step</Link>}
                 {plan.sequence?.length > 0 && <Link className="na__alt" href="/dashboard?mode=full">Take a mock</Link>}
                 {plan.alternatives.map(a => <Link key={a.kind} className="na__alt" href={a.href}>{a.title}</Link>)}

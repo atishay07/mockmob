@@ -1540,6 +1540,8 @@ html[data-motion='reduced'] .app-shell .arena-bottomnav svg { animation: none !i
 .app-shell .na__cta { transition: transform var(--mm-spring-release-dur) var(--mk-spring), box-shadow 240ms ease, background-color 160ms ease; }
 @media (hover: hover) and (pointer: fine) { .app-shell .na__cta:hover { transform: translateY(-1px); box-shadow: 0 10px 26px -8px var(--volt-glow-strong, rgba(210,240,0,.5)); } }
 .app-shell .na__cta:active { transform: scale(0.965); box-shadow: 0 2px 8px -4px var(--volt-glow-strong, rgba(210,240,0,.5)); transition-duration: 90ms, 120ms, 160ms; }
+/* A new time was chosen: the plan on screen is the old one until the new one arrives, so its key waits. */
+.app-shell .na__cta[data-stale] { opacity: 0.6; pointer-events: none; }
 html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .na__cta { transition: none; } }
 
@@ -1621,7 +1623,7 @@ html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
 .app-shell .na__why-kicker { font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); }
 .app-shell .na__why-chapter { font: 700 16px/1.2 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
 .app-shell .na__why-marks { display: flex; align-items: baseline; gap: 8px; margin: 2px 0 0; font-size: 14px; font-weight: 600; color: var(--a-ink-2); }
-.app-shell .na__why-marks strong { font: 800 34px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-accent-text); font-variant-numeric: tabular-nums; }
+.app-shell .na__why-marks strong { flex: none; font: 800 34px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-accent-text); font-variant-numeric: tabular-nums; white-space: nowrap; overflow-wrap: normal; }
 .app-shell .na__why-detail { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
 .app-shell .na__why-link { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; margin-bottom: -10px; }
 .app-shell .na__why--shape, .app-shell .na__why--facts { grid-template-columns: minmax(0, 1fr); gap: 4px; }
@@ -1709,4 +1711,12 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
   .app-shell .student-page--today .rc--compact > .rc__head { grid-area: head; align-self: end; }
   .app-shell .student-page--today .rc--compact > .rc__top { grid-area: top; grid-template-columns: auto minmax(0, 1fr); }
   .app-shell .student-page--today .rc--compact > .rc__more { grid-area: more; align-self: start; }
+}
+
+/* The fixed bars never cover what keyboard focus or a link to a section scrolls to: the header at the top, and on
+   phones the tab bar (and, on Practice, the session dock above it) at the bottom. */
+html:has(.app-shell) { scroll-padding-top: 76px; }
+@media (max-width: 1023px) {
+  html:has(.app-shell) { scroll-padding-bottom: 100px; }
+  html:has(.pr-dock[data-shown]) { scroll-padding-bottom: 172px; }
 }

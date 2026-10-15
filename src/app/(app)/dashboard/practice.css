@@ -253,6 +253,12 @@
   .app-shell .pr .pr-nta__more .pr-nta__console { margin-top: 4px; }
 }
 
+/* The session card's rows run two to a line on phones and tablets; five rows would leave Marking alone beside a gap,
+   so it takes the whole line, like Cost under it. */
+@media (max-width: 1023px) {
+  .app-shell .pr .pr-summary dl > div:nth-child(5):not([data-emph]) { grid-column: 1 / -1; }
+}
+
 /* ---------- Head: the credits card lines up with the session panel below it ---------- */
 @media (min-width: 1024px) {
   .app-shell .pr .pr-head { grid-template-columns: minmax(0, 1fr) 340px; column-gap: 32px; }
