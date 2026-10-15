@@ -154,7 +154,7 @@ function Ribbon({ ribbon, armed }) {
           </li>
         ))}
       </ol>
-      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'Volt weeks met the goal. Tap a week to read it.'}</p>
+      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'A full bar means the goal was met. Tap a week to read it.'}</p>
     </div>
   );
 }
@@ -291,7 +291,7 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
         <div className="rc__week">
           <DayBubbles week={week} armed={armed} picked={picked} onPick={setPicked} />
           <DayCaption week={week} index={shownIndex} />
-          {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <> · best run {rhythm.bestRun}</> : null}</p> : null}
+          {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <>, best run {rhythm.bestRun}</> : null}</p> : null}
         </div>
       </div>
 
