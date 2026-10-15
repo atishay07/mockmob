@@ -1,6 +1,11 @@
 "use client";
 import { useRef, useState } from 'react';
-import { Volume2, Check, X, Lightbulb } from 'lucide-react';
+import { Volume2, X, Lightbulb } from 'lucide-react';
+import MobiReact from '@/components/brand/MobiReact';
+import { useMobiPrefs } from '@/lib/mobiPrefs';
+import { useMobiGate } from '@/lib/mobiHooks';
+import { reactNow } from '@/lib/mobiRation.js';
+import { FEEL, checkDelayMs, mobiShownFor, nudgeLine, pickedIndex, reactionAct, resultKind, ringDelayMs, rightIndex } from './studyFeel';
 
 // Device text-to-speech only. Voices differ by phone; the label says so.
 export function usePronounce() {
@@ -78,13 +83,74 @@ export function AnswerForm({ item, busy, locked, onSubmit, onSkip, assistedToggl
   </form>;
 }
 
-export function Feedback({ feedback, item }) {
+// A check that draws itself in (the path needs pathLength="1"); without `fresh` it is simply there.
+// The points are the app's MmPaths.check, in a 24 box.
+function InkCheck({ fresh, delay, className = '' }) {
+  return <span className={`sx-mark ${className}`.trim()} data-fresh={fresh || undefined} style={fresh ? { '--sx-check-delay': `${delay}ms` } : undefined} aria-hidden="true">
+    <svg viewBox="0 0 24 24" focusable="false"><path pathLength="1" d="M5.3 12.7 10.1 17.3 18.7 7.7" /></svg>
+  </span>;
+}
+
+/**
+ * The options once the answer is known: the right row carries an ink outline that draws itself in
+ * and a drawn check, a wrong pick carries a cross, "Your answer" and the wrong colours (never colour
+ * alone). With `fresh` (answered here, just now) a miss nudges its row once, then the right row
+ * inks; a right answer inks at once. Without it (a step reopened from a saved state) everything is
+ * simply there. Reduced motion shows the finished marks (the end state is the base style).
+ */
+export function ResultOptions({ item, feedback, fresh = false }) {
+  const right = rightIndex(item), picked = pickedIndex(item, feedback);
+  const missed = picked !== null && picked !== right;
+  const ringDelay = ringDelayMs(missed), checkDelay = checkDelayMs(missed);
+  return <ul className="sx-results" aria-label="Answer options">
+    {item.options.map((option, i) => {
+      const isRight = i === right, isMiss = i === picked && !isRight;
+      const words = isRight ? (i === picked ? 'Your answer' : 'Correct answer') : isMiss ? 'Your answer' : null;
+      return <li key={i} className={`sx-result${isRight ? ' is-right' : ''}${isMiss ? ' is-miss' : ''}`} data-fresh={fresh || undefined}
+        style={fresh && isRight ? { '--sx-ring-delay': `${ringDelay}ms` } : undefined}>
+        <span className="sx-option__key" aria-hidden="true">{String.fromCharCode(65 + i)}</span>
+        <span className="sx-result__text"><span>{option}</span>{words ? <small>{words}</small> : null}</span>
+        {isRight ? <><InkCheck fresh={fresh} delay={checkDelay} />
+          <svg className="sx-inkring" aria-hidden="true" focusable="false"><rect x="1" y="1" width="99%" height="98%" rx="11" ry="11" pathLength="1" /></svg></> : null}
+        {isMiss ? <span className="sx-mark sx-mark--miss" aria-hidden="true"><X size={18} /></span> : null}
+      </li>;
+    })}
+  </ul>;
+}
+
+// Mobi beside the words of a result the student just produced: one small `correct` hop or one
+// `encourage` lean (the app's FeedbackMobi). He says nothing himself. At most once every 2.5 s, and
+// only under Celebrations Full: Quiet and Off keep the words alone. Mounted only for a fresh result,
+// because asking the gate consumes it.
+function FeedbackMobi({ act }) {
+  const allowed = useMobiGate(() => reactNow(FEEL.mobi.gate, FEEL.mobi.gapMs), false);
+  const { celebrations } = useMobiPrefs();
+  if (!allowed || !mobiShownFor(celebrations)) return null;
+  return <span className="sx-feedback__mobi"><MobiReact act={act} size={FEEL.mobi.slot} /></span>;
+}
+
+/**
+ * What the server said about an answer. `fresh`: answered here just now (the check draws, the panel
+ * rises, Mobi stands beside the words, a typed miss nudges the panel once). `compact`: the option
+ * rows above already show what was chosen and what was right, so only the reason is added.
+ * A miss or a skip carries one short line under its headline, whether Mobi is shown or not.
+ */
+export function Feedback({ feedback, fresh = false, compact = false }) {
   const correct = feedback?.correct;
-  return <div className={`sx-feedback ${correct === true ? 'is-right' : correct === false ? 'is-wrong' : ''}`} role="status" aria-live="polite">
-    <p className="sx-feedback__head">{correct === true ? <><Check size={18} aria-hidden="true" />Correct</> : correct === false ? <><X size={18} aria-hidden="true" />{feedback.skipped ? 'Here’s the answer' : 'Not quite'}</> : 'The answer'}</p>
-    {correct === false && feedback.chosen ? <p className="sx-feedback__chosen">You chose <b>{feedback.chosen}</b>.{feedback.whyChosen ? ` ${feedback.whyChosen}` : ''}</p> : null}
+  const kind = resultKind(feedback), line = nudgeLine(feedback), act = reactionAct(kind);
+  return <div className={`sx-feedback ${correct === true ? 'is-right' : correct === false ? 'is-wrong' : ''}${fresh ? ' mk-rise' : ''}`} role="status" aria-live="polite"
+    data-fresh={fresh || undefined} data-nudge={fresh && kind === 'miss' && !compact ? 'true' : undefined}>
+    <div className="sx-feedback__top">
+      <div className="sx-feedback__lead">
+        <p className="sx-feedback__head">{correct === true ? <><InkCheck fresh={fresh} delay={FEEL.ink.panelCheckMs} className="sx-mark--head" />Correct</> : correct === false ? <><X size={18} aria-hidden="true" />{feedback.skipped ? 'Here’s the answer' : 'Not quite'}</> : 'The answer'}</p>
+        {line ? <p className="sx-feedback__nudge">{line}</p> : null}
+      </div>
+      {fresh && act ? <FeedbackMobi act={act} /> : null}
+    </div>
+    {correct === false && feedback.chosen && !compact ? <p className="sx-feedback__chosen">You chose <b>{feedback.chosen}</b>.{feedback.whyChosen ? ` ${feedback.whyChosen}` : ''}</p> : null}
+    {correct === false && feedback.chosen && compact && feedback.whyChosen ? <p className="sx-feedback__chosen">{feedback.whyChosen}</p> : null}
     {correct === false && feedback.given ? <p className="sx-feedback__chosen">You wrote <b>{feedback.given}</b>.</p> : null}
-    {correct !== true ? <p className="sx-feedback__answer">Answer: <b>{feedback?.answer}</b></p> : null}
+    {correct !== true && !compact ? <p className="sx-feedback__answer">Answer: <b>{feedback?.answer}</b></p> : null}
     {feedback?.explanation ? <p className="sx-prose">{feedback.explanation}</p> : null}
     {feedback?.cue ? <p className="sx-note"><Lightbulb size={16} aria-hidden="true" /><span>{feedback.cue}</span></p> : null}
   </div>;

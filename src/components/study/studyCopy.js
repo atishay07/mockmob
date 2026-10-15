@@ -6,7 +6,7 @@ import { runMood } from '../../lib/mobiMoments.js';
 export const SUBJECTS = [['english', 'English'], ['accountancy', 'Accountancy'], ['business_studies', 'Business Studies'], ['economics', 'Economics']];
 export const subjectName = id => SUBJECTS.find(s => s[0] === id)?.[1] || id;
 
-export const BLOCK_LABEL = { explanation: 'The idea', worked_example: 'Worked example', contrast: 'Compare', mistake: 'Common mistake', steps: 'Method', word_set: 'New words',diagram:'Concept map', knowledge_check: 'Quick check · not scored' };
+export const BLOCK_LABEL = { explanation: 'The idea', worked_example: 'Worked example', contrast: 'Compare', mistake: 'Common mistake', steps: 'Method', word_set: 'New words',diagram:'Concept map', knowledge_check: 'Quick check, not scored' };
 export const TASK_LABEL = { meaning: 'Meaning in context', gap_fill: 'Fill the gap', spelling: 'Spell it', synonym: 'Synonym', antonym: 'Opposite', main_idea: 'Main idea', inference: 'Stated or inferred?' };
 export const itemLabel = item => TASK_LABEL[item?.task] || (item?.type === 'numeric' || item?.type === 'ratio' ? 'Calculate' : item?.type === 'reveal' ? 'Recall' : 'Choose');
 
@@ -32,7 +32,7 @@ export const RATINGS = [
 export const STATUS = {
   new: { label: 'Not started' },
   in_progress: { label: 'In progress' },
-  lock_in: { label: 'Read · lock it in' },
+  lock_in: { label: 'Read, lock it in' },
   due: { label: 'Review due' },
   learned: { label: 'In review' },
 };
@@ -49,7 +49,7 @@ export function friendlyError(error) {
   if (/PREMIUM_REQUIRED/.test(code)) return { text: 'Saved weekly plans and custom mixed revision are part of Pro. Lessons and reviews stay free.' };
   if (/NOT_FOUND|UNAVAILABLE/.test(code)) return { text: 'This activity isn’t available right now. Choose another lesson from Learn, or practise questions.' };
   if (error?.status === 429) return { text: 'Too many requests at once. Wait a few seconds and try again.', retry: true };
-  return { text: 'That action could not be saved. Your answer is still here — try again.', retry: true };
+  return { text: 'That action could not be saved. Your answer is still here. Try again.', retry: true };
 }
 
 /**

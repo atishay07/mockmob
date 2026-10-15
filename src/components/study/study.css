@@ -54,10 +54,6 @@
 .sx-prefs .sx-check { border:1px solid var(--a-line); border-radius:12px; padding:10px 12px; min-height:48px; cursor:pointer; }
 .sx-prefs .sx-check:has(input:checked) { background:var(--a-volt-wash); border-color:var(--a-select); }
 .sx-option:has(input:checked) { border-color:var(--a-select); background:var(--a-volt-wash); }
-@media (prefers-reduced-motion:no-preference) {
-  .sx-memory-card[data-revealed] .sx-feedback { animation:sx-turn 220ms cubic-bezier(.16,1,.3,1); transform-origin:50% 0; }
-  @keyframes sx-turn { from { transform:perspective(800px) rotateX(-12deg); opacity:.4; } to { transform:none; opacity:1; } }
-}
 @media (max-width:639px) { .sx-memory-card { padding:18px 14px; } .sx-actions .btn-volt { white-space:normal; text-align:center; } }
 .sx-flow { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 1px; background: var(--a-line); border: 1px solid var(--a-line); border-radius: 14px; overflow: hidden; }
 @media (min-width: 640px) { .sx-flow { grid-template-columns: repeat(3, 1fr); } }
@@ -167,13 +163,25 @@
 .sx-print-only { display: none; }
 
 /* Session */
+/* How a concept check feels: the numbers below are the app's, held to data/fixtures/study_feel/feel.json by
+   data/tests/study_feel.test.mjs. The end state is always the base style; every animation below only plays
+   up to it (fill-mode backwards), so reduced motion, and a step reopened from a saved state, simply show it. */
+.sx-run {
+  position: relative; overflow-x: clip;
+  --sx-ring-ms: 320ms; --sx-check-ms: 320ms; --sx-lead-ms: 60ms; --sx-check-after-ms: 200ms; --sx-panel-check-ms: 160ms;
+  --sx-nudge-ms: 220ms;
+  --sx-arrive-travel: 24px; --sx-fly-travel: 56px; --sx-fly-lift: 10px; --sx-fly-scale: 0.97; --sx-fly-gone-at: 0.55;
+}
 .sx-run__head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
 .sx-run__title { font-weight: 700; color: var(--a-ink-2); font-size: 0.875rem; min-width: 0; }
 .sx-run__count { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--a-ink-2); white-space: nowrap; }
 .sx-pips { list-style: none; display: flex; gap: 4px; padding: 0; margin: 10px 0 0; }
-.sx-pips li { flex: 1; height: 6px; border-radius: 3px; background: var(--a-line); }
-.sx-pips li.done { background: var(--a-select); }
+.sx-pips li { position: relative; overflow: hidden; flex: 1; height: 6px; border-radius: 3px; background: var(--a-line); }
 .sx-pips li.now { background: var(--a-volt-line); }
+/* The fill is its own layer, scaled from the left on the app's smooth spring (the app's run_pips). It only
+   moves when a pip becomes done, so a run reopened part-way shows its done pips full and nothing replays. */
+.sx-pips li::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: var(--a-select); transform: scaleX(0); transform-origin: 0 50%; transition: transform var(--mm-spring-smooth-dur) var(--mm-spring-smooth); }
+.sx-pips li.done::after { transform: scaleX(1); }
 .sx-saved { display: flex; gap: 8px; align-items: center; margin-top: 12px !important; font-size: 0.875rem; color: var(--a-good-text); }
 .sx-stage { margin-top: 20px; }
 .sx-stage__label { font-size: 0.8125rem; font-weight: 700; color: var(--a-accent-text); margin-bottom: 6px !important; }
@@ -331,3 +339,88 @@
 .study-ring__track { stroke: var(--a-line-strong); }
 .study-ring__arc { stroke: var(--a-select); stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--to, 0)); transition: stroke-dashoffset 900ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) 150ms; }
 .study-ring[data-in='false'] .study-ring__arc { stroke-dashoffset: 1; }
+
+/* ==========================================================================
+   Concept checks with life (motion packet M4; the app's learn/widgets, same words and numbers)
+   ========================================================================== */
+
+/* The result options: the right row carries an ink outline drawn over its quiet border and a drawn
+   check; a wrong pick carries a cross, "Your answer" and the wrong colours. */
+.sx-results { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 8px; }
+.sx-result { position: relative; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 52px; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--a-line); background: var(--a-raised); line-height: 1.45; }
+.sx-result__text { display: grid; min-width: 0; }
+.sx-result__text small { color: var(--a-ink-2); font-size: 0.8125rem; }
+.sx-result:not(.is-right):not(.is-miss) { color: var(--a-ink-2); }
+.sx-result.is-right { border: 2px solid var(--a-line-strong); padding: 9px 13px; }
+.sx-result.is-miss { border: 2px solid color-mix(in srgb, var(--a-bad-text) 55%, transparent); background: var(--a-bad-wash); padding: 9px 13px; }
+.sx-result.is-miss .sx-result__text, .sx-result.is-miss small { color: var(--a-bad-text); }
+.sx-inkring { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; fill: none; }
+.sx-inkring rect { x: 1px; y: 1px; width: calc(100% - 2px); height: calc(100% - 2px); rx: 11px; ry: 11px; stroke: var(--a-ink); stroke-width: 2; stroke-dasharray: 1; stroke-dashoffset: 0; }
+
+/* The mark of a right answer: a volt disc with an ink check, the same in Night and Day. */
+.sx-mark { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--a-select); color: #111; }
+.sx-mark svg { display: block; width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.sx-mark path { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.sx-mark--miss { background: transparent; color: var(--a-bad-text); }
+.sx-mark--head { width: 22px; height: 22px; }
+
+/* Drawing in (fresh results only): from nothing up to the base style above. */
+.sx-result[data-fresh] .sx-inkring rect { animation: sx-draw var(--sx-ring-ms) var(--mm-ease-emphasized) var(--sx-ring-delay, var(--sx-lead-ms)) backwards; }
+.sx-mark[data-fresh] path { animation: sx-draw var(--sx-check-ms) var(--mm-ease-emphasized) var(--sx-check-delay, var(--sx-panel-check-ms)) backwards; }
+@keyframes sx-draw { from { stroke-dashoffset: 1; } }
+
+/* The feedback panel: the verdict and one short line on the left, Mobi beside them on the right. */
+.sx-feedback__top { display: flex; align-items: flex-start; gap: 12px; }
+.sx-feedback__lead { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.sx-feedback__nudge { color: var(--a-ink-2); font-size: 1rem; }
+.sx-feedback__mobi { flex: none; display: block; margin: -4px 0; }
+
+/* One gentle nudge for a miss: 4 px, three decaying cycles, 220 ms (the app's MmShake). It uses the
+   translate property, so it composes with the panel's own rise instead of replacing it. */
+.sx-result.is-miss[data-fresh] { animation: sx-nudge var(--sx-nudge-ms) linear backwards; }
+.sx-feedback.mk-rise[data-nudge='true'] { animation: mk-rise var(--mm-dur-enter) var(--mm-ease-emphasized) backwards, sx-nudge var(--sx-nudge-ms) linear 200ms backwards; }
+@keyframes sx-nudge {
+  0% { translate: 0px 0; }
+  4.167% { translate: 2.711px 0; }
+  8.333% { translate: 3.667px 0; }
+  12.5% { translate: 2.475px 0; }
+  16.667% { translate: 0px 0; }
+  20.833% { translate: -2.239px 0; }
+  25% { translate: -3px 0; }
+  29.167% { translate: -2.003px 0; }
+  33.333% { translate: 0px 0; }
+  37.5% { translate: 1.768px 0; }
+  41.667% { translate: 2.333px 0; }
+  45.833% { translate: 1.532px 0; }
+  50% { translate: 0px 0; }
+  54.167% { translate: -1.296px 0; }
+  58.333% { translate: -1.667px 0; }
+  62.5% { translate: -1.061px 0; }
+  66.667% { translate: 0px 0; }
+  70.833% { translate: 0.825px 0; }
+  75% { translate: 1px 0; }
+  79.167% { translate: 0.589px 0; }
+  83.333% { translate: 0px 0; }
+  87.5% { translate: -0.354px 0; }
+  91.667% { translate: -0.333px 0; }
+  95.833% { translate: -0.118px 0; }
+  100% { translate: 0px 0; }
+}
+
+/* The next step arrives on the shared axis: 24 px from the trailing edge, fading in on glide. The step
+   that leaves is a ghost (studyFeel.js flyAway) in .sx-ghosts, which sits over the run and takes no touches. */
+.sx-stage[data-arrive='true'] { animation: sx-arrive var(--mm-dur-glide) var(--mm-ease-glide) backwards; }
+@keyframes sx-arrive { from { opacity: 0; transform: translate3d(var(--sx-arrive-travel), 0, 0); } }
+.sx-ghosts { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: visible; }
+.sx-ghost { will-change: transform, opacity; }
+
+/* The rating that was tapped inks volt while it is on its way; the others wait. */
+.sx-ratings button { transition: background-color var(--mm-dur-ui) var(--mm-ease-glide), border-color var(--mm-dur-ui) var(--mm-ease-glide), color var(--mm-dur-ui) var(--mm-ease-glide); }
+.sx-ratings button[data-picked] { background: var(--a-select); border-color: var(--a-select); color: #111; }
+.sx-ratings button[data-picked] small { color: inherit; }
+.sx-ratings button[data-picked]:disabled { opacity: 1; }
+
+/* Reduced motion (the device setting, or the in-app switch): everything shows its end state at once. */
+@media (prefers-reduced-motion: reduce) { .sx *, .sx *::before, .sx *::after { transition: none !important; animation: none !important; } }
+:root[data-motion='reduced'] .sx *, :root[data-motion='reduced'] .sx *::before, :root[data-motion='reduced'] .sx *::after { transition: none !important; animation: none !important; }
+:root[data-motion='reduced'] .sx-ghosts { display: none; }

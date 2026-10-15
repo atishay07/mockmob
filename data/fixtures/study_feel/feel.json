@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "about": "How a concept check feels, one set of words and numbers for the app (learn/widgets) and the website (study/StudyRun). Both sides test against these bytes.",
+  "copy": {
+    "miss": "Good to find out here. The answer is below.",
+    "skipped": "That is fine. The answer is below."
+  },
+  "ink": {
+    "ringMs": 320,
+    "checkMs": 320,
+    "leadMs": 60,
+    "checkAfterMs": 200,
+    "panelCheckMs": 160
+  },
+  "nudge": {
+    "amplitude": 4,
+    "cycles": 3,
+    "durationMs": 220
+  },
+  "swap": {
+    "arriveTravel": 24,
+    "flyTravel": 56,
+    "flyLift": 10,
+    "flyScale": 0.97,
+    "flyGoneAt": 0.55
+  },
+  "mobi": {
+    "rightAct": "correct",
+    "missAct": "encourage",
+    "gapMs": 2500,
+    "slot": 56,
+    "largeTextScale": 1.3,
+    "shownWhen": "full"
+  }
+}
