@@ -420,7 +420,7 @@ class _ChipRailState extends State<ChipRail> with SingleTickerProviderStateMixin
                   animation: _peekCtl,
                   builder: (context, child) => _PeekMask(
                     key: const ValueKey('chip-rail-peek'),
-                    extent: widget.fadeExtent + (_peekTo - widget.fadeExtent) * Curves.easeOut.transform(_peekCtl.value),
+                    extent: widget.fadeExtent + (_peekTo - widget.fadeExtent) * Motion.out.transform(_peekCtl.value),
                     base: widget.fadeExtent,
                     child: child!,
                   ),

@@ -118,7 +118,7 @@ class _BandPainter extends CustomPainter {
     final low = interval.low.clamp(0, 100) / 100;
     final widthShare = ((interval.high - interval.low) / 100).clamp(0.015, 1.0);
     // The range grows from its left edge over the first 420 of 780 ms (after a 120 ms delay).
-    final t = Curves.easeOutCubic.transform(((growth.value * 780 - 120) / 420).clamp(0.0, 1.0));
+    final t = Motion.out.transform(((growth.value * 780 - 120) / 420).clamp(0.0, 1.0));
     final left = size.width * low;
     final w = (size.width * widthShare * t).clamp(0.0, size.width - left);
     if (w > 0) {

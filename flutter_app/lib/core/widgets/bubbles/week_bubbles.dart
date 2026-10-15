@@ -447,7 +447,7 @@ class _RingPainter extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..color = colors.accentText.withValues(alpha: 0.55);
 
-    double inkOf(int index) => index < fills.length ? Curves.easeOut.transform(fills[index].value.clamp(0.0, 1.0)) : 1.0;
+    double inkOf(int index) => index < fills.length ? Motion.out.transform(fills[index].value.clamp(0.0, 1.0)) : 1.0;
 
     void dashed(double start, double sweep) {
       // Three dashes per segment: the week is on hold, nothing is claimed.

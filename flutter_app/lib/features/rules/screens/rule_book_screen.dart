@@ -296,15 +296,9 @@ class _InForce extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final rule = active;
-    return AnimatedSwitcher(
-      duration: Motion.of(context, Motion.card),
-      switchInCurve: Motion.out,
-      switchOutCurve: Motion.exit,
-      transitionBuilder: (child, animation) => FadeTransition(
-        opacity: animation,
-        child: SlideTransition(position: Tween(begin: const Offset(0, 0.04), end: Offset.zero).animate(animation), child: child),
-      ),
-      layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+    return MmOverlapSwitcher.rise(
+      duration: Motion.card,
+      alignment: Alignment.topCenter,
       child: rule == null
           ? const SizedBox(key: ValueKey('none'), width: double.infinity)
           : Semantics(

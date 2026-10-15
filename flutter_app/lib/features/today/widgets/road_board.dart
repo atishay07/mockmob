@@ -385,8 +385,9 @@ class _MocksSheetState extends ConsumerState<_MocksSheet> {
           ],
         ),
         const SizedBox(height: MmSpace.s12),
-        AnimatedSwitcher(
-          duration: Motion.of(context, const Duration(milliseconds: 180)),
+        MmOverlapSwitcher.fade(
+          duration: const Duration(milliseconds: 180),
+          alignment: Alignment.center,
           child: Text(
             key: ValueKey('$left-$every'),
             left == null ? '' : (left == 0 ? TodayCopy.boardTargetMet : TodayCopy.boardPace(left, b.weeksToExam, every)),

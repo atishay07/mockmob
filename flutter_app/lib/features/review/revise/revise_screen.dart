@@ -339,9 +339,9 @@ class _Run extends StatelessWidget {
         const SizedBox(height: MmSpace.s16),
         _Lanes(boxes: boxes, labels: read.labels, moved: moved),
         const SizedBox(height: MmSpace.s24),
-        AnimatedSwitcher(
-          duration: Motion.of(context, Motion.card),
-          switchInCurve: Motion.out,
+        MmOverlapSwitcher.fade(
+          duration: Motion.card,
+          alignment: Alignment.center,
           child: stage,
         ),
         const SizedBox(height: MmSpace.s24),

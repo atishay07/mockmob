@@ -32,10 +32,10 @@ class ExamSheetStart extends StatefulWidget {
   static double widthFor(double height) => height * 0.74;
 
   /// Where the sheet is (0 below and tilted, 1 in place) at moment progress [t] (0..1).
-  static double slideAt(double t) => Curves.easeOutCubic.transform((t / 0.62).clamp(0.0, 1.0));
+  static double slideAt(double t) => Motion.out.transform((t / 0.62).clamp(0.0, 1.0));
 
   /// How far the mark has come down (0 lifted and clear, 1 settled) at moment progress [t].
-  static double markAt(double t) => Curves.easeOutCubic.transform(((t - 0.46) / 0.54).clamp(0.0, 1.0));
+  static double markAt(double t) => Motion.out.transform(((t - 0.46) / 0.54).clamp(0.0, 1.0));
 
   @override
   State<ExamSheetStart> createState() => _ExamSheetStartState();
@@ -184,7 +184,7 @@ class ExamSheetPainter extends CustomPainter {
     final r = 17 * u;
     final at = Offset(w * 0.3, h * 0.79);
     final scale = lerpDouble(1.7, 1, m)!;
-    final ink = navy.withValues(alpha: 0.92 * Curves.easeOut.transform(m));
+    final ink = navy.withValues(alpha: 0.92 * Motion.out.transform(m));
     canvas
       ..save()
       ..translate(at.dx, at.dy)

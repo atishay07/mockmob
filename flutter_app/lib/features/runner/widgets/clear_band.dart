@@ -109,9 +109,9 @@ class ClearBandState extends State<ClearBand> {
         constraints: const BoxConstraints(minHeight: ClearBand.height),
         child: Align(
           alignment: Alignment.centerLeft,
-          child: AnimatedSwitcher(
-            duration: Motion.of(context, Motion.ui),
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+          child: MmOverlapSwitcher.fade(
+            duration: Motion.ui,
+            alignment: Alignment.centerLeft,
             child: content,
           ),
         ),

@@ -605,8 +605,9 @@ class _ComposerState extends State<_Composer> {
                 // The line changes in place as the question changes (free, or 1 credit).
                 return Semantics(
                   liveRegion: true,
-                  child: AnimatedSwitcher(
-                    duration: Motion.of(context, Motion.crossFade),
+                  child: MmOverlapSwitcher.fade(
+                    duration: Motion.crossFade,
+                    alignment: Alignment.center,
                     child: Text(note, key: ValueKey(note), style: type.caption.copyWith(color: colors.ink3), textAlign: TextAlign.center),
                   ),
                 );

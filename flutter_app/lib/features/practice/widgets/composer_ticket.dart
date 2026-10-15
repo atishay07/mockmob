@@ -258,7 +258,7 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
         if (reduced) {
           _c.value = 1;
         } else {
-          _c.animateTo(1, duration: const Duration(milliseconds: 220), curve: Curves.easeIn);
+          _c.animateTo(1, duration: const Duration(milliseconds: 220), curve: Motion.exit);
         }
     }
   }
@@ -294,7 +294,7 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
                   child: ExcludeSemantics(
                     child: LayoutBuilder(
                       builder: (context, box) => Opacity(
-                        opacity: (1 - Curves.easeIn.transform(torn)).clamp(0.0, 1.0),
+                        opacity: (1 - Motion.exit.transform(torn)).clamp(0.0, 1.0),
                         child: Transform(
                           alignment: Alignment((box.maxWidth - stub) / box.maxWidth * 2 - 1, 1),
                           transform: Matrix4.identity()
@@ -322,11 +322,11 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
                 child: IgnorePointer(
                   // In over the first half of the tear, so most of the turn is seen.
                   child: Opacity(
-                    opacity: cut ? Curves.easeOut.transform((torn * 2).clamp(0.0, 1.0)) : 0,
+                    opacity: cut ? Motion.out.transform((torn * 2).clamp(0.0, 1.0)) : 0,
                     child: LayoutBuilder(
                       builder: (context, box) => Center(
                         child: Transform.scale(
-                          scale: 0.9 + 0.1 * Curves.easeOut.transform((torn * 2).clamp(0.0, 1.0)),
+                          scale: 0.9 + 0.1 * Motion.out.transform((torn * 2).clamp(0.0, 1.0)),
                           child: widget.clock
                               ? HybridStopwatch(
                                   height: math.min(_TearStage.clockHeight, math.max(0.0, box.maxHeight - MmSpace.s16)),
