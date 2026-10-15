@@ -1,0 +1,108 @@
+# Web tests: lint plus the offline unit suites, on every push and pull request to main.
+#
+# Scope and rules
+# - Read-only and secret-free. No step references `secrets.*`, there are no deploy steps
+#   (Vercel deploys main on its own), and `permissions` is contents: read.
+# - Every suite below was run from a clean `git archive` copy (LF line endings, no .env*,
+#   no gitignored data) with a scrubbed environment and a preload that logs and blocks
+#   any non-loopback fetch, socket or DNS lookup. All passed and nothing reached the
+#   network, so none of them needs a Supabase, AI, Razorpay or Resend key.
+#
+# Included (npm scripts from package.json)
+#   lint            eslint over the repo (core-web-vitals config)
+#   test:app        app model, prefs, Mobi kit, landing and scene model tests
+#   test:learning   learning engine, wallet, billing, repair and AI-budget tests (PGlite, in-memory)
+#   test:recovery   Score Recovery engine and pipeline safety tests
+#   test:auth       sign-in reliability and bearer route tests (fetch is mocked inside the tests)
+#   test:nta        NTA engine, selector, blueprint and fit-gate tests
+#   test:du         DU CSAS eligibility and combination tests
+#   test:study      study engine, content and database tests. On Windows it only fails when
+#                   git rewrites the files to CRLF (core.autocrlf); this runner checks out LF.
+#
+# Left out on purpose (not requested here, and why)
+#   test:nta-e2e          skips all 34 tests without fixtures exported from the live database
+#                         (scripts/nta-fixture-export.mjs, needs credentials) and
+#                         PRACTICE_SESSION_SECRET; it also uses --use-system-ca.
+#   test:authored-publish needs question-pipeline data that is not in git (1 failure and 4
+#                         skips from a clean checkout).
+#   test:question-reorder, test:answer-integrity, test:factory
+#                         pass offline too and can be added later; left out to keep this
+#                         workflow to the agreed list.
+#   Any script that uses --env-file=.env.local (autonomous, validate:*, answer-integrity:*,
+#   factory:*, audit:bank) talks to a live database or a paid model and never runs here.
+#
+# Node: package.json has no `engines` field and the repo has no .nvmrc, so this uses 22.
+# If one is added, switch `node-version` to `node-version-file`.
+#
+# Each suite is its own step and runs even when an earlier one failed (unless the job was
+# cancelled or `npm ci` failed), so one run shows every red suite instead of only the first.
+
+name: Web tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+# A newer push to the same pull request replaces the older run. Pushes to main always finish.
+concurrency:
+  group: web-tests-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  test:
+    name: Lint and tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CI: "true"
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - name: Check out
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm # caches ~/.npm, keyed on package-lock.json
+
+      - name: Install
+        id: install
+        run: npm ci --no-audit --no-fund
+
+      - name: Lint
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run lint
+
+      - name: Test app
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:app
+
+      - name: Test learning
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:learning
+
+      - name: Test recovery
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:recovery
+
+      - name: Test auth
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:auth
+
+      - name: Test NTA
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:nta
+
+      - name: Test DU
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:du
+
+      - name: Test study
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: npm run test:study
