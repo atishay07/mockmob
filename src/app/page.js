@@ -1,14 +1,14 @@
 import Link from 'next/link';
 import { CAPABILITIES, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
-import { ArrowRight, Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
+import { ArrowRight, Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, BookOpenText } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { JsonLd } from '@/components/JsonLd';
 import { HeroKeys } from '@/components/landing/HeroKeys';
 import { HeroLive } from '@/components/landing/HeroLive';
-import { MorphWord } from '@/components/landing/MorphWord';
+import { TypeLine } from '@/components/landing/TypeLine';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import { CloseActions } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
@@ -151,31 +151,30 @@ export default function LandingPage() {
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             {/* Everything the reader needs is in the server HTML and visible at first paint: no entrance hides the
-                words or the keys. The life is in the morphing line, the highlight, the live dot and the keys' light. */}
+                words or the keys. The headline carries the page: "CUET 2027" in volt as its first line, with Mobi
+                standing on it (on wide screens the guide walks him to his lane). The only things that move are the
+                typed line, which runs two rounds and rests, and the live count's dot, which reads inside its sentence
+                under the keys. Nothing labels the headline from above. */}
             <div className="lp-hero__copy">
-              <div className="lp-hero__greeting"><HeroLive /><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
-              <h1 className="lp-title">
-                <span className="lp-title__kicker">CUET 2027</span>
-                <span className="lp-title__line">Your lost marks went somewhere.</span>
-                <span className="lp-title__line">MockMob shows you <span className="lp-title__hl">where.</span></span>
-              </h1>
-              <p className="lp-hero__morph">
-                Down to{' '}
-                <MorphWord words={['the chapter.', 'the minute.', 'the changed answer.', 'the reason.']} label="the chapter, the minute, the changed answer and the reason." />
-              </p>
+              <div className="lp-hero__head">
+                <h1 className="lp-title">
+                  <span className="lp-title__exam">CUET 2027</span>
+                  <span className="lp-title__line">Your lost marks went somewhere.</span>
+                  <span className="lp-title__line">MockMob shows you where.</span>
+                </h1>
+                <MascotSeat station="hero" pose="greeting" eager />
+              </div>
+              <TypeLine lead="Down to" phrases={['the chapter.', 'the minute.', 'the changed answer.', 'the reason.']} label="the chapter, the minute, the changed answer and the reason." />
               <p className="lp-lead">Then it picks the chapter for tonight and keeps your DU shortlist in sight.</p>
               <div className="lp-cta">
                 <HeroKeys />
               </div>
-              <ul className="lp-trust">
-                <li><Check size={16} aria-hidden="true" />Free to start</li>
-                <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? `Pro ₹${OFFER.monthly.rupees} a month` : `Pro ₹${OFFER.oneTime.rupees} once, through ${OFFER.oneTime.expires}`}</li>
-                <li><Check size={16} aria-hidden="true" />{OFFER.purchasable === 'monthly' ? 'Cancel anytime' : 'No auto-renewal'}</li>
-              </ul>
-              <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool">
-                Free DU eligibility and cutoff calculator
-                <ArrowRight size={16} aria-hidden="true" />
-              </Link>
+              <p className="lp-terms">
+                <b>Free to start.</b>{' '}
+                {OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month, and you can cancel anytime.` : `Pro is ₹${OFFER.oneTime.rupees} once, through ${OFFER.oneTime.expires}, with no auto-renewal.`}
+              </p>
+              <HeroLive />
+              <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
             </div>
 
             <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
@@ -187,13 +186,14 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Second hero beat: real, linked facts on a glass dock over the hero's light. */}
+          {/* Second hero beat: the four facts as plain sentences under a hairline, each a link to the part of the page
+              that shows it. No panel, no icons, no light behind it. */}
           <div className="mm-wrap">
-            <nav className="lp-proof" aria-label="What MockMob gives you" data-hero style={{ '--h': 5 }}>
-              <a href="#try-practice"><Target size={18} aria-hidden="true" /><b>5 questions</b><span>In your subject, before you sign up</span></a>
-              {DU_FACTS ? <a href="#du-eligibility"><GraduationCap size={18} aria-hidden="true" /><b>{DU_FACTS.programmes}</b><span>DU programmes to check against your subjects</span></a> : null}
-              <a href="#exam-experience"><Monitor size={18} aria-hidden="true" /><b>2 screens</b><span>MockMob or NTA style, your pick</span></a>
-              <a href="#your-prep"><ShieldCheck size={18} aria-hidden="true" /><b>60 min</b><span>50 questions, one full CUET mock</span></a>
+            <nav className="lp-proof" aria-label="What MockMob gives you">
+              <a href="#try-practice"><b>Five questions</b> in your subject, before you sign up.</a>
+              {DU_FACTS ? <a href="#du-eligibility"><b>{DU_FACTS.programmes} DU programmes</b> to check against your subjects.</a> : null}
+              <a href="#exam-experience"><b>Two exam screens</b>, MockMob or NTA style. Your pick.</a>
+              <a href="#your-prep"><b>One full CUET mock</b>: 50 questions in 60 minutes.</a>
             </nav>
           </div>
         </section>

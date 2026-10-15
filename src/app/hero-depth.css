@@ -35,70 +35,38 @@
 @keyframes lp-depth-mid { to { transform: translate3d(0, 60px, 0); } }
 @keyframes lp-depth-near { to { transform: translate3d(0, -36px, 0); } }
 
-/* ---------- 2. Proof dock: Apple-style glass over the hero light ---------- */
+/* ---------- 2. The hero's facts: four plain sentences under a hairline ----------
+   Not a panel and not a metric row: no glass, no blur, no light behind it, no icons, no boxes. Each fact is a
+   sentence that opens with its figure in the body face's semibold (ink), the rest in the quiet ink, and each is a
+   link to the part of the page that shows it. Two columns on a phone, four in a row from 900px. */
 .lp-proof {
-  position: relative;
-  isolation: isolate;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  margin-top: clamp(2.25rem, 5vw, 3.75rem);
-  border-radius: 22px;
-  overflow: hidden;
-  border: 1px solid var(--glass-edge, rgba(244, 245, 240, 0.16));
-  background: var(--glass-fill, rgba(18, 24, 19, 0.5));
-  -webkit-backdrop-filter: blur(24px) saturate(170%);
-  backdrop-filter: blur(24px) saturate(170%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 30px 70px -40px rgba(0, 0, 0, 0.7);
-}
-/* A soft light under the glass so the blur has something to refract. */
-.lp-proof::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: -60% -10% auto 35%;
-  height: 220%;
-  background: radial-gradient(closest-side, rgba(210, 240, 0, 0.16), transparent);
-  pointer-events: none;
+  gap: 1.25rem 1.5rem;
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
 }
 .lp-proof a {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  grid-template-rows: auto auto;
-  align-content: start;
-  gap: 0.15rem 0.6rem;
+  display: block;
   min-height: 44px;
-  padding: 1rem 1.1rem;
-  color: var(--ink);
+  max-width: 26ch;
+  color: var(--ink-3);
+  font-size: 0.875rem;
+  line-height: 1.5;
   text-decoration: none;
-  box-shadow: inset -1px 0 0 var(--glass-divider, rgba(244, 245, 240, 0.09)), inset 0 -1px 0 var(--glass-divider, rgba(244, 245, 240, 0.09));
-  transition: background-color 0.2s ease;
+  text-wrap: pretty;
+  transition: color 0.16s ease;
 }
-.lp-proof svg { grid-row: 1 / span 2; margin-top: 0.3rem; color: var(--accent-text); }
-.lp-proof b {
-  font: 800 clamp(1.35rem, 3.6vw, 1.75rem) / 1.05 var(--font-display);
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-.lp-proof span { color: var(--ink-2); font-size: 0.8125rem; line-height: 1.4; }
-.lp-proof a:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: -3px; border-radius: 20px; }
-.lp-proof a:active { background: rgb(var(--tint) / 0.06); }
+.lp-proof b { font-weight: 600; color: var(--ink); }
+.lp-proof a:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 4px; border-radius: 4px; }
 @media (hover: hover) and (pointer: fine) {
-  .lp-proof a:hover { background: rgb(var(--tint) / 0.05); }
+  .lp-proof a:hover { color: var(--ink-2); }
+  .lp-proof a:hover b { text-decoration: underline; text-decoration-color: var(--accent-line); text-underline-offset: 4px; }
 }
 @media (min-width: 900px) {
-  .lp-proof { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .lp-proof a { box-shadow: inset -1px 0 0 var(--glass-divider, rgba(244, 245, 240, 0.09)); }
-  .lp-proof a:last-child { box-shadow: none; }
-}
-html[data-theme='light'] .lp-proof {
-  --glass-fill: rgba(255, 255, 255, 0.55);
-  --glass-edge: rgba(23, 32, 22, 0.1);
-  --glass-divider: rgba(23, 32, 22, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), 0 30px 70px -44px rgba(20, 32, 14, 0.4);
-}
-html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest-side, rgba(170, 200, 0, 0.26), transparent); }
-@media (prefers-reduced-transparency: reduce) {
-  .lp-proof { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--paper-raised); }
+  .lp-proof { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; }
+  .lp-proof a { font-size: 0.9375rem; }
 }
 
 /* ---------- 3. Statement: words light up as the reader scrolls through ---------- */

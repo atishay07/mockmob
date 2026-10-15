@@ -1,317 +1,289 @@
 /* ==========================================================================
-   HERO V3 (landing only, loaded last): the hero that converts.
-   Phone first (390 x 844), then desktop. On a phone the first screen holds the live line and Mobi, the
-   headline with "CUET 2027" in colour, the morphing line, the supporting line, the two keys well above the
-   bottom edge and the reassurances, and the sample's first question rises into the bottom of the screen,
-   so no space is wasted there.
-   Nothing the reader needs waits: every word and both keys are in the server HTML and visible at first paint
-   (no opacity entrance on the copy). The life is decoration over finished text: the kicker's rule and the
-   highlight draw in, the morphing line turns over, the live dot pulses, a sheen crosses "Start free" and a slow
-   light runs round "Try 5 questions". Motion is transform and opacity only; reduced motion (either switch)
-   gets the finished, still composition.
+   HERO V4 (landing only, loaded last): type first, nothing ambient.
+   Phone first (390 x 844), then desktop. The headline is the hero: "CUET 2027" in solid volt as its first line,
+   at the headline's own size, with Mobi standing on that line; then the promise in heavy, tight type. Under it the
+   typed line says how far down MockMob traces a mark, the lead says what it does next, then the two keys, one line
+   of terms and the live count as a sentence. Nothing labels the headline from above: no kicker, pill or rule.
+   Nothing the reader needs waits: every word and both keys are in the server HTML at first paint. Nothing glows,
+   no gradient fills text, and nothing loops except the live count's small, slow dot. The hero's one page-load
+   moment is Mobi hopping onto the headline (brand-pip.css); the typed line runs two rounds and rests. Motion is
+   transform and opacity; reduced motion (either switch) gets the finished, still composition.
    ========================================================================== */
 
-/* ---------- Layout ---------- */
-.mm.lp .lp-hero--v3 { padding-block: 0.75rem 2.25rem; }
-.mm.lp .lp-hero--v3 .lp-hero__grid { gap: 1.5rem; }
-.mm.lp .lp-hero--v3 .lp-hero__copy { gap: 0.6rem; }
-.mm.lp .lp-hero--v3 .lp-hero__greeting { min-height: 44px; margin-bottom: 0.15rem; }
+/* ---------- Layout and rhythm ----------
+   The copy column sets its own intervals (no grid gap), so each step reads as a decision: the typed line sits
+   close under the headline, the keys get room, the small print sits tight under them. */
+.mm.lp .lp-hero--v3 { padding-block: 0.875rem 2.25rem; }
+.mm.lp .lp-hero--v3 .lp-hero__grid { gap: 2.25rem; }
+.mm.lp .lp-hero--v3 .lp-hero__copy { gap: 0; }
+.mm.lp .lp-hero--v3 .lp-type { margin: 0.85rem 0 0; }
+.mm.lp .lp-hero--v3 .lp-lead { margin: 1rem 0 0; }
+.mm.lp .lp-hero--v3 .lp-cta { margin-top: 1.6rem; }
+.mm.lp .lp-hero--v3 .lp-terms { margin: 1.1rem 0 0; }
+.mm.lp .lp-hero--v3 .lp-live { margin: 0.35rem 0 0; }
+.mm.lp .lp-hero--v3 .lp-hero__tool { margin: 1.25rem 0 0; }
 @media (min-width: 761px) {
-  .mm.lp .lp-hero--v3 { padding-block: clamp(1.5rem, 3.2vw, 3rem) clamp(2.75rem, 5vw, 4.5rem); }
-  .mm.lp .lp-hero--v3 .lp-hero__copy { gap: 0.85rem; }
-  .mm.lp .lp-hero--v3 .lp-hero__greeting { margin-bottom: 0.35rem; }
+  .mm.lp .lp-hero--v3 { padding-block: clamp(1.75rem, 3.6vw, 3.5rem) clamp(2.75rem, 5vw, 4.5rem); }
+  .mm.lp .lp-hero--v3 .lp-type { margin-top: 1.1rem; }
+  .mm.lp .lp-hero--v3 .lp-lead { margin-top: 1.15rem; }
+  .mm.lp .lp-hero--v3 .lp-cta { margin-top: 2rem; }
 }
 @media (min-width: 960px) {
   .mm.lp .lp-hero--v3 .lp-hero__grid { gap: clamp(2.5rem, 5vw, 5rem); }
 }
 
-/* The copy never makes an entrance (it is there at first paint). The bay and the proof dock below rise into
-   place by transform alone, so even they are readable on the first frame. */
-.mm.lp .lp-hero--v3 [data-hero] { animation-name: lp3-rise; }
-@keyframes lp3-rise { from { transform: translate3d(0, 1rem, 0); } }
+/* The copy and the sample are there at first paint: no rise, no fade. */
+.mm.lp .lp-hero--v3 [data-hero] { animation: none; }
 
-/* ---------- The moving light behind the headline (HeroBackdrop) ----------
-   Two soft volt lights drift and change shape on long, out-of-step loops, so the hero is never still but nothing
-   competes with the words. Gradients do the softness (no filter); only transform animates. */
-.lp-bg__morph i {
-  position: absolute;
-  display: block;
-  border-radius: 50%;
-  will-change: transform;
-}
-.lp-bg__morph i:first-child {
-  top: -6%;
-  right: -18%;
-  width: min(34rem, 92vw);
-  aspect-ratio: 1.25;
-  background: radial-gradient(closest-side, rgb(210 240 0 / 0.16), rgb(210 240 0 / 0.05) 55%, rgb(210 240 0 / 0));
-  animation: lp3-drift-a 19s ease-in-out infinite alternate;
-}
-.lp-bg__morph i:last-child {
-  top: 38%;
-  left: -24%;
-  width: min(28rem, 80vw);
-  aspect-ratio: 0.9;
-  background: radial-gradient(closest-side, rgb(140 220 90 / 0.11), rgb(140 220 90 / 0.03) 60%, rgb(140 220 90 / 0));
-  animation: lp3-drift-b 23s ease-in-out infinite alternate;
-}
-@keyframes lp3-drift-a {
-  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1, 1); }
-  50% { transform: translate3d(-9%, 7%, 0) rotate(18deg) scale(1.12, 0.9); }
-  100% { transform: translate3d(-4%, 14%, 0) rotate(-10deg) scale(0.94, 1.08); }
-}
-@keyframes lp3-drift-b {
-  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1, 1); }
-  50% { transform: translate3d(12%, -8%, 0) rotate(-16deg) scale(0.9, 1.14); }
-  100% { transform: translate3d(6%, 6%, 0) rotate(12deg) scale(1.1, 0.95); }
-}
-html[data-theme='light'] .lp-bg__morph { opacity: 0.75; }
-@media (min-width: 960px) {
-  .lp-bg__morph i:first-child { top: -14%; right: 30%; width: 38rem; }
-  .lp-bg__morph i:last-child { top: 30%; left: auto; right: -6%; width: 32rem; }
-}
-
-/* ---------- The live line (HeroLive): a true count beside a pulsing dot ---------- */
-.lp-live {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  flex: 0 0 10.5rem;
-  min-width: 0;
-  min-height: 44px;
-  margin: 0;
-  font-size: 0.8125rem;
-  line-height: 1.3;
-  color: var(--ink-2);
-}
-.lp-live[data-ready='true'] { animation: lp3-arrive 0.6s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)) both; }
-@keyframes lp3-arrive { from { opacity: 0; transform: translate3d(0, 0.35rem, 0); } }
-.lp-live__text b { color: var(--ink); font-weight: 700; }
-.lp-live__num { display: inline-block; text-align: right; font-variant-numeric: tabular-nums; }
-.lp-live__dot {
-  position: relative;
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--volt);
-  box-shadow: 0 0 0 3px rgb(210 240 0 / 0.16), 0 0 14px rgb(210 240 0 / 0.55);
-}
-.lp-live__dot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--volt);
-  animation: lp-ping 2.2s ease-out infinite;
-}
-html[data-theme='light'] .lp-live__dot,
-html[data-theme='light'] .lp-live__dot::after { background: #7d9a00; }
-html[data-theme='light'] .lp-live__dot { box-shadow: 0 0 0 3px rgb(125 154 0 / 0.16); }
-/* Wide screens: the line keeps one width before and after the counts arrive, so Mobi's seat beside it (and the
-   flyer that lands on it) never moves. */
-@media (min-width: 761px) { .lp-live { flex: 0 0 auto; min-width: 16.5rem; max-width: none; font-size: 0.875rem; } }
-
-/* ---------- Headline: "CUET 2027" in colour, then the promise ---------- */
+/* ---------- Headline ----------
+   One family, one weight, one size: "CUET 2027" is the headline's first line, set in volt (the accent-text
+   green on Day, where volt cannot be read on paper), not a label above it. Tracking at the -0.04em floor, lines
+   set nearly solid. The size follows the copy column: "went somewhere." is 8.26em wide, so 11.9cqi always fits
+   it on one line and the headline breaks where the sentence does. */
 .mm.lp .lp-hero--v3 .lp-title {
-  font-size: clamp(1.9rem, min(10.4cqi, 5.2svh), 2.9rem);
-  line-height: 0.98;
+  margin: 0;
+  font-size: clamp(2rem, 11.9cqi, 3rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
 }
 @media (min-width: 761px) {
-  .mm.lp .lp-hero--v3 .lp-title { font-size: clamp(2.6rem, min(9.4cqi, 8.4svh), 4.75rem); }
+  .mm.lp .lp-hero--v3 .lp-title { font-size: clamp(3rem, min(11.8cqi, 8.4svh), 4.5rem); }
 }
-.mm.lp .lp-hero--v3 .lp-title__kicker {
-  display: flex;
-  align-items: center;
-  gap: 0.55em;
-  margin-bottom: 0.5em;
-  font-size: 0.44em;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: 0;
+.mm.lp .lp-hero--v3 .lp-title__exam {
+  display: block;
   color: var(--accent-text);
+  font-variant-numeric: lining-nums;
 }
-html:not([data-theme='light']) .mm.lp .lp-hero--v3 .lp-title__kicker {
-  background: linear-gradient(95deg, #d2f000 0%, #ecff7a 45%, #b9f23a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow: none;
-}
-/* A short rule after the year draws in from the left. */
-.mm.lp .lp-hero--v3 .lp-title__kicker::after {
-  content: '';
-  flex: none;
-  width: 2.4em;
-  height: 2px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, #d2f000, rgb(210 240 0 / 0));
-  transform-origin: left center;
-  animation: lp3-draw 0.9s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)) 0.15s both;
-}
-html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-title__kicker::after { background: linear-gradient(90deg, #7d9a00, rgb(125 154 0 / 0)); }
-@keyframes lp3-draw { from { transform: scaleX(0); } }
 
-/* "where." carries the colour and a highlighter stroke that sweeps in under it. */
-.mm.lp .lp-hero--v3 .lp-title__hl {
+/* Mobi stands on the headline's first line, in the space "CUET 2027" leaves at its right. The headline keeps
+   room above that line for his height, so he never covers a word. On wide screens the guide walks him to his
+   lane (PipGuide, brand-pip.css) and the headline needs no room. He has no caption: he is the character, not a
+   speech bubble (the seat's figcaption is empty and kept out of view). */
+.mm.lp .lp-hero--v3 .lp-hero__head {
+  --seat-w: 80px;
+  --seat-h: 104px;
   position: relative;
-  z-index: 0;
-  white-space: nowrap;
-  color: var(--accent-text);
 }
-.mm.lp .lp-hero--v3 .lp-title__hl::after {
+.mm.lp .lp-hero--v3 .lp-hero__head .lp-title { padding-top: calc(var(--seat-h) - 0.8em); }
+.mm.lp .lp-hero--v3 .lp-hero__head .pip-seat {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  width: var(--seat-w);
+  margin: 0;
+}
+.mm.lp .lp-hero--v3 .lp-hero__head .pip-seat__art { width: var(--seat-w); height: var(--seat-h); }
+.mm.lp .lp-hero--v3 .lp-hero__head .pip-seat figcaption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+@media (min-width: 761px) {
+  .mm.lp .lp-hero--v3 .lp-hero__head { --seat-w: 112px; --seat-h: 146px; }
+}
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp .lp-hero--v3 .lp-hero__head .lp-title { padding-top: 0; }
+}
+
+/* ---------- The typed line: how far down MockMob traces a mark ----------
+   "Down to" in the quiet ink, the phrase in full ink with a thin volt caret. The phrase is selected with the
+   site's own volt selection before it is replaced (TypeLine.jsx). Every phrase shares one cell with an invisible
+   copy of the longest, so the line never changes width or wraps. */
+.mm.lp .lp-hero--v3 .lp-type {
+  font: 700 clamp(1.25rem, 6.3cqi, 1.5rem) / 1.2 var(--font-display);
+  letter-spacing: -0.025em;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+@media (min-width: 761px) {
+  .mm.lp .lp-hero--v3 .lp-type { font-size: clamp(1.5rem, 5.2cqi, 2.125rem); }
+}
+.lp-type__slot { display: inline-grid; vertical-align: top; }
+.lp-type__size,
+.lp-type__live { grid-area: 1 / 1; }
+.lp-type__size { visibility: hidden; }
+.lp-type__live { color: var(--ink); }
+.lp-type__text {
+  position: relative;
+  isolation: isolate;
+  transition: color 0.12s ease;
+}
+.lp-type__text::before {
   content: '';
   position: absolute;
   z-index: -1;
-  left: -0.06em;
-  right: -0.02em;
-  bottom: 0.04em;
-  height: 0.3em;
-  border-radius: 0.08em;
-  background: rgb(210 240 0 / 0.2);
-  transform-origin: left center;
-  animation: lp3-draw 0.85s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)) 0.4s both;
+  inset: 0.02em -0.07em -0.04em -0.02em;
+  border-radius: 0.12em;
+  background: var(--volt);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.12s ease-out;
 }
-html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-title__hl::after { background: rgb(170 200 0 / 0.3); }
+.lp-type[data-phase='select'] .lp-type__text { color: var(--volt-ink); }
+.lp-type[data-phase='select'] .lp-type__text::before {
+  transform: scaleX(1);
+  transition: transform 0.19s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.lp-type__caret {
+  display: inline-block;
+  width: max(2px, 0.075em);
+  height: 0.9em;
+  margin-left: 0.07em;
+  margin-right: calc(-0.07em - max(2px, 0.075em));
+  border-radius: 1px;
+  vertical-align: -0.1em;
+  background: var(--accent-text);
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+.lp-type:is([data-phase='hold'], [data-phase='type']) .lp-type__caret { opacity: 1; }
+/* The caret blinks only while a phrase holds (about two blinks), never while it types. */
+.lp-type[data-phase='hold'] .lp-type__caret { animation: lp4-caret 1.1s ease-in-out 0.35s infinite; }
+@keyframes lp4-caret { 0%, 42% { opacity: 1; } 50%, 92% { opacity: 0; } }
 
-/* ---------- The morphing line: what MockMob traces a lost mark down to ---------- */
-.mm.lp .lp-hero--v3 .lp-hero__morph {
-  margin: 0.1rem 0 0;
-  font: 700 clamp(1.1rem, 5.4cqi, 1.7rem) / 1.25 var(--font-display);
-  letter-spacing: -0.02em;
+.mm.lp .lp-hero--v3 .lp-lead {
+  max-width: 34ch;
+  font-size: 1.0625rem;
+  line-height: 1.5;
   color: var(--ink-2);
 }
-.mm.lp .lp-hero--v3 .lp-morph { display: inline-grid; justify-items: start; vertical-align: top; }
-.mm.lp .lp-hero--v3 .lp-morph__word {
-  grid-area: 1 / 1;
-  white-space: nowrap;
-  color: var(--ink);
-  filter: none;
-  opacity: 0;
-  transform: translate3d(0, 0.55em, 0);
-  transition: opacity 0.55s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)), transform 0.55s var(--ease, cubic-bezier(0.16, 1, 0.3, 1));
+@media (min-width: 761px) {
+  .mm.lp .lp-hero--v3 .lp-lead { max-width: 36ch; font-size: 1.1875rem; }
 }
-.mm.lp .lp-hero--v3 .lp-morph__word[data-state='in'] { opacity: 1; transform: none; }
-.mm.lp .lp-hero--v3 .lp-morph__word[data-state='out'] {
-  opacity: 0;
-  transform: translate3d(0, -0.55em, 0);
-  transition-duration: 0.32s;
-  transition-timing-function: cubic-bezier(0.5, 0, 0.75, 0);
-}
-/* The turning phrase wears a thin volt underline, so the eye finds the part that changes. */
-.mm.lp .lp-hero--v3 .lp-morph__word::after {
-  content: '';
-  display: block;
-  height: 2px;
-  margin-top: 0.08em;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--accent-text), rgb(210 240 0 / 0));
-  transform-origin: left center;
-  transform: scaleX(0);
-  transition: transform 0.7s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)) 0.12s;
-}
-.mm.lp .lp-hero--v3 .lp-morph__word[data-state='in']::after { transform: scaleX(1); }
 
-.mm.lp .lp-hero--v3 .lp-lead { max-width: 33rem; }
-
-/* ---------- The keys: one primary, one secondary, both pills ---------- */
-.mm.lp .lp-hero--v3 .lp-cta { display: block; margin-top: 0.4rem; }
+/* ---------- The keys ----------
+   The system's keys: a face over a hard bottom edge. Start free is solid volt; the sample key is a quiet dark key
+   with a hairline. Under a fine pointer a key lifts by 2px (its edge grows with it); a press collapses it flush in
+   100 ms. No glow, no sheen, no moving light; a soft shadow with a real offset is the only depth. */
+.mm.lp .lp-hero--v3 .lp-cta { display: block; }
 .mm.lp .lp-hero--v3 .lp-keys {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.65rem;
+  gap: 0.75rem;
   width: 100%;
-  max-width: 31rem;
+  max-width: 30rem;
 }
 .mm.lp .lp-hero--v3 .lp-keys[data-visitor='member'] { grid-template-columns: minmax(0, 1fr); max-width: 20rem; }
 .mm.lp .lp-hero--v3 .lp-key {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
+  --btn-edge: 4px;
   width: 100%;
-  min-height: 54px;
-  padding: 0.6rem 1rem;
-  border-radius: 999px;
-  font-size: 1rem;
+  min-height: 56px;
+  padding: 0.7rem 1rem;
+  border-radius: var(--r-2, 14px);
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
   line-height: 1.15;
   text-align: center;
   white-space: normal;
+  transform: translateY(calc(var(--btn-edge) * -1));
+  transition: transform 0.16s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.16s cubic-bezier(0.23, 1, 0.32, 1), background-color 0.16s ease;
 }
-.mm.lp .lp-hero--v3 .lp-key .mm-btn__icon { display: inline-block; }
 @media (max-width: 380px) {
-  .mm.lp .lp-hero--v3 .lp-key { padding-inline: 0.75rem; font-size: 0.9375rem; }
+  .mm.lp .lp-hero--v3 .lp-key { padding-inline: 0.75rem; font-size: 1rem; }
 }
 @media (min-width: 761px) {
-  .mm.lp .lp-hero--v3 .lp-keys { grid-template-columns: repeat(2, max-content); gap: 0.85rem; }
-  .mm.lp .lp-hero--v3 .lp-key { min-width: 12.5rem; padding-inline: 1.6rem; font-size: 1.0625rem; }
+  .mm.lp .lp-hero--v3 .lp-keys { grid-template-columns: repeat(2, max-content); gap: 0.9rem; }
+  .mm.lp .lp-hero--v3 .lp-key { min-width: 12.5rem; min-height: 58px; padding-inline: 1.75rem; font-size: 1.125rem; }
 }
-
-/* Start free: the volt key, with its glow and a sheen that crosses it three times, then rests. */
-.mm.lp .lp-hero--v3 .lp-key--go { box-shadow: 0 var(--btn-edge, 4px) 0 var(--volt-edge), 0 14px 34px -14px rgb(210 240 0 / 0.55); }
-.mm.lp .lp-hero--v3 .lp-key--go::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  top: -20%;
-  bottom: -20%;
-  left: 0;
-  width: 42%;
-  background: linear-gradient(100deg, rgb(255 255 255 / 0), rgb(255 255 255 / 0.6), rgb(255 255 255 / 0));
-  transform: translate3d(-130%, 0, 0) skewX(-18deg);
-  animation: lp3-sheen 3.8s var(--ease, cubic-bezier(0.16, 1, 0.3, 1)) 1.1s 3;
-  pointer-events: none;
+.mm.lp .lp-hero--v3 .lp-key--go {
+  background: var(--volt);
+  color: var(--volt-ink);
+  box-shadow: 0 var(--btn-edge) 0 var(--volt-edge), 0 14px 22px -14px rgb(0 0 0 / 0.6);
 }
-@keyframes lp3-sheen {
-  0% { transform: translate3d(-130%, 0, 0) skewX(-18deg); }
-  42%, 100% { transform: translate3d(360%, 0, 0) skewX(-18deg); }
-}
-html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--go { box-shadow: 0 var(--btn-edge, 4px) 0 var(--volt-edge), 0 12px 28px -16px rgb(110 140 0 / 0.55); }
-
-/* Try 5 questions: glass, with a slow light running round its edge. */
+html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--go { box-shadow: 0 var(--btn-edge) 0 var(--volt-edge), 0 12px 20px -14px rgb(38 52 16 / 0.42); }
 .mm.lp .lp-hero--v3 .lp-key--try {
-  --beam: 210 240 0;
-  background: rgb(var(--tint) / 0.06);
+  background: var(--paper-raised);
   color: var(--ink);
-  box-shadow: 0 var(--btn-edge, 4px) 0 rgb(var(--tint) / 0.14), inset 0 0 0 1px rgb(var(--tint) / 0.16);
-  -webkit-backdrop-filter: blur(14px) saturate(150%);
-  backdrop-filter: blur(14px) saturate(150%);
+  box-shadow: 0 var(--btn-edge) 0 var(--line-strong), inset 0 0 0 1px var(--line);
 }
-html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--try { --beam: 125 154 0; background: rgb(255 255 255 / 0.7); }
 @media (hover: hover) and (pointer: fine) {
-  .mm.lp .lp-hero--v3 .lp-key--try:hover { background: rgb(var(--tint) / 0.1); }
+  .mm.lp .lp-hero--v3 .lp-key:hover { --btn-edge: 6px; }
+  .mm.lp .lp-hero--v3 .lp-key--go:hover { background: #dcfa1e; }
+  .mm.lp .lp-hero--v3 .lp-key--try:hover { background: var(--surface-hover); }
 }
-.mm.lp .lp-hero--v3 .lp-key--try:active { box-shadow: 0 0 0 rgb(var(--tint) / 0.14), inset 0 0 0 1px rgb(var(--tint) / 0.16); }
-.lp-key__label { position: relative; }
-.lp-key__beam {
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  overflow: hidden;
-  padding: 1.5px;
-  border-radius: inherit;
-  pointer-events: none;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
+.mm.lp .lp-hero--v3 .lp-key:active {
+  --btn-edge: 0px;
+  transition-duration: 0.1s;
 }
-.lp-key__beam::before {
+.mm.lp .lp-hero--v3 .lp-key--go:active { box-shadow: 0 0 0 var(--volt-edge), 0 6px 12px -10px rgb(0 0 0 / 0.5); }
+.mm.lp .lp-hero--v3 .lp-key--try:active { box-shadow: 0 0 0 var(--line-strong), inset 0 0 0 1px var(--line); }
+.mm.lp .lp-hero--v3 .lp-key:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 3px; }
+
+/* ---------- Terms and the live count: small print set as sentences ---------- */
+.mm.lp .lp-hero--v3 .lp-terms {
+  max-width: 40ch;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-3);
+  text-wrap: pretty;
+}
+.mm.lp .lp-hero--v3 .lp-terms b { font-weight: 600; color: var(--ink-2); }
+@media (min-width: 761px) {
+  .mm.lp .lp-hero--v3 .lp-terms { max-width: none; }
+}
+
+/* The live count (HeroLive) reads as one sentence with its dot inline, like a status word, never a badge. It holds
+   one line empty until the counts answer, so nothing under it moves when they do. */
+.mm.lp .lp-hero--v3 .lp-live {
+  display: block;
+  min-height: 1.5em;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+.lp-live[data-ready='true'] { animation: lp4-arrive 0.24s ease-out both; }
+@keyframes lp4-arrive { from { opacity: 0; } }
+.lp-live__text b { color: var(--ink-2); font-weight: 600; }
+/* The figure is set in the sentence's own face with tabular figures, not in the mono measure face. */
+.mm.lp .lp-hero--v3 .lp-live .mm-measure { font-family: inherit; font-size: inherit; letter-spacing: 0; text-transform: none; }
+.lp-live__num { display: inline-block; text-align: right; font-variant-numeric: tabular-nums; }
+.mm.lp .lp-hero--v3 .lp-live__dot {
+  position: relative;
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 0.55em;
+  border-radius: 50%;
+  vertical-align: 0.08em;
+  background: var(--volt);
+  box-shadow: none;
+}
+/* The one loop on the hero, as asked: a small, slow ring that says the count is live. */
+.mm.lp .lp-hero--v3 .lp-live__dot::after {
   content: '';
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 320%;
-  aspect-ratio: 1;
-  background: conic-gradient(from 0deg, rgb(var(--beam) / 0) 0 60%, rgb(var(--beam) / 0.95) 76%, rgb(255 255 255 / 0.9) 80%, rgb(var(--beam) / 0.9) 84%, rgb(var(--beam) / 0) 94%);
-  transform: translate(-50%, -50%) rotate(0turn);
-  animation: lp3-spin 5.5s linear infinite;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--volt);
+  animation: lp4-live 2.8s cubic-bezier(0.23, 1, 0.32, 1) infinite;
 }
-@keyframes lp3-spin { to { transform: translate(-50%, -50%) rotate(1turn); } }
+@keyframes lp4-live { from { opacity: 0.55; transform: scale(1); } 70%, to { opacity: 0; transform: scale(2.6); } }
+html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-live__dot,
+html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-live__dot::after { background: #7d9a00; }
 
-/* ---------- Reassurances ---------- */
-.mm.lp .lp-hero--v3 .lp-trust { margin-top: 0.15rem; }
+/* The calculator link (wide screens): a plain text link in ink with an accent underline, no arrow, so volt stays
+   with the headline's first line and the primary key. */
+.mm.lp .lp-hero--v3 .lp-hero__tool {
+  font-size: 0.9375rem;
+  color: var(--ink-2);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-line);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.16s ease, text-decoration-color 0.16s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-hero--v3 .lp-hero__tool:hover { color: var(--ink); text-decoration-color: var(--accent-text); }
+}
 
 /* ---------- The sample bay ---------- */
+/* No dot label in the hero: the sample's heading line is plain text (the live count's dot is the hero's only dot). */
+.mm.lp .lp-hero--v3 .lp-stage__live { display: none; }
 .mm.lp .lp-hero--v3 .lp-stage__path { flex-wrap: wrap; row-gap: 0.25rem; }
 .mm.lp .lp-hero--v3 .lp-stage .mm-drill--pick .mm-drill__q { margin-bottom: 0.4rem; }
 
@@ -408,28 +380,22 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-stage::before {
 
 /* ---------- Reduced motion: the finished, still composition ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .mm.lp .lp-hero--v3 [data-hero],
   .lp-live[data-ready='true'],
-  .lp-bg__morph i,
-  .lp-live__dot::after,
-  .mm.lp .lp-hero--v3 .lp-title__kicker::after,
-  .mm.lp .lp-hero--v3 .lp-title__hl::after,
-  .mm.lp .lp-hero--v3 .lp-key--go::after,
-  .lp-key__beam::before,
+  .mm.lp .lp-hero--v3 .lp-live__dot::after,
+  .lp-type__caret,
   .lp-pick__chip { animation: none; }
-  .mm.lp .lp-hero--v3 .lp-morph__word,
-  .mm.lp .lp-hero--v3 .lp-morph__word::after,
+  .lp-type__text,
+  .lp-type__text::before,
+  .lp-type__caret,
+  .mm.lp .lp-hero--v3 .lp-key,
   .lp-pick__plus { transition: none; }
 }
-:root[data-motion='reduced'] .mm.lp .lp-hero--v3 [data-hero],
 :root[data-motion='reduced'] .lp-live[data-ready='true'],
-:root[data-motion='reduced'] .lp-bg__morph i,
-:root[data-motion='reduced'] .lp-live__dot::after,
-:root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-title__kicker::after,
-:root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-title__hl::after,
-:root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-key--go::after,
-:root[data-motion='reduced'] .lp-key__beam::before,
+:root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-live__dot::after,
+:root[data-motion='reduced'] .lp-type__caret,
 :root[data-motion='reduced'] .lp-pick__chip { animation: none; }
-:root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-morph__word,
-:root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-morph__word::after,
+:root[data-motion='reduced'] .lp-type__text,
+:root[data-motion='reduced'] .lp-type__text::before,
+:root[data-motion='reduced'] .lp-type__caret,
+:root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-key,
 :root[data-motion='reduced'] .lp-pick__plus { transition: none; }

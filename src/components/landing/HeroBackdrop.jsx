@@ -1,60 +1,10 @@
-"use client";
-
-import { useEffect, useRef } from 'react';
-
-// Layered hero backdrop: hairline grid, a dot matrix aligned to the grid
-// intersections, and a second volt dot layer revealed only under the pointer.
-// The static layers are pure CSS. The pointer layer is a progressive
-// enhancement: it runs only for a fine pointer with motion allowed, updates two
-// CSS variables on one rAF, and never touches layout.
+// The hero's ground: only the Night Arena hairline grid, faint and masked to the top of the hero, fading into the
+// page. No washes, no drifting lights, no dot matrix and no pointer-lit layer: the words carry the hero. Pure CSS,
+// so it costs no script and renders in the server HTML.
 export function HeroBackdrop() {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const node = ref.current;
-    const host = node?.parentElement;
-    if (!node || !host) return undefined;
-    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-    const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!fine || calm) return undefined;
-
-    let frame = 0;
-    let x = 0;
-    let y = 0;
-
-    function paint() {
-      frame = 0;
-      node.style.setProperty('--mx', `${x}px`);
-      node.style.setProperty('--my', `${y}px`);
-    }
-    function onMove(event) {
-      const rect = host.getBoundingClientRect();
-      x = event.clientX - rect.left;
-      y = event.clientY - rect.top;
-      node.dataset.live = 'true';
-      if (!frame) frame = requestAnimationFrame(paint);
-    }
-    function onLeave() {
-      node.dataset.live = 'false';
-    }
-
-    host.addEventListener('pointermove', onMove, { passive: true });
-    host.addEventListener('pointerleave', onLeave);
-    return () => {
-      host.removeEventListener('pointermove', onMove);
-      host.removeEventListener('pointerleave', onLeave);
-      if (frame) cancelAnimationFrame(frame);
-    };
-  }, []);
-
   return (
-    <div ref={ref} className="lp-bg" aria-hidden="true" data-live="false">
-      <div className="lp-bg__aurora" />
-      {/* Two soft volt lights that slowly drift and change shape behind the headline (transform only, hero-v3.css). */}
-      <div className="lp-bg__morph"><i /><i /></div>
+    <div className="lp-bg" aria-hidden="true">
       <div className="lp-bg__grid" />
-      <div className="lp-bg__dots" />
-      <div className="lp-bg__spot" />
       <div className="lp-bg__fade" />
     </div>
   );
