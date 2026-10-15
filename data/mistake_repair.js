@@ -197,7 +197,8 @@ const LEADING_LABEL = /^(?:answer|explanation|solution|trap|why\s+(?:it\s+is\s+)
 //   "!=" (not equal);
 //   a factorial (a digit, a letter or a closing bracket, then "!") followed, with or without a space, by an operator,
 //   "=", a digit or a closing bracket ("5! = 120", "n!/(r!(n-r)!)"), or straight away by an opening bracket;
-//   a factorial of a number, a one-letter variable or a bracket in a sentence that goes on ("5! is 120", "4! ways").
+//   a factorial of a number, a one-letter variable or a bracket in a sentence that goes on ("5! is 120", "4! ways"),
+//   or that a full stop then ends ("The count is 5!.").
 // Everything else is an exclamation and becomes ".": "The answer is 42!" ends "42.", and so does a factorial at the
 // very end of a sentence, which cannot be told apart from an exclamation (the prompt asks for plain sentences).
 const MATH_AFTER = /^\s*[+\-−×*/÷=<>≤≥^)\]}0-9]|^[([{]/;
@@ -207,7 +208,8 @@ function mathBang(text, at) {
   if (after.startsWith('=')) return true;
   if (!/[A-Za-z0-9)\]]$/.test(before)) return false;
   if (MATH_AFTER.test(after)) return true;
-  return /(?:^|[^A-Za-z])(?:\d+|[A-Za-z])$|[)\]]$/.test(before) && /^(?:\s+[a-z]|[,;:]\s)/.test(after);
+  // A full stop straight after the "!" ends the sentence itself, so the "!" is a factorial: "The count is 5!." stays.
+  return /(?:^|[^A-Za-z])(?:\d+|[A-Za-z])$|[)\]]$/.test(before) && /^(?:\s+[a-z]|[,;:]\s|\.(?:\s|$))/.test(after);
 }
 
 /** Step 3: collapse whitespace, turn dashes between words into commas and "!" into ".", strip a leading label. */
@@ -245,7 +247,7 @@ export function fitSentence(text, cap) {
 // read 'will', expect a verb", "If you were the buyer", "you were asked to find". Words in quotation marks are option
 // or passage text being quoted ('Option D uses "you were"'), so they are left out of the check.
 // "missed" names a cause ("You missed the word NOT"), except in the record's own fact "you missed this in Mock 2".
-const CAUSE_VERBS = String.raw`(?:confused|mixed\s+up|forgot|forgotten|overlooked|missed(?!\s+(?:this|it|that)(?:\s+question)?\s+(?:in|on|before|earlier|last)\b)|misread|misunderstood|ignored|rushed|assumed|panicked|guessed|skimmed|overthought|neglected)`;
+const CAUSE_VERBS = String.raw`(?:confused|mixed\s+up|forgot|forgotten|overlooked|missed(?!\s+(?:this|it|that)(?:\s+question)?\s+(?:in|on|before|earlier|last)\b)|misread|misunderstood|ignored|rushed|assumed|panicked|guessed|skimmed|overthought|neglected|thought|fell\s+for|got\s+(?:confused|mixed\s+up)|failed\s+to\s+(?:read|notice|check|see|spot))`;
 const HEDGES = String.raw`(?:\s+(?:probably|likely|perhaps|maybe|clearly|simply|just|may|might|must|could|would|have|had|seem\s+to\s+have|seemed\s+to\s+have))*`;
 const STUDENT_CLAIMS = [
   // "You confused", "You may have confused", "You forgot", "You probably missed", "You've ignored", "You assumed".

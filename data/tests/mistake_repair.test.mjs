@@ -296,6 +296,7 @@ test('step 3: a number before "!" at a sentence end is an exclamation; a factori
     ['Wow! That works.', 'Wow. That works.'],
     ['Watch out!! It reverses.', 'Watch out. It reverses.'],
     ['It is 7!!', 'It is 7.'],
+    ['Wow!. That works.', 'Wow. That works.'],
   ]) assert.equal(cleanRepairText(input), expected, input);
   // Maths: an operator, "=", a digit or a bracket after it, or a sentence that goes on.
   for (const text of [
@@ -310,6 +311,9 @@ test('step 3: a number before "!" at a sentence end is an exclamation; a factori
     'n! grows fast.',
     'Compare 4!, 5! and 6 first.',
     'x! = 6 gives x = 3.',
+    // A full stop straight after the "!" ends the sentence, so the "!" is a factorial, not an exclamation.
+    'The number of ways is 5!.',
+    'So the total is 3! + 4!. Add them.',
   ]) assert.equal(cleanRepairText(text), text, text);
 });
 
@@ -359,6 +363,8 @@ test('step 7: each claim about the student is caught, and teaching text is not',
     // "you were ..." and "your mistake was ..."
     'You were thinking of the old ratio.', 'You were in a hurry.', 'Here you were looking at the wrong year.', "You were 'tired' by then.",
     'Your mistake was reading the ratio backwards.', 'Your main error is the sign.', 'The mistake you made is a common one.',
+    // Close variants of the same claim (verification, 15 Oct).
+    'You got confused by the two ratios.', 'You fell for the look-alike word.', 'You thought the rate was simple.', 'You failed to notice the NOT.',
   ]) assert.equal(claimsAboutStudent(text), true, text);
   for (const text of [
     'This option borrows a true fact.', 'When you read "will", expect a verb.', 'Read the sentence to the end before choosing.', 'If you checked the tense, B fits.',
