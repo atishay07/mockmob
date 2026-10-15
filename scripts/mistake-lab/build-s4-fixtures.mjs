@@ -142,9 +142,8 @@ export function reviseWorld() {
     card(6, { box: 1, due_day: '2026-10-16' }),
     card(7, { box: 1, due_day: '2026-10-17' }),
   ];
-  // Wrong answers on record that have no card yet (seeded on the read): r-q5 two days ago, and r-q8 whose chosen option
-  // is now the key (a corrected key, so it is not seeded).
-  const progress = [progressRow(5, 'A', '2026-10-14T09:00:00.000Z'), progressRow(8, 'B', '2026-10-14T09:10:00.000Z')];
+  // A wrong answer on record that has no card yet (seeded on the read): r-q5 two days ago.
+  const progress = [progressRow(5, 'A', '2026-10-14T09:00:00.000Z')];
   return { questions, cards, progress };
 }
 

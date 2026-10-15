@@ -282,23 +282,29 @@ export function trapOptions(question, atlasByHash = null) {
   return out;
 }
 
-/** "Falling" or "Still catching you" for the two periods of one trap, or null. */
+/**
+ * "Falling" or "Still catching you" for the two periods of one trap, or null. Compared as whole numbers (k1 / n1 against
+ * k2 / n2 by cross-multiplying), never as decimals: 7 of 10 against 4 of 10 is exactly 30 points, and 0.7 - 0.4 is not.
+ */
 export function trapStatus(before, since) {
-  if (!before || !since) return null;
-  const rate = (p) => (p.n ? p.k / p.n : 0);
-  if (before.n >= TRAP_RULES.periodMin && since.n >= TRAP_RULES.periodMin && (rate(before) - rate(since)) * 100 >= TRAP_RULES.fallingDrop) return 'falling';
-  if (since.n >= TRAP_RULES.stillLaterMin && since.k / since.n >= TRAP_RULES.stillShare && rate(since) >= rate(before)) return 'still';
+  if (!before || !since || !(before.n > 0) || !(since.n > 0)) return null;
+  const gapPoints100 = (before.k * since.n - since.k * before.n) * 100; // (rate before - rate since) * n1 * n2 * 100
+  const scale = before.n * since.n;
+  if (before.n >= TRAP_RULES.periodMin && since.n >= TRAP_RULES.periodMin && gapPoints100 >= TRAP_RULES.fallingDrop * scale) return 'falling';
+  if (since.n >= TRAP_RULES.stillLaterMin && since.k >= TRAP_RULES.stillShare * since.n && gapPoints100 <= 0) return 'still';
   return null;
 }
 
 /**
  * Traps you meet (contract_traps_v1.json, `sheet`; GET /api/me/traps): every named trap the student has had a chance
  * to fall for, with how often they did, and the split before and after the middle chance. `attempts` are the student's
- * own (camelCase, as Database.getAttempts returns them); `atlas` is indexAtlas(rows) or null. States:
+ * own (camelCase, as Database.getAttempts returns them); `atlas` is indexAtlas(rows) or null; `skip` is a Set of question
+ * ids that count for nothing (held for re-check, or flagged by the key-quality loop: their key is in doubt, as it is for the
+ * trap tag). States:
  *   ready  at least one trap has 3 or more chances
  *   empty  no trap has 3 chances yet
  */
-export function buildTrapsMeet({ attempts = [], atlas = null } = {}) {
+export function buildTrapsMeet({ attempts = [], atlas = null, skip = null } = {}) {
   const chances = new Map(); // trapType -> [{ at, caught }]
   for (const a of Array.isArray(attempts) ? attempts : []) {
     const at = when(a);
@@ -306,6 +312,7 @@ export function buildTrapsMeet({ attempts = [], atlas = null } = {}) {
     const given = new Map((a.details || []).filter((d) => d && Number.isInteger(d.givenIndex)).map((d) => [d.qid, d.givenIndex]));
     for (const q of a.questionsSnapshot) {
       if (!q?.id || !given.has(q.id)) continue;
+      if (skip?.has(q.id)) continue; // a question held for re-check, or flagged by the key-quality loop, is no chance
       const mine = given.get(q.id);
       for (const [type, indexes] of trapOptions(q, atlas?.get(q.id) || null)) {
         if (!chances.has(type)) chances.set(type, []);

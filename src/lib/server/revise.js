@@ -15,7 +15,6 @@ import COPY from '../../../data/mistake_lab.copy.json' with { type: 'json' };
 const BATCH = 100;
 const CARD_COLUMNS = 'question_id,box,due_day,state,right_total,last_recalled_day,key_hash,wrong_at,created_at,updated_at';
 const QUESTION_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,status,is_deleted,verification_state,explanation,passage_text';
-const LETTERS = 'ABCDEFGH';
 
 const missing = (error) => /revise_cards|schema cache|does not exist|PGRST20[25]|42P01/i.test(`${error?.code || ''} ${error?.message || ''}`);
 const fail = (code, cause) => Object.assign(new Error(code), { code, cause });
@@ -23,7 +22,6 @@ const client = async (db) => db || (await import('../supabase')).supabaseAdmin()
 
 const optionText = (o) => (typeof o === 'string' ? o : o?.text ?? o?.label ?? o?.value ?? '');
 const keyOf = (row) => { const i = correctIndexOf(row); return Number.isInteger(i) && i >= 0 && i < (row?.options?.length || 0) ? i : -1; };
-const keyLetterOf = (row) => { const i = keyOf(row); return i < 0 ? null : (row.options[i]?.key || LETTERS[i] || null); };
 const keyHashOf = (row) => { const i = keyOf(row); return i < 0 ? null : optionHash(row.options[i]); };
 
 /** A question that may be asked again: live, not deleted, not under re-check, with a readable key and at least 2 options. */
@@ -77,7 +75,6 @@ async function seed(db, userId, cards, now) {
   const plan = planSeeds({
     progress: rows, cards,
     usable: (qid) => eligibleQuestion(questions.get(qid)),
-    keyLetterOf: (qid) => keyLetterOf(questions.get(qid)),
     keyHashOf: (qid) => keyHashOf(questions.get(qid)),
   });
   if (!plan.length) return cards;
@@ -169,18 +166,40 @@ export async function answerRevise(userId, { questionId, choice } = {}, { db, no
   };
 }
 
-/** The student's cards for these questions as a Map(question id -> card), or null when they could not be read. Never seeds. */
+/**
+ * What Revise holds for these questions, as a Map(question id -> { question_id, box, due_day, state }), or null when the
+ * cards could not be read. Never writes. It answers the Lab's "Same mistakes later" with what the next read of Revise will
+ * show, so a day it names is the day a card will really be due:
+ *   - a stored card, as it is;
+ *   - a card the student has since answered wrong again (progress newer than the card), or a wrong answer with no card yet:
+ *     the card Revise will seed, box 1, due the day after that wrong answer (the same planSeeds the seeding runs);
+ *   - state 'none' for a question the student does not have a wrong answer on now (answered right since, in a paper or in
+ *     practice, or never wrong): nothing comes back, so it must not be promised.
+ * When the progress read fails, only the stored cards are returned (a question with no card is left out of the Map).
+ */
 export async function cardsFor(userId, qids, { db } = {}) {
   const ids = [...new Set((qids || []).filter((q) => typeof q === 'string' && q))];
   if (!ids.length) return new Map();
   try {
     const client_ = await client(db);
-    const out = new Map();
+    const stored = [];
+    const progress = [];
+    let progressOk = true;
     for (let i = 0; i < ids.length; i += BATCH) {
-      const res = await client_.from('revise_cards').select('question_id,box,due_day,state').eq('user_id', userId).in('question_id', ids.slice(i, i + BATCH));
+      const part = ids.slice(i, i + BATCH);
+      const res = await client_.from('revise_cards').select('question_id,box,due_day,state,right_total,updated_at').eq('user_id', userId).in('question_id', part);
       if (res.error) return null;
-      for (const row of res.data || []) out.set(row.question_id, row);
+      stored.push(...(res.data || []));
+      if (progressOk) {
+        const read = await client_.from('user_question_progress').select('question_id,last_correct,last_selected_key,last_attempted_at').eq('user_id', userId).in('question_id', part);
+        if (read.error) progressOk = false; else progress.push(...(read.data || []));
+      }
     }
+    const out = new Map(stored.map((row) => [row.question_id, { question_id: row.question_id, box: row.box, due_day: row.due_day, state: row.state }]));
+    if (!progressOk) return out;
+    for (const row of planSeeds({ progress, cards: stored })) out.set(row.question_id, { question_id: row.question_id, box: row.box, due_day: row.due_day, state: row.state });
+    const wrongNow = new Set(progress.filter((p) => p?.last_correct === false && p.last_selected_key).map((p) => p.question_id));
+    for (const id of ids) if (!wrongNow.has(id) && !(out.get(id)?.state === 'active')) out.set(id, { question_id: id, box: null, due_day: null, state: 'none' });
     return out;
   } catch {
     return null;

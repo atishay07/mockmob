@@ -98,10 +98,13 @@ export function boxCounts(cards = []) {
  * Cards to write for the student's newest wrong questions (user_question_progress rows with last_correct false):
  * a new card in box 1 due the day after the wrong answer, or an existing card sent back to box 1 when the question was
  * answered wrong again after the card last changed. Seeding is idempotent on (user, question). `usable(qid)` is the
- * server's eligibility check: the question is live, not under re-check, and its current key is not the option the
- * student chose (a corrected key). `keyLetterOf(qid)` is the current key letter.
+ * server's eligibility check: the question is live and not under re-check. The key letter in the progress row is NOT
+ * compared with the question's current key letter: a Full mock or NTA paper serves shuffled options, so the letter the
+ * student picked there is a position in that paper, not in the stored question, and the comparison would silently drop
+ * about a quarter of the wrong answers on those papers. A key corrected later is handled at the recall instead
+ * (key_hash: the card is retired, not graded).
  */
-export function planSeeds({ progress = [], cards = [], usable = () => true, keyLetterOf = () => null, keyHashOf = () => null } = {}) {
+export function planSeeds({ progress = [], cards = [], usable = () => true, keyHashOf = () => null } = {}) {
   const have = new Map((Array.isArray(cards) ? cards : []).map((c) => [c.question_id, c]));
   const rows = [];
   const wrong = (Array.isArray(progress) ? progress : [])
@@ -110,7 +113,7 @@ export function planSeeds({ progress = [], cards = [], usable = () => true, keyL
     .slice(0, REVISE_RULES.seedMax);
   for (const p of wrong) {
     const qid = p.question_id;
-    if (!usable(qid) || keyLetterOf(qid) === p.last_selected_key) continue;
+    if (!usable(qid)) continue;
     const wrongAt = Date.parse(p.last_attempted_at);
     if (!Number.isFinite(wrongAt)) continue;
     const card = have.get(qid);
@@ -171,7 +174,7 @@ export function reviseBody({ cards = [], items = [], today, cap = REVISE_RULES.c
     nextDay: q.nextDay,
     nextDayLabel: q.nextDay ? dayLabel(q.nextDay) : null,
     head: shown ? fill(form(R.head.due, shown), { n: shown }) : R.head.none,
-    summary: cards.length ? fill(R.summary, { due: shown, cards: cards.length, twice }) : null,
+    summary: cards.length ? fill(R.summary, { due: shown, cards: fill(form(R.cards, cards.length), { n: cards.length }), twice }) : null,
     next: q.nextDay ? fill(R.next, { day: dayLabel(q.nextDay) }) : active.length ? null : R.nextNone,
     labels: { title: R.title, sub: R.sub, fine: R.fine, boxes: R.boxDays },
     items,

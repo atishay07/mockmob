@@ -17,7 +17,7 @@ import { buildLabSlice4 } from '../lab_loop.js';
 import { resultHistory } from '../mock_swot.js';
 import { buildMissedBefore } from '../../src/components/recovery/repairRun.js';
 import { runRepair } from '../../src/services/recovery/repairFlow.js';
-import { readAtlasRows, recordTrap, atlasForAttempt } from '../../src/lib/server/trapAtlas.js';
+import { readAtlasRows, recordTrap, atlasForAttempt, doubtedQuestionIds } from '../../src/lib/server/trapAtlas.js';
 import { recheckFlaggedKey } from '../../src/lib/server/keyQuality.js';
 import { fakeDb } from '../../scripts/mistake-lab/fake-db.mjs';
 import { buildS4, buildPaperContracts, buildSheetContracts, labPaper, labAtlasRows, labCohort, sheetInputs, T0 } from '../../scripts/mistake-lab/build-s4-fixtures.mjs';
@@ -187,6 +187,27 @@ test('Falling needs 5 chances in each period and a drop of 30 points; Still catc
   assert.equal(trapStatus(null, p(4, 4)), null);
 });
 
+test('the 30 point gate is exact: 7 of 10 to 4 of 10 and 9 of 10 to 6 of 10 are Falling, 7 of 10 to 5 of 10 is not (no decimal rounding)', () => {
+  const p = (k, n) => ({ k, n });
+  assert.equal(0.7 - 0.4 < 0.3, true, 'the decimal subtraction really is a hair under 0.3');
+  assert.equal(trapStatus(p(7, 10), p(4, 10)), 'falling');
+  assert.equal(trapStatus(p(9, 10), p(6, 10)), 'falling');
+  assert.equal(trapStatus(p(6, 10), p(3, 10)), 'falling');
+  assert.equal(trapStatus(p(7, 10), p(5, 10)), null, '20 points');
+  assert.equal(trapStatus(p(7, 10), p(4, 5)), 'still', '70% to 80%: the rate rose and 4 of 5 is over half');
+  assert.equal(trapStatus(p(5, 10), p(3, 5)), 'still', '60% is not lower than 50%');
+});
+
+test('Traps you meet leaves out questions held for re-check or flagged by the key-quality loop', () => {
+  const trap = (id) => q(id, [`${id} key`, `${id} trap`, `${id} c`, `${id} d`], 0);
+  const qs = ['u1', 'u2', 'u3', 'u4'].map(trap);
+  const attempt = { id: 'two', completedAt: T0, questionsSnapshot: qs, details: qs.map((x) => ({ qid: x.id, givenIndex: 1, isCorrect: false })) };
+  const atlas = indexAtlas(qs.map((x) => ({ qid: x.id, option_hash: pureHash(x.options[1]), trap_type: 'extreme_word', repairs_agreeing: 1, repairs_disagreeing: 0 })));
+  assert.equal(buildTrapsMeet({ attempts: [attempt], atlas }).rows[0].of, 4);
+  assert.equal(buildTrapsMeet({ attempts: [attempt], atlas, skip: new Set(['u4']) }).rows[0].of, 3);
+  assert.equal(buildTrapsMeet({ attempts: [attempt], atlas, skip: new Set(['u3', 'u4']) }).state, 'empty', 'two chances are under the floor');
+});
+
 test('with every chance on one day there is no split, only the counts', () => {
   const trap = (id) => q(id, [`${id} key`, `${id} trap`, `${id} c`, `${id} d`], 0);
   const qs = ['t1', 't2', 't3'].map(trap);
@@ -262,6 +283,15 @@ test('the atlas read batches question ids and treats a missing table as no atlas
   await assert.rejects(readAtlasRows(['x'], { db: fakeDb({ atlas: [], failures: { 'trap_atlas:select': { code: '500', message: 'boom' } } }) }), /ATLAS_UNAVAILABLE/);
   const idx = await atlasForAttempt(labPaper(), { db });
   assert.ok(idx.get('p1-q1').size === 1 && !idx.has('p1-q5'), 'a disagreeing row is not indexed');
+});
+
+test('doubted questions: held for re-check or flagged by the loop, and a failed read leaves that part out', async () => {
+  const db = fakeDb({ questions: [{ id: 'h1', verification_state: 'disputed' }, { id: 'ok1', verification_state: 'verified' }, { id: 'h2', verification_state: 'disputed' }] });
+  const snapshot = { questions: { f1: { n: 60, keyHash: 'k', picks: { k: 10, x: 32 } }, f2: { n: 60, keyHash: 'k', picks: { k: 30, x: 30 } } } };
+  const got = await doubtedQuestionIds(['h1', 'ok1', 'ok1', 'f1', 'f2', null], { db, snapshot });
+  assert.deepEqual([...got].sort(), ['f1', 'h1'], 'f2: the wrong option does not beat the key; h2 was not asked about');
+  assert.deepEqual([...(await doubtedQuestionIds(['h1'], { db: fakeDb({ questions: [], failures: { 'questions:select': { message: 'x' } } }), snapshot }))], ['f1']);
+  assert.equal((await doubtedQuestionIds([], { db })).size, 0);
 });
 
 test('recordTrap counts agreeing and disagreeing repairs, and never throws', async () => {

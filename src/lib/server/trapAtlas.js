@@ -4,7 +4,7 @@
 //   recordTrap    fills the atlas from one committed v3 repair (the record_trap_atlas function: atomic, idempotent
 //                 per call, never throws into the repair: a failure is only a log line)
 // Rows are aggregates about a question's option: no user id is in the table.
-import { indexAtlas } from '../../../data/trap_atlas.js';
+import { indexAtlas, keyQualityFlags } from '../../../data/trap_atlas.js';
 
 const BATCH = 120; // question ids per read; keeps the request URL short
 const MAX_QUESTIONS = 3000;
@@ -58,4 +58,25 @@ export async function recordTrap(record, { db } = {}) {
   } catch {
     return { ok: false, reason: 'failed' };
   }
+}
+
+/**
+ * Question ids whose key is in doubt, so a trap on them counts for nothing in "Traps you meet": held for re-check
+ * (verification state disputed: the AI key dispute, a student report, the key-quality loop) or flagged by the loop on the
+ * committed cohort snapshot (`snapshot`, data/cohort_picks.js loadCohortSnapshot). Fails open: a read that fails leaves
+ * that part out, because the counts are the student's own and arithmetic only.
+ */
+export async function doubtedQuestionIds(qids, { db, snapshot = null } = {}) {
+  const ids = [...new Set((qids || []).filter((q) => typeof q === 'string' && q))].slice(0, MAX_QUESTIONS);
+  const out = new Set(snapshot ? keyQualityFlags(snapshot).map((f) => f.qid) : []);
+  if (!ids.length) return out;
+  try {
+    const client = db || (await import('../supabase')).supabaseAdmin();
+    for (let i = 0; i < ids.length; i += BATCH) {
+      const res = await client.from('questions').select('id,verification_state').in('id', ids.slice(i, i + BATCH));
+      if (res.error) break;
+      for (const row of res.data || []) if (row.verification_state === 'disputed') out.add(row.id);
+    }
+  } catch { /* the held part is left out */ }
+  return out;
 }

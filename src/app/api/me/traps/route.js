@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
-import { atlasForAttempts } from '@/lib/server/trapAtlas';
+import { atlasForAttempts, doubtedQuestionIds } from '@/lib/server/trapAtlas';
+import { loadCohortSnapshot } from '@/../data/cohort_picks';
 import { buildTrapsMeet } from '@/../data/trap_atlas';
 import COPY from '@/../data/mistake_lab.copy.json';
 
@@ -23,7 +24,13 @@ export async function GET(request) {
     const attempts = await Database.getAttempts(session.user.id);
     let atlas = null;
     try { atlas = await atlasForAttempts(attempts); } catch (e) { console.warn('[api/me/traps] atlas skipped:', e?.message); }
-    return NextResponse.json(buildTrapsMeet({ attempts, atlas }), { headers: NO_STORE });
+    // Questions whose key is in doubt (held for re-check, or flagged by the key-quality loop) are no chance, as they get no tag.
+    let skip = null;
+    try {
+      const qids = attempts.flatMap((a) => (a?.questionsSnapshot || []).map((q) => q?.id));
+      skip = await doubtedQuestionIds(qids, { snapshot: await loadCohortSnapshot() });
+    } catch (e) { console.warn('[api/me/traps] held questions skipped:', e?.message); }
+    return NextResponse.json(buildTrapsMeet({ attempts, atlas, skip }), { headers: NO_STORE });
   } catch (e) {
     console.warn('[api/me/traps] GET failed:', e?.message);
     return NextResponse.json({ error: 'unavailable', message: COPY.traps.unavailable }, { status: 503, headers: NO_STORE });

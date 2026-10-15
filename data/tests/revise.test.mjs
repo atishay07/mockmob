@@ -83,18 +83,18 @@ test('minutes: 40 seconds a card, rounded up to the next 5 minutes', () => {
   assert.deepEqual([0, 1, 7, 8, 9, 10, 15, 16].map(minutesFor), [0, 5, 5, 10, 10, 10, 10, 15]);
 });
 
-test('seeding: a new wrong answer becomes a box 1 card due the next India day; blanks, right answers and a corrected key are left out', () => {
+test('seeding: a new wrong answer becomes a box 1 card due the next India day; blanks, right answers and a question under re-check are left out', () => {
   const at = (iso) => iso;
   const progress = [
     { question_id: 'w1', last_correct: false, last_selected_key: 'A', last_attempted_at: at('2026-10-15T18:00:00Z') }, // 23:30 IST on the 15th: due the 16th
     { question_id: 'w2', last_correct: false, last_selected_key: 'C', last_attempted_at: at('2026-10-15T19:00:00Z') }, // 00:30 IST on the 16th: due the 17th
     { question_id: 'blank', last_correct: false, last_selected_key: null, last_attempted_at: at('2026-10-15T10:00:00Z') },
     { question_id: 'right', last_correct: true, last_selected_key: 'B', last_attempted_at: at('2026-10-15T10:00:00Z') },
-    { question_id: 'corrected', last_correct: false, last_selected_key: 'B', last_attempted_at: at('2026-10-15T10:00:00Z') },
+    { question_id: 'shuffled', last_correct: false, last_selected_key: 'B', last_attempted_at: at('2026-10-15T09:00:00Z') }, // a position in a shuffled paper that happens to be the stored key's letter
     { question_id: 'held', last_correct: false, last_selected_key: 'A', last_attempted_at: at('2026-10-15T10:00:00Z') },
   ];
-  const plan = planSeeds({ progress, cards: [], usable: (id) => id !== 'held', keyLetterOf: () => 'B', keyHashOf: (id) => `h-${id}` });
-  assert.deepEqual(plan.map((p) => [p.question_id, p.box, p.due_day, p.state, p.right_total, p.key_hash]), [['w2', 1, '2026-10-17', 'active', 0, 'h-w2'], ['w1', 1, '2026-10-16', 'active', 0, 'h-w1']], 'newest wrong answer first');
+  const plan = planSeeds({ progress, cards: [], usable: (id) => id !== 'held', keyHashOf: (id) => `h-${id}` });
+  assert.deepEqual(plan.map((p) => [p.question_id, p.box, p.due_day, p.state, p.right_total, p.key_hash]), [['w2', 1, '2026-10-17', 'active', 0, 'h-w2'], ['w1', 1, '2026-10-16', 'active', 0, 'h-w1'], ['shuffled', 1, '2026-10-16', 'active', 0, 'h-shuffled']], 'newest wrong answer first; a picked letter equal to the stored key letter is no reason to drop a card, because a shuffled paper serves its own letters');
 });
 
 test('seeding is idempotent, resets a card only when the question was answered wrong again, and reads at most 200 newest', () => {
@@ -135,7 +135,7 @@ test('GET seeds the cards once, skips a question under re-check, and sends today
   assert.equal(first.http, 200);
   const body = first.body;
   assert.deepEqual(body.items.map((i) => i.questionId), ['r-q5', 'r-q1', 'r-q2', 'r-q3'], 'r-q5 was seeded; r-q6 is held and skipped; r-q7 is due tomorrow');
-  assert.equal(db.tables.revise_cards.length, 7, 'r-q8 is not seeded: its chosen option is the key now');
+  assert.equal(db.tables.revise_cards.length, 7, 'r-q5 was seeded, nothing else was');
   const seeded = db.tables.revise_cards.find((c) => c.question_id === 'r-q5');
   assert.deepEqual([seeded.box, seeded.due_day, seeded.state, seeded.user_id], [1, '2026-10-15', 'active', USER]);
   // The key never leaves before the answer: no key field in any item, nor the explanation, nor the correct letter.
@@ -256,10 +256,44 @@ test('cards for a paper\'s questions are read without seeding, and a failed read
   const world = reviseWorld();
   const db = fakeDb({ questions: world.questions, progress: world.progress, cards: world.cards });
   const map = await cardsFor(USER, ['r-q1', 'r-q2', 'r-q5', 'r-q1', null], { db });
-  assert.deepEqual([...map.keys()].sort(), ['r-q1', 'r-q2']);
+  assert.deepEqual([...map.keys()].sort(), ['r-q1', 'r-q2', 'r-q5']);
+  assert.deepEqual(map.get('r-q5'), { question_id: 'r-q5', box: 1, due_day: '2026-10-15', state: 'active' }, 'the card Revise will seed: the day after the wrong answer');
   assert.equal(db.tables.revise_cards.length, 6, 'r-q5 was not seeded by this read');
   assert.deepEqual(await cardsFor(USER, [], { db }), new Map());
   assert.equal(await cardsFor(USER, ['r-q1'], { db: fakeDb({ cards: [], failures: { 'revise_cards:select': { message: 'x' } } }) }), null);
+});
+
+test('cards for a paper say what the next read of Revise will hold: a re-wrong card is reset, a question answered right since comes back no more', async () => {
+  const card = (id, over) => ({ user_id: USER, question_id: id, box: 3, due_day: '2026-10-30', state: 'active', right_total: 2, last_recalled_day: '2026-10-09', key_hash: null, wrong_at: null, created_at: '2026-10-09T07:00:00.000Z', updated_at: '2026-10-09T07:00:00.000Z', ...over });
+  const prog = (id, correct, at) => ({ user_id: USER, question_id: id, last_correct: correct, last_selected_key: 'B', last_attempted_at: at });
+  const db = fakeDb({
+    cards: [card('again'), card('kept'), card('done', { state: 'retired', box: 4 }), card('rightSince')],
+    progress: [
+      prog('again', false, '2026-10-15T09:00:00.000Z'), // wrong again after the card last changed
+      prog('kept', false, '2026-10-08T09:00:00.000Z'), // the card is newer than this wrong answer
+      prog('done', false, '2026-10-15T09:00:00.000Z'), // wrong again after its card was done
+      prog('rightSince', true, '2026-10-15T09:00:00.000Z'), // answered right since, in practice
+      prog('fresh', false, '2026-10-15T09:00:00.000Z'), // no card yet
+      prog('rightNew', true, '2026-10-15T09:00:00.000Z'),
+    ],
+  });
+  const map = await cardsFor(USER, ['again', 'kept', 'done', 'rightSince', 'fresh', 'rightNew', 'neverSeen'], { db });
+  const brief = (id) => { const c = map.get(id); return [c.state, c.box, c.due_day]; };
+  assert.deepEqual(brief('again'), ['active', 1, '2026-10-16'], 'reset to box 1, due the day after the new wrong answer');
+  assert.deepEqual(brief('kept'), ['active', 3, '2026-10-30'], 'the stored card stands');
+  assert.deepEqual(brief('done'), ['active', 1, '2026-10-16'], 'a done card that was answered wrong again comes back');
+  assert.deepEqual(brief('rightSince'), ['active', 3, '2026-10-30'], 'its card is still there and still due');
+  assert.deepEqual(brief('fresh'), ['active', 1, '2026-10-16']);
+  assert.equal(map.get('rightNew').state, 'none');
+  assert.equal(map.get('neverSeen').state, 'none');
+  assert.equal(db.tables.revise_cards.find((c) => c.question_id === 'again').box, 3, 'nothing was written');
+  // The Lab line follows it: only the questions that will really come back are promised.
+  const paper = { id: 'pp', completedAt: Date.UTC(2026, 9, 15, 6, 30), questionsSnapshot: ['again', 'fresh', 'rightNew', 'neverSeen'].map((id) => ({ id, options: ['a', 'b', 'c', 'd'], correctIndex: 0 })), details: ['again', 'fresh', 'rightNew', 'neverSeen'].map((id) => ({ qid: id, givenIndex: 1, isCorrect: false })) };
+  const line = buildLater({ attempt: paper, allAttempts: [paper], cards: map, now: Date.UTC(2026, 9, 15, 7, 0) });
+  assert.deepEqual([line.count, line.total, line.when, line.line], [2, 2, 'tomorrow', '2 of these come back tomorrow, Fri 16 Oct.'], 'the two questions the student answered right since are not promised');
+  // A failed progress read leaves only the stored cards.
+  const noProgress = fakeDb({ cards: [card('kept')], progress: [prog('x', false, '2026-10-15T09:00:00.000Z')], failures: { 'user_question_progress:select': { message: 'x' } } });
+  assert.deepEqual([...(await cardsFor(USER, ['kept', 'x'], { db: noProgress })).keys()], ['kept']);
 });
 
 test('account deletion removes Revise cards before the user row', () => {
@@ -316,6 +350,7 @@ test('reviseBody is finished for the clients: head, summary, minutes and the nex
   const body = reviseBody({ cards, items: [{ questionId: 'a' }], today: '2026-10-16', cap: 10 });
   assert.deepEqual([body.head, body.summary, body.next, body.minutes, body.state], ['1 question to revise today', '1 due today. 2 cards, 1 recalled twice.', 'The next ones are due on Tue 20 Oct.', 5, 'ready']);
   assert.equal(reviseBody({ cards, items: [], today: '2026-10-16' }).head, 'Nothing to revise today');
+  assert.equal(reviseBody({ cards: [card({ question_id: 'a' })], items: [{ questionId: 'a' }], today: '2026-10-16' }).summary, '1 due today. 1 card, 0 recalled twice.', 'one card is "1 card", never "1 cards"');
 });
 
 test('later: a paper with more wrong answers than the day\'s cap says 10 come back and when the rest follow', () => {

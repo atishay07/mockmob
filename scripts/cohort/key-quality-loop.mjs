@@ -4,11 +4,12 @@
 //   node scripts/cohort/key-quality-loop.mjs                 dry run: prints the list and writes nothing
 //   node scripts/cohort/key-quality-loop.mjs --json          the same, as JSON
 //   node scripts/cohort/key-quality-loop.mjs --apply         holds each flagged live question (needs SUPABASE_URL and
-//                                                            SUPABASE_SERVICE_ROLE_KEY for the project to change)
+//                                                            SUPABASE_SERVICE_ROLE_KEY for the project to change); it first
+//                                                            saves a restore file that scripts/question-hold.mjs can restore
 // The snapshot holds counts and hashes only. Run the dry run first and read the list: a popular wrong option is
 // sometimes just a hard question, and a re-check removes the question from practice until it is cleared. The nightly
 // cohort table (slice 5) replaces the snapshot; the loop then reads that table instead.
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { keyQualityFlags, TRAP_RULES } from '../../data/trap_atlas.js';
@@ -37,6 +38,21 @@ async function main() {
   if (!url || !key) throw new Error('--apply needs SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY for the project to change');
   const { createClient } = await import('@supabase/supabase-js');
   const db = createClient(url, key, { auth: { persistSession: false } });
+  // Save every live flagged question's current state first, in the file format scripts/question-hold.mjs --mode=restore reads,
+  // so one command puts them back if the owner decides a hold was wrong. Nothing is held before the file is written.
+  const ids = flags.map((f) => f.qid);
+  const live = [];
+  for (let i = 0; i < ids.length; i += 100) {
+    const read = await db.from('questions').select('id,subject,chapter,status,verification_state,exploration_state').in('id', ids.slice(i, i + 100));
+    if (read.error) throw read.error;
+    live.push(...(read.data || []).filter((r) => r.status === 'live'));
+  }
+  const dir = join(ROOT, 'docs', 'brain', 'reports', 'question-holds');
+  mkdirSync(dir, { recursive: true });
+  const restoreFile = join(dir, `restore-${new Date().toISOString().replace(/[:.]/g, '-')}-key-quality.json`);
+  writeFileSync(restoreFile, `${JSON.stringify({ kind: 'question_hold', mode: 'apply', reason: 'key-quality loop', at: new Date().toISOString(), requested: ids.length, toHold: live.length, rows: live }, null, 1)}
+`);
+  console.log(`Restore file: ${restoreFile} (node --use-system-ca scripts/question-hold.mjs --mode=restore --restore=<that file> puts them back).`);
   const tally = { held: 0, skipped: 0 };
   for (const f of flags) {
     const r = await recheckFlaggedKey(db, { qid: f.qid });
