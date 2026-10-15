@@ -40,7 +40,9 @@ import checkGated from '@/../data/fixtures/next_step/check-gated.json';
 const FIXTURES = { first, resume, unopened, repair, practise, 'mock-due': mockDue, stale, 'pro-daytime': proDaytime, 'repair-off': repairOff, 'check-gated': checkGated };
 const STATES = Object.keys(FIXTURES);
 
-const onToday = (fixture) => fixture.get('view') === 'today';
+// The shell views (IA1: shell, start-sheet, guide) render Today inside the shell, so they answer too.
+const TODAY_VIEWS = new Set(['today', 'shell', 'start-sheet', 'guide']);
+const onToday = (fixture) => TODAY_VIEWS.has(fixture.get('view'));
 function stateOf(fixture) {
   const wanted = fixture.get('state');
   if (STATES.includes(wanted)) return wanted;

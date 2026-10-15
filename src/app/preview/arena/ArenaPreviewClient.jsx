@@ -220,7 +220,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // ?wallet=down simulates a missing schema; otherwise a paused wallet with stored balances.
       const page = new URLSearchParams(window.location.search);
       const wallet = page.get('wallet') === 'down' ? unreadableWallet('schema_unavailable')
-        : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')) });
+        // The plan's monthly allowance (Free 10, Pro 50; data/plan_facts.mjs) with one used, so every view's rail agrees with Today and Review.
+        : projectWallet({ included_monthly_credits: page.get('plan') === 'pro' ? 50 : 10, included_credits_used: 1 + replyReceipts.size, bonus_credits: 0, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: page.get('plan') === 'pro' ? 50 : 10, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')) });
       return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: 40, label: 'Practice credits (Quick Practice and Full Mock)' } });
     }
     if (url.pathname === '/api/ai/mentor/history') return json({ ok: true, session: null, messages: [] });
@@ -295,7 +296,9 @@ function PreviewInner({ candidatePathway }) {
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('stale') === '1' ? ['hindi', 'teaching_aptitude'] : [])],
-      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
+      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null,
+      // A brand-new student (data=empty) holds the sign-up grant, so the shell chip and Today's cost line agree.
+      creditBalance: pro ? 0 : params.get('data') === 'empty' ? 100 : 40 },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},

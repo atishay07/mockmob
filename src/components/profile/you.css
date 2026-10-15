@@ -255,3 +255,9 @@
 :root[data-motion='reduced'] .app-shell .you-bulk > summary svg,
 :root[data-motion='reduced'] .app-shell .you-rivals > summary svg,
 :root[data-motion='reduced'] .app-shell .you-sub__end svg { transition: none !important; transition-delay: 0ms !important; }
+
+/* Leaderboard on a phone: the shared table gives "Position" 44 px, which runs into "Student".
+   Give the first column room for its word (the leaderboard imports this file). */
+@media (max-width: 640px) {
+  .app-shell .ranks-table thead th:nth-child(1) { width: 72px; }
+}

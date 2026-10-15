@@ -43,6 +43,10 @@
 /* Outlined secondary: the second weight of every key on Today (never filled). */
 .app-shell .tm__alt { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--a-line-strong); border-radius: 12px; background: transparent; color: var(--a-ink); font: 600 14px/1.2 var(--font-body); text-decoration: none; transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease); }
 .app-shell .tm__alt:active { transform: scale(0.98); }
+/* A long secondary ("Sit a full mock instead (50 questions, 60 minutes)") wraps on a phone: give it the
+   row and centre its lines, so it reads as a quiet button and not a text box. */
+.app-shell .tm__alt { text-align: center; padding-block: 10px; }
+@media (max-width: 479px) { .app-shell .tm__alt { flex: 1 1 100%; } }
 .app-shell .tm__alt:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .app-shell .tm__alt:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
 
