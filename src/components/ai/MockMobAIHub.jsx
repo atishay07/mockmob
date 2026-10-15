@@ -279,10 +279,12 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
   }, [messages, pending]);
 
   const withQuestion = questionCtx?.status === 'ready';
+  // While the handed-over question is still being opened, nothing is sent: a reply sent now would go without it and still cost a credit.
+  const opening = questionCtx?.status === 'loading';
 
   async function send(text = input, isRetry = false) {
     const finalText = String(text || '').trim();
-    if (!finalText || inFlight.current || (retry && !isRetry)) return;
+    if (!finalText || inFlight.current || opening || (retry && !isRetry)) return;
     inFlight.current = true;
     setInput('');
     if (!isRetry) setMessages((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: finalText }]);
@@ -352,8 +354,8 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
       {retry ? <div className="pp-ask__service" role="alert"><b>The reply outcome could not be confirmed.</b><p>Retry the same request to avoid a second charge. Your AI credits page is the record of any credit used.</p><button type="button" className="btn-outline sm" disabled={pending} onClick={()=>send(retry.message,true)}>Retry this question</button></div> : null}
       <form className="pp-composer" onSubmit={(event) => { event.preventDefault(); send(); }}>
         <label htmlFor="prepos-input" className="sr-only">Ask PrepOS</label>
-        <textarea id="prepos-input" value={input} maxLength={1500} rows={2} disabled={pending || Boolean(retry) || (kind==='model' && wallet?.state!=='available')} onChange={(event) => setInput(event.target.value)} placeholder={withQuestion ? 'What about this question is unclear?' : kind==='record' ? 'What does my record show?' : 'What would you like to reason through?'} />
-        <div><span>{kind==='record' ? 'Free, from your recorded facts' : 'Uses 1 AI credit'}</span><button type="submit" className="btn-volt sm" disabled={pending || Boolean(retry) || !input.trim() || (kind==='model' && wallet?.state!=='available')}>{pending ? 'Reading…' : kind==='record' ? 'Ask your record' : 'Ask, 1 AI credit'}</button></div>
+        <textarea id="prepos-input" value={input} maxLength={1500} rows={2} disabled={pending || opening || Boolean(retry) || (kind==='model' && wallet?.state!=='available')} onChange={(event) => setInput(event.target.value)} placeholder={withQuestion ? 'What about this question is unclear?' : kind==='record' ? 'What does my record show?' : 'What would you like to reason through?'} />
+        <div><span>{kind==='record' ? 'Free, from your recorded facts' : 'Uses 1 AI credit'}</span><button type="submit" className="btn-volt sm" disabled={pending || opening || Boolean(retry) || !input.trim() || (kind==='model' && wallet?.state!=='available')}>{pending ? 'Reading…' : kind==='record' ? 'Ask your record' : 'Ask, 1 AI credit'}</button></div>
       </form>
     </section>
   );

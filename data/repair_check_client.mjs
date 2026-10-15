@@ -68,12 +68,16 @@ export function checkAvailability(check) {
   return { show: false };
 }
 
-/** "7 of the 41 questions in this chapter are new to you." Both numbers or no line: a count never stands without its total. */
+/**
+ * "Of the 41 questions in this chapter, 7 are new to you and can be used for a check." Both numbers or no line: a count never
+ * stands without its total. The 7 are the unseen questions that also pass the check's own filters (not a passage question, not
+ * held, not a near copy), so the line says so instead of calling them all of the chapter's new questions.
+ */
 export function poolLine(pool) {
   const unseen = pool?.unseen;
   const total = pool?.ofChapter;
   if (!Number.isInteger(unseen) || !Number.isInteger(total) || unseen < 0 || total < unseen || total < 1) return null;
-  return `${unseen} of the ${total} questions in this chapter ${unseen === 1 ? 'is' : 'are'} new to you.`;
+  return `Of the ${total} questions in this chapter, ${unseen} ${unseen === 1 ? 'is' : 'are'} new to you and can be used for a check.`;
 }
 
 /** The Revise sentence under an answer. Nothing when Revise could not be written: it never promises a card that does not exist. */

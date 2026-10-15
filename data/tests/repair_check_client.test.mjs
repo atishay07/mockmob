@@ -56,8 +56,8 @@ test('request ids match the route pattern and are never empty or short', () => {
 });
 
 test('every count carries its denominator, and no total means no line', () => {
-  assert.equal(poolLine({ unseen: 7, ofChapter: 41 }), '7 of the 41 questions in this chapter are new to you.');
-  assert.equal(poolLine({ unseen: 1, ofChapter: 41 }), '1 of the 41 questions in this chapter is new to you.');
+  assert.equal(poolLine({ unseen: 7, ofChapter: 41 }), 'Of the 41 questions in this chapter, 7 are new to you and can be used for a check.');
+  assert.equal(poolLine({ unseen: 1, ofChapter: 41 }), 'Of the 41 questions in this chapter, 1 is new to you and can be used for a check.');
   for (const bad of [null, {}, { unseen: 7 }, { ofChapter: 41 }, { unseen: 9, ofChapter: 4 }, { unseen: -1, ofChapter: 4 }, { unseen: 0, ofChapter: 0 }, { unseen: '7', ofChapter: '41' }]) assert.equal(poolLine(bad), null, JSON.stringify(bad));
 });
 
