@@ -2,16 +2,17 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
-import { recoveryReleased } from '@/../data/capabilities';
+import { useWayIn } from '@/components/landing/useWayIn';
 
+// The hero's two keys. A new visitor can try the five questions or sign up; a signed-in visitor is not offered
+// either, only the way back to practice.
 export function LandingActions({ mode = 'hero' }) {
-  const { isAuthenticated } = useAuth();
-  const primaryHref = isAuthenticated ? recoveryReleased() ? '/recovery' : '/dashboard' : recoveryReleased() ? '/signup?next=%2Frecovery' : '/signup';
-  const primaryText = recoveryReleased() ? 'Find my first gap' : 'Start free practice';
+  const { isAuthenticated, signupHref, homeHref, homeText } = useWayIn();
+  const primaryHref = isAuthenticated ? homeHref : signupHref;
+  const primaryText = isAuthenticated ? homeText : 'Start free';
 
-  if (mode === 'primary') {
+  if (mode === 'primary' || isAuthenticated) {
     return (
       <div className="mm-actions">
         <Link href={primaryHref} className="mm-btn mm-btn--primary">
@@ -25,13 +26,11 @@ export function LandingActions({ mode = 'hero' }) {
   return (
     <div className="mm-actions">
       {/* The five questions are on this page: an in-page jump never needs the route prefetched. */}
-      <Link href={isAuthenticated ? primaryHref : '/#try-practice'} prefetch={isAuthenticated ? undefined : false} className="mm-btn mm-btn--primary">
-        {isAuthenticated ? primaryText : 'Try five questions'}
+      <Link href="/#try-practice" prefetch={false} className="mm-btn mm-btn--primary">
+        Try 5 questions
         <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
       </Link>
-      <Link href={isAuthenticated ? '/#try-practice' : primaryHref} prefetch={isAuthenticated ? false : undefined} className="mm-btn mm-btn--secondary">
-        {isAuthenticated ? 'Try five questions' : primaryText}
-      </Link>
+      <Link href={signupHref} className="mm-btn mm-btn--secondary">Start free</Link>
     </div>
   );
 }

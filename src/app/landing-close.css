@@ -3,6 +3,8 @@
 
 /* Every jump to the demo (a plain #try-practice link, a deep link from another page) stops below the sticky nav. */
 #try-practice { scroll-margin-top: 76px; }
+/* The same for every section a link can name (the top bar's "Your prep tools", the hero's proof tiles). */
+.mm.lp section[id] { scroll-margin-top: 72px; }
 
 /* ---------- Close band ---------- */
 .lp-close__go {
@@ -24,31 +26,50 @@
   .lp-close__actions { width: 100%; }
 }
 
-/* ---------- Phone dock: "Free to start." over a sign-up link ---------- */
-.lp-dockmobi__line .lp-docklink {
-  position: relative;
-  justify-self: start;
-  color: var(--ink);
-  font-weight: 600;
-  text-decoration: underline;
-  text-decoration-color: var(--volt-edge, #9db400);
-  text-decoration-thickness: 2px;
-  text-underline-offset: 3px;
-  border-radius: 4px;
+/* ---------- Phone dock: a label, and keys that change with the visitor (HeroDockGate.jsx, LandingDock) ----------
+   Mobi stands on the left; the label sits over the keys on the right. A new visitor gets two keys (sign up,
+   try the 5 questions), a visitor who has answered gets one (sign up), a signed-in visitor gets "Go to practice".
+   Never a small linked line: the buttons are the actions. The label and keys rise in when the state changes. */
+.mm-dock--keys > .lp-dockmobi { flex: 1 1 auto; align-items: flex-end; gap: 0.5rem; }
+.lp-dockmobi__line { flex: 1 1 auto; display: grid; gap: 0.3rem; min-width: 0; line-height: 1.2; }
+.lp-dockmobi__label {
+  display: block;
+  padding-left: 0.1rem;
+  color: var(--ink-2);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-/* A 44px tall hit area around the short link, kept clear of the dock's button on its right. */
-.lp-dockmobi__line .lp-docklink::after {
-  content: '';
-  position: absolute;
-  inset: -14px -2px -14px -10px;
+.lp-dockkeys { display: flex; gap: 0.5rem; min-width: 0; }
+.mm-dock .lp-dockkeys .mm-btn {
+  flex: 1 1 0;
+  width: auto;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.5rem 0.5rem;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
 }
-.lp-dockmobi__line .lp-docklink:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
+.lp-dockkeys .mm-btn__icon { flex: none; }
+@keyframes lp-dock-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.lp-dockmobi__label { animation: lp-dock-rise 260ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both; }
+.lp-dockkeys > * { animation: lp-dock-rise 300ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 40ms both; }
+.lp-dockkeys > :nth-child(2) { animation-delay: 90ms; }
+@media (max-width: 349px) {
+  .mm-dock .lp-dockkeys .mm-btn { padding-inline: 0.4rem; font-size: 0.8125rem; }
+  .lp-dockkeys .mm-btn__icon { display: none; }
 }
-/* Under 360px the dock's button leaves room for one short line: the link alone; under 330px, Mobi and the button. */
-@media (max-width: 359px) { .lp-dockmobi__line .lp-dockfree { display: none; } }
-@media (max-width: 329px) { .lp-dockmobi__line .lp-docklink { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .lp-dockmobi__label, .lp-dockkeys > * { animation: none; }
+}
+html[data-motion='reduced'] :is(.lp-dockmobi__label, .lp-dockkeys > *) { animation: none; }
+/* The page's end-of-page padding for the taller keys bar, so the footer is never covered. */
+@media (max-width: 899px) { .mm.lp .mm-dockpad { height: calc(6.5rem + env(safe-area-inset-bottom, 0px)); } }
 
 /* ---------- Arrival: a volt ring settles onto the question card, then fades ---------- */
 #try-practice[data-arrive='true'] .mm-drill {

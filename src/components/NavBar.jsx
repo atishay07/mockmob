@@ -7,6 +7,7 @@ import { Logo } from './Logo';
 import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
 import { ThemeToggle } from './ThemeToggle';
+import { useWayIn } from './landing/useWayIn';
 import '@/app/nav-motion.css';
 
 const LINKS = [
@@ -21,8 +22,13 @@ export function NavBar() {
   const router = useRouter();
   const pathname = usePathname();
   const { isAuthenticated, status, signOut } = useAuth();
+  const { signupHref, homeHref, homeText } = useWayIn();
   const [menuOpen, setMenuOpen] = useState(false);
   const [stuck, setStuck] = useState(false);
+  // On the landing the bar's key waits for the hero's own buttons to scroll away (it would repeat them), then
+  // rises into place. Elsewhere it is always there.
+  const onLanding = pathname === '/';
+  const [heroGone, setHeroGone] = useState(false);
   const navRef = useRef(null);
   const toggleRef = useRef(null);
   const linksRef = useRef(null);
@@ -66,6 +72,24 @@ export function NavBar() {
   }, []);
 
   useEffect(() => {
+    if (!onLanding) return undefined;
+    // The hero's buttons, else the hero, else a screen of scrolling. Not intersecting means it is above us
+    // (the landing's hero is the first thing on the page), or the visitor arrived part way down by a link.
+    const mark = document.querySelector('.lp-hero .lp-cta') || document.querySelector('.lp-hero');
+    if (!mark || typeof IntersectionObserver === 'undefined') {
+      const onScroll = () => setHeroGone(window.scrollY > window.innerHeight * 0.7);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      return () => window.removeEventListener('scroll', onScroll);
+    }
+    const watch = new IntersectionObserver((entries) => {
+      setHeroGone(!entries[entries.length - 1].isIntersecting);
+    }, { rootMargin: '-64px 0px 0px 0px', threshold: 0 });
+    watch.observe(mark);
+    return () => watch.disconnect();
+  }, [onLanding]);
+
+  useEffect(() => {
     if (!menuOpen) return undefined;
     function onKey(event) {
       if (event.key !== 'Escape') return;
@@ -85,7 +109,7 @@ export function NavBar() {
   }, [menuOpen]);
 
   return (
-    <nav ref={navRef} className="mm-nav" data-stuck={stuck ? 'true' : 'false'}>
+    <nav ref={navRef} className="mm-nav" data-stuck={stuck ? 'true' : 'false'} data-start={onLanding ? (heroGone ? 'in' : 'out') : undefined} data-member={isAuthenticated ? 'true' : undefined}>
       <div className="mm-wrap mm-nav__row">
         <Logo prefetch={pathname === '/' ? false : undefined} />
 
@@ -106,15 +130,15 @@ export function NavBar() {
         <div className="mm-nav__end">
           <ThemeToggle hint />
           {isAuthenticated ? (
-            <Link href="/dashboard" className="mm-btn mm-btn--primary mm-nav__cta">
-              Go to Practice
+            <Link href={homeHref} className="mm-btn mm-btn--primary mm-nav__cta">
+              {homeText}
             </Link>
           ) : (
             <>
               <Link href="/login" className="mm-nav__link mm-nav__login">
                 Log in
               </Link>
-              <Link href="/signup" className="mm-btn mm-btn--primary mm-nav__cta">
+              <Link href={signupHref} className="mm-btn mm-btn--primary mm-nav__cta">
                 Start free
               </Link>
             </>
@@ -149,6 +173,11 @@ export function NavBar() {
             <span>Theme</span>
             <ThemeToggle />
           </div>
+          {isAuthenticated ? (
+            <Link href={homeHref} onClick={closeMenu} className="mm-btn mm-btn--primary mm-nav__sheet-key">
+              {homeText}
+            </Link>
+          ) : null}
           {LINKS.map((link) => (
             <Link key={link.href} href={link.href} onClick={closeMenu}>
               {link.label}
@@ -178,10 +207,15 @@ export function NavBar() {
               </button>
             </>
           ) : (
-            <Link href="/login" onClick={closeMenu}>
-              Log in
-              <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
-            </Link>
+            <>
+              <Link href="/login" onClick={closeMenu}>
+                Log in
+                <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
+              </Link>
+              <Link href={signupHref} onClick={closeMenu} className="mm-btn mm-btn--primary mm-nav__sheet-key">
+                Start free
+              </Link>
+            </>
           )}
         </div>
       ) : null}

@@ -2,41 +2,32 @@
 
 import { useEffect } from 'react';
 import '@/app/landing-close.css';
+import { glideTo, topFor } from './pageGlide';
 
-// Every "Try a CUET question" link on the landing (the phone dock, the close band, the hero's pill and proof
-// tile) points at the sample question, #try-practice. Left to the router, a second tap did nothing: the URL
-// already ended in #try-practice, so the navigation was a no-op and the page stayed at the footer. This takes
-// over any same-page link to the demo: it always brings the question card on screen just under the sticky
-// nav, puts focus on its first answer (so the dock, which stays up while focus is inside it, steps aside),
-// and settles a volt ring on the card so the eye lands on it. From far down the page it cuts most of the way
-// at once and glides the last screen, rather than whirling through every section. Reduce motion jumps.
-// Without JavaScript the links still work as plain anchors (scroll-margin-top keeps the card clear of the nav).
+// The landing's own links, kept working however far down the page they are used (the page is long, its sections
+// draw in as they near, and a plain anchor or the router's scroll can stall on it).
+//
+// 1. Every "Try 5 questions" link (the phone dock, the close band, the hero's pill and proof tile) points at the
+//    sample question, #try-practice. Left to the router, a second tap did nothing: the URL already ended in
+//    #try-practice, so the navigation was a no-op and the page stayed at the footer. This takes over any
+//    same-page link to the demo: it always brings the question card on screen just under the sticky nav, puts
+//    focus on its first answer (so the dock, which stays up while focus is inside it, steps aside), and settles
+//    a volt ring on the card so the eye lands on it.
+// 2. Every other same-page link (#your-prep, #exam-experience, "/#your-prep" in the top bar) glides to its
+//    section the same way and moves focus there.
+// 3. The MockMob logo, in the top bar and the footer, points at this very page: it takes the reader to the top
+//    (and clears the hash), instead of a navigation to the page they are already on.
+// From far down the page each cuts most of the way at once and glides the last screen (pageGlide.js). Reduce
+// motion jumps. Without JavaScript the links still work as plain anchors (scroll-margin-top keeps a section clear
+// of the nav).
 const TARGET = 'try-practice';
-const GAP = 12;
 
-const reducedNow = () => {
-  if (document.documentElement.dataset.motion === 'reduced') return true;
-  try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; }
-};
-
-function navBottom() {
-  const nav = document.querySelector('.mm-nav');
-  if (!nav) return 0;
-  const box = nav.getBoundingClientRect();
-  return box.bottom > 0 ? box.bottom : 0;
-}
-
-function topFor(stage) {
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  const top = window.scrollY + stage.getBoundingClientRect().top - navBottom() - GAP;
-  return Math.round(Math.max(0, Math.min(max, top)));
-}
-
-function isDemoLink(anchor) {
-  if (!anchor || (anchor.target && anchor.target !== '_self') || anchor.hasAttribute('download')) return false;
+function ownLink(anchor) {
+  if (!anchor || (anchor.target && anchor.target !== '_self') || anchor.hasAttribute('download')) return null;
   let url;
-  try { url = new URL(anchor.href, window.location.href); } catch { return false; }
-  return url.origin === window.location.origin && url.pathname === window.location.pathname && url.hash === `#${TARGET}`;
+  try { url = new URL(anchor.href, window.location.href); } catch { return null; }
+  if (url.origin !== window.location.origin || url.pathname !== window.location.pathname) return null;
+  return url;
 }
 
 function firstControl(stage) {
@@ -45,12 +36,21 @@ function firstControl(stage) {
     || stage.querySelector('.mm-drill__result');
 }
 
+// Keyboard and screen-reader users land where the page went: a section without its own tab stop takes one
+// for the moment, and gives it back when focus leaves.
+function focusSection(node) {
+  const native = node.matches('a[href], button, input, select, textarea, summary, [tabindex]');
+  if (!native) {
+    node.setAttribute('tabindex', '-1');
+    node.addEventListener('blur', () => node.removeAttribute('tabindex'), { once: true });
+  }
+  node.focus({ preventScroll: true });
+}
+
 export function DemoJump() {
   useEffect(() => {
-    let settleTimer = 0;
     let arriveTimer = 0;
-    let frame = 0;
-    let stopSettle = () => {};
+    let cancel = () => {};
 
     const arrive = (stage) => {
       window.clearTimeout(arriveTimer);
@@ -60,63 +60,61 @@ export function DemoJump() {
       arriveTimer = window.setTimeout(() => { delete stage.dataset.arrive; }, 1400);
     };
 
-    const go = (stage) => {
-      stopSettle();
-      cancelAnimationFrame(frame);
-      const calm = reducedNow();
+    const toDemo = (stage) => {
+      cancel();
       // Focus first, without scrolling: keyboard and screen-reader users land on the question, and the dock
       // (shown while focus is inside it) can leave as the card comes on.
       firstControl(stage)?.focus({ preventScroll: true });
+      cancel = glideTo(() => topFor(stage), () => arrive(stage));
+    };
 
-      const settle = () => {
-        stopSettle();
-        const top = topFor(stage);
-        if (Math.abs(window.scrollY - top) > 6) window.scrollTo({ top, behavior: 'instant' });
-        arrive(stage);
-      };
-      const watchEnd = () => {
-        const onEnd = () => settle();
-        window.addEventListener('scrollend', onEnd, { once: true });
-        settleTimer = window.setTimeout(settle, 1200);
-        stopSettle = () => { window.removeEventListener('scrollend', onEnd); window.clearTimeout(settleTimer); stopSettle = () => {}; };
-      };
+    const toSection = (node, url) => {
+      cancel();
+      cancel = glideTo(() => topFor(node), () => focusSection(node));
+      try { window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash); } catch { /* the page still moved */ }
+    };
 
-      const top = topFor(stage);
-      if (calm || Math.abs(window.scrollY - top) < 2) { window.scrollTo({ top, behavior: 'instant' }); arrive(stage); return; }
-      const far = Math.abs(window.scrollY - top) > window.innerHeight * 2;
-      if (far) {
-        const lead = Math.round(window.innerHeight * 0.85);
-        window.scrollTo({ top: window.scrollY > top ? top + lead : Math.max(0, top - lead), behavior: 'instant' });
-        // A frame for the sections around the card to draw, then the glide to its final place.
-        frame = requestAnimationFrame(() => {
-          frame = requestAnimationFrame(() => {
-            watchEnd();
-            window.scrollTo({ top: topFor(stage), behavior: 'smooth' });
-          });
-        });
-        return;
-      }
-      watchEnd();
-      window.scrollTo({ top, behavior: 'smooth' });
+    const toTop = (url) => {
+      cancel();
+      cancel = glideTo(() => 0);
+      try { window.history.replaceState(window.history.state, '', url.pathname + url.search); } catch { /* the page still moved */ }
     };
 
     const onClick = (event) => {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       const anchor = event.target instanceof Element ? event.target.closest('a[href]') : null;
-      if (!isDemoLink(anchor)) return;
-      const stage = document.getElementById(TARGET);
-      if (!stage) return;
+      const url = ownLink(anchor);
+      if (!url) return;
       // Ahead of the router's own click handling (capture on the document runs before React's root listener),
-      // so next/link sees defaultPrevented and leaves this jump to us.
-      event.preventDefault();
-      go(stage);
+      // so next/link sees defaultPrevented and leaves the jump to us.
+      if (url.hash === `#${TARGET}`) {
+        const stage = document.getElementById(TARGET);
+        if (!stage) return;
+        event.preventDefault();
+        toDemo(stage);
+        return;
+      }
+      if (url.hash.length > 1) {
+        let id = url.hash.slice(1);
+        try { id = decodeURIComponent(id); } catch { /* use it as written */ }
+        const node = document.getElementById(id);
+        if (!node) return;
+        event.preventDefault();
+        toSection(node, url);
+        return;
+      }
+      // A link to this very page with no hash (the logo): the top of the page. Only the page's own links to
+      // itself, with the same query, so a link to "/?ref=ad" from elsewhere on the page is left alone.
+      if (url.search === window.location.search) {
+        event.preventDefault();
+        toTop(url);
+      }
     };
 
     document.addEventListener('click', onClick, true);
     return () => {
       document.removeEventListener('click', onClick, true);
-      stopSettle();
-      cancelAnimationFrame(frame);
+      cancel();
       window.clearTimeout(arriveTimer);
     };
   }, []);

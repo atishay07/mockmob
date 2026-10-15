@@ -1,4 +1,4 @@
-/* The footer's way in (FooterStart.jsx): an outlined key, a log-in link and the free line, under the blurb. */
+/* The footer's way in (FooterStart.jsx): one solid primary key, a log-in link and the free line, under the blurb. */
 .mm-foot__start {
   display: flex;
   flex-wrap: wrap;
@@ -13,7 +13,8 @@
   padding: 0.5rem 1.125rem;
   border: 1px solid var(--volt);
   border-radius: 999px;
-  color: var(--chalk);
+  background: var(--volt);
+  color: var(--volt-ink);
   font-family: var(--font-display);
   font-size: 0.9375rem;
   font-weight: 700;
@@ -44,7 +45,7 @@
   outline-offset: 3px;
 }
 @media (hover: hover) {
-  .mm-foot__key:hover { background: var(--volt); color: var(--volt-ink); }
+  .mm-foot__key:hover { background: var(--chalk); border-color: var(--chalk); color: var(--volt-ink); }
   .mm-foot__login:hover { color: var(--volt); text-decoration-color: currentColor; }
 }
 @media (prefers-reduced-motion: reduce) {

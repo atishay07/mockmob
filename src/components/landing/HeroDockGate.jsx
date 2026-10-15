@@ -1,7 +1,11 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import MobiReact from '@/components/brand/MobiReact';
+import { MobileDock } from '@/components/MobileDock';
+import { Icon } from '@/components/ui/Icons';
+import { useVisitor } from './useWayIn';
 
 // The landing's phone action bar waits its turn. On the first screen the hero's own buttons and the demo
 // question already offer "try a question", so the bar stays down until the hero buttons (.lp-cta) have
@@ -83,12 +87,12 @@ function sectionKey(section) {
 }
 
 /**
- * Mobi in the phone dock's left slot, beside a short line. He hops in when the dock rises (a wave the first
+ * Mobi in the phone dock's left slot, beside a short label with the dock's keys under it. He hops in when the dock rises (a wave the first
  * time), plays a small act as each new section takes the screen, and leaves the slot while one of his seats
  * (.pip-seat[data-pip-station]) is on screen, so the page never shows two of him; he hops back when it has gone.
  * MobiReact keeps him still under Reduce motion and Celebrations off.
  */
-export function DockMobi({ line }) {
+export function DockMobi({ label, state, children }) {
   const [mobi, setMobi] = useState({ act: 'idle', n: 0 });
   const [away, setAway] = useState(false);
   const holdTimer = useRef(0);
@@ -155,6 +159,14 @@ export function DockMobi({ line }) {
     return () => { watch.disconnect(); middle.disconnect(); seats.disconnect(); window.clearTimeout(holdTimer.current); };
   }, [play]);
 
+  // The visitor's state changed while the dock was up (they answered, or signed in): Mobi notices.
+  const lastState = useRef(state);
+  useEffect(() => {
+    if (lastState.current === state) return;
+    lastState.current = state;
+    play(state === 'new' ? 'nod' : 'cheer', 0, true);
+  }, [state, play]);
+
   return (
     <span className="lp-dockmobi" data-away={away ? 'true' : 'false'}>
       <span className="lp-dockmobi__seat">
@@ -162,8 +174,39 @@ export function DockMobi({ line }) {
             (eager would preload it in the page head at high priority, ahead of the headline's font). */}
         <MobiReact key={mobi.n} act={mobi.act} size={50} eagerFirst={mobi.n > 0} />
       </span>
-      <span className="lp-dockmobi__line">{line}</span>
+      <span className="lp-dockmobi__line">
+        <b className="lp-dockmobi__label" key={`l-${state}`}>{label}</b>
+        <span className="lp-dockkeys" key={`k-${state}`}>{children}</span>
+      </span>
     </span>
+  );
+}
+
+/**
+ * The phone dock, by who is looking. The label and the KEYS change, never a small linked line:
+ *   new visitor      "Free to start"      [Start free] [Try 5 questions]
+ *   answered some    "Save your answers"  [Start free]              (the sample is not offered again)
+ *   signed in        "Welcome back"       [Go to practice]
+ * The sample's state arrives live (useSampleState.js), so the dock changes without a reload.
+ */
+export function LandingDock() {
+  const { kind, signupHref, homeHref, homeText } = useVisitor();
+  const label = kind === 'member' ? 'Welcome back' : kind === 'sampled' ? 'Save your answers' : 'Free to start';
+  return (
+    <HeroDockGate>
+      <MobileDock>
+        <DockMobi label={label} state={kind}>
+          {kind === 'member' ? (
+            <Link href={homeHref} className="mm-btn mm-btn--primary">{homeText}<Icon name="arrow" className="mm-btn__icon" aria-hidden="true" /></Link>
+          ) : (
+            <>
+              <Link href={signupHref} className="mm-btn mm-btn--primary">Start free<Icon name="arrow" className="mm-btn__icon" aria-hidden="true" /></Link>
+              {kind === 'new' ? <a href="#try-practice" className="mm-btn mm-btn--secondary">Try 5 questions</a> : null}
+            </>
+          )}
+        </DockMobi>
+      </MobileDock>
+    </HeroDockGate>
   );
 }
 

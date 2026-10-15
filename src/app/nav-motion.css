@@ -49,3 +49,49 @@ html[data-motion='reduced'] .mm-nav__sheet--in > *, html[data-motion='reduced'] 
   .mm-nav__pill, .mm-nav .mm-nav__links .mm-nav__link, .mm-nav .mm-nav__cta, .mm-dock .mm-btn--primary { transition: none; }
   .mm-nav__sheet--in > *, .mm-dock[data-motion-dock] .mm-btn--primary { animation: none; }
 }
+
+/* ---------- The landing's Start key (NavBar.jsx, data-start on the bar) ----------
+   While the hero's own buttons are on screen the bar does not repeat them. Once they have scrolled away a compact
+   key rises into the top bar (phones and desktop): "Start free", or "Go to practice" for a signed-in visitor.
+   On phones the bar has no room for it beside the day and night switch, so the switch moves into the menu
+   while the key is there. On desktop the key's place is kept, so nothing beside it shifts. A signed-in visitor on
+   desktop always has the key (it is their way in, not a pitch). Opacity and transform only. */
+.mm-nav[data-start] .mm-nav__cta { display: inline-flex; min-height: 44px; padding-inline: 0.85rem; font-size: 0.875rem; }
+@keyframes mm-start-in { from { opacity: 0; translate: 0 -6px; scale: 0.92; } to { opacity: 1; translate: 0 0; scale: 1; } }
+@media (max-width: 899px) {
+  .mm-nav[data-start='out'] .mm-nav__cta { display: none; }
+  .mm-nav[data-start='in'] .mm-nav__cta { animation: mm-start-in 380ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)) both; }
+  .mm-nav[data-start='in'] .mm-nav__end > .mm-theme-toggle { display: none; }
+  .mm-nav[data-start='in'] .mm-nav__sheet-theme {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+}
+@media (min-width: 900px) {
+  .mm-nav[data-start] .mm-nav__cta { transition: transform 420ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1)), box-shadow 240ms ease, background-color 150ms ease, opacity 240ms ease, translate 300ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)), scale 300ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)), visibility 0s; }
+  .mm-nav[data-start='out']:not([data-member]) .mm-nav__cta { opacity: 0; visibility: hidden; pointer-events: none; translate: 0 -6px; scale: 0.94; transition-property: opacity, translate, scale, visibility; transition-duration: 160ms, 160ms, 160ms, 0s; transition-delay: 0s, 0s, 0s, 160ms; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm-nav[data-start] .mm-nav__cta { animation: none; transition: none; }
+}
+html[data-motion='reduced'] .mm-nav[data-start] .mm-nav__cta { animation: none; transition: none; }
+
+/* The menu's own key (a new visitor's way to sign up, a signed-in visitor's way to practice) */
+.mm-nav__sheet a.mm-nav__sheet-key {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  margin: 0.75rem 0 0.5rem;
+  border-bottom: 0;
+  border-radius: var(--r-2);
+  color: var(--volt-ink);
+  font-size: 1rem;
+}
