@@ -36,7 +36,7 @@ function Band({ iv }) {
         <i className="rb-band__range" style={{ '--l': `${iv.low}%`, '--w': `${width}%` }} />
         <b className="rb-band__dot" style={{ '--x': `${iv.pct}%` }} />
       </span>
-      <span className="rb-band__text"><b>{iv.k} of {iv.n}</b> ({iv.pct}%). At this count, likely between {iv.low}% and {iv.high}%.</span>
+      <span className="rb-band__text"><b>{iv.k} of {iv.n}</b> ({iv.pct}%). At this count, the 95% interval runs from {iv.low}% to {iv.high}%.</span>
     </div>
   );
 }
