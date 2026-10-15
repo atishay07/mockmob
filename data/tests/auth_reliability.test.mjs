@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import { NextRequest, NextResponse } from 'next/server.js';
 import { createServerClient } from '@supabase/ssr';
 import { refreshSupabaseSession, applyRefCapture } from '../../src/lib/server/sessionProxy.js';
-import { safeNextPath, rememberNextPath, takeNextPath, postSignInPath, loginPathFor } from '../../src/lib/auth-redirect.js';
+import { safeNextPath, rememberNextPath, takeNextPath, postSignInPath, arenaHomePath, loginPathFor } from '../../src/lib/auth-redirect.js';
 import { readCallbackParams } from '../../src/lib/auth-callback.js';
 import { isTransientAuthError, isDeadSessionError, hasSupabaseSessionCookie } from '../../src/lib/supabase-auth-errors.js';
 
@@ -238,7 +238,13 @@ test('the return path is remembered briefly, read once and re-validated', () => 
   assert.equal(postSignInPath({ needsOnboarding: true, store, now: 2 }), '/onboarding');
   rememberNextPath('/today', { store, now: 1 });
   assert.equal(postSignInPath({ needsOnboarding: false, store, now: 2 }), '/today');
-  assert.equal(postSignInPath({ needsOnboarding: false, store, now: 2 }), '/dashboard');
+  assert.equal(postSignInPath({ needsOnboarding: false, store, now: 2 }), '/today', 'with nothing saved a signed-in student opens Today');
+});
+
+test('the arena front door follows the student state', () => {
+  assert.equal(arenaHomePath({ needsOnboarding: true }), '/onboarding', 'no subjects yet: onboarding first');
+  assert.equal(arenaHomePath({ needsOnboarding: false }), '/today');
+  assert.equal(arenaHomePath(), '/today');
 });
 
 test('loginPathFor builds a safe login link', () => {

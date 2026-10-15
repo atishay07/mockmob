@@ -181,6 +181,10 @@
    ========================================================================== */
 .app-shell .rc { display: grid; gap: 18px; margin: 16px 0; padding: clamp(16px, 3vw, 22px); border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-raised); box-shadow: var(--a-shadow-1); min-width: 0; }
 .app-shell .rc--compact { gap: 12px; padding: 14px 16px; border-radius: 18px; }
+/* The weekly card is one column unless a rule below says otherwise. The Rule check on the result page also
+   calls itself .rc and sets a 40 px icon column (result/lab-loop.css); that must never reach this card, or
+   its heading squeezes into 40 px beside the ring. Only the weekly card carries data-met, or the wait state. */
+.app-shell .rc[data-met], .app-shell .rc--wait { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
 .app-shell .rc--wait { min-height: 96px; }
 .app-shell .rc--note { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
 .app-shell .rc--note p { margin: 0; font-size: 14px; color: var(--a-ink-2); }

@@ -282,7 +282,8 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
           <p className="rc__status">{status}</p>
           {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line ? <p className="rc__status" role="status">{pick.line}</p> : null}
         </div>
-        {pick ? <MobiReact act={pick.act} size={compact ? 56 : 76} mood={pick.mood} interactive={!compact} label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
+        {/* Today already holds Mobi in its plan card, so its slim weekly card keeps him out: once per screen. */}
+        {pick && !compact ? <MobiReact act={pick.act} size={76} mood={pick.mood} interactive label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
       </header>
 
       <div className="rc__top">
