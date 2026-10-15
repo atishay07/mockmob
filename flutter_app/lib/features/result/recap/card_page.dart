@@ -15,7 +15,15 @@ import '../widgets/result_space.dart';
 /// A card shorter than the screen is weighted, not top-stacked (SPACING 7, audit X3): the free
 /// height splits two parts above the content to three below it, so no hole opens above the key.
 class RecapCardPage extends StatefulWidget {
-  const RecapCardPage({super.key, required this.children, required this.footer, required this.onNext, required this.onBack, this.topPadding = MmSpace.s8});
+  const RecapCardPage({
+    super.key,
+    required this.children,
+    required this.footer,
+    required this.onNext,
+    required this.onBack,
+    this.topPadding = MmSpace.s8,
+    this.weight = ResultSpace.momentWeight,
+  });
 
   final List<Widget> children;
   final Widget footer;
@@ -24,6 +32,9 @@ class RecapCardPage extends StatefulWidget {
   final VoidCallback? onNext;
   final VoidCallback? onBack;
   final double topPadding;
+
+  /// Where the content sits in the free height: -1 top, 0 middle ([ResultSpace.momentWeight] by default).
+  final double weight;
 
   static const double swipeDistance = 64;
 
@@ -143,7 +154,7 @@ class _RecapCardPageState extends State<RecapCardPage> {
                     sliver: SliverToBoxAdapter(
                       child: ConstrainedBox(
                         constraints: BoxConstraints(minHeight: free > 0 ? free : 0),
-                        child: Align(alignment: const Alignment(0, ResultSpace.momentWeight), child: content),
+                        child: Align(alignment: Alignment(0, widget.weight), child: content),
                       ),
                     ),
                   ),

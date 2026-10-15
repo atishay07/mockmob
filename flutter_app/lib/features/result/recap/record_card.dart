@@ -186,12 +186,11 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     // primary, so the card has one dominant action and one secondary one.
     final next = hasRepair ? null : ref.watch(todayNextActionProvider);
     final finishIsPrimary = !hasRepair && next == null;
-    final quietKeys = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Flexible(child: KeyButton.quiet(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives))),
-        if (!finishIsPrimary) MoreKey(onFinish: widget.onFinish),
-      ],
+    final quietKeys = Align(
+      child: ChooseElseKey(
+        onChoose: () => context.push(AppRoutes.todayAlternatives),
+        onFinish: finishIsPrimary ? null : widget.onFinish,
+      ),
     );
     final effort = _effortLine;
     final reaction = _reaction(ref.watch(celebrationModeProvider));
@@ -202,14 +201,22 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     return RecapCardPage(
       onNext: null,
       onBack: widget.onBack,
+      // What was recorded sits in the middle of the free height, not above a hole at the key. With
+      // nothing to repair the card is only a few lines, and keeps the shared top weighting.
+      weight: hasRepair ? ResultSpace.centered : ResultSpace.momentWeight,
       footer: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // The chapter the repair opens, above the key that opens it; the key itself stays short.
+          if (hasRepair && options.isNotEmpty) ...[
+            RepairScopeLine(text: _scope == null ? ResultCopy.chipLabel(_minutes, _mistakes) : ResultCopy.repairScopeLine(_scope!, _minutes, chapterTotal: _runTotal)),
+            const SizedBox(height: MmSpace.s8),
+          ],
           if (hasRepair)
             _RepairKey(
               label: _scope == null ? ResultCopy.startRepair(_minutes) : ResultCopy.repairKey(_scope!, _minutes),
-              spoken: _scope == null ? null : ResultCopy.repairKeySpoken(_scope!, _minutes),
+              spoken: _scope == null ? null : ResultCopy.repairKeySpoken(_scope!, _minutes, chapterTotal: _runTotal),
               onPressed: () => context.go(
                 ResultNav.repair(m, minutes: _minutes, startQuestionId: lead?.$1.qid, runCount: lead == null ? null : _runTotal),
               ),
@@ -261,9 +268,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           minutes: _minutes,
           shortfall: shortfall,
           options: options,
-          scope: _scope,
-          // The led run's own chapter total and the server's line for why it leads (the website's words).
-          chapterTotal: lead == null ? null : _runTotal,
+          // The server's line for why the led run leads (the website's words).
           leadLine: lead == null ? null : '${lead.$1.key}. ${lead.$1.line}',
           onMinutes: _chooseMinutes,
           onRetryKeys: widget.onRetryKeys,
@@ -283,10 +288,10 @@ class _RecordCardState extends ConsumerState<RecordCard> {
             ),
           ),
         ),
-        // The sheet, to keep: a quiet row, previewed as a card with no marks on it before anything
+        // The sheet, to keep: one 48 dp chip, previewed as a card with no marks on it before anything
         // leaves.
-        const SizedBox(height: MmSpace.s8),
-        SheetKeepsakeRow(model: m, onTap: () => showSheetShare(context, model: m)),
+        const SizedBox(height: MmSpace.s20),
+        Align(alignment: Alignment.centerLeft, child: SheetKeepsakeRow(model: m, onTap: () => showSheetShare(context, model: m))),
         if (widget.showSkipHint) ...[
           const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.skipHint, style: type.small.copyWith(color: colors.ink3)),

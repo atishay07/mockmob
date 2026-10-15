@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/domain.dart';
 import '../../../core/haptics/haptics.dart';
@@ -69,10 +68,8 @@ class RepairPanel extends StatelessWidget {
     required this.options,
     required this.onMinutes,
     required this.onRetryKeys,
-    this.scope,
     this.shortfall,
     this.blanksInReview = false,
-    this.chapterTotal,
     this.leadLine,
   });
 
@@ -84,15 +81,8 @@ class RepairPanel extends StatelessWidget {
   final VoidCallback onRetryKeys;
   final RepairWalletShortfall? shortfall;
 
-  /// What the key opens, for the line under the lengths; null before there are candidates.
-  final RepairKeyScope? scope;
-
   /// Review keeps the blanks of the newest paper that has any; true when that is this one.
   final bool blanksInReview;
-
-  /// How many mistakes the run's chapter holds, when the run is not tonight's chapter (the server's
-  /// repair order leads elsewhere). Null: tonight's chapter.
-  final int? chapterTotal;
 
   /// "Repair Q12 first. 26 of 31 other students got it right.": why the run starts where it does,
   /// in the server's words. Null when the repair order is the paper's own.
@@ -103,19 +93,20 @@ class RepairPanel extends StatelessWidget {
     final colors = context.mmColors;
     final m = model;
     final n = m.candidates.length;
-    final tonight = m.tonight;
+    // Some of the paper's wrong answers may not be ready (repaired already, or their key is being
+    // checked): the line then says "13 of 15" and names the rest, so it never contradicts the
+    // wrong count on card 3.
+    final partial = n > 0 && n < m.wrong;
     final rows = <Widget>[
       _Row(
         state: n > 0 ? BubbleState.wrong : BubbleState.filled,
-        text: n > 0 ? ResultCopy.readyToRepair(n, null) : ResultCopy.noMistakes,
+        text: n == 0 ? ResultCopy.noMistakes : (partial ? ResultCopy.readyToRepairOf(n, m.wrong) : ResultCopy.readyToRepair(n, null)),
         strong: true,
       ),
-      // A repair covers one chapter: say which, and how many of the wrong answers it opens. The
-      // count is the key's own ([scope], which follows the length chosen), so the line and the key
-      // never say two numbers.
+      if (partial) _Row(state: BubbleState.hollow, text: ResultCopy.readyToRepairRest(m.wrong - n)),
+      // Which chapter the run opens, and how much of it, is said once, above the key (the key's own
+      // count follows the length chosen), so the card never says one number twice.
       if (leadLine != null) _Row(state: BubbleState.hollow, text: leadLine!),
-      if ((chapterTotal ?? tonight?.items.length) case final inRun? when inRun < n)
-        _Row(state: BubbleState.hollow, text: ResultCopy.startWithChapter(scope?.chapter ?? tonight!.chapter, scope?.count ?? inRun)),
       // "They are in Review" only when Review really holds this paper's blanks.
       if (m.blankCount > 0)
         _Row(state: BubbleState.blank, text: blanksInReview ? ResultCopy.blanksInReview(m.blankCount) : ResultCopy.blanksCount(m.blankCount)),
@@ -156,8 +147,6 @@ class RepairPanel extends StatelessWidget {
             label: ResultCopy.chipLabel(minutes, mistakes),
             child: _LengthRow(options: options, minutes: minutes, onMinutes: onMinutes),
           ),
-          const SizedBox(height: MmSpace.s8),
-          _ScopeLine(text: scope == null ? ResultCopy.chipLabel(minutes, mistakes) : ResultCopy.repairScopeLine(scope!, minutes)),
         ],
       ],
     );
@@ -327,7 +316,6 @@ class _OutlineAction extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20),
             child: Center(
-              widthFactor: 1,
               child: Text(label, style: context.mmType.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
             ),
           ),
@@ -366,64 +354,87 @@ class _InlineAction extends StatelessWidget {
   }
 }
 
-/// The overflow beside the card's one quiet key: "Finish for now" is rare, so it waits here rather
-/// than competing as a second text link. A 48 dp icon key that names itself for TalkBack.
-class MoreKey extends StatelessWidget {
-  const MoreKey({super.key, required this.onFinish});
+/// The card's one quiet key, "Choose something else". When "Finish for now" is not the primary
+/// key it is rare, so it waits in the sheet this opens (with the way to the other options) instead
+/// of a second control or a bare overflow mark beside the words. With [onFinish] null the key
+/// goes straight to the options.
+class ChooseElseKey extends StatelessWidget {
+  const ChooseElseKey({super.key, required this.onChoose, this.onFinish});
 
-  final VoidCallback onFinish;
+  final VoidCallback onChoose;
+  final VoidCallback? onFinish;
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return MmPressable(
-      onTap: () => showMmSheet<void>(
-        context: context,
-        title: ResultCopy.more,
-        builder: (sheet) => Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s24),
-          child: KeyButton.secondary(
-            label: ResultCopy.finishForNow,
-            onPressed: () {
-              Navigator.of(sheet).pop();
-              onFinish();
-            },
-          ),
-        ),
-      ),
-      semanticsLabel: ResultCopy.more,
-      focusRadius: MmRadius.pillAll,
-      builder: (context, pressed, _) => SizedBox.square(
-        dimension: MmTarget.min,
-        child: Center(child: Icon(LucideIcons.ellipsis, size: 22, color: pressed ? colors.ink2 : colors.ink)),
-      ),
+    final finish = onFinish;
+    return KeyButton.quiet(
+      label: ResultCopy.chooseElse,
+      onPressed: finish == null
+          ? onChoose
+          : () => showMmSheet<void>(
+              context: context,
+              title: ResultCopy.somethingElse,
+              builder: (sheet) => Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s24),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    KeyButton.secondary(
+                      label: ResultCopy.otherOptions,
+                      onPressed: () {
+                        Navigator.of(sheet).pop();
+                        onChoose();
+                      },
+                    ),
+                    const SizedBox(height: MmSpace.s8),
+                    Align(
+                      child: KeyButton.quiet(
+                        label: ResultCopy.finishForNow,
+                        onPressed: () {
+                          Navigator.of(sheet).pop();
+                          finish();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 }
 
-/// The line under the length chips: which chapter the repair opens on, and what waits in Review.
-/// A fixed height (two lines at the student's text size), so choosing another length changes the
-/// words and never moves the key below; the words cross-fade.
-class _ScopeLine extends StatelessWidget {
-  const _ScopeLine({required this.text});
+/// The line above the repair key: which chapter the run opens, how much of it the length chosen
+/// holds, the time, and what waits in Review. At the normal text size it has a fixed height (three
+/// lines, set from the bottom, so a short one leaves room above it), so choosing another length
+/// changes the words and never moves the key below; at large text it takes the room it needs. The
+/// words cross-fade. The key says the same words to a screen reader, so this line is left out of
+/// the reading order.
+class RepairScopeLine extends StatelessWidget {
+  const RepairScopeLine({super.key, required this.text});
 
   final String text;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final style = context.mmType.caption.copyWith(color: colors.ink3);
-    final lineHeight = MediaQuery.textScalerOf(context).scale(style.fontSize ?? 12) * (style.height ?? 1.3);
-    return SizedBox(
-      height: (lineHeight * 2).ceilToDouble(),
-      width: double.infinity,
-      child: AnimatedSwitcher(
-        duration: Motion.of(context, Motion.ui),
-        layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
-        child: Align(
-          key: ValueKey(text),
-          alignment: Alignment.topLeft,
-          child: Text(text, style: style, maxLines: 2, overflow: TextOverflow.ellipsis),
+    final style = context.mmType.caption.copyWith(color: colors.ink2);
+    final scaler = MediaQuery.textScalerOf(context);
+    final lineHeight = scaler.scale(style.fontSize ?? 12) * (style.height ?? 1.3);
+    final fixed = scaler.scale(14) / 14 <= 1.15;
+    final room = (lineHeight * 3).ceilToDouble();
+    return ExcludeSemantics(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minHeight: room, maxHeight: fixed ? room : double.infinity),
+        child: AnimatedSwitcher(
+          duration: Motion.of(context, Motion.ui),
+          layoutBuilder: (current, previous) => Stack(alignment: Alignment.bottomCenter, children: [...previous, ?current]),
+          child: Align(
+            key: ValueKey(text),
+            alignment: Alignment.bottomCenter,
+            child: Text(text, style: style, textAlign: TextAlign.center, maxLines: fixed ? 3 : null, overflow: fixed ? TextOverflow.ellipsis : TextOverflow.clip),
+          ),
         ),
       ),
     );
