@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "state": "cohort",
+  "items": [
+    { "qid": "q12", "number": 12, "reason": "most_right", "key": "Repair Q12 first", "line": "26 of 31 other students got it right." },
+    { "qid": "q17", "number": 17, "reason": "common_trap", "key": "Repair Q17 first", "line": "8 of the 12 who got it wrong chose C, as you did." },
+    { "qid": "q3", "number": 3, "reason": "paper", "key": null, "line": null },
+    { "qid": "q5", "number": 5, "reason": "paper", "key": null, "line": null }
+  ],
+  "qids": ["q12", "q17", "q3", "q5"]
+}
