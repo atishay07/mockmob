@@ -10,6 +10,7 @@ import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiBubble, MobiRation;
+import 'package:mockmob/core/widgets/count_up.dart' show MmNumberMemory;
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
@@ -229,6 +230,10 @@ void main() {
   });
 
   group('the hero number (MOTION-08)', () {
+    // The hero remembers the count it showed (a rebuilt hero rolls on from it); each case here
+    // is a fresh app run.
+    setUp(MmNumberMemory.clear);
+
     testWidgets('lands after the card has arrived, with one selection tick', (tester) async {
       final haptics = _CountingHaptics();
       await pumpToday(tester, haptics: haptics);

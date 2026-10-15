@@ -85,16 +85,33 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   static const double _bleed = TodayHeader.gutterBleed;
 
   /// The move card: the header Mobi points at it.
-  final GlobalKey _moveKey = GlobalKey(debugLabel: 'today-move');
+  GlobalKey _moveKey = GlobalKey(debugLabel: 'today-move');
 
   /// The move card's primary key and the stack that holds the page, to tell whether that key is
   /// out of view (under the bar or below the fold). While it is, tonight's move stands in for it
   /// as the bar's live capsule (MOTION.md 5.1): one thing floats above the bar, never two.
-  final GlobalKey _primaryKey = GlobalKey(debugLabel: 'today-primary');
+  GlobalKey _primaryKey = GlobalKey(debugLabel: 'today-primary');
 
   /// The move card's length selector (5, 10, 15 min), when it has one: the capsule never takes
   /// over while any of the card's controls could still sit in its place.
-  final GlobalKey _controlsKey = GlobalKey(debugLabel: 'today-controls');
+  GlobalKey _controlsKey = GlobalKey(debugLabel: 'today-controls');
+
+  /// The kind of hero standing ("MoveHero", "SealedHero", null while loading). A new kind
+  /// cross-fades in over the old one, so the move card gets fresh keys each time it arrives: the
+  /// one still fading out keeps its own.
+  Type? _heroKind;
+  bool _heroBuilt = false;
+
+  void _noteHeroKind(Type? kind) {
+    if (_heroBuilt && kind == _heroKind) return;
+    if (_heroBuilt && kind == MoveHero) {
+      _moveKey = GlobalKey(debugLabel: 'today-move');
+      _primaryKey = GlobalKey(debugLabel: 'today-primary');
+      _controlsKey = GlobalKey(debugLabel: 'today-controls');
+    }
+    _heroKind = kind;
+    _heroBuilt = true;
+  }
   final GlobalKey _stackKey = GlobalKey(debugLabel: 'today-stack');
   ScrollController? _ownScroll;
   bool _measureQueued = false;
@@ -334,6 +351,24 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     slot.value = move;
   }
 
+  /// The hero, and a change of hero kind (the skeleton giving way, a sealed result opened, a paper
+  /// resumed and finished) as one overlap on the shared rule: the new card rises in as the old one
+  /// goes, and the page below eases to the new height. A change inside one kind (a chip, a
+  /// refresh) updates the card in place.
+  Widget _heroSwap() {
+    final kind = widget.view.hero?.runtimeType;
+    _noteHeroKind(kind);
+    return MmSizeEase(
+      duration: Motion.card,
+      curve: Motion.out,
+      alignment: Alignment.topCenter,
+      clipBehavior: Clip.none,
+      child: MmOverlapSwitcher.rise(
+        child: KeyedSubtree(key: ValueKey<String>('today-hero:$kind'), child: _hero()),
+      ),
+    );
+  }
+
   Widget _hero() {
     final hero = widget.view.hero;
     final cb = widget.callbacks;
@@ -386,6 +421,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _measure();
     });
+    final hero = _heroSwap();
     final children = <Widget>[
       TodayHeader(
         header: view.header,
@@ -398,7 +434,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       const SizedBox(height: MmSpace.s16),
       // The hero rises 16 dp and fades over 420 ms from 120 ms (MOTION.md 4.3); its object then
       // scales in place and the number lands at about 660 ms.
-      TodayEnter(delay: const Duration(milliseconds: 120), child: _hero()),
+      TodayEnter(delay: const Duration(milliseconds: 120), child: hero),
       if (view.also.isNotEmpty)
         TodayEnter(
           delay: const Duration(milliseconds: 200),

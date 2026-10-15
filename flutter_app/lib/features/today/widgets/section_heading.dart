@@ -10,7 +10,7 @@ class TodaySectionHeading extends StatelessWidget {
 
   final String title;
 
-  /// One quiet line on the right ("Your last 4").
+  /// One quiet line on the right ("Newest 4 of 8").
   final String? caption;
 
   /// A quiet key on the right ("Change"), instead of [caption].

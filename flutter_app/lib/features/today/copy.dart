@@ -57,12 +57,13 @@ abstract final class TodayCopy {
   /// never reads as tonight's total next to Review's badge.
   static String mistakesInLabel(int minutes) => 'to repair\nin $minutes min';
 
-  /// Where tonight's batch comes from, said the same way on Today and in Review: "3 of the 4 in
-  /// Admission of a partner, from Mock 7 on 11 Oct." Never "holds": that word is kept for a
-  /// passed fresh check.
+  /// Where tonight's batch comes from: "3 of the 4 open mistakes in Admission of a partner, from
+  /// Mock 7 on 11 Oct." The denominator names its noun, so the 4 reads as what Review's badge
+  /// counts (the chapter's open mistakes) and the hero's 3 as the part that fits the chosen
+  /// length. Never "holds": that word is kept for a passed fresh check.
   static String tonightLine(int n, int chapterOpen, String source, String chapter, DateTime marked) {
     final from = 'from $source on ${formatDayMonthShort(marked)}';
-    if (n < chapterOpen) return '$n of the $chapterOpen in $chapter, $from.';
+    if (n < chapterOpen) return '$n of the $chapterOpen open mistakes in $chapter, $from.';
     return n == 1 ? 'The one in $chapter, $from.' : 'All $n in $chapter, $from.';
   }
 

@@ -2,8 +2,8 @@
 // said "3 to repair tonight" while the badge said 4). The badge counts tonight's chapter, every
 // open mistake of that chapter of that paper; the hero counts the run its chip starts. The rule
 // (`repairNumberLabel`): the hero says "to repair tonight" (or "today") only with the badge's
-// number. A smaller run names its length ("to repair in 10 min") and says "N of the M", where M
-// is the badge.
+// number. A smaller run names its length ("to repair in 10 min") and says "N of the M open
+// mistakes", where M is the badge, and the badge speaks the same noun ("M open mistakes").
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/app_overrides.dart';
@@ -46,7 +46,7 @@ void main() {
         expect(label, TodayCopy.mistakesInLabel(move.selectedMinutes!));
         expect(label, isNot(contains('tonight')));
         expect(label, isNot(contains('today')));
-        if (!inputs.returning) expect(move.meaning, startsWith('$n of the $badge in '));
+        if (!inputs.returning) expect(move.meaning, startsWith('$n of the $badge open mistakes in '));
       }
     });
   }
@@ -66,7 +66,7 @@ void main() {
     expect(badgeFor(inputs), 4);
     expect(move.number, '3');
     expect(move.numberLabel, 'to repair\nin 10 min');
-    expect(move.meaning, startsWith('3 of the 4 in '));
+    expect(move.meaning, startsWith('3 of the 4 open mistakes in '));
   });
 
   test('the whole chapter says tonight, with the badge number', () {

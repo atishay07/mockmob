@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/count_up.dart' show MmNumberMemory;
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/hero_stage.dart';
@@ -17,6 +18,9 @@ import 'today_golden_support.dart';
 
 void main() {
   setUpAll(loadAppFonts);
+  // Each sheet is a fresh app run: the hero's number remembers what it showed (a rebuilt hero
+  // rolls on from it), so the Night run must not make the Day one start at rest.
+  setUp(MmNumberMemory.clear);
 
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
