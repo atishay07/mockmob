@@ -1,22 +1,26 @@
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
-import { applyRefCapture, refreshSupabaseSession } from '@/lib/server/sessionProxy';
+import { applyRefCapture, refreshSupabaseSession, startOnRedirect } from '@/lib/server/sessionProxy';
 
 // Next 16 Proxy (formerly middleware). It must live in src/ because the app does: the old
 // root-level middleware.js was never compiled, so no session refresh ever ran (see
 // docs/brain/AUTH-RELIABILITY-2026-10-13.md).
 //
-// Job: keep the Supabase session cookies fresh before any page renders. It never redirects:
-// gating stays in the app shell, so a slow or failing Supabase call can't bounce a signed-in
-// student to the login page. Route handlers refresh their own cookies through auth(request),
-// and the Android app sends a bearer token, so /api is excluded.
+// Job: keep the Supabase session cookies fresh before any page renders. Gating stays in the app
+// shell, so a slow or failing Supabase call can't bounce a signed-in student to the login page.
+// The one redirect: a verified signed-in visit to "/" goes to the student's Start on place
+// (Today unless they chose Practice; web IA plan 2.4, N1). Any other outcome leaves the landing.
+// Route handlers refresh their own cookies through auth(request), and the Android app sends a
+// bearer token, so /api is excluded.
 export async function proxy(request) {
-  const { response } = await refreshSupabaseSession(request, {
+  const { response, outcome } = await refreshSupabaseSession(request, {
     NextResponse,
     createServerClient,
     supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
     supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   });
+  const home = startOnRedirect(request, response, outcome, { NextResponse });
+  if (home) return home;
   applyRefCapture(request, response);
   return response;
 }

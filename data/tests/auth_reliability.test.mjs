@@ -8,7 +8,9 @@ import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { NextRequest, NextResponse } from 'next/server.js';
 import { createServerClient } from '@supabase/ssr';
-import { refreshSupabaseSession, applyRefCapture } from '../../src/lib/server/sessionProxy.js';
+import { refreshSupabaseSession, applyRefCapture, startOnRedirect, startOnPath, START_ON_COOKIE, START_ON_PATHS } from '../../src/lib/server/sessionProxy.js';
+import { START_ON_OPTIONS } from '../../src/lib/navigation.js';
+import { START_ON_COOKIE as YOU_START_ON_COOKIE, startOnCookie } from '../../src/components/profile/youModel.mjs';
 import { safeNextPath, rememberNextPath, takeNextPath, postSignInPath, loginPathFor } from '../../src/lib/auth-redirect.js';
 import { readCallbackParams } from '../../src/lib/auth-callback.js';
 import { isTransientAuthError, isDeadSessionError, hasSupabaseSessionCookie } from '../../src/lib/supabase-auth-errors.js';
@@ -164,6 +166,66 @@ test('proxy: referral code capture on /pricing', () => {
   assert.match(setCookies(res).join(';'), /mm_ref=creator_1/);
   assert.equal(applyRefCapture(request('/dashboard?ref=x'), NextResponse.next()), false);
   assert.equal(applyRefCapture(request('/pricing?ref=<script>'), NextResponse.next()), false);
+});
+
+// Start on (web IA plan 2.4, N1): a signed-in "/" opens the student's home, Today unless they chose Practice.
+test('proxy: a verified signed-in visit to / goes to Today, keeping the query', async () => {
+  const server = fakeAuthServer({ refresh: () => { throw new Error('must not refresh'); } });
+  const req = request('/?utm_source=app', sessionCookie(session({ expiresInSeconds: 3000 })));
+  const { response, outcome } = await run(req, server);
+  const home = startOnRedirect(req, response, outcome, { NextResponse });
+  assert.equal(home.status, 307, 'temporary: the choice can change');
+  assert.equal(home.headers.get('location'), 'https://www.mockmob.in/today?utm_source=app');
+  assert.match(home.headers.get('cache-control') || '', /no-store/);
+});
+
+test('proxy: Start on Practice sends / to Practice; anything unexpected is Today', async () => {
+  const server = fakeAuthServer({ refresh: () => { throw new Error('must not refresh'); } });
+  const cookie = `${sessionCookie(session({ expiresInSeconds: 3000 }))}; ${START_ON_COOKIE}=practice`;
+  const req = request('/', cookie);
+  const { response, outcome } = await run(req, server);
+  assert.equal(new URL(startOnRedirect(req, response, outcome, { NextResponse }).headers.get('location')).pathname, '/dashboard');
+  for (const value of ['', 'evil', 'https://evil.example', '__proto__', 'toString', null]) assert.equal(startOnPath(value), '/today', String(value));
+  assert.equal(startOnPath('practice'), '/dashboard');
+});
+
+test('proxy: the Start on redirect carries a refreshed session cookie', async () => {
+  const fresh = session({ expiresInSeconds: 3600, refreshToken: 'refresh-new' });
+  const server = fakeAuthServer({ refresh: () => json(fresh) });
+  const req = request('/', sessionCookie(session({ expiresInSeconds: -60 })));
+  const { response, outcome } = await run(req, server);
+  const home = startOnRedirect(req, response, outcome, { NextResponse });
+  assert.equal(new URL(home.headers.get('location')).pathname, '/today');
+  assert.ok(setCookies(home).some((c) => c.startsWith(`${COOKIE}=`) && /refresh-new|base64-/.test(c)), 'the new session must reach the browser');
+});
+
+test('proxy: only a verified session on / is redirected; the landing stays for everyone else', async () => {
+  // A new visitor: no session cookie, no Supabase call, no redirect.
+  const anon = request('/');
+  const a = await run(anon, fakeAuthServer());
+  assert.equal(startOnRedirect(anon, a.response, a.outcome, { NextResponse }), null);
+  // A slow or failing Supabase: the student is not bounced anywhere.
+  const slow = request('/', sessionCookie(session({ expiresInSeconds: -60 })));
+  const s = await run(slow, fakeAuthServer({ refresh: () => json({ message: 'upstream down' }, 503) }), { timeoutMs: 1500 });
+  assert.equal(startOnRedirect(slow, s.response, s.outcome, { NextResponse }), null);
+  // A dead session sees the landing.
+  const dead = request('/', sessionCookie(session({ expiresInSeconds: -60 })));
+  const d = await run(dead, fakeAuthServer({ refresh: () => json({ code: 'refresh_token_not_found', error_code: 'refresh_token_not_found', msg: 'Invalid Refresh Token' }, 400) }));
+  assert.equal(d.outcome, 'signed_out');
+  assert.equal(startOnRedirect(dead, d.response, d.outcome, { NextResponse }), null);
+  // Other pages are never redirected, even when signed in.
+  const page = request('/pricing', sessionCookie(session({ expiresInSeconds: 3000 })));
+  const p = await run(page, fakeAuthServer({ refresh: () => { throw new Error('must not refresh'); } }));
+  assert.equal(p.outcome, 'ok');
+  assert.equal(startOnRedirect(page, p.response, p.outcome, { NextResponse }), null);
+});
+
+test('proxy: Start on paths and cookie match the You page and the navigation', () => {
+  assert.deepEqual(Object.fromEntries(START_ON_OPTIONS.map((o) => [o.id, o.href])), { ...START_ON_PATHS });
+  assert.equal(START_ON_COOKIE, YOU_START_ON_COOKIE);
+  assert.equal(startOnCookie('practice').split(';')[0], `${START_ON_COOKIE}=practice`);
+  const src = read('src/proxy.js');
+  assert.match(src, /startOnRedirect\(request, response, outcome/);
 });
 
 test('proxy file: lives in src/, named export, matcher skips API routes and static assets', () => {

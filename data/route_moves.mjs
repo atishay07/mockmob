@@ -13,7 +13,8 @@
 //   unchanged    out of scope (or owned elsewhere), not edited by this plan
 //   new          a new page
 //   rewrite      served by another page; the address bar keeps the new path
-//   redirect     a 308 to `to`, query kept
+//   redirect     a 308 to `to`, query kept. `pageLevel` redirects live in the page only (not in
+//                next.config.mjs) because the page decides at request time
 // place: today | practice | review | you | start | focus | public | footer | none
 
 const move = (from, place, action, extra = {}) => Object.freeze({ from, place, action, ...extra });
@@ -31,13 +32,13 @@ export const ROUTE_MOVES = Object.freeze([
   move('/saved', 'review', 'keep', { packet: 'IA6', title: 'Saved questions' }),
   move('/mentor', 'review', 'restructure', { packet: 'IA6', title: 'Ask Mobi', note: 'Ask only. The Next step and Your record tabs and the terminal styling go.' }),
   move('/ask', 'review', 'rewrite', { to: '/mentor?tab=ask', packet: 'IA9' }),
-  move('/recovery', 'review', 'redirect', { to: '/review', status: 308, packet: 'IA9' }),
+  move('/recovery', 'review', 'redirect', { to: '/review', status: 308, packet: 'IA9', pageLevel: true, note: 'The page redirects while the old recovery episodes are unreleased (recoveryReleased()); the journey stays behind that gate.' }),
   move('/explore', 'practice', 'keep', { packet: 'IA5', title: 'Question stream' }),
   move('/learn', 'practice', 'keep', { packet: 'IA5', title: 'Concepts', studyOnly: true, note: 'Out of the top nav; also linked from a mistake.' }),
   move('/learn/[id]', 'practice', 'keep', { packet: 'IA5', studyOnly: true }),
   move('/learn/summary', 'practice', 'keep', { packet: 'IA5', studyOnly: true }),
   move('/study/[id]', 'practice', 'unchanged', { studyOnly: true, note: 'study/** untouched.' }),
-  move('/progress', 'you', 'redirect', { to: '/you#progress', status: 308, packet: 'IA9', when: 'IA7 ships /you', note: 'Its repair list moves to Review > Repair record.' }),
+  move('/progress', 'you', 'redirect', { to: '/you#progress', status: 308, packet: 'IA9', note: 'Its repair list moves to Review > Repair record.' }),
   move('/profile', 'you', 'keep', { packet: 'IA7', title: 'Account', note: 'Settings page. Every setting stays reachable.' }),
   move('/you', 'you', 'new', { packet: 'IA7', title: 'You' }),
   move('/admission-compass', 'you', 'keep', { packet: 'IA7', title: 'Cutoff calculator', note: 'Rename on the page, cut the preamble, keep the Pro projection.' }),
@@ -93,10 +94,10 @@ export function moveForPath(path) {
   return byFrom.get(clean) || ROUTE_MOVES.find((m) => m.from.includes('[') && matchesRoute(m.from, clean)) || null;
 }
 
-/** next.config.mjs redirects(): every 308, query kept by Next itself. */
-export function nextRedirects({ includePending = false } = {}) {
+/** next.config.mjs redirects(): every 308 except the page-level ones, query kept by Next itself. */
+export function nextRedirects({ includePageLevel = false } = {}) {
   return ROUTE_MOVES
-    .filter((m) => m.action === 'redirect' && (includePending || !m.when))
+    .filter((m) => m.action === 'redirect' && (includePageLevel || !m.pageLevel))
     .map((m) => ({ source: m.from, destination: m.to, permanent: true }));
 }
 

@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { OUT_OF_SCOPE_PREFIXES, ROUTE_MOVES, matchesRoute, moveForPath, nextRedirects, nextRewrites, placeForPath, routeMove } from '../route_moves.mjs';
 import { appPageRoutes, resolvesHref } from './ia_helpers.mjs';
 
@@ -37,11 +38,29 @@ test('every redirect is a 308 to a place that resolves, and keeps the query (Nex
     assert.ok(resolvesHref(m.to), `${m.from} -> ${m.to}`);
     assert.notEqual(moveForPath(m.to)?.action, 'redirect', `${m.from} must not redirect twice`);
   }
-  const redirects = nextRedirects({ includePending: true });
-  assert.ok(redirects.every((r) => r.permanent === true && r.source.startsWith('/') && r.destination.startsWith('/')));
-  assert.deepEqual(redirects.map((r) => r.source).sort(), ['/coming-soon', '/features', '/my-uploads', '/pricing/prepos', '/progress', '/recovery']);
-  // /progress waits for the You page (IA7).
-  assert.ok(!nextRedirects().some((r) => r.source === '/progress'));
+  const all = nextRedirects({ includePageLevel: true });
+  assert.ok(all.every((r) => r.permanent === true && r.source.startsWith('/') && r.destination.startsWith('/')));
+  assert.deepEqual(all.map((r) => r.source).sort(), ['/coming-soon', '/features', '/my-uploads', '/pricing/prepos', '/progress', '/recovery']);
+  // next.config.mjs carries every one but /recovery, which the page decides (it opens again once the
+  // old recovery episodes are released). /progress goes to You now that /you is built.
+  assert.deepEqual(nextRedirects().map((r) => r.source).sort(), ['/coming-soon', '/features', '/my-uploads', '/pricing/prepos', '/progress']);
+  assert.deepEqual(nextRedirects().find((r) => r.source === '/features'), { source: '/features', destination: '/#how-it-works', permanent: true });
+});
+
+test('next.config.mjs is built from route_moves: redirects and rewrites come from the data', async () => {
+  const config = (await import('../../next.config.mjs')).default;
+  const redirects = await config.redirects();
+  const rewrites = await config.rewrites();
+  for (const r of nextRedirects()) assert.ok(redirects.some((x) => x.source === r.source && x.destination === r.destination && x.permanent === true), r.source);
+  assert.ok(!redirects.some((x) => x.source === '/recovery'), '/recovery is decided by its page');
+  for (const r of nextRewrites()) assert.ok(rewrites.some((x) => x.source === r.source && x.destination === r.destination), r.source);
+  assert.ok(rewrites.some((x) => x.source === '/.well-known/assetlinks.json'), 'the Android asset links rewrite stays');
+});
+
+test('every page-level redirect page exists and redirects to the same place', () => {
+  const page = readFileSync(new URL('../../src/app/(app)/recovery/page.jsx', import.meta.url), 'utf8');
+  assert.match(page, /permanentRedirect\(REVIEW_HREF\)/);
+  assert.equal(routeMove('/recovery').to, '/review');
 });
 
 test('SEO redirects are exactly the three public ones (plan 9.1)', () => {
@@ -78,4 +97,13 @@ test('NTA and Repair v3 routes are never moved', () => {
   assert.equal(routeMove('/test').action, 'unchanged');
   assert.equal(routeMove('/result/[id]').action, 'unchanged');
   assert.equal(routeMove('/result/[id]').owner, 'Repair v3');
+});
+
+test('the sitemap lists no moved page: every entry is a page, none is a redirect or rewrite source', async () => {
+  const { publicRoutes } = await import('../../src/lib/seo.js');
+  const moved = new Set(ROUTE_MOVES.filter((m) => m.action === 'redirect' || m.action === 'rewrite').map((m) => m.from));
+  for (const route of publicRoutes.filter((r) => r.sitemap !== false)) {
+    assert.ok(!moved.has(route.path), `${route.path} moved, so it leaves the sitemap`);
+    assert.ok(resolvesHref(route.path), route.path);
+  }
 });

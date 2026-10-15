@@ -1,5 +1,6 @@
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { nextRedirects, nextRewrites } from './data/route_moves.mjs';
 
 const appRoot = dirname(fileURLToPath(import.meta.url));
 
@@ -32,10 +33,19 @@ const nextConfig = {
         destination: '/',
         permanent: true,
       },
+      // Where pages moved in the website restructure (data/route_moves.mjs, plan 2.4): 308s that keep
+      // the query string (/features, /coming-soon, /pricing/prepos, /my-uploads, /progress). /recovery
+      // stays a page-level redirect, because it opens again once the old recovery episodes are released.
+      ...nextRedirects(),
     ];
   },
   async rewrites() {
-    return [{ source: '/.well-known/assetlinks.json', destination: '/api/assetlinks' }];
+    return [
+      { source: '/.well-known/assetlinks.json', destination: '/api/assetlinks' },
+      // New paths served by existing pages; the address bar keeps the new path. /practice is Practice
+      // (/dashboard), /ask is Ask Mobi (/mentor?tab=ask), /start opens the Start sheet over Today.
+      ...nextRewrites(),
+    ];
   },
   async headers() {
     if (process.env.NODE_ENV === 'development') {

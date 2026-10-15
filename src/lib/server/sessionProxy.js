@@ -55,6 +55,37 @@ export function applyRefCapture(request, response, { secure = process.env.NODE_E
   return true;
 }
 
+// "Start on" (web IA plan 2.4, N1): where mockmob.in opens for a signed-in student. The You page
+// keeps the choice on the device and mirrors it in this cookie (src/components/profile/youModel.mjs),
+// so the proxy can answer before any page renders. Kept here as two plain paths, so the proxy bundle
+// stays small; data/tests/auth_reliability.test.mjs checks they match START_ON_OPTIONS in
+// src/lib/navigation.js.
+export const START_ON_COOKIE = 'mm_start_on';
+export const START_ON_PATHS = Object.freeze({ today: '/today', practice: '/dashboard' });
+
+/** The Start on path for a cookie value. Anything unexpected is Today (the default). */
+export function startOnPath(value) {
+  const id = String(value ?? '').trim();
+  return Object.hasOwn(START_ON_PATHS, id) ? START_ON_PATHS[id] : START_ON_PATHS.today;
+}
+
+/**
+ * A signed-in visit to "/" goes to the Start on place: a 307 (the choice can change) that keeps the
+ * query string and carries any refreshed session cookies. Only when the session was verified in this
+ * request ('ok'): a new visitor, a dead session or a slow Supabase all see the landing as before.
+ * Returns the redirect response, or null to carry on.
+ */
+export function startOnRedirect(request, response, outcome, { NextResponse }) {
+  if (outcome !== 'ok' || request.nextUrl.pathname !== '/') return null;
+  const url = request.nextUrl.clone();
+  url.pathname = startOnPath(request.cookies.get(START_ON_COOKIE)?.value);
+  const redirect = NextResponse.redirect(url, 307);
+  for (const cookie of response.cookies.getAll()) redirect.cookies.set(cookie);
+  // It depends on who is asking, so no cache may keep it.
+  redirect.headers.set('Cache-Control', 'private, no-store');
+  return redirect;
+}
+
 /**
  * Refreshes the Supabase session cookies for one request.
  * Returns { response, outcome } where outcome is one of:
