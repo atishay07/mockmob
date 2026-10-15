@@ -86,12 +86,11 @@
 }
 @keyframes ft-change { from { opacity: .35; } to { opacity: 1; } }
 
-/* Retain the existing phone header/dock finish. The tour gets the viewport while its demo is visible. */
+/* Retain the existing phone header/dock finish. The dock steps aside while any held story is on screen (scroll-story.css). */
 @media (max-width: 899px) {
   html[data-theme] .mm.lp .mm-nav { background: color-mix(in srgb, var(--paper) 62%, transparent); -webkit-backdrop-filter: blur(18px) saturate(1.5); backdrop-filter: blur(18px) saturate(1.5); }
   .mm.lp .mm-nav::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 26px; pointer-events: none; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); -webkit-mask-image: linear-gradient(#000, transparent); mask-image: linear-gradient(#000, transparent); }
   html[data-theme] .mm.lp .mm-dock { left: .7rem; right: .7rem; bottom: calc(.55rem + env(safe-area-inset-bottom)); padding: .5rem .55rem .5rem .95rem; border: 1px solid var(--line-strong); border-radius: 22px; background: color-mix(in srgb, var(--paper-raised) 66%, transparent); -webkit-backdrop-filter: blur(20px) saturate(1.6); backdrop-filter: blur(20px) saturate(1.6); box-shadow: inset 0 1px 0 rgba(255,255,255,.5), 0 18px 40px -18px rgba(20,32,14,.5); transition: opacity 150ms ease, transform 150ms var(--ease-out); }
-  .mm.lp:has(.ft[data-live='true']) .mm-dock:not(:focus-within) { opacity: 0; transform: translateY(calc(100% + 2rem)); pointer-events: none; }
   .lp .rv { filter: blur(6px); transition: opacity .8s var(--ease) var(--d, 0ms), transform .8s var(--ease) var(--d, 0ms), filter .8s var(--ease) var(--d, 0ms); }
   .lp .rv[data-in="true"] { filter: none; }
   .lp-hero__tool, .lp-hero__exam-link { display: none; }
@@ -105,4 +104,42 @@
 @media (prefers-reduced-transparency: reduce) {
   .mm.lp .mm-nav, .mm.lp .mm-dock { -webkit-backdrop-filter: none; backdrop-filter: none; }
   .mm.lp .mm-nav::after { display: none; }
+}
+
+/* ---------- Held tour (ScrollStory): the stage stays, the scroll changes the tool ----------
+   Phones first: chips on top, then the card scaled once per resize to fit what is left of the
+   window. All tools share one grid cell, so changing tool never changes the card's height. */
+.ft-story { --ss-beat: 58svh; }
+.ft-story[data-pinned='true'] .ft { height: 100%; grid-template-rows: auto minmax(0, 1fr); align-content: start; }
+.ft-story[data-pinned='true'] .ft__room { min-height: 0; }
+.ft-story[data-pinned='true'] .ft__track { display: grid; overflow: hidden; scroll-snap-type: none; touch-action: auto; }
+.ft-story[data-pinned='true'] .ft__slide { grid-area: 1 / 1; display: grid; opacity: 0; visibility: hidden; animation: none; transition: opacity var(--mm-dur-card, 240ms) ease, visibility 0s linear var(--mm-dur-card, 240ms); }
+.ft-story[data-pinned='true'] .ft__slide[data-active='true'] { opacity: 1; visibility: visible; transition-delay: 0s; }
+.ft-story[data-pinned='true'] .ft__slide .ft__copy,
+.ft-story[data-pinned='true'] .ft__slide .ft__shot { transition: transform var(--mm-dur-emphasized, 420ms) var(--mm-ease-emphasized, ease-out); }
+.ft-story[data-pinned='true'] .ft__slide[data-active='false'] .ft__copy { transform: translate3d(0, 0.9rem, 0); }
+.ft-story[data-pinned='true'] .ft__slide[data-active='false'] .ft__shot { transform: translate3d(0, 0.6rem, 0) scale(0.97); }
+.ft-story[data-pinned='true'] .ft__slide[data-past='true'] .ft__copy { transform: translate3d(0, -0.9rem, 0); }
+.ft-story[data-pinned='true'] .ft__slide[data-past='true'] .ft__shot { transform: translate3d(0, -0.6rem, 0) scale(0.97); }
+.ft-story[data-pinned='true'] .ft__progress .ss-fill { width: 100%; height: 100%; background: var(--accent-text, #607400); }
+.ft-story[data-pinned='true'] .ft__progress span[data-done='true'] { background: var(--line); }
+.ft-story[data-reduced='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none !important; transition: none; }
+.ft-story[data-reduced='true'] .ft__slide { transition-duration: var(--mm-dur-reduced-fade, 120ms); }
+@media (max-width: 899px) {
+  .ft-story[data-pinned='true'] .ft { gap: .6rem; }
+  .ft-story[data-pinned='true'] .ft__card { grid-template-rows: minmax(17.5rem, auto) auto; }
+}
+@media (min-width: 900px) {
+  .ft-story[data-pinned='true'] .ss__stage { display: flex; flex-direction: column; justify-content: center; }
+  .ft-story[data-pinned='true'] .ft { height: auto; max-height: 100%; }
+}
+/* Landscape phones: the chips scroll away into the card's own chapter line. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .ft-story { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
+  .ft-story[data-pinned='true'] .ft__list { display: none; }
+  .ft-story[data-pinned='true'] .ft { grid-template-rows: minmax(0, 1fr); }
+  .ft-story[data-pinned='true'] .ft__stage { --ss-fit-min: 0.5; }
+  .ft-story[data-pinned='true'] .ft__card { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .ft-story[data-pinned='true'] .ft__copy { order: -1; justify-content: center; padding: 1rem 1.25rem; }
+  .ft-story[data-pinned='true'] .ft__media { padding: .75rem 1rem; }
 }

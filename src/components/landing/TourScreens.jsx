@@ -56,7 +56,7 @@ function Frame({ title, right, step, className = '', children }) {
       <div className="ts__bar">
         <span className="ts__live" aria-hidden="true" />
         <span className="ts__title">{title}</span>
-        {right ?? <span className="ts__badge">Example</span>}
+        {right ?? null}
       </div>
       <div className="ts__body">{children}</div>
     </figure>

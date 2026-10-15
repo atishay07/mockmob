@@ -207,8 +207,10 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* ------------------- MISTAKE LAB CINEMA (pinned scroll story) ------------------ */}
+        {/* ------------------- MISTAKE LAB CINEMA (held scroll story) ------------------ */}
         <section className="lp-sec lp-sec--cinema" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
+          {/* Without JavaScript the held stories (ScrollStory) simply scroll as plain sections. */}
+          <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left lp-cinema-head">
               <p className="lp-kicker">Mistake Lab</p>
@@ -224,9 +226,9 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2">What’s inside MockMob.</h2>
-              <p className="lp-sub">Watch each tool in five seconds. Pick a chapter or let the tour take you through. Illustrative demos; your screens use your own practice.</p>
+              <p className="lp-sub">Practice, repair, replay and the plan that ties them together. Scroll through each tool, or jump straight to the one you need.</p>
             </Reveal>
-            <Reveal delay={100}><FeatureTour slides={TOUR} /></Reveal>
+            <FeatureTour slides={TOUR} />
           </div>
         </section>
 
@@ -237,12 +239,10 @@ export default function LandingPage() {
               <p className="lp-kicker">Replay a session</p>
               <h2 className="lp-h2">See exactly where your marks went.</h2>
               <p className="lp-sub">
-                Replay the answer changes, slow questions and skips. Then pick one useful move. The example below shows how.
+                Replay the answer changes, the slow questions and the skips, then leave with one clear next move.
               </p>
             </Reveal><MascotSeat station="lab" pose="attentive" label="Read the pattern." note="Replay, then choose a step." /></div>
-            <Reveal delay={100}>
-              <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
-            </Reveal>
+            <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
           </div>
         </section>
 

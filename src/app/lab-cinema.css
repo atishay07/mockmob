@@ -1,8 +1,9 @@
 /* ==========================================================================
-   MISTAKE LAB CINEMA (landing only): .lc
-   One pinned scroll story in four scenes. Pinned mode is set by JS for wide, tall windows with
-   motion allowed; everything else (phones, reduced motion, no JS) reads the same scenes stacked.
-   Only opacity and transform move. The product screen follows the Night and Day theme.
+   MISTAKE LAB CINEMA (landing only): .lc, built on ScrollStory (.ss, scroll-story.css)
+   One held scroll story in four scenes, on phones exactly as on desktop: the stage sticks, the
+   reader's scroll changes the scene. Phones stack rail, words and screen in one frame; wide or
+   landscape windows put the words beside the screen. Only opacity and transform move.
+   The product screen follows the Night and Day theme.
    ========================================================================== */
 
 .lc {
@@ -25,7 +26,8 @@
   --s-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.85), 0 12px 30px -18px rgba(0, 0, 0, 0.6);
   --lc-ease: cubic-bezier(0.16, 1, 0.3, 1);
   --lc-sweep: 2.4s;
-  --lcd-chrome: 5.9rem;
+  --lcd-chrome: 3.6rem;
+  --ss-beat: 76svh;
   --lc-reset: 0.45s;
   position: relative;
   overflow-x: clip;
@@ -48,59 +50,50 @@ html[data-theme='light'] .lc {
   --s-wash: rgba(124, 150, 20, 0.08);
   --s-shadow: 0 40px 90px -46px rgba(20, 32, 14, 0.45), 0 12px 30px -20px rgba(20, 32, 14, 0.25);
 }
-
 /* ---------- Copy ---------- */
-.lc-scene__step { margin: 0 0 0.75rem; }
-.lc-scene__step span {
-  display: inline-flex; align-items: center; min-height: 1.75rem; padding: 0 0.7rem;
-  border-radius: 999px; background: var(--accent-wash); border: 1px solid var(--accent-line);
-  color: var(--accent-text); font-size: 0.8125rem; font-weight: 700;
-}
+.lc-scene__step { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.6rem; color: var(--accent-text); font-size: 0.8125rem; font-weight: 750; }
+.lc-scene__step span { color: var(--ink-3); font-variant-numeric: tabular-nums; font-weight: 650; }
 .lc-scene__title {
   margin: 0;
-  max-width: 16ch;
+  max-width: 18ch;
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3.4vw, 2.85rem);
+  font-size: clamp(1.5rem, 6.4vw, 2.85rem);
   font-weight: 800;
-  line-height: 1.04;
+  line-height: 1.06;
   letter-spacing: -0.032em;
   color: var(--ink);
   text-wrap: balance;
 }
-.lc-scene__body { margin: 1rem 0 0; max-width: 40ch; color: var(--ink-2); font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.6; text-wrap: pretty; }
+.lc-scene__body { margin: 0.6rem 0 0; max-width: 40ch; color: var(--ink-2); font-size: clamp(0.9375rem, 1.3vw, 1.125rem); line-height: 1.5; text-wrap: pretty; }
 .lc-scene__take {
-  display: inline-flex; align-items: center; gap: 0.6rem; margin: 1.25rem 0 0; padding: 0.7rem 1rem;
+  display: none; align-items: center; gap: 0.6rem; margin: 1.25rem 0 0; padding: 0.7rem 1rem;
   border-radius: 14px; background: rgb(var(--tint) / 0.05); border: 1px solid var(--line);
   color: var(--ink); font-weight: 650; font-size: 0.9375rem; line-height: 1.4; font-variant-numeric: tabular-nums;
 }
 .lc-scene__take::before { content: ''; flex: none; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--volt); box-shadow: 0 0 0 4px var(--accent-wash); }
-.lc__fine { margin-top: 1.5rem; color: var(--ink-3); font-size: 0.8125rem; line-height: 1.5; }
 
-/* ---------- Rail (pinned only) ---------- */
-.lc__rail { position: relative; display: grid; gap: 0.15rem; margin: 0; padding: 0 0 0 1.1rem; list-style: none; }
-.lc__rail::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0.5rem; width: 2px; border-radius: 2px; background: var(--line-strong); }
-.lc__rail::after {
-  content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0.5rem; width: 2px; border-radius: 2px; background: var(--volt);
-  transform-origin: top; transform: scaleY(calc((var(--scene) + 1) / 4));
-  transition: transform 0.5s var(--lc-ease);
-}
+/* ---------- Rail: the step indicator (a row of four on phones, a column on desktop) ---------- */
+.lc__rail { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
 .lc__rail button {
-  display: inline-flex; align-items: center; gap: 0.65rem; min-height: 44px; padding: 0 0.85rem 0 0.35rem;
+  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem;
+  width: 100%; min-height: 48px; padding: 0.35rem 0.2rem 0.6rem;
   border: 0; border-radius: 12px; background: transparent; color: var(--ink-3);
-  font: 650 0.9375rem/1 var(--font-body); cursor: pointer;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  font: 650 0.8125rem/1 var(--font-body); cursor: pointer; touch-action: manipulation;
+  transition: color var(--mm-dur-ui, 200ms) ease, background-color var(--mm-dur-ui, 200ms) ease;
 }
-.lc__rail-ico { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: 10px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.03); transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease; }
+.lc__rail-ico { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 9px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.03); transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform var(--mm-spring-snappy-dur, 450ms) var(--mm-spring-snappy, ease-out); }
+.lc__rail-meter { position: absolute; left: 0.5rem; right: 0.5rem; bottom: 0.1rem; height: 2px; border-radius: 2px; background: var(--line-strong); overflow: hidden; }
+.lc__rail-meter .ss-fill { height: 100%; border-radius: inherit; background: var(--accent-text); }
 .lc__rail button[data-on='true'] { color: var(--ink); }
-.lc__rail button[data-on='true'] .lc__rail-ico { background: var(--volt); border-color: var(--volt); color: #0b1000; }
+.lc__rail button[data-on='true'] .lc__rail-ico { background: var(--volt); border-color: var(--volt); color: #0b1000; transform: scale(1.06); }
 .lc__rail button:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
 .lc__rail button:active { background: rgb(var(--tint) / 0.06); }
 @media (hover: hover) and (pointer: fine) { .lc__rail button:hover { color: var(--ink); background: rgb(var(--tint) / 0.04); } }
 
-/* ---------- The device (pinned only) ---------- */
-.lcd { position: relative; isolation: isolate; }
+/* ---------- The device ---------- */
+.lcd { position: relative; isolation: isolate; min-height: 0; }
 .lcd__frame {
-  position: absolute; inset: 0; z-index: 0; border-radius: 28px; overflow: hidden;
+  position: absolute; inset: 0; z-index: 0; border-radius: 22px; overflow: hidden;
   background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow), inset 0 1px 0 rgb(255 255 255 / 0.06);
 }
 .lcd__glow {
@@ -109,24 +102,26 @@ html[data-theme='light'] .lc {
   pointer-events: none;
 }
 html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, rgba(170, 200, 0, 0.22), transparent 72%); }
-/* The lamp-lit calculator rests behind the screen's top corner, never over its text. */
-.lcd__object.subj-obj { position: absolute; z-index: -1; top: -3.6rem; right: -2.6rem; }
-.lcd__tag {
-  position: absolute; z-index: 2; right: 1.1rem; bottom: 1rem; padding: 0.3rem 0.65rem; border-radius: 999px;
-  background: var(--s-sunken); border: 1px solid var(--s-line); color: var(--s-ink-3); font-size: 0.75rem; font-weight: 600;
-}
-.lcd-bar { display: flex; flex-direction: column; gap: 0.2rem; padding: 1.1rem 1.4rem 0.6rem; }
-.lcd-bar__title { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; color: var(--s-ink-2); font-size: 0.875rem; font-weight: 650; }
+/* The lamp-lit Accountancy object. Wide windows: it rests behind the screen's top corner, never over
+   its text. Phones have no room beside the screen, so it becomes the subject badge in the screen's
+   title bar instead (.lcd-bar__obj), the way the app marks a mock's subject. */
+.lcd__object.subj-obj { display: none; position: absolute; z-index: -1; top: -3.6rem; right: -2.6rem; }
+.lcd-bar { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.7rem 1rem 0.5rem; }
+.lcd-bar__title { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--s-ink-2); font-size: 0.875rem; font-weight: 650; }
+.lcd-bar__subject { display: inline-flex; align-items: center; gap: 0.55rem; min-width: 0; }
+.lcd-bar__subject > span { display: grid; color: var(--s-ink); font-weight: 750; line-height: 1.2; }
+.lcd-bar__subject small { color: var(--s-ink-3); font-size: 0.75rem; font-weight: 600; }
+.lcd-bar__obj.subj-obj { flex: none; margin: -0.35rem 0 -0.35rem -0.2rem; }
 .lcd-bar__title b { color: var(--s-ink); font: 800 1.35rem/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-.lcd-bar__title small { color: var(--s-ink-3); font: 600 0.8125rem var(--font-body); }
+.lcd-bar__title b small { color: var(--s-ink-3); font: 600 0.8125rem var(--font-body); }
 .lcd-bar__tab { margin: 0; color: var(--s-ink); font: 750 1rem/1.2 var(--font-body); }
-.lcd__tabs { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0.2rem 1.1rem 0; padding: 0.25rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); }
+.lcd__tabs { position: relative; display: none; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0.2rem 1.1rem 0; padding: 0.25rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); }
 .lcd__tabs span { position: relative; z-index: 1; display: grid; place-items: center; min-height: 2rem; color: var(--s-ink-3); font-size: 0.8125rem; font-weight: 700; transition: color 0.25s ease; }
 .lcd__tabs span[data-on='true'] { color: var(--s-accent-ink); }
 .lcd__tab-ink {
   position: absolute; z-index: 0; top: 0.25rem; bottom: 0.25rem; left: 0.25rem; width: calc((100% - 0.5rem) / 4);
   border-radius: 9px; background: var(--s-accent);
-  transform: translate3d(calc(var(--scene) * 100%), 0, 0); transition: transform 0.45s var(--lc-ease);
+  transform: translate3d(calc(var(--ss-step) * 100%), 0, 0); transition: transform 0.45s var(--lc-ease);
 }
 
 /* ---------- Panels (shared) ---------- */
@@ -225,84 +220,125 @@ html[data-theme='light'] .lc .lcp-bars__pace { border-left-color: #5d7300; }
 .lc .lcp-plan { transition: opacity 0.35s ease 0.15s, transform 0.45s var(--lc-ease) 0.15s; }
 .lc .lcp-swot__q { transition: opacity 0.35s ease calc(var(--i, 0) * 110ms + 380ms), transform 0.45s var(--lc-ease) calc(var(--i, 0) * 110ms + 380ms); }
 
-.lc[data-ready='true'] .lc-scene[data-on='false'] .lcp-bars__fill { transform: scaleX(0); transition-delay: var(--lc-reset); }
-.lc[data-ready='true'] .lc-scene[data-on='false'] :is(.lcp-bars__pace, .lcp-bars__tag, .lcp-clock__q) { opacity: 0; transition-delay: var(--lc-reset); }
-.lc[data-ready='true'] .lc-scene[data-on='false'] .lcp-clock__dot { opacity: 0; transform: scale(0.6); transition-delay: var(--lc-reset); }
-.lc[data-ready='true'] .lc-scene[data-on='false'] .lcp-clock__span { transform: scaleX(0); transition-duration: 0.2s; transition-delay: var(--lc-reset); }
-.lc[data-ready='true'] .lc-scene[data-on='false'] :is(.lcp-changes li, .lcp-check, .lcp-block, .lcp-plan, .lcp-swot__q) { opacity: 0; transform: translate3d(0, 0.75rem, 0); transition-delay: var(--lc-reset); }
-.lc[data-ready='true'] .lc-scene[data-on='false'] .lcp-swot__q { transform: scale(0.96); }
-.lc[data-ready='true'] .lc-scene[data-on='false'] .lcp-q__opts li[data-state] { border-color: var(--s-line); background: transparent; transition-delay: var(--lc-reset); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-bars__fill { transform: scaleX(0); transition-delay: var(--lc-reset); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcp-bars__pace, .lcp-bars__tag, .lcp-clock__q) { opacity: 0; transition-delay: var(--lc-reset); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-clock__dot { opacity: 0; transform: scale(0.6); transition-delay: var(--lc-reset); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-clock__span { transform: scaleX(0); transition-duration: 0.2s; transition-delay: var(--lc-reset); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcp-changes li, .lcp-check, .lcp-block, .lcp-plan, .lcp-swot__q) { opacity: 0; transform: translate3d(0, 0.75rem, 0); transition-delay: var(--lc-reset); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-swot__q { transform: scale(0.96); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-q__opts li[data-state] { border-color: var(--s-line); background: transparent; transition-delay: var(--lc-reset); }
 /* The clock sweep plays once each time the Changes screen comes on. */
-.lc[data-ready='true'] .lc-scene[data-on='true'] .lcp-clock__sweep i { animation: lc-sweep var(--lc-sweep) linear both; }
+.lc__grid[data-ready='true'] .lc-scene[data-on='true'] .lcp-clock__sweep i { animation: lc-sweep var(--lc-sweep) linear both; }
 @keyframes lc-sweep {
   0% { transform: translate3d(-100%, 0, 0); opacity: 1; }
   92% { transform: translate3d(0, 0, 0); opacity: 1; }
   100% { transform: translate3d(0, 0, 0); opacity: 0; }
 }
-
-/* ---------- Flow mode: phones, reduced motion, no JS ---------- */
-.lc[data-mode='flow'] .lc__rail,
-.lc[data-mode='flow'] .lcd,
-.lc[data-mode='flow'] .lc__beat { display: none; }
-.lc[data-mode='flow'] .lc__grid { display: grid; gap: clamp(3.5rem, 9vw, 5.5rem); }
-.lc[data-mode='flow'] .lc-scene { display: grid; gap: 1.5rem; align-items: center; }
-.lc[data-mode='flow'] .lc-scene__screen {
-  position: relative; padding: 0 1.1rem 1.2rem; border-radius: 24px;
-  background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow);
+/* ---------- Held (ScrollStory pinned): phones first ---------- */
+.lc[data-pinned='true'] .lc__grid {
+  display: grid; height: 100%;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr);
+  row-gap: 0.85rem;
 }
-.lc[data-mode='flow'] .lc-scene__mini .lcd-bar { padding: 1rem 0.2rem 0.85rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--s-line); }
-@media (min-width: 900px) {
-  .lc[data-mode='flow'] .lc-scene { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 4.5rem); }
-  .lc[data-mode='flow'] .lc-scene:nth-child(even of .lc-scene) .lc-scene__copy { order: 2; }
-}
-.lc[data-mode='flow'] .lc-scene__copy,
-.lc[data-mode='flow'] .lc-scene__screen { transition: opacity 0.5s var(--lc-ease), transform 0.6s var(--lc-ease); }
-.lc[data-mode='flow'][data-ready='true'] .lc-scene[data-on='false'] .lc-scene__copy { opacity: 0; transform: translate3d(0, 1.25rem, 0); }
-.lc[data-mode='flow'][data-ready='true'] .lc-scene[data-on='false'] .lc-scene__screen { opacity: 0; transform: translate3d(0, 2rem, 0) scale(0.98); }
-@media (max-width: 520px) {
-  .lc[data-mode='flow'] .lc-scene__screen { padding-inline: 0.85rem; border-radius: 20px; }
-  .lcp-q__opts { grid-template-columns: minmax(0, 1fr); }
-  .lcp-clock { height: 7rem; }
-}
-
-/* ---------- Pinned mode ---------- */
-.lc[data-mode='pinned'] .lc__track { --lc-beat: 78svh; position: relative; height: calc(100svh + 3 * var(--lc-beat)); view-timeline-name: --lc-track; view-timeline-axis: block; }
-.lc[data-mode='pinned'] .lc__beat { position: absolute; left: 0; width: 1px; top: calc(var(--i) * var(--lc-beat)); height: var(--lc-beat); pointer-events: none; }
-.lc[data-mode='pinned'] .lc__stage { position: sticky; top: 0; display: flex; align-items: center; height: 100svh; padding: 5.25rem 0 1.75rem; }
-.lc[data-mode='pinned'] .lc__grid {
-  display: grid; width: 100%; height: min(100%, 46rem);
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto minmax(0, 1fr);
-  column-gap: clamp(2.5rem, 5.5vw, 5.5rem); row-gap: 2rem;
-}
-.lc[data-mode='pinned'] .lc__rail { grid-column: 1; grid-row: 1; align-self: start; }
-.lc[data-mode='pinned'] .lcd { grid-column: 2; grid-row: 1 / -1; }
-.lc[data-mode='pinned'] .lc-scene {
+.lc[data-pinned='true'] .lc__rail { grid-column: 1; grid-row: 1; }
+.lc[data-pinned='true'] .lcd { grid-column: 1; grid-row: 3; }
+.lc[data-pinned='true'] .lc-scene {
   position: relative; z-index: 1; grid-column: 1 / -1; grid-row: 1 / -1;
   display: grid; grid-template-columns: subgrid; grid-template-rows: subgrid; pointer-events: none;
 }
-.lc[data-mode='pinned'] .lc-scene[data-on='true'] { z-index: 2; }
-.lc[data-mode='pinned'] .lc-scene__step,
-.lc[data-mode='pinned'] .lc-scene__mini { display: none; }
-.lc[data-mode='pinned'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: center; }
-.lc[data-mode='pinned'] .lc-scene__screen { grid-column: 2; grid-row: 1 / -1; align-self: start; padding: calc(var(--lcd-chrome) + 1.1rem) 1.5rem 3.2rem; }
-/* JS measures each screen once per resize and scales it to fit the device (never clipped). */
-.lc[data-mode='pinned'] .lc-scene__screen > .lcp { width: calc(100% / var(--fit, 1)); transform: scale(var(--fit, 1)); transform-origin: top left; }
-.lc[data-mode='pinned'] .lc-scene__copy,
-.lc[data-mode='pinned'] .lc-scene__screen { transition: opacity 0.42s var(--lc-ease), transform 0.55s var(--lc-ease); }
-.lc[data-mode='pinned'] .lc-scene[data-on='false'] .lc-scene__copy { opacity: 0; transform: translate3d(0, 1.75rem, 0); }
-.lc[data-mode='pinned'] .lc-scene[data-on='false'] .lc-scene__screen { opacity: 0; transform: translate3d(0, 1rem, 0) scale(0.985); }
-.lc[data-mode='pinned'] .lc-scene[data-past='true'] .lc-scene__copy { transform: translate3d(0, -1.75rem, 0); }
-.lc[data-mode='pinned'] .lc-scene[data-past='true'] .lc-scene__screen { transform: translate3d(0, -1rem, 0) scale(0.985); }
-.lc[data-mode='pinned'] .lc__fine { margin-top: 0; }
+.lc[data-pinned='true'] .lc-scene[data-on='true'] { z-index: 2; }
+.lc[data-pinned='true'] .lc-scene__step,
+.lc[data-pinned='true'] .lc-scene__mini { display: none; }
+.lc[data-pinned='true'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: end; }
+.lc[data-pinned='true'] .lc-scene__screen { grid-column: 1; grid-row: 3; min-height: 0; padding: calc(var(--lcd-chrome) + 0.6rem) 1rem 1rem; }
+/* The screen never spills past the device, whatever the window. */
+.lc[data-pinned='true'] .lc-scene__screen { overflow: clip; border-radius: 22px; }
+.lc[data-pinned='true'] .lc-scene__copy,
+.lc[data-pinned='true'] .lc-scene__screen { transition: opacity 0.42s var(--lc-ease), transform 0.55s var(--lc-ease); }
+.lc[data-pinned='true'] .lc-scene[data-on='false'] .lc-scene__copy { opacity: 0; transform: translate3d(0, 1.25rem, 0); }
+.lc[data-pinned='true'] .lc-scene[data-on='false'] .lc-scene__screen { opacity: 0; transform: translate3d(0, 0.75rem, 0) scale(0.985); }
+.lc[data-pinned='true'] .lc-scene[data-past='true'] .lc-scene__copy { transform: translate3d(0, -1.25rem, 0); }
+.lc[data-pinned='true'] .lc-scene[data-past='true'] .lc-scene__screen { transform: translate3d(0, -0.75rem, 0) scale(0.985); }
+/* Reduced motion keeps the hold; scenes swap with a short fade and nothing travels. */
+.lc[data-reduced='true'] .lc-scene .lc-scene__copy,
+.lc[data-reduced='true'] .lc-scene .lc-scene__screen { transform: none !important; transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
+@media (max-width: 380px) {
+  .lc .lc__rail button { font-size: 0.75rem; }
+  .lc-scene__body { font-size: 0.875rem; }
+}
+@media (max-width: 520px) {
+  .lcp-q__opts { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .lcp-q__opts li { font-size: 0.75rem; }
+  .lcp-clock { height: 7rem; }
+}
+
+/* Short windows: the words shrink before the screen does. */
+@media (max-height: 740px) {
+  .lc[data-pinned='true'] .lc-scene__body { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+  .lc-scene__title { font-size: clamp(1.35rem, 5.6vw, 2.4rem); }
+}
+
+/* ---------- Wide or landscape: words beside the screen ---------- */
+@media (min-width: 960px), (orientation: landscape) and (min-width: 600px) {
+  .lc[data-pinned='true'] .lc__grid {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto minmax(0, 1fr);
+    column-gap: clamp(1.5rem, 5vw, 5.5rem); row-gap: 1rem;
+  }
+  .lc[data-pinned='true'] .lcd { grid-column: 2; grid-row: 1 / -1; }
+  .lc[data-pinned='true'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: center; }
+  .lc[data-pinned='true'] .lc-scene__screen { grid-column: 2; grid-row: 1 / -1; }
+}
+@media (min-width: 960px) and (min-height: 600px) {
+  .lc { --lcd-chrome: 5.9rem; --ss-beat: 78svh; }
+  .lc[data-pinned='true'] .ss__stage { display: flex; align-items: center; }
+  .lc[data-pinned='true'] .lc__grid { height: min(100%, 46rem); row-gap: 2rem; }
+  .lc-scene__take { display: inline-flex; }
+  .lc-scene__body { margin-top: 1rem; }
+  .lcd__frame { border-radius: 28px; }
+  .lcd-bar { padding: 1.1rem 1.4rem 0.6rem; }
+  .lcd__tabs { display: grid; }
+  .lcd-bar__obj.subj-obj { display: none; }
+  .lcd__object.subj-obj { display: block; }
+  .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 1.1rem) 1.5rem 1.6rem; }
+  /* The rail turns into a column: a line on the left that fills down through the scenes. */
+  .lc__rail { grid-template-columns: none; gap: 0.15rem; padding-left: 1.1rem; align-self: start; }
+  .lc__rail::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0.5rem; width: 2px; border-radius: 2px; background: var(--line-strong); }
+  .lc__rail button { flex-direction: row; justify-content: flex-start; gap: 0.65rem; min-height: 44px; padding: 0 0.85rem 0 0.35rem; font-size: 0.9375rem; }
+  .lc__rail-ico { width: 1.9rem; height: 1.9rem; border-radius: 10px; }
+  .lc__rail-meter { left: -1.1rem; right: auto; top: 0.15rem; bottom: 0.15rem; width: 2px; height: auto; background: transparent; }
+  .lc__rail-meter .ss-fill { width: 100%; height: 100%; transform-origin: center top; transform: scaleY(0); }
+  .lc__rail-meter .ss-fill:is([data-state='done'], [data-state='on']) { transform: scaleY(1); }
+  .lc[data-pinned='true'] .lc__rail-meter .ss-fill { animation-name: ss-fill-y; }
+}
+/* Landscape phones: the rail sits above the words in the left column. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .lc { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
+  .lc .lc-scene__fit { --ss-fit-min: 0.45; }
+  .lc[data-pinned='true'] .lc__rail { grid-column: 1; grid-row: 1; }
+  .lc .lc__rail button { min-height: 44px; flex-direction: row; gap: 0.3rem; font-size: 0.75rem; }
+  .lc .lc__rail-ico { width: 1.5rem; height: 1.5rem; }
+  .lc-scene__title { font-size: 1.3rem; }
+  .lc-scene__body { font-size: 0.8125rem; }
+}
+
+/* ---------- Not held (no IntersectionObserver): the four scenes stack ---------- */
+.lc[data-pinned='false'] .lc__rail,
+.lc[data-pinned='false'] .lcd { display: none; }
+.lc[data-pinned='false'] .lc__grid { display: grid; gap: clamp(3rem, 9vw, 5.5rem); }
+.lc[data-pinned='false'] .lc-scene { display: grid; gap: 1.25rem; align-items: center; }
+.lc[data-pinned='false'] .lc-scene__screen { position: relative; padding: 0 1rem 1.1rem; border-radius: 22px; background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow); }
+.lc[data-pinned='false'] .lc-scene__mini .lcd-bar { padding: 1rem 0.2rem 0.85rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--s-line); }
 
 /* The object and the light drift with the whole story (compositor-only, where supported). */
 @supports (animation-timeline: view()) {
-  .lc[data-mode='pinned'] .lcd__object { animation: lc-object linear both; animation-timeline: --lc-track; animation-range: contain 0% contain 100%; }
-  .lc[data-mode='pinned'] .lcd__glow { animation: lc-glow linear both; animation-timeline: --lc-track; animation-range: contain 0% contain 100%; }
+  .lc[data-pinned='true'] .lcd__object { animation: lc-object linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
+  .lc[data-pinned='true'] .lcd__glow { animation: lc-glow linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
 }
 @keyframes lc-object { from { transform: translate3d(0, 2.25rem, 0) rotate(-5deg); } to { transform: translate3d(-0.75rem, -1.5rem, 0) rotate(4deg); } }
 @keyframes lc-glow { from { transform: translate3d(-4%, 6%, 0) scale(0.92); opacity: 0.7; } to { transform: translate3d(4%, -4%, 0) scale(1.06); opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .lc *, .lc *::before, .lc *::after { transition: none !important; animation: none !important; }
+  .lc .lcd__object, .lc .lcd__glow { animation: none !important; }
+  .lc__grid .lcp-clock__sweep i { animation: none !important; }
 }

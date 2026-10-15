@@ -1,32 +1,32 @@
 "use client";
 
-// The landing's signature scene: the Mistake Lab, told as one pinned scroll story.
-// Desktop (wide and tall enough, motion allowed): the product screen pins in place and the reader's
-// scroll walks it through four scenes (time per question, every answer change with its clock, the
-// repair, the SWOT). Scene changes come from IntersectionObserver beats, never a scroll handler, so
-// the main thread does no work while scrolling; everything that moves is opacity and transform.
-// Phones, reduced motion and no-JS get the same four scenes as a stacked story with one screen each.
-// All numbers come from labStory.mjs: one illustrative session, labelled as such on screen.
-import { useCallback, useEffect, useRef, useState } from 'react';
+// The landing's signature scene: the Mistake Lab, told as one held scroll story on every screen.
+// The product screen holds still (ScrollStory: position sticky, IntersectionObserver beats) while the
+// reader's scroll walks it through four scenes: time per question, every answer change on the clock,
+// the repair, and the SWOT with the set to do next. Phones get the same hold as desktop: step rail on
+// top, the scene's words, then the screen, scaled once per resize to fit short and landscape windows.
+// Only opacity and transform move. All numbers come from labStory.mjs (one sample Accountancy mock),
+// so the scenes cannot disagree with each other or with the replay further down the page.
 import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
 import { labStory, REPAIR, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
+import ScrollStory from './ScrollStory';
 
 const S = labStory();
 const VERDICT = { right: 'Right', wrong: 'Wrong', blank: 'Blank' };
 
 const SCENES = [
   { key: 'time', tab: 'Time', Icon: Timer, title: 'See where every minute went.',
-    body: `Each question keeps its own clock. The slow ones stand out against the paper’s pace of ${S.pace} a question, so you know which minutes cost you.`,
+    body: `Every question keeps its own clock. The slow ones stand out against the paper’s pace of ${S.pace} a question, so you can see which minutes cost marks.`,
     take: `${S.facts.wrong} wrong answers took ${S.wrongTime}. ${S.facts.right} right ones took ${S.rightTime}.` },
   { key: 'changes', tab: 'Changes', Icon: ArrowLeftRight, title: 'Every answer you changed, on the clock.',
-    body: 'Your first pick, the switch and the minute it happened. Then the marks each change won or cost you.',
+    body: 'Your first pick, the switch and the minute it happened, with the marks each change won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', Icon: Wrench, title: 'Repair the reason, not just the answer.',
-    body: 'The AI solves the question itself first. Only when it lands on the official key does it explain why your pick looked right and where it breaks.',
+    body: 'The AI solves the question on its own first. Only when it matches the official key does it explain why your pick looked right and where it breaks.',
     take: 'If the AI and the key disagree, the question is held back.' },
   { key: 'swot', tab: 'SWOT', Icon: LayoutGrid, title: 'Leave every mock with a plan.',
-    body: 'A SWOT for each mock, built from your own answers and times, with the sets to do next. Free, no credits.',
+    body: 'A SWOT after every mock, built from your own answers and times, with the set to do next. Free, no credits.',
     take: `Partnership: ${S.partnership.right} of ${S.partnership.of} right. That is the next set.` },
 ];
 
@@ -153,145 +153,70 @@ const PANELS = { time: TimePanel, changes: ChangesPanel, repair: RepairPanel, sw
 function ScreenBar({ label }) {
   return (
     <div className="lcd-bar">
-      <div className="lcd-bar__title"><span>Accountancy mock</span><b>{S.facts.marks}<small> / {S.facts.outOf}</small></b></div>
+      <div className="lcd-bar__title">
+        <span className="lcd-bar__subject">
+          {label ? null : <SubjectObject id="accountancy" size={44} className="lcd-bar__obj" style={{ '--obj-size': '2.5rem' }} />}
+          <span>Accountancy<small>Sample mock</small></span>
+        </span>
+        <b>{S.facts.marks}<small> / {S.facts.outOf}</small></b>
+      </div>
       {label ? <p className="lcd-bar__tab">{label}</p> : null}
     </div>
   );
 }
 
-export default function LabCinema() {
-  const rootRef = useRef(null);
-  const deviceRef = useRef(null);
-  const beatsRef = useRef([]);
-  const scenesRef = useRef([]);
-  const [mode, setMode] = useState('flow');
-  const [scene, setScene] = useState(0);
-  const [seen, setSeen] = useState(() => SCENES.map(() => false));
-  const [ready, setReady] = useState(false);
-
-  // Pinned only where it reads well: a wide, tall window with motion allowed.
-  useEffect(() => {
-    const wide = window.matchMedia('(min-width: 960px) and (min-height: 680px)');
-    const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const sync = () => {
-      const reduced = calm.matches || document.documentElement.dataset.motion === 'reduced';
-      setMode(wide.matches && !reduced && typeof IntersectionObserver !== 'undefined' ? 'pinned' : 'flow');
-      setReady(!reduced && typeof IntersectionObserver !== 'undefined');
-    };
-    sync();
-    wide.addEventListener?.('change', sync);
-    calm.addEventListener?.('change', sync);
-    return () => { wide.removeEventListener?.('change', sync); calm.removeEventListener?.('change', sync); };
-  }, []);
-
-  // Pinned: the beat crossing the middle of the window owns the scene.
-  useEffect(() => {
-    if (mode !== 'pinned') return undefined;
-    const io = new IntersectionObserver((entries) => {
-      for (const entry of entries) if (entry.isIntersecting) setScene(Number(entry.target.dataset.beat));
-    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
-    beatsRef.current.forEach((node) => node && io.observe(node));
-    return () => io.disconnect();
-  }, [mode]);
-
-  // Flow: each scene plays its screen once, the first time it is well in view.
-  useEffect(() => {
-    if (mode !== 'flow' || !ready) return undefined;
-    const io = new IntersectionObserver((entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        const i = Number(entry.target.dataset.scene);
-        setSeen((list) => (list[i] ? list : list.map((v, j) => v || j === i)));
-        io.unobserve(entry.target);
-      }
-    }, { threshold: 0.35 });
-    scenesRef.current.forEach((node) => node && io.observe(node));
-    return () => io.disconnect();
-  }, [mode, ready]);
-
-  // Pinned: each screen is scaled once per resize to fit the device, so a short window never clips it.
-  useEffect(() => {
-    const device = deviceRef.current;
-    if (mode !== 'pinned' || !device || typeof ResizeObserver === 'undefined') return undefined;
-    const fit = () => {
-      for (const node of scenes) {
-        const screen = node?.querySelector('.lc-scene__screen');
-        const panel = screen?.querySelector(':scope > .lcp');
-        if (!screen || !panel) continue;
-        const style = getComputedStyle(screen);
-        const room = device.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-        panel.style.removeProperty('--fit');
-        const need = panel.offsetHeight;
-        if (room > 0 && need > room) panel.style.setProperty('--fit', Math.max(0.72, room / need).toFixed(3));
-      }
-    };
-    const scenes = scenesRef.current.slice();
-    const observer = new ResizeObserver(fit);
-    observer.observe(device);
-    return () => {
-      observer.disconnect();
-      scenes.forEach((node) => node?.querySelector('.lc-scene__screen > .lcp')?.style.removeProperty('--fit'));
-    };
-  }, [mode]);
-
-  const jump = useCallback((i, keyboard) => {
-    const beat = beatsRef.current[i];
-    if (!beat) return;
-    const rect = beat.getBoundingClientRect();
-    const top = window.scrollY + rect.top + rect.height / 2 - window.innerHeight / 2 + 1;
-    window.scrollTo({ top, behavior: keyboard ? 'auto' : 'smooth' });
-    setScene(i);
-  }, []);
-
-  const on = (i) => (mode === 'pinned' ? scene === i : !ready || seen[i]);
-
+function Stage({ step, pinned, reduced, goTo }) {
+  const ready = pinned && !reduced;
   return (
-    <div className="lc" ref={rootRef} data-mode={mode} data-ready={ready ? 'true' : 'false'} style={{ '--scene': scene }}>
-      <div className="lc__track">
-        <div className="lc__stage">
-          <div className="mm-wrap lc__grid">
-            <ol className="lc__rail" aria-label="Mistake Lab, scene by scene">
-              {SCENES.map(({ key, tab, Icon }, i) => (
-                <li key={key}>
-                  <button type="button" data-on={scene === i ? 'true' : 'false'} aria-current={scene === i ? 'step' : undefined} onClick={(event) => jump(i, event.detail === 0)}>
-                    <span className="lc__rail-ico" aria-hidden="true"><Icon size={16} /></span>{tab}
-                  </button>
-                </li>
-              ))}
-            </ol>
+    <div className="mm-wrap lc__grid" data-ready={ready ? 'true' : 'false'}>
+      <ol className="lc__rail" aria-label="Mistake Lab, scene by scene">
+        {SCENES.map(({ key, tab, Icon }, i) => {
+          const state = i < step ? 'done' : i === step ? 'on' : 'off';
+          return (
+            <li key={key}>
+              <button type="button" data-on={step === i ? 'true' : 'false'} aria-current={step === i ? 'step' : undefined} onClick={(event) => goTo(i, { instant: event.detail === 0 })}>
+                <span className="lc__rail-ico" aria-hidden="true"><Icon size={16} /></span>
+                <span className="lc__rail-tab">{tab}</span>
+                <i className="lc__rail-meter" aria-hidden="true"><i className="ss-fill" data-state={state} style={{ '--ss-i': i }} /></i>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
 
-            <div className="lcd" aria-hidden="true" ref={deviceRef}>
-              <span className="lcd__glow" />
-              <SubjectObject id="accountancy" size={216} lit className="lcd__object" style={{ '--obj-size': 'clamp(9.5rem, 15vw, 13.5rem)' }} />
-              <div className="lcd__frame">
-                <ScreenBar />
-                <div className="lcd__tabs"><i className="lcd__tab-ink" />{SCENES.map(({ key, tab }, i) => <span key={key} data-on={scene === i ? 'true' : 'false'}>{tab}</span>)}</div>
-              </div>
-              <span className="lcd__tag">Illustrative example</span>
-            </div>
-
-            {SCENES.map(({ key, tab, title, body, take }, i) => {
-              const Panel = PANELS[key];
-              return (
-                <article key={key} className="lc-scene" data-scene={i} data-on={on(i) ? 'true' : 'false'} data-past={mode === 'pinned' && i < scene ? 'true' : undefined} ref={(node) => { scenesRef.current[i] = node; }} aria-labelledby={`lc-scene-${key}`}>
-                  <div className="lc-scene__copy">
-                    <p className="lc-scene__step"><span>{tab}</span></p>
-                    <h3 className="lc-scene__title" id={`lc-scene-${key}`}>{title}</h3>
-                    <p className="lc-scene__body">{body}</p>
-                    <p className="lc-scene__take">{take}</p>
-                  </div>
-                  <figure className="lc-scene__screen" aria-label={`${tab} screen, illustrative example`}>
-                    <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-                    <Panel />
-                  </figure>
-                </article>
-              );
-            })}
-          </div>
+      <div className="lcd" aria-hidden="true">
+        <span className="lcd__glow" />
+        <SubjectObject id="accountancy" size={216} lit className="lcd__object" style={{ '--obj-size': 'clamp(9.5rem, 15vw, 13.5rem)' }} />
+        <div className="lcd__frame">
+          <ScreenBar />
+          <div className="lcd__tabs"><i className="lcd__tab-ink" />{SCENES.map(({ key, tab }, i) => <span key={key} data-on={step === i ? 'true' : 'false'}>{tab}</span>)}</div>
         </div>
-        {SCENES.map(({ key }, i) => <span key={key} className="lc__beat" data-beat={i} style={{ '--i': i }} ref={(node) => { beatsRef.current[i] = node; }} aria-hidden="true" />)}
       </div>
-      <p className="mm-wrap lc__fine">Illustrative example: one 10-question Accountancy session, not your score and not a prediction.</p>
+
+      {SCENES.map(({ key, tab, title, body, take }, i) => {
+        const Panel = PANELS[key];
+        const on = pinned ? step === i : true;
+        return (
+          <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
+            <div className="lc-scene__copy">
+              <p className="lc-scene__step"><span>{String(i + 1).padStart(2, '0')}</span>{tab}</p>
+              <h3 className="lc-scene__title" id={`lc-scene-${key}`}>{title}</h3>
+              <p className="lc-scene__body">{body}</p>
+              <p className="lc-scene__take">{take}</p>
+            </div>
+            <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
+              <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
+              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel /></div>
+            </figure>
+          </article>
+        );
+      })}
     </div>
+  );
+}
+
+export default function LabCinema() {
+  return (
+    <ScrollStory steps={SCENES.length} className="lc" label="Mistake Lab, four scenes" Content={Stage} />
   );
 }

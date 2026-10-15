@@ -96,7 +96,6 @@
 .ml__checks em { font-style: normal; font-size: 0.74rem; font-weight: 700; color: #bcc5b9; text-align: right; }
 .ml__status { margin: 0; padding: 0.75rem 0.9rem; border-radius: 12px; border: 1px dashed rgba(244, 245, 240, 0.22); font-size: 0.84rem; line-height: 1.5; color: #c3cbbd; }
 
-.ml__stage figcaption { padding: 0.8rem 1.1rem 1rem; border-top: 1px solid rgba(244, 245, 240, 0.08); font-size: 0.74rem; line-height: 1.5; color: #8f9a8b; }
 
 @media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } .ml__checks li { grid-template-columns: auto minmax(0, 1fr); } .ml__checks em { grid-column: 2; text-align: left; } }
 @media (prefers-reduced-motion: reduce) {
@@ -137,4 +136,29 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 12px 32px -18px rgb(16 32 14
   .ml__checks em { display: none; }
   .ml__bar-top { padding: .8rem 1rem; }
   .ml__move { padding: .9rem; }
+}
+
+/* ---------- Held (ScrollStory): the replay stays on screen while the scroll walks its steps ----------
+   Phones first: the four steps, the step's line, then the stage, scaled once per resize to fit.
+   The step bars fill with the reader's scroll; Pause and Replay belong to the timed fallback only. */
+.ml-story { --ss-beat: 70svh; }
+.ml-story[data-pinned='true'] .ml { height: 100%; grid-template-rows: auto auto minmax(0, 1fr); align-content: start; }
+.ml-story[data-pinned='true'] .ml__controls { display: none; }
+.ml-story[data-pinned='true'] .ml__bar b.ss-fill { width: 100%; height: 100%; background: var(--accent-text); }
+.ml-story[data-pinned='true'] .ml__steps li .ml__bar { background: var(--line); }
+.ml-story[data-pinned='true'] .ml__stage { align-self: start; }
+.ml-story[data-reduced='true'] .ml__panel { transform: none; transition: opacity var(--mm-dur-reduced-fade, 120ms) linear, visibility 0s linear var(--mm-dur-reduced-fade, 120ms); }
+.ml-story[data-reduced='true'] .ml__panel[data-active='true'] { transition-delay: 0s; }
+.ml__session-label { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+@media (min-width: 960px) {
+  .ml-story[data-pinned='true'] .ss__stage { display: flex; flex-direction: column; justify-content: center; }
+  .ml-story[data-pinned='true'] .ml { height: auto; grid-template-rows: none; align-content: center; }
+  .ml-story[data-pinned='true'] .ml__steps li .ml__bar { background: transparent; }
+  .ml-story[data-pinned='true'] .ml__steps li[data-active='true'] .ml__bar,
+  .ml-story[data-pinned='true'] .ml__steps li[data-done='true'] .ml__bar { background: var(--line); }
+}
+@media (orientation: landscape) and (max-height: 520px) {
+  .ml-story { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
+  .ml-story[data-pinned='true'] .ml__caption { display: none; }
+  .ml-story[data-pinned='true'] .ml__steps button { min-height: 44px; }
 }
