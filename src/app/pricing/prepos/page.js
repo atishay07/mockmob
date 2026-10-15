@@ -21,16 +21,16 @@ import {
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
-  title: 'PrepOS Credits',
+  title: 'AI credits',
   description:
-    'View your preserved PrepOS credits. New top-ups and paid model replies are paused pending spending and staging checks. Purchased credits do not expire.',
+    'View your preserved AI credits. New top-ups and paid model replies are paused pending spending and staging checks. Purchased credits do not expire.',
   path: '/pricing/prepos',
 });
 
 const faqs = [
   {
-    q: 'Do purchased PrepOS credits expire?',
-    a: 'No. Monthly included credits reset every month, but purchased PrepOS credits stay in your wallet until you spend them.',
+    q: 'Do purchased AI credits expire?',
+    a: 'No. Monthly included credits reset every month, but purchased AI credits stay in your account until you spend them.',
   },
   {
     q: 'What is the difference between monthly and purchased credits?',
@@ -38,7 +38,7 @@ const faqs = [
   },
   {
     q: 'Is Pro still separate?',
-    a: 'Yes. Pro is billed separately from the optional PrepOS wallet. New top-ups are currently paused and existing balances are preserved.',
+    a: 'Yes. Pro is billed separately from the optional AI credits. New top-ups are currently paused and existing balances are preserved.',
   },
 ];
 
@@ -58,7 +58,7 @@ export default async function PrepOSPricingPage() {
         data={breadcrumbJsonLd([
           { name: 'Home', path: '/' },
           { name: 'Pricing', path: '/pricing' },
-          { name: 'PrepOS credits', path: '/pricing/prepos' },
+          { name: 'AI credits', path: '/pricing/prepos' },
         ])}
       />
       <JsonLd
@@ -77,14 +77,14 @@ export default async function PrepOSPricingPage() {
               <ArrowLeft className="h-4 w-4" />
               Back to Pro pricing
             </Link>
-            <div className="mono-label mb-3 !text-volt">PrepOS credits</div>
+            <div className="mono-label mb-3 !text-volt">AI credits</div>
             <h1 className="display-lg mb-4">
-              Your existing PrepOS wallet is preserved.
+              Your existing AI credits are preserved.
             </h1>
             <p className="max-w-2xl text-base leading-7 text-zinc-400">
               {checkoutOpen
-                ? `Free accounts include ${AI_FREE_MONTHLY_CREDITS} PrepOS credits a month and Pro includes ${AI_PRO_INCLUDED_MONTHLY_CREDITS}. Purchased credits are separate from practice credits.`
-                : 'PrepOS paid features are temporarily unavailable. Your credits have not been used. New top-ups are paused; purchased credits are preserved and do not expire. Your next practice step on Today does not use PrepOS credits.'}
+                ? `Free accounts include ${AI_FREE_MONTHLY_CREDITS} AI credits a month and Pro includes ${AI_PRO_INCLUDED_MONTHLY_CREDITS}. Purchased credits are separate from Practice credits.`
+                : 'AI features are paused for now. Your AI credits have not been used. New top-ups are paused; purchased credits are preserved and do not expire. Your next practice step on Today does not use AI credits.'}
             </p>
             {wallet && !wallet.known ? <p className="mt-3 text-sm font-semibold text-zinc-300" role="status">{wallet.message}</p> : null}
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -174,7 +174,7 @@ export default async function PrepOSPricingPage() {
               <Sparkles className="h-3.5 w-3.5 text-volt" />
               <span className="mono-label !text-volt">Questions</span>
             </div>
-            <h2 className="display-md">PrepOS credit FAQs</h2>
+            <h2 className="display-md">AI credit FAQs</h2>
           </div>
           <div className="grid gap-3">
             {faqs.map((faq) => (

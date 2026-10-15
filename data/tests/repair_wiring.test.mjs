@@ -194,7 +194,7 @@ test('a v3 payload with every field renders blocks 1 to 12 in the A.1 order', as
     'From your record', INSIGHTS.lines[0].text, INSIGHTS.lines[1].text, V3_FULL.pattern.line, // 9
     'This answer cost 6 marks in this session: 5 not earned and 1 penalty.', // 10
     'Do this next', 'Practise 5 on Correct Word Usage', // 11
-    '1 credit used. 43 left.', // 12
+    '1 AI credit used. You have 43.', // 12
   ]);
   assert.match(html, /data-version="3"/);
   assert.match(html, /data-fresh="true"/, 'a fresh repair carries the motion hook');

@@ -1,7 +1,7 @@
 "use client";
 // Score Recovery · Mistake Repair for one wrong answer. The server works the question and must
 // match the answer key before any repair is shown; a mismatch holds the question for review instead.
-import { useEffect, useId, useRef, useState } from 'react';
+import { useContext, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Wrench, Check, ArrowRight, Copy, KeyRound, ChevronRight } from 'lucide-react';
 import {
@@ -9,6 +9,9 @@ import {
   checkChip, REPAIR_COPY, REPAIR_LOADING, recordLines,
 } from '@/../data/repair_presentation.mjs';
 import { requestRepair, planRepairFailure } from '@/../data/repair_client.mjs';
+import { AuthContext } from '@/components/AuthProvider';
+import { useWalletSummary } from '@/components/useWalletSummary';
+import { usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import KeyReviewNotice from './KeyReviewNotice';
 import AnswerCorrectionNotice from './AnswerCorrectionNotice';
 import RepairMobi from './RepairMobi';
@@ -20,6 +23,14 @@ const newRequestId = () => (globalThis.crypto?.randomUUID?.() || `${Date.now()}-
 // allows 90 s. There are no invented stages.
 const SLOW_AFTER_MS = REPAIR_LOADING.slowAfterMs;
 const LONG_AFTER_MS = REPAIR_LOADING.longAfterMs;
+
+// What a repair costs and what the student has, in the one spend line: "This repair uses 1 AI credit. You have 9."
+// The balance is the one the top bar already read (reused for five minutes); unknown shows no number.
+function RepairCost() {
+  const auth = useContext(AuthContext);
+  const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
+  return <p className="mr-cost">{usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
+}
 
 // "Q7. Your pick B. Key C." as a small reveal: the pick settles, then the key's ring draws and fills.
 // A stored repair (or reduced motion, via CSS) paints the final state at once.
@@ -178,7 +189,7 @@ export function RepairDone({ state, chosen = null, answer = null, number = null,
         </div>
       ) : null}
       <footer className="mr-foot" data-stagger style={stagger('foot')}>
-        <span className="mr-fine">{state.status === 'stored' ? 'Saved repair. No credit used.' : state.charged ? `1 credit used${state.wallet ? `. ${state.wallet.total} left.` : '.'}` : 'No credit used.'}</span>
+        <span className="mr-fine">{state.status === 'stored' ? 'Saved repair. No credit used.' : state.charged ? usedLine({ cost: typeof state.charged === 'number' ? state.charged : 1, pool: 'ai', balance: state.wallet?.known === false ? null : state.wallet?.total ?? null }) : 'No credit used.'}</span>
         {nextButton || <p className="mr-left">No other mistakes left to repair in this session.</p>}
       </footer>
     </section>
@@ -304,8 +315,9 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
           <button type="button" className="mr-start" onClick={() => { started.current = true; run(); }}>
             <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
             <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep</small></span>
-            <span className="mr-start__cost">1 credit</span>
+            <span className="mr-start__cost">1 AI credit</span>
           </button>
+          <RepairCost />
         </div>
       );
     }

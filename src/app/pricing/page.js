@@ -275,11 +275,11 @@ export default async function PricingPage() {
               PrepOS reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
             </p>
             <p className="mm-body">
-              Model replies use a separate PrepOS wallet: 10 credits a month on Free and 50 on Pro, kept apart from practice credits.
-              Credits you have already bought stay in your wallet.
+              Model replies use AI credits: 10 a month on Free and 50 on Pro, kept apart from Practice credits.
+              AI credits you have already bought stay in your account.
             </p>
             <p style={{ marginTop: '1rem' }}>
-              <Link href="/pricing/prepos" className="mm-btn mm-btn--secondary">See your PrepOS wallet</Link>
+              <Link href="/pricing/prepos" className="mm-btn mm-btn--secondary">See your AI credits</Link>
             </p>
           </div>
         </section>

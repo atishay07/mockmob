@@ -138,6 +138,7 @@ html[data-theme='light'] .app-shell .student-page.acct { --acct-lamp: rgba(190, 
 }
 .app-shell .acct-wallet__amount { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; min-width: 0; min-height: 44px; }
 .app-shell .acct-wallet .credit-amount__value { font-size: 18px; color: var(--a-ink); }
+.app-shell .acct-wallet__links { display: flex; flex-wrap: wrap; gap: 0 18px; }
 .app-shell .acct-wallet__line { font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
 .app-shell .acct-wallet[data-state='unknown'] .acct-wallet__line { color: var(--a-ink-2); }
 

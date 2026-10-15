@@ -21,7 +21,7 @@ export default function RefundsPage() {
         <div className="legal-copy">
           <section>
             <h2>No refunds</h2>
-            <p>MockMob does not allow refunds for completed payments, subscriptions, PrepOS credit packs, or consumed billing periods. Please review the plan, price, and feature details before purchase.</p>
+            <p>MockMob does not allow refunds for completed payments, subscriptions, AI credit packs, or consumed billing periods. Please review the plan, price, and feature details before purchase.</p>
           </section>
           <section>
             <h2>Cancellations</h2>

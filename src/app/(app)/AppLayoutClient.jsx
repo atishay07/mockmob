@@ -263,7 +263,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <CreditAmount kind="practice" amount={user?.isPremium ? 'unlimited' : (user?.creditBalance || 0)} unit={false} />
             </Link>
             {wallet.status !== 'idle' && (
-              <Link href="/mentor" className="arena-chip arena-chip--prepos arena-sm-up" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `PrepOS credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'PrepOS credits unavailable'}>
+              <Link href="/mentor" className="arena-chip arena-chip--prepos arena-sm-up" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `AI credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'AI credits unavailable'}>
                 <CreditAmount kind="prepos" amount={wallet.wallet?.known ? wallet.wallet.total : null} unit={false} />
               </Link>
             )}

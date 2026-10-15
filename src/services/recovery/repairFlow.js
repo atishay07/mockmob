@@ -4,7 +4,7 @@
 // wallet and model client in, and data/tests/repair_flow.test.mjs wires fakes in, so each failure path (a timeout, a
 // stuck reservation, quota, a failed commit) is tested without a database or a paid model.
 //
-// One AI repair per wrong answer, charged 1 PrepOS credit through reserve -> execute -> commit | release.
+// One AI repair per wrong answer, charged 1 AI credit through reserve -> execute -> commit | release.
 // The rule that matters most: a credit is kept only for a repair the student actually received and the server
 // acknowledged. Every other ending, a timeout included, releases it.
 import { createHash } from 'node:crypto';
@@ -18,6 +18,7 @@ import { buildRepairPattern } from '../../../data/repair_pattern.js';
 import { getSubjectById } from '../../../data/subjects.js';
 import { repairFailureForKind, composeFailureMessage, WALLET_UNAVAILABLE } from '../../../data/repair_failures.js';
 import { PREPOS_PAUSED_MESSAGE } from '../prepos/modelReply.js';
+import { usesLine } from '../../lib/creditCopy.mjs';
 
 export const REQUEST_ID = /^[A-Za-z0-9_-]{16,64}$/;
 const out = (http, body) => ({ http, body });
@@ -128,7 +129,7 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   try { reserved = await deps.reserve({ userId: user.id, amount: REPAIR_CREDIT_COST, action: 'score_recovery_repair', operationKey }); }
   catch { logFailure('reserve', WALLET_UNAVAILABLE.error); return out(WALLET_UNAVAILABLE.http, { ok: false, error: WALLET_UNAVAILABLE.error, charged: 0, message: WALLET_UNAVAILABLE.message }); }
   if (!reserved?.ok) {
-    if (reserved?.error === 'insufficient_ai_credits') return out(402, { ok: false, error: reserved.error, balance: reserved.balance ?? 0, message: `Mistake Repair uses ${REPAIR_CREDIT_COST} PrepOS credit and you have ${reserved.balance ?? 0} left this month. The stored explanation and fresh practice are still free.` });
+    if (reserved?.error === 'insufficient_ai_credits') return out(402, { ok: false, error: reserved.error, balance: reserved.balance ?? 0, message: `${usesLine({ what: 'This repair', cost: REPAIR_CREDIT_COST, pool: 'ai', balance: reserved.balance ?? 0 })} The stored explanation and fresh practice are still free.` });
     if (reserved?.error === 'operation_released') return out(409, { ok: false, error: reserved.error, charged: 0, message: 'That attempt did not go through and nothing was charged. Try again.' });
     logFailure('reserve', WALLET_UNAVAILABLE.error);
     return out(WALLET_UNAVAILABLE.http, { ok: false, error: WALLET_UNAVAILABLE.error, charged: 0, message: WALLET_UNAVAILABLE.message });

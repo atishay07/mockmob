@@ -15,7 +15,7 @@
 // Repair follows lab.repairOrder (most other students got it right first, marked in the queue) and links to the Rule
 // book ("Your rules, 7"); Prove opens with the rule check (result/RuleCheck.jsx); "Across your mocks" closes the Lab,
 // folded (result/AcrossMocks.jsx).
-import { useEffect, useId, useRef, useState } from 'react';
+import { useContext, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, BookMarked, Check, Users } from 'lucide-react';
@@ -28,6 +28,9 @@ import Replay from './result/Replay';
 import AcrossMocks from './result/AcrossMocks';
 import RuleCheck from './result/RuleCheck';
 import { cohortItems, inRepairOrder } from './result/labLoop';
+import { AuthContext } from '@/components/AuthProvider';
+import { useWalletSummary } from '@/components/useWalletSummary';
+import { usesLine } from '@/lib/creditCopy.mjs';
 import COPY from '../../data/mistake_lab.copy.json' with { type: 'json' };
 
 // Adds data-in once the Lab scrolls into view, so its bars grow when the student actually sees them.
@@ -42,6 +45,16 @@ function useInView() {
     return () => io.disconnect();
   }, []);
   return [ref, inView];
+}
+
+// The repair total in the one spend line: each repair is 1 AI credit, so the ones left cost that many together.
+// Nothing to repair, nothing to say. Unknown balance shows no number, never 0.
+function RepairTotal({ remaining }) {
+  const auth = useContext(AuthContext);
+  const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
+  if (!(remaining > 0)) return null;
+  const what = remaining === 1 ? 'This repair' : `These ${remaining} repairs`;
+  return <p className="srl-fine">{usesLine({ what, verb: remaining === 1 ? 'uses' : 'use', cost: remaining, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
 }
 
 function QChips({ numbers, onJump }) {
@@ -206,7 +219,8 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
               {handled.size < mistakes.length ? (
                 <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${queue.find(r => !handled.has(r.q.id)).number}`} <ArrowRight size={16} aria-hidden="true" /></button>
               ) : done === mistakes.length ? <p className="srl-done">All explanations ready. Try fresh questions when you are ready.</p> : <p className="srl-fine">Review the recorded answers below or continue with ordinary practice.</p>}
-              <p className="srl-fine">1 credit per repair. Reopening a repair is free. No charge if a question is held for review.</p>
+              <RepairTotal remaining={mistakes.length - handled.size} />
+              <p className="srl-fine">Reopening a repair is free. No charge if a question is held for review.</p>
             </> : <p>No wrong answers to repair this session.</p>}
             {rules ? (
               <Link className="srl-rules" href="/review/rules">
