@@ -17,6 +17,11 @@ enum ApiErrorKind {
   payloadTooLarge,
   unavailable,
   server,
+
+  /// Something in front of the API (Vercel's firewall or bot check) answered instead of the API:
+  /// a page rather than JSON, or a response marked `x-vercel-mitigated`. The API never judged the
+  /// request, so this is never a verdict on the student's work: always retryable, never definitive.
+  blocked,
   cancelled,
   unknown,
 }
@@ -96,6 +101,34 @@ class ApiError implements Exception {
   bool get isUnauthorized => kind == ApiErrorKind.unauthorized;
   bool get isRateLimited => kind == ApiErrorKind.rateLimited;
 
+  /// See [ApiErrorKind.blocked]. Work that hit this stays queued and is sent again later.
+  bool get isBlocked => kind == ApiErrorKind.blocked;
+
+  /// The one plain line for a student when the server's front door turned the app away.
+  static const blockedMessage = "MockMob's server is not letting the app in just now. Your work is kept.";
+
+  /// Headers Vercel adds when its firewall or bot protection answers in the API's place.
+  static const blockedHeaders = ['x-vercel-mitigated', 'x-vercel-challenge-token'];
+
+  /// True when [headerValue] (a lookup of one response header, lower case name) shows a Vercel
+  /// mitigation or challenge.
+  static bool carriesBlockHeader(String? Function(String name) headerValue) =>
+      blockedHeaders.any((h) => (headerValue(h) ?? '').isNotEmpty);
+
+  /// True for a body that is text but not JSON (an HTML challenge page, "Forbidden"). A map, a
+  /// list, an empty body and a JSON string are all fine.
+  static bool isNonJsonBody(Object? body) {
+    if (body is! String) return false;
+    final text = body.trim();
+    if (text.isEmpty) return false;
+    try {
+      jsonDecode(text);
+      return false;
+    } on FormatException {
+      return true;
+    }
+  }
+
   /// The server says no credit was taken for this failure (`charged: 0`). A repair that failed this
   /// way was released on the server, so the next attempt must use a fresh request id.
   bool get chargedNothing => details['charged'] == 0;
@@ -121,7 +154,13 @@ class ApiError implements Exception {
 
   /// True when repeating the same call may succeed without the student changing anything.
   bool get isRetryable => switch (kind) {
-        ApiErrorKind.network || ApiErrorKind.timeout || ApiErrorKind.server || ApiErrorKind.unavailable || ApiErrorKind.rateLimited => true,
+        ApiErrorKind.network ||
+        ApiErrorKind.timeout ||
+        ApiErrorKind.server ||
+        ApiErrorKind.unavailable ||
+        ApiErrorKind.rateLimited ||
+        ApiErrorKind.blocked =>
+          true,
         _ => false,
       };
 
@@ -156,13 +195,22 @@ class ApiError implements Exception {
         ApiErrorKind.rateLimited => 'Please wait a minute and try again.',
         ApiErrorKind.payloadTooLarge => 'That was too large to send.',
         ApiErrorKind.unavailable || ApiErrorKind.server => 'MockMob could not do that just now. Try again.',
+        ApiErrorKind.blocked => blockedMessage,
         ApiErrorKind.cancelled => 'Cancelled.',
         ApiErrorKind.unknown => 'Something went wrong. Try again.',
       };
 
   /// Builds an error from a non-2xx response. The body shape differs by route family
   /// (contract section 1.3), so the code is read from every place a family puts it.
-  factory ApiError.fromResponse(int status, Object? body, {String? retryAfterHeader}) {
+  ///
+  /// [blockHeader] says the response carried `x-vercel-mitigated` or `x-vercel-challenge-token`.
+  /// That, or a non-JSON body on a 4xx the API itself would have answered with JSON, makes the
+  /// error [ApiErrorKind.blocked]. A 408, 425 and 429 keep their own retry kinds, and a 5xx is
+  /// already retryable.
+  factory ApiError.fromResponse(int status, Object? body, {String? retryAfterHeader, bool blockHeader = false}) {
+    if (blockHeader || (status >= 400 && status < 500 && status != 408 && status != 425 && status != 429 && isNonJsonBody(body))) {
+      return ApiError(status: status, kind: ApiErrorKind.blocked, code: 'blocked');
+    }
     final map = _asMap(body);
     final details = <String, Object?>{};
     String? code;
@@ -208,7 +256,12 @@ class ApiError implements Exception {
   factory ApiError.fromDio(DioException e) {
     final response = e.response;
     if (response != null && response.statusCode != null) {
-      return ApiError.fromResponse(response.statusCode!, response.data, retryAfterHeader: response.headers.value('retry-after'));
+      return ApiError.fromResponse(
+        response.statusCode!,
+        response.data,
+        retryAfterHeader: response.headers.value('retry-after'),
+        blockHeader: carriesBlockHeader(response.headers.value),
+      );
     }
     return switch (e.type) {
       DioExceptionType.connectionTimeout || DioExceptionType.sendTimeout || DioExceptionType.receiveTimeout =>

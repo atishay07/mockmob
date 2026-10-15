@@ -24,6 +24,10 @@ enum LoadProblem {
   /// The server could not read the study record behind the suggestion.
   record,
 
+  /// Something in front of the server (its firewall or bot check) turned the app away. Nothing
+  /// was judged and nothing was lost: it is tried again.
+  blocked,
+
   /// Anything else.
   unknown;
 
@@ -32,6 +36,7 @@ enum LoadProblem {
     if (error is! ApiError) return LoadProblem.unknown;
     if (error.code == 'unusable_response') return LoadProblem.unreadable;
     return switch (error.kind) {
+      ApiErrorKind.blocked => LoadProblem.blocked,
       ApiErrorKind.network => LoadProblem.offline,
       ApiErrorKind.timeout => LoadProblem.slow,
       ApiErrorKind.server || ApiErrorKind.unavailable || ApiErrorKind.rateLimited => LoadProblem.busy,
@@ -46,6 +51,7 @@ enum LoadProblem {
         LoadProblem.slow => 'MockMob took too long to answer.',
         LoadProblem.busy => "MockMob's server is busy right now.",
         LoadProblem.refused => "MockMob's server did not accept the request.",
+        LoadProblem.blocked => "MockMob's server is not letting the app in just now.",
         LoadProblem.unreadable => 'MockMob sent an answer the app could not read.',
         LoadProblem.device => 'This phone could not open your saved sign-in.',
         LoadProblem.record => "MockMob's server could not read your study record.",
@@ -56,6 +62,7 @@ enum LoadProblem {
   String get advice => switch (this) {
         LoadProblem.offline => 'Connect to Wi-Fi or mobile data, then try again.',
         LoadProblem.busy || LoadProblem.slow || LoadProblem.record => 'Try again in a minute.',
+        LoadProblem.blocked => 'Your work is kept.',
         LoadProblem.refused => 'Try again. If it keeps happening, sign out and sign in again.',
         LoadProblem.device => 'Try again. If it keeps happening, restart the app.',
         LoadProblem.unreadable || LoadProblem.unknown => 'Try again in a moment.',

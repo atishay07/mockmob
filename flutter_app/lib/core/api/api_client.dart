@@ -172,6 +172,10 @@ class ApiClient {
           ),
         );
         observer?.onReachedServer();
+        // A 2xx that Vercel's firewall marked is not the API's answer: never read as success.
+        if (ApiError.carriesBlockHeader(response.headers.value)) {
+          throw ApiError.fromResponse(response.statusCode ?? 200, response.data, blockHeader: true);
+        }
         return ApiResponse(response.statusCode ?? 200, response.data);
       } on ApiError {
         rethrow;
@@ -260,6 +264,10 @@ class _AuthInterceptor extends Interceptor {
     final options = err.requestOptions;
     final authenticated = options.extra[ApiClient._authKey] != false;
     if (err.response?.statusCode != 401 || !authenticated) return handler.next(err);
+    // A 401 from Vercel's front door (a page, or a challenge header) says nothing about the
+    // sign-in: do not refresh, and above all do not end the session over it.
+    final r = err.response;
+    if (r != null && (ApiError.carriesBlockHeader(r.headers.value) || ApiError.isNonJsonBody(r.data))) return handler.next(err);
 
     if (options.extra[ApiClient._retriedKey] == true) {
       // Refreshed once already and still unauthorized: the session is gone.

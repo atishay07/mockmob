@@ -10,6 +10,7 @@ void main() {
     expect(LoadProblem.of(const ApiError(status: 503, kind: ApiErrorKind.unavailable, code: 'x')), LoadProblem.busy);
     expect(LoadProblem.of(const ApiError(status: 429, kind: ApiErrorKind.rateLimited, code: 'x')), LoadProblem.busy);
     expect(LoadProblem.of(const ApiError(status: 403, kind: ApiErrorKind.forbidden, code: 'x')), LoadProblem.refused);
+    expect(LoadProblem.of(const ApiError(status: 403, kind: ApiErrorKind.blocked, code: 'blocked')), LoadProblem.blocked);
     expect(LoadProblem.of(const ApiError(kind: ApiErrorKind.unknown, code: 'unusable_response')), LoadProblem.unreadable);
     expect(LoadProblem.of(StateError('boom')), LoadProblem.unknown);
     expect(LoadProblem.of(null), LoadProblem.unknown);

@@ -204,8 +204,10 @@ class OutboxFlusher {
         await repository.remove(item.id);
         results.add(OutboxResult(item, OutboxResultKind.sent, response: response));
       } on ApiError catch (e) {
-        if (e.isUnauthorized || e.isOffline) {
-          // Not signed in or no network: nothing after this one can succeed either.
+        if (e.isUnauthorized || e.isOffline || e.isBlocked) {
+          // Not signed in, no network, or the server's front door is turning the app away (a
+          // firewall page, never a verdict on the write): nothing after this one can succeed
+          // either, and the write is kept and retried on the normal back-off.
           await repository.markAttempt(item, errorCode: e.code, nextAt: _now().add(OutboxRepository.backoffFor(item.attempts)));
           results.add(OutboxResult(item, OutboxResultKind.retryLater, error: e));
           break;
