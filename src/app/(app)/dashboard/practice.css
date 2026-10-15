@@ -187,7 +187,7 @@
 
 /* ---------- The dock (phones and tablets): the session and its Start, one line above the tab bar ----------
    The session card sits four screens down on a phone, so until it scrolls into view (DashboardPageClient.jsx
-   watches it) a glass bar carries it: the chosen subject's object leaning out over the bar's top edge, the
+   watches it) a glass bar carries it: the chosen subject's object in its pool of lamp light, the
    mode, the length and the price, and a volt Start. It rises from behind the tab bar on the smooth spring and
    tucks back on the exit curve; a new subject's object settles in on the settle spring. Reduced motion: a
    short fade, no movement. From 1024 px the session card is a sticky side panel, so there is no dock. */
@@ -226,7 +226,7 @@
   }
   @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .app-shell .pr .pr-dock {
-      background: color-mix(in srgb, var(--a-raised) 86%, transparent);
+      background: color-mix(in srgb, var(--a-raised) 93%, transparent);
       -webkit-backdrop-filter: blur(22px) saturate(1.45);
       backdrop-filter: blur(22px) saturate(1.45);
     }
@@ -242,7 +242,7 @@
       visibility 0s;
   }
 
-  /* The object: a 60 px stage, foot on the bar's floor line, top leaning about 10 px out over the edge. */
+  /* The object: a 60 px lit stage, centred on the bar's height, whole and never cropped. */
   .app-shell .pr .pr-dock__obj { position: relative; display: block; width: 52px; height: 44px; }
   .app-shell .pr .pr-dock__obj > .subj-obj {
     position: absolute;
