@@ -1,4 +1,5 @@
 import 'json_helpers.dart';
+import 'lab_loop.dart';
 
 /// The Mistake Lab of `GET /api/attempts/:id` (`lab`, contract v1, built by the website's
 /// `data/mistake_lab.js`): where the missed marks went, the first-pick re-mark and how other
@@ -24,6 +25,10 @@ class MistakeLab {
     this.byQuestion = const {},
     this.replay,
     this.time,
+    this.acrossMocks,
+    this.repairOrder,
+    this.rules,
+    this.ruleCheck,
   });
 
   /// A paper with a usable record of its time and picks: the full split.
@@ -79,6 +84,11 @@ class MistakeLab {
       byQuestion: byQuestion,
       replay: LabReplay.tryParse(j['replay']),
       time: j['time'] is Map ? asJson(j['time']) : null,
+      // Slice 3: each part is read on its own, and one that cannot be read is simply absent.
+      acrossMocks: AcrossMocks.tryParse(j['acrossMocks']),
+      repairOrder: RepairOrder.tryParse(j['repairOrder']),
+      rules: LabRules.tryParse(j['rules']),
+      ruleCheck: j['prove'] is Map ? RuleCheck.tryParse(asJson(j['prove'])['ruleCheck']) : null,
     );
   }
 
@@ -122,6 +132,20 @@ class MistakeLab {
   /// The finished Time and decisions read (slice 2: `lab.time`, the same object the website shows),
   /// read by the result's own model. Null from an older server.
   final Json? time;
+
+  /// Across your mocks (slice 3, spec 4.9): the record as it stood when this paper was taken.
+  /// Null from an older server.
+  final AcrossMocks? acrossMocks;
+
+  /// The repair queue by how other students answered (slice 3, spec 4.7).
+  final RepairOrder? repairOrder;
+
+  /// The Rule book's count and the rule in force (slice 3, spec 4.10), for the Repair step's link.
+  final LabRules? rules;
+
+  /// The rule in force when this mock started, checked on it (slice 3, spec 4.8, Prove). Null
+  /// when no rule was in force or the paper is not a mock.
+  final RuleCheck? ruleCheck;
 
   /// The question numbers of group [id] (a replay chip's filter), empty when it has none.
   List<int> numbersOf(String id) {

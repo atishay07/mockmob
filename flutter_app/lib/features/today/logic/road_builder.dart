@@ -6,6 +6,7 @@
 import '../../../core/domain/cuet_dates.dart';
 import '../../onboarding/data/calendar.dart';
 import '../copy.dart';
+import 'road_board.dart';
 import 'today_inputs.dart';
 import 'today_model.dart';
 
@@ -68,7 +69,19 @@ RoadModel? buildRoad(TodayInputs i) {
   final sessions = goal == null || !countdown || weeks < 2
       ? null
       : CuetCalendar.sessionsBefore(expectedWindowStart.year, today.toLocal(), daysPerWeek: goal, boards: true);
+  final week = i.week;
+  final board = buildRoadBoard(
+    today: today,
+    windowStart: expectedWindowStart,
+    plan: i.roadPlan,
+    attempts: i.attempts,
+    dateOf: i.date,
+    goal: goal,
+    weekDone: week?.studied.where((s) => s).length,
+    weekGoal: week?.goal,
+  );
   return RoadModel(
+    board: board,
     weeks: weeks,
     today: today,
     end: roadEnd,

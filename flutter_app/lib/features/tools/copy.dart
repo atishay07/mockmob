@@ -10,17 +10,19 @@ abstract final class ToolsCopy {
   // Hub.
   static const hubTitle = 'CUET tools';
   static const allToolsRow = 'All CUET tools';
-  static const hubLead = 'Plan the papers and the courses.';
+  static const allToolsNote = 'Combo Planner, the CUET 2027 exam guide and past papers';
+  static String todayCompassNote(int open, int total) => '$open of $total DU programmes open to your subjects';
+  static const hubLead = 'Find the DU courses your subjects open, then plan the papers that get you there.';
   static const compassTitle = 'Admission Compass';
-  static const compassQuestion = 'Which DU courses can your subjects get?';
-  static const compassHubNote = 'Your subjects against the 2026-27 Bulletin, then college cutoffs by category.';
+  static const compassQuestion = 'Which DU courses do your subjects open?';
+  static const compassHubNote = 'Checks your subjects against DU’s 2026-27 rules, then shows every college’s 2026 cutoff for your category.';
   static const openCompass = 'Open Compass';
-  static const comboTitle = 'Combo planner';
-  static const comboNote = 'The papers that open the courses you want';
-  static const guideTitle = 'CUET 2027 guide';
+  static const comboTitle = 'Combo Planner';
+  static const comboNote = 'Pick the courses you want and find the papers that open them';
+  static const guideTitle = 'CUET 2027 exam guide';
   static const guideNote = 'Expected dates and a month-by-month plan';
   static const pyqTitle = 'Previous-year questions';
-  static const pyqNote = 'How to practise with past papers, on the website';
+  static const pyqNote = 'How to practise with past papers. Opens the website';
   static const sourcesTitle = 'Official DU documents';
   static const sourcesNote = 'The Bulletin and the three round lists';
   /// The one source line the tools keep: where every rule and cutoff comes from.
@@ -32,7 +34,7 @@ abstract final class ToolsCopy {
   // Compass.
   static const compassLead = 'Tick your CUET subjects.';
   static const programmesOpen = 'DU programmes open to these subjects';
-  static const rulesLine = 'Under the UG Bulletin 2026-27 subject rules';
+  static const rulesLine = 'Checked against DU’s 2026-27 subject rules';
   static const pickSubjects = 'Choose subjects';
   static const editSubjects = 'Edit subjects';
   static const quickStart = 'Quick start';
@@ -43,21 +45,33 @@ abstract final class ToolsCopy {
   static const emptyHeroTitle = 'Start with your subjects';
   static const emptyHeroBody =
       'Most DU programmes need one language and three domain subjects, or one language, one domain subject and the General Aptitude Test.';
-  static const fromCombo = 'These are the subjects from that combination. Your own are still saved.';
+  static const fromCombo = 'Showing the subjects from Combo Planner. Your own subjects are still saved.';
   static const keepCombo = 'Use these subjects';
   static String overLimit(int n, int limit) => 'You have picked $n papers. The limit is $limit.';
 
   static const categoryHeading = 'Category and score';
+  /// The bar under the hero. Without a score it says what a score is for, so it never reads as
+  /// a demand; with one it names the score.
   static String categorySummary(String category, String? score) =>
-      score == null ? '${categoryLabel(category)}. No score yet' : '${categoryLabel(category)}. Score $score';
+      score == null ? '${categoryLabel(category)}. Add a score to compare it with 2026 cutoffs' : '${categoryLabel(category)}. Score $score';
+
+  /// The same bar when the student's own mocks add up to a total they can use.
+  static String categorySummaryMocks(String category, int total) => '${categoryLabel(category)}. Your latest mocks add up to $total';
   static const optional = 'Optional';
   static const category = 'Category';
   static const otherQuota = 'Other quota';
   static const otherQuotaNote = 'Sikh, PwBD, KM, SGC, orphan';
-  static const scoreLabel = 'Your programme-specific CUET score';
-  static const scoreHelp = 'From your CSAS dashboard, or enter a target.';
+  static const scoreLabel = 'Your CUET score, out of 1000';
+  static const scoreWhy = 'Optional. Compass works without it. Add one to see which 2026 college cutoffs it would have cleared.';
+  static const scoreHelp = 'Use the score on your CSAS dashboard, or a target you are aiming for.';
+  static const fillHeading = 'Or use a score from MockMob';
+  static String fillMocks(int total) => 'Latest mocks, $total';
+  static String fillMocksNote(List<String> names) => 'Your latest full mock in ${_list(names)}, one language and three domain papers.';
+  static String fillProjection(int mid) => 'Practice projection, $mid';
+  static const fillProjectionNote = 'The middle of your Compass Pro range.';
+  static String fillSemantics(String what, int value) => 'Use $value, $what';
   static const scoreInvalid = 'Enter a number between 0 and 1000.';
-  static const scoreHint = 'Out of 1000';
+  static const scoreHint = 'For example 650';
 
   static const unlocksHeading = 'Add one subject to open more';
   static String unlockValue(int n) => '+$n';
@@ -87,9 +101,9 @@ abstract final class ToolsCopy {
   static const onlyClearing = 'Only where my score clears a cutoff';
   static const nothingMatches = 'Nothing matches these filters.';
   static const noneOpenLine = 'One more subject can change that. Tap one below.';
-  static const noneOpenFar = 'Try a different mix with Edit subjects.';
-  static String notEligibleHeading(int n) => 'Not eligible yet ($n)';
-  static const notEligibleNote = 'See what each one needs';
+  static const noneOpenFar = 'Try a different mix with Edit subjects, or let Combo Planner find one.';
+  static String notEligibleHeading(int n) => 'Not open yet ($n)';
+  static const notEligibleNote = 'What each one still needs';
   static const nearHide = 'Hide';
   static const nearShow = 'Show';
   static String nearShowAll(int n) => 'Show all $n';
@@ -97,15 +111,35 @@ abstract final class ToolsCopy {
   static String nearNearest(int n) => 'The $n nearest to opening';
 
   static String colleges(int n) => n == 1 ? '1 college' : '$n colleges';
+  static String collegesUnit(int n) => n == 1 ? 'college' : 'colleges';
+
+  // Compass: best options, the full list and the smaller programmes.
+  static const bestHeading = 'Your best options';
+  static const bestNote = 'Open to your subjects, with the most colleges first.';
+  static const bestNoteScore = 'Where your score could clear a cutoff, with the most colleges first.';
+  static String openHeading(int n) => '$n open to you';
+  static String allOpenHeading(int n) => 'All $n open to you';
+  static const openNote = 'By stream. Updates as you change subjects.';
+  static const otherProgrammes = 'Other programmes';
+  static const otherProgrammesHide = 'Hide other programmes';
+  static const otherProgrammesNote = 'At one or two colleges, or without a CUET cutoff list';
+  static String otherProgrammesSemantics(int n, bool open) =>
+      '$n other ${n == 1 ? 'programme' : 'programmes'}, at one or two colleges or without a cutoff list. ${open ? 'Hide them' : 'Show them'}';
+  static String seeColleges(int n) => 'See all $n college cutoffs';
+  static const comboLinkTitle = 'Not sure about your subjects?';
+  static const comboLinkNote = 'Combo Planner finds the papers that open the courses you want';
+  static const openCombo = 'Open Combo Planner';
+  static const planThisCourse = 'Find the papers for this course';
   static const noCutoffList = 'No CUET cutoff list published';
   static String roundOneRange(String category, String low, String high) => 'Round I, ${categoryWords(category)}: $low to $high';
   static const verdictAbove = 'Above every Round I cutoff';
   static const verdictWithin = 'Within the Round I range';
   static const verdictBelow = 'Below every Round I cutoff';
   static const secondaryNote = 'Considered only if seats remain after Combinations I and II';
-  static const performanceNote = 'Merit also uses a separate performance or practical test';
+  static const performanceNote = 'Merit also counts a separate performance or practical test';
 
   static const practiseHeading = 'Practise these subjects';
+  static const practiseNote = 'A cutoff is the target. Practice is the part you control.';
   static const loadingTitle = 'Loading DU programmes';
   static const errorTitle = 'We could not load the DU data';
   static const errorBody = 'Check your connection and try again.';
@@ -153,10 +187,10 @@ abstract final class ToolsCopy {
   static const comboLead = 'Which subjects should you put on the CUET form?';
   static const targetsHeading = 'Where do you want to go?';
   static String targetsHint(int max, int n) => 'Pick up to $max DU programmes. $n chosen.';
-  static const searchAll = 'Search all 73 programmes, e.g. Psychology';
+  static const searchAll = 'Search all 73 programmes, for example Psychology';
   static const poolHeading = 'Which subjects could you take?';
   static String poolHint(int max, int n, int papers) =>
-      'Tick every subject you studied or could prepare, up to $max. $n ticked. We find the best $papers for your goals.';
+      'Tick every subject you studied or could prepare, up to $max. $n ticked. We find the best $papers for your targets.';
   static const papersHeading = 'Papers on your form';
   static const resultsHeading = 'Your best combinations';
   static const resultsEmpty = 'Tick a few subjects, or use a quick start, to see combinations.';
@@ -173,7 +207,7 @@ abstract final class ToolsCopy {
   static String needs(String name, String gaps) => '$name needs: $gaps';
   static const meetsEvery = 'Meets every target’s subject rules.';
   static const missesATarget = 'Misses at least one target';
-  static const seeInCompass = 'See the programmes and cutoffs';
+  static const seeInCompass = 'See the courses and cutoffs';
   static const targetFull = 'Six targets chosen. Remove one to add another.';
   static const poolFull = 'Twelve subjects ticked. Remove one to add another.';
   static const remove = 'Remove';
@@ -233,6 +267,13 @@ abstract final class ToolsCopy {
 
   // Sources.
   static const sourcesLead = 'Every eligibility rule and cutoff in Compass comes from these University of Delhi documents.';
+
+  /// "English", "English and Hindi", "English, Accountancy and Economics".
+  static String _list(List<String> names) => switch (names.length) {
+        0 => '',
+        1 => names.first,
+        _ => '${names.sublist(0, names.length - 1).join(', ')} and ${names.last}',
+      };
 }
 
 /// The Combo planner's words about one result, from real counts only.

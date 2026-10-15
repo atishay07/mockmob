@@ -60,9 +60,16 @@ class ProgrammeRow extends StatelessWidget {
                     if (couldClear) ...[const SizedBox(width: MmSpace.s8), const CouldClearDot()],
                   ],
                 ),
-                const SizedBox(height: MmSpace.s2),
-                Text(collegesLine, style: type.caption.copyWith(color: colors.ink2)),
-                if (range != null) Text(range, style: type.caption.copyWith(color: colors.ink2)),
+                // The college count stands in its own column on the right; a programme without a
+                // cutoff list says so here instead.
+                if (!group.hasCutoffs) ...[
+                  const SizedBox(height: MmSpace.s2),
+                  Text(collegesLine, style: type.caption.copyWith(color: colors.ink2)),
+                ],
+                if (range != null) ...[
+                  const SizedBox(height: MmSpace.s2),
+                  Text(range, style: type.caption.copyWith(color: colors.ink2)),
+                ],
                 if (verdict.secondary || group.eligibility.performanceTest || v != null) ...[
                   const SizedBox(height: MmSpace.s8),
                   Wrap(
@@ -78,9 +85,45 @@ class ProgrammeRow extends StatelessWidget {
               ],
             ),
           ),
+          if (group.hasCutoffs) ...[
+            const SizedBox(width: MmSpace.s12),
+            CollegeCount(count: group.colleges),
+          ],
           const SizedBox(width: MmSpace.s8),
           Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
         ],
+      ),
+    );
+  }
+}
+
+/// How many colleges a programme is at, as a right-aligned figure over "colleges": the number a
+/// student compares down the list, so the rich programmes (55, 44) stand out from the rare ones.
+class CollegeCount extends StatelessWidget {
+  const CollegeCount({super.key, required this.count});
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return ExcludeSemantics(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: 48),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$count',
+              textHeightBehavior: MmType.figureHeightBehavior,
+              style: type.figureCompact.copyWith(fontSize: 24, height: 1.0, color: colors.ink),
+            ),
+            const SizedBox(height: 2),
+            Text(ToolsCopy.collegesUnit(count), style: type.caption.copyWith(color: colors.ink3, fontSize: 11)),
+          ],
+        ),
       ),
     );
   }

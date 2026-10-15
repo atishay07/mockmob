@@ -37,10 +37,18 @@ class ComposerTicket extends StatelessWidget {
     required this.semanticsLabel,
     this.heroTag,
     this.tear = TicketTear.rest,
+    this.clock = false,
   });
 
   /// The Start sequence (see [TicketTear]).
   final TicketTear tear;
+
+  /// A timed paper (a Full mock): under the stub waits the stopwatch, and when the server says
+  /// yes and the stub tears away it is there, running one full turn round to 12 as the paper
+  /// starts (owner, APK v8: "the full mock can have some animation of its own, like the clock
+  /// doing a 360"). It plays inside the hold the ticket already has, so the paper's clock is
+  /// never held back by it.
+  final bool clock;
 
   final String subjectId;
   final String eyebrow;
@@ -182,7 +190,7 @@ class ComposerTicket extends StatelessWidget {
         ),
       ),
     );
-    final ticket = _TearStage(tear: tear, stub: stubWidth, child: card);
+    final ticket = _TearStage(tear: tear, stub: stubWidth, clock: clock, child: card);
     if (tag == null) return ticket;
     return Hero(tag: tag, child: Material(type: MaterialType.transparency, child: ticket));
   }
@@ -193,11 +201,17 @@ class ComposerTicket extends StatelessWidget {
 /// away. The stub is a second, clipped copy of the same ticket that lifts, tears off (slides
 /// right and fades, 220 ms) or drops back on a spring. Transform and opacity only.
 class _TearStage extends StatefulWidget {
-  const _TearStage({required this.tear, required this.stub, required this.child});
+  const _TearStage({required this.tear, required this.stub, required this.child, this.clock = false});
 
   final TicketTear tear;
   final double stub;
   final Widget child;
+
+  /// The stopwatch waits under the stub and laps once it tears (see [ComposerTicket.clock]).
+  final bool clock;
+
+  /// The stopwatch's height under the stub, at most; a shorter ticket (large text) takes less.
+  static const double clockHeight = 80;
 
   /// The controller value at which the stub is lifted; 1 is torn off.
   static const double liftedAt = 0.35;
@@ -263,6 +277,7 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
             ),
             if (cut)
               Positioned.fill(
+                key: const ValueKey('ticket-stub'),
                 child: IgnorePointer(
                   child: ExcludeSemantics(
                     child: LayoutBuilder(
@@ -274,6 +289,36 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
                             ..translateByDouble(torn * stub * 0.95, -4 * lift - 8 * torn, 0, 1)
                             ..rotateZ(0.035 * lift + 0.16 * torn),
                           child: ClipRect(clipper: _SplitClipper(stub: stub, keepStub: true), child: child),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            // Mounted from the start (never painted at rest) so its render is decoded before
+            // the tear. Over the leaving stub, not under it: it fades in where the stub was as
+            // the stub slides off, so the whole turn is seen inside the short hold.
+            if (widget.clock)
+              Positioned(
+                // Keyed: the stub's copy comes and goes before it, and the clock must keep its
+                // state (and its decoded render) across that.
+                key: const ValueKey('ticket-clock'),
+                top: 0,
+                bottom: 0,
+                right: 0,
+                width: stub,
+                child: IgnorePointer(
+                  // In over the first half of the tear, so most of the turn is seen.
+                  child: Opacity(
+                    opacity: cut ? Curves.easeOut.transform((torn * 2).clamp(0.0, 1.0)) : 0,
+                    child: LayoutBuilder(
+                      builder: (context, box) => Center(
+                        child: Transform.scale(
+                          scale: 0.9 + 0.1 * Curves.easeOut.transform((torn * 2).clamp(0.0, 1.0)),
+                          child: HybridStopwatch(
+                            height: math.min(_TearStage.clockHeight, math.max(0.0, box.maxHeight - MmSpace.s16)),
+                            mode: widget.tear == TicketTear.torn ? StopwatchMode.lap : StopwatchMode.done,
+                          ),
                         ),
                       ),
                     ),

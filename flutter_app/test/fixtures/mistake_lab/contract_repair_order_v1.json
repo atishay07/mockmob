@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "state": "cohort",
+  "items": [
+    {
+      "qid": "q42",
+      "number": 42,
+      "reason": "most_right",
+      "key": "Repair Q42 first",
+      "line": "18 of 22 other students got it right."
+    },
+    {
+      "qid": "q12",
+      "number": 12,
+      "reason": "most_right",
+      "key": "Repair Q12 first",
+      "line": "21 of 26 other students got it right."
+    },
+    {
+      "qid": "q22",
+      "number": 22,
+      "reason": "most_right",
+      "key": "Repair Q22 first",
+      "line": "30 of 40 other students got it right."
+    },
+    {
+      "qid": "q17",
+      "number": 17,
+      "reason": "common_trap",
+      "key": "Repair Q17 first",
+      "line": "8 of the 12 who got it wrong chose B, as you did."
+    },
+    {
+      "qid": "q3",
+      "number": 3,
+      "reason": "paper",
+      "key": null,
+      "line": null
+    },
+    {
+      "qid": "q5",
+      "number": 5,
+      "reason": "paper",
+      "key": null,
+      "line": null
+    },
+    {
+      "qid": "q19",
+      "number": 19,
+      "reason": "paper",
+      "key": null,
+      "line": null
+    },
+    {
+      "qid": "q26",
+      "number": 26,
+      "reason": "paper",
+      "key": null,
+      "line": null
+    },
+    {
+      "qid": "q31",
+      "number": 31,
+      "reason": "paper",
+      "key": null,
+      "line": null
+    },
+    {
+      "qid": "q33",
+      "number": 33,
+      "reason": "paper",
+      "key": null,
+      "line": null
+    },
+    {
+      "qid": "q38",
+      "number": 38,
+      "reason": "paper",
+      "key": null,
+      "line": null
+    }
+  ],
+  "qids": [
+    "q42",
+    "q12",
+    "q22",
+    "q17",
+    "q3",
+    "q5",
+    "q19",
+    "q26",
+    "q31",
+    "q33",
+    "q38"
+  ]
+}

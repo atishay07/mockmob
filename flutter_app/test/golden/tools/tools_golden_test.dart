@@ -80,7 +80,8 @@ void main() {
   sheetGolden(
     'compass_category_sheet',
     () => const CompassScreen(),
-    overrides: () => toolsOverrides(prefs: savedCompass('english,accountancy,business_studies,economics', score: '650')),
+    // The student's own mocks add up to 740: the sheet offers it as a score.
+    overrides: () => toolsOverrides(prefs: savedCompass('english,accountancy,business_studies,economics', score: '650'), attempts: commerceMocks()),
     interact: (tester) async {
       await tester.tap(find.text('Category and score').first);
       await tester.pumpAndSettle();

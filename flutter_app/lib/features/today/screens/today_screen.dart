@@ -173,7 +173,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           unawaited(context.push(AppRoutes.todayWhy(id)));
         },
         onWeek: () => unawaited(context.push(AppRoutes.todayWeek)),
-        onChooseColleges: () => unawaited(context.push(AppRoutes.you)),
+        // The colleges editor itself (You, Your sheet), a page over the bar. Pushing the You tab's
+        // root from here stacked a second You inside Today's own branch: go_router keeps the shell
+        // match's navigator key on a push, so the bar still said Today and Back went nowhere useful
+        // (owner test 15 Oct).
+        onChooseColleges: () => unawaited(context.push(AppRoutes.youSheet)),
         onRefresh: () => ref.read(todayActionsProvider).refresh(),
       ),
     );

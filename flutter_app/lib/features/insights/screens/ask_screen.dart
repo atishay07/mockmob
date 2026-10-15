@@ -18,6 +18,7 @@ import '../copy.dart';
 import '../data/ai_reply_report.dart';
 import '../data/ask_citation.dart';
 import '../data/ask_controller.dart';
+import '../data/ask_wallet.dart';
 import '../data/evidence.dart';
 import '../data/insights_models.dart';
 import '../data/insights_repository.dart';
@@ -26,6 +27,7 @@ import '../widgets/ask_marks.dart';
 import '../widgets/ask_messages.dart';
 import '../widgets/answer_text.dart';
 import '../widgets/ask_prompts.dart';
+import '../widgets/ask_wallet.dart';
 import '../widgets/insights_bits.dart';
 import '../widgets/motion_bits.dart';
 import 'insights_screen.dart';
@@ -142,6 +144,24 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     return true;
   }
 
+  /// The credit details, and a fresh read of the wallet behind them.
+  void _openWallet() {
+    ref.read(creditsRepositoryProvider.notifier).refresh();
+    showAskWalletSheet(context);
+  }
+
+  /// The line under the field: what the question typed there will cost, before it is sent. A
+  /// question Mobi answers from the record is free; anything else uses 1 credit, said against the
+  /// balance the server last reported. Nothing here is a charge: that line comes with the reply.
+  String _noteFor(String typed, AskWallet? wallet, String renew) {
+    if (wallet?.paused ?? false) return InsightsCopy.askPausedLine;
+    final text = typed.trim();
+    final balance = wallet?.total;
+    if (text.isEmpty) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteIdle(balance);
+    if (ref.read(askControllerProvider.notifier).answersOnPhone(text)) return InsightsCopy.askNoteFree;
+    return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
+  }
+
   /// Report this reply: the flag sheet, then the report through the outbox. The line after it
   /// says only what happened: reached us, waiting on this phone, or did not reach us.
   Future<void> _report(AskMessage m) async {
@@ -250,8 +270,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final colors = context.mmColors;
     final state = ref.watch(askControllerProvider);
     ref.listen<AskState>(askControllerProvider, (prev, next) => _react(prev, next));
-    final credits = ref.watch(creditsRepositoryProvider).value;
-    final paused = credits?.isPaused ?? false;
+    final wallet = ref.watch(askWalletProvider);
+    final renew = renewDay(wallet, ref.watch(nowProvider)());
     final inputs = ref.watch(insightsInputsProvider);
     final record = inputs.insights.value;
     final pro = inputs.pro;
@@ -332,6 +352,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                   title: InsightsCopy.askTitle,
                   caption: record != null && record.isReady ? InsightsCopy.askCaption(record.sessions) : null,
                   fallback: AppRoutes.review,
+                  trailing: AskCreditPill(onTap: _openWallet),
                 ),
                 Expanded(
                   // A conversation sits on the composer: short threads fill upward from the
@@ -365,6 +386,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                       citation: citationFor(m, record, evidence),
                                       onReport: m.isModel && canReport ? () => _report(m) : null,
                                       onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,
+                                      onCredits: _openWallet,
+                                      renew: renew,
                                       onRetry: () {
                                         ref.read(askControllerProvider.notifier).retry(i);
                                         _toEnd();
@@ -385,11 +408,12 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                     padding: const EdgeInsets.only(bottom: MmSpace.s8),
                     child: FollowUpRail(key: _railKey, prompts: followUps, onTap: sendPrompt, delay: Duration(milliseconds: revealMs == 0 ? 0 : revealMs + 240)),
                   ),
+                if (wallet?.empty ?? false) AskOutOfCredits(onDetails: _openWallet),
                 _Composer(
                   controller: _text,
                   busy: state.busy,
                   onSend: _send,
-                  note: paused ? InsightsCopy.askPausedLine : InsightsCopy.askCostLine(credits?.explanationBalance),
+                  note: (text) => _noteFor(text, wallet, renew),
                   bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom,
                   // Mobi leans in to listen while the student types, and stands at ease after.
                   onFocusChange: (focused) {
@@ -484,7 +508,9 @@ class _Composer extends StatefulWidget {
   final ValueChanged<bool>? onFocusChange;
   final bool busy;
   final Future<void> Function([String?]) onSend;
-  final String note;
+
+  /// The cost line for what is in the field, said again as the student types.
+  final String Function(String text) note;
   final double bottomInset;
 
   @override
@@ -575,7 +601,20 @@ class _ComposerState extends State<_Composer> {
           const SizedBox(height: MmSpace.s8),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
-            child: Text(widget.note, style: type.caption.copyWith(color: colors.ink3), textAlign: TextAlign.center),
+            child: ValueListenableBuilder(
+              valueListenable: widget.controller,
+              builder: (context, value, _) {
+                final note = widget.note(value.text);
+                // The line changes in place as the question changes (free, or 1 credit).
+                return Semantics(
+                  liveRegion: true,
+                  child: AnimatedSwitcher(
+                    duration: Motion.of(context, Motion.crossFade),
+                    child: Text(note, key: ValueKey(note), style: type.caption.copyWith(color: colors.ink3), textAlign: TextAlign.center),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),

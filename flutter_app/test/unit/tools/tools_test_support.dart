@@ -9,11 +9,13 @@ import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/connectivity/connectivity_monitor.dart' show NetworkStatus;
 import 'package:mockmob/core/connectivity/connectivity_providers.dart';
+import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/subject.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
 import 'package:mockmob/features/tools/combo/combo_controller.dart';
+import 'package:mockmob/features/tools/compass/score_sources.dart';
 import 'package:mockmob/features/tools/data/du_repository.dart';
 import 'package:mockmob/features/tools/data/du_source.dart';
 import 'package:mockmob/features/tools/data/tools_store.dart';
@@ -96,6 +98,7 @@ List<Override> toolsOverrides({
   Stream<void>? restored,
   bool pro = false,
   ComboRunner? comboRunner,
+  List<Attempt> attempts = const [],
 }) =>
     [
       duRepositoryProvider.overrideWithValue(
@@ -112,6 +115,7 @@ List<Override> toolsOverrides({
       networkStatusProvider.overrideWith(() => FakeToolsNetwork(network)),
       networkRestoredProvider.overrideWith((ref) => restored ?? const Stream<void>.empty()),
       if (now != null) nowProvider.overrideWithValue(() => now),
+      compassAttemptsProvider.overrideWithValue(attempts),
     ];
 
 /// Prefs with Compass choices saved.
@@ -173,3 +177,20 @@ const compassProReady = {
   },
 };
 
+
+/// One full mock (50 questions) per commerce subject, as `GET /api/attempts` returns them:
+/// English 200, Accountancy 150, Business Studies 210 and Economics 180, so 740 in all.
+List<Attempt> commerceMocks() => [
+      for (final (subject, correct) in const [('english', 40), ('accountancy', 30), ('business_studies', 42), ('economics', 36)])
+        Attempt.fromJson({
+          'id': 'mock-$subject',
+          'subject': subject,
+          'score': 0,
+          'correct': correct,
+          'wrong': 0,
+          'unattempted': 50 - correct,
+          'total': 50,
+          'mode': 'full',
+          'completedAt': DateTime.utc(2026, 10, 12).toIso8601String(),
+        }),
+    ];

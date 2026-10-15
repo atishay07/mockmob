@@ -7,6 +7,7 @@ import '../../../core/models/learning_plan.dart';
 import '../../../core/notifications/timezones.dart';
 import '../../../core/repositories/dismissal_repository.dart';
 import '../data/today_profile.dart';
+import 'road_board.dart' show RoadPlan;
 
 /// The current week from the rhythm module: which days were study days, which one is today,
 /// the goal and the student's own planned days.
@@ -99,6 +100,7 @@ class TodayInputs {
     this.profile,
     this.offline = false,
     this.selectedMinutes,
+    this.roadPlan = const RoadPlan(),
   });
 
   final DateTime now;
@@ -137,6 +139,9 @@ class TodayInputs {
 
   /// The duration chip the student chose, or null for the default.
   final int? selectedMinutes;
+
+  /// The student's own road: their exam date and mock target, when they set them.
+  final RoadPlan roadPlan;
 
   tz.Location get _location => locationFor(timezone);
 

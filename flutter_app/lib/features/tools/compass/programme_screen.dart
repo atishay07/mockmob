@@ -9,7 +9,10 @@ import '../data/du_repository.dart';
 import '../domain/du_eligibility.dart';
 import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
+import '../combo/combo_controller.dart';
+import '../tools_paths.dart';
 import '../widgets/load_states.dart';
+import '../widgets/tools_origin.dart';
 import '../widgets/tools_card.dart';
 import '../widgets/tools_page.dart';
 import 'category_score.dart';
@@ -163,6 +166,18 @@ class _VerdictCard extends ConsumerWidget {
   final CompassState state;
   final DuVerdict verdict;
 
+  /// Adds this programme to Combo Planner's targets (unless it is there or the six are taken)
+  /// and opens the planner.
+  Future<void> _plan(BuildContext context, WidgetRef ref) async {
+    try {
+      final combo = await ref.read(comboControllerProvider.future);
+      if (!combo.targets.contains(verdict.group.id)) ref.read(comboControllerProvider.notifier).toggleTarget(verdict.group.id);
+    } on Object {
+      // The planner opens on its own load-failed state with Try again.
+    }
+    if (context.mounted) await ToolsOrigin.openOrReturn(context, to: ToolsPaths.combo, from: ToolsOrigin.compass);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
@@ -227,6 +242,9 @@ class _VerdictCard extends ConsumerWidget {
               label: empty ? ToolsCopy.pickSubjects : ToolsCopy.editSubjects,
               onPressed: () => openCompassPicker(context, ref, state.catalog),
             ),
+            // The other way round: this course as a Combo Planner target, and the papers that open it.
+            const SizedBox(height: MmSpace.s8),
+            KeyButton.secondary(label: ToolsCopy.planThisCourse, onPressed: () => _plan(context, ref)),
           ],
         ],
       ),

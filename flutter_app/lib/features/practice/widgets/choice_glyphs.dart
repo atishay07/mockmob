@@ -416,6 +416,40 @@ class ChoiceGlyphPainter extends CustomPainter {
 
   // ---- nta: the question palette --------------------------------------------------------
 
+  /// One palette cell's side, the gap between cells, and the margin the grid keeps from the
+  /// panel's edges and from its header, all in the glyph's 24-unit box.
+  static const double ntaCell = 4.2;
+  static const double ntaGap = 1.4;
+  static const double ntaMargin = 1.6;
+
+  /// The navy header band's height (equal to the panel's corner radius, so the band's rounded
+  /// top meets straight sides).
+  static const double ntaHeader = 3;
+  static const double _ntaGrid = 3 * ntaCell + 2 * ntaGap;
+
+  /// The pale panel, sized from the grid it holds and centred in the box: the header, then the
+  /// 3 by 3 grid with [ntaMargin] on every side. It was a fixed 19.6 square once while the grid
+  /// started 1.3 units below the header's margin, so the bottom row hung off the panel (owner,
+  /// APK v8: "boxes and checkboxes are going out of the area of the image").
+  static const Rect ntaPanel = Rect.fromLTWH(
+    12 - (_ntaGrid / 2 + ntaMargin),
+    12 - (ntaHeader + _ntaGrid + 2 * ntaMargin) / 2,
+    _ntaGrid + 2 * ntaMargin,
+    ntaHeader + _ntaGrid + 2 * ntaMargin,
+  );
+
+  /// The cell at [row], [col] (0 to 2 each), shrunk about its centre by [dip] (0 rests, 1 is
+  /// the deepest point of the wave). Always inside [ntaPanel], under the header.
+  static Rect ntaCellRect(int row, int col, {double dip = 0}) {
+    final left = ntaPanel.left + ntaMargin + col * (ntaCell + ntaGap);
+    final top = ntaPanel.top + ntaHeader + ntaMargin + row * (ntaCell + ntaGap);
+    final s = ntaCell * (1 - 0.42 * dip.clamp(0.0, 1.0));
+    return Rect.fromCenter(center: Offset(left + ntaCell / 2, top + ntaCell / 2), width: s, height: s);
+  }
+
+  /// How deep cell [i] (0 to 8, reading order) is in the wave at gesture progress [p].
+  static double ntaDipAt(int i, double p) => p <= 0.001 ? 0.0 : bump(p, 0.18 + i * 0.075, 0.34);
+
   void _nta(Canvas canvas, double p) {
     // The exam palette's own colours: answered, not answered, marked, not visited, on the exam's
     // pale panel with its navy header. Identical in Night and Day on purpose: it must look like
@@ -429,35 +463,36 @@ class ChoiceGlyphPainter extends CustomPainter {
       [marked, answered, notVisited],
       [notVisited, notVisited, notVisited],
     ];
-    final panelRect = RRect.fromRectAndRadius(const Rect.fromLTWH(2.2, 2.4, 19.6, 19.6), const Radius.circular(3.2));
+    const radius = Radius.circular(ntaHeader);
+    final panelRect = RRect.fromRectAndRadius(ntaPanel, radius);
     final panel = Path()..addRRect(panelRect);
     _drop(canvas, panel);
-    canvas.drawPath(panel, _solid(const Color(0xFFF1EEE6), panelRect.outerRect, hi: 0.5, lo: 0.12));
+    canvas.drawPath(panel, _solid(const Color(0xFFF1EEE6), ntaPanel, hi: 0.5, lo: 0.12));
     canvas.drawPath(panel, _stroke(_black.withValues(alpha: 0.22), 0.5));
-    // The palette's header band.
-    canvas.drawRRect(
-      RRect.fromRectAndCorners(
-        const Rect.fromLTWH(2.2, 2.4, 19.6, 3.4),
-        topLeft: const Radius.circular(3.2),
-        topRight: const Radius.circular(3.2),
-      ),
-      Paint()..color = const Color(0xFF2F4A7D),
-    );
-    const cell = 4.4;
-    const gap = 1.5;
-    const originX = 12 - (cell * 1.5 + gap);
-    const originY = 7.1;
+    // The palette's header band, with the pale rule of its title.
+    canvas
+      ..drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(ntaPanel.left, ntaPanel.top, ntaPanel.width, ntaHeader),
+          topLeft: radius,
+          topRight: radius,
+        ),
+        Paint()..color = const Color(0xFF2F4A7D),
+      )
+      ..drawRRect(
+        RRect.fromRectAndRadius(
+          Rect.fromLTWH(ntaPanel.left + ntaMargin, ntaPanel.top + ntaHeader / 2 - 0.35, 6.4, 0.7),
+          const Radius.circular(0.35),
+        ),
+        Paint()..color = _white.withValues(alpha: 0.6),
+      );
     for (var row = 0; row < 3; row++) {
       for (var col = 0; col < 3; col++) {
-        final i = row * 3 + col;
         // A wave runs through the palette: each cell dips and refills in turn.
-        final dipT = p <= 0.001 ? 0.0 : bump(p, 0.18 + i * 0.075, 0.34);
-        final s = cell * (1 - 0.42 * dipT);
-        final cx = originX + col * (cell + gap) + cell / 2;
-        final cy = originY + row * (cell + gap) + cell / 2;
-        final rect = Rect.fromCenter(center: Offset(cx, cy), width: s, height: s);
+        final rect = ntaCellRect(row, col, dip: ntaDipAt(row * 3 + col, p));
         final fill = states[row][col];
-        final rr = RRect.fromRectAndRadius(rect, const Radius.circular(1.2));
+        // Marked for Review is the exam's round chip; the other states are its squares.
+        final rr = RRect.fromRectAndRadius(rect, Radius.circular(fill == marked ? rect.width / 2 : 1.1));
         canvas.drawRRect(rr, Paint()..color = fill);
         if (fill == notVisited) canvas.drawRRect(rr.deflate(0.25), _stroke(const Color(0xFFA9A9A9), 0.5));
       }

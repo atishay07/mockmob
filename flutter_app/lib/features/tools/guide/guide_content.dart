@@ -61,7 +61,7 @@ final List<GuideMilestone> guideTimeline = [
   GuideMilestone(
     when: 'Late June or early July 2027',
     title: 'Results, then counselling',
-    body: 'Results, then university counselling such as DU CSAS.',
+    body: 'NTA publishes the results, then universities open counselling, such as DU’s CSAS.',
     start: DateTime(2027, 6, 20),
     end: DateTime(2027, 8),
     expected: true,

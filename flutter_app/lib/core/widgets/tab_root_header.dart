@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
 import '../theme/theme.dart';
+import 'account/account_avatar.dart';
 
-/// The top row of every tab root: the screen's title (or Today's date line), then an optional
-/// trailing widget (the week bubbles, a filter). You is a place on the bar now (DOCK.md 9.1), so
-/// the header carries no avatar. Sits under the status bar; give it
-/// the screen's gutter.
+/// The top row of every tab root: the account key (the student's initial, opening the Account
+/// sheet), the screen's title (or Today's date line), then an optional trailing widget (the week
+/// bubbles, a filter). Sits under the status bar; give it the screen's gutter.
 class TabRootHeader extends StatelessWidget {
-  const TabRootHeader({super.key, this.title, this.overline, this.trailing});
+  const TabRootHeader({super.key, this.title, this.overline, this.trailing, this.account = true});
+
+  /// Shows the account key before the title. Off only where the header is not a tab root.
+  final bool account;
 
   /// The screen title ("Practice"), in the Bricolage title cut.
   final String? title;
@@ -24,6 +27,7 @@ class TabRootHeader extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
+          if (account) ...[const AccountAvatarButton(), const SizedBox(width: MmSpace.s12)],
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -514,8 +514,9 @@ class _ArmPainter extends CustomPainter {
 ///
 /// In [StopwatchMode.stages] the long hand sweeps on to [stage]'s place (one of [stageCount]
 /// stops round the dial, the last short of 12); [StopwatchMode.running] sweeps it on continuously;
-/// [StopwatchMode.done] snaps both hands to 12 with a small bounce. Reduced motion shows the pose
-/// of the current stage or of done at once.
+/// [StopwatchMode.done] snaps both hands to 12 with a small bounce; [StopwatchMode.lap] runs the
+/// long hand one full turn back round to 12 (a timed paper starting). Reduced motion shows the pose
+/// of the current stage, or of 12, at once.
 class HybridStopwatch extends StatefulWidget {
   const HybridStopwatch({super.key, required this.height, this.stage = 0, this.stageCount = 3, this.mode = StopwatchMode.stages});
 
@@ -534,7 +535,7 @@ class _HybridStopwatchState extends _HybridState<HybridStopwatch> {
   late final StopwatchSim _hands = StopwatchSim(stageCount: widget.stageCount);
 
   void _still() {
-    if (widget.mode == StopwatchMode.done) {
+    if (widget.mode == StopwatchMode.done || widget.mode == StopwatchMode.lap) {
       _hands.jump(long: 0, short: 0, mode: StopwatchMode.done);
     } else {
       _hands.jump(long: _hands.stageAngle(widget.stage), short: _hands.shortStageAngle(widget.stage));
@@ -555,6 +556,8 @@ class _HybridStopwatchState extends _HybridState<HybridStopwatch> {
         _hands.run(0.1);
       case StopwatchMode.done:
         _hands.done(0);
+      case StopwatchMode.lap:
+        _hands.lap(0);
     }
   }
 
@@ -575,6 +578,8 @@ class _HybridStopwatchState extends _HybridState<HybridStopwatch> {
           if (old.mode != StopwatchMode.running) _hands.run(t);
         case StopwatchMode.done:
           if (old.mode != StopwatchMode.done) _hands.done(t);
+        case StopwatchMode.lap:
+          if (old.mode != StopwatchMode.lap) _hands.lap(t);
       }
     }
     wake();

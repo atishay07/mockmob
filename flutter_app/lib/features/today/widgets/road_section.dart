@@ -7,26 +7,35 @@
 // Calendar arithmetic and the student's choices only: nothing here predicts marks or chances.
 import 'package:flutter/material.dart';
 
+import '../../../core/copy/formatters.dart' show formatDayMonth;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'college_ladder.dart';
+import 'road_board.dart';
 import 'road_timeline.dart';
 import 'section_heading.dart';
 import 'today_type.dart';
 
 class RoadSection extends StatelessWidget {
-  const RoadSection({super.key, required this.road, this.onChooseColleges});
+  const RoadSection({super.key, required this.road, this.onChooseColleges, this.onWeek, this.onOpen});
 
   final RoadModel road;
   final VoidCallback? onChooseColleges;
+
+  /// The board's This week tile opens the week.
+  final VoidCallback? onWeek;
+
+  /// The board's sheets open screens through this (Start a full mock).
+  final void Function(TodayTarget target)? onOpen;
 
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final board = road.board;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -34,6 +43,11 @@ class RoadSection extends StatelessWidget {
         const SizedBox(height: MmSpace.s16),
         // One figure; the road itself is the picture.
         switch (road.phase) {
+          // A day the student chose counts instead of the expected window (the board's date tile).
+          RoadPhase.countdown when board != null && board.ownDate && board.weeksToExam < 1 =>
+            _Stat(value: '${board.daysToExam}', unit: TodayCopy.daysToOwnDate(board.daysToExam, formatDayMonth(board.examDate))),
+          RoadPhase.countdown when board != null && board.ownDate =>
+            _Stat(value: '${board.weeksToExam}', unit: TodayCopy.weeksToOwnDate(board.weeksToExam, formatDayMonth(board.examDate))),
           // Under a week out the card counts days; "0 weeks" would read as the window being here.
           RoadPhase.countdown when road.weeks < 1 && (road.daysToWindow ?? 0) > 0 =>
             _Stat(value: '${road.daysToWindow}', unit: TodayCopy.daysToWindowLabel(road.daysToWindow!)),
@@ -52,12 +66,28 @@ class RoadSection extends StatelessWidget {
         ],
         if (road.phase != RoadPhase.countdown)
           const SizedBox.shrink()
-        else if (road.studyDays case final n? when road.goal != null) ...[
+        else if (board == null && road.studyDays != null && road.goal != null) ...[
           const SizedBox(height: MmSpace.s20),
-          Text(TodayCopy.sessionsLine(n, road.goal!), style: type.body.copyWith(color: colors.ink2)),
+          Text(TodayCopy.sessionsLine(road.studyDays!, road.goal!), style: type.body.copyWith(color: colors.ink2)),
         ] else if (road.weeksToBoards == 0) ...[
           const SizedBox(height: MmSpace.s20),
           Text(TodayCopy.boardsOn, style: type.body.copyWith(color: colors.ink2)),
+        ],
+        // The student's own board: the study days left moved here from the line above, with the
+        // date, the mocks and the week beside it, each one open to change.
+        if (board != null && road.phase == RoadPhase.countdown) ...[
+          const SizedBox(height: MmSpace.s32),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(TodayCopy.boardTitle, style: type.labelLarge),
+              const SizedBox(width: MmSpace.s8),
+              Flexible(child: Text(TodayCopy.boardCaption, style: type.caption.copyWith(color: colors.ink3))),
+            ],
+          ),
+          const SizedBox(height: MmSpace.s12),
+          RoadBoardGrid(board: board, onWeek: onWeek, onOpen: onOpen),
         ],
         const SizedBox(height: MmSpace.s40),
         CollegeLadder(road: road, onChoose: onChooseColleges),

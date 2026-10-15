@@ -608,12 +608,21 @@ class TileChoice extends StatelessWidget {
                         offset: const Offset(-4, 0),
                         child: ChoiceGlyph(kind: o.glyph, size: objectSize, motion: motion),
                       ),
-                      const Spacer(),
-                      if (o.tag != null)
-                        Padding(
-                          padding: const EdgeInsets.only(top: MmSpace.s4),
-                          child: _Tag(o.tag!),
+                      // The tag takes what the object leaves: on a 360 dp phone at large text a
+                      // "Pro" tag beside the 72 dp object would run past the tile's edge, so it
+                      // scales down to fit instead.
+                      if (o.tag != null) ...[
+                        const SizedBox(width: MmSpace.s4),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: MmSpace.s4),
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.topRight, child: _Tag(o.tag!)),
+                            ),
+                          ),
                         ),
+                      ],
                     ],
                   ),
                   const SizedBox(height: MmSpace.s12),

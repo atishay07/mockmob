@@ -7,10 +7,12 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../domain/du_eligibility.dart';
+import '../widgets/action_chip.dart';
 import '../widgets/tools_page.dart' show IconWell;
 import '../widgets/tools_parts.dart' show ToolsRing;
 import '../widgets/tools_sheet.dart';
 import 'compass_controller.dart';
+import 'score_sources.dart';
 import '../widgets/size_reveal.dart';
 
 /// Opens the category and score in a sheet, live against Compass's state.
@@ -106,8 +108,11 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
             ),
           ),
           const SizedBox(height: MmSpace.s20),
-          Text(ToolsCopy.scoreLabel, style: type.caption.copyWith(color: colors.ink3)),
-          const SizedBox(height: MmSpace.s8),
+          Text(ToolsCopy.scoreLabel, style: type.labelLarge),
+          const SizedBox(height: MmSpace.s2),
+          // Why a score is asked for at all: one line, before the field.
+          Text(ToolsCopy.scoreWhy, style: type.caption.copyWith(color: colors.ink2)),
+          const SizedBox(height: MmSpace.s12),
           TextField(
             controller: _score,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
@@ -129,7 +134,8 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
             ),
           ),
           const SizedBox(height: MmSpace.s8),
-          Text(ToolsCopy.scoreHelp, style: type.caption.copyWith(color: colors.ink2)),
+          Text(ToolsCopy.scoreHelp, style: type.caption.copyWith(color: colors.ink3)),
+          _ScoreFill(onFill: _fill),
           if (widget.onDone != null) ...[
             const SizedBox(height: MmSpace.s20),
             KeyButton(
@@ -140,6 +146,13 @@ class _CategoryScorePanelState extends ConsumerState<CategoryScorePanel> {
         ],
       ),
     );
+  }
+
+  /// Puts a MockMob score in the field (and Compass), as if typed.
+  void _fill(int value) {
+    final text = '$value';
+    _score.value = TextEditingValue(text: text, selection: TextSelection.collapsed(offset: text.length));
+    ref.read(compassControllerProvider.notifier).setScore(text);
   }
 
   Future<void> _pickOther(BuildContext context, String current) {
@@ -267,6 +280,62 @@ class _ClearStrip extends StatelessWidget {
                 ),
               ),
             ),
+    );
+  }
+}
+
+/// The scores MockMob already holds for this student, one tap each: the latest full mocks in the
+/// ticked subjects, and the Compass Pro projection. Nothing shows when neither exists.
+class _ScoreFill extends ConsumerWidget {
+  const _ScoreFill({required this.onFill});
+
+  final ValueChanged<int> onFill;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final mocks = ref.watch(compassMockScoreProvider);
+    final projection = ref.watch(compassProjectionScoreProvider);
+    final s = ref.watch(compassControllerProvider).value;
+    if ((mocks == null && projection == null) || s == null) return const SizedBox.shrink();
+    final names = [
+      for (final p in mocks?.papers ?? const <({String id, bool language, int marks, DateTime at})>[])
+        (p.language ? s.catalog.language(p.id)?.name : s.catalog.domain(p.id)?.shortName) ?? p.id,
+    ];
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(ToolsCopy.fillHeading, style: type.caption.copyWith(color: colors.ink3)),
+          const SizedBox(height: MmSpace.s8),
+          Wrap(
+            spacing: MmSpace.s8,
+            runSpacing: MmSpace.s8,
+            children: [
+              if (mocks != null)
+                ToolsActionChip(
+                  label: ToolsCopy.fillMocks(mocks.total),
+                  icon: LucideIcons.fileCheck,
+                  semanticsLabel: ToolsCopy.fillSemantics(ToolsCopy.fillMocksNote(names), mocks.total),
+                  onTap: () => onFill(mocks.total),
+                ),
+              if (projection != null)
+                ToolsActionChip(
+                  label: ToolsCopy.fillProjection(projection),
+                  icon: LucideIcons.chartNoAxesColumn,
+                  semanticsLabel: ToolsCopy.fillSemantics(ToolsCopy.fillProjectionNote, projection),
+                  onTap: () => onFill(projection),
+                ),
+            ],
+          ),
+          if (mocks != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(ToolsCopy.fillMocksNote(names), style: type.caption.copyWith(color: colors.ink2)),
+          ],
+        ],
+      ),
     );
   }
 }

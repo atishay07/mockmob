@@ -8,6 +8,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rules/widgets/start_sheet_line.dart';
 import '../copy.dart';
 import '../model/practice_selection.dart';
 import 'length_dial.dart';
@@ -247,7 +248,7 @@ class ProTag extends StatelessWidget {
 
 /// The before-mock lines, calm and factual: the marking, the timer rule, and one human aside.
 class MockLines extends StatelessWidget {
-  const MockLines({super.key, this.ticketBy, this.noLength = false});
+  const MockLines({super.key, this.ticketBy, this.noLength = false, this.subject});
 
   /// Ticket mode only: when the student must open MockMob again by. Known only once the session
   /// exists, so the runner shows it; kept here for the case a caller knows it.
@@ -255,6 +256,11 @@ class MockLines extends StatelessWidget {
 
   /// The quote did not say how long the mock is, so it cannot start.
   final bool noLength;
+
+  /// The attempt-side subject of the mock about to start. With it, the student's rule for this
+  /// mock (Mistake Lab v4 slice 3, spec 4.12) leads these lines once the server has it, before
+  /// the clock exists.
+  final String? subject;
 
   @override
   Widget build(BuildContext context) {
@@ -268,6 +274,7 @@ class MockLines extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (subject case final subject?) StartSheetLine(subject: subject, padding: const EdgeInsets.only(bottom: MmSpace.s16)),
         line(PracticeCopy.sheetTimer),
         if (ticketBy != null) line(PracticeCopy.sheetTicket(ticketBy!)),
         const SizedBox(height: MmSpace.s4),

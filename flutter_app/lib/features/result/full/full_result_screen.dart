@@ -12,6 +12,8 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rules/widgets/across_mocks_view.dart';
+import '../../rules/widgets/rule_check_view.dart';
 import '../../rhythm/rhythm.dart' show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationControllerProvider, celebrationModeProvider;
 import '../../review/data/review_providers.dart' show reviewClockProvider;
 import '../copy.dart';
@@ -249,7 +251,10 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
       final mobiAllowed = reaction != null && mode == CelebrationMode.full && reaction.act != MobiAct.sleepy;
       _mobiAllowed = mobiAllowed;
       final keysOff = model.keysUnavailable || data.detail == null;
-      final fix = firstFixSection(context, model);
+      // The Lab's slice 3 parts ride on the same read: the repair order and the Rule book's link in
+      // the Repair step, the rule check in Prove, and Across your mocks at the Lab's end.
+      final lab = model.isHeld ? null : detail?.lab;
+      final fix = firstFixSection(context, model, lab: lab);
       // One authored entrance, riding the page's own transition: the figure first, then what
       // it means, then the sections in reading order. A page that is already up never moves,
       // and content that loads after the page has landed is simply there.
@@ -340,6 +345,16 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 item(TimeSection(read: timeRead, onOpenQuestion: _openFromMap, changesKey: _changesKey)),
               ],
               if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
+              // Prove (spec 4.8): the rule chosen before this mock, checked on its record.
+              if (lab?.ruleCheck case final check?) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(RuleCheckView(check: check)),
+              ],
+              // Across your mocks (spec 4.9): the record as it stood when this paper was taken.
+              if (lab?.acrossMocks case final across?) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(AcrossMocksView(across: across, seenKey: 'attempt:$id')),
+              ],
               // "After this mock": the plan and the read of the paper, written by the server from
               // stored records. Nothing when the read is missing, unavailable or a practice set's.
               // It plays its own first-view entrance, so it is not one of the page's staggered items.

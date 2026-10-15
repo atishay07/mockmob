@@ -27,6 +27,8 @@ import 'compass_controller.dart';
 import 'compass_hero.dart';
 import 'compass_practise.dart';
 import 'programme_rows.dart';
+import 'score_sources.dart';
+import '../widgets/tools_origin.dart';
 import '../pro/compass_pro_section.dart';
 import '../widgets/size_reveal.dart';
 
@@ -37,6 +39,39 @@ const int _nearFirst = 5;
 
 /// How many programmes a long stream group shows before "Show more".
 const int _streamFirst = 6;
+
+/// A programme at fewer colleges than this (or with no cutoff list) is folded under "Other
+/// programmes" in its stream, so the rich ones lead.
+const int _fewColleges = 3;
+
+/// How many programmes "Your best options" names, and how many must be open before it shows (a
+/// shorter list is its own best options).
+const int _bestCount = 3;
+const int _bestFrom = 6;
+
+/// The best options: with a score, the programmes it could clear first; then the most colleges.
+List<DuVerdict> compassBestOptions(CompassState s) {
+  final score = s.score;
+  final list = [...s.eligible.where((r) => r.group.hasCutoffs)];
+  int clear(DuVerdict r) => score != null && s.couldClear(r.group) ? 0 : 1;
+  list.sort((a, b) {
+    final c = clear(a) - clear(b);
+    if (c != 0) return c;
+    final n = b.group.colleges - a.group.colleges;
+    return n != 0 ? n : a.group.name.compareTo(b.group.name);
+  });
+  return list.take(_bestCount).toList();
+}
+
+/// A stream's rows split into the ones that lead and the smaller programmes folded under "Other
+/// programmes". Nothing is folded while searching, when it would leave the stream empty, or
+/// when only one row would be folded.
+({List<DuVerdict> lead, List<DuVerdict> other}) compassSplitStream(List<DuVerdict> rows, {required bool searching}) {
+  bool few(DuVerdict r) => !r.group.hasCutoffs || r.group.colleges < _fewColleges;
+  final other = [for (final r in rows) if (few(r)) r];
+  if (searching || other.length < 2 || other.length == rows.length) return (lead: rows, other: const <DuVerdict>[]);
+  return (lead: [for (final r in rows) if (!few(r)) r], other: other);
+}
 
 /// Admission Compass (`/tools/compass`): the student's CUET subjects against DU's 2026-27
 /// Bulletin rules, then the 2026 college cutoffs by category and round. The website's
@@ -63,6 +98,9 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   /// Streams the student has opened to the full list.
   final Set<String> _openStreams = {};
 
+  /// Streams whose "Other programmes" are open.
+  final Set<String> _openOther = {};
+
   /// False until the results have been drawn once and a frame has passed: rows on screen as the
   /// page opens do not play their arrival (the page's own entrance did); rows that come later,
   /// from a filter, a sort, a stream, a category or new subjects, do.
@@ -74,6 +112,9 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
     _search.dispose();
     super.dispose();
   }
+
+  /// Combo Planner: back to it when Compass was opened from there, so the two never stack up.
+  void _openCombo(BuildContext context) => ToolsOrigin.openOrReturn(context, to: ToolsPaths.combo, from: ToolsOrigin.compass);
 
   void _retry() {
     ref.invalidate(duCatalogProvider);
@@ -132,28 +173,57 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
     final nearOpen = _nearOpen ?? noneOpen;
     final nearShown = _nearAll ? near : near.take(_nearFirst).toList();
 
+    final best = s.eligible.length >= _bestFrom ? compassBestOptions(s) : const <DuVerdict>[];
+    final mocks = ref.watch(compassMockScoreProvider);
+    final unlocks = [
+      const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.unlocksHeading, top: MmRhythm.group)),
+      SliverToBoxAdapter(child: _Unlocks(state: s)),
+    ];
+
     return [
       SliverToBoxAdapter(child: CompassHero(state: s)),
+      // Nothing open: the way out comes first, straight under the count.
+      if (noneOpen) SliverToBoxAdapter(child: _NoneOpen(hasUnlocks: s.unlocks.isNotEmpty, onCombo: () => _openCombo(context))),
+      if (noneOpen && s.unlocks.isNotEmpty) ...unlocks,
+      // The answer before the settings: the student's best options, then category and score.
+      if (best.isNotEmpty) ...[
+        SliverToBoxAdapter(
+          child: ToolsHeading(ToolsCopy.bestHeading, note: score != null ? ToolsCopy.bestNoteScore : ToolsCopy.bestNote, top: MmRhythm.group),
+        ),
+        SliverToBoxAdapter(
+          child: ToolsPanel(
+            children: [
+              for (final r in best)
+                ProgrammeRow(
+                  key: ValueKey('best-${r.group.id}'),
+                  verdict: r,
+                  category: s.category,
+                  score: score,
+                  couldClear: score != null && s.couldClear(r.group),
+                  onTap: () => open(r.group.id),
+                ),
+            ],
+          ),
+        ),
+      ],
       SliverToBoxAdapter(
         child: Padding(
-          padding: const EdgeInsets.only(top: MmRhythm.item),
+          padding: EdgeInsets.only(top: best.isNotEmpty ? MmRhythm.group : MmRhythm.item),
           child: CategoryScoreBar(
-            summary: ToolsCopy.categorySummary(s.category, score == null ? null : duFormatScore(score)),
+            summary: score == null && mocks != null
+                ? ToolsCopy.categorySummaryMocks(s.category, mocks.total)
+                : ToolsCopy.categorySummary(s.category, score == null ? null : duFormatScore(score)),
             onTap: () => showCategoryScoreSheet(context),
           ),
         ),
       ),
-      if (noneOpen) SliverToBoxAdapter(child: _NoneOpen(hasUnlocks: s.unlocks.isNotEmpty)),
-      if (s.unlocks.isNotEmpty) ...[
-        const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.unlocksHeading, top: MmRhythm.group)),
-        SliverToBoxAdapter(child: _Unlocks(state: s)),
-      ],
+      if (!noneOpen && s.unlocks.isNotEmpty) ...unlocks,
       if (!s.selection.isEmpty) ...[
         if (!noneOpen)
           SliverToBoxAdapter(
             child: ToolsHeading(
-              '${s.eligible.length} open to you',
-              note: '${ToolsCopy.categoryNow(s.category)}${score != null ? ', score ${duFormatScore(score)}' : ''}. Updates as you change subjects.',
+              best.isNotEmpty ? ToolsCopy.allOpenHeading(s.eligible.length) : ToolsCopy.openHeading(s.eligible.length),
+              note: ToolsCopy.openNote,
             ),
           ),
         if (s.eligible.isNotEmpty)
@@ -188,10 +258,17 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
             SliverToBoxAdapter(
               child: Builder(
                 builder: (context) {
-                  // A long group opens on its first rows; the rest is one tap away.
-                  final collapsible = rows.length > _streamFirst + 2;
+                  // The rich programmes lead; the ones at one or two colleges fold under "Other
+                  // programmes". A long lead opens on its first rows; the rest is one tap away.
+                  final split = compassSplitStream(rows, searching: q.isNotEmpty);
+                  final lead = split.lead;
+                  final collapsible = lead.length > _streamFirst + 2;
                   final all = _openStreams.contains(st);
-                  final shown = collapsible && !all ? rows.take(_streamFirst).toList() : rows;
+                  final otherOpen = _openOther.contains(st);
+                  final shown = [
+                    ...(collapsible && !all ? lead.take(_streamFirst) : lead),
+                    if (otherOpen) ...split.other,
+                  ];
                   return ToolsPanel(
                     children: [
                       for (final (i, r) in shown.indexed)
@@ -211,18 +288,24 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                       if (collapsible)
                         ToolsRowFrame(
                           onTap: () => setState(() => all ? _openStreams.remove(st) : _openStreams.add(st)),
-                          semanticsLabel: all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(rows.length - _streamFirst),
+                          semanticsLabel: all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(lead.length - _streamFirst),
                           child: Row(
                             children: [
                               Expanded(
                                 child: Text(
-                                  all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(rows.length - _streamFirst),
+                                  all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(lead.length - _streamFirst),
                                   style: context.mmType.labelLarge.copyWith(color: context.mmColors.accentText),
                                 ),
                               ),
                               Icon(all ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 18, color: context.mmColors.accentText),
                             ],
                           ),
+                        ),
+                      if (split.other.isNotEmpty)
+                        _OtherProgrammes(
+                          count: split.other.length,
+                          open: otherOpen,
+                          onTap: () => setState(() => otherOpen ? _openOther.remove(st) : _openOther.add(st)),
                         ),
                     ],
                   );
@@ -270,6 +353,12 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
             dividerIndent: ToolsLinkRow.dividerIndent,
             children: [
               ToolsLinkRow(
+                icon: LucideIcons.layoutGrid,
+                title: ToolsCopy.comboLinkTitle,
+                note: ToolsCopy.comboLinkNote,
+                onTap: () => _openCombo(context),
+              ),
+              ToolsLinkRow(
                 icon: LucideIcons.fileText,
                 title: ToolsCopy.sourcesTitle,
                 note: ToolsCopy.sourcesNote,
@@ -288,18 +377,72 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
 /// above; one Mobi per screen). The subjects that would open something follow directly below,
 /// each with the number of programmes it opens.
 class _NoneOpen extends StatelessWidget {
-  const _NoneOpen({required this.hasUnlocks});
+  const _NoneOpen({required this.hasUnlocks, required this.onCombo});
 
   final bool hasUnlocks;
+  final VoidCallback onCombo;
 
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s24, MmSpace.gutter, 0),
-      child: Text(
-        hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar,
-        style: type.title.copyWith(fontSize: 18, height: 24 / 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            hasUnlocks ? ToolsCopy.noneOpenLine : ToolsCopy.noneOpenFar,
+            style: type.title.copyWith(fontSize: 18, height: 24 / 18),
+          ),
+          if (!hasUnlocks) ...[
+            const SizedBox(height: MmSpace.s12),
+            KeyButton.secondary(label: ToolsCopy.openCombo, onPressed: onCombo),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// "Other programmes": the stream's programmes at one or two colleges (or with no cutoff list),
+/// folded into one row with their count and opened in place. Last in the stream's panel.
+class _OtherProgrammes extends StatelessWidget {
+  const _OtherProgrammes({required this.count, required this.open, required this.onTap});
+
+  final int count;
+  final bool open;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final reduced = Motion.reduced(context);
+    return ToolsRowFrame(
+      onTap: onTap,
+      semanticsLabel: ToolsCopy.otherProgrammesSemantics(count, open),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(open ? ToolsCopy.otherProgrammesHide : ToolsCopy.otherProgrammes, style: type.labelLarge.copyWith(color: colors.accentText)),
+                const SizedBox(height: MmSpace.s2),
+                Text(ToolsCopy.otherProgrammesNote, style: type.caption.copyWith(color: colors.ink2)),
+              ],
+            ),
+          ),
+          const SizedBox(width: MmSpace.s12),
+          Text('$count', style: type.labelLarge.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
+          const SizedBox(width: MmSpace.s8),
+          AnimatedRotation(
+            turns: open ? 0.5 : 0,
+            duration: reduced ? Duration.zero : Motion.crossFade,
+            curve: Motion.glide,
+            child: Icon(LucideIcons.chevronDown, size: 18, color: colors.accentText),
+          ),
+        ],
       ),
     );
   }

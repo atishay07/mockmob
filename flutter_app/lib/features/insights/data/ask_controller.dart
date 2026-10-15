@@ -11,6 +11,7 @@ import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/local_scope.dart';
 import '../../../core/storage/prefs_store.dart';
 import 'ai_reply_report.dart';
+import 'ask_wallet.dart';
 import 'insights_repository.dart';
 import 'readout.dart';
 
@@ -29,14 +30,40 @@ enum AskOrigin {
   paused,
 }
 
+/// Why a question did not get a reply, one per server outcome of `POST /api/ai/mentor/chat`
+/// (`runModelReply` in src/services/prepos/modelReply.js). None of them costs a credit: the
+/// server sends `charged: 0` and releases what it reserved.
 enum AskFailure {
+  /// No answer arrived. The outcome is unknown, so Send again reuses the request id and the server
+  /// never charges the same question twice.
   offline,
+
+  /// `insufficient_ai_credits` (402): the wallet has no credit for a reply.
   noCredits,
+
+  /// `paused` (503): AI replies are switched off for now.
   paused,
+
+  /// `operation_released` (409): that attempt was released. Send again goes with a fresh id.
   resend,
   rateLimited,
   tooLong,
+
+  /// The reply service failed (`could_not_start`, `provider_error`, `unusable_output`, ...).
   unavailable,
+
+  /// `in_progress` (409): the same question is still being answered. Send again asks for it.
+  inProgress,
+
+  /// `duplicate` (409): the question was answered and charged, but the reply did not reach this
+  /// phone and could not be read back from the conversation history.
+  alreadyAnswered,
+
+  /// `budget_reached` (503): this month's AI budget is used up until the 1st.
+  budgetReached,
+
+  /// `wallet_unavailable` (503): the credit wallet could not be reached; nothing was reserved.
+  walletUnavailable,
 
   /// The app was closed or killed while a model question was on its way. The server may already
   /// have answered and charged; sending it again reuses the same request id, so it is not
@@ -53,14 +80,20 @@ class AskMessage {
         failure = null,
         balance = null,
         retryText = null,
-        requestId = null;
+        requestId = null,
+        charged = null,
+        left = null,
+        creditHeld = false;
 
-  const AskMessage.reply(this.text, {required AskOrigin this.origin, this.actions = const [], this.requestId})
+  /// [charged] and [left] are what the server reported with the reply: the credits it took and
+  /// the balance right after. Null when the server did not say.
+  const AskMessage.reply(this.text, {required AskOrigin this.origin, this.actions = const [], this.requestId, this.charged, this.left})
       : fromStudent = false,
         sending = false,
         failure = null,
         retryText = null,
-        balance = null;
+        balance = null,
+        creditHeld = false;
 
   const AskMessage.sending()
       : fromStudent = false,
@@ -71,16 +104,21 @@ class AskMessage {
         failure = null,
         balance = null,
         retryText = null,
-        requestId = null;
+        requestId = null,
+        charged = null,
+        left = null,
+        creditHeld = false;
 
   /// [retryText] and [requestId] are the question this failure belongs to, so Send again on any
   /// failed bubble sends that bubble's own question.
-  const AskMessage.failed(AskFailure this.failure, {this.balance, this.retryText, this.requestId})
+  const AskMessage.failed(AskFailure this.failure, {this.balance, this.retryText, this.requestId, this.creditHeld = false})
       : fromStudent = false,
         text = '',
         origin = null,
         actions = const [],
-        sending = false;
+        sending = false,
+        charged = null,
+        left = null;
 
   final bool fromStudent;
   final String text;
@@ -101,15 +139,30 @@ class AskMessage {
   /// On a failure: the question to send again.
   final String? retryText;
 
+  /// Credits the server took for this reply: 1, 0 (nothing was charged) or null (not reported).
+  final int? charged;
+
+  /// The balance the server reported right after this reply, or null when it did not say.
+  final int? left;
+
+  /// On a failure: the server could not release the reserved credit at once. It is held briefly
+  /// and returns by itself (the server's own words), so the line does not say "not charged" yet.
+  final bool creditHeld;
+
   /// Written by a model: carries the "can be wrong" line and Report this reply.
   bool get isModel => origin == AskOrigin.model;
 }
 
 class AskState {
-  const AskState({this.messages = const [], this.sessionId});
+  const AskState({this.messages = const [], this.sessionId, this.wallet, this.walletAt});
 
   final List<AskMessage> messages;
   final String? sessionId;
+
+  /// The wallet the latest server answer reported (a reply's `usageSnapshot`, or the balance a
+  /// refusal named), and when. Fresher than the credits read until that read runs again.
+  final AskWallet? wallet;
+  final DateTime? walletAt;
 
   bool get busy => messages.any((m) => m.sending);
 }
@@ -256,47 +309,150 @@ class AskController extends Notifier<AskState> {
         'status' => AskOrigin.paused,
         _ => AskOrigin.record,
       };
-      final actions = [
-        for (final a in asJsonList(body['actions']))
-          if (asString(a['label']) case final label? when asString(a['route']) != null) (label, asString(a['route'])!),
-      ];
       await _forget(store);
       if (epoch != _epoch || !ref.mounted) return null;
+      final wallet = AskWallet.fromSnapshot(body['usageSnapshot']);
       _replaceAt(
         index,
-        AskMessage.reply(asStringOr(body['reply'], ''), origin: origin, actions: actions, requestId: requestId),
+        AskMessage.reply(
+          asStringOr(body['reply'], ''),
+          origin: origin,
+          actions: _actions(body['actions']),
+          requestId: requestId,
+          // Only a model reply can cost a credit, and only the server's charge says what it took.
+          charged: origin == AskOrigin.model ? asInt(asJson(body['charge'])['amount']) : 0,
+          left: wallet?.total,
+        ),
         sessionId: asString(body['sessionId']),
+        wallet: wallet,
       );
       if (origin == AskOrigin.model) ref.read(creditsRepositoryProvider.notifier).refresh();
       return null;
     } on ApiError catch (e) {
-      final failure = switch (e.kind) {
-        ApiErrorKind.network || ApiErrorKind.timeout => AskFailure.offline,
-        ApiErrorKind.paymentRequired => AskFailure.noCredits,
-        ApiErrorKind.unavailable => AskFailure.paused,
-        ApiErrorKind.conflict => AskFailure.resend,
-        ApiErrorKind.rateLimited => AskFailure.rateLimited,
-        ApiErrorKind.payloadTooLarge => AskFailure.tooLong,
-        _ => AskFailure.unavailable,
-      };
-      // Only an unknown outcome (the network dropped) stays remembered: every other failure is
-      // the server saying it did not take the question, so there is nothing to recover.
-      if (failure != AskFailure.offline) await _forget(store);
+      final failure = askFailureFor(e);
+      // Only an unknown outcome stays remembered: every other failure is the server saying what
+      // happened to the question, so there is nothing to recover.
+      if (failure != AskFailure.offline && failure != AskFailure.inProgress) await _forget(store);
       if (epoch != _epoch) return failure;
-      // "Did not go through": a fresh id. Anything uncertain keeps the id for the retry.
-      final next = failure == AskFailure.resend ? const Uuid().v4() : requestId;
-      _replaceAt(index, AskMessage.failed(failure, balance: asInt(e.details['balance']), retryText: text, requestId: next));
+      if (failure == AskFailure.alreadyAnswered) {
+        // Answered and charged once already: read that reply back instead of asking again.
+        final recovered = await _recover(requestId);
+        if (epoch != _epoch || !ref.mounted) return null;
+        if (recovered != null) {
+          _replaceAt(index, recovered);
+          ref.read(creditsRepositoryProvider.notifier).refresh();
+          return null;
+        }
+      }
+      // "Did not go through", or answered already: a fresh id. Anything uncertain keeps the id.
+      final next = failure == AskFailure.resend || failure == AskFailure.alreadyAnswered ? const Uuid().v4() : requestId;
+      final balance = asInt(e.details['balance']);
+      final base = state.wallet ?? _readWallet();
+      _replaceAt(
+        index,
+        AskMessage.failed(
+          failure,
+          balance: balance,
+          retryText: text,
+          requestId: next,
+          creditHeld: e.serverMessage?.contains('held briefly') ?? false,
+        ),
+        // A refusal for credits names the balance, so the header shows it at once.
+        wallet: failure == AskFailure.noCredits && balance != null ? (base ?? const AskWallet()).withTotal(balance) : null,
+      );
+      if (failure == AskFailure.noCredits) ref.read(creditsRepositoryProvider.notifier).refresh();
       return failure;
     }
   }
 
-  void _append(List<AskMessage> add) => state = AskState(messages: [...state.messages, ...add], sessionId: state.sessionId);
+  /// The reply to [requestId] read back from the conversation history (`GET
+  /// /api/ai/mentor/history`), where the server stored it with its charge (the charge's reference
+  /// ends with the request id). Null when it is not there or the history cannot be read.
+  Future<AskMessage?> _recover(String requestId) async {
+    try {
+      final res = await ref.read(apiClientProvider).get('/api/ai/mentor/history', query: {'sessionId': ?state.sessionId});
+      for (final m in asJsonList(res.map['messages']).reversed) {
+        if (asString(m['role']) != 'assistant') continue;
+        final response = asJson(m['response']);
+        final charge = asJson(response['charge']);
+        if (!(asString(charge['reference']) ?? '').endsWith(':$requestId')) continue;
+        final text = asString(m['text']) ?? asString(response['reply']) ?? '';
+        if (text.trim().isEmpty) return null;
+        return AskMessage.reply(
+          text,
+          origin: AskOrigin.model,
+          actions: _actions(response['actions']),
+          requestId: requestId,
+          charged: asInt(charge['amount']),
+        );
+      }
+    } on Object {
+      // The history could not be read: the failure line says what happened instead.
+    }
+    return null;
+  }
 
-  void _replaceAt(int index, AskMessage m, {String? sessionId}) {
+  static List<(String, String)> _actions(Object? raw) => [
+        for (final a in asJsonList(raw))
+          if (asString(a['label']) case final label? when asString(a['route']) != null) (label, asString(a['route'])!),
+      ];
+
+  AskWallet? _readWallet() {
+    final c = ref.read(creditsRepositoryProvider).value;
+    return c == null ? null : AskWallet.fromCredits(c);
+  }
+
+  void _append(List<AskMessage> add) =>
+      state = AskState(messages: [...state.messages, ...add], sessionId: state.sessionId, wallet: state.wallet, walletAt: state.walletAt);
+
+  void _replaceAt(int index, AskMessage m, {String? sessionId, AskWallet? wallet}) {
     if (!ref.mounted || index >= state.messages.length) return;
     final next = [...state.messages]..[index] = m;
-    state = AskState(messages: next, sessionId: sessionId ?? state.sessionId);
+    state = AskState(
+      messages: next,
+      sessionId: sessionId ?? state.sessionId,
+      wallet: wallet ?? state.wallet,
+      walletAt: wallet != null ? ref.read(nowProvider)() : state.walletAt,
+    );
   }
 }
 
 final askControllerProvider = NotifierProvider<AskController, AskState>(AskController.new);
+
+/// The failure a refused or lost question ends in. The server's machine code decides first (the
+/// codes the website and the repair route share); the HTTP status only for a code it has not met.
+AskFailure askFailureFor(ApiError e) {
+  if (e.isOffline) return AskFailure.offline;
+  return switch (e.code.toLowerCase()) {
+    'insufficient_ai_credits' => AskFailure.noCredits,
+    'operation_released' => AskFailure.resend,
+    'in_progress' => AskFailure.inProgress,
+    'duplicate' => AskFailure.alreadyAnswered,
+    'paused' || 'prepos_paused' => AskFailure.paused,
+    'budget_reached' => AskFailure.budgetReached,
+    'wallet_unavailable' || 'ai_credit_rpc_unavailable' => AskFailure.walletUnavailable,
+    'message_too_long' || 'payload_too_large' => AskFailure.tooLong,
+    'could_not_start' || 'provider_error' || 'provider_timeout' || 'provider_unavailable' || 'unusable_output' || 'empty_reply' || 'reserve_failed' =>
+      AskFailure.unavailable,
+    _ => switch (e.kind) {
+        ApiErrorKind.paymentRequired => AskFailure.noCredits,
+        ApiErrorKind.conflict => AskFailure.resend,
+        ApiErrorKind.rateLimited => AskFailure.rateLimited,
+        ApiErrorKind.payloadTooLarge => AskFailure.tooLong,
+        _ => AskFailure.unavailable,
+      },
+  };
+}
+
+/// The wallet Ask shows: the latest the server reported, from a chat answer or from the credits
+/// read, whichever is newer. Null until either has arrived.
+final askWalletProvider = Provider<AskWallet?>((ref) {
+  final (fromAsk, askAt) = ref.watch(askControllerProvider.select((s) => (s.wallet, s.walletAt)));
+  final read = ref.watch(creditsRepositoryProvider);
+  final fromRead = read.value == null ? null : AskWallet.fromCredits(read.value!);
+  if (fromAsk == null) return fromRead;
+  if (fromRead == null) return fromAsk;
+  final readAt = read.fetchedAt;
+  // A network read that finished after the chat answer is the newer truth.
+  return readAt != null && !read.fromCache && askAt != null && readAt.isAfter(askAt) ? fromRead : fromAsk;
+});

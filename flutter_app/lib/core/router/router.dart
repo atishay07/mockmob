@@ -252,6 +252,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
           tabRoot('/review', reviewScreen, routes: [
             page('mistakes', reviewMistakesScreen),
             page('record', reviewRecordScreen),
+            // The Rule book: over the dock, so the result page (outside the shell) can push it too.
+            page('rules', reviewRulesScreen, root: true),
             page('insights', reviewInsightsScreen),
             page('saved', reviewSavedScreen),
             // Literal "ending" before the :questionId pattern.

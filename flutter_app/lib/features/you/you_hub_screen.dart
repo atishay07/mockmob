@@ -19,6 +19,9 @@ import '../rhythm/logic/week_view.dart' show WeekStatus, runNote, weeksInRhythmT
 import '../rhythm/rhythm.dart';
 import '../rhythm/widgets/rhythm_layout.dart' show SectionBreak;
 import '../rhythm/widgets/token_shelf.dart';
+import '../rules/copy.dart';
+import '../rules/data/rules_data.dart';
+import '../rules/widgets/across_mocks_view.dart';
 import 'copy.dart';
 import 'edit_copy.dart';
 import 'data/student_target.dart';
@@ -156,12 +159,14 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                         index: 2,
                         child: _HubSection(title: YouCopy.hubProgress, child: ProgressPanel()),
                       ),
+                      // Across your mocks: the same block as the Mistake Lab's end, from the record.
+                      const MmStaggerItem(index: 3, child: _AcrossSection()),
                       const MmStaggerItem(
-                        index: 3,
+                        index: 4,
                         child: _HubSection(title: YouCopy.hubSettings, child: SettingsPanel()),
                       ),
                       MmStaggerItem(
-                        index: 4,
+                        index: 5,
                         child: _HubSection(title: YouCopy.hubTools, child: widget.tools ?? ToolsPanel(onOpen: _openTool)),
                       ),
                       const HubFooter(),
@@ -255,6 +260,56 @@ class _HubSection extends StatelessWidget {
         ),
         child,
       ],
+    );
+  }
+}
+
+/// Across your mocks on You (Mistake Lab v4 slice 3, spec 4.9): the block at the end of the Lab,
+/// read from `GET /api/me/rules` so it shows the newest record. Nothing while signed out or when
+/// the server sends no block; the server's own sentence before the first timed mock.
+class _AcrossSection extends ConsumerWidget {
+  const _AcrossSection();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final state = ref.watch(rulesRepositoryProvider);
+    final across = state.value?.acrossMocks;
+    final Widget child;
+    if (across != null) {
+      child = AcrossMocksView(across: across, seenKey: 'you', titled: false);
+    } else if (state.isInitialLoading) {
+      child = const SkeletonGroup(
+        label: RulesCopy.acrossTitle,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Skeleton.line(height: 16),
+            SizedBox(height: MmSpace.s8),
+            Skeleton.line(width: 220, height: 16),
+            SizedBox(height: MmSpace.s20),
+            Skeleton.line(height: 16),
+            SizedBox(height: MmSpace.s8),
+            Skeleton.line(width: 160, height: 16),
+          ],
+        ),
+      );
+    } else if (state.isFailedEmpty) {
+      // One quiet way out, like the shelf's: the hub reads as one problem, not stacked alarms.
+      child = Row(
+        children: [
+          Expanded(child: Text(RulesCopy.acrossLoadFailed, style: type.small.copyWith(color: colors.ink2))),
+          const SizedBox(width: MmSpace.s8),
+          KeyButton.quiet(label: YouCopy.tryAgain, onPressed: () => ref.read(rulesRepositoryProvider.notifier).refresh(force: true)),
+        ],
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+    return _HubSection(
+      title: across?.title ?? RulesCopy.acrossTitle,
+      child: Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: child),
     );
   }
 }

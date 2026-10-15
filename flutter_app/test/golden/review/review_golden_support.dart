@@ -30,6 +30,8 @@ import 'package:mockmob/features/review/data/review_providers.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import 'package:mockmob/features/you/you_providers.dart' show lateNightLinesProvider;
+import 'package:mockmob/core/models/lab_loop.dart' show RulesRead;
+import 'package:mockmob/features/rules/data/rules_data.dart' show rulesRepositoryProvider;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -103,6 +105,7 @@ List<Override> reviewOverrides({
   CelebrationMode celebration = CelebrationMode.full,
   PrefsStore? rhythmStore,
   RhythmSeenRepository? seen,
+  RemoteState<RulesRead>? rules,
 }) => [
   authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya')),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
@@ -121,6 +124,8 @@ List<Override> reviewOverrides({
   // The record and saved rows on the tab: settled, no network.
   insightsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
   savedRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
+  // The Rule book row (Mistake Lab v4 slice 3): settled, no network.
+  rulesRepositoryProvider.overrideWithBuild((ref, n) => rules ?? const RemoteState()),
   for (final a in attempts ?? allAttempts)
     attemptDetailProvider(a.id).overrideWithBuild(
       (ref, n) => RemoteState(
