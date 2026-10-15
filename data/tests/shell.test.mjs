@@ -77,7 +77,10 @@ test('Start sheet: the hero first, chips steer Quick 10 and Full mock, a repair 
   assert.equal(rows.find((r) => r.id === 'full').href, '/dashboard?subject=economics&mode=full');
   assert.equal(rows.find((r) => r.id === 'full').subjectLabel, 'Economics');
   assert.equal(rows.find((r) => r.id === 'nta').href, '/pricing', 'a locked NTA row opens the plans');
-  assert.equal(rows.find((r) => r.id === 'repair').href, '/review', 'no repair attempt known: Review');
+  assert.ok(!rows.some((r) => r.id === 'repair'), 'day one: nothing to repair, so no repair row');
+  const later = nextMove({ now: '2026-10-15T14:30:00Z', practiceCredits: 40, subjects: ['accountancy'],
+    attempts: [{ id: 'att-3', subject: 'accountancy', mode: 'quick', completedAt: '2026-10-14T12:00:00Z' }] });
+  assert.equal(sheetRows({ move: later, subjects: ['accountancy'], mistakeRepair: true }).find((r) => r.id === 'repair').href, '/review', 'no repair attempt known: Review');
   const withTonight = sheetRows({ move, subjects: ['accountancy'], tonight: { count: 4, attemptId: 'att-7' }, mistakeRepair: true });
   assert.equal(withTonight.find((r) => r.id === 'repair').href, '/result/att-7');
   const repairMove = nextMove({ now: '2026-10-15T14:30:00Z', subjects: ['accountancy'], aiCredits: 10,

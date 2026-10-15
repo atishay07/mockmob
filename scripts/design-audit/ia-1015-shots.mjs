@@ -3,6 +3,7 @@
 //
 //   node scripts/design-audit/ia-1015-shots.mjs [--only=name,name] [--video] [--no-shots]
 //
+// --video records the first run at phone width as an animated WebP (DevTools screencast).
 // Needs the one dev server: node --use-system-ca node_modules/next/dist/bin/next dev --webpack -p 3107
 import { chromium } from 'file:///C:/Users/atish/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright-core/index.mjs';
 import fs from 'node:fs/promises';
@@ -90,7 +91,7 @@ const JOBS = [
   // Result and repair (Repair v3 owns these files; captured, not edited)
   ['result', pv('view=result')],
   ['repair', pv('view=result'), { setup: openRepair }],
-  ['test-console', pv('view=test&subject=accountancy&mode=quick&count=10')],
+  ['test-console', pv('view=test&subject=accountancy&mode=quick&count=10&generationKey=preview-gate-a-0001')],
 ].map(([name, url, opts = {}]) => ({ name, url, ...opts }));
 
 async function measure(p) {
@@ -159,15 +160,24 @@ async function run() {
       }
     }
     if (arg('video')) {
+      // Playwright's recordVideo needs an ffmpeg download, so the motion is recorded from the
+      // DevTools screencast instead (headless, same page) and written as an animated WebP.
       const dir = path.join(OUT, 'video');
       await fs.mkdir(dir, { recursive: true });
-      const c = await b.newContext({ viewport: { width: 375, height: 812 }, recordVideo: { dir, size: { width: 375, height: 812 } } });
+      const c = await b.newContext({ viewport: { width: 375, height: 812 }, deviceScaleFactor: 1 });
       await c.addInitScript(() => { try { localStorage.setItem('mm:theme:v1', 'dark'); } catch {} });
       const p = await c.newPage();
+      const cdp = await c.newCDPSession(p);
+      const frames = [];
+      cdp.on('Page.screencastFrame', async (f) => {
+        frames.push({ data: f.data, t: f.metadata.timestamp });
+        try { await cdp.send('Page.screencastFrameAck', { sessionId: f.sessionId }); } catch {}
+      });
       await p.goto(`${BASE}/`, { waitUntil: 'load', timeout: 120000 });
+      await cdp.send('Page.startScreencast', { format: 'jpeg', quality: 70, maxWidth: 375, maxHeight: 812, everyNthFrame: 1 });
       await p.waitForTimeout(1500);
       await answerSample(p);
-      await p.waitForTimeout(1200);
+      await p.waitForTimeout(1500);
       await p.locator('.mm-drill__actions a').first().click();
       await p.waitForURL(/signup/, { timeout: 30000 });
       await p.waitForTimeout(2200);
@@ -175,22 +185,39 @@ async function run() {
       await p.waitForTimeout(1500);
       const picks = p.locator('[aria-pressed]');
       const n = Math.min(3, await picks.count());
-      for (let i = 0; i < n; i += 1) { await picks.nth(i).click(); await p.waitForTimeout(350); }
+      for (let i = 0; i < n; i += 1) { await picks.nth(i).click(); await p.waitForTimeout(400); }
       await p.getByRole('button', { name: /^Next$/ }).click();
-      await p.waitForTimeout(1800);
+      await p.waitForTimeout(2000);
       const save = p.getByRole('button', { name: /Save and continue/ });
-      if (await save.count()) { await save.click(); await p.waitForTimeout(2600); }
-      const start = p.getByRole('button', { name: /Start now/ }).first();
-      if (await start.count()) { await start.click(); await p.waitForTimeout(2200); }
-      const video = p.video();
+      if (await save.count()) { await save.click(); await p.waitForTimeout(3000); }
+      // Stay inside the preview: "Start now" opens the real Practice page, which needs a session.
+      // Show the Start key instead, morphing into its sheet, and the Quick 10 confirm line.
+      await p.waitForTimeout(1200);
+      const key = p.getByRole('button', { name: /^Start$/ }).first();
+      if (await key.count()) {
+        await key.click(); await p.waitForTimeout(1600);
+        const quick = p.getByRole('button', { name: /Quick 10/ }).first();
+        if (await quick.count()) { await quick.click(); await p.waitForTimeout(2200); }
+      }
+      await cdp.send('Page.stopScreencast').catch(() => {});
+      const endUrl = p.url();
       await c.close();
-      const saved = video ? await video.path() : null;
-      if (saved) await fs.rename(saved, path.join(dir, 'first-run-phone.webm'));
-      report.push({ video: 'video/first-run-phone.webm', url: p.url() });
-      console.log('video saved');
+      // At most about 8 frames a second; each frame lasts until the next kept one.
+      const kept = [];
+      for (const f of frames) if (!kept.length || f.t - kept[kept.length - 1].t >= 0.12) kept.push(f);
+      const delays = kept.map((f, i) => Math.round(Math.min(2500, ((kept[i + 1]?.t ?? f.t + 1.5) - f.t) * 1000)));
+      const { createRequire } = await import('node:module');
+      const sharp = createRequire(import.meta.url)('sharp');
+      const inputs = await Promise.all(kept.map((f) => sharp(Buffer.from(f.data, 'base64')).resize({ width: 300 }).png().toBuffer()));
+      const file = path.join(dir, 'first-run-phone.webp');
+      await sharp(inputs, { join: { animated: true } }).webp({ quality: 55, delay: delays, loop: 0 }).toFile(file);
+      const size = (await fs.stat(file)).size;
+      report.push({ video: 'video/first-run-phone.webp', frames: kept.length, seconds: Math.round(delays.reduce((a, d) => a + d, 0) / 1000), bytes: size, endUrl });
+      console.log(JSON.stringify(report[report.length - 1]));
     }
   } finally {
-    await fs.writeFile(path.join(OUT, only ? 'report-partial.json' : 'report.json'), JSON.stringify(report, null, 2));
+    const name = only ? 'report-partial.json' : arg('no-shots') ? 'report-video.json' : 'report.json';
+    await fs.writeFile(path.join(OUT, name), JSON.stringify(report, null, 2));
     await b.close();
   }
 }

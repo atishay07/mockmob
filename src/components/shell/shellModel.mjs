@@ -89,7 +89,8 @@ export function aiRemaining(wallet) {
 
 // ---------------------------------------------------------------------------------------------
 // The Start sheet (plan 2.2; DOCK.md 6). Rows come from startActions(); the sheet adds the subject
-// chip state, which Quick 10 and Full mock follow, and drops the repair row when the hero is a repair.
+// chip state, which Quick 10 and Full mock follow, and drops the repair row when the hero is a repair
+// or on day one, when there is nothing to repair yet.
 
 /**
  * @param {object} o  startActions() input plus `selectedSubject` (a subject id) and `tonight`
@@ -101,8 +102,10 @@ export function sheetRows({ move = null, resume = null, plan = 'free', balance =
     ...(mistakeRepair === undefined ? {} : { mistakeRepair }) });
   const subject = subjects.includes(selectedSubject) ? selectedSubject : subjects[0] || null;
   const heroIsRepair = move?.id === 'repair' && rows[0]?.id === 'move';
+  // Day one (rule 7, no mock yet) has nothing to repair: the row would open an empty Review.
+  const nothingToRepair = move?.id === 'first' && !tonight?.attemptId;
   return rows
-    .filter((row) => !(row.id === 'repair' && heroIsRepair))
+    .filter((row) => !(row.id === 'repair' && (heroIsRepair || nothingToRepair)))
     .map((row) => {
       if (row.id === 'quick' && subject) return { ...row, href: practiceHref({ subject, mode: 'quick', count: 10 }), subject };
       if (row.id === 'full' && subject) return { ...row, href: practiceHref({ subject, mode: 'full' }), subject, subjectLabel: subjectName(subject) || null };

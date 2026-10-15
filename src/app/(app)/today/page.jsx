@@ -8,7 +8,7 @@
 //   5. The road to May: the expected CUET window and the stops on the way
 // The hero, the week and the record read their own facts; this page only arranges them and gives the hero
 // the same box while it loads, so nothing moves when the answer arrives. One filled button on the page.
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useAuth } from '@/components/AuthProvider';
 import RhythmCard from '@/components/RhythmCard';
 import RecordGlimpse from '@/components/ai/RecordGlimpse';
@@ -17,6 +17,7 @@ import TodayMobi from '@/components/today/TodayMobi';
 import FinishSheetCard from '@/components/today/FinishSheetCard';
 import RoadToMay from '@/components/today/RoadToMay';
 import { useTodayFacts } from '@/components/today/useTodayFacts';
+import { publishNextMove } from '@/components/shell/shellSignals';
 import { firstNameOf, goalState, greetingFor, sheetGaps, todayMove } from '@/components/today/todayModel.mjs';
 import '@/components/today/today.css';
 
@@ -29,6 +30,8 @@ export default function Today() {
     practiceCredits: practiceBalance ?? user?.creditBalance ?? null,
     aiCredits: wallet ? wallet.total : null,
   }) : null), [status, facts, user, supported, practiceBalance, wallet]);
+  // The Start sheet's hero is this same move (plan 5.2: one rule set, three places), so hand it over.
+  useEffect(() => { if (user?.id && move) publishNextMove(user.id, move); }, [user?.id, move]);
   const gaps = useMemo(() => sheetGaps(user), [user]);
   // The greeting reads the device clock, so the server's first paint may differ by the hour.
   const title = greetingFor(new Date().getHours(), firstNameOf(user?.name));

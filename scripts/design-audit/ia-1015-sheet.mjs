@@ -14,7 +14,11 @@ const ROOT = 'C:/Users/atish/Desktop/mockmob copy/mockmob-next/tmp/web-ia';
 const BEFORE = path.join(ROOT, 'shots');
 const GATE = path.join(ROOT, 'gate-a');
 const AFTER = path.join(GATE, 'shots');
-const report = JSON.parse(await fs.readFile(path.join(GATE, 'report.json'), 'utf8').catch(() => '[]'));
+// The full run's report, with any later --only recaptures (report-partial.json) laid over it.
+const readReport = async (name) => JSON.parse(await fs.readFile(path.join(GATE, name), 'utf8').catch(() => '[]'));
+const merged = new Map();
+for (const r of [...await readReport('report.json'), ...await readReport('report-partial.json')]) merged.set(r.file || r.video, r);
+const report = [...merged.values()];
 
 // label, what to look at, before desktop, before phone, after job(s)
 const SECTIONS = [
