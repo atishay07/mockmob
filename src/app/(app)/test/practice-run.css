@@ -3,25 +3,31 @@
    movement and keeps the same information as text. */
 .pr-run {
   --pr-ease: cubic-bezier(.2, .8, .2, 1);
+  --pr-fade-out: cubic-bezier(.25, .46, .45, .94);
   --pr-spring: cubic-bezier(.34, 1.36, .5, 1);
   --pr-accent: var(--a-accent-text, #d2f000);
 }
 
-/* ---------- Question hand-off: the outgoing block holds until the incoming one is half visible ---------- */
+/* ---------- Question hand-off: the outgoing block fades out fast, the incoming one arrives under it ----------
+   Two question texts must never read on top of each other for more than about 60 ms. The outgoing block
+   is at 0.25 half way through its 60 ms ease-out fade and gone at 60 ms; the incoming block rises from 0.35
+   (never a blank frame) and is whole at 240 ms. The outgoing block stays in the page, invisible, until the
+   incoming animation ends: the page drops it on this animation's end, and the incoming block's own
+   animation is tied to its presence. Same numbers as the app (RunnerMotion). NTA mode has no hand-off. */
 .pr-stage { display: grid; touch-action: pan-y pinch-zoom; }
 .pr-stage > * { grid-area: 1 / 1; min-width: 0; }
 .pr-live { position: relative; z-index: 1; will-change: transform; }
 .pr-live[data-entering] { animation: pr-in 240ms var(--pr-ease) both; }
-.pr-ghost { position: relative; z-index: 0; pointer-events: none; user-select: none; animation: pr-out 240ms var(--pr-ease) both; }
+.pr-ghost { position: relative; z-index: 0; pointer-events: none; user-select: none; animation: pr-out 240ms var(--pr-fade-out) both; }
 .pr-ghost .nta-question-meta { min-height: 44px; }
 @keyframes pr-in {
-  from { opacity: 0; transform: translate3d(calc(var(--pr-dir, 1) * 28px), 0, 0); }
+  from { opacity: .35; transform: translate3d(calc(var(--pr-dir, 1) * 28px), 0, 0); }
   to { opacity: 1; transform: none; }
 }
 @keyframes pr-out {
   0% { opacity: 1; transform: translate3d(var(--pr-from, 0px), 0, 0); }
-  50% { opacity: 1; }
-  100% { opacity: 0; transform: translate3d(calc(var(--pr-from, 0px) + var(--pr-dir, 1) * -36px), 0, 0); }
+  25% { opacity: 0; transform: translate3d(calc(var(--pr-from, 0px) + var(--pr-dir, 1) * -18px), 0, 0); }
+  100% { opacity: 0; transform: translate3d(calc(var(--pr-from, 0px) + var(--pr-dir, 1) * -18px), 0, 0); }
 }
 .pr-live.is-springing { transition: transform 300ms var(--pr-spring); }
 

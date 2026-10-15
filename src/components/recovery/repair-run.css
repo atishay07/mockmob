@@ -110,7 +110,7 @@ html:has(dialog.re[open]) { overflow: hidden; }
 .re__later { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
 .re__receipt { margin: 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3, #93a08f); }
 
-/* The thread: Found is lit, the line draws to Repaired, Checked and Holds stay open. */
+/* The thread: Found is lit, the line draws to Repaired, Retested and Still right stay open. */
 .re__life { list-style: none; margin: 6px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
 .re__life li { position: relative; padding-top: 22px; text-align: left; }
 .re__life li::before { content: ''; position: absolute; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; border: 2px dashed var(--a-ink-3, #93a08f); box-sizing: border-box; background: var(--a-bg, #0b100e); z-index: 1; }
