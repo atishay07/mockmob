@@ -9,7 +9,7 @@
 // It plays once per attempt (sessionStorage). Opening a row dims the other segments to 40% and lifts its own by
 // 2 px (150 ms). Reduced motion, a later view or no IntersectionObserver: the final state at once, dimming only.
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { ArrowRight, ChevronDown, Users } from 'lucide-react';
+import { ArrowRight, ChevronDown, Play, Users } from 'lucide-react';
 import './marks-ledger.css';
 
 const CHIPS_SHOWN = 8; // LAB_RULES.chipsShown in data/mistake_lab.js
@@ -76,10 +76,12 @@ export function LabChips({ numbers, onJump, showMore }) {
 }
 
 /**
- * MarksLedger({ lab, attemptId, onJump, changesId }): the ledger for lab.state 'ready' or 'basic'.
+ * MarksLedger({ lab, attemptId, onJump, changesId, replay }): the ledger for lab.state 'ready' or 'basic'.
  * `changesId` is the id of "Every answer you changed" in Time and decisions, for "See every change".
+ * `replay` ({ label, ids, onSee }): the groups the Replay has a chip for; each of those rows gets "See it in the
+ * replay", which opens the Replay with that chip on (spec 4.5).
  */
-export default function MarksLedger({ lab, attemptId, onJump, changesId = null }) {
+export default function MarksLedger({ lab, attemptId, onJump, changesId = null, replay = null }) {
   const uid = useId();
   const [barRef, phase] = useSplit(attemptId);
   const groups = lab?.groups || [];
@@ -147,6 +149,11 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null }
               <div className="ml-row__panel" id={panelId} hidden={!isOpen}>
                 {g.doLine ? <p className="ml-do"><ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" /><span>{g.doLine}</span></p> : null}
                 <LabChips numbers={g.numbers} onJump={onJump} showMore={labels.showMore} />
+                {replay?.ids?.has(g.id) && replay.label ? (
+                  <button type="button" className="ml-textbtn ml-replaylink" onClick={() => replay.onSee(g.id)}>
+                    <Play size={14} strokeWidth={2.4} aria-hidden="true" />{replay.label}
+                  </button>
+                ) : null}
               </div>
             </li>
           );

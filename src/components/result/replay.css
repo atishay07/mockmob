@@ -1,0 +1,297 @@
+/* Replay (Replay.jsx), the first block of the Mistake Lab's Find step, and the question strip in each answer's
+   "Your time and picks". Arena tokens, so Day and Night both work. Result tones match Time and decisions; colour
+   always travels with a word (the legend, the opened question) or a shape (dot, ring, flag, hatch). */
+
+.rpl, .rpl-strip {
+  /* Night */
+  --rpl-stage: var(--a-sunken, #0f1512);
+  --rpl-track: rgba(244, 245, 240, 0.05);
+  --rpl-right: #a9d96c;
+  --rpl-wrong: #ff8f82;
+  --rpl-blank: #4b5948;
+  --rpl-label: #0b100e;
+  --rpl-label-blank: #e4e9df;
+  --rpl-dot: #f2f4ec;
+  --rpl-flag: var(--a-warn-text, #e0b93f);
+  --rpl-head: #d2f000;
+  --rpl-veil: rgba(15, 21, 18, 0.76);
+  --rpl-tick: rgba(244, 245, 240, 0.16);
+  --rpl-tick-major: rgba(244, 245, 240, 0.32);
+  --rpl-hatch: rgba(244, 245, 240, 0.3);
+  --rpl-held-dot: var(--a-ink-3, #93a08f);
+  --rpl-cell: rgba(244, 245, 240, 0.07);
+  --rpl-ease: var(--a-ease, cubic-bezier(0.16, 1, 0.3, 1));
+}
+html[data-theme='light'] :is(.rpl, .rpl-strip) {
+  --rpl-track: rgba(23, 32, 22, 0.06);
+  --rpl-right: #8cc04a;
+  --rpl-wrong: #ef8679;
+  --rpl-blank: #c5ccbb;
+  --rpl-label: #172016;
+  --rpl-label-blank: #2a3527;
+  --rpl-dot: #172016;
+  --rpl-flag: #9a6500;
+  --rpl-head: #4f6400;
+  --rpl-veil: rgba(238, 240, 232, 0.8);
+  --rpl-tick: rgba(23, 32, 22, 0.18);
+  --rpl-tick-major: rgba(23, 32, 22, 0.36);
+  --rpl-hatch: rgba(23, 32, 22, 0.32);
+  --rpl-held-dot: #56624f;
+  --rpl-cell: rgba(23, 32, 22, 0.08);
+}
+
+.rpl { display: grid; gap: 14px; min-width: 0; scroll-margin-top: 96px; }
+.rpl :is(p, h4, ul) { margin: 0; }
+.rpl-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; }
+.rpl-head p { font-size: 13px !important; color: var(--a-ink-3, #93a08f) !important; }
+
+/* ---------- The stage: the player, the answer map and the grid on one sunken ground ---------- */
+.rpl-stage {
+  display: grid; gap: 12px; min-width: 0; padding: 14px 16px 10px; border-radius: 16px;
+  border: 1px solid var(--a-line, #253026); background: var(--rpl-stage);
+}
+
+.rpl-player { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; min-width: 0; }
+.rpl-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px 0 14px;
+  border-radius: 999px; border: 1px solid var(--a-line-strong, #384736); background: var(--a-raised, #131a16);
+  color: var(--a-ink, #f2f4ec); font: 650 14px/1 var(--font-display, inherit); cursor: pointer;
+}
+.rpl-btn:hover:not(:disabled) { border-color: var(--a-line-hover, rgba(244, 245, 240, 0.32)); }
+.rpl-btn:disabled { color: var(--a-ink-4, #7f8b7b); cursor: default; }
+.rpl-btn:focus-visible, .rpl-now:focus-visible, .rpl-chip:focus-visible, .rpl-panel__close:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+.rpl-play { border-color: var(--a-volt-line, rgba(210, 240, 0, 0.5)); }
+.rpl-play svg { color: var(--a-accent-text, #d2f000); }
+.rpl-play[data-on] { background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); }
+.rpl-stepper { display: flex; gap: 8px; }
+
+.rpl-clock { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.rpl-clock__time {
+  min-width: 4.2ch; font: 750 28px/1 var(--font-display, inherit); letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums; color: var(--a-ink, #f2f4ec);
+}
+.rpl[data-playing] .rpl-clock__time { color: var(--a-accent-text, #d2f000); }
+.rpl-now {
+  min-height: 32px; min-width: 48px; padding: 0 10px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--a-volt-line, rgba(210, 240, 0, 0.5)); background: var(--a-volt-wash, rgba(210, 240, 0, 0.07));
+  color: var(--a-ink, #f2f4ec); font: 700 13px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums;
+}
+/* A 44 px touch target around the 32 px chip. */
+.rpl-now { position: relative; }
+.rpl-now::after { content: ''; position: absolute; inset: -6px -2px; }
+/* Paragraphs here outrank the Lab's own step paragraph styles (.srl-step p). */
+.rpl .rpl-endline { margin-left: auto; font-size: 13px; line-height: 1.4; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+.rpl .rpl-endline[data-lit] { color: var(--a-ink-2, #bcc5b9); }
+
+/* The scrubber: a native range input, so keyboard, touch and screen readers work as they always do. */
+.rpl-scrub {
+  -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 32px; margin: -4px 0; padding: 0;
+  background: transparent; cursor: pointer; touch-action: pan-y;
+}
+.rpl-scrub:focus { outline: none; }
+.rpl-scrub::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 999px;
+  background: linear-gradient(to right, var(--rpl-head) 0 var(--p, 100%), var(--rpl-track) var(--p, 100%) 100%);
+}
+.rpl-scrub::-moz-range-track { height: 4px; border-radius: 999px; background: var(--rpl-track); }
+.rpl-scrub::-moz-range-progress { height: 4px; border-radius: 999px; background: var(--rpl-head); }
+.rpl-scrub::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 18px; height: 18px; margin-top: -7px; border-radius: 50%;
+  background: var(--rpl-head); border: 3px solid var(--rpl-stage); box-shadow: 0 0 0 1px var(--a-volt-line, rgba(210, 240, 0, 0.5));
+}
+.rpl-scrub::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%; background: var(--rpl-head); border: 3px solid var(--rpl-stage);
+  box-shadow: 0 0 0 1px var(--a-volt-line, rgba(210, 240, 0, 0.5));
+}
+.rpl-scrub:focus-visible::-webkit-slider-thumb { box-shadow: 0 0 0 2px var(--rpl-stage), 0 0 0 4px var(--a-focus, #d2f000); }
+.rpl-scrub:focus-visible::-moz-range-thumb { box-shadow: 0 0 0 2px var(--rpl-stage), 0 0 0 4px var(--a-focus, #d2f000); }
+
+/* ---------- The mini answer map: one cell a question, filling as the clock runs ---------- */
+.rpl-map { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 8px; }
+.rpl-map__end { font: 600 11px/1 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+.rpl-map__cells { display: flex; gap: 2px; height: 14px; min-width: 0; }
+.rpl-cell { flex: 1 1 0; min-width: 0; max-width: 28px; border-radius: 2px; background: var(--rpl-cell); }
+.rpl-cell[data-s='open'] { background: transparent; box-shadow: inset 0 0 0 1px var(--a-ink-3, #93a08f); }
+.rpl-cell[data-s='ans'] { background: var(--a-ink-2, #bcc5b9); }
+.rpl-cell[data-s='right'] { background: var(--rpl-right); }
+.rpl-cell[data-s='wrong'] { background: var(--rpl-wrong); }
+.rpl-cell[data-s='blank'] { background: var(--rpl-blank); }
+.rpl-cell[data-s='held'] { background: radial-gradient(circle, var(--rpl-held-dot) 0 0.9px, transparent 1.2px) 0 0 / 4px 4px; box-shadow: inset 0 0 0 1px var(--a-line-strong, #384736); }
+.rpl-cell[data-s='never'] { background: repeating-linear-gradient(135deg, var(--rpl-hatch) 0 1.5px, transparent 1.5px 4px); box-shadow: inset 0 0 0 1px var(--a-line, #253026); }
+.rpl-cell[data-now] { box-shadow: 0 0 0 1.5px var(--rpl-head); transform: translateY(-2px); }
+.rpl-cell[data-sel] { box-shadow: 0 0 0 1.5px var(--a-ink, #f2f4ec); }
+.rpl-cell[data-dim] { opacity: 0.22; }
+.rpl-cell[data-on] { box-shadow: 0 0 0 1.5px var(--rpl-head); }
+
+/* ---------- The grid ---------- */
+.rpl-grid { display: grid; gap: 6px; min-width: 0; }
+.rpl-row { display: grid; gap: 0; min-width: 0; }
+.rpl-row__plot { position: relative; min-width: 0; }
+.rpl-row__plot svg { display: block; overflow: visible; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.rpl .rpl-row__end { font-size: 12.5px; line-height: 1.45; color: var(--a-ink-4, #7f8b7b); font-variant-numeric: tabular-nums; max-width: none; }
+.rpl .rpl-row__end .ml-num { color: inherit; font-weight: 650; }
+.rpl .rpl-row__end:not([data-lit]) { opacity: 0.5; }
+.rpl .rpl-row__end[data-lit] { color: var(--a-ink-3, #93a08f); }
+.rpl .rpl-row__end[data-lit] .ml-num { color: var(--a-ink, #f2f4ec); }
+
+.rpl-track { fill: var(--rpl-track); }
+.rpl-tick { stroke: var(--rpl-tick); stroke-width: 1; }
+.rpl-tick[data-major] { stroke: var(--rpl-tick-major); }
+.rpl-hatch__ground, .rpl-dots__ground { fill: var(--rpl-stage); }
+.rpl-hatch__line { stroke: var(--rpl-hatch); stroke-width: 1.6; }
+.rpl-dots__dot { fill: var(--rpl-held-dot); }
+
+.rpl-bar__fill { fill: var(--rpl-blank); }
+.rpl-bar[data-r='right'] .rpl-bar__fill { fill: var(--rpl-right); }
+.rpl-bar[data-r='wrong'] .rpl-bar__fill { fill: var(--rpl-wrong); }
+.rpl-bar[data-r='held'] .rpl-bar__fill { stroke: var(--a-line-strong, #384736); stroke-width: 1; }
+.rpl-bar__q { font: 700 10px/1 var(--font-display, inherit); fill: var(--rpl-label); pointer-events: none; font-variant-numeric: tabular-nums; }
+.rpl-bar:is([data-r='blank'], [data-r='held']) .rpl-bar__q { fill: var(--rpl-label-blank); }
+.rpl-bar__ring { fill: none; stroke: transparent; stroke-width: 2; }
+.rpl-bar[data-sel] .rpl-bar__ring { stroke: var(--a-ink, #f2f4ec); }
+.rpl-bar[data-on] .rpl-bar__ring { stroke: var(--rpl-head); stroke-width: 1.6; }
+.rpl-bar[data-hover] .rpl-bar__fill { filter: brightness(1.12); }
+html[data-theme='light'] .rpl-bar[data-hover] .rpl-bar__fill { filter: brightness(0.94); }
+.rpl-bar[data-dim] { opacity: 0.16; }
+.rpl-gap { stroke: none; }
+.rpl-flag { fill: var(--rpl-flag); stroke: var(--rpl-flag); stroke-width: 1.4; stroke-linejoin: round; }
+.rpl-pick__dot { fill: var(--rpl-dot); stroke: var(--rpl-stage); stroke-width: 1.6; }
+.rpl-pick[data-cleared] .rpl-pick__dot { fill: var(--rpl-stage); stroke: var(--rpl-dot); stroke-width: 1.4; }
+.rpl-pick__ring { fill: none; stroke: var(--rpl-dot); stroke-width: 1.4; }
+.rpl-end line { stroke: var(--a-ink, #f2f4ec); stroke-width: 1.5; }
+.rpl-end rect { fill: var(--a-ink, #f2f4ec); }
+.rpl-away path { fill: none; stroke: var(--a-ink-3, #93a08f); stroke-width: 1; }
+.rpl-away text { font: 600 10.5px/1 var(--font-body, inherit); fill: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
+
+/* What moves with the clock. */
+.rpl-veil { fill: var(--rpl-veil); pointer-events: none; }
+.rpl-head line { stroke: var(--rpl-head); stroke-width: 2; stroke-linecap: round; }
+.rpl-head circle { fill: var(--rpl-head); }
+.rpl-head { filter: drop-shadow(0 0 4px rgba(210, 240, 0, 0.55)); pointer-events: none; }
+html[data-theme='light'] .rpl-head { filter: none; }
+.rpl-nowring { fill: none; stroke: var(--rpl-head); stroke-width: 1.6; pointer-events: none; }
+
+/* ---------- The legend, the chips ---------- */
+.rpl-legend { display: flex; flex-wrap: wrap; gap: 4px 14px; padding: 2px 0 0; list-style: none; font-size: 12px; line-height: 1.4; color: var(--a-ink-3, #93a08f); }
+.rpl-legend li { display: inline-flex; align-items: center; gap: 6px; }
+.rpl-legend svg { flex: none; overflow: visible; }
+.rpl-legend__sw { fill: var(--rpl-blank); }
+.rpl-legend__sw[data-r='right'] { fill: var(--rpl-right); }
+.rpl-legend__sw[data-r='wrong'] { fill: var(--rpl-wrong); }
+.rpl-legend__sw[data-r='held'] { fill: var(--rpl-stage); stroke: var(--rpl-held-dot); stroke-width: 1; stroke-dasharray: 1.5 1.5; }
+
+.rpl-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.rpl-chip {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink-2, #bcc5b9);
+  font: 600 13.5px/1.2 var(--font-body, inherit);
+}
+.rpl-chip b { font: 700 13px/1 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
+.rpl-chip:hover { border-color: var(--a-line-hover, rgba(244, 245, 240, 0.32)); color: var(--a-ink, #f2f4ec); }
+.rpl-chip[aria-pressed='true'] { border-color: var(--a-volt-line, rgba(210, 240, 0, 0.5)); background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); color: var(--a-ink, #f2f4ec); }
+
+/* Group swatches, the same fills and patterns as the ledger. */
+.rpl-sw { flex: none; width: 12px; height: 12px; border-radius: 3px; background: var(--a-line-strong, #384736); }
+.rpl-sw[data-g='changed_from_right'] { background: var(--a-warn-text, #e0b93f); }
+html[data-theme='light'] .rpl-sw[data-g='changed_from_right'] { background: #c08000; }
+.rpl-sw[data-g='struck_key'] { background: repeating-linear-gradient(45deg, rgba(11, 16, 14, 0.45) 0 1.5px, transparent 1.5px 6px), var(--a-purple-text, #c4b5fd); }
+html[data-theme='light'] .rpl-sw[data-g='struck_key'] { background: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.5) 0 1.5px, transparent 1.5px 6px), var(--a-purple-text, #5b3a9a); }
+.rpl-sw[data-g='long_stay'] { background: repeating-linear-gradient(135deg, rgba(11, 16, 14, 0.45) 0 2px, transparent 2px 5px), var(--a-bad-text, #ff9d92); }
+.rpl-sw[data-g='quick_wrong'] { background: var(--a-bad-text, #ff9d92); }
+.rpl-sw[data-g='never_opened'] { background: repeating-linear-gradient(135deg, var(--rpl-hatch) 0 2px, transparent 2px 6px), #5f6a5b; }
+html[data-theme='light'] .rpl-sw[data-g='never_opened'] { background: repeating-linear-gradient(135deg, var(--rpl-hatch) 0 2px, transparent 2px 6px), #9aa392; }
+.rpl-sw[data-g='other_wrong'] { background: #c9604f; }
+html[data-theme='light'] .rpl-sw[data-g='other_wrong'] { background: #7a1d15; }
+.rpl-sw[data-g='other_blank'] { background: var(--a-ink-3, #93a08f); }
+.rpl-sw[data-g='held'] { background: radial-gradient(circle, var(--rpl-held-dot) 0 1px, transparent 1.4px) 0 0 / 4px 4px; box-shadow: inset 0 0 0 1px var(--a-line-strong, #384736); }
+
+/* ---------- The opened question, below the grid ---------- */
+.rpl-panel {
+  display: grid; gap: 10px; min-width: 0; padding: 14px 16px; border-radius: 14px; scroll-margin-bottom: 24px;
+  border: 1px solid var(--a-line-strong, #384736); background: var(--a-sunken, #0f1512);
+}
+.rpl-panel__head { display: grid; grid-template-columns: minmax(0, 1fr) 44px; align-items: start; gap: 8px; min-width: 0; }
+.rpl-panel__title { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; min-width: 0; padding-top: 4px; }
+.rpl-panel__q { font: 750 20px/1 var(--font-display, inherit); letter-spacing: -0.01em; color: var(--a-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
+.rpl-panel__verdict { font: 650 14px/1.3 var(--font-display, inherit); color: var(--a-ink-2, #bcc5b9); }
+.rpl-panel__verdict[data-r='right'] { color: var(--a-good-text, #b6e36e); }
+.rpl-panel__verdict[data-r='wrong'] { color: var(--a-bad-text, #ff9d92); }
+.rpl-panel__group { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; line-height: 1.3; color: var(--a-ink-2, #bcc5b9); }
+.rpl-panel__close {
+  width: 44px; height: 44px; margin: -6px -10px -6px 0; display: grid; place-items: center;
+  border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-3, #93a08f); cursor: pointer;
+}
+.rpl-panel__close:hover { color: var(--a-ink, #f2f4ec); background: var(--a-hover, rgba(244, 245, 240, 0.04)); }
+.rpl-panel__lines { display: grid; gap: 6px; padding: 0; list-style: none; }
+.rpl-panel__lines li { position: relative; padding-left: 14px; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; max-width: 68ch; }
+.rpl-panel__lines li::before { content: ''; position: absolute; left: 0; top: 0.68em; width: 5px; height: 5px; border-radius: 50%; background: var(--a-ink-3, #93a08f); }
+.rpl-panel__lines li:first-child::before { background: var(--a-accent-text, #d2f000); }
+
+/* ---------- The question strip (the opened question here, and each answer's "Your time and picks") ---------- */
+.rpl-strip { display: grid; gap: 2px; min-width: 0; padding: 2px 0 0; }
+.rpl-strip__plot { height: 26px; min-width: 0; }
+.rpl-strip__plot svg { display: block; overflow: visible; }
+.rpl-strip__visit { fill: var(--rpl-blank); }
+.rpl-strip__visit[data-r='right'] { fill: var(--rpl-right); }
+.rpl-strip__visit[data-r='wrong'] { fill: var(--rpl-wrong); }
+.rpl-strip__after { fill: var(--a-line, #253026); opacity: 0.55; }
+.rpl-strip__end { stroke: var(--a-ink, #f2f4ec); stroke-width: 1.4; }
+.rpl-strip .rpl-pick__dot { stroke: var(--a-sunken, #0f1512); }
+.rpl-strip__axis { display: flex; justify-content: space-between; font-size: 11px; line-height: 1.2; color: var(--a-ink-4, #7f8b7b); font-variant-numeric: tabular-nums; }
+.rp-td .rpl-strip { margin: 2px 0 4px; }
+
+/* ---------- The three facts and the fine lines ---------- */
+.rpl-facts { display: grid; gap: 0; padding: 0; list-style: none; border-top: 1px solid var(--a-line, #253026); }
+.rpl-facts li {
+  position: relative; padding: 11px 0 11px 22px; border-bottom: 1px solid var(--a-line, #253026);
+  font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums;
+}
+.rpl-facts li::before {
+  content: ''; position: absolute; left: 2px; top: 1.15em; width: 8px; height: 8px; border-radius: 2px;
+  background: var(--a-accent-text, #d2f000); transform: rotate(45deg);
+}
+.rpl-fines { display: grid; gap: 2px; }
+.rpl .rpl-fines p { font-size: 12px; line-height: 1.55; color: var(--a-ink-3, #93a08f); max-width: 76ch; }
+
+/* ---------- Phones: the replay takes the width under the step number too, so a row is as wide as it can be ---------- */
+@media (max-width: 640px) {
+  /* Over the step's connecting line, on the Lab's own ground. */
+  .srl-step .rpl { position: relative; z-index: 1; margin-left: -38px; background: var(--a-raised, #131a16); }
+  .rpl-stage { padding: 12px 12px 8px; border-radius: 14px; }
+  /* Chips stay on one line and scroll inside their own row; the page itself never scrolls sideways. */
+  .rpl-chips { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 -12px 0 0; padding: 2px 12px 2px 2px; }
+  .rpl-chips::-webkit-scrollbar { display: none; }
+  .rpl-chip { flex: none; }
+  .rpl-clock__time { font-size: 24px; }
+  .rpl .rpl-endline { flex-basis: 100%; margin: -4px 0 0; }
+  .rpl-panel { padding: 12px 14px; }
+  .rpl-facts li { font-size: 14px; }
+}
+
+/* ---------- Motion. Everything is in place without it. ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* The rows sweep in left to right, one after the other, the first time the replay is on screen. */
+  .rpl:not([data-in]) .rpl-row__plot { clip-path: inset(0 100% 0 0); }
+  /* backwards: hidden while each row waits its turn, and no clip or opacity is left behind once it has landed. */
+  .rpl[data-in] .rpl-row__plot { animation: rpl-sweep 720ms var(--rpl-ease) backwards; animation-delay: calc(var(--r, 0) * 90ms); }
+  .rpl:not([data-in]) .rpl-row__end { opacity: 0; }
+  .rpl[data-in] .rpl-row__end { animation: rpl-fade 260ms var(--rpl-ease) backwards; animation-delay: calc(var(--r, 0) * 90ms + 420ms); }
+  .rpl-bar { transition: opacity 180ms var(--rpl-ease); }
+  .rpl-row__end, .rpl-endline { transition: color 220ms var(--rpl-ease), opacity 220ms var(--rpl-ease); }
+  .rpl-row__end .ml-num { transition: color 220ms var(--rpl-ease); }
+  .rpl-cell { transition: opacity 180ms var(--rpl-ease), transform 140ms var(--rpl-ease), box-shadow 140ms var(--rpl-ease); }
+  /* At the end of a play the map settles into each final result, left to right. */
+  .rpl-map[data-settled] .rpl-cell { transition: background-color 260ms var(--rpl-ease) calc(var(--i, 0) * 12ms), opacity 180ms var(--rpl-ease), transform 140ms var(--rpl-ease); }
+  .rpl-clock__time { transition: color 200ms var(--rpl-ease); }
+  .rpl-btn, .rpl-chip { transition: border-color 150ms var(--rpl-ease), background-color 150ms var(--rpl-ease), transform 100ms var(--rpl-ease); }
+  :is(.rpl-btn, .rpl-chip, .rpl-now):active { transform: scale(0.96); }
+  .rpl-panel { animation: rpl-open 200ms var(--rpl-ease) both; }
+  .rpl[data-arrived] .rpl-chip[aria-pressed='true'] { animation: rpl-arrive 1200ms var(--rpl-ease); }
+}
+html[data-motion='reduced'] :is(.rpl, .rpl-strip) *, html[data-motion='reduced'] .rpl { animation: none !important; transition: none !important; }
+html[data-motion='reduced'] .rpl .rpl-row__plot { clip-path: none !important; }
+html[data-motion='reduced'] .rpl .rpl-row__end { opacity: 1 !important; }
+@keyframes rpl-sweep { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes rpl-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rpl-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@keyframes rpl-arrive { 0% { box-shadow: 0 0 0 0 rgba(210, 240, 0, 0.5); } 100% { box-shadow: 0 0 0 10px rgba(210, 240, 0, 0); } }

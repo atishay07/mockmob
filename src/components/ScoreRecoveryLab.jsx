@@ -6,9 +6,11 @@
 // (result/MarksLedger.jsx) replaces the old three-colour bar, its legend and the 6-marks rule, and Find's old
 // observation cards are left out (the ledger states the same facts with marks). Without `lab` (an older server, a
 // failed step, answer checks not ready) the bar and legend show exactly as before.
-// Find always holds "Time and decisions" (data/time_decisions.js): the paper's pace, where the time went and
-// every answer change with its clock times. Its chapter list is left out while the result page shows the SWOT,
-// which already reads the chapters.
+// Find opens with the Replay (result/Replay.jsx, from the server's lab.replay): the paper as a clock you can scrub,
+// with the ledger's groups as its filter chips; each ledger row's "See it in the replay" opens it with that chip on.
+// Without lab.replay (an old record, an older server) Find is exactly as before. Find always holds "Time and
+// decisions" (data/time_decisions.js): the paper's pace, where the time went and every answer change with its clock
+// times. Its chapter list is left out while the result page shows the SWOT, which already reads the chapters.
 import { useEffect, useId, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
@@ -17,6 +19,7 @@ import { TIME_COPY } from '@/../data/time_decisions';
 import MistakeLessonLink from './study/MistakeLessonLink';
 import TimeDecisions from './result/TimeDecisions';
 import MarksLedger from './result/MarksLedger';
+import Replay from './result/Replay';
 
 // Adds data-in once the Lab scrolls into view, so its bars grow when the student actually sees them.
 function useInView() {
@@ -112,6 +115,14 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
   const [expanded, setExpanded] = useState(false);
   const findId = useId();
   const changesId = `${useId()}-changes`;
+  // The Replay, and the ledger's way into it: each new focus turns that group's chip on and brings the Replay in.
+  const replay = lab?.replay?.rows?.length ? lab.replay : null;
+  const [replayFocus, setReplayFocus] = useState(null);
+  const seeReplay = replay ? {
+    label: replay.labels?.seeInReplay,
+    ids: new Set((replay.chips || []).filter((c) => c.id !== 'all' && c.count).map((c) => c.id)),
+    onSee: (chip) => setReplayFocus((f) => ({ chip, n: (f?.n || 0) + 1 })),
+  } : null;
 
   return (
     <section ref={ref} className="srl" data-in={inView || undefined} aria-labelledby="srl-title">
@@ -120,7 +131,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
         <h2 id="srl-title">{lab?.heading ? lab.heading : marks.gap ? <>You missed {marks.gap} marks. Here’s where they went.</> : 'You didn’t miss a mark this session.'}</h2>
       </header>
 
-      {ledger ? <MarksLedger lab={ledger} attemptId={attempt.id} onJump={onJump} changesId={timeRead?.state === 'ready' ? changesId : null} />
+      {ledger ? <MarksLedger lab={ledger} attemptId={attempt.id} onJump={onJump} changesId={timeRead?.state === 'ready' ? changesId : null} replay={seeReplay} />
       : marks.gap ? <>
         <div className="srl-bar" role="img" aria-label={`${Math.max(marks.scored, 0)} of ${marks.max} marks scored. ${marks.gapWrong} lost to wrong answers, ${marks.gapBlank} left on blanks.`}>
           <span className="srl-bar__seg" data-kind="scored" style={{ width: pct(Math.max(marks.scored, 0)) }} />
@@ -140,6 +151,8 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
           <div className="srl-step__num" aria-hidden="true">1</div>
           <div className="srl-step__main srl-find" id={findId} data-expanded={expanded}>
             <div className="srl-step__head"><h3>Find</h3><p>{swotShown ? TIME_COPY.sub : 'Which chapters cost you, and why'}</p></div>
+            {replay ? <Replay replay={replay} lab={lab} timeRead={timeRead} onJump={onJump} focus={replayFocus} /> : null}
+            {replay && swotShown ? <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4> : null}
             {swotShown ? null : <>
               {chapters.length ? (
                 <ul className="srl-chapters">
