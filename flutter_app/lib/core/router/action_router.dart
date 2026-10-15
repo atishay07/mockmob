@@ -1,3 +1,4 @@
+import '../pattern/paper_pattern.dart' show PaperFormat;
 import 'routes.dart';
 
 /// Where a web `href` from the API (spec 4.3, [API §2.4]) should go.
@@ -87,6 +88,7 @@ abstract final class ActionRouter {
   static final RegExp _word = RegExp(r'^[a-z][a-z0-9_-]{0,23}$');
   static final RegExp _subject = RegExp(r'^[A-Za-z0-9_.-]{1,64}$');
   static final RegExp _count = RegExp(r'^\d{1,3}$');
+  static final RegExp _date = RegExp(r'^\d{4}-\d{2}-\d{2}$');
 
   /// A whole number from 1 to 999: a repair's `count`, a question number.
   static final RegExp _positive = RegExp(r'^[1-9]\d{0,2}$');
@@ -164,13 +166,19 @@ abstract final class ActionRouter {
 
     switch (s.first) {
       case 'today':
-        if (s.length == 1) return AppRoutes.today;
+        // The website opens Week in review as a sheet over Today (`RhythmCard`).
+        if (s.length == 1) return q['sheet'] == 'week-review' ? _weekReview(q) : AppRoutes.today;
       case 'dashboard':
         if (s.length == 1) {
           final mode = q['mode'];
           if (mode == null) return AppRoutes.today;
           return _setup(mode, q);
         }
+        // Your chapters is served from `/dashboard/chapters` on the website.
+        if (s.length == 2 && s[1] == 'chapters') return _chapters(q);
+      case 'practice':
+        // The website's `/practice/chapters?subject=` (a rewrite of `/dashboard/chapters`).
+        if (s.length == 2 && s[1] == 'chapters') return _chapters(q);
       case 'test':
         if (s.length == 1) {
           final sessionId = q['sessionId'];
@@ -222,6 +230,8 @@ abstract final class ActionRouter {
   ///  - `/practice/setup/:mode` and `/practice/start`: `mode` and what `PracticeLink.of` reads
   ///  - `/practice/stream`: subject, chapter, difficulty, or `source=saved` with `start`
   ///  - `/exam/nta`: `subject`
+  ///  - `/practice/chapters/:subject`: a well-formed subject in the path, no query
+  ///  - `/today/week-review`: `week` (the week's Monday, `YYYY-MM-DD`)
   static String? _nativeWithQuery(List<String> s, String path, Map<String, String> q) {
     if (s.length == 3 && s[0] == 'practice' && s[1] == 'setup') {
       // A mode this table cannot read keeps the bare route, as it always did.
@@ -229,6 +239,9 @@ abstract final class ActionRouter {
     }
     if (path == AppRoutes.practiceStart) return _start(q);
     if (path == AppRoutes.practiceStream) return _stream(q);
+    // A subject in the path: letters, digits, `_` and `-` only (no dots, no slashes).
+    if (s.length == 3 && s[0] == 'practice' && s[1] == 'chapters') return _id.hasMatch(s[2]) ? path : _reject;
+    if (path == AppRoutes.todayWeekReview) return _weekReview(q);
     if (path == AppRoutes.examNta) {
       final subject = q['subject'];
       return _withParams(path, {if (subject != null && _subject.hasMatch(subject)) 'subject': subject});
@@ -269,7 +282,8 @@ abstract final class ActionRouter {
   }
 
   /// What a practice link may ask for, each value checked: the parameters `PracticeLink.of`
-  /// reads (subject, chapter or chapters, count, difficulty, purpose, recoveryFrom).
+  /// reads (subject, chapter or chapters, count, difficulty, purpose, recoveryFrom) and the
+  /// format drill (`format`, a [PaperFormat] id).
   static Map<String, dynamic> _practiceParams(String mode, Map<String, String> q) {
     final params = <String, dynamic>{};
     final subject = q['subject'];
@@ -294,7 +308,24 @@ abstract final class ActionRouter {
     if (mode == 'chapter' && recoveryFrom != null && _id.hasMatch(recoveryFrom)) {
       params['recoveryFrom'] = recoveryFrom;
     }
+    // A format drill ("Drill 5 sequence questions"): only the formats the app knows.
+    final format = q['format'];
+    if (PaperFormat.byId(format) != null) params['format'] = format;
     return params;
+  }
+
+  /// Your chapters for `subject`; without one, Practice (where the chapters link lives).
+  static String? _chapters(Map<String, String> q) {
+    final subject = q['subject'];
+    if (subject == null) return AppRoutes.practice;
+    // The subject becomes a path segment: no dots, so it can never step out of the route.
+    return _id.hasMatch(subject) && subject.length <= 64 ? AppRoutes.practiceChapters(subject) : _reject;
+  }
+
+  /// Week in review, of the week whose Monday is `week` when that is a well-formed date.
+  static String _weekReview(Map<String, String> q) {
+    final week = q['week'];
+    return week != null && _date.hasMatch(week) ? AppRoutes.todayWeekReviewOf(week) : AppRoutes.todayWeekReview;
   }
 
   static String? _setup(String mode, Map<String, String> q) {

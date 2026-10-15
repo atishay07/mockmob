@@ -83,7 +83,7 @@ void main() {
       await _pump(
         tester,
         Wrap(children: [
-          for (final s in [...SubjectIdentity.subjects.map((s) => s.id), 'hindi', 'fine_arts'])
+          for (final s in [...SubjectIdentity.subjects.map((s) => s.id), 'hindi', 'film_arts'])
             for (final size in const [24.0, 56.0, 112.0]) ...[
               SubjectEmblem(subject: s, size: size),
               SubjectEmblem(subject: s, size: size, marked: false, framed: false),
@@ -329,7 +329,7 @@ void main() {
   });
 
   testWidgets('a subject without an object shows its initials on a printed card, with a volt tick', (tester) async {
-    await _pump(tester, const SubjectEmblem(subject: 'fine_arts', size: 72, marked: true));
+    await _pump(tester, const SubjectEmblem(subject: 'film_arts', size: 72, marked: true));
     expect(find.text('FA'), findsOneWidget);
     final art = EmblemArt.monogram;
     expect(art.overlaysText, isTrue);

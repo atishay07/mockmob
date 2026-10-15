@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "about": "MockMob motion tokens, one source for the app and the website. The app reads them through flutter_app/tool/gen_motion_tokens.py (lib/core/motion/motion_tokens.g.dart); the website through scripts/gen-motion-tokens.mjs (src/app/motion-kit.css). Durations are milliseconds, distances logical px (dp on the phone, CSS px on the web), curves are the four control values of a CSS cubic-bezier, springs are a settle duration and a bounce (SwiftUI and Flutter SpringDescription.withDurationAndBounce). Only transform and opacity animate. Reduced motion replaces movement with a fade of durations.reducedFade.",
+  "durations": {
+    "glide": 300,
+    "exit": 200,
+    "emphasized": 420,
+    "sweep": 700,
+    "engrave": 280,
+    "numberRoll": 500,
+    "numberInk": 300,
+    "ink": 260,
+    "crossFade": 200,
+    "press": 100,
+    "release": 140,
+    "ui": 200,
+    "card": 240,
+    "result": 320,
+    "milestone": 500,
+    "tabSwitch": 180,
+    "pagePop": 220,
+    "runner": 160,
+    "sheetOut": 240,
+    "reducedFade": 120,
+    "staggerStep": 45,
+    "enter": 360,
+    "fadeThroughOut": 90,
+    "fadeThroughIn": 210,
+    "countUp": 720,
+    "shimmerSweep": 1400,
+    "shimmerRest": 250,
+    "leave": 180,
+    "momentT2": 1200,
+    "momentT3": 2000,
+    "handOffOut": 180,
+    "handOffIn": 300,
+    "drawIn": 450
+  },
+  "curves": {
+    "glide": [0.15, 0.5, 0.5, 1],
+    "exit": [0.4, 0.3, 0.8, 0.6],
+    "emphasized": [0.16, 1, 0.3, 1],
+    "out": [0.23, 1, 0.32, 1],
+    "leave": [0.5, 0, 0.75, 0],
+    "sweep": [0.45, 0, 0.55, 1],
+    "drawer": [0.32, 0.72, 0, 1],
+    "inOut": [0.77, 0, 0.175, 1]
+  },
+  "springs": {
+    "smooth": { "ms": 360, "bounce": 0.12 },
+    "snappy": { "ms": 220, "bounce": 0 },
+    "dock": { "ms": 360, "bounce": 0.18 },
+    "settle": { "ms": 420, "bounce": 0 },
+    "release": { "ms": 300, "bounce": 0.1 },
+    "edgeLead": { "ms": 260, "bounce": 0.12 },
+    "edgeTrail": { "ms": 440, "bounce": 0.04 },
+    "iconPop": { "ms": 420, "bounce": 0.18 },
+    "celebrate": { "ms": 520, "bounce": 0.22 },
+    "toggle": { "ms": 240, "bounce": 0.14 },
+    "lift": { "ms": 300, "bounce": 0 }
+  },
+  "numbers": {
+    "pressedScale": 0.96,
+    "enterRise": 14,
+    "enterScale": 0.97,
+    "axisTravel": 28,
+    "recedeShare": 0.22,
+    "recedeScrim": 0.45,
+    "fadeThroughScale": 0.985,
+    "overlapRelease": 0.5,
+    "overlapFloor": 0.7
+  },
+  "counts": {
+    "staggerCap": 8,
+    "shimmerSweeps": 4
+  },
+  "transitions": {
+    "place": { "outMs": 90, "inMs": 200, "overlapStart": 0.22, "outTail": 0.1, "slide": 10, "drift": 6, "outCurve": "exit", "inCurve": "glide" },
+    "push": { "inMs": 300, "outMs": 220, "travel": 28, "fadeShare": 0.6, "curve": "glide", "reverseCurve": "exit", "recedeShare": 0.22, "recedeScrim": 0.45 },
+    "rise": { "inMs": 340, "outMs": 220, "travel": 24, "fromScale": 0.97, "fadeShare": 0.5, "curve": "emphasized" },
+    "container": { "inMs": 420, "outMs": 340, "corner": 24, "contentShare": 0.45, "curve": "emphasized" },
+    "fade": { "inMs": 160, "outMs": 160, "curve": "glide" },
+    "sheet": { "inMs": 420, "outMs": 240, "recedeScale": 0.97, "recedeDim": 0.35, "recedeDrop": 6, "curve": "emphasized" },
+    "reduced": { "inMs": 120, "outMs": 120 }
+  },
+  "haptics": {
+    "base": {
+      "tick": { "flutter": ["selectionClick"], "web": [8] },
+      "settle": { "flutter": ["lightImpact"], "web": [14] },
+      "open": { "flutter": ["mediumImpact"], "web": [22] },
+      "warn": { "flutter": ["lightImpact", 80, "lightImpact"], "web": [12, 80, 12] }
+    },
+    "verbs": {
+      "confirm": { "android": "CONFIRM", "minApi": 30, "fallback": ["mediumImpact", 90, "lightImpact"], "web": [18] },
+      "gestureStart": { "android": "GESTURE_START", "minApi": 30, "fallback": [], "web": [] },
+      "gestureEnd": { "android": "GESTURE_END", "minApi": 30, "fallback": [], "web": [] },
+      "segmentTick": { "android": "SEGMENT_TICK", "minApi": 34, "fallback": ["selectionClick"], "web": [8] },
+      "toggleOn": { "android": "TOGGLE_ON", "minApi": 34, "fallback": ["selectionClick"], "web": [12] },
+      "toggleOff": { "android": "TOGGLE_OFF", "minApi": 34, "fallback": ["selectionClick"], "web": [8] }
+    }
+  }
+}

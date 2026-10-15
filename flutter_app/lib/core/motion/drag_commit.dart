@@ -100,7 +100,8 @@ abstract final class MmDragPolicy {
 ///   or home ([MmDragSettle.back]). Below the threshold it springs home with the finger's velocity.
 /// - A side not in [left] / [right] rubber-bands at [MmDragPolicy.resist].
 /// - Crossing the threshold while dragging ticks a selection haptic, both ways, so the finger
-///   feels the point of no return.
+///   feels the point of no return. Picking the drag up and letting it go play Android's
+///   `GESTURE_START` and `GESTURE_END` where the phone has them (nothing on older phones).
 /// - Grabbing it mid-settle stops the spring and carries on from where it is.
 /// - [behind] paints under the child with the signed progress (-1 to 1 at the threshold), for the
 ///   reveal of a row ("Remove", "Saved"); it rebuilds per frame, keep it cheap.
@@ -223,10 +224,17 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
     }
   }
 
+  /// A claimed drag whose start has been felt, so its release is felt too.
+  bool _gesture = false;
+
   void _start() {
     _held = false;
     _x.stop();
     _raw = _travel;
+    if (widget.haptic) {
+      _gesture = true;
+      hapticsOf(context)?.gestureStart();
+    }
   }
 
   void _update(double dx) {
@@ -248,6 +256,7 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
   /// The pointer was taken away mid-drag: never a commit, the child springs home.
   void _cancel() {
     _past = false;
+    _gesture = false;
     if (!mounted) return;
     if (Motion.reduced(context)) {
       _x.value = 0;
@@ -257,6 +266,10 @@ class MmDragCommitState extends State<MmDragCommit> with SingleTickerProviderSta
   }
 
   void _end(double velocity) {
+    if (_gesture) {
+      _gesture = false;
+      hapticsOf(context)?.gestureEnd();
+    }
     final at = _x.value;
     final side = MmDragPolicy.commits(
       _travel,

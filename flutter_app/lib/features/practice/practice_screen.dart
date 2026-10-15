@@ -13,6 +13,8 @@ import '../../core/motion/motion.dart';
 import '../../core/router/app_shell.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../chapters/widgets/practice_link.dart';
+import '../formats/widgets/formats_row.dart';
 import '../runner/runner_routes.dart' show NtaRoutes;
 import 'copy.dart';
 import 'data/practice_catalog.dart';
@@ -309,6 +311,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                           onMore: others.isEmpty ? null : () => _pickOther(others),
                         ),
                       ),
+                      // Slot (feature wave 15 Oct): Your chapters, directly under the tiles. It
+                      // paints its own gap and is nothing at all when it has nothing to show.
+                      Padding(padding: gutter, child: ChaptersLink(subjectId: subject)),
                       const SizedBox(height: MmSpace.s16),
                       // One list entry for the subject line and the modes, so the modes are built
                       // with the subject line even when the page is long (large text, short phone).
@@ -388,6 +393,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                 ),
                               ],
                             ),
+                            // Slot (feature wave 15 Oct): Paper formats drills, in Choose your
+                            // own after the modes. It paints its own gap and is nothing at all
+                            // when the subject has no format to drill.
+                            FormatsRow(subjectId: subject),
                           ],
                         ),
                       ),

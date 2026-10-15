@@ -12,6 +12,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../insights/insights_routes.dart' show ReviewInsightsRows;
+import '../../revise/widgets/revise_section.dart';
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
@@ -240,6 +241,9 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           gutter(RecordEntry(item: records[i], clock: clock, first: i == 0, last: i == records.take(2).length - 1)),
         gutter(FlushKey(label: ReviewCopy.seeRecord, onPressed: () => context.push(AppRoutes.reviewRecord))),
       ],
+      // Slot (feature wave 15 Oct): Revise, above Past results. It paints its own gap and is
+      // nothing at all when there is nothing to revise.
+      item(belowAt, gutter(const ReviseSection())),
       if (mocks.isNotEmpty) ...[
         gutter(SectionHeading(ReviewCopy.pastHeading, rule: true), top: ReviewSpace.section),
         for (final a in mocks)

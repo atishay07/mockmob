@@ -51,6 +51,27 @@ const Map<String, String> _ids = {
   'computer_science_informatics_practices': 'computerscience',
   'cs': 'computerscience',
   ' PHYSICS ': 'physics',
+  // The thirteen subjects added on 15 Oct 2026, by the ids the API and the website use.
+  'environmental_studies': 'environmentalstudies',
+  'environmental_science': 'environmentalstudies',
+  'evs': 'environmentalstudies',
+  'mass_media': 'massmedia',
+  'mass_communication': 'massmedia',
+  'home_science': 'homescience',
+  'physical_education': 'physicaleducation',
+  'physical_education_yoga_sports': 'physicaleducation',
+  'legal_studies': 'legalstudies',
+  'knowledge_tradition_india': 'knowledgetradition',
+  'knowledge_tradition': 'knowledgetradition',
+  'anthropology': 'anthropology',
+  'fine_arts': 'finearts',
+  'visual_arts': 'finearts',
+  'Fine Arts': 'finearts',
+  'performing_arts': 'performingarts',
+  'engineering_graphics': 'engineeringgraphics',
+  'entrepreneurship': 'entrepreneurship',
+  'agriculture': 'agriculture',
+  'teaching_aptitude': 'teachingaptitude',
 };
 
 /// A bundle whose object renders are missing, as on a broken install: the manifest loads, every
@@ -109,6 +130,16 @@ void main() {
       expect(names, isNot(contains('language')));
     });
 
+    test('the thirteen subjects added on 15 Oct 2026 each wear an object of their own', () {
+      expect(SubjectIdentity.moreSubjects, hasLength(13));
+      final names = {for (final s in SubjectIdentity.moreSubjects) SubjectRender.of(s.id)!.name};
+      expect(names, hasLength(13));
+      // None shares a file with the fifteen or with the language notebook.
+      final first = {for (final s in SubjectIdentity.subjects) SubjectRender.of(s.id)!.name, 'language'};
+      expect(names.intersection(first), isEmpty);
+      expect(SubjectRender.all, hasLength(29));
+    });
+
     test('every CUET language paper except English shares the notebook', () {
       for (final id in languagePaperIds) {
         expect(SubjectRender.of(id), same(SubjectRender.language), reason: id);
@@ -120,12 +151,12 @@ void main() {
       for (final kind in EmblemKind.values) {
         expect(SubjectRender.forKind(kind) == null, kind == EmblemKind.other, reason: kind.name);
       }
-      expect(SubjectRender.of('fine_arts'), isNull);
+      expect(SubjectRender.of('film_arts'), isNull);
       expect(SubjectRender.of(null), isNull);
       expect(SubjectRender.of('  '), isNull);
     });
 
-    test('the sixteen files on disk are exactly the renders, at the sizes declared', () async {
+    test('the files on disk are exactly the renders, at the sizes declared', () async {
       final onDisk = Directory('assets/art')
           .listSync()
           .map((e) => e.uri.pathSegments.last)
@@ -191,7 +222,7 @@ void main() {
     });
 
     testWidgets('a subject without a render keeps its initials card', (tester) async {
-      await _pump(tester, const SubjectEmblem(subject: 'fine_arts', size: 56));
+      await _pump(tester, const SubjectEmblem(subject: 'film_arts', size: 56));
       expect(find.byType(Image), findsNothing);
       expect(_vector, findsOneWidget);
       expect(find.text('FA'), findsOneWidget);

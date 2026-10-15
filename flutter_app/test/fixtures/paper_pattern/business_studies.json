@@ -1,0 +1,331 @@
+{
+  "schemaVersion": 1,
+  "subject": "business_studies",
+  "blueprintVersion": "2026.10.13-1",
+  "sourceLine": "Based on the 2025 CUET paper and the NTA bulletin.",
+  "confidence": {
+    "units": "medium",
+    "chapters": "inferred",
+    "types": "medium"
+  },
+  "provisional2027": true,
+  "totalQuestions": 50,
+  "secondsPerQuestion": 72,
+  "variant": {
+    "id": "default",
+    "label": "Single paper"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper"
+    }
+  ],
+  "sections": [
+    {
+      "id": "main",
+      "label": "Whole paper",
+      "questions": 50
+    }
+  ],
+  "units": [
+    {
+      "name": "Nature and Significance of Management",
+      "section": "main",
+      "target": 4,
+      "range": [
+        3,
+        6
+      ]
+    },
+    {
+      "name": "Principles of Management",
+      "section": "main",
+      "target": 5,
+      "range": [
+        3,
+        6
+      ]
+    },
+    {
+      "name": "Business Environment",
+      "section": "main",
+      "target": 3,
+      "range": [
+        2,
+        5
+      ]
+    },
+    {
+      "name": "Planning",
+      "section": "main",
+      "target": 4,
+      "range": [
+        3,
+        6
+      ]
+    },
+    {
+      "name": "Organising",
+      "section": "main",
+      "target": 4,
+      "range": [
+        3,
+        6
+      ]
+    },
+    {
+      "name": "Staffing",
+      "section": "main",
+      "target": 4,
+      "range": [
+        3,
+        6
+      ]
+    },
+    {
+      "name": "Directing",
+      "section": "main",
+      "target": 6,
+      "range": [
+        4,
+        8
+      ]
+    },
+    {
+      "name": "Controlling",
+      "section": "main",
+      "target": 4,
+      "range": [
+        2,
+        5
+      ]
+    },
+    {
+      "name": "Business Finance",
+      "section": "main",
+      "target": 5,
+      "range": [
+        3,
+        7
+      ]
+    },
+    {
+      "name": "Financial Markets",
+      "section": "main",
+      "target": 3,
+      "range": [
+        0,
+        5
+      ]
+    },
+    {
+      "name": "Marketing",
+      "section": "main",
+      "target": 5,
+      "range": [
+        3,
+        6
+      ]
+    },
+    {
+      "name": "Consumer Protection",
+      "section": "main",
+      "target": 3,
+      "range": [
+        2,
+        5
+      ]
+    }
+  ],
+  "chapters": [
+    {
+      "name": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "section": "main",
+      "target": 4,
+      "range": [
+        3,
+        6
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Principles of Management",
+      "unit": "Principles of Management",
+      "section": "main",
+      "target": 5,
+      "range": [
+        3,
+        6
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Business Environment",
+      "unit": "Business Environment",
+      "section": "main",
+      "target": 3,
+      "range": [
+        2,
+        5
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Planning",
+      "unit": "Planning",
+      "section": "main",
+      "target": 4,
+      "range": [
+        3,
+        6
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Organising",
+      "unit": "Organising",
+      "section": "main",
+      "target": 4,
+      "range": [
+        3,
+        6
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Staffing",
+      "unit": "Staffing",
+      "section": "main",
+      "target": 4,
+      "range": [
+        3,
+        6
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Directing",
+      "unit": "Directing",
+      "section": "main",
+      "target": 6,
+      "range": [
+        4,
+        8
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Controlling",
+      "unit": "Controlling",
+      "section": "main",
+      "target": 4,
+      "range": [
+        2,
+        5
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Financial Management",
+      "unit": "Business Finance",
+      "section": "main",
+      "target": 5,
+      "range": [
+        3,
+        7
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Financial Markets",
+      "unit": "Financial Markets",
+      "section": "main",
+      "target": 3,
+      "range": [
+        0,
+        5
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Marketing Management",
+      "unit": "Marketing",
+      "section": "main",
+      "target": 5,
+      "range": [
+        3,
+        6
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "section": "main",
+      "target": 3,
+      "range": [
+        2,
+        5
+      ],
+      "excluded": false,
+      "aliases": []
+    }
+  ],
+  "excludedChapters": [
+    {
+      "name": "Entrepreneurship Development",
+      "reason": "Not in the CUET UG 2026 Business Studies syllabus (12 units)."
+    }
+  ],
+  "typeQuotas": {
+    "single_mcq": {
+      "target": 26,
+      "range": [
+        22,
+        30
+      ]
+    },
+    "match_the_following": {
+      "target": 5,
+      "range": [
+        3,
+        6
+      ]
+    },
+    "sequence_ordering": {
+      "target": 4,
+      "range": [
+        3,
+        6
+      ]
+    },
+    "statement_based": {
+      "target": 5,
+      "range": [
+        3,
+        6
+      ]
+    },
+    "assertion_reason": {
+      "target": 0,
+      "range": [
+        0,
+        2
+      ]
+    }
+  },
+  "numericalShare": null
+}

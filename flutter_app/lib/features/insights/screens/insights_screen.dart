@@ -10,6 +10,9 @@ import '../../../core/repositories/remote_state.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../chapters/widgets/record_row.dart';
+import '../../formats/widgets/formats_card.dart';
+import '../../leaks/widgets/leak_card.dart';
 import '../copy.dart';
 import '../data/evidence.dart';
 import '../data/insights_models.dart';
@@ -189,6 +192,10 @@ class InsightsScreen extends ConsumerWidget {
           children: [Divider(height: 1, color: context.mmColors.line), const SizedBox(height: MmSpace.s16), SectionTitle(title, caption: caption), child],
         );
     final chapters = <Widget>[
+      // Slots (feature wave 15 Oct): the Your chapters row above the Chapters section, then the
+      // Paper formats and Why marks leak cards after it. Each reads its own data, paints its own
+      // gap and is nothing at all when it has nothing true to show.
+      const ChaptersRecordRow(),
       if (v.ranked.isNotEmpty || v.thin.isNotEmpty) ...[
         gap,
         section(
@@ -202,6 +209,8 @@ class InsightsScreen extends ConsumerWidget {
           caption: InsightsCopy.chaptersCaption,
         ),
       ],
+      const FormatsCard(),
+      const LeakCard(),
     ];
 
     // The sessions are still loading: their sections hold their place.

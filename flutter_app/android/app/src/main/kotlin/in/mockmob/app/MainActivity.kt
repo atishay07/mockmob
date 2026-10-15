@@ -16,6 +16,7 @@ import android.window.SplashScreenView
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
+import `in`.mockmob.app.haptics.HapticsChannel
 
 class MainActivity : FlutterActivity() {
     private val main = Handler(Looper.getMainLooper())
@@ -133,6 +134,8 @@ class MainActivity : FlutterActivity() {
                     else -> result.notImplemented()
                 }
             }
+        // The haptic grammar's native verbs (CONFIRM, SEGMENT_TICK, TOGGLE_ON/OFF, GESTURE_START/END).
+        HapticsChannel.register(this, flutterEngine.dartExecutor.binaryMessenger)
         // How much memory the phone has, so a weak phone starts with Lite glass.
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "in.mockmob.app/device")
             .setMethodCallHandler { call, result ->

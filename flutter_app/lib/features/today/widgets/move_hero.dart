@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/next_move.dart' show NextMoveState;
+import '../../../core/motion/flight.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/key_button_motion.dart';
@@ -231,8 +232,12 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                     ? null
                     : () {
                         // The card grows into the page it opens (MOTION.md C4): the router's
-                        // container pages take this rect; any other page ignores it.
-                        if (m.primary.target is GoTo) MmLaunchRect.capture(context);
+                        // container pages take this rect; any other page ignores it. Its object
+                        // flies on into the page when that page shows the same subject (M2).
+                        if (m.primary.target is GoTo) {
+                          MmLaunchRect.capture(context);
+                          if (!mobi && m.subjectId != null) MmFlight.launch(this.context, m.subjectId);
+                        }
                         onAction(m.primary);
                       },
                 loading: retrying && m.primary.target is RetryLoad,

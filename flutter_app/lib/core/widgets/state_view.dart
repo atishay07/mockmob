@@ -26,11 +26,13 @@ class StateAction {
   final bool loading;
 }
 
-/// An empty, error or offline state: Mobi in a small pool of lamp light, a title, a message and
-/// up to two actions (the volt pill and a quiet one). Empty shows the living Mobi reading,
-/// offline shows Mobi resting, an error shows him shrugging once (`oops`, the first failure of a
-/// run only: a retry that fails again finds him calm), in both themes. Pass a [pose] to choose
-/// Mobi yourself. Every ending is designed: pass the recovery action here.
+/// An empty, error or offline state: Mobi in a painted room (or, for an empty state with no scene
+/// of its own, in a small pool of lamp light), a title, a message and up to two actions (the volt
+/// pill and a quiet one). Offline sits Mobi in the unplugged room, an error in the room with the
+/// loose cable and the repair kit (he shrugs once, `oops`, on the first failure of a run only: a
+/// retry that fails again finds him calm), and an empty state in whichever room it names with
+/// [scene]; both themes. Pass a [pose] to choose Mobi yourself. Every ending is designed: pass
+/// the recovery action here.
 class StateView extends StatefulWidget {
   const StateView({
     super.key,
@@ -55,14 +57,17 @@ class StateView extends StatefulWidget {
   /// [MobiPose.idle] (the default) lets the kind choose the art.
   final MobiPose pose;
 
-  /// The painted scene Mobi sits in. Offline always has its own (the unplugged desk); an empty
-  /// state shows the all-clear room only when it says so, because "nothing yet" is not "all
-  /// marked". Errors have none.
+  /// The painted room Mobi sits in. Offline always has its own (the unplugged desk) and an error
+  /// always has its own (the lamp with the loose cable and the repair kit). An empty state shows a
+  /// room only when it names one ([StateScene.allClear], [StateScene.nothingYet],
+  /// [StateScene.saved], [StateScene.noResults]), because "nothing yet" is not "all marked" and
+  /// not every empty state has a room that fits it.
   final StateScene? scene;
 
   /// The Mobi slot: replaces the default Mobi in the illustration area (a Mobi reacting to this
   /// particular state, a subject object). It sits in the same lamp pool, above the title, never
-  /// over text. Ignored when the state shows a painted [scene].
+  /// over text. Ignored when the state shows a painted [scene] (an error that sets [art] or
+  /// [slowArt] keeps its own picture and shows no room).
   final Widget? art;
 
   /// What the Mobi slot shows once the main action has run past [slowAfter] (a quietly thinking
@@ -77,8 +82,8 @@ class StateView extends StatefulWidget {
   /// The scene this state shows, if any.
   StateScene? get shownScene => switch (kind) {
         StateViewKind.offline => StateScene.offline,
-        StateViewKind.empty => scene == StateScene.allClear ? StateScene.allClear : null,
-        StateViewKind.error => null,
+        StateViewKind.empty => (scene?.forEmpty ?? false) ? scene : null,
+        StateViewKind.error => art == null && slowArt == null ? StateScene.unreachable : null,
       };
 
   /// How long the main action runs before the screen says so in words (MOTION.md P1-7).
@@ -126,8 +131,9 @@ class _StateViewState extends State<StateView> {
           StateViewKind.offline || StateViewKind.error => MobiPose.rest,
         };
 
-  /// Whether the default Mobi is on screen (no art of the caller's, no painted scene).
-  bool get _defaultMobi => widget.art == null && widget.slowArt == null && widget.shownScene == null;
+  /// Whether the default Mobi is on screen (no art of the caller's): in the pool, or sitting in
+  /// the painted room.
+  bool get _defaultMobi => widget.art == null && widget.slowArt == null;
 
   /// The main action has run long: the words say so, and Mobi turns to quiet thought (a real
   /// wait, so a real reaction; once per state).
@@ -245,8 +251,11 @@ class _StateViewState extends State<StateView> {
                           scene: scene,
                           maxHeight: compact ? 150 : 248,
                           controller: _mobi,
-                          // Mobi sits in the scene; asleep at the unplugged desk is the one other seat.
-                          pose: pose == MobiPose.sleepy ? MobiPose.sleepy : MobiPose.rest,
+                          // Mobi sits in the scene; asleep at the unplugged desk is the one other seat,
+                          // and an error shows whichever pose its caller chose (thinking, for one).
+                          pose: pose == MobiPose.sleepy || (kind == StateViewKind.error && pose != MobiPose.idle) ? pose : MobiPose.rest,
+                          // An error: one shrug as he arrives on the first failure of a run, calm after.
+                          entrance: kind == StateViewKind.error ? (_shrug ? MobiAct.oops : MobiAct.idle) : null,
                         )
                       : SizedBox(
                     height: artSize * 1.3,

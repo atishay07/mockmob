@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/repair_candidates.dart';
+import '../../../core/motion/flight.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -75,6 +76,8 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
   void _start() {
     final cardContext = _card.currentContext;
     if (cardContext != null) MmLaunchRect.capture(cardContext);
+    // Its object flies on into the repair entry (M2).
+    MmFlight.launch(context, widget.pick.subjectId);
     widget.onRepair();
   }
 

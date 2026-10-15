@@ -1,7 +1,9 @@
 // Goldens for the four places the painted scene set lives (14 Oct 2026 final set): the welcome
 // room with the live Mobi in its lit ellipse, the plan seal struck into the sheet's impression,
 // the first-repair and first-week milestone moments under the painted check, and the all-clear
-// and offline empty states. Night and Day each.
+// and offline empty states, and the four newer quiet states (nothing yet, saved, no results and
+// the error that can't reach the server). Night and Day each. The rooms are shown still (the
+// breathing is off in goldens), because a golden must not move.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -92,6 +94,46 @@ void main() {
       scene: StateScene.allClear,
       title: 'Nothing waiting to repair',
       message: "Every mistake you've found is repaired.",
+    ),
+  );
+
+  _golden(
+    'empty_nothing_yet',
+    () => const StateView(
+      kind: StateViewKind.empty,
+      scene: StateScene.nothingYet,
+      title: 'Nothing here yet',
+      message: 'Your first paper starts the story.',
+    ),
+  );
+
+  _golden(
+    'empty_saved',
+    () => const StateView(
+      kind: StateViewKind.empty,
+      scene: StateScene.saved,
+      title: 'Nothing saved yet',
+      message: 'Save a question when it deserves another go. It waits here.',
+    ),
+  );
+
+  _golden(
+    'empty_no_results',
+    () => const StateView(
+      kind: StateViewKind.empty,
+      scene: StateScene.noResults,
+      title: 'No questions match',
+      message: 'Try fewer filters.',
+    ),
+  );
+
+  _golden(
+    'error_unreachable',
+    () => StateView(
+      kind: StateViewKind.error,
+      title: 'We could not reach MockMob',
+      message: 'Your work is safe on this phone. Try again in a moment.',
+      primary: StateAction('Try again', () {}),
     ),
   );
 

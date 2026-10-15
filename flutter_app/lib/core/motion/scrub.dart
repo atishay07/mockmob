@@ -45,9 +45,9 @@ double mmScrubX(int index, double width, int count) {
 ///
 /// A long press starts the scrub; sliding reports a continuous x and the index it snaps to through
 /// [value] (a `ValueNotifier`, so a painter given it as `repaint:` redraws its cursor without a
-/// rebuild); releasing clears it to null. Each change of index ticks a selection haptic (and one on
-/// the start), so the finger counts the points. [onIndex] is told of each index change, for the
-/// caption a screen reader also hears.
+/// rebuild); releasing clears it to null. Each change of index ticks a segment haptic (and one on
+/// the start; `SEGMENT_TICK` where the phone has it, else a selection click), so the finger counts
+/// the points. [onIndex] is told of each index change, for the caption a screen reader also hears.
 ///
 /// [indexFor] replaces the even spread (a grid of answer bubbles, points at uneven dates).
 ///
@@ -108,7 +108,7 @@ class MmScrubState extends State<MmScrub> {
     final before = notifier.value;
     notifier.value = MmScrubValue(x: x, index: index, width: width);
     if (before == null || before.index != index) {
-      if (widget.haptic) hapticsOf(context)?.selection();
+      if (widget.haptic) hapticsOf(context)?.segmentTick();
       if (index >= 0) widget.onIndex?.call(index);
     }
   }

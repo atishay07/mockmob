@@ -44,9 +44,9 @@ void main() {
     });
 
     testWidgets('a subject this build does not know gets its initials, never another subject object', (tester) async {
-      await pumpMockmob(tester, const Center(child: SubjectMark(subjectId: 'home_science', name: 'Home Science')), brightness: Brightness.dark, disableAnimations: true);
+      await pumpMockmob(tester, const Center(child: SubjectMark(subjectId: 'film_studies', name: 'Film Studies')), brightness: Brightness.dark, disableAnimations: true);
       expect(find.byType(SubjectEmblem), findsNothing);
-      expect(find.text('HS'), findsOneWidget);
+      expect(find.text('FS'), findsOneWidget);
     });
   });
 

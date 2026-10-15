@@ -20,6 +20,11 @@ export '../../features/today/today_routes.dart';
 export '../../features/tools/tools_routes.dart'
     show toolsScreen, toolsCompassScreen, toolsProgrammeScreen, toolsComboScreen, toolsGuide2027Screen;
 export '../../features/you/you_routes.dart';
+// Feature wave 15 Oct (K0): each feature owns its builder file.
+export '../../features/chapters/chapters_routes.dart';
+export '../../features/revise/revise_routes.dart';
+export '../../features/rhythm/week_review/week_review_routes.dart';
+export '../../features/rulebook/rulebook_routes.dart';
 
 Widget splashScreen(BuildContext context, GoRouterState state) => const SplashScreen();
 

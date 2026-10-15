@@ -35,10 +35,18 @@ abstract final class AppRoutes {
   static const String todayWeeklyEnding = '/today/weekly-ending';
   static String todayWhy(String actionId) => '/today/why/${Uri.encodeComponent(actionId)}';
 
+  /// Week in review (`?week=YYYY-MM-DD`, the week's Monday; none means the week just closed).
+  static const String todayWeekReview = '/today/week-review';
+  static String todayWeekReviewOf(String weekStart) =>
+      Uri(path: todayWeekReview, queryParameters: {'week': weekStart}).toString();
+
   // Practice.
   static const String practiceStart = '/practice/start';
   static String practiceSetup(String mode) => '/practice/setup/${Uri.encodeComponent(mode)}';
   static String practiceResult(String attemptId) => '/practice/result/${Uri.encodeComponent(attemptId)}';
+
+  /// Your chapters: one subject's chapters by paper weight (public subject id, `accountancy`).
+  static String practiceChapters(String subject) => '/practice/chapters/${Uri.encodeComponent(subject)}';
 
   // Runner.
   static String run(String sessionId) => '/run/${Uri.encodeComponent(sessionId)}';
@@ -52,6 +60,12 @@ abstract final class AppRoutes {
   // Review.
   static const String reviewMistakes = '/review/mistakes';
   static const String reviewRecord = '/review/record';
+
+  /// Revise: the student's own wrong answers, back on a schedule.
+  static const String reviewRevise = '/review/revise';
+
+  /// The Rule book: every repair's rule, kept.
+  static const String reviewRules = '/review/rules';
   static String reviewRepair(String attemptId, String questionId) =>
       '/review/repair/${Uri.encodeComponent(attemptId)}/${Uri.encodeComponent(questionId)}';
   static String reviewRepairEnding(String attemptId) => '/review/repair/${Uri.encodeComponent(attemptId)}/ending';
@@ -166,6 +180,11 @@ abstract final class AppRoutes {
     '/tools/compass/:groupId',
     toolsCombo,
     toolsGuide2027,
+    // Feature wave 15 Oct (K0): Revise, Your chapters, Rule book, Week in review.
+    reviewRevise,
+    '/practice/chapters/:subject',
+    reviewRules,
+    todayWeekReview,
   ];
 
   static final List<RegExp> _nativePatterns = [

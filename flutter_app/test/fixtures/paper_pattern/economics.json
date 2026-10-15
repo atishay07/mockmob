@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 1,
+  "subject": "economics",
+  "blueprintVersion": "2026.10.13-1",
+  "sourceLine": "Based on the 2025 CUET paper and the NTA bulletin.",
+  "confidence": {
+    "units": "low",
+    "chapters": "inferred",
+    "types": "medium"
+  },
+  "provisional2027": true,
+  "totalQuestions": 50,
+  "secondsPerQuestion": 72,
+  "variant": {
+    "id": "default",
+    "label": "Single paper"
+  },
+  "variants": [
+    {
+      "id": "default",
+      "label": "Single paper"
+    }
+  ],
+  "sections": [
+    {
+      "id": "main",
+      "label": "Whole paper",
+      "questions": 50
+    }
+  ],
+  "units": [
+    {
+      "name": "Introductory Microeconomics",
+      "section": "main",
+      "target": 20,
+      "range": [
+        16,
+        24
+      ]
+    },
+    {
+      "name": "Introductory Macroeconomics",
+      "section": "main",
+      "target": 26,
+      "range": [
+        22,
+        30
+      ]
+    },
+    {
+      "name": "Indian Economic Development",
+      "section": "main",
+      "target": 4,
+      "range": [
+        0,
+        8
+      ]
+    }
+  ],
+  "chapters": [
+    {
+      "name": "Introduction & Theory of Consumer Behaviour",
+      "unit": "Introductory Microeconomics",
+      "section": "main",
+      "target": 8,
+      "range": [
+        5,
+        10
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Production & Costs",
+      "unit": "Introductory Microeconomics",
+      "section": "main",
+      "target": 4,
+      "range": [
+        2,
+        6
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Theory of Firms under Perfect Competition",
+      "unit": "Introductory Microeconomics",
+      "section": "main",
+      "target": 3,
+      "range": [
+        2,
+        5
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Market Equilibrium & Simple Applications",
+      "unit": "Introductory Microeconomics",
+      "section": "main",
+      "target": 5,
+      "range": [
+        3,
+        9
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "National Income & Related Aggregates",
+      "unit": "Introductory Macroeconomics",
+      "section": "main",
+      "target": 6,
+      "range": [
+        4,
+        8
+      ],
+      "excluded": false,
+      "aliases": [
+        "National Income and Related Aggregates"
+      ]
+    },
+    {
+      "name": "Money & Banking",
+      "unit": "Introductory Macroeconomics",
+      "section": "main",
+      "target": 6,
+      "range": [
+        4,
+        8
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Income Determination",
+      "unit": "Introductory Macroeconomics",
+      "section": "main",
+      "target": 6,
+      "range": [
+        4,
+        9
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Government Budget & the Economy",
+      "unit": "Introductory Macroeconomics",
+      "section": "main",
+      "target": 3,
+      "range": [
+        2,
+        5
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Balance of Payments",
+      "unit": "Introductory Macroeconomics",
+      "section": "main",
+      "target": 5,
+      "range": [
+        2,
+        7
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Indian Economy on the Eve of Independence",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 1,
+      "range": [
+        0,
+        2
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Indian Economic Development 1950–1990",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 1,
+      "range": [
+        0,
+        2
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Economic Reforms Since 1991",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 1,
+      "range": [
+        0,
+        2
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Human Capital Formation",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 0,
+      "range": [
+        0,
+        1
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Rural Development",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 0,
+      "range": [
+        0,
+        1
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Employment",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 0,
+      "range": [
+        0,
+        1
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Infrastructure",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 0,
+      "range": [
+        0,
+        1
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Environment & Sustainable Development",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 1,
+      "range": [
+        0,
+        2
+      ],
+      "excluded": false,
+      "aliases": []
+    },
+    {
+      "name": "Development Experiences of India",
+      "unit": "Indian Economic Development",
+      "section": "main",
+      "target": 0,
+      "range": [
+        0,
+        1
+      ],
+      "excluded": false,
+      "aliases": []
+    }
+  ],
+  "excludedChapters": [],
+  "typeQuotas": {
+    "single_mcq": {
+      "target": 25,
+      "range": [
+        22,
+        30
+      ]
+    },
+    "match_the_following": {
+      "target": 5,
+      "range": [
+        3,
+        6
+      ]
+    },
+    "sequence_ordering": {
+      "target": 5,
+      "range": [
+        3,
+        6
+      ]
+    },
+    "statement_based": {
+      "target": 5,
+      "range": [
+        3,
+        7
+      ]
+    },
+    "assertion_reason": {
+      "target": 0,
+      "range": [
+        0,
+        2
+      ]
+    }
+  },
+  "numericalShare": {
+    "target": 0.2,
+    "range": [
+      0.1,
+      0.3
+    ]
+  }
+}

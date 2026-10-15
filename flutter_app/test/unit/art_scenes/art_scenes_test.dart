@@ -82,11 +82,11 @@ void main() {
     test('Mobi stands in the welcome ellipse, as tall as the painting says', () {
       final l = WelcomeHeroLayout.of(kPhone, room: 520);
       final w = l.image.width;
-      expect(w, closeTo(853 / (2340 / 1080), 0.01), reason: 'cover: the taller phone scales by height');
+      expect(w, kPhone.width, reason: 'the painted room is the width of the screen; the ground lies under it');
       expect(l.image.top, 0, reason: 'room enough: the painting is not moved');
-      expect(l.feet.dx, closeTo(l.image.left + 0.512 * w, 0.01));
-      expect(l.feet.dy, closeTo(0.534 * l.image.height, 0.01));
-      expect(l.mobiHeight, closeTo(560 / 2340 * l.image.height, 0.01));
+      expect(l.feet.dx, closeTo(l.image.left + WelcomeHeroLayout.footX * w, 0.01));
+      expect(l.feet.dy, closeTo(WelcomeHeroLayout.footY * l.image.height, 0.01));
+      expect(l.mobiHeight, closeTo(560 / 1080 * w, 0.01));
       expect(l.ellipse.center.dx, closeTo(l.feet.dx, 0.01));
     });
 
@@ -100,10 +100,12 @@ void main() {
 
     test('the code seal sits on the impression at the painting scale', () {
       final g = SealGeometry.of(kPhone);
-      expect(g.centre.dx, closeTo(g.image.left + g.image.width / 2, 0.01));
-      expect(g.centre.dy, closeTo(g.image.height / 2, 0.01));
-      expect(g.disc, closeTo(115 * g.image.width / 1080, 0.01));
-      expect(g.teeth, closeTo(146 * g.image.width / 1080, 0.01));
+      expect(g.centre.dx, closeTo(kPhone.width / 2, 0.01), reason: 'the impression is at the middle of the screen');
+      expect(g.image.left + SealGeometry.impressionX * g.image.width, closeTo(g.centre.dx, 0.01));
+      expect(g.centre.dy, closeTo(SealGeometry.impressionY * g.image.height, 0.01));
+      expect(g.image.top, 0, reason: 'the painting is top aligned; the lamp shade stays cut by the screen edge');
+      expect(g.disc, closeTo(0.1055 * g.image.width, 0.01));
+      expect(g.teeth, closeTo(0.1345 * g.image.width, 0.01));
     });
   });
 

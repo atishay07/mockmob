@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../motion/motion.dart';
 import '../theme/theme.dart';
+import 'count_up.dart' show MmNumberMemory, mmNumberInk;
 
 /// A monumental number (brief sections 4 and 7): condensed Bricolage with its unit beside it at
 /// 55% of the number's size, top-aligned on the cap height ("183 of 250"). When it first appears
@@ -12,6 +13,12 @@ import '../theme/theme.dart';
 ///
 /// [delay] holds the roll until its card has arrived; [onLanded] fires once the last digit
 /// lands (a `selectionClick` there makes the number feel set in place).
+///
+/// With a [memoryKey] it remembers ([MmNumberMemory]): mounting again with the value it last
+/// showed draws it at once, with no roll; mounting with a new value rolls on from the remembered
+/// one. A remembered change that rises inks the digits volt while they roll and for
+/// [Motion.numberInk] after they land; a fall dims them; then they settle back to their colour
+/// (a cross-fade of a tinted copy, opacity only).
 class MonumentalNumber extends StatefulWidget {
   const MonumentalNumber({
     super.key,
@@ -25,6 +32,7 @@ class MonumentalNumber extends StatefulWidget {
     this.semanticsLabel,
     this.delay = Duration.zero,
     this.onLanded,
+    this.memoryKey,
   });
 
   /// The number as it should read ("183", "23", "4.5"). Non-digits are drawn as they are.
@@ -55,6 +63,9 @@ class MonumentalNumber extends StatefulWidget {
   /// Called when a roll has landed (not when the value is shown without rolling).
   final VoidCallback? onLanded;
 
+  /// Remembers the value across remounts ([MmNumberMemory]); null forgets, as before.
+  final String? memoryKey;
+
   /// Bricolage metrics (units per em 1000): cap height 660 (the digits are cap height).
   static const double _cap = 0.66;
 
@@ -68,8 +79,14 @@ class MonumentalNumber extends StatefulWidget {
   State<MonumentalNumber> createState() => _MonumentalNumberState();
 }
 
-class _MonumentalNumberState extends State<MonumentalNumber> with SingleTickerProviderStateMixin {
+class _MonumentalNumberState extends State<MonumentalNumber> with TickerProviderStateMixin {
   late final AnimationController _roll = AnimationController(vsync: this, duration: _total)..addStatusListener(_status);
+
+  /// The tinted copy's strength while a remembered change shows which way it moved.
+  late final AnimationController _ink = AnimationController(vsync: this)..addStatusListener(_inkStatus);
+
+  /// 1 up, -1 down, 0 no tint.
+  int _inkDirection = 0;
   bool _started = false;
 
   /// The digits shown before the current roll, right-aligned to the new ones (null: from 0).
@@ -80,28 +97,72 @@ class _MonumentalNumberState extends State<MonumentalNumber> with SingleTickerPr
   void _status(AnimationStatus status) {
     if (status == AnimationStatus.completed && _rolling) {
       _rolling = false;
+      _fadeInk();
       widget.onLanded?.call();
     }
+  }
+
+  void _inkStatus(AnimationStatus status) {
+    if (status == AnimationStatus.dismissed && _inkDirection != 0 && mounted) setState(() => _inkDirection = 0);
+  }
+
+  bool get _still => !widget.roll || Motion.reduced(context);
+
+  /// Puts the tint on for a remembered change from [from].
+  void _inkFrom(String? from) {
+    final direction = widget.memoryKey == null || _still ? 0 : MmNumberMemory.direction(from, widget.value);
+    _inkDirection = direction;
+    if (direction == 0) {
+      _ink.value = 0;
+      return;
+    }
+    _ink.animateTo(1, duration: Motion.press, curve: Motion.glide);
+  }
+
+  /// Holds the tint for [Motion.numberInk] after the digits land, then eases it off.
+  void _fadeInk() {
+    if (_ink.value == 0) return;
+    final hold = Motion.numberInk;
+    final total = hold + Motion.crossFade;
+    _ink.animateBack(
+      0,
+      duration: total,
+      curve: Interval(hold.inMicroseconds / total.inMicroseconds, 1, curve: Motion.glide),
+    );
   }
 
   bool _rolling = false;
 
   void _start() {
     _roll.duration = _total;
-    if (!widget.roll || Motion.reduced(context)) {
+    if (_still) {
       _rolling = false;
       _roll.value = 1;
+      _ink.value = 0;
       return;
     }
     _rolling = true;
     _roll.forward(from: 0);
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_started) return;
-    _started = true;
+  /// The first value: from memory, from 0, or as it is.
+  void _mount() {
+    final key = widget.memoryKey;
+    final remembered = key == null ? null : MmNumberMemory.recall(key);
+    if (key != null) MmNumberMemory.remember(key, widget.value);
+    if (remembered is String) {
+      if (remembered == widget.value) {
+        // Seen before, unchanged: it is simply there.
+        _previous = null;
+        _roll.value = 1;
+        return;
+      }
+      _previous = remembered;
+      _inkFrom(remembered);
+      _start();
+      return;
+    }
+    _previous = null;
     if (!widget.fromZeroOnFirstBuild) {
       _roll.value = 1;
       return;
@@ -110,16 +171,33 @@ class _MonumentalNumberState extends State<MonumentalNumber> with SingleTickerPr
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    _mount();
+  }
+
+  @override
   void didUpdateWidget(MonumentalNumber oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.memoryKey != widget.memoryKey && widget.memoryKey != null) {
+      // A different figure in the same place: it starts from its own memory.
+      _mount();
+      return;
+    }
     if (oldWidget.value == widget.value) return;
     _previous = oldWidget.value;
+    final key = widget.memoryKey;
+    if (key != null) MmNumberMemory.remember(key, widget.value);
+    _inkFrom(oldWidget.value);
     _start();
   }
 
   @override
   void dispose() {
     _roll.dispose();
+    _ink.dispose();
     super.dispose();
   }
 
@@ -146,25 +224,45 @@ class _MonumentalNumberState extends State<MonumentalNumber> with SingleTickerPr
       return j >= 0 ? before[j] : null;
     }
 
-    var index = 0;
-    final number = Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (final ch in chars)
-          if (_isDigit(ch))
-            _DigitSlot(
-              digit: int.parse(ch),
-              from: fromFor(index),
-              slot: slot,
-              style: style,
-              roll: _roll,
-              interval: _interval(index++, digits),
-            )
-          else
-            _CapText(ch, style: style),
-      ],
-    );
+    Widget row(TextStyle style) {
+      var index = 0;
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          for (final ch in chars)
+            if (_isDigit(ch))
+              _DigitSlot(
+                digit: int.parse(ch),
+                from: fromFor(index),
+                slot: slot,
+                style: style,
+                roll: _roll,
+                interval: _interval(index++, digits),
+              )
+            else
+              _CapText(ch, style: style),
+        ],
+      );
+    }
+
+    Widget number = row(style);
+    if (widget.memoryKey != null) {
+      // A remembered number keeps one structure, so its digits never remount: the tinted copy
+      // rolls in step on top and fades out once the change has been seen.
+      final tint = mmNumberInk(context, _inkDirection);
+      number = Stack(
+        children: [
+          number,
+          if (tint != null)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: FadeTransition(opacity: _ink, child: row(style.copyWith(color: tint))),
+              ),
+            ),
+        ],
+      );
+    }
 
     final unit = widget.unit;
     Widget content = number;

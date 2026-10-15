@@ -1,53 +1,50 @@
 import 'package:flutter/physics.dart';
 
+import 'motion_tokens.g.dart';
+
 /// Springs of the Night Sheet (brief section 7): nearly critical, bounce at most 0.12, except the
 /// dock's lit tile at 0.18 so it reads as liquid.
+///
+/// Each is a settle duration and a bounce from `shared/motion-tokens.json` (generated into
+/// `motion_tokens.g.dart`); the website builds its CSS springs from the same pairs.
 abstract final class Springs {
+  static SpringDescription _of(Duration duration, double bounce) =>
+      SpringDescription.withDurationAndBounce(duration: duration, bounce: bounce);
+
   /// Cards, sheets with velocity, rows: 360 ms, bounce 0.12.
-  static final SpringDescription smooth =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 360), bounce: 0.12);
+  static final SpringDescription smooth = _of(MotionSprings.smoothDuration, MotionSprings.smoothBounce);
 
   /// Press feedback (0.96 scale): 220 ms, bounce 0.
-  static final SpringDescription snappy =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 220), bounce: 0);
+  static final SpringDescription snappy = _of(MotionSprings.snappyDuration, MotionSprings.snappyBounce);
 
   /// The dock's lit tile: 360 ms, bounce 0.18.
-  static final SpringDescription dock =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 360), bounce: 0.18);
+  static final SpringDescription dock = _of(MotionSprings.dockDuration, MotionSprings.dockBounce);
 
   /// Unfold release and container landings: 420 ms, bounce 0.
-  static final SpringDescription settle =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 420), bounce: 0);
+  static final SpringDescription settle = _of(MotionSprings.settleDuration, MotionSprings.settleBounce);
 
   /// A pressed surface coming back: 300 ms, bounce 0.1, a short physical give.
-  static final SpringDescription release =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 300), bounce: 0.1);
+  static final SpringDescription release = _of(MotionSprings.releaseDuration, MotionSprings.releaseBounce);
 
   /// The dock pill's leading edge (quick) and trailing edge (slow): the pill stretches toward the
   /// new tab, then gathers itself.
-  static final SpringDescription edgeLead =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 260), bounce: 0.12);
-  static final SpringDescription edgeTrail =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 440), bounce: 0.04);
+  static final SpringDescription edgeLead = _of(MotionSprings.edgeLeadDuration, MotionSprings.edgeLeadBounce);
+  static final SpringDescription edgeTrail = _of(MotionSprings.edgeTrailDuration, MotionSprings.edgeTrailBounce);
 
   /// A dock icon arriving: 420 ms, the dock's 0.18 bounce.
-  static final SpringDescription iconPop =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 420), bounce: 0.18);
+  static final SpringDescription iconPop = _of(MotionSprings.iconPopDuration, MotionSprings.iconPopBounce);
 
   /// A T3 stamp and Mobi: 520 ms, bounce 0.22. Nothing else may use it.
-  static final SpringDescription celebrate =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 520), bounce: 0.22);
+  static final SpringDescription celebrate = _of(MotionSprings.celebrateDuration, MotionSprings.celebrateBounce);
 
   /// A switch thumb reaching its end: 240 ms, bounce 0.14, a slight overshoot that reads as a
   /// physical detent.
-  static final SpringDescription toggle =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 240), bounce: 0.14);
+  static final SpringDescription toggle = _of(MotionSprings.toggleDuration, MotionSprings.toggleBounce);
 
   /// A released surface rising past rest (to about 1.03) before it settles; and a dragged row or
   /// card springing home or away. 300 ms, bounce 0.
-  static final SpringDescription lift =
-      SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 300), bounce: 0);
+  static final SpringDescription lift = _of(MotionSprings.liftDuration, MotionSprings.liftBounce);
 
   /// The pressed scale of every tappable surface.
-  static const double pressedScale = 0.96;
+  static const double pressedScale = MotionNumbers.pressedScale;
 }

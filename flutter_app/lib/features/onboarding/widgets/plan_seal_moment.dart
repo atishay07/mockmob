@@ -53,30 +53,38 @@ class PlanSealMoment extends ChangeNotifier {
   }
 }
 
-/// Where the seal sits on a screen of [screen]: the painted sheet (`scene-plan-seal-night`,
-/// 1080 by 2340) covers the screen aligned to the top, and its blind impression is at (540,
-/// 1170) with a 115 px disc and 146 px teeth. The code seal is drawn with those radii, scaled
-/// with the painting, so it lands exactly in the impression.
+/// Where the seal sits on a screen of [screen]: the painted sheet (`scene-plan-seal-night`, the
+/// painted part only, 1296 by 1944) is drawn the width of the screen, aligned to the top and
+/// nudged so its blind impression is at the middle of the screen's width; the ground, which the
+/// painting's foot melts into, lies under it. The impression is at 55.4% down the painting with a
+/// disc of 10.55% of the painting's width in radius and teeth that reach 13.45%. The code seal is
+/// drawn with those radii, scaled with the painting, so it lands exactly in the impression.
+/// (`shared/scene-anchors.json`, `planSeal`; a test keeps the two equal.)
 @immutable
 class SealGeometry {
-  const SealGeometry._(this.image, this.centre, this.scale);
+  const SealGeometry._(this.image, this.centre);
 
   factory SealGeometry.of(Size screen) {
     final art = SceneArt.planSeal;
-    final w = math.max(screen.width, screen.height / art.aspect);
+    final w = screen.width;
     final h = w * art.aspect;
-    final left = (screen.width - w) / 2;
-    return SealGeometry._(Rect.fromLTWH(left, 0, w, h), Offset(left + 0.5 * w, 0.5 * h), w / art.pxWidth);
+    final left = screen.width / 2 - impressionX * w;
+    return SealGeometry._(Rect.fromLTWH(left, 0, w, h), Offset(screen.width / 2, impressionY * h));
   }
+
+  /// The impression's centre, as shares of the painting.
+  static const double impressionX = 0.494;
+  static const double impressionY = 0.554;
+
+  /// The disc's radius and the teeth's reach, as shares of the painting's width.
+  static const double discShare = 0.1055;
+  static const double teethShare = 0.1345;
 
   final Rect image;
   final Offset centre;
 
-  /// Screen dp per painting px.
-  final double scale;
-
-  double get disc => 115 * scale;
-  double get teeth => 146 * scale;
+  double get disc => discShare * image.width;
+  double get teeth => teethShare * image.width;
 }
 
 /// The full-screen room of the seal moment, under the plan step. Night: the painted answer
@@ -155,7 +163,7 @@ class _ImpressionPainter extends CustomPainter {
   final Color line;
 
   /// The Night painting's sheet, as shares of the painting.
-  static const Rect sheetShare = Rect.fromLTRB(0.045, 0.215, 0.95, 0.765);
+  static const Rect sheetShare = Rect.fromLTRB(0.034, 0.156, 0.956, 0.889);
 
   void _sheet(Canvas canvas) {
     final img = geo.image;

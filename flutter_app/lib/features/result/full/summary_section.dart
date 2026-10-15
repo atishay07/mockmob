@@ -82,7 +82,9 @@ class SummarySection extends StatelessWidget {
               ),
             ),
             const SizedBox(width: MmSpace.s8),
-            SubjectEmblem(subject: m.subjectId, size: SummarySection.emblemSize, framed: false, animate: true),
+            // Alive below the usual size: it is where a past result's object lands (M2), and it
+            // leans and springs like the objects on the cards that open it.
+            SubjectEmblem(subject: m.subjectId, size: SummarySection.emblemSize, framed: false, animate: true, life: true),
           ],
         ),
         if (!m.isHeld) ...[

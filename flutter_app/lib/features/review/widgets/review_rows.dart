@@ -6,6 +6,7 @@ import '../../../core/art/art.dart';
 import '../../../core/copy/formatters.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/attempt.dart';
+import '../../../core/motion/flight.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -275,7 +276,11 @@ class PastResultRow extends StatelessWidget {
       children: [
         Expanded(
           child: MmPressable(
-            onTap: onOpen,
+            onTap: () {
+              // The paper's object flies on into the result's summary (M2).
+              MmFlight.launch(context, attempt.subject);
+              onOpen();
+            },
             pressedScale: 0.985,
             focusRadius: MmRadius.keyAll,
             haptic: MmPressHaptic.selection,

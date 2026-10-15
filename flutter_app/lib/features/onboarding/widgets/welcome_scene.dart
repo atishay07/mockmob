@@ -7,13 +7,14 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/art/scene_art.dart';
 
-/// Where everything sits on the painted welcome room (`scene-welcome-hero-night`, 1080 by 2340),
-/// for a screen of [screen] whose room (everything above the words) is [room] tall.
+/// Where everything sits on the painted welcome room (`scene-welcome-hero-night`: the painted
+/// room only, 1296 by 1620, drawn the width of the screen and aligned to the top; under it the
+/// ground, which the painting's foot melts into), for a screen of [screen] whose room (everything
+/// above the words) is [room] tall.
 ///
-/// The painting covers the screen, aligned to the top, so it is scaled by whichever of the
-/// width or height needs more. Mobi's feet go where the painter left the lit ellipse (51.2% across,
-/// 53.4% down) and he is 560 px tall at 1080 wide, scaled with the painting. On a short screen
-/// the painting slides up just enough that the ellipse stays above the headline, never under it.
+/// Mobi's feet go where the painter left the lit ellipse (50.4% across, 85.7% down the painting)
+/// and he is 51.85% of the painting's width tall, scaled with the painting. On a short screen the
+/// painting slides up just enough that the ellipse stays above the headline, never under it.
 @immutable
 class WelcomeHeroLayout {
   const WelcomeHeroLayout._({required this.image, required this.feet, required this.ellipse, required this.mobiHeight});
@@ -23,11 +24,11 @@ class WelcomeHeroLayout {
     final h = w * SceneArt.welcomeHero.aspect;
     final left = (screen.width - w) / 2;
     final footAt = footY * h;
-    // Keep the ellipse (half of its 5.3% height below the feet) above the words.
+    // Keep the ellipse (half of its height below the feet) above the words.
     final dy = math.min(0.0, room - ellipseH / 2 * h - footAt);
     final feet = Offset(left + footX * w, footAt + dy);
     // As tall as the painting says, but never up into the wordmark.
-    final mobi = math.max(0.0, math.min(mobiShare * h, feet.dy - topLimit));
+    final mobi = math.max(0.0, math.min(mobiWidthShare * w, feet.dy - topLimit));
     return WelcomeHeroLayout._(
       image: Rect.fromLTWH(left, dy, w, h),
       feet: feet,
@@ -36,26 +37,24 @@ class WelcomeHeroLayout {
     );
   }
 
-  /// The anchors measured on the delivered file (`final/anchors.json`).
-  static const double footX = 0.512;
-  static const double footY = 0.534;
-  static const double ellipseX = 0.512;
-  static const double ellipseY = 0.5315;
-  static const double ellipseW = 0.78;
-  static const double ellipseH = 0.053;
+  /// The anchors measured on the delivered file, as shares of the painting
+  /// (`shared/scene-anchors.json`, `welcome`; a test keeps the two equal).
+  static const double footX = 0.504;
+  static const double footY = 0.857;
+  static const double ellipseX = 0.504;
+  static const double ellipseY = 0.853;
+  static const double ellipseW = 0.771;
+  static const double ellipseH = 0.092;
 
-  /// Mobi's height as a share of the painting's height (560 of 2340 px).
-  static const double mobiShare = 560 / 2340;
+  /// Mobi's height as a share of the painting's width.
+  static const double mobiWidthShare = 560 / 1080;
 
-  /// Where the pinned answer sheet starts, as a share of the painting's width. Mobi's line stays
-  /// left of it, over the bookshelf, so it never covers the sheet.
+  /// Where the pinned answer sheet starts, as a share of the painting's width (it is at 60.9%).
+  /// Mobi's line stays left of it, over the bookshelf, so it never covers the sheet.
   static const double sheetLeft = 0.6;
 
-  /// The width the painting is drawn (and decoded) at on [screen].
-  static double imageWidthFor(Size screen) {
-    final art = SceneArt.welcomeHero;
-    return math.max(screen.width, screen.height / art.aspect);
-  }
+  /// The width the painting is drawn (and decoded) at on [screen]: the screen's.
+  static double imageWidthFor(Size screen) => screen.width;
 
   /// The painting's box on the screen (it may run off the top on a short screen).
   final Rect image;
@@ -89,9 +88,9 @@ class WelcomeHero extends StatefulWidget {
 
   /// Where the lamp's shade hangs in the painting, as shares of its width and height, and the
   /// cone's foot (the pinned sheet's top).
-  static const double lampX = 0.774;
-  static const double lampY = 0.1;
-  static const double coneFootY = 0.2;
+  static const double lampX = 0.748;
+  static const double lampY = 0.157;
+  static const double coneFootY = 0.318;
 
   /// The breathing and mote loop, and the first flick; later ones follow every [flickEvery].
   static const Duration loop = Duration(seconds: 8);
@@ -248,20 +247,20 @@ class _LampPainter extends CustomPainter {
     final glowR = w * 0.3;
     final a = (0.07 + 0.07 * breath) * (1 - dip) * env;
     canvas.drawCircle(
-      lampAt + Offset(0, h * 0.03),
+      lampAt + Offset(0, w * 0.065),
       glowR,
       Paint()
-        ..shader = RadialGradient(colors: [lamp.withValues(alpha: a), lamp.withValues(alpha: 0)]).createShader(Rect.fromCircle(center: lampAt + Offset(0, h * 0.03), radius: glowR)),
+        ..shader = RadialGradient(colors: [lamp.withValues(alpha: a), lamp.withValues(alpha: 0)]).createShader(Rect.fromCircle(center: lampAt + Offset(0, w * 0.065), radius: glowR)),
     );
     // The motes: each rises through the cone on its own phase, swaying a little, fading in and
     // out so none pops. Positions are arithmetic on the index, so every run is the same.
-    final top = image.top + (WelcomeHero.lampY + 0.01) * h;
+    final top = image.top + WelcomeHero.lampY * h + w * 0.022;
     final foot = image.top + WelcomeHero.coneFootY * h;
     final paint = Paint();
     for (var i = 0; i < motes; i++) {
       final p = (t + i / motes) % 1.0;
       final y = foot + (top - foot) * p;
-      final spread = ((y - (image.top + WelcomeHero.lampY * h)) / (0.1 * h)) * 0.15 * w;
+      final spread = ((y - (image.top + WelcomeHero.lampY * h)) / (w * 0.217)) * 0.15 * w;
       final r = ((i * 37) % 17) / 16;
       final x = lampAt.dx + (r * 2 - 1) * spread * 0.8 + math.sin(2 * math.pi * (p * 1.5 + i * 0.37)) * w * 0.006;
       final alpha = math.sin(math.pi * p) * (0.25 + 0.45 * ((i * 11) % 7) / 6) * (1 - dip) * env;
