@@ -34,6 +34,7 @@ import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/practice/practice_result_screen.dart';
 import 'package:mockmob/features/insights/data/saved_repository.dart' show SavedList, savedRepositoryProvider;
+import 'package:mockmob/features/rules/data/rules_data.dart' show startSheetProvider;
 
 import '../../../helpers/golden_harness.dart';
 
@@ -307,6 +308,9 @@ List<Override> practiceOverrides({
   // The painted sheet on the resume card inks exactly the questions that have an answer.
   if (draft != null) draftAnsweredProvider(draft.sessionId).overrideWith((ref) async => answered == null ? null : [for (var i = 0; i < draft.count; i++) i < answered]),
   hapticsProvider.overrideWithValue(const Haptics(enabled: false)),
+  // A mock's sheet reads the student's rule from the server (Mistake Lab slice 3); offline here,
+  // with no rule in force, so the sheet simply has no line.
+  startSheetProvider.overrideWith((ref, subject) async => null),
   savedRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: const SavedList(), fetchedAt: testNow)),
   analyticsClientProvider.overrideWithValue(analytics ?? FakeAnalytics()),
   pendingResultRepositoryProvider.overrideWithValue(pending ?? FakePendingResults()),

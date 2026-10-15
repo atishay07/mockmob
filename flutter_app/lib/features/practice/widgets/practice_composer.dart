@@ -318,6 +318,8 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         tear: _c.tear,
         // A Full mock's own start: the stopwatch under the stub runs a full turn as it tears.
         clock: mode == PracticeMode.full,
+        // NTA mode's own: the exam sheet slides up where the stub was and the NTA mark settles.
+        examSheet: mode == PracticeMode.nta,
       ),
       const SizedBox(height: MmSpace.s16),
       if (widget.showSubjects) ...[

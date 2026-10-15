@@ -14,6 +14,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/practice/widgets/choice_deck.dart';
 import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
 import 'package:mockmob/features/practice/widgets/composer_ticket.dart';
+import 'package:mockmob/features/practice/widgets/exam_sheet_start.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart' show FileAssetBundle;
@@ -71,7 +72,9 @@ Widget _examBand({String? ntaTag = 'Pro'}) => SingleChildScrollView(
           ],
         ),
         // The Start sheet's NTA row is a wide row with the same glyph.
-        ChoiceRow.wide(_option('nta-row', ChoiceGlyphKind.nta, 'NTA mode', 'The exam-day screen in Business Studies, as on the day.', tag: ntaTag)),
+        ChoiceRow.wide(
+          _option('nta-row', ChoiceGlyphKind.nta, 'NTA mode', 'The exam-day screen in Business Studies, as on the day.', tag: ntaTag),
+        ),
       ],
     ),
   ),
@@ -132,7 +135,11 @@ void main() {
             for (final id in ['full', 'nta']) {
               final tile = tester.getRect(find.byKey(ValueKey('choice-$id')));
               final glyph = tester.getRect(find.descendant(of: find.byKey(ValueKey('choice-$id')), matching: find.byType(ChoiceGlyph)));
-              expect(tile.contains(glyph.topLeft) && tile.contains(glyph.bottomRight - const Offset(1, 1)), isTrue, reason: '$id glyph $glyph in tile $tile');
+              expect(
+                tile.contains(glyph.topLeft) && tile.contains(glyph.bottomRight - const Offset(1, 1)),
+                isTrue,
+                reason: '$id glyph $glyph in tile $tile',
+              );
             }
             // The Pro tag sits inside the NTA tile, never past its right edge.
             final ntaTile = tester.getRect(find.byKey(const ValueKey('choice-nta')));
@@ -260,5 +267,90 @@ void main() {
     final sim = StopwatchSim()..lap(0);
     expect(sim.longAt(StopwatchSim.lapDuration / 2), greaterThan(StopwatchSim.turn / 4));
     expect(sim.longAt(StopwatchSim.lapDuration / 2), lessThan(StopwatchSim.turn * 0.9));
+  });
+
+  group('NTA mode starts with its own moment: the exam sheet slides in and the mark settles', () {
+    Widget ticket(TicketTear tear, {bool examSheet = true, bool clock = false, double? width}) => Center(
+      child: ComposerTicket(
+        subjectId: 'business_studies',
+        eyebrow: 'NTA mode',
+        subject: 'Business Studies',
+        count: 50,
+        semanticsLabel: 'NTA mode, Business Studies',
+        tear: tear,
+        examSheet: examSheet,
+        clock: clock,
+      ),
+    );
+
+    ExamSheetStart sheet(WidgetTester tester) => tester.widget<ExamSheetStart>(find.byType(ExamSheetStart));
+
+    test('the sheet is in place before the mark comes down, and both have landed by the end', () {
+      expect(ExamSheetStart.slideAt(0), 0);
+      expect(ExamSheetStart.markAt(0.4), 0);
+      expect(ExamSheetStart.slideAt(0.62), closeTo(1, 1e-9));
+      expect(ExamSheetStart.markAt(1), closeTo(1, 1e-9));
+    });
+
+    test('it ends inside the tear and the hold the ticket already has after the yes', () {
+      // 220 ms tear plus the 260 ms hold (PracticeComposerKeys.tearHold).
+      expect(ExamSheetStart.duration.inMilliseconds, lessThanOrEqualTo(220 + 260));
+    });
+
+    testWidgets('waits unplayed at rest and while the request is out; plays on the yes and settles', (tester) async {
+      await _pump(tester, ticket(TicketTear.rest));
+      expect(sheet(tester).play, isFalse);
+      await _pump(tester, ticket(TicketTear.lifted));
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(sheet(tester).play, isFalse);
+      await _pump(tester, ticket(TicketTear.torn));
+      expect(sheet(tester).play, isTrue);
+      await tester.pump(ExamSheetStart.duration);
+      await tester.pump(const Duration(milliseconds: 100));
+      final card = tester.getRect(find.byType(ComposerTicket));
+      final art = tester.getRect(find.byType(ExamSheetStart));
+      expect(art.left, greaterThanOrEqualTo(card.right - ComposerTicket.stubWidth));
+      expect(card.contains(art.topLeft) && card.contains(art.bottomRight - const Offset(1, 1)), isTrue);
+      expect(tester.hasRunningAnimations, isFalse);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('fits the stub at 360 dp with large text, Night and Day', (tester) async {
+      for (final b in Brightness.values) {
+        await _pump(tester, ticket(TicketTear.torn), width: 360, textScale: 1.3, brightness: b);
+        await tester.pump(const Duration(milliseconds: 600));
+        final card = tester.getRect(find.byType(ComposerTicket));
+        final art = tester.getRect(find.byType(ExamSheetStart));
+        expect(art.left, greaterThanOrEqualTo(card.right - ComposerTicket.stubWidth));
+        expect(art.height, lessThanOrEqualTo(card.height));
+        expect(tester.takeException(), isNull);
+      }
+    });
+
+    testWidgets('a Full mock keeps its stopwatch and no sheet; practice has neither', (tester) async {
+      await _pump(tester, ticket(TicketTear.torn, clock: true));
+      expect(find.byType(HybridStopwatch), findsOneWidget);
+      expect(find.byType(ExamSheetStart), findsNothing);
+      await _pump(tester, ticket(TicketTear.torn, examSheet: false));
+      expect(find.byType(HybridStopwatch), findsNothing);
+      expect(find.byType(ExamSheetStart), findsNothing);
+    });
+
+    testWidgets('under reduced motion it is there at the yes, settled, and nothing runs on', (tester) async {
+      await _pump(tester, ticket(TicketTear.rest), reduceMotion: true);
+      await _pump(tester, ticket(TicketTear.torn), reduceMotion: true);
+      await tester.pump();
+      final painter =
+          tester.widget<CustomPaint>(find.descendant(of: find.byType(ExamSheetStart), matching: find.byType(CustomPaint))).painter!
+              as ExamSheetPainter;
+      expect(painter.t, 1);
+      // Nothing plays on: a later frame holds the same settled pose.
+      await tester.pump(const Duration(milliseconds: 200));
+      final later =
+          tester.widget<CustomPaint>(find.descendant(of: find.byType(ExamSheetStart), matching: find.byType(CustomPaint))).painter!
+              as ExamSheetPainter;
+      expect(later.t, 1);
+      expect(tester.takeException(), isNull);
+    });
   });
 }

@@ -45,7 +45,9 @@ class _ExamFrame extends StatelessWidget {
                       ),
                     ],
                   ),
-                  ChoiceRow.wide(_o('nta-row', ChoiceGlyphKind.nta, 'NTA mode', 'The exam-day screen in Accountancy, as on the day.', tag: 'Pro')),
+                  ChoiceRow.wide(
+                    _o('nta-row', ChoiceGlyphKind.nta, 'NTA mode', 'The exam-day screen in Accountancy, as on the day.', tag: 'Pro'),
+                  ),
                 ],
               ),
               const SizedBox(height: MmSpace.s24),
@@ -61,9 +63,12 @@ class _ExamFrame extends StatelessWidget {
 
 /// A Full mock's ticket whose Start sequence the test drives through [tear].
 class _TicketFrame extends StatelessWidget {
-  const _TicketFrame({required this.tear});
+  const _TicketFrame({required this.tear, this.nta = false});
 
   final ValueNotifier<TicketTear> tear;
+
+  /// NTA mode's ticket instead: the exam sheet under the stub.
+  final bool nta;
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +81,13 @@ class _TicketFrame extends StatelessWidget {
             valueListenable: tear,
             builder: (context, value, _) => ComposerTicket(
               subjectId: 'accountancy',
-              eyebrow: 'Mock 7',
+              eyebrow: nta ? 'NTA mode' : 'Mock 7',
               subject: 'Accountancy',
               count: 50,
               semanticsLabel: 'Mock 7, Accountancy',
               tear: value,
-              clock: true,
+              clock: !nta,
+              examSheet: nta,
             ),
           ),
         ),
@@ -98,7 +104,15 @@ void main() {
     final tag = b == Brightness.dark ? 'night' : 'day';
     group('practice start moments, ${b.name}', () {
       testWidgets('the exam band at 360 dp with large text', (tester) async {
-        await pumpMockmob(tester, const _ExamFrame(), brightness: b, size: const Size(360, 900), textScale: 1.3, wrapInScaffold: false, overrides: haptics);
+        await pumpMockmob(
+          tester,
+          const _ExamFrame(),
+          brightness: b,
+          size: const Size(360, 900),
+          textScale: 1.3,
+          wrapInScaffold: false,
+          overrides: haptics,
+        );
         await tester.pump(const Duration(milliseconds: 500));
         expect(tester.takeException(), isNull);
         await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/exam_band_360_large_$tag.png'));
@@ -114,7 +128,14 @@ void main() {
       testWidgets('a Full mock starts: the stub tears and the stopwatch runs its turn', (tester) async {
         final tear = ValueNotifier(TicketTear.rest);
         addTearDown(tear.dispose);
-        await pumpMockmob(tester, _TicketFrame(tear: tear), brightness: b, size: const Size(384, 260), wrapInScaffold: false, overrides: haptics);
+        await pumpMockmob(
+          tester,
+          _TicketFrame(tear: tear),
+          brightness: b,
+          size: const Size(384, 260),
+          wrapInScaffold: false,
+          overrides: haptics,
+        );
         tear.value = TicketTear.lifted;
         await tester.pump(const Duration(milliseconds: 200));
         tear.value = TicketTear.torn;
@@ -125,6 +146,27 @@ void main() {
         // Landed at 12, the stub gone.
         await tester.pump(const Duration(milliseconds: 400));
         await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mock_start_lap_landed_$tag.png'));
+      });
+      testWidgets('NTA mode starts: the exam sheet slides in and the mark settles', (tester) async {
+        final tear = ValueNotifier(TicketTear.rest);
+        addTearDown(tear.dispose);
+        await pumpMockmob(
+          tester,
+          _TicketFrame(tear: tear, nta: true),
+          brightness: b,
+          size: const Size(384, 260),
+          wrapInScaffold: false,
+          overrides: haptics,
+        );
+        tear.value = TicketTear.lifted;
+        await tester.pump(const Duration(milliseconds: 200));
+        tear.value = TicketTear.torn;
+        await tester.pump();
+        // The sheet nearly in, the mark on its way down.
+        await tester.pump(const Duration(milliseconds: 240));
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/nta_start_mid_$tag.png'));
+        await tester.pump(const Duration(milliseconds: 400));
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/nta_start_landed_$tag.png'));
       });
     });
   }
