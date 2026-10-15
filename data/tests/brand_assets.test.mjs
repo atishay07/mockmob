@@ -53,12 +53,15 @@ test('every subject object exists at every srcset width, at the size the data sa
     assert.ok(art.footX > 0 && art.footX < 1 && art.footWidth > 0 && art.footWidth <= 1 && art.ground > 0.8 && art.ground <= 1, art.name);
     assert.ok(art.object.length > 3 && !/[!—]/.test(art.object), `${art.name}: plain alt text`);
   }
-  // Every file is versioned (next.config serves images with a one-year immutable cache) and under 120 KB.
+  // Every file is versioned (next.config serves images with a one-year immutable cache). The app's own full file
+  // (800 to 1024 px, byte for byte, so a large object on a 3x screen stays sharp) is under 200 KB and only loads for
+  // objects drawn wider than about 340 px; the 512 and 256 files that tiles and cards load stay under 120 KB.
   for (const art of Object.values(SUBJECT_RENDERS)) {
     for (const w of art.widths) {
       const file = `public${subjectArtSrc(art, w)}`;
       assert.match(file, /\.v2(-\d+)?\.webp$/, file);
-      assert.ok(read(file).length < 120_000, `${file} is under 120 KB`);
+      const cap = w === art.widths[art.widths.length - 1] ? 200_000 : 120_000;
+      assert.ok(read(file).length < cap, `${file} is under ${cap / 1000} KB`);
     }
   }
   // No stray files: every object file in the folder belongs to a render.

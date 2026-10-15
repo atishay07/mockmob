@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
-import { useCountUp } from "@/lib/motion/useCountUp";
+import { useCountUpState } from "@/lib/motion/useCountUp";
 import { useInView } from "@/lib/motion/useInView";
 import { useMobiPrefs } from "@/lib/mobiPrefs";
 
@@ -11,6 +11,8 @@ import { useMobiPrefs } from "@/lib/mobiPrefs";
  * showing when `value` changes, and shows the real value at once under Reduce motion. Screen
  * readers always get the real value, never the numbers in between.
  *   direction="down" counts from `value` to `startValue` instead.
+ *   memoryKey remembers the value in this visit (the app's number memory): the same value shows at once, a
+ *   changed one rolls from the old figure and is tinted while it moves (see useCountUpState).
  */
 export function NumberTicker({
   value,
@@ -19,6 +21,7 @@ export function NumberTicker({
   delay = 0,
   className,
   decimalPlaces = 0,
+  memoryKey,
   ...props
 }) {
   const { reduced } = useMobiPrefs();
@@ -32,7 +35,9 @@ export function NumberTicker({
 
   const down = direction === "down";
   const target = (inView && go) || reduced ? (down ? startValue : value) : (down ? value : startValue);
-  const rolled = useCountUp(target, { decimals: decimalPlaces, duration: 1400 });
+  // Memory starts with the real value: the 'before it scrolls in' start value must never be remembered.
+  const started = (inView && go) || reduced;
+  const { value: rolled, ink } = useCountUpState(target, { decimals: decimalPlaces, duration: 1400, memoryKey: started ? memoryKey : undefined });
   const text = Intl.NumberFormat("en-US", {
     minimumFractionDigits: decimalPlaces,
     maximumFractionDigits: decimalPlaces,
@@ -43,7 +48,7 @@ export function NumberTicker({
   }).format(Number(down ? startValue : value));
 
   return (
-    <span ref={ref} className={cn("inline-block tracking-wider tabular-nums text-inherit", className)} {...props}>
+    <span ref={ref} className={cn("inline-block tracking-wider tabular-nums text-inherit", memoryKey != null && "mk-num", className)} data-ink={ink || undefined} {...props}>
       <span aria-hidden="true">{text}</span>
       <span className="sr-only">{real}</span>
     </span>

@@ -170,7 +170,7 @@ test('motion-kit.css adopts the app\'s values and drops the 1.56 overshoot', () 
   assert.match(css, /html\[data-theme='light'\] \{\n {2}--mk-ink-rise: #526700;\n {2}--mk-ink-fall: #655f53;/);
 });
 
-test('nav-motion.css drops its 1.56 fallbacks too', { todo: 'nav-motion.css belongs to the nav packet: its pill, items and CTA still name cubic-bezier(.34, 1.56, .64, 1)' }, () => {
+test('nav-motion.css drops its 1.56 fallbacks too', () => {
   const nav = readFileSync(path.join(ROOT, 'src', 'app', 'nav-motion.css'), 'utf8');
   assert.ok(!nav.includes('1.56'));
 });

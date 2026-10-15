@@ -9,7 +9,8 @@ import { CutoffCalculator } from '@/components/du/CutoffCalculator';
 import CompassPro from '@/components/du/CompassPro';
 import { DU_SOURCES } from '@/lib/du/sources';
 import { useAuth } from '@/components/AuthProvider';
-import { AppIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useInsights } from '@/components/ai/useInsights';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 
@@ -23,7 +24,7 @@ function PracticeBridge({ userId }) {
   if (!top) return null;
   return (
     <aside className="cmp-bridge" aria-label="From your practice">
-      <span className="cmp-bridge__icon"><SubjectIcon id={top.subject} size={20} /></span>
+      <span className="cmp-bridge__obj" aria-hidden="true"><SubjectObject id={top.subject} size={56} framed={false} /></span>
       <div>
         <b>Your practice says: {top.chapter}</b>
         <p>{top.subjectName} has the most marks open in your record ({top.right} right, {top.wrong} wrong, {top.skip} blank over {top.n} questions). Cutoffs are history, but the subjects you drill are the ones you control.</p>

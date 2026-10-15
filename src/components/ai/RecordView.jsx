@@ -5,7 +5,8 @@
 import { useEffect, useState } from 'react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import MobiReact from '@/components/brand/MobiReact';
-import { useCountUp, useInView } from '@/lib/motion';
+import SceneVignette from '@/components/scenes/SceneVignette';
+import { useCountUpState, useInView } from '@/lib/motion';
 import AnswerSheet from './AnswerSheet';
 import { lookChange, readLastLook, rememberLook } from './useInsights';
 import './prepos.css';
@@ -35,7 +36,9 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
   const [from] = useState(() => readLastLook(userId));
   const now = accuracy.pct;
   const change = lookChange(from, now);
-  const shown = useCountUp(now ?? 0, { from: from ?? undefined, duration: 800 });
+  // The number remembers what it showed in this visit: back on this page with the same accuracy it just shows it;
+  // a changed one rolls from the old figure, in volt when it rose and dimmed when it fell.
+  const { value: shown, ink } = useCountUpState(now ?? 0, { from: from ?? undefined, duration: 800, memoryKey: `record-accuracy:${userId}` });
   useEffect(() => { rememberLook(userId, now); }, [userId, now]);
   return (
     <>
@@ -44,7 +47,7 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
         <div><dt>Right</dt><dd>{right}</dd></div>
         <div><dt>Wrong</dt><dd>{wrong}</dd></div>
         <div><dt>Blank</dt><dd>{blank}</dd></div>
-        <div><dt>Accuracy</dt><dd>{now === null ? '—' : `${shown}%`}</dd><small>{now === null ? 'No attempted questions' : `Likely ${accuracy.low}–${accuracy.high}% (${accuracy.n} answered)`}</small></div>
+        <div><dt>Accuracy</dt><dd className="mk-num" data-ink={ink || undefined}>{now === null ? '—' : `${shown}%`}</dd><small>{now === null ? 'No attempted questions' : `Likely ${accuracy.low}–${accuracy.high}% (${accuracy.n} answered)`}</small></div>
       </dl>
       {change ? (
         <p className="pp-look" data-dir={change.delta > 0 ? 'up' : 'down'} role="status">
@@ -85,8 +88,8 @@ export default function RecordView({ state, onNavigate, pro = false }) {
   }
   if (status === 'empty') {
     return (
-      <div className="pp-empty">
-        <AppIcon name="practice" size={22} />
+      <div className="pp-empty pp-empty--room">
+        <SceneVignette scene="nothingYet" compact />
         <div><b>Nothing to analyse yet.</b><p>Finish one practice session. PrepOS will then show where your marks went: which chapters, which answer changes, and where the time went.</p></div>
         <button type="button" className="btn-volt sm" onClick={() => onNavigate('/dashboard?mode=quick')}>Start a set</button>
       </div>

@@ -9,7 +9,8 @@
 //   node scripts/gen-motion-tokens.mjs           write both files
 //   node scripts/gen-motion-tokens.mjs --check   exit 1 when either is stale
 //
-// Haptics in the JSON are the app's (the plan gives haptics to the app), so the web output skips them.
+// Haptics: the CSS block has none; tokens.g.js carries each haptic's `web` vibrate pattern (the app uses the `flutter` and
+// `android` halves of the same entries).
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
@@ -191,6 +192,11 @@ export function jsModule(tokens, { springs = sampleSprings(tokens), lift = sampl
   out.push('');
   out.push('/** Whole counts. */');
   out.push(`export const counts = ${frozen(Object.entries(tokens.counts).map(([k, v]) => [k, v]))};`);
+  out.push('');
+  const webHaptics = Object.entries({ ...(tokens.haptics?.base || {}), ...(tokens.haptics?.verbs || {}) })
+    .map(([k, v]) => [k, `Object.freeze([${(v.web || []).map(num).join(', ')}])`]);
+  out.push('/** Vibrate patterns (ms on, off, on...) for the haptics the app also has; an empty pattern is a no-op. */');
+  out.push(`export const haptics = ${frozen(webHaptics)};`);
   out.push('');
   out.push('/** Page transitions, as the app\'s router draws them. Curves are names in `curves`. */');
   out.push(`export const transitions = ${frozen(Object.entries(tokens.transitions).map(([g, values]) => [g, `Object.freeze({ ${Object.entries(values).map(([k, v]) => `${k}: ${typeof v === 'string' ? q(v) : num(v)}`).join(', ')} })`]))};`);

@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import InstallPractice from './InstallPractice';
-import { useCountUp } from '@/lib/motion/useCountUp';
+import { useCountUpState } from '@/lib/motion/useCountUp';
 import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { practiceForMinutes } from '@/../data/learning_engine';
@@ -19,17 +19,17 @@ const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
 // The planned minutes, rolling from the old choice to the new one. It first shows the real value.
 function MinutesRoll({ value }) {
-  const rolled = useCountUp(value, { duration: 520 });
-  return <span className="na__mins"><span aria-hidden="true">{rolled}</span><span className="sr-only">{value}</span> min</span>;
+  const { value: rolled, ink } = useCountUpState(value, { duration: 520, memoryKey: 'na-planned-minutes' });
+  return <span className="na__mins"><span aria-hidden="true" className="mk-num" data-ink={ink || undefined}>{rolled}</span><span className="sr-only">{value}</span> min</span>;
 }
 
 // The plan's first sentence: what the session is. The engine's later sentences explain its rules.
 const firstSentence = (text = '') => { const at = text.indexOf('. '); return at === -1 ? text : text.slice(0, at + 1); };
 
 // A number that counts up to its real value (the app's number memory); the real value is read out.
-function Rolled({ value }) {
-  const rolled = useCountUp(value, { from: 0, duration: 900 });
-  return <><span aria-hidden="true">{rolled}</span><span className="sr-only">{value}</span></>;
+function Rolled({ value, memoryKey }) {
+  const { value: rolled, ink } = useCountUpState(value, { from: 0, duration: 900, memoryKey });
+  return <><span aria-hidden="true" className="mk-num" data-ink={ink || undefined}>{rolled}</span><span className="sr-only">{value}</span></>;
 }
 
 // The why beside tonight's plan: the chapter where the student's own record has the most marks open,
@@ -42,7 +42,7 @@ function NextWhy({ plan, top, planned }) {
         <span className="na__why-art" aria-hidden="true"><SubjectObject id={top.subject} size={120} lit life={false} /></span>
         <div className="na__why-text">
           <b className="na__why-chapter">{top.subjectName}</b>
-          <p className="na__why-marks"><strong><Rolled value={top.open} /></strong><span>marks open in this chapter</span></p>
+          <p className="na__why-marks"><strong><Rolled value={top.open} memoryKey="na-open-marks" /></strong><span>marks open in this chapter</span></p>
           <p className="na__why-detail">{[top.wrong ? `${top.wrong} wrong` : '', top.skip ? `${top.skip} left blank` : ''].filter(Boolean).join(' and ')} of {plural(top.n, 'question')}, over {plural(top.sessions, 'session')}.</p>
           <Link className="pr-link na__why-link" href="/mentor?tab=record">See your full record</Link>
         </div>
@@ -52,7 +52,7 @@ function NextWhy({ plan, top, planned }) {
   if (plan.primary.kind === 'ordinary_practice') {
     return (
       <aside className="na__why na__why--shape" aria-label="Tonight’s session">
-        <p className="na__why-marks"><strong><Rolled value={planned} /></strong><span>minutes tonight</span></p>
+        <p className="na__why-marks"><strong><Rolled value={planned} memoryKey="na-minutes-tonight" /></strong><span>minutes tonight</span></p>
         <p className="na__why-detail">Marked +5 and −1, the CUET way. Every miss waits in Review with its explanation.</p>
       </aside>
     );

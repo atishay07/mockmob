@@ -12,11 +12,11 @@
     display: block; position: absolute; z-index: -1; left: 0; top: 50%; height: 40px; margin-top: -20px;
     width: var(--ni-w); border-radius: var(--r-1, 10px); background: var(--paper-sunken);
     transform: translate3d(var(--ni-x), 0, 0); opacity: var(--ni-on); pointer-events: none;
-    transition: transform 380ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1)), width 380ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1)), opacity 180ms ease;
+    transition: transform var(--mm-spring-dock-dur) var(--mm-spring-dock), width var(--mm-spring-dock-dur) var(--mm-spring-dock), opacity 180ms ease;
   }
   .mm-nav__links[data-snap] .mm-nav__pill { transition: opacity 180ms ease; }
   .mm-nav .mm-nav__links .mm-nav__link, .mm-nav .mm-nav__links .mm-nav__link[aria-current="page"], .mm-nav .mm-nav__links .mm-nav__link:hover { background: transparent; }
-  .mm-nav .mm-nav__links .mm-nav__link { transition: color 160ms ease, transform 420ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1)); }
+  .mm-nav .mm-nav__links .mm-nav__link { transition: color 160ms ease, transform var(--mm-spring-release-dur) var(--mm-spring-release); }
   .mm-nav .mm-nav__links .mm-nav__link:active { transform: scale(0.96); transition-duration: 160ms, 90ms; }
 }
 
@@ -32,7 +32,7 @@
 
 /* The Start key: it leans in and glows before you press, and springs back after */
 .mm-nav .mm-nav__cta, .mm-dock .mm-btn--primary {
-  transition: transform 420ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1)), box-shadow 240ms ease, background-color 150ms ease;
+  transition: transform var(--mm-spring-release-dur) var(--mm-spring-release), box-shadow 240ms ease, background-color 150ms ease;
 }
 @media (hover: hover) and (pointer: fine) {
   .mm-nav .mm-nav__cta:hover, .mm-dock .mm-btn--primary:hover { transform: translateY(-1px); box-shadow: 0 10px 26px -8px var(--volt-glow-strong, rgba(210, 240, 0, .5)); }

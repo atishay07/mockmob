@@ -278,7 +278,7 @@ export default function ModerationPageClient() {
       {loading && <QueueSkeleton />}
 
       {!loading && error && (
-        <ErrorState message={error} onRetry={load} />
+        <ErrorState scene="unreachable" message={error} onRetry={load} />
       )}
 
       {!loading && !error && queue.length === 0 && (
