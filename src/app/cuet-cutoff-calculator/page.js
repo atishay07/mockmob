@@ -23,7 +23,7 @@ const faqs = [
   {
     question: 'Where do the eligibility rules and cutoffs come from?',
     answer:
-      'Eligibility comes from the University of Delhi UG Bulletin of Information 2026-27. Cutoffs are the minimum allocation scores DU published for Round I, Round II and Round III of CSAS UG 2026. The sources are linked on this page.',
+      'Eligibility comes from the University of Delhi UG Bulletin of Information 2026-27. Cutoffs are the minimum allocation scores DU published for Round 1, Round 2 and Round 3 of its 2026 admissions. The sources are linked on this page.',
   },
   {
     question: 'Will the 2027 cutoffs be the same as these?',
@@ -33,7 +33,7 @@ const faqs = [
   {
     question: 'What score should I enter?',
     answer:
-      'DU ranks candidates on a programme-specific CUET score and shows it on the CSAS dashboard after results. Before results, enter the score you are aiming for. A MockMob mock score uses a different scale.',
+      'DU ranks candidates on a separate CUET score for each programme and shows it to you after results. Before results, enter the score you are aiming for. A MockMob mock score uses a different scale.',
   },
   {
     question: 'Why does a reserved-category candidate see the lower of two cutoffs?',
@@ -107,14 +107,14 @@ export default function CutoffCalculatorPage() {
               <li>
                 <h3 className="lp-h4">Cutoffs come in three rounds</h3>
                 <p>
-                  Round I is usually the highest. Rounds II and III show how far cutoffs fell as seats stayed vacant. Round
+                  Round 1 is usually the highest. Rounds 2 and 3 show how far cutoffs fell as seats stayed vacant. Round
                   III scores are independent of the earlier rounds.
                 </p>
               </li>
               <li>
                 <h3 className="lp-h4">Plan from the range, not one number</h3>
                 <p>
-                  A seat you would have cleared in Round I is a strong sign. A seat you clear only in Round III is a reach
+                  A seat you would have cleared in Round 1 is a strong sign. A seat you clear only in Round 3 is a reach
                   that depends on vacancies.
                 </p>
               </li>

@@ -15,7 +15,7 @@ import { useMyColleges } from '@/components/colleges/useMyColleges';
 import { MAX_COLLEGES, entryKey } from '@/lib/colleges/model.mjs';
 
 const SHORTLIST_LIMIT = MAX_COLLEGES;
-const ROUNDS = ['Round I', 'Round II', 'Round III'];
+const ROUNDS = ['Round 1', 'Round 2', 'Round 3'];
 // The shortlist used to live only in this browser. It is now My colleges, saved to the account and
 // shared with the app; a list found here is moved over once and then cleared.
 const legacyKey = (userId) => `mm.compass.shortlist.v1.${userId || 'anon'}`;

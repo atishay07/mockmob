@@ -271,7 +271,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
 }
 
 // ---------------------------------------------------------------------------------------------
-// The rows. At most: the hero, Quick 10, Full mock, NTA mode; then Choose your own.
+// The rows. At most: the hero, Quick practice, Full mock, NTA mode; then Choose your own.
 
 /**
  * @param {object} o
@@ -288,9 +288,9 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
   const name = subjectName(chosen);
   const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey });
   const rows = [];
-  // A hero that is already "10 questions" in this subject is Quick 10: one row, not two.
+  // A hero that is already "10 questions" in this subject is Quick practice: one row, not two.
   if (!hero?.quick) {
-    rows.push({ id: 'quick', title: `Quick ${SESSION.quickCount}`, detail: `${plural(SESSION.quickCount, 'question')}, about ${SESSION.quickMinutes} minutes${name ? ` in ${name}` : ''}`,
+    rows.push({ id: 'quick', title: 'Quick practice', detail: `${plural(SESSION.quickCount, 'question')}, about ${SESSION.quickMinutes} minutes${name ? ` in ${name}` : ''}`,
       href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance }), badge: String(SESSION.quickCount) });
   }
   rows.push({ id: 'full', title: 'Full mock', detail: `${SESSION.fullCount} questions, ${SESSION.fullMinutes} minutes${name ? ` in ${name}` : ''}`,

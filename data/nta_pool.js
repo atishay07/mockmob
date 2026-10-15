@@ -259,7 +259,7 @@ function timeBudgetError(subject) {
   const bp = getNtaBlueprint(subject);
   const label = bp?.subject === 'general_test' ? 'General Test' : String(bp?.officialName || subject).split(' / ')[0];
   const error = new Error('NTA_TIME_BUDGET_EXCEEDED');
-  error.publicMessage = `Building the ${label} paper took too long, so it was stopped before it started. Please try again in a minute; if it happens again, try a Full Mock for ${label}.`;
+  error.publicMessage = `Building the ${label} paper took too long, so it was stopped before it started. Please try again in a minute; if it happens again, try a Full mock for ${label}.`;
   error.publicDetail = { reason: 'time_budget', retryable: true, items: [] };
   return error;
 }

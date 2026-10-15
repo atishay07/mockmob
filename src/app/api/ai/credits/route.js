@@ -42,7 +42,7 @@ export async function GET(request) {
     tier: paid ? 'paid' : 'free',
     creditCosts: CREDIT_COSTS,
     // Practice credits are a separate ledger from the PrepOS wallet.
-    practiceCredits: { balance: dbUser.creditBalance || 0, label: 'Practice credits (Quick Practice and Full Mock)' },
+    practiceCredits: { balance: dbUser.creditBalance || 0, label: 'Practice credits (Quick practice and Full mock)' },
     normalCreditBalance: dbUser.creditBalance || 0,
     budget: {
       freeMonthlyCredits: AI_FREE_MONTHLY_CREDITS,

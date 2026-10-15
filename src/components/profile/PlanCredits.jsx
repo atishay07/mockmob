@@ -23,7 +23,7 @@ export default function PlanCredits({ userId }) {
           {line.state === 'known' ? <CreditAmount kind="prepos" amount={line.total} unit={false} size={18} /> : null}
           <span className="acct-wallet__line" role="status">{line.line}</span>
         </div>
-        <span className="acct-wallet__links"><Link href="#credits" className="acct-link">See history</Link><Link href={PREPOS_HREF} className="acct-link">Open PrepOS</Link></span>
+        <span className="acct-wallet__links"><Link href="#credits" className="acct-link">See history</Link><Link href={PREPOS_HREF} className="acct-link">Ask Mobi</Link></span>
       </div>
     </section>
   );

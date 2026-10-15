@@ -147,13 +147,13 @@ export function goalSaveBody(days, pausedUntil, now = Date.now()) {
   return { daysPerWeek: days, pausedUntil: activePause(pausedUntil, now) };
 }
 
-/** "Rhythm is paused until 2 Nov. Changing the goal keeps the pause." or null. */
+/** "Study days are paused until 2 Nov. Changing the goal keeps the pause." or null. */
 export function goalPauseLine(pausedUntil, now = Date.now()) {
   const until = activePause(pausedUntil, now);
   if (!until) return null;
   const [y, m, d] = until.split('-').map(Number);
   const text = new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', timeZone: 'UTC' });
-  return `Rhythm is paused until ${text}. Changing the goal keeps the pause.`;
+  return `Study days are paused until ${text}. Changing the goal keeps the pause.`;
 }
 
 /** "4:30 PM": 12-hour, with an ordinary space. */

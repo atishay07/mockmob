@@ -48,7 +48,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Can I practise CUET English free on MockMob?',
         answer:
-          'Yes. Free accounts get Quick Practice and Full Mocks on credits, and the five-question drill on the home page needs no signup.',
+          'Yes. Free accounts get Quick practice and Full mocks on credits, and the five-question drill on the home page needs no signup.',
       },
     ],
   },

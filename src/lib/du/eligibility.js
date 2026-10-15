@@ -151,9 +151,9 @@ export function seatStatus(score, row, categoryIndex) {
   const rounds = [row[2], row[3], row[4]].map((r) => effectiveCutoff(r, categoryIndex));
   if (rounds.every((v) => v === null)) return { id: 'none', label: 'No allocation recorded', cleared: [] };
   const cleared = rounds.map((v, i) => (v !== null && score >= v ? i + 1 : null)).filter(Boolean);
-  if (cleared.includes(1)) return { id: 'r1', label: 'Clears Round I', cleared };
-  if (cleared.includes(2)) return { id: 'r2', label: 'Clears Round II', cleared };
-  if (cleared.includes(3)) return { id: 'r3', label: 'Clears Round III', cleared };
+  if (cleared.includes(1)) return { id: 'r1', label: 'Clears Round 1', cleared };
+  if (cleared.includes(2)) return { id: 'r2', label: 'Clears Round 2', cleared };
+  if (cleared.includes(3)) return { id: 'r3', label: 'Clears Round 3', cleared };
   return { id: 'below', label: 'Below last year', cleared };
 }
 

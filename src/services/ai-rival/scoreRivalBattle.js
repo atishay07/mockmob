@@ -166,5 +166,5 @@ function buildNextMoveHint({ result, accuracy, totalTime, totalQuestions, profil
   if (result === 'win') {
     return 'Step up only if this felt clean. Otherwise replay the questions you nearly missed.';
   }
-  return 'Take a Quick Practice mock to compound the rhythm.';
+  return 'Take a Quick practice mock to compound the rhythm.';
 }

@@ -85,7 +85,7 @@ export function SubjectIcon({ id, size = 20, className = '', ...rest }) {
 
 /**
  * The two currencies, drawn as two coins so they are never confused:
- *   practice: a bolt coin  (spent on Quick Practice and Full Mock)
+ *   practice: a bolt coin  (spent on Quick practice and Full mock)
  *   prepos:   an orbit coin (the PrepOS wallet)
  */
 export function CreditMark({ kind = 'practice', size = 18, className = '' }) {

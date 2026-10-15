@@ -87,7 +87,7 @@ const PATHS = [
     { id: 'repairs_10', short: '10 repairs', condition: () => 'Complete 10 Mistake Repairs' },
     { id: 'repairs_25', short: '25 repairs', condition: () => 'Complete 25 Mistake Repairs' },
   ] },
-  { id: 'rhythm', title: 'Rhythm', steps: [
+  { id: 'rhythm', title: 'Study days', steps: [
     { id: 'first_week_met', short: 'First week met', condition: (r) => `Reach your goal of ${r.daysGoal} study days in one week` },
     { id: 'weeks_met_4', short: '4 weeks met', condition: () => 'Meet your weekly goal in 4 different weeks' },
   ] },

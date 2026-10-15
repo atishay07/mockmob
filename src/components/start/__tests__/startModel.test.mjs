@@ -122,7 +122,7 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
   assert.equal(heroFromPlan(null), null);
 });
 
-test('rows: Quick 10 folds into a hero that is already 10 questions; NTA says Pro on Free', () => {
+test('rows: Quick practice folds into a hero that is already 10 questions; NTA says Pro on Free', () => {
   const plan = learningPlan({ minutes: 10 });
   const merged = startRows({ plan, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
   assert.deepEqual(merged.rows.map((r) => r.id), ['full', 'nta']);

@@ -3,7 +3,7 @@ import { NTA_MIN_SERVE_QUESTIONS } from '@/../data/nta_engine';
 
 // Refusals the question bank decides. The engine works a refusal out with a fixed seed, so the same
 // sentence comes back on every retry: detail.retryable is false and a client offers another way
-// forward (a Full Mock) instead of "Try again".
+// forward (a Full mock) instead of "Try again".
 export const NTA_BANK_REFUSALS = new Set(['no_scored_questions', 'no_passage_sets', 'too_few_questions']);
 
 /**
@@ -17,7 +17,7 @@ export function assertNtaPaperServable(questions, meta, code = 'INSUFFICIENT_PRA
   if (paper && paper.status !== 'refused' && questions.length >= NTA_MIN_SERVE_QUESTIONS) return;
   const error = new Error(code);
   const reason = paper?.refusal?.reason || 'unavailable';
-  error.publicMessage = paper?.notice?.summary || meta?.message || 'NTA mode is not ready for this subject yet. Try a Full Mock instead.';
+  error.publicMessage = paper?.notice?.summary || meta?.message || 'NTA mode is not ready for this subject yet. Try a Full mock instead.';
   error.publicDetail = { reason, ...(paper?.refusal?.cause ? { cause: paper.refusal.cause } : {}), retryable: !NTA_BANK_REFUSALS.has(reason), items: paper?.notice?.items || [] };
   throw error;
 }
@@ -55,7 +55,7 @@ export function ntaOptionLayout(questions, meta, code = 'INSUFFICIENT_PRACTICE_C
     const served = Number.isInteger(q.correctIndex) ? q.correctIndex : -1;
     const bad = (reason) => {
       const error = new Error(code);
-      error.publicMessage = 'This paper could not be prepared safely, so it was not started. Try again, or take a Full Mock instead. No credits were charged.';
+      error.publicMessage = 'This paper could not be prepared safely, so it was not started. Try again, or take a Full mock instead. No credits were charged.';
       error.publicDetail = { reason, items: [] };
       throw error;
     };
