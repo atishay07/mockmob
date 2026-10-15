@@ -1,10 +1,10 @@
-// The Arena page header, shared so every signed-in page opens the way Practice does:
-// a dot eyebrow, one display headline, a short lede and an optional side panel.
-export default function ArenaHead({ eyebrow, title, lede, aside = null }) {
+// The Arena page header, shared so every signed-in page opens the same way: one display headline,
+// a short lede and an optional side panel. Nothing sits above the headline: the header bar already
+// names the page, so an `eyebrow` prop from older callers is ignored, never drawn as a kicker.
+export default function ArenaHead({ title, lede, aside = null }) {
   return (
     <header className={aside ? 'pr-head' : 'pr-head pr-head--solo'}>
       <div>
-        {eyebrow ? <div className="eyebrow">{eyebrow}</div> : null}
         <h1 className="display-md">{title}</h1>
         {lede ? <p>{lede}</p> : null}
       </div>

@@ -1,78 +1,80 @@
 /* ==========================================================================
    PRACTICE polish (src/app/(app)/dashboard). Layered on arena.css, which keeps the page's base geometry.
    Motion comes from the shared tokens (motion-kit.css, the same JSON as the app): the lamp comes on
-   with the emphasized curve, the chosen tile inks its rim and pops its tick on the icon-pop spring,
-   a press sinks on the snappy spring and lets go with the app's press lift.
+   with the emphasized curve, the chosen subject's rule settles in on the settle spring, a mode's radio
+   fills on the icon-pop spring, and a press sinks and lets go with the app's press lift.
    Reduced motion: no movement; state changes are short fades.
    ========================================================================== */
 
-/* ---------- Subject tiles ----------
-   Phones (a Subject step under 420 px): two to a row, a 60 px object at the top left, the words under it.
-   Wider, the step is a size container and every tile becomes a small stage: the object stands in the
-   top-right corner under its lamp, the name and question count sit on the tile's floor at the bottom left,
-   and the tick takes the top left. The columns follow the room and the count, so four subjects are two
-   pairs or one row (900 px and up), never three and an orphan. Each tile is a container too: 330 px and
-   wider, the words stand beside the object; narrower, under it. */
-.app-shell .pr .pr-subjects .pr-subject { --pr-obj: 60px; }
-.app-shell .pr .pr-step--subjects { container: pr-subject-step / inline-size; }
-
-/* The object box carries its own air; pull it to the tile's corner by the same share at every size. */
+/* ---------- The subject shelf ----------
+   Each subject is its object standing on one shared shelf line, with its name and question count under it.
+   No box per subject. The chosen subject has its lamp on and a short volt rule under its name; the others
+   stand a little back (dimmer) until the pointer comes near. Four subjects make one row at every width;
+   five or six make rows of three on phones. A press lets the object answer (DashboardPageClient.jsx). */
+.app-shell .pr .pr-subjects {
+  display: grid;
+  grid-template-columns: repeat(var(--pr-cols, 4), minmax(0, 1fr));
+  gap: 6px 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--a-line);
+}
+.app-shell .pr .pr-subjects:is([data-count='3'], [data-count='5'], [data-count='6']) { --pr-cols: 3; }
+@media (min-width: 900px) {
+  .app-shell .pr .pr-subjects[data-count='5'] { --pr-cols: 5; }
+  .app-shell .pr .pr-subjects[data-count='6'] { --pr-cols: 6; }
+}
+.app-shell .pr .pr-subject {
+  --pr-obj: clamp(64px, 18vw, 116px);
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 2px;
+  min-width: 0;
+  padding: 4px 4px 14px;
+  border: 0;
+  border-radius: 14px;
+  background: none;
+  color: var(--a-ink-2);
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--mm-dur-ui) var(--mm-ease-out);
+}
+@media (min-width: 1024px) { .app-shell .pr .pr-subject { --pr-obj: clamp(96px, 8vw, 124px); } }
+.app-shell .pr .pr-subject::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 40px;
+  height: 3px;
+  margin-left: -20px;
+  border-radius: 3px;
+  background: var(--a-select);
+  transform: scaleX(0);
+  transition: transform var(--mm-dur-exit) var(--mm-ease-exit);
+}
+.app-shell .pr .pr-subject[aria-pressed='true'] { color: var(--a-ink); }
+.app-shell .pr .pr-subject[aria-pressed='true']::after { transform: scaleX(1); transition: transform var(--mm-spring-settle-dur) var(--mm-spring-settle); }
+.app-shell .pr .pr-subject:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .app-shell .pr .pr-subjects .pr-subject__obj.subj-obj {
   width: var(--pr-obj);
   height: var(--pr-obj);
-  margin: calc(var(--pr-obj) * -0.1) 0 calc(var(--pr-obj) * -0.07) calc(var(--pr-obj) * -0.1);
+  margin: 0 0 -2px;
+  opacity: 0.72;
+  transition: opacity var(--mm-dur-ui) var(--mm-ease-out), transform var(--mm-press-lift-dur) var(--mm-press-lift);
 }
-
-@container pr-subject-step (min-width: 420px) {
-  .app-shell .pr .pr-subjects { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .app-shell .pr .pr-subjects .pr-subject {
-    container: pr-subject-tile / inline-size;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-rows: minmax(0, 1fr) auto auto;
-    column-gap: 10px;
-    row-gap: 3px;
-    padding: 16px 16px 16px 18px;
-    border-radius: 20px;
-  }
-  .app-shell .pr .pr-subjects .pr-subject__name { margin-top: 0; font-size: 17px; letter-spacing: -0.012em; }
-  .app-shell .pr .pr-subjects .pr-subject__meta { font-size: 12.5px; }
-  .app-shell .pr .pr-subjects .pr-tile__tick { top: 14px; right: auto; left: 14px; }
-  /* The chosen tile's wash pools under the object's lamp instead of falling from the top edge. */
-  .app-shell .pr .pr-subjects .pr-subject::before {
-    background: radial-gradient(120% 110% at 100% 0%, var(--a-volt-wash), transparent 64%);
-  }
+.app-shell .pr .pr-subject[aria-pressed='true'] .pr-subject__obj.subj-obj { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .pr .pr-subject:hover { color: var(--a-ink); }
+  .app-shell .pr .pr-subject:hover .pr-subject__obj.subj-obj { opacity: 0.92; }
 }
-@container pr-subject-step (min-width: 760px) {
-  .app-shell .pr .pr-subjects:is([data-count='3'], [data-count='5'], [data-count='6']) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
-@container pr-subject-step (min-width: 900px) {
-  .app-shell .pr .pr-subjects[data-count='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
-
-/* A narrow tile: the object over the words, pulled up into the top-right corner. */
-@container pr-subject-tile (min-width: 0px) {
-  .app-shell .pr .pr-subjects .pr-subject__obj.subj-obj {
-    --pr-obj: clamp(116px, 62cqi, 148px);
-    grid-column: 1 / -1;
-    grid-row: 1;
-    justify-self: end;
-    align-self: start;
-    margin: calc(var(--pr-obj) * -0.1) calc(var(--pr-obj) * -0.08) calc(var(--pr-obj) * -0.05) 0;
-  }
-  .app-shell .pr .pr-subjects .pr-subject__name { grid-column: 1 / -1; grid-row: 2; align-self: end; }
-  .app-shell .pr .pr-subjects .pr-subject__meta { grid-column: 1 / -1; grid-row: 3; }
-}
-/* A wide tile: the object stands beside the words, which sit on the tile's floor. */
-@container pr-subject-tile (min-width: 330px) {
-  .app-shell .pr .pr-subjects .pr-subject__obj.subj-obj {
-    --pr-obj: clamp(132px, 40cqi, 152px);
-    grid-column: 2;
-    grid-row: 1 / -1;
-    margin: calc(var(--pr-obj) * -0.1) calc(var(--pr-obj) * -0.08) calc(var(--pr-obj) * -0.08) 0;
-  }
-  .app-shell .pr .pr-subjects .pr-subject__name { grid-column: 1; }
-  .app-shell .pr .pr-subjects .pr-subject__meta { grid-column: 1; }
-}
+.app-shell .pr .pr-subject:active .pr-subject__obj.subj-obj { transform: scale(0.97); }
+.app-shell .pr .pr-subject__name { max-width: 100%; font-family: var(--font-display); font-size: clamp(12px, 3.2vw, 16px); font-weight: 700; line-height: 1.2; letter-spacing: -0.015em; text-wrap: balance; overflow-wrap: normal; hyphens: manual; }
+.app-shell .pr .pr-subject__meta { display: grid; gap: 1px; font-size: 12px; line-height: 1.35; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .pr .pr-subject__meta:empty { display: none; }
+@media (max-width: 479px) { .app-shell .pr .pr-subject__meta > span + span { display: none; } }
 
 /* The lamp: off at rest, warming a little under the pointer, full on the chosen tile. It swells in on the
    settle spring and fades out on the exit curve, so a change of subject reads as one light moving. */
@@ -100,178 +102,73 @@
     scale var(--mm-spring-settle-dur) var(--mm-spring-settle);
 }
 
-/* ---------- Every selectable tile: one eased selected state ---------- */
-.app-shell .pr .pr-tile {
-  isolation: isolate;
-  transition:
-    border-color var(--mm-dur-ui) var(--mm-ease-out),
-    box-shadow var(--mm-dur-ui) var(--mm-ease-out),
-    background-color var(--mm-dur-ui) var(--mm-ease-out),
-    transform var(--mm-press-lift-dur) var(--mm-press-lift);
+/* ---------- The Mode list ----------
+   One group with hairline dividers: a radio, the name and what it is, the price on the right. The chosen row
+   fills its radio and takes a quiet wash. NTA Mode shows its exam-screen picture in the row from 1100 px;
+   narrower, the picture opens under the list once NTA Mode is chosen (.pr-nta__more). */
+.app-shell .pr .pr-modes { display: grid; overflow: hidden; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); }
+.app-shell .pr .pr-mode {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 14px;
+  min-height: 64px;
+  padding: 14px 18px;
+  border: 0;
+  background: transparent;
+  color: var(--a-ink);
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--mm-dur-ui) var(--mm-ease-out);
 }
-.app-shell .pr .pr-tile:active:not(:disabled) {
-  transform: scale(0.98);
-  transition-duration: var(--mm-dur-ui), var(--mm-dur-ui), var(--mm-dur-ui), var(--mm-spring-snappy-dur);
-  transition-timing-function: var(--mm-ease-out), var(--mm-ease-out), var(--mm-ease-out), var(--mm-spring-snappy);
+.app-shell .pr .pr-mode + .pr-mode { border-top: 1px solid var(--a-line); }
+@media (hover: hover) and (pointer: fine) { .app-shell .pr .pr-mode:hover { background: var(--a-hover); } }
+.app-shell .pr .pr-mode[aria-pressed='true'] { background: var(--a-volt-wash); }
+.app-shell .pr .pr-mode:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+.app-shell .pr .pr-mode__radio { position: relative; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--a-line-strong); transition: border-color var(--mm-dur-ui) var(--mm-ease-out), transform var(--mm-press-lift-dur) var(--mm-press-lift); }
+.app-shell .pr .pr-mode__radio::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--a-select); transform: scale(0); transition: transform var(--mm-dur-exit) var(--mm-ease-exit); }
+.app-shell .pr .pr-mode[aria-pressed='true'] .pr-mode__radio { border-color: var(--a-select); }
+.app-shell .pr .pr-mode[aria-pressed='true'] .pr-mode__radio::after { transform: scale(1); transition: transform var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop); }
+.app-shell .pr .pr-mode:active .pr-mode__radio { transform: scale(0.9); }
+.app-shell .pr .pr-mode__text { display: grid; gap: 2px; min-width: 0; }
+.app-shell .pr .pr-mode__name { font-family: var(--font-display); font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+.app-shell .pr .pr-mode__spec { max-width: 62ch; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2); }
+.app-shell .pr .pr-mode__price { display: inline-flex; align-items: center; gap: 5px; font-size: 13.5px; font-weight: 700; color: var(--a-ink-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.app-shell .pr .pr-mode__price[data-tone='included'] { color: var(--a-accent-text); }
+.app-shell .pr .pr-mode__price:is([data-tone='locked'], [data-tone='muted']) { font-weight: 600; color: var(--a-ink-3); }
+/* NTA Mode: the exam-screen picture sits in the row only where there is room for it. */
+.app-shell .pr .pr-nta > .pr-nta__console { display: none; }
+@media (min-width: 1100px) {
+  .app-shell .pr .pr-nta { grid-template-columns: 20px minmax(0, 1fr) 210px auto; padding-block: 18px; }
+  .app-shell .pr .pr-nta > .pr-nta__console { margin-inline: 10px 6px; }
+  .app-shell .pr .pr-nta > .pr-nta__console { display: grid; }
+  .app-shell .pr .pr-nta__more { display: none; }
 }
-/* The volt wash fades in under the content instead of switching on with the border. */
-.app-shell .pr .pr-tile[aria-pressed='true'] { background: var(--a-raised); }
-.app-shell .pr .pr-tile::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  background: linear-gradient(180deg, var(--a-volt-wash), transparent 90%);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity var(--mm-dur-exit) var(--mm-ease-exit);
-}
-.app-shell .pr .pr-tile[aria-pressed='true']::before {
-  opacity: 1;
-  transition: opacity var(--mm-dur-emphasized) var(--mm-ease-emphasized);
-}
-/* The tick arrives on the icon-pop spring each time a tile is chosen. */
-.app-shell .pr .pr-tile__tick { animation: pr-tick-in var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop) both; }
-@keyframes pr-tick-in { from { opacity: 0; scale: 0.4; } to { opacity: 1; scale: 1; } }
-
-/* ---------- Modes beside the session panel (1024 to 1279 px): three tiles would be 145 px wide and their
-   prices would run into the tick, so they become three rows (icon, name and line, price) ---------- */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .app-shell .pr .pr-modes { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .app-shell .pr .pr-mode { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 14px; row-gap: 2px; padding: 12px 14px; }
-  .app-shell .pr .pr-mode .pr-mode__top { display: contents; }
-  .app-shell .pr .pr-mode .pr-mode__icon { grid-column: 1; grid-row: 1 / span 2; }
-  .app-shell .pr .pr-mode .pr-mode__name { grid-column: 2; grid-row: 1; margin-top: 0; }
-  .app-shell .pr .pr-mode .pr-mode__spec { grid-column: 2; grid-row: 2; }
-  .app-shell .pr .pr-mode .pr-badge { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
-  .app-shell .pr .pr-mode .pr-tile__tick { top: 50%; margin-top: -11px; }
-  /* NTA Mode stacks its exam screen under the words, so its kicker and price keep one line. */
-  .app-shell .pr .pr-nta { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-}
-
-/* ---------- The Mode step ----------
-   From 720 px: Quick, Full and Smart in three columns, then NTA mode as its own wide showcase (the grid
-   spans it). Phones follow the app's start deck: Quick leads full width with its lit icon, Full mock and NTA
-   mode pair up as the exam-conditions tiles (NTA with the app's palette picture), Smart practice runs as a
-   row under them. Choosing NTA mode opens what its short tile holds (the screen, its chips and the choice of
-   exam screen) right under the deck. */
-.app-shell .pr .pr-modes > .pr-nta { grid-column: 1 / -1; }
-.app-shell .pr .pr-nta__short, .app-shell .pr .pr-nta__glyph, .app-shell .pr .pr-nta__more { display: none; }
 .app-shell .pr .pr-nta__after { display: grid; gap: 12px; }
+.app-shell .pr .pr-nta__more { max-width: 360px; }
 .app-shell .pr .pr-sep { display: inline-block; width: 3px; height: 3px; margin: 0 7px; border-radius: 50%; background: currentColor; opacity: 0.55; vertical-align: middle; }
-
-@media (max-width: 719px) {
-  .app-shell .pr .pr-modes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  /* Full mock and NTA mode: a tile each, the picture on top, the price at the foot. */
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'],
-  .app-shell .pr .pr-modes > .pr-nta {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto auto 1fr auto;
-    grid-template-areas: 'pic' 'name' 'spec' 'price';
-    align-content: stretch;
-    gap: 3px;
-    min-height: 176px;
-    padding: 14px;
-    border-radius: 18px;
-  }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] { order: 2; grid-column: auto; }
-  .app-shell .pr .pr-modes > .pr-nta { order: 3; grid-column: auto; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-mode__top,
-  .app-shell .pr .pr-modes > .pr-nta .pr-mode__top,
-  .app-shell .pr .pr-modes > .pr-nta .pr-nta__copy { display: contents; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-mode__icon { grid-area: pic; width: 44px; height: 44px; border-radius: 14px; margin-bottom: 8px; }
-  .app-shell .pr .pr-modes > .pr-nta .pr-mode__icon, .app-shell .pr .pr-nta__kicker { display: none; }
-  .app-shell .pr .pr-modes > .pr-nta .pr-nta__glyph { display: block; grid-area: pic; width: 44px; height: 44px; margin-bottom: 8px; filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.28)); }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-mode__name,
-  .app-shell .pr .pr-modes > .pr-nta .pr-mode__name { grid-area: name; margin-top: 0; font-size: 16px; letter-spacing: -0.012em; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-mode__spec { grid-area: spec; }
-  .app-shell .pr .pr-modes > .pr-nta .pr-mode__spec, .app-shell .pr .pr-nta__chips, .app-shell .pr .pr-modes > .pr-nta > .pr-nta__console { display: none; }
-  .app-shell .pr .pr-modes > .pr-nta .pr-nta__short { display: block; grid-area: spec; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'] .pr-badge,
-  .app-shell .pr .pr-modes > .pr-nta .pr-badge { grid-area: price; justify-self: start; margin: 8px 0 0; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='full'][aria-pressed='true'] .pr-badge,
-  .app-shell .pr .pr-modes > .pr-nta[aria-pressed='true'] .pr-badge { margin-right: 0; }
-
-  /* Quick practice leads: full width, its icon lit on the right. */
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] {
-    order: 1;
-    grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas: 'name pic' 'spec pic' 'price pic';
-    align-items: center;
-    column-gap: 16px;
-    row-gap: 3px;
-    min-height: 132px;
-    padding: 18px 18px 18px 20px;
-    border-radius: 22px;
-  }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__top { display: contents; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__icon {
-    grid-area: pic;
-    width: 76px;
-    height: 76px;
-    border-radius: 24px;
-    border-color: var(--a-volt-line);
-    background: radial-gradient(75% 75% at 50% 30%, var(--a-volt-wash), transparent 80%), var(--a-sunken);
-    box-shadow: 0 14px 30px -18px var(--a-volt-line);
-  }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__icon svg { width: 34px; height: 34px; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__name { grid-area: name; margin-top: 0; font-size: 22px; letter-spacing: -0.02em; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-mode__spec { grid-area: spec; font-size: 13.5px; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'] .pr-badge { grid-area: price; justify-self: start; margin: 8px 0 0; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='quick'][aria-pressed='true'] .pr-badge { margin-right: 0; }
-
-  /* Smart practice: a row under the pair. */
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] {
-    order: 4;
-    grid-column: 1 / -1;
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    align-items: center;
-    column-gap: 14px;
-    row-gap: 2px;
-    padding: 12px 14px;
-  }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-mode__top { display: contents; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-mode__icon { grid-column: 1; grid-row: 1 / span 2; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-mode__name { grid-column: 2; grid-row: 1; margin-top: 0; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-mode__spec { grid-column: 2; grid-row: 2; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-badge { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
-  .app-shell .pr .pr-modes > .pr-mode[data-mode='smart'] .pr-tile__tick { top: 50%; margin-top: -11px; }
-
-  /* What the short NTA tile holds. */
-  .app-shell .pr .pr-nta__more {
-    display: grid;
-    gap: 12px;
-    padding: 16px;
-    border: 1px solid var(--a-line-strong);
-    border-radius: 18px;
-    background: linear-gradient(135deg, var(--a-volt-wash), transparent 60%), var(--a-raised);
-  }
-  .app-shell .pr .pr-nta__more .pr-mode__spec { font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
-  .app-shell .pr .pr-nta__more .pr-nta__chips { display: flex; }
-  .app-shell .pr .pr-nta__more .pr-nta__console { margin-top: 4px; }
+@media (max-width: 479px) {
+  .app-shell .pr .pr-mode { grid-template-columns: 20px minmax(0, 1fr); row-gap: 6px; padding: 14px 16px; }
+  .app-shell .pr .pr-mode__price { grid-column: 2; }
 }
 
 /* The session card's rows run two to a line on phones and tablets; five rows would leave Marking alone beside a gap,
    so it takes the whole line, like Cost under it. */
 @media (max-width: 1023px) {
   .app-shell .pr .pr-summary dl > div:nth-child(5):not([data-emph]) { grid-column: 1 / -1; }
+  .app-shell .pr .pr-summary dl > div[data-balance] { grid-column: 1 / -1; }
 }
 
-/* ---------- Head: the credits card lines up with the session panel below it ---------- */
-@media (min-width: 1024px) {
-  .app-shell .pr .pr-head { grid-template-columns: minmax(0, 1fr) 340px; column-gap: 32px; }
-}
-/* Under 900 px the head is one column and the header bar already shows the balance, so the card would
-   only push Subject down: it folds into one line under the heading. */
+/* ---------- Head: the balance and the two prices, one line under the lede ---------- */
 .app-shell .pr .pr-head .pr-head__credits {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 10px;
   margin: 12px 0 0;
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.4;
   color: var(--a-ink-2);
 }
@@ -284,15 +181,13 @@
   color: var(--a-ink);
 }
 .app-shell .pr .pr-head .pr-head__credits .credit-amount__value { font-size: 14px; }
-@media (max-width: 899px) {
-  .app-shell .pr .pr-head > .pr-wallet { display: none; }
-}
-@media (min-width: 900px) {
-  .app-shell .pr .pr-head .pr-head__credits { display: none; }
-}
+.app-shell .pr .pr-stats[data-count='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.app-shell .pr .pr-stats[data-count='3'] > div + div { padding-left: 14px; border-left: 1px solid var(--a-line); }
+@media (min-width: 768px) { .app-shell .pr .pr-stats[data-count='3'] > div + div { padding-left: 20px; } }
 
 /* ---------- Lower panels: each as tall as its own content, never a tall empty box ---------- */
 .app-shell .pr .pr-lower { align-items: start; }
+@media (min-width: 1024px) { .app-shell .pr .pr-lower { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
 
 /* ---------- The dock (phones and tablets): the session and its Start, one line above the tab bar ----------
    The session card sits four screens down on a phone, so until it scrolls into view (DashboardPageClient.jsx
@@ -324,7 +219,7 @@
     border-radius: 20px;
     background: var(--a-raised);
     color: var(--a-ink);
-    box-shadow: inset 0 1px 0 var(--a-edge), 0 18px 40px -16px rgb(0 0 0 / 0.65);
+    box-shadow: 0 18px 40px -16px rgb(0 0 0 / 0.65);
     opacity: 0;
     translate: 0 calc(100% + 18px);
     visibility: hidden;
@@ -340,7 +235,7 @@
       backdrop-filter: blur(22px) saturate(1.45);
     }
   }
-  html[data-theme='light'] .app-shell .pr .pr-dock { box-shadow: inset 0 1px 0 var(--a-edge), 0 16px 36px -18px rgb(20 32 14 / 0.38); }
+  html[data-theme='light'] .app-shell .pr .pr-dock { box-shadow: 0 16px 36px -18px rgb(20 32 14 / 0.38); }
   .app-shell .pr .pr-dock[data-shown] {
     opacity: 1;
     translate: 0 0;
@@ -402,9 +297,9 @@
     font: 700 15px/1 var(--font-display);
     letter-spacing: -0.005em;
     cursor: pointer;
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.38), 0 10px 22px -14px rgb(210 240 0 / 0.6);
+    box-shadow: none;
   }
-  html[data-theme='light'] .app-shell .pr .pr-dock__go { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.35), 0 8px 18px -12px rgb(82 103 0 / 0.45); }
+  html[data-theme='light'] .app-shell .pr .pr-dock__go { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.3); }
   .app-shell .pr .pr-dock__go:disabled { cursor: default; opacity: 0.6; transition: opacity var(--mm-dur-ui) var(--mm-ease-out); }
   .app-shell .pr .pr-dock__go:focus-visible { outline: 2px solid var(--a-ink); outline-offset: 3px; }
   .app-shell .pr .pr-dock__go--why { border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink); box-shadow: none; }
@@ -424,10 +319,10 @@
 
 /* ---------- Reduced motion: state changes stay, movement goes ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .app-shell .pr .pr-tile__tick { animation: none; }
   .app-shell .pr .pr-subject .subj-obj__light { scale: 1; transition: opacity var(--mm-dur-reduced-fade) linear; }
-  .app-shell .pr .pr-tile:active:not(:disabled) { transform: none; }
+  .app-shell .pr :is(.pr-subject, .pr-mode__radio)::after { transition: none; }
+  .app-shell .pr :is(.pr-subject .pr-subject__obj.subj-obj, .pr-mode__radio) { transform: none !important; }
 }
-:root[data-motion='reduced'] .app-shell .pr .pr-tile__tick { animation: none; }
 :root[data-motion='reduced'] .app-shell .pr .pr-subject .subj-obj__light { scale: 1; transition: opacity var(--mm-dur-reduced-fade) linear; }
-:root[data-motion='reduced'] .app-shell .pr .pr-tile:active:not(:disabled) { transform: none; }
+:root[data-motion='reduced'] .app-shell .pr :is(.pr-subject, .pr-mode__radio)::after { transition: none; }
+:root[data-motion='reduced'] .app-shell .pr :is(.pr-subject .pr-subject__obj.subj-obj, .pr-mode__radio) { transform: none !important; }

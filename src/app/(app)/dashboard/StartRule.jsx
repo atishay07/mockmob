@@ -6,7 +6,6 @@
 // is untouched. A failed read shows nothing; the session starts exactly as before.
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Target } from 'lucide-react';
 import { apiGet } from '@/lib/fetcher';
 import { MOCK_MODES } from '@/components/result/labLoop';
 import './start-rule.css';
@@ -31,7 +30,6 @@ export default function StartRule({ sheet }) {
   if (!sheet?.rule) return null;
   return (
     <div className="pr-rule">
-      <span className="pr-rule__icon" aria-hidden="true"><Target size={18} strokeWidth={2.2} /></span>
       <div className="pr-rule__text">
         <p className="pr-rule__line">{sheet.rule}</p>
         {sheet.last ? <p className="pr-rule__last">{sheet.last}</p> : null}
