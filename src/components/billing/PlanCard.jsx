@@ -1,7 +1,8 @@
 "use client";
 
 // Account > Plan. Says exactly what the student has: Free (credits), Pro that renews monthly
-// (with a two-step cancel), or Pro access with a fixed end date and nothing to cancel.
+// (with a two-step cancel), Pro whose renewal is off or whose last payment failed (access runs to the
+// paid date), or Pro access with a fixed end date and nothing to cancel.
 import { useState } from 'react';
 import Link from 'next/link';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
@@ -16,7 +17,13 @@ export function PlanCard() {
   const [phase, setPhase] = useState('idle'); // idle | confirm | working | done | error
   const [message, setMessage] = useState('');
   const pro = Boolean(user?.isPremium);
-  const recurring = pro && Boolean(user?.razorpaySubscriptionId);
+  const hasSubscription = Boolean(user?.razorpaySubscriptionId);
+  const status = user?.subscriptionStatus || 'free';
+  const renewing = pro && hasSubscription && status === 'active';
+  const renewalOff = pro && hasSubscription && status === 'cancelled';
+  const paymentFailed = hasSubscription && status === 'past_due';
+  // A cancel is offered while Razorpay may still charge: renewing, or retrying after a failed payment.
+  const canCancel = hasSubscription && (status === 'active' || status === 'past_due');
   const until = user?.premiumUntil || null;
   const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : 0;
   const rolled = useCountUp(balance, { from: 0, duration: 900 });
@@ -43,21 +50,26 @@ export function PlanCard() {
         <span className="pr-badge" data-tone={pro ? 'included' : 'muted'}>{pro ? 'Pro' : 'Free'}</span>
       </div>
 
-      {pro ? (
+      {pro || paymentFailed ? (
         <>
           <p className="plan-card__lead">
-            {recurring
-              ? <>Pro renews every month{until ? <>. Paid through <strong>{fmt(until)}</strong></> : null}.</>
-              : <>Pro access{until ? <> runs through <strong>{fmt(until)}</strong></> : null}. It does not renew, so there is nothing to cancel.</>}
+            {renewing && <>Pro renews every month{until ? <>. Paid through <strong>{fmt(until)}</strong></> : null}.</>}
+            {renewalOff && <>Renewal is off. Pro stays active{until ? <> until <strong>{fmt(until)}</strong></> : null}, then your account moves to Free.</>}
+            {pro && paymentFailed && <>Your last monthly payment did not go through. Pro stays active{until ? <> until <strong>{fmt(until)}</strong></> : null}. Razorpay retries the charge and emails you.</>}
+            {!pro && paymentFailed && <>Your last monthly payment did not go through, so Pro is off. Razorpay may still retry the charge. Cancel renewal here to stop it, or start Pro again.</>}
+            {pro && !hasSubscription && <>Pro access{until ? <> runs through <strong>{fmt(until)}</strong></> : null}. It does not renew, so there is nothing to cancel.</>}
           </p>
-          <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick Practice and Full Mock</span></div>
-          {recurring && phase === 'idle' && <button type="button" className="plan-card__quiet" onClick={() => setPhase('confirm')}>Cancel renewal</button>}
-          {recurring && phase === 'confirm' && (
+          {pro && <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick Practice and Full Mock</span></div>}
+          {canCancel && phase === 'idle' && <button type="button" className="plan-card__quiet" onClick={() => setPhase('confirm')}>Cancel renewal</button>}
+          {!pro && paymentFailed && <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />See Pro</Link>}
+          {canCancel && phase === 'confirm' && (
             <div className="plan-card__confirm" role="group" aria-label="Confirm cancellation">
-              <p>Stop renewing? You keep Pro until {until ? fmt(until) : 'the end of the month you paid for'}, then your account moves to Free. Your history and saved questions stay.</p>
+              <p>{pro
+                ? <>Stop renewing? You keep Pro until {until ? fmt(until) : 'the end of the month you paid for'}, then your account moves to Free. Your history and saved questions stay.</>
+                : <>Stop renewing? No further monthly payments will be taken. Your history and saved questions stay.</>}</p>
               <div>
                 <button type="button" className="plan-card__danger" onClick={cancelRenewal}>Yes, stop renewing</button>
-                <button type="button" className="plan-card__quiet" onClick={() => setPhase('idle')}>Keep Pro</button>
+                <button type="button" className="plan-card__quiet" onClick={() => setPhase('idle')}>{pro ? 'Keep Pro' : 'Keep renewal'}</button>
               </div>
             </div>
           )}

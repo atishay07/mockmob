@@ -214,9 +214,63 @@ export function resolvePaidThrough({
   return isoFromMs(Math.max(...candidates));
 }
 
+// A late renewal webhook should not flicker Pro off, so an active subscription gets this much
+// slack past its paid-through date. After that, the date wins over the status word.
+export const ACTIVE_STATUS_GRACE_MS = 2 * MS_PER_DAY;
+
 export function effectivePremiumFromRow(row, nowMs = Date.now()) {
-  const statusIsActive = row?.subscription_status === 'active';
+  const untilMs = isoToMs(row?.premium_until);
+  // "active" never outlives the date it was paid through. Without that, a missed cancel
+  // webhook, or a one-time pass past its end date, would keep Pro on for good.
+  const statusIsActive = row?.subscription_status === 'active' &&
+    (untilMs === null || untilMs + ACTIVE_STATUS_GRACE_MS > nowMs);
   const paidThroughActive = isFutureIso(row?.premium_until, nowMs);
   const legacyPremiumWithoutExpiry = Boolean(row?.is_premium) && !row?.premium_until;
   return statusIsActive || paidThroughActive || legacyPremiumWithoutExpiry;
+}
+
+/** The later of several ISO dates, ignoring empty or invalid ones. Null when none is valid. */
+export function laterIso(...values) {
+  const times = values.map(isoToMs).filter((ms) => Number.isFinite(ms));
+  return times.length ? isoFromMs(Math.max(...times)) : null;
+}
+
+/**
+ * What the user row should say after a subscription event, without ever shortening access the
+ * user already paid for elsewhere (for example a one-time pass that runs to 31 July 2027).
+ *
+ * ownStatus          status this event implies for the subscription itself
+ * ownAccessUntil     paid-through date of this subscription, or null when it never paid
+ * otherAccessUntil   latest paid-through date among the user's other paid payments
+ * hasOtherPaid       whether any other paid payment exists
+ * userPremiumUntil   what the user row says today (only trusted when other paid access exists)
+ *
+ * Returns { subscriptionStatus, isPremium, premiumUntil, ownWins }.
+ * ownWins is false when other paid access runs at least as long, so the caller leaves the
+ * user's subscription id alone.
+ */
+export function resolveUserEntitlement({
+  ownStatus,
+  ownAccessUntil = null,
+  otherAccessUntil = null,
+  hasOtherPaid = false,
+  userPremiumUntil = null,
+  nowMs = Date.now(),
+} = {}) {
+  const otherUntil = laterIso(otherAccessUntil, hasOtherPaid ? userPremiumUntil : null);
+  const until = laterIso(ownAccessUntil, otherUntil);
+  const isPremium = isFutureIso(until, nowMs);
+  const ownMs = isoToMs(ownAccessUntil);
+  const otherMs = isoToMs(otherUntil);
+  const otherCovers = isFutureIso(otherUntil, nowMs) && (ownMs === null || otherMs >= ownMs);
+
+  let subscriptionStatus = ownStatus;
+  if (ownStatus !== 'active' && otherCovers) subscriptionStatus = 'active';
+
+  return {
+    subscriptionStatus,
+    isPremium,
+    premiumUntil: isPremium ? until : null,
+    ownWins: ownMs !== null && !otherCovers,
+  };
 }

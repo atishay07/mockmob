@@ -97,6 +97,8 @@ export function RazorpayPaymentButton({
   const [isPremium, setIsPremium] = useState(initialIsPremium);
   const [code, setCode] = useState('');
   const [appliedCode, setAppliedCode] = useState(null);
+  // Once Razorpay's window has taken a payment, an error no longer means "nothing was charged".
+  const [afterPayment, setAfterPayment] = useState(false);
 
   // Prefill on mount: URL ?ref= wins, then localStorage. URL also writes
   // through to localStorage so the code persists across navigation.
@@ -124,6 +126,7 @@ export function RazorpayPaymentButton({
     try {
       setStatus('loading');
       setMessage('');
+      setAfterPayment(false);
 
       const authResponse = await fetch('/api/auth/me');
       if (authResponse.status === 401) {
@@ -163,7 +166,7 @@ export function RazorpayPaymentButton({
         const monthly = new window.Razorpay({
           key: keyId,
           name: 'MockMob',
-          description: `${plan.name} · ₹${Math.round(plan.amount / 100)} a month, cancel anytime`,
+          description: `${plan.name}, ₹${Math.round(plan.amount / 100)} a month, cancel anytime`,
           subscription_id: subscription.id,
           prefill: { name: user.name || '', email: user.email || '' },
           notes: { userId: user.id, planId },
@@ -171,12 +174,18 @@ export function RazorpayPaymentButton({
           handler: async (response) => {
             try {
               setStatus('loading');
-              await postJson('/verify-payment', {
+              setAfterPayment(true);
+              const verified = await postJson('/verify-payment', {
                 razorpay_subscription_id: response.razorpay_subscription_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 userId: user.id,
               });
+              if (verified?.pending) {
+                setStatus('idle');
+                setMessage(verified.message || 'Your payment is being confirmed. Pro turns on within a few minutes.');
+                return;
+              }
               await refreshSession({ silent: false });
               setIsPremium(true);
               setStatus('success');
@@ -238,6 +247,7 @@ export function RazorpayPaymentButton({
         handler: async (response) => {
           try {
             setStatus('loading');
+            setAfterPayment(true);
             await postJson('/verify-payment', {
               razorpay_order_id: response.razorpay_order_id,
               razorpay_payment_id: response.razorpay_payment_id,
@@ -336,7 +346,11 @@ export function RazorpayPaymentButton({
           )}
           <span>
             {message}
-            {status === 'error' ? ' Nothing has been charged — you can try again.' : ''}
+            {status === 'error'
+              ? (afterPayment
+                ? ' If money left your account, do not pay again. Pro turns on once Razorpay confirms it, or write to support.'
+                : ' Nothing has been charged. You can try again.')
+              : ''}
           </span>
         </p>
       ) : null}

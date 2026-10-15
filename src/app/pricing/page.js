@@ -139,6 +139,16 @@ const buildFaqs = (offer) => [
     q: 'What happens when I cancel?',
     a: 'Renewals stop. Pro stays active until the end of the period you paid for, then your account drops to Free. Your history, saved questions and credits stay.',
   },
+  ...(offer.purchasable === 'monthly' ? [
+    {
+      q: 'What if a renewal payment fails?',
+      a: 'Razorpay retries the charge a few times and emails you. Pro stays active until the end of the month you already paid for. If the payment still fails, the plan stops and your account moves to Free. You can start Pro again at any time.',
+    },
+    {
+      q: `I already paid ₹${offer.oneTime.rupees} once. What happens to it?`,
+      a: `Nothing changes. Your access runs through ${offer.oneTime.expires} with no renewal, and you do not need monthly Pro until it ends.`,
+    },
+  ] : []),
   {
     q: 'What does Admission Compass compare?',
     a: 'Compass uses official DU programme rules and published historical allocation scores, free for everyone. Compass Pro adds a practice projection: what each CUET paper would be worth if exam day went like your own practice, with a range, checked against the 2026 cutoffs of the colleges on your shortlist.',

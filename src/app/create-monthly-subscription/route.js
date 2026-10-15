@@ -40,7 +40,23 @@ export async function POST(request) {
     const user = await Database.getUserById(userId);
     if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 });
     if (user.isPremium) {
-      return NextResponse.json({ error: 'Pro access is already active on this account.', code: 'already_active' }, { status: 409 });
+      // One-time Pro keeps its full term. It is never replaced by a subscription.
+      const through = user.premiumUntil
+        ? ` through ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' })}`
+        : '';
+      return NextResponse.json({ error: `Pro access is already active on this account${through}.`, code: 'already_active' }, { status: 409 });
+    }
+
+    // A subscription Razorpay is still retrying must not be doubled by a second one.
+    if (user.razorpaySubscriptionId) {
+      let existing = null;
+      try { existing = await getRazorpayClient().subscriptions.fetch(user.razorpaySubscriptionId); } catch { existing = null; }
+      if (existing && ['active', 'pending', 'authenticated'].includes(existing.status)) {
+        return NextResponse.json({
+          error: 'Your earlier monthly plan is still open with Razorpay, so a second one was not started. Cancel it in Account first, or wait for it to end.',
+          code: 'subscription_open',
+        }, { status: 409 });
+      }
     }
 
     // Referral codes are tracked for creator attribution. They never change the monthly price.

@@ -5,6 +5,7 @@ import { getPaymentPlan } from '@/lib/payments/plans';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { Database } from '@/../data/db';
 import { cancelMonthlyRenewal } from '@/lib/payments/cancel';
+import { isFutureIso } from '@/lib/payments/entitlements';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -32,6 +33,21 @@ export async function POST(request) {
       return NextResponse.json({ error: 'That subscription could not be matched to your account.', code: 'not_matched' }, { status: 404 });
     }
 
+    const untilText = user.premiumUntil
+      ? new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' })
+      : null;
+    const stillPaid = isFutureIso(user.premiumUntil);
+
+    // Asking twice is fine: renewals are already off, so there is nothing to send to Razorpay.
+    if (user.subscriptionStatus === 'cancelled') {
+      return NextResponse.json({
+        ok: true,
+        alreadyCancelled: true,
+        message: untilText && stillPaid ? `Renewals are already cancelled. Pro stays active until ${untilText}.` : 'Renewals are already cancelled.',
+        premiumUntil: user.premiumUntil || null,
+      });
+    }
+
     try {
       await cancelMonthlyRenewal(getRazorpayClient().subscriptions, subscriptionId);
     } catch (rzpError) {
@@ -40,10 +56,14 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Cancellation could not be confirmed. Try again or write to support.', code: 'razorpay_rejected' }, { status: 502 });
     }
 
+    // Razorpay ends the subscription at the close of the paid month and sends subscription.cancelled
+    // then. Until then, mark the account so Account says renewals are off while Pro stays on.
+    await Database.updateUser(user.id, { subscriptionStatus: 'cancelled' });
+
     return NextResponse.json({
       ok: true,
-      message: user.premiumUntil
-        ? `Renewals are cancelled. Pro stays active until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}.`
+      message: untilText && stillPaid
+        ? `Renewals are cancelled. Pro stays active until ${untilText}.`
         : 'Renewals are cancelled.',
       premiumUntil: user.premiumUntil || null,
     });
