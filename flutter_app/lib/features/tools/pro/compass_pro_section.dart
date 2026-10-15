@@ -11,10 +11,12 @@ import '../../../core/widgets/widgets.dart';
 import '../compass/compass_controller.dart';
 import '../copy.dart';
 import '../data/du_repository.dart';
+import '../data/my_colleges_actions.dart';
 import '../data/tools_store.dart';
 import '../domain/du_eligibility.dart';
 import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
+import '../my_colleges/my_colleges_body.dart';
 import '../widgets/tools_card.dart';
 import '../widgets/tools_page.dart';
 import 'compass_pro_models.dart';
@@ -94,7 +96,8 @@ class _ProContent extends ConsumerWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final total = pro.total;
-    final shortlist = ref.watch(shortlistProvider).value ?? const <ShortlistTarget>[];
+    final mine = ref.watch(myCollegesProvider);
+    final shortlist = ref.watch(shortlistProvider);
     final full = shortlist.length >= ShortlistController.limit;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -165,17 +168,21 @@ class _ProContent extends ConsumerWidget {
           note: ToolsCopy.shortlistNote,
           trailing: KeyButton.quiet(
             label: ToolsCopy.shortlistAdd,
-            onPressed: full ? null : () => showShortlistSheet(context, state),
+            onPressed: full || !mine.ready || mine.busy ? null : () => showShortlistSheet(context, state),
           ),
         ),
-        if (shortlist.isEmpty)
+        // The list is My colleges. Until it has loaded the section says so; it never shows an empty
+        // list that simply did not load.
+        const Padding(padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: MyCollegesAvailability(signedOutNote: false)),
+        if (mine.ready && shortlist.isEmpty)
           const ToolsNote(ToolsCopy.shortlistEmpty, top: 0)
-        else
+        else if (shortlist.isNotEmpty)
           ToolsPanel(
             children: [
-              for (final t in shortlist) _TargetRow(target: t, state: state, band: pro.total),
+              for (final t in shortlist) _TargetRow(key: ValueKey('${t.groupId}::${t.college}'), target: t, state: state, band: pro.total),
             ],
           ),
+        if (mine.notice.isNotEmpty) ToolsNote(mine.notice, top: MmSpace.s8),
         if (full) const ToolsNote(ToolsCopy.shortlistFull, top: MmSpace.s8),
       ],
     );
@@ -275,11 +282,18 @@ class RangeBarPainter extends CustomPainter {
 
 /// The row of [seats] a shortlist target means: the same college and programme. A target saved
 /// before the programme was kept (an empty one) reads the college's first row.
+///
+/// My colleges names a college once for each programme, and the website saves the programme's own
+/// name, which is not one of a college's rows (a college can list a programme under several
+/// subject combinations). A saved programme that matches no row reads the college's first row.
 DuSeat? shortlistSeat(List<DuSeat> seats, ShortlistTarget target) {
+  DuSeat? first;
   for (final s in seats) {
-    if (s.college == target.college && (target.programme.isEmpty || s.programme == target.programme)) return s;
+    if (s.college != target.college) continue;
+    if (target.programme.isEmpty || s.programme == target.programme) return s;
+    first ??= s;
   }
-  return null;
+  return first;
 }
 
 /// What the student can add for [group]: one entry per college and programme row (a college can
@@ -300,7 +314,7 @@ List<ShortlistTarget> shortlistChoices(DuGroup group, List<DuSeat> seats) {
 /// and where the projected range sits against the earliest listed cutoff. Nothing is said about
 /// the cutoffs until the file has loaded: a skeleton while it loads, Try again if it did not.
 class _TargetRow extends ConsumerWidget {
-  const _TargetRow({required this.target, required this.state, required this.band});
+  const _TargetRow({super.key, required this.target, required this.state, required this.band});
 
   final ShortlistTarget target;
   final CompassState state;
@@ -359,7 +373,7 @@ class _TargetRow extends ConsumerWidget {
           IconButton(
             tooltip: ToolsCopy.shortlistRemove(target.college),
             icon: Icon(LucideIcons.trash2, size: 18, color: colors.ink2),
-            onPressed: () => ref.read(shortlistProvider.notifier).remove(target),
+            onPressed: () => unawaited(ShortlistController.remove(ref, target)),
           ),
         ],
       ),
@@ -462,7 +476,9 @@ class _AddTargetState extends ConsumerState<_AddTarget> {
     final group = _group;
     if (group == null) return _programmes(context, colors, type);
     final offerings = ref.watch(duOfferingsProvider(group.id));
-    final taken = {for (final t in ref.watch(shortlistProvider).value ?? const <ShortlistTarget>[]) if (t.groupId == group.id) t};
+    // A college is on My colleges once for each programme, so one row of it is enough.
+    final taken = {for (final t in ref.watch(shortlistProvider)) if (t.groupId == group.id) t.college};
+    final offered = <String>{};
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -477,12 +493,12 @@ class _AddTargetState extends ConsumerState<_AddTarget> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 for (final target in shortlistChoices(group, value.seats))
-                  if (!taken.contains(target))
+                  if (!taken.contains(target.college) && offered.add(target.college))
                     ToolsRowFrame(
                       padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
                       semanticsLabel: _showsProgramme(target, group) ? '${target.college}. ${target.programme}' : target.college,
                       onTap: () {
-                        unawaited(ref.read(shortlistProvider.notifier).add(target));
+                        unawaited(ShortlistController.add(ref, target));
                         Navigator.of(context).maybePop();
                       },
                       child: Row(

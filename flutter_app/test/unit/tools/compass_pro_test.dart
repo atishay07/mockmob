@@ -1,5 +1,5 @@
 // Compass Pro, client side: the projection the server already computes, shown to an account that
-// has it and nowhere else (no lock, no pitch), and a shortlist kept on this phone.
+// has it and nowhere else (no lock, no pitch), and a shortlist that is My colleges.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,12 +11,13 @@ import 'package:mockmob/features/tools/pro/compass_pro_repository.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import 'my_colleges_support.dart';
 import 'tools_test_support.dart';
 
 void main() {
   setUpAll(loadAppFonts);
 
-  Future<FakeCompassPro> pump(WidgetTester tester, {required bool pro, Object? body = compassProReady, bool fail = false, MemoryPrefsStore? prefs}) async {
+  Future<FakeCompassPro> pump(WidgetTester tester, {required bool pro, Object? body = compassProReady, bool fail = false, MemoryPrefsStore? prefs, FakeMyColleges? myColleges}) async {
     final repo = FakeCompassPro(body, fail: fail);
     await pumpMockmob(
       tester,
@@ -25,7 +26,7 @@ void main() {
       wrapInScaffold: false,
       disableAnimations: true,
       overrides: [
-        ...toolsOverrides(prefs: prefs ?? savedCompass('english,accountancy,business_studies,economics'), pro: pro),
+        ...toolsOverrides(prefs: prefs ?? savedCompass('english,accountancy,business_studies,economics'), pro: pro, myColleges: myColleges),
         compassProRepositoryProvider.overrideWith(() => repo),
       ],
     );
@@ -103,9 +104,10 @@ void main() {
       expect(find.text(ToolsCopy.tryAgain), findsOneWidget);
     });
 
-    testWidgets('a shortlist target is added from a programme and a college, and kept on this phone', (tester) async {
+    testWidgets('a shortlist target is added from a programme and a college, and saved to My colleges', (tester) async {
       final prefs = savedCompass('english,accountancy,business_studies,economics');
-      await pump(tester, pro: true, prefs: prefs);
+      final mine = FakeMyColleges();
+      await pump(tester, pro: true, prefs: prefs, myColleges: mine);
       expect(find.text(ToolsCopy.shortlistEmpty), findsOneWidget);
 
       await tester.tap(find.text(ToolsCopy.shortlistAdd));
@@ -130,7 +132,8 @@ void main() {
       expect(find.text(ToolsCopy.shortlistEmpty), findsNothing);
       expect(find.text(first), findsOneWidget);
       expect(find.text(ToolsCopy.proNeedsFull), findsOneWidget, reason: 'two of four papers: no verdict is invented');
-      expect(prefs.values.keys.any((k) => k.contains('shortlist')), isTrue);
+      expect(mine.server.single.college, first);
+      expect(mine.server.single.programmeId, 'b-com-hons');
     });
   });
 }

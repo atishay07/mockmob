@@ -5,7 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/models/my_colleges.dart';
+import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/tools/data/my_colleges_repository.dart';
 
 /// Serves `assets/...` straight from the project folder, so widgets that use `Image.asset`
 /// (Mobi) render in tests even though pubspec has no asset list in the test run.
@@ -46,7 +49,13 @@ Future<void> pumpMockmob(
 
   await tester.pumpWidget(
     ProviderScope(
-      overrides: overrides,
+      overrides: [
+        // My colleges reads the phone's database and the server: a screen that shows it gets a quiet
+        // list that has not loaded, unless the test passes its own.
+        if (!overrides.any((o) => identical(o.origin, myCollegesRepositoryProvider)))
+          myCollegesRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<MyColleges>()),
+        ...overrides,
+      ],
       child: DefaultAssetBundle(
         bundle: FileAssetBundle(),
         child: MaterialApp(

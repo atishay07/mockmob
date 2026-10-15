@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -8,6 +10,8 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/model/answers.dart' show OnboardingAnswers;
 import '../../onboarding/state/answers_controller.dart' show onboardingAnswersProvider;
+import '../../tools/data/my_colleges_actions.dart' show myCollegesProvider;
+import '../../tools/my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
 import '../account/name_sheet.dart';
 import '../copy.dart';
 import '../data/sheet_editor.dart' show CourseSnapshot, sheetEditorProvider;
@@ -74,6 +78,13 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
   void dispose() {
     _weekSave.dispose();
     super.dispose();
+  }
+
+  /// The colleges row's answer: My colleges when it is known, the colleges named in the setup until then.
+  String _collegesNote(WidgetRef ref, List<String> fallback) {
+    final mine = ref.watch(myCollegesProvider);
+    final names = mine.hasList ? [for (final c in mine.colleges) c.college] : fallback;
+    return names.isEmpty ? EditCopy.notSet : names.join('\n');
   }
 
   @override
@@ -151,8 +162,8 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
               flat: true,
               icon: LucideIcons.landmark,
               title: EditCopy.rowColleges,
-              note: target.colleges.isEmpty ? EditCopy.notSet : target.colleges.join('\n'),
-              onTap: () => showCollegesSheet(context),
+              note: _collegesNote(ref, target.colleges),
+              onTap: () => unawaited(showMyCollegesSheet(context)),
             ),
             YouRow(
               flat: true,

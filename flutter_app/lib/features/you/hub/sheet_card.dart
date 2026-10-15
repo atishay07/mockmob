@@ -2,11 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/rhythm.dart' show CelebrationMode;
+import '../../tools/data/my_colleges_actions.dart' show myCollegesProvider;
+import '../../tools/my_colleges/my_colleges_parts.dart' show MyCollegesFieldList, myCollegesHaveAny;
 import '../copy.dart';
 import '../data/student_target.dart';
 import '../widgets/you_motion.dart';
@@ -305,7 +308,7 @@ class _NameLine extends StatelessWidget {
 /// answer sheet. Each field opens its editor (the course and colleges in the plan editor, the
 /// subjects in the subjects editor). A field with nothing in it is left off, and a plan with no
 /// course or colleges says so with the one key that fills them in.
-class TargetFields extends StatelessWidget {
+class TargetFields extends ConsumerWidget {
   const TargetFields({super.key, required this.target, required this.subjects, this.onEdit, this.onEditSubjects, this.ruledTop = true});
 
   /// False leaves the hairline off above the first field (a section title already stands above it).
@@ -317,12 +320,14 @@ class TargetFields extends StatelessWidget {
   final VoidCallback? onEditSubjects;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final type = context.mmType;
-    final missingTarget = target.course == null && target.colleges.isEmpty;
+    // The colleges are My colleges (one list, saved on the server): the colleges named in the setup
+    // stand in until it is known.
+    final hasColleges = myCollegesHaveAny(ref.watch(myCollegesProvider), target.colleges);
+    final missingTarget = target.course == null && !hasColleges;
     const fieldInset = EdgeInsets.symmetric(horizontal: youText);
     final hasCourse = target.course != null;
-    final hasColleges = target.colleges.isNotEmpty;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -348,7 +353,7 @@ class TargetFields extends StatelessWidget {
                 first: !ruledTop && !hasCourse,
                 label: YouCopy.fieldColleges,
                 trailing: onEdit == null ? null : const _EditHint(),
-                child: CollegeList(colleges: target.colleges),
+                child: MyCollegesFieldList(fallback: CollegeList(colleges: target.colleges)),
               ),
             ),
           ),

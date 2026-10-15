@@ -8,6 +8,7 @@ import '../data/du_repository.dart';
 import '../domain/du_eligibility.dart';
 import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
+import '../my_colleges/my_colleges_parts.dart' show AddToMyCollegesKey;
 import '../widgets/sort_key.dart';
 import '../widgets/tools_page.dart';
 import 'compass_controller.dart';
@@ -175,7 +176,7 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
         else
           ToolsPanel(
             children: [
-              for (final r in rows.take(_shown)) SeatRow(seat: r, groupName: widget.group.name, state: s, showThird: showThird),
+              for (final r in rows.take(_shown)) SeatRow(seat: r, groupName: widget.group.name, groupId: widget.group.id, state: s, showThird: showThird),
             ],
           ),
         if (rows.length > _shown)
@@ -196,10 +197,13 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
 /// "Unreserved" when the Unreserved list was the lower one), and, with a score, the round it
 /// would have cleared.
 class SeatRow extends StatelessWidget {
-  const SeatRow({super.key, required this.seat, required this.groupName, required this.state, this.showThird = true});
+  const SeatRow({super.key, required this.seat, required this.groupName, required this.state, this.groupId = '', this.showThird = true});
 
   final DuSeat seat;
   final String groupName;
+
+  /// The programme's catalogue id; with it the row carries the key that adds the college to My colleges.
+  final String groupId;
   final CompassState state;
 
   /// False leaves the Round III column out (no college of this programme has a Round III figure).
@@ -237,43 +241,57 @@ class SeatRow extends StatelessWidget {
       _ => -1,
     };
     return ToolsRowFrame(
-      semanticsLabel: spoken,
       padding: const EdgeInsets.fromLTRB(MmSpace.s20, 14, MmSpace.s20, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // The verdict leads: can I get in comes before which college this is.
-          if (status != null) ...[
-            ToolTag(status.label, tone: tone),
-            const SizedBox(height: MmSpace.s8),
-          ],
-          Text(seat.college, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 16)),
-          if (subtitle != null) Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s8),
-          Row(
-            children: [
-              for (final (i, c) in cells.indexed)
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Round ${c.name}', style: type.caption.copyWith(color: i == cleared ? colors.ink : colors.ink3)),
-                      Text(
-                        duFormatScore(c.value),
-                        style: type.timer.copyWith(fontSize: 18, color: c.value == null ? colors.ink3 : (i == cleared ? colors.accentText : colors.ink)),
-                      ),
-                      if (c.ur)
-                        // The word, under the score: three columns leave no room beside it.
-                        Tooltip(
-                          message: ToolsCopy.viaUr,
-                          child: Text(ToolsCopy.viaUrBadge, style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600)),
+          Semantics(
+            container: true,
+            label: spoken,
+            excludeSemantics: true,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // The verdict leads: can I get in comes before which college this is.
+                if (status != null) ...[
+                  ToolTag(status.label, tone: tone),
+                  const SizedBox(height: MmSpace.s8),
+                ],
+                Text(seat.college, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 16)),
+                if (subtitle != null) Text(subtitle, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(color: colors.ink2)),
+                const SizedBox(height: MmSpace.s8),
+                Row(
+                  children: [
+                    for (final (i, c) in cells.indexed)
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Round ${c.name}', style: type.caption.copyWith(color: i == cleared ? colors.ink : colors.ink3)),
+                            Text(
+                              duFormatScore(c.value),
+                              style: type.timer.copyWith(fontSize: 18, color: c.value == null ? colors.ink3 : (i == cleared ? colors.accentText : colors.ink)),
+                            ),
+                            if (c.ur)
+                              // The word, under the score: three columns leave no room beside it.
+                              Tooltip(
+                                message: ToolsCopy.viaUr,
+                                child: Text(ToolsCopy.viaUrBadge, style: type.caption.copyWith(color: colors.accentText, fontWeight: FontWeight.w600)),
+                              ),
+                          ],
                         ),
-                    ],
-                  ),
+                      ),
+                    if (!showThird) const Spacer(),
+                  ],
                 ),
-              if (!showThird) const Spacer(),
-            ],
+              ],
+            ),
           ),
+          if (groupId.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s4),
+              child: AddToMyCollegesKey(programmeId: groupId, programme: groupName, college: seat.college),
+            ),
         ],
       ),
     );
