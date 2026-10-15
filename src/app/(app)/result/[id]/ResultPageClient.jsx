@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
+import { QuestionStrip } from '@/components/result/Replay';
 import SwotPanel from '@/components/result/SwotPanel';
 import OthersAnswered, { OptionShare, shareTone } from '@/components/result/OthersAnswered';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
@@ -100,8 +101,15 @@ export default function ResultPageClient({ previewId = null }) {
   }, [id, retry]);
 
   const analysis = useMemo(() => attempt ? analyseSession(attempt) : null, [attempt]);
-  // Time and decisions: the Lab's Find step and each answer's "Your time and picks" read the same object.
-  const timeRead = useMemo(() => attempt ? buildTimeDecisions(attempt, { answerReviews: attempt.answerReviews || {} }) : null, [attempt]);
+  // Time and decisions: the Lab's Find step and each answer's "Your time and picks" read the same object. The server's
+  // finished read (attempt.lab.time, from the one time calculator, with the slice 2 trace lines) comes first; an older
+  // server or a result without the Lab falls back to the same builder here.
+  const timeRead = useMemo(() => {
+    if (!attempt) return null;
+    const served = attempt.lab?.time;
+    if (served && typeof served === 'object' && typeof served.state === 'string' && (served.state !== 'ready' || Array.isArray(served.rows))) return served;
+    return buildTimeDecisions(attempt, { answerReviews: attempt.answerReviews || {} });
+  }, [attempt]);
   const visible = useMemo(() => analysis ? analysis.rows.filter(r => filter === 'all' || r.verdict === filter) : [], [analysis, filter]);
 
   // The run is the paper's mistakes that repair could open when the result loaded (a key held later stays in it, as a set-aside segment).
@@ -375,6 +383,7 @@ export default function ResultPageClient({ previewId = null }) {
                     {timeRow?.lines.length ? (
                       <div className="rp-td">
                         <p className="rp-td__label">{TIME_COPY.rowLabel}</p>
+                        {attempt.lab?.replay ? <QuestionStrip replay={attempt.lab.replay} number={number} /> : null}
                         {timeRow.lines.map((line, i) => <p key={i}>{line}</p>)}
                       </div>
                     ) : null}

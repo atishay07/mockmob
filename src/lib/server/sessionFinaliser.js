@@ -1,6 +1,6 @@
 // B11: server-side finalisation of durable sessions at their deadline.
 // Free of Next and Supabase imports: the store and episode hook are injected so node:test can run it.
-import { scoreSession, scorePracticeSubmission } from '../../../data/recovery.js';
+import { scoreSession, scorePracticeSubmission, endedByOf } from '../../../data/recovery.js';
 import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck.js';
 
 export const FINALISE_GRACE_MS = 120000;
@@ -31,7 +31,7 @@ export function scoreExpiredSession(row, checked = []) {
   if (invalidTelemetry) score.recovery.telemetry = 'invalid';
   return { ...score, subject: row.subject, questionsSnapshot: row.questions, expected_event_count: events.length,
     selectionMeta: { ...row.selection_meta, scoringVersion: ordinary ? 'server_practice_v1' : 'server_snapshot_v1',
-      recovery: score.recovery, finalisedBy: 'server_deadline' } };
+      recovery: score.recovery, finalisedBy: 'server_deadline', ...(endedByOf(events) ? { endedBy: endedByOf(events) } : {}) } };
 }
 
 // Sessions that expired before this instant are never finalised. Turning sessions abandoned before

@@ -7,8 +7,15 @@
 // Held questions (EXCLUDED_REVIEW_STATES) are a separate group and are left out of the re-mark and the cohort line.
 // The 2-minute and 20-second bands are fixed for every student and every paper; they are never fitted to anyone.
 // Every sentence comes from data/mistake_lab.copy.json; nothing here is a forecast, a cause or a rank.
+//
+// Slice 2 (spec 4.5, 4.6): time comes from data/paper_trace.js through Time and decisions, so with an end event the
+// last question's time is known (it can be a quick wrong answer, and a long stay is no longer "at least"); with
+// strike-outs captured a wrong answer whose key was crossed out sits in "Crossed out the key"; and the lab carries
+// `replay` (data/replay.js) and `time` (the whole Time and decisions read, finished here for the app to render).
 import COPY from './mistake_lab.copy.json' with { type: 'json' };
 import { buildTimeDecisions, paperPace, spentLabel, TIME_COPY } from './time_decisions.js';
+import { paperTrace } from './paper_trace.js';
+import { buildReplay } from './replay.js';
 import { GAP } from './session_recovery.js';
 import { EXCLUDED_REVIEW_STATES } from './attempt_ledger.js';
 import { correctIndex } from './recovery.js';
@@ -28,9 +35,9 @@ export const LAB_RULES = Object.freeze({
   trapMinPicks: 5, // the common trap needs 5 or more picks of the student's option
   chipsShown: 8, // Q chips shown before "Show {k} more"
   marks: Object.freeze({ right: 5, wrong: -1, blank: 0 }),
-  groupOrder: Object.freeze(['changed_from_right', 'never_opened', 'long_stay', 'quick_wrong', 'other_wrong', 'other_blank', 'held']),
+  groupOrder: Object.freeze(['changed_from_right', 'struck_key', 'never_opened', 'long_stay', 'quick_wrong', 'other_wrong', 'other_blank', 'held']),
   basicOrder: Object.freeze(['wrong', 'blank', 'held']),
-  headlineGroups: Object.freeze(['changed_from_right', 'never_opened', 'long_stay', 'quick_wrong']),
+  headlineGroups: Object.freeze(['changed_from_right', 'struck_key', 'never_opened', 'long_stay', 'quick_wrong']),
 });
 
 /** Every group, in bar order, with its label and the state it belongs to. */
@@ -118,7 +125,7 @@ function groupEntry(id, rows, { open = false, fourOptionsOnly = false } = {}) {
   return { id, label: COPY.groups[id].label, marks, count: rows.length, numbers, line: fill(form(COPY.groupLine, rows.length), { m: marks, n: rows.length }), doLine, open };
 }
 
-function headlineFor(groups, { gap, total, pace, lastQid, rowsById }) {
+function headlineFor(groups, { gap, total, pace, tailQid, rowsById }) {
   const candidates = groups.filter((g) => LAB_RULES.headlineGroups.includes(g.id) && g.marks > 0);
   if (!candidates.length) return null;
   const order = (id) => LAB_RULES.groupOrder.indexOf(id);
@@ -130,7 +137,7 @@ function headlineFor(groups, { gap, total, pace, lastQid, rowsById }) {
   if (top.id === 'long_stay') {
     const ms = top.qids.reduce((s, qid) => s + (rowsById.get(qid)?.ms || 0), 0);
     const time = spentLabel(ms / 1000);
-    values.time = top.qids.includes(lastQid) ? fill(COPY.atLeast, { time }) : time;
+    values.time = top.qids.includes(tailQid) ? fill(COPY.atLeast, { time }) : time;
     if (pace) values.paper = paperLength(pace.paperMs);
     text = fill(form(pace ? COPY.headline.long_stay : COPY.headline.long_stay_no_paper, n), values);
   } else {
@@ -187,6 +194,8 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
   const td = buildTimeDecisions(attempt, { answerReviews });
   const ready = td.state === 'ready';
   const tdRows = ready ? new Map(td.rows.map((r) => [r.qid, r])) : new Map();
+  const trace = ready ? paperTrace(attempt) : null;
+  const struck = (qid, key) => !!trace && key !== null && (trace.strikesByQid.get(qid) || []).some((s) => s.on && s.option === key);
 
   const rows = questions.map((q, index) => {
     const d = details.get(q.id) || null;
@@ -202,6 +211,7 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
       opened: t ? t.opened : null, ms: t ? t.ms : null, brk: t ? hadBreak(t) : false,
       firstPick: t && t.steps.length ? t.steps[0].answer : null,
       changed: !!(t && t.changes.length),
+      struckKey: struck(q.id, Number.isInteger(key) && key >= 0 ? key : null),
     };
   });
   const total = rows.length;
@@ -217,21 +227,32 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
   }
 
   const base = { version: LAB_VERSION, labels: { ...COPY.labels } };
+  // Slice 2 parts, the same in every state: the Replay (null without a usable record) and the finished time read.
+  const resultOf = (qid) => {
+    const r = rowsById.get(qid);
+    return !r ? 'blank' : r.held ? 'held' : r.outcome;
+  };
+  const slice2 = (groups) => ({
+    replay: ready ? buildReplay({ trace, questions, resultOf, groupCounts: Object.fromEntries(groups.map((g) => [g.id, g.count])), pace: paperPace(attempt) }) : null,
+    time: JSON.parse(JSON.stringify(td)),
+  });
   if (gap === 0) {
-    return { ...base, state: 'none', heading: COPY.headingNone, gap: 0, headline: null, groups: [], barLabel: null, remark: null, cohort: cohortBlock(cohort, rows, total), fine: [], byQuestion };
+    return { ...base, state: 'none', heading: COPY.headingNone, gap: 0, headline: null, groups: [], barLabel: null, remark: null, cohort: cohortBlock(cohort, rows, total), fine: [], byQuestion, ...slice2([]) };
   }
 
   const lostRows = rows.filter((r) => r.lost > 0);
   const assigned = new Map();
-  const lastQid = ready ? td.lastQid : null;
+  // The question whose time after the last tap is unknown: the last one opened, unless an end event closed the record.
+  const tailQid = ready && !td.end ? td.lastQid : null;
   for (const r of lostRows) {
     let id;
     if (r.held) id = 'held';
     else if (!ready) id = r.outcome; // 'wrong' | 'blank'
     else if (r.firstPick !== null && r.firstPick === r.keyIndex) id = 'changed_from_right';
+    else if (r.outcome === 'wrong' && r.struckKey) id = 'struck_key';
     else if (r.outcome === 'blank' && !r.opened) id = 'never_opened';
     else if (r.ms !== null && r.ms >= LAB_RULES.longMs) id = 'long_stay';
-    else if (r.outcome === 'wrong' && r.opened && r.ms !== null && r.ms < LAB_RULES.quickMs && r.qid !== lastQid && !r.brk) id = 'quick_wrong';
+    else if (r.outcome === 'wrong' && r.opened && r.ms !== null && r.ms < LAB_RULES.quickMs && r.qid !== tailQid && !r.brk) id = 'quick_wrong';
     else id = r.outcome === 'wrong' ? 'other_wrong' : 'other_blank';
     assigned.set(r.qid, id);
   }
@@ -244,7 +265,7 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
     return Object.defineProperty(g, 'qids', { value: members.map((r) => r.qid), enumerable: false });
   }).filter(Boolean);
 
-  const headline = ready ? headlineFor(groups, { gap, total, pace: paperPace(attempt), lastQid, rowsById }) : null;
+  const headline = ready ? headlineFor(groups, { gap, total, pace: paperPace(attempt), tailQid, rowsById }) : null;
   groups = groups.map((g) => ({ ...g, open: headline ? g.id === headline.group : false }));
   for (const r of lostRows) byQuestion[r.qid] = { group: assigned.get(r.qid), others: byQuestion[r.qid]?.others ?? null };
 
@@ -263,5 +284,6 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
     cohort: cohortBlock(cohort, rows, total),
     fine,
     byQuestion,
+    ...slice2(groups),
   };
 }

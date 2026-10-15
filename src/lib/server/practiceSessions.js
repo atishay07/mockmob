@@ -3,7 +3,7 @@ import { Database } from '@/../data/db';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
-import { scoreSession, scorePracticeSubmission } from '@/../data/recovery';
+import { scoreSession, scorePracticeSubmission, submitMeta } from '@/../data/recovery';
 import { openPractice, openStart, practiceId, sealPractice, sealStart } from '@/../data/practice_ticket';
 import { publicSessionView } from '@/../shared/recoveryContract';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -112,7 +112,7 @@ export async function finishPractice(userId, input) {
   const score = result;
   try {
     return await Database.addAttempt({ ...score, id: row.id, userId, subject: row.subject,
-      questionsSnapshot: row.questions, selectionMeta: { ...row.selection_meta, recovery: result.recovery } });
+      questionsSnapshot: row.questions, selectionMeta: { ...row.selection_meta, recovery: result.recovery, ...submitMeta(input, input.events) } });
   } catch (error) {
     if (error.code !== '23505') throw error;
     const winner = await Database.getAttemptById(row.id);

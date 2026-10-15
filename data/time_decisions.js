@@ -6,13 +6,20 @@
 // Nothing here is a forecast, a cause or another student's number. Every sentence is finished here, so the
 // website and the app say exactly the same words: the app's lib/features/result/model/time_decisions.dart is
 // a line-for-line port, and both test suites check the same fixture sentences.
+// Time itself comes from data/paper_trace.js, the one calculator (time away subtracted, the last question run to the
+// end event, the 30-minute break only on records without away data). On an old record (visits and answers only) every
+// number and sentence is exactly what this file gave before. A record with slice 2 capture (an end, time away,
+// strike-outs, marks or how a question was reached) also gets the 4.6 lines: "on a later visit" or "without leaving
+// the question" on each change, the mark for review, time away, strike-outs and how the paper ended.
 import { TEST_MODES } from './test_modes.js';
+import { paperTrace, pickSteps as tracePickSteps, capturedStepText, questionTraceLines, untilSubmitted, untilSheet, spentLabel, clockLabel } from './paper_trace.js';
+import { correctIndex } from './recovery.js';
 
 export const TIME_RULES = Object.freeze({
   minTimedMs: 2000, // a question counts as timed at 2 s or more (the repair's record line uses the same floor)
   minTimedForMedian: 10, // a median is named only over 10 or more timed questions
   longRatio: 2, // "That is 2.3 times the paper's pace" appears from twice the paper's time a question
-  maxGapMs: 30 * 60 * 1000, // a gap over 30 minutes (a tab left open) is not counted as time on a question
+  maxGapMs: 30 * 60 * 1000, // a gap over 30 minutes (a tab left open) is not counted, on records without away data (paper_trace.js)
   longest: 5, // rows in "Where your time went"
   changesShown: 5, // change rows shown before "Show all N changes" (all shown when there are 6 or fewer)
 });
@@ -28,17 +35,8 @@ const marksWord = (n) => plural(n, 'mark');
 
 /** Whole seconds, as the paper clock shows them. */
 const sec = (ms) => Math.max(0, Math.round(ms / 1000));
-/** "42s", "1m", "2m 05s". */
-export function spentLabel(seconds) {
-  const s = Math.max(0, Math.round(seconds));
-  if (s < 60) return `${s}s`;
-  return s % 60 ? `${Math.floor(s / 60)}m ${String(s % 60).padStart(2, '0')}s` : `${s / 60}m`;
-}
-/** The paper clock: "0:42", "12:05", "60:00". */
-export function clockLabel(seconds) {
-  const s = Math.max(0, Math.round(seconds));
-  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
-}
+// "42s", "1m", "2m 05s" and the paper clock "12:05" live in paper_trace.js; re-exported for existing callers.
+export { spentLabel, clockLabel };
 export const signedMarks = (n) => (n > 0 ? `+${n}` : n < 0 ? `${MINUS}${-n}` : '0');
 /** 2.25 -> "2.3", 2 -> "2", 12.4 -> "12". */
 export const ratioLabel = (x) => (x >= 10 ? String(Math.round(x)) : (Math.round(x * 10) / 10).toString());
@@ -81,6 +79,10 @@ export const TIME_COPY = Object.freeze({
   atLeast: (spent) => `At least ${spent}`,
   breakToo: ' A break of over 30 minutes is not counted.',
   notOpened: 'You did not open this question.',
+  // A question of a passage set that was on screen with its set but never in focus (data/paper_trace.js rule 5).
+  shownOnly: (n) => (n > 1
+    ? `Shown with its passage ${n} times. You never answered it or moved to it, so no time is counted on it.`
+    : 'Shown with its passage. You never answered it or moved to it, so no time is counted on it.'),
   first: (l, at) => `Picked ${l} at ${at}.`,
   changed: (l, at, gap) => `Changed to ${l} at ${at}, ${gap} later.`,
   cleared: (at, gap) => `Cleared it at ${at}, ${gap} later.`,
@@ -93,7 +95,6 @@ export const TIME_COPY = Object.freeze({
   notRecorded: 'Time and answer changes were not recorded for this paper. Your score is unaffected.',
 });
 
-const SERVER_SCORING = new Set(['server_practice_v1', 'server_snapshot_v1']);
 
 /** The paper's time limit and its share per question, or null when the paper's limit is not known. */
 export function paperPace(attempt) {
@@ -111,24 +112,12 @@ export function paperPace(attempt) {
   return { paperMs, perQuestionMs: Math.round(paperMs / total), total };
 }
 
-/** One question's steps: answer events in order, repeats of the same answer and leading clears left out. */
-function pickSteps(events) {
-  const steps = [];
-  let current;
-  for (const e of events) {
-    const answer = Number.isInteger(e.answer) ? e.answer : null;
-    if (!steps.length && answer === null) continue;
-    if (steps.length && answer === current) continue;
-    const prev = steps.at(-1);
-    const gap = prev ? sec(e.at) - sec(prev.at) : null;
-    const kind = !prev ? 'first' : answer === null ? 'clear' : current === null ? 'repick' : 'change';
-    steps.push({ kind, answer, at: e.at, gapSeconds: gap });
-    current = answer;
-  }
-  return steps;
-}
+/** One question's steps (paper_trace.js): answer events in order, repeats and leading clears left out. */
+export const pickSteps = (events) => tracePickSteps(events);
 
-const stepText = (s) => {
+// A change, clear or repick on a record with slice 2 capture says whether the student left the question in between.
+const stepText = (s, captured = false) => {
+  if (captured && s.kind !== 'first') return capturedStepText(s);
   const at = clockLabel(sec(s.at));
   const gap = spentLabel(s.gapSeconds ?? 0);
   if (s.kind === 'first') return TIME_COPY.first(letter(s.answer), at);
@@ -149,35 +138,21 @@ const median = (values) => {
  * `message` and nothing else.
  */
 export function buildTimeDecisions(attempt, { answerReviews = {} } = {}) {
-  const meta = attempt?.selectionMeta || {};
-  const rec = meta.recovery || null;
-  if (!SERVER_SCORING.has(meta.scoringVersion)) return { state: 'device', message: TIME_COPY.device };
-  if (rec?.telemetry === 'inconsistent') return { state: 'inconsistent', message: TIME_COPY.inconsistent };
-  const questions = Array.isArray(attempt?.questionsSnapshot) ? attempt.questionsSnapshot : [];
-  const timeline = (Array.isArray(rec?.timeline) ? rec.timeline : [])
-    .filter((e) => e && e.qid && Number.isFinite(e.at) && e.type !== 'mark')
-    .sort((a, b) => a.at - b.at || (a.seq ?? 0) - (b.seq ?? 0));
-  if (rec?.telemetry !== 'self_reported' || timeline.length < 2 || !questions.length) return { state: 'none', message: TIME_COPY.notRecorded };
+  const trace = paperTrace(attempt);
+  if (trace.state === 'device') return { state: 'device', message: TIME_COPY.device };
+  if (trace.state === 'inconsistent') return { state: 'inconsistent', message: TIME_COPY.inconsistent };
+  if (trace.state !== 'ready') return { state: 'none', message: TIME_COPY.notRecorded };
+  const rec = attempt.selectionMeta.recovery;
+  const questions = attempt.questionsSnapshot;
 
   const excludedStates = new Set(TIME_EXCLUDED_REVIEW_STATES);
   const excluded = new Set(Object.entries(answerReviews || {}).filter(([, r]) => excludedStates.has(r?.state)).map(([qid]) => qid));
 
-  // Time on each question: the interval to the next event is credited to the question the event names.
-  const dwell = new Map();
-  const visits = new Map();
-  const breaks = new Set(); // questions with a gap over 30 minutes left out
-  let last = null;
-  for (let i = 0; i < timeline.length; i++) {
-    const e = timeline[i];
-    if (e.qid !== last) { visits.set(e.qid, (visits.get(e.qid) || 0) + 1); last = e.qid; }
-    const next = timeline[i + 1];
-    if (!next) continue;
-    const gap = next.at - e.at;
-    if (gap >= 0 && gap <= TIME_RULES.maxGapMs) dwell.set(e.qid, (dwell.get(e.qid) || 0) + gap);
-    else if (gap > TIME_RULES.maxGapMs) breaks.add(e.qid);
-  }
-
-  const lastQid = timeline.at(-1).qid; // time after the final event (until submit) is not in the record
+  // Time on each question, visits and breaks: the one rule in paper_trace.js.
+  const { dwell, visits, breaks, captured, end, shownOnly, endedOnSheet } = trace;
+  const lastSheet = trace.sheetSpans.at(-1) || null;
+  const lastQid = trace.lastQid; // the question on screen at the last visit or answer
+  const tail = trace.openTail ? lastQid : null; // without an end event, its time after the last tap is not recorded
   const pace = paperPace(attempt);
   const timed = [...dwell.values()].filter((ms) => ms >= TIME_RULES.minTimedMs);
   const medianMs = timed.length >= TIME_RULES.minTimedForMedian ? median(timed) : null;
@@ -193,29 +168,38 @@ export function buildTimeDecisions(attempt, { answerReviews = {} } = {}) {
     const opened = visits.has(q.id);
     const ms = opened ? (dwell.get(q.id) || 0) : null;
     const ratio = pace && ms !== null && ms >= TIME_RULES.minTimedMs ? ms / pace.perQuestionMs : null;
-    const steps = pickSteps(timeline.filter((e) => e.qid === q.id && e.type === 'answer'));
+    const steps = trace.stepsByQid.get(q.id) || [];
     const changes = allChanges.filter((c) => c.qid === q.id);
     const held = excluded.has(q.id);
     const net = changes.reduce((s, c) => s + (Number(c.markEffect) || 0), 0);
 
+    const shown = shownOnly.has(q.id);
     let time;
     if (!opened) time = TIME_COPY.notOpened;
-    else if (ms < TIME_RULES.minTimedMs) time = breaks.has(q.id) ? TIME_COPY.breakOnly : q.id === lastQid ? TIME_COPY.lastOnly : TIME_COPY.underTwo;
+    else if (shown) time = TIME_COPY.shownOnly(visits.get(q.id) || 1);
+    else if (ms < TIME_RULES.minTimedMs) time = breaks.has(q.id) ? TIME_COPY.breakOnly : q.id === tail ? TIME_COPY.lastOnly : TIME_COPY.underTwo;
     else {
-      const spent = q.id === lastQid ? TIME_COPY.atLeast(spentLabel(ms / 1000)) : spentLabel(ms / 1000);
+      const spent = q.id === tail ? TIME_COPY.atLeast(spentLabel(ms / 1000)) : spentLabel(ms / 1000);
       time = paceLabel && medianLabel ? TIME_COPY.timePaceMedian(spent, paceLabel, medianLabel)
         : paceLabel ? TIME_COPY.timePace(spent, paceLabel)
         : medianLabel ? TIME_COPY.timeMedian(spent, medianLabel)
         : TIME_COPY.time(spent);
+      // The question open at a submit ran to the submit: "2m 05s on this question, until you submitted at 59:58."
+      // When the submit sheet (or the NTA check) was open at the end, it ran only to the sheet: "..., until you went
+      // to submit at 58:30."
+      if (endedOnSheet && lastSheet && q.id === lastQid) time = time.replace(TIME_COPY.time(spent), untilSheet(spent, lastSheet.from));
+      else if (end?.reason === 'submit' && q.id === lastQid) time = time.replace(TIME_COPY.time(spent), untilSubmitted(spent, end.at));
       if (ratio !== null && ratio >= TIME_RULES.longRatio) time += TIME_COPY.ratio(ratioLabel(ratio));
       if (breaks.has(q.id)) time += TIME_COPY.breakToo;
     }
-    if (opened && (visits.get(q.id) || 0) > 1) time += TIME_COPY.visits(visits.get(q.id));
-    const picks = steps.length ? steps.map(stepText).join(' ') : null;
+    if (opened && !shown && (visits.get(q.id) || 0) > 1) time += TIME_COPY.visits(visits.get(q.id));
+    const picks = steps.length ? steps.map((s) => stepText(s, captured)).join(' ') : null;
     const effect = changes.length && !held ? (changes.length === 1 ? TIME_COPY.effectOne(net) : TIME_COPY.effectMany(changes.length, net)) : null;
+    const key = correctIndex(q);
+    const traced = questionTraceLines(trace, q.id, { keyIndex: Number.isInteger(key) && key >= 0 ? key : null });
     return {
       qid: q.id, number: index + 1, verdict, chapter: q.chapter ?? null, opened, ms, visits: visits.get(q.id) || 0,
-      ratio, steps, changes, net, held, lines: [time, picks, effect].filter(Boolean),
+      ratio, steps, changes, net, held, lines: [time, picks, effect, ...traced].filter(Boolean),
     };
   });
 
@@ -240,7 +224,9 @@ export function buildTimeDecisions(attempt, { answerReviews = {} } = {}) {
 
   return {
     state: 'ready',
-    lastQid, // the question on screen at the last recorded event (its time after the last tap is not recorded)
+    lastQid, // the question on screen at the last visit or answer
+    end: end ? { qid: end.qid, at: end.at, reason: end.reason } : null, // how the record ended, when the device said so
+    captured, // the record carries slice 2 capture (and so the 4.6 lines)
     pace,
     medianMs,
     timedCount: timed.length,
@@ -263,7 +249,7 @@ export function buildTimeDecisions(attempt, { answerReviews = {} } = {}) {
         neutral.length ? { kind: 'neutral', text: TIME_COPY.changesNeutral(neutral.length) } : null,
       ].filter(Boolean),
       held: heldChanged ? TIME_COPY.changesHeld(heldChanged) : null,
-      rows: rows.filter((r) => r.changes.length).map((r) => ({ number: r.number, qid: r.qid, net: r.held ? null : r.net, text: r.steps.map(stepText).join(' ') })),
+      rows: rows.filter((r) => r.changes.length).map((r) => ({ number: r.number, qid: r.qid, net: r.held ? null : r.net, text: r.steps.map((s) => stepText(s, captured)).join(' ') })),
     },
   };
 }

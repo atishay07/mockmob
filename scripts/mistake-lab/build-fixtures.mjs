@@ -205,10 +205,13 @@ export function buildAll() {
   };
   const cohortOf = (input) => cohortForAttempt({ attempt: input.attempt, allAttempts: [], answerReviews: input.answerReviews, snapshot });
   const fullCohort = cohortOf(FULL);
+  // The slice 1 contracts keep the slice 1 shape byte for byte: slice 2's replay and time are in contract_replay_v1
+  // (scripts/mistake-lab/build-replay-fixtures.mjs), so the app's copies of these three files never go stale.
+  const v1 = ({ replay, time, ...lab }) => lab;
   const contracts = {
-    contract_ready_v1: buildMistakeLab({ attempt: FULL.attempt, answerReviews: FULL.answerReviews, cohort: fullCohort }),
-    contract_basic_v1: buildMistakeLab({ attempt: NO_TIMELINE.attempt, answerReviews: NO_TIMELINE.answerReviews, cohort: null }),
-    contract_none_v1: buildMistakeLab({ attempt: NO_MISSED.attempt, answerReviews: NO_MISSED.answerReviews, cohort: null }),
+    contract_ready_v1: v1(buildMistakeLab({ attempt: FULL.attempt, answerReviews: FULL.answerReviews, cohort: fullCohort })),
+    contract_basic_v1: v1(buildMistakeLab({ attempt: NO_TIMELINE.attempt, answerReviews: NO_TIMELINE.answerReviews, cohort: null })),
+    contract_none_v1: v1(buildMistakeLab({ attempt: NO_MISSED.attempt, answerReviews: NO_MISSED.answerReviews, cohort: null })),
   };
   return { inputs, snapshot, fullCohort, contracts };
 }

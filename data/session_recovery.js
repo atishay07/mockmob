@@ -1,6 +1,8 @@
 // Score Recovery Lab · what one finished session shows, computed from the server-scored attempt.
 // Pure and portable. Every number here is an observation under the session's answer key
 // (+5 right, −1 wrong, 0 blank); nothing is a forecast of marks a student will "recover".
+// Time per question comes from data/paper_trace.js, the one calculator every result screen uses.
+import { readTrace } from './paper_trace.js';
 
 export const MARKS = Object.freeze({ right: 5, wrong: -1, blank: 0 });
 // A wrong answer sits 6 marks below a right one (5 not earned plus the 1 penalty); a blank, 5.
@@ -9,16 +11,15 @@ export const QUICK_PICK_MS = 20000;
 
 const text = (v, fallback = '') => v == null ? fallback : typeof v === 'object' ? (v.text ?? v.label ?? v.name ?? fallback) : String(v);
 
-// Seconds on each question, from the device's visit/answer events. The active question is the
-// one named by the latest event; the interval to the next event is credited to it.
-export function dwellByQuestion(timeline = []) {
-  const events = [...timeline].filter(e => e && e.qid && Number.isFinite(e.at)).sort((a, b) => a.at - b.at || (a.seq ?? 0) - (b.seq ?? 0));
-  if (events.length < 2) return null;
+// Milliseconds on each question ({ qid: ms }, questions with time only), or null under 2 events. A thin wrapper over
+// paper_trace.js: `input` is a recovery object (time away subtracted, the last question run to the end event) or a
+// bare timeline. Since slice 2 a gap over 30 minutes on a record without away data is a break, not time on a
+// question, as Time and decisions has always counted it (this read used to count it).
+export function dwellByQuestion(input = []) {
+  const trace = readTrace(input);
+  if (trace.events.length < 2) return null;
   const dwell = {};
-  for (let i = 0; i < events.length - 1; i++) {
-    const gap = events[i + 1].at - events[i].at;
-    if (gap > 0) dwell[events[i].qid] = (dwell[events[i].qid] || 0) + gap;
-  }
+  for (const [qid, ms] of trace.dwell) if (ms > 0) dwell[qid] = ms;
   return dwell;
 }
 
@@ -27,7 +28,7 @@ export function analyseSession(attempt) {
   const details = attempt?.details || [];
   const recovery = attempt?.selectionMeta?.recovery || null;
   const usableTimeline = recovery?.telemetry === 'self_reported' ? recovery.timeline : null;
-  const dwell = dwellByQuestion(usableTimeline || []);
+  const dwell = usableTimeline ? dwellByQuestion(recovery) : null;
   const changes = recovery?.telemetry === 'self_reported' ? (recovery.observed?.answerChanges || []) : [];
   const changedIds = new Set(changes.map(c => c.qid));
 

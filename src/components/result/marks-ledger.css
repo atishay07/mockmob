@@ -36,6 +36,8 @@ html[data-theme='light'] .ml {
 .ml [data-g='never_opened'] { --c: var(--ml-never); --pat: repeating-linear-gradient(135deg, var(--ml-hatch) 0 2px, transparent 2px 6px); }
 .ml [data-g='long_stay'] { --c: var(--ml-long); --pat: repeating-linear-gradient(135deg, var(--ml-stripe) 0 2px, transparent 2px 5px); }
 .ml [data-g='quick_wrong'], .ml [data-g='wrong'] { --c: var(--ml-quick); }
+/* Crossed out the key (slice 2): the system's purple, struck through with fine diagonals. */
+.ml [data-g='struck_key'] { --c: var(--a-purple-text, #c4b5fd); --pat: repeating-linear-gradient(45deg, var(--ml-stripe) 0 1.5px, transparent 1.5px 6px); }
 .ml [data-g='other_wrong'] { --c: var(--ml-other); }
 .ml [data-g='other_blank'], .ml [data-g='blank'] { --c: var(--ml-blank); }
 .ml [data-g='held'] { --c: var(--ml-held); --pat: radial-gradient(circle, var(--ml-dot) 0 1px, transparent 1.4px); }
@@ -112,6 +114,9 @@ html[data-theme='light'] .ml {
   text-decoration: underline; text-decoration-color: var(--a-line-strong, #384736); text-underline-offset: 4px;
 }
 .ml-textbtn:hover { text-decoration-color: var(--a-ink-2, #bcc5b9); }
+/* "See it in the replay" under a ledger row's chips. */
+.ml-replaylink { display: inline-flex; align-items: center; gap: 8px; }
+.ml-replaylink svg { color: var(--a-accent-text, #d2f000); }
 .ml-cohort { display: grid; grid-template-columns: 28px minmax(0, 1fr); gap: 10px; align-items: start; }
 .ml-cohort__icon { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); color: var(--a-accent-text, #d2f000); }
 .ml-cohort__main { display: grid; gap: 8px; min-width: 0; }

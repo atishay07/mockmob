@@ -18,6 +18,7 @@ import './nta-classic.css';
 import './practice-run.css';
 import MobiReact from '@/components/brand/MobiReact';
 import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
+import { nextEvent, onScreenQid, endReason, captureMeta, usePresenceCapture } from '@/lib/runnerCapture';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
 const subscribeConnection = callback => {
@@ -230,8 +231,10 @@ function TestRunner() {
   const liveRef = useRef(null);
   const swipeRef = useRef(null);
   const suppressClickRef = useRef(false);
-  // Crossed-out options live only in memory: never saved, never sent.
+  // The crossed-out look lives only in memory and is never restored. Each cross-out and restore is also recorded as a
+  // strike event, read only after submit (the Mistake Lab's "You crossed out B, the key, at 0:41").
   const [struck, setStruck] = useState({});
+  const struckRef = useRef({});
   const pressRef = useRef(null);
   const lastStrikeAt = useRef(0);
   const [strikeNote, setStrikeNote] = useState(() => {
@@ -261,15 +264,26 @@ function TestRunner() {
   const markedRef = useRef(marked);
   const eventsRef = useRef([]);
   const startedRef = useRef(0);
-  // value: the chosen option index (or null) for an answer, true or false for a mark for review.
+  const endsAtRef = useRef(null);
+  // One event of the paper's record (src/lib/runnerCapture.js). value: the option index (or null) for an answer,
+  // true or false for a mark, how the question was reached for a visit, { option, on } for a strike, the reason
+  // for an end. Recording never touches React state, so nothing on the page changes because of it.
   const recordEvent = useCallback((qid, type, value) => {
-    if (!startedRef.current || eventsRef.current.length >= 5000) return;
-    const prior = eventsRef.current.at(-1);
-    eventsRef.current.push({ seq: (prior?.seq || 0) + 1, qid, type,
-      at: Math.max(prior?.at || 0, Date.now() - startedRef.current),
-      ...(type === 'answer' ? { answer: value } : {}),
-      ...(type === 'mark' ? { marked: value === true } : {}) });
+    const event = nextEvent(eventsRef.current, { startedAt: startedRef.current, now: Date.now(),
+      limitMs: endsAtRef.current ? endsAtRef.current - startedRef.current : undefined }, qid, type, value);
+    if (event) eventsRef.current.push(event);
+    return event;
   }, []);
+  // A page coming on screen (data/paper_trace.js rule 5): on a passage set every other question of the set is shown
+  // with it, so each is recorded as opened (via 'set') first; then the question in focus, with how it was reached.
+  const recordPage = useCallback((list, index, via) => {
+    const focus = list?.[index];
+    if (!focus?.id) return;
+    for (const entry of getQuestionBlock(list, index).entries) {
+      if (entry.question?.id && entry.question.id !== focus.id) recordEvent(entry.question.id, 'visit', 'set');
+    }
+    recordEvent(focus.id, 'visit', via);
+  }, [recordEvent]);
   // A device-held session has no server row; the server's signed start time rides in the address so a
   // reload that lost the saved draft is given the same clock, never a new one.
   const rememberStart = useCallback((receipt) => {
@@ -286,6 +300,10 @@ function TestRunner() {
   useEffect(() => { answersRef.current = answers; }, [answers]);
   useEffect(() => { markedRef.current = marked; }, [marked]);
   useEffect(() => { questionsRef.current = questions; }, [questions]);
+  useEffect(() => { endsAtRef.current = endsAt; }, [endsAt]);
+  // The paper is live: started, not yet submitted, and before the deadline. Away, back and strike events are
+  // recorded only then.
+  const paperLive = useCallback(() => !!startedRef.current && !submittedRef.current && !!endsAtRef.current && Date.now() < endsAtRef.current, []);
 
   useEffect(() => {
     if (authStatus === 'loading') return;
@@ -322,16 +340,20 @@ function TestRunner() {
               setVisited(saved.visited || {});
               setMarked(saved.marked || {});
               markedRef.current = saved.marked || {};
+              const resumeIdx = typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0;
               // Marks saved before they were recorded as events are added to the event log now, so the
               // server learns them too.
               if (!saved.pendingSubmission && Date.now() < saved.endsAt) {
                 const recorded = progressFromEvents(eventsRef.current, saved.questions).marked;
                 for (const qid of Object.keys(saved.marked || {})) if (!recorded[qid]) recordEvent(qid, 'mark', true);
+                // The paper reopened on this device, on the question it was left on (last, so the time from here
+                // is credited to that question).
+                recordPage(saved.questions, resumeIdx, 'resume');
               }
               rememberStart(saved.selectionMeta?.startReceipt);
               setSelectionMeta(saved.selectionMeta || null);
               setEndsAt(saved.endsAt);
-              setIdx(typeof saved.idx === 'number' ? Math.min(saved.idx, saved.questions.length - 1) : 0);
+              setIdx(resumeIdx);
               setPendingSubmission(saved.pendingSubmission === true);
               setLoading(false);
               return;
@@ -393,7 +415,8 @@ function TestRunner() {
           const at = loadedQuestions.findIndex((question) => question.id === qid);
           if (at >= 0) Object.assign(restoredVisited, visitedForBlock(loadedQuestions, at));
         }
-        recordEvent(loadedQuestions[0].id, 'visit');
+        // The first question, reached by a resume when the server already holds events for this session.
+        recordPage(loadedQuestions, 0, eventsRef.current.length ? 'resume' : undefined);
         setQuestions(loadedQuestions);
         setAnswers(restored.answers);
         setVisited({ ...restoredVisited, ...visitedForBlock(loadedQuestions, 0) });
@@ -432,28 +455,37 @@ function TestRunner() {
     }
     load();
     return () => { alive = false; };
-  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode, recordEvent, rememberStart, launchKey]);
+  }, [subjectId, chapter, chapters, difficulty, count, mode, modeId, generationKey, key, authStatus, refreshSession, router, isNtaMode, recordEvent, recordPage, rememberStart, launchKey]);
 
+  // The saved draft is also kept here, so an away can be written at once: a tab being closed may never render again.
+  const draftRef = useRef(null);
   useEffect(() => {
     if (loading || !endsAt || typeof window === 'undefined') return;
+    const draft = {
+      questions,
+      answers,
+      visited,
+      marked,
+      selectionMeta,
+      generationKey,
+      events: eventsRef.current,
+      startedAt: startedRef.current,
+      endsAt,
+      idx,
+      pendingSubmission,
+    };
+    draftRef.current = { key, draft };
     try {
-      window.localStorage.setItem(key, JSON.stringify({
-        questions,
-        answers,
-        visited,
-        marked,
-        selectionMeta,
-        generationKey,
-        events: eventsRef.current,
-        startedAt: startedRef.current,
-        endsAt,
-        idx,
-        pendingSubmission,
-      }));
+      window.localStorage.setItem(key, JSON.stringify(draft));
     } catch {
       // Private mode or quota pressure should not interrupt the attempt.
     }
   }, [questions, answers, visited, marked, selectionMeta, endsAt, idx, key, loading, generationKey,pendingSubmission]);
+  const saveEventsNow = useCallback(() => {
+    const saved = draftRef.current;
+    if (!saved || typeof window === 'undefined') return;
+    try { window.localStorage.setItem(saved.key, JSON.stringify({ ...saved.draft, events: eventsRef.current })); } catch { /* the next save keeps it */ }
+  }, []);
 
   useEffect(() => {
     if (!selectionMeta?.sessionId || selectionMeta.sessionTicket || loading) return;
@@ -474,8 +506,11 @@ function TestRunner() {
   },[selectionMeta?.sessionId,selectionMeta?.sessionTicket,loading,endsAt]);
 
   useEffect(() => { idxRef.current = idx; }, [idx]);
-  const gotoQuestion = useCallback((nextIdx, { from = 0 } = {}) => {
+  // via: how the question was reached (next, previous, palette, swipe); none for a question picked inside a passage.
+  const gotoQuestion = useCallback((nextIdx, { from = 0, via } = {}) => {
     const safe = Math.max(0, Math.min(questionsRef.current.length - 1, nextIdx));
+    const newPage = questionsRef.current.length > 0
+      && getQuestionBlock(questionsRef.current, idxRef.current).startIdx !== getQuestionBlock(questionsRef.current, safe).startIdx;
     if (practiceRun && questionsRef.current.length) {
       const leaving = getQuestionBlock(questionsRef.current, idxRef.current).startIdx;
       const arriving = getQuestionBlock(questionsRef.current, safe).startIdx;
@@ -489,10 +524,12 @@ function TestRunner() {
     }
     idxRef.current = safe;
     setIdx(safe);
-    if (questionsRef.current[safe]) recordEvent(questionsRef.current[safe].id, 'visit');
+    // A new page records every question it shows; inside the same page only the question now in focus.
+    if (newPage) recordPage(questionsRef.current, safe, via);
+    else if (questionsRef.current[safe]) recordEvent(questionsRef.current[safe].id, 'visit', via);
     const patch = visitedForBlock(questionsRef.current, safe);
     setVisited((prev) => ({ ...prev, ...patch }));
-  }, [recordEvent, practiceRun]);
+  }, [recordEvent, recordPage, practiceRun]);
 
   useEffect(() => {
     if (!endsAt) return;
@@ -506,6 +543,19 @@ function TestRunner() {
     };
   }, [endsAt]);
 
+  // Time away from the paper (spec 6, item 2), in every mode, recorded and nothing else: the page, the timer and the
+  // NTA guard (which keeps its own listener and still counts the warning) do exactly what they did before. An away
+  // is written to the saved draft at once, so a reload on this device still knows when the student left.
+  const presenceRef = useRef(null);
+  const recordPresence = useCallback((type) => {
+    if (!paperLive()) return;
+    if (type === 'back' ? presenceRef.current !== 'away' : presenceRef.current === 'away') return;
+    if (!recordEvent(onScreenQid(eventsRef.current, questionsRef.current[idxRef.current]?.id), type)) return;
+    presenceRef.current = type;
+    if (type === 'away') saveEventsNow();
+  }, [paperLive, recordEvent, saveEventsNow]);
+  usePresenceCapture(!loading && !!endsAt, recordPresence);
+
   useEffect(() => {
     if (loading || submittedRef.current) return;
     const onBeforeUnload = (e) => {
@@ -518,12 +568,25 @@ function TestRunner() {
   }, [loading]);
 
   const integrityKey = `${key}:integrity:${selectionMeta?.sessionId || generationKey || endsAt}`;
-  const submitTest = useCallback(async () => {
+  // reason: 'submit' (the student), 'time_up' (the timer) or 'nta_strikes' (the third NTA warning). A retry passes
+  // none (or a click event) and keeps the reason of the end already recorded.
+  const submitTest = useCallback(async (reason) => {
     if (submittedRef.current) return;
     if (!user) return;
     submittedRef.current = true;
     setSubmitting(true);
     setMobilePaletteOpen(false);
+    // How the paper ended is its last event. A retry adds no second end unless something happened after the first.
+    // Capture is data only and runs before the submit's own error handling, so it may never throw here: a throw would
+    // leave the paper marked as submitting with nothing sent.
+    let endedBy = null;
+    try {
+      const last = eventsRef.current.at(-1);
+      endedBy = last?.type === 'end' ? last.reason : endReason(eventsRef.current, reason);
+      if (last?.type !== 'end') recordEvent(onScreenQid(eventsRef.current, questionsRef.current[idxRef.current]?.id), 'end', endedBy);
+    } catch {
+      // The submit goes ahead without the end event; the server stores no end and the Lab says "at least".
+    }
 
     try {
       const data = await apiPost('/api/attempts', {
@@ -531,6 +594,7 @@ function TestRunner() {
         sessionTicket: selectionMeta?.sessionTicket,
         answers: answersRef.current,
         events: eventsRef.current.filter(e => e.at <= endsAt - startedRef.current),
+        ...captureMeta({ startedAt: startedRef.current, endedBy }),
       });
       await finishExamRef.current?.();
       try { window.localStorage.removeItem(key); window.localStorage.removeItem(integrityKey); window.localStorage.removeItem(`${key}:integrity`); } catch {}
@@ -551,14 +615,24 @@ function TestRunner() {
         if(e.message === 'SESSION_EXPIRED')setError('The server’s submission window has ended. This session cannot be recorded.');
       }
     }
-  }, [user, key, integrityKey, router, refreshSession, selectionMeta, endsAt]);
+  }, [user, key, integrityKey, router, refreshSession, selectionMeta, endsAt, recordEvent]);
+  const submitForStrikes = useCallback(() => submitTest('nta_strikes'), [submitTest]);
 
   // NTA mode only: leaving the tab is a strike; the third submits the session.
-  const integrity = useExamIntegrity({ enabled: isNtaMode && !loading && !!endsAt, storageKey: integrityKey, fullscreenTarget, onTerminate: submitTest });
+  const integrity = useExamIntegrity({ enabled: isNtaMode && !loading && !!endsAt, storageKey: integrityKey, fullscreenTarget, onTerminate: submitForStrikes });
   const canAnswer = integrity.canAnswer;
   useEffect(() => { finishExamRef.current = integrity.finish; }, [integrity.finish]);
+  // Picking a crossed-out option brings it back (as the app does): the restore is recorded as a strike, on false, just
+  // before the answer. Strike-outs exist only outside NTA mode, so inside an NTA paper this never runs.
+  const restoreStrike = useCallback((qid, option) => {
+    if (!(struckRef.current[qid] || []).includes(option)) return;
+    struckRef.current = { ...struckRef.current, [qid]: struckRef.current[qid].filter((o) => o !== option) };
+    setStruck((prev) => ({ ...prev, [qid]: (prev[qid] || []).filter((o) => o !== option) }));
+    if (paperLive()) recordEvent(qid, 'strike', { option, on: false });
+  }, [paperLive, recordEvent]);
   const chooseAnswer = useCallback((qid, answer) => {
     if (!canAnswer() || submittedRef.current || submitting || pendingSubmission || (endsAt && Date.now() >= endsAt)) return false;
+    if (practiceRun && answer !== null) restoreStrike(qid, answer);
     recordEvent(qid, 'answer', answer);
     setLastAnswerSeq(eventsRef.current.at(-1)?.seq || 0);
     setAnswers(prev => {
@@ -566,7 +640,7 @@ function TestRunner() {
       answersRef.current = next; return next;
     });
     return true;
-  }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
+  }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting, practiceRun, restoreStrike]);
 
   // Mark for review is recorded like an answer: an event in the session log, so it is saved on the
   // server and comes back when the session is resumed on another device or after storage is cleared.
@@ -581,6 +655,8 @@ function TestRunner() {
   }, [canAnswer, recordEvent, pendingSubmission, endsAt, submitting]);
 
   const toggleStrike = useCallback((qid, option) => {
+    // The chosen option is never crossed out (as in the app); picking a crossed-out one brings it back (chooseAnswer).
+    if (answersRef.current[qid] === option) return;
     lastStrikeAt.current = Date.now();
     setStrikeNote(false);
     setStruck((prev) => {
@@ -588,13 +664,38 @@ function TestRunner() {
       if (next.has(option)) next.delete(option); else next.add(option);
       return { ...prev, [qid]: [...next] };
     });
-  }, []);
+    // The same toggle on a mirror, so the strike event knows at once whether this crossed out or restored.
+    const mirror = new Set(struckRef.current[qid] || []);
+    const on = !mirror.has(option);
+    if (on) mirror.add(option); else mirror.delete(option);
+    struckRef.current = { ...struckRef.current, [qid]: [...mirror] };
+    if (paperLive()) recordEvent(qid, 'strike', { option, on });
+    return true;
+  }, [paperLive, recordEvent]);
+
+  // The submit sheet (and the NTA submit check) sits over the question in focus. Opening it is recorded as a visit with
+  // via 'sheet', so the time spent deciding to submit is credited to no question (data/paper_trace.js rule 6); going
+  // back to the paper without submitting is a plain visit to the question in focus. Data only: nothing on the page
+  // changes because of either.
+  const recordSheet = useCallback((open) => {
+    if (!paperLive()) return;
+    // It runs just before the NTA submit check and the sheet opening: capture may never stop either.
+    try {
+      recordEvent(onScreenQid(eventsRef.current, questionsRef.current[idxRef.current]?.id), 'visit', open ? 'sheet' : undefined);
+    } catch {
+      // The record misses this sheet; the submit and the page go ahead exactly as without capture.
+    }
+  }, [paperLive, recordEvent]);
+  const closeReview = useCallback(() => {
+    setReviewOpen(false);
+    recordSheet(false);
+  }, [recordSheet]);
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
   useEffect(() => {
     if (!endsAt) return;
-    if (timeLeft <= 0 && !submittedRef.current && !loading && !autoSubmitTried.current){autoSubmitTried.current=true;submitTest();}
+    if (timeLeft <= 0 && !submittedRef.current && !loading && !autoSubmitTried.current){autoSubmitTried.current=true;submitTest('time_up');}
   }, [timeLeft, endsAt, loading, submitTest]);
 
   useEffect(() => {
@@ -605,7 +706,7 @@ function TestRunner() {
       if (mobilePaletteOpen || event.defaultPrevented || event.ctrlKey || event.metaKey || event.altKey || event.target?.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return;
       const block = getQuestionBlock(questionsRef.current, idx);
       if (practiceRun && reviewOpen) return;
-      // Shift + 1 to 4 crosses an option out (practice only; held in memory, never sent).
+      // Shift + 1 to 4 crosses an option out (practice only; shown from memory, recorded as a strike event).
       if (practiceRun && event.shiftKey && /^Digit[1-5]$/.test(event.code)) {
         const active = questionsRef.current[idx];
         const option = Number(event.code.slice(5)) - 1;
@@ -614,10 +715,10 @@ function TestRunner() {
       }
       if (event.key === 'ArrowLeft') {
         event.preventDefault();
-        gotoQuestion(block.startIdx - 1);
+        gotoQuestion(block.startIdx - 1, { via: 'previous' });
       } else if (event.key === 'ArrowRight' && block.endIdx < questionsRef.current.length - 1) {
         event.preventDefault();
-        gotoQuestion(block.endIdx + 1);
+        gotoQuestion(block.endIdx + 1, { via: 'next' });
       } else if (/^[1-4]$/.test(event.key)) {
         event.preventDefault();
         const active = questionsRef.current[idx];
@@ -711,8 +812,7 @@ function TestRunner() {
     pressRef.current = { x: event.clientX, y: event.clientY, timer: setTimeout(() => {
       pressRef.current = null;
       suppressClickRef.current = true;
-      toggleStrike(qid, option);
-      navigator.vibrate?.(8);
+      if (toggleStrike(qid, option)) navigator.vibrate?.(8);
     }, LONG_PRESS_MS) };
   }, [cancelPress, toggleStrike]);
   const movePress = useCallback((event) => {
@@ -754,7 +854,7 @@ function TestRunner() {
     const timer = setTimeout(() => setMobiAct('react'), prefersReducedMotion() ? 0 : 900);
     dialog?.querySelector('[data-autofocus]')?.focus();
     const onKey = (event) => {
-      if (event.key === 'Escape') { event.preventDefault(); setReviewOpen(false); return; }
+      if (event.key === 'Escape') { event.preventDefault(); closeReview(); return; }
       if (event.key !== 'Tab' || !dialog) return;
       const controls = [...dialog.querySelectorAll('button:not(:disabled)')].filter((control) => control.tabIndex !== -1);
       if (!controls.length) return;
@@ -768,7 +868,7 @@ function TestRunner() {
       document.removeEventListener('keydown', onKey);
       reviewReturnRef.current?.focus?.();
     };
-  }, [reviewOpen]);
+  }, [reviewOpen, closeReview]);
 
   if (!subjectId) return (
     <div className="container-narrow max-w-3xl pt-10">
@@ -863,6 +963,7 @@ function TestRunner() {
     reviewReturnRef.current = document.activeElement;
     setMobiAct('reading');
     setMobilePaletteOpen(false);
+    if (!reviewOpen) recordSheet(true);
     setReviewOpen(true);
   };
 
@@ -870,14 +971,15 @@ function TestRunner() {
     if (practiceRun) { openReview(); return; }
     if (pendingCount > 0 || markedCount > 0) {
       const markedText = markedCount ? ` and ${markedCount} marked for review` : '';
-      if (!confirm(`You have ${pendingCount} unanswered question${pendingCount === 1 ? '' : 's'}${markedText}. Submit anyway?`)) return;
+      recordSheet(true);
+      if (!confirm(`You have ${pendingCount} unanswered question${pendingCount === 1 ? '' : 's'}${markedText}. Submit anyway?`)) { recordSheet(false); return; }
     }
-    submitTest();
+    submitTest('submit');
   };
 
   const goNext = () => {
     if (isLastBlock) confirmAndSubmit();
-    else gotoQuestion(block.endIdx + 1);
+    else gotoQuestion(block.endIdx + 1, { via: 'next' });
   };
 
   // Swipe between questions on touch: the question follows the finger, commits past 72 px or on a
@@ -919,8 +1021,8 @@ function TestRunner() {
     if (gesture.axis !== 'x') return;
     suppressClickRef.current = true;
     const commit = event.type === 'pointerup' && (Math.abs(gesture.dx) > SWIPE_COMMIT_PX || (Math.abs(gesture.v) > SWIPE_FLICK && Math.abs(gesture.dx) > 24));
-    if (commit && gesture.dx < 0 && !isLastBlock) gotoQuestion(block.endIdx + 1, { from: gesture.shown });
-    else if (commit && gesture.dx > 0 && block.startIdx > 0) gotoQuestion(block.startIdx - 1, { from: gesture.shown });
+    if (commit && gesture.dx < 0 && !isLastBlock) gotoQuestion(block.endIdx + 1, { from: gesture.shown, via: 'swipe' });
+    else if (commit && gesture.dx > 0 && block.startIdx > 0) gotoQuestion(block.startIdx - 1, { from: gesture.shown, via: 'swipe' });
     else { springBack(); if (commit && gesture.dx < 0 && isLastBlock && !submitting) openReview(); }
   };
   const onStageClickCapture = (event) => {
@@ -934,7 +1036,7 @@ function TestRunner() {
 
   const markAndNext = () => {
     setMark(q.id, true);
-    if (!isLastBlock) gotoQuestion(block.endIdx + 1);
+    if (!isLastBlock) gotoQuestion(block.endIdx + 1, { via: 'next' });
   };
 
   const renderQuestion = (question, questionIndex) => (
@@ -1060,7 +1162,7 @@ function TestRunner() {
   for (const question of questions) legendCounts[chipStateFor(question.id)] += 1;
   const filterMatches = paletteFilter ? questions.map((question, index) => (chipStateFor(question.id) === paletteFilter ? index : -1)).filter((index) => index >= 0) : [];
   const nextMatch = filterMatches.length ? (filterMatches.find((index) => index > idx) ?? filterMatches[0]) : -1;
-  const goToNextMatch = () => { gotoQuestion(nextMatch); setMobilePaletteOpen(false); };
+  const goToNextMatch = () => { gotoQuestion(nextMatch, { via: 'palette' }); setMobilePaletteOpen(false); };
   const renderLegend = () => (
     <div className="pr-legend" role="group" aria-label="Show questions by state">
       {LEGEND.map(([state, label]) => (
@@ -1087,7 +1189,7 @@ function TestRunner() {
             type="button"
             className={`nta-palette-chip nta-palette-chip--${state} ${questionIndex === idx ? 'is-current' : ''} ${practiceRun && paletteFilter && paletteFilter !== state ? 'is-dimmed' : ''}`}
             onClick={() => {
-              gotoQuestion(questionIndex);
+              gotoQuestion(questionIndex, { via: 'palette' });
               setMobilePaletteOpen(false);
             }}
             aria-label={`Question ${questionIndex + 1}, ${state.replace('-', ' and ')}`}
@@ -1243,7 +1345,7 @@ function TestRunner() {
                 type="button"
                 className="nta-nav-button"
                 disabled={block.startIdx === 0}
-                onClick={() => gotoQuestion(block.startIdx - 1)}
+                onClick={() => gotoQuestion(block.startIdx - 1, { via: 'previous' })}
               >
                 <Icon name="chevL" /> Previous
               </button>
@@ -1285,7 +1387,7 @@ function TestRunner() {
       </div>
 
       <div className="nta-mobile-actions">
-        <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1)}>
+        <button type="button" disabled={block.startIdx === 0} onClick={() => gotoQuestion(block.startIdx - 1, { via: 'previous' })}>
           <Icon name="chevL" /> {classicInterface ? 'Back' : 'Prev'}
         </button>
         {classicInterface && (
@@ -1346,7 +1448,7 @@ function TestRunner() {
 
       {practiceRun && reviewOpen && (
         <div ref={reviewDialogRef} className="pr-sheet" role="dialog" aria-modal="true" aria-labelledby="pr-sheet-title">
-          <button className="pr-sheet__backdrop" type="button" tabIndex={-1} aria-label="Close" onClick={() => setReviewOpen(false)} />
+          <button className="pr-sheet__backdrop" type="button" tabIndex={-1} aria-label="Close" onClick={closeReview} />
           <div className="pr-sheet__panel">
             <h2 id="pr-sheet-title">{isMockMode ? 'Submit this mock?' : 'Submit this practice?'}</h2>
             <dl className="pr-sheet__counts">
@@ -1357,12 +1459,12 @@ function TestRunner() {
             <div className={isMockMode ? 'pr-sheet__say is-plain' : 'pr-sheet__say'}>
               {!isMockMode && <SheetMobi act={mobiAct === 'reading' ? 'reading' : pendingCount > 0 ? 'point' : markedCount > 0 ? 'tilt' : 'nod'} />}
               {pendingCount > 0 && firstBlank >= 0
-                ? <button type="button" className="pr-sheet__go" onClick={() => { setReviewOpen(false); gotoQuestion(firstBlank); }}>{pendingCount} not answered. Go to {firstBlank + 1}?</button>
+                ? <button type="button" className="pr-sheet__go" onClick={() => { setReviewOpen(false); gotoQuestion(firstBlank, { via: 'palette' }); }}>{pendingCount} not answered. Go to {firstBlank + 1}?</button>
                 : <p>{markedCount > 0 ? `${markedCount} marked for review. Every question has an answer.` : `All ${questions.length} answered.`}</p>}
             </div>
             <div className="pr-sheet__actions">
-              <button type="button" data-autofocus onClick={() => setReviewOpen(false)}>Keep answering</button>
-              <button type="button" className="is-primary" disabled={submitting} onClick={() => { setReviewOpen(false); submitTest(); }}>Submit now</button>
+              <button type="button" data-autofocus onClick={closeReview}>Keep answering</button>
+              <button type="button" className="is-primary" disabled={submitting} onClick={() => { setReviewOpen(false); submitTest('submit'); }}>Submit now</button>
             </div>
           </div>
         </div>

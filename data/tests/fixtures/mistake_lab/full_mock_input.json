@@ -1522,6 +1522,14 @@
             "answer": 1
           }
         ],
+        "marks": [
+          {
+            "seq": 57,
+            "qid": "q28",
+            "at": 1554000,
+            "marked": true
+          }
+        ],
         "recommendation": {
           "kind": "concept_repair",
           "title": "Practise one concept you missed",

@@ -7,6 +7,12 @@
 // Q50 never opened) with its illustrative cohort read (full_mock_cohort.json: cohortForAttempt over the sample
 // snapshot, precomputed because data/cohort_picks.js is server-only). ?lab=basic marks the device record
 // inconsistent (the basic ledger); ?lab=off leaves the Lab out (the page as it was before the ledger).
+// The Replay (slice 2): mock=full, with the Lab on and the checks ready, serves the paper recorded with the new capture
+// (replay_full_input.json: time away, strike-outs, marks, an end event) and, as its lab, the committed contract itself
+// (contract_replay_v1.json, what the server builds from that paper with the sample cohort), so the page shows exactly
+// what the website and the app are built against. &paper=time_up and &paper=nta show the other two contracts (time ran
+// out with Q44 open; an NTA paper ended by the third warning); &paper=bst and &paper=english the passage-set papers
+// (questions shown with their set, the submit sheet); &paper=v1 the slice 1 paper above, built live.
 import { scoreSession } from '../../../../data/recovery';
 import { buildSwot } from '../../../../data/mock_swot';
 import { buildMistakeInsights } from '../../../../data/mistake_insights';
@@ -70,6 +76,13 @@ function paper({ id, prefix, mode, completedAt, blocks, firstPicks = {}, quickWr
   };
 }
 
+// The three earlier papers behind the SWOT and the "From your record" lines.
+function earlierPapers(now) {
+  return EARLIER_PAPERS.map((blocks, i) => paper({
+    id: `fixture-earlier-${i + 1}`, prefix: `e${i + 1}`, mode: i === 1 ? 'nta' : 'full', completedAt: now - (i + 1) * 4 * DAY, blocks,
+  })).reverse();
+}
+
 // The Lab's 50-question fixture paper as a scored attempt, completed an hour ago.
 function labPaper({ now, labMode }) {
   const src = JSON.parse(JSON.stringify(LAB_PAPER.attempt));
@@ -90,9 +103,7 @@ function labPaper({ now, labMode }) {
  */
 export function fixtureMock(mode = 'full', { checks = 'ready', lab: labMode = 'on' } = {}) {
   const now = Date.now();
-  const earlier = EARLIER_PAPERS.map((blocks, i) => paper({
-    id: `fixture-earlier-${i + 1}`, prefix: `e${i + 1}`, mode: i === 1 ? 'nta' : 'full', completedAt: now - (i + 1) * 4 * DAY, blocks,
-  })).reverse();
+  const earlier = earlierPapers(now);
   // full: the Lab's fixture paper. nta: Q13 and Q20 were right first and changed to wrong, so the change line and the
   // SWOT's changes item show.
   const full = mode === 'full';
@@ -105,6 +116,55 @@ export function fixtureMock(mode = 'full', { checks = 'ready', lab: labMode = 'o
   const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState, missedBefore: {}, now, ledgerGroups });
   const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
   return { attempt, swot, mistakeInsights, answerReviewState, answerReviews, lab };
+}
+
+// The slice 2 papers and their contracts, loaded only when asked for (they are large and development-only).
+const REPLAY_PAPERS = {
+  full: () => Promise.all([
+    import('../../../../data/tests/fixtures/mistake_lab/replay_full_input.json'),
+    import('../../../../data/tests/fixtures/mistake_lab/contract_replay_v1.json'),
+  ]),
+  time_up: () => Promise.all([
+    import('../../../../data/tests/fixtures/mistake_lab/replay_time_up_input.json'),
+    import('../../../../data/tests/fixtures/mistake_lab/contract_replay_time_up_v1.json'),
+  ]),
+  nta: () => Promise.all([
+    import('../../../../data/tests/fixtures/mistake_lab/replay_nta_input.json'),
+    import('../../../../data/tests/fixtures/mistake_lab/contract_replay_nta_v1.json'),
+  ]),
+  bst: () => Promise.all([
+    import('../../../../data/tests/fixtures/mistake_lab/replay_bst_input.json'),
+    import('../../../../data/tests/fixtures/mistake_lab/contract_replay_bst_v1.json'),
+  ]),
+  english: () => Promise.all([
+    import('../../../../data/tests/fixtures/mistake_lab/replay_english_input.json'),
+    import('../../../../data/tests/fixtures/mistake_lab/contract_replay_english_v1.json'),
+  ]),
+};
+
+/**
+ * The Replay preview: one slice 2 paper (`paper` is 'full', 'time_up', 'nta', 'bst' or 'english'), completed an hour
+ * ago, with its committed lab contract, and the SWOT and record lines built over it as the route would.
+ */
+export async function fixtureReplayMock(paperName = 'full') {
+  const load = REPLAY_PAPERS[paperName] || REPLAY_PAPERS.full;
+  const [{ default: input }, { default: contract }] = await load();
+  const now = Date.now();
+  const src = JSON.parse(JSON.stringify(input.attempt));
+  const right = src.details.filter((d) => d.isCorrect === true).length;
+  const wrong = src.details.filter((d) => d.isCorrect === false).length;
+  const mode = src.selectionMeta?.mode || 'full';
+  const attempt = {
+    ...src, id: 'fixture-attempt', mode, completedAt: now - 3_600_000,
+    score: right * 5 - wrong, correct: right, wrong, unattempted: src.details.length - right - wrong, total: src.questionsSnapshot.length,
+  };
+  const lab = JSON.parse(JSON.stringify(contract));
+  const answerReviews = { ...(input.answerReviews || {}) };
+  const earlier = earlierPapers(now);
+  const ledgerGroups = lab.state === 'ready' || lab.state === 'basic' ? lab.groups.map((g) => g.id) : null;
+  const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState: 'ready', missedBefore: {}, now, ledgerGroups });
+  const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
+  return { attempt, swot, mistakeInsights, answerReviewState: 'ready', answerReviews, lab };
 }
 
 // A v3 Mistake Repair payload (fixture text, no model call, no credit). `stored` is the free reopen.
