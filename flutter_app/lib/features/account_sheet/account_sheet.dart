@@ -12,7 +12,6 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/auth/auth_state.dart';
-import '../../core/mascot/mascot.dart' show MobiAct, MobiCharacter;
 import '../../core/copy/formatters.dart' show formatDayMonth;
 import '../../core/models/ai_credits.dart';
 import '../../core/repositories/credits_repository.dart';
