@@ -45,8 +45,7 @@ export default function SocialWallPreview({ initialFixture = '4' }) {
       <main className="lp-sec swp-page">
         <div className="mm-wrap">
           <div className="lp-head lp-head--left">
-            <p className="lp-kicker">Wall of love · development preview</p>
-            <h1 className="lp-h2">The wall, with test content.</h1>
+            <h1 className="lp-h2"><span className="lp-h2__name">Wall of love preview.</span> <span className="lp-h2__rest">The wall, with test content.</span></h1>
             <p className="lp-sub">Every name and sentence here is a layout fixture. Nothing on this page is a real student&apos;s quote or endorsement.</p>
           </div>
           <div className="swp-tools">
