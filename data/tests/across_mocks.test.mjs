@@ -54,7 +54,7 @@ test('long stays use the ledger\'s own 2-minute band on time under the one rule'
   const long = recs.flatMap((m) => m.rows.filter((r) => r.ms !== null && r.ms >= 120000));
   const right = long.filter((r) => r.outcome === 'right').length;
   const out = buildAcrossMocks({ attempts: HISTORY });
-  assert.equal(line(out, 'long_stays').text, `Across 4 timed mocks, ${long.length} questions took 2 minutes or more. ${right} of them were right.`);
+  assert.equal(line(out, 'long_stays').text, `Across 4 timed mocks, ${long.length} of ${recs.reduce((s, m) => s + m.total, 0)} questions took 2 minutes or more. ${right} of them were right.`);
   assert.equal(line(out, 'long_stays').marks, long.reduce((s, r) => s + r.lost, 0));
 });
 

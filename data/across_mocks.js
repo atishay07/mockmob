@@ -204,9 +204,10 @@ function longStays(mocks, mocksPhrase) {
   const n = rows.length;
   const r = rows.filter((x) => x.outcome === 'right').length;
   const marks = rows.reduce((s, x) => s + x.lost, 0);
-  if (!n) return { id: 'long_stays', subject: null, marks: 0, gated: false, text: fill(A.longStays.none, { mocks: mocksPhrase }) };
+  const total = mocks.reduce((s, m) => s + m.total, 0);
+  if (!n) return { id: 'long_stays', subject: null, marks: 0, gated: false, text: fill(A.longStays.none, { mocks: mocksPhrase, total }) };
   const right = n === 1 ? form(A.longStays.rightOne, r) : fill(form(A.longStays.rightMany, r), { r });
-  return { id: 'long_stays', subject: null, marks, gated: false, text: fill(n === 1 ? A.longStays.one : A.longStays.many, { mocks: mocksPhrase, n, right }) };
+  return { id: 'long_stays', subject: null, marks, gated: false, text: fill(n === 1 ? A.longStays.one : A.longStays.many, { mocks: mocksPhrase, n, total, right }) };
 }
 
 function lastTen(mocks) {
