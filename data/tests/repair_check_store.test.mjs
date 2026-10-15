@@ -212,3 +212,39 @@ test('progress: the check question is written as one answered question, in its s
   await s.recordProgress({ userId: 'u1', row: { id: 'q9', subject: 'accountancy', chapter: 'C', options: [{ key: 'A', text: 'a' }] }, pickedStored: 2, right: false });
   assert.deepEqual(calls, [{ userId: 'u1', subject: 'accountancy', details: [{ qid: 'q9', givenIndex: 2, isCorrect: false }], questionsSnapshot: [{ id: 'q9', internalSubject: 'accountancy', subject: 'accountancy', chapter: 'C', options: [{ key: 'A', text: 'a' }] }] }]);
 });
+
+test('never seen: saved questions, questions shown in a learning episode and questions of a family the student has met are all seen', async () => {
+  const { store: s } = store({
+    question_bookmarks: [{ user_id: 'u1', question_id: 'saved' }, { user_id: 'u2', question_id: 'other_student_saved' }],
+    learning_question_exposure: [{ user_id: 'u1', question_id: 'taught' }, { user_id: 'u2', question_id: 'other_student_taught' }],
+    learning_family_exposure: [{ user_id: 'u1', family_id: 'fam_taught' }, { user_id: 'u2', family_id: 'fam_other_student' }],
+    user_question_progress: [{ user_id: 'u1', question_id: 'p_member' }],
+    attempts: [{ user_id: 'u1', subject: 'accountancy', questions_snapshot: [{ id: 'a_old', familyId: 'fam_attempt' }] }],
+  });
+  const candidates = [
+    { id: 'saved' }, { id: 'taught' }, { id: 'other_student_saved' }, { id: 'other_student_taught' }, { id: 'fresh' },
+    { id: 'm_taught', family_id: 'fam_taught' }, { id: 'm_attempt', template_id: 'fam_attempt' }, { id: 'm_ev', ev_family: 'fam_ev' },
+    { id: 'p_member', family_id: 'fam_progress' }, { id: 'm_progress', family_id: 'fam_progress' },
+    { id: 'm_other_student', family_id: 'fam_other_student' }, { id: 'unrelated', family_id: 'fam_unrelated' },
+  ];
+  const seen = await s.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: candidates.map((c) => c.id), attempt, candidates });
+  for (const id of ['saved', 'taught', 'm_taught', 'm_attempt', 'p_member', 'm_progress', 'a_old']) assert.equal(seen.has(id), true, id);
+  for (const id of ['fresh', 'other_student_saved', 'other_student_taught', 'm_other_student', 'm_ev', 'unrelated']) assert.equal(seen.has(id), false, id);
+});
+
+test('never seen: the new lookups fail closed too, and a table missing in this environment adds nothing', async () => {
+  for (const table of ['question_bookmarks', 'learning_question_exposure', 'learning_family_exposure']) {
+    const { store: broken } = store({}, { db: { errors: { [table]: { error: { code: 'XX000', message: 'boom' } } } } });
+    await assert.rejects(() => broken.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: ['a'], attempt }), /unavailable/, table);
+    const { store: missing } = store({ attempts: [{ user_id: 'u1', subject: 'accountancy', questions_snapshot: [{ id: 'a_old' }] }] }, { db: { errors: { [table]: { error: missingTable } } } });
+    assert.equal((await missing.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: ['a'], attempt })).has('a_old'), true, `${table} missing`);
+  }
+});
+
+test('never seen: interactions are append-only, so every page is read (a cap would let a seen question through)', async () => {
+  const rows = Array.from({ length: 1200 }, (_, i) => ({ id: i, user_id: 'u1', question_id: i < 1100 ? 'busy' : 'late', interaction_type: 'seen' }));
+  const { store: s } = store({ question_interactions: rows });
+  const seen = await s.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: ['busy', 'late', 'fresh'], attempt });
+  assert.equal(seen.has('busy') && seen.has('late'), true);
+  assert.equal(seen.has('fresh'), false);
+});

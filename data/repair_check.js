@@ -46,7 +46,8 @@ export const checkReasonMessage = (code) => CHECK_REASONS[code] || CHECK_REASONS
 const text = (value) => (value == null ? '' : String(value).replace(/\s+/g, ' ').trim());
 const lower = (value) => text(value).toLowerCase();
 const stemOf = (row) => text(row?.question ?? row?.body);
-const familyOf = (row) => row?.family_id || row?.familyId || row?.template_id || row?.evidence?.record?.family_id || null;
+// `ev_family` is the family of an evidence-managed row in the light read (the heavy evidence column is not selected there).
+export const familyOf = (row) => row?.family_id || row?.familyId || row?.template_id || row?.evidence?.record?.family_id || row?.ev_family || null;
 const hash = (value) => createHash('sha256').update(String(value)).digest('hex');
 
 /** The question's format, for "same format when possible": its stored type, else a form read from the stem. */
@@ -69,7 +70,7 @@ export const ruleOf = (repair) => text(repair?.rule) || text(repair?.key_idea) |
  * Why this candidate cannot be the check, or null when it can. `mistake` is the live row of the question the student
  * got wrong; `seen` and `excluded` are sets of question ids.
  */
-export function rejectReason(row, { mistake, seen = new Set(), excluded = new Set(), mistakeTokens = null } = {}) {
+export function rejectReason(row, { mistake, seen = new Set(), excluded = new Set(), mistakeTokens = null, userId = '' } = {}) {
   const id = idOf(row);
   if (!id) return 'no_id';
   if (id === idOf(mistake)) return 'same_question';
@@ -78,6 +79,8 @@ export function rejectReason(row, { mistake, seen = new Set(), excluded = new Se
   if (row.exploration_state === 'pending_review') return 'held';
   if (excluded.has(id) || ntaKeyDispute(id) || ntaQuarantine(id) || ntaQuarantine(id.replace(/-/g, ''))) return 'held';
   if (seen.has(id)) return 'seen';
+  // A question the student wrote or uploaded is one they have seen, whatever the progress tables say.
+  if (userId && (row.author_id === userId || row.uploaded_by === userId)) return 'authored';
   if (isPassageLinkedQuestion(row)) return 'passage';
   if (!stemOf(row)) return 'no_stem';
   if (row.is_cuet_syllabus === false) return 'off_syllabus';
@@ -124,7 +127,7 @@ export function selectCheckQuestion({ mistake, candidates = [], seen = new Set()
   const pool = { ofChapter: list.length, unseen: 0 };
   if (isPassageLinkedQuestion(mistake)) return { ok: false, reason: 'passage_format', pool };
   const mistakeTokens = contentTokens(stemOf(mistake));
-  const eligible = list.filter((row) => rejectReason(row, { mistake, seen, excluded, mistakeTokens }) === null);
+  const eligible = list.filter((row) => rejectReason(row, { mistake, seen, excluded, mistakeTokens, userId }) === null);
   pool.unseen = eligible.length;
   if (!eligible.length) return { ok: false, reason: 'no_unseen', pool };
   const format = formatOf(mistake);

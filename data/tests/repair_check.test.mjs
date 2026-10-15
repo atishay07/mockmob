@@ -210,3 +210,13 @@ test('the rule of a saved repair: v3 rule, the older key_idea, or nothing', asyn
   assert.equal(ruleOf({}), null);
   assert.equal(ruleOf(null), null);
 });
+
+test('a question the student wrote is never the check, and a same-family question read through the light evidence stub is excluded', () => {
+  assert.equal(rejectReason({ ...row('q_concept'), author_id: 'u1' }, { mistake: fx.mistake, userId: 'u1' }), 'authored');
+  assert.equal(rejectReason({ ...row('q_concept'), uploaded_by: 'u1' }, { mistake: fx.mistake, userId: 'u1' }), 'authored');
+  assert.equal(rejectReason({ ...row('q_concept'), author_id: 'someone_else' }, { mistake: fx.mistake, userId: 'u1' }), null);
+  assert.equal(pick({ candidates: fx.candidates.map((c) => (c.id === 'q_concept' ? { ...c, author_id: 'u1' } : c)) }).row.id, 'q_topic');
+  // Evidence-managed rows carry their family in `ev_family` in the light read; the mistake is read in full.
+  const mistake = { ...fx.mistake, family_id: null, evidence: { record: { family_id: 'fam_x' } } };
+  assert.equal(rejectReason({ ...row('q_concept'), family_id: null, ev_family: 'fam_x' }, { mistake }), 'same_family');
+});

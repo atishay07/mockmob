@@ -9,6 +9,7 @@
 // then skipped without an error).
 import { readablePracticeQuestions } from '../../../data/practice_library.js';
 import { PRACTICE_LIGHT_SELECT } from '../../../data/practice_pick.js';
+import { familyOf } from '../../../data/repair_check.js';
 
 // The same visibility filter practice uses (data/db.js VISIBLE_QUESTION_FILTER).
 const VISIBLE = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
@@ -46,12 +47,14 @@ export function createCheckStore({ db, recordProgress, readable = readablePracti
 
     /**
      * Every question id this student has met, from every record that holds one: the progress table (any row, answered or
-     * skipped), question interactions (every type), their newest attempts' snapshots and
-     * their practice sessions (a session that was opened but never submitted still showed its questions). A lookup that
-     * fails throws, so the caller offers nothing rather than a question that may have been seen. A table that does not
-     * exist in this environment contributes nothing.
+     * skipped), question interactions (every type), saved questions (bookmarks), questions shown in a learning episode, their
+     * newest attempts' snapshots and their practice sessions (a session that was opened but never submitted still showed its
+     * questions). The same rule the learning episodes use for fresh content (the start_learning_episode function): a family
+     * the student has met counts as met for its other members, and a question they wrote is one they have seen.
+     * A lookup that fails throws, so the caller offers nothing rather than a question that may have been seen. A table that
+     * does not exist in this environment contributes nothing. `candidates` are the chapter's rows (for authors and families).
      */
-    async loadSeen({ userId, subject, candidateIds, attempt }) {
+    async loadSeen({ userId, subject, candidateIds, attempt, candidates = [] }) {
       const seen = new Set();
       for (const q of attempt?.questionsSnapshot || []) if (q?.id) seen.add(q.id);
       for (const part of chunks(candidateIds)) {
@@ -59,18 +62,37 @@ export function createCheckStore({ db, recordProgress, readable = readablePracti
         if (progress.error && !isMissing(progress.error)) throw new Error('progress_unavailable');
         for (const row of progress.data || []) seen.add(row.question_id);
         // Any interaction at all (seen, attempted, skipped, liked, reported) means the student has met the question.
-        const interactions = await db.from('question_interactions').select('question_id').eq('user_id', userId).in('question_id', part).limit(1000);
-        if (interactions.error && !isMissing(interactions.error)) throw new Error('interactions_unavailable');
-        for (const row of interactions.data || []) seen.add(row.question_id);
+        // Interactions are append-only (one row per view), so read every page: a cap here would let a seen question through.
+        for (let offset = 0; ; offset += 1000) {
+          const interactions = await db.from('question_interactions').select('question_id').eq('user_id', userId).in('question_id', part).order('id').range(offset, offset + 999);
+          if (interactions.error) { if (isMissing(interactions.error)) break; throw new Error('interactions_unavailable'); }
+          for (const row of interactions.data || []) seen.add(row.question_id);
+          if ((interactions.data || []).length < 1000) break;
+        }
+        const saved = await db.from('question_bookmarks').select('question_id').eq('user_id', userId).in('question_id', part);
+        if (saved.error && !isMissing(saved.error)) throw new Error('bookmarks_unavailable');
+        for (const row of saved.data || []) seen.add(row.question_id);
+        const shown = await db.from('learning_question_exposure').select('question_id').eq('user_id', userId).in('question_id', part);
+        if (shown.error && !isMissing(shown.error)) throw new Error('exposure_unavailable');
+        for (const row of shown.data || []) seen.add(row.question_id);
       }
+      const families = new Set();
+      for (const q of attempt?.questionsSnapshot || []) { const f = q?.familyId || q?.family_id; if (f) families.add(f); }
       const attempts = await db.from('attempts').select('questions_snapshot').eq('user_id', userId).eq('subject', attempt?.subject ?? subject)
         .order('completed_at', { ascending: false }).limit(ATTEMPT_SCAN);
       if (attempts.error) throw new Error('attempts_unavailable');
-      for (const row of attempts.data || []) for (const q of row.questions_snapshot || []) if (q?.id) seen.add(q.id);
+      for (const row of attempts.data || []) for (const q of row.questions_snapshot || []) { if (q?.id) seen.add(q.id); const f = q?.familyId || q?.family_id; if (f) families.add(f); }
       const sessions = await db.from('recovery_sessions').select('questions').eq('user_id', userId).eq('subject', subject)
         .order('created_at', { ascending: false }).limit(SESSION_SCAN);
       if (sessions.error && !isMissing(sessions.error)) throw new Error('sessions_unavailable');
-      for (const row of sessions.data || []) for (const q of row.questions || []) if (q?.id) seen.add(q.id);
+      for (const row of sessions.data || []) for (const q of row.questions || []) { if (q?.id) seen.add(q.id); const f = q?.familyId || q?.family_id; if (f) families.add(f); }
+      const exposed = await db.from('learning_family_exposure').select('family_id').eq('user_id', userId).limit(5000);
+      if (exposed.error && !isMissing(exposed.error)) throw new Error('family_exposure_unavailable');
+      for (const row of exposed.data || []) if (row.family_id) families.add(row.family_id);
+      // A family the student has met (a question of it seen, or taught) is met for every member of it.
+      const rows = Array.isArray(candidates) ? candidates : [];
+      for (const row of rows) { const f = familyOf(row); if (f && seen.has(row.id)) families.add(f); }
+      for (const row of rows) { const f = familyOf(row); if (f && families.has(f)) seen.add(row.id); }
       return seen;
     },
 

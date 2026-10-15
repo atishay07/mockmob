@@ -91,7 +91,7 @@ async function findCheck({ user, p, deps }) {
   catch { return { ok: false, status: 'failed', reason: 'check_unavailable' }; }
   const ids = candidates.map((row) => row.id);
   let seen; let excluded;
-  try { seen = await deps.loadSeen({ userId: user.id, subject: current.subject, candidateIds: ids, attempt }); }
+  try { seen = await deps.loadSeen({ userId: user.id, subject: current.subject, candidateIds: ids, attempt, candidates }); }
   catch { return { ok: false, status: 'failed', reason: 'lookup_failed' }; }
   try { excluded = await deps.loadExcluded(ids); }
   catch { return { ok: false, status: 'failed', reason: 'check_unavailable' }; }
@@ -239,7 +239,7 @@ async function findCheckById({ user, p, deps, checkQuestionId }) {
   try { candidates = await deps.loadChapterCandidates({ subject: mistake.subject, chapter: mistake.chapter }); } catch { return { ok: false, status: 'failed', reason: 'check_unavailable' }; }
   const ids = candidates.map((row) => row.id);
   let seen; let excluded;
-  try { seen = await deps.loadSeen({ userId: user.id, subject: mistake.subject, candidateIds: ids, attempt }); } catch { return { ok: false, status: 'failed', reason: 'lookup_failed' }; }
+  try { seen = await deps.loadSeen({ userId: user.id, subject: mistake.subject, candidateIds: ids, attempt, candidates }); } catch { return { ok: false, status: 'failed', reason: 'lookup_failed' }; }
   try { excluded = await deps.loadExcluded(ids); } catch { return { ok: false, status: 'failed', reason: 'check_unavailable' }; }
   for (const q of attempt.questionsSnapshot || []) if (q?.id) seen.add(q.id);
   seen.add(mistake.id);
