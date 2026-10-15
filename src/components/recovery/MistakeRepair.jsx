@@ -15,6 +15,7 @@ import { usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import KeyReviewNotice from './KeyReviewNotice';
 import AnswerCorrectionNotice from './AnswerCorrectionNotice';
 import RepairMobi from './RepairMobi';
+import RepairCheck from './RepairCheck';
 import { RUN_COPY, arrowIntent, swipeIntent } from './repairRun';
 import './mistake-repair.css';
 
@@ -130,17 +131,19 @@ function AnotherWay({ text, style }) {
 
 // A finished repair (spec A.1): blocks 1 to 12 in order, one column. Exported so fixture payloads can be rendered
 // on their own (data/tests/repair_wiring.test.mjs): v1, v2 and v3 payloads each keep their own set of blocks.
-export function RepairDone({ state, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null }) {
+export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null }) {
   const blocks = repairBlocks(state.repair);
   if (!blocks) return null;
   const fresh = state.status === 'explained';
   const stake = marksAtStake(scheme);
   const v3 = blocks.version === 3;
   const record = recordLines(insights, state.pattern);
+  // "Check it held" (the fresh question) follows the explanation. It needs the ids to ask the server, and the repair response's `check` field.
+  const showCheck = !!(state.check && attemptId && questionId);
   // Blocks 2 onwards rise in order on a fresh repair (50 ms apart); a stored repair renders at once.
   const order = [
     'head', 'trap', 'wrong', v3 && 'right', v3 && blocks.others.length > 0 && 'others', !v3 && blocks.anotherWay && 'v2another',
-    'rule', v3 && blocks.anotherWay && 'another', !v3 && blocks.nextStep && 'nextStep', record.length > 0 && 'record',
+    'rule', v3 && blocks.anotherWay && 'another', !v3 && blocks.nextStep && 'nextStep', showCheck && 'check', record.length > 0 && 'record',
     stake && 'marks', state.practiceHref && 'do', 'foot',
   ].filter(Boolean);
   const stagger = (id) => ({ '--mr-i': order.indexOf(id) });
@@ -175,6 +178,7 @@ export function RepairDone({ state, chosen = null, answer = null, number = null,
       <RuleCard rule={blocks.rule} hook={v3 ? blocks.hook : null} style={stagger('rule')} />
       {v3 && blocks.anotherWay ? <AnotherWay text={blocks.anotherWay} style={stagger('another')} /> : null}
       {!v3 && blocks.nextStep ? <div className="mr-block mr-next" data-stagger style={stagger('nextStep')}><h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5><p>{blocks.nextStep}</p></div> : null}
+      {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} /> : null}
       {record.length ? (
         <div className="mr-block mr-record" data-stagger style={stagger('record')}>
           <h5 className="mr-label">{REPAIR_COPY.fromRecord}</h5>
@@ -366,7 +370,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
         </div>
       );
     }
-    return <RepairDone state={state} chosen={chosen} answer={answer} number={number} scheme={scheme} insights={insights}
+    return <RepairDone state={state} attemptId={attemptId} questionId={questionId} chosen={chosen} answer={answer} number={number} scheme={scheme} insights={insights}
       folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} />;
   })();
   return <div className="mr-shell" data-handover={handover || undefined} {...shellProps}>{earlierEl}{content}</div>;
