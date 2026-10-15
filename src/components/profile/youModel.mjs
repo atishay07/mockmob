@@ -241,7 +241,14 @@ export const BOARD_COPY = Object.freeze({
   rivalsNote: 'These rows are benchmarks made by MockMob. They are not students and not exam results.',
   emptyTitle: 'The board is waiting for a score',
   emptyBody: 'Complete a timed mock to begin your practice record.',
-  failedBody: 'The board did not load. Check your connection and try again.',
+  failedTitle: 'We could not load the board',
+  failedBody: 'Check your connection and try again.',
+  notOnBoard: 'You are not on this board yet. Finish a timed mock to join it.',
+  studentsLabel: 'Students ranked by practice points',
+  mocksColumn: 'Mocks',
+  pointsColumn: 'Points',
+  positionColumn: 'Position',
+  nameColumn: 'Student',
 });
 
 export function splitLeaderboard(entries, userId = null) {
@@ -296,6 +303,114 @@ export const STATUS_DETAIL = Object.freeze({
   live: 'It passed its checks and is live in practice.',
   held: 'It did not pass its checks, so it is not in practice.',
 });
+
+// ---------------------------------------------------------------------------------------------
+// Your submissions (the old My uploads page, now the second tab of Contribute questions).
+
+export const SUBMISSIONS_PATH = '/api/questions/mine';
+export const SUBMISSIONS_COPY = Object.freeze({
+  loadingLabel: 'Loading your submissions',
+  failedTitle: 'We could not load your submissions',
+  failedBody: 'Check your connection and try again.',
+  emptyTitle: 'No submissions yet',
+  emptyBody: 'Write one original question with the reasoning behind it. Its status shows here once it is sent.',
+  emptyKey: 'Write a question',
+  groupEmptyTitle: 'Nothing in this group',
+  groupEmptyBody: 'Try All to see your other submissions.',
+  showAll: 'Show all',
+  refresh: 'Refresh',
+  refreshing: 'Refreshing',
+});
+
+export const SUBMISSION_FILTERS = Object.freeze([
+  Object.freeze({ id: 'all', label: 'All' }),
+  Object.freeze({ id: 'pending', label: UPLOAD_STATUS.pending }),
+  Object.freeze({ id: 'live', label: UPLOAD_STATUS.live }),
+  Object.freeze({ id: 'held', label: UPLOAD_STATUS.held }),
+]);
+
+/** "9 Oct 2026" in India time, or null when the server sent no usable date. */
+export function submissionDate(value, { timeZone = 'Asia/Kolkata' } = {}) {
+  const at = Date.parse(value);
+  return Number.isFinite(at) ? new Date(at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone }) : null;
+}
+
+/**
+ * The rows for Your submissions, or null when the server did not send a list (never "empty" for a failure).
+ * Each row: { id, text, meta, state, statusLabel, detail, submitted }. The question text is never shortened.
+ */
+export function submissionsFromServer(body) {
+  if (!Array.isArray(body)) return null;
+  return body.filter((q) => q && typeof q === 'object').map((q, index) => {
+    const state = statusKey(q.status);
+    const subject = subjectName(q.subject);
+    const chapter = typeof q.chapter === 'string' && q.chapter.trim() ? q.chapter.trim() : null;
+    const text = String(q.question || q.body || '').trim();
+    return {
+      id: String(q.id ?? `row-${index}`),
+      text: text && text !== '—' ? text : 'The question text did not load',
+      meta: [subject, chapter].filter(Boolean).join(', ') || 'Subject not recorded',
+      state,
+      statusLabel: UPLOAD_STATUS[state],
+      detail: STATUS_DETAIL[state],
+      submitted: submissionDate(q.createdAt),
+    };
+  });
+}
+
+/** Counts per filter, for the chips: { all, pending, live, held }. */
+export function submissionCounts(rows) {
+  const counts = { all: rows.length, pending: 0, live: 0, held: 0 };
+  for (const row of rows) counts[row.state] += 1;
+  return counts;
+}
+
+export function filterSubmissions(rows, filter) {
+  return filter === 'all' || !filter ? rows : rows.filter((row) => row.state === filter);
+}
+
+// ---------------------------------------------------------------------------------------------
+// Many questions at once (a JSON array): checks that run before anything is sent.
+
+export const BULK_FIELDS = Object.freeze(['subject', 'chapter', 'body', 'options', 'correct_answer']);
+
+/** Splits a parsed JSON value into the questions that can be sent and a plain line for each one that cannot. */
+export function validateBulk(parsed) {
+  if (!Array.isArray(parsed)) return { ok: [], errors: ['The top level must be a list of questions, written as [ ... ].'] };
+  const ok = [];
+  const errors = [];
+  parsed.forEach((q, index) => {
+    const row = q && typeof q === 'object' ? q : {};
+    const missing = [];
+    if (typeof row.subject !== 'string' || !row.subject.trim()) missing.push('subject');
+    if (typeof row.chapter !== 'string' || !row.chapter.trim()) missing.push('chapter');
+    if (typeof row.body !== 'string' && typeof row.question !== 'string') missing.push('body');
+    if (!Array.isArray(row.options) || row.options.length < 2) missing.push('at least 2 options');
+    if (!row.correct_answer && !Number.isInteger(row.correctIndex)) missing.push('correct_answer');
+    if (missing.length) errors.push(`Question ${index + 1} is missing ${missing.join(', ')}.`);
+    else ok.push(row);
+  });
+  return { ok, errors };
+}
+
+/** The body the upload route takes for one validated question. */
+export function bulkPayload(q) {
+  return {
+    subject: q.subject,
+    chapter: q.chapter,
+    body: q.body ?? q.question,
+    options: q.options,
+    correct_answer: q.correct_answer ?? (q.options?.[q.correctIndex]?.key ?? String(q.correctIndex)),
+    explanation: q.explanation ?? null,
+    difficulty: q.difficulty ?? 'medium',
+    tags: q.tags ?? [],
+  };
+}
+
+/** "3 questions were sent for checks." Said only for questions the server accepted. */
+export function bulkSentLine(count) {
+  return `${count} ${count === 1 ? 'question was' : 'questions were'} sent for checks. ${count === 1 ? 'It is' : 'They are'} not live in practice yet.`;
+}
 
 // ---------------------------------------------------------------------------------------------
 // The rows of the You hub, read from the navigation so the nav and the hub always agree.

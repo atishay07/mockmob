@@ -145,14 +145,6 @@ export default function YouPageClient({ brand = null }) {
             <GoalControl onSaved={() => setWeekKey((n) => n + 1)} />
           </section>
 
-          <section className="you-sec" id="progress" aria-labelledby="you-progress-h">
-            <h2 className="you-sec__h" id="you-progress-h">Milestones and personal bests</h2>
-            <p className="you-sec__lead">Your milestones are the steps on your weekly rhythm above. Below are your best marks on each mock type.</p>
-            <PersonalBests />
-          </section>
-        </div>
-
-        <div className="you__col">
           <section className="you-sec" id="plan" aria-labelledby="you-plan-h">
             <h2 className="you-sec__h" id="you-plan-h">Plan and credits</h2>
             <ul className="you-list">
@@ -171,6 +163,14 @@ export default function YouPageClient({ brand = null }) {
             </ul>
           </section>
 
+          <section className="you-sec" id="progress" aria-labelledby="you-progress-h">
+            <h2 className="you-sec__h" id="you-progress-h">Milestones and personal bests</h2>
+            <p className="you-sec__lead">Your milestones are the steps on your weekly rhythm above. Below are your best marks on each mock type.</p>
+            <PersonalBests />
+          </section>
+        </div>
+
+        <div className="you__col">
           {groups.map((group) => (
             <section className="you-sec" key={group.id} id={group.id === 'settings' ? 'settings' : undefined} aria-labelledby={`you-${group.id}-h`}>
               <h2 className="you-sec__h" id={`you-${group.id}-h`}>{group.label}</h2>

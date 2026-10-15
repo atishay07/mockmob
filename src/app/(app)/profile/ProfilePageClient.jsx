@@ -80,7 +80,7 @@ function UsageDataSection() {
       {loadError ? <p className="privacy-note privacy-note--err" role="alert">{loadError}</p> : !loaded ? <p className="privacy-note">Loading your choice.</p> : (
         <>
           <fieldset className="privacy-choice" aria-busy={busy}>
-            <legend className="text-sm text-zinc-400">Your age</legend>
+            <legend className="privacy-label">Your age</legend>
             <label><input type="radio" name="age-band" checked={ageBand === 'adult'} onChange={() => save('adult', allowed)} />I am 18 or older</label>
             <label><input type="radio" name="age-band" checked={ageBand === 'minor'} onChange={() => save('minor', false)} />I am under 18</label>
           </fieldset>
@@ -128,7 +128,7 @@ function DeleteAccountSection() {
       ) : (
         <div className="privacy-confirm">
           <label className="block">
-            <span className="text-sm text-zinc-400 mb-2 block">Type DELETE to confirm</span>
+            <span className="privacy-label">Type DELETE to confirm</span>
             <input className="input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} />
           </label>
           <div className="flex gap-3 flex-wrap">
