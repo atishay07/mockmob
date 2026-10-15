@@ -23,29 +23,83 @@ function calmMood(kind) {
   const { celebrations } = getMobiPrefs();
   return celebrations === 'full' ? kind : celebrations === 'quiet' ? 'nod' : null;
 }
-// The head leans a little toward the pointer while it moves and lets go after 1.2 s (the app's
-// follow-pointer, lib/mobiMoments.js FOLLOW). One CSS variable on the root; motion-kit.css turns it
-// into a 2 degree lean of whichever Mobi is showing. Mouse and pen only; off under Reduce motion.
-function usePointerLean() {
+// Where he looks. A mouse or pen pulls his eyes toward the pointer (and leans his head up to 2.6 degrees,
+// --pip-follow) and lets go after 1.2 s, the app's FOLLOW (lib/mobiMoments.js); on a phone the scroll does, his
+// eyes running ahead in the direction the page moves and settling 260 ms after it stops. The values (-1 to 1)
+// are written only on the Mobis in view (the flyer, or the seats on screen), so the rest of the page never
+// restyles. Off under Reduce motion, where the guide does not run at all.
+const LOOK_VARS = ['--pip-look-x', '--pip-look-y', '--pip-follow'];
+function setLook(nodes, x, y, follow = 0) {
+  for (const node of nodes) {
+    node.style.setProperty('--pip-look-x', x.toFixed(2));
+    node.style.setProperty('--pip-look-y', y.toFixed(2));
+    node.style.setProperty('--pip-follow', follow.toFixed(3));
+  }
+}
+function clearLook(nodes) {
+  for (const node of nodes) {
+    for (const name of LOOK_VARS) node.style.removeProperty(name);
+    delete node.dataset.pipLooking;
+  }
+}
+function useLook(targets, enabled) {
   useEffect(() => {
-    const root = document.documentElement;
+    if (!enabled) return undefined;
+    const inViewNow = targets.current;
     let raf = 0;
     let release = 0;
+    let lastY = scrollY;
+    let lastT = 0;
+    const settle = (ms) => {
+      clearTimeout(release);
+      release = setTimeout(() => {
+        const nodes = inViewNow();
+        setLook(nodes, 0, 0, 0);
+        nodes.forEach((n) => delete n.dataset.pipLooking);
+      }, ms);
+    };
     const onMove = (event) => {
       if (event.pointerType === 'touch' || raf) return;
-      if (root.dataset.motion === 'reduced' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const x = event.clientX;
+      const px = event.clientX;
+      const py = event.clientY;
       raf = requestAnimationFrame(() => {
         raf = 0;
-        const v = Math.min(FOLLOW.clampX, Math.max(-FOLLOW.clampX, (x - innerWidth / 2) / (innerWidth * 0.35)));
-        root.style.setProperty('--pip-follow', v.toFixed(3));
-        clearTimeout(release);
-        release = setTimeout(() => root.style.setProperty('--pip-follow', '0'), FOLLOW.releaseAfterMs);
+        for (const node of inViewNow()) {
+          const box = node.getBoundingClientRect();
+          if (!box.width) continue;
+          const x = clamp((px - (box.left + box.width / 2)) / Math.max(240, innerWidth * 0.3), -1, 1);
+          const y = clamp((py - (box.top + box.height * 0.4)) / Math.max(200, innerHeight * 0.35), -1, 1);
+          setLook([node], x, y, clamp((px - innerWidth / 2) / (innerWidth * 0.35), -FOLLOW.clampX, FOLLOW.clampX));
+          node.dataset.pipLooking = 'true';
+        }
+        settle(FOLLOW.releaseAfterMs);
+      });
+    };
+    const fine = matchMedia('(hover: hover) and (pointer: fine)');
+    const onScroll = () => {
+      if (raf || fine.matches) return;
+      raf = requestAnimationFrame((now) => {
+        raf = 0;
+        const dt = lastT ? Math.max(16, now - lastT) : 16;
+        const v = clamp((scrollY - lastY) / dt / 1.4, -1, 1);
+        lastY = scrollY;
+        lastT = now;
+        const nodes = inViewNow();
+        setLook(nodes, 0, v * 0.9, 0);
+        nodes.forEach((n) => { n.dataset.pipLooking = 'true'; });
+        settle(260);
       });
     };
     window.addEventListener('pointermove', onMove, { passive: true });
-    return () => { window.removeEventListener('pointermove', onMove); cancelAnimationFrame(raf); clearTimeout(release); root.style.removeProperty('--pip-follow'); };
-  }, []);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(raf);
+      clearTimeout(release);
+      clearLook(inViewNow());
+    };
+  }, [targets, enabled]);
 }
 /** One actor and one scheduled frame. The reserved desktop lane never covers the
  * reading canvas. Mobile arrivals stay within their own art box. */
@@ -53,15 +107,18 @@ export default function PipGuide() {
   const flyer = useRef(null);
   const peakPlayed = useRef(false);
   const [actor, setActor] = useState(null);
-  const [blink, setBlink] = useState(0);
-  usePointerLean();
+  const [running, setRunning] = useState(false);
+  // The Mobis in view: the flyer while it flies (desktop), else the seats on screen (phones).
+  const inView = useRef(new Set());
+  const targets = useRef(() => (flyer.current && flyer.current.classList.contains('pip-guide-flyer') ? [flyer.current] : [...inView.current]));
+  useLook(targets, running);
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const root0 = document.documentElement;
     const desktop = matchMedia('(min-width: 1100px)');
     let dispose = () => {};
     function start() {
-      dispose(); setActor(null);
+      dispose(); setActor(null); setRunning(false);
       if (media.matches || root0.dataset.motion === 'reduced') return;
       const root = document.documentElement;
       // Static fallback opt-out also permits a layout-identical production cost baseline.
@@ -95,14 +152,33 @@ export default function PipGuide() {
           seat.dataset.pipReacting = 'true';
           const reaction = REACTIONS[mood];
           if (mood === 'eureka') peakPlayed.current = true;
-          setActor({ host, pose: reaction.pose || seat.dataset.pipPose, facing: seat.dataset.pipPose === 'pointing' ? 'left' : 'right', motion: `${reaction.motion}-${++count % 2}` });
+          setActor({ host, pose: reaction.pose || seat.dataset.pipPose, facing: seat.dataset.pipPose === 'pointing' ? 'left' : 'right', motion: `${reaction.motion}-${++count % 2}`, station: id });
           timer = setTimeout(clear, reaction.ms);
         };
         const visibility = () => { if (document.hidden) clear(); };
+        // Arrival: each seat's Mobi hops in once (anticipation squash, hop, landing squash, settle) the first
+        // time most of his seat is on screen; until then the seat keeps its space, empty. Seats on screen get
+        // the scroll look.
+        const seats = [...document.querySelectorAll('.pip-seat[data-pip-station]')];
+        const arrive = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.55) { entry.target.dataset.pipEnter = 'true'; arrive.unobserve(entry.target); }
+          }
+        }, { threshold: [0, 0.55, 1] });
+        const watch = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            const art = entry.target.querySelector('.pip-seat__art');
+            if (!art) continue;
+            if (entry.isIntersecting) inView.current.add(art);
+            else { inView.current.delete(art); clearLook([art]); }
+          }
+        });
+        seats.forEach((seat) => { arrive.observe(seat); watch.observe(seat); });
         root.dataset.pipGuide = 'local';
+        setRunning(true);
         window.addEventListener('pip:react', react);
         document.addEventListener('visibilitychange', visibility);
-        dispose = () => { clear(); delete root.dataset.pipGuide; window.removeEventListener('pip:react', react); document.removeEventListener('visibilitychange', visibility); };
+        dispose = () => { clear(); arrive.disconnect(); watch.disconnect(); clearLook([...inView.current]); inView.current.clear(); seats.forEach((seat) => delete seat.dataset.pipEnter); delete root.dataset.pipGuide; window.removeEventListener('pip:react', react); document.removeEventListener('visibilitychange', visibility); };
         return;
       }
       const lab = document.querySelector('.ml');
@@ -110,7 +186,7 @@ export default function PipGuide() {
         seat, id:seat.dataset.pipStation, pose:seat.dataset.pipPose, art:seat.querySelector('.pip-seat__art'),
       })).filter(s=>s.art && s.art.getBoundingClientRect().height > 0);
       if (!stations.length) return;
-      let raf=0,index=0,current=null,lastTime=0,disposed=false;
+      let raf=0,index=0,current=null,lastTime=0,disposed=false,arrivedAt=0;const greeted=new Set();
       let mood=null,reactionUntil=0,n=0;
       const pending=new Map();
       let activeId='',rendered='',previousY=scrollY,direction=1,visible=false,geometry=[],dirty=true,mainEnd=Infinity;
@@ -165,8 +241,15 @@ export default function PipGuide() {
         const poseSettled=Math.abs(current.y-target.y)<18 && Math.abs(current.x-target.x)<18;
         const pose=guidePose(s.pose,{settled:poseSettled,reactionPose:mood?.pose});
         const facing=guideFacing(current.x,current.w,innerWidth);
-        const state=`${s.id}:${pose}:${facing}:${mood?.motion||''}:${n}`;
-        if(state!==rendered){rendered=state;setActor({pose,facing,motion:mood?`${mood.motion}-${n%2}`:''});}
+        // He arrives once (a hop in from below with squash and stretch), and the first time he settles at the
+        // hero or the close he waves; at the lab he reads (brand-pip.css, data-station).
+        if(shown && !arrivedAt) arrivedAt=now;
+        const arriving=arrivedAt>0 && now-arrivedAt<900;
+        if(!arriving && !mood && poseSettled && (s.id==='hero'||s.id==='close') && !greeted.has(s.id)){greeted.add(s.id);mood={pose:null,motion:'wave',ms:1400};reactionUntil=now+1400;n++;}
+        const motion=mood?`${mood.motion}-${n%2}`:arriving?'arrive-0':'';
+        const state=`${s.id}:${pose}:${facing}:${motion}:${n}`;
+        if(state!==rendered){rendered=state;setActor({pose,facing,motion,station:s.id});}
+        if(arriving && !arriveTimer) arriveTimer=setTimeout(()=>{arriveTimer=0;wake();},920);
         const node=flyer.current;
         if(node){
           // Uniform scale: pose imagery is always contained in the fixed-ratio frame.
@@ -178,15 +261,15 @@ export default function PipGuide() {
         if(mood && !reactionTimer) reactionTimer=setTimeout(()=>{reactionTimer=0;wake();},Math.max(1,reactionUntil-now));
       }
       let reactionTimer=0;
-      const blinkTimer=setInterval(()=>{if(!document.hidden && visible)setBlink(b=>b+1);},5400);
+      let arriveTimer=0;
       const react=e=>{const {station}=e.detail||{};const kind=calmMood(e.detail?.mood);if(!REACTIONS[kind]||(kind==='eureka'&&peakPlayed.current)||(kind==='nod'&&(mood||pending.get(station)==='eureka')))return;pending.set(station,kind);wake();};
       const observer=new ResizeObserver(resize);observer.observe(document.querySelector('main')||document.body);
-      root.dataset.pipGuide='on';
+      root.dataset.pipGuide='on';setRunning(true);
       window.addEventListener('scroll',wake,{passive:true});window.addEventListener('resize',resize);window.addEventListener('pip:react',react);document.addEventListener('visibilitychange',wake);
       document.fonts.ready.then(()=>{if(!disposed)resize();});wake();
-      dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearInterval(blinkTimer);observer.disconnect();window.removeEventListener('scroll',wake);window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);document.removeEventListener('visibilitychange',wake);stations.forEach(s=>s.seat.style.removeProperty('transform'));delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
+      dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearTimeout(arriveTimer);observer.disconnect();window.removeEventListener('scroll',wake);window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);document.removeEventListener('visibilitychange',wake);stations.forEach(s=>s.seat.style.removeProperty('transform'));delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
     }
     initMobiPrefs();start();media.addEventListener('change',start);desktop.addEventListener('change',start);window.addEventListener('mm-prefs',start);return()=>{dispose();media.removeEventListener('change',start);desktop.removeEventListener('change',start);window.removeEventListener('mm-prefs',start);};
   },[]);
-  return actor?createPortal(<span ref={flyer} className={actor.host ? 'pip-guide-local' : 'pip-guide-flyer'} aria-hidden="true"><PipActor pose={actor.pose} facing={actor.facing} motion={actor.motion} blink={blink}/></span>,actor.host || document.body):null;
+  return actor?createPortal(<span ref={flyer} className={actor.host ? 'pip-guide-local' : 'pip-guide-flyer'} aria-hidden="true"><PipActor pose={actor.pose} facing={actor.facing} motion={actor.motion} station={actor.station} alive/></span>,actor.host || document.body):null;
 }

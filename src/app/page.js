@@ -58,9 +58,11 @@ const SHOWCASE = buildCompassShowcase();
 const WALL_VOICES = publishedVoices();
 const DU_FACTS = duIndexFacts();
 
-// The statement scrubs word by word with the scroll. Words marked with * carry the accent.
-const STATEMENT = 'One mock. A clearer *next step. See what cost you marks, choose a chapter for *tonight, and check the DU subject rules behind your *shortlist.';
-// The four launch papers as the app's lamp-lit objects. Each drifts at its own depth as the statement scrolls.
+// The statement scrubs word by word with the scroll (on phones it holds the screen while it does).
+// Words marked with * carry the accent.
+const STATEMENT = 'Your lost marks went somewhere. MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
+// The four launch papers as the app's lamp-lit objects. Each lands on its shadow from its own height as the
+// statement scrolls: depth is how far it falls (px), tilt how far it turns on the way.
 const SHELF = [
   { id: 'english', name: 'English', href: '/cuet/english', depth: 70, tilt: -4 },
   { id: 'accountancy', name: 'Accountancy', href: '/cuet/accountancy', depth: 120, tilt: 3 },
@@ -164,9 +166,7 @@ export default function LandingPage() {
                 <DemoDrill />
               </div>
               <div className="lp-stage__path"><span>01 · Answer</span><i /><span>02 · Read the explanation</span></div>
-              <p className="lp-stage__note">
-                Five original sample questions. No signup. Not an official PYQ or a scored diagnostic.
-              </p>
+              <p className="lp-stage__note">Five original CUET-style questions, each with the reasoning behind the answer.</p>
             </div>
           </div>
 
@@ -196,7 +196,7 @@ export default function LandingPage() {
                 {SHELF.map(({ id, name, href, depth, tilt }, i) => (
                   <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg` }}>
                     <Link href={href} className="lp-shelf__link">
-                      <span className="lp-shelf__float"><SubjectObject id={id} size={184} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'clamp(5.25rem, 13vw, 11.5rem)' }} /></span>
+                      <span className="lp-shelf__float"><SubjectObject id={id} size={184} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
                       <span className="lp-shelf__name">{name}</span>
                     </Link>
                   </li>

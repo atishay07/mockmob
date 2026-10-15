@@ -124,3 +124,57 @@ html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest
   }
 }
 @keyframes lp-word { from { opacity: 0.18; } to { opacity: 1; } }
+
+/* ---------- 4. Phones: the statement holds the screen while it plays ----------
+   The landing is phone-first, so on a phone the statement is a short scroll story, like the desktop's pinned
+   cinema: the section becomes a 200svh track and its scene (words and shelf) stays between the nav and the
+   dock while the words light and the four objects land one by one (home.css). Only where the scene fits
+   (780px tall and up) and scroll timelines exist; elsewhere, and under reduced motion, it scrolls as one
+   finished composition. */
+@supports (animation-timeline: view()) {
+  @media (max-width: 959px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
+    :root:not([data-motion='reduced']) .lp-statement {
+      --pin-top: 61px;
+      --pin-bottom: 84px;
+      --shelf-obj: min(42vw, 18.5svh, 11rem);
+      --shelf-stagger: 1.75rem;
+      --fall: -0.7px;
+      height: 185svh;
+      padding-block: 0;
+    }
+    :root:not([data-motion='reduced']) .lp-statement__grid {
+      position: sticky;
+      top: var(--pin-top);
+      height: calc(100svh - var(--pin-top) - var(--pin-bottom));
+      align-content: center;
+      gap: clamp(1rem, 3svh, 1.75rem);
+    }
+    :root:not([data-motion='reduced']) .lp-statement__text { font-size: clamp(1.6rem, min(7.4vw, 3.7svh), 2.25rem); }
+    :root:not([data-motion='reduced']) .lp-statement__w {
+      animation-range-start: contain calc(var(--p) * 48%);
+      animation-range-end: contain calc(5% + var(--p) * 48%);
+    }
+    :root:not([data-motion='reduced']) .lp-statement .lp-shelf .subj-obj--alive .subj-obj__float {
+      animation-range: normal, contain calc(5% + var(--k, 0) * 10%) contain calc(37% + var(--k, 0) * 10%), exit 0% exit 100%;
+    }
+    :root:not([data-motion='reduced']) .lp-statement .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
+      animation-range: contain calc(5% + var(--k, 0) * 10%) contain calc(37% + var(--k, 0) * 10%), exit 0% exit 100%;
+    }
+    :root:not([data-motion='reduced']) .lp-statement :is(.lp-shelf__name, .lp-shelf .subj-obj__light) {
+      animation-range: contain calc(13% + var(--k, 0) * 10%) contain calc(37% + var(--k, 0) * 10%);
+    }
+    :root:not([data-motion='reduced']) .lp-statement .lp-shelf::before { animation-range: contain 2% contain 50%; }
+  }
+}
+
+/* ---------- 5. Hero finish ----------
+   The headline's last line never strands one word ("A clearer next / step."); on a phone the three
+   reassurances sit in two deliberate rows (the two short ones, then the price), and the bay's line under the
+   drill says what the sample is, without a disclaimer's tone. */
+.lp-title__line { text-wrap: balance; }
+@media (max-width: 760px) {
+  .lp .lp-trust { gap: 0.3rem 1rem; }
+  .lp .lp-trust li:nth-child(2) { order: 2; flex-basis: 100%; }
+  .lp .lp-trust li:nth-child(3) { order: 1; }
+  .lp .lp-stage__note { margin-top: 0.15rem; color: var(--ink-3); text-align: center; text-wrap: balance; }
+}

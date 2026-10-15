@@ -51,7 +51,7 @@
 .pip-seat__art { position: relative; }
 .pip-seat[data-pip-station] .pip-seat__art::after { content: ''; position: absolute; left: 22%; right: 22%; bottom: -3px; height: 7px; border-radius: 50%; background: radial-gradient(closest-side, rgba(8, 12, 6, .34), transparent); pointer-events: none; }
 [data-theme='light'] .pip-seat[data-pip-station] .pip-seat__art::after { background: radial-gradient(closest-side, rgba(40, 48, 20, .2), transparent); }
-[data-pip-guide='on'] .pip-seat[data-pip-station] .pip-seat__art > .pip-image { opacity: 0; }
+[data-pip-guide='on'] .pip-seat[data-pip-station] .pip-seat__art > :is(.pip-image, .pip-rig) { opacity: 0; }
 .pip-actor { position: absolute; bottom: 0; left: 50%; translate: -50% 0; height: 100%; aspect-ratio: var(--pip-ar); transform-origin: 50% 100%; pointer-events: none; z-index: 1; }
 .pip-actor > .pip-image { width: 100%; height: 100%; }
 .pip-flyer { position: fixed; top: 0; left: 0; z-index: 46; height: 146px; aspect-ratio: var(--pip-ar); transform-origin: 50% 100%; opacity: 0; pointer-events: none; will-change: transform; contain: layout paint; }
@@ -104,7 +104,7 @@
 .pip-guide-flyer .pip-actor { width: auto; aspect-ratio: var(--pip-ar); }
 .pip-guide-local { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
 .pip-guide-local .pip-actor { height: 100%; width: auto; max-width: 100%; }
-.pip-seat[data-pip-reacting='true'] .pip-seat__art > .pip-image { opacity: 0; }
+.pip-seat[data-pip-reacting='true'] .pip-seat__art > :is(.pip-image, .pip-rig) { opacity: 0; }
 .ml__session-label { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; }
 .mm .pip-seat--lab-inline { display: none; }
 @media (max-width: 1099px) {
@@ -161,3 +161,114 @@
 @media(prefers-reduced-motion:reduce){.pip-pose-in{animation:none}}
 .pip-seat--utility { margin: 0 0 24px auto; }
 @media(min-width:1100px) and (prefers-reduced-motion:no-preference){.pip-seat--utility{height:0;margin-bottom:0;overflow:visible}}
+
+/* ---- Round 6: Mobi alive on the landing ----
+   The rig is the pose's own shape, standing on the floor of its seat, so the eyes layer lines up with the art.
+   Everything that moves is scoped to [data-pip-guide] (PipGuide running: the landing, motion allowed), so the
+   Arena's Mobi stays still and Reduce motion gets the plain poses. Acts, in the app's motion language:
+   - arrive: when his seat first comes into view, an anticipation squash, a stretched hop, a landing squash and
+     a small follow-through (phones per seat; desktop once, for the flyer);
+   - wave: the first time he settles at the hero or the close, a greeting rock about his feet;
+   - breathe: 4.6 s, 1.6% taller at the top, about his feet;
+   - blink: twice in each 6.8 s, the second a double, each seat in its own phase;
+   - look: his eyes follow a mouse (and he leans up to 2.6 deg), or run ahead with the scroll on a phone;
+   - read: at the Mistake Lab his eyes scan the replay line by line, until something else catches them. */
+.pip-seat__art { container-type: size; }
+.pip-rig {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-inline: auto;
+  height: min(100cqh, calc(100cqw / var(--pip-ar, 0.73)));
+  aspect-ratio: var(--pip-ar, 0.73);
+  transform-origin: 50% 100%;
+}
+.pip-rig__breath { position: absolute; inset: 0; transform-origin: 50% 100%; }
+.pip-rig .pip-image { width: 100%; height: 100%; }
+.pip-rig[data-facing='left'], .pip-actor[data-pose='pointing'][data-facing='left'] { --pip-dir: -1; }
+.pip-rig[data-facing='left'] .pip-eyes { transform: scaleX(-1); }
+.pip-actor .pip-art-direction { transform-origin: 50% 100%; }
+
+.pip-eyes { position: absolute; inset: 0; display: none; pointer-events: none; }
+[data-pip-guide] .pip-eyes { display: block; }
+/* A soft patch of the visor over the baked eye, solid well past the eye's edge, then the redrawn ball. */
+.pip-eye { position: absolute; display: grid; place-items: center; border-radius: 50%; background: radial-gradient(closest-side, rgb(34 39 35) 76%, rgb(34 39 35 / 0) 100%); }
+.pip-eye__ball {
+  display: block;
+  width: 62.5%;
+  height: 71.4%;
+  border-radius: 50%;
+  background: radial-gradient(120% 90% at 40% 30%, #fffdf6, #fbf3e4 70%);
+  translate: calc(var(--pip-look-x, 0) * var(--pip-dir, 1) * 24%) calc(var(--pip-look-y, 0) * 16%);
+  transition: translate 240ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+[data-pip-guide] .pip-eye__ball { animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite; }
+@keyframes pip-eye-blink {
+  0%, 3%, 57%, 60%, 63%, 100% { scale: 1 1; animation-timing-function: var(--mm-ease-in-out, ease-in-out); }
+  1.5%, 58.5%, 61.5% { scale: 1 0.1; animation-timing-function: var(--mm-ease-in-out, ease-in-out); }
+}
+.pip-seat[data-pip-station='hero'], .pip-actor[data-station='hero'] { --pip-blink: 1.1s; }
+.pip-seat[data-pip-station^='lab'], .pip-actor[data-station^='lab'] { --pip-blink: -1.7s; }
+.pip-seat[data-pip-station='compass'], .pip-actor[data-station='compass'] { --pip-blink: -3.9s; }
+.pip-seat[data-pip-station='eligibility'], .pip-actor[data-station='eligibility'] { --pip-blink: -2.8s; }
+.pip-seat[data-pip-station='demo'], .pip-actor[data-station='demo'] { --pip-blink: -0.9s; }
+.pip-seat[data-pip-station='pricing'], .pip-actor[data-station='pricing'] { --pip-blink: -4.4s; }
+.pip-seat[data-pip-station='close'], .pip-actor[data-station='close'] { --pip-blink: -5.3s; }
+
+/* Breath and the look's lean. */
+[data-pip-guide] :is(.pip-rig__breath, .pip-actor[data-alive] .pip-art-direction) {
+  animation: pip-breathe 4.6s var(--mm-ease-sweep, ease-in-out) infinite;
+  translate: 0 calc(var(--pip-look-y, 0) * 1.2%);
+  transition: translate 300ms var(--mm-ease-out, ease-out);
+}
+@keyframes pip-breathe { 0%, 100% { scale: 1 1; } 50% { scale: 0.992 1.016; } }
+[data-pip-guide] .pip-rig { rotate: calc(var(--pip-follow, 0) * 2.6deg); transition: rotate 420ms var(--mm-ease-out, ease-out); }
+
+/* Arrival on phones: the seat keeps its space, empty, until he hops in. */
+[data-pip-guide='local'] .pip-seat[data-pip-station]:not([data-pip-enter]) .pip-rig { opacity: 0; }
+[data-pip-guide='local'] .pip-seat[data-pip-station] .pip-seat__art::after { transition: opacity 260ms ease-out, scale 520ms var(--mm-ease-emphasized, ease-out); }
+[data-pip-guide='local'] .pip-seat[data-pip-station]:not([data-pip-enter]) .pip-seat__art::after { opacity: 0; scale: 0.4; }
+[data-pip-guide='local'] .pip-seat[data-pip-enter] .pip-rig { animation: pip-arrive 880ms both; }
+[data-pip-guide='local'] .pip-seat[data-pip-station='hero'][data-pip-enter] .pip-rig { animation: pip-arrive 880ms 280ms both, pip-wave 1300ms 1160ms backwards; }
+[data-pip-guide='local'] .pip-seat[data-pip-station='close'][data-pip-enter] .pip-rig { animation: pip-arrive 880ms both, pip-wave 1300ms 880ms backwards; }
+.pip-actor[data-motion^='arrive'] { animation: pip-arrive-actor 880ms both; }
+.pip-actor[data-motion^='wave'] { animation: pip-wave 1300ms backwards; }
+.pip-actor[data-motion='wave-1'] { animation-name: pip-wave-b; }
+@keyframes pip-arrive {
+  0% { opacity: 0; translate: 0 22%; scale: 0.7 0.55; animation-timing-function: var(--mm-ease-out, ease-out); }
+  18% { opacity: 1; translate: 0 6%; scale: 1.12 0.84; animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1); }
+  46% { translate: 0 -15%; scale: 0.93 1.09; animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.4); }
+  66% { translate: 0 0; scale: 1.09 0.9; animation-timing-function: var(--mm-ease-out, ease-out); }
+  82% { scale: 0.975 1.03; }
+  100% { opacity: 1; translate: 0 0; scale: 1 1; }
+}
+/* The actor is centred on its box with translate: -50% 0, so its arrival keeps that x. */
+@keyframes pip-arrive-actor {
+  0% { opacity: 0; translate: -50% 22%; scale: 0.7 0.55; animation-timing-function: var(--mm-ease-out, ease-out); }
+  18% { opacity: 1; translate: -50% 6%; scale: 1.12 0.84; animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1); }
+  46% { translate: -50% -15%; scale: 0.93 1.09; animation-timing-function: cubic-bezier(0.5, 0, 0.75, 0.4); }
+  66% { translate: -50% 0; scale: 1.09 0.9; animation-timing-function: var(--mm-ease-out, ease-out); }
+  82% { scale: 0.975 1.03; }
+  100% { opacity: 1; translate: -50% 0; scale: 1 1; }
+}
+@keyframes pip-wave { 0% { rotate: 0deg; } 20% { rotate: -6deg; } 42% { rotate: 5deg; } 62% { rotate: -3.5deg; } 80% { rotate: 1.5deg; } 100% { rotate: 0deg; } }
+@keyframes pip-wave-b { 0% { rotate: 0deg; } 20% { rotate: -6deg; } 42% { rotate: 5deg; } 62% { rotate: -3.5deg; } 80% { rotate: 1.5deg; } 100% { rotate: 0deg; } }
+
+/* Reading at the Mistake Lab: the eyes scan the replay, a line, then the next, until a mouse or the scroll
+   catches them. */
+[data-pip-guide] :is(.pip-seat[data-pip-station^='lab'], .pip-actor[data-station^='lab']) .pip-eye__ball {
+  animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite, pip-read 3.6s var(--mm-ease-in-out, ease-in-out) infinite;
+}
+[data-pip-guide] [data-pip-looking] .pip-eye__ball { animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite; }
+@keyframes pip-read {
+  0%, 100% { translate: -20% 12%; }
+  40% { translate: 18% 12%; }
+  50% { translate: -20% 22%; }
+  90% { translate: 18% 22%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pip-eyes { display: none !important; }
+  .pip-rig, .pip-rig__breath, .pip-eye__ball { animation: none !important; }
+}
+:root[data-motion='reduced'] .pip-eyes { display: none !important; }

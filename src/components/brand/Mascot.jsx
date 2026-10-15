@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import assets from '@/../public/brand/mascot/manifest.json';
+import { EYES } from './mobiEyes';
 
 /**
  * The Celebrations setting (Profile > Look and feel) applies to the art itself: Quiet swaps the
@@ -22,9 +23,36 @@ export function Mascot({ pose: wanted = 'greeting', facing = 'right', className 
   return <Image className={`pip-image ${className}`} data-pose={pose} data-facing={facing} src={asset.src} width={asset.width} height={asset.height} sizes="(max-width: 600px) 110px, 160px" loading={eager ? 'eager' : 'lazy'} alt={alt} />;
 }
 
-/** A reserved perch. With `station`, PipGuide can land here (the static pose stays the fallback). */
+const pct = (n) => `${Math.round(n * 100) / 100}%`;
+
+/**
+ * Mobi's eyes as a layer over the art (only the open-eyed poses have them): each baked eye is covered by a soft
+ * patch of the visor's colour and redrawn as a ball that can look (--pip-look-x/-y, -1 to 1) and blink. At rest
+ * the ball sits exactly on the baked eye, so the art reads unchanged. brand-pip.css animates it only on the
+ * landing while the guide runs (never in the Arena, never under Reduce motion).
+ */
+export function PipEyes({ pose }) {
+  const eyes = EYES[pose];
+  if (!eyes) return null;
+  return (
+    <span className="pip-eyes" aria-hidden="true">
+      {eyes.map(([left, top, width, height]) => (
+        <i key={left} className="pip-eye" style={{ left: pct(left - width * 0.3), top: pct(top - height * 0.2), width: pct(width * 1.6), height: pct(height * 1.4) }}><b className="pip-eye__ball" /></i>
+      ))}
+    </span>
+  );
+}
+
+const aspect = (pose) => ((assets[pose] || assets.greeting).width / (assets[pose] || assets.greeting).height).toFixed(4);
+
+/**
+ * A reserved perch. With `station`, PipGuide can land here (the static pose stays the fallback). The art sits in
+ * a rig the exact shape of the pose (so the eyes layer lines up), with a breath layer inside it: on the landing
+ * he arrives with a squash and a hop when his seat comes into view, breathes, blinks and looks (brand-pip.css).
+ */
 export function MascotSeat({ pose: wanted, facing = 'left', label, note, className = '', eager = false, station }) {
   const { celebrations } = useMobiPrefs();
   const pose = calmPose(wanted, celebrations);
-  return <figure className={`pip-seat ${className}`} data-pip-station={station} data-pip-pose={station ? pose : undefined}><div className="pip-seat__art"><Mascot pose={pose} facing={pose === 'pointing' ? facing : 'right'} eager={eager} alt={`Mobi, MockMob’s study companion, ${pose === 'attentive' ? 'listening attentively' : pose === 'thinking' ? 'thinking' : pose === 'pointing' ? 'pointing towards your next step' : pose === 'celebrating' ? 'celebrating a finished drill' : pose === 'encouraging' ? 'cheering you on' : pose === 'idle' ? 'sitting beside the preview' : 'waving hello'}.`} /></div><figcaption><b>{label}</b>{note && <span>{note}</span>}</figcaption></figure>;
+  const faced = pose === 'pointing' ? facing : 'right';
+  return <figure className={`pip-seat ${className}`} data-pip-station={station} data-pip-pose={station ? pose : undefined}><div className="pip-seat__art"><span className="pip-rig" data-facing={faced} style={{ '--pip-ar': aspect(pose) }}><span className="pip-rig__breath"><Mascot pose={pose} facing={faced} eager={eager} alt={`Mobi, MockMob’s study companion, ${pose === 'attentive' ? 'listening attentively' : pose === 'thinking' ? 'thinking' : pose === 'pointing' ? 'pointing towards your next step' : pose === 'celebrating' ? 'celebrating a finished drill' : pose === 'encouraging' ? 'cheering you on' : pose === 'idle' ? 'sitting beside the preview' : 'waving hello'}.`} /><PipEyes pose={pose} /></span></span></div><figcaption><b>{label}</b>{note && <span>{note}</span>}</figcaption></figure>;
 }
