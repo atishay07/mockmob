@@ -81,6 +81,9 @@ abstract final class AppRoutes {
   // Review: the record and saved questions. Practice: the question stream.
   static const String reviewInsights = '/review/insights';
   static const String reviewSaved = '/review/saved';
+  /// Credits: both balances, the plan and the history (the Credits feature owns the screen).
+  static const String youCredits = '/you/credits';
+
   static const String practiceStream = '/practice/stream';
 
   /// Ask your record.
@@ -164,6 +167,7 @@ abstract final class AppRoutes {
     reviewSaved,
     practiceStream,
     ask,
+    youCredits,
     examNta,
     tools,
     toolsCompass,

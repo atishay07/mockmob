@@ -26,13 +26,13 @@ void main() {
       const YouHubScreen(),
       disableAnimations: true,
       wrapInScaffold: false,
-      size: const Size(384, 3200),
+      size: const Size(384, 7000),
       overrides: youOverrides(rules: rules),
     );
     await tester.pump();
   }
 
-  testWidgets('the block with its server sentences, under Progress and above Settings', (tester) async {
+  testWidgets('the block with its server sentences, under Progress and above Account and privacy', (tester) async {
     final read = RulesRead.parse({'book': contract('rules')['book'], 'acrossMocks': contract('across')});
     await pump(tester, RemoteState(value: read, fetchedAt: DateTime.utc(2026, 10, 15, 9)));
     expect(find.text('Across your mocks'), findsOneWidget);
@@ -41,7 +41,7 @@ void main() {
     }
     expect(find.text('Show all 5'), findsOneWidget);
     final across = tester.getTopLeft(find.text('Across your mocks')).dy;
-    expect(across < tester.getTopLeft(find.text('Settings')).dy, isTrue);
+    expect(across < tester.getTopLeft(find.text('Account and privacy')).dy, isTrue);
   });
 
   testWidgets('before the first recorded mock: the server\'s one sentence', (tester) async {

@@ -282,6 +282,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('subjects', youSubjectsScreen, root: true),
             page('sheet', youSheetScreen, root: true),
           ]),
+            page('credits', youCreditsScreen, root: true),
         ]),
       ],
     ),

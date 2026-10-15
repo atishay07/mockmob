@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../credits/credits_screen.dart' show CreditsScreen;
 import '../tools/tools_routes.dart' show ToolsShelf;
 import 'account/account_screen.dart';
 import 'account/delete_screen.dart';
@@ -37,13 +38,16 @@ Widget youDeleteScreen(BuildContext context, GoRouterState state) => const Delet
 
 Widget youAppearanceScreen(BuildContext context, GoRouterState state) => const AppearanceScreen();
 
-Widget youHelpScreen(BuildContext context, GoRouterState state) => const HelpScreen();
+Widget youHelpScreen(BuildContext context, GoRouterState state) => HelpScreen(openFaq: state.uri.queryParameters['q']);
 
 /// Edit subjects: `/you/subjects`.
 Widget youSubjectsScreen(BuildContext context, GoRouterState state) => const SubjectsScreen();
 
 /// Edit the sheet: `/you/sheet`.
 Widget youSheetScreen(BuildContext context, GoRouterState state) => const SheetEditorScreen();
+
+/// Credits: `/you/credits` (the Credits feature owns the screen; it lives under You).
+Widget youCreditsScreen(BuildContext context, GoRouterState state) => const CreditsScreen();
 
 /// Opens one of this feature's new pages: through the router when the path is registered,
 /// otherwise as a plain pushed page.

@@ -64,8 +64,7 @@ class _FakeLength extends StudyLength {
 }
 
 List<Override> _weekOverrides(FakeGoal goal, {StudentTarget? target}) => [
-      ...youOverrides(goal: goal, target: target),
-      notificationPrefsRepositoryProvider.overrideWith(_FakePrefs.new),
+      ...youOverrides(goal: goal, target: target, notificationPrefsProvider: notificationPrefsRepositoryProvider.overrideWith(_FakePrefs.new)),
       studyLengthProvider.overrideWith(_FakeLength.new),
     ];
 

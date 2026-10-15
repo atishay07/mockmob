@@ -52,7 +52,7 @@ void main() {
       await _pumpAccount(tester);
       expect(find.text('asha.verma@example.com'), findsOneWidget);
       expect(find.text('Free'), findsOneWidget);
-      expect(find.text('Credits did not load.'), findsOneWidget);
+      expect(find.text('Practice credits did not load.'), findsOneWidget);
       expect(find.text('Credit balance not loaded'), findsNothing);
       expect(find.text('Your plan and credits as of the last check.'), findsNothing);
     });

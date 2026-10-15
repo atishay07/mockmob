@@ -32,10 +32,10 @@ abstract final class EditCopy {
   static String chosenLabel(String name, bool chosen) => chosen ? '$name, chosen' : name;
 
   // The sheet editor.
-  static const sheetTitle = 'Your sheet';
+  static const sheetTitle = 'Your plan';
   static const sheetIntro = 'Change anything. Today plans from it.';
   static const editSheet = 'Edit';
-  static const editSheetLabel = 'Edit your sheet';
+  static const editSheetLabel = 'Edit your plan';
   static const groupAbout = 'About you';
   static const groupTarget = 'Your target';
   static const groupSubjects = 'Subjects';
@@ -100,7 +100,7 @@ abstract final class EditCopy {
 
   // Name (WEB-PARITY F2).
   static const nameSheet = 'Your name';
-  static const nameNote = 'Shown on your sheet.';
+  static const nameNote = 'Shown on your plan.';
   static const nameSave = 'Save name';
   static const nameEmpty = 'Write a name first.';
   static const nameTooLong = 'Keep it to 80 characters.';
@@ -114,15 +114,15 @@ abstract final class EditCopy {
   // Plan card (WEB-PARITY F3). No price, no purchase.
   static const planFree = 'Free';
   static const planPro = 'Pro';
-  static String credits(int n) => n == 1 ? '1 practice credit' : '$n practice credits';
-  static const creditsUnknown = 'Credits did not load.';
+  static String credits(int n) => n == 1 ? '1 Practice credit' : '$n Practice credits';
+  static const creditsUnknown = 'Practice credits did not load.';
   static const creditsRetry = 'Try again';
   static const creditsRetrying = 'Trying again';
   static const unlimited = 'Unlimited practice';
   static const otherDevicesNote = 'Ends MockMob on other phones and the website. You stay signed in here.';
   static const planOverline = 'Your plan';
-  static const creditUnit = 'practice credits';
-  static const creditUnitOne = 'practice credit';
+  static const creditUnit = 'Practice credits';
+  static const creditUnitOne = 'Practice credit';
   static const proActive = 'Pro is active.';
   static String proUntil(String date) => 'Pro is active until $date.';
 }

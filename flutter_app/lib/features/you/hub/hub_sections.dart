@@ -3,128 +3,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/auth/auth_state.dart';
-import '../../../core/copy/copy.dart';
 import '../../../core/models/consent.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
-import '../../../core/settings/changed_row.dart';
-import '../../../core/settings/appearance_settings.dart';
 import '../../../core/theme/theme.dart';
 import '../copy.dart';
-import '../widgets/you_motion.dart';
 import '../widgets/you_row.dart';
 import '../you_providers.dart';
 
 /// Hairlines of a flat list on the ground start where the row text starts: 4 dp, a 28 dp bare icon, 16 dp.
 const double _flatInset = 28 + MmSpace.s16;
 
-/// Weekly goal and rhythm, the repair record and personal bests.
-class ProgressPanel extends ConsumerWidget {
+/// The repair record and personal bests (the milestones have their own shelf above, and the
+/// weekly goal and study days have their own section).
+class ProgressPanel extends StatelessWidget {
   const ProgressPanel({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final goal = ref.watch(goalRepositoryProvider).value;
+  Widget build(BuildContext context) {
     return YouPanel(
       flat: true,
       inset: _flatInset,
       children: [
-        YouRow(
-          flat: true,
-          icon: LucideIcons.target,
-          motion: YouIconMotion.ping,
-          changeKey: ChangedRowKeys.rhythm,
-          title: YouCopy.rowRhythm,
-          note: rhythmNote(goal?.daysPerWeek, goal?.pausedUntil),
-          onTap: () => context.push(AppRoutes.youRhythm),
-        ),
         YouRow(flat: true, icon: LucideIcons.clipboardCheck, title: YouCopy.rowRecord, onTap: () => context.push(AppRoutes.reviewRecord)),
         YouRow(flat: true, icon: LucideIcons.medal, title: YouCopy.rowBests, onTap: () => context.push(AppRoutes.youBests)),
       ],
     );
   }
-
-  /// "Goal: 4 days a week", or the pause beneath it. The run itself is on the sheet card above,
-  /// so the row does not repeat it.
-  static String? rhythmNote(int? days, String? pausedUntil) {
-    final parts = <String>[];
-    if (days != null) parts.add(YouCopy.goalNote(days));
-    final pause = _pauseDate(pausedUntil);
-    if (pause != null) parts.add(YouCopy.pausedUntil(formatDayMonth(pause)));
-    return parts.isEmpty ? null : parts.join('\n');
-  }
-
-  static DateTime? _pauseDate(String? raw) {
-    final date = raw == null ? null : DateTime.tryParse(raw);
-    if (date == null) return null;
-    final now = DateTime.now();
-    return date.isBefore(DateTime(now.year, now.month, now.day)) ? null : date;
-  }
 }
 
-/// Notifications, appearance, privacy, account, help and about. Each row carries the one live
-/// fact worth seeing from here.
-class SettingsPanel extends ConsumerWidget {
-  const SettingsPanel({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final consent = ref.watch(consentRepositoryProvider);
-    final mode = ref.watch(themeModeProvider);
-    final pro = ref.watch(authSnapshotProvider.select((a) => a.isPro));
-    final credits = ref.watch(authSnapshotProvider.select((a) => a.creditBalance));
-    return YouPanel(
-      flat: true,
-      inset: _flatInset,
-      children: [
-        YouRow(
-          flat: true,
-          icon: LucideIcons.bell,
-          motion: YouIconMotion.swing,
-          changeKey: ChangedRowKeys.notifications,
-          title: YouCopy.rowNotifications,
-          onTap: () => context.push(AppRoutes.youNotifications),
-        ),
-        YouRow(
-          flat: true,
-          icon: LucideIcons.moonStar,
-          motion: YouIconMotion.tilt,
-          changeKey: ChangedRowKeys.appearance,
-          title: YouCopy.rowAppearance,
-          value: themeName(mode),
-          onTap: () => context.push(AppRoutes.youAppearance),
-        ),
-        YouRow(
-          flat: true,
-          icon: LucideIcons.shieldCheck,
-          motion: YouIconMotion.tick,
-          tickIcon: LucideIcons.shield,
-          changeKey: ChangedRowKeys.privacy,
-          title: YouCopy.rowPrivacy,
-          note: privacyNote(consent),
-          onTap: () => context.push(AppRoutes.youPrivacy),
-        ),
-        YouRow(
-          flat: true,
-          icon: LucideIcons.user,
-          motion: YouIconMotion.hop,
-          changeKey: ChangedRowKeys.account,
-          title: YouCopy.rowAccount,
-          value: pro ? YouCopy.accountPro : credits == null ? null : YouCopy.accountCredits(credits),
-          onTap: () => context.push(AppRoutes.youAccount),
-        ),
-        YouRow(flat: true, icon: LucideIcons.lifeBuoy, motion: YouIconMotion.turn, title: YouCopy.rowHelp, onTap: () => context.push(AppRoutes.youHelp)),
-      ],
-    );
-  }
-
-  static String themeName(ThemeMode mode) => switch (mode) {
-        ThemeMode.dark => YouCopy.themeDark,
-        ThemeMode.light => YouCopy.themeLight,
-        ThemeMode.system => YouCopy.themeSystem,
-      };
-
+/// The live facts the hub's rows print.
+abstract final class HubFacts {
+  /// The usage-data line, or null while the choice has not been read (never "off" for a choice
+  /// that is unknown).
   static String? privacyNote(ConsentState consent) {
     if (!consent.isLoaded) return null;
     if (consent.consent.ageBand != AgeBand.adult) return YouCopy.privacyOffForAccount;

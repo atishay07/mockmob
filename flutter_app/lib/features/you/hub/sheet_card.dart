@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -34,7 +35,16 @@ class SheetCard extends StatefulWidget {
     this.onEditSubjects,
     this.celebrations = CelebrationMode.full,
     this.now,
+    this.showTarget = true,
+    this.onEditName,
   });
+
+  /// Opens the name editor. The name stands as a key (a small pencil follows it) when this is set.
+  final VoidCallback? onEditName;
+
+  /// The course, colleges and subjects fields under the week. The hub shows them in their own
+  /// section ([TargetFields]) and turns this off.
+  final bool showTarget;
 
   /// The Celebrations setting: Quiet swaps Mobi's proud for a nod, Off plays nothing.
   final CelebrationMode celebrations;
@@ -183,8 +193,6 @@ class _SheetCardState extends State<SheetCard> {
     final trimmed = name?.trim();
     final title = trimmed == null || trimmed.isEmpty ? YouCopy.sheetNameFallback : trimmed;
     final year = target.stage?.cuetYear ?? 2027;
-    final missingTarget = target.course == null && target.colleges.isEmpty;
-    const fieldInset = EdgeInsets.symmetric(horizontal: youText);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -202,7 +210,7 @@ class _SheetCardState extends State<SheetCard> {
                     children: [
                       Text(YouCopy.sheetOverlineFor(year), style: type.caption.copyWith(color: colors.ink2)),
                       const SizedBox(height: MmSpace.s8),
-                      Semantics(header: true, child: Text(title, style: type.display, maxLines: 3, overflow: TextOverflow.ellipsis)),
+                      _NameLine(title: title, style: type.display, onEdit: widget.onEditName),
                       if (target.stage != null) ...[
                         const SizedBox(height: MmSpace.s8),
                         Text(target.stage!.sheetLine, style: type.small.copyWith(color: colors.ink2)),
@@ -236,30 +244,146 @@ class _SheetCardState extends State<SheetCard> {
         ),
         const SizedBox(height: MmSpace.s16),
         KeyedSubtree(key: _weekKey, child: WeekField(week: week, onOpen: widget.onOpenRhythm)),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (target.course != null)
-              Padding(
-                padding: fieldInset,
-                child: SheetField(label: YouCopy.fieldCourse, child: Text(target.course!, style: type.title)),
-              ),
-            if (target.colleges.isNotEmpty)
-              Padding(
-                padding: fieldInset,
-                child: SheetField(label: YouCopy.fieldColleges, child: CollegeList(colleges: target.colleges)),
-              ),
-            if (subjects.isNotEmpty)
-              SubjectsField(subjects: subjects, onEdit: onEditSubjects),
-            if (missingTarget && onEdit != null) Padding(padding: fieldInset, child: _FinishPrompt(onTap: onEdit)),
-          ],
-        ),
+        if (widget.showTarget)
+          TargetFields(target: target, subjects: subjects, onEdit: onEdit, onEditSubjects: onEditSubjects),
       ],
     );
   }
 }
 
-/// Shown when the sheet has no course or colleges yet: one line and the one volt key that fills
+/// The name at display size. With [onEdit] it is a key: a pencil follows the words and a tap
+/// opens the name editor.
+class _NameLine extends StatelessWidget {
+  const _NameLine({required this.title, required this.style, this.onEdit});
+
+  final String title;
+  final TextStyle style;
+  final VoidCallback? onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final text = Text(title, style: style, maxLines: 3, overflow: TextOverflow.ellipsis);
+    if (onEdit == null) return Semantics(header: true, child: text);
+    // The pencil sits at the end of the first line, on the name's own baseline row.
+    final named = Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(child: text),
+        const SizedBox(width: MmSpace.s8),
+        Padding(padding: const EdgeInsets.only(top: MmSpace.s8), child: Icon(LucideIcons.pencilLine, size: 18, color: colors.ink3)),
+      ],
+    );
+    return MmPressable(
+      onTap: onEdit,
+      haptic: MmPressHaptic.selection,
+      pressedScale: 0.99,
+      focusRadius: MmRadius.smallAll,
+      semanticsLabel: '${YouCopy.editName}. $title',
+      builder: (context, pressed, focused) => ConstrainedBox(constraints: const BoxConstraints(minHeight: 48), child: Align(alignment: Alignment.centerLeft, child: named)),
+    );
+  }
+}
+
+/// The course, the colleges in order and the subjects: ruled fields like the header boxes of an
+/// answer sheet. Each field opens its editor (the course and colleges in the plan editor, the
+/// subjects in the subjects editor). A field with nothing in it is left off, and a plan with no
+/// course or colleges says so with the one key that fills them in.
+class TargetFields extends StatelessWidget {
+  const TargetFields({super.key, required this.target, required this.subjects, this.onEdit, this.onEditSubjects, this.ruledTop = true});
+
+  /// False leaves the hairline off above the first field (a section title already stands above it).
+  final bool ruledTop;
+
+  final StudentTarget target;
+  final List<String> subjects;
+  final VoidCallback? onEdit;
+  final VoidCallback? onEditSubjects;
+
+  @override
+  Widget build(BuildContext context) {
+    final type = context.mmType;
+    final missingTarget = target.course == null && target.colleges.isEmpty;
+    const fieldInset = EdgeInsets.symmetric(horizontal: youText);
+    final hasCourse = target.course != null;
+    final hasColleges = target.colleges.isNotEmpty;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (hasCourse)
+          Padding(
+            padding: fieldInset,
+            child: _Tappable(
+              onTap: onEdit,
+              child: SheetField(
+                first: !ruledTop,
+                label: YouCopy.fieldCourse,
+                trailing: onEdit == null ? null : const _EditHint(),
+                child: Text(target.course!, style: type.title),
+              ),
+            ),
+          ),
+        if (hasColleges)
+          Padding(
+            padding: fieldInset,
+            child: _Tappable(
+              onTap: onEdit,
+              child: SheetField(
+                first: !ruledTop && !hasCourse,
+                label: YouCopy.fieldColleges,
+                trailing: onEdit == null ? null : const _EditHint(),
+                child: CollegeList(colleges: target.colleges),
+              ),
+            ),
+          ),
+        if (subjects.isNotEmpty) SubjectsField(subjects: subjects, onEdit: onEditSubjects, first: !ruledTop && !hasCourse && !hasColleges),
+        if (missingTarget && onEdit != null) Padding(padding: fieldInset, child: _FinishPrompt(onTap: onEdit!)),
+      ],
+    );
+  }
+}
+
+/// "Edit" and a chevron at the end of a field's label line.
+class _EditHint extends StatelessWidget {
+  const _EditHint();
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(YouCopy.editSubjects, style: context.mmType.labelLarge.copyWith(fontSize: 14)),
+        const SizedBox(width: MmSpace.s4),
+        Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+      ],
+    );
+  }
+}
+
+/// A whole field as one pressable (a 48 dp or taller target) that sinks a touch and ticks.
+class _Tappable extends StatelessWidget {
+  const _Tappable({required this.child, this.onTap});
+
+  final Widget child;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    if (onTap == null) return child;
+    return MmPressable(
+      onTap: onTap,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      pressedScale: 0.99,
+      focusRadius: BorderRadius.circular(MmRhythm.plainRadius),
+      excludeSemantics: false,
+      builder: (context, pressed, focused) => child,
+    );
+  }
+}
+
+/// Shown when the plan has no course or colleges yet: one line and the one volt key that fills
 /// them in. Mobi is already waving in the header, so he is not drawn twice.
 class _FinishPrompt extends StatelessWidget {
   const _FinishPrompt({required this.onTap});

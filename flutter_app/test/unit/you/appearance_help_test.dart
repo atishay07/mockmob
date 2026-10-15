@@ -29,7 +29,7 @@ Future<ProviderContainer> _pumpAppearance(
     const AppearanceScreen(),
     wrapInScaffold: false,
     disableAnimations: systemReduces,
-    size: const Size(384, 1400),
+    size: const Size(384, 2200),
     overrides: [...youOverrides(prefs: AppPrefs(store), rhythmStore: celebrations), ...extra],
   );
   await tester.pump();
@@ -52,13 +52,13 @@ void main() {
       await _pumpAppearance(tester, store: MemoryPrefsStore(), celebrations: MemoryPrefsStore());
       for (final label in [
         'Night',
-        'Daylight',
+        'Day',
         'Match phone',
         'Glass',
         'Lite',
         'Reduce motion',
         'Touch feedback',
-        'Open results directly',
+        'Show results straight away',
         'Late-night lines',
         'Celebrations',
         'Quiet',
@@ -76,7 +76,7 @@ void main() {
       final container = await _pumpAppearance(tester, store: store, celebrations: MemoryPrefsStore());
       // Night is the default identity (Night Sheet brief, section 3).
       expect(container.read(themeModeProvider), ThemeMode.dark);
-      await tester.tap(find.text('Daylight'));
+      await tester.tap(find.text('Day'));
       await tester.pump();
       expect(container.read(themeModeProvider), ThemeMode.light);
       expect(await AppPrefs(store).theme(), ThemeChoice.light);
@@ -155,7 +155,7 @@ void main() {
       expect(container.read(touchFeedbackProvider), isFalse);
       expect(await prefs.touchFeedback(), isFalse);
 
-      await tester.tap(find.text('Open results directly'));
+      await tester.tap(find.text('Show results straight away'));
       await tester.pump();
       expect(container.read(openResultsDirectlyProvider), isTrue);
       expect(await prefs.openResultsDirectly(), isTrue);
@@ -204,7 +204,7 @@ void main() {
     testWidgets('the chosen theme is marked for TalkBack, not by colour alone', (tester) async {
       await _pumpAppearance(tester, store: MemoryPrefsStore(), celebrations: MemoryPrefsStore());
       expect(tester.getSemantics(find.bySemanticsLabel(RegExp(r'^Night\.'))), isSemantics(isSelected: true));
-      expect(tester.getSemantics(find.bySemanticsLabel(RegExp(r'^Daylight\.'))), isSemantics(isSelected: false));
+      expect(tester.getSemantics(find.bySemanticsLabel(RegExp(r'^Day\.'))), isSemantics(isSelected: false));
     });
   });
 
@@ -216,7 +216,7 @@ void main() {
         const HelpScreen(),
         wrapInScaffold: false,
         disableAnimations: true,
-        size: const Size(384, 1400),
+        size: const Size(384, 2200),
         overrides: youOverrides(mailer: mailer, opener: opener, version: version),
       );
       await tester.pump();

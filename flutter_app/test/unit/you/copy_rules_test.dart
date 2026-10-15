@@ -5,7 +5,13 @@ import 'package:mockmob/features/you/edit_copy.dart';
 
 /// The owner's slop list, applied to every string of the You feature (binding rules of spec 0).
 void main() {
-  final source = File('lib/features/you/copy.dart').readAsStringSync();
+  // The You copy and the other files that say credits, questions and the Account sheet.
+  final source = [
+    'lib/features/you/copy.dart',
+    'lib/features/credits/credits_copy.dart',
+    'lib/features/you/help/faq.dart',
+    'lib/features/account_sheet/account_copy.dart',
+  ].map((f) => File(f).readAsStringSync()).join('\n');
   // Every single-quoted literal, with the escapes and interpolations of the file left in.
   final strings = RegExp(r"'((?:[^'\\]|\\.)*)'")
       .allMatches(source)
@@ -15,6 +21,16 @@ void main() {
 
   test('the copy file has strings to check', () {
     expect(strings.length, greaterThan(100));
+  });
+
+  test('no em dash, and the credit names are the two: Practice credits and AI credits', () {
+    for (final s in strings) {
+      expect(s.contains('\u2014'), isFalse, reason: 'em dash in "$s"');
+      for (final banned in ['explanation credit', 'wallet', 'PrepOS', 'practice credits', ' ai credits', 'Ai credit']) {
+        // The lower-case spellings are out; the names are written with their capitals.
+        expect(s.contains(banned), isFalse, reason: '"$banned" in "$s"');
+      }
+    }
   });
 
   test('no middle dots, emoji, arrows or exclamation marks', () {

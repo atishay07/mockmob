@@ -7,6 +7,7 @@ import '../../core/auth/auth_state.dart';
 import '../../core/copy/copy.dart';
 import '../../core/motion/motion.dart';
 import '../../core/repositories/repositories.dart';
+import '../../core/settings/changed_row.dart';
 import '../../core/router/external_link_opener.dart';
 import '../../core/router/routes.dart';
 import '../../core/sync/pending_work.dart';
@@ -25,11 +26,14 @@ import '../rules/widgets/across_mocks_view.dart';
 import 'copy.dart';
 import 'edit_copy.dart';
 import 'data/student_target.dart';
+import 'hub/hub_cards.dart';
 import 'hub/hub_sections.dart';
 import 'hub/sheet_card.dart';
 import 'hub/sheet_fields.dart';
 import 'widgets/you_page.dart';
+import 'account/name_sheet.dart' show showNameSheet;
 import 'you_routes.dart';
+import '../credits/credits.dart' show openCreditsPage;
 
 /// You (brief section 12): identity first, settings second. The student's sheet for the season
 /// sits in the lamp light at the top, the brass milestone tokens stand on their shelf beneath it,
@@ -53,6 +57,13 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   Future<void> _openTool(String path) async {
     final ok = await ref.read(externalLinkOpenerProvider).open(Uri.https('www.mockmob.in', path));
     if (mounted) setState(() => _openFailed = !ok);
+  }
+
+  /// The name key on the hero: the editor, then Mobi greets the new name on Account's own page;
+  /// here the row simply marks Account as changed.
+  Future<void> _editName() async {
+    final saved = await showNameSheet(context);
+    if (saved != null && mounted) ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.account);
   }
 
   SheetWeek _week(RhythmSnapshot snapshot, bool off) {
@@ -93,6 +104,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     final target = ref.watch(studentTargetProvider);
     final now = ref.watch(nowProvider)();
     final off = prefs.loaded && prefs.hidden;
+    final subjects = auth.subjects.isNotEmpty ? auth.subjects : target.subjects;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
 
     // You is the fourth tab on the bar (DOCK.md 9.1): it uses the tab-root recipe of Practice and
@@ -146,29 +158,57 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           name: auth.name,
                           email: auth.email,
                           target: target,
-                          subjects: auth.subjects.isNotEmpty ? auth.subjects : target.subjects,
+                          subjects: subjects,
                           week: _week(snapshot, off),
                           celebrations: prefs.mode,
+                          showTarget: false,
                           onOpenRhythm: () => context.push(AppRoutes.youRhythm),
                           onEdit: () => openYouPage(context, YouPaths.sheet),
+                          onEditName: _editName,
                           onEditSubjects: () => openYouPage(context, YouPaths.subjects),
                         ),
                       ),
-                      MmStaggerItem(index: 1, child: _shelf(snapshot, now)),
+                      MmStaggerItem(
+                        index: 1,
+                        child: _HubSection(
+                          title: YouCopy.hubPlan,
+                          trailing: KeyButton.quiet(
+                            label: YouCopy.seeHistory,
+                            semanticsLabel: YouCopy.seeHistoryLabel,
+                            onPressed: () => openCreditsPage(context),
+                          ),
+                          child: const PlanCreditsCard(),
+                        ),
+                      ),
+                      const MmStaggerItem(index: 2, child: _HubSection(title: YouCopy.hubAppearance, child: AppearanceCard())),
+                      const MmStaggerItem(index: 3, child: _HubSection(title: YouCopy.hubStudyDays, child: StudyDaysPanel())),
+                      const MmStaggerItem(index: 4, child: _HubSection(title: YouCopy.hubNotifications, child: NotificationsPanel())),
+                      MmStaggerItem(
+                        index: 5,
+                        child: _HubSection(
+                          title: YouCopy.hubTarget,
+                          child: TargetFields(
+                            target: target,
+                            subjects: subjects,
+                            ruledTop: false,
+                            onEdit: () => openYouPage(context, YouPaths.sheet),
+                            onEditSubjects: () => openYouPage(context, YouPaths.subjects),
+                          ),
+                        ),
+                      ),
+                      MmStaggerItem(index: 6, child: _shelf(snapshot, now)),
                       const MmStaggerItem(
-                        index: 2,
+                        index: 7,
                         child: _HubSection(title: YouCopy.hubProgress, child: ProgressPanel()),
                       ),
                       // Across your mocks: the same block as the Mistake Lab's end, from the record.
-                      const MmStaggerItem(index: 3, child: _AcrossSection()),
-                      const MmStaggerItem(
-                        index: 4,
-                        child: _HubSection(title: YouCopy.hubSettings, child: SettingsPanel()),
-                      ),
+                      const MmStaggerItem(index: 8, child: _AcrossSection()),
+                      const MmStaggerItem(index: 9, child: _HubSection(title: YouCopy.hubAccount, child: AccountPanel())),
                       MmStaggerItem(
-                        index: 5,
+                        index: 10,
                         child: _HubSection(title: YouCopy.hubTools, child: widget.tools ?? ToolsPanel(onOpen: _openTool)),
                       ),
+                      const MmStaggerItem(index: 11, child: _HubSection(title: YouCopy.hubHelp, child: HelpPanel())),
                       const HubFooter(),
                     ],
                   ),

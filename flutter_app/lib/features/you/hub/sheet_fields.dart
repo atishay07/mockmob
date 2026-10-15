@@ -413,8 +413,8 @@ class WeekField extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: Text(YouCopy.fieldWeek, style: type.caption.copyWith(color: colors.ink2))),
-                      Text(YouCopy.weekOpen, style: type.labelLarge.copyWith(fontSize: 14)),
+                      // "Study days" names the field and the way in; the chevron says it opens.
+                      Expanded(child: Text(YouCopy.weekOpen, style: type.labelLarge.copyWith(fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis)),
                       const SizedBox(width: MmSpace.s2),
                       Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2),
                     ],

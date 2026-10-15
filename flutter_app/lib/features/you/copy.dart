@@ -9,22 +9,22 @@ import 'data/subject_catalog.dart' show youSubjectNames;
 abstract final class YouCopy {
   // The sheet card (identity first).
   static const hubTitle = 'You';
-  static const sheetOverline = 'Your sheet, CUET UG 2027';
-  static String sheetOverlineFor(int year) => 'Your sheet, CUET UG $year';
+  static const sheetOverline = 'Your CUET plan, UG 2027';
+  static String sheetOverlineFor(int year) => 'Your CUET plan, UG $year';
   static const finishSheet = 'Add your course and colleges. Today plans the road from them.';
-  static const finishSheetKey = 'Finish your sheet';
+  static const finishSheetKey = 'Finish your plan';
   static const editSubjects = 'Edit';
   static const editSubjectsLabel = 'Edit subjects';
-  static const sheetNameFallback = 'Your sheet';
+  static const sheetNameFallback = 'Your plan';
   static String signedInAs(String email) => 'Signed in as $email';
   static const fieldCourse = 'Course';
   static const fieldColleges = 'Colleges';
   static const fieldSubjects = 'Subjects';
   static const fieldWeek = 'This week';
   static const fieldWeekFailed = 'This week did not load.';
-  static const weekOpen = 'Rhythm';
+  static const weekOpen = 'Study days';
   static String weekToGo(int left) => left == 1 ? '1 day to your goal' : '$left days to your goal';
-  static const rhythmOffLine = 'Rhythm is off. Your record stays.';
+  static const rhythmOffLine = 'Study days are off. Your record stays.';
   static String collegeChoice(int rank, String name) => 'Choice $rank, $name';
 
   static const showMe = 'Show me';
@@ -36,16 +36,51 @@ abstract final class YouCopy {
   static const shelfSeeAll = 'See all';
   static const shelfLoadFailed = 'Your milestones did not load.';
 
-  // Hub groups and rows.
+  // Hub sections and rows (the You hub, audit section 3).
+  static const hubPlan = 'Plan and credits';
+  static const hubAppearance = 'Appearance';
+  static const hubStudyDays = 'Study days';
+  static const hubNotifications = 'Notifications';
+  static const hubTarget = 'My subjects and colleges';
   static const hubProgress = 'Progress';
-  static const hubSettings = 'Settings';
+  static const hubAccount = 'Account and privacy';
   static const hubTools = 'CUET tools';
-  static const rowRhythm = 'Weekly goal and rhythm';
+  static const hubHelp = 'Help';
+  static const seeHistory = 'See history';
+  static const seeHistoryLabel = 'See credit history';
+  static const themeExplainer = 'Night is the dark look. Day is the light look.';
+  static const rowFeel = 'Glass, touch and celebrations';
+  static const rowFeelNote = 'How MockMob looks and feels on this phone';
+  static const plannedDays = 'Planned days';
+  static const plannedDaysNone = 'Pick the weekdays you will study';
+  static const pauseRow = 'Pause study days';
+  static const pausedRow = 'Study days are paused';
+  static const pauseRowNote = 'Away for a while? Your run is kept.';
+  static const rowReminders = 'Reminders';
+  static const rowQuietHours = 'Quiet hours';
+  static const remindersOn = 'On';
+  static const remindersOff = 'Off';
+  static const remindersBlocked = 'Blocked';
+  static const remindersBlockedNote = 'Blocked in your phone settings';
+  static String studyReminderAt(String time) => 'Study reminder at $time';
+  static const noStudyTime = 'No study time set';
+  static const quietOff = 'Quiet hours are off';
+  static String quietRange(String start, String end) => '$start to $end';
+  static const rowNameEmail = 'Name and email';
+  static const rowNameEmailNote = 'Your name and the address you sign in with';
+  static const rowSignInMethods = 'Ways to sign in';
+  static const methodEmailCode = 'Email code';
+  static const methodPassword = 'password';
+  static const methodGoogle = 'Google';
+  static const methodPhone = 'phone code';
+  static const rowHelpNote = 'All questions, contact and policies';
+  static const editName = 'Edit name';
+  static const rowRhythm = 'Study days';
   static const rowRecord = 'Repair record';
   static const rowMilestones = 'Milestones';
   static const rowBests = 'Personal bests';
   static const rowNotifications = 'Notifications';
-  static const rowAppearance = 'Appearance and feel';
+  static const rowAppearance = 'Theme and appearance';
   static const rowPrivacy = 'Privacy';
   static const rowAccount = 'Account';
   static const rowHelp = 'Help and about';
@@ -56,7 +91,7 @@ abstract final class YouCopy {
 
   static String goalNote(int days) => 'Goal: ${days == 1 ? '1 day' : '$days days'} a week';
   static String weeksInRhythm(int weeks) => weeks == 1 ? '1 week in rhythm' : '$weeks weeks in rhythm';
-  static String pausedUntil(String date) => 'Rhythm is paused until $date.';
+  static String pausedUntil(String date) => 'Paused until $date.';
   static String weekCount(int days, int goal) => '$days of ${plural(goal, 'study day')}';
 
   static const privacyOffForAccount = 'Off for your account';
@@ -75,7 +110,7 @@ abstract final class YouCopy {
   static const goalRest = 'Rest';
   static String goalDayLabel(int days, bool selected) =>
       '${days == 1 ? '1 day' : '$days days'} a week${selected ? ', selected' : ''}';
-  static String goalPaused(String date) => 'Rhythm is paused until $date. Changing the goal keeps the pause.';
+  static String goalPaused(String date) => 'Study days are paused until $date. Changing the goal keeps the pause.';
   static const goalSave = 'Save goal';
   static const goalChangedElsewhere = 'Your goal was changed on another device. This is the current one.';
   static String goalSaved(DateTime at) => 'Goal saved at ${formatTime12(at)}.';
@@ -88,12 +123,12 @@ abstract final class YouCopy {
   static const goalStale = 'Showing the goal from the last time you were online.';
 
   // Appearance and feel.
-  static const appearanceTitle = 'Appearance and feel';
+  static const appearanceTitle = 'Theme and appearance';
   static const themeHeading = 'Theme';
   static const themeDark = 'Night';
-  static const themeDarkNote = 'Warm charcoal';
-  static const themeLight = 'Daylight';
-  static const themeLightNote = 'Warm paper';
+  static const themeDarkNote = 'Dark, warm charcoal';
+  static const themeLight = 'Day';
+  static const themeLightNote = 'Light, warm paper';
   static const themeSystem = 'Match phone';
   static const themeSystemNote = 'Follows your phone';
   static const glassHeading = 'Glass';
@@ -105,15 +140,15 @@ abstract final class YouCopy {
   static const reduceMotionFromPhone = 'On, from your phone';
   static const touchFeedback = 'Touch feedback';
   static const touchFeedbackNote = 'A small tap when you press keys and choices.';
-  static const openDirectly = 'Open results directly';
-  static const openDirectlyNote = 'Skips the sealed sheet and opens the full result.';
+  static const openDirectly = 'Show results straight away';
+  static const openDirectlyNote = 'Skips the sealed envelope and opens the full result.';
   static const lateNight = 'Late-night lines';
   static const lateNightNote = 'A short line after a session between 11:00 PM and 7:00 AM.';
   static const celebrationsHeading = 'Celebrations';
   static const celebrationsFull = 'Full';
   static const celebrationsQuiet = 'Quiet';
   static const celebrationsOff = 'Off';
-  static const celebrationsFullNote = 'A mark on your sheet, a short sweep and a tap when something is finished.';
+  static const celebrationsFullNote = 'A mark on your plan, a short sweep and a tap when something is finished.';
   static const celebrationsQuietNote = 'The same moments in plain words and a small nod, with no jump or spark.';
   static const celebrationsOffNote = 'Nothing extra. Your record still updates.';
   static const previewFull = 'A jump and a spark when something is finished.';
@@ -178,7 +213,7 @@ abstract final class YouCopy {
   static const accountAddPhone = 'Add a phone number';
   static const accountAddPhoneNote = 'Sign in with a code sent to your phone';
   static const accountEmailNote = 'You sign in with this address. It cannot be changed here.';
-  static String accountCredits(int n) => n == 1 ? '1 credit' : '$n credits';
+  static String accountCredits(int n) => n == 1 ? '1 Practice credit' : '$n Practice credits';
   static const signOut = 'Sign out';
   static const signOutTitle = 'Sign out of MockMob?';
   static const signOutPlain = 'You will need to sign in again to use MockMob on this phone.';
@@ -234,6 +269,7 @@ abstract final class YouCopy {
   // Help and about.
   static const helpTitle = 'Help and about';
   static const supportEmail = 'support@mockmob.in';
+  static const helpContactHeading = 'Still stuck?';
   static const helpContact = 'Write to us';
   static const helpContactNote = 'A result that looks wrong, a question that confused you, or anything else.';
   static const helpEmail = 'Email support';
