@@ -5,6 +5,7 @@
 import { useEffect, useState } from 'react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import MobiReact from '@/components/brand/MobiReact';
+import SceneVignette from '@/components/scenes/SceneVignette';
 import { useCountUpState, useInView } from '@/lib/motion';
 import AnswerSheet from './AnswerSheet';
 import { lookChange, readLastLook, rememberLook } from './useInsights';
@@ -87,8 +88,8 @@ export default function RecordView({ state, onNavigate, pro = false }) {
   }
   if (status === 'empty') {
     return (
-      <div className="pp-empty">
-        <AppIcon name="practice" size={22} />
+      <div className="pp-empty pp-empty--room">
+        <SceneVignette scene="nothingYet" compact />
         <div><b>Nothing to analyse yet.</b><p>Finish one practice session. PrepOS will then show where your marks went: which chapters, which answer changes, and where the time went.</p></div>
         <button type="button" className="btn-volt sm" onClick={() => onNavigate('/dashboard?mode=quick')}>Start a set</button>
       </div>

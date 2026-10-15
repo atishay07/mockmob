@@ -6,6 +6,10 @@
 .pp-empty b { display: block; font: 700 15px var(--font-display); color: var(--pp-ink, #f2f4ec); }
 .pp-empty p { margin: 4px 0 0; font-size: 13.5px; line-height: 1.55; color: var(--pp-ink-2, #b4bdae); max-width: 52ch; }
 .pp-empty > div { flex: 1; min-width: 200px; }
+/* The painted room (nothingYet) stands above the words and the key; Mobi in it is the page's one Mobi. */
+.pp-empty--room { flex-direction: column; align-items: center; border-style: solid; gap: 8px; }
+.pp-empty--room > div { flex: 0 1 auto; text-align: center; }
+.pp-empty--room p { margin-inline: auto; }
 
 .pp-ledger { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; border: 1px solid var(--pp-line-strong, rgba(244, 245, 240, 0.12)); border-radius: 16px; overflow: hidden; }
 .pp-ledger > div { display: grid; gap: 2px; padding: 12px 14px; border-right: 1px solid var(--pp-line, rgba(244, 245, 240, 0.08)); border-bottom: 1px solid var(--pp-line, rgba(244, 245, 240, 0.08)); background: var(--pp-wash, rgba(244, 245, 240, 0.03)); }

@@ -293,7 +293,7 @@ export default function OnboardingPageClient({ preview = false }) {
     return <div className="app-shell onboarding-shell"><PageSpinner label={entry === 'stay' ? 'Loading your subject choices…' : 'Checking your account…'} /></div>;
   }
   if (catalogState === 'error' && step === 'subjects') {
-    return <div className="app-shell onboarding-shell p-5"><ErrorState message="Subject choices did not load. Check your connection and try again." onRetry={() => setRetry((count) => count + 1)} /></div>;
+    return <div className="app-shell onboarding-shell p-5"><ErrorState scene="unreachable" message="Subject choices did not load. Check your connection and try again." onRetry={() => setRetry((count) => count + 1)} /></div>;
   }
 
   const busy = saving || finishing;
