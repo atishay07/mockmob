@@ -25,9 +25,12 @@ import 'today_reveal.dart';
 import 'today_type.dart';
 
 class SheetSection extends StatelessWidget {
-  const SheetSection({super.key, required this.rows, required this.onOpen, this.trend});
+  const SheetSection({super.key, required this.rows, required this.onOpen, this.trend, this.papers = 0});
 
   final List<SheetRow> rows;
+
+  /// Every paper on record: the caption's denominator ("Newest 4 of 8").
+  final int papers;
 
   /// The marks across the last papers of one kind, drawn between the heading and the rows.
   final PaperTrend? trend;
@@ -40,7 +43,7 @@ class SheetSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Heading to its content: 12, which is the first row's own top padding (SPACING.md 3.1).
-        TodaySectionHeading(title: TodayCopy.yourSheet, caption: TodayCopy.sheetCaption(rows.length)),
+        TodaySectionHeading(title: TodayCopy.yourSheet, caption: TodayCopy.sheetCaption(rows.length, math.max(papers, rows.length))),
         if (trend != null) PaperTrendStrip(trend: trend!, onOpen: onOpen),
         for (var k = 0; k < rows.length; k++) ...[
           if (k > 0) Divider(height: 1, thickness: 1, color: colors.line.withValues(alpha: 0.7)),

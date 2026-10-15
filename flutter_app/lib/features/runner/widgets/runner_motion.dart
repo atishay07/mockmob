@@ -6,40 +6,29 @@ import '../../../core/motion/motion.dart';
 /// is a transform or an opacity inside a RepaintBoundary; nothing reflows under the student's
 /// eyes, and every piece is skipped under reduced motion.
 abstract final class RunnerMotion {
-  /// A question arriving: its text, then each option 35 ms behind the one above (MOTION.md 4.6).
-  /// A rapid Next, Next cancels each arrival where it stands: every question is a fresh widget with
-  /// its own controller, so nothing queues.
-  static const Duration enter = Duration(milliseconds: 260);
-  static const Duration stagger = Duration(milliseconds: 35);
+  /// A question arriving: its text, then each option 25 ms behind the one above (MOTION.md 4.6).
+  /// The last option (a fourth, order 5) is fully there 325 ms after the switch starts, inside the
+  /// 150 to 350 ms the whole swap is allowed. A rapid Next, Next cancels each arrival where it
+  /// stands: every question is a fresh widget with its own controller, so nothing queues.
+  static const Duration enter = Duration(milliseconds: 200);
+  static const Duration stagger = Duration(milliseconds: 25);
 
-  /// The question that was just left stays fully visible under the arriving one until the arriving
-  /// question's text is half visible ([ghostHold]), then fades out over [ghostFade], so a switch is
-  /// never a blank frame: the two texts together never drop below 0.7 (finding 7).
-  static const Duration ghostFade = Duration(milliseconds: 90);
+  /// The question that was just left fades out at once, over [ghostFade], and is gone. Two question
+  /// texts must never read on top of each other for more than about 60 ms (finding 7, 15 Oct): the
+  /// leaving text is at 0.25 half way through and at 0 when the 60 ms are up, while the arriving
+  /// text is already rising from [enterFloor], so the region is never blank either.
+  static const Duration ghostFade = Duration(milliseconds: 60);
+
+  /// An ease-out: most of the fade happens in the first half, so the leaving text is already faint
+  /// when the arriving one has risen enough to be read.
+  static const Cubic ghostCurve = Cubic(0.25, 0.46, 0.45, 0.94);
 
   /// The first two staggered items (the question text and the line under it) start from this
   /// opacity, not from nothing, so the arriving question is readable from its first frame.
   static const double enterFloor = 0.35;
 
-  /// How long the arriving question's text (order 0) takes to reach 0.5 opacity.
-  static final Duration ghostHold = _timeToReach(0.5);
-
-  /// The whole cross-fade: the hold, then the fade.
-  static Duration get crossFade => ghostHold + ghostFade;
-
-  static Duration _timeToReach(double opacity) {
-    final target = (opacity - enterFloor) / (1 - enterFloor);
-    var lo = 0.0, hi = 1.0;
-    for (var i = 0; i < 30; i++) {
-      final mid = (lo + hi) / 2;
-      if (Motion.glide.transform(mid) < target) {
-        lo = mid;
-      } else {
-        hi = mid;
-      }
-    }
-    return Duration(microseconds: (hi * enter.inMicroseconds).ceil());
-  }
+  /// The whole cross-fade: the leaving question's fade.
+  static const Duration crossFade = ghostFade;
 
   /// The opacity of an arriving item of [order] at its own progress [t] (0 to 1).
   static double enterOpacity(int order, double t) {

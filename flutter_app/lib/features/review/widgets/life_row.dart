@@ -6,9 +6,10 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
 
-/// The life of one mistake as four bubbles on a thread: Found, Repaired, Checked, Holds
-/// (directions A.4). Found is the wrong bubble; Repaired inks when the server acknowledged a
-/// repair; Checked and Holds stay dashed while fresh checks are not available.
+/// The life of one mistake as four bubbles on a thread: Found, Repaired, Retested, Still right
+/// (directions A.4, the website's RUN_COPY.stages). Found is the wrong bubble; Repaired inks when
+/// the server acknowledged a repair; Retested and Still right stay dashed, because tests on new
+/// questions are not ready yet.
 ///
 /// When [stage] changes to repaired (and [animate] is on) the stage completes in view: the line
 /// from Found draws in volt over 420 ms on the emphasized curve, and as it arrives the Repaired
@@ -22,7 +23,7 @@ class LifeRow extends StatefulWidget {
   final bool showLabels;
   final bool animate;
 
-  static const _labels = [ReviewCopy.found, ReviewCopy.repaired, ReviewCopy.checked, ReviewCopy.holds];
+  static const _labels = [ReviewCopy.found, ReviewCopy.repaired, ReviewCopy.retested, ReviewCopy.stillRight];
 
   @override
   State<LifeRow> createState() => _LifeRowState();
@@ -73,15 +74,12 @@ class _LifeRowState extends State<LifeRow> with SingleTickerProviderStateMixin {
     super.dispose();
   }
 
-  String get _semantics {
-    final repaired = switch (widget.stage) {
-      MistakeStage.repaired => 'repaired',
-      MistakeStage.reviewed => 'reviewed, not repaired yet',
-      MistakeStage.setAside => 'set aside while the key is checked',
-      MistakeStage.found => 'not repaired yet',
-    };
-    return 'Found, $repaired. Checked and holds: not available yet.';
-  }
+  String get _semantics => ReviewCopy.lifeSpoken(switch (widget.stage) {
+    MistakeStage.repaired => ReviewCopy.lifeRepaired,
+    MistakeStage.reviewed => ReviewCopy.lifeReviewed,
+    MistakeStage.setAside => ReviewCopy.lifeSetAside,
+    MistakeStage.found => ReviewCopy.lifeFound,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -111,14 +109,19 @@ class _LifeRowState extends State<LifeRow> with SingleTickerProviderStateMixin {
                     Bubble(state: states[i], size: size, animate: widget.animate, inkOrigin: const Offset(-1, 0)),
                     if (widget.showLabels) ...[
                       const SizedBox(height: MmSpace.s4),
-                      Text(
-                        LifeRow._labels[i],
-                        style: type.caption.copyWith(
-                          color: i == 0 || (i == 1 && _inked) ? colors.ink : colors.ink3,
-                          fontWeight: i == 0 || (i == 1 && _inked) ? FontWeight.w600 : FontWeight.w500,
+                      // Beside Mobi a column is about 60 dp on a 360 dp phone. On a narrower one a
+                      // step word shrinks a little to fit its column rather than being cut off.
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          LifeRow._labels[i],
+                          style: type.caption.copyWith(
+                            color: i == 0 || (i == 1 && _inked) ? colors.ink : colors.ink3,
+                            fontWeight: i == 0 || (i == 1 && _inked) ? FontWeight.w600 : FontWeight.w500,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
                         ),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
                       ),
                     ],
                   ],
@@ -132,7 +135,7 @@ class _LifeRowState extends State<LifeRow> with SingleTickerProviderStateMixin {
 }
 
 /// Hairlines between the bubble centres. Found to Repaired is a dashed hairline that a volt line
-/// draws over as [progress] runs 0 to 1; the segments to Checked and Holds stay dashed.
+/// draws over as [progress] runs 0 to 1; the segments to Retested and Still right stay dashed.
 class _ThreadPainter extends CustomPainter {
   _ThreadPainter({required this.bubble, required this.progress, required this.dashed, required this.done}) : super(repaint: progress);
 

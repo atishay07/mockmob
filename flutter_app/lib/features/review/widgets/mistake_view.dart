@@ -158,7 +158,6 @@ class MistakeView extends StatelessWidget {
                       keyShown: keyIndex != null,
                       builder: (context, reveal) => QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex, reveal: reveal),
                     ),
-                  RepairMobi(stepKey: step.item.key, outcome: outcome),
                   ..._outcome(context, outcome, chosenLetter: _letter(chosen), keyLetter: _letter(keyIndex)),
                 ],
               ),
@@ -233,16 +232,20 @@ class MistakeView extends StatelessWidget {
     return ReviewCopy.creditsUsed(charged, wallet?.total ?? wallet?.balance);
   }
 
+  /// The outcome under the question. Its first line has Mobi beside it, where the website has him
+  /// (MistakeRepair.jsx): the wait line, the four steps of a landed repair, a failure's notice and
+  /// "could not explain". A key review and a set-aside question have no Mobi, as on the website.
+  /// He is always the first child here, so he keeps his state from the wait to the repair.
   List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter, String? keyLetter}) {
     final readKey = StateAction(ReviewCopy.readKey, actions.onReadKey);
+    Widget withMobi(Widget line) => RepairMobi(stepKey: run.current!.item.key, outcome: outcome, beside: line);
     switch (outcome) {
       case null || OutcomeLoading():
         return [
-          const SizedBox(height: MmSpace.s32),
           // What is true now, in one line that changes on real elapsed time (8 s, then 45 s), with
           // the website's words and timings. No stage is invented, and nothing is added under it.
-          RepairWaitLine(key: ValueKey('wait-${run.current!.item.key}'), number: run.current!.item.number),
-          const SizedBox(height: MmSpace.s12),
+          withMobi(RepairWaitLine(key: ValueKey('wait-${run.current!.item.key}'), number: run.current!.item.number)),
+          const SizedBox(height: MmSpace.s16),
           // The placeholder is only a shape: the wait line above is what a screen reader hears.
           ExcludeSemantics(
             child: SkeletonGroup(
@@ -257,7 +260,9 @@ class MistakeView extends StatelessWidget {
       case OutcomeExplained(:final response, :final reopened, :final requestId):
         final fine = finePrint(response, reopened: reopened);
         return [
-          StageMoment(repaired: run.current?.countsAsRepaired ?? false),
+          // A repair made earlier and opened again is repaired too: its thread is simply there,
+          // with no draw, since nothing new happened.
+          withMobi(StageMoment(repaired: reopened || (run.current?.countsAsRepaired ?? false), animate: !reopened)),
           if (response.explanation != null)
             WorkedExplanation(
               explanation: response.explanation!,
@@ -278,7 +283,7 @@ class MistakeView extends StatelessWidget {
       case OutcomeSetAside(:final heldByServer):
         return [NoticePanel(message: heldByServer ? ReviewCopy.heldForRecheck : ReviewCopy.setAsideCheck, icon: LucideIcons.scale)];
       case OutcomeNotExplained():
-        return [NoticePanel(message: ReviewCopy.notExplained, primary: readKey)];
+        return [withMobi(NoticePanel(message: ReviewCopy.notExplained, primary: readKey))];
       case OutcomeFailed(:final failure, message: final serverMessage):
         // The server's own sentence wins when it sent one; a timeout always says the same words.
         final message = serverMessage ?? switch (failure) {
@@ -294,11 +299,13 @@ class MistakeView extends StatelessWidget {
           RepairFailure.unavailable || RepairFailure.unknown => ReviewCopy.couldNotMake,
         };
         return [
-          NoticePanel(
-            message: message,
-            icon: failure == RepairFailure.offline ? LucideIcons.wifiOff : LucideIcons.info,
-            // The key below says "Try again"; reading the key explanation is the quiet link here.
-            primary: failure == RepairFailure.notFound ? null : readKey,
+          withMobi(
+            NoticePanel(
+              message: message,
+              icon: failure == RepairFailure.offline ? LucideIcons.wifiOff : LucideIcons.info,
+              // The key below says "Try again"; reading the key explanation is the quiet link here.
+              primary: failure == RepairFailure.notFound ? null : readKey,
+            ),
           ),
         ];
       case OutcomeKeyReview(:final reason):
@@ -758,13 +765,15 @@ class _TopBar extends StatelessWidget {
   }
 }
 
-/// The stage thread over a worked explanation: Found sits lit, and 160 ms later (the moment the
-/// explanation has landed) the line draws to Repaired and the bubble inks. Checked and Holds stay
-/// dashed. Only a repair the server acknowledged ([repaired]) completes the stage.
+/// The four steps over a worked explanation, beside Mobi: Found sits lit, and 160 ms later (the
+/// moment the explanation has landed) the line draws to Repaired and the bubble inks, as Mobi
+/// hops. Retested and Still right stay dashed. Only a repair the server acknowledged ([repaired])
+/// completes the step. Without [animate] (a repair opened again) it is simply there.
 class StageMoment extends StatefulWidget {
-  const StageMoment({super.key, required this.repaired});
+  const StageMoment({super.key, required this.repaired, this.animate = true});
 
   final bool repaired;
+  final bool animate;
 
   @override
   State<StageMoment> createState() => _StageMomentState();
@@ -793,7 +802,7 @@ class _StageMomentState extends State<StageMoment> {
 
   void _complete() {
     if (!widget.repaired || _stage == MistakeStage.repaired || (_timer?.isActive ?? false)) return;
-    if (Motion.reduced(context)) {
+    if (!widget.animate || Motion.reduced(context)) {
       _stage = MistakeStage.repaired;
     } else {
       _timer = Timer(const Duration(milliseconds: 160), () {
@@ -808,11 +817,9 @@ class _StageMomentState extends State<StageMoment> {
     super.dispose();
   }
 
+  // Its place on the page is the row it sits in (beside Mobi), so it brings no padding of its own.
   @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.only(top: MmSpace.s24),
-    child: LifeRow(stage: _stage, bubbleSize: 16),
-  );
+  Widget build(BuildContext context) => LifeRow(stage: _stage, bubbleSize: 16, animate: widget.animate);
 }
 
 /// The question of [questionId] in [attempt], or null.

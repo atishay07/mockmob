@@ -125,7 +125,7 @@ void main() {
       expect(_lifeBubbles(tester)[1], BubbleState.filled);
     });
 
-    testWidgets('Checked and Holds never fill, whatever the stage', (tester) async {
+    testWidgets('Retested and Still right never fill, whatever the stage', (tester) async {
       await pumpMockmob(tester, const LifeRow(stage: MistakeStage.repaired), disableAnimations: true, overrides: reviewOverrides());
       final states = _lifeBubbles(tester);
       expect(states.sublist(2), [BubbleState.blank, BubbleState.blank]);

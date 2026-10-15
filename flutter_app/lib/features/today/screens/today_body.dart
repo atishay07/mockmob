@@ -409,7 +409,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       // Section to section: 32, then the section's own hairline rule and heading (audit T8).
       if (view.sheet.isNotEmpty) ...[
         const SizedBox(height: MmSpace.group),
-        TodayEnter(delay: const Duration(milliseconds: 240), child: SheetSection(rows: view.sheet, trend: view.trend, onOpen: callbacks.onTarget)),
+        TodayEnter(delay: const Duration(milliseconds: 240), child: SheetSection(rows: view.sheet, papers: view.papers, trend: view.trend, onOpen: callbacks.onTarget)),
       ],
       if (view.road != null) ...[
         const SizedBox(height: MmSpace.group),

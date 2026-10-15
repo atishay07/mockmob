@@ -4,11 +4,11 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import 'runner_motion.dart';
 
-/// Shows the current question and, for a moment after a switch, the one that was just left under
-/// it (MOTION.md 1.1, finding 7). The leaving one stays as a still picture at full opacity until the
-/// arriving question's text is half visible ([RunnerMotion.ghostHold]), then fades out over
-/// [RunnerMotion.ghostFade]; the arriving text starts at 0.35, so the two texts together never drop
-/// below 0.7 and a switch is never a blank frame. Each layer paints in its own RepaintBoundary.
+/// Shows the current question and, for 60 ms after a switch, the one that was just left under it
+/// (MOTION.md 1.1, finding 7). The leaving one stays as a still picture and fades out at once, over
+/// [RunnerMotion.ghostFade] with an ease-out, so two question texts never read on top of each other
+/// for more than about 60 ms; the arriving text starts at 0.35 and rises, so the region is never a
+/// blank frame. Each layer paints in its own RepaintBoundary.
 ///
 /// Nothing queues and nothing blocks. The leaving layer takes no touches and is hidden from screen
 /// readers, so a tap during the switch lands on the arriving question; a second switch while the
@@ -59,7 +59,7 @@ class _QuestionStageState extends State<QuestionStage> with TickerProviderStateM
   late final AnimationController _ghostX = AnimationController.unbounded(vsync: this);
 
   late final Animation<double> _ghostOpacity = _fade
-      .drive(CurveTween(curve: Interval(RunnerMotion.ghostHold.inMicroseconds / RunnerMotion.crossFade.inMicroseconds, 1)))
+      .drive(CurveTween(curve: RunnerMotion.ghostCurve))
       .drive(Tween<double>(begin: 1, end: 0));
 
   // Each layer is keyed by a serial that never repeats, not by its question: going 1, 2, 1 must
