@@ -1,7 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
-import { scoreSession, scorePracticeSubmission } from '@/../data/recovery';
+import { scoreSession, scorePracticeSubmission, submitMeta } from '@/../data/recovery';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { randomUUID } from 'node:crypto';
@@ -97,7 +97,9 @@ export async function recordEvents(userId, input) {
   const { data: row } = await db.from('recovery_sessions').select('*').eq('id', input.sessionId).eq('user_id', userId).maybeSingle();
   if (!row) throw new Error('SESSION_NOT_FOUND');
   const bound = Math.min(Date.parse(row.expires_at) - Date.parse(row.created_at), Math.max(0, Date.now() - Date.parse(row.created_at)) + 2000);
-  scoreSession(row.questions, {}, input.events, bound); // Validation only; no score is persisted.
+  // Validation only; no score is persisted. New event types (end, away, back, strike, via on a visit) pass the same
+  // checks as answers, visits and marks, so a client that sends them never has its in-progress save refused.
+  scoreSession(row.questions, {}, input.events, bound);
   const { data, error } = await db.rpc('record_recovery_events', { p_id: row.id, p_user_id: userId, p_events: input.events });
   if (error) throw new Error(/expired/.test(error.message) ? 'SESSION_EXPIRED' : 'EVENT_CONFLICT');
   return { acknowledgedSequence: data.at(-1)?.seq || 0 };
@@ -141,7 +143,8 @@ export async function finishSession(userId, input) {
   if (invalidTelemetry) score.recovery.telemetry = 'invalid';
   const result = { ...score, subject: row.subject, questionsSnapshot: row.questions,
     expected_event_count: current.events.length,
-    selectionMeta: { ...row.selection_meta, scoringVersion: ordinary ? 'server_practice_v1' : 'server_snapshot_v1', recovery: score.recovery } };
+    // The runner and how the session ended (spec 6, item 6): descriptions of the device, never used for scoring.
+    selectionMeta: { ...row.selection_meta, scoringVersion: ordinary ? 'server_practice_v1' : 'server_snapshot_v1', recovery: score.recovery, ...submitMeta(input, current.events) } };
   const { error: finishError } = await db.rpc('finish_recovery_session', { p_id: row.id, p_user_id: userId, p_result: result });
   if (finishError) throw new Error('SESSION_SUBMIT_FAILED');
   const saved = await Database.getAttemptById(row.id);

@@ -17,6 +17,11 @@
       "bar": "{m} right then changed",
       "do": "Change an answer only when you can point to the line that proves it wrong."
     },
+    "struck_key": {
+      "label": "Crossed out the key",
+      "bar": "{m} crossed out the key",
+      "do": "Before you cross out an option, name the word in it that makes it wrong."
+    },
     "never_opened": {
       "label": "Never opened",
       "bar": "{m} never opened",
@@ -67,6 +72,10 @@
     "changed_from_right": {
       "one": "1 answer was right until you changed it. That cost {m} of the {gap} marks you missed.",
       "many": "{n} answers were right until you changed them. That cost {m} of the {gap} marks you missed."
+    },
+    "struck_key": {
+      "one": "1 wrong answer had its key crossed out at some point. It cost {m} of the {gap} marks you missed.",
+      "many": "{n} wrong answers had their key crossed out at some point. They cost {m} of the {gap} marks you missed."
     },
     "never_opened": {
       "one": "You never opened 1 of the {total} questions. That is {m} of the {gap} marks you missed.",
@@ -139,5 +148,97 @@
     "comma": ", ",
     "and": " and "
   },
-  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  "trace": {
+    "steps": {
+      "changed": {
+        "later": "Changed to {L} at {at}, {gap} later, on a later visit.",
+        "same": "Changed to {L} at {at}, {gap} later, without leaving the question."
+      },
+      "cleared": {
+        "later": "Cleared it at {at}, {gap} later, on a later visit.",
+        "same": "Cleared it at {at}, {gap} later, without leaving the question."
+      },
+      "repicked": {
+        "later": "Picked {L} at {at}, {gap} later, on a later visit.",
+        "same": "Picked {L} at {at}, {gap} later, without leaving the question."
+      }
+    },
+    "untilSubmit": "{spent} on this question, until you submitted at {at}.",
+    "endHere": {
+      "time_up": "Time ran out at {at} with this question open.",
+      "nta_strikes": "Your answers were submitted at {at}, after the third warning, with this question open."
+    },
+    "marked": {
+      "kept": {
+        "submit": "You marked it for review at {at}. It was still marked when you submitted.",
+        "time_up": "You marked it for review at {at}. It was still marked when time ran out.",
+        "nta_strikes": "You marked it for review at {at}. It was still marked when your answers were submitted.",
+        "open": "You marked it for review at {at}. It was still marked at the end of the record."
+      },
+      "removed": "You marked it for review at {at} and removed the mark at {at2}."
+    },
+    "away": {
+      "one": "Away from the paper for {time} while this question was open. Not counted.",
+      "many": "Away from the paper {n} times, {time} in all, while this question was open. Not counted."
+    },
+    "struck": {
+      "key": "You crossed out {L}, the key, at {at}.",
+      "plain": "You crossed out {L} at {at}.",
+      "keyRestored": "You crossed out {L}, the key, at {at} and restored it at {at2}.",
+      "plainRestored": "You crossed out {L} at {at} and restored it at {at2}."
+    }
+  },
+  "replay": {
+    "labels": {
+      "title": "Replay",
+      "sub": "Your paper, minute by minute",
+      "play": "Play",
+      "pause": "Pause",
+      "previous": "Previous",
+      "next": "Next",
+      "seeInReplay": "See it in the replay",
+      "clockNote": "Clock times count from the start of the paper.",
+      "evenPaceNote": "Even pace is the paper's own time a question. It is a reference, not a target."
+    },
+    "row": {
+      "pace": "By {clock}: {a} answered. Even pace: {p}.",
+      "noPace": "By {clock}: {a} answered."
+    },
+    "away": "Away {time}",
+    "end": {
+      "submit": "Submitted at {at}.",
+      "time_up": "Time ran out at {at}.",
+      "nta_strikes": "Submitted at {at}, after the third warning."
+    },
+    "opened": {
+      "all": "You opened all {total} questions.",
+      "one": "You opened 1 of {total} questions.",
+      "many": "You opened {o} of {total} questions."
+    },
+    "firstPass": {
+      "tail": {
+        "one": "Your first pass ended at {at}, on Q{q}. You spent the last {time} on 1 return visit.",
+        "many": "Your first pass ended at {at}, on Q{q}. You spent the last {time} on {n} return visits."
+      },
+      "count": {
+        "one": "Your first pass ended at {at}, on Q{q}. After it you made 1 return visit.",
+        "many": "Your first pass ended at {at}, on Q{q}. After it you made {n} return visits."
+      },
+      "none": "Your first pass ended at {at}, on Q{q}."
+    },
+    "noFirstPass": {
+      "one": "You never finished a first pass. 1 question was never opened.",
+      "many": "You never finished a first pass. {k} questions were never opened."
+    },
+    "check": "At {clock} you had answered {a} of {total}. Even pace gets to {p}.",
+    "chips": {
+      "all": "All",
+      "changed_from_right": "Right, then changed",
+      "struck_key": "Crossed out the key",
+      "long_stay": "2 minutes or more",
+      "quick_wrong": "Under 20 seconds",
+      "never_opened": "Never opened"
+    }
+  }
 }
