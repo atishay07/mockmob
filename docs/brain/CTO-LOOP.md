@@ -95,6 +95,7 @@ Sources this consolidates (his words win; read them when in doubt):
 | Q10 | Analytics funnel (server-side, consent-respecting) and app crash reporting | Know what breaks | Sonnet medium |
 | Q11 | Web halves of motion language, living objects and sharp scenes, where the website lacks them | Parity, fluidity | Sonnet high; Opus for the object flight |
 | Q12 | Bar blur 24 sigma with lighter tints; the capsule never covers the hero; the week strip skeleton (P2-20, 22, 24) | Finish | Haiku low or Sonnet low |
+| Q13 | Landing calm-down, with nothing removed (owner, 15 Oct 23:45: "we are bombarding them with too much information ... don't take any regressive actions"): one idea per screen, with details behind "See how"; tune with the Q10 funnel. Also a "Get the app" section and an Android-only smart banner, built behind a flag until the Play Store link exists. iOS: none for now (decision below) | Conversion | Opus for the hero and section rhythm, Sonnet for the rest |
 
 ## 5. Owner items (ask only for these)
 
@@ -129,3 +130,5 @@ The owner, 15 Oct night: "Being the CEO of the company, also act as the CEO and 
    - Free plans: usage fixes 1-5 and the self-maintaining NTA index.
    - Move to Pro at about 1,000 daily students.
    - Play Store release as soon as the owner's keys are in.
+
+**iOS decision (owner and CEO, 15 Oct about 23:50):** no iOS app until there is evidence: paying students, or iPhone above about 10-15% of sign-ups, or repeated requests. iPhone users get the website, installable to the home screen. The Flutter code keeps an iOS port cheap later.
