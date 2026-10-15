@@ -62,13 +62,13 @@ test('the time scene: every question against the pace, some under it and some ov
   const bands = Object.fromEntries(story.rows.map((r) => [r.n, r.band]));
   assert.deepEqual(bands, { 1: 'under', 2: 'under', 3: 'over', 4: 'over', 5: 'under', 6: 'blank', 7: 'over', 8: 'over', 9: 'over', 10: 'blank' });
   for (const r of story.rows) {
-    assert.ok(Math.abs(r.base + r.over - r.sec / 198) < 1e-9, `Q${r.n} bar adds up to its time`);
+    assert.ok(Math.abs(r.base + r.over - r.sec / 200) < 1e-9, `Q${r.n} bar adds up to its time`);
     if (r.band === 'over') assert.ok(Math.abs(r.base - story.paceShare) < 1e-9, `Q${r.n} turns at the pace line`);
   }
-  assert.equal(story.rows.find((r) => r.n === 4).delta, '2:06');
+  assert.equal(story.rows.find((r) => r.n === 4).delta, '2:08');
   assert.equal(story.time.wrongAllOver, true);
   assert.equal(story.time.underAllRight, true);
-  assert.equal(story.time.overWrongTime, '3:43');
+  assert.equal(story.time.overWrongTime, '3:37');
 });
 
 test('the SWOT lines come from the rows and the earlier record, in the product words', () => {
@@ -88,7 +88,7 @@ test('the SWOT lines come from the rows and the earlier record, in the product w
 
 test('the changes carry both verdicts, the gap and the first answers score', () => {
   const q9 = story.changes.find((c) => c.n === 9);
-  assert.deepEqual([q9.from, q9.fromVerdict, q9.to, q9.toVerdict, q9.net, q9.gap], ['D', 'wrong', 'B', 'right', 6, '1:28']);
+  assert.deepEqual([q9.from, q9.fromVerdict, q9.to, q9.toVerdict, q9.net, q9.gap], ['D', 'wrong', 'B', 'right', 6, '1:06']);
   const q4 = story.changes.find((c) => c.n === 4);
   assert.deepEqual([q4.from, q4.fromVerdict, q4.to, q4.toVerdict, q4.net], ['B', 'right', 'D', 'wrong', -6]);
   assert.equal(story.firstAnswers, 28);
@@ -113,4 +113,38 @@ test('copy rules: no exclamation marks or em dashes in the story', () => {
   assert.doesNotMatch(text, /—/);
   assert.equal(signed(-6), '−6');
   assert.equal(signed(6), '+6');
+});
+
+test('the times are a real student\'s: nothing near ten minutes, one or two slow questions', () => {
+  const secs = SESSION.map((r) => r.sec);
+  assert.ok(Math.max(...secs) <= 220, 'the longest question stays under about 3:40');
+  assert.ok(secs.filter((s) => s > 130).length <= 2, 'at most two long questions');
+  assert.ok(secs.filter((s) => s >= 35 && s <= 130).length >= secs.length - 2, 'most bars sit between 0:35 and 2:10');
+  assert.ok(Math.min(...secs) >= 35, 'even a blank was opened for a while');
+  for (const c of story.changes) assert.ok(c.toAtSec - c.atSec <= 200, `Q${c.n} change comes within about three minutes of its first pick`);
+  assert.equal(story.median, '1:19');
+  assert.equal(story.total, '14:59');
+});
+
+test('the time summary line is tied to the bars that are drawn', () => {
+  const over = story.rows.filter((r) => r.band === 'over' && r.verdict === 'wrong');
+  assert.equal(over.length, story.facts.wrong);
+  assert.equal(story.time.overWrongTime, clock(over.reduce((t, r) => t + r.deltaSec, 0)));
+  assert.ok(story.rows.filter((r) => r.band === 'under').every((r) => r.verdict === 'right'));
+});
+
+test('the repair has a one-line form for phones, taken from the same blocks', () => {
+  assert.ok(REPAIR.stemShort.length < REPAIR.stem.length);
+  const shown = REPAIR.blocks.filter((b) => b.short);
+  assert.deepEqual(shown.map((b) => b.kind), ['trap', 'right', 'rule'], 'why it tempted, why the key is right, the rule');
+  for (const b of shown) assert.ok(b.short.length <= 42, `${b.kind} fits one line on a phone`);
+  assert.equal(REPAIR.blocks.find((b) => b.kind === 'wrong').short, null, 'where it breaks waits behind the tap');
+});
+
+test('each SWOT quadrant has one strong line and its count for phones', () => {
+  const q = Object.fromEntries(story.swot.quadrants.map((x) => [x.id, x]));
+  assert.deepEqual([q.strength.line, q.strength.figure, q.strength.unit], ['Ratios', '14 of 15', 'right in 3 papers']);
+  assert.deepEqual([q.weakness.line, q.weakness.figure, q.weakness.unit], ['Right, then changed', '2 answers', 'cost 12 marks']);
+  assert.deepEqual([q.opportunity.line, q.opportunity.figure, q.opportunity.unit], ['Cash flow', '9 of 14', 'right in 3 papers']);
+  assert.deepEqual([q.threat.line, q.threat.figure, q.threat.unit], ['Partnership', '3 of 3', 'mocks lost marks']);
 });

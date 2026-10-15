@@ -11,6 +11,7 @@
 // the finished screen with the same marks. Only opacity and transform move. All numbers come from
 // labStory.mjs (one sample Accountancy mock), so the scenes cannot disagree with each other or with
 // the replay further down the page. Words on the screens are the product's own.
+import { useState } from 'react';
 import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -33,9 +34,11 @@ const SCENES = [
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', Icon: Wrench, title: 'Repair the reason, not just the answer.',
     body: 'Written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
+    bodyPhone: 'Written from the official key, never a guess.',
     take: 'If the two disagree, the question waits. You never get a guess.' },
   { key: 'swot', tab: 'SWOT', Icon: LayoutGrid, title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, built from your own answers, times and earlier mocks, with the sets to do next. Free, no credits.',
+    bodyPhone: 'A SWOT after every mock, from your own answers and times. Free, no credits.',
     take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That is the first set.` },
 ];
 
@@ -144,7 +147,7 @@ function ChangesPanel() {
 
 // The paper's clock with each change on its own lane, the first pick and the final pick in their
 // verdict colours. Wide screens only, where the device has the room: two of the three changes land in
-// the paper's last two minutes, which only a clock can show.
+// the paper's last minute, which only a clock can show.
 function ChangeClock() {
   const total = S.facts.totalSec;
   return (
@@ -186,15 +189,48 @@ function NetStrip() {
 }
 
 // ---------- 3. Repair: the pick crossed out, the key checked, then the four blocks ----------
-function RepairPanel() {
+// Wide screens show the whole repair at once (the question, the four blocks). Phones show it short, so it
+// reads at full size: the trap's name as the headline, the pick crossed and the key checked, one line each
+// for why the pick tempted, why the key is right and the rule. The rest (where it breaks, the full
+// sentences, the student's record) sits behind one tap, in the same words.
+const optionText = (letter) => REPAIR.options.find(([l]) => l === letter)?.[1];
+const BRIEF = REPAIR.blocks.filter((b) => b.short);
+
+function RepairPanel({ on }) {
   const record = repairRecordLine();
+  const [open, setOpen] = useState(false);
+  const [wasOn, setWasOn] = useState(on);
+  // A scene that goes off stage starts closed again the next time it comes on.
+  if (wasOn !== on) { setWasOn(on); if (!on) setOpen(false); }
   return (
-    <div className="lcp lcp--repair">
+    <div className="lcp lcp--repair" data-open={open ? 'true' : 'false'}>
       <div className="lcr-head">
         <p className="lcr-head__q">Q{REPAIR.n}. Your pick {REPAIR.picked}. Key {REPAIR.key}.</p>
         <p className="lcr-head__trap">{REPAIR.trap}</p>
       </div>
+      <p className="lcr-stem">{REPAIR.stemShort}</p>
+      <ul className="lcp-q__opts lcr-pair">
+        <li data-state="picked">
+          <b className="lcp-q__letter">{REPAIR.picked}<i className="lcp-q__badge" aria-hidden="true"><X size={10} strokeWidth={3.2} /></i></b>
+          <span>{optionText(REPAIR.picked)}</span>
+          <em>Your pick</em>
+        </li>
+        <li className="lcr-pair__arrow" aria-hidden="true"><i className="lcr-pair__line" /><i className="lcr-pair__head" /></li>
+        <li data-state="key">
+          <b className="lcp-q__letter">{REPAIR.key}<i className="lcp-q__badge" aria-hidden="true"><Check size={10} strokeWidth={3.2} /></i></b>
+          <span>{optionText(REPAIR.key)}</span>
+          <em>Key</em>
+        </li>
+      </ul>
       <p className="lcp-check"><ShieldCheck size={15} aria-hidden="true" />Explained from the answer key ({REPAIR.key}).</p>
+      <ul className="lcr-brief">
+        {BRIEF.map((b, i) => (
+          <li key={b.kind} className="lcp-block" data-kind={b.kind} style={{ '--i': i }}>
+            <p className="lcp-block__label"><i aria-hidden="true" />{b.label}</p>
+            <p>{b.short}</p>
+          </li>
+        ))}
+      </ul>
       <div className="lcp-q">
         <p className="lcp-q__stem">{REPAIR.stem}</p>
         <ul className="lcp-q__opts">
@@ -219,6 +255,9 @@ function RepairPanel() {
         ))}
       </div>
       {record ? <p className="lcr-record"><b>From your record</b>{record}</p> : null}
+      <button type="button" className="lcr-more" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
+        {open ? 'Back to the short version' : 'Read the full repair'}
+      </button>
     </div>
   );
 }
@@ -246,9 +285,16 @@ function SwotPanel() {
           {S.swot.quadrants.map((q, i) => (
             <div key={q.id} className="lcp-swot__q" data-q={q.id} style={{ '--i': i }}>
               <p className="lcp-swot__label"><i aria-hidden="true" />{q.label}</p>
-              <p className="lcp-swot__title">{q.title}</p>
-              <p className="lcp-swot__detail">{q.detail}</p>
-              {q.qs.length ? <p className="lcp-swot__see"><span>See</span>{q.qs.map((n) => <b key={n}>Q{n}</b>)}</p> : null}
+              <div className="lcp-swot__full">
+                <p className="lcp-swot__title">{q.title}</p>
+                <p className="lcp-swot__detail">{q.detail}</p>
+                {q.qs.length ? <p className="lcp-swot__see"><span>See</span>{q.qs.map((n) => <b key={n}>Q{n}</b>)}</p> : null}
+              </div>
+              <div className="lcp-swot__brief">
+                <p className="lcp-swot__line">{q.line}</p>
+                <p className="lcp-swot__figure">{q.figure}</p>
+                <p className="lcp-swot__unit">{q.unit}</p>
+              </div>
             </div>
           ))}
         </div>
@@ -306,20 +352,20 @@ function Stage({ step, pinned, reduced, goTo }) {
         <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
       </div>
 
-      {SCENES.map(({ key, tab, title, body, take }, i) => {
+      {SCENES.map(({ key, tab, title, body, bodyPhone, take }, i) => {
         const Panel = PANELS[key];
         const on = pinned ? step === i : true;
         return (
-          <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
+          <article key={key} className="lc-scene" data-scene={key} data-ss-step={i} data-on={on ? 'true' : 'false'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
             <div className="lc-scene__copy">
               <p className="lc-scene__step"><span>{String(i + 1).padStart(2, '0')}</span>{tab}</p>
               <h3 className="lc-scene__title" id={`lc-scene-${key}`}>{title}</h3>
-              <p className="lc-scene__body">{body}</p>
+              <p className="lc-scene__body">{bodyPhone ? <><span className="lc-scene__long">{body}</span><span className="lc-scene__short">{bodyPhone}</span></> : body}</p>
               <p className="lc-scene__take">{take}</p>
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel /></div>
+              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on} /></div>
             </figure>
           </article>
         );

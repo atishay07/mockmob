@@ -64,8 +64,8 @@ export function ExamComparator() {
     <section className="lp-sec lp-exam-section" id="exam-experience" aria-labelledby="exam-title">
       <div className="mm-wrap">
         <div className="lp-exam-intro">
-          <div><h2 className="lp-h2" id="exam-title">Your practice space.<br />Your exam-day rehearsal.</h2>
-            <p className="lp-sub">Practise on MockMob’s calm screen. As exam day gets close, switch to the NTA-style screen and rehearse the real thing. Same questions, either way.</p></div>
+          <div><h2 className="lp-h2" id="exam-title">Practise on a calm screen.<br />Rehearse on the NTA-style one.</h2>
+            <p className="lp-sub">MockMob’s own screen keeps practice quiet. As exam day nears, switch to the NTA-style screen, with Pro, and rehearse how it will look. The questions are the same on both.</p></div>
           <div className="lp-exam-switch" role="group" aria-label="Preview interface">
             <button type="button" aria-pressed={!classic} onClick={() => setMode('mockmob')}><Sparkles size={17} />MockMob</button>
             <button type="button" aria-pressed={classic} onClick={() => setMode('nta')}><Monitor size={17} />NTA style<span>Pro</span></button>
@@ -103,7 +103,7 @@ export function ExamComparator() {
           </div>
           <div className="lp-exam__foot"><p role="status">{notice}</p><button type="button" onClick={reset}><RotateCcw size={14} />Reset preview</button></div>
         </div>
-        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" label="Try both screens." className="pip-seat--demo" /><p><Check size={16} />Review marks carry over too.</p>
+        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" label="Try both screens." className="pip-seat--demo" /><p><Check size={16} />Your review marks carry over when you switch.</p>
           <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--primary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}<ArrowRight size={17} /></Link></div>
       </div>
     </section>

@@ -3,7 +3,9 @@
 // the interactive replay further down the page (MistakeLab.jsx imports SESSION from here). Same
 // verdicts, same 22 marks, same three changes netting -6, same clock times everywhere. Every figure
 // below is derived here from the rows, never typed twice, so no scene can disagree with another.
-// Clock times count from the start of the paper, as they do in the product.
+// Clock times count from the start of the paper, as they do in the product. The times are a real
+// student's: most questions take 0:35 to 2:10, one runs past three minutes, and no change comes
+// more than about three minutes after the pick it replaces.
 
 export const MARK = Object.freeze({ right: 5, wrong: -1, blank: 0 });
 // What a lost question cost: 6 for a wrong answer (5 not earned and 1 penalty), 5 for a blank.
@@ -16,14 +18,14 @@ const row = (n, verdict, sec, chapter, change = null) => Object.freeze({ n, verd
 export const SESSION = Object.freeze([
   row(1, 'right', 48, 'Ratios'),
   row(2, 'right', 55, 'Ratios'),
-  row(3, 'wrong', 80, 'Partnership'),
-  row(4, 'wrong', 198, 'Partnership', { from: 'B', fromVerdict: 'right', at: 225, to: 'D', toAt: 860 }),
+  row(3, 'wrong', 108, 'Partnership'),
+  row(4, 'wrong', 200, 'Partnership', { from: 'B', fromVerdict: 'right', at: 225, to: 'D', toAt: 410 }),
   row(5, 'right', 62, 'Ratios'),
-  row(6, 'blank', 20, 'Cash flow'),
-  row(7, 'right', 192, 'Partnership'),
-  row(8, 'wrong', 161, 'Partnership', { from: 'A', fromVerdict: 'right', at: 550, to: 'C', toAt: 898 }),
-  row(9, 'right', 110, 'Cash flow', { from: 'D', fromVerdict: 'wrong', at: 662, to: 'B', toAt: 750 }),
-  row(10, 'blank', 10, 'Cash flow'),
+  row(6, 'blank', 41, 'Cash flow'),
+  row(7, 'right', 130, 'Partnership'),
+  row(8, 'wrong', 125, 'Partnership', { from: 'A', fromVerdict: 'right', at: 700, to: 'C', toAt: 880 }),
+  row(9, 'right', 95, 'Cash flow', { from: 'D', fromVerdict: 'wrong', at: 784, to: 'B', toAt: 850 }),
+  row(10, 'blank', 35, 'Cash flow'),
 ]);
 
 // The SWOT also reads the record before this mock: the two earlier Accountancy mocks, oldest first.
@@ -142,11 +144,12 @@ function swotRead(session, changes) {
     { label: 'Practise 10 on Partnership', reason: `Marks lost here in each of your last ${lost.length} mocks.` },
     { label: 'Practise 10 on Cash flow', reason: `${cash.right} right of ${cash.of} so far. ${cash.paper.lost} marks lost here in this paper.` },
   ];
+  // line, figure and unit are the phone's short form of title and detail: one strong line and its count.
   const quadrants = [
-    { id: 'strength', label: 'Strengths', title: 'Ratios', detail: `${ratios.right} right of ${ratios.of} across ${ratios.papers} papers, ${ratios.paper.right} of ${ratios.paper.of} in this one.`, qs: [] },
-    { id: 'weakness', label: 'Weaknesses', title: 'Right answers changed to wrong', detail: `${turned.length} answers were right before you changed them. Those changes cost ${turned.length * GAP.wrong} marks.`, qs: turned.map((c) => c.n).sort((a, b) => a - b) },
-    { id: 'opportunity', label: 'Opportunities', title: 'Cash flow', detail: `${cash.right} right of ${cash.of} across ${cash.papers} papers. ${cash.paper.lost} marks lost here in this paper.`, qs: [] },
-    { id: 'threat', label: 'Threats', title: `Partnership in each of your last ${lost.length} mocks`, detail: `Marks lost here: ${list(lost.map(String))}, oldest first.`, qs: partnership.qs },
+    { id: 'strength', label: 'Strengths', title: 'Ratios', detail: `${ratios.right} right of ${ratios.of} across ${ratios.papers} papers, ${ratios.paper.right} of ${ratios.paper.of} in this one.`, qs: [], line: 'Ratios', figure: `${ratios.right} of ${ratios.of}`, unit: `right in ${ratios.papers} papers` },
+    { id: 'weakness', label: 'Weaknesses', title: 'Right answers changed to wrong', detail: `${turned.length} answers were right before you changed them. Those changes cost ${turned.length * GAP.wrong} marks.`, qs: turned.map((c) => c.n).sort((a, b) => a - b), line: 'Right, then changed', figure: plural(turned.length, 'answer'), unit: `cost ${turned.length * GAP.wrong} marks` },
+    { id: 'opportunity', label: 'Opportunities', title: 'Cash flow', detail: `${cash.right} right of ${cash.of} across ${cash.papers} papers. ${cash.paper.lost} marks lost here in this paper.`, qs: [], line: 'Cash flow', figure: `${cash.right} of ${cash.of}`, unit: `right in ${cash.papers} papers` },
+    { id: 'threat', label: 'Threats', title: `Partnership in each of your last ${lost.length} mocks`, detail: `Marks lost here: ${list(lost.map(String))}, oldest first.`, qs: partnership.qs, line: 'Partnership', figure: `${lost.length} of ${lost.length}`, unit: 'mocks lost marks' },
   ];
   return { plan, quadrants, partnershipLost: lost };
 }
@@ -208,14 +211,17 @@ export const REPAIR = Object.freeze({
   chapter: 'Partnership',
   trap: 'The wrong rule applied',
   stem: 'With no partnership deed, a partner lends the firm ₹50,000. What interest does the loan earn?',
+  // The phone's short form of the stem, and one line for each block the phone shows first (the full text
+  // sits behind a tap there).
+  stemShort: 'No deed. A partner lends the firm ₹50,000. What interest does the loan earn?',
   options: Object.freeze([['A', '12% a year'], ['B', '6% a year'], ['C', 'The bank rate'], ['D', 'None, like capital']]),
   picked: 'D',
   key: 'B',
   blocks: Object.freeze([
-    Object.freeze({ kind: 'trap', label: 'Why D looked right', text: 'With no deed, capital earns no interest, and a loan from a partner feels like more capital.' }),
-    Object.freeze({ kind: 'wrong', label: 'Where it breaks', text: 'The no-interest rule covers capital only. A loan is money the firm owes the partner.' }),
-    Object.freeze({ kind: 'right', label: 'Why B is right', text: 'Section 13(d): with no deed, a partner’s loan earns 6% a year, whatever the profit.' }),
-    Object.freeze({ kind: 'rule', label: 'Keep this', text: 'No deed: capital earns nothing, a partner’s loan earns 6%.' }),
+    Object.freeze({ kind: 'trap', label: 'Why D looked right', short: 'A partner’s loan feels like capital.', text: 'With no deed, capital earns no interest, and a loan from a partner feels like more capital.' }),
+    Object.freeze({ kind: 'wrong', label: 'Where it breaks', short: null, text: 'The no-interest rule covers capital only. A loan is money the firm owes the partner.' }),
+    Object.freeze({ kind: 'right', label: 'Why B is right', short: 'With no deed, a loan earns 6% a year.', text: 'Section 13(d): with no deed, a partner’s loan earns 6% a year, whatever the profit.' }),
+    Object.freeze({ kind: 'rule', label: 'Keep this', short: 'Capital earns nothing. A loan earns 6%.', text: 'No deed: capital earns nothing, a partner’s loan earns 6%.' }),
   ]),
 });
 
