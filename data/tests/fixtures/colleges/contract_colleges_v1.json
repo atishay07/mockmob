@@ -1,0 +1,307 @@
+{
+  "contract": "my-colleges-v1",
+  "path": "/api/me/colleges",
+  "max": 8,
+  "ladderSize": 3,
+  "get": {
+    "status": 200,
+    "body": {
+      "colleges": [
+        {
+          "position": 1,
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Shri Ram College of Commerce",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        },
+        {
+          "position": 2,
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Hindu College",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        },
+        {
+          "position": 3,
+          "programmeId": "b-a-hons-economics",
+          "programme": "B.A. (Hons.) Economics",
+          "college": "Hansraj College",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        },
+        {
+          "position": 4,
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Deshbandhu College",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        }
+      ],
+      "count": 4,
+      "max": 8
+    }
+  },
+  "getEmpty": {
+    "status": 200,
+    "body": {
+      "colleges": [],
+      "count": 0,
+      "max": 8
+    }
+  },
+  "put": {
+    "request": {
+      "colleges": [
+        {
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Hindu College"
+        },
+        {
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Shri Ram College of Commerce"
+        },
+        {
+          "programmeId": "b-a-hons-economics",
+          "programme": "B.A. (Hons.) Economics",
+          "college": "Hansraj College"
+        }
+      ]
+    },
+    "status": 200,
+    "body": {
+      "colleges": [
+        {
+          "position": 1,
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Hindu College",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        },
+        {
+          "position": 2,
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Shri Ram College of Commerce",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        },
+        {
+          "position": 3,
+          "programmeId": "b-a-hons-economics",
+          "programme": "B.A. (Hons.) Economics",
+          "college": "Hansraj College",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        }
+      ],
+      "count": 3,
+      "max": 8
+    }
+  },
+  "post": {
+    "request": {
+      "programmeId": "b-com-hons",
+      "programme": "B.Com. (Hons.)",
+      "college": "Deshbandhu College"
+    },
+    "added": {
+      "status": 201,
+      "body": {
+        "colleges": [
+          {
+            "position": 1,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Shri Ram College of Commerce",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 2,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Hindu College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 3,
+            "programmeId": "b-a-hons-economics",
+            "programme": "B.A. (Hons.) Economics",
+            "college": "Hansraj College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 4,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Deshbandhu College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          }
+        ],
+        "count": 4,
+        "max": 8,
+        "result": "added"
+      }
+    },
+    "exists": {
+      "status": 200,
+      "body": {
+        "colleges": [
+          {
+            "position": 1,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Shri Ram College of Commerce",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 2,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Hindu College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 3,
+            "programmeId": "b-a-hons-economics",
+            "programme": "B.A. (Hons.) Economics",
+            "college": "Hansraj College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 4,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Deshbandhu College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          }
+        ],
+        "count": 4,
+        "max": 8,
+        "result": "exists"
+      }
+    },
+    "full": {
+      "status": 409,
+      "body": {
+        "error": "list_full",
+        "message": "My colleges is full. Remove one to add another.",
+        "colleges": [
+          {
+            "position": 1,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Shri Ram College of Commerce",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 2,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Hindu College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 3,
+            "programmeId": "b-a-hons-economics",
+            "programme": "B.A. (Hons.) Economics",
+            "college": "Hansraj College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 4,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Deshbandhu College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 5,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Aryabhatta College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 6,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Dyal Singh College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 7,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Kirori Mal College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          },
+          {
+            "position": 8,
+            "programmeId": "b-com-hons",
+            "programme": "B.Com. (Hons.)",
+            "college": "Ramjas College",
+            "addedAt": "2026-10-16T05:30:00.000Z"
+          }
+        ],
+        "count": 8,
+        "max": 8
+      }
+    }
+  },
+  "delete": {
+    "request": {
+      "query": {
+        "programmeId": "b-a-hons-economics",
+        "college": "Hansraj College"
+      }
+    },
+    "status": 200,
+    "body": {
+      "colleges": [
+        {
+          "position": 1,
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Shri Ram College of Commerce",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        },
+        {
+          "position": 2,
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Hindu College",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        },
+        {
+          "position": 3,
+          "programmeId": "b-com-hons",
+          "programme": "B.Com. (Hons.)",
+          "college": "Deshbandhu College",
+          "addedAt": "2026-10-16T05:30:00.000Z"
+        }
+      ],
+      "count": 3,
+      "max": 8
+    }
+  },
+  "errors": [
+    {
+      "status": 401,
+      "body": {
+        "error": "Unauthorized"
+      }
+    },
+    {
+      "status": 422,
+      "body": {
+        "error": "invalid_request",
+        "message": "Send the programme and the college."
+      }
+    },
+    {
+      "status": 503,
+      "body": {
+        "error": "unavailable"
+      }
+    }
+  ]
+}

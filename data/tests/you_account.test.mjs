@@ -107,7 +107,7 @@ test('anchors: a link to /profile#... lands only on a section that exists', () =
   assert.equal(anchorFromHash('#nowhere'), null);
   assert.equal(anchorFromHash(''), null);
   const sources = [
-    'src/app/(app)/profile/ProfilePageClient.jsx', 'src/components/profile/YourSheet.jsx',
+    'src/app/(app)/profile/ProfilePageClient.jsx', 'src/components/colleges/MyColleges.jsx', 'src/components/profile/YourSheet.jsx',
     'src/components/profile/PlanCredits.jsx', 'src/components/profile/CreditsSection.jsx', 'src/components/profile/AccountLinks.jsx',
   ].map(read).join('\n');
   for (const id of ACCOUNT_ANCHORS) assert.ok(sources.includes(`id="${id}"`), `#${id} exists on the page`);

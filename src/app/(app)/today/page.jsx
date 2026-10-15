@@ -3,6 +3,7 @@ import { useSyncExternalStore } from 'react';
 import LearningNextAction from '@/components/LearningNextAction';
 import RecordGlimpse from '@/components/ai/RecordGlimpse';
 import RhythmCard from '@/components/RhythmCard';
+import { TodayColleges } from '@/components/colleges/MyColleges';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
@@ -28,6 +29,7 @@ export default function Today() {
           lede={fresh ? 'Ten questions is enough to begin. After that, each step is planned from what you got right and wrong.' : 'Planned from your own practice record, one step at a time.'} />
         <LearningNextAction why={top} />
         <RhythmCard compact />
+        <TodayColleges userId={user?.id} />
         <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} />
       </section>
     </div>

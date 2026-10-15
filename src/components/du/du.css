@@ -970,6 +970,12 @@
   text-decoration: none;
   color: var(--ink-2);
 }
+.du-seat__side {
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+  min-width: 0;
+}
 .du-seat__status {
   justify-self: start;
   padding: 0.2rem 0.6rem;
@@ -997,9 +1003,12 @@
 }
 @media (min-width: 760px) {
   .du-seat {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.3fr) 9.5rem;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.3fr) 11rem;
     align-items: center;
     gap: 1rem;
+  }
+  .du-seat__side {
+    justify-items: end;
   }
   .du-seat__status {
     justify-self: end;
@@ -1008,6 +1017,9 @@
 @media (min-width: 1100px) and (max-width: 1399px) {
   .du-seat {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .du-seat__side {
+    justify-items: start;
   }
   .du-seat__status {
     justify-self: start;

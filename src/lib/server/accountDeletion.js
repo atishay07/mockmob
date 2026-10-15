@@ -63,6 +63,7 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'notification_prefs', action: 'delete', match: own(), why: 'notification settings' },
   { table: 'study_goal_history', action: 'delete', match: own(), why: 'goal history' },
   { table: 'study_goals', action: 'delete', match: own(), why: 'weekly goal' },
+  { table: 'my_colleges', action: 'delete', match: own(), why: 'saved college list' },
   { table: 'usage_events', action: 'delete', match: own(), why: 'analytics events' },
   { table: 'usage_consent', action: 'delete', match: own(), why: 'analytics consent' },
   // Kept for legal/financial reasons, with personal fields minimised.

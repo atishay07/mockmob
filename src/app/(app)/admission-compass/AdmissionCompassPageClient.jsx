@@ -58,7 +58,7 @@ export default function AdmissionCompassPageClient() {
 
       <div className="cmp-note" role="note">
         <StatusIcon kind="info" size={16} />
-        <p>The calculator compares scores with published history. Compass Pro adds a projection from your own practice, labelled as such: it is not a prediction or a normalised CUET score. 2027 rules stay provisional until DU publishes them. Your choices are saved on this device.</p>
+        <p>The calculator compares scores with published history. Compass Pro adds a projection from your own practice, labelled as such: it is not a prediction or a normalised CUET score. 2027 rules stay provisional until DU publishes them. Your subjects and score are saved on this device. Colleges you add to My colleges are saved to your account and show in the app.</p>
       </div>
 
       {user?.id ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
