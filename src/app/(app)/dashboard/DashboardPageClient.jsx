@@ -12,6 +12,9 @@ import { useToast } from '@/components/ToastProvider';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
 import NtaConsolePreview from '@/components/arena/NtaConsolePreview';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
+import { SegmentedControl as Segmented } from '@/components/ui/controls/SegmentedControl';
+import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
+import { Chip } from '@/components/ui/controls/Chip';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
 
@@ -425,12 +428,11 @@ export default function DashboardPageClient() {
               )}
             </section>
 
-            <details className="pr-step pr-fine" open={chapterOpen || difficultyMode !== 'auto' || selectedChapters.length > 0} onToggle={(event) => setChapterOpen(event.currentTarget.open)}>
-              <summary>
+            <SmoothDetails className="pr-step pr-fine" open={chapterOpen || difficultyMode !== 'auto' || selectedChapters.length > 0} onToggle={(event) => setChapterOpen(event.currentTarget.open)} summary={<>
                 <span>Fine-tune</span>
                 <span className="pr-hint">{difficultyMode === 'auto' && selectedChapters.length === 0 ? 'Optional · balanced mix, all chapters' : `${difficultyMode === 'auto' ? 'Balanced mix' : `${difficultyMode} only`} · ${selectedChapters.length ? `${selectedChapters.length} chapters` : 'all chapters'}`}</span>
                 <AppIcon name="expand" size={16} className="pr-fine__chev" />
-              </summary>
+              </>}>
               {mode.allowDifficultyOverride && (
                 <div className="pr-fine__block">
                   <div className="pr-fine__label">Difficulty {!isPremium ? <span className="pr-badge" data-tone="locked"><AppIcon name="lock" size={12} />Needs access</span> : null}</div>
@@ -443,16 +445,16 @@ export default function DashboardPageClient() {
                   <div className="pr-fine__label">Chapters</div>
                   <label className="sr-only" htmlFor="pr-chapter-search">Search chapters</label>
                   <input id="pr-chapter-search" className="input" value={chapterSearch} onChange={(event) => setChapterSearch(event.target.value)} placeholder="Search chapters" />
-                  <div className="pr-chapters">
-                    <button type="button" aria-pressed={selectedChapters.length === 0} onClick={() => { setSelChapter(null); setSelectedChapters([]); }}>All chapters</button>
+                  <div className="ctl-chipset" data-scroll="true" role="group" aria-label="Chapters">
+                    <Chip pressed={selectedChapters.length === 0} onClick={() => { setSelChapter(null); setSelectedChapters([]); }}>All chapters</Chip>
                     {filteredChapters.map((chapter) => (
-                      <button key={chapter.id || chapter.name} type="button" aria-pressed={selectedChapters.includes(chapter.name)} title={chapter.name} onClick={() => togglePremiumChapter(chapter.name)}>{chapter.name}</button>
+                      <Chip key={chapter.id || chapter.name} pressed={selectedChapters.includes(chapter.name)} title={chapter.name} onClick={() => togglePremiumChapter(chapter.name)}>{chapter.name}</Chip>
                     ))}
                     {filteredChapters.length === 0 && <p className="pr-hint">No chapter matches that search.</p>}
                   </div>
                 </div>
               )}
-            </details>
+            </SmoothDetails>
           </div>
 
           <aside className="pr-summary" aria-label="Session summary">
@@ -577,48 +579,3 @@ const SUBMISSION_STATUS = {
   rejected: { label: 'Rejected', icon: 'error', tone: 'low' },
 };
 
-// A single-choice control: one tab stop per option, state exposed with aria-checked.
-function Segmented({ label, value, options, onChange, disabledValues = [] }) {
-  const enabledOptions = options.filter((option) => !disabledValues.includes(option.value));
-  const tabStop = enabledOptions.find((option) => option.value === value) || enabledOptions[0];
-
-  return (
-    <div
-      className="pr-seg"
-      role="radiogroup"
-      aria-label={label}
-      onKeyDown={(event) => {
-        const keyDirection = ['ArrowRight', 'ArrowDown'].includes(event.key) ? 1
-          : ['ArrowLeft', 'ArrowUp'].includes(event.key) ? -1 : 0;
-        if (!keyDirection && event.key !== 'Home' && event.key !== 'End') return;
-        if (!enabledOptions.length) return;
-        event.preventDefault();
-        const currentIndex = enabledOptions.findIndex((option) => option.value === value);
-        const nextIndex = event.key === 'Home' ? 0
-          : event.key === 'End' ? enabledOptions.length - 1
-            : (Math.max(0, currentIndex) + keyDirection + enabledOptions.length) % enabledOptions.length;
-        const next = enabledOptions[nextIndex];
-        event.currentTarget.querySelector(`[data-radio-value="${String(next.value)}"]`)?.focus();
-        onChange(next.value);
-      }}
-    >
-      {options.map((option) => {
-        const disabled = disabledValues.includes(option.value);
-        return (
-          <button
-            key={String(option.value)}
-            type="button"
-            role="radio"
-            data-radio-value={String(option.value)}
-            aria-checked={value === option.value}
-            tabIndex={!disabled && tabStop?.value === option.value ? 0 : -1}
-            disabled={disabled}
-            onClick={() => onChange(option.value)}
-          >
-            {option.label}
-          </button>
-        );
-      })}
-    </div>
-  );
-}

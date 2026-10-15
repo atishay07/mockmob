@@ -1,0 +1,264 @@
+/* Brand layer: the display face, logo B and the photo-real subject objects.
+   Owner, 15 Oct 2026: logo B only (the bolt mark is gone), the small volt dot stays with the wordmark, and the
+   Bricolage display face and the app's 3D subject objects are switched on. Motion here answers a load, a hover
+   or a focus; it uses transform and opacity only and stops when reduced motion is asked for. */
+
+/* ---------- Display face (data/brand_flags.mjs displayFont) ----------
+   globals.css builds --font-display from --font-display-face, so headings, Tailwind's font-display and every
+   var(--font-display) follow this one switch. */
+:root {
+  --font-display-face: var(--font-bricolage);
+}
+:root[data-display-font='gabarito'] {
+  --font-display-face: var(--font-gabarito);
+}
+
+/* ---------- Logo B ----------
+   src/components/Logo.jsx draws it. The letters take the text colour (Night and Day from one drawing); Mobi
+   keeps his volt body, charcoal visor and warm-white eyes on every ground. The dot after the b carries the
+   `.dot` colour rules the shells already set: volt on Night, the volt edge on Day. */
+.logo {
+  --logo-h: 22px;
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  min-height: 44px;
+  color: inherit;
+  line-height: 0;
+  text-decoration: none;
+  border-radius: 10px;
+  -webkit-tap-highlight-color: transparent;
+}
+.logo:focus-visible {
+  outline: 2px solid var(--volt, #d2f000);
+  outline-offset: 4px;
+}
+.logo-b {
+  /* The viewBox is the word plus the dot: 4742.35 by 702.11 font units. */
+  display: block;
+  flex: none;
+  width: calc(var(--logo-h, 22px) * 6.7544);
+  height: var(--logo-h, 22px);
+  overflow: visible;
+}
+.logo-b__mobi,
+.logo-b__eyes,
+.logo-b__dot {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+.logo-b__mobi {
+  transform-origin: 50% 70%;
+  animation: logoMobiWake 520ms cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.logo-b__dot {
+  color: var(--volt, #d2f000);
+  animation: logoDotWake 420ms cubic-bezier(0.16, 1, 0.3, 1) 240ms backwards;
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+:root[data-theme='dark'] .mm .logo .dot,
+.mm-foot .logo .dot {
+  color: var(--volt, #d2f000);
+}
+@media (hover: hover) and (pointer: fine) {
+  .logo:hover .logo-b__mobi {
+    transform: translateY(-3%) rotate(-7deg);
+  }
+  .logo:hover .logo-b__eyes {
+    animation: logoBlink 240ms ease-in-out;
+  }
+  .logo:hover .logo-b__dot {
+    transform: scale(1.22);
+  }
+}
+.logo:focus-visible .logo-b__mobi {
+  transform: translateY(-3%) rotate(-7deg);
+}
+.logo:active .logo-b__mobi {
+  transform: scale(0.94);
+  transition-duration: 120ms;
+}
+
+@keyframes logoMobiWake {
+  0% {
+    opacity: 0;
+    transform: translateY(-10%) rotate(-16deg) scale(0.62);
+  }
+  62% {
+    opacity: 1;
+    transform: translateY(0) rotate(5deg) scale(1.08);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes logoDotWake {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.35);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes logoBlink {
+  0%,
+  100% {
+    transform: none;
+  }
+  50% {
+    transform: scaleY(0.12);
+  }
+}
+
+/* Sizes by place. The word is the brand moment, but it never crowds a row that held the old, narrower mark:
+   the theme switch and the menu key on a 320 px phone (280 px of row: 149 px of word at 22 px), the five links
+   and the CTA that join the nav from 1024 px, and the onboarding and app top bars on small phones. */
+@media (max-width: 399px) {
+  .logo {
+    --logo-h: 19px;
+  }
+}
+@media (min-width: 400px) and (max-width: 1023px) {
+  .mm-nav .logo {
+    --logo-h: 24px;
+  }
+}
+@media (max-width: 399px), (min-width: 1024px) and (max-width: 1279px) {
+  .mm-nav .logo {
+    --logo-h: 22px;
+  }
+}
+@media (min-width: 1280px) {
+  .mm-nav .logo {
+    --logo-h: 26px;
+  }
+}
+@media (max-width: 299px) {
+  .mm-nav .logo {
+    --logo-h: 17px;
+  }
+}
+.mm-foot .logo {
+  --logo-h: 30px;
+}
+.arena-sidebar .logo {
+  --logo-h: 25px;
+}
+@media (min-width: 400px) {
+  .arena-topbar .logo {
+    --logo-h: 21px;
+  }
+}
+
+/* ---------- Subject objects ----------
+   src/components/brand/SubjectObject.jsx draws them. The square box is laid out before the file decodes; the
+   picture and its contact shadow are placed in percent from the app's own measurements (data/subject_art.mjs),
+   so the box can be any size. */
+.subj-obj {
+  --obj-size: 72px;
+  position: relative;
+  display: inline-block;
+  flex: none;
+  width: var(--obj-size);
+  height: var(--obj-size);
+  isolation: isolate;
+  vertical-align: middle;
+}
+.subj-obj__img {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  max-width: none;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  transform-origin: 50% 92%;
+  transition:
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.subj-obj__shadow {
+  position: absolute;
+  z-index: 1;
+  height: 9%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.2) 58%, transparent);
+  transform: translateY(-55%);
+  transition:
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+:root[data-theme='light'] .subj-obj__shadow {
+  background: radial-gradient(closest-side, rgba(46, 36, 20, 0.32), rgba(46, 36, 20, 0.11) 58%, transparent);
+}
+/* The lamp: a warm pool of light behind a featured object, as in the app's lit scenes. */
+.subj-obj__light {
+  position: absolute;
+  inset: 2% 4% 8%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 212, 150, 0.24), rgba(255, 186, 104, 0.09) 55%, transparent 74%);
+  pointer-events: none;
+  transition: opacity 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+:root[data-theme='light'] .subj-obj__light {
+  background: radial-gradient(closest-side, rgba(255, 196, 112, 0.3), rgba(255, 210, 150, 0.12) 55%, transparent 74%);
+}
+.subj-obj--glyph {
+  display: inline-grid;
+  place-items: center;
+  color: inherit;
+}
+
+/* The object settles in once when it first appears. */
+@starting-style {
+  .subj-obj__img {
+    opacity: 0;
+    transform: translateY(5%) scale(0.96);
+  }
+}
+
+/* It lifts a little while its tile is hovered or focused, and presses with it. */
+@media (hover: hover) and (pointer: fine) {
+  :is(a, button, label, [role='button'], .subj-obj-host):hover .subj-obj__img {
+    transform: translateY(-4%) scale(1.035);
+  }
+  :is(a, button, label, [role='button'], .subj-obj-host):hover .subj-obj__shadow {
+    transform: translateY(-55%) scale(0.9);
+    opacity: 0.75;
+  }
+}
+:is(a, button, label, [role='button'], .subj-obj-host):focus-visible .subj-obj__img {
+  transform: translateY(-4%) scale(1.035);
+}
+:is(a, button, label, [role='button'], .subj-obj-host):active .subj-obj__img {
+  transform: scale(0.97);
+  transition-duration: 120ms;
+}
+
+/* ---------- Reduced motion (device setting or the student's switch) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .logo-b__mobi,
+  .logo-b__eyes,
+  .logo-b__dot,
+  .subj-obj__img,
+  .subj-obj__shadow,
+  .subj-obj__light {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+:root[data-motion='reduced'] :is(.logo-b__mobi, .logo-b__eyes, .logo-b__dot, .subj-obj__img, .subj-obj__shadow, .subj-obj__light) {
+  animation: none !important;
+  transition: none !important;
+}

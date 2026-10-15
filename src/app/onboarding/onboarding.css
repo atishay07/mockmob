@@ -1,22 +1,302 @@
-/* Onboarding: a picked subject inks its tick from the corner, the cards arrive in order, and the
-   count in the bar rolls. Colours follow the app tokens, so Night and Daylight both hold. */
+/* First run: subjects, then study days a week. Colours come from the app tokens (arena.css), so
+   Night and Day both hold. Glass only on the fixed bar, with a solid fallback. The study-days step
+   is a lamp-lit stage: a dial that carries the same week ring Today draws, under a warm pool of
+   light, with a soft contact shadow under it.
+   Motion answers an action: a step slides in the way the student is going, a picked subject inks
+   its tick and drops into the bar's slots, a sixth pick shakes the slots, the volt thumb slides to
+   the chosen day and the ring redraws with one arc per day. Transform and opacity (and the SVG
+   stroke draw the motion kit already uses) only. Reduced motion, device or MockMob setting, drops
+   all of it and shows the finished state. */
+
+.ob {
+  --ob-lamp: rgba(255, 198, 120, 0.11);
+  --ob-plate: #17201a;
+  --ob-plate-hi: #263228;
+  --ob-groove: rgba(244, 245, 240, 0.07);
+  --ob-volt: var(--volt, #d2f000);
+  --ob-on-volt: #0b1000;
+  min-height: 100dvh; display: flex; flex-direction: column;
+}
+html[data-theme='light'] .ob {
+  --ob-lamp: rgba(255, 184, 92, 0.16);
+  --ob-plate: #f1f3ec;
+  --ob-plate-hi: #ffffff;
+  --ob-groove: rgba(23, 32, 22, 0.08);
+  --ob-volt: #c9e600;
+}
+
+/* Header: logo, where you are, theme. */
+.ob-top {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 64px; padding: 10px 16px; border-bottom: 1px solid var(--a-line);
+}
+@media (min-width: 768px) { .ob-top { padding: 10px 28px; } }
+.ob-progress { display: grid; justify-items: center; gap: 7px; }
+.ob-progress__text { font-size: 13px; font-weight: 600; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.ob-progress__bar { display: flex; gap: 5px; }
+.ob-progress__bar > span { position: relative; overflow: hidden; width: 32px; height: 4px; border-radius: 4px; background: var(--a-line-strong); }
+.ob-progress__bar i {
+  position: absolute; inset: 0; border-radius: inherit; background: var(--a-select);
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform 360ms var(--a-ease) 80ms;
+}
+.ob-progress__bar i[data-on] { transform: scaleX(1); }
+
+/* Content: centred, at most about 920 px, with room under it for the fixed bar. */
+.ob-main {
+  flex: 1; width: 100%; max-width: 920px; margin: 0 auto; display: grid; align-content: start; gap: 28px;
+  padding: 28px 16px calc(184px + env(safe-area-inset-bottom));
+}
+@media (min-width: 768px) { .ob-main { gap: 36px; padding-top: 48px; padding-left: 24px; padding-right: 24px; } }
+
+/* A new step slides in the way the student is going; the header and Mobi stay where they are. */
+.ob-step { animation: ob-in 320ms var(--a-ease) both; }
+.ob-step[data-dir='fwd'] { animation-name: ob-in-fwd; }
+.ob-step[data-dir='back'] { animation-name: ob-in-back; }
+@keyframes ob-in { from { opacity: 0; transform: translate3d(0, 10px, 0); } to { opacity: 1; transform: none; } }
+@keyframes ob-in-fwd { from { opacity: 0; transform: translate3d(28px, 0, 0); } to { opacity: 1; transform: none; } }
+@keyframes ob-in-back { from { opacity: 0; transform: translate3d(-28px, 0, 0); } to { opacity: 1; transform: none; } }
+.ob-body { display: grid; gap: 20px; min-width: 0; }
+
+.ob-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px 20px; }
+.ob-title {
+  margin: 0; font-family: var(--font-display); font-size: clamp(28px, 4.2vw + 12px, 46px); font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.06; color: var(--a-ink); text-wrap: balance;
+}
+.ob-title:focus { outline: none; }
+.ob-title:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; border-radius: 6px; }
+.ob-lead { margin: 12px 0 0; max-width: 50ch; font-size: 16px; line-height: 1.55; color: var(--a-ink-2); text-wrap: pretty; }
+/* Mobi stands on a small pool of lamp light beside the title, never over it. */
+.ob-mobi { position: relative; width: 88px; height: 88px; display: grid; place-items: center; transform-origin: 100% 100%; }
+.ob-mobi::before {
+  content: ''; position: absolute; pointer-events: none; left: 6%; right: 6%; bottom: -2px; height: 16px; border-radius: 50%;
+  background: radial-gradient(closest-side, var(--ob-lamp), transparent); transform: scaleY(0.9);
+}
+@media (max-width: 479px) { .ob-mobi { transform: scale(0.76); margin: -10px -6px -10px 0; } }
+
+.ob-back {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: 0 0 6px -10px; padding: 0 12px 0 8px;
+  border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-2); cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; transition: background-color 150ms ease, color 150ms ease;
+}
+.ob-back:hover { background: var(--a-hover); color: var(--a-ink); }
+.ob-back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-back:disabled { opacity: 0.6; cursor: default; }
+
+.ob-empty { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink-2); }
+.ob-error, .ob-notice { margin: 0; padding: 12px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+.ob-error { color: var(--a-bad-text); background: var(--a-bad-wash); }
+.ob-notice { color: var(--a-ink-2); background: var(--a-sunken); border: 1px solid var(--a-line); }
+
+/* Saved subjects that cannot start a practice: shown so they can be removed. */
+.ob-stale { display: grid; gap: 8px; padding: 16px; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); }
+.ob-stale h2 { margin: 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--a-ink); }
+.ob-stale p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-3); }
+.ob-stale__list { display: flex; flex-wrap: wrap; gap: 8px; }
+.ob-chip {
+  min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--a-line-strong);
+  background: transparent; color: var(--a-ink); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.ob-chip:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+.ob-chip:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+
+/* ---------- Step 1: subject tiles. Two across on a phone, three from 640 px ---------- */
+.ob-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (min-width: 640px) { .ob-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; } }
+.ob-tile {
+  position: relative; display: grid; align-content: start; justify-items: start; gap: 4px; min-height: 136px;
+  padding: 16px 44px 16px 16px; text-align: left; border-radius: var(--a-radius, 18px);
+  border: 1px solid var(--a-line); background: var(--a-raised); color: var(--a-ink);
+  box-shadow: inset 0 1px 0 var(--a-glass-top); font: inherit; cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, box-shadow 200ms ease, transform 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+  animation: ob-tile-in 360ms var(--a-ease) calc(var(--i, 0) * 32ms) backwards;
+}
+@keyframes ob-tile-in { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
+@media (hover: hover) { .ob-tile:hover:not(:disabled) { border-color: var(--a-line-hover); } }
+.ob-tile:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-tile[data-selected] {
+  border-color: var(--a-select); background: var(--a-raised);
+  background: color-mix(in srgb, var(--a-select) 8%, var(--a-raised)); box-shadow: var(--a-shadow-1);
+}
+.ob-tile[aria-disabled='true'] { opacity: 0.6; }
+.ob-tile:disabled { cursor: default; }
+/* The subject's lamp-lit object (src/components/brand/SubjectObject.jsx). Its lamp is off until the
+   subject is picked; a pick turns the lamp on and the object settles with a small spring, the same
+   moment the tick inks. A subject without an object keeps its line icon on a small plate. */
+.ob-tile__art { display: block; margin: -6px 0 6px -8px; transform-origin: 40% 85%; }
+.ob-tile .subj-obj__light { opacity: 0; }
+.ob-tile[data-selected] .subj-obj__light { opacity: 1; }
+.ob-tile[data-selected] .ob-tile__art { animation: ob-art 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)); }
+@keyframes ob-art { from { transform: scale(0.92); } to { transform: none; } }
+.ob-tile__art .subj-obj--glyph {
+  border-radius: 18px; background: var(--a-sunken); color: var(--a-accent-text); box-shadow: inset 0 0 0 1px var(--a-line);
+  transition: background-color 200ms ease, color 200ms ease, box-shadow 200ms ease;
+}
+.ob-tile[data-selected] .ob-tile__art .subj-obj--glyph { background: var(--ob-volt); color: var(--ob-on-volt); box-shadow: none; }
+.ob-tile__name { font-family: var(--font-display); font-size: 17px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+.ob-tile__meta { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 12.5px; line-height: 1.45; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.ob-tile .ob-tick { position: absolute; top: 16px; right: 14px; }
+
+/* Picked tick: the volt disc grows from its corner, then the tick draws over it. */
 .ob-tick {
   position: relative; flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%;
   border: 1.5px solid var(--a-line-strong, rgba(255, 255, 255, 0.24)); background: transparent;
   transition: border-color 200ms ease;
 }
-.ob-tick svg { width: 14px; height: 14px; color: #0b1000; position: relative; z-index: 1; }
+.ob-tick svg { width: 14px; height: 14px; color: var(--ob-on-volt, #0b1000); position: relative; z-index: 1; }
 .ob-tick--on { border-color: transparent; }
-/* The volt disc grows out of the corner the tick sits in, then the tick draws over it. */
 .ob-tick--on::before {
   content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--volt, #d2f000);
   transform-origin: 100% 0; animation: ob-disc 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both;
 }
 html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow: inset 0 0 0 1px #9db400; }
 @keyframes ob-disc { from { transform: scale(0.2); opacity: 0; } 60% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
-.subject-card[aria-disabled='true'] { opacity: 0.6; }
-.subject-card.selected { transition: border-color 200ms ease, background-color 200ms ease, transform 420ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)); }
-.ob-count { display: inline-block; min-width: 1ch; font-variant-numeric: tabular-nums; }
-.ob-cap { display: block; margin-top: 2px; min-height: 1.2em; font-size: 13px; color: var(--a-accent-text, #d2f000); }
-.ob-cap:empty { min-height: 0; }
-@media (prefers-reduced-motion: reduce) { .ob-tick--on::before { animation: none; } }
+
+/* ---------- Step 2: study days a week ---------- */
+.ob-days { display: grid; gap: 14px; justify-items: stretch; max-width: 680px; }
+
+/* The 1 to 7 track: one volt thumb that slides to the choice with a small overshoot. */
+.ob-track {
+  position: relative; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); padding: 5px;
+  border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-sunken);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.22);
+}
+html[data-theme='light'] .ob-track { box-shadow: inset 0 1px 2px rgba(20, 32, 14, 0.08); }
+.ob-track__thumb {
+  position: absolute; top: 5px; bottom: 5px; left: 5px; width: calc((100% - 10px) / 7); border-radius: 15px; pointer-events: none;
+  background: var(--ob-volt); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 8px 18px -10px rgba(158, 182, 0, 0.9);
+  transform: translate3d(calc(var(--ob-pick, 3) * 100%), 0, 0);
+  transition: transform 340ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+}
+html[data-theme='light'] .ob-track__thumb { box-shadow: inset 0 0 0 1px #9db400, 0 8px 18px -12px rgba(79, 100, 0, 0.7); }
+.ob-track__opt { position: relative; z-index: 1; display: grid; place-items: center; min-height: 60px; border-radius: 15px; cursor: pointer; }
+.ob-track__opt input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.ob-track__opt input:disabled { cursor: default; }
+.ob-track__opt:has(input:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-track__n {
+  font-family: var(--font-display); font-size: 22px; font-weight: 800; line-height: 1; color: var(--a-ink-2);
+  font-variant-numeric: tabular-nums; pointer-events: none;
+  transition: color 180ms ease, transform 340ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1));
+}
+@media (hover: hover) { .ob-track__opt:not([data-on]):hover .ob-track__n { color: var(--a-ink); transform: translate3d(0, -2px, 0); } }
+.ob-track__opt[data-on] .ob-track__n { color: var(--ob-on-volt); transform: scale(1.12); }
+.ob-track__opt:active .ob-track__n { transform: scale(0.92); transition-duration: 90ms; }
+.ob-track[aria-disabled='true'] { opacity: 0.7; }
+.ob-track__ends { display: flex; justify-content: space-between; padding: 0 8px; font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); }
+
+/* The stage: a warm pool of lamp light falls on the dial from the top left. */
+.ob-stage {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 22px;
+  margin-top: 10px; padding: 30px 20px 24px; border: 1px solid var(--a-line); border-radius: 24px;
+  background-color: var(--a-raised);
+  background-image: radial-gradient(70% 70% at 24% 0%, var(--ob-lamp), transparent 72%);
+  box-shadow: inset 0 1px 0 var(--a-glass-top), var(--a-shadow-2);
+}
+@media (min-width: 600px) {
+  .ob-stage { grid-template-columns: auto minmax(0, 1fr); justify-items: start; align-items: center; gap: 36px; padding: 32px 36px; }
+}
+.ob-stage__dial { margin: 0; display: grid; justify-items: center; gap: 14px; }
+.ob-stage__dial figcaption { font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); }
+
+.ob-dial { position: relative; isolation: isolate; width: 168px; height: 168px; }
+@media (min-width: 600px) { .ob-dial { width: 184px; height: 184px; } }
+/* The plate: lit from the top left, a soft shadow on the stage beneath it. */
+.ob-dial__plate {
+  position: absolute; inset: 9px; border-radius: 50%; z-index: 0;
+  background: radial-gradient(circle at 36% 26%, var(--ob-plate-hi), var(--ob-plate) 64%);
+  box-shadow: inset 0 1px 0 var(--a-edge), inset 0 -12px 26px rgba(0, 0, 0, 0.22), 0 24px 30px -20px rgba(0, 0, 0, 0.7);
+}
+html[data-theme='light'] .ob-dial__plate { box-shadow: inset 0 1px 0 #fff, inset 0 -12px 26px rgba(20, 32, 14, 0.06), 0 22px 28px -18px rgba(20, 32, 14, 0.28); }
+.ob-dial::after {
+  content: ''; position: absolute; pointer-events: none; z-index: -1; left: 20%; right: 20%; bottom: -8px; height: 16px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.42), transparent);
+}
+html[data-theme='light'] .ob-dial::after { background: radial-gradient(closest-side, rgba(20, 32, 14, 0.18), transparent); }
+.ob-dial__ring { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; overflow: visible; }
+.ob-dial__base { fill: none; stroke: var(--ob-groove); stroke-width: 12; }
+/* The arcs settle into place with a small turn and draw on in order. */
+.ob-dial__arcs { transform-origin: 60px 60px; animation: ob-turn 520ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both; }
+@keyframes ob-turn { from { transform: rotate(-16deg); } to { transform: none; } }
+.ob-dial__arc {
+  fill: none; stroke: var(--a-select); stroke-width: 9; stroke-linecap: round;
+  stroke-dasharray: 1 2; stroke-dashoffset: 1; opacity: 0;
+  animation: ob-arc 380ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) calc(var(--i, 0) * 48ms) forwards;
+}
+@keyframes ob-arc { 0% { stroke-dashoffset: 1; opacity: 0; } 12% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } }
+.ob-dial__count { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; justify-items: center; text-align: center; }
+.ob-dial__count b {
+  font-family: var(--font-display); font-size: 54px; font-weight: 800; line-height: 1; letter-spacing: -0.04em;
+  color: var(--a-ink); font-variant-numeric: tabular-nums;
+}
+.ob-dial__count small { margin-top: 4px; font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); }
+
+.ob-stage__copy { justify-self: stretch; display: grid; gap: 8px; min-width: 0; max-width: 44ch; }
+.ob-stage__swap { animation: ob-swap 260ms var(--a-ease) both; }
+@keyframes ob-swap { from { opacity: 0; transform: translate3d(0, 6px, 0); } to { opacity: 1; transform: none; } }
+.ob-stage__name { margin: 0; font-family: var(--font-display); font-size: clamp(24px, 2vw + 16px, 30px); font-weight: 800; line-height: 1.12; letter-spacing: -0.025em; color: var(--a-ink); }
+.ob-stage__line { margin: 8px 0 0; font-size: 15.5px; line-height: 1.55; color: var(--a-ink-2); }
+.ob-stage__rule {
+  display: flex; align-items: flex-start; gap: 10px; margin: 10px 0 0; padding-top: 16px; border-top: 1px solid var(--a-line);
+  font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3);
+}
+.ob-stage__rule svg { flex: none; margin-top: 2px; color: var(--a-accent-text); }
+
+/* ---------- The fixed bar: the picks or the choice on the left, the step's one primary on the right ---------- */
+.ob-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  border-top: 1px solid var(--a-line); background: var(--a-bg);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+}
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ob-bar { background: var(--a-topbar); -webkit-backdrop-filter: blur(16px) saturate(1.2); backdrop-filter: blur(16px) saturate(1.2); }
+}
+.ob-bar__inner { max-width: 920px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; }
+@media (min-width: 768px) { .ob-bar__inner { padding: 0 8px; } }
+.ob-bar__status { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.ob-bar__text { display: grid; gap: 2px; font-size: 14px; line-height: 1.4; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.ob-bar__text b { color: var(--a-ink); font-weight: 700; }
+.ob-bar__sub { font-size: 13px; color: var(--a-ink-3); }
+.ob-count { display: inline-block; min-width: 1ch; }
+.ob-cap { font-size: 13px; color: var(--a-accent-text); }
+.ob-cap:empty { display: none; }
+
+/* Five slots: each pick drops into the next one; a sixth shakes them. */
+.ob-slots { display: inline-flex; gap: 5px; flex: none; }
+.ob-slot {
+  display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px dashed var(--a-line-strong); color: var(--ob-on-volt);
+}
+.ob-slot[data-on] {
+  border: 0; background: var(--ob-volt); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  animation: ob-slot-in 380ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) backwards;
+}
+html[data-theme='light'] .ob-slot[data-on] { box-shadow: inset 0 0 0 1px #9db400; }
+@keyframes ob-slot-in { from { opacity: 0; transform: translate3d(0, -10px, 0) scale(0.8); } to { opacity: 1; transform: none; } }
+
+.ob-bar__actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.ob-primary { min-height: 52px; min-width: 148px; justify-content: center; }
+.ob-quiet {
+  min-height: 44px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; cursor: pointer;
+  font: inherit; font-size: 14px; font-weight: 600; color: var(--a-ink-2);
+  text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px;
+  transition: color 150ms ease, text-decoration-color 150ms ease;
+}
+.ob-quiet:hover { color: var(--a-ink); text-decoration-color: currentColor; }
+.ob-quiet:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-quiet:disabled { opacity: 0.6; cursor: default; }
+/* On a narrow phone the status sits above a full-width action row. */
+@media (max-width: 479px) {
+  .ob-bar__inner { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .ob-bar__actions { margin-left: 0; }
+  .ob-bar__actions .ob-primary { flex: 1; }
+}
+
+/* ---------- Reduced motion: the finished state, at once ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .ob-step, .ob-tile, .ob-stage__swap, .ob-dial__arcs, .ob-slot[data-on], .ob-tile[data-selected] .ob-tile__art, .ob-tick--on::before { animation: none; }
+  .ob-dial__arc { animation: none; stroke-dashoffset: 0; opacity: 1; }
+  .ob-track__thumb, .ob-track__n, .ob-progress__bar i, .ob-tile { transition: none; }
+}
+html[data-motion='reduced'] :is(.ob-step, .ob-tile, .ob-stage__swap, .ob-dial__arcs, .ob-slot[data-on], .ob-tick--on::before),
+html[data-motion='reduced'] .ob-tile[data-selected] .ob-tile__art { animation: none; }
+html[data-motion='reduced'] .ob-dial__arc { animation: none; stroke-dashoffset: 0; opacity: 1; }
+html[data-motion='reduced'] :is(.ob-track__thumb, .ob-track__n, .ob-progress__bar i, .ob-tile) { transition: none; }

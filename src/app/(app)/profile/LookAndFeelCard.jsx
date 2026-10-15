@@ -99,8 +99,8 @@ export default function LookAndFeelCard() {
     <section ref={cardRef} className="glass p-6 lf" aria-labelledby="lf-title">
       <header className="lf__head">
         <div>
-          <div className="mono-label mb-2">Look and feel</div>
           <h2 id="lf-title">Appearance and feel</h2>
+          <p className="lf__lede">Your choices take effect at once and stay on this device.</p>
         </div>
         <MobiReact key={preview.n} act={preview.act} size={72} interactive onDone={() => setPreview((p) => (p.act === 'idle' ? p : { act: 'idle', n: p.n }))} />
       </header>

@@ -13,6 +13,7 @@ import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { PipActor } from '@/components/brand/PipActor';
+import { StartKey, StartSheetHost } from '@/components/start';
 import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
@@ -212,6 +213,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <aside className="arena-sidebar" aria-label="Arena navigation">
         <Logo />
+        {!isTestRoute && <StartKey variant="sidebar" />}
         {navGroups.map((group) => (
           <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
             <p className="arena-nav-label">{group.label}</p>
@@ -339,9 +341,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         </div>
       </main>
       {!isTestRoute && <nav className="arena-bottomnav" aria-label="Quick study navigation">
-        {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link>)}
+        {mobileTabs.map((tab, index) => <React.Fragment key={tab.id}>{index === 2 && <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />}<Link href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link></React.Fragment>)}
         <button type="button" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="expand" /><span>More</span></button>
       </nav>}
+      {!isTestRoute && <StartSheetHost previewLinks={previewLinks} />}
       {!isTestRoute && tourOpen && (
         <div className="pointer-events-none fixed inset-0 z-[80]">
           {tourTarget ? (

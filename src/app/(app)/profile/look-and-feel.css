@@ -2,22 +2,30 @@
    both work; nothing here covers text, and everything is still when Reduce motion is on. */
 .lf { display: grid; gap: 22px; align-content: start; }
 .lf__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
-.lf h2 { font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
-.lf h3 { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--a-ink-3, #93a08f); margin: 0 0 10px; }
+.lf h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: var(--a-ink, inherit); }
+.lf__lede { margin: 6px 0 0; max-width: 38ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3, #93a08f); }
+.lf h3 { font-size: 14px; font-weight: 700; color: var(--a-ink-2, #bcc5b9); margin: 0 0 10px; }
 .lf__group { display: grid; }
 .lf__tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .lf-theme {
   display: grid; gap: 4px; align-content: start; text-align: left; padding: 10px; min-height: 44px; cursor: pointer;
   background: var(--a-raised-2, rgba(255, 255, 255, 0.03)); border: 1px solid var(--a-line, rgba(255, 255, 255, 0.12)); border-radius: 14px;
   color: var(--a-ink, inherit); font: inherit;
+  transition: border-color 180ms var(--a-ease, ease-out), background-color 180ms var(--a-ease, ease-out), transform 120ms var(--a-ease, ease-out);
 }
 .lf-theme:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; }
-.lf-theme[aria-checked='true'] { border-color: transparent; background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); }
-.lf-theme__art { width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 0 0 1px var(--a-line, rgba(255, 255, 255, 0.12)); margin-bottom: 6px; }
+/* The chosen theme reads at a glance: a volt edge and a wash, and its picture sits a touch forward. */
+.lf-theme[aria-checked='true'] { border-color: var(--a-select, #d2f000); background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); box-shadow: inset 0 0 0 1px var(--a-select, #d2f000); }
+.lf-theme__art { width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 0 0 1px var(--a-line, rgba(255, 255, 255, 0.12)); margin-bottom: 6px; transition: transform 220ms var(--a-ease, ease-out); }
+.lf-theme[aria-checked='true'] .lf-theme__art { transform: translate3d(0, -2px, 0); }
+@media (hover: hover) and (pointer: fine) {
+  .lf-theme[aria-checked='false']:hover { border-color: var(--a-line-hover, rgba(255, 255, 255, 0.32)); }
+  .lf-theme[aria-checked='false']:hover .lf-theme__art { transform: translate3d(0, -2px, 0); }
+}
 .lf-theme__name { font-weight: 700; font-size: 14px; }
 .lf-theme__note { font-size: 12px; color: var(--a-ink-3, #93a08f); line-height: 1.4; }
 .lf__row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.lf__row b { display: block; font-size: 15px; }
+.lf__row b { display: block; font-size: 15px; color: var(--a-ink, inherit); }
 .lf__row p { margin: 3px 0 0; font-size: 13px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 46ch; }
 .lf__seg {
   position: relative; display: grid; grid-template-columns: repeat(3, 1fr); padding: 4px; border-radius: 14px;
@@ -36,4 +44,7 @@
 .lf__seg button:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 .lf__hint { margin: 10px 0 0; font-size: 13px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); }
 .lf__said { margin: 0; min-height: 1.4em; font-size: 13px; color: var(--a-accent-text, #d2f000); }
-@media (max-width: 420px) { .lf__tiles { gap: 6px; } .lf-theme { padding: 8px; } .lf-theme__note { font-size: 11px; } }
+@media (max-width: 420px) { .lf__tiles { gap: 6px; } .lf-theme { padding: 8px; } .lf-theme__note { font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .lf-theme, .lf-theme__art, .lf__seg-thumb { transition: none; } .lf-theme[aria-checked='true'] .lf-theme__art { transform: none; } }
+:root[data-motion='reduced'] .lf-theme, :root[data-motion='reduced'] .lf-theme__art, :root[data-motion='reduced'] .lf__seg-thumb { transition: none; }
+:root[data-motion='reduced'] .lf-theme[aria-checked='true'] .lf-theme__art { transform: none; }

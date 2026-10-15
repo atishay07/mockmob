@@ -1,0 +1,263 @@
+/* ==========================================================================
+   DESIGNED CONTROLS  -  src/components/ui/controls
+   Listbox (the site's select), SegmentedControl (sliding volt lens), Chip, ToggleRow, SmoothDetails.
+   One set for the signed-in app and the public tools, Night and Day.
+   Tokens live on :root and follow html[data-theme], so a list portalled into <body> matches the page
+   it opened from. Motion answers the action (150-350 ms), transform and opacity carry it; the lens and
+   the details body also ease their size on one isolated element. Reduced motion: no movement.
+   ========================================================================== */
+
+:root {
+  /* Day (the default theme) */
+  --ctl-surface: #ffffff;
+  --ctl-sunken: #eef0e8;
+  --ctl-line: #dce1d4;
+  --ctl-line-strong: #bcc5b0;
+  --ctl-line-hover: #8f9a84;
+  --ctl-ink: #172016;
+  --ctl-ink-2: #3d4a39;
+  --ctl-ink-3: #56624f;
+  --ctl-volt: #d2f000;
+  --ctl-volt-edge: #9db400;
+  --ctl-volt-ink: #0b1000;
+  --ctl-wash: rgba(124, 150, 20, 0.1);
+  --ctl-select-line: #6f8700;
+  --ctl-accent-text: #4f6400;
+  --ctl-focus: #4f6400;
+  --ctl-hover: rgba(23, 32, 22, 0.05);
+  --ctl-lens-bg: rgba(23, 32, 22, 0.07);
+  --ctl-track-inset: inset 0 1px 2px rgba(20, 32, 14, 0.07);
+  --ctl-edge: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --ctl-pop-bg: rgba(255, 255, 255, 0.9);
+  --ctl-pop-solid: #ffffff;
+  --ctl-pop-shadow: 0 1px 2px rgba(20, 32, 14, 0.08), 0 20px 48px -16px rgba(20, 32, 14, 0.3);
+  --ctl-scrim: rgba(16, 22, 14, 0.32);
+  --ctl-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --ctl-spring: cubic-bezier(0.34, 1.32, 0.64, 1);
+}
+:root[data-theme='dark'] {
+  /* Night: warm charcoal, volt as the one accent */
+  --ctl-surface: #131a16;
+  --ctl-sunken: #0f1512;
+  --ctl-line: #253026;
+  --ctl-line-strong: #384736;
+  --ctl-line-hover: rgba(244, 245, 240, 0.32);
+  --ctl-ink: #f2f4ec;
+  --ctl-ink-2: #bcc5b9;
+  --ctl-ink-3: #93a08f;
+  --ctl-wash: rgba(210, 240, 0, 0.08);
+  --ctl-select-line: rgba(210, 240, 0, 0.55);
+  --ctl-accent-text: #d2f000;
+  --ctl-focus: #d2f000;
+  --ctl-hover: rgba(244, 245, 240, 0.05);
+  --ctl-lens-bg: rgba(244, 245, 240, 0.08);
+  --ctl-track-inset: inset 0 1px 2px rgba(0, 0, 0, 0.28);
+  --ctl-edge: inset 0 1px 0 rgba(244, 245, 240, 0.05);
+  --ctl-pop-bg: rgba(22, 30, 25, 0.9);
+  --ctl-pop-solid: #161e19;
+  --ctl-pop-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 22px 52px -14px rgba(0, 0, 0, 0.7);
+  --ctl-scrim: rgba(4, 7, 5, 0.55);
+}
+
+/* ---------- Listbox trigger ---------- */
+.ctl-select {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  width: 100%; min-width: 0; min-height: 48px; margin: 0; padding: 0 12px 0 14px;
+  border: 1px solid var(--ctl-line-strong); border-radius: 12px;
+  background: var(--ctl-surface); box-shadow: var(--ctl-edge);
+  color: var(--ctl-ink); font: 600 15px/1.3 var(--font-body); text-align: left;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: border-color 150ms ease, background-color 150ms ease, box-shadow 180ms ease, transform 420ms var(--mk-spring, var(--ctl-spring));
+}
+.ctl-select[data-size='sm'] { min-height: 44px; font-size: 14px; border-radius: 11px; }
+.ctl-select__value { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ctl-select[data-placeholder='true'] .ctl-select__value { color: var(--ctl-ink-3); font-weight: 500; }
+.ctl-select__chev { flex: none; color: var(--ctl-ink-3); transition: transform 240ms var(--ctl-ease), color 150ms ease; }
+@media (hover: hover) {
+  .ctl-select:hover:not(:disabled) { border-color: var(--ctl-line-hover); }
+  .ctl-select:hover:not(:disabled) .ctl-select__chev { color: var(--ctl-ink); }
+}
+.ctl-select:active:not(:disabled) { transform: scale(0.985); transition-duration: 150ms, 150ms, 180ms, 90ms; }
+.ctl-select[aria-expanded='true'] { border-color: var(--ctl-select-line); box-shadow: var(--ctl-edge), 0 0 0 3px var(--ctl-wash); }
+.ctl-select[aria-expanded='true'] .ctl-select__chev { transform: rotate(180deg); color: var(--ctl-accent-text); }
+.ctl-select[data-active='true'] { border-color: var(--ctl-select-line); background: color-mix(in srgb, var(--ctl-surface) 82%, var(--ctl-volt)); }
+.ctl-select:focus-visible { outline: 2px solid var(--ctl-focus); outline-offset: 2px; }
+.ctl-select:disabled { cursor: not-allowed; opacity: 0.6; }
+.ctl-select:disabled .ctl-select__value { color: var(--ctl-ink-3); }
+@media (pointer: coarse) { .ctl-select { font-size: 16px; } }
+
+/* ---------- Listbox popover ---------- */
+.ctl-pop {
+  position: fixed; z-index: 1300; display: flex; flex-direction: column;
+  border: 1px solid var(--ctl-line-strong); border-radius: 16px;
+  background: var(--ctl-pop-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(150%); backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: var(--ctl-edge), var(--ctl-pop-shadow);
+  color: var(--ctl-ink); font-family: var(--font-body);
+  overflow: hidden; transform-origin: 50% 0;
+  animation: ctl-pop-in 200ms var(--ctl-ease) both;
+}
+.ctl-pop[data-placement='top'] { transform-origin: 50% 100%; animation-name: ctl-pop-in-up; }
+.ctl-pop[data-state='closing'] { animation: ctl-pop-out 140ms ease-out both; pointer-events: none; }
+@keyframes ctl-pop-in { from { opacity: 0; transform: translate3d(0, -6px, 0) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes ctl-pop-in-up { from { opacity: 0; transform: translate3d(0, 6px, 0) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes ctl-pop-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: scale(0.98); } }
+@media (prefers-reduced-transparency: reduce) { .ctl-pop { -webkit-backdrop-filter: none; backdrop-filter: none; background: var(--ctl-pop-solid); } }
+
+.ctl-pop__list {
+  position: relative; max-height: var(--ctl-pop-max, 340px); overflow-y: auto; overscroll-behavior: contain;
+  padding: 6px; outline: none; scrollbar-width: thin; scrollbar-color: var(--ctl-line-strong) transparent;
+}
+.ctl-pop__lens {
+  position: absolute; z-index: 0; top: 0; left: 6px; right: 6px; height: var(--ctl-lens-h, 44px);
+  border-radius: 10px; background: var(--ctl-lens-bg); opacity: 0; pointer-events: none;
+  transform: translate3d(0, var(--ctl-lens-y, 0px), 0);
+}
+.ctl-pop__list[data-lens='on'] .ctl-pop__lens {
+  opacity: 1;
+  transition: transform 180ms var(--ctl-ease), height 180ms var(--ctl-ease), opacity 120ms ease;
+}
+.ctl-pop__option {
+  position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  min-height: 44px; padding: 9px 10px 9px 12px; border-radius: 10px;
+  color: var(--ctl-ink-2); font-size: 14.5px; font-weight: 600; line-height: 1.35;
+  cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent;
+  transition: color 120ms ease;
+}
+.ctl-pop__option[data-active='true'] { color: var(--ctl-ink); }
+.ctl-pop__option[aria-selected='true'] { color: var(--ctl-ink); font-weight: 700; }
+.ctl-pop__option[aria-disabled='true'] { color: var(--ctl-ink-3); opacity: 0.6; cursor: not-allowed; }
+.ctl-pop__text { min-width: 0; overflow-wrap: anywhere; }
+.ctl-pop__text small { display: block; margin-top: 2px; font-size: 12.5px; font-weight: 500; color: var(--ctl-ink-3); }
+.ctl-pop__check { flex: none; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: var(--ctl-volt-ink); }
+.ctl-pop__option[aria-selected='true'] .ctl-pop__check { background: var(--ctl-volt); box-shadow: 0 1px 0 var(--ctl-volt-edge); animation: ctl-check-in 300ms var(--ctl-spring) both; }
+@keyframes ctl-check-in { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+.ctl-pop__group + .ctl-pop__group, [role='presentation'] + .ctl-pop__group { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--ctl-line); }
+.ctl-pop__group-label { padding: 10px 12px 4px; font-size: 12px; font-weight: 700; color: var(--ctl-ink-3); }
+
+/* Phone: the list rises as a bottom sheet over a scrim. */
+.ctl-scrim { position: fixed; inset: 0; z-index: 1299; background: var(--ctl-scrim); animation: ctl-fade-in 200ms ease both; }
+.ctl-scrim[data-state='closing'] { animation: ctl-fade-out 160ms ease both; }
+@keyframes ctl-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ctl-fade-out { from { opacity: 1; } to { opacity: 0; } }
+.ctl-pop[data-placement='sheet'] {
+  left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); top: auto; width: auto;
+  max-height: min(72dvh, 560px); border-radius: 22px; transform-origin: 50% 100%;
+  animation: ctl-sheet-in 300ms var(--ctl-ease) both;
+}
+.ctl-pop[data-placement='sheet'][data-state='closing'] { animation: ctl-sheet-out 160ms ease-out both; }
+.ctl-pop[data-placement='sheet'] .ctl-pop__list { max-height: calc(min(72dvh, 560px) - 64px); padding: 6px 8px 10px; }
+.ctl-pop[data-placement='sheet'] .ctl-pop__lens { left: 8px; right: 8px; }
+.ctl-pop[data-placement='sheet'] .ctl-pop__option { min-height: 50px; font-size: 16px; }
+@keyframes ctl-sheet-in { from { opacity: 0; transform: translate3d(0, 28px, 0); } to { opacity: 1; transform: none; } }
+@keyframes ctl-sheet-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translate3d(0, 20px, 0); } }
+.ctl-pop__sheet-head { display: grid; gap: 10px; padding: 8px 18px 10px; border-bottom: 1px solid var(--ctl-line); }
+.ctl-pop__grip { justify-self: center; width: 40px; height: 4px; border-radius: 2px; background: var(--ctl-line-strong); }
+.ctl-pop__sheet-head b { font: 700 16px/1.3 var(--font-display); color: var(--ctl-ink); }
+
+/* ---------- Segmented control with a sliding lens ---------- */
+.ctl-seg {
+  position: relative; isolation: isolate; display: inline-flex; gap: 4px; width: fit-content; max-width: 100%; justify-self: start;
+  padding: 4px; border: 1px solid var(--ctl-line-strong); border-radius: 14px;
+  background: var(--ctl-sunken); box-shadow: var(--ctl-track-inset);
+  flex-wrap: wrap; /* a narrow phone wraps the options instead of cutting them; the lens follows rows */
+}
+.ctl-seg__lens {
+  position: absolute; z-index: 0; top: 0; left: 0;
+  width: var(--ctl-w, 0px); height: var(--ctl-h, 0px); border-radius: 10px;
+  background: var(--ctl-volt); box-shadow: 0 2px 0 var(--ctl-volt-edge);
+  transform: translate3d(var(--ctl-x, 0px), var(--ctl-y, 0px), 0);
+  opacity: 0; pointer-events: none;
+  transition: transform 380ms var(--ctl-spring), width 260ms var(--ctl-ease), height 260ms var(--ctl-ease), opacity 160ms ease;
+}
+.ctl-seg[data-lens='on'] .ctl-seg__lens { opacity: 1; }
+.ctl-seg__lens[data-still='true'] { transition: none; }
+.ctl-seg__opt {
+  position: relative; z-index: 1; display: inline-flex; flex-direction: column; align-items: center; justify-content: center;
+  min-width: 56px; min-height: 44px; margin: 0; padding: 0 16px; border: 0; border-radius: 10px;
+  background: transparent; color: var(--ctl-ink-2);
+  font: 700 14px/1.2 var(--font-display); font-variant-numeric: tabular-nums; white-space: nowrap;
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: color 180ms ease, background-color 150ms ease, transform 420ms var(--mk-spring, var(--ctl-spring));
+}
+.ctl-seg[data-size='sm'] .ctl-seg__opt { min-width: 52px; padding: 0 14px; font: 650 13px/1.2 var(--font-body); }
+.ctl-seg__hint { font: 600 11px/1.2 var(--font-body); opacity: 0.8; }
+@media (max-width: 420px) { .ctl-seg__opt { min-width: 48px; padding: 0 12px; } }
+@media (hover: hover) {
+  .ctl-seg__opt:hover:not(:disabled):not([aria-checked='true']) { background: var(--ctl-hover); color: var(--ctl-ink); }
+}
+.ctl-seg__opt[aria-checked='true'] { color: var(--ctl-volt-ink); }
+/* Before the lens is measured (first paint, or no script), the checked option paints its own keycap. */
+.ctl-seg:not([data-lens='on']) .ctl-seg__opt[aria-checked='true'] { background: var(--ctl-volt); box-shadow: 0 2px 0 var(--ctl-volt-edge); }
+.ctl-seg__opt:active:not(:disabled) { transform: scale(0.95); transition-duration: 180ms, 150ms, 90ms; transition-timing-function: ease, ease, var(--ctl-ease); }
+.ctl-seg__opt:focus-visible { outline: 2px solid var(--ctl-focus); outline-offset: 2px; }
+.ctl-seg__opt:disabled { opacity: 0.45; cursor: not-allowed; }
+.ctl-seg[aria-disabled='true'] .ctl-seg__opt { cursor: progress; }
+.ctl-seg[aria-disabled='true'] .ctl-seg__opt:not([aria-checked='true']) { opacity: 0.7; }
+
+/* ---------- Chip (multi-select toggle) ---------- */
+.ctl-chipset { display: flex; flex-wrap: wrap; gap: 8px; padding: 2px; }
+.ctl-chipset[data-scroll='true'] { max-height: 232px; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--ctl-line-strong) transparent; }
+.ctl-chip {
+  display: inline-flex; align-items: center; gap: 8px; max-width: 100%; min-height: 44px; margin: 0;
+  padding: 0 14px 0 10px; border: 1px solid var(--ctl-line-strong); border-radius: 999px;
+  background: var(--ctl-sunken); color: var(--ctl-ink-2);
+  font: 600 13.5px/1.2 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: transform 420ms var(--mk-spring, var(--ctl-spring)), border-color 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+.ctl-chip__mark {
+  flex: none; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%;
+  border: 1.5px solid var(--ctl-line-strong); background: var(--ctl-surface);
+  transition: background-color 160ms ease, border-color 160ms ease, transform 300ms var(--ctl-spring);
+}
+.ctl-chip__mark svg { width: 12px; height: 12px; fill: none; stroke: var(--ctl-volt-ink); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.ctl-chip__mark path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+.ctl-chip__label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ctl-chip__count { font-style: normal; font-weight: 600; color: var(--ctl-ink-3); font-variant-numeric: tabular-nums; }
+@media (hover: hover) {
+  .ctl-chip:hover:not(:disabled) { border-color: var(--ctl-line-hover); color: var(--ctl-ink); }
+}
+.ctl-chip[aria-pressed='true'] { border-color: var(--ctl-select-line); background: var(--ctl-wash); color: var(--ctl-ink); }
+.ctl-chip[aria-pressed='true'] .ctl-chip__mark { border-color: var(--ctl-volt-edge); background: var(--ctl-volt); transform: scale(1.06); }
+.ctl-chip[aria-pressed='true'] .ctl-chip__mark path { animation: ctl-ink 260ms var(--ctl-ease) 60ms forwards; }
+@keyframes ctl-ink { to { stroke-dashoffset: 0; } }
+.ctl-chip:active:not(:disabled) { transform: scale(0.96); transition-duration: 90ms, 150ms, 150ms, 150ms; }
+.ctl-chip:focus-visible { outline: 2px solid var(--ctl-focus); outline-offset: 2px; }
+.ctl-chip:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---------- Toggle row (label + spring switch) ---------- */
+.ctl-toggle {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 52px;
+  padding: 8px 10px 8px 14px; border: 1px solid var(--ctl-line); border-radius: 14px;
+  background: var(--ctl-surface); color: var(--ctl-ink-2); cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.ctl-toggle[data-on='true'] { border-color: var(--ctl-select-line); background: color-mix(in srgb, var(--ctl-surface) 88%, var(--ctl-volt)); color: var(--ctl-ink); }
+.ctl-toggle[data-disabled='true'] { cursor: not-allowed; opacity: 0.6; }
+.ctl-toggle__text { display: grid; gap: 2px; min-width: 0; }
+.ctl-toggle__label { font: 600 14.5px/1.35 var(--font-body); }
+.ctl-toggle__text small { font-size: 12.5px; color: var(--ctl-ink-3); }
+@media (hover: hover) { .ctl-toggle:hover:not([data-disabled='true']) { border-color: var(--ctl-line-hover); } }
+/* The switch keeps its own look; on the volt row its rail reads against the wash. */
+/* The row is the 44 px target, so the switch keeps its drawn 52 x 32 size inside the app shell too. */
+.ctl-toggle .mk-switch { min-width: 0; min-height: 0; border-color: var(--ctl-line-strong); background: var(--ctl-sunken); }
+.ctl-toggle .mk-switch[aria-checked='true'] { background: var(--ctl-volt); border-color: var(--ctl-volt-edge); }
+
+/* ---------- Smooth details ---------- */
+.ctl-details__body { display: block; }
+.ctl-details__chev { flex: none; margin-left: auto; color: var(--ctl-ink-3); transition: transform 240ms var(--ctl-ease), color 150ms ease; }
+details[open] > summary .ctl-details__chev { transform: rotate(180deg); color: var(--ctl-accent-text); }
+@media (hover: hover) { summary:hover .ctl-details__chev { color: var(--ctl-ink); } }
+/* Chevrons turn back as the body starts to close, not when it has finished. */
+details[data-closing='true'] > summary :is(.pr-fine__chev, svg) { transform: none !important; }
+
+/* ---------- Reduced motion: instant state, the same information ---------- */
+:root[data-motion='reduced'] :is(.ctl-pop, .ctl-scrim, .ctl-pop__check, .ctl-chip__mark path),
+:root[data-motion='reduced'] :is(.ctl-seg__lens, .ctl-pop__lens, .ctl-select, .ctl-select__chev, .ctl-details__chev, .ctl-seg__opt, .ctl-chip, .ctl-chip__mark) { animation: none !important; transition: none !important; }
+:root[data-motion='reduced'] .ctl-chip[aria-pressed='true'] .ctl-chip__mark path { stroke-dashoffset: 0; }
+:root[data-motion='reduced'] :is(.ctl-pop, .ctl-scrim)[data-state='closing'] { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .ctl-pop, .ctl-scrim, .ctl-pop__check, .ctl-seg__lens, .ctl-pop__lens, .ctl-select, .ctl-select__chev, .ctl-details__chev, .ctl-seg__opt, .ctl-chip, .ctl-chip__mark, .ctl-chip__mark path { animation: none !important; transition: none !important; }
+  .ctl-chip[aria-pressed='true'] .ctl-chip__mark path { stroke-dashoffset: 0; }
+  :is(.ctl-pop, .ctl-scrim)[data-state='closing'] { visibility: hidden; }
+}

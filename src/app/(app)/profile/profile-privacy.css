@@ -1,36 +1,37 @@
+/* Account > Privacy, other devices and delete. Colours come from the app tokens, so Night and
+   Daylight both read at AA (the old fixed greys were too light on Daylight's white cards). */
 .privacy-block { display: grid; gap: 16px; align-content: start; }
-.privacy-block h2 { font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: -0.02em; }
-.privacy-block p, .privacy-block li { font-size: 14px; line-height: 1.7; color: #a1a1aa; max-width: 70ch; }
+.privacy-block h2 { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; color: var(--a-ink); }
+.privacy-block p, .privacy-block li { margin: 0; font-size: 14px; line-height: 1.7; color: var(--a-ink-2); max-width: 70ch; }
 .privacy-block ul { margin: 0; padding-left: 20px; display: grid; gap: 4px; list-style: disc; }
+.privacy-block .mono-label { display: none; } /* a kicker above a heading reads as noise; the heading says it */
+.privacy-label { display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: var(--a-ink-2); }
 .privacy-choice { display: flex; gap: 12px; flex-wrap: wrap; border: 0; padding: 0; margin: 0; }
 .privacy-choice legend { margin-bottom: 8px; }
 .privacy-choice label {
-  display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px;
-  border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 12px; cursor: pointer; font-size: 14px;
+  display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; color: var(--a-ink);
+  border: 1px solid var(--a-line-strong); border-radius: 12px; cursor: pointer; font-size: 14px;
+  transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease);
 }
-.privacy-choice label:has(input:checked) { border-color: rgba(210, 240, 0, 0.6); }
-.privacy-choice input, .privacy-toggle input { width: 20px; height: 20px; accent-color: #d2f000; }
-.privacy-toggle { display: flex; align-items: center; gap: 12px; min-height: 44px; font-weight: 600; cursor: pointer; }
+.privacy-choice label:has(input:checked) { border-color: var(--a-select); background: var(--a-volt-wash); }
+.privacy-choice input, .privacy-toggle input { width: 20px; height: 20px; accent-color: var(--volt, #d2f000); }
+.privacy-choice input:focus-visible, .privacy-toggle input:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.privacy-toggle { display: flex; align-items: center; gap: 12px; min-height: 44px; font-weight: 600; color: var(--a-ink); cursor: pointer; }
 .privacy-toggle:has(input:disabled) { opacity: 0.55; cursor: not-allowed; }
 .privacy-note { font-size: 13px; }
-.privacy-note--ok { color: #d2f000 !important; }
-.privacy-note--err { color: #fca5a5 !important; }
+.privacy-note--ok { color: var(--a-good-text) !important; }
+.privacy-note--err { color: var(--a-bad-text) !important; }
 .privacy-confirm { display: grid; gap: 12px; max-width: 420px; }
-.privacy-danger { border-color: rgba(248, 113, 113, 0.4) !important; color: #fca5a5 !important; }
+.privacy-danger { border-color: color-mix(in srgb, var(--a-bad-text) 45%, transparent) !important; color: var(--a-bad-text) !important; }
 .privacy-block .btn-volt, .privacy-block .btn-outline, .privacy-block .btn-ghost { min-height: 44px; }
 @media (prefers-reduced-motion: reduce) { .privacy-block * { transition: none !important; animation: none !important; } }
 
-/* Identity header: Mobi greets, the initials avatar sits at the end. */
-.profile-identity { display: flex; align-items: center; gap: 14px; }
-.profile-identity__text { min-width: 0; flex: 1; }
-.profile-identity__text h2 { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
-.profile-identity__text p { margin: 2px 0 0; font-size: 13px; color: var(--a-ink-3, #93a08f); overflow-wrap: anywhere; }
-.profile-identity__avatar { flex: none; }
+/* Saving your name: the note beside the button. */
 .profile-save-note { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--a-ink-3, #71717a); }
 .profile-save-note[data-tone='success'] { color: var(--a-accent-text, #d2f000); }
 .profile-save-note[data-tone='success'] .drawn-check { flex: none; }
-.profile-save-note[data-tone='error'] { color: var(--a-bad-text, #fca5a5); }
-.profile-stat-note { margin-top: 4px; font-size: 12px; color: var(--a-ink-3, #71717a); }
+.profile-save-note[data-tone='error'] { color: var(--a-bad-text); }
 .profile-open { gap: 4px; }
 .profile-open svg { transition: transform 200ms var(--ease-out); }
 .profile-open:hover svg { transform: translateX(3px); }
+@media (prefers-reduced-motion: reduce) { .profile-open svg { transition: none; } .profile-open:hover svg { transform: none; } }

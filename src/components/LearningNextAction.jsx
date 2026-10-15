@@ -9,8 +9,10 @@ import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import InstallPractice from './InstallPractice';
 import { useCountUp } from '@/lib/motion/useCountUp';
+import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 
 const TIMES = [10, 20, 30];
+const TIME_OPTIONS = TIMES.map((n) => ({ value: n, label: `${n} min` }));
 
 // The planned minutes, rolling from the old choice to the new one. It first shows the real value.
 function MinutesRoll({ value }) {
@@ -76,9 +78,7 @@ export default function LearningNextAction({ compact = false }) {
         <span className="na__eyebrow"><AppIcon name="today" size={14} />Tonight’s plan{planned ? <MinutesRoll value={planned} /> : null}</span>
         <fieldset className="na__time">
           <legend className="sr-only">Time for practice</legend>
-          <div className="na__seg" role="group" aria-label="Time for practice">
-            {TIMES.map(n => <button type="button" className="mk-press" key={n} aria-pressed={(minutes ?? plan?.minutes) === n} disabled={choosing} onClick={()=>chooseTime(n)}>{n} min</button>)}
-          </div>
+          <SegmentedControl size="sm" label="Time for practice" value={minutes ?? plan?.minutes} busy={choosing} onChange={chooseTime} options={TIME_OPTIONS} />
         </fieldset>
       </div>
       {error ? (

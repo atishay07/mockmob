@@ -5,7 +5,8 @@
   --color-volt: #d2f000;
   --color-ink: #0a0a0a;
   --color-ink-2: #141414;
-  --font-display: var(--font-gabarito), system-ui, sans-serif;
+  /* The display face follows data/brand_flags.mjs (src/app/brand.css sets --font-display-face). */
+  --font-display: var(--font-display-face, var(--font-gabarito)), system-ui, sans-serif;
   --font-body: var(--font-hanken), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
   --animate-pulse-slow: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -610,9 +611,7 @@ html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, t
   .skeleton,
   .skeleton::after,
   .animate-pulse-slow,
-  .marquee-track,
-  .logo .bolt,
-  .logo .dot { animation: none !important; }
+  .marquee-track { animation: none !important; }
   .glass { transition: none; }
 }
 
@@ -629,81 +628,7 @@ html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, t
   }
 }
 
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 800;
-  text-decoration: none;
-  position: relative;
-}
-.logo .bolt {
-  width: 26px;
-  height: 26px;
-  border-radius: 8px;
-  background: var(--volt);
-  color: #000;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 22px var(--volt-glow);
-  transform-origin: center;
-  animation: logoBoltWake 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.logo .dot {
-  color: var(--volt);
-  display: inline-block;
-  text-shadow: 0 0 12px rgba(210, 240, 0, 0.46);
-  transform-origin: center;
-  animation: logoDotWake 1.15s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
-}
-@media (hover: hover) and (pointer: fine){
-.logo:hover .bolt {
-  transform: rotate(-8deg) scale(1.05);
-  box-shadow: 0 0 32px rgba(210, 240, 0, 0.42);
-}
-}
-@media (hover: hover) and (pointer: fine){
-.logo:hover .dot {
-  transform: scale(1.18);
-  text-shadow: 0 0 18px rgba(210, 240, 0, 0.74);
-}
-}
-@keyframes logoBoltWake {
-  0% {
-    opacity: 0;
-    transform: translateY(-6px) rotate(-18deg) scale(0.72);
-    box-shadow: 0 0 0 rgba(210, 240, 0, 0);
-  }
-  62% {
-    opacity: 1;
-    transform: translateY(0) rotate(7deg) scale(1.08);
-    box-shadow: 0 0 34px rgba(210, 240, 0, 0.46);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) rotate(0) scale(1);
-    box-shadow: 0 0 22px var(--volt-glow);
-  }
-}
-@keyframes logoDotWake {
-  0% {
-    opacity: 0;
-    transform: scale(0.2);
-  }
-  48% {
-    opacity: 1;
-    transform: scale(1.38);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
+/* The logo (logo B and its volt dot) is styled in src/app/brand.css. */
 
 .coming-soon-page {
   position: relative;
@@ -1979,24 +1904,10 @@ body:has(.mm) {
   border-bottom: 0;
 }
 /* High zoom on a phone leaves a CSS viewport under 300px. The menu button must stay
-   reachable, so the wordmark steps aside (still named for assistive tech), and below
-   240px the theme switch moves into the sheet. 320px and wider are unchanged. */
-.logo__word {
-  display: contents;
-}
+   reachable, so the wordmark shrinks there (src/app/brand.css), and below 240px the
+   theme switch moves into the sheet. 320px and wider are unchanged. */
 .mm-nav__sheet-theme {
   display: none;
-}
-@media (max-width: 299px) {
-  .mm-nav .logo__word {
-    display: block;
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
 }
 @media (max-width: 239px) {
   .mm-nav__end > .mm-theme-toggle {
@@ -2072,19 +1983,12 @@ body:has(.mm) {
   cursor: pointer;
 }
 
-/* Logo reads as ink on paper; the bolt keeps the volt signature. */
+/* Logo letters read as ink on paper; Mobi keeps the volt signature. */
 .mm .logo {
   color: var(--ink);
-  font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-}
-.mm .logo .bolt {
-  box-shadow: 0 2px 0 var(--volt-edge);
 }
 .mm .logo .dot {
   color: var(--volt-edge);
-  text-shadow: none;
 }
 .mm-foot .logo {
   color: var(--chalk);
@@ -4153,7 +4057,7 @@ body:has(.mm) {
   scroll-behavior: auto !important;
 }
 :root[data-motion='reduced'] .skeleton::after { animation: none !important; }
-:root[data-motion='reduced'] :is(.skeleton, .animate-pulse-slow, .marquee-track, .logo .bolt, .logo .dot, .pip-actor, .pip-lids i, .pip-pose-in, .mk-shake) { animation: none !important; }
+:root[data-motion='reduced'] :is(.skeleton, .animate-pulse-slow, .marquee-track, .pip-actor, .pip-lids i, .pip-pose-in, .mk-shake) { animation: none !important; }
 :root[data-motion='reduced'] :is(.pip-flyer, .pip-guide-flyer) { display: none; }
 :root[data-motion='reduced'] .mk-press { will-change: auto; }
 :root[data-motion='reduced'] .mk-press:active:not(:disabled) { transform: none; }

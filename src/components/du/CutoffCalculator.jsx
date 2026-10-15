@@ -32,6 +32,10 @@ import {
   readSaved,
   writeSaved,
 } from '@/lib/du/client';
+import { Listbox } from '@/components/ui/controls/Listbox';
+import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
+import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
+import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import '@/components/du/du.css';
 
 const PAGE_SIZE = 25;
@@ -174,15 +178,10 @@ function CutoffTable({ group, catIndex, category, score }) {
           <span className="du-sr">Search colleges</span>
           <input type="search" value={query} placeholder="Search a college" onChange={(e) => { setQuery(e.target.value); setShown(PAGE_SIZE); }} />
         </label>
-        <label className="du-select">
-          <span className="du-sr">Sort colleges</span>
-          <select value={sort} onChange={(e) => setSort(e.target.value)}>
-            {score != null ? <option value="fit">Seats you clear first</option> : null}
-            <option value="high">Highest cutoff first</option>
-            <option value="low">Lowest cutoff first</option>
-            <option value="name">College A to Z</option>
-          </select>
-        </label>
+        <div className="du-select">
+          <Listbox aria-label="Sort colleges" sheetTitle="Sort colleges" size="sm" placeholder="Sort colleges" value={sort} onChange={setSort}
+            options={[...(score != null ? [{ value: 'fit', label: 'Seats you clear first' }] : []), { value: 'high', label: 'Highest cutoff first' }, { value: 'low', label: 'Lowest cutoff first' }, { value: 'name', label: 'College A to Z' }]} />
+        </div>
       </div>
       {rows.length === 0 ? (
         <p className="du-state">No college matches that search.</p>
@@ -254,12 +253,11 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
             )}
           </section>
           {group.eligibility.notes.length > 0 ? (
-            <details className="du-notes">
-              <summary>Notes from the DU Bulletin</summary>
+            <SmoothDetails className="du-notes" chevron summary="Notes from the DU Bulletin">
               {group.eligibility.notes.map((n) => (
                 <p key={n}>{n}</p>
               ))}
-            </details>
+            </SmoothDetails>
           ) : null}
         </div>
       ) : null}
@@ -475,30 +473,15 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
             <h3 className="du-h3">Category and score <small>optional</small></h3>
             <div className="du-field">
               <span className="du-label" id="du-cat-label">Category</span>
-              <div className="du-seg" role="radiogroup" aria-labelledby="du-cat-label">
-                {MAIN_CATEGORIES.map((c, index) => (
-                  <button key={c} type="button" role="radio" aria-checked={category === c} tabIndex={category === c || (!MAIN_CATEGORIES.includes(category) && index === 0) ? 0 : -1}
-                    onKeyDown={event => {
-                      const keys = ['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'];
-                      if (!keys.includes(event.key) || event.altKey || event.ctrlKey || event.metaKey) return;
-                      event.preventDefault();
-                      const next = event.key === 'Home' ? 0 : event.key === 'End' ? MAIN_CATEGORIES.length - 1 : (index + (['ArrowRight', 'ArrowDown'].includes(event.key) ? 1 : -1) + MAIN_CATEGORIES.length) % MAIN_CATEGORIES.length;
-                      setCategory(MAIN_CATEGORIES[next]);
-                      event.currentTarget.parentElement.querySelectorAll('[role="radio"]')[next]?.focus();
-                    }} className="du-seg__btn" onClick={() => setCategory(c)}>
-                    {c}
-                  </button>
-                ))}
+              <SegmentedControl labelledBy="du-cat-label" wrap value={category} onChange={setCategory} options={MAIN_CATEGORIES} />
+              <div className="du-select du-select--full">
+                <span className="du-sr" id="du-quota-label">Other quota</span>
+                <Listbox labelledBy="du-quota-label" sheetTitle="Other quota" size="sm" active={OTHER_CATEGORIES.includes(category)}
+                  placeholder="Other quota (Sikh, PwBD, KM, SGC, orphan)"
+                  value={OTHER_CATEGORIES.includes(category) ? category : ''}
+                  options={OTHER_CATEGORIES.map((c) => ({ value: c, label: CATEGORY_LABELS[c] }))}
+                  onChange={(value) => value && setCategory(value)} />
               </div>
-              <label className="du-select du-select--full" data-active={OTHER_CATEGORIES.includes(category)}>
-                <span className="du-sr">Other quota</span>
-                <select value={OTHER_CATEGORIES.includes(category) ? category : ''} onChange={(e) => e.target.value && setCategory(e.target.value)}>
-                  <option value="">Other quota (Sikh, PwBD, KM, SGC, orphan)</option>
-                  {OTHER_CATEGORIES.map((c) => (
-                    <option key={c} value={c}>{CATEGORY_LABELS[c]}</option>
-                  ))}
-                </select>
-              </label>
             </div>
             <label className="du-field">
               <span className="du-label">Your programme-specific CUET score</span>
@@ -603,20 +586,13 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                       <span className="du-sr">Search programmes</span>
                       <input type="search" value={query} placeholder="Search programmes" onChange={(e) => setQuery(e.target.value)} />
                     </label>
-                    <label className="du-select">
-                      <span className="du-sr">Sort programmes</span>
-                      <select value={sort} onChange={(e) => setSort(e.target.value)}>
-                        <option value="colleges">Most colleges</option>
-                        <option value="cutoff">Highest cutoff</option>
-                        <option value="name">A to Z</option>
-                      </select>
-                    </label>
+                    <div className="du-select">
+                      <Listbox aria-label="Sort programmes" sheetTitle="Sort programmes" size="sm" value={sort} onChange={setSort}
+                        options={[{ value: 'colleges', label: 'Most colleges' }, { value: 'cutoff', label: 'Highest cutoff' }, { value: 'name', label: 'A to Z' }]} />
+                    </div>
                   </div>
                   {score != null ? (
-                    <label className="du-check">
-                      <input type="checkbox" checked={onlyClearing} onChange={(e) => setOnlyClearing(e.target.checked)} />
-                      <span>Only programmes where my score clears a cutoff</span>
-                    </label>
+                    <ToggleRow checked={onlyClearing} onChange={setOnlyClearing} label="Only programmes where my score clears a cutoff" />
                   ) : null}
                 </div>
               )}
@@ -639,28 +615,26 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
               </div>
 
               {visible.near.length > 0 ? (
-                <details className="du-near" open={eligible.length === 0}>
-                  <summary>
+                <SmoothDetails className="du-near" open={eligible.length === 0} summary={<>
                     <span>Not eligible yet ({visible.near.length}). See what each one needs</span>
                     <ChevronDown size={18} aria-hidden="true" />
-                  </summary>
+                  </>}>
                   <ul>
                     {[...visible.near]
                       .filter((r) => r.nearest)
                       .sort((a, b) => a.nearest.size - b.nearest.size || a.group.name.localeCompare(b.group.name))
                       .map((r) => (
                         <li key={r.group.id}>
-                          <details>
-                            <summary>
+                          <SmoothDetails summary={<>
                               <strong>{r.group.name}</strong>
                               <span>{r.nearest.gaps.map((g) => describeGap(g, data)).join(' · ')}</span>
-                            </summary>
+                            </>}>
                             <RulesList rows={explainFor(r.group)} />
-                          </details>
+                          </SmoothDetails>
                         </li>
                       ))}
                   </ul>
-                </details>
+                </SmoothDetails>
               ) : null}
             </>
           ) : null}

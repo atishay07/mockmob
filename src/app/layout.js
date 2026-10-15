@@ -1,17 +1,32 @@
-import { Gabarito, Hanken_Grotesk, Geist_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Gabarito, Hanken_Grotesk, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./marketing-theme.css";
 import "./brand-pip.css";
+import "./brand.css";
 import { Providers } from "@/components/Providers";
 import { JsonLd } from "@/components/JsonLd";
 import { globalJsonLd, seoMetadata, siteConfig } from "@/lib/seo";
 import AssistantLauncherGate from "@/components/ai/AssistantLauncherGate";
+import { BRAND_FLAGS } from "@/../data/brand_flags.mjs";
+
+// The display face (data/brand_flags.mjs displayFont): Bricolage Grotesque, the app's display face, for
+// headings, numbers and moments, set exactly as the owner approved it at Gate A (the variable weight axis,
+// default optical size and width, so the pages' own weights and tracking hold). Gabarito stays declared for
+// a rollback but is not preloaded, so it costs nothing while Bricolage is on. (next/font options must be
+// literals: a rollback flips the flag and swaps the two preload values.)
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+});
 
 const gabarito = Gabarito({
   variable: "--font-gabarito",
   subsets: ["latin"],
   display: "swap",
   weight: ["500", "600", "700", "800", "900"],
+  preload: false,
 });
 
 const hanken = Hanken_Grotesk({
@@ -32,7 +47,7 @@ const geistMono = Geist_Mono({
 const DIRECTION_CONTRACT = `<!--
 IMPECCABLE DIRECTION CONTRACT
 THESIS: Find the mistaken reasoning, practise the missing step and check it on fresh questions. Recovery stays unavailable until sources, independent calibration and the authenticated journey pass their gates. Ordinary practice remains the pre-release primary action.
-OWN-WORLD: Retain Night Arena, volt green, Gabarito display, Hanken Grotesk text and Geist Mono measurement. The theme switch retains the optional daylight palette. Preserve the playable sample and current product identity.
+OWN-WORLD: Retain Night Arena, volt green, Bricolage Grotesque display (the app's face), Hanken Grotesk text, Geist Mono measurement, logo B (Mobi as the second o) and the app's photo-real subject objects. The theme switch retains the optional daylight palette. Preserve the playable sample and current product identity.
 STORY: Promise, playable example, connected recovery demonstration, actual coverage and evidence, price, FAQ. CUET UG 2027: English, Accountancy, Business Studies and Economics. Illustrative outcomes never become observed student gains.
 FIRST VIEWPORT (320px): clear promise and Start free practice before release. After release, Find my first gap starts an available functional baseline. No unavailable feature is advertised as live.
 FORM: The owner's approved roadmap of 2026-10-02 supersedes the earlier paper-only pilot direction. Keep existing purchased tools accessible.
@@ -68,8 +83,9 @@ export default function RootLayout({ children }) {
     <html
       lang="en"
       data-theme="light"
+      data-display-font={BRAND_FLAGS.displayFont}
       suppressHydrationWarning
-      className={`${gabarito.variable} ${hanken.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${bricolage.variable} ${gabarito.variable} ${hanken.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,m=0;try{d.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){d.dataset.theme='light'}try{m=localStorage.getItem('mm:motion:v1')==='reduced'}catch(e){}try{m=m||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}if(m)d.dataset.motion='reduced'})()` }} />

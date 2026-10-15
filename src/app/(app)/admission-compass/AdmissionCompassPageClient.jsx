@@ -11,6 +11,7 @@ import { DU_SOURCES } from '@/lib/du/sources';
 import { useAuth } from '@/components/AuthProvider';
 import { AppIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
 import { useInsights } from '@/components/ai/useInsights';
+import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 
 // Profile subject ids -> DU catalog ids (they match, except the aptitude test).
 const toDuId = (id) => (id === 'general_test' ? 'gat' : id);
@@ -64,10 +65,9 @@ export default function AdmissionCompassPageClient() {
 
       <CutoffCalculator seedSubjects={seed} />
 
-      <details className="cmp-sources">
-        <summary>Official source documents</summary>
+      <SmoothDetails className="cmp-sources" chevron summary="Official source documents">
         <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a> · {s.use}</li>)}</ul>
-      </details>
+      </SmoothDetails>
     </main>
   );
 }

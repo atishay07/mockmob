@@ -1,8 +1,13 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import Link from 'next/link';
-import { Avatar } from '@/components/ui/Avatar';
+// Account: the live page, with the restructure's You page brought inside it. Your sheet first (who you
+// are, the exam, your subjects as the app's objects, your mocks), then your name and sign-in. Beside
+// them: plan and credits, appearance (the Night, Daylight and Match device switch) and your weekly goal.
+// Below: community and help, then privacy, other devices and delete account.
+// Every setting that was on this page is still here. The page paints at once: only the mock counts wait
+// for the server, and a failure there never hides a setting. Links to /profile#plan, #appearance, #goal,
+// #privacy, #delete and the rest land on their section. One Mobi on screen (lookMobiStore.js).
+import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Button } from '@/components/ui/Button';
 import { DrawnCheck } from '@/components/ui/DrawnCheck';
 import MobiReact from '@/components/brand/MobiReact';
@@ -10,15 +15,19 @@ import { mobiMoment } from '@/lib/mobiMoments';
 import { WAIT_LONG_MS, greeting, oopsRun } from '@/lib/mobiRation';
 import LookAndFeelCard from './LookAndFeelCard';
 import { lookMobiActive, lookMobiServer, subscribeLookMobi } from '@/components/profile/lookMobiStore';
-import { useCountUp } from '@/lib/motion';
-import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
+import YourSheet from '@/components/profile/YourSheet';
+import PlanCredits from '@/components/profile/PlanCredits';
+import GoalControl from '@/components/profile/GoalControl';
+import AccountLinks from '@/components/profile/AccountLinks';
+import SignOutControl from '@/components/profile/SignOutControl';
+import { anchorFromHash, mocksSummary } from '@/components/profile/accountModel.mjs';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
-import { PlanCard } from '@/components/billing/PlanCard';
 import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevices';
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
-import './profile-privacy.css';
 import ArenaHead from '@/components/arena/ArenaHead';
+import './profile-privacy.css';
+import '@/components/profile/account.css';
 
 const putJson = (path, data) => api(path, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
 const fmtDate = (iso) => { try { return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }); } catch { return ''; } };
@@ -63,11 +72,8 @@ function UsageDataSection() {
   }
 
   return (
-    <section className="glass p-6 privacy-block" aria-labelledby="usage-data-title">
-      <div>
-        <div className="mono-label mb-2">Privacy</div>
-        <h2 id="usage-data-title">Usage data</h2>
-      </div>
+    <section className="glass p-6 privacy-block" id="privacy" aria-labelledby="usage-data-title">
+      <h2 id="usage-data-title">Privacy and usage data</h2>
       <p>Usage data shows us which screens and steps people use, such as starting a session or opening a result, along with the app version. We never collect your answers, marks, free text or contacts.</p>
       <ul>
         <li>First-party only. No third-party tracking and no advertising.</li>
@@ -78,7 +84,7 @@ function UsageDataSection() {
       {loadError ? <p className="privacy-note privacy-note--err" role="alert">{loadError}</p> : !loaded ? <p className="privacy-note">Loading your choice.</p> : (
         <>
           <fieldset className="privacy-choice" aria-busy={busy}>
-            <legend className="text-sm text-zinc-400">Your age</legend>
+            <legend className="privacy-label">Your age</legend>
             <label><input type="radio" name="age-band" checked={ageBand === 'adult'} onChange={() => save('adult', allowed)} />I am 18 or older</label>
             <label><input type="radio" name="age-band" checked={ageBand === 'minor'} onChange={() => save('minor', false)} />I am under 18</label>
           </fieldset>
@@ -116,11 +122,8 @@ function DeleteAccountSection() {
   }
 
   return (
-    <section className="glass p-6 privacy-block" aria-labelledby="delete-account-title">
-      <div>
-        <div className="mono-label mb-2">Account</div>
-        <h2 id="delete-account-title">Delete account</h2>
-      </div>
+    <section className="glass p-6 privacy-block" id="delete" aria-labelledby="delete-account-title">
+      <h2 id="delete-account-title">Delete account</h2>
       <p>We delete your account and study records within 30 days. Payment records required by law are kept.</p>
       {pending ? (
         <p className="privacy-note privacy-note--ok" role="status">Deletion pending. You asked on {fmtDate(pending)} and we complete it within 30 days. To cancel, email support@mockmob.in.</p>
@@ -129,7 +132,7 @@ function DeleteAccountSection() {
       ) : (
         <div className="privacy-confirm">
           <label className="block">
-            <span className="text-sm text-zinc-400 mb-2 block">Type DELETE to confirm</span>
+            <span className="privacy-label">Type DELETE to confirm</span>
             <input className="input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} />
           </label>
           <div className="flex gap-3 flex-wrap">
@@ -145,18 +148,11 @@ function DeleteAccountSection() {
 
 const firstName = (name) => String(name || '').trim().split(/\s+/)[0] || '';
 
-// A count that rolls to its real value. The caption carries the truth when there is nothing to count.
-function Roll({ value, suffix = '' }) {
-  const shown = useCountUp(value, { from: 0, duration: 800 });
-  return <>{shown}{suffix}</>;
-}
-
 export default function ProfilePageClient() {
   const { user, status, refreshSession } = useAuth();
   const toast = useToast();
-  const [attempts, setAttempts] = useState([]);
-  const [pageStatus, setPageStatus] = useState('loading');
-  const [error, setError] = useState(null);
+  const [mocks, setMocks] = useState({ status: 'loading', count: 0, average: null });
+  const [mocksTry, setMocksTry] = useState(0);
   const [draftName, setDraftName] = useState(null);
   const [saveState, setSaveState] = useState({ type: null, message: '' });
   const [isSaving, setIsSaving] = useState(false);
@@ -165,32 +161,27 @@ export default function ProfilePageClient() {
   const waitTimer = useRef(0);
   const lookMobi = useSyncExternalStore(subscribeLookMobi, lookMobiActive, lookMobiServer);
 
+  // Only the counts on your sheet wait for this: the rest of the page is already usable.
   useEffect(() => {
-    if (status === 'loading') return;
-    if (!user?.id) return;
-
+    if (status === 'loading' || !user?.id) return undefined;
     let alive = true;
-    async function load() {
-      try {
-        setPageStatus('loading');
-        const data = await apiGet(`/api/attempts?userId=${user.id}`);
-        if (!alive) return;
-        setAttempts(Array.isArray(data) ? data : []);
-        setPageStatus('ready');
-      } catch (e) {
-        if (!alive) return;
-        setError(e.message);
-        setPageStatus('error');
-      }
-    }
-
-    load();
+    apiGet(`/api/attempts?userId=${user.id}`)
+      .then((data) => { if (alive) setMocks({ status: 'ready', ...mocksSummary(data) }); })
+      .catch(() => { if (alive) setMocks((m) => ({ ...m, status: 'error' })); });
     return () => { alive = false; };
-  }, [status, user]);
+  }, [status, user?.id, mocksTry]);
 
-  // Mobi says hello the first time you open Profile each day, and is simply there after that.
+  // A link to /profile#goal (and the rest) lands on its section, after the first paint.
   useEffect(() => {
-    if (pageStatus !== 'ready' || !user?.id) return undefined;
+    const id = anchorFromHash(window.location.hash);
+    if (!id) return undefined;
+    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ block: 'start' }));
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // Mobi says hello the first time you open Account each day, and is simply there after that.
+  useEffect(() => {
+    if (!user?.id) return undefined;
     const id = window.setTimeout(() => {
       if (greeted.current) return;
       greeted.current = true;
@@ -200,13 +191,8 @@ export default function ProfilePageClient() {
       if (act !== 'idle') setMobi((m) => ({ act, n: m.n + 1 }));
     }, 450);
     return () => window.clearTimeout(id);
-  }, [pageStatus, user?.id]);
+  }, [user?.id]);
 
-  const averageScore = useMemo(() => {
-    if (attempts.length === 0) return null;
-    const total = attempts.reduce((sum, attempt) => sum + attempt.score, 0);
-    return Math.round(total / attempts.length);
-  }, [attempts]);
   const currentName = draftName ?? (user?.name || '');
   const trimmed = currentName.trim();
   const dirty = trimmed.length > 0 && trimmed !== (user?.name || '');
@@ -236,44 +222,32 @@ export default function ProfilePageClient() {
     }
   }
 
-  if (pageStatus === 'loading') {
-    return (
-      <div className="student-page student-page--profile flex flex-col gap-6">
-        <div>
-          <div className="eyebrow mb-2">{'Identity'}</div>
-          <div className="h-10 w-64 skeleton mb-2" />
-          <div className="h-4 w-56 skeleton" />
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-4">
-          <SkeletonCard lines={6} />
-          <SkeletonCard lines={4} />
-        </div>
-      </div>
-    );
-  }
-
-  if (pageStatus === 'error') {
-    return <div className="student-page student-page--profile"><ErrorState message={error} onRetry={() => window.location.reload()} /></div>;
-  }
+  // While the Appearance card is on screen its Mobi is the one; this one steps aside and keeps his space.
+  const sheetMobi = (
+    <span style={{ visibility: lookMobi ? 'hidden' : 'visible' }}>
+      <MobiReact key={mobi.n} act={mobi.act} size={72} interactive={!lookMobi} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} />
+    </span>
+  );
 
   return (
-    <div className="student-page student-page--profile flex flex-col gap-6 view">
-      <ArenaHead eyebrow="Account" title="Your corner of the Arena." lede="Update your name, subjects and plan. Your practice history stays with your account." />
+    <div className="student-page student-page--profile acct view">
+      <ArenaHead eyebrow="Account" title="Your corner of the Arena." lede="Your sheet, your plan and how MockMob looks and feels. Your practice history stays with your account." />
 
-      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-4">
-        <section className="glass p-6" aria-labelledby="profile-identity">
-          <div className="profile-identity">
-            <span className="profile-identity__mobi" style={{ visibility: lookMobi ? 'hidden' : 'visible' }}><MobiReact key={mobi.n} act={mobi.act} size={72} interactive={!lookMobi} onDone={() => setMobi((m) => (m.act === 'idle' ? m : { act: 'idle', n: m.n }))} /></span>
-            <div className="profile-identity__text">
-              <h2 id="profile-identity">{hi ? `Hi, ${hi}.` : 'Hi.'}</h2>
-              <p>{user?.email}</p>
-            </div>
-            <Avatar name={user?.name || user?.email} size="lg" className="profile-identity__avatar" />
-          </div>
+      <div className="acct-grid">
+        <div className="acct-col">
+          <YourSheet
+            user={user}
+            greeting={hi ? `Hi, ${hi}.` : 'Hi.'}
+            mobi={sheetMobi}
+            plan={user?.isPremium ? 'Pro' : 'Free'}
+            mocks={mocks}
+            onRetry={() => { setMocks((m) => ({ ...m, status: 'loading' })); setMocksTry((n) => n + 1); }}
+          />
 
-          <div className="grid gap-4 mt-5">
-            <label className="block">
-              <span className="text-sm text-zinc-400 mb-2 block">Display name</span>
+          <section className="glass acct-card" id="name" aria-labelledby="acct-name-h">
+            <h2 className="acct-h2" id="acct-name-h">Your name and sign-in</h2>
+            <label className="acct-field">
+              <span>Display name</span>
               <input
                 className="input"
                 value={currentName}
@@ -282,59 +256,39 @@ export default function ProfilePageClient() {
                 autoComplete="name"
                 aria-describedby="profile-name-help"
               />
-              <span id="profile-name-help" className="text-xs text-zinc-500 mt-2 block">Your initials are your avatar. They update when you save your name.</span>
+              <span id="profile-name-help" className="acct-field__help">Your initials are your avatar. They update when you save your name.</span>
             </label>
-
-            <label className="block">
-              <span className="text-sm text-zinc-400 mb-2 block">Email</span>
-              <input className="input" value={user?.email || ''} disabled />
+            <label className="acct-field">
+              <span>Email</span>
+              <input className="input" value={user?.email || ''} disabled aria-describedby="profile-email-help" />
+              <span id="profile-email-help" className="acct-field__help">You sign in with this address. It cannot be changed here.</span>
             </label>
-          </div>
-
-          <div className="mt-6 flex items-center justify-between gap-3 flex-wrap border-t border-white/5 pt-4">
-            <div className="profile-save-note" role={saveState.type === 'error' ? 'alert' : 'status'} data-tone={saveState.type || undefined}>
-              {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : 'Save your name to update it across the Arena.'}
-            </div>
-            <Button variant={dirty ? 'volt' : 'outline'} size="md" disabled={isSaving || !dirty} onClick={saveName}>
-              {isSaving ? 'Saving' : 'Save name'}
-            </Button>
-          </div>
-        </section>
-
-        <section className="flex flex-col gap-4">
-          <PlanCard />
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="glass p-5">
-              <div className="mono-label mb-2">Mocks taken</div>
-              <div className="display-md"><Roll value={attempts.length} /></div>
-              {attempts.length === 0 ? <div className="profile-stat-note">No mocks yet</div> : null}
-            </div>
-            <div className="glass p-5">
-              <div className="mono-label mb-2">Avg score</div>
-              <div className="display-md">{averageScore === null ? '—' : <Roll value={averageScore} suffix="%" />}</div>
-              {averageScore === null ? <div className="profile-stat-note">No mocks yet</div> : null}
-            </div>
-            <div className="glass p-5">
-              <div className="flex items-center justify-between mb-2">
-                <div className="mono-label">Subjects</div>
-                <Link href="/onboarding?edit=true" className="account-edit text-volt text-xs font-semibold hover:underline">Edit subjects</Link>
+            <div className="acct-card__keys">
+              <div className="profile-save-note" role={saveState.type === 'error' ? 'alert' : 'status'} data-tone={saveState.type || undefined}>
+                {saveState.type === 'success' ? <><DrawnCheck size={16} />{saveState.message}</> : saveState.type === 'error' ? saveState.message : isSaving ? 'Saving' : 'Save your name to update it across the Arena.'}
               </div>
-              <div className="display-md"><Roll value={user?.subjects?.length || 0} /></div>
+              <Button variant={dirty ? 'volt' : 'outline'} size="md" disabled={isSaving || !dirty} onClick={saveName}>
+                {isSaving ? 'Saving' : 'Save name'}
+              </Button>
             </div>
-            <div className="glass p-5">
-              <div className="mono-label mb-2">Next session</div>
-              <Link href="/today" className="account-edit profile-open">Open Today<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7" /></svg></Link>
-            </div>
-          </div>
-        </section>
+            <SignOutControl />
+          </section>
+        </div>
+
+        <div className="acct-col">
+          <PlanCredits userId={user?.id} />
+          <div id="appearance" className="acct-anchor"><LookAndFeelCard /></div>
+          <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
+            <h2 className="acct-h2" id="acct-goal-h">Weekly goal</h2>
+            <GoalControl />
+          </section>
+        </div>
       </div>
 
-      <LookAndFeelCard />
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="acct-grid acct-grid--even">
+        <AccountLinks />
         <UsageDataSection />
-        <SignOutOtherDevicesSection />
+        <div id="sign-in" className="acct-anchor"><SignOutOtherDevicesSection /></div>
         <DeleteAccountSection />
       </div>
     </div>

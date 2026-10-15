@@ -1,0 +1,48 @@
+"use client";
+
+// The Start key: an action, not a page. It opens the Start sheet, which grows out of it.
+//   variant 'sidebar'  a full-width volt key under the logo (from 1024 px)
+//   variant 'bar'      a raised volt key in the phone and tablet bar, between Practice and the rest
+// Volt is the one action colour; the key carries the word Start with a play mark.
+import { openStart, useStartState } from './startStore';
+import './start.css';
+
+function PlayMark({ size = 14 }) {
+  return (
+    <svg className="stk__mark" width={size} height={size} viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+      <path d="M5 3.4v9.2c0 .5.55.8.97.53l7.1-4.6a.63.63 0 0 0 0-1.06l-7.1-4.6A.63.63 0 0 0 5 3.4Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+export default function StartKey({ variant = 'sidebar', onOpen = null }) {
+  const { open } = useStartState();
+  const press = (event) => {
+    onOpen?.();
+    openStart({ opener: event.currentTarget });
+  };
+  return (
+    <button
+      type="button"
+      className={`stk stk--${variant} mk-press`}
+      aria-haspopup="dialog"
+      aria-expanded={open}
+      aria-controls={open ? 'start-sheet' : undefined}
+      data-start-key={variant}
+      data-tour="nav-start"
+      onClick={press}
+    >
+      {variant === 'bar' ? (
+        <>
+          <span className="stk__disc"><PlayMark size={16} /></span>
+          <span className="stk__word">Start</span>
+        </>
+      ) : (
+        <>
+          <span className="stk__disc"><PlayMark size={13} /></span>
+          <span className="stk__word">Start a session</span>
+        </>
+      )}
+    </button>
+  );
+}

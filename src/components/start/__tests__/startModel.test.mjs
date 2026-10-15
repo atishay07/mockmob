@@ -1,0 +1,173 @@
+// node --test src/components/start/__tests__/startModel.test.mjs
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFileSync, readdirSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, join } from 'node:path';
+import { TEST_MODES } from '../../../../data/test_modes.js';
+import { CUET_PUBLIC_ALLOWED_SUBJECTS } from '../../../../data/cuet_controls.js';
+import { learningPlan } from '../../../../data/learning_engine.js';
+import {
+  SESSION, SUBJECT_ART, START_SUBJECTS, artBox, balanceLine, costLine, dragOffset, dragOutcome, heroFromPlan, morphFrom,
+  pickSubject, practiceHref, safeHref, springEasing, startRequestFromSearch, startRows, startSubjects, subjectArt, subjectName,
+} from '../startModel.mjs';
+
+const here = dirname(fileURLToPath(import.meta.url));
+const startDir = join(here, '..');
+
+test('session facts come from TEST_MODES', () => {
+  assert.equal(SESSION.quickCost, TEST_MODES.quick.creditCost);
+  assert.equal(SESSION.fullCost, TEST_MODES.full.creditCost);
+  assert.equal(SESSION.fullCount, 50);
+  assert.equal(SESSION.fullMinutes, 60);
+  assert.equal(SESSION.ntaCount, TEST_MODES.nta.fixedCount);
+  assert.equal(SESSION.ntaMinutes, 60);
+  assert.equal(SESSION.quickMinutes, 10);
+  assert.equal(SESSION.ntaPro, true);
+});
+
+test('the sheet knows every public CUET subject, in the same order, each with an object on disk', () => {
+  assert.deepEqual(START_SUBJECTS.map((s) => s.id), [...CUET_PUBLIC_ALLOWED_SUBJECTS]);
+  const files = new Set(readdirSync(join(startDir, 'art')));
+  for (const s of START_SUBJECTS) {
+    assert.ok(SUBJECT_ART[s.art], `${s.id} has art metadata`);
+    assert.ok(files.has(`obj-${s.art}.webp`), `${s.id} has its object file`);
+  }
+  for (const name of Object.keys(SUBJECT_ART)) assert.ok(files.has(`obj-${name}.webp`), `${name} file exists`);
+});
+
+test('subjects: aliases, unknown ids and order', () => {
+  assert.equal(subjectName('gat'), 'General Test');
+  assert.equal(subjectName('business_studies'), 'Business Studies');
+  assert.equal(subjectName('teaching_aptitude'), '');
+  assert.equal(subjectArt('bst').name, 'business');
+  assert.equal(subjectArt('hindi'), null);
+  assert.deepEqual(startSubjects(['economics', 'gat', 'economics', 'hindi', { id: 'english' }]), ['economics', 'general_test', 'english']);
+  assert.equal(startSubjects(['english', 'economics', 'accountancy', 'business_studies', 'history', 'geography', 'physics']).length, 6);
+  assert.equal(pickSubject(['economics', 'english'], 'english'), 'english');
+  assert.equal(pickSubject(['economics', 'english'], 'physics'), 'economics');
+  assert.equal(pickSubject([], 'physics'), null);
+});
+
+test('artBox keeps the object whole and puts the shadow under its foot', () => {
+  const a = SUBJECT_ART.biology;
+  const box = artBox(a, 64, 64);
+  assert.ok(box.x >= 0 && box.y >= 0 && box.x + box.width <= 64 && box.y + box.height <= 64);
+  assert.ok(box.shadow.y > box.y + box.height * 0.8);
+  assert.equal(artBox(null, 64), null);
+  assert.equal(artBox(a, 0), null);
+});
+
+test('cost lines say what is spent against the real balance', () => {
+  assert.deepEqual(costLine('quick', { balance: 40 }), { text: 'Uses 10 of your 40 practice credits.', tone: 'cost' });
+  assert.deepEqual(costLine('full', { balance: 40 }), { text: 'Uses 50 practice credits. You have 40.', tone: 'short' });
+  assert.deepEqual(costLine('quick', { balance: null }), { text: 'Uses 10 practice credits.', tone: 'cost' });
+  assert.deepEqual(costLine('quick', { balance: 10 }), { text: 'Uses 10 of your 10 practice credits.', tone: 'cost' });
+  assert.deepEqual(costLine('nta', { balance: 400 }), { text: 'Needs Pro.', tone: 'locked' });
+  assert.deepEqual(costLine('nta', { pro: true }), { text: 'Included with Pro.', tone: 'included' });
+  assert.deepEqual(costLine('full', { pro: true, balance: 0 }), { text: 'Included with Pro.', tone: 'included' });
+  assert.equal(balanceLine({ balance: 1 }), 'You have 1 practice credit');
+  assert.equal(balanceLine({ balance: null }), null);
+  assert.equal(balanceLine({ pro: true }), 'Pro: practice and mocks are included');
+});
+
+test('practice links open Practice set up, never the test itself', () => {
+  assert.equal(practiceHref({ subject: 'gat', mode: 'quick', count: 10 }), '/dashboard?subject=general_test&mode=quick&count=10');
+  assert.equal(practiceHref({ mode: 'full' }), '/dashboard?mode=full');
+  assert.equal(practiceHref({ subject: 'economics', mode: 'nta', screen: 'nta' }), '/dashboard?subject=economics&mode=nta&interface=nta');
+  assert.equal(safeHref('https://evil.example/x'), null);
+  assert.equal(safeHref('//evil.example'), null);
+  assert.equal(safeHref('/recovery?episode=1'), '/recovery?episode=1');
+});
+
+test('the hero is the live plan, word for word, with the chosen subject added to a bare practice link', () => {
+  const plan = learningPlan({ minutes: 10 });
+  const hero = heroFromPlan(plan, { subject: 'economics', balance: 40 });
+  assert.equal(hero.title, plan.primary.title);
+  assert.equal(hero.reason, plan.primary.reason);
+  assert.equal(hero.href, '/dashboard?mode=quick&count=10&subject=economics');
+  assert.equal(hero.quick, true);
+  assert.equal(hero.subject, 'economics');
+  assert.equal(hero.cost.text, 'Uses 10 of your 40 practice credits.');
+  assert.equal(hero.eyebrow, 'Your next move');
+  const keyed = heroFromPlan(plan, { subject: 'economics', tonightKey: 'tonight-start-r1x' });
+  assert.equal(keyed.href, '/dashboard?mode=quick&count=10&subject=economics&tonightKey=tonight-start-r1x&tonightMinutes=10');
+  assert.equal(heroFromPlan(plan, { subject: 'economics', tonightKey: 'bad key' }).href, '/dashboard?mode=quick&count=10&subject=economics');
+
+  const resume = heroFromPlan({ primary: { kind: 'resume_session', title: 'Resume your practice', href: '/test?subject=economics&mode=quick&sessionId=s1', reason: 'Your active session is waiting.' } });
+  assert.equal(resume.cta, 'Resume');
+  assert.equal(resume.graphic, 'resume');
+  assert.equal(resume.cost, null);
+  assert.equal(heroFromPlan({ primary: { kind: 'repair', title: 'x', href: 'javascript:alert(1)' } }), null);
+  assert.equal(heroFromPlan(null), null);
+});
+
+test('rows: Quick 10 folds into a hero that is already 10 questions; NTA says Pro on Free', () => {
+  const plan = learningPlan({ minutes: 10 });
+  const merged = startRows({ plan, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
+  assert.deepEqual(merged.rows.map((r) => r.id), ['full', 'nta']);
+  assert.equal(merged.choose.href, '/dashboard');
+
+  const twenty = startRows({ plan: learningPlan({ minutes: 20 }), subjects: ['accountancy'], balance: 40 });
+  assert.deepEqual(twenty.rows.map((r) => r.id), ['quick', 'full', 'nta']);
+  const quick = twenty.rows[0];
+  assert.equal(quick.href, '/dashboard?subject=accountancy&mode=quick&count=10');
+  assert.equal(quick.detail, '10 questions, about 10 minutes in Accountancy');
+
+  const loading = startRows({ plan: null, subjects: ['economics'], balance: 40 });
+  assert.equal(loading.hero, null);
+  assert.deepEqual(loading.rows.map((r) => r.id), ['quick', 'full', 'nta']);
+  const nta = loading.rows.find((r) => r.id === 'nta');
+  assert.equal(nta.tag, 'Pro');
+  assert.equal(nta.href, '/dashboard?subject=economics&mode=nta&interface=nta');
+  assert.equal(nta.cost.text, 'Needs Pro.');
+  const ntaPro = startRows({ plan: null, subjects: ['economics'], pro: true }).rows.find((r) => r.id === 'nta');
+  assert.equal(ntaPro.tag, null);
+  assert.equal(ntaPro.cost.text, 'Included with Pro.');
+});
+
+test('copy rules: sentence case, no exclamation mark, no em dash', () => {
+  const texts = [];
+  for (const pro of [false, true]) {
+    for (const minutes of [10, 20, 30]) {
+      const m = startRows({ plan: learningPlan({ minutes }), subjects: ['accountancy', 'economics'], subject: 'accountancy', pro, balance: 4 });
+      if (m.hero) texts.push(m.hero.eyebrow, m.hero.cta, m.hero.cost?.text);
+      for (const r of [...m.rows, m.choose]) texts.push(r.title, r.detail, r.cost?.text, r.tag);
+    }
+  }
+  const sheet = readFileSync(join(startDir, 'StartSheet.jsx'), 'utf8');
+  for (const literal of ['Start a session', 'Subject', 'Or start something else', 'Pick a session', 'Nothing is spent here. Practice shows the cost again before you start.', 'Your next move could not be loaded. The sessions below still work.', 'Try again', 'Opens Practice']) {
+    assert.ok(sheet.includes(literal), literal);
+    texts.push(literal);
+  }
+  for (const t of texts.filter(Boolean)) {
+    assert.ok(!t.includes('!'), t);
+    assert.ok(!t.includes('—'), t);
+    assert.ok(t === t.replace(/^[a-z]/, (c) => c.toUpperCase()), `sentence case: ${t}`);
+  }
+});
+
+test('motion helpers', () => {
+  const m = morphFrom({ left: 10, top: 10, width: 200, height: 48 }, { left: 248, top: 100, width: 520, height: 600 });
+  assert.ok(m.transform.startsWith('translate('));
+  assert.equal(morphFrom(null, { left: 0, top: 0, width: 1, height: 1 }), null);
+  assert.equal(dragOutcome({ dy: 200, velocity: 0, height: 600 }), 'close');
+  assert.equal(dragOutcome({ dy: 40, velocity: 1.2, height: 600 }), 'close');
+  assert.equal(dragOutcome({ dy: 40, velocity: 0.1, height: 600 }), 'settle');
+  assert.equal(dragOutcome({ dy: 10, velocity: 3, height: 600 }), 'settle');
+  assert.equal(dragOffset(50), 50);
+  assert.ok(dragOffset(-100) > -30 && dragOffset(-100) < 0);
+  const curve = springEasing({ zeta: 0.72 });
+  assert.match(curve, /^linear\(0, /);
+  assert.ok(curve.endsWith(', 1)'));
+  const values = curve.slice(7, -1).split(', ').map(Number);
+  assert.ok(Math.max(...values) > 1 && Math.max(...values) < 1.08, 'a small overshoot');
+});
+
+test('?start= requests', () => {
+  assert.deepEqual(startRequestFromSearch('?start=quick'), { row: 'quick' });
+  assert.deepEqual(startRequestFromSearch('?start=open'), { row: null });
+  assert.deepEqual(startRequestFromSearch('?start=bogus'), { row: null });
+  assert.equal(startRequestFromSearch('?view=today'), null);
+  assert.equal(startRequestFromSearch(''), null);
+});

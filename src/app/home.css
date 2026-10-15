@@ -1,0 +1,123 @@
+/* ==========================================================================
+   LANDING V2 LAYER (landing only, loaded last)
+   Builds on the live landing; removes nothing. Refines the type for the Bricolage display face
+   (brand flags), gives the statement its lamp-lit subject shelf with scroll depth, frames the
+   Mistake Lab cinema, and keeps offscreen work light on first load.
+   Motion: transform and opacity only; reduced motion gets the finished composition.
+   ========================================================================== */
+
+/* ---------- Type: Bricolage display, tighter and calmer ---------- */
+.mm.lp .lp-title {
+  font-size: clamp(1.75rem, min(11.6cqi, 13.5svh), 5.1rem);
+  line-height: 0.99;
+  letter-spacing: -0.04em;
+  font-optical-sizing: auto;
+}
+@media (max-width: 760px) {
+  .mm.lp .lp-title { font-size: clamp(1.5rem, 11cqi, 4.3rem); }
+}
+.mm.lp .lp-h2 {
+  max-width: 18ch;
+  font-size: clamp(2rem, 4.9vw, 3.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.036em;
+}
+.mm.lp .lp-h2--xl { max-width: 15ch; font-size: clamp(2.4rem, 7.2vw, 5rem); }
+.mm.lp .lp-h3 { letter-spacing: -0.028em; line-height: 1.1; }
+.mm.lp .lp-sub { max-width: 50ch; line-height: 1.58; }
+.mm.lp .lp-head { gap: 1.1rem; }
+.mm.lp .lp-statement__text { letter-spacing: -0.04em; line-height: 1.04; }
+
+/* The kicker reads as a quiet sentence-case label, not a tracked monospace eyebrow. */
+.mm.lp .lp-kicker {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 0.5rem;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 0.25rem;
+  font: 700 0.875rem/1.2 var(--font-body);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--accent-text);
+}
+.mm.lp .lp-kicker::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--volt);
+  box-shadow: 0 0 0 4px var(--accent-wash);
+}
+
+/* ---------- Statement with the subject shelf ---------- */
+.lp-statement__grid { display: grid; gap: clamp(2rem, 5vw, 3rem); align-items: center; }
+@media (min-width: 960px) {
+  .lp-statement__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+}
+.lp-shelf { display: grid; gap: 0.9rem; justify-items: center; }
+.lp-shelf__row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+@media (min-width: 960px) {
+  /* A staggered 2 by 2 still life: each object at its own height, so the group reads as a scene. */
+  .lp-shelf__row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.5rem; }
+  .lp-shelf__item:nth-child(even) { margin-top: 3.5rem; }
+  .lp-shelf__item:nth-child(3) { margin-top: -1.5rem; }
+}
+.lp-shelf__item { display: grid; justify-items: center; min-width: 0; }
+.lp-shelf__link {
+  display: grid;
+  justify-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  padding: 0.35rem;
+  border-radius: 18px;
+  color: var(--ink-2);
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .lp-shelf__link:hover { color: var(--ink); background: rgb(var(--tint) / 0.04); }
+}
+.lp-shelf__float { display: block; }
+.lp-shelf__name { font-size: clamp(0.75rem, 1.2vw, 0.875rem); font-weight: 700; text-align: center; line-height: 1.25; }
+.lp-shelf__note { margin: 0; color: var(--ink-3); font-size: 0.875rem; text-align: center; }
+
+/* Scroll depth: nearer objects travel further as the statement passes (compositor-only). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .lp-shelf__float {
+      animation: lp-shelf-depth linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+@keyframes lp-shelf-depth {
+  from { transform: translate3d(0, calc(var(--depth, 60) * 0.6px), 0) rotate(calc(var(--tilt, 0deg) * -1)); }
+  to { transform: translate3d(0, calc(var(--depth, 60) * -0.6px), 0) rotate(var(--tilt, 0deg)); }
+}
+:root[data-motion='reduced'] .lp-shelf__float { animation: none; }
+
+/* ---------- Mistake Lab cinema frame ---------- */
+.lp-sec--cinema { padding-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.lp-cinema-head { margin-bottom: clamp(1rem, 3vw, 2rem); }
+.lp-sec--cinema .lp-h2 { max-width: 16ch; }
+
+/* ---------- First load: skip rendering work for the far end of the page until it nears ---------- */
+.mm.lp :is(#on-instagram, #wall-of-love) {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+@media (min-width: 960px) {
+  .mm.lp .lp-statement__text { font-size: clamp(2.2rem, 4.2vw, 3.7rem); }
+}

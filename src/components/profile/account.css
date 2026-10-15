@@ -1,0 +1,207 @@
+/* ==========================================================================
+   ACCOUNT  scope: .app-shell
+   The live /profile page with the restructure's You page inside it: your sheet (the subjects as the
+   app's lamp-lit objects), name and sign-in, plan and credits, appearance, weekly goal, community and
+   help. Tokens only (--a-*), so Night and Daylight match; volt (--volt) is the one action colour.
+   Motion answers an action or shows a state: 150 to 350 ms, ease-out, transform and opacity only, and
+   one authored moment when the page opens (the subject tiles settle in). All still under reduced motion.
+   ========================================================================== */
+
+.app-shell .student-page.acct { width: min(100%, 1080px); display: grid; gap: 28px; align-content: start; --acct-lamp: rgba(226, 255, 92, 0.085); }
+html[data-theme='light'] .app-shell .student-page.acct { --acct-lamp: rgba(190, 226, 30, 0.2); }
+.app-shell .acct-grid { display: grid; gap: 20px; align-items: start; min-width: 0; }
+.app-shell .acct-col { display: grid; gap: 20px; min-width: 0; align-content: start; }
+@media (min-width: 1024px) {
+  .app-shell .acct-grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr); gap: 24px; }
+  .app-shell .acct-col { gap: 24px; }
+  .app-shell .acct-grid--even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.app-shell .acct [id] { scroll-margin-top: 88px; }
+.app-shell .acct-h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+
+/* ---------- Keys and links (sentence case, 44 px targets, every state) ---------- */
+.app-shell .acct-key {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px;
+  border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
+  font: 700 14px/1.2 var(--font-display); text-decoration: none; cursor: pointer; touch-action: manipulation;
+  transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease), box-shadow 100ms var(--a-ease);
+}
+.app-shell .acct-key:active:not(:disabled) { transform: scale(0.98); }
+.app-shell .acct-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .acct-key:disabled, .app-shell .acct-key[aria-disabled='true'] { opacity: 0.45; cursor: not-allowed; }
+@media (hover: hover) and (pointer: fine) { .app-shell .acct-key:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); } }
+/* The volt keycap: it sits on its own edge and presses down into it. */
+.app-shell .acct-key--volt { background: var(--volt, #d2f000); border-color: transparent; color: #0b1000; box-shadow: 0 3px 0 #9db400; }
+.app-shell .acct-key--volt:active:not(:disabled) { transform: translate3d(0, 2px, 0); box-shadow: 0 1px 0 #9db400; }
+@media (hover: hover) and (pointer: fine) { .app-shell .acct-key--volt:hover:not(:disabled) { background: var(--volt, #d2f000); border-color: transparent; filter: brightness(1.05); } }
+.app-shell .acct-key--danger { border-color: color-mix(in srgb, var(--a-bad-text) 45%, transparent); color: var(--a-bad-text); }
+.app-shell .acct-link {
+  display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--a-accent-text); font: 700 14px/1.2 var(--font-body); text-decoration: none; text-underline-offset: 3px; justify-self: start;
+}
+.app-shell .acct-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 6px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .acct-link:hover { text-decoration: underline; } }
+.app-shell .acct-note { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); }
+.app-shell .acct-note[data-tone='ok'] { color: var(--a-good-text); }
+.app-shell .acct-note[data-tone='err'] { color: var(--a-bad-text); }
+.app-shell .acct-note .drawn-check { flex: none; }
+.app-shell .acct-sk { display: block; border-radius: 8px; background: var(--a-sunken); }
+.app-shell .acct-sk--figure { width: 64px; height: 26px; }
+.app-shell .acct-sk--line { height: 14px; width: min(100%, 260px); }
+.app-shell .acct-sk--days { height: 44px; width: min(100%, 460px); border-radius: 999px; }
+
+/* ---------- Your sheet ---------- */
+.app-shell .acct-sheet { position: relative; display: grid; gap: 24px; padding: clamp(18px, 3vw, 28px); min-width: 0; isolation: isolate; }
+/* A lamp over the sheet: a soft pool of volt light behind your name. It stays inside the card (it fades
+   out before the edge), so nothing is clipped and Mobi can still hop above it. */
+.app-shell .acct-sheet::after {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  top: 0; right: 0; width: 76%; height: 70%; border-radius: inherit;
+  background: radial-gradient(closest-side, var(--acct-lamp), transparent);
+}
+.app-shell .acct-sheet__who { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.app-shell .acct-sheet__mobi { flex: none; display: grid; place-items: center; width: 72px; min-height: 72px; }
+.app-shell .acct-sheet__id { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.app-shell .acct-sheet__id h2 { margin: 0; font: 800 clamp(24px, 3vw, 30px)/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .acct-sheet__mail { margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3); overflow-wrap: anywhere; }
+.app-shell .acct-sheet__tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 0; }
+.app-shell .acct-tag { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; border: 1px solid var(--a-line-strong); background: var(--a-raised-2); font-size: 12.5px; font-weight: 700; color: var(--a-ink-2); }
+.app-shell .acct-tag[data-tone='pro'] { border-color: var(--a-volt-line); background: var(--a-volt-wash); color: var(--a-ink); }
+.app-shell .acct-sheet__avatar { flex: none; align-self: flex-start; }
+
+.app-shell .acct-sheet__subjects { display: grid; gap: 12px; min-width: 0; }
+.app-shell .acct-sheet__row { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.app-shell .acct-sheet__row h3 { margin: 0; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .acct-sheet__count { margin: 0; font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .acct-sheet__none { display: grid; gap: 12px; justify-items: start; padding: 16px; border: 1px dashed var(--a-line-strong); border-radius: 16px; }
+.app-shell .acct-sheet__none p { margin: 0; max-width: 46ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
+
+/* The subjects stand as the app's objects on a small stage, the name always printed under them. */
+.app-shell .acct-objects { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 10px; }
+.app-shell .acct-object {
+  display: grid; justify-items: center; align-content: end; gap: 6px; min-height: 124px; min-width: 0; padding: 10px 6px 12px;
+  border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-sunken); text-align: center;
+  animation: acct-settle 340ms var(--a-ease) both; animation-delay: calc(var(--i, 0) * 50ms + 80ms);
+}
+.app-shell .acct-object__name { font-size: 13px; font-weight: 600; line-height: 1.3; color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .acct-object--add { padding: 0; border-style: dashed; background: transparent; }
+.app-shell .acct-object__add {
+  display: grid; justify-items: center; align-content: end; gap: 6px; width: 100%; min-height: 122px; padding: 10px 6px 12px;
+  border-radius: 15px; color: var(--a-ink-2); text-decoration: none; transition: color 150ms var(--a-ease), background-color 150ms var(--a-ease);
+}
+.app-shell .acct-object__add .acct-object__name { color: inherit; }
+.app-shell .acct-object__add:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .acct-object__stage { display: grid; place-items: center; width: 76px; height: 76px; }
+.app-shell .acct-object__plus {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; border: 1.5px dashed var(--a-line-strong);
+  color: var(--a-accent-text); transition: transform 220ms var(--a-ease), border-color 150ms var(--a-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .acct-object__add:hover { color: var(--a-ink); background: var(--a-hover); }
+  .app-shell .acct-object__add:hover .acct-object__plus { transform: rotate(90deg); border-color: var(--a-select); }
+}
+@keyframes acct-settle { from { opacity: 0; transform: translate3d(0, 10px, 0) scale(0.97); } to { opacity: 1; transform: none; } }
+
+/* Your mocks at a glance: a ruled strip, the same voice as Practice's stats. */
+.app-shell .acct-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; border-top: 1px solid var(--a-line); }
+.app-shell .acct-stats__item { display: grid; gap: 2px; align-content: start; padding: 14px 12px 0 0; min-width: 0; }
+.app-shell .acct-stats__item + .acct-stats__item { padding-left: 16px; border-left: 1px solid var(--a-line); }
+.app-shell .acct-stats dt { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); }
+.app-shell .acct-stats dd { margin: 0; min-height: 44px; display: flex; align-items: center; font: 800 26px/1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .acct-stats__none { font: 600 13.5px/1.3 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
+.app-shell .acct-stats__next dd { font: inherit; letter-spacing: 0; }
+.app-shell .acct-link--inline { font-size: 13.5px; }
+@media (max-width: 479px) {
+  .app-shell .acct-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-shell .acct-stats__next { grid-column: 1 / -1; padding-left: 0 !important; border-left: 0 !important; border-top: 1px solid var(--a-line); margin-top: 14px; padding-top: 6px; }
+  .app-shell .acct-stats__next dt { display: none; }
+}
+
+/* ---------- Name and sign-in ---------- */
+.app-shell .acct-card { display: grid; gap: 18px; align-content: start; min-width: 0; padding: clamp(18px, 3vw, 24px); }
+.app-shell .acct-field { display: grid; gap: 8px; }
+.app-shell .acct-field > span:first-child { font-size: 14px; font-weight: 600; color: var(--a-ink-2); }
+.app-shell .acct-field__help { font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
+.app-shell .acct-card__keys { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-top: 16px; border-top: 1px solid var(--a-line); }
+.app-shell .acct-signout { display: grid; gap: 12px; padding-top: 16px; border-top: 1px solid var(--a-line); }
+.app-shell .acct-signout h3 { margin: 0; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .acct-signout p { margin: 4px 0 0; max-width: 56ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .acct-signout__keys { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ---------- Plan and credits: the live plan card, joined to the PrepOS line ---------- */
+.app-shell .acct-plan { display: grid; min-width: 0; }
+.app-shell .acct-plan .plan-card { padding: clamp(18px, 3vw, 24px); border-bottom-left-radius: 0; border-bottom-right-radius: 0; box-shadow: var(--a-shadow-1); }
+.app-shell .acct-plan .plan-card__head h2 { font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+.app-shell .acct-wallet {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px;
+  padding: 10px clamp(18px, 3vw, 24px); border: 1px solid var(--a-line); border-top: 0; border-radius: 0 0 18px 18px; background: var(--a-raised-2);
+}
+.app-shell .acct-wallet__amount { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; min-width: 0; min-height: 44px; }
+.app-shell .acct-wallet .credit-amount__value { font-size: 18px; color: var(--a-ink); }
+.app-shell .acct-wallet__line { font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
+.app-shell .acct-wallet[data-state='unknown'] .acct-wallet__line { color: var(--a-ink-2); }
+
+/* ---------- Weekly goal ---------- */
+.app-shell .acct-goal { display: grid; gap: 14px; min-width: 0; }
+.app-shell .acct-goal__q { margin: 0; font: 600 15px/1.4 var(--font-body); color: var(--a-ink); }
+.app-shell .acct-goal__days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; max-width: 460px; }
+.app-shell .acct-day {
+  display: grid; place-items: center; height: 44px; min-width: 0; padding: 0; border: 1.5px solid var(--a-line-strong); border-radius: 999px;
+  background: transparent; color: var(--a-ink-2); font: 700 15px/1 var(--font-display); font-variant-numeric: tabular-nums; cursor: pointer; touch-action: manipulation;
+  transition: background-color 160ms var(--a-ease), border-color 160ms var(--a-ease), color 160ms var(--a-ease), transform 100ms var(--a-ease);
+  transition-delay: var(--acct-delay, 0ms);
+}
+.app-shell .acct-day:active:not(:disabled) { transform: scale(0.94); }
+.app-shell .acct-day:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
+.app-shell .acct-day:disabled { cursor: not-allowed; opacity: 0.6; }
+@media (hover: hover) and (pointer: fine) { .app-shell .acct-day:hover:not(:disabled):not([data-study='true']):not([aria-checked='true']) { border-color: var(--a-line-hover); background: var(--a-hover); } }
+.app-shell .acct-day[data-study='true'] { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-bg); }
+.app-shell .acct-day[aria-checked='true'] { background: var(--volt, #d2f000); border-color: var(--volt, #d2f000); color: #0b1000; }
+.app-shell .acct-goal__split { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .acct-goal__counts { margin: 0; max-width: 56ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); }
+.app-shell .acct-goal__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+
+/* ---------- Community and help ---------- */
+.app-shell .acct-links { display: grid; gap: 26px; align-content: start; min-width: 0; padding: clamp(18px, 3vw, 24px); }
+.app-shell .acct-links__group { display: grid; gap: 8px; }
+.app-shell .acct-list { list-style: none; margin: 0; padding: 0; }
+.app-shell .acct-list > li + li { border-top: 1px solid var(--a-line); }
+.app-shell .acct-row {
+  display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 14px; width: 100%; min-height: 64px; padding: 10px 8px;
+  border: 0; border-radius: 12px; background: transparent; color: var(--a-ink); font: inherit; text-align: left; text-decoration: none; cursor: pointer; touch-action: manipulation;
+  transition: background-color 150ms var(--a-ease);
+}
+.app-shell .acct-row:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+.app-shell .acct-row:active { background: var(--a-hover); }
+.app-shell .acct-row__icon {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; border: 1px solid var(--a-line); background: var(--a-sunken);
+  color: var(--a-accent-text); transition: transform 200ms var(--a-ease);
+}
+.app-shell .acct-row__text { display: grid; gap: 2px; min-width: 0; }
+.app-shell .acct-row__label { font: 700 15px/1.35 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .acct-row__note { font-size: 13px; line-height: 1.45; color: var(--a-ink-3); overflow-wrap: anywhere; }
+.app-shell .acct-row__go { display: grid; place-items: center; color: var(--a-ink-4); transition: transform 200ms var(--a-ease), color 150ms var(--a-ease); }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .acct-row:hover { background: var(--a-hover); }
+  .app-shell .acct-row:hover .acct-row__icon { transform: translate3d(0, -2px, 0); }
+  .app-shell .acct-row:hover .acct-row__go { transform: translate3d(3px, 0, 0); color: var(--a-ink-2); }
+}
+
+/* ---------- Motion: still under reduced motion (the device's or the student's own choice) ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .acct-object { animation: none; }
+  .app-shell .acct-key, .app-shell .acct-day, .app-shell .acct-row, .app-shell .acct-row__icon, .app-shell .acct-row__go,
+  .app-shell .acct-object__add, .app-shell .acct-object__plus { transition: none !important; transition-delay: 0ms !important; }
+  .app-shell .acct-row:hover .acct-row__icon, .app-shell .acct-row:hover .acct-row__go, .app-shell .acct-object__add:hover .acct-object__plus { transform: none; }
+}
+:root[data-motion='reduced'] .app-shell .acct-object { animation: none; }
+:root[data-motion='reduced'] .app-shell .acct-key,
+:root[data-motion='reduced'] .app-shell .acct-day,
+:root[data-motion='reduced'] .app-shell .acct-row,
+:root[data-motion='reduced'] .app-shell .acct-row__icon,
+:root[data-motion='reduced'] .app-shell .acct-row__go,
+:root[data-motion='reduced'] .app-shell .acct-object__add,
+:root[data-motion='reduced'] .app-shell .acct-object__plus { transition: none !important; transition-delay: 0ms !important; }
+:root[data-motion='reduced'] .app-shell .acct-row:hover .acct-row__icon,
+:root[data-motion='reduced'] .app-shell .acct-row:hover .acct-row__go,
+:root[data-motion='reduced'] .app-shell .acct-object__add:hover .acct-object__plus { transform: none; }

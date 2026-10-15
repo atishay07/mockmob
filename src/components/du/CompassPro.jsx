@@ -10,6 +10,7 @@ import { ArrowRight, Lock, Plus, Sparkles, Target, Trash2 } from 'lucide-react';
 import { decodeSelection, formatScore, loadIndex, loadOfferings, readSaved } from '@/lib/du/client';
 import { CATEGORY_LABELS, MAIN_CATEGORIES, effectiveCutoff, evaluateGroup } from '@/lib/du/eligibility';
 import { compareToCutoff } from '@/../data/compass_projection';
+import { Listbox } from '@/components/ui/controls/Listbox';
 
 const SHORTLIST_LIMIT = 8;
 const ROUNDS = ['Round I', 'Round II', 'Round III'];
@@ -178,23 +179,23 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
       <article className="cpro-card cpro-short">
         <div className="cpro-short__head">
           <h3>Your DU shortlist</h3>
-          <label className="cpro-select"><span>Category</span>
-            <select value={category} onChange={(e) => setCategory(e.target.value)}>{MAIN_CATEGORIES.map((c) => <option key={c} value={c}>{CATEGORY_LABELS[c] || c}</option>)}</select>
+          <label className="cpro-select"><span id="cpro-l-category">Category</span>
+            <Listbox labelledBy="cpro-l-category" sheetTitle="Category" size="sm" value={category} onChange={setCategory} options={MAIN_CATEGORIES.map((c) => ({ value: c, label: CATEGORY_LABELS[c] || c }))} />
           </label>
         </div>
         {shortlist.length < SHORTLIST_LIMIT ? (
           <div className="cpro-add">
-            <label className="cpro-select"><span>Programme you are eligible for</span>
-              <select value={programme} onChange={(e) => { setProgramme(e.target.value); setCollege(''); }} disabled={!index}>
-                <option value="">{index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes…'}</option>
-                {eligible.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
-              </select>
+            <label className="cpro-select"><span id="cpro-l-programme">Programme you are eligible for</span>
+              <Listbox labelledBy="cpro-l-programme" sheetTitle="Programme" size="sm" value={programme} disabled={!index}
+                placeholder={index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes…'}
+                options={eligible.map((g) => ({ value: g.id, label: g.name }))}
+                onChange={(value) => { setProgramme(value); setCollege(''); }} />
             </label>
-            <label className="cpro-select"><span>College</span>
-              <select value={college} onChange={(e) => setCollege(e.target.value)} disabled={!colleges.length}>
-                <option value="">{programme ? (colleges.length ? 'Choose a college' : 'Loading colleges…') : 'Choose a programme first'}</option>
-                {colleges.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
+            <label className="cpro-select"><span id="cpro-l-college">College</span>
+              <Listbox labelledBy="cpro-l-college" sheetTitle="College" size="sm" value={college} disabled={!colleges.length}
+                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges…') : 'Choose a programme first'}
+                options={colleges.map((c) => ({ value: c, label: c }))}
+                onChange={setCollege} />
             </label>
             <button type="button" className="btn-outline md" onClick={add} disabled={!programme || !college}><Plus size={16} aria-hidden="true" />Add target</button>
           </div>

@@ -17,6 +17,8 @@ import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
 import { ExamComparator } from '@/components/landing/ExamComparator';
 import FeatureTour from '@/components/landing/FeatureTour';
 import MistakeLab from '@/components/landing/MistakeLab';
+import LabCinema from '@/components/landing/LabCinema';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import { publishedVoices } from '@/lib/voices';
 import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
 import { buildCompassShowcase, duIndexFacts } from '@/lib/du/showcase';
@@ -34,6 +36,8 @@ import './social-proof.css';
 import './hero-depth.css';
 import './feature-tour.css';
 import './tour-screens.css';
+import './lab-cinema.css';
+import './home.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   'Quick Practice and Full Mock on credits',
@@ -56,6 +60,13 @@ const DU_FACTS = duIndexFacts();
 
 // The statement scrubs word by word with the scroll. Words marked with * carry the accent.
 const STATEMENT = 'One mock. A clearer *next step. See what cost you marks, choose a chapter for *tonight, and check the DU subject rules behind your *shortlist.';
+// The four launch papers as the app's lamp-lit objects. Each drifts at its own depth as the statement scrolls.
+const SHELF = [
+  { id: 'english', name: 'English', href: '/cuet/english', depth: 70, tilt: -4 },
+  { id: 'accountancy', name: 'Accountancy', href: '/cuet/accountancy', depth: 120, tilt: 3 },
+  { id: 'business_studies', name: 'Business Studies', href: '/cuet/business-studies', depth: 45, tilt: -2 },
+  { id: 'economics', name: 'Economics', href: '/cuet/economics', depth: 95, tilt: 4 },
+];
 
 // Learn is marketed only while study content is switched on; counts come from the release proof.
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
@@ -172,7 +183,7 @@ export default function LandingPage() {
 
         {/* ----------------------- STATEMENT (scroll-scrubbed) -------------------- */}
         <section className="lp-statement" aria-label="What MockMob does">
-          <div className="mm-wrap">
+          <div className="mm-wrap lp-statement__grid">
             <p className="lp-statement__text">
               {STATEMENT.split(' ').map((word, i, all) => (
                 <span key={i} className="lp-statement__w" data-accent={word.startsWith('*') || undefined} style={{ '--p': (i / (all.length - 1)).toFixed(3) }}>
@@ -180,7 +191,32 @@ export default function LandingPage() {
                 </span>
               ))}
             </p>
+            <div className="lp-shelf">
+              <ul className="lp-shelf__row" aria-label="Built first for CUET Commerce and English">
+                {SHELF.map(({ id, name, href, depth, tilt }, i) => (
+                  <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg` }}>
+                    <Link href={href} className="lp-shelf__link">
+                      <span className="lp-shelf__float"><SubjectObject id={id} size={184} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'clamp(5.25rem, 13vw, 11.5rem)' }} /></span>
+                      <span className="lp-shelf__name">{name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <p className="lp-shelf__note">Built first for CUET Commerce and English.</p>
+            </div>
           </div>
+        </section>
+
+        {/* ------------------- MISTAKE LAB CINEMA (pinned scroll story) ------------------ */}
+        <section className="lp-sec lp-sec--cinema" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
+          <div className="mm-wrap">
+            <Reveal className="lp-head lp-head--left lp-cinema-head">
+              <p className="lp-kicker">Mistake Lab</p>
+              <h2 className="lp-h2" id="inside-the-lab-title">Every mark, traced back to a moment.</h2>
+              <p className="lp-sub">A score tells you how it went. The Lab shows why: the minutes, the second thoughts, the reason behind each miss, and the plan for the next mock.</p>
+            </Reveal>
+          </div>
+          <LabCinema />
         </section>
 
         {/* --------------------------- FEATURE TOUR -------------------------- */}
@@ -198,7 +234,7 @@ export default function LandingPage() {
         <section className="lp-sec" id="score-recovery-lab">
           <div className="mm-wrap">
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">Mistake lab</p>
+              <p className="lp-kicker">Replay a session</p>
               <h2 className="lp-h2">See exactly where your marks went.</h2>
               <p className="lp-sub">
                 Replay the answer changes, slow questions and skips. Then pick one useful move. The example below shows how.

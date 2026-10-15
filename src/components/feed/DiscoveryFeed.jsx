@@ -5,10 +5,12 @@ import Link from 'next/link';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { EmptyState, ErrorState, SkeletonLines } from '@/components/ui/Skeleton';
 import { QuestionCard } from './QuestionCard';
+import { Listbox } from '@/components/ui/controls/Listbox';
 import { appendUniqueQuestions, chapterGroups } from '@/../data/explore_feed';
 
 const PAGE_SIZE = 12;
 const EMPTY_PAGE = { questions: [], nextOffset: 0, hasMore: false, state: 'idle', error: null };
+const DIFFICULTY_OPTIONS = [{ value: '', label: 'All levels' }, { value: 'easy', label: 'Easy' }, { value: 'medium', label: 'Medium' }, { value: 'hard', label: 'Hard' }];
 
 export function DiscoveryFeed() {
   const [subjects, setSubjects] = useState([]);
@@ -108,9 +110,9 @@ export function DiscoveryFeed() {
       <div className="ex-layout">
         <div className="ex-main">
           <form className="ex-filters" aria-label="Filter practice questions" onSubmit={(event) => event.preventDefault()}>
-            <label>Subject<select value={filters.subject} disabled={subjectState !== 'ready'} onChange={(event) => { setChapterState('loading'); setChapters([]); setFilters({ subject: event.target.value, chapter: '', difficulty: '' }); }}><option value="" disabled>{subjectState === 'loading' ? 'Loading subjects…' : 'Choose a subject'}</option>{subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}</select></label>
-            <label>Chapter<select value={filters.chapter} disabled={chapterState !== 'ready'} onChange={(event) => setFilters((current) => ({ ...current, chapter: event.target.value }))}><option value="">{chapterState === 'loading' ? 'Loading chapters…' : 'All chapters'}</option>{chapters.map((group) => <optgroup key={group.name} label={group.name}>{group.chapters.map((chapter) => <option key={chapter.id || chapter.name} value={chapter.name}>{chapter.name}</option>)}</optgroup>)}</select></label>
-            <label>Difficulty<select value={filters.difficulty} onChange={(event) => setFilters((current) => ({ ...current, difficulty: event.target.value }))}><option value="">All levels</option><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></label>
+            <label><span id="ex-f-subject">Subject</span><Listbox labelledBy="ex-f-subject" sheetTitle="Subject" value={filters.subject} disabled={subjectState !== 'ready'} placeholder={subjectState === 'loading' ? 'Loading subjects…' : 'Choose a subject'} options={subjects.map((subject) => ({ value: subject.id, label: subject.name }))} onChange={(value) => { setChapterState('loading'); setChapters([]); setFilters({ subject: value, chapter: '', difficulty: '' }); }} /></label>
+            <label><span id="ex-f-chapter">Chapter</span><Listbox labelledBy="ex-f-chapter" sheetTitle="Chapter" value={filters.chapter} disabled={chapterState !== 'ready'} options={[{ value: '', label: chapterState === 'loading' ? 'Loading chapters…' : 'All chapters' }, ...chapters.flatMap((group) => group.chapters.map((chapter) => ({ value: chapter.name, label: chapter.name, group: group.name })))]} onChange={(value) => setFilters((current) => ({ ...current, chapter: value }))} /></label>
+            <label><span id="ex-f-difficulty">Difficulty</span><Listbox labelledBy="ex-f-difficulty" sheetTitle="Difficulty" value={filters.difficulty} options={DIFFICULTY_OPTIONS} onChange={(value) => setFilters((current) => ({ ...current, difficulty: value }))} /></label>
           </form>
           {subjectState === 'error' && <ErrorState message="Subjects did not load. Check your connection and try again." onRetry={() => setSubjectRetry((count) => count + 1)} />}
           {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
