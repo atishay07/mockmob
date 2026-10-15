@@ -16,6 +16,7 @@ import { useWaitStage } from '@/lib/mobiHooks';
 import { oopsRun } from '@/lib/mobiRation';
 import StudyProgress from './study/StudyProgress';
 import RulesEntry from './rules/RulesEntry';
+import ReviseEntry from './revise/ReviseEntry';
 import { reviewChanges } from './recovery/reviewChanges';
 import './recovery/review-changes.css';
 
@@ -118,6 +119,7 @@ export default function RecoveryOverview({ view }) {
           <LearningNextAction compact />
           <StudyProgress review />
           {data.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
+          <ReviseEntry />
           <RulesEntry />
           <section className="ov-section" aria-labelledby="ov-sessions">
             <div className="pr-step__head"><h2 id="ov-sessions">Your sessions</h2><span className="pr-hint">Newest first</span></div>

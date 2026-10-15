@@ -4,6 +4,7 @@
 // contract_rules_v1.json); this page lays them out and keeps one rule for the next mock.
 //   From your repairs           each repair's rule and memory hook, by chapter, newest first, with Copy
 //   From how you take papers    the four habits, each with its evidence line, its Wilson interval and its gate
+//   Traps you meet              (slice 4, 4.11) the named traps the student fell for, across mocks (result/TrapsMeet.jsx)
 // "Use in my next mock" (outlined) posts { ruleId } to /api/me/playbook and shows the rule as chosen only after the
 // server confirms it; until then the button says it is saving, and a failure says so with the server's words. The rule
 // then shows on Practice's session card before a Full mock or NTA Mode starts, and the Lab checks it after that mock.
@@ -18,6 +19,7 @@ import { StatusIcon } from '@/components/ui/Glyph';
 import { useToast } from '@/components/ToastProvider';
 import { apiPost } from '@/lib/fetcher';
 import { withNumbers } from '@/components/result/MarksLedger';
+import TrapsMeet from '@/components/result/TrapsMeet';
 import { copyText, shortDate, withActiveRule } from '@/components/result/labLoop';
 import { useRuleBook } from './useRuleBook';
 import './rule-book.css';
@@ -210,6 +212,11 @@ export default function RuleBook() {
             {book.habits?.state === 'ready' && habitCount ? (
               <ul className="rb-habits">{book.habits.rules.map((r) => <HabitRule key={r.id} rule={r} labels={labels} use={useProps} />)}</ul>
             ) : <p className="rb-empty"><Hourglass size={18} strokeWidth={2} aria-hidden="true" />{book.habits?.gateLine}</p>}
+          </section>
+
+          <section className="rb-section" id="rb-traps" aria-labelledby="rb-traps-h">
+            <div className="rb-section__head"><h2 id="rb-traps-h">Traps you meet</h2></div>
+            <TrapsMeet surface="inset" />
           </section>
         </div>
       </div>
