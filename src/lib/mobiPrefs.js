@@ -13,7 +13,7 @@ export const MOTION_KEY = 'mm:motion:v1'; // 'reduced' when the student turned R
 export const CELEBRATIONS_KEY = 'mm:celebrations:v1'; // 'full' | 'quiet' | 'off'
 export const CELEBRATION_LEVELS = ['full', 'quiet', 'off'];
 // The acts that celebrate. Under Quiet they play as a small nod; under Off they play nothing.
-export const CELEBRATION_ACTS = ['cheer', 'celebrate', 'proud'];
+export const CELEBRATION_ACTS = ['cheer', 'celebrate', 'proud', 'hop'];
 
 const EVENT = 'mm-prefs';
 const celebrationSet = new Set(CELEBRATION_ACTS);

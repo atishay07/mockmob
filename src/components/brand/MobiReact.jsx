@@ -3,60 +3,63 @@
 // Mobi reacting. One component the whole site shares:
 //   <MobiReact act="correct" size={72} label="Correct." onDone={() => ...} />
 //
-// Mobi is the existing Mascot art (seven raster poses), moved with CSS: a body that squashes and
-// hops, a lean that sways, a breath underneath everything, lids that blink over the visor, a
-// cross-fade when he changes pose, and small SVG marks drawn around him (a tick inking itself,
-// thought dots, sparkles, confetti, z's). Every act answers something the student did or shows a
-// state; it never loops for show. Never render him inside the timed NTA exam.
+// Mobi is the app's character, drawn in SVG and moved by the app's own rig table: the same
+// proportions, shading, idle life, emotions and acts (data/mobi_rig.v2.json, evaluated by mobiRig.js
+// and mobiSim.js, drawn by MobiFigure.jsx). Every act answers something the student did or shows a
+// state; it never loops for show. He breathes, blinks, glances and fidgets between acts; when nothing
+// is moving the frame loop stops. Never render him inside the timed NTA exam.
 //
-// Acts (the app's 26 plus idle, standing at ease):
+// Acts (the app's 31 plus idle, standing at ease):
 //   Once acts play and then call onDone: appear hello talk cheer celebrate correct encourage proud
-//     oops nudge wake nod tilt wave startle brace relief walk
+//     oops wake nod tilt wave startle brace relief walk hop curious focus sympathy idea
 //   Held acts keep their stance until the act changes: read think loading point sleepy rest sleep
 //     listen idle (nudge ends holding the point)
-// Mood (the app's MobiMood): calm happy proud curious sleepy concerned. A persistent face under the
-//   act: a lean, a lift, a glint at the antenna. The raster cannot move its eyes, so the mood lives
-//   in posture and marks.
-// interactive: a tap plays the next act of the app's tap cycle (hello, tilt, correct, startle),
-//   never the same twice, capped at 6 a visit, then a light squash. A sleeping Mobi wakes.
-//   Under Quiet a tap is a nod; under Off or Reduce motion nothing plays. Only use it where Mobi
-//   is not part of a bigger button.
-// follow: the head leans a little toward the pointer, and lets go after 1.2 s. Hero use only.
-// Settings: Reduce motion holds the pose for the act's length, then the stance (the mark that
-//   carries information stays, drawn finished). Celebrations: Quiet turns cheer, celebrate and
-//   proud into a small nod; Off plays nothing.
+// Mood (the app's MobiMood): calm happy proud curious sleepy concerned focused. A persistent face
+//   under the act, blended over 0.3 s: lids, a warm lower lid, a slope, the gaze, the antenna.
+// interactive: a tap plays the next act of the app's tap cycle (hello, tilt, hop, startle), never the
+//   same twice, capped at 6 a visit, then a light squash. A sleeping Mobi wakes. Under Quiet a
+//   celebration (hop) is a nod; under Off it is a squash; under Reduce motion nothing plays. Only use
+//   it where Mobi is not part of a bigger button.
+// follow: his eyes follow the pointer while it moves and come back after 1.2 s. Hero use only.
+// Settings: Reduce motion draws his still pose for the act's length, then the stance (the mark that
+//   carries information stays, drawn finished). Celebrations: Quiet turns cheer, celebrate, proud and
+//   hop into a small nod; Off plays nothing.
 // `still` holds the pose without motion, whatever the settings. `label` makes him an image for
 // screen readers; leave it out and he is decorative (say the same thing in text beside him).
-// To replay the same act, change the component's key.
-// `eagerFirst={false}` loads the first pose lazily, for a Mobi that waits off screen (the landing's phone dock);
-// a pose he changes to later always loads eagerly.
+// `theme` ('night' or 'day') pins the light; by default he follows the page's theme.
+// To replay the same act, change the component's key. `eagerFirst` is accepted and ignored (there is
+// no image to load).
 
-import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { Mascot } from './Mascot';
-import { MobiMarks } from './MobiMarks';
-import { EYES } from './mobiEyes';
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import MobiFigure from './MobiFigure';
+import { MOBI_MOOD_NAMES } from './mobiRig';
+import { createSim } from './mobiSim';
+import { createLoop } from './mobiLoop';
+import { poseRig } from './mobiPose';
+import { book, moves } from './mobiBook';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { MOBI_ACTS, REACTION_ACTS, SPEC, actWait, resolveAct, stanceAfter } from './mobiActs';
-import { FOLLOW, TAP_CYCLE, createTapRun } from '@/lib/mobiMoments';
+import { FOLLOW, TAP_CYCLE, createTapRun, underLevel } from '@/lib/mobiMoments';
 import { useInView } from '@/lib/motion/useInView';
-import assets from '@/../public/brand/mascot/manifest.json';
 
 export { MOBI_ACTS, resolveAct };
 
-export const MOBI_MOODS = ['calm', 'happy', 'proud', 'curious', 'sleepy', 'concerned'];
+export const MOBI_MOODS = MOBI_MOOD_NAMES;
 
 const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+const ASPECT = 140 / 168;
 
-// A steady, different blink offset for each Mobi on a page, the same on the server and the client.
-function blinkOffset(id) {
-  let h = 0;
-  for (let i = 0; i < id.length; i += 1) h = (h * 31 + id.charCodeAt(i)) % 6007;
-  return -(h % 5200);
+// A steady, different seed for each Mobi on a page, the same on the server and the client, so two
+// Mobis never blink together.
+function seedOf(id) {
+  let h = 7;
+  for (let i = 0; i < id.length; i += 1) h = (h * 31 + id.charCodeAt(i)) % 100003;
+  return h + 1;
 }
 
 export default function MobiReact({
   act = 'idle', size = 96, still = false, label, onDone, facing = 'right', className = '',
-  mood = 'calm', interactive = false, follow = false, onTap, eagerFirst = true,
+  mood = 'calm', interactive = false, follow = false, onTap, theme,
 }) {
   const prefs = useMobiPrefs();
   const id = useId();
@@ -68,12 +71,9 @@ export default function MobiReact({
   // A tap can put him in another act for a while (the cycle), or wake him and keep him standing
   // until the act he was given changes.
   const [tapState, setTapState] = useState({ base: act, stance: null, playing: null });
-  const [squash, setSquash] = useState(false);
   const tapRun = useRef(null);
   const tapTimer = useRef(0);
-  const squashTimer = useRef(0);
   if (tapState.base !== act) setTapState({ base: act, stance: null, playing: null });
-  useEffect(() => () => { window.clearTimeout(tapTimer.current); window.clearTimeout(squashTimer.current); }, []);
 
   // A once act that has played leaves him in his stance, the way the app's does (he does not stay
   // frozen mid-cheer): `settled` remembers which act has finished.
@@ -82,12 +82,17 @@ export default function MobiReact({
   const tapped = (tapState.base === act && (tapState.playing?.act || tapState.stance)) || null;
   const shown = tapped || (settled === act ? stanceAfter(act) || 'idle' : act);
   const resolved = resolveAct(shown, { celebrations: prefs.celebrations, reduced: prefs.reduced, still });
-  const spec = SPEC[resolved.act];
-  const asset = assets[spec.pose] || assets.attentive;
-  const ratio = asset.width / asset.height;
   const live = resolved.live && onScreen;
+  const moodName = MOBI_MOODS.includes(mood) ? mood : 'calm';
+  const px = size / 168;
+  const lite = size < 56;
+
+  // The first frame (also the server's): the stance he starts from, or his still pose.
+  const [initial] = useState(() => poseRig(moves, book, resolved.act, moodName, { live: resolved.live }));
+
   const doneRef = useRef(onDone);
   useEffect(() => { doneRef.current = onDone; }, [onDone]);
+  useEffect(() => () => window.clearTimeout(tapTimer.current), []);
 
   // A once act reports when it has finished. Under Reduce motion a reaction holds its still pose
   // for the act's length first (the app's rule); anything else reports at once.
@@ -102,52 +107,113 @@ export default function MobiReact({
     return () => window.clearTimeout(timer);
   }, [once, wait, gives, act, propResolved.act]);
 
-  // The pose changes with a short cross-fade: the old pose fades out under the new one.
-  const [posed, setPosed] = useState({ pose: spec.pose, prev: null });
-  if (posed.pose !== spec.pose) setPosed({ pose: spec.pose, prev: posed.pose });
+  // ---- The rig: a sim stepped by a frame loop that stops when he is at rest ------------------------
+  const figRef = useRef(null);
+  const simRef = useRef(null);
+  const pxRef = useRef(px);
+  const played = useRef({ key: null });
+  useEffect(() => { pxRef.current = px; }, [px]);
+
+  const paint = useCallback((rig) => { figRef.current?.paint(rig, { px: pxRef.current }); }, []);
+  const loopRef = useRef(null);
   useEffect(() => {
-    if (!posed.prev) return undefined;
-    const timer = window.setTimeout(() => setPosed((p) => (p.prev ? { pose: p.pose, prev: null } : p)), 280);
-    return () => window.clearTimeout(timer);
-  }, [posed.prev, posed.pose]);
+    const loop = createLoop(() => simRef.current, (rig) => figRef.current?.paint(rig, { px: pxRef.current }));
+    loopRef.current = loop;
+    return () => { loop.stop(); loopRef.current = null; };
+  }, []);
+  const wake = useCallback(() => loopRef.current?.wake(), []);
+  const stop = useCallback(() => loopRef.current?.stop(), []);
 
-  const eyes = EYES[spec.pose];
-  const moodName = MOBI_MOODS.includes(mood) ? mood : 'calm';
-  const lid = spec.lids != null ? spec.lids : moodName === 'sleepy' ? 0.38 : 0;
+  // Reduce motion, `still`, Quiet's held acts: no sim runs; he is drawn once in his still pose.
+  useLayoutEffect(() => {
+    if (resolved.live) return;
+    stop();
+    simRef.current = null;
+    played.current.key = null;
+    figRef.current?.paint(poseRig(moves, book, resolved.act, moodName, { live: false }), { px });
+  }, [resolved.live, resolved.act, moodName, px, stop]);
 
-  const onTapHit = () => {
-    if (prefs.celebrations === 'off' || prefs.reduced) return;
-    window.clearTimeout(squashTimer.current);
-    const lightSquash = () => { setSquash(true); squashTimer.current = window.setTimeout(() => setSquash(false), 260); };
+  // The sim exists while he is allowed to move; each act (or tap) plays once.
+  const bodyKey = `${resolved.act}-${tapState.playing?.n || 0}`;
+  useEffect(() => {
+    if (!resolved.live) return;
+    const spec = SPEC[resolved.act];
+    let sim = simRef.current;
+    if (!sim) {
+      sim = createSim(book, { seed: seedOf(id), stance: spec.held ? spec.stance : 'stand' });
+      sim.setMood(moodName, { instant: true });
+      sim.step(1 / 120);
+      simRef.current = sim;
+      played.current.key = null;
+      paint(sim.rig);
+    }
+    if (played.current.key !== bodyKey) {
+      const first = played.current.key === null;
+      played.current.key = bodyKey;
+      // A held act he is already standing in needs no play (a once act's settle, or the first frame).
+      const redundant = spec.held && !spec.ms && sim.stance === spec.stance && sim.act == null;
+      if (!(redundant || (first && spec.held && !spec.ms))) sim.play(resolved.act);
+    }
+    wake();
+  }, [resolved.live, resolved.act, bodyKey, moodName, id, paint, wake]);
+
+  useEffect(() => {
+    const sim = simRef.current;
+    if (sim && resolved.live) { sim.setMood(moodName); wake(); }
+  }, [moodName, resolved.live, wake]);
+
+  // Off screen (or the tab hidden) he holds still; back on screen he carries on.
+  useEffect(() => {
+    if (live) wake(); else stop();
+    return stop;
+  }, [live, wake, stop]);
+
+  // ---- Tap ---------------------------------------------------------------------------------------
+  const onTapHit = (event) => {
+    if (prefs.reduced) return;
+    const sim = simRef.current;
+    const squash = () => {
+      if (!sim) return;
+      const box = event.currentTarget.getBoundingClientRect();
+      sim.boop(clamp(((event.clientX || box.left + box.width / 2) - (box.left + box.width / 2)) / (box.width / 2 || 1), -1, 1));
+      wake();
+    };
     const current = (tapState.base === act && tapState.stance) || act;
     if (!tapRun.current) tapRun.current = createTapRun(TAP_CYCLE);
     const sleeping = current === 'sleep';
     let next = sleeping ? 'wake' : tapRun.current.tap(Date.now());
-    if (!next) { lightSquash(); return; }
-    if (prefs.celebrations === 'quiet' && next !== 'wake') next = 'nod';
+    // A tap the Celebrations setting holds back still squashes (the app's rule).
+    if (next && next !== 'wake') next = underLevel(next, prefs.celebrations);
+    if (!next) { squash(); return; }
     window.clearTimeout(tapTimer.current);
     setTapState((s) => ({ base: act, stance: next === 'wake' ? 'idle' : (s.base === act ? s.stance : null), playing: { act: next, n: (s.playing?.n || 0) + 1 } }));
     tapTimer.current = window.setTimeout(() => setTapState((s) => ({ ...s, playing: null })), SPEC[next].ms || 800);
     onTap?.(next);
   };
 
-  // The head leans a little toward the pointer while it moves, and lets go after 1.2 s.
+  // His eyes follow the pointer while it moves, and come back after 1.2 s.
   useEffect(() => {
     if (!follow || !live) return undefined;
     const el = rootRef.current;
     if (!el) return undefined;
     let raf = 0;
     let release = 0;
+    const sign = facing === 'left' ? -1 : 1;
     const onMove = (event) => {
       if (raf) return;
-      const x = event.clientX;
+      const { clientX, clientY } = event;
       raf = window.requestAnimationFrame(() => {
         raf = 0;
+        const sim = simRef.current;
+        if (!sim) return;
         const box = el.getBoundingClientRect();
         const span = Math.max(220, window.innerWidth * 0.35);
-        el.style.setProperty('--mr-follow', clamp((x - (box.left + box.width / 2)) / span, -FOLLOW.clampX, FOLLOW.clampX).toFixed(3));
+        const x = clamp(sign * (clientX - (box.left + box.width / 2)) / span, -FOLLOW.clampX, FOLLOW.clampX);
+        const y = clamp((clientY - (box.top + box.height * 0.45)) / span, -FOLLOW.clampY, FOLLOW.clampY);
+        sim.lookAt([x, y]);
+        wake();
         window.clearTimeout(release);
-        release = window.setTimeout(() => el.style.setProperty('--mr-follow', '0'), FOLLOW.releaseAfterMs);
+        release = window.setTimeout(() => { simRef.current?.lookAt(null); wake(); }, FOLLOW.releaseAfterMs);
       });
     };
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -155,11 +221,10 @@ export default function MobiReact({
       window.removeEventListener('pointermove', onMove);
       window.cancelAnimationFrame(raf);
       window.clearTimeout(release);
-      el.style.setProperty('--mr-follow', '0');
+      simRef.current?.lookAt(null);
     };
-  }, [follow, live]);
+  }, [follow, live, facing, wake]);
 
-  const bodyKey = `${resolved.act}-${tapState.playing?.n || 0}`;
   const accessibleName = label || (interactive ? 'Mobi' : undefined);
   return (
     <span
@@ -169,31 +234,16 @@ export default function MobiReact({
       data-live={live ? 'true' : 'false'}
       data-facing={facing}
       data-mood={moodName}
-      data-squash={squash ? 'true' : undefined}
+      data-mb-theme={theme === 'night' || theme === 'day' ? theme : undefined}
       data-interactive={interactive ? 'true' : undefined}
-      data-lids={eyes ? 'true' : undefined}
       role={label && !interactive ? 'img' : undefined}
       aria-label={label && !interactive ? label : undefined}
       aria-hidden={label || interactive ? undefined : true}
-      style={{ '--mobi-size': `${size}px`, '--mobi-ar': ratio.toFixed(4), '--mr-dir': facing === 'left' ? -1 : 1, '--mr-blink': `${blinkOffset(id)}ms`, '--mr-lid': lid }}
+      style={{ '--mobi-size': `${size}px`, '--mobi-ar': ASPECT.toFixed(4) }}
     >
-      <span className="mobi-react__shadow" />
-      <span className="mobi-react__breath">
-        <span className="mobi-react__look">
-          <span className="mobi-react__body" key={`body-${bodyKey}`}>
-            <span className="mobi-react__lean" key={`lean-${bodyKey}`}>
-              {posed.prev && live ? <span className="mobi-react__pose mobi-react__pose--out" key={`out-${posed.prev}`}><Mascot pose={posed.prev} facing={facing} eager /></span> : null}
-              <span className={`mobi-react__pose${posed.prev && live ? ' mobi-react__pose--in' : ''}`} key={spec.pose}><Mascot pose={spec.pose} facing={facing} eager={eagerFirst || Boolean(posed.prev)} /></span>
-              {eyes ? (
-                <span className="mobi-react__lids" aria-hidden="true">
-                  {eyes.map(([left, top, width, height]) => <i key={left} style={{ left: `${left}%`, top: `${top}%`, width: `${width}%`, height: `${height}%` }} />)}
-                </span>
-              ) : null}
-            </span>
-          </span>
-        </span>
+      <span className="mobi-react__look">
+        <MobiFigure ref={figRef} initial={initial} px={px} lite={lite} />
       </span>
-      <MobiMarks act={resolved.act} mood={moodName} />
       {interactive ? <button type="button" className="mobi-react__hit" aria-label={accessibleName} onClick={onTapHit} /> : null}
     </span>
   );
