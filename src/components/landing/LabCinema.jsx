@@ -3,104 +3,172 @@
 // The landing's signature scene: the Mistake Lab, told as one held scroll story on every screen.
 // The product screen holds still (ScrollStory: position sticky, IntersectionObserver beats) while the
 // reader's scroll walks it through four scenes: time per question, every answer change on the clock,
-// the repair, and the SWOT with the set to do next. Phones get the same hold as desktop: step rail on
+// the repair, and the SWOT with the sets to do next. Phones get the same hold as desktop: step rail on
 // top, the scene's words, then the screen, scaled once per resize to fit short and landscape windows.
 // The screen is a Night device in both themes, like every product screen on the page.
-// Only opacity and transform move. All numbers come from labStory.mjs (one sample Accountancy mock),
-// so the scenes cannot disagree with each other or with the replay further down the page.
+// Each screen tells its story in order when its scene comes on (the pace line, then the bars past it;
+// the first pick, the arrow, the final pick; the wrong option, then the key), and reduced motion shows
+// the finished screen with the same marks. Only opacity and transform move. All numbers come from
+// labStory.mjs (one sample Accountancy mock), so the scenes cannot disagree with each other or with
+// the replay further down the page. Words on the screens are the product's own.
 import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
-import { clock, labStory, REPAIR, signed } from './labStory.mjs';
+import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import ScrollStory from './ScrollStory';
 
 const S = labStory();
-const VERDICT = { right: 'Right', wrong: 'Wrong', blank: 'Blank' };
+const VERDICT = { right: 'right', wrong: 'wrong', blank: 'left blank' };
+const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+const timeTake = S.time.wrongAllOver && S.time.underAllRight
+  ? `All ${S.facts.wrong} wrong answers ran over pace. Every quick one was right.`
+  : `${S.time.overCount} questions ran over pace.`;
 
 const SCENES = [
   { key: 'time', tab: 'Time', Icon: Timer, title: 'See where every minute went.',
-    body: `Every question keeps its own clock. The slow ones stand out against the paper’s pace of ${S.pace} a question, so you can see which minutes cost marks.`,
-    take: `Wrong answers ran ${clock(S.facts.wrongSec / S.facts.wrong)} each. Right ones, ${clock(S.facts.rightSec / S.facts.right)}.` },
+    body: `Each question runs against CUET’s pace of ${S.pace}. The minutes past the line stand out, and so does what they bought.`,
+    take: timeTake },
   { key: 'changes', tab: 'Changes', Icon: ArrowLeftRight, title: 'Every answer you changed, on the clock.',
-    body: 'Your first pick, the switch and the minute it happened, with the marks each change won or cost.',
+    body: 'Your first pick, what you changed it to and when, and the marks each change won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', Icon: Wrench, title: 'Repair the reason, not just the answer.',
-    body: 'Each repair is written from the official key: why your pick looked right, where it breaks and the rule to keep. If the AI’s own working disagrees with the key, you get no repair and no charge.',
+    body: 'Written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
     take: 'If the two disagree, the question waits. You never get a guess.' },
   { key: 'swot', tab: 'SWOT', Icon: LayoutGrid, title: 'Leave every mock with a plan.',
-    body: 'A SWOT after every mock, built from your own answers and times, with the set to do next. Free, no credits.',
-    take: `Partnership: ${S.partnership.right} of ${S.partnership.of} right. That is the next set.` },
+    body: 'A SWOT after every mock, built from your own answers, times and earlier mocks, with the sets to do next. Free, no credits.',
+    take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That is the first set.` },
 ];
 
-const verdictIcon = (v) => (v === 'right' ? <Check size={12} aria-hidden="true" /> : v === 'wrong' ? <X size={12} aria-hidden="true" /> : <Minus size={12} aria-hidden="true" />);
+const verdictIcon = (v, size = 12) => (v === 'right' ? <Check size={size} aria-hidden="true" /> : v === 'wrong' ? <X size={size} aria-hidden="true" /> : <Minus size={size} aria-hidden="true" />);
+
+// ---------- 1. Time: every question against the pace line ----------
+function timeWords(r) {
+  if (r.band === 'blank') return `Question ${r.n}: left blank after ${r.time}.`;
+  const side = r.band === 'over' ? `${r.delta} over the pace` : `${r.delta} under the pace`;
+  return `Question ${r.n}: ${r.time}, ${side}, ${VERDICT[r.verdict]}.`;
+}
 
 function TimePanel() {
-  const paceAt = S.paceShare * 100;
+  const t = S.time;
   return (
     <div className="lcp lcp--time">
       <p className="lcp__h">Where your time went</p>
-      <p className="lcp__lead">Paper pace {S.pace} a question. Your median {S.median}.</p>
-      <ol className="lcp-bars">
-        {S.longest.map((l, i) => (
-          <li key={l.n} style={{ '--i': i }}>
-            <span className="lcp-bars__q">Q{l.n}</span>
-            <span className="lcp-bars__track">
-              <i className="lcp-bars__fill" data-verdict={l.verdict} style={{ '--w': l.share }} />
-              <i className="lcp-bars__pace" style={{ left: `${paceAt}%` }}>{i === 0 ? <b>Pace</b> : null}</i>
-            </span>
-            <span className="lcp-bars__time">{l.time}</span>
-            <span className="lcp-bars__tag" data-verdict={l.verdict}>{verdictIcon(l.verdict)}{VERDICT[l.verdict]}<em>{l.pace}× pace</em></span>
-          </li>
-        ))}
-      </ol>
-      <p className="lcp__foot">{S.facts.wrong} wrong answers took {S.wrongTime}, close to the {S.rightTime} spent on {S.facts.right} right ones.</p>
+      <p className="lcp__lead">CUET gives you {S.pace} a question. Your median was {S.median}.</p>
+      <div className="lct" style={{ '--pace': S.paceShare }}>
+        <i className="lct__pace" aria-hidden="true" />
+        <b className="lct__pace-label" aria-hidden="true">Pace {S.pace}</b>
+        <ol className="lct__rows">
+          {S.rows.map((r, i) => (
+            <li key={r.n} className="lct__row" data-band={r.band} data-verdict={r.verdict} style={{ '--i': i, '--base': r.base, '--over': r.over }}>
+              <span className="lct__q" aria-hidden="true">Q{r.n}</span>
+              <span className="lct__mark" data-verdict={r.verdict} aria-hidden="true">{verdictIcon(r.verdict, 10)}</span>
+              <span className="lct__track" aria-hidden="true">
+                <i className="lct__base" />
+                {r.band === 'over' ? <i className="lct__over" /> : null}
+              </span>
+              <span className="lct__time" aria-hidden="true">{r.time}</span>
+              <span className="lct__delta" aria-hidden="true">
+                {r.band === 'blank' ? 'Blank' : r.band === 'over' ? <>+{r.delta} over<span className="lct__wide"> pace</span></> : <>{r.delta} under</>}
+              </span>
+              <span className="sr-only">{timeWords(r)}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <ul className="lct__key" aria-hidden="true">
+        <li><i />Under pace</li>
+        <li><i data-k="over-right" />Over pace, right</li>
+        <li><i data-k="over-wrong" />Over pace, wrong</li>
+        <li><i data-k="blank" />Blank</li>
+      </ul>
+      <p className="lcp__foot lct__sum">
+        {t.wrongAllOver ? <>All {S.facts.wrong} wrong answers ran over pace, <b data-tone="bad">{t.overWrongTime} past it</b> between them. </> : null}
+        {t.underAllRight ? <>Every answer under pace was <b data-tone="good">right</b>.</> : null}
+      </p>
     </div>
   );
+}
+
+// ---------- 2. Changes: each change as a small story ----------
+function Pick({ letter, verdict, at, end }) {
+  return (
+    <span className="lcc__end" data-end={end} aria-hidden="true">
+      <span className="lcc__chip" data-verdict={verdict}>
+        <b>{letter}</b>
+        <i className="lcc__badge">{verdictIcon(verdict, 10)}</i>
+      </span>
+      <small>{at}</small>
+    </span>
+  );
+}
+
+function changeWords(c) {
+  const effect = c.net < 0 ? `That change cost ${-c.net} marks.` : `That change gained ${c.net} marks.`;
+  return `Question ${c.n}: picked ${c.from} at ${c.at}, ${c.fromVerdict}. Changed to ${c.to} at ${c.toAt}, ${c.gap} later, ${c.toVerdict}. ${effect}`;
 }
 
 function ChangesPanel() {
-  const total = S.facts.totalSec;
+  const lostCount = S.lostQuestions.length;
   return (
     <div className="lcp lcp--changes">
       <p className="lcp__h">Every answer you changed</p>
-      <div className="lcp-clock" aria-hidden="true">
-        <span className="lcp-clock__line" />
-        <span className="lcp-clock__sweep"><i /></span>
-        {S.changes.map((c, lane) => {
-          const a = c.atSec / total;
-          const b = c.toAtSec / total;
-          return (
-            <span key={c.n} className="lcp-clock__change" data-tone={c.net < 0 ? 'bad' : 'good'} style={{ '--a': a, '--b': b, '--lane': lane }}>
-              <i className="lcp-clock__span" />
-              <i className="lcp-clock__dot" data-end="from"><b>{c.from}</b></i>
-              <i className="lcp-clock__dot" data-end="to"><b>{c.to}</b></i>
-              <em className="lcp-clock__q">Q{c.n}</em>
-            </span>
-          );
-        })}
-        <span className="lcp-clock__ends"><b>0:00</b><b>{S.total}</b></span>
-      </div>
-      <ol className="lcp-changes">
+      <p className="lcp__lead">You changed answers {S.changes.length} times across {plural(S.changes.length, 'question')}. Net effect on your marks: <b data-tone={S.net < 0 ? 'bad' : 'good'}>{signed(S.net)}</b>.</p>
+      <ChangeClock />
+      <ol className="lcc">
         {S.changes.map((c, i) => (
-          <li key={c.n} style={{ '--i': i }}>
-            <span className="lcp-changes__q">Q{c.n}</span>
-            <span className="lcp-changes__text">{c.from} at {c.at}, changed to {c.to} at {c.toAt}</span>
-            <b className="lcp-changes__net" data-tone={c.net < 0 ? 'bad' : 'good'}>{signed(c.net)}</b>
+          <li key={c.n} className="lcc__row" data-tone={c.net < 0 ? 'bad' : 'good'} style={{ '--i': i }}>
+            <span className="lcc__q" aria-hidden="true">Q{c.n}</span>
+            <Pick end="from" letter={c.from} verdict={c.fromVerdict} at={c.at} />
+            <span className="lcc__arrow" aria-hidden="true">
+              <i className="lcc__line" />
+              <i className="lcc__head" />
+              {c.net < 0 ? <i className="lcc__cross"><X size={10} strokeWidth={3} /></i> : null}
+              <small>{c.gap} later</small>
+            </span>
+            <Pick end="to" letter={c.to} verdict={c.toVerdict} at={c.toAt} />
+            <b className="lcc__net" aria-hidden="true">{signed(c.net)}</b>
+            <span className="sr-only">{changeWords(c)}</span>
           </li>
         ))}
       </ol>
-      <p className="lcp__foot">Times run from the start of the paper. Net effect: <b>{signed(S.net)} marks</b>.</p>
+      <div className="lcc-sum">
+        <p data-tone="good" style={{ '--j': 0 }}><b>{signed(S.gainedMarks)}</b>Gained by {plural(S.gainedCount, 'change')}</p>
+        <p data-tone="bad" style={{ '--j': 1 }}><b>{signed(S.lostToChanges)}</b>Lost to {plural(lostCount, 'change')}</p>
+        <p data-tone={S.net < 0 ? 'bad' : 'good'} data-net="true" style={{ '--j': 2 }}><b>{signed(S.net)}</b>Net effect</p>
+      </div>
       <NetStrip />
+      <p className="lcp__fine">Clock times count from the start of the paper.</p>
     </div>
   );
 }
 
-// What the changes did to the score: the first answers' total against the final one on a 0 to 50 line,
-// and the two kinds of change with their marks. Wide screens only, where the device has the room.
-const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+// The paper's clock with each change on its own lane, the first pick and the final pick in their
+// verdict colours. Wide screens only, where the device has the room: two of the three changes land in
+// the paper's last two minutes, which only a clock can show.
+function ChangeClock() {
+  const total = S.facts.totalSec;
+  return (
+    <div className="lcp-clock" aria-hidden="true">
+      <span className="lcp-clock__line" />
+      <span className="lcp-clock__sweep"><i /></span>
+      {S.changes.map((c, lane) => (
+        <span key={c.n} className="lcp-clock__change" data-tone={c.net < 0 ? 'bad' : 'good'} style={{ '--a': c.atSec / total, '--b': c.toAtSec / total, '--lane': lane }}>
+          <i className="lcp-clock__span" />
+          <i className="lcp-clock__dot" data-end="from" data-verdict={c.fromVerdict}><b>{c.from}</b></i>
+          <i className="lcp-clock__dot" data-end="to" data-verdict={c.toVerdict}><b>{c.to}</b></i>
+          <em className="lcp-clock__q">Q{c.n}</em>
+        </span>
+      ))}
+      <span className="lcp-clock__ends"><b>0:00</b><b>{S.total}</b></span>
+    </div>
+  );
+}
+
+// What the changes did to the score: the first answers' total against the final one on a 0 to 50 line.
+// Wide screens only.
 function NetStrip() {
   const { marks, outOf } = S.facts;
-  const first = marks - S.net;
-  const gained = S.changes.filter((c) => c.net > 0);
+  const first = S.firstAnswers;
   const lo = Math.min(marks, first) / outOf;
   const hi = Math.max(marks, first) / outOf;
   return (
@@ -113,65 +181,77 @@ function NetStrip() {
         <i className="lcp-net__mark" data-k="first" style={{ '--x': first / outOf }}><small>First answers</small><b>{first}</b></i>
         <span className="lcp-net__ends"><b>0</b><b>{outOf}</b></span>
       </div>
-      <div className="lcp-net__tally">
-        <p data-tone="bad" style={{ '--i': 0 }}><b>{signed(S.lostToChanges)}</b>{plural(S.lostQuestions.length, 'right answer', 'right answers')} changed to wrong</p>
-        <p data-tone="good" style={{ '--i': 1 }}><b>{signed(gained.reduce((sum, c) => sum + c.net, 0))}</b>{plural(gained.length, 'wrong answer', 'wrong answers')} changed to right</p>
-      </div>
     </div>
   );
 }
 
+// ---------- 3. Repair: the pick crossed out, the key checked, then the four blocks ----------
 function RepairPanel() {
+  const record = repairRecordLine();
   return (
     <div className="lcp lcp--repair">
+      <div className="lcr-head">
+        <p className="lcr-head__q">Q{REPAIR.n}. Your pick {REPAIR.picked}. Key {REPAIR.key}.</p>
+        <p className="lcr-head__trap">{REPAIR.trap}</p>
+      </div>
+      <p className="lcp-check"><ShieldCheck size={15} aria-hidden="true" />Explained from the answer key ({REPAIR.key}).</p>
       <div className="lcp-q">
-        <p className="lcp-q__n">Q{REPAIR.n} <span>Partnership</span></p>
         <p className="lcp-q__stem">{REPAIR.stem}</p>
         <ul className="lcp-q__opts">
-          {REPAIR.options.map(([letter, text]) => (
-            <li key={letter} data-state={letter === REPAIR.picked ? 'picked' : letter === REPAIR.key ? 'key' : undefined}>
-              <b>{letter}</b><span>{text}</span>
-              {letter === REPAIR.picked ? <em>Your answer</em> : letter === REPAIR.key ? <em>Key</em> : null}
-            </li>
-          ))}
+          {REPAIR.options.map(([letter, text]) => {
+            const state = letter === REPAIR.picked ? 'picked' : letter === REPAIR.key ? 'key' : undefined;
+            return (
+              <li key={letter} data-state={state}>
+                <b className="lcp-q__letter">{letter}{state ? <i className="lcp-q__badge" aria-hidden="true">{state === 'key' ? <Check size={9} strokeWidth={3.2} /> : <X size={9} strokeWidth={3.2} />}</i> : null}</b>
+                <span>{text}</span>
+                {state ? <em>{state === 'picked' ? 'Your pick' : 'Key'}</em> : null}
+              </li>
+            );
+          })}
         </ul>
       </div>
-      <p className="lcp-check"><ShieldCheck size={15} aria-hidden="true" />Explained from the official key.</p>
       <div className="lcp-blocks">
         {REPAIR.blocks.map((b, i) => (
           <div key={b.kind} className="lcp-block" data-kind={b.kind} style={{ '--i': i }}>
-            <p className="lcp-block__label">{b.label}</p>
+            <p className="lcp-block__label"><i aria-hidden="true" />{b.label}</p>
             <p>{b.text}</p>
           </div>
         ))}
       </div>
+      {record ? <p className="lcr-record"><b>From your record</b>{record}</p> : null}
     </div>
   );
 }
 
+// ---------- 4. SWOT: Do these next, then the four groups ----------
 function SwotPanel() {
-  const quads = [
-    { id: 'strength', label: 'Strengths', title: `Ratios, ${S.ratios.right} of ${S.ratios.of} right`, detail: 'Quick and sure. Keep them in the mix.' },
-    { id: 'weakness', label: 'Weaknesses', title: `Partnership, ${S.partnership.right} of ${S.partnership.of} right`, detail: 'Three misses, and the slowest minutes.' },
-    { id: 'opportunity', label: 'Opportunities', title: `${S.facts.blank} blanks, ${S.blankMarks} marks open`, detail: `${S.blanks.map((b) => `Q${b.n}`).join(' and ')}, both in ${S.blanks[0]?.chapter.toLowerCase()}.` },
-    { id: 'threat', label: 'Threats', title: 'Second thoughts', detail: `Q${S.lostQuestions.join(' and Q')} went from right to wrong, ${signed(S.lostToChanges)} marks.` },
-  ];
   return (
     <div className="lcp lcp--swot">
       <p className="lcp__h">After this mock</p>
-      <div className="lcp-plan">
-        <span className="lcp-plan__n" aria-hidden="true">1</span>
-        <div><p className="lcp-plan__label">Practise 10 on partnership, timed</p><p className="lcp-plan__why">{S.partnership.right} of {S.partnership.of} right in this mock.</p></div>
-        <span className="lcp-plan__go" aria-hidden="true">Set up</span>
+      <div className="lcs-block">
+        <p className="lcs-h">Do these next</p>
+        <ol className="lcs-plan">
+          {S.swot.plan.map((p, i) => (
+            <li key={p.label} className="lcp-plan" data-first={i === 0 ? 'true' : undefined} style={{ '--i': i }}>
+              <span className="lcp-plan__n" aria-hidden="true">{i + 1}</span>
+              <div><p className="lcp-plan__label">{p.label}</p><p className="lcp-plan__why">{p.reason}</p></div>
+              <span className="lcp-plan__go" aria-hidden="true">Set up</span>
+            </li>
+          ))}
+        </ol>
       </div>
-      <div className="lcp-swot">
-        {quads.map((q, i) => (
-          <div key={q.id} className="lcp-swot__q" data-q={q.id} style={{ '--i': i }}>
-            <p className="lcp-swot__label"><i aria-hidden="true" />{q.label}</p>
-            <p className="lcp-swot__title">{q.title}</p>
-            <p className="lcp-swot__detail">{q.detail}</p>
-          </div>
-        ))}
+      <div className="lcs-block">
+        <p className="lcs-h">SWOT for this mock</p>
+        <div className="lcp-swot">
+          {S.swot.quadrants.map((q, i) => (
+            <div key={q.id} className="lcp-swot__q" data-q={q.id} style={{ '--i': i }}>
+              <p className="lcp-swot__label"><i aria-hidden="true" />{q.label}</p>
+              <p className="lcp-swot__title">{q.title}</p>
+              <p className="lcp-swot__detail">{q.detail}</p>
+              {q.qs.length ? <p className="lcp-swot__see"><span>See</span>{q.qs.map((n) => <b key={n}>Q{n}</b>)}</p> : null}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

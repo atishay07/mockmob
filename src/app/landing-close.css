@@ -1,0 +1,81 @@
+/* The landing's ways in at the bottom of the page: the close band's two actions, the phone dock's sign-up line,
+   and the cue when a "Try a CUET question" link brings the sample question on screen (DemoJump.jsx). */
+
+/* Every jump to the demo (a plain #try-practice link, a deep link from another page) stops below the sticky nav. */
+#try-practice { scroll-margin-top: 76px; }
+
+/* ---------- Close band ---------- */
+.lp-close__go {
+  display: grid;
+  justify-items: center;
+  gap: 0.875rem;
+}
+.lp-close__free {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+.lp-close__free svg { color: var(--accent-text); flex: none; }
+@media (max-width: 639px) {
+  .lp-close__go { width: 100%; max-width: 22rem; }
+  .lp-close__actions { width: 100%; }
+}
+
+/* ---------- Phone dock: "Free to start." over a sign-up link ---------- */
+.lp-dockmobi__line .lp-docklink {
+  position: relative;
+  justify-self: start;
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--volt-edge, #9db400);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  border-radius: 4px;
+}
+/* A 44px tall hit area around the short link, kept clear of the dock's button on its right. */
+.lp-dockmobi__line .lp-docklink::after {
+  content: '';
+  position: absolute;
+  inset: -14px -2px -14px -10px;
+}
+.lp-dockmobi__line .lp-docklink:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+/* Under 360px the dock's button leaves room for one short line: the link alone; under 330px, Mobi and the button. */
+@media (max-width: 359px) { .lp-dockmobi__line .lp-dockfree { display: none; } }
+@media (max-width: 329px) { .lp-dockmobi__line .lp-docklink { display: none; } }
+
+/* ---------- Arrival: a volt ring settles onto the question card, then fades ---------- */
+#try-practice[data-arrive='true'] .mm-drill {
+  animation: lp-arrive 1100ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both;
+}
+@keyframes lp-arrive {
+  0% { outline: 2px solid transparent; outline-offset: 14px; }
+  28% { outline: 2px solid var(--volt); outline-offset: 5px; }
+  72% { outline: 2px solid var(--volt); outline-offset: 5px; }
+  100% { outline: 2px solid transparent; outline-offset: 5px; }
+}
+@keyframes lp-arrive-calm {
+  0%, 72% { outline: 2px solid var(--volt); outline-offset: 5px; }
+  100% { outline: 2px solid transparent; outline-offset: 5px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #try-practice[data-arrive='true'] .mm-drill { animation-name: lp-arrive-calm; animation-timing-function: linear; }
+}
+html[data-motion='reduced'] #try-practice[data-arrive='true'] .mm-drill { animation-name: lp-arrive-calm; animation-timing-function: linear; }
+
+/* ---------- The dock steps down while the close band's actions hold the screen (CloseActions.jsx) ---------- */
+@media (max-width: 899px) {
+  html[data-theme] .mm.lp[data-close-in='true'] .lp-dockgate .mm-dock:not(:focus-within) {
+    opacity: 0;
+    transform: translateY(calc(100% + 2rem));
+    pointer-events: none;
+    transition-duration: var(--mm-dur-leave, 180ms);
+    transition-timing-function: var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0));
+  }
+}

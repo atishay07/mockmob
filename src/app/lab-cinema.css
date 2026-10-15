@@ -130,25 +130,96 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp { display: grid; gap: 0.85rem; }
 .lcp__h { margin: 0; font: 750 1rem/1.25 var(--font-body); color: var(--s-ink); }
 .lcp__lead, .lcp__foot { margin: 0; color: var(--s-ink-2); font-size: 0.875rem; line-height: 1.5; }
-.lcp__foot b { color: var(--s-bad); }
+.lcp__lead b, .lcp__foot b { font-weight: 800; color: var(--s-ink); }
+.lcp :is(.lcp__lead, .lcp__foot) b[data-tone='bad'] { color: var(--s-bad); }
+.lcp :is(.lcp__lead, .lcp__foot) b[data-tone='good'] { color: var(--s-good); }
+.lcp__fine { margin: 0; color: var(--s-ink-3); font-size: 0.75rem; line-height: 1.4; }
 .lcd-bar__title b { font-variant-numeric: tabular-nums; }
 
-/* Time: bars against the paper's pace */
-.lcp-bars { display: grid; gap: 0.55rem; margin: 0.25rem 0 0; padding: 0; list-style: none; }
-.lcp-bars li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr) 3rem; grid-template-areas: 'q track time' '. tag tag'; align-items: center; column-gap: 0.75rem; row-gap: 0.2rem; }
-.lcp-bars__q { grid-area: q; color: var(--s-ink-2); font-weight: 700; font-size: 0.875rem; }
-.lcp-bars__track { grid-area: track; position: relative; height: 0.9rem; border-radius: 6px; background: var(--s-sunken); }
-.lcp-bars__fill { position: absolute; inset: 0; border-radius: 6px; background: var(--s-good-fill); transform-origin: left center; transform: scaleX(var(--w)); }
-.lcp-bars__fill[data-verdict='wrong'] { background: var(--s-bad-fill); }
-.lcp-bars__pace { position: absolute; top: -0.3rem; bottom: -0.3rem; width: 0; border-left: 2px dashed var(--s-accent); }
-.lcp-bars__pace b { position: absolute; bottom: calc(100% + 0.15rem); left: -0.1rem; color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 700; white-space: nowrap; }
-.lcp-bars__time { grid-area: time; text-align: right; font-weight: 750; font-size: 0.9375rem; }
-.lcp-bars__tag { grid-area: tag; display: inline-flex; align-items: center; gap: 0.3rem; color: var(--s-good); font-size: 0.75rem; font-weight: 700; }
-.lcp-bars__tag[data-verdict='wrong'] { color: var(--s-bad); }
-.lcp-bars__tag em { margin-left: 0.4rem; color: var(--s-ink-3); font-style: normal; font-weight: 600; }
+/* ---------- 1. Time: every question against the pace line ----------
+   One row per question in paper order. The dashed pace line runs through every track; inside it a bar
+   is calm green (right and quick) or a dashed outline (blank); past it the bar turns grey up to the line
+   and the extra time is hatched: amber when it still ended right, coral when it ended wrong, with the
+   time over the pace written beside it. The line is placed with the grid's own column sizes. */
+.lc {
+  --s-amber: #e8c35a;
+  --s-amber-ink: #f2d27a;
+}
+.lct {
+  --c-q: 1.7rem; --c-m: 0.95rem; --c-t: 2.35rem; --c-d: 4.35rem; --cg: 0.5rem;
+  --lct-cols: var(--c-q) var(--c-m) minmax(0, 1fr) var(--c-t) var(--c-d);
+  --lct-x: calc(var(--c-q) + var(--c-m) + 2 * var(--cg) + var(--pace) * (100% - var(--c-q) - var(--c-m) - var(--c-t) - var(--c-d) - 4 * var(--cg)));
+  position: relative; padding-top: 1.3rem;
+}
+.lct__pace { position: absolute; z-index: 2; top: 1.05rem; bottom: -0.25rem; left: var(--lct-x); width: 0; margin-left: -1px; border-left: 2px dashed var(--s-accent); transform-origin: center top; }
+.lct__pace-label { position: absolute; z-index: 2; top: 0; left: var(--lct-x); padding: 0 0.35rem; border-radius: 6px; transform: translateX(-50%); background: var(--s-bg); color: var(--s-accent); font-size: 0.6875rem; font-weight: 800; line-height: 1rem; white-space: nowrap; }
+.lct__rows { position: relative; display: grid; gap: 0.38rem; margin: 0; padding: 0; list-style: none; }
+.lct__row { display: grid; grid-template-columns: var(--lct-cols); align-items: center; column-gap: var(--cg); min-height: 1.3rem; }
+.lct__q { color: var(--s-ink-2); font-size: 0.75rem; font-weight: 750; }
+.lct__mark { display: grid; place-items: center; width: 0.95rem; height: 0.95rem; border-radius: 50%; background: var(--s-good-fill); color: #0b1000; }
+.lct__mark[data-verdict='wrong'] { background: var(--s-bad-fill); color: #1a0703; }
+.lct__mark[data-verdict='blank'] { background: transparent; border: 1px dashed rgba(242, 244, 236, 0.4); color: var(--s-ink-3); }
+.lct__track { position: relative; height: 0.72rem; border-radius: 4px; background: var(--s-sunken); }
+.lct__base, .lct__over { position: absolute; top: 0; bottom: 0; transform-origin: left center; }
+.lct__base { left: 0; width: calc(var(--base) * 100%); border-radius: 4px; background: var(--s-good-fill); }
+.lct__row[data-band='under'][data-verdict='wrong'] .lct__base { background: var(--s-bad-fill); }
+.lct__row[data-band='over'] .lct__base { border-radius: 4px 0 0 4px; background: rgba(242, 244, 236, 0.26); }
+.lct__row[data-band='blank'] .lct__base { background: transparent; border: 1px dashed rgba(242, 244, 236, 0.38); }
+.lct__row { --lct-hot: var(--s-bad-fill); }
+.lct__row[data-verdict='right'] { --lct-hot: var(--s-amber); }
+.lct__over { left: calc(var(--base) * 100%); width: calc(var(--over) * 100%); border-radius: 0 4px 4px 0; background: repeating-linear-gradient(135deg, var(--lct-hot) 0 4px, color-mix(in srgb, var(--lct-hot) 58%, transparent) 4px 7px); }
+.lct__time { text-align: right; color: var(--s-ink); font-size: 0.8125rem; font-weight: 750; }
+.lct__row[data-band='under'] .lct__time, .lct__row[data-band='blank'] .lct__time { color: var(--s-ink-2); font-weight: 650; }
+.lct__delta { color: var(--s-good); font-size: 0.75rem; font-weight: 750; white-space: nowrap; }
+.lct__row[data-band='over'] .lct__delta { color: var(--s-bad); }
+.lct__row[data-band='over'][data-verdict='right'] .lct__delta { color: var(--s-amber-ink); }
+.lct__row[data-band='blank'] .lct__delta { color: var(--s-ink-3); font-weight: 650; }
+.lct__wide { display: none; }
+.lct__key { display: flex; flex-wrap: wrap; gap: 0.3rem 0.85rem; margin: 0.15rem 0 0; padding: 0; list-style: none; color: var(--s-ink-2); font-size: 0.6875rem; font-weight: 650; }
+.lct__key li { display: inline-flex; align-items: center; gap: 0.35rem; }
+.lct__key i { width: 0.85rem; height: 0.5rem; border-radius: 2px; background: var(--s-good-fill); }
+.lct__key i[data-k='over-right'] { background: repeating-linear-gradient(135deg, var(--s-amber) 0 3px, color-mix(in srgb, var(--s-amber) 58%, transparent) 3px 5px); }
+.lct__key i[data-k='over-wrong'] { background: repeating-linear-gradient(135deg, var(--s-bad-fill) 0 3px, color-mix(in srgb, var(--s-bad-fill) 58%, transparent) 3px 5px); }
+.lct__key i[data-k='blank'] { background: transparent; border: 1px dashed rgba(242, 244, 236, 0.45); }
 
-/* Changes: the paper's clock with each change on its own lane */
-.lcp-clock { position: relative; height: 7.4rem; margin: 0.4rem 0 0; padding: 0 0.6rem; }
+/* ---------- 2. Changes: each change told as a small story ----------
+   First pick (with its clock time), the arrow, the final pick (with its time), the marks. A wrong pick is
+   coral, crossed out, with an X; a right one is green with a check. An arrow that threw away a right
+   answer is coral and crossed at its middle; one that found the key is green. */
+.lcc { display: grid; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
+.lcc__row { display: grid; grid-template-columns: 1.85rem auto minmax(2.75rem, 1fr) auto 2.7rem; align-items: start; column-gap: 0.55rem; padding: 0.6rem 0.75rem 0.5rem; border-radius: 14px; background: var(--s-raised); border: 1px solid var(--s-line); }
+.lcc__q { display: grid; align-items: center; height: 2.1rem; font-size: 0.875rem; font-weight: 800; }
+.lcc__end { display: grid; justify-items: center; gap: 0.22rem; }
+.lcc__end small { color: var(--s-ink-2); font-size: 0.6875rem; font-weight: 700; line-height: 1; }
+.lcc__chip { position: relative; display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 10px; border: 1.5px solid var(--s-line-2); background: var(--s-sunken); }
+.lcc__chip b { font: 800 0.95rem/1 var(--font-display); color: var(--s-ink); }
+.lcc__chip[data-verdict='right'] { border-color: var(--s-good-fill); background: color-mix(in srgb, var(--s-good-fill) 16%, var(--s-sunken)); }
+.lcc__chip[data-verdict='right'] b { color: var(--s-good); }
+.lcc__chip[data-verdict='wrong'] { border-color: var(--s-bad-fill); background: color-mix(in srgb, var(--s-bad-fill) 12%, var(--s-sunken)); }
+.lcc__chip[data-verdict='wrong'] b { color: var(--s-bad); }
+/* The strike across a wrong pick. */
+.lcc__chip[data-verdict='wrong']::after { content: ''; position: absolute; left: 22%; right: 22%; top: 52%; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--s-bad-fill); transform-origin: left center; transform: scaleX(1); }
+.lcc__badge { position: absolute; top: -0.42rem; right: -0.42rem; display: grid; place-items: center; width: 1.05rem; height: 1.05rem; border-radius: 50%; border: 2px solid var(--s-raised); background: var(--s-good-fill); color: #0b1000; }
+.lcc__chip[data-verdict='wrong'] .lcc__badge { background: var(--s-bad-fill); color: #1a0703; }
+.lcc__arrow { position: relative; height: 2.1rem; }
+.lcc__line { position: absolute; left: 0; right: 0.2rem; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--s-good-fill); transform-origin: left center; }
+.lcc__head { position: absolute; right: 0.15rem; top: 50%; width: 0.5rem; height: 0.5rem; margin-top: -0.25rem; border-top: 2px solid var(--s-good-fill); border-right: 2px solid var(--s-good-fill); transform: rotate(45deg); }
+.lcc__row[data-tone='bad'] .lcc__line { background: var(--s-bad-fill); }
+.lcc__row[data-tone='bad'] .lcc__head { border-color: var(--s-bad-fill); }
+.lcc__cross { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; margin: -0.55rem 0 0 -0.55rem; border-radius: 50%; background: var(--s-bad-fill); color: #1a0703; box-shadow: 0 0 0 3px var(--s-raised); }
+.lcc__arrow small { position: absolute; left: 0; right: 0.2rem; top: calc(100% + 0.22rem); color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 650; line-height: 1; text-align: center; white-space: nowrap; }
+.lcc__net { display: grid; place-items: center; height: 2.1rem; border-radius: 9px; font: 800 0.95rem/1 var(--font-display); color: var(--s-good); background: color-mix(in srgb, var(--s-good-fill) 16%, transparent); }
+.lcc__row[data-tone='bad'] .lcc__net { color: var(--s-bad); background: color-mix(in srgb, var(--s-bad-fill) 14%, transparent); }
+/* The sum: what the changes gained, what they cost, and the net. */
+.lcc-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.45rem; }
+.lcc-sum p { display: grid; gap: 0.1rem; margin: 0; padding: 0.5rem 0.65rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); color: var(--s-ink-2); font-size: 0.75rem; font-weight: 650; line-height: 1.3; }
+.lcc-sum b { font: 800 1.15rem/1.1 var(--font-display); letter-spacing: -0.01em; color: var(--s-good); font-variant-numeric: tabular-nums; }
+.lcc-sum p[data-tone='bad'] b { color: var(--s-bad); }
+.lcc-sum p[data-net='true'] { border-color: var(--s-line-2); background: var(--s-raised); color: var(--s-ink); }
+.lcc-sum p[data-net='true'] b::before { content: '= '; color: var(--s-ink-3); }
+
+/* Changes, wide screens: the paper's clock with each change on its own lane */
+.lcp-clock { position: relative; display: none; height: 7.4rem; margin: 0.2rem 0 0; padding: 0 0.6rem; }
 .lcp-clock__line { position: absolute; left: 0.6rem; right: 0.6rem; bottom: 1.6rem; height: 2px; border-radius: 2px; background: var(--s-line-2); }
 .lcp-clock__ends { position: absolute; left: 0.6rem; right: 0.6rem; bottom: 0; display: flex; justify-content: space-between; color: var(--s-ink-3); font-size: 0.75rem; }
 .lcp-clock__ends b { font-weight: 650; }
@@ -159,42 +230,19 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp-clock__change[data-tone='good'] .lcp-clock__span { background: var(--s-good-fill); }
 .lcp-clock__dot { position: absolute; top: 50%; display: grid; place-items: center; width: 1.4rem; height: 1.4rem; margin: -0.7rem 0 0 -0.7rem; border-radius: 50%; background: var(--s-raised); border: 1.5px solid var(--s-line-2); font-style: normal; }
 .lcp-clock__dot[data-end='from'] { left: calc(var(--a) * 100%); }
-.lcp-clock__dot[data-end='to'] { left: calc(var(--b) * 100%); border-color: var(--s-bad-fill); }
-.lcp-clock__change[data-tone='good'] .lcp-clock__dot[data-end='to'] { border-color: var(--s-good-fill); }
+.lcp-clock__dot[data-end='to'] { left: calc(var(--b) * 100%); }
+.lcp-clock__dot[data-verdict='right'] { border-color: var(--s-good-fill); background: color-mix(in srgb, var(--s-good-fill) 18%, var(--s-raised)); }
+.lcp-clock__dot[data-verdict='wrong'] { border-color: var(--s-bad-fill); background: color-mix(in srgb, var(--s-bad-fill) 14%, var(--s-raised)); }
 .lcp-clock__dot b { color: var(--s-ink); font-size: 0.6875rem; font-weight: 800; }
+.lcp-clock__dot[data-verdict='right'] b { color: var(--s-good); }
+.lcp-clock__dot[data-verdict='wrong'] b { color: var(--s-bad); }
 .lcp-clock__q { position: absolute; top: 50%; right: calc(100% - var(--a) * 100% + 1rem); transform: translateY(-50%); color: var(--s-ink-3); font-size: 0.75rem; font-style: normal; font-weight: 700; white-space: nowrap; }
-.lcp-changes { display: grid; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
-.lcp-changes li { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding: 0.6rem 0.8rem; border-radius: 12px; background: var(--s-raised); border: 1px solid var(--s-line); }
-.lcp-changes__q { font-weight: 800; font-size: 0.875rem; }
-.lcp-changes__text { color: var(--s-ink-2); font-size: 0.875rem; line-height: 1.35; }
-.lcp-changes__net { min-width: 2.6rem; padding: 0.2rem 0.5rem; border-radius: 8px; text-align: center; font-size: 0.875rem; font-weight: 800; color: var(--s-bad); background: color-mix(in srgb, var(--s-bad-fill) 14%, transparent); }
-.lcp-changes__net[data-tone='good'] { color: var(--s-good); background: color-mix(in srgb, var(--s-good-fill) 16%, transparent); }
-
-/* Repair */
-.lcp-q { padding: 0.9rem 1rem; border-radius: 16px; background: var(--s-raised); border: 1px solid var(--s-line); }
-.lcp-q__n { margin: 0 0 0.35rem; font-weight: 800; font-size: 0.8125rem; }
-.lcp-q__n span { margin-left: 0.4rem; color: var(--s-ink-3); font-weight: 650; }
-.lcp-q__stem { margin: 0 0 0.7rem; font-size: 0.9375rem; line-height: 1.45; font-weight: 600; }
-.lcp-q__opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
-.lcp-q__opts li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; min-height: 2.4rem; padding: 0.35rem 0.6rem; border-radius: 10px; border: 1px solid var(--s-line); color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.3; }
-.lcp-q__opts b { color: var(--s-ink); }
-.lcp-q__opts em { margin-left: auto; font-style: normal; font-size: 0.6875rem; font-weight: 800; }
-.lcp-q__opts li[data-state='picked'] { border-color: color-mix(in srgb, var(--s-bad-fill) 60%, transparent); }
-.lcp-q__opts li[data-state='picked'] em { color: var(--s-bad); }
-.lcp-q__opts li[data-state='key'] { border-color: color-mix(in srgb, var(--s-good-fill) 70%, transparent); background: color-mix(in srgb, var(--s-good-fill) 10%, transparent); }
-.lcp-q__opts li[data-state='key'] em { color: var(--s-good); }
-.lcp-check { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0; color: var(--s-good); font-size: 0.8125rem; font-weight: 700; }
-.lcp-blocks { display: grid; gap: 0.5rem; }
-.lcp-block { padding: 0.65rem 0.9rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); }
-.lcp-block p { margin: 0; color: var(--s-ink-2); font-size: 0.84rem; line-height: 1.45; }
-.lcp-block .lcp-block__label { margin-bottom: 0.2rem; color: var(--s-ink); font-size: 0.8125rem; font-weight: 800; }
-.lcp-block[data-kind='right'] { border-color: color-mix(in srgb, var(--s-good-fill) 45%, transparent); }
 
 /* Changes, wide screens: what the changes did to the score */
-.lcp-net { display: none; gap: 0.85rem; margin-top: 0.25rem; padding: 1rem 1.1rem 1.05rem; border-radius: 16px; background: var(--s-sunken); border: 1px solid var(--s-line); }
+.lcp-net { display: none; gap: 0.25rem; padding: 0.9rem 1.1rem 0.4rem; border-radius: 16px; background: var(--s-sunken); border: 1px solid var(--s-line); }
 .lcp-net__h { margin: 0; color: var(--s-ink-2); font-size: 0.875rem; line-height: 1.45; }
 .lcp-net__h b { color: var(--s-ink); font-weight: 800; }
-.lcp-net__track { position: relative; height: 0.7rem; margin: 1.6rem 0.15rem 1.35rem; border-radius: 99px; background: rgb(255 255 255 / 0.07); }
+.lcp-net__track { position: relative; height: 0.7rem; margin: 1.6rem 0.15rem 1.9rem; border-radius: 99px; background: rgb(255 255 255 / 0.07); }
 .lcp-net__fill, .lcp-net__gap { position: absolute; top: 0; bottom: 0; border-radius: inherit; transform-origin: left center; }
 .lcp-net__fill { left: 0; width: 100%; background: var(--s-good-fill); transform: scaleX(var(--x)); }
 .lcp-net__gap { left: calc(var(--a) * 100%); width: calc((var(--b) - var(--a)) * 100%); border-radius: 0 99px 99px 0; background: repeating-linear-gradient(135deg, var(--s-bad-fill) 0 4px, color-mix(in srgb, var(--s-bad-fill) 45%, transparent) 4px 8px); }
@@ -205,58 +253,137 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp-net__mark[data-k='first'] { bottom: auto; top: calc(100% + 0.35rem); }
 .lcp-net__mark[data-k='first'] b { border-style: dashed; color: var(--s-ink-2); }
 .lcp-net__ends { position: absolute; inset: calc(100% + 0.45rem) 0 auto; display: flex; justify-content: space-between; color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 650; }
-.lcp-net__tally { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
-.lcp-net__tally p { display: grid; gap: 0.1rem; margin: 0; padding: 0.6rem 0.8rem; border-radius: 12px; background: var(--s-raised); border: 1px solid var(--s-line); color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.35; }
-.lcp-net__tally b { font: 800 1.25rem/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--s-bad); font-variant-numeric: tabular-nums; }
-.lcp-net__tally p[data-tone='good'] b { color: var(--s-good); }
 
-/* SWOT */
-.lcp-plan { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.8rem; padding: 0.8rem 0.9rem; border-radius: 14px; background: var(--s-wash); border: 1px solid color-mix(in srgb, var(--s-accent) 40%, transparent); }
-.lcp-plan__n { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--s-accent); color: #0b1000; font-weight: 800; font-size: 0.8125rem; }
-.lcp-plan__label { margin: 0; font-weight: 750; font-size: 0.9375rem; }
-.lcp-plan__why { margin: 0.15rem 0 0; color: var(--s-ink-2); font-size: 0.8125rem; }
-.lcp-plan__go { padding: 0.45rem 0.8rem; border-radius: 999px; background: var(--s-accent); color: #0b1000; font-size: 0.8125rem; font-weight: 800; }
-.lcp-swot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
-.lcp-swot__q { padding: 0.8rem 0.9rem; border-radius: 14px; background: var(--s-raised); border: 1px solid var(--s-line); }
-.lcp-swot__label { display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.35rem; color: var(--s-ink-3); font-size: 0.75rem; font-weight: 750; }
+/* ---------- 3. Repair: Q4 as Repair v3 lays it out ---------- */
+.lcr-head { display: grid; gap: 0.15rem; }
+.lcr-head__q { margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; font-weight: 700; }
+.lcr-head__trap { margin: 0; color: var(--s-ink); font: 750 1rem/1.25 var(--font-body); }
+.lcp-check { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0; color: var(--s-good); font-size: 0.8125rem; font-weight: 700; }
+.lcp-q { padding: 0.8rem 0.9rem; border-radius: 16px; background: var(--s-raised); border: 1px solid var(--s-line); }
+.lcp-q__stem { margin: 0 0 0.65rem; font-size: 0.875rem; line-height: 1.45; font-weight: 600; }
+.lcp-q__opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.lcp-q__opts li { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; min-height: 2.35rem; padding: 0.35rem 0.55rem; border-radius: 10px; border: 1px solid var(--s-line); color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.3; }
+.lcp-q__letter { position: relative; display: grid; place-items: center; flex: none; width: 1.4rem; height: 1.4rem; border-radius: 7px; background: rgb(255 255 255 / 0.07); color: var(--s-ink); font-size: 0.75rem; font-weight: 800; }
+.lcp-q__opts em { margin-left: auto; font-style: normal; font-size: 0.6875rem; font-weight: 800; }
+.lcp-q__opts li[data-state='picked'] { border-color: color-mix(in srgb, var(--s-bad-fill) 60%, transparent); }
+.lcp-q__opts li[data-state='picked'] .lcp-q__letter { background: color-mix(in srgb, var(--s-bad-fill) 22%, transparent); color: var(--s-bad); }
+.lcp-q__opts li[data-state='picked'] .lcp-q__letter::after { content: ''; position: absolute; left: 18%; right: 18%; top: 52%; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--s-bad-fill); transform-origin: left center; transform: scaleX(1); }
+.lcp-q__opts li[data-state='picked'] em { color: var(--s-bad); }
+.lcp-q__opts li[data-state='key'] { border-color: color-mix(in srgb, var(--s-good-fill) 70%, transparent); background: color-mix(in srgb, var(--s-good-fill) 10%, transparent); color: var(--s-ink); }
+.lcp-q__opts li[data-state='key'] .lcp-q__letter { background: var(--s-good-fill); color: #0b1000; }
+.lcp-q__opts li[data-state='key'] em { color: var(--s-good); }
+.lcp-q__badge { position: absolute; top: -0.36rem; right: -0.36rem; display: grid; place-items: center; width: 0.9rem; height: 0.9rem; border-radius: 50%; border: 2px solid var(--s-raised); background: var(--s-good-fill); color: #0b1000; font-style: normal; }
+.lcp-q__opts li[data-state='picked'] .lcp-q__badge { background: var(--s-bad-fill); color: #1a0703; }
+.lcp-blocks { display: grid; gap: 0.45rem; }
+.lcp-block { padding: 0.55rem 0.8rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); }
+.lcp-block p { margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.42; }
+.lcp-block .lcp-block__label { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.15rem; color: var(--s-ink); font-size: 0.8125rem; font-weight: 800; }
+.lcp-block__label i { flex: none; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--s-bad-fill); }
+.lcp-block[data-kind='right'] .lcp-block__label i { background: var(--s-good-fill); }
+.lcp-block[data-kind='rule'] { background: var(--s-wash); border-color: color-mix(in srgb, var(--s-accent) 38%, transparent); }
+.lcp-block[data-kind='rule'] .lcp-block__label i { background: var(--s-accent); }
+.lcp-block[data-kind='rule'] p:not(.lcp-block__label) { color: var(--s-ink); font-weight: 650; }
+.lcr-record { display: grid; gap: 0.1rem; margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.4; }
+.lcr-record b { color: var(--s-ink); font-size: 0.75rem; font-weight: 800; }
+
+/* ---------- 4. SWOT: Do these next, then the SWOT for this mock ---------- */
+.lcs-block { display: grid; gap: 0.45rem; }
+.lcs-h { margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; font-weight: 750; }
+.lcs-plan { display: grid; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
+.lcp-plan { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding: 0.65rem 0.8rem; border-radius: 14px; background: var(--s-raised); border: 1px solid var(--s-line); }
+.lcp-plan[data-first='true'] { background: var(--s-wash); border-color: color-mix(in srgb, var(--s-accent) 40%, transparent); }
+.lcp-plan__n { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; border: 1px solid var(--s-line-2); color: var(--s-ink); font-weight: 800; font-size: 0.8125rem; }
+.lcp-plan[data-first='true'] .lcp-plan__n { border-color: var(--s-accent); background: var(--s-accent); color: #0b1000; }
+.lcp-plan__label { margin: 0; font-weight: 750; font-size: 0.9375rem; line-height: 1.3; }
+.lcp-plan__why { margin: 0.1rem 0 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.35; }
+.lcp-plan__go { padding: 0.4rem 0.75rem; border-radius: 999px; border: 1px solid var(--s-line-2); color: var(--s-ink); font-size: 0.8125rem; font-weight: 800; white-space: nowrap; }
+.lcp-plan[data-first='true'] .lcp-plan__go { border-color: var(--s-accent); background: var(--s-accent); color: #0b1000; }
+.lcp-swot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+.lcp-swot__q { padding: 0.7rem 0.8rem; border-radius: 14px; background: var(--s-raised); border: 1px solid var(--s-line); }
+.lcp-swot__label { display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.3rem; color: var(--s-ink-3); font-size: 0.75rem; font-weight: 750; }
 .lcp-swot__label i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--s-good-fill); }
 .lcp-swot__q[data-q='weakness'] .lcp-swot__label i { background: var(--s-bad-fill); }
 .lcp-swot__q[data-q='opportunity'] .lcp-swot__label i { background: var(--s-accent); }
-.lcp-swot__q[data-q='threat'] .lcp-swot__label i { background: #e0b93f; }
-.lcp-swot__title { margin: 0; font-weight: 800; font-size: 0.9375rem; line-height: 1.3; }
-.lcp-swot__detail { margin: 0.2rem 0 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.4; }
+.lcp-swot__q[data-q='threat'] .lcp-swot__label i { background: var(--s-amber); }
+.lcp-swot__title { margin: 0; font-weight: 800; font-size: 0.875rem; line-height: 1.3; }
+.lcp-swot__detail { margin: 0.2rem 0 0; color: var(--s-ink-2); font-size: 0.78rem; line-height: 1.4; }
+.lcp-swot__see { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; margin: 0.45rem 0 0; color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 700; }
+.lcp-swot__see b { padding: 0.08rem 0.4rem; border-radius: 6px; border: 1px solid var(--s-line-2); color: var(--s-ink); font-weight: 750; }
 
-/* ---------- Choreography: each screen plays when its scene is on ----------
-   Every screen is in place within about 600 ms of its scene coming on: rows arrive one shared stagger
-   step apart (--lc-stagger) on the app's enter timing; only the bars' sweep and the clock run on after.
-   Turning off waits for the screen to fade (--lc-reset), so nothing visibly rewinds. */
-.lc .lcp-bars__fill { transition: transform var(--mm-dur-sweep, 700ms) var(--lc-ease) calc(var(--i, 0) * var(--lc-stagger) + 60ms); }
-.lc .lcp-bars__pace, .lc .lcp-bars__tag { transition: opacity var(--mm-dur-card, 240ms) ease calc(var(--i, 0) * var(--lc-stagger) + 180ms); }
+/* ---------- Choreography: each screen tells its story when its scene comes on ----------
+   Time: the pace line draws down, then each bar grows to the line and the slow ones push past it, then
+   the time over the pace is written beside them. Changes: one change after another, the first pick and
+   its check or cross, the arrow, the cross on an arrow that threw away a right answer, the final pick and
+   its marks, then the sum. Repair: the pick is crossed out, the key checked, then the blocks. SWOT: the
+   plan, then the four groups. Every screen is whole within about two seconds of its scene coming on.
+   Turning off waits for the screen to fade (--lc-reset), then resets at once, so nothing visibly rewinds. */
+.lc .lct__pace { transition: transform 420ms var(--lc-ease) 40ms; }
+.lc .lct__pace-label { transition: opacity 240ms ease 160ms; }
+.lc .lct__row { --t: calc(300ms + var(--i, 0) * 42ms); }
+.lc .lct__base { transition: transform 380ms var(--lc-ease) var(--t); }
+.lc .lct__over { transition: transform 480ms var(--lc-ease) calc(var(--t) + 320ms); }
+.lc .lct__delta { transition: opacity 240ms ease calc(var(--t) + 360ms), transform 320ms var(--lc-ease) calc(var(--t) + 360ms); }
+.lc .lct__row[data-band='over'] .lct__delta { transition-delay: calc(var(--t) + 640ms); }
+.lc .lct__key { transition: opacity 300ms ease 1250ms; }
+.lc .lct__sum { transition: opacity 320ms ease 1400ms, transform 420ms var(--lc-ease) 1400ms; }
+
+.lc .lcc__row { --t: calc(220ms + var(--i, 0) * 300ms); transition: opacity 240ms ease var(--t), transform 380ms var(--lc-ease) var(--t); }
+.lc .lcc__end[data-end='from'] .lcc__badge { transition: opacity 180ms ease calc(var(--t) + 200ms), transform 360ms var(--mm-spring-snappy, var(--lc-ease)) calc(var(--t) + 200ms); }
+.lc .lcc__end[data-end='from'] .lcc__chip::after { transition: transform 260ms var(--lc-ease) calc(var(--t) + 220ms); }
+.lc .lcc__line { transition: transform 380ms var(--lc-ease) calc(var(--t) + 320ms); }
+.lc .lcc__head { transition: opacity 160ms ease calc(var(--t) + 600ms); }
+.lc .lcc__cross { transition: opacity 160ms ease calc(var(--t) + 520ms), transform 360ms var(--mm-spring-snappy, var(--lc-ease)) calc(var(--t) + 520ms); }
+.lc .lcc__arrow small { transition: opacity 240ms ease calc(var(--t) + 620ms); }
+.lc .lcc__end[data-end='to'] { transition: opacity 220ms ease calc(var(--t) + 600ms), transform 380ms var(--lc-ease) calc(var(--t) + 600ms); }
+.lc .lcc__end[data-end='to'] .lcc__badge { transition: opacity 180ms ease calc(var(--t) + 800ms), transform 360ms var(--mm-spring-snappy, var(--lc-ease)) calc(var(--t) + 800ms); }
+.lc .lcc__end[data-end='to'] .lcc__chip::after { transition: transform 260ms var(--lc-ease) calc(var(--t) + 820ms); }
+.lc .lcc__net { transition: opacity 200ms ease calc(var(--t) + 880ms), transform 380ms var(--mm-spring-snappy, var(--lc-ease)) calc(var(--t) + 880ms); }
+.lc .lcc-sum p { transition: opacity 240ms ease calc(1500ms + var(--j, 0) * 90ms), transform 380ms var(--lc-ease) calc(1500ms + var(--j, 0) * 90ms); }
 .lc .lcp-clock__dot[data-end='from'] { transition: opacity 0.2s ease calc(var(--a) * var(--lc-sweep)), transform 0.35s var(--lc-ease) calc(var(--a) * var(--lc-sweep)); }
 .lc .lcp-clock__dot[data-end='to'] { transition: opacity 0.2s ease calc(var(--b) * var(--lc-sweep)), transform 0.35s var(--lc-ease) calc(var(--b) * var(--lc-sweep)); }
 .lc .lcp-clock__span { transition: transform calc((var(--b) - var(--a)) * var(--lc-sweep)) linear calc(var(--a) * var(--lc-sweep)); }
 .lc .lcp-clock__q { transition: opacity 0.3s ease calc(var(--a) * var(--lc-sweep)); }
-.lc :is(.lcp-changes li, .lcp-check, .lcp-block, .lcp-plan, .lcp-swot__q, .lcp-net__tally p) {
+.lc .lcp-net__fill { transition: transform var(--mm-dur-sweep, 700ms) var(--lc-ease) 1650ms; }
+.lc .lcp-net__gap { transition: transform var(--mm-dur-enter, 360ms) var(--lc-ease) 2050ms; }
+.lc .lcp-net__mark { transition: opacity var(--mm-dur-card, 240ms) ease 1800ms, transform var(--mm-dur-enter, 360ms) var(--lc-ease) 1800ms; }
+
+.lc .lcp-q__opts li[data-state='picked'] .lcp-q__badge { transition: opacity 180ms ease 260ms, transform 360ms var(--mm-spring-snappy, var(--lc-ease)) 260ms; }
+.lc .lcp-q__opts li[data-state='picked'] .lcp-q__letter::after { transition: transform 260ms var(--lc-ease) 280ms; }
+.lc .lcp-q__opts li[data-state='key'] .lcp-q__badge { transition: opacity 180ms ease 560ms, transform 360ms var(--mm-spring-snappy, var(--lc-ease)) 560ms; }
+.lc .lcp-q__opts li[data-state] { transition: border-color 0.3s ease 0.26s, background-color 0.3s ease 0.26s; }
+.lc .lcp-q__opts li[data-state='key'] { transition-delay: 0.54s; }
+.lc .lcp-q__opts em { transition: opacity 240ms ease 300ms; }
+.lc .lcp-q__opts li[data-state='key'] em { transition-delay: 580ms; }
+.lc :is(.lcp-check, .lcp-block, .lcr-record, .lcp-plan, .lcp-swot__q) {
   transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out) var(--lc-at, calc(var(--i, 0) * var(--lc-stagger) + 60ms)), transform var(--mm-dur-enter, 360ms) var(--lc-ease) var(--lc-at, calc(var(--i, 0) * var(--lc-stagger) + 60ms));
 }
-.lc .lcp-block { --lc-at: calc(var(--i, 0) * var(--lc-stagger) + 105ms); }
-.lc .lcp-swot__q { --lc-at: calc(var(--i, 0) * var(--lc-stagger) + 105ms); }
-.lc .lcp-plan { --lc-at: 40ms; }
-.lc .lcp-net__tally p { --lc-at: calc(var(--i, 0) * var(--lc-stagger) + 240ms); }
-.lc .lcp-q__opts li[data-state] { transition: border-color 0.3s ease 0.1s, background-color 0.3s ease 0.1s; }
-.lc .lcp-net__fill { transition: transform var(--mm-dur-sweep, 700ms) var(--lc-ease) 150ms; }
-.lc .lcp-net__gap { transition: transform var(--mm-dur-enter, 360ms) var(--lc-ease) 420ms; }
-.lc .lcp-net__mark { transition: opacity var(--mm-dur-card, 240ms) ease 300ms, transform var(--mm-dur-enter, 360ms) var(--lc-ease) 300ms; }
+.lc .lcp-check { --lc-at: 120ms; }
+.lc .lcp-block { --lc-at: calc(720ms + var(--i, 0) * 120ms); }
+.lc .lcr-record { --lc-at: 1260ms; }
+.lc .lcp-plan { --lc-at: calc(80ms + var(--i, 0) * 110ms); }
+.lc .lcp-swot__q { --lc-at: calc(400ms + var(--i, 0) * 110ms); }
 
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-bars__fill { transform: scaleX(0); transition-delay: var(--lc-reset); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcp-bars__pace, .lcp-bars__tag, .lcp-clock__q) { opacity: 0; transition-delay: var(--lc-reset); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-clock__dot { opacity: 0; transform: scale(0.6); transition-delay: var(--lc-reset); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-clock__span { transform: scaleX(0); transition-duration: 0.2s; transition-delay: var(--lc-reset); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcp-changes li, .lcp-check, .lcp-block, .lcp-plan, .lcp-swot__q, .lcp-net__tally p) { opacity: 0; transform: translate3d(0, 0.75rem, 0); transition-delay: var(--lc-reset); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcp-net__fill, .lcp-net__gap) { transform: scaleX(0); transition-delay: var(--lc-reset); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-net__mark { opacity: 0; transform: translate3d(-50%, 0.4rem, 0); transition-delay: var(--lc-reset); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-swot__q { transform: scale(0.96); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-q__opts li[data-state] { border-color: var(--s-line); background: transparent; transition-delay: var(--lc-reset); }
+/* Off (and before the scene first comes on): every mark of the story waits in its first frame. */
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lct__pace, .lct__pace-label, .lct__key, .lct__base, .lct__over, .lct__delta, .lct__sum,
+  .lcc__row, .lcc__badge, .lcc__chip, .lcc__line, .lcc__head, .lcc__cross, .lcc__arrow small, .lcc__end, .lcc__net, .lcc-sum p,
+  .lcp-clock__dot, .lcp-clock__span, .lcp-clock__q, .lcp-net__fill, .lcp-net__gap, .lcp-net__mark,
+  .lcp-q__badge, .lcp-q__opts li, .lcp-q__opts em, .lcp-check, .lcp-block, .lcr-record, .lcp-plan, .lcp-swot__q),
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcc__chip, .lcp-q__letter)::after {
+  transition-duration: 0s; transition-delay: var(--lc-reset);
+}
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lct__pace { transform: scaleY(0); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lct__base, .lct__over, .lcc__line, .lcp-clock__span, .lcp-net__fill, .lcp-net__gap) { transform: scaleX(0); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lct__pace-label, .lct__key, .lcc__head, .lcc__arrow small, .lcp-clock__q, .lcp-q__opts em) { opacity: 0; }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lct__delta { opacity: 0; transform: translate3d(-0.35rem, 0, 0); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lct__sum, .lcc__row, .lcc-sum p, .lcp-check, .lcp-block, .lcr-record, .lcp-plan) { opacity: 0; transform: translate3d(0, 0.6rem, 0); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-swot__q { opacity: 0; transform: translate3d(0, 0.6rem, 0) scale(0.97); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcc__badge, .lcp-q__badge, .lcc__cross) { opacity: 0; transform: scale(0.6); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcc__end[data-end='to'] { opacity: 0; transform: translate3d(-0.7rem, 0, 0) scale(0.92); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcc__net { opacity: 0; transform: scale(0.7); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcc__chip, .lcp-q__letter)::after { transform: scaleX(0); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-clock__dot { opacity: 0; transform: scale(0.6); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-net__mark { opacity: 0; transform: translate3d(-50%, 0.4rem, 0); }
+.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-q__opts li[data-state] { border-color: var(--s-line); background: transparent; }
 /* The clock sweep plays once each time the Changes screen comes on. */
 .lc__grid[data-ready='true'] .lc-scene[data-on='true'] .lcp-clock__sweep i { animation: lc-sweep var(--lc-sweep) linear both; }
 @keyframes lc-sweep {
@@ -300,7 +427,16 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 @media (max-width: 520px) {
   .lcp-q__opts { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .lcp-q__opts li { font-size: 0.75rem; }
-  .lcp-clock { height: 7rem; }
+}
+/* Phones: each repair block runs its label into its sentence, so the whole repair fits the screen at a
+   readable size. */
+@media (max-width: 959px) {
+  .lcp-block p { display: inline; }
+  .lcp-block .lcp-block__label { display: inline; margin: 0 0.3rem 0 0; }
+  .lcp-block__label i { display: inline-block; margin: 0 0.4rem 0.1rem 0; vertical-align: middle; }
+  .lcp--repair { gap: 0.7rem; }
+  .lcp-q { padding: 0.7rem 0.8rem; }
+  .lcp-q__stem { margin-bottom: 0.55rem; }
 }
 
 /* Short windows: the words shrink before the screen does. */
@@ -331,7 +467,15 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   .lcd-bar { padding: 0.5rem var(--lc-obj-clear) 0.35rem 1.4rem; }
   .lcd-bar__title { min-height: var(--lc-obj); }
   .lc__obj.subj-obj { top: 0.5rem; right: 1.1rem; }
-  .lcp-net { display: grid; }
+  /* The wide device has room for the clock, the score line and the word "pace" on every slow bar. */
+  .lcp-net, .lcp-clock { display: grid; }
+  .lct { --c-d: 6.1rem; --c-q: 1.9rem; }
+  .lct__rows { gap: 0.55rem; }
+  .lct__row { min-height: 1.55rem; }
+  .lct__track { height: 0.85rem; }
+  .lct__q, .lct__delta { font-size: 0.8125rem; }
+  .lct__time { font-size: 0.875rem; }
+  .lct__wide { display: inline; }
   .lcd__tabs { display: grid; }
   .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 1rem) 1.5rem 1.5rem; }
   /* The rail turns into a column: a line on the left that fills down through the scenes. */
@@ -344,6 +488,9 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   .lc__rail-meter .ss-fill:is([data-state='done'], [data-state='on']) { transform: scaleY(1); }
   .lc[data-pinned='true'] .lc__rail-meter .ss-fill { animation-name: ss-fill-y; }
 }
+/* Short desktop windows: the change rows already carry their clock times, so the clock lanes step aside
+   and the rows keep a readable size. */
+@media (min-width: 960px) and (max-height: 760px) { .lc .lcp-clock { display: none; } }
 /* Landscape phones: the rail sits above the words in the left column. */
 @media (orientation: landscape) and (max-height: 520px) {
   .lc { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }

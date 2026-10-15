@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Logo } from './Logo';
+import { FooterStart } from './FooterStart';
 
 const PRODUCT_LINKS = [
   ['DU eligibility and cutoff calculator', '/cuet-cutoff-calculator'],
@@ -39,6 +40,7 @@ export function MarketingFooter() {
               Timed CUET practice, a clear read of every mistake, and one next step for tonight.
               Built first for English, Accountancy, Business Studies and Economics.
             </p>
+            <FooterStart />
             <a
               className="mm-foot__social"
               href="https://www.instagram.com/mockmob.in/"

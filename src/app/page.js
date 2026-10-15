@@ -9,6 +9,8 @@ import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
+import { CloseActions, DockLine } from '@/components/landing/CloseActions';
+import { DemoJump } from '@/components/landing/DemoJump';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { HeroDockGate, DockMobi } from '@/components/landing/HeroDockGate';
 import { Reveal } from '@/components/landing/Reveal';
@@ -28,7 +30,7 @@ import { buildCompassShowcase, duIndexFacts } from '@/lib/du/showcase';
 import CompassLadder from '@/components/landing/CompassLadder';
 import CreatorReels from '@/components/landing/CreatorReels';
 import { MascotSeat } from '@/components/brand/Mascot';
-import PipGuide from '@/components/brand/PipGuide';
+import PipGuide from '@/components/brand/PipGuideLazy';
 import WallOfLove from '@/components/landing/WallOfLove';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import './landing.css';
@@ -71,12 +73,19 @@ const shelfBase = (id) => {
   const stage = objectStage(subjectArt(id));
   return stage ? ((stage.contact.cy + stage.contact.ry) / 100).toFixed(3) : '0.9';
 };
+// The picture's drawn width for the srcset: the shelf box (--shelf-obj, home.css and hero-depth.css: at most 42vw
+// on phones, 11.5rem on desktop) times the share of the box the object fills. Without it a phone fetched the
+// 512 px file for a 130 px object.
+const shelfSizes = (id) => {
+  const share = (objectStage(subjectArt(id))?.box.width ?? 100) / 100;
+  return `(max-width: 959px) ${Math.ceil(42 * share)}vw, ${Math.ceil(184 * share)}px`;
+};
 const SHELF = [
   { id: 'english', name: 'English', href: '/cuet/english', depth: 70, tilt: -4 },
   { id: 'accountancy', name: 'Accountancy', href: '/cuet/accountancy', depth: 120, tilt: 3 },
   { id: 'business_studies', name: 'Business Studies', href: '/cuet/business-studies', depth: 45, tilt: -2 },
   { id: 'economics', name: 'Economics', href: '/cuet/economics', depth: 95, tilt: 4 },
-].map((item) => ({ ...item, base: shelfBase(item.id) }));
+].map((item) => ({ ...item, base: shelfBase(item.id), sizes: shelfSizes(item.id) }));
 
 // Learn is marketed only while study content is switched on; counts come from the release proof.
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
@@ -201,10 +210,10 @@ export default function LandingPage() {
             </p>
             <div className="lp-shelf">
               <ul className="lp-shelf__row" aria-label="Built first for CUET Commerce and English">
-                {SHELF.map(({ id, name, href, depth, tilt, base }, i) => (
+                {SHELF.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
                   <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
                     <Link href={href} className="lp-shelf__link">
-                      <span className="lp-shelf__float"><SubjectObject id={id} size={184} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
+                      <span className="lp-shelf__float"><SubjectObject id={id} size={184} sizes={sizes} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
                       <span className="lp-shelf__name">{name}</span>
                     </Link>
                   </li>
@@ -402,16 +411,18 @@ export default function LandingPage() {
             <MascotSeat station="close" pose="greeting" label="See you at your first mock." />
             <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
             <p className="lp-sub">Answer five now. Sign up when you want MockMob to keep your record.</p>
-            <LandingActions mode="primary" />
+            <CloseActions />
           </Reveal>
+          {/* Every same-page "Try a CUET question" link lands on the live sample question, every time. */}
+          <DemoJump />
         </section>
       </main>
       <MarketingFooter />
       <PipGuide />
-      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo or the DU teaser holds the screen, and carries Mobi. */}
+      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo, the DU teaser or the close band's actions hold the screen, and carries Mobi. */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
-        <MobileDock note={<DockMobi line={<><b>No signup.</b><span>Free to start.</span></>} />} label="Try a CUET question" href="/#try-practice" />
+        <MobileDock note={<DockMobi line={<DockLine />} />} label="Try a CUET question" href="/#try-practice" />
       </HeroDockGate>
     </div>
   );

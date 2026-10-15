@@ -35,11 +35,15 @@ const hanken = Hanken_Grotesk({
   display: "swap",
 });
 
+// Only the faces the first screen reads are preloaded: Bricolage (the headline, the page's largest paint) and
+// Hanken (the hero's lead). Geist Mono sets small labels and figures; it loads from the stylesheet with swap,
+// so it no longer competes with the headline face for a slow phone's first second.
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "500", "600"],
+  preload: false,
 });
 
 // The direction contract for this build. Kept as real markup so it survives

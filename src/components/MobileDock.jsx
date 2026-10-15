@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { Icon } from '@/components/ui/Icons';
 import '@/app/nav-motion.css';
@@ -10,6 +11,7 @@ import '@/app/nav-motion.css';
 // job, so the bar is display:none rather than duplicated.
 export function MobileDock({ note = 'Free to start. No card.', label, href }) {
   const { isAuthenticated } = useAuth();
+  const pathname = usePathname();
 
   const resolvedHref = href || (isAuthenticated ? '/dashboard' : '/signup');
   const resolvedLabel = label || (isAuthenticated ? 'Go to Practice' : 'Start free');
@@ -19,7 +21,8 @@ export function MobileDock({ note = 'Free to start. No card.', label, href }) {
       <div className="mm-dockpad" aria-hidden="true" />
       <div className="mm-dock" data-motion-dock="true">
         <p className="mm-dock__note">{note}</p>
-        <Link href={resolvedHref} className="mm-btn mm-btn--primary">
+        {/* A jump within this page (the landing's "/#try-practice") never needs the route prefetched. */}
+        <Link href={resolvedHref} prefetch={resolvedHref.split('#')[0] === pathname ? false : undefined} className="mm-btn mm-btn--primary">
           {resolvedLabel}
           <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
         </Link>

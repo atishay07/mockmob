@@ -1446,3 +1446,35 @@ html:has(.mm.lp),
 body:has(.mm.lp) {
   overflow-x: clip;
 }
+
+/* First paint lays out the hero, not the whole page. Every section below the statement renders only as it
+   nears the screen (content-visibility: auto), which skips the style, layout and paint of about 2,000 boxes
+   while the phone is still drawing the hero. Once drawn, a section keeps its real height (auto); until then
+   it reserves its measured content height (padding comes on top; the held stories scale with the screen's
+   height, desktop from 960px), so the scrollbar and in-page links barely move. Nothing is removed: each
+   section renders in full, with its stories and animations, before it reaches the screen. */
+.lp main > :is(.lp-sec, .lp-close) { content-visibility: auto; contain-intrinsic-size: auto 1000px; }
+.lp main > #inside-the-lab { contain-intrinsic-size: auto 430svh; }
+.lp main > #your-prep { contain-intrinsic-size: auto 580svh; }
+.lp main > #score-recovery-lab { contain-intrinsic-size: auto 385svh; }
+.lp main > #compass { contain-intrinsic-size: auto 2180px; }
+.lp main > #du-eligibility { contain-intrinsic-size: auto 2360px; }
+.lp main > #exam-experience { contain-intrinsic-size: auto 1590px; }
+.lp main > .lp-sec--tight { contain-intrinsic-size: auto 390px; }
+.lp main > #on-instagram { contain-intrinsic-size: auto 900px; }
+.lp main > #pricing { contain-intrinsic-size: auto 1165px; }
+.lp main > .lp-sec--band { contain-intrinsic-size: auto 371px; }
+.lp main > .lp-close { contain-intrinsic-size: auto 438px; }
+@media (min-width: 960px) {
+  .lp main > #inside-the-lab { contain-intrinsic-size: auto 445svh; }
+  .lp main > #your-prep { contain-intrinsic-size: auto 570svh; }
+  .lp main > #score-recovery-lab { contain-intrinsic-size: auto 380svh; }
+  .lp main > #compass { contain-intrinsic-size: auto 1230px; }
+  .lp main > #du-eligibility { contain-intrinsic-size: auto 1340px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 1165px; }
+  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 145px; }
+  .lp main > #on-instagram { contain-intrinsic-size: auto 935px; }
+  .lp main > #pricing { contain-intrinsic-size: auto 755px; }
+  .lp main > .lp-sec--band { contain-intrinsic-size: auto 397px; }
+  .lp main > .lp-close { contain-intrinsic-size: auto 568px; }
+}

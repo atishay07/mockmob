@@ -21,8 +21,10 @@ import './subject-object.css';
 // Life (the app's ObjectLife, src/components/brand/ObjectLife.jsx): at 96 px and up, or with `life`, the
 // object floats on a 7.2 s breath in its own phase, leans toward the mouse, a finger and the scroll, catches
 // one band of the lamp's light while it leans, and answers a tap with a spring, a tick and a sparkle.
-// `life={false}` keeps a large object still. `flight` names it for the view transition to the same object on
-// the next page (one per page: put it on the object the student taps, and on the one it lands on).
+// `sizes` overrides the drawn width when CSS resizes the box (the landing shelf shrinks on phones), so a phone
+// does not fetch the desktop file. `life={false}` keeps a large object still. `flight` names it for the view
+// transition to the same object on the next page (one per page: put it on the object the student taps, and on
+// the one it lands on).
 // Everything stays behind BRAND_FLAGS.subjectArt, and reduced motion keeps the still picture.
 
 const MIN_OBJECT_PX = 32;
@@ -42,6 +44,7 @@ export function SubjectObject({
   flight = false,
   amplitude = LIFE.tapAmplitude,
   parallax = 0,
+  sizes,
   className = '',
   style,
 }) {
@@ -69,7 +72,7 @@ export function SubjectObject({
       className="subj-obj__img"
       src={fallback}
       srcSet={subjectArtSrcSet(art)}
-      sizes={`${drawn}px`}
+      sizes={sizes || `${drawn}px`}
       width={art.width}
       height={art.height}
       alt=""
