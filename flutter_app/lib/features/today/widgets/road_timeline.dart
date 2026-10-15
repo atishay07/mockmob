@@ -18,6 +18,7 @@ import '../../../core/mascot/mascot.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../copy.dart';
+import '../logic/mobi_presence.dart';
 import '../logic/today_model.dart';
 import 'today_entrance.dart';
 import 'today_reveal.dart';
@@ -165,12 +166,6 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
           final slot = walkerOk ? frame.walkerRect(RoadTimeline.walkerSize) : null;
           if (walkerOk && slot == null) frame = measure(0);
           _frame = frame;
-          if (slot != null && !_decided) {
-            _decided = true;
-            _walkIn = !RoadTimeline._walked && !reduced;
-            RoadTimeline._walked = true;
-            if (!_walkIn) _arrived = true;
-          }
           final canvas = RepaintBoundary(
             child: CustomPaint(
               key: _canvas,
@@ -216,7 +211,7 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
                   ),
                 ),
                 // He sets off once the road starts to draw, so the walk is seen, not spent below the fold.
-                if (slot != null) _walker(slot, reveal),
+                if (slot != null) _walker(slot, reveal, reduced),
               ],
             ),
           );
@@ -225,7 +220,41 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
     );
   }
 
-  Widget _walker(Rect slot, Animation<double> reveal) {
+  /// Decided once, the first time he is actually shown: walk in (the first time this app run) or
+  /// just stand.
+  void _decide(bool reduced) {
+    if (_decided) return;
+    _decided = true;
+    _walkIn = !RoadTimeline._walked && !reduced;
+    RoadTimeline._walked = true;
+    if (!_walkIn) _arrived = true;
+  }
+
+  /// One Mobi per screen: while the header's Mobi is in view the walker is not built; once he has
+  /// been built he only steps out of sight (kept, so his walk is never replayed) when the header's
+  /// Mobi comes back into view.
+  Widget _walker(Rect slot, Animation<double> reveal, bool reduced) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: TodayMobiPresence.headerVisible,
+      builder: (context, headerOn, _) {
+        if (!_decided && headerOn) return const Positioned(left: 0, top: 0, width: 0, height: 0, child: SizedBox.shrink());
+        _decide(reduced);
+        return Positioned(
+          left: 0,
+          top: slot.top,
+          right: 0,
+          height: RoadTimeline.walkerSize,
+          child: Visibility(
+            visible: !headerOn,
+            maintainState: true,
+            child: _walkerBody(slot, reveal),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _walkerBody(Rect slot, Animation<double> reveal) {
     const size = RoadTimeline.walkerSize;
     final Widget mobi = _walkIn
         ? MobiWalker(
@@ -237,41 +266,35 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
             seed: 31,
             onArrive: (c) {
               if (mounted) setState(() => _arrived = true);
-              c.play(MobiAct.hello);
+              c.react(MobiMoments.act(MobiEvent.arrive));
             },
           )
         : Transform.translate(
             offset: Offset(slot.left, 0),
             child: Align(alignment: Alignment.topLeft, child: MobiCharacter(controller: _mobi, size: size, entrance: MobiAct.idle, watchTaps: false, seed: 31)),
           );
-    return Positioned(
-      left: 0,
-      top: slot.top,
-      right: 0,
-      height: size,
-      // Held back until the road starts to draw (the gate stays inside the Positioned: a bare
-      // placeholder beside it would be a non-positioned child and size the Stack to nothing).
-      child: _WalkGate(
-        progress: reveal,
-        child: ValueListenableBuilder<MmScrubValue?>(
-          valueListenable: _scrub,
-          child: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              IgnorePointer(child: mobi),
-              // Only once he has arrived does a tap on him mean anything.
-              if (_arrived)
-                Positioned(
-                  left: slot.left - 6,
-                  top: -6,
-                  width: slot.width + 12,
-                  height: size + 12,
-                  child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: _onWalker, child: const SizedBox.expand()),
-                ),
-            ],
-          ),
-          builder: (context, scrub, child) => AnimatedOpacity(opacity: scrub == null ? 1 : 0, duration: const Duration(milliseconds: 140), child: child),
+    // Held back until the road starts to draw (the gate stays inside the Positioned: a bare
+    // placeholder beside it would be a non-positioned child and size the Stack to nothing).
+    return _WalkGate(
+      progress: reveal,
+      child: ValueListenableBuilder<MmScrubValue?>(
+        valueListenable: _scrub,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            IgnorePointer(child: mobi),
+            // Only once he has arrived does a tap on him mean anything.
+            if (_arrived)
+              Positioned(
+                left: slot.left - 6,
+                top: -6,
+                width: slot.width + 12,
+                height: size + 12,
+                child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: _onWalker, child: const SizedBox.expand()),
+              ),
+          ],
         ),
+        builder: (context, scrub, child) => AnimatedOpacity(opacity: scrub == null ? 1 : 0, duration: const Duration(milliseconds: 140), child: child),
       ),
     );
   }

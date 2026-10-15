@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/hybrid/hybrid.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -61,7 +62,9 @@ abstract final class CompassReaction {
 /// With subjects ticked the count rolls from the old value to the new, the ring travels from the
 /// previous fraction, a small "+12" or "-4" chip rises beside the figure for a couple of seconds,
 /// and a 56 dp Mobi reacts to the direction (more: a right-answer nod; fewer: encouragement; none
-/// open: thinking; the first non-zero count: hello). Every figure is the real count.
+/// open: thinking; the first non-zero count: hello). The gimbal compass beside the figure carries
+/// the share open round its dial and swings its needle with each change. Every figure is the real
+/// count.
 class CompassHero extends ConsumerStatefulWidget {
   const CompassHero({super.key, required this.state});
 
@@ -69,6 +72,12 @@ class CompassHero extends ConsumerStatefulWidget {
 
   /// How long the delta chip stays.
   static const Duration deltaHold = Duration(milliseconds: 2400);
+
+  /// The compass art's height (it is a little narrower than tall).
+  static const double compassHeight = 84;
+
+  /// Where the needle rests while nothing is open: well off the lubber line, toward ten o'clock.
+  static const double noHeading = -1.15;
 
   @override
   ConsumerState<CompassHero> createState() => _CompassHeroState();
@@ -83,6 +92,11 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
   /// False while the page is opening: chips drawn then are simply there; a chip added after it
   /// springs in (or flies in from the unlock chip that was committed).
   bool _settled = false;
+
+  /// Goes up on every change of the count: the compass needle is knocked off its heading and
+  /// settles on it again, the way the count is weighed again ([_nudgeWay] is the direction).
+  int _nudge = 0;
+  int _nudgeWay = 1;
 
   /// How Mobi came in when this card was made (thinking when nothing is open, hello otherwise).
   /// Fixed for as long as the card lives, so later changes are his reactions, never a second
@@ -105,6 +119,8 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
     // From an empty selection the card is new and Mobi greets in his entrance; once he is there,
     // every change of the count (a first one after "none open" too) is answered by an act.
     if (act != null && !old.state.selection.isEmpty) _mobi.react(act, key: 'compass-hero', gap: const Duration(milliseconds: 600));
+    _nudge++;
+    _nudgeWay = after > before ? 1 : -1;
     final text = CompassReaction.deltaText(before: before, after: after);
     _deltaTimer?.cancel();
     if (text == null || after == 0) {
@@ -192,14 +208,18 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
                 ),
               ),
               const SizedBox(width: MmSpace.s12),
-              ExcludeSemantics(
-                child: ToolsRing(
-                  key: const ValueKey('compass-ring'),
-                  fraction: fraction,
-                  size: 64,
-                  stroke: 6,
-                  child: Icon(LucideIcons.compass, size: 20, color: colors.ink3),
-                ),
+              // The compass is the card's art and its second signal: its needle settles on the lubber
+              // line once the count is in, is knocked off and settles again when the count changes,
+              // and comes to rest off the line, with no heading, while nothing is open. The share
+              // open runs round its dial (it was the ring), travelling from the old share to the
+              // new. Decorative: the figure says it all. (It searches only while the lists load.)
+              HybridCompass(
+                key: const ValueKey('compass-ring'),
+                height: CompassHero.compassHeight,
+                heading: open == 0 ? CompassHero.noHeading : 0,
+                nudge: _nudge,
+                nudgeDirection: _nudgeWay,
+                arc: fraction,
               ),
             ],
           ),

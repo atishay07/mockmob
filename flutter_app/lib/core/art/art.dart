@@ -6,6 +6,7 @@ export 'emblem_arrive.dart';
 export 'emblem_palette.dart' show EmblemDetail;
 export 'emblem_sizes.dart';
 export 'emblem_sparkle.dart';
+export 'hybrid/hybrid.dart';
 export 'object_art.dart' show SubjectRender;
 export 'subject_emblem.dart';
 export 'subject_identity.dart';

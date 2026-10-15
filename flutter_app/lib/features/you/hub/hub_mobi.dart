@@ -53,7 +53,7 @@ HubMobiReading? readWeek({required SheetWeek week, required DateTime now, requir
   if (done >= goal) {
     final act = switch (mode) {
       CelebrationMode.full => MobiAct.proud,
-      CelebrationMode.quiet => MobiAct.correct,
+      CelebrationMode.quiet => MobiAct.nod,
       CelebrationMode.off => MobiAct.idle,
     };
     return HubMobiReading(act, line: YouCopy.goalMetLine(done, goal), gate: HubMobiGate.met);

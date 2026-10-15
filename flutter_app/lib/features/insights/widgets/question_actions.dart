@@ -21,7 +21,7 @@ void _say(BuildContext context, String text) {
 /// Save, the quality vote, flag a problem and ask why, as quiet icon keys under a question.
 /// Each changes only when the server answers.
 class QuestionActions extends ConsumerStatefulWidget {
-  const QuestionActions({super.key, required this.question, required this.flow, required this.onVote, this.revealed = false});
+  const QuestionActions({super.key, required this.question, required this.flow, required this.onVote, this.revealed = false, this.onSaveOutcome});
 
   final PracticeQuestion question;
 
@@ -31,6 +31,9 @@ class QuestionActions extends ConsumerStatefulWidget {
 
   /// "Ask why" appears once the answer is out.
   final bool revealed;
+
+  /// Told what the server said to a save or an unsave (the stream's Mobi answers it).
+  final ValueChanged<SaveOutcome>? onSaveOutcome;
 
   @override
   ConsumerState<QuestionActions> createState() => _QuestionActionsState();
@@ -42,6 +45,7 @@ class _QuestionActionsState extends ConsumerState<QuestionActions> {
   Future<void> _save(bool saved) async {
     final outcome = await ref.read(saveControllerProvider.notifier).set(widget.question.id, saved: !saved, source: widget.flow == 'review' ? 'saved' : 'explore');
     if (!mounted) return;
+    widget.onSaveOutcome?.call(outcome);
     switch (outcome) {
       case SaveDone(saved: true):
         ref.read(hapticsProvider).settle();

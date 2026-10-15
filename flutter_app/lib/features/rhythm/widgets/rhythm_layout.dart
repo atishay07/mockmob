@@ -11,16 +11,19 @@ import '../../you/widgets/you_page.dart' show YouHeader;
 /// inline in the `screenTitle` cut on one 56 dp row, SPACING.md 9). A wrapper so the rhythm screens
 /// and the You screens cannot drift. Every left edge below it is the gutter.
 class RhythmHeader extends StatelessWidget {
-  const RhythmHeader({super.key, required this.title, required this.onBack});
+  const RhythmHeader({super.key, required this.title, required this.onBack, this.trailing});
 
   final String title;
   final VoidCallback onBack;
+
+  /// Something at the end of the row (the rhythm screen's metronome).
+  final Widget? trailing;
 
   /// The row's height.
   static const double height = 56;
 
   @override
-  Widget build(BuildContext context) => YouHeader(title: title, onBack: onBack);
+  Widget build(BuildContext context) => YouHeader(title: title, onBack: onBack, trailing: trailing);
 }
 
 /// The break between two sections of a typeset page: 32 dp of air, a 1 dp hairline, then 16 dp

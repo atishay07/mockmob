@@ -183,12 +183,17 @@ void main() {
         UntaughtChapters(chapters: const ['Admission of a Partner'], onPractise: (_) {}),
         brightness: Brightness.dark,
       );
-      expect(find.byType(AnimatedSize), findsNothing);
+      // The key eases its own width when its label changes (KeyButtonFace); only the card's
+      // height is under test here.
+      int cardSizers() =>
+          find.byType(AnimatedSize).evaluate().length -
+          find.descendant(of: find.byType(KeyButton), matching: find.byType(AnimatedSize)).evaluate().length;
+      expect(cardSizers(), 0);
       expect(find.text(LearnCopy.practiseKey), findsNothing);
       await tester.tap(find.text(LearnCopy.untaughtHeading));
       await tester.pump();
       expect(find.text(LearnCopy.practiseKey), findsOneWidget, reason: 'the height changes at once');
-      expect(find.byType(AnimatedSize), findsNothing);
+      expect(cardSizers(), 0);
       await tester.pump(const Duration(milliseconds: 300));
       expect(tester.takeException(), isNull);
     });

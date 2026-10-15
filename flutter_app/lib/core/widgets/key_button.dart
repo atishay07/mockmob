@@ -9,6 +9,7 @@ import '../motion/motion.dart';
 import '../theme/theme.dart';
 import 'hit_slop.dart';
 import 'key_button_face.dart';
+import 'key_button_motion.dart';
 import 'pressable.dart';
 
 export 'key_button_face.dart' show KeyVariant;
@@ -224,15 +225,19 @@ class _KeyButtonState extends ConsumerState<KeyButton> with SingleTickerProvider
       mainAxisSize: MainAxisSize.min,
       children: [
         key,
-        if (reason != null)
-          Padding(
+        // The reason grows open under the key (and closes when it no longer applies): a key that
+        // goes quiet explains itself without the column jumping.
+        KeyReveal(
+          show: reason != null,
+          child: Padding(
             padding: const EdgeInsets.only(top: MmSpace.s8),
             child: Text(
-              reason,
+              reason ?? '',
               style: type.small.copyWith(color: colors.ink3),
               textAlign: widget.expanded ? TextAlign.center : TextAlign.start,
             ),
           ),
+        ),
       ],
     );
 

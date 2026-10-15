@@ -25,7 +25,7 @@ void main() {
   });
 
   test('Quiet swaps proud for a nod and Off plays nothing but keeps the words', () {
-    expect(read(ready(done: 3, goal: 3), mode: CelebrationMode.quiet)!.act, MobiAct.correct);
+    expect(read(ready(done: 3, goal: 3), mode: CelebrationMode.quiet)!.act, MobiAct.nod);
     final off = read(ready(done: 3, goal: 3), mode: CelebrationMode.off)!;
     expect(off.act, MobiAct.idle);
     expect(off.line, YouCopy.goalMetLine(3, 3));

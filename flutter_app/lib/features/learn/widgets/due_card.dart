@@ -119,7 +119,7 @@ class _DueCardState extends State<DueCard> {
     final proud = widget.showMobi && widget.cleared && due == 0 && !canStart;
     if (proud && !_proud) {
       _proud = true;
-      _mobi.play(MobiAct.proud);
+      _mobi.react(MobiMoments.act(MobiEvent.milestone));
     }
     if (pointAtKey && !_pointed) {
       _pointed = true;
@@ -198,6 +198,10 @@ class _DueCardState extends State<DueCard> {
                         : (proud ? MobiPose.proud : MobiPose.read),
                     size: 64,
                     controller: _mobi,
+                    // A poke gets the app's one tap cycle; a Mobi pointing at the key keeps
+                    // pointing (a tap only squashes him).
+                    interactive: true,
+                    tapCycle: pointAtKey ? null : MobiTapCycle.standard,
                   ),
                   const SizedBox(width: MmSpace.s12),
                 ],

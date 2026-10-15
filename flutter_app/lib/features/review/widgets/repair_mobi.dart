@@ -47,11 +47,13 @@ class RepairMobi extends ConsumerStatefulWidget {
 
 class _RepairMobiState extends ConsumerState<RepairMobi> {
   final MobiController _mobi = MobiController();
-  final Set<String> _cheered = {};
   Timer? _slowTimer;
   Timer? _oopsTimer;
   bool _slow = false;
   RepairMobiBeat? _played;
+
+  /// The gap that makes a reaction keyed to one mistake play once for the whole run.
+  static const Duration _oncePerMistake = Duration(days: 1);
 
   @override
   void initState() {
@@ -91,27 +93,28 @@ class _RepairMobiState extends ConsumerState<RepairMobi> {
         _mobi.setMood(MobiMood.curious);
         _mobi.play(MobiAct.think);
       case RepairMobiBeat.slow:
-        _mobi.play(MobiAct.loading);
+        _mobi.react(MobiMoments.act(MobiEvent.waitLong));
       case RepairMobiBeat.correct:
         _mobi.setMood(MobiMood.happy);
-        // Once per mistake: a rebuild or a return to it never celebrates again.
-        if (_cheered.add(widget.stepKey)) {
-          _mobi.play(MobiAct.correct);
-        } else {
+        // Once per mistake: a rebuild, or coming back to it, never plays it again (the gate lives
+        // for the app run, so a new screen state for the same mistake stays calm too).
+        if (!_mobi.react(MobiMoments.act(MobiEvent.answerRight), key: 'repair:${widget.stepKey}', gap: _oncePerMistake)) {
           _mobi.play(MobiAct.idle);
         }
       case RepairMobiBeat.hello:
         _mobi.setMood(MobiMood.calm);
-        _mobi.play(MobiAct.hello);
+        _mobi.react(MobiMoments.act(MobiEvent.arrive));
       case RepairMobiBeat.oops:
         _mobi.setMood(MobiMood.concerned);
-        _mobi.play(MobiAct.oops);
-        _oopsTimer = Timer(RepairMobi.oopsHold, () {
-          if (mounted) _mobi.play(MobiAct.encourage);
+        // The shrug once per run: a retry that fails again goes straight to the "come on".
+        final shrug = MobiRation.oopsRun('repair');
+        if (shrug) _mobi.react(MobiMoments.act(MobiEvent.setback));
+        _oopsTimer = Timer(shrug ? RepairMobi.oopsHold : Duration.zero, () {
+          if (mounted) _mobi.react(MobiMoments.act(MobiEvent.answerWrong));
         });
       case RepairMobiBeat.rest:
         _mobi.setMood(MobiMood.calm);
-        _mobi.play(MobiAct.rest);
+        _mobi.react(MobiMoments.act(MobiEvent.allClear));
     }
   }
 

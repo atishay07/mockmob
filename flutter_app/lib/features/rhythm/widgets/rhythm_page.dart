@@ -14,7 +14,7 @@ import 'milestone_backdrop.dart' show MilestoneBackdrop;
 import 'rhythm_layout.dart';
 
 class RhythmPage extends StatelessWidget {
-  const RhythmPage({super.key, required this.title, required this.child, this.scrollable = true, this.padded = true, this.backdrop});
+  const RhythmPage({super.key, required this.title, required this.child, this.scrollable = true, this.padded = true, this.backdrop, this.trailing});
 
   final String title;
   final Widget child;
@@ -28,6 +28,9 @@ class RhythmPage extends StatelessWidget {
   /// A decorative picture under the content, at the top of the page (the Milestones backdrop). It
   /// never takes a tap or a semantics node and sits above the lamp's pool.
   final Widget? backdrop;
+
+  /// Something at the end of the header row (the rhythm screen's metronome).
+  final Widget? trailing;
 
   void _back(BuildContext context) {
     final router = GoRouter.maybeOf(context);
@@ -44,7 +47,7 @@ class RhythmPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
-    final header = RhythmHeader(title: title, onBack: () => _back(context));
+    final header = RhythmHeader(title: title, onBack: () => _back(context), trailing: trailing);
     final body = padded ? Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: child) : child;
 
     return Scaffold(

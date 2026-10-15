@@ -108,6 +108,8 @@ void main() {
       await tester.pump();
       await tester.enterText(find.byType(TextField), 'scrutinise');
       await tester.pump();
+      // The key's label morphs to "I do not know" (180 ms); shoot it settled.
+      await tester.pump(const Duration(milliseconds: 300));
       await expectLater(find.byType(Scaffold), matchesGoldenFile('goldens/run_gap_fill_$n.png'));
     });
 

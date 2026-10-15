@@ -12,6 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/key_button_motion.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'today_entrance.dart';
@@ -80,7 +81,8 @@ class PaperTrendStrip extends ConsumerWidget {
                                     child: GestureDetector(
                                       behavior: HitTestBehavior.opaque,
                                       onTap: () => _open(cell, ref, p),
-                                      child: const SizedBox.expand(),
+                                      // A finger on a mark is answered at once: a soft veil behind it.
+                                      child: const PressHalo(radius: 14, inset: EdgeInsets.symmetric(horizontal: 2, vertical: 2), child: SizedBox.expand()),
                                     ),
                                   ),
                                 ),

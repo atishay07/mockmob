@@ -8,6 +8,7 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
+import '../../../core/art/hybrid/hybrid.dart';
 import '../../../core/models/notification_prefs.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/notifications/timezones.dart';
@@ -96,6 +97,9 @@ class _NotificationSettingsScreenState
   final MobiController _mobi = MobiController();
   bool _cheerPending = false;
   bool _cheered = false;
+
+  /// Goes up each time a switch turned on is confirmed saved: the header bell rings once.
+  int _rings = 0;
 
   /// The last save was kept on this phone only.
   bool _savedLocal = false;
@@ -203,7 +207,9 @@ class _NotificationSettingsScreenState
         _savedAt = ref.read(nowProvider)();
       });
       ref.read(changedSettingsRowProvider.notifier).mark(ChangedRowKeys.notifications);
-      // The save receipt is on screen: only now may Mobi cheer, and only once per visit.
+      // The save receipt is on screen: only now does the bell ring (a reminder was switched on),
+      // and only now may Mobi cheer, once per visit.
+      if (_cheerPending) _rings++;
       if (_cheerPending && !_cheered) {
         _cheered = true;
         _mobi.react(MobiMoments.act(MobiEvent.sessionDone));
@@ -502,10 +508,26 @@ class _NotificationSettingsScreenState
     if (prefs != null) {
       // The header is pinned above the list, so the save line stays in view while the settings
       // scroll under it.
+      final body = SettingsBody(
+        prefs: prefs,
+        permission: permission,
+        permissionReading: permission == null && permissionState.isLoading,
+        reminder: reminder,
+        cap: cap,
+        freshChecksOpen: freshOpen,
+        actions: _actions,
+        next: ref.watch(nextReminderProvider),
+        mobi: _mobi,
+        now: now,
+        onNextTap: () => unawaited(_pickWindow(start: true)),
+        // Room under the last row for the notice, while it is up.
+        footerClearance: _save == _Save.failed ? 96 : 0,
+      );
       content = Column(
         children: [
           _Header(
             onBack: _back,
+            bell: _HeaderBell(rings: _rings, muted: body.resting),
             status: _status(context),
             stale: prefsState.isStale
                 ? (prefsState.error!.isOffline
@@ -517,23 +539,7 @@ class _NotificationSettingsScreenState
                         ))
                 : null,
           ),
-          Expanded(
-            child: SettingsBody(
-              prefs: prefs,
-              permission: permission,
-              permissionReading: permission == null && permissionState.isLoading,
-              reminder: reminder,
-              cap: cap,
-              freshChecksOpen: freshOpen,
-              actions: _actions,
-              next: ref.watch(nextReminderProvider),
-              mobi: _mobi,
-              now: now,
-              onNextTap: () => unawaited(_pickWindow(start: true)),
-              // Room under the last row for the notice, while it is up.
-              footerClearance: _save == _Save.failed ? 96 : 0,
-            ),
-          ),
+          Expanded(child: body),
         ],
       );
     } else if (prefsState.isFailedEmpty) {
@@ -619,11 +625,14 @@ class _NotificationSettingsScreenState
 /// notice. The save line has its room kept, so it costs the page no height when it appears and
 /// nothing moves.
 class _Header extends StatelessWidget {
-  const _Header({required this.onBack, this.status, this.stale});
+  const _Header({required this.onBack, this.status, this.stale, this.bell});
 
   final VoidCallback onBack;
   final Widget? status;
   final String? stale;
+
+  /// The desk bell at the end of the title row, once the settings are known.
+  final Widget? bell;
 
   @override
   Widget build(BuildContext context) {
@@ -636,6 +645,7 @@ class _Header extends StatelessWidget {
           fallbackRoute: AppRoutes.you,
           statusLine: status,
           reserveStatusLine: true,
+          trailing: bell,
         ),
         if (stale != null)
           Padding(
@@ -687,6 +697,27 @@ class _SaveReceipt extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// The desk bell at the end of the title row. It rings once each time a reminder switched on is
+/// confirmed saved (never before the receipt), and stands quiet, at 60% light, while every
+/// reminder is off or a mute is running. Decorative: the switches and the receipt say it all.
+class _HeaderBell extends StatelessWidget {
+  const _HeaderBell({required this.rings, required this.muted});
+
+  final int rings;
+  final bool muted;
+
+  static const double height = 46;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: height * HybridBell.spec.aspect,
+      height: MmTarget.min,
+      child: Center(child: HybridBell(height: height, rings: rings, muted: muted)),
     );
   }
 }

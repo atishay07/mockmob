@@ -214,19 +214,24 @@ class KeyButtonFace extends StatelessWidget {
               ghost ? const SizedBox.square(dimension: 18) : MmSpinner(color: textColor),
               const SizedBox(width: MmSpace.s8),
             ],
-            Flexible(child: Text(label, style: style, textAlign: TextAlign.center)),
+            Flexible(child: ghost ? Text(label, style: style, textAlign: TextAlign.center) : _LabelMorph(label: label, style: style, alignment: Alignment.center, textAlign: TextAlign.center)),
           ],
         );
 
     if (expanded) return Center(child: row(loading));
-    if (variant == KeyVariant.quiet) return row(loading);
+    // A label that changes width eases the key to its new width (180 ms) instead of jumping.
+    if (variant == KeyVariant.quiet) return MmSizeEase(duration: _LabelMorph.duration, clipBehavior: Clip.none, child: row(loading));
     // Intrinsic-width keys reserve room for the spinner so the width never changes.
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: row(true, ghost: true)),
-        row(loading),
-      ],
+    return MmSizeEase(
+      duration: _LabelMorph.duration,
+      clipBehavior: Clip.none,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Visibility(visible: false, maintainSize: true, maintainAnimation: true, maintainState: true, child: row(true, ghost: true)),
+          row(loading),
+        ],
+      ),
     );
   }
 
@@ -234,13 +239,59 @@ class KeyButtonFace extends StatelessWidget {
     return Row(
       children: [
         if (leading != null) ...[leading!, const SizedBox(width: MmSpace.s12)],
-        Expanded(child: Text(label, style: style)),
+        Expanded(child: _LabelMorph(label: label, style: style, alignment: Alignment.centerLeft, textAlign: TextAlign.start)),
         const SizedBox(width: MmSpace.s12),
         if (loading)
           MmSpinner(color: colors.ink)
         else
           Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: 22),
       ],
+    );
+  }
+}
+
+/// A key's label. When the text changes the old label lifts 6 dp and fades while the new one
+/// rises into place (180 ms, keyed on the text), so a Next that becomes Submit reads as the same
+/// key changing its mind rather than a cut. Reduced motion swaps the text at once.
+class _LabelMorph extends StatelessWidget {
+  const _LabelMorph({required this.label, required this.style, required this.alignment, required this.textAlign});
+
+  static const Duration duration = Duration(milliseconds: 180);
+  static const double travel = 6;
+
+  final String label;
+  final TextStyle style;
+  final AlignmentGeometry alignment;
+  final TextAlign textAlign;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Text(label, key: ValueKey<String>(label), style: style, textAlign: textAlign);
+    if (Motion.reduced(context)) return text;
+    final current = ValueKey<String>(label);
+    return AnimatedSwitcher(
+      duration: duration,
+      reverseDuration: duration,
+      switchInCurve: Motion.out,
+      switchOutCurve: Motion.out,
+      transitionBuilder: (child, animation) {
+        final incoming = child.key == current;
+        return AnimatedBuilder(
+          animation: animation,
+          child: child,
+          builder: (context, child) {
+            final v = animation.value;
+            // The new label rises from below; the old one lifts away.
+            final dy = incoming ? (1 - v) * travel : -(1 - v) * travel;
+            return Opacity(opacity: v.clamp(0.0, 1.0), child: Transform.translate(offset: Offset(0, dy), child: child));
+          },
+        );
+      },
+      layoutBuilder: (currentChild, previous) => Stack(
+        alignment: alignment,
+        children: [...previous, ?currentChild],
+      ),
+      child: text,
     );
   }
 }

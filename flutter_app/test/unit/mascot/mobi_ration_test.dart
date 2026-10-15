@@ -87,11 +87,24 @@ void main() {
       expect(controller.speech.value, isNull);
     });
 
+    test('the Celebrations setting maps onto the Mobi level by name, one mapping for everyone', () {
+      expect(MobiCelebrationLevel.fromName('full'), MobiCelebrationLevel.full);
+      expect(MobiCelebrationLevel.fromName('quiet'), MobiCelebrationLevel.quiet);
+      expect(MobiCelebrationLevel.fromName('off'), MobiCelebrationLevel.off);
+      expect(MobiCelebrationLevel.fromName(null), MobiCelebrationLevel.full);
+      expect(MobiCelebrationLevel.fromName('loud'), MobiCelebrationLevel.full);
+      for (final level in MobiCelebrationLevel.values) {
+        expect(celebrationLevelFor(level), level);
+      }
+    });
+
     test('the Celebrations setting calms the big acts and leaves the rest', () {
       for (final act in MobiRation.celebrations) {
         expect(MobiRation.underLevel(act, MobiCelebrationLevel.full), act);
-        expect(MobiRation.underLevel(act, MobiCelebrationLevel.quiet), MobiAct.correct);
+        expect(MobiRation.underLevel(act, MobiCelebrationLevel.quiet), MobiAct.nod, reason: 'Quiet is a small nod');
+        expect(MobiRation.underLevel(act, MobiCelebrationLevel.quiet, held: true), MobiAct.rest, reason: 'a held hero rests');
         expect(MobiRation.underLevel(act, MobiCelebrationLevel.off), isNull);
+        expect(MobiRation.underLevel(act, MobiCelebrationLevel.off, held: true), isNull);
       }
       for (final act in [MobiAct.hello, MobiAct.point, MobiAct.oops, MobiAct.correct, MobiAct.talk]) {
         expect(MobiRation.underLevel(act, MobiCelebrationLevel.off), act, reason: act.name);
@@ -158,18 +171,21 @@ void main() {
         var burst = false;
         var bubble = false;
         var top = 0.0;
+        var low = 0.0;
         for (var i = 0; i < 150; i++) {
           await tester.pump(const Duration(milliseconds: 16));
           final rig = _rigOf(tester);
           if (rig.burst >= 0 || rig.sparkle >= 0) burst = true;
           if (rig.bubble >= 0) bubble = true;
           if (rig.y < top) top = rig.y;
+          if (rig.y > low) low = rig.y;
         }
         expect(burst, isFalse, reason: '${level.name}: no confetti, no glints');
+        expect(bubble, isFalse, reason: '${level.name}: no answer bubble either');
         if (level == MobiCelebrationLevel.quiet) {
-          expect(bubble, isTrue, reason: 'quiet: the small nod with one answer bubble');
+          expect(low, greaterThan(1), reason: 'quiet: the small nod dips him');
+          expect(top, greaterThan(-4), reason: 'quiet: a nod, never a hop');
         } else {
-          expect(bubble, isFalse, reason: 'off: nothing plays');
           expect(top, greaterThan(-1.5), reason: 'off: no hop');
         }
         await tester.pumpAndSettle();

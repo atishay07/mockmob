@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/hybrid/hybrid.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -90,7 +91,9 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           ..._ready(context, kept),
         ],
       AsyncError(:final error) => [SliverToBoxAdapter(child: ToolsLoadFailed(error: error, onRetry: _retry))],
-      _ => const [SliverToBoxAdapter(child: ToolsLoading())],
+      // While the lists load the compass searches where the hero's compass will stand, and the
+      // hero's own compass settles once the count is in.
+      _ => const [SliverToBoxAdapter(child: _SearchingLoad())],
     };
     return ToolsPage(title: ToolsCopy.compassTitle, lead: ToolsCopy.compassQuestion, slivers: slivers);
   }
@@ -554,6 +557,25 @@ class _StaleBanner extends ConsumerWidget {
         actionLabel: ToolsCopy.tryAgain,
         onAction: onRetry,
       ),
+    );
+  }
+}
+
+/// The loading outline with the compass searching in the hero's corner.
+class _SearchingLoad extends StatelessWidget {
+  const _SearchingLoad();
+
+  @override
+  Widget build(BuildContext context) {
+    return const Stack(
+      children: [
+        ToolsLoading(),
+        Positioned(
+          top: MmSpace.s20,
+          right: MmSpace.gutter + MmSpace.s20,
+          child: HybridCompass(height: CompassHero.compassHeight, searching: true),
+        ),
+      ],
     );
   }
 }

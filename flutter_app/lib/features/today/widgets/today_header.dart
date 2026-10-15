@@ -15,7 +15,16 @@ import 'today_entrance.dart';
 import 'week_ledger.dart';
 
 class TodayHeader extends StatefulWidget {
-  const TodayHeader({super.key, required this.header, this.onWeek, this.aim});
+  const TodayHeader({super.key, required this.header, this.onWeek, this.aim, this.bleed = 0});
+
+  /// How far the masthead's box reaches past the content edge on each side: the week rail's day
+  /// columns use it to be 48 dp wide on a 360 dp phone (see [WeekLedger.bleed]). Everything drawn
+  /// stays inset by it. The screen takes the same amount off its own gutter and pads every other
+  /// block by it.
+  final double bleed;
+
+  /// What Today borrows from its 16 dp gutter for the week rail's touch columns.
+  static const double gutterBleed = 8;
 
   final HeaderModel header;
   final VoidCallback? onWeek;
@@ -53,22 +62,25 @@ class _TodayHeaderState extends State<TodayHeader> {
           delay: Duration.zero,
           rise: 0,
           length: const Duration(milliseconds: 200),
-          child: _GreetingRow(
-            dateLine: header.dateLine,
-            updatedLine: header.updatedLine,
-            greeting: header.greeting,
-            trailing: header.mobi == null
-                ? null
-                : HeaderMobi(cue: header.mobi!, aim: aim, speech: _speech),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: widget.bleed),
+            child: _GreetingRow(
+              dateLine: header.dateLine,
+              updatedLine: header.updatedLine,
+              greeting: header.greeting,
+              trailing: header.mobi == null
+                  ? null
+                  : HeaderMobi(cue: header.mobi!, aim: aim, speech: _speech),
+            ),
           ),
         ),
-        if (header.mobi != null) _SpeechRoom(speech: _speech),
+        if (header.mobi != null) Padding(padding: EdgeInsets.symmetric(horizontal: widget.bleed), child: _SpeechRoom(speech: _speech)),
         if (week != null) ...[
           // Header to the week: 12 (SPACING.md 3.1, audit T3).
           const SizedBox(height: MmSpace.s12),
           TodayEnter(
             delay: const Duration(milliseconds: 60),
-            child: WeekLedger(week: week, onTap: onWeek),
+            child: WeekLedger(week: week, onTap: onWeek, bleed: widget.bleed),
           ),
         ],
       ],

@@ -387,6 +387,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                               pose: MobiPose.read,
                               size: 140,
                               say: LearnCopy.noLessonsMobi,
+                              interactive: true,
+                              tapCycle: MobiTapCycle.standard,
                             ),
                             const SizedBox(height: MmSpace.s24),
                             Semantics(

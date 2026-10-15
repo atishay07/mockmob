@@ -20,6 +20,7 @@ class MobiFace extends StatelessWidget {
     this.interactive = false,
     this.watchTaps = true,
     this.seed = 11,
+    this.still = false,
   });
 
   /// The square's side in dp.
@@ -30,6 +31,9 @@ class MobiFace extends StatelessWidget {
   final bool interactive;
   final bool watchTaps;
   final int seed;
+
+  /// A frozen avatar: no blinking, no glances (see [MobiCharacter.still]).
+  final bool still;
 
   @override
   Widget build(BuildContext context) => MobiCharacter(
@@ -43,5 +47,6 @@ class MobiFace extends StatelessWidget {
         shadow: false,
         lite: size < 72,
         head: true,
+        still: still,
       );
 }

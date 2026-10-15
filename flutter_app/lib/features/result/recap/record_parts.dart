@@ -6,6 +6,7 @@ import '../../../core/domain/domain.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 // The sheet's own wording, so the row rotates with the same ask count. The notifications module
 // does not export it yet: it is one pure file (copy and an index), no providers.
@@ -99,13 +100,14 @@ class RepairPanel extends StatelessWidget {
         text: n > 0 ? ResultCopy.readyToRepair(n, null) : ResultCopy.noMistakes,
         strong: true,
       ),
-      // A repair covers one chapter: say which, and how many of the wrong answers are in it.
+      // A repair covers one chapter: say which, and how many of the wrong answers it opens. The
+      // count is the key's own ([scope], which follows the length chosen), so the line and the key
+      // never say two numbers.
       if (tonight != null && tonight.items.length < n)
-        _Row(state: BubbleState.hollow, text: ResultCopy.startWithChapter(tonight.chapter, tonight.items.length)),
+        _Row(state: BubbleState.hollow, text: ResultCopy.startWithChapter(scope?.chapter ?? tonight.chapter, scope?.count ?? tonight.items.length)),
       // "They are in Review" only when Review really holds this paper's blanks.
       if (m.blankCount > 0)
         _Row(state: BubbleState.blank, text: blanksInReview ? ResultCopy.blanksInReview(m.blankCount) : ResultCopy.blanksCount(m.blankCount)),
-      if (shortfall != null) _Row(state: null, text: ResultCopy.walletShort(shortfall!.needed, shortfall!.balance)),
     ];
     // No box: the repair is rows on the card itself, one hairline between what is recorded and
     // the length to choose. The lit key below is the card's one lit element.
@@ -113,15 +115,27 @@ class RepairPanel extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < rows.length; i++) ...[if (i > 0) const SizedBox(height: MmSpace.s12), rows[i]],
-        if (m.keysUnavailable) ...[
-          const SizedBox(height: MmSpace.s16),
-          InlineBanner(
-            message: ResultCopy.keysUnavailable,
-            tone: BannerTone.warning,
-            actionLabel: ResultCopy.tryAgain,
-            onAction: onRetryKeys,
+        // The two news items open and close instead of cutting in: a wallet that falls short at a
+        // longer length, and the keys arriving or not.
+        KeyReveal(
+          show: shortfall != null,
+          child: Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s12),
+            child: _Row(state: null, text: shortfall == null ? '' : ResultCopy.walletShort(shortfall!.needed, shortfall!.balance)),
           ),
-        ],
+        ),
+        KeyReveal(
+          show: m.keysUnavailable,
+          child: Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s16),
+            child: InlineBanner(
+              message: ResultCopy.keysUnavailable,
+              tone: BannerTone.warning,
+              actionLabel: ResultCopy.tryAgain,
+              onAction: onRetryKeys,
+            ),
+          ),
+        ),
         if (options.isNotEmpty) ...[
           const SizedBox(height: MmSpace.s20),
           Divider(height: 1, thickness: 1, color: colors.line),
@@ -222,9 +236,15 @@ class _Row extends StatelessWidget {
         ),
         const SizedBox(width: MmSpace.s12),
         Expanded(
-          child: Text(
-            text,
-            style: strong ? type.body.copyWith(fontWeight: FontWeight.w600) : type.small.copyWith(color: colors.ink2),
+          // A line whose words change (the count a different length opens) cross-fades.
+          child: AnimatedSwitcher(
+            duration: Motion.of(context, Motion.ui),
+            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
+            child: Text(
+              text,
+              key: ValueKey(text),
+              style: strong ? type.body.copyWith(fontWeight: FontWeight.w600) : type.small.copyWith(color: colors.ink2),
+            ),
           ),
         ),
       ],

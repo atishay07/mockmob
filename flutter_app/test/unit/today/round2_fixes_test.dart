@@ -223,7 +223,9 @@ void main() {
             callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}),
           ),
         ),
-        size: const Size(360, 800),
+        // A phone short enough that the key and the length selector are both below the bar: the
+        // capsule only stands in for a key that is wholly out of view (the owner's 15 Oct rule).
+        size: const Size(360, 640),
         disableAnimations: true,
         overrides: todayOverrides,
       );

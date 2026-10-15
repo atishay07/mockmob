@@ -173,6 +173,16 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       outcome = ReplyReportOutcome.failed;
     }
     if (!mounted) return;
+    // Mobi answers only what really happened: a nod once the server has it, a shrug when it did
+    // not reach us. A report waiting on this phone gets no reaction (nothing has happened yet).
+    switch (outcome) {
+      case ReplyReportOutcome.sent:
+        _stageMobi.react(MobiMoments.act(MobiEvent.saveConfirmed), key: 'ask:report');
+      case ReplyReportOutcome.failed:
+        _stageMobi.react(MobiMoments.act(MobiEvent.saveFailed), key: 'ask:report');
+      case ReplyReportOutcome.waiting:
+        break;
+    }
     final line = switch (outcome) {
       ReplyReportOutcome.sent => InsightsCopy.reportSent,
       ReplyReportOutcome.waiting => InsightsCopy.reportWaiting,
@@ -206,7 +216,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (now.isEmpty) return;
     if (!(prev?.busy ?? false) && next.busy) {
       // The bulb pulses while the reply is on its way (it settles by itself after 12 s).
-      _stageMobi.play(MobiAct.loading);
+      _stageMobi.react(MobiMoments.act(MobiEvent.waiting));
       return;
     }
     // The pending bubble became a reply or a failure.
@@ -214,7 +224,12 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       if (before[i].sending && !now[i].sending) {
         final m = now[i];
         if (m.failure != null) {
-          _stageMobi.play(MobiAct.oops);
+          // One shrug a run: a retry that fails again leaves him standing, the line says it.
+          if (MobiRation.oopsRun('ask')) {
+            _stageMobi.react(MobiMoments.act(MobiEvent.setback));
+          } else {
+            _stageMobi.play(MobiAct.idle);
+          }
         } else {
           _stageMobi.play(MobiAct.idle);
           _stageMobi.say(speechLine(m.text));
@@ -253,6 +268,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final firstPending = state.messages.indexWhere((m) => m.sending);
     final settledNow = firstPending == -1 ? state.messages.length : firstPending;
     final settled = _settled;
+    // Only the newest reply's face moves; the faces of older replies hold still.
+    final newestReply = state.messages.lastIndexWhere((m) => !m.fromStudent);
     WidgetsBinding.instance.addPostFrameCallback((_) => _settled = settledNow < _settled ? _settled : settledNow);
 
     final asked = {for (final m in state.messages) if (m.fromStudent) m.text};
@@ -344,6 +361,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                     AskMessageView(
                                       message: m,
                                       animate: i >= settled,
+                                      newest: i == newestReply,
                                       citation: citationFor(m, record, evidence),
                                       onReport: m.isModel && canReport ? () => _report(m) : null,
                                       onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,

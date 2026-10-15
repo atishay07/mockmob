@@ -158,13 +158,14 @@ class _SavedBodyState extends ConsumerState<SavedBody> with SingleTickerProvider
     final list = widget.list;
     final pad = MediaQuery.paddingOf(context);
 
-    // The first server-acknowledged save of the visit (an Undo) gets one small hop from Mobi.
+    // The first server-acknowledged save of the visit (an Undo) gets one small nod from Mobi.
     ref.listen<SaveMarks>(saveControllerProvider, (prev, next) {
       if (_hopped) return;
       final saved = next.acked.entries.any((e) => e.value && prev?.acked[e.key] != true);
       if (saved) {
         _hopped = true;
-        _mobi.play(MobiAct.correct);
+        // The server confirmed a save: the small nod of the event table, not a hop.
+        _mobi.react(MobiMoments.act(MobiEvent.saveConfirmed), key: 'saved:first');
       }
     });
 
@@ -221,7 +222,7 @@ class _SavedBodyState extends ConsumerState<SavedBody> with SingleTickerProvider
               SizedBox(
                 width: MobiFigure.widthFor(44),
                 height: 44,
-                child: MobiCharacter(controller: _mobi, size: 44, entrance: MobiAct.rest, seed: 31, watchTaps: false, shadow: false),
+                child: MobiCharacter(controller: _mobi, size: 44, entrance: MobiAct.rest, seed: 31, watchTaps: false, shadow: false, interactive: true, tapCycle: MobiTapCycle.standard),
               ),
             ],
           ),

@@ -8,6 +8,7 @@ import '../../../core/domain/domain.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../notifications/notifications.dart' show PrePromptMoment;
 import '../../today/data/today_providers.dart' show todayActionsProvider, todayNextActionProvider;
@@ -243,17 +244,21 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           onMinutes: _chooseMinutes,
           onRetryKeys: widget.onRetryKeys,
         ),
-        if (askReminder) ...[
-          const SizedBox(height: MmSpace.s20),
-          ReminderRow(
-            text: reminderRowLine(asks),
-            onSet: () => context.push(AppRoutes.permissionsNotifications),
-            onNotNow: () {
-              setState(() => _reminderDismissed = true);
-              unawaited(ref.read(resultActionsProvider).declineReminder());
-            },
+        // "Not now" closes the row instead of cutting it out.
+        KeyReveal(
+          show: askReminder,
+          child: Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s20),
+            child: ReminderRow(
+              text: reminderRowLine(asks),
+              onSet: () => context.push(AppRoutes.permissionsNotifications),
+              onNotNow: () {
+                setState(() => _reminderDismissed = true);
+                unawaited(ref.read(resultActionsProvider).declineReminder());
+              },
+            ),
           ),
-        ],
+        ),
         // The sheet, to keep: a quiet row, previewed as a card with no marks on it before anything
         // leaves.
         const SizedBox(height: MmSpace.s8),
@@ -278,8 +283,9 @@ int effectiveRepairMinutes(RecapModel m, int? chosen) {
   return repairMinutes(m.candidates.length) ?? repairMinutesPerMistake;
 }
 
-/// The repair key. When its words change (a different length was chosen) the new label fades in
-/// over the old one, which holds until it is covered, so the key never flickers.
+/// The repair key. When its words change (a different length was chosen) the key stays and its
+/// label rises into place over the old one, which lifts away (the key's own label morph), so the
+/// key itself never flickers or moves.
 class _RepairKey extends StatelessWidget {
   const _RepairKey({required this.label, required this.onPressed, this.spoken});
 
@@ -288,14 +294,5 @@ class _RepairKey extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) {
-    final key = ValueKey(label);
-    return AnimatedSwitcher(
-      duration: Motion.of(context, Motion.ui),
-      switchInCurve: Motion.glide,
-      transitionBuilder: (child, animation) => child.key == key ? FadeTransition(opacity: animation, child: child) : child,
-      layoutBuilder: (current, previous) => Stack(alignment: Alignment.center, children: [...previous, ?current]),
-      child: KeyButton(key: key, label: label, semanticsLabel: spoken, onPressed: onPressed),
-    );
-  }
+  Widget build(BuildContext context) => KeyButton(label: label, semanticsLabel: spoken, onPressed: onPressed);
 }

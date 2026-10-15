@@ -107,6 +107,8 @@ class Mobi extends StatefulWidget {
     this.controller,
     this.interactive = false,
     this.entrance,
+    this.tapCycle,
+    this.followPointer = false,
   });
 
   final MobiPose pose;
@@ -138,6 +140,14 @@ class Mobi extends StatefulWidget {
   /// to 5 AM. A Mobi that was sleepy or asleep plays [MobiAct.wake] once when this moves past
   /// the late-night window.
   final MobiAct? entrance;
+
+  /// With [interactive], repeated taps play this cycle (usually [MobiTapCycle.standard]) instead
+  /// of the plain squash, so every screen's Mobi answers a poke the same way.
+  final MobiTapCycle? tapCycle;
+
+  /// The eyes follow the finger anywhere on screen (off under reduced motion). For the one hero
+  /// Mobi of a calm screen.
+  final bool followPointer;
 
   static const Duration settleDuration = Duration(milliseconds: 420);
   static const Duration hopDuration = Duration(milliseconds: 400);
@@ -194,6 +204,8 @@ class _MobiState extends State<Mobi> {
             entrance: _entrance,
             semanticLabel: widget.semanticLabel,
             interactive: widget.interactive,
+            tapCycle: widget.tapCycle,
+            followPointer: widget.followPointer,
             seed: 7 + widget.pose.index * 13,
             // Small Mobis (rows, headers) paint lite detail; MobiCharacter picks it by size.
           );

@@ -1,10 +1,12 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/api/api.dart';
+import '../../core/art/hybrid/hybrid.dart';
 import '../../core/connectivity/connectivity.dart';
 import '../../core/motion/motion.dart';
 import '../../core/models/practice_quote.dart';
@@ -344,8 +346,22 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
                               ),
                             ),
                             const SizedBox(height: MmSpace.s20),
-                            // The three stages the work really goes through, each ticked as it is done.
-                            _StageRows(stage: _stage),
+                            // The three stages the work really goes through, each ticked as it is done,
+                            // and the stopwatch beside them: its long hand steps on as each stage
+                            // really begins, and both hands snap to 12 when the paper opens.
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                HybridStopwatch(
+                                  height: 64,
+                                  stage: math.min(_stage.index, StartStage.labels.length - 1),
+                                  stageCount: StartStage.labels.length,
+                                  mode: _stage == StartStage.done ? StopwatchMode.done : StopwatchMode.stages,
+                                ),
+                                const SizedBox(width: MmSpace.s16),
+                                Flexible(child: _StageRows(stage: _stage)),
+                              ],
+                            ),
                             const SizedBox(height: MmSpace.s24),
                             // The paper being drawn, so the subject and length chosen are seen
                             // while the questions come: its ticket rises in once it is known.

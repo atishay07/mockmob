@@ -123,13 +123,16 @@ abstract final class MobiMoments {
         MobiEvent.lateNight => MobiAct.sleepy,
       };
 
+  /// From this local hour to [lateNightEndHour] Mobi is asleep rather than sleepy.
+  static const int sleepFromHour = 1;
+
   /// How Mobi greets at [now] (local time). The whole late-night window (11 PM to 5 AM, the
   /// shared [isLateNightHour]) is sleepy or asleep: sleepy until 1 AM, asleep from 1 AM until the
   /// window closes. Outside it, [otherwise].
   static MobiAct entranceAt(DateTime now, {MobiAct otherwise = MobiAct.hello}) {
     final h = now.hour;
     if (!isLateNightHour(h)) return otherwise;
-    return h >= 1 && h < lateNightEndHour ? MobiAct.sleep : MobiAct.sleepy;
+    return h >= sleepFromHour && h < lateNightEndHour ? MobiAct.sleep : MobiAct.sleepy;
   }
 
   /// Whether [now] is late at night (the shared 11 PM to 5 AM window), when Mobi says the
