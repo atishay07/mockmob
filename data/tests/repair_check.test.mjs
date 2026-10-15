@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import {
-  rejectReason, selectCheckQuestion, chooseVerified, checkIsStillOffered, shuffledOrder, checkQuestionView, markCheck, bankExplanation,
+  rejectReason, selectCheckQuestion, chooseVerified, checkIsStillOffered, storedOrder, checkQuestionView, markCheck, bankExplanation,
   outcomeLine, planReviseCards, reviseSummary, istDate, addDays, dayLabel, dayStartIso, formatOf, basisOf, CHECK_REASONS, checkReasonMessage,
 } from '../repair_check.js';
 
@@ -98,20 +98,18 @@ test('walking the ranked list: the first candidate the publication gate accepts 
   assert.equal(checkIsStillOffered(sel, 'invented'), false);
 });
 
-test('the display order is a seeded permutation, never the stored order, the same on every reload', () => {
-  const seen = new Set();
-  for (let i = 0; i < 200; i += 1) {
-    const order = shuffledOrder(`seed${i}`);
-    assert.deepEqual([...order].sort(), [0, 1, 2, 3]);
-    assert.notDeepEqual(order, [0, 1, 2, 3], 'the stored order is never shown');
-    assert.deepEqual(order, shuffledOrder(`seed${i}`));
-    seen.add(order.join(''));
-  }
-  assert.ok(seen.size >= 15, 'the seeds cover the permutations');
+test('the display order is the bank own order, so the explanation option letters still name the option on screen', () => {
+  assert.deepEqual(storedOrder(), [0, 1, 2, 3]);
+  const r = row('q_concept');
+  const view = checkQuestionView(r, storedOrder());
+  assert.deepEqual(view.options.map((o) => o.text), r.options.map((o) => o.text));
+  // The key is read in that same order: the stored key letter is the displayed letter.
+  const marked = markCheck({ row: r, order: storedOrder(), pick: 0 });
+  assert.equal(marked.keyDisplay, marked.keyStored);
 });
 
 test('before the answer the question view carries no key, no explanation and no marks', () => {
-  const order = shuffledOrder('s');
+  const order = storedOrder();
   const view = checkQuestionView(row('q_concept'), order);
   assert.equal(view.options.length, 4);
   assert.deepEqual(view.options.map((o) => o.index), [0, 1, 2, 3]);
@@ -125,7 +123,7 @@ test('before the answer the question view carries no key, no explanation and no 
 
 test('marking: the pick is a display index, the key is read from the row as it stands today', () => {
   const r = row('q_concept');
-  const order = shuffledOrder('mark');
+  const order = [2, 0, 3, 1]; // markCheck maps any display order back to the stored options
   const keyDisplay = order.indexOf(0);
   const right = markCheck({ row: r, order, pick: keyDisplay });
   assert.equal(right.ok, true);

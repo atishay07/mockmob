@@ -12,7 +12,7 @@
 import { repairEligibility } from '../../../data/mistake_repair.js';
 import { isPassageLinkedQuestion } from '../../../data/nta_question_selector.js';
 import {
-  CHECK_REQUEST_ID, CHECK_VERSION, checkReasonMessage, selectCheckQuestion, chooseVerified, checkIsStillOffered, shuffledOrder,
+  CHECK_REQUEST_ID, CHECK_VERSION, checkReasonMessage, selectCheckQuestion, chooseVerified, checkIsStillOffered, storedOrder,
   checkQuestionView, markCheck, bankExplanation, outcomeLine, planReviseCards, reviseSummary, ruleOf,
 } from '../../../data/repair_check.js';
 import { mistakeId } from './repairFlow.js';
@@ -23,9 +23,6 @@ export const VERIFY_BATCH = 12;
 export const VERIFY_MAX = 96;
 const ID_LIMIT = 160;
 const validId = (value) => typeof value === 'string' && value.length > 0 && value.length <= ID_LIMIT;
-
-/** The seed of the display order. The same on every reload and in the marking, so the client never sends the order back. */
-export const orderSeed = (userId, mistakeKey, checkQuestionId) => `${userId}|${mistakeKey}|${checkQuestionId}`;
 
 /** Where the client finds the check and the Ask Mobi follow-up for one mistake. Relative links. */
 export function checkLinks(attemptId, questionId) {
@@ -128,7 +125,7 @@ export async function openCheck({ user, attemptId, questionId, deps, preloaded }
   const found = await findCheck({ user, p, deps });
   if (!found.ok && found.status === 'failed') return failure(503, 'none', found.reason, links);
   if (!found.ok) return out(200, { ok: true, status: 'none', charged: 0, reason: found.reason, message: checkReasonMessage(found.reason), pool: found.pool, ...links });
-  const order = shuffledOrder(orderSeed(user.id, p.id, found.chosen.id));
+  const order = storedOrder();
   const view = checkQuestionView(found.full, order);
   return out(200, {
     ok: true, status: 'ready', charged: 0,
@@ -189,7 +186,7 @@ export async function answerCheck({ user, attemptId, questionId, checkQuestionId
   const found = await findCheckById({ user, p, deps, checkQuestionId });
   if (!found.ok) return failure(found.status === 'failed' && found.reason === 'lookup_failed' ? 503 : 409, 'none', found.status === 'failed' ? found.reason : 'check_changed');
 
-  const order = shuffledOrder(orderSeed(user.id, p.id, checkQuestionId));
+  const order = storedOrder();
   const marked = markCheck({ row: found.full, order, pick });
   if (!marked.ok) return failure(marked.reason === 'invalid_pick' ? 422 : 409, 'none', marked.reason);
 

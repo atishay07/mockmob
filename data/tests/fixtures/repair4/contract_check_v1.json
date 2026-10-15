@@ -63,7 +63,7 @@
         "href": "/api/recovery/check?attemptId=att_1&questionId=q_1",
         "askHref": "/mentor?tab=ask&q=att_1:q_1",
         "notes": [
-          "options are in a fresh, seeded order: the same order on every reload; `pick` on POST is the index shown here (0 to 3)",
+          "options are in the bank's own order (A to D as stored), because bank explanations name option letters; `pick` on POST is the index shown here (0 to 3)",
           "there is no key, no explanation and no marks field before the answer"
         ]
       }

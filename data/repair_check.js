@@ -13,7 +13,7 @@
 //    sessions), not the mistake itself, not in the mistake's family, not a near copy of its stem;
 //  - held, disputed, quarantined and key-disputed questions are excluded again here, so a gate change upstream cannot
 //    let one through;
-//  - the pick is deterministic (a stable hash tie-break), so a reload shows the same question;
+//  - the pick is deterministic (a stable hash tie-break), so a reload shows the same question, its options in the bank's order;
 //  - marking uses today's key text, read again at the moment of the answer.
 import { createHash } from 'node:crypto';
 import { correctIndexOf } from './mistake_repair.js';
@@ -153,23 +153,14 @@ export function checkIsStillOffered(selection, checkQuestionId) {
 }
 
 /**
- * The display order of the options: a seeded permutation, never the stored order, so the answer is not "the one that was
- * third last time". order[i] is the stored index of the option shown in place i. The same seed always gives the same
- * order, so a reload and the marking agree without the client sending the order back.
+ * The display order of the options: the bank's own order, A to D as stored. It is deliberately NOT shuffled: bank explanations
+ * cite option letters ("Option A is correct ... The correct key is A") and assertion and reason questions keep a fixed
+ * option order, so a shuffled order would put a different letter on screen than the one the explanation names. order[i] is
+ * the stored index of the option shown in place i; markCheck keeps that mapping, so any order is still marked correctly.
  */
-export function shuffledOrder(seed, count = CHECK_OPTION_COUNT) {
-  const order = Array.from({ length: count }, (_, i) => i);
-  let stream = hash(`order|${seed}`);
-  const next = () => { stream = hash(stream); return parseInt(stream.slice(0, 8), 16); };
-  for (let i = count - 1; i > 0; i -= 1) {
-    const j = next() % (i + 1);
-    [order[i], order[j]] = [order[j], order[i]];
-  }
-  if (count > 1 && order.every((stored, i) => stored === i)) order.push(order.shift());
-  return order;
-}
+export const storedOrder = (count = CHECK_OPTION_COUNT) => Array.from({ length: count }, (_, i) => i);
 
-/** The question as the student sees it before answering: stem and shuffled options, NO key, no explanation. */
+/** The question as the student sees it before answering: stem and options in the bank's order, NO key, no explanation. */
 export function checkQuestionView(row, order) {
   const texts = plainOptionTexts(row.options);
   return {
