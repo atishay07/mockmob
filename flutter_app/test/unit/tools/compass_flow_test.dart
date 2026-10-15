@@ -25,7 +25,7 @@ void main() {
     expect(prefs.values['mm.tools.compass.v1'] as String, isNot(contains('mathematics')));
     await tester.tap(find.widgetWithText(KeyButton, ToolsCopy.unlockAdd('Mathematics')));
     await tester.pumpAndSettle();
-    expect(find.text('41 open to you'), findsOneWidget);
+    expect(find.text(ToolsCopy.allOpenHeading(41)), findsOneWidget);
     expect(prefs.values['mm.tools.compass.v1'] as String, contains('mathematics'));
   });
 
@@ -33,7 +33,7 @@ void main() {
     await pumpMockmob(tester, const CompassScreen(), size: const Size(384, 1600), wrapInScaffold: false, overrides: toolsOverrides());
     await tester.pump();
     expect(find.text('Ticked from your sheet.'), findsNothing);
-    expect(find.text('35 open to you'), findsOneWidget);
+    expect(find.text(ToolsCopy.allOpenHeading(35)), findsOneWidget);
   });
 
   testWidgets('Combo shows the website best fit for B.Com. (Hons.) and Economics', (tester) async {

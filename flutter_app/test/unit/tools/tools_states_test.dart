@@ -128,7 +128,7 @@ void main() {
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
       await tester.pumpAndSettle();
       expect(find.text(ToolsCopy.offlineTitle), findsNothing);
-      expect(find.text(ToolsCopy.compassLead).evaluate().isNotEmpty || find.text('35 open to you').evaluate().isNotEmpty, isTrue);
+      expect(find.text(ToolsCopy.compassLead).evaluate().isNotEmpty || find.text(ToolsCopy.allOpenHeading(35)).evaluate().isNotEmpty, isTrue);
     });
   });
 
