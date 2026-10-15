@@ -60,11 +60,41 @@ export function trapLabel(type) {
   return Object.hasOwn(TRAP_LABELS, type) ? TRAP_LABELS[type] : TRAP_LABELS.other;
 }
 const text = (v) => (typeof v === 'string' && v.trim() ? v.trim() : null);
-// One shape for both payload versions. v2 carries `rule` (and usually `trap` and `another_way`); a v1 payload
-// (stored repairs written before v2) keeps its three blocks: why it was tempting, where it breaks, the idea to keep.
+const LETTERS_V3 = 'ABCDEFGH';
+// One shape for the three payload versions (spec A.1):
+//   v3 when `why_right` is present: trap, where it breaks, why the key is right (+ contrast), the other options, the
+//      rule with its memory hook, and a second explanation revealed in place. No model "next step": the real practice
+//      action is the next step.
+//   v2 when only `rule` is present (trap, another way, contrast, rule).
+//   v1 otherwise (stored repairs written before v2): why it was tempting, where it breaks, the idea to keep.
 // Returns null when the payload cannot be shown in full, so the screen asks for a retry instead of half a repair.
 export function repairBlocks(repair) {
   if (!repair || typeof repair !== 'object') return null;
+  if (text(repair.why_right) !== null) {
+    const tempting = text(repair.trap) ?? text(repair.why_tempting);
+    const wrong = text(repair.why_wrong);
+    const right = text(repair.why_right);
+    const rule = text(repair.rule) ?? text(repair.key_idea);
+    if (!tempting || !wrong || !right || !rule) return null;
+    const others = (Array.isArray(repair.others) ? repair.others : [])
+      .filter((o) => Number.isInteger(o?.index) && o.index >= 0 && o.index < LETTERS_V3.length && text(o?.why))
+      .sort((a, b) => a.index - b.index)
+      .filter((o, i, list) => i === 0 || list[i - 1].index !== o.index)
+      .map((o) => ({ letter: LETTERS_V3[o.index], why: text(o.why) }));
+    return {
+      version: 3,
+      heading: trapLabel(repair.trap_type),
+      tempting,
+      wrong,
+      right,
+      contrast: text(repair.contrast),
+      others,
+      rule,
+      hook: text(repair.memory_hook),
+      anotherWay: text(repair.another_way),
+      nextStep: null,
+    };
+  }
   const v2 = text(repair.rule) !== null;
   if (v2) {
     const tempting = text(repair.trap) ?? text(repair.why_tempting);
@@ -84,6 +114,50 @@ export function repairBlocks(repair) {
   const tempting = text(repair.why_tempting), wrong = text(repair.why_wrong), rule = text(repair.key_idea);
   if (!tempting || !wrong || !rule) return null;
   return { version: 1, heading: null, tempting, wrong, anotherWay: null, contrast: null, rule, nextStep: text(repair.next_step) };
+}
+
+// The chip under the heading. The call is told the key before it explains, so this says "explained from", never
+// "checked against": agreement with the key is not proof.
+export function checkChip(letter) {
+  return letter ? `Explained from the answer key (${letter}).` : 'Explained from the answer key.';
+}
+
+// Section words the screen lays out itself (every personal sentence comes finished from the server).
+export const REPAIR_COPY = Object.freeze({
+  fallbackHeading: 'Mistake Repair',
+  whyLooked: (pick) => `Why ${pick || 'your answer'} looked right`,
+  whereBreaks: 'Where it breaks',
+  whyRight: (key) => (key ? `Why ${key} is right` : 'Why the key is right'),
+  otherOptions: 'The other options',
+  otherOptionsCount: (n) => `The other options (${n})`,
+  keepThis: 'Keep this',
+  toRemember: 'To remember it:',
+  explainAnother: 'Explain it another way',
+  anotherWay: 'Another way to see it',
+  fromRecord: 'From your record',
+  doThisNext: 'Do this next',
+  practise: (chapter) => (chapter ? `Practise 5 on ${chapter}` : 'Practise 5 on this chapter'),
+});
+
+// Loading (spec A.8): one line that changes on real elapsed time, never a timer pretending to be stages.
+export const REPAIR_LOADING = Object.freeze({
+  slowAfterMs: 8000,
+  longAfterMs: 45000,
+  writing: (number) => (Number.isInteger(number) ? `Writing the repair for Q${number}.` : 'Writing the repair.'),
+  slow: 'Still writing. You are charged only if it arrives.',
+  long: 'Taking longer than usual. Still trying.',
+});
+export function repairLoadingLine(elapsedMs, number = null) {
+  if (elapsedMs >= REPAIR_LOADING.longAfterMs) return REPAIR_LOADING.long;
+  if (elapsedMs >= REPAIR_LOADING.slowAfterMs) return REPAIR_LOADING.slow;
+  return REPAIR_LOADING.writing(number);
+}
+
+// "From your record": the server's finished sentences for this answer, then the pattern line. Nothing is written here.
+export function recordLines(insights, pattern) {
+  const lines = (Array.isArray(insights?.lines) ? insights.lines : []).map((l) => text(l?.text)).filter(Boolean);
+  const patternLine = text(pattern?.line);
+  return patternLine ? [...lines, patternLine] : lines;
 }
 
 // What one wrong answer cost in this session, from the marking scheme alone (free, past tense, no forecast).
