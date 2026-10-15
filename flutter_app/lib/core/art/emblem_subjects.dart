@@ -103,7 +103,23 @@ abstract class EmblemArt {
         EmblemKind.sociology => const _Sociology(),
         EmblemKind.computerScience => const _Code(),
         EmblemKind.language => const _Language(),
-        EmblemKind.other => null,
+        // The thirteen subjects added on 15 Oct 2026 have a photo-real object from 40 dp up and no
+        // vector drawing: at 24 dp (a chip or a dense row) they keep the initials card.
+        EmblemKind.environmentalStudies ||
+        EmblemKind.massMedia ||
+        EmblemKind.homeScience ||
+        EmblemKind.physicalEducation ||
+        EmblemKind.legalStudies ||
+        EmblemKind.knowledgeTradition ||
+        EmblemKind.anthropology ||
+        EmblemKind.fineArts ||
+        EmblemKind.performingArts ||
+        EmblemKind.engineeringGraphics ||
+        EmblemKind.entrepreneurship ||
+        EmblemKind.agriculture ||
+        EmblemKind.teachingAptitude ||
+        EmblemKind.other =>
+          null,
       };
 }
 

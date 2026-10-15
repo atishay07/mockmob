@@ -47,9 +47,9 @@ void main() {
     });
 
     testWidgets('a subject the build does not know gets its initials, never another subject mark', (tester) async {
-      await pumpMockmob(tester, const SubjectThumb(subject: 'legal_studies'), brightness: Brightness.dark, disableAnimations: true);
+      await pumpMockmob(tester, const SubjectThumb(subject: 'film_studies'), brightness: Brightness.dark, disableAnimations: true);
       expect(find.byType(SubjectEmblem), findsNothing);
-      expect(find.text('LS'), findsOneWidget);
+      expect(find.text('FS'), findsOneWidget);
     });
   });
 

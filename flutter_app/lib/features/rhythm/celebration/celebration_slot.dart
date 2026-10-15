@@ -110,7 +110,7 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
     final Widget body;
     if (first && !c.textOnly) {
       // A first (first repair, first week met) stands under the painted check: the bubble-grid
-      // check of the milestone art, cropped to its top and feathered into the ground, with Mobi
+      // check of the milestone art, its whole native frame feathered into the ground, with Mobi
       // standing under its long arm, looking up. The art arriving is the moment's one light
       // event when there is no ring (it replaces the pool bloom); with a ring the dial's sweep is,
       // and the art simply fades in with the moment.
@@ -242,24 +242,23 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
   }
 }
 
-/// The top of the milestone art (`scene-milestone-check-*`, Night and Day): the check made of
-/// filled bubbles over the bubble grid, cropped from 10% to 40% of the painting's height, as wide
-/// as the slot plus the gutter on each side, and feathered to transparent at every edge so it
-/// sits on the ground with no box. [mobi] stands under the check's long arm. With [arrive], the
-/// art rises 6 dp and comes up from 96% over that animation (the moment's light event).
+/// The milestone art (`scene-milestone-check-*`, Night and Day): the check made of filled bubbles
+/// over the bubble grid, shown as its whole native 3:2 frame (1536 by 1024), as wide as the slot
+/// plus the gutter on each side. The file is feathered to transparent at every edge, so it sits
+/// on the ground with no box and the band needs no mask of its own. [mobi] stands under the
+/// check's long arm. With [arrive], the art rises 6 dp and comes up from 96% over that animation
+/// (the moment's light event).
 class MilestoneArtBand extends StatelessWidget {
   const MilestoneArtBand({super.key, this.arrive, this.mobi});
 
   final Animation<double>? arrive;
   final Widget? mobi;
 
-  /// Where the crop starts and ends, as shares of the painting's height.
-  static const double cropTop = 0.10;
-  static const double cropBottom = 0.40;
-
-  /// Mobi's height and where he stands, as a share of the band's width.
+  /// Mobi's height in dp, where he stands across the band (a share of its width) and where his
+  /// feet land down it (a share of its height: above the feathered foot of the frame).
   static const double mobiSize = 92;
   static const double mobiX = 0.74;
+  static const double mobiFootY = 0.92;
 
   /// How far the art runs past the slot on each side (the moment gutter).
   static const double bleed = MmSpace.s24;
@@ -271,37 +270,8 @@ class MilestoneArtBand extends StatelessWidget {
       builder: (context, box) {
         final slot = box.hasBoundedWidth ? box.maxWidth : 336.0;
         final w = slot + bleed * 2;
-        final imageH = w * art.aspect;
-        final h = imageH * (cropBottom - cropTop);
-        Widget picture = ClipRect(
-          child: OverflowBox(
-            alignment: Alignment.topCenter,
-            minWidth: w,
-            maxWidth: w,
-            minHeight: imageH,
-            maxHeight: imageH,
-            child: Transform.translate(offset: Offset(0, -imageH * cropTop), child: SceneImage(art, width: w, height: imageH)),
-          ),
-        );
-        // Feathered at every edge: the sides and top quickly, the foot over its last third.
-        picture = ShaderMask(
-          blendMode: BlendMode.dstIn,
-          shaderCallback: (r) => const LinearGradient(
-            colors: [Color(0x00000000), Color(0xFF000000), Color(0xFF000000), Color(0x00000000)],
-            stops: [0, 0.12, 0.88, 1],
-          ).createShader(r),
-          child: ShaderMask(
-            blendMode: BlendMode.dstIn,
-            shaderCallback: (r) => const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Color(0x00000000), Color(0xFF000000), Color(0xFF000000), Color(0x00000000)],
-              stops: [0, 0.1, 0.62, 1],
-            ).createShader(r),
-            child: picture,
-          ),
-        );
-        picture = RepaintBoundary(child: picture);
+        final h = w * art.aspect;
+        Widget picture = RepaintBoundary(child: SceneImage(art, width: w, height: h));
         final a = arrive;
         if (a != null) {
           picture = AnimatedBuilder(
@@ -326,7 +296,7 @@ class MilestoneArtBand extends StatelessWidget {
                 Positioned(
                   left: -bleed + w * mobiX - mobiSize,
                   width: mobiSize * 2,
-                  bottom: 0,
+                  bottom: h * (1 - mobiFootY),
                   height: mobiSize,
                   child: Align(alignment: Alignment.bottomCenter, child: mobi),
                 ),

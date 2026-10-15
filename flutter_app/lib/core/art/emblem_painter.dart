@@ -31,8 +31,9 @@ class EmblemPictures {
   /// screen still holds the one it last painted, and painting a disposed picture throws.
   static void clear() => _cache.clear();
 
-  /// The cache id of [subject]: its own id for the sixteen drawn identities, one shared id for any
-  /// subject that only has initials.
+  /// The cache id of [subject]: its own id for every identity that has an object (the fifteen, the
+  /// language papers and the thirteen added on 15 Oct 2026), one shared id for any subject that only
+  /// has initials.
   static String idOf(SubjectIdentity subject) => subject.hasEmblem ? subject.id : 'other';
 
   /// How many pictures are cached (for tests).

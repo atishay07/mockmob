@@ -32,14 +32,16 @@ class ReviewStateView extends StatefulWidget {
   /// [MobiPose.idle] lets the kind choose: reading for empty, resting for offline, thinking for error.
   final MobiPose pose;
 
-  /// The painted room Mobi sits in: offline always shows the unplugged desk; an empty state
-  /// shows the all-clear room only when it says so ("nothing yet" is not "all repaired").
+  /// The painted room Mobi sits in: offline always shows the unplugged desk, an error the lamp
+  /// with the loose cable and the repair kit, and an empty state the bare desk (nothing yet),
+  /// unless it names another room ("nothing yet" is not "all repaired", so the all-clear room is
+  /// only for an empty state that says so).
   final StateScene? scene;
 
   StateScene? get shownScene => switch (kind) {
         StateViewKind.offline => StateScene.offline,
-        StateViewKind.empty => scene == StateScene.allClear ? StateScene.allClear : null,
-        StateViewKind.error => null,
+        StateViewKind.empty => (scene?.forEmpty ?? false) ? scene : StateScene.nothingYet,
+        StateViewKind.error => StateScene.unreachable,
       };
 
   @override

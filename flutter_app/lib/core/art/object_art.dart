@@ -11,8 +11,9 @@ import 'subject_identity.dart';
 
 /// A subject's photo-real object: the lamp-lit render in `assets/art/obj-*.webp` (a desk calculator
 /// on a ledger page for Accountancy, a brass stamp for Business Studies, a scale with an onion for
-/// Economics, a laptop showing code for Computer Science, ...). Fifteen subjects have their own;
-/// the CUET language papers share the open notebook. A subject the art does not know has none and
+/// Economics, a laptop showing code for Computer Science, ...). Twenty-eight subjects have their own
+/// (the fifteen CUET subjects the app teaches and thirteen more that have live questions); the CUET language
+/// papers share the open notebook. A subject the art does not know has none and
 /// keeps its initials card, never a wrong object.
 ///
 /// Each entry knows its pixel size (so the box is laid out before the file is decoded and nothing
@@ -62,6 +63,19 @@ class SubjectRender {
         EmblemKind.sociology => sociology,
         EmblemKind.computerScience => computerScience,
         EmblemKind.language => language,
+        EmblemKind.environmentalStudies => environmentalStudies,
+        EmblemKind.massMedia => massMedia,
+        EmblemKind.homeScience => homeScience,
+        EmblemKind.physicalEducation => physicalEducation,
+        EmblemKind.legalStudies => legalStudies,
+        EmblemKind.knowledgeTradition => knowledgeTradition,
+        EmblemKind.anthropology => anthropology,
+        EmblemKind.fineArts => fineArts,
+        EmblemKind.performingArts => performingArts,
+        EmblemKind.engineeringGraphics => engineeringGraphics,
+        EmblemKind.entrepreneurship => entrepreneurship,
+        EmblemKind.agriculture => agriculture,
+        EmblemKind.teachingAptitude => teachingAptitude,
         EmblemKind.other => null,
       };
 
@@ -73,29 +87,49 @@ class SubjectRender {
     return identity == null ? null : forKind(identity.kind);
   }
 
-  // Sizes are the files' own; feet were measured from each file's alpha (the lowest opaque rows),
-  // widened a little for the objects drawn in three-quarter view, whose foot is a slanted plane.
-  static const accountancy = SubjectRender._('accountancy', 512, 335, footX: 0.54, footWidth: 0.80, ground: 0.92);
-  static const business = SubjectRender._('business', 456, 512, footX: 0.50, footWidth: 0.88, ground: 0.955);
-  static const economics = SubjectRender._('economics', 403, 512, footX: 0.50, footWidth: 0.88, ground: 0.96);
-  static const english = SubjectRender._('english', 512, 316, footX: 0.48, footWidth: 0.80, ground: 0.88);
-  static const generalTest = SubjectRender._('generaltest', 512, 406, footX: 0.50, footWidth: 0.86, ground: 0.93);
-  static const mathematics = SubjectRender._('mathematics', 512, 355, footX: 0.52, footWidth: 0.80, ground: 0.90);
-  static const physics = SubjectRender._('physics', 512, 461, footX: 0.50, footWidth: 0.88, ground: 0.95);
-  static const chemistry = SubjectRender._('chemistry', 504, 512, footX: 0.50, footWidth: 0.88, ground: 0.955);
-  static const biology = SubjectRender._('biology', 298, 512, footX: 0.50, footWidth: 0.86, ground: 0.955);
-  static const history = SubjectRender._('history', 512, 352, footX: 0.50, footWidth: 0.88, ground: 0.92);
-  static const politicalScience = SubjectRender._('politicalscience', 512, 393, footX: 0.50, footWidth: 0.84, ground: 0.94);
-  static const geography = SubjectRender._('geography', 363, 512, footX: 0.50, footWidth: 0.58, ground: 0.955);
-  static const psychology = SubjectRender._('psychology', 512, 509, footX: 0.53, footWidth: 0.72, ground: 0.955);
-  static const sociology = SubjectRender._('sociology', 512, 410, footX: 0.50, footWidth: 0.90, ground: 0.945);
-  static const computerScience = SubjectRender._('computerscience', 512, 408, footX: 0.50, footWidth: 0.80, ground: 0.92);
-  static const language = SubjectRender._('language', 512, 300, footX: 0.56, footWidth: 0.74, ground: 0.90);
+  // Sizes are the files' own (15 Oct 2026: every file is exported at up to 1024 px on its long side and is
+  // never enlarged, so a source smaller than that ships at its own size); feet were measured from each
+  // file's alpha (the lowest opaque rows), widened a little for the objects drawn in three-quarter view,
+  // whose foot is a slanted plane.
+  static const accountancy = SubjectRender._('accountancy', 1024, 666, footX: 0.54, footWidth: 0.80, ground: 0.92);
+  static const business = SubjectRender._('business', 685, 769, footX: 0.50, footWidth: 0.88, ground: 0.955);
+  static const economics = SubjectRender._('economics', 792, 1006, footX: 0.50, footWidth: 0.88, ground: 0.96);
+  static const english = SubjectRender._('english', 1024, 631, footX: 0.48, footWidth: 0.80, ground: 0.88);
+  static const generalTest = SubjectRender._('generaltest', 911, 722, footX: 0.50, footWidth: 0.86, ground: 0.93);
+  static const mathematics = SubjectRender._('mathematics', 1008, 699, footX: 0.52, footWidth: 0.80, ground: 0.90);
+  static const physics = SubjectRender._('physics', 942, 848, footX: 0.50, footWidth: 0.88, ground: 0.95);
+  static const chemistry = SubjectRender._('chemistry', 737, 749, footX: 0.50, footWidth: 0.88, ground: 0.955);
+  static const biology = SubjectRender._('biology', 455, 783, footX: 0.50, footWidth: 0.86, ground: 0.955);
+  static const history = SubjectRender._('history', 989, 680, footX: 0.50, footWidth: 0.88, ground: 0.92);
+  static const politicalScience = SubjectRender._('politicalscience', 1020, 783, footX: 0.50, footWidth: 0.84, ground: 0.94);
+  static const geography = SubjectRender._('geography', 633, 892, footX: 0.50, footWidth: 0.58, ground: 0.955);
+  static const psychology = SubjectRender._('psychology', 1024, 1018, footX: 0.53, footWidth: 0.72, ground: 0.955);
+  static const sociology = SubjectRender._('sociology', 951, 762, footX: 0.50, footWidth: 0.90, ground: 0.945);
+  static const computerScience = SubjectRender._('computerscience', 1024, 813, footX: 0.50, footWidth: 0.80, ground: 0.92);
+  static const language = SubjectRender._('language', 1024, 601, footX: 0.56, footWidth: 0.74, ground: 0.90);
+
+  // The thirteen subjects added on 15 Oct 2026. Their feet were set by eye on the alpha masters (the
+  // lowest solid rows are a poor guide for a slanted base or a cable that runs off to one side).
+  static const environmentalStudies = SubjectRender._('environmentalstudies', 1024, 739, footX: 0.50, footWidth: 0.88, ground: 0.930);
+  static const massMedia = SubjectRender._('massmedia', 738, 982, footX: 0.40, footWidth: 0.62, ground: 0.955);
+  static const homeScience = SubjectRender._('homescience', 1024, 704, footX: 0.58, footWidth: 0.80, ground: 0.940);
+  static const physicalEducation = SubjectRender._('physicaleducation', 1024, 680, footX: 0.50, footWidth: 0.90, ground: 0.930);
+  static const legalStudies = SubjectRender._('legalstudies', 1024, 874, footX: 0.48, footWidth: 0.80, ground: 0.940);
+  static const knowledgeTradition = SubjectRender._('knowledgetradition', 1024, 673, footX: 0.50, footWidth: 0.92, ground: 0.930);
+  static const anthropology = SubjectRender._('anthropology', 1024, 919, footX: 0.52, footWidth: 0.80, ground: 0.920);
+  static const fineArts = SubjectRender._('finearts', 1024, 647, footX: 0.52, footWidth: 0.86, ground: 0.900);
+  static const performingArts = SubjectRender._('performingarts', 1024, 664, footX: 0.50, footWidth: 0.88, ground: 0.935);
+  static const engineeringGraphics = SubjectRender._('engineeringgraphics', 1024, 676, footX: 0.50, footWidth: 0.88, ground: 0.900);
+  static const entrepreneurship = SubjectRender._('entrepreneurship', 1024, 762, footX: 0.54, footWidth: 0.86, ground: 0.935);
+  static const agriculture = SubjectRender._('agriculture', 800, 703, footX: 0.50, footWidth: 0.82, ground: 0.930);
+  static const teachingAptitude = SubjectRender._('teachingaptitude', 1024, 856, footX: 0.50, footWidth: 0.84, ground: 0.930);
 
   /// Every render, one per file.
   static const List<SubjectRender> all = [
     accountancy, business, economics, english, generalTest, mathematics, physics, chemistry, //
-    biology, history, politicalScience, geography, psychology, sociology, computerScience, language,
+    biology, history, politicalScience, geography, psychology, sociology, computerScience, language, //
+    environmentalStudies, massMedia, homeScience, physicalEducation, legalStudies, knowledgeTradition, anthropology, //
+    fineArts, performingArts, engineeringGraphics, entrepreneurship, agriculture, teachingAptitude,
   ];
 
   /// Where the picture sits in a [side] box: centred and wholly inside it, with room under it for

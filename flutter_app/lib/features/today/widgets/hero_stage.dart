@@ -41,6 +41,10 @@ const double heroEmblemSize = EmblemSizes.hero;
 /// viewport, so it never leaves its place beside the band.
 const double heroParallax = 0.05;
 
+/// How far the stage's light pools lag the scroll: the lamp sits deeper in the room than the
+/// object, so the two separate a little as the page moves (M2).
+const double heroLampParallax = 0.12;
+
 /// What the overline, title and (while its label is beside it) the number keep clear of, from the
 /// panel's right edge: the box's visible part plus 12 dp of air (156 - 10 + 12).
 const double heroArtClear = heroArtWidth - heroArtBleedRight + MmSpace.s12;
@@ -141,9 +145,12 @@ class HeroStage extends StatelessWidget {
         children: [
           Positioned.fill(child: ColoredBox(color: surface)),
           Positioned.fill(
-            child: reaction == null
-                ? LightField(pools: poolsAt(0))
-                : ListenableBuilder(listenable: reaction, builder: (context, _) => LightField(pools: poolsAt(reaction.light))),
+            child: MmParallax(
+              factor: heroLampParallax,
+              child: reaction == null
+                  ? LightField(pools: poolsAt(0))
+                  : ListenableBuilder(listenable: reaction, builder: (context, _) => LightField(pools: poolsAt(reaction.light))),
+            ),
           ),
           Positioned.fill(child: Grain(opacity: colors.grain)),
           if (art != null)
@@ -299,25 +306,29 @@ class HeroArtView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final art = this.art;
+    final reaction = react;
     final Widget image = art.isMobi
         ? Center(child: Mobi(pose: HeroArtView.poseFor(art.art), size: 112))
-        // The subject's code-drawn emblem, unframed on its own light, drifting slowly and lagging
-        // the scroll a little (a prop standing deeper in the room than the card's words).
+        // The subject's object, unframed on its own light, floating, lagging the scroll a little
+        // (a prop standing deeper in the room than the card's words) and leaning with it. A tap
+        // springs it at full amplitude with its sparkle (the emblem's own reaction, about its foot).
         : MmParallax(
             factor: heroParallax,
+            lean: true,
             child: Center(
-              child: SubjectEmblem(subject: art.subject, size: heroEmblemSize, framed: false, animate: true),
+              child: SubjectEmblem(
+                subject: art.subject,
+                size: heroEmblemSize,
+                framed: false,
+                animate: true,
+                reaction: reaction?.tapPulse,
+              ),
             ),
           );
     Widget out = RepaintBoundary(child: EmblemArrive(child: image));
-    final reaction = react;
     if (reaction != null && !art.isMobi) {
-      // The object answers touch through the shared object reaction: a tap at full amplitude, a
-      // chip change at 60%. Each is a transform on its own layer; the picture is never repainted.
-      out = MmObjectReact(
-        pulse: reaction.tapPulse,
-        child: MmObjectReact(pulse: reaction.chipPulse, amplitude: HeroReact.chipAmplitude, haptic: false, child: out),
-      );
+      // A chip change moves it at 60%, timed with the number's roll, with no haptic of its own.
+      out = MmObjectReact(pulse: reaction.chipPulse, amplitude: HeroReact.chipAmplitude, haptic: false, child: out);
     }
     final tap = onTap;
     if (tap != null && !art.isMobi) out = GestureDetector(behavior: HitTestBehavior.translucent, onTap: tap, child: out);

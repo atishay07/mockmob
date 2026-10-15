@@ -14,7 +14,8 @@ import 'surface_roles.dart';
 /// How many questions, as a piece of paper you can feel: each stop is its number over a small
 /// answer sheet sized to it (5 is one row of five bubbles, 20 is four rows), the chosen stop
 /// sits on a raised thumb that glides on the emphasized curve, and its bubbles ink in order.
-/// Drag across the track to scrub: a selection tick at every stop crossed. Each stop is a button
+/// Drag across the track to scrub: a segment tick at every stop crossed (`SEGMENT_TICK` where the
+/// phone has it, else a selection click). Each stop is a button
 /// with its selected state, so TalkBack reads "10 questions, selected".
 class LengthDial extends ConsumerStatefulWidget {
   const LengthDial({super.key, required this.count, required this.counts, required this.onChanged, this.semanticsLabel});
@@ -78,7 +79,7 @@ class _LengthDialState extends ConsumerState<LengthDial> with SingleTickerProvid
     if (widget.counts[index] == widget.count) return;
     final end = index == 0 || index == widget.counts.length - 1;
     // The first and last stop are detents you feel more: a firmer tick than the ones between.
-    unawaited(end ? ref.read(hapticsProvider).light() : ref.read(hapticsProvider).selection());
+    unawaited(end ? ref.read(hapticsProvider).light() : ref.read(hapticsProvider).segmentTick());
     onChanged(widget.counts[index]);
   }
 

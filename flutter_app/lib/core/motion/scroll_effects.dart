@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/physics.dart' show SpringSimulation;
 
 import '../theme/theme.dart';
 import 'motion.dart';
@@ -8,26 +10,122 @@ import 'motion.dart';
 /// on scroll and never re-lays out. The child is laid out [factor] taller than the box and
 /// clipped. Outside a scrollable, or under reduced motion, it is just the child.
 ///
+/// With [lean] it also gives its art a tilt signal: [MmScrollLean] of the list it moves in, which
+/// an object inside reads with [MmParallax.leanOf] to lean toward the scroll (the art tilts
+/// itself; the parallax only translates).
+///
 /// Use it for art plates and light fields inside hero cards, never for text.
 class MmParallax extends StatelessWidget {
-  const MmParallax({super.key, required this.child, this.factor = 0.18});
+  const MmParallax({super.key, required this.child, this.factor = 0.18, this.lean = false});
 
   final Widget child;
 
   /// Share of the box's height the child travels across the whole viewport.
   final double factor;
 
+  /// Publish the scroll's lean to the art inside ([leanOf]).
+  final bool lean;
+
+  /// The lean of the list the nearest [MmParallax] with [lean] moves in, or null.
+  static ValueListenable<double>? leanOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_LeanScope>()?.lean;
+
   @override
   Widget build(BuildContext context) {
     final scrollable = Scrollable.maybeOf(context);
-    if (scrollable == null || Motion.reduced(context) || factor == 0) return child;
+    if (scrollable == null || Motion.reduced(context)) return child;
+    final art = lean ? _LeanHost(child: child) : child;
+    if (factor == 0) return art;
     return ClipRect(
       child: Flow(
         delegate: _ParallaxDelegate(scrollable: scrollable, item: context, factor: factor),
-        children: [child],
+        children: [art],
       ),
     );
   }
+}
+
+/// How hard the list an object sits in is moving: -1 to 1, positive while the content travels
+/// up (the student scrolls down), and back to 0 on [Springs.smooth] once it stops. The object
+/// leans with it, so it reads as standing in the room rather than printed on the card.
+class MmScrollLean extends ChangeNotifier implements ValueListenable<double> {
+  MmScrollLean({required TickerProvider vsync}) : _c = AnimationController.unbounded(vsync: vsync) {
+    _c.addListener(notifyListeners);
+  }
+
+  final AnimationController _c;
+  ScrollPosition? _position;
+  double? _last;
+
+  /// Scroll in one frame that leans an object all the way (about 1700 dp a second).
+  static const double fullLeanPx = 28;
+
+  /// Follows [position] (null stops following).
+  void attach(ScrollPosition? position) {
+    if (identical(position, _position)) return;
+    _position?.removeListener(_moved);
+    _position = position;
+    _last = position != null && position.hasPixels ? position.pixels : null;
+    position?.addListener(_moved);
+  }
+
+  void _moved() {
+    final p = _position;
+    if (p == null || !p.hasPixels) return;
+    final last = _last;
+    _last = p.pixels;
+    if (last == null) return;
+    final target = ((p.pixels - last) / fullLeanPx).clamp(-1.0, 1.0);
+    final next = _c.value + (target - _c.value) * 0.5;
+    _c.value = next;
+    _c.animateWith(SpringSimulation(Springs.smooth, next, 0, 0));
+  }
+
+  @override
+  double get value => _c.value.clamp(-1.0, 1.0);
+
+  @override
+  void dispose() {
+    attach(null);
+    _c.dispose();
+    super.dispose();
+  }
+}
+
+class _LeanHost extends StatefulWidget {
+  const _LeanHost({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_LeanHost> createState() => _LeanHostState();
+}
+
+class _LeanHostState extends State<_LeanHost> with SingleTickerProviderStateMixin {
+  late final MmScrollLean _lean = MmScrollLean(vsync: this);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _lean.attach(Motion.reduced(context) ? null : Scrollable.maybeOf(context)?.position);
+  }
+
+  @override
+  void dispose() {
+    _lean.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => _LeanScope(lean: _lean, child: widget.child);
+}
+
+class _LeanScope extends InheritedWidget {
+  const _LeanScope({required this.lean, required super.child});
+
+  final MmScrollLean lean;
+
+  @override
+  bool updateShouldNotify(_LeanScope old) => old.lean != lean;
 }
 
 class _ParallaxDelegate extends FlowDelegate {

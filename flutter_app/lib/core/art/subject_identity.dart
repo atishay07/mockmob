@@ -21,6 +21,21 @@ enum EmblemKind {
   sociology,
   computerScience,
   language,
+  // The thirteen subjects added on 15 Oct 2026 (production `questions` with status live): each has
+  // its own lit object in `assets/art/obj-*.webp`, so none shows an initials card any more.
+  environmentalStudies,
+  massMedia,
+  homeScience,
+  physicalEducation,
+  legalStudies,
+  knowledgeTradition,
+  anthropology,
+  fineArts,
+  performingArts,
+  engineeringGraphics,
+  entrepreneurship,
+  agriculture,
+  teachingAptitude,
   other,
 }
 
@@ -105,6 +120,28 @@ class SubjectIdentity {
   /// The identity the CUET language papers other than English share.
   static const SubjectIdentity language = _language;
 
+  /// The thirteen other subjects that have live questions, largest question bank first. They share
+  /// the language paper's light field (the tinted field behind art lives in `core/theme`); their
+  /// object and their form ink are their own.
+  static const List<SubjectIdentity> moreSubjects = [
+    _environmentalStudies,
+    _massMedia,
+    _homeScience,
+    _physicalEducation,
+    _legalStudies,
+    _knowledgeTradition,
+    _anthropology,
+    _fineArts,
+    _performingArts,
+    _engineeringGraphics,
+    _entrepreneurship,
+    _agriculture,
+    _teachingAptitude,
+  ];
+
+  /// Every subject with an object of its own: the fifteen, then the thirteen more.
+  static const List<SubjectIdentity> withObjects = [...subjects, ...moreSubjects];
+
   /// Maps any subject id the app meets (`business_studies`, `business`, `gat`, `maths`, `hindi`,
   /// spaces or hyphens instead of underscores, any case) to its identity. Null only for no id.
   static SubjectIdentity? of(String? subjectId) {
@@ -127,6 +164,19 @@ class SubjectIdentity {
       'psychology' => _psychology,
       'sociology' => _sociology,
       'computer_science' || 'informatics_practices' || 'computer_science_informatics_practices' || 'cs' => _computerScience,
+      'environmental_studies' || 'environmental_science' || 'evs' => _environmentalStudies,
+      'mass_media' || 'mass_communication' || 'mass_media_mass_communication' => _massMedia,
+      'home_science' => _homeScience,
+      'physical_education' || 'physical_education_yoga_sports' => _physicalEducation,
+      'legal_studies' => _legalStudies,
+      'knowledge_tradition_india' || 'knowledge_tradition' || 'knowledge_tradition_practices_in_india' => _knowledgeTradition,
+      'anthropology' => _anthropology,
+      'fine_arts' || 'visual_arts' || 'fine_arts_visual_arts' || 'fine_arts_visual_arts_commercial_arts' => _fineArts,
+      'performing_arts' || 'performing_arts_dance_drama_and_music' => _performingArts,
+      'engineering_graphics' => _engineeringGraphics,
+      'entrepreneurship' => _entrepreneurship,
+      'agriculture' => _agriculture,
+      'teaching_aptitude' => _teachingAptitude,
       _ => null,
     };
     if (known != null) return known;
@@ -377,4 +427,165 @@ const _language = SubjectIdentity._(
   deepNight: Color(0xFF5A4126),
   deepDay: Color(0xFF44321A),
   phase: 0.055,
+);
+
+// The thirteen subjects added on 15 Oct 2026. Their object is their colour, so the ink and the light
+// field stay the shared language sepia that a subject without art has always had: the only place an ink
+// shows is the 24 dp initials card, and it keeps its look. Each has its own idle phase, so a row of
+// them never floats together. (Per-subject inks and fields belong with `core/theme/light_fields.dart`.)
+const _environmentalStudies = SubjectIdentity._(
+  id: 'environmental_studies',
+  kind: EmblemKind.environmentalStudies,
+  name: 'Environmental Studies',
+  short: 'EVS',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.030,
+);
+const _massMedia = SubjectIdentity._(
+  id: 'mass_media',
+  kind: EmblemKind.massMedia,
+  name: 'Mass Media',
+  short: 'Media',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.110,
+);
+const _homeScience = SubjectIdentity._(
+  id: 'home_science',
+  kind: EmblemKind.homeScience,
+  name: 'Home Science',
+  short: 'Home sci',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.190,
+);
+const _physicalEducation = SubjectIdentity._(
+  id: 'physical_education',
+  kind: EmblemKind.physicalEducation,
+  name: 'Physical Education',
+  short: 'PE',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.255,
+);
+const _legalStudies = SubjectIdentity._(
+  id: 'legal_studies',
+  kind: EmblemKind.legalStudies,
+  name: 'Legal Studies',
+  short: 'Law',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.350,
+);
+const _knowledgeTradition = SubjectIdentity._(
+  id: 'knowledge_tradition_india',
+  kind: EmblemKind.knowledgeTradition,
+  name: 'Knowledge Tradition of India',
+  short: 'KTI',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.430,
+);
+const _anthropology = SubjectIdentity._(
+  id: 'anthropology',
+  kind: EmblemKind.anthropology,
+  name: 'Anthropology',
+  short: 'Anthro',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.570,
+);
+const _fineArts = SubjectIdentity._(
+  id: 'fine_arts',
+  kind: EmblemKind.fineArts,
+  name: 'Fine Arts',
+  short: 'Fine arts',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.610,
+);
+const _performingArts = SubjectIdentity._(
+  id: 'performing_arts',
+  kind: EmblemKind.performingArts,
+  name: 'Performing Arts',
+  short: 'Perf arts',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.700,
+);
+const _engineeringGraphics = SubjectIdentity._(
+  id: 'engineering_graphics',
+  kind: EmblemKind.engineeringGraphics,
+  name: 'Engineering Graphics',
+  short: 'EG',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.750,
+);
+const _entrepreneurship = SubjectIdentity._(
+  id: 'entrepreneurship',
+  kind: EmblemKind.entrepreneurship,
+  name: 'Entrepreneurship',
+  short: 'Entre',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.840,
+);
+const _agriculture = SubjectIdentity._(
+  id: 'agriculture',
+  kind: EmblemKind.agriculture,
+  name: 'Agriculture',
+  short: 'Agri',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.890,
+);
+const _teachingAptitude = SubjectIdentity._(
+  id: 'teaching_aptitude',
+  kind: EmblemKind.teachingAptitude,
+  name: 'Teaching Aptitude',
+  short: 'Teaching',
+  light: SubjectLight.language,
+  inkNight: Color(0xFFCDAC84),
+  inkDay: Color(0xFF7E603A),
+  deepNight: Color(0xFF5A4126),
+  deepDay: Color(0xFF44321A),
+  phase: 0.990,
 );

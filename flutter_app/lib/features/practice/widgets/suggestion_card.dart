@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/art/art.dart';
+import '../../../core/motion/flight.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -160,7 +161,19 @@ class SuggestionCard extends StatelessWidget {
           KeyedSubtree(
             key: actionKey,
             // One light sweep across Start after 4 s with nothing touched, once per card.
-            child: StartSheen(enabled: !offline && onAction != null, child: KeyButton(label: actionLabel, onPressed: offline ? null : onAction)),
+            child: StartSheen(
+              enabled: !offline && onAction != null,
+              child: KeyButton(
+                label: actionLabel,
+                onPressed: offline || onAction == null
+                    ? null
+                    : () {
+                        // The object flies into the confirm step's ticket (M2).
+                        MmFlight.launch(context, subjectId);
+                        onAction!();
+                      },
+              ),
+            ),
           ),
         ],
       ),
@@ -195,11 +208,9 @@ class SuggestionCard extends StatelessWidget {
             right: -artBleedRight,
             width: artBox,
             height: artBox,
-            // A slow float (6 s) on the whole box, and the object riding a little against the scroll.
+            // The object floats and leans on its own (its life), riding a little against the scroll.
             child: IgnorePointer(
-              child: EmblemFloat(
-                child: MmParallax(factor: 0.1, child: Center(child: SubjectEmblem(subject: subjectId, size: emblemSize, framed: false))),
-              ),
+              child: MmParallax(factor: 0.1, lean: true, child: Center(child: SubjectEmblem(subject: subjectId, size: emblemSize, framed: false))),
             ),
           ),
           body,

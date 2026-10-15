@@ -59,7 +59,8 @@ class EmblemPalette {
 
   static final Map<String, EmblemPalette> _cache = {};
 
-  /// How many palettes are held (for tests): at most 17 identities by 2 themes.
+  /// How many palettes are held (for tests): at most 30 identities (the 29 with an object, plus the
+  /// shared initials-only one) by 2 themes.
   static int get cached => _cache.length;
 
   factory EmblemPalette._compute(SubjectIdentity subject, Brightness brightness) {

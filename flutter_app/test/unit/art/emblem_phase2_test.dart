@@ -86,12 +86,12 @@ void main() {
 
     testWidgets('subjects that only have initials share one set of pictures, however many ids arrive', (tester) async {
       EmblemPictures.clear();
-      await _pump(tester, const SubjectEmblem(subject: 'fine_arts', size: 56));
+      await _pump(tester, const SubjectEmblem(subject: 'film_arts', size: 56));
       final one = EmblemPictures.length;
       await _pump(
         tester,
         Column(children: [
-          for (final id in ['music', 'dance', 'theatre', 'home_science', 'agriculture', 'legal_studies', 'tourism', 'a1', 'b2', 'c3'])
+          for (final id in ['music', 'dance', 'theatre', 'photography', 'journalism', 'pottery', 'tourism', 'a1', 'b2', 'c3'])
             SubjectEmblem(subject: id, size: 24),
         ]),
       );
@@ -115,7 +115,7 @@ void main() {
       expect(identical(a, b), isTrue);
       expect(identical(EmblemPalette.of(SubjectIdentity.of('physics')!, Brightness.light), EmblemPalette.of(SubjectIdentity.of('physics')!, Brightness.light)), isTrue);
       expect(EmblemPalette.cached - before, lessThanOrEqualTo(3));
-      expect(EmblemPalette.cached, lessThanOrEqualTo(17 * 2));
+      expect(EmblemPalette.cached, lessThanOrEqualTo(30 * 2));
     });
 
     testWidgets('clearing the picture cache while an emblem is on screen does not break it', (tester) async {
@@ -130,7 +130,7 @@ void main() {
     test('initials are cut by character, not by UTF-16 unit', () {
       expect(SubjectIdentity.monogram('😀 smile'), '😀S');
       expect(SubjectIdentity.monogram('élan'), 'Él');
-      expect(SubjectIdentity.monogram('fine_arts'), 'FA');
+      expect(SubjectIdentity.monogram('film_arts'), 'FA');
       expect(SubjectIdentity.monogram('a'), 'A');
       expect(SubjectIdentity.monogram('physics'), 'Ph');
       expect(SubjectIdentity.monogram(''), '');

@@ -11,7 +11,8 @@ import '../hit_slop.dart';
 /// - Press: the thumb stretches to 28 dp wide toward where it will go (a finger squeezing it).
 /// - Toggle: the thumb springs to its end on [Springs.toggle] (240 ms, a slight overshoot), the
 ///   track fills with volt in Night and the accent text colour in Day, and an ink tick draws itself
-///   inside the thumb as it arrives. A selection haptic on each change.
+///   inside the thumb as it arrives. Android's `TOGGLE_ON` or `TOGGLE_OFF` on each change (a
+///   selection click on phones before Android 14).
 /// - Drag: the thumb follows a sideways finger and lands on the nearer end (or the flung one).
 /// - Keyboard: focusable; Enter and Space toggle; a focus ring around the track.
 ///
@@ -89,7 +90,7 @@ class _MmSwitchState extends State<MmSwitch> with TickerProviderStateMixin {
   void _commit(bool next) {
     if (!_enabled) return;
     if (next != widget.value) {
-      hapticsOf(context)?.selection();
+      hapticsOf(context)?.toggle(next);
       widget.onChanged!(next);
     }
     _settle(next ? 1 : 0);
