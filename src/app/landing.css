@@ -37,6 +37,66 @@
   --edge-light: rgba(244, 245, 240, 0.28);
   color-scheme: dark;
 }
+
+/* ---------- The page system: one type scale, one spacing rhythm ----------
+   Every landing section below the hero takes its sizes and gaps from these, and nothing else. Six sizes plus
+   fine print, each fluid between its phone value (390 px) and its desktop value (from about 1200 px). Product
+   screens (the dark devices) may also use 12 px inside them, nowhere else. Sentence case everywhere; numbers
+   use tabular figures, never a monospace face.
+     --t-display   40 -> 72   800  hero line, the close line, the Pro price
+     --t-headline  32 -> 56   800  every section h2 (the statement runs to 64)
+     --t-title     22 -> 30   700  h3, scene and slide titles, plan names, row names
+     --t-lede      18 -> 20   400  section ledes, under every h2, --ink-2, at most 52ch
+     --t-body      16         400  paragraphs, list rows, FAQ answers, at most 62ch
+     --t-label     14         600  buttons, tabs, captions, table text
+     --t-fine      13         400  disclosures and source lines only
+   Spacing runs on 4 px: 4 8 12 16 24 32 48 64 96 128 (--sp-1 to --sp-10). A section opens with a hairline,
+   then its h2 (two clauses: the name in --ink, the rest in --ink-3, same size and weight), --head-gap, the lede,
+   --head-after, then its content. Sections pad --sec-top above and --sec-bottom (8 px more) below. */
+.mm.lp {
+  --t-display: clamp(2.5rem, 1.6rem + 3.8vw, 4.5rem);
+  --t-headline: clamp(2rem, 1.25rem + 3vw, 3.5rem);
+  --t-statement: clamp(2rem, 1.1rem + 3.6vw, 4rem);
+  --t-title: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
+  --t-lede: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --t-body: 1rem;
+  --t-label: 0.875rem;
+  --t-fine: 0.8125rem;
+  --t-mock: 0.75rem;
+  --lh-display: 0.98;
+  --lh-headline: 1.04;
+  --lh-title: 1.12;
+  --lh-lede: 1.5;
+  --lh-body: 1.6;
+  --lh-label: 1.4;
+  --lh-fine: 1.45;
+  --tr-display: -0.04em;
+  --tr-headline: -0.035em;
+  --tr-title: -0.025em;
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+  --sp-9: 6rem;
+  --sp-10: 8rem;
+  /* Section padding: 80 px phone to 128 px desktop on top; the bottom is 8 px more (optical). */
+  --sec-top: clamp(5rem, 3.9rem + 4.4vw, 8rem);
+  --sec-bottom: calc(var(--sec-top) + var(--sp-2));
+  /* h2 to lede, and lede to the section's content (40 px phone to 64 px desktop). */
+  --head-gap: var(--sp-4);
+  --head-after: clamp(2.5rem, 1.95rem + 2.2vw, 4rem);
+  /* Within a group: rows, sub-groups, independent groups. */
+  --row-gap: var(--sp-4);
+  --group-gap: var(--sp-5);
+  --block-gap: var(--sp-7);
+  /* Reading measures. */
+  --measure-lede: 52ch;
+  --measure-body: 62ch;
+}
 html:has(.lp) {
   font-size: 16px;
   color-scheme: dark;
