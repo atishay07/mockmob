@@ -33,9 +33,12 @@ abstract final class AccessCopy {
   static const String openingGoogle = 'Opening Google';
   static const String signingIn = 'Signing in';
   static const String finishInBrowser =
-      'Finish signing in with Google in your browser.';
+      'Finish signing in with Google in your browser. It brings you back to the app.';
+  /// Back in the app with no answer from Google: most often the browser stayed on the MockMob
+  /// website instead of returning here, so the student is told where to finish.
   static const String browserNotFinished =
-      'Google sign-in did not finish. Try again when you are ready.';
+      'Google did not bring you back to the app. If your browser shows the MockMob website, '
+      'close it and sign in here with an email code.';
   static const String useBrowserInstead = 'Use the browser instead';
   static const String cancel = 'Cancel';
   static const String googleClosed =

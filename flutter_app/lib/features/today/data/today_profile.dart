@@ -5,6 +5,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart';
+import '../../../core/auth/auth_state.dart';
 import '../../onboarding/onboarding.dart';
 
 /// One college on the student's ladder, with its real CSAS 2026 Round 1 closing score.
@@ -58,18 +59,18 @@ class TodayProfile {
 
 /// The sealed sheet as Today needs it, or null before one is sealed. Colleges without a Round 1
 /// figure for the student's category are left off the ladder rather than given a number.
+///
+/// Colleges chosen in You, Your sheet before the setup was ever sealed (a student who signed in
+/// on the website first, or left the setup before its plan) still reach the ladder: owner test
+/// 15 Oct, "Choose colleges" led to an editor whose picks Today never showed. Nothing else of an
+/// unsealed sheet is read.
 final todayProfileProvider = Provider<TodayProfile?>((ref) {
   final sheet = ref.watch(studentSheetProvider);
-  if (sheet == null) return null;
+  if (sheet == null) return _collegesOnly(ref);
   final move = sheet.firstMove;
-  final course = sheet.course?.short ?? '';
-  final picks = [
-    for (final c in sheet.colleges)
-      if (c.score case final score?) LadderPick(college: c.name, course: course, closingScore: score, outOf: DuCatalog.scale),
-  ]..sort((a, b) => b.closingScore.compareTo(a.closingScore));
   final days = sheet.days;
   return TodayProfile(
-    ladder: picks,
+    ladder: ladderOf(sheet),
     category: sheet.category,
     weakestSubject: move.subject.id,
     firstMoveAt: sheet.deferredToTonight ? move.nextWindow(ref.watch(nowProvider)()) : null,
@@ -78,3 +79,23 @@ final todayProfileProvider = Provider<TodayProfile?>((ref) {
     firstMoveLine: move.framing,
   );
 });
+
+/// The ladder of a sheet, dream (highest closing score) first.
+List<LadderPick> ladderOf(StudentSheet sheet) {
+  final course = sheet.course?.short ?? '';
+  return [
+    for (final c in sheet.colleges)
+      if (c.score case final score?) LadderPick(college: c.name, course: course, closingScore: score, outOf: DuCatalog.scale),
+  ]..sort((a, b) => b.closingScore.compareTo(a.closingScore));
+}
+
+/// The ladder alone, from answers that were edited but never sealed and belong to this account.
+TodayProfile? _collegesOnly(Ref ref) {
+  final answers = ref.watch(onboardingAnswersProvider).value;
+  if (answers == null || answers.colleges.isEmpty) return null;
+  final owner = answers.owner;
+  if (owner != null && owner != ref.watch(authSnapshotProvider.select((a) => a.userId))) return null;
+  final ladder = ladderOf(StudentSheet(answers: answers, now: ref.watch(nowProvider)()));
+  if (ladder.isEmpty) return null;
+  return TodayProfile(ladder: ladder, category: answers.category);
+}

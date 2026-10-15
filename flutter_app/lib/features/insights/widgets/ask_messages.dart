@@ -12,6 +12,7 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/ask_citation.dart';
 import '../data/ask_controller.dart';
+import '../data/ask_wallet.dart';
 import '../insights_paths.dart';
 import 'answer_text.dart';
 import 'ask_marks.dart';
@@ -38,10 +39,18 @@ class AskMessageView extends StatefulWidget {
     this.animate = false,
     this.onOpenRecord,
     this.newest = true,
+    this.onCredits,
+    this.renew,
   });
 
   final AskMessage message;
   final VoidCallback onRetry;
+
+  /// Opens the credit details from a failure about credits; null hides the key.
+  final VoidCallback? onCredits;
+
+  /// "1 November": when the included credits renew. Null works it out from today.
+  final String? renew;
 
   /// Reports a model reply; null hides the control.
   final VoidCallback? onReport;
@@ -113,17 +122,24 @@ class _AskMessageViewState extends State<AskMessageView> {
     if (m.sending) return _Pending(faceSeed: _faceSeed(m), face: _face);
 
     if (m.failure case final failure?) {
-      final (text, canRetry) = switch (failure) {
-        AskFailure.offline => (InsightsCopy.failOffline, true),
-        // Nothing was charged and the question is kept: after topping up (or when the pause ends)
-        // Send again sends the same words, so the student never retypes them.
-        AskFailure.noCredits => (InsightsCopy.failNoCredits(m.balance), true),
-        AskFailure.paused => (InsightsCopy.failPaused, true),
-        AskFailure.resend => (InsightsCopy.failResend, true),
-        AskFailure.rateLimited => (InsightsCopy.failRate, true),
-        AskFailure.tooLong => (InsightsCopy.failTooLong, false),
-        AskFailure.unavailable => (InsightsCopy.failUnavailable, true),
-        AskFailure.interrupted => (InsightsCopy.failInterrupted, true),
+      final renew = widget.renew ?? renewDay(null, DateTime.now());
+      // What happened, in the server's terms, and then what it cost: every failure is free, and the
+      // credit line says so only once that is true (a held credit is said as held).
+      final (text, credit, canRetry) = switch (failure) {
+        AskFailure.offline => (InsightsCopy.failOffline, InsightsCopy.creditNotTwice, true),
+        // Nothing was charged and the question is kept: after the credits renew (or the pause
+        // ends) Send again sends the same words, so the student never retypes them.
+        AskFailure.noCredits => (InsightsCopy.failNoCredits(m.balance, renew), InsightsCopy.creditNone, true),
+        AskFailure.paused => (InsightsCopy.failPaused, InsightsCopy.creditNone, true),
+        AskFailure.resend => (InsightsCopy.failResend, InsightsCopy.creditNone, true),
+        AskFailure.rateLimited => (InsightsCopy.failRate, InsightsCopy.creditNone, true),
+        AskFailure.tooLong => (InsightsCopy.failTooLong, InsightsCopy.creditNone, false),
+        AskFailure.unavailable => (InsightsCopy.failUnavailable, m.creditHeld ? InsightsCopy.creditHeld : InsightsCopy.creditNone, true),
+        AskFailure.inProgress => (InsightsCopy.failInProgress, InsightsCopy.creditNotTwice, true),
+        AskFailure.alreadyAnswered => (InsightsCopy.failAlreadyAnswered, InsightsCopy.creditNoMore, true),
+        AskFailure.budgetReached => (InsightsCopy.failBudget(renew), InsightsCopy.creditNone, false),
+        AskFailure.walletUnavailable => (InsightsCopy.failWallet, InsightsCopy.creditNone, true),
+        AskFailure.interrupted => (InsightsCopy.failInterrupted, InsightsCopy.creditNotTwice, true),
       };
       // A plain line under Mobi's face, with one retry key: never a card holding a button.
       return Padding(
@@ -135,7 +151,20 @@ class _AskMessageViewState extends State<AskMessageView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(text, style: type.small.copyWith(color: colors.ink)),
-              if (canRetry) _RetryKey(onTap: widget.onRetry),
+              const SizedBox(height: MmSpace.s4),
+              Text(credit, style: type.caption.copyWith(fontSize: 12.5, color: colors.ink3)),
+              Wrap(
+                spacing: MmSpace.s20,
+                children: [
+                  if (canRetry)
+                    _RetryKey(
+                      label: failure == AskFailure.alreadyAnswered ? InsightsCopy.askAgain : InsightsCopy.sendAgain,
+                      onTap: widget.onRetry,
+                    ),
+                  if (widget.onCredits != null && (failure == AskFailure.noCredits || failure == AskFailure.budgetReached))
+                    ActionLink(label: InsightsCopy.creditDetails, onTap: widget.onCredits!),
+                ],
+              ),
             ],
           ),
         ),
@@ -301,7 +330,7 @@ class _SourceStrip extends StatelessWidget {
     final type = context.mmType;
     final origin = message.origin;
     final (label, free) = switch (origin) {
-      AskOrigin.model => (InsightsCopy.sourceModel, InsightsCopy.creditUsed),
+      AskOrigin.model => (InsightsCopy.sourceModel, InsightsCopy.chargedLine(message.charged, message.left)),
       AskOrigin.paused => (InsightsCopy.sourcePaused, InsightsCopy.noCreditsUsed),
       _ => (InsightsCopy.sourceRecord, InsightsCopy.noCreditsUsed),
     };
@@ -309,7 +338,7 @@ class _SourceStrip extends StatelessWidget {
     return Semantics(
       container: true,
       label: switch (origin) {
-        AskOrigin.model => InsightsCopy.originModel,
+        AskOrigin.model => InsightsCopy.originModel(message.charged, message.left),
         AskOrigin.paused => InsightsCopy.originPaused,
         _ => InsightsCopy.originPhone,
       },
@@ -389,16 +418,17 @@ class _ActionChip extends ConsumerWidget {
 
 /// "Send again": a quiet text key with a small retry glyph, 48 dp tall, at the start of the line.
 class _RetryKey extends StatelessWidget {
-  const _RetryKey({required this.onTap});
+  const _RetryKey({required this.onTap, this.label = InsightsCopy.sendAgain});
 
   final VoidCallback onTap;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     return MmPressable(
-      semanticsLabel: InsightsCopy.sendAgain,
+      semanticsLabel: label,
       focusRadius: MmRadius.smallAll,
       haptic: MmPressHaptic.selection,
       onTap: onTap,
@@ -409,7 +439,7 @@ class _RetryKey extends StatelessWidget {
           children: [
             Icon(LucideIcons.rotateCw, size: 16, color: pressed ? colors.ink2 : colors.ink),
             const SizedBox(width: MmSpace.s8),
-            Text(InsightsCopy.sendAgain, style: type.labelLarge.copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: pressed ? colors.ink2 : colors.ink)),
+            Text(label, style: type.labelLarge.copyWith(fontSize: 15, fontWeight: FontWeight.w600, color: pressed ? colors.ink2 : colors.ink)),
           ],
         ),
       ),

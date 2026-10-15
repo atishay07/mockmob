@@ -9,6 +9,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/mascot/mascot.dart' show MobiBubble, MobiSpeech, MobiTail;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
 import '../logic/today_model.dart';
 import 'header_mobi.dart';
 import 'today_entrance.dart';
@@ -64,14 +65,14 @@ class _TodayHeaderState extends State<TodayHeader> {
           length: const Duration(milliseconds: 200),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: widget.bleed),
-            child: _GreetingRow(
+            child: AccountLeading(child: _GreetingRow(
               dateLine: header.dateLine,
               updatedLine: header.updatedLine,
               greeting: header.greeting,
               trailing: header.mobi == null
                   ? null
                   : HeaderMobi(cue: header.mobi!, aim: aim, speech: _speech),
-            ),
+            )),
           ),
         ),
         if (header.mobi != null) Padding(padding: EdgeInsets.symmetric(horizontal: widget.bleed), child: _SpeechRoom(speech: _speech)),

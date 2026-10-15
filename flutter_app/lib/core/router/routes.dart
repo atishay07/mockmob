@@ -52,6 +52,9 @@ abstract final class AppRoutes {
   // Review.
   static const String reviewMistakes = '/review/mistakes';
   static const String reviewRecord = '/review/record';
+
+  /// The Rule book (Mistake Lab v4 slice 3): rules from repairs and from how papers are taken.
+  static const String reviewRules = '/review/rules';
   static String reviewRepair(String attemptId, String questionId) =>
       '/review/repair/${Uri.encodeComponent(attemptId)}/${Uri.encodeComponent(questionId)}';
   static String reviewRepairEnding(String attemptId) => '/review/repair/${Uri.encodeComponent(attemptId)}/ending';
@@ -130,6 +133,7 @@ abstract final class AppRoutes {
     review,
     reviewMistakes,
     reviewRecord,
+    reviewRules,
     '/review/repair/:attemptId/:questionId',
     learn,
     '/learn/:unitId',

@@ -13,9 +13,11 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../practice/copy.dart';
 import '../../practice/data/launch_flow.dart';
+import '../../practice/data/practice_catalog.dart' show internalSubjectFor;
 import '../../practice/data/practice_quote.dart';
 import '../../practice/model/practice_selection.dart';
 import '../../practice/widgets/failure_copy.dart';
+import '../../rules/widgets/start_sheet_line.dart';
 import 'nta_chip.dart';
 import 'nta_copy.dart';
 import 'nta_header.dart';
@@ -143,6 +145,7 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
                           constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
                           child: _Instructions(
                             subject: subject,
+                            subjectId: internalSubjectFor(widget.subject, null),
                             candidate: ref.watch(ntaCandidateNameProvider),
                             quote: quote,
                             declared: _declared,
@@ -196,9 +199,19 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
 }
 
 class _Instructions extends StatelessWidget {
-  const _Instructions({required this.subject, required this.candidate, required this.quote, required this.declared, required this.onDeclared});
+  const _Instructions({
+    required this.subject,
+    required this.subjectId,
+    required this.candidate,
+    required this.quote,
+    required this.declared,
+    required this.onDeclared,
+  });
 
   final String subject;
+
+  /// The attempt-side subject id, for the student's rule for this mock.
+  final String subjectId;
   final String? candidate;
   final PracticeQuote? quote;
   final bool declared;
@@ -234,6 +247,10 @@ class _Instructions extends StatelessWidget {
             const ExcludeSemantics(child: MobiCharacter(size: 88, entrance: MobiAct.hello, seed: 9)),
           ],
         ),
+        // MockMob's own line, before the exam's instructions and before the clock exists: the
+        // student's rule for this mock (Mistake Lab v4 slice 3, spec 4.12). Nothing of it reaches
+        // the paper; without a rule in force nothing shows and the page is as before.
+        StartSheetLine(subject: subjectId, padding: const EdgeInsets.only(top: MmSpace.s16)),
         const SizedBox(height: MmSpace.s16),
         // Three facts of one shape. Side by side they are equal tiles; from 1.3x text a figure
         // would shrink to fit a third of the width, so they stack, each as wide as the page.

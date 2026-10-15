@@ -80,8 +80,14 @@ void main() {
   sheetGolden(
     'compass_category_sheet',
     () => const CompassScreen(),
-    overrides: () => toolsOverrides(prefs: savedCompass('english,accountancy,business_studies,economics', score: '650')),
+    // The student's own mocks add up to 740: the sheet offers it as a score.
+    overrides: () => toolsOverrides(prefs: savedCompass('english,accountancy,business_studies,economics', score: '650'), attempts: commerceMocks()),
     interact: (tester) async {
+      // The bar sits under the best options, below the first screen: scroll to it.
+      await tester.pumpAndSettle();
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text('Category and score'), 200, scrollable: find.byType(Scrollable).first);
       await tester.tap(find.text('Category and score').first);
       await tester.pumpAndSettle();
     },

@@ -4,6 +4,7 @@ import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/repositories/pending_result_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
 import 'package:mockmob/core/storage/app_database.dart';
+import 'package:mockmob/core/sync/session/session_api.dart';
 import 'package:mockmob/core/sync/session/session_clock.dart';
 import 'package:mockmob/core/sync/session/session_journal.dart';
 import 'package:mockmob/core/sync/session/session_submitter.dart';
@@ -127,6 +128,37 @@ void main() {
     api.submitFailure = const ApiError(status: 422, kind: ApiErrorKind.validation, code: 'invalid_answer');
     final outcome = await submitter.submit(draft: draft, journal: journal, durationMs: 600000);
     expect(outcome, isA<SubmitRejected>());
+  });
+
+  test('a blocked reply is pending, never rejected: the paper stays owed', () async {
+    final draft = draftOf(endsAtWallMs: 600000);
+    await drafts.save(draft);
+    api.submitFailure = const ApiError(status: 403, kind: ApiErrorKind.blocked, code: 'blocked');
+    final outcome = await submitter.submit(draft: draft, journal: journal, durationMs: 600000);
+    expect(outcome, isA<SubmitPending>());
+    expect((outcome as SubmitPending).error.isBlocked, isTrue);
+    final saved = (await drafts.bySessionId('sess-1'))!;
+    expect(saved.pendingSubmission, isTrue);
+    expect(saved.rejected, isFalse);
+  });
+
+  test('a challenge page on the real submit is pending and the draft is not marked rejected', () async {
+    final http = FakeHttpAdapter()..replies.add(const FakeReply(403, '<html>Vercel Security Checkpoint</html>'));
+    final real = SessionSubmitter(
+      api: ApiSessionApi(newApiClient(http)),
+      drafts: drafts,
+      pendingResults: pending,
+      cacheAttempt: (a) async => cached.add(a),
+      now: () => fixedNow,
+    );
+    final draft = draftOf(endsAtWallMs: 600000);
+    await drafts.save(draft);
+    final outcome = await real.submit(draft: draft, journal: journal, durationMs: 600000);
+    expect(outcome, isA<SubmitPending>());
+    final saved = (await drafts.bySessionId('sess-1'))!;
+    expect(saved.pendingSubmission, isTrue);
+    expect(saved.rejected, isFalse);
+    expect(await db.select(db.answerJournal).get(), isNotEmpty);
   });
 
   test('a local failure after the server accepted still ends received', () async {

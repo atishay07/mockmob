@@ -1,0 +1,77 @@
+{
+  "not_kept": {
+    "version": 1,
+    "state": "not_kept",
+    "rule": {
+      "id": "habit:never_opened",
+      "kind": "habit",
+      "text": "Open every question once before you go deep on any."
+    },
+    "title": "Your rule",
+    "line": "Your rule: open every question once before you go deep on any.",
+    "result": "Not kept: 4 of 50 questions never opened (last mock: 4 of 50).",
+    "text": "Your rule: open every question once before you go deep on any. Not kept: 4 of 50 questions never opened (last mock: 4 of 50).",
+    "numbers": {
+      "now": 4,
+      "total": 50,
+      "last": 4,
+      "lastTotal": 50
+    },
+    "fine": "Counted from your device's record of this mock and the timed mock before it."
+  },
+  "kept": {
+    "version": 1,
+    "state": "kept",
+    "rule": {
+      "id": "habit:never_opened",
+      "kind": "habit",
+      "text": "Open every question once before you go deep on any."
+    },
+    "title": "Your rule",
+    "line": "Your rule: open every question once before you go deep on any.",
+    "result": "Kept: every question opened (last mock: 4 of 50 never opened).",
+    "text": "Your rule: open every question once before you go deep on any. Kept: every question opened (last mock: 4 of 50 never opened).",
+    "numbers": {
+      "now": 0,
+      "total": 50,
+      "last": 4,
+      "lastTotal": 50
+    },
+    "fine": "Counted from your device's record of this mock and the timed mock before it."
+  },
+  "counted": {
+    "version": 1,
+    "state": "counted",
+    "rule": {
+      "id": "repair:6864871273367fbf6b15b814",
+      "kind": "repair",
+      "text": "Calls in arrears are deducted from called-up capital, never added."
+    },
+    "title": "Your rule",
+    "line": "Your rule: Calls in arrears are deducted from called-up capital, never added.",
+    "result": "Share Capital in this mock: 9 right of 10 (last mock: 8 right of 10).",
+    "text": "Your rule: Calls in arrears are deducted from called-up capital, never added. Share Capital in this mock: 9 right of 10 (last mock: 8 right of 10).",
+    "numbers": {
+      "now": 9,
+      "total": 10,
+      "last": 8,
+      "lastTotal": 10
+    },
+    "fine": "Counted from your answers in this mock and the timed mock before it."
+  },
+  "not_checked": {
+    "version": 1,
+    "state": "not_checked",
+    "rule": {
+      "id": "habit:marked",
+      "kind": "habit",
+      "text": "Answer the questions you mark for review."
+    },
+    "title": "Your rule",
+    "line": "Your rule: answer the questions you mark for review.",
+    "result": "This mock's record has no marks for review, so this rule could not be checked.",
+    "text": "Your rule: answer the questions you mark for review. This mock's record has no marks for review, so this rule could not be checked.",
+    "numbers": null,
+    "fine": null
+  }
+}

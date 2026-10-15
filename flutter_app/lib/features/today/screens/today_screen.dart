@@ -7,10 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/auth/auth.dart' show LoadProblem;
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/theme/theme.dart' show MmBar;
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../rhythm/rhythm.dart';
 import '../data/today_providers.dart';
@@ -81,14 +83,48 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     }
   }
 
+  /// A read that fails at once (offline, refused) would flip the key back before the eye sees
+  /// it, so a tap looked dead. The key keeps its spinner at least this long.
+  static const _minTry = Duration(milliseconds: 900);
+
   Future<void> _retry() async {
     if (_retrying) return;
     setState(() => _retrying = true);
     try {
-      await ref.read(todayActionsProvider).refresh();
+      await Future.wait([ref.read(todayActionsProvider).refresh(), Future<void>.delayed(_minTry)]);
     } finally {
-      if (mounted) setState(() => _retrying = false);
+      if (mounted) {
+        setState(() => _retrying = false);
+        _sayIfStillFailing();
+      }
     }
+  }
+
+  /// After a Try again that changed nothing, say what failed in plain words, so the student
+  /// knows the tap worked and why the card is the same.
+  void _sayIfStillFailing() {
+    final hero = ref.read(todayViewProvider).hero;
+    final stillFailing = (hero is MoveHero && hero.primary.target is RetryLoad) || (hero is EndedHero && hero.action.target is RetryLoad);
+    if (!stillFailing) return;
+    final attempts = ref.read(attemptsRepositoryProvider);
+    final plan = ref.read(planRepositoryProvider(todayPlanMinutes));
+    final LoadProblem problem;
+    if (attempts.value == null && attempts.error != null) {
+      problem = LoadProblem.of(attempts.error);
+    } else if (plan.value?.recordUnavailable ?? false) {
+      problem = LoadProblem.record;
+    } else {
+      problem = LoadProblem.of(plan.error);
+    }
+    ScaffoldMessenger.maybeOf(context)
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text('Still not loading. ${problem.sentence} ${problem.advice}'),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 5),
+        // Above the dock, never under it.
+        margin: EdgeInsets.fromLTRB(16, 0, 16, MediaQuery.viewPaddingOf(context).bottom + MmBar.lift + MmBar.height + 12),
+      ));
   }
 
   void _action(TodayAction action) {
@@ -108,7 +144,12 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       final hero = ref.read(todayViewProvider).hero;
       if (hero is MoveHero && hero.art.isMobi) _mobi.play(MobiAct.hello);
       if (!_scroll.hasClients) return;
-      unawaited(_scroll.animateTo(0, duration: Motion.of(context, Motion.emphasizedDuration), curve: Motion.emphasized));
+      final glide = Motion.of(context, Motion.emphasizedDuration);
+      if (glide <= Duration.zero) {
+        _scroll.jumpTo(0);
+      } else {
+        unawaited(_scroll.animateTo(0, duration: glide, curve: Motion.emphasized));
+      }
     });
     final view = ref.watch(todayViewProvider);
     final hasEnding = ref.watch(weeklyEndingProvider) != null;
@@ -119,14 +160,22 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       mobiController: _mobi,
       insights: widget.insights,
       roadFooter: widget.roadFooter,
-      weeklyEnding: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (hasEnding) const Padding(padding: EdgeInsets.only(top: 12), child: WeeklyEndingSection()),
-          // The first repair and the first met week land here, directly under the ending card.
-          const TodayCelebration(),
-        ],
+      // "Last week" is the week that just closed (rhythm loads a moment after the hero), so it
+      // opens into place rather than appearing as a new section that shoves the page down (owner
+      // test 15 Oct: Home "added another section").
+      weeklyEnding: AnimatedSize(
+        duration: Motion.of(context, Motion.card),
+        curve: Motion.out,
+        alignment: Alignment.topCenter,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (hasEnding) const Padding(padding: EdgeInsets.only(top: 12), child: WeeklyEndingSection()),
+            // The first repair and the first met week land here, directly under the ending card.
+            const TodayCelebration(),
+          ],
+        ),
       ),
       callbacks: TodayCallbacks(
         onAction: _action,
@@ -137,7 +186,11 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
           unawaited(context.push(AppRoutes.todayWhy(id)));
         },
         onWeek: () => unawaited(context.push(AppRoutes.todayWeek)),
-        onChooseColleges: () => unawaited(context.push(AppRoutes.you)),
+        // The colleges editor itself (You, Your sheet), a page over the bar. Pushing the You tab's
+        // root from here stacked a second You inside Today's own branch: go_router keeps the shell
+        // match's navigator key on a push, so the bar still said Today and Back went nowhere useful
+        // (owner test 15 Oct).
+        onChooseColleges: () => unawaited(context.push(AppRoutes.youSheet)),
         onRefresh: () => ref.read(todayActionsProvider).refresh(),
       ),
     );

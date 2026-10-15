@@ -185,7 +185,8 @@ MoveHero buildMove(TodayInputs i) {
         overline: '',
         art: const HeroArt.mobi(MmArt.mobiThink),
         mobiLine: TodayCopy.unavailableTitle,
-        meaning: TodayCopy.unavailableLine,
+        // Offline, the card says why instead of a bare failure.
+        meaning: i.offline ? TodayCopy.unavailableOffline : TodayCopy.unavailableLine,
         summary: TodayCopy.unavailableLine,
         primary: const TodayAction(TodayCopy.tryAgain, RetryLoad()),
         secondary: const TodayAction(TodayCopy.choosePractice, GoTo(AppRoutes.practice)),

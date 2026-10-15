@@ -307,6 +307,27 @@ void main() {
     expect(_location(container), '/today');
   });
 
+  _test('back on Today asks for a second press before Android closes the app', (tester) async {
+    final container = await _pump(tester);
+    expect(_location(container), '/today');
+
+    final first = await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(first, isTrue, reason: 'one stray press never closes the app');
+    expect(_location(container), '/today');
+    expect(find.text('Press back again to close'), findsOneWidget);
+
+    final second = await tester.binding.handlePopRoute();
+    expect(second, isFalse, reason: 'the second press inside the window is left to Android, which closes the app');
+
+    // Past the window the next press only arms again.
+    await tester.pump(const Duration(seconds: 3));
+    final again = await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(again, isTrue);
+    expect(_location(container), '/today');
+  });
+
   _test('a sheet route opens over the shell and dismisses with back', (tester) async {
     final container = await _pump(tester);
     _router(container).push('/today/week');

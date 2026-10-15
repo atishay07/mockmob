@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "state": "ready",
+  "title": "Across your mocks",
+  "mocks": 4,
+  "message": null,
+  "basis": "From your device's record of 4 timed mocks, marked as each paper was scored.",
+  "lines": [
+    {
+      "id": "never_opened",
+      "subject": "accountancy",
+      "marks": 85,
+      "gated": false,
+      "text": "Never opened, last 3 Accountancy mocks, oldest first: 7, 6 and 4 of 50."
+    },
+    {
+      "id": "second_thoughts",
+      "subject": null,
+      "marks": 48,
+      "gated": false,
+      "text": "Across 4 timed mocks: 23 changes from one option to another. 9 wrong to right (+54), 8 right to wrong (−48), 6 between two wrong options (0). Net +6 marks."
+    },
+    {
+      "id": "changes_help",
+      "subject": null,
+      "marks": 48,
+      "gated": false,
+      "text": "Changed on a later visit: 5 of 11 helped. Changed without leaving the question: 4 of 12 helped."
+    }
+  ],
+  "more": [
+    {
+      "id": "last_ten",
+      "subject": null,
+      "marks": 36,
+      "gated": false,
+      "text": "Last 10 minutes, across 4 timed mocks: 15 right of 21 answered. First 50 minutes: 131 right of 153."
+    },
+    {
+      "id": "long_stays",
+      "subject": null,
+      "marks": 30,
+      "gated": false,
+      "text": "Across 4 timed mocks, 8 of 200 questions took 2 minutes or more. 3 of them were right."
+    }
+  ],
+  "showAll": "Show all 5",
+  "showFewer": "Show fewer"
+}

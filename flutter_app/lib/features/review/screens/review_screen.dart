@@ -10,8 +10,10 @@ import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
 import '../../../core/widgets/widgets.dart';
 import '../../insights/insights_routes.dart' show ReviewInsightsRows;
+import '../../rules/widgets/rules_entry.dart';
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
@@ -68,12 +70,12 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     // The offline line lives in the header row, which is tall enough for it: nothing below moves.
     final header = Padding(
       padding: const EdgeInsets.fromLTRB(ReviewSpace.gutter, MmSpace.s8, ReviewSpace.gutter, MmSpace.s16),
-      child: ReviewTabHeader(
+      child: AccountLeading(child: ReviewTabHeader(
         title: ReviewCopy.title,
         notice: attempts.isStale ? HeaderNotice.offline : null,
         // Ask answers from the record, so it lives here (DOCK.md 6), not on the bar or the Start sheet.
         onAsk: () => context.push(AppRoutes.ask),
-      ),
+      )),
     );
 
     Widget body;
@@ -232,6 +234,11 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
       if (index.blanks case final blanks?) item(belowAt, gutter(NotAttemptedGroup(group: blanks), top: ReviewSpace.group)),
       // The record's numbers and the saved questions (the website's analytics and saved pages).
       item(belowAt, gutter(const ReviewInsightsRows(), top: ReviewSpace.section)),
+      // The Rule book, under the record and the saved questions (Mistake Lab v4 slice 3).
+      item(
+        belowAt,
+        gutter(Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [Divider(height: 1, color: context.mmColors.line), const RulesEntry()])),
+      ),
       item(belowAt, gutter(SectionHeading(ReviewCopy.recordHeading, rule: true), top: ReviewSpace.section)),
       if (records.isEmpty)
         gutter(Text(ReviewCopy.recordPreviewEmpty, style: context.mmType.body.copyWith(color: context.mmColors.ink2)))

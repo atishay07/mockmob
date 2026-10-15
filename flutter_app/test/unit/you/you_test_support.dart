@@ -30,6 +30,8 @@ import 'package:mockmob/features/you/data/confidence_store.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
 import 'package:mockmob/features/you/data/subject_catalog.dart';
 import 'package:mockmob/features/you/you_providers.dart';
+import 'package:mockmob/core/models/lab_loop.dart' show RulesRead;
+import 'package:mockmob/features/rules/data/rules_data.dart' show rulesRepositoryProvider;
 import 'package:mocktail/mocktail.dart';
 
 const youUser = AuthSnapshot(
@@ -299,6 +301,7 @@ List<Override> youOverrides({
   StudentTarget? target,
   SubjectCatalog? catalog,
   String? version = '1.0.0 (1)',
+  RemoteState<RulesRead>? rules,
 }) {
 
   return [
@@ -324,6 +327,8 @@ List<Override> youOverrides({
     userIdProvider.overrideWithValue('u1'),
     studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
     appVersionProvider.overrideWith((ref) async => version),
+    // Across your mocks on the hub (Mistake Lab v4 slice 3): settled, no network.
+    rulesRepositoryProvider.overrideWithBuild((ref, n) => rules ?? const RemoteState()),
   ];
 }
 

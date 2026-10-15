@@ -299,6 +299,68 @@ void main() {
       expect(e.kind, ApiErrorKind.server);
     });
 
+    group('blocked: the server front door answered, not the API', () {
+      test('a 403 HTML challenge page is blocked, retryable and never definitive', () async {
+        http.replies.add(const FakeReply(403, '<html>Vercel Security Checkpoint</html>'));
+        final e = await errorOf(api.post('/api/attempts', body: {}));
+        expect(e.kind, ApiErrorKind.blocked);
+        expect(e.isBlocked, isTrue);
+        expect(e.isRetryable, isTrue);
+        expect(e.isDefinitiveRefusal, isFalse);
+        expect(e.message, ApiError.blockedMessage);
+        expect(e.message, "MockMob's server is not letting the app in just now. Your work is kept.");
+      });
+
+      test('x-vercel-mitigated marks a JSON-bodied 403 too', () async {
+        http.replies.add(const FakeReply(403, {'error': 'forbidden'}, {'x-vercel-mitigated': 'challenge'}));
+        final e = await errorOf(api.post('/api/attempts', body: {}));
+        expect(e.kind, ApiErrorKind.blocked);
+        expect(e.isDefinitiveRefusal, isFalse);
+      });
+
+      test('x-vercel-challenge-token marks a 429 as blocked, not a rate limit hold', () async {
+        http.replies.add(const FakeReply(429, '<html>challenge</html>', {'x-vercel-challenge-token': 'abc'}));
+        final e = await errorOf(api.post('/api/attempts', body: {}));
+        expect(e.kind, ApiErrorKind.blocked);
+        expect(api.heldFor('/api/attempts', method: 'POST'), isNull);
+      });
+
+      test('a 2xx carrying the Vercel header is not a success', () async {
+        http.replies.add(const FakeReply(200, {'ok': true}, {'x-vercel-mitigated': 'deny'}));
+        final e = await errorOf(api.get('/api/auth/me', options: const ApiOptions(retries: 0)));
+        expect(e.kind, ApiErrorKind.blocked);
+      });
+
+      test('a 404 page is blocked, but a 404 JSON is still not found', () async {
+        http.replies.add(const FakeReply(404, '<html>Not Found</html>'));
+        expect((await errorOf(api.get('/api/x', options: const ApiOptions(retries: 0)))).kind, ApiErrorKind.blocked);
+        http.replies.add(const FakeReply(404, {'error': 'not_found'}));
+        expect((await errorOf(api.get('/api/x', options: const ApiOptions(retries: 0)))).kind, ApiErrorKind.notFound);
+      });
+
+      test('a 401 page does not refresh the token or end the session', () async {
+        http.replies.add(const FakeReply(401, '<html>Authentication Required</html>'));
+        final e = await errorOf(api.get('/api/auth/me', options: const ApiOptions(retries: 0)));
+        expect(e.kind, ApiErrorKind.blocked);
+        expect(tokens.refreshCalls, 0);
+        expect(tokens.lostCalls, 0);
+      });
+
+      test('a 5xx page stays a server error and a real JSON 422 stays a refusal', () async {
+        http.replies.add(const FakeReply(502, '<html>Bad gateway</html>'));
+        expect((await errorOf(api.post('/api/x', body: {}))).kind, ApiErrorKind.server);
+        http.replies.add(const FakeReply(422, {'error': 'invalid_request'}));
+        final refusal = await errorOf(api.post('/api/x', body: {}));
+        expect(refusal.kind, ApiErrorKind.validation);
+        expect(refusal.isDefinitiveRefusal, isTrue);
+      });
+
+      test('an empty 4xx body is not taken for a block', () {
+        expect(ApiError.fromResponse(404, '').kind, ApiErrorKind.notFound);
+        expect(ApiError.fromResponse(400, null).kind, ApiErrorKind.validation);
+      });
+    });
+
     test('no response is a network error, a timeout is a timeout', () async {
       http.replies.add(const FakeReply.network());
       final e = await errorOf(api.post('/api/x', body: {}));

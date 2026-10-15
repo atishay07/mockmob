@@ -4,6 +4,7 @@ import '../../../core/domain/next_move.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../../core/widgets/art/mm_art.dart';
 import '../../rhythm/logic/plan_week.dart';
+import 'road_board.dart' show RoadBoard;
 
 /// Where a tap goes. The screen turns each into navigation or a refresh.
 sealed class TodayTarget {
@@ -317,7 +318,12 @@ class RoadModel {
     this.studyDays,
     this.goal,
     this.weekNeeds,
+    this.board,
   });
+
+  /// The student's own board under the road: their exam date, mocks, study days left and this
+  /// week, each tappable (road_board.dart).
+  final RoadBoard? board;
 
   /// Whole weeks to the start of the expected window (countdown only; 0 after it).
   final int weeks;

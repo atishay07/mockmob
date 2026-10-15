@@ -116,7 +116,8 @@ abstract final class TodayCopy {
   static const String practiceLength = 'How many questions?';
   /// The label on the error card: a failed read is not tonight's move.
   static const String unavailableTitle = 'Your earlier results are still there.';
-  static const String unavailableLine = 'Could not load a suggestion.';
+  static const String unavailableLine = 'Could not reach MockMob just now.';
+  static const String unavailableOffline = 'You are offline. Your record loads again when you reconnect.';
   static const String tryAgain = 'Try again';
   static const String choosePractice = 'Choose practice';
   static const String chooseSomethingElse = 'Choose something else';
@@ -264,6 +265,56 @@ abstract final class TodayCopy {
   static const String chooseColleges = 'Choose your colleges';
   static const String changeColleges = 'Change';
   static const String ladderEmpty = 'Pick up to three colleges and see where each one closed in Round 1, 2026.';
+
+  // The road board (owner test 15 Oct): the student's own tiles under the road.
+  static const String boardTitle = 'Your road';
+  static const String boardCaption = 'Tap a tile to see it or change it.';
+  static const String boardExpectedDate = 'Expected exam date';
+  static const String boardYourDate = 'Your exam date';
+  static String boardDaysLeft(int days) => days <= 0 ? 'Today' : (days < 14 ? '${plural(days, 'day')} to go' : '${days ~/ 7} weeks to go');
+  static const String boardMocks = 'Full mocks taken';
+  static const String boardNotRead = 'Not read yet';
+  static const String boardSetTarget = 'Tap to set a target';
+  static String boardOfTarget(int target) => 'of your target of $target';
+  static const String boardStudyDays = 'Study days left';
+  static const String boardNoGoal = 'Not set';
+  static const String boardSetDays = 'Set your study days';
+  static String boardAtGoal(int goal) => 'at $goal a week';
+  static const String boardThisWeek = 'This week';
+  static String boardStudyDaysWord(int n) => n == 1 ? 'study day' : 'study days';
+  static const String boardDateTitle = 'Your exam date';
+  static const String boardDateBody =
+      'NTA has not published the 2027 dates yet. CUET UG is expected in May 2027. Choose the day you are aiming for and your road counts to it.';
+  static const String boardDateInWindow = 'In the expected window';
+  static const String boardDateOther = 'Pick another day';
+  static const String boardDateReset = 'Count to the expected window';
+  static const String boardOnThisPhone = 'Saved on this phone.';
+  static const String boardMocksTitle = 'Full mocks';
+  static const String boardMocksUnread = 'Your record has not loaded yet, so the count is not shown.';
+  static String boardMocksSoFar(int n, DateTime? last) => n == 0 || last == null
+      ? 'No full mock on your record yet. The first one shows where you stand.'
+      : '${plural(n, 'full mock')} on your record. The last one was on ${formatDayMonth(last)}.';
+  static String boardTargetLabel(String date) => 'Your target by $date';
+  static const String boardFewer = 'One fewer';
+  static const String boardMore = 'One more';
+  static String boardTargetSemantics(int n) => 'Target, ${plural(n, 'full mock')}';
+  static const String boardTargetMet = 'Target reached. Anything more is extra.';
+  static String boardPace(int left, int weeks, int? every) =>
+      every == null || weeks < 1 ? '$left more to go.' : '$left more in ${plural(weeks, 'week')}, about one every ${plural(every, 'day')}.';
+  static const String boardSaveTarget = 'Save target';
+  static const String boardStartMock = 'Start a full mock';
+  static const String boardStudyDaysTitle = 'Study days left';
+  static String boardStudyDaysBody(int n, int goal, String date) =>
+      'At $goal study ${goal == 1 ? 'day' : 'days'} a week, you have about $n study days before $date.';
+  static const String boardStudyDaysNone = 'Choose how many days a week you study and your road counts the study days left.';
+  static const String boardBoardsCount = 'Board weeks, mid-February to early April, count two study days at most.';
+  static const String boardChangeDays = 'Change study days';
+  static String weeksToOwnDate(int weeks, String date) => '${weeks == 1 ? 'week' : 'weeks'} to your exam\ndate, $date';
+  static String daysToOwnDate(int days, String date) => '${days == 1 ? 'day' : 'days'} to your exam\ndate, $date';
+
+  /// The cue under the first screen that the road is further down (owner test 15 Oct: "something
+  /// in the UI should be leading them below").
+  static const String moreBelow = 'Your road to May';
 
   // Why this sheet.
   static const String whyTitle = 'Why this';

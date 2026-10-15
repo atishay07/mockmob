@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
@@ -12,6 +11,7 @@ import '../domain/du_combos.dart';
 import '../domain/du_eligibility.dart';
 import '../domain/du_models.dart';
 import '../tools_paths.dart';
+import '../widgets/tools_origin.dart';
 import '../widgets/tools_card.dart';
 import '../widgets/size_reveal.dart';
 
@@ -206,7 +206,8 @@ class _ComboCardState extends ConsumerState<ComboCard> {
       // Compass opens on its own load-failed state with Try again, and shows this
       // combination once it loads.
     }
-    if (context.mounted) await context.push(ToolsPaths.compass);
+    // Back to the Compass this plan was opened from, or a new one over the planner.
+    if (context.mounted) await ToolsOrigin.openOrReturn(context, to: ToolsPaths.compass, from: ToolsOrigin.combo);
   }
 }
 

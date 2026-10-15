@@ -3,13 +3,18 @@
 // the road to May. Pure layout: goldens render it from fixtures.
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/domain/next_move.dart' show NextMoveState;
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
@@ -113,6 +118,13 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     _heroBuilt = true;
   }
   final GlobalKey _stackKey = GlobalKey(debugLabel: 'today-stack');
+
+  /// The road to May, for the "more below" cue: it shows while the road is under the first
+  /// screen and the page has not been scrolled, and once the student scrolls it is gone for the
+  /// visit (owner test 15 Oct: "something in the UI should be leading them below").
+  final GlobalKey _roadKey = GlobalKey(debugLabel: 'today-road');
+  final ValueNotifier<bool> _moreCue = ValueNotifier(false);
+  bool _cueDone = false;
   ScrollController? _ownScroll;
   bool _measureQueued = false;
 
@@ -258,6 +270,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     _settleMobi?.cancel();
     _keyPulse.dispose();
     _entrance.dispose();
+    _moreCue.dispose();
     super.dispose();
   }
 
@@ -308,6 +321,65 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     if (_keyWasOff && !off && !Motion.reduced(context)) _keyPulse.forward(from: 0);
     _keyWasOff = off;
     _publish(off && hero is MoveHero ? _moveOf(hero) : null);
+    _judgeCue();
+  }
+
+  /// The cue shows only while the road is wholly below the first screen's bar line, nothing has
+  /// been scrolled, the hero has settled and no capsule stands above the bar.
+  void _judgeCue() {
+    if (_cueDone) {
+      _moreCue.value = false;
+      return;
+    }
+    if (_scroll.hasClients && _scroll.offset > 24) {
+      _cueDone = true;
+      _moreCue.value = false;
+      return;
+    }
+    if (widget.view.road == null || widget.view.hero == null || _published != null) {
+      _moreCue.value = false;
+      return;
+    }
+    final stack = _stackKey.currentContext?.findRenderObject();
+    final road = _roadKey.currentContext?.findRenderObject();
+    if (stack is! RenderBox || !stack.attached || !stack.hasSize) return;
+    var below = true;
+    if (road is RenderBox && road.attached && road.hasSize) {
+      final top = road.localToGlobal(Offset.zero, ancestor: stack).dy;
+      below = top > stack.size.height - _barTop - 24;
+    }
+    _moreCue.value = below;
+  }
+
+  /// The cue's tap: the page glides to the road's heading, just under the status bar.
+  Future<void> _toRoad() async {
+    _cueDone = true;
+    _moreCue.value = false;
+    if (!_scroll.hasClients) return;
+    final duration = Motion.of(context, Motion.emphasizedDuration);
+    final top = MediaQuery.paddingOf(context).top;
+    // A road far below may not be built yet: first bring it near, then settle on it.
+    if (_roadKey.currentContext == null) {
+      final p = _scroll.position;
+      await _glide(math.min(p.maxScrollExtent, p.pixels + p.viewportDimension * 0.8), duration, Motion.out);
+      // Without motion the jump is instant and nothing has been laid out yet: wait for the frame
+      // that builds the road, or the tap would stop short of it.
+      await WidgetsBinding.instance.endOfFrame;
+    }
+    final box = _roadKey.currentContext?.findRenderObject();
+    if (!mounted || box is! RenderBox || !_scroll.hasClients) return;
+    final reveal = RenderAbstractViewport.of(box).getOffsetToReveal(box, 0).offset - top - MmSpace.s8;
+    final p = _scroll.position;
+    await _glide(reveal.clamp(p.minScrollExtent, p.maxScrollExtent), duration, Motion.emphasized);
+  }
+
+  /// A glide, or a plain jump when motion is off (a scroll animation may not be zero length).
+  Future<void> _glide(double to, Duration duration, Curve curve) {
+    if (duration <= Duration.zero) {
+      _scroll.jumpTo(to);
+      return Future<void>.value();
+    }
+    return _scroll.animateTo(to, duration: duration, curve: curve);
   }
 
   /// Where the primary key is right now (global), or null when it is not laid out: the capsule
@@ -318,8 +390,15 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     return box.localToGlobal(Offset.zero) & box.size;
   }
 
+  /// Only a real move rides the bar as tonight's move: one whose key opens something. The error
+  /// card (Try again) is not a move, and as a capsule it read as
+  /// a suggestion with a Start key that only re-ran the failed read (owner test 15 Oct: "I'm
+  /// clicking Start, nothing is happening").
   bool _pinnable(TodayHero? hero) =>
-      hero is MoveHero && !(widget.view.offline && hero.primary.startsSession) && !(widget.retrying && hero.primary.target is RetryLoad);
+      hero is MoveHero &&
+      hero.state != NextMoveState.historyUnavailable &&
+      hero.primary.target is GoTo &&
+      !(widget.view.offline && hero.primary.startsSession);
 
   /// "Accountancy repair, 15 min", starting the same action as the card's key.
   BarMove _moveOf(MoveHero hero) {
@@ -451,7 +530,13 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         const SizedBox(height: MmSpace.group),
         TodayEnter(
           delay: const Duration(milliseconds: 300),
-          child: RoadSection(road: view.road!, onChooseColleges: callbacks.onChooseColleges),
+          child: RoadSection(
+            key: _roadKey,
+            road: view.road!,
+            onChooseColleges: callbacks.onChooseColleges,
+            onWeek: callbacks.onWeek,
+            onOpen: callbacks.onTarget,
+          ),
         ),
         if (roadFooter != null) ...[const SizedBox(height: MmSpace.s16), roadFooter],
       ],
@@ -505,9 +590,173 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
                     ),
             ),
           ),
+          // A stronger veil under the status bar than the shell's tint alone (owner test 15 Oct:
+          // "it can be made a bit stronger"): the page blurs as it passes under the clock.
+          if (padding.top > 0)
+            Positioned(left: 0, right: 0, top: 0, height: padding.top + 20, child: IgnorePointer(child: TodayTopVeil(solidTo: padding.top))),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: (_bar != null ? _barTop : padding.bottom) + MmSpace.s12,
+            // At the right edge, a round key: it never sits over a key or a line of the hero's own.
+            child: Padding(
+              padding: const EdgeInsets.only(right: MmSpace.gutter),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _moreCue,
+                  builder: (context, shown, _) => MoreBelowCue(shown: shown, onTap: _toRoad),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
+}
+
+/// The page under the status bar: a blur that is full under the clock and fades out over the
+/// next 20 dp, with the ground's tint over it. Lite and Off glass keep a denser tint, no blur.
+class TodayTopVeil extends StatelessWidget {
+  const TodayTopVeil({super.key, required this.solidTo});
+
+  final double solidTo;
+
+  @override
+  Widget build(BuildContext context) {
+    final ground = context.mmColors.ground;
+    final blur = GlassScope.of(context) == GlassQuality.full;
+    final tint = LayoutBuilder(
+      builder: (context, box) {
+        final stop = box.maxHeight <= 0 ? 0.0 : (solidTo / box.maxHeight).clamp(0.0, 1.0);
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [0, stop, 1],
+              colors: [ground.withValues(alpha: blur ? 0.72 : 0.94), ground.withValues(alpha: blur ? 0.6 : 0.82), ground.withValues(alpha: 0)],
+            ),
+          ),
+        );
+      },
+    );
+    if (!blur) return tint;
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        // Full blur to the bottom of the status bar, then a lighter band, so the edge is soft.
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          height: solidTo,
+          child: ClipRect(child: BackdropFilter(filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14), child: const SizedBox.expand())),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: solidTo,
+          bottom: 8,
+          child: ClipRect(child: BackdropFilter(filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5), child: const SizedBox.expand())),
+        ),
+        tint,
+      ],
+    );
+  }
+}
+
+/// A round down chevron (named "Your road to May" for screen readers), just above the bar, while the road is still below the first
+/// screen. It bobs gently three times when it arrives (not under reduced motion), fades away once
+/// the page is scrolled, and its tap glides the page to the road. The key is 48 dp round.
+class MoreBelowCue extends StatefulWidget {
+  const MoreBelowCue({super.key, required this.shown, required this.onTap});
+
+  final bool shown;
+  final VoidCallback onTap;
+
+  @override
+  State<MoreBelowCue> createState() => _MoreBelowCueState();
+}
+
+class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderStateMixin {
+  late final AnimationController _bob = AnimationController(vsync: this, duration: const Duration(milliseconds: 1400));
+  int _bobs = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _bob.addStatusListener((status) {
+      if (status != AnimationStatus.completed || !mounted) return;
+      if (++_bobs < 3 && widget.shown) _bob.forward(from: 0);
+    });
+    if (widget.shown) WidgetsBinding.instance.addPostFrameCallback((_) => _start());
+  }
+
+  void _start() {
+    if (!mounted || Motion.reduced(context) || _bob.isAnimating) return;
+    _bobs = 0;
+    _bob.forward(from: 0);
+  }
+
+  @override
+  void didUpdateWidget(MoreBelowCue old) {
+    super.didUpdateWidget(old);
+    if (widget.shown && !old.shown) _start();
+    if (!widget.shown) _bob.stop();
+  }
+
+  @override
+  void dispose() {
+    _bob.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final shown = widget.shown;
+    return IgnorePointer(
+      ignoring: !shown,
+      child: AnimatedOpacity(
+        opacity: shown ? 1 : 0,
+        duration: Motion.of(context, shown ? Motion.card : const Duration(milliseconds: 160)),
+        curve: Motion.out,
+        child: AnimatedSlide(
+          offset: shown ? Offset.zero : const Offset(0, 0.25),
+          duration: Motion.of(context, Motion.card),
+          curve: Motion.out,
+          child: Semantics(
+            button: true,
+            label: TodayCopy.moreBelow,
+            excludeSemantics: true,
+            child: MmPressable(
+              onTap: widget.onTap,
+              builder: (context, pressed, focused) => Container(
+                width: 48,
+                height: 48,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: colors.ground,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: colors.lineStrong),
+                ),
+                child: AnimatedBuilder(
+                  animation: _bob,
+                  builder: (context, child) {
+                    // One soft drop and return per bob.
+                    final y = math.sin(_bob.value * math.pi) * 4;
+                    return Transform.translate(offset: Offset(0, y), child: child);
+                  },
+                  child: Icon(LucideIcons.chevronDown, size: 22, color: colors.isNight ? colors.volt : colors.accentText),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

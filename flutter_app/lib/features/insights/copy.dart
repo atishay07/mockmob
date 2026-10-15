@@ -285,22 +285,84 @@ abstract final class InsightsCopy {
   static const askHint = 'Ask a question';
   static const askSend = 'Send';
   static const askSending = 'Sending';
-  static String askCostLine(int? balance) =>
-      balance == null ? 'Other questions use 1 AI credit.' : 'Other questions use 1 AI credit. You have $balance.';
   static const askPausedLine = 'AI replies are paused just now. Questions about your record still work.';
+
+  // The AI credit wallet, in the website's words where it has them (MockMobAIHub, pricing/prepos):
+  // 10 a month on Free, 50 on Pro, purchased credits never expire, a failed reply costs nothing.
+  static String aiCredits(int n) => n == 1 ? '1 AI credit' : '$n AI credits';
+  static String credits(int n) => n == 1 ? '1 credit' : '$n credits';
+
+  /// Under the field, before anything is sent: what the question in the field will cost.
+  static String askNoteIdle(int? balance) => balance == null
+      ? 'Questions about your record are free. Others use 1 AI credit.'
+      : 'Questions about your record are free. Others use 1 of your ${aiCredits(balance)}.';
+  static const askNoteFree = 'Free. Mobi answers this from your record.';
+  static String askNoteCost(int? balance) => switch (balance) {
+        null => 'Uses 1 AI credit',
+        1 => 'Uses your last AI credit',
+        final n => 'Uses 1 of your $n AI credits',
+      };
+  static String askNoteEmpty(String renew) => 'No AI credits left. They renew on $renew. Questions about your record stay free.';
+
+  // The balance in the header, and the sheet it opens.
+  static const walletPillUnknown = 'Credits';
+  static const walletPillPaused = 'Paused';
+  static String walletPillLabel(int? balance, {bool paused = false}) => paused
+      ? 'AI replies paused. Credit details'
+      : balance == null
+          ? 'AI credits. Credit details'
+          : '${aiCredits(balance)}. Credit details';
+  static const walletTitle = 'Your AI credits';
+  static const walletUnknown = 'Your credits could not be read just now. Nothing has been charged.';
+  static const walletPaused = 'AI replies are paused just now. Your credits have not been used.';
+  static const walletIncluded = 'Included this month';
+  static String walletIncludedValue(int left, int of) => '$left of $of left';
+  static const walletPurchased = 'Purchased, never expire';
+  static const walletRenews = 'Renews';
+  static const walletRenewNote = 'Unused included credits do not carry over.';
+  static const walletHow = 'How Ask uses credits';
+  static const walletHowRecord = 'Questions about your record are free.';
+  static const walletHowModel = 'Other questions use 1 credit for a written reply.';
+  static const walletHowFailed = 'A reply that fails costs nothing; the credit returns automatically.';
+  static const walletAllowance = '10 credits a month on Free, 50 on Pro. Separate from practice credits.';
+  static const walletHistory = 'Used in this conversation';
+  static const walletHistoryEmpty = 'Nothing yet. Questions about your record never use a credit.';
+  static const creditDetails = 'Credit details';
+  static const outTitle = 'No AI credits left this month';
+  static String outBody(String renew) => 'They renew on $renew. Questions about your record stay free.';
+  static const outPro = 'Pro includes 50 AI credits a month.';
+
+  /// What a reply cost, as the server reported it.
+  static String chargedLine(int? charged, int? left) => switch (charged) {
+        null => 'Check your credits for the final charge',
+        0 => 'No credit used',
+        final n => left == null ? '${credits(n)} used' : '${credits(n)} used. $left left',
+      };
   static const originPhone = 'From your record. No credits used.';
-  static const originModel = 'MockMob AI. 1 credit used.';
+  static String originModel(int? charged, int? left) => 'MockMob AI. ${chargedLine(charged, left)}.';
   static const originPaused = 'AI replies are paused. No credits used.';
-  static const failOffline = 'You are offline. Nothing was sent or charged.';
-  static String failNoCredits(int? balance) =>
-      'That needs 1 AI credit${balance == null ? '' : ' and you have $balance'}. Questions about your record are free.';
-  static const failPaused = 'AI replies are paused just now. Nothing was charged.';
-  static const failResend = 'That did not go through and nothing was charged. Send it again.';
+
+  // Why a question got no reply (the server's codes, in plain words), then what it cost.
+  static const failOffline = 'You are offline. Send it again when you are back.';
+  static String failNoCredits(int? balance, String renew) => balance == null
+      ? 'That needs 1 AI credit. Yours renew on $renew. Questions about your record stay free.'
+      : 'That needs 1 AI credit and you have $balance. They renew on $renew. Questions about your record stay free.';
+  static const failPaused = 'AI replies are paused just now. Questions about your record still work.';
+  static const failResend = 'That did not go through. Send it again.';
   static const failRate = 'That is a lot of questions in a minute. Wait a moment, then send again.';
   static const failTooLong = 'That is too long. Keep it under 1,500 characters.';
-  static const failUnavailable = 'MockMob could not answer just now. Nothing was charged.';
-  static const failInterrupted = 'That question was cut off. Send it again. If it was already answered, you will not be charged twice.';
+  static const failUnavailable = 'Mobi could not write a reliable reply just now. Try again in a little while.';
+  static const failInProgress = 'That reply is still being written. Send again in a moment.';
+  static const failAlreadyAnswered = 'That question was answered once already, but the reply did not reach this phone. Asking again uses 1 more credit.';
+  static String failBudget(String renew) => 'AI replies are paused until $renew. Questions about your record still work.';
+  static const failWallet = 'MockMob could not reach your credits. Try again.';
+  static const failInterrupted = 'That question was cut off. Send it again.';
+  static const creditNone = 'No credit used';
+  static const creditHeld = 'Your credit is held briefly and returns automatically';
+  static const creditNotTwice = 'A question is never charged twice';
+  static const creditNoMore = 'Nothing more was charged';
   static const sendAgain = 'Send again';
+  static const askAgain = 'Ask again';
 
   // AI replies: a plain caveat, a way to report, and a one-time notice before the first send.
   static const aiCaveat = 'AI wrote this and can be wrong. Check it against your record.';

@@ -3,11 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/domain/domain.dart';
-import '../../../core/models/models.dart' show MistakeLab;
+import '../../../core/models/models.dart' show MistakeLab, RepairOrder, RepairOrderItem;
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rules/widgets/rules_entry.dart';
 import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/answer_items.dart';
@@ -56,13 +57,31 @@ Widget whereSection(
   );
 }
 
-/// The first thing to fix, from the observed chapter breakdown, with the repair key. Null when
-/// there is nothing to fix.
-Widget? firstFixSection(BuildContext context, RecapModel m) {
+/// The first wrong answer the repair order leads with (Mistake Lab v4 slice 3, spec 4.7): one most
+/// other students got right, or a common trap, that is still open to repair here, with the run
+/// it starts (that question, then the rest of its chapter). Null when the order is the paper's
+/// own or no led question can be repaired: the key then stays today's.
+(RepairOrderItem, RepairKeyScope)? cohortLead(RecapModel m, RepairOrder? order) {
+  if (order == null || !order.isCohort) return null;
+  for (final item in order.items) {
+    if (!item.isLed) continue;
+    final scope = RepairCandidates.scopeOf(m.candidates, startQuestionId: item.qid);
+    if (scope != null) return (item, scope);
+  }
+  return null;
+}
+
+/// The first thing to fix, from the observed chapter breakdown, with the repair key: the Lab's
+/// Repair step. When the server's repair order is led by how other students answered, the key
+/// says which question to repair first and the line under it says why, in the website's words.
+/// Under it, the way into the Rule book. Null when there is nothing to fix.
+Widget? firstFixSection(BuildContext context, RecapModel m, {MistakeLab? lab}) {
   final leader = m.chapters.leader;
   final colors = context.mmColors;
   final type = context.mmType;
   if (leader == null && m.candidates.isEmpty) return null;
+  final lead = cohortLead(m, lab?.repairOrder);
+  final rules = lab?.rules;
   return MmSection(
     title: ResultCopy.sectionFirstFix,
     child: Column(
@@ -79,7 +98,24 @@ Widget? firstFixSection(BuildContext context, RecapModel m) {
           ),
         ] else
           Text(ResultCopy.wrongByNumber(m.chapters.wrongNumbers.length), style: type.body.copyWith(color: colors.ink2)),
-        if (RepairCandidates.scopeOf(m.candidates) case final scope?) ...[
+        if (lead case (final item, final scope)) ...[
+          const SizedBox(height: MmSpace.s16),
+          // "Repair Q12 first": the run starts on the question most other students got right.
+          KeyButton(
+            label: item.key!,
+            semanticsLabel: '${item.key}. ${item.line} ${RepairCandidates.describe(scope)}',
+            onPressed: () => context.go(
+              Uri(
+                path: AppRoutes.reviewRepair(m.attemptId, item.qid),
+                queryParameters: {'count': '${scope.count}', 'minutes': '${scope.minutes}'},
+              ).toString(),
+            ),
+          ),
+          const SizedBox(height: MmSpace.s8),
+          Text(item.line!, style: type.small.copyWith(color: colors.ink)),
+          const SizedBox(height: MmSpace.s2),
+          Text(RepairCandidates.describe(scope), style: type.small.copyWith(color: colors.ink2)),
+        ] else if (RepairCandidates.scopeOf(m.candidates) case final scope?) ...[
           const SizedBox(height: MmSpace.s16),
           // The key says exactly what opens: the count, the chapter and the time of the run the link
           // starts (the same words as the recap's last card and Today).
@@ -90,6 +126,12 @@ Widget? firstFixSection(BuildContext context, RecapModel m) {
           ),
           const SizedBox(height: MmSpace.s8),
           Text(RepairCandidates.describe(scope), style: type.small.copyWith(color: colors.ink2)),
+        ],
+        // The Rule book: every rule from the student's repairs and from how they take papers.
+        if (rules != null) ...[
+          const SizedBox(height: MmSpace.s12),
+          Divider(height: 1, thickness: 1, color: colors.line),
+          LabRulesLink(countLabel: rules.countLabel, activeRule: rules.active?.text),
         ],
       ],
     ),

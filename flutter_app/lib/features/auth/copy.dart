@@ -1,5 +1,6 @@
 // Every user-facing string of the auth feature (spec 5.2). Sentence case, no middle dots, no
 // emoji, no exclamation successes, no arrows on keys.
+import '../../core/auth/auth.dart' show LoadProblem;
 import 'sign_in_state.dart';
 
 abstract final class AuthCopy {
@@ -24,6 +25,18 @@ abstract final class AuthCopy {
   // The account could not be opened at launch (not a sign-out).
   static const String loadFailedTitle = 'We could not open your account';
   static const String loadFailedBody = 'Your work is still on this phone.';
+
+  /// What failed and what to do, then that nothing was lost. Without a known cause, only the
+  /// reassurance.
+  static String loadFailedMessage(LoadProblem? problem, {bool triedAgain = false}) {
+    final lines = [
+      if (triedAgain) 'We tried again. It still did not load.',
+      if (problem != null) '${problem.sentence} ${problem.advice}',
+      loadFailedBody,
+    ];
+    return lines.join('\n');
+  }
+
   static const String tryAgain = 'Try again';
   static const String tryingAgain = 'Trying again';
   static const String signOut = 'Sign out';

@@ -65,6 +65,36 @@ void main() {
     expect(await repo.pending(), isEmpty);
   });
 
+  test('a blocked reply (a firewall page) keeps the write, backs off, and stops the flush', () async {
+    await add();
+    await add(body: {'requestKey': 'rk-000000000002'});
+    http.replies.add(const FakeReply(403, '<html>Vercel Security Checkpoint</html>'));
+    final results = await flusher.flush();
+    expect(results.single.kind, OutboxResultKind.retryLater);
+    expect(results.single.error!.isBlocked, isTrue);
+    expect(http.requests.length, 1);
+    final items = await repo.pending();
+    expect(items.length, 2);
+    expect(items.first.attempts, 1);
+    expect(items.first.lastErrorCode, 'blocked');
+    expect(await repo.due(), hasLength(1));
+    now = now.add(const Duration(minutes: 2));
+    http.replies
+      ..add(const FakeReply(200, {'ok': true}))
+      ..add(const FakeReply(200, {'ok': true}));
+    final retried = await flusher.flush();
+    expect(retried.map((r) => r.kind), [OutboxResultKind.sent, OutboxResultKind.sent]);
+    expect(await repo.pending(), isEmpty);
+  });
+
+  test('a challenge header on a JSON 403 does not drop the write either', () async {
+    await add();
+    http.replies.add(const FakeReply(403, {'error': 'forbidden'}, {'x-vercel-mitigated': 'challenge'}));
+    final results = await flusher.flush();
+    expect(results.single.kind, OutboxResultKind.retryLater);
+    expect(await repo.pending(), hasLength(1));
+  });
+
   test('a 5xx keeps the item with a back-off, and it is not due until then', () async {
     await add();
     http.replies.add(const FakeReply(503, {'error': 'unavailable'}));

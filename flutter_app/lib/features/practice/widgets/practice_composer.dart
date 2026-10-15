@@ -316,6 +316,10 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         // On the setup page the paper flies on into the start screen (and back from it).
         heroTag: widget.pinKey ? ComposerTicket.pageHeroTag : null,
         tear: _c.tear,
+        // A Full mock's own start: the stopwatch under the stub runs a full turn as it tears.
+        clock: mode == PracticeMode.full,
+        // NTA mode's own: the exam sheet slides up where the stub was and the NTA mark settles.
+        examSheet: mode == PracticeMode.nta,
       ),
       const SizedBox(height: MmSpace.s16),
       if (widget.showSubjects) ...[
@@ -382,7 +386,10 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
           show: !start.gated,
           child: Padding(
             padding: const EdgeInsets.only(top: MmSpace.s16),
-            child: MockLines(noLength: loaded != null && loaded.launchable && start.mockMinutes == null),
+            child: MockLines(
+              noLength: loaded != null && loaded.launchable && start.mockMinutes == null,
+              subject: internalSubjectFor(_selection.subjectId, catalog),
+            ),
           ),
         ),
       if (!mode.isMock) ...[
@@ -473,8 +480,10 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
     if (!mounted) return;
     switch (result) {
       case LaunchStarted(:final sessionId):
-        // Only now, with the server's yes: the stub tears off, the key inks to a check, and the
-        // sheet lets go once that has been seen (nothing waits under reduced motion).
+        // Only now, with the server's yes: the stub tears off (a Full mock's stopwatch runs its
+        // turn under it), the key says Starting, and the sheet lets go once that has been seen,
+        // inside the same hold as before (nothing waits under reduced motion). The key's
+        // `leading` check is not drawn: KeyButton paints a leading on option keys only.
         ref.read(hapticsProvider).medium();
         _c.update(() => _c.tear = TicketTear.torn);
         if (!Motion.reduced(context)) await Future<void>.delayed(tearHold);

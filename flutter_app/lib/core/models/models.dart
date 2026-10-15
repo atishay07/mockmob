@@ -6,6 +6,7 @@ export 'attempt.dart';
 export 'auth_me.dart';
 export 'consent.dart';
 export 'json_helpers.dart' show Json;
+export 'lab_loop.dart';
 export 'learning_plan.dart';
 export 'mistake_insights.dart';
 export 'mistake_lab.dart';

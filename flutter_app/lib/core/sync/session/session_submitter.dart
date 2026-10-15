@@ -140,9 +140,11 @@ class SessionSubmitter {
       if (e.hasCode(ApiCodes.sessionExpired) || e.hasCode(ApiCodes.sessionAlreadySubmitted)) {
         return _afterExpiry(current);
       }
-      // Offline, slow, busy, signed out, or a failure the app cannot name: the submit is still
-      // owed and the answers stay on the phone. Only a clear refusal ends it.
-      if (!e.isDefinitiveRefusal) return SubmitPending(e);
+      // Offline, slow, busy, signed out, turned away by the server's front door
+      // (ApiErrorKind.blocked: a firewall page, not the API's answer), or a failure the app
+      // cannot name: the submit is still owed and the answers stay on the phone. Only a clear
+      // refusal ends it.
+      if (e.isBlocked || !e.isDefinitiveRefusal) return SubmitPending(e);
       // Retrying cannot help. Clear the pending flag so the draft is not "being sent" forever
       // and the student has a way out.
       await _tryDraftSave(current.copyWith(pendingSubmission: false, rejected: true));

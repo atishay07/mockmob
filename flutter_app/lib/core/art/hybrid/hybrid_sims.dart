@@ -204,6 +204,10 @@ enum StopwatchMode {
 
   /// Both hands go to 12 with a small bounce.
   done,
+
+  /// The start of a timed paper: the long hand runs one full turn round the dial and lands on
+  /// the 12 it left from while the small hand holds ([StopwatchSim.lap]).
+  lap,
 }
 
 /// Two stopwatch hands: the long one steps round to one position per stage with an eased sweep,
@@ -281,6 +285,26 @@ class StopwatchSim {
     _start = now;
   }
 
+  /// One full turn of the long hand from where it stands, from [now], over [lapDuration] on a
+  /// fast-out, gentle-in curve, so it whips away and lands softly on the same place one turn on.
+  /// The small hand holds: the paper starts from zero.
+  void lap(double now) {
+    _longFrom = longAt(now);
+    _shortFrom = shortAt(now);
+    _longTo = _longFrom + turn;
+    _shortTo = _shortFrom;
+    _mode = StopwatchMode.lap;
+    _start = now;
+    _longSpring = null;
+    _shortSpring = null;
+  }
+
+  /// How long a [lap] takes, in seconds. It lands inside the 260 ms the ticket holds after the
+  /// server's yes, give or take the last few degrees, so it never holds the paper back.
+  static const double lapDuration = 0.3;
+
+  double _lapEased(double t) => const Cubic(0.3, 0, 0.12, 1).transform(((t - _start) / lapDuration).clamp(0.0, 1.0));
+
   /// Puts the hands at a pose at once (reduced motion, first frame).
   void jump({required double long, required double short, StopwatchMode mode = StopwatchMode.stages}) {
     _longFrom = _longTo = long;
@@ -306,6 +330,8 @@ class StopwatchSim {
       case StopwatchMode.done:
         final s = _longSpring;
         return s == null || s.isDone(dt) ? _longTo : s.x(dt);
+      case StopwatchMode.lap:
+        return _longFrom + (_longTo - _longFrom) * _lapEased(t);
     }
   }
 
@@ -319,6 +345,8 @@ class StopwatchSim {
       case StopwatchMode.done:
         final s = _shortSpring;
         return s == null || s.isDone(dt) ? _shortTo : s.x(dt);
+      case StopwatchMode.lap:
+        return _shortFrom + (_shortTo - _shortFrom) * _lapEased(t);
     }
   }
 
@@ -328,6 +356,7 @@ class StopwatchSim {
       StopwatchMode.stages => dt >= sweep,
       StopwatchMode.running => false,
       StopwatchMode.done => (_longSpring?.isDone(dt) ?? true) && (_shortSpring?.isDone(dt) ?? true),
+      StopwatchMode.lap => dt >= lapDuration,
     };
   }
 }

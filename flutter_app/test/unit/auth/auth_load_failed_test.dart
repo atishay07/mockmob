@@ -24,6 +24,15 @@ class _RetryAuth extends AuthController {
   Future<void> retryStart() async => retries++;
 }
 
+class _OfflineAuth extends _RetryAuth {
+  @override
+  AuthSnapshot build() => const AuthSnapshot(
+    status: AuthStatus.unknown,
+    loadFailed: true,
+    loadProblem: LoadProblem.offline,
+  );
+}
+
 class _RetryingAuth extends _RetryAuth {
   @override
   AuthSnapshot build() => const AuthSnapshot(
@@ -81,6 +90,42 @@ void main() {
       await tester.tap(find.text(AuthCopy.tryAgain));
       await tester.pump();
       expect(auth.retries, 1);
+    },
+  );
+
+  testWidgets(
+    'names what failed, keeps the spinner long enough to see, then says it tried again',
+    (tester) async {
+      final auth = _OfflineAuth();
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [authSnapshotProvider.overrideWith(() => auth)],
+          child: MaterialApp(
+            theme: buildTheme(Brightness.light),
+            home: const AuthLoadFailedScreen(),
+          ),
+        ),
+      );
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(
+        find.text(AuthCopy.loadFailedMessage(LoadProblem.offline)),
+        findsOneWidget,
+      );
+
+      await tester.tap(find.text(AuthCopy.tryAgain));
+      await tester.pump();
+      expect(auth.retries, 1);
+      // The retry failed at once, but the key still shows that it is trying.
+      expect(find.text(AuthCopy.tryingAgain), findsOneWidget);
+
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.text(AuthCopy.tryAgain), findsOneWidget);
+      expect(
+        find.text(
+          AuthCopy.loadFailedMessage(LoadProblem.offline, triedAgain: true),
+        ),
+        findsOneWidget,
+      );
     },
   );
 

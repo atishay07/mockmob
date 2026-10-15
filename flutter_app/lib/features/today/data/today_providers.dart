@@ -20,6 +20,7 @@ import '../logic/today_builder.dart';
 import '../logic/today_clock.dart';
 import '../logic/today_inputs.dart';
 import '../logic/today_model.dart';
+import 'road_plan.dart';
 import 'today_profile.dart';
 
 /// The plan Today reads. The client builds the card from the record, so the plan is used for
@@ -263,6 +264,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     profile: ref.watch(todayProfileProvider),
     offline: ref.watch(networkStatusProvider) == NetworkStatus.offline,
     selectedMinutes: ref.watch(todayMinutesProvider),
+    roadPlan: ref.watch(roadPlanProvider),
   );
 });
 
