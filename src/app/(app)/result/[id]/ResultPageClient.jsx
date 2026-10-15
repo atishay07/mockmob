@@ -16,6 +16,7 @@ import RepairEnding from '@/components/recovery/RepairEnding';
 import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as retryIdsOf, earlierMisses, earlierMissLine } from '@/components/recovery/repairRun';
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
+import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data/time_decisions';
 import { AppIcon } from '@/components/ui/Glyph';
 import MobiReact from '@/components/brand/MobiReact';
 import ReaderMobi from '@/components/brand/ReaderMobi';
@@ -98,6 +99,8 @@ export default function ResultPageClient({ previewId = null }) {
   }, [id, retry]);
 
   const analysis = useMemo(() => attempt ? analyseSession(attempt) : null, [attempt]);
+  // Time and decisions: the Lab's Find step and each answer's "Your time and picks" read the same object.
+  const timeRead = useMemo(() => attempt ? buildTimeDecisions(attempt, { answerReviews: attempt.answerReviews || {} }) : null, [attempt]);
   const visible = useMemo(() => analysis ? analysis.rows.filter(r => filter === 'all' || r.verdict === filter) : [], [analysis, filter]);
 
   // The run is the paper's mistakes that repair could open when the result loaded (a key held later stays in it, as a set-aside segment).
@@ -288,8 +291,8 @@ export default function ResultPageClient({ previewId = null }) {
       {/* ---------- 2. After this mock: Do these next and the SWOT (Full and NTA mocks; server-built, free) ---------- */}
       <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} />
 
-      {/* ---------- 3. Score Recovery Lab (its Find step is left out while the SWOT shows) ---------- */}
-      <ScoreRecoveryLab attempt={attempt} analysis={analysis} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} hideFind={attempt.swot?.state === 'ready'} />
+      {/* ---------- 3. Score Recovery Lab: Find (time and decisions; chapters only without the SWOT), Repair, Prove ---------- */}
+      <ScoreRecoveryLab attempt={attempt} analysis={analysis} timeRead={timeRead} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} swotShown={attempt.swot?.state === 'ready'} />
 
       <KeyReviewLog items={keyReviews} onJump={jumpTo} />
       {attempt.answerReviewState === 'unavailable' ? <p className="rp-alert" role="status">Current answer-key checks could not load. The options below show the key used in your original session.</p> : null}
@@ -325,6 +328,11 @@ export default function ResultPageClient({ previewId = null }) {
             const given = d?.givenIndex;
             const isWrong = verdict === 'wrong';
             const review = attempt.answerReviews?.[q.id];
+            // This answer's own time and picks; the repair below then leaves out its own change and time lines.
+            const timeRow = timeRead?.state === 'ready' ? timeRead.rows[row.index] : null;
+            const rowMs = timeRow ? (timeRow.ms >= TIME_RULES.minTimedMs ? timeRow.ms : null) : row.ms;
+            const insights = attempt.mistakeInsights?.[q.id] ?? null;
+            const repairInsights = insights && timeRow?.lines.length ? { ...insights, lines: (insights.lines || []).filter(l => l?.kind !== 'change' && l?.kind !== 'time') } : insights;
             return (
               <li key={q.id} id={`q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
                 {arrived?.number === number ? <span key={arrived.n} className="rp-q__ring" aria-hidden="true" /> : null}
@@ -335,7 +343,7 @@ export default function ResultPageClient({ previewId = null }) {
                     <span className="rp-q__meta">
                       <span data-verdict={verdict}>{review ? 'Recorded: ' : ''}{verdict === 'correct' ? 'Right +5' : isWrong ? 'Wrong −1' : 'Blank 0'}</span>
                       <span>{row.chapter}</span>
-                      {Number.isFinite(row.ms) ? <span>{formatDuration(row.ms)}</span> : null}
+                      {Number.isFinite(rowMs) ? <span>{timeRow ? spentLabel(rowMs / 1000) : formatDuration(rowMs)}</span> : null}
                       {row.changed ? <span>Answer changed</span> : null}
                       {earlierMisses(attempt, q.id).length ? <span data-kind="twice">{RUN_COPY.missedTimes(earlierMisses(attempt, q.id).length + 1)}</span> : null}
                       {repairLabel(repairOutcomes[q.id]) ? <span data-verdict={hasExplanation(repairOutcomes[q.id]) ? "repaired" : "held"}>{repairLabel(repairOutcomes[q.id])}</span> : null}
@@ -358,6 +366,12 @@ export default function ResultPageClient({ previewId = null }) {
                         );
                       })}
                     </ul>
+                    {timeRow?.lines.length ? (
+                      <div className="rp-td">
+                        <p className="rp-td__label">{TIME_COPY.rowLabel}</p>
+                        {timeRow.lines.map((line, i) => <p key={i}>{line}</p>)}
+                      </div>
+                    ) : null}
                     {q.explanation && !review ? (
                       isWrong ? (
                         <details className="rp-expl"><summary>Book explanation</summary><p>{displayValue(q.explanation)}</p></details>
@@ -366,7 +380,7 @@ export default function ResultPageClient({ previewId = null }) {
                     {isWrong && Number.isInteger(given) ? (
                       <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
                         autoStart={autoRepair === q.id} onSettled={settled} initialReview={review} onReview={reviewReceived}
-                        insights={attempt.mistakeInsights?.[q.id] ?? null}
+                        insights={repairInsights}
                         isCurrent={!engaged || runCurrent === q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}
                         handover={handover?.qid === q.id ? (handover.n % 2 ? 'a' : 'b') : null}
                         earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissLine(m), href: `/result/${m.attemptId}` } : null; })()}

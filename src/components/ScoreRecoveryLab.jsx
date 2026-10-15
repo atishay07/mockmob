@@ -1,13 +1,16 @@
 "use client";
 // Score Recovery Lab on the result page: Find the marks you lost, Repair the mistakes, Prove it on
 // fresh questions. Facts come from the server-scored attempt; device events are labelled as such.
+// Find always holds "Time and decisions" (data/time_decisions.js): the paper's pace, where the time went and
+// every answer change with its clock times. Its chapter list and observations are left out while the result
+// page shows the SWOT, which already reads the chapters.
 import { useEffect, useId, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
 import { apiGet, apiPost } from '@/lib/fetcher';
-import { attemptScoring } from '@/../data/attempt_scoring';
-import { formatDuration } from '@/../data/session_recovery';
+import { TIME_COPY } from '@/../data/time_decisions';
 import MistakeLessonLink from './study/MistakeLessonLink';
+import TimeDecisions from './result/TimeDecisions';
 
 // Adds data-in once the Lab scrolls into view, so its bars grow when the student actually sees them.
 function useInView() {
@@ -61,30 +64,14 @@ function Prove({ attempt, topChapter }) {
   );
 }
 
-function DecisionLog({ attempt, analysis }) {
-  const recovery = attempt.selectionMeta?.recovery;
-  const changes = analysis.telemetry === 'self_reported' ? recovery?.observed?.answerChanges || [] : [];
+// The playbook note. Every answer change now shows with its clock times in Find (Time and decisions).
+function PlaybookNote({ attempt, analysis }) {
   const [reflection, setReflection] = useState('');
   const [saveState, setSaveState] = useState('');
-  const numberOf = (qid) => analysis.rows.find(r => r.q.id === qid)?.number;
-  const letter = (i) => i === null || i === undefined ? 'blank' : 'ABCD'[i];
   return (
     <details className="srl-log">
-      <summary>Every answer you changed, and a note for your playbook</summary>
+      <summary>A note for your playbook</summary>
       <div className="srl-log__body">
-        {analysis.telemetry !== 'self_reported' ? (
-          <p className="srl-muted">{analysis.telemetry === 'inconsistent' ? 'The record from your device didn’t match your submitted answers, so it isn’t used. Your score is unaffected.' : 'No answer-change record was captured for this session. Your score is unaffected.'}</p>
-        ) : changes.length ? (
-          <ol className="srl-changes">
-            {changes.map(c => (
-              <li key={`${c.qid}-${c.at}`}>
-                <span className="srl-changes__time">{formatDuration(c.at)}</span>
-                <span>Q{numberOf(c.qid)}: {letter(c.before)} → {letter(c.after)}</span>
-                <b data-tone={c.markEffect > 0 ? 'good' : c.markEffect < 0 ? 'bad' : 'neutral'}>{c.markEffect > 0 ? '+' : c.markEffect < 0 ? '−' : '±'}{Math.abs(c.markEffect)}</b>
-              </li>
-            ))}
-          </ol>
-        ) : <p className="srl-muted">You didn’t change any answers this session.</p>}
         <form className="srl-note" onSubmit={async e => {
           e.preventDefault(); setSaveState('Saving…');
           try { await apiPost('/api/recovery', { attemptId: attempt.id, strategy: analysis.mistakes.length ? 'concept_repair' : 'two_pass', reflection }); setSaveState('Saved to your playbook.'); }
@@ -102,19 +89,19 @@ function DecisionLog({ attempt, analysis }) {
   );
 }
 
-// hideFind: the result page's SWOT already shows chapter gaps and observations, so the Find step is left
-// out and Repair and Prove are numbered 1 and 2.
-export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled = repaired, onJump, onRepairNext, hideFind = false }) {
-  const { marks, chapters, observations, mistakes } = analysis;
+// swotShown: the result page's SWOT already reads the chapters, so Find shows only Time and decisions.
+// timeRead: buildTimeDecisions(attempt) from the result page (the same read feeds each answer's own lines).
+export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, repaired, handled = repaired, onJump, onRepairNext, swotShown = false }) {
+  const { marks, chapters, mistakes } = analysis;
+  // The change observation sums up what Time and decisions lists in full, so it is left out when that list shows.
+  const observations = timeRead?.state === 'ready' ? analysis.observations.filter(o => o.id !== 'changes') : analysis.observations;
   const [ref, inView] = useInView();
-  const device = attemptScoring(attempt) !== 'server';
   const topChapter = chapters.find(c => c.wrong > 0)?.chapter || chapters[0]?.chapter || null;
   const done = mistakes.filter(r => repaired.has(r.q.id)).length;
   const pct = (v) => `${marks.max ? (v / marks.max) * 100 : 0}%`;
   const maxGap = chapters[0]?.gap || 1;
   const [expanded, setExpanded] = useState(false);
   const findId = useId();
-  const step = (n) => (hideFind ? n - 1 : n);
 
   return (
     <section ref={ref} className="srl" data-in={inView || undefined} aria-labelledby="srl-title">
@@ -138,44 +125,47 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled 
       </> : null}
 
       <ol className="srl-steps">
-        {hideFind ? null : <li className="srl-step">
+        <li className="srl-step">
           <div className="srl-step__num" aria-hidden="true">1</div>
           <div className="srl-step__main srl-find" id={findId} data-expanded={expanded}>
-            <div className="srl-step__head"><h3>Find</h3><p>Which chapters cost you, and why</p></div>
-            {chapters.length ? (
-              <ul className="srl-chapters">
-                {chapters.slice(0, 4).map((c, i) => (
-                  <li key={c.chapter} data-secondary={i > 0 || undefined} style={{ '--i': i }}>
-                    <button type="button" onClick={() => onJump(c.first)} className="srl-chapter">
-                      <span className="srl-chapter__name">{c.chapter}</span>
-                      <span className="srl-chapter__meta">{[c.wrong && `${c.wrong} wrong`, c.blank && `${c.blank} blank`].filter(Boolean).join(', ')} of {c.n}</span>
-                      <span className="srl-chapter__track" aria-hidden="true"><span style={{ width: `${(c.gap / maxGap) * 100}%` }} /></span>
-                      <b className="srl-chapter__gap">−{c.gap}<small> marks</small></b>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : <p>Every question was right. Try a harder or longer set to find what’s left.</p>}
-            {observations.length ? (
-              <ul className="srl-obs">
-                {observations.map((o, i) => (
-                  <li key={o.id} data-tone={o.tone} data-secondary={i > 0 || undefined}>
-                    <span className="srl-obs__tag">{o.label}</span>
-                    <b>{o.headline}</b>
-                    <span className="srl-obs__detail">{o.detail}</span>
-                    <span className="srl-obs__tip"><ArrowRight size={14} aria-hidden="true" />{o.tip}</span>
-                    <QChips numbers={o.questions} onJump={onJump} />
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-            {(chapters.length > 1 || observations.length > 1) && <button type="button" className="srl-find-toggle" aria-expanded={expanded} aria-controls={findId} onClick={() => setExpanded(value => !value)}>{expanded ? 'Show the key finding' : 'See all chapters and observations'}<span aria-hidden="true">{expanded ? '−' : '+'}</span></button>}
-            {device ? <p className="srl-fine">This earlier session was scored in your browser, so answer changes and timings aren’t available.</p> : null}
+            <div className="srl-step__head"><h3>Find</h3><p>{swotShown ? TIME_COPY.sub : 'Which chapters cost you, and why'}</p></div>
+            {swotShown ? null : <>
+              {chapters.length ? (
+                <ul className="srl-chapters">
+                  {chapters.slice(0, 4).map((c, i) => (
+                    <li key={c.chapter} data-secondary={i > 0 || undefined} style={{ '--i': i }}>
+                      <button type="button" onClick={() => onJump(c.first)} className="srl-chapter">
+                        <span className="srl-chapter__name">{c.chapter}</span>
+                        <span className="srl-chapter__meta">{[c.wrong && `${c.wrong} wrong`, c.blank && `${c.blank} blank`].filter(Boolean).join(', ')} of {c.n}</span>
+                        <span className="srl-chapter__track" aria-hidden="true"><span style={{ width: `${(c.gap / maxGap) * 100}%` }} /></span>
+                        <b className="srl-chapter__gap">−{c.gap}<small> marks</small></b>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : <p>Every question was right. Try a harder or longer set to find what’s left.</p>}
+              {observations.length ? (
+                <ul className="srl-obs">
+                  {observations.map((o, i) => (
+                    <li key={o.id} data-tone={o.tone} data-secondary={i > 0 || undefined}>
+                      <span className="srl-obs__tag">{o.label}</span>
+                      <b>{o.headline}</b>
+                      <span className="srl-obs__detail">{o.detail}</span>
+                      <span className="srl-obs__tip"><ArrowRight size={14} aria-hidden="true" />{o.tip}</span>
+                      <QChips numbers={o.questions} onJump={onJump} />
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              {(chapters.length > 1 || observations.length > 1) && <button type="button" className="srl-find-toggle" aria-expanded={expanded} aria-controls={findId} onClick={() => setExpanded(value => !value)}>{expanded ? 'Show the key finding' : 'See all chapters and observations'}<span aria-hidden="true">{expanded ? '−' : '+'}</span></button>}
+              <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4>
+            </>}
+            <TimeDecisions read={timeRead} onJump={onJump} />
           </div>
-        </li>}
+        </li>
 
         <li className="srl-step">
-          <div className="srl-step__num" aria-hidden="true">{mistakes.length && done === mistakes.length ? <Check size={16} strokeWidth={3} /> : step(2)}</div>
+          <div className="srl-step__num" aria-hidden="true">{mistakes.length && done === mistakes.length ? <Check size={16} strokeWidth={3} /> : 2}</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Repair</h3><p>Fix each wrong answer, one at a time</p></div>
             <MistakeLessonLink subject={attempt.subject} chapter={topChapter} chapters={Object.entries(analysis.mistakes.reduce((m,row)=>{if(row.chapter)m[row.chapter]=(m[row.chapter]||0)+1;return m;},{})).sort((x,y)=>y[1]-x[1]).map(([chapter,count])=>({chapter,count}))} conceptIds={analysis.mistakes.map(row=>row.q.conceptId).filter(Boolean)} />
@@ -202,7 +192,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled 
         </li>
 
         <li className="srl-step">
-          <div className="srl-step__num" aria-hidden="true">{step(3)}</div>
+          <div className="srl-step__num" aria-hidden="true">3</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Prove</h3><p>Show it stuck, on questions you haven’t seen</p></div>
             <Prove attempt={attempt} topChapter={topChapter} />
@@ -210,7 +200,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled 
         </li>
       </ol>
 
-      <DecisionLog attempt={attempt} analysis={analysis} />
+      <PlaybookNote attempt={attempt} analysis={analysis} />
     </section>
   );
 }
