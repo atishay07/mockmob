@@ -234,9 +234,6 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             sheet('week', todayWeekScreen),
             sheet('alternatives', todayAlternativesScreen),
             page('weekly-ending', todayWeeklyEndingScreen, transition: MmTransition.fade, root: true),
-            // Week in review: a focus page that rises over the dock, from the week card or the
-            // weekly ending (a root page), so it is a root page too.
-            page('week-review', todayWeekReviewScreen, transition: MmTransition.rise, root: true),
           ]),
         ]),
         StatefulShellBranch(routes: [
@@ -249,9 +246,6 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('stream', practiceStreamScreen, root: true),
             page('start', practiceStartScreen, transition: MmTransition.container, root: true),
             page('result/:attemptId', practiceResultScreen, transition: MmTransition.container, root: true),
-            // Your chapters: opened from Practice and from Your record (another branch), so it
-            // covers the dock like the setup and never builds the shell a second time.
-            page('chapters/:subject', practiceChaptersScreen, root: true),
           ]),
         ]),
         StatefulShellBranch(routes: [
@@ -260,11 +254,6 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('record', reviewRecordScreen),
             page('insights', reviewInsightsScreen),
             page('saved', reviewSavedScreen),
-            // The Rule book, beside the repair record it is opened from.
-            page('rules', reviewRulesScreen),
-            // Revise: a deck of the student's own wrong answers, over the dock like a repair. It
-            // is opened from Review, Today's move, a reminder and the home widget.
-            page('revise', reviewReviseScreen, transition: MmTransition.container, root: true),
             // Literal "ending" before the :questionId pattern.
             page('repair/:attemptId/ending', reviewRepairEndingScreen, transition: MmTransition.rise, root: true),
             page('repair/:attemptId/:questionId', reviewRepairScreen, transition: MmTransition.container, root: true),

@@ -52,28 +52,33 @@ abstract interface class HapticVerbDriver {
 
 /// The phone: Flutter's `HapticFeedback` for the base calls, and the app's own channel
 /// (`in.mockmob.app/haptics`, `HapticsChannel.kt`) for the verbs. Which verbs the phone has is asked
-/// once and kept.
+/// until it has been answered once, then kept.
 class PlatformHapticDriver implements HapticDriver, HapticVerbDriver {
   const PlatformHapticDriver();
 
   static const MethodChannel channel = MethodChannel('in.mockmob.app/haptics');
 
-  static Future<Set<HapticVerb>>? _verbs;
+  /// The answer, kept once it arrives. Only the answer is kept, never the question in flight: a
+  /// question whose zone ended before the reply (a finished widget test) must not leave every
+  /// later haptic waiting on a future that can no longer complete.
+  static Set<HapticVerb>? _verbs;
 
   @visibleForTesting
   static void resetForTest() => _verbs = null;
 
   static Future<Set<HapticVerb>> _available() async {
+    final known = _verbs;
+    if (known != null) return known;
     try {
       final names = await channel.invokeListMethod<String>('verbs') ?? const <String>[];
-      return {
+      return _verbs = {
         for (final v in HapticVerb.values)
           if (names.contains(v.name)) v,
       };
     } on MissingPluginException {
-      return const {};
+      return _verbs = const {};
     } on PlatformException {
-      return const {};
+      return _verbs = const {};
     }
   }
 
@@ -88,7 +93,7 @@ class PlatformHapticDriver implements HapticDriver, HapticVerbDriver {
 
   @override
   Future<bool> perform(HapticVerb verb) async {
-    final verbs = await (_verbs ??= _available());
+    final verbs = await _available();
     if (!verbs.contains(verb)) return false;
     try {
       // The phone's own Touch feedback setting may silence it; that is still an answer, so the
