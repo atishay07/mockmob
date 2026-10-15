@@ -26,9 +26,8 @@ export function CollegeDestinations() {
       <div className="lp-colleges__grid">
         {COLLEGES.map((college) => (
           <Link className="lp-college" href={`/cuet-cutoff-calculator?course=${college.course}`} key={college.name}>
-            <picture className="lp-college__art" aria-hidden="true">
+            <picture className="lp-college__art">
               <source type="image/avif" srcSet={srcSet(college.art, 'avif')} sizes={ART_SIZES} />
-              {/* eslint-disable-next-line @next/next/no-img-element -- the sizes already exist; no optimiser needed */}
               <img src={`/images/campus/${college.art}-450.webp`} srcSet={srcSet(college.art, 'webp')} sizes={ART_SIZES} width={600} height={400} alt="" loading="lazy" decoding="async" />
             </picture>
             <span className="lp-college__copy"><strong>{college.name}</strong><span>{college.detail}</span></span>
