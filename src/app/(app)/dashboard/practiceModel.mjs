@@ -77,16 +77,21 @@ export function effectiveCount(modeId, count) {
   return resolveCount(mode, count);
 }
 
-/** The line when a link asked for a length the mode does not offer ("Smart practice comes in 10, 15 or 20 questions. You asked for 5."), else null. */
+/**
+ * The line when a link asked for a length the mode does not offer, else null. It says what the page
+ * set instead: "Smart practice starts at 10 questions. You asked for 5, so this is set to 15."
+ */
 export function lengthNote(modeId, asked) {
   const mode = TEST_MODES[modeId];
   if (!mode || mode.fixedCount || !Number.isFinite(asked) || !asked) return null;
   const options = mode.countOptions || [];
   if (options.includes(asked)) return null;
   const name = SESSION_LABEL[modeId] || mode.label;
-  if (asked < options[0]) return `${name} starts at ${options[0]} questions. You asked for ${asked}.`;
-  if (asked > options[options.length - 1]) return `${name} goes up to ${options[options.length - 1]} questions. You asked for ${asked}.`;
-  return `${name} comes in ${options.slice(0, -1).join(', ')} or ${options[options.length - 1]} questions. You asked for ${asked}.`;
+  const used = resolveCount(mode, asked);
+  const tail = `You asked for ${asked}, so this is set to ${used}.`;
+  if (asked < options[0]) return `${name} starts at ${options[0]} questions. ${tail}`;
+  if (asked > options[options.length - 1]) return `${name} goes up to ${options[options.length - 1]} questions. ${tail}`;
+  return `${name} comes in ${options.slice(0, -1).join(', ')} or ${options[options.length - 1]} questions. ${tail}`;
 }
 
 /** The /test link a session opens, exactly as the page has always built it. */
@@ -158,7 +163,7 @@ export function sessionRows({ pro = false, isLocked = () => false } = {}) {
     return {
       id,
       label: SESSION_LABEL[id],
-      line: locked ? lockLine(id) : sessionLine(id),
+      line: sessionLine(id),
       cost: locked ? APPROVED.proLock : rowCost(id, { pro }),
       locked,
       tag: locked ? 'Pro' : null,
@@ -224,4 +229,112 @@ const START_LABEL = Object.freeze({
 /** The Start key's words for a session ("Start quick practice"). */
 export function startLabel(modeId) {
   return START_LABEL[modeId] || START_LABEL.quick;
+}
+
+// ---------------------------------------------------------------------------------------------
+// 4. The session panel: its title, how the set is narrowed, what the server quote says
+
+/** The heading over the session: "Quick practice in Accountancy". */
+export function asideTitle({ mode = 'quick', subjectName = '' } = {}) {
+  const name = SESSION_LABEL[mode] || SESSION_LABEL.quick;
+  return subjectName ? `${name} in ${subjectName}` : name;
+}
+
+/** "Partnership Fundamentals only." / "Chapters: A, B and 2 more." / "Hard questions only." / both, or '' when nothing narrows the set. */
+export function scopeLine({ chapters = [], difficulty = 'auto' } = {}) {
+  const parts = [];
+  if (chapters.length === 1) parts.push(`${chapters[0]} only`);
+  else if (chapters.length > 1) parts.push(`Chapters: ${chaptersSummary(chapters)}`);
+  if (difficulty && difficulty !== 'auto') parts.push(`${difficulty[0].toUpperCase()}${difficulty.slice(1)} questions only`);
+  return parts.length ? `${parts.join('. ')}.` : '';
+}
+
+/**
+ * What a /dashboard link asks for, or null when the href is not a practice link (a /test, /result or
+ * other page then stays a plain link). Reads the query exactly as parsePrefill does.
+ */
+export function setupFromHref(href) {
+  const value = String(href || '');
+  if (value !== PRACTICE_PATH && !value.startsWith(`${PRACTICE_PATH}?`)) return null;
+  const at = value.indexOf('?');
+  const query = at === -1 ? '' : value.slice(at + 1).split('#')[0];
+  return parsePrefill(new URLSearchParams(query));
+}
+
+/** Is the session on screen the one a link asked for? `want` is setupFromHref(); `have` is the page's choice. */
+export function sameSetup(want, have) {
+  if (!want || !have) return false;
+  if (want.subject && want.subject !== have.subject) return false;
+  if (want.mode && want.mode !== have.mode) return false;
+  if (want.mode !== 'full' && want.mode !== 'nta' && want.askedCount && effectiveCount(have.mode, want.count) !== have.count) return false;
+  if (want.chapter && !(have.chapters.length === 1 && have.chapters[0] === want.chapter)) return false;
+  return true;
+}
+
+/**
+ * The line under the confirm line, from the server quote (the quote stays the authority on whether a
+ * session can start; this only words it in the glossary's terms).
+ * Returns { tone: 'ok'|'locked'|'blocked', text, href?, hrefLabel?, retry? } or null.
+ */
+export function quoteNote(quote, { mode = 'quick', pro = false } = {}) {
+  if (!quote || typeof quote !== 'object') return null;
+  if (quote.launchable) {
+    if (includedToday(quote)) return { tone: 'ok', text: 'This uses today’s included 10-question set.' };
+    return pro ? { tone: 'ok', text: '' } : { tone: 'ok', text: 'Credits are used only after the full set is built. If it cannot be built, nothing is used.' };
+  }
+  const code = quote.reasonCode;
+  if (code === 'access_required') {
+    return { tone: 'locked', text: lockLine(mode) || quote.reason || '', href: quote.upgradeHref || '/pricing?reason=premium_mode', hrefLabel: 'See Pro' };
+  }
+  if (code === 'insufficient_credits') {
+    const short = Math.max(0, Math.trunc(Number(quote.creditCost) || 0) - Math.max(0, Math.trunc(Number(quote.creditBalance) || 0)));
+    return { tone: 'blocked', text: short > 0 ? `You need ${plural(short, 'more practice credit')} for this session.` : 'You do not have enough practice credits for this session.', href: quote.upgradeHref || '/pricing?reason=credits', hrefLabel: 'See Pro' };
+  }
+  return { tone: 'blocked', text: String(quote.reason || 'This session is not available right now.'), retry: code === 'inventory_unknown' };
+}
+
+/** The Start key's label in each state. The words say what happens; there is no spinner text that hides a failure. */
+export function startKeyLabel({ mode = 'quick', launching = false, checking = false, available = true } = {}) {
+  if (launching) return 'Starting';
+  if (checking) return 'Checking';
+  return available ? startLabel(mode) : 'Not available';
+}
+
+/** A quote is good until its expiresAt. Past that, or with none, the page asks the server again before it starts. */
+export function quoteExpired(quote, now = Date.now()) {
+  return !quote || !(Date.parse(quote.expiresAt) > now);
+}
+
+// ---------------------------------------------------------------------------------------------
+// 5. The session on screen: the link's ask, then the student's own choices
+
+export const EMPTY_PICKS = Object.freeze({ subject: null, mode: null, count: null, chapters: null, difficulty: null, ntaScreen: null });
+
+/**
+ * Which session the page shows, worked out from plain values.
+ *   prefill      parsePrefill() of the link
+ *   picks        what the student chose on this page for this link (nulls where they chose nothing)
+ *   mySubjectIds the student's practice subjects, in sheet order
+ *   chapters     { subject, list: [{ name }], failed } the chapters read for a subject, or null while unread
+ * The link decides until the student chooses: a linked subject that is not theirs falls back to their first,
+ * a length the mode does not offer snaps to its own, and a linked chapter counts only once the subject's
+ * chapter list has been read and holds it (a chapter that is not there is reported, never guessed).
+ */
+export function resolveSession({ prefill, picks = EMPTY_PICKS, mySubjectIds = [], chapters = null } = {}) {
+  const asked = prefill || parsePrefill(null);
+  const subjectId = mySubjectIds.includes(picks.subject) ? picks.subject
+    : mySubjectIds.includes(asked.subject) ? asked.subject
+      : mySubjectIds[0] || null;
+  const modeId = picks.mode && TEST_MODES[picks.mode] ? picks.mode : asked.mode || 'quick';
+  const mode = TEST_MODES[modeId];
+  const count = effectiveCount(modeId, picks.count ?? asked.count);
+  const difficulty = mode.allowDifficultyOverride ? picks.difficulty || 'auto' : 'auto';
+  const ntaScreen = picks.ntaScreen || asked.ntaScreen;
+  const linkedChapter = asked.subject === subjectId ? asked.chapter : null;
+  const read = Boolean(chapters) && chapters.subject === subjectId;
+  const list = read ? chapters.list || [] : [];
+  const linkedChapterFound = Boolean(linkedChapter) && list.some((chapter) => chapter.name === linkedChapter);
+  const chapterNames = picks.chapters ?? (linkedChapterFound ? [linkedChapter] : []);
+  const chapterMissing = picks.chapters === null && Boolean(linkedChapter) && read && !chapters.failed && !linkedChapterFound;
+  return { subjectId, modeId, count, difficulty, ntaScreen, chapterNames, chapterMissing, linkedChapter, chaptersRead: read, chapterList: list };
 }

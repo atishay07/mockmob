@@ -1,180 +1,191 @@
 /* ==========================================================================
    PRACTICE  (web IA, IA5)  scope: .app-shell
-   One recommended start, "Choose your own" (subject tiles, then the sessions with their cost), the
-   session's confirm line with Start, Fine-tune, and the other ways to practise.
+   Tonight's move, your subjects, the session with its cost on every row, Fine-tune, the session panel
+   (confirm line and Start), and the other ways to practise.
    Tokens only (--a-*): the shell decides Night or Day, this sheet never names a colour.
    Layout rules from the plan: a sentence-case title with no eyebrow, one line of purpose, one dominant
    action (Start), then 3 to 5 groups about 32 px apart. No nested cards, no row of three equal cards,
    no numbered step badges, no mono labels, no loops. Solid surfaces (glass is for fixed chrome only).
    Motion answers a tap or shows a state: 100 to 220 ms, ease-out, instant under reduced motion.
+   The prefix is prc-: ".pt" belongs to the record glimpse on Today.
    ========================================================================== */
 
 /* ---------- Page ---------- */
-.app-shell .student-page.pt { width: min(100%, 1080px); display: grid; gap: 32px; align-content: start; margin-inline: auto; }
-.app-shell .pt-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: end; }
-.app-shell .pt-title { margin: 0; font: 800 clamp(28px, 4vw, 40px)/1.08 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); }
-.app-shell .pt-lede { margin: 6px 0 0; max-width: 56ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2); }
-.app-shell .pt-head__mobi { display: grid; place-items: end center; min-width: 72px; min-height: 72px; }
-.app-shell .pt-h { margin: 0; font: 700 17px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
-.app-shell .pt-sechead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; margin-bottom: 14px; }
-.app-shell .pt-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; color: var(--a-accent-text); font: 600 14px/1.2 var(--font-body); text-decoration: none; cursor: pointer; }
-.app-shell .pt-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.app-shell .student-page.prc { width: min(100%, 1080px); display: grid; gap: 32px; align-content: start; margin-inline: auto; }
+.app-shell .prc-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: end; }
+.app-shell .prc-title { margin: 0; font: 800 clamp(28px, 4vw, 40px)/1.08 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; }
+.app-shell .prc-lede { margin: 8px 0 0; max-width: 56ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .prc-head__mobi { display: grid; place-items: end center; min-width: 80px; min-height: 80px; }
+.app-shell .prc-h { margin: 0; font: 700 17px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .prc-sechead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; margin-bottom: 14px; }
+.app-shell .prc-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; color: var(--a-accent-text); font: 600 14px/1.2 var(--font-body); text-decoration: none; cursor: pointer; }
+.app-shell .prc-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+.app-shell .prc-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
 
 /* Two columns from 1200 px: the choices on the left, the session on the right, sticky. Below that the
    session follows the choices, so Start is never far from the last thing the student touched. */
-.app-shell .pt-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: start; }
+.app-shell .prc-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: start; }
+.app-shell .prc-main { display: grid; gap: 32px; min-width: 0; align-content: start; }
 @media (min-width: 1200px) {
-  .app-shell .pt-layout { grid-template-columns: minmax(0, 1fr) 340px; column-gap: 40px; }
-  .app-shell .pt-layout > * { grid-column: 1; }
-  .app-shell .pt-layout > .pt-aside { grid-column: 2; grid-row: 1 / span 6; position: sticky; top: 24px; }
+  .app-shell .prc-layout { grid-template-columns: minmax(0, 1fr) 340px; column-gap: 40px; }
+  .app-shell .prc-aside { position: sticky; top: 24px; }
 }
 
-/* ---------- Notes: stale subjects, an unknown subject, a length that was adjusted ---------- */
-.app-shell .pt-note { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-sunken); font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
-.app-shell .pt-note > svg { flex: none; margin-top: 2px; }
-.app-shell .pt-note b { display: block; margin-bottom: 2px; color: var(--a-ink); font-weight: 700; }
-.app-shell .pt-note p { margin: 0; }
-.app-shell .pt-note ul { margin: 4px 0 6px; padding: 0; list-style: none; display: grid; gap: 4px; }
-.app-shell .pt-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--a-accent-text); font-weight: 600; }
-.app-shell .pt-note[data-tone='warning'] > svg { color: var(--a-warn-text); }
-.app-shell .pt-note[data-tone='error'] { border-color: var(--a-bad-text); }
-.app-shell .pt-note[data-tone='error'] > svg { color: var(--a-bad-text); }
+/* ---------- Notes: a linked subject that is not on the sheet, stale subjects, a length that was adjusted ---------- */
+.app-shell .prc-notes { display: grid; gap: 12px; }
+.app-shell .prc-note { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-sunken); font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .prc-note > svg { flex: none; margin-top: 2px; }
+.app-shell .prc-note b { display: block; margin-bottom: 2px; color: var(--a-ink); font-weight: 700; }
+.app-shell .prc-note p { margin: 0; }
+.app-shell .prc-note ul { margin: 4px 0 6px; padding: 0; list-style: none; display: grid; gap: 4px; }
+.app-shell .prc-note li b { display: inline; margin: 0; }
+.app-shell .prc-note a { display: inline-flex; align-items: center; min-height: 44px; color: var(--a-accent-text); font-weight: 600; }
+.app-shell .prc-note[data-tone='warning'] > svg { color: var(--a-warn-text); }
 
-/* ---------- Recommended start ---------- */
-.app-shell .pt-reco { display: grid; gap: 16px 24px; padding: 20px; border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-raised); box-shadow: var(--a-shadow-1); }
-@media (min-width: 640px) { .app-shell .pt-reco { grid-template-columns: minmax(0, 1fr) auto; align-items: center; } }
-.app-shell .pt-reco__text { display: grid; gap: 6px; min-width: 0; }
-.app-shell .pt-reco__label { margin: 0; font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); }
-.app-shell .pt-reco__title { margin: 0; max-width: 28ch; font: 800 clamp(20px, 2.6vw, 24px)/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
-.app-shell .pt-reco__detail { margin: 0; max-width: 56ch; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2); }
-.app-shell .pt-reco__cost { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-/* The outlined key: the second weight. The only filled key on the page is Start. */
-.app-shell .pt-key { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border: 1px solid var(--a-line-strong); border-radius: 12px; background: transparent; color: var(--a-ink); font: 600 14px/1.2 var(--font-body); text-decoration: none; cursor: pointer; transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease); }
-.app-shell .pt-key:active { transform: scale(0.98); }
-@media (hover: hover) and (pointer: fine) { .app-shell .pt-key:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
-.app-shell .pt-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+/* ---------- Tonight's move ---------- */
+.app-shell .prc-reco { display: grid; gap: 16px 24px; align-content: center; min-height: 148px; padding: 20px; border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-raised); box-shadow: var(--a-shadow-1); }
+@media (min-width: 640px) { .app-shell .prc-reco { grid-template-columns: minmax(0, 1fr) auto; align-items: center; } }
+.app-shell .prc-reco__text { display: grid; gap: 6px; min-width: 0; }
+.app-shell .prc-reco__label { margin: 0; font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); }
+.app-shell .prc-reco__title { margin: 0; max-width: 28ch; font: 800 clamp(20px, 2.6vw, 24px)/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
+.app-shell .prc-reco__detail { margin: 0; max-width: 56ch; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .prc-reco__cost { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .prc-reco__set { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin: 0; padding: 0 4px; font: 600 14px/1.2 var(--font-body); color: var(--a-accent-text); animation: prc-swap 180ms var(--a-ease); }
+/* The outlined key: the second weight. The only filled key on the page is Start (or See Pro). */
+.app-shell .prc-key { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 20px; border: 1px solid var(--a-line-strong); border-radius: 12px; background: transparent; color: var(--a-ink); font: 600 14px/1.2 var(--font-body); text-decoration: none; cursor: pointer; transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease); }
+.app-shell .prc-key:active { transform: scale(0.98); }
+@media (hover: hover) and (pointer: fine) { .app-shell .prc-key:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
+.app-shell .prc-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 
 /* ---------- Radio groups drawn as tiles and rows: the native input stays, covering its label ---------- */
-.app-shell .pt fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
-.app-shell .pt .pt-pick { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
-.app-shell .pt .pt-pick:focus-visible { outline: none; }
+.app-shell .prc fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+.app-shell .prc .prc-pick { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+.app-shell .prc .prc-pick:focus-visible { outline: none; }
 
 /* Subjects */
-.app-shell .pt-subjects { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
-.app-shell .pt-tile { position: relative; display: grid; align-content: start; gap: 4px; min-width: 0; min-height: 92px; padding: 14px; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); color: var(--a-ink); cursor: pointer; transition: border-color 150ms var(--a-ease), box-shadow 150ms var(--a-ease), transform 100ms var(--a-ease); }
-.app-shell .pt-tile:active { transform: scale(0.985); }
-@media (hover: hover) and (pointer: fine) { .app-shell .pt-tile:hover { border-color: var(--a-line-hover); } }
-.app-shell .pt-tile:has(.pt-pick:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.app-shell .pt-tile[data-on='true'] { border-color: var(--a-select); box-shadow: 0 0 0 1px var(--a-select) inset; }
-.app-shell .pt-tile__glyph { display: grid; place-items: center; width: 36px; height: 36px; margin-bottom: 4px; border-radius: 10px; border: 1px solid var(--a-line); background: var(--a-sunken); color: var(--a-ink-2); }
-.app-shell .pt-tile[data-on='true'] .pt-tile__glyph { color: var(--a-accent-text); }
-.app-shell .pt-tile__name { font: 700 15px/1.25 var(--font-display); letter-spacing: -0.005em; overflow-wrap: anywhere; }
-.app-shell .pt-tile__meta { min-height: 17px; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-.app-shell .pt-tile__tick { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 999px; background: var(--a-select); color: var(--a-bg); transform: scale(0.8); opacity: 0; transition: opacity 150ms var(--a-ease), transform 150ms var(--a-ease); }
-.app-shell .pt-tile[data-on='true'] .pt-tile__tick { opacity: 1; transform: none; }
+.app-shell .prc-subjects { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
+.app-shell .prc-tile { position: relative; display: grid; align-content: start; gap: 4px; min-width: 0; min-height: 92px; padding: 14px; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); color: var(--a-ink); cursor: pointer; transition: border-color 150ms var(--a-ease), box-shadow 150ms var(--a-ease), transform 100ms var(--a-ease); }
+.app-shell .prc-tile:active { transform: scale(0.985); }
+@media (hover: hover) and (pointer: fine) { .app-shell .prc-tile:hover { border-color: var(--a-line-hover); } }
+.app-shell .prc-tile:has(.prc-pick:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .prc-tile[data-on='true'] { border-color: var(--a-select); box-shadow: 0 0 0 1px var(--a-select) inset; }
+.app-shell .prc-tile__glyph { display: grid; place-items: center; width: 36px; height: 36px; margin-bottom: 4px; border-radius: 10px; border: 1px solid var(--a-line); background: var(--a-sunken); color: var(--a-ink-2); }
+.app-shell .prc-tile[data-on='true'] .prc-tile__glyph { color: var(--a-accent-text); }
+.app-shell .prc-tile__name { font: 700 15px/1.25 var(--font-display); letter-spacing: -0.005em; overflow-wrap: anywhere; }
+.app-shell .prc-tile__meta { min-height: 17px; font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .prc-tile__tick { position: absolute; top: 10px; right: 10px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 999px; background: var(--a-select); color: var(--a-bg); transform: scale(0.8); opacity: 0; transition: opacity 150ms var(--a-ease), transform 150ms var(--a-ease); }
+.app-shell .prc-tile[data-on='true'] .prc-tile__tick { opacity: 1; transform: none; }
 /* The app's photo-real object, whole and never cropped, with its contact shadow (brand flag subjectArt). */
-.app-shell .pt-subjects[data-art='true'] .pt-tile { padding-top: 10px; min-height: 150px; }
-.app-shell .pt-tile__art { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; margin-bottom: 4px; }
-.app-shell .pt-tile__art img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; padding: 4% 10% 8%; }
-.app-shell .pt-tile__art::after { content: ''; position: absolute; z-index: 0; left: calc(var(--foot-x, 50%) - var(--foot-w, 80%) * 0.4); bottom: 6%; width: calc(var(--foot-w, 80%) * 0.8); height: 8%; border-radius: 50%; background: rgba(0, 0, 0, 0.35); filter: blur(5px); }
-html[data-theme='light'] .app-shell .pt-tile__art::after { background: rgba(20, 32, 14, 0.16); }
+.app-shell .prc-subjects[data-art='true'] .prc-tile { padding-top: 10px; min-height: 150px; }
+.app-shell .prc-tile__art { position: relative; display: block; width: 100%; aspect-ratio: 16 / 10; margin-bottom: 4px; }
+.app-shell .prc-tile__art img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; padding: 4% 10% 8%; }
+.app-shell .prc-tile__art::after { content: ''; position: absolute; z-index: 0; left: calc(var(--foot-x, 50%) - var(--foot-w, 80%) * 0.4); bottom: 6%; width: calc(var(--foot-w, 80%) * 0.8); height: 8%; border-radius: 50%; background: rgba(0, 0, 0, 0.35); filter: blur(5px); }
+html[data-theme='light'] .app-shell .prc-tile__art::after { background: rgba(20, 32, 14, 0.16); }
 
 /* Sessions: one ruled list, a hairline between rows, never a card inside a card. */
-.app-shell .pt-sessions { overflow: hidden; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); }
-.app-shell .pt-row { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 2px 14px; align-items: start; min-height: 64px; padding: 14px 16px; color: var(--a-ink); cursor: pointer; transition: background-color 150ms var(--a-ease); }
-.app-shell .pt-row + .pt-row { border-top: 1px solid var(--a-line); }
-@media (hover: hover) and (pointer: fine) { .app-shell .pt-row:hover { background: var(--a-hover); } }
-.app-shell .pt-row:has(.pt-pick:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 12px; }
-.app-shell .pt-row[data-on='true'] { background: var(--a-volt-wash); }
-.app-shell .pt-row__dot { position: relative; grid-row: 1 / span 2; width: 20px; height: 20px; margin-top: 1px; border: 2px solid var(--a-line-strong); border-radius: 999px; transition: border-color 150ms var(--a-ease); }
-.app-shell .pt-row__dot::after { content: ''; position: absolute; inset: 3px; border-radius: 999px; background: var(--a-select); transform: scale(0.4); opacity: 0; transition: transform 150ms var(--a-ease), opacity 150ms var(--a-ease); }
-.app-shell .pt-row[data-on='true'] .pt-row__dot { border-color: var(--a-select); }
-.app-shell .pt-row[data-on='true'] .pt-row__dot::after { transform: none; opacity: 1; }
-.app-shell .pt-row__name { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; font: 700 15.5px/1.3 var(--font-display); letter-spacing: -0.005em; }
-.app-shell .pt-row__line { grid-column: 2; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3); }
-.app-shell .pt-row__cost { grid-column: 2; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .prc-sessions { overflow: hidden; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); }
+.app-shell .prc-row { position: relative; display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 2px 14px; align-items: start; min-height: 64px; padding: 14px 16px; color: var(--a-ink); cursor: pointer; transition: background-color 150ms var(--a-ease); }
+.app-shell .prc-row + .prc-row { border-top: 1px solid var(--a-line); }
+@media (hover: hover) and (pointer: fine) { .app-shell .prc-row:hover { background: var(--a-hover); } }
+.app-shell .prc-row:has(.prc-pick:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 12px; }
+.app-shell .prc-row[data-on='true'] { background: var(--a-volt-wash); }
+.app-shell .prc-row__dot { position: relative; grid-row: 1 / span 2; width: 20px; height: 20px; margin-top: 1px; border: 2px solid var(--a-line-strong); border-radius: 999px; transition: border-color 150ms var(--a-ease); }
+.app-shell .prc-row__dot::after { content: ''; position: absolute; inset: 3px; border-radius: 999px; background: var(--a-select); transform: scale(0.4); opacity: 0; transition: transform 150ms var(--a-ease), opacity 150ms var(--a-ease); }
+.app-shell .prc-row[data-on='true'] .prc-row__dot { border-color: var(--a-select); }
+.app-shell .prc-row[data-on='true'] .prc-row__dot::after { transform: none; opacity: 1; }
+.app-shell .prc-row__name { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; font: 700 15.5px/1.3 var(--font-display); letter-spacing: -0.005em; }
+.app-shell .prc-row__line { grid-column: 2; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3); }
+.app-shell .prc-row__cost { grid-column: 2; font-size: 13px; line-height: 1.4; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 @media (min-width: 640px) {
-  .app-shell .pt-row { grid-template-columns: 22px minmax(0, 1fr) auto; }
-  .app-shell .pt-row__dot { grid-row: 1 / span 2; }
-  .app-shell .pt-row__cost { grid-column: 3; grid-row: 1 / span 2; align-self: center; text-align: right; }
+  .app-shell .prc-row { grid-template-columns: 22px minmax(0, 1fr) auto; }
+  .app-shell .prc-row__cost { grid-column: 3; grid-row: 1 / span 2; align-self: center; text-align: right; }
 }
-.app-shell .pt-tag { display: inline-flex; align-items: center; gap: 4px; min-height: 22px; padding: 0 8px; border: 1px solid var(--a-line-strong); border-radius: 999px; font: 600 12px/1 var(--font-body); color: var(--a-ink-2); white-space: nowrap; }
+.app-shell .prc-tag { display: inline-flex; align-items: center; gap: 4px; min-height: 22px; padding: 0 8px; border: 1px solid var(--a-line-strong); border-radius: 999px; font: 600 12px/1 var(--font-body); color: var(--a-ink-2); white-space: nowrap; }
+
+/* A control under the session list: how many questions, which exam screen. */
+.app-shell .prc-field { display: grid; gap: 8px; margin-top: 16px; }
+.app-shell .prc-field__label { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 12px; font-size: 13.5px; font-weight: 700; color: var(--a-ink-2); }
+.app-shell .prc-field__hint { font-weight: 500; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 
 /* ---------- Segmented control (question count, difficulty, exam screen) ---------- */
-.app-shell .pt-seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; max-width: 100%; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-sunken); }
-.app-shell .pt-seg button { min-width: 56px; min-height: 44px; padding: 0 16px; border: 1px solid transparent; border-radius: 10px; background: transparent; color: var(--a-ink-2); font: 700 14px/1 var(--font-body); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color 150ms var(--a-ease), color 150ms var(--a-ease), border-color 150ms var(--a-ease); }
-@media (hover: hover) and (pointer: fine) { .app-shell .pt-seg button:hover:not(:disabled):not([aria-checked='true']) { background: var(--a-hover); color: var(--a-ink); } }
-.app-shell .pt-seg button[aria-checked='true'] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); }
-.app-shell .pt-seg button:disabled { opacity: 0.45; cursor: not-allowed; }
-.app-shell .pt-seg button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .prc-seg { display: inline-flex; flex-wrap: wrap; justify-self: start; gap: 4px; padding: 4px; max-width: 100%; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-sunken); }
+.app-shell .prc-seg button { min-width: 56px; min-height: 44px; padding: 0 16px; border: 1px solid transparent; border-radius: 10px; background: transparent; color: var(--a-ink-2); font: 700 14px/1 var(--font-body); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color 150ms var(--a-ease), color 150ms var(--a-ease), border-color 150ms var(--a-ease); }
+@media (hover: hover) and (pointer: fine) { .app-shell .prc-seg button:hover:not(:disabled):not([aria-checked='true']) { background: var(--a-hover); color: var(--a-ink); } }
+.app-shell .prc-seg button[aria-checked='true'] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); }
+.app-shell .prc-seg button:disabled { opacity: 0.45; cursor: not-allowed; }
+.app-shell .prc-seg button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 
 /* ---------- Fine-tune ---------- */
-.app-shell .pt-fine { border-block: 1px solid var(--a-line); }
-.app-shell .pt-fine summary { display: flex; align-items: center; gap: 4px 16px; flex-wrap: wrap; min-height: 56px; cursor: pointer; list-style: none; }
-.app-shell .pt-fine summary::-webkit-details-marker { display: none; }
-.app-shell .pt-fine summary:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
-.app-shell .pt-fine summary .pt-h { font-size: 16px; }
-.app-shell .pt-fine__hint { flex: 1; min-width: 0; font-size: 13.5px; color: var(--a-ink-3); }
-.app-shell .pt-fine__chev { flex: none; color: var(--a-ink-3); transition: transform 200ms var(--a-ease); }
-.app-shell .pt-fine[open] .pt-fine__chev { transform: rotate(180deg); }
-.app-shell .pt-fine__block { display: grid; gap: 10px; padding: 4px 0 20px; }
-.app-shell .pt-fine__label { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; font-size: 13.5px; font-weight: 700; color: var(--a-ink-2); }
-.app-shell .pt-fine__note { margin: 0; font-size: 13px; line-height: 1.5; color: var(--a-ink-3); }
-.app-shell .pt-chapters { display: flex; flex-wrap: wrap; gap: 8px; max-height: 220px; overflow-y: auto; padding: 2px; }
-.app-shell .pt-chapters button { min-height: 44px; max-width: 100%; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 999px; background: var(--a-sunken); color: var(--a-ink-2); font: 600 13.5px/1.2 var(--font-body); text-align: left; overflow-wrap: anywhere; cursor: pointer; transition: background-color 150ms var(--a-ease), border-color 150ms var(--a-ease); }
-.app-shell .pt-chapters button[aria-pressed='true'] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); }
-.app-shell .pt-chapters button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .prc-fine { border-block: 1px solid var(--a-line); }
+.app-shell .prc-fine summary { display: flex; align-items: center; gap: 4px 16px; flex-wrap: wrap; min-height: 56px; cursor: pointer; list-style: none; }
+.app-shell .prc-fine summary::-webkit-details-marker { display: none; }
+.app-shell .prc-fine summary:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+.app-shell .prc-fine summary .prc-h { font-size: 16px; }
+.app-shell .prc-fine__hint { flex: 1; min-width: 0; font-size: 13.5px; color: var(--a-ink-3); }
+.app-shell .prc-fine__chev { flex: none; color: var(--a-ink-3); transition: transform 200ms var(--a-ease); }
+.app-shell .prc-fine[open] .prc-fine__chev { transform: rotate(180deg); }
+.app-shell .prc-fine__block { display: grid; gap: 10px; padding: 4px 0 20px; }
+.app-shell .prc-fine__label { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; font-size: 13.5px; font-weight: 700; color: var(--a-ink-2); }
+.app-shell .prc-fine__note { margin: 0; padding-bottom: 16px; font-size: 13px; line-height: 1.5; color: var(--a-ink-3); }
+.app-shell .prc-chapters { display: flex; flex-wrap: wrap; gap: 8px; max-height: 220px; overflow-y: auto; padding: 2px; }
+.app-shell .prc-chapters button { min-height: 44px; max-width: 100%; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 999px; background: var(--a-sunken); color: var(--a-ink-2); font: 600 13.5px/1.2 var(--font-body); text-align: left; overflow-wrap: anywhere; cursor: pointer; transition: background-color 150ms var(--a-ease), border-color 150ms var(--a-ease); }
+.app-shell .prc-chapters button[aria-pressed='true'] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); }
+.app-shell .prc-chapters button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 
 /* ---------- The session: confirm line and Start ---------- */
-.app-shell .pt-aside { display: grid; gap: 16px; min-width: 0; padding: 20px; border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-raised); box-shadow: var(--a-shadow-1); }
-.app-shell .pt-aside:focus-within { border-color: var(--a-line-strong); }
-.app-shell .pt-aside__title { margin: 0; font: 800 20px/1.25 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
-.app-shell .pt-aside__title:focus { outline: none; }
-.app-shell .pt-aside__swap { display: grid; gap: 12px; min-width: 0; animation: pt-swap 180ms var(--a-ease); }
-.app-shell .pt-aside__line { margin: 0; font-size: 15px; line-height: 1.55; color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.app-shell .pt-aside__scope { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
-.app-shell .pt-aside__field { display: grid; gap: 8px; }
-.app-shell .pt-aside__field > span { font-size: 13.5px; font-weight: 700; color: var(--a-ink-2); }
-.app-shell .pt-aside__status { margin: 0; min-height: 40px; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
-.app-shell .pt-aside__status a, .app-shell .pt-aside__status button { display: inline; min-height: 0; padding: 0; border: 0; background: none; color: var(--a-accent-text); font: 600 13.5px/1.5 var(--font-body); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
-.app-shell .pt-aside .pt-start { width: 100%; min-height: 52px; justify-content: center; gap: 8px; }
-.app-shell .pt-aside__alts { display: grid; gap: 10px; }
-.app-shell .pt-aside__alts .pt-key { width: 100%; }
-.app-shell .pt-aside__peek { font-size: 13.5px; }
-@keyframes pt-swap { from { opacity: 0; } to { opacity: 1; } }
+.app-shell .prc-aside { display: grid; gap: 16px; min-width: 0; padding: 20px; border: 1px solid var(--a-line); border-radius: 20px; background: var(--a-raised); box-shadow: var(--a-shadow-1); }
+.app-shell .prc-aside { transition: border-color 350ms var(--a-ease), box-shadow 350ms var(--a-ease); }
+.app-shell .prc-aside:focus-within { border-color: var(--a-line-strong); }
+/* After a set-up from Tonight's move: the panel shows where it landed, for about a second. */
+.app-shell .prc-aside[data-flash='true'] { border-color: var(--a-select); box-shadow: var(--a-shadow-1), 0 0 0 1px var(--a-select); }
+.app-shell .prc-aside__title { margin: 0; font: 800 20px/1.25 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
+.app-shell .prc-aside__title:focus { outline: none; }
+.app-shell .prc-aside__swap { display: grid; gap: 12px; min-width: 0; animation: prc-swap 180ms var(--a-ease); }
+.app-shell .prc-aside__line { margin: 0; font-size: 15px; line-height: 1.55; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .prc-aside__scope { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .prc-aside__status { margin: 0; min-height: 40px; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .prc-aside__status[data-tone='blocked'] { color: var(--a-ink); }
+.app-shell .prc-aside__status a, .app-shell .prc-aside__status button { display: inline; min-height: 0; padding: 0; border: 0; background: none; color: var(--a-accent-text); font: 600 13.5px/1.5 var(--font-body); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.app-shell .prc-aside .prc-start { width: 100%; min-height: 52px; justify-content: center; gap: 8px; text-decoration: none; }
+.app-shell .prc-aside__alts { display: grid; gap: 10px; }
+.app-shell .prc-aside__alts .prc-key { width: 100%; }
+@keyframes prc-swap { from { opacity: 0; } to { opacity: 1; } }
 
-/* ---------- More practice: Question stream, Concepts ---------- */
-.app-shell .pt-more ul { margin: 0; padding: 0; list-style: none; border-block: 1px solid var(--a-line); }
-.app-shell .pt-more li + li { border-top: 1px solid var(--a-line); }
-.app-shell .pt-more a { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 12px 2px; color: var(--a-ink); text-decoration: none; transition: background-color 150ms var(--a-ease); }
-.app-shell .pt-more a:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 8px; }
-@media (hover: hover) and (pointer: fine) { .app-shell .pt-more a:hover { background: var(--a-hover); } }
-.app-shell .pt-more__text { display: grid; gap: 2px; min-width: 0; }
-.app-shell .pt-more__text b { font: 700 15.5px/1.3 var(--font-display); }
-.app-shell .pt-more__text span { font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3); }
-.app-shell .pt-more a > svg { flex: none; color: var(--a-ink-3); }
+/* ---------- More ways to practise: Question stream, Concepts ---------- */
+.app-shell .prc-more ul { margin: 0; padding: 0; list-style: none; border-block: 1px solid var(--a-line); }
+.app-shell .prc-more li + li { border-top: 1px solid var(--a-line); }
+.app-shell .prc-more a { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; padding: 12px 2px; color: var(--a-ink); text-decoration: none; transition: background-color 150ms var(--a-ease); }
+.app-shell .prc-more a:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; border-radius: 8px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .prc-more a:hover { background: var(--a-hover); } }
+.app-shell .prc-more__text { display: grid; gap: 2px; min-width: 0; }
+.app-shell .prc-more__text b { font: 700 15.5px/1.3 var(--font-display); }
+.app-shell .prc-more__text span { font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3); }
+.app-shell .prc-more a > svg { flex: none; color: var(--a-ink-3); }
 
 /* ---------- Empty: no practice subjects on the sheet ---------- */
-.app-shell .pt-empty { display: grid; gap: 10px; justify-items: start; padding: 24px 0; border-block: 1px solid var(--a-line); }
-.app-shell .pt-empty b { font: 700 18px/1.3 var(--font-display); }
-.app-shell .pt-empty p { margin: 0; max-width: 52ch; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .prc-empty { display: grid; gap: 12px; justify-items: start; padding: 24px 0; border-block: 1px solid var(--a-line); }
+.app-shell .prc-empty h2 { margin: 0; font: 700 18px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .prc-empty p { margin: 0; max-width: 52ch; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2); }
 
-/* ---------- Loading and error hold the page's own boxes, so nothing shifts when the answer arrives. Static: no shimmer. ---------- */
-.app-shell .pt-sk { display: block; border-radius: 12px; background: var(--a-sunken); }
-.app-shell .pt-sk--title { width: 160px; height: 40px; }
-.app-shell .pt-sk--line { width: min(100%, 360px); height: 14px; margin-top: 12px; }
-.app-shell .pt-sk--tile { height: 92px; border-radius: 16px; }
-.app-shell .pt-sk--row { height: 64px; border-radius: 0; border-top: 1px solid var(--a-line); }
-.app-shell .pt-sk--aside { height: 260px; border-radius: 20px; }
+/* ---------- Loading holds the page's own boxes, so nothing shifts when the answer arrives. Static: no shimmer. ---------- */
+.app-shell .prc-sk { display: block; border-radius: 12px; background: var(--a-sunken); }
+.app-shell .prc-sk--title { width: 260px; max-width: 100%; height: 40px; }
+.app-shell .prc-sk--line { width: min(100%, 360px); height: 14px; margin-top: 12px; }
+.app-shell .prc-sk--tile { height: 92px; border-radius: 16px; }
+.app-shell .prc-sk--row { height: 64px; border-radius: 0; border-top: 1px solid var(--a-line); }
+.app-shell .prc-sk--aside { height: 260px; border-radius: 20px; }
+.app-shell .prc-sk--l1 { width: 90px; height: 13px; }
+.app-shell .prc-sk--l2 { width: min(100%, 320px); height: 26px; }
+.app-shell .prc-sk--l3 { width: min(100%, 220px); height: 14px; }
 
 /* ---------- Reduced motion: the same information, no movement ---------- */
-html[data-motion='reduced'] .app-shell :is(.pt-key, .pt-tile, .pt-tile__tick, .pt-row, .pt-row__dot, .pt-seg button, .pt-chapters button, .pt-fine__chev, .pt-more a) { transition: none; }
-html[data-motion='reduced'] .app-shell .pt-row__dot::after { transition: none; }
-html[data-motion='reduced'] .app-shell .pt-aside__swap { animation: none; }
-html[data-motion='reduced'] .app-shell .pt-tile:active, html[data-motion='reduced'] .app-shell .pt-key:active { transform: none; }
+html[data-motion='reduced'] .app-shell :is(.prc-aside, .prc-key, .prc-tile, .prc-tile__tick, .prc-row, .prc-row__dot, .prc-seg button, .prc-chapters button, .prc-fine__chev, .prc-more a) { transition: none; }
+html[data-motion='reduced'] .app-shell .prc-row__dot::after { transition: none; }
+html[data-motion='reduced'] .app-shell :is(.prc-aside__swap, .prc-reco__set) { animation: none; }
+html[data-motion='reduced'] .app-shell :is(.prc-tile:active, .prc-key:active) { transform: none; }
 @media (prefers-reduced-motion: reduce) {
-  .app-shell :is(.pt-key, .pt-tile, .pt-tile__tick, .pt-row, .pt-row__dot, .pt-seg button, .pt-chapters button, .pt-fine__chev, .pt-more a) { transition: none; }
-  .app-shell .pt-row__dot::after { transition: none; }
-  .app-shell .pt-aside__swap { animation: none; }
-  .app-shell .pt-tile:active, .app-shell .pt-key:active { transform: none; }
+  .app-shell :is(.prc-aside, .prc-key, .prc-tile, .prc-tile__tick, .prc-row, .prc-row__dot, .prc-seg button, .prc-chapters button, .prc-fine__chev, .prc-more a) { transition: none; }
+  .app-shell .prc-row__dot::after { transition: none; }
+  .app-shell :is(.prc-aside__swap, .prc-reco__set) { animation: none; }
+  .app-shell :is(.prc-tile:active, .prc-key:active) { transform: none; }
 }

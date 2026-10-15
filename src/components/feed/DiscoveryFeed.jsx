@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import ArenaHead from '@/components/arena/ArenaHead';
+import { ChevronRight } from 'lucide-react';
 import { EmptyState, ErrorState, SkeletonLines } from '@/components/ui/Skeleton';
 import { QuestionCard } from './QuestionCard';
 import { appendUniqueQuestions, chapterGroups } from '@/../data/explore_feed';
@@ -103,8 +103,11 @@ export function DiscoveryFeed() {
   const solved = summary?.subject === filters.subject ? summary.data?.solvedTotal : null;
 
   return (
-    <div className="ex-page">
-      <ArenaHead eyebrow="Explore · untimed practice" title="One question. One useful step." lede="Try it, check the reasoning, save what needs another go. This is practice, separate from your timed mock score." />
+    <div className="student-page student-page--explore ex-page">
+      <header className="ex-head">
+        <h1 className="ex-title">Question stream</h1>
+        <p className="ex-lede">Untimed questions, one at a time. Answer, check the reasoning, and save what needs another go. It is separate from your timed mock score.</p>
+      </header>
       <div className="ex-layout">
         <div className="ex-main">
           <form className="ex-filters" aria-label="Filter practice questions" onSubmit={(event) => event.preventDefault()}>
@@ -124,11 +127,13 @@ export function DiscoveryFeed() {
           {page.hasMore && <button ref={moreButton} type="button" className="ex-more" aria-disabled={busy} onClick={() => { if (!busy) loadPage(page.nextOffset); }}>{busy ? 'Loading…' : 'Load more questions'}</button>}
           {page.state === 'ready' && !page.hasMore && page.questions.length > 0 && <p ref={endStatus} tabIndex={-1} className="ex-end" role="status">You’re up to date for these filters. Saved questions are ready for your next round.</p>}
         </div>
-        <aside className="ex-aside" aria-label="Make practice count">
-          <span className="mono-label">Tonight’s rule</span><h2>Answer first.<br />Then ask why.</h2><p>A wrong answer with a clear reason is worth coming back to. Keep those questions close.</p>
-          <Link href="/saved" className="ex-route">Open saved questions <span aria-hidden="true">↗</span></Link><Link href="/review" className="ex-route">Review your timed sessions <span aria-hidden="true">↗</span></Link>
-          {Number.isFinite(solved) && <p className="ex-record"><b>{solved}</b> questions solved in your recorded untimed practice. <Link href="/progress">See progress</Link></p>}
-          <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p>
+        <aside className="ex-aside" aria-label="After you answer">
+          <h2>After you answer</h2>
+          <p>A wrong answer with a clear reason is worth coming back to. Save it, and it waits in your saved questions.</p>
+          <Link href="/saved" className="ex-route">Saved questions<ChevronRight size={18} strokeWidth={1.75} aria-hidden="true" /></Link>
+          <Link href="/review#results" className="ex-route">Past results<ChevronRight size={18} strokeWidth={1.75} aria-hidden="true" /></Link>
+          {Number.isFinite(solved) && <p className="ex-record"><b>{solved}</b> {solved === 1 ? 'question' : 'questions'} solved in your recorded untimed practice. <Link href="/you#progress">See your progress</Link></p>}
+          <p className="ex-footnote">Community votes help organise the stream. They do not certify an answer.</p>
         </aside>
       </div>
     </div>

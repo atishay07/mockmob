@@ -3,15 +3,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/ui/Icons';
+import { PLAN_FACTS, proPlanLines } from '@/../data/plan_facts.mjs';
 
-const QUICK_COST = 10;
-const FULL_COST = 50;
-
-const LOCKED = [
-  'Radar: your weakest chapter from this mock',
-  'Free sourced DU eligibility and historical cutoffs',
-  'Chapter priority map for the next 7 days',
-];
+// Every number and every Pro item comes from data/plan_facts.mjs and the offer; nothing is typed here.
+const QUICK_COST = PLAN_FACTS.practiceCredits.quickCost.value;
+const FULL_COST = PLAN_FACTS.practiceCredits.fullMockCost.value;
+const PRO_ITEMS = proPlanLines();
+const sessions = (n) => `${n} ${n === 1 ? 'session' : 'sessions'}`;
 
 export function CreditsRemainingModal({ open, credits, onClose, offer = null }) {
   const router = useRouter();
@@ -92,16 +90,14 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
         </button>
 
         <h2 id="credits-modal-title" className="mmx-sheet__title">
-          {isEmpty ? 'You are out of credits.' : 'Your score is just the headline.'}
+          {isEmpty ? 'You are out of practice credits.' : `You have ${safe} practice credits.`}
         </h2>
         <p className="mmx-sheet__lede">
-          {isEmpty
-            ? 'Free credits gate how often you can generate a mock — not what you can see. Pro removes the gate entirely.'
-            : 'Pro turns this attempt into a plan. Here is what stays locked on the free lane.'}
+          {`A quick practice uses ${QUICK_COST} and a full mock uses ${FULL_COST}. This is what comes with Pro.`}
         </p>
 
         <ul className="mmx-locked">
-          {LOCKED.map((line) => (
+          {PRO_ITEMS.map((line) => (
             <li key={line}>
               <Icon name="shield" aria-hidden="true" />
               <span>{line}</span>
@@ -112,33 +108,26 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
 
         <div className="mmx-credits">
           <p className="mmx-credits__head">
-            Credits left <strong>{safe}</strong>
+            Practice credits left <strong>{safe}</strong>
           </p>
-          <div className="mmx-credits__bar" aria-hidden="true">
-            <span style={{ transform: `scaleX(${Math.min(100, safe) / 100})` }} />
-          </div>
           <div className="mmx-credits__runs">
             <div>
-              <span>Quick Practice · {QUICK_COST} cr</span>
-              <strong>
-                {quickRuns} run{quickRuns === 1 ? '' : 's'}
-              </strong>
+              <span>{`Quick practice, ${QUICK_COST} credits`}</span>
+              <strong>{sessions(quickRuns)}</strong>
             </div>
             <div>
-              <span>Full Mock · {FULL_COST} cr</span>
-              <strong>
-                {fullRuns} run{fullRuns === 1 ? '' : 's'}
-              </strong>
+              <span>{`Full mock, ${FULL_COST} credits`}</span>
+              <strong>{sessions(fullRuns)}</strong>
             </div>
           </div>
         </div>
 
         <p className="mmx-sheet__price">
           {offer?.purchasable === 'monthly'
-            ? <>Pro is <strong>₹{offer.monthly.rupees} a month</strong>. Unlimited mocks, full Radar and NTA Mode. Cancel anytime.</>
+            ? <>Pro is <strong>₹{offer.monthly.rupees} a month</strong>.</>
             : offer
-              ? <>Pro access is <strong>₹{offer.oneTime.rupees} once</strong>. Unlimited mocks, full Radar and NTA Mode through {offer.oneTime.expires}.</>
-              : <>Pro removes the credit gate. See pricing for the current offer.</>}
+              ? <>Pro is <strong>₹{offer.oneTime.rupees} once</strong>, through {offer.oneTime.expires}.</>
+              : <>See pricing for the current Pro offer.</>}
         </p>
 
         <div className="mmx-sheet__actions">
