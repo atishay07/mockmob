@@ -21,7 +21,7 @@
 // Reduced motion keeps the hold with calm, instant swaps. Without IntersectionObserver the steps stack.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import '@/app/scroll-story.css';
-import { drawnAncestor, undrawn } from './undrawn';
+import { drawnAncestor, settleUndrawn, undrawn } from './undrawn';
 
 const reducedNow = () => {
   if (typeof window === 'undefined') return false;
@@ -95,6 +95,38 @@ function watchInput(on) {
     else window.removeEventListener(type, handler, { capture: true });
   }
 }
+// Momentum. Past its first event the browser may stop letting a page cancel a scroll: a trackpad's inertia
+// tail, a mouse wheel's smooth glide, a touch fling, a drag already under way, a scroll key's glide. Putting
+// the page back on every frame of that scroll fights the compositor, and the held story shudders. So when a
+// story has to hold the page against such a scroll, the page stops scrolling for a moment instead
+// (overflow: hidden on the root, with the scrollbar's gutter kept so nothing reflows), which ends the
+// momentum. Scrolling comes back once the input has been quiet for QUIET_MS with no finger down, or at once
+// when a new touch or a gesture the story does not claim begins. The story's own glides still move the page.
+const hush = { on: false, at: 0, timer: 0, overflow: '', gutter: '' };
+function thawMomentum() {
+  if (!hush.on) return;
+  clearTimeout(hush.timer);
+  const root = document.documentElement;
+  root.style.overflow = hush.overflow;
+  root.style.scrollbarGutter = hush.gutter;
+  hush.on = false;
+}
+function hushMomentum() {
+  hush.at = now();
+  if (hush.on) return;
+  const root = document.documentElement;
+  hush.on = true;
+  hush.overflow = root.style.overflow;
+  hush.gutter = root.style.scrollbarGutter;
+  if (window.innerWidth > root.clientWidth) root.style.scrollbarGutter = 'stable';
+  root.style.overflow = 'hidden';
+  const check = () => {
+    const since = now() - Math.max(hush.at, input.at);
+    if (input.touches > 0 || since < QUIET_MS) hush.timer = setTimeout(check, Math.max(16, QUIET_MS - since));
+    else thawMomentum();
+  };
+  hush.timer = setTimeout(check, QUIET_MS);
+}
 const gestureCarried = (at) => input.at > input.jump && (
   (input.kind === 'touch' && (input.touches > 0 || at - input.at < FLING_MS))
   || (input.kind === 'wheel' && at - input.at < 600)
@@ -159,6 +191,9 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   const story = useRef(null);
   const onStepRef = useRef(onStep);
   useEffect(() => { onStepRef.current = onStep; }, [onStep]);
+  // A held story must not move under the reader: settle the page's height before a fast scroll reaches it
+  // (undrawn.js; once per page, shared by every story).
+  useEffect(() => { settleUndrawn(); }, []);
 
   useEffect(() => {
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -252,7 +287,9 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     let touch = null; // the touch in progress: { x, y, t, dir, decided, own, done, target }
     let pressed = null; // the key press in progress, with its repeats: { own }
     let busyUntil = 0; // the step's glide (or a calm swap) runs until then
-    let keep = null; // while the gesture that owns the story lasts, the page stays at this scroll position
+    // While the gesture that owns the story lasts, the page stays at this point of the track (measured from the
+    // track's top, so a section above that changes height under the reader moves the hold with it).
+    let keep = null;
     let keptAt = 0;
     let keptSince = 0; // when the story last took the page: a link, a button or Home/End after that wins
     let keepTouch = false;
@@ -282,17 +319,22 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       const calm = instant || reducedNow();
       const t0 = now();
       busyUntil = t0 + (calm ? CALM_MS : STEP_MS);
-      keep = target;
+      const goal = target - at.top;
+      keep = goal;
       keptAt = t0;
       keptSince = t0;
       keepTouch = input.touches > 0;
       cancelAnimationFrame(glide);
-      const from = window.scrollY;
-      if (calm || Math.abs(target - from) < 2) { steering.current = false; put(target); return; }
+      const from = window.scrollY - at.top;
+      if (calm || Math.abs(target - window.scrollY) < 2) { steering.current = false; put(target); return; }
       steering.current = true;
+      // The glide is planned along the track, not the page: if a section above settles its height mid-glide
+      // (scroll anchoring then shifts the page), the glide still lands exactly on the step's resting place.
       const frame = () => {
         const t = Math.min(1, (now() - t0) / STEP_MS);
-        put(from + (target - from) * easeOut(t));
+        const live = locate();
+        const top = live && Math.abs(live.top - at.top) > 1 ? live.top : at.top; // real drift, not sub-pixel noise
+        put(top + from + (goal - from) * easeOut(t));
         if (t < 1) glide = requestAnimationFrame(frame);
         else { glide = 0; steering.current = false; }
       };
@@ -320,12 +362,14 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       steering.current = false;
       stepRef.current = n;
       setStep(n);
-      keep = restOf(n, at);
+      keep = restOf(n, at) - at.top;
       keptAt = t;
       keptSince = t;
       keepTouch = input.kind === 'touch';
       busyUntil = t + CALM_MS;
-      put(keep);
+      put(at.top + keep);
+      // Whatever carried the page in (a fling, a wheel's inertia) ends here, not a frame at a time.
+      hushMomentum();
       if (input.kind === 'wheel') wheel = { dir, last: t, sum: 0, own: true, done: true };
       if (touch) Object.assign(touch, { decided: true, dir, own: true, done: true });
       if (input.kind === 'key') pressed = { own: true };
@@ -339,7 +383,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
         const own = claims(dir, event.target);
         // Begun while a step still glides: more of the same push, swallowed whole (never a queued step).
         wheel = { dir, last: t, sum: 0, own, done: own && t < busyUntil };
-        if (!own) keep = null;
+        if (!own) { keep = null; thawMomentum(); }
       }
       wheel.last = t;
       if (!wheel.own) return;
@@ -350,6 +394,8 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     };
 
     const onTouchStart = (event) => {
+      // A new touch has already stopped any fling: the page is free again for whatever this touch decides.
+      thawMomentum();
       if (event.touches.length !== 1) { touch = null; return; }
       const p = event.touches[0];
       touch = { x: p.clientX, y: p.clientY, t: stamp(event), dir: 0, decided: false, own: false, done: false, target: event.target };
@@ -395,7 +441,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
       if (event.key === 'Escape') {
         const at = locate();
-        if (at && holding(at)) { released = true; keep = null; }
+        if (at && holding(at)) { released = true; keep = null; thawMomentum(); }
         return;
       }
       let dir = KEYS[event.key];
@@ -405,7 +451,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       if (space && event.shiftKey) dir = -1;
       if (event.repeat) { if (pressed?.own) event.preventDefault(); return; }
       pressed = { own: claims(dir, event.target) };
-      if (!pressed.own) { keep = null; return; }
+      if (!pressed.own) { keep = null; thawMomentum(); return; }
       event.preventDefault();
       keptAt = now();
       if (stamp(event) >= busyUntil) step(dir);
@@ -417,10 +463,13 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       if (!at) { prevS = null; return; }
       const ours = selfY !== null && Math.abs(window.scrollY - selfY) < 1.5;
       if (released && !holding(at)) released = false;
+      // Momentum the page could not cancel, arriving mid-glide: end it (the glide's next frame puts the page back).
+      if (!ours && steering.current && input.jump < keptSince) hushMomentum();
       if (!ours && !steering.current && !released) {
         if (keep !== null && input.jump < keptSince && (t < busyUntil || t - keptAt < QUIET_MS || (keepTouch && input.touches > 0))) {
-          // Momentum the gesture left behind (a fling, a wheel's glide) does not move the story.
-          if (Math.abs(window.scrollY - keep) > 1.5) { keptAt = t; put(keep); }
+          // Momentum the gesture left behind (a fling, a wheel's glide) does not move the story: the page goes
+          // back once and the momentum ends there (see Momentum above).
+          if (Math.abs(at.s - keep) > 1.5) { keptAt = t; put(at.top + keep); hushMomentum(); }
         } else {
           keep = null;
           // A gesture this story did not claim carried the page into the held stretch (in from outside,
@@ -455,6 +504,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       near.disconnect();
       listen(false);
       watchInput(false);
+      thawMomentum();
       cancelAnimationFrame(glide);
       steering.current = false;
       story.current = null;
