@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/domain/marks_at_stake.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/models/question.dart';
+import '../../../core/models/repair.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -158,7 +159,7 @@ class MistakeView extends StatelessWidget {
                       builder: (context, reveal) => QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex, reveal: reveal),
                     ),
                   RepairMobi(stepKey: step.item.key, outcome: outcome),
-                  ..._outcome(context, outcome, chosenLetter: _letter(chosen)),
+                  ..._outcome(context, outcome, chosenLetter: _letter(chosen), keyLetter: _letter(keyIndex)),
                 ],
               ),
               // The words run under the key: a short fade into the ground says there is more, in
@@ -207,31 +208,72 @@ class MistakeView extends StatelessWidget {
     );
   }
 
-  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter}) {
-    final colors = context.mmColors;
-    final type = context.mmType;
+  /// The sentences of "From your record" for [questionId]: the lines the server built from the
+  /// student's own answers (null renders nothing, never a placeholder), then the repeated-trap
+  /// line from this repair's answer. A pattern the lines already say is not said twice.
+  List<String> _recordLines(String questionId, RepairResponse response) {
+    final lines = <String>[
+      for (final l in detail?.mistakeInsights[questionId]?.lines ?? const [])
+        if (l.text.trim().isNotEmpty) l.text.trim(),
+    ];
+    final pattern = response.pattern?.line.trim();
+    if (pattern != null && pattern.isNotEmpty && !lines.contains(pattern)) lines.add(pattern);
+    return lines;
+  }
+
+  /// The small print under a repair: "1 credit used. 43 left." for a fresh one, "Saved repair. No
+  /// credit used." for one opened again. An answer that does not say what it cost says nothing
+  /// about cost: an unknown charge is never shown as none.
+  static String? finePrint(RepairResponse response, {required bool reopened}) {
+    if (reopened || response.status == RepairStatus.stored) return ReviewCopy.savedRepairNoCredit;
+    final charged = response.charged;
+    if (charged == null) return null;
+    if (charged <= 0) return ReviewCopy.noCreditUsed;
+    final wallet = response.wallet;
+    return ReviewCopy.creditsUsed(charged, wallet?.total ?? wallet?.balance);
+  }
+
+  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter, String? keyLetter}) {
     final readKey = StateAction(ReviewCopy.readKey, actions.onReadKey);
     switch (outcome) {
       case null || OutcomeLoading():
         return [
           const SizedBox(height: MmSpace.s32),
-          Text(ReviewCopy.working, style: type.label.copyWith(color: colors.ink2)),
+          // What is true now, in one line that changes on real elapsed time (8 s, then 45 s), with
+          // the website's words and timings. No stage is invented, and nothing is added under it.
+          RepairWaitLine(key: ValueKey('wait-${run.current!.item.key}'), number: run.current!.item.number),
           const SizedBox(height: MmSpace.s12),
-          const SkeletonGroup(
-            label: ReviewCopy.working,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [Skeleton.line(), SizedBox(height: MmSpace.s12), Skeleton.line(), SizedBox(height: MmSpace.s12), Skeleton.line(width: 180)],
+          // The placeholder is only a shape: the wait line above is what a screen reader hears.
+          ExcludeSemantics(
+            child: SkeletonGroup(
+              label: ReviewCopy.writingRepair(run.current!.item.number),
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [Skeleton.line(), SizedBox(height: MmSpace.s12), Skeleton.line(), SizedBox(height: MmSpace.s12), Skeleton.line(width: 180)],
+              ),
             ),
           ),
         ];
-      case OutcomeExplained(:final response):
+      case OutcomeExplained(:final response, :final reopened, :final requestId):
+        final fine = finePrint(response, reopened: reopened);
         return [
           StageMoment(repaired: run.current?.countsAsRepaired ?? false),
-          if (response.explanation != null) WorkedExplanation(explanation: response.explanation!, chosenLetter: chosenLetter),
+          if (response.explanation != null)
+            WorkedExplanation(
+              explanation: response.explanation!,
+              chosenLetter: chosenLetter,
+              keyLetter: keyLetter,
+              letterOf: question == null ? null : _letter,
+              recordLines: _recordLines(run.current!.item.questionId, response),
+              // Only a repair the server just made arrives block by block, and only the first time
+              // it is on screen; a saved one, or one gone back to along the track, is simply there.
+              animate: !reopened && response.status == RepairStatus.explained,
+              arrivalKey: '${run.attemptId}/${run.current!.item.key}/${requestId ?? ''}',
+            ),
           ?_marks(context),
           ConceptRow(chapter: run.chapter),
           RetryCard(subjectId: run.subjectId, chapter: run.chapter),
+          if (fine != null) RepairFinePrint(text: fine),
         ];
       case OutcomeSetAside(:final heldByServer):
         return [NoticePanel(message: heldByServer ? ReviewCopy.heldForRecheck : ReviewCopy.setAsideCheck, icon: LucideIcons.scale)];

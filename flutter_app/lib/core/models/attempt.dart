@@ -1,5 +1,7 @@
 import 'json_helpers.dart';
+import 'mistake_insights.dart';
 import 'question.dart';
+import 'swot.dart';
 
 /// Server verdict for one question. `isCorrect` is null for a question left blank.
 class AnswerDetail {
@@ -229,6 +231,8 @@ class AttemptDetail {
     this.answerReviews = const {},
     this.answerReviewState = 'ready',
     this.recap,
+    this.mistakeInsights = const {},
+    this.swot,
   });
 
   factory AttemptDetail.fromJson(Json j) {
@@ -241,6 +245,8 @@ class AttemptDetail {
       answerReviews: reviews,
       answerReviewState: asStringOr(j['answerReviewState'], 'ready'),
       recap: j['recap'] is Map ? AttemptRecap.fromJson(asJson(j['recap'])) : null,
+      mistakeInsights: MistakeInsights.mapFrom(j['mistakeInsights']),
+      swot: j['swot'] is Map ? Swot.fromJson(asJson(j['swot'])) : null,
     );
   }
 
@@ -250,6 +256,13 @@ class AttemptDetail {
   /// `ready` or `unavailable`. Unavailable means no key or explanation may be shown at all.
   final String answerReviewState;
   final AttemptRecap? recap;
+
+  /// "From your record" lines per wrong answer (question id), built by the server from stored
+  /// records. Empty when the server sends none.
+  final Map<String, MistakeInsights> mistakeInsights;
+
+  /// The post-mock read, null when the server omits it (practice results, an older server).
+  final Swot? swot;
 
   bool get reviewsUnavailable => answerReviewState == 'unavailable';
 

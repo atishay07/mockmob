@@ -1,0 +1,165 @@
+{
+  "mistakeInsights": {
+    "q12": {
+      "lines": [
+        { "kind": "change", "text": "You first chose C here, then changed to B." },
+        { "kind": "time", "text": "41s on this question. Your median in this paper was 55s over 48 timed questions." },
+        { "kind": "repeat_same", "text": "You chose the same option when you missed this in Mock 2 on 9 Oct." },
+        { "kind": "chapter", "text": "Accounting Ratios so far: 7 right of 15 answered across 3 papers, this one included." }
+      ],
+      "evidence": { "firstIndex": 2, "finalIndex": 1, "seconds": 41, "medianSeconds": 55, "timed": 48, "chapter": { "right": 7, "answered": 15, "papers": 3 } }
+    },
+    "q18": {
+      "lines": [
+        { "kind": "chapter", "text": "Accounting Ratios so far: 7 right of 15 answered across 3 papers, this one included." }
+      ],
+      "evidence": { "firstIndex": null, "finalIndex": 0, "seconds": null, "medianSeconds": null, "timed": null, "chapter": { "right": 7, "answered": 15, "papers": 3 } }
+    }
+  },
+  "swot": {
+    "version": 1,
+    "state": "ready",
+    "message": null,
+    "basis": {
+      "line": "From 49 of 50 questions in this paper and 212 earlier answers in Accountancy across 6 papers.",
+      "heldLine": "1 question under re-check or corrected is left out of this read.",
+      "counted": 49,
+      "total": 50,
+      "held": 1,
+      "earlierPapers": 6,
+      "earlierAnswers": 212,
+      "timing": "recorded"
+    },
+    "quadrants": [
+      {
+        "id": "strength",
+        "label": "Strengths",
+        "empty": null,
+        "items": [
+          {
+            "id": "strong_chapter:Partnership",
+            "kind": "strong_chapter",
+            "title": "Partnership",
+            "detail": "14 right of 16 across 4 papers, 4 of 4 in this one.",
+            "chapter": "Partnership",
+            "questions": [],
+            "planId": null,
+            "evidence": { "paper": { "n": 4, "right": 4, "wrong": 0, "blank": 0, "lost": 0 }, "record": { "right": 14, "answered": 16, "papers": 4, "low": 64, "high": 96 } }
+          },
+          {
+            "id": "changes_helped",
+            "kind": "changes_helped",
+            "title": "Changed answers paid off",
+            "detail": "3 answer changes gained 15 marks in total. None turned a right answer wrong.",
+            "chapter": null,
+            "questions": [],
+            "planId": null
+          }
+        ]
+      },
+      {
+        "id": "weakness",
+        "label": "Weaknesses",
+        "empty": null,
+        "items": [
+          {
+            "id": "weak_chapter:Depreciation",
+            "kind": "weak_chapter",
+            "title": "Depreciation",
+            "detail": "6 right of 18 across 3 papers. In this one: 2 of 6 right, 22 marks lost.",
+            "chapter": "Depreciation",
+            "questions": [9, 14, 27, 33],
+            "planId": "p2"
+          },
+          {
+            "id": "quick_wrong",
+            "kind": "quick_wrong",
+            "title": "Quick wrong answers",
+            "detail": "5 of your 8 timed wrong answers took under 20 seconds.",
+            "chapter": null,
+            "questions": [12, 18, 21, 36, 41],
+            "planId": null
+          }
+        ]
+      },
+      {
+        "id": "opportunity",
+        "label": "Opportunities",
+        "empty": null,
+        "items": [
+          {
+            "id": "close_chapter:Cash Flow Statement",
+            "kind": "close_chapter",
+            "title": "Cash Flow Statement",
+            "detail": "9 right of 14 across 3 papers. 11 marks lost here in this paper.",
+            "chapter": "Cash Flow Statement",
+            "questions": [],
+            "planId": "p3"
+          },
+          {
+            "id": "blanks",
+            "kind": "blanks",
+            "title": "Blanks",
+            "detail": "3 of 49 questions left blank: 15 marks not earned.",
+            "chapter": null,
+            "questions": [44, 45, 46],
+            "planId": null
+          }
+        ]
+      },
+      {
+        "id": "threat",
+        "label": "Threats",
+        "empty": null,
+        "items": [
+          {
+            "id": "repeat_loss:Accounting Ratios",
+            "kind": "repeat_loss",
+            "title": "Accounting Ratios in each of your last 3 mocks",
+            "detail": "Marks lost here: 12, 18 and 21, oldest first.",
+            "chapter": "Accounting Ratios",
+            "questions": [12, 18, 31],
+            "planId": "p1"
+          },
+          {
+            "id": "not_opened",
+            "kind": "not_opened",
+            "title": "Questions never opened",
+            "detail": "4 of 49 questions were never opened: Q47, Q48, Q49 and Q50.",
+            "chapter": null,
+            "questions": [47, 48, 49, 50],
+            "planId": null
+          }
+        ]
+      }
+    ],
+    "plan": [
+      {
+        "id": "p1",
+        "label": "Practise 10 on Accounting Ratios",
+        "reason": "Marks lost here in each of your last 3 mocks.",
+        "practice": { "subject": "accountancy", "mode": "quick", "count": 10, "chapter": "Accounting Ratios" },
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Accounting%20Ratios",
+        "later": null
+      },
+      {
+        "id": "p2",
+        "label": "Practise 10 on Depreciation",
+        "reason": "22 marks lost here in this paper, and 6 right of 18 across 3 papers.",
+        "practice": { "subject": "accountancy", "mode": "quick", "count": 10, "chapter": "Depreciation" },
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Depreciation",
+        "later": { "at": 1792143000000, "right": 7, "of": 10, "line": "A set on this chapter on 16 Oct: 7 right of 10." }
+      },
+      {
+        "id": "p3",
+        "label": "Practise 10 on Cash Flow Statement",
+        "reason": "9 right of 14 so far. 11 marks lost here in this paper.",
+        "practice": { "subject": "accountancy", "mode": "quick", "count": 10, "chapter": "Cash Flow Statement" },
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Cash%20Flow%20Statement",
+        "later": null
+      }
+    ],
+    "futureField": { "ignored": true }
+  },
+  "futureTopLevelField": [1, 2, 3]
+}

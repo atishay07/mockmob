@@ -21,9 +21,20 @@ const repairTrapLabels = <String, String>{
 /// The heading for [trapType]; an unknown or missing type reads as neutral wording, never a code.
 String repairTrapLabel(String? trapType) => repairTrapLabels[trapType] ?? repairTrapLabels['other']!;
 
+/// One line of "The other options" in a v3 repair: why the option at [index] (0-based, in the
+/// order the student saw the options) is wrong.
+class RepairOtherOption {
+  const RepairOtherOption({required this.index, required this.why});
+
+  final int index;
+  final String why;
+}
+
 /// Text of one Mistake Repair explanation. v1 (stored repairs written before v2) carries
 /// `key_idea`, `why_tempting`, `why_wrong` and `next_step`; v2 adds the trap, another way to see
-/// it, a worked contrast and a rule to keep. Every v2 field is optional, so either payload reads.
+/// it, a worked contrast and a rule to keep; v3 adds why the key is right, a line for each other
+/// option and a memory hook, and carries the second explanation in the same response. Every
+/// field after v1 is optional, so any payload reads.
 class RepairExplanation {
   const RepairExplanation({
     required this.keyIdea,
@@ -35,6 +46,9 @@ class RepairExplanation {
     this.anotherWay,
     this.contrast,
     this.rule,
+    this.whyRight,
+    this.others = const [],
+    this.memoryHook,
   });
 
   factory RepairExplanation.fromJson(Json j) {
@@ -45,8 +59,9 @@ class RepairExplanation {
 
     final rule = text(j['rule']);
     return RepairExplanation(
-      // A v2 payload may carry the rule in place of `key_idea`: the idea is then the rule.
+      // A v2 or v3 payload may carry the rule in place of `key_idea`: the idea is then the rule.
       keyIdea: text(j['key_idea']) ?? rule ?? '',
+      // v3 sends `trap` and, for older apps, the same words as `why_tempting`.
       whyTempting: text(j['trap']) ?? text(j['why_tempting']),
       whyWrong: text(j['why_wrong']),
       nextStep: text(j['next_step']),
@@ -55,37 +70,106 @@ class RepairExplanation {
       anotherWay: text(j['another_way']),
       contrast: text(j['contrast']),
       rule: rule,
+      whyRight: text(j['why_right']),
+      others: _others(j['others']),
+      memoryHook: text(j['memory_hook']),
     );
+  }
+
+  /// The valid entries of `others`, one per option, in the order the options were served. An
+  /// entry without a whole non-negative `index` or without text, or one that repeats an index, is
+  /// left out; the rest still show.
+  static List<RepairOtherOption> _others(Object? v) {
+    if (v is! List) return const [];
+    final seen = <int>{};
+    final out = <RepairOtherOption>[];
+    for (final e in v) {
+      if (e is! Map) continue;
+      final index = asInt(e['index']);
+      final why = asString(e['why'])?.trim();
+      if (index == null || index < 0 || why == null || why.isEmpty || !seen.add(index)) continue;
+      out.add(RepairOtherOption(index: index, why: why));
+    }
+    out.sort((a, b) => a.index.compareTo(b.index));
+    return out;
   }
 
   final String keyIdea;
 
-  /// Why the chosen option looked right (v2 `trap`, v1 `why_tempting`).
+  /// Why the chosen option looked right (v2 and v3 `trap`, v1 `why_tempting`).
   final String? whyTempting;
   final String? whyWrong;
   final String? nextStep;
   final DateTime? generatedAt;
 
-  /// v2 only: one of [repairTrapLabels]' keys, or anything else (read as `other`).
+  /// v2 and v3: one of [repairTrapLabels]' keys, or anything else (read as `other`).
   final String? trapType;
 
-  /// v2 only: the idea explained another way.
+  /// The idea explained another way (v2; in v3 it comes in the same response and is revealed by a
+  /// tap, with no second call).
   final String? anotherWay;
 
-  /// v2 only: a worked "if X then B; here Y, so C".
+  /// A worked "if X then B; here Y, so C".
   final String? contrast;
 
-  /// v2 only: the rule to keep, 15 words or fewer.
+  /// The rule to keep, 15 words or fewer.
   final String? rule;
 
-  /// A v2 payload: it carries a rule.
+  /// v3 only: why the answer key's option is right.
+  final String? whyRight;
+
+  /// v3 only: why each option that is neither the pick nor the key is wrong. Empty when the
+  /// server sent none (a two-option question, or a block it dropped).
+  final List<RepairOtherOption> others;
+
+  /// v3 only: a short way to remember the rule.
+  final String? memoryHook;
+
+  /// 3 when `why_right` is present, 2 when only a rule is, otherwise 1. The payload's layout, not a
+  /// promise about the server: a repair stored before v3 keeps its own layout.
+  int get version => isV3 ? 3 : (rule != null ? 2 : 1);
+
+  /// A v3 payload: it says why the key is right, and (as every v3 repair does) gives a rule. A
+  /// payload with `why_right` but no rule reads in the older layout instead of half a new one.
+  bool get isV3 => whyRight != null && rule != null;
+
+  /// A v2 payload or later: it carries a rule.
   bool get isV2 => rule != null;
 
-  /// The heading of a v2 repair, null for v1.
+  /// The heading of a v2 or v3 repair, null for v1.
   String? get trapHeading => isV2 ? repairTrapLabel(trapType) : null;
 
-  /// The line to keep: the v2 rule, or the v1 key idea.
+  /// The line to keep: the rule, or the v1 key idea.
   String get keepLine => rule ?? keyIdea;
+}
+
+/// "Since 9 Oct, 2 of your 3 repairs in Correct Word Usage had this trap."
+/// The server builds [line] from the student's own repairs; the app only shows it.
+class RepairPattern {
+  const RepairPattern({required this.line, this.scope, this.k, this.n, this.trapType});
+
+  /// Null when the map has no line: a pattern with nothing to say is no pattern.
+  static RepairPattern? tryParse(Object? v) {
+    if (v is! Map) return null;
+    final j = asJson(v);
+    final line = asString(j['line'])?.trim();
+    if (line == null || line.isEmpty) return null;
+    return RepairPattern(
+      line: line,
+      scope: asString(j['scope']),
+      k: asInt(j['k']),
+      n: asInt(j['n']),
+      trapType: asString(j['trapType']),
+    );
+  }
+
+  final String line;
+
+  /// `chapter` or `subject`.
+  final String? scope;
+  final int? k;
+  final int? n;
+  final String? trapType;
 }
 
 enum RepairStatus {
@@ -132,6 +216,7 @@ class RepairResponse {
     this.practiceHref,
     this.chosenIndex,
     this.keyIndex,
+    this.pattern,
   });
 
   /// Accepts only the four documented statuses and requires `key_idea` for `explained` and
@@ -152,6 +237,7 @@ class RepairResponse {
       practiceHref: asString(j['practiceHref']),
       chosenIndex: asInt(j['chosenIndex']),
       keyIndex: asInt(j['keyIndex']),
+      pattern: RepairPattern.tryParse(j['pattern']),
     );
   }
 
@@ -166,4 +252,8 @@ class RepairResponse {
   final String? practiceHref;
   final int? chosenIndex;
   final int? keyIndex;
+
+  /// A repeated trap across the student's repaired mistakes, or null (also when the server could
+  /// not work it out in time). Shown under "From your record".
+  final RepairPattern? pattern;
 }

@@ -107,6 +107,8 @@ void main() {
     expect(find.text('What happened here'), findsOneWidget);
     expect(find.text('This answer cost 6 marks in this session: 5 not earned and 1 penalty.'), findsOneWidget);
     expect(find.text('Practise 5 on Partnership'), findsOneWidget);
+    // The small print under the repair: what it cost and what is left, from the server's answer.
+    expect(find.text('1 credit used. 8 left.'), findsOneWidget);
     await tester.tap(find.text('Show the question'));
     await tester.pumpAndSettle();
     expect(find.byType(MarkedOption), findsNWidgets(4));

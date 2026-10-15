@@ -1,0 +1,591 @@
+{
+  "attemptId": "mock-3",
+  "mistakeInsights": {
+    "ar-shared-1": {
+      "lines": [
+        {
+          "kind": "change",
+          "text": "Your first answer here was D, the key. You changed it to A."
+        },
+        {
+          "kind": "time",
+          "text": "12s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "repeat_same",
+          "text": "You chose the same option when you missed this in Mock 1 on 5 Oct."
+        },
+        {
+          "kind": "chapter",
+          "text": "Accounting Ratios so far: 5 right of 12 answered across 3 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": 3,
+        "finalIndex": 0,
+        "seconds": 12,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 5,
+          "answered": 12,
+          "papers": 3
+        }
+      }
+    },
+    "ar-shared-2": {
+      "lines": [
+        {
+          "kind": "change",
+          "text": "Your first answer here was D, the key. You changed it to A."
+        },
+        {
+          "kind": "time",
+          "text": "9s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "repeat_same",
+          "text": "You chose the same option when you missed this in Mock 1 on 5 Oct."
+        },
+        {
+          "kind": "chapter",
+          "text": "Accounting Ratios so far: 5 right of 12 answered across 3 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": 3,
+        "finalIndex": 0,
+        "seconds": 9,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 5,
+          "answered": 12,
+          "papers": 3
+        }
+      }
+    },
+    "m3-4": {
+      "lines": [
+        {
+          "kind": "time",
+          "text": "14s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "chapter",
+          "text": "Accounting Ratios so far: 5 right of 12 answered across 3 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": null,
+        "finalIndex": 1,
+        "seconds": 14,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 5,
+          "answered": 12,
+          "papers": 3
+        }
+      }
+    },
+    "m3-12": {
+      "lines": [
+        {
+          "kind": "time",
+          "text": "11s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "chapter",
+          "text": "Share Capital so far: 9 right of 22 answered across 4 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": null,
+        "finalIndex": 2,
+        "seconds": 11,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 9,
+          "answered": 22,
+          "papers": 4
+        }
+      }
+    },
+    "m3-13": {
+      "lines": [
+        {
+          "kind": "time",
+          "text": "1m 10s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "chapter",
+          "text": "Share Capital so far: 9 right of 22 answered across 4 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": null,
+        "finalIndex": 2,
+        "seconds": 70,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 9,
+          "answered": 22,
+          "papers": 4
+        }
+      }
+    },
+    "m3-15": {
+      "lines": [
+        {
+          "kind": "time",
+          "text": "15s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "chapter",
+          "text": "Debentures so far: 9 right of 11 answered across 3 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": null,
+        "finalIndex": 2,
+        "seconds": 15,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 9,
+          "answered": 11,
+          "papers": 3
+        }
+      }
+    },
+    "m3-16": {
+      "lines": [
+        {
+          "kind": "time",
+          "text": "1m 20s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "chapter",
+          "text": "Debentures so far: 9 right of 11 answered across 3 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": null,
+        "finalIndex": 2,
+        "seconds": 80,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 9,
+          "answered": 11,
+          "papers": 3
+        }
+      }
+    },
+    "m3-20": {
+      "lines": [
+        {
+          "kind": "time",
+          "text": "45s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "chapter",
+          "text": "Cash Flow Statement so far: 8 right of 11 answered across 3 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": null,
+        "finalIndex": 2,
+        "seconds": 45,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 8,
+          "answered": 11,
+          "papers": 3
+        }
+      }
+    },
+    "m3-29": {
+      "lines": [
+        {
+          "kind": "time",
+          "text": "45s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "chapter",
+          "text": "Admission of Partner so far: 10 right of 12 answered across 3 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": null,
+        "finalIndex": 2,
+        "seconds": 45,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 10,
+          "answered": 12,
+          "papers": 3
+        }
+      }
+    },
+    "m3-45": {
+      "lines": [
+        {
+          "kind": "time",
+          "text": "45s on this question. Your median in this paper was 45s over 50 timed questions."
+        },
+        {
+          "kind": "chapter",
+          "text": "Comparative & Common Size Statements so far: 11 right of 12 answered across 3 papers, this one included."
+        }
+      ],
+      "evidence": {
+        "firstIndex": null,
+        "finalIndex": 2,
+        "seconds": 45,
+        "medianSeconds": 45,
+        "timed": 50,
+        "chapter": {
+          "right": 11,
+          "answered": 12,
+          "papers": 3
+        }
+      }
+    }
+  },
+  "swot": {
+    "version": 1,
+    "state": "ready",
+    "message": null,
+    "basis": {
+      "line": "From 50 of 50 questions in this paper and 116 earlier answers in Accountancy across 4 papers.",
+      "heldLine": null,
+      "counted": 50,
+      "total": 50,
+      "held": 0,
+      "earlierPapers": 4,
+      "earlierAnswers": 116,
+      "timing": "recorded"
+    },
+    "quadrants": [
+      {
+        "id": "strength",
+        "label": "Strengths",
+        "empty": null,
+        "items": [
+          {
+            "id": "strong_chapter:Partnership Fundamentals",
+            "kind": "strong_chapter",
+            "title": "Partnership Fundamentals",
+            "detail": "21 right of 22 across 4 papers, 4 of 4 in this one.",
+            "chapter": "Partnership Fundamentals",
+            "questions": [],
+            "planId": null,
+            "evidence": {
+              "paper": {
+                "n": 4,
+                "right": 4,
+                "wrong": 0,
+                "blank": 0,
+                "answered": 4,
+                "lost": 0
+              },
+              "record": {
+                "right": 21,
+                "answered": 22,
+                "papers": 4,
+                "pct": 95,
+                "low": 78,
+                "high": 99
+              }
+            }
+          },
+          {
+            "id": "strong_chapter:Profit & Loss Appropriation Account",
+            "kind": "strong_chapter",
+            "title": "Profit & Loss Appropriation Account",
+            "detail": "15 right of 15 across 3 papers, 5 of 5 in this one.",
+            "chapter": "Profit & Loss Appropriation Account",
+            "questions": [],
+            "planId": null,
+            "evidence": {
+              "paper": {
+                "n": 5,
+                "right": 5,
+                "wrong": 0,
+                "blank": 0,
+                "answered": 5,
+                "lost": 0
+              },
+              "record": {
+                "right": 15,
+                "answered": 15,
+                "papers": 3,
+                "pct": 100,
+                "low": 80,
+                "high": 100
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "weakness",
+        "label": "Weaknesses",
+        "empty": null,
+        "items": [
+          {
+            "id": "quick_wrong",
+            "kind": "quick_wrong",
+            "title": "Quick wrong answers",
+            "detail": "5 of your 10 timed wrong answers took under 20 seconds.",
+            "chapter": null,
+            "questions": [
+              2,
+              3,
+              4,
+              12,
+              15
+            ],
+            "planId": null,
+            "evidence": {
+              "quick": 5,
+              "timedWrong": 10
+            }
+          },
+          {
+            "id": "changes_hurt",
+            "kind": "changes_hurt",
+            "title": "Right answers changed to wrong",
+            "detail": "2 answers were right before you changed them. Those changes cost 12 marks.",
+            "chapter": null,
+            "questions": [
+              2,
+              3
+            ],
+            "planId": null,
+            "evidence": {
+              "rightToWrong": 2,
+              "changes": 2,
+              "net": -12
+            }
+          },
+          {
+            "id": "weak_chapter:Share Capital",
+            "kind": "weak_chapter",
+            "title": "Share Capital",
+            "detail": "9 right of 22 across 4 papers. In this one: 2 of 4 right, 12 marks lost.",
+            "chapter": "Share Capital",
+            "questions": [
+              12,
+              13
+            ],
+            "planId": "p3",
+            "evidence": {
+              "paper": {
+                "n": 4,
+                "right": 2,
+                "wrong": 2,
+                "blank": 0,
+                "answered": 4,
+                "lost": 12
+              },
+              "record": {
+                "right": 9,
+                "answered": 22,
+                "papers": 4,
+                "pct": 41,
+                "low": 23,
+                "high": 61
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "opportunity",
+        "label": "Opportunities",
+        "empty": null,
+        "items": [
+          {
+            "id": "blanks",
+            "kind": "blanks",
+            "title": "Blanks",
+            "detail": "4 of 50 questions left blank: 20 marks not earned. Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and -1 for wrong.",
+            "chapter": null,
+            "questions": [
+              5,
+              17,
+              21,
+              37
+            ],
+            "planId": null,
+            "evidence": {
+              "blank": 4,
+              "counted": 50,
+              "fourOptions": true
+            }
+          },
+          {
+            "id": "close_chapter:Cash Flow Statement",
+            "kind": "close_chapter",
+            "title": "Cash Flow Statement",
+            "detail": "8 right of 11 across 3 papers. 11 marks lost here in this paper.",
+            "chapter": "Cash Flow Statement",
+            "questions": [],
+            "planId": null,
+            "evidence": {
+              "paper": {
+                "n": 4,
+                "right": 2,
+                "wrong": 1,
+                "blank": 1,
+                "answered": 3,
+                "lost": 11
+              },
+              "record": {
+                "right": 8,
+                "answered": 11,
+                "papers": 3,
+                "pct": 73,
+                "low": 43,
+                "high": 90
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "threat",
+        "label": "Threats",
+        "empty": null,
+        "items": [
+          {
+            "id": "repeat_loss:Accounting Ratios",
+            "kind": "repeat_loss",
+            "title": "Accounting Ratios in each of your last 3 mocks",
+            "detail": "Marks lost here: 17, 17 and 23, oldest first.",
+            "chapter": "Accounting Ratios",
+            "questions": [
+              2,
+              3,
+              4,
+              5
+            ],
+            "planId": "p1",
+            "evidence": {
+              "lost": [
+                17,
+                17,
+                23
+              ],
+              "attempts": [
+                "mock-1",
+                "mock-2",
+                "mock-3"
+              ],
+              "paper": {
+                "n": 5,
+                "right": 1,
+                "wrong": 3,
+                "blank": 1,
+                "answered": 4,
+                "lost": 23
+              }
+            }
+          },
+          {
+            "id": "chapter_slipped:Debentures",
+            "kind": "chapter_slipped",
+            "title": "Debentures slipped in this paper",
+            "detail": "1 of 3 right here, against 8 of 8 before.",
+            "chapter": "Debentures",
+            "questions": [
+              15,
+              16,
+              17
+            ],
+            "planId": "p2",
+            "evidence": {
+              "paper": {
+                "n": 4,
+                "right": 1,
+                "wrong": 2,
+                "blank": 1,
+                "answered": 3,
+                "lost": 17
+              },
+              "earlier": {
+                "right": 8,
+                "answered": 8,
+                "papers": 2,
+                "pct": 100,
+                "low": 68,
+                "high": 100
+              },
+              "record": {
+                "right": 9,
+                "answered": 11,
+                "papers": 3,
+                "pct": 82,
+                "low": 52,
+                "high": 95
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "plan": [
+      {
+        "id": "p1",
+        "label": "Practise 10 on Accounting Ratios",
+        "reason": "Marks lost here in each of your last 3 mocks.",
+        "practice": {
+          "subject": "accountancy",
+          "mode": "quick",
+          "count": 10,
+          "chapter": "Accounting Ratios"
+        },
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Accounting%20Ratios",
+        "later": {
+          "at": 1792125000000,
+          "right": 7,
+          "of": 10,
+          "line": "A set on this chapter on 16 Oct: 7 right of 10."
+        }
+      },
+      {
+        "id": "p2",
+        "label": "Practise 10 on Debentures",
+        "reason": "1 of 3 right here, against 8 of 8 before.",
+        "practice": {
+          "subject": "accountancy",
+          "mode": "quick",
+          "count": 10,
+          "chapter": "Debentures"
+        },
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Debentures",
+        "later": null
+      },
+      {
+        "id": "p3",
+        "label": "Practise 10 on Share Capital",
+        "reason": "12 marks lost here in this paper, and 9 right of 22 across 4 papers.",
+        "practice": {
+          "subject": "accountancy",
+          "mode": "quick",
+          "count": 10,
+          "chapter": "Share Capital"
+        },
+        "href": "/dashboard?subject=accountancy&mode=quick&count=10&chapter=Share%20Capital",
+        "later": null
+      }
+    ]
+  }
+}

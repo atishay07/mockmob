@@ -21,11 +21,12 @@ RepairMobiBeat repairMobiBeat(MistakeOutcome? outcome, {bool slow = false}) => s
 };
 
 /// Mobi in a fixed 80 dp slot above the outcome, reacting to what really happened: thinking while
-/// the explanation is made (and "Still working on this one" after 8 s), one small correct hop
-/// for a repair the server acknowledged, a wave for a reopened stored repair, a shrug then a
-/// "come on" after a failure, and sitting for a key review or a set-aside question. The slot
-/// keeps its height whatever plays, so nothing below it moves. With large text, or with the
-/// celebration turned off, it is not shown; the outcome's own words carry the same facts.
+/// the explanation is made (a longer wait after 8 s, when [RepairWaitLine] changes its words),
+/// one small correct hop for a repair the server acknowledged, a wave for a reopened stored
+/// repair, a shrug then a "come on" after a failure, and sitting for a key review or a set-aside
+/// question. Mobi says nothing itself: the words are the outcome's own (one wait line, as on the
+/// website). The slot keeps its height whatever plays, so nothing below it moves. With large
+/// text, or with the celebration turned off, it is not shown.
 class RepairMobi extends ConsumerStatefulWidget {
   const RepairMobi({super.key, required this.stepKey, required this.outcome});
 
@@ -33,7 +34,7 @@ class RepairMobi extends ConsumerStatefulWidget {
   final String stepKey;
   final MistakeOutcome? outcome;
 
-  /// How long a wait is before it is said.
+  /// How long a wait is before Mobi shows it (the moment [RepairWaitLine] says "Still writing").
   static const slowAfter = Duration(seconds: 8);
 
   /// How long the shrug holds before the encouragement.
@@ -65,6 +66,8 @@ class _RepairMobiState extends ConsumerState<RepairMobi> {
   void didUpdateWidget(RepairMobi old) {
     super.didUpdateWidget(old);
     if (old.stepKey != widget.stepKey) {
+      // A new mistake starts its wait from zero: the last one's clocks are not carried over.
+      _slowTimer?.cancel();
       _slow = false;
       _played = null;
     }
@@ -128,17 +131,9 @@ class _RepairMobiState extends ConsumerState<RepairMobi> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
     final largeText = MediaQuery.textScalerOf(context).scale(16) > 16 * 1.3;
     final off = ref.watch(celebrationModeProvider) == CelebrationMode.off;
-    final showMobi = !largeText && !off;
-    final slowLine = _slow ? Text(ReviewCopy.stillWorkingSlow, style: type.small.copyWith(color: colors.ink2)) : null;
-    if (!showMobi) {
-      return slowLine == null
-          ? const SizedBox.shrink()
-          : Padding(padding: const EdgeInsets.only(top: MmSpace.s16), child: Semantics(liveRegion: true, child: slowLine));
-    }
+    if (largeText || off) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s16),
       child: SizedBox(
@@ -150,11 +145,73 @@ class _RepairMobiState extends ConsumerState<RepairMobi> {
                 child: MobiCharacter(size: 76, controller: _mobi, entrance: MobiAct.appear, interactive: true, seed: 23),
               ),
             ),
-            const SizedBox(width: MmSpace.s12),
-            if (slowLine != null) Expanded(child: Semantics(liveRegion: true, child: slowLine)),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The one line while a repair is written, exactly as on the website (`REPAIR_LOADING` and
+/// `repairLoadingLine` in data/repair_presentation.mjs): "Writing the repair for Q7." at once,
+/// "Still writing. You are charged only if it arrives." after 8 s, "Taking longer than usual.
+/// Still trying." after 45 s. The line replaces itself on real elapsed time; it is never a label
+/// with more lines added under it. A screen reader hears each change. Keyed per mistake by the
+/// caller, so a new mistake starts its wait from zero.
+class RepairWaitLine extends StatefulWidget {
+  const RepairWaitLine({super.key, required this.number});
+
+  /// The question number on screen ("Q7").
+  final int number;
+
+  /// The website's `REPAIR_LOADING.slowAfterMs`; Mobi's longer wait starts at the same moment.
+  static const slowAfter = RepairMobi.slowAfter;
+
+  /// The website's `REPAIR_LOADING.longAfterMs`.
+  static const longAfter = Duration(seconds: 45);
+
+  /// The line for a wait of [elapsed] (the website's `repairLoadingLine`).
+  static String lineFor(Duration elapsed, int number) {
+    if (elapsed >= longAfter) return ReviewCopy.takingLonger;
+    if (elapsed >= slowAfter) return ReviewCopy.stillWriting;
+    return ReviewCopy.writingRepair(number);
+  }
+
+  @override
+  State<RepairWaitLine> createState() => _RepairWaitLineState();
+}
+
+class _RepairWaitLineState extends State<RepairWaitLine> {
+  Timer? _slowTimer;
+  Timer? _longTimer;
+  Duration _elapsed = Duration.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    _slowTimer = Timer(RepairWaitLine.slowAfter, () {
+      if (mounted) setState(() => _elapsed = RepairWaitLine.slowAfter);
+    });
+    _longTimer = Timer(RepairWaitLine.longAfter, () {
+      if (mounted) setState(() => _elapsed = RepairWaitLine.longAfter);
+    });
+  }
+
+  @override
+  void dispose() {
+    _slowTimer?.cancel();
+    _longTimer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      child: Text(RepairWaitLine.lineFor(_elapsed, widget.number), style: type.label.copyWith(color: colors.ink2)),
     );
   }
 }

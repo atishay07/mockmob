@@ -22,6 +22,7 @@ import '../widgets/answer_reactor.dart';
 import '../widgets/evidence_link.dart';
 import 'full_sections.dart';
 import 'summary_section.dart';
+import 'swot_section.dart';
 
 /// `/result/:attemptId` (spec 5.7): the complete, readable result without the ritual. Reopening
 /// an old result always lands here, never on the seal. [focusQuestion] opens one answer (the
@@ -243,6 +244,13 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 ),
               ),
               ...annotations(context, model, data, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+              // "After this mock": the plan and the read of the paper, written by the server from
+              // stored records. Nothing when the read is missing, unavailable or a practice set's.
+              // It plays its own first-view entrance, so it is not one of the page's staggered items.
+              if (data.detail?.swot case final swot? when swot.isVisible) ...[
+                const SizedBox(height: MmRhythm.section),
+                SwotSection(attemptId: id, swot: swot, onOpenQuestion: _openFromMap),
+              ],
               if (!model.isHeld) ...[const SizedBox(height: MmRhythm.section), item(whereSection(context, model, onOpenQuestion: _openFromMap))],
               if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
               const SizedBox(height: MmRhythm.section),
