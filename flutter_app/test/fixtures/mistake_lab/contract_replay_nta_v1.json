@@ -238,7 +238,7 @@
       {
         "from": 0,
         "to": 600,
-        "label": "By 10:00: 8 answered. Even pace: 8.",
+        "label": "By 10:00: 8 of 50 answered. Even pace: 8.",
         "answeredBy": 8,
         "evenPaceBy": 8,
         "bars": [
@@ -391,7 +391,7 @@
       {
         "from": 600,
         "to": 1200,
-        "label": "By 20:00: 15 answered. Even pace: 16.",
+        "label": "By 20:00: 15 of 50 answered. Even pace: 16.",
         "answeredBy": 15,
         "evenPaceBy": 16,
         "bars": [
@@ -540,7 +540,7 @@
       {
         "from": 1200,
         "to": 1800,
-        "label": "By 30:00: 23 answered. Even pace: 25.",
+        "label": "By 30:00: 23 of 50 answered. Even pace: 25.",
         "answeredBy": 23,
         "evenPaceBy": 25,
         "bars": [
@@ -697,7 +697,7 @@
       {
         "from": 1800,
         "to": 2400,
-        "label": "By 31:10: 24 answered. Even pace: 25.",
+        "label": "By 31:10: 24 of 50 answered. Even pace: 25.",
         "answeredBy": 24,
         "evenPaceBy": 25,
         "bars": [
@@ -726,9 +726,141 @@
         ]
       }
     ],
+    "opened": [
+      {
+        "n": 1,
+        "at": 0,
+        "result": "right"
+      },
+      {
+        "n": 2,
+        "at": 70,
+        "result": "right"
+      },
+      {
+        "n": 3,
+        "at": 140,
+        "result": "right"
+      },
+      {
+        "n": 4,
+        "at": 210,
+        "result": "right"
+      },
+      {
+        "n": 5,
+        "at": 310,
+        "result": "wrong"
+      },
+      {
+        "n": 6,
+        "at": 380,
+        "result": "right"
+      },
+      {
+        "n": 7,
+        "at": 450,
+        "result": "right"
+      },
+      {
+        "n": 8,
+        "at": 520,
+        "result": "right"
+      },
+      {
+        "n": 9,
+        "at": 590,
+        "result": "blank"
+      },
+      {
+        "n": 10,
+        "at": 660,
+        "result": "wrong"
+      },
+      {
+        "n": 11,
+        "at": 730,
+        "result": "right"
+      },
+      {
+        "n": 12,
+        "at": 800,
+        "result": "right"
+      },
+      {
+        "n": 13,
+        "at": 870,
+        "result": "right"
+      },
+      {
+        "n": 14,
+        "at": 940,
+        "result": "right"
+      },
+      {
+        "n": 15,
+        "at": 1010,
+        "result": "wrong"
+      },
+      {
+        "n": 16,
+        "at": 1095,
+        "result": "right"
+      },
+      {
+        "n": 17,
+        "at": 1165,
+        "result": "right"
+      },
+      {
+        "n": 18,
+        "at": 1235,
+        "result": "right"
+      },
+      {
+        "n": 19,
+        "at": 1305,
+        "result": "right"
+      },
+      {
+        "n": 20,
+        "at": 1375,
+        "result": "wrong"
+      },
+      {
+        "n": 21,
+        "at": 1445,
+        "result": "right"
+      },
+      {
+        "n": 22,
+        "at": 1515,
+        "result": "right"
+      },
+      {
+        "n": 23,
+        "at": 1585,
+        "result": "blank"
+      },
+      {
+        "n": 24,
+        "at": 1655,
+        "result": "right"
+      },
+      {
+        "n": 25,
+        "at": 1725,
+        "result": "wrong"
+      },
+      {
+        "n": 26,
+        "at": 1795,
+        "result": "right"
+      }
+    ],
     "facts": [
       "You opened 26 of 50 questions.",
-      "You never finished a first pass. 24 questions were never opened."
+      "You never finished a first pass. 24 of 50 questions were never opened."
     ],
     "chips": [
       {

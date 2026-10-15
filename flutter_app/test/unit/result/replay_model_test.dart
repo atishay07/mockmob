@@ -11,7 +11,7 @@ import 'support/lab_fixtures.dart';
 /// contracts (copied byte for byte from `data/tests/fixtures/mistake_lab/`), and the moving clock
 /// agreeing with every sentence the server wrote.
 void main() {
-  const contracts = ['replay', 'replay_time_up', 'replay_nta'];
+  const contracts = ['replay', 'replay_time_up', 'replay_nta', 'replay_bst', 'replay_english'];
 
   group('the replay contract', () {
     for (final name in contracts) {
@@ -31,7 +31,7 @@ void main() {
           // The moving clock reads the same count and pace as the server's row sentence.
           expect(replay.answeredAt(at), row.answeredBy, reason: row.label);
           expect(replay.evenPaceAt(at), row.evenPaceBy, reason: row.label);
-          expect(row.label, ResultCopy.replayAnsweredBy(clockLabel(at), row.answeredBy, row.evenPaceBy));
+          expect(row.label, ResultCopy.replayAnsweredBy(clockLabel(at), row.answeredBy, replay.total, row.evenPaceBy));
         }
         // Visits run in time order and never overlap.
         final bars = replay.bars;
@@ -59,6 +59,22 @@ void main() {
       expect(replay.answeredSetAt(2420), contains(40));
       expect(replay.answeredSetAt(2440), isNot(contains(40)));
       expect(labOf('replay').numbersOf('changed_from_right'), [17, 31]);
+    });
+
+    test('a passage set shown whole on the website: every question it showed is opened, with or without a bar', () {
+      for (final name in ['replay_bst', 'replay_english']) {
+        final replay = labOf(name).replay!;
+        final listed = labContract(name)['replay']['opened'] as List;
+        final withBar = {for (final b in replay.bars) b.n};
+        final shownOnly = {for (final o in listed) o['n'] as int}.difference(withBar);
+        expect(shownOnly, isNotEmpty, reason: '$name has questions shown with their set and never in focus');
+        expect(replay.openedAt(replay.recordSec), containsAll(shownOnly), reason: name);
+        expect(replay.openedAt(replay.recordSec), hasLength(listed.length), reason: name);
+      }
+      // A replay without the list (an older server) reads its bars alone.
+      final old = labContract('replay');
+      (old['replay'] as Map).remove('opened');
+      expect(MistakeLab.tryParse(old)!.replay!.openedAt(0), {1});
     });
 
     test('an older server sends neither the replay nor the time read', () {
@@ -132,8 +148,8 @@ void main() {
 
   test('the words the app adds keep the copy rules', () {
     final words = [
-      ResultCopy.replayAnsweredBy('16:42', 17, 13),
-      ResultCopy.replayAnsweredBy('16:42', 17, null),
+      ResultCopy.replayAnsweredBy('16:42', 17, 50, 13),
+      ResultCopy.replayAnsweredBy('16:42', 17, 50, null),
       ResultCopy.replayClockSpoken('16:42'),
       ResultCopy.replayMapSpoken(17, 18, 50),
       ResultCopy.replayBarSpoken(10, 'right', '8:17', '10:22', ['Away 1m 10s']),

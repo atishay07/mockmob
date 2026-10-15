@@ -1,0 +1,2527 @@
+{
+  "description": "English NTA paper, 50 questions: two passages (Q1 to Q8, Q9 to Q16) shown on one page each, Q8 and Q16 shown but never in focus, Q4 skipped on the first read and answered on a palette return at 46:00, then the NTA submit check at 46:30 and the submit at 46:35.",
+  "attempt": {
+    "id": "lab-replay-english-1",
+    "subject": "english",
+    "completedAt": 1792146600000,
+    "questionsSnapshot": [
+      {
+        "id": "e1",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 1",
+        "options": [
+          "e1 choice one",
+          "e1 choice two",
+          "e1 choice three",
+          "e1 choice four"
+        ],
+        "correctIndex": 2,
+        "passageGroupId": "eng-p1",
+        "passageText": "Illustrative passage: a river town and its old bridge.",
+        "orderIndex": 1
+      },
+      {
+        "id": "e2",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 2",
+        "options": [
+          "e2 choice one",
+          "e2 choice two",
+          "e2 choice three",
+          "e2 choice four"
+        ],
+        "correctIndex": 3,
+        "passageGroupId": "eng-p1",
+        "passageText": "Illustrative passage: a river town and its old bridge.",
+        "orderIndex": 2
+      },
+      {
+        "id": "e3",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 3",
+        "options": [
+          "e3 choice one",
+          "e3 choice two",
+          "e3 choice three",
+          "e3 choice four"
+        ],
+        "correctIndex": 0,
+        "passageGroupId": "eng-p1",
+        "passageText": "Illustrative passage: a river town and its old bridge.",
+        "orderIndex": 3
+      },
+      {
+        "id": "e4",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 4",
+        "options": [
+          "e4 choice one",
+          "e4 choice two",
+          "e4 choice three",
+          "e4 choice four"
+        ],
+        "correctIndex": 1,
+        "passageGroupId": "eng-p1",
+        "passageText": "Illustrative passage: a river town and its old bridge.",
+        "orderIndex": 4
+      },
+      {
+        "id": "e5",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 5",
+        "options": [
+          "e5 choice one",
+          "e5 choice two",
+          "e5 choice three",
+          "e5 choice four"
+        ],
+        "correctIndex": 2,
+        "passageGroupId": "eng-p1",
+        "passageText": "Illustrative passage: a river town and its old bridge.",
+        "orderIndex": 5
+      },
+      {
+        "id": "e6",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 6",
+        "options": [
+          "e6 choice one",
+          "e6 choice two",
+          "e6 choice three",
+          "e6 choice four"
+        ],
+        "correctIndex": 3,
+        "passageGroupId": "eng-p1",
+        "passageText": "Illustrative passage: a river town and its old bridge.",
+        "orderIndex": 6
+      },
+      {
+        "id": "e7",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 7",
+        "options": [
+          "e7 choice one",
+          "e7 choice two",
+          "e7 choice three",
+          "e7 choice four"
+        ],
+        "correctIndex": 0,
+        "passageGroupId": "eng-p1",
+        "passageText": "Illustrative passage: a river town and its old bridge.",
+        "orderIndex": 7
+      },
+      {
+        "id": "e8",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 8",
+        "options": [
+          "e8 choice one",
+          "e8 choice two",
+          "e8 choice three",
+          "e8 choice four"
+        ],
+        "correctIndex": 1,
+        "passageGroupId": "eng-p1",
+        "passageText": "Illustrative passage: a river town and its old bridge.",
+        "orderIndex": 8
+      },
+      {
+        "id": "e9",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 9",
+        "options": [
+          "e9 choice one",
+          "e9 choice two",
+          "e9 choice three",
+          "e9 choice four"
+        ],
+        "correctIndex": 2,
+        "passageGroupId": "eng-p2",
+        "passageText": "Illustrative passage: notes from a science fair.",
+        "orderIndex": 1
+      },
+      {
+        "id": "e10",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 10",
+        "options": [
+          "e10 choice one",
+          "e10 choice two",
+          "e10 choice three",
+          "e10 choice four"
+        ],
+        "correctIndex": 3,
+        "passageGroupId": "eng-p2",
+        "passageText": "Illustrative passage: notes from a science fair.",
+        "orderIndex": 2
+      },
+      {
+        "id": "e11",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 11",
+        "options": [
+          "e11 choice one",
+          "e11 choice two",
+          "e11 choice three",
+          "e11 choice four"
+        ],
+        "correctIndex": 0,
+        "passageGroupId": "eng-p2",
+        "passageText": "Illustrative passage: notes from a science fair.",
+        "orderIndex": 3
+      },
+      {
+        "id": "e12",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 12",
+        "options": [
+          "e12 choice one",
+          "e12 choice two",
+          "e12 choice three",
+          "e12 choice four"
+        ],
+        "correctIndex": 1,
+        "passageGroupId": "eng-p2",
+        "passageText": "Illustrative passage: notes from a science fair.",
+        "orderIndex": 4
+      },
+      {
+        "id": "e13",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 13",
+        "options": [
+          "e13 choice one",
+          "e13 choice two",
+          "e13 choice three",
+          "e13 choice four"
+        ],
+        "correctIndex": 2,
+        "passageGroupId": "eng-p2",
+        "passageText": "Illustrative passage: notes from a science fair.",
+        "orderIndex": 5
+      },
+      {
+        "id": "e14",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 14",
+        "options": [
+          "e14 choice one",
+          "e14 choice two",
+          "e14 choice three",
+          "e14 choice four"
+        ],
+        "correctIndex": 3,
+        "passageGroupId": "eng-p2",
+        "passageText": "Illustrative passage: notes from a science fair.",
+        "orderIndex": 6
+      },
+      {
+        "id": "e15",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 15",
+        "options": [
+          "e15 choice one",
+          "e15 choice two",
+          "e15 choice three",
+          "e15 choice four"
+        ],
+        "correctIndex": 0,
+        "passageGroupId": "eng-p2",
+        "passageText": "Illustrative passage: notes from a science fair.",
+        "orderIndex": 7
+      },
+      {
+        "id": "e16",
+        "chapter": "Reading Comprehension",
+        "question": "Illustrative question 16",
+        "options": [
+          "e16 choice one",
+          "e16 choice two",
+          "e16 choice three",
+          "e16 choice four"
+        ],
+        "correctIndex": 1,
+        "passageGroupId": "eng-p2",
+        "passageText": "Illustrative passage: notes from a science fair.",
+        "orderIndex": 8
+      },
+      {
+        "id": "e17",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 17",
+        "options": [
+          "e17 choice one",
+          "e17 choice two",
+          "e17 choice three",
+          "e17 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e18",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 18",
+        "options": [
+          "e18 choice one",
+          "e18 choice two",
+          "e18 choice three",
+          "e18 choice four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "e19",
+        "chapter": "Grammar",
+        "question": "Illustrative question 19",
+        "options": [
+          "e19 choice one",
+          "e19 choice two",
+          "e19 choice three",
+          "e19 choice four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "e20",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 20",
+        "options": [
+          "e20 choice one",
+          "e20 choice two",
+          "e20 choice three",
+          "e20 choice four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "e21",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 21",
+        "options": [
+          "e21 choice one",
+          "e21 choice two",
+          "e21 choice three",
+          "e21 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e22",
+        "chapter": "Grammar",
+        "question": "Illustrative question 22",
+        "options": [
+          "e22 choice one",
+          "e22 choice two",
+          "e22 choice three",
+          "e22 choice four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "e23",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 23",
+        "options": [
+          "e23 choice one",
+          "e23 choice two",
+          "e23 choice three",
+          "e23 choice four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "e24",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 24",
+        "options": [
+          "e24 choice one",
+          "e24 choice two",
+          "e24 choice three",
+          "e24 choice four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "e25",
+        "chapter": "Grammar",
+        "question": "Illustrative question 25",
+        "options": [
+          "e25 choice one",
+          "e25 choice two",
+          "e25 choice three",
+          "e25 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e26",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 26",
+        "options": [
+          "e26 choice one",
+          "e26 choice two",
+          "e26 choice three",
+          "e26 choice four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "e27",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 27",
+        "options": [
+          "e27 choice one",
+          "e27 choice two",
+          "e27 choice three",
+          "e27 choice four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "e28",
+        "chapter": "Grammar",
+        "question": "Illustrative question 28",
+        "options": [
+          "e28 choice one",
+          "e28 choice two",
+          "e28 choice three",
+          "e28 choice four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "e29",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 29",
+        "options": [
+          "e29 choice one",
+          "e29 choice two",
+          "e29 choice three",
+          "e29 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e30",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 30",
+        "options": [
+          "e30 choice one",
+          "e30 choice two",
+          "e30 choice three",
+          "e30 choice four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "e31",
+        "chapter": "Grammar",
+        "question": "Illustrative question 31",
+        "options": [
+          "e31 choice one",
+          "e31 choice two",
+          "e31 choice three",
+          "e31 choice four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "e32",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 32",
+        "options": [
+          "e32 choice one",
+          "e32 choice two",
+          "e32 choice three",
+          "e32 choice four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "e33",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 33",
+        "options": [
+          "e33 choice one",
+          "e33 choice two",
+          "e33 choice three",
+          "e33 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e34",
+        "chapter": "Grammar",
+        "question": "Illustrative question 34",
+        "options": [
+          "e34 choice one",
+          "e34 choice two",
+          "e34 choice three",
+          "e34 choice four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "e35",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 35",
+        "options": [
+          "e35 choice one",
+          "e35 choice two",
+          "e35 choice three",
+          "e35 choice four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "e36",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 36",
+        "options": [
+          "e36 choice one",
+          "e36 choice two",
+          "e36 choice three",
+          "e36 choice four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "e37",
+        "chapter": "Grammar",
+        "question": "Illustrative question 37",
+        "options": [
+          "e37 choice one",
+          "e37 choice two",
+          "e37 choice three",
+          "e37 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e38",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 38",
+        "options": [
+          "e38 choice one",
+          "e38 choice two",
+          "e38 choice three",
+          "e38 choice four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "e39",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 39",
+        "options": [
+          "e39 choice one",
+          "e39 choice two",
+          "e39 choice three",
+          "e39 choice four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "e40",
+        "chapter": "Grammar",
+        "question": "Illustrative question 40",
+        "options": [
+          "e40 choice one",
+          "e40 choice two",
+          "e40 choice three",
+          "e40 choice four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "e41",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 41",
+        "options": [
+          "e41 choice one",
+          "e41 choice two",
+          "e41 choice three",
+          "e41 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e42",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 42",
+        "options": [
+          "e42 choice one",
+          "e42 choice two",
+          "e42 choice three",
+          "e42 choice four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "e43",
+        "chapter": "Grammar",
+        "question": "Illustrative question 43",
+        "options": [
+          "e43 choice one",
+          "e43 choice two",
+          "e43 choice three",
+          "e43 choice four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "e44",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 44",
+        "options": [
+          "e44 choice one",
+          "e44 choice two",
+          "e44 choice three",
+          "e44 choice four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "e45",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 45",
+        "options": [
+          "e45 choice one",
+          "e45 choice two",
+          "e45 choice three",
+          "e45 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e46",
+        "chapter": "Grammar",
+        "question": "Illustrative question 46",
+        "options": [
+          "e46 choice one",
+          "e46 choice two",
+          "e46 choice three",
+          "e46 choice four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "e47",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 47",
+        "options": [
+          "e47 choice one",
+          "e47 choice two",
+          "e47 choice three",
+          "e47 choice four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "e48",
+        "chapter": "Vocabulary",
+        "question": "Illustrative question 48",
+        "options": [
+          "e48 choice one",
+          "e48 choice two",
+          "e48 choice three",
+          "e48 choice four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "e49",
+        "chapter": "Grammar",
+        "question": "Illustrative question 49",
+        "options": [
+          "e49 choice one",
+          "e49 choice two",
+          "e49 choice three",
+          "e49 choice four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "e50",
+        "chapter": "Verbal Ability",
+        "question": "Illustrative question 50",
+        "options": [
+          "e50 choice one",
+          "e50 choice two",
+          "e50 choice three",
+          "e50 choice four"
+        ],
+        "correctIndex": 3
+      }
+    ],
+    "details": [
+      {
+        "qid": "e1",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e2",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e3",
+        "givenIndex": 1,
+        "isCorrect": false
+      },
+      {
+        "qid": "e4",
+        "givenIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "qid": "e5",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e6",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e7",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e8",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "e9",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e10",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e11",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e12",
+        "givenIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "qid": "e13",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e14",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e15",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e16",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "e17",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e18",
+        "givenIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "qid": "e19",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e20",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "e21",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e22",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e23",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e24",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "e25",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e26",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e27",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e28",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "e29",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e30",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "e31",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e32",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "e33",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e34",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e35",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e36",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "e37",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e38",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e39",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e40",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "e41",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e42",
+        "givenIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "qid": "e43",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e44",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "e45",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e46",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "e47",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "e48",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "e49",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "e50",
+        "givenIndex": null,
+        "isCorrect": null
+      }
+    ],
+    "selectionMeta": {
+      "mode": "nta",
+      "durationMinutes": 60,
+      "scoringVersion": "server_snapshot_v1",
+      "recovery": {
+        "version": 1,
+        "scoring": "server_snapshot",
+        "telemetry": "self_reported",
+        "observed": {
+          "answerChanges": [],
+          "lostOnChanges": 0,
+          "netFirstToFinal": 0,
+          "unanswered": 6
+        },
+        "timeline": [
+          {
+            "seq": 1,
+            "qid": "e2",
+            "at": 0,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 2,
+            "qid": "e3",
+            "at": 0,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 3,
+            "qid": "e4",
+            "at": 0,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 4,
+            "qid": "e5",
+            "at": 0,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 5,
+            "qid": "e6",
+            "at": 0,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 6,
+            "qid": "e7",
+            "at": 0,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 7,
+            "qid": "e8",
+            "at": 0,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 8,
+            "qid": "e1",
+            "at": 0,
+            "type": "visit"
+          },
+          {
+            "seq": 9,
+            "qid": "e1",
+            "at": 120000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 10,
+            "qid": "e2",
+            "at": 160000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 11,
+            "qid": "e2",
+            "at": 160000,
+            "type": "visit"
+          },
+          {
+            "seq": 12,
+            "qid": "e3",
+            "at": 190000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 13,
+            "qid": "e3",
+            "at": 190000,
+            "type": "visit"
+          },
+          {
+            "seq": 14,
+            "qid": "e5",
+            "at": 230000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 15,
+            "qid": "e5",
+            "at": 230000,
+            "type": "visit"
+          },
+          {
+            "seq": 16,
+            "qid": "e6",
+            "at": 260000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 17,
+            "qid": "e6",
+            "at": 260000,
+            "type": "visit"
+          },
+          {
+            "seq": 18,
+            "qid": "e7",
+            "at": 290000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 19,
+            "qid": "e7",
+            "at": 290000,
+            "type": "visit"
+          },
+          {
+            "seq": 20,
+            "qid": "e10",
+            "at": 310000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 21,
+            "qid": "e11",
+            "at": 310000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 22,
+            "qid": "e12",
+            "at": 310000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 23,
+            "qid": "e13",
+            "at": 310000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 24,
+            "qid": "e14",
+            "at": 310000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 25,
+            "qid": "e15",
+            "at": 310000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 26,
+            "qid": "e16",
+            "at": 310000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 27,
+            "qid": "e9",
+            "at": 310000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 28,
+            "qid": "e9",
+            "at": 460000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 29,
+            "qid": "e10",
+            "at": 490000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 30,
+            "qid": "e10",
+            "at": 490000,
+            "type": "visit"
+          },
+          {
+            "seq": 31,
+            "qid": "e11",
+            "at": 520000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 32,
+            "qid": "e11",
+            "at": 520000,
+            "type": "visit"
+          },
+          {
+            "seq": 33,
+            "qid": "e12",
+            "at": 550000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 34,
+            "qid": "e12",
+            "at": 550000,
+            "type": "visit"
+          },
+          {
+            "seq": 35,
+            "qid": "e13",
+            "at": 580000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 36,
+            "qid": "e13",
+            "at": 580000,
+            "type": "visit"
+          },
+          {
+            "seq": 37,
+            "qid": "e14",
+            "at": 610000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 38,
+            "qid": "e14",
+            "at": 610000,
+            "type": "visit"
+          },
+          {
+            "seq": 39,
+            "qid": "e15",
+            "at": 640000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 40,
+            "qid": "e15",
+            "at": 640000,
+            "type": "visit"
+          },
+          {
+            "seq": 41,
+            "qid": "e17",
+            "at": 660000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 42,
+            "qid": "e17",
+            "at": 705000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 43,
+            "qid": "e18",
+            "at": 720000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 44,
+            "qid": "e18",
+            "at": 765000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 45,
+            "qid": "e19",
+            "at": 780000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 46,
+            "qid": "e19",
+            "at": 825000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 47,
+            "qid": "e20",
+            "at": 840000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 48,
+            "qid": "e21",
+            "at": 900000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 49,
+            "qid": "e21",
+            "at": 945000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 50,
+            "qid": "e22",
+            "at": 960000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 51,
+            "qid": "e22",
+            "at": 1005000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 52,
+            "qid": "e23",
+            "at": 1020000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 53,
+            "qid": "e23",
+            "at": 1065000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 54,
+            "qid": "e24",
+            "at": 1080000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 55,
+            "qid": "e24",
+            "at": 1125000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 56,
+            "qid": "e25",
+            "at": 1140000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 57,
+            "qid": "e25",
+            "at": 1185000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 58,
+            "qid": "e26",
+            "at": 1200000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 59,
+            "qid": "e26",
+            "at": 1245000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 60,
+            "qid": "e27",
+            "at": 1260000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 61,
+            "qid": "e27",
+            "at": 1305000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 62,
+            "qid": "e28",
+            "at": 1320000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 63,
+            "qid": "e28",
+            "at": 1365000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 64,
+            "qid": "e29",
+            "at": 1380000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 65,
+            "qid": "e29",
+            "at": 1425000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 66,
+            "qid": "e30",
+            "at": 1440000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 67,
+            "qid": "e31",
+            "at": 1500000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 68,
+            "qid": "e31",
+            "at": 1545000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 69,
+            "qid": "e32",
+            "at": 1560000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 70,
+            "qid": "e32",
+            "at": 1605000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 71,
+            "qid": "e33",
+            "at": 1620000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 72,
+            "qid": "e33",
+            "at": 1665000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 73,
+            "qid": "e34",
+            "at": 1680000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 74,
+            "qid": "e34",
+            "at": 1725000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 75,
+            "qid": "e35",
+            "at": 1740000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 76,
+            "qid": "e35",
+            "at": 1785000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 77,
+            "qid": "e36",
+            "at": 1800000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 78,
+            "qid": "e36",
+            "at": 1845000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 79,
+            "qid": "e37",
+            "at": 1860000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 80,
+            "qid": "e37",
+            "at": 1905000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 81,
+            "qid": "e38",
+            "at": 1920000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 82,
+            "qid": "e38",
+            "at": 1965000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 83,
+            "qid": "e39",
+            "at": 1980000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 84,
+            "qid": "e39",
+            "at": 2025000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 85,
+            "qid": "e40",
+            "at": 2040000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 86,
+            "qid": "e41",
+            "at": 2100000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 87,
+            "qid": "e41",
+            "at": 2145000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 88,
+            "qid": "e42",
+            "at": 2160000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 89,
+            "qid": "e42",
+            "at": 2205000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 90,
+            "qid": "e43",
+            "at": 2220000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 91,
+            "qid": "e43",
+            "at": 2265000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 92,
+            "qid": "e44",
+            "at": 2280000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 93,
+            "qid": "e44",
+            "at": 2325000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 94,
+            "qid": "e45",
+            "at": 2340000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 95,
+            "qid": "e45",
+            "at": 2385000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 96,
+            "qid": "e46",
+            "at": 2400000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 97,
+            "qid": "e46",
+            "at": 2445000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 98,
+            "qid": "e47",
+            "at": 2460000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 99,
+            "qid": "e47",
+            "at": 2505000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 100,
+            "qid": "e48",
+            "at": 2520000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 101,
+            "qid": "e48",
+            "at": 2565000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 102,
+            "qid": "e49",
+            "at": 2580000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 103,
+            "qid": "e49",
+            "at": 2625000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 104,
+            "qid": "e50",
+            "at": 2640000,
+            "type": "visit",
+            "via": "next"
+          },
+          {
+            "seq": 105,
+            "qid": "e1",
+            "at": 2700000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 106,
+            "qid": "e2",
+            "at": 2700000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 107,
+            "qid": "e3",
+            "at": 2700000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 108,
+            "qid": "e5",
+            "at": 2700000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 109,
+            "qid": "e6",
+            "at": 2700000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 110,
+            "qid": "e7",
+            "at": 2700000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 111,
+            "qid": "e8",
+            "at": 2700000,
+            "type": "visit",
+            "via": "set"
+          },
+          {
+            "seq": 112,
+            "qid": "e4",
+            "at": 2700000,
+            "type": "visit",
+            "via": "palette"
+          },
+          {
+            "seq": 113,
+            "qid": "e4",
+            "at": 2760000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 114,
+            "qid": "e4",
+            "at": 2790000,
+            "type": "visit",
+            "via": "sheet"
+          }
+        ],
+        "end": {
+          "seq": 115,
+          "qid": "e4",
+          "at": 2795000,
+          "reason": "submit"
+        },
+        "recommendation": {
+          "kind": "concept_repair",
+          "title": "Practise one concept you missed",
+          "reason": "Suggested from this attempt; a fresh check is needed before claiming improvement."
+        }
+      },
+      "client": {
+        "platform": "web",
+        "appVersion": "2026.10.16",
+        "startedAt": 1792128600000
+      },
+      "endedBy": "submit"
+    }
+  },
+  "answerReviews": {},
+  "events": [
+    {
+      "seq": 1,
+      "qid": "e2",
+      "at": 0,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 2,
+      "qid": "e3",
+      "at": 0,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 3,
+      "qid": "e4",
+      "at": 0,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 4,
+      "qid": "e5",
+      "at": 0,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 5,
+      "qid": "e6",
+      "at": 0,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 6,
+      "qid": "e7",
+      "at": 0,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 7,
+      "qid": "e8",
+      "at": 0,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 8,
+      "qid": "e1",
+      "at": 0,
+      "type": "visit"
+    },
+    {
+      "seq": 9,
+      "qid": "e1",
+      "at": 120000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 10,
+      "qid": "e2",
+      "at": 160000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 11,
+      "qid": "e2",
+      "at": 160000,
+      "type": "visit"
+    },
+    {
+      "seq": 12,
+      "qid": "e3",
+      "at": 190000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 13,
+      "qid": "e3",
+      "at": 190000,
+      "type": "visit"
+    },
+    {
+      "seq": 14,
+      "qid": "e5",
+      "at": 230000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 15,
+      "qid": "e5",
+      "at": 230000,
+      "type": "visit"
+    },
+    {
+      "seq": 16,
+      "qid": "e6",
+      "at": 260000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 17,
+      "qid": "e6",
+      "at": 260000,
+      "type": "visit"
+    },
+    {
+      "seq": 18,
+      "qid": "e7",
+      "at": 290000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 19,
+      "qid": "e7",
+      "at": 290000,
+      "type": "visit"
+    },
+    {
+      "seq": 20,
+      "qid": "e10",
+      "at": 310000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 21,
+      "qid": "e11",
+      "at": 310000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 22,
+      "qid": "e12",
+      "at": 310000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 23,
+      "qid": "e13",
+      "at": 310000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 24,
+      "qid": "e14",
+      "at": 310000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 25,
+      "qid": "e15",
+      "at": 310000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 26,
+      "qid": "e16",
+      "at": 310000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 27,
+      "qid": "e9",
+      "at": 310000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 28,
+      "qid": "e9",
+      "at": 460000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 29,
+      "qid": "e10",
+      "at": 490000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 30,
+      "qid": "e10",
+      "at": 490000,
+      "type": "visit"
+    },
+    {
+      "seq": 31,
+      "qid": "e11",
+      "at": 520000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 32,
+      "qid": "e11",
+      "at": 520000,
+      "type": "visit"
+    },
+    {
+      "seq": 33,
+      "qid": "e12",
+      "at": 550000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 34,
+      "qid": "e12",
+      "at": 550000,
+      "type": "visit"
+    },
+    {
+      "seq": 35,
+      "qid": "e13",
+      "at": 580000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 36,
+      "qid": "e13",
+      "at": 580000,
+      "type": "visit"
+    },
+    {
+      "seq": 37,
+      "qid": "e14",
+      "at": 610000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 38,
+      "qid": "e14",
+      "at": 610000,
+      "type": "visit"
+    },
+    {
+      "seq": 39,
+      "qid": "e15",
+      "at": 640000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 40,
+      "qid": "e15",
+      "at": 640000,
+      "type": "visit"
+    },
+    {
+      "seq": 41,
+      "qid": "e17",
+      "at": 660000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 42,
+      "qid": "e17",
+      "at": 705000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 43,
+      "qid": "e18",
+      "at": 720000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 44,
+      "qid": "e18",
+      "at": 765000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 45,
+      "qid": "e19",
+      "at": 780000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 46,
+      "qid": "e19",
+      "at": 825000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 47,
+      "qid": "e20",
+      "at": 840000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 48,
+      "qid": "e21",
+      "at": 900000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 49,
+      "qid": "e21",
+      "at": 945000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 50,
+      "qid": "e22",
+      "at": 960000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 51,
+      "qid": "e22",
+      "at": 1005000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 52,
+      "qid": "e23",
+      "at": 1020000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 53,
+      "qid": "e23",
+      "at": 1065000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 54,
+      "qid": "e24",
+      "at": 1080000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 55,
+      "qid": "e24",
+      "at": 1125000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 56,
+      "qid": "e25",
+      "at": 1140000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 57,
+      "qid": "e25",
+      "at": 1185000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 58,
+      "qid": "e26",
+      "at": 1200000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 59,
+      "qid": "e26",
+      "at": 1245000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 60,
+      "qid": "e27",
+      "at": 1260000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 61,
+      "qid": "e27",
+      "at": 1305000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 62,
+      "qid": "e28",
+      "at": 1320000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 63,
+      "qid": "e28",
+      "at": 1365000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 64,
+      "qid": "e29",
+      "at": 1380000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 65,
+      "qid": "e29",
+      "at": 1425000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 66,
+      "qid": "e30",
+      "at": 1440000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 67,
+      "qid": "e31",
+      "at": 1500000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 68,
+      "qid": "e31",
+      "at": 1545000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 69,
+      "qid": "e32",
+      "at": 1560000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 70,
+      "qid": "e32",
+      "at": 1605000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 71,
+      "qid": "e33",
+      "at": 1620000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 72,
+      "qid": "e33",
+      "at": 1665000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 73,
+      "qid": "e34",
+      "at": 1680000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 74,
+      "qid": "e34",
+      "at": 1725000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 75,
+      "qid": "e35",
+      "at": 1740000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 76,
+      "qid": "e35",
+      "at": 1785000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 77,
+      "qid": "e36",
+      "at": 1800000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 78,
+      "qid": "e36",
+      "at": 1845000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 79,
+      "qid": "e37",
+      "at": 1860000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 80,
+      "qid": "e37",
+      "at": 1905000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 81,
+      "qid": "e38",
+      "at": 1920000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 82,
+      "qid": "e38",
+      "at": 1965000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 83,
+      "qid": "e39",
+      "at": 1980000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 84,
+      "qid": "e39",
+      "at": 2025000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 85,
+      "qid": "e40",
+      "at": 2040000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 86,
+      "qid": "e41",
+      "at": 2100000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 87,
+      "qid": "e41",
+      "at": 2145000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 88,
+      "qid": "e42",
+      "at": 2160000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 89,
+      "qid": "e42",
+      "at": 2205000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 90,
+      "qid": "e43",
+      "at": 2220000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 91,
+      "qid": "e43",
+      "at": 2265000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 92,
+      "qid": "e44",
+      "at": 2280000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 93,
+      "qid": "e44",
+      "at": 2325000,
+      "type": "answer",
+      "answer": 1
+    },
+    {
+      "seq": 94,
+      "qid": "e45",
+      "at": 2340000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 95,
+      "qid": "e45",
+      "at": 2385000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 96,
+      "qid": "e46",
+      "at": 2400000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 97,
+      "qid": "e46",
+      "at": 2445000,
+      "type": "answer",
+      "answer": 3
+    },
+    {
+      "seq": 98,
+      "qid": "e47",
+      "at": 2460000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 99,
+      "qid": "e47",
+      "at": 2505000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 100,
+      "qid": "e48",
+      "at": 2520000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 101,
+      "qid": "e48",
+      "at": 2565000,
+      "type": "answer",
+      "answer": 0
+    },
+    {
+      "seq": 102,
+      "qid": "e49",
+      "at": 2580000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 103,
+      "qid": "e49",
+      "at": 2625000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 104,
+      "qid": "e50",
+      "at": 2640000,
+      "type": "visit",
+      "via": "next"
+    },
+    {
+      "seq": 105,
+      "qid": "e1",
+      "at": 2700000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 106,
+      "qid": "e2",
+      "at": 2700000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 107,
+      "qid": "e3",
+      "at": 2700000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 108,
+      "qid": "e5",
+      "at": 2700000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 109,
+      "qid": "e6",
+      "at": 2700000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 110,
+      "qid": "e7",
+      "at": 2700000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 111,
+      "qid": "e8",
+      "at": 2700000,
+      "type": "visit",
+      "via": "set"
+    },
+    {
+      "seq": 112,
+      "qid": "e4",
+      "at": 2700000,
+      "type": "visit",
+      "via": "palette"
+    },
+    {
+      "seq": 113,
+      "qid": "e4",
+      "at": 2760000,
+      "type": "answer",
+      "answer": 2
+    },
+    {
+      "seq": 114,
+      "qid": "e4",
+      "at": 2790000,
+      "type": "visit",
+      "via": "sheet"
+    },
+    {
+      "seq": 115,
+      "qid": "e4",
+      "at": 2795000,
+      "type": "end",
+      "reason": "submit"
+    }
+  ]
+}

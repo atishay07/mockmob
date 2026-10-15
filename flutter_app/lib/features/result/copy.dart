@@ -328,12 +328,13 @@ abstract final class ResultCopy {
   static String labGoToQuestion(int n) => swotGoToQuestion(n);
 
   // ---- Replay (Mistake Lab v4 slice 2): the server writes every sentence. The moving clock reads the
-  // server's own row words ("By {clock}: {a} answered. Even pace: {p}.") at the moment shown, and
-  // the rest are what a screen reader hears. -------------------------------------------------------
+  // server's own row words ("By {clock}: {a} of {total} answered. Even pace: {p}.") at the moment
+  // shown, and the rest are what a screen reader hears. ---------------------------------------------
 
-  /// The server's `replay.row.pace` / `noPace` words at any moment.
-  static String replayAnsweredBy(String clock, int answered, int? evenPace) =>
-      evenPace == null ? 'By $clock: $answered answered.' : 'By $clock: $answered answered. Even pace: $evenPace.';
+  /// The server's `replay.row.pace` / `noPace` words at any moment: every count with its denominator.
+  static String replayAnsweredBy(String clock, int answered, int total, int? evenPace) => evenPace == null
+      ? 'By $clock: $answered of $total answered.'
+      : 'By $clock: $answered of $total answered. Even pace: $evenPace.';
 
   static String replayClockSpoken(String clock) => 'Replay at $clock';
 

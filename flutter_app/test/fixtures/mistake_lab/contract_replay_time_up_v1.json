@@ -164,7 +164,7 @@
       {
         "from": 0,
         "to": 600,
-        "label": "By 10:00: 7 answered. Even pace: 8.",
+        "label": "By 10:00: 7 of 50 answered. Even pace: 8.",
         "answeredBy": 7,
         "evenPaceBy": 8,
         "bars": [
@@ -301,7 +301,7 @@
       {
         "from": 600,
         "to": 1200,
-        "label": "By 20:00: 14 answered. Even pace: 16.",
+        "label": "By 20:00: 14 of 50 answered. Even pace: 16.",
         "answeredBy": 14,
         "evenPaceBy": 16,
         "bars": [
@@ -432,7 +432,7 @@
       {
         "from": 1200,
         "to": 1800,
-        "label": "By 30:00: 21 answered. Even pace: 25.",
+        "label": "By 30:00: 21 of 50 answered. Even pace: 25.",
         "answeredBy": 21,
         "evenPaceBy": 25,
         "bars": [
@@ -563,7 +563,7 @@
       {
         "from": 1800,
         "to": 2400,
-        "label": "By 40:00: 28 answered. Even pace: 33.",
+        "label": "By 40:00: 28 of 50 answered. Even pace: 33.",
         "answeredBy": 28,
         "evenPaceBy": 33,
         "bars": [
@@ -694,7 +694,7 @@
       {
         "from": 2400,
         "to": 3000,
-        "label": "By 50:00: 35 answered. Even pace: 41.",
+        "label": "By 50:00: 35 of 50 answered. Even pace: 41.",
         "answeredBy": 35,
         "evenPaceBy": 41,
         "bars": [
@@ -825,7 +825,7 @@
       {
         "from": 3000,
         "to": 3600,
-        "label": "By 60:00: 41 answered. Even pace: 50.",
+        "label": "By 60:00: 41 of 50 answered. Even pace: 50.",
         "answeredBy": 41,
         "evenPaceBy": 50,
         "bars": [
@@ -940,9 +940,231 @@
         ]
       }
     ],
+    "opened": [
+      {
+        "n": 1,
+        "at": 0,
+        "result": "right"
+      },
+      {
+        "n": 2,
+        "at": 80,
+        "result": "right"
+      },
+      {
+        "n": 3,
+        "at": 160,
+        "result": "right"
+      },
+      {
+        "n": 4,
+        "at": 240,
+        "result": "right"
+      },
+      {
+        "n": 5,
+        "at": 320,
+        "result": "right"
+      },
+      {
+        "n": 6,
+        "at": 400,
+        "result": "right"
+      },
+      {
+        "n": 7,
+        "at": 480,
+        "result": "right"
+      },
+      {
+        "n": 8,
+        "at": 560,
+        "result": "right"
+      },
+      {
+        "n": 9,
+        "at": 640,
+        "result": "wrong"
+      },
+      {
+        "n": 10,
+        "at": 720,
+        "result": "right"
+      },
+      {
+        "n": 11,
+        "at": 800,
+        "result": "right"
+      },
+      {
+        "n": 12,
+        "at": 880,
+        "result": "right"
+      },
+      {
+        "n": 13,
+        "at": 960,
+        "result": "blank"
+      },
+      {
+        "n": 14,
+        "at": 1040,
+        "result": "right"
+      },
+      {
+        "n": 15,
+        "at": 1120,
+        "result": "right"
+      },
+      {
+        "n": 16,
+        "at": 1200,
+        "result": "right"
+      },
+      {
+        "n": 17,
+        "at": 1280,
+        "result": "right"
+      },
+      {
+        "n": 18,
+        "at": 1360,
+        "result": "wrong"
+      },
+      {
+        "n": 19,
+        "at": 1440,
+        "result": "right"
+      },
+      {
+        "n": 20,
+        "at": 1520,
+        "result": "right"
+      },
+      {
+        "n": 21,
+        "at": 1600,
+        "result": "right"
+      },
+      {
+        "n": 22,
+        "at": 1680,
+        "result": "right"
+      },
+      {
+        "n": 23,
+        "at": 1760,
+        "result": "right"
+      },
+      {
+        "n": 24,
+        "at": 1840,
+        "result": "right"
+      },
+      {
+        "n": 25,
+        "at": 1920,
+        "result": "right"
+      },
+      {
+        "n": 26,
+        "at": 2000,
+        "result": "blank"
+      },
+      {
+        "n": 27,
+        "at": 2080,
+        "result": "wrong"
+      },
+      {
+        "n": 28,
+        "at": 2160,
+        "result": "right"
+      },
+      {
+        "n": 29,
+        "at": 2240,
+        "result": "right"
+      },
+      {
+        "n": 30,
+        "at": 2320,
+        "result": "right"
+      },
+      {
+        "n": 31,
+        "at": 2400,
+        "result": "right"
+      },
+      {
+        "n": 32,
+        "at": 2480,
+        "result": "right"
+      },
+      {
+        "n": 33,
+        "at": 2560,
+        "result": "right"
+      },
+      {
+        "n": 34,
+        "at": 2640,
+        "result": "right"
+      },
+      {
+        "n": 35,
+        "at": 2720,
+        "result": "right"
+      },
+      {
+        "n": 36,
+        "at": 2800,
+        "result": "wrong"
+      },
+      {
+        "n": 37,
+        "at": 2880,
+        "result": "right"
+      },
+      {
+        "n": 38,
+        "at": 2960,
+        "result": "right"
+      },
+      {
+        "n": 39,
+        "at": 3040,
+        "result": "blank"
+      },
+      {
+        "n": 40,
+        "at": 3120,
+        "result": "right"
+      },
+      {
+        "n": 41,
+        "at": 3200,
+        "result": "right"
+      },
+      {
+        "n": 42,
+        "at": 3280,
+        "result": "right"
+      },
+      {
+        "n": 43,
+        "at": 3360,
+        "result": "right"
+      },
+      {
+        "n": 44,
+        "at": 3440,
+        "result": "wrong"
+      }
+    ],
     "facts": [
       "You opened 44 of 50 questions.",
-      "You never finished a first pass. 6 questions were never opened.",
+      "You never finished a first pass. 6 of 50 questions were never opened.",
       "At 40:00 you had answered 28 of 50. Even pace gets to 33."
     ],
     "chips": [

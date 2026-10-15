@@ -1,5 +1,7 @@
+import '../../../core/domain/paper_trace.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/models/json_helpers.dart';
+import '../../result/model/time_decisions.dart' show TimeDecisions, TimeRules, spentLabel;
 
 /// What one finished practice shows, ported from the website's `data/session_recovery.js`
 /// (`analyseSession`), so the app and the site say the same thing about the same attempt.
@@ -8,23 +10,39 @@ import '../../../core/models/json_helpers.dart';
 /// attempt's own `correct`, `wrong` and `unattempted` stay the authority; nothing here is a
 /// forecast. Timings and answer changes exist only when the server marked the session's
 /// telemetry `self_reported`; otherwise they are absent, never guessed.
+///
+/// Time per question follows the one time rule (Mistake Lab v4 slice 2): the server's finished read
+/// (`lab.time`) when the result carries it, else the same rule applied here ([dwellByQuestion],
+/// `data/paper_trace.js`): time away left out, the last question timed to the end, and a 30-minute
+/// break skipped only on a record without away data.
 class SessionAnalysis {
   const SessionAnalysis({
     required this.dwellMs,
     required this.changes,
     required this.observations,
     required this.telemetry,
+    this.fromServer = false,
   });
 
   /// Wrong answers that took less than this were picked fast (the website's 20 seconds).
   static const int quickPickMs = 20000;
 
-  factory SessionAnalysis.of(Attempt attempt) {
+  /// [serverTime] is the result's `lab.time` when the attempt detail carries it.
+  factory SessionAnalysis.of(Attempt attempt, {Object? serverTime}) {
     final recovery = asJson(attempt.selectionMeta.raw['recovery']);
     final telemetry = asString(recovery['telemetry']) ?? 'none';
     final usable = telemetry == 'self_reported';
-    final events = usable ? asJsonList(recovery['timeline']) : const <Json>[];
-    final dwell = dwellByQuestion(events);
+    final server = TimeDecisions.fromServer(serverTime);
+    final fromServer = server != null && server.isReady;
+    final dwell = fromServer
+        ? {
+            // The server's rows, shown as the website shows them: a question counts as timed at 2 s.
+            for (final r in server.rows)
+              if (r.ms case final ms? when ms >= TimeRules.minTimedMs) r.qid: ms,
+          }
+        : usable && recovery['timeline'] is List
+            ? dwellByQuestion(recovery)
+            : null;
     final changes = usable
         ? [
             for (final c in asJsonList(asJson(recovery['observed'])['answerChanges']))
@@ -45,6 +63,7 @@ class SessionAnalysis {
       dwellMs: ms,
       changes: changes,
       telemetry: telemetry,
+      fromServer: fromServer,
       observations: _observations(attempt, ms, changes, numbers, chapterOf),
     );
   }
@@ -56,6 +75,17 @@ class SessionAnalysis {
 
   /// `self_reported`, `inconsistent`, `invalid` or `none`.
   final String telemetry;
+
+  /// The times are the server's own (`lab.time`), not read here.
+  final bool fromServer;
+
+  /// The time on [qid] as its row says it ("42s", "1m 05s"; the server's read as the website words
+  /// it, "1m"), or null when the record does not time it.
+  String? timeLabel(String qid) {
+    final ms = dwellMs[qid];
+    if (ms == null) return null;
+    return fromServer ? spentLabel(ms / 1000) : formatDwell(ms);
+  }
 
   bool changed(String qid) => changes.any((c) => c.qid == qid);
 
@@ -108,31 +138,22 @@ class Observation {
   final List<int> questions;
 }
 
-/// The longest gap between two events that still counts as time on a question. A longer gap
-/// means the app was left, paused or killed mid-question, and nobody can say how long the
-/// student actually spent.
-const int maxDwellGapMs = 5 * 60 * 1000;
+/// The longest gap that counts as time on a question when the record has no away data: the one
+/// time rule's break ([TraceRules.maxGapMs], 30 minutes). A longer gap means the app was left
+/// open, and nobody can say how long the student actually spent, so it is not counted.
+const int maxDwellGapMs = TraceRules.maxGapMs;
 
-/// Seconds on each question from the device's visit and answer events: the interval to the next
-/// event is credited to the question the event named. Null with fewer than two events. When any
-/// gap is longer than [maxDwellGapMs] the result is empty: the timing is not known, so no pace
-/// is claimed (the app being away is never counted as time on a question).
-Map<String, int>? dwellByQuestion(List<Json> timeline) {
-  final events = [
-    for (final e in timeline)
-      if (asString(e['qid']) != null && asInt(e['at']) != null) e,
-  ]..sort((a, b) {
-      final at = asInt(a['at'])!.compareTo(asInt(b['at'])!);
-      return at != 0 ? at : (asInt(a['seq']) ?? 0).compareTo(asInt(b['seq']) ?? 0);
-    });
-  if (events.length < 2) return null;
-  final dwell = <String, int>{};
-  for (var i = 0; i < events.length - 1; i++) {
-    final gap = asInt(events[i + 1]['at'])! - asInt(events[i]['at'])!;
-    if (gap > maxDwellGapMs) return <String, int>{};
-    if (gap > 0) dwell.update(asString(events[i]['qid'])!, (v) => v + gap, ifAbsent: () => gap);
-  }
-  return dwell;
+/// Milliseconds on each question under the one time rule ([readPaperTime], the website's
+/// `dwellByQuestion` over `data/paper_trace.js`): [input] is a recovery object (time away left out,
+/// the last question timed to its end event) or a bare timeline. Questions with no time are left
+/// out. Null with fewer than two events: one moment says nothing about time.
+Map<String, int>? dwellByQuestion(Object? input) {
+  final trace = readPaperTime(input);
+  if (trace.eventCount < 2) return null;
+  return {
+    for (final e in trace.dwellMs.entries)
+      if (e.value > 0) e.key: e.value.round(),
+  };
 }
 
 /// "42s" or "1m 05s", as the website formats it.

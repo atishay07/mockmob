@@ -223,6 +223,16 @@ class FakeRunnerSession extends ChangeNotifier implements RunnerSession {
     notifyListeners();
   }
 
+  /// The submit page opening and closing, data only: kept apart from [calls] so what a test expects
+  /// of the screen is unchanged.
+  final List<String> submitPage = [];
+
+  @override
+  void submitPageOpened() => submitPage.add('opened');
+
+  @override
+  void submitPageClosed() => submitPage.add('closed');
+
   @override
   Future<SubmitOutcome> submit({bool timedOut = false, String? endReason}) async {
     submits++;

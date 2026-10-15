@@ -2,9 +2,10 @@ import 'json_helpers.dart';
 import 'question.dart';
 
 /// Whether this build sends the slice-2 session events (`mark`, `strike`, `away`, `back`, `end`
-/// and `via` on a visit; Mistake Lab v4 spec 6). The server must accept them before an app that
-/// sends them ships: an older server refuses the whole in-progress save. Build with
-/// `--dart-define=MOCKMOB_CAPTURE_V2=false` for a release that has to reach phones first.
+/// and `via` on a visit; Mistake Lab v4 spec 6). An older server refuses a log that carries them;
+/// the app then sends the same save or submit again with the event set that server knows and keeps
+/// to it for the rest of its run (`OldServerFallbackApi`), so no paper is lost to the ship order.
+/// Build with `--dart-define=MOCKMOB_CAPTURE_V2=false` to record none of them at all.
 const bool kRichSessionEvents = bool.fromEnvironment('MOCKMOB_CAPTURE_V2', defaultValue: true);
 
 /// How a question was reached (`via` on a visit event).
@@ -15,7 +16,20 @@ abstract final class SessionVia {
   static const swipe = 'swipe';
   static const resume = 'resume';
 
-  static const all = [next, previous, palette, swipe, resume];
+  /// Shown with its passage set without being moved to (the website's set page; the app reads it
+  /// in a server log and never writes it). Counts as opened, never as time (paper_trace rule 5).
+  static const set = 'set';
+
+  /// The submit page opened over the question named: until the next visit or answer no question is
+  /// on screen, so the time spent deciding to submit is credited to none (paper_trace rule 6).
+  static const sheet = 'sheet';
+
+  /// Every value, in the order the phone's journal stores them (an index): new values go at the end.
+  static const all = [next, previous, palette, swipe, resume, set, sheet];
+
+  /// The values the first slice-2 server knew. A server that refuses a later one is sent the visit
+  /// without it (OldServerFallbackApi).
+  static const first = [next, previous, palette, swipe, resume];
 }
 
 /// How a session ended (`reason` on the `end` event, and `endedBy` on the submit).

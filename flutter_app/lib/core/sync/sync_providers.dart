@@ -19,6 +19,7 @@ import '../storage/storage_providers.dart';
 import 'background_tasks.dart';
 import 'outbox_repository.dart';
 import 'pending_work.dart';
+import 'session/old_server_fallback.dart';
 import 'session/session_api.dart';
 import 'session/session_engine.dart';
 import 'session/session_notifications.dart';
@@ -123,8 +124,9 @@ final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
   final userId = ref.watch(userIdProvider);
   if (userId == null) throw const SignedOutException();
   // Every call names the paper's owner, so none goes out with the token of an account that
-  // signed in since.
-  final api = ApiSessionApi(ref.watch(apiClientProvider), userId: userId);
+  // signed in since. A server older than this build's capture is answered with the event set it
+  // knows, so a save or a submit is never lost to it (OldServerFallbackApi).
+  final api = OldServerFallbackApi(ApiSessionApi(ref.watch(apiClientProvider), userId: userId));
   final drafts = ref.watch(sessionDraftRepositoryProvider);
   final registry = ref.read(pendingWorkRegistryProvider.notifier);
   final scope = ref.watch(localScopeProvider);

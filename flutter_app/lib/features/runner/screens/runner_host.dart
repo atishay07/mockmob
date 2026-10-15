@@ -114,7 +114,18 @@ mixin RunnerHost<W extends ConsumerStatefulWidget> on ConsumerState<W> {
   void openSubmit() {
     if (_submitOpen) return;
     _submitOpen = true;
-    unawaited(context.push<void>(AppRoutes.runSubmit(session.sessionId)).whenComplete(() => _submitOpen = false));
+    // Data only: the student's own opening of the page stops the time on the question in focus, and
+    // coming back without a submit starts it again (the page opened by a submit already running
+    // records nothing here).
+    final s = session;
+    final byStudent = s.submitState.value.stage == SubmitStage.idle;
+    if (byStudent) s.submitPageOpened();
+    unawaited(
+      context.push<void>(AppRoutes.runSubmit(s.sessionId)).whenComplete(() {
+        _submitOpen = false;
+        if (byStudent) s.submitPageClosed();
+      }),
+    );
   }
 
   /// A tap on an option: the tick fires on the tap itself and the screen shows the answer on the

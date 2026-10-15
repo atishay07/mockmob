@@ -489,6 +489,8 @@ class SessionEngine extends ChangeNotifier {
     _notify();
     _scheduleDraftSave();
     if (!canAnswer) return;
+    // A jump from the submit page brings the paper back: this visit closes the page's span.
+    _onSubmitPage = false;
     try {
       await _journal.recordVisit(qid, _clock, via: via);
       _syncer.notifyChanged();
@@ -511,6 +513,29 @@ class SessionEngine extends ChangeNotifier {
   void recordStrike(String qid, int option, bool on) {
     if (!canAnswer) return;
     unawaited(_trace(() => _journal.recordStrike(qid, option, on, _clock)));
+  }
+
+  /// The student opened the submit page and it is still open, with no visit since.
+  bool _onSubmitPage = false;
+
+  /// The student opened the submit page from the paper (not a page opened because a submit already
+  /// started). Recorded as a visit with via `sheet` on the question in focus, so the time spent
+  /// deciding to submit is credited to no question: with the submit after it, the last question's
+  /// time stops when the page opened (the one time rule, `data/paper_trace.js` rule 6). Data only.
+  void submitPageOpened() {
+    if (!kRichSessionEvents || !canAnswer || questions.isEmpty || _onSubmitPage) return;
+    _onSubmitPage = true;
+    unawaited(_trace(() => _journal.recordVisit(currentQuestion.id, _clock, via: SessionVia.sheet)));
+  }
+
+  /// The submit page closed and the paper is back without a submit: a plain visit to the question in
+  /// focus ends the page's span, as on the website. Nothing when a jump from the page already did,
+  /// or when a submit started.
+  void submitPageClosed() {
+    if (!_onSubmitPage) return;
+    _onSubmitPage = false;
+    if (!canAnswer || questions.isEmpty) return;
+    unawaited(_trace(() => _journal.recordVisit(currentQuestion.id, _clock)));
   }
 
   /// Writes one trace event (a mark, a strike, time away) and queues the sync. A failed write loses

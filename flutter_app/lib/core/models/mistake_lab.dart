@@ -383,6 +383,7 @@ class LabReplay {
     this.end,
     this.facts = const [],
     this.chips = const [],
+    this.firstOnScreen = const {},
   });
 
   static LabReplay? tryParse(Object? v) {
@@ -417,6 +418,11 @@ class LabReplay {
       end: j['end'] is Map ? ReplayEnd.tryParse(asJson(j['end'])) : null,
       facts: _texts(j['facts']),
       chips: chips,
+      firstOnScreen: {
+        for (final o in asJsonList(j['opened']))
+          if (asInt(o['n']) case final n? when n >= 1 && n <= total)
+            if (asInt(o['at']) case final at? when at >= 0) n: at,
+      },
     );
   }
 
@@ -446,6 +452,11 @@ class LabReplay {
   /// The filter chips, the ledger's own words; the first is "All".
   final List<ReplayChip> chips;
 
+  /// When each question first came on screen, by number (`replay.opened`, seconds). A question of a
+  /// passage set the website showed whole, but never in focus, has no bar and is still opened. An
+  /// older replay without the list leaves it empty, and the bars say it alone.
+  final Map<int, int> firstOnScreen;
+
   /// Every visit, in time order.
   List<ReplayBar> get bars => [for (final r in rows) ...r.bars];
 
@@ -453,7 +464,7 @@ class LabReplay {
   bool get hasPace => rows.every((r) => r.evenPaceBy != null);
 
   /// Questions answered at [sec]: each question's latest pick at or before it, a clear counting as
-  /// unanswered. The same count as each row's "By 10:00: 9 answered".
+  /// unanswered. The same count as each row's "By 10:00: 9 of 50 answered".
   int answeredAt(num sec) => answeredSetAt(sec).length;
 
   /// The question numbers answered at [sec].
@@ -469,8 +480,13 @@ class LabReplay {
     return {for (final e in latest.entries) if (e.value.option != null) e.key};
   }
 
-  /// The question numbers opened at or before [sec].
-  Set<int> openedAt(num sec) => {for (final b in bars) if (b.from <= sec) b.n};
+  /// The question numbers opened at or before [sec]: a bar, or the server's own first time on screen.
+  Set<int> openedAt(num sec) => {
+        for (final b in bars)
+          if (b.from <= sec) b.n,
+        for (final e in firstOnScreen.entries)
+          if (e.value <= sec) e.key,
+      };
 
   /// The visit on screen at [sec], or null (before the first or after the record).
   ReplayBar? barAt(num sec) {
@@ -558,7 +574,7 @@ class ReplayEnd {
   final String label;
 }
 
-/// One 10-minute row: "By 20:00: 14 answered. Even pace: 16." and its visits.
+/// One 10-minute row: "By 20:00: 14 of 50 answered. Even pace: 16." and its visits.
 class ReplayRow {
   const ReplayRow({required this.from, required this.to, required this.label, required this.answeredBy, this.evenPaceBy, this.bars = const []});
 

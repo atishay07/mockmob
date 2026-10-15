@@ -1,0 +1,2570 @@
+{
+  "version": 1,
+  "labels": {
+    "name": "Mistake Lab",
+    "othersTitle": "How others answered",
+    "showMore": "Show {k} more",
+    "seeChanges": "See every change"
+  },
+  "state": "ready",
+  "heading": "You missed 78 marks. Here's where they went.",
+  "gap": 78,
+  "headline": null,
+  "groups": [
+    {
+      "id": "other_wrong",
+      "label": "Other wrong answers",
+      "marks": 48,
+      "count": 8,
+      "numbers": [
+        3,
+        4,
+        12,
+        18,
+        24,
+        36,
+        42,
+        48
+      ],
+      "line": "48 marks on 8 questions",
+      "doLine": "Each one has a repair below: the trap, why the key is right and one rule to keep.",
+      "open": false
+    },
+    {
+      "id": "other_blank",
+      "label": "Opened, left blank",
+      "marks": 30,
+      "count": 6,
+      "numbers": [
+        8,
+        16,
+        20,
+        30,
+        40,
+        50
+      ],
+      "line": "30 marks on 6 questions",
+      "doLine": "Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and −1 for wrong.",
+      "open": false
+    }
+  ],
+  "barLabel": "78 marks missed: 48 other wrong answers, 30 opened and left blank.",
+  "remark": null,
+  "cohort": null,
+  "fine": [
+    "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits."
+  ],
+  "byQuestion": {
+    "e3": {
+      "group": "other_wrong",
+      "others": null
+    },
+    "e4": {
+      "group": "other_wrong",
+      "others": null
+    },
+    "e8": {
+      "group": "other_blank",
+      "others": null
+    },
+    "e12": {
+      "group": "other_wrong",
+      "others": null
+    },
+    "e16": {
+      "group": "other_blank",
+      "others": null
+    },
+    "e18": {
+      "group": "other_wrong",
+      "others": null
+    },
+    "e20": {
+      "group": "other_blank",
+      "others": null
+    },
+    "e24": {
+      "group": "other_wrong",
+      "others": null
+    },
+    "e30": {
+      "group": "other_blank",
+      "others": null
+    },
+    "e36": {
+      "group": "other_wrong",
+      "others": null
+    },
+    "e40": {
+      "group": "other_blank",
+      "others": null
+    },
+    "e42": {
+      "group": "other_wrong",
+      "others": null
+    },
+    "e48": {
+      "group": "other_wrong",
+      "others": null
+    },
+    "e50": {
+      "group": "other_blank",
+      "others": null
+    }
+  },
+  "replay": {
+    "version": 1,
+    "rowSec": 600,
+    "durationSec": 3600,
+    "recordSec": 2795,
+    "playMs": 15000,
+    "total": 50,
+    "labels": {
+      "title": "Replay",
+      "sub": "Your paper, minute by minute",
+      "play": "Play",
+      "pause": "Pause",
+      "previous": "Previous",
+      "next": "Next",
+      "seeInReplay": "See it in the replay",
+      "clockNote": "Clock times count from the start of the paper.",
+      "evenPaceNote": "Even pace is the paper's own time a question. It is a reference, not a target."
+    },
+    "end": {
+      "at": 2795,
+      "reason": "submit",
+      "label": "Submitted at 46:35."
+    },
+    "rows": [
+      {
+        "from": 0,
+        "to": 600,
+        "label": "By 10:00: 11 of 50 answered. Even pace: 8.",
+        "answeredBy": 11,
+        "evenPaceBy": 8,
+        "bars": [
+          {
+            "qid": "e1",
+            "n": 1,
+            "from": 0,
+            "to": 160,
+            "result": "right",
+            "picks": [
+              {
+                "at": 120,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e2",
+            "n": 2,
+            "from": 160,
+            "to": 190,
+            "result": "right",
+            "picks": [
+              {
+                "at": 160,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e3",
+            "n": 3,
+            "from": 190,
+            "to": 230,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 190,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e5",
+            "n": 5,
+            "from": 230,
+            "to": 260,
+            "result": "right",
+            "picks": [
+              {
+                "at": 230,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e6",
+            "n": 6,
+            "from": 260,
+            "to": 290,
+            "result": "right",
+            "picks": [
+              {
+                "at": 260,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e7",
+            "n": 7,
+            "from": 290,
+            "to": 310,
+            "result": "right",
+            "picks": [
+              {
+                "at": 290,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e9",
+            "n": 9,
+            "from": 310,
+            "to": 490,
+            "result": "right",
+            "picks": [
+              {
+                "at": 460,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e10",
+            "n": 10,
+            "from": 490,
+            "to": 520,
+            "result": "right",
+            "picks": [
+              {
+                "at": 490,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e11",
+            "n": 11,
+            "from": 520,
+            "to": 550,
+            "result": "right",
+            "picks": [
+              {
+                "at": 520,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e12",
+            "n": 12,
+            "from": 550,
+            "to": 580,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 550,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e13",
+            "n": 13,
+            "from": 580,
+            "to": 600,
+            "result": "right",
+            "picks": [
+              {
+                "at": 580,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          }
+        ]
+      },
+      {
+        "from": 600,
+        "to": 1200,
+        "label": "By 20:00: 21 of 50 answered. Even pace: 16.",
+        "answeredBy": 21,
+        "evenPaceBy": 16,
+        "bars": [
+          {
+            "qid": "e13",
+            "n": 13,
+            "from": 600,
+            "to": 610,
+            "result": "right",
+            "picks": [],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e14",
+            "n": 14,
+            "from": 610,
+            "to": 640,
+            "result": "right",
+            "picks": [
+              {
+                "at": 610,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e15",
+            "n": 15,
+            "from": 640,
+            "to": 660,
+            "result": "right",
+            "picks": [
+              {
+                "at": 640,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e17",
+            "n": 17,
+            "from": 660,
+            "to": 720,
+            "result": "right",
+            "picks": [
+              {
+                "at": 705,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e18",
+            "n": 18,
+            "from": 720,
+            "to": 780,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 765,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e19",
+            "n": 19,
+            "from": 780,
+            "to": 840,
+            "result": "right",
+            "picks": [
+              {
+                "at": 825,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e20",
+            "n": 20,
+            "from": 840,
+            "to": 900,
+            "result": "blank",
+            "picks": [],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e21",
+            "n": 21,
+            "from": 900,
+            "to": 960,
+            "result": "right",
+            "picks": [
+              {
+                "at": 945,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e22",
+            "n": 22,
+            "from": 960,
+            "to": 1020,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1005,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e23",
+            "n": 23,
+            "from": 1020,
+            "to": 1080,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1065,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e24",
+            "n": 24,
+            "from": 1080,
+            "to": 1140,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 1125,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e25",
+            "n": 25,
+            "from": 1140,
+            "to": 1200,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1185,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          }
+        ]
+      },
+      {
+        "from": 1200,
+        "to": 1800,
+        "label": "By 30:00: 30 of 50 answered. Even pace: 25.",
+        "answeredBy": 30,
+        "evenPaceBy": 25,
+        "bars": [
+          {
+            "qid": "e26",
+            "n": 26,
+            "from": 1200,
+            "to": 1260,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1245,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e27",
+            "n": 27,
+            "from": 1260,
+            "to": 1320,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1305,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e28",
+            "n": 28,
+            "from": 1320,
+            "to": 1380,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1365,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e29",
+            "n": 29,
+            "from": 1380,
+            "to": 1440,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1425,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e30",
+            "n": 30,
+            "from": 1440,
+            "to": 1500,
+            "result": "blank",
+            "picks": [],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e31",
+            "n": 31,
+            "from": 1500,
+            "to": 1560,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1545,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e32",
+            "n": 32,
+            "from": 1560,
+            "to": 1620,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1605,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e33",
+            "n": 33,
+            "from": 1620,
+            "to": 1680,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1665,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e34",
+            "n": 34,
+            "from": 1680,
+            "to": 1740,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1725,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e35",
+            "n": 35,
+            "from": 1740,
+            "to": 1800,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1785,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          }
+        ]
+      },
+      {
+        "from": 1800,
+        "to": 2400,
+        "label": "By 40:00: 39 of 50 answered. Even pace: 33.",
+        "answeredBy": 39,
+        "evenPaceBy": 33,
+        "bars": [
+          {
+            "qid": "e36",
+            "n": 36,
+            "from": 1800,
+            "to": 1860,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 1845,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e37",
+            "n": 37,
+            "from": 1860,
+            "to": 1920,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1905,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e38",
+            "n": 38,
+            "from": 1920,
+            "to": 1980,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1965,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e39",
+            "n": 39,
+            "from": 1980,
+            "to": 2040,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2025,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e40",
+            "n": 40,
+            "from": 2040,
+            "to": 2100,
+            "result": "blank",
+            "picks": [],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e41",
+            "n": 41,
+            "from": 2100,
+            "to": 2160,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2145,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e42",
+            "n": 42,
+            "from": 2160,
+            "to": 2220,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 2205,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e43",
+            "n": 43,
+            "from": 2220,
+            "to": 2280,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2265,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e44",
+            "n": 44,
+            "from": 2280,
+            "to": 2340,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2325,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e45",
+            "n": 45,
+            "from": 2340,
+            "to": 2400,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2385,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          }
+        ]
+      },
+      {
+        "from": 2400,
+        "to": 3000,
+        "label": "By 46:35: 44 of 50 answered. Even pace: 38.",
+        "answeredBy": 44,
+        "evenPaceBy": 38,
+        "bars": [
+          {
+            "qid": "e46",
+            "n": 46,
+            "from": 2400,
+            "to": 2460,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2445,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e47",
+            "n": 47,
+            "from": 2460,
+            "to": 2520,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2505,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e48",
+            "n": 48,
+            "from": 2520,
+            "to": 2580,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 2565,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e49",
+            "n": 49,
+            "from": 2580,
+            "to": 2640,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2625,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e50",
+            "n": 50,
+            "from": 2640,
+            "to": 2700,
+            "result": "blank",
+            "picks": [],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "e4",
+            "n": 4,
+            "from": 2700,
+            "to": 2790,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 2760,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          }
+        ]
+      }
+    ],
+    "opened": [
+      {
+        "n": 1,
+        "at": 0,
+        "result": "right"
+      },
+      {
+        "n": 2,
+        "at": 0,
+        "result": "right"
+      },
+      {
+        "n": 3,
+        "at": 0,
+        "result": "wrong"
+      },
+      {
+        "n": 4,
+        "at": 0,
+        "result": "wrong"
+      },
+      {
+        "n": 5,
+        "at": 0,
+        "result": "right"
+      },
+      {
+        "n": 6,
+        "at": 0,
+        "result": "right"
+      },
+      {
+        "n": 7,
+        "at": 0,
+        "result": "right"
+      },
+      {
+        "n": 8,
+        "at": 0,
+        "result": "blank"
+      },
+      {
+        "n": 9,
+        "at": 310,
+        "result": "right"
+      },
+      {
+        "n": 10,
+        "at": 310,
+        "result": "right"
+      },
+      {
+        "n": 11,
+        "at": 310,
+        "result": "right"
+      },
+      {
+        "n": 12,
+        "at": 310,
+        "result": "wrong"
+      },
+      {
+        "n": 13,
+        "at": 310,
+        "result": "right"
+      },
+      {
+        "n": 14,
+        "at": 310,
+        "result": "right"
+      },
+      {
+        "n": 15,
+        "at": 310,
+        "result": "right"
+      },
+      {
+        "n": 16,
+        "at": 310,
+        "result": "blank"
+      },
+      {
+        "n": 17,
+        "at": 660,
+        "result": "right"
+      },
+      {
+        "n": 18,
+        "at": 720,
+        "result": "wrong"
+      },
+      {
+        "n": 19,
+        "at": 780,
+        "result": "right"
+      },
+      {
+        "n": 20,
+        "at": 840,
+        "result": "blank"
+      },
+      {
+        "n": 21,
+        "at": 900,
+        "result": "right"
+      },
+      {
+        "n": 22,
+        "at": 960,
+        "result": "right"
+      },
+      {
+        "n": 23,
+        "at": 1020,
+        "result": "right"
+      },
+      {
+        "n": 24,
+        "at": 1080,
+        "result": "wrong"
+      },
+      {
+        "n": 25,
+        "at": 1140,
+        "result": "right"
+      },
+      {
+        "n": 26,
+        "at": 1200,
+        "result": "right"
+      },
+      {
+        "n": 27,
+        "at": 1260,
+        "result": "right"
+      },
+      {
+        "n": 28,
+        "at": 1320,
+        "result": "right"
+      },
+      {
+        "n": 29,
+        "at": 1380,
+        "result": "right"
+      },
+      {
+        "n": 30,
+        "at": 1440,
+        "result": "blank"
+      },
+      {
+        "n": 31,
+        "at": 1500,
+        "result": "right"
+      },
+      {
+        "n": 32,
+        "at": 1560,
+        "result": "right"
+      },
+      {
+        "n": 33,
+        "at": 1620,
+        "result": "right"
+      },
+      {
+        "n": 34,
+        "at": 1680,
+        "result": "right"
+      },
+      {
+        "n": 35,
+        "at": 1740,
+        "result": "right"
+      },
+      {
+        "n": 36,
+        "at": 1800,
+        "result": "wrong"
+      },
+      {
+        "n": 37,
+        "at": 1860,
+        "result": "right"
+      },
+      {
+        "n": 38,
+        "at": 1920,
+        "result": "right"
+      },
+      {
+        "n": 39,
+        "at": 1980,
+        "result": "right"
+      },
+      {
+        "n": 40,
+        "at": 2040,
+        "result": "blank"
+      },
+      {
+        "n": 41,
+        "at": 2100,
+        "result": "right"
+      },
+      {
+        "n": 42,
+        "at": 2160,
+        "result": "wrong"
+      },
+      {
+        "n": 43,
+        "at": 2220,
+        "result": "right"
+      },
+      {
+        "n": 44,
+        "at": 2280,
+        "result": "right"
+      },
+      {
+        "n": 45,
+        "at": 2340,
+        "result": "right"
+      },
+      {
+        "n": 46,
+        "at": 2400,
+        "result": "right"
+      },
+      {
+        "n": 47,
+        "at": 2460,
+        "result": "right"
+      },
+      {
+        "n": 48,
+        "at": 2520,
+        "result": "wrong"
+      },
+      {
+        "n": 49,
+        "at": 2580,
+        "result": "right"
+      },
+      {
+        "n": 50,
+        "at": 2640,
+        "result": "blank"
+      }
+    ],
+    "facts": [
+      "You opened all 50 questions.",
+      "Your first pass ended at 45:00, on Q50. You spent the last 1m 30s on 1 return visit.",
+      "At 40:00 you had answered 39 of 50. Even pace gets to 33."
+    ],
+    "chips": [
+      {
+        "id": "all",
+        "label": "All",
+        "count": null
+      }
+    ]
+  },
+  "time": {
+    "state": "ready",
+    "lastQid": "e4",
+    "end": {
+      "qid": "e4",
+      "at": 2795000,
+      "reason": "submit"
+    },
+    "captured": true,
+    "pace": {
+      "paperMs": 3600000,
+      "perQuestionMs": 72000,
+      "total": 50
+    },
+    "medianMs": 60000,
+    "timedCount": 48,
+    "rows": [
+      {
+        "qid": "e1",
+        "number": 1,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 160000,
+        "visits": 2,
+        "ratio": 2.2222222222222223,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 120000,
+            "gapSeconds": null,
+            "visit": 0,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "2m 40s on this question. The paper gives 1m 12s a question, and your median was 1m. That is 2.2 times the paper's pace. You opened it 2 times.",
+          "Picked C at 2:00."
+        ]
+      },
+      {
+        "qid": "e2",
+        "number": 2,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 30000,
+        "visits": 2,
+        "ratio": 0.4166666666666667,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 160000,
+            "gapSeconds": null,
+            "visit": 1,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 1m. You opened it 2 times.",
+          "Picked D at 2:40."
+        ]
+      },
+      {
+        "qid": "e3",
+        "number": 3,
+        "verdict": "wrong",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 40000,
+        "visits": 2,
+        "ratio": 0.5555555555555556,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 190000,
+            "gapSeconds": null,
+            "visit": 2,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "40s on this question. The paper gives 1m 12s a question, and your median was 1m. You opened it 2 times.",
+          "Picked B at 3:10."
+        ]
+      },
+      {
+        "qid": "e4",
+        "number": 4,
+        "verdict": "wrong",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 90000,
+        "visits": 2,
+        "ratio": 1.25,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2760000,
+            "gapSeconds": null,
+            "visit": 47,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m 30s on this question, until you went to submit at 46:30. The paper gives 1m 12s a question, and your median was 1m. You opened it 2 times.",
+          "Picked C at 46:00."
+        ]
+      },
+      {
+        "qid": "e5",
+        "number": 5,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 30000,
+        "visits": 2,
+        "ratio": 0.4166666666666667,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 230000,
+            "gapSeconds": null,
+            "visit": 3,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 1m. You opened it 2 times.",
+          "Picked C at 3:50."
+        ]
+      },
+      {
+        "qid": "e6",
+        "number": 6,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 30000,
+        "visits": 2,
+        "ratio": 0.4166666666666667,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 260000,
+            "gapSeconds": null,
+            "visit": 4,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 1m. You opened it 2 times.",
+          "Picked D at 4:20."
+        ]
+      },
+      {
+        "qid": "e7",
+        "number": 7,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 20000,
+        "visits": 2,
+        "ratio": 0.2777777777777778,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 290000,
+            "gapSeconds": null,
+            "visit": 5,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "20s on this question. The paper gives 1m 12s a question, and your median was 1m. You opened it 2 times.",
+          "Picked A at 4:50."
+        ]
+      },
+      {
+        "qid": "e8",
+        "number": 8,
+        "verdict": "skipped",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 0,
+        "visits": 2,
+        "ratio": null,
+        "steps": [],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "Shown with its passage 2 times. You never answered it or moved to it, so no time is counted on it."
+        ]
+      },
+      {
+        "qid": "e9",
+        "number": 9,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 180000,
+        "visits": 1,
+        "ratio": 2.5,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 460000,
+            "gapSeconds": null,
+            "visit": 6,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "3m on this question. The paper gives 1m 12s a question, and your median was 1m. That is 2.5 times the paper's pace.",
+          "Picked C at 7:40."
+        ]
+      },
+      {
+        "qid": "e10",
+        "number": 10,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 30000,
+        "visits": 1,
+        "ratio": 0.4166666666666667,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 490000,
+            "gapSeconds": null,
+            "visit": 7,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked D at 8:10."
+        ]
+      },
+      {
+        "qid": "e11",
+        "number": 11,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 30000,
+        "visits": 1,
+        "ratio": 0.4166666666666667,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 520000,
+            "gapSeconds": null,
+            "visit": 8,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 8:40."
+        ]
+      },
+      {
+        "qid": "e12",
+        "number": 12,
+        "verdict": "wrong",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 30000,
+        "visits": 1,
+        "ratio": 0.4166666666666667,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 550000,
+            "gapSeconds": null,
+            "visit": 9,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked D at 9:10."
+        ]
+      },
+      {
+        "qid": "e13",
+        "number": 13,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 30000,
+        "visits": 1,
+        "ratio": 0.4166666666666667,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 580000,
+            "gapSeconds": null,
+            "visit": 10,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 9:40."
+        ]
+      },
+      {
+        "qid": "e14",
+        "number": 14,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 30000,
+        "visits": 1,
+        "ratio": 0.4166666666666667,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 610000,
+            "gapSeconds": null,
+            "visit": 11,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked D at 10:10."
+        ]
+      },
+      {
+        "qid": "e15",
+        "number": 15,
+        "verdict": "correct",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 20000,
+        "visits": 1,
+        "ratio": 0.2777777777777778,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 640000,
+            "gapSeconds": null,
+            "visit": 12,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "20s on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 10:40."
+        ]
+      },
+      {
+        "qid": "e16",
+        "number": 16,
+        "verdict": "skipped",
+        "chapter": "Reading Comprehension",
+        "opened": true,
+        "ms": 0,
+        "visits": 1,
+        "ratio": null,
+        "steps": [],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "Shown with its passage. You never answered it or moved to it, so no time is counted on it."
+        ]
+      },
+      {
+        "qid": "e17",
+        "number": 17,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 705000,
+            "gapSeconds": null,
+            "visit": 13,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 11:45."
+        ]
+      },
+      {
+        "qid": "e18",
+        "number": 18,
+        "verdict": "wrong",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 765000,
+            "gapSeconds": null,
+            "visit": 14,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 12:45."
+        ]
+      },
+      {
+        "qid": "e19",
+        "number": 19,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 825000,
+            "gapSeconds": null,
+            "visit": 15,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 13:45."
+        ]
+      },
+      {
+        "qid": "e20",
+        "number": 20,
+        "verdict": "skipped",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m."
+        ]
+      },
+      {
+        "qid": "e21",
+        "number": 21,
+        "verdict": "correct",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 945000,
+            "gapSeconds": null,
+            "visit": 17,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 15:45."
+        ]
+      },
+      {
+        "qid": "e22",
+        "number": 22,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1005000,
+            "gapSeconds": null,
+            "visit": 18,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked D at 16:45."
+        ]
+      },
+      {
+        "qid": "e23",
+        "number": 23,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 1065000,
+            "gapSeconds": null,
+            "visit": 19,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 17:45."
+        ]
+      },
+      {
+        "qid": "e24",
+        "number": 24,
+        "verdict": "wrong",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 1125000,
+            "gapSeconds": null,
+            "visit": 20,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 18:45."
+        ]
+      },
+      {
+        "qid": "e25",
+        "number": 25,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 1185000,
+            "gapSeconds": null,
+            "visit": 21,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 19:45."
+        ]
+      },
+      {
+        "qid": "e26",
+        "number": 26,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1245000,
+            "gapSeconds": null,
+            "visit": 22,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked D at 20:45."
+        ]
+      },
+      {
+        "qid": "e27",
+        "number": 27,
+        "verdict": "correct",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 1305000,
+            "gapSeconds": null,
+            "visit": 23,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 21:45."
+        ]
+      },
+      {
+        "qid": "e28",
+        "number": 28,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 1365000,
+            "gapSeconds": null,
+            "visit": 24,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked B at 22:45."
+        ]
+      },
+      {
+        "qid": "e29",
+        "number": 29,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 1425000,
+            "gapSeconds": null,
+            "visit": 25,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 23:45."
+        ]
+      },
+      {
+        "qid": "e30",
+        "number": 30,
+        "verdict": "skipped",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m."
+        ]
+      },
+      {
+        "qid": "e31",
+        "number": 31,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 1545000,
+            "gapSeconds": null,
+            "visit": 27,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 25:45."
+        ]
+      },
+      {
+        "qid": "e32",
+        "number": 32,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 1605000,
+            "gapSeconds": null,
+            "visit": 28,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked B at 26:45."
+        ]
+      },
+      {
+        "qid": "e33",
+        "number": 33,
+        "verdict": "correct",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 1665000,
+            "gapSeconds": null,
+            "visit": 29,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 27:45."
+        ]
+      },
+      {
+        "qid": "e34",
+        "number": 34,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1725000,
+            "gapSeconds": null,
+            "visit": 30,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked D at 28:45."
+        ]
+      },
+      {
+        "qid": "e35",
+        "number": 35,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 1785000,
+            "gapSeconds": null,
+            "visit": 31,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 29:45."
+        ]
+      },
+      {
+        "qid": "e36",
+        "number": 36,
+        "verdict": "wrong",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 1845000,
+            "gapSeconds": null,
+            "visit": 32,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 30:45."
+        ]
+      },
+      {
+        "qid": "e37",
+        "number": 37,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 1905000,
+            "gapSeconds": null,
+            "visit": 33,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 31:45."
+        ]
+      },
+      {
+        "qid": "e38",
+        "number": 38,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1965000,
+            "gapSeconds": null,
+            "visit": 34,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked D at 32:45."
+        ]
+      },
+      {
+        "qid": "e39",
+        "number": 39,
+        "verdict": "correct",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2025000,
+            "gapSeconds": null,
+            "visit": 35,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 33:45."
+        ]
+      },
+      {
+        "qid": "e40",
+        "number": 40,
+        "verdict": "skipped",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m."
+        ]
+      },
+      {
+        "qid": "e41",
+        "number": 41,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2145000,
+            "gapSeconds": null,
+            "visit": 37,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 35:45."
+        ]
+      },
+      {
+        "qid": "e42",
+        "number": 42,
+        "verdict": "wrong",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2205000,
+            "gapSeconds": null,
+            "visit": 38,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 36:45."
+        ]
+      },
+      {
+        "qid": "e43",
+        "number": 43,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2265000,
+            "gapSeconds": null,
+            "visit": 39,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 37:45."
+        ]
+      },
+      {
+        "qid": "e44",
+        "number": 44,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 2325000,
+            "gapSeconds": null,
+            "visit": 40,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked B at 38:45."
+        ]
+      },
+      {
+        "qid": "e45",
+        "number": 45,
+        "verdict": "correct",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2385000,
+            "gapSeconds": null,
+            "visit": 41,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 39:45."
+        ]
+      },
+      {
+        "qid": "e46",
+        "number": 46,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 2445000,
+            "gapSeconds": null,
+            "visit": 42,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked D at 40:45."
+        ]
+      },
+      {
+        "qid": "e47",
+        "number": 47,
+        "verdict": "correct",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2505000,
+            "gapSeconds": null,
+            "visit": 43,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 41:45."
+        ]
+      },
+      {
+        "qid": "e48",
+        "number": 48,
+        "verdict": "wrong",
+        "chapter": "Vocabulary",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2565000,
+            "gapSeconds": null,
+            "visit": 44,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked A at 42:45."
+        ]
+      },
+      {
+        "qid": "e49",
+        "number": 49,
+        "verdict": "correct",
+        "chapter": "Grammar",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2625000,
+            "gapSeconds": null,
+            "visit": 45,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m.",
+          "Picked C at 43:45."
+        ]
+      },
+      {
+        "qid": "e50",
+        "number": 50,
+        "verdict": "skipped",
+        "chapter": "Verbal Ability",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 1m."
+        ]
+      }
+    ],
+    "longest": [
+      {
+        "number": 9,
+        "verdict": "correct",
+        "ms": 180000,
+        "time": "3m",
+        "ratio": 2.5,
+        "ratioText": "2.5 times the paper's pace"
+      },
+      {
+        "number": 1,
+        "verdict": "correct",
+        "ms": 160000,
+        "time": "2m 40s",
+        "ratio": 2.2222222222222223,
+        "ratioText": "2.2 times the paper's pace"
+      },
+      {
+        "number": 4,
+        "verdict": "wrong",
+        "ms": 90000,
+        "time": "1m 30s",
+        "ratio": 1.25,
+        "ratioText": "1.3 times the paper's pace"
+      },
+      {
+        "number": 17,
+        "verdict": "correct",
+        "ms": 60000,
+        "time": "1m",
+        "ratio": 0.8333333333333334,
+        "ratioText": null
+      },
+      {
+        "number": 18,
+        "verdict": "wrong",
+        "ms": 60000,
+        "time": "1m",
+        "ratio": 0.8333333333333334,
+        "ratioText": null
+      }
+    ],
+    "summary": {
+      "pace": "This paper gives you 1m 12s a question: 60 minutes for 50 questions.",
+      "median": "Your median was 1m a question, over 48 timed questions.",
+      "split": "You spent 34m 50s on 36 right answers, 7m 40s on 8 wrong answers and 4m on 6 blank questions.",
+      "longestNote": "The mark on each bar is the paper's 1m 12s a question."
+    },
+    "changes": {
+      "count": 0,
+      "questions": 0,
+      "net": 0,
+      "lead": "You did not change any answers in this paper.",
+      "parts": [],
+      "held": null,
+      "rows": []
+    }
+  }
+}

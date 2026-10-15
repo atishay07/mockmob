@@ -60,6 +60,11 @@ abstract class RunnerSession implements Listenable {
   Future<void> goTo(int index, {String? via});
   void setMarked(String qid, bool value);
 
+  /// The student opened the submit page from the paper, and closed it again without a submit: data
+  /// only, so the time spent deciding to submit is credited to no question.
+  void submitPageOpened();
+  void submitPageClosed();
+
   /// [endReason] names how the paper ended when it is not the student's submit or time up (the
   /// NTA third warning: `SessionEndReason.ntaStrikes`).
   Future<SubmitOutcome> submit({bool timedOut = false, String? endReason});
@@ -150,6 +155,10 @@ class EngineRunnerSession implements RunnerSession {
   Future<void> goTo(int index, {String? via}) => engine.goTo(index, via: via);
   @override
   void setMarked(String qid, bool value) => engine.setMarked(qid, value);
+  @override
+  void submitPageOpened() => engine.submitPageOpened();
+  @override
+  void submitPageClosed() => engine.submitPageClosed();
   @override
   Future<SubmitOutcome> submit({bool timedOut = false, String? endReason}) => engine.submit(timedOut: timedOut, endReason: endReason);
   @override

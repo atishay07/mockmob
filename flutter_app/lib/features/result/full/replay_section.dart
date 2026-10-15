@@ -19,7 +19,7 @@ import '../model/time_decisions.dart' show clockLabel;
 ///
 /// One row per 10 minutes. Each visit is a bar from entering to leaving, filled by the question's
 /// final result; a pick is a dot, a change a ringed dot, a mark for review a small flag, and time
-/// away a hatched gap. Each row ends with the server's "By 20:00: 14 answered. Even pace: 16.", and
+/// away a hatched gap. Each row ends with the server's "By 20:00: 14 of 50 answered. Even pace: 16.", and
 /// the three facts follow the grid. Every sentence is the server's (`lab.replay`); the app adds only
 /// the moving clock, which reads the same words at the moment under the finger.
 ///
@@ -440,8 +440,8 @@ class _Readout extends StatelessWidget {
           }
         }
         final line = at == null
-            ? (replay.end?.label ?? ResultCopy.replayAnsweredBy(clockLabel(whole), answered.length, replay.hasPace ? replay.evenPaceAt(whole) : null))
-            : ResultCopy.replayAnsweredBy(clockLabel(whole), answered.length, replay.hasPace ? replay.evenPaceAt(whole) : null);
+            ? (replay.end?.label ?? ResultCopy.replayAnsweredBy(clockLabel(whole), answered.length, replay.total, replay.hasPace ? replay.evenPaceAt(whole) : null))
+            : ResultCopy.replayAnsweredBy(clockLabel(whole), answered.length, replay.total, replay.hasPace ? replay.evenPaceAt(whole) : null);
         final tag = away?.label ?? (bar == null ? null : ResultCopy.labQuestionChip(bar.n));
         return Row(
           crossAxisAlignment: CrossAxisAlignment.start,
