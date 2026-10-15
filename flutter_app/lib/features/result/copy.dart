@@ -305,4 +305,27 @@ abstract final class ResultCopy {
   static const slowTitle = 'Your result is taking longer to load';
   static const slowBody = 'It is saved on the server. Try again, or find it later in Review.';
   static const backToReview = 'Go to Review';
+
+  // ---- After this mock: the plan and the read of the paper (SWOT) --------------------------------
+  // The server writes every line of the read. These are only the headings and the buttons.
+
+  static const swotTitle = 'After this mock';
+  static const swotPlanTitle = 'Do these next';
+  static const swotReadTitle = 'SWOT for this mock';
+  static const swotSetUp = 'Set up';
+
+  /// What a screen reader hears for a plan row's key: the key, then the set it opens.
+  static String swotSetUpFor(String label) => 'Set up. $label';
+  static const swotSee = 'See';
+  static String swotQuestionChip(int n) => 'Q$n';
+  static String swotGoToQuestion(int n) => 'Go to question $n';
+
+  /// The heading word of a group when the server sends none (it always should).
+  static String swotGroupWord(String id) => switch (id) {
+    'strength' => 'Strengths',
+    'weakness' => 'Weaknesses',
+    'opportunity' => 'Opportunities',
+    'threat' => 'Threats',
+    _ => '',
+  };
 }

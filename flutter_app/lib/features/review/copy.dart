@@ -194,20 +194,46 @@ abstract final class ReviewCopy {
   static const yourAnswer = 'Your answer';
   static const correctAnswer = 'Correct answer';
   static const passage = 'Passage';
-  static const working = 'Working out the explanation';
   static const whatHappened = 'What happened here';
   static const theIdea = 'The idea';
   static const nextTime = 'Next time';
   static const concept = 'Concept';
   static const answerReview = 'Answer review';
 
-  // ---- Repair v2 explanation ----------------------------------------------------------------
+  // ---- Repair v2 and v3 explanation -----------------------------------------------------------
 
   /// "Why B looked right", or without a known letter "Why it looked right".
   static String whyLookedRight(String? letter) => letter == null ? 'Why it looked right' : 'Why $letter looked right';
   static const whereItBreaks = 'Where it breaks';
   static const anotherWay = 'Another way to see it';
   static const keepThis = 'Keep this';
+
+  /// The chip under the trap's name. The call is told the key before it explains, so this says
+  /// where the explanation comes from and never claims a check.
+  static String explainedFromKey(String? letter) => letter == null ? 'Explained from the answer key.' : 'Explained from the answer key ($letter).';
+
+  /// "Why D is right", or without a known letter "Why the key is right".
+  static String whyRight(String? letter) => letter == null ? 'Why the key is right' : 'Why $letter is right';
+  static const otherOptions = 'The other options';
+
+  /// The disclosure's label, with how many options it holds: "The other options (2)".
+  static String otherOptionsCount(int n) => '$otherOptions ($n)';
+  static String otherOptionsOpen(int n) => '${otherOptionsCount(n)}, expanded';
+  static String otherOptionsClosed(int n) => '${otherOptionsCount(n)}, collapsed';
+
+  /// One row of the disclosure, as a screen reader says it: "Option A. It reverses the ratio."
+  static String otherOptionSpoken(String letter, String why) => 'Option $letter. $why';
+  static String toRememberIt(String hook) => 'To remember it: $hook';
+  static const explainAnotherWay = 'Explain it another way';
+
+  /// The free lines the server built from the student's own records, under the explanation.
+  static const fromYourRecord = 'From your record';
+
+  /// Fine print under the repair. A saved repair opened again costs nothing; a fresh one says what
+  /// it took and what is left. With no balance in the answer the count is left out, never guessed.
+  static const savedRepairNoCredit = 'Saved repair. No credit used.';
+  static const noCreditUsed = 'No credit used.';
+  static String creditsUsed(int charged, int? left) => left == null ? '${plural(charged, 'credit')} used.' : '${plural(charged, 'credit')} used. $left left.';
   static const copyRule = 'Copy';
   static const copiedRule = 'Copied';
   static const copyRuleSpoken = 'Copy the rule';
@@ -219,8 +245,13 @@ abstract final class ReviewCopy {
   static const showQuestion = 'Show the question';
   static const hideQuestion = 'Hide the question';
 
-  /// After 8 seconds of waiting for an explanation: still honest, nothing promised.
-  static const stillWorkingSlow = 'Still working on this one';
+  /// While a repair is written: ONE line that replaces itself on real elapsed time, with the
+  /// website's words and moments (`REPAIR_LOADING`): the first at once, the second after 8
+  /// seconds, the third after 45 seconds (`RepairWaitLine`). Each says what is true: the credit
+  /// is taken only if it arrives.
+  static String writingRepair(int number) => 'Writing the repair for Q$number.';
+  static const stillWriting = 'Still writing. You are charged only if it arrives.';
+  static const takingLonger = 'Taking longer than usual. Still trying.';
   static const keyExplanationLabel = 'Key explanation. No explanation credit used.';
   static const noKeyExplanation = 'There is no written explanation for this question yet.';
   static const reviewedNote = 'Reviewed on this phone. It keeps its place in Review for a repair.';

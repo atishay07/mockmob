@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/data/retry.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
 import 'package:mockmob/features/review/screens/repair_ending_screen.dart';
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 
+import '../../unit/review/support/repair_v3_fixtures.dart';
 import '../../unit/review/support/review_fixtures.dart';
 import 'review_golden_support.dart';
 
@@ -56,6 +58,34 @@ void main() {
       run: runOf(outcomes: [explained]),
       concept: const ConceptLink(unitId: 'acc-partnership-2', title: 'Admission of a partner: the sacrificing ratio'),
     ),
+  );
+
+  // Repair v3, as the server sends it: the trap and its chip, why the key is right with the pulled
+  // contrast, the other options (closed), the rule with its hook, the second explanation's button,
+  // the record lines and the pattern, the marks line, the practice key and the fine print.
+  reviewGolden(
+    'repair_v3_full',
+    repair,
+    size: const Size(384, 1760),
+    overrides: () => v3Overrides(
+      v3Outcome(v3Json()),
+      insights: v3Insights(),
+      concept: const ConceptLink(unitId: 'acc-partnership-2', title: 'Admission of a partner: the sacrificing ratio'),
+    ),
+  );
+
+  // The same repair with the other options open and the second explanation shown in place.
+  reviewGolden(
+    'repair_v3_open',
+    repair,
+    size: const Size(384, 1900),
+    overrides: () => v3Overrides(v3Outcome(v3Json()), insights: v3Insights()),
+    after: (tester) async {
+      await tester.tap(find.text('The other options (2)'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Explain it another way'));
+      await tester.pumpAndSettle();
+    },
   );
 
   reviewGolden(
