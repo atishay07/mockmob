@@ -8,14 +8,17 @@ import 'package:mockmob/core/art/art.dart' show SubjectEmblem;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
+import 'package:mockmob/core/mascot/mobi_painter.dart' show MobiPainter;
 import 'package:mockmob/features/rhythm/logic/plan_week.dart';
 import 'package:mockmob/features/today/copy.dart';
+import 'package:mockmob/features/today/logic/mobi_presence.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/logic/today_reactions.dart';
 import 'package:mockmob/features/today/logic/week_chip.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/header_mobi.dart';
 import 'package:mockmob/features/today/widgets/hero_stage.dart';
 import 'package:mockmob/features/today/widgets/paper_trend.dart' show trendDot;
 import 'package:mockmob/features/today/widgets/resume_hero.dart';
@@ -101,6 +104,7 @@ void main() {
       final before = buildToday(ashaInputs());
       final after = buildToday(ashaInputs(attempts: ashaRecord(tuesdayEvening).skip(1).toList()));
       expect(TodayReactions.compare(before, after).changed, isTrue);
+      expect(TodayReactions.actFor(TodayReactions.compare(before, after)), MobiAct.nod);
       expect(TodayReactions.actFor(TodayReactions.compare(after, after)), isNull);
     });
 
@@ -157,6 +161,38 @@ void main() {
       expect(todayMobiCue.count, start + 2);
       expect(todayMobiCue.value, MobiAct.correct);
       await tester.pump(const Duration(seconds: 3));
+    });
+  });
+
+  group('the header Mobi answers the news of Today', () {
+    MobiRig rigOf(WidgetTester tester) =>
+        (tester.widget<CustomPaint>(find.descendant(of: find.byType(MobiCharacter), matching: find.byType(CustomPaint))).painter! as MobiPainter).rig.value;
+
+    Future<bool> showsAnswerBubble(WidgetTester tester, HeaderMobiKind kind, MobiAct cue) async {
+      MobiRation.reset();
+      await pumpMockmob(tester, Center(child: HeaderMobi(cue: HeaderMobiCue(kind, const ['One line.']))), overrides: [auth]);
+      await tester.pump(const Duration(milliseconds: 2500));
+      todayMobiCue.cue(cue);
+      var bubble = false;
+      for (var i = 0; i < 80; i++) {
+        await tester.pump(const Duration(milliseconds: 16));
+        if (rigOf(tester).bubble >= 0) bubble = true;
+      }
+      await tester.pumpWidget(const SizedBox());
+      await tester.pump(const Duration(seconds: 1));
+      return bubble;
+    }
+
+    testWidgets('today counted by the server gives the header Mobi the small right-answer hop', (tester) async {
+      expect(await showsAnswerBubble(tester, HeaderMobiKind.idle, MobiAct.correct), isTrue);
+    });
+
+    testWidgets('a late-night Mobi stays sleepy and calm', (tester) async {
+      expect(await showsAnswerBubble(tester, HeaderMobiKind.sleepy, MobiAct.correct), isFalse);
+    });
+
+    testWidgets('picking a time is the listening of the hero, not of the header', (tester) async {
+      expect(await showsAnswerBubble(tester, HeaderMobiKind.idle, MobiAct.listen), isFalse);
     });
   });
 
@@ -438,6 +474,37 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.byType(MobiCharacter), findsNothing, reason: 'hidden above 1.3x text');
       expect(find.byType(MobiWalker), findsNothing);
+    });
+
+    testWidgets('one Mobi per screen: the walker waits while the header Mobi is in view, then sets off', (tester) async {
+      SubjectEmblem.idleEnabled = true;
+      addTearDown(() {
+        SubjectEmblem.idleEnabled = false;
+        TodayMobiPresence.reset();
+      });
+      RoadTimeline.debugResetWalker();
+      TodayMobiPresence.reportHeader(true);
+      await pumpMockmob(
+        tester,
+        Padding(padding: const EdgeInsets.all(16), child: RoadTimeline(today: today, stops: [exam], end: end)),
+        size: const Size(372, 400),
+        overrides: [auth],
+      );
+      await tester.pump(const Duration(milliseconds: 600));
+      expect(find.byType(MobiWalker), findsNothing, reason: 'the header Mobi is on screen');
+      expect(find.byType(MobiCharacter), findsNothing);
+      TodayMobiPresence.reportHeader(false);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.byType(MobiWalker), findsOneWidget, reason: 'the walk was not spent while he was hidden');
+      await tester.pump(const Duration(seconds: 3));
+      // He steps out of sight again when the header's Mobi returns, and is not rebuilt walking.
+      TodayMobiPresence.reportHeader(true);
+      await tester.pump();
+      expect(find.byType(MobiWalker, skipOffstage: true), findsNothing);
+      TodayMobiPresence.reportHeader(false);
+      await tester.pump();
+      expect(find.byType(MobiWalker), findsOneWidget);
     });
   });
 

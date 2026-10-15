@@ -46,6 +46,18 @@ class _RecapCardPageState extends State<RecapCardPage> {
   /// True while some of the body is still below the fold.
   bool _more = false;
 
+  /// The pinned footer's height (measured) and whether the body is taller than its box. A body that
+  /// scrolls gets the footer's height as extra room at its end, so its last line can be carried
+  /// well clear of the keys and of the fade above them (at large text "Share your sheet" sat half
+  /// behind the Repair key and could not be scrolled out from under it). A body that fits gets
+  /// none, so a short card never gains a scroll.
+  final GlobalKey _footerKey = GlobalKey();
+  double _footerHeight = 0;
+  bool _overflows = false;
+
+  /// The extra room the last build applied, so the overflow test can leave it out.
+  double _extra = 0;
+
   bool _onScroll(ScrollNotification n) {
     if (n.depth != 0) return false;
     _track(n.metrics);
@@ -67,7 +79,19 @@ class _RecapCardPageState extends State<RecapCardPage> {
 
   void _track(ScrollMetrics m) {
     final more = m.extentAfter > 2;
-    if (more != _more && mounted) setState(() => _more = more);
+    final overflows = m.maxScrollExtent - _extra > 0.5;
+    if ((more != _more || overflows != _overflows) && mounted) {
+      setState(() {
+        _more = more;
+        _overflows = overflows;
+      });
+    }
+  }
+
+  void _measureFooter() {
+    final box = _footerKey.currentContext?.findRenderObject();
+    if (!mounted || box is! RenderBox || !box.hasSize) return;
+    if ((box.size.height - _footerHeight).abs() > 0.5) setState(() => _footerHeight = box.size.height);
   }
 
   /// The card's content arrives in reading order after the card itself: each block rises 12 dp
@@ -96,6 +120,8 @@ class _RecapCardPageState extends State<RecapCardPage> {
 
   @override
   Widget build(BuildContext context) {
+    _extra = _overflows ? _footerHeight : 0;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _measureFooter());
     final scroll = KeyedSubtree(
       key: _scrollKey,
       child: NotificationListener<ScrollMetricsNotification>(
@@ -110,7 +136,7 @@ class _RecapCardPageState extends State<RecapCardPage> {
                 physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
                 slivers: [
                   SliverPadding(
-                    padding: EdgeInsets.only(top: widget.topPadding, bottom: MmSpace.s24),
+                    padding: EdgeInsets.only(top: widget.topPadding, bottom: MmSpace.s24 + _extra),
                     // Built in full, never lazily: every block is in the tree for TalkBack and for
                     // tests. At least the screen's height, with the content at 2 : 3 in it; a
                     // taller card simply scrolls from its top.
@@ -133,7 +159,7 @@ class _RecapCardPageState extends State<RecapCardPage> {
         Expanded(
           child: _BottomFade(active: _more, child: scroll),
         ),
-        Padding(padding: const EdgeInsets.fromLTRB(ResultSpace.moment, MmSpace.s8, ResultSpace.moment, MmSpace.s12), child: widget.footer),
+        Padding(key: _footerKey, padding: const EdgeInsets.fromLTRB(ResultSpace.moment, MmSpace.s8, ResultSpace.moment, MmSpace.s12), child: widget.footer),
       ],
     );
   }

@@ -17,7 +17,9 @@ import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/widgets/widgets.dart';
+import '../logic/mobi_presence.dart';
 import '../logic/today_model.dart';
+import '../logic/today_reactions.dart' show todayMobiCue;
 
 class HeaderMobi extends StatefulWidget {
   const HeaderMobi({super.key, required this.cue, this.aim, this.speech});
@@ -80,10 +82,10 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
   bool _onScreen = false;
 
   MobiAct get _entrance => switch (widget.cue.kind) {
-        HeaderMobiKind.cheer => MobiAct.cheer,
-        HeaderMobiKind.sleepy => MobiAct.sleepy,
+        HeaderMobiKind.cheer => MobiMoments.act(MobiEvent.sessionDone),
+        HeaderMobiKind.sleepy => MobiMoments.act(MobiEvent.lateNight),
         HeaderMobiKind.point => MobiAct.point,
-        HeaderMobiKind.idle => MobiAct.hello,
+        HeaderMobiKind.idle => MobiMoments.act(MobiEvent.arrive),
       };
 
   @override
@@ -91,7 +93,9 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _mobi.speech.addListener(_syncSpeaking);
+    todayMobiCue.addListener(_onCue);
     _reaim();
+    _reportPresence();
   }
 
   void _syncSpeaking() {
@@ -111,13 +115,17 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
       // Aimed while covered, armed only once seen: aim again so the nudge's 4 s start now.
       if (onScreen) _aimedVector = null;
       _reaim();
+      _reportPresence();
     }
     // The page scrolls under him: keep the aim on the card as it moves.
     final position = Scrollable.maybeOf(context)?.position;
     if (position == _position) return;
     _position?.removeListener(_reaim);
     _position?.removeListener(_onScrolled);
+    _position?.removeListener(_reportPresence);
     _position = position?..addListener(_reaim);
+    _position?.addListener(_reportPresence);
+    _reportPresence();
     if (_nudge?.isActive ?? false) _position?.addListener(_onScrolled);
   }
 
@@ -133,13 +141,20 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
 
   /// Text scale, rotation and window changes move the card.
   @override
-  void didChangeMetrics() => _reaim();
+  void didChangeMetrics() {
+    _reaim();
+    _reportPresence();
+  }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _mobi.speech.removeListener(_syncSpeaking);
+    todayMobiCue.removeListener(_onCue);
+    _cueRestore?.cancel();
     _position?.removeListener(_reaim);
+    _position?.removeListener(_reportPresence);
+    TodayMobiPresence.headerGone();
     _hush?.cancel();
     _settle?.cancel();
     _nudge?.cancel();
@@ -147,6 +162,46 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     _stopListening();
     _mobi.dispose();
     super.dispose();
+  }
+
+  Timer? _cueRestore;
+
+  /// Today's news reaches him when the hero has no Mobi of his own (the header is the only Mobi
+  /// then): today counted by the server is a small hop, a refresh that changed the page a nod, a
+  /// read that failed one shrug a run. After it he is back where he stood: a pointing Mobi aims
+  /// at the card again. A sleepy Mobi (late night) stays calm, and picking a time (the hero's
+  /// own listening) is not for him.
+  void _onCue() {
+    final act = todayMobiCue.value;
+    if (act == null || !mounted || !_onScreen || act == MobiAct.listen || widget.cue.kind == HeaderMobiKind.sleepy) return;
+    if (!_mobi.react(act, key: 'today:header:${act.name}')) return;
+    if (widget.cue.kind != HeaderMobiKind.point) return;
+    _cueRestore?.cancel();
+    _cueRestore = Timer(Duration(milliseconds: (MobiMoves.duration(act) * 1000).round() + 200), () {
+      if (!mounted) return;
+      _aimedVector = null;
+      _reaim();
+    });
+  }
+
+  bool _presenceQueued = false;
+
+  /// Tells the road whether he is in view (the road's walker waits while he is). After layout,
+  /// once per frame, from the scroll and from a screen change.
+  void _reportPresence() {
+    if (_presenceQueued) return;
+    _presenceQueued = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _presenceQueued = false;
+      if (!mounted) return;
+      final box = context.findRenderObject();
+      var visible = false;
+      if (_onScreen && box is RenderBox && box.attached && box.hasSize) {
+        final top = box.localToGlobal(Offset.zero).dy;
+        visible = top + box.size.height > 0 && top < MediaQuery.sizeOf(context).height;
+      }
+      TodayMobiPresence.reportHeader(visible);
+    });
   }
 
   /// Aims once per frame, after layout, and only when the card moved relative to Mobi.
@@ -227,7 +282,7 @@ class _HeaderMobiState extends State<HeaderMobi> with WidgetsBindingObserver {
     }
     _stopListening();
     if (!MobiRation.nudgeToday(HeaderMobi.screen)) return;
-    _mobi.play(MobiAct.nudge);
+    _mobi.react(MobiMoments.act(MobiEvent.showAction));
     HeaderMobi.debugOnNudge?.call();
   }
 

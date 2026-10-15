@@ -37,6 +37,7 @@ class AskMessageView extends StatefulWidget {
     this.citation,
     this.animate = false,
     this.onOpenRecord,
+    this.newest = true,
   });
 
   final AskMessage message;
@@ -50,6 +51,10 @@ class AskMessageView extends StatefulWidget {
 
   /// The message has just arrived.
   final bool animate;
+
+  /// This is the latest reply in the thread. Only the newest reply's face lives (and nods as the
+  /// reply lands); the faces of older replies hold still, so one Mobi moves at a time.
+  final bool newest;
 
   /// Opens the record from a model reply ("check it against your record"); null hides the key.
   final VoidCallback? onOpenRecord;
@@ -183,8 +188,14 @@ class _AskMessageViewState extends State<AskMessageView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // A reply that has just landed arrives with a small nod of its own. The thread is a
-          // list of many, so the faces do not follow taps.
-          MobiFace(size: _face, watchTaps: false, entrance: widget.animate ? MobiAct.correct : MobiAct.idle, seed: _faceSeed(m)),
+          // list of many, so the faces do not follow taps, and only the newest one is alive.
+          MobiFace(
+            size: _face,
+            watchTaps: false,
+            still: !widget.newest,
+            entrance: widget.animate && widget.newest ? MobiAct.correct : MobiAct.idle,
+            seed: _faceSeed(m),
+          ),
           const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Column(

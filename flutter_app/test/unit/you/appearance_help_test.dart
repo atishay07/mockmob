@@ -9,6 +9,7 @@ import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/you/appearance/appearance_screen.dart';
 import 'package:mockmob/features/you/help/help_screen.dart';
+import 'package:mockmob/features/you/copy.dart' show YouCopy;
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider, rhythmPrefsProvider;
 import 'package:mockmob/features/you/you_providers.dart';
@@ -194,7 +195,7 @@ void main() {
       await tester.pump();
       expect(container.read(celebrationModeProvider), CelebrationMode.quiet);
       expect(celebrations.values[_celebrationKey], 'quiet');
-      expect(find.text('The same moments as plain text, with no motion or tap.'), findsOneWidget);
+      expect(find.text(YouCopy.celebrationsQuietNote), findsOneWidget);
       await tester.tap(find.text('Off').last);
       await tester.pump();
       expect(celebrations.values[_celebrationKey], 'off');

@@ -38,6 +38,32 @@ class StreamScreen extends ConsumerStatefulWidget {
 class _StreamScreenState extends ConsumerState<StreamScreen> {
   bool _opened = false;
 
+  /// The face beside the verdict of the card on screen: it answers what the server says to a
+  /// save, once the card has been answered (before that there is no face to answer with).
+  final MobiController _mobi = MobiController();
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
+
+  void _onSaved(String questionId, SaveOutcome outcome) {
+    if (!mounted || ref.read(streamControllerProvider).pickOf(questionId) == null) return;
+    switch (outcome) {
+      case SaveDone(saved: true):
+        _mobi.react(MobiMoments.act(MobiEvent.saveConfirmed), key: 'stream:save');
+      case SaveDone():
+        break;
+      case SaveLimitReached():
+        _mobi.react(MobiMoments.act(MobiEvent.refused), key: 'stream:limit');
+      case SaveFailed(:final error) when error.isAccountChanged:
+        break;
+      case SaveFailed():
+        if (MobiRation.oopsRun('stream')) _mobi.react(MobiMoments.act(MobiEvent.saveFailed));
+    }
+  }
+
   StreamController get _controller => ref.read(streamControllerProvider.notifier);
 
   @override
@@ -131,13 +157,14 @@ class _StreamScreenState extends ConsumerState<StreamScreen> {
         key: ValueKey(q.id),
         padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s48),
         children: [
-          PracticeCard(question: q, picked: picked, onPick: _controller.pick),
+          PracticeCard(question: q, picked: picked, onPick: _controller.pick, mobi: _mobi),
           // The keys carry their own 48 dp of reach, so the air that shows is about 16.
           const SizedBox(height: MmSpace.s4),
           QuestionActions(
             question: q,
             flow: state.saved ? 'review' : 'explore',
             revealed: picked != null,
+            onSaveOutcome: (outcome) => _onSaved(q.id, outcome),
             onVote: (v) => _controller.vote(q.id, v),
           ),
           if (state.error != null && state.error!.isOffline && state.hasMore) ...[

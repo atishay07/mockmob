@@ -125,21 +125,22 @@ void main() {
     // The bar's top edge on a phone with the test insets: the capsule rests 8 dp above it.
     const barTop = 20 + 12 + 64.0;
 
-    testWidgets('at rest on a short phone the capsule stands in for a key that is under the bar', (tester) async {
-      await pump(tester, buildToday(ashaInputs(now: tuesdayLate)));
+    testWidgets('at rest on a short phone the capsule stands in for a key that is wholly under the bar', (tester) async {
+      // 640 dp tall: the key and the length selector are both below the bar's top edge.
+      await pump(tester, buildToday(ashaInputs(now: tuesdayLate)), size: const Size(360, 640));
       expect(bar(), findsOneWidget);
       final live = tester.widget<LiveCapsule>(bar()).live! as BarMove;
       expect(live.action, 'Start');
       expect(live.title, isNot(contains('Start')), reason: 'the move as a noun; the action word says Start');
       final rect = tester.getRect(bar());
-      expect(rect.bottom, lessThanOrEqualTo(800 - barTop - MmBar.capsuleGap + 2 + 0.5), reason: 'wholly above the bar');
+      expect(rect.bottom, lessThanOrEqualTo(640 - barTop - MmBar.capsuleGap + 2 + 0.5), reason: 'wholly above the bar');
       expect(rect.height, greaterThanOrEqualTo(48), reason: 'one 48 dp target with its slop');
       expect(find.bySemanticsLabel(RegExp("^Tonight's move, ")), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 
     testWidgets('at 1.3x text the key is below the fold and the capsule still holds it', (tester) async {
-      await pump(tester, buildToday(ashaInputs()), scale: 1.3);
+      await pump(tester, buildToday(ashaInputs()), scale: 1.3, size: const Size(360, 640));
       expect(bar(), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
@@ -153,7 +154,7 @@ void main() {
     testWidgets('scrolling the card key into the clear hands over to it: one primary at a time', (tester) async {
       final controller = ScrollController();
       addTearDown(controller.dispose);
-      await pump(tester, buildToday(ashaInputs(now: tuesdayLate)), controller: controller);
+      await pump(tester, buildToday(ashaInputs(now: tuesdayLate)), size: const Size(360, 640), controller: controller);
       expect(bar(), findsOneWidget);
       controller.jumpTo(300);
       await tester.pump();
@@ -186,7 +187,7 @@ void main() {
             callbacks: TodayCallbacks(onAction: events.add, onTarget: events.add, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}),
           ),
         ),
-        size: const Size(360, 800),
+        size: const Size(360, 640),
         disableAnimations: true,
         overrides: todayOverrides,
       );

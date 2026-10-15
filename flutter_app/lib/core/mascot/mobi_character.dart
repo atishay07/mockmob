@@ -43,12 +43,23 @@ class MobiCharacter extends StatefulWidget {
     this.head = false,
     this.followPointer = false,
     this.tapCycle,
+    this.still = false,
   });
+
+  /// Holds the stance as a still frame: he never ticks, blinks or reacts, as under reduced
+  /// motion, but only for this Mobi. For the older faces in a thread, so one Mobi moves at a time.
+  final bool still;
 
   /// The eyes follow the finger (and, on the web, the pointer) anywhere on screen while it moves,
   /// and drift back ahead 1.2 s after it stops. One flag for a screen that wants Mobi watching.
   /// Off under reduced motion.
   final bool followPointer;
+
+  /// How long the eyes keep following after the finger stops.
+  static const Duration followHold = Duration(milliseconds: 1200);
+
+  /// Taps closer together than this count toward the plain triple-tap cheer (no tap cycle).
+  static const Duration quickTapWindow = Duration(milliseconds: 900);
 
   /// With [interactive], repeated taps play this cycle's acts (see [MobiTapCycle]) instead of the
   /// plain squash; each tap still gets a light haptic.
@@ -113,7 +124,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
   bool _started = false;
   bool _tickerOn = true;
   Timer? _followRelease;
-  static const Duration _followHold = Duration(milliseconds: 1200);
+  static const Duration _followHold = MobiCharacter.followHold;
   MobiTapRun? _tapRun;
   bool _routed = false;
   int _taps = 0;
@@ -161,7 +172,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
       _tickerOn = tickerOn;
       if (tickerOn && _started) _wake();
     }
-    final reduced = Motion.reduced(context);
+    final reduced = widget.still || Motion.reduced(context);
     final covered = !(ModalRoute.of(context)?.isCurrent ?? true);
     if (_started && reduced == _reduced) {
       _cover(covered);
@@ -210,6 +221,22 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
     if (old.watchTaps != widget.watchTaps || old.followPointer != widget.followPointer) _route(_wantsRoute);
     if (old.tapCycle != widget.tapCycle) _tapRun = widget.tapCycle?.start();
     if (old.followPointer && !widget.followPointer) followGlobal(null);
+    if (old.still != widget.still) _syncStill();
+  }
+
+  /// [MobiCharacter.still] changed: freeze on the stance's key pose, or wake up again.
+  void _syncStill() {
+    final reduced = widget.still || Motion.reduced(context);
+    if (reduced == _reduced) return;
+    _reduced = reduced;
+    if (reduced) {
+      _still?.cancel();
+      _still = null;
+      _sleep();
+      _rig.value = _pose(_actForStance());
+    } else {
+      _wake();
+    }
   }
 
   bool _deactivated = false;
@@ -500,7 +527,7 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
       }
       return;
     }
-    _taps = now.difference(_lastTap) < const Duration(milliseconds: 900) ? _taps + 1 : 1;
+    _taps = now.difference(_lastTap) < MobiCharacter.quickTapWindow ? _taps + 1 : 1;
     _lastTap = now;
     if (_taps >= 3) {
       _taps = 0;

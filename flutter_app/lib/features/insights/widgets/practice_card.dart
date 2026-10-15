@@ -24,13 +24,17 @@ String questionMeta(PracticeQuestion q) =>
 /// An untimed practice question: solid ground, no art, the options fill like a bubble when
 /// chosen and the answer shows at once (these surfaces are practice, never a mock).
 class PracticeCard extends ConsumerWidget {
-  const PracticeCard({super.key, required this.question, required this.picked, required this.onPick});
+  const PracticeCard({super.key, required this.question, required this.picked, required this.onPick, this.mobi});
 
   final PracticeQuestion question;
 
   /// The option chosen, or null before an answer.
   final String? picked;
   final ValueChanged<String> onPick;
+
+  /// Drives the face beside the verdict (the stream answers a save through it); null leaves it to
+  /// its own entrance.
+  final MobiController? mobi;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -69,7 +73,7 @@ class PracticeCard extends ConsumerWidget {
             ),
           ),
         ],
-        if (revealed) ...[const SizedBox(height: MmSpace.s20), _Reveal(question: q, picked: picked!)],
+        if (revealed) ...[const SizedBox(height: MmSpace.s20), _Reveal(question: q, picked: picked!, mobi: mobi)],
       ],
     );
   }
@@ -158,10 +162,11 @@ class _OptionTile extends StatelessWidget {
 
 /// The verdict and the explanation, rising in once.
 class _Reveal extends StatefulWidget {
-  const _Reveal({required this.question, required this.picked});
+  const _Reveal({required this.question, required this.picked, this.mobi});
 
   final PracticeQuestion question;
   final String picked;
+  final MobiController? mobi;
 
   @override
   State<_Reveal> createState() => _RevealState();
@@ -227,6 +232,7 @@ class _RevealState extends State<_Reveal> with SingleTickerProviderStateMixin {
                       const SizedBox(width: MmSpace.s8),
                       MobiFace(
                         size: 44,
+                        controller: widget.mobi,
                         entrance: MobiMoments.act(right ? MobiEvent.rightAnswer : MobiEvent.wrongAnswer),
                         watchTaps: false,
                         seed: 31 + q.id.hashCode % 7,

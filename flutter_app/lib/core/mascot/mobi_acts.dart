@@ -156,6 +156,26 @@ abstract final class MobiMoves {
     MobiAct.walk,
   };
 
+  /// Whether [act] is held: it changes how Mobi stands until the next act (the others play once).
+  static bool isHeld(MobiAct act) => switch (act) {
+        MobiAct.idle ||
+        MobiAct.think ||
+        MobiAct.point ||
+        MobiAct.sleepy ||
+        MobiAct.rest ||
+        MobiAct.read ||
+        MobiAct.loading ||
+        MobiAct.sleep ||
+        MobiAct.nudge ||
+        MobiAct.listen =>
+          true,
+        _ => false,
+      };
+
+  /// Whether [act] shows a still key pose under reduced motion (a reaction or a celebration,
+  /// held for the act's length, then the stance). Held acts simply give their stance.
+  static bool showsStillPose(MobiAct act) => reactions.contains(act) || _celebrates.contains(act);
+
   /// How long an act runs, in seconds ([MobiAct.talk] runs as long as its line).
   static double duration(MobiAct act) => switch (act) {
         MobiAct.idle => 0.5,
@@ -973,7 +993,7 @@ abstract final class MobiMoves {
   /// there without movement. A held act gives its stance.
   static MobiRig settledPose(MobiAct act, {MobiStance from = MobiStance.stand, double pointAngle = 1.5, double pointSide = 1}) {
     final k = keyPose(act, pointAngle: pointAngle, pointSide: pointSide, from: from);
-    if (!reactions.contains(act) && !_celebrates.contains(act)) return k;
+    if (!showsStillPose(act)) return k;
     final base = stance(stanceAfter(act) ?? from, pointAngle: pointAngle, pointSide: pointSide);
     return k.copyWith(
       x: base.x,

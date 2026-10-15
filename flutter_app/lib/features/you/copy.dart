@@ -114,7 +114,7 @@ abstract final class YouCopy {
   static const celebrationsQuiet = 'Quiet';
   static const celebrationsOff = 'Off';
   static const celebrationsFullNote = 'A mark on your sheet, a short sweep and a tap when something is finished.';
-  static const celebrationsQuietNote = 'The same moments as plain text, with no motion or tap.';
+  static const celebrationsQuietNote = 'The same moments in plain words and a small nod, with no jump or spark.';
   static const celebrationsOffNote = 'Nothing extra. Your record still updates.';
   static const previewFull = 'A jump and a spark when something is finished.';
   static const previewQuiet = 'A small nod when something is finished.';

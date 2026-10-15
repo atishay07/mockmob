@@ -2,6 +2,7 @@
 // the top row, the hero, anything else that is open, the week's ending card, "Your sheet" and
 // the road to May. Pure layout: goldens render it from fixtures.
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
@@ -81,6 +82,8 @@ class TodayBody extends StatefulWidget {
 }
 
 class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
+  static const double _bleed = TodayHeader.gutterBleed;
+
   /// The move card: the header Mobi points at it.
   final GlobalKey _moveKey = GlobalKey(debugLabel: 'today-move');
 
@@ -88,6 +91,10 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
   /// out of view (under the bar or below the fold). While it is, tonight's move stands in for it
   /// as the bar's live capsule (MOTION.md 5.1): one thing floats above the bar, never two.
   final GlobalKey _primaryKey = GlobalKey(debugLabel: 'today-primary');
+
+  /// The move card's length selector (5, 10, 15 min), when it has one: the capsule never takes
+  /// over while any of the card's controls could still sit in its place.
+  final GlobalKey _controlsKey = GlobalKey(debugLabel: 'today-controls');
   final GlobalKey _stackKey = GlobalKey(debugLabel: 'today-stack');
   ScrollController? _ownScroll;
   bool _measureQueued = false;
@@ -97,6 +104,9 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
 
   /// The bar's top edge above the screen's bottom, measured from the expanded bar.
   double _barTop = 0;
+
+  /// The status bar's height: a key above it has scrolled out of the top of the page.
+  double _topInset = 0;
 
   /// The move this page published to the capsule, so it clears only its own.
   BarMove? _published;
@@ -243,9 +253,12 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     });
   }
 
-  /// The move goes to the capsule when the card's primary key is not wholly above the place the
-  /// capsule takes over the bar: partly under the bar or the capsule, or past the fold. The line
-  /// is measured from the bar, not from the capsule, so the capsule arriving never moves it.
+  /// The move goes to the capsule only when the card's primary key is wholly out of view: scrolled
+  /// up past the top of the page, or with the card's controls (the length selector and the key)
+  /// wholly below the line where the bar begins. A key that is partly visible, or a selector that
+  /// the capsule would sit on, keeps the capsule away: it never covers a control the student can
+  /// still see. The line is measured from the bar, not from the capsule, so the capsule arriving
+  /// never moves it.
   void _measure() {
     // While the entrance plays the hero is not where it will rest (it rises 16 dp): it is judged
     // when it has landed, so the capsule never flickers in for a key that is about to be in view.
@@ -255,9 +268,24 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final stack = _stackKey.currentContext?.findRenderObject();
     var off = false;
     if (key is RenderBox && key.attached && key.hasSize) _lastKeyRect = key.localToGlobal(Offset.zero) & key.size;
-    if (_bar != null && _pinnable(hero) && key is RenderBox && stack is RenderBox && key.attached && key.hasSize && stack.attached && stack.hasSize) {
-      final bottom = key.localToGlobal(Offset(0, key.size.height), ancestor: stack).dy;
-      off = bottom > stack.size.height - _barTop - MmBar.capsuleClearance + 0.5;
+    if (_bar != null && _pinnable(hero) && stack is RenderBox && stack.attached && stack.hasSize) {
+      if (key is! RenderBox || !key.attached || !key.hasSize) {
+        // The list has let go of the key's row (it is scrolled well clear of the screen): it is
+        // out of view by definition.
+        off = true;
+      } else {
+        final keyTop = key.localToGlobal(Offset.zero, ancestor: stack).dy;
+        final keyBottom = keyTop + key.size.height;
+        var controlsTop = keyTop;
+        final selector = _controlsKey.currentContext?.findRenderObject();
+        if (selector is RenderBox && selector.attached && selector.hasSize) {
+          controlsTop = math.min(controlsTop, selector.localToGlobal(Offset.zero, ancestor: stack).dy);
+        }
+        final line = stack.size.height - _barTop;
+        final scrolledPast = keyBottom <= _topInset + 0.5;
+        final belowTheBar = controlsTop >= line - 0.5;
+        off = scrolledPast || belowTheBar;
+      }
     }
     // Back in view after the capsule stood in for it: one short pulse says it is the same move.
     if (_keyWasOff && !off && !Motion.reduced(context)) _keyPulse.forward(from: 0);
@@ -318,6 +346,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           retrying: widget.retrying,
           mobiController: widget.mobiController,
           primaryKey: _primaryKey,
+          controlsKey: _controlsKey,
           onAction: cb.onAction,
           onMinutes: cb.onMinutes == null ? null : _minutes,
           keyPulse: _keyPulse,
@@ -353,6 +382,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final bar = MmBarInsets.maybeOf(context);
     _bar = bar != null && bar.showing ? bar : null;
     _barTop = bar == null ? 0 : bar.barTopAbove(padding.bottom);
+    _topInset = padding.top;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) _measure();
     });
@@ -361,6 +391,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         header: view.header,
         onWeek: callbacks.onWeek,
         aim: view.hero is MoveHero ? _moveKey : null,
+        bleed: _bleed,
       ),
       // Header to the first block (SPACING.md 3.1, audit T3): the hero starts high enough that its
       // key is above the bar on a 640 dp phone.
@@ -390,6 +421,14 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       ],
     ];
 
+    // The week rail borrows [_bleed] of the gutter on each side for its 48 dp day columns, so the
+    // masthead is the full width of the list and every other block is padded back in by the same
+    // amount: nothing drawn moves.
+    final padded = <Widget>[
+      children.first,
+      for (final child in children.skip(1)) Padding(padding: const EdgeInsets.symmetric(horizontal: _bleed), child: child),
+    ];
+
     final scroll = CustomScrollView(
       controller: _scroll,
       // The content never moves on a pull (MOTION.md C10): the platform's clamping physics, with
@@ -398,12 +437,12 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       slivers: [
         SliverPadding(
           padding: EdgeInsets.fromLTRB(
-            MmSpace.gutter,
+            MmSpace.gutter - _bleed,
             padding.top + MmSpace.s8,
-            MmSpace.gutter,
+            MmSpace.gutter - _bleed,
             padding.bottom + MmSpace.s32,
           ),
-          sliver: TodayEntranceScope(progress: _entrance, child: SliverList.list(children: children)),
+          sliver: TodayEntranceScope(progress: _entrance, child: SliverList.list(children: padded)),
         ),
       ],
     );

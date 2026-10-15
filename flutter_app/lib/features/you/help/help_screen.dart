@@ -26,12 +26,22 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
   /// Mobi waves hello the first time Help opens today, then he is simply there (sleepy late at
   /// night). His taps play the app's one tap cycle.
   late final MobiAct _entrance = MobiRation.greeting('help');
+  final MobiController _mobi = MobiController();
   String? _notice;
   bool _noticeIsError = false;
+
+  @override
+  void dispose() {
+    _mobi.dispose();
+    super.dispose();
+  }
 
   Future<void> _email() async {
     final ok = await ref.read(supportMailerProvider).compose();
     if (!mounted) return;
+    // He shrugs once if no mail app opened; a mail that opened needs no reaction (the student
+    // has left for it).
+    if (!ok) _mobi.react(MobiMoments.act(MobiEvent.saveFailed), key: 'help:mail');
     setState(() {
       _notice = ok ? null : YouCopy.helpMailFailed;
       _noticeIsError = !ok;
@@ -41,6 +51,7 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
   Future<void> _copy() async {
     await ref.read(supportMailerProvider).copyAddress();
     if (!mounted) return;
+    _mobi.react(MobiMoments.act(MobiEvent.saveConfirmed), key: 'help:copy');
     setState(() {
       _notice = YouCopy.helpCopied;
       _noticeIsError = false;
@@ -52,6 +63,7 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
     if (target is! ExternalTarget) return;
     final ok = await ref.read(externalLinkOpenerProvider).open(target.uri);
     if (!mounted) return;
+    if (!ok) _mobi.react(MobiMoments.act(MobiEvent.setback), key: 'help:open');
     setState(() {
       _notice = ok ? null : YouCopy.toolOpenFailed;
       _noticeIsError = !ok;
@@ -78,7 +90,7 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
                   Row(
                     children: [
                       // Mobi is the face of the mail: a person, not a ticket queue, reads it.
-                      YouMobi(size: 56, entrance: _entrance, seed: 53),
+                      YouMobi(size: 56, controller: _mobi, entrance: _entrance, seed: 53),
                       const SizedBox(width: MmSpace.s12),
                       Expanded(child: Text(YouCopy.helpContact, style: type.title)),
                     ],

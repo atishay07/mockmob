@@ -150,6 +150,9 @@ void main() {
         overrides: youOverrides(fakeAuth: FakeAuth(_user), api: _api()),
       );
       await _tap(tester, 'General Test');
+      // The Save key's reason closes under it (KeyReveal, 200 ms) once the choice changes; let
+      // the footer settle so only the shake moves the sentence.
+      await tester.pump(const Duration(milliseconds: 300));
       await tester.ensureVisible(find.text('Mathematics').first);
       await tester.pump();
       await tester.tap(find.text('Mathematics').first);

@@ -121,6 +121,9 @@ class SettingsBody extends StatelessWidget {
   /// Mute for 7 days is running: reminders are on hold until it ends.
   DateTime? get _mutedUntil => reminder.mutedUntil;
 
+  /// Every reminder is off, or a mute is running: the header Mobi sits down and the bell is quiet.
+  bool get resting => _mutedUntil != null || !_anyOn;
+
   /// Why a reminder channel is on hold: stopped after unopened reminders, or the mute (which
   /// holds the reminders this phone plans: study window, repair ready and weekly plan).
   String? _pausedNote(String key) {
@@ -191,7 +194,7 @@ class SettingsBody extends StatelessWidget {
               index: 0,
               child: NotificationsHeader(
                 mobi: mobi!,
-                resting: _mutedUntil != null || !_anyOn,
+                resting: resting,
                 next: next,
                 now: now ?? DateTime.now(),
                 onNextTap: window == null ? null : onNextTap,

@@ -7,7 +7,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../core/domain/next_move.dart' show NextMoveState;
-import '../../../core/mascot/mascot.dart' show MobiAct, MobiRation;
+import '../../../core/mascot/mascot.dart' show MobiAct, MobiEvent, MobiMoments, MobiRation;
 import '../../rhythm/logic/plan_week.dart';
 import 'today_model.dart';
 
@@ -119,12 +119,13 @@ abstract final class TodayReactions {
     );
   }
 
-  /// The act Mobi plays for [change], or null for nothing. A counted today is the best news; a
-  /// refresh that only changed numbers is a quiet nod; a read that failed is one shrug a run.
+  /// The act Mobi plays for [change], or null for nothing. A counted today is the best news (a
+  /// small hop); a refresh that only changed numbers is a quiet nod; a read that failed is one
+  /// shrug a run.
   static MobiAct? actFor(TodayChange change) {
-    if (change.failedRead) return MobiRation.oopsRun('today') ? MobiAct.oops : null;
-    if (change.todayNewlyCounted) return MobiAct.correct;
-    if (change.changed) return MobiAct.correct;
+    if (change.failedRead) return MobiRation.oopsRun('today') ? MobiMoments.act(MobiEvent.setback) : null;
+    if (change.todayNewlyCounted) return MobiMoments.act(MobiEvent.dayCounted);
+    if (change.changed) return MobiMoments.act(MobiEvent.saveConfirmed);
     return null;
   }
 }

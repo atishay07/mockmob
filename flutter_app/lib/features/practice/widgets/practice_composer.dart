@@ -11,6 +11,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/models/practice_quote.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../learn/data/catalog_repository.dart';
 import '../copy.dart';
@@ -341,13 +342,18 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
           counts: mode.counts,
           onChanged: (c) => _c.change(_selection.copyWith(count: c)),
         ),
-        if (lengthNote != null) ...[
-          const SizedBox(height: MmSpace.s8),
-          Semantics(
-            liveRegion: true,
-            child: Text(lengthNote, style: type.small.copyWith(color: colors.ink)),
+        // The note about a length a link asked for grows open under the picker, and closes when
+        // the student changes the length.
+        KeyReveal(
+          show: lengthNote != null,
+          child: Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s8),
+            child: Semantics(
+              liveRegion: true,
+              child: Text(lengthNote ?? '', style: type.small.copyWith(color: colors.ink)),
+            ),
           ),
-        ],
+        ),
         const SizedBox(height: MmSpace.s16),
       ],
       GetPanel(
@@ -365,11 +371,20 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
       // The level is an aside to what you get and what it costs, so it follows them: Cost and
       // Marking are never pushed below the fold by a control. With credits short it is not a
       // choice that matters, so it steps aside.
-      if (mode.allowsDifficulty && !start.gated && !start.creditsLow) ...[const SizedBox(height: MmSpace.s20), difficulty],
-      if (mode.isMock && !start.gated) ...[
-        const SizedBox(height: MmSpace.s16),
-        MockLines(noLength: loaded != null && loaded.launchable && start.mockMinutes == null),
-      ],
+      // The quote decides these two, so they open and close with it instead of cutting in.
+      if (mode.allowsDifficulty)
+        KeyReveal(
+          show: !start.gated && !start.creditsLow,
+          child: Padding(padding: const EdgeInsets.only(top: MmSpace.s20), child: difficulty),
+        ),
+      if (mode.isMock)
+        KeyReveal(
+          show: !start.gated,
+          child: Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s16),
+            child: MockLines(noLength: loaded != null && loaded.launchable && start.mockMinutes == null),
+          ),
+        ),
       if (!mode.isMock) ...[
         const SizedBox(height: MmSpace.s12),
         Text(PracticeCopy.feedbackAfter, style: type.small.copyWith(color: colors.ink2)),
@@ -502,11 +517,20 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
       mainAxisSize: MainAxisSize.min,
       children: [
         // What happened when Start was tapped sits right above Start, where the eye already is.
-        if (_c.costNote != null) ...[
-          Semantics(liveRegion: true, child: Text(_c.costNote!, style: type.body)),
-          const SizedBox(height: MmSpace.s12),
-        ],
-        if (_c.failure != null) ...[PlainNotice(message: _c.failure!.text, tone: BannerTone.error), const SizedBox(height: MmSpace.s12)],
+        KeyReveal(
+          show: _c.costNote != null,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: MmSpace.s12),
+            child: Semantics(liveRegion: true, child: Text(_c.costNote ?? '', style: type.body)),
+          ),
+        ),
+        KeyReveal(
+          show: _c.failure != null,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: MmSpace.s12),
+            child: PlainNotice(message: _c.failure?.text ?? '', tone: BannerTone.error),
+          ),
+        ),
         KeyButton(
           // A Pro-gated mode has nothing to start: the one action is the open alternative. Once
           // the server has said yes the key inks to a check and says "Starting".

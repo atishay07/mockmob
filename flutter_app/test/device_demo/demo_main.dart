@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
+import 'package:mockmob/core/widgets/brand/brand_opening.dart' show BrandOpeningHost;
 import 'package:mockmob/app.dart';
 import 'package:mockmob/app_overrides.dart';
 import 'package:mockmob/core/art/subject_emblem.dart' show SubjectEmblem;
@@ -321,6 +322,8 @@ void main() {
   SubjectEmblem.idleEnabled = true;
   // And wear their photo-real objects from 40 dp up, as in main.dart.
   SubjectEmblem.objectArt = true;
+  // The first frame is the "mo" alone and the app builds under the opening, as in main.dart.
+  BrandOpeningHost.deferApp = true;
   unawaited(SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge));
   runApp(ProviderScope(overrides: _overrides(), child: const MockMobApp()));
 }

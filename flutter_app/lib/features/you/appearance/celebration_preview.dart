@@ -13,7 +13,7 @@ import '../widgets/you_motion.dart';
 /// The celebration strip under the Celebrations choice: a 64 dp Mobi who plays what the chosen
 /// level really does, on the student's own change and again on a tap.
 ///
-/// Full is a celebrate, Quiet is a small nod (the correct act), Off is nothing at all: he stands
+/// Full is a celebrate, Quiet is a small nod, Off is nothing at all: he stands
 /// still and the line says so. The level is pinned for the Mobi inside the strip, so the preview
 /// is exactly what the setting will do everywhere else. It plays only after a change or a tap,
 /// never by itself, and holds a still pose under reduced motion.
@@ -25,7 +25,7 @@ class CelebrationPreview extends ConsumerStatefulWidget {
   /// The act each level plays in the preview; null is Off: nothing plays.
   static MobiAct? actFor(CelebrationMode mode) => switch (mode) {
         CelebrationMode.full => MobiAct.celebrate,
-        CelebrationMode.quiet => MobiAct.correct,
+        CelebrationMode.quiet => MobiAct.nod,
         CelebrationMode.off => null,
       };
 

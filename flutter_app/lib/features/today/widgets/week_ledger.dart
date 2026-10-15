@@ -24,6 +24,7 @@ import '../../../core/art/art.dart' show SubjectEmblem;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/logic/plan_week.dart';
 import '../../rhythm/widgets/plan_week_strip.dart' show PlanWeekKey;
@@ -34,10 +35,16 @@ import 'today_tones.dart';
 import 'today_type.dart';
 
 class WeekLedger extends ConsumerStatefulWidget {
-  const WeekLedger({super.key, required this.week, this.onTap});
+  const WeekLedger({super.key, required this.week, this.onTap, this.bleed = 0});
 
   final WeekModel week;
   final VoidCallback? onTap;
+
+  /// How far the ledger's box reaches past the content edge on each side (the screen's gutter,
+  /// borrowed). The count row, the key and every drawing stay inset by it, so they sit where they
+  /// always did; only the day columns' touch areas use it, so each is at least 48 dp wide on a
+  /// 360 dp phone.
+  final double bleed;
 
   /// Height of the rail row at 1x text: the weekday letters, the bubbles and today's lit edge.
   static const double railHeight = 62;
@@ -163,6 +170,7 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
     final type = context.mmType;
     final week = widget.week;
     final tap = widget.onTap;
+    final bleed = widget.bleed;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
       child: Column(
@@ -171,7 +179,9 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
         children: [
           // The count row is the control that opens the week sheet; the rail below has controls
           // of its own, one per day.
-          MmPressable(
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: bleed),
+            child: MmPressable(
             semanticsLabel: [week.count, ?week.outlook, if (tap != null) 'Opens your week'].join('. '),
             onTap: tap == null
                 ? null
@@ -222,6 +232,7 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
                 ),
               ),
             ),
+            ),
           ),
           // The 48 dp count row already carries its own air above the rail.
           const SizedBox(height: MmSpace.s4),
@@ -237,13 +248,14 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
             ripple: _ripplePulse,
             breathe: _todayOpen ? _breathe : null,
             onDay: _tapDay,
+            bleed: bleed,
           ),
           // The key earns its row only when a mark needs words (a rest day, a day not counted);
           // filled and hollow read on their own, and the week sheet names every mark (audit T3).
           if (WeekLedger.needsKey(week.days)) ...[
             const SizedBox(height: MmSpace.s8),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+              padding: EdgeInsets.symmetric(horizontal: MmSpace.s4 + bleed),
               child: PlanWeekKey(days: week.days),
             ),
           ],
@@ -380,6 +392,7 @@ class _Rail extends StatelessWidget {
     required this.ripple,
     required this.breathe,
     required this.onDay,
+    this.bleed = 0,
   });
 
   final List<PlanDay> days;
@@ -395,6 +408,10 @@ class _Rail extends StatelessWidget {
   /// Drives today's breathing ring; null while today is not open.
   final Animation<double>? breathe;
   final ValueChanged<int> onDay;
+
+  /// The gutter this rail's box borrows on each side: the drawing is inset by it, the touch columns
+  /// are not, so a day's column is as wide as the box allows (48 dp at 360 dp).
+  final double bleed;
 
   @override
   Widget build(BuildContext context) {
@@ -412,72 +429,81 @@ class _Rail extends StatelessWidget {
       width: double.infinity,
       child: Stack(
         children: [
+          // The drawing, inset by the borrowed gutter so it sits where it always did.
           Positioned.fill(
-            child: ExcludeSemantics(
-              child: RepaintBoundary(
-                child: CustomPaint(
-                  painter: _RailPainter(
-                    days: days,
-                    colors: colors,
-                    paused: paused,
-                    draw: draw,
-                    fill: fill,
-                    pop: pop,
-                    popIndex: popIndex,
-                    chip: chip,
-                    chipIndex: chipIndex,
-                    chipText: chipText,
-                    chipStyle: type.microStrong.copyWith(height: 1, color: colors.ground),
-                    ink: ink,
-                    inkIndex: inkIndex,
-                    reduced: reduced,
-                    letter: letter,
-                    today: letter.copyWith(fontWeight: FontWeight.w700, color: colors.ink),
-                    rest: letter.copyWith(color: colors.ink3),
-                    scaler: scaler,
+            left: bleed,
+            right: bleed,
+            child: Stack(
+              children: [
+              Positioned.fill(
+                child: ExcludeSemantics(
+                  child: RepaintBoundary(
+                    child: CustomPaint(
+                      painter: _RailPainter(
+                        days: days,
+                        colors: colors,
+                        paused: paused,
+                        draw: draw,
+                        fill: fill,
+                        pop: pop,
+                        popIndex: popIndex,
+                        chip: chip,
+                        chipIndex: chipIndex,
+                        chipText: chipText,
+                        chipStyle: type.microStrong.copyWith(height: 1, color: colors.ground),
+                        ink: ink,
+                        inkIndex: inkIndex,
+                        reduced: reduced,
+                        letter: letter,
+                        today: letter.copyWith(fontWeight: FontWeight.w700, color: colors.ink),
+                        rest: letter.copyWith(color: colors.ink3),
+                        scaler: scaler,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ),
-          // Today's breathing ring on a layer of its own, so the rail itself never repaints for it.
-          Positioned.fill(
-            child: IgnorePointer(
-              child: ExcludeSemantics(
-                child: RepaintBoundary(
-                  child: CustomPaint(
-                    painter: _RingPainter(days: days, colors: colors, breathe: breathe),
+              // Today's breathing ring on a layer of its own, so the rail itself never repaints for it.
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: ExcludeSemantics(
+                    child: RepaintBoundary(
+                      child: CustomPaint(
+                        painter: _RingPainter(days: days, colors: colors, breathe: breathe),
+                      ),
+                    ),
                   ),
                 ),
               ),
+              // The one ring that leaves a day the server has just counted (MmRippleRing): a box the
+              // size of the bubble on today's column, painting only its own band.
+              if (days.any((d) => d.isToday))
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: LayoutBuilder(
+                      builder: (context, box) {
+                        final g = _Geo(Size(box.maxWidth, box.maxHeight), days.length);
+                        final at = days.indexWhere((d) => d.isToday);
+                        const r = _Geo.bubble;
+                        return Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Positioned(
+                              left: g.cx(at) - r,
+                              top: g.cy - r,
+                              width: r * 2,
+                              height: r * 2,
+                              child: MmRippleRing(pulse: ripple, color: colors.litMark, from: 0.6, to: 1.7, child: const SizedBox.expand()),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
-          // The one ring that leaves a day the server has just counted (MmRippleRing): a box the
-          // size of the bubble on today's column, painting only its own band.
-          if (days.any((d) => d.isToday))
-            Positioned.fill(
-              child: IgnorePointer(
-                child: LayoutBuilder(
-                  builder: (context, box) {
-                    final g = _Geo(Size(box.maxWidth, box.maxHeight), days.length);
-                    final at = days.indexWhere((d) => d.isToday);
-                    const r = _Geo.bubble;
-                    return Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        Positioned(
-                          left: g.cx(at) - r,
-                          top: g.cy - r,
-                          width: r * 2,
-                          height: r * 2,
-                          child: MmRippleRing(pulse: ripple, color: colors.litMark, from: 0.6, to: 1.7, child: const SizedBox.expand()),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ),
           // One touch column per day: each is a button of its own.
           Positioned.fill(
             child: Row(
@@ -489,7 +515,12 @@ class _Rail extends StatelessWidget {
                       label: days[i].describe(),
                       excludeSemantics: true,
                       onTap: () => onDay(i),
-                      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: () => onDay(i), child: const SizedBox.expand()),
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () => onDay(i),
+                        // A finger on a day is answered at once: a soft veil behind its bubble.
+                        child: const PressHalo(radius: 16, inset: EdgeInsets.symmetric(horizontal: 2, vertical: 6), child: SizedBox.expand()),
+                      ),
                     ),
                   ),
               ],

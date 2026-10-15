@@ -11,6 +11,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/domain/next_move.dart' show NextMoveState;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
@@ -33,6 +34,7 @@ class MoveHeroCard extends StatefulWidget {
     this.retrying = false,
     this.mobiController,
     this.primaryKey,
+    this.controlsKey,
     this.keyPulse,
   });
 
@@ -51,6 +53,9 @@ class MoveHeroCard extends StatefulWidget {
   /// On the primary key, so the screen can tell whether it is in view (when it is not, the bar's
   /// capsule carries tonight's move).
   final GlobalKey? primaryKey;
+
+  /// On the length selector, so the screen knows where the card's other controls are.
+  final GlobalKey? controlsKey;
 
   /// A short pulse (0 to 1 to 0 over 160 ms) the screen plays on the primary key when it comes
   /// back into view after the bar's capsule stood in for it.
@@ -200,17 +205,21 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
               Text(m.durationPrompt!, style: type.labelLarge),
               const SizedBox(height: MmSpace.s8),
             ],
-            MmSegmented<int>(
-              semanticsLabel: m.durationPrompt ?? (m.durations.first.questions == null ? TodayCopy.repairLength : TodayCopy.practiceLength),
-              segments: [for (final d in m.durations) MmSegment(d.minutes, d.label)],
-              value: m.selectedMinutes ?? m.durations.first.minutes,
-              onChanged: onMinutes,
+            KeyedSubtree(
+              key: widget.controlsKey,
+              child: MmSegmented<int>(
+                semanticsLabel: m.durationPrompt ?? (m.durations.first.questions == null ? TodayCopy.repairLength : TodayCopy.practiceLength),
+                segments: [for (final d in m.durations) MmSegment(d.minutes, d.label)],
+                value: m.selectedMinutes ?? m.durations.first.minutes,
+                onChanged: onMinutes,
+              ),
             ),
           ],
           const SizedBox(height: MmSpace.s16),
           // Offline, the reason stands above the key where the eye is, not under it (that part
           // of the card sits behind the dock at rest).
-          if (blocked) ...[const _NeedsConnection(), const SizedBox(height: MmSpace.s8)],
+          // It opens and closes with the connection instead of cutting in above the key.
+          KeyReveal(show: blocked, child: const Padding(padding: EdgeInsets.only(bottom: MmSpace.s8), child: _NeedsConnection())),
           LayoutBuilder(
             key: primaryKey,
             builder: (context, box) => _Pulse(
@@ -230,28 +239,36 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
               ),
             ),
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (m.secondary != null) ...[
-                const SizedBox(height: MmSpace.s4),
-                Center(
-                  child: KeyButton.quiet(
-                    label: m.secondary!.label,
-                    onPressed: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
+          // What sits under the key (the quiet second action, the caption) eases in and out with the
+          // move's state: a key that was retrying, or a dismissed line, never makes the card jump.
+          MmSizeEase(
+            duration: Motion.ui,
+            curve: Motion.out,
+            alignment: Alignment.topCenter,
+            clipBehavior: Clip.none,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (m.secondary != null) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  Center(
+                    child: KeyButton.quiet(
+                      label: m.secondary!.label,
+                      onPressed: offline && m.secondary!.startsSession ? null : () => onAction(m.secondary!),
+                    ),
                   ),
-                ),
+                ],
+                if (m.caption != null || m.dismissedLine != null) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  Text(
+                    m.dismissedLine ?? m.caption!,
+                    textAlign: TextAlign.center,
+                    style: type.caption.copyWith(color: colors.ink3),
+                  ),
+                ],
               ],
-              if (m.caption != null || m.dismissedLine != null) ...[
-                const SizedBox(height: MmSpace.s4),
-                Text(
-                  m.dismissedLine ?? m.caption!,
-                  textAlign: TextAlign.center,
-                  style: type.caption.copyWith(color: colors.ink3),
-                ),
-              ],
-            ],
+            ),
           ),
         ],
       ),

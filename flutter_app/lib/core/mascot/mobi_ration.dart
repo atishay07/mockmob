@@ -9,12 +9,21 @@ enum MobiCelebrationLevel {
   /// Every act as authored.
   full,
 
-  /// T1 plus the words: no hop, no confetti, no glints. A big act becomes a small nod.
+  /// T1 plus the words: no hop, no confetti, no glints. A big act becomes a small nod, and a
+  /// big act that is held (a result hero's seat) becomes his rest stance.
   quiet,
 
   /// Words only: a big act plays nothing; Mobi keeps his stance.
-  off,
+  off;
+
+  /// The level named [name] ("full", "quiet", "off"); [full] for anything else.
+  static MobiCelebrationLevel fromName(String? name) => values.asNameMap()[name] ?? MobiCelebrationLevel.full;
 }
+
+/// The Celebrations setting as Mobi's level, the one mapping the app, onboarding and the You
+/// screens share. [mode] is the setting's enum (`CelebrationMode`: full, quiet, off), matched by
+/// name so the mascot does not depend on the feature that owns the setting.
+MobiCelebrationLevel celebrationLevelFor(Enum mode) => MobiCelebrationLevel.fromName(mode.name);
 
 /// Puts the Celebrations setting where every Mobi below can read it. The app maps its own
 /// setting onto [level] once, above the screens.
@@ -118,12 +127,13 @@ abstract final class MobiRation {
   }
 
   /// The act Mobi actually plays for [act] under the Celebrations [level], or null when he
-  /// plays nothing and keeps his stance.
-  static MobiAct? underLevel(MobiAct act, MobiCelebrationLevel level) {
+  /// plays nothing and keeps his stance. Quiet turns a celebration into a small nod; for a
+  /// [held] one (a result hero that stays on screen) it becomes his rest stance instead.
+  static MobiAct? underLevel(MobiAct act, MobiCelebrationLevel level, {bool held = false}) {
     if (!celebrations.contains(act)) return act;
     return switch (level) {
       MobiCelebrationLevel.full => act,
-      MobiCelebrationLevel.quiet => MobiAct.correct,
+      MobiCelebrationLevel.quiet => held ? MobiAct.rest : MobiAct.nod,
       MobiCelebrationLevel.off => null,
     };
   }

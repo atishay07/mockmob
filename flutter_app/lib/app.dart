@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'core/auth/auth.dart';
 import 'core/home_widget/home_widget_sync.dart' show homeWidgetSyncProvider;
-import 'core/mascot/mascot.dart' show MobiCelebrationLevel, MobiCelebrations;
+import 'core/mascot/mascot.dart' show MobiCelebrations, celebrationLevelFor;
 import 'core/motion/reduced_motion.dart';
 import 'core/platform/native_touches.dart';
 import 'core/router/router.dart';
@@ -15,7 +15,7 @@ import 'core/widgets/brand/brand_opening.dart';
 import 'core/widgets/status_tint.dart';
 import 'features/notifications/notifications.dart';
 import 'features/onboarding/onboarding_routes.dart' show sampleImportProvider;
-import 'features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider, rhythmWatcherProvider;
+import 'features/rhythm/rhythm.dart' show celebrationModeProvider, rhythmWatcherProvider;
 
 /// The root widget. It must sit under a [ProviderScope] (see `main.dart`).
 class MockMobApp extends ConsumerWidget {
@@ -122,11 +122,7 @@ class _Celebrations extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final level = switch (ref.watch(celebrationModeProvider)) {
-      CelebrationMode.full => MobiCelebrationLevel.full,
-      CelebrationMode.quiet => MobiCelebrationLevel.quiet,
-      CelebrationMode.off => MobiCelebrationLevel.off,
-    };
+    final level = celebrationLevelFor(ref.watch(celebrationModeProvider));
     return MobiCelebrations(level: level, child: child);
   }
 }

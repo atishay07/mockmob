@@ -7,7 +7,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../rhythm/rhythm.dart' show CelebrationMode, rhythmPrefsProvider;
+import '../../rhythm/rhythm.dart' show rhythmPrefsProvider;
 
 // Motion pieces the You screens share (UI phase 2). Everything here animates transform and
 // opacity only, inside a RepaintBoundary, answers a student action or shows a state, and gives
@@ -328,13 +328,6 @@ class _TickPainter extends CustomPainter {
   @override
   bool shouldRepaint(_TickPainter old) => old.progress != progress || old.color != color || old.size != size;
 }
-
-/// The Celebrations setting as Mobi's level: Quiet calms a big act to a nod, Off plays none.
-MobiCelebrationLevel celebrationLevelFor(CelebrationMode mode) => switch (mode) {
-      CelebrationMode.full => MobiCelebrationLevel.full,
-      CelebrationMode.quiet => MobiCelebrationLevel.quiet,
-      CelebrationMode.off => MobiCelebrationLevel.off,
-    };
 
 /// A Mobi whose taps play the app's one tap cycle ([MobiTapCycle.standard]: a wave, a curious
 /// tilt, a nod, a start), never the same act twice in a row; a sleeping Mobi wakes with a start.

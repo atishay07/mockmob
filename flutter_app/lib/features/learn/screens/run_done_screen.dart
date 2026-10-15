@@ -360,12 +360,14 @@ class _LearnRunDoneScreenState extends ConsumerState<LearnRunDoneScreen> {
   /// when most came back Forgot. Seated and still under Quiet (a calm pose either way).
   Widget _mobiFor(bool pointAtList, RunMood mood, {required bool calm}) {
     if (!pointAtList) {
-      if (calm) return const Mobi(pose: MobiPose.rest, size: _mobiSize);
+      // A poke answers with the app's one tap cycle, on every variant that is not pointing.
+      const cycle = MobiTapCycle.standard;
+      if (calm) return const Mobi(pose: MobiPose.rest, size: _mobiSize, interactive: true, tapCycle: cycle);
       return switch (mood) {
-        RunMood.celebrate => const Mobi(pose: MobiPose.cheer, size: _mobiSize, entrance: MobiAct.celebrate),
-        RunMood.cheer => const Mobi(pose: MobiPose.cheer, size: _mobiSize, motion: MobiMotion.hop),
-        RunMood.encourage => const Mobi(pose: MobiPose.encourage, size: _mobiSize),
-        RunMood.stuck => const Mobi(pose: MobiPose.cheer, size: _mobiSize, entrance: MobiAct.correct, say: LearnCopy.thatOneStuck),
+        RunMood.celebrate => const Mobi(pose: MobiPose.cheer, size: _mobiSize, entrance: MobiAct.celebrate, interactive: true, tapCycle: cycle),
+        RunMood.cheer => const Mobi(pose: MobiPose.cheer, size: _mobiSize, motion: MobiMotion.hop, interactive: true, tapCycle: cycle),
+        RunMood.encourage => const Mobi(pose: MobiPose.encourage, size: _mobiSize, interactive: true, tapCycle: cycle),
+        RunMood.stuck => const Mobi(pose: MobiPose.cheer, size: _mobiSize, entrance: MobiAct.correct, say: LearnCopy.thatOneStuck, interactive: true, tapCycle: cycle),
       };
     }
     if (!_pointed) {
