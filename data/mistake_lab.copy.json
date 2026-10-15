@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "labels": {
+    "name": "Mistake Lab",
+    "othersTitle": "How others answered",
+    "showMore": "Show {k} more",
+    "seeChanges": "See every change"
+  },
+  "heading": {
+    "one": "You missed {gap} mark. Here's where it went.",
+    "many": "You missed {gap} marks. Here's where they went."
+  },
+  "headingNone": "You didn't miss a mark this session.",
+  "groups": {
+    "changed_from_right": {
+      "label": "Right, then changed",
+      "bar": "{m} right then changed",
+      "do": "Change an answer only when you can point to the line that proves it wrong."
+    },
+    "never_opened": {
+      "label": "Never opened",
+      "bar": "{m} never opened",
+      "do": "Open every question once before you go deep on any."
+    },
+    "long_stay": {
+      "label": "2 minutes or more, still lost",
+      "bar": "{m} at 2 minutes or more",
+      "do": "At 2 minutes, mark it for review and move on. Come back at the end."
+    },
+    "quick_wrong": {
+      "label": "Wrong in under 20 seconds",
+      "bar": "{m} wrong in under 20 seconds",
+      "do": "Read the whole question before you look at the options."
+    },
+    "other_wrong": {
+      "label": "Other wrong answers",
+      "bar": "{m} other wrong answers",
+      "do": "Each one has a repair below: the trap, why the key is right and one rule to keep."
+    },
+    "other_blank": {
+      "label": "Opened, left blank",
+      "bar": "{m} opened and left blank",
+      "do": "Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and −1 for wrong."
+    },
+    "wrong": {
+      "label": "Wrong answers",
+      "bar": "{m} wrong answers",
+      "do": "Each one has a repair below: the trap, why the key is right and one rule to keep."
+    },
+    "blank": {
+      "label": "Blanks",
+      "bar": "{m} left blank",
+      "do": "Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and −1 for wrong."
+    },
+    "held": {
+      "label": "Under re-check or corrected",
+      "bar": "{m} under re-check or corrected",
+      "do": "These are being re-checked or were corrected, so they are not sorted by how they were lost."
+    }
+  },
+  "groupLine": {
+    "one": "{m} marks on 1 question",
+    "many": "{m} marks on {n} questions"
+  },
+  "barLabel": "{gap} marks missed: {parts}.",
+  "headline": {
+    "changed_from_right": {
+      "one": "1 answer was right until you changed it. That cost {m} of the {gap} marks you missed.",
+      "many": "{n} answers were right until you changed them. That cost {m} of the {gap} marks you missed."
+    },
+    "never_opened": {
+      "one": "You never opened 1 of the {total} questions. That is {m} of the {gap} marks you missed.",
+      "many": "You never opened {n} of the {total} questions. That is {m} of the {gap} marks you missed."
+    },
+    "long_stay": {
+      "one": "1 question took 2 minutes or more and was still lost: {time} of your {paper}, and {m} of the {gap} marks you missed.",
+      "many": "{n} questions took 2 minutes or more each and were still lost: {time} of your {paper}, and {m} of the {gap} marks you missed."
+    },
+    "long_stay_no_paper": {
+      "one": "1 question took 2 minutes or more and was still lost: {time} in all, and {m} of the {gap} marks you missed.",
+      "many": "{n} questions took 2 minutes or more each and were still lost: {time} in all, and {m} of the {gap} marks you missed."
+    },
+    "quick_wrong": {
+      "one": "1 wrong answer took under 20 seconds. It cost {m} of the {gap} marks you missed.",
+      "many": "{n} wrong answers took under 20 seconds each. They cost {m} of the {gap} marks you missed."
+    }
+  },
+  "atLeast": "at least {time}",
+  "paperMinutes": {
+    "one": "{n} minute",
+    "many": "{n} minutes"
+  },
+  "fineReady": "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits.",
+  "fineBasic": "{message} The split shows wrong and blank only.",
+  "remark": {
+    "cost": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers cost {d} marks over {k} {questions}.",
+    "gained": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers gained {d} marks over {k} {questions}.",
+    "even": "Your first picks, re-marked: {first}, the same as your final answers. Your changes on {k} {questions} evened out.",
+    "questionWord": {
+      "one": "question",
+      "many": "questions"
+    },
+    "fine": "Same paper, same key, only your first picks swapped in.",
+    "fineHeld": {
+      "one": " 1 question under re-check is left out of both.",
+      "many": " {h} questions under re-check are left out of both."
+    }
+  },
+  "others": {
+    "base": "{n} other students answered this. {right}",
+    "right": {
+      "zero": "None of them got it right.",
+      "one": "1 got it right.",
+      "many": "{r} got it right."
+    },
+    "small": " A small group so far.",
+    "commonTrap": " {c} of the {w} who got it wrong chose {L}, as you did.",
+    "sameAsYou": {
+      "one": " 1 other student chose {L}, as you did.",
+      "many": " {c} others chose {L}, as you did."
+    },
+    "moreChose": " More chose {L2}: {c2}.",
+    "nobodyElse": " No other student chose {L}.",
+    "option": "Option {L}: chosen by {c} of {n} other students."
+  },
+  "cohort": {
+    "line": {
+      "one": "1 question you lost was one most other students got right: {list} ({m} marks).",
+      "many": "{k} questions you lost were ones most other students got right: {list} ({m} marks)."
+    },
+    "coverage": {
+      "zero": "No question in this paper has answers from 10 or more other students yet.",
+      "one": "1 of the {total} questions in this paper has answers from 10 or more other students.",
+      "many": "{c} of the {total} questions in this paper have answers from 10 or more other students."
+    },
+    "source": "Other students' first answers to the same question on MockMob, {from} to {to}. Your own answers are not counted."
+  },
+  "listJoin": {
+    "comma": ", ",
+    "and": " and "
+  },
+  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+}

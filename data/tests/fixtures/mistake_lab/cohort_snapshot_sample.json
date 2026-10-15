@@ -1,0 +1,384 @@
+{
+  "version": 1,
+  "illustrative": true,
+  "since": "2026-04-21",
+  "until": "2026-10-15",
+  "builtAt": "2026-10-15T05:00:00.000Z",
+  "questions": {
+    "q1": {
+      "n": 15,
+      "keyHash": "34821938ecd0e4f2",
+      "picks": {
+        "34821938ecd0e4f2": 12,
+        "1be236e8c6259f44": 1,
+        "1eae8948da1d67b3": 2
+      }
+    },
+    "q2": {
+      "n": 13,
+      "keyHash": "b1a9fd32d46e9fb9",
+      "picks": {
+        "b1a9fd32d46e9fb9": 11,
+        "8d3f30dc3b825379": 1,
+        "8370d04cbd11b6c0": 1
+      }
+    },
+    "q4": {
+      "n": 18,
+      "keyHash": "444be01419116184",
+      "picks": {
+        "444be01419116184": 12,
+        "733b4c46b92bd2fd": 3,
+        "ac55c3eb6ef46a74": 2,
+        "c4b4c54345829f0c": 1
+      }
+    },
+    "q5": {
+      "n": 14,
+      "keyHash": "369b4706ebdeb9dc",
+      "picks": {
+        "369b4706ebdeb9dc": 8,
+        "0ddac26f4201c06f": 2,
+        "4753f0f4137a3462": 3,
+        "f95eff7e2b8bbc49": 1
+      }
+    },
+    "q6": {
+      "n": 24,
+      "keyHash": "40f75777c8bc1f02",
+      "picks": {
+        "40f75777c8bc1f02": 15,
+        "544e9cf9a0b47704": 3,
+        "1b621883ebfa06b8": 4,
+        "192fb2b2090a1f4f": 2
+      }
+    },
+    "q7": {
+      "n": 28,
+      "keyHash": "a367fdd08b49a699",
+      "picks": {
+        "a367fdd08b49a699": 22,
+        "7d259b2cfbc7eddc": 1,
+        "e58bee1caf7e7565": 3,
+        "4676141655f92eff": 2
+      }
+    },
+    "q9": {
+      "n": 20,
+      "keyHash": "b9974343d1d85631",
+      "picks": {
+        "b9974343d1d85631": 12,
+        "3e2979b9dfca9fef": 5,
+        "7e559c3945425954": 1,
+        "62aa19f5316f9eb3": 2
+      }
+    },
+    "q10": {
+      "n": 21,
+      "keyHash": "50a93ab828366bcb",
+      "picks": {
+        "50a93ab828366bcb": 14,
+        "85bbeaecebccc69f": 2,
+        "4101be89d37ec770": 2,
+        "de4a01f9eae70106": 3
+      }
+    },
+    "q11": {
+      "n": 23,
+      "keyHash": "ff9da2c41bd0b901",
+      "picks": {
+        "ff9da2c41bd0b901": 16,
+        "723a0754bda4a61b": 3,
+        "18807b5aaa72f245": 2,
+        "550ca47f26084c2b": 2
+      }
+    },
+    "q12": {
+      "n": 26,
+      "keyHash": "26aa0fa8e8aa1a75",
+      "picks": {
+        "26aa0fa8e8aa1a75": 21,
+        "8bda2cfc82fa246f": 1,
+        "3baacea5048c4f32": 3,
+        "6f521282d6cb3690": 1
+      }
+    },
+    "q13": {
+      "n": 19,
+      "keyHash": "6cf136600ea076c8",
+      "picks": {
+        "6cf136600ea076c8": 10,
+        "beed0dbf4085fb77": 4,
+        "542fa0a5f2127bd1": 3,
+        "1fb3abaa59edc69a": 2
+      }
+    },
+    "q14": {
+      "n": 21,
+      "keyHash": "111589af4a1b4d42",
+      "picks": {
+        "111589af4a1b4d42": 12,
+        "0bd778f3ffdc44fe": 3,
+        "8f70e589ec23a795": 3,
+        "cc378b0243698d77": 3
+      }
+    },
+    "q15": {
+      "n": 24,
+      "keyHash": "df2f7a744738d1b8",
+      "picks": {
+        "df2f7a744738d1b8": 18,
+        "0b0e8cf8b0292ef1": 2,
+        "5169d764e09fb08d": 2,
+        "c7e49258223138d7": 2
+      }
+    },
+    "q16": {
+      "n": 21,
+      "keyHash": "cc280ee7710907c5",
+      "picks": {
+        "cc280ee7710907c5": 16,
+        "cc18014be2994421": 2,
+        "a820f10bbde0f048": 2,
+        "275fc72f24dbac7a": 1
+      }
+    },
+    "q17": {
+      "n": 31,
+      "keyHash": "d679ac796d29eed8",
+      "picks": {
+        "d679ac796d29eed8": 19,
+        "e7b6f082340f2adb": 3,
+        "f916f503b2e86cfb": 8,
+        "6c8f662cb411b601": 1
+      }
+    },
+    "q18": {
+      "n": 17,
+      "keyHash": "0b239b352e1a7d1e",
+      "picks": {
+        "0b239b352e1a7d1e": 13,
+        "b2899ea6b8f878aa": 2,
+        "11798c9130f12134": 1,
+        "41fc374d17e7c6bc": 1
+      }
+    },
+    "q19": {
+      "n": 21,
+      "keyHash": "a2c5d589330c901e",
+      "picks": {
+        "a2c5d589330c901e": 11,
+        "c6b8315b2b290cce": 6,
+        "84ab8a8a528dfc3a": 2,
+        "2ab05e3036f5d182": 2
+      }
+    },
+    "q20": {
+      "n": 23,
+      "keyHash": "debe26d935ca1275",
+      "picks": {
+        "debe26d935ca1275": 17,
+        "77b56e3e028995e3": 2,
+        "6b43ba03d2b1befa": 2,
+        "ce4989856a097fe9": 2
+      }
+    },
+    "q22": {
+      "n": 40,
+      "keyHash": "06f9732f2e24db5e",
+      "picks": {
+        "06f9732f2e24db5e": 30,
+        "f7fbbf9bc8b60885": 3,
+        "75d701c9b13dadd1": 5,
+        "c7a1494cee055409": 2
+      }
+    },
+    "q23": {
+      "n": 17,
+      "keyHash": "3498e973127aa534",
+      "picks": {
+        "3498e973127aa534": 12,
+        "a310082272de0d92": 3,
+        "82863ea13a85586a": 1,
+        "ee76949caa8a57c7": 1
+      }
+    },
+    "q24": {
+      "n": 20,
+      "keyHash": "95d7c189b32aafee",
+      "picks": {
+        "95d7c189b32aafee": 14,
+        "a93bbc115ae5c5cf": 3,
+        "bd4b28020a5bb361": 2,
+        "c1e0b57365067aae": 1
+      }
+    },
+    "q25": {
+      "n": 21,
+      "keyHash": "54e35ec4f5c404bd",
+      "picks": {
+        "54e35ec4f5c404bd": 18,
+        "e1a807984d0b4f32": 1,
+        "577b8e1c33130b1f": 1,
+        "4ce048431fe3b86e": 1
+      }
+    },
+    "q26": {
+      "n": 16,
+      "keyHash": "3c81922aa4e1065f",
+      "picks": {
+        "3c81922aa4e1065f": 9,
+        "6d8a30aead51a1bf": 4,
+        "cac8de6fda90fb29": 3
+      }
+    },
+    "q27": {
+      "n": 17,
+      "keyHash": "15a4b936e3fb7386",
+      "picks": {
+        "15a4b936e3fb7386": 14,
+        "05448eccc73ff28c": 1,
+        "d8ae9ebcdd0b32d8": 1,
+        "495e6078c096c6d7": 1
+      }
+    },
+    "q29": {
+      "n": 19,
+      "keyHash": "6ebbda6adfcfb62a",
+      "picks": {
+        "6ebbda6adfcfb62a": 13,
+        "c928daf19b667c71": 1,
+        "cf14b1d2369fb005": 3,
+        "ba0f8cf11a550516": 2
+      }
+    },
+    "q30": {
+      "n": 18,
+      "keyHash": "443583abdef2f966",
+      "picks": {
+        "443583abdef2f966": 15,
+        "055c5ad43522322e": 1,
+        "47d79d55dfab92de": 1,
+        "07489326a3554f05": 1
+      }
+    },
+    "q31": {
+      "n": 10,
+      "keyHash": "56fb32745299ccc8",
+      "picks": {
+        "56fb32745299ccc8": 6,
+        "74a9254a4ebbfd74": 2,
+        "a279315fedcf1f8a": 1,
+        "cb22c25521142bb2": 1
+      }
+    },
+    "q32": {
+      "n": 20,
+      "keyHash": "ae363b004a0a9058",
+      "picks": {
+        "ae363b004a0a9058": 16,
+        "3444d42a6696ace3": 1,
+        "5cc9d13e9e145128": 2,
+        "d21e3c35a605f56f": 1
+      }
+    },
+    "q34": {
+      "n": 18,
+      "keyHash": "35aeb9f35a0ad798",
+      "picks": {
+        "35aeb9f35a0ad798": 12,
+        "e84fcc1979700cf9": 2,
+        "d34e9da27ecdcccf": 3,
+        "acb71ccd6cef650c": 1
+      }
+    },
+    "q36": {
+      "n": 20,
+      "keyHash": "3dee702825c9fc87",
+      "picks": {
+        "3dee702825c9fc87": 15,
+        "711def0c4e5fbcab": 1,
+        "9ff5381d0c65a08f": 2,
+        "7106412324c4522e": 2
+      }
+    },
+    "q38": {
+      "n": 23,
+      "keyHash": "96083bf12871f804",
+      "picks": {
+        "96083bf12871f804": 9,
+        "1d97d4c9845399cc": 6,
+        "5dade9958cb6b284": 2,
+        "194f29a0f9b4b5dc": 6
+      }
+    },
+    "q40": {
+      "n": 15,
+      "keyHash": "3d029a44b54542a8",
+      "picks": {
+        "3d029a44b54542a8": 10,
+        "95f9be3e68773cf5": 3,
+        "d511c8a4ff243717": 2
+      }
+    },
+    "q41": {
+      "n": 19,
+      "keyHash": "af4138d9b155d7e4",
+      "picks": {
+        "af4138d9b155d7e4": 13,
+        "17d58e5c5f2c705a": 2,
+        "df71d4bcaeae2991": 2,
+        "5029a15ed52d758c": 2
+      }
+    },
+    "q42": {
+      "n": 22,
+      "keyHash": "06b39487d64404d2",
+      "picks": {
+        "06b39487d64404d2": 18,
+        "e23ada0082d241d1": 1,
+        "36a654cf8e89453d": 2,
+        "feb9c58d73d15042": 1
+      }
+    },
+    "n1": {
+      "n": 14,
+      "keyHash": "9517e0f47cd3e79b",
+      "picks": {
+        "9517e0f47cd3e79b": 9,
+        "589f5cf0ec08be57": 2,
+        "2575d602bdb14172": 1,
+        "b04c4951188cd7e4": 2
+      }
+    },
+    "n2": {
+      "n": 13,
+      "keyHash": "ffac02d08bb4e75e",
+      "picks": {
+        "ffac02d08bb4e75e": 8,
+        "206937db41c02a2b": 3,
+        "3ea08faaefe4d49d": 1,
+        "095a367938b4d782": 1
+      }
+    },
+    "n7": {
+      "n": 14,
+      "keyHash": "a8e5b16207bcb4e5",
+      "picks": {
+        "a8e5b16207bcb4e5": 6,
+        "ac390b02fbb41923": 1,
+        "33e2ef7bf9d2ffcb": 5,
+        "0c8e8cee874119e8": 2
+      }
+    },
+    "n8": {
+      "n": 14,
+      "keyHash": "7cb54e4aa53db9f7",
+      "picks": {
+        "7cb54e4aa53db9f7": 4,
+        "0e6863b591369c79": 1,
+        "de07f3842aabbff8": 9
+      }
+    }
+  }
+}

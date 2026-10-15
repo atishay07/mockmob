@@ -1,0 +1,399 @@
+{
+  "description": "NTA paper, 10 questions, every question shown in a shuffled option order that differs from the stored order.",
+  "attempt": {
+    "id": "lab-nta-1",
+    "subject": "accountancy",
+    "completedAt": 1792305000000,
+    "questionsSnapshot": [
+      {
+        "id": "n1",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 1",
+        "options": [
+          "n1 statement three",
+          "n1 statement one",
+          "n1 statement four",
+          "n1 statement two"
+        ],
+        "correctIndex": 1,
+        "optionOrder": [
+          2,
+          0,
+          3,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n2",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 2",
+        "options": [
+          "n2 statement two",
+          "n2 statement four",
+          "n2 statement one",
+          "n2 statement three"
+        ],
+        "correctIndex": 2,
+        "optionOrder": [
+          1,
+          3,
+          0,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n3",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 3",
+        "options": [
+          "n3 statement four",
+          "n3 statement three",
+          "n3 statement two",
+          "n3 statement one"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          3,
+          2,
+          1,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n4",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 4",
+        "options": [
+          "n4 statement one",
+          "n4 statement three",
+          "n4 statement two",
+          "n4 statement four"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          2,
+          1,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n5",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 5",
+        "options": [
+          "n5 statement three",
+          "n5 statement four",
+          "n5 statement one",
+          "n5 statement two"
+        ],
+        "correctIndex": 2,
+        "optionOrder": [
+          2,
+          3,
+          0,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n6",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 6",
+        "options": [
+          "n6 statement two",
+          "n6 statement one",
+          "n6 statement four",
+          "n6 statement three"
+        ],
+        "correctIndex": 1,
+        "optionOrder": [
+          1,
+          0,
+          3,
+          2
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n7",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 7",
+        "options": [
+          "n7 statement four",
+          "n7 statement two",
+          "n7 statement three",
+          "n7 statement one"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          3,
+          1,
+          2,
+          0
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n8",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 8",
+        "options": [
+          "n8 statement three",
+          "n8 statement two",
+          "n8 statement one",
+          "n8 statement four"
+        ],
+        "correctIndex": 2,
+        "optionOrder": [
+          2,
+          1,
+          0,
+          3
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n9",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 9",
+        "options": [
+          "n9 statement one",
+          "n9 statement four",
+          "n9 statement three",
+          "n9 statement two"
+        ],
+        "correctIndex": 0,
+        "optionOrder": [
+          0,
+          3,
+          2,
+          1
+        ],
+        "optionsShuffled": true
+      },
+      {
+        "id": "n10",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 10",
+        "options": [
+          "n10 statement two",
+          "n10 statement three",
+          "n10 statement four",
+          "n10 statement one"
+        ],
+        "correctIndex": 3,
+        "optionOrder": [
+          1,
+          2,
+          3,
+          0
+        ],
+        "optionsShuffled": true
+      }
+    ],
+    "details": [
+      {
+        "qid": "n1",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "n2",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "n3",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "n4",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "n5",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "n6",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "n7",
+        "givenIndex": 0,
+        "isCorrect": false
+      },
+      {
+        "qid": "n8",
+        "givenIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "qid": "n9",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "n10",
+        "givenIndex": 0,
+        "isCorrect": false
+      }
+    ],
+    "selectionMeta": {
+      "mode": "nta",
+      "durationMinutes": 60,
+      "scoringVersion": "server_snapshot_v1",
+      "recovery": {
+        "version": 1,
+        "scoring": "server_snapshot",
+        "telemetry": "self_reported",
+        "observed": {
+          "answerChanges": [],
+          "lostOnChanges": 0,
+          "netFirstToFinal": 0,
+          "unanswered": 1
+        },
+        "timeline": [
+          {
+            "seq": 1,
+            "qid": "n1",
+            "at": 0,
+            "type": "visit"
+          },
+          {
+            "seq": 2,
+            "qid": "n1",
+            "at": 40000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 3,
+            "qid": "n2",
+            "at": 60000,
+            "type": "visit"
+          },
+          {
+            "seq": 4,
+            "qid": "n2",
+            "at": 100000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 5,
+            "qid": "n3",
+            "at": 120000,
+            "type": "visit"
+          },
+          {
+            "seq": 6,
+            "qid": "n3",
+            "at": 160000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 7,
+            "qid": "n4",
+            "at": 180000,
+            "type": "visit"
+          },
+          {
+            "seq": 8,
+            "qid": "n4",
+            "at": 220000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 9,
+            "qid": "n5",
+            "at": 240000,
+            "type": "visit"
+          },
+          {
+            "seq": 10,
+            "qid": "n5",
+            "at": 280000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 11,
+            "qid": "n6",
+            "at": 300000,
+            "type": "visit"
+          },
+          {
+            "seq": 12,
+            "qid": "n6",
+            "at": 340000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 13,
+            "qid": "n7",
+            "at": 360000,
+            "type": "visit"
+          },
+          {
+            "seq": 14,
+            "qid": "n7",
+            "at": 400000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 15,
+            "qid": "n8",
+            "at": 420000,
+            "type": "visit"
+          },
+          {
+            "seq": 16,
+            "qid": "n8",
+            "at": 460000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 17,
+            "qid": "n9",
+            "at": 480000,
+            "type": "visit"
+          },
+          {
+            "seq": 18,
+            "qid": "n10",
+            "at": 540000,
+            "type": "visit"
+          },
+          {
+            "seq": 19,
+            "qid": "n10",
+            "at": 580000,
+            "type": "answer",
+            "answer": 0
+          }
+        ],
+        "recommendation": {
+          "kind": "concept_repair",
+          "title": "Practise one concept you missed",
+          "reason": "Suggested from this attempt; a fresh check is needed before claiming improvement."
+        }
+      }
+    }
+  },
+  "answerReviews": {}
+}

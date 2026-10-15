@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "labels": {
+    "name": "Mistake Lab",
+    "othersTitle": "How others answered",
+    "showMore": "Show {k} more",
+    "seeChanges": "See every change"
+  },
+  "state": "none",
+  "heading": "You didn't miss a mark this session.",
+  "gap": 0,
+  "headline": null,
+  "groups": [],
+  "barLabel": null,
+  "remark": null,
+  "cohort": null,
+  "fine": [],
+  "byQuestion": {}
+}
