@@ -1026,8 +1026,8 @@ export const Database = {
   async spendCredits(userId, action, reference) {
     // Allowed actions match the SQL CASE in spend_credits():
     //   'generate'     -> 10 credits (question generation)
-    //   'attempt'      -> 10 credits (Quick Practice)
-    //   'attempt_full' -> 50 credits (Full Mock)
+    //   'attempt'      -> 10 credits (Quick practice)
+    //   'attempt_full' -> 50 credits (Full mock)
     if (!['generate', 'attempt', 'attempt_full'].includes(action)) {
       throw new Error('Invalid credit spend action');
     }

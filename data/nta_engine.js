@@ -1267,7 +1267,7 @@ function describe(deviations, model, paper, extras, { refused = false } = {}) {
 
 function refusal(model, reason, details) {
   const subject = subjectLabel(model.bp);
-  const tryInstead = `Try a Full Mock for ${subject} instead; it uses the wider question bank.`;
+  const tryInstead = `Try a Full mock for ${subject} instead; it uses the wider question bank.`;
   const notReady = `NTA mode is not ready for ${subject} yet`;
   // No question to place: the sentence names the gate that kept out the most questions (emptyPoolCause).
   const emptyPool = {
@@ -1284,7 +1284,7 @@ function refusal(model, reason, details) {
     no_passage_sets: `NTA mode for ${subject} needs ${model.sets.count.min} complete reading passages${model.sets.passageWords ? ` of ${model.sets.passageWords.min} to ${model.sets.passageWords.max} words` : ''} with ${model.sets.size.min} to ${model.sets.size.max} different questions each, as in the real paper. The bank has ${details.sets} such passage${details.sets === 1 ? '' : 's'} that meet${details.sets === 1 ? 's' : ''} the quality bar right now. ${tryInstead}`,
     too_few_questions: `NTA mode for ${subject} could place only ${details.total} of ${model.total} questions in the CUET pattern from questions that meet the quality bar, so it would not be a fair exam paper. ${tryInstead}`,
     time_budget: `Building the ${subject} paper took too long, so it was stopped. Please try again in a minute.`,
-    engine_error: `The ${subject} paper could not be laid out correctly, so it was not started. Please try again; if it happens again, try a Full Mock for ${subject}.`,
+    engine_error: `The ${subject} paper could not be laid out correctly, so it was not started. Please try again; if it happens again, try a Full mock for ${subject}.`,
   };
   return messages[reason];
 }

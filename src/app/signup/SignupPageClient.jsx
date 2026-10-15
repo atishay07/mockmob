@@ -33,7 +33,7 @@ export default function SignupPageClient() {
       title="Start your CUET 2027 practice."
       lead="Keep your recorded mocks, chapter mistakes and saved questions together."
       points={[
-        'Quick Practice and Full Mock on free credits',
+        'Quick practice and Full mock on free credits',
         'Radar traces every mistake back to its chapter',
         'Go Pro when you want unlimited practice',
       ]}

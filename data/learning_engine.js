@@ -158,7 +158,7 @@ export function allowancePeriod(kind, now) {
   return kind.startsWith('baseline:') || kind.startsWith('full_sample:') ? 'cuet_2027' : ist.toISOString().slice(0, 10);
 }
 
-// 10/20/30 minutes → Quick Practice size. Quick Practice allows at most 20 questions, so the
+// 10/20/30 minutes → Quick practice size. Quick practice allows at most 20 questions, so the
 // 30-minute choice adds a review block instead of inventing a longer timed set.
 export function practiceForMinutes(minutes) {
   const m = [10, 20, 30].includes(Number(minutes)) ? Number(minutes) : 10;
@@ -202,7 +202,7 @@ export function learningPlan({ episodes = [], activeSession, attempts = [], subj
   if (!primary && availableConcepts.length && !attempts.some(a => a.subject === subject)) primary = action('baseline', 'Start a five-question baseline', `/recovery?subject=${subject}`, 'Five questions provide an initial signal for this subject.', [],
     [fact('record', 'No recorded session in this subject yet.')]);
   if (!primary) {
-    // The chosen time sets the session: Quick Practice is timed at one minute a question.
+    // The chosen time sets the session: Quick practice is timed at one minute a question.
     const { count, review } = practiceForMinutes(duration);
     const upcoming = live.filter(e => e.nextDueAt && e.nextDueAt > now).sort((a,b) => a.nextDueAt - b.nextDueAt)[0];
     primary = action('ordinary_practice', `Start ${count} practice questions`, `/dashboard?mode=quick&count=${count}`,

@@ -318,7 +318,7 @@
     const first = snap();
     if (first.state !== 'runner') {
       const text = first.text; const buttons = $$('button, a').filter(visible).map((b) => b.innerText.trim()).filter(Boolean);
-      // A refusal the bank decides is a notice panel (title, the engine's sentence, Full Mock and dashboard links);
+      // A refusal the bank decides is a notice panel (title, the engine's sentence, Full mock and dashboard links);
       // anything else is the error panel with "Try again".
       const notice = $('.ui-state--notice');
       const all = document.body.innerText; const at = all.indexOf('This did not load');

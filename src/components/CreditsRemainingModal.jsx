@@ -112,20 +112,20 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
 
         <div className="mmx-credits">
           <p className="mmx-credits__head">
-            Credits left <strong>{safe}</strong>
+            Practice credits left <strong>{safe}</strong>
           </p>
           <div className="mmx-credits__bar" aria-hidden="true">
             <span style={{ transform: `scaleX(${Math.min(100, safe) / 100})` }} />
           </div>
           <div className="mmx-credits__runs">
             <div>
-              <span>Quick Practice · {QUICK_COST} cr</span>
+              <span>Quick practice, {QUICK_COST} credits</span>
               <strong>
                 {quickRuns} run{quickRuns === 1 ? '' : 's'}
               </strong>
             </div>
             <div>
-              <span>Full Mock · {FULL_COST} cr</span>
+              <span>Full mock, {FULL_COST} credits</span>
               <strong>
                 {fullRuns} run{fullRuns === 1 ? '' : 's'}
               </strong>
@@ -135,9 +135,9 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
 
         <p className="mmx-sheet__price">
           {offer?.purchasable === 'monthly'
-            ? <>Pro is <strong>₹{offer.monthly.rupees} a month</strong>. Unlimited mocks, full Radar and NTA Mode. Cancel anytime.</>
+            ? <>Pro is <strong>₹{offer.monthly.rupees} a month</strong>. Unlimited mocks, full Radar and NTA mode. Cancel anytime.</>
             : offer
-              ? <>Pro access is <strong>₹{offer.oneTime.rupees} once</strong>. Unlimited mocks, full Radar and NTA Mode through {offer.oneTime.expires}.</>
+              ? <>Pro access is <strong>₹{offer.oneTime.rupees} once</strong>. Unlimited mocks, full Radar and NTA mode through {offer.oneTime.expires}.</>
               : <>Pro removes the credit gate. See pricing for the current offer.</>}
         </p>
 

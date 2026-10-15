@@ -20,8 +20,8 @@ export function generateMetadata() {
   return seoMetadata({
     title: monthly ? `MockMob Pro Pricing: ₹${offer.monthly.rupees} a month` : `MockMob Pro Pricing: ₹${offer.oneTime.rupees} to start`,
     description: monthly
-      ? `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month: unlimited Quick Practice and Full Mock, Smart Practice, NTA Mode and full Radar. Cancel anytime.`
-      : `Start free. MockMob Pro access is ₹${offer.oneTime.rupees} once through ${offer.oneTime.expires}: unlimited Quick Practice and Full Mock, Smart Practice, NTA Mode and full Radar. Monthly Pro opens soon.`,
+      ? `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month: unlimited Quick practice and Full mock, Smart practice, NTA mode and full Radar. Cancel anytime.`
+      : `Start free. MockMob Pro access is ₹${offer.oneTime.rupees} once through ${offer.oneTime.expires}: unlimited Quick practice and Full mock, Smart practice, NTA mode and full Radar. Monthly Pro opens soon.`,
     path: '/pricing',
   });
 }
@@ -34,8 +34,8 @@ const buildPlans = (offer) => [
     description: 'Enough to see whether MockMob suits you. No card needed.',
     ctaLabel: 'Create a free account',
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
-      'Quick Practice, 5 to 20 questions, on credits',
-      'Full Mock, 50 questions in 60 minutes, on credits',
+      'Quick practice, 5 to 20 questions, on credits',
+      'Full mock, 50 questions in 60 minutes, on credits',
       'Weekly progress tracking',
       '25 saved questions',
       'Leaderboard',
@@ -57,9 +57,9 @@ const buildPlans = (offer) => [
       ? 'Renews automatically each month. Cancel in Account and keep Pro to the end of the month you paid for.'
       : `Access ends ${offer.oneTime.expires}. No auto-renewal on this payment.`,
     features: newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full recovery history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Full priorities and playbook', 'Unlimited saved questions'] : [
-      'Unlimited Quick Practice and Full Mocks',
-      'NTA Mode: the exam-day screen, 50 questions in 60 minutes',
-      'Smart Practice: every set aimed at your weak chapters',
+      'Unlimited Quick practice and Full mocks',
+      'NTA mode: the exam-day screen, 50 questions in 60 minutes',
+      'Smart practice: every set aimed at your weak chapters',
       'Full Radar: every ranked chapter, pace and changed-answer detail',
       'Compass Pro: your practice projected paper by paper, against your DU shortlist',
       'Compass Pro next move: the paper and chapter that can move your total most',
@@ -74,8 +74,8 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
   {
     heading: 'Core test modes',
     rows: [
-      ['Quick Practice (5 to 20 questions)', '10 credits a session', 'Unlimited'],
-      ['Full Mock (50 questions, 60 minutes)', '50 credits a mock', 'Unlimited'],
+      ['Quick practice (5 to 20 questions)', '10 credits a session', 'Unlimited'],
+      ['Full mock (50 questions, 60 minutes)', '50 credits a mock', 'Unlimited'],
     ],
   },
   {
@@ -99,8 +99,8 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
   {
     heading: 'Advanced test modes',
     rows: [
-      ['Smart Practice, aimed at your weak chapters', false, 'Unlimited'],
-      ['NTA Mode, the exam-day screen', false, 'Unlimited'],
+      ['Smart practice, aimed at your weak chapters', false, 'Unlimited'],
+      ['NTA mode, the exam-day screen', false, 'Unlimited'],
     ],
   },
 ];

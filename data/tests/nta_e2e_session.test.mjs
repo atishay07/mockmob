@@ -101,9 +101,9 @@ for (const mode of ['asis', 'promoted']) {
           assert.equal(res.body.error, 'INSUFFICIENT_PRACTICE_CONTENT');
           assert.equal(typeof res.body.message, 'string');
           assert.ok(res.body.message.length > 40, 'message too short to help a student');
-          assert.match(res.body.message, /Full Mock|Practice|try again/i, 'refusal offers no next step');
+          assert.match(res.body.message, /Full mock|Practice|try again/i, 'refusal offers no next step');
           assert.ok(res.body.detail?.reason, 'no reason in the detail');
-          // A refusal the bank decides reads the same on every retry: the website offers a Full Mock, not "Try again".
+          // A refusal the bank decides reads the same on every retry: the website offers a Full mock, not "Try again".
           if (['no_scored_questions', 'no_passage_sets', 'too_few_questions'].includes(res.body.detail.reason)) assert.equal(res.body.detail.retryable, false);
           // No leaked error: a stack property or frame, a TypeError, undefined. (Not the bare word "stack": Computer Science has a chapter "Stack".)
           assert.doesNotMatch(JSON.stringify(res.body), /"stack"|\bat (?:\S+ \()?(?:file:|node:|[A-Za-z]:\\)|TypeError|undefined|\[object/i);

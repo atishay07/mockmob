@@ -80,7 +80,7 @@ export default function DashboardPageClient() {
     return TEST_MODES.quick.countOptions.includes(requested) ? requested : 10;
   });
   const [chapterOpen, setChapterOpen] = useState(false);
-  // Which console NTA Mode opens in: MockMob's own layout, or the conventional exam-style screen.
+  // Which console NTA mode opens in: MockMob's own layout, or the conventional exam-style screen.
   const [ntaScreen, setNtaScreen] = useState(() => (searchParams.get('interface') === 'nta' ? 'nta' : 'mockmob'));
   const [isLaunching, setIsLaunching] = useState(false);
   const launchingKeyRef = useRef(null);
@@ -233,7 +233,7 @@ export default function DashboardPageClient() {
     return () => { alive = false; window.clearTimeout(id); };
   }, [status, selSubj, effectiveModeId, quoteCount, quoteNonce, user?.id]);
 
-  // On a phone the session card sits four screens down, under Subject, Mode, NTA Mode and Questions, so
+  // On a phone the session card sits four screens down, under Subject, Mode, NTA mode and Questions, so
   // the dock carries the session and its Start until the card itself comes into view (as the app does).
   // The bottom 150 px are the tab bar and the dock, so the card only counts once it clears them.
   const hasSession = status === 'ready' && mySubs.length > 0;
@@ -321,7 +321,7 @@ export default function DashboardPageClient() {
     ? !quote.launchable ? 'Not available'
       : isPremium ? 'Included with access'
         : quote.creditCost === 0 ? 'Free: today’s included set'
-          : `${quote.creditCost} credits`
+          : `${quote.creditCost} practice credits`
     : '—';
   const startLabel = isLaunching ? 'Starting…'
     : quoteStatus === 'loading' ? 'Checking…'
@@ -335,7 +335,7 @@ export default function DashboardPageClient() {
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : 'Not available')
       : isPremium ? 'Included'
         : quote.creditCost === 0 ? 'Free today'
-          : `${quote.creditCost} credits`
+          : `${quote.creditCost} practice credits`
     : modeBadge(effectiveModeId).text;
 
   function launch() {
@@ -373,15 +373,15 @@ export default function DashboardPageClient() {
           {/* Phones: the credits are one line under the heading (practice.css), not a card above Subject. */}
           <p className="pr-head__credits">
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} size={15} />
-            <span>{isPremium ? 'Quick Practice and Full Mock are included.' : `Quick Practice uses ${TEST_MODES.quick.creditCost}, Full Mock ${TEST_MODES.full.creditCost}.`}</span>
+            <span>{isPremium ? 'Quick practice and Full mock are included.' : `Quick practice uses ${TEST_MODES.quick.creditCost} practice credits, Full mock ${TEST_MODES.full.creditCost}.`}</span>
           </p>
         </div>
-        <div className="pr-wallet" aria-label="Your credits">
+        <div className="pr-wallet" aria-label="Your practice credits">
           <div className="pr-wallet__row">
             <span className="pr-wallet__label">Practice credits</span>
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={false} size={18} />
           </div>
-          <p className="pr-wallet__note">{isPremium ? 'Quick Practice and Full Mock cost nothing with your access.' : `Quick Practice costs ${TEST_MODES.quick.creditCost} credits and Full Mock costs ${TEST_MODES.full.creditCost}.`}</p>
+          <p className="pr-wallet__note">{isPremium ? 'Quick practice and Full mock cost nothing with your access.' : `Quick practice costs ${TEST_MODES.quick.creditCost} practice credits and Full mock costs ${TEST_MODES.full.creditCost}.`}</p>
         </div>
       </header>
 
@@ -467,7 +467,7 @@ export default function DashboardPageClient() {
                     </button>
                   );
                 })}
-                {/* NTA Mode: the closest thing to exam day. */}
+                {/* NTA mode: the closest thing to exam day. */}
                 <button type="button" aria-pressed={ntaOn} className="pr-tile pr-nta mk-rim" data-mode="nta" data-tone={ntaBadge.tone} onClick={() => chooseMode('nta')}>
                   <span className="pr-nta__copy">
                     <span className="pr-mode__top">
@@ -476,7 +476,7 @@ export default function DashboardPageClient() {
                       <span className="pr-nta__kicker">Closest to exam day</span>
                       <span className="pr-badge" data-tone={ntaBadge.tone}>{ntaBadge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{ntaBadge.text}</span>
                     </span>
-                    <span className="pr-mode__name">NTA Mode</span>
+                    <span className="pr-mode__name">NTA mode</span>
                     <span className="pr-mode__spec">50 questions in 60 minutes on an exam-style screen: question palette, mark for review, clear response, and a countdown that submits for you.</span>
                     <span className="pr-nta__short">The exam-day screen, palette and mark for review.</span>
                     <span className="pr-nta__chips"><i>50 Q</i><i>60 min</i><i>Question palette</i><i>Mark for review</i></span>
@@ -502,7 +502,7 @@ export default function DashboardPageClient() {
                         <span className="pr-hint">Same questions, timing and scoring. You can switch inside the test.</span>
                       </>
                     ) : (
-                      <p className="pr-hint">NTA Mode needs Pro. See how both screens look first: <Link href="/?stay=1#exam-experience" className="pr-link">Free exam-screen preview</Link></p>
+                      <p className="pr-hint">NTA mode needs Pro. See how both screens look first: <Link href="/?stay=1#exam-experience" className="pr-link">Free exam-screen preview</Link></p>
                     )}
                   </div>
                 </div>
@@ -633,8 +633,8 @@ export default function DashboardPageClient() {
         <section className="pr-panel" aria-labelledby="pr-access">
           <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
           <p className="pr-panel__lead">{isPremium
-            ? `Quick Practice, Full Mock, Smart Practice and NTA Mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}.`
-            : 'Pro adds Smart Practice and NTA Mode, and Quick Practice and Full Mock stop costing credits.'}</p>
+            ? `Quick practice, Full mock, Smart practice and NTA mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}.`
+            : 'Pro adds Smart practice and NTA mode, and Quick practice and Full mock stop costing practice credits.'}</p>
           <div className="pr-panel__row">
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} />
             {!isPremium && <Link className="pr-link" href="/pricing">See Pro</Link>}
@@ -643,7 +643,7 @@ export default function DashboardPageClient() {
 
         <section className="pr-panel" aria-labelledby="pr-bank">
           <div className="pr-panel__head"><h2 id="pr-bank">Feed the bank</h2></div>
-          <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn credits for Quick Practice and Full Mock.</p>
+          <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn practice credits for Quick practice and Full mock.</p>
           <Link href="/upload" className="pr-link pr-link--strong">Upload a question<AppIcon name="contribute" size={16} /></Link>
           {submissions.length > 0 && (
             <>

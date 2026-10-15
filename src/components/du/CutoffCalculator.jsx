@@ -53,6 +53,11 @@ function normName(s) {
 // ---------------------------------------------------------------------------------------
 // The exact Bulletin rules for a programme, checked against the student's subjects.
 
+function optionLabel(label) {
+  const n = { I: 1, II: 2, III: 3, IV: 4 }[String(label).replace(/^Combination /, '')];
+  return n ? `Option ${n}` : label;
+}
+
 function RulesList({ rows }) {
   return (
     <ul className="du-rules">
@@ -61,11 +66,11 @@ function RulesList({ rows }) {
           <span className="du-rules__mark" aria-hidden="true">{r.ok ? <Check size={13} strokeWidth={3} /> : <X size={13} strokeWidth={3} />}</span>
           <div>
             <p>
-              <b>{r.label}</b> {r.text}
+              <b>{optionLabel(r.label)}</b> {r.text}
             </p>
-            {r.ok ? <small>You meet this{r.secondary ? '. Considered only if seats remain after Combinations I and II' : ''}.</small> : null}
+            {r.ok ? <small>You meet this{r.secondary ? '. Considered only if seats remain after Options 1 and 2' : ''}.</small> : null}
             {!r.ok && r.missing.length > 0 ? <small>{r.missing.join(', ')}</small> : null}
-            {r.extraLanguage ? <small>The Bulletin also requires at least one language from List A.</small> : null}
+            {r.extraLanguage ? <small>The Bulletin also requires at least one language from its approved language list.</small> : null}
           </div>
         </li>
       ))}
@@ -208,7 +213,7 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
   let verdict = null;
   if (hasCutoffs && score != null) {
     const [, , lo, hi] = r1;
-    verdict = score >= hi ? 'Above every Round I cutoff' : score >= lo ? 'Within the Round I range' : 'Below every Round I cutoff';
+    verdict = score >= hi ? 'Above every Round 1 cutoff' : score >= lo ? 'Within the Round 1 range' : 'Below every Round 1 cutoff';
   }
   const panelId = `du-panel-${group.id}`;
   return (
@@ -221,14 +226,14 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
             {group.offerings > 0 ? <span>{group.colleges} {group.colleges === 1 ? 'college' : 'colleges'}</span> : <span>No CUET cutoff list published</span>}
             {hasCutoffs ? (
               <span className="mm-measure">
-                Round I ({category}): {formatScore(r1[2])} to {formatScore(r1[3])}
+                Round 1 ({category}): {formatScore(r1[2])} to {formatScore(r1[3])}
               </span>
             ) : null}
           </span>
           {matched ? (
             <span className="du-card__match">
               <b>{matched.label}</b> {matched.text}
-              {secondary ? <em>Considered only if seats remain after Combinations I and II</em> : null}
+              {secondary ? <em>Considered only if seats remain after Options 1 and 2</em> : null}
             </span>
           ) : null}
           {group.eligibility.performanceTest ? <span className="du-card__flag">Merit also uses a separate performance or practical test</span> : null}
@@ -484,7 +489,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
               </div>
             </div>
             <label className="du-field">
-              <span className="du-label">Your programme-specific CUET score</span>
+              <span className="du-label">Target score</span>
               <input
                 className="du-input mm-measure"
                 inputMode="decimal"
@@ -494,7 +499,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                 aria-describedby="du-score-help"
               />
               <small id="du-score-help">
-                DU shows this per programme on your CSAS dashboard after results. Before results, enter a target. DU’s 2026 lists run up to {formatScore(data.meta.scoreRange[1])}.
+                Before results, enter the score you are aiming for. Once results are out, DU shows your actual score for each programme. DU’s 2026 lists run up to {formatScore(data.meta.scoreRange[1])}.
                 {scoreText && score == null ? ' Enter a number between 0 and 1000.' : ''}
               </small>
             </label>
@@ -544,7 +549,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                 ))}
               </ul>
               <p className="du-printonly">
-                Subjects: {selectedList.map((s) => s.title).join(', ')}. Category: {category}.{score != null ? ` Score: ${formatScore(score)}.` : ''} Source: University of Delhi CSAS UG 2026 documents. Historical cutoffs do not predict a future allocation.
+                Subjects: {selectedList.map((s) => s.title).join(', ')}. Category: {category}.{score != null ? ` Score: ${formatScore(score)}.` : ''} Source: University of Delhi admissions 2026 documents. Historical cutoffs do not predict a future allocation.
               </p>
 
               {unlocks.length > 0 ? (

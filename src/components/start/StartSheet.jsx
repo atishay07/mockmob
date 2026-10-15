@@ -3,7 +3,7 @@
 // The Start sheet: start a session in two taps, from anywhere in the signed-in site.
 //
 // What it holds, top to bottom: the subject the sessions are for (the student's own subjects, with
-// their lit objects), the next move with its real reason (the same plan Today shows), then Quick 10,
+// their lit objects), the next move with its real reason (the same plan Today shows), then Quick practice,
 // Full mock, NTA mode and Choose your own. Every row prints its cost against the student's balance.
 // Nothing is spent here: a row opens Practice set up for that session, and Practice shows the exact
 // set and its cost again before Start.

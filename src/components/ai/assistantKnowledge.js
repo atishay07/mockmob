@@ -42,7 +42,7 @@ export const FEATURE_GUIDE = [
     key: 'compass',
     name: 'DU eligibility and cutoffs',
     route: '/admission-compass',
-    description: 'Checks your subjects against DU’s published 2026 eligibility rules and shows the 2026 Round I–III minimum allocation scores by category. Historical figures only: it does not predict admission or turn mock marks into a CUET score.',
+    description: 'Checks your subjects against DU’s published 2026 eligibility rules and shows the 2026 Round 1–III minimum allocation scores by category. Historical figures only: it does not predict admission or turn mock marks into a CUET score.',
     whenToUse: 'Use it to check which programmes your subject combination allows.',
     actionLabel: 'Open Compass',
   },
@@ -100,7 +100,7 @@ export function deterministicReplyFor({ text, pathname }) {
     const paused = CAPABILITIES.optionalAi.state !== 'available';
     return reply(
       paused
-        ? `${PREPOS_PAUSED_MESSAGE} Practice credits (for Quick Practice and Full Mock) are a separate balance and still work.`
+        ? `${PREPOS_PAUSED_MESSAGE} Practice credits (for Quick practice and Full mock) are a separate balance and still work.`
         : 'AI credits are separate from Practice credits.',
       'Wallet state comes from the server.',
       { label: 'See your AI credits', type: 'navigate', route: '/pricing/prepos' },

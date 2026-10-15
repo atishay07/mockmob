@@ -232,7 +232,7 @@ export default function ProfilePageClient() {
 
   return (
     <div className="student-page student-page--profile acct view">
-      <ArenaHead eyebrow="Account" title="Your corner of the Arena." lede="Your sheet, your plan and how MockMob looks and feels. Your practice history stays with your account." />
+      <ArenaHead eyebrow="Account" title="Your corner of the Arena." lede="Your CUET plan, your access and how MockMob looks and feels. Your practice history stays with your account." />
 
       <div className="acct-grid">
         <div className="acct-col">

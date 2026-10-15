@@ -13,7 +13,7 @@ import { compareToCutoff } from '@/../data/compass_projection';
 import { Listbox } from '@/components/ui/controls/Listbox';
 
 const SHORTLIST_LIMIT = 8;
-const ROUNDS = ['Round I', 'Round II', 'Round III'];
+const ROUNDS = ['Round 1', 'Round 2', 'Round 3'];
 const storeKey = (userId) => `mm.compass.shortlist.v1.${userId || 'anon'}`;
 
 function readShortlist(userId) {

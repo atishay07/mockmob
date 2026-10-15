@@ -5,7 +5,7 @@
 export const TEST_MODES = {
   quick: {
     id: 'quick',
-    label: 'Quick Practice',
+    label: 'Quick practice',
     blurb: 'Fast revision with flexible question counts.',
     badge: 'Free',
     premium: false,
@@ -22,7 +22,7 @@ export const TEST_MODES = {
   },
   smart: {
     id: 'smart',
-    label: 'Smart Practice',
+    label: 'Smart practice',
     blurb: 'Adaptive practice that targets your weak topics.',
     badge: 'Premium',
     premium: true,
@@ -43,7 +43,7 @@ export const TEST_MODES = {
   },
   full: {
     id: 'full',
-    label: 'Full Mock',
+    label: 'Full mock',
     blurb: 'Balanced full-length test — 50 questions, 60 minutes.',
     badge: 'Most Popular',
     premium: false,
@@ -59,7 +59,7 @@ export const TEST_MODES = {
   },
   nta: {
     id: 'nta',
-    label: 'NTA Mode',
+    label: 'NTA mode',
     blurb: 'Strict CUET exam simulation — 50 questions, 60 minutes.',
     badge: 'Premium',
     premium: true,
@@ -101,7 +101,7 @@ export function resolveCount(mode, requested) {
 }
 
 // Resolve total test duration in seconds.
-//   1. fixedDurationSec wins (Full Mock, NTA Mode)
+//   1. fixedDurationSec wins (Full mock, NTA mode)
 //   2. adaptiveDurationByDifficulty sums per-question seconds (Smart)
 //   3. otherwise count * durationPerQuestionSec (Quick + fallback)
 //

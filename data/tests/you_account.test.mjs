@@ -72,7 +72,7 @@ test('weekly goal: what the server says, what a save sends, and the words', () =
   // Changing the goal keeps a pause that is still ahead, and drops one that has ended.
   assert.deepEqual(goalSaveBody(5, '2026-10-20', now), { daysPerWeek: 5, pausedUntil: '2026-10-20' });
   assert.deepEqual(goalSaveBody(5, '2026-10-01', now), { daysPerWeek: 5, pausedUntil: null });
-  assert.match(goalPauseLine('2026-11-02', now), /^Rhythm is paused until 2 Nov\. Changing the goal keeps the pause\.$/);
+  assert.match(goalPauseLine('2026-11-02', now), /^Study days are paused until 2 Nov\. Changing the goal keeps the pause\.$/);
   assert.equal(goalPauseLine(null, now), null);
 
   assert.equal(goalSplitLine(4), '4 study days and 3 rest days.');

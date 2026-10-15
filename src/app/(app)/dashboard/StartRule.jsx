@@ -2,7 +2,7 @@
 // The rule for this mock on MockMob's own session card, before the clock starts (spec tmp/mistake-lab-v4/SPEC.md 4.12):
 // "Your rule for this mock: open every question once before you go deep on any." and "Last mock: 6 questions never
 // opened." Both sentences come finished from GET /api/me/playbook (data/rule_book.js startSheetLines). Shown only for a
-// Full mock or NTA Mode, on this page, before Start: nothing is added inside the timed paper, and the NTA screen itself
+// Full mock or NTA mode, on this page, before Start: nothing is added inside the timed paper, and the NTA screen itself
 // is untouched. A failed read shows nothing; the session starts exactly as before.
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';

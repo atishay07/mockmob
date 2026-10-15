@@ -83,7 +83,7 @@ export default function AnalyticsPageClient() {
           <h1 className="display-md">Where your marks are going</h1>
           <p>{totalAttempts} session{totalAttempts === 1 ? '' : 's'}, {totalQ} question{totalQ === 1 ? '' : 's'} answered.{data.scoring?.device > 0 ? ` Includes ${data.scoring.device} earlier attempt${data.scoring.device === 1 ? '' : 's'} scored in your browser before server scoring.` : ''}</p>
         </div>
-        <Link href="/mentor?tab=ask" className="rd-ask"><AppIcon name="prepos" size={18} />Ask PrepOS about your record</Link>
+        <Link href="/mentor?tab=ask" className="rd-ask"><AppIcon name="prepos" size={18} />Ask Mobi</Link>
       </header>
 
       <LearningNextAction compact />

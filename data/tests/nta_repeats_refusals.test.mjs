@@ -143,7 +143,7 @@ function refused(rows, options = {}) {
 test('no eligible question: the sentence names the dominant gate, and blames quality only when quality is it', () => {
   const unjudged = refused(makeBank('history', { copies: 1, fitFor: () => false }));
   assert.equal(unjudged.refusal.cause, 'fit_not_judged');
-  assert.match(unjudged.notice.summary, /^NTA mode is not ready for History yet: no question passes every check, and most have not yet been checked against the real CUET paper\. Try a Full Mock for History instead/);
+  assert.match(unjudged.notice.summary, /^NTA mode is not ready for History yet: no question passes every check, and most have not yet been checked against the real CUET paper\. Try a Full mock for History instead/);
   assert.doesNotMatch(unjudged.notice.summary, /quality score/);
 
   const lowFit = refused(makeBank('history', { copies: 1, fitFor: () => ({ score: 6 }) }));

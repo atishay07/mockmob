@@ -41,7 +41,7 @@ export default async function SubjectHubPage({ params }) {
       {
         heading: `Practise CUET ${hub.name} on MockMob`,
         body: [
-          `Take a timed set or a full 50-question mock, then let Radar show which ${hub.name} chapters cost you marks. Switch to NTA Mode when you want the exam-day screen.`,
+          `Take a timed set or a full 50-question mock, then let Radar show which ${hub.name} chapters cost you marks. Switch to NTA mode when you want the exam-day screen.`,
         ],
         links: [
           { href: '/signup', label: `Start a free ${hub.name} mock` },

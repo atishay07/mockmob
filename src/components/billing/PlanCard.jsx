@@ -50,7 +50,7 @@ export function PlanCard() {
               ? <>Pro renews every month{until ? <>. Paid through <strong>{fmt(until)}</strong></> : null}.</>
               : <>Pro access{until ? <> runs through <strong>{fmt(until)}</strong></> : null}. It does not renew, so there is nothing to cancel.</>}
           </p>
-          <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick Practice and Full Mock</span></div>
+          <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick practice and Full mock</span></div>
           {recurring && phase === 'idle' && <button type="button" className="plan-card__quiet" onClick={() => setPhase('confirm')}>Cancel renewal</button>}
           {recurring && phase === 'confirm' && (
             <div className="plan-card__confirm" role="group" aria-label="Confirm cancellation">
@@ -67,7 +67,7 @@ export function PlanCard() {
         </>
       ) : (
         <>
-          <p className="plan-card__lead">Free uses Practice credits: Quick Practice costs 10 and Full Mock costs 50.</p>
+          <p className="plan-card__lead">Free uses Practice credits: Quick practice costs 10 practice credits and Full mock costs 50.</p>
           <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} /></div>
           <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />See Pro</Link>
         </>
