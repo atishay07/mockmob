@@ -131,6 +131,10 @@ abstract final class ToolsCopy {
   static const openCombo = 'Open Combo Planner';
   static const planThisCourse = 'Find the papers for this course';
   static const noCutoffList = 'No CUET cutoff list published';
+  /// The caption over a cutoff bar; the figures stand under its two ends.
+  static String roundOneLabel(String category) => 'Round I, ${categoryWords(category)}';
+  static const addScore = 'Add your expected score';
+  static String openProgramme(String name) => 'Open $name';
   static String roundOneRange(String category, String low, String high) => 'Round I, ${categoryWords(category)}: $low to $high';
   static const verdictAbove = 'Above every Round I cutoff';
   static const verdictWithin = 'Within the Round I range';

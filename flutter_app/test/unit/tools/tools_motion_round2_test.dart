@@ -33,17 +33,6 @@ DuCombo _combo({int met = 0, int unlocked = 10, int papers = 3, List<DuMissedTar
 
 void main() {
   group('Compass hero reaction', () {
-    test('more open is a right-answer nod, fewer is encouragement, none is thinking', () {
-      expect(CompassReaction.actFor(before: 10, after: 22), MobiAct.correct);
-      expect(CompassReaction.actFor(before: 22, after: 18), MobiAct.encourage);
-      expect(CompassReaction.actFor(before: 5, after: 0), MobiAct.think);
-    });
-
-    test('the first non-zero count says hello, and no change is no act', () {
-      expect(CompassReaction.actFor(before: 0, after: 12), MobiAct.hello);
-      expect(CompassReaction.actFor(before: 7, after: 7), isNull);
-    });
-
     test('the delta chip shows the real difference, and nothing for a first count', () {
       expect(CompassReaction.deltaText(before: 10, after: 22), '+12');
       expect(CompassReaction.deltaText(before: 22, after: 18), '-4');

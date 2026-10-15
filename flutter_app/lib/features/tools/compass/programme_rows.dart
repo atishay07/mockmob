@@ -8,6 +8,7 @@ import '../domain/du_eligibility.dart';
 import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
 import '../widgets/tools_page.dart';
+import 'cutoff_bar.dart';
 
 /// The Round I verdict for a score, from the programme's effective cutoff range.
 (String, ToolTone)? roundOneVerdict(DuGroup group, String category, double? score) {
@@ -21,7 +22,7 @@ import '../widgets/tools_page.dart';
 /// One open programme: its name, how many colleges and the Round I range for the category, and,
 /// with a score, where the score sits in that range. Opens the programme.
 class ProgrammeRow extends StatelessWidget {
-  const ProgrammeRow({super.key, required this.verdict, required this.category, required this.score, required this.onTap, this.couldClear = false});
+  const ProgrammeRow({super.key, required this.verdict, required this.category, required this.score, required this.onTap, this.couldClear = false, this.bar = false});
 
   final DuVerdict verdict;
   final String category;
@@ -31,6 +32,10 @@ class ProgrammeRow extends StatelessWidget {
   /// The student's score meets the lowest cutoff of some round (the website's `couldClear`): a
   /// small volt dot springs in beside the name. False without a score.
   final bool couldClear;
+
+  /// The Round I range as a bar with the student's score pinned on it (the best options), instead
+  /// of a line of figures. The figures stay, under the bar's two ends.
+  final bool bar;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +71,10 @@ class ProgrammeRow extends StatelessWidget {
                   const SizedBox(height: MmSpace.s2),
                   Text(collegesLine, style: type.caption.copyWith(color: colors.ink2)),
                 ],
-                if (range != null) ...[
+                if (range != null && bar && r1?.low != null && r1?.high != null) ...[
+                  const SizedBox(height: MmSpace.s8),
+                  CutoffBar(category: category, low: r1!.low!, high: r1.high!, score: score),
+                ] else if (range != null) ...[
                   const SizedBox(height: MmSpace.s2),
                   Text(range, style: type.caption.copyWith(color: colors.ink2)),
                 ],
