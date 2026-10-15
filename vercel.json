@@ -8,10 +8,6 @@
     {
       "path": "/api/internal/refresh-inventory",
       "schedule": "30 21 * * *"
-    },
-    {
-      "path": "/api/internal/rebuild-nta-index",
-      "schedule": "0 22 * * *"
     }
   ]
 }

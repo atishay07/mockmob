@@ -860,6 +860,9 @@ export async function importOfflineQuestionBatch(options = {}) {
         importResults.failed.push({ candidate_id: candidate.candidate_id, error: result.error || 'publish_failed' });
       }
     }
+    // One rebuild of the subjects this import touched, now, not at the next throttled interval (data/nta_index.js).
+    const { flushNtaIndexRebuilds } = await import('../../../data/nta_index.js');
+    await flushNtaIndexRebuilds();
   }
 
   writeJson(join(dir, REPORT_FILE_NAMES.import), importResults);

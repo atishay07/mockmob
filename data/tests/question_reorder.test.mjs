@@ -388,6 +388,8 @@ test('--keep-live writes the text and leaves the state alone', async () => {
   const result = await apply(parseArgs(['--mode=apply', `--plan=${dry.planFile}`, '--reason=test', '--keep-live', `--out=${out}`]), { sb: db });
   assert.equal(result.written, 4);
   assert.ok(db.rows.every((r) => r.status === 'live' && r.verification_state === 'verified'));
+  // Text changed on live rows: the subjects are reported so main() rebuilds their NTA index rows.
+  assert.deepEqual(result.touchedSubjects, [...new Set(db.rows.map((r) => r.subject))]);
 });
 
 test('apply skips a row that changed after the dry run, is held, or is no longer live', async () => {
@@ -434,6 +436,7 @@ test('restore puts the original text and state back, and leaves a row someone ed
   db.rows[2].explanation = 'someone edited this afterwards';
   const result = await restore(parseArgs(['--mode=restore', `--restore=${applied.restoreFile}`]), { sb: db });
   assert.equal(result.restored, 3);
+  assert.deepEqual(result.touchedSubjects, [...new Set(db.rows.filter((r, i) => i !== 2).map((r) => r.subject))]);
   assert.deepEqual(result.skipped, [{ id: db.rows[2].id, why: 'edited_since_apply' }]);
   for (const row of db.rows.filter((r, i) => i !== 2)) {
     const original = rows.find((r) => r.id === row.id);
@@ -451,6 +454,7 @@ test('release keeps the rewritten text and puts only the saved state back', asyn
   Object.assign(db.rows[0], { status: 'live', verification_state: 'verified', exploration_state: 'active' }); // already released by hand
   const result = await release(parseArgs(['--mode=release', `--restore=${applied.restoreFile}`]), { sb: db });
   assert.equal(result.released, 3);
+  assert.ok(result.touchedSubjects.length >= 1);
   assert.deepEqual(result.skipped, [{ id: db.rows[0].id, why: 'not_in_the_hold_state' }]);
   assert.deepEqual(db.rows.map((r) => stemOf(r)), rewritten);
   assert.ok(db.rows.every((r) => r.status === 'live' && r.verification_state === 'verified' && r.exploration_state === 'active'));

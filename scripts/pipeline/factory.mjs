@@ -9,6 +9,7 @@ import { FactoryStore } from './lib/factoryStore.mjs';
 import { createFactoryTransport,BatchPending,responseJSON } from './lib/factoryTransport.mjs';
 import { sourceReadiness,registerSourcePack } from './lib/sourcePacks.mjs';
 import { authorCandidate,validateFactoryCandidate,repairFactoryCandidate,publishFactoryQuestion,publishFactoryGroup } from './lib/factoryCore.mjs';
+import { flushNtaIndexRebuilds } from '../../data/nta_index.js';
 import { lunaBody,FACTORY_VERIFIER_VERSION } from './lib/factoryEvidence.mjs';
 import { currentRegistry } from '../../data/evidence_registry.js';
 import { FACTORY_SUBJECTS,FACTORY_PILOT_TARGET,inventoryFingerprint,hashJSON,factoryCalibrationReady } from '../../data/question_factory_policy.mjs';
@@ -178,7 +179,7 @@ export async function runWorker({once=false}={}) {
       if(once || stopped)break;
       await new Promise(r=>setTimeout(r,30000));
     } while(!stopped);
-  } finally {clearInterval(heartbeat);await heartbeatInFlight;process.removeListener('SIGINT',stop);process.removeListener('SIGTERM',stop);store.release();ledger.close();}
+  } finally {clearInterval(heartbeat);await heartbeatInFlight;process.removeListener('SIGINT',stop);process.removeListener('SIGTERM',stop);store.release();ledger.close();await flushNtaIndexRebuilds();}
 }
 async function main() {
   try{loadEnvFile('.env.local');}catch{ /* supplied environment */ }

@@ -5,6 +5,7 @@ import { validateTraceability } from '../../../data/cuet_controls.js';
 import { publicationEligibility } from '../../../data/evidence_registry.js';
 import { randomUUID } from 'node:crypto';
 import { evidenceSignature } from '../../../data/content_evidence.js';
+import { noteNtaIndexPublish } from '../../../data/nta_index.js';
 
 const supabaseUrl = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -208,6 +209,8 @@ export async function publishQuestion(question, apiSecret, options = {}) {
       });
 
     console.log(`✅ Published ${qData.id} | status=live | difficulty=${difficulty} | discoverable=${!scoreError}`);
+    // The NTA index must not miss this question: note the subject; it is rebuilt at most once per interval (data/nta_index.js). Never throws.
+    await noteNtaIndexPublish(supabase, [questionInsert.subject]);
     return { success: true, id: qData.id };
   } catch (error) {
     console.error(`❌ Database publish error: ${error.message}`);

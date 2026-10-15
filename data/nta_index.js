@@ -1,14 +1,16 @@
 // Builds and refreshes nta_question_index (supabase/migrations/20261013190000_nta_question_index.sql).
-// Shared by the build script (scripts/nta-index-build.mjs), the authored-publish script (rebuilds the
-// subjects it just touched) and the daily cron (/api/internal/rebuild-nta-index, rebuilds only subjects whose
-// index is older than their newest live question). No 'server-only' import, so node:test can load it.
+// Shared by the build script (scripts/nta-index-build.mjs), every publish path (the authored-publish and
+// republish scripts rebuild the subjects they touched; the factory paths note a touch and rebuild at most once
+// per interval, see createNtaIndexTouchQueue) and the daily safety rebuild, which rides on the existing
+// /api/internal/refresh-inventory cron (vercel.json has no room for a cron of its own) and is also served by
+// /api/internal/rebuild-nta-index for a manual run. No 'server-only' import, so node:test can load it.
 //
 // A build reads ONE subject's live questions with their evidence (select only), keeps those whose signed
 // evidence passes the NTA score checks (data/nta_engine.js ntaScoreIntegrity), and writes one signed slim
 // row each. It writes only nta_question_index. The score bar is not applied here; the runtime does.
 import { CUET_PUBLIC_ALLOWED_SUBJECTS, toInternalSubjectId } from './cuet_controls.js';
 import { NTA_INDEX_VERSION, ntaScoreIntegrity, ntaScoreOf, signNtaIndex } from './nta_engine.js';
-import { loadNtaPoolFull, attachPassages } from './nta_pool.js';
+import { loadNtaPoolFull, loadNtaPoolFromIndex, attachPassages } from './nta_pool.js';
 import { contentHash } from './content_evidence.js';
 import { objectiveTagOf } from './nta_item_checks.js';
 import { assertFullBankRead } from './full_bank_guard.js';
@@ -76,11 +78,34 @@ export async function writeNtaIndexRows(db, subject, rows) {
   return { written, removed };
 }
 
-/** Builds and writes one subject. */
-export async function rebuildNtaIndexSubject(db, subject, { secret, now } = {}) {
+async function rebuildOnce(db, subject, { secret, now } = {}) {
   const built = await buildNtaIndexRows(db, subject, { secret, now });
   const { written, removed } = await writeNtaIndexRows(db, subject, built.rows);
   return { subject, loaded: built.pool.length, indexed: built.rows.length, rejected: built.rejected, written, removed, verifiedAt: built.verifiedAt };
+}
+
+// One rebuild per subject at a time in this process. A caller that arrives while one is running gets ONE
+// follow-up run, not the running one: the running build may have read the subject before the caller's change
+// landed. Any number of callers share the same follow-up. (Another process, say the cron and an owner's
+// script at the same moment, is safe too, only wasteful: the write is an upsert by question id and the prune
+// removes only rows that no longer verify, so two builds of the same bank write the same rows.)
+const flights = new Map(); // subject -> { current: Promise, next: Promise | null }
+
+function startFlight(db, subject, options) {
+  const flight = { next: null };
+  flight.current = rebuildOnce(db, subject, options).finally(() => {
+    if (flights.get(subject) === flight && !flight.next) flights.delete(subject);
+  });
+  flights.set(subject, flight);
+  return flight.current;
+}
+
+/** Builds and writes one subject. Safe to call twice at once (see above). */
+export function rebuildNtaIndexSubject(db, subject, options = {}) {
+  const flight = flights.get(subject);
+  if (!flight) return startFlight(db, subject, options);
+  if (!flight.next) flight.next = flight.current.then(() => {}, () => {}).then(() => startFlight(db, subject, options));
+  return flight.next;
 }
 
 /**
@@ -109,32 +134,158 @@ export async function rebuildNtaIndexForSubjects(db, subjects, { secret, now, lo
   return { status: failed ? 'failed' : skipped ? 'skipped' : 'rebuilt', subjects: results };
 }
 
+export const NTA_INDEX_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+
 /**
- * The daily cron: rebuild every subject whose index is older than its newest live question. Production only
- * (data/full_bank_guard.js; throws FullBankReadBlocked elsewhere before any read). Reads one subject at a time,
- * and only a stale one: a fresh subject costs a few small selects. A subject with no index rows is left
- * alone (nothing to go stale; the first build is the owner's step). Stops starting subjects after
- * deadlineMs, so a slow run leaves the rest for the pool's full-read fallback and the next day.
+ * Questions of the subject that are in the index but whose content is no longer the content that was scored
+ * (an edited stem, option or key). At runtime such a row is refused by the content-hash check, so the question
+ * quietly leaves NTA papers until the next rebuild. Reads what a student's NTA start reads on the index path
+ * (the index rows, the questions without evidence, about 0.3 MB, and the passage groups they point at),
+ * never the evidence column.
+ * Returns { checked, drifted: [question ids] }.
  */
-export async function refreshStaleNtaIndexes(db, { secret, env = process.env, log = console.warn, now = () => Date.now(), deadlineMs = 240000, subjects = NTA_INDEX_SUBJECTS, rebuild = rebuildNtaIndexSubject } = {}) {
+export async function ntaIndexDrift(db, subject) {
+  const read = await loadNtaPoolFromIndex(db, subject, { checkFresh: false });
+  if (!read) return { checked: 0, drifted: [] };
+  // The build hashed each question with its passage attached (data/nta_pool.js attachPassages), so compare the same way.
+  const rows = await attachPassages(db, read);
+  return { checked: rows.length, drifted: rows.filter((row) => row.nta_index.content_hash !== contentHash(row)).map((row) => row.id) };
+}
+
+/**
+ * The daily safety rebuild. Production only (data/full_bank_guard.js; throws FullBankReadBlocked elsewhere
+ * before any read). One subject at a time, reading as little as it can. A subject is rebuilt when
+ *  - newer_questions: a live question is newer than the index (two one-row selects to find out);
+ *  - content_changed: an indexed question's content no longer matches the row (a slim read, no evidence);
+ *  - max_age: its index is older than maxAgeMs (default 7 days: re-verifies evidence that expired, drops rows
+ *    that no longer verify, and picks up anything a path above did not report). Oldest first, so when a
+ *    deadline stops the run, the next day continues with the oldest.
+ * Otherwise the subject costs a few small selects and nothing is written, so running it twice in a row, or
+ * twice a day, changes nothing the second time (the result says "fresh"). A subject with no index rows is
+ * left alone (nothing to go stale; the first build is the owner's step). The run stops starting subjects after
+ * deadlineMs and leaves the rest to the pool's full-read fallback and the next day.
+ */
+export async function refreshStaleNtaIndexes(db, { secret, env = process.env, log = console.warn, now = () => Date.now(), deadlineMs = 240000, maxAgeMs = NTA_INDEX_MAX_AGE_MS, subjects = NTA_INDEX_SUBJECTS, rebuild = rebuildNtaIndexSubject, drift = ntaIndexDrift } = {}) {
   assertFullBankRead('the NTA index rebuild', { env, log });
   if (!secret) return { status: 'skipped', reason: 'no_signing_key', subjects: [] };
   const started = now();
   const results = [];
+  const due = [];
   for (const subject of subjects) {
-    if (now() - started > deadlineMs) { results.push({ subject, skipped: 'out_of_time' }); continue; }
     try {
       const { builtAt, tableMissing } = await ntaIndexBuiltAt(db, subject);
       if (tableMissing) return { status: 'skipped', reason: 'index_table_missing', subjects: [] };
-      if (builtAt === null) { results.push({ subject, skipped: 'never_built' }); continue; }
-      const freshness = await ntaIndexFreshness(db, subject, builtAt);
-      if (!freshness.stale) { results.push({ subject, skipped: 'fresh' }); continue; }
-      results.push({ ...(await rebuild(db, subject, { secret })), previouslyBuiltAt: freshness.builtAt, newestQuestionAt: freshness.newestAt });
+      if (builtAt === null) results.push({ subject, skipped: 'never_built' });
+      else due.push({ subject, builtAt });
     } catch (error) {
-      log(`[nta-index] cron rebuild of ${subject} failed: ${error?.message || error}`);
+      log(`[nta-index] daily check of ${subject} failed: ${error?.message || error}`);
+      results.push({ subject, error: String(error?.message || error) });
+    }
+  }
+  due.sort((a, b) => a.builtAt - b.builtAt);
+  for (const { subject, builtAt } of due) {
+    if (now() - started > deadlineMs) { results.push({ subject, skipped: 'out_of_time' }); continue; }
+    try {
+      let reason = null;
+      let detail = {};
+      if (now() - builtAt > maxAgeMs) {
+        reason = 'max_age';
+      } else {
+        const freshness = await ntaIndexFreshness(db, subject, builtAt);
+        if (freshness.stale) {
+          reason = 'newer_questions';
+          detail = { newestQuestionAt: freshness.newestAt };
+        } else {
+          const found = await drift(db, subject);
+          if (found.drifted.length) { reason = 'content_changed'; detail = { driftedQuestions: found.drifted.length }; }
+        }
+      }
+      if (!reason) { results.push({ subject, skipped: 'fresh' }); continue; }
+      results.push({ ...(await rebuild(db, subject, { secret })), reason, previouslyBuiltAt: new Date(builtAt).toISOString(), ...detail });
+    } catch (error) {
+      log(`[nta-index] daily rebuild of ${subject} failed: ${error?.message || error}`);
       results.push({ subject, error: String(error?.message || error) });
     }
   }
   const rebuilt = results.filter((result) => result.written !== undefined).length;
   return { status: results.some((result) => result.error) ? 'partial' : 'ok', rebuilt, subjects: results };
+}
+
+/** One line for the log: what the run did, per reason, and anything that failed. Counts only, no ids. */
+export function describeNtaIndexRun(result, { ms = null } = {}) {
+  const took = ms === null ? '' : ` in ${ms} ms`;
+  if (!result || result.status === 'skipped') return `[nta-index] daily refresh skipped${took}: ${result?.reason || 'unknown'}`;
+  const list = result.subjects || [];
+  const tally = (pick) => list.filter(pick);
+  const rebuilt = tally((entry) => entry.written !== undefined);
+  const parts = [
+    `rebuilt ${rebuilt.length}${rebuilt.length ? ` (${rebuilt.map((entry) => `${entry.subject} ${entry.reason || 'rebuilt'} ${entry.indexed} rows`).join(', ')})` : ''}`,
+    `fresh ${tally((entry) => entry.skipped === 'fresh').length}`,
+  ];
+  const never = tally((entry) => entry.skipped === 'never_built');
+  const late = tally((entry) => entry.skipped === 'out_of_time');
+  const failed = tally((entry) => entry.error);
+  if (never.length) parts.push(`never built ${never.length}`);
+  if (late.length) parts.push(`left for tomorrow ${late.length} (${late.map((entry) => entry.subject).join(', ')})`);
+  if (failed.length) parts.push(`FAILED ${failed.length} (${failed.map((entry) => `${entry.subject}: ${entry.error}`).join('; ')})`);
+  return `[nta-index] daily refresh ${result.status}${took}: ${parts.join(', ')}`;
+}
+
+/**
+ * Remembers which subjects a long-running publisher touched and rebuilds them at most once per minIntervalMs
+ * each, so a worker that publishes one question at a time does not re-read a subject (3-6 MB with evidence)
+ * for every question. touch() only records; flush() rebuilds what is due, or everything with { force: true }
+ * (call that at the end of a batch). A subject that could not be rebuilt stays pending and is retried at the
+ * next due flush; a missing key or table clears it (the pool falls back to the full read, the daily run
+ * covers the rest). Never throws. NTA_INDEX_REBUILD=off switches the default queue off.
+ */
+export function createNtaIndexTouchQueue({ getSecret = () => process.env.CUET_EVIDENCE_SIGNING_KEY, minIntervalMs = 30 * 60 * 1000, now = () => Date.now(), log = console.warn, rebuild = rebuildNtaIndexForSubjects, enabled = () => process.env.NTA_INDEX_REBUILD !== 'off' } = {}) {
+  const pending = new Map(); // subject -> the database the publish went to
+  const lastRun = new Map(); // subject -> ms
+  const run = async (force) => {
+    if (!enabled()) { pending.clear(); return { status: 'skipped', reason: 'disabled', subjects: [] }; }
+    const due = [...pending.keys()].filter((subject) => force || !lastRun.has(subject) || now() - lastRun.get(subject) >= minIntervalMs);
+    if (!due.length) return { status: 'nothing_to_do', subjects: [] };
+    const results = [];
+    const byDb = new Map();
+    for (const subject of due) byDb.set(pending.get(subject), [...(byDb.get(pending.get(subject)) || []), subject]);
+    for (const [db, list] of byDb) {
+      for (const subject of list) lastRun.set(subject, now());
+      let outcome;
+      try {
+        outcome = await rebuild(db, list, { secret: getSecret(), log });
+      } catch (error) {
+        outcome = { status: 'failed', subjects: list.map((subject) => ({ subject, error: String(error?.message || error) })) };
+      }
+      for (const entry of outcome.subjects || []) {
+        if (!entry.error) pending.delete(entry.subject);
+        results.push(entry);
+      }
+      if (outcome.status === 'skipped') for (const subject of list) pending.delete(subject);
+    }
+    return { status: results.some((entry) => entry.error) ? 'failed' : 'rebuilt', subjects: results };
+  };
+  return {
+    touch(db, subjects) {
+      for (const subject of subjects || []) {
+        const id = toInternalSubjectId(subject);
+        if (id && db) pending.set(id, db);
+      }
+    },
+    flush: ({ force = false } = {}) => run(force).catch((error) => { log(`[nta-index] flush failed: ${error?.message || error}`); return { status: 'failed', subjects: [] }; }),
+    pendingSubjects: () => [...pending.keys()],
+  };
+}
+
+const defaultQueue = createNtaIndexTouchQueue();
+
+/** After a publish that went to `db`: note the subjects and rebuild any that are due (throttled). Never throws. */
+export async function noteNtaIndexPublish(db, subjects) {
+  defaultQueue.touch(db, subjects);
+  return defaultQueue.flush();
+}
+
+/** At the end of a publishing batch: rebuild every noted subject now. Never throws. */
+export function flushNtaIndexRebuilds({ force = true } = {}) {
+  return defaultQueue.flush({ force });
 }
