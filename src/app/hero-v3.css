@@ -56,10 +56,11 @@
   font-variant-numeric: lining-nums;
 }
 
-/* Mobi stands on the headline's first line, in the space "CUET 2027" leaves at its right. The headline keeps
-   room above that line for his height, so he never covers a word. On wide screens the guide walks him to his
-   lane (PipGuide, brand-pip.css) and the headline needs no room. He has no caption: he is the character, not a
-   speech bubble (the seat's figcaption is empty and kept out of view). */
+/* Mobi, two seats, one on screen at a time. On phones and tablets (under 1100px) he stands on the headline's first
+   line, in the space "CUET 2027" leaves at its right; the headline keeps room above that line for his height, so he
+   never covers a word. From 1100px the headline needs no room: that seat steps out and he stands on the sample
+   card's top edge instead (see "Mobi on the sample card" below). He has no caption: he is the character, not a
+   speech bubble (a seat's figcaption is empty and kept out of view). */
 .mm.lp .lp-hero--v3 .lp-hero__head {
   --seat-w: 80px;
   --seat-h: 104px;
@@ -86,8 +87,9 @@
 @media (min-width: 761px) {
   .mm.lp .lp-hero--v3 .lp-hero__head { --seat-w: 112px; --seat-h: 146px; }
 }
-@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']) .mm.lp .lp-hero--v3 .lp-hero__head .lp-title { padding-top: 0; }
+@media (min-width: 1100px) {
+  .mm.lp .lp-hero--v3 .lp-hero__head .lp-title { padding-top: 0; }
+  .mm.lp .lp-hero--v3 .lp-hero__head .pip-seat { display: none; }
 }
 
 /* ---------- The typed line: how far down MockMob traces a mark ----------
@@ -241,7 +243,6 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--go { box-shadow: 0 var(--b
 .lp-live__text b { color: var(--ink-2); font-weight: 600; }
 /* The figure is set in the sentence's own face with tabular figures, not in the mono measure face. */
 .mm.lp .lp-hero--v3 .lp-live .mm-measure { font-family: inherit; font-size: inherit; letter-spacing: 0; text-transform: none; }
-.lp-live__num { display: inline-block; text-align: right; font-variant-numeric: tabular-nums; }
 .mm.lp .lp-hero--v3 .lp-live__dot {
   position: relative;
   display: inline-block;
@@ -282,9 +283,9 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-live__dot::after { background: 
 }
 
 /* ---------- The sample bay ---------- */
-/* No dot label in the hero: the sample's heading line is plain text (the live count's dot is the hero's only dot). */
-.mm.lp .lp-hero--v3 .lp-stage__live { display: none; }
-.mm.lp .lp-hero--v3 .lp-stage__path { flex-wrap: wrap; row-gap: 0.25rem; }
+/* The sample's heading line and the path under it are plain sentences: no dot, no rule between steps (the live
+   count's dot is the hero's only dot, and it sits beside a real number). */
+.mm.lp .lp-hero--v3 .lp-stage__path { text-align: center; text-wrap: balance; }
 .mm.lp .lp-hero--v3 .lp-stage .mm-drill--pick .mm-drill__q { margin-bottom: 0.4rem; }
 
 /* The subject picker: chips with the drill's tactile edge, dealt in one after another (transform only). */
@@ -377,6 +378,52 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-stage::before {
   font-family: var(--font-body); font-size: .8125rem; font-weight: 600; letter-spacing: 0; text-transform: none;
 }
 .mm.lp .lp-hero--v3 .lp-stage .mm-drill__score { font-variant-numeric: tabular-nums; }
+
+/* ---------- Mobi on the sample card (1100px and up) ----------
+   He stands on the card's top edge at its right end, feet planted on the border, in the space the card's heading
+   leaves empty (the heading's two lines sit at the left from 1100px). He is inside the card's wrapper, so he rides
+   with the card as it rises on scroll (hero-depth.css) and never sits over a word: the heading's text ends well
+   before him and the card's own bar is below his feet. No caption. Under 1100px this seat is not shown (the phone
+   seat in the headline is).
+   PipGuide (brand-pip.css) treats every visible seat with a station as a place to fly a copy of him to the right-hand
+   lane at the window's edge, so three things are held here: the seat keeps the place CSS gave it (the guide's inline
+   transform loses to !important), his own art stays drawn, and the guide's flying copy stays hidden while this is
+   the seat it is resting on. It carries him away to the lane for the later sections, as before. */
+.mm.lp .lp-hero--v3 .lp-stage__card > .pip-seat { display: none; }
+@media (min-width: 1100px) {
+  :root .mm.lp .lp-hero--v3 .lp-stage__card > .pip-seat[data-pip-station] {
+    --pip-blink: 1.1s;
+    position: absolute;
+    right: 1.25rem;
+    bottom: calc(100% - 4px);
+    z-index: 2;
+    display: block;
+    width: 104px;
+    margin: 0;
+    transform: none !important;
+  }
+  :root .mm.lp .lp-hero--v3 .lp-stage__card > .pip-seat[data-pip-station] .pip-seat__art { width: 104px; height: 136px; }
+  :root .mm.lp .lp-hero--v3 .lp-stage__card > .pip-seat[data-pip-station] .pip-seat__art > .pip-rig { opacity: 1; }
+  .mm.lp .lp-hero--v3 .lp-stage__card > .pip-seat figcaption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  html[data-pip-perch='hero-card'] .pip-guide-flyer { visibility: hidden; }
+  /* The heading's two lines sit together at the left and keep clear of him (his width and inset, plus a little air);
+     on the narrowest desktop card they stack instead of running under him. */
+  .mm.lp .lp-hero--v3 .lp-stage__heading { justify-content: flex-start; flex-wrap: wrap; gap: 0.15rem 1.25rem; padding-right: 8rem; }
+}
+/* He steps onto the card once, as the page opens (the same squash, hop and wave as his arrivals elsewhere,
+   brand-pip.css); reduced motion (either switch) gets him already standing there. */
+@media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mm.lp .lp-hero--v3 .lp-stage__card > .pip-seat .pip-rig {
+    animation: pip-arrive 880ms 500ms both, pip-wave 1300ms 1380ms backwards;
+  }
+}
 
 /* ---------- Reduced motion: the finished, still composition ---------- */
 @media (prefers-reduced-motion: reduce) {

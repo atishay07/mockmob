@@ -173,7 +173,6 @@ export function DemoDrill() {
     return (
       <div className="mm-screen mm-drill mm-drill--pick" ref={rootRef}>
         <div className="mm-screen__bar">
-          <span className="mm-screen__live" aria-hidden="true" />
           Step 1 of 2
           <span className="mm-drill__timer">{SAMPLE_SIZE} questions</span>
         </div>
@@ -211,7 +210,6 @@ export function DemoDrill() {
     return (
       <div className="mm-screen mm-drill" aria-live="polite" ref={rootRef}>
         <div className="mm-screen__bar">
-          <span className="mm-screen__live" aria-hidden="true" />
           {subjectName}: done
           <span className="mm-drill__timer">{set.length} / {set.length}</span>
         </div>
@@ -251,7 +249,6 @@ export function DemoDrill() {
           <div className="mm-drill__actions">
             <Link href="/signup" className="mm-btn mm-btn--onnight">
               Start free
-              <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
             </Link>
             <button type="button" className="mm-drill__replay" onClick={backToPicker}>
               Try another subject
@@ -265,7 +262,6 @@ export function DemoDrill() {
   return (
     <div className="mm-screen mm-drill" ref={rootRef}>
       <div className="mm-screen__bar">
-        <span className="mm-screen__live" aria-hidden="true" />
         {subjectName}
         <span className="mm-drill__progress" aria-label={`Question ${index + 1} of ${set.length}`}>
           {set.map((item, i) => (
@@ -328,7 +324,6 @@ export function DemoDrill() {
               </p>
               <button type="button" className="mm-btn mm-btn--onnight" onClick={next}>
                 {index + 1 >= set.length ? 'See your result' : 'Next question'}
-                <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
               </button>
             </>
           ) : (

@@ -153,10 +153,11 @@ export default function LandingPage() {
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             {/* Everything the reader needs is in the server HTML and visible at first paint: no entrance hides the
-                words or the keys. The headline carries the page: "CUET 2027" in volt as its first line, with Mobi
-                standing on it (on wide screens the guide walks him to his lane). The only things that move are the
-                typed line, which runs two rounds and rests, and the live count's dot, which reads inside its sentence
-                under the keys. Nothing labels the headline from above. */}
+                words or the keys. The headline carries the page: "CUET 2027" in volt as its first line. On phones and
+                tablets Mobi stands on it; on desktop (1100px and up) he stands on the sample card's top edge instead
+                (the second seat, in the card's wrapper) and the first seat steps out. The only things that move are
+                the typed line, which runs two rounds and rests, and the live count's dot, which reads inside its
+                sentence under the keys. Nothing labels the headline from above. */}
             <div className="lp-hero__copy">
               <div className="lp-hero__head">
                 <h1 className="lp-title">
@@ -180,11 +181,14 @@ export default function LandingPage() {
             </div>
 
             <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
-              <div className="lp-stage__heading"><span><span className="lp-stage__live" />Five questions in your subject</span><span>No sign-up needed</span></div>
+              <div className="lp-stage__heading"><span>Five questions in your subject</span><span>No sign-up needed</span></div>
               <div className="lp-stage__card">
+                {/* Desktop only (hero-v3.css): Mobi perched on the card's top edge, standing right of the heading line.
+                    No caption. The phone seat in the headline is the one phones and tablets show. */}
+                <MascotSeat station="hero-card" pose="greeting" className="pip-seat--card" />
                 <DemoDrill />
               </div>
-              <div className="lp-stage__path"><span>Pick a subject</span><i /><span>Answer</span><i /><span>Read why it’s right</span></div>
+              <p className="lp-stage__path">Pick a subject, answer, read why it’s right.</p>
             </div>
           </div>
 
