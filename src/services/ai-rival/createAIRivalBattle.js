@@ -155,7 +155,7 @@ export async function createAIRivalBattle({
         ok: false,
         error: allowance.error || 'credit_charge_failed',
         message: allowance.message
-          || (allowance.planRequired ? 'This Rival needs Pro.' : 'This premium Rival needs PrepOS credits before it can start. Your credits have not been used.'),
+          || (allowance.planRequired ? 'This Rival needs Pro.' : 'This premium Rival needs AI credits before it can start. Your AI credits have not been used.'),
         planRequired: Boolean(allowance.planRequired),
         balance: allowance.balance,
         required: allowance.required,

@@ -38,7 +38,7 @@ export const AI_CREDIT_PACKS = [
 ].map((pack) => Object.freeze({
   ...pack,
   status: aiCommerceOpen() ? 'live' : 'paused',
-  description: `${pack.credits} PrepOS credits that do not expire.`,
+  description: `${pack.credits} AI credits that do not expire.`,
 }));
 
 export function getAICreditPack(packKeyOrPlanId) {

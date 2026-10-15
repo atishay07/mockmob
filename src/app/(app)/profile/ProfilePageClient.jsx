@@ -17,6 +17,7 @@ import LookAndFeelCard from './LookAndFeelCard';
 import { lookMobiActive, lookMobiServer, subscribeLookMobi } from '@/components/profile/lookMobiStore';
 import YourSheet from '@/components/profile/YourSheet';
 import PlanCredits from '@/components/profile/PlanCredits';
+import CreditsSection from '@/components/profile/CreditsSection';
 import GoalControl from '@/components/profile/GoalControl';
 import AccountLinks from '@/components/profile/AccountLinks';
 import SignOutControl from '@/components/profile/SignOutControl';
@@ -277,6 +278,7 @@ export default function ProfilePageClient() {
 
         <div className="acct-col">
           <PlanCredits userId={user?.id} />
+          <CreditsSection userId={user?.id} />
           <div id="appearance" className="acct-anchor"><LookAndFeelCard /></div>
           <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
             <h2 className="acct-h2" id="acct-goal-h">Weekly goal</h2>

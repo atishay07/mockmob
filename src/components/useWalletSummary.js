@@ -1,5 +1,5 @@
 "use client";
-// Reads the PrepOS wallet once per signed-in account for the app shell. The cache is keyed
+// Reads the AI credits wallet once per signed-in account for the app shell. The cache is keyed
 // by account and marked stale, so a switch of accounts never shows the previous balance.
 import { useEffect, useState } from 'react';
 import { walletFromResponse } from '@/services/credits/aiWalletState';
@@ -15,7 +15,9 @@ function readCache(userId) {
   return null;
 }
 
-export function useWalletSummary(userId) {
+// reuseFresh: a screen that only reads the balance (a repair's cost line, a lesson's help line) takes a balance read in
+// the last five minutes as it is and does not ask the server again; the app shell's own read keeps refreshing.
+export function useWalletSummary(userId, { reuseFresh = false } = {}) {
   const [state, setState] = useState({ userId: null, wallet: null, status: 'idle' });
   useEffect(() => {
     if (!userId) return undefined;
@@ -23,6 +25,7 @@ export function useWalletSummary(userId) {
     const cached = readCache(userId);
     const timer = window.setTimeout(() => {
       if (cached) setState({ userId, wallet: cached, status: 'cached' });
+      if (cached && reuseFresh) return;
       fetch('/api/ai/credits', { cache: 'no-store' })
         .then(async (res) => {
           const body = await res.json().catch(() => null);
@@ -36,7 +39,7 @@ export function useWalletSummary(userId) {
         .catch(() => { if (alive) setState((prev) => ({ userId, wallet: prev.userId === userId ? prev.wallet : null, status: 'unavailable' })); });
     }, 0);
     return () => { alive = false; window.clearTimeout(timer); };
-  }, [userId]);
+  }, [userId, reuseFresh]);
   // Never expose another account's wallet while this account's read is in flight.
   return state.userId === userId ? state : { userId, wallet: null, status: 'idle' };
 }

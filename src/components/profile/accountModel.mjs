@@ -66,7 +66,7 @@ export function mocksSummary(attempts) {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Plan and credits: the PrepOS wallet line under the live plan card.
+// Plan and credits: the AI credits line under the live plan card.
 // Unknown is never shown as 0, and a paused or empty wallet says so in words.
 
 export const PREPOS_HREF = '/mentor';
@@ -80,13 +80,13 @@ export function walletLine(summary) {
   const wallet = summary?.wallet || null;
   if (wallet?.known && Number.isFinite(Number(wallet.total))) {
     const total = Math.max(0, Math.trunc(Number(wallet.total)));
-    let line = 'PrepOS credits left this month.';
-    if (wallet.state === 'paused') line = 'PrepOS is paused right now. Your credits are kept.';
-    else if (total === 0) line = 'No PrepOS credits left this month.';
+    let line = 'AI credits left this month.';
+    if (wallet.state === 'paused') line = 'AI features are paused right now. Your AI credits are kept.';
+    else if (total === 0) line = 'No AI credits left this month.';
     return { state: 'known', total, line };
   }
-  if (status === 'idle') return { state: 'loading', total: null, line: 'Checking your PrepOS credits.' };
-  return { state: 'unknown', total: null, line: 'Your PrepOS credits did not load. Nothing was spent.' };
+  if (status === 'idle') return { state: 'loading', total: null, line: 'Checking your AI credits.' };
+  return { state: 'unknown', total: null, line: 'Your AI credits did not load. Nothing was spent.' };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ export const HELP_ROWS = Object.freeze([
 export const THEME_NAME = Object.freeze({ dark: 'Night', light: 'Daylight', system: 'Match device' });
 
 /** The anchors a link to /profile#... may land on. Anything else is ignored. */
-export const ACCOUNT_ANCHORS = Object.freeze(['sheet', 'name', 'plan', 'appearance', 'goal', 'community', 'help', 'privacy', 'sign-in', 'delete']);
+export const ACCOUNT_ANCHORS = Object.freeze(['sheet', 'name', 'plan', 'credits', 'appearance', 'goal', 'community', 'help', 'privacy', 'sign-in', 'delete']);
 export function anchorFromHash(hash) {
   const id = String(hash || '').replace(/^#/, '').trim().toLowerCase();
   return ACCOUNT_ANCHORS.includes(id) ? id : null;

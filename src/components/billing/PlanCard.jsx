@@ -67,7 +67,7 @@ export function PlanCard() {
         </>
       ) : (
         <>
-          <p className="plan-card__lead">Free uses credits: Quick Practice costs 10 and Full Mock costs 50.</p>
+          <p className="plan-card__lead">Free uses Practice credits: Quick Practice costs 10 and Full Mock costs 50.</p>
           <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} /></div>
           <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />See Pro</Link>
         </>

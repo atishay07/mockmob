@@ -19,6 +19,7 @@ import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { useShrug } from '@/lib/mobiHooks';
 import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { useInsights } from './useInsights';
+import { POOL_USE, usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import { Listbox } from '@/components/ui/controls/Listbox';
 import './prepos.css';
 
@@ -34,7 +35,7 @@ const SECTIONS = [
   { id: 'plan', label: 'Next step' },
   { id: 'record', label: 'Your record' },
   { id: 'ask', label: 'Ask' },
-  { id: 'tools', label: 'Tools and wallet' },
+  { id: 'tools', label: 'Tools and AI credits' },
 ];
 const MINUTES = [10, 20, 30];
 
@@ -216,7 +217,7 @@ function PlanSection({ firstName, onNavigate, insightsState, onInspect, onAsk })
             </div>
           ) : null}
           <p className="text-xs leading-5 text-zinc-400">
-            This step comes from your server practice record. PrepOS does not keep a separate schedule, and no PrepOS credits are used to show it.
+            This step comes from your server practice record. PrepOS does not keep a separate schedule, and no AI credits are used to show it.
           </p>
         </div>
       ) : null}
@@ -289,8 +290,8 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
       pendingRef.current = null; // the server gave a definite answer
       setRetry(null);
       const response = res.ok ? normalizeResponse({...(data.response || data), runtimeState:data.runtimeState}) : {
-        reply: data.message || (res.status === 429 ? 'Too many questions in a short time. Wait a minute and try again.' : 'PrepOS could not answer just now. Check your wallet for the credit outcome.'),
-        origin:'status', actions: res.status === 402 ? [{ label: 'See your PrepOS wallet', type: 'navigate', route: '/pricing/prepos' }] : [{ label: 'Open Today', type: 'navigate', route: '/today' }],
+        reply: data.message || (res.status === 429 ? 'Too many questions in a short time. Wait a minute and try again.' : 'PrepOS could not answer just now. Check your AI credits for the outcome.'),
+        origin:'status', actions: res.status === 402 ? [{ label: 'See your AI credits', type: 'navigate', route: '/pricing/prepos' }] : [{ label: 'Open Today', type: 'navigate', route: '/today' }],
       };
       setMessages((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response }]);
       if (data.sessionId) setSessionId(data.sessionId);
@@ -305,9 +306,9 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
 
   return (
     <section className="pp-ask" aria-label="Ask PrepOS">
-      <div className="pp-ask__heading"><div><h2>Ask about your practice.</h2></div><span className="pp-ask__balance">{wallet?.known ? `${wallet.total} PrepOS credits` : wallet ? 'Wallet unavailable' : 'Reading wallet…'}</span></div>
-      <div className="pp-ask__switch" role="group" aria-label="Reply source"><button type="button" aria-pressed={kind==='record'} disabled={pending || Boolean(retry)} onClick={()=>setKind('record')}>Your record <small>Free</small></button><button type="button" aria-pressed={kind==='model'} disabled={pending || Boolean(retry)} onClick={()=>setKind('model')}>Written guidance <small>1 credit</small></button></div>
-      {kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? 'One optional model reply · 1 PrepOS credit' : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? 'No PrepOS credits available.' : 'Written guidance is unavailable until your wallet can be read.'}</b><p>{wallet?.state==='available' ? 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.' : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' ? <div className="pp-ask__focus"><span id="prepos-focus-label">Focus</span><Listbox id="prepos-focus" labelledBy="prepos-focus-label" sheetTitle="Focus" size="sm" value={mode} disabled={pending || Boolean(retry)} onChange={setMode} options={FOCUS_OPTIONS} /></div> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no PrepOS credits.</p>}
+      <div className="pp-ask__heading"><div><h2>Ask about your practice.</h2></div><span className="pp-ask__balance">{wallet?.known ? `${wallet.total} AI credits` : wallet ? 'AI credits unavailable' : 'Reading AI credits…'}</span></div>
+      <div className="pp-ask__switch" role="group" aria-label="Reply source"><button type="button" aria-pressed={kind==='record'} disabled={pending || Boolean(retry)} onClick={()=>setKind('record')}>Your record <small>Free</small></button><button type="button" aria-pressed={kind==='model'} disabled={pending || Boolean(retry)} onClick={()=>setKind('model')}>Written guidance <small>1 AI credit</small></button></div>
+      {kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? usesLine({ what: 'One written reply', cost: 1, pool: 'ai', balance: wallet.total }) : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? `You have no AI credits left. ${POOL_USE.ai}` : 'Written guidance is unavailable until your AI credits can be read.'}</b><p>{wallet?.state==='available' ? 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.' : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' ? <div className="pp-ask__focus"><span id="prepos-focus-label">Focus</span><Listbox id="prepos-focus" labelledBy="prepos-focus-label" sheetTitle="Focus" size="sm" value={mode} disabled={pending || Boolean(retry)} onChange={setMode} options={FOCUS_OPTIONS} /></div> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no AI credits.</p>}
       <div ref={transcriptRef} className="pp-transcript" aria-live="polite" aria-busy={pending}>
         {messages.length === 0 && <div className="pp-ask__empty"><p>Start with something your record can answer.</p><div className="pp-ask__suggestions">{['Where am I losing marks?', 'Which chapter should I practise?', 'Am I spending too long?'].map(text=><button type="button" key={text} onClick={()=>send(text)} disabled={kind==='model' && wallet?.state!=='available'}>{text}<Icon name="arrow" /></button>)}</div><small>{current.title}: {current.body}</small></div>}
         {messages.map((m) => m.role === 'user' ? (
@@ -316,7 +317,7 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
           <div key={m.id} className="pp-response" data-origin={m.response.origin}>
             <span className="pp-response__source">{m.response.origin==='model' ? 'PrepOS · model guidance' : m.response.origin==='record' ? 'From your record · no credits' : m.response.origin==='status' ? 'Service status' : 'Earlier reply · source not recorded'}</span>
             <p>{m.response.reply}</p>
-            {m.response.origin==='model' ? <small>{m.response.charged ? `${m.response.charged} PrepOS credit used` : 'Check the wallet for the final charge.'}</small> : null}
+            {m.response.origin==='model' ? <small>{m.response.charged ? usedLine({ cost: m.response.charged, pool: 'ai', balance: wallet?.known ? wallet.total : null }) : 'Check your AI credits for the final charge.'}</small> : null}
             {m.response.actions?.length ? (
               <div className="mt-2 flex flex-wrap gap-2">
                 {m.response.actions.slice(0, 2).map((a) => (
@@ -328,11 +329,11 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
         ))}
         {pending && <p className="text-sm text-zinc-400" role="status">PrepOS is reading your practice record…</p>}
       </div>
-      {retry ? <div className="pp-ask__service" role="alert"><b>The reply outcome could not be confirmed.</b><p>Retry the same request to avoid a second charge. Your wallet remains the authority for any credit used.</p><button type="button" className="btn-outline sm" disabled={pending} onClick={()=>send(retry.message,true)}>Retry this question</button></div> : null}
+      {retry ? <div className="pp-ask__service" role="alert"><b>The reply outcome could not be confirmed.</b><p>Retry the same request to avoid a second charge. Your AI credits page is the record of any credit used.</p><button type="button" className="btn-outline sm" disabled={pending} onClick={()=>send(retry.message,true)}>Retry this question</button></div> : null}
       <form className="pp-composer" onSubmit={(event) => { event.preventDefault(); send(); }}>
         <label htmlFor="prepos-input" className="sr-only">Ask PrepOS</label>
         <textarea id="prepos-input" value={input} maxLength={1500} rows={2} disabled={pending || Boolean(retry) || (kind==='model' && wallet?.state!=='available')} onChange={(event) => setInput(event.target.value)} placeholder={kind==='record' ? 'What does my record show?' : 'What would you like to reason through?'} />
-        <div><span>{kind==='record' ? 'Free · recorded facts' : '1 PrepOS credit · optional guidance'}</span><button type="submit" className="btn-volt sm" disabled={pending || Boolean(retry) || !input.trim() || (kind==='model' && wallet?.state!=='available')}>{pending ? 'Reading…' : kind==='record' ? 'Ask your record' : 'Ask · 1 credit'}</button></div>
+        <div><span>{kind==='record' ? 'Free, from your recorded facts' : 'Uses 1 AI credit'}</span><button type="submit" className="btn-volt sm" disabled={pending || Boolean(retry) || !input.trim() || (kind==='model' && wallet?.state!=='available')}>{pending ? 'Reading…' : kind==='record' ? 'Ask your record' : 'Ask, 1 AI credit'}</button></div>
       </form>
     </section>
   );
@@ -356,14 +357,14 @@ function ToolsSection({ onNavigate }) {
   }, []);
 
   return (
-    <section className="grid gap-5" aria-label="Tools and wallet">
+    <section className="grid gap-5" aria-label="Tools and AI credits">
       <div className="grid gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4" role="status" aria-live="polite">
         <div className="flex items-center justify-between gap-3">
-          <div className="font-display text-base font-bold text-zinc-50">PrepOS wallet</div>
+          <div className="font-display text-base font-bold text-zinc-50">AI credits</div>
           {wallet?.known ? <CreditAmount kind="prepos" amount={wallet.total} unit={false} /> : null}
         </div>
         {!wallet ? (
-          <p className="text-sm text-zinc-400">Reading your wallet…</p>
+          <p className="text-sm text-zinc-400">Reading your AI credits…</p>
         ) : (
           <>
             {wallet.message ? <p className="text-sm text-zinc-200">{wallet.message}</p> : null}
@@ -371,7 +372,7 @@ function ToolsSection({ onNavigate }) {
               <>
                 <div className="pp-meter">
                   <div className="pp-meter__row"><span>Included this month</span><b>{wallet.includedRemaining} of {wallet.includedMonthlyCredits} left</b></div>
-                  <meter min={0} max={Math.max(1, wallet.includedMonthlyCredits)} value={wallet.includedRemaining} aria-label={`Included PrepOS credits left this month: ${wallet.includedRemaining} of ${wallet.includedMonthlyCredits}`} />
+                  <meter min={0} max={Math.max(1, wallet.includedMonthlyCredits)} value={wallet.includedRemaining} aria-label={`Included AI credits left this month: ${wallet.includedRemaining} of ${wallet.includedMonthlyCredits}`} />
                   {wallet.resetAt ? <small>Resets {new Date(wallet.resetAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long' })}. Unused included credits do not carry over.</small> : null}
                 </div>
                 <dl className="grid grid-cols-2 gap-2 text-center">
@@ -383,7 +384,7 @@ function ToolsSection({ onNavigate }) {
             <p className="text-xs leading-5 text-zinc-400">
               {wallet.state === 'paused'
                 ? 'New top-ups are paused. Purchased credits are preserved and do not expire.'
-                : 'PrepOS credits are separate from practice credits.'}
+                : 'AI credits are separate from Practice credits.'}
               {practice ? ` ${practice.label}: ${practice.balance}.` : ''}
             </p>
           </>
@@ -392,8 +393,8 @@ function ToolsSection({ onNavigate }) {
 
       <div className="pp-rules">
         <div><b>Free, no credits</b><span>Your marks ledger, top chapters, weekly summary, answers about your marks, the next step, DU eligibility and cutoffs. Pro adds every ranked chapter, pace and changed-answer detail.</span></div>
-        <div><b>Costs 1 PrepOS credit</b><span>An optional written reply that goes beyond your record. A reply that fails costs nothing; the credit returns automatically.</span></div>
-        <div><b>Your allowance</b><span>10 credits a month on Free, 50 on Pro. Separate from practice credits.</span></div>
+        <div><b>Costs 1 AI credit</b><span>An optional written reply that goes beyond your record. A reply that fails costs nothing; the credit returns automatically.</span></div>
+        <div><b>Your allowance</b><span>10 AI credits a month on Free, 50 on Pro. Separate from Practice credits.</span></div>
       </div>
 
       <div className="grid gap-2">

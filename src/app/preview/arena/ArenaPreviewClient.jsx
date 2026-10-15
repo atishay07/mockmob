@@ -312,7 +312,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (kind === 'malformed') return json({ ok: true, status: 'unexpected' });
       if (kind === 'released') return json({ ok: false, error: 'operation_released', message: 'Illustrative: that request was released. Nothing was charged. Try again.' }, 409);
       if (kind === 'pending') return json({ ok: false, error: 'in_progress', message: 'Illustrative: this repair is still being prepared. Nothing extra is charged.' }, 409);
-      if (kind === 'insufficient') return json({ ok: false, error: 'insufficient_ai_credits', balance: 0, message: 'Mistake Repair uses 1 PrepOS credit and you have 0 left this month. The stored explanation and fresh practice are still free.' }, 402);
+      if (kind === 'insufficient') return json({ ok: false, error: 'insufficient_ai_credits', balance: 0, message: 'This repair uses 1 AI credit. You have 0. The stored explanation and fresh practice are still free.' }, 402);
       if (kind === 'fail') return json({ ok: false, error: 'unusable_output', charged: 0, message: 'The repair could not be prepared reliably this time. You were not charged.' }, 502);
       return json({ ok: true, status: kind === 'stored' ? 'stored' : 'explained', charged: kind === 'stored' ? 0 : 1, wallet: { total: 67, state: 'available' }, ...base, repair: {
         why_tempting: 'Illustrative: the old ratio is the first ratio you see, and it is right in the most common textbook case, so it feels safe.',

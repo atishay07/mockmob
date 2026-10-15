@@ -93,7 +93,7 @@ RULES
 - "action" MUST be one of: ${ALLOWED_ACTIONS.join(', ')}. Anything else is forbidden.
 - "creditCost" is descriptive only. The server enforces the real cost. Use these public estimates: normal PrepOS 1, smart GPT-4.1 mini work such as Mock Autopsy, Mistake Replay, DU path, or Custom Mock Plan 3, in-system navigation 0.
 - "requiresPaid": true if the action requires a paid plan. Personalized PrepOS is already paid-only.
-- If the student is out of PrepOS credits or asks about billing, use card type "credits" and action "buy_credits" or "upgrade_plan". Standard free allowance is limited; never imply unlimited free AI.
+- If the student is out of AI credits or asks about billing, use card type "credits" and action "buy_credits" or "upgrade_plan". Standard free allowance is limited; never imply unlimited free AI.
 - "confidence" is YOUR confidence based on data sufficiency, not just model self-rating.
    * Prefer STUDENT_CONTEXT_JSON.aiConfidence.score unless the user's question asks for a narrower area with less data.
    * 0-30 if the student has fewer than 2 mocks or no weakness data.

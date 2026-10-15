@@ -9,7 +9,9 @@
 //      separately by the runtime guard, under the same stable key)
 //   4. usable reply       -> commit the student credits
 //      anything else      -> release them. A failed request never costs the student a credit.
-export const PREPOS_PAUSED_MESSAGE = 'PrepOS paid features are temporarily unavailable. Your credits have not been used.';
+import { usesLine } from '../../lib/creditCopy.mjs';
+
+export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your AI credits have not been used.';
 const REQUEST_ID = /^[A-Za-z0-9_-]{16,64}$/;
 
 export function operationKeyFor(userId, requestId) {
@@ -34,7 +36,7 @@ export async function runModelReply({
   }
   if (!reserved.ok) {
     if (reserved.error === 'insufficient_ai_credits') {
-      return done(402, { status: 'blocked', error: reserved.error, balance: reserved.balance ?? 0, required: creditCost, message: `You need ${creditCost} PrepOS credit for a reply and have ${reserved.balance ?? 0}. Questions about your own record are free.`, charged: 0 });
+      return done(402, { status: 'blocked', error: reserved.error, balance: reserved.balance ?? 0, required: creditCost, message: `${usesLine({ what: 'This reply', cost: creditCost, pool: 'ai', balance: reserved.balance ?? 0 })} Questions about your own record are free.`, charged: 0 });
     }
     if (reserved.error === 'operation_released') {
       return done(409, { status: 'resend', error: reserved.error, message: 'That attempt did not go through and nothing was charged. Send it again.', charged: 0 });

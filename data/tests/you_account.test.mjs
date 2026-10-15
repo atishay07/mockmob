@@ -45,14 +45,14 @@ test('mocks at a glance never invent a zero average', () => {
   assert.deepEqual(mocksSummary([{ score: undefined }]), { count: 1, average: null });
 });
 
-test('the PrepOS line: loading, unknown and known are three different things', () => {
+test('the AI credits line: loading, unknown and known are three different things', () => {
   assert.equal(walletLine({ status: 'idle', wallet: null }).state, 'loading');
   const unknown = walletLine({ status: 'unavailable', wallet: { known: false, total: null } });
   assert.equal(unknown.state, 'unknown');
   assert.equal(unknown.total, null);
   assert.match(unknown.line, /did not load/);
-  assert.deepEqual(walletLine({ status: 'fresh', wallet: { known: true, total: 9, state: 'available' } }), { state: 'known', total: 9, line: 'PrepOS credits left this month.' });
-  assert.equal(walletLine({ status: 'fresh', wallet: { known: true, total: 0, state: 'empty' } }).line, 'No PrepOS credits left this month.');
+  assert.deepEqual(walletLine({ status: 'fresh', wallet: { known: true, total: 9, state: 'available' } }), { state: 'known', total: 9, line: 'AI credits left this month.' });
+  assert.equal(walletLine({ status: 'fresh', wallet: { known: true, total: 0, state: 'empty' } }).line, 'No AI credits left this month.');
   assert.match(walletLine({ status: 'cached', wallet: { known: true, total: 4, state: 'paused' } }).line, /paused/);
 });
 
@@ -108,7 +108,7 @@ test('anchors: a link to /profile#... lands only on a section that exists', () =
   assert.equal(anchorFromHash(''), null);
   const sources = [
     'src/app/(app)/profile/ProfilePageClient.jsx', 'src/components/profile/YourSheet.jsx',
-    'src/components/profile/PlanCredits.jsx', 'src/components/profile/AccountLinks.jsx',
+    'src/components/profile/PlanCredits.jsx', 'src/components/profile/CreditsSection.jsx', 'src/components/profile/AccountLinks.jsx',
   ].map(read).join('\n');
   for (const id of ACCOUNT_ANCHORS) assert.ok(sources.includes(`id="${id}"`), `#${id} exists on the page`);
 });
