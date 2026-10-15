@@ -1,4 +1,5 @@
 import '../../../core/models/models.dart';
+import 'time_decisions.dart';
 
 enum Verdict { correct, wrong, blank, held }
 
@@ -14,6 +15,7 @@ class AnswerItem {
     this.changed = false,
     this.repaired = false,
     this.repairable = false,
+    this.timeLines = const [],
   });
 
   /// 1-based paper position.
@@ -34,6 +36,10 @@ class AnswerItem {
 
   /// A wrong answer that Mistake Repair can take.
   final bool repairable;
+
+  /// "Your time and picks" for this question (time against the paper's pace, every pick with its
+  /// clock time, the marks effect of the changes), from [buildTimeDecisions]. Empty without a record.
+  final List<String> timeLines;
 
   String get qid => question.id;
 }
@@ -58,6 +64,7 @@ AnswerGroups buildAnswerGroups(
   AttemptDetail? detail,
   Set<String> repairedIds = const {},
   Set<String> candidateIds = const {},
+  TimeDecisions? time,
 }) {
   final changes = attempt.selectionMeta.recovery?.isUsable == true
       ? attempt.selectionMeta.recovery!.answerChangeQids.toSet()
@@ -84,6 +91,7 @@ AnswerGroups buildAnswerGroups(
       changed: changes.contains(q.id),
       repaired: repairedIds.contains(q.id),
       repairable: candidateIds.contains(q.id),
+      timeLines: time != null && time.isReady ? (time.rowFor(q.id)?.lines ?? const []) : const [],
     );
     switch (verdict) {
       case Verdict.wrong:

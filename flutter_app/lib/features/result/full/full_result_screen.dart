@@ -17,12 +17,14 @@ import '../copy.dart';
 import '../data/result_providers.dart';
 import '../model/answer_items.dart';
 import '../model/recap_variant.dart' show recapReaction;
+import '../model/time_decisions.dart';
 import '../recap/recap_flow.dart' show RecapPlaceholder;
 import '../widgets/answer_reactor.dart';
 import '../widgets/evidence_link.dart';
 import 'full_sections.dart';
 import 'summary_section.dart';
 import 'swot_section.dart';
+import 'time_section.dart';
 
 /// `/result/:attemptId` (spec 5.7): the complete, readable result without the ritual. Reopening
 /// an old result always lands here, never on the seal. [focusQuestion] opens one answer (the
@@ -170,6 +172,20 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
     if (model == null || attempt == null) {
       body = RecapPlaceholder(data: data, attemptId: id, page: true, onRetry: () => retryRecapData(ref, id));
     } else {
+      // Time and decisions: read once the detail (and so every answer review) is known, because the
+      // marks effect of a change leaves held and corrected questions out.
+      final detail = data.detail;
+      final questionById = {for (final q in attempt.questions) q.id: q};
+      final timeRead = detail == null
+          ? null
+          : buildTimeDecisions(
+              attempt,
+              answerReviews: {for (final e in detail.answerReviews.entries) e.key: e.value.state},
+              letterOf: (qid, i) {
+                final options = questionById[qid]?.options ?? const [];
+                return i >= 0 && i < options.length ? options[i].key : String.fromCharCode(65 + i);
+              },
+            );
       final groups = buildAnswerGroups(
         attempt,
         detail: data.detail,
@@ -178,6 +194,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
             if (r.attemptId == id && r.isRepaired && r.isAcknowledged) r.questionId,
         },
         candidateIds: {for (final c in model.candidates) c.questionId},
+        time: timeRead,
       );
       _seed(groups);
       _groups = groups;
@@ -252,6 +269,9 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 SwotSection(attemptId: id, swot: swot, onOpenQuestion: _openFromMap),
               ],
               if (!model.isHeld) ...[const SizedBox(height: MmRhythm.section), item(whereSection(context, model, onOpenQuestion: _openFromMap))],
+              // How the paper's time and answer choices went, then the first fix and every answer. Only
+              // with a usable record: a paper without one shows no section rather than a "not recorded" line.
+              if (timeRead != null && timeRead.isReady) ...[const SizedBox(height: MmRhythm.section), item(TimeSection(read: timeRead, onOpenQuestion: _openFromMap))],
               if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
               const SizedBox(height: MmRhythm.section),
               item(

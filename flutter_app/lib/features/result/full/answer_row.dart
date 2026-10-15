@@ -6,6 +6,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/answer_items.dart';
+import '../model/time_decisions.dart' show TimeCopy;
 
 /// One answer of the full result: a collapsed header (bubble, number, verdict in words, chapter)
 /// that opens to the question, the options with the student's choice and, only where the key rule
@@ -180,7 +181,23 @@ class _Body extends StatelessWidget {
           const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.didNotAnswer, style: type.small.copyWith(color: colors.ink2)),
         ],
-        if (item.changed) ...[
+        // This question's own time and picks (the same words as the website). Without a record, the
+        // plain "answer changed" line stays.
+        if (item.timeLines.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s12),
+          MmSurface.inset(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(TimeCopy.rowLabel, style: type.label.copyWith(color: colors.ink3)),
+                for (final line in item.timeLines) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  Text(line, style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
+                ],
+              ],
+            ),
+          ),
+        ] else if (item.changed) ...[
           const SizedBox(height: MmSpace.s8),
           Text(ResultCopy.changedAnswer, style: type.small.copyWith(color: colors.ink2)),
         ],
