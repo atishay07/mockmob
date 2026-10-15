@@ -106,20 +106,28 @@ function withTimeout(promise, ms) {
  * first, then by email (older rows). Two first requests at once (the callback page and the
  * AuthProvider both call /api/auth/me) can both try to create the row; the loser reads the
  * winner's row instead of failing.
+ *
+ * onCreated (optional) runs once, only for the request whose insert created the row (not for the loser of
+ * the race, not for an older row found by email). It is given nothing, so it cannot see who signed up,
+ * and a failure in it is ignored: it must never change the sign-in result.
  */
-export async function ensureDbUser(identity, db) {
+export async function ensureDbUser(identity, db, { onCreated } = {}) {
   if (!identity?.email) return null;
 
   let dbUser = (identity.id ? await db.getUserById(identity.id) : null) || await db.getUserByEmail(identity.email);
   if (!dbUser) {
     try {
-      return await db.createUser({
+      const created = await db.createUser({
         id: identity.id,
         name: identity.name || identity.email.split('@')[0],
         email: identity.email,
         image: identity.image || null,
         subjects: [],
       });
+      if (typeof onCreated === 'function') {
+        try { await onCreated(); } catch { /* counting is never allowed to break sign-in */ }
+      }
+      return created;
     } catch (error) {
       if (String(error?.code) !== UNIQUE_VIOLATION) throw error;
       dbUser = (identity.id ? await db.getUserById(identity.id) : null) || await db.getUserByEmail(identity.email);
