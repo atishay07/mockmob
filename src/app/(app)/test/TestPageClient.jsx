@@ -563,9 +563,16 @@ function TestRunner() {
     setSubmitting(true);
     setMobilePaletteOpen(false);
     // How the paper ended is its last event. A retry adds no second end unless something happened after the first.
-    const last = eventsRef.current.at(-1);
-    const endedBy = last?.type === 'end' ? last.reason : endReason(eventsRef.current, reason);
-    if (last?.type !== 'end') recordEvent(onScreenQid(eventsRef.current, questionsRef.current[idxRef.current]?.id), 'end', endedBy);
+    // Capture is data only and runs before the submit's own error handling, so it may never throw here: a throw would
+    // leave the paper marked as submitting with nothing sent.
+    let endedBy = null;
+    try {
+      const last = eventsRef.current.at(-1);
+      endedBy = last?.type === 'end' ? last.reason : endReason(eventsRef.current, reason);
+      if (last?.type !== 'end') recordEvent(onScreenQid(eventsRef.current, questionsRef.current[idxRef.current]?.id), 'end', endedBy);
+    } catch {
+      // The submit goes ahead without the end event; the server stores no end and the Lab says "at least".
+    }
 
     try {
       const data = await apiPost('/api/attempts', {

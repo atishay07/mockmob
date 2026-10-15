@@ -194,3 +194,33 @@ test('a submit closes the last question: its time is no longer "at least" and sa
   const nta = buildTimeDecisions(paper([...base(), e('q2', 40 * S, 'away'), e('q2', 55 * S, 'end', { reason: 'nta_strikes' })]));
   assert.deepEqual(nta.rows[1].lines.slice(-2), ['Away from the paper for 15s while this question was open. Not counted.', 'Your answers were submitted at 0:55, after the third warning, with this question open.']);
 });
+
+test('a mark or a strike on another question of a passage page never moves time off the question on screen', () => {
+  // The web runner shows a passage set on one page: one visit for the set, and a mark or a strike names the
+  // sub-question it was made on. The time stays with the question the last visit or answer named, so the Replay's
+  // bars, Time and decisions and the time away all describe the same span.
+  seq = 0;
+  const t = readTrace(paper([
+    e('q1', 0, 'visit'), e('q1', 30 * S, 'answer', { answer: 0 }), e('q3', 40 * S, 'mark', { marked: true }),
+    e('q3', 45 * S, 'strike', { option: 1, on: true }), e('q3', 50 * S, 'away'), e('q3', 70 * S, 'back'),
+    e('q2', 90 * S, 'answer', { answer: 1 }), e('q2', 100 * S, 'end', { reason: 'submit' }),
+  ]).selectionMeta.recovery);
+  assert.equal(t.dwell.get('q1'), 70 * S); // 0 to 90, less 20 s away
+  assert.equal(t.dwell.has('q3'), false);
+  assert.deepEqual(t.awaySpans, [{ qid: 'q1', from: 50 * S, to: 70 * S }]);
+  const onScreen = new Map();
+  for (const s of t.spans) onScreen.set(s.qid, (onScreen.get(s.qid) || 0) + (s.to - s.from));
+  for (const a of t.awaySpans) onScreen.set(a.qid, onScreen.get(a.qid) - (a.to - a.from));
+  for (const [qid, ms] of onScreen) assert.equal(t.dwell.get(qid) || 0, ms, qid);
+  assert.deepEqual(questionTraceLines(t, 'q3'), ['You crossed out B at 0:45.', 'You marked it for review at 0:40. It was still marked when you submitted.']);
+  assert.deepEqual(questionTraceLines(t, 'q1'), ['Away from the paper for 20s while this question was open. Not counted.']);
+});
+
+test('time away under half a second is not counted and gets no words (the third NTA warning submits at once)', () => {
+  seq = 0;
+  const a = paper([e('q1', 0, 'visit'), e('q1', 10 * S, 'answer', { answer: 0 }), e('q1', 20 * S, 'away'), e('q1', 20 * S + 200, 'end', { reason: 'nta_strikes' })]);
+  const t = paperTrace(a);
+  assert.equal(t.dwell.get('q1'), 20 * S);
+  assert.equal(t.awaySpans.length, 1);
+  assert.deepEqual(questionTraceLines(t, 'q1'), ['Your answers were submitted at 0:20, after the third warning, with this question open.']);
+});

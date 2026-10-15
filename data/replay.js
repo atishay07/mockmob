@@ -14,7 +14,7 @@
 // result is the question's final result: right, wrong, blank, or held (under re-check or corrected).
 // Even pace is the paper's own time a question (NTA: 60 minutes for 50, so 72 s). It is a reference line, never a target.
 import COPY from './mistake_lab.copy.json' with { type: 'json' };
-import { answersAt, clockLabel, fill, sec, spentLabel } from './paper_trace.js';
+import { answersAt, clockLabel, fill, sec, shownAway, spentLabel } from './paper_trace.js';
 
 export const REPLAY_VERSION = 1;
 export const REPLAY_RULES = Object.freeze({
@@ -52,7 +52,7 @@ export function buildReplay({ trace, questions, resultOf, groupCounts = {}, pace
     const marks = (trace.marksByQid.get(span.qid) || []).filter((m) => m.marked && m.at >= span.from && m.at <= span.to);
     // Time away, and on old records a break of over 30 minutes: both are gaps in the bar, never time on the question.
     const away = [
-      ...(trace.awayByQid.get(span.qid) || []).map((a) => ({ ...a, copy: R.away })),
+      ...shownAway(trace.awayByQid.get(span.qid)).map((a) => ({ ...a, copy: R.away })),
       ...(trace.breakSpans || []).filter((b) => b.qid === span.qid).map((b) => ({ ...b, copy: R.gap })),
     ].filter((a) => a.from >= span.from && a.from <= span.to).sort((x, y) => x.from - y.from);
     return { ...span, index, steps, marks, away };

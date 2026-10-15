@@ -12,8 +12,9 @@
 //   recovery.end        {seq, qid, at, reason}                how the record ended, only when it was the last event
 //
 // The time rule, one for everyone:
-//   1. The interval from one event to the next is credited to the question the earlier event names (the question on
-//      screen). Every event type counts as a boundary; none of them changes which question is on screen.
+//   1. The interval from one event to the next is credited to the question on screen: the one the last visit or answer
+//      named. Every event type counts as a boundary; none of the others changes which question is on screen, so a mark
+//      or a strike on another question of a passage page never moves time off the question the Replay shows open.
 //   2. Time away from the paper is not counted: from an away to the next event of any kind (a back, or anything the
 //      student did once they were back). A back with no open away, or a second away, changes nothing.
 //   3. With an end event, the last question runs to the end. Without one, the time after the last event is unknown,
@@ -122,8 +123,9 @@ export function readTrace(input) {
       }
       visitIndex.set(e, spans.length - 1);
     }
+    const owner = onScreen ?? e.qid; // rule 1: equal to e.qid for a visit or an answer
     if (e.type === 'away') {
-      if (!awayOpen) awayOpen = { qid: e.qid, from: e.at };
+      if (!awayOpen) awayOpen = { qid: owner, from: e.at };
     } else if (awayOpen) {
       const span = { qid: awayOpen.qid, from: awayOpen.from, to: e.at };
       awaySpans.push(span);
@@ -134,8 +136,8 @@ export function readTrace(input) {
     if (!next || e.type === 'end') continue;
     const gap = next.at - e.at;
     if (awayOpen) continue; // rule 2
-    if (!awayKnown && gap > TRACE_RULES.maxGapMs) { breaks.add(e.qid); breakSpans.push({ qid: e.qid, from: e.at, to: next.at }); continue; } // rule 4
-    if (gap >= 0) dwell.set(e.qid, (dwell.get(e.qid) || 0) + gap); // rule 1
+    if (!awayKnown && gap > TRACE_RULES.maxGapMs) { breaks.add(owner); breakSpans.push({ qid: owner, from: e.at, to: next.at }); continue; } // rule 4
+    if (gap >= 0) dwell.set(owner, (dwell.get(owner) || 0) + gap); // rule 1
   }
   const lastAt = events.length ? events.at(-1).at : 0;
   if (spans.length) spans.at(-1).to = end ? end.at : Math.max(spans.at(-1).from, lastAt);
@@ -176,6 +178,13 @@ export function paperTrace(attempt) {
   if (trace.timeline.length < 2) return { state: 'none' };
   return { state: 'ready', ...trace };
 }
+
+/**
+ * Time away worth words or a gap in the Replay: spans that round to at least 1s, so nothing reads "Away 0s" (the third
+ * NTA warning submits the paper the instant the tab is hidden, and a quick switch back can take under half a second).
+ * Shorter spans are still not counted as time on the question (rule 2); only their words are left out.
+ */
+export const shownAway = (spans) => (Array.isArray(spans) ? spans.filter((a) => sec(a.to - a.from) > 0) : []);
 
 /** Milliseconds on each question under the one rule (a Map), from a recovery object or a bare timeline. */
 export function dwellOf(input) {
@@ -235,8 +244,8 @@ export function questionTraceLines(trace, qid, { keyIndex = null } = {}) {
     else lines.push(fill(TRACE.marked.removed, { at: clockLabel(sec(firstOn.at)), at2: clockLabel(sec(final.at)) }));
   }
 
-  // Time away while this question was on screen.
-  const away = trace.awayByQid.get(qid) || [];
+  // Time away while this question was on screen (spans that round to 0s are left out of the words, never the rule).
+  const away = shownAway(trace.awayByQid.get(qid));
   if (away.length) {
     const ms = away.reduce((s, a) => s + (a.to - a.from), 0);
     lines.push(fill(away.length === 1 ? TRACE.away.one : TRACE.away.many, { n: away.length, time: spentLabel(ms / 1000) }));
