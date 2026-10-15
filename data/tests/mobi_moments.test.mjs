@@ -122,7 +122,7 @@ test('the week Mobi follows the app rules in order', () => {
 test('the tap cycle never repeats an act, restarts after 8 s and stops at six', () => {
   const run = createTapRun(TAP_CYCLE);
   const first = [run.tap(0), run.tap(100), run.tap(200), run.tap(300)];
-  assert.deepEqual(first, ['hello', 'tilt', 'correct', 'startle']);
+  assert.deepEqual(first, ['hello', 'tilt', 'hop', 'startle']);
   assert.equal(run.tap(400), 'hello');
   assert.equal(run.tap(500), 'tilt');
   assert.equal(run.tap(600), null, 'six acts are the visit cap');
