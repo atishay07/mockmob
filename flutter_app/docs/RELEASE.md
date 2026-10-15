@@ -55,6 +55,16 @@ git-ignored.
 
 ## 3. Build the bundle
 
+**Ship order for the Mistake Lab capture (15 Oct 2026).** The app records how each question was
+reached, marks, strike-outs, time away and the end of the paper, and sends `client` and `endedBy`
+with the submit (`lib/core/models/session.dart`, `kRichSessionEvents`, on by default). Only the
+server from web branch `web/alive-1015` (commit 49760343 and later) accepts the new event types.
+The earlier server validates every event strictly: it refuses the whole in-progress save of a paper
+that carries `away`, `back`, `strike` or `end`, and for a paper that is not from the legacy bank
+the submit itself is refused. So deploy that server to production first. Until it is live, add
+`--dart-define=MOCKMOB_CAPTURE_V2=false` to the build below, and to any debug or emulator run that
+points at the production site. NTA papers are unchanged on screen either way.
+
 ```bash
 bash tool/flutter_locked.sh build appbundle --release \
   --dart-define-from-file=dart_defines/prod.json \
