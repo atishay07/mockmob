@@ -144,15 +144,11 @@ for (const [group, items] of SECTIONS) {
     } else {
       beforeHtml = fig(await img(bDesk && path.join(BEFORE, bDesk), dw), 'Before, desktop') + fig(await img(bPhone && path.join(BEFORE, bPhone), 260), 'Before, phone', 'phone');
     }
-    const afterHtml = [
-      fig(await img(after(job, 'desktop', 'night'), dw), 'After, desktop, Night'),
-      fig(await img(after(job, 'desktop', 'day'), dw), 'After, desktop, Day'),
-      fig(await img(after(job, 'phone', 'night'), 260), 'After, phone, Night', 'phone'),
-      fig(await img(after(job, 'phone', 'day'), 260), 'After, phone, Day', 'phone'),
-    ].join('');
+    const afterHtml = `<div class="desk">${fig(await img(after(job, 'desktop', 'night'), dw), 'After, desktop, Night')}${fig(await img(after(job, 'desktop', 'day'), dw), 'After, desktop, Day')}</div>`
+      + `<div class="phones">${fig(await img(after(job, 'phone', 'night'), 260), 'After, phone, Night', 'phone')}${fig(await img(after(job, 'phone', 'day'), 260), 'After, phone, Day', 'phone')}</div>`;
     body += `<article><header><h3>${esc(label)}</h3>${note ? `<p>${esc(note)}</p>` : ''}${checksFor(job)}</header>
       <div class="pair"><div class="side before"><h4>Before</h4><div class="imgs">${beforeHtml || '<p class="none">New screen; there was no before.</p>'}</div></div>
-      <div class="side after"><h4>After</h4><div class="imgs">${afterHtml}</div></div></div></article>`;
+      <div class="side after"><h4>After</h4>${afterHtml}</div></div></article>`;
   }
   body += '</section>';
 }
@@ -167,12 +163,19 @@ const brand = `<section><h2>Brand switches (off until your yes)</h2><article><he
   <article><header><h3>Hero line (N8)</h3></header><div class="lines"><p><b>A, shipping now:</b> "CUET mocks that show where your marks went."</p><p><b>Your line, after the fresh check ships:</b> "Find the marks you're losing. Repair the mistake. Prove it on fresh questions."</p></div></article></section>`;
 
 let video = '';
-const vfile = path.join(GATE, 'video', 'first-run-phone.webm');
+const vfile = path.join(GATE, 'video', 'first-run-phone.webp');
 if (existsSync(vfile)) {
   const v = await fs.readFile(vfile);
-  if (v.length < 4.5 * 1024 * 1024) video = `<section><h2>First run in motion (phone, Night)</h2><article><header><p>Landing, the sample answered, sign-up, subjects, days, Today's first move, Start. Recorded headless at 375 px.</p></header><video controls muted playsinline src="data:video/webm;base64,${v.toString('base64')}"></video></article></section>`;
+  video = `<section><h2>First run in motion (phone, Night)</h2><article><header><p>Landing, the sample answered (3 of 5), "Save this and start free", sign-up, subjects, days, Today's first move, then the Start key opening its sheet with the Quick 10 confirm line. Recorded headless at 375 px from the DevTools screencast; it loops.</p></header><img class="motion" src="data:image/webp;base64,${v.toString('base64')}" alt="The first run, recorded at phone width"></article></section>`;
 }
 
+const CHECKS = [
+  'Unit suites, one at a time, all passing: test:ia 251, test:app 147, test:learning 192, test:recovery 40, test:du 19, test:auth 50, test:nta 150. test:study has the one known Windows WordNet failure.',
+  'Since then one test:ia check fails: the 16 subject objects are being regenerated in the app (wt-phase2, uncommitted), so the web copies no longer match. Re-copy them when that lands.',
+  'Lint with --max-warnings 0 on every changed js, jsx and mjs file (165): clean.',
+  'Production build (next build): passes.',
+  'Captures: headless Chrome only, no sign-in, signed-in screens from the dev-only preview with sample data.',
+];
 const shotsOk = report.filter((r) => r.file && !r.failed).length;
 const overflow = report.filter((r) => r.overflowX > 0).length;
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Website restructure, Gate A</title>
@@ -182,23 +185,24 @@ const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta n
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
 main{max-width:1560px;margin:0 auto;padding:24px 16px 80px}h1{font-size:28px;margin:0 0 4px}h2{font-size:20px;margin:40px 0 12px;padding-top:16px;border-top:1px solid var(--line)}h3{font-size:16px;margin:0}h4{font-size:12px;margin:0 0 6px;color:var(--muted);font-weight:600}
 .lead{color:var(--muted);margin:0 0 20px;max-width:80ch}.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}.card ol,.card ul{margin:0;padding-left:20px}.card li{margin:6px 0}.card li b{display:inline-block;min-width:28px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}.card ol,.card ul{margin:0;padding-left:20px}.card ul.plain{list-style:none;padding-left:0}.card li{margin:6px 0}.card li b{display:inline-block;min-width:28px}
 .def{display:inline-block;background:var(--volt);color:#12110E;border-radius:6px;padding:0 6px;font-size:12px;font-weight:700;margin-left:6px}
 article{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}article header p{margin:4px 0 0;color:var(--muted)}
 .flag{color:var(--flag)!important;font-weight:600}.ok{color:var(--ok)!important;font-size:13px}
 .pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:16px;margin-top:12px}.side{min-width:0}.imgs{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
 figure{margin:0;flex:1 1 300px;max-width:720px;min-width:0}figure.phone{flex:0 1 200px;max-width:220px}figure.tall{flex:0 1 360px}figure img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:8px}figcaption{font-size:12px;color:var(--muted);margin-top:4px}
-.after figure img{border-color:color-mix(in srgb,var(--volt) 55%,var(--line))}.none{color:var(--muted);font-style:italic}
+.desk{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.desk figure{max-width:none}.phones{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.after figure img{border-color:color-mix(in srgb,var(--volt) 55%,var(--line))}.none{color:var(--muted);font-style:italic}
 .logos{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}.logo-tile{flex:1 1 320px;border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:16px;align-items:flex-start}.logo-tile.night{background:#12110E;color:#F4F0E6}.logo-tile.day{background:#F3EFE6;color:#12110E;border:1px solid #ddd6c8}
 .logo-b{height:34px;width:auto}.bolt-mark{font-weight:800;font-size:22px}.bolt-mark b{background:#D2F000;color:#000;border-radius:6px;padding:0 4px;font-size:16px}.bolt-mark i{color:#D2F000;font-style:normal}
-.lines p{margin:8px 0}video{display:block;max-width:375px;width:100%;margin-top:12px;border-radius:12px;border:1px solid var(--line)}
-@media (max-width:900px){.pair{grid-template-columns:1fr}}
+.lines p{margin:8px 0}.motion{display:block;max-width:300px;width:100%;margin-top:12px;border-radius:12px;border:1px solid var(--line)}
+@media (max-width:900px){.pair{grid-template-columns:1fr}.desk{grid-template-columns:1fr}}
 </style></head><body><main>
 <h1>Website restructure, Gate A</h1>
 <p class="lead">Before and after for every place a new student meets. Before: production captures and the old local build (15 Oct). After: branch web/ia-1015, local dev server, signed-in screens from the preview fixtures (sample data, no account). ${shotsOk} after captures at 375 x 812 and 1440 x 900, Night and Day; ${overflow ? `${overflow} with sideways scroll` : 'none with sideways scroll'}. Nothing is pushed or deployed.</p>
 <div class="grid">
-<div class="card"><h3>Your 9 decisions (recommended default in green)</h3><ol>${DECISIONS.map(([id, text, def]) => `<li><b>${id}</b> ${esc(text)}<span class="def">${esc(def)}</span></li>`).join('')}</ol></div>
+<div class="card"><h3>Your 9 decisions (the tag is the recommended default)</h3><ul class="plain">${DECISIONS.map(([id, text, def]) => `<li><b>${id}</b> ${esc(text)}<span class="def">${esc(def)}</span></li>`).join('')}</ul></div>
 <div class="card"><h3>What changed</h3><ul>${CHANGES.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></div>
+<div class="card"><h3>Checks run</h3><ul>${CHECKS.map((c) => `<li>${esc(c)}</li>`).join('')}</ul></div>
 </div>
 ${body}
 ${brand}
@@ -207,34 +211,40 @@ ${video}
 await fs.writeFile(path.join(GATE, 'gate-a.html'), html);
 console.log('gate-a.html', (Buffer.byteLength(html) / 1024 / 1024).toFixed(2), 'MB');
 
-// Overview PNG: the 8 most important pairs, 1600 px wide.
+// Overview PNG: the 8 most important pairs, 1600 px wide. The before captures are Day (production
+// forced Day), so the after side is Day too, and a full-page capture shows its first screen.
 const OVERVIEW = [
-  ['Landing, first screen', path.join(BEFORE, 'desktop-landing-1.png'), after('landing-hero', 'desktop', 'night')],
-  ['The sample, answered', path.join(BEFORE, 'new-desktop-hero-demo-answered.jpg'), after('sample-answered', 'desktop', 'night')],
-  ['Sign up', path.join(BEFORE, 'desktop-signup.png'), after('signup', 'desktop', 'night')],
-  ['Today, first move', path.join(BEFORE, 'new-desktop-in-today-first-run-empty.jpg'), after('today-first', 'desktop', 'night')],
-  ['Navigation on a phone', path.join(BEFORE, 'new-phone-in-more-menu.jpg'), after('nav-start-sheet', 'phone', 'night')],
-  ['Practice', path.join(BEFORE, 'new-desktop-in-practice-1.jpg'), after('practice', 'desktop', 'night')],
-  ['Review', path.join(BEFORE, 'new-desktop-in-review.jpg'), after('review', 'desktop', 'night')],
-  ['Pricing', path.join(BEFORE, 'desktop-pricing-1.png'), after('pricing', 'desktop', 'night')],
+  ['Landing, first screen', path.join(BEFORE, 'desktop-landing-1.png'), after('landing-hero', 'desktop', 'day')],
+  ['The sample, answered', path.join(BEFORE, 'new-desktop-hero-demo-answered.jpg'), after('sample-answered', 'desktop', 'day')],
+  ['Sign up', path.join(BEFORE, 'desktop-signup.png'), after('signup', 'desktop', 'day')],
+  ['Today, first move', path.join(BEFORE, 'new-desktop-in-today-first-run-empty.jpg'), after('today-first', 'desktop', 'day')],
+  ['Navigation on a phone: the old More menu, the new Start sheet', path.join(BEFORE, 'new-phone-in-more-menu.jpg'), after('nav-start-sheet', 'phone', 'day')],
+  ['Practice', path.join(BEFORE, 'new-desktop-in-practice-1.jpg'), after('practice', 'desktop', 'day')],
+  ['Review', path.join(BEFORE, 'new-desktop-in-review.jpg'), after('review', 'desktop', 'day')],
+  ['Pricing', path.join(BEFORE, 'desktop-pricing-1.png'), after('pricing', 'desktop', 'day')],
 ];
-const W = 1600, PAD = 24, COL = (W - PAD * 3) / 2, BOX_H = 480, LABEL = 44;
-const rowH = LABEL + BOX_H + PAD;
+const W = 1600, PAD = 24, COL = (W - PAD * 3) / 2, BOX_H = 480, TITLE = 40, TAGS = 34, HEAD = 64;
+const rowH = TITLE + TAGS + BOX_H + PAD;
 const comps = [];
-const text = (s, size, weight = 700, fill = '#F4F0E6') => Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${LABEL}"><text x="${PAD}" y="${LABEL - 14}" font-family="Segoe UI, Arial, sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}">${esc(s)}</text></svg>`);
-const tag = (s, x) => Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="120" height="28"><rect width="120" height="28" rx="6" fill="${s === 'After' ? '#D2F000' : '#312E27'}"/><text x="12" y="19" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="${s === 'After' ? '#12110E' : '#F4F0E6'}">${s}</text></svg>`);
+const svgText = (s, size, width, height, y, fill = '#F4F0E6', weight = 700) => Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}"><text x="0" y="${y}" font-family="Segoe UI, Arial, sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}">${esc(s)}</text></svg>`);
+const tag = (s) => Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="96" height="26"><rect width="96" height="26" rx="6" fill="${s === 'After' ? '#D2F000' : '#3a372f'}"/><text x="12" y="18" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="${s === 'After' ? '#12110E' : '#F4F0E6'}">${s}</text></svg>`);
+async function firstScreen(file) {
+  const m = await sharp(file).metadata();
+  const h = Math.min(m.height, Math.round(m.width * 900 / 1440));
+  return sharp(file).extract({ left: 0, top: 0, width: m.width, height: m.width > 800 ? h : m.height }).toBuffer();
+}
 for (const [i, [label, b, a]] of OVERVIEW.entries()) {
-  const top = PAD + 56 + i * rowH;
-  comps.push({ input: text(label, 24), top, left: 0 });
+  const top = HEAD + i * rowH;
+  comps.push({ input: svgText(label, 22, W - PAD * 2, TITLE, 28), top, left: PAD });
   for (const [j, file] of [b, a].entries()) {
-    if (!existsSync(file)) continue;
-    const input = await sharp(file).resize({ width: Math.round(COL), height: BOX_H, fit: 'contain', background: '#1B1A16', position: 'top' }).toBuffer();
     const left = Math.round(PAD + j * (COL + PAD));
-    comps.push({ input, top: top + LABEL, left });
-    comps.push({ input: tag(j ? 'After' : 'Before'), top: top + LABEL + 10, left: left + 10 });
+    comps.push({ input: tag(j ? 'After' : 'Before'), top: top + TITLE, left });
+    if (!existsSync(file)) continue;
+    const input = await sharp(await firstScreen(file)).resize({ width: Math.round(COL), height: BOX_H, fit: 'contain', background: '#1B1A16', position: 'top' }).toBuffer();
+    comps.push({ input, top: top + TITLE + TAGS, left });
   }
 }
-const H = PAD + 56 + OVERVIEW.length * rowH;
-comps.push({ input: Buffer.from(`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="56"><text x="${PAD}" y="40" font-family="Segoe UI, Arial, sans-serif" font-size="30" font-weight="800" fill="#F4F0E6">Website restructure, Gate A: the 8 most important pairs (Night)</text></svg>`), top: 0, left: 0 });
-await sharp({ create: { width: W, height: H, channels: 3, background: '#12110E' } }).composite(comps).png({ compressionLevel: 9, palette: false }).toFile(path.join(GATE, 'gate-a-overview.png'));
+const H = HEAD + OVERVIEW.length * rowH;
+comps.push({ input: svgText('Website restructure, Gate A: the 8 most important pairs (Day, like the before captures)', 28, W - PAD * 2, HEAD, 42, '#F4F0E6', 800), top: 0, left: PAD });
+await sharp({ create: { width: W, height: H, channels: 3, background: '#12110E' } }).composite(comps).png({ compressionLevel: 9 }).toFile(path.join(GATE, 'gate-a-overview.png'));
 console.log('gate-a-overview.png', W, 'x', H);
