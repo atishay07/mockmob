@@ -3,14 +3,16 @@
 // The two motion choices a student can make, the same two the app has under Appearance and feel:
 //   Reduce motion   off by default; follows the device unless the student turns it on here
 //   Celebrations    Full, Quiet or Off (how much Mobi and the page celebrate)
-// Both live in localStorage (always inside try/catch: private windows and blocked storage must not
-// break a page) and are mirrored onto <html> as data-motion and data-celebrations, so plain CSS can
+//   Touch feedback  on by default: a small vibration on Android when keys, choices and switches are pressed
+// All live in localStorage (always inside try/catch: private windows and blocked storage must not
+// break a page) and are mirrored onto <html> as data-motion, data-celebrations and data-touch, so plain CSS can
 // honour them without a hook.
 
 import { useMemo, useSyncExternalStore } from 'react';
 
 export const MOTION_KEY = 'mm:motion:v1'; // 'reduced' when the student turned Reduce motion on; absent otherwise
 export const CELEBRATIONS_KEY = 'mm:celebrations:v1'; // 'full' | 'quiet' | 'off'
+export const TOUCH_KEY = 'mm:touch:v1'; // 'off' when Touch feedback is off; absent means on (the default)
 export const CELEBRATION_LEVELS = ['full', 'quiet', 'off'];
 // The acts that celebrate. Under Quiet they play as a small nod; under Off they play nothing.
 export const CELEBRATION_ACTS = ['cheer', 'celebrate', 'proud'];
@@ -18,9 +20,9 @@ export const CELEBRATION_ACTS = ['cheer', 'celebrate', 'proud'];
 const EVENT = 'mm-prefs';
 const celebrationSet = new Set(CELEBRATION_ACTS);
 
-const state = { override: false, celebrations: 'full', device: false, ready: false };
+const state = { override: false, celebrations: 'full', device: false, touch: true, ready: false };
 // A primitive snapshot keeps useSyncExternalStore stable. The server snapshot is the default state.
-let snapshot = 'auto|full|0';
+let snapshot = 'auto|full|0|1';
 let mediaQuery = null;
 let listening = false;
 
@@ -35,7 +37,7 @@ function writeStorage(key, value) {
 }
 
 function recompute() {
-  snapshot = `${state.override ? 'on' : 'auto'}|${state.celebrations}|${state.device ? 1 : 0}`;
+  snapshot = `${state.override ? 'on' : 'auto'}|${state.celebrations}|${state.device ? 1 : 0}|${state.touch ? 1 : 0}`;
 }
 
 /** Mirrors the choices onto <html>: data-motion='reduced' (or absent) and data-celebrations. */
@@ -46,12 +48,15 @@ export function applyMotionAttributes() {
   if (reduced) root.dataset.motion = 'reduced';
   else delete root.dataset.motion;
   root.dataset.celebrations = state.celebrations;
+  if (state.touch) delete root.dataset.touch;
+  else root.dataset.touch = 'off';
 }
 
 function loadFromBrowser() {
   state.override = readStorage(MOTION_KEY) === 'reduced';
   const saved = readStorage(CELEBRATIONS_KEY);
   state.celebrations = CELEBRATION_LEVELS.includes(saved) ? saved : 'full';
+  state.touch = readStorage(TOUCH_KEY) !== 'off';
   try { state.device = Boolean(mediaQuery?.matches); } catch { state.device = false; }
   recompute();
   applyMotionAttributes();
@@ -74,7 +79,7 @@ export function initMobiPrefs() {
   const onDevice = () => { state.device = Boolean(mediaQuery?.matches); notify(); };
   try { mediaQuery?.addEventListener('change', onDevice); } catch { /* Older engines: the value is read at load. */ }
   window.addEventListener('storage', (event) => {
-    if (event.key !== MOTION_KEY && event.key !== CELEBRATIONS_KEY && event.key !== null) return;
+    if (event.key !== MOTION_KEY && event.key !== CELEBRATIONS_KEY && event.key !== TOUCH_KEY && event.key !== null) return;
     loadFromBrowser();
     try { window.dispatchEvent(new Event(EVENT)); } catch { /* ignore */ }
   });
@@ -88,7 +93,7 @@ function subscribe(onChange) {
   return () => { window.clearTimeout(frame); window.removeEventListener(EVENT, onChange); };
 }
 const getSnapshot = () => snapshot;
-const getServerSnapshot = () => 'auto|full|0';
+const getServerSnapshot = () => 'auto|full|0|1';
 
 /** Turns Reduce motion on or off. Off removes the override, so the device setting decides again. */
 export function setReduceMotion(on) {
@@ -106,10 +111,18 @@ export function setCelebrations(level) {
   notify();
 }
 
+/** Turns Touch feedback on or off. On is the default and stores nothing. */
+export function setTouchFeedback(on) {
+  initMobiPrefs();
+  state.touch = Boolean(on);
+  writeStorage(TOUCH_KEY, state.touch ? null : 'off');
+  notify();
+}
+
 /** The choices right now, for code that is not a component (event handlers, timers). */
 export function getMobiPrefs() {
   if (typeof window !== 'undefined') initMobiPrefs();
-  return { reduced: state.override || state.device, celebrations: state.celebrations };
+  return { reduced: state.override || state.device, celebrations: state.celebrations, touch: state.touch };
 }
 
 /** True when an act may play as authored under a Celebrations level. */
@@ -121,12 +134,13 @@ export function actAllowed(act, celebrations = state.celebrations) {
  * { reduced, celebrations, allow(act) } plus the parts the settings card needs:
  *   reduced      Reduce motion is in force (the student's switch or the device)
  *   deviceReduced / overridden   which of the two caused it
+ *   touch        Touch feedback is on (the default)
  *   allow(act)   false for a celebrating act under Quiet or Off
  */
 export function useMobiPrefs() {
   const key = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   return useMemo(() => {
-    const [mode, celebrations, device] = key.split('|');
+    const [mode, celebrations, device, touch] = key.split('|');
     const overridden = mode === 'on';
     const deviceReduced = device === '1';
     return {
@@ -134,6 +148,7 @@ export function useMobiPrefs() {
       overridden,
       deviceReduced,
       celebrations,
+      touch: touch !== '0',
       allow: (act) => actAllowed(act, celebrations),
     };
   }, [key]);

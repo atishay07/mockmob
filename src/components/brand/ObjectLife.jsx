@@ -16,6 +16,7 @@
 
 import { useEffect, useRef } from 'react';
 import { SUBJECT_RENDERS } from '@/../data/subject_art.mjs';
+import { tick } from '@/lib/haptics';
 import {
   LIFE,
   SPRINGS,
@@ -45,17 +46,6 @@ function reducedMotion() {
 
 const celebrationsMuted = () => ['quiet', 'off'].includes(root().dataset.celebrations);
 const isDay = () => root().dataset.theme === 'light';
-
-/** One light haptic tick, by the same rules as the app's light(): Android Chrome, Touch feedback on, page visible. */
-function tick() {
-  try {
-    if (typeof navigator === 'undefined' || typeof navigator.vibrate !== 'function') return;
-    if (!/Android/i.test(navigator.userAgent || '')) return;
-    if (document.visibilityState !== 'visible' || root().dataset.touch === 'off') return;
-    try { if (window.localStorage.getItem('mm:touch:v1') === 'off') return; } catch { /* storage blocked: the default is on */ }
-    navigator.vibrate([8]);
-  } catch { /* A device that refuses is fine. */ }
-}
 
 // The flight in progress: which object left, and when (a click on the way to another page).
 let pendingFlight = null;

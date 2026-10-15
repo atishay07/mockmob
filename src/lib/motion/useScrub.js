@@ -16,6 +16,7 @@
 //   <div {...bind} tabIndex={0} role="slider" aria-valuenow={index} ...>
 
 import { useEffect, useState } from 'react';
+import { segmentTick } from '../haptics';
 import { claims, slopFor, yields } from './dragPolicy';
 import { scrubIndex, scrubKeyIndex, scrubX } from './scrub';
 
@@ -44,7 +45,7 @@ export function createScrubController(initial, report) {
   function setIndex(index) {
     if (index === s.index) return;
     s.index = index;
-    if (index >= 0) o.onIndex?.(index);
+    if (index >= 0) { segmentTick(); o.onIndex?.(index); } // one small tap for each step the finger crosses
     report(index);
   }
 
