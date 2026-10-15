@@ -12,7 +12,7 @@ Sources this consolidates (his words win; read them when in doubt):
 ## 1. The loop (every wave)
 
 1. **Pick** from the queue (section 4): usefulness first, then what he named, then polish.
-2. **Route.** Sonnet builds. Opus is used only for complex UI/UX, extreme motion graphics and polish. Haiku takes quick tasks under 5 minutes. Set effort explicitly on every agent. Planning stays in the main session.
+2. **Route.** Every design-level agent (UI, motion, visual polish, critique) loads three skills with the Skill tool, in this order: ui-ux-standards (the owner's rules; section 10 is the AI-slop list and wins every conflict), then impeccable (critique and polish), then frontend-design (distinctive visual direction). Owner, 16 Oct 00:50. Sonnet builds. Opus is used only for complex UI/UX, extreme motion graphics and polish. Haiku takes quick tasks under 5 minutes. Set effort explicitly on every agent. Planning stays in the main session.
 3. **Build** on app and website together, on disjoint paths, continuing from the newest base. Never redo done work: check git log and the code first.
 4. **Check once:**
    - analyze and the touched area's tests;
