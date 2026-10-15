@@ -1,36 +1,45 @@
 "use client";
 
 // Interactive explainer for the core loop: replay -> find the leak -> one next move -> check later.
-// Every number on this stage belongs to ONE sample session (the stage says so in its title bar).
+// Every number on this stage belongs to ONE sample session (the stage says so in its title bar): the
+// same session as the Mistake Lab scenes above (labStory.mjs), so the replay's clock times, changes and
+// marks are the scenes' own. Its words are the product's: the picks and clock times of Time and
+// decisions, and the Mistake Lab's ledger of where the missed marks went.
 // Held (ScrollStory): the section stays on screen while the reader's scroll walks the four steps; the
 // replay's tiles still deal themselves in when step one comes on, and no timer moves the step.
 // Without IntersectionObserver it falls back to the timed tour with Pause and Replay.
 // Steps 1-3 describe what the product records today (answers, changes, timing, skips). Step 4
 // (delayed fresh checks) is shown with its real release state, never as available.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowLeftRight, Check, Clock, Lock, Minus, Pause, Play, RotateCcw, X } from 'lucide-react';
+import { ArrowRight, Check, Clock, Lock, Minus, Pause, Play, RotateCcw, X } from 'lucide-react';
 import { pipReact } from '@/components/brand/pipEvents';
 import { useReadableRegion } from './useReadableRegion';
 import ScrollStory from './ScrollStory';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { durations } from '@/lib/motion/tokens.g.js';
+import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, clock, marksLedger } from './labStory.mjs';
 
-const SESSION = [
-  { n: 1, first: 'right', final: 'right', time: '0:48' },
-  { n: 2, first: 'right', final: 'right', time: '0:55' },
-  { n: 3, first: 'wrong', final: 'wrong', time: '1:20' },
-  { n: 4, first: 'right', final: 'wrong', time: '3:18', change: { from: 'B', to: 'D', at: '3:18', firstAt: '0:42' } },
-  { n: 5, first: 'right', final: 'right', time: '1:02' },
-  { n: 6, first: 'skip', final: 'skip', time: '0:20' },
-  { n: 7, first: 'right', final: 'right', time: '3:12', slow: true },
-  { n: 8, first: 'right', final: 'wrong', time: '2:41', change: { from: 'A', to: 'C', at: '2:41', firstAt: '1:05' } },
-  { n: 9, first: 'wrong', final: 'right', time: '1:50', change: { from: 'D', to: 'B', at: '1:50', firstAt: '0:30' } },
-  { n: 10, first: 'skip', final: 'skip', time: '0:10' },
-];
-const MARK = { right: 5, wrong: -1, skip: 0 };
+// The story's rows in the replay's terms ('skip' for a blank), with the clock times of every change.
+const SESSION = STORY.map((r) => ({
+  n: r.n,
+  first: r.change ? r.change.fromVerdict : r.verdict === 'blank' ? 'skip' : r.verdict,
+  final: r.verdict === 'blank' ? 'skip' : r.verdict,
+  sec: r.sec,
+  time: clock(r.sec),
+  change: r.change ? { from: r.change.from, to: r.change.to, firstAt: clock(r.change.at), at: clock(r.change.toAt), gap: clock(r.change.toAt - r.change.at) } : null,
+}));
+const MARK = { right: MARKS.right, wrong: MARKS.wrong, skip: MARKS.blank };
+const PACE = clock(PAPER_PACE_SEC);
+const LEDGER = marksLedger();
+const qList = (qs) => (qs.length > 1 ? `${qs.slice(0, -1).map((n) => `Q${n}`).join(', ')} and Q${qs.at(-1)}` : `Q${qs[0]}`);
+const ABOUT = {
+  changed_from_right: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} right until you changed ${qs.length > 1 ? 'them' : 'it'}.`,
+  other_wrong: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} wrong from the first pick.`,
+  other_blank: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} opened and left blank.`,
+};
 const STEPS = [
   { key: 'replay', title: 'Replay the session', body: 'Every answer and every minute, with the marks each one cost.', ms: 4800 },
-  { key: 'leak', title: 'Find where marks leaked', body: 'Mistakes, skips and changed answers, side by side, each with its cost in marks.', ms: 4800 },
+  { key: 'leak', title: 'Find where marks leaked', body: 'Every mark you missed, sorted by how it went: changed answers, wrong picks and blanks.', ms: 4800 },
   { key: 'move', title: 'Get one next move', body: 'One next step, the same one Today shows you.', ms: 4800 },
   { key: 'check', title: 'Check it on fresh questions', body: 'New questions, days apart, show whether the fix held.', ms: 4800 },
 ];
@@ -40,26 +49,30 @@ const REVEAL_MS = durations.staggerStep;
 
 function statusLabel(tile) {
   const end = tile.final === 'right' ? 'ended right' : tile.final === 'wrong' ? 'ended wrong' : 'left blank';
-  return `Question ${tile.n}: ${end}${tile.change ? ', answer changed' : ''}`;
+  return `Question ${tile.n}: ${end}${tile.change ? `, changed from ${tile.change.from} to ${tile.change.to}` : ''}`;
 }
 
+// The product's words for one question (Time and decisions): its picks on the paper's clock, the marks a
+// change won or cost, or its time against the paper's pace.
 function inspectorText(tile) {
   if (!tile) return 'Tap a question to see what happened.';
   if (tile.change) {
-    const { from, to, at, firstAt } = tile.change;
-    if (tile.first === 'right' && tile.final === 'wrong') return `Q${tile.n}: answered ${from} at ${firstAt} (right). Changed to ${to} at ${at}. That change turned +5 into −1, a 6-mark swing.`;
-    return `Q${tile.n}: answered ${from} at ${firstAt} (wrong). Changed to ${to} at ${at} and got it right. That change gained 6 marks.`;
+    const { from, to, at, firstAt, gap } = tile.change;
+    const effect = tile.first === 'right' && tile.final === 'wrong' ? 'That change cost 6 marks.' : 'That change gained 6 marks.';
+    return `Q${tile.n}: Picked ${from} at ${firstAt}. Changed to ${to} at ${at}, ${gap} later. ${effect}`;
   }
-  if (tile.final === 'skip') return `Q${tile.n}: left blank. Nothing gained, nothing lost.`;
-  return `Q${tile.n}: ${tile.final === 'right' ? 'right' : 'wrong'} in ${tile.time}${tile.slow ? ', about three times your usual pace.' : '.'}`;
+  if (tile.final === 'skip') return `Q${tile.n}: opened for ${tile.time} and left blank. No penalty, and no marks.`;
+  const ratio = Math.round((tile.sec / PAPER_PACE_SEC) * 10) / 10;
+  const pace = ratio >= 1.05 ? `${ratio} times the paper’s pace` : `inside the paper’s ${PACE} a question`;
+  return `Q${tile.n}: ${tile.final === 'right' ? 'right' : 'wrong'}. ${tile.time} on this question, ${pace}.`;
 }
 
 // The same ten questions in a row at the foot of the leak, move and check panels, the ones that step is
 // about lit, so every panel keeps its tie to the session and the stage never shows an empty lower half.
 // Wide screens only (phones fit each panel to its content). Drawn from SESSION, nothing new is claimed.
 const STRIP = {
-  leak: { label: 'Where it leaked in the session', lit: (t) => Boolean(t.change || t.slow || t.final === 'skip') },
-  move: { label: 'The three changed answers behind this move', lit: (t) => Boolean(t.change) },
+  leak: { label: `The questions behind the ${LEDGER.gap} missed marks`, lit: (t) => t.final !== 'right' },
+  move: { label: 'The two right answers you changed', lit: (t) => t.first === 'right' && t.final === 'wrong' },
   check: { label: 'Fresh questions on the idea behind Q4 and Q8', lit: (t) => t.first === 'right' && t.final === 'wrong' },
 };
 function SessionStrip({ kind }) {
@@ -71,7 +84,7 @@ function SessionStrip({ kind }) {
         {SESSION.map((t) => (
           <li key={t.n} data-state={t.final} data-lit={lit(t) ? 'true' : 'false'}>
             <span>{t.n}</span>
-            {t.change ? <ArrowLeftRight size={10} /> : t.final === 'right' ? <Check size={12} /> : t.final === 'wrong' ? <X size={12} /> : <Minus size={12} />}
+            {t.final === 'right' ? <Check size={12} /> : t.final === 'wrong' ? <X size={12} /> : <Minus size={12} />}
           </li>
         ))}
       </ol>
@@ -238,7 +251,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                     <button type="button" className="ml__tile" data-state={on ? tile.final : 'idle'} data-picked={picked === index} onClick={() => { if (on) setPicked(index); }} disabled={!on} aria-label={on ? statusLabel(tile) : `Question ${tile.n}`}>
                       <span className="ml__tn">{tile.n}</span>
                       {on ? (tile.final === 'right' ? <Check size={16} aria-hidden="true" /> : tile.final === 'wrong' ? <X size={16} aria-hidden="true" /> : <Minus size={16} aria-hidden="true" />) : null}
-                      {on && tile.change ? <span className="ml__swap" aria-hidden="true"><ArrowLeftRight size={11} /></span> : null}
+                      {on && tile.change ? <span className="ml__swap" data-tone={tile.final === 'right' ? 'good' : 'bad'} aria-hidden="true">{tile.change.from}<ArrowRight size={8} strokeWidth={3} />{tile.change.to}</span> : null}
                     </button>
                   </li>
                 );
@@ -249,24 +262,17 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
 
           {/* 2. Leak */}
           <section className="ml__panel" data-active={step === 1} aria-hidden={step !== 1} inert={step !== 1 ? true : undefined} aria-label="Find where marks leaked">
-            <p className="ml__eyebrow">From the session record</p>
+            <p className="ml__ledger-h">{LEDGER.heading}</p>
             <ul className="ml__leaks">
-              <li style={{ '--i': 0, '--w': '100%' }}>
-                <div><b>Answer changes</b><span>3 changes, net −6 marks</span></div>
-                <i aria-hidden="true"><em data-bad="true" /></i>
-                <p>Q4 and Q8 changed from right to wrong. Q9 changed from wrong to right; its gain is counted too.</p>
-              </li>
-              <li style={{ '--i': 1, '--w': '62%' }}>
-                <div><b>Slowest question</b><span>Q7 took 3:12</span></div>
-                <i aria-hidden="true"><em /></i>
-                <p>About three times the usual 1:05 in this session.</p>
-              </li>
-              <li style={{ '--i': 2, '--w': '38%' }}>
-                <div><b>Left blank</b><span>2 questions, 10 marks open</span></div>
-                <i aria-hidden="true"><em /></i>
-                <p>Q6 and Q10. No penalty, no marks earned.</p>
-              </li>
+              {LEDGER.groups.map((g, i) => (
+                <li key={g.id} data-g={g.id} style={{ '--i': i, '--w': `${(g.marks / LEDGER.gap) * 100}%` }}>
+                  <div><b>{g.label}</b><span>{g.line}</span></div>
+                  <i aria-hidden="true"><em /></i>
+                  <p>{ABOUT[g.id]?.(g.qs)}</p>
+                </li>
+              ))}
             </ul>
+            <p className="ml__headline">{LEDGER.headline}</p>
             <SessionStrip kind="leak" />
           </section>
 
@@ -274,8 +280,8 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
           <section className="ml__panel" data-active={step === 2} aria-hidden={step !== 2} inert={step !== 2 ? true : undefined} aria-label="Get one next move">
             <p className="ml__eyebrow">Your next move</p>
             <div className="ml__move">
-              <h3>Try 10 questions. Change an answer only when you can name the rule that makes it wrong.</h3>
-              <p className="ml__why">Why this: in this session, changed answers cost the most (net −6 marks).</p>
+              <h3>Try 10 questions. {LEDGER.doLine}</h3>
+              <p className="ml__why">Why this: {LEDGER.headline}</p>
               <div className="ml__where" aria-label="Shown in">
                 <span>Today</span><span>Radar</span><span>PrepOS</span><span>Results</span>
               </div>

@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState } from 
 import { ArrowRight, Check, ShieldCheck, X } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
+import { labStory, signed } from './labStory.mjs';
 
 export const DemoPlaybackContext = createContext({ active: false, reduced: false, paused: false });
 
@@ -106,8 +107,8 @@ export function RepairScreen({ play }) {
   const step = useSteps(play, REPAIR_T);
   return (
     <Frame title="Mistake Repair" step={step} right={<span className="ts__badge">Q22</span>}>
-      <p className="ts__pick"><span data-tone="bad"><b>A</b>Your answer</span><span data-tone="good"><b>B</b>Official key</span></p>
-      <p className="ts__check" data-in={on(step >= 1)}><ShieldCheck size={14} aria-hidden="true" />Explained from the official key.</p>
+      <p className="ts__pick"><span data-tone="bad"><b>A</b>Your pick</span><span data-tone="good"><b>B</b>Key</span></p>
+      <p className="ts__check" data-in={on(step >= 1)}><ShieldCheck size={14} aria-hidden="true" />Explained from the answer key (B).</p>
       <ol className="ts__steps">
         {REPAIR_ROWS.map(([title, detail], i) => (
           <li key={title} data-in={on(step >= 2 + i)} data-key={on(i === 2)}>
@@ -116,7 +117,7 @@ export function RepairScreen({ play }) {
           </li>
         ))}
       </ol>
-      <p className="ts__cta" data-in={on(step >= 5)}>5 fresh questions on this idea<ArrowRight size={14} aria-hidden="true" /></p>
+      <p className="ts__cta" data-in={on(step >= 5)}>Practise 5 on this chapter<ArrowRight size={14} aria-hidden="true" /></p>
     </Frame>
   );
 }
@@ -147,26 +148,34 @@ export function LearnScreen({ play }) {
 }
 
 // ---------- 3. Mistake Replay ----------
+// Q4 of the landing's sample mock (labStory.mjs), on the paper's clock like the Mistake Lab scenes: the
+// right first pick, the change crossed out on its way to the wrong one, then the other two changes.
+const STORY = labStory();
+const REPLAY_Q = STORY.changes.find((c) => c.n === 4);
 const REPLAY_T = [...lineUp(3), 420, 480, 540];
-const REPLAY_MORE = [['Q8', 'A at 1:05, then C at 2:41', '−6', 'bad'], ['Q9', 'D at 0:30, then B at 1:50', '+6', 'good']];
+const REPLAY_MORE = STORY.changes.filter((c) => c.n !== REPLAY_Q.n).map((c) => [`Q${c.n}`, `${c.from} at ${c.at}, then ${c.to} at ${c.toAt}`, signed(c.net), c.net < 0 ? 'bad' : 'good']);
 export function ReplayScreen({ play }) {
   const step = useSteps(play, REPLAY_T);
   const changed = step >= 4;
+  const q = REPLAY_Q;
   return (
-    <Frame title="Replay, question 4" step={step}>
+    <Frame title={`Replay, question ${q.n}`} step={step}>
       <div className="ts__timeline">
-        <div className="ts__node" data-in={on(step >= 1)}><span className="ts__node-dot" data-tone="good"><Check size={14} aria-hidden="true" /></span><b>00:42</b><small>Picked B</small></div>
-        <i className="ts__line" data-in={on(step >= 2)} aria-hidden="true" />
-        <div className="ts__node" data-in={on(step >= 3)}><span className="ts__node-dot" data-tone="bad"><X size={14} aria-hidden="true" /></span><b>03:18</b><small>Changed to D</small></div>
+        <div className="ts__node" data-in={on(step >= 1)}><span className="ts__node-dot" data-tone="good"><Check size={14} aria-hidden="true" /></span><b>{q.at}</b><small>Picked {q.from}</small></div>
+        <span className="ts__link" aria-hidden="true">
+          <i className="ts__line" data-in={on(step >= 2)} />
+          <b className="ts__cross" data-in={on(step >= 3)}><X size={10} strokeWidth={3} /></b>
+        </span>
+        <div className="ts__node" data-in={on(step >= 3)}><span className="ts__node-dot" data-tone="bad"><X size={14} aria-hidden="true" /></span><b>{q.toAt}</b><small>Changed to {q.to}</small></div>
       </div>
       <div className="ts__verdict" data-changed={on(changed)}>
-        <span className="ts__opt">{changed ? 'D' : 'B'}</span>
-        <p><b>{changed ? 'Incorrect' : 'Correct'}</b>{changed ? 'After the change' : 'First answer'}</p>
+        <span className="ts__opt">{changed ? q.to : q.from}</span>
+        <p><b>{changed ? 'Wrong' : 'Right'}</b>{changed ? 'After the change' : 'First pick'}</p>
         <strong className="ts__marks">{changed ? '−1' : '+5'}<small>marks</small></strong>
       </div>
-      <p className="ts__note" data-in={on(step >= 5)}>Going back to this one cost you <b>6 marks</b>.</p>
+      <p className="ts__note" data-in={on(step >= 5)}>Changed {q.gap} later. That change cost you <b>{-q.net} marks</b>.</p>
       <ul className="ts__also" data-in={on(step >= 6)} aria-label="Other answers changed in this mock">
-        {REPLAY_MORE.map(([q, what, marks, tone]) => <li key={q}><b>{q}</b><span>{what}</span><em data-tone={tone}>{marks}</em></li>)}
+        {REPLAY_MORE.map(([label, what, marks, tone]) => <li key={label}><b>{label}</b><span>{what}</span><em data-tone={tone}>{marks}</em></li>)}
       </ul>
     </Frame>
   );
