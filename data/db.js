@@ -16,7 +16,7 @@ import {
   refundRevocationMatchesPayment,
 } from '@/lib/payments/entitlements';
 import { SEED_QUESTIONS } from './questions';
-import { publicationEligibility } from './evidence_registry';
+import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_registry';
 import { readablePracticeQuestions } from './practice_library';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
@@ -1536,7 +1536,7 @@ export const Database = {
       const {data:question,error}=await supabaseAdmin().from('questions').select('*').eq('id',id).maybeSingle();
       if(error)throw error;
       if(!question)return null;
-      if(!publicationEligibility(question).eligible)throw new Error('automated_evidence_required');
+      if(!publicationEligibility(question,sharedEligibilitySnapshot()).eligible)throw new Error('automated_evidence_required');
     }
 
     const { data, error } = await supabaseAdmin().rpc('moderate_question_with_credit', {

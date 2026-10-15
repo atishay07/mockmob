@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { URL } from 'node:url';
 import { evaluateEvidence } from './content_evidence.js';
 import { FACTORY_POLICY,factoryCalibrationReady,routeCalibrationReleased } from './question_factory_policy.mjs';
@@ -14,6 +14,41 @@ export function eligibilitySnapshot() {
     return undefined;
   }
 }
+function deepFreeze(value) {
+  if (value && typeof value === 'object' && !Object.isFrozen(value)) {
+    Object.freeze(value);
+    for (const key of Object.keys(value)) deepFreeze(value[key]);
+  }
+  return value;
+}
+/**
+ * The same inputs as eligibilitySnapshot(), parsed at most once per server instance and shared by
+ * every request. For request paths that check questions one at a time; parsing both files (4.9 MB)
+ * per question cost about 37 ms each. The files ship with the deployment, so on Vercel they cannot
+ * change while an instance runs. A changed size or modification time (a local edit or factory run)
+ * is read again, so a verdict always equals the one a fresh read gives. The parsed objects are
+ * frozen because requests share them. A failed read is never remembered: it returns undefined, and
+ * each check then reads (and fails closed) on its own, exactly as with eligibilitySnapshot().
+ */
+export function createEligibilitySnapshotCache({ manifest, registry }) {
+  let cached = null;
+  const stamp = file => { const s = statSync(file); return `${s.size}:${s.mtimeMs}`; };
+  return function sharedSnapshot() {
+    try {
+      const key = `${stamp(manifest)}|${stamp(registry)}`;
+      if (cached?.key === key) return cached.value;
+      const value = deepFreeze({ manifest: JSON.parse(readFileSync(manifest, 'utf8')), registry: JSON.parse(readFileSync(registry, 'utf8')) });
+      cached = { key, value };
+      return value;
+    } catch {
+      return undefined;
+    }
+  };
+}
+export const sharedEligibilitySnapshot = createEligibilitySnapshotCache({
+  manifest: new URL('./calibration_manifest.json', import.meta.url),
+  registry: new URL('./source_registry.json', import.meta.url),
+});
 // A caller checking a whole inventory may bind the registry/calibration it read
 // for that request. This shares inputs only: no item verdict is cached, and
 // signatures, content, source versions, expiry and disputes are checked anew.

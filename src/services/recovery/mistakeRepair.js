@@ -10,7 +10,7 @@ import { Database } from '@/../data/db';
 import { generateAIResponse } from '@/services/ai/providers';
 import { buildReplyDeps, modelRepliesOpen } from '@/services/prepos/replyDeps';
 import { readAIWallet } from '@/services/credits/aiCreditWallet';
-import { publicationEligibility } from '@/../data/evidence_registry';
+import { publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { runRepair } from './repairFlow';
 
 async function withheldForRecheck(db, { questionId, userId, attemptId, firstIndex, blindIndex, model }) {
@@ -45,7 +45,7 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     gateOpen: modelRepliesOpen,
     loadAttempt: (id) => Database.getAttemptById(id),
     loadQuestion: (id) => supabaseAdmin().from('questions').select('*').eq('id', id).maybeSingle(),
-    evidenceEligible: (question) => !!question && publicationEligibility(question).eligible,
+    evidenceEligible: (question) => !!question && publicationEligibility(question, sharedEligibilitySnapshot()).eligible,
     // A finished repair is stored on its committed reservation and reopens free.
     findStored: async (userId, id) => {
       const { data } = await supabaseAdmin().from('ai_credit_reservations').select('receipt').eq('user_id', userId).eq('state', 'committed')

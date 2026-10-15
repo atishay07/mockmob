@@ -3,8 +3,7 @@ import { readFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
-import { publicationEligibility } from '@/../data/evidence_registry';
-import { currentRegistry } from '@/../data/evidence_registry';
+import { currentRegistry, publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { excludeHeldFamilies } from '@/../data/evidence_holds';
 import { validatePathway, createEpisode, advanceEpisode, publicEpisode, learningPlan, allowancePeriod, permittedStep } from '@/../data/learning_engine';
 import { tonightCompletion, studyMilestones } from '@/../data/study_progress';
@@ -27,7 +26,9 @@ export async function releasedPathways() {
 
 export async function validateCurrentPathway(p) {
   validatePathway(p);
-  const registry = currentRegistry();
+  // Registry and calibration parsed once per server instance; an unreadable file still fails closed.
+  const evidenceInputs = sharedEligibilitySnapshot();
+  const registry = evidenceInputs?.registry ?? currentRegistry();
   const registered = registry.pathways?.[p.id];
   // The complete explanation, matrix and solver inputs need authenticated
   // pathway evidence too, not only independently valid referenced questions.
@@ -40,7 +41,7 @@ export async function validateCurrentPathway(p) {
   const current = await excludeHeldFamilies(data || [], db);
   for (const i of items) {
     const row = current.find(q => q.id === i.questionId);
-    if (!row || !publicationEligibility(row).eligible || row.evidence?.record?.content_hash !== i.contentHash || row.evidence?.record?.family_id !== i.familyId) throw new Error('CONTENT_EVIDENCE_CHANGED');
+    if (!row || !publicationEligibility(row, evidenceInputs).eligible || row.evidence?.record?.content_hash !== i.contentHash || row.evidence?.record?.family_id !== i.familyId) throw new Error('CONTENT_EVIDENCE_CHANGED');
   }
 }
 

@@ -1,7 +1,7 @@
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { openPractice } from '@/../data/practice_ticket';
-import { publicationEligibility } from '@/../data/evidence_registry';
+import { publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { mobileOptions } from '@/lib/server/mobileCors';
@@ -36,7 +36,7 @@ export async function POST(request, { params }) {
       db: supabaseAdmin(), userId, sessionId: id, qid: body.qid, answer: body.answer, sessionTicket: body.sessionTicket,
       openTicket: (ticket, uid, now) => openPractice(ticket, secret(), uid, now),
       attemptExists: async attemptId => !!(await Database.getAttemptById(attemptId)),
-      eligible: row => publicationEligibility(row).eligible,
+      eligible: row => publicationEligibility(row, sharedEligibilitySnapshot()).eligible,
     });
     return json(result);
   } catch (error) {
