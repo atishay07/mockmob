@@ -175,7 +175,7 @@ export function DemoDrill() {
         <div className="mm-screen__bar">
           <span className="mm-screen__live" aria-hidden="true" />
           Step 1 of 2
-          <span className="mm-drill__timer mm-measure">{SAMPLE_SIZE} questions</span>
+          <span className="mm-drill__timer">{SAMPLE_SIZE} questions</span>
         </div>
         <div className="mm-screen__body">
           <p className="mm-drill__q" id="lp-pick-q">Which subjects are you taking?</p>
@@ -213,11 +213,11 @@ export function DemoDrill() {
         <div className="mm-screen__bar">
           <span className="mm-screen__live" aria-hidden="true" />
           {subjectName}: done
-          <span className="mm-drill__timer mm-measure">{set.length} / {set.length}</span>
+          <span className="mm-drill__timer">{set.length} / {set.length}</span>
         </div>
         <div className="mm-screen__body mm-drill__result" ref={resultRef} tabIndex={-1} aria-label={`Done. You scored ${score} out of ${set.length} in ${subjectName}.`}>
           <div className="pip-drill-result"><Mascot pose={runMood(score, set.length) === 'encourage' ? 'encouraging' : 'celebrating'} /></div>
-          <p className="mm-drill__score mm-measure">
+          <p className="mm-drill__score">
             {score}
             <span>/{set.length}</span>
           </p>

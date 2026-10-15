@@ -66,9 +66,10 @@ const SHOWCASE = buildCompassShowcase();
 const WALL_VOICES = publishedVoices();
 const DU_FACTS = duIndexFacts();
 
-// The statement scrubs word by word with the scroll (on phones it holds the screen while it does).
+// The statement scrubs word by word with the scroll (on phones it holds the screen while it does). It carries on
+// from the hero, which has said what the marks cost: what you do once you can see where they went.
 // Words marked with * carry the accent.
-const STATEMENT = 'Practise on the exam clock. See where every mark went. Fix the *reason, not just the answer. Then check your DU *shortlist against real cutoffs.';
+const STATEMENT = 'Fix the *reason, not just the answer. Prove it on fresh questions days later. Then test your DU *shortlist against real cutoffs.';
 // The four launch papers as the app's lamp-lit objects. Each lands on its shadow from its own height as the
 // statement scrolls: depth is how far it falls (px), tilt how far it turns on the way. base is where the
 // object's contact shadow ends, as a share of its square box, so on phones the name sits right under it.
@@ -178,7 +179,7 @@ export default function LandingPage() {
             </div>
 
             <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
-              <div className="lp-stage__heading"><span><span className="lp-stage__live" />Five questions in your subject</span><span>No sign-up</span></div>
+              <div className="lp-stage__heading"><span><span className="lp-stage__live" />Five questions in your subject</span><span>No sign-up needed</span></div>
               <div className="lp-stage__card">
                 <DemoDrill />
               </div>

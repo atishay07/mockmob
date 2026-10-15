@@ -11,8 +11,9 @@ import { glideTo, topFor } from './pageGlide';
 //    sample question, #try-practice. Left to the router, a second tap did nothing: the URL already ended in
 //    #try-practice, so the navigation was a no-op and the page stayed at the footer. This takes over any
 //    same-page link to the demo: it always brings the question card on screen just under the sticky nav, puts
-//    focus on its first answer (so the dock, which stays up while focus is inside it, steps aside), and settles
-//    a volt ring on the card so the eye lands on it.
+//    focus on its first control (the first subject chip while the picker shows, the first answer once playing; so
+//    the dock, which stays up while focus is inside it, steps aside), and settles a volt ring on the card so the
+//    eye lands on it.
 // 2. Every other same-page link (#your-prep, #exam-experience, "/#your-prep" in the top bar) glides to its
 //    section the same way and moves focus there.
 // 3. The MockMob logo, in the top bar and the footer, points at this very page: it takes the reader to the top
@@ -30,8 +31,11 @@ function ownLink(anchor) {
   return url;
 }
 
+// The first thing to act on in the card: the first subject chip while the picker shows, else the open question's
+// first answer, the forward key, or the finished result.
 function firstControl(stage) {
-  return stage.querySelector('.mm-drill__option:not(:disabled)')
+  return stage.querySelector('.lp-pick__chip')
+    || stage.querySelector('.mm-drill__option:not(:disabled)')
     || stage.querySelector('.mm-drill__foot .mm-btn')
     || stage.querySelector('.mm-drill__result');
 }

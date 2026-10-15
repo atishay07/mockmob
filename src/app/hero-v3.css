@@ -368,6 +368,44 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--try { --beam: 125 154 0; b
 }
 .lp-pick__change:focus-visible { outline: 2px solid var(--volt); outline-offset: 2px; border-radius: 4px; }
 
+/* ---------- The sample is one surface ----------
+   One night card on the page: no framed bay behind it, no stacked cards under it, and nothing boxed inside it.
+   The glow behind it stays (no edge), the heading and the path are plain lines of text, the reasoning
+   preview and the finished screen's readout are open areas of the card (a skeleton and a divider, not
+   panels). Labels are sentence case in the body font, numbers tabular. Colour only; no motion here. */
+.mm.lp .lp-hero--v3 .lp-stage::before {
+  border: 0; box-shadow: none;
+  background: radial-gradient(75% 42% at 50% 42%, rgb(210 240 0 / .085), transparent 72%);
+}
+html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-stage::before {
+  background: radial-gradient(75% 42% at 50% 42%, rgb(170 200 0 / .14), transparent 72%);
+}
+.mm.lp .lp-hero--v3 .lp-stage__card { margin-bottom: 0; }
+.mm.lp .lp-hero--v3 .lp-stage__card::before,
+.mm.lp .lp-hero--v3 .lp-stage__card::after { content: none; }
+.mm.lp .lp-hero--v3 .lp-stage__heading > span:last-child {
+  font-family: var(--font-body); font-size: .75rem; letter-spacing: 0; font-variant-numeric: tabular-nums;
+}
+.mm.lp .lp-hero--v3 .lp-stage .mm-screen__bar {
+  font-family: var(--font-body); font-size: .8125rem; font-weight: 600; letter-spacing: 0; text-transform: none;
+}
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__timer {
+  font-family: var(--font-body); font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__ghost {
+  gap: .45rem; margin-top: .75rem; padding: .75rem 0 0; border: 0; border-top: 1px solid var(--slate-line, rgb(244 245 240 / .13)); border-radius: 0;
+}
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__ghost span {
+  font-family: var(--font-body); font-size: .8125rem; font-weight: 600; letter-spacing: 0; text-transform: none;
+}
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__readout {
+  padding: .875rem 0 0; border: 0; border-top: 1px solid var(--slate-line, rgb(244 245 240 / .13)); border-radius: 0; background: none;
+}
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__readout-head {
+  font-family: var(--font-body); font-size: .8125rem; font-weight: 600; letter-spacing: 0; text-transform: none;
+}
+.mm.lp .lp-hero--v3 .lp-stage .mm-drill__score { font-variant-numeric: tabular-nums; }
+
 /* ---------- Reduced motion: the finished, still composition ---------- */
 @media (prefers-reduced-motion: reduce) {
   .mm.lp .lp-hero--v3 [data-hero],

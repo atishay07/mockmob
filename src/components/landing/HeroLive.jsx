@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
+import { practisedCounts } from './liveCount.mjs';
 
-// The hero's live line: the real number of questions students can practise and the subjects they cover, from
-// /api/stats (the stored daily counts). The pulsing dot only ever sits beside a true number: until the counts
-// answer, the line holds its place empty (so nothing below it moves), and if they never answer it stays empty.
-// The figure counts up once on arrival; reduced motion shows it at once.
-function countedSubjects(counts) {
-  return Object.values(counts || {}).filter((n) => Number(n) > 0).length;
-}
+// The hero's live line: the real number of questions students can practise and the CUET subjects they cover,
+// from /api/stats (the stored daily counts), counted over the subjects MockMob offers for practice only
+// (liveCount.mjs; the stored bank holds many more subjects than the 15 a student can pick). The pulsing dot only
+// ever sits beside a true number: until the counts answer, the line holds its place empty (so nothing below it
+// moves), and if they never answer it stays empty. The figure counts up once on arrival; reduced motion shows it
+// at once.
 
 export function HeroLive() {
   const [stats, setStats] = useState(null);
@@ -35,11 +35,10 @@ export function HeroLive() {
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
         if (!data || data.state === 'unavailable') return;
-        const questions = Number(data.bankSize);
-        const subjects = countedSubjects(data.subjectCounts);
-        if (!Number.isFinite(questions) || questions <= 0 || subjects <= 0) return;
-        setStats({ questions, subjects });
-        countUp(questions);
+        const counted = practisedCounts(data.subjectCounts);
+        if (!counted) return;
+        setStats(counted);
+        countUp(counted.questions);
       })
       .catch(() => { /* no figure, no dot: the line stays empty */ });
     return () => { controller.abort(); cancelAnimationFrame(frame.current); };
@@ -56,7 +55,7 @@ export function HeroLive() {
               <span className="lp-live__num" aria-hidden="true" style={{ minWidth: `${stats.questions.toLocaleString('en-IN').length}ch` }}>{(shown ?? stats.questions).toLocaleString('en-IN')}</span>
               <span className="lp-sr">{stats.questions.toLocaleString('en-IN')}</span>
             </b>{' '}
-            questions live in {stats.subjects} subjects
+            questions across {stats.subjects} CUET subjects
           </span>
         </>
       ) : null}
