@@ -225,7 +225,8 @@
         "one": "Your first pass ended at {at}, on Q{q}. After it you made 1 return visit.",
         "many": "Your first pass ended at {at}, on Q{q}. After it you made {n} return visits."
       },
-      "none": "Your first pass ended at {at}, on Q{q}."
+      "none": "Your first pass ended at {at}, on Q{q}.",
+      "reached": "You opened Q{q}, the last question you had not seen, at {at}."
     },
     "noFirstPass": {
       "one": "You never finished a first pass. 1 question was never opened.",

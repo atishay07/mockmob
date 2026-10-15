@@ -53,7 +53,7 @@ export function scoreSession(questions, answers = {}, events = [], durationMs = 
   // The scored timeline keeps visits and answers only, exactly as before slice 2, so every reader of it is unchanged.
   // Marks, time away, strike-outs and the end are kept beside it (only when present) for data/paper_trace.js.
   const timeline = checked.filter(event => event.type === 'answer' || event.type === 'visit');
-  const strip = ({ type, ...rest }) => rest; // eslint-disable-line no-unused-vars
+  const strip = ({ type, ...rest }) => rest;
   const extras = {
     marks: checked.filter(e => e.type === 'mark').map(strip),
     presence: checked.filter(e => e.type === 'away' || e.type === 'back'),

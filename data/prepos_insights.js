@@ -1,5 +1,8 @@
 // PrepOS insights: analysis of the student's own server-scored sessions. Pure and free to run.
 //
+// Time per question comes from data/paper_trace.js, the one calculator every result screen uses.
+import { dwellOf } from './paper_trace.js';
+
 // Principles (see docs/brain/CLAUDE-MASTER-HANDOVER.md):
 //   * Report what the record shows, with sample sizes. Never a cause, a mastery level, a rank
 //     prediction or "marks you could recover". Answer changes are counted both ways (gains
@@ -36,17 +39,16 @@ const percentile = (values, q) => {
   return sorted[Math.min(sorted.length - 1, Math.floor(q * sorted.length))];
 };
 
-/** Seconds spent on each question, from the visit/answer timeline. Null when unusable. */
+/**
+ * Milliseconds spent on each question (a Map), or null when the record is unusable. A thin wrapper over
+ * paper_trace.js: time away is subtracted, the last question runs to the end event, and a gap over 30 minutes is
+ * skipped only on records without away data (the rule this function always had for those records).
+ */
 export function dwellByQuestion(attempt) {
   const recovery = attempt?.selectionMeta?.recovery;
   const timeline = recovery?.timeline;
   if (!recovery || recovery.telemetry !== 'self_reported' || !Array.isArray(timeline) || timeline.length < 2) return null;
-  const totals = new Map();
-  for (let i = 0; i < timeline.length - 1; i++) {
-    const gap = timeline[i + 1].at - timeline[i].at;
-    if (!(gap >= 0) || gap > 30 * 60 * 1000) continue; // ignore tab-away gaps over 30 minutes
-    totals.set(timeline[i].qid, (totals.get(timeline[i].qid) || 0) + gap);
-  }
+  const totals = dwellOf(recovery);
   return totals.size ? totals : null;
 }
 

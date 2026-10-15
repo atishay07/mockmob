@@ -82,10 +82,10 @@ export function buildReplay({ trace, questions, resultOf, groupCounts = {}, pace
     }
     // The row ends at its edge, or at the end of the record when the record ends inside it.
     const labelMs = last && trace.end ? Math.min(toMs, recordMs) : toMs;
-    const a = answeredBy(labelMs);
-    const p = evenBy(labelMs);
+    const answered = answeredBy(labelMs);
+    const even = evenBy(labelMs);
     const clock = clockLabel(sec(labelMs));
-    rows.push({ from: fromS, to: toS, label: fill(p === null ? R.row.noPace : R.row.pace, { clock, a, p }), answeredBy: a, evenPaceBy: p, bars });
+    rows.push({ from: fromS, to: toS, label: fill(even === null ? R.row.noPace : R.row.pace, { clock, a: answered, p: even }), answeredBy: answered, evenPaceBy: even, bars });
   }
 
   // Three facts under the grid.
@@ -99,7 +99,9 @@ export function buildReplay({ trace, questions, resultOf, groupCounts = {}, pace
     const passEnd = lastNew.to;
     const returns = visits.filter((v) => v.index > lastNew.index).length;
     const values = { at: clockLabel(sec(passEnd)), q: numberOf.get(lastNew.qid), n: returns, time: spentLabel((recordMs - passEnd) / 1000) };
-    if (!returns) facts.push(fill(R.firstPass.none, values));
+    // Without an end event the last visit has no known leave time, so the pass is dated by when it reached that question.
+    if (!returns && !trace.end) facts.push(fill(R.firstPass.reached, { ...values, at: clockLabel(sec(lastNew.from)) }));
+    else if (!returns) facts.push(fill(R.firstPass.none, values));
     else facts.push(fill(form(trace.end ? R.firstPass.tail : R.firstPass.count, returns), values));
   } else {
     const k = total - opened;
