@@ -14,7 +14,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
-import { apiGet, apiPost } from '@/lib/fetcher';
+import { apiGet } from '@/lib/fetcher';
 import { TIME_COPY } from '@/../data/time_decisions';
 import MistakeLessonLink from './study/MistakeLessonLink';
 import TimeDecisions from './result/TimeDecisions';
@@ -73,30 +73,8 @@ function Prove({ attempt, topChapter }) {
   );
 }
 
-// The playbook note. Every answer change now shows with its clock times in Find (Time and decisions).
-function PlaybookNote({ attempt, analysis }) {
-  const [reflection, setReflection] = useState('');
-  const [saveState, setSaveState] = useState('');
-  return (
-    <details className="srl-log">
-      <summary>A note for your playbook</summary>
-      <div className="srl-log__body">
-        <form className="srl-note" onSubmit={async e => {
-          e.preventDefault(); setSaveState('Saving…');
-          try { await apiPost('/api/recovery', { attemptId: attempt.id, strategy: analysis.mistakes.length ? 'concept_repair' : 'two_pass', reflection }); setSaveState('Saved to your playbook.'); }
-          catch { setSaveState('Could not save. Your note is still here; try again.'); }
-        }}>
-          <label htmlFor="srl-reflection">One line for next time</label>
-          <textarea id="srl-reflection" maxLength={1000} value={reflection} onChange={e => setReflection(e.target.value)} placeholder="For example: I change answers without a real reason." />
-          <div className="srl-note__row">
-            <button type="submit" className="srl-cta srl-cta--quiet" disabled={saveState === 'Saving…' || !reflection.trim()}>Save note</button>
-            <p role="status" className="srl-muted">{saveState}</p>
-          </div>
-        </form>
-      </div>
-    </details>
-  );
-}
+// The free-text playbook note is retired (spec tmp/mistake-lab-v4/SPEC.md 4.10): its saved notes are kept, and the
+// rule for the next mock (the Rule book's "Use in my next mock", /api/me/playbook) takes its place.
 
 // swotShown: the result page's SWOT already reads the chapters, so Find shows only Time and decisions.
 // timeRead: buildTimeDecisions(attempt) from the result page (the same read feeds each answer's own lines).
@@ -223,8 +201,6 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
           </div>
         </li>
       </ol>
-
-      <PlaybookNote attempt={attempt} analysis={analysis} />
     </section>
   );
 }

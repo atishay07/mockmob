@@ -33,7 +33,7 @@ const SUBJECT_CHAPTERS = { accountancy: CHAPTERS, economics: ['National Income',
  *   kw / wk / ww (key to wrong, wrong to key, wrong to another wrong), with `later` for a change on a return visit
  * `marked` numbers carry a mark for review (only with `capture`, which also sends via and an end event).
  */
-function mock({ id, subject = 'accountancy', day, n = 50, plan = {}, marked = [], capture = false, mode = 'full' }) {
+export function mock({ id, subject = 'accountancy', day, n = 50, plan = {}, marked = [], capture = false, mode = 'full' }) {
   const chapters = SUBJECT_CHAPTERS[subject];
   const qs = Array.from({ length: n }, (_, i) => ({
     id: `${id}-q${i + 1}`, chapter: chapters[i % chapters.length], question: `Illustrative question ${i + 1}`,
@@ -161,3 +161,5 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   for (const [name, value] of Object.entries(contracts)) writeFileSync(join(FIXTURE_DIR, `${name}.json`), json(value));
   console.log(`wrote ${1 + Object.keys(contracts).length} files to ${FIXTURE_DIR}`);
 }
+
+export const S3 = Object.freeze({ USER, T0, DAY, M1, M2, M3, M4, PRACTICE, M5_KEPT, M5_NOT, M5_PLAIN, RESERVATIONS, PLAYBOOK });
