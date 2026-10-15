@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import MobiReact from '@/components/brand/MobiReact';
 import { MobileDock } from '@/components/MobileDock';
-import { Icon } from '@/components/ui/Icons';
 import { useVisitor } from './useWayIn';
 
 // The landing's phone action bar waits its turn. On the first screen the hero's own buttons and the demo
@@ -197,10 +196,10 @@ export function LandingDock() {
       <MobileDock>
         <DockMobi label={label} state={kind}>
           {kind === 'member' ? (
-            <Link href={homeHref} className="mm-btn mm-btn--primary">{homeText}<Icon name="arrow" className="mm-btn__icon" aria-hidden="true" /></Link>
+            <Link href={homeHref} className="mm-btn mm-btn--primary">{homeText}</Link>
           ) : (
             <>
-              <Link href={signupHref} className="mm-btn mm-btn--primary">Start free<Icon name="arrow" className="mm-btn__icon" aria-hidden="true" /></Link>
+              <Link href={signupHref} className="mm-btn mm-btn--primary">Start free</Link>
               {kind === 'new' ? <a href="#try-practice" className="mm-btn mm-btn--secondary">Try 5 questions</a> : null}
             </>
           )}

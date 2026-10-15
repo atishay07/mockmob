@@ -4,8 +4,6 @@
 .lp .lp-bg__dots { opacity: .3; }
 .lp .lp-bg__aurora { opacity: .4; }
 
-.lp .lp-pill__dot::after { animation-iteration-count: 2; }
-.lp .lp-pill { background: var(--paper-raised); border-color: var(--line); }
 /* Hero practice bay. Restores the earlier frame's depth (a framed bay, a lit slate card
    with real shadow and a skeleton of the coming explanation) and keeps the refinement's
    status row and purpose rail inside the bay. A two-card stack under the screen says
@@ -102,14 +100,12 @@ html[data-theme='light'] .lp-stage__live { background: #7d9a00; box-shadow: 0 0 
 .lp-exam-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
 .lp-exam-intro .lp-sub { margin-top: 1rem; max-width: 56ch; }
 .lp-exam-switch { display: flex; padding: 5px; gap: 4px; background: var(--paper); border: 1px solid var(--line-strong); border-radius: 999px; flex-shrink: 0; }
-.lp-exam-switch button { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .6rem 1rem; border: 0; border-radius: 999px; background: transparent; color: var(--ink-2); cursor: pointer; font-weight: 600; font-size: .875rem; transition: background-color .25s, color .25s; }
-.lp-exam-switch button[aria-pressed='true'] { background: var(--volt); color: var(--volt-ink); }
-.lp-exam-switch button > span { padding: .1rem .35rem; background: #71823722; border-radius: 4px; font-size: .625rem; }
+.lp-exam-switch button { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .6rem 1rem; border: 0; border-radius: 999px; background: transparent; color: var(--ink-2); cursor: pointer; font-weight: 600; font-size: .875rem; transition: background-color 150ms ease, color 150ms ease, transform 120ms cubic-bezier(0.23, 1, 0.32, 1); }
+.lp-exam-switch button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+.lp-exam-switch button:active { transform: scale(0.98); }
 .lp-exam { --exam-bg: #10180f; --exam-panel: #172015; --exam-line: #354330; --exam-ink: #f2f5ec; --exam-muted: #acbba2; border: 1px solid var(--line-strong); border-radius: 1rem; overflow: hidden; background: var(--exam-bg); color: var(--exam-ink); box-shadow: 0 18px 40px #0000000d; }
 .lp-exam__bar { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--exam-line); font-size: .8125rem; }
 .lp-exam__bar > span:first-child { display: flex; align-items: center; gap: .5rem; font-weight: 600; }
-.lp-exam__live { width: 6px; height: 6px; border-radius: 50%; background: #d2f000; }
-.lp-exam__sample { color: var(--exam-muted); margin-left: auto; font-size: .6875rem; }
 .lp-exam__clock { display: flex; align-items: center; gap: .45rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lp-exam__clock small { font-size: .625rem; color: var(--exam-muted); }
 .lp-exam__body { display: grid; grid-template-columns: minmax(0, 1fr) 290px; min-height: 560px; } /* tallest skin, so switching never reflows the page */
@@ -167,7 +163,7 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
 /* NTA's conventional white paper and shaped palette are intentionally independent of the page theme. */
 .lp-exam[data-interface='nta'] { --exam-bg: #fff; --exam-panel: #eef4f8; --exam-line: #c7d1d8; --exam-ink: #222; --exam-muted: #52616a; font-family: Arial, sans-serif; border-radius: 6px; color-scheme: light; }
 .lp-exam[data-interface='nta'] .lp-exam__bar { background: #32688f; color: white; }
-.lp-exam[data-interface='nta'] :is(.lp-exam__sample, .lp-exam__clock small) { color: #e3eef6; }
+.lp-exam[data-interface='nta'] .lp-exam__clock small { color: #e3eef6; }
 .lp-exam[data-interface='nta'] .lp-exam__question h3 { font-family: Arial, sans-serif; font-size: 1.0625rem; }
 .lp-exam[data-interface='nta'] .lp-exam__meta { margin: -1.75rem -1.75rem 0; padding: .8rem 1.75rem; background: #eff4f7; border-bottom: 1px solid var(--exam-line); }
 .lp-exam[data-interface='nta'] .lp-exam__options label { border: 0; border-radius: 0; background: #fff; }
@@ -212,7 +208,6 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp-exam__legend { grid-template-columns: 1fr 1fr; }
   .lp-exam__bar { padding: .9rem 1rem; gap: .5rem; flex-wrap: wrap; }
   .lp-exam__bar > span:first-child { font-size: .75rem; }
-  .lp-exam__sample { display: none; }
   .lp-exam__clock { margin-left: auto; font-size: .75rem; }
   .lp-exam__question h3 { min-height: 3em; }
   .lp-exam__actions { gap: .5rem; padding-top: 1.3rem; }
@@ -224,7 +219,6 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp-exam-switch { width: 100%; }
   .lp-exam-switch button { flex: 1; }
 }
-@media (hover: hover) { .lp .lp-subject:hover { box-shadow: var(--sh-2); } }
 @media (prefers-reduced-motion: reduce) { .lp-exam-switch button, .lp-college, .mm.lp .lp-college__art img { transition: none; } .mm.lp .lp-college:hover .lp-college__art img { transform: none; } .lp-stage__live::after { animation: none; } }
 
 /* Touch tablets keep the two-column console, so give the five live palette cells the same
