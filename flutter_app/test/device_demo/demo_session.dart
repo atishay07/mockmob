@@ -141,7 +141,7 @@ class DemoSession extends runner.FakeRunnerSession {
   }
 
   @override
-  Future<SubmitOutcome> submit({bool timedOut = false}) async {
+  Future<SubmitOutcome> submit({bool timedOut = false, String? endReason}) async {
     if (submitState.value.stage == SubmitStage.received) return submitState.value.outcome!;
     _tick?.cancel();
     demoDrafts.clear(_id);
@@ -155,7 +155,7 @@ class DemoSession extends runner.FakeRunnerSession {
       );
     }
     nextOutcome = SubmitReceived(attempt: {'id': resultId}, receivedAt: at);
-    return super.submit(timedOut: timedOut);
+    return super.submit(timedOut: timedOut, endReason: endReason);
   }
 
   /// The runner opened this paper again (Resume): the clock runs on from where the deadline is.

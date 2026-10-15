@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../analytics/analytics_client.dart' show appVersionProvider;
 import '../api/api_providers.dart';
 import '../connectivity/connectivity_monitor.dart';
 import '../connectivity/connectivity_providers.dart';
@@ -143,6 +144,7 @@ final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
       },
       // Read at the moment the reply lands, from the same live scope the stores use.
       signedInUserId: () => scope.userIdOrNull,
+      appVersion: () => ref.read(appVersionProvider).value ?? '',
       now: ref.watch(nowProvider),
     ),
     scheduler: ref.watch(workmanagerSchedulerProvider),

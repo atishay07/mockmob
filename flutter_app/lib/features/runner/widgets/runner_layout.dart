@@ -36,6 +36,7 @@ class RunnerLayout extends StatefulWidget {
     required this.onPrevious,
     required this.onNext,
     this.onJump,
+    this.onSwipe,
     this.onRetrySave,
     this.onStrike,
     this.onReady,
@@ -52,10 +53,14 @@ class RunnerLayout extends StatefulWidget {
   /// A tap on a bubble of the timing track.
   final ValueChanged<int>? onJump;
 
+  /// A committed sideways swipe: 1 for the next question, -1 for the previous one. Without it a
+  /// swipe calls [onNext] or [onPrevious].
+  final ValueChanged<int>? onSwipe;
+
   /// A tap on "Not saved yet. Tap to retry".
   final VoidCallback? onRetrySave;
 
-  /// A long press on an option: cross it out or bring it back (in memory only).
+  /// A long press on an option: cross it out or bring it back (never part of the answer).
   final void Function(String qid, int option)? onStrike;
 
   /// The paper has just become complete and its last save is acknowledged (the soft haptic).
@@ -294,7 +299,14 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                         child: QuestionStage(
                           index: index,
                           layer: layer,
-                          onSwipe: (step) => step > 0 ? widget.onNext() : widget.onPrevious(),
+                          onSwipe: (step) {
+                            final swipe = widget.onSwipe;
+                            if (swipe != null) {
+                              swipe(step);
+                            } else {
+                              step > 0 ? widget.onNext() : widget.onPrevious();
+                            }
+                          },
                           hasPrevious: index > 0,
                           hasNext: index < s.questions.length - 1,
                         ),

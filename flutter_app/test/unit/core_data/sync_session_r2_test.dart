@@ -578,8 +578,9 @@ class _HeldApi extends FakeSessionApi {
     required Map<String, int> answers,
     required List<SessionEvent> events,
     String? forUserId,
+    Map<String, Object?>? meta,
   }) async {
     await hold.future;
-    return super.submit(sessionId: sessionId, sessionTicket: sessionTicket, answers: answers, events: events, forUserId: forUserId);
+    return super.submit(sessionId: sessionId, sessionTicket: sessionTicket, answers: answers, events: events, forUserId: forUserId, meta: meta);
   }
 }

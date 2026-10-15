@@ -12,11 +12,12 @@ class AnswerJournal extends Table {
   IntColumn get seq => integer()();
   TextColumn get qid => text()();
 
-  /// `visit` or `answer`.
+  /// `visit`, `answer`, `mark`, `strike`, `away`, `back` or `end`.
   TextColumn get type => text()();
   IntColumn get atMs => integer()();
 
-  /// Only for `answer` events. Null means the answer was cleared.
+  /// For `answer` events the option, null when the answer was cleared. The newer types pack their
+  /// own field here (SessionJournal.encodeStored): a visit's via, a mark, a strike, an end reason.
   IntColumn get answer => integer().nullable()();
   IntColumn get createdAtMs => integer()();
 

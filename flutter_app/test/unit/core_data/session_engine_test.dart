@@ -295,7 +295,9 @@ void main() {
       expect(api.puts.length, 1);
       expect(status.calls, ['inProgress']);
       final saved = await drafts.bySessionId('sess-1');
-      expect(saved!.acknowledgedSequence, 2);
+      // The visit, the answer and (Mistake Lab v4 slice 2) the away event written as the app left.
+      expect(saved!.acknowledgedSequence, 3);
+      expect(api.puts.single.last.type, 'away');
     });
 
     test('resume clears the status and reports how long the student was away', () async {

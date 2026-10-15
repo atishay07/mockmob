@@ -201,9 +201,16 @@ class FakeRunnerSession extends ChangeNotifier implements RunnerSession {
     return true;
   }
 
+  /// How each [goTo] said the question was reached, in order (null when it did not say).
+  final List<String?> vias = [];
+
+  /// The end reason each [submit] named, in order.
+  final List<String?> endReasons = [];
+
   @override
-  Future<void> goTo(int index) async {
+  Future<void> goTo(int index, {String? via}) async {
     calls.add('goTo $index');
+    vias.add(via);
     _visited.add(questions[_index].id);
     _index = index;
     notifyListeners();
@@ -217,8 +224,9 @@ class FakeRunnerSession extends ChangeNotifier implements RunnerSession {
   }
 
   @override
-  Future<SubmitOutcome> submit({bool timedOut = false}) async {
+  Future<SubmitOutcome> submit({bool timedOut = false, String? endReason}) async {
     submits++;
+    endReasons.add(endReason);
     calls.add('submit');
     endedByTimeUp = endedByTimeUp || timedOut;
     canAnswer = false;

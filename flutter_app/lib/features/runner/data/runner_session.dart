@@ -50,14 +50,19 @@ abstract class RunnerSession implements Listenable {
   ValueListenable<AwayInfo?> get away;
   Stream<SessionWarning> get warnings;
 
-  /// Options the student has crossed out. Kept in memory for this sitting only: never saved,
-  /// never sent to the server, never part of the answer.
+  /// Options the student has crossed out. Shown for this sitting only and never part of the
+  /// answer; each cross-out is recorded with the session for the result's analysis after submit.
   StrikeBook get strikes;
 
   Future<bool> selectAnswer(String qid, int? option);
-  Future<void> goTo(int index);
+
+  /// Moves to question [index], reached by [via] (a `SessionVia`: next, previous, palette, swipe).
+  Future<void> goTo(int index, {String? via});
   void setMarked(String qid, bool value);
-  Future<SubmitOutcome> submit({bool timedOut = false});
+
+  /// [endReason] names how the paper ended when it is not the student's submit or time up (the
+  /// NTA third warning: `SessionEndReason.ntaStrikes`).
+  Future<SubmitOutcome> submit({bool timedOut = false, String? endReason});
   void dismissAway();
 
   Future<void> onPaused();
@@ -137,16 +142,16 @@ class EngineRunnerSession implements RunnerSession {
   @override
   Stream<SessionWarning> get warnings => engine.warnings;
   @override
-  final StrikeBook strikes = StrikeBook();
+  late final StrikeBook strikes = StrikeBook(onChange: engine.recordStrike);
 
   @override
   Future<bool> selectAnswer(String qid, int? option) => engine.selectAnswer(qid, option);
   @override
-  Future<void> goTo(int index) => engine.goTo(index);
+  Future<void> goTo(int index, {String? via}) => engine.goTo(index, via: via);
   @override
   void setMarked(String qid, bool value) => engine.setMarked(qid, value);
   @override
-  Future<SubmitOutcome> submit({bool timedOut = false}) => engine.submit(timedOut: timedOut);
+  Future<SubmitOutcome> submit({bool timedOut = false, String? endReason}) => engine.submit(timedOut: timedOut, endReason: endReason);
   @override
   void dismissAway() => engine.dismissAway();
   @override
@@ -265,9 +270,16 @@ class _Closing {
   final Completer<void> done = Completer<void>();
 }
 
-/// The options crossed out on each question, in memory only (a scratch mark on the paper, not an
-/// answer): it is never saved, never synced and never reaches the server.
+/// The options crossed out on each question (a scratch mark on the paper, not an answer). The set
+/// lives in memory for this sitting; [onChange] hears each cross-out and each option brought back,
+/// so the session records it for the result's analysis after submit (Mistake Lab v4 spec 6, item
+/// 4). It never touches the answer or the score.
 class StrikeBook extends ChangeNotifier {
+  StrikeBook({this.onChange});
+
+  /// Told of every change: the question, the served option and whether it is now crossed out.
+  final void Function(String qid, int option, bool on)? onChange;
+
   final Map<String, Set<int>> _struck = {};
   bool _used = false;
 
@@ -282,13 +294,18 @@ class StrikeBook extends ChangeNotifier {
   /// Crosses [option] out, or brings it back when it is already crossed out.
   void toggle(String qid, int option) {
     final set = _struck.putIfAbsent(qid, () => <int>{});
-    if (!set.remove(option)) set.add(option);
+    final on = !set.remove(option);
+    if (on) set.add(option);
     _used = true;
     notifyListeners();
+    onChange?.call(qid, option, on);
   }
 
   /// Brings [option] back (picking a crossed-out option un-crosses it).
   void restore(String qid, int option) {
-    if (_struck[qid]?.remove(option) ?? false) notifyListeners();
+    if (_struck[qid]?.remove(option) ?? false) {
+      notifyListeners();
+      onChange?.call(qid, option, false);
+    }
   }
 }
