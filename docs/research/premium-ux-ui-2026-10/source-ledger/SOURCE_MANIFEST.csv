@@ -1,0 +1,11 @@
+source_id,source_type,channel,video_id,url,verified_title,transcript_status,video_frames_status,level,priority,notes
+R01,direct_video,unverified,8EAYZe6y3I8,https://youtu.be/8EAYZe6y3I8,,not_retrieved,not_accessible,LINK_ONLY,high,Provided by user; pending source fetch
+R02,channel,Tim Gabe,,https://www.youtube.com/@TimGabe,,inventory_not_retrieved,not_accessible,CHANNEL_ONLY,high,Website timgabe.com retrievable; no claim of full channel coverage
+R03,direct_video,unverified,qJ4qYhTqAz0,https://youtu.be/qJ4qYhTqAz0,,not_retrieved,not_accessible,LINK_ONLY,high,Provided by user; pending source fetch
+R04,direct_video,uxpeak,2TlIg3VokY8,https://youtu.be/2TlIg3VokY8,The UX Psychology Behind Apps People Can't Stop Using,caption_transcript_verified,not_accessible,T,critical,Primary source for detailed paper
+R05,channel,uxpeak,,https://www.youtube.com/@uxpeak/videos,,inventory_incomplete,not_accessible,CHANNEL_ONLY,critical,Requested every video with own paper; full audit blocked
+R06,direct_video,unverified,soZgjJi7xNw,https://youtu.be/soZgjJi7xNw,,not_retrieved,not_accessible,LINK_ONLY,high,Provided by user; pending source fetch
+R07,direct_video,unverified,XKDfs9xTzfw,https://youtu.be/XKDfs9xTzfw,,not_retrieved,not_accessible,LINK_ONLY,critical,User highlighted anti-AI-slop; dedicated independent memo is not video analysis
+D01,channel_discovery,uxpeak,zr37ibqXl1U,https://www.youtube.com/watch?v=zr37ibqXl1U,Top 3 UX/UI Redesigns That Make You Design Like a Pro,caption_transcript_verified,not_accessible,T,high,Additional discovered channel video
+D02,channel_discovery,uxpeak,03Xw8UyC6uo,https://www.youtube.com/watch?v=03Xw8UyC6uo,The Shortest UX/UI Design Course,caption_transcript_verified,not_accessible,T,medium,Additional discovered channel video
+D03,channel_discovery,uxpeak,GGg61sdEjeI,https://www.youtube.com/watch?v=GGg61sdEjeI,This UI/UX Redesign Will Teach You More Than 200 Tutorials Combined,video_description_only,not_accessible,S,high,Additional discovered channel video; not transcript

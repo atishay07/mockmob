@@ -1,0 +1,19 @@
+evidence_id,type,video_id,time_start,time_end,claim,source_url,verification,agent_use
+T001,T,2TlIg3VokY8,00:22,01:44,Booking example contrasts blank fields with smart prefilled defaults,https://youtube2text.diguardia.org/v/the-ux-psychology-behind-apps-people-can-t-stop-using-2TlIg3VokY8,caption_verified,Use defensible defaults with editable values
+T002,T,2TlIg3VokY8,01:45,03:12,Progress example contrasts 0 percent with 20 percent head start,https://youtube2text.diguardia.org/v/the-ux-psychology-behind-apps-people-can-t-stop-using-2TlIg3VokY8,caption_verified,Count only real completed progress
+T003,T,2TlIg3VokY8,03:49,05:37,Report example shows useful results before signup instead of locked blur,https://youtube2text.diguardia.org/v/the-ux-psychology-behind-apps-people-can-t-stop-using-2TlIg3VokY8,caption_verified,Value before gate
+T004,T,2TlIg3VokY8,05:38,07:02,Customization before signup creates sense of investment,https://youtube2text.diguardia.org/v/the-ux-psychology-behind-apps-people-can-t-stop-using-2TlIg3VokY8,caption_verified,Allow meaningful customization with no sunk-cost trap
+T005,T,2TlIg3VokY8,08:19,09:35,Creator shows loss-frame with named files countdown and uncomfortable dismissal,https://youtube2text.diguardia.org/v/the-ux-psychology-behind-apps-people-can-t-stop-using-2TlIg3VokY8,caption_verified,Do not apply threat-based upsells
+T006,T,2TlIg3VokY8,09:36,11:30,Protection plan price framed relative to expensive laptop,https://youtube2text.diguardia.org/v/the-ux-psychology-behind-apps-people-can-t-stop-using-2TlIg3VokY8,caption_verified,Price framing must use comparable units
+T007,T,zr37ibqXl1U,00:36,05:19,Trial paywall case features disclosure timeline cancellation reminder and specific CTA,https://youtube2text.diguardia.org/v/top-3-ux-ui-redesigns-that-make-you-design-like-a-pro-zr37ibqXl1U,caption_verified,Show accurate terms and real product preview
+T008,T,zr37ibqXl1U,06:55,09:37,Ride selection: estimated ranges versus exact prices and arrival details,https://youtube2text.diguardia.org/v/top-3-ux-ui-redesigns-that-make-you-design-like-a-pro-zr37ibqXl1U,caption_verified,Use accurate quotes or clearly label ranges
+T009,T,zr37ibqXl1U,10:37,13:57,Villa booking case: prominent image clear date duration price total and cancellation,https://youtube2text.diguardia.org/v/top-3-ux-ui-redesigns-that-make-you-design-like-a-pro-zr37ibqXl1U,caption_verified,Use proof and truthful pricing
+S010,S,GGg61sdEjeI,,,Creator describes product page hierarchy and sticky CTA redesign,https://zolotube.com/watch?v=GGg61sdEjeI,description_only,Not a transcript result
+S011,S,,,,UX Peak site visually contrasts two information dashboards,https://www.uxpeak.com/the-ui-ux-playbook,creator_website,Support hierarchy principles only
+S012,S,,,,UX Peak frames its offering around practical UX and real before after examples,https://www.uxpeak.com/pages/about,creator_website,Context only
+S013,S,,,,Tim Gabe site describes creative and Framer practice,https://timgabe.com/,creator_website,Context only
+S014,S,,,,NNg explains progressive disclosure and its tradeoffs,https://www.nngroup.com/articles/progressive-disclosure/,external_research,Supporting design heuristic
+S015,S,,,,Baymard documents reducing visible checkout fields and honest accurate progress,https://baymard.com/blog/checkout-flow-ux-optimization,external_research,Supporting form and checkout pattern
+S016,S,,,,W3C WCAG 2.2 defines consistent navigation and identification,https://www.w3.org/TR/wcag/,official_standard,Accessibility requirement
+S017,S,,,,InterfaceKit characterizes AI slop as missing intent and validation not just gradients,https://blog.interfacekit.io/what-is-ai-slop-ui-design,external_opinion,Independent synthesis only
+S018,S,,,,Dardo contrasts generic AI websites with deliberate design evidence,https://dardo.studio/en/blog/ai-slop-vs-designed-websites/,external_opinion,Independent synthesis only
