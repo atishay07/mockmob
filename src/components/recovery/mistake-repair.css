@@ -18,35 +18,75 @@
 .mr-start__cost { flex: none; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--a-volt-line); font: 650 12px/1.3 var(--font-display, inherit); color: var(--a-accent-text, #d2f000); }
 .mr-start:focus-visible, .mr-retry:focus-visible, .mr-practice:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 
-.mr-stages { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.mr-stages li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--a-ink-3, #93a08f); }
-.mr-stages li::before { content: ''; width: 16px; height: 16px; flex: none; border-radius: 50%; border: 2px solid var(--a-line-strong, #384736); }
-.mr-stages li[data-state='active'] { color: var(--a-ink, #f2f4ec); }
-.mr-stages li[data-state='active']::before { border-color: var(--a-select, #d2f000); border-right-color: transparent; animation: mr-spin 800ms linear infinite; }
-.mr-stages li[data-state='done'] { color: var(--a-ink-2, #bcc5b9); }
-.mr-stages li[data-state='done']::before { background: var(--a-select, #d2f000); border-color: var(--a-select, #d2f000); }
-
 .mr-title { font: 700 16px/1.25 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
 .mr-note { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 65ch; }
 .mr-retry { justify-self: start; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink, #f2f4ec); font-weight: 650; cursor: pointer; }
 
+/* Loading: Mobi and one plain line that changes on real elapsed time (8 s, 45 s). No stages, no percentages. */
+.mr-wait { margin: 0; display: flex; align-items: center; gap: 10px; min-width: 0; font-size: 15px; line-height: 1.45; color: var(--a-ink, #f2f4ec); }
+.mr-wait[data-phase='slow'], .mr-wait[data-phase='long'] { color: var(--a-ink-2, #bcc5b9); }
+.mr-wait__ring { width: 16px; height: 16px; flex: none; border-radius: 50%; border: 2px solid var(--a-line-strong, #384736); border-top-color: var(--a-select, #d2f000); }
+.mr--loading[data-has-mobi] .mr-wait__ring { display: none; }
+
+/* A finished repair: one column, labelled blocks separated by space. The rule card is the only raised surface. */
+.mr--done { gap: 16px; }
 .mr-head { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.mr-head__text { display: flex; justify-content: space-between; align-items: baseline; gap: 6px 14px; flex-wrap: wrap; flex: 1; min-width: 0; }
-h4.mr-title { margin: 0; font-size: 17px; }
-.mr-check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--a-good-text, #b6e36e); }
-.mr-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.mr-card, .mr-idea, .mr-next, .mr-another { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; background: var(--a-raised, #131a16); border: 1px solid var(--a-line, #253026); }
-.mr-card[data-kind='trap'] { border-left: 3px solid var(--a-warn-text, #e0b93f); }
-.mr-card[data-kind='wrong'] { border-left: 3px solid var(--a-bad-text, #ff9d92); }
-.mr-idea { border: 1px solid var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-volt-wash, rgba(210, 240, 0, .07)); }
-.mr-card > span, .mr-idea > span, .mr-next > span, .mr-another > span { font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
-.mr-idea span { color: var(--a-accent-text, #d2f000); }
-.mr-card p, .mr-idea p, .mr-next p, .mr-another > p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
-.mr-idea p { font-weight: 600; }
+.mr-head__text { display: grid; gap: 4px; flex: 1; min-width: 0; }
+h4.mr-title { margin: 0; font-size: 18px; line-height: 1.25; letter-spacing: -0.01em; }
+.mr-check { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; line-height: 1.4; color: var(--a-ink-2, #bcc5b9); }
+.mr-check svg { flex: none; color: var(--a-good-text, #b6e36e); }
+.mr-block { display: grid; gap: 4px; min-width: 0; }
+.mr-label { margin: 0; font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
+.mr-label:focus { outline: none; }
+.mr-label:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 4px; }
+.mr-block > p, .mr-reveal__inner > p { margin: 0; max-width: 68ch; font-size: 15px; line-height: 1.6; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+
+/* The worked contrast: a pull line on a 2 px ink rail under "Why D is right". */
+.mr-contrast { margin: 8px 0 0; padding: 2px 0 2px 14px; border-left: 2px solid var(--a-ink-3, #93a08f); }
+.mr-contrast p { margin: 0; max-width: 64ch; font-size: 15px; line-height: 1.6; font-weight: 550; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+
+/* The other options: a disclosure, closed by default. */
+.mr-disclose {
+  justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-left: -8px; padding: 0 12px 0 8px;
+  border: 0; border-radius: 10px; background: transparent; color: var(--a-ink, #f2f4ec); font: 650 14px/1.2 var(--font-display, inherit); cursor: pointer;
+  transition: background-color 160ms var(--a-ease, ease);
+}
+.mr-disclose:hover { background: color-mix(in oklab, var(--a-ink, #f2f4ec) 7%, transparent); }
+.mr-disclose:active { background: color-mix(in oklab, var(--a-ink, #f2f4ec) 11%, transparent); }
+.mr-disclose:focus-visible, .mr-textbtn:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+.mr-disclose__icon { flex: none; color: var(--a-ink-3, #93a08f); transition: transform 180ms var(--a-ease, ease); }
+.mr-disclose[aria-expanded='true'] .mr-disclose__icon { transform: rotate(90deg); }
+.mr-others__list { list-style: none; margin: 2px 0 0; padding: 0; display: grid; gap: 8px; }
+.mr-others__list li { display: grid; grid-template-columns: 2.2ch minmax(0, 1fr); gap: 8px; max-width: 68ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); }
+.mr-others__list li > span { overflow-wrap: anywhere; }
+.mr-others__letter { font-weight: 700; color: var(--a-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
+
+/* Reveals (the other options, another way): the row opens in place. */
+.mr-reveal { display: grid; grid-template-rows: 1fr; }
+.mr-reveal[hidden] { display: none; }
+.mr-reveal > * { min-height: 0; overflow: hidden; }
+.mr-reveal__inner { display: grid; gap: 4px; }
+
+/* "Explain it another way": a text button, no call and no credit. */
+.mr-textbtn {
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; margin-left: -10px; padding: 0 10px; border: 0; border-radius: 10px;
+  background: transparent; color: var(--a-accent-text, #d2f000); font: 650 14px/1.2 var(--font-display, inherit); cursor: pointer;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; transition: background-color 160ms var(--a-ease, ease);
+}
+.mr-textbtn:hover { background: color-mix(in oklab, var(--a-accent-text, #d2f000) 9%, transparent); }
+.mr-textbtn:active { background: color-mix(in oklab, var(--a-accent-text, #d2f000) 14%, transparent); }
+
+/* From your record: the server's sentences about this answer, set apart from the explanation by a hairline. */
+.mr-record { padding-top: 14px; border-top: 1px solid var(--a-line, #253026); }
+.mr-record ul { list-style: none; margin: 2px 0 0; padding: 0; display: grid; gap: 6px; }
+.mr-record li { position: relative; max-width: 68ch; padding-left: 14px; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.mr-record li::before { content: ''; position: absolute; left: 2px; top: 0.66em; width: 5px; height: 5px; border-radius: 50%; background: var(--a-ink-3, #93a08f); }
+
+.mr-do { gap: 8px; justify-items: start; }
 .mr-foot { display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; }
 .mr-practice {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 12px; max-width: 100%;
-  background: #d2f000; color: #10140e; font-weight: 700; text-decoration: none; justify-self: start;
+  background: #d2f000; color: #10140e; font-weight: 700; text-decoration: none; justify-self: start; overflow-wrap: anywhere;
 }
 .mr-next-btn {
   display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 12px; border: 0; cursor: pointer;
@@ -54,16 +94,15 @@ h4.mr-title { margin: 0; font-size: 17px; }
 }
 .mr-next-btn:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 .mr-practice--quiet { background: transparent; color: var(--a-ink, #f2f4ec); border: 1px solid var(--a-line-strong, #384736); }
-.mr-fine { flex-basis: 100%; font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #93a08f); }
-@media (max-width: 560px) { .mr-cards { grid-template-columns: 1fr; } .mr-start__cost { display: none; } }
+.mr-practice--quiet:hover { border-color: var(--a-ink-3, #93a08f); }
+.mr-fine { flex-basis: 100%; font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .mr-start__cost { display: none; } }
 
 .mr-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 
-/* Loading: Mobi and a plain status line in one row, the stages below. */
+/* Mobi and a plain status line in one row. */
 .mr-top { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .mr-top__text { display: grid; gap: 2px; min-width: 0; }
-.mr-slow { margin: 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3, #93a08f); }
-.mr-slow[data-on] { color: var(--a-ink-2, #bcc5b9); }
 
 /* Mobi's fixed slot (the shared MobiReact inside): the same size in every state, so nothing moves when the act changes. */
 .mr-shell { display: grid; gap: 2px; touch-action: pan-y pinch-zoom; }
@@ -87,39 +126,33 @@ h4.mr-title { margin: 0; font-size: 17px; }
 .mr-fold__toggle:hover { border-color: var(--a-ink-3, #93a08f); }
 .mr-fold__toggle:focus-visible, .mr-copy:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 
-/* Another way to see it, with the contrast pulled out. */
-.mr-contrast { margin: 6px 0 0; padding: 10px 12px 10px 14px; border-radius: 10px; border-left: 3px solid var(--a-select, #d2f000); background: color-mix(in oklab, var(--a-select, #d2f000) 6%, transparent); }
-.mr-contrast p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--a-ink, #f2f4ec); font-weight: 550; overflow-wrap: anywhere; }
-
-/* The rule: a raised card with a rail that draws last. */
-.mr-rule { position: relative; display: grid; gap: 6px; padding: 14px 16px 14px 20px; border-radius: 14px; border: 1px solid var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-raised, #131a16); box-shadow: 0 10px 24px -14px rgba(0, 0, 0, .45); overflow: hidden; }
-.mr-rule::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--a-select, #d2f000); transform-origin: 50% 0; }
+/* The rule: the one raised card, with Copy, and the memory hook under the rule in muted type. */
+.mr-rule { position: relative; display: grid; gap: 6px; padding: 14px 16px; border-radius: 14px; border: 1px solid var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-raised, #131a16); box-shadow: 0 10px 24px -14px rgba(0, 0, 0, .45); }
 .mr-rule__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .mr-rule__head > span { font: 700 13px/1.4 var(--font-display, inherit); color: var(--a-accent-text, #d2f000); }
-.mr-rule p { margin: 0; font: 650 16px/1.5 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.mr-rule > p { margin: 0; font: 650 16px/1.5 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.mr-rule > p.mr-hook { font: 400 14px/1.55 var(--font-body, inherit); color: var(--a-ink-2, #bcc5b9); }
+.mr-hook > span { font-weight: 600; color: var(--a-ink-3, #93a08f); }
 .mr-copy { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink-2, #bcc5b9); font: 650 12px/1 var(--font-display, inherit); cursor: pointer; transition: color 160ms var(--ease-out, ease), border-color 160ms var(--ease-out, ease); }
 .mr-copy:hover { color: var(--a-ink, #f2f4ec); border-color: var(--a-ink-3, #93a08f); }
 .mr-copy[data-state='done'] { color: var(--a-good-text, #b6e36e); border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 50%, transparent); }
 
-.mr-marks { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
+.mr-marks { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
 .mr-left { margin: 0; font-size: 14px; font-weight: 600; color: var(--a-ink-2, #bcc5b9); }
 
 /* Motion. Every animation answers an action or shows a state; reduced motion (device or the student's own
-   switch, mirrored as html[data-motion='reduced']) shows the final state. */
-.mr--done { --mr-base: 0ms; }
-.mr--done[data-fresh] { --mr-base: 640ms; }
-.mr--done > .mr-head { --mr-i: 0; }
-.mr--done > .mr-cards { --mr-i: 1; }
-.mr--done > .mr-another { --mr-i: 2; }
-.mr--done > .mr-rule { --mr-i: 3; }
-.mr--done > .mr-next { --mr-i: 4; }
-.mr--done > .mr-marks { --mr-i: 5; }
-.mr--done > .mr-foot { --mr-i: 6; }
+   switch, mirrored as html[data-motion='reduced']) shows the final state at once. */
 @media (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']) .mr--panel { animation: mr-in 260ms var(--ease-out) both; }
-  /* Blocks rise 60 ms apart after the key reveal; the rule's rail draws last. A stored repair skips the wait. */
-  :root:not([data-motion='reduced']) .mr--done > :is(.mr-head, .mr-cards, .mr-another, .mr-rule, .mr-next, .mr-marks, .mr-foot) { animation: mr-in 420ms var(--ease-out) both; animation-delay: calc(var(--mr-i, 0) * 60ms + var(--mr-base)); }
-  :root:not([data-motion='reduced']) .mr--done .mr-rule::before { animation: mr-rail 520ms var(--ease-out) both; animation-delay: calc(var(--mr-base) + 420ms + 240ms); }
+  :root:not([data-motion='reduced']) .mr--panel:not(.mr--done) { animation: mr-in 260ms var(--ease-out) both; }
+  /* A fresh repair: the blocks rise in order, 50 ms apart, 220 ms each; the rule card then settles once. A stored
+     repair (no data-fresh) renders at once. */
+  :root:not([data-motion='reduced']) .mr--done[data-fresh] > [data-stagger] { animation: mr-rise 220ms var(--a-ease, ease-out) both; animation-delay: calc(var(--mr-i, 0) * 50ms); }
+  :root:not([data-motion='reduced']) .mr--done[data-fresh] > .mr-rule[data-stagger] { animation: mr-rule-in 520ms var(--a-ease, ease-out) both; animation-delay: calc(var(--mr-i, 0) * 50ms); }
+  /* Reveals open in place: another way over 200 ms, the other options over 180 ms. */
+  :root:not([data-motion='reduced']) .mr-another .mr-reveal { animation: mr-expand 200ms var(--a-ease, ease-out) both; }
+  :root:not([data-motion='reduced']) .mr-others .mr-reveal:not([hidden]) { animation: mr-expand 180ms var(--a-ease, ease-out) both; }
+  :root:not([data-motion='reduced']) .mr-wait__line { animation: mr-fade 220ms var(--ease-out) both; }
+  :root:not([data-motion='reduced']) .mr-wait__ring { animation: mr-spin 800ms linear infinite; }
 
   /* Key reveal: the pick settles, "Your answer" fades in, the key's ring strokes round, the bubble fills. */
   :root:not([data-motion='reduced']) .mr-fold[data-animate] .mr-pick[data-kind='mine'] .mr-bubble { animation: mr-settle 300ms var(--ease-out) both; }
@@ -127,18 +160,13 @@ h4.mr-title { margin: 0; font-size: 17px; }
   :root:not([data-motion='reduced']) .mr-fold[data-animate] .mr-pick[data-kind='key'] .mr-bubble { animation: mr-fill 200ms var(--ease-out) 800ms both; }
   :root:not([data-motion='reduced']) .mr-fold[data-animate] .mr-pick[data-kind='key'] circle { animation: mr-stroke 380ms var(--ease-in-out) 420ms both; }
   :root:not([data-motion='reduced']) .mr-fold[data-animate] .mr-pick[data-kind='key'] .mr-pick__label { animation: mr-fade 240ms var(--ease-out) 860ms both; }
-
-  :root:not([data-motion='reduced']) .mr-stages li[data-state='done']::before { animation: mr-pop 260ms var(--ease-out); }
-  :root:not([data-motion='reduced']) .mr-slow[data-on] { animation: mr-fade 320ms var(--ease-out) both; }
-
 }
-@media (prefers-reduced-motion: reduce) { .mr-stages li[data-state='active']::before { animation: none; } }
-:root[data-motion='reduced'] .mr-stages li[data-state='active']::before { animation: none; }
 @keyframes mr-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes mr-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes mr-rule-in { 0% { opacity: 0; transform: translateY(8px) scale(.98); } 42% { opacity: 1; transform: translateY(0) scale(.98); } 100% { opacity: 1; transform: none; } }
+@keyframes mr-expand { from { grid-template-rows: 0fr; opacity: 0; } to { grid-template-rows: 1fr; opacity: 1; } }
 @keyframes mr-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes mr-spin { to { transform: rotate(360deg); } }
-@keyframes mr-pop { 0% { transform: scale(.6); } 70% { transform: scale(1.15); } 100% { transform: none; } }
-@keyframes mr-rail { from { transform: scaleY(0); } to { transform: scaleY(1); } }
 @keyframes mr-settle { 0% { transform: scale(1.12); } 60% { transform: scale(.96); } 100% { transform: none; } }
 @keyframes mr-stroke { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 @keyframes mr-fill { from { background-color: transparent; color: var(--a-accent-text, #d2f000); } to { background-color: var(--a-select, #d2f000); color: #10140e; } }

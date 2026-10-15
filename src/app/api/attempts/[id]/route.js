@@ -4,6 +4,7 @@ import { auth } from '@/lib/auth';
 import { readAnswerReviews } from '@/services/recovery/answerReviews';
 import { buildRecap } from '@/lib/server/recap';
 import { buildMissedBefore } from '@/components/recovery/repairRun.js';
+import { resultHistory } from '@/../data/mock_swot';
 
 export async function GET(request, { params }) {
   try {
@@ -15,18 +16,24 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
     }
     const reviews = await readAnswerReviews(attempt);
-    // The recap is additive: if the history cannot be read, the result still loads without it.
-    let recap = null;
-    // Same additive rule for "missed this before": real wrong answers to the same question in the student's other attempts.
-    let missedBefore = {};
-    try {
-      const allAttempts = await Database.getAttempts(session.user.id);
-      try { recap = buildRecap(attempt, allAttempts, reviews.answerReviews, reviews.answerReviewState); }
-      catch (e) { console.warn('[api/attempts/:id] recap skipped:', e?.message); }
-      try { missedBefore = buildMissedBefore(allAttempts, attempt.id); }
-      catch (e) { console.warn('[api/attempts/:id] missedBefore skipped:', e?.message); }
-    } catch (e) { console.warn('[api/attempts/:id] history skipped:', e?.message); }
-    return NextResponse.json({ ...attempt, ...reviews, recap, missedBefore }, { headers: { 'Cache-Control': 'no-store' } });
+    // Everything read from the history is additive: if the history cannot be read, the result still loads
+    // without it. Each part fails on its own (data/mock_swot.js resultHistory):
+    //  - recap: tone and the previous comparable attempt;
+    //  - missedBefore: real wrong answers to the same question in the student's other attempts;
+    //  - mistakeInsights: "From your record" lines under each repair (server-built sentences); {} until the answer
+    //    checks are ready, as the SWOT says checks_pending;
+    //  - swot: the post-mock SWOT and "Do these next" (left out entirely when SWOT_ENABLED=off).
+    const history = await resultHistory({
+      attempt,
+      answerReviews: reviews.answerReviews,
+      answerReviewState: reviews.answerReviewState,
+      loadAttempts: () => Database.getAttempts(session.user.id),
+      recapOf: buildRecap,
+      missedBeforeOf: buildMissedBefore,
+      swotEnabled: process.env.SWOT_ENABLED !== 'off',
+      warn: (part, e) => console.warn(`[api/attempts/:id] ${part} skipped:`, e?.message),
+    });
+    return NextResponse.json({ ...attempt, ...reviews, ...history }, { headers: { 'Cache-Control': 'no-store' } });
   } catch (e) {
     console.error('[api/attempts/:id] GET failed:', e);
     return NextResponse.json({ error: 'Failed to load attempt' }, { status: 500 });

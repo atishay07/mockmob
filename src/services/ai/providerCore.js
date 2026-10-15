@@ -197,6 +197,16 @@ function withHardStop(promise, timeoutMs, graceMs = HARD_STOP_GRACE_MS) {
 // No attempt is started with less than this left before the caller's deadline.
 export const MIN_ATTEMPT_MS = 6_000;
 
+// The visible-output cap per call. A caller may ask for its own (Mistake Repair v3 asks for 1,400 so a long answer is
+// not cut into invalid JSON); it is clamped to 200..2,000. The same value feeds the request body and the guard's
+// output bound, so the runtime reservation always covers what the provider may bill.
+export const DEFAULT_MAX_TOKENS = Object.freeze({ fast: 950, smart: 900 });
+export const MAX_TOKENS_RANGE = Object.freeze({ min: 200, max: 2_000 });
+export function resolveMaxTokens(tier, requested) {
+  if (Number.isFinite(requested)) return Math.min(MAX_TOKENS_RANGE.max, Math.max(MAX_TOKENS_RANGE.min, Math.round(requested)));
+  return tier === 'smart' ? DEFAULT_MAX_TOKENS.smart : DEFAULT_MAX_TOKENS.fast;
+}
+
 export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntime, now = Date.now, hardStopGraceMs = HARD_STOP_GRACE_MS }) {
   async function failure(err, { requestKey, provider, model }) {
     const info = classifyProviderError(err);
@@ -318,6 +328,8 @@ export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
     fallbackRoute = null,
     deadlineAt = null,
     callTimeoutMs = null,
+    // Optional visible-output cap (see resolveMaxTokens). Absent: 950 fast, 900 smart, as before.
+    maxTokens: requestedMaxTokens = null,
   } = {}) {
     if (!systemPrompt || !userMessage) {
       return {
@@ -336,7 +348,7 @@ export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
     const primaryModel = model || pickModelForTier(tier);
     const fallbackModel = LUNA_MODEL;
     reasoningEffort = reasoningEffort || DEFAULT_EFFORT[tier] || DEFAULT_EFFORT.fast;
-    const maxTokens = tier === 'smart' ? 900 : 950;
+    const maxTokens = resolveMaxTokens(tier, requestedMaxTokens);
 
     const failures = [];
     const timeoutFor = (cap) => {

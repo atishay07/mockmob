@@ -2,7 +2,7 @@
 // The repair ending: what the run really did, in one centred group with the next move pinned under
 // it. The same beat and words as the app's repair ending screen: the handed-back sheet arrives, the
 // rings of the repairs the server acknowledged draw one by one, the number rolls in, and as it lands
-// Mobi stands proud. Nothing here says the repair holds; Checked comes later, on fresh questions.
+// Mobi stands proud. Nothing here says the repair lasts: Retested and Still right are not ready yet.
 // Mobi reacts to the real outcome (proud for a repair, encouraging for nothing repaired), answers a
 // tap with a cycle of small acts and a long press with the ending's own reaction again. The beat is
 // Celebrations Full only; Quiet, Off and Reduce motion show the final state at once, with the words.
@@ -143,13 +143,13 @@ export default function RepairEnding({ ids, numbers, model, ackedAt, chapter = '
           <p className="re__fact">{model.nothing ? nothingLine({ setAside: model.setAside.length }) : endingFact({ left: model.left, setAside: model.setAside.length })}</p>
           {model.nothing ? null : (
             <>
-              <ol className="re__life" aria-label="Stages: Found, Repaired, Checked, Holds">
-                <li data-lit>Found</li>
-                <li data-lit data-inked={animate ? undefined : true} style={{ '--re-d': `${RINGS_START_MS + RINGS_MS}ms` }}>Repaired</li>
-                <li>Checked</li>
-                <li>Holds</li>
+              <ol className="re__life" aria-label={RUN_COPY.stagesLabel}>
+                <li data-lit>{RUN_COPY.stages[0]}</li>
+                <li data-lit data-inked={animate ? undefined : true} style={{ '--re-d': `${RINGS_START_MS + RINGS_MS}ms` }}>{RUN_COPY.stages[1]}</li>
+                <li>{RUN_COPY.stages[2]}</li>
+                <li>{RUN_COPY.stages[3]}</li>
               </ol>
-              <p className="re__later">{RUN_COPY.checkedLater}</p>
+              <p className="re__later">{RUN_COPY.laterSteps}</p>
               {ackedAt ? <p className="re__receipt" role="status">Recorded at {timeOf(ackedAt)}.</p> : null}
             </>
           )}

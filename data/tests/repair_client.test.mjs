@@ -206,3 +206,61 @@ test('Review remembers the last look: the first visit and an unchanged list anim
   assert.equal(reviewChanges([{ id: 'a', mistakes: 1 }], broken).changed, false);
   assert.equal(reviewChanges([{ id: 'a', mistakes: 1 }], null).changed, false);
 });
+
+// ---- Repair v3 presentation (build spec 15 Oct 2026, A.1 and A.8) ----
+import { checkChip, REPAIR_COPY, REPAIR_LOADING, repairLoadingLine, recordLines } from '../repair_presentation.mjs';
+
+test('repair v3 blocks: why the key is right, the other options in served order, the hook and the second explanation', () => {
+  const v3 = repairBlocks({
+    version: 3, trap_type: 'look_alike_term', trap: 'B sounds like the key.', why_wrong: 'It is a noun.', why_right: 'D is the verb.',
+    contrast: 'If it said X, B would fit.', others: [{ index: 2, why: 'C is about disease.' }, { index: 0, why: 'A is too strong.' }, { index: 9, why: 'out of range' }, { index: 0, why: 'a duplicate' }, { index: 1, why: '' }],
+    rule: 'Use the verb after will.', memory_hook: 'Affect is the Action.', another_way: 'Think push and result.',
+    why_tempting: 'B sounds like the key.', key_idea: 'Use the verb after will.',
+  });
+  assert.equal(v3.version, 3);
+  assert.equal(v3.heading, 'A look-alike term');
+  assert.equal(v3.right, 'D is the verb.');
+  assert.deepEqual(v3.others, [{ letter: 'A', why: 'A is too strong.' }, { letter: 'C', why: 'C is about disease.' }]);
+  assert.equal(v3.hook, 'Affect is the Action.');
+  assert.equal(v3.anotherWay, 'Think push and result.');
+  assert.equal(v3.nextStep, null, 'the model next step is gone; the real practice action replaces it');
+  const bare = repairBlocks({ trap: 'B sounds like the key.', why_wrong: 'It is a noun.', why_right: 'D is the verb.', rule: 'Use the verb.' });
+  assert.deepEqual([bare.version, bare.contrast, bare.hook, bare.anotherWay, bare.others], [3, null, null, null, []]);
+  assert.equal(repairBlocks({ trap: 't', why_wrong: 'w', why_right: 'r' }), null, 'no rule: incomplete');
+  assert.equal(repairBlocks({ why_wrong: 'w', why_right: 'r', rule: 'x' }), null, 'no trap: incomplete');
+  // An older app payload shape (aliases only) still reads as v3 when why_right is there.
+  assert.equal(repairBlocks({ why_tempting: 't', why_wrong: 'w', why_right: 'r', key_idea: 'k' }).rule, 'k');
+});
+
+test('the chip says "explained from", never "checked against"; the loading line follows real elapsed time', () => {
+  assert.equal(checkChip('D'), 'Explained from the answer key (D).');
+  assert.equal(checkChip(null), 'Explained from the answer key.');
+  assert.equal(REPAIR_LOADING.slowAfterMs, 8000);
+  assert.equal(REPAIR_LOADING.longAfterMs, 45000);
+  assert.equal(repairLoadingLine(0, 7), 'Writing the repair for Q7.');
+  assert.equal(repairLoadingLine(7999, 7), 'Writing the repair for Q7.');
+  assert.equal(repairLoadingLine(8000, 7), 'Still writing. You are charged only if it arrives.');
+  assert.equal(repairLoadingLine(45000, 7), 'Taking longer than usual. Still trying.');
+  assert.equal(repairLoadingLine(0), 'Writing the repair.');
+});
+
+test('"From your record" shows the server lines in order, then the pattern line; nothing else is written', () => {
+  const insights = { lines: [{ kind: 'change', text: 'You first chose C here, then changed to B.' }, { kind: 'time', text: '' }, null, { kind: 'chapter', text: 'Correct Word Usage so far: 7 right of 12 answered across 3 papers, this one included.' }] };
+  assert.deepEqual(recordLines(insights, { line: 'Since 9 Oct, 2 of your 3 repairs in X had this trap.' }), [
+    'You first chose C here, then changed to B.', 'Correct Word Usage so far: 7 right of 12 answered across 3 papers, this one included.', 'Since 9 Oct, 2 of your 3 repairs in X had this trap.',
+  ]);
+  assert.deepEqual(recordLines(null, null), []);
+  assert.deepEqual(recordLines({ lines: 'x' }, { line: '  ' }), []);
+});
+
+test('every client string for the repair is sentence case and plain: no "!", no dash, no middle dot', () => {
+  const lines = [checkChip('D'), REPAIR_LOADING.slow, REPAIR_LOADING.long, REPAIR_LOADING.writing(7)];
+  for (const v of Object.values(REPAIR_COPY)) lines.push(typeof v === 'function' ? v('D') : v);
+  lines.push(REPAIR_COPY.otherOptionsCount(2), REPAIR_COPY.practise(null), REPAIR_COPY.whyRight(null), REPAIR_COPY.whyLooked(null));
+  for (const line of lines) {
+    assert.doesNotMatch(line, /[!—–·]/, line);
+    assert.match(line, /^[A-Z0-9]/, `sentence case: ${line}`);
+  }
+  assert.equal(REPAIR_COPY.practise('Correct Word Usage'), 'Practise 5 on Correct Word Usage');
+  assert.equal(REPAIR_COPY.otherOptionsCount(2), 'The other options (2)');
+});

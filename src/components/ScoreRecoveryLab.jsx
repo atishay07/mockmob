@@ -102,7 +102,9 @@ function DecisionLog({ attempt, analysis }) {
   );
 }
 
-export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled = repaired, onJump, onRepairNext }) {
+// hideFind: the result page's SWOT already shows chapter gaps and observations, so the Find step is left
+// out and Repair and Prove are numbered 1 and 2.
+export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled = repaired, onJump, onRepairNext, hideFind = false }) {
   const { marks, chapters, observations, mistakes } = analysis;
   const [ref, inView] = useInView();
   const device = attemptScoring(attempt) !== 'server';
@@ -112,6 +114,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled 
   const maxGap = chapters[0]?.gap || 1;
   const [expanded, setExpanded] = useState(false);
   const findId = useId();
+  const step = (n) => (hideFind ? n - 1 : n);
 
   return (
     <section ref={ref} className="srl" data-in={inView || undefined} aria-labelledby="srl-title">
@@ -135,7 +138,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled 
       </> : null}
 
       <ol className="srl-steps">
-        <li className="srl-step">
+        {hideFind ? null : <li className="srl-step">
           <div className="srl-step__num" aria-hidden="true">1</div>
           <div className="srl-step__main srl-find" id={findId} data-expanded={expanded}>
             <div className="srl-step__head"><h3>Find</h3><p>Which chapters cost you, and why</p></div>
@@ -169,15 +172,15 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled 
             {(chapters.length > 1 || observations.length > 1) && <button type="button" className="srl-find-toggle" aria-expanded={expanded} aria-controls={findId} onClick={() => setExpanded(value => !value)}>{expanded ? 'Show the key finding' : 'See all chapters and observations'}<span aria-hidden="true">{expanded ? '−' : '+'}</span></button>}
             {device ? <p className="srl-fine">This earlier session was scored in your browser, so answer changes and timings aren’t available.</p> : null}
           </div>
-        </li>
+        </li>}
 
         <li className="srl-step">
-          <div className="srl-step__num" aria-hidden="true">{mistakes.length && done === mistakes.length ? <Check size={16} strokeWidth={3} /> : 2}</div>
+          <div className="srl-step__num" aria-hidden="true">{mistakes.length && done === mistakes.length ? <Check size={16} strokeWidth={3} /> : step(2)}</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Repair</h3><p>Fix each wrong answer, one at a time</p></div>
             <MistakeLessonLink subject={attempt.subject} chapter={topChapter} chapters={Object.entries(analysis.mistakes.reduce((m,row)=>{if(row.chapter)m[row.chapter]=(m[row.chapter]||0)+1;return m;},{})).sort((x,y)=>y[1]-x[1]).map(([chapter,count])=>({chapter,count}))} conceptIds={analysis.mistakes.map(row=>row.q.conceptId).filter(Boolean)} />
             {mistakes.length ? <>
-              <p>Each repair shows why your answer felt right, where it breaks, and the one idea to keep. It’s checked against the answer key before you see it.</p>
+              <p>Each repair shows why your answer felt right, where it breaks, why the key is right and one rule to keep. It is written from the answer key. If our own working disagrees with the key, you get no repair and no charge.</p>
               <div className="srl-progress">
                 <div className="srl-progress__track" aria-hidden="true"><span style={{ width: `${(done / mistakes.length) * 100}%` }} /></div>
                 <span>{done} of {mistakes.length} explanations ready</span>
@@ -193,13 +196,13 @@ export default function ScoreRecoveryLab({ attempt, analysis, repaired, handled 
               {handled.size < mistakes.length ? (
                 <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${mistakes.find(r => !handled.has(r.q.id)).number}`} <ArrowRight size={16} aria-hidden="true" /></button>
               ) : done === mistakes.length ? <p className="srl-done">All explanations ready. Try fresh questions when you are ready.</p> : <p className="srl-fine">Review the recorded answers below or continue with ordinary practice.</p>}
-              <p className="srl-fine">1 credit per repair · reopening a repair is free · no charge if a question is held for review</p>
+              <p className="srl-fine">1 credit per repair. Reopening a repair is free. No charge if a question is held for review.</p>
             </> : <p>No wrong answers to repair this session.</p>}
           </div>
         </li>
 
         <li className="srl-step">
-          <div className="srl-step__num" aria-hidden="true">3</div>
+          <div className="srl-step__num" aria-hidden="true">{step(3)}</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Prove</h3><p>Show it stuck, on questions you haven’t seen</p></div>
             <Prove attempt={attempt} topChapter={topChapter} />

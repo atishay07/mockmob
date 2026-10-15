@@ -254,3 +254,45 @@ test('where Haiku is not set up yet, a rejected parameter still gets the older s
     assert.equal(h.log.openai.length, 1, 'no second call that would burn time or fail the same way');
   }
 });
+
+// ---- Optional maxTokens (Mistake Repair v3 asks for 1,400) ----
+import { resolveMaxTokens, DEFAULT_MAX_TOKENS } from '../../src/services/ai/providerCore.js';
+
+test('no maxTokens: the request body and the guard reservation bound are exactly as before', async () => {
+  const fast = harness({ openai: async () => okOpenAI() });
+  await run(fast);
+  assert.equal(fast.log.openai[0].body.max_completion_tokens, 950 + 2500);
+  assert.equal(fast.log.reserve[0].maxTokens, 950 + 2500, 'reservation bound for fast Luna at low effort');
+  const smart = harness({ openai: async () => okOpenAI() });
+  await run(smart, { tier: 'smart' });
+  assert.equal(smart.log.openai[0].body.max_completion_tokens, 900 + 2500);
+  assert.equal(smart.log.reserve[0].maxTokens, 900 + 2500);
+  const none = harness({ openai: async () => okOpenAI() });
+  await run(none, { reasoningEffort: 'none' });
+  assert.equal(none.log.openai[0].body.max_completion_tokens, 950);
+  assert.equal(none.log.reserve[0].maxTokens, 950);
+  assert.deepEqual(DEFAULT_MAX_TOKENS, { fast: 950, smart: 900 });
+});
+
+test('maxTokens 1400 reaches the OpenAI body, the Haiku body and both guard reservations (1,400 + 2,500 = 3,900)', async () => {
+  const h = harness({ openai: async () => { throw new ApiError(429, 'insufficient_quota'); }, anthropic: async () => okAnthropic() });
+  const out = await run(h, { maxTokens: 1400, fallbackRoute: HAIKU });
+  assert.equal(out.ok, true);
+  assert.equal(h.log.openai[0].body.max_completion_tokens, 3900);
+  assert.equal(h.log.anthropic[0].body.max_tokens, 3900);
+  assert.deepEqual(h.log.reserve.map((r) => r.maxTokens), [3900, 3900]);
+  const retry = harness({ openai: async (body, opts, n) => okOpenAI(n < 3 ? 'not json' : '{"solved_index":1}') });
+  await run(retry, { maxTokens: 1400 });
+  assert.deepEqual(retry.log.openai.map((c) => c.body.max_completion_tokens), [3900, 3900, 1400], 'the JSON retry keeps the cap; the no-reasoning fallback has no headroom');
+});
+
+test('maxTokens is clamped to 200..2,000; anything else falls back to the default', () => {
+  assert.equal(resolveMaxTokens('fast', 1400), 1400);
+  assert.equal(resolveMaxTokens('fast', 50), 200);
+  assert.equal(resolveMaxTokens('fast', 99_999), 2000);
+  assert.equal(resolveMaxTokens('fast', 1400.6), 1401);
+  assert.equal(resolveMaxTokens('fast', null), 950);
+  assert.equal(resolveMaxTokens('smart', undefined), 900);
+  assert.equal(resolveMaxTokens('fast', '1400'), 950, 'a string is not a number');
+  assert.equal(resolveMaxTokens('fast', Number.NaN), 950);
+});

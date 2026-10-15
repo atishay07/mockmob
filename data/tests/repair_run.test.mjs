@@ -193,3 +193,22 @@ test('the run is wired in: the repair panel takes the run props, Mobi goes throu
   assert.match(css, /\.rt__seg \{[^}]*height: 44px/, 'track targets are 44 px');
   assert.match(css, /rt-in-a 160ms/, 'the hand-over is 160 ms');
 });
+
+test('the four steps are the app words (ReviewCopy in flutter_app copy.dart) and say plainly that the last two are not ready', () => {
+  assert.deepEqual([...RUN_COPY.stages], ['Found', 'Repaired', 'Retested', 'Still right']);
+  assert.equal(RUN_COPY.stagesLabel, `Steps: ${RUN_COPY.stages.join(', ')}`);
+  assert.equal(RUN_COPY.laterSteps, 'The last two steps test you with new questions on the same idea. They are not ready yet.');
+  const ending = read('src/components/recovery/RepairEnding.jsx');
+  assert.match(ending, /aria-label=\{RUN_COPY\.stagesLabel\}/);
+  assert.match(ending, /\{RUN_COPY\.laterSteps\}/);
+  for (const old of ['>Checked<', '>Holds<', 'Checked comes later']) assert.ok(!ending.includes(old), `no "${old}" on the ending`);
+});
+
+test('Mobi always stands beside a line in the repair, never in a row of his own (the app does the same)', () => {
+  const panel = read('src/components/recovery/MistakeRepair.jsx');
+  const all = panel.match(/(?<!=)\{mobi\}/g) || []; // where he is placed, not the mobi={mobi} prop
+  const besideTop = panel.match(/<div className="mr-top">\s*\{mobi\}/g) || [];
+  const besideHead = panel.match(/<header className="mr-head"[^>]*>\s*\{mobi\}/g) || [];
+  assert.ok(all.length > 0);
+  assert.equal(besideTop.length + besideHead.length, all.length, 'every Mobi shares his row with the wait line, a note or the heading');
+});

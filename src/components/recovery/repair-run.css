@@ -30,6 +30,9 @@
 }
 .rt__seg[aria-disabled='true'] { cursor: default; }
 .rt__seg:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: -2px; border-radius: 10px; }
+/* The app shell gives every button min-width: 44px. Ten or more steps then make the track wider than a phone and
+   push the whole result page sideways, so the steps share the row; the 44 px height stays the tap target. */
+.rt__track .rt__seg { min-width: 0; }
 .rt__bar {
   position: absolute; left: 3px; right: 3px; top: 50%; height: 4px; margin-top: -2px; border-radius: 3px; overflow: hidden;
   background: var(--a-line, #253026); transition: height 160ms var(--ease-out, ease), margin-top 160ms var(--ease-out, ease), background-color 160ms ease;
@@ -107,7 +110,7 @@ html:has(dialog.re[open]) { overflow: hidden; }
 .re__later { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
 .re__receipt { margin: 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3, #93a08f); }
 
-/* The thread: Found is lit, the line draws to Repaired, Checked and Holds stay open. */
+/* The thread: Found is lit, the line draws to Repaired, Retested and Still right stay open. */
 .re__life { list-style: none; margin: 6px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
 .re__life li { position: relative; padding-top: 22px; text-align: left; }
 .re__life li::before { content: ''; position: absolute; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; border: 2px dashed var(--a-ink-3, #93a08f); box-sizing: border-box; background: var(--a-bg, #0b100e); z-index: 1; }

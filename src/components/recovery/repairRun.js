@@ -29,7 +29,14 @@ export const RUN_COPY = Object.freeze({
   openThatResult: 'Open that result',
   missedTimes: (n) => (n === 2 ? 'Missed twice' : `Missed ${n} times`),
   endingUnit: (n) => (n === 1 ? 'mistake repaired' : 'mistakes repaired'),
-  checkedLater: 'Checked comes later, on fresh questions.',
+  // The four steps of a mistake, the same words as the app's ReviewCopy (found, repaired, retested,
+  // stillRight, lifeCaption, lifeSpoken in flutter_app lib/features/review/copy.dart). Found: the
+  // question was answered wrong. Repaired: the server acknowledged a repair. Retested (right on a new
+  // question on the same idea) and Still right (right again later) have no source yet, so they are
+  // never lit and the line says so.
+  stages: Object.freeze(['Found', 'Repaired', 'Retested', 'Still right']),
+  stagesLabel: 'Steps: Found, Repaired, Retested, Still right',
+  laterSteps: 'The last two steps test you with new questions on the same idea. They are not ready yet.',
   nothingTitle: 'Nothing repaired this time',
   mobiRepaired: 'Mobi, pleased with the repair',
   mobiNothing: 'Mobi, ready for another try',
