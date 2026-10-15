@@ -4,8 +4,8 @@ import '../../../core/models/attempt.dart';
 import '../../../core/repositories/repair_local_repository.dart';
 
 /// Where one mistake stands. Found and Reviewed are still open (a key review is not a repair);
-/// Repaired closes the repair; Set aside means the answer key is being checked. Checked and
-/// Holds need fresh-question checks, which are not available yet, so no item reaches them.
+/// Repaired closes the repair; Set aside means the answer key is being checked. Retested and
+/// Still right need tests on new questions, which are not ready yet, so no item reaches them.
 enum MistakeStage {
   found,
   reviewed,

@@ -5,7 +5,8 @@ import 'runner_motion.dart';
 
 /// Plays a question's arrival (runner.md 3.4): each [EnterItem] below it rises 10 dp and fades in
 /// (the question text and the line under it from 0.35, so the question is readable at once),
-/// travelling from the side the student came from, one step later than the item above. It plays
+/// travelling from the side the student came from, one step later than the item above, all done
+/// within 350 ms with an ease-out ([Motion.glide]). It plays
 /// once, when this widget is first built (the runner keys it by question), so choosing an answer
 /// on the same question never replays it. Under reduced motion everything is simply there.
 class QuestionEnter extends StatefulWidget {
@@ -18,8 +19,9 @@ class QuestionEnter extends StatefulWidget {
   /// False for the first question of a session: the page's own transition is already playing.
   final bool animate;
 
-  /// The most items that stagger; later ones share the last slot.
-  static const int maxSteps = 7;
+  /// The most items that stagger; later ones share the last slot. Five steps (the text, its line,
+  /// the rule and four options reach order 5) keep the whole arrival inside 350 ms.
+  static const int maxSteps = 5;
 
   @override
   State<QuestionEnter> createState() => _QuestionEnterState();

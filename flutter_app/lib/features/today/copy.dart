@@ -49,8 +49,13 @@ abstract final class TodayCopy {
   static const String subjectChanged = 'You changed your subjects. Earlier results stay under the old ones.';
 
   // Ready (client-built repair).
-  /// "to repair\ntonight": the big number is tonight's batch, not mistakes made today.
+  /// "to repair\ntonight": the big number is tonight's batch, not mistakes made today. Said only
+  /// when the run holds the whole chapter, the number Review's badge shows.
   static String mistakesLabel(int n, DateTime now) => 'to repair\n${tonightOrToday(now)}';
+
+  /// "to repair\nin 10 min": a shorter run than the whole chapter names its length, so its number
+  /// never reads as tonight's total next to Review's badge.
+  static String mistakesInLabel(int minutes) => 'to repair\nin $minutes min';
 
   /// Where tonight's batch comes from, said the same way on Today and in Review: "3 of the 4 in
   /// Admission of a partner, from Mock 7 on 11 Oct." Never "holds": that word is kept for a
@@ -177,9 +182,23 @@ abstract final class TodayCopy {
 
   // Recent papers.
   static const String yourSheet = 'Recent papers';
-  static String sheetCaption(int n) => n == 1 ? 'Your last paper' : 'Your last $n';
-  /// The strip above the papers: the marks of the last few of one kind, oldest to newest.
-  static String trendCaption(int n, bool mock) => 'Marks across your last $n ${mock ? 'mocks' : 'papers'}';
+  // One name per set, each with its real count (owner recording 15 Oct, item 4): "papers" are
+  // every finished paper, the rows; the strip is one kind of them, named with its subject.
+  /// The rows under "Recent papers": "Newest 4 of 8", or "All 3" when every paper is shown.
+  static String sheetCaption(int shown, int total) {
+    if (shown < total) return 'Newest $shown of $total';
+    return total == 1 ? 'Your only paper' : 'All $total';
+  }
+
+  /// The kind the strip draws, said the way the rows label them: "Accountancy mocks",
+  /// "Accountancy NTA mode mocks", "Accountancy Quick 10 papers".
+  static String trendKind({required String subject, required bool mock, bool nta = false, required int questions}) =>
+      mock ? '$subject ${nta ? 'NTA mode mocks' : 'mocks'}' : '$subject ${quickLabel(questions)} papers';
+
+  /// The strip above the rows: "Marks in your newest 6 of 7 Accountancy mocks", or "Marks in all
+  /// 3 of your Accountancy mocks" when it draws every one.
+  static String trendCaption(int shown, int total, String kind) =>
+      shown < total ? 'Marks in your newest $shown of $total $kind' : 'Marks in all $total of your $kind';
   static String trendDot(String label, String date, int marks, int outOf) => '$label, $date. $marks of $outOf marks. Opens the result.';
   static const String sealed = 'Sealed';
   static String quickLabel(int total) => 'Quick $total';

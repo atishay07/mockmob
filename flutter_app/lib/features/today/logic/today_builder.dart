@@ -55,6 +55,7 @@ TodayView buildToday(TodayInputs i) {
     hero: hero,
     also: also,
     sheet: buildSheet(i),
+    papers: i.attempts?.length ?? 0,
     trend: buildTrend(i),
     road: buildRoad(i),
     offline: i.offline,
@@ -259,14 +260,19 @@ PaperTrend? buildTrend(TodayInputs i) {
   if (all.isEmpty) return null;
   final unopened = {for (final u in i.unopened) u.attemptId};
   final latest = all.first;
-  final same = [
+  final ofKind = [
     for (final a in all)
       if (a.subject == latest.subject && a.mode == latest.mode && a.total == latest.total) a,
-  ].take(trendPapers).toList();
+  ];
+  final same = ofKind.take(trendPapers).toList();
   if (same.length < 3 || same.any((a) => unopened.contains(a.id))) return null;
+  final subject = subjectName(latest.subject);
   return PaperTrend(
     mock: latest.isMock,
-    subject: subjectName(latest.subject),
+    subject: subject,
+    // The caption's denominator: every paper of this kind, so "newest 6 of 7" is the real count.
+    ofKind: ofKind.length,
+    kind: TodayCopy.trendKind(subject: subject, mock: latest.isMock, nta: latest.mode == 'nta', questions: latest.total),
     points: [
       for (final a in same.reversed)
         TrendPoint(

@@ -150,6 +150,15 @@ int? repairMinutesSelected(TodayInputs i, MoveFacts f) {
   return _pick(options, i.selectedMinutes, preferred: _repairPreferred(moodOf(i, f))).minutes;
 }
 
+/// The words beside the hero's repair number. One count per noun (owner recording, 15 Oct):
+/// Review's tab badge counts tonight's chapter, every open mistake of that one chapter of that
+/// one paper (`TonightChapter.items`, the same pick Review shows). The hero counts the run the
+/// chosen chip starts, which is never more. So "to repair tonight" is said only when the two
+/// are the same number; a shorter run names its length instead ("3 to repair in 10 min", with
+/// "3 of the 4 in ..." under it), and the badge's 4 never contradicts the hero's 3.
+String repairNumberLabel({required int n, required int chapterCount, required int minutes, required DateTime now}) =>
+    n < chapterCount ? TodayCopy.mistakesInLabel(minutes) : TodayCopy.mistakesLabel(n, now);
+
 MoveHero buildMove(TodayInputs i) {
   final f = MoveFacts(i);
   final state = nextMoveState(f.table);
@@ -335,7 +344,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
     art: art,
     headline: headline,
     number: '$n',
-    numberLabel: TodayCopy.mistakesLabel(n, now),
+    numberLabel: repairNumberLabel(n: n, chapterCount: chapterCount, minutes: choice.minutes, now: now),
     meaning: meaning,
     evidenceId: b.id,
     evidence: List.filled(n.clamp(1, 3), BubbleState.wrong),

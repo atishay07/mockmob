@@ -1,7 +1,7 @@
 import '../../core/copy/formatters.dart';
 
 /// Every line the Review feature shows (spec 5.8, Night Sheet brief sections 8 and 10). The
-/// mistake vocabulary is Found, Repaired, Checked and Holds; never "fixed" or "mastered".
+/// steps of a mistake are Found, Repaired, Retested and Still right; never "fixed" or "mastered".
 abstract final class ReviewCopy {
   /// Holds "11:08 PM" together: a no-break space before AM or PM, so the time never splits.
   static String bindTime(String text) => text.replaceAllMapped(RegExp(r' (AM|PM)'), (m) => ' ${m[1]}');
@@ -105,12 +105,30 @@ abstract final class ReviewCopy {
   static const recordPreviewEmpty = 'Your first repair will show here, with when it was found and when it was repaired.';
 
   // ---- Stage words ----------------------------------------------------------------------
+  //
+  // The four steps of a mistake, the same words as the website's RUN_COPY.stages
+  // (src/components/recovery/repairRun.js). What sets each one: Found, the question was answered
+  // wrong in a paper; Repaired, the server acknowledged a repair (mistake_index.dart _stageFor,
+  // RepairStepState.countsAsRepaired). Retested (right on a new question on the same idea) and
+  // Still right (right again later) have no source yet, so they are never lit and the words say so.
 
   static const found = 'Found';
   static const repaired = 'Repaired';
   static const setAsideHeading = 'Set aside while the key is checked';
-  static const checked = 'Checked';
-  static const holds = 'Holds';
+  static const retested = 'Retested';
+  static const stillRight = 'Still right';
+
+  /// The one line under the four steps (the website's RUN_COPY.laterSteps), wherever they carry a line.
+  static const lifeCaption = 'The last two steps test you with new questions on the same idea. They are not ready yet.';
+
+  /// What a screen reader says for the four steps: where this mistake is ([lifeRepaired] and the
+  /// rest), then the two steps that are not ready. The website's ending lists the same four words
+  /// (RUN_COPY.stagesLabel) with [lifeCaption] shown under them.
+  static String lifeSpoken(String now) => '$now The last two steps, retested and still right, are not ready yet.';
+  static const lifeRepaired = 'Found and repaired.';
+  static const lifeReviewed = 'Found and read with the key, not repaired yet.';
+  static const lifeSetAside = 'Found, set aside while the key is checked.';
+  static const lifeFound = 'Found, not repaired yet.';
   static const reviewed = 'Reviewed';
   static const setAside = 'Set aside';
   static const notYet = 'Not open yet';
@@ -160,7 +178,6 @@ abstract final class ReviewCopy {
   static const pausedLine = 'The key explanations still work.';
   static const outOfCreditsHeadline = "You have used this month's explanation credits";
   static String renewsOn(String date) => 'Explanation credits renew on $date.';
-  static const lifeCaption = 'Checked and Holds come later, from fresh questions.';
 
   // ---- Per mistake ----------------------------------------------------------------------
 
@@ -312,7 +329,8 @@ abstract final class ReviewCopy {
   static String repairKeyNote(String chapter, int others) =>
       '${shortChapter(chapter)}. The other $others ${others == 1 ? 'is' : 'are'} in Review.';
 
-  static const checkedLater = 'Checked comes later, on fresh questions.';
+  /// Under the ending's four steps: the same one line as everywhere else.
+  static const checkedLater = lifeCaption;
   static const firstRepair = 'This is your first repair.';
   static String goodPlaceToStop(DateTime now) => 'That is a good place to stop for ${tonightOrToday(now)}.';
   static String repairMore(int n) => 'Repair ${plural(n, 'more mistake')}';
@@ -338,13 +356,13 @@ abstract final class ReviewCopy {
 
   static const recordTitle = 'Repair record';
   static const onThisPhone = 'This record is on this phone only. Repairs made on another phone are not shown here.';
-  static const checksGate = 'Fresh checks are not available yet, so Checked and Holds stay open.';
+  static const checksGate = lifeCaption;
   static String recordTitleLine(int number, String chapter) => 'Question $number, $chapter';
   static String foundOn(String when, String source) => 'Found $when, $source';
   static String repairedOn(String when) => 'Repaired $when';
   static String reviewedOn(String when) => 'Read with the key $when, not repaired yet';
   static String setAsideOn(String when) => 'Set aside $when, answer key under check';
-  static const checkedNotYet = 'Checked on fresh questions: not available yet.';
+  static const checkedNotYet = 'Retested with a new question: not ready yet.';
   static const recordEmptyTitle = 'Nothing repaired yet';
   static const recordEmptyAction = 'See your mistakes';
 

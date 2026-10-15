@@ -42,7 +42,7 @@ class PaperTrendStrip extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(TodayCopy.trendCaption(points.length, trend.mock), style: type.micro.copyWith(color: colors.ink3)),
+          Text(TodayCopy.trendCaption(points.length, trend.ofKind, trend.kind), style: type.micro.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s4),
           TodayReveal(
             child: Builder(

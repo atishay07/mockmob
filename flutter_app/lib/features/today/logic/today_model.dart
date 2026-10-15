@@ -415,13 +415,19 @@ class TrendPoint {
 /// The marks of the last up to six opened papers of the same kind and length, oldest first. Built
 /// only from at least three papers, none of them sealed (a sealed paper is never spoiled).
 class PaperTrend {
-  const PaperTrend({required this.points, required this.mock, required this.subject});
+  const PaperTrend({required this.points, required this.mock, required this.subject, required this.ofKind, required this.kind});
 
   final List<TrendPoint> points;
 
   /// The papers are mocks (otherwise practice papers).
   final bool mock;
   final String subject;
+
+  /// Every paper of this kind on record, the strip's denominator (never less than [points]).
+  final int ofKind;
+
+  /// The kind, as the caption says it: "Accountancy mocks".
+  final String kind;
 }
 
 class TodayView {
@@ -430,6 +436,7 @@ class TodayView {
     this.hero,
     this.also = const [],
     this.sheet = const [],
+    this.papers = 0,
     this.trend,
     this.road,
     this.offline = false,
@@ -440,7 +447,12 @@ class TodayView {
   /// Null while the first load is still running (the skeleton shows).
   final TodayHero? hero;
   final List<AlsoSlot> also;
+
+  /// The newest papers, at most four of them (`sheetRowsShown`).
   final List<SheetRow> sheet;
+
+  /// Every paper on record, the rows' denominator ("Newest 4 of 8"). Never less than the rows.
+  final int papers;
 
   /// The marks across the last papers of the same kind, or null when there are fewer than three
   /// or one of them is sealed.

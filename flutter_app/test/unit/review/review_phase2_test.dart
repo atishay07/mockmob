@@ -12,6 +12,7 @@ import 'package:mockmob/core/motion/motion.dart';
 import 'package:mockmob/core/repositories/dismissal_repository.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/review/copy.dart';
 import 'package:mockmob/features/review/data/mistake_index.dart';
 import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
@@ -231,7 +232,7 @@ void main() {
       expect(title.dx, ReviewSpace.moment, reason: 'the headline is on the moment gutter');
       // The credit line sits directly under the thread, not down by the key.
       final credit = tester.getRect(find.text('Uses 1 credit per mistake. You have 9.'));
-      final caption = tester.getRect(find.textContaining('Checked and Holds come later'));
+      final caption = tester.getRect(find.text(ReviewCopy.lifeCaption));
       expect(credit.top - caption.bottom, lessThanOrEqualTo(ReviewSpace.group + 4));
       // The block is weighted above the middle of the room: more air under it than over it.
       final first = tester.getRect(find.textContaining('Mock 2, Accountancy'));
@@ -249,7 +250,7 @@ void main() {
         wrapInScaffold: false,
         overrides: reviewOverrides(run: runOf(phase: RepairPhase.ending, outcomes: [explained, explained2], index: 1)),
       );
-      final caption = tester.getRect(find.text('Checked comes later, on fresh questions.'));
+      final caption = tester.getRect(find.text(ReviewCopy.lifeCaption));
       final receipt = tester.getRect(find.textContaining('Repair finished. Recorded at'));
       expect(receipt.top - caption.bottom, lessThanOrEqualTo(ReviewSpace.group + 4), reason: 'the receipt follows the thread, no hole');
       final key = tester.getRect(find.widgetWithText(KeyButton, 'Repair 1 more mistake'));

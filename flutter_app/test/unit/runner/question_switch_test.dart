@@ -87,18 +87,27 @@ void main() {
     });
   });
 
-  group('a switch never blanks the question region (finding 7)', () {
+  group('a switch never blanks the question region and never doubles the text (finding 7)', () {
     test('the question text and the line under it arrive from 0.35; the options from nothing', () {
       expect(RunnerMotion.enterOpacity(0, 0), closeTo(0.35, 1e-9));
       expect(RunnerMotion.enterOpacity(1, 0), closeTo(0.35, 1e-9));
       expect(RunnerMotion.enterOpacity(2, 0), 0);
       expect(RunnerMotion.enterOpacity(0, 1), 1);
-      expect(RunnerMotion.ghostFade, const Duration(milliseconds: 90));
-      expect(RunnerMotion.crossFade, RunnerMotion.ghostHold + RunnerMotion.ghostFade);
+    });
+
+    test('the leaving text fades in 60 ms with an ease-out, and the whole arrival fits 150 to 350 ms', () {
+      expect(RunnerMotion.ghostFade, const Duration(milliseconds: 60));
+      expect(RunnerMotion.crossFade, RunnerMotion.ghostFade);
+      expect(RunnerMotion.ghostCurve.transform(0.5), greaterThan(0.6), reason: 'ease-out: most of the fade is in the first half');
+      expect(RunnerMotion.ghostCurve.transform(1), 1);
+      // The text starts 0 ms in and the fourth option (order 5) starts 5 steps in.
+      final last = RunnerMotion.stagger * 5 + RunnerMotion.enter;
+      expect(last.inMilliseconds, inInclusiveRange(150, 350));
+      expect(RunnerMotion.enter.inMilliseconds, inInclusiveRange(150, 350));
     });
 
     for (final back in [false, true]) {
-      testWidgets('${back ? 'Previous' : 'Next'}: the two question texts together never drop below 0.7', (tester) async {
+      testWidgets('${back ? 'Previous' : 'Next'}: the outgoing text is near 0 by 60 ms, two texts never read together for long', (tester) async {
         final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null, currentIndex: back ? 2 : 0);
         await pumpRunner(tester, session: s);
         await settle(tester);
@@ -106,20 +115,63 @@ void main() {
         final to = s.questions[s.currentIndex + (back ? -1 : 1)].question;
         await tester.tap(find.text(back ? 'Previous' : 'Next').last);
         var lowest = 2.0;
-        var ghostFadedBeforeHalf = false;
-        for (var ms = 0; ms <= 400; ms += 4) {
+        var bothReadable = 0;
+        var previousLeaving = 1.0;
+        for (var ms = 4; ms <= 400; ms += 4) {
           await tester.pump(const Duration(milliseconds: 4));
           final leaving = _textOpacity(from);
           final arriving = _textOpacity(to);
           if (leaving + arriving < lowest) lowest = leaving + arriving;
-          if (leaving > 0 && leaving < 0.999 && arriving < 0.5 - 1e-6) ghostFadedBeforeHalf = true;
+          // "Reads": painted at a quarter or more. Both at once is a double picture.
+          if (leaving >= 0.25 && arriving >= 0.25) bothReadable += 4;
+          expect(leaving, lessThanOrEqualTo(previousLeaving + 1e-9), reason: 'the leaving text only ever fades, at $ms ms');
+          previousLeaving = leaving;
+          // The fade starts on the frame that builds the switch (the first sample, at 4 ms), so 60 ms
+          // later it is over.
+          if (ms >= 64) expect(leaving, lessThanOrEqualTo(0.02), reason: 'the leaving text is gone 60 ms into the swap (at $ms ms)');
         }
-        expect(lowest, greaterThanOrEqualTo(0.7), reason: 'summed text opacity of the leaving and arriving question');
-        expect(ghostFadedBeforeHalf, isFalse, reason: 'the leaving text holds at 1 until the arriving text is half visible');
+        expect(bothReadable, lessThanOrEqualTo(60), reason: 'two question texts, each at 0.25 or more, read together for at most about 60 ms');
+        expect(lowest, greaterThanOrEqualTo(0.7), reason: 'summed text opacity of the leaving and arriving question: never a blank frame');
         expect(_textOpacity(from), 0, reason: 'the leaving question is gone once the switch is done');
         expect(_textOpacity(to), closeTo(1, 1e-6));
       });
     }
+
+    testWidgets('the outgoing text is at or near 0 by about 60 ms into the swap (sampled at 16 ms frames)', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
+      await pumpRunner(tester, session: s);
+      await settle(tester);
+      final from = s.questions[0].question;
+      await tester.tap(find.text('Next'));
+      // The frame that builds the swap: the question just left is still whole under the new one.
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(_textOpacity(from), closeTo(1, 1e-6));
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(_textOpacity(from), lessThan(0.7), reason: '16 ms into the swap it is already going');
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(_textOpacity(from), lessThan(0.5), reason: '32 ms in, under half');
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(_textOpacity(from), lessThanOrEqualTo(0.1), reason: '48 ms in, faint');
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(_textOpacity(from), lessThanOrEqualTo(0.02), reason: '64 ms in, gone');
+      await settle(tester);
+    });
+
+    testWidgets('the whole arrival is done inside 350 ms of the tap, with the last option fully there', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
+      await pumpRunner(tester, session: s);
+      await settle(tester);
+      final lastOption = s.questions[1].options.last.text;
+      await tester.tap(find.text('Next'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(_textOpacity(lastOption), lessThan(1), reason: 'the options are still arriving a frame in');
+      // 16 ms for the frame that builds the switch, 16 ms for the first tick, 325 ms for the arrival.
+      await tester.pump(const Duration(milliseconds: 340));
+      expect(_textOpacity(lastOption), closeTo(1, 1e-6));
+      expect(_textOpacity(s.questions[1].question), closeTo(1, 1e-6));
+      await settle(tester);
+    });
 
     testWidgets('both layers paint in their own repaint boundary', (tester) async {
       final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
@@ -135,7 +187,7 @@ void main() {
       await settle(tester);
     });
 
-    testWidgets('the question just left stays under the arriving one, then goes', (tester) async {
+    testWidgets('the question just left stays under the arriving one for a few frames, then goes', (tester) async {
       final s = FakeRunnerSession(questions: accountancyQuestions(10), mode: 'quick', mockNumber: null);
       await pumpRunner(tester, session: s);
       await settle(tester);
@@ -155,7 +207,7 @@ void main() {
         expect(arriving, isTrue, reason: 'the arriving question is built from the first frame');
       }
       expect(firstBothGone, -1, reason: 'no frame has neither question');
-      expect(leavingGoneAt, greaterThanOrEqualTo(80), reason: 'the leaving question holds while the arriving one starts');
+      expect(leavingGoneAt, inInclusiveRange(32, 96), reason: 'the leaving question is a picture for a few frames only, then goes');
     });
 
     testWidgets('the leaving picture takes no touches and has no semantics', (tester) async {

@@ -20,19 +20,25 @@ RepairMobiBeat repairMobiBeat(MistakeOutcome? outcome, {bool slow = false}) => s
   OutcomeKeyReview() || OutcomeSetAside() || OutcomeNotExplained() => RepairMobiBeat.rest,
 };
 
-/// Mobi in a fixed 80 dp slot above the outcome, reacting to what really happened: thinking while
-/// the explanation is made (a longer wait after 8 s, when [RepairWaitLine] changes its words),
-/// one small correct hop for a repair the server acknowledged, a wave for a reopened stored
-/// repair, a shrug then a "come on" after a failure, and sitting for a key review or a set-aside
-/// question. Mobi says nothing itself: the words are the outcome's own (one wait line, as on the
-/// website). The slot keeps its height whatever plays, so nothing below it moves. With large
-/// text, or with the celebration turned off, it is not shown.
+/// Mobi in a fixed 80 dp slot beside the outcome's own line ([beside]): the wait line while the
+/// explanation is made, the four steps once a repair lands, the notice after a failure. The same
+/// placement as the website, where he stands beside the wait line, the note or the repair's
+/// heading (MistakeRepair.jsx), never in a row of his own. He reacts to what really happened:
+/// thinking while the explanation is made (a longer wait after 8 s, when [RepairWaitLine] changes
+/// its words), one small correct hop for a repair the server acknowledged (as the thread beside him
+/// draws to Repaired), a wave for a reopened stored repair, a shrug then a "come on" after a
+/// failure, and sitting when there is nothing to explain. Mobi says nothing himself: the words are
+/// the line's own. The slot keeps its size whatever plays, so nothing moves. With large text, or
+/// with the celebration turned off, only the line is shown.
 class RepairMobi extends ConsumerStatefulWidget {
-  const RepairMobi({super.key, required this.stepKey, required this.outcome});
+  const RepairMobi({super.key, required this.stepKey, required this.outcome, required this.beside});
 
   /// The mistake on screen: a new one starts its reaction afresh.
   final String stepKey;
   final MistakeOutcome? outcome;
+
+  /// The line Mobi stands beside. It takes the rest of the row and is shown even when he is not.
+  final Widget beside;
 
   /// How long a wait is before Mobi shows it (the moment [RepairWaitLine] says "Still writing").
   static const slowAfter = Duration(seconds: 8);
@@ -41,6 +47,10 @@ class RepairMobi extends ConsumerStatefulWidget {
   static const oopsHold = Duration(milliseconds: 1400);
 
   static const slot = 80.0;
+
+  /// Mobi's width in the row, and the air between him and the line.
+  static const width = 76.0;
+  static const gap = MmSpace.s12;
 
   @override
   ConsumerState<RepairMobi> createState() => _RepairMobiState();
@@ -133,18 +143,24 @@ class _RepairMobiState extends ConsumerState<RepairMobi> {
   Widget build(BuildContext context) {
     final largeText = MediaQuery.textScalerOf(context).scale(16) > 16 * 1.3;
     final off = ref.watch(celebrationModeProvider) == CelebrationMode.off;
-    if (largeText || off) return const SizedBox.shrink();
+    if (largeText || off) return Padding(padding: const EdgeInsets.only(top: MmSpace.s24), child: widget.beside);
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s16),
-      child: SizedBox(
-        height: RepairMobi.slot,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: RepairMobi.slot),
         child: Row(
           children: [
-            ExcludeSemantics(
-              child: RepaintBoundary(
-                child: MobiCharacter(size: 76, controller: _mobi, entrance: MobiAct.appear, interactive: true, seed: 23),
+            SizedBox(
+              width: RepairMobi.width,
+              height: RepairMobi.slot,
+              child: ExcludeSemantics(
+                child: RepaintBoundary(
+                  child: MobiCharacter(size: 76, controller: _mobi, entrance: MobiAct.appear, interactive: true, seed: 23),
+                ),
               ),
             ),
+            const SizedBox(width: RepairMobi.gap),
+            Expanded(child: widget.beside),
           ],
         ),
       ),
