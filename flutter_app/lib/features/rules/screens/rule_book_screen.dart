@@ -17,6 +17,8 @@ import '../../review/widgets/review_bits.dart' show SectionHeading;
 import '../../review/widgets/review_state_view.dart';
 import '../copy.dart';
 import '../data/rules_data.dart';
+import '../widgets/interval_band.dart';
+import '../widgets/traps_meet_view.dart';
 
 /// `/review/rules`: the Rule book (Mistake Lab v4 slice 3, spec 4.10). One list, two kinds of
 /// rule: the rule and memory hook of each of the student's repairs, grouped by chapter, newest
@@ -256,6 +258,12 @@ class RuleBookBody extends StatelessWidget {
           padding: const EdgeInsets.only(top: MmSpace.s20),
           child: Text(book.basis!, style: type.small.copyWith(color: colors.ink3)),
         ),
+      // Traps you meet (slice 4, spec 4.11): the named traps across mocks, behind a disclosure.
+      Padding(
+        padding: const EdgeInsets.only(top: MmSpace.s32),
+        child: SectionHeading(RulesCopy.trapsTitle, rule: true),
+      ),
+      const TrapsMeetView(),
     ];
 
     if (!scrollable) {
@@ -404,7 +412,8 @@ class RuleRow extends StatelessWidget {
       RepairRule(:final hook?) => ('${labels.hook} $hook', false),
       RepairRule() => (null, false),
     };
-    final spoken = [r.text, ?detail, if (r.active) labels.inUse].join('. ');
+    final interval = r is HabitRule && !r.gated ? r.interval : null;
+    final spoken = [r.text, ?detail, if (interval != null) IntervalBand.lineOf(interval), if (r.active) labels.inUse].join('. ');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -439,6 +448,11 @@ class RuleRow extends StatelessWidget {
                             Expanded(child: Text(detail, style: type.small.copyWith(color: gated ? colors.ink3 : colors.ink2))),
                           ],
                         ),
+                      ],
+                      // The 95% interval behind a habit's evidence, drawn as a band (never on a gated habit).
+                      if (interval != null) ...[
+                        const SizedBox(height: MmSpace.s12),
+                        IntervalBand(interval: interval),
                       ],
                       if (r.active) ...[
                         const SizedBox(height: MmSpace.s8),

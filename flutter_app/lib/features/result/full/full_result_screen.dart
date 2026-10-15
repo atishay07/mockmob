@@ -14,6 +14,8 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rules/widgets/across_mocks_view.dart';
 import '../../rules/widgets/rule_check_view.dart';
+import '../../rules/widgets/same_mistakes_later_view.dart';
+import '../../rules/widgets/traps_meet_view.dart';
 import '../../rhythm/rhythm.dart' show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationControllerProvider, celebrationModeProvider;
 import '../../review/data/review_providers.dart' show reviewClockProvider;
 import '../copy.dart';
@@ -344,11 +346,22 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 const SizedBox(height: MmRhythm.section),
                 item(TimeSection(read: timeRead, onOpenQuestion: _openFromMap, changesKey: _changesKey)),
               ],
+              // Find ends with the traps the student keeps meeting across mocks (slice 4, spec 4.11), behind a
+              // disclosure: nothing is read until it opens.
+              if (lab != null) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(const TrapsMeetView()),
+              ],
               if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
               // Prove (spec 4.8): the rule chosen before this mock, checked on its record.
               if (lab?.ruleCheck case final check?) ...[
                 const SizedBox(height: MmRhythm.section),
                 item(RuleCheckView(check: check)),
+              ],
+              // Same mistakes later (slice 4, spec 4.8): which wrong answers come back in Revise, and when.
+              if (lab?.later case final later?) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(SameMistakesLaterView(later: later)),
               ],
               // Across your mocks (spec 4.9): the record as it stood when this paper was taken.
               if (lab?.acrossMocks case final across?) ...[

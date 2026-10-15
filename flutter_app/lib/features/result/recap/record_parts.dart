@@ -72,6 +72,8 @@ class RepairPanel extends StatelessWidget {
     this.scope,
     this.shortfall,
     this.blanksInReview = false,
+    this.chapterTotal,
+    this.leadLine,
   });
 
   final RecapModel model;
@@ -88,6 +90,14 @@ class RepairPanel extends StatelessWidget {
   /// Review keeps the blanks of the newest paper that has any; true when that is this one.
   final bool blanksInReview;
 
+  /// How many mistakes the run's chapter holds, when the run is not tonight's chapter (the server's
+  /// repair order leads elsewhere). Null: tonight's chapter.
+  final int? chapterTotal;
+
+  /// "Repair Q12 first. 26 of 31 other students got it right.": why the run starts where it does,
+  /// in the server's words. Null when the repair order is the paper's own.
+  final String? leadLine;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -103,8 +113,9 @@ class RepairPanel extends StatelessWidget {
       // A repair covers one chapter: say which, and how many of the wrong answers it opens. The
       // count is the key's own ([scope], which follows the length chosen), so the line and the key
       // never say two numbers.
-      if (tonight != null && tonight.items.length < n)
-        _Row(state: BubbleState.hollow, text: ResultCopy.startWithChapter(scope?.chapter ?? tonight.chapter, scope?.count ?? tonight.items.length)),
+      if (leadLine != null) _Row(state: BubbleState.hollow, text: leadLine!),
+      if ((chapterTotal ?? tonight?.items.length) case final inRun? when inRun < n)
+        _Row(state: BubbleState.hollow, text: ResultCopy.startWithChapter(scope?.chapter ?? tonight!.chapter, scope?.count ?? inRun)),
       // "They are in Review" only when Review really holds this paper's blanks.
       if (m.blankCount > 0)
         _Row(state: BubbleState.blank, text: blanksInReview ? ResultCopy.blanksInReview(m.blankCount) : ResultCopy.blanksCount(m.blankCount)),

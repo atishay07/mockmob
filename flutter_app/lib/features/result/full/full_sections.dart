@@ -172,6 +172,7 @@ Widget answersSection(
             keysOff: keysOff,
             others: lab?.othersFor(items[i].qid),
             othersTitle: lab?.labels.othersTitle,
+            trap: lab?.traps?.tagFor(items[i].qid),
             onOpened: onOpened == null ? null : () => onOpened(items[i]),
             onRepair: items[i].repairable
                 ? () => context.go(

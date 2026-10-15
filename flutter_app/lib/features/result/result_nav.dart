@@ -19,14 +19,16 @@ abstract final class ResultNav {
 
   /// Mistake Repair on tonight's chapter ([RecapModel.tonight]), starting with its first
   /// mistake. The repair flow reads `count` (how many mistakes the chosen duration holds) and
-  /// `minutes`.
-  static String repair(RecapModel m, {int? minutes}) {
-    final first = m.tonight!.items.first;
-    final option = repairDurationOptions(m.tonightCount).where((o) => o.minutes == minutes).firstOrNull;
-    final count = option?.mistakes ?? m.tonightCount;
+  /// `minutes`. With [startQuestionId] the run starts on that question instead (the one the
+  /// server's repair order leads with), and [runCount] is how many mistakes that run holds in all.
+  static String repair(RecapModel m, {int? minutes, String? startQuestionId, int? runCount}) {
+    final first = startQuestionId ?? m.tonight!.items.first.questionId;
+    final total = runCount ?? m.tonightCount;
+    final option = repairDurationOptions(total).where((o) => o.minutes == minutes).firstOrNull;
+    final count = option?.mistakes ?? total;
     final mins = minutes ?? repairMinutes(count);
     return Uri(
-      path: AppRoutes.reviewRepair(m.attemptId, first.questionId),
+      path: AppRoutes.reviewRepair(m.attemptId, first),
       queryParameters: {'count': '$count', 'minutes': '$mins'},
     ).toString();
   }

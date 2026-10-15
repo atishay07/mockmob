@@ -20,6 +20,7 @@ import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
 import '../data/review_seen.dart';
 import '../widgets/mistake_map.dart';
+import '../revise/revise_entry.dart';
 import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
@@ -237,7 +238,13 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
       // The Rule book, under the record and the saved questions (Mistake Lab v4 slice 3).
       item(
         belowAt,
-        gutter(Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [Divider(height: 1, color: context.mmColors.line), const RulesEntry()])),
+        gutter(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // Revise (slice 4) opens under the Rule book once its read arrives, and stays out for a student with no card.
+            children: [Divider(height: 1, color: context.mmColors.line), const RulesEntry(), const ReviseEntry()],
+          ),
+        ),
       ),
       item(belowAt, gutter(SectionHeading(ReviewCopy.recordHeading, rule: true), top: ReviewSpace.section)),
       if (records.isEmpty)

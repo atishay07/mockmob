@@ -1,5 +1,6 @@
 import 'json_helpers.dart';
 import 'lab_loop.dart';
+import 'mistake_lab_traps.dart';
 
 /// The Mistake Lab of `GET /api/attempts/:id` (`lab`, contract v1, built by the website's
 /// `data/mistake_lab.js`): where the missed marks went, the first-pick re-mark and how other
@@ -29,6 +30,8 @@ class MistakeLab {
     this.repairOrder,
     this.rules,
     this.ruleCheck,
+    this.traps,
+    this.later,
   });
 
   /// A paper with a usable record of its time and picks: the full split.
@@ -89,6 +92,9 @@ class MistakeLab {
       repairOrder: RepairOrder.tryParse(j['repairOrder']),
       rules: LabRules.tryParse(j['rules']),
       ruleCheck: j['prove'] is Map ? RuleCheck.tryParse(asJson(j['prove'])['ruleCheck']) : null,
+      // Slice 4: the trap tags and Same mistakes later, each read on its own.
+      traps: LabTraps.tryParse(j['traps']),
+      later: j['prove'] is Map ? SameMistakesLater.tryParse(asJson(j['prove'])['later']) : null,
     );
   }
 
@@ -146,6 +152,13 @@ class MistakeLab {
   /// The rule in force when this mock started, checked on it (slice 3, spec 4.8, Prove). Null
   /// when no rule was in force or the paper is not a mock.
   final RuleCheck? ruleCheck;
+
+  /// The trap named under the student's wrong option, by question (slice 4, spec 4.7). Null when
+  /// no wrong answer has one, or from an older server.
+  final LabTraps? traps;
+
+  /// Which of this paper's wrong answers come back in Revise, and when (slice 4, spec 4.8).
+  final SameMistakesLater? later;
 
   /// The question numbers of group [id] (a replay chip's filter), empty when it has none.
   List<int> numbersOf(String id) {
