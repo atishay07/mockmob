@@ -8,6 +8,7 @@ import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/consent_repository.dart' show ConsentStatus;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show SubjectPlate;
+import 'package:mockmob/core/widgets/account/account_avatar.dart' show AccountAvatar, AccountAvatarButton;
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
@@ -248,9 +249,11 @@ void main() {
 
   testWidgets('every block starts on the 16 dp gutter, nothing at 20 or 36', (tester) async {
     await _pumpHub(tester, target: ashaTarget);
-    // 384 dp wide view (768 px at 2x): the tab title, the sheet words and a section title share one edge.
-    final edge = tester.getTopLeft(find.text('You')).dx;
+    // 384 dp wide view (768 px at 2x): the account key (which leads the tab header, then the title
+    // 12 dp after its 40 dp disc), the sheet words and a section title share one edge.
+    final edge = tester.getTopLeft(find.byType(AccountAvatar)).dx;
     expect(edge, 16);
+    expect(tester.getTopLeft(find.text('You')).dx, 16 + AccountAvatarButton.visual + 12);
     expect(tester.getTopLeft(find.text('Your sheet, CUET UG 2027')).dx, edge);
     expect(tester.getTopLeft(find.text('Asha Verma')).dx, edge);
     expect(tester.getTopLeft(find.text('Milestones')).dx, edge);
