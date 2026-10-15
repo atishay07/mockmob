@@ -14,8 +14,11 @@ import '../../../core/repositories/repositories.dart';
 import '../../../core/router/router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/storage/storage_providers.dart';
+import '../../rhythm/rhythm.dart' show rhythmVisibleProvider;
+import '../../today/data/today_providers.dart' show todayInputsProvider;
 import '../data/reminder_store.dart';
 import '../copy.dart';
+import '../logic/evening_move.dart';
 import '../logic/next_reminder.dart';
 import '../logic/pre_prompt_policy.dart';
 import '../logic/reminder_plan.dart';
@@ -34,6 +37,33 @@ final repairReadyProvider = Provider<RepairReady?>((ref) {
     attempts: attempts,
     records: records,
     now: ref.read(nowProvider)(),
+  );
+});
+
+/// What tonight's reminder says, from the student's own record and the same rules Today uses
+/// (read-only): tonight's move, whether today is already studied, the week so far. Null until the
+/// record has loaded, so a reminder never names a guess; the plan then says its ordinary line.
+/// It compares equal when nothing a reminder would say has changed, so listeners re-plan only
+/// for a real change.
+final eveningFactsProvider = Provider<EveningFacts?>((ref) {
+  final prefs = ref.watch(notificationPrefsRepositoryProvider.select((s) => s.value));
+  if (prefs == null) return null;
+  final inputs = ref.watch(todayInputsProvider);
+  if (inputs.attempts == null) return null;
+  final records = ref.watch(repairLocalRecordsProvider).value ?? const [];
+  // The student turned the week off: no count of it is said, and it is not read for study days.
+  final rhythm = ref.watch(rhythmVisibleProvider) ? ref.watch(rhythmRepositoryProvider).value : null;
+  final window = prefs.studyWindow;
+  final slot = window == null
+      ? (hour: repairEveningTime.hour, minute: repairEveningTime.minute)
+      : (hour: window.start.hour, minute: window.start.minute);
+  return eveningFactsFrom(
+    inputs: inputs,
+    repairs: records,
+    location: locationFor(prefs.timezone),
+    slot: slot,
+    now: ref.read(nowProvider)(),
+    rhythm: rhythm,
   );
 });
 
@@ -139,6 +169,7 @@ final Provider<ReminderScheduler> reminderSchedulerProvider = Provider<ReminderS
     store: ref.watch(reminderStoreProvider),
     prefs: () => ref.read(notificationPrefsRepositoryProvider).value,
     repair: () => ref.read(repairReadyProvider),
+    evening: () => ref.read(eveningFactsProvider),
     onNext: (next) {
       if (ref.mounted) ref.read(nextReminderProvider.notifier).set(next);
     },
@@ -249,6 +280,9 @@ class NotificationsRuntime {
       },
     );
     _ref.listen(repairReadyProvider, (_, _) => unawaited(_sync()));
+    // A session, a repair or a new week changes what tonight's reminder says, and today's is
+    // dropped once the student has studied.
+    _ref.listen(eveningFactsProvider, (_, _) => unawaited(_sync()));
     _ref.listen<String?>(userIdProvider, (_, id) {
       if (id != null) unawaited(_open());
     });

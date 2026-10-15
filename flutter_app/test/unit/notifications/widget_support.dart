@@ -106,6 +106,8 @@ List<Override> featureOverrides({
       reminderStoreProvider.overrideWithValue(rig.store),
       nowProvider.overrideWithValue(() => rig.now),
       repairReadyProvider.overrideWithValue(repair),
+      // The evening line reads the student's record; these tests plan the ordinary lines.
+      eveningFactsProvider.overrideWithValue(null),
       notificationPrefsRepositoryProvider.overrideWith(() => repo),
       permissionRequesterProvider.overrideWithValue(permission),
       appPrefsProvider.overrideWithValue(appPrefs ?? AppPrefs(MemoryPrefsStore())),

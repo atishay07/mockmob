@@ -8,6 +8,7 @@ import 'package:mockmob/core/notifications/notification_service.dart';
 import 'package:mockmob/core/notifications/timezones.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/notifications/data/reminder_store.dart';
+import 'package:mockmob/features/notifications/logic/evening_move.dart';
 import 'package:mockmob/features/notifications/logic/reminder_plan.dart';
 import 'package:mockmob/features/notifications/services/reminder_scheduler.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -131,6 +132,10 @@ class Rig {
       store: store,
       prefs: () => this.prefs,
       repair: () => repair,
+      evening: () {
+        if (eveningFails) throw StateError('the record could not be read');
+        return evening;
+      },
       ensureReady: service.initialize,
       now: () => now,
     );
@@ -140,6 +145,12 @@ class Rig {
   final memory = MemoryPrefsStore();
   NotificationPrefs? prefs;
   RepairReady? repair;
+
+  /// The student's record as the evening reminder reads it; null plans the ordinary lines.
+  EveningFacts? evening;
+
+  /// Reading the record throws, as a failed provider would.
+  bool eveningFails = false;
   int cap = 3;
   Set<String> created = {};
   late DateTime now;
