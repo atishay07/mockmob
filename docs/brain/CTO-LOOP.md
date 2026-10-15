@@ -1,0 +1,100 @@
+# MockMob CTO loop (living document; update after every wave)
+
+Owner, 15 Oct 2026 about 21:45 IST: "act as a CTO ... Keep on a self-improvement loop of: adding features; making them useful (that's the most important); refining the UI/UX, the motion, motion graphics design; improving the quality, fluidity, and better-looking mascot."
+
+Sources this consolidates (his words win; read them when in doubt):
+- the 93 owner messages of session 604ced81, 12-15 Oct (`mockmob-next/tmp/resume-2110/OWNER-MESSAGES-604ced81.md`);
+- `OWNER-VISION-2026-10-15-PM.md`, with his standing goal and its checklist;
+- `APP-UX-AUDIT-2026-10-15.md`, with 25 ranked findings;
+- `HANDOFF-2026-10-15-EVENING.md`;
+- the memory files `cto-mode-standing-goal`, `platform-focus-mobile-first`, `web-restructure-rejected`, `features-over-retesting`, `mockmob-design-direction`, `quality-bar-and-stop-rule` and `subagent-model-choice`.
+
+## 1. The loop (every wave)
+
+1. **Pick** from the queue (section 4): usefulness first, then what he named, then polish.
+2. **Route.** Sonnet builds. Opus is used only for complex UI/UX, extreme motion graphics and polish. Haiku takes quick tasks under 5 minutes. Set effort explicitly on every agent. Planning stays in the main session.
+3. **Build** on app and website together, on disjoint paths, continuing from the newest base. Never redo done work: check git log and the code first.
+4. **Check once:**
+   - analyze and the touched area's tests;
+   - one web build;
+   - goldens only where intended, opened and looked at.
+
+   No emulator recordings unless he asks.
+5. **Critique against his bar.** The main session asks for each change:
+   - Is it useful? See the test below.
+   - Is it richer than before, not plainer?
+   - Is it balanced (not sparse, not over-gamified)?
+   - Is it mobile-first on the landing?
+   - Is it truthful?
+   - Is it premium in motion?
+6. **Ship what is safe:**
+   - the website: merge, deploy, check Vercel;
+   - the app: APK, then install on his phone if it is connected, and send the zip.
+7. **Update** this file's status column and the brain checkpoint. Then go back to step 1. Stop only at about 95% usage, with a handoff.
+
+**Usefulness test (the most important).** A feature ships only if it changes what a student does next:
+- it gives a clear next action, one tap away;
+- every number is from their own data or a cited source, with its denominator;
+- a Class 12 student understands it in 3 seconds.
+
+"Confusing" means improve the UI and the words. Never cut the feature.
+
+## 2. The vision, consolidated (status as of 15 Oct 21:45 IST)
+
+| # | Vision item (his words, short) | Status |
+|---|---|---|
+| V1 | The app is distinctive: "not just a copy of the website ... something more and the best out there" | ongoing |
+| V2 | Premium feel like HIGH, Revolut and Fampay: glass, rich motion, generated imagery, "nothing but perfection" | ongoing |
+| V3 | Mobi everywhere with emotions and actions, Duolingo-level; a better-looking mascot | partial: emotion kit and parity done; quality pass queued (Q6) |
+| V4 | Motion graphics, fluidity, finish; judged in use, not static | ongoing |
+| V5 | Balanced (crowded beats sparse; over-gamified is as bad as sparse); one spacing system; Night/Day parity | ongoing |
+| V6 | Memorable post-mock moments (Undertone-style recap), supportive streaks, celebrations without pressure | done in the app (recap, milestones); web parity partial |
+| V7 | Exciting, plain copy; no defensive sub-remarks or "illustrative" lines | done on the landing; app copy pass queued (Q3) |
+| V8 | Mistake Lab is the USP, "10 times more useful"; insights no one else can give; SWOT after each mock | slices 1-2 live; slice 3 resuming; slice 4 queued (Q7) |
+| V9 | The website takes the app's clarity without being cut: landing mobile-first; arena desktop-first and phone-ready | v2 live; landing gesture fix resuming; arena pass 3 queued (Q9) |
+| V10 | State-aware website: signed-in users go straight to the arena; content fits free, paid, new or returning | check in Q9 |
+| V11 | Sign-in that just works (Google, email code, password, maybe phone) and stays signed in | Google and email fixed today; 403 insurance queued (Q1) |
+| V12 | NTA mode exam-faithful on web and app; CUET-fit questions; prefer the newest questions | done (r5 live) |
+| V13 | CUET tools (Compass, Combo, guide) integrated into the flow with hierarchy, not hidden | resuming (app tools packet); Q4 for the shared colleges list |
+| V14 | You and Profile as a real hub: a top-bar avatar, findable light/dark, account settings, credits | wave 4a resuming; Q5 for the full hub |
+| V15 | Ask Mobi integrated with credits; two credit names everywhere | wave 4a resuming; Q2 for the credits page and history |
+| V16 | Stay on free plans until launch: usage fixes, fix 5, backups | fixes 1-4 live 21:10; fix 5 queued (Q8) |
+| V17 | Minimal first-party analytics with consent (off for minors and unknown ages); quiet hours 11 pm-7 am | consent switch done; funnel queued (Q10) |
+| V18 | Play Store release (14-day test) | owner steps pending |
+
+## 3. Running now
+
+Workflow run wf_bc96c478... was replaced by **wf_361b728d-4b8**, started 15 Oct 21:40 IST:
+- **Landing:** G1, one gesture per slide (Opus high); the speed pass (Sonnet medium); then verify.
+- **Lab slice 3:** web and app (Sonnet high); truth review (Sonnet high); check.
+- **App:**
+  - practice NTA tiles plus start animations (Opus high);
+  - Today road and colleges, and tools (Sonnet high);
+  - account and ask (Sonnet medium);
+  - then one app check.
+
+Then: deploy the landing if verify says ready, and deploy Lab slice 3 if the truth review is clean (server first). Then merge ui/phase2 into feat/app-and-web, build APK v9, install it and send it.
+
+## 4. Queue (in order; skip anything the running wave finished)
+
+| Q | What | Why (usefulness or his words) | Routing |
+|---|---|---|---|
+| Q1 | Treat edge-firewall 403 and HTML responses as retryable "blocked", never as a refusal (audit P0-3); Today's error card retries honestly (P0-2) | A paper or a queued write must never be lost | Sonnet high |
+| Q2 | Credits: two names only; one Credits page with both balances, the renew date and a history list (new GET /api/me/credits/history); every spend line names its pool and total (P1-12, 13) | Students must see what they spend | Sonnet high, web plus app |
+| Q3 | Copy and naming pass: Ask Mobi everywhere, Quick practice (10 questions), the audit's jargon list (P2-18, 19) | Plain words | Sonnet medium |
+| Q4 | One "My colleges" list on the server, shared by Today, Compass and You; Choose opens the chooser; Compass hierarchy and score prefill (P1-5 to 9), if the tools packet left them | Tools in the flow, not hidden | Sonnet high |
+| Q5 | You as a real hub (audit section 3: profile, plan and credits, appearance, notifications, study days, colleges, progress, sign-in, privacy, help with FAQ) | "Doing a bit less" | Sonnet high |
+| Q6 | **Mobi quality pass:** a better-looking rig, more actions and emotions, smoother motion, the same Mobi on web (I3 web half) | V3, his explicit ask | Opus high (rig and motion) plus Sonnet medium (web port) |
+| Q7 | **Mistake Lab slice 4:** the trap atlas, "same mistakes later" (spaced re-check), the key-quality loop | V8, the USP | Sonnet high; Opus only for its signature visual |
+| Q8 | Fix 5: practice start downloads only the picked questions; the slim NTA index in production; a weekly database backup; agents test on staging | V16; before more testers | Sonnet high |
+| Q9 | Website arena on phones, pass 3: Today's dropdowns, Review details, the critic leftovers in tmp/web-v2-pass2/critic-2; state-aware entry for signed-in users | V9, V10 | Sonnet high; Opus for motion polish |
+| Q10 | Analytics funnel (server-side, consent-respecting) and app crash reporting | Know what breaks | Sonnet medium |
+| Q11 | Web halves of motion language, living objects and sharp scenes, where the website lacks them | Parity, fluidity | Sonnet high; Opus for the object flight |
+| Q12 | Bar blur 24 sigma with lighter tints; the capsule never covers the hero; the week strip skeleton (P2-20, 22, 24) | Finish | Haiku low or Sonnet low |
+
+## 5. Owner items (ask only for these)
+
+- Delete the 5 paused Vercel projects.
+- Say whether students can reach Razorpay checkout today (this decides when to move to Vercel Pro).
+- Play Store: the upload key, the Google client ID, Play Console.
+- One Mistake Repair on the site, to verify the v3 cost.
