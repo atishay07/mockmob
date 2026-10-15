@@ -28,6 +28,15 @@
   height: 100svh;
   padding: var(--ss-top) 0 var(--ss-bottom);
 }
+/* The stage's empty bands never catch a tap meant for the page around it (the slack margins below
+   let the next section slide under them); the content itself takes pointers as usual. */
+.ss[data-pinned='true'] .ss__stage { pointer-events: none; }
+.ss[data-pinned='true'] .ss__stage > * { pointer-events: auto; }
+/* Short content: a story that marks its content's end (data-ss-end) gets --ss-slack, the band left under
+   it. .ss--centre puts the content in the middle of the held window and lets the page before and after
+   the story sit at the normal section gap instead of a stage's height of empty page. */
+.ss--centre[data-pinned='true'] { margin-block: calc(var(--ss-slack, 0px) / -2); }
+.ss--centre[data-pinned='true'] .ss__stage > * { translate: 0 calc(var(--ss-slack, 0px) / 2); }
 .ss__beat { position: absolute; left: 0; width: 1px; top: calc(50svh + var(--i) * var(--ss-beat)); height: var(--ss-beat); pointer-events: none; }
 .ss__beat[data-edge='first'] { top: 0; height: calc(50svh + var(--ss-beat)); }
 .ss__beat[data-edge='last'] { height: calc(var(--ss-beat) + 50svh); }

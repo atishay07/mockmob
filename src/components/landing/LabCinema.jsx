@@ -5,6 +5,7 @@
 // reader's scroll walks it through four scenes: time per question, every answer change on the clock,
 // the repair, and the SWOT with the set to do next. Phones get the same hold as desktop: step rail on
 // top, the scene's words, then the screen, scaled once per resize to fit short and landscape windows.
+// The screen is a Night device in both themes, like every product screen on the page.
 // Only opacity and transform move. All numbers come from labStory.mjs (one sample Accountancy mock),
 // so the scenes cannot disagree with each other or with the replay further down the page.
 import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
@@ -155,7 +156,6 @@ function ScreenBar({ label }) {
     <div className="lcd-bar">
       <div className="lcd-bar__title">
         <span className="lcd-bar__subject">
-          {label ? null : <SubjectObject id="accountancy" size={44} className="lcd-bar__obj" style={{ '--obj-size': '2.5rem' }} />}
           <span>Accountancy<small>Sample mock</small></span>
         </span>
         <b>{S.facts.marks}<small> / {S.facts.outOf}</small></b>
@@ -186,11 +186,16 @@ function Stage({ step, pinned, reduced, goTo }) {
 
       <div className="lcd" aria-hidden="true">
         <span className="lcd__glow" />
-        <SubjectObject id="accountancy" size={216} lit className="lcd__object" style={{ '--obj-size': 'clamp(9.5rem, 15vw, 13.5rem)' }} />
         <div className="lcd__frame">
           <ScreenBar />
           <div className="lcd__tabs"><i className="lcd__tab-ink" />{SCENES.map(({ key, tab }, i) => <span key={key} data-on={step === i ? 'true' : 'false'}>{tab}</span>)}</div>
         </div>
+      </div>
+
+      {/* The mock's subject, the lamp-lit Accountancy object, rests on the screen's top right corner, in
+          front of it on every screen size, and drifts a little with the story. */}
+      <div className="lc__prop" aria-hidden="true">
+        <SubjectObject id="accountancy" size={160} lit className="lc__obj" style={{ '--obj-size': 'var(--lc-obj, 160px)' }} />
       </div>
 
       {SCENES.map(({ key, tab, title, body, take }, i) => {

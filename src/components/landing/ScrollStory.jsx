@@ -11,7 +11,8 @@
 // the beats picks the step whose beat crosses the middle of the window, so nothing runs per frame.
 // The track is also a named view timeline (--ss-track), which consumers use for compositor-only
 // progress fills (see scroll-story.css). Elements marked data-ss-fit are scaled once per resize to
-// fit their parent, so short phones and landscape keep the hold instead of clipping the screen.
+// fit their parent, so short phones and landscape keep the hold instead of clipping the screen, and the
+// band left under elements marked data-ss-end is measured as --ss-slack (centring, exit gap).
 // Every step's content stays in the DOM in reading order; focusing into a step brings it on stage.
 // Reduced motion keeps the hold with calm, instant swaps. Without IntersectionObserver the steps stack.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -45,6 +46,25 @@ function fitAll(stage) {
     }
     if (node.offsetHeight * fit > space + 1 && fit > min) node.style.setProperty('--ss-fit', Math.max(min, space / node.offsetHeight).toFixed(3));
   }
+}
+
+// Slack: the empty band between the held content's bottom (elements marked data-ss-end) and the stage's
+// bottom. Written once per resize as --ss-slack, so consumers can centre short content in the held window
+// (scroll-story.css) and the page after the story follows at the normal section gap, not a stage height.
+function measureSlack(root, stage) {
+  root.style.removeProperty('--ss-slack');
+  const ends = stage.querySelectorAll('[data-ss-end]');
+  if (!ends.length) return;
+  let bottom = -Infinity;
+  for (const node of ends) {
+    const rect = node.getBoundingClientRect();
+    if (rect.height > 0) bottom = Math.max(bottom, rect.bottom);
+  }
+  if (!Number.isFinite(bottom)) return;
+  const box = stage.getBoundingClientRect();
+  const padBottom = parseFloat(getComputedStyle(stage).paddingBottom) || 0;
+  const slack = Math.max(0, Math.floor(box.bottom - padBottom - bottom));
+  if (slack > 0) root.style.setProperty('--ss-slack', `${slack}px`);
 }
 
 export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, ...rest }) {
@@ -92,18 +112,22 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
   // Scale marked screens to their room once per resize (never per scroll frame).
   useEffect(() => {
     const stage = stageRef.current;
-    if (!pinned || !stage || typeof ResizeObserver === 'undefined') return undefined;
+    const root = rootRef.current;
+    if (!pinned || !stage || !root || typeof ResizeObserver === 'undefined') return undefined;
     let frame = 0;
-    const run = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(() => fitAll(stage)); };
+    const run = () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(() => { fitAll(stage); measureSlack(root, stage); }); };
     const observer = new ResizeObserver(run);
     observer.observe(stage);
     stage.querySelectorAll('[data-ss-fit]').forEach((node) => node.parentElement && observer.observe(node.parentElement));
+    // A fitted node changes its own width when it is scaled, so only unscaled end markers are watched.
+    stage.querySelectorAll('[data-ss-end]:not([data-ss-fit])').forEach((node) => observer.observe(node));
     document.fonts?.ready.then(run).catch(() => {});
     run();
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
       stage.querySelectorAll('[data-ss-fit]').forEach((node) => node.style.removeProperty('--ss-fit'));
+      root.style.removeProperty('--ss-slack');
     };
   }, [pinned]);
 

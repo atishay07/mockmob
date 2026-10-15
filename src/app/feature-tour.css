@@ -2,6 +2,10 @@
 .ft { min-width: 0; display: grid; gap: .75rem; }
 .ft__list { position: relative; display: flex; gap: .4rem; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; list-style: none; margin: 0; padding: 2px; }
 .ft__list::-webkit-scrollbar, .ft__track::-webkit-scrollbar { display: none; }
+/* The chip row fades only at an edge with more chips beyond it, so a half-shown chip reads as "more". */
+.ft__list { scroll-padding-inline: 24px; --ft-fade-l: #000; --ft-fade-r: #000; -webkit-mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 24px, #000 calc(100% - 24px), var(--ft-fade-r)); mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 24px, #000 calc(100% - 24px), var(--ft-fade-r)); }
+.ft__list:is([data-fade='start'], [data-fade='both']) { --ft-fade-l: transparent; }
+.ft__list:is([data-fade='end'], [data-fade='both']) { --ft-fade-r: transparent; }
 .ft__list li { flex: 0 0 auto; }
 .ft__row { display: flex; align-items: center; justify-content: center; gap: .45rem; min-height: 44px; padding: .5rem .75rem; border: 1px solid transparent; border-radius: 12px; background: transparent; color: var(--ink-2); font: 650 .83rem/1.2 var(--font-body); white-space: nowrap; cursor: pointer; transition: background 150ms ease, color 150ms ease; }
 .ft__row[data-on='true'] { background: var(--volt, #d2f000); color: #0b1000; }
@@ -27,12 +31,18 @@
 .ft__card { min-width: 0; display: grid; grid-template-rows: 21rem minmax(10rem, auto); }
 .ft__media { position: relative; min-width: 0; display: flex; align-items: center; justify-content: center; padding: .65rem .85rem 1.05rem; background: var(--paper-sunken); }
 .ft__shot { width: 100%; min-width: 0; max-width: 28rem; }
-.ft__shot .ts { min-height: 17.25rem; border-radius: 16px; box-shadow: none; }
+.ft__shot .ts { min-height: 17.25rem; border-radius: 16px; box-shadow: 0 0 0 4px #1d231c, 0 0 0 5px rgba(244, 245, 240, .08), inset 0 1px 0 rgba(255, 255, 255, .06); }
+/* Day: the same Night device with a paper-side bezel, like every product screen on the page. */
+html[data-theme='light'] .ft__shot .ts { box-shadow: 0 0 0 4px #262b22, 0 0 0 5px rgba(32, 26, 14, .28), 0 22px 44px -30px rgba(32, 26, 14, .55), inset 0 1px 0 rgba(255, 255, 255, .06); }
 .ft__shot video { display: block; width: 100%; max-height: 18rem; object-fit: contain; background: #0e120d; border-radius: 16px; }
 .ft__tag { position: absolute; bottom: .2rem; right: .85rem; font: 500 .6rem/1.3 var(--font-body); color: var(--ink-3); }
 .ft__copy { min-width: 0; display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.05rem .55rem; }
 .ft__title { margin: 0; color: var(--ink); font: 800 clamp(1.2rem, 5.2vw, 1.55rem)/1.12 var(--font-display); letter-spacing: -.025em; text-wrap: balance; }
-.ft__body, .ft__summary { margin: 0; color: var(--ink-2); font: 400 .91rem/1.4 var(--font-body); }
+.ft__body, .ft__summary, .ft__lede { margin: 0; color: var(--ink-2); font: 400 .91rem/1.4 var(--font-body); }
+.ft__lede { color: var(--ink-2); font-size: .9375rem; line-height: 1.45; text-wrap: pretty; }
+/* The proof line under the lede: smaller, with the accent dot the Lab story uses. */
+.ft__summary { display: flex; align-items: baseline; gap: .5rem; color: var(--ink-3); font-size: .8125rem; font-weight: 600; line-height: 1.35; }
+.ft__summary::before { content: ''; flex: none; width: .4rem; height: .4rem; border-radius: 50%; background: var(--volt, #d2f000); box-shadow: 0 0 0 3px var(--accent-wash, rgba(210,240,0,.15)); transform: translateY(-.05rem); }
 .ft__body, .ft__points { display: none; }
 .ft__cta { display: inline-flex; align-items: center; align-self: flex-start; gap: .45rem; min-height: 44px; margin-top: auto; font-size: .9rem; }
 .ft__controls { display: flex; gap: .65rem; align-items: center; padding: .35rem .7rem .7rem; }
@@ -69,7 +79,7 @@
   .ft__copy { order: -1; justify-content: center; padding: 2.25rem 2.5rem; gap: .7rem; }
   .ft__title { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.08; }
   .ft__body { display: block; font-size: 1rem; line-height: 1.5; }
-  .ft__summary { display: none; }
+  .ft__summary, .ft__lede { display: none; }
   .ft__points { display: grid; list-style: none; gap: .6rem; margin: .25rem 0 0; padding: 0; }
   .ft__points li { position: relative; padding-left: 1rem; font-size: .9rem; line-height: 1.4; color: var(--ink-2); }
   .ft__points li::before { position: absolute; content: ''; width: 5px; height: 5px; left: 0; top: .5em; border-radius: 50%; background: var(--accent-text); }
@@ -125,12 +135,16 @@
 .ft-story[data-pinned='true'] .ft__progress span[data-done='true'] { background: var(--line); }
 .ft-story[data-reduced='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none !important; transition: none; }
 .ft-story[data-reduced='true'] .ft__slide { transition-duration: var(--mm-dur-reduced-fade, 120ms); }
+/* Phones: the screen takes the height of its content (every tool's screen is about the same height, and
+   they share one cell), so the title and the one-line description sit right under it. ScrollStory's
+   slack (.ss--centre) centres the card in the held window on every size. */
 @media (max-width: 899px) {
   .ft-story[data-pinned='true'] .ft { gap: .6rem; }
-  .ft-story[data-pinned='true'] .ft__card { grid-template-rows: minmax(17.5rem, auto) auto; }
+  .ft-story[data-pinned='true'] .ft__card { grid-template-rows: auto auto; }
+  .ft-story[data-pinned='true'] .ft__media { padding-bottom: .85rem; }
+  .ft-story[data-pinned='true'] .ft__copy { gap: .4rem; padding-top: .9rem; }
 }
 @media (min-width: 900px) {
-  .ft-story[data-pinned='true'] .ss__stage { display: flex; flex-direction: column; justify-content: center; }
   .ft-story[data-pinned='true'] .ft { height: auto; max-height: 100%; }
 }
 /* Landscape phones: the chips scroll away into the card's own chapter line. */

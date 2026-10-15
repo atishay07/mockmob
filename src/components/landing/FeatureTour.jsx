@@ -9,6 +9,20 @@ import ScrollStory from './ScrollStory';
 
 export const TOUR_ADVANCE_MS = 4800;
 
+// Phones show one sentence under each tool's title (wide screens show the full paragraph and its points),
+// so a phone never says less than a laptop. A slide's own `lede` wins.
+const LEDE = {
+  arena: 'A quick drill on a free evening, or a full 50-question, 60-minute mock on the real clock.',
+  repair: 'The AI solves your missed question first. Only when it matches the official key does it explain your mistake.',
+  learn: 'Short lessons with worked examples, then recall cards that come back before you forget.',
+  replay: 'Every changed answer, every slow question and every skip, in the order it happened.',
+  radar: 'Every miss traced back to its chapter, so tonight has one clear target.',
+  prepos: 'Ask about your own record and get one next step, the same one Today shows you.',
+  compass: 'Your score against the published 2026 DU cutoffs, by college, category and round.',
+  combo: 'Pick your DU goals and see which five-paper combinations the 2026 rules keep open.',
+  rival: 'A short timed run against a fixed target for accuracy and pace.',
+};
+
 function TourVideo({ slide, playing }) {
   const ref = useRef(null);
   useEffect(() => {
@@ -59,12 +73,31 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
     track.scrollTo({ left: slide.offsetLeft, behavior: smooth && !reduced ? 'smooth' : 'auto' });
   }, [reduced]);
 
-  // Keep the current chapter chip in view without moving the document's vertical scroll.
+  // Keep the current chapter chip centred without moving the document's vertical scroll (the row scrolls
+  // itself; instant under reduced motion). The row's edges fade only where more chips wait beyond them.
+  const [fade, setFade] = useState('none');
+  const readFade = useCallback(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const more = nav.scrollWidth - nav.clientWidth;
+    const start = nav.scrollLeft > 2;
+    const end = more > 2 && nav.scrollLeft < more - 2;
+    setFade(start && end ? 'both' : start ? 'start' : end ? 'end' : 'none');
+  }, []);
   useEffect(() => {
     const nav = navRef.current;
     const item = nav?.querySelector('[data-chapter="' + active + '"]');
     if (nav && item && nav.scrollWidth > nav.clientWidth + 2) nav.scrollTo({ left: item.offsetLeft - (nav.clientWidth - item.offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' });
   }, [active, reduced]);
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return undefined;
+    readFade();
+    if (typeof ResizeObserver === 'undefined') return undefined;
+    const observer = new ResizeObserver(readFade);
+    observer.observe(nav);
+    return () => observer.disconnect();
+  }, [readFade]);
 
   const goTo = useCallback((index, { scroll = true, keyboard = false } = {}) => {
     if (!slides.length) return;
@@ -140,7 +173,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
       onPointerDownCapture={event => { if (!event.target.closest('.ft__play')) setKeyboardHold(false); }}
       onFocusCapture={event => { if (!pinned && !event.target.closest('.ft__play') && event.target.matches(':focus-visible')) setKeyboardHold(true); }}
       onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardHold(false); }}>
-      <ul className="ft__list" ref={navRef} aria-label="Feature chapters">
+      <ul className="ft__list" ref={navRef} aria-label="Feature chapters" data-fade={fade} onScroll={readFade}>
         {slides.map((slide, i) => <li key={slide.id} data-chapter={i}>
           <button type="button" className="ft__row" data-on={active === i ? 'true' : 'false'} aria-current={active === i ? 'step' : undefined} onClick={event => goTo(i, { keyboard: event.detail === 0 })}>
             <span className="ft__ico" aria-hidden="true">{slide.icon}</span><span>{slide.label}</span>
@@ -149,7 +182,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
       </ul>
 
       <div className="ft__room">
-        <div className="ft__stage" data-ss-fit="0.6">
+        <div className="ft__stage" data-ss-fit="0.6" data-ss-end="">
           <div className="ft__chrome">
             <div className="ft__chapter"><span className="ft__counter">{String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span><b>{slides[active]?.label}</b></div>
             <span className="ft__status"><i aria-hidden="true" />{status}</span>
@@ -180,6 +213,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                   <div className="ft__copy">
                     <h3 className="ft__title">{slide.title}</h3>
                     <p className="ft__body">{slide.body}</p>
+                    <p className="ft__lede">{slide.lede || LEDE[slide.id] || slide.line}</p>
                     <p className="ft__summary">{slide.chip || slide.line}</p>
                     {slide.points?.length ? <ul className="ft__points">{slide.points.map(point => <li key={point}>{point}</li>)}</ul> : null}
                     <Link href={slide.href} className="lp-link ft__cta">{slide.cta}<ArrowRight size={16} aria-hidden="true" /></Link>
@@ -200,5 +234,5 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
 }
 
 export default function FeatureTour({ slides = [] }) {
-  return <ScrollStory steps={slides.length} className="ft-story" label="What is inside MockMob, tool by tool" Content={TourStage} slides={slides} />;
+  return <ScrollStory steps={slides.length} className="ft-story ss--centre" label="What is inside MockMob, tool by tool" Content={TourStage} slides={slides} />;
 }

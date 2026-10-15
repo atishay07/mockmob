@@ -158,7 +158,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
     // The tour keeps playing under a passing cursor or a tap. Only keyboard focus holds it, so a
     // keyboard user is never moved on mid-read; the explicit button pauses it for everyone.
     <div className="ml" ref={rootRef} data-playing={running} data-held={pinned ? 'true' : 'false'} onFocus={(event) => { if (event.target.matches?.(':focus-visible')) setHold(true); }} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHold(false); }}>
-      <div className="ml__rail">
+      <div className="ml__rail" data-ss-end="">
         <ol className="ml__steps">
           {STEPS.map((item, index) => {
             const active = index === step;
@@ -167,7 +167,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                 <button type="button" aria-label={item.title} onClick={(event) => { keyboardStep.current = event.detail === 0; if (pinned) { goTo(index, event.detail === 0); return; } setPlaying(false); goTo(index); if (index === 0) { clockRef.current.elapsed = SESSION.length * REVEAL_MS; setRevealed(SESSION.length); setPicked(3); } }} aria-current={active ? 'step' : undefined}>
                   <span className="ml__num">{String(index + 1).padStart(2, '0')}</span>
                   <span className="ml__label">{item.title}</span>
-                  <span className="ml__short" aria-hidden="true">{['Replay', 'Find', 'Next move', 'Check'][index]}</span>
+                  <span className="ml__short" aria-hidden="true">{['Replay', 'Find', 'Plan', 'Check'][index]}</span>
                   <i className="ml__bar" aria-hidden="true">
                     {pinned ? <b className="ss-fill" data-state={index < step ? 'done' : active ? 'on' : 'off'} style={{ '--ss-i': index }} /> : active ? <b ref={progressRef} key={token} data-auto={!reduced} /> : null}
                   </i>
@@ -188,7 +188,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
         <button type="button" className="ml__restart" onClick={(event) => { keyboardStep.current = event.detail === 0; goTo(0); setPlaying(true); }}><RotateCcw size={15} aria-hidden="true" />Replay</button></div>
       </div>
 
-      <figure className="ml__stage" data-ss-fit="0.62" aria-label="Sample Accountancy session, 10 questions">
+      <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label="Sample Accountancy session, 10 questions">
         <div className="ml__bar-top">
           <div className="ml__session-label"><span>Sample Accountancy session, 10 questions</span></div>
           <MascotSeat station="lab-inline" pose="attentive" label="Mobi follows the replay." className="pip-seat--lab-inline" />
@@ -282,7 +282,7 @@ export default function MistakeLab({ recoveryState = 'blocked_content', recovery
   // Held, the story's step owns the timeline; a new token restarts that step's own clock.
   const onStep = useCallback((next) => setTimeline((t) => (t.step === next ? t : { step: next, token: t.token + 1 })), []);
   return (
-    <ScrollStory steps={STEPS.length} className="ml-story" label="Replay a session, step by step" onStep={onStep} Content={LabStage}
+    <ScrollStory steps={STEPS.length} className="ml-story ss--centre" label="Replay a session, step by step" onStep={onStep} Content={LabStage}
       recoveryState={recoveryState} recoveryReason={recoveryReason} timeline={timeline} setTimeline={setTimeline} />
   );
 }

@@ -3,7 +3,8 @@
    One held scroll story in four scenes, on phones exactly as on desktop: the stage sticks, the
    reader's scroll changes the scene. Phones stack rail, words and screen in one frame; wide or
    landscape windows put the words beside the screen. Only opacity and transform move.
-   The product screen follows the Night and Day theme.
+   The product screen is a Night device in both themes (every product screen on the page is), with a
+   bezel; the words and the rail around it follow the theme.
    ========================================================================== */
 
 .lc {
@@ -29,26 +30,19 @@
   --lcd-chrome: 3.6rem;
   --ss-beat: 76svh;
   --lc-reset: 0.45s;
+  --lcd-bezel: #1d231c;
+  --lcd-bezel-edge: rgba(244, 245, 240, 0.08);
+  /* The Accountancy object on the screen's corner, and the room the title bar leaves it. */
+  --lc-obj: 5.5rem;
+  --lc-obj-clear: 5.6rem;
   position: relative;
   overflow-x: clip;
 }
+/* Day keeps the Night screen and gives it a paper-side bezel and a sepia drop shadow. */
 html[data-theme='light'] .lc {
-  --s-bg: #ffffff;
-  --s-raised: #f6f8f0;
-  --s-sunken: #eef1e6;
-  --s-ink: #172016;
-  --s-ink-2: #424f3e;
-  --s-ink-3: #5c6855;
-  --s-line: #e1e6da;
-  --s-line-2: #c9d1bd;
-  --s-good: #3d6600;
-  --s-bad: #b0291f;
-  --s-bad-fill: #d9574b;
-  --s-good-fill: #7fae24;
-  --s-accent: #d2f000;
-  --s-accent-ink: #172016;
-  --s-wash: rgba(124, 150, 20, 0.08);
-  --s-shadow: 0 40px 90px -46px rgba(20, 32, 14, 0.45), 0 12px 30px -20px rgba(20, 32, 14, 0.25);
+  --s-shadow: 0 40px 80px -44px rgba(32, 26, 14, 0.55), 0 14px 30px -20px rgba(32, 26, 14, 0.35);
+  --lcd-bezel: #262b22;
+  --lcd-bezel-edge: rgba(32, 26, 14, 0.28);
 }
 /* ---------- Copy ---------- */
 .lc-scene__step { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.6rem; color: var(--accent-text); font-size: 0.8125rem; font-weight: 750; }
@@ -94,7 +88,8 @@ html[data-theme='light'] .lc {
 .lcd { position: relative; isolation: isolate; min-height: 0; }
 .lcd__frame {
   position: absolute; inset: 0; z-index: 0; border-radius: 22px; overflow: hidden;
-  background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow), inset 0 1px 0 rgb(255 255 255 / 0.06);
+  background: var(--s-bg); border: 1px solid var(--s-line-2);
+  box-shadow: 0 0 0 4px var(--lcd-bezel), 0 0 0 5px var(--lcd-bezel-edge), var(--s-shadow), inset 0 1px 0 rgb(255 255 255 / 0.06);
 }
 .lcd__glow {
   position: absolute; z-index: -2; inset: 8% -6% -4% 10%; border-radius: 50%;
@@ -102,16 +97,20 @@ html[data-theme='light'] .lc {
   pointer-events: none;
 }
 html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, rgba(170, 200, 0, 0.22), transparent 72%); }
-/* The lamp-lit Accountancy object. Wide windows: it rests behind the screen's top corner, never over
-   its text. Phones have no room beside the screen, so it becomes the subject badge in the screen's
-   title bar instead (.lcd-bar__obj), the way the app marks a mock's subject. */
-.lcd__object.subj-obj { display: none; position: absolute; z-index: -1; top: -3.6rem; right: -2.6rem; }
-.lcd-bar { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.7rem 1rem 0.5rem; }
+/* The lamp-lit Accountancy object: a prop resting on the screen's top right corner, in front of it and
+   never cropped, standing on its own contact shadow (Night shade on the Night screen in both themes).
+   Phones: 88 px just inside the corner. Wide windows: about 150 px, half over the corner. The title bar
+   leaves it room (--lc-obj-clear), so it never covers the score. */
+.lc__prop { position: relative; z-index: 3; min-width: 0; min-height: 0; pointer-events: none; }
+.lc__obj.subj-obj {
+  position: absolute; top: -1rem; right: 0.15rem;
+  --obj-shade: 0, 0, 0; --obj-occl: 0.62; --obj-contact: 0.8;
+}
+.lcd-bar { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.7rem var(--lc-obj-clear) 0.5rem 1rem; }
 .lcd-bar__title { display: flex; align-items: center; justify-content: space-between; gap: 1rem; color: var(--s-ink-2); font-size: 0.875rem; font-weight: 650; }
 .lcd-bar__subject { display: inline-flex; align-items: center; gap: 0.55rem; min-width: 0; }
 .lcd-bar__subject > span { display: grid; color: var(--s-ink); font-weight: 750; line-height: 1.2; }
 .lcd-bar__subject small { color: var(--s-ink-3); font-size: 0.75rem; font-weight: 600; }
-.lcd-bar__obj.subj-obj { flex: none; margin: -0.35rem 0 -0.35rem -0.2rem; }
 .lcd-bar__title b { color: var(--s-ink); font: 800 1.35rem/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .lcd-bar__title b small { color: var(--s-ink-3); font: 600 0.8125rem var(--font-body); }
 .lcd-bar__tab { margin: 0; color: var(--s-ink); font: 750 1rem/1.2 var(--font-body); }
@@ -130,6 +129,7 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp__h { margin: 0; font: 750 1rem/1.25 var(--font-body); color: var(--s-ink); }
 .lcp__lead, .lcp__foot { margin: 0; color: var(--s-ink-2); font-size: 0.875rem; line-height: 1.5; }
 .lcp__foot b { color: var(--s-bad); }
+.lcd-bar__title b { font-variant-numeric: tabular-nums; }
 
 /* Time: bars against the paper's pace */
 .lcp-bars { display: grid; gap: 0.55rem; margin: 0.25rem 0 0; padding: 0; list-style: none; }
@@ -139,7 +139,6 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp-bars__fill { position: absolute; inset: 0; border-radius: 6px; background: var(--s-good-fill); transform-origin: left center; transform: scaleX(var(--w)); }
 .lcp-bars__fill[data-verdict='wrong'] { background: var(--s-bad-fill); }
 .lcp-bars__pace { position: absolute; top: -0.3rem; bottom: -0.3rem; width: 0; border-left: 2px dashed var(--s-accent); }
-html[data-theme='light'] .lc .lcp-bars__pace { border-left-color: #5d7300; }
 .lcp-bars__pace b { position: absolute; bottom: calc(100% + 0.15rem); left: -0.1rem; color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 700; white-space: nowrap; }
 .lcp-bars__time { grid-area: time; text-align: right; font-weight: 750; font-size: 0.9375rem; }
 .lcp-bars__tag { grid-area: tag; display: inline-flex; align-items: center; gap: 0.3rem; color: var(--s-good); font-size: 0.75rem; font-weight: 700; }
@@ -242,7 +241,7 @@ html[data-theme='light'] .lc .lcp-bars__pace { border-left-color: #5d7300; }
   row-gap: 0.85rem;
 }
 .lc[data-pinned='true'] .lc__rail { grid-column: 1; grid-row: 1; }
-.lc[data-pinned='true'] .lcd { grid-column: 1; grid-row: 3; }
+.lc[data-pinned='true'] :is(.lcd, .lc__prop) { grid-column: 1; grid-row: 3; }
 .lc[data-pinned='true'] .lc-scene {
   position: relative; z-index: 1; grid-column: 1 / -1; grid-row: 1 / -1;
   display: grid; grid-template-columns: subgrid; grid-template-rows: subgrid; pointer-events: none;
@@ -285,21 +284,22 @@ html[data-theme='light'] .lc .lcp-bars__pace { border-left-color: #5d7300; }
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto minmax(0, 1fr);
     column-gap: clamp(1.5rem, 5vw, 5.5rem); row-gap: 1rem;
   }
-  .lc[data-pinned='true'] .lcd { grid-column: 2; grid-row: 1 / -1; }
+  .lc[data-pinned='true'] :is(.lcd, .lc__prop) { grid-column: 2; grid-row: 1 / -1; }
   .lc[data-pinned='true'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: center; }
   .lc[data-pinned='true'] .lc-scene__screen { grid-column: 2; grid-row: 1 / -1; }
 }
 @media (min-width: 960px) and (min-height: 600px) {
-  .lc { --lcd-chrome: 5.9rem; --ss-beat: 78svh; }
+  /* The held window starts a little lower here, so the object over the corner always clears the site bar. */
+  .lc { --lcd-chrome: 5.9rem; --ss-beat: 78svh; --lc-obj: clamp(8.5rem, 11vw, 9.75rem); --lc-obj-clear: 7rem; }
+  .ss.lc { --ss-top: calc(72px + 0.75rem + var(--lc-obj) * 0.4); }
   .lc[data-pinned='true'] .ss__stage { display: flex; align-items: center; }
   .lc[data-pinned='true'] .lc__grid { height: min(100%, 46rem); row-gap: 2rem; }
   .lc-scene__take { display: inline-flex; }
   .lc-scene__body { margin-top: 1rem; }
   .lcd__frame { border-radius: 28px; }
-  .lcd-bar { padding: 1.1rem 1.4rem 0.6rem; }
+  .lcd-bar { padding: 1.1rem var(--lc-obj-clear) 0.6rem 1.4rem; }
+  .lc__obj.subj-obj { top: calc(var(--lc-obj) * -0.4); right: clamp(-2.75rem, calc((1180px - 100vw) / 4), -0.5rem); }
   .lcd__tabs { display: grid; }
-  .lcd-bar__obj.subj-obj { display: none; }
-  .lcd__object.subj-obj { display: block; }
   .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 1.1rem) 1.5rem 1.6rem; }
   /* The rail turns into a column: a line on the left that fills down through the scenes. */
   .lc__rail { grid-template-columns: none; gap: 0.15rem; padding-left: 1.1rem; align-self: start; }
@@ -324,7 +324,7 @@ html[data-theme='light'] .lc .lcp-bars__pace { border-left-color: #5d7300; }
 
 /* ---------- Not held (no IntersectionObserver): the four scenes stack ---------- */
 .lc[data-pinned='false'] .lc__rail,
-.lc[data-pinned='false'] .lcd { display: none; }
+.lc[data-pinned='false'] :is(.lcd, .lc__prop) { display: none; }
 .lc[data-pinned='false'] .lc__grid { display: grid; gap: clamp(3rem, 9vw, 5.5rem); }
 .lc[data-pinned='false'] .lc-scene { display: grid; gap: 1.25rem; align-items: center; }
 .lc[data-pinned='false'] .lc-scene__screen { position: relative; padding: 0 1rem 1.1rem; border-radius: 22px; background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow); }
@@ -332,13 +332,13 @@ html[data-theme='light'] .lc .lcp-bars__pace { border-left-color: #5d7300; }
 
 /* The object and the light drift with the whole story (compositor-only, where supported). */
 @supports (animation-timeline: view()) {
-  .lc[data-pinned='true'] .lcd__object { animation: lc-object linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
+  .lc[data-pinned='true'] .lc__obj { animation: lc-object linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
   .lc[data-pinned='true'] .lcd__glow { animation: lc-glow linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
 }
-@keyframes lc-object { from { transform: translate3d(0, 2.25rem, 0) rotate(-5deg); } to { transform: translate3d(-0.75rem, -1.5rem, 0) rotate(4deg); } }
+@keyframes lc-object { from { transform: translate3d(0.25rem, 0.6rem, 0) rotate(-4deg); } to { transform: translate3d(-0.35rem, -0.5rem, 0) rotate(3deg); } }
 @keyframes lc-glow { from { transform: translate3d(-4%, 6%, 0) scale(0.92); opacity: 0.7; } to { transform: translate3d(4%, -4%, 0) scale(1.06); opacity: 1; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .lc .lcd__object, .lc .lcd__glow { animation: none !important; }
+  .lc .lc__obj, .lc .lcd__glow { animation: none !important; }
   .lc__grid .lcp-clock__sweep i { animation: none !important; }
 }

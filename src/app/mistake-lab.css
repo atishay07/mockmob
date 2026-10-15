@@ -41,7 +41,9 @@
 /* 1. replay */
 .ml__score { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .ml__marks { display: inline-flex; align-items: baseline; gap: 0.5rem; }
-.ml__marks b { font: 800 clamp(2.4rem, 5vw, 3.2rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #f2f4ec; min-width: 2ch; }
+.ml__marks b { font: 800 clamp(2.4rem, 5vw, 3.2rem)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: #f2f4ec; }
+/* The digits hold two places and sit against their label, so the label never moves while the replay deals. */
+.ml__marks b { min-width: 2ch; text-align: end; }
 .ml__marks small { font-size: 0.85rem; color: #9aa795; }
 .ml__counts { display: inline-flex; gap: 0.5rem; flex-wrap: wrap; }
 .ml__counts i { font-style: normal; padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.76rem; font-weight: 700; border: 1px solid rgba(244, 245, 240, 0.16); color: #bcc5b9; font-variant-numeric: tabular-nums; }
@@ -112,7 +114,9 @@
 .ml__restart { display: inline-flex; align-items: center; justify-content: center; gap: .4rem; min-height: 44px; padding: 0 .8rem; border: 0; border-radius: 999px; background: transparent; color: var(--ink-2); font: inherit; font-size: .85rem; font-weight: 600; cursor: pointer; }
 .ml__restart:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 .ml :is(button, summary) { touch-action: manipulation; }
-html[data-theme='light'] .ml__stage { box-shadow: 0 12px 32px -18px rgb(16 32 14 / .38); }
+/* A Night device in both themes, like every product screen on the page: a bezel ring and a drop shadow. */
+.ml__stage { box-shadow: 0 0 0 4px #1d231c, 0 0 0 5px rgba(244, 245, 240, 0.08), 0 30px 70px -30px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(244, 245, 240, 0.08); }
+html[data-theme='light'] .ml__stage { box-shadow: 0 0 0 4px #262b22, 0 0 0 5px rgba(32, 26, 14, 0.28), 0 30px 60px -34px rgba(32, 26, 14, 0.5), inset 0 1px 0 rgba(244, 245, 240, 0.08); }
 @media (max-width: 959px) {
   .ml { gap: 1rem; }
   .ml__rail { display: contents; }
@@ -150,9 +154,10 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 12px 32px -18px rgb(16 32 14
 .ml-story[data-reduced='true'] .ml__panel { transform: none; transition: opacity var(--mm-dur-reduced-fade, 120ms) linear, visibility 0s linear var(--mm-dur-reduced-fade, 120ms); }
 .ml-story[data-reduced='true'] .ml__panel[data-active='true'] { transition-delay: 0s; }
 .ml__session-label { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+/* Wide: the rail and the stage sit side by side at their own height; ScrollStory's slack (.ss--centre)
+   centres them in the held window. Phones: the stage is scaled to fit and centred the same way. */
 @media (min-width: 960px) {
-  .ml-story[data-pinned='true'] .ss__stage { display: flex; flex-direction: column; justify-content: center; }
-  .ml-story[data-pinned='true'] .ml { height: auto; grid-template-rows: none; align-content: center; }
+  .ml-story[data-pinned='true'] .ml { height: auto; grid-template-rows: none; align-content: start; }
   .ml-story[data-pinned='true'] .ml__steps li .ml__bar { background: transparent; }
   .ml-story[data-pinned='true'] .ml__steps li[data-active='true'] .ml__bar,
   .ml-story[data-pinned='true'] .ml__steps li[data-done='true'] .ml__bar { background: var(--line); }
