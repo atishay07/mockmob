@@ -1,17 +1,20 @@
 "use client";
 
-// Radar: where the student's marks are going. The record view (ledger, leaks, chapters, changed
-// answers, pace, week on week) is the same free, model-free analysis PrepOS uses, so the two never
-// disagree. The score trend keeps the attempt-level chart. No invented composite scores.
+// Your record (web IA: Review > Your record): where the student's marks are going. The record view (ledger,
+// leaks, chapters, changed answers, pace, week on week) is the same free, model-free analysis Ask Mobi answers
+// from, so the two never disagree. The score trend keeps the attempt-level chart. No invented composite scores.
+// Only the header changed in the web IA work: the title, the breadcrumb and the Ask Mobi key. The next-step
+// card is gone (Today owns it, plan 5.2); everything below the header is as it was.
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
-import LearningNextAction from '@/components/LearningNextAction';
 import RecordView from '@/components/ai/RecordView';
 import { useInsights } from '@/components/ai/useInsights';
 import { useAuth } from '@/components/AuthProvider';
+import { ChevronRight, MessageCircle } from 'lucide-react';
 import { AppIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { ASK_HREF, REVIEW_HREF } from '@/lib/navigation';
 import { useInView } from '@/lib/motion';
 import TrendScrub from './TrendScrub';
 import './analytics.css';
@@ -59,7 +62,7 @@ export default function AnalyticsPageClient() {
   if (authStatus === 'loading' || !data) {
     return (
       <div className="container-std pb-20">
-        <div className="mb-8"><div className="eyebrow mb-2">Radar</div><div className="h-10 w-72 skeleton mb-2" /></div>
+        <div className="mb-8"><div className="h-10 w-72 skeleton mb-2" /></div>
         <SkeletonCard className="h-[200px]" lines={5} />
       </div>
     );
@@ -72,14 +75,16 @@ export default function AnalyticsPageClient() {
     <div className="rd view">
       <header className="rd-head">
         <div>
-          <div className="eyebrow">Radar</div>
-          <h1 className="display-md">Where your marks are going</h1>
+          <nav className="rd-crumb" aria-label="Breadcrumb">
+            <Link href={REVIEW_HREF}>Review</Link>
+            <ChevronRight size={14} aria-hidden="true" />
+            <span aria-current="page">Your record</span>
+          </nav>
+          <h1 className="display-md">Your record</h1>
           <p>{totalAttempts} session{totalAttempts === 1 ? '' : 's'}, {totalQ} question{totalQ === 1 ? '' : 's'} answered.{data.scoring?.device > 0 ? ` Includes ${data.scoring.device} earlier attempt${data.scoring.device === 1 ? '' : 's'} scored in your browser before server scoring.` : ''}</p>
         </div>
-        <Link href="/mentor?tab=ask" className="rd-ask"><AppIcon name="prepos" size={18} />Ask PrepOS about your record</Link>
+        <Link href={ASK_HREF} className="rd-ask"><MessageCircle size={18} aria-hidden="true" />Ask Mobi about your record</Link>
       </header>
-
-      <LearningNextAction compact />
 
       <div className="rd-cols">
         <div className="pp-arena rd-main">

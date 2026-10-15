@@ -21,3 +21,11 @@
 
 :root[data-motion='reduced'] .tr__halo { animation: none; opacity: 0; }
 .app-shell .rd-chart--scrub { height: auto; }
+
+/* Breadcrumb in the header: Review, then this page. Small, quiet, a real link with a 44 px target. */
+.app-shell .rd-crumb { display: flex; align-items: center; flex-wrap: wrap; gap: 2px 4px; margin: 0 0 6px; font-size: 13.5px; line-height: 1.4; color: var(--a-ink-3); }
+.app-shell .rd-crumb a { display: inline-flex; align-items: center; min-height: 44px; padding-right: 2px; color: var(--a-ink-2); text-decoration: none; }
+.app-shell .rd-crumb a:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .rd-crumb a:hover { color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; } }
+.app-shell .rd-crumb span { color: var(--a-ink); }
+.app-shell .rd-crumb svg { flex: none; }

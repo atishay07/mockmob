@@ -20,7 +20,8 @@ import { useShrug, useMobiGate } from '@/lib/mobiHooks';
 import { greeting } from '@/lib/mobiRation';
 import { mobiMoment } from '@/lib/mobiMoments';
 import { useInView } from '@/lib/motion';
-import { ASK_HREF, RECORD_HREF } from '@/lib/navigation';
+import { ASK_HREF, PRACTICE_HREF, RECORD_HREF } from '@/lib/navigation';
+import { practiceHref } from '@/../data/next_step_rules.mjs';
 import { publishTonightRepair } from '@/components/shell/shellSignals';
 import { useReviewData } from './useReviewData';
 import {
@@ -30,8 +31,7 @@ import {
 } from './reviewModel.mjs';
 import './review.css';
 
-const PRACTICE_HREF = '/dashboard';
-const QUICK_TEN_HREF = '/dashboard?mode=quick&count=10';
+const QUICK_TEN_HREF = practiceHref({ mode: 'quick', count: 10 });
 
 function Skeleton({ lines = 3 }) {
   return (
@@ -255,7 +255,8 @@ function Life({ view }) {
 }
 
 function RecordSection({ data }) {
-  const view = useMemo(() => (data.repairRows && data.summary ? repairRecordView({ rows: data.repairRows, attempts: data.summary, complete: data.complete }) : null),
+  // No paper yet means nothing was found and nothing repaired: one sentence, not a grid of zeros.
+  const view = useMemo(() => (data.repairRows && data.summary && data.summary.length > 0 ? repairRecordView({ rows: data.repairRows, attempts: data.summary, complete: data.complete }) : null),
     [data.repairRows, data.summary, data.complete]);
   return (
     <section className="rv-section" id="repair-record" aria-labelledby="rv-h-repairs">
@@ -264,7 +265,10 @@ function RecordSection({ data }) {
       {data.status === 'ready' && data.repairFailed ? (
         <p className="rv-quiet" role="alert">Your repair record could not be loaded. <button type="button" className="rv-link" onClick={data.retry}>Try again</button></p>
       ) : null}
-      {data.status === 'ready' && !data.repairFailed && !view ? <p className="rv-quiet">{RECORD_EMPTY}</p> : null}
+      {data.status === 'ready' && !data.repairFailed && !view && data.summaryFailed ? (
+        <p className="rv-quiet" role="alert">Your repair record needs your past results to be counted, and they did not load. <button type="button" className="rv-link" onClick={data.retry}>Try again</button></p>
+      ) : null}
+      {data.status === 'ready' && !data.repairFailed && !view && !data.summaryFailed ? <p className="rv-quiet">{RECORD_EMPTY}</p> : null}
       {view ? (
         <>
           <Life view={view} />

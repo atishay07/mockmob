@@ -1,10 +1,15 @@
 "use client";
 
+// Ask Mobi as a side sheet (the same surface as /mentor, in its drawer variant). The floating launcher that
+// opened it is gone (web IA plan 2.1: Ask Mobi is a key in the Review header), so only a page that offers
+// its own key mounts this; it stays here so any such page can. A solid sheet on the shared tokens, a focus
+// trap, Esc closes and returns focus to whatever opened it.
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { useEffect, useRef } from 'react';
 import MockMobAIHub from './MockMobAIHub';
+import './askmobi.css';
 
-export default function AssistantDrawer({ open, onClose, initialTab = 'ai' }) {
+export default function AssistantDrawer({ open, onClose }) {
   const reduced = useReducedMotion();
   const panel = useRef(null);
   const close = useRef(onClose);
@@ -27,12 +32,12 @@ export default function AssistantDrawer({ open, onClose, initialTab = 'ai' }) {
   return (
     <AnimatePresence>
       {open ? (
-        <div className="fixed inset-0 z-[95]">
+        <div className="am-layer">
           <motion.button
             type="button"
-            className="absolute inset-0 hidden bg-zinc-950/58 md:block"
+            className="am-scrim"
             onClick={onClose}
-            aria-label="Close PrepOS"
+            aria-label="Close Ask Mobi"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -42,14 +47,14 @@ export default function AssistantDrawer({ open, onClose, initialTab = 'ai' }) {
             ref={panel}
             role="dialog"
             aria-modal="true"
-            aria-label="PrepOS assistant"
-            className="arena-dark-island absolute inset-0 flex flex-col bg-[#090a08] md:inset-y-3 md:right-3 md:left-auto md:w-[min(520px,calc(100vw-28px))] md:overflow-hidden md:rounded-[26px] md:border md:border-white/10 md:shadow-[0_0_90px_rgba(0,0,0,0.62)]"
+            aria-label="Ask Mobi"
+            className="am-sheet"
             initial={{ x: reduced ? 0 : 24, opacity: reduced ? 1 : 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: reduced ? 0 : 24, opacity: reduced ? 1 : 0 }}
             transition={{ duration: reduced ? 0 : 0.24, ease: [0.16, 1, 0.3, 1] }}
           >
-            <MockMobAIHub variant="drawer" initialTab={initialTab} onClose={onClose} />
+            <MockMobAIHub variant="drawer" onClose={onClose} />
           </motion.section>
         </div>
       ) : null}

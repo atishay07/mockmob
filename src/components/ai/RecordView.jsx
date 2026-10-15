@@ -87,7 +87,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
     return (
       <div className="pp-empty">
         <AppIcon name="practice" size={22} />
-        <div><b>Nothing to analyse yet.</b><p>Finish one practice session. PrepOS will then show where your marks went: which chapters, which answer changes, and where the time went.</p></div>
+        <div><b>Nothing to analyse yet.</b><p>Finish one practice session and this page shows where your marks went: which chapters, which answer changes, and where the time went.</p></div>
         <button type="button" className="btn-volt sm" onClick={() => onNavigate('/dashboard?mode=quick')}>Start a set</button>
       </div>
     );

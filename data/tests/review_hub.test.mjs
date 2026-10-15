@@ -15,6 +15,10 @@ import { mistakeKey } from '../../src/lib/server/repairRecord.js';
 import { reviewBadge } from '../../src/lib/navigation.js';
 import { CAVEAT_PATTERNS, retiredHits, studentStrings } from '../glossary.mjs';
 import { repairMinutes } from '../next_step_rules.mjs';
+import {
+  FOCUS_OPTIONS, REPLY_KINDS, SUGGESTIONS, canWriteReply, composerHint, failureReply, mentorTabTarget, plainServerText, replyCost, replyCostLabel,
+  replySource, sendLabel, walletLine, writtenReplyNotice,
+} from '../../src/components/ai/askMobiModel.mjs';
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const NOW = Date.parse('2026-10-15T14:30:00.000Z');
@@ -245,7 +249,7 @@ const OWNED = [
   ...walk('src/app/(app)/review'), ...walk('src/app/(app)/mentor'), ...walk('src/app/(app)/saved'), ...walk('src/app/(app)/recovery'),
   'src/app/(app)/analytics/AnalyticsPageClient.jsx', 'src/components/RecoveryOverview.jsx', 'src/components/MistakeReplay.jsx',
   ...['MockMobAIHub', 'AssistantDrawer', 'AIMentorTerminal', 'RecordView', 'SessionReadout', 'AnswerSheet'].map((n) => `src/components/ai/${n}.jsx`),
-  'src/components/ai/assistantKnowledge.js',
+  'src/components/ai/assistantKnowledge.js', 'src/components/ai/askMobiModel.mjs',
 ];
 
 test('no retired name or caveat line in the Review and Ask Mobi sources', () => {
@@ -277,4 +281,114 @@ test('the hub publishes its count to the shell and links Ask Mobi and Your recor
   assert.equal((hub.match(/btn-volt/g) || []).length, 3, 'one filled key per state: repair, state card with a link, state card with a button (never together)');
   assert.doesNotMatch(hub, /LearningNextAction/, 'no duplicate next-step card on Review (plan 5.2)');
   assert.doesNotMatch(read('src/app/(app)/analytics/AnalyticsPageClient.jsx'), /LearningNextAction/, 'none on Your record either');
+});
+
+// ---------------------------------------------------------------------------------------------
+// Ask Mobi: cost, credits and where the old PrepOS tabs went
+
+const WALLET = { state: 'available', known: true, includedMonthlyCredits: 10, includedRemaining: 9, includedUsed: 1, bonusCredits: 0, total: 9, resetAt: '2026-10-31T18:30:00.000Z' };
+
+test('Ask Mobi costs come from the plan facts: free from the record, one AI credit for a written reply', () => {
+  assert.equal(replyCost(), 1);
+  assert.equal(replyCostLabel(), '1 AI credit');
+  assert.deepEqual(REPLY_KINDS.map((k) => [k.id, k.label, k.cost]), [['record', 'From your record', 'Free'], ['model', 'Written reply', '1 AI credit']]);
+  assert.equal(sendLabel('record'), 'Ask');
+  assert.equal(sendLabel('model'), 'Send, 1 AI credit');
+  assert.equal(sendLabel('model', { pending: true }), 'Reading');
+  assert.equal(composerHint('record'), 'Free, from your recorded sessions');
+  assert.equal(composerHint('model'), 'Uses 1 AI credit when the reply arrives');
+});
+
+test('walletLine says what is known and leaves out what is not (never a 0 for an unreadable balance)', () => {
+  assert.equal(walletLine(WALLET), 'AI credits: 9 of 10 this month. Renews 1 Nov.');
+  assert.equal(walletLine({ ...WALLET, bonusCredits: 30, includedRemaining: 8, total: 38 }), 'AI credits: 8 of 10 this month, plus 30 that do not expire. Renews 1 Nov.', 'bonus credits get their own clause');
+  assert.equal(walletLine({ ...WALLET, includedRemaining: 0, total: 0 }), 'AI credits: 0 of 10 this month. Renews 1 Nov.', 'zero is a real balance');
+  assert.equal(walletLine({ ...WALLET, resetAt: null }), 'AI credits: 9 of 10 this month.');
+  assert.equal(walletLine(null), null);
+  assert.equal(walletLine({ state: 'error', known: false, includedRemaining: null, includedMonthlyCredits: null }), null);
+});
+
+test('a written reply is offered only when the wallet says it can be paid for, and each refusal says why', () => {
+  assert.equal(canWriteReply(WALLET), true);
+  assert.equal(writtenReplyNotice(WALLET).title, 'One written reply uses 1 AI credit');
+  assert.equal(canWriteReply(null), false, 'wallet not read yet');
+  const empty = writtenReplyNotice({ ...WALLET, state: 'empty', includedRemaining: 0, total: 0 });
+  assert.equal(empty.ok, false);
+  assert.equal(empty.title, 'No AI credits left this month');
+  assert.match(empty.body, /They renew on 1 Nov\./);
+  assert.match(empty.body, /Questions about your record are still free\./);
+  const paused = writtenReplyNotice({ ...WALLET, state: 'paused' });
+  assert.equal(paused.ok, false);
+  assert.match(paused.title, /paused/);
+  const down = writtenReplyNotice({ state: 'schema_unavailable', known: false });
+  assert.equal(down.ok, false);
+  assert.match(down.body, /still free/);
+  for (const n of [writtenReplyNotice(WALLET), empty, paused, down, writtenReplyNotice(null)]) assert.doesNotMatch(`${n.title} ${n.body}`, /!|—|PrepOS/);
+});
+
+test('reply sources: the record is free, a written reply says what it cost', () => {
+  assert.equal(replySource({ origin: 'record' }), 'From your record. Free.');
+  assert.equal(replySource({ origin: 'model', charged: 1 }), 'Written reply. 1 AI credit used.');
+  assert.equal(replySource({ origin: 'model', charged: 0 }), 'Written reply. Check your AI credits for the final charge.', 'never claims a charge the server did not report');
+  assert.equal(replySource({ origin: 'status' }), 'Service status');
+  assert.equal(replySource({}), 'Earlier reply, source not recorded');
+});
+
+test('older server text is shown in the glossary names', () => {
+  assert.equal(plainServerText('PrepOS credits are separate from practice credits.'), 'AI credits are separate from practice credits.');
+  assert.equal(plainServerText('Check your PrepOS wallet. PrepOS could not answer.'), 'Check your AI credits. Mobi could not answer.');
+  assert.equal(plainServerText('One credit — returned'), 'One credit, returned');
+  assert.equal(plainServerText(null), '');
+  assert.match(failureReply(429).reply, /Wait a minute/);
+  assert.match(failureReply(402).reply, /no AI credits left this month/);
+  assert.equal(failureReply(503, 'PrepOS is paused.').reply, 'Mobi is paused.');
+  assert.match(failureReply(500, '').reply, /Check your AI credits to see whether one was used/);
+  assert.ok(SUGGESTIONS.length === 3 && FOCUS_OPTIONS.map((o) => o.id).join() === 'mentor,revision,autopsy,mock_plan', 'the focus ids are what the chat route validates');
+});
+
+test('the old PrepOS tabs land where their content now lives; Ask Mobi itself opens with no redirect', () => {
+  assert.equal(mentorTabTarget('plan'), '/today');
+  assert.equal(mentorTabTarget('record'), '/analytics');
+  assert.equal(mentorTabTarget('tools'), '/you');
+  assert.equal(mentorTabTarget('guide'), '/you');
+  assert.equal(mentorTabTarget('ask'), null);
+  assert.equal(mentorTabTarget(undefined), null);
+  assert.equal(mentorTabTarget(['record', 'ask']), '/analytics');
+  assert.equal(mentorTabTarget('anything-else'), null);
+});
+
+test('Ask Mobi has no tabs, no terminal skin and no dark island; /mentor redirects the old tabs', () => {
+  const hub = read('src/components/ai/MockMobAIHub.jsx');
+  for (const gone of ['prepos-console', 'arena-dark-island', 'PrepOSOrb', 'SECTIONS', 'RecordView', 'PlanSection', 'ToolsSection', 'FEATURE_GUIDE']) assert.doesNotMatch(hub, new RegExp(gone), gone);
+  assert.match(hub, /replyKind/, 'the chat route is still sent the reply kind');
+  assert.match(hub, /requestId/, 'a retry reuses one request id, so it cannot be charged twice');
+  assert.doesNotMatch(read('src/components/ai/AssistantDrawer.jsx'), /arena-dark-island|bg-\[#/);
+  const page = read('src/app/(app)/mentor/page.js');
+  assert.match(page, /mentorTabTarget/);
+  assert.match(page, /redirect\(/);
+  assert.match(read('src/components/ai/askmobi.css'), /prefers-reduced-motion/);
+});
+
+test('Your record keeps its body: a new header, a breadcrumb to Review, no next-step card', () => {
+  const page = read('src/app/(app)/analytics/AnalyticsPageClient.jsx');
+  assert.match(page, /<h1 className="display-md">Your record<\/h1>/);
+  assert.match(page, /aria-label="Breadcrumb"/);
+  assert.match(page, /REVIEW_HREF/);
+  assert.match(page, /ASK_HREF/);
+  assert.doesNotMatch(page, /Radar|PrepOS|eyebrow/);
+  assert.match(page, /<RecordView /, 'the record view below the header is untouched');
+});
+
+test('/recovery goes to Review while the old episodes are off, and nothing there says it is being prepared', () => {
+  const page = read('src/app/(app)/recovery/page.jsx');
+  assert.match(page, /permanentRedirect\(REVIEW_HREF\)/);
+  assert.match(page, /recoveryReleased\(\)/);
+  assert.doesNotMatch(read('src/app/(app)/recovery/RecoveryJourney.jsx'), /being prepared|CAPABILITIES|eyebrow/);
+});
+
+test('Saved questions: a practise link opens Practice set up (no credits on the tap) and the title is sentence case', () => {
+  const client = read('src/app/(app)/saved/SavedPageClient.jsx');
+  assert.match(client, /practiceHref\(/);
+  assert.doesNotMatch(client, /`\/test\?/);
+  assert.match(read('src/app/(app)/saved/page.js'), /title: 'Saved questions \| MockMob'/);
 });

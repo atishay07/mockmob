@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable react-hooks/set-state-in-effect */
 
-// Saved questions. A removal only happens once the server has said so: the row then folds away,
+// Saved questions (Review > Saved questions). A removal only happens once the server has said so: the row then folds away,
 // the rows below close the gap, and an Undo bar puts it back (a second server call, so Undo never
 // claims more than the server confirmed). On a touch screen a row also swipes: left removes,
 // right practises that chapter. Every swipe has a visible button, so keyboard and mouse users
@@ -23,6 +23,7 @@ import { NUDGE_AFTER_MS, nudgeToday } from '@/lib/mobiRation';
 import { useShrug } from '@/lib/mobiHooks';
 import { foldExit, useSwipeCommit } from '@/lib/motion';
 import { SUBJECTS } from '@/../data/subjects';
+import { practiceHref } from '@/../data/next_step_rules.mjs';
 import './saved.css';
 
 const FREE_LIMIT = 25;
@@ -31,10 +32,9 @@ const FIRST_SAVE_KEY = 'mm:saved-first:v1';
 
 const subjectName = (id) => SUBJECTS.find((s) => s.id === id)?.name || (id ? String(id) : 'Other');
 
+// Opens Practice set up for this chapter (the prefill link), so the cost is shown and nothing is spent on the tap.
 export function practiseHref(question) {
-  const params = new URLSearchParams({ subject: question.subject || '', mode: 'quick', count: '10' });
-  if (question.chapter) params.set('chapter', question.chapter);
-  return `/test?${params}`;
+  return practiceHref({ subject: question.subject || null, mode: 'quick', count: 10, chapter: question.chapter || null });
 }
 
 // Matches a touch screen. Mouse drags would fight text selection, so swiping stays off for them.
@@ -204,7 +204,7 @@ export default function SavedPageClient() {
       setUndo(null);
     } catch (e) {
       setUndo(null);
-      toast.error(e?.status === 402 ? 'Your 25 free save slots are full, so that one could not be put back.' : 'Could not put it back. Save it again from Explore.');
+      toast.error(e?.status === 402 ? 'Your 25 free save slots are full, so that one could not be put back.' : 'Could not put it back. Save it again from the question stream.');
     }
   }, [undo, count, toast]);
 
@@ -232,7 +232,6 @@ export default function SavedPageClient() {
     return (
       <div className="container-narrow student-page student-page--saved flex flex-col gap-4">
         <div>
-          <div className="eyebrow mb-2">{'Saved'}</div>
           <div className="h-10 w-72 max-w-full skeleton mb-2" />
           <div className="h-4 w-64 max-w-full skeleton" />
         </div>
@@ -261,8 +260,8 @@ export default function SavedPageClient() {
   return (
     <div className="container-narrow view student-page student-page--saved">
       <div className="mb-6">
-        <ArenaHead eyebrow="Saved" title="Saved questions" lede={`Everything you save from Explore lands here for another look.${count ? ` ${count} saved.` : ''}`}
-          aside={<span className="saved-aside"><Link href="/explore" className="na__alt"><Icon name="radar" /> Explore questions</Link><Link href="/dashboard" className="na__alt"><Icon name="target" /> Choose practice</Link></span>} />
+        <ArenaHead title="Saved questions" lede={`Everything you save from the question stream lands here for another look.${count ? ` ${count} saved.` : ''}`}
+          aside={<span className="saved-aside"><Link href="/explore" className="na__alt"><Icon name="radar" /> Question stream</Link><Link href="/dashboard" className="na__alt"><Icon name="target" /> Choose practice</Link></span>} />
       </div>
 
       {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
@@ -275,9 +274,8 @@ export default function SavedPageClient() {
         <div className="sv-empty">
           <MobiReact act={emptyAct} size={104} />
           <div>
-            <span className="ui-state__eyebrow">Nothing saved</span>
-            <b>Save questions from Explore</b>
-            <p>Tap Save on any question in the stream and it will wait for you here.</p>
+            <b>Nothing saved yet</b>
+            <p>Tap Save on any question in the question stream and it waits for you here.</p>
             <Link href="/explore" className="ui-state__action ui-state__action--primary mk-press sv-empty__link" data-lit={emptyAct === 'point' || emptyAct === 'nudge' ? 'true' : 'false'}>Open the question stream <Icon name="radar" /></Link>
           </div>
         </div>
