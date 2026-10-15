@@ -66,3 +66,26 @@
 
 :root[data-motion='reduced'] .sv-meter__pips i[data-pop], :root[data-motion='reduced'] .sv-empty__link, :root[data-motion='reduced'] .sv-undo, :root[data-motion='reduced'] .sv-row[data-shake='true'] { animation: none; }
 :root[data-motion='reduced'] .sv-undo__clock { animation: none; transform: none; opacity: 0.4; }
+
+/* The header's two ways out: icon and words spaced, equal keys; on a phone they sit two-up. */
+.app-shell .saved-aside .na__alt { gap: 8px; }
+.app-shell .saved-aside .na__alt svg { flex: none; color: var(--a-ink-3); }
+
+/* A saved question's own keys sit under its card, aligned with it. */
+.sv-actions { padding: 10px 0 0; }
+
+@media (max-width: 639px) {
+  .app-shell .saved-aside { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; }
+  .app-shell .saved-aside .na__alt { justify-content: center; min-height: 48px; padding: 0 10px; border-radius: 14px; }
+  .app-shell .student-page--saved .mb-6 { margin-bottom: 20px; }
+  .sv-meter { margin-bottom: 14px; }
+  .sv-hint { font-size: 13px; line-height: 1.45; }
+  .sv-row { margin-bottom: 22px; }
+  .sv-actions { gap: 8px; }
+  .sv-act { min-height: 48px; border-radius: 14px; font-size: 14px; }
+  .sv-act--go { flex: 1 1 auto; justify-content: center; }
+}
+@media (min-width: 640px) {
+  .app-shell .saved-aside { flex-wrap: nowrap; gap: 8px; }
+  .app-shell .saved-aside .na__alt { padding: 0 12px; white-space: nowrap; }
+}

@@ -382,31 +382,78 @@ body:has(.app-shell) { overflow-x: clip; }
   color: var(--a-bad-text);
   border-color: rgba(255, 157, 146, 0.4);
 }
+/* More: a sheet that rises from the dock, like the app's sheets (the shell measures the dock and
+   sets bottom and max-height; the values here are the first frame). A scrim dims the page and
+   closes the sheet on its own click, so the tap never reaches the page beneath. */
+.app-shell .arena-sheet-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 42;
+  background: rgb(5 8 6 / 0.55);
+  animation: arena-scrim-in 220ms ease-out both;
+}
+html[data-theme='light'] .app-shell .arena-sheet-scrim { background: rgb(23 32 22 / 0.28); }
+@keyframes arena-scrim-in { from { opacity: 0; } }
+html:has(.app-shell .arena-sheet) { overflow: hidden; scrollbar-gutter: stable; }
 .app-shell .arena-sheet {
   display: grid;
-  position: absolute;
-  inset: 100% 0 auto;
-  max-height: calc(100dvh - 160px - env(safe-area-inset-bottom));
+  align-content: start;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(64px + env(safe-area-inset-bottom));
+  z-index: 43;
+  width: min(100%, 560px);
+  margin-inline: auto;
+  max-height: calc(100dvh - 140px - env(safe-area-inset-bottom));
   overflow-y: auto;
   overscroll-behavior: contain;
-  gap: 16px;
-  padding: 14px 16px 18px;
-  border-top: 1px solid var(--a-line);
+  gap: 18px;
+  padding: 8px 16px 16px;
+  border: 1px solid var(--a-line-strong);
+  border-bottom: 0;
+  border-radius: 24px 24px 0 0;
   background: var(--a-sheet);
+  box-shadow: inset 0 1px 0 var(--a-edge), 0 -24px 56px -28px rgb(0 0 0 / 0.6);
+  transform-origin: 50% 100%;
+  animation: arena-sheet-in 380ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)) both;
+}
+html[data-theme='light'] .app-shell .arena-sheet { box-shadow: inset 0 1px 0 var(--a-edge), 0 -20px 48px -28px rgb(20 32 14 / 0.3); }
+@keyframes arena-sheet-in { from { opacity: 0; transform: translate3d(0, 28px, 0); } }
+.app-shell .arena-sheet__handle {
+  display: block;
+  width: 40px;
+  height: 5px;
+  margin: 0 auto -6px;
+  border-radius: 999px;
+  background: var(--a-line-strong);
 }
 .app-shell .arena-sheet .arena-nav-group {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
+  gap: 8px;
 }
 .app-shell .arena-sheet .arena-nav-label {
   grid-column: 1 / -1;
-  padding-inline: 2px;
+  margin-bottom: 2px;
+  padding-inline: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--a-ink-3);
 }
 .app-shell .arena-sheet .arena-nav-link {
-  min-height: 48px;
+  min-height: 52px;
+  gap: 12px;
+  padding: 0 14px;
   border-color: var(--a-line);
+  border-radius: 14px;
   background: var(--a-raised);
+  font-size: 15px;
+  animation: mk-rise 320ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)) calc(min(var(--i, 0), 10) * 22ms) backwards;
 }
+.app-shell .arena-sheet .arena-nav-link .icon { width: 19px; height: 19px; }
+.app-shell .arena-sheet .arena-nav-link:active { transform: scale(0.97); }
 .app-shell .arena-sheet .arena-nav-link[aria-current="page"] {
   border-color: var(--a-volt-line);
   background: var(--a-volt-wash);
@@ -420,11 +467,45 @@ body:has(.app-shell) { overflow-x: clip; }
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 8px;
+  padding: 8px 8px 8px 10px;
   border: 1px solid var(--a-line);
-  border-radius: 14px;
+  border-radius: 16px;
   background: var(--a-raised);
 }
+.app-shell .arena-sheet__who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 44px;
+  color: var(--a-ink);
+  font-size: 15px;
+  font-weight: 650;
+  text-decoration: none;
+}
+.app-shell .arena-sheet__who span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app-shell .arena-sheet__tools { display: flex; align-items: center; gap: 8px; }
+.app-shell .arena-sheet__tools .arena-chip { min-height: 44px; }
+.app-shell .arena-sheet :is(a, button):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+html[data-motion='reduced'] .app-shell :is(.arena-sheet, .arena-sheet-scrim, .arena-sheet .arena-nav-link) { animation: none; }
+@media (prefers-reduced-motion: reduce) { .app-shell :is(.arena-sheet, .arena-sheet-scrim, .arena-sheet .arena-nav-link) { animation: none; } }
+
+/* The account on phones: the avatar alone, a full 44px target, ringed when you are on Account. */
+.app-shell .arena-you {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 420ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1));
+}
+.app-shell .arena-you .avatar { width: 36px; height: 36px; font-size: 14px; box-shadow: 0 0 0 1px var(--a-line-strong); }
+.app-shell .arena-you[aria-current='page'] .avatar { box-shadow: 0 0 0 2px var(--a-bg), 0 0 0 4px var(--a-select); }
+.app-shell .arena-you:active { transform: scale(0.92); transition-duration: 90ms; }
+.app-shell .arena-you:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+html[data-motion='reduced'] .app-shell .arena-you { transition: none; }
 .app-shell .arena-modbar {
   display: flex;
   align-items: center;
@@ -1459,3 +1540,54 @@ html[data-motion='reduced'] .app-shell .arena-bottomnav svg { animation: none !i
 .app-shell .na__cta:active { transform: scale(0.965); box-shadow: 0 2px 8px -4px var(--volt-glow-strong, rgba(210,240,0,.5)); transition-duration: 90ms, 120ms, 160ms; }
 html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .na__cta { transition: none; } }
+
+/* ---------- The arena on phones: Today, Review, Saved and Progress read like the app ----------
+   One clear action per screen, Mobi as a caption beside the words instead of a block above them,
+   full-width controls a thumb can hit, and tidy two-up rows. Desktop is untouched. */
+@media (max-width: 1023px) {
+  html .app-shell .arena-bottomnav :is(a, button) { font-size: 12px; }
+}
+/* Progress opens on its header, then the weekly rhythm (the header lives inside RecoveryOverview). */
+.app-shell .student-page--progress { display: flex; flex-direction: column; gap: 28px; }
+.app-shell .student-page--progress > .ov { display: contents; }
+.app-shell .student-page--progress > .ov > .pr-head { order: -2; }
+.app-shell .student-page--progress > .rc { order: -1; margin: 0; }
+
+@media (max-width: 639px) {
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress) .pr { gap: 22px; }
+  .app-shell .student-page--progress { gap: 22px; }
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress, .student-page--saved) .pr-head p { font-size: 15.5px; line-height: 1.5; }
+
+  /* Mobi beside the line he is saying, at caption size */
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress) .arena-companion { gap: 14px; margin: 0; }
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress) .arena-companion__art { display: grid; place-items: end center; width: 60px; height: 84px; flex-basis: 60px; }
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress) .arena-companion__art .mobi-react { --mobi-size: 84px !important; }
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress) .arena-companion__art > :not(.mobi-react) { max-width: 100%; max-height: 100%; }
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress) .arena-companion__art img { max-height: 84px; width: auto; }
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress) .arena-companion b { font-size: 17px; line-height: 1.25; }
+  .app-shell :is(.student-page--today, .student-page--review, .student-page--progress) .arena-companion p { margin-top: 3px; font-size: 14px; line-height: 1.5; }
+
+  /* Today's next step: the time choice spans the card, the start key spans the card, the other ways sit two-up */
+  .app-shell .student-page--today .na { gap: 14px; padding: 16px; border-radius: 20px; }
+  .app-shell .student-page--today .na__top { flex-direction: column; align-items: stretch; gap: 10px; }
+  .app-shell .student-page--today .na__time .ctl-seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+  .app-shell .student-page--today .na__title--lg { font-size: 24px; }
+  .app-shell .student-page--today .na__reason { font-size: 15px; }
+  .app-shell .student-page--today .na__actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .app-shell .student-page--today .na__actions > .na__cta { grid-column: 1 / -1; justify-content: center; min-height: 52px; font-size: 16px; }
+  .app-shell .student-page--today .na__actions > .na__alt { justify-content: center; min-height: 48px; padding: 6px 10px; border-radius: 14px; text-align: center; line-height: 1.25; }
+  .app-shell .student-page--today .na__actions > .na__alt:last-child:nth-child(even) { grid-column: 1 / -1; }
+
+  /* Ruled stats become a clean two-by-two */
+  .app-shell :is(.student-page--review, .student-page--progress) .pr-stats > div { padding: 14px 0 14px; }
+  .app-shell :is(.student-page--review, .student-page--progress) .pr-stats > div:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--a-line); }
+  .app-shell :is(.student-page--review, .student-page--progress) .pr-stats > div:nth-child(n + 3) { border-top: 1px solid var(--a-line); }
+
+  /* A recorded milestone reads as a card, not loose text */
+  .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] > div { padding: 14px 16px; border: 1px solid var(--a-line); border-radius: 16px; background: var(--a-raised); }
+  .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] p { margin: 4px 0 0; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
+  .app-shell :is(.student-page--review, .student-page--progress) .ov-section[aria-label='Recorded milestones'] .pr-link { display: flex; align-items: center; width: fit-content; min-height: 44px; margin-bottom: -8px; }
+
+  /* Section heads keep the hint under the title instead of squeezed beside it */
+  .app-shell :is(.student-page--review, .student-page--progress) .pr-step__head { flex-wrap: wrap; row-gap: 2px; }
+}

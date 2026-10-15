@@ -14,6 +14,7 @@ import { QuestionCard } from '@/components/feed/QuestionCard';
 import MobiReact from '@/components/brand/MobiReact';
 import SceneVignette from '@/components/scenes/SceneVignette';
 import { Icon } from '@/components/ui/Icons';
+import { AppIcon } from '@/components/ui/Glyph';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
@@ -262,8 +263,8 @@ export default function SavedPageClient() {
   return (
     <div className="container-narrow view student-page student-page--saved">
       <div className="mb-6">
-        <ArenaHead eyebrow="Saved" title="Saved questions" lede={`Everything you save from Explore lands here for another look.${count ? ` ${count} saved.` : ''}`}
-          aside={<span className="saved-aside"><Link href="/explore" className="na__alt"><Icon name="radar" /> Explore questions</Link><Link href="/dashboard" className="na__alt"><Icon name="target" /> Choose practice</Link></span>} />
+        <ArenaHead eyebrow="Saved" title="Saved questions" lede={count ? `${count} saved from Explore, kept here for another look.` : 'Questions you save from Explore wait here for another look.'}
+          aside={<span className="saved-aside"><Link href="/explore" className="na__alt"><AppIcon name="explore" size={16} />Explore questions</Link><Link href="/dashboard" className="na__alt"><AppIcon name="practice" size={16} />Choose practice</Link></span>} />
       </div>
 
       {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}

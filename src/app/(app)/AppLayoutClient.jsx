@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
-import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
+import { AppIcon, CreditAmount } from '@/components/ui/Glyph';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { Avatar } from '@/components/ui/Avatar';
 import { useAuth } from '@/components/AuthProvider';
@@ -49,12 +49,17 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     if (!mobileMenuOpen) return;
     const sheet = document.getElementById('arena-sheet');
     const opener = menuOpener.current;
-    const header = sheet?.closest('.arena-topbar');
+    const header = document.querySelector('.app-shell .arena-topbar');
     const dock = document.querySelector('.arena-bottomnav');
+    // The More sheet rises from the dock: it sits on the dock's top edge and never reaches under the header.
     const fitMenu = () => {
       const bottom = dock?.getBoundingClientRect();
-      const available = (bottom?.height ? Math.min(innerHeight, bottom.top) : innerHeight) - (header?.getBoundingClientRect().bottom || 64) - 12;
-      if (sheet) sheet.style.maxHeight = `${Math.max(80, available)}px`;
+      const dockTop = bottom?.height ? Math.min(innerHeight, bottom.top) : innerHeight;
+      const available = dockTop - (header?.getBoundingClientRect().bottom || 64) - 12;
+      if (sheet) {
+        sheet.style.maxHeight = `${Math.max(80, available)}px`;
+        sheet.style.bottom = `${Math.max(0, innerHeight - dockTop)}px`;
+      }
     };
     const resize = new ResizeObserver(fitMenu);
     if (header) resize.observe(header);
@@ -64,8 +69,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     window.addEventListener('scroll', fitMenu, { passive: true });
     const frame = requestAnimationFrame(() => sheet?.querySelector('a')?.focus({ preventScroll: true }));
     const closeOnEscape = (event) => { if (event.key === 'Escape') { setMobileMenuOpen(false); opener?.focus({ preventScroll: true }); } };
-    const closeOutside = (event) => { if (!event.target.closest('.arena-topbar, .arena-bottomnav')) setMobileMenuOpen(false); };
-    const closeOnExit = (event) => { if (!event.target.closest('.arena-topbar, .arena-bottomnav')) setMobileMenuOpen(false); };
+    // The scrim closes on its own click, so a tap on it never falls through to the page beneath.
+    const inMenu = (target) => target.closest?.('.arena-topbar, .arena-bottomnav, .arena-sheet, .arena-sheet-scrim');
+    const closeOutside = (event) => { if (!inMenu(event.target)) setMobileMenuOpen(false); };
+    const closeOnExit = (event) => { if (!inMenu(event.target)) setMobileMenuOpen(false); };
     const desktop = matchMedia('(min-width: 1024px)');
     const closeOnDesktop = () => { if (desktop.matches) setMobileMenuOpen(false); };
     document.addEventListener('keydown', closeOnEscape);
@@ -277,28 +284,38 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             >
               <AppIcon name="signout" />
             </button>
-            <button
-              type="button"
-              data-tour="mobile-menu-toggle"
-              className="arena-iconbtn arena-mobile-only"
-              onClick={toggleMenu}
-              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={mobileMenuOpen}
-              aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined}
+            {/* Phones: the account sits where the app puts You. The menu itself is More, on the dock. */}
+            <Link
+              href={previewLinks?.profile || '/profile'}
+              className="arena-you arena-mobile-only"
+              aria-label={`Account, ${user?.name ?? 'your profile'}`}
+              aria-current={isActive('profile') ? 'page' : undefined}
+              onClick={() => setMobileMenuOpen(false)}
             >
-              {mobileMenuOpen ? <StatusIcon kind="close" /> : (
-                <span className="inline-flex flex-col gap-1" aria-hidden="true">
-                  <span className="block h-0.5 w-5 rounded-full bg-current" />
-                  <span className="block h-0.5 w-5 rounded-full bg-current" />
-                  <span className="block h-0.5 w-5 rounded-full bg-current" />
-                </span>
-              )}
-            </button>
+              <Avatar name={user?.name} size="sm" />
+            </Link>
           </div>
         </div>
 
-        {mobileMenuOpen && (
-          <div className="arena-sheet arena-mobile-only" id="arena-sheet">
+        {isModerator && (
+          <div className="arena-modbar">
+            <AppIcon name="moderation" /> Moderator access is active for this account.
+          </div>
+        )}
+      </header>
+      )}
+
+      <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
+        <div className="arena-backdrop" aria-hidden="true" />
+        <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
+          {children}
+        </div>
+      </main>
+      {!isTestRoute && mobileMenuOpen && (
+        <>
+          <div className="arena-sheet-scrim arena-mobile-only" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
+          <div className="arena-sheet arena-mobile-only" id="arena-sheet" role="region" aria-label="More places">
+            <span className="arena-sheet__handle" aria-hidden="true" />
             {navGroups.map((group) => (
               <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
                 <p className="arena-nav-label">{group.label}</p>
@@ -306,11 +323,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               </nav>
             ))}
             <div className="arena-sheet__account">
-              <Link href="/profile" className="flex min-w-0 items-center gap-2 no-underline" onClick={() => setMobileMenuOpen(false)}>
+              <Link href={previewLinks?.profile || '/profile'} className="arena-sheet__who" onClick={() => setMobileMenuOpen(false)}>
                 <Avatar name={user?.name} size="sm" />
-                <span className="truncate text-sm font-semibold text-zinc-200">{user?.name ?? 'Account'}</span>
+                <span>{user?.name ?? 'Account'}</span>
               </Link>
-              <div className="flex items-center gap-2">
+              <div className="arena-sheet__tools">
                 <span className="arena-theme"><ThemeToggle /></span>
                 <button
                   type="button"
@@ -332,22 +349,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               </div>
             </div>
           </div>
-        )}
-
-        {isModerator && (
-          <div className="arena-modbar">
-            <AppIcon name="moderation" /> Moderator access is active for this account.
-          </div>
-        )}
-      </header>
+        </>
       )}
-
-      <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
-        <div className="arena-backdrop" aria-hidden="true" />
-        <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
-          {children}
-        </div>
-      </main>
       {!isTestRoute && <nav className="arena-bottomnav" aria-label="Quick study navigation">
         {mobileTabs.map((tab, index) => <React.Fragment key={tab.id}>{index === 2 && <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} />}<Link href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link></React.Fragment>)}
         <button type="button" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="expand" /><span>More</span></button>
