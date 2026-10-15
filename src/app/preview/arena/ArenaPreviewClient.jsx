@@ -166,7 +166,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         const review = answerReview(snapshot, current, { givenIndex: 1 });
         attempt.answerReviews = { [qid]: kind === 'held' ? { state: 'under_review', originalIndex: 0 } : kind === 'key-unverified' ? { state: 'key_changed_unverified', originalIndex: 0, currentIndex: 3 } : review };
       }
-      return json({ ...attempt, answerReviewState: 'ready' });
+      // Fixture only: two questions already missed in an earlier labelled paper, so the earlier-miss line and the Missed twice tag can be seen here.
+      const missedBefore = { 'fixture-q2': [{ attemptId: 'fixture-earlier', source: 'Mock 2', completedAt: Date.parse('2026-09-28T18:00:00.000Z') }], 'fixture-q4': [{ attemptId: 'fixture-earlier', source: 'Mock 2', completedAt: Date.parse('2026-09-28T18:00:00.000Z') }] };
+      return json({ ...attempt, missedBefore, answerReviewState: 'ready' });
     }
     if (url.pathname.startsWith('/api/users/') && method === 'PATCH') return state === 'save-error' ? json({ error: 'Fixture profile save failure' }, 503) : json({ ok: true });
     if (url.pathname === '/api/bookmarks' && method === 'POST') return state === 'save-error' ? json({ error: 'Save limit', limit: 25 }, 402) : json({ saved: JSON.parse(init.body || '{}').saved });

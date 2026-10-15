@@ -83,7 +83,7 @@ h4.mr-title { margin: 0; font-size: 17px; }
 .mr-bubble svg { position: absolute; inset: -3px; width: calc(100% + 6px); height: calc(100% + 6px); overflow: visible; transform: rotate(-90deg); pointer-events: none; }
 .mr-bubble circle { fill: none; stroke: var(--a-select, #d2f000); stroke-width: 1.5; stroke-dasharray: 100; stroke-dashoffset: 0; }
 .mr-pick[data-kind='key'] .mr-pick__label { color: var(--a-good-text, #b6e36e); }
-.mr-fold__toggle { min-height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink, #f2f4ec); font: 650 13px/1.2 var(--font-display, inherit); cursor: pointer; transition: border-color 160ms var(--ease-out, ease); }
+.mr-fold__toggle { min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink, #f2f4ec); font: 650 13px/1.2 var(--font-display, inherit); cursor: pointer; transition: border-color 160ms var(--ease-out, ease); }
 .mr-fold__toggle:hover { border-color: var(--a-ink-3, #93a08f); }
 .mr-fold__toggle:focus-visible, .mr-copy:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 
@@ -97,7 +97,7 @@ h4.mr-title { margin: 0; font-size: 17px; }
 .mr-rule__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .mr-rule__head > span { font: 700 13px/1.4 var(--font-display, inherit); color: var(--a-accent-text, #d2f000); }
 .mr-rule p { margin: 0; font: 650 16px/1.5 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
-.mr-copy { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 10px; border-radius: 9px; border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink-2, #bcc5b9); font: 650 12px/1 var(--font-display, inherit); cursor: pointer; transition: color 160ms var(--ease-out, ease), border-color 160ms var(--ease-out, ease); }
+.mr-copy { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink-2, #bcc5b9); font: 650 12px/1 var(--font-display, inherit); cursor: pointer; transition: color 160ms var(--ease-out, ease), border-color 160ms var(--ease-out, ease); }
 .mr-copy:hover { color: var(--a-ink, #f2f4ec); border-color: var(--a-ink-3, #93a08f); }
 .mr-copy[data-state='done'] { color: var(--a-good-text, #b6e36e); border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 50%, transparent); }
 

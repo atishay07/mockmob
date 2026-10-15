@@ -12,7 +12,7 @@ import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice
 import KeyReviewNotice from '@/components/recovery/KeyReviewNotice';
 import RunTrack from '@/components/recovery/RunTrack';
 import RepairEnding from '@/components/recovery/RepairEnding';
-import { RUN_COPY, runSegments, stepIndex, endingModel, retryIds as retryIdsOf, earlierMisses, earlierMissLine } from '@/components/recovery/repairRun';
+import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as retryIdsOf, earlierMisses, earlierMissLine } from '@/components/recovery/repairRun';
 import { REPAIR_OUTCOMES, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { analyseSession, formatDuration } from '@/../data/session_recovery';
 import { AppIcon } from '@/components/ui/Glyph';
@@ -139,6 +139,22 @@ export default function ResultPageClient({ previewId = null }) {
     const to = stepIndex(segments, runIds.indexOf(qid), dir);
     if (to >= 0) goSegment(to, { keepFocus: true });
   }, [segments, runIds, goSegment]);
+  // Desktop: once the run has begun, the arrow keys step between the mistakes already opened, even when nothing
+  // on the panel has focus. Keys the track or a panel already handled (or typed into a field) are left alone.
+  useEffect(() => {
+    if (!engaged || ending || !runCurrent) return undefined;
+    const onKey = (event) => {
+      const t = event.target;
+      const inReview = !t || t === document.body || t === document.documentElement || t.closest?.('.rp-review, .rt-bar');
+      if (!inReview) return;
+      const intent = arrowIntent(event);
+      if (!intent) return;
+      event.preventDefault();
+      stepFrom(runCurrent, intent === 'prev' ? -1 : 1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [engaged, ending, runCurrent, stepFrom]);
 
   const keyReviews = (analysis?.rows || []).filter(r => repairOutcomes[r.q.id] === 'held_for_recheck').map(r => ({ number: r.number, chapter: r.chapter }));
   const correctedRows = (analysis?.rows || []).filter(r => attempt.answerReviews?.[r.q.id]?.state === 'corrected');
