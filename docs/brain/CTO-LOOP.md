@@ -50,8 +50,8 @@ Sources this consolidates (his words win; read them when in doubt):
 | V5 | Balanced (crowded beats sparse; over-gamified is as bad as sparse); one spacing system; Night/Day parity | ongoing |
 | V6 | Memorable post-mock moments (Undertone-style recap), supportive streaks, celebrations without pressure | done in the app (recap, milestones); web parity partial |
 | V7 | Exciting, plain copy; no defensive sub-remarks or "illustrative" lines | done on the landing; app copy pass queued (Q3) |
-| V8 | Mistake Lab is the USP, "10 times more useful"; insights no one else can give; SWOT after each mock | slices 1-2 live; slice 3 resuming; slice 4 queued (Q7) |
-| V9 | The website takes the app's clarity without being cut: landing mobile-first; arena desktop-first and phone-ready | v2 live; landing gesture fix resuming; arena pass 3 queued (Q9) |
+| V8 | Mistake Lab is the USP, "10 times more useful"; insights no one else can give; SWOT after each mock | slices 1-3 live (slice 3 deployed 15 Oct about 23:00, main 3fc0095b); slice 4 building (wave N+1) |
+| V9 | The website takes the app's clarity without being cut: landing mobile-first; arena desktop-first and phone-ready | v2 live; one gesture moves one step, footer sign-up, explanatory illustrations and the speed pass (41% fewer landing bytes) deployed 15 Oct about 23:00; arena pass 3 building |
 | V10 | State-aware website: signed-in users go straight to the arena; content fits free, paid, new or returning | check in Q9 |
 | V11 | Sign-in that just works (Google, email code, password, maybe phone) and stays signed in | Google and email fixed today; 403 insurance queued (Q1) |
 | V12 | NTA mode exam-faithful on web and app; CUET-fit questions; prefer the newest questions | done (r5 live) |
@@ -62,18 +62,21 @@ Sources this consolidates (his words win; read them when in doubt):
 | V17 | Minimal first-party analytics with consent (off for minors and unknown ages); quiet hours 11 pm-7 am | consent switch done; funnel queued (Q10) |
 | V18 | Play Store release (14-day test) | owner steps pending |
 
-## 3. Running now
+## 3. Running now (updated 15 Oct about 23:05 IST)
 
-Workflow run wf_bc96c478... was replaced by **wf_361b728d-4b8**, started 15 Oct 21:40 IST:
-- **Landing:** G1, one gesture per slide (Opus high); the speed pass (Sonnet medium); then verify.
-- **Lab slice 3:** web and app (Sonnet high); truth review (Sonnet high); check.
-- **App:**
-  - practice NTA tiles plus start animations (Opus high);
-  - Today road and colleges, and tools (Sonnet high);
-  - account and ask (Sonnet medium);
-  - then one app check.
+- **Deployed tonight:**
+  - usage fixes 1-4 (3be06112);
+  - fix 5 A5 (d9e290eb);
+  - the landing one-gesture fix, footer, illustrations and speed pass, plus Mistake Lab slice 3 (3fc0095b).
 
-Then: deploy the landing if verify says ready, and deploy Lab slice 3 if the truth review is clean (server first). Then merge ui/phase2 into feat/app-and-web, build APK v9, install it and send it.
+  Vercel READY, 0 runtime errors.
+- **App:** feat/app-and-web 649c973c (waves 3 and 4a, Lab slice 3 app, the 403 fix). Analyze clean. APK v9 building.
+- **Wave N+1 (wf_85d004db-503):**
+  - Mobi quality pass: Opus high app rig, then a Sonnet web port (wt-mobi);
+  - Lab slice 4: Sonnet high core, web and app, plus truth review (wt-lab4);
+  - credits page and history (wt-you) and the You hub (app), Sonnet high;
+  - arena on phones pass 3, Sonnet high (wt-arena3);
+  - then a web check and an app check (Sonnet medium).
 
 ## 4. Queue (in order; skip anything the running wave finished)
 
