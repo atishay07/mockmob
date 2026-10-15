@@ -1,0 +1,12 @@
+/* The older-paper line (OlderPaper.jsx): one sentence and one quiet action under the ledger, a hairline above it and no
+   box. The sentence is the same size as the ledger's own lines; the link keeps the 46 px target of the Lab's buttons. */
+.ol { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-top: 16px; border-top: 1px solid var(--a-line, #253026); }
+.ol-line { flex: 1 1 320px; max-width: 64ch; margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); text-wrap: pretty; }
+.ol-action { flex: none; text-decoration: none; }
+.ol-action:hover { border-color: var(--a-line-hover, rgba(244, 245, 240, 0.32)); }
+.ol-action:focus-visible { outline: 2px solid var(--a-accent-text, #d2f000); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .ol-action { transition: border-color 150ms var(--a-ease, ease-out), transform 100ms var(--a-ease, ease-out); }
+  .ol-action:active { transform: scale(.98); }
+}
+@media (max-width: 480px) { .ol-action { width: 100%; justify-content: center; } }

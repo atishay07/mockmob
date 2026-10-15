@@ -7,6 +7,9 @@
 // Q50 never opened) with its illustrative cohort read (full_mock_cohort.json: cohortForAttempt over the sample
 // snapshot, precomputed because data/cohort_picks.js is server-only). ?lab=basic marks the device record
 // inconsistent (the basic ledger); ?lab=off leaves the Lab out (the page as it was before the ledger).
+// Older papers: ?lab=older is the same paper taken before the clock was kept (no record, so the plain ledger and one
+// line with one action); ?lab=precapture keeps the clock record but has none of the 15 Oct capture (no time away, marks,
+// strike-outs or end), so the full ledger shows with a line on what it lacks.
 // The Replay (slice 2): mock=full, with the Lab on and the checks ready, serves the paper recorded with the new capture
 // (replay_full_input.json: time away, strike-outs, marks, an end event) and, as its lab, the committed contract itself
 // (contract_replay_v1.json, what the server builds from that paper with the sample cohort), so the page shows exactly
@@ -97,7 +100,12 @@ function labPaper({ now, labMode }) {
   const src = JSON.parse(JSON.stringify(LAB_PAPER.attempt));
   const right = src.details.filter((d) => d.isCorrect === true).length;
   const wrong = src.details.filter((d) => d.isCorrect === false).length;
-  const recovery = labMode === 'basic' ? { ...src.selectionMeta.recovery, telemetry: 'inconsistent' } : src.selectionMeta.recovery;
+  const rec = src.selectionMeta.recovery;
+  const stripVia = (events) => (events || []).map(({ via, ...event }) => event);
+  const recovery = labMode === 'basic' ? { ...rec, telemetry: 'inconsistent' }
+    : labMode === 'older' ? { ...rec, telemetry: 'not_recorded', timeline: [], marks: [], presence: [], strikes: [], end: undefined }
+    : labMode === 'precapture' ? { ...rec, timeline: stripVia(rec.timeline), marks: [], presence: [], strikes: [], end: undefined }
+    : rec;
   return {
     ...src, id: 'fixture-attempt', mode: 'full', completedAt: now - 3_600_000,
     score: right * 5 - wrong, correct: right, wrong, unattempted: src.details.length - right - wrong, total: src.questionsSnapshot.length,
@@ -155,7 +163,7 @@ const REPLAY_PAPERS = {
  * The Replay preview: one slice 2 paper (`paper` is 'full', 'time_up', 'nta', 'bst' or 'english'), completed an hour
  * ago, with its committed lab contract, and the SWOT and record lines built over it as the route would.
  */
-export async function fixtureReplayMock(paperName = 'full') {
+export async function fixtureReplayMock(paperName = 'full', { marks = null } = {}) {
   const load = REPLAY_PAPERS[paperName] || REPLAY_PAPERS.full;
   const [{ default: input }, { default: contract }] = await load();
   const now = Date.now();
@@ -167,6 +175,14 @@ export async function fixtureReplayMock(paperName = 'full') {
     ...src, id: 'fixture-attempt', mode, completedAt: now - 3_600_000,
     score: right * 5 - wrong, correct: right, wrong, unattempted: src.details.length - right - wrong, total: src.questionsSnapshot.length,
   };
+  // ?marks=more (preview only): six more questions marked for review in the record the SWOT reads, so its marked
+  // line shows. The committed contract's Replay still draws only the marks it was built from.
+  if (marks === 'more') {
+    const rec = attempt.selectionMeta.recovery;
+    const last = Math.max(0, ...(rec.marks || []).map((m) => m.seq || 0));
+    const more = ['q3', 'q5', 'q12', 'q19', 'q28', 'q40'].map((qid, i) => ({ seq: last + 1 + i, qid, at: 60_000 * (i + 1), marked: true }));
+    attempt.selectionMeta = { ...attempt.selectionMeta, recovery: { ...rec, marks: [...(rec.marks || []), ...more] } };
+  }
   const lab = JSON.parse(JSON.stringify(contract));
   const answerReviews = { ...(input.answerReviews || {}) };
   const earlier = earlierPapers(now);

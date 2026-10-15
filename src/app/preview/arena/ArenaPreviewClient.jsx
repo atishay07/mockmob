@@ -168,7 +168,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // Slice 3 parts on the Full mock's lab (previewMock.js fixtureLabLoop): &across=, &rulecheck=, &order=paper.
       const loop = (built) => (mock === 'full' ? fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || 'kept', order: fixture.get('order') || 'cohort' }) : built.lab);
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
-        return fixtureReplayMock(fixture.get('paper') || 'full').then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
+        return fixtureReplayMock(fixture.get('paper') || 'full', { marks: fixture.get('marks') }).then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
       }
       if (mock === 'full' || mock === 'nta') {
         const built = fixtureMock(mock, { checks: fixture.get('checks') || 'ready', lab: fixture.get('lab') || 'on' });

@@ -6,6 +6,16 @@
     "showMore": "Show {k} more",
     "seeChanges": "See every change"
   },
+  "older": {
+    "reason": "no_clock",
+    "line": "This paper was taken before MockMob kept the clock for every question, so its time, answer changes and replay are not shown.",
+    "action": {
+      "label": "Take a timed mock to see your full Lab",
+      "subject": "accountancy",
+      "mode": "full",
+      "href": "/dashboard?subject=accountancy&mode=full"
+    }
+  },
   "state": "basic",
   "heading": "You missed 28 marks. Here's where they went.",
   "gap": 28,

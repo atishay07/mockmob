@@ -101,6 +101,13 @@
   },
   "fineReady": "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits.",
   "fineBasic": "{message} The split shows wrong and blank only.",
+  "older": {
+    "no_clock": "This paper was taken before MockMob kept the clock for every question, so its time, answer changes and replay are not shown.",
+    "short": "The clock record for this paper was too short to read, so its time, answer changes and replay are not shown.",
+    "not_matched": "The clock from your device did not match your submitted answers, so its time, answer changes and replay are not shown.",
+    "before_capture": "This paper was taken before MockMob kept time away, marks for review and how the paper ended, so those are not shown.",
+    "action": "Take a timed mock to see your full Lab"
+  },
   "remark": {
     "cost": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers cost {d} marks over {k} {questions}.",
     "gained": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers gained {d} marks over {k} {questions}.",

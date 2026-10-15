@@ -6,6 +6,16 @@
     "showMore": "Show {k} more",
     "seeChanges": "See every change"
   },
+  "older": {
+    "reason": "before_capture",
+    "line": "This paper was taken before MockMob kept time away, marks for review and how the paper ended, so those are not shown.",
+    "action": {
+      "label": "Take a timed mock to see your full Lab",
+      "subject": "accountancy",
+      "mode": "full",
+      "href": "/dashboard?subject=accountancy&mode=full"
+    }
+  },
   "state": "none",
   "heading": "You didn't miss a mark this session.",
   "gap": 0,

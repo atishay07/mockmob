@@ -10,10 +10,11 @@ import './time-decisions.css';
 const verdictWord = (v) => TIME_COPY.verdict[v] || TIME_COPY.verdict.skipped;
 
 // changesId: an id for "Every answer you changed", so the Lab's "See every change" can bring it into view.
-export default function TimeDecisions({ read, onJump, changesId = null }) {
+// quiet: the Lab already says, once, what an older paper cannot show (OlderPaper), so a read that is not ready says nothing.
+export default function TimeDecisions({ read, onJump, changesId = null, quiet = false }) {
   const [allChanges, setAllChanges] = useState(false);
   if (!read) return null;
-  if (read.state !== 'ready') return <p className="srl-muted td-none">{read.message}</p>;
+  if (read.state !== 'ready') return quiet ? null : <p className="srl-muted td-none">{read.message}</p>;
   const { summary, longest, changes, pace } = read;
   const max = longest[0]?.ms || 1;
   const paceAt = pace ? Math.min(100, (pace.perQuestionMs / max) * 100) : null;
