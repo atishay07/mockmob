@@ -128,7 +128,20 @@ export function selectCheckQuestion({ mistake, candidates = [], seen = new Set()
   const ranked = eligible.map((row) => ({ row, basis: basisOf(row, mistake), sameFormat: formatOf(row) === format, tie: hash(`${userId}|${mistakeKey}|${idOf(row)}`) }))
     .sort((a, b) => BASIS_RANK[a.basis] - BASIS_RANK[b.basis] || Number(b.sameFormat) - Number(a.sameFormat) || (a.tie < b.tie ? -1 : a.tie > b.tie ? 1 : 0));
   const top = ranked[0];
-  return { ok: true, row: top.row, basis: top.basis, basisLine: basisLine(top.basis, mistake), sameFormat: top.sameFormat, pool, eligibleIds: ranked.map((r) => idOf(r.row)) };
+  return {
+    ok: true, row: top.row, basis: top.basis, basisLine: basisLine(top.basis, mistake), sameFormat: top.sameFormat, pool,
+    eligibleIds: ranked.map((r) => idOf(r.row)),
+    // Every eligible candidate in pick order, so the caller can walk down the list when the publication gate (which needs
+    // the full row) refuses the first ones.
+    ranked: ranked.map((r) => ({ id: idOf(r.row), row: r.row, basis: r.basis, basisLine: basisLine(r.basis, mistake), sameFormat: r.sameFormat })),
+  };
+}
+
+/** The first ranked candidate the publication gate accepted (`verifiedIds`), or null. */
+export function chooseVerified(selection, verifiedIds) {
+  if (!selection?.ok) return null;
+  const ok = verifiedIds instanceof Set ? verifiedIds : new Set(verifiedIds || []);
+  return selection.ranked.find((r) => ok.has(r.id)) || null;
 }
 
 /** Whether `checkQuestionId` is still an acceptable check for this mistake (any of the eligible ones, not only the first). */

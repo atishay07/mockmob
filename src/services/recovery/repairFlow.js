@@ -69,6 +69,14 @@ async function patternFor({ deps, userId, mistakeKey, trapType, subject, chapter
   } catch { return null; }
 }
 
+/** The `check` field of the repair response (data/repair_check.js): is a fresh check question on offer. Never throws, never delays by more than its own budget. */
+async function checkFor({ deps, user, attemptId, questionId, attempt, current, committed, reservation }) {
+  if (typeof deps.checkStatus !== 'function') return null;
+  try {
+    return await deps.checkStatus({ user, attemptId, questionId, committed, preloaded: { attempt, current, ...(reservation ? { reservation } : {}) } });
+  } catch { return null; }
+}
+
 const timedOut = (stage) => ({ ok: false, data: null, raw: null, usage: null, fallbackUsed: false, failure: { stage, provider: null, model: null, kind: 'timeout', status: null, code: null } });
 
 export async function runRepair({ user, attemptId, questionId, requestId, startedAt, deps, config }) {
@@ -95,8 +103,11 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   // A finished repair is stored on its committed reservation and reopens free.
   const stored = await deps.findStored(user.id, id);
   if (stored) {
-    const pattern = await patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: stored.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: stored.generatedAt });
-    return out(200, { ok: true, status: 'stored', repair: withLegacyAliases(stored), pattern, charged: 0, ...base });
+    const [pattern, check] = await Promise.all([
+      patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: stored.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: stored.generatedAt }),
+      checkFor({ deps, user, attemptId, questionId, attempt, current, committed: true }),
+    ]);
+    return out(200, { ok: true, status: 'stored', repair: withLegacyAliases(stored), pattern, ...(check ? { check } : {}), charged: 0, ...base });
   }
 
   if (!deps.gateOpen()) return out(503, { ok: false, error: 'paused', charged: 0, message: PREPOS_PAUSED_MESSAGE });
@@ -226,9 +237,12 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
     logFailure('commit', 'commit_failed', { model: ai.usage?.model, released: charged === 0 && released?.ok !== false });
   }
   // The pattern read and the wallet read run side by side; the pattern never waits more than 1.5 s.
-  const [pattern, wallet] = await Promise.all([
+  // The check (the fresh question that follows the explanation) is part of this same credit. Its availability is read here so
+  // the client knows before asking; a repair that could not be saved has no receipt to hold a check, so it says so.
+  const [pattern, wallet, check] = await Promise.all([
     committed && v3 ? patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: repair.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: repair.generatedAt }) : null,
     deps.readWallet(user),
+    checkFor({ deps, user, attemptId, questionId, attempt, current, committed, reservation: committed ? { operation_key: operationKey, receipt } : null }),
   ]);
-  return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
+  return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, ...(check ? { check } : {}), charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
 }
