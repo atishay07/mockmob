@@ -9,7 +9,7 @@
 // Only opacity and transform move. All numbers come from labStory.mjs (one sample Accountancy mock),
 // so the scenes cannot disagree with each other or with the replay further down the page.
 import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
-import { labStory, REPAIR, signed } from './labStory.mjs';
+import { clock, labStory, REPAIR, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import ScrollStory from './ScrollStory';
 
@@ -19,7 +19,7 @@ const VERDICT = { right: 'Right', wrong: 'Wrong', blank: 'Blank' };
 const SCENES = [
   { key: 'time', tab: 'Time', Icon: Timer, title: 'See where every minute went.',
     body: `Every question keeps its own clock. The slow ones stand out against the paper’s pace of ${S.pace} a question, so you can see which minutes cost marks.`,
-    take: `${S.facts.wrong} wrong answers took ${S.wrongTime}. ${S.facts.right} right ones took ${S.rightTime}.` },
+    take: `Wrong answers ran ${clock(S.facts.wrongSec / S.facts.wrong)} each. Right ones, ${clock(S.facts.rightSec / S.facts.right)}.` },
   { key: 'changes', tab: 'Changes', Icon: ArrowLeftRight, title: 'Every answer you changed, on the clock.',
     body: 'Your first pick, the switch and the minute it happened, with the marks each change won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },

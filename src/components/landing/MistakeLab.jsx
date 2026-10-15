@@ -28,9 +28,9 @@ const SESSION = [
 ];
 const MARK = { right: 5, wrong: -1, skip: 0 };
 const STEPS = [
-  { key: 'replay', title: 'Replay the session', body: 'Every answer and every minute, beside the score they added up to.', ms: 4800 },
+  { key: 'replay', title: 'Replay the session', body: 'Every answer and every minute, with the marks each one cost.', ms: 4800 },
   { key: 'leak', title: 'Find where marks leaked', body: 'Mistakes, skips and changed answers, side by side, each with its cost in marks.', ms: 4800 },
-  { key: 'move', title: 'Get one next move', body: 'One clear step from your own record, the same on Today, Radar and PrepOS.', ms: 4800 },
+  { key: 'move', title: 'Get one next move', body: 'One next step, the same one Today shows you.', ms: 4800 },
   { key: 'check', title: 'Check it on fresh questions', body: 'New questions, days apart, show whether the fix held.', ms: 4800 },
 ];
 const REVEAL_MS = 360;

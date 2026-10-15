@@ -202,7 +202,7 @@ export default async function PricingPage() {
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
               {offer.purchasable === 'monthly'
                 ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and the full Radar. Cancel any month.'
-                : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} opens soon, and nobody who paid now loses a day.`}
+                : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} is coming. Pay once now and keep every day you paid for.`}
             </p>
           </div>
         </section>

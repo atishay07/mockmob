@@ -113,7 +113,7 @@ export default function CompassLadder({ data }) {
 
         <p className="cl__summary" aria-live={sweeping ? 'off' : 'polite'}>
           {listed.length ? (
-            <>At <b>{Math.round(score)}</b> you are at or above the {ROUND_LABEL[round]} {category} cutoff in <b>{cleared} of {listed.length}</b> colleges below, published for <b>{data.cycle}</b>.</>
+            <><b>{Math.round(score)}</b> clears <b>{cleared} of {listed.length === 1 ? 'the 1' : `these ${listed.length}`}</b> {ROUND_LABEL[round]} {category} {listed.length === 1 ? 'cutoff' : 'cutoffs'} ({data.cycle.replace(' UG ', ' ')}).</>
           ) : (
             <>No {ROUND_LABEL[round]} {category} cutoff was published for these colleges in <b>{data.cycle}</b>. Try another round or category.</>
           )}

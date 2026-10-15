@@ -234,7 +234,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <Reveal className="lp-head lp-head--left">
               <h2 className="lp-h2">What’s inside MockMob.</h2>
-              <p className="lp-sub">Practice, repair, replay and the plan that ties them together. Scroll through each tool, or jump straight to the one you need.</p>
+              <p className="lp-sub">Practice, repair, replay and the plan that ties them together.</p>
             </Reveal>
             <FeatureTour slides={TOUR} />
           </div>
@@ -244,10 +244,10 @@ export default function LandingPage() {
         <section className="lp-sec" id="score-recovery-lab">
           <div className="mm-wrap">
             <div className="lp-guide-head"><Reveal className="lp-head lp-head--left">
-              <p className="lp-kicker">Replay a session</p>
-              <h2 className="lp-h2">See exactly where your marks went.</h2>
+              <p className="lp-kicker">Score Recovery Lab</p>
+              <h2 className="lp-h2">Fix it once. Check it holds.</h2>
               <p className="lp-sub">
-                Replay the answer changes, the slow questions and the skips, then leave with one clear next move.
+                Replay the session, repair the leak, then prove it on fresh questions days later.
               </p>
             </Reveal><MascotSeat station="lab" pose="attentive" label="Let’s find the lost marks." /></div>
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
@@ -278,7 +278,7 @@ export default function LandingPage() {
                   <li><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared with Rounds I to III.</span></li>
                   <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter.</span></li>
                 </ul>
-                <p className="lp-cpro__fine">The cutoff comparison above stays free for everyone.</p>
+                <p className="lp-cpro__fine">Comparing cutoffs is free, always.</p>
               </Reveal>
             </div>
           </section>
@@ -351,7 +351,7 @@ export default function LandingPage() {
             <MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />
             <Reveal className="lp-head">
               <h2 className="lp-h2">Start free. Go Pro when you want more room.</h2>
-              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `One payment of ₹${OFFER.oneTime.rupees} covers you through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} opens soon, and nobody who pays now loses a day.`}</p>
+              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `One payment of ₹${OFFER.oneTime.rupees} covers you through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} is coming. Pay once now and keep every day you paid for.`}</p>
             </Reveal>
             <Reveal className="lp-plans">
               <div className="lp-plan">

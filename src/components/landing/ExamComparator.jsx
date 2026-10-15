@@ -103,7 +103,7 @@ export function ExamComparator() {
           </div>
           <div className="lp-exam__foot"><p role="status">{notice}</p><button type="button" onClick={reset}><RotateCcw size={14} />Reset preview</button></div>
         </div>
-        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" label="Try both screens." note="Your answers stay." className="pip-seat--demo" /><p><Check size={16} />Your answers and review marks stay when you switch screens.</p>
+        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" label="Try both screens." className="pip-seat--demo" /><p><Check size={16} />Review marks carry over too.</p>
           <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--primary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}<ArrowRight size={17} /></Link></div>
       </div>
     </section>

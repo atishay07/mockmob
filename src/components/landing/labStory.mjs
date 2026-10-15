@@ -107,7 +107,7 @@ export const REPAIR = Object.freeze({
   key: 'B',
   blocks: Object.freeze([
     Object.freeze({ kind: 'trap', label: 'Why D looked right', text: 'With no deed, capital earns no interest. A loan from the same partner feels like the same money.' }),
-    Object.freeze({ kind: 'wrong', label: 'Where it breaks', text: 'A loan is not capital. The Partnership Act treats an advance beyond agreed capital on its own.' }),
+    Object.freeze({ kind: 'wrong', label: 'Where it breaks', text: 'A partner’s loan is not capital. Under the Partnership Act it earns 6% a year on its own.' }),
     Object.freeze({ kind: 'right', label: 'Why B is right', text: 'With no deed, a partner’s loan earns 6% a year, whatever the firm’s profit.' }),
   ]),
 });
