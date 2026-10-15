@@ -275,7 +275,7 @@ export default function RhythmCard({ compact = false, mobi = !compact, goal = nu
       {compact ? (
         <div className="rc__links">
           {unset ? <Link className="rc__more" href="/you#goal">Set your goal</Link> : null}
-          <Link className="rc__more" href="/progress">See your weeks and milestones</Link>
+          <Link className="rc__more" href="/you#progress">See your weeks and milestones</Link>
         </div>
       ) : (
         <>

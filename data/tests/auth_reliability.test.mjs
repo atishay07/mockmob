@@ -238,7 +238,13 @@ test('the return path is remembered briefly, read once and re-validated', () => 
   assert.equal(postSignInPath({ needsOnboarding: true, store, now: 2 }), '/onboarding');
   rememberNextPath('/today', { store, now: 1 });
   assert.equal(postSignInPath({ needsOnboarding: false, store, now: 2 }), '/today');
+  // With no saved page the student lands on their "Start on" place: Today by default (web IA N1),
+  // Practice when they chose it, and Today again for a junk value.
+  assert.equal(postSignInPath({ needsOnboarding: false, store, now: 2 }), '/today');
+  store.setItem('mm:start-on:v1', 'practice');
   assert.equal(postSignInPath({ needsOnboarding: false, store, now: 2 }), '/dashboard');
+  store.setItem('mm:start-on:v1', 'https://evil.example');
+  assert.equal(postSignInPath({ needsOnboarding: false, store, now: 2 }), '/today');
 });
 
 test('loginPathFor builds a safe login link', () => {

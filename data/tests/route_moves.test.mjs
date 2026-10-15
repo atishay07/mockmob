@@ -25,10 +25,10 @@ test('every page in src/app has a move, apart from the out-of-scope prefixes', (
   }
 });
 
-test('the only new paths are /practice, /you, /ask and /start', () => {
+test('the only new paths are /practice, /ask and /start (/you is built)', () => {
   const pages = appPageRoutes();
   const added = ROUTE_MOVES.filter((m) => !pages.some((p) => matchesRoute(p, m.from.replace(/\[.+?\]/g, 'x')) || p === m.from)).map((m) => m.from).sort();
-  assert.deepEqual(added, ['/ask', '/practice', '/start', '/you']);
+  assert.deepEqual(added, ['/ask', '/practice', '/start']);
 });
 
 test('every redirect is a 308 to a place that resolves, and keeps the query (Next passes it through)', () => {
