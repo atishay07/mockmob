@@ -106,6 +106,7 @@ export function readTrace(input) {
   const breaks = new Set();
   const awayByQid = new Map();
   const awaySpans = [];
+  const breakSpans = []; // rule 4 gaps, on records without away data: not counted, and drawn as a gap in the Replay
   const spans = []; // every visit: { qid, from, to } in ms; `to` is when the next question opened, or the end
   const visitIndex = new Map(); // timeline event -> index of its span
   let awayOpen = null;
@@ -133,7 +134,7 @@ export function readTrace(input) {
     if (!next || e.type === 'end') continue;
     const gap = next.at - e.at;
     if (awayOpen) continue; // rule 2
-    if (!awayKnown && gap > TRACE_RULES.maxGapMs) { breaks.add(e.qid); continue; } // rule 4
+    if (!awayKnown && gap > TRACE_RULES.maxGapMs) { breaks.add(e.qid); breakSpans.push({ qid: e.qid, from: e.at, to: next.at }); continue; } // rule 4
     if (gap >= 0) dwell.set(e.qid, (dwell.get(e.qid) || 0) + gap); // rule 1
   }
   const lastAt = events.length ? events.at(-1).at : 0;
@@ -147,7 +148,7 @@ export function readTrace(input) {
 
   return {
     timeline, events, end, awayKnown, captured,
-    dwell, visits, breaks, spans, awaySpans, awayByQid,
+    dwell, visits, breaks, breakSpans, spans, awaySpans, awayByQid,
     lastQid: timeline.length ? timeline.at(-1).qid : null, // the question on screen at the last visit or answer
     lastAt, // the clock of the last event (the end, when there is one)
     openTail: !end, // rule 3: without an end, the time after the last event is unknown

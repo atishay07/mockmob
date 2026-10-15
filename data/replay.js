@@ -7,6 +7,8 @@
 //     end: { at, reason, label } | null,
 //     rows: [{ from, to, label, answeredBy, evenPaceBy,
 //              bars: [{ qid, n, from, to, result, picks: [{ at, option, change }], marks: [at], away: [{ from, to, label }] }] }],
+//   away holds every gap in a bar that is not time on the question: "Away 1m 10s" (the device said the paper was left)
+//   and, on old records without away data only, "Not counted 41m" (a break of over 30 minutes with no event).
 //     facts: [string], chips: [{ id, label, count }] }
 // Times are whole seconds on the paper clock. A visit that crosses a row edge is split into one bar per row.
 // result is the question's final result: right, wrong, blank, or held (under re-check or corrected).
@@ -48,7 +50,11 @@ export function buildReplay({ trace, questions, resultOf, groupCounts = {}, pace
   const visits = trace.spans.map((span, index) => {
     const steps = (trace.stepsByQid.get(span.qid) || []).filter((s) => s.visit === index);
     const marks = (trace.marksByQid.get(span.qid) || []).filter((m) => m.marked && m.at >= span.from && m.at <= span.to);
-    const away = (trace.awayByQid.get(span.qid) || []).filter((a) => a.from >= span.from && a.from <= span.to);
+    // Time away, and on old records a break of over 30 minutes: both are gaps in the bar, never time on the question.
+    const away = [
+      ...(trace.awayByQid.get(span.qid) || []).map((a) => ({ ...a, copy: R.away })),
+      ...(trace.breakSpans || []).filter((b) => b.qid === span.qid).map((b) => ({ ...b, copy: R.gap })),
+    ].filter((a) => a.from >= span.from && a.from <= span.to).sort((x, y) => x.from - y.from);
     return { ...span, index, steps, marks, away };
   });
 
@@ -77,7 +83,7 @@ export function buildReplay({ trace, questions, resultOf, groupCounts = {}, pace
         picks: v.steps.filter((s) => within(s.at)).map((s) => ({ at: sec(s.at), option: s.answer, change: s.kind !== 'first' })),
         marks: v.marks.filter((m) => within(m.at)).map((m) => sec(m.at)),
         away: v.away.filter((w) => (w.to > a && w.from < b) || (w.from === w.to && within(w.from)))
-          .map((w) => ({ from: sec(Math.max(w.from, a)), to: sec(Math.min(w.to, b)), label: fill(R.away, { time: spentLabel((w.to - w.from) / 1000) }) })),
+          .map((w) => ({ from: sec(Math.max(w.from, a)), to: sec(Math.min(w.to, b)), label: fill(w.copy, { time: spentLabel((w.to - w.from) / 1000) }) })),
       });
     }
     // The row ends at its edge, or at the end of the record when the record ends inside it.

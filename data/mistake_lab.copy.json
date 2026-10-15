@@ -206,6 +206,7 @@
       "noPace": "By {clock}: {a} answered."
     },
     "away": "Away {time}",
+    "gap": "Not counted {time}",
     "end": {
       "submit": "Submitted at {at}.",
       "time_up": "Time ran out at {at}.",
