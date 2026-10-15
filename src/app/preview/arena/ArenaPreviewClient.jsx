@@ -156,12 +156,13 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
-      // ?mock=full|nta serves a scored mock with the real SWOT and record lines (previewMock.js); ?checks=unavailable leaves the
-      // answer-key check unread so the panel shows its pending message. Without ?mock the paper is the 10-question quick practice.
+      // ?mock=full|nta serves a scored mock with the real SWOT, record lines and Mistake Lab (previewMock.js); ?checks=unavailable
+      // leaves the answer-key check unread so the panels show their pending state; ?lab=basic|off shows the basic ledger or the
+      // page without the Lab. Without ?mock the paper is the 10-question quick practice.
       const mock = fixture.get('mock');
       if (mock === 'full' || mock === 'nta') {
-        const built = fixtureMock(mock, { checks: fixture.get('checks') || 'ready' });
-        return json({ ...built.attempt, swot: built.swot, mistakeInsights: built.mistakeInsights, missedBefore: {}, answerReviewState: built.answerReviewState });
+        const built = fixtureMock(mock, { checks: fixture.get('checks') || 'ready', lab: fixture.get('lab') || 'on' });
+        return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       const attempt = fixtureAttempt(); const kind = fixture.get('repair');
       if (['corrected', 'key-unverified', 'held'].includes(kind)) {

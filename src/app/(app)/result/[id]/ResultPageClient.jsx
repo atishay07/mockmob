@@ -7,6 +7,7 @@ import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
 import SwotPanel from '@/components/result/SwotPanel';
+import OthersAnswered, { OptionShare, shareTone } from '@/components/result/OthersAnswered';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
 import KeyReviewLog from '@/components/recovery/KeyReviewLog';
 import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice';
@@ -55,7 +56,7 @@ function verdictLine({ marks }) {
 }
 
 /**
- * Result page: summary first, then the Score Recovery Lab, then every answer in order.
+ * Result page: summary first, then the Mistake Lab, then "After this mock" (the SWOT), then every answer in order.
  * Fetches a single attempt by ID instead of pulling all user attempts.
  */
 export default function ResultPageClient({ previewId = null }) {
@@ -288,11 +289,12 @@ export default function ResultPageClient({ previewId = null }) {
         {repairKey ? <div className="rp-hero__next"><button type="button" className="rp-repair-key" onClick={() => jumpTo(candidates[0].number, { repair: true })}>{repairKey}</button></div> : null}
       </header>
 
-      {/* ---------- 2. After this mock: Do these next and the SWOT (Full and NTA mocks; server-built, free) ---------- */}
-      <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} />
+      {/* ---------- 2. Mistake Lab: where the marks went (the ledger, from attempt.lab), Find (time and decisions; chapters
+           only without the SWOT), Repair, Prove. Directly under the score, as it answers the first question. ---------- */}
+      <ScoreRecoveryLab attempt={attempt} analysis={analysis} timeRead={timeRead} lab={attempt.lab || null} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} swotShown={attempt.swot?.state === 'ready'} />
 
-      {/* ---------- 3. Score Recovery Lab: Find (time and decisions; chapters only without the SWOT), Repair, Prove ---------- */}
-      <ScoreRecoveryLab attempt={attempt} analysis={analysis} timeRead={timeRead} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} swotShown={attempt.swot?.state === 'ready'} />
+      {/* ---------- 3. After this mock: Do these next and the SWOT (Full and NTA mocks; server-built, free) ---------- */}
+      <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} />
 
       <KeyReviewLog items={keyReviews} onJump={jumpTo} />
       {attempt.answerReviewState === 'unavailable' ? <p className="rp-alert" role="status">Current answer-key checks could not load. The options below show the key used in your original session.</p> : null}
@@ -333,6 +335,8 @@ export default function ResultPageClient({ previewId = null }) {
             const rowMs = timeRow ? (timeRow.ms >= TIME_RULES.minTimedMs ? timeRow.ms : null) : row.ms;
             const insights = attempt.mistakeInsights?.[q.id] ?? null;
             const repairInsights = insights && timeRow?.lines.length ? { ...insights, lines: (insights.lines || []).filter(l => l?.kind !== 'change' && l?.kind !== 'time') } : insights;
+            // How others answered (server-built; null under 10 other students, on held keys, or without the Lab).
+            const others = attempt.lab?.byQuestion?.[q.id]?.others || null;
             return (
               <li key={q.id} id={`q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
                 {arrived?.number === number ? <span key={arrived.n} className="rp-q__ring" aria-hidden="true" /> : null}
@@ -353,15 +357,17 @@ export default function ResultPageClient({ previewId = null }) {
                 </button></h3>
                   <div className="rp-q__body" id={`q-${number}-body`} hidden={!isOpen}>
                     {visited.has(q.id) ? <>
+                    {others ? <OthersAnswered others={others} title={attempt.lab?.labels?.othersTitle} /> : null}
                     <ul className="rp-options">
                       {q.options.map((opt, j) => {
                         const mine = given === j, key = q.correctIndex === j;
                         const corrected = review?.state === 'corrected' && review.currentIndex === j;
                         return (
-                          <li key={j} data-state={corrected || (!review && key) ? 'key' : mine ? 'mine' : undefined}>
+                          <li key={j} data-state={corrected || (!review && key) ? 'key' : mine ? 'mine' : undefined} data-others={others ? '' : undefined}>
                             <span className="rp-options__letter">{LETTERS[j]}</span>
                             <span className="rp-options__text">{displayValue(plainOptionTexts(q.options)[j] ?? opt, 'Option')}</span>
                             {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick · corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick · key at submission' : 'Key at submission' : 'Your pick'}</span> : null}
+                            {others ? <OptionShare others={others} index={j} tone={shareTone(others, j, given)} /> : null}
                           </li>
                         );
                       })}

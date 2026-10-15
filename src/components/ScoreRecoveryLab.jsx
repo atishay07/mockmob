@@ -1,9 +1,14 @@
 "use client";
-// Score Recovery Lab on the result page: Find the marks you lost, Repair the mistakes, Prove it on
-// fresh questions. Facts come from the server-scored attempt; device events are labelled as such.
+// The Mistake Lab on the result page (shown as "Mistake Lab"; it was the Score Recovery Lab): where the marks went,
+// then Find, Repair the mistakes, and Prove it on fresh questions. Facts come from the server-scored attempt;
+// device events are labelled as such.
+// Where the marks went: with the server's `lab` (data/mistake_lab.js, state ready or basic) the marks ledger
+// (result/MarksLedger.jsx) replaces the old three-colour bar, its legend and the 6-marks rule, and Find's old
+// observation cards are left out (the ledger states the same facts with marks). Without `lab` (an older server, a
+// failed step, answer checks not ready) the bar and legend show exactly as before.
 // Find always holds "Time and decisions" (data/time_decisions.js): the paper's pace, where the time went and
-// every answer change with its clock times. Its chapter list and observations are left out while the result
-// page shows the SWOT, which already reads the chapters.
+// every answer change with its clock times. Its chapter list is left out while the result page shows the SWOT,
+// which already reads the chapters.
 import { useEffect, useId, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowRight, Check } from 'lucide-react';
@@ -11,6 +16,7 @@ import { apiGet, apiPost } from '@/lib/fetcher';
 import { TIME_COPY } from '@/../data/time_decisions';
 import MistakeLessonLink from './study/MistakeLessonLink';
 import TimeDecisions from './result/TimeDecisions';
+import MarksLedger from './result/MarksLedger';
 
 // Adds data-in once the Lab scrolls into view, so its bars grow when the student actually sees them.
 function useInView() {
@@ -91,10 +97,13 @@ function PlaybookNote({ attempt, analysis }) {
 
 // swotShown: the result page's SWOT already reads the chapters, so Find shows only Time and decisions.
 // timeRead: buildTimeDecisions(attempt) from the result page (the same read feeds each answer's own lines).
-export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, repaired, handled = repaired, onJump, onRepairNext, swotShown = false }) {
+// lab: the server's Mistake Lab contract (attempt.lab), or null.
+export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, lab = null, repaired, handled = repaired, onJump, onRepairNext, swotShown = false }) {
   const { marks, chapters, mistakes } = analysis;
-  // The change observation sums up what Time and decisions lists in full, so it is left out when that list shows.
-  const observations = timeRead?.state === 'ready' ? analysis.observations.filter(o => o.id !== 'changes') : analysis.observations;
+  const ledger = lab && (lab.state === 'ready' || lab.state === 'basic') && lab.groups?.length ? lab : null;
+  // With the ledger on the page its groups state the observations with marks, so the cards are left out. Without it,
+  // the change observation sums up what Time and decisions lists in full, so it is left out when that list shows.
+  const observations = ledger ? [] : timeRead?.state === 'ready' ? analysis.observations.filter(o => o.id !== 'changes') : analysis.observations;
   const [ref, inView] = useInView();
   const topChapter = chapters.find(c => c.wrong > 0)?.chapter || chapters[0]?.chapter || null;
   const done = mistakes.filter(r => repaired.has(r.q.id)).length;
@@ -102,15 +111,17 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, r
   const maxGap = chapters[0]?.gap || 1;
   const [expanded, setExpanded] = useState(false);
   const findId = useId();
+  const changesId = `${useId()}-changes`;
 
   return (
     <section ref={ref} className="srl" data-in={inView || undefined} aria-labelledby="srl-title">
       <header className="srl-head">
-        <p className="srl-eyebrow">Score Recovery Lab</p>
-        <h2 id="srl-title">{marks.gap ? <>You missed {marks.gap} marks. Here’s where they went.</> : 'You didn’t miss a mark this session.'}</h2>
+        <p className="srl-eyebrow">{lab?.labels?.name || 'Mistake Lab'}</p>
+        <h2 id="srl-title">{lab?.heading ? lab.heading : marks.gap ? <>You missed {marks.gap} marks. Here’s where they went.</> : 'You didn’t miss a mark this session.'}</h2>
       </header>
 
-      {marks.gap ? <>
+      {ledger ? <MarksLedger lab={ledger} attemptId={attempt.id} onJump={onJump} changesId={timeRead?.state === 'ready' ? changesId : null} />
+      : marks.gap ? <>
         <div className="srl-bar" role="img" aria-label={`${Math.max(marks.scored, 0)} of ${marks.max} marks scored. ${marks.gapWrong} lost to wrong answers, ${marks.gapBlank} left on blanks.`}>
           <span className="srl-bar__seg" data-kind="scored" style={{ width: pct(Math.max(marks.scored, 0)) }} />
           <span className="srl-bar__seg" data-kind="wrong" style={{ width: pct(marks.gapWrong) }} />
@@ -157,10 +168,10 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, r
                   ))}
                 </ul>
               ) : null}
-              {(chapters.length > 1 || observations.length > 1) && <button type="button" className="srl-find-toggle" aria-expanded={expanded} aria-controls={findId} onClick={() => setExpanded(value => !value)}>{expanded ? 'Show the key finding' : 'See all chapters and observations'}<span aria-hidden="true">{expanded ? '−' : '+'}</span></button>}
+              {(chapters.length > 1 || observations.length > 1) && <button type="button" className="srl-find-toggle" aria-expanded={expanded} aria-controls={findId} onClick={() => setExpanded(value => !value)}>{expanded ? 'Show the key finding' : observations.length ? 'See all chapters and observations' : 'See all chapters'}<span aria-hidden="true">{expanded ? '−' : '+'}</span></button>}
               <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4>
             </>}
-            <TimeDecisions read={timeRead} onJump={onJump} />
+            <TimeDecisions read={timeRead} onJump={onJump} changesId={ledger ? changesId : null} />
           </div>
         </li>
 

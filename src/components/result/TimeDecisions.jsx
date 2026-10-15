@@ -9,7 +9,8 @@ import './time-decisions.css';
 
 const verdictWord = (v) => TIME_COPY.verdict[v] || TIME_COPY.verdict.skipped;
 
-export default function TimeDecisions({ read, onJump }) {
+// changesId: an id for "Every answer you changed", so the Lab's "See every change" can bring it into view.
+export default function TimeDecisions({ read, onJump, changesId = null }) {
   const [allChanges, setAllChanges] = useState(false);
   if (!read) return null;
   if (read.state !== 'ready') return <p className="srl-muted td-none">{read.message}</p>;
@@ -52,7 +53,7 @@ export default function TimeDecisions({ read, onJump }) {
       {summary.split ? <p className="td-split">{summary.split}</p> : null}
 
       <div className="td-block">
-        <h4 className="td-h">{TIME_COPY.changesTitle}</h4>
+        <h4 className="td-h" id={changesId || undefined} tabIndex={changesId ? -1 : undefined} data-lab-anchor={changesId ? '' : undefined}>{TIME_COPY.changesTitle}</h4>
         {changes.lead ? <p>{changes.lead}</p> : null}
         {changes.parts.length > 1 ? (
           <ul className="td-parts">
