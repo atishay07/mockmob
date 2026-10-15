@@ -144,12 +144,13 @@
   :root:not([data-motion='reduced']) .mm.lp .pip-seat[data-pip-station] .pip-seat__art { width: 160px; height: 180px; }
 }
 /* Phones: the hero seat is a real stage, not a sticker: Mobi stands 104px tall at the row's right end, with his
-   line beside him, both on the pill's floor (he arrives and waves on load: Round 6 below). */
+   line beside him at chest height and the pill on the same centre line, so the row reads as one line
+   (he arrives and waves on load: Round 6 below). */
 @media (max-width: 760px) {
-  .lp-hero__greeting { align-items: end; margin-bottom: 14px; }
+  .lp-hero__greeting { align-items: center; margin-bottom: 14px; }
   .lp-hero__greeting .pip-seat { display: grid; grid-template-columns: minmax(0, 1fr) 80px; align-items: end; gap: 8px; width: auto; flex: 1 1 auto; min-width: 0; }
   .lp-hero__greeting .pip-seat__art { grid-column: 2; grid-row: 1; width: 80px; height: 104px; }
-  .lp-hero__greeting .pip-seat figcaption { grid-column: 1; grid-row: 1; align-self: center; padding-bottom: 6px; text-align: right; font-size: 12px; line-height: 1.35; text-wrap: balance; }
+  .lp-hero__greeting .pip-seat figcaption { grid-column: 1; grid-row: 1; align-self: center; text-align: right; font-size: 12px; line-height: 1.35; text-wrap: balance; }
   .lp-hero__greeting .pip-seat figcaption span { display: none; }
   .lp-guide-head > .pip-seat { flex-basis: 100px; }
   .lp-guide-head .pip-seat__art { width: 96px; height: 116px; }

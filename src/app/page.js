@@ -411,7 +411,7 @@ export default function LandingPage() {
       {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo or the DU teaser holds the screen, and carries Mobi. */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
-        <MobileDock note={<DockMobi line={<><b>No signup.</b>Free to start.</>} />} label="Try a CUET question" href="/#try-practice" />
+        <MobileDock note={<DockMobi line={<><b>No signup.</b><span>Free to start.</span></>} />} label="Try a CUET question" href="/#try-practice" />
       </HeroDockGate>
     </div>
   );
