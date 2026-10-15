@@ -5,6 +5,7 @@ import { readAnswerReviews } from '@/services/recovery/answerReviews';
 import { buildRecap } from '@/lib/server/recap';
 import { buildMissedBefore } from '@/components/recovery/repairRun.js';
 import { resultHistory } from '@/../data/mock_swot';
+import { readCohort } from '@/../data/cohort_picks';
 
 export async function GET(request, { params }) {
   try {
@@ -22,6 +23,8 @@ export async function GET(request, { params }) {
     //  - missedBefore: real wrong answers to the same question in the student's other attempts;
     //  - mistakeInsights: "From your record" lines under each repair (server-built sentences); {} until the answer
     //    checks are ready, as the SWOT says checks_pending;
+    //  - lab: the Mistake Lab ledger, first-pick re-mark and How others answered (data/mistake_lab.js; null until the
+    //    answer checks are ready); the SWOT then leaves out what the ledger already shows;
     //  - swot: the post-mock SWOT and "Do these next" (left out entirely when SWOT_ENABLED=off).
     const history = await resultHistory({
       attempt,
@@ -30,6 +33,7 @@ export async function GET(request, { params }) {
       loadAttempts: () => Database.getAttempts(session.user.id),
       recapOf: buildRecap,
       missedBeforeOf: buildMissedBefore,
+      cohortOf: readCohort,
       swotEnabled: process.env.SWOT_ENABLED !== 'off',
       warn: (part, e) => console.warn(`[api/attempts/:id] ${part} skipped:`, e?.message),
     });

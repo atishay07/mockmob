@@ -187,6 +187,11 @@
 .rp-options li[data-state='mine'] .rp-options__letter { background: var(--a-bad-text, #ff9d92); color: #10140e; }
 .rp-options li[data-state='mine'] .rp-options__tag { color: var(--a-bad-text, #ff9d92); }
 html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine']) .rp-options__letter { color: #fff; }
+/* How others answered (result/OthersAnswered.jsx): a count column, and a 2 px bar row under the option text. */
+.rp-options li[data-others] { grid-template-columns: 28px minmax(0, 1fr) auto auto; row-gap: 8px; }
+.rp-options li[data-others]:not(:has(.rp-options__tag)) { grid-template-columns: 28px minmax(0, 1fr) auto; }
+.rp-options li[data-others] .ml-share__count { grid-column: -2; grid-row: 1; }
+.rp-options li[data-others] .ml-share { grid-column: 2 / -1; grid-row: 2; }
 .rp-expl { border-radius: 12px; background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line, #253026); font-size: 14px; line-height: 1.6; color: var(--a-ink-2, #bcc5b9); }
 .rp-expl summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; padding: 0 14px; font-weight: 600; color: var(--a-ink-2); }
 .rp-expl p { margin: 0; padding: 0 14px 14px; }
@@ -216,6 +221,9 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
   .rp-q__body { padding: 0 12px 14px; }
   .rp-options li { grid-template-columns: 26px 1fr; }
   .rp-options__tag { grid-column: 2; }
+  .rp-options li[data-others], .rp-options li[data-others]:not(:has(.rp-options__tag)) { grid-template-columns: 26px minmax(0, 1fr) auto; }
+  .rp-options li[data-others] .rp-options__tag { grid-column: 2 / -1; grid-row: 2; }
+  .rp-options li[data-others]:has(.rp-options__tag) .ml-share { grid-row: 3; }
 }
 .srl-find-toggle { display: none; }
 @media (max-width: 760px) {

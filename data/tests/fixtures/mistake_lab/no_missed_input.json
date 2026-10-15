@@ -1,0 +1,335 @@
+{
+  "description": "Every answer right: nothing missed, the heading only.",
+  "attempt": {
+    "id": "lab-none-1",
+    "subject": "accountancy",
+    "completedAt": 1792218600000,
+    "questionsSnapshot": [
+      {
+        "id": "m1",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 1",
+        "options": [
+          "m1 statement one",
+          "m1 statement two",
+          "m1 statement three",
+          "m1 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "m2",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 2",
+        "options": [
+          "m2 statement one",
+          "m2 statement two",
+          "m2 statement three",
+          "m2 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "m3",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 3",
+        "options": [
+          "m3 statement one",
+          "m3 statement two",
+          "m3 statement three",
+          "m3 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "m4",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 4",
+        "options": [
+          "m4 statement one",
+          "m4 statement two",
+          "m4 statement three",
+          "m4 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "m5",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 5",
+        "options": [
+          "m5 statement one",
+          "m5 statement two",
+          "m5 statement three",
+          "m5 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "m6",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 6",
+        "options": [
+          "m6 statement one",
+          "m6 statement two",
+          "m6 statement three",
+          "m6 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "m7",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 7",
+        "options": [
+          "m7 statement one",
+          "m7 statement two",
+          "m7 statement three",
+          "m7 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "m8",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 8",
+        "options": [
+          "m8 statement one",
+          "m8 statement two",
+          "m8 statement three",
+          "m8 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "m9",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 9",
+        "options": [
+          "m9 statement one",
+          "m9 statement two",
+          "m9 statement three",
+          "m9 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "m10",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 10",
+        "options": [
+          "m10 statement one",
+          "m10 statement two",
+          "m10 statement three",
+          "m10 statement four"
+        ],
+        "correctIndex": 3
+      }
+    ],
+    "details": [
+      {
+        "qid": "m1",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "m2",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "m3",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "m4",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "m5",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "m6",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "m7",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "m8",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "m9",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "m10",
+        "givenIndex": 3,
+        "isCorrect": true
+      }
+    ],
+    "selectionMeta": {
+      "mode": "quick",
+      "scoringVersion": "server_practice_v1",
+      "recovery": {
+        "version": 1,
+        "scoring": "server_snapshot",
+        "telemetry": "self_reported",
+        "observed": {
+          "answerChanges": [],
+          "lostOnChanges": 0,
+          "netFirstToFinal": 0,
+          "unanswered": 0
+        },
+        "timeline": [
+          {
+            "seq": 1,
+            "qid": "m1",
+            "at": 0,
+            "type": "visit"
+          },
+          {
+            "seq": 2,
+            "qid": "m1",
+            "at": 20000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 3,
+            "qid": "m2",
+            "at": 30000,
+            "type": "visit"
+          },
+          {
+            "seq": 4,
+            "qid": "m2",
+            "at": 50000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 5,
+            "qid": "m3",
+            "at": 60000,
+            "type": "visit"
+          },
+          {
+            "seq": 6,
+            "qid": "m3",
+            "at": 80000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 7,
+            "qid": "m4",
+            "at": 90000,
+            "type": "visit"
+          },
+          {
+            "seq": 8,
+            "qid": "m4",
+            "at": 110000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 9,
+            "qid": "m5",
+            "at": 120000,
+            "type": "visit"
+          },
+          {
+            "seq": 10,
+            "qid": "m5",
+            "at": 140000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 11,
+            "qid": "m6",
+            "at": 150000,
+            "type": "visit"
+          },
+          {
+            "seq": 12,
+            "qid": "m6",
+            "at": 170000,
+            "type": "answer",
+            "answer": 3
+          },
+          {
+            "seq": 13,
+            "qid": "m7",
+            "at": 180000,
+            "type": "visit"
+          },
+          {
+            "seq": 14,
+            "qid": "m7",
+            "at": 200000,
+            "type": "answer",
+            "answer": 0
+          },
+          {
+            "seq": 15,
+            "qid": "m8",
+            "at": 210000,
+            "type": "visit"
+          },
+          {
+            "seq": 16,
+            "qid": "m8",
+            "at": 230000,
+            "type": "answer",
+            "answer": 1
+          },
+          {
+            "seq": 17,
+            "qid": "m9",
+            "at": 240000,
+            "type": "visit"
+          },
+          {
+            "seq": 18,
+            "qid": "m9",
+            "at": 260000,
+            "type": "answer",
+            "answer": 2
+          },
+          {
+            "seq": 19,
+            "qid": "m10",
+            "at": 270000,
+            "type": "visit"
+          },
+          {
+            "seq": 20,
+            "qid": "m10",
+            "at": 290000,
+            "type": "answer",
+            "answer": 3
+          }
+        ],
+        "recommendation": {
+          "kind": "timed_practice",
+          "title": "Try a fresh timed set",
+          "reason": "Suggested from this attempt; a fresh check is needed before claiming improvement."
+        }
+      }
+    }
+  },
+  "answerReviews": {}
+}

@@ -240,6 +240,7 @@ export function buildTimeDecisions(attempt, { answerReviews = {} } = {}) {
 
   return {
     state: 'ready',
+    lastQid, // the question on screen at the last recorded event (its time after the last tap is not recorded)
     pace,
     medianMs,
     timedCount: timed.length,

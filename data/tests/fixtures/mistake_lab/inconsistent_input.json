@@ -1,0 +1,195 @@
+{
+  "description": "A server-scored paper whose device record did not match the submitted answers.",
+  "attempt": {
+    "id": "lab-inconsistent-1",
+    "subject": "accountancy",
+    "completedAt": 1791873000000,
+    "questionsSnapshot": [
+      {
+        "id": "i1",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 1",
+        "options": [
+          "i1 statement one",
+          "i1 statement two",
+          "i1 statement three",
+          "i1 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "i2",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 2",
+        "options": [
+          "i2 statement one",
+          "i2 statement two",
+          "i2 statement three",
+          "i2 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "i3",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 3",
+        "options": [
+          "i3 statement one",
+          "i3 statement two",
+          "i3 statement three",
+          "i3 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "i4",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 4",
+        "options": [
+          "i4 statement one",
+          "i4 statement two",
+          "i4 statement three",
+          "i4 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "i5",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 5",
+        "options": [
+          "i5 statement one",
+          "i5 statement two",
+          "i5 statement three",
+          "i5 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "i6",
+        "chapter": "Partnership Fundamentals",
+        "question": "Illustrative question 6",
+        "options": [
+          "i6 statement one",
+          "i6 statement two",
+          "i6 statement three",
+          "i6 statement four"
+        ],
+        "correctIndex": 1
+      },
+      {
+        "id": "i7",
+        "chapter": "Share Capital",
+        "question": "Illustrative question 7",
+        "options": [
+          "i7 statement one",
+          "i7 statement two",
+          "i7 statement three",
+          "i7 statement four"
+        ],
+        "correctIndex": 2
+      },
+      {
+        "id": "i8",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative question 8",
+        "options": [
+          "i8 statement one",
+          "i8 statement two",
+          "i8 statement three",
+          "i8 statement four"
+        ],
+        "correctIndex": 3
+      },
+      {
+        "id": "i9",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative question 9",
+        "options": [
+          "i9 statement one",
+          "i9 statement two",
+          "i9 statement three",
+          "i9 statement four"
+        ],
+        "correctIndex": 0
+      },
+      {
+        "id": "i10",
+        "chapter": "Depreciation",
+        "question": "Illustrative question 10",
+        "options": [
+          "i10 statement one",
+          "i10 statement two",
+          "i10 statement three",
+          "i10 statement four"
+        ],
+        "correctIndex": 1
+      }
+    ],
+    "details": [
+      {
+        "qid": "i1",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "i2",
+        "givenIndex": 2,
+        "isCorrect": false
+      },
+      {
+        "qid": "i3",
+        "givenIndex": 2,
+        "isCorrect": true
+      },
+      {
+        "qid": "i4",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "i5",
+        "givenIndex": null,
+        "isCorrect": null
+      },
+      {
+        "qid": "i6",
+        "givenIndex": 1,
+        "isCorrect": true
+      },
+      {
+        "qid": "i7",
+        "givenIndex": 3,
+        "isCorrect": false
+      },
+      {
+        "qid": "i8",
+        "givenIndex": 3,
+        "isCorrect": true
+      },
+      {
+        "qid": "i9",
+        "givenIndex": 0,
+        "isCorrect": true
+      },
+      {
+        "qid": "i10",
+        "givenIndex": 1,
+        "isCorrect": true
+      }
+    ],
+    "selectionMeta": {
+      "mode": "quick",
+      "scoringVersion": "server_practice_v1",
+      "recovery": {
+        "version": 1,
+        "telemetry": "inconsistent",
+        "observed": {
+          "answerChanges": []
+        },
+        "timeline": []
+      }
+    }
+  },
+  "answerReviews": {}
+}

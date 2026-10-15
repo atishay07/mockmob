@@ -13,6 +13,7 @@ import {
   isMock, modeOf, when, UNMAPPED_CHAPTER,
 } from './attempt_ledger.js';
 import { buildMistakeInsights } from './mistake_insights.js';
+import { buildMistakeLab } from './mistake_lab.js';
 
 export const SWOT_VERSION = 1;
 
@@ -37,6 +38,14 @@ export const SWOT_RULES = Object.freeze({
   repeatMisses: Object.freeze({ questions: 2 }),
   plan: Object.freeze({ max: 3, chapterCount: 10, timedCount: 20, mixedCount: 10 }),
   later: Object.freeze({ minQuestions: 5 }),
+  // Items about this paper's behaviour that the Mistake Lab's ledger already shows, by the ledger group that shows
+  // them (data/mistake_lab.js). With the ledger on the page they leave the quadrants; "Do these next" is unchanged.
+  ledgerCovers: Object.freeze({
+    changes_hurt: Object.freeze(['changed_from_right']),
+    not_opened: Object.freeze(['never_opened']),
+    quick_wrong: Object.freeze(['quick_wrong']),
+    blanks: Object.freeze(['never_opened', 'other_blank', 'blank']),
+  }),
 });
 
 // Items that compare with earlier papers. None is shown on a first paper in the subject.
@@ -61,6 +70,7 @@ export const SWOT_COPY = Object.freeze({
     opportunity: 'Nothing extra to name from this paper.',
     threatRecorded: 'No repeated or timing risk shows in this record.',
     threatNotRecorded: 'Pace is not judged: time per question was not recorded for this paper.',
+    inLedger: "This paper's version is in Where your marks went, above.",
   }),
   blanksFourOptions: ' Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and -1 for wrong.',
   later: (date, right, of) => `A set on this chapter on ${date}: ${right} right of ${of}.`,
@@ -362,11 +372,20 @@ function buildPlan({ attempt, allAttempts, items, now }) {
 
 // ---------- The SWOT ----------
 
+/** Is this item already shown by one of the Mistake Lab ledger's groups? */
+function inLedger(item, ledgerGroups) {
+  const covers = SWOT_RULES.ledgerCovers[item.kind];
+  return !!(covers && ledgerGroups && covers.some((id) => ledgerGroups.has(id)));
+}
+
 /**
- * buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore, now, ledger? }).
+ * buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore, now, ledger?, ledgerGroups? }).
  * `ledger` may be passed in so the route shares one ledger with the record lines.
+ * `ledgerGroups` (the ids of the Mistake Lab ledger's groups on the page, or null) hides the quadrant items the
+ * ledger already shows (SWOT_RULES.ledgerCovers), after the plan is built, so "Do these next" is unchanged. A
+ * quadrant emptied that way says so. Null (the default) leaves the read exactly as before.
  */
-export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answerReviewState = 'ready', missedBefore = {}, now = Date.now(), ledger = null } = {}) {
+export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answerReviewState = 'ready', missedBefore = {}, now = Date.now(), ledger = null, ledgerGroups = null } = {}) {
   if (!attempt || !isMock(attempt) || attemptScoring(attempt) !== 'server') return shell('not_available');
   if (answerReviewState !== 'ready') return shell('checks_pending', SWOT_COPY.checksPending);
   const book = ledger || buildLedger(attempt, allAttempts, { answerReviews });
@@ -380,9 +399,12 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
   const all = [...chapterItems({ attempt, allAttempts, ledger: book }), ...paperItems({ attempt, allAttempts, ledger: book, missedBefore, recorded })]
     .filter((item) => !(first && HISTORY_KINDS.has(item.kind)));
 
+  const covered = Array.isArray(ledgerGroups) ? new Set(ledgerGroups) : null;
   const quadrants = QUADRANTS.map(({ id, label }) => {
-    const items = all.filter((item) => item.quadrant === id).sort(byWeight).slice(0, SWOT_RULES.caps[id]);
-    return { id, label, items };
+    const inQuadrant = all.filter((item) => item.quadrant === id);
+    const shown = covered ? inQuadrant.filter((item) => !inLedger(item, covered)) : inQuadrant;
+    const items = shown.sort(byWeight).slice(0, SWOT_RULES.caps[id]);
+    return { id, label, items, emptiedByLedger: !shown.length && inQuadrant.length > 0 };
   });
   // The plan reads every qualifying item, so a chapter cut by a quadrant cap can still lead a practice set.
   const plan = buildPlan({ attempt, allAttempts, items: all, now });
@@ -400,9 +422,9 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
     state: 'ready',
     message: null,
     basis,
-    quadrants: quadrants.map(({ id, label, items }) => ({
+    quadrants: quadrants.map(({ id, label, items, emptiedByLedger }) => ({
       id, label,
-      empty: items.length ? null : id === 'threat' ? (recorded ? SWOT_COPY.empty.threatRecorded : SWOT_COPY.empty.threatNotRecorded) : SWOT_COPY.empty[id],
+      empty: items.length ? null : emptiedByLedger ? SWOT_COPY.empty.inLedger : id === 'threat' ? (recorded ? SWOT_COPY.empty.threatRecorded : SWOT_COPY.empty.threatNotRecorded) : SWOT_COPY.empty[id],
       items: items.map(({ id: itemId, kind, title, detail, chapter, questions, planId, evidence }) => ({ id: itemId, kind, title, detail, chapter, questions, planId, evidence })),
     })),
     plan,
@@ -413,13 +435,15 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
 
 /**
  * The additive history fields of GET /api/attempts/:id. Each part fails on its own: a failed history
- * read gives recap null, missedBefore {}, mistakeInsights {} and swot null, and the result still loads.
+ * read gives recap null, missedBefore {}, mistakeInsights {}, lab null and swot null, and the result still loads.
  * `swotEnabled: false` (env SWOT_ENABLED=off) leaves the swot field out.
- * Until the answer checks are ready the record lines are not built ({}), as the SWOT says checks_pending: their
- * counts leave held questions out, and which questions are held is not known yet.
+ * Until the answer checks are ready the record lines are not built ({}) and the Mistake Lab is null, as the SWOT
+ * says checks_pending: their counts leave held questions out, and which questions are held is not known yet.
+ * `cohortOf({ attempt, allAttempts, answerReviews })` (server only: data/cohort_picks.js readCohort) gives How
+ * others answered; without it, or when it fails, the Lab is built without the cohort.
  */
-export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, swotEnabled = true, now = Date.now(), warn = () => {} }) {
-  const out = { recap: null, missedBefore: {}, mistakeInsights: {}, ...(swotEnabled ? { swot: null } : {}) };
+export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, cohortOf = null, swotEnabled = true, now = Date.now(), warn = () => {} }) {
+  const out = { recap: null, missedBefore: {}, mistakeInsights: {}, lab: null, ...(swotEnabled ? { swot: null } : {}) };
   let allAttempts;
   try { allAttempts = await loadAttempts(); } catch (e) { warn('history', e); return out; }
   const step = (name, fn, fallback) => { try { return fn() ?? fallback; } catch (e) { warn(name, e); return fallback; } };
@@ -428,6 +452,12 @@ export async function resultHistory({ attempt, answerReviews = {}, answerReviewS
   const checksReady = answerReviewState === 'ready';
   const ledger = checksReady ? step('ledger', () => buildLedger(attempt, allAttempts, { answerReviews }), null) : null;
   if (checksReady) out.mistakeInsights = step('mistakeInsights', () => buildMistakeInsights({ attempt, allAttempts, ledger, missedBefore: out.missedBefore, answerReviews }), {});
-  if (swotEnabled) out.swot = step('swot', () => buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore: out.missedBefore, now, ledger }), null);
+  if (checksReady) {
+    let cohort = null;
+    if (cohortOf) { try { cohort = (await cohortOf({ attempt, allAttempts, answerReviews })) ?? null; } catch (e) { warn('cohort', e); } }
+    out.lab = step('lab', () => buildMistakeLab({ attempt, answerReviews, cohort }), null);
+  }
+  const ledgerGroups = out.lab && (out.lab.state === 'ready' || out.lab.state === 'basic') ? out.lab.groups.map((g) => g.id) : null;
+  if (swotEnabled) out.swot = step('swot', () => buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore: out.missedBefore, now, ledger, ledgerGroups }), null);
   return out;
 }

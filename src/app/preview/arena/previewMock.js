@@ -1,10 +1,18 @@
 // Development-only mock-paper fixtures for /preview/arena?view=result&mock=full|nta. The papers are made of
-// illustrative questions, scored by the real server scorer, and the SWOT and the "From your record" lines come
-// from the real builders (data/mock_swot.js, data/mistake_insights.js) over a short earlier record, so the panel
-// the preview shows is the one the route would send. Never real bank rows, never real students.
+// illustrative questions, scored by the real server scorer, and the SWOT, the "From your record" lines and the
+// Mistake Lab come from the real builders (data/mock_swot.js, data/mistake_insights.js, data/mistake_lab.js) over a
+// short earlier record, so the panels the preview shows are the ones the route would send. Never real bank rows,
+// never real students.
+// mock=full is the Mistake Lab's 50-question fixture paper (every ledger group, 5 answer changes, Q14 held, Q45 to
+// Q50 never opened) with its illustrative cohort read (full_mock_cohort.json: cohortForAttempt over the sample
+// snapshot, precomputed because data/cohort_picks.js is server-only). ?lab=basic marks the device record
+// inconsistent (the basic ledger); ?lab=off leaves the Lab out (the page as it was before the ledger).
 import { scoreSession } from '../../../../data/recovery';
 import { buildSwot } from '../../../../data/mock_swot';
 import { buildMistakeInsights } from '../../../../data/mistake_insights';
+import { buildMistakeLab } from '../../../../data/mistake_lab';
+import LAB_PAPER from '../../../../data/tests/fixtures/mistake_lab/full_mock_input.json';
+import LAB_COHORT from '../../../../data/tests/fixtures/mistake_lab/full_mock_cohort.json';
 
 const DAY = 86_400_000;
 const SUBJECT = 'accountancy';
@@ -62,18 +70,41 @@ function paper({ id, prefix, mode, completedAt, blocks, firstPicks = {}, quickWr
   };
 }
 
-/** The attempt, the SWOT and the record lines for one preview mock. `mode` is 'full' or 'nta'. */
-export function fixtureMock(mode = 'full', { checks = 'ready' } = {}) {
+// The Lab's 50-question fixture paper as a scored attempt, completed an hour ago.
+function labPaper({ now, labMode }) {
+  const src = JSON.parse(JSON.stringify(LAB_PAPER.attempt));
+  const right = src.details.filter((d) => d.isCorrect === true).length;
+  const wrong = src.details.filter((d) => d.isCorrect === false).length;
+  const recovery = labMode === 'basic' ? { ...src.selectionMeta.recovery, telemetry: 'inconsistent' } : src.selectionMeta.recovery;
+  return {
+    ...src, id: 'fixture-attempt', mode: 'full', completedAt: now - 3_600_000,
+    score: right * 5 - wrong, correct: right, wrong, unattempted: src.details.length - right - wrong, total: src.questionsSnapshot.length,
+    selectionMeta: { ...src.selectionMeta, recovery },
+  };
+}
+
+/**
+ * The attempt, the SWOT, the record lines and the Mistake Lab for one preview mock. `mode` is 'full' or 'nta'.
+ * As in the route (data/mock_swot.js resultHistory), the Lab is built only when the answer checks are ready, and
+ * the SWOT then leaves out what the ledger already shows.
+ */
+export function fixtureMock(mode = 'full', { checks = 'ready', lab: labMode = 'on' } = {}) {
   const now = Date.now();
   const earlier = EARLIER_PAPERS.map((blocks, i) => paper({
     id: `fixture-earlier-${i + 1}`, prefix: `e${i + 1}`, mode: i === 1 ? 'nta' : 'full', completedAt: now - (i + 1) * 4 * DAY, blocks,
   })).reverse();
-  // Q13 and Q20 were right first and changed to wrong, so the change line and the SWOT's changes item show.
-  const attempt = paper({ id: 'fixture-attempt', prefix: 'fixture-mock', mode, completedAt: now - 3_600_000, blocks: THIS_PAPER, firstPicks: { 13: 'key', 20: 'key' } });
+  // full: the Lab's fixture paper. nta: Q13 and Q20 were right first and changed to wrong, so the change line and the
+  // SWOT's changes item show.
+  const full = mode === 'full';
+  const attempt = full ? labPaper({ now, labMode })
+    : paper({ id: 'fixture-attempt', prefix: 'fixture-mock', mode, completedAt: now - 3_600_000, blocks: THIS_PAPER, firstPicks: { 13: 'key', 20: 'key' } });
+  const answerReviews = full ? { ...LAB_PAPER.answerReviews } : {};
   const answerReviewState = checks === 'ready' ? 'ready' : 'unavailable';
-  const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews: {}, answerReviewState, missedBefore: {}, now });
-  const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews: {} });
-  return { attempt, swot, mistakeInsights, answerReviewState };
+  const lab = answerReviewState === 'ready' && labMode !== 'off' ? buildMistakeLab({ attempt, answerReviews, cohort: full ? LAB_COHORT : null }) : null;
+  const ledgerGroups = lab && (lab.state === 'ready' || lab.state === 'basic') ? lab.groups.map((g) => g.id) : null;
+  const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState, missedBefore: {}, now, ledgerGroups });
+  const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
+  return { attempt, swot, mistakeInsights, answerReviewState, answerReviews, lab };
 }
 
 // A v3 Mistake Repair payload (fixture text, no model call, no credit). `stored` is the free reopen.
