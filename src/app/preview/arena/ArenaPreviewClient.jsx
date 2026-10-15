@@ -34,6 +34,7 @@ import OnboardingPageClient from '@/app/onboarding/OnboardingPageClient';
 import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
+import { fixtureMock, fixtureRepairV3 } from './previewMock';
 
 // Original illustrative questions (the homepage sample set), never real bank rows.
 const SAMPLE = [
@@ -155,6 +156,13 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
+      // ?mock=full|nta serves a scored mock with the real SWOT and record lines (previewMock.js); ?checks=unavailable leaves the
+      // answer-key check unread so the panel shows its pending message. Without ?mock the paper is the 10-question quick practice.
+      const mock = fixture.get('mock');
+      if (mock === 'full' || mock === 'nta') {
+        const built = fixtureMock(mock, { checks: fixture.get('checks') || 'ready' });
+        return json({ ...built.attempt, swot: built.swot, mistakeInsights: built.mistakeInsights, missedBefore: {}, answerReviewState: built.answerReviewState });
+      }
       const attempt = fixtureAttempt(); const kind = fixture.get('repair');
       if (['corrected', 'key-unverified', 'held'].includes(kind)) {
         const receipt = CIRCULAR_QUEUE_CORRECTION;
@@ -256,6 +264,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // Mistake Repair fixtures. Illustrative text, no model call, no credit.
     if (url.pathname === '/api/recovery/repair' && method === 'POST') {
       const kind = fixture.get('repair') || 'explained';
+      // ?repair=v3 is a version 3 repair (trap, why the key is right, other options, rule with hook, another way, pattern); v3-stored is its free reopen.
+      if (kind === 'v3' || kind === 'v3-stored') return json(fixtureRepairV3({ stored: kind === 'v3-stored' }));
       const base = { practiceHref: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt', chosenIndex: 0, keyIndex: 2 };
       if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: 1, secondIndex: 1 }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });
       if (kind === 'unexplained') return json({ ok: true, status: 'not_explained', charged: 0, ...base, message: 'Illustrative: no explanation was prepared. Review the recorded answer or try another question.' });

@@ -1,0 +1,93 @@
+/* "After this mock": Do these next and the SWOT for this mock. Arena tokens, so Day and Night both work.
+   One raised surface, hairline dividers inside it, no nested cards, no tinted quadrants, no coloured side borders. */
+.sw {
+  container-type: inline-size;
+  display: grid; gap: 22px; min-width: 0;
+  padding: clamp(18px, 3vw, 28px); border-radius: var(--a-radius, 18px);
+  border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
+}
+.sw :is(h2, h3, h4, p) { margin: 0; }
+.sw-title { font: 700 clamp(21px, 2.8vw, 26px)/1.2 var(--font-display, inherit); letter-spacing: -.015em; color: var(--a-ink, #f2f4ec); }
+.sw-block { display: grid; gap: 12px; min-width: 0; }
+.sw-h3 { font: 650 17px/1.35 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
+
+/* ---------- Do these next ---------- */
+.sw-plan { list-style: none; margin: 0; padding: 0; display: grid; }
+.sw-plan__row {
+  display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 4px 12px; align-items: center;
+  padding: 14px 0; border-top: 1px solid var(--a-line, #253026);
+}
+.sw-plan__row:last-child { border-bottom: 1px solid var(--a-line, #253026); }
+.sw-plan__n { align-self: start; padding-top: 1px; font: 600 14px/1.45 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink-3, #93a08f); }
+.sw-plan__text { display: grid; gap: 3px; min-width: 0; }
+.sw-plan__label { font: 600 15px/1.45 var(--font-body, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.sw-plan__reason { font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
+.sw-plan__later { display: flex; align-items: flex-start; gap: 6px; font-size: 13px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
+.sw-tick { flex: none; margin-top: 3px; color: var(--a-good-text, #b6e36e); }
+.sw-plan__go {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 96px; padding: 0 16px;
+  border-radius: 12px; border: 1px solid var(--a-line-strong, #384736); background: transparent;
+  color: var(--a-ink, #f2f4ec); font: 650 14px/1 var(--font-display, inherit); text-decoration: none; white-space: nowrap;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.sw-plan__go:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+.sw-plan__row[data-first] .sw-plan__go { border-color: var(--a-accent-text, #d2f000); color: var(--a-accent-text, #d2f000); }
+.sw-plan__row[data-first] .sw-plan__go:hover { background: var(--a-volt-wash); }
+.sw-plan__go:focus-visible, .sw-see button:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+
+/* ---------- SWOT ---------- */
+.sw-basis { display: grid; gap: 2px; }
+.sw-basis p { font-size: 13px; line-height: 1.55; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.sw-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.sw-q { display: grid; gap: 12px; align-content: start; min-width: 0; padding: 18px 0; border-top: 1px solid var(--a-line, #253026); }
+.sw-q:last-child { padding-bottom: 0; }
+.sw-q__h { display: flex; align-items: center; gap: 8px; font: 650 14px/1.4 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
+.sw-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.sw-q[data-q='strength'] .sw-dot { color: var(--a-good-text, #b6e36e); }
+.sw-q[data-q='weakness'] .sw-dot { color: var(--a-bad-text, #ff9d92); }
+.sw-q[data-q='opportunity'] .sw-dot { color: var(--a-accent-text, #d2f000); }
+.sw-q[data-q='threat'] .sw-dot { color: var(--a-warn-text, #e0b93f); }
+.sw-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.sw-item { display: grid; gap: 4px; min-width: 0; }
+.sw-item__title { font: 600 16px/1.4 var(--font-body, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.sw-item__detail { font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; text-wrap: pretty; }
+.sw-empty { font-size: 14px; line-height: 1.55; color: var(--a-ink-3, #93a08f); }
+.sw-see { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 4px; }
+.sw-see__label { font-size: 13px; color: var(--a-ink-3, #93a08f); margin-right: 2px; }
+.sw-see button {
+  min-height: 44px; min-width: 44px; padding: 0 10px; border-radius: 10px; cursor: pointer;
+  border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink, #f2f4ec);
+  font: 600 13px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+.sw-see button:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+
+/* Checks pending or too few answers: one quiet line. */
+.sw--note { padding: 14px clamp(18px, 3vw, 28px); }
+.sw-note { font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); }
+
+/* Two by two once the section is 720 px wide, with hairline dividers. */
+@container (min-width: 720px) {
+  .sw-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sw-q { padding: 20px 0; }
+  .sw-q:nth-child(odd) { padding-right: 24px; }
+  .sw-q:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--a-line, #253026); }
+  .sw-q:nth-last-child(-n + 2) { padding-bottom: 0; }
+}
+@container (max-width: 460px) {
+  .sw-plan__row { grid-template-columns: 20px minmax(0, 1fr); }
+  .sw-plan__go { grid-column: 2; justify-self: start; margin-top: 6px; }
+}
+
+/* ---------- The first view: rows, then groups, rise 60 ms apart; the later tick draws in. ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-motion='reduced']) .sw[data-motion='armed'] :is(.sw-plan__row, .sw-q) { opacity: 0; }
+  html:not([data-motion='reduced']) .sw[data-motion='in'] :is(.sw-plan__row, .sw-q) {
+    animation: sw-rise 220ms var(--a-ease, cubic-bezier(0.16, 1, 0.3, 1)) both; animation-delay: calc(var(--i, 0) * 60ms);
+  }
+  html:not([data-motion='reduced']) .sw[data-motion='in'] .sw-tick path {
+    stroke-dasharray: 1; stroke-dashoffset: 1; animation: sw-draw 180ms ease-out forwards; animation-delay: calc(var(--i, 0) * 60ms + 220ms);
+  }
+}
+@keyframes sw-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes sw-draw { to { stroke-dashoffset: 0; } }

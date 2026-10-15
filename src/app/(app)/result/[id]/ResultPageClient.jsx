@@ -6,6 +6,7 @@ import { useParams } from 'next/navigation';
 import { PageSpinner, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
+import SwotPanel from '@/components/result/SwotPanel';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
 import KeyReviewLog from '@/components/recovery/KeyReviewLog';
 import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice';
@@ -284,14 +285,17 @@ export default function ResultPageClient({ previewId = null }) {
         {repairKey ? <div className="rp-hero__next"><button type="button" className="rp-repair-key" onClick={() => jumpTo(candidates[0].number, { repair: true })}>{repairKey}</button></div> : null}
       </header>
 
-      {/* ---------- 2. Score Recovery Lab ---------- */}
-      <ScoreRecoveryLab attempt={attempt} analysis={analysis} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} />
+      {/* ---------- 2. After this mock: Do these next and the SWOT (Full and NTA mocks; server-built, free) ---------- */}
+      <SwotPanel swot={attempt.swot} attemptId={attempt.id} onJump={jumpTo} />
+
+      {/* ---------- 3. Score Recovery Lab (its Find step is left out while the SWOT shows) ---------- */}
+      <ScoreRecoveryLab attempt={attempt} analysis={analysis} repaired={repaired} handled={handled} onJump={jumpTo} onRepairNext={repairNext} hideFind={attempt.swot?.state === 'ready'} />
 
       <KeyReviewLog items={keyReviews} onJump={jumpTo} />
       {attempt.answerReviewState === 'unavailable' ? <p className="rp-alert" role="status">Current answer-key checks could not load. The options below show the key used in your original session.</p> : null}
       {correctedRows.length ? <section className="kr-log" aria-label="Answer corrections"><h2>We corrected {correctedRows.length === 1 ? 'an answer key' : `${correctedRows.length} answer keys`}. We’re sorry.</h2><p>Your original result is preserved. Applying these checked corrections gives a separate adjustment of {correctionAdjustment > 0 ? '+' : ''}{correctionAdjustment} marks. This has not changed your account or leaderboard score.</p><ul>{correctedRows.map(r => <li key={r.q.id}><button type="button" onClick={() => jumpTo(r.number)}><b>Q{r.number}</b><span>{r.chapter}</span><em>See correction</em></button></li>)}</ul></section> : null}
 
-      {/* ---------- 3. Answer by answer ---------- */}
+      {/* ---------- 4. Answer by answer ---------- */}
       <section className="rp-review" aria-labelledby="rp-review-title">
         {engaged && segments.length > 1 ? (
           <div className="rt-bar">
@@ -362,6 +366,7 @@ export default function ResultPageClient({ previewId = null }) {
                     {isWrong && Number.isInteger(given) ? (
                       <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
                         autoStart={autoRepair === q.id} onSettled={settled} initialReview={review} onReview={reviewReceived}
+                        insights={attempt.mistakeInsights?.[q.id] ?? null}
                         isCurrent={!engaged || runCurrent === q.id} onStart={noteStart} onStep={engaged ? stepFrom : undefined} onFinish={() => setEnding(true)}
                         handover={handover?.qid === q.id ? (handover.n % 2 ? 'a' : 'b') : null}
                         earlier={(() => { const m = earlierMisses(attempt, q.id)[0]; return m ? { line: earlierMissLine(m), href: `/result/${m.attemptId}` } : null; })()}
