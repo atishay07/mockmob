@@ -35,6 +35,7 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'learning_question_exposure', action: 'delete', match: own(), why: 'exposure history' },
   { table: 'recovery_review_queue', action: 'delete', match: own(), why: 'recovery queue' },
   { table: 'recovery_playbook', action: 'delete', match: own(), why: 'recovery playbook' },
+  { table: 'revise_cards', action: 'delete', match: own(), why: 'Revise schedule' },
   { table: 'attempt_recalculation_queue', action: 'delete', match: viaAttempt(), why: 'derived from the user\'s attempts' },
   { table: 'attempt_score_revisions', action: 'delete', match: viaAttempt(), why: 'derived from the user\'s attempts' },
   { table: 'recovery_sessions', action: 'delete', match: own(), why: 'recovery and practice sessions' },

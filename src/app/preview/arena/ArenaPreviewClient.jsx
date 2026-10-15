@@ -34,8 +34,9 @@ import OnboardingPageClient from '@/app/onboarding/OnboardingPageClient';
 import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
-import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK } from './previewMock';
+import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer } from './previewMock';
 import RuleBook from '@/components/rules/RuleBook';
+import ReviseRun from '@/components/revise/ReviseRun';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
 import { withActiveRule } from '@/components/result/labLoop';
 
@@ -166,7 +167,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // mock=full with the Lab on shows the Replay from its contract (&paper=time_up|nta|bst|english for the others;
       // &paper=v1 for the slice 1 paper).
       // Slice 3 parts on the Full mock's lab (previewMock.js fixtureLabLoop): &across=, &rulecheck=, &order=paper.
-      const loop = (built) => (mock === 'full' ? fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || 'kept', order: fixture.get('order') || 'cohort' }) : built.lab);
+      // Slice 4 (fixtureSlice4): the trap tag under three wrong options and Same mistakes later in Prove; &traps=off leaves them out.
+      const loop = (built) => (mock === 'full' ? fixtureSlice4({ lab: fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || 'kept', order: fixture.get('order') || 'cohort' }), attempt: built.attempt, answerReviews: built.answerReviews, traps: fixture.get('traps') || 'on' }) : built.lab);
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
         return fixtureReplayMock(fixture.get('paper') || 'full').then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
       }
@@ -264,6 +266,22 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (!rule) return wait(json({ error: 'invalid_request', message: 'That rule is not in your Rule book yet.' }, 422));
       window.__previewRule = { id: rule.id, kind: rule.kind, text: rule.text, since: new Date().toISOString() };
       return wait(json({ active: window.__previewRule }));
+    }
+    // Traps you meet (GET /api/me/traps; ?traps=empty|down) and Revise (GET /api/me/revise; ?revise=empty|down, POST .../answer).
+    if (url.pathname === '/api/me/traps' && method === 'GET') {
+      const kind = fixture.get('traps') || 'ready';
+      if (kind === 'down' || state === 'empty') return json({ error: 'unavailable', message: 'Your traps could not be loaded. Try again shortly.' }, 503);
+      return json(fixtureTrapsMeet(kind === 'empty' ? 'empty' : 'ready'));
+    }
+    if (url.pathname === '/api/me/revise' && method === 'GET') {
+      const kind = fixture.get('revise') || 'ready';
+      if (kind === 'down' || state === 'empty') return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
+      return json(fixtureRevise(kind === 'empty' ? 'empty' : 'ready'));
+    }
+    if (url.pathname === '/api/me/revise/answer' && method === 'POST') {
+      const body = JSON.parse(init.body || '{}');
+      const card = fixtureRevise('ready').items.find((i) => i.questionId === body.questionId);
+      return new Promise((resolve) => setTimeout(() => resolve(json(fixtureReviseAnswer(body.choice, card?.box))), 450));
     }
     if (url.pathname === '/api/recovery' && method === 'GET') {
       const page = new URLSearchParams(window.location.search);
@@ -367,9 +385,9 @@ function PreviewInner({ candidatePathway }) {
   useLayoutEffect(() => { window.__previewPathway = recoveryFixture ? candidatePathway : null; }, [recoveryFixture, candidatePathway]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pro = params.get('plan') === 'pro';
-  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
+  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
-  const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules' };
+  const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' };
   const route = `/${routeNames[view] || view}`;
   const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}) })}`;
   const previewLinks = Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)]));
@@ -385,7 +403,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
+        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

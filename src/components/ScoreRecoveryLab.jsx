@@ -15,6 +15,9 @@
 // Repair follows lab.repairOrder (most other students got it right first, marked in the queue) and links to the Rule
 // book ("Your rules, 7"); Prove opens with the rule check (result/RuleCheck.jsx); "Across your mocks" closes the Lab,
 // folded (result/AcrossMocks.jsx).
+// Slice 4 (spec 4.7 second part, 4.8, 4.11): Prove then also says which of this paper's wrong answers come back in Revise and
+// when ("Same mistakes later", result/SameMistakesLater.jsx, from lab.prove.later); Find ends with "Your traps across mocks"
+// (result/TrapsMeet.jsx, GET /api/me/traps); the trap tag itself sits under the wrong option in the opened answer (result page).
 import { useContext, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -27,6 +30,8 @@ import MarksLedger from './result/MarksLedger';
 import Replay from './result/Replay';
 import AcrossMocks from './result/AcrossMocks';
 import RuleCheck from './result/RuleCheck';
+import SameMistakesLater from './result/SameMistakesLater';
+import TrapsMeet from './result/TrapsMeet';
 import { cohortItems, inRepairOrder } from './result/labLoop';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -67,7 +72,7 @@ function QChips({ numbers, onJump }) {
   );
 }
 
-function Prove({ attempt, topChapter, ruleCheck = null }) {
+function Prove({ attempt, topChapter, ruleCheck = null, later = null }) {
   const router = useRouter();
   const [replay, setReplay] = useState(null);
   useEffect(() => {
@@ -83,6 +88,7 @@ function Prove({ attempt, topChapter, ruleCheck = null }) {
   return (
     <div className="srl-step__body">
       <RuleCheck check={ruleCheck} />
+      <SameMistakesLater later={later} />
       {!replay ? <p className="srl-muted" role="status">Checking for fresh questions…</p>
         : fresh ? <>
             <p>Five questions you have not seen from <b>{fresh.chapter}</b>. Getting them right in a day or two is how you know a repair stuck.</p>
@@ -190,6 +196,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
               <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4>
             </>}
             <TimeDecisions read={timeRead} onJump={onJump} changesId={ledger ? changesId : null} />
+            {lab ? <TrapsMeet label={COPY.traps.labels.open} /> : null}
           </div>
         </li>
 
@@ -236,7 +243,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
           <div className="srl-step__num" aria-hidden="true">3</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Prove</h3><p>Show it stuck, on questions you haven’t seen</p></div>
-            <Prove attempt={attempt} topChapter={topChapter} ruleCheck={lab?.prove?.ruleCheck || null} />
+            <Prove attempt={attempt} topChapter={topChapter} ruleCheck={lab?.prove?.ruleCheck || null} later={lab?.prove?.later || null} />
           </div>
         </li>
       </ol>

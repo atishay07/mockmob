@@ -10,6 +10,7 @@ import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
 import { QuestionStrip } from '@/components/result/Replay';
 import SwotPanel from '@/components/result/SwotPanel';
 import OthersAnswered, { OptionShare, shareTone } from '@/components/result/OthersAnswered';
+import TrapTag from '@/components/result/TrapTag';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
 import KeyReviewLog from '@/components/recovery/KeyReviewLog';
 import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice';
@@ -357,6 +358,8 @@ export default function ResultPageClient({ previewId = null }) {
             const repairInsights = insights && timeRow?.lines.length ? { ...insights, lines: (insights.lines || []).filter(l => l?.kind !== 'change' && l?.kind !== 'time') } : insights;
             // How others answered (server-built; null under 10 other students, on held keys, or without the Lab).
             const others = attempt.lab?.byQuestion?.[q.id]?.others || null;
+            // The trap tag under the student's own wrong option (server-built: the trap atlas, then the question format).
+            const trap = isWrong ? attempt.lab?.traps?.tags?.[q.id] || null : null;
             return (
               <li key={q.id} id={`q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
                 {arrived?.number === number ? <span key={arrived.n} className="rp-q__ring" aria-hidden="true" /> : null}
@@ -388,6 +391,7 @@ export default function ResultPageClient({ previewId = null }) {
                             <span className="rp-options__text">{displayValue(plainOptionTexts(q.options)[j] ?? opt, 'Option')}</span>
                             {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick · corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick · key at submission' : 'Key at submission' : 'Your pick'}</span> : null}
                             {others ? <OptionShare others={others} index={j} tone={shareTone(others, j, given)} /> : null}
+                            {trap && trap.index === j && mine ? <TrapTag trap={trap} /> : null}
                           </li>
                         );
                       })}

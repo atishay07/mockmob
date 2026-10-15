@@ -10,6 +10,8 @@ import { when } from './attempt_ledger.js';
 import { buildAcrossMocks } from './across_mocks.js';
 import { buildRepairOrder } from './repair_order.js';
 import { buildRuleBook, buildRuleCheck, ruleInForce, ruleSummary, bookRules } from './rule_book.js';
+import { buildTrapTags } from './trap_atlas.js';
+import { buildLater } from './revise.js';
 
 /** { acrossMocks, repairOrder, rules, prove: { ruleCheck } }. `warn(part, error)` hears each part that failed. */
 export function buildLabLoop({ attempt, allAttempts = [], answerReviews = {}, lab = null, sources = null, warn = () => {} } = {}) {
@@ -24,4 +26,20 @@ export function buildLabLoop({ attempt, allAttempts = [], answerReviews = {}, la
     return buildRuleCheck({ attempt, attempts: allAttempts, rule: { ...rule, chapter: found?.chapter ?? null, subject: found?.subject ?? null } });
   }) : null;
   return { acrossMocks, repairOrder, rules: ruleSummary(book), prove: { ruleCheck } };
+}
+
+// ---------- Slice 4: the trap tag and "Same mistakes later" (spec 4.7 second part, 4.8) ----------
+
+/**
+ * { traps, later }: lab.traps (the trap tag per wrong answer, data/trap_atlas.js) and lab.prove.later (which wrong answers
+ * come back in Revise, and when, data/revise.js). `atlas` is indexAtlas(rows) or null (then only the format rules tag),
+ * `cards` is a Map of the student's Revise cards or null (then only a recent paper is told about). Each part fails on
+ * its own and becomes null.
+ */
+export function buildLabSlice4({ attempt, allAttempts = [], answerReviews = {}, lab = null, atlas = null, cards = null, now = Date.now(), warn = () => {} } = {}) {
+  const step = (name, fn) => { try { return fn() ?? null; } catch (e) { warn(name, e); return null; } };
+  return {
+    traps: step('traps', () => buildTrapTags({ attempt, answerReviews, lab, atlas })),
+    later: step('later', () => buildLater({ attempt, allAttempts, answerReviews, cards, now })),
+  };
 }
