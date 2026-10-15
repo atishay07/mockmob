@@ -12,7 +12,7 @@
 // labStory.mjs (one sample Accountancy mock), so the scenes cannot disagree with each other or with
 // the replay further down the page. Words on the screens are the product's own.
 import { useState } from 'react';
-import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
+import { Check, Minus, ShieldCheck, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import ScrollStory from './ScrollStory';
@@ -26,17 +26,17 @@ const timeTake = S.time.wrongAllOver && S.time.underAllRight
   : `${S.time.overCount} questions ran over pace.`;
 
 const SCENES = [
-  { key: 'time', tab: 'Time', Icon: Timer, title: 'See where every minute went.',
+  { key: 'time', tab: 'Time', title: 'See where every minute went.',
     body: `Each question runs against CUET’s pace of ${S.pace}. The minutes past the line stand out, and so does what they bought.`,
     take: timeTake },
-  { key: 'changes', tab: 'Changes', Icon: ArrowLeftRight, title: 'Every answer you changed, on the clock.',
+  { key: 'changes', tab: 'Changes', title: 'Every answer you changed, on the clock.',
     body: 'Your first pick, what you changed it to and when, and the marks each change won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
-  { key: 'repair', tab: 'Repair', Icon: Wrench, title: 'Repair the reason, not just the answer.',
+  { key: 'repair', tab: 'Repair', title: 'Repair the reason, not just the answer.',
     body: 'Written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
     bodyPhone: 'Written from the official key, never a guess.',
-    take: 'If the two disagree, the question waits. You never get a guess.' },
-  { key: 'swot', tab: 'SWOT', Icon: LayoutGrid, title: 'Leave every mock with a plan.',
+    take: `Your pick ${REPAIR.picked}, the key ${REPAIR.key}, and the rule that tells them apart.` },
+  { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, built from your own answers, times and earlier mocks, with the sets to do next. Free, no credits.',
     bodyPhone: 'A SWOT after every mock, from your own answers and times. Free, no credits.',
     take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That is the first set.` },
@@ -56,6 +56,7 @@ function TimePanel() {
   return (
     <div className="lcp lcp--time">
       <p className="lcp__h">Where your time went</p>
+      {t.wrongAllOver ? <p className="lcp-fig" data-tone="bad"><b>{t.overWrongTime}</b><span>past the pace, added up across your {S.facts.wrong} wrong answers</span></p> : null}
       <p className="lcp__lead">CUET gives you {S.pace} a question. Your median was {S.median}.</p>
       <div className="lct" style={{ '--pace': S.paceShare }}>
         <i className="lct__pace" aria-hidden="true" />
@@ -85,7 +86,6 @@ function TimePanel() {
         <li><i data-k="blank" />Blank</li>
       </ul>
       <p className="lcp__foot lct__sum">
-        {t.wrongAllOver ? <>All {S.facts.wrong} wrong answers ran over pace, <b data-tone="bad">{t.overWrongTime} past it</b> between them. </> : null}
         {t.underAllRight ? <>Every answer under pace was <b data-tone="good">right</b>.</> : null}
       </p>
     </div>
@@ -115,7 +115,7 @@ function ChangesPanel() {
   return (
     <div className="lcp lcp--changes">
       <p className="lcp__h">Every answer you changed</p>
-      <p className="lcp__lead">You changed answers {S.changes.length} times across {plural(S.changes.length, 'question')}. Net effect on your marks: <b data-tone={S.net < 0 ? 'bad' : 'good'}>{signed(S.net)}</b>.</p>
+      <p className="lcp-fig" data-tone={S.net < 0 ? 'bad' : 'good'}><b>{signed(S.net)}</b><span>marks, net, from the {S.changes.length} answers you changed</span></p>
       <ChangeClock />
       <ol className="lcc">
         {S.changes.map((c, i) => (
@@ -226,7 +226,7 @@ function RepairPanel({ on }) {
       <ul className="lcr-brief">
         {BRIEF.map((b, i) => (
           <li key={b.kind} className="lcp-block" data-kind={b.kind} style={{ '--i': i }}>
-            <p className="lcp-block__label"><i aria-hidden="true" />{b.label}</p>
+            <p className="lcp-block__label">{b.label}</p>
             <p>{b.short}</p>
           </li>
         ))}
@@ -249,7 +249,7 @@ function RepairPanel({ on }) {
       <div className="lcp-blocks">
         {REPAIR.blocks.map((b, i) => (
           <div key={b.kind} className="lcp-block" data-kind={b.kind} style={{ '--i': i }}>
-            <p className="lcp-block__label"><i aria-hidden="true" />{b.label}</p>
+            <p className="lcp-block__label">{b.label}</p>
             <p>{b.text}</p>
           </div>
         ))}
@@ -284,7 +284,7 @@ function SwotPanel() {
         <div className="lcp-swot">
           {S.swot.quadrants.map((q, i) => (
             <div key={q.id} className="lcp-swot__q" data-q={q.id} style={{ '--i': i }}>
-              <p className="lcp-swot__label"><i aria-hidden="true" />{q.label}</p>
+              <p className="lcp-swot__label">{q.label}</p>
               <div className="lcp-swot__full">
                 <p className="lcp-swot__title">{q.title}</p>
                 <p className="lcp-swot__detail">{q.detail}</p>
@@ -324,12 +324,11 @@ function Stage({ step, pinned, reduced, goTo }) {
   return (
     <div className="mm-wrap lc__grid" data-ready={ready ? 'true' : 'false'}>
       <ol className="lc__rail" aria-label="Mistake Lab, scene by scene">
-        {SCENES.map(({ key, tab, Icon }, i) => {
+        {SCENES.map(({ key, tab }, i) => {
           const state = i < step ? 'done' : i === step ? 'on' : 'off';
           return (
             <li key={key}>
               <button type="button" data-on={step === i ? 'true' : 'false'} aria-current={step === i ? 'step' : undefined} onClick={(event) => goTo(i, { instant: event.detail === 0 })}>
-                <span className="lc__rail-ico" aria-hidden="true"><Icon size={16} /></span>
                 <span className="lc__rail-tab">{tab}</span>
                 <i className="lc__rail-meter" aria-hidden="true"><i className="ss-fill" data-state={state} style={{ '--ss-i': i }} /></i>
               </button>
@@ -339,7 +338,6 @@ function Stage({ step, pinned, reduced, goTo }) {
       </ol>
 
       <div className="lcd" aria-hidden="true">
-        <span className="lcd__glow" />
         <div className="lcd__frame">
           <ScreenBar />
           <div className="lcd__tabs"><i className="lcd__tab-ink" />{SCENES.map(({ key, tab }, i) => <span key={key} data-on={step === i ? 'true' : 'false'}>{tab}</span>)}</div>
@@ -358,10 +356,9 @@ function Stage({ step, pinned, reduced, goTo }) {
         return (
           <article key={key} className="lc-scene" data-scene={key} data-ss-step={i} data-on={on ? 'true' : 'false'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
             <div className="lc-scene__copy">
-              <p className="lc-scene__step"><span>{String(i + 1).padStart(2, '0')}</span>{tab}</p>
               <h3 className="lc-scene__title" id={`lc-scene-${key}`}>{title}</h3>
-              <p className="lc-scene__body">{bodyPhone ? <><span className="lc-scene__long">{body}</span><span className="lc-scene__short">{bodyPhone}</span></> : body}</p>
-              <p className="lc-scene__take">{take}</p>
+              {/* Wide windows lead the words with the scene's finding, in ink, then the explanation. */}
+              <p className="lc-scene__body"><b className="lc-scene__take">{take} </b>{bodyPhone ? <><span className="lc-scene__long">{body}</span><span className="lc-scene__short">{bodyPhone}</span></> : body}</p>
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>

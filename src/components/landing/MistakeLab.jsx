@@ -206,7 +206,6 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
             return (
               <li key={item.key} data-active={active} data-done={index < step}>
                 <button type="button" aria-label={item.title} onClick={(event) => { keyboardStep.current = event.detail === 0; if (pinned) { goTo(index, event.detail === 0); return; } setPlaying(false); goTo(index); if (index === 0) { clockRef.current.elapsed = SESSION.length * REVEAL_MS; setRevealed(SESSION.length); setPicked(3); } }} aria-current={active ? 'step' : undefined}>
-                  <span className="ml__num">{String(index + 1).padStart(2, '0')}</span>
                   <span className="ml__label">{item.title}</span>
                   <span className="ml__short" aria-hidden="true">{['Replay', 'Find', 'Plan', 'Check'][index]}</span>
                   <i className="ml__bar" aria-hidden="true">
@@ -232,7 +231,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
       <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label="Sample Accountancy session, 10 questions">
         <div className="ml__bar-top">
           <div className="ml__session-label"><span>Sample Accountancy session, 10 questions</span></div>
-          <MascotSeat station="lab-inline" pose="attentive" label="Mobi follows the replay." className="pip-seat--lab-inline" />
+          <MascotSeat station="lab-inline" pose="attentive" className="pip-seat--lab-inline" />
         </div>
 
         <div className="ml__panels">
@@ -241,7 +240,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
           <section className="ml__panel" data-active={step === 0} aria-hidden={step !== 0} inert={step !== 0 ? true : undefined} aria-label="Replay the session">
             <div className="ml__score" aria-live={running ? 'off' : 'polite'}>
               <span className="ml__marks"><b>{marks}</b><small>/ 50 marks</small></span>
-              <span className="ml__counts"><i data-k="right">{right} right</i><i data-k="wrong">{wrong} wrong</i><i data-k="skip">{blank} blank</i></span>
+              <span className="ml__counts"><b data-k="right">{right} right</b>, <b data-k="wrong">{wrong} wrong</b>, {blank} blank</span>
             </div>
             <ul className="ml__tiles">
               {SESSION.map((tile, index) => {
@@ -282,9 +281,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
             <div className="ml__move">
               <h3>Try 10 questions. {LEDGER.doLine}</h3>
               <p className="ml__why">Why this: {LEDGER.headline}</p>
-              <div className="ml__where" aria-label="Shown in">
-                <span>Today</span><span>Radar</span><span>PrepOS</span><span>Results</span>
-              </div>
+              <p className="ml__where">Shown in Today, Radar, PrepOS and Results.</p>
             </div>
             <p className="ml__note">Each mock you finish makes the next move sharper.</p>
             <SessionStrip kind="move" />

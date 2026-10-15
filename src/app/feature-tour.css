@@ -1,98 +1,78 @@
-/* A guided product story: chapter rail, one live demo, and the next chapter in view. */
-.ft { min-width: 0; display: grid; gap: .75rem; }
-.ft__list { position: relative; display: flex; gap: .4rem; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; list-style: none; margin: 0; padding: 2px; }
+/* The feature tour: a row of text tabs (the index; the 2px rule under each tab is the tour's progress),
+   then one tool at a time on the page ground: its live demo, the only boxed object (tour-screens.css),
+   its words beside or under it, and plain text controls under a hairline. No stage card, no media well,
+   no icons in the index. Sizes and gaps come from the page system (landing.css). */
+.ft { min-width: 0; display: grid; gap: var(--sp-5, 1.5rem); }
+.ft__list { position: relative; display: flex; gap: var(--sp-5, 1.5rem); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; list-style: none; margin: 0; padding: 0 2px; }
 .ft__list::-webkit-scrollbar, .ft__track::-webkit-scrollbar { display: none; }
-/* The chip row fades only at an edge with more chips beyond it, so a half-shown chip reads as "more". */
+/* The tab row fades only at an edge with more tabs beyond it, so a half-shown tab reads as "more". */
 .ft__list { scroll-padding-inline: 24px; --ft-fade-l: #000; --ft-fade-r: #000; -webkit-mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 24px, #000 calc(100% - 24px), var(--ft-fade-r)); mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 24px, #000 calc(100% - 24px), var(--ft-fade-r)); }
 .ft__list:is([data-fade='start'], [data-fade='both']) { --ft-fade-l: transparent; }
 .ft__list:is([data-fade='end'], [data-fade='both']) { --ft-fade-r: transparent; }
 .ft__list li { flex: 0 0 auto; }
-.ft__row { display: flex; align-items: center; justify-content: center; gap: .45rem; min-height: 44px; padding: .5rem .75rem; border: 1px solid transparent; border-radius: 12px; background: transparent; color: var(--ink-2); font: 650 .83rem/1.2 var(--font-body); white-space: nowrap; cursor: pointer; transition: background 150ms ease, color 150ms ease; }
-.ft__row[data-on='true'] { background: var(--volt, #d2f000); color: #0b1000; }
-.ft__ico { display: flex; width: 18px; height: 18px; }
-.ft__ico svg { width: 18px; height: 18px; }
-.ft__stage { position: relative; min-width: 0; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 24px; background: var(--paper-raised); }
-.ft__chrome { display: flex; align-items: center; gap: .65rem; padding: .45rem .7rem .25rem 1rem; }
-.ft__chapter { display: flex; align-items: center; gap: .65rem; min-width: 0; flex: 1; }
-.ft__chapter b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 700 .86rem/1.2 var(--font-body); color: var(--ink); }
-.ft__counter { flex-shrink: 0; color: var(--ink-3); font: 600 .67rem var(--font-mono, monospace); font-variant-numeric: tabular-nums; }
-.ft__status { display: flex; align-items: center; gap: .35rem; color: var(--ink-2); font: 600 .68rem var(--font-body); }
-.ft__status i { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-3); }
-.ft[data-playing='true'] .ft__status i { background: var(--accent-text, #607400); }
-.ft__play, .ft__arrow { display: grid; place-items: center; width: 44px; height: 44px; flex: 0 0 44px; padding: 0; border: 0; border-radius: 12px; background: var(--paper-sunken); color: var(--ink); cursor: pointer; }
-.ft__play { background: transparent; }
-.ft__play:disabled { opacity: .45; cursor: default; }
-.ft__progress { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 4px; padding: 0 1rem .75rem; }
-.ft__progress span { position: relative; display: block; height: 3px; overflow: hidden; border-radius: 4px; background: var(--line); }
-.ft__progress span[data-done='true'] { background: var(--accent-text, #607400); }
-.ft__progress i { display: block; width: 100%; height: 100%; transform: scaleX(0); transform-origin: left; background: var(--accent-text, #607400); }
+.ft__row { position: relative; display: flex; align-items: center; min-height: 44px; padding: 0 0 0.25rem; border: 0; background: transparent; color: var(--ink-3); font: 600 var(--t-label, 0.875rem)/1.2 var(--font-body); white-space: nowrap; cursor: pointer; transition: color 150ms ease; }
+.ft__row[data-on='true'] { color: var(--ink); }
+.ft__rule { position: absolute; left: 0; right: 0; bottom: 0; display: block; height: 2px; overflow: hidden; background: var(--line); }
+.ft__rule[data-done='true'] { background: var(--accent-text, #607400); }
+.ft__rule i { display: block; width: 100%; height: 100%; transform: scaleX(0); transform-origin: left; background: var(--accent-text, #607400); }
+.ft__stage { position: relative; min-width: 0; }
 .ft__track { position: relative; display: flex; align-items: stretch; list-style: none; margin: 0; padding: 0; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; touch-action: pan-x pan-y pinch-zoom; }
 .ft__slide { display: grid; flex: 0 0 100%; min-width: 0; scroll-snap-align: start; scroll-snap-stop: always; }
-.ft__card { min-width: 0; display: grid; grid-template-rows: 21rem minmax(10rem, auto); }
-.ft__media { position: relative; min-width: 0; display: flex; align-items: center; justify-content: center; padding: .65rem .85rem 1.05rem; background: var(--paper-sunken); }
+.ft__card { min-width: 0; display: grid; grid-template-rows: auto auto; }
+.ft__media { position: relative; min-width: 0; display: flex; align-items: center; justify-content: center; padding: 0 0 var(--sp-3, 0.75rem); }
 .ft__shot { width: 100%; min-width: 0; max-width: 28rem; }
-.ft__shot .ts { min-height: 17.25rem; border-radius: 16px; box-shadow: 0 0 0 4px #1d231c, 0 0 0 5px rgba(244, 245, 240, .08), inset 0 1px 0 rgba(255, 255, 255, .06); }
-/* Day: the same Night device with a paper-side bezel, like every product screen on the page. */
-html[data-theme='light'] .ft__shot .ts { box-shadow: 0 0 0 4px #262b22, 0 0 0 5px rgba(32, 26, 14, .28), 0 22px 44px -30px rgba(32, 26, 14, .55), inset 0 1px 0 rgba(255, 255, 255, .06); }
-.ft__shot video { display: block; width: 100%; max-height: 18rem; object-fit: contain; background: #0e120d; border-radius: 16px; }
-.ft__tag { position: absolute; bottom: .2rem; right: .85rem; font: 500 .6rem/1.3 var(--font-body); color: var(--ink-3); }
-.ft__copy { min-width: 0; display: flex; flex-direction: column; gap: .35rem; padding: 1rem 1.05rem .55rem; }
-.ft__title { margin: 0; color: var(--ink); font: 800 clamp(1.2rem, 5.2vw, 1.55rem)/1.12 var(--font-display); letter-spacing: -.025em; text-wrap: balance; }
-.ft__body, .ft__summary, .ft__lede { margin: 0; color: var(--ink-2); font: 400 .91rem/1.4 var(--font-body); }
-.ft__lede { color: var(--ink-2); font-size: .9375rem; line-height: 1.45; text-wrap: pretty; }
-/* The proof line under the lede: smaller, with the accent dot the Lab story uses. */
-.ft__summary { display: flex; align-items: baseline; gap: .5rem; color: var(--ink-3); font-size: .8125rem; font-weight: 600; line-height: 1.35; }
-.ft__summary::before { content: ''; flex: none; width: .4rem; height: .4rem; border-radius: 50%; background: var(--volt, #d2f000); box-shadow: 0 0 0 3px var(--accent-wash, rgba(210,240,0,.15)); transform: translateY(-.05rem); }
+.ft__shot video { display: block; width: 100%; max-height: 18rem; object-fit: contain; background: #0e120d; border-radius: 20px; }
+.ft__copy { min-width: 0; display: flex; flex-direction: column; gap: var(--sp-2, 0.5rem); padding: var(--sp-4, 1rem) 0 0; }
+.ft__title { margin: 0; color: var(--ink); font: 800 var(--t-title, 1.375rem)/var(--lh-title, 1.12) var(--font-display); letter-spacing: var(--tr-title, -0.025em); text-wrap: balance; }
+.ft__body, .ft__lede { margin: 0; color: var(--ink-2); font-size: var(--t-body, 1rem); line-height: 1.5; text-wrap: pretty; }
+/* The proof line: a plain sentence, quieter than the lede. */
+.ft__summary { margin: 0; color: var(--ink-3); font-size: var(--t-label, 0.875rem); font-weight: 500; line-height: 1.4; }
 .ft__body, .ft__points { display: none; }
-.ft__cta { display: inline-flex; align-items: center; align-self: flex-start; gap: .45rem; min-height: 44px; margin-top: auto; font-size: .9rem; }
-.ft__controls { display: flex; gap: .65rem; align-items: center; padding: .35rem .7rem .7rem; }
-.ft__next { display: flex; align-items: center; justify-content: space-between; gap: .75rem; flex: 1; min-width: 0; min-height: 44px; border: 0; border-radius: 12px; padding: .6rem .85rem; cursor: pointer; background: var(--volt, #d2f000); color: #0b1000; }
-.ft__next span { display: flex; align-items: baseline; gap: .5rem; min-width: 0; font: 500 .72rem/1.3 var(--font-body); }
-.ft__next b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .86rem; font-weight: 750; }
-.ft__next svg { flex-shrink: 0; }
+/* The slide's one action: an underlined text link in ink. */
+.ft__cta { display: inline-flex; align-items: center; align-self: flex-start; min-height: 44px; margin-top: auto; color: var(--ink); font-size: var(--t-body, 1rem); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.25em; text-decoration-color: var(--ink-3); transition: text-decoration-color 150ms ease; }
+.ft__controls { display: flex; align-items: center; gap: var(--sp-5, 1.5rem); margin-top: var(--sp-3, 0.75rem); border-top: 1px solid var(--line); }
+.ft__controls button { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--ink-2); font: 600 var(--t-label, 0.875rem)/1.2 var(--font-body); cursor: pointer; transition: color 150ms ease; }
+.ft__arrow { margin-left: auto; }
+.ft__controls .ft__next { color: var(--ink); white-space: nowrap; }
+.ft__next b { overflow: hidden; text-overflow: ellipsis; margin-left: 0.3em; font-weight: 600; }
+.ft__play:disabled { color: var(--ink-3); cursor: default; }
 .ft :is(button, a) { touch-action: manipulation; }
-.ft :is(button, a):focus-visible { outline: 3px solid var(--focus, var(--ink)); outline-offset: -3px; }
-.ft :is(.ft__play, .ft__arrow, .ft__next):active { transform: scale(.97); }
+.ft :is(button, a):focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+.ft__controls button:active { transform: scale(.97); }
 .ft[data-playing='false'] .ts *, .ft__slide[data-active='false'] .ts * { animation-play-state: paused; }
 
 @media (max-width: 899px) {
   .ft__shot .ts__bar { height: 34px; }
   .ft__shot .ts__body { padding: .65rem; gap: .45rem; }
   .ft__shot .ts__steps { gap: .3rem; }
-  .ft__shot .ts__steps li { padding: .35rem .45rem; }
+  .ft__shot .ts__steps li { padding-block: .35rem; }
   .ft__shot .ts__opts li { padding-block: .4rem; }
   .ft__shot .ts__chips li { padding: .35rem .5rem; }
 }
-@media (max-width: 599px) { .ft__status { font-size: 0; gap: 0; } }
 @media (min-width: 900px) {
-  .ft { gap: 1rem; }
-  .ft__list { justify-content: flex-start; }
-  .ft__row { padding-inline: .9rem; }
-  .ft__chrome { padding-inline: 1.5rem 1rem; }
-  .ft__chapter b { font-size: .95rem; }
-  .ft__progress { padding-inline: 1.5rem; }
+  .ft { gap: var(--sp-6, 2rem); }
+  .ft__list { justify-content: flex-start; gap: var(--sp-6, 2rem); }
+  .ft__row { font-size: var(--t-body, 1rem); }
   .ft__track { display: block; overflow: hidden; }
   .ft__slide { display: none; }
   .ft__slide[data-active='true'] { display: grid; animation: ft-change 200ms var(--ease-out, cubic-bezier(.23, 1, .32, 1)) both; }
   .ft[data-keyboard='true'] .ft__slide { animation: none; }
-  .ft__card { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 28rem; }
-  .ft__copy { order: -1; justify-content: center; padding: 2.25rem 2.5rem; gap: .7rem; }
-  .ft__title { font-size: clamp(1.8rem, 3vw, 2.5rem); line-height: 1.08; }
-  .ft__body { display: block; font-size: 1rem; line-height: 1.5; }
+  /* Words on the left, the live demo on the right, both on the page ground. */
+  .ft__card { grid-template-rows: none; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); column-gap: var(--sp-8, 4rem); align-items: center; min-height: 26rem; }
+  .ft__copy { order: -1; justify-content: center; padding: 0; gap: var(--sp-3, 0.75rem); }
+  .ft__body { display: block; color: var(--ink-2); font-size: var(--t-lede, 1.25rem); line-height: var(--lh-lede, 1.5); }
   .ft__summary, .ft__lede { display: none; }
-  .ft__points { display: grid; list-style: none; gap: .6rem; margin: .25rem 0 0; padding: 0; }
-  .ft__points li { position: relative; padding-left: 1rem; font-size: .9rem; line-height: 1.4; color: var(--ink-2); }
-  .ft__points li::before { position: absolute; content: ''; width: 5px; height: 5px; left: 0; top: .5em; border-radius: 50%; background: var(--accent-text); }
-  .ft__cta { margin-top: .45rem; font-size: 1rem; }
-  .ft__media { padding: 2rem 2.25rem; }
-  .ft__shot { max-width: 26rem; }
-  .ft__tag { bottom: .6rem; right: 1rem; font-size: .7rem; }
-  .ft__controls { padding: .7rem 1rem; border-top: 1px solid var(--line); }
-  .ft__next { flex: 0 1 20rem; margin-left: auto; }
+  /* The tool's points: rows with a hairline between, no bullets. */
+  .ft__points { display: grid; list-style: none; margin: var(--sp-2, 0.5rem) 0 0; padding: 0; border-bottom: 1px solid var(--line); }
+  .ft__points li { padding: var(--sp-3, 0.75rem) 0; border-top: 1px solid var(--line); color: var(--ink-2); font-size: var(--t-label, 0.875rem); line-height: 1.4; }
+  .ft__cta { margin-top: var(--sp-2, 0.5rem); }
+  .ft__media { padding: var(--sp-5, 1.5rem) 0; }
+  .ft__shot { max-width: 30rem; }
+  .ft__controls { margin-top: var(--sp-2, 0.5rem); }
 }
 @media (hover: hover) and (pointer: fine) {
-  .ft__row:not([data-on='true']):hover, .ft__play:hover, .ft__arrow:hover { background: var(--paper-sunken); }
-  .ft__next:hover { background: #dbfb14; }
+  .ft__row:not([data-on='true']):hover, .ft__controls button:not(:disabled):hover { color: var(--ink); }
+  .ft__cta:hover { text-decoration-color: var(--ink); }
 }
 @keyframes ft-change { from { opacity: .35; } to { opacity: 1; } }
 
@@ -118,7 +98,7 @@ html[data-theme='light'] .ft__shot .ts { box-shadow: 0 0 0 4px #262b22, 0 0 0 5p
 }
 
 /* ---------- Held tour (ScrollStory): the stage stays, the scroll changes the tool ----------
-   Phones first: chips on top, then the card scaled once per resize to fit what is left of the
+   Phones first: the tabs on top, then the tool scaled once per resize to fit what is left of the
    window. All tools share one grid cell, so changing tool never changes the card's height. */
 .ft-story { --ss-beat: 58svh; }
 .ft-story[data-pinned='true'] .ft { height: 100%; grid-template-rows: auto minmax(0, 1fr); align-content: start; }
@@ -132,8 +112,8 @@ html[data-theme='light'] .ft__shot .ts { box-shadow: 0 0 0 4px #262b22, 0 0 0 5p
 .ft-story[data-pinned='true'] .ft__slide[data-active='false'] .ft__shot { transform: translate3d(0, 0.6rem, 0) scale(0.97); }
 .ft-story[data-pinned='true'] .ft__slide[data-past='true'] .ft__copy { transform: translate3d(0, -0.9rem, 0); }
 .ft-story[data-pinned='true'] .ft__slide[data-past='true'] .ft__shot { transform: translate3d(0, -0.6rem, 0) scale(0.97); }
-.ft-story[data-pinned='true'] .ft__progress .ss-fill { width: 100%; height: 100%; background: var(--accent-text, #607400); }
-.ft-story[data-pinned='true'] .ft__progress span[data-done='true'] { background: var(--line); }
+.ft-story[data-pinned='true'] .ft__rule .ss-fill { width: 100%; height: 100%; background: var(--accent-text, #607400); }
+.ft-story[data-pinned='true'] .ft__rule[data-done='true'] { background: var(--line); }
 .ft-story[data-reduced='true'] .ft__slide :is(.ft__copy, .ft__shot) { transform: none !important; transition: none; }
 .ft-story[data-reduced='true'] .ft__slide { transition-duration: var(--mm-dur-reduced-fade, 120ms); }
 /* Phones: the card fills the held window from the docked heading down, so no empty band is left under it.
@@ -142,24 +122,28 @@ html[data-theme='light'] .ft__shot .ts { box-shadow: 0 0 0 4px #262b22, 0 0 0 5p
    phone; the title, the line and the action sit under it. A window too short for the card scales it
    (data-ss-fit) instead. Wide windows keep the card at its own height, centred (.ss--centre). */
 @media (max-width: 899px) {
-  .ft-story[data-pinned='true'] .ft { gap: .6rem; }
+  .ft-story[data-pinned='true'] .ft { gap: var(--sp-4, 1rem); }
   .ft-story[data-pinned='true'] .ft__room { display: flex; flex-direction: column; }
   .ft-story[data-pinned='true'] .ft__stage { flex: 1 0 auto; display: flex; flex-direction: column; }
   .ft-story[data-pinned='true'] .ft__track { flex: 1 0 auto; }
   .ft-story[data-pinned='true'] .ft__card { grid-template-rows: minmax(auto, 1fr) auto; }
-  .ft-story[data-pinned='true'] .ft__media { padding-bottom: .85rem; }
-  .ft-story[data-pinned='true'] .ft__copy { gap: .4rem; padding-top: .9rem; }
+  .ft-story[data-pinned='true'] .ft__media { padding-bottom: var(--sp-2, 0.5rem); }
+  .ft-story[data-pinned='true'] .ft__copy { gap: var(--sp-2, 0.5rem); padding-top: var(--sp-3, 0.75rem); }
 }
 @media (min-width: 900px) {
   .ft-story[data-pinned='true'] .ft { height: auto; max-height: 100%; }
 }
-/* Landscape phones: the chips scroll away into the card's own chapter line. */
+/* Landscape phones: the tabs stay on top (one short text row), the words sit beside the demo. */
 @media (orientation: landscape) and (max-height: 520px) {
   .ft-story { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
-  .ft-story[data-pinned='true'] .ft__list { display: none; }
-  .ft-story[data-pinned='true'] .ft { grid-template-rows: minmax(0, 1fr); }
   .ft-story[data-pinned='true'] .ft__stage { --ss-fit-min: 0.5; }
   .ft-story[data-pinned='true'] .ft__card { grid-template-rows: none; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-  .ft-story[data-pinned='true'] .ft__copy { order: -1; justify-content: center; padding: 1rem 1.25rem; }
-  .ft-story[data-pinned='true'] .ft__media { padding: .75rem 1rem; }
+  .ft-story[data-pinned='true'] .ft__copy { order: -1; justify-content: center; padding: 0 var(--sp-5, 1.5rem) 0 0; }
+  .ft-story[data-pinned='true'] .ft__media { padding: var(--sp-2, 0.5rem) 0; }
 }
+
+/* ---------- Exam comparator (ExamComparator.jsx) ----------
+   The heading's second clause is quieter than its first (same size and weight), and the console's clock
+   keeps the bar's right edge now that the bar carries no extra label. */
+.mm.lp .lp-h2 .lp-h2__rest { color: var(--ink-3); }
+.lp-exam__bar .lp-exam__clock { margin-left: auto; }

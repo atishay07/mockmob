@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { ArrowRight, Check, ShieldCheck, X } from 'lucide-react';
+import { Check, ShieldCheck, X } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { labStory, signed } from './labStory.mjs';
@@ -60,7 +60,6 @@ function Frame({ title, right, step, className = '', children }) {
   return (
     <figure className={`ts ${className}`} data-step={step}>
       <div className="ts__bar">
-        <span className="ts__live" aria-hidden="true" />
         <span className="ts__title">{title}</span>
         {right ?? null}
       </div>
@@ -112,12 +111,11 @@ export function RepairScreen({ play }) {
       <ol className="ts__steps">
         {REPAIR_ROWS.map(([title, detail], i) => (
           <li key={title} data-in={on(step >= 2 + i)} data-key={on(i === 2)}>
-            <span className="ts__dot">{i + 1}</span>
             <p><b>{title}</b>{detail}</p>
           </li>
         ))}
       </ol>
-      <p className="ts__cta" data-in={on(step >= 5)}>Practise 5 on this chapter<ArrowRight size={14} aria-hidden="true" /></p>
+      <p className="ts__cta" data-in={on(step >= 5)}>Practise 5 on this chapter</p>
     </Frame>
   );
 }
@@ -142,7 +140,7 @@ export function LearnScreen({ play }) {
         ))}
       </ul>
       <p className="ts__meta ts__meta--row"><span data-on={on(step >= 5)} className="ts__saved">Correct</span><span>{step >= 6 ? 'Comes back in a few days' : ' '}</span></p>
-      <p className="ts__cta" data-in={on(step >= 6)}>Then: practise Vocabulary questions<ArrowRight size={14} aria-hidden="true" /></p>
+      <p className="ts__cta" data-in={on(step >= 6)}>Then: practise Vocabulary questions</p>
     </Frame>
   );
 }
@@ -210,7 +208,7 @@ export function RadarScreen({ play }) {
 }
 
 // ---------- 5. PrepOS ----------
-// Your question lands, Mobi types for a beat, then the reply and its three steps line up.
+// Your question lands, the reply is typed for a beat, then it and its three steps line up.
 const PREP_T = [40, 160, ...lineUp(5, 420)];
 const PREP_PLAN = [['20 min', 'Retirement: 10 fresh questions'], ['10 min', 'Re-read the two you changed'], ['Tomorrow', 'One timed half mock']];
 export function PrepOSScreen({ play }) {
@@ -221,12 +219,12 @@ export function PrepOSScreen({ play }) {
       <div className="ts__reply">
         {step === 2 ? <p className="ts__typing" aria-hidden="true"><i /><i /><i /></p> : null}
         <div className="ts__bubble ts__bubble--ai" data-in={on(step >= 3)}>
-          <p className="ts__ai-head"><span className="ts__mobi" aria-hidden="true"><i /><i /></span><b>Mobi</b><small>from your last 3 mocks</small></p>
+          <p className="ts__ai-head"><b>Mobi</b><small>from your last 3 mocks</small></p>
           <p>Retirement in Accountancy cost you the most this week. Tonight:</p>
           <ol>
             {PREP_PLAN.map(([time, what], i) => <li key={what} data-in={on(step >= 4 + i)}><b>{time}</b>{what}</li>)}
           </ol>
-          <p className="ts__replies" data-in={on(step >= 7)}><span data-main="true">Start the 10<ArrowRight size={12} aria-hidden="true" /></span><span>Why this?</span></p>
+          <p className="ts__replies" data-in={on(step >= 7)}><span data-main="true">Start the 10</span><span>Why this?</span></p>
         </div>
       </div>
     </Frame>

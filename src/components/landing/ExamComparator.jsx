@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check, Clock3, Monitor, RotateCcw, Sparkles } from 'lucide-react';
+import { Check, Clock3, RotateCcw } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { MascotSeat } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
@@ -64,15 +64,15 @@ export function ExamComparator() {
     <section className="lp-sec lp-exam-section" id="exam-experience" aria-labelledby="exam-title">
       <div className="mm-wrap">
         <div className="lp-exam-intro">
-          <div><h2 className="lp-h2" id="exam-title">Practise on a calm screen.<br />Rehearse on the NTA-style one.</h2>
+          <div><h2 className="lp-h2" id="exam-title">Practise on a calm screen. <span className="lp-h2__rest">Rehearse on the NTA-style one.</span></h2>
             <p className="lp-sub">MockMob’s own screen keeps practice quiet. As exam day nears, switch to the NTA-style screen, with Pro, and rehearse how it will look. The questions are the same on both.</p></div>
           <div className="lp-exam-switch" role="group" aria-label="Preview interface">
-            <button type="button" aria-pressed={!classic} onClick={() => setMode('mockmob')}><Sparkles size={17} />MockMob</button>
-            <button type="button" aria-pressed={classic} onClick={() => setMode('nta')}><Monitor size={17} />NTA style<span>Pro</span></button>
+            <button type="button" aria-pressed={!classic} onClick={() => setMode('mockmob')}>MockMob</button>
+            <button type="button" aria-pressed={classic} onClick={() => setMode('nta')}>NTA style (Pro)</button>
           </div>
         </div>
         <div className="lp-exam" data-interface={mode} ref={consoleRef}>
-          <div className="lp-exam__bar"><span><span className="lp-exam__live" />{classic ? 'NTA-style screen, English' : 'MockMob Practice, English'}</span><span className="lp-exam__sample">Try it here</span><span className="lp-exam__clock" data-running={started && onScreen}><Clock3 size={15} aria-hidden="true" />{clockText}</span></div>
+          <div className="lp-exam__bar"><span>{classic ? 'NTA-style screen, English' : 'MockMob Practice, English'}</span><span className="lp-exam__clock" data-running={started && onScreen}><Clock3 size={15} aria-hidden="true" />{clockText}</span></div>
           <div className="lp-exam__body">
             <div className="lp-exam__paper">
               <div className="lp-exam__meta"><span>English</span><span>+5 correct <i /> −1 incorrect</span></div>
@@ -86,7 +86,7 @@ export function ExamComparator() {
               <div className="lp-exam__actions">
                 <button type="button" className="lp-exam__review" onClick={() => next(true)}>Mark for Review & Next</button>
                 <button type="button" onClick={() => setAnswers((a) => { const copy = { ...a }; delete copy[index]; return copy; })}>Clear response</button>
-                <button type="button" className="lp-exam__save" onClick={() => next(false)}>Save & Next <ArrowRight size={15} /></button>
+                <button type="button" className="lp-exam__save" onClick={() => next(false)}>Save & Next</button>
               </div>
             </div>
             <aside className="lp-exam__palette" aria-label="Preview question palette">
@@ -103,8 +103,8 @@ export function ExamComparator() {
           </div>
           <div className="lp-exam__foot"><p role="status">{notice}</p><button type="button" onClick={reset}><RotateCcw size={14} />Reset preview</button></div>
         </div>
-        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" label="Try both screens." className="pip-seat--demo" /><p><Check size={16} />Your review marks carry over when you switch.</p>
-          <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--primary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}<ArrowRight size={17} /></Link></div>
+        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" className="pip-seat--demo" /><p>Your review marks carry over when you switch.</p>
+          <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--primary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}</Link></div>
       </div>
     </section>
   );

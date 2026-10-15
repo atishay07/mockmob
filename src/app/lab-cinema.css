@@ -3,8 +3,9 @@
    One held scroll story in four scenes, on phones exactly as on desktop: the stage sticks, the
    reader's scroll changes the scene. Phones stack rail, words and screen in one frame; wide or
    landscape windows put the words beside the screen. Only opacity and transform move.
-   The product screen is a Night device in both themes (every product screen on the page is), with a
-   bezel; the words and the rail around it follow the theme.
+   The product screen is a Night device in both themes (every product screen on the page is): one 1px
+   edge and one soft shadow, the only boxed object in the section. The words and the rail around it
+   follow the theme and sit on the page ground, divided by hairlines, never boxes.
    ========================================================================== */
 
 .lc {
@@ -24,7 +25,7 @@
   --s-accent: #d2f000;
   --s-accent-ink: #0b1000;
   --s-wash: rgba(210, 240, 0, 0.07);
-  --s-shadow: 0 40px 90px -40px rgba(0, 0, 0, 0.85), 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+  --s-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.6);
   --lc-ease: cubic-bezier(0.16, 1, 0.3, 1);
   /* The Changes clock sweeps once on the shared sweep time; every dot is on it within about 700 ms. */
   --lc-sweep: var(--mm-dur-sweep, 700ms);
@@ -32,73 +33,58 @@
   --lcd-chrome: 3.6rem;
   --ss-beat: 76svh;
   --lc-reset: 0.45s;
-  --lcd-bezel: #1d231c;
-  --lcd-bezel-edge: rgba(244, 245, 240, 0.08);
   /* The Accountancy object on the screen's corner, and the room the title bar leaves it. */
   --lc-obj: 5.5rem;
   --lc-obj-clear: 5.6rem;
   position: relative;
   overflow-x: clip;
 }
-/* Day keeps the Night screen and gives it a paper-side bezel and a sepia drop shadow. */
+/* Day keeps the Night screen and gives it a sepia drop shadow. */
 html[data-theme='light'] .lc {
-  --s-shadow: 0 40px 80px -44px rgba(32, 26, 14, 0.55), 0 14px 30px -20px rgba(32, 26, 14, 0.35);
-  --lcd-bezel: #262b22;
-  --lcd-bezel-edge: rgba(32, 26, 14, 0.28);
+  --s-shadow: 0 24px 48px -28px rgba(32, 26, 14, 0.5);
 }
-/* ---------- Copy ---------- */
-.lc-scene__step { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.6rem; color: var(--accent-text); font-size: 0.8125rem; font-weight: 750; }
-.lc-scene__step span { color: var(--ink-3); font-variant-numeric: tabular-nums; font-weight: 650; }
+/* ---------- Copy: the scene's title (--t-title), then its words ---------- */
 .lc-scene__title {
   margin: 0;
-  max-width: 18ch;
+  max-width: 20ch;
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 6.4vw, 2.85rem);
+  font-size: var(--t-title, 1.375rem);
   font-weight: 800;
-  line-height: 1.06;
-  letter-spacing: -0.032em;
+  line-height: var(--lh-title, 1.12);
+  letter-spacing: var(--tr-title, -0.025em);
   color: var(--ink);
   text-wrap: balance;
 }
-.lc-scene__body { margin: 0.6rem 0 0; max-width: 40ch; color: var(--ink-2); font-size: clamp(0.9375rem, 1.3vw, 1.125rem); line-height: 1.5; text-wrap: pretty; }
-.lc-scene__take {
-  display: none; align-items: center; gap: 0.6rem; margin: 1.25rem 0 0; padding: 0.7rem 1rem;
-  border-radius: 14px; background: rgb(var(--tint) / 0.05); border: 1px solid var(--line);
-  color: var(--ink); font-weight: 650; font-size: 0.9375rem; line-height: 1.4; font-variant-numeric: tabular-nums;
-}
-.lc-scene__take::before { content: ''; flex: none; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--volt); box-shadow: 0 0 0 4px var(--accent-wash); }
+.lc-scene__body { margin: var(--sp-2, 0.5rem) 0 0; max-width: 40ch; color: var(--ink-2); font-size: var(--t-body, 1rem); line-height: 1.5; text-wrap: pretty; }
+/* Wide windows lead the words with the scene's finding, in ink, and the explanation follows in --ink-2.
+   Phones keep one short line: there the finding is the screen's own figure. */
+.lc-scene__take { display: none; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 
-/* ---------- Rail: the step indicator (a row of four on phones, a column on desktop) ---------- */
-.lc__rail { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.35rem; margin: 0; padding: 0; list-style: none; }
+/* ---------- Rail: four text tabs, each over a 2px rule that fills with the story's scroll ----------
+   A row of four on phones, a column down a hairline on desktop. No icons, no numbers, no fills: the
+   tab on stage is ink, the rest --ink-3, and the rule is the one accent (it carries real progress). */
+.lc__rail { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sp-3, 0.75rem); margin: 0; padding: 0; list-style: none; }
 .lc__rail button {
-  position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.3rem;
-  width: 100%; min-height: 48px; padding: 0.35rem 0.2rem 0.6rem;
-  border: 0; border-radius: 12px; background: transparent; color: var(--ink-3);
-  font: 650 0.8125rem/1 var(--font-body); cursor: pointer; touch-action: manipulation;
-  transition: color var(--mm-dur-ui, 200ms) ease, background-color var(--mm-dur-ui, 200ms) ease;
+  position: relative; display: flex; align-items: center; justify-content: flex-start;
+  width: 100%; min-height: 44px; padding: 0 0 0.25rem;
+  border: 0; border-radius: 0; background: transparent; color: var(--ink-3);
+  font: 600 var(--t-label, 0.875rem)/1.2 var(--font-body); text-align: left; cursor: pointer; touch-action: manipulation;
+  transition: color var(--mm-dur-ui, 200ms) ease;
 }
-.lc__rail-ico { display: grid; place-items: center; width: 1.75rem; height: 1.75rem; border-radius: 9px; border: 1px solid var(--line); background: rgb(var(--tint) / 0.03); transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform var(--mm-spring-snappy-dur, 450ms) var(--mm-spring-snappy, ease-out); }
-.lc__rail-meter { position: absolute; left: 0.5rem; right: 0.5rem; bottom: 0.1rem; height: 2px; border-radius: 2px; background: var(--line-strong); overflow: hidden; }
-.lc__rail-meter .ss-fill { height: 100%; border-radius: inherit; background: var(--accent-text); }
+.lc__rail-meter { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--line); overflow: hidden; }
+.lc__rail-meter .ss-fill { height: 100%; background: var(--accent-text); }
 .lc__rail button[data-on='true'] { color: var(--ink); }
-.lc__rail button[data-on='true'] .lc__rail-ico { background: var(--volt); border-color: var(--volt); color: #0b1000; transform: scale(1.06); }
 .lc__rail button:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
-.lc__rail button:active { background: rgb(var(--tint) / 0.06); }
-@media (hover: hover) and (pointer: fine) { .lc__rail button:hover { color: var(--ink); background: rgb(var(--tint) / 0.04); } }
+.lc__rail button:active { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .lc__rail button:hover { color: var(--ink); } }
 
 /* ---------- The device ---------- */
 .lcd { position: relative; isolation: isolate; min-height: 0; }
 .lcd__frame {
-  position: absolute; inset: 0; z-index: 0; border-radius: 22px; overflow: hidden;
+  position: absolute; inset: 0; z-index: 0; border-radius: 20px; overflow: hidden;
   background: var(--s-bg); border: 1px solid var(--s-line-2);
-  box-shadow: 0 0 0 4px var(--lcd-bezel), 0 0 0 5px var(--lcd-bezel-edge), var(--s-shadow), inset 0 1px 0 rgb(255 255 255 / 0.06);
+  box-shadow: var(--s-shadow);
 }
-.lcd__glow {
-  position: absolute; z-index: -2; inset: 8% -6% -4% 10%; border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(210, 240, 0, 0.16), transparent 72%);
-  pointer-events: none;
-}
-html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, rgba(170, 200, 0, 0.22), transparent 72%); }
 /* The lamp-lit Accountancy object: a prop in the screen's header beside the score, fully inside the
    bezel, standing on its own contact shadow (Night shade on the Night screen in both themes).
    Phones: 88 px in the corner. Wide windows: 72 px, centred on the title row. The title bar leaves it
@@ -116,12 +102,13 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcd-bar__title b { color: var(--s-ink); font: 800 1.35rem/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
 .lcd-bar__title b small { color: var(--s-ink-3); font: 600 0.8125rem var(--font-body); }
 .lcd-bar__tab { margin: 0; color: var(--s-ink); font: 750 1rem/1.2 var(--font-body); }
-.lcd__tabs { position: relative; display: none; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0.2rem 1.1rem 0; padding: 0.25rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); }
-.lcd__tabs span { position: relative; z-index: 1; display: grid; place-items: center; min-height: 2rem; color: var(--s-ink-3); font-size: 0.8125rem; font-weight: 700; transition: color 0.25s ease; }
-.lcd__tabs span[data-on='true'] { color: var(--s-accent-ink); }
+/* The screen's own tabs: text over a hairline, a 2px underline sliding to the scene on stage. */
+.lcd__tabs { position: relative; display: none; grid-template-columns: repeat(4, minmax(0, 1fr)); margin: 0.2rem 1.4rem 0; border-bottom: 1px solid var(--s-line); }
+.lcd__tabs span { position: relative; z-index: 1; display: grid; place-items: center; min-height: 2.25rem; color: var(--s-ink-3); font-size: var(--t-label, 0.875rem); font-weight: 600; transition: color 0.25s ease; }
+.lcd__tabs span[data-on='true'] { color: var(--s-ink); }
 .lcd__tab-ink {
-  position: absolute; z-index: 0; top: 0.25rem; bottom: 0.25rem; left: 0.25rem; width: calc((100% - 0.5rem) / 4);
-  border-radius: 9px; background: var(--s-accent);
+  position: absolute; z-index: 0; bottom: -1px; left: 0; width: 25%; height: 2px;
+  background: var(--s-accent);
   transform: translate3d(calc(var(--ss-step) * 100%), 0, 0); transition: transform 0.45s var(--lc-ease);
 }
 
@@ -134,6 +121,12 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp :is(.lcp__lead, .lcp__foot) b[data-tone='bad'] { color: var(--s-bad); }
 .lcp :is(.lcp__lead, .lcp__foot) b[data-tone='good'] { color: var(--s-good); }
 .lcp__fine { margin: 0; color: var(--s-ink-3); font-size: 0.75rem; line-height: 1.4; }
+/* Each screen's one dominant figure: the number the scene is about, then what it counts. */
+.lcp-fig { display: flex; align-items: baseline; gap: 0.75rem; margin: 0; }
+.lcp-fig b { flex: none; font: 800 2.5rem/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--s-ink); }
+.lcp-fig[data-tone='bad'] b { color: var(--s-bad); }
+.lcp-fig[data-tone='good'] b { color: var(--s-good); }
+.lcp-fig span { color: var(--s-ink-2); font-size: 0.875rem; font-weight: 600; line-height: 1.35; max-width: 26ch; }
 .lcd-bar__title b { font-variant-numeric: tabular-nums; }
 
 /* ---------- 1. Time: every question against the pace line ----------
@@ -186,8 +179,8 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
    First pick (with its clock time), the arrow, the final pick (with its time), the marks. A wrong pick is
    coral, crossed out, with an X; a right one is green with a check. An arrow that threw away a right
    answer is coral and crossed at its middle; one that found the key is green. */
-.lcc { display: grid; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
-.lcc__row { display: grid; grid-template-columns: 1.85rem auto minmax(2.75rem, 1fr) auto 2.7rem; align-items: start; column-gap: 0.55rem; padding: 0.6rem 0.75rem 0.5rem; border-radius: 14px; background: var(--s-raised); border: 1px solid var(--s-line); }
+.lcc { display: grid; margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--s-line); }
+.lcc__row { display: grid; grid-template-columns: 1.85rem auto minmax(2.75rem, 1fr) auto 2.7rem; align-items: start; column-gap: 0.55rem; padding: 0.7rem 0 0.75rem; border-top: 1px solid var(--s-line); }
 .lcc__q { display: grid; align-items: center; height: 2.1rem; font-size: 0.875rem; font-weight: 800; }
 .lcc__end { display: grid; justify-items: center; gap: 0.22rem; }
 .lcc__end small { color: var(--s-ink-2); font-size: 0.6875rem; font-weight: 700; line-height: 1; }
@@ -199,23 +192,23 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcc__chip[data-verdict='wrong'] b { color: var(--s-bad); }
 /* The strike across a wrong pick. */
 .lcc__chip[data-verdict='wrong']::after { content: ''; position: absolute; left: 22%; right: 22%; top: 52%; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--s-bad-fill); transform-origin: left center; transform: scaleX(1); }
-.lcc__badge { position: absolute; top: -0.42rem; right: -0.42rem; display: grid; place-items: center; width: 1.05rem; height: 1.05rem; border-radius: 50%; border: 2px solid var(--s-raised); background: var(--s-good-fill); color: #0b1000; }
+.lcc__badge { position: absolute; top: -0.42rem; right: -0.42rem; display: grid; place-items: center; width: 1.05rem; height: 1.05rem; border-radius: 50%; border: 2px solid var(--s-bg); background: var(--s-good-fill); color: #0b1000; }
 .lcc__chip[data-verdict='wrong'] .lcc__badge { background: var(--s-bad-fill); color: #1a0703; }
 .lcc__arrow { position: relative; height: 2.1rem; }
 .lcc__line { position: absolute; left: 0; right: 0.2rem; top: 50%; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--s-good-fill); transform-origin: left center; }
 .lcc__head { position: absolute; right: 0.15rem; top: 50%; width: 0.5rem; height: 0.5rem; margin-top: -0.25rem; border-top: 2px solid var(--s-good-fill); border-right: 2px solid var(--s-good-fill); transform: rotate(45deg); }
 .lcc__row[data-tone='bad'] .lcc__line { background: var(--s-bad-fill); }
 .lcc__row[data-tone='bad'] .lcc__head { border-color: var(--s-bad-fill); }
-.lcc__cross { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; margin: -0.55rem 0 0 -0.55rem; border-radius: 50%; background: var(--s-bad-fill); color: #1a0703; box-shadow: 0 0 0 3px var(--s-raised); }
+.lcc__cross { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 1.1rem; height: 1.1rem; margin: -0.55rem 0 0 -0.55rem; border-radius: 50%; background: var(--s-bad-fill); color: #1a0703; box-shadow: 0 0 0 3px var(--s-bg); }
 .lcc__arrow small { position: absolute; left: 0; right: 0.2rem; top: calc(100% + 0.22rem); color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 650; line-height: 1; text-align: center; white-space: nowrap; }
-.lcc__net { display: grid; place-items: center; height: 2.1rem; border-radius: 9px; font: 800 0.95rem/1 var(--font-display); color: var(--s-good); background: color-mix(in srgb, var(--s-good-fill) 16%, transparent); }
-.lcc__row[data-tone='bad'] .lcc__net { color: var(--s-bad); background: color-mix(in srgb, var(--s-bad-fill) 14%, transparent); }
-/* The sum: what the changes gained, what they cost, and the net. */
-.lcc-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.45rem; }
-.lcc-sum p { display: grid; gap: 0.1rem; margin: 0; padding: 0.5rem 0.65rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); color: var(--s-ink-2); font-size: 0.75rem; font-weight: 650; line-height: 1.3; }
-.lcc-sum b { font: 800 1.15rem/1.1 var(--font-display); letter-spacing: -0.01em; color: var(--s-good); font-variant-numeric: tabular-nums; }
+.lcc__net { display: grid; place-items: center end; height: 2.1rem; font: 800 1rem/1 var(--font-display); color: var(--s-good); font-variant-numeric: tabular-nums; }
+.lcc__row[data-tone='bad'] .lcc__net { color: var(--s-bad); }
+/* The sum: what the changes gained, what they cost, and the net, as three figures in a row. */
+.lcc-sum { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--sp-4, 1rem); }
+.lcc-sum p { display: grid; gap: 0.15rem; margin: 0; color: var(--s-ink-2); font-size: 0.75rem; font-weight: 600; line-height: 1.3; }
+.lcc-sum b { font: 800 1.25rem/1.1 var(--font-display); letter-spacing: -0.01em; color: var(--s-good); font-variant-numeric: tabular-nums; }
 .lcc-sum p[data-tone='bad'] b { color: var(--s-bad); }
-.lcc-sum p[data-net='true'] { border-color: var(--s-line-2); background: var(--s-raised); color: var(--s-ink); }
+.lcc-sum p[data-net='true'] { color: var(--s-ink); }
 .lcc-sum p[data-net='true'] b::before { content: '= '; color: var(--s-ink-3); }
 
 /* Changes, wide screens: the paper's clock with each change on its own lane */
@@ -239,7 +232,7 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp-clock__q { position: absolute; top: 50%; right: calc(100% - var(--a) * 100% + 1rem); transform: translateY(-50%); color: var(--s-ink-3); font-size: 0.75rem; font-style: normal; font-weight: 700; white-space: nowrap; }
 
 /* Changes, wide screens: what the changes did to the score */
-.lcp-net { display: none; gap: 0.25rem; padding: 0.9rem 1.1rem 0.4rem; border-radius: 16px; background: var(--s-sunken); border: 1px solid var(--s-line); }
+.lcp-net { display: none; gap: 0.25rem; padding: 0.9rem 0 0.4rem; border-top: 1px solid var(--s-line); }
 .lcp-net__h { margin: 0; color: var(--s-ink-2); font-size: 0.875rem; line-height: 1.45; }
 .lcp-net__h b { color: var(--s-ink); font-weight: 800; }
 .lcp-net__track { position: relative; height: 0.7rem; margin: 1.6rem 0.15rem 1.9rem; border-radius: 99px; background: rgb(255 255 255 / 0.07); }
@@ -249,17 +242,18 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp-net[data-tone='good'] .lcp-net__gap { background: var(--s-accent); }
 .lcp-net__mark { position: absolute; bottom: calc(100% + 0.35rem); left: calc(var(--x) * 100%); display: flex; align-items: center; gap: 0.35rem; transform: translate3d(-50%, 0, 0); font-style: normal; white-space: nowrap; }
 .lcp-net__mark small { color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 700; }
-.lcp-net__mark b { display: block; padding: 0.1rem 0.45rem; border-radius: 7px; background: var(--s-raised); border: 1px solid var(--s-line-2); color: var(--s-ink); font: 800 0.8125rem/1.2 var(--font-body); font-variant-numeric: tabular-nums; }
+.lcp-net__mark b { display: block; color: var(--s-ink); font: 800 0.875rem/1.2 var(--font-body); font-variant-numeric: tabular-nums; }
 .lcp-net__mark[data-k='first'] { bottom: auto; top: calc(100% + 0.35rem); }
-.lcp-net__mark[data-k='first'] b { border-style: dashed; color: var(--s-ink-2); }
+.lcp-net__mark[data-k='first'] b { color: var(--s-ink-2); }
 .lcp-net__ends { position: absolute; inset: calc(100% + 0.45rem) 0 auto; display: flex; justify-content: space-between; color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 650; }
 
 /* ---------- 3. Repair: Q4 as Repair v3 lays it out ---------- */
 .lcr-head { display: grid; gap: 0.15rem; }
 .lcr-head__q { margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; font-weight: 700; }
-.lcr-head__trap { margin: 0; color: var(--s-ink); font: 750 1rem/1.25 var(--font-body); }
+/* The trap's name is the screen's headline. */
+.lcr-head__trap { margin: 0; color: var(--s-ink); font: 800 1.375rem/1.12 var(--font-display); letter-spacing: -0.02em; }
 .lcp-check { display: inline-flex; align-items: center; gap: 0.45rem; margin: 0; color: var(--s-good); font-size: 0.8125rem; font-weight: 700; }
-.lcp-q { padding: 0.8rem 0.9rem; border-radius: 16px; background: var(--s-raised); border: 1px solid var(--s-line); }
+.lcp-q { padding: 0; }
 .lcp-q__stem { margin: 0 0 0.65rem; font-size: 0.875rem; line-height: 1.45; font-weight: 600; }
 .lcp-q__opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
 .lcp-q__opts li { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; min-height: 2.35rem; padding: 0.35rem 0.55rem; border-radius: 10px; border: 1px solid var(--s-line); color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.3; }
@@ -272,43 +266,44 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lcp-q__opts li[data-state='key'] { border-color: color-mix(in srgb, var(--s-good-fill) 70%, transparent); background: color-mix(in srgb, var(--s-good-fill) 10%, transparent); color: var(--s-ink); }
 .lcp-q__opts li[data-state='key'] .lcp-q__letter { background: var(--s-good-fill); color: #0b1000; }
 .lcp-q__opts li[data-state='key'] em { color: var(--s-good); }
-.lcp-q__badge { position: absolute; top: -0.36rem; right: -0.36rem; display: grid; place-items: center; width: 0.9rem; height: 0.9rem; border-radius: 50%; border: 2px solid var(--s-raised); background: var(--s-good-fill); color: #0b1000; font-style: normal; }
+.lcp-q__badge { position: absolute; top: -0.36rem; right: -0.36rem; display: grid; place-items: center; width: 0.9rem; height: 0.9rem; border-radius: 50%; border: 2px solid var(--s-bg); background: var(--s-good-fill); color: #0b1000; font-style: normal; }
 .lcp-q__opts li[data-state='picked'] .lcp-q__badge { background: var(--s-bad-fill); color: #1a0703; }
-.lcp-blocks { display: grid; gap: 0.45rem; }
-.lcp-block { padding: 0.55rem 0.8rem; border-radius: 12px; background: var(--s-sunken); border: 1px solid var(--s-line); }
+/* The repair's sections are rows on the screen, a hairline between them; the rule to keep carries a 3px
+   volt edge, the one emphasis. */
+.lcp-blocks { display: grid; }
+.lcp-block { padding: 0.6rem 0; border-top: 1px solid var(--s-line); }
 .lcp-block p { margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.42; }
-.lcp-block .lcp-block__label { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.15rem; color: var(--s-ink); font-size: 0.8125rem; font-weight: 800; }
-.lcp-block__label i { flex: none; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--s-bad-fill); }
-.lcp-block[data-kind='right'] .lcp-block__label i { background: var(--s-good-fill); }
-.lcp-block[data-kind='rule'] { background: var(--s-wash); border-color: color-mix(in srgb, var(--s-accent) 38%, transparent); }
-.lcp-block[data-kind='rule'] .lcp-block__label i { background: var(--s-accent); }
-.lcp-block[data-kind='rule'] p:not(.lcp-block__label) { color: var(--s-ink); font-weight: 650; }
+.lcp-block .lcp-block__label { display: block; margin-bottom: 0.15rem; color: var(--s-ink); font-size: 0.8125rem; font-weight: 700; }
+.lcp-block[data-kind='rule'] { padding-left: 0.85rem; border-left: 3px solid var(--s-accent); }
+.lcp-block[data-kind='rule'] p:not(.lcp-block__label) { color: var(--s-ink); font-weight: 600; }
 .lcr-record { display: grid; gap: 0.1rem; margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.4; }
 .lcr-record b { color: var(--s-ink); font-size: 0.75rem; font-weight: 800; }
 
 /* ---------- 4. SWOT: Do these next, then the SWOT for this mock ---------- */
 .lcs-block { display: grid; gap: 0.45rem; }
 .lcs-h { margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; font-weight: 750; }
-.lcs-plan { display: grid; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
-.lcp-plan { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding: 0.65rem 0.8rem; border-radius: 14px; background: var(--s-raised); border: 1px solid var(--s-line); }
-.lcp-plan[data-first='true'] { background: var(--s-wash); border-color: color-mix(in srgb, var(--s-accent) 40%, transparent); }
-.lcp-plan__n { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; border: 1px solid var(--s-line-2); color: var(--s-ink); font-weight: 800; font-size: 0.8125rem; }
-.lcp-plan[data-first='true'] .lcp-plan__n { border-color: var(--s-accent); background: var(--s-accent); color: #0b1000; }
-.lcp-plan__label { margin: 0; font-weight: 750; font-size: 0.9375rem; line-height: 1.3; }
+/* The plan: three rows with a hairline between, the first set leading with a 3px volt edge and the
+   screen's one filled key. */
+.lcs-plan { display: grid; margin: 0; padding: 0; list-style: none; border-bottom: 1px solid var(--s-line); }
+.lcp-plan { display: grid; grid-template-columns: 1.1rem minmax(0, 1fr) auto; align-items: center; gap: 0.75rem; padding: 0.65rem 0; border-top: 1px solid var(--s-line); }
+.lcp-plan[data-first='true'] { padding-left: 0.75rem; border-left: 3px solid var(--s-accent); }
+.lcp-plan__n { color: var(--s-ink-3); font: 800 0.9375rem/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.lcp-plan[data-first='true'] .lcp-plan__n { color: var(--s-accent); }
+.lcp-plan__label { margin: 0; font-weight: 700; font-size: 0.9375rem; line-height: 1.3; }
 .lcp-plan__why { margin: 0.1rem 0 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.35; }
-.lcp-plan__go { padding: 0.4rem 0.75rem; border-radius: 999px; border: 1px solid var(--s-line-2); color: var(--s-ink); font-size: 0.8125rem; font-weight: 800; white-space: nowrap; }
-.lcp-plan[data-first='true'] .lcp-plan__go { border-color: var(--s-accent); background: var(--s-accent); color: #0b1000; }
-.lcp-swot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
-.lcp-swot__q { padding: 0.7rem 0.8rem; border-radius: 14px; background: var(--s-raised); border: 1px solid var(--s-line); }
-.lcp-swot__label { display: flex; align-items: center; gap: 0.45rem; margin: 0 0 0.3rem; color: var(--s-ink-3); font-size: 0.75rem; font-weight: 750; }
-.lcp-swot__label i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--s-good-fill); }
-.lcp-swot__q[data-q='weakness'] .lcp-swot__label i { background: var(--s-bad-fill); }
-.lcp-swot__q[data-q='opportunity'] .lcp-swot__label i { background: var(--s-accent); }
-.lcp-swot__q[data-q='threat'] .lcp-swot__label i { background: var(--s-amber); }
-.lcp-swot__title { margin: 0; font-weight: 800; font-size: 0.875rem; line-height: 1.3; }
+.lcp-plan__go { padding: 0.4rem 0; color: var(--s-ink-2); font-size: 0.8125rem; font-weight: 700; white-space: nowrap; }
+.lcp-plan[data-first='true'] .lcp-plan__go { padding: 0.45rem 0.8rem; border-radius: 8px; background: var(--s-accent); color: #0b1000; }
+/* The SWOT: four groups in two columns on the screen, each under a hairline, named in its own colour. */
+.lcp-swot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 var(--sp-4, 1rem); }
+.lcp-swot__q { padding: 0.65rem 0 0.75rem; border-top: 1px solid var(--s-line); }
+.lcp-swot__label { margin: 0 0 0.3rem; color: var(--s-good); font-size: 0.75rem; font-weight: 700; }
+.lcp-swot__q[data-q='weakness'] .lcp-swot__label { color: var(--s-bad); }
+.lcp-swot__q[data-q='opportunity'] .lcp-swot__label { color: var(--s-accent); }
+.lcp-swot__q[data-q='threat'] .lcp-swot__label { color: var(--s-amber-ink); }
+.lcp-swot__title { margin: 0; font-weight: 700; font-size: 0.875rem; line-height: 1.3; }
 .lcp-swot__detail { margin: 0.2rem 0 0; color: var(--s-ink-2); font-size: 0.78rem; line-height: 1.4; }
-.lcp-swot__see { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem; margin: 0.45rem 0 0; color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 700; }
-.lcp-swot__see b { padding: 0.08rem 0.4rem; border-radius: 6px; border: 1px solid var(--s-line-2); color: var(--s-ink); font-weight: 750; }
+.lcp-swot__see { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem; margin: 0.45rem 0 0; color: var(--s-ink-3); font-size: 0.6875rem; font-weight: 700; }
+.lcp-swot__see b { color: var(--s-ink); font-weight: 700; }
 
 /* ---------- Choreography: each screen tells its story when its scene comes on ----------
    Time: the pace line draws down, then each bar grows to the line and the slow ones push past it, then
@@ -410,12 +405,11 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   display: grid; grid-template-columns: subgrid; grid-template-rows: subgrid; pointer-events: none;
 }
 .lc[data-pinned='true'] .lc-scene[data-on='true'] { z-index: 2; }
-.lc[data-pinned='true'] .lc-scene__step,
 .lc[data-pinned='true'] .lc-scene__mini { display: none; }
 .lc[data-pinned='true'] .lc-scene__copy { grid-column: 1; grid-row: 2; align-self: end; }
 .lc[data-pinned='true'] .lc-scene__screen { grid-column: 1; grid-row: 3; min-height: 0; padding: calc(var(--lcd-chrome) + 0.6rem) 1rem 1rem; }
 /* The screen never spills past the device, whatever the window. */
-.lc[data-pinned='true'] .lc-scene__screen { overflow: clip; border-radius: 22px; }
+.lc[data-pinned='true'] .lc-scene__screen { overflow: clip; border-radius: 20px; }
 .lc[data-pinned='true'] .lc-scene__copy,
 .lc[data-pinned='true'] .lc-scene__screen { transition: opacity 0.42s var(--lc-ease), transform 0.55s var(--lc-ease); }
 .lc[data-pinned='true'] .lc-scene[data-on='false'] .lc-scene__copy { opacity: 0; transform: translate3d(0, 1.25rem, 0); }
@@ -426,8 +420,7 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lc[data-reduced='true'] .lc-scene .lc-scene__copy,
 .lc[data-reduced='true'] .lc-scene .lc-scene__screen { transform: none !important; transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
 @media (max-width: 380px) {
-  .lc .lc__rail button { font-size: 0.75rem; }
-  .lc-scene__body { font-size: 0.875rem; }
+  .lc .lc__rail button { font-size: 0.8125rem; }
 }
 @media (max-width: 520px) {
   .lcp-q__opts { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -446,7 +439,6 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   .lcp--repair { gap: 0.7rem; }
   .lcp--repair .lcr-head { gap: 0.2rem; }
   .lcp--repair .lcr-head__q { font-size: 0.875rem; }
-  .lcp--repair .lcr-head__trap { font: 800 1.375rem/1.12 var(--font-display); letter-spacing: -0.02em; }
   .lcp--repair .lcr-stem { display: block; margin: 0; color: var(--s-ink-2); font-size: 0.9375rem; line-height: 1.4; }
   .lcp--repair .lcp-q { display: none; }
   .lcp--repair .lcr-pair { display: grid; grid-template-columns: minmax(0, 1fr) 2.25rem minmax(0, 1fr); gap: 0; align-items: stretch; }
@@ -458,10 +450,11 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   .lcp--repair .lcr-pair li.lcr-pair__arrow { position: relative; display: block; min-height: 0; padding: 0; border: 0; background: none; }
   .lcr-pair__line { position: absolute; left: 0.2rem; right: 0.4rem; top: 2rem; height: 2px; margin-top: -1px; border-radius: 2px; background: var(--s-good-fill); transform-origin: left center; }
   .lcr-pair__head { position: absolute; right: 0.25rem; top: 2rem; width: 0.55rem; height: 0.55rem; margin-top: -0.275rem; border-top: 2px solid var(--s-good-fill); border-right: 2px solid var(--s-good-fill); transform: rotate(45deg); }
-  .lcp--repair .lcr-brief { display: grid; gap: 0.4rem; margin: 0; padding: 0; list-style: none; }
-  .lcr-brief .lcp-block { padding: 0.5rem 0.8rem 0.6rem; }
-  .lcr-brief .lcp-block .lcp-block__label { display: flex; margin: 0 0 0.15rem; color: var(--s-ink-3); font-size: 0.75rem; font-weight: 750; }
-  .lcr-brief .lcp-block p:not(.lcp-block__label) { display: block; color: var(--s-ink); font-size: 1rem; line-height: 1.3; font-weight: 650; }
+  .lcp--repair .lcr-brief { display: grid; margin: 0; padding: 0; list-style: none; }
+  .lcr-brief .lcp-block { padding: 0.55rem 0 0.6rem; }
+  .lcr-brief .lcp-block[data-kind='rule'] { padding-left: 0.85rem; }
+  .lcr-brief .lcp-block .lcp-block__label { margin: 0 0 0.15rem; color: var(--s-ink-3); font-size: 0.75rem; font-weight: 600; }
+  .lcr-brief .lcp-block p:not(.lcp-block__label) { display: block; color: var(--s-ink); font-size: 1rem; line-height: 1.3; font-weight: 600; }
   .lcp--repair .lcr-more {
     display: flex; align-items: center; justify-content: center; width: 100%; min-height: 44px; padding: 0 1rem;
     border: 1px solid var(--s-line-2); border-radius: 12px; background: transparent; color: var(--s-ink);
@@ -474,21 +467,19 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   .lcp--repair[data-open='false'] :is(.lcp-blocks, .lcr-record) { display: none; }
   .lcp-blocks .lcp-block p { display: inline; font-size: 0.9375rem; line-height: 1.45; }
   .lcp-blocks .lcp-block .lcp-block__label { display: inline; margin: 0 0.3rem 0 0; font-size: 0.9375rem; }
-  .lcp-block__label i { display: inline-block; margin: 0 0.4rem 0.1rem 0; vertical-align: middle; }
   .lcp--repair .lcr-record { font-size: 0.875rem; }
   .lcp--repair[data-open='true'] :is(.lcp-blocks, .lcr-record) { animation: lcr-swap 320ms var(--lc-ease) backwards; }
 
   /* SWOT, short: the plan in one line each, then four quadrants, each a strong line and its count. */
   .lcp--swot { gap: 0.75rem; }
-  .lcp--swot .lcp-plan { gap: 0.65rem; padding: 0.55rem 0.7rem; }
+  .lcp--swot .lcp-plan { gap: 0.65rem; padding-block: 0.55rem; }
   .lcp--swot .lcp-plan__why { display: none; }
   .lcp--swot .lcp-plan__label { font-size: 1rem; }
-  .lcp-swot { gap: 0.45rem; }
-  .lcp-swot__q { display: flex; flex-direction: column; padding: 0.65rem 0.75rem 0.7rem; }
+  .lcp-swot__q { display: flex; flex-direction: column; padding: 0.6rem 0 0.7rem; }
   .lcp-swot__full { display: none; }
   .lcp-swot__brief { display: flex; flex: 1; flex-direction: column; }
-  .lcp-swot__label { margin-bottom: 0.4rem; color: var(--s-ink-2); font-size: 0.8125rem; }
-  .lcp-swot__line { flex: 1; margin: 0; color: var(--s-ink); font-size: 0.9375rem; font-weight: 800; line-height: 1.2; }
+  .lcp-swot__label { margin-bottom: 0.35rem; font-size: 0.8125rem; }
+  .lcp-swot__line { flex: 1; margin: 0; color: var(--s-ink); font-size: 0.9375rem; font-weight: 700; line-height: 1.2; }
   .lcp-swot__figure { margin: 0.35rem 0 0; color: var(--s-good); font: 800 1.625rem/1 var(--font-display); letter-spacing: -0.02em; }
   .lcp-swot__unit { margin: 0.2rem 0 0; color: var(--s-ink-2); font-size: 0.8125rem; line-height: 1.3; }
   .lcp-swot__q[data-q='weakness'] .lcp-swot__figure { color: var(--s-bad); }
@@ -506,7 +497,7 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 /* Short windows: the words shrink before the screen does. */
 @media (max-height: 740px) {
   .lc[data-pinned='true'] .lc-scene__body { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
-  .lc-scene__title { font-size: clamp(1.35rem, 5.6vw, 2.4rem); }
+  .lc-scene__title { font-size: clamp(1.3rem, 5.6vw, var(--t-title, 1.875rem)); }
 }
 
 /* ---------- Wide or landscape: words beside the screen ---------- */
@@ -525,9 +516,8 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   .lc { --lc-obj: 4.5rem; --lc-obj-clear: 6.5rem; --lcd-chrome: calc(var(--lc-obj) + 3.6rem); --ss-beat: 78svh; }
   .lc[data-pinned='true'] .ss__stage { display: flex; align-items: center; }
   .lc[data-pinned='true'] .lc__grid { height: min(100%, 46rem); row-gap: 2rem; }
-  .lc-scene__take { display: inline-flex; }
-  .lc-scene__body { margin-top: 1rem; }
-  .lcd__frame { border-radius: 28px; }
+  .lc-scene__take { display: inline; }
+  .lc-scene__body { margin-top: var(--sp-4, 1rem); font-size: var(--t-lede, 1.25rem); line-height: var(--lh-lede, 1.5); }
   .lcd-bar { padding: 0.5rem var(--lc-obj-clear) 0.35rem 1.4rem; }
   .lcd-bar__title { min-height: var(--lc-obj); }
   .lc__obj.subj-obj { top: 0.5rem; right: 1.1rem; }
@@ -543,11 +533,10 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   .lcd__tabs { display: grid; }
   .lc[data-pinned='true'] .lc-scene__screen { padding: calc(var(--lcd-chrome) + 1rem) 1.5rem 1.5rem; }
   /* The rail turns into a column: a line on the left that fills down through the scenes. */
-  .lc__rail { grid-template-columns: none; gap: 0.15rem; padding-left: 1.1rem; align-self: start; }
-  .lc__rail::before { content: ''; position: absolute; left: 0; top: 0.5rem; bottom: 0.5rem; width: 2px; border-radius: 2px; background: var(--line-strong); }
-  .lc__rail button { flex-direction: row; justify-content: flex-start; gap: 0.65rem; min-height: 44px; padding: 0 0.85rem 0 0.35rem; font-size: 0.9375rem; }
-  .lc__rail-ico { width: 1.9rem; height: 1.9rem; border-radius: 10px; }
-  .lc__rail-meter { left: -1.1rem; right: auto; top: 0.15rem; bottom: 0.15rem; width: 2px; height: auto; background: transparent; }
+  .lc__rail { grid-template-columns: none; gap: 0; padding-left: 1.25rem; align-self: start; }
+  .lc__rail::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--line); }
+  .lc__rail button { min-height: 44px; padding: 0; font-size: var(--t-body, 1rem); }
+  .lc__rail-meter { left: -1.25rem; right: auto; top: 0; bottom: 0; width: 2px; height: auto; background: transparent; }
   .lc__rail-meter .ss-fill { width: 100%; height: 100%; transform-origin: center top; transform: scaleY(0); }
   .lc__rail-meter .ss-fill:is([data-state='done'], [data-state='on']) { transform: scaleY(1); }
   .lc[data-pinned='true'] .lc__rail-meter .ss-fill { animation-name: ss-fill-y; }
@@ -560,10 +549,9 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
   .lc { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
   .lc .lc-scene__fit { --ss-fit-min: 0.45; }
   .lc[data-pinned='true'] .lc__rail { grid-column: 1; grid-row: 1; }
-  .lc .lc__rail button { min-height: 44px; flex-direction: row; gap: 0.3rem; font-size: 0.75rem; }
-  .lc .lc__rail-ico { width: 1.5rem; height: 1.5rem; }
+  .lc .lc__rail button { min-height: 44px; font-size: 0.8125rem; }
   .lc-scene__title { font-size: 1.3rem; }
-  .lc-scene__body { font-size: 0.8125rem; }
+  .lc-scene__body { font-size: 0.875rem; }
 }
 
 /* ---------- Not held (no IntersectionObserver): the four scenes stack ---------- */
@@ -571,24 +559,22 @@ html[data-theme='light'] .lcd__glow { background: radial-gradient(closest-side, 
 .lc[data-pinned='false'] :is(.lcd, .lc__prop) { display: none; }
 .lc[data-pinned='false'] .lc__grid { display: grid; gap: clamp(3rem, 9vw, 5.5rem); }
 .lc[data-pinned='false'] .lc-scene { display: grid; gap: 1.25rem; align-items: center; }
-.lc[data-pinned='false'] .lc-scene__screen { position: relative; padding: 0 1rem 1.1rem; border-radius: 22px; background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow); }
+.lc[data-pinned='false'] .lc-scene__screen { position: relative; padding: 0 1rem 1.1rem; border-radius: 20px; background: var(--s-bg); border: 1px solid var(--s-line-2); box-shadow: var(--s-shadow); }
 .lc[data-pinned='false'] .lc-scene__mini .lcd-bar { padding: 1rem 0.2rem 0.85rem; margin-bottom: 0.9rem; border-bottom: 1px solid var(--s-line); }
 
-/* The object and the light drift with the whole story (compositor-only, where supported). */
+/* The object drifts a little with the whole story (compositor-only, where supported). */
 @supports (animation-timeline: view()) {
   .lc[data-pinned='true'] .lc__obj { animation: lc-object linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
-  .lc[data-pinned='true'] .lcd__glow { animation: lc-glow linear both; animation-timeline: --ss-track; animation-range: contain 0% contain 100%; }
 }
 @keyframes lc-object { from { transform: translate3d(0.25rem, 0.6rem, 0) rotate(-4deg); } to { transform: translate3d(-0.35rem, -0.5rem, 0) rotate(3deg); } }
 /* In the header the drift stays small, so the object never leaves the title row. */
 @keyframes lc-object-held { from { transform: translate3d(0.1rem, 0.15rem, 0) rotate(-3deg); } to { transform: translate3d(-0.1rem, -0.15rem, 0) rotate(2deg); } }
 /* Wide windows: the object sits in the header, so its drift stays small (after the shorthand above). */
 @media (min-width: 960px) and (min-height: 600px) { .lc[data-pinned='true'] .lc__obj { animation-name: lc-object-held; } }
-@keyframes lc-glow { from { transform: translate3d(-4%, 6%, 0) scale(0.92); opacity: 0.7; } to { transform: translate3d(4%, -4%, 0) scale(1.06); opacity: 1; } }
 
 @keyframes lcr-swap { from { opacity: 0; transform: translate3d(0, 0.5rem, 0); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
-  .lc .lc__obj, .lc .lcd__glow { animation: none !important; }
+  .lc .lc__obj { animation: none !important; }
   .lcp--repair :is(.lcp-blocks, .lcr-record) { animation: none !important; }
   .lc__grid .lcp-clock__sweep i { animation: none !important; }
 }

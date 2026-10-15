@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Pause, Play } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { DemoPlaybackContext, TOUR_SCREENS } from './TourScreens';
 import ScrollStory from './ScrollStory';
@@ -37,8 +36,9 @@ function TourVideo({ slide, playing }) {
 }
 
 // The feature tour holds the screen while the reader's scroll moves through the tools (ScrollStory):
-// one tool per beat, its live demo playing while it is on stage, the chapter chips and the progress
-// segments following the scroll. Chips, arrows and Next jump the page to that tool's beat, so the
+// one tool per beat, its live demo playing while it is on stage. The index is a row of text tabs, each
+// over a 2px rule that is the tour's progress (filled with the scroll when held, with the autoplay clock
+// otherwise). Tabs, Previous and Next jump the page to that tool's beat, so the
 // scroll position and the tool on stage never disagree. Without IntersectionObserver the old
 // carousel returns: native swipes, timed autoplay with an explicit Pause, keyboard focus holds it.
 function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
@@ -168,35 +168,27 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
 
   const paused = !playing || keyboardHold;
   const next = slides[(active + 1) % slides.length];
-  const status = reduced ? 'Explore' : paused ? 'Paused' : pinned ? 'Live demo' : 'Autoplay';
+  const playLabel = reduced ? 'Autoplay is off' : paused ? 'Play' : 'Pause';
 
   return (
     <div className="ft" role="region" aria-roledescription="carousel" aria-label="Explore MockMob features" data-playing={running ? 'true' : 'false'} data-live={onScreen ? 'true' : 'false'} data-keyboard={keyboardHold ? 'true' : 'false'}
       onPointerDownCapture={event => { if (!event.target.closest('.ft__play')) setKeyboardHold(false); }}
       onFocusCapture={event => { if (!pinned && !event.target.closest('.ft__play') && event.target.matches(':focus-visible')) setKeyboardHold(true); }}
       onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setKeyboardHold(false); }}>
+      {/* The index: one text tab per tool, no icons. The rule under each tab is the tour's progress. */}
       <ul className="ft__list" ref={navRef} aria-label="Feature chapters" data-fade={fade} onScroll={readFade}>
         {slides.map((slide, i) => <li key={slide.id} data-chapter={i}>
           <button type="button" className="ft__row" data-on={active === i ? 'true' : 'false'} aria-current={active === i ? 'step' : undefined} onClick={event => goTo(i, { keyboard: event.detail === 0 })}>
-            <span className="ft__ico" aria-hidden="true">{slide.icon}</span><span>{slide.label}</span>
+            <span>{slide.label}</span>
+            <i className="ft__rule" aria-hidden="true" data-done={i < active ? 'true' : 'false'}>
+              {pinned ? <i className="ss-fill" data-state={i < active ? 'done' : i === active ? 'on' : 'off'} style={{ '--ss-i': i }} /> : i === active ? <i ref={progressRef} key={visit} /> : null}
+            </i>
           </button>
         </li>)}
       </ul>
 
       <div className="ft__room">
         <div className="ft__stage" data-ss-fit="0.6" data-ss-end="">
-          <div className="ft__chrome">
-            <div className="ft__chapter"><span className="ft__counter">{String(active + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}</span><b>{slides[active]?.label}</b></div>
-            <span className="ft__status"><i aria-hidden="true" />{status}</span>
-            <button type="button" className="ft__play" aria-label={paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>
-              {paused ? <Play size={16} aria-hidden="true" /> : <Pause size={16} aria-hidden="true" />}
-            </button>
-          </div>
-          <div className="ft__progress" aria-hidden="true" style={{ gridTemplateColumns: 'repeat(' + slides.length + ', minmax(0, 1fr))' }}>
-            {slides.map((slide, i) => <span key={slide.id} data-done={i < active ? 'true' : 'false'}>
-              {pinned ? <i className="ss-fill" data-state={i < active ? 'done' : i === active ? 'on' : 'off'} style={{ '--ss-i': i }} /> : i === active ? <i ref={progressRef} key={visit} /> : null}
-            </span>)}
-          </div>
 
           <ul className="ft__track" ref={trackRef} aria-label="MockMob features" aria-live={paused ? 'polite' : 'off'} onScroll={readSwipe}
             onPointerDown={event => { programmaticRef.current = false; pointerRef.current = { x: event.clientX, y: event.clientY }; }}
@@ -218,16 +210,18 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                     <p className="ft__lede">{slide.lede || LEDE[slide.id] || slide.line}</p>
                     <p className="ft__summary">{slide.chip || slide.line}</p>
                     {slide.points?.length ? <ul className="ft__points">{slide.points.map(point => <li key={point}>{point}</li>)}</ul> : null}
-                    <Link href={slide.href} className="lp-link ft__cta">{slide.cta}<ArrowRight size={16} aria-hidden="true" /></Link>
+                    <Link href={slide.href} className="ft__cta">{slide.cta}</Link>
                   </div>
                 </article>
               </li>
             ); })}
           </ul>
 
+          {/* Plain text controls: the demos' stop control (autoplay over 5 s needs one), then the way back and on. */}
           <div className="ft__controls">
-            <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature"><ArrowLeft size={18} aria-hidden="true" /></button>
-            <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}><span>Up next <b>{next?.label}</b></span><ArrowRight size={18} aria-hidden="true" /></button>
+            <button type="button" className="ft__play" aria-label={reduced ? 'Autoplay is off' : paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>{playLabel}</button>
+            <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature">Previous</button>
+            <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}>Next: <b>{next?.label}</b></button>
           </div>
         </div>
       </div>
