@@ -30,6 +30,9 @@
 }
 .rt__seg[aria-disabled='true'] { cursor: default; }
 .rt__seg:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: -2px; border-radius: 10px; }
+/* The app shell gives every button min-width: 44px. Ten or more steps then make the track wider than a phone and
+   push the whole result page sideways, so the steps share the row; the 44 px height stays the tap target. */
+.rt__track .rt__seg { min-width: 0; }
 .rt__bar {
   position: absolute; left: 3px; right: 3px; top: 50%; height: 4px; margin-top: -2px; border-radius: 3px; overflow: hidden;
   background: var(--a-line, #253026); transition: height 160ms var(--ease-out, ease), margin-top 160ms var(--ease-out, ease), background-color 160ms ease;
