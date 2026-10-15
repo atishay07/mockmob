@@ -1,6 +1,7 @@
 "use client";
 
-// Compass Pro: practice projection, a personal DU shortlist and the one paper to work on.
+// Your gap to each college (the Pro layer of the Cutoff calculator): practice projection, a personal
+// DU shortlist and the one paper to work on.
 // Every number is either the student's own server-scored practice (projected with the +5/-1
 // arithmetic and a Wilson range) or a cutoff DU published for 2026. Nothing here is a
 // prediction, a normalised CUET score or an admission chance, and the copy says so.
@@ -10,6 +11,7 @@ import { ArrowRight, Lock, Plus, Sparkles, Target, Trash2 } from 'lucide-react';
 import { decodeSelection, formatScore, loadIndex, loadOfferings, readSaved } from '@/lib/du/client';
 import { CATEGORY_LABELS, MAIN_CATEGORIES, effectiveCutoff, evaluateGroup } from '@/lib/du/eligibility';
 import { compareToCutoff } from '@/../data/compass_projection';
+import { APPROVED } from '@/../data/glossary.mjs';
 
 const SHORTLIST_LIMIT = 8;
 const ROUNDS = ['Round I', 'Round II', 'Round III'];
@@ -22,7 +24,7 @@ function writeShortlist(userId, list) {
   try { window.localStorage.setItem(storeKey(userId), JSON.stringify(list)); } catch { /* storage blocked: the list lasts this visit */ }
 }
 
-function useCompassPro(userId) {
+function useGapToColleges(userId) {
   const [state, setState] = useState({ status: 'loading' });
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
@@ -53,7 +55,7 @@ function PaperRow({ paper, max }) {
   const pct = (v) => `${(v / max) * 100}%`;
   return (
     <li className="cpro-paper">
-      <span className="cpro-paper__name">{paper.name}<small>{paper.n} questions · {paper.accuracy.pct}% accuracy · {paper.attemptShare}% attempted</small></span>
+      <span className="cpro-paper__name">{paper.name}<small>{paper.n} questions, {paper.accuracy.pct}% accuracy, {paper.attemptShare}% attempted</small></span>
       <span className="cpro-paper__track" aria-hidden="true">
         <i style={{ left: pct(paper.low), width: `calc(${pct(paper.high)} - ${pct(paper.low)})` }} />
         <b style={{ left: pct(paper.mid) }} />
@@ -67,8 +69,8 @@ function Locked() {
   return (
     <section className="cpro cpro--locked" aria-labelledby="cpro-title">
       <div className="cpro-head">
-        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />Compass Pro</span>
-        <h2 id="cpro-title">Map your practice to the colleges you want.</h2>
+        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />{APPROVED.proLock}</span>
+        <h2 id="cpro-title">{APPROVED.cutoffToolPro}</h2>
         <p>Pro turns your own practice into a projected score band, checks it against the DU cutoffs for your shortlist, and names the paper that can move your total the most.</p>
       </div>
       <ul className="cpro-features">
@@ -77,7 +79,7 @@ function Locked() {
         <li><ArrowRight size={18} aria-hidden="true" /><b>Next move</b><span>The paper with the most marks open, and its weakest chapter, one tap from practice.</span></li>
       </ul>
       <div className="cpro-cta">
-        <Link href="/pricing" className="btn-volt md"><Lock size={16} aria-hidden="true" />Unlock Compass Pro</Link>
+        <Link href="/pricing" className="btn-volt md"><Lock size={16} aria-hidden="true" />See what Pro includes</Link>
         <span>Eligibility and published cutoffs below stay free for everyone.</span>
       </div>
     </section>
@@ -85,7 +87,7 @@ function Locked() {
 }
 
 export default function CompassPro({ userId, seedSubjects = [] }) {
-  const [state, retry] = useCompassPro(userId);
+  const [state, retry] = useGapToColleges(userId);
   const [index, setIndex] = useState(null);
   const [shortlist, setShortlist] = useState([]);
   const [category, setCategory] = useState('UR');
@@ -125,7 +127,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
 
   if (state.status === 'locked') return <Locked />;
   if (state.status === 'loading') return <section className="cpro" aria-busy="true"><p className="cpro-muted">Reading your practice record…</p></section>;
-  if (state.status === 'error') return <section className="cpro"><p className="cpro-muted">Compass Pro could not read your record just now. <button type="button" className="pr-link" onClick={retry}>Try again</button></p></section>;
+  if (state.status === 'error') return <section className="cpro"><p className="cpro-muted">We could not read your record just now. <button type="button" className="pr-link" onClick={retry}>Try again</button></p></section>;
 
   const { projection } = state;
   const { total, papers, next, paperMax } = projection;
@@ -145,7 +147,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
   return (
     <section className="cpro" aria-labelledby="cpro-title">
       <div className="cpro-head">
-        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />Compass Pro</span>
+        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />{APPROVED.cutoffToolPro}</span>
         <h2 id="cpro-title">Your practice, mapped to your colleges.</h2>
         <p>If exam day went exactly like your practice so far, this is what each paper would be worth. It is a projection from your own record, not a prediction: CUET scores are normalised and your practice will change it.</p>
       </div>

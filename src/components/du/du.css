@@ -1122,9 +1122,9 @@
   display: grid;
   gap: 1.5rem;
   padding: clamp(1.25rem, 3vw, 2rem);
-  border: 1px solid rgba(210, 240, 0, 0.4);
+  border: 1px solid var(--accent-line, rgba(210, 240, 0, 0.4));
   border-radius: var(--r-4);
-  background: linear-gradient(180deg, rgba(210, 240, 0, 0.08), transparent 60%), var(--paper-raised);
+  background: var(--paper-raised);
 }
 @media (min-width: 900px) {
   .du-cta {
@@ -1191,150 +1191,6 @@
   }
 }
 
-/* ---------- Landing teaser ---------- */
-
-.du-teaser {
-  display: grid;
-  gap: 1.5rem;
-  padding: clamp(1.25rem, 3vw, 2rem);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-4);
-  background: linear-gradient(180deg, rgb(var(--tint, 244 245 240) / 0.045), rgb(var(--tint, 244 245 240) / 0.01)), var(--paper-raised);
-  box-shadow: var(--sh-2);
-}
-@media (min-width: 900px) {
-  .du-teaser {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.8fr);
-    gap: clamp(2rem, 4vw, 3.5rem);
-    align-items: start;
-  }
-}
-.du-teaser__pick {
-  display: grid;
-  gap: 1.1rem;
-  min-width: 0;
-}
-.du-teaser__out {
-  display: grid;
-  gap: 0.9rem;
-  align-content: start;
-  padding: 1.25rem;
-  border: 1px solid rgba(210, 240, 0, 0.3);
-  border-radius: var(--r-3);
-  background: rgba(210, 240, 0, 0.04);
-}
-.du-teaser__big {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 0.6rem;
-  margin: 0;
-}
-.du-teaser__big span {
-  min-width: 2ch;
-  font-size: clamp(3rem, 7vw, 4.5rem);
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: -0.05em;
-  color: var(--accent-text, var(--volt));
-}
-.du-teaser__big small {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--ink-2);
-}
-.du-teaser__lead {
-  margin: 0;
-  min-height: 3em;
-  font-size: 0.9375rem;
-  line-height: 1.5;
-  color: var(--ink-2);
-}
-.du-teaser__streams {
-  display: grid;
-  gap: 0.55rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.du-teaser__streams li {
-  display: grid;
-  grid-template-columns: minmax(0, 10.5rem) minmax(0, 1fr) 2ch;
-  align-items: center;
-  gap: 0.7rem;
-  font-size: 0.8125rem;
-  color: var(--ink-2);
-}
-.du-teaser__streams i {
-  display: block;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--slate-3);
-  overflow: hidden;
-}
-.du-teaser__streams b {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 3px;
-  background: var(--volt);
-  transform-origin: left;
-  transition: transform 0.45s var(--ease);
-}
-.du-teaser__streams em {
-  font-style: normal;
-  text-align: right;
-  color: var(--ink);
-}
-.du-teaser .mm-btn {
-  width: 100%;
-  margin-top: 0.25rem;
-}
-.du-teaser__fine {
-  margin: 0;
-  font-size: 0.8125rem;
-  text-align: center;
-  color: var(--ink-3);
-}
-/* Live count that rides above the mobile dock while ticking subjects on the landing page. */
-.du-live {
-  position: sticky;
-  bottom: 5.5rem;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  min-height: 52px;
-  padding: 0.55rem 0.9rem;
-  border: 1px solid rgba(210, 240, 0, 0.5);
-  border-radius: var(--r-2);
-  background: #11160f;
-  box-shadow: var(--sh-3);
-  font-size: 0.875rem;
-  color: var(--ink-2);
-  text-decoration: none;
-}
-.du-live > span:first-child {
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--accent-text, var(--volt));
-}
-.du-live b {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-left: auto;
-  font-size: 0.8125rem;
-  white-space: nowrap;
-  color: var(--ink);
-}
-@media (min-width: 900px) {
-  .du-teaser .du-live {
-    display: none;
-  }
-}
-
 /* ---------- Page shell ---------- */
 
 .du-hero {
@@ -1363,10 +1219,16 @@
   color: var(--ink);
   text-wrap: balance;
 }
+/* The page names itself first; the line under it says what it is for, quietly. */
 .du-title span {
   display: block;
-  margin-top: 0.15em;
-  color: var(--accent-text, var(--volt));
+  max-width: 34ch;
+  margin-top: 0.5em;
+  font-size: clamp(1.0625rem, 2.2vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--ink-2);
 }
 .du-hero__facts {
   margin-top: 0.25rem;
@@ -1379,7 +1241,7 @@
 }
 .du-info--band {
   border-block: 1px solid var(--line);
-  background: linear-gradient(180deg, rgb(var(--tint, 244 245 240) / 0.028), rgba(244, 245, 240, 0));
+  background: var(--paper-sunken);
 }
 .du-info__grid {
   display: grid;
@@ -1467,12 +1329,16 @@
 
 @media print {
   html:has(.lp),
+  html:has(.du-page),
   body:has(.mm.lp),
-  .mm.lp {
+  body:has(.du-page),
+  .mm.lp,
+  .mm.du-page {
     background: #fff !important;
     color: #000 !important;
   }
-  .mm.lp {
+  .mm.lp,
+  .mm.du-page {
     --paper: #fff;
     --paper-raised: #fff;
     --ink: #000;
@@ -1497,7 +1363,6 @@
   .du-filters,
   .du-tools,
   .du-cta,
-  .du-live,
   .du-card__chev,
   .du-more,
   .du-toast {
@@ -1520,7 +1385,6 @@
 @media (max-width: 899px) {
   .mm :is(input:not([type='checkbox']):not([type='radio']):not([type='range']), textarea, select), .du-finder input, .du-search input, .du-input, .du-select select { font-size: 16px; }
 }
-@media (prefers-reduced-motion: reduce) { .du-teaser__streams b { transition: none; } }
 
 /* ---------- Eligible meter: ring, rolling count, delta chip, Mobi (EligibleMeter.jsx) ---------- */
 .du-bar__lead { display: flex; align-items: center; gap: 0.9rem; min-width: 0; }
@@ -1555,4 +1419,459 @@ html[data-motion='reduced'] .du-delta { opacity: 1; }
   .du-meter__arc, .du-unlocks button { transition: none; }
   .du-delta, .du-clear { animation: none; }
   .du-delta { opacity: 1; }
+}
+/* ==========================================================================
+   Public calculator and planner pages (web IA plan 2.4 and 4.3). They no longer borrow the landing
+   page's scope: everything they need is here, on the Night Sheet tokens, in Night and Day.
+   ========================================================================== */
+.du-lead {
+  margin: 0;
+  max-width: 40rem;
+  font-size: clamp(1.0625rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+.du-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+.du-trust li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.du-trust svg {
+  color: var(--accent-text);
+}
+.du-h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+.du-section-sub {
+  margin: 0.5rem 0 1.5rem;
+}
+.du-info--tight {
+  padding-block: clamp(1.25rem, 3vw, 2.25rem);
+}
+.du-page .mm-faq summary {
+  color: var(--ink);
+}
+.du-page .mm-faq__body {
+  color: var(--ink-2);
+}
+/* Day theme: lime text and fills that clear contrast on paper (the rules the landing scope used to carry). */
+html[data-theme='light'] .du-page :is(.du-stat strong, .du-sum__count, .du-count) {
+  color: var(--accent-text);
+}
+html[data-theme='light'] .du-page :is(.du-chip[aria-pressed='true'], .du-preset:hover) {
+  color: #344800;
+  border-color: #7e943d;
+  background: #edf3d2;
+}
+html[data-theme='light'] .du-page .du-preset {
+  border-color: #b8c591;
+}
+
+/* ---------- "Put a score beside the cutoffs": the ladder (CutoffLadder.jsx) ---------- */
+.du-cl {
+  display: grid;
+  gap: 1.75rem;
+  align-items: start;
+}
+@media (min-width: 960px) {
+  .du-cl {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(2rem, 4.5vw, 4.5rem);
+  }
+}
+.du-cl__controls {
+  display: grid;
+  gap: 1.1rem;
+  min-width: 0;
+}
+.du-cl__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.du-cl__group button {
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-2);
+  font: 600 0.875rem var(--font-body);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 120ms ease-out;
+}
+.du-cl__group button:active {
+  transform: scale(0.97);
+}
+.du-cl__group button[aria-pressed='true'] {
+  border-color: var(--accent-line);
+  background: var(--accent-wash);
+  box-shadow: 0 0 0 1px var(--accent-line) inset;
+  color: var(--ink);
+}
+@media (hover: hover) {
+  .du-cl__group button:hover {
+    border-color: var(--ink-3);
+    color: var(--ink);
+  }
+}
+.du-cl__group button:focus-visible,
+.du-cl input:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--volt));
+  outline-offset: 2px;
+}
+.du-cl__group--small button {
+  min-width: 44px;
+  padding: 0 0.75rem;
+  font-size: 0.8125rem;
+}
+.du-cl__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1.25rem;
+}
+.du-cl__score {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: baseline;
+  gap: 0.35rem 1rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  background: var(--paper-raised);
+}
+.du-cl__score label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.du-cl__big {
+  min-width: 3ch;
+  font: 800 clamp(2.2rem, 5vw, 3rem) / 1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  text-align: right;
+  color: var(--accent-text);
+}
+.du-cl__big span {
+  font: 500 0.8rem var(--font-body);
+  letter-spacing: 0;
+  color: var(--ink-3);
+}
+.du-cl__score input {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 44px;
+  background: transparent;
+  accent-color: var(--accent-text);
+  cursor: pointer;
+}
+.du-cl__score small {
+  grid-column: 1 / -1;
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+.du-cl__try {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.du-cl__summary {
+  max-width: 46ch;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.du-cl__summary b {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.du-cl__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.5rem;
+  margin: 0;
+}
+
+/* The ladder is a product screen: the same warm charcoal in Night and in Day. */
+.du-cl__stage {
+  --ink: #f4f0e6;
+  --ink-2: #c9c3b5;
+  --ink-3: #a39d8f;
+  --accent-text: #d2f000;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--slate-line, rgba(244, 240, 230, 0.12));
+  border-radius: 22px;
+  background: var(--slate, #1b1a16);
+  box-shadow: var(--sh-3);
+  color: #f4f0e6;
+}
+.du-cl__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid rgba(244, 240, 230, 0.1);
+  font: 700 0.9rem var(--font-display);
+}
+.du-cl__tag {
+  padding: 0.15rem 0.6rem;
+  border: 1px solid rgba(210, 240, 0, 0.35);
+  border-radius: 999px;
+  font: 600 0.72rem var(--font-body);
+  color: #d2f000;
+}
+.du-cl__list {
+  display: grid;
+  margin: 0;
+  padding: 0.4rem 1.1rem 0.6rem;
+  list-style: none;
+}
+.du-cl__list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-areas: 'name cut' 'track track' 'gap gap';
+  gap: 0.25rem 0.75rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid rgba(244, 240, 230, 0.07);
+}
+.du-cl__list li:first-child {
+  border-top: 0;
+}
+@media (min-width: 640px) {
+  .du-cl__list li {
+    grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) 4.2rem 7.6rem;
+    grid-template-areas: 'name track cut gap';
+    align-items: center;
+    gap: 0 0.8rem;
+    padding: 0.6rem 0;
+  }
+}
+.du-cl__name {
+  grid-area: name;
+  font: 600 0.9rem / 1.35 var(--font-display);
+  overflow-wrap: anywhere;
+}
+.du-cl__name i {
+  font-style: normal;
+  font-weight: 500;
+  color: #a39d8f;
+}
+.du-cl__track {
+  position: relative;
+  grid-area: track;
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(244, 240, 230, 0.1);
+}
+.du-cl__track u {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(244, 240, 230, 0.28);
+  text-decoration: none;
+  transform-origin: left center;
+  transition: transform 0.12s linear, background-color 0.2s ease;
+}
+.du-cl__track b {
+  position: absolute;
+  top: -4px;
+  width: 3px;
+  height: 16px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: #f4f0e6;
+}
+.du-cl__list li[data-state='clear'] .du-cl__track u {
+  background: #d2f000;
+}
+.du-cl__list li[data-state='short'] .du-cl__name {
+  color: #c9c3b5;
+}
+.du-cl__list li[data-state='none'] {
+  opacity: 0.6;
+}
+.du-cl__cut {
+  grid-area: cut;
+  font: 600 0.875rem var(--font-body);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  color: #e4dfd2;
+}
+.du-cl__gap {
+  grid-area: gap;
+  font: 600 0.78rem var(--font-body);
+  font-variant-numeric: tabular-nums;
+  color: #a39d8f;
+}
+@media (min-width: 640px) {
+  .du-cl__gap {
+    text-align: right;
+  }
+}
+.du-cl__list li[data-state='clear'] .du-cl__gap {
+  color: #d2f000;
+}
+.du-cl__stage figcaption {
+  padding: 0.8rem 1.1rem 1rem;
+  border-top: 1px solid rgba(244, 240, 230, 0.08);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #a39d8f;
+}
+@media (prefers-reduced-motion: reduce) {
+  .du-cl__track u,
+  .du-cl__group button {
+    transition: none;
+  }
+}
+html[data-motion='reduced'] .du-cl__track u,
+html[data-motion='reduced'] .du-cl__group button {
+  transition: none;
+}
+
+/* ---------- "Start from a college": four plain links into the calculator (CollegeStarts.jsx) ---------- */
+.du-starts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+  column-gap: clamp(1.5rem, 4vw, 3rem);
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.du-starts li {
+  border-top: 1px solid var(--line);
+}
+.du-starts a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  flex-wrap: wrap;
+  min-height: 48px;
+  padding: 0.75rem 0.25rem;
+  color: var(--ink);
+  text-decoration: none;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.du-starts strong {
+  font: 700 0.9375rem var(--font-display);
+}
+.du-starts span {
+  font-size: 0.875rem;
+  color: var(--ink-3);
+}
+.du-starts a:focus-visible {
+  outline: 2px solid var(--focus-ring, var(--volt));
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+@media (hover: hover) {
+  .du-starts a:hover strong {
+    color: var(--accent-text);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .du-starts a {
+    transition: none;
+  }
+}
+
+/* ---------- "Your gap to each college": the Pro layer, a solid card (GapAside.jsx) ---------- */
+.du-gap {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.1rem, 3vw, 1.75rem);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--r-4);
+  background: var(--paper-raised);
+}
+@media (min-width: 900px) {
+  .du-gap {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: start;
+  }
+  .du-gap__fine {
+    grid-column: 1 / -1;
+  }
+}
+.du-gap__copy {
+  display: grid;
+  justify-items: start;
+  gap: 0.6rem;
+}
+.du-gap__copy .du-sub {
+  margin: 0;
+}
+.du-gap__title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+.du-gap__tag {
+  display: inline-flex;
+  margin: 0;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid var(--accent-line);
+  border-radius: 999px;
+  font: 700 0.75rem var(--font-body);
+  color: var(--accent-text);
+}
+.du-gap__list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.du-gap__list li {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--line);
+}
+.du-gap__list li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.du-gap__list b {
+  font: 700 0.98rem var(--font-display);
+  color: var(--ink);
+}
+.du-gap__list span {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.du-gap__fine {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--ink-3);
 }

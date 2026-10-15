@@ -6,7 +6,6 @@ import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import ComboPlanner from '@/components/du/ComboPlanner';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
-import '@/app/landing.css';
 import '@/components/du/du.css';
 import './combo-planner.css';
 
@@ -38,28 +37,22 @@ const faqs = [
 
 export default function ComboPlannerPage() {
   return (
-    <div className="mm lp du-page">
+    <div className="mm du-page">
       <JsonLd id="cp-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'CUET subject combination planner', path: '/cuet-subject-combination' }])} />
       <JsonLd id="cp-faq-json-ld" data={faqJsonLd(faqs)} />
       <NavBar />
       <main id="main-content">
         <section className="du-hero">
-          <div className="lp-bg lp-bg--static" aria-hidden="true">
-            <div className="lp-bg__aurora" />
-            <div className="lp-bg__grid" />
-            <div className="lp-bg__dots" />
-          </div>
           <div className="mm-wrap du-hero__inner">
-            <p className="cp-new">New · Combo Planner</p>
             <h1 className="du-title">
-              Pick the CUET subjects that open the most DU doors.
-              <span> Before you fill the form.</span>
+              CUET subject combination planner
+              <span>Pick the subjects that open the most DU doors, before you fill the form.</span>
             </h1>
-            <p className="lp-lead">
+            <p className="du-lead">
               Choose the programmes you want and the subjects you could take. We check every possible combination against
               DU’s published subject rules and show the ones that get you there.
             </p>
-            <ul className="lp-trust du-hero__facts">
+            <ul className="du-trust du-hero__facts">
               <li><Check size={16} aria-hidden="true" />Free, no signup</li>
               <li><Check size={16} aria-hidden="true" />Every combination checked, not guessed</li>
               <li><Check size={16} aria-hidden="true" />DU UG Bulletin 2026-27 rules</li>
@@ -75,7 +68,7 @@ export default function ComboPlannerPage() {
 
         <section className="du-info" aria-labelledby="cp-faq">
           <div className="mm-wrap mm-wrap--tight">
-            <h2 id="cp-faq" className="lp-h2">Questions students ask</h2>
+            <h2 id="cp-faq" className="du-h2">Questions students ask</h2>
             <div className="mm-faqs">
               {faqs.map(({ question, answer }) => (
                 <details key={question} className="mm-faq">
@@ -86,13 +79,13 @@ export default function ComboPlannerPage() {
             </div>
             <p className="du-disclaimer">
               MockMob is an independent exam preparation platform and is not affiliated with the University of Delhi or NTA.
-              Confirm the 2027 bulletins before you register. <Link href="/cuet-cutoff-calculator" className="lp-link">DU cutoff calculator</Link>
+              Confirm the 2027 bulletins before you register. <Link href="/cuet-cutoff-calculator" className="du-link">Cutoff calculator</Link>
             </p>
           </div>
         </section>
       </main>
       <MarketingFooter />
-      <MobileDock note="Free. No signup." label="Try a CUET question" href="/#try-practice" />
+      <MobileDock note="Free. No signup." />
     </div>
   );
 }

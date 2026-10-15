@@ -6,6 +6,7 @@
 //
 // Plain module with relative imports only: the page, client code and node tests all read it.
 import { PLAN_FACTS, freePlanLines, proPlanLines } from '../../../data/plan_facts.mjs';
+import { TODAY_HREF } from '../../lib/navigation.js';
 
 const credits = (count, word) => `${count} ${word}${count === 1 ? '' : 's'}`;
 const rupees = (amount) => `₹${amount}`;
@@ -52,7 +53,7 @@ export function pricingHeading(offer) {
 }
 
 /** The two plan cards. `signedIn` swaps the Free button from sign-up to Open MockMob. */
-export function buildPlans(offer, { signedIn = false, todayHref = '/today' } = {}) {
+export function buildPlans(offer, { signedIn = false, todayHref = TODAY_HREF } = {}) {
   const view = offerView(offer);
   return [
     {

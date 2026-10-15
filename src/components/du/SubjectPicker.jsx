@@ -75,7 +75,7 @@ export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) 
       {languages.length > 0 ? (
         <fieldset className="du-group">
           <legend>
-            Language <small>List A · at least one</small>
+            Language <small>List A, at least one</small>
           </legend>
           <div className="du-chips">
             {languages.map((l) => (

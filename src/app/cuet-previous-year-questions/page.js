@@ -5,7 +5,7 @@ import { seoPages } from '@/lib/seoPages';
 const page = seoPages.previousYearQuestions;
 
 export const metadata = seoMetadata({
-  title: 'CUET Previous Year Questions: Practice and Review Guide | MockMob',
+  title: 'CUET Previous Year Questions: How to Study From Them | MockMob',
   description: page.description,
   path: page.path,
 });

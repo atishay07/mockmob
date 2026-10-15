@@ -60,7 +60,7 @@ function RulesList({ rows }) {
               <b>{r.label}</b> {r.text}
             </p>
             {r.ok ? <small>You meet this{r.secondary ? '. Considered only if seats remain after Combinations I and II' : ''}.</small> : null}
-            {!r.ok && r.missing.length > 0 ? <small>{r.missing.join(' · ')}</small> : null}
+            {!r.ok && r.missing.length > 0 ? <small>{r.missing.join(', ')}</small> : null}
             {r.extraLanguage ? <small>The Bulletin also requires at least one language from List A.</small> : null}
           </div>
         </li>
@@ -287,7 +287,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   const sideRef = useRef(null);
   const resultsRef = useRef(null);
 
-  // Load the data, then take the starting selection from the link (teaser, Radar, a shared URL)
+  // Load the data, then take the starting selection from the link (a college start, the combo planner, a shared URL)
   // or from this device. After applying a link we remove its parameters, so a later reload
   // cannot override edits made since. The address bar is never rewritten while editing.
   useEffect(() => {
@@ -534,7 +534,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                 )}
               </h2>
               <p className="du-sub">
-                {hasSelection ? `Category ${category}${score != null ? ` · score ${formatScore(score)}` : ''}. Updates as you change subjects.` : 'Pick your subjects, or use a quick start. The list updates as you tick.'}
+                {hasSelection ? `Category ${category}${score != null ? `, score ${formatScore(score)}` : ''}. Updates as you change subjects.` : 'Pick your subjects, or use a quick start. The list updates as you tick.'}
               </p>
               </div>
             </div>
@@ -653,7 +653,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                           <details>
                             <summary>
                               <strong>{r.group.name}</strong>
-                              <span>{r.nearest.gaps.map((g) => describeGap(g, data)).join(' · ')}</span>
+                              <span>{r.nearest.gaps.map((g) => describeGap(g, data)).join('; ')}</span>
                             </summary>
                             <RulesList rows={explainFor(r.group)} />
                           </details>
@@ -672,7 +672,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         <div>
           <h2 id="du-cta-title" className="du-h2">Cutoffs are only half the plan.</h2>
           <p className="du-sub">
-            A cutoff tells you the target. MockMob’s Radar tells you which chapters stand between you and it: practise your subjects, finish a mock, and Radar maps every miss back to a chapter.
+            A cutoff tells you the target. A mock shows which chapters stand between you and it. Take one, and your record maps every miss back to a chapter.
           </p>
           {practiceSubjects.length > 0 ? (
             <ul className="du-hubs" aria-label="Practise your subjects">
@@ -684,11 +684,11 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         </div>
         <div className="du-cta__actions">
           <Link href={isAuthenticated ? '/dashboard' : '/signup'} className="mm-btn mm-btn--primary">
-            {isAuthenticated ? 'Open my Arena' : 'Start a free mock'}
+            {isAuthenticated ? 'Open Practice' : 'Start free'}
             <ArrowRight size={18} aria-hidden="true" />
           </Link>
-          <Link href={isAuthenticated ? '/analytics' : '/features'} className="mm-btn mm-btn--secondary">
-            {isAuthenticated ? 'Open my Radar' : 'See how Radar works'}
+          <Link href={isAuthenticated ? '/analytics' : '/#how-it-works'} className="mm-btn mm-btn--secondary">
+            {isAuthenticated ? 'Open your record' : 'See how it works'}
           </Link>
         </div>
       </section>

@@ -8,8 +8,10 @@ export function GapAside() {
   return (
     <aside className="du-gap" aria-labelledby="du-gap-title">
       <div className="du-gap__copy">
-        <p className="du-gap__tag">{APPROVED.proLock}</p>
-        <h2 id="du-gap-title" className="du-h2">{APPROVED.cutoffToolPro}</h2>
+        <div className="du-gap__title">
+          <h2 id="du-gap-title" className="du-h2">{APPROVED.cutoffToolPro}</h2>
+          <span className="du-gap__tag">{APPROVED.proLock}</span>
+        </div>
         <p className="du-sub">
           Turn your recorded practice into a paper-by-paper range. Compare it with your DU shortlist and see which paper has the most room to improve.
         </p>

@@ -120,7 +120,7 @@ export function SeoContentPage({ page }) {
       </main>
 
       <MarketingFooter />
-      <MobileDock note="Practise this syllabus tonight." />
+      <MobileDock note="Practise this syllabus tonight." href={page.sample ? '#try' : undefined} />
     </div>
   );
 }

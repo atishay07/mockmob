@@ -39,7 +39,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'How many questions does CUET English have?',
         answer:
-          'MockMob NTA Mode currently uses a 50-question, 60-minute practice format with original content. CUET UG 2027 rules remain provisional until NTA publishes its bulletin.',
+          'MockMob NTA mode currently uses a 50-question, 60-minute practice format with original content. CUET UG 2027 rules remain provisional until NTA publishes its bulletin.',
       },
       {
         question: 'Is reading comprehension the most important CUET English topic?',

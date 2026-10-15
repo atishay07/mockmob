@@ -40,12 +40,12 @@ export default async function SubjectHubPage({ params }) {
       {
         heading: `Practise CUET ${hub.name} on MockMob`,
         body: [
-          `Where practice is available, use a timed drill and review your attempt history to choose what to revisit. Access follows current inventory and plan rules. MockMob NTA Mode uses original practice content; CUET UG 2027 rules remain provisional until NTA publishes its bulletin.`,
+          `Take a Quick practice set in ${hub.name}, then read your record to see which chapters cost you marks. NTA mode, the exam screen, comes with Pro and uses original practice questions. CUET UG 2027 rules stay provisional until NTA publishes its bulletin.`,
         ],
         links: [
-          { href: '/signup', label: `Start a free ${hub.name} mock` },
+          { href: '/signup', label: `Start free with ${hub.name}` },
           { href: '/cuet-2027', label: 'CUET 2027 exam guide' },
-          { href: '/pricing', label: 'See Pro pricing' },
+          { href: '/pricing', label: 'See pricing' },
         ],
       },
       {
