@@ -24,7 +24,7 @@ const SCENES = [
     body: 'Your first pick, the switch and the minute it happened, with the marks each change won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
   { key: 'repair', tab: 'Repair', Icon: Wrench, title: 'Repair the reason, not just the answer.',
-    body: 'The AI solves the question on its own first. Only when it matches the official key does it explain why your pick looked right and where it breaks.',
+    body: 'Each repair is written from the official key: why your pick looked right, where it breaks and the rule to keep. If the AI’s own working disagrees with the key, you get no repair and no charge.',
     take: 'If the two disagree, the question waits. You never get a guess.' },
   { key: 'swot', tab: 'SWOT', Icon: LayoutGrid, title: 'Leave every mock with a plan.',
     body: 'A SWOT after every mock, built from your own answers and times, with the set to do next. Free, no credits.',
@@ -136,7 +136,7 @@ function RepairPanel() {
           ))}
         </ul>
       </div>
-      <p className="lcp-check"><ShieldCheck size={15} aria-hidden="true" />Solved by the AI first. It matched the official key.</p>
+      <p className="lcp-check"><ShieldCheck size={15} aria-hidden="true" />Explained from the official key.</p>
       <div className="lcp-blocks">
         {REPAIR.blocks.map((b, i) => (
           <div key={b.kind} className="lcp-block" data-kind={b.kind} style={{ '--i': i }}>

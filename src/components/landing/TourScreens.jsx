@@ -107,7 +107,7 @@ export function RepairScreen({ play }) {
   return (
     <Frame title="Mistake Repair" step={step} right={<span className="ts__badge">Q22</span>}>
       <p className="ts__pick"><span data-tone="bad"><b>A</b>Your answer</span><span data-tone="good"><b>B</b>Official key</span></p>
-      <p className="ts__check" data-in={on(step >= 1)}><ShieldCheck size={14} aria-hidden="true" />Solved by the AI first. It matches the key.</p>
+      <p className="ts__check" data-in={on(step >= 1)}><ShieldCheck size={14} aria-hidden="true" />Explained from the official key.</p>
       <ol className="ts__steps">
         {REPAIR_ROWS.map(([title, detail], i) => (
           <li key={title} data-in={on(step >= 2 + i)} data-key={on(i === 2)}>
