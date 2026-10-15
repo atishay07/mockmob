@@ -11,6 +11,7 @@ import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/lab_loop.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/review/screens/review_screen.dart';
 import 'package:mockmob/features/rules/data/rules_data.dart';
 import 'package:mockmob/features/rules/screens/rule_book_screen.dart';
@@ -19,6 +20,9 @@ import '../../golden/review/review_golden_support.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import 'support/review_fixtures.dart';
+
+/// The Use key (its face keeps a second copy of the label to hold its width, so find the key itself).
+final useKey = find.byWidgetPredicate((w) => w is KeyButton && w.label == 'Use in my next mock');
 
 Map<String, dynamic> contract(String name) =>
     jsonDecode(File('test/fixtures/mistake_lab/contract_${name}_v1.json').readAsStringSync()) as Map<String, dynamic>;
@@ -120,18 +124,18 @@ void main() {
 
   testWidgets('one rule\'s actions at a time; the rule in force has Copy only', (tester) async {
     await pump(tester);
-    expect(find.text('Use in my next mock'), findsNothing);
+    expect(useKey, findsNothing);
     await tester.tap(find.text('Calls in arrears are deducted from called-up capital, never added.'));
     await settle(tester);
-    expect(find.text('Use in my next mock'), findsOneWidget);
+    expect(useKey, findsOneWidget);
     expect(find.text('Copy'), findsOneWidget);
     await tester.tap(find.text('Answer the questions you mark for review.'));
     await settle(tester);
-    expect(find.text('Use in my next mock'), findsOneWidget, reason: 'the first row closed as the second opened');
+    expect(useKey, findsOneWidget, reason: 'the first row closed as the second opened');
     // The rule in force: nothing to use, only Copy.
     await tester.tap(find.text('Open every question once before you go deep on any.').last);
     await settle(tester);
-    expect(find.text('Use in my next mock'), findsNothing);
+    expect(useKey, findsNothing);
     expect(find.text('Copy'), findsOneWidget);
   });
 
@@ -140,7 +144,7 @@ void main() {
     const rule = 'Calls in arrears are deducted from called-up capital, never added.';
     await tester.tap(find.text(rule));
     await settle(tester);
-    await tester.tap(find.text('Use in my next mock'));
+    await tester.tap(useKey);
     await tester.pump();
     expect(api.uses, ['repair:6864871273367fbf6b15b814']);
     // Waiting: the old rule is still the one in force, and no confirm has been felt.
@@ -156,7 +160,7 @@ void main() {
     expect(find.text(rule), findsNWidgets(2));
     expect(find.text('Open every question once before you go deep on any.'), findsOneWidget);
     expect(find.text('Your rule for your next mock'), findsNWidgets(2));
-    expect(find.text('Use in my next mock'), findsNothing, reason: 'the row closed on the confirm');
+    expect(useKey, findsNothing, reason: 'the row closed on the confirm');
   });
 
   testWidgets('a refusal changes nothing and says so in the row', (tester) async {
@@ -164,14 +168,14 @@ void main() {
     api.failWith = const ApiError(kind: ApiErrorKind.validation, code: 'invalid_request', status: 422);
     await tester.tap(find.text('Answer the questions you mark for review.'));
     await settle(tester);
-    await tester.tap(find.text('Use in my next mock'));
+    await tester.tap(useKey);
     await settle(tester);
     expect(find.text('That rule is not in your Rule book right now. Your rules have been read again.'), findsOneWidget);
     expect(find.text('Open every question once before you go deep on any.'), findsNWidgets(2));
     expect(haptics.calls.contains('medium'), isFalse);
 
     api.failWith = const ApiError(kind: ApiErrorKind.network, code: 'network');
-    await tester.tap(find.text('Use in my next mock'));
+    await tester.tap(useKey);
     await settle(tester);
     expect(find.text("You're offline, so your rule was not changed."), findsOneWidget);
   });
@@ -214,6 +218,8 @@ void main() {
     expect(find.text('Your rules could not be loaded.'), findsOneWidget);
     expect(find.text('Try again'), findsOneWidget);
 
+    // A fresh scope, so the second state is the one read (the first scope would keep its own).
+    await tester.pumpWidget(const SizedBox());
     await pump(
       tester,
       state: RemoteState(value: rulesRead(), fetchedAt: DateTime.utc(2026, 10, 15, 9), error: const ApiError(kind: ApiErrorKind.network, code: 'network')),

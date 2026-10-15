@@ -58,6 +58,8 @@ void main() {
     await pump(tester, const RemoteState());
     expect(find.text('Across your mocks'), findsNothing);
 
+    // A fresh scope, so the second state is the one read (the first scope would keep its own).
+    await tester.pumpWidget(const SizedBox());
     await pump(tester, const RemoteState(error: ApiError(kind: ApiErrorKind.server, code: 'server_error', status: 503)));
     expect(find.text('Your record across mocks could not be loaded.'), findsOneWidget);
   });
