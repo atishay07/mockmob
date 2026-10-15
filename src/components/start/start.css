@@ -317,7 +317,8 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   gap: 8px;
   flex: none;
   min-height: 44px;
-  padding: 4px 15px 4px 6px;
+  /* 36 px objects fill the 44 px chip with 3 px of air (and the 1 px rim) above and below. */
+  padding: 3px 15px 3px 5px;
   border: 1px solid var(--a-line);
   border-radius: 999px;
   background: var(--a-raised-2);

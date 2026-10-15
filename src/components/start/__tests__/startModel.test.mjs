@@ -8,7 +8,7 @@ import { TEST_MODES } from '../../../../data/test_modes.js';
 import { CUET_PUBLIC_ALLOWED_SUBJECTS } from '../../../../data/cuet_controls.js';
 import { learningPlan } from '../../../../data/learning_engine.js';
 import {
-  SESSION, SUBJECT_ART, START_SUBJECTS, artBox, balanceLine, costLine, dragOffset, dragOutcome, heroFromPlan, morphFrom,
+  SESSION, SUBJECT_ART, START_SUBJECTS, artBox, balanceLine, costLine, dragOffset, dragOutcome, heroFromPlan, heroReason, morphFrom,
   pickSubject, practiceHref, safeHref, springEasing, startRequestFromSearch, startRows, startSubjects, subjectArt, subjectName,
 } from '../startModel.mjs';
 
@@ -80,11 +80,13 @@ test('practice links open Practice set up, never the test itself', () => {
   assert.equal(safeHref('/recovery?episode=1'), '/recovery?episode=1');
 });
 
-test('the hero is the live plan, word for word, with the chosen subject added to a bare practice link', () => {
+test('the hero is the live plan, with the chosen subject added to a bare practice link', () => {
   const plan = learningPlan({ minutes: 10 });
   const hero = heroFromPlan(plan, { subject: 'economics', balance: 40 });
   assert.equal(hero.title, plan.primary.title);
-  assert.equal(hero.reason, plan.primary.reason);
+  // Plain practice: the planner's own reason (recovery release state) never reaches the student.
+  assert.equal(hero.reason, '10 questions, about 10 minutes. Then see why each miss happened.');
+  assert.doesNotMatch(hero.reason, /recovery|calibration|ordinary|concept/i);
   assert.equal(hero.href, '/dashboard?mode=quick&count=10&subject=economics');
   assert.equal(hero.quick, true);
   assert.equal(hero.subject, 'economics');
@@ -94,7 +96,16 @@ test('the hero is the live plan, word for word, with the chosen subject added to
   assert.equal(keyed.href, '/dashboard?mode=quick&count=10&subject=economics&tonightKey=tonight-start-r1x&tonightMinutes=10');
   assert.equal(heroFromPlan(plan, { subject: 'economics', tonightKey: 'bad key' }).href, '/dashboard?mode=quick&count=10&subject=economics');
 
+  const withConcepts = heroFromPlan(learningPlan({ minutes: 10, availableConcepts: ['c1'], attempts: [{ subject: 'economics', details: [] }] }), { subject: 'economics' });
+  assert.equal(withConcepts.kind, 'ordinary_practice');
+  assert.equal(withConcepts.reason, '10 questions, about 10 minutes. Then see why each miss happened.');
+  assert.equal(heroFromPlan(learningPlan({ minutes: 20 }), { subject: 'economics' }).reason, '20 questions, about 20 minutes. Then see why each miss happened.');
+  assert.equal(heroFromPlan(learningPlan({ minutes: 30 }), { subject: 'economics' }).reason, '20 questions, about 20 minutes, then 10 minutes on why each miss happened.');
+  assert.equal(heroReason({ kind: 'repair', reason: 'Pick up the activity you started.' }), 'Pick up the activity you started.');
+  assert.equal(heroReason({ kind: 'repair' }), null);
+
   const resume = heroFromPlan({ primary: { kind: 'resume_session', title: 'Resume your practice', href: '/test?subject=economics&mode=quick&sessionId=s1', reason: 'Your active session is waiting.' } });
+  assert.equal(resume.reason, 'Your active session is waiting.');
   assert.equal(resume.cta, 'Resume');
   assert.equal(resume.graphic, 'resume');
   assert.equal(resume.cost, null);

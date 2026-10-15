@@ -4,8 +4,9 @@
 // under node --test. StartSheet.jsx renders what these functions return.
 //
 // Truth rules:
-// - The hero is the live site's own next step (/api/learning/plan primary): the same title, reason
-//   and link Today shows, so the two never disagree. Nothing here invents a move.
+// - The hero is the live site's own next step (/api/learning/plan primary): the same title and link
+//   Today shows, so the two never disagree. Nothing here invents a move. Its reason is the plan's,
+//   except for plain practice, where the planner's reason describes the planner (heroReason).
 // - Every count, minute and credit comes from data/test_modes.js (the launcher's and the API's
 //   single source) and the student's own balance. Nothing is spent in the sheet: each row opens
 //   Practice set up for that session, and Practice shows the cost again before Start.
@@ -205,6 +206,22 @@ function hrefParts(href) {
 }
 
 /**
+ * The line under the hero's title. The planner's reason for plain practice explains the planner
+ * itself (which recovery pathways are released, which concept rules apply), so for that kind the
+ * student reads what the session is and what follows it instead. Every other kind keeps the plan's
+ * own reason, word for word.
+ */
+export function heroReason(primary, { count = null, minutes = null } = {}) {
+  if (primary?.kind !== 'ordinary_practice') return primary?.reason ? String(primary.reason) : null;
+  const n = whole(count) || SESSION.quickCount;
+  const timed = Math.round((n * TEST_MODES.quick.durationPerQuestionSec) / 60);
+  const review = Math.max(0, (whole(minutes) || 0) - timed);
+  return review
+    ? `${plural(n, 'question')}, about ${timed} minutes, then ${review} minutes on why each miss happened.`
+    : `${plural(n, 'question')}, about ${timed} minutes. Then see why each miss happened.`;
+}
+
+/**
  * The hero row from the plan, or null when there is no usable plan.
  * {
  *   id: 'move', kind, eyebrow, title, reason, href, cta, graphic ('subject'|'resume'|'check'|'repair'),
@@ -241,7 +258,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
     kind: String(primary.kind || 'next'),
     eyebrow: 'Your next move',
     title: String(primary.title),
-    reason: primary.reason ? String(primary.reason) : null,
+    reason: heroReason(primary, { count, minutes: plan?.minutes }),
     href: finalHref,
     cta: known.cta,
     graphic: known.graphic === 'subject' && !linked && !subjectFor(subject) ? 'check' : known.graphic,

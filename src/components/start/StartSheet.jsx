@@ -260,7 +260,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                 {subjects.map((id) => (
                   <label key={id} className="st-chip mk-press" data-on={id === subject || undefined} data-subject={id}>
                     <input type="radio" name={`${titleId}-subject`} value={id} checked={id === subject} onChange={() => selectSubject(id)} />
-                    <SubjectObject subject={id} size={30} lit={false} />
+                    <SubjectObject subject={id} size={36} lit={false} />
                     <span>{subjectName(id)}</span>
                   </label>
                 ))}
@@ -291,9 +291,11 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                 <CostLine cost={hero.cost} />
               </div>
             </div>
+            {/* With the subject row above, the chosen chip already names the subject and the object stands on
+                its own; a student with one subject has no row, so the object keeps its name. */}
             <figure className="st-hero__art" aria-hidden="true">
               <RowArt key={hero.subject || hero.graphic} graphic={hero.graphic} subject={hero.subject} subjects={subjects} size={132} priority />
-              {heroName ? <figcaption className="st-hero__caption">{heroName}</figcaption> : null}
+              {heroName && subjects.length < 2 ? <figcaption className="st-hero__caption">{heroName}</figcaption> : null}
             </figure>
           </section>
         ) : planState === 'failed' ? (

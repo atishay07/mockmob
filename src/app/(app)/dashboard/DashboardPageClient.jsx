@@ -315,14 +315,19 @@ export default function DashboardPageClient() {
         <div>
           <div className="eyebrow">Practice</div>
           <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
-          <p>Pick a subject and a mode. Every session is timed, marked +5 / −1 on the server and saved to Radar.</p>
+          <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to Radar.</p>
+          {/* Phones: the credits are one line under the heading (practice.css), not a card above Subject. */}
+          <p className="pr-head__credits">
+            <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} size={15} />
+            <span>{isPremium ? 'Quick Practice and Full Mock are included.' : `Quick Practice uses ${TEST_MODES.quick.creditCost}, Full Mock ${TEST_MODES.full.creditCost}.`}</span>
+          </p>
         </div>
         <div className="pr-wallet" aria-label="Your credits">
           <div className="pr-wallet__row">
             <span className="pr-wallet__label">Practice credits</span>
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={false} size={18} />
           </div>
-          <p className="pr-wallet__note">{isPremium ? 'Quick Practice and Full Mock cost nothing with your access.' : 'Quick Practice costs 10 credits and Full Mock costs 50.'}</p>
+          <p className="pr-wallet__note">{isPremium ? 'Quick Practice and Full Mock cost nothing with your access.' : `Quick Practice costs ${TEST_MODES.quick.creditCost} credits and Full Mock costs ${TEST_MODES.full.creditCost}.`}</p>
         </div>
       </header>
 
@@ -356,21 +361,24 @@ export default function DashboardPageClient() {
       ) : (
         <div className="pr-layout">
           <div className="pr-steps">
-            <section className="pr-step" aria-labelledby="pr-s1">
+            <section className="pr-step pr-step--subjects" aria-labelledby="pr-s1">
               <div className="pr-step__head">
                 <h2 id="pr-s1"><span>1</span>Subject</h2>
                 <Link href="/onboarding?edit=true" className="pr-link">Edit subjects</Link>
               </div>
-              <div className="pr-subjects">
+              {/* practice.css lays the tiles out for the room the step has and how many there are: four
+                  make one row or two pairs, never three and an orphan. */}
+              <div className="pr-subjects" data-count={Math.min(mySubs.length, 6)}>
                 {mySubs.map((subject) => {
                   const on = selSubj === subject.id;
                   const count = stats.subjectCounts?.[subject.internalId || subject.id];
                   return (
                     <button key={subject.id} type="button" aria-pressed={on} className="pr-tile pr-subject mk-rim"
                       onClick={(event) => { answerPick(event); setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
-                      {/* Drawn for the largest tile (practice.css sizes it: 60 px on phones, 104 px on desktop) and
-                          alive at every size; the lamp is always there and practice.css lights it on the chosen tile. */}
-                      <SubjectObject id={subject.internalId || subject.id} size={104} life lit className="pr-subject__obj" />
+                      {/* Drawn for the largest tile (practice.css sizes it: 60 px on phones, up to 152 px in the
+                          desktop showcase) and alive at every size; the lamp is always there and practice.css
+                          lights it on the chosen tile. */}
+                      <SubjectObject id={subject.internalId || subject.id} size={152} life lit className="pr-subject__obj" />
                       <span className="pr-subject__name">{subject.name}</span>
                       <span className="pr-subject__meta">
                         {subject.officialCode ? <i>{subject.officialCode}</i> : null}
@@ -384,7 +392,7 @@ export default function DashboardPageClient() {
             </section>
 
             <section className="pr-step" aria-labelledby="pr-s2">
-              <div className="pr-step__head"><h2 id="pr-s2"><span>2</span>Mode</h2><span className="pr-hint">Same checked library in every mode.</span></div>
+              <div className="pr-step__head"><h2 id="pr-s2"><span>2</span>Mode</h2><span className="pr-hint">Every mode uses the same checked questions.</span></div>
               <div className="pr-modes">
                 {MODE_LIST.map((id) => {
                   const m = TEST_MODES[id];
@@ -554,8 +562,8 @@ export default function DashboardPageClient() {
         <section className="pr-panel" aria-labelledby="pr-access">
           <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
           <p className="pr-panel__lead">{isPremium
-            ? `Quick Practice, Full Mock, Smart Practice and NTA Mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}, subject to available questions.`
-            : 'Adds Smart Practice and NTA Mode, and removes per-session credits for Quick Practice and Full Mock, subject to available questions.'}</p>
+            ? `Quick Practice, Full Mock, Smart Practice and NTA Mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}.`
+            : 'Pro adds Smart Practice and NTA Mode, and Quick Practice and Full Mock stop costing credits.'}</p>
           <div className="pr-panel__row">
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} />
             {!isPremium && <Link className="pr-link" href="/pricing">See Pro</Link>}

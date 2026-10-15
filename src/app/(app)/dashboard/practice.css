@@ -6,23 +6,72 @@
    Reduced motion: no movement; state changes are short fades.
    ========================================================================== */
 
-/* ---------- Subject tiles: a bigger object on wider screens; the phone keeps its 60 px ---------- */
+/* ---------- Subject tiles ----------
+   Phones (a Subject step under 420 px): two to a row, a 60 px object at the top left, the words under it.
+   Wider, the step is a size container and every tile becomes a small stage: the object stands in the
+   top-right corner under its lamp, the name and question count sit on the tile's floor at the bottom left,
+   and the tick takes the top left. The columns follow the room and the count, so four subjects are two
+   pairs or one row (900 px and up), never three and an orphan. Each tile is a container too: 330 px and
+   wider, the words stand beside the object; narrower, under it. */
 .app-shell .pr .pr-subjects .pr-subject { --pr-obj: 60px; }
-@media (min-width: 640px) { .app-shell .pr .pr-subjects .pr-subject { --pr-obj: 80px; } }
-@media (min-width: 1024px) {
-  .app-shell .pr .pr-subjects .pr-subject { --pr-obj: 104px; gap: 4px; padding: 16px 16px 15px; border-radius: 18px; }
-  .app-shell .pr .pr-subjects .pr-subject__name { font-size: 16px; letter-spacing: -0.01em; }
-  .app-shell .pr .pr-subjects .pr-subject__meta { font-size: 12.5px; }
-  .app-shell .pr .pr-subjects .pr-tile__tick { top: 12px; right: 12px; }
-}
-/* Two to a row while the session panel squeezes the column; three once there is room for them. */
-@media (min-width: 1024px) and (max-width: 1279px) { .app-shell .pr .pr-subjects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.app-shell .pr .pr-step--subjects { container: pr-subject-step / inline-size; }
 
 /* The object box carries its own air; pull it to the tile's corner by the same share at every size. */
 .app-shell .pr .pr-subjects .pr-subject__obj.subj-obj {
   width: var(--pr-obj);
   height: var(--pr-obj);
   margin: calc(var(--pr-obj) * -0.1) 0 calc(var(--pr-obj) * -0.07) calc(var(--pr-obj) * -0.1);
+}
+
+@container pr-subject-step (min-width: 420px) {
+  .app-shell .pr .pr-subjects { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .app-shell .pr .pr-subjects .pr-subject {
+    container: pr-subject-tile / inline-size;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    column-gap: 10px;
+    row-gap: 3px;
+    padding: 16px 16px 16px 18px;
+    border-radius: 20px;
+  }
+  .app-shell .pr .pr-subjects .pr-subject__name { margin-top: 0; font-size: 17px; letter-spacing: -0.012em; }
+  .app-shell .pr .pr-subjects .pr-subject__meta { font-size: 12.5px; }
+  .app-shell .pr .pr-subjects .pr-tile__tick { top: 14px; right: auto; left: 14px; }
+  /* The chosen tile's wash pools under the object's lamp instead of falling from the top edge. */
+  .app-shell .pr .pr-subjects .pr-subject::before {
+    background: radial-gradient(120% 110% at 100% 0%, var(--a-volt-wash), transparent 64%);
+  }
+}
+@container pr-subject-step (min-width: 760px) {
+  .app-shell .pr .pr-subjects:is([data-count='3'], [data-count='5'], [data-count='6']) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@container pr-subject-step (min-width: 900px) {
+  .app-shell .pr .pr-subjects[data-count='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+/* A narrow tile: the object over the words, pulled up into the top-right corner. */
+@container pr-subject-tile (min-width: 0px) {
+  .app-shell .pr .pr-subjects .pr-subject__obj.subj-obj {
+    --pr-obj: clamp(116px, 62cqi, 148px);
+    grid-column: 1 / -1;
+    grid-row: 1;
+    justify-self: end;
+    align-self: start;
+    margin: calc(var(--pr-obj) * -0.1) calc(var(--pr-obj) * -0.08) calc(var(--pr-obj) * -0.05) 0;
+  }
+  .app-shell .pr .pr-subjects .pr-subject__name { grid-column: 1 / -1; grid-row: 2; align-self: end; }
+  .app-shell .pr .pr-subjects .pr-subject__meta { grid-column: 1 / -1; grid-row: 3; }
+}
+/* A wide tile: the object stands beside the words, which sit on the tile's floor. */
+@container pr-subject-tile (min-width: 330px) {
+  .app-shell .pr .pr-subjects .pr-subject__obj.subj-obj {
+    --pr-obj: clamp(132px, 40cqi, 152px);
+    grid-column: 2;
+    grid-row: 1 / -1;
+    margin: calc(var(--pr-obj) * -0.1) calc(var(--pr-obj) * -0.08) calc(var(--pr-obj) * -0.08) 0;
+  }
+  .app-shell .pr .pr-subjects .pr-subject__name { grid-column: 1; }
+  .app-shell .pr .pr-subjects .pr-subject__meta { grid-column: 1; }
 }
 
 /* The lamp: off at rest, warming a little under the pointer, full on the chosen tile. It swells in on the
@@ -104,6 +153,33 @@
 /* ---------- Head: the credits card lines up with the session panel below it ---------- */
 @media (min-width: 1024px) {
   .app-shell .pr .pr-head { grid-template-columns: minmax(0, 1fr) 340px; column-gap: 32px; }
+}
+/* Under 900 px the head is one column and the header bar already shows the balance, so the card would
+   only push Subject down: it folds into one line under the heading. */
+.app-shell .pr .pr-head .pr-head__credits {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 12px 0 0;
+  font-size: 13.5px;
+  line-height: 1.4;
+  color: var(--a-ink-2);
+}
+.app-shell .pr .pr-head .pr-head__credits .credit-amount {
+  min-height: 30px;
+  padding: 0 11px 0 8px;
+  border: 1px solid var(--a-line);
+  border-radius: 999px;
+  background: var(--a-raised);
+  color: var(--a-ink);
+}
+.app-shell .pr .pr-head .pr-head__credits .credit-amount__value { font-size: 14px; }
+@media (max-width: 899px) {
+  .app-shell .pr .pr-head > .pr-wallet { display: none; }
+}
+@media (min-width: 900px) {
+  .app-shell .pr .pr-head .pr-head__credits { display: none; }
 }
 
 /* ---------- Lower panels: each as tall as its own content, never a tall empty box ---------- */
