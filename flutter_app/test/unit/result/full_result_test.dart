@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/widgets.dart' show Scrollable;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show BubbleGrid, BubbleState, Mobi;
 import 'package:mockmob/features/result/widgets/answer_map.dart' show AnswerMap;
@@ -7,11 +11,14 @@ import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/full/answer_row.dart' show AnswerRow;
 import 'package:mockmob/features/result/full/full_sections.dart' show BlankGroup;
+import 'package:mockmob/features/result/full/lab_ledger_section.dart' show LabLedgerSection;
+import 'package:mockmob/features/result/model/time_decisions.dart' show TimeCopy;
 import 'package:mockmob/features/result/model/recap_model.dart';
 
 import '../../helpers/fonts.dart';
 import 'support/fixtures.dart';
 import 'support/harness.dart';
+import 'support/lab_fixtures.dart' show labContract;
 
 String _at(GoRouter r) => r.routerDelegate.currentConfiguration.uri.toString();
 
@@ -168,6 +175,91 @@ void main() {
     expect(find.text('We could not load this result. Your result was recorded. Try again.'), findsOneWidget);
     expect(find.text('Try again'), findsOneWidget);
   });
+
+  group('the Mistake Lab sits right under the score (Mistake Lab v4, spec 3)', () {
+    /// The spec paper with a device record (one visit and one pick a question, a minute each, and one
+    /// changed answer), the website's lab contract and its SWOT read.
+    Map<String, dynamic> withLabAndSwot() {
+      final a = attemptJson();
+      final qs = (a['questionsSnapshot'] as List).cast<Map<String, dynamic>>();
+      final ds = (a['details'] as List).cast<Map<String, dynamic>>();
+      final changed = ds.indexWhere((d) => d['isCorrect'] == false);
+      final ev = <Map<String, dynamic>>[];
+      final changes = <Map<String, dynamic>>[];
+      var seq = 1;
+      for (var i = 0; i < qs.length; i++) {
+        final qid = qs[i]['id'] as String;
+        final at = i * 60000;
+        final given = ds[i]['givenIndex'] as int?;
+        ev.add({'seq': seq++, 'qid': qid, 'at': at, 'type': 'visit'});
+        if (i == changed) {
+          final key = qs[i]['correctIndex'] as int;
+          ev.add({'seq': seq++, 'qid': qid, 'at': at + 10000, 'type': 'answer', 'answer': key});
+          ev.add({'seq': seq++, 'qid': qid, 'at': at + 40000, 'type': 'answer', 'answer': given});
+          changes.add({'qid': qid, 'at': at + 40000, 'before': key, 'after': given, 'markEffect': -6});
+        } else if (given != null) {
+          ev.add({'seq': seq++, 'qid': qid, 'at': at + 30000, 'type': 'answer', 'answer': given});
+        }
+      }
+      ev.add({'seq': seq++, 'qid': qs.last['id'], 'at': qs.length * 60000, 'type': 'visit'});
+      (a['selectionMeta'] as Map<String, dynamic>)['recovery'] = {
+        'telemetry': 'self_reported',
+        'timeline': ev,
+        'observed': {'answerChanges': changes},
+      };
+      final swot = (jsonDecode(File('test/fixtures/swot_contract_v1.json').readAsStringSync()) as Map<String, dynamic>)['swot'];
+      return {...a, 'lab': labContract('ready'), 'swot': swot};
+    }
+
+    setUp(LabLedgerSection.debugResetSeen);
+
+    testWidgets('order: summary, the Lab, Time and decisions, the first fix, After this mock, the answers', (tester) async {
+      await pump(tester, data: withDetail(detail(attemptBody: withLabAndSwot())));
+      await tester.pumpAndSettle();
+      expect(find.byType(LabLedgerSection), findsOneWidget);
+      double top(String t) => tester.getTopLeft(find.text(t).first).dy;
+      expect(top('26 of 50 correct, 15 wrong, 9 not attempted.') < top('Mistake Lab'), isTrue);
+      expect(top('Mistake Lab') < top(TimeCopy.title), isTrue);
+      expect(top(TimeCopy.title) < top('The first thing to fix'), isTrue);
+      expect(top('The first thing to fix') < top('After this mock'), isTrue);
+      expect(top('After this mock') < top('Answer by answer'), isTrue);
+      // The old title is gone from the full result.
+      expect(find.text('Where the marks went'), findsNothing);
+    });
+
+    testWidgets('a Q chip in the ledger opens that answer, and "See every change" reaches the changes', (tester) async {
+      await pump(tester, data: withDetail(detail(attemptBody: withLabAndSwot())));
+      await tester.pumpAndSettle();
+      // The headline group (never opened, Q45 to Q50) starts open; Q45 is in the fixture paper.
+      await tester.scrollUntilVisible(find.text('Q45'), 200);
+      await tester.tap(find.text('Q45'));
+      await tester.pumpAndSettle();
+      expect(find.text('Question 45'), findsWidgets);
+      final scrollable = find.byType(Scrollable).first;
+      await tester.scrollUntilVisible(find.text('See every change'), -200, scrollable: scrollable);
+      await tester.tap(find.text('See every change'));
+      await tester.pumpAndSettle();
+      final changes = tester.getTopLeft(find.text(TimeCopy.changesTitle)).dy;
+      expect(changes >= 0 && changes < 300, isTrue, reason: 'the list of changes is near the top: $changes');
+    });
+
+    testWidgets('an opened answer shows how others answered from the lab', (tester) async {
+      // q17 is not the first wrong answer: link straight to it.
+      await pump(tester, data: withDetail(detail(attemptBody: withLabAndSwot())), location: '/result/a7?q=17');
+      await tester.pumpAndSettle();
+      final line = (labContract('ready')['byQuestion'] as Map)['q17']['others']['line'] as String;
+      expect(find.text('How others answered'), findsWidgets);
+      expect(find.text(line), findsOneWidget);
+    });
+
+    testWidgets('without a lab the result keeps the breakdown, under the name Mistake Lab', (tester) async {
+      await pump(tester);
+      expect(find.byType(LabLedgerSection), findsNothing);
+      expect(find.text('Mistake Lab'), findsOneWidget);
+      expect(find.text('How others answered'), findsNothing);
+    });
+  });
+
 
   test('model fixture sanity', () {
     final RecapModel m = mock7();

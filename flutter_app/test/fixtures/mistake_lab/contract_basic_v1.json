@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "labels": {
+    "name": "Mistake Lab",
+    "othersTitle": "How others answered",
+    "showMore": "Show {k} more",
+    "seeChanges": "See every change"
+  },
+  "state": "basic",
+  "heading": "You missed 28 marks. Here's where they went.",
+  "gap": 28,
+  "headline": null,
+  "groups": [
+    {
+      "id": "wrong",
+      "label": "Wrong answers",
+      "marks": 18,
+      "count": 3,
+      "numbers": [
+        3,
+        7,
+        8
+      ],
+      "line": "18 marks on 3 questions",
+      "doLine": "Each one has a repair below: the trap, why the key is right and one rule to keep.",
+      "open": false
+    },
+    {
+      "id": "blank",
+      "label": "Blanks",
+      "marks": 10,
+      "count": 2,
+      "numbers": [
+        5,
+        11
+      ],
+      "line": "10 marks on 2 questions",
+      "doLine": "Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and −1 for wrong.",
+      "open": false
+    }
+  ],
+  "barLabel": "28 marks missed: 18 wrong answers, 10 left blank.",
+  "remark": null,
+  "cohort": null,
+  "fine": [
+    "This earlier session was scored in your browser, so answer changes and timings are not available. The split shows wrong and blank only."
+  ],
+  "byQuestion": {
+    "d3": {
+      "group": "wrong",
+      "others": null
+    },
+    "d5": {
+      "group": "blank",
+      "others": null
+    },
+    "d7": {
+      "group": "wrong",
+      "others": null
+    },
+    "d8": {
+      "group": "wrong",
+      "others": null
+    },
+    "d11": {
+      "group": "blank",
+      "others": null
+    }
+  }
+}

@@ -87,9 +87,10 @@ void main() {
       expect(top('Strengths') < top('Weaknesses'), isTrue);
       expect(top('Weaknesses') < top('Opportunities'), isTrue);
       expect(top('Opportunities') < top('Threats'), isTrue);
-      // The plan comes before the read, and the whole section before "Where the marks went".
+      // The plan comes before the read, and the whole section after the Mistake Lab (spec 3: the
+      // Lab answers "where did my marks go" first).
       expect(top('Do these next') < top('SWOT for this mock'), isTrue);
-      expect(top('After this mock') < top('Where the marks went'), isTrue);
+      expect(top('Mistake Lab') < top('After this mock'), isTrue);
       expect(find.text('Partnership'), findsOneWidget);
       expect(find.text('14 right of 16 across 4 papers, 4 of 4 in this one.'), findsOneWidget);
       expect(find.text('Practise 10 on Accounting Ratios'), findsOneWidget);
@@ -130,7 +131,7 @@ void main() {
         expect(find.text('After this mock'), findsNothing, reason: '$extra');
         expect(find.text('Do these next'), findsNothing);
         expect(find.text('Hello.'), findsNothing);
-        expect(find.text('Where the marks went'), findsOneWidget, reason: 'the rest of the result is untouched');
+        expect(find.text('Mistake Lab'), findsOneWidget, reason: 'the rest of the result is untouched');
       }
     });
 

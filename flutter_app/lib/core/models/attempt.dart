@@ -1,5 +1,6 @@
 import 'json_helpers.dart';
 import 'mistake_insights.dart';
+import 'mistake_lab.dart';
 import 'question.dart';
 import 'swot.dart';
 
@@ -233,6 +234,7 @@ class AttemptDetail {
     this.recap,
     this.mistakeInsights = const {},
     this.swot,
+    this.lab,
   });
 
   factory AttemptDetail.fromJson(Json j) {
@@ -247,6 +249,7 @@ class AttemptDetail {
       recap: j['recap'] is Map ? AttemptRecap.fromJson(asJson(j['recap'])) : null,
       mistakeInsights: MistakeInsights.mapFrom(j['mistakeInsights']),
       swot: j['swot'] is Map ? Swot.fromJson(asJson(j['swot'])) : null,
+      lab: MistakeLab.tryParse(j['lab']),
     );
   }
 
@@ -263,6 +266,11 @@ class AttemptDetail {
 
   /// The post-mock read, null when the server omits it (practice results, an older server).
   final Swot? swot;
+
+  /// The Mistake Lab (where the missed marks went, the first-pick re-mark, how others answered),
+  /// null when the server omits it (an older server, answer checks not ready, a failed step) or
+  /// sends one that does not add up.
+  final MistakeLab? lab;
 
   bool get reviewsUnavailable => answerReviewState == 'unavailable';
 

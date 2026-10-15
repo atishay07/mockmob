@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/models/models.dart' show LabLabels, LabOthers;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/widgets/motion_bits.dart' show WhenInView;
 import '../copy.dart';
 import '../model/answer_items.dart';
 import '../model/time_decisions.dart' show TimeCopy;
@@ -12,7 +16,17 @@ import '../model/time_decisions.dart' show TimeCopy;
 /// that opens to the question, the options with the student's choice and, only where the key rule
 /// allows, the correct option and the explanation. Solid and calm: the work layer.
 class AnswerRow extends StatefulWidget {
-  const AnswerRow({super.key, required this.item, required this.expanded, required this.onToggle, required this.keysOff, this.onRepair, this.onOpened});
+  const AnswerRow({
+    super.key,
+    required this.item,
+    required this.expanded,
+    required this.onToggle,
+    required this.keysOff,
+    this.onRepair,
+    this.onOpened,
+    this.others,
+    this.othersTitle,
+  });
 
   final AnswerItem item;
   final bool expanded;
@@ -25,6 +39,13 @@ class AnswerRow extends StatefulWidget {
   /// The row went from folded to open after the page was up (a tap on its header or on its
   /// bubble in the answer map), never for a row that arrived open. Called after the frame.
   final VoidCallback? onOpened;
+
+  /// How other students answered this question (Mistake Lab, spec 4.3): the server's line and the
+  /// picks per option in this paper's order. Null shows nothing.
+  final LabOthers? others;
+
+  /// The small label above it ("How others answered"), the server's word.
+  final String? othersTitle;
 
   @override
   State<AnswerRow> createState() => _AnswerRowState();
@@ -56,6 +77,16 @@ class _AnswerRowState extends State<AnswerRow> {
     Verdict.blank => ResultCopy.statusBlank,
     Verdict.held => ResultCopy.statusHeld,
   };
+
+  Widget _body() => _Body(
+    item: item,
+    keysOff: widget.keysOff,
+    onRepair: widget.onRepair,
+    // The counts say which option is right, so they follow the key rule: none while keys are off
+    // or while the question's key is being checked.
+    others: widget.keysOff || item.verdict == Verdict.held ? null : widget.others,
+    othersTitle: widget.othersTitle,
+  );
 
   BubbleState get _bubble => switch (item.verdict) {
     Verdict.correct => BubbleState.filled,
@@ -118,9 +149,7 @@ class _AnswerRowState extends State<AnswerRow> {
         if (expanded)
           Padding(
             padding: const EdgeInsets.only(bottom: MmSpace.s20),
-            child: _tapped
-                ? MmEntrance(rise: 8, child: _Body(item: item, keysOff: widget.keysOff, onRepair: widget.onRepair))
-                : _Body(item: item, keysOff: widget.keysOff, onRepair: widget.onRepair),
+            child: _tapped ? MmEntrance(rise: 8, child: _body()) : _body(),
           ),
       ],
     );
@@ -128,11 +157,13 @@ class _AnswerRowState extends State<AnswerRow> {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({required this.item, required this.keysOff, this.onRepair});
+  const _Body({required this.item, required this.keysOff, this.onRepair, this.others, this.othersTitle});
 
   final AnswerItem item;
   final bool keysOff;
   final VoidCallback? onRepair;
+  final LabOthers? others;
+  final String? othersTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -166,17 +197,14 @@ class _Body extends StatelessWidget {
           const SizedBox(height: MmSpace.s8),
           Text(q.body!, style: type.body.copyWith(color: colors.ink2)),
         ],
-        const SizedBox(height: MmSpace.s12),
-        for (var i = 0; i < q.options.length; i++) ...[
-          if (i > 0) const SizedBox(height: MmSpace.s8),
-          _Option(
-            letter: q.options[i].key,
-            text: q.options[i].text,
-            mine: item.given == i,
-            mineWrong: item.given == i && item.verdict == Verdict.wrong,
-            isKey: !keysOff && item.keyIndex == i,
-          ),
+        if (others != null) ...[
+          const SizedBox(height: MmSpace.s16),
+          Text(othersTitle ?? const LabLabels().othersTitle, style: type.label.copyWith(color: colors.ink3)),
+          const SizedBox(height: MmSpace.s4),
+          Text(others!.line, style: type.body.copyWith(fontSize: 15, height: 22 / 15, fontFeatures: const [FontFeature.tabularFigures()])),
         ],
+        const SizedBox(height: MmSpace.s12),
+        _Options(item: item, keysOff: keysOff, others: others),
         if (item.verdict == Verdict.blank) ...[
           const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.didNotAnswer, style: type.small.copyWith(color: colors.ink2)),
@@ -220,14 +248,126 @@ class _Body extends StatelessWidget {
   }
 }
 
+/// The options of an opened answer. With [others] whose counts match the options, each option
+/// also shows how many other students chose it and a 2 dp bar of that share, which grow from zero
+/// when the answer comes into view (240 ms on the ease-out curve; the student's own option settles
+/// 80 ms after the rest). Under reduced motion they are drawn at once.
+class _Options extends StatefulWidget {
+  const _Options({required this.item, required this.keysOff, this.others});
+
+  final AnswerItem item;
+  final bool keysOff;
+  final LabOthers? others;
+
+  static const Duration grow = Motion.card;
+  static const Duration mineLag = Duration(milliseconds: 80);
+
+  @override
+  State<_Options> createState() => _OptionsState();
+}
+
+class _OptionsState extends State<_Options> with SingleTickerProviderStateMixin {
+  late final AnimationController _grow;
+  bool _decided = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _grow = AnimationController(vsync: this, duration: _Options.grow + _Options.mineLag, value: 1);
+  }
+
+  /// [_Options.others] when its counts line up with this question's options, else null.
+  LabOthers? get _counted {
+    final o = widget.others;
+    return o != null && o.counts.length == widget.item.question.options.length ? o : null;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_decided) return;
+    _decided = true;
+    if (_counted != null && !Motion.reduced(context)) _grow.value = 0;
+  }
+
+  @override
+  void dispose() {
+    _grow.dispose();
+    super.dispose();
+  }
+
+  void _onVisible() {
+    if (!mounted || _grow.value >= 1) return;
+    if (Motion.reduced(context)) {
+      _grow.value = 1;
+    } else {
+      unawaited(_grow.forward());
+    }
+  }
+
+  /// The eased growth of a bar: the rest over the first 240 ms, the student's own 80 ms later.
+  Animation<double> _phase(bool mine) {
+    final total = (_Options.grow + _Options.mineLag).inMicroseconds;
+    final lag = _Options.mineLag.inMicroseconds / total;
+    // `drive` listens to the controller only while a painter listens to it, so nothing is left
+    // registered on the controller from one build to the next.
+    return _grow.drive(CurveTween(curve: mine ? Interval(lag, 1, curve: Motion.out) : Interval(0, 1 - lag, curve: Motion.out)));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final item = widget.item;
+    final q = item.question;
+    final others = _counted;
+    final list = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < q.options.length; i++) ...[
+          if (i > 0) const SizedBox(height: MmSpace.s8),
+          _Option(
+            letter: q.options[i].key,
+            text: q.options[i].text,
+            mine: item.given == i,
+            mineWrong: item.given == i && item.verdict == Verdict.wrong,
+            isKey: !widget.keysOff && item.keyIndex == i,
+            count: others?.counts[i],
+            share: others?.shareOf(i),
+            othersLabel: others?.labelFor(i),
+            grow: others == null ? null : _phase(item.given == i),
+          ),
+        ],
+      ],
+    );
+    return others == null ? list : WhenInView(onVisible: _onVisible, child: list);
+  }
+}
+
 class _Option extends StatelessWidget {
-  const _Option({required this.letter, required this.text, required this.mine, required this.mineWrong, required this.isKey});
+  const _Option({
+    required this.letter,
+    required this.text,
+    required this.mine,
+    required this.mineWrong,
+    required this.isKey,
+    this.count,
+    this.share,
+    this.othersLabel,
+    this.grow,
+  });
 
   final String letter;
   final String text;
   final bool mine;
   final bool mineWrong;
   final bool isKey;
+
+  /// Other students who chose this option, and their share of all who answered (0 to 1).
+  final int? count;
+  final double? share;
+
+  /// "Option C: chosen by 8 of 31 other students.", for a screen reader.
+  final String? othersLabel;
+  final Animation<double>? grow;
 
   @override
   Widget build(BuildContext context) {
@@ -236,13 +376,18 @@ class _Option extends StatelessWidget {
     final state = isKey ? BubbleState.filled : (mineWrong ? BubbleState.wrong : (mine ? BubbleState.marked : BubbleState.hollow));
     final tags = [if (mine) ResultCopy.yourAnswer, if (isKey) ResultCopy.correctAnswer];
     final border = isKey ? colors.ink2 : (mineWrong ? colors.wrongBorder : colors.line);
+    final counted = count != null && share != null;
+    final heard = othersLabel == null ? null : (othersLabel!.endsWith('.') ? othersLabel!.substring(0, othersLabel!.length - 1) : othersLabel!);
+    final spoken = ['$letter. $text', ...tags, ?heard].join('. ');
+    // The key's bar in the right-answer tone, a wrong pick's in the wrong tone, the rest neutral.
+    final barTone = isKey ? colors.goodText : (mineWrong ? colors.badText : colors.ink4);
     return Semantics(
       container: true,
-      label: '$letter. $text${tags.isEmpty ? '' : '. ${tags.join('. ')}'}',
+      label: spoken,
       excludeSemantics: true,
       child: Container(
         constraints: const BoxConstraints(minHeight: MmTarget.option),
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s12),
+        padding: EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, counted ? 10 : MmSpace.s12),
         decoration: ShapeDecoration(
           color: mineWrong ? colors.wrongSurface : colors.raised,
           shape: RoundedSuperellipseBorder(
@@ -250,30 +395,85 @@ class _Option extends StatelessWidget {
             side: BorderSide(color: border, width: isKey || mineWrong ? 1.5 : 1),
           ),
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Bubble(state: state, size: 20, animate: false),
-            ),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('$letter. $text', style: type.body.copyWith(color: mineWrong ? colors.wrongText : colors.ink)),
-                  if (tags.isNotEmpty)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 2),
-                      child: Text(tags.join('. '), style: type.label.copyWith(color: mineWrong ? colors.wrongText : colors.ink2)),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: Bubble(state: state, size: 20, animate: false),
+                ),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('$letter. $text', style: type.body.copyWith(color: mineWrong ? colors.wrongText : colors.ink)),
+                      if (tags.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(tags.join('. '), style: type.label.copyWith(color: mineWrong ? colors.wrongText : colors.ink2)),
+                        ),
+                    ],
+                  ),
+                ),
+                if (counted) ...[
+                  const SizedBox(width: MmSpace.s12),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1),
+                    child: Text(
+                      '$count',
+                      textAlign: TextAlign.right,
+                      style: type.subhead.copyWith(
+                        fontSize: 15,
+                        color: mineWrong ? colors.wrongText : colors.ink2,
+                        fontFeatures: const [FontFeature.tabularFigures()],
+                      ),
                     ),
+                  ),
                 ],
-              ),
+              ],
             ),
+            if (counted) ...[
+              const SizedBox(height: MmSpace.s8),
+              // Under the text, never behind it: from the text's left edge to the count's right.
+              Padding(
+                padding: const EdgeInsets.only(left: 20 + MmSpace.s12),
+                child: SizedBox(
+                  height: 2,
+                  child: CustomPaint(
+                    painter: _ShareBarPainter(share: share!, tone: barTone, track: colors.line, grow: grow),
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),
     );
   }
+}
+
+/// A 2 dp bar of one option's share of the students who answered, on a hairline track.
+class _ShareBarPainter extends CustomPainter {
+  _ShareBarPainter({required this.share, required this.tone, required this.track, this.grow}) : super(repaint: grow);
+
+  final double share;
+  final Color tone;
+  final Color track;
+  final Animation<double>? grow;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    const r = Radius.circular(1);
+    canvas.drawRRect(RRect.fromRectAndRadius(Offset.zero & size, r), Paint()..color = track);
+    final w = size.width * share.clamp(0.0, 1.0) * (grow?.value ?? 1);
+    if (w <= 0) return;
+    canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, w, size.height), r), Paint()..color = tone);
+  }
+
+  @override
+  bool shouldRepaint(_ShareBarPainter old) => old.share != share || old.tone != tone || old.track != track || old.grow != grow;
 }

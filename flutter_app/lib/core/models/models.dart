@@ -8,6 +8,7 @@ export 'consent.dart';
 export 'json_helpers.dart' show Json;
 export 'learning_plan.dart';
 export 'mistake_insights.dart';
+export 'mistake_lab.dart';
 export 'notification_prefs.dart';
 export 'practice_quote.dart';
 export 'question.dart';

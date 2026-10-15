@@ -125,6 +125,23 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
 
   GlobalKey _keyFor(String qid) => _keys.putIfAbsent(qid, GlobalKey.new);
 
+  /// The "Every answer you changed" heading of Time and decisions.
+  final GlobalKey _changesKey = GlobalKey();
+
+  /// The Lab's "See every change": scroll Time and decisions' list of changes under the bar.
+  void _seeChanges() {
+    final ctx = _changesKey.currentContext;
+    if (ctx == null || !ctx.mounted) return;
+    unawaited(
+      Scrollable.ensureVisible(
+        ctx,
+        alignment: 0.08,
+        duration: Motion.of(context, Motion.emphasizedDuration),
+        curve: Motion.emphasized,
+      ),
+    );
+  }
+
   void _seed(AnswerGroups groups) {
     if (_seeded) return;
     _seeded = true;
@@ -261,6 +278,27 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 ),
               ),
               ...annotations(context, model, data, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+              // The Mistake Lab right under the score (Mistake Lab v4, spec 3): where the marks went
+              // (the server's ledger, or today's flow without one), then how the paper's time and
+              // answer choices went, then the first fix. Time and decisions shows only with a usable
+              // record: a paper without one shows no section rather than a "not recorded" line.
+              if (!model.isHeld) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(
+                  whereSection(
+                    context,
+                    model,
+                    lab: data.detail?.lab,
+                    onOpenQuestion: _openFromMap,
+                    onSeeChanges: timeRead != null && timeRead.isReady ? _seeChanges : null,
+                  ),
+                ),
+              ],
+              if (timeRead != null && timeRead.isReady) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(TimeSection(read: timeRead, onOpenQuestion: _openFromMap, changesKey: _changesKey)),
+              ],
+              if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
               // "After this mock": the plan and the read of the paper, written by the server from
               // stored records. Nothing when the read is missing, unavailable or a practice set's.
               // It plays its own first-view entrance, so it is not one of the page's staggered items.
@@ -268,11 +306,6 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 const SizedBox(height: MmRhythm.section),
                 SwotSection(attemptId: id, swot: swot, onOpenQuestion: _openFromMap),
               ],
-              if (!model.isHeld) ...[const SizedBox(height: MmRhythm.section), item(whereSection(context, model, onOpenQuestion: _openFromMap))],
-              // How the paper's time and answer choices went, then the first fix and every answer. Only
-              // with a usable record: a paper without one shows no section rather than a "not recorded" line.
-              if (timeRead != null && timeRead.isReady) ...[const SizedBox(height: MmRhythm.section), item(TimeSection(read: timeRead, onOpenQuestion: _openFromMap))],
-              if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
               const SizedBox(height: MmRhythm.section),
               item(
                 answersSection(
@@ -286,6 +319,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                   blankOpen: _blankOpen,
                   onToggleBlank: () => setState(() => _blankOpen = !_blankOpen),
                   onOpened: (item) => _onOpened(item, allowed: mobiAllowed),
+                  lab: data.detail?.lab,
                 ),
               ),
             ],
