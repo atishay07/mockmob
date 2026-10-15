@@ -31,6 +31,7 @@ export default async function SubjectHubPage({ params }) {
     slug: `cuet-${hub.slug}`,
     path: `/cuet/${hub.slug}`,
     breadcrumb: `CUET ${hub.name}`,
+    subjectArt: hub.slug.replace(/-/g, '_'),
     eyebrow: hub.eyebrow,
     h1: hub.h1,
     intro: hub.intro,

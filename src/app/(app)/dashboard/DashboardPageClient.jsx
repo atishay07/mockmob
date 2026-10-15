@@ -15,6 +15,7 @@ import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { SegmentedControl as Segmented } from '@/components/ui/controls/SegmentedControl';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import { Chip } from '@/components/ui/controls/Chip';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
 
@@ -346,7 +347,7 @@ export default function DashboardPageClient() {
                   return (
                     <button key={subject.id} type="button" aria-pressed={on} className="pr-tile pr-subject"
                       onClick={() => { setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
-                      <span className="pr-subject__icon"><SubjectIcon id={subject.internalId || subject.id} size={20} /></span>
+                      <SubjectObject id={subject.internalId || subject.id} size={60} lit={on} className="pr-subject__obj" />
                       <span className="pr-subject__name">{subject.name}</span>
                       <span className="pr-subject__meta">
                         {subject.officialCode ? <i>{subject.officialCode}</i> : null}

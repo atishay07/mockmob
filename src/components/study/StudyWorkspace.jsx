@@ -8,6 +8,9 @@ import StudyLibrary from './StudyLibrary';
 import LessonOverview from './LessonOverview';
 import StudyRun from './StudyRun';
 import { SUBJECTS, friendlyError } from './studyCopy';
+import { Listbox } from '@/components/ui/controls/Listbox';
+import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
+import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import './study.css';
 
 // Routes: /learn (library), /learn/[id] (lesson overview), /study/[id] (a saved lesson or review session).
@@ -59,6 +62,10 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
     prefsSlot={data.preferences ? <StudyPreferences prefs={data.preferences} units={data.units} api={api} onOpenRun={openRun} /> : null} />;
 }
 
+const STUDY_MINUTES = [10, 20, 30].map((n) => ({ value: n, label: `${n} minutes` }));
+const WEEK_MINUTES = [10, 20, 30].map((n) => ({ value: n, label: `${n} min` }));
+const WEEK_SUBJECTS = SUBJECTS.map(([id, title]) => ({ value: id, label: title }));
+
 function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
   const [prefs, setPrefs] = useState(initial);
   const [subjects, setSubjects] = useState(initial.subjects), [minutes, setMinutes] = useState(initial.minutes), [saving, setSaving] = useState(false), [message, setMessage] = useState(null);
@@ -75,15 +82,15 @@ function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
     try { onOpenRun(await api.post('/api/study/runs', { mode: 'recall', mixed: true, unitIds: mixedUnits, requestKey: crypto.randomUUID().replace(/[^a-zA-Z0-9_-]/g, '') })); }
     catch (e) { setMessage({ ok: false, text: friendlyError(e).text }); } finally { setSaving(false); }
   };
-  return <details className="sx-prefs"><summary>Study preferences{prefs.premium ? ' and weekly plan' : ''}</summary>
+  return <SmoothDetails className="sx-prefs" chevron summary={<span className="sx-prefs__title">Study preferences{prefs.premium ? ' and weekly plan' : ''}</span>}>
     <fieldset><legend>Subjects to plan for</legend>{SUBJECTS.map(([id, title]) => <label className="sx-check" key={id}><input type="checkbox" checked={subjects.includes(id)} onChange={e => setSubjects(e.target.checked ? [...subjects, id] : subjects.filter(s => s !== id))} /><span className="sx-check__mark" aria-hidden="true"><Check size={16} /></span><span>{title}</span></label>)}</fieldset>
-    <label className="sx-field"><span>Usual study time</span><select value={minutes} onChange={e => setMinutes(Number(e.target.value))}>{[10, 20, 30].map(n => <option key={n} value={n}>{n} minutes</option>)}</select></label>
+    <div className="sx-field"><span id="sx-usual-time">Usual study time</span><SegmentedControl labelledBy="sx-usual-time" value={minutes} onChange={setMinutes} options={STUDY_MINUTES} /></div>
     <div className="sx-actions"><button className="sx-secondary" type="button" disabled={saving || !subjects.length} onClick={() => save()}>Save preferences</button></div>
     <h3 className="sx-h3">Weekly plan and mixed revision</h3>
     {prefs.premium ? <>
       <div className="sx-week">{['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, i) => <div key={day}><span>{day}</span>
-        <label><span className="sr-only">{day} subject</span><select value={weekly[i].subject} onChange={e => setWeekly(weekly.map((d, j) => j === i ? { ...d, subject: e.target.value } : d))}>{SUBJECTS.map(([id, title]) => <option key={id} value={id}>{title}</option>)}</select></label>
-        <label><span className="sr-only">{day} minutes</span><select value={weekly[i].minutes} onChange={e => setWeekly(weekly.map((d, j) => j === i ? { ...d, minutes: Number(e.target.value) } : d))}>{[10, 20, 30].map(n => <option key={n} value={n}>{n} min</option>)}</select></label></div>)}</div>
+        <Listbox aria-label={`${day} subject`} sheetTitle={`${day} subject`} size="sm" value={weekly[i].subject} options={WEEK_SUBJECTS} onChange={(value) => setWeekly(weekly.map((d, j) => j === i ? { ...d, subject: value } : d))} />
+        <Listbox aria-label={`${day} minutes`} sheetTitle={`${day} minutes`} size="sm" value={weekly[i].minutes} options={WEEK_MINUTES} onChange={(value) => setWeekly(weekly.map((d, j) => j === i ? { ...d, minutes: value } : d))} /></div>)}</div>
       <div className="sx-actions"><button type="button" className="sx-secondary" disabled={saving || !subjects.length} onClick={() => save(true)}>Save weekly plan</button></div>
       <p className="sx-small">Review concepts you have already learned. New cards appear after you finish their lesson.</p>
       {!reviewableUnits.length ? <p className="sx-small">Finish a lesson first, then choose it here for mixed revision.</p> : null}
@@ -91,5 +98,5 @@ function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
       <div className="sx-actions"><button type="button" className="sx-secondary" disabled={saving || !mixedUnits.length} onClick={mixed}>Start mixed revision</button></div>
     </> : <p className="sx-small">A saved day-by-day plan and custom mixed revision come with Pro. Lessons, reviews and Today’s plan are free. <Link className="sx-link" href="/pricing">See plans</Link></p>}
     {message ? <p className={message.ok ? 'sx-small' : 'sx-alert'} role={message.ok ? 'status' : 'alert'}>{message.text}</p> : null}
-  </details>;
+  </SmoothDetails>;
 }

@@ -275,7 +275,7 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
         <>
           <Ribbon ribbon={ribbon} armed={armed} />
           <Paths paths={paths} armed={armed} />
-          <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. Change your days in the app.</p>
+          <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
         </>
       )}
     </section>

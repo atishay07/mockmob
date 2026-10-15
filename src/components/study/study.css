@@ -108,11 +108,14 @@
 .sx-mock small { display: block; color: var(--a-ink-2); margin-top: 2px; line-height: 1.4; }
 .sx-mock svg { flex-shrink: 0; color: var(--a-accent-text); }
 .sx-prefs { margin-top: 16px; border: 1px solid var(--a-line); border-radius: 12px; padding: 0 14px 14px; }
-.sx-prefs summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--a-ink-2); }
+.sx-prefs summary { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; font-weight: 600; color: var(--a-ink-2); list-style: none; }
+.sx-prefs summary::-webkit-details-marker { display: none; }
+.sx-prefs summary:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 8px; }
 .sx-prefs fieldset { border: 0; padding: 0; margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 4px 16px; }
 .sx-prefs legend { font-weight: 700; margin-bottom: 6px; }
 .sx-week { display: grid; gap: 8px; }
-.sx-week > div { display: grid; grid-template-columns: 1fr auto auto; gap: 8px; align-items: center; }
+.sx-week > div { display: grid; grid-template-columns: minmax(0, 1fr) minmax(9.5rem, 12rem) minmax(6.5rem, 7.5rem); gap: 8px; align-items: center; }
+@media (max-width: 520px) { .sx-week > div { grid-template-columns: minmax(0, 1fr) minmax(6.5rem, 7rem); } .sx-week > div > span { grid-column: 1 / -1; } }
 
 /* Fields and controls */
 .sx-check { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; color: var(--a-ink-2); cursor: pointer; }
@@ -123,7 +126,7 @@
 .sx-check:has(input:checked) .sx-check__mark svg { visibility:visible; }
 .sx-check:has(input:focus-visible) { outline:2px solid var(--a-focus); outline-offset:3px; }
 .sx-field { display: grid; gap: 6px; margin-top: 12px; font-weight: 600; }
-.sx-field span { font-size: 0.875rem; color: var(--a-ink-2); }
+.sx-field > span { font-size: 0.875rem; color: var(--a-ink-2); }
 .sx-field input, .sx-field select { min-height: 52px; font-size: 16px; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: var(--a-sunken); color: var(--a-ink); font-family: var(--font-body); }
 .sx-field input:focus { outline: 2px solid var(--a-focus); outline-offset: 1px; }
 

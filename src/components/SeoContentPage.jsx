@@ -5,6 +5,7 @@ import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { Icon } from '@/components/ui/Icons';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 
 // Read-mode surface inside a Persuade site: comprehension and wayfinding come
 // first, and the conversion rail sits at the end of the article rather than
@@ -32,7 +33,7 @@ export function SeoContentPage({ page }) {
 
       <main>
         <article>
-          <header className="mm-article__head">
+          <header className={`mm-article__head${page.subjectArt ? ' mm-article__head--object' : ''}`}>
             <div className="mm-wrap mm-wrap--tight">
               <nav className="mm-crumbs" aria-label="Breadcrumb">
                 <Link href="/">Home</Link>
@@ -41,6 +42,8 @@ export function SeoContentPage({ page }) {
               </nav>
               <h1 className="mm-h1 mm-article__title">{page.h1}</h1>
               <p className="mm-article__intro">{page.intro}</p>
+              {/* A subject guide carries its paper's lamp-lit object, the same one the landing shelf links from. */}
+              {page.subjectArt ? <SubjectObject id={page.subjectArt} size={168} lit priority className="mm-article__object" /> : null}
             </div>
           </header>
 

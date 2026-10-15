@@ -160,6 +160,14 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     };
   }, [tourOpen, tourStep]);
 
+  // Account's "Replay the guide" asks the shell to open the tour (it falls back to pressing Guide).
+  useEffect(() => {
+    if (isTestRoute) return undefined;
+    const openGuide = (event) => { event.preventDefault(); setMobileMenuOpen(false); setTourStep(0); setTourOpen(true); };
+    window.addEventListener('mockmob:open-guide', openGuide);
+    return () => window.removeEventListener('mockmob:open-guide', openGuide);
+  }, [isTestRoute]);
+
   if (status === 'unavailable') {
     return (
       <AuthSessionScreen

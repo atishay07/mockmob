@@ -3020,6 +3020,36 @@ body:has(.mm) {
 .mm-article__title {
   font-size: clamp(2rem, 8vw, 3.5rem);
 }
+/* Subject guides: the paper's lamp-lit object sits above the title on phones and beside it on wide screens. */
+.mm-article__head--object .mm-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+.mm-article__head--object .mm-crumbs { grid-row: 1; }
+.mm-article__head--object .mm-article__object {
+  --obj-size: clamp(7rem, 30vw, 10.5rem) !important;
+  grid-row: 2;
+  justify-self: start;
+  margin: 0.25rem 0 0 -0.75rem;
+}
+.mm-article__head--object .mm-article__title { grid-row: 3; }
+.mm-article__head--object .mm-article__intro { grid-row: 4; }
+@media (min-width: 768px) {
+  .mm-article__head--object .mm-wrap {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 2rem;
+  }
+  .mm-article__head--object .mm-crumbs { grid-row: 1; grid-column: 1; }
+  .mm-article__head--object .mm-article__title { grid-row: 2; grid-column: 1; }
+  .mm-article__head--object .mm-article__intro { grid-row: 3; grid-column: 1; }
+  .mm-article__head--object .mm-article__object {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+    margin: 0 -1rem 0 0;
+  }
+}
+
 .mm-article__intro {
   margin: 1.125rem 0 0;
   max-width: 62ch;

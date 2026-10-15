@@ -196,6 +196,8 @@
 .app-shell .rc__streak b { color: var(--a-accent-text); font-variant-numeric: tabular-nums; }
 .app-shell .rc__more { justify-self: start; display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; font-weight: 700; color: var(--a-accent-text); }
 .app-shell .rc__foot { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--a-ink-3); max-width: 62ch; }
+.app-shell .rc__foot-link { color: var(--a-accent-text); font-weight: 650; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.app-shell .rc__foot-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
 .app-shell .rc-h { margin: 0 0 8px; font: 700 13px var(--font-body); color: var(--a-ink-3); }
 .app-shell .rc-block { min-width: 0; }
 

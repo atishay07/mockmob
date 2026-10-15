@@ -293,6 +293,22 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       }
       return json(computeRhythm({ activities, daysPerWeek: kind === 'met' ? 4 : 4, now: Date.now() }));
     }
+    // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
+    if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null });
+    if (url.pathname === '/api/me/goal' && method === 'PUT') {
+      if (state === 'save-error') return json({ error: 'Fixture goal save failure' }, 503);
+      const body = JSON.parse(init.body || '{}');
+      window.__previewGoal = { daysPerWeek: body.daysPerWeek, timezone: 'Asia/Kolkata', pausedUntil: body.pausedUntil ?? null };
+      return json(window.__previewGoal);
+    }
+    // Usage data choice (Account): an adult with usage data off; a save echoes the choice, nothing is stored or deleted.
+    if (url.pathname === '/api/me/consent' && method === 'GET') return json(window.__previewConsent || { ageBand: 'adult', analyticsAllowed: false, policyVersion: 'preview', decidedAt: null, withdrawnAt: null });
+    if (url.pathname === '/api/me/consent' && method === 'PUT') {
+      if (state === 'save-error') return json({ error: 'Fixture consent save failure' }, 503);
+      const body = JSON.parse(init.body || '{}');
+      window.__previewConsent = { ageBand: body.ageBand, analyticsAllowed: body.analyticsAllowed === true, policyVersion: 'preview', decidedAt: new Date().toISOString(), withdrawnAt: null };
+      return json({ ...window.__previewConsent, deletedEvents: 0 });
+    }
     if (url.pathname === '/api/questions/mine') return json(state === 'empty' ? [] : fixtureUploads());
     if (url.pathname === '/api/questions/pending') return json(state === 'empty' ? [] : fixtureUploads().filter((question) => question.status === 'pending_moderation'));
     if (url.pathname === '/api/learning/summary') return json(state === 'empty' ? null : { solvedTotal: 7 });

@@ -4,6 +4,7 @@
 // Escape, Tab and typeahead work as a native select does. Groups replace optgroup. On a phone the list
 // rises as a bottom sheet; elsewhere it floats under (or over) the trigger, outside any clipping card.
 // Controlled: pass `value` and `onChange(nextValue)`. Name it with `labelledBy` or `aria-label`.
+// `aria-invalid` marks it for a form's error focus; `name` adds a hidden input for form posts.
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronDown, Check } from 'lucide-react';
@@ -22,6 +23,7 @@ export function Listbox({
   labelledBy,
   'aria-label': ariaLabel,
   'aria-describedby': describedBy,
+  'aria-invalid': invalid,
   sheetTitle,
   className = '',
   size = 'md',
@@ -226,6 +228,7 @@ export function Listbox({
         aria-labelledby={labelledBy ? `${labelledBy} ${id}-value` : undefined}
         aria-label={labelledBy ? undefined : ariaLabel}
         aria-describedby={describedBy}
+        aria-invalid={invalid || undefined}
         aria-disabled={disabled || undefined}
         disabled={disabled}
         data-size={size}

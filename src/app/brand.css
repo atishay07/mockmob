@@ -220,11 +220,14 @@
   color: inherit;
 }
 
-/* The object settles in once when it first appears. */
+/* The object settles in once when it first appears, and a lamp that comes on (a chosen tile) fades up. */
 @starting-style {
   .subj-obj__img {
     opacity: 0;
     transform: translateY(5%) scale(0.96);
+  }
+  .subj-obj__light {
+    opacity: 0;
   }
 }
 

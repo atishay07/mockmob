@@ -7,12 +7,14 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { ErrorState } from '@/components/ui/Skeleton';
 import { chapterGroups } from '@/../data/explore_feed';
 import { contributionErrors, removeContributionOption } from '@/../data/contribution_ui';
+import { Listbox } from '@/components/ui/controls/Listbox';
 
 const BLANK = { subject: '', chapter: '', body: '', correct_answer: '', explanation: '', difficulty: 'medium', tags: '' };
 const initialOptions = () => 'ABCD'.split('').map((key) => ({ key, text: '' }));
+const DIFFICULTIES = [{ value: 'easy', label: 'Easy' }, { value: 'medium', label: 'Medium' }, { value: 'hard', label: 'Hard' }];
 
 function Field({ name, label, error, children }) {
-  return <div className="con-field"><label htmlFor={`con-${name}`}>{label}</label>{children}{error && <p id={`con-${name}-error`} className="con-error" role="alert">{error}</p>}</div>;
+  return <div className="con-field"><label id={`con-${name}-label`} htmlFor={`con-${name}`}>{label}</label>{children}{error && <p id={`con-${name}-error`} className="con-error" role="alert">{error}</p>}</div>;
 }
 
 export function UploadForm() {
@@ -83,6 +85,8 @@ export function UploadForm() {
     } finally { submitLock.current = false; }
   }
   const props = (name) => ({ id: `con-${name}`, disabled: busy, value: form[name], onChange: (event) => set(name, event.target.value), 'aria-invalid': Boolean(errors[name]), 'aria-describedby': errors[name] ? `con-${name}-error` : undefined });
+  // The designed select takes the same field wiring: named by its label, marked invalid for the error focus.
+  const listProps = (name, title) => ({ id: `con-${name}`, name, labelledBy: `con-${name}-label`, sheetTitle: title, value: form[name], onChange: (value) => set(name, value), 'aria-invalid': Boolean(errors[name]), 'aria-describedby': errors[name] ? `con-${name}-error` : undefined });
 
   return <div className="con-page student-page student-page--upload">
     <ArenaHead eyebrow="Contribute" title="A good question helps the next person." lede="Write an original question with a clear answer and reasoning. It stays out of practice until its checks pass." />
@@ -90,13 +94,13 @@ export function UploadForm() {
     {catalogState === 'error' && <ErrorState message="Subjects did not load. Your draft is still here." onRetry={() => setRetry((count) => count + 1)} />}
     <form ref={formNode} onSubmit={submit} className="con-form" noValidate>
       <div className="con-pair">
-        <Field name="subject" label="Subject" error={errors.subject}><select className="select" {...props('subject')} disabled={busy || catalogState !== 'ready'}><option value="">{catalogState === 'loading' ? 'Loading subjects…' : 'Choose a subject'}</option>{subjects.map((subject) => <option key={subject.id} value={subject.id}>{subject.name}</option>)}</select></Field>
-        <Field name="chapter" label="Chapter" error={errors.chapter}><select className="select" {...props('chapter')} disabled={busy || chapterState !== 'ready'}><option value="">{chapterState === 'loading' ? 'Loading chapters…' : 'Choose a chapter'}</option>{chapters.map((group) => <optgroup key={group.name} label={group.name}>{group.chapters.map((chapter) => <option key={chapter.id || chapter.name} value={chapter.name}>{chapter.name}</option>)}</optgroup>)}</select></Field>
+        <Field name="subject" label="Subject" error={errors.subject}><Listbox {...listProps('subject', 'Subject')} disabled={busy || catalogState !== 'ready'} placeholder={catalogState === 'loading' ? 'Loading subjects…' : 'Choose a subject'} options={subjects.map((subject) => ({ value: subject.id, label: subject.name }))} /></Field>
+        <Field name="chapter" label="Chapter" error={errors.chapter}><Listbox {...listProps('chapter', 'Chapter')} disabled={busy || chapterState !== 'ready'} placeholder={chapterState === 'loading' ? 'Loading chapters…' : 'Choose a chapter'} options={chapters.flatMap((group) => group.chapters.map((chapter) => ({ value: chapter.name, label: chapter.name, group: group.name })))} /></Field>
       </div>
       {chapterState === 'error' && <ErrorState title="Chapters did not load" message="Retry to choose a chapter. Your question text is safe here." onRetry={() => setRetry((count) => count + 1)} />}
       <Field name="body" label="Question" error={errors.body}><textarea className="textarea" {...props('body')} rows={4} placeholder="Write the full question. Include the facts needed to solve it." /></Field>
       <fieldset className="con-options"><legend>Options · tap a letter to mark the correct answer</legend>{options.map((option, index) => <div key={option.key} className="con-option"><button type="button" className="con-key" disabled={busy} aria-label={`Mark option ${option.key} as correct`} aria-pressed={form.correct_answer === option.key} onClick={() => set('correct_answer', option.key)}>{option.key}</button><input className="input" value={option.text} disabled={busy} aria-label={`Option ${option.key}`} onChange={(event) => setOptions((current) => current.map((entry, i) => i === index ? { ...entry, text: event.target.value } : entry))} placeholder={`Option ${option.key}`} />{options.length > 2 && <button type="button" className="con-remove" disabled={busy} onClick={() => remove(index)} aria-label={`Remove option ${option.key}`}>×</button>}</div>)}{(errors.options || errors.correct_answer) && <p className="con-error" role="alert">{errors.options || errors.correct_answer}</p>}{options.length < 5 && <button type="button" className="ex-action" disabled={busy} onClick={() => setOptions((current) => [...current, { key: 'ABCDE'[current.length], text: '' }])}>Add option</button>}</fieldset>
-      <div className="con-pair"><Field name="difficulty" label="Difficulty"><select className="select" {...props('difficulty')}><option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select></Field><Field name="tags" label="Tags (optional)"><input className="input" {...props('tags')} placeholder="ratio, partnership" /></Field></div>
+      <div className="con-pair"><Field name="difficulty" label="Difficulty"><Listbox {...listProps('difficulty', 'Difficulty')} disabled={busy} options={DIFFICULTIES} /></Field><Field name="tags" label="Tags (optional)"><input className="input" {...props('tags')} placeholder="ratio, partnership" /></Field></div>
       <Field name="explanation" label="Reasoning (recommended)"><textarea className="textarea" {...props('explanation')} rows={4} placeholder="Explain the rule, show the working and name your source where possible." /></Field>
       {message && <div className="con-message" data-state={state} role={state === 'error' ? 'alert' : 'status'}><b>{message}</b>{warnings.map((warning, index) => <p key={index}>{warning}</p>)}</div>}
       <button type="submit" className="btn-volt lg" disabled={busy || catalogState !== 'ready'}>{busy ? 'Submitting…' : 'Submit for checks'}</button>

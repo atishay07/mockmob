@@ -132,7 +132,8 @@
 .pp-ask__service b { font-size:14px; line-height:1.45; }
 .pp-ask__service p { margin:0; color:var(--pp-ink-2, #c5cebf); font-size:13px; line-height:1.6; }
 .pp-ask__service label { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:6px; font-size:12px; color:var(--pp-ink-3, #a7b3a2); }
-.pp-ask__service select { min-height:44px; max-width:100%; background:var(--pp-wash, #172018); color:var(--pp-ink, #f2f4ec); border:1px solid var(--pp-line-strong, #354139); padding:0 12px; border-radius:8px; font-size:16px; }
+.pp-ask__focus { display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; margin-top:6px; font-size:12px; color:var(--pp-ink-3, #a7b3a2); }
+.pp-ask__focus .ctl-select { flex:1 1 15rem; width:auto; max-width:22rem; }
 .pp-transcript { display:grid; align-content:start; gap:18px; min-height:200px; max-height:46vh; overflow-y:auto; overscroll-behavior:contain; padding:8px 4px 8px 0; scroll-padding:12px; }
 .pp-ask__empty { display:grid; gap:16px; padding-block:16px; }
 .pp-ask__empty > p { margin:0; font:600 18px/1.4 var(--font-display); }

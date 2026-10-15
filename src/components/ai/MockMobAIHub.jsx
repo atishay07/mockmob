@@ -19,7 +19,16 @@ import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { useShrug } from '@/lib/mobiHooks';
 import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { useInsights } from './useInsights';
+import { Listbox } from '@/components/ui/controls/Listbox';
 import './prepos.css';
+
+// What a written-guidance reply concentrates on (the model request's mode).
+const FOCUS_OPTIONS = [
+  { value: 'mentor', label: 'Explain my next step' },
+  { value: 'revision', label: 'Reason through a concept' },
+  { value: 'autopsy', label: 'Reflect on my session' },
+  { value: 'mock_plan', label: 'Plan a practice approach' },
+];
 
 const SECTIONS = [
   { id: 'plan', label: 'Next step' },
@@ -298,7 +307,7 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
     <section className="pp-ask" aria-label="Ask PrepOS">
       <div className="pp-ask__heading"><div><h2>Ask about your practice.</h2></div><span className="pp-ask__balance">{wallet?.known ? `${wallet.total} PrepOS credits` : wallet ? 'Wallet unavailable' : 'Reading wallet…'}</span></div>
       <div className="pp-ask__switch" role="group" aria-label="Reply source"><button type="button" aria-pressed={kind==='record'} disabled={pending || Boolean(retry)} onClick={()=>setKind('record')}>Your record <small>Free</small></button><button type="button" aria-pressed={kind==='model'} disabled={pending || Boolean(retry)} onClick={()=>setKind('model')}>Written guidance <small>1 credit</small></button></div>
-      {kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? 'One optional model reply · 1 PrepOS credit' : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? 'No PrepOS credits available.' : 'Written guidance is unavailable until your wallet can be read.'}</b><p>{wallet?.state==='available' ? 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.' : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' ? <label htmlFor="prepos-focus">Focus<select id="prepos-focus" aria-label="Focus" value={mode} disabled={pending || Boolean(retry)} onChange={e=>setMode(e.target.value)}><option value="mentor">Explain my next step</option><option value="revision">Reason through a concept</option><option value="autopsy">Reflect on my session</option><option value="mock_plan">Plan a practice approach</option></select></label> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no PrepOS credits.</p>}
+      {kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? 'One optional model reply · 1 PrepOS credit' : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? 'No PrepOS credits available.' : 'Written guidance is unavailable until your wallet can be read.'}</b><p>{wallet?.state==='available' ? 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.' : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' ? <div className="pp-ask__focus"><span id="prepos-focus-label">Focus</span><Listbox id="prepos-focus" labelledBy="prepos-focus-label" sheetTitle="Focus" size="sm" value={mode} disabled={pending || Boolean(retry)} onChange={setMode} options={FOCUS_OPTIONS} /></div> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no PrepOS credits.</p>}
       <div ref={transcriptRef} className="pp-transcript" aria-live="polite" aria-busy={pending}>
         {messages.length === 0 && <div className="pp-ask__empty"><p>Start with something your record can answer.</p><div className="pp-ask__suggestions">{['Where am I losing marks?', 'Which chapter should I practise?', 'Am I spending too long?'].map(text=><button type="button" key={text} onClick={()=>send(text)} disabled={kind==='model' && wallet?.state!=='available'}>{text}<Icon name="arrow" /></button>)}</div><small>{current.title}: {current.body}</small></div>}
         {messages.map((m) => m.role === 'user' ? (
