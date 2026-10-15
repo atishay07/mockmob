@@ -14,6 +14,7 @@ import {
 } from './attempt_ledger.js';
 import { buildMistakeInsights } from './mistake_insights.js';
 import { buildMistakeLab } from './mistake_lab.js';
+import { buildLabLoop } from './lab_loop.js';
 
 export const SWOT_VERSION = 1;
 
@@ -441,8 +442,11 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
  * says checks_pending: their counts leave held questions out, and which questions are held is not known yet.
  * `cohortOf({ attempt, allAttempts, answerReviews })` (server only: data/cohort_picks.js readCohort) gives How
  * others answered; without it, or when it fails, the Lab is built without the cohort.
+ * `labLoop: true` adds slice 3 to the Lab (data/lab_loop.js: acrossMocks, repairOrder, rules, prove.ruleCheck);
+ * `ruleSourcesOf({ attempt, allAttempts })` (server only: src/lib/server/ruleBook.js loadRuleSources) gives the
+ * repairs and playbook rows the rules and the rule check need; without it, or when it fails, those two are null.
  */
-export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, cohortOf = null, swotEnabled = true, now = Date.now(), warn = () => {} }) {
+export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, cohortOf = null, labLoop = false, ruleSourcesOf = null, swotEnabled = true, now = Date.now(), warn = () => {} }) {
   const out = { recap: null, missedBefore: {}, mistakeInsights: {}, lab: null, ...(swotEnabled ? { swot: null } : {}) };
   let allAttempts;
   try { allAttempts = await loadAttempts(); } catch (e) { warn('history', e); return out; }
@@ -456,6 +460,11 @@ export async function resultHistory({ attempt, answerReviews = {}, answerReviewS
     let cohort = null;
     if (cohortOf) { try { cohort = (await cohortOf({ attempt, allAttempts, answerReviews })) ?? null; } catch (e) { warn('cohort', e); } }
     out.lab = step('lab', () => buildMistakeLab({ attempt, answerReviews, cohort }), null);
+    if (out.lab && labLoop) {
+      let sources = null;
+      if (ruleSourcesOf) { try { sources = (await ruleSourcesOf({ attempt, allAttempts })) ?? null; } catch (e) { warn('ruleSources', e); } }
+      Object.assign(out.lab, buildLabLoop({ attempt, allAttempts, answerReviews, lab: out.lab, sources, warn }));
+    }
   }
   const ledgerGroups = out.lab && (out.lab.state === 'ready' || out.lab.state === 'basic') ? out.lab.groups.map((g) => g.id) : null;
   if (swotEnabled) out.swot = step('swot', () => buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore: out.missedBefore, now, ledger, ledgerGroups }), null);

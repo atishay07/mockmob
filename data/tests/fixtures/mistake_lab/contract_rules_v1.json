@@ -2,8 +2,8 @@
   "book": {
     "version": 1,
     "title": "Your rules",
-    "count": 6,
-    "countLabel": "Your rules, 6",
+    "count": 7,
+    "countLabel": "Your rules, 7",
     "labels": {
       "use": "Use in my next mock",
       "inUse": "Your rule for your next mock",
@@ -15,37 +15,52 @@
       "id": "habit:never_opened",
       "kind": "habit",
       "text": "Open every question once before you go deep on any.",
-      "since": "2026-10-14T12:30:00.000Z"
+      "since": "2026-10-15T06:30:00.000Z"
     },
     "repairs": {
       "empty": null,
       "chapters": [
         {
-          "chapter": "Share Capital",
+          "chapter": "Accounting Ratios",
           "rules": [
             {
-              "id": "repair:0123456789abcdef01234567",
+              "id": "repair:6fbfcfbaff8282a6e9a69671",
               "kind": "repair",
-              "text": "Calls in arrears are deducted from called-up capital, never added.",
-              "hook": "Arrears are owed to you, not paid.",
-              "number": 12,
+              "text": "Quick assets leave out inventory and prepaid expenses.",
+              "hook": null,
+              "number": 37,
               "subject": "accountancy",
-              "repairedAt": "2026-10-13T10:00:00.000Z",
+              "repairedAt": "2026-10-14T07:31:40.000Z",
               "active": false
             }
           ]
         },
         {
-          "chapter": "Accounting Ratios",
+          "chapter": "Share Capital",
           "rules": [
             {
-              "id": "repair:89abcdef0123456789abcdef",
+              "id": "repair:6864871273367fbf6b15b814",
               "kind": "repair",
-              "text": "Quick assets leave out inventory and prepaid expenses.",
-              "hook": null,
-              "number": 31,
+              "text": "Calls in arrears are deducted from called-up capital, never added.",
+              "hook": "Arrears are owed to you, not paid.",
+              "number": 11,
               "subject": "accountancy",
-              "repairedAt": "2026-10-12T10:00:00.000Z",
+              "repairedAt": "2026-10-14T07:30:00.000Z",
+              "active": false
+            }
+          ]
+        },
+        {
+          "chapter": "Cash Flow Statement",
+          "rules": [
+            {
+              "id": "repair:afcbe1a7902cc8e1983e960e",
+              "kind": "repair",
+              "text": "Operating activities are the main revenue-producing activities of the business.",
+              "hook": null,
+              "number": 38,
+              "subject": "accountancy",
+              "repairedAt": "2026-10-12T07:30:00.000Z",
               "active": false
             }
           ]
@@ -60,34 +75,52 @@
           "id": "habit:changes",
           "kind": "habit",
           "text": "Change an answer only when you can point to the line that proves it wrong.",
-          "evidence": "Right answers changed to wrong in your last 4 mocks: 6 of 23 changes, costing 36 marks.",
+          "evidence": "Right answers changed to wrong in your last 4 timed mocks: 8 of 23 changes, costing 48 marks.",
           "gated": false,
-          "interval": { "k": 6, "n": 23, "pct": 26, "low": 13, "high": 46 },
+          "interval": {
+            "k": 8,
+            "n": 23,
+            "pct": 35,
+            "low": 19,
+            "high": 55
+          },
           "active": false
         },
         {
           "id": "habit:long_stay",
           "kind": "habit",
           "text": "At 2 minutes, mark it for review and move on. Come back at the end.",
-          "evidence": "Answers after 2 minutes: 4 right of 13. Faster answers: 61 right of 98.",
+          "evidence": "Answers after 2 minutes: 3 right of 8. Faster answers: 143 right of 163.",
           "gated": false,
-          "interval": { "k": 4, "n": 13, "pct": 31, "low": 13, "high": 58 },
+          "interval": {
+            "k": 3,
+            "n": 8,
+            "pct": 38,
+            "low": 14,
+            "high": 69
+          },
           "active": false
         },
         {
           "id": "habit:never_opened",
           "kind": "habit",
           "text": "Open every question once before you go deep on any.",
-          "evidence": "Never opened: 9, 7 and 6 of 50 in your last 3 mocks, oldest first.",
+          "evidence": "Never opened: 4, 6 and 4 of 50 in your last 3 mocks, oldest first.",
           "gated": false,
-          "interval": { "k": 22, "n": 150, "pct": 15, "low": 10, "high": 21 },
+          "interval": {
+            "k": 14,
+            "n": 150,
+            "pct": 9,
+            "low": 6,
+            "high": 15
+          },
           "active": true
         },
         {
           "id": "habit:marked",
           "kind": "habit",
           "text": "Answer the questions you mark for review.",
-          "evidence": "This evidence opens at 15 marked answers. You have 9.",
+          "evidence": "This evidence opens at 15 marked answers. You have 4.",
           "gated": true,
           "interval": null,
           "active": false
@@ -97,13 +130,13 @@
     "basis": "From your device's record of 4 timed mocks, marked as each paper was scored."
   },
   "summary": {
-    "count": 6,
-    "countLabel": "Your rules, 6",
+    "count": 7,
+    "countLabel": "Your rules, 7",
     "active": {
       "id": "habit:never_opened",
       "kind": "habit",
       "text": "Open every question once before you go deep on any.",
-      "since": "2026-10-14T12:30:00.000Z"
+      "since": "2026-10-15T06:30:00.000Z"
     }
   },
   "playbook": {
@@ -111,11 +144,11 @@
       "id": "habit:never_opened",
       "kind": "habit",
       "text": "Open every question once before you go deep on any.",
-      "since": "2026-10-14T12:30:00.000Z"
+      "since": "2026-10-15T06:30:00.000Z"
     },
     "startSheet": {
       "rule": "Your rule for this mock: open every question once before you go deep on any.",
-      "last": "Last mock: 6 of 50 questions never opened."
+      "last": "Last mock: 4 of 50 questions never opened."
     }
   }
 }

@@ -6,6 +6,7 @@ import { buildRecap } from '@/lib/server/recap';
 import { buildMissedBefore } from '@/components/recovery/repairRun.js';
 import { resultHistory } from '@/../data/mock_swot';
 import { readCohort } from '@/../data/cohort_picks';
+import { loadRuleSources } from '@/lib/server/ruleBook';
 
 export async function GET(request, { params }) {
   try {
@@ -24,7 +25,9 @@ export async function GET(request, { params }) {
     //  - mistakeInsights: "From your record" lines under each repair (server-built sentences); {} until the answer
     //    checks are ready, as the SWOT says checks_pending;
     //  - lab: the Mistake Lab ledger, first-pick re-mark and How others answered (data/mistake_lab.js; null until the
-    //    answer checks are ready); the SWOT then leaves out what the ledger already shows;
+    //    answer checks are ready); the SWOT then leaves out what the ledger already shows. Slice 3 adds
+    //    lab.acrossMocks, lab.repairOrder, lab.rules and lab.prove.ruleCheck (data/lab_loop.js), each null on its own
+    //    failure; the rules and the rule check also need the repairs and playbook rows (src/lib/server/ruleBook.js);
     //  - swot: the post-mock SWOT and "Do these next" (left out entirely when SWOT_ENABLED=off).
     const history = await resultHistory({
       attempt,
@@ -34,6 +37,8 @@ export async function GET(request, { params }) {
       recapOf: buildRecap,
       missedBeforeOf: buildMissedBefore,
       cohortOf: readCohort,
+      labLoop: true,
+      ruleSourcesOf: ({ allAttempts }) => loadRuleSources(session.user.id, allAttempts),
       swotEnabled: process.env.SWOT_ENABLED !== 'off',
       warn: (part, e) => console.warn(`[api/attempts/:id] ${part} skipped:`, e?.message),
     });

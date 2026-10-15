@@ -7,6 +7,13 @@
   "basis": "From your device's record of 4 timed mocks, marked as each paper was scored.",
   "lines": [
     {
+      "id": "never_opened",
+      "subject": "accountancy",
+      "marks": 85,
+      "gated": false,
+      "text": "Never opened, last 3 Accountancy mocks, oldest first: 7, 6 and 4 of 50."
+    },
+    {
       "id": "second_thoughts",
       "subject": null,
       "marks": 48,
@@ -18,30 +25,23 @@
       "subject": null,
       "marks": 48,
       "gated": false,
-      "text": "Changed on a later visit: 8 of 11 helped. Changed without leaving the question: 1 of 12 helped."
-    },
-    {
-      "id": "never_opened",
-      "subject": "accountancy",
-      "marks": 110,
-      "gated": false,
-      "text": "Never opened, last 3 Accountancy mocks, oldest first: 9, 7 and 6 of 50."
+      "text": "Changed on a later visit: 5 of 11 helped. Changed without leaving the question: 4 of 12 helped."
     }
   ],
   "more": [
     {
-      "id": "long_stays",
-      "subject": null,
-      "marks": 46,
-      "gated": false,
-      "text": "Across 4 timed mocks, 12 questions took 2 minutes or more. 4 of them were right."
-    },
-    {
       "id": "last_ten",
       "subject": null,
-      "marks": 0,
-      "gated": true,
-      "text": "Last 10 minutes against the rest of the paper opens at 3 timed mocks with 20 answers on each side. You have 4 mocks, with 14 answers in the last 10 minutes and 140 before."
+      "marks": 36,
+      "gated": false,
+      "text": "Last 10 minutes, across 4 timed mocks: 15 right of 21 answered. First 50 minutes: 131 right of 153."
+    },
+    {
+      "id": "long_stays",
+      "subject": null,
+      "marks": 30,
+      "gated": false,
+      "text": "Across 4 timed mocks, 8 questions took 2 minutes or more. 3 of them were right."
     }
   ],
   "showAll": "Show all 5",
