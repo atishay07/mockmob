@@ -1,124 +1,27 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { loadPractisedCounts } from './landingStats.mjs';
 
-// Honest proof band. Real counts from /api/stats when reachable, a truthful
-// static floor when not — never a fabricated headcount or testimonial.
-// The count-up is hand-rolled so the landing page does not pull in an
-// animation runtime for three numbers on a budget Android.
-function useCountUp(target, enabled) {
-  // null means "not animating" — the real target renders straight through, so
-  // reduced motion and no-JS both land on the true number with no extra state.
-  const [displayed, setDisplayed] = useState(null);
-  const frameRef = useRef(0);
-
-  useEffect(() => {
-    if (!enabled || typeof target !== 'number') return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-
-    const duration = 900;
-    const start = performance.now();
-
-    function tick(now) {
-      const t = Math.min(1, (now - start) / duration);
-      // Exponential ease-out: fast commit, quiet settle.
-      const eased = 1 - Math.pow(1 - t, 3);
-      setDisplayed(Math.round(target * eased));
-      if (t < 1) frameRef.current = requestAnimationFrame(tick);
-    }
-
-    frameRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frameRef.current);
-  }, [target, enabled]);
-
-  return typeof displayed === 'number' ? displayed : target;
-}
-
-function Figure({ value, fallback, label, note, animate, failed = false }) {
-  const counted = useCountUp(value, animate);
-  const isLive = typeof value === 'number' && value >= 0;
-  // A marketing page never prints "Unavailable": a figure that could not load simply is not shown.
-  if (failed) return null;
-
-  return (
-    <div className="mm-figure">
-      <div className="mm-figure__value">
-        {isLive ? counted.toLocaleString('en-IN') : fallback}
-      </div>
-      <div className="mm-figure__label">{label}</div>
-      <p className="mm-figure__note">{note}</p>
-    </div>
-  );
-}
-
-export function LiveStatsBand({ offer = null } = {}) {
-  const [bankSize, setBankSize] = useState(null);
-  const [subjectCount, setSubjectCount] = useState(null);
-  const [failed, setFailed] = useState(false);
-  const [seen, setSeen] = useState(false);
-  const ref = useRef(null);
+// The proof line: one sentence, not three stat cards. The figures are the real practice bank, counted the same
+// way as the hero's live line and from the same single read of the stored counts (landingStats.mjs: only the
+// subjects a student can practise, not every subject the bank has ever stored), so the page never says two
+// different numbers for one thing. The figure shows whole the moment it is known; nothing counts up. A figure
+// that cannot load is not shown: the sentence simply does not render.
+export function LiveStatsBand() {
+  const [counts, setCounts] = useState(null);
 
   useEffect(() => {
-    const node = ref.current;
-    if (!node || typeof IntersectionObserver === 'undefined') {
-      setSeen(true);
-      return undefined;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setSeen(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '0px 0px -10% 0px' }
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
+    let alive = true;
+    loadPractisedCounts().then((counted) => { if (alive && counted) setCounts(counted); });
+    return () => { alive = false; };
   }, []);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch('/api/stats', { signal: controller.signal })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        if (!data || data.state === 'unavailable') { setFailed(true); return; }
-        if (Number.isFinite(data.bankSize) && data.bankSize >= 0) setBankSize(data.bankSize);
-        const counts = data.subjectCounts || {};
-        const covered = Object.values(counts).filter((n) => Number(n) > 0).length;
-        setSubjectCount(covered);
-      })
-      .catch((error) => {
-        if (error?.name !== 'AbortError') setFailed(true);
-      });
-    return () => controller.abort();
-  }, []);
+  if (!counts) return null;
 
   return (
-    <div className="mm-figures" ref={ref}>
-      <Figure
-        value={bankSize}
-        fallback="…"
-        failed={failed}
-        label="questions to practise"
-        note="Each one scored the CUET way: +5 right, −1 wrong."
-        animate={seen}
-      />
-      <Figure
-        value={subjectCount}
-        fallback="…"
-        failed={failed}
-        label="CUET subjects"
-        note="Pick one for a quick set or a full mock."
-        animate={seen}
-      />
-      <Figure
-        value={null}
-        fallback={offer ? `₹${offer.purchasable === 'monthly' ? offer.monthly.rupees : offer.oneTime.rupees}` : 'Free'}
-        label={offer ? (offer.purchasable === 'monthly' ? 'a month for Pro' : 'once for Pro access') : 'to start'}
-        note={offer ? (offer.purchasable === 'monthly' ? 'Renews monthly. Cancel anytime in Account.' : `Access ends ${offer.oneTime.expires}. This payment does not renew.`) : 'Practice free. See pricing for Pro.'}
-        animate={seen}
-      />
-    </div>
+    <p className="lp-proofline">
+      <b>{counts.questions.toLocaleString('en-IN')}</b> questions across <b>{counts.subjects}</b> CUET subjects, each marked the way CUET marks it: <b>+5</b> right, <b>−1</b> wrong.
+    </p>
   );
 }

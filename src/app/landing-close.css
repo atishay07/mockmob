@@ -7,24 +7,15 @@
 .mm.lp section[id] { scroll-margin-top: 72px; }
 
 /* ---------- Close band ---------- */
-.lp-close__go {
-  display: grid;
-  justify-items: center;
-  gap: 0.875rem;
-}
-.lp-close__free {
-  display: inline-flex;
+/* One primary key and, for a new visitor, one plain link beside it (under it on a narrow phone). */
+.lp-close__go { display: grid; justify-items: start; min-width: 0; }
+.lp-close__actions {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 0.4rem;
-  margin: 0;
-  font-size: 0.875rem;
-  color: var(--ink-3);
+  gap: var(--sp-3, 0.75rem) var(--sp-5, 1.5rem);
 }
-.lp-close__free svg { color: var(--accent-text); flex: none; }
-@media (max-width: 639px) {
-  .lp-close__go { width: 100%; max-width: 22rem; }
-  .lp-close__actions { width: 100%; }
-}
+.lp-close__actions .mm-btn { min-height: 52px; padding-inline: var(--sp-6, 2rem); }
 
 /* ---------- Phone dock: a label, and keys that change with the visitor (HeroDockGate.jsx, LandingDock) ----------
    Mobi stands on the left; the label sits over the keys on the right. A new visitor gets two keys (sign up,

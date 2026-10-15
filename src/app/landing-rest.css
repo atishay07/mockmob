@@ -1,0 +1,182 @@
+/* ==========================================================================
+   LANDING, FROM THE STATEMENT TO THE CLOSE: the subject lineup, shared titles and links, the proof sentence
+   Loaded last on the landing. Sizes and gaps come from the page system in landing.css (--t-*, --sp-*).
+   Motion: transform and opacity only, and only in answer to a scroll or a pointer.
+   ========================================================================== */
+
+/* ---------- Shared pieces for these sections ---------- */
+/* A plain text link: ink, underlined, no arrow. */
+.mm.lp .lp-textlink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+  font: 600 var(--t-body) / 1.3 var(--font-body);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  text-decoration-color: var(--line-strong);
+  transition: text-decoration-color 150ms ease;
+}
+.mm.lp .lp-textlink:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 3px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-textlink:hover { text-decoration-color: currentColor; }
+}
+/* Mobi never speaks in these sections: at the close he simply arrives. */
+.mm.lp .lp-close .pip-seat figcaption { display: none; }
+
+/* ---------- Subject lineup (the statement's four papers) ----------
+   A lineup, not an icon grid: each lamp-lit object stands on one shared floor, a hairline that runs the width
+   of its column, with the paper's name and its real question count under the line, left-aligned. On desktop the
+   statement takes the full width and the four stand in one row beneath it; on phones they keep the even 2 by 2
+   inside the held scene. They land once as the statement scrolls (home.css, hero-depth.css) and then stay
+   still: no idle float, no pool of light. A pointer lifts the object 6px and underlines the name. */
+.mm.lp .lp-shelf { justify-items: stretch; gap: 0; }
+.mm.lp .lp-shelf::before { display: none; }
+/* Every object stands on one floor: the items sit on the row's bottom edge and never stretch, so the four
+   hairlines (and the names under them) share one line whatever each object's height. */
+.mm.lp .lp-shelf__row { align-items: end; }
+.mm.lp .lp-shelf__item { justify-items: stretch; align-self: end; }
+.mm.lp .lp-shelf__link {
+  display: grid;
+  justify-items: stretch;
+  gap: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ink);
+  align-content: end;
+}
+.mm.lp .lp-shelf__float {
+  justify-self: center;
+  /* The box's bottom meets the end of the object's contact shadow, so it stands on the floor line. */
+  margin-bottom: calc((var(--base, 0.9) - 1) * var(--shelf-obj));
+  transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+.mm.lp .lp-shelf__name {
+  display: block;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--line-strong);
+  font-family: var(--font-display);
+  font-size: var(--t-body);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-align: left;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 150ms ease;
+}
+.mm.lp .lp-shelf__fact {
+  display: block;
+  min-height: 1.45em;
+  margin-top: var(--sp-1);
+  font-size: var(--t-fine);
+  line-height: 1.45;
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 960px) {
+  .mm.lp .lp-statement__grid { grid-template-columns: minmax(0, 1fr); gap: clamp(3rem, 6vw, 5rem); align-items: start; }
+  .mm.lp .lp-shelf__row {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0 clamp(1rem, 2.4vw, 2rem);
+    padding: 0;
+  }
+  .mm.lp .lp-shelf__item:nth-child(even) { translate: none; }
+  .mm.lp .lp-shelf__item:nth-child(3) { margin-top: 0; }
+  .mm.lp .lp-shelf__name { padding-top: var(--sp-4); font-size: var(--t-lede); }
+  .mm.lp .lp-shelf__fact { font-size: var(--t-label); }
+}
+@media (max-width: 760px) {
+  .mm.lp .lp-shelf__row { gap: 1.5rem 1rem; }
+  .mm.lp .lp-shelf__link { padding-inline: 0; }
+  .mm.lp .lp-shelf__float { margin-bottom: calc((var(--base, 0.9) - 1) * var(--shelf-obj)); }
+}
+.mm.lp .lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; border-radius: 4px; }
+.mm.lp .lp-shelf__link:focus-visible .lp-shelf__float { transform: translateY(-6px); }
+.mm.lp .lp-shelf__link:focus-visible .lp-shelf__name { text-decoration-color: currentColor; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-shelf__link:hover { background: none; color: var(--ink); }
+  .mm.lp .lp-shelf__link:hover .lp-shelf__float { transform: translateY(-6px); }
+  .mm.lp .lp-shelf__link:hover .lp-shelf__name { text-decoration-color: currentColor; }
+}
+.mm.lp .lp-shelf__link:active .lp-shelf__float { transform: translateY(-3px) scale(0.98); transition-duration: 120ms; }
+
+/* No idle float. Where scroll timelines exist, the landing (home.css) and the phone hold (hero-depth.css) keep
+   their scroll animations and drop only the 7.2s loop from the list; elsewhere the loop is simply off. */
+.lp-shelf .subj-obj--alive .subj-obj__float,
+.lp-shelf .subj-obj--alive .subj-obj__shadow { animation: none; }
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    :root:not([data-motion='reduced']) .mm.lp .lp-shelf .subj-obj--alive .subj-obj__float { animation-name: none, lp-shelf-in, lp-shelf-out; }
+  }
+  @media (max-width: 959px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
+    :root:not([data-motion='reduced']) .mm.lp .lp-statement .lp-shelf .subj-obj--alive .subj-obj__float { animation-name: none, lp-shelf-rise, lp-shelf-out; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mm.lp .lp-shelf__float, .mm.lp .lp-shelf__name { transition: none; }
+  .mm.lp .lp-shelf__link:is(:hover, :focus-visible, :active) .lp-shelf__float { transform: none; }
+}
+
+/* ---------- Proof: one sentence, not three stat cards ---------- */
+.mm.lp .lp-proofline {
+  margin: 0;
+  max-width: 28ch;
+  font-family: var(--font-display);
+  font-size: var(--t-headline);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--ink-3);
+  text-wrap: balance;
+}
+.mm.lp .lp-proofline b { font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* ---------- Close ----------
+   Left-aligned on the flat ground: the line and its lede, then one key and one link with Mobi beside them (on
+   desktop, the key column sits at the right of the line, on its last baseline). No aurora, grid or dots, no
+   ticks, no caption. On wide screens the guide carries Mobi to his lane at the key's height. */
+.mm.lp .lp-close {
+  overflow: visible;
+  padding-block: var(--sec-top) var(--sec-bottom);
+  border-top: 1px solid var(--line);
+  text-align: left;
+}
+.mm.lp .lp-close__inner {
+  display: grid;
+  gap: var(--sp-6);
+  justify-items: stretch;
+  align-items: end;
+}
+.mm.lp .lp-close__copy { display: grid; gap: var(--head-gap); min-width: 0; }
+.mm.lp .lp-close__inner .lp-h2,
+.mm.lp .lp-close__inner .lp-sub { margin-inline: 0; }
+.mm.lp .lp-close__act {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+.mm.lp .lp-close__act > .lp-close__go { order: 1; }
+.mm.lp .lp-close .pip-seat {
+  order: 2;
+  flex: none;
+  width: auto;
+  grid-template-columns: auto;
+  margin: 0;
+}
+.mm.lp .lp-close .pip-seat__art { width: 96px; height: 116px; }
+@media (min-width: 960px) {
+  .mm.lp .lp-close__inner {
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    column-gap: var(--sp-7);
+  }
+  .mm.lp .lp-close__act { flex-direction: column; align-items: flex-start; justify-content: flex-end; }
+  .mm.lp .lp-close .pip-seat { order: 0; }
+  .mm.lp .lp-close .pip-seat__art { width: 120px; height: 146px; }
+}

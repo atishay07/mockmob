@@ -1,28 +1,20 @@
 "use client";
 
-// A curated strip of Instagram links. Covers are authored local typography and pattern,
-// never a stand-in for a creator photo or a fabricated post thumbnail. The embed is mounted
-// only after activation, and the original link remains available if Instagram blocks it.
+// A curated strip of Instagram links. Covers are plain typography on a flat surface (the creator's real
+// audience, name, handle and bio line), never a stand-in for a creator photo, a fake avatar or a fabricated
+// post thumbnail. The embed is mounted only after activation, and the original link remains available if
+// Instagram blocks it. The proof above the strip is one sentence, not a panel of stat tiles.
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, ExternalLink, Heart, MessageCircle, Play, Users } from 'lucide-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { undrawn } from './undrawn';
 import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, embedSrc, floorForPlus, permalink, recordedEngagement } from '@/lib/social';
 
-function IgGlyph({ size = 16 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" rx="5.5" /><circle cx="12" cy="12" r="4.2" /><circle cx="17.2" cy="6.8" r="0.9" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function initials(name) {
-  const words = String(name || '').trim().split(/\s+/u).filter(Boolean);
-  const segment = (word) => {
-    if (typeof Intl.Segmenter === 'function') return [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(word)][0]?.segment || '';
-    return Array.from(word)[0] || '';
-  };
-  return (words.length > 1 ? segment(words[0]) + segment(words.at(-1)) : segment(words[0] || '?')).toLocaleUpperCase();
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+// '2026-04-28' -> { day: '28 April', year: '2026' }, written out by hand so the server and the phone agree.
+function postedOn(date) {
+  const [year, month, day] = String(date || '').split('-').map(Number);
+  if (!year || !month || !day || !MONTHS[month - 1]) return null;
+  return { day: `${day} ${MONTHS[month - 1]}`, year: String(year) };
 }
 
 function Card({ item, active, onPlay }) {
@@ -63,35 +55,38 @@ function Card({ item, active, onPlay }) {
             </p>
           ) : null}
           <a ref={openRef} href={url} target="_blank" rel="noopener noreferrer" className="rl__open">
-            <ExternalLink size={14} aria-hidden="true" /> Open original on Instagram
+            Open the original on Instagram
           </a>
         </div>
       ) : (
         <button type="button" className="rl__card" data-kind={item.kind} onClick={onPlay} aria-label={`Load ${label} from Instagram`}>
-          <span className="rl__cover-mark" aria-hidden="true"><span className="rl__cover-orbit" /><span>{initials(item.creator)}</span></span>
           <span className="rl__top">
-            <span className="rl__kind"><IgGlyph size={14} />{item.kind === 'reel' ? 'Creator reel' : 'MockMob post'}</span>
-            {item.partnership ? <span className="rl__partner">Paid partner</span> : null}
+            <span className="rl__kind">{item.kind === 'reel' ? 'Creator reel' : 'MockMob post'}</span>
+            {item.partnership ? <span className="rl__partner">Paid partnership</span> : null}
           </span>
           {item.followers ? (
             <span className="rl__reach">
-              <b className="mm-measure">{compactCount(item.followers)}</b>
+              <b>{compactCount(item.followers)}</b>
               <span>followers{item.also ? <>, also runs <i>@{item.also.handle}</i> ({compactCount(item.also.followers)})</> : null}</span>
+            </span>
+          ) : null}
+          {!item.followers && postedOn(item.date) ? (
+            <span className="rl__reach rl__reach--date">
+              <b>{postedOn(item.date).day}</b>
+              <span>{postedOn(item.date).year}</span>
             </span>
           ) : null}
           {item.about ? <span className="rl__about">{item.about}</span> : null}
           {item.attribution ? <span className="rl__attribution">{item.attribution}</span> : null}
           {item.likes || item.comments ? (
             <span className="rl__engage">
-              {item.likes ? <span><Heart size={13} aria-hidden="true" />{item.likes.toLocaleString('en-IN')} likes</span> : null}
-              {item.comments ? <span><MessageCircle size={13} aria-hidden="true" />{item.comments.toLocaleString('en-IN')} comments</span> : null}
+              {[item.likes ? `${item.likes.toLocaleString('en-IN')} likes` : null, item.comments ? `${item.comments.toLocaleString('en-IN')} comments` : null].filter(Boolean).join(', ')}
             </span>
           ) : null}
           <span className="rl__identity">
             <span className="rl__who"><b>{item.creator}</b><i>@{item.handle}{item.note ? `, ${item.note}` : ''}</i></span>
-            <span className="rl__play" aria-hidden="true"><Play size={18} fill="currentColor" /></span>
           </span>
-          <span className="rl__load-label">Load preview <span aria-hidden="true">↗</span></span>
+          <span className="rl__load-label">Watch it here</span>
         </button>
       )}
     </li>
@@ -148,14 +143,12 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
   return (
     <div className="rl">
       {creators.length ? (
-        <dl className="rl__summary">
-          <div><dt>Combined followers</dt><dd className="mm-measure">{compactCount(Math.floor(reach / 1000) * 1000)}+</dd></div>
-          <div><dt>Reel views</dt><dd className="mm-measure">{compactCount(REEL_VIEWS_FLOOR)}+</dd></div>
-          {engagement ? <div><dt>Likes and comments</dt><dd className="mm-measure">{engagement.toLocaleString('en-IN')}+</dd></div> : null}
-        </dl>
+        <p className="rl__summary">
+          <b>{compactCount(Math.floor(reach / 1000) * 1000)}+</b> combined followers, <b>{compactCount(REEL_VIEWS_FLOOR)}+</b> reel views{engagement ? <> and <b>{engagement.toLocaleString('en-IN')}+</b> likes and comments</> : null}.
+        </p>
       ) : null}
       <div className="rl__bar">
-        <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="rl__follow"><IgGlyph size={17} />Follow @{handle}</a>
+        <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="rl__follow">Follow @{handle} on Instagram</a>
         {items.length > 1 ? (
           <div className="rl__arrows" role="group" aria-label="Browse posts">
             {/* aria-disabled, not disabled: a focused arrow that reaches the end keeps focus. */}

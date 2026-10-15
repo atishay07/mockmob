@@ -1,47 +1,33 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { loadLandingStats } from './landingStats.mjs';
 
-const SUBJECTS = [
-  { name: 'Accountancy', slug: 'accountancy', key: 'accountancy', hint: 'Partnership, company accounts, cash flow' },
-  { name: 'Economics', slug: 'economics', key: 'economics', hint: 'National income, money and banking, development' },
-  { name: 'Business Studies', slug: 'business-studies', key: 'business_studies', hint: 'Management, marketing, financial markets' },
-  { name: 'English', slug: 'english', key: 'english', hint: 'Reading comprehension, grammar, vocabulary' },
-];
+// The subject lineup's fact line: the real number of questions a student can practise in one paper, from the
+// page's one read of the stored daily counts (landingStats.mjs, shared with the hero's live line and the proof
+// sentence). Until the counts answer, the line keeps its height empty, so nothing below it moves; if they never
+// answer it stays empty. Nothing is ever estimated or rounded up.
 
-// Per-subject counts come from the live /api/stats. If the request fails the
-// card simply omits the count: no invented number ever renders.
-export function SubjectGrid() {
-  const [counts, setCounts] = useState(null);
+// General Test is stored under its internal id.
+const STORED_ID = { general_test: 'gat' };
+
+export function SubjectCount({ id }) {
+  const [count, setCount] = useState(null);
 
   useEffect(() => {
-    const controller = new AbortController();
-    fetch('/api/stats', { signal: controller.signal })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => data?.subjectCounts && setCounts(data.subjectCounts))
-      .catch(() => {});
-    return () => controller.abort();
-  }, []);
+    let alive = true;
+    loadLandingStats().then((data) => {
+      const n = Math.floor(Number(data?.subjectCounts?.[STORED_ID[id] || id]));
+      if (alive && Number.isFinite(n) && n > 0) setCount(n);
+    });
+    return () => { alive = false; };
+  }, [id]);
 
   return (
-    <ul className="lp-subjects">
-      {SUBJECTS.map((subject, i) => {
-        const count = counts ? counts[subject.key] || 0 : null;
-        return (
-          <li key={subject.slug} className="rv-item" style={{ '--i': i }}>
-            <Link href={`/cuet/${subject.slug}`} className="lp-subject">
-              <span className="lp-subject__name">{subject.name}</span>
-              <span className="lp-subject__hint">{subject.hint}</span>
-              <span className="lp-subject__count mm-measure">
-                {Number.isFinite(count) && count >= 0 ? `${count.toLocaleString('en-IN')} questions` : 'Question counts unavailable'}
-              </span>
-              <ArrowUpRight size={18} aria-hidden="true" className="lp-subject__arrow" />
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+    <span className="lp-shelf__fact" data-ready={count ? 'true' : 'false'}>
+      {count ? `${count.toLocaleString('en-IN')} questions` : null}
+    </span>
   );
 }
+
+export default SubjectCount;

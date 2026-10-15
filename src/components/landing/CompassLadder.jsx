@@ -6,16 +6,30 @@
 // no admission chance, no prediction, no conversion of practice marks into a CUET score.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Play, Pause } from 'lucide-react';
 
 const AXIS_MIN = 0;
 const AXIS_MAX = 1000;
 const pct = (v) => Math.min(100, Math.max(0, ((v - AXIS_MIN) / (AXIS_MAX - AXIS_MIN)) * 100));
 const ROUND_LABEL = { 'round-1': 'Round I', 'round-2': 'Round II', 'round-3': 'Round III' };
-// The tour eases back and forth across this band, where the showcased cutoffs sit.
-const SWEEP_LOW = 600;
-const SWEEP_HIGH = 960;
-const SWEEP_PERIOD_MS = 11000;
+// The first time the ladder comes into view the score makes one pass across the band where the showcased
+// cutoffs sit (780 down to 600, up to 960, back to 780), so the visitor sees colleges clear and fall short, and
+// then rests. Each leg eases in and out. Touching any control ends it at once.
+const SWEEP = [780, 600, 960, 780];
+const SWEEP_LEGS = [0.25, 0.5, 0.25];
+const SWEEP_MS = 6000;
+const sweepAt = (t) => {
+  let from = 0;
+  for (let i = 0; i < SWEEP_LEGS.length; i += 1) {
+    const to = from + SWEEP_LEGS[i];
+    if (t <= to || i === SWEEP_LEGS.length - 1) {
+      const local = Math.min(1, Math.max(0, (t - from) / SWEEP_LEGS[i]));
+      const eased = (1 - Math.cos(local * Math.PI)) / 2;
+      return Math.round(SWEEP[i] + (SWEEP[i + 1] - SWEEP[i]) * eased);
+    }
+    from = to;
+  }
+  return SWEEP[SWEEP.length - 1];
+};
 const fmt = (n) => n.toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 
 export default function CompassLadder({ data }) {
@@ -25,7 +39,7 @@ export default function CompassLadder({ data }) {
   const [round, setRound] = useState('round-1');
   const [score, setScore] = useState(780);
   const [sweeping, setSweeping] = useState(true);
-  const phaseRef = useRef(0);
+  const elapsedRef = useRef(0);
   const [inView, setInView] = useState(false);
   const [reduced, setReduced] = useState(false);
 
@@ -43,9 +57,8 @@ export default function CompassLadder({ data }) {
     return () => observer.disconnect();
   }, []);
 
-  // Plays by itself: an eased, time-based sweep (cosine ping-pong, so it slows at each end
-  // instead of bouncing). It idles while offscreen or in a background tab, and stops only when
-  // the visitor takes the score themselves. Filters can change while it plays.
+  // The one pass: time-based, held while the ladder is off screen or the tab is hidden (it continues where it
+  // stopped), and over for good once it ends or the visitor takes any control. Reduced motion skips it.
   useEffect(() => {
     if (!sweeping || !inView || reduced) return undefined;
     let frame = 0;
@@ -54,24 +67,17 @@ export default function CompassLadder({ data }) {
     const tick = (now) => {
       const dt = Math.min(64, now - last);
       last = now;
-      if (!document.hidden) {
-        phaseRef.current = (phaseRef.current + dt / SWEEP_PERIOD_MS) % 1;
-        const eased = (1 - Math.cos(phaseRef.current * 2 * Math.PI)) / 2;
-        const next = Math.round(SWEEP_LOW + (SWEEP_HIGH - SWEEP_LOW) * eased);
-        if (next !== shown) { shown = next; setScore(next); }
-      }
-      frame = window.requestAnimationFrame(tick);
+      if (!document.hidden) elapsedRef.current += dt;
+      const t = Math.min(1, elapsedRef.current / SWEEP_MS);
+      const next = sweepAt(t);
+      if (next !== shown) { shown = next; setScore(next); }
+      if (t < 1) frame = window.requestAnimationFrame(tick);
+      else setSweeping(false);
     };
     frame = window.requestAnimationFrame(tick);
     return () => window.cancelAnimationFrame(frame);
   }, [sweeping, inView, reduced]);
 
-  // Resuming continues from the visitor's last score rather than jumping back to the start.
-  const resume = () => {
-    const x = Math.min(1, Math.max(0, (score - SWEEP_LOW) / (SWEEP_HIGH - SWEEP_LOW)));
-    phaseRef.current = Math.acos(1 - 2 * x) / (2 * Math.PI);
-    setSweeping(true);
-  };
   const take = (fn) => (...args) => { setSweeping(false); fn(...args); };
   const current = data.programmes[programme];
   const rows = useMemo(() => {
@@ -84,17 +90,19 @@ export default function CompassLadder({ data }) {
   return (
     <div className="cl" ref={rootRef}>
       <div className="cl__controls">
-        <div className="cl__group" role="group" aria-label="Programme">
+        {/* Filters are text tabs with an underline on the chosen one: the programme as a row that scrolls on a
+            narrow phone, category and round side by side under it. */}
+        <div className="cl__tabs" role="group" aria-label="Programme">
           {data.programmes.map((p, i) => (
-            <button key={p.id} type="button" aria-pressed={programme === i} onClick={() => setProgramme(i)}>{p.label}</button>
+            <button key={p.id} type="button" aria-pressed={programme === i} onClick={take(() => setProgramme(i))}>{p.label}</button>
           ))}
         </div>
         <div className="cl__row">
-          <div className="cl__group cl__group--small" role="group" aria-label="Category">
-            {data.categories.map((c) => <button key={c} type="button" aria-pressed={category === c} onClick={() => setCategory(c)}>{c}</button>)}
+          <div className="cl__seg" role="group" aria-label="Category">
+            {data.categories.map((c) => <button key={c} type="button" aria-pressed={category === c} onClick={take(() => setCategory(c))}>{c}</button>)}
           </div>
-          <div className="cl__group cl__group--small" role="group" aria-label="Round">
-            {data.rounds.map((r) => <button key={r} type="button" aria-pressed={round === r} onClick={() => setRound(r)}>{ROUND_LABEL[r]}</button>)}
+          <div className="cl__seg" role="group" aria-label="Round">
+            {data.rounds.map((r) => <button key={r} type="button" aria-pressed={round === r} onClick={take(() => setRound(r))}>{ROUND_LABEL[r]}</button>)}
           </div>
         </div>
 
@@ -103,11 +111,9 @@ export default function CompassLadder({ data }) {
           <output htmlFor="cl-score" className="cl__big">{Math.round(score)}<span> / 1000</span></output>
           <input id="cl-score" type="range" min={AXIS_MIN} max={AXIS_MAX} step={1} value={score} onPointerDown={() => setSweeping(false)} onKeyDown={() => setSweeping(false)} onChange={(event) => { setSweeping(false); setScore(Number(event.target.value)); }} aria-describedby="cl-score-help" aria-valuetext={`${Math.round(score)} out of 1000`} />
           <small id="cl-score-help">Drag the slider, or use the arrow keys.</small>
-          <div className="cl__try">
-            <div className="cl__group cl__group--small" role="group" aria-label="Try a score">
-              {[650, 800, 950].map((value) => <button key={value} type="button" aria-pressed={score === value} onClick={take(() => setScore(value))}>{value}</button>)}
-            </div>
-            {!reduced ? <button className="cl__demo" type="button" onClick={() => (sweeping ? setSweeping(false) : resume())}>{sweeping ? <Pause size={14} aria-hidden="true" /> : <Play size={14} aria-hidden="true" />}{sweeping ? 'Pause' : 'Play'}<span className="lp-sr"> the score tour</span></button> : null}
+          <div className="cl__try" role="group" aria-label="Try a score">
+            <span aria-hidden="true">Try</span>
+            {[650, 800, 950].map((value) => <button key={value} type="button" aria-pressed={!sweeping && score === value} onClick={take(() => setScore(value))}>{value}</button>)}
           </div>
         </div>
 
@@ -119,13 +125,13 @@ export default function CompassLadder({ data }) {
           )}
         </p>
         <div className="cl__cta">
-          <Link href="/cuet-cutoff-calculator" className="mm-btn mm-btn--primary">Check my subjects<ArrowRight size={17} aria-hidden="true" /></Link>
-          <Link href="/admission-compass" className="lp-link">Open Compass<ArrowRight size={16} aria-hidden="true" /></Link>
+          <Link href="/cuet-cutoff-calculator" className="mm-btn mm-btn--primary">Check my subjects</Link>
+          <Link href="/admission-compass" className="lp-textlink">Open Compass</Link>
         </div>
       </div>
 
       <figure className="cl__stage" aria-label={`${current.label} ${ROUND_LABEL[round]} cutoffs for ${category}`}>
-        <div className="cl__top"><span>{current.label}</span><span className="cl__tag">{data.cycle}, {ROUND_LABEL[round]}, {category}</span></div>
+        <div className="cl__top"><span>{current.label}</span><span className="cl__src">{data.cycle.replace('CSAS UG', 'DU CSAS')}, {ROUND_LABEL[round]}, {category}</span></div>
         <ul className="cl__list">
           {rows.map((r) => {
             const none = r.cutoff === null;

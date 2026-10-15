@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { evaluateAll } from '@/lib/du/eligibility';
 import { PRESETS, STREAM_ORDER, encodeSelection, loadRules } from '@/lib/du/client';
 import '@/components/du/du.css';
@@ -132,9 +132,9 @@ export function EligibilityTeaser() {
           </div>
         </fieldset>
         <Link href={href} className="du-live">
-          <span className="mm-measure">{counted ? eligible.length : total}</span>
+          <span>{counted ? eligible.length : total}</span>
           <span>{counted ? `of ${total} programmes open` : 'DU programmes'}</span>
-          <b>See cutoffs<ArrowRight size={14} aria-hidden="true" /></b>
+          <b>See cutoffs</b>
         </Link>
       </div>
 
@@ -144,7 +144,7 @@ export function EligibilityTeaser() {
         ) : (
           <>
             <p className="du-teaser__big">
-              <span className="mm-measure">{counted ? eligible.length : total}</span>
+              <span>{counted ? eligible.length : total}</span>
               <small>{counted ? `of ${total} DU programmes` : 'DU programmes.'}</small>
             </p>
             <p className="du-teaser__lead">
@@ -162,7 +162,7 @@ export function EligibilityTeaser() {
                   <li key={name}>
                     <span>{name}</span>
                     <i aria-hidden="true"><b style={{ transform: `scaleX(${n / max})` }} /></i>
-                    <em className="mm-measure">{n}</em>
+                    <em>{n}</em>
                   </li>
                 ))}
               </ul>
@@ -171,9 +171,8 @@ export function EligibilityTeaser() {
         )}
         <Link href={href} className="mm-btn mm-btn--primary">
           See programmes and past cutoffs
-          <ArrowRight size={18} aria-hidden="true" />
         </Link>
-        <p className="du-teaser__fine">Free, no sign-up. Built from DU’s official 2026 documents.</p>
+        <p className="du-teaser__fine">Built from DU’s official 2026 documents.</p>
       </div>
     </div>
   );

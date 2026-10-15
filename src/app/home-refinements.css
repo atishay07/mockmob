@@ -52,23 +52,52 @@ html[data-theme='light'] .lp-stage__live { background: #7d9a00; box-shadow: 0 0 
 .lp-hero__exam-link { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; color: var(--ink-2); font-size: .875rem; text-decoration: none; }
 .lp-hero__exam-link:hover { color: var(--ink); }
 .lp .lp-hero__tool { margin-bottom: -.75rem; }
-.lp .du-teaser { border-radius: 1rem; box-shadow: none; background: var(--paper-raised); }
-.lp .du-teaser__out { background: var(--paper-sunken); border-color: var(--line); border-radius: .75rem; }
-.lp-colleges { margin-top: 2rem; }
-.lp-colleges__intro { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
-.lp-colleges__intro > div { display: flex; align-items: center; gap: .5rem; }
-.lp-colleges__intro h3 { font-family: var(--font-display); font-size: 1.0625rem; font-weight: 600; margin: 0; }
-.lp-colleges__intro p { margin: 0; color: var(--ink-3); font-size: .8125rem; }
-.lp-colleges__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
-.lp-college { position: relative; display: block; min-width: 0; color: var(--ink); text-decoration: none; border: 1px solid var(--line); border-radius: .875rem; overflow: hidden; background: var(--paper-raised); transition: border-color .2s; }
-.lp-college:hover { border-color: var(--line-strong); }
-.lp-college__art { display: block; aspect-ratio: 1.5; overflow: hidden; background: var(--paper-sunken); }
-.lp-college__art img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.lp-college__copy { display: grid; gap: .1rem; padding: 1rem 2rem 1rem 1rem; }
-.lp-college__copy strong { font-family: var(--font-display); font-size: 1.125rem; font-weight: 600; }
-.lp-college__copy > span { font-size: .75rem; color: var(--ink-3); }
-.lp-college > svg { position: absolute; bottom: 1.65rem; right: .75rem; color: var(--ink-3); }
-.lp-colleges__note { margin: .75rem 0 0; color: var(--ink-3); font-size: .6875rem; }
+.mm.lp .lp-colleges { display: grid; gap: var(--sp-5, 1.5rem); margin-top: var(--block-gap, 3rem); }
+.mm.lp .lp-colleges__intro { display: grid; gap: var(--sp-2, 0.5rem); }
+.mm.lp .lp-colleges__intro p { margin: 0; max-width: var(--measure-body, 62ch); font-size: var(--t-body, 1rem); line-height: 1.5; color: var(--ink-2); }
+/* Colleges: a list of rows on hairlines (two columns from 900px), each row one link: photo, name and programme,
+   and the published closing score at the right. No cards, no pin icon, no arrow. */
+.mm.lp .lp-colleges__list { display: grid; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.mm.lp .lp-colleges__list > li { border-bottom: 1px solid var(--line); min-width: 0; }
+@media (min-width: 900px) {
+  .mm.lp .lp-colleges__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-7, 3rem); }
+}
+.mm.lp .lp-college {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-4, 1rem);
+  min-height: 44px;
+  padding-block: var(--sp-4, 1rem);
+  color: var(--ink);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+@media (min-width: 640px) { .mm.lp .lp-college { grid-template-columns: 112px minmax(0, 1fr) auto; gap: var(--sp-5, 1.5rem); } }
+.mm.lp .lp-college__art { display: block; aspect-ratio: 3 / 2; overflow: hidden; border-radius: 8px; background: var(--paper-sunken); }
+.mm.lp .lp-college__art img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1); }
+.mm.lp .lp-college__copy { display: grid; gap: var(--sp-1, 0.25rem); min-width: 0; }
+.mm.lp .lp-college__copy strong {
+  font: 600 var(--t-body, 1rem) / 1.3 var(--font-display);
+  letter-spacing: -0.01em;
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 150ms ease;
+}
+@media (min-width: 640px) { .mm.lp .lp-college__copy strong { font-size: var(--t-lede, 1.25rem); } }
+.mm.lp .lp-college__copy > span { font-size: var(--t-label, 0.875rem); line-height: 1.4; color: var(--ink-3); }
+.mm.lp .lp-college__cut { display: grid; justify-items: end; gap: 2px; text-align: right; }
+.mm.lp .lp-college__cut b { font: 700 var(--t-body, 1rem) / 1.2 var(--font-display); font-variant-numeric: tabular-nums; color: var(--ink); }
+@media (min-width: 640px) { .mm.lp .lp-college__cut b { font-size: var(--t-lede, 1.25rem); } }
+.mm.lp .lp-college__cut span { font-size: var(--t-fine, 0.8125rem); line-height: 1.3; color: var(--ink-3); white-space: nowrap; }
+.mm.lp .lp-college:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; border-radius: 6px; }
+.mm.lp .lp-college:focus-visible .lp-college__copy strong { text-decoration-color: currentColor; }
+@media (hover: hover) and (pointer: fine) {
+  .mm.lp .lp-college:hover .lp-college__copy strong { text-decoration-color: currentColor; }
+  .mm.lp .lp-college:hover .lp-college__art img { transform: scale(1.04); }
+}
 .lp-exam-section { border-block: 1px solid var(--line); background: var(--paper-sunken); }
 .lp-exam-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
 .lp-exam-intro .lp-sub { margin-top: 1rem; max-width: 56ch; }
@@ -160,13 +189,6 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
 .lp-exam[data-interface='nta'] [data-state='skipped'] { background: #db4800; color: white; border-color: #db4800; clip-path: polygon(0 0, 100% 12%, 100% 88%, 0 100%); border-radius: 0; }
 .lp-exam[data-interface='nta'] [data-state='review'], .lp-exam[data-interface='nta'] [data-state='review-answered'] { background: radial-gradient(circle at 35% 25%, #b598dc, #512593 70%); border-color: #7645ad; border-radius: 50%; color: white; }
 @media (max-width: 1000px) { .lp-exam-intro { align-items: start; flex-direction: column; } .lp-exam__body { grid-template-columns: minmax(0, 1fr) 250px; } .lp-exam__paper { padding: 1.25rem; } .lp-exam[data-interface='nta'] .lp-exam__meta { margin: -1.25rem -1.25rem 0; padding-inline: 1.25rem; } }
-/* Tablet: four portrait cards wrap names unevenly, so pair them as landscape cards. */
-@media (min-width: 761px) and (max-width: 1023px) {
-  .lp-colleges__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .lp-college { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
-  .lp-college__copy { padding: .9rem 2.25rem .9rem 1rem; }
-  .lp-college > svg { bottom: auto; top: 50%; translate: 0 -50%; }
-}
 @media (max-width: 760px) {
   .lp .lp-hero { padding-block: 2rem 3rem; }
   .lp .lp-hero__grid { gap: 2rem; }
@@ -179,13 +201,6 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp .lp-stage::before { inset: -.7rem; border-radius: 1.5rem; }
   .lp .lp-title { font-size: clamp(1.5rem, 11.5cqi, 4.5rem); }
   .lp .lp-hero__exam-link { font-size: .8125rem; }
-  .lp-colleges__intro { display: block; }
-  .lp-colleges__intro p { margin-top: .35rem; }
-  .lp-colleges__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
-  .lp-college__copy { padding: .7rem .65rem; }
-  .lp-college__copy strong { font-size: 1rem; }
-  .lp-college__copy > span { font-size: .6875rem; }
-  .lp-college > svg { display: none; }
   .lp-exam__body { grid-template-columns: 1fr; }
   .lp-exam__palette { border-left: 0; border-top: 1px solid var(--exam-line); padding: 1rem; }
   .lp-exam__numbers, .lp-exam[data-interface='nta'] .lp-exam__numbers { --cell-h: 29px; grid-template-columns: repeat(10, minmax(0, 1fr)); }
@@ -210,7 +225,7 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp-exam-switch button { flex: 1; }
 }
 @media (hover: hover) { .lp .lp-subject:hover { box-shadow: var(--sh-2); } }
-@media (prefers-reduced-motion: reduce) { .lp-exam-switch button, .lp-college { transition: none; } .lp-stage__live::after { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .lp-exam-switch button, .lp-college, .mm.lp .lp-college__art img { transition: none; } .mm.lp .lp-college:hover .lp-college__art img { transform: none; } .lp-stage__live::after { animation: none; } }
 
 /* Touch tablets keep the two-column console, so give the five live palette cells the same
    44px, two-column-wide targets phones get. Mouse users keep the exact exam-sized grid. */

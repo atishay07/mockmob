@@ -34,6 +34,7 @@ import CreatorReels from '@/components/landing/CreatorReels';
 import { MascotSeat } from '@/components/brand/Mascot';
 import PipGuide from '@/components/brand/PipGuideLazy';
 import WallOfLove from '@/components/landing/WallOfLove';
+import { SubjectCount } from '@/components/landing/SubjectGrid';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import './landing.css';
 import './home-refinements.css';
@@ -46,6 +47,7 @@ import './tour-screens.css';
 import './lab-cinema.css';
 import './home.css';
 import './hero-v3.css';
+import './landing-rest.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   'Quick Practice and Full Mock on Practice credits',
@@ -208,14 +210,16 @@ export default function LandingPage() {
                 </span>
               ))}
             </p>
+            {/* The four launch papers as a lineup: each object stands on one shared floor (a hairline), its name
+                and its real question count under the line. No label above: the statement is the heading. */}
             <div className="lp-shelf">
-              <p className="lp-shelf__label" id="lp-shelf-label">Pick your paper</p>
-              <ul className="lp-shelf__row" aria-labelledby="lp-shelf-label">
+              <ul className="lp-shelf__row" aria-label="The four launch papers">
                 {SHELF.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
                   <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
                     <Link href={href} className="lp-shelf__link">
-                      <span className="lp-shelf__float"><SubjectObject id={id} size={184} sizes={sizes} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
+                      <span className="lp-shelf__float"><SubjectObject id={id} size={184} sizes={sizes} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
                       <span className="lp-shelf__name">{name}</span>
+                      <SubjectCount id={id} />
                     </Link>
                   </li>
                 ))}
@@ -267,20 +271,21 @@ export default function LandingPage() {
                 </p>
               </div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
-              <Reveal as="aside" className="lp-cpro" aria-label="Compass Pro">
+              {/* Compass Pro, the paid layer over the free ladder: a block on the page ground (title, words, three
+                  defined features on hairlines, one text link), not a card. */}
+              <aside className="lp-cpro" aria-labelledby="compass-pro-title">
                 <div className="lp-cpro__copy">
-                  <p className="lp-cpro__badge">Compass Pro</p>
-                  <h3 className="lp-h3">Your practice, mapped to the colleges you want.</h3>
+                  <h3 className="lp-h3" id="compass-pro-title"><span className="lp-h2__name">Compass Pro.</span> <span className="lp-h2__rest">Your practice, mapped to the colleges you want.</span></h3>
                   <p>Turn your recorded practice into a paper-by-paper range. Compare it with your DU shortlist and see which paper has the most room to improve.</p>
-                  <Link href="/pricing" className="lp-link">See what Pro includes<ArrowRight size={16} aria-hidden="true" /></Link>
+                  <Link href="/pricing" className="lp-textlink">See what Pro includes</Link>
                 </div>
-                <ul className="lp-cpro__list">
-                  <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, shown as a range.</span></li>
-                  <li><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared with Rounds I to III.</span></li>
-                  <li><b>Next move</b><span>The paper with the most marks open, and its weakest chapter.</span></li>
-                </ul>
+                <dl className="lp-cpro__list">
+                  <div><dt>Practice projection</dt><dd>Each paper out of 250, from your attempt rate and accuracy, shown as a range.</dd></div>
+                  <div><dt>Your DU shortlist</dt><dd>Up to 8 college and programme targets, compared with Rounds I to III.</dd></div>
+                  <div><dt>Next move</dt><dd>The paper with the most marks open, and its weakest chapter.</dd></div>
+                </dl>
                 <p className="lp-cpro__fine">Comparing cutoffs stays free.</p>
-              </Reveal>
+              </aside>
             </div>
           </section>
         ) : null}
@@ -297,14 +302,15 @@ export default function LandingPage() {
             <Reveal>
               <EligibilityTeaser />
             </Reveal>
-            <Reveal as="aside" className="lp-combo" aria-label="CUET subject combination planner">
+            {/* Combo Planner: a row between two hairlines, not a card. The teaser above holds the section's
+                primary key, so this one is secondary. */}
+            <aside className="lp-combo" aria-labelledby="combo-title">
               <div>
-                <p className="lp-cpro__badge">Combo Planner</p>
-                <h3 className="lp-h3">Not sure which CUET subjects to pick?</h3>
+                <h3 className="lp-h3" id="combo-title"><span className="lp-h2__name">Combo Planner.</span> <span className="lp-h2__rest">Not sure which CUET subjects to pick?</span></h3>
                 <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
               </div>
-              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--primary">Plan my subjects<ArrowRight size={17} aria-hidden="true" /></Link>
-            </Reveal>
+              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">Plan my subjects</Link>
+            </aside>
             <CollegeDestinations />
           </div>
         </section>
@@ -314,9 +320,7 @@ export default function LandingPage() {
         {/* ------------------------------ PROOF ----------------------------- */}
         <section className="lp-sec lp-sec--tight">
           <div className="mm-wrap">
-            <Reveal>
-              <LiveStatsBand offer={OFFER} />
-            </Reveal>
+            <LiveStatsBand />
           </div>
         </section>
 
@@ -350,26 +354,27 @@ export default function LandingPage() {
               <h2 className="lp-h2"><span className="lp-h2__name">Start free.</span> <span className="lp-h2__rest">Go Pro when you want more room.</span></h2>
               <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `One payment of ₹${OFFER.oneTime.rupees} covers you through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} is coming. Pay once now and keep every day you paid for.`}</p>
             </div>
-            <Reveal className="lp-plans">
+            {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. */}
+            <div className="lp-plans">
               <div className="lp-plan">
-                <h3 className="lp-h4">Free</h3>
-                <p className="lp-plan__price mm-measure">₹0</p>
-                <ul className="lp-ticks">
-                  {freePlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
+                <h3 className="lp-h3">Free</h3>
+                <p className="lp-plan__price">₹0</p>
+                <ul className="lp-plan__list">
+                  {freePlan.map((item) => <li key={item}>{item}</li>)}
                 </ul>
                 <Link href="/signup" className="mm-btn mm-btn--secondary">Start free</Link>
               </div>
               <div className="lp-plan lp-plan--pro">
-                <h3 className="lp-h4">Pro</h3>
-                <p className="lp-plan__price mm-measure">₹{OFFER.purchasable === 'monthly' ? OFFER.monthly.rupees : OFFER.oneTime.rupees}<span>{OFFER.purchasable === 'monthly' ? ' a month' : ' once'}</span></p>
+                <h3 className="lp-h3">Pro</h3>
+                <p className="lp-plan__price">₹{OFFER.purchasable === 'monthly' ? OFFER.monthly.rupees : OFFER.oneTime.rupees}<span>{OFFER.purchasable === 'monthly' ? ' a month' : ' once'}</span></p>
                 <p className="lp-plan__note">{OFFER.purchasable === 'monthly' ? 'Renews monthly. Cancel anytime in Account.' : `Access through ${OFFER.oneTime.expires}. This payment does not renew.`}</p>
-                <ul className="lp-ticks">
-                  <li><Check size={16} aria-hidden="true" />Everything in Free</li>
-                  {proPlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
+                <ul className="lp-plan__list">
+                  <li className="lp-plan__lead">Everything in Free</li>
+                  {proPlan.map((item) => <li key={item}>{item}</li>)}
                 </ul>
-                <Link href="/pricing" className="mm-btn mm-btn--primary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}<ArrowRight size={18} aria-hidden="true" /></Link>
+                <Link href="/pricing" className="mm-btn mm-btn--primary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}</Link>
               </div>
-            </Reveal>
+            </div>
           </div>
         </section>
 

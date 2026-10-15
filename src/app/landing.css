@@ -836,42 +836,42 @@ body:has(.mm.lp) {
 .lp main .ss[data-pinned='true'] > .ss__track { content-visibility: auto; }
 .lp main > #score-recovery-lab .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 629px); }
 /* Phones from 375 px (the 390 and 430 px measures, and the base for wider phones and tablets). */
-.lp main > #compass { contain-intrinsic-size: auto 2182px; }
-.lp main > #du-eligibility { contain-intrinsic-size: auto 2365px; }
+.lp main > #compass { contain-intrinsic-size: auto 2484px; }
+.lp main > #du-eligibility { contain-intrinsic-size: auto 2238px; }
 .lp main > #exam-experience { contain-intrinsic-size: auto 1620px; }
-.lp main > .lp-sec--tight { contain-intrinsic-size: auto 391px; }
-.mm.lp main > #on-instagram { contain-intrinsic-size: auto 897px; }
-.lp main > #pricing { contain-intrinsic-size: auto 1187px; }
+.lp main > .lp-sec--tight { contain-intrinsic-size: auto 179px; }
+.mm.lp main > #on-instagram { contain-intrinsic-size: auto 982px; }
+.lp main > #pricing { contain-intrinsic-size: auto 1364px; }
 .lp main > .lp-sec--band { contain-intrinsic-size: auto 371px; }
-.lp main > .lp-close { contain-intrinsic-size: auto 540px; }
+.lp main > .lp-close { contain-intrinsic-size: auto 337px; }
 @media (max-width: 374px) {
   .lp main > #score-recovery-lab .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 501px); }
-  .lp main > #compass { contain-intrinsic-size: auto 2264px; }
-  .lp main > #du-eligibility { contain-intrinsic-size: auto 2517px; }
+  .lp main > #compass { contain-intrinsic-size: auto 2533px; }
+  .lp main > #du-eligibility { contain-intrinsic-size: auto 2588px; }
   .lp main > #exam-experience { contain-intrinsic-size: auto 1646px; }
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 410px; }
-  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 889px; }
-  .lp main > #pricing { contain-intrinsic-size: auto 1241px; }
+  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 215px; }
+  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 975px; }
+  .lp main > #pricing { contain-intrinsic-size: auto 1421px; }
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 419px; }
 }
 @media (min-width: 410px) and (max-width: 599px) {
-  .lp main > #du-eligibility { contain-intrinsic-size: auto 2371px; }
+  .lp main > #du-eligibility { contain-intrinsic-size: auto 2177px; }
   .lp main > #exam-experience { contain-intrinsic-size: auto 1569px; }
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 380px; }
-  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 900px; }
-  .lp main > .lp-close { contain-intrinsic-size: auto 501px; }
+  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 184px; }
+  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 899px; }
+  .lp main > .lp-close { contain-intrinsic-size: auto 342px; }
 }
 @media (min-width: 900px) {
   .lp main > #score-recovery-lab .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 516px); }
   .lp main > #your-prep .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 652px); }
 }
 @media (min-width: 960px) {
-  .lp main > #compass { contain-intrinsic-size: auto 1225px; }
-  .lp main > #du-eligibility { contain-intrinsic-size: auto 1333px; }
+  .lp main > #compass { contain-intrinsic-size: auto 1181px; }
+  .lp main > #du-eligibility { contain-intrinsic-size: auto 1325px; }
   .lp main > #exam-experience { contain-intrinsic-size: auto 1224px; }
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 137px; }
-  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 935px; }
-  .lp main > #pricing { contain-intrinsic-size: auto 755px; }
+  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 188px; }
+  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 901px; }
+  .lp main > #pricing { contain-intrinsic-size: auto 839px; }
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 397px; }
-  .lp main > .lp-close { contain-intrinsic-size: auto 603px; }
+  .lp main > .lp-close { contain-intrinsic-size: auto 248px; }
 }
