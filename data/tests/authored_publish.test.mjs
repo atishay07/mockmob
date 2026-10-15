@@ -730,6 +730,44 @@ test('apply inserts the groups first, then the questions as live and visible row
   assert.equal(path.dirname(result.restoreFile), out);
 });
 
+test('apply rebuilds the NTA index rows of the subjects it touched, after the rows are in; it can be switched off and never fails the publish', async () => {
+  const run = async (extra, client) => {
+    const db = dbWithColumns();
+    db.columns.passage_groups = GROUP_ALL;
+    const { args, plan } = await approvedPlan(['--mode=apply', '--reason=index hook', ...extra]);
+    args.plan = plan.planFile;
+    return { db, result: await apply(args, { sb: db, target: { host: 'x.supabase.co', ref: 'x' }, ...client(db) }) };
+  };
+  const calls = [];
+  const { db, result } = await run([], (database) => ({
+    signingKey: 'a-signing-key',
+    rebuildIndex: async (sb, subjects, options) => {
+      calls.push({ sb, subjects, options, rowsAlready: database.tables.questions.length });
+      return { status: 'rebuilt', subjects: subjects.map((subject) => ({ subject, indexed: 1 })) };
+    },
+  }));
+  assert.equal(calls.length, 1, 'one rebuild after the whole publish');
+  assert.equal(calls[0].sb, db);
+  assert.equal(calls[0].rowsAlready, 475, 'runs after every question is inserted');
+  assert.deepEqual(calls[0].subjects.slice().sort(), ['chemistry', 'english', 'history', 'political_science', 'psychology', 'sociology']);
+  assert.equal(calls[0].options.secret, 'a-signing-key');
+  assert.equal(result.ntaIndex.status, 'rebuilt');
+
+  const off = [];
+  const disabled = await run(['--no-index-rebuild'], () => ({ signingKey: 'k', rebuildIndex: async () => { off.push(1); return {}; } }));
+  assert.deepEqual(off, []);
+  assert.deepEqual(disabled.result.ntaIndex, { status: 'skipped', reason: 'disabled', subjects: [] });
+  assert.equal(parseArgs(['--no-index-rebuild']).indexRebuild, false);
+  assert.equal(parseArgs([]).indexRebuild, true);
+
+  // No signing key (or no index table): the default rebuild reports a skip, touches no question and the publish stands.
+  const keyless = await run([], () => ({ signingKey: '' }));
+  assert.equal(keyless.result.inserted, 475);
+  assert.equal(keyless.result.ntaIndex.status, 'skipped');
+  assert.equal(keyless.result.ntaIndex.reason, 'no_signing_key');
+  assert.equal(keyless.db.tables.questions.length, 475);
+});
+
 test('apply refuses ids that already exist and writes nothing', async () => {
   const candidates = wave1();
   const db = dbWithColumns({ questions: [{ ...toQuestionRow(candidates[10]) }] });

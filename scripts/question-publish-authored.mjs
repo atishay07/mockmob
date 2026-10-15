@@ -20,7 +20,11 @@
 // apply    re-plans from the candidates file the approved dry run named (sha256 and plan hash must match), refuses when any
 //          planned id or group id already exists in the target, refuses unscored rows unless --allow-unscored, saves the
 //          restore file, inserts the groups and then the questions in chunks, and reads everything back (visible, same
-//          content hash). --expect-project is required: the project ref the target URL must have.
+//          content hash). --expect-project is required: the project ref the target URL must have. Right after the read-back it
+//          rebuilds the nta_question_index rows of the subjects it touched (data/nta_index.js), so the new questions are in
+//          the NTA pool index at once; --no-index-rebuild skips that. The rebuild never fails the publish: it is skipped when
+//          CUET_EVIDENCE_SIGNING_KEY is missing or the index table is not in the target yet, and the pool falls back to the
+//          full read while its index is older than its newest question, so nothing is lost either way.
 // restore  hides the inserted rows (the same withheld state as scripts/question-hold.mjs, plus is_deleted) and their
 //          groups, only where the row is still from this source. --hard-delete deletes them instead, only where the row is
 //          still exactly as written. Run it also after a failed apply: it only touches ids named in the restore file.
@@ -31,6 +35,7 @@ import { contentHash } from '../data/content_evidence.js';
 import { toInternalSubjectId, toPublicSubjectId } from '../data/cuet_controls.js';
 import { ntaAgentScoreEntry } from '../data/nta_agent_scores.js';
 import { NEAR_DUPLICATE_STEM_JACCARD, contentTokens, jaccard } from '../data/nta_item_checks.js';
+import { rebuildNtaIndexForSubjects } from '../data/nta_index.js';
 import { AUTHORED_SOURCES, AUTHORED_SUBJECTS, GROUP_COLUMNS, PUBLISH_VERSION, QUESTION_COLUMNS, planPublication, sha256OfFile, waveOf } from './lib/authored-wave.mjs';
 
 // The final candidates: the wave-1 candidates minus the four that failed the fresh judge pass, with the 19 engine-refused ones reworded.
@@ -46,12 +51,13 @@ const isVisible = (row) => !row.is_deleted && row.status === 'live' && row.verif
 export function parseArgs(argv) {
   const out = {
     mode: 'dry-run', candidates: DEFAULT_CANDIDATES, plan: null, restore: null, reason: '', outDir: REPORT_DIR, offline: false,
-    fixtures: 'tmp/nta-fixtures', expectProject: null, allowUnscored: false, hardDelete: false, now: null, fitDir: 'data/nta_fit_scores', agentDir: null,
+    fixtures: 'tmp/nta-fixtures', expectProject: null, allowUnscored: false, hardDelete: false, indexRebuild: true, now: null, fitDir: 'data/nta_fit_scores', agentDir: null,
   };
   for (const arg of argv) {
     if (arg === '--offline') { out.offline = true; continue; }
     if (arg === '--allow-unscored') { out.allowUnscored = true; continue; }
     if (arg === '--hard-delete') { out.hardDelete = true; continue; }
+    if (arg === '--no-index-rebuild') { out.indexRebuild = false; continue; }
     const m = arg.match(/^--([\w-]+)=(.*)$/);
     if (!m) continue;
     const [, name, value] = m;
@@ -95,7 +101,7 @@ async function makeClient(args) {
   const target = targetOf(url);
   if (args.expectProject && target.ref !== args.expectProject) throw new Error(`--expect-project=${args.expectProject} but the target is ${target.ref}; nothing was done`);
   if (args.mode !== 'dry-run' && !args.expectProject) throw new Error(`--mode=${args.mode} needs --expect-project=<ref> (the target is ${target.ref}); nothing was done`);
-  return { sb: createClient(url, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } }), target };
+  return { sb: createClient(url, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } }), target, signingKey: env.CUET_EVIDENCE_SIGNING_KEY || process.env.CUET_EVIDENCE_SIGNING_KEY || '' };
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -304,7 +310,7 @@ function summariseChecks(checks) {
 // ---------------------------------------------------------------------------------------------
 
 /** apply: insert the approved plan. Saves the restore file before the first insert. */
-export async function apply(args, { sb, target = null }) {
+export async function apply(args, { sb, target = null, signingKey = process.env.CUET_EVIDENCE_SIGNING_KEY, rebuildIndex = rebuildNtaIndexForSubjects } = {}) {
   if (!args.plan || !args.reason) throw new Error('need --plan and --reason');
   const approved = JSON.parse(fs.readFileSync(args.plan, 'utf8'));
   if (approved.kind !== 'authored_publish_plan' || approved.version !== PUBLISH_VERSION) throw new Error('--plan is not an authored_publish_plan of this version');
@@ -376,10 +382,15 @@ export async function apply(args, { sb, target = null }) {
   const notVisible = readBack.filter((row) => !isVisible(row)).map((row) => row.id);
   const hashMismatch = readBack.filter((row) => contentHash(row) !== expected.get(row.id)).map((row) => row.id);
   const groupsRead = await existingIds(sb, 'passage_groups', groupIds);
+  // The new questions must reach the NTA pool index now, not at the next daily rebuild. Only after a clean write.
+  const clean = !missing.length && !notVisible.length && !hashMismatch.length;
+  const ntaIndex = args.indexRebuild === false ? { status: 'skipped', reason: 'disabled', subjects: [] }
+    : !clean ? { status: 'skipped', reason: 'read_back_not_clean', subjects: [] }
+      : await rebuildIndex(sb, Object.keys(plan.summary.bySubject), { secret: signingKey });
   return {
     kind: 'authored_publish', mode: 'apply', source, at, planned: rows.length, groupsPlanned: plan.groups.length,
     inserted: questionsInserted, groupsInserted, missing, notVisible, hashMismatch, groupsMissing: groupIds.filter((id) => !groupsRead.includes(id)),
-    liveBefore, liveAfter: await liveCounts(sb, Object.keys(plan.summary.bySubject)), restoreFile,
+    liveBefore, liveAfter: await liveCounts(sb, Object.keys(plan.summary.bySubject)), ntaIndex, restoreFile,
   };
 }
 
