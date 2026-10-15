@@ -100,8 +100,9 @@
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     :root:not([data-motion='reduced']) .lp-shelf .subj-obj--alive .subj-obj__float {
-      animation: subj-obj-float 7.2s infinite both, lp-shelf-in backwards, lp-shelf-out forwards;
-      animation-delay: calc(var(--obj-phase) * -7.2s), 0s, 0s;
+      /* The first slot was the object's idle float; it stays empty (none) so the slots keep their order. */
+      animation: none, lp-shelf-in backwards, lp-shelf-out forwards;
+      animation-delay: 0s, 0s, 0s;
       animation-timeline: auto, --lp-statement, --lp-statement;
       animation-range: normal, cover calc(4% + var(--k, 0) * 5%) cover calc(40% + var(--k, 0) * 5%), exit 0% exit 100%;
     }
