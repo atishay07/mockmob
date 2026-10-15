@@ -9,6 +9,8 @@ import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
+import { CloseActions, DockLine } from '@/components/landing/CloseActions';
+import { DemoJump } from '@/components/landing/DemoJump';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { HeroDockGate, DockMobi } from '@/components/landing/HeroDockGate';
 import { Reveal } from '@/components/landing/Reveal';
@@ -402,16 +404,18 @@ export default function LandingPage() {
             <MascotSeat station="close" pose="greeting" label="See you at your first mock." />
             <h2 className="lp-h2 lp-h2--xl">Five questions. Then your next move.</h2>
             <p className="lp-sub">Answer five now. Sign up when you want MockMob to keep your record.</p>
-            <LandingActions mode="primary" />
+            <CloseActions />
           </Reveal>
+          {/* Every same-page "Try a CUET question" link lands on the live sample question, every time. */}
+          <DemoJump />
         </section>
       </main>
       <MarketingFooter />
       <PipGuide />
-      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo or the DU teaser holds the screen, and carries Mobi. */}
+      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo, the DU teaser or the close band's actions hold the screen, and carries Mobi. */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <HeroDockGate>
-        <MobileDock note={<DockMobi line={<><b>No signup.</b><span>Free to start.</span></>} />} label="Try a CUET question" href="/#try-practice" />
+        <MobileDock note={<DockMobi line={<DockLine />} />} label="Try a CUET question" href="/#try-practice" />
       </HeroDockGate>
     </div>
   );
