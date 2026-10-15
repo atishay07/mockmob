@@ -51,16 +51,16 @@ I'll not say that this is perfect and everything is done, but it's definitely a 
 
 | # | Item from the message | Status |
 |---|---|---|
-| 1 | Landing is mobile-first; every landing section is as impressive on a phone as on desktop | pass 2 running (wf_eeabd47c-d69) |
-| 2 | "Every mark, traced back to a moment" pins and steps on phones, not stacked sections | pass 2, packet L1 |
-| 3 | The same hold-and-step scroll on the sections people scroll past (what and why MockMob, see where your marks went) | pass 2, packet L1 |
-| 4 | Subject-object shelf aligned and impressive on phones; easing on object motion | pass 2, packet L2 |
-| 5 | Mobi's motion on the homepage improved | pass 2, packet L2 |
-| 6 | The 3D calculator behind the accountancy mock: find out what it is and fix it if it is a glitch | pass 2, packet L1 |
-| 7 | English refined everywhere; no "illustrative example / not a prediction" sub-remarks; no AI-slop look; one design theme like the app | pass 2, copy packet |
-| 8 | Practice: subject objects bigger on desktop, with easing | pass 2, packet A1 |
-| 9 | Start sheet subject row scrolls on desktop | pass 2, packet A1 |
-| 10 | Arena on phones less confusing, with the app's refinements brought over | pass 2, packet A2; more passes later |
-| 11 | CTO mode: keep refining small details (small logos and the like) pass after pass, toward "absolutely beautiful perfection" (now about 30%) | ongoing |
-| 12 | Deploy the landing once satisfied | after pass 2 review |
+| 1 | Landing is mobile-first; every landing section is as impressive on a phone as on desktop | done, deployed f652aba0 (15 Oct 19:40) |
+| 2 | "Every mark, traced back to a moment" pins and steps on phones, not stacked sections | done, deployed f652aba0 |
+| 3 | The same hold-and-step scroll on the sections people scroll past (what and why MockMob, see where your marks went) | done, deployed f652aba0 |
+| 4 | Subject-object shelf aligned and impressive on phones; easing on object motion | done, deployed f652aba0 |
+| 5 | Mobi's motion on the homepage improved | done, deployed f652aba0 |
+| 6 | The 3D calculator behind the accountancy mock: find out what it is and fix it if it is a glitch | done, deployed f652aba0 |
+| 7 | English refined everywhere; no "illustrative example / not a prediction" sub-remarks; no AI-slop look; one design theme like the app | done, deployed f652aba0 |
+| 8 | Practice: subject objects bigger on desktop, with easing | done, deployed f652aba0 |
+| 9 | Start sheet subject row scrolls on desktop | done, deployed f652aba0 |
+| 10 | Arena on phones less confusing, with the app's refinements brought over | first pass deployed; more passes queued |
+| 11 | CTO mode: keep refining small details (small logos and the like) pass after pass, toward "absolutely beautiful perfection" (now about 30%) | ongoing: speed pass and CI running; app polish wave 2 running |
+| 12 | Deploy the landing once satisfied | done: website v2 live 15 Oct about 19:40 IST |
 | 13 | Mistake Repair feedback (the owner will try it) | waiting on the owner |
