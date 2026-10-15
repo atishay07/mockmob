@@ -27,7 +27,7 @@ import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
 import { subjectArt } from '@/../data/subject_art.mjs';
 import { publishedVoices } from '@/lib/voices';
 import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
-import { buildCompassShowcase, duIndexFacts } from '@/lib/du/showcase';
+import { buildCompassShowcase } from '@/lib/du/showcase';
 import CompassLadder from '@/components/landing/CompassLadder';
 import CreatorReels from '@/components/landing/CreatorReels';
 import { MascotSeat } from '@/components/brand/Mascot';
@@ -65,7 +65,6 @@ const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh 
 const OFFER = publicOffer();
 const SHOWCASE = buildCompassShowcase();
 const WALL_VOICES = publishedVoices();
-const DU_FACTS = duIndexFacts();
 
 // The statement scrubs word by word with the scroll (on phones it holds the screen while it does). It carries on
 // from the hero, which has said what the marks cost: what you do once you can see where they went.
@@ -102,31 +101,31 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 const TOUR = [
   { id: 'arena', label: 'Practice', line: 'Drills and full mocks on the exam clock', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
-    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 and −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
+    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', line: 'Fix why you got it wrong, not just the answer', title: 'Fix why you missed it, not just the answer.',
     body: 'After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the official key.',
-    points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' },
+    points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'Then a 10-minute next step and 5 fresh questions to test the fix.', href: '/signup', cta: 'Try Mistake Repair' },
   ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', line: 'Learn the idea, then keep it', title: 'Learn the idea behind the mark, then keep it.',
     body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
     points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects, with more on the way`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'Made to sit beside your NCERT.', href: '/learn', cta: 'Open Learn' }] : []),
   { id: 'replay', label: 'Replay', line: 'See where the marks actually went', title: 'Replay a mock, answer by answer.',
     body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
-    points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'The whole mock in order, so you pick what to fix.', href: '/review', cta: 'Review your mistakes' },
+    points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'Then turn the costly questions into a short drill.', href: '/review', cta: 'Review your mistakes' },
   { id: 'radar', label: 'Radar', line: 'The chapter to fix first', title: 'Know which chapter to fix first.',
     body: 'A score is just a number. Radar traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
-    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'Explore Radar' },
+    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Your weakest chapters, free after every mock.', href: '/analytics', cta: 'Explore Radar' },
   { id: 'prepos', label: 'PrepOS', line: 'Ask what to do tonight', title: 'Ask what to do tonight. Get one clear step.',
     body: 'PrepOS reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in Radar.',
-    points: ['Questions about your own record are free', 'AI credits each month: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and Radar.', href: '/mentor', cta: 'Meet PrepOS' },
+    points: ['Questions about your own record are free', 'AI credits each month: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'Questions about your own record are free.', href: '/mentor', cta: 'Meet PrepOS' },
   { id: 'compass', label: 'DU Compass', line: 'Your shortlist against real DU cutoffs', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
-    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Your practice, set against DU’s published cutoffs.', href: '/admission-compass', cta: 'Open Compass' },
+    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Cutoffs from DU’s published Round I to III lists.', href: '/admission-compass', cta: 'Open Compass' },
   { id: 'combo', label: 'Combo Planner', line: 'Choose your five CUET papers', title: 'Choosing five papers? Check the combination first.',
     body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
-    points: ['Free to use', 'Compare combinations side by side'], chip: 'Tested against DU’s published 2026 rules.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
+    points: ['Free to use', 'Compare combinations side by side'], chip: 'Compare combinations side by side, free.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
   { id: 'rival', label: 'Benchmarks', line: 'Beat a target score under the clock', title: 'Beat the score you’re aiming for.',
     body: 'Run a short timed set against a fixed target for accuracy and pace, at daily, college or DU level. See whether you hold the standard with the clock running.',
-    points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See the leaderboard' },
+    points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See the leaderboard' },
 ];
 
 const faqs = [
@@ -152,11 +151,10 @@ export default function LandingPage() {
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             {/* Everything the reader needs is in the server HTML and visible at first paint: no entrance hides the
-                words or the keys. The headline carries the page: "CUET 2027" in volt as its first line. On phones and
-                tablets Mobi stands on it; on desktop (1100px and up) he stands on the sample card's top edge instead
-                (the second seat, in the card's wrapper) and the first seat steps out. The one thing that moves is the
-                typed line, which runs two rounds and rests. The count under the keys is a plain sentence. Nothing
-                labels the headline from above. */}
+                words or the keys. The headline carries the page: "CUET 2027" in volt as its first line. Mobi has three
+                places on this page, each with a reason: on the sample card at desktop (he greets you beside the
+                question), in the phone dock once the hero's keys have gone, and reacting to your own sample answers.
+                The one thing that moves here is the turning line, which turns a set number of times and rests. */}
             <div className="lp-hero__copy">
               <div className="lp-hero__head">
                 <h1 className="lp-title">
@@ -164,7 +162,6 @@ export default function LandingPage() {
                   <span className="lp-title__line">Your lost marks went somewhere.</span>
                   <span className="lp-title__line">MockMob shows you where.</span>
                 </h1>
-                <MascotSeat station="hero" pose="greeting" eager />
               </div>
               <TypeLine lead="Down to" phrases={['the chapter.', 'the minute.', 'the changed answer.', 'the reason.']} label="the chapter, the minute, the changed answer and the reason." />
               <p className="lp-lead">Then it picks the chapter for tonight and keeps your DU shortlist in sight.</p>
@@ -191,12 +188,11 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Second hero beat: the four facts as plain sentences under a hairline, each a link to the part of the page
-              that shows it. No panel, no icons, no light behind it. */}
+          {/* Second hero beat: two facts the page does not say anywhere else, as plain sentences under a hairline,
+              each a link to the part of the page that shows it. The sample already offers five questions, and the
+              73 DU programmes belong to the DU section, so neither is repeated here. */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="What MockMob gives you">
-              <a href="#try-practice"><b>Five questions</b> in your subject, before you sign up.</a>
-              {DU_FACTS ? <a href="#du-eligibility"><b>{DU_FACTS.programmes} DU programmes</b> to check against your subjects.</a> : null}
               <a href="#exam-experience"><b>Two exam screens</b>, MockMob or NTA style. Your pick.</a>
               <a href="#your-prep"><b>One full CUET mock</b>: 50 questions in 60 minutes.</a>
             </nav>
@@ -332,7 +328,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
               <h2 className="lp-h2"><span className="lp-h2__name">MockMob on Instagram.</span> <span className="lp-h2__rest">Featured by CUET creators.</span></h2>
-              <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their audiences. Tap a reel to watch it here.</p>
+              <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their audiences. Press Watch to see a reel right here.</p>
             </div>
             <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
           </div>
@@ -355,7 +351,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
               <h2 className="lp-h2"><span className="lp-h2__name">Start free.</span> <span className="lp-h2__rest">Go Pro when you want more room.</span></h2>
-              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `One payment of ₹${OFFER.oneTime.rupees} covers you through ${OFFER.oneTime.expires}. Monthly Pro at ₹${OFFER.monthly.rupees} is coming. Pay once now and keep every day you paid for.`}</p>
+              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `Monthly Pro, ₹${OFFER.monthly.rupees} a month, opens soon. Pay ₹${OFFER.oneTime.rupees} once now and keep access through ${OFFER.oneTime.expires}.`}</p>
             </div>
             {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. */}
             <div className="lp-plans">

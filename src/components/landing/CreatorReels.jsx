@@ -1,99 +1,36 @@
 "use client";
 
-// A curated strip of Instagram links. Covers are plain typography on a flat surface (the creator's real
-// audience, name, handle and bio line), never a stand-in for a creator photo, a fake avatar or a fabricated
-// post thumbnail. The embed is mounted only after activation, and the original link remains available if
-// Instagram blocks it. The proof above the strip is one sentence, not a panel of stat tiles.
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { undrawn } from './undrawn';
+// The creators who featured MockMob, set as a list on hairlines rather than a row of cards: each creator's name,
+// their handle and one true fact about their audience, the paraphrase of their own bio, and a plain "Watch" that
+// opens the reel right there in the row. MockMob's own posts are one row at the end, their date a caption, never a
+// headline. No thumbnails we do not have, no fake avatar, no display-size follower figures: the proof is the one
+// sentence above the list. The embed mounts only after a press (nothing is sent to Instagram before that), and the
+// original link stays one tap away if Instagram blocks the embed.
+import { useEffect, useRef, useState } from 'react';
 import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, embedSrc, floorForPlus, permalink, recordedEngagement } from '@/lib/social';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-// '2026-04-28' -> { day: '28 April', year: '2026' }, written out by hand so the server and the phone agree.
-function postedOn(date) {
+// '2026-04-28' -> { day: 28, month: 'April', year: 2026 }, written out by hand so the server and the phone agree.
+function parts(date) {
   const [year, month, day] = String(date || '').split('-').map(Number);
   if (!year || !month || !day || !MONTHS[month - 1]) return null;
-  return { day: `${day} ${MONTHS[month - 1]}`, year: String(year) };
+  return { day, month: MONTHS[month - 1], year };
+}
+const WORDS = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+const dayLabel = (date) => { const p = parts(date); return p ? `${p.day} ${p.month} ${p.year}` : ''; };
+
+// "26 and 28 April 2026" for a run of posts in one month; otherwise each date in full.
+function datesLine(dates) {
+  const all = [...new Set(dates)].map(parts).filter(Boolean).sort((a, b) => a.year - b.year || MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month) || a.day - b.day);
+  if (!all.length) return '';
+  const sameMonth = all.every((p) => p.month === all[0].month && p.year === all[0].year);
+  if (!sameMonth) return all.map((p) => `${p.day} ${p.month} ${p.year}`).join(', ');
+  const days = all.map((p) => p.day);
+  const list = days.length > 1 ? `${days.slice(0, -1).join(', ')} and ${days.at(-1)}` : String(days[0]);
+  return `${list} ${all[0].month} ${all[0].year}`;
 }
 
-function Card({ item, active, onPlay }) {
-  const [embedState, setEmbedState] = useState('loading');
-  const openRef = useRef(null);
-  const label = `${item.kind === 'reel' ? 'Reel' : 'Post'} by ${item.creator}`;
-  const url = permalink(item);
-
-  // Activation replaces the focused cover button, so hand focus to the always-usable
-  // original-post link instead of letting it fall back to the page body.
-  useEffect(() => {
-    if (active) openRef.current?.focus({ preventScroll: true });
-  }, [active]);
-
-  useEffect(() => {
-    if (!active) return undefined;
-    const timer = window.setTimeout(() => setEmbedState((state) => state === 'loading' ? 'delayed' : state), 10000);
-    return () => window.clearTimeout(timer);
-  }, [active, item.code]);
-
-  return (
-    <li className="rl__item" data-active={active}>
-      {active ? (
-        <div className="rl__frame" data-embed-state={embedState}>
-          <iframe
-            src={embedSrc(item)}
-            title={label}
-            loading="lazy"
-            allow="encrypted-media; picture-in-picture; fullscreen"
-            allowFullScreen
-            referrerPolicy="strict-origin-when-cross-origin"
-            onLoad={() => setEmbedState('loaded')}
-            onError={() => setEmbedState('error')}
-          />
-          {embedState !== 'loaded' ? (
-            <p className="rl__status" role="status" aria-live="polite">
-              {embedState === 'loading' ? 'Loading from Instagram…' : embedState === 'delayed' ? 'Still loading. You can open it on Instagram instead.' : 'This one didn’t load. Open it on Instagram instead.'}
-            </p>
-          ) : null}
-          <a ref={openRef} href={url} target="_blank" rel="noopener noreferrer" className="rl__open">
-            Open the original on Instagram
-          </a>
-        </div>
-      ) : (
-        <button type="button" className="rl__card" data-kind={item.kind} onClick={onPlay} aria-label={`Load ${label} from Instagram`}>
-          <span className="rl__top">
-            <span className="rl__kind">{item.kind === 'reel' ? 'Creator reel' : 'MockMob post'}</span>
-            {item.partnership ? <span className="rl__partner">Paid partnership</span> : null}
-          </span>
-          {item.followers ? (
-            <span className="rl__reach">
-              <b>{compactCount(item.followers)}</b>
-              <span>followers{item.also ? <>, also runs <i>@{item.also.handle}</i> ({compactCount(item.also.followers)})</> : null}</span>
-            </span>
-          ) : null}
-          {!item.followers && postedOn(item.date) ? (
-            <span className="rl__reach rl__reach--date">
-              <b>{postedOn(item.date).day}</b>
-              <span>{postedOn(item.date).year}</span>
-            </span>
-          ) : null}
-          {item.about ? <span className="rl__about">{item.about}</span> : null}
-          {item.attribution ? <span className="rl__attribution">{item.attribution}</span> : null}
-          {item.likes || item.comments ? (
-            <span className="rl__engage">
-              {[item.likes ? `${item.likes.toLocaleString('en-IN')} likes` : null, item.comments ? `${item.comments.toLocaleString('en-IN')} comments` : null].filter(Boolean).join(', ')}
-            </span>
-          ) : null}
-          <span className="rl__identity">
-            <span className="rl__who"><b>{item.creator}</b><i>@{item.handle}{item.note ? `, ${item.note}` : ''}</i></span>
-          </span>
-          <span className="rl__load-label">Watch it here</span>
-        </button>
-      )}
-    </li>
-  );
-}
-
-// "3 October 2026" and "5 October 2026" read as "3–5 October 2026": one short date line under the reels.
+// "3 October 2026" and "5 October 2026" read as "3–5 October 2026": one short date line under the list.
 function countsDate(a, b) {
   if (!a || a === b) return b;
   const [dayA, ...restA] = a.split(' ');
@@ -103,66 +40,127 @@ function countsDate(a, b) {
   return `${lo}–${hi} ${restB.join(' ')}`;
 }
 
-export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
-  const creators = items.filter((item) => item.kind === 'reel' && item.followers);
-  const reach = combinedReach(creators);
-  const engagement = floorForPlus(recordedEngagement(items));
-  const trackRef = useRef(null);
-  const [activeCode, setActiveCode] = useState(null);
-  const [ends, setEnds] = useState({ start: true, end: true });
+// One creator's audience in a line: "161K followers, also runs @garima.again (25.3K)".
+function audience(item) {
+  if (!item.followers) return '';
+  const base = `${compactCount(item.followers)} followers`;
+  return item.also ? `${base}, also runs @${item.also.handle} (${compactCount(item.also.followers)})` : base;
+}
 
-  const updateEnds = useCallback(() => {
-    const node = trackRef.current;
-    // Undrawn (content-visibility): the ResizeObserver below reads it once the section is drawn.
-    if (!node || undrawn(node)) return;
-    const max = Math.max(0, node.scrollWidth - node.clientWidth);
-    setEnds({ start: node.scrollLeft <= 2, end: node.scrollLeft >= max - 2 });
-  }, []);
-
+// The embed in place, under the row's words. Instagram may be slow or blocked, so the original link is always there.
+function Embed({ item }) {
+  const [state, setState] = useState('loading');
+  const openRef = useRef(null);
+  const label = `${item.kind === 'reel' ? 'Reel' : 'Post'} by ${item.creator}`;
+  // The press that opened it replaced nothing, but the original link is the one control that always works:
+  // focus goes there so a keyboard user lands inside the opened row.
+  useEffect(() => { openRef.current?.focus({ preventScroll: true }); }, [item.code]);
   useEffect(() => {
-    const node = trackRef.current;
-    if (!node) return undefined;
-    updateEnds();
-    if (!('ResizeObserver' in window)) return undefined;
-    const observer = new ResizeObserver(updateEnds);
-    observer.observe(node);
-    const first = node.querySelector('.rl__item');
-    if (first) observer.observe(first);
-    return () => observer.disconnect();
-  }, [items.length, updateEnds]);
+    const timer = window.setTimeout(() => setState((s) => (s === 'loading' ? 'delayed' : s)), 10000);
+    return () => window.clearTimeout(timer);
+  }, [item.code]);
+  return (
+    <div className="rl__frame" data-embed-state={state}>
+      <iframe
+        src={embedSrc(item)}
+        title={label}
+        loading="lazy"
+        allow="encrypted-media; picture-in-picture; fullscreen"
+        allowFullScreen
+        referrerPolicy="strict-origin-when-cross-origin"
+        onLoad={() => setState('loaded')}
+        onError={() => setState('error')}
+      />
+      {state !== 'loaded' ? (
+        <p className="rl__status" role="status" aria-live="polite">
+          {state === 'loading' ? 'Loading from Instagram…' : state === 'delayed' ? 'Still loading. You can open it on Instagram instead.' : 'This one didn’t load. Open it on Instagram instead.'}
+        </p>
+      ) : null}
+      <a ref={openRef} href={permalink(item)} target="_blank" rel="noopener noreferrer" className="rl__open">
+        Open the original on Instagram
+      </a>
+    </div>
+  );
+}
 
-  const scrollBy = (dir) => {
-    const node = trackRef.current;
-    if (!node || (dir < 0 ? ends.start : ends.end)) return;
-    const card = node.querySelector('.rl__item');
-    const step = (card?.getBoundingClientRect().width || 240) + 16;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    node.scrollBy({ left: dir * step * 2, behavior: reduce ? 'auto' : 'smooth' });
-  };
+function CreatorRow({ item, active, onToggle }) {
+  const meta = [
+    item.attribution || null,
+    item.partnership ? 'Paid partnership' : null,
+    item.likes ? `${item.likes.toLocaleString('en-IN')} likes` : null,
+  ].filter(Boolean);
+  return (
+    <li className="rl__row" data-active={active ? 'true' : 'false'}>
+      <div className="rl__id">
+        <h3 className="rl__name">{item.creator}</h3>
+        <p className="rl__fact">@{item.handle}{item.followers ? <>, {audience(item)}</> : null}</p>
+      </div>
+      <div className="rl__words">
+        {item.about ? <p className="rl__about">{item.about}</p> : null}
+        {meta.length ? <p className="rl__meta">{meta.join('. ')}.</p> : null}
+      </div>
+      <div className="rl__act">
+        <button type="button" className="rl__watch" aria-expanded={active} aria-label={active ? `Close the reel by ${item.creator}` : `Watch the reel by ${item.creator} here`} onClick={onToggle}>
+          {active ? 'Close' : 'Watch'}
+        </button>
+      </div>
+      {active ? <Embed item={item} /> : null}
+    </li>
+  );
+}
+
+function PostsRow({ posts, activeCode, onToggle }) {
+  const open = posts.find((p) => p.code === activeCode) || null;
+  const handle = posts[0]?.handle;
+  return (
+    <li className="rl__row rl__row--own" data-active={open ? 'true' : 'false'}>
+      <div className="rl__id">
+        <h3 className="rl__name">MockMob</h3>
+        <p className="rl__fact">@{handle}, our own posts</p>
+      </div>
+      <div className="rl__words">
+        <p className="rl__about">{posts.length === 1 ? 'One post' : `${WORDS[posts.length] || posts.length} posts`} from {datesLine(posts.map((p) => p.date))}, on the account that runs this site.</p>
+      </div>
+      <div className="rl__act rl__act--many">
+        {posts.map((post, i) => {
+          const on = post.code === activeCode;
+          return (
+            <button key={post.code} type="button" className="rl__watch" aria-expanded={on} aria-label={on ? `Close MockMob’s post of ${dayLabel(post.date)}` : `Watch MockMob’s post of ${dayLabel(post.date)} here`} onClick={() => onToggle(post.code)}>
+              {on ? 'Close' : `Post ${i + 1}`}
+            </button>
+          );
+        })}
+      </div>
+      {open ? <Embed key={open.code} item={open} /> : null}
+    </li>
+  );
+}
+
+export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
+  const creators = items.filter((item) => item.kind === 'reel');
+  const posts = items.filter((item) => item.kind !== 'reel');
+  const reach = combinedReach(creators.filter((c) => c.followers));
+  const engagement = floorForPlus(recordedEngagement(items));
+  const [activeCode, setActiveCode] = useState(null);
+  const toggle = (code) => setActiveCode((now) => (now === code ? null : code));
 
   return (
     <div className="rl">
-      {creators.length ? (
+      {reach ? (
         <p className="rl__summary">
           <b>{compactCount(Math.floor(reach / 1000) * 1000)}+</b> combined followers, <b>{compactCount(REEL_VIEWS_FLOOR)}+</b> reel views{engagement ? <> and <b>{engagement.toLocaleString('en-IN')}+</b> likes and comments</> : null}.
         </p>
       ) : null}
-      <div className="rl__bar">
-        <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="rl__follow">Follow @{handle} on Instagram</a>
-        {items.length > 1 ? (
-          <div className="rl__arrows" role="group" aria-label="Browse posts">
-            {/* aria-disabled, not disabled: a focused arrow that reaches the end keeps focus. */}
-            <button type="button" onClick={() => scrollBy(-1)} aria-label="Scroll back" aria-disabled={ends.start}><ArrowLeft size={18} aria-hidden="true" /></button>
-            <button type="button" onClick={() => scrollBy(1)} aria-label="Scroll forward" aria-disabled={ends.end}><ArrowRight size={18} aria-hidden="true" /></button>
-          </div>
-        ) : null}
-      </div>
-      <ul className="rl__track" ref={trackRef} onScroll={updateEnds} aria-label="Curated Instagram reels and posts">
-        {items.map((item) => (
-          <Card key={`${item.code}-${activeCode === item.code ? 'active' : 'idle'}`} item={item} active={activeCode === item.code} onPlay={() => setActiveCode(item.code)} />
+      <ul className="rl__list" aria-label="Creators who featured MockMob on Instagram">
+        {creators.map((item) => (
+          <CreatorRow key={item.code} item={item} active={activeCode === item.code} onToggle={() => toggle(item.code)} />
         ))}
+        {posts.length ? <PostsRow posts={posts} activeCode={activeCode} onToggle={toggle} /> : null}
       </ul>
-      <p className="rl__note">Counts as of {countsDate(asOf, REEL_VIEWS_AS_OF)}.</p>
+      <div className="rl__foot">
+        <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="rl__follow">Follow @{handle} on Instagram</a>
+        <p className="rl__note">Counts as of {countsDate(asOf, REEL_VIEWS_AS_OF)}.</p>
+      </div>
     </div>
   );
 }

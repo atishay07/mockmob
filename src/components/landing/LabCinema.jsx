@@ -22,7 +22,7 @@ const VERDICT = { right: 'right', wrong: 'wrong', blank: 'left blank' };
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 const timeTake = S.time.wrongAllOver && S.time.underAllRight
-  ? `All ${S.facts.wrong} wrong answers ran over pace. Every quick one was right.`
+  ? `All ${S.facts.wrong} wrong answers ran over pace. Every answer you gave under pace was right.`
   : `${S.time.overCount} questions ran over pace.`;
 
 const SCENES = [
@@ -87,7 +87,7 @@ function TimePanel() {
         <li><i data-k="blank" />Blank</li>
       </ul>
       <p className="lcp__foot lct__sum">
-        {t.underAllRight ? <>Every answer under pace was <b data-tone="good">right</b>.</> : null}
+        {t.underAllRight ? <>Every answer you gave under pace was <b data-tone="good">right</b>. The {S.facts.blank} blanks were quick skips.</> : null}
       </p>
     </div>
   );
@@ -341,7 +341,9 @@ function Stage({ step, pinned, reduced, goTo }) {
       <div className="lcd" aria-hidden="true">
         <div className="lcd__frame">
           <ScreenBar />
-          <div className="lcd__tabs"><i className="lcd__tab-ink" />{SCENES.map(({ key, tab }, i) => <span key={key} data-on={step === i ? 'true' : 'false'}>{tab}</span>)}</div>
+          {/* The rail beside the device is the one scene control. The device only names the scene it shows, as a
+              still caption over a hairline (it turns with the scene, it is not a second set of tabs). */}
+          <p className="lcd__now"><span key={step}>{SCENES[step]?.tab}</span></p>
         </div>
       </div>
 

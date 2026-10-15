@@ -22,7 +22,12 @@
   border-bottom: 1px solid var(--line);
 }
 .cl__tabs::-webkit-scrollbar { display: none; }
-@media (min-width: 640px) { .cl__tabs { margin-inline: 0; padding-inline: 0; flex-wrap: wrap; overflow: visible; row-gap: 0; } }
+/* One row at every width: it scrolls sideways when the names do not fit, fading at its right edge (the padding lets
+   the last name scroll clear of the fade), so "Political Science (Hons.)" never drops to a line of its own. */
+.cl__tabs > button { flex: none; white-space: nowrap; }
+@media (min-width: 640px) {
+  .cl__tabs { margin-inline: 0; padding-inline: 0 3rem; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent); }
+}
 .cl__row { display: flex; flex-wrap: wrap; gap: var(--sp-3, 0.75rem) var(--sp-7, 3rem); }
 .cl__seg { display: flex; gap: var(--sp-5, 1.5rem); }
 :is(.cl__tabs, .cl__seg, .cl__try) button {

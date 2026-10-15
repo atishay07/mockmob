@@ -1,12 +1,12 @@
 /* ==========================================================================
    HERO V4 (landing only, loaded last): type first, nothing ambient.
    Phone first (390 x 844), then desktop. The headline is the hero: "CUET 2027" in solid volt as its first line,
-   at the headline's own size, with Mobi standing on that line; then the promise in heavy, tight type. Under it the
-   typed line says how far down MockMob traces a mark, the lead says what it does next, then the two keys, one line
+   at the headline's own size; then the promise in heavy, tight type. Under it the
+   turning line says how far down MockMob traces a mark, the lead says what it does next, then the two keys, one line
    of terms and the live count as a sentence. Nothing labels the headline from above: no kicker, pill or rule.
    Nothing the reader needs waits: every word and both keys are in the server HTML at first paint. Nothing glows,
-   no gradient fills text, no dot pulses and nothing loops. The hero's one page-load moment is Mobi hopping onto
-   the headline (brand-pip.css); the typed line runs two rounds and rests. Motion is transform and opacity;
+   no gradient fills text, no dot pulses and nothing loops. The hero's one page-load moment is Mobi stepping onto
+   the sample card at desktop (brand-pip.css); the turning line turns two rounds and rests. Motion is transform and opacity;
    reduced motion (either switch) gets the finished, still composition.
    ========================================================================== */
 
@@ -38,11 +38,11 @@
 /* ---------- Headline ----------
    One family, one weight, one size: "CUET 2027" is the headline's first line, set in volt (the accent-text
    green on Day, where volt cannot be read on paper), not a label above it. Tracking at the -0.04em floor, lines
-   set nearly solid. The size follows the copy column: "went somewhere." is 8.26em wide, so 11.9cqi always fits
-   it on one line and the headline breaks where the sentence does. */
+   set nearly solid. On phones it is the page's display step (--t-display, 40 px at 390, the same as the close line
+   and the Pro price), held under 11.9cqi so "went somewhere." (8.26em) always fits one line on a narrow phone. */
 .mm.lp .lp-hero--v3 .lp-title {
   margin: 0;
-  font-size: clamp(2rem, 11.9cqi, 3rem);
+  font-size: clamp(2rem, min(var(--t-display), 11.9cqi), 3rem);
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.04em;
@@ -56,48 +56,17 @@
   font-variant-numeric: lining-nums;
 }
 
-/* Mobi, two seats, one on screen at a time. On phones and tablets (under 960px) he stands on the headline's first
-   line, in the space "CUET 2027" leaves at its right; the headline keeps room above that line for his height, so he
-   never covers a word. From 960px, where the hero turns into two columns, the headline needs no room: that seat
-   steps out and he stands on the sample card's top edge instead (see "Mobi on the sample card" below). He has no
-   caption: he is the character, not a speech bubble (a seat's figcaption is empty and kept out of view). */
-.mm.lp .lp-hero--v3 .lp-hero__head {
-  --seat-w: 80px;
-  --seat-h: 104px;
-  position: relative;
-}
-.mm.lp .lp-hero--v3 .lp-hero__head .lp-title { padding-top: calc(var(--seat-h) - 0.8em); }
-.mm.lp .lp-hero--v3 .lp-hero__head .pip-seat {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: block;
-  width: var(--seat-w);
-  margin: 0;
-}
-.mm.lp .lp-hero--v3 .lp-hero__head .pip-seat__art { width: var(--seat-w); height: var(--seat-h); }
-.mm.lp .lp-hero--v3 .lp-hero__head .pip-seat figcaption {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-@media (min-width: 761px) {
-  .mm.lp .lp-hero--v3 .lp-hero__head { --seat-w: 112px; --seat-h: 146px; }
-}
-@media (min-width: 960px) {
-  .mm.lp .lp-hero--v3 .lp-hero__head .lp-title { padding-top: 0; }
-  .mm.lp .lp-hero--v3 .lp-hero__head .pip-seat { display: none; }
-}
+/* Mobi has no seat in the headline: on phones and tablets the dock carries him once the hero's keys have gone,
+   and from 960px he stands on the sample card (see "Mobi on the sample card" below). */
+.mm.lp .lp-hero--v3 .lp-hero__head { position: relative; }
 
-/* ---------- The typed line: how far down MockMob traces a mark ----------
-   "Down to" in the quiet ink, the phrase in full ink with a thin volt caret. The phrase is selected with the
-   site's own volt selection before it is replaced (TypeLine.jsx). Every phrase shares one cell with an invisible
-   copy of the longest, so the line never changes width or wraps. */
+/* ---------- The turning line: how far down MockMob traces a mark ----------
+   "Down to" in the quiet ink, the phrase in full ink. The phrase turns per word (TypeLine.jsx): the old one leaves
+   upward and fades, the next rises 0.55em into place with its opacity, 320 ms on the strong ease-out, the two
+   overlapping so the slot is never empty. No caret, no selection fill, no underline. Every phrase shares one cell
+   with an invisible copy of the longest, so the line never changes width or wraps. */
 .mm.lp .lp-hero--v3 .lp-type {
-  font: 700 clamp(1.25rem, 6.3cqi, 1.5rem) / 1.2 var(--font-display);
+  font: 700 clamp(1.25rem, min(var(--t-title), 6.3cqi), 1.5rem) / 1.2 var(--font-display);
   letter-spacing: -0.025em;
   color: var(--ink-3);
   white-space: nowrap;
@@ -105,48 +74,17 @@
 @media (min-width: 761px) {
   .mm.lp .lp-hero--v3 .lp-type { font-size: clamp(1.5rem, 5.2cqi, 2.125rem); }
 }
-.lp-type__slot { display: inline-grid; vertical-align: top; }
+/* The slot is a window: a leaving phrase rolls out of its top edge and the next rolls in from below, so the two
+   never sit on top of each other in full. The padding gives descenders room inside the clip. */
+.lp-type__slot { display: inline-grid; vertical-align: top; overflow: clip; padding-block: 0.1em; margin-block: -0.1em; }
 .lp-type__size,
-.lp-type__live { grid-area: 1 / 1; }
+.lp-type__word { grid-area: 1 / 1; }
 .lp-type__size { visibility: hidden; }
-.lp-type__live { color: var(--ink); }
-.lp-type__text {
-  position: relative;
-  isolation: isolate;
-  transition: color 0.12s ease;
-}
-.lp-type__text::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: 0.02em -0.07em -0.04em -0.02em;
-  border-radius: 0.12em;
-  background: var(--volt);
-  transform: scaleX(0);
-  transform-origin: right center;
-  transition: transform 0.12s ease-out;
-}
-.lp-type[data-phase='select'] .lp-type__text { color: var(--volt-ink); }
-.lp-type[data-phase='select'] .lp-type__text::before {
-  transform: scaleX(1);
-  transition: transform 0.19s cubic-bezier(0.23, 1, 0.32, 1);
-}
-.lp-type__caret {
-  display: inline-block;
-  width: max(2px, 0.075em);
-  height: 0.9em;
-  margin-left: 0.07em;
-  margin-right: calc(-0.07em - max(2px, 0.075em));
-  border-radius: 1px;
-  vertical-align: -0.1em;
-  background: var(--accent-text);
-  opacity: 0;
-  transition: opacity 0.2s ease-out;
-}
-.lp-type:is([data-phase='hold'], [data-phase='type']) .lp-type__caret { opacity: 1; }
-/* The caret blinks only while a phrase holds (about two blinks), never while it types. */
-.lp-type[data-phase='hold'] .lp-type__caret { animation: lp4-caret 1.1s ease-in-out 0.35s infinite; }
-@keyframes lp4-caret { 0%, 42% { opacity: 1; } 50%, 92% { opacity: 0; } }
+.lp-type__word { color: var(--ink); }
+.lp-type__word[data-turn='in'] { animation: lp4-turn-in 320ms cubic-bezier(0.23, 1, 0.32, 1) both; }
+.lp-type__word[data-turn='out'] { animation: lp4-turn-out 240ms cubic-bezier(0.23, 1, 0.32, 1) both; pointer-events: none; }
+@keyframes lp4-turn-in { from { opacity: 0; transform: translateY(0.55em); } }
+@keyframes lp4-turn-out { 55% { opacity: 0.7; } to { opacity: 0; transform: translateY(-0.9em); } }
 
 .mm.lp .lp-hero--v3 .lp-lead {
   max-width: 34ch;
@@ -371,19 +309,15 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--go { box-shadow: 0 var(--b
 /* ---------- Reduced motion: the finished, still composition ---------- */
 @media (prefers-reduced-motion: reduce) {
   .lp-live[data-ready='true'],
-  .lp-type__caret,
+  .lp-type__word,
   .lp-pick__chip { animation: none; }
-  .lp-type__text,
-  .lp-type__text::before,
-  .lp-type__caret,
+  .lp-type__word[data-turn='out'] { display: none; }
   .mm.lp .lp-hero--v3 .lp-key,
   .lp-pick__plus { transition: none; }
 }
 :root[data-motion='reduced'] .lp-live[data-ready='true'],
-:root[data-motion='reduced'] .lp-type__caret,
+:root[data-motion='reduced'] .lp-type__word,
 :root[data-motion='reduced'] .lp-pick__chip { animation: none; }
-:root[data-motion='reduced'] .lp-type__text,
-:root[data-motion='reduced'] .lp-type__text::before,
-:root[data-motion='reduced'] .lp-type__caret,
+:root[data-motion='reduced'] .lp-type__word[data-turn='out'] { display: none; }
 :root[data-motion='reduced'] .mm.lp .lp-hero--v3 .lp-key,
 :root[data-motion='reduced'] .lp-pick__plus { transition: none; }

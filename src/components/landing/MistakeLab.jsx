@@ -15,7 +15,6 @@ import { ArrowRight, Check, Clock, Lock, Minus, Pause, Play, RotateCcw, X } from
 import { pipReact } from '@/components/brand/pipEvents';
 import { useReadableRegion } from './useReadableRegion';
 import ScrollStory from './ScrollStory';
-import { MascotSeat } from '@/components/brand/Mascot';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, clock, marksLedger } from './labStory.mjs';
 
@@ -231,7 +230,6 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
       <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label="Sample Accountancy session, 10 questions">
         <div className="ml__bar-top">
           <div className="ml__session-label"><span>Sample Accountancy session, 10 questions</span></div>
-          <MascotSeat station="lab-inline" pose="attentive" className="pip-seat--lab-inline" />
         </div>
 
         <div className="ml__panels">

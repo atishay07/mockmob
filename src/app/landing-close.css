@@ -59,8 +59,9 @@
   .lp-dockmobi__label, .lp-dockkeys > * { animation: none; }
 }
 html[data-motion='reduced'] :is(.lp-dockmobi__label, .lp-dockkeys > *) { animation: none; }
-/* The page's end-of-page padding for the taller keys bar, so the footer is never covered. */
-@media (max-width: 899px) { .mm.lp .mm-dockpad { height: calc(6.5rem + env(safe-area-inset-bottom, 0px)); } }
+/* No end-of-page padding for the bar: it retires before the close's keys and stays down through the footer
+   (CloseActions.jsx), so nothing at the foot of the page is ever under it, and no blank band follows the footer. */
+@media (max-width: 899px) { .mm.lp .mm-dockpad { height: env(safe-area-inset-bottom, 0px); } }
 
 /* ---------- Arrival: a volt ring settles onto the question card, then fades ---------- */
 #try-practice[data-arrive='true'] .mm-drill {
@@ -81,13 +82,14 @@ html[data-motion='reduced'] :is(.lp-dockmobi__label, .lp-dockkeys > *) { animati
 }
 html[data-motion='reduced'] #try-practice[data-arrive='true'] .mm-drill { animation-name: lp-arrive-calm; animation-timing-function: linear; }
 
-/* ---------- The dock steps down while the close band's actions hold the screen (CloseActions.jsx) ---------- */
+/* ---------- The dock retires once the close band's actions enter the window, through the footer (CloseActions.jsx) ----------
+   A 200 ms fade and slide down; it comes back only if the reader scrolls back above the close. */
 @media (max-width: 899px) {
   html[data-theme] .mm.lp[data-close-in='true'] .lp-dockgate .mm-dock:not(:focus-within) {
     opacity: 0;
     transform: translateY(calc(100% + 2rem));
     pointer-events: none;
-    transition-duration: var(--mm-dur-leave, 180ms);
-    transition-timing-function: var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0));
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
   }
 }

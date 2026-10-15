@@ -174,7 +174,7 @@ export function DockMobi({ label, state, children }) {
         <MobiReact key={mobi.n} act={mobi.act} size={50} eagerFirst={mobi.n > 0} />
       </span>
       <span className="lp-dockmobi__line">
-        <b className="lp-dockmobi__label" key={`l-${state}`}>{label}</b>
+        {label ? <b className="lp-dockmobi__label" key={`l-${state}`}>{label}</b> : null}
         <span className="lp-dockkeys" key={`k-${state}`}>{children}</span>
       </span>
     </span>
@@ -183,14 +183,16 @@ export function DockMobi({ label, state, children }) {
 
 /**
  * The phone dock, by who is looking. The label and the KEYS change, never a small linked line:
- *   new visitor      "Free to start"      [Start free] [Try 5 questions]
+ *   new visitor      (no label: the hero, the pricing and the close already say it is free)
+ *                                         [Start free] [Try 5 questions]
  *   answered some    "Save your answers"  [Start free]              (the sample is not offered again)
  *   signed in        "Welcome back"       [Go to practice]
  * The sample's state arrives live (useSampleState.js), so the dock changes without a reload.
  */
 export function LandingDock() {
   const { kind, signupHref, homeHref, homeText } = useVisitor();
-  const label = kind === 'member' ? 'Welcome back' : kind === 'sampled' ? 'Save your answers' : 'Free to start';
+  // A label only where it carries state: a returning member, or a visitor with answers worth saving.
+  const label = kind === 'member' ? 'Welcome back' : kind === 'sampled' ? 'Save your answers' : '';
   return (
     <HeroDockGate>
       <MobileDock>

@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Clock3, RotateCcw } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
-import { MascotSeat } from '@/components/brand/Mascot';
 import { pipReact } from '@/components/brand/pipEvents';
 
 const QUESTIONS = [
@@ -103,7 +102,7 @@ export function ExamComparator() {
           </div>
           <div className="lp-exam__foot"><p role="status">{notice}</p><button type="button" onClick={reset}><RotateCcw size={14} />Reset preview</button></div>
         </div>
-        <div className="lp-exam-bottom"><MascotSeat station="demo" pose="attentive" className="pip-seat--demo" /><p>Your review marks carry over when you switch.</p>
+        <div className="lp-exam-bottom"><p>Your review marks carry over when you switch.</p>
           <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--primary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}</Link></div>
       </div>
     </section>

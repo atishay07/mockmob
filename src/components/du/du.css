@@ -1319,6 +1319,14 @@
   line-height: 1.5;
   color: var(--ink-2);
 }
+/* Before the first tick the answer block is one sentence at the title step, not a figure. */
+.du-teaser__lead[data-empty='true'] {
+  max-width: 26ch;
+  font: 600 var(--t-title, 1.5rem) / 1.25 var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
 .du-teaser__streams {
   display: grid;
   gap: 0;

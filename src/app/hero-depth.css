@@ -29,10 +29,10 @@
 @keyframes lp-depth-grid { to { transform: translate3d(0, 110px, 0); } }
 @keyframes lp-depth-near { to { transform: translate3d(0, -36px, 0); } }
 
-/* ---------- 2. The hero's facts: four plain sentences under a hairline ----------
+/* ---------- 2. The hero's facts: two plain sentences under a hairline ----------
    Not a panel and not a metric row: no glass, no blur, no light behind it, no icons, no boxes. Each fact is a
    sentence that opens with its figure in the body face's semibold (ink), the rest in the quiet ink, and each is a
-   link to the part of the page that shows it. Two columns on a phone, four in a row from 900px. */
+   link to the part of the page that shows it. Only facts the page says nowhere else; two columns at every width. */
 .lp-proof {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -59,8 +59,8 @@
   .lp-proof a:hover b { text-decoration: underline; text-decoration-color: var(--accent-line); text-underline-offset: 4px; }
 }
 @media (min-width: 900px) {
-  .lp-proof { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; }
-  .lp-proof a { font-size: 0.9375rem; }
+  .lp-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; max-width: 52rem; }
+  .lp-proof a { max-width: 40ch; font-size: 0.9375rem; }
 }
 
 /* ---------- 3. Statement: words light up as the reader scrolls through ---------- */
@@ -113,7 +113,7 @@
       align-content: center;
       gap: clamp(1rem, 3svh, 1.75rem);
     }
-    :root:not([data-motion='reduced']) .lp-statement__text { font-size: clamp(1.6rem, min(7.4vw, 3.7svh), 2.25rem); }
+    :root:not([data-motion='reduced']) .lp-statement__text { font-size: min(var(--t-headline), 3.9svh); }
     /* 21 words over 0 to 88% of the hold. */
     :root:not([data-motion='reduced']) .lp-statement__w {
       animation-range-start: contain calc(var(--p) * 80%);

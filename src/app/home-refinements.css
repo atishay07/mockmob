@@ -1,6 +1,7 @@
 /* October refinement: preserve the Arena world, clarify its layers. The hero's own type, spacing and keys are in
    hero-v3.css (one source); this file keeps only the hero ground's strength and the sample device. */
-.lp .lp-bg__grid { opacity: .35; }
+/* The hairline grid is texture, not a pattern you notice: about 2% line alpha (0.085 x 0.25) on Night. */
+.lp .lp-bg__grid { opacity: .25; }
 
 /* The hero's sample is the page's one product device: a night screen with one 1px edge, a 20px radius and one soft
    shadow with a real offset. No framed bay, no glow, no stacked cards under it, no light along its top edge, no
@@ -121,11 +122,12 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
 .lp-exam__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .65rem 1.5rem; border-top: 1px solid var(--exam-line); }
 .lp-exam__foot p { margin: 0; font-size: .75rem; color: var(--exam-muted); }
 .lp-exam__foot button { border: 0; background: transparent; flex-shrink: 0; }
-.lp-exam-bottom { display: flex; align-items: center; justify-content: space-between; gap: 2rem; margin-top: 1.5rem; }
-.lp-exam-bottom p { font-size: .875rem; color: var(--ink-2); margin: 0; }
+/* One row under the exam: the sentence, then See Pro beside it (no Mobi seat here, he has his three places). */
+.lp-exam-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem 1.5rem; margin-top: 1.5rem; }
+.lp-exam-bottom p { flex: 1 1 0; min-width: 0; font-size: .875rem; line-height: 1.45; color: var(--ink-2); margin: 0; text-wrap: pretty; }
 .lp-exam-bottom p > svg { display: inline; vertical-align: middle; margin-right: .4rem; }
 .lp-exam-bottom p > span { display: inline-block; font-size: .6875rem; color: var(--ink-3); max-width: 75ch; margin-top: .4rem; }
-.lp-exam-bottom .mm-btn { flex-shrink: 0; }
+.lp-exam-bottom .mm-btn { flex: none; width: auto; padding-inline: 1.5rem; }
 /* NTA's conventional white paper and shaped palette are intentionally independent of the page theme. */
 .lp-exam[data-interface='nta'] { --exam-bg: #fff; --exam-panel: #eef4f8; --exam-line: #c7d1d8; --exam-ink: #222; --exam-muted: #52616a; font-family: Arial, sans-serif; border-radius: 6px; color-scheme: light; }
 .lp-exam[data-interface='nta'] .lp-exam__bar { background: #32688f; color: white; }
@@ -170,8 +172,8 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp-exam__actions button { flex: 1 1 auto; font-size: .6875rem; }
   .lp-exam__actions .lp-exam__save { flex-basis: 100%; }
   .lp-exam__foot { padding: .75rem 1rem; align-items: start; flex-direction: column; gap: .3rem; }
-  .lp-exam-bottom { flex-direction: column; align-items: start; gap: 1rem; }
-  .lp-exam-bottom .mm-btn { width: 100%; }
+  /* Phones keep the sentence and See Pro on one row: the key sizes to its words, the sentence takes the rest. */
+  .lp-exam-bottom { gap: 1rem; }
   .lp-exam-switch { width: 100%; }
   .lp-exam-switch button { flex: 1; }
 }

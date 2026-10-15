@@ -131,11 +131,14 @@ export function EligibilityTeaser() {
             <Chip pressed={selection.gat} onClick={() => toggle('gat', 'gat')}>General Aptitude Test</Chip>
           </div>
         </fieldset>
-        <Link href={href} className="du-live">
-          <span>{counted ? eligible.length : total}</span>
-          <span>{counted ? `of ${total} programmes open` : 'DU programmes'}</span>
-          <b>See cutoffs</b>
-        </Link>
+        {/* The phone's sticky count waits for the first tick: before that it would only float "73" over the chips. */}
+        {counted ? (
+          <Link href={href} className="du-live">
+            <span>{eligible.length}</span>
+            <span>{`of ${total} programmes open`}</span>
+            <b>See cutoffs</b>
+          </Link>
+        ) : null}
       </div>
 
       <div className="du-teaser__out" aria-live="polite">
@@ -143,18 +146,22 @@ export function EligibilityTeaser() {
           <p className="du-state du-state--error">The DU data could not load. Open the full calculator instead.</p>
         ) : (
           <>
-            <p className="du-teaser__big">
-              <span>{counted ? eligible.length : total}</span>
-              <small>{counted ? `of ${total} DU programmes` : 'DU programmes.'}</small>
-            </p>
-            <p className="du-teaser__lead">
+            {/* No big figure until there is an answer: before the first tick the block is a sentence, so "73" never
+                reads as "73 open to you". */}
+            {counted ? (
+              <p className="du-teaser__big">
+                <span>{eligible.length}</span>
+                <small>{`of ${total} DU programmes`}</small>
+              </p>
+            ) : null}
+            <p className="du-teaser__lead" data-empty={counted ? undefined : 'true'}>
               {counted
                 ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
                 : hasDomains
                   ? 'Checking them against DU’s 2026 rules…'
                   : selection.languages.length
-                    ? 'Tick your domain subjects to see which are open to you.'
-                    : 'Tick your subjects to see which are open to you.'}
+                    ? `Tick your domain subjects to see which of DU’s ${total} programmes open.`
+                    : `Tick your subjects to see which of DU’s ${total} programmes open.`}
             </p>
             {rules && hasDomains && byStream.length > 0 ? (
               <ul className="du-teaser__streams">

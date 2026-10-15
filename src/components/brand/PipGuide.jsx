@@ -117,8 +117,21 @@ export default function PipGuide() {
     const root0 = document.documentElement;
     const desktop = matchMedia('(min-width: 1100px)');
     let dispose = () => {};
+    // His idle life (breath, blinks, the reading glance) runs only where he can be seen: a seat off screen is
+    // marked data-pip-off and brand-pip.css pauses its loops; the flyer is marked the same while it is hidden.
+    let idle = null;
+    const watchIdle = () => {
+      idle?.disconnect();
+      idle = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) delete entry.target.dataset.pipOff; else entry.target.dataset.pipOff = 'true';
+        }
+      });
+      document.querySelectorAll('.pip-seat').forEach((seat) => idle?.observe(seat));
+    };
     function start() {
       dispose(); setActor(null); setRunning(false);
+      watchIdle();
       if (media.matches || root0.dataset.motion === 'reduced') return;
       const root = document.documentElement;
       // Static fallback opt-out also permits a layout-identical production cost baseline.
@@ -194,7 +207,8 @@ export default function PipGuide() {
         const wide=innerWidth>=1100;
         for (const s of stations) {
           s.seat.style.transform='none';
-          if (wide) {
+          // The close seat is his last stop: he lands on it, standing over the close's own key, not in a lane.
+          if (wide && s.id!=='close') {
             const r=s.seat.getBoundingClientRect();
             s.seat.style.transform=`translateX(${innerWidth-174-r.left}px)`;
           }
@@ -234,7 +248,11 @@ export default function PipGuide() {
           if(queued!=='eureka'||!peakPlayed.current){mood=REACTIONS[queued];reactionUntil=now+mood.ms;n++;if(queued==='eureka')peakPlayed.current=true;}
           pending.delete(s.id);
         }
-        const shown=(wide||onScreen) && scrollY < mainEnd-140;
+        // He no longer rides the right-hand lane down the whole page: on wide screens he shows only while the
+        // seat he is headed for is in the window (the sample card at the top, then the close), and stays out of
+        // every section in between.
+        const near=y<innerHeight && y+g.h>0;
+        const shown=(wide?near:onScreen) && scrollY < mainEnd-140;
         if(activeId!==s.id||visible!==shown){root.dataset.pipPerch=s.id;root.dataset.pipPerchVisible=String(shown);activeId=s.id;visible=shown;window.dispatchEvent(new CustomEvent('pip:presence',{detail:{station:s.id,visible:shown}}));}
         // Small scroll corrections should not keep swapping the face. Only a
         // substantial journey between stations gets the neutral travelling pose.
@@ -254,7 +272,7 @@ export default function PipGuide() {
         if(node){
           // Uniform scale: pose imagery is always contained in the fixed-ratio frame.
           node.style.transform=`translate3d(${(current.x+(current.w-160*(current.h/180))/2).toFixed(2)}px,${current.y.toFixed(2)}px,0) scale(${(current.h/180).toFixed(4)})`;
-          node.style.opacity=shown?'1':'0';node.dataset.scVerifyState=`${s.id}:${Math.round(current.y)}:${mood?.motion||'rest'}`;
+          node.style.opacity=shown?'1':'0';if(shown)delete node.dataset.pipOff;else node.dataset.pipOff='true';node.dataset.scVerifyState=`${s.id}:${Math.round(current.y)}:${mood?.motion||'rest'}`;
         }
         if(!settled||!node)wake();
         // A timeout, not a running animation loop, clears a held reaction.
@@ -269,7 +287,7 @@ export default function PipGuide() {
       document.fonts.ready.then(()=>{if(!disposed)resize();});wake();
       dispose=()=>{disposed=true;cancelAnimationFrame(raf);clearTimeout(reactionTimer);clearTimeout(arriveTimer);observer.disconnect();window.removeEventListener('scroll',wake);window.removeEventListener('resize',resize);window.removeEventListener('pip:react',react);document.removeEventListener('visibilitychange',wake);stations.forEach(s=>s.seat.style.removeProperty('transform'));delete root.dataset.pipGuide;delete root.dataset.pipPerch;delete root.dataset.pipPerchVisible;};
     }
-    initMobiPrefs();start();media.addEventListener('change',start);desktop.addEventListener('change',start);window.addEventListener('mm-prefs',start);return()=>{dispose();media.removeEventListener('change',start);desktop.removeEventListener('change',start);window.removeEventListener('mm-prefs',start);};
+    initMobiPrefs();start();media.addEventListener('change',start);desktop.addEventListener('change',start);window.addEventListener('mm-prefs',start);return()=>{dispose();idle?.disconnect();media.removeEventListener('change',start);desktop.removeEventListener('change',start);window.removeEventListener('mm-prefs',start);};
   },[]);
   return actor?createPortal(<span ref={flyer} className={actor.host ? 'pip-guide-local' : 'pip-guide-flyer'} aria-hidden="true"><PipActor pose={actor.pose} facing={actor.facing} motion={actor.motion} station={actor.station} alive/></span>,actor.host || document.body):null;
 }

@@ -271,6 +271,13 @@
   animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite, pip-read 3.6s var(--mm-ease-in-out, ease-in-out) infinite;
 }
 [data-pip-guide] [data-pip-looking] .pip-eye__ball { animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite; }
+/* Off screen, his idle life pauses (PipGuide marks a seat out of view, and the flyer while hidden, with
+   data-pip-off): no breath or blink runs where nobody can see it. The phone dock's Mobi pauses the same way while
+   the dock is down. */
+:is([data-pip-off], [data-pip-off] *):is(.pip-rig__breath, .pip-eye__ball, .pip-art-direction) { animation-play-state: paused; }
+.lp-dockgate[data-shown='false'] .mobi-react *,
+.lp-dockmobi[data-away='true'] .mobi-react *,
+.mm.lp[data-close-in='true'] .lp-dockgate .mobi-react * { animation-play-state: paused; }
 @keyframes pip-read {
   0%, 100% { translate: -20% 12%; }
   40% { translate: 18% 12%; }

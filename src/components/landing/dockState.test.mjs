@@ -43,10 +43,12 @@ test('the visitor is a member, sampled or new, in that order of precedence', () 
 
 test('the dock keeps its three states and never falls back to a small linked line', () => {
   const dock = readFileSync(new URL('./HeroDockGate.jsx', import.meta.url), 'utf8');
-  for (const text of ['Welcome back', 'Save your answers', 'Free to start', 'Go to practice', 'Start free', 'Try 5 questions']) {
+  for (const text of ['Welcome back', 'Save your answers', 'Go to practice', 'Start free', 'Try 5 questions']) {
     assert.ok(dock.includes(text) || readFileSync(new URL('./useWayIn.js', import.meta.url), 'utf8').includes(text), text);
   }
   assert.ok(!dock.includes('lp-docklink'));
+  // A new visitor gets no label: "Free to start" is said by the hero, the pricing and the close.
+  assert.ok(!dock.includes("'Free to start'"));
   // The sample's own key is offered only to a visitor who has not tried it.
   assert.match(dock, /kind === 'new' \? <a href="#try-practice"/);
 });

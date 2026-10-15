@@ -2,29 +2,23 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-// The hero's typed line: "Down to the chapter." The phrase is set like text in an editor. After a beat it is
-// selected (the site's own volt selection), replaced, and the next phrase is typed in behind a thin caret. It
-// runs a set number of rounds and comes to rest on the last phrase with the caret gone, so nothing on the hero
-// loops for ever; if the hero leaves the screen and comes back, it runs one more round.
+// The hero's turning line: "Down to the chapter." After a beat the phrase turns: the old one leaves upward and the
+// next rises into its place (translateY 0.55em to 0 with opacity, 320 ms, ease-out), the two overlapping for a
+// moment, so the slot is never empty and the line always reads as a sentence. No caret, no selection fill, no
+// typing. It turns a set number of rounds and comes to rest on the last phrase, so nothing on the hero moves for
+// ever; if the hero leaves the screen and comes back, it runs one more round and rests where it rested.
 //
 // - The first phrase is in the server HTML, so the line reads complete at first paint and without script.
-// - It waits for the page to be interactive, and pauses (mid-phrase if need be) while the line is off screen or
-//   the tab is hidden.
-// - Reduced motion (the system setting or the site's own switch) shows the first phrase, still, with no caret.
-// - Screen readers get one stable sentence (label); the typed text is hidden from them.
+// - It pauses while the line is off screen or the tab is hidden, and resumes with a full hold.
+// - Reduced motion (the system setting or the site's own switch) shows the first phrase, still.
+// - Screen readers get one stable sentence (label); the turning words are hidden from them.
 // - Every phrase shares one grid cell with an invisible copy of the longest, so the line's width never changes.
 
-const TYPE_MS = 52;
 const HOLD_MS = 2300;
-const SELECT_MS = 190;
-const SELECTED_MS = 260;
-const GAP_MS = 140;
-
-// A slightly human rhythm: the first letter and the letter after a space take a little longer.
-const keyDelay = (text, i) => TYPE_MS + (i === 0 ? 70 : text[i - 1] === ' ' ? 34 : (i * 7) % 3 === 0 ? 14 : 0);
+const LEAVE_MS = 380; // the old phrase's exit, plus the overlap with the new one's entry
 
 export function TypeLine({ lead, phrases, label, rounds = 2, className = '' }) {
-  const [view, setView] = useState({ index: 0, typed: phrases[0].length, phase: 'still' });
+  const [view, setView] = useState({ index: 0, prev: -1, turn: 0, phase: 'still' });
   const root = useRef(null);
   const longest = phrases.reduce((a, b) => (b.length > a.length ? b : a), '');
   const key = phrases.join('|');
@@ -37,47 +31,42 @@ export function TypeLine({ lead, phrases, label, rounds = 2, className = '' }) {
     const calm = () => motionQuery.matches || document.documentElement.dataset.motion === 'reduced';
 
     let timer = 0;
-    let next = null; // the step waiting to run while paused
+    let clearPrev = 0;
     let visible = false;
     let wasAway = false; // left the screen after coming to rest
     let changesLeft = (words.length * rounds) - 1; // the server phrase counts as the first
-    let state = { index: 0, typed: words[0].length, phase: 'still' };
+    let state = { index: 0, prev: -1, turn: 0, phase: 'still' };
     const show = (patch) => { state = { ...state, ...patch }; setView(state); };
     const live = () => visible && !document.hidden && !calm();
 
-    const schedule = (step, ms) => {
-      window.clearTimeout(timer);
-      next = step;
-      if (live()) timer = window.setTimeout(() => { next = null; step(); }, ms);
-    };
-
-    const hold = () => { show({ phase: 'hold' }); schedule(select, HOLD_MS); };
-    const select = () => {
-      if (changesLeft <= 0) { show({ phase: 'rest' }); next = null; return; }
-      show({ phase: 'select' });
-      schedule(clear, SELECT_MS + SELECTED_MS);
-    };
-    const clear = () => {
+    const turn = () => {
+      timer = 0;
+      if (!live()) return;
+      if (changesLeft <= 0) { show({ phase: 'rest' }); return; }
       changesLeft -= 1;
-      show({ index: (state.index + 1) % words.length, typed: 0, phase: 'type' });
-      schedule(type, GAP_MS);
+      show({ prev: state.index, index: (state.index + 1) % words.length, turn: state.turn + 1, phase: 'turn' });
+      window.clearTimeout(clearPrev);
+      clearPrev = window.setTimeout(() => show({ prev: -1 }), LEAVE_MS + 40);
+      timer = window.setTimeout(turn, HOLD_MS);
     };
-    const type = () => {
-      const text = words[state.index];
-      if (state.typed >= text.length) { hold(); return; }
-      show({ typed: state.typed + 1 });
-      schedule(type, keyDelay(text, state.typed));
-    };
+    const pause = () => { window.clearTimeout(timer); timer = 0; };
 
-    const settleStill = () => { window.clearTimeout(timer); next = null; show({ typed: words[state.index].length, phase: 'still' }); };
     const sync = () => {
-      if (calm()) { if (state.phase !== 'still' && state.phase !== 'rest') settleStill(); return; }
-      if (!live()) { window.clearTimeout(timer); return; }
-      // Resume where it paused; a hold that was cut short starts again, so the phrase is read in full.
-      if (next) { schedule(next, next === select ? HOLD_MS - 600 : 420); return; }
-      if (state.phase === 'still') { show({ phase: 'hold' }); schedule(select, HOLD_MS - 600); return; }
+      if (calm()) {
+        pause();
+        if (state.phase !== 'still' && state.phase !== 'rest') show({ prev: -1, phase: 'rest' });
+        return;
+      }
+      if (!live()) { pause(); return; }
+      if (timer) return;
       // Back on screen after it came to rest: one more round, ending where it rested.
-      if (state.phase === 'rest' && wasAway) { wasAway = false; changesLeft = words.length; schedule(select, 900); }
+      if (state.phase === 'rest') {
+        if (!wasAway) return;
+        wasAway = false;
+        changesLeft = words.length;
+        show({ phase: 'turn' });
+      }
+      timer = window.setTimeout(turn, HOLD_MS - 600);
     };
 
     const observer = typeof IntersectionObserver === 'undefined' ? null : new IntersectionObserver(([entry]) => {
@@ -93,7 +82,8 @@ export function TypeLine({ lead, phrases, label, rounds = 2, className = '' }) {
     document.addEventListener('visibilitychange', sync);
     if (!observer) sync();
     return () => {
-      window.clearTimeout(timer);
+      pause();
+      window.clearTimeout(clearPrev);
       observer?.disconnect();
       reducedSwitch.disconnect();
       motionQuery.removeEventListener('change', sync);
@@ -101,14 +91,14 @@ export function TypeLine({ lead, phrases, label, rounds = 2, className = '' }) {
     };
   }, [key, rounds]); // key, not the array: a new array with the same words must not restart the line
 
-  const text = phrases[view.index].slice(0, view.typed);
   return (
     <p ref={root} className={`lp-type ${className}`} data-phase={view.phase}>
       <span className="lp-type__lead">{lead}</span>{' '}
       <span className="lp-sr">{label}</span>
       <span className="lp-type__slot" aria-hidden="true">
         <span className="lp-type__size">{longest}</span>
-        <span className="lp-type__live"><span className="lp-type__text">{text}</span><i className="lp-type__caret" /></span>
+        {view.prev >= 0 ? <span key={`out-${view.turn}`} className="lp-type__word" data-turn="out">{phrases[view.prev]}</span> : null}
+        <span key={`in-${view.turn}`} className="lp-type__word" data-turn={view.turn > 0 ? 'in' : undefined}>{phrases[view.index]}</span>
       </span>
     </p>
   );

@@ -156,7 +156,10 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
   .ml__stage { order: 2; }
   .ml__panels { min-height: 0; }
   .ml__controls { order: 3; justify-content: space-between; }
-  .ml__panel { padding: 1rem; }
+  /* The device is as tall as its tallest step, so each step's closing note sits on the device's bottom edge
+     instead of leaving an empty band under a shorter step. */
+  .ml__panel { padding: 1rem; display: flex; flex-direction: column; }
+  .ml__panel > :last-child { margin-top: auto; }
   .ml__tiles { grid-template-columns: repeat(auto-fit, minmax(max(16%, 2.75rem), 1fr)); }
   .ml__bar-top { padding: .8rem 1rem; }
 }
