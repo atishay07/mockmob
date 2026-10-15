@@ -173,7 +173,7 @@ export function EligibilityTeaser() {
           See programmes and past cutoffs
           <ArrowRight size={18} aria-hidden="true" />
         </Link>
-        <p className="du-teaser__fine">Free, no signup. Built from DU’s official 2026 documents.</p>
+        <p className="du-teaser__fine">Free, no sign-up. Built from DU’s official 2026 documents.</p>
       </div>
     </div>
   );
