@@ -16,6 +16,17 @@ html[data-theme='light'] .app-shell .student-page.acct { --acct-lamp: rgba(190, 
   .app-shell .acct-col { gap: 24px; }
   .app-shell .acct-grid--even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+/* A phone keeps the order sheet, name, plan, credits, appearance, goal (the columns dissolve); a wide screen has two level
+   columns: sheet, name and appearance on the left, plan, credits and goal on the right. */
+@media (max-width: 1023px) {
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col { display: contents; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #sheet { order: 1; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #name { order: 2; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #plan { order: 3; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #credits { order: 4; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #appearance { order: 5; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #goal { order: 6; }
+}
 .app-shell .acct [id] { scroll-margin-top: 88px; }
 .app-shell .acct-h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
 

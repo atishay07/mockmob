@@ -1,7 +1,9 @@
 "use client";
 
 // Account > Credits (audit findings 12 and 13): both balances with what they are for and when the AI credits renew,
-// then the history, newest first, 30 lines a page. Two names only: "Practice credits" and "AI credits".
+// then the history, newest first. The server sends 30 lines a page; the list opens on 10 and "Show more" reveals 10 at a
+// time, then asks for the next page when the ones it holds are all showing, so the account page stays short beside the
+// plan. Two names only: "Practice credits" and "AI credits".
 // Reads GET /api/me/credits once, then ?cursor= for "Show more". Unknown is never shown as 0.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { CreditMark } from '@/components/ui/Glyph';
@@ -12,10 +14,12 @@ import {
 import './credits.css';
 
 const EMPTY = { status: 'loading', data: null, history: [], next: null, moreStatus: 'idle' };
+const PAGE = 10;
 
 export default function CreditsSection({ userId }) {
   const [state, setState] = useState(EMPTY);
   const [filter, setFilter] = useState('all');
+  const [shown, setShown] = useState(PAGE);
   const sequence = useRef(0);
 
   const load = useCallback(() => {
@@ -49,12 +53,16 @@ export default function CreditsSection({ userId }) {
         setState((prev) => (page
           ? { ...prev, history: appendPage(prev.history, page.history), next: page.nextCursor, moreStatus: 'idle' }
           : { ...prev, moreStatus: 'failed' }));
+        if (page) setShown((n) => n + PAGE);
       })
       .catch(() => { if (mine === sequence.current) setState((prev) => ({ ...prev, moreStatus: 'failed' })); });
   };
 
   const tiles = state.data ? creditTiles(state.data) : null;
-  const lines = filterHistory(state.history, filter).map(historyLine);
+  const filtered = filterHistory(state.history, filter);
+  const lines = filtered.slice(0, shown).map(historyLine);
+  const hiddenLines = filtered.length > shown;
+  const pick = (id) => { setFilter(id); setShown(PAGE); };
 
   return (
     <section className="glass acct-card cr" id="credits" aria-labelledby="cr-h" aria-busy={state.status === 'loading' || undefined}>
@@ -91,7 +99,7 @@ export default function CreditsSection({ userId }) {
               <h3>{CREDITS_COPY.history}</h3>
               <div className="cr-filter" role="group" aria-label="Show history for">
                 {FILTERS.map((f) => (
-                  <button type="button" key={f.id} className="cr-chip" aria-pressed={filter === f.id} onClick={() => setFilter(f.id)}>{f.label}</button>
+                  <button type="button" key={f.id} className="cr-chip" aria-pressed={filter === f.id} onClick={() => pick(f.id)}>{f.label}</button>
                 ))}
               </div>
             </div>
@@ -105,7 +113,7 @@ export default function CreditsSection({ userId }) {
                       <span className="cr-line__meta">{l.when ? <span>{l.when}</span> : null}<span className="cr-line__pool">{l.poolName}</span></span>
                     </div>
                     <div className="cr-line__num" data-sign={l.change > 0 ? 'up' : l.change < 0 ? 'down' : 'flat'}>
-                      <b aria-hidden="true">{l.changeText}</b>
+                      <b aria-hidden="true">{l.changeText.replace(/^-/, '\u2212')}</b>
                       <span className="sr-only">{l.spokenChange}</span>
                       {l.after ? <span className="cr-line__after">{l.after}</span> : null}
                     </div>
@@ -116,9 +124,9 @@ export default function CreditsSection({ userId }) {
               <p className="acct-note">{state.history.length ? CREDITS_COPY.emptyFilter : CREDITS_COPY.empty}</p>
             )}
 
-            {state.next ? (
+            {hiddenLines || state.next ? (
               <div className="cr-more">
-                <button type="button" className="acct-key" onClick={more} disabled={state.moreStatus === 'loading'}>
+                <button type="button" className="acct-key" onClick={hiddenLines ? () => setShown((n) => n + PAGE) : more} disabled={state.moreStatus === 'loading'}>
                   {state.moreStatus === 'loading' ? CREDITS_COPY.moreLoading : CREDITS_COPY.more}
                 </button>
                 {state.moreStatus === 'failed' ? <p className="acct-note" data-tone="err" role="alert">{CREDITS_COPY.moreFailed}</p> : null}

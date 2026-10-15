@@ -2,7 +2,9 @@
 
 // Account: the live page, with the restructure's You page brought inside it. Your sheet first (who you
 // are, the exam, your subjects as the app's objects, your mocks), then your name and sign-in. Beside
-// them: plan and credits, appearance (the Night, Daylight and Match device switch) and your weekly goal.
+// them: plan and credits, appearance (the Night, Daylight and Match device switch) and your weekly goal. On a wide screen the
+// columns are sheet, name and appearance | plan, credits and goal, which keeps them level once the credits history is open;
+// on a phone the order is sheet, name, plan, credits, appearance, goal (account.css).
 // Below: community and help, then privacy, other devices and delete account.
 // Every setting that was on this page is still here. The page paints at once: only the mock counts wait
 // for the server, and a failure there never hides a setting. Links to /profile#plan, #appearance, #goal,
@@ -274,12 +276,13 @@ export default function ProfilePageClient() {
             </div>
             <SignOutControl />
           </section>
+
+          <div id="appearance" className="acct-anchor"><LookAndFeelCard /></div>
         </div>
 
         <div className="acct-col">
           <PlanCredits userId={user?.id} />
           <CreditsSection userId={user?.id} />
-          <div id="appearance" className="acct-anchor"><LookAndFeelCard /></div>
           <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
             <h2 className="acct-h2" id="acct-goal-h">Weekly goal</h2>
             <GoalControl />

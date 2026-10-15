@@ -1713,9 +1713,8 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
   .app-shell .student-page--today .rc--compact > .rc__more { grid-area: more; align-self: start; }
 }
 
-/* The fixed bars never cover what keyboard focus or a link to a section scrolls to: the header at the top, and on
-   phones the tab bar (and, on Practice, the session dock above it) at the bottom. */
-html:has(.app-shell) { scroll-padding-top: 76px; }
+/* On phones the fixed tab bar (and, on Practice, the session dock above it) never covers what keyboard focus scrolls to.
+   The header at the top is cleared by each section's own scroll-margin-top. */
 @media (max-width: 1023px) {
   html:has(.app-shell) { scroll-padding-bottom: 100px; }
   html:has(.pr-dock[data-shown]) { scroll-padding-bottom: 172px; }
