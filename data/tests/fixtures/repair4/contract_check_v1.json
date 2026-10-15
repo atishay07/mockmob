@@ -60,6 +60,7 @@
           "pool": { "unseen": 7, "ofChapter": 41 },
           "rule": "the repair's rule line, or null"
         },
+        "href": "/api/recovery/check?attemptId=att_1&questionId=q_1",
         "askHref": "/mentor?tab=ask&q=att_1:q_1",
         "notes": [
           "options are in a fresh, seeded order: the same order on every reload; `pick` on POST is the index shown here (0 to 3)",
@@ -69,11 +70,11 @@
     },
     "none": {
       "http": 200,
-      "body": { "ok": true, "status": "none", "charged": 0, "reason": "no_unseen", "message": "No unseen question on this idea yet.", "pool": { "unseen": 0, "ofChapter": 41 }, "askHref": "/mentor?tab=ask&q=att_1:q_1" }
+      "body": { "ok": true, "status": "none", "charged": 0, "reason": "no_unseen", "message": "No unseen question on this idea yet.", "pool": { "unseen": 0, "ofChapter": 41 }, "href": "/api/recovery/check?attemptId=att_1&questionId=q_1", "askHref": "/mentor?tab=ask&q=att_1:q_1" }
     },
     "answered": {
       "http": 200,
-      "body": { "ok": true, "status": "answered", "charged": 0, "check": "same shape as ready, options in the order shown", "result": "the POST result below, as stored", "askHref": "..." }
+      "body": { "ok": true, "status": "answered", "charged": 0, "check": "same shape as ready, options in the order shown", "result": "the POST result below, as stored", "href": "...", "askHref": "..." }
     },
     "errors": {
       "401": { "ok": false, "error": "Unauthorized" },

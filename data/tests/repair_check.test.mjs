@@ -203,3 +203,12 @@ test('every reason code in the contract fixture has the words the server sends',
   const contract = JSON.parse(readFileSync(fileURLToPath(new URL('./fixtures/repair4/contract_check_v1.json', import.meta.url)), 'utf8'));
   assert.deepEqual(contract.reasons, CHECK_REASONS);
 });
+
+test('the rule of a saved repair: v3 rule, the older key_idea, or nothing', async () => {
+  const { ruleOf } = await import('../repair_check.js');
+  assert.equal(ruleOf({ rule: '  Subtract the normal profit.  ' }), 'Subtract the normal profit.');
+  assert.equal(ruleOf({ key_idea: 'An older key idea.' }), 'An older key idea.');
+  assert.equal(ruleOf({ rule: '', key_idea: 'An older key idea.' }), 'An older key idea.');
+  assert.equal(ruleOf({}), null);
+  assert.equal(ruleOf(null), null);
+});

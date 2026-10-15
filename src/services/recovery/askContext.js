@@ -1,6 +1,7 @@
 // Loads the context one question brings to Ask (data/ask_context.js). Dependency-injected like repairCheck.js; the real
 // dependencies are buildCheckDeps() (attempt, question and repair-receipt reads).
 import { buildAskContext, parseQuestionRef } from '../../../data/ask_context.js';
+import { ruleOf } from '../../../data/repair_check.js';
 import { getSubjectById } from '../../../data/subjects.js';
 import { mistakeId } from './repairFlow.js';
 
@@ -15,7 +16,7 @@ export async function loadQuestionContext({ user, ref, deps }) {
   let rule = null;
   try {
     const reservation = await deps.findRepairReservation(user.id, mistakeId(user.id, parsed.attemptId, parsed.questionId));
-    rule = reservation?.receipt?.repair?.rule ?? null;
+    rule = ruleOf(reservation?.receipt?.repair);
   } catch { rule = null; }
   const built = buildAskContext({ attempt, questionId: parsed.questionId, userId: user.id, current: loaded?.data ?? null, repairRule: rule, subjectName: getSubjectById(attempt.subject)?.name || null });
   return built.ok ? built : { ...built, message: `${built.message} No credits were used.` };

@@ -62,6 +62,9 @@ export function formatOf(row) {
 
 const idOf = (row) => String(row?.id ?? '');
 
+/** The rule a saved repair carries: v3 `rule`, or the older `key_idea` (v1 and v2 repairs). Null when there is none. */
+export const ruleOf = (repair) => text(repair?.rule) || text(repair?.key_idea) || null;
+
 /**
  * Why this candidate cannot be the check, or null when it can. `mistake` is the live row of the question the student
  * got wrong; `seen` and `excluded` are sets of question ids.

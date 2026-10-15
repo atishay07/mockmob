@@ -13,7 +13,7 @@ import { repairEligibility } from '../../../data/mistake_repair.js';
 import { isPassageLinkedQuestion } from '../../../data/nta_question_selector.js';
 import {
   CHECK_REQUEST_ID, CHECK_VERSION, checkReasonMessage, selectCheckQuestion, chooseVerified, checkIsStillOffered, shuffledOrder,
-  checkQuestionView, markCheck, bankExplanation, outcomeLine, planReviseCards, reviseSummary,
+  checkQuestionView, markCheck, bankExplanation, outcomeLine, planReviseCards, reviseSummary, ruleOf,
 } from '../../../data/repair_check.js';
 import { mistakeId } from './repairFlow.js';
 
@@ -134,7 +134,7 @@ export async function openCheck({ user, attemptId, questionId, deps, preloaded }
     ok: true, status: 'ready', charged: 0,
     check: {
       checkQuestionId: view.id, subject: view.subject, chapter: view.chapter, topic: view.topic, format: view.format, question: view.question, options: view.options,
-      basis: found.chosen.basis, basisLine: found.chosen.basisLine, pool: found.selection.pool, rule: p.reservation.receipt.repair.rule ?? null,
+      basis: found.chosen.basis, basisLine: found.chosen.basisLine, pool: found.selection.pool, rule: ruleOf(p.reservation.receipt.repair),
     },
     ...links,
   });
@@ -195,7 +195,7 @@ export async function answerCheck({ user, attemptId, questionId, checkQuestionId
 
   const nowMs = deps.now();
   const view = checkQuestionView(found.full, order);
-  const rule = p.reservation.receipt.repair.rule ?? null;
+  const rule = ruleOf(p.reservation.receipt.repair);
   const base = {
     version: CHECK_VERSION, requestId, checkQuestionId, order,
     subject: view.subject, chapter: view.chapter, topic: view.topic, format: view.format, question: view.question,
