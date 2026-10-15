@@ -105,6 +105,9 @@ Sources this consolidates (his words win; read them when in doubt):
 - Play Store: the upload key, the Google client ID, Play Console.
 - One Mistake Repair on the site, to verify the v3 cost.
 
+
+**16 Oct 02:20 IST (owner):** the Vercel duplicates are deleted. He will do the Razorpay Rs 99 monthly plan (RAZORPAY_PLAN_ID_PRO_MONTHLY_99 in Vercel; the code switches to monthly automatically), the SUPABASE_DB_URL backup variable and the Play Console steps on the night of 16 Oct; a scheduled reminder is set for 16 Oct 21:00 IST (task mockmob-owner-production-steps-reminder). He will take one fresh mock on the site on the morning of 16 Oct: his own papers predate the slice 2 capture, so the Lab looked thin on his account. The live v3 repair at 02:16 worked (850 in / 524 out tokens, USD 0.00035, all v3 fields). His verdict: a paid repair that mostly explains the key is not enough. CEO decision: make the paid repair a learning loop (retry before the key, a fresh checked question on the same rule, the rule brought back on Revise, the personal trap pattern, ask a follow-up), reusing what slice 4 and the fresh-check code already built; scope it after the vision inventory (docs/brain/VISION-INVENTORY-2026-10-16.md).
+
 ## 6. CEO direction: the next horizon (set 15 Oct about 23:20 IST)
 
 The owner, 15 Oct night: "Being the CEO of the company, also act as the CEO and take decisions... You have the direction and taste now." These are the bets every wave serves:
