@@ -144,7 +144,12 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       final hero = ref.read(todayViewProvider).hero;
       if (hero is MoveHero && hero.art.isMobi) _mobi.play(MobiAct.hello);
       if (!_scroll.hasClients) return;
-      unawaited(_scroll.animateTo(0, duration: Motion.of(context, Motion.emphasizedDuration), curve: Motion.emphasized));
+      final glide = Motion.of(context, Motion.emphasizedDuration);
+      if (glide <= Duration.zero) {
+        _scroll.jumpTo(0);
+      } else {
+        unawaited(_scroll.animateTo(0, duration: glide, curve: Motion.emphasized));
+      }
     });
     final view = ref.watch(todayViewProvider);
     final hasEnding = ref.watch(weeklyEndingProvider) != null;
@@ -155,14 +160,22 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       mobiController: _mobi,
       insights: widget.insights,
       roadFooter: widget.roadFooter,
-      weeklyEnding: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (hasEnding) const Padding(padding: EdgeInsets.only(top: 12), child: WeeklyEndingSection()),
-          // The first repair and the first met week land here, directly under the ending card.
-          const TodayCelebration(),
-        ],
+      // "Last week" is the week that just closed (rhythm loads a moment after the hero), so it
+      // opens into place rather than appearing as a new section that shoves the page down (owner
+      // test 15 Oct: Home "added another section").
+      weeklyEnding: AnimatedSize(
+        duration: Motion.of(context, Motion.card),
+        curve: Motion.out,
+        alignment: Alignment.topCenter,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (hasEnding) const Padding(padding: EdgeInsets.only(top: 12), child: WeeklyEndingSection()),
+            // The first repair and the first met week land here, directly under the ending card.
+            const TodayCelebration(),
+          ],
+        ),
       ),
       callbacks: TodayCallbacks(
         onAction: _action,

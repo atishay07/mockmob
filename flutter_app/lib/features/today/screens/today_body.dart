@@ -361,13 +361,25 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     // A road far below may not be built yet: first bring it near, then settle on it.
     if (_roadKey.currentContext == null) {
       final p = _scroll.position;
-      await _scroll.animateTo(math.min(p.maxScrollExtent, p.pixels + p.viewportDimension * 0.8), duration: duration, curve: Motion.out);
+      await _glide(math.min(p.maxScrollExtent, p.pixels + p.viewportDimension * 0.8), duration, Motion.out);
+      // Without motion the jump is instant and nothing has been laid out yet: wait for the frame
+      // that builds the road, or the tap would stop short of it.
+      await WidgetsBinding.instance.endOfFrame;
     }
     final box = _roadKey.currentContext?.findRenderObject();
     if (!mounted || box is! RenderBox || !_scroll.hasClients) return;
     final reveal = RenderAbstractViewport.of(box).getOffsetToReveal(box, 0).offset - top - MmSpace.s8;
     final p = _scroll.position;
-    await _scroll.animateTo(reveal.clamp(p.minScrollExtent, p.maxScrollExtent), duration: duration, curve: Motion.emphasized);
+    await _glide(reveal.clamp(p.minScrollExtent, p.maxScrollExtent), duration, Motion.emphasized);
+  }
+
+  /// A glide, or a plain jump when motion is off (a scroll animation may not be zero length).
+  Future<void> _glide(double to, Duration duration, Curve curve) {
+    if (duration <= Duration.zero) {
+      _scroll.jumpTo(to);
+      return Future<void>.value();
+    }
+    return _scroll.animateTo(to, duration: duration, curve: curve);
   }
 
   /// Where the primary key is right now (global), or null when it is not laid out: the capsule
@@ -586,10 +598,15 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
             left: 0,
             right: 0,
             bottom: (_bar != null ? _barTop : padding.bottom) + MmSpace.s12,
-            child: Center(
-              child: ValueListenableBuilder<bool>(
-                valueListenable: _moreCue,
-                builder: (context, shown, _) => MoreBelowCue(shown: shown, onTap: _toRoad),
+            // At the right edge, a round key: it never sits over a key or a line of the hero's own.
+            child: Padding(
+              padding: const EdgeInsets.only(right: MmSpace.gutter),
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: _moreCue,
+                  builder: (context, shown, _) => MoreBelowCue(shown: shown, onTap: _toRoad),
+                ),
               ),
             ),
           ),
@@ -651,9 +668,9 @@ class TodayTopVeil extends StatelessWidget {
   }
 }
 
-/// "Your road to May" with a chevron, just above the bar, while the road is still below the first
+/// A round down chevron (named "Your road to May" for screen readers), just above the bar, while the road is still below the first
 /// screen. It bobs gently three times when it arrives (not under reduced motion), fades away once
-/// the page is scrolled, and its tap glides the page to the road. The pill is 48 dp tall.
+/// the page is scrolled, and its tap glides the page to the road. The key is 48 dp round.
 class MoreBelowCue extends StatefulWidget {
   const MoreBelowCue({super.key, required this.shown, required this.onTap});
 
@@ -700,7 +717,6 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
     final shown = widget.shown;
     return IgnorePointer(
       ignoring: !shown,
@@ -719,28 +735,22 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
             child: MmPressable(
               onTap: widget.onTap,
               builder: (context, pressed, focused) => Container(
+                width: 48,
                 height: 48,
-                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
+                alignment: Alignment.center,
                 decoration: BoxDecoration(
                   color: colors.ground,
-                  borderRadius: BorderRadius.circular(24),
+                  shape: BoxShape.circle,
                   border: Border.all(color: colors.lineStrong),
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(TodayCopy.moreBelow, style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
-                    const SizedBox(width: MmSpace.s8),
-                    AnimatedBuilder(
-                      animation: _bob,
-                      builder: (context, child) {
-                        // One soft drop and return per bob.
-                        final y = math.sin(_bob.value * math.pi) * 4;
-                        return Transform.translate(offset: Offset(0, y), child: child);
-                      },
-                      child: Icon(LucideIcons.chevronDown, size: 18, color: colors.isNight ? colors.volt : colors.accentText),
-                    ),
-                  ],
+                child: AnimatedBuilder(
+                  animation: _bob,
+                  builder: (context, child) {
+                    // One soft drop and return per bob.
+                    final y = math.sin(_bob.value * math.pi) * 4;
+                    return Transform.translate(offset: Offset(0, y), child: child);
+                  },
+                  child: Icon(LucideIcons.chevronDown, size: 22, color: colors.isNight ? colors.volt : colors.accentText),
                 ),
               ),
             ),

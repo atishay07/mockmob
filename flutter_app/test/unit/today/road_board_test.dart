@@ -197,7 +197,7 @@ void main() {
     await pumpMockmob(
       tester,
       TodayBody(view: view, skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {})),
-      size: const Size(384, 760),
+      size: const Size(384, 600),
       disableAnimations: true,
       overrides: [
         authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u', name: 'Asha')),
@@ -211,7 +211,7 @@ void main() {
     await tester.tap(cue);
     await tester.pumpAndSettle();
     expect(find.text(TodayCopy.roadTitle).hitTestable(), findsOneWidget, reason: 'the page glided to the road');
-    expect(find.bySemanticsLabel(TodayCopy.moreBelow), findsNothing, reason: 'the cue is gone for the visit');
+    expect(find.bySemanticsLabel(TodayCopy.moreBelow).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
   });
 
   test('the error card never names a move', () {
