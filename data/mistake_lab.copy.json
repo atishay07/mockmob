@@ -398,5 +398,101 @@
     "key": "Repair Q{n} first",
     "mostRight": "{r} of {n} other students got it right.",
     "commonTrap": "{c} of the {w} who got it wrong chose {L}, as you did."
+  },
+  "traps": {
+    "labels": {
+      "title": "Traps you meet",
+      "open": "Your traps across mocks",
+      "tag": "Trap: {phrase}"
+    },
+    "source": {
+      "repair": "Named by Mistake Repair",
+      "format": "From the question format"
+    },
+    "format": {
+      "assertion_reason_link": "This option and the key agree on both statements; only the link differs.",
+      "match_list": "This option matches {k} of the {n} pairs as the key does.",
+      "sequence": "This option puts {k} of the {n} items in the same place as the key."
+    },
+    "row": "{trap}: caught {k} of {n} times.",
+    "periods": "Before {date}: {k} of {n}. Since: {k2} of {n2}.",
+    "status": {
+      "falling": "Falling",
+      "still": "Still catching you"
+    },
+    "basis": "A chance is a question you answered where one wrong option carries this trap.",
+    "fine": "A trap shows only where Mistake Repair named it on that same option and no other repair named a different one, or where the question's own format makes it. A row shows from 3 chances.",
+    "empty": "Your traps show here once a named trap has been a wrong option on 3 questions you answered.",
+    "unavailable": "Your traps could not be loaded. Try again shortly."
+  },
+  "later": {
+    "labels": {
+      "title": "Same mistakes later",
+      "open": "Open Revise"
+    },
+    "line": {
+      "tomorrow": {
+        "one": "1 of these comes back tomorrow, {day}.",
+        "many": "{n} of these come back tomorrow, {day}."
+      },
+      "day": {
+        "one": "1 of these comes back on {day}.",
+        "many": "{n} of these come back on {day}."
+      },
+      "now": {
+        "one": "1 of these is ready to revise now.",
+        "many": "{n} of these are ready to revise now."
+      }
+    },
+    "rest": {
+      "one": "The other 1 follows a day or more later.",
+      "many": "The other {k} follow a day or more later."
+    },
+    "note": "Same questions, so this checks memory. Fresh questions check the idea.",
+    "fine": "Revise shows 10 questions a day at most, so a busy day can push some of them a day later. It costs no credits and is not counted in any accuracy number."
+  },
+  "revise": {
+    "title": "Revise",
+    "sub": "Same question, so this checks memory. A check on new questions is separate.",
+    "head": {
+      "due": {
+        "one": "1 question to revise today",
+        "many": "{n} questions to revise today"
+      },
+      "none": "Nothing to revise today"
+    },
+    "next": "The next ones are due on {day}.",
+    "nextNone": "Questions you get wrong in a paper or a practice set come back here after 1, 3, 7 and 21 days.",
+    "minutes": "About {m} minutes",
+    "summary": "{due} due today. {cards} cards, {twice} recalled twice.",
+    "boxes": "Box {n}",
+    "boxDays": {
+      "1": "back after 1 day",
+      "2": "after 3 days",
+      "3": "after 7 days",
+      "4": "after 21 days"
+    },
+    "result": {
+      "right": "Right. It comes back {when}.",
+      "rightDone": "Right again. This one is done.",
+      "wrong": "Not this time. It comes back tomorrow."
+    },
+    "when": {
+      "days": {
+        "3": "in 3 days",
+        "7": "in 7 days",
+        "21": "in 21 days"
+      },
+      "on": "on {day}"
+    },
+    "end": {
+      "both": "{r} recalled, {w} come back tomorrow",
+      "right": "{r} recalled",
+      "wrong": "{w} come back tomorrow"
+    },
+    "fine": "Revise costs no credits. It does not change your record, your chapter numbers or any accuracy.",
+    "unavailable": "Revise is not available right now. Try again shortly.",
+    "notDue": "That question is not due now.",
+    "capReached": "You have done today's questions. The rest come back tomorrow."
   }
 }

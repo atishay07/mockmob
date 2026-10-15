@@ -15,6 +15,7 @@ import {
   REPAIR_PROMPT_VERSION, REPAIR_V3_MAX_TOKENS, MISTAKE_REPAIR_SCHEMA_V3, buildRepairPromptV3, interpretRepairV3, withLegacyAliases,
 } from '../../../data/mistake_repair.js';
 import { buildRepairPattern } from '../../../data/repair_pattern.js';
+import { atlasRecordFor } from '../../../data/trap_atlas.js';
 import { getSubjectById } from '../../../data/subjects.js';
 import { repairFailureForKind, composeFailureMessage, WALLET_UNAVAILABLE } from '../../../data/repair_failures.js';
 import { PREPOS_PAUSED_MESSAGE } from '../prepos/modelReply.js';
@@ -66,6 +67,17 @@ async function patternFor({ deps, userId, mistakeKey, trapType, subject, chapter
     if (!Array.isArray(rows)) return null;
     return buildRepairPattern({ rows, current: { mistakeKey, trapType, subject, chapter, at }, subjectName: subjectDisplayName(subject) });
   } catch { return null; }
+}
+
+// The trap atlas (data/trap_atlas.js) is filled from each committed v3 repair, once, after the charge is final. It is a free
+// extra for later students: it never delays a repair by more than this, and any failure is only a missing atlas row.
+export const ATLAS_BUDGET_MS = 1_500;
+async function fillAtlas({ deps, question, chosenIndex, keyIndex, trapType }) {
+  if (typeof deps.recordTrap !== 'function') return;
+  try {
+    const record = atlasRecordFor({ question, chosenIndex, keyIndex, trapType });
+    if (record) await hardStop(Promise.resolve().then(() => deps.recordTrap(record)), ATLAS_BUDGET_MS, null);
+  } catch { /* no atlas row this time */ }
 }
 
 const timedOut = (stage) => ({ ok: false, data: null, raw: null, usage: null, fallbackUsed: false, failure: { stage, provider: null, model: null, kind: 'timeout', status: null, code: null } });
@@ -228,6 +240,7 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   const [pattern, wallet] = await Promise.all([
     committed && v3 ? patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: repair.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: repair.generatedAt }) : null,
     deps.readWallet(user),
+    committed && v3 ? fillAtlas({ deps, question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, trapType: repair.trap_type }) : null,
   ]);
   return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
 }

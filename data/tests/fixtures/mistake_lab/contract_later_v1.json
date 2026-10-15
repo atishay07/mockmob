@@ -1,0 +1,169 @@
+{
+  "prove": {
+    "version": 1,
+    "state": "scheduled",
+    "title": "Same mistakes later",
+    "count": 7,
+    "total": 7,
+    "when": "tomorrow",
+    "dueDay": "2026-10-16",
+    "dayLabel": "Fri 16 Oct",
+    "line": "7 of these come back tomorrow, Fri 16 Oct.",
+    "note": "Same questions, so this checks memory. Fresh questions check the idea.",
+    "fine": "Revise shows 10 questions a day at most, so a busy day can push some of them a day later. It costs no credits and is not counted in any accuracy number.",
+    "open": "Open Revise",
+    "href": "/review/revise"
+  },
+  "proveWithCards": {
+    "version": 1,
+    "state": "scheduled",
+    "title": "Same mistakes later",
+    "count": 5,
+    "total": 6,
+    "when": "now",
+    "dueDay": "2026-10-17",
+    "dayLabel": "Sat 17 Oct",
+    "line": "5 of these are ready to revise now.",
+    "note": "Same questions, so this checks memory. Fresh questions check the idea.",
+    "fine": "Revise shows 10 questions a day at most, so a busy day can push some of them a day later. It costs no credits and is not counted in any accuracy number.",
+    "open": "Open Revise",
+    "href": "/review/revise"
+  },
+  "revise": {
+    "version": 1,
+    "state": "ready",
+    "today": "2026-10-16",
+    "cap": 10,
+    "due": 4,
+    "shown": 4,
+    "answeredToday": 0,
+    "minutes": 5,
+    "boxes": [
+      4,
+      1,
+      1,
+      1
+    ],
+    "cards": 7,
+    "nextDay": "2026-10-17",
+    "nextDayLabel": "Sat 17 Oct",
+    "head": "4 questions to revise today",
+    "summary": "4 due today. 7 cards, 2 recalled twice.",
+    "next": "The next ones are due on Sat 17 Oct.",
+    "labels": {
+      "title": "Revise",
+      "sub": "Same question, so this checks memory. A check on new questions is separate.",
+      "fine": "Revise costs no credits. It does not change your record, your chapter numbers or any accuracy.",
+      "boxes": {
+        "1": "back after 1 day",
+        "2": "after 3 days",
+        "3": "after 7 days",
+        "4": "after 21 days"
+      }
+    },
+    "items": [
+      {
+        "questionId": "r-q5",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative revise question 5",
+        "passage": null,
+        "options": [
+          "Illustrative option 5a",
+          "Illustrative option 5b",
+          "Illustrative option 5c",
+          "Illustrative option 5d"
+        ],
+        "box": 1
+      },
+      {
+        "questionId": "r-q1",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "question": "Illustrative revise question 1",
+        "passage": null,
+        "options": [
+          "Illustrative option 1a",
+          "Illustrative option 1b",
+          "Illustrative option 1c",
+          "Illustrative option 1d"
+        ],
+        "box": 1
+      },
+      {
+        "questionId": "r-q2",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "question": "Illustrative revise question 2",
+        "passage": null,
+        "options": [
+          "Illustrative option 2a",
+          "Illustrative option 2b",
+          "Illustrative option 2c",
+          "Illustrative option 2d"
+        ],
+        "box": 2
+      },
+      {
+        "questionId": "r-q3",
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "question": "Illustrative revise question 3",
+        "passage": null,
+        "options": [
+          "Illustrative option 3a",
+          "Illustrative option 3b",
+          "Illustrative option 3c",
+          "Illustrative option 3d"
+        ],
+        "box": 4
+      }
+    ]
+  },
+  "answers": {
+    "right": {
+      "ok": true,
+      "version": 1,
+      "correct": true,
+      "keyIndex": 1,
+      "explanation": "Illustrative stored explanation 1.",
+      "outcome": "right",
+      "box": 2,
+      "retired": false,
+      "dueDay": "2026-10-19",
+      "dueLabel": "Mon 19 Oct",
+      "line": "Right. It comes back in 3 days."
+    },
+    "wrong": {
+      "ok": true,
+      "version": 1,
+      "correct": false,
+      "keyIndex": 1,
+      "explanation": "Illustrative stored explanation 2.",
+      "outcome": "wrong",
+      "box": 1,
+      "retired": false,
+      "dueDay": "2026-10-17",
+      "dueLabel": "Sat 17 Oct",
+      "line": "Not this time. It comes back tomorrow."
+    },
+    "done": {
+      "ok": true,
+      "version": 1,
+      "correct": true,
+      "keyIndex": 1,
+      "explanation": "Illustrative stored explanation 3.",
+      "outcome": "done",
+      "box": 4,
+      "retired": true,
+      "dueDay": null,
+      "dueLabel": null,
+      "line": "Right again. This one is done."
+    }
+  },
+  "end": {
+    "both": "8 recalled, 2 come back tomorrow",
+    "right": "3 recalled",
+    "wrong": "2 come back tomorrow"
+  }
+}
