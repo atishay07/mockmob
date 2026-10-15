@@ -14,7 +14,8 @@ import LearningNextAction from '@/components/LearningNextAction';
 import RecordView from '@/components/ai/RecordView';
 import { useInsights } from '@/components/ai/useInsights';
 import { useAuth } from '@/components/AuthProvider';
-import { AppIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { AppIcon } from '@/components/ui/Glyph';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useInView } from '@/lib/motion';
 import TrendScrub from './TrendScrub';
 import AcrossMocks from '@/components/result/AcrossMocks';
@@ -116,7 +117,7 @@ export default function AnalyticsPageClient() {
               <ul className="rd-subjects">
                 {subjects.map((s, i) => (
                   <li key={s.id}>
-                    <span className="rd-subjects__icon"><SubjectIcon id={s.id} size={16} /></span>
+                    <span className="rd-subjects__obj"><SubjectObject id={s.id} size={44} framed={false} /></span>
                     <span className="rd-subjects__name"><b>{s.name}</b><i>{s.tests} session{s.tests === 1 ? '' : 's'} · avg {s.avg}%</i></span>
                     <span className="rd-subjects__acc" aria-label={`${s.accuracy}% accuracy`}>{s.accuracy}%</span>
                     <SubjectBar pct={s.accuracy} delay={i * 80} />

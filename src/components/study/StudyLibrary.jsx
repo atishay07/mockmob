@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, BookOpenText, Brain, Target, Timer, ChevronRight } from 'lucide-react';
 import { SubjectIcon } from '@/components/ui/Glyph';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useInView } from '@/lib/motion';
 import { SUBJECTS, STATUS, friendlyError, practiceHref, subjectName, whenDue } from './studyCopy';
 
@@ -109,7 +110,10 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
       <SubjectIcon id={id} size={18} /><span>{title}</span><small>{bySubject[id].length}</small></button>)}</div>
 
     <section id="sx-subject-panel" role="tabpanel" aria-labelledby={`sx-tab-${subject}`} className="sx-subject">
-      <p className="sx-small">{units.length ? `${units.length} ${units.length === 1 ? 'lesson' : 'lessons'} across ${taught.length} of ${syllabus?.chapters.length || 0} chapters in ${subjectName(subject)}. More are added as each one passes its source checks.` : `${subjectName(subject)} lessons are still being prepared. Practice questions are available now.`}</p>
+      <div className="sx-subject__head">
+        <span key={subject} className="sx-subject__obj mk-pop" aria-hidden="true"><SubjectObject id={subject} size={112} framed={false} lit /></span>
+        <p className="sx-small">{units.length ? `${units.length} ${units.length === 1 ? 'lesson' : 'lessons'} across ${taught.length} of ${syllabus?.chapters.length || 0} chapters in ${subjectName(subject)}. More are added as each one passes its source checks.` : `${subjectName(subject)} lessons are still being prepared. Practice questions are available now.`}</p>
+      </div>
       {taught.map(chapter => <div key={chapter.id} className="sx-chapter">
         <div className="sx-chapter__head"><h2>{chapter.title}</h2><Link className="sx-link" href={practiceHref(subject, chapter.title)}>Practise</Link></div>
         <Link className="sx-link sx-small" href={`/learn/summary?${new URLSearchParams({subject,chapter:chapter.title})}`}>Read or print the chapter summary</Link>

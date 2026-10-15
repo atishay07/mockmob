@@ -78,6 +78,10 @@
 .sx-tabs button small { font-family: var(--font-mono); font-size: 0.75rem; color: var(--a-ink-3); }
 .sx-tabs button[aria-selected=true] { color: var(--a-ink); border-color: var(--a-select); background: var(--a-volt-wash); }
 .sx-subject { margin-top: 8px; }
+/* The subject's own object stands beside its lesson count; it floats, leans and answers a tap, and swaps with the tab. */
+.sx-subject__head { display: flex; align-items: center; gap: 4px 12px; }
+.sx-subject__head p { flex: 1; min-width: 0; margin: 0; }
+.sx-subject__obj { flex: none; display: grid; place-items: center; width: 112px; height: 112px; margin-left: -10px; }
 .sx-chapter { margin-top: 24px; }
 .sx-chapter__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--a-line); }
 .sx-chapter__head h2 { font-size: 1.125rem; padding-block: 8px; }
