@@ -1,15 +1,15 @@
 import 'server-only';
-import { after } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { readablePracticeQuestions } from '@/../data/practice_library';
 import { eligibilitySnapshot, publicationEligibility } from '@/../data/evidence_registry';
-import { snapshotDecision } from './inventorySnapshot';
+import { assertFullBankRead } from '@/../data/full_bank_guard';
+import { SERVE_MEMO_MS, servedInventory } from './inventorySnapshot';
 
-// Cache only public aggregates, never keys or personal evidence. Errors are not cached.
-// Checking every question's publication evidence is CPU-heavy (seconds to minutes on a cold
-// instance), so requests read a stored snapshot and the expensive pass runs in the background.
+// Cache only public aggregates, never keys or personal evidence.
+// Counting reads every question with every column (about 41 MB on 15 Oct 2026) and checks each one's
+// publication evidence. It runs once a day, from the cron (/api/internal/refresh-inventory), and only
+// on Vercel production (data/full_bank_guard.js). Requests serve the stored row; they never count.
 let cached = null;
-let refreshing = null;
 
 async function computeInventory(db) {
   const rows = [];
@@ -30,30 +30,28 @@ async function computeInventory(db) {
   return { state: 'available', bankSize: eligible.length, subjectCounts, recoverySubjectCounts, recoveryEligible: Object.values(recoverySubjectCounts).reduce((a,b)=>a+b,0), checkedAt: new Date().toISOString(), note: 'Ordinary library counts use the same publication and family-hold policies as practice. A count does not establish a complete mock blueprint or recovery pathway.' };
 }
 
-/** Recompute the aggregates and store them. A missing snapshot table is tolerated. */
+/**
+ * Recompute the aggregates and store them. Called only by the daily cron. Outside Vercel production it
+ * throws FullBankReadBlocked before reading anything. The stored row is now the only source requests
+ * use, so a failed write is an error (the cron reports it) rather than silently ignored.
+ */
 export async function refreshInventorySnapshot() {
+  assertFullBankRead('the inventory refresh');
   const db = supabaseAdmin();
   const value = await computeInventory(db);
-  await db.from('public_inventory_snapshot').upsert({ id: 'current', value, computed_at: value.checkedAt }).then(() => {}, () => {});
-  cached = { value, until: Date.now() + 60000 };
+  const { error } = await db.from('public_inventory_snapshot').upsert({ id: 'current', value, computed_at: value.checkedAt })
+    .then(result => result, failure => ({ error: failure }));
+  if (error) throw new Error('INVENTORY_STORE_FAILED');
+  cached = { value, until: Date.now() + SERVE_MEMO_MS };
   return value;
 }
 
-function scheduleRefresh() {
-  if (refreshing) return;
-  const run = () => (refreshing = refreshInventorySnapshot().catch(() => {}).finally(() => { refreshing = null; }));
-  try { after(run); } catch { run(); } // after() needs a request scope
-}
-
+/** The stored counts, or an "unavailable" fallback when there are none. Never reads the whole bank. */
 export async function publicInventory() {
   if (cached?.until > Date.now()) return cached.value;
-  const { data } = await supabaseAdmin().from('public_inventory_snapshot').select('value,computed_at').eq('id', 'current').maybeSingle()
-    .then(result => result, () => ({ data: null }));
-  const decision = snapshotDecision(data);
-  if (decision.use === 'snapshot') {
-    cached = { value: data.value, until: Date.now() + 60000 };
-    if (decision.refresh) scheduleRefresh();
-    return data.value;
-  }
-  return refreshInventorySnapshot();
+  const { value, memo } = await servedInventory({
+    readStored: async () => (await supabaseAdmin().from('public_inventory_snapshot').select('value,computed_at').eq('id', 'current').maybeSingle()).data,
+  });
+  if (memo) cached = { value, until: Date.now() + SERVE_MEMO_MS };
+  return value;
 }

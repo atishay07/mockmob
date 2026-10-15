@@ -17,6 +17,7 @@ import {
 } from '@/lib/payments/entitlements';
 import { SEED_QUESTIONS } from './questions';
 import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_registry';
+import { assertFullBankRead } from './full_bank_guard';
 import { readablePracticeQuestions } from './practice_library';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
@@ -1446,6 +1447,8 @@ export const Database = {
   },
 
   async getAllQuestions() {
+    // Every question, every column: refused outside Vercel production (data/full_bank_guard.js).
+    assertFullBankRead('Database.getAllQuestions');
     const { data, error } = await supabaseAdmin().from('questions').select('*');
     if (error) throw error;
     return data.map(questionOut);

@@ -32,7 +32,12 @@ export async function GET(request) {
       );
     }
 
-    return jsonWithDiagnostics(diagnostics, await publicInventory(), { headers: { 'Cache-Control': 'public, max-age=30, stale-while-revalidate=30' } });
+    // Stored counts only (refreshed once a day). Without them, the same 503 "unavailable" answer as a failure.
+    const inventory = await publicInventory();
+    if (inventory?.state !== 'available') {
+      return jsonWithDiagnostics(diagnostics, { state: 'unavailable', reason: inventory?.reason, error: 'Question counts unavailable' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
+    }
+    return jsonWithDiagnostics(diagnostics, inventory, { headers: { 'Cache-Control': 'public, max-age=30, stale-while-revalidate=30' } });
   } catch (error) {
     failRequestDiagnostics(diagnostics, error);
     return Response.json({ state: 'unavailable', error: 'Question counts unavailable' }, { status: 503, headers: { 'Cache-Control':'no-store' } });
