@@ -1,3 +1,10 @@
+## 15 October 2026 - Website v2 deployed (branch web/v2-1015 to main)
+
+- What: the live site made richer (owner rejected the cut-down restructure): logo B only, brand switch (Bricolage plus lamp-lit 3D subject objects), held scroll stories on phones and desktop (Lab, feature tour, Mistake Lab), the statement shelf, livelier Mobi, designed controls, the Start key and sheet, the account page, 2-step onboarding, Practice tiles with lit objects, arena phone polish, copy pass without hedges; Mistake Lab v4 slice 1 on the result page (marks ledger, first-pick re-mark, how others answered; cohort snapshot data/cohort/question_picks.v1.json, aggregates only).
+- Checks before push: eslint clean on 47 changed files; test:app 213, learning 277, recovery 71, auth 50, nta 150, du 19; production build 76/76 pages; headless sweep at 360 and 1440 px with no sideways scroll and no console errors; two critic and fix rounds on phone and desktop captures (mockmob-next/tmp/web-v2-pass2).
+- Not in this deploy: Mistake Lab slice 2 (capture, one time rule, Replay) stays on web/alive-1015 until its fixes pass.
+- Rollback: redeploy the previous production deployment in Vercel (main was 11e30ec3).
+
 ## 15 October 2026 - Time and decisions restored in the Lab, website and app (branch web/alive-1015 and ui/phase2, local, not pushed, not deployed)
 
 What was lost: 236c49c6 replaced the Lab's "Replay your decisions" slider (every visit and pick with its time, and the net first-to-final marks effect) with a folded change log; 220e8d51 then hid the whole Find step (rushed-pick and changed-answer observations) on Full and NTA results once the SWOT was ready. Per-question time was left only as a bare "2m 41s" chip; nothing compared it with what the paper allows, and the app never showed time or when an answer changed (only "Answer changed").
