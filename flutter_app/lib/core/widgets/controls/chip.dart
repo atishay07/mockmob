@@ -7,12 +7,28 @@ import '../hit_slop.dart';
 import '../pressable.dart';
 import 'selection_style.dart';
 
+export 'chip_rail.dart';
+
 /// A chip (10, 20, 30 minutes; a subject; a category) in the answer-sheet selection language
 /// ([MmSelection]): a hollow bubble and a hairline at rest; chosen, a raised fill, a paper-ink
 /// rim and an inked bubble. 40 dp visual with a 48 dp target (the extra band is [MmHitSlop], not layout, so chips in a wrap
 /// keep their coded gaps). `selectionClick` on tap.
+///
+/// Chips that scroll sideways belong in a [ChipRail]: it gives each chip all the width its words
+/// need (the label is never ellipsised there), snaps the rail to chip edges, fades the edges and
+/// shows a clean peek of the next chip, so none is ever cut through a letter.
 class MmChip extends ConsumerWidget {
   const MmChip({super.key, required this.label, required this.selected, required this.onTap, this.leading});
+
+  /// The visual height; the touch target is [targetHeight].
+  static const double height = 40;
+  static const double targetHeight = 48;
+
+  /// Where the label starts from the chip's left edge: 12 dp of cap, the 10 dp bubble, an 8 dp
+  /// gap. A cut that lands before this point shows a clean rounded start and no letters
+  /// ([ChipRail] aims its peek here). With a [leading] icon the label starts [leadingExtra] later.
+  static const double labelInset = 30;
+  static const double leadingExtra = 22;
 
   final String label;
   final bool selected;
@@ -29,7 +45,7 @@ class MmChip extends ConsumerWidget {
     final textColor = disabled ? colors.ink4 : colors.ink;
 
     return MmHitSlop.toTarget(
-      visual: 40,
+      visual: height,
       child: MmPressable(
         semanticsLabel: label,
         selected: selected,
@@ -45,7 +61,7 @@ class MmChip extends ConsumerWidget {
             shape: StadiumBorder(side: MmSelection.side(colors, selected: selected)),
           ),
           child: SizedBox(
-            height: 40,
+            height: height,
             child: Padding(
               padding: const EdgeInsets.only(left: MmSpace.s12, right: MmSpace.s16),
               child: Row(
@@ -53,10 +69,7 @@ class MmChip extends ConsumerWidget {
                 children: [
                   SelectBubble(selected: selected),
                   const SizedBox(width: MmSpace.s8),
-                  if (leading != null) ...[
-                    Icon(leading, size: 16, color: textColor),
-                    const SizedBox(width: MmSpace.s6),
-                  ],
+                  if (leading != null) ...[Icon(leading, size: 16, color: textColor), const SizedBox(width: MmSpace.s6)],
                   Flexible(
                     child: Text(
                       label,
