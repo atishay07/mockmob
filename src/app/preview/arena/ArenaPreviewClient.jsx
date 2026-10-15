@@ -34,7 +34,10 @@ import OnboardingPageClient from '@/app/onboarding/OnboardingPageClient';
 import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
-import { fixtureMock, fixtureReplayMock, fixtureRepairV3 } from './previewMock';
+import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK } from './previewMock';
+import RuleBook from '@/components/rules/RuleBook';
+import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
+import { withActiveRule } from '@/components/result/labLoop';
 
 // Original illustrative questions (the homepage sample set), never real bank rows.
 const SAMPLE = [
@@ -162,12 +165,14 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const mock = fixture.get('mock');
       // mock=full with the Lab on shows the Replay from its contract (&paper=time_up|nta|bst|english for the others;
       // &paper=v1 for the slice 1 paper).
+      // Slice 3 parts on the Full mock's lab (previewMock.js fixtureLabLoop): &across=, &rulecheck=, &order=paper.
+      const loop = (built) => (mock === 'full' ? fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || 'kept', order: fixture.get('order') || 'cohort' }) : built.lab);
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
-        return fixtureReplayMock(fixture.get('paper') || 'full').then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState }));
+        return fixtureReplayMock(fixture.get('paper') || 'full').then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
       }
       if (mock === 'full' || mock === 'nta') {
         const built = fixtureMock(mock, { checks: fixture.get('checks') || 'ready', lab: fixture.get('lab') || 'on' });
-        return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
+        return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       const attempt = fixtureAttempt(); const kind = fixture.get('repair');
       if (['corrected', 'key-unverified', 'held'].includes(kind)) {
@@ -230,6 +235,35 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json({ totalAttempts: 3, totals: { correct: 12, wrong: 12, unattempted: 2 }, scoring: { device: 0 },
         timeline: [{ test: 'Oct 1', score: 41 }, { test: 'Oct 4', score: 52 }, { test: 'Oct 9', score: 49 }],
         subjects: [{ id: 'accountancy', name: 'Accountancy', tests: 3, avg: 47, accuracy: 50 }], weakChapters: [] });
+    }
+    // The Rule book and Across your mocks (GET /api/me/rules), the rule for the next mock (GET and POST /api/me/playbook).
+    // ?rules=few|new|down for the other states; &save=fail refuses the next choice; &across= as on the result page.
+    // A choice is kept in memory for this tab only (window.__previewRule), after a short wait so the saving state shows.
+    if (url.pathname === '/api/me/rules' && method === 'GET') {
+      const kind = fixture.get('rules') || 'ready';
+      if (kind === 'down' || state === 'empty') return json({ error: 'unavailable', message: 'Your rules could not be loaded. Try again shortly.' }, 503);
+      const book = fixtureRuleBook(kind);
+      return json({ book: window.__previewRule ? withActiveRule(book, window.__previewRule) : book, acrossMocks: fixtureAcross(kind === 'new' ? 'none' : kind === 'few' ? 'below_gate' : fixture.get('across') || 'ready') });
+    }
+    if (url.pathname === '/api/me/playbook' && method === 'GET') {
+      const kind = fixture.get('rules') || 'ready';
+      if (kind === 'new') return json({ active: null, startSheet: null });
+      const chosen = window.__previewRule;
+      if (!chosen || chosen.id === FIXTURE_PLAYBOOK.active?.id) return json(chosen ? { ...FIXTURE_PLAYBOOK, active: chosen } : FIXTURE_PLAYBOOK);
+      // Another rule chosen in this tab: its start sheet line over the illustrative record, as the server builds it.
+      return import('@/../data/tests/fixtures/mistake_lab/across_mocks_input.json').then(({ default: input }) => {
+        const found = bookRules(fixtureRuleBook(kind)).find((r) => r.id === chosen.id);
+        return json({ active: chosen, startSheet: startSheetLines({ rule: { ...chosen, chapter: found?.chapter ?? null, subject: found?.subject ?? null }, attempts: input.attempts, subject: url.searchParams.get('subject') }) });
+      });
+    }
+    if (url.pathname === '/api/me/playbook' && method === 'POST') {
+      const body = JSON.parse(init.body || '{}');
+      const rule = choosableRule(fixtureRuleBook(fixture.get('rules') || 'ready'), body.ruleId);
+      const wait = (reply) => new Promise((resolve) => setTimeout(() => resolve(reply), 650));
+      if (fixture.get('save') === 'fail') return wait(json({ error: 'unavailable', message: 'Your rules could not be loaded. Try again shortly.' }, 503));
+      if (!rule) return wait(json({ error: 'invalid_request', message: 'That rule is not in your Rule book yet.' }, 422));
+      window.__previewRule = { id: rule.id, kind: rule.kind, text: rule.text, since: new Date().toISOString() };
+      return wait(json({ active: window.__previewRule }));
     }
     if (url.pathname === '/api/recovery' && method === 'GET') {
       const page = new URLSearchParams(window.location.search);
@@ -333,9 +367,9 @@ function PreviewInner({ candidatePathway }) {
   useLayoutEffect(() => { window.__previewPathway = recoveryFixture ? candidatePathway : null; }, [recoveryFixture, candidatePathway]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pro = params.get('plan') === 'pro';
-  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
+  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
-  const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard' };
+  const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules' };
   const route = `/${routeNames[view] || view}`;
   const previewHref = (name) => `/preview/arena?${new URLSearchParams({ view: name, plan: params.get('plan') || 'free', data: params.get('data') || 'ready', ...(params.get('role') === 'moderator' ? { role: 'moderator' } : {}), ...(params.get('recovery') ? { recovery: params.get('recovery') } : {}) })}`;
   const previewLinks = Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)]));
@@ -351,7 +385,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
+        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

@@ -11,15 +11,24 @@
 // Without lab.replay (an old record, an older server) Find is exactly as before. Find always holds "Time and
 // decisions" (data/time_decisions.js): the paper's pace, where the time went and every answer change with its clock
 // times. Its chapter list is left out while the result page shows the SWOT, which already reads the chapters.
+// Slice 3 (spec 4.7 to 4.10), each part only when the server sends it, so an older server shows the Lab as before:
+// Repair follows lab.repairOrder (most other students got it right first, marked in the queue) and links to the Rule
+// book ("Your rules, 7"); Prove opens with the rule check (result/RuleCheck.jsx); "Across your mocks" closes the Lab,
+// folded (result/AcrossMocks.jsx).
 import { useEffect, useId, useRef, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, Check } from 'lucide-react';
-import { apiGet, apiPost } from '@/lib/fetcher';
+import { ArrowRight, BookMarked, Check, Users } from 'lucide-react';
+import { apiGet } from '@/lib/fetcher';
 import { TIME_COPY } from '@/../data/time_decisions';
 import MistakeLessonLink from './study/MistakeLessonLink';
 import TimeDecisions from './result/TimeDecisions';
 import MarksLedger from './result/MarksLedger';
 import Replay from './result/Replay';
+import AcrossMocks from './result/AcrossMocks';
+import RuleCheck from './result/RuleCheck';
+import { cohortItems, inRepairOrder } from './result/labLoop';
+import COPY from '../../data/mistake_lab.copy.json' with { type: 'json' };
 
 // Adds data-in once the Lab scrolls into view, so its bars grow when the student actually sees them.
 function useInView() {
@@ -45,7 +54,7 @@ function QChips({ numbers, onJump }) {
   );
 }
 
-function Prove({ attempt, topChapter }) {
+function Prove({ attempt, topChapter, ruleCheck = null }) {
   const router = useRouter();
   const [replay, setReplay] = useState(null);
   useEffect(() => {
@@ -60,6 +69,7 @@ function Prove({ attempt, topChapter }) {
   const ordinary = `/test?${new URLSearchParams({ subject: attempt.subject, mode: 'quick', count: '10', ...(topChapter ? { chapter: topChapter } : {}) })}`;
   return (
     <div className="srl-step__body">
+      <RuleCheck check={ruleCheck} />
       {!replay ? <p className="srl-muted" role="status">Checking for fresh questions…</p>
         : fresh ? <>
             <p>Five questions you have not seen from <b>{fresh.chapter}</b>. Getting them right in a day or two is how you know a repair stuck.</p>
@@ -73,30 +83,8 @@ function Prove({ attempt, topChapter }) {
   );
 }
 
-// The playbook note. Every answer change now shows with its clock times in Find (Time and decisions).
-function PlaybookNote({ attempt, analysis }) {
-  const [reflection, setReflection] = useState('');
-  const [saveState, setSaveState] = useState('');
-  return (
-    <details className="srl-log">
-      <summary>A note for your playbook</summary>
-      <div className="srl-log__body">
-        <form className="srl-note" onSubmit={async e => {
-          e.preventDefault(); setSaveState('Saving…');
-          try { await apiPost('/api/recovery', { attemptId: attempt.id, strategy: analysis.mistakes.length ? 'concept_repair' : 'two_pass', reflection }); setSaveState('Saved to your playbook.'); }
-          catch { setSaveState('Could not save. Your note is still here; try again.'); }
-        }}>
-          <label htmlFor="srl-reflection">One line for next time</label>
-          <textarea id="srl-reflection" maxLength={1000} value={reflection} onChange={e => setReflection(e.target.value)} placeholder="For example: I change answers without a real reason." />
-          <div className="srl-note__row">
-            <button type="submit" className="srl-cta srl-cta--quiet" disabled={saveState === 'Saving…' || !reflection.trim()}>Save note</button>
-            <p role="status" className="srl-muted">{saveState}</p>
-          </div>
-        </form>
-      </div>
-    </details>
-  );
-}
+// The free-text playbook note is retired (spec tmp/mistake-lab-v4/SPEC.md 4.10): its saved notes are kept, and the
+// rule for the next mock (the Rule book's "Use in my next mock", /api/me/playbook) takes its place.
 
 // swotShown: the result page's SWOT already reads the chapters, so Find shows only Time and decisions.
 // timeRead: buildTimeDecisions(attempt) from the result page (the same read feeds each answer's own lines).
@@ -118,6 +106,10 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
   // The Replay, and the ledger's way into it: each new focus turns that group's chip on and brings the Replay in.
   const replay = lab?.replay?.rows?.length ? lab.replay : null;
   const [replayFocus, setReplayFocus] = useState(null);
+  // Repair order (spec 4.7): the queue and its key follow the server's order; cohort-led items carry their line.
+  const queue = inRepairOrder(mistakes, lab?.repairOrder);
+  const led = cohortItems(lab?.repairOrder);
+  const rules = lab?.rules && typeof lab.rules.countLabel === 'string' ? lab.rules : null;
   const seeReplay = replay ? {
     label: replay.labels?.seeInReplay,
     ids: new Set((replay.chips || []).filter((c) => c.id !== 'all' && c.count).map((c) => c.id)),
@@ -201,17 +193,28 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
               </div>
               {handled.size > done ? <p className="srl-fine">{handled.size - done} held or without an explanation. These do not count as repaired.</p> : null}
               <div className="srl-queue">
-                {mistakes.map(r => (
-                  <button key={r.q.id} type="button" className="srl-queue__item" data-done={repaired.has(r.q.id) || undefined} onClick={() => onJump(r.number)}>
-                    Q{r.number}<span>{r.chapter}</span>
-                  </button>
-                ))}
+                {queue.map(r => {
+                  const first = led.get(r.q.id);
+                  return (
+                    <button key={r.q.id} type="button" className="srl-queue__item" data-done={repaired.has(r.q.id) || undefined} data-led={first?.reason}
+                      title={first?.line || undefined} aria-label={first ? `Q${r.number}, ${r.chapter}. ${first.line}` : undefined} onClick={() => onJump(r.number)}>
+                      {first ? <Users className="srl-queue__led" size={13} strokeWidth={2.4} aria-hidden="true" /> : null}Q{r.number}<span>{r.chapter}</span>
+                    </button>
+                  );
+                })}
               </div>
               {handled.size < mistakes.length ? (
-                <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${mistakes.find(r => !handled.has(r.q.id)).number}`} <ArrowRight size={16} aria-hidden="true" /></button>
+                <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${queue.find(r => !handled.has(r.q.id)).number}`} <ArrowRight size={16} aria-hidden="true" /></button>
               ) : done === mistakes.length ? <p className="srl-done">All explanations ready. Try fresh questions when you are ready.</p> : <p className="srl-fine">Review the recorded answers below or continue with ordinary practice.</p>}
               <p className="srl-fine">1 credit per repair. Reopening a repair is free. No charge if a question is held for review.</p>
             </> : <p>No wrong answers to repair this session.</p>}
+            {rules ? (
+              <Link className="srl-rules" href="/review/rules">
+                <span className="srl-rules__icon" aria-hidden="true"><BookMarked size={17} strokeWidth={2.1} /></span>
+                <span className="srl-rules__text"><b>{rules.countLabel}</b>{rules.active?.text ? <small>{COPY.rules.labels.inUse}: {rules.active.text}</small> : null}</span>
+                <ArrowRight className="srl-rules__go" size={16} aria-hidden="true" />
+              </Link>
+            ) : null}
           </div>
         </li>
 
@@ -219,12 +222,12 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
           <div className="srl-step__num" aria-hidden="true">3</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Prove</h3><p>Show it stuck, on questions you haven’t seen</p></div>
-            <Prove attempt={attempt} topChapter={topChapter} />
+            <Prove attempt={attempt} topChapter={topChapter} ruleCheck={lab?.prove?.ruleCheck || null} />
           </div>
         </li>
       </ol>
 
-      <PlaybookNote attempt={attempt} analysis={analysis} />
+      <AcrossMocks across={lab?.acrossMocks || null} />
     </section>
   );
 }

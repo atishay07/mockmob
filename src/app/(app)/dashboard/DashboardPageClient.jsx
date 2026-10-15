@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import { Target } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AppIcon, CreditAmount, ModeIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
 import { Button } from '@/components/ui/Button';
@@ -19,6 +20,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
+import StartRule, { useStartRule } from './StartRule';
 import './practice.css';
 
 const MODE_LIST = ['quick', 'full', 'smart'];
@@ -195,6 +197,8 @@ export default function DashboardPageClient() {
   const balance = user?.creditBalance || 0;
   const quoteCount = mode.fixedCount || count;
   const quoteMatches = Boolean(quote && quote.subject?.storedId === selSubj && quote.mode?.id === mode.id && quote.count === quoteCount);
+  // The rule the student chose for their next mock (the Rule book), on this card before the clock starts: Full and NTA only.
+  const startSheet = useStartRule(status === 'ready' ? selSubj : null, effectiveModeId);
   const quoteLaunchable = quoteStatus === 'ready' && quoteMatches && quote.launchable === true;
   const filteredChapters = useMemo(() => {
     const needle = chapterSearch.trim().toLowerCase();
@@ -350,7 +354,7 @@ export default function DashboardPageClient() {
   }
 
   return (
-    <div className="pr view">
+    <div className="pr view" data-rule={startSheet ? '' : undefined}>
       {!isPremium && (
         <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
       )}
@@ -551,6 +555,7 @@ export default function DashboardPageClient() {
                 <> <Link href={quote.upgradeHref}>{quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link></>
               )}
             </p>
+            <StartRule sheet={startSheet} />
             <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable} onClick={launch}>
               <AppIcon name="practice" size={18} />{startLabel}
             </Button>
@@ -562,6 +567,7 @@ export default function DashboardPageClient() {
           the session card scrolls into view. Out of the tab order and the reading order while it is away. */}
       {mySubs.length > 0 ? (
         <div className="pr-dock" role="region" aria-label="Your session" data-shown={dockShown || undefined} inert={!dockShown}>
+          {startSheet ? <p className="pr-dock__rule"><Target size={14} strokeWidth={2.3} aria-hidden="true" /><span>{startSheet.rule}</span></p> : null}
           <span className="pr-dock__obj" key={selSubj}>
             <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
           </span>

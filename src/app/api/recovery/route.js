@@ -16,7 +16,8 @@ export async function GET(request) {
   const db=supabaseAdmin();
   const [{data:reviews,error:reviewError},{data:playbook,error:playbookError}]=await Promise.all([
     db.from('recovery_review_queue').select('*').eq('user_id',session.user.id).eq('state','pending').order('due_at'),
-    db.from('recovery_playbook').select('*').eq('user_id',session.user.id).order('created_at',{ascending:false}),
+    // The free-text notes only: rows of the rule for the next mock (strategy rule:...) belong to /api/me/playbook.
+    db.from('recovery_playbook').select('*').eq('user_id',session.user.id).not('strategy','like','rule:%').order('created_at',{ascending:false}),
   ]);
   const questionIds=[...new Set(attempts.flatMap(a=>a.questionsSnapshot.map(q=>q.id)))];
   const currentQuestions=new Map();let evidenceUnavailable=false;
