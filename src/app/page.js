@@ -10,6 +10,7 @@ import { JsonLd } from '@/components/JsonLd';
 import { LandingActions } from '@/components/LandingActions';
 import { DemoDrill } from '@/components/landing/DemoDrill';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
+import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { Reveal } from '@/components/landing/Reveal';
 import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
@@ -19,6 +20,8 @@ import FeatureTour from '@/components/landing/FeatureTour';
 import MistakeLab from '@/components/landing/MistakeLab';
 import LabCinema from '@/components/landing/LabCinema';
 import { SubjectObject } from '@/components/brand/SubjectObject';
+import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
+import { subjectArt } from '@/../data/subject_art.mjs';
 import { publishedVoices } from '@/lib/voices';
 import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
 import { buildCompassShowcase, duIndexFacts } from '@/lib/du/showcase';
@@ -62,13 +65,18 @@ const DU_FACTS = duIndexFacts();
 // Words marked with * carry the accent.
 const STATEMENT = 'Your lost marks went somewhere. MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
 // The four launch papers as the app's lamp-lit objects. Each lands on its shadow from its own height as the
-// statement scrolls: depth is how far it falls (px), tilt how far it turns on the way.
+// statement scrolls: depth is how far it falls (px), tilt how far it turns on the way. base is where the
+// object's contact shadow ends, as a share of its square box, so on phones the name sits right under it.
+const shelfBase = (id) => {
+  const stage = objectStage(subjectArt(id));
+  return stage ? ((stage.contact.cy + stage.contact.ry) / 100).toFixed(3) : '0.9';
+};
 const SHELF = [
   { id: 'english', name: 'English', href: '/cuet/english', depth: 70, tilt: -4 },
   { id: 'accountancy', name: 'Accountancy', href: '/cuet/accountancy', depth: 120, tilt: 3 },
   { id: 'business_studies', name: 'Business Studies', href: '/cuet/business-studies', depth: 45, tilt: -2 },
   { id: 'economics', name: 'Economics', href: '/cuet/economics', depth: 95, tilt: 4 },
-];
+].map((item) => ({ ...item, base: shelfBase(item.id) }));
 
 // Learn is marketed only while study content is switched on; counts come from the release proof.
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
@@ -193,8 +201,8 @@ export default function LandingPage() {
             </p>
             <div className="lp-shelf">
               <ul className="lp-shelf__row" aria-label="Built first for CUET Commerce and English">
-                {SHELF.map(({ id, name, href, depth, tilt }, i) => (
-                  <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg` }}>
+                {SHELF.map(({ id, name, href, depth, tilt, base }, i) => (
+                  <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
                     <Link href={href} className="lp-shelf__link">
                       <span className="lp-shelf__float"><SubjectObject id={id} size={184} lit={i === 1} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
                       <span className="lp-shelf__name">{name}</span>
@@ -400,7 +408,11 @@ export default function LandingPage() {
       </main>
       <MarketingFooter />
       <PipGuide />
-      <MobileDock note={OFFER.purchasable === 'monthly' ? `Free to start. Pro ₹${OFFER.monthly.rupees}/month.` : 'Five CUET questions. No signup.'} label="Try a CUET question" href="/#try-practice" />
+      {/* The phone bar waits until the hero's buttons have gone and steps aside while the demo is on screen. */}
+      <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
+      <HeroDockGate>
+        <MobileDock note={OFFER.purchasable === 'monthly' ? `Free to start. Pro ₹${OFFER.monthly.rupees}/month.` : 'Five CUET questions. No signup.'} label="Try a CUET question" href="/#try-practice" />
+      </HeroDockGate>
     </div>
   );
 }

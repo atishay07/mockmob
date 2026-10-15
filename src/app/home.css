@@ -93,6 +93,19 @@
   .lp-shelf__row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem 1.5rem; }
   .lp-shelf__item:nth-child(3) { margin-top: -1.5rem; }
 }
+/* Phones: an even 2 by 2 with both columns on one line. Every object gets an equal cell and stands on one
+   floor with its row-mate; its name sits 8px under its own shadow (--base, from page.js, is where the shadow
+   ends inside the square box), with a clear 2rem before the next row, so a name only ever belongs to the
+   object above it. All four fall the same short way, the two columns turning in mirror, and on the way out
+   they rise a breath (--lift), never into the row above. */
+@media (max-width: 760px) {
+  .lp-statement { --shelf-obj: min(38vw, 9.5rem); }
+  .lp-shelf__row { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; gap: 2rem 0.75rem; padding-bottom: 0; }
+  .lp-shelf__item:nth-child(even) { translate: none; }
+  .lp-shelf__link { --depth: 40; --tilt: -2deg; --lift: -0.2px; gap: 0; padding-inline: 0.5rem; }
+  .lp-shelf__item:nth-child(even) .lp-shelf__link { --tilt: 2deg; }
+  .lp-shelf__float { margin-bottom: calc((var(--base, 0.9) - 1) * var(--shelf-obj) + 8px); }
+}
 .lp-shelf__link {
   display: grid;
   justify-items: center;
@@ -163,7 +176,7 @@
 }
 @keyframes lp-shelf-out {
   from { translate: 0 0; rotate: 0deg; animation-timing-function: var(--mm-ease-emphasized-reverse, cubic-bezier(0.7, 0, 0.84, 0)); }
-  to { translate: 0 calc(var(--depth, 60) * -0.5px); rotate: var(--tilt, 0deg); }
+  to { translate: 0 calc(var(--depth, 60) * var(--lift, -0.5px)); rotate: var(--tilt, 0deg); }
 }
 @keyframes lp-shelf-ground-in {
   from { scale: 0.4; opacity: 0; animation-timing-function: var(--mm-ease-emphasized, cubic-bezier(0.16, 1, 0.3, 1)); }

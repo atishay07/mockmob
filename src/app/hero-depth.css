@@ -165,6 +165,10 @@ html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest
     }
     :root:not([data-motion='reduced']) .lp-statement .lp-shelf::before { animation-range: contain 2% contain 50%; }
   }
+  /* Phones: the even 2 by 2 (home.css) at a size that keeps the words, both rows and their names in the held scene. */
+  @media (max-width: 760px) and (min-height: 780px) and (prefers-reduced-motion: no-preference) {
+    :root:not([data-motion='reduced']) .lp-statement { --shelf-obj: min(38vw, 18svh, 9.5rem); }
+  }
 }
 
 /* ---------- 5. Hero finish ----------
@@ -178,3 +182,25 @@ html[data-theme='light'] .lp-proof::before { background: radial-gradient(closest
   .lp .lp-trust li:nth-child(3) { order: 1; }
   .lp .lp-stage__note { margin-top: 0.15rem; color: var(--ink-3); text-align: center; text-wrap: balance; }
 }
+
+/* ---------- 6. The phone action bar waits its turn (HeroDockGate) ----------
+   On the first screen the hero's buttons and the demo already offer the question, so the bar stays down until
+   the buttons have scrolled away and steps aside while the demo holds the screen. It rises on the app's out
+   curve and leaves on the leave curve; focus inside it always brings it back. Reduced motion just swaps. */
+@media (max-width: 899px) {
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock {
+    transition: opacity var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), transform var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  }
+  html[data-theme] .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
+  html[data-theme] .mm.lp:has(.ss[data-live='true']) .lp-dockgate .mm-dock:not(:focus-within) {
+    opacity: 0;
+    transform: translateY(calc(100% + 2rem));
+    pointer-events: none;
+    transition-duration: var(--mm-dur-leave, 180ms);
+    transition-timing-function: var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme] .mm.lp .lp-dockgate .mm-dock { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
+}
+html[data-motion='reduced'] .mm.lp .lp-dockgate .mm-dock { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
