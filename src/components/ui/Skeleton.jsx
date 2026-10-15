@@ -1,6 +1,8 @@
 import { useId } from 'react';
 import { StatusIcon } from './Glyph';
 import { WaitingMobi, FailedMobi, RefusedMobi, EmptyMobi } from './StateMobi';
+import StateRoom from '@/components/scenes/StateRoom';
+import { sceneForState } from '@/components/scenes/sceneModel.mjs';
 
 /**
  * Minimal skeleton primitives. All use a single shimmer animation defined in globals.css.
@@ -43,8 +45,25 @@ export function PageSpinner({ label = 'Loading…' }) {
   );
 }
 
-/** Inline error surface used by data-fetching pages. */
-export function ErrorState({ message = 'Check your connection and try again.', onRetry, title = 'This did not load', mascot = false }) {
+/**
+ * Inline error surface used by data-fetching pages. Pass `scene` ('unreachable') where the error takes
+ * the page's place: Mobi then stands in the painted room with the loose cable and the repair tin (the
+ * unplugged desk while the browser is offline) and shrugs once on the first failure of a run. Without
+ * `scene` it stays the compact alert row, for errors inside a form or a list.
+ */
+export function ErrorState({ message = 'Check your connection and try again.', onRetry, title = 'This did not load', mascot = false, scene }) {
+  if (sceneForState('error', scene)) {
+    return (
+      <div className="ui-state ui-state--error ui-state--scene" role="alert">
+        <StateRoom kind="error" scene={scene} />
+        <div className="ui-state__copy">
+          <b>{title}</b>
+          <p>{message}</p>
+          {onRetry ? <button type="button" onClick={onRetry} className="ui-state__action ui-state__action--primary">Try again</button> : null}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="ui-state ui-state--error" role="alert">
       {mascot ? <FailedMobi /> : <StatusIcon kind="error" size={20} />}
@@ -77,6 +96,15 @@ export function NoticeState({ title, message, actions = null, mascot = true, hea
   );
 }
 
+/**
+ * Nothing to show. Name a painted room with `scene` and Mobi rests in it (the app's rule: a room only
+ * when the state names one):
+ *   allClear    everything marked, nothing to repair (never for "nothing yet")
+ *   nothingYet  work not started
+ *   saved       a place where kept things will live
+ *   noResults   a filter or a search that found nothing
+ * Without `scene`, Mobi reads beside the words as before.
+ */
 export function EmptyState({
   eyebrow = '',
   title = 'Nothing here yet.',
@@ -85,7 +113,22 @@ export function EmptyState({
   onAction,
   mascot = true,
   mobiAct = 'read',
+  scene,
+  compact = false,
 }) {
+  if (mascot && sceneForState('empty', scene)) {
+    return (
+      <div className="ui-state ui-state--empty ui-state--scene">
+        <StateRoom kind="empty" scene={scene} compact={compact} />
+        <div className="ui-state__copy">
+          {eyebrow && !eyebrow.startsWith('//') ? <span className="ui-state__eyebrow">{eyebrow}</span> : null}
+          <b>{title}</b>
+          <p>{message}</p>
+          {actionLabel && onAction ? <button type="button" onClick={onAction} className="ui-state__action ui-state__action--primary">{actionLabel}</button> : null}
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="ui-state ui-state--empty">
       {mascot && <EmptyMobi act={mobiAct} />}

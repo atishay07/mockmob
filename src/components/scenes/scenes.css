@@ -1,0 +1,163 @@
+/* ==========================================================================
+   PAINTED SCENES (src/components/scenes): SceneImage, SceneVignette, SceneLife, and the quiet states
+   that show a room (Skeleton.jsx EmptyState and ErrorState with a `scene`). The app's numbers: a room
+   is 3:2, never taller than 248 px (150 compact); Mobi is 0.42 of its height with his feet on the
+   measured anchor; the room breathes for three 8 s breaths and rests. Every painting is feathered to
+   transparent at its edges, so nothing frames it. Transform and opacity only. Reduce motion (the
+   student's switch or the device's) keeps the painting and Mobi's pose and drops the life.
+   ========================================================================== */
+
+.scene-img { position: relative; display: block; width: 100%; }
+.scene-img picture { display: contents; }
+.scene-img__file {
+  position: absolute; inset: 0; display: block; width: 100%; height: 100%;
+  object-fit: fill; user-select: none; -webkit-user-drag: none;
+  opacity: 0; transition: opacity 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.scene-img[data-loaded='true'] .scene-img__file { opacity: 1; }
+
+/* The room: its box is laid out before the file decodes; Mobi and the life are sized from its width. */
+.scene-room {
+  position: relative; display: block; flex: 0 1 var(--scene-max-w);
+  width: min(100%, var(--scene-max-w)); min-width: min(100%, 200px); aspect-ratio: 3 / 2;
+  container-type: inline-size; isolation: isolate; pointer-events: none;
+}
+.scene-room > .scene-img { position: absolute; inset: 0; height: 100%; }
+.scene-room__mobi { position: absolute; z-index: 2; display: flex; align-items: flex-end; justify-content: center; }
+/* An interactive Mobi (MobiReact interactive) takes pointer events on his own figure only. */
+/* Mobi's height is 0.42 of the room's height, that is 28 percent of its width (container units). */
+.scene-room__mobi .mobi-react { --mobi-size: calc(var(--scene-mobi) * 1cqw) !important; }
+
+/* --------------------------------------------------------------------------
+   Life: one layer over the painting, inside its box. Eases in over 1.5 s, holds, eases out over the
+   last 1.5 s of its 24 s (6.25 and 93.75 percent of the span), then SceneLife removes it.
+   -------------------------------------------------------------------------- */
+.scene-life {
+  position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; contain: layout paint;
+  opacity: 0; animation: scene-life-env var(--life-span, 24s) linear 1 both;
+}
+@keyframes scene-life-env { 0% { opacity: 0; } 6.25% { opacity: 1; } 93.75% { opacity: 1; } 100% { opacity: 0; } }
+
+/* A breath: 0.5 + 0.5 sin(2 pi t - pi / 2), low at the ends, full at the middle. */
+@keyframes scene-life-breath {
+  0% { opacity: var(--breath-low); animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  50% { opacity: 1; animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  100% { opacity: var(--breath-low); }
+}
+.scene-life__pool, .scene-life__glow {
+  position: absolute; translate: -50% -50%;
+  opacity: var(--breath-low);
+  animation: scene-life-breath var(--life-breath, 8s) linear 0s var(--life-cycles, 3) both;
+}
+/* The floor pool where Mobi stands: the app's circle of the ellipse's width, squashed to 0.3. */
+.scene-life__pool {
+  --breath-low: 0.4;
+  aspect-ratio: 10 / 3;
+  background: radial-gradient(closest-side, rgba(242, 169, 59, var(--pool-alpha, 0.05)), rgba(242, 169, 59, 0));
+}
+/* The lamp's glow under the shade (Night): radius 0.2 of the width, alpha 0.06 to 0.13. */
+.scene-life__glow {
+  --breath-low: var(--glow-low, 0.46);
+  aspect-ratio: 1;
+  background: radial-gradient(closest-side, rgba(242, 169, 59, var(--glow-alpha, 0.13)), rgba(242, 169, 59, 0));
+}
+
+/* Motes (Night): each rises through the cone over one breath, fading in and out along a sine, with a
+   small sway. Positions are container units of the room (x of the width; y of the width times 2/3). */
+.scene-life__motes { position: absolute; inset: 0; }
+.scene-life__mote {
+  position: absolute; left: 0; top: 0; width: 0; height: 0; opacity: 0;
+  animation-name: scene-mote-rise, scene-mote-fade;
+  animation-duration: var(--life-breath, 8s);
+  animation-timing-function: linear;
+}
+@keyframes scene-mote-rise {
+  from { transform: translate(calc(var(--x0) * 1cqw), calc(var(--y0) * 1cqw)); }
+  to { transform: translate(calc(var(--x1) * 1cqw), calc(var(--y1) * 1cqw)); }
+}
+@keyframes scene-mote-fade {
+  0% { opacity: 0; animation-timing-function: cubic-bezier(0.61, 1, 0.88, 1); }
+  50% { opacity: var(--mote-a); animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0); }
+  100% { opacity: 0; }
+}
+.scene-life__mote i {
+  position: absolute; left: 0; top: 0; display: block; border-radius: 50%; background: #ffe7a8;
+  width: calc(var(--mote-size) * 1cqw); aspect-ratio: 1;
+  margin: calc(var(--mote-size) * -0.5cqw) 0 0 calc(var(--mote-size) * -0.5cqw);
+  animation: scene-mote-sway calc(var(--life-breath, 8s) / 1.5) linear both;
+}
+@keyframes scene-mote-sway {
+  0% { transform: translateX(calc(var(--sway) * -1cqw)); animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  50% { transform: translateX(calc(var(--sway) * 1cqw)); animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  100% { transform: translateX(calc(var(--sway) * -1cqw)); }
+}
+@supports not (width: 1cqw) { .scene-life__motes { display: none; } }
+
+/* Stars (Night): a sin^3 pulse every 4 s; the core swells from r 1.4 to 3.0 and brightens from 0.15
+   to 0.85, and a thin cross shows when it is bright. The box is the cross at full size (10.8 of 380). */
+.scene-life__star {
+  /* Centred on its point by margins (both are shares of the width, and the box is square), because a
+     separate translate beside the animated transform is not safe through every CSS minifier. */
+  position: absolute; width: 2.842%; aspect-ratio: 1; margin: -1.421% 0 0 -1.421%;
+  transform: scale(0.4667);
+  animation: scene-star-scale calc(var(--life-breath, 8s) / 2) linear both;
+}
+.scene-life__star i, .scene-life__star::before, .scene-life__star::after {
+  position: absolute; display: block; background: #f4f0e6; opacity: 0;
+}
+.scene-life__star i {
+  inset: 34.72%; border-radius: 50%; opacity: 0.15;
+  animation: scene-star-core calc(var(--life-breath, 8s) / 2) linear both;
+  animation-delay: inherit; animation-iteration-count: inherit;
+}
+.scene-life__star::before, .scene-life__star::after {
+  content: ''; border-radius: 1px;
+  animation: scene-star-ray calc(var(--life-breath, 8s) / 2) linear both;
+  animation-delay: inherit; animation-iteration-count: inherit;
+}
+.scene-life__star::before { left: 0; right: 0; top: 50%; height: 0.7px; margin-top: -0.35px; }
+.scene-life__star::after { top: 0; bottom: 0; left: 50%; width: 0.7px; margin-left: -0.35px; }
+/* pulse = sin(pi phase)^3 at eighths: 0 .056 .354 .789 1 .789 .354 .056 0 */
+@keyframes scene-star-scale {
+  0%, 100% { transform: scale(0.4667); } 12.5%, 87.5% { transform: scale(0.4965); }
+  25%, 75% { transform: scale(0.6555); } 37.5%, 62.5% { transform: scale(0.8875); } 50% { transform: scale(1); }
+}
+@keyframes scene-star-core {
+  0%, 100% { opacity: 0.15; } 12.5%, 87.5% { opacity: 0.189; }
+  25%, 75% { opacity: 0.398; } 37.5%, 62.5% { opacity: 0.702; } 50% { opacity: 0.85; }
+}
+@keyframes scene-star-ray {
+  0%, 100% { opacity: 0; } 12.5%, 87.5% { opacity: 0.028; }
+  25%, 75% { opacity: 0.177; } 37.5%, 62.5% { opacity: 0.394; } 50% { opacity: 0.5; }
+}
+
+/* A hidden tab holds the room where it is; it carries on when the student comes back. */
+.scene-life[data-paused='true'],
+.scene-life[data-paused='true'] *,
+.scene-life[data-paused='true'] *::before,
+.scene-life[data-paused='true'] *::after { animation-play-state: paused !important; }
+
+:root[data-motion='reduced'] .scene-life { display: none; }
+@media (prefers-reduced-motion: reduce) { .scene-life { display: none; } }
+
+/* --------------------------------------------------------------------------
+   Quiet states with a room (Skeleton.jsx): the room is the picture, the words sit under it, centred,
+   with no card around them (the painting melts into the page). One entrance, in reading order: the
+   room, then the words and the action.
+   -------------------------------------------------------------------------- */
+.ui-state.ui-state--scene,
+.app-shell .ui-state.ui-state--scene {
+  display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 4px;
+  padding: 4px 16px 22px; text-align: center; border-color: transparent; background: transparent;
+}
+.ui-state--scene .ui-state__copy { display: grid; justify-items: center; gap: 6px; max-width: 46ch; }
+.ui-state--scene .ui-state__copy p { margin-inline: auto; text-wrap: pretty; }
+.app-shell .ui-state--scene .ui-state__action { justify-self: center; }
+/* The error row's icon rule (a red, nudged svg) is not for Mobi's marks inside the room. */
+.app-shell .ui-state--scene .scene-room svg { margin: 0; }
+.ui-state--scene > * { animation: scene-state-rise 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.ui-state--scene > :nth-child(2) { animation-delay: 90ms; }
+.ui-state--scene > :nth-child(3) { animation-delay: 160ms; }
+@keyframes scene-state-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+:root[data-motion='reduced'] .ui-state--scene > * { animation: none; }
+@media (prefers-reduced-motion: reduce) { .ui-state--scene > * { animation: none; } }

@@ -237,7 +237,7 @@ export default function DashboardPageClient() {
   }
 
   if (status === 'error') {
-    return <ErrorState message={error} onRetry={() => { setError(null); setStatus('loading'); setLoadNonce(n => n + 1); }} />;
+    return <ErrorState scene="unreachable" message={error} onRetry={() => { setError(null); setStatus('loading'); setLoadNonce(n => n + 1); }} />;
   }
 
   const chapterParam = selectedChapters.length > 0

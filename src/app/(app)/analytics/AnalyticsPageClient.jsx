@@ -55,7 +55,7 @@ export default function AnalyticsPageClient() {
     return () => { alive = false; };
   }, [user, authStatus, retryCount]);
 
-  if (error) return <div className="container-std pt-8"><ErrorState message={error} onRetry={() => { setData(null); setError(null); setRetryCount((count) => count + 1); }} /></div>;
+  if (error) return <div className="container-std pt-8"><ErrorState scene="unreachable" message={error} onRetry={() => { setData(null); setError(null); setRetryCount((count) => count + 1); }} /></div>;
   if (authStatus === 'loading' || !data) {
     return (
       <div className="container-std pb-20">

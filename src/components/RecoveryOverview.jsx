@@ -10,6 +10,7 @@ import LearningNextAction from './LearningNextAction';
 import ArenaHead, { ArenaStats } from './arena/ArenaHead';
 import { AppIcon, StatusIcon, SubjectIcon } from './ui/Glyph';
 import ArenaCompanion, { OneMobi } from './brand/ArenaCompanion';
+import SceneVignette from './scenes/SceneVignette';
 import { useWaitStage } from '@/lib/mobiHooks';
 import { oopsRun } from '@/lib/mobiRation';
 import StudyProgress from './study/StudyProgress';
@@ -100,7 +101,7 @@ export default function RecoveryOverview({ view }) {
           <section className="ov-section" aria-labelledby="ov-sessions">
             <div className="pr-step__head"><h2 id="ov-sessions">Your sessions</h2><span className="pr-hint">Newest first</span></div>
             {review.length ? <ul className="ov-list">{review.map(a => <SessionCard key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={review.indexOf(a)} />)}</ul> : (
-              <div className="ov-empty"><ArenaCompanion act="read" pose="attentive" title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice<ArrowRight size={16} aria-hidden="true" /></Link></div>
+              <div className="ov-empty"><SceneVignette scene="nothingYet" interactive /><ArenaCompanion mobi={false} title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice<ArrowRight size={16} aria-hidden="true" /></Link></div>
             )}
           </section>
         </>

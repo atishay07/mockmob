@@ -1,0 +1,265 @@
+{
+  "version": 1,
+  "note": "Written by flutter_app/tool/build_scenes.py; read by lib/core/widgets/art/scene_art.dart (SceneAnchor), scene_life.dart (SceneLifeSpec) and the milestone band, and by the website's SceneImage and SceneLife. All numbers are fractions of the image unless the name ends in Dp. The same bytes live in both worktrees.",
+  "vignette": {
+    "file": {
+      "width": 1536,
+      "height": 1024
+    },
+    "mobiShare": 0.42,
+    "scenes": {
+      "allClear": {
+        "night": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "day": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "life": {
+          "lampX": 0.408,
+          "lampY": 0.222,
+          "coneFootY": 0.7,
+          "ellipseX": 0.514,
+          "ellipseY": 0.785,
+          "ellipseW": 0.55,
+          "stars": [
+            [
+              0.225,
+              0.07
+            ],
+            [
+              0.235,
+              0.21
+            ],
+            [
+              0.1,
+              0.21
+            ]
+          ]
+        }
+      },
+      "offline": {
+        "night": {
+          "footX": 0.5,
+          "footY": 0.776
+        },
+        "day": {
+          "footX": 0.5,
+          "footY": 0.776
+        },
+        "life": {
+          "lampX": 0.393,
+          "lampY": 0.356,
+          "coneFootY": 0.7,
+          "ellipseX": 0.5,
+          "ellipseY": 0.766,
+          "ellipseW": 0.484,
+          "stars": [
+            [
+              0.19,
+              0.08
+            ],
+            [
+              0.215,
+              0.17
+            ],
+            [
+              0.09,
+              0.2
+            ]
+          ]
+        }
+      },
+      "nothingYet": {
+        "night": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "day": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "life": {
+          "lampX": 0.408,
+          "lampY": 0.222,
+          "coneFootY": 0.7,
+          "ellipseX": 0.514,
+          "ellipseY": 0.785,
+          "ellipseW": 0.55,
+          "stars": [
+            [
+              0.225,
+              0.07
+            ],
+            [
+              0.235,
+              0.21
+            ],
+            [
+              0.1,
+              0.21
+            ]
+          ]
+        }
+      },
+      "saved": {
+        "night": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "day": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "life": {
+          "lampX": 0.408,
+          "lampY": 0.222,
+          "coneFootY": 0.7,
+          "ellipseX": 0.514,
+          "ellipseY": 0.785,
+          "ellipseW": 0.55,
+          "stars": [
+            [
+              0.225,
+              0.07
+            ],
+            [
+              0.235,
+              0.21
+            ],
+            [
+              0.1,
+              0.21
+            ]
+          ]
+        }
+      },
+      "noResults": {
+        "night": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "day": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "life": {
+          "lampX": 0.408,
+          "lampY": 0.222,
+          "coneFootY": 0.7,
+          "ellipseX": 0.514,
+          "ellipseY": 0.785,
+          "ellipseW": 0.55,
+          "stars": [
+            [
+              0.225,
+              0.07
+            ],
+            [
+              0.235,
+              0.21
+            ],
+            [
+              0.1,
+              0.21
+            ]
+          ]
+        }
+      },
+      "unreachable": {
+        "night": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "day": {
+          "footX": 0.514,
+          "footY": 0.796
+        },
+        "life": {
+          "lampX": 0.408,
+          "lampY": 0.222,
+          "coneFootY": 0.7,
+          "ellipseX": 0.514,
+          "ellipseY": 0.785,
+          "ellipseW": 0.55,
+          "stars": [
+            [
+              0.225,
+              0.07
+            ],
+            [
+              0.235,
+              0.21
+            ],
+            [
+              0.1,
+              0.21
+            ]
+          ]
+        }
+      }
+    },
+    "life": {
+      "breathSeconds": 8,
+      "cycles": 3,
+      "fadeEndsMs": 1500,
+      "motes": 9,
+      "glowRadiusOfWidth": 0.2,
+      "poolAlphaNight": 0.05,
+      "poolAlphaDay": 0.04
+    }
+  },
+  "milestone": {
+    "file": {
+      "width": 1536,
+      "height": 1024
+    },
+    "mobiX": 0.74,
+    "mobiFootY": 0.92,
+    "mobiHeightDp": 92,
+    "bleedDp": 24
+  },
+  "welcome": {
+    "file": {
+      "width": 1296,
+      "height": 1620
+    },
+    "footX": 0.504,
+    "footY": 0.857,
+    "ellipse": {
+      "cx": 0.504,
+      "cy": 0.853,
+      "w": 0.771,
+      "h": 0.092
+    },
+    "mobiWidthShare": 0.5185,
+    "sheetLeft": 0.6,
+    "lamp": {
+      "x": 0.748,
+      "y": 0.157
+    },
+    "coneFootY": 0.318,
+    "ground": "#12110E",
+    "groundBlendFrom": 0.93
+  },
+  "planSeal": {
+    "file": {
+      "width": 1296,
+      "height": 1944
+    },
+    "impressionX": 0.494,
+    "impressionY": 0.554,
+    "discShare": 0.1055,
+    "teethShare": 0.1345,
+    "sheet": {
+      "left": 0.034,
+      "top": 0.156,
+      "right": 0.956,
+      "bottom": 0.889
+    },
+    "ground": "#12110E",
+    "groundBlendFrom": 0.95
+  }
+}

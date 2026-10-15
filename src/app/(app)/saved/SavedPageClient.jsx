@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { QuestionCard } from '@/components/feed/QuestionCard';
 import MobiReact from '@/components/brand/MobiReact';
+import SceneVignette from '@/components/scenes/SceneVignette';
 import { Icon } from '@/components/ui/Icons';
 import { SkeletonCard } from '@/components/ui/Skeleton';
 import { useAuth } from '@/components/AuthProvider';
@@ -273,7 +274,7 @@ export default function SavedPageClient() {
 
       {questions.length === 0 ? (
         <div className="sv-empty">
-          <MobiReact act={emptyAct} size={104} />
+          <SceneVignette scene="saved" act={emptyAct === 'read' ? 'rest' : emptyAct} />
           <div>
             <span className="ui-state__eyebrow">Nothing saved</span>
             <b>Save questions from Explore</b>

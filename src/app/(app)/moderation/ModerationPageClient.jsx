@@ -283,6 +283,7 @@ export default function ModerationPageClient() {
 
       {!loading && !error && queue.length === 0 && (
         <EmptyState
+          scene="allClear"
           eyebrow="Queue clear"
           title="Nothing waiting for review"
           message={`No questions are pending right now.${approved + rejected > 0 ? ` You reviewed ${approved + rejected} this session.` : ''}`}
