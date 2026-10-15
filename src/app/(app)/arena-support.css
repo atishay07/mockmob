@@ -20,16 +20,11 @@
   .app-shell:not(.app-shell--test) .pr-head { animation: arena-rise 420ms var(--a-ease) both; }
   .app-shell:not(.app-shell--test) .pr-stats > div { animation: arena-rise 420ms var(--a-ease) both; animation-delay: calc(70ms + var(--i, 0) * 45ms); }
   .app-shell .pr-stats > div:nth-child(2) { --i: 1; } .app-shell .pr-stats > div:nth-child(3) { --i: 2; } .app-shell .pr-stats > div:nth-child(4) { --i: 3; }
-  .app-shell .pr-steps > .pr-step, .app-shell .pr-steps > .pr-nta-wrap { animation: arena-rise 460ms var(--a-ease) both; animation-delay: calc(140ms + var(--i, 0) * 60ms); }
-  .app-shell .pr-steps > :nth-child(2) { --i: 1; } .app-shell .pr-steps > :nth-child(3) { --i: 2; } .app-shell .pr-steps > :nth-child(4) { --i: 3; } .app-shell .pr-steps > :nth-child(n+5) { --i: 4; }
-  /* Exam-day card: idle tilt, straightens under the pointer or when chosen. Palette cells
-     blink only while the card is on screen (data-awake comes from NtaConsolePreview). */
-  .app-shell .pr-nta[aria-pressed='true'] .pr-nta__console { transform: rotate(0deg) translateY(-2px); }
-  .app-shell .pr-nta__console:not([data-awake='true']) .pr-nta__palette em { animation-play-state: paused; }
+
 }
 @media (prefers-reduced-motion: reduce) {
   /* Fewer and gentler, not none: entrances keep a short fade and lose their travel. */
-  .app-shell.view, .app-shell .view, .app-shell .pr-head, .app-shell .pr-stats > div, .app-shell .pr-steps > * { animation: arena-fade 160ms ease-out both !important; }
+  .app-shell.view, .app-shell .view, .app-shell .pr-head, .app-shell .pr-stats > div { animation: arena-fade 160ms ease-out both !important; }
 }
 .app-shell .account-edit { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; text-decoration: none; }
 .app-shell .student-page--profile .flex-1 { min-width: 0; }
@@ -100,7 +95,7 @@
   .app-shell .arena-bottomnav [aria-current='page'], .app-shell .arena-bottomnav [aria-expanded='true'] { color: var(--a-accent-text); background: var(--a-volt-wash); }
   .app-shell .arena-bottomnav :focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
   .app-shell:not(.app-shell--test) .app-main { padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
-  .app-shell .pr-summary { bottom: calc(76px + env(safe-area-inset-bottom)); }
+
   .app-shell .arena-sheet { max-height: calc(100dvh - 148px); overflow-y: auto; overscroll-behavior: contain; }
   .app-shell .arena-sheet__account { flex-wrap: wrap; }
 }
@@ -126,22 +121,12 @@
 .app-shell .ex-action { min-width: 44px; }
 .app-shell .cmp-sources summary { min-height: 44px; }
 .app-shell .cmp-sources a { display: inline-flex; align-items: center; min-height: 44px; }
-.prepos-console > nav { flex-wrap: wrap; }
 .app-shell .arena-tour-card button { min-width: 44px; min-height: 44px; }
 .app-shell .learning-journey { background: var(--a-raised); color: var(--text-primary); border: 1px solid var(--a-line); }
 .app-shell .recovery-lab > a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 .app-shell .ex-record a { display: inline-flex; align-items: center; min-height: 44px; }
 .app-shell .learning-time button { min-height: 44px; }
-/* Exam-day card console: the bar holds any subject name, the clock never reflows. */
-.app-shell .pr-nta__bar { gap: 10px; }
-.app-shell .pr-nta__bar b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.app-shell .pr-nta__clock { flex-shrink: 0; display: inline-flex; }
-.app-shell .pr-nta__sec { display: inline-block; min-width: 2ch; }
-@media (prefers-reduced-motion: no-preference) {
-  /* A stepped tick: each new second drops 2px into place, like a split-flap, never a slide. */
-  .app-shell .pr-nta__console[data-awake='true'] .pr-nta__sec { animation: pr-nta-tick 240ms var(--a-ease) both; }
-}
-@keyframes pr-nta-tick { from { opacity: .35; transform: translate3d(0, -2px, 0); } to { opacity: 1; transform: none; } }
+
 /* Result: one next step from this session's own record, then the return path. */
 .app-shell .result-next { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px 28px; align-items: center; margin: 0 0 40px; padding: 22px 24px; border: 1px solid var(--a-volt-line, var(--a-line-strong)); border-radius: 18px; background: linear-gradient(135deg, var(--a-volt-wash), transparent 60%), var(--a-raised); }
 .app-shell .result-next__copy { min-width: 0; }
@@ -157,21 +142,9 @@
   .app-shell .result-next__actions { justify-content: flex-start; max-width: none; }
 }
 .app-shell .saved-aside { display: flex; flex-wrap: wrap; gap: 4px 16px; }
-/* Round 4 sweep fixes. Grid tracks default to auto, so one long no-wrap title set the lower
-   panels' width (548px, cut off from 320 to 1440px). Tracks may now shrink below content. */
-.app-shell .pr-lower, .app-shell .pr-panel, .app-shell .pr-subs, .app-shell .pr-recent { grid-template-columns: minmax(0, 1fr); }
-@media (min-width: 1024px) { .app-shell .pr-lower { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
 /* Targets that more specific rules had held under 44px. */
-.app-shell .pr-link, .app-shell .pr-chapters button, .app-shell .na__seg button { min-height: 44px; }
+.app-shell .pr-link, .app-shell .na__seg button { min-height: 44px; }
 .app-shell .nta-interface-toolbar [role='group'] button { min-height: 44px; }
 .app-shell .recovery-next a { display: inline-flex; align-items: center; min-height: 44px; }
 
-@media (max-width: 1023px) {
-  .app-shell .pr-summary dl { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; }
-  .app-shell .pr-summary dl > div:not([data-emph]) { display: flex; flex-wrap: wrap; gap: 4px 10px; padding-block: 7px; }
-  .app-shell .pr-summary dl > div[data-emph] { grid-column: 1 / -1; padding-top: 10px; }
-}
-@media (max-width: 760px) {
-  .app-shell .pr-wallet { padding: 12px 14px; }
-  .app-shell .pr-wallet__note { font-size: 12px; }
-}

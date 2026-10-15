@@ -49,7 +49,7 @@ export async function GET(request) {
       proMonthlyCredits: AI_PRO_INCLUDED_MONTHLY_CREDITS,
       freeBudgetInrCap: AI_FREE_BUDGET_INR_CAP,
     },
-    checkout: { open: checkoutOpen, reason: checkoutOpen ? null : 'New PrepOS top-ups are paused. Existing wallets are preserved.' },
+    checkout: { open: checkoutOpen, reason: checkoutOpen ? null : 'New AI credit top-ups are paused. Existing credits are kept.' },
     buyPacks: AI_CREDIT_PACKS,
   }, { headers });
 }

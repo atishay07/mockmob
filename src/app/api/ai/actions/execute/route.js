@@ -89,7 +89,7 @@ export async function POST(request) {
     case 'create_mistake_replay': {
       if (!isPaid) {
         return NextResponse.json(
-          { error: 'paid_plan_required', message: 'Mistake Replay is a paid feature when personalized.' },
+          { error: 'paid_plan_required', message: 'A practice set built from your own mistakes comes with Pro.' },
           { status: 402 },
         );
       }
@@ -99,7 +99,7 @@ export async function POST(request) {
         ok: true,
         kind: 'inline',
         message:
-          'Mistake Replay ready: run 8-10 questions from the weakest available area, cap it at 10 minutes, review only wrong or skipped questions, then take a benchmark while the pattern is fresh.',
+          'Your mistake practice is ready: 8 to 10 questions from your weakest area, at most 10 minutes. Review only the wrong or skipped ones, then take a timed practice while the pattern is fresh.',
         params: {
           subject,
           suggestedRoute: '/dashboard',
@@ -125,7 +125,7 @@ export async function POST(request) {
         ok: true,
         kind: 'inline',
         message:
-          'Open the question from Saved or Result. PrepOS will use that exact question context on your next prompt.',
+          'Open the question from Saved questions or its result. Mobi will use that exact question when you next ask.',
         target: params.questionId ? '/saved' : '/dashboard',
         params: { questionId: params.questionId || null },
       });
@@ -174,7 +174,7 @@ export async function POST(request) {
         ok: true,
         kind: 'redirect',
         target: '/pricing/prepos',
-        message: aiCommerceOpen() ? 'Open PrepOS credit packs to top up without changing your subscription.' : `${PREPOS_PAUSED_MESSAGE} New top-ups are paused; your existing wallet is preserved.`,
+        message: aiCommerceOpen() ? 'Open AI credit packs to top up without changing your subscription.' : `${PREPOS_PAUSED_MESSAGE} New top-ups are paused; your existing wallet is preserved.`,
         params: { reason: 'ai_credits', balance: snapshot.aiWallet?.known ? snapshot.aiWallet.total : null },
         packs: AI_CREDIT_PACKS,
       });

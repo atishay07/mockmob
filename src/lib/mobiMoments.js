@@ -3,7 +3,7 @@
 // reaction on both sides. Pages name the moment; this picks the act. Pure: no browser, no clock
 // (the caller passes the time), so it is unit-tested (data/tests/mobi_moments.test.mjs).
 //
-// Play an event with `mobiAct(scope, mobiMoment('saveConfirmed'))` (pipEvents.js), and ask
+// Play an event with `mobiAct(scope, mobiMoment('saveConfirmed'))` (mobiEvents.js), and ask
 // mobiRation.js whether it may play right now (once a day, once a run, one per 2.5 s).
 
 export const MOBI_EVENTS = {

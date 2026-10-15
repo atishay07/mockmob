@@ -49,7 +49,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
 
       const authData = await authResponse.json().catch(() => ({}));
       const user = authData?.user;
-      if (!user?.id) throw new Error('Login required before buying PrepOS credits');
+      if (!user?.id) throw new Error('Log in before buying AI credits');
 
       await loadRazorpayCheckout();
 
@@ -59,8 +59,8 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
 
       const checkout = new window.Razorpay({
         key: keyId,
-        name: 'MockMob PrepOS',
-        description: `${serverPack.credits} PrepOS credits`,
+        name: 'MockMob AI credits',
+        description: `${serverPack.credits} AI credits`,
         order_id: order.id,
         amount: serverPack.amountPaise,
         currency: 'INR',
@@ -87,8 +87,8 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
             setStatus('success');
             setMessage(
               verified.idempotent || verified.alreadyCaptured
-                ? 'PrepOS credits already added.'
-                : `${verified.granted ?? serverPack.credits} PrepOS credits added.`
+                ? 'AI credits already added.'
+                : `${verified.granted ?? serverPack.credits} AI credits added.`
             );
             onSuccess?.(verified);
           } catch (error) {

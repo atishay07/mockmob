@@ -139,7 +139,7 @@ export function buildCostGroups({ repairOn = true, askOn = true } = {}) {
         ['Your record: every ranked chapter, pace and changed answers', false, true],
         ['Your gap to each college', false, true, 'popular'],
         ['Difficulty selector', false, 'Easy, medium, hard or auto'],
-        ['Saved questions', '25 saves', 'Unlimited'],
+        ['Saved questions', `${p.savedQuestions.freeLimit.value} saves`, 'Unlimited'],
         ['Leaderboard', true, true],
       ],
     },

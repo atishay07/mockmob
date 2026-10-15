@@ -1,7 +1,7 @@
 "use client";
 
 import MobiReact from '@/components/brand/MobiReact';
-import { useMobiScope } from '@/components/brand/pipEvents';
+import { useMobiScope } from '@/components/brand/mobiEvents';
 import { DemoDrill } from './DemoDrill';
 
 // The hero's live sample with its one Mobi (web IA plan 4.1 and 4.3: the hero seat reacts to the

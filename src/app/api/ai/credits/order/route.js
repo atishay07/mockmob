@@ -20,7 +20,7 @@ export async function POST(request) {
     const body = await request.json().catch(() => ({}));
     const pack = getAICreditPack(body?.packKey);
     if (!pack || pack.status !== 'live') {
-      return NextResponse.json({ error: 'Invalid PrepOS credit pack' }, { status: 400 });
+      return NextResponse.json({ error: 'Invalid AI credit pack' }, { status: 400 });
     }
 
     const user = await Database.getUserById(session.user.id);
@@ -58,6 +58,6 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error('[ai-credits/order] failed:', error);
-    return NextResponse.json({ error: 'Failed to create PrepOS credit order' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to create AI credit order' }, { status: 500 });
   }
 }

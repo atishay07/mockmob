@@ -1,12 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { stanceAfter } from './mobiActs';
 
-// Ask the homepage guide for a reaction. The guide queues it until Pip settles at
-// the visible station. Pages without the guide (including the Arena) are inert.
-export function pipReact(station, mood) {
-  if (typeof window === 'undefined') return;
-  window.dispatchEvent(new CustomEvent('pip:react', { detail: { station, mood } }));
-}
+// Mobi's events: a page's Mobi listens for acts with useMobiScope, and anything on that page asks for
+// one with mobiAct. (The homepage's flying guide and its pipReact call went with the landing rebuild,
+// web IA plan 4.3.)
 
 // Ask the Mobi of a page to do something (see MobiReact for the acts), from anywhere on that page:
 //   mobiAct('onboarding', 'nod')                  play once

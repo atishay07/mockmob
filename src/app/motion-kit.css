@@ -433,5 +433,3 @@ html[data-theme='light'] .mk-rim::after { background: conic-gradient(from -90deg
 .ex-feedback__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 44px; }
 .ex-feedback__row > b { min-width: 0; }
 
-/* ---------- Landing: the guide's head leans toward the pointer (PipGuide sets --pip-follow, -0.85 to 0.85) ---------- */
-.pip-seat__art > .pip-image, .pip-actor { rotate: calc(var(--pip-follow, 0) * 2.6deg); transition: rotate 420ms var(--mk-settle); }

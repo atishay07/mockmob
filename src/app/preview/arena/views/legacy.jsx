@@ -1,5 +1,7 @@
 // The 18 preview views that existed before the web IA work (plus moderation), moved out of
-// ArenaPreviewClient unchanged. A packet view file with the same name replaces one of these.
+// ArenaPreviewClient unchanged. A packet view file with the same name replaces one of these. review
+// and my-uploads live only in their packet files now (views/review.jsx, views/you.jsx): the old
+// components they rendered were deleted in IA9.
 import { ThemeToggle } from '@/components/ThemeToggle';
 import DashboardPageClient from '@/app/(app)/dashboard/DashboardPageClient';
 import TestPageClient from '@/app/(app)/test/TestPageClient';
@@ -9,11 +11,9 @@ import AnalyticsPageClient from '@/app/(app)/analytics/AnalyticsPageClient';
 import SavedPageClient from '@/app/(app)/saved/SavedPageClient';
 import TodayPage from '@/app/(app)/today/page';
 import ProgressPage from '@/app/(app)/progress/page';
-import RecoveryOverview from '@/components/RecoveryOverview';
 import RecoveryJourney from '@/app/(app)/recovery/page';
 import { DiscoveryFeed } from '@/components/feed/DiscoveryFeed';
 import { UploadForm } from '@/components/feed/UploadForm';
-import MyUploadsPageClient from '@/app/(app)/my-uploads/MyUploadsPageClient';
 import ProfilePageClient from '@/app/(app)/profile/ProfilePageClient';
 import LeaderboardPageClient from '@/app/(app)/leaderboard/LeaderboardPageClient';
 import ResultPageClient from '@/app/(app)/result/[id]/ResultPageClient';
@@ -35,14 +35,12 @@ export const LEGACY_VIEWS = {
   radar: { route: '/analytics', render: () => <AnalyticsPageClient /> },
   saved: { route: '/saved', render: () => <SavedPageClient /> },
   today: { route: '/today', render: () => <TodayPage /> },
-  review: { route: '/review', render: () => <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> },
   progress: { route: '/progress', render: () => <ProgressPage /> },
   recovery: { route: '/recovery', render: () => <RecoveryJourney /> },
   explore: { route: '/explore', render: () => <DiscoveryFeed /> },
   ranks: { route: '/leaderboard', render: () => <LeaderboardPageClient /> },
   profile: { route: '/profile', render: () => <ProfilePageClient /> },
   upload: { route: '/upload', render: () => <UploadForm /> },
-  'my-uploads': { route: '/my-uploads', render: () => <MyUploadsPageClient /> },
   result: { route: '/result', render: () => <ResultPageClient previewId="fixture-attempt" /> },
   rival: { route: '/rival', render: () => <AIRivalArena /> },
   onboarding: { route: '/onboarding', shell: false, render: () => <OnboardingPageClient preview /> },

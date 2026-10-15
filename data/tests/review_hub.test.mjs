@@ -247,7 +247,7 @@ function walk(dir, out = []) {
 }
 const OWNED = [
   ...walk('src/app/(app)/review'), ...walk('src/app/(app)/mentor'), ...walk('src/app/(app)/saved'), ...walk('src/app/(app)/recovery'),
-  'src/app/(app)/analytics/AnalyticsPageClient.jsx', 'src/components/RecoveryOverview.jsx', 'src/components/MistakeReplay.jsx',
+  'src/app/(app)/analytics/AnalyticsPageClient.jsx',
   ...['MockMobAIHub', 'AssistantDrawer', 'AIMentorTerminal', 'RecordView', 'SessionReadout', 'AnswerSheet'].map((n) => `src/components/ai/${n}.jsx`),
   'src/components/ai/assistantKnowledge.js', 'src/components/ai/askMobiModel.mjs',
 ];

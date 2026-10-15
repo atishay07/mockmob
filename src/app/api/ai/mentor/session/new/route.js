@@ -27,7 +27,7 @@ export async function POST(request) {
   try {
     const title = typeof body?.title === 'string' && body.title.trim()
       ? body.title.trim().slice(0, 80)
-      : 'New Mentor session';
+      : 'New Ask Mobi session';
     const { data, error } = await supabaseAdmin()
       .from('mentor_sessions')
       .insert({
@@ -45,7 +45,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         error: 'mentor_session_create_failed',
-        message: 'Could not create a new Mentor session. Run the AI overlay migration if this persists.',
+        message: 'Could not start a new Ask Mobi session. Run the AI overlay migration if this persists.',
       },
       { status: 503 },
     );

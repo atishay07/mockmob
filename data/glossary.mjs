@@ -102,7 +102,27 @@ export const CAVEAT_PATTERNS = Object.freeze([
 // Where a retired term may stay, and why. Paths are repository-relative, '/' separated.
 export const ALLOWLIST = Object.freeze([
   Object.freeze({ path: /^src\/app\/about\//, ids: ['score-recovery'], why: 'About keeps "Score Recovery" as positioning (plan 6)' }),
+  Object.freeze({
+    path: /^(src\/components\/ai\/AIRivalArena\.jsx|src\/app\/api\/ai\/rival\/)/, ids: ['benchmarks'],
+    why: 'Benchmarks (/rival) is unlinked and retires on the owner’s word (N5); until then its own page keeps its name',
+  }),
+  Object.freeze({
+    path: /^src\/components\/shell\/whereMoved\.mjs$/, ids: ['radar', 'prepos', 'compass', 'ranks', 'my-uploads'],
+    why: 'The one-time "Where things moved" card names each old name once, so a returning student can find it (IA9)',
+  }),
 ]);
+
+// Files another workflow owns right now. The glossary test counts them apart and only checks they
+// do not grow: the Mistake Lab rebuild on web/alive-1015 (result page, the Lab and the repair
+// components) renames them, and its merge brings this list to empty (plan 5.1).
+export const OWNED_ELSEWHERE = Object.freeze([
+  Object.freeze({ path: /^src\/app\/\(app\)\/result\//, owner: 'Mistake Lab rebuild (web/alive-1015)' }),
+  Object.freeze({ path: /^src\/components\/ScoreRecoveryLab\.jsx$/, owner: 'Mistake Lab rebuild (web/alive-1015)' }),
+  Object.freeze({ path: /^src\/components\/(recovery|result)\//, owner: 'Mistake Lab rebuild (web/alive-1015)' }),
+]);
+// At the IA9 merge (web/alive-1015 at 8082a0ef) these files held 3: "Full record in PrepOS" and "Open Radar"
+// on the result page, "Score Recovery Lab" in the Lab. The count may only go down.
+export const OWNED_ELSEWHERE_LIMIT = 3;
 
 // What the glossary test scans: student-facing source. Admin, previews, fixtures and tests are left out.
 export const SCAN_ROOTS = Object.freeze(['src/app', 'src/components', 'src/lib', 'data/learning_engine.js', 'data/capabilities.js']);
@@ -113,17 +133,15 @@ export const SCAN_EXCLUDE = Object.freeze([
 export const SCAN_EXTENSIONS = Object.freeze(['.js', '.jsx', '.mjs']);
 
 /**
- * The baseline, recorded by IA0 on 15 Oct 2026 against wt-web-ia (production 4d006fb9 + STATUS),
- * with the new navigation in place. It may only go down. IA9 sets it to 0.
+ * The baseline. IA0 recorded 270 on 15 Oct 2026 (prepos 110, radar 47, compass 37, benchmarks 18,
+ * arena 16 and 16 smaller terms). IA9 brought it to 0 outside OWNED_ELSEWHERE, and the test is strict:
+ * any retired name in student-facing source fails it.
  */
 export const GLOSSARY_BASELINE = Object.freeze({
   date: '2026-10-15',
-  total: 270,
-  byTerm: Object.freeze({
-    prepos: 110, radar: 47, compass: 37, benchmarks: 18, arena: 16, 'credit-gated': 6, 'mistake-replay': 5,
-    'combo-planner-case': 5, mobber: 4, 'score-recovery': 4, xp: 4, mentor: 3, 'needs-access': 2, 'my-uploads': 2,
-    'feed-the-bank': 1, 'saved-bank': 1, 'join-the-mob': 1, 'mistake-lab': 1, 'mock-sprint': 1, 'explore-pro': 1, 'volt-weeks': 1,
-  }),
+  ia0Total: 270,
+  total: 0,
+  byTerm: Object.freeze({}),
 });
 
 /**

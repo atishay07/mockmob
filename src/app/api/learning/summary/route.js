@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
+import { PLAN_FACTS } from '@/../data/plan_facts.mjs';
 import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
 import {
   failRequestDiagnostics,
@@ -11,7 +12,8 @@ import {
 
 export const dynamic = 'force-dynamic';
 
-const FREE_BOOKMARK_LIMIT = 25;
+// The free saved-question limit (data/plan_facts.mjs records it with its source).
+const FREE_BOOKMARK_LIMIT = PLAN_FACTS.savedQuestions.freeLimit.value;
 const FREE_WEEKLY_GOAL = 30;
 const PREMIUM_WEEKLY_GOAL = 80;
 const ROUTE = '/api/learning/summary';
@@ -224,12 +226,12 @@ export async function GET(request) {
       },
       premium: {
         mockCost: isPremium ? 0 : 10,
-        mockAllowance: isPremium ? 'Unlimited mocks' : 'Credit-gated mocks',
+        mockAllowance: isPremium ? 'Unlimited mocks' : 'Mocks use practice credits',
         speedBenefit: isPremium
           ? 'Available practice and deeper speed diagnostics are active.'
           : 'Premium unlocks available practice, unlimited mocks, and deeper speed diagnostics.',
         bookmarkBenefit: isPremium ? 'Unlimited bookmarks' : `${FREE_BOOKMARK_LIMIT} saved questions included`,
-        arenaBenefit: isPremium ? 'Arena sprints run without credit friction.' : 'Upgrade to remove credit friction in Arena.',
+        arenaBenefit: isPremium ? 'Practice and mocks use no credits.' : 'Pro: practice and mocks without credits.',
       },
       activity: activityDays.map((day) => ({
         day,

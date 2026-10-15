@@ -182,6 +182,3 @@ html[data-motion='reduced'] .lp-ia .lp-how__step { transition: none; }
 .lp-ia .mm-screen__bar { text-transform: none; letter-spacing: 0; font-size: .8125rem; font-weight: 600; }
 .lp-ia .mm-drill__progress { margin-left: auto; }
 
-/* The flying Mobi rail is gone (plan 4.3), so the 180 px it reserved on wide screens is released:
-   brand-pip.css still pads .mm.lp main for it, which left every band 180 px short of the right edge. */
-.mm.lp.lp-ia main { padding-right: 0; }

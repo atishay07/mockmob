@@ -24,8 +24,8 @@ export function isPaidUser(user, nowMs = Date.now()) {
   }, nowMs);
 }
 
-export const PREPOS_PAUSED_MESSAGE = 'PrepOS paid features are temporarily unavailable. Your credits have not been used.';
-export const WALLET_UNAVAILABLE_MESSAGE = 'Your PrepOS credits could not be read just now. Nothing has been charged. Try again later.';
+export const PREPOS_PAUSED_MESSAGE = 'Paid AI features are paused for now. Your AI credits have not been used.';
+export const WALLET_UNAVAILABLE_MESSAGE = 'Your AI credits could not be read just now. Nothing has been charged. Try again later.';
 
 export function walletWindow(input = new Date()) {
   // IST (UTC+05:30) calendar month.
@@ -81,7 +81,7 @@ export function projectWallet(row, { paid, includedMonthlyCredits, paidAiOpen, n
   const state = !paidAiOpen ? 'paused' : total > 0 ? 'available' : 'empty';
   return {
     state, spendable: state === 'available', paid: Boolean(paid), known: true,
-    message: state === 'paused' ? PREPOS_PAUSED_MESSAGE : state === 'empty' ? 'You have no PrepOS credits left this month.' : null,
+    message: state === 'paused' ? PREPOS_PAUSED_MESSAGE : state === 'empty' ? 'You have no AI credits left this month.' : null,
     reason: null,
     includedMonthlyCredits: allowance, includedUsed, includedRemaining, bonusCredits, total,
     resetAt, periodStart, materialized: Boolean(row),

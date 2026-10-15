@@ -33,7 +33,7 @@ export async function POST(request) {
 
     const pack = getAICreditPack(paymentRecord.planId);
     if (!pack) {
-      return NextResponse.json({ error: 'Payment is not a PrepOS credit pack' }, { status: 400 });
+      return NextResponse.json({ error: 'Payment is not an AI credit pack' }, { status: 400 });
     }
 
     const isSignatureValid = verifyRazorpayPaymentSignature({ orderId, paymentId, signature });
@@ -89,7 +89,7 @@ export async function POST(request) {
     });
 
     if (!grant.ok) {
-      return NextResponse.json({ error: grant.error || 'Failed to grant PrepOS credits' }, { status: grant.status || 500 });
+      return NextResponse.json({ error: grant.error || 'Failed to grant AI credits' }, { status: grant.status || 500 });
     }
 
     await Database.updatePaymentByOrderId(orderId, {
@@ -108,7 +108,7 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error('[ai-credits/verify] failed:', error);
-    return NextResponse.json({ error: 'Failed to verify PrepOS credit purchase' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to verify AI credit purchase' }, { status: 500 });
   }
 }
 

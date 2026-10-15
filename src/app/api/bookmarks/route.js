@@ -3,10 +3,12 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
+import { PLAN_FACTS } from '@/../data/plan_facts.mjs';
 
 export const dynamic = 'force-dynamic';
 
-const FREE_BOOKMARK_LIMIT = 25;
+// The free saved-question limit (data/plan_facts.mjs records it with its source); Pro has none.
+const FREE_BOOKMARK_LIMIT = PLAN_FACTS.savedQuestions.freeLimit.value;
 
 async function getBookmarkCount(userId) {
   const { count, error } = await supabaseAdmin()

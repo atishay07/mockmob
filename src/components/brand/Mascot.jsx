@@ -22,7 +22,7 @@ export function Mascot({ pose: wanted = 'greeting', facing = 'right', className 
   return <Image className={`pip-image ${className}`} data-pose={pose} data-facing={facing} src={asset.src} width={asset.width} height={asset.height} sizes="(max-width: 600px) 110px, 160px" loading={eager ? 'eager' : 'lazy'} alt={alt} />;
 }
 
-/** A reserved perch. With `station`, PipGuide can land here (the static pose stays the fallback). */
+/** A reserved perch for Mobi. `station` only marks the seat for styling; the static pose is what shows. */
 export function MascotSeat({ pose: wanted, facing = 'left', label, note, className = '', eager = false, station }) {
   const { celebrations } = useMobiPrefs();
   const pose = calmPose(wanted, celebrations);

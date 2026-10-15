@@ -41,7 +41,7 @@ const geistMono = Geist_Mono({
 const DIRECTION_CONTRACT = `<!--
 IMPECCABLE DIRECTION CONTRACT
 THESIS: Find the mistaken reasoning, practise the missing step and check it on fresh questions. Recovery stays unavailable until sources, independent calibration and the authenticated journey pass their gates. Ordinary practice remains the pre-release primary action.
-OWN-WORLD: Retain Night Arena, volt green, Gabarito display, Hanken Grotesk text and Geist Mono measurement. The theme switch retains the optional daylight palette. Preserve the playable sample and current product identity.
+OWN-WORLD: Retain the Night Sheet, volt green, Gabarito display, Hanken Grotesk text and Geist Mono measurement. The theme switch retains the optional daylight palette. Preserve the playable sample and current product identity.
 STORY: Promise, playable example, connected recovery demonstration, actual coverage and evidence, price, FAQ. CUET UG 2027: English, Accountancy, Business Studies and Economics. Illustrative outcomes never become observed student gains.
 FIRST VIEWPORT (320px): clear promise and Start free practice before release. After release, Find my first gap starts an available functional baseline. No unavailable feature is advertised as live.
 FORM: The owner's approved roadmap of 2026-10-02 supersedes the earlier paper-only pilot direction. Keep existing purchased tools accessible.

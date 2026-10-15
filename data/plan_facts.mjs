@@ -72,6 +72,11 @@ export const PLAN_FACTS = Object.freeze({
     includes: fact(['Practice without credits', 'NTA mode', 'Smart practice', '50 AI credits a month', 'Your gap to each college'],
       'code: MODE_CAPABILITIES, AI_PRO_INCLUDED_MONTHLY_CREDITS, /api/compass/pro'),
   }),
+  savedQuestions: Object.freeze({
+    // The bookmarks route refuses a save past this on Free (402, 'Free bookmark limit reached'); Pro has no limit.
+    freeLimit: fact(25, 'code: src/app/api/bookmarks/route.js and src/app/api/learning/summary/route.js read FREE_BOOKMARK_LIMIT from here'),
+    proLimit: fact(null, 'code: bookmarks route limit is null for Pro (unlimited)'),
+  }),
   subjects: Object.freeze({
     count: fact(15, 'code: data/cuet_controls.js CUET_PUBLIC_ALLOWED_SUBJECTS'),
   }),

@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/Button';
 import { useAuth } from '@/components/AuthProvider';
 import { ErrorState, PageSpinner } from '@/components/ui/Skeleton';
 import MobiReact from '@/components/brand/MobiReact';
-import { mobiAct, useMobiScope } from '@/components/brand/pipEvents';
+import { mobiAct, useMobiScope } from '@/components/brand/mobiEvents';
 import { useCountUp } from '@/lib/motion';
 import { getMobiPrefs } from '@/lib/mobiPrefs';
 import { loginPathFor, postSignInPath, safeNextPath } from '@/lib/auth-redirect';

@@ -25,7 +25,7 @@ export default function PrivacyPage() {
           </section>
           <section>
             <h2>How we use it</h2>
-            <p>We use your data to deliver mocks, track progress, power Radar analytics, provide sourced DU eligibility and historical comparisons, prevent abuse, moderate community questions, process payments, and improve the product.</p>
+            <p>We use your data to deliver mocks, track progress, power Your record, provide sourced DU eligibility and historical comparisons, prevent abuse, moderate community questions, process payments, and improve the product.</p>
           </section>
           <section>
             <h2>Optional usage data (from 12 October 2026)</h2>
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
             <p>Open Profile, then Delete account, or email support@mockmob.in from your account email. We delete your account and study records within 30 days. Payment records required by law are kept. Details are on the <a href="/account-deletion">account deletion page</a>.</p>
           </section>
           <section>
-            <h2>Practice events and optional AI</h2><p>New sessions may record answers, answer changes, visits and elapsed times. These are device observations and are not assumed to explain why a question was skipped. Session snapshots, learning observations and corrections preserve history. Core recovery does not require paid AI. Optional AI, when enabled, sends your prompt and a compact study summary to the configured provider; it does not need your full raw attempt history. PrepOS currently explains the shared plan without a paid model call.</p></section><section><h2>Retention and requests</h2><p>Account and practice records remain while your account is active. Payment and fraud-prevention records may remain after a deletion request where reconciliation or legal obligations require them. Usage data is kept for 180 days. Deletion requests are handled within 30 days as described below. Request an export at support@mockmob.in.</p></section><section><h2>Payments</h2>
+            <h2>Practice events and optional AI</h2><p>New sessions may record answers, answer changes, visits and elapsed times. These are device observations and are not assumed to explain why a question was skipped. Session snapshots, learning observations and corrections preserve history. Core recovery does not require paid AI. Optional AI, when enabled, sends your prompt and a compact study summary to the configured provider; it does not need your full raw attempt history. Today’s move is worked out from your record without a paid model call.</p></section><section><h2>Retention and requests</h2><p>Account and practice records remain while your account is active. Payment and fraud-prevention records may remain after a deletion request where reconciliation or legal obligations require them. Usage data is kept for 180 days. Deletion requests are handled within 30 days as described below. Request an export at support@mockmob.in.</p></section><section><h2>Payments</h2>
             <p>Payments are handled by Razorpay. MockMob stores subscription and access status, but does not store full card, UPI, or bank credentials on our servers.</p>
           </section>
           <section>

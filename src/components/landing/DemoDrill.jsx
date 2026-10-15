@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Icon } from '@/components/ui/Icons';
-import { mobiAct } from '@/components/brand/pipEvents';
+import { mobiAct } from '@/components/brand/mobiEvents';
 import { mobiMoment, runMood } from '@/lib/mobiMoments';
 import { buildSampleHandoff, writeSampleHandoff } from '@/../data/sample_handoff.mjs';
 import { listWords } from './words';

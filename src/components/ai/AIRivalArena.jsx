@@ -389,7 +389,7 @@ function RivalShell({ children, usage }) {
             <Zap size={13} /> Daily pressure loop
           </div>
           <div className="flex flex-wrap gap-2">
-            <UsagePill label="PrepOS credits" value={total} />
+            <UsagePill label="AI credits" value={total} />
             <UsagePill label="Free daily" value={formatFreeRival(usage)} />
           </div>
         </div>
@@ -651,8 +651,8 @@ function getClientAccess({ rivalId, profile, isPaid, usage }) {
 
 function lockMessage(access) {
   if (access.kind === 'daily_used') return 'Free Daily Benchmark is used for today. Upgrade for more pressure checks.';
-  if (access.kind === 'paused') return 'PrepOS paid features are temporarily unavailable. Your credits have not been used.';
-  if (access.kind === 'credits') return `Need ${access.required || 1} PrepOS credit(s) for this benchmark.`;
+  if (access.kind === 'paused') return 'Paid AI features are paused for now. Your AI credits have not been used.';
+  if (access.kind === 'credits') return `Need ${access.required || 1} AI credit(s) for this benchmark.`;
   if (access.kind === 'plan') return 'This benchmark is Premium.';
   return 'Benchmark unavailable.';
 }
@@ -661,7 +661,7 @@ function serverStartError(data) {
   if (data?.message) return data.message;
   if (data?.planRequired) return 'This benchmark is Premium. Upgrade to unlock it.';
   if (data?.error === 'free_daily_rival_used') return 'Free Daily Benchmark is used for today. Upgrade for more pressure checks.';
-  if (data?.error === 'insufficient_credits') return `Need ${data.required || 1} PrepOS credit(s).${data.balance == null ? '' : ` Current balance: ${data.balance}.`}`;
+  if (data?.error === 'insufficient_credits') return `Need ${data.required || 1} AI credit(s).${data.balance == null ? '' : ` Current balance: ${data.balance}.`}`;
   if (data?.error === 'no_subjects_configured') return 'Add subjects in Profile before starting a benchmark.';
   if (data?.error === 'no_questions_available') return 'No complete question set is available for this benchmark. Try another subject or a shorter diagnostic mock.';
   if (data?.error === 'battle_insert_failed') {

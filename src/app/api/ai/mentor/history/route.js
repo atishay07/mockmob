@@ -76,7 +76,7 @@ export async function GET(request) {
       {
         ok: false,
         error: 'mentor_history_unavailable',
-        message: 'Mentor history is not available yet. Run the AI overlay migration if this persists.',
+        message: 'Ask Mobi history is not available yet. Run the AI overlay migration if this persists.',
       },
       { status: 503 },
     );

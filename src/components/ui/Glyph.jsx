@@ -86,7 +86,7 @@ export function SubjectIcon({ id, size = 20, className = '', ...rest }) {
 /**
  * The two currencies, drawn as two coins so they are never confused:
  *   practice: a bolt coin  (spent on Quick Practice and Full Mock)
- *   prepos:   an orbit coin (the PrepOS wallet)
+ *   prepos:   an orbit coin (the AI credits wallet)
  */
 export function CreditMark({ kind = 'practice', size = 18, className = '' }) {
   return (
@@ -114,13 +114,13 @@ export function CreditAmount({ kind = 'practice', amount, display, unit = true, 
   const unlimited = amount === 'unlimited';
   const unknown = amount === null || amount === undefined;
   const label = unlimited ? 'Unlimited' : unknown ? '—' : Number(amount).toLocaleString('en-IN');
-  const noun = kind === 'prepos' ? 'PrepOS credits' : 'practice credits';
+  const noun = kind === 'prepos' ? 'AI credits' : 'practice credits';
   return (
     <span className={`credit-amount credit-amount--${kind} ${className}`} data-state={unlimited ? 'unlimited' : unknown ? 'unknown' : 'known'}
       title={unknown ? `${noun}: unavailable` : unlimited ? `${noun}: included` : `${label} ${noun}`}>
       <CreditMark kind={kind} size={size} />
       <b className="credit-amount__value">{display !== undefined && !unlimited && !unknown ? Number(display).toLocaleString('en-IN') : label}</b>
-      {unit && !unlimited ? <span className="credit-amount__unit">{kind === 'prepos' ? 'PrepOS' : 'credits'}</span> : null}
+      {unit && !unlimited ? <span className="credit-amount__unit">{kind === 'prepos' ? 'AI credits' : 'credits'}</span> : null}
       <span className="sr-only">{unknown ? `${noun} unavailable` : unlimited ? `${noun} included` : `${label} ${noun}`}</span>
     </span>
   );

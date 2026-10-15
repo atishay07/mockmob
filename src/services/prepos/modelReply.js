@@ -9,7 +9,7 @@
 //      separately by the runtime guard, under the same stable key)
 //   4. usable reply       -> commit the student credits
 //      anything else      -> release them. A failed request never costs the student a credit.
-export const PREPOS_PAUSED_MESSAGE = 'PrepOS paid features are temporarily unavailable. Your credits have not been used.';
+export const PREPOS_PAUSED_MESSAGE = 'Paid AI features are paused for now. Your AI credits have not been used.';
 const REQUEST_ID = /^[A-Za-z0-9_-]{16,64}$/;
 
 export function operationKeyFor(userId, requestId) {
@@ -34,13 +34,13 @@ export async function runModelReply({
   }
   if (!reserved.ok) {
     if (reserved.error === 'insufficient_ai_credits') {
-      return done(402, { status: 'blocked', error: reserved.error, balance: reserved.balance ?? 0, required: creditCost, message: `You need ${creditCost} PrepOS credit for a reply and have ${reserved.balance ?? 0}. Questions about your own record are free.`, charged: 0 });
+      return done(402, { status: 'blocked', error: reserved.error, balance: reserved.balance ?? 0, required: creditCost, message: `You need ${creditCost} AI credit for a reply and have ${reserved.balance ?? 0}. Questions about your own record are free.`, charged: 0 });
     }
     if (reserved.error === 'operation_released') {
       return done(409, { status: 'resend', error: reserved.error, message: 'That attempt did not go through and nothing was charged. Send it again.', charged: 0 });
     }
     if (/rpc|unavailable|schema/i.test(reserved.error || '')) return done(503, { status: 'paused', message: PREPOS_PAUSED_MESSAGE, charged: 0 });
-    return done(500, { status: 'failed', error: reserved.error || 'reserve_failed', message: 'PrepOS could not start that reply. Nothing was charged.', charged: 0 });
+    return done(500, { status: 'failed', error: reserved.error || 'reserve_failed', message: 'Mobi could not start that reply. Nothing was charged.', charged: 0 });
   }
   if (reserved.idempotent) {
     // The same student action arrived twice. Never run the model a second time.
@@ -58,9 +58,9 @@ export async function runModelReply({
 
   try {
     const marked = await deps.markExecuting(operationKey, operationKey);
-    if (!marked?.ok) return await fail('could_not_start', 503, 'PrepOS could not start that reply.');
+    if (!marked?.ok) return await fail('could_not_start', 503, 'Mobi could not start that reply.');
   } catch {
-    return await fail('could_not_start', 503, 'PrepOS could not start that reply.');
+    return await fail('could_not_start', 503, 'Mobi could not start that reply.');
   }
 
   let ai;
@@ -69,10 +69,10 @@ export async function runModelReply({
   } catch {
     return await fail('provider_error', 502, 'The reply service did not answer.');
   }
-  if (!ai?.ok || !ai.data || ai.schemaValid === false) return await fail('unusable_output', 502, 'PrepOS could not produce a reliable reply this time.');
+  if (!ai?.ok || !ai.data || ai.schemaValid === false) return await fail('unusable_output', 502, 'Mobi could not give a reliable reply this time.');
 
   const response = deps.sanitize(ai.data);
-  if (!response?.reply || !String(response.reply).trim()) return await fail('empty_reply', 502, 'PrepOS could not produce a reliable reply this time.');
+  if (!response?.reply || !String(response.reply).trim()) return await fail('empty_reply', 502, 'Mobi could not give a reliable reply this time.');
 
   const receipt = { provider: ai.usage?.provider || null, model: ai.usage?.model || null, inputTokens: ai.usage?.inputTokens || 0, outputTokens: ai.usage?.outputTokens || 0, fallbackUsed: Boolean(ai.fallbackUsed) };
   let commitDeferred = false;

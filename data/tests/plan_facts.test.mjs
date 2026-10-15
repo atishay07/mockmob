@@ -38,6 +38,16 @@ test('facts match the code constants they mirror', () => {
   assert.match(read('supabase/migrations/0027_enforce_credit_integrity.sql'), new RegExp(`DEFAULT ${PLAN_FACTS.practiceCredits.startingBalance.value}`));
 });
 
+test('the free saved-question limit has one source: both routes and the pricing table read it', () => {
+  assert.equal(PLAN_FACTS.savedQuestions.freeLimit.value, 25);
+  for (const route of ['src/app/api/bookmarks/route.js', 'src/app/api/learning/summary/route.js']) {
+    const src = read(route);
+    assert.match(src, /FREE_BOOKMARK_LIMIT = PLAN_FACTS\.savedQuestions\.freeLimit\.value;/, route);
+    assert.doesNotMatch(src, /FREE_BOOKMARK_LIMIT = \d/, `${route} must not keep its own number`);
+  }
+  assert.match(read('src/components/pricing/pricingContent.js'), /'Saved questions', `\$\{p\.savedQuestions\.freeLimit\.value\} saves`/);
+});
+
 test('no recurring grant is promised: production grants nothing for logins, votes or uploads', () => {
   for (const grant of Object.values(PLAN_FACTS.practiceCredits.grants)) assert.equal(grant.value, 0);
   assert.equal(contributionRewardLine(), 'No credit reward is promised for a submission.');
