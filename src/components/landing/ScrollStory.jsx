@@ -254,6 +254,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     let busyUntil = 0; // the step's glide (or a calm swap) runs until then
     let keep = null; // while the gesture that owns the story lasts, the page stays at this scroll position
     let keptAt = 0;
+    let keptSince = 0; // when the story last took the page: a link, a button or Home/End after that wins
     let keepTouch = false;
     let released = false; // Escape: the page scrolls freely until it leaves the story
     let prevS = null;
@@ -283,6 +284,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       busyUntil = t0 + (calm ? CALM_MS : STEP_MS);
       keep = target;
       keptAt = t0;
+      keptSince = t0;
       keepTouch = input.touches > 0;
       cancelAnimationFrame(glide);
       const from = window.scrollY;
@@ -320,6 +322,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       setStep(n);
       keep = restOf(n, at);
       keptAt = t;
+      keptSince = t;
       keepTouch = input.kind === 'touch';
       busyUntil = t + CALM_MS;
       put(keep);
@@ -415,7 +418,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       const ours = selfY !== null && Math.abs(window.scrollY - selfY) < 1.5;
       if (released && !holding(at)) released = false;
       if (!ours && !steering.current && !released) {
-        if (keep !== null && (t < busyUntil || t - keptAt < QUIET_MS || (keepTouch && input.touches > 0))) {
+        if (keep !== null && input.jump < keptSince && (t < busyUntil || t - keptAt < QUIET_MS || (keepTouch && input.touches > 0))) {
           // Momentum the gesture left behind (a fling, a wheel's glide) does not move the story.
           if (Math.abs(window.scrollY - keep) > 1.5) { keptAt = t; put(keep); }
         } else {
