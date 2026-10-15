@@ -12,9 +12,11 @@
 //   1. A dock: a zero-height sticky line under the site bar holding a glass band with the heading's short
 //      form (mini, the <em> in the brand green) and, on phones, the one action the bar above hides there.
 //   2. The full heading (kicker, title, sub) in the page's flow, revealed like every heading on the page.
-// As the full heading rises, its sub fades first (lift); once the title is half under the band, the title
-// fades up and the band comes in (compact); the band leaves again once the section's held story has run
-// (its track's end has come up the screen), and everything reverses on the way back. One rect read per
+// The full heading reads whole wherever it rests below the band, so no empty band ever opens between it and
+// the story. Once the title has gone under the band, it fades up and the band comes in (compact); the
+// sub carries on in the flow and slides under the glass, fading there once it is wholly under (docked); the
+// band leaves again once the section's held story has run (its track's end has come up the screen), and
+// everything reverses on the way back. One rect read per
 // frame, only while the section is on screen, and attributes are written only when the phase changes.
 // Motion is opacity and transform (section-heading.css); reduced motion swaps instantly. Without
 // JavaScript (or IntersectionObserver) the heading is a plain heading and the band never shows.
@@ -31,6 +33,7 @@ export function SectionHeading({ titleId, kicker, title, sub, mini, aside, aside
   const dockRef = useRef(null);
   const fullRef = useRef(null);
   const titleRef = useRef(null);
+  const subRef = useRef(null);
   const { isAuthenticated } = useAuth();
   const released = recoveryReleased();
   const go = isAuthenticated
@@ -41,6 +44,7 @@ export function SectionHeading({ titleId, kicker, title, sub, mini, aside, aside
     const dock = dockRef.current;
     const full = fullRef.current;
     const head = titleRef.current;
+    const subLine = subRef.current;
     const section = dock?.parentElement;
     if (!dock || !full || !head || !section || typeof IntersectionObserver === 'undefined') return undefined;
     let frame = 0;
@@ -56,7 +60,7 @@ export function SectionHeading({ titleId, kicker, title, sub, mini, aside, aside
       if (next === phase) return;
       phase = next;
       full.dataset.sh = next;
-      dock.dataset.on = next === 'compact' ? 'true' : 'false';
+      dock.dataset.on = next === 'compact' || next === 'docked' ? 'true' : 'false';
     };
     const read = () => {
       frame = 0;
@@ -65,7 +69,7 @@ export function SectionHeading({ titleId, kicker, title, sub, mini, aside, aside
       // The held story's track when there is one, else the section: the band stays while it holds.
       const track = section.querySelector('.ss[data-pinned="true"] .ss__track');
       write(headingPhase({
-        titleBottom: title.bottom, titleHeight: title.height, fullTop: full.getBoundingClientRect().top,
+        titleBottom: title.bottom, restBottom: subLine ? subLine.getBoundingClientRect().bottom : title.bottom,
         line, vh, end: (track || section).getBoundingClientRect().bottom, hasTrack: !!track,
       }));
     };
@@ -99,7 +103,7 @@ export function SectionHeading({ titleId, kicker, title, sub, mini, aside, aside
     <Reveal className={`lp-head lp-head--left ${className}`.trim()}>
       {kicker ? <p className="lp-kicker">{kicker}</p> : null}
       <h2 className="lp-h2" id={titleId} ref={titleRef}>{title}</h2>
-      {sub ? <p className="lp-sub">{sub}</p> : null}
+      {sub ? <p className="lp-sub" ref={subRef}>{sub}</p> : null}
     </Reveal>
   );
 

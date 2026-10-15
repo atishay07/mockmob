@@ -41,6 +41,13 @@
    the story sit at the normal section gap instead of a stage's height of empty page. */
 .ss--centre[data-pinned='true'] { margin-block: calc(var(--ss-slack, 0px) / -2); }
 .ss--centre[data-pinned='true'] .ss__stage > * { translate: 0 calc(var(--ss-slack, 0px) / 2); }
+/* Phones keep short content at eye level instead: it starts right under the stage's top (the docking band on
+   the landing), so it follows its heading at the normal gap, and the whole band goes under it, where the page
+   after the story slides up into it. */
+@media (max-width: 899px) {
+  .ss--centre[data-pinned='true'] { margin-block: 0 calc(var(--ss-slack, 0px) * -1); }
+  .ss--centre[data-pinned='true'] .ss__stage > * { translate: none; }
+}
 /* Step i rests where the window's middle sits at 50svh + i x gap down the track; its beat is the gap
    centred on that point. */
 .ss__beat { position: absolute; left: 0; width: 1px; top: calc(50svh + (var(--i) - 0.5) * var(--ss-gap)); height: var(--ss-gap); pointer-events: none; }

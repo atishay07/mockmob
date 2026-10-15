@@ -1457,33 +1457,57 @@ body:has(.mm.lp) {
 /* First paint lays out the hero, not the whole page. Every section below the statement renders only as it
    nears the screen (content-visibility: auto), which skips the style, layout and paint of about 2,000 boxes
    while the phone is still drawing the hero. Once drawn, a section keeps its real height (auto); until then
-   it reserves its measured content height (padding comes on top; the held stories scale with the screen's
-   height, desktop from 960px), so the scrollbar and in-page links barely move. Nothing is removed: each
-   section renders in full, with its stories and animations, before it reaches the screen. Once the reader
-   first moves, settleUndrawn (components/landing/undrawn.js) draws each waiting section once off screen, so
-   its real height is remembered before a fast scroll arrives and nothing jumps under a held story. */
+   it reserves its content height as measured at 360, 390 and 430 px phones and a 1440 px desktop (padding comes
+   on top), so the page's height, the scrollbar and in-page links do not move as sections are drawn. Nothing is
+   removed: each section renders in full, with its stories and animations, before it reaches the screen. Once
+   the reader first moves, settleUndrawn (components/landing/undrawn.js) draws each waiting section once off
+   screen, so its real height is remembered before a fast scroll arrives and nothing jumps under a held story.
+   Remeasure these sizes when a section's content changes. */
 .lp main > :is(.lp-sec, .lp-close) { content-visibility: auto; contain-intrinsic-size: auto 1000px; }
-.lp main > #inside-the-lab { contain-intrinsic-size: auto 430svh; }
-.lp main > #your-prep { contain-intrinsic-size: auto 580svh; }
-.lp main > #score-recovery-lab { contain-intrinsic-size: auto 385svh; }
-.lp main > #compass { contain-intrinsic-size: auto 2180px; }
-.lp main > #du-eligibility { contain-intrinsic-size: auto 2360px; }
-.lp main > #exam-experience { contain-intrinsic-size: auto 1590px; }
-.lp main > .lp-sec--tight { contain-intrinsic-size: auto 390px; }
-.lp main > #on-instagram { contain-intrinsic-size: auto 900px; }
-.lp main > #pricing { contain-intrinsic-size: auto 1165px; }
+/* A held story waits as its track, not as a whole section: its heading lays out with the page (it is cheap) and
+   the track's height is set exactly (one window plus one beat per step, scroll-story.css), so drawing the story
+   never changes the page's height. A story that centres short content (.ss--centre) is given its expected
+   slack up front, from its content's measured height; ScrollStory writes the measured slack once it is drawn. */
+.lp main > .lp-sh-host { content-visibility: visible; }
+.lp main .ss[data-pinned='true'] > .ss__track { content-visibility: auto; }
+.lp main > #score-recovery-lab .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 629px); }
+/* Phones from 375 px (the 390 and 430 px measures, and the base for wider phones and tablets). */
+.lp main > #compass { contain-intrinsic-size: auto 2182px; }
+.lp main > #du-eligibility { contain-intrinsic-size: auto 2365px; }
+.lp main > #exam-experience { contain-intrinsic-size: auto 1620px; }
+.lp main > .lp-sec--tight { contain-intrinsic-size: auto 391px; }
+.mm.lp main > #on-instagram { contain-intrinsic-size: auto 897px; }
+.lp main > #pricing { contain-intrinsic-size: auto 1187px; }
 .lp main > .lp-sec--band { contain-intrinsic-size: auto 371px; }
-.lp main > .lp-close { contain-intrinsic-size: auto 438px; }
+.lp main > .lp-close { contain-intrinsic-size: auto 540px; }
+@media (max-width: 374px) {
+  .lp main > #score-recovery-lab .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 501px); }
+  .lp main > #compass { contain-intrinsic-size: auto 2264px; }
+  .lp main > #du-eligibility { contain-intrinsic-size: auto 2517px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 1646px; }
+  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 410px; }
+  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 889px; }
+  .lp main > #pricing { contain-intrinsic-size: auto 1241px; }
+  .lp main > .lp-sec--band { contain-intrinsic-size: auto 419px; }
+}
+@media (min-width: 410px) and (max-width: 599px) {
+  .lp main > #du-eligibility { contain-intrinsic-size: auto 2371px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 1569px; }
+  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 380px; }
+  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 900px; }
+  .lp main > .lp-close { contain-intrinsic-size: auto 501px; }
+}
+@media (min-width: 900px) {
+  .lp main > #score-recovery-lab .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 516px); }
+  .lp main > #your-prep .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 652px); }
+}
 @media (min-width: 960px) {
-  .lp main > #inside-the-lab { contain-intrinsic-size: auto 445svh; }
-  .lp main > #your-prep { contain-intrinsic-size: auto 570svh; }
-  .lp main > #score-recovery-lab { contain-intrinsic-size: auto 380svh; }
-  .lp main > #compass { contain-intrinsic-size: auto 1230px; }
-  .lp main > #du-eligibility { contain-intrinsic-size: auto 1340px; }
-  .lp main > #exam-experience { contain-intrinsic-size: auto 1165px; }
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 145px; }
-  .lp main > #on-instagram { contain-intrinsic-size: auto 935px; }
+  .lp main > #compass { contain-intrinsic-size: auto 1225px; }
+  .lp main > #du-eligibility { contain-intrinsic-size: auto 1333px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 1224px; }
+  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 137px; }
+  .mm.lp main > #on-instagram { contain-intrinsic-size: auto 935px; }
   .lp main > #pricing { contain-intrinsic-size: auto 755px; }
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 397px; }
-  .lp main > .lp-close { contain-intrinsic-size: auto 568px; }
+  .lp main > .lp-close { contain-intrinsic-size: auto 603px; }
 }

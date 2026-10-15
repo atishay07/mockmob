@@ -159,10 +159,13 @@ function fitAll(stage) {
 // Slack: the empty band between the held content's bottom (elements marked data-ss-end) and the stage's
 // bottom. Written once per resize as --ss-slack, so consumers can centre short content in the held window
 // (scroll-story.css) and the page after the story follows at the normal section gap, not a stage height.
+// A page may give a story its expected slack in CSS before it is first drawn (landing.css), so the page's
+// height is right from the start: the measure is taken with the slack at 0 (the centring translate moves the
+// end markers) and always written, 0 included, so a measured 0 never falls back to that expectation.
 function measureSlack(root, stage) {
-  root.style.removeProperty('--ss-slack');
   const ends = stage.querySelectorAll('[data-ss-end]');
-  if (!ends.length) return;
+  if (!ends.length) { root.style.removeProperty('--ss-slack'); return; }
+  root.style.setProperty('--ss-slack', '0px');
   let bottom = -Infinity;
   for (const node of ends) {
     const rect = node.getBoundingClientRect();
@@ -172,7 +175,7 @@ function measureSlack(root, stage) {
   const box = stage.getBoundingClientRect();
   const padBottom = parseFloat(getComputedStyle(stage).paddingBottom) || 0;
   const slack = Math.max(0, Math.floor(box.bottom - padBottom - bottom));
-  if (slack > 0) root.style.setProperty('--ss-slack', `${slack}px`);
+  root.style.setProperty('--ss-slack', `${slack}px`);
 }
 
 export default function ScrollStory({ steps, className = '', beat, label, onStep, Content, ...rest }) {
@@ -300,8 +303,9 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     let listening = false;
 
     // s: how far the page is into the track; hold: how far it can go with the stage held.
+    // The stage (not the track, whose height is set exactly) is what waits while the story is undrawn.
     const locate = () => {
-      if (skipped(track)) return null;
+      if (skipped(stage)) return null;
       const box = track.getBoundingClientRect();
       return { s: -box.top, hold: Math.max(0, track.offsetHeight - stage.offsetHeight), top: window.scrollY + box.top };
     };
