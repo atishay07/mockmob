@@ -103,6 +103,7 @@ void main() {
       expect(find.text('Admission of a partner'), findsOneWidget);
 
       await tester.ensureVisible(find.text('Business Studies').first);
+      await tester.pump();
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);
@@ -137,6 +138,7 @@ void main() {
       );
       await _settle(tester);
       await tester.ensureVisible(find.text('Business Studies').first);
+      await tester.pump();
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);
@@ -233,6 +235,7 @@ void main() {
       );
       await _settle(tester);
       await tester.ensureVisible(find.text('Business Studies').first);
+      await tester.pump();
       await tester.tap(find.text('Business Studies').first);
       await _settle(tester);
       await _toTop(tester);

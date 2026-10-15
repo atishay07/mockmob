@@ -398,8 +398,8 @@ class _SavedRow extends ConsumerWidget {
   }
 }
 
-/// Nothing saved: Mobi reads, and after 1.2 s points at the way to the stream. He does it once
-/// per visit and never under reduced motion, where he holds his reading pose.
+/// Nothing saved: Mobi sits in the saved room, and after 1.2 s points at the way to the stream.
+/// He does it once per visit and never under reduced motion, where he stays seated.
 class _SavedEmpty extends StatefulWidget {
   const _SavedEmpty({required this.onOpen});
 
@@ -458,16 +458,12 @@ class _SavedEmptyState extends State<_SavedEmpty> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
+                        // The saved room (the ribbon and two taped notes): where kept questions will
+                        // live. Mobi sits in its lit ellipse and still points at the way to the stream.
                         MmStaggerItem(
                           index: 0,
                           rise: 8,
-                          child: SizedBox(
-                            height: (compact ? 96.0 : 140.0) * 1.3,
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Mobi(pose: MobiPose.read, size: compact ? 96 : 140, motion: MobiMotion.settle, controller: _mobi),
-                            ),
-                          ),
+                          child: SceneVignette(scene: StateScene.saved, maxHeight: compact ? 150 : 248, controller: _mobi),
                         ),
                         const SizedBox(height: MmSpace.s12),
                         MmStaggerItem(

@@ -125,16 +125,20 @@ void main() {
       overrides: practiceOverrides(quotes: quotes, attempts: const [], auth: signedIn(subjects: ['accountancy', 'business_studies'])),
     );
     await _settle(tester);
+    // The longer sessions sit under the tiles: scroll the page (not the strip) down to them.
+    await tester.scrollUntilVisible(find.text(PracticeCopy.smartTitle), 200, scrollable: find.byType(Scrollable).first);
+    await tester.pump();
     expect(find.text(PracticeCopy.smartTitle), findsOneWidget);
 
     await tester.ensureVisible(find.text('Business Studies').first);
+    await tester.pump();
     await tester.tap(find.text('Business Studies').first);
     await tester.pump(const Duration(milliseconds: 200));
     // The quote for the new subject is still on its way: nothing under the thumb moved.
-    expect(find.text(PracticeCopy.smartTitle), findsOneWidget);
+    expect(find.text(PracticeCopy.smartTitle, skipOffstage: false), findsOneWidget);
     gate.complete(dailyFree());
     await _settle(tester);
-    expect(find.text(PracticeCopy.smartTitle), findsOneWidget);
+    expect(find.text(PracticeCopy.smartTitle, skipOffstage: false), findsOneWidget);
   });
 
   testWidgets('practice-04: a quote that says the mode is not offered still removes the row', (tester) async {
@@ -147,9 +151,10 @@ void main() {
     );
     await _settle(tester);
     await tester.ensureVisible(find.text('Business Studies').first);
+    await tester.pump();
     await tester.tap(find.text('Business Studies').first);
     await _settle(tester);
-    expect(find.text(PracticeCopy.smartTitle), findsNothing);
+    expect(find.text(PracticeCopy.smartTitle, skipOffstage: false), findsNothing);
   });
 
   for (final scale in [1.0, 1.3]) {

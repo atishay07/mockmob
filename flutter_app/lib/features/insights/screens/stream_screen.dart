@@ -203,22 +203,25 @@ class _StreamScreenState extends ConsumerState<StreamScreen> {
           message: (state.error?.isOffline ?? false) ? InsightsCopy.failedOffline : InsightsCopy.failedMessage,
           primary: StateAction(InsightsCopy.retry, _controller.retry),
         ),
+      // A page with nothing ready yet: the bare desk with one blank sheet.
       StreamPhase.emptyPage => StateView(
           kind: StateViewKind.empty,
-          pose: MobiPose.think,
+          scene: StateScene.nothingYet,
           title: InsightsCopy.emptyPageTitle,
           message: InsightsCopy.emptyPageMessage,
           primary: StateAction(InsightsCopy.keepLooking, _controller.retry),
         ),
+      // Nothing kept: the saved room, where kept questions will live.
       StreamPhase.emptyFilters when widget.saved => StateView(
           kind: StateViewKind.empty,
-          pose: MobiPose.read,
+          scene: StateScene.saved,
           title: InsightsCopy.savedEmptyTitle,
           message: InsightsCopy.savedEmptyMessage,
         ),
+      // Filters that found nothing: the empty tray and the magnifier.
       StreamPhase.emptyFilters => StateView(
           kind: StateViewKind.empty,
-          pose: MobiPose.think,
+          scene: StateScene.noResults,
           title: InsightsCopy.emptyFilterTitle,
           message: InsightsCopy.emptyFilterMessage,
           primary: state.filters?.chapter != null || state.filters?.difficulty != null ? StateAction(InsightsCopy.changeFilters, changeFilters) : null,

@@ -1,68 +1,12 @@
 import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../../core/art/art.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 
-/// Moves of the suggestion card's own: the object's slow float and the one sheen across Start.
-
-/// The object floats: up and down 3 dp on a 6 s sine, one transform in a RepaintBoundary. It runs
-/// only where the app's idle drift is on ([SubjectEmblem.idleEnabled], off in tests so a screen
-/// settles), never under reduced motion, and pauses with the tab (tickers stop under
-/// `TickerMode(enabled: false)`).
-class EmblemFloat extends StatefulWidget {
-  const EmblemFloat({super.key, required this.child});
-
-  final Widget child;
-
-  static const Duration period = Duration(seconds: 6);
-  static const double travel = 3;
-
-  /// The vertical offset (dp) at progress [t] of the period (pure, for tests).
-  static double offsetAt(double t) => travel * math.sin(t * 2 * math.pi);
-
-  @override
-  State<EmblemFloat> createState() => _EmblemFloatState();
-}
-
-class _EmblemFloatState extends State<EmblemFloat> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, duration: EmblemFloat.period);
-  bool _running = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final on = SubjectEmblem.idleEnabled && !Motion.reduced(context);
-    if (on && !_running) {
-      _running = true;
-      _c.repeat();
-    } else if (!on && _running) {
-      _running = false;
-      _c.stop();
-    }
-  }
-
-  @override
-  void dispose() {
-    _c.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return RepaintBoundary(
-      child: AnimatedBuilder(
-        animation: _c,
-        child: widget.child,
-        builder: (context, child) => Transform.translate(offset: Offset(0, _running ? EmblemFloat.offsetAt(_c.value) : 0), child: child),
-      ),
-    );
-  }
-}
+/// The suggestion card's own move: the one sheen across Start.
 
 /// One light sweep across the Start key, [after] a quiet 4 s with no touch anywhere, once for
 /// the life of the card. A touch before then cancels it for good (the student is already here).

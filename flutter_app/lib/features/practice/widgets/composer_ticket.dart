@@ -13,6 +13,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/practice_catalog.dart';
+import 'spring_pick.dart';
 import 'subject_accent.dart';
 
 /// Where the ticket's stub is in the Start sequence. [lifted]: the start request is out and the
@@ -593,7 +594,6 @@ class _SubjectChip extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final accent = context.subjectAccentOf(id);
-    final reduced = Motion.reduced(context);
     const radius = MmRadius.smallAll;
     return MmPressable(
       semanticsLabel: name,
@@ -601,45 +601,59 @@ class _SubjectChip extends StatelessWidget {
       inMutuallyExclusiveGroup: true,
       focusRadius: radius,
       onTap: onTap,
-      builder: (context, pressed, _) => AnimatedContainer(
-        duration: reduced ? Duration.zero : Motion.ui,
-        curve: Motion.out,
-        height: SubjectChips.height,
-        padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s8, MmSpace.s12, MmSpace.s8),
-        decoration: ShapeDecoration(
-          color: MmSelection.fill(colors, selected: selected, pressed: pressed),
-          shape: RoundedSuperellipseBorder(
-            borderRadius: radius,
-            side: MmSelection.side(colors, selected: selected),
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SubjectEmblem(subject: id, size: EmblemSizes.glyph, framed: false, marked: selected),
-            const SizedBox(width: MmSpace.s8),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+      // The pick lands on the switch's detent spring (240 ms, bounce 0.14): the fill and the rim
+      // cross, the identity bar stretches a hair past its length and settles, and the glyph swells
+      // at mid-change. Pressed answers at once (the press is the finger's, not the spring's).
+      builder: (context, pressed, _) => SpringPick(
+        on: selected,
+        spring: Springs.toggle,
+        builder: (context, t, _) {
+          final c = t.clamp(0.0, 1.0);
+          final settled = c == 0 || c == 1;
+          final rest = MmSelection.side(colors, selected: false);
+          final picked = MmSelection.side(colors, selected: true);
+          return Container(
+            height: SubjectChips.height,
+            padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s8, MmSpace.s12, MmSpace.s8),
+            decoration: ShapeDecoration(
+              color: settled
+                  ? MmSelection.fill(colors, selected: c == 1, pressed: pressed)
+                  : Color.lerp(MmSelection.fill(colors, selected: false, pressed: pressed), MmSelection.fill(colors, selected: true), c),
+              shape: RoundedSuperellipseBorder(
+                borderRadius: radius,
+                side: settled ? (c == 1 ? picked : rest) : BorderSide.lerp(rest, picked, c),
+              ),
+            ),
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(name, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, color: selected ? colors.ink : colors.ink2)),
-                const SizedBox(height: MmSpace.s4),
-                AnimatedContainer(
-                  duration: reduced ? Duration.zero : Motion.emphasizedDuration,
-                  curve: Motion.emphasized,
-                  width: selected ? 24 : 10,
-                  height: 3,
-                  decoration: ShapeDecoration(
-                    color: accent.withValues(alpha: selected ? 1 : 0.5),
-                    shape: const StadiumBorder(),
-                  ),
+                Transform.scale(
+                  scale: 1 + 0.08 * SpringPick.popAt(t),
+                  child: SubjectEmblem(subject: id, size: EmblemSizes.glyph, framed: false, marked: selected),
                 ),
+                const SizedBox(width: MmSpace.s8),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(name, maxLines: 1, style: type.labelLarge.copyWith(fontSize: 14, color: Color.lerp(colors.ink2, colors.ink, c))),
+                    const SizedBox(height: MmSpace.s4),
+                    DecoratedBox(
+                      decoration: ShapeDecoration(
+                        color: accent.withValues(alpha: 0.5 + 0.5 * c),
+                        shape: const StadiumBorder(),
+                      ),
+                      // 10 dp at rest, 24 chosen; the spring's crest runs it a hair long.
+                      child: SizedBox(width: math.max(10 + 14 * t, 0), height: 3),
+                    ),
+                  ],
+                ),
+                if (selected) ...[const SizedBox(width: MmSpace.s8), const SelectBubble(selected: true)],
               ],
             ),
-            if (selected) ...[const SizedBox(width: MmSpace.s8), const SelectBubble(selected: true)],
-          ],
-        ),
+          );
+        },
       ),
     );
   }
