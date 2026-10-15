@@ -16,10 +16,14 @@ import 'review_bits.dart' show FlushKey;
 
 /// A labelled block of the worked explanation. The body never moves once shown.
 class ExplanationBlock extends StatelessWidget {
-  const ExplanationBlock({super.key, required this.label, required this.paragraphs, this.labelFocus});
+  const ExplanationBlock({super.key, required this.label, required this.paragraphs, this.labelFocus, this.lead = false});
 
   final String label;
   final List<String> paragraphs;
+
+  /// The one idea of the repair, set a step larger as a pull quote (17 sp, medium) so the eye
+  /// lands on it before the supporting blocks.
+  final bool lead;
 
   /// Makes the heading something focus can be sent to (the revealed "Another way to see it").
   final FocusNode? labelFocus;
@@ -35,7 +39,8 @@ class ExplanationBlock extends StatelessWidget {
     if (shown.isEmpty) return const SizedBox.shrink();
     Widget heading = Semantics(
       header: true,
-      child: Text(label, style: type.label.copyWith(color: colors.ink2)),
+      // 14 sp: a label a student has to read is never below 13.
+      child: Text(label, style: type.small.copyWith(fontWeight: FontWeight.w600, color: colors.ink2)),
     );
     // Focus can be sent here, but Tab never stops on a heading by itself.
     if (labelFocus != null) heading = Focus(focusNode: labelFocus, skipTraversal: true, child: heading);
@@ -46,8 +51,67 @@ class ExplanationBlock extends StatelessWidget {
         children: [
           heading,
           const SizedBox(height: MmSpace.s8),
-          for (var i = 0; i < shown.length; i++) ...[if (i > 0) const SizedBox(height: MmSpace.s8), Text(shown[i], style: type.body)],
+          for (var i = 0; i < shown.length; i++) ...[
+            if (i > 0) const SizedBox(height: MmSpace.s8),
+            Text(shown[i], style: lead ? type.question : type.body),
+          ],
         ],
+      ),
+    );
+  }
+}
+
+/// The heart of a repair, in one raised surface: where the answer breaks first, then why it looked
+/// right. Both stay on the page (nothing is hidden); the break leads because it is what the student
+/// has to take away. It is the page's own raised step, never a second card inside a card.
+class BreakCard extends StatelessWidget {
+  const BreakCard({super.key, this.breaks, this.lookedRight, this.lookedRightLabel});
+
+  /// Where it breaks, or null.
+  final String? breaks;
+
+  /// Why the picked option looked right, or null.
+  final String? lookedRight;
+
+  /// The label over [lookedRight] ("Why A looked right").
+  final String? lookedRightLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final b = breaks?.trim();
+    final l = lookedRight?.trim();
+    final hasBreak = b != null && b.isNotEmpty;
+    final hasLooked = l != null && l.isNotEmpty;
+    if (!hasBreak && !hasLooked) return const SizedBox.shrink();
+    Widget label(String text) => Semantics(
+      header: true,
+      child: Text(text, style: type.small.copyWith(fontWeight: FontWeight.w600, color: colors.ink2)),
+    );
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s24),
+      child: DecoratedBox(
+        decoration: ShapeDecoration(color: colors.raised, shape: mmShapeBorder(MmRadius.panelAll)),
+        child: Padding(
+          padding: const EdgeInsets.all(MmSpace.s16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (hasBreak) ...[
+                label(ReviewCopy.whereItBreaks),
+                const SizedBox(height: MmSpace.s4),
+                Text(b, style: type.body),
+              ],
+              if (hasBreak && hasLooked) const SizedBox(height: MmSpace.s16),
+              if (hasLooked) ...[
+                label(lookedRightLabel ?? ReviewCopy.whyLookedRight(null)),
+                const SizedBox(height: MmSpace.s4),
+                Text(l, style: type.body.copyWith(color: colors.ink2)),
+              ],
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -191,8 +255,8 @@ class _WorkedExplanationState extends State<WorkedExplanation> with AutomaticKee
     final type = context.mmType;
     if (!e.isV2) {
       final blocks = <Widget>[
-        ExplanationBlock(label: ReviewCopy.whatHappened, paragraphs: [e.whyTempting ?? '', e.whyWrong ?? '']),
-        ExplanationBlock(label: ReviewCopy.theIdea, paragraphs: [e.keyIdea]),
+        BreakCard(breaks: e.whyWrong, lookedRight: e.whyTempting, lookedRightLabel: ReviewCopy.whyLookedRight(widget.chosenLetter)),
+        ExplanationBlock(label: ReviewCopy.theIdea, paragraphs: [e.keyIdea], lead: true),
         ExplanationBlock(label: ReviewCopy.nextTime, paragraphs: [e.nextStep ?? '']),
         if (record.isNotEmpty) RecordLinesBlock(lines: record),
       ];
@@ -214,8 +278,8 @@ class _WorkedExplanationState extends State<WorkedExplanation> with AutomaticKee
           ],
         ),
       ),
-      if (e.whyTempting != null) ExplanationBlock(label: ReviewCopy.whyLookedRight(widget.chosenLetter), paragraphs: [e.whyTempting!]),
-      if (e.whyWrong != null) ExplanationBlock(label: ReviewCopy.whereItBreaks, paragraphs: [e.whyWrong!]),
+      if (e.whyTempting != null || e.whyWrong != null)
+        BreakCard(breaks: e.whyWrong, lookedRight: e.whyTempting, lookedRightLabel: ReviewCopy.whyLookedRight(widget.chosenLetter)),
       if (e.anotherWay != null || e.contrast != null)
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -258,13 +322,14 @@ class _WorkedExplanationState extends State<WorkedExplanation> with AutomaticKee
         ),
       ),
     );
-    if (e.whyTempting != null) blocks.add(ExplanationBlock(label: ReviewCopy.whyLookedRight(widget.chosenLetter), paragraphs: [e.whyTempting!]));
-    if (e.whyWrong != null) blocks.add(ExplanationBlock(label: ReviewCopy.whereItBreaks, paragraphs: [e.whyWrong!]));
+    if (e.whyTempting != null || e.whyWrong != null) {
+      blocks.add(BreakCard(breaks: e.whyWrong, lookedRight: e.whyTempting, lookedRightLabel: ReviewCopy.whyLookedRight(widget.chosenLetter)));
+    }
     blocks.add(
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ExplanationBlock(label: ReviewCopy.whyRight(widget.keyLetter), paragraphs: [e.whyRight!]),
+          ExplanationBlock(label: ReviewCopy.whyRight(widget.keyLetter), paragraphs: [e.whyRight!], lead: true),
           if (e.contrast != null) _ContrastPull(text: e.contrast!, colors: colors, type: type, rail: true),
         ],
       ),

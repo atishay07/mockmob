@@ -455,7 +455,7 @@ void main() {
         child: RepairsProgress(repaired: repaired, found: 8),
       );
       await pumpMockmob(tester, at(1), overrides: reviewOverrides());
-      expect(find.text('1 of 8 repaired'), findsOneWidget, reason: 'first show: no count from zero');
+      expect(find.text('1 repaired, 8 found'), findsOneWidget, reason: 'first show: no count from zero');
       await tester.pumpWidget(
         ProviderScope(
           overrides: reviewOverrides(),
@@ -464,10 +464,10 @@ void main() {
       );
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 200));
-      final mid = tester.widget<Text>(find.textContaining(' of 8 repaired')).data!;
+      final mid = tester.widget<Text>(find.textContaining(', 8 found')).data!;
       expect(mid, isNot(startsWith('0 ')), reason: 'rolls from 1, not from 0');
       await tester.pump(const Duration(seconds: 2));
-      expect(find.text('3 of 8 repaired'), findsOneWidget);
+      expect(find.text('3 repaired, 8 found'), findsOneWidget);
     });
   });
 }

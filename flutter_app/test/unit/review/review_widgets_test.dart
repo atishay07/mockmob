@@ -7,6 +7,7 @@ import 'package:mockmob/features/review/data/repair_state.dart';
 import 'package:mockmob/features/review/screens/repair_ending_screen.dart';
 import 'package:mockmob/features/review/screens/repair_screen.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
+import 'package:mockmob/features/review/widgets/mistake_map.dart' show ChapterTrack;
 import 'package:mockmob/features/review/widgets/question_panel.dart' show MarkedOption;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationSlot;
 
@@ -32,8 +33,26 @@ void main() {
     expect(find.textContaining("'s repair, "), findsOneWidget);
     expect(find.textContaining('Start, '), findsOneWidget);
     expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
-    expect(find.text('Repaired 4 Oct, 11:08\u00A0PM'), findsOneWidget, reason: 'the record entry is one compact line per fact');
+    // The record and the past results sit on the other side of the switch, not in the same scroll.
+    expect(find.text('Repaired 4 Oct, 11:08\u00A0PM'), findsNothing);
     expect(find.textContaining('mastered'), findsNothing);
+    await tester.tap(find.text('History'));
+    await tester.pumpAndSettle();
+    expect(find.text('Repaired 4 Oct, 11:08\u00A0PM'), findsOneWidget, reason: 'the record entry is one compact line per fact');
+    expect(find.text('Repair record'), findsOneWidget);
+    expect(find.text('Past results'), findsOneWidget);
+    expect(find.text('Not attempted in Mock 2 (3)'), findsNothing);
+    await tester.tap(find.text('To repair'));
+    await tester.pumpAndSettle();
+    expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
+    expect(find.text('Repair record'), findsNothing);
+  });
+
+  testWidgets('every chapter row has one track and says its count with the denominator', (tester) async {
+    await pump(tester, const ReviewScreen());
+    expect(find.byType(ChapterTrack), findsWidgets);
+    expect(find.text('1 of 5 repaired'), findsOneWidget);
+    expect(find.text('0 of 1 repaired'), findsWidgets);
   });
 
   testWidgets('skipped questions sit in one collapsed group with their count until it is opened', (tester) async {
@@ -104,7 +123,7 @@ void main() {
     // The folded line draws the pick and the key as bubbles; TalkBack hears the one sentence.
     expect(find.bySemanticsLabel('Q1. Your pick A. Key B.'), findsOneWidget);
     expect(find.byType(MarkedOption), findsNothing, reason: 'the options stay folded');
-    expect(find.text('What happened here'), findsOneWidget);
+    expect(find.text('Where it breaks'), findsOneWidget);
     expect(find.text('This answer cost 6 marks in this session: 5 not earned and 1 penalty.'), findsOneWidget);
     expect(find.text('Practise 5 on Partnership'), findsOneWidget);
     // The small print under the repair: what it cost and what is left, from the server's answer.
