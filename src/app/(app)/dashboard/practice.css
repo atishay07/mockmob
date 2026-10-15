@@ -1,0 +1,120 @@
+/* ==========================================================================
+   PRACTICE polish (src/app/(app)/dashboard). Layered on arena.css, which keeps the page's base geometry.
+   Motion comes from the shared tokens (motion-kit.css, the same JSON as the app): the lamp comes on
+   with the emphasized curve, the chosen tile inks its rim and pops its tick on the icon-pop spring,
+   a press sinks on the snappy spring and lets go with the app's press lift.
+   Reduced motion: no movement; state changes are short fades.
+   ========================================================================== */
+
+/* ---------- Subject tiles: a bigger object on wider screens; the phone keeps its 60 px ---------- */
+.app-shell .pr .pr-subjects .pr-subject { --pr-obj: 60px; }
+@media (min-width: 640px) { .app-shell .pr .pr-subjects .pr-subject { --pr-obj: 80px; } }
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-subjects .pr-subject { --pr-obj: 104px; gap: 4px; padding: 16px 16px 15px; border-radius: 18px; }
+  .app-shell .pr .pr-subjects .pr-subject__name { font-size: 16px; letter-spacing: -0.01em; }
+  .app-shell .pr .pr-subjects .pr-subject__meta { font-size: 12.5px; }
+  .app-shell .pr .pr-subjects .pr-tile__tick { top: 12px; right: 12px; }
+}
+/* Two to a row while the session panel squeezes the column; three once there is room for them. */
+@media (min-width: 1024px) and (max-width: 1279px) { .app-shell .pr .pr-subjects { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* The object box carries its own air; pull it to the tile's corner by the same share at every size. */
+.app-shell .pr .pr-subjects .pr-subject__obj.subj-obj {
+  width: var(--pr-obj);
+  height: var(--pr-obj);
+  margin: calc(var(--pr-obj) * -0.1) 0 calc(var(--pr-obj) * -0.07) calc(var(--pr-obj) * -0.1);
+}
+
+/* The lamp: off at rest, warming a little under the pointer, full on the chosen tile. It swells in on the
+   settle spring and fades out on the exit curve, so a change of subject reads as one light moving. */
+.app-shell .pr .pr-subject .subj-obj__light {
+  opacity: 0;
+  scale: 0.84;
+  transition:
+    opacity var(--mm-dur-exit) var(--mm-ease-exit),
+    scale var(--mm-dur-exit) var(--mm-ease-exit);
+}
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .pr .pr-subject:hover .subj-obj__light {
+    opacity: 0.5;
+    scale: 0.94;
+    transition:
+      opacity var(--mm-dur-glide) var(--mm-ease-glide),
+      scale var(--mm-spring-settle-dur) var(--mm-spring-settle);
+  }
+}
+.app-shell .pr .pr-subject[aria-pressed='true'] .subj-obj__light {
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity var(--mm-dur-emphasized) var(--mm-ease-emphasized),
+    scale var(--mm-spring-settle-dur) var(--mm-spring-settle);
+}
+
+/* ---------- Every selectable tile: one eased selected state ---------- */
+.app-shell .pr .pr-tile {
+  isolation: isolate;
+  transition:
+    border-color var(--mm-dur-ui) var(--mm-ease-out),
+    box-shadow var(--mm-dur-ui) var(--mm-ease-out),
+    background-color var(--mm-dur-ui) var(--mm-ease-out),
+    transform var(--mm-press-lift-dur) var(--mm-press-lift);
+}
+.app-shell .pr .pr-tile:active:not(:disabled) {
+  transform: scale(0.98);
+  transition-duration: var(--mm-dur-ui), var(--mm-dur-ui), var(--mm-dur-ui), var(--mm-spring-snappy-dur);
+  transition-timing-function: var(--mm-ease-out), var(--mm-ease-out), var(--mm-ease-out), var(--mm-spring-snappy);
+}
+/* The volt wash fades in under the content instead of switching on with the border. */
+.app-shell .pr .pr-tile[aria-pressed='true'] { background: var(--a-raised); }
+.app-shell .pr .pr-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: linear-gradient(180deg, var(--a-volt-wash), transparent 90%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--mm-dur-exit) var(--mm-ease-exit);
+}
+.app-shell .pr .pr-tile[aria-pressed='true']::before {
+  opacity: 1;
+  transition: opacity var(--mm-dur-emphasized) var(--mm-ease-emphasized);
+}
+/* The tick arrives on the icon-pop spring each time a tile is chosen. */
+.app-shell .pr .pr-tile__tick { animation: pr-tick-in var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop) both; }
+@keyframes pr-tick-in { from { opacity: 0; scale: 0.4; } to { opacity: 1; scale: 1; } }
+
+/* ---------- Modes beside the session panel (1024 to 1279 px): three tiles would be 145 px wide and their
+   prices would run into the tick, so they become three rows (icon, name and line, price) ---------- */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .app-shell .pr .pr-modes { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .app-shell .pr .pr-mode { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; column-gap: 14px; row-gap: 2px; padding: 12px 14px; }
+  .app-shell .pr .pr-mode .pr-mode__top { display: contents; }
+  .app-shell .pr .pr-mode .pr-mode__icon { grid-column: 1; grid-row: 1 / span 2; }
+  .app-shell .pr .pr-mode .pr-mode__name { grid-column: 2; grid-row: 1; margin-top: 0; }
+  .app-shell .pr .pr-mode .pr-mode__spec { grid-column: 2; grid-row: 2; }
+  .app-shell .pr .pr-mode .pr-badge { grid-column: 3; grid-row: 1 / span 2; align-self: center; }
+  .app-shell .pr .pr-mode .pr-tile__tick { top: 50%; margin-top: -11px; }
+  /* NTA Mode stacks its exam screen under the words, so its kicker and price keep one line. */
+  .app-shell .pr .pr-nta { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+}
+
+/* ---------- Head: the credits card lines up with the session panel below it ---------- */
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-head { grid-template-columns: minmax(0, 1fr) 340px; column-gap: 32px; }
+}
+
+/* ---------- Lower panels: each as tall as its own content, never a tall empty box ---------- */
+.app-shell .pr .pr-lower { align-items: start; }
+
+/* ---------- Reduced motion: state changes stay, movement goes ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .pr .pr-tile__tick { animation: none; }
+  .app-shell .pr .pr-subject .subj-obj__light { scale: 1; transition: opacity var(--mm-dur-reduced-fade) linear; }
+  .app-shell .pr .pr-tile:active:not(:disabled) { transform: none; }
+}
+:root[data-motion='reduced'] .app-shell .pr .pr-tile__tick { animation: none; }
+:root[data-motion='reduced'] .app-shell .pr .pr-subject .subj-obj__light { scale: 1; transition: opacity var(--mm-dur-reduced-fade) linear; }
+:root[data-motion='reduced'] .app-shell .pr .pr-tile:active:not(:disabled) { transform: none; }

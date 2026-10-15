@@ -201,10 +201,13 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 .st-close:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 
 /* Body: scrolls on its own; the header stays put. */
+/* Rows are as tall as their content (max-content): in a short sheet the body scrolls, and the clipped
+   next-move card is never squeezed to fit the sheet's height. */
 .st-body {
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
+  grid-auto-rows: max-content;
   align-content: start;
   gap: 18px;
   overflow-y: auto;
@@ -216,16 +219,97 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 /* Subject choice: one radio group drives every row below. */
 .st-subjects { min-width: 0; margin: 0; padding: 0; border: 0; }
 .st-label { margin: 0 0 8px; padding: 0; font-size: 13px; font-weight: 600; color: var(--a-ink-3); }
+/* The rail: the row bleeds to the sheet's edges and fades there while more chips wait beyond them.
+   useSubjectRail.js sets data-overflow / data-at-start / data-at-end and drives the wheel, the drag and
+   the glide; touch keeps the browser's own scrolling and snap. */
+@property --st-fade-l { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --st-fade-r { syntax: '<length>'; inherits: false; initial-value: 0px; }
+.st-rail { position: relative; }
 .st-chips {
+  --st-fade-l: 0px;
+  --st-fade-r: 0px;
+  position: relative;
   display: flex;
   gap: 8px;
-  margin: 0 calc(var(--st-pad) * -1);
-  padding: 2px var(--st-pad) 6px;
+  margin: -3px calc(var(--st-pad) * -1) 0;
+  padding: 5px var(--st-pad) 6px;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
   scroll-padding-inline: var(--st-pad);
   scrollbar-width: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--st-fade-l), #000 calc(100% - var(--st-fade-r)), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 var(--st-fade-l), #000 calc(100% - var(--st-fade-r)), transparent 100%);
+  transition: --st-fade-l var(--mm-dur-glide) var(--mm-ease-out), --st-fade-r var(--mm-dur-glide) var(--mm-ease-out);
 }
 .st-chips::-webkit-scrollbar { display: none; }
+.st-rail[data-overflow]:not([data-at-start]) .st-chips { --st-fade-l: 56px; }
+.st-rail[data-overflow]:not([data-at-end]) .st-chips { --st-fade-r: 56px; }
+.st-chips > .st-chip { scroll-snap-align: start; }
+/* While the row glides or is dragged it owns the position; snap waits for it to land on a chip. */
+.st-chips:is([data-gliding], [data-dragging]) { scroll-snap-type: none; }
+@media (hover: hover) and (pointer: fine) {
+  .st-rail[data-overflow] .st-chips { cursor: grab; }
+  .st-chips[data-dragging], .st-chips[data-dragging] .st-chip, .st-chips[data-dragging] .st-chip input { cursor: grabbing; }
+}
+
+/* The arrows: mouse only, and only toward chips that are out of view. They sit in the fade, at the sheet's
+   edge, as 44 px targets around a 34 px glass disc, and leave on the exit curve once their end is reached. */
+.st-rail__arrow {
+  position: absolute;
+  top: 5px;
+  z-index: 2;
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--a-ink);
+  cursor: pointer;
+  opacity: 0;
+  scale: 0.82;
+  pointer-events: none;
+  transition: opacity var(--mm-dur-exit) var(--mm-ease-exit), scale var(--mm-dur-exit) var(--mm-ease-exit);
+}
+.st-rail__arrow--prev { left: calc(var(--st-pad) * -1 + 4px); }
+.st-rail__arrow--next { right: calc(var(--st-pad) * -1 + 4px); }
+.st-rail__disc {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--a-line-strong);
+  border-radius: 50%;
+  background: var(--a-raised-2);
+  box-shadow: inset 0 1px 0 var(--a-edge), 0 6px 16px -8px var(--st-shadow);
+  transition: background-color 160ms ease, border-color 160ms ease, transform var(--mm-press-lift-dur) var(--mm-press-lift);
+}
+.st-rail__arrow--prev .st-rail__disc svg { margin-left: -1px; }
+.st-rail__arrow--next .st-rail__disc svg { margin-right: -1px; }
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .st-rail__disc {
+    background: color-mix(in srgb, var(--a-raised-2) 82%, transparent);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    backdrop-filter: blur(12px) saturate(1.4);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .st-rail__arrow { display: grid; }
+  .st-rail[data-overflow]:not([data-at-start]) .st-rail__arrow--prev,
+  .st-rail[data-overflow]:not([data-at-end]) .st-rail__arrow--next {
+    opacity: 1;
+    scale: 1;
+    pointer-events: auto;
+    transition: opacity var(--mm-dur-glide) var(--mm-ease-glide), scale var(--mm-spring-smooth-dur) var(--mm-spring-smooth);
+  }
+  .st-rail__arrow:hover .st-rail__disc { background: var(--a-hover); border-color: var(--a-select); }
+  .st-rail__arrow:active .st-rail__disc { transform: scale(var(--mm-pressed-scale)); transition-duration: 160ms, 160ms, var(--mm-spring-snappy-dur); transition-timing-function: ease, ease, var(--mm-spring-snappy); }
+}
 .st-chip {
   position: relative;
   display: inline-flex;
@@ -301,6 +385,8 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
   .st-hero__text { display: contents; }
   .st-hero__eyebrow, .st-hero__title { grid-column: 1; }
   .st-hero__art { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+  /* The 132 px object drawn at the column's 96 px, whole (zoom scales its box, picture and shadow together). */
+  .st-hero__art > :first-child { zoom: 0.7273; }
   .st-hero__reason, .st-hero__go { grid-column: 1 / -1; }
   .st-hero__title { align-self: start; }
 }
@@ -440,6 +526,8 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 
 /* ---------- Reduced motion: hover and press without movement ---------- */
 :root[data-motion='reduced'] :is(.st-row, .st-chip, .st-close, .stk__disc, .st-row__art > *) { transition-property: background-color, border-color, color, box-shadow; transform: none !important; }
+:root[data-motion='reduced'] :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; transition-property: opacity, background-color, border-color; }
 @media (prefers-reduced-motion: reduce) {
   :is(.st-row, .st-chip, .st-close, .stk__disc, .st-row__art > *) { transition-property: background-color, border-color, color, box-shadow; transform: none !important; }
+  :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; transition-property: opacity, background-color, border-color; }
 }

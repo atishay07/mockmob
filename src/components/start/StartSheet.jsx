@@ -15,11 +15,12 @@
 // solid fill where backdrop-filter is missing.
 import Link from 'next/link';
 import { useCallback, useEffect, useId, useLayoutEffect, useRef } from 'react';
-import { X, Lock, Check, RefreshCw } from 'lucide-react';
+import { X, Lock, Check, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
 import { CreditMark } from '@/components/ui/Glyph';
 import { PipActor } from '@/components/brand/PipActor';
 import { RowArt, SubjectObject } from './StartArt';
 import { balanceLine, dragOffset, dragOutcome, springEasing, subjectName } from './startModel.mjs';
+import { useSubjectRail } from './useSubjectRail';
 
 const SETTLE = 'cubic-bezier(0.23, 1, 0.32, 1)';
 const SPRING_FALLBACK = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
@@ -100,6 +101,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
   const titleId = useId();
   const subjectsId = useId();
   const { hero = null, rows = [], choose = null, subjects = [], subject = null, pro = false, balance = null, planState = 'loading', selectSubject = () => {}, retry = () => {} } = model || {};
+  const { railRef, edges: railEdges, step: railStep } = useSubjectRail(subject, open && subjects.length > 1);
   // Read once as the sheet opens, so a re-render never re-opens or re-animates it.
   const opening = useRef({ initialRow, returnFocus });
   useEffect(() => { opening.current = { initialRow, returnFocus }; }, [initialRow, returnFocus]);
@@ -251,14 +253,25 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
         {subjects.length > 1 ? (
           <fieldset className="st-subjects" data-rise>
             <legend id={subjectsId} className="st-label">Subject</legend>
-            <div className="st-chips">
-              {subjects.map((id) => (
-                <label key={id} className="st-chip mk-press" data-on={id === subject || undefined}>
-                  <input type="radio" name={`${titleId}-subject`} value={id} checked={id === subject} onChange={() => selectSubject(id)} />
-                  <SubjectObject subject={id} size={30} lit={false} />
-                  <span>{subjectName(id)}</span>
-                </label>
-              ))}
+            {/* The row scrolls with a finger, a wheel, a mouse drag, the arrow keys and the two arrows
+                (useSubjectRail.js); the edges fade where more chips wait. */}
+            <div className="st-rail" data-overflow={railEdges.overflow || undefined} data-at-start={railEdges.start || undefined} data-at-end={railEdges.end || undefined}>
+              <div className="st-chips" ref={railRef}>
+                {subjects.map((id) => (
+                  <label key={id} className="st-chip mk-press" data-on={id === subject || undefined} data-subject={id}>
+                    <input type="radio" name={`${titleId}-subject`} value={id} checked={id === subject} onChange={() => selectSubject(id)} />
+                    <SubjectObject subject={id} size={30} lit={false} />
+                    <span>{subjectName(id)}</span>
+                  </label>
+                ))}
+              </div>
+              {/* Mouse only: keyboard users move through the radio group, touch scrolls natively. */}
+              <button type="button" className="st-rail__arrow st-rail__arrow--prev" tabIndex={-1} aria-hidden="true" onClick={() => railStep(-1)}>
+                <span className="st-rail__disc"><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" /></span>
+              </button>
+              <button type="button" className="st-rail__arrow st-rail__arrow--next" tabIndex={-1} aria-hidden="true" onClick={() => railStep(1)}>
+                <span className="st-rail__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
+              </button>
             </div>
           </fieldset>
         ) : null}

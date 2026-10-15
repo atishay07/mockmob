@@ -16,10 +16,31 @@ import { SegmentedControl as Segmented } from '@/components/ui/controls/Segmente
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import { Chip } from '@/components/ui/controls/Chip';
 import { SubjectObject } from '@/components/brand/SubjectObject';
+import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
+import './practice.css';
 
 const MODE_LIST = ['quick', 'full', 'smart'];
+// A pick is a choice, so the object answers it a little more than a passing tap (the app's 0.4).
+const PICK_AMPLITUDE = 0.7;
+
+function reducedMotion() {
+  try {
+    return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch { return false; }
+}
+
+// The chosen tile's object gives and settles on the app's tap spring, wherever on the tile the press
+// landed. A press on the object itself is already answered by its own life (with the sparkle).
+function answerPick(event) {
+  const tile = event.currentTarget;
+  if (event.target instanceof Element && event.target.closest('.subj-obj')) return;
+  if (reducedMotion()) return;
+  const layer = tile.querySelector('.subj-obj__react');
+  if (!layer || typeof layer.animate !== 'function') return;
+  layer.animate(tapKeyframes(PICK_AMPLITUDE), { duration: LIFE.reactMs, easing: 'linear' });
+}
 
 export default function DashboardPageClient() {
   const { user, status: authStatus } = useAuth();
@@ -345,9 +366,11 @@ export default function DashboardPageClient() {
                   const on = selSubj === subject.id;
                   const count = stats.subjectCounts?.[subject.internalId || subject.id];
                   return (
-                    <button key={subject.id} type="button" aria-pressed={on} className="pr-tile pr-subject"
-                      onClick={() => { setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
-                      <SubjectObject id={subject.internalId || subject.id} size={60} lit={on} className="pr-subject__obj" />
+                    <button key={subject.id} type="button" aria-pressed={on} className="pr-tile pr-subject mk-rim"
+                      onClick={(event) => { answerPick(event); setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
+                      {/* Drawn for the largest tile (practice.css sizes it: 60 px on phones, 104 px on desktop) and
+                          alive at every size; the lamp is always there and practice.css lights it on the chosen tile. */}
+                      <SubjectObject id={subject.internalId || subject.id} size={104} life lit className="pr-subject__obj" />
                       <span className="pr-subject__name">{subject.name}</span>
                       <span className="pr-subject__meta">
                         {subject.officialCode ? <i>{subject.officialCode}</i> : null}
@@ -368,7 +391,7 @@ export default function DashboardPageClient() {
                   const badge = modeBadge(id);
                   const on = effectiveModeId === id;
                   return (
-                    <button key={id} type="button" aria-pressed={on} className="pr-tile pr-mode" data-tone={badge.tone} onClick={() => chooseMode(id)}>
+                    <button key={id} type="button" aria-pressed={on} className="pr-tile pr-mode mk-rim" data-tone={badge.tone} onClick={() => chooseMode(id)}>
                       <span className="pr-mode__top">
                         <span className="pr-mode__icon"><ModeIcon id={id} size={20} /></span>
                         <span className="pr-badge" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={12} /> : null}{badge.text}</span>
@@ -388,7 +411,7 @@ export default function DashboardPageClient() {
               const on = effectiveModeId === 'nta';
               return (
                 <div className="pr-nta-wrap" data-on={on}>
-                  <button type="button" aria-pressed={on} className="pr-tile pr-nta" data-tone={badge.tone} onClick={() => chooseMode('nta')}>
+                  <button type="button" aria-pressed={on} className="pr-tile pr-nta mk-rim" data-tone={badge.tone} onClick={() => chooseMode('nta')}>
                     <span className="pr-nta__copy">
                       <span className="pr-mode__top">
                         <span className="pr-mode__icon"><ModeIcon id="nta" size={20} /></span>
