@@ -12,6 +12,7 @@
 //   - every counted option text must be one of this paper's options (an edited option drops the question);
 //   - two options of this paper with the same normalised text drop the question.
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { normalizeOptionComparable } from './option_compare.js';
 import { correctIndex } from './recovery.js';
 import { LAB_RULES } from './mistake_lab.js';
@@ -23,18 +24,30 @@ export function optionRawText(option) {
   return typeof option === 'string' ? option : option?.text ?? option?.label ?? option?.value ?? String(option ?? '');
 }
 
-/** sha256 of the option's comparable text, first 16 hex characters. */
-export function optionHash(text) {
-  return createHash('sha256').update(normalizeOptionComparable(optionRawText(text))).digest('hex').slice(0, 16);
+/**
+ * The text an option is matched by: whitespace runs collapsed to one space, trimmed, lower-cased. The snapshot's SQL
+ * (scripts/cohort/question_picks.sql) computes exactly this inside the database, so the export carries hashes, never
+ * option text. A rarer difference (an unusual space character, an edited word) gives a different hash, and the
+ * question is then dropped by the guards below: the counts are never mapped to the wrong option.
+ */
+export function optionKeyText(option) {
+  return optionRawText(option).replace(/\s+/g, ' ').trim().toLowerCase();
+}
+
+/** sha256 of the option's key text, first 16 hex characters (the SQL export's own hash). */
+export function optionHash(option) {
+  return createHash('sha256').update(optionKeyText(option), 'utf8').digest('hex').slice(0, 16);
 }
 
 let cached;
-/** The committed snapshot, read once; null when it is missing or malformed. */
+/**
+ * The committed snapshot, read once on first use (the same file-read pattern as data/evidence_registry.js, which the
+ * result route already runs in production); null when it is missing or malformed.
+ */
 export async function loadCohortSnapshot() {
   if (cached !== undefined) return cached;
   try {
-    const mod = await import('./cohort/question_picks.v1.json', { with: { type: 'json' } });
-    const snap = mod.default;
+    const snap = JSON.parse(readFileSync(new URL('./cohort/question_picks.v1.json', import.meta.url), 'utf8'));
     cached = snap && snap.version === COHORT_SNAPSHOT_VERSION && snap.questions && typeof snap.questions === 'object' ? snap : null;
   } catch {
     cached = null;
@@ -81,6 +94,9 @@ export function cohortForAttempt({ attempt, allAttempts = [], answerReviews = {}
     const options = Array.isArray(q.options) ? q.options : [];
     const hashes = options.map(optionHash);
     if (!hashes.length || new Set(hashes).size !== hashes.length) continue;
+    // Two options that read the same once normalised (data/option_compare.js) cannot be told apart by a student.
+    const comparable = options.map((o) => normalizeOptionComparable(optionRawText(o)));
+    if (new Set(comparable).size !== comparable.length) continue;
     const keyIndex = correctIndex(q);
     if (!Number.isInteger(keyIndex) || keyIndex < 0 || hashes[keyIndex] !== entry.keyHash) continue;
     const at = new Map(hashes.map((h, i) => [h, i]));

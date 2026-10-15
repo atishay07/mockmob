@@ -12,6 +12,7 @@ import { isValidTopSyllabusPair } from '../canonical_syllabus.js';
 import { buildMissedBefore } from '../../src/components/recovery/repairRun.js';
 import { buildSwot, resultHistory, SWOT_RULES, SWOT_COPY } from '../mock_swot.js';
 import { buildMistakeInsights } from '../mistake_insights.js';
+import { buildMistakeLab } from '../mistake_lab.js';
 import { buildLedger } from '../attempt_ledger.js';
 import { getCanonicalChapters } from '../canonical_syllabus.js';
 
@@ -363,16 +364,20 @@ test('the record line and the SWOT record evidence give the same numbers', () =>
   assert.deepEqual(insights[shareCapitalWrong].evidence.chapter, { right, answered, papers });
 });
 
-test('the route helper: a failed history read still returns, with swot null and mistakeInsights {}', async () => {
+test('the route helper: a failed history read still returns, with swot null, lab null and mistakeInsights {}', async () => {
   const s = FIX.three_mocks_repeat_loss;
   const warned = [];
   const failed = await resultHistory({ attempt: s.attempt, loadAttempts: async () => { throw new Error('db down'); }, recapOf: () => ({}), missedBeforeOf: () => ({}), warn: (n) => warned.push(n) });
-  assert.deepEqual(failed, { recap: null, missedBefore: {}, mistakeInsights: {}, swot: null });
+  assert.deepEqual(failed, { recap: null, missedBefore: {}, mistakeInsights: {}, lab: null, swot: null });
   assert.deepEqual(warned, ['history']);
   const off = await resultHistory({ attempt: s.attempt, loadAttempts: async () => s.allAttempts, recapOf: () => null, missedBeforeOf: buildMissedBefore, swotEnabled: false });
   assert.ok(!('swot' in off));
   const ok = await resultHistory({ attempt: s.attempt, loadAttempts: async () => s.allAttempts, recapOf: () => ({ tone: 'default' }), missedBeforeOf: buildMissedBefore, now: s.now });
-  assert.deepEqual(ok.swot, swotOf(s));
+  // The Mistake Lab is built (no cohort reader given), and the SWOT leaves out what its ledger already shows.
+  assert.deepEqual(ok.lab, buildMistakeLab({ attempt: s.attempt, answerReviews: s.answerReviews }));
+  assert.equal(ok.lab.state, 'ready');
+  assert.deepEqual(ok.swot, buildSwot({ ...s, ledgerGroups: ok.lab.groups.map((g) => g.id) }));
+  assert.deepEqual(ok.swot.plan, swotOf(s).plan);
   assert.deepEqual(ok.mistakeInsights, insightsOf(s));
   const broken = await resultHistory({ attempt: s.attempt, loadAttempts: async () => s.allAttempts, recapOf: () => { throw new Error('x'); }, missedBeforeOf: buildMissedBefore, now: s.now });
   assert.equal(broken.recap, null);
@@ -386,6 +391,7 @@ test('the route helper: until the answer checks are ready, no record lines are b
     const out = await resultHistory({ attempt: s.attempt, answerReviewState: state, loadAttempts: async () => s.allAttempts, recapOf: () => null, missedBeforeOf: buildMissedBefore, now: s.now });
     if (state === undefined) { assert.ok(Object.keys(out.mistakeInsights).length > 0, 'the default is ready'); continue; }
     assert.deepEqual(out.mistakeInsights, {}, String(state));
+    assert.equal(out.lab, null, String(state));
     assert.equal(out.swot.state, 'checks_pending', String(state));
     assert.ok(Object.keys(out.missedBefore).length > 0, 'the earlier-miss facts do not depend on the checks');
   }
@@ -414,4 +420,58 @@ test('a weak chapter that fails the syllabus check gets no plan row, and the mix
   assert.ok(weak); assert.equal(weak.planId, null);
   assert.deepEqual(s.plan.map((p) => [p.practice.chapter, p.reason]), [[null, SWOT_COPY.mixedOnly]]);
   assert.equal(OUT.mixed_plan_fallback.plan[0].reason, SWOT_COPY.mixed);
+});
+
+// ---------- The Mistake Lab ledger beside the SWOT (spec tmp/mistake-lab-v4/SPEC.md 7, slice 1) ----------
+
+test('with the ledger on the page, the items it already shows leave the quadrants; "Do these next" is unchanged', () => {
+  const s = FIX.three_mocks_repeat_loss;
+  const base = swotOf(s);
+  const lab = buildMistakeLab({ attempt: s.attempt, answerReviews: s.answerReviews });
+  const ledgerGroups = lab.groups.map((g) => g.id);
+  assert.ok(ledgerGroups.includes('changed_from_right'));
+  const withLedger = buildSwot({ ...s, ledgerGroups });
+  const kinds = (swot) => swot.quadrants.flatMap((q) => q.items.map((i) => i.kind));
+  assert.ok(kinds(base).includes('changes_hurt'), 'the base read names the changes');
+  for (const [kind, covers] of Object.entries(SWOT_RULES.ledgerCovers)) {
+    if (covers.some((id) => ledgerGroups.includes(id))) assert.ok(!kinds(withLedger).includes(kind), kind);
+  }
+  assert.deepEqual(withLedger.plan, base.plan);
+  assert.deepEqual(withLedger.basis, base.basis);
+  // Chapter items stay: the ledger is about how marks were lost, not which chapters.
+  for (const k of kinds(base).filter((k) => !SWOT_RULES.ledgerCovers[k])) assert.ok(kinds(withLedger).includes(k), k);
+});
+
+test('a quadrant the ledger empties says where its item went; without ledgerGroups every fixture is unchanged', () => {
+  const qs = paper('lc', [['Accounting Ratios', 'RRRRRRRRRR'], ['Share Capital', 'RRRRRRRRRR'], ['Debentures', 'RRRRRRRRRR'], ['Cash Flow Statement', 'RRRRRRRBBB', { unopened: [7, 8, 9] }], ['Goodwill Valuation', 'RRRRRRBBBB', { unopened: [6, 7, 8, 9] }]]);
+  const a = makeAttempt({ id: 'ledger-covers', day: 6, qs });
+  const base = buildSwot({ attempt: a, allAttempts: [a], now: at(7) });
+  const quadrant = (swot, id) => swot.quadrants.find((q) => q.id === id);
+  assert.deepEqual(quadrant(base, 'threat').items.map((i) => i.kind), ['not_opened']);
+  assert.deepEqual(quadrant(base, 'opportunity').items.map((i) => i.kind), ['blanks']);
+  const covered = buildSwot({ attempt: a, allAttempts: [a], now: at(7), ledgerGroups: ['never_opened'] });
+  assert.deepEqual(quadrant(covered, 'threat').items, []);
+  assert.equal(quadrant(covered, 'threat').empty, SWOT_COPY.empty.inLedger);
+  assert.equal(quadrant(covered, 'opportunity').empty, SWOT_COPY.empty.inLedger);
+  assert.equal(SWOT_COPY.empty.inLedger, "This paper's version is in Where your marks went, above.");
+  assert.deepEqual(covered.plan, base.plan, 'the timed practice row stays');
+  // A quadrant that was empty anyway keeps its own empty line.
+  assert.equal(quadrant(covered, 'strength').empty, quadrant(base, 'strength').empty);
+  for (const name of NAMES) assert.deepEqual(buildSwot({ ...FIX[name], ledgerGroups: null }), OUT[name], name);
+});
+
+test('the route helper: the cohort reader feeds the Lab; when it fails the Lab is built without it', async () => {
+  const s = FIX.three_mocks_repeat_loss;
+  const seen = [];
+  const cohort = { since: '2026-04-21', until: '2026-10-15', coverage: { compared: 0, total: 50 }, byQid: {} };
+  const ok = await resultHistory({ attempt: s.attempt, loadAttempts: async () => s.allAttempts, recapOf: () => null, missedBeforeOf: buildMissedBefore, now: s.now,
+    cohortOf: async (args) => { seen.push(Object.keys(args).sort().join(',')); return cohort; } });
+  assert.deepEqual(seen, ['allAttempts,answerReviews,attempt']);
+  assert.deepEqual(ok.lab.cohort.fine[0], 'No question in this paper has answers from 10 or more other students yet.');
+  const warned = [];
+  const failed = await resultHistory({ attempt: s.attempt, loadAttempts: async () => s.allAttempts, recapOf: () => null, missedBeforeOf: buildMissedBefore, now: s.now,
+    cohortOf: async () => { throw new Error('snapshot unreadable'); }, warn: (n) => warned.push(n) });
+  assert.deepEqual(warned, ['cohort']);
+  assert.equal(failed.lab.state, 'ready');
+  assert.equal(failed.lab.cohort, null);
 });
