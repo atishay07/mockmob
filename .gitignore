@@ -67,3 +67,4 @@ mobile/android/**/*.keystore
 /data/study/sources/dict/
 /data/study/sources/*.tar.gz
 /data/study/sources/*.pdf
+dev-*.log
