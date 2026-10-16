@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { getGoal, saveGoal } from '@/lib/server/appPrefs';
+import { resolveGoalWeekdays } from '@/lib/studyWeekdays.mjs';
 
 export const dynamic = 'force-dynamic';
 const NO_STORE = { 'Cache-Control': 'no-store' };
@@ -13,12 +14,18 @@ export async function GET(request) {
   catch { return NextResponse.json({ error: 'unavailable' }, { status: 503, headers: NO_STORE }); }
 }
 
-// PUT { daysPerWeek: 1-7, pausedUntil?: 'YYYY-MM-DD' | null }. Pausing never removes earned history.
+// GET -> { daysPerWeek, timezone, pausedUntil, weekdays: [0..6] | null } (weekdays: 0 = Monday, null when none are held).
+// PUT { daysPerWeek?: 1-7, pausedUntil?: 'YYYY-MM-DD' | null, weekdays?: [0..6] | null }. Pausing never removes earned history.
+// weekdays sent: the plan is saved with the goal in one write and daysPerWeek is its count (it may be left out,
+// and when sent it must match). weekdays left out: the goal alone changes and the plan is kept only while its
+// count still matches. weekdays null: the plan is cleared. Own row only (the session user).
 export async function PUT(request) {
   const session = await auth(request);
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: NO_STORE });
   const body = await request.json().catch(() => null);
-  if (!body || !Number.isInteger(body.daysPerWeek) || body.daysPerWeek < 1 || body.daysPerWeek > 7) return bad('Choose between 1 and 7 days a week.');
+  if (!body || typeof body !== 'object' || Array.isArray(body)) return bad('Choose between 1 and 7 days a week.');
+  const goal = resolveGoalWeekdays(body);
+  if (!goal.ok) return bad(goal.message);
   let pausedUntil = null;
   if (body.pausedUntil != null) {
     const d = body.pausedUntil;
@@ -27,6 +34,6 @@ export async function PUT(request) {
     if (t - Date.now() > 100 * 86400000) return bad('A pause can last up to 100 days.');
     pausedUntil = d;
   }
-  try { return NextResponse.json(await saveGoal(session.user.id, { daysPerWeek: body.daysPerWeek, pausedUntil }), { headers: NO_STORE }); }
+  try { return NextResponse.json(await saveGoal(session.user.id, { daysPerWeek: goal.daysPerWeek, pausedUntil, weekdays: goal.weekdays }), { headers: NO_STORE }); }
   catch { return NextResponse.json({ error: 'unavailable' }, { status: 503, headers: NO_STORE }); }
 }

@@ -6,6 +6,7 @@
 // inside the live navigation without the restructure's navigation or glossary modules.
 //
 // Copy rules: sentence case, no "!", no em dash, no middle dots, 12-hour times.
+import { WEEKDAY_NAMES, WEEKDAY_SHORT, parseWeekdays, weekdaysLine } from '../../lib/studyWeekdays.mjs';
 
 // ---------------------------------------------------------------------------------------------
 // Your sheet: subjects (drawn with the shared SubjectObject, src/components/brand/SubjectObject.jsx)
@@ -94,10 +95,13 @@ export function walletLine(summary) {
 
 export const GOAL_PATH = '/api/me/goal';
 export const GOAL_DAYS = Object.freeze([1, 2, 3, 4, 5, 6, 7]);
+// The weekday chips, Monday first (0 = Monday, the number the server and the app share).
+export const GOAL_WEEKDAYS = Object.freeze(WEEKDAY_NAMES.map((name, index) => Object.freeze({ index, name, short: WEEKDAY_SHORT[index] })));
 
 export const GOAL_COPY = Object.freeze({
   title: 'Weekly goal',
-  question: 'How many days a week do you want to study?',
+  question: 'Which days do you want to study?',
+  noDaysYet: 'Choose at least one day.',
   counts: 'A study day is a day you finish a practice, a mock or a repair. Today and Progress plan around this number.',
   save: 'Save goal',
   saving: 'Saving',
@@ -128,7 +132,35 @@ export function goalSplitLine(days) {
 export function goalFromServer(body) {
   const days = body?.daysPerWeek;
   if (!Number.isInteger(days) || days < 1 || days > 7) return null;
-  return { days, set: body.set !== false, pausedUntil: typeof body.pausedUntil === 'string' ? body.pausedUntil : null };
+  // `weekdays` (0 = Monday) is believed only while its count is the goal; a server that sends none means "not chosen".
+  const parsed = parseWeekdays(body.weekdays);
+  const weekdays = parsed.ok && parsed.weekdays.length === days ? parsed.weekdays : null;
+  return { days, set: body.set !== false, pausedUntil: typeof body.pausedUntil === 'string' ? body.pausedUntil : null, weekdays };
+}
+
+/** The chip list after a tap: the day is added or removed, always sorted, never a repeat. */
+export function toggleWeekday(list, day) {
+  const base = Array.isArray(list) ? list.filter((d) => Number.isInteger(d) && d >= 0 && d < 7) : [];
+  const next = base.includes(day) ? base.filter((d) => d !== day) : [...base, day];
+  return [...new Set(next)].sort((a, b) => a - b);
+}
+
+/** True when two weekday lists hold the same days. */
+export function sameWeekdays(a, b) {
+  const x = Array.isArray(a) ? [...a].sort((p, q) => p - q) : null;
+  const y = Array.isArray(b) ? [...b].sort((p, q) => p - q) : null;
+  return x !== null && y !== null && x.length === y.length && x.every((d, i) => d === y[i]);
+}
+
+/** Under the chips when the server holds a goal but no days: the goal stays, the days are the student's to pick. */
+export function goalDaysNotChosenLine(days) {
+  return `Your goal is ${days} ${days === 1 ? 'day' : 'days'} a week. Choose which days.`;
+}
+
+/** "You study Mon, Tue, Thu and Sat." (nothing for an empty plan). */
+export function goalWeekdaysLine(weekdays) {
+  const line = weekdaysLine(weekdays);
+  return line ? `You study ${line}.` : '';
 }
 
 const dayKey = (now) => {
@@ -143,8 +175,10 @@ export function activePause(pausedUntil, now = Date.now()) {
 }
 
 /** The body of a goal save. The server replaces the whole row, so a pause made in the app is sent back. */
-export function goalSaveBody(days, pausedUntil, now = Date.now()) {
-  return { daysPerWeek: days, pausedUntil: activePause(pausedUntil, now) };
+export function goalSaveBody(days, pausedUntil, now = Date.now(), weekdays = undefined) {
+  const body = { daysPerWeek: days, pausedUntil: activePause(pausedUntil, now) };
+  if (Array.isArray(weekdays)) body.weekdays = [...weekdays].sort((a, b) => a - b);
+  return body;
 }
 
 /** "Study days are paused until 2 Nov. Changing the goal keeps the pause." or null. */
@@ -169,7 +203,7 @@ export function goalSavedLine(date = new Date()) {
 /** The line for a save that did not happen. Nothing was changed in every case. */
 export function goalErrorLine(error) {
   if (error?.kind === 'network') return 'We could not reach MockMob. Your goal was not changed. Check your connection and try again.';
-  if (error?.status === 422) return 'That goal was not accepted. Pick a number from 1 to 7.';
+  if (error?.status === 422) return 'That goal was not accepted. Pick from 1 to 7 days.';
   if (error?.status === 401) return 'Your session has ended. Sign in again, then set your goal.';
   return 'We could not save your goal. Nothing was changed. Try again.';
 }

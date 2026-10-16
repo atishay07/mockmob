@@ -434,11 +434,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // Badges and personal bests (Progress). ?badges=none: one set and nothing earned from papers; ?data=empty has no papers.
     if (url.pathname === '/api/me/study-record') return json(state === 'empty' ? buildStudyRecord([], []) : previewStudyRecord(fixture.get('badges')));
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
-    if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null });
+    if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: null });
     if (url.pathname === '/api/me/goal' && method === 'PUT') {
       if (state === 'save-error') return json({ error: 'Fixture goal save failure' }, 503);
       const body = JSON.parse(init.body || '{}');
-      window.__previewGoal = { daysPerWeek: body.daysPerWeek, timezone: 'Asia/Kolkata', pausedUntil: body.pausedUntil ?? null };
+      const weekdays = Array.isArray(body.weekdays) ? body.weekdays : (window.__previewGoal?.daysPerWeek === body.daysPerWeek ? window.__previewGoal.weekdays ?? null : null);
+      window.__previewGoal = { daysPerWeek: Array.isArray(body.weekdays) ? body.weekdays.length : body.daysPerWeek, timezone: 'Asia/Kolkata', pausedUntil: body.pausedUntil ?? null, weekdays };
       return json(window.__previewGoal);
     }
     // Usage data choice (Account): an adult with usage data off; a save echoes the choice, nothing is stored or deleted.

@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 import {
   ACCOUNT_ANCHORS, COMMUNITY_ROWS, GOAL_COPY, GUIDE_EVENT, HELP_ROWS, SUBJECTS_EDIT_HREF, SUBJECT_LIMIT,
   activePause, anchorFromHash, formatTime12, goalErrorLine, goalFromServer, goalPauseLine, goalSaveBody, goalSavedLine,
-  goalSplitLine, mocksSummary, sheetSubjects, subjectCountLine, subjectName, walletLine,
+  goalSplitLine, goalDaysNotChosenLine, goalWeekdaysLine, sameWeekdays, toggleWeekday, GOAL_WEEKDAYS, mocksSummary, sheetSubjects, subjectCountLine, subjectName, walletLine,
 } from '../../src/components/profile/accountModel.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -61,7 +61,7 @@ test('weekly goal: what the server says, what a save sends, and the words', () =
   assert.equal(goalFromServer({ daysPerWeek: 8 }), null);
   assert.equal(goalFromServer(null), null);
   // The live server sends no `set`: the days in force are the goal.
-  assert.deepEqual(goalFromServer({ daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null }), { days: 4, set: true, pausedUntil: null });
+  assert.deepEqual(goalFromServer({ daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null }), { days: 4, set: true, pausedUntil: null, weekdays: null });
   assert.equal(goalFromServer({ daysPerWeek: 4, set: false }).set, false);
 
   const now = new Date(2026, 9, 15, 12).getTime();
@@ -75,6 +75,27 @@ test('weekly goal: what the server says, what a save sends, and the words', () =
   assert.match(goalPauseLine('2026-11-02', now), /^Study days are paused until 2 Nov\. Changing the goal keeps the pause\.$/);
   assert.equal(goalPauseLine(null, now), null);
 
+  // The chosen weekdays (0 = Monday) are believed only while their count is the goal.
+  assert.deepEqual(goalFromServer({ daysPerWeek: 4, weekdays: [5, 0, 3, 1] }).weekdays, [0, 1, 3, 5]);
+  assert.equal(goalFromServer({ daysPerWeek: 3, weekdays: [0, 1, 3, 5] }).weekdays, null);
+  assert.equal(goalFromServer({ daysPerWeek: 2, weekdays: [0, 9] }).weekdays, null);
+  assert.equal(goalFromServer({ daysPerWeek: 2, weekdays: 'Mon' }).weekdays, null);
+  assert.deepEqual(goalSaveBody(4, '2026-10-20', now, [5, 3, 1, 0]), { daysPerWeek: 4, pausedUntil: '2026-10-20', weekdays: [0, 1, 3, 5] });
+  assert.equal('weekdays' in goalSaveBody(4, null, now), false);
+  assert.deepEqual(GOAL_WEEKDAYS.map((d) => d.short), ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']);
+  assert.equal(GOAL_WEEKDAYS[0].name, 'Monday');
+  assert.deepEqual(toggleWeekday([0, 3], 1), [0, 1, 3]);
+  assert.deepEqual(toggleWeekday([0, 1, 3], 1), [0, 3]);
+  assert.deepEqual(toggleWeekday(null, 6), [6]);
+  assert.deepEqual(toggleWeekday([2, 2, 9, -1], 4), [2, 4]);
+  assert.equal(sameWeekdays([3, 1], [1, 3]), true);
+  assert.equal(sameWeekdays([1], [1, 3]), false);
+  assert.equal(sameWeekdays(null, [1]), false);
+  assert.equal(sameWeekdays(null, null), false);
+  assert.equal(goalDaysNotChosenLine(3), 'Your goal is 3 days a week. Choose which days.');
+  assert.equal(goalDaysNotChosenLine(1), 'Your goal is 1 day a week. Choose which days.');
+  assert.equal(goalWeekdaysLine([0, 1, 3, 5]), 'You study Mon, Tue, Thu and Sat.');
+  assert.equal(goalWeekdaysLine([]), '');
   assert.equal(goalSplitLine(4), '4 study days and 3 rest days.');
   assert.equal(goalSplitLine(1), '1 study day and 6 rest days.');
   assert.equal(goalSplitLine(6), '6 study days and 1 rest day.');
