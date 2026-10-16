@@ -18,7 +18,7 @@ export default function StudyHelp({runId,revision,itemId,preview=false}) {
     flight.current=true;setBusy(true);setError('');
     request.current ||= {message:question.trim(),mode:'revision',studyRunId:runId,studyRevision:revision,studyItemId:itemId,requestId:crypto.randomUUID().replaceAll('-','')};
     setPending(true);
-    try { const out=await apiPost('/api/ai/mentor/chat',request.current);setReply(out.reply || out.response?.reply || 'Open PrepOS to continue.');setSent(true); }
+    try { const out=await apiPost('/api/ai/mentor/chat',request.current);setReply(out.reply || out.response?.reply || 'Open Ask Mobi to continue.');setSent(true); }
     catch(e){
       const code=e.message || '';
       setError(e.body?.message || (/insufficient|402/.test(code) ? 'You have no AI credits left. The lesson and recall cards remain free.' : 'The reply could not be confirmed. Retry this same request; it will not start a second paid reply.'));

@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
-import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
 import { breadcrumbJsonLd, seoMetadata, siteConfig } from '@/lib/seo';
 
@@ -12,31 +11,12 @@ export const metadata = seoMetadata({
   path: '/contact',
 });
 
-const CHANNELS = [
-  {
-    title: 'Student support',
-    body: 'Account access, mock issues, credits, or anything broken. Include the email you signed up with.',
-    subject: 'Support%20request',
-    note: 'Include the email on your account so we can find the right record.',
-  },
-  {
-    title: 'Payments and refunds',
-    body: 'Charged but access not active, duplicate payment, or a refund request. Include your Razorpay payment ID if you have it.',
-    subject: 'Payment%20issue',
-    note: 'Include your Razorpay payment ID if you have it. Do not send card or bank credentials.',
-  },
-  {
-    title: 'Report a wrong question',
-    body: 'Spotted a possible answer-key or question issue? Send the question text or a screenshot so we can investigate it.',
-    subject: 'Question%20report',
-    note: 'Uncertain content is held until its evidence checks are complete.',
-  },
-  {
-    title: 'Partnership enquiries',
-    body: 'For school, institute, or creator enquiries, describe the idea and the audience you have in mind.',
-    subject: 'Partnership',
-    note: 'We will review the request and reply if there is a fit.',
-  },
+// One address and one action; then what to put in the email for each kind of question, as a plain list.
+const TOPICS = [
+  ['Account or a mock', 'Account access, mock issues, credits or anything broken. Include the email you signed up with.'],
+  ['Payment or refund', 'Charged but access not active, a duplicate payment or a refund request. Include your Razorpay payment ID if you have it. Never send card or bank details.'],
+  ['A wrong question', 'A possible answer-key or question issue. Send the question text or a screenshot. Uncertain content is held until its checks are complete.'],
+  ['Partnerships', 'School, institute or creator enquiries. Describe the idea and the audience you have in mind.'],
 ];
 
 export default function ContactPage() {
@@ -56,27 +36,16 @@ export default function ContactPage() {
           <div className="mm-wrap mm-wrap--tight">
             <h1 className="mm-h1">Tell us what happened.</h1>
             <p className="mm-lead" style={{ marginTop: '1rem', maxWidth: '48ch' }}>
-              No ticket walls, no chatbots pretending to help. Pick the lane that matches your
-              question so it lands with the right context.
+              Email {siteConfig.email}. We reply within a day.
             </p>
-          </div>
-        </section>
+            <p style={{ marginTop: '1.5rem' }}>
+              <a className="mm-btn mm-btn--primary" href={`mailto:${siteConfig.email}?subject=MockMob%20support`}>Email support</a>
+            </p>
 
-        <section className="mm-section">
-          <div className="mm-wrap mm-wrap--tight">
-            <ul className="mm-channels">
-              {CHANNELS.map((channel) => (
-                <li key={channel.title} className="mm-channel">
-                  <h2 className="mm-h3">{channel.title}</h2>
-                  <p className="mm-channel__body">{channel.body}</p>
-                  <a
-                    className="mm-btn mm-btn--secondary mm-channel__cta"
-                    href={`mailto:${siteConfig.email}?subject=${channel.subject}`}
-                  >
-                    {siteConfig.email}
-                  </a>
-                  <p className="mm-channel__note">{channel.note}</p>
-                </li>
+            <h2 className="mm-h3" style={{ marginTop: '2.5rem' }}>What to include</h2>
+            <ul className="ct-list">
+              {TOPICS.map(([title, body]) => (
+                <li key={title}><b>{title}</b><span>{body}</span></li>
               ))}
             </ul>
 
@@ -109,7 +78,12 @@ export default function ContactPage() {
       </main>
 
       <MarketingFooter />
-      <MobileDock note="Support replies within 24h." />
+      <style>{`
+        .ct-list { list-style: none; margin: 1rem 0 0; padding: 0; border-bottom: 1px solid var(--line); }
+        .ct-list li { display: grid; gap: 0.25rem; padding: 1rem 0; border-top: 1px solid var(--line); }
+        .ct-list b { font: 700 1rem/1.35 var(--font-display); color: var(--ink); }
+        .ct-list span { max-width: 64ch; font-size: 0.9375rem; line-height: 1.6; color: var(--ink-2); }
+      `}</style>
     </div>
   );
 }

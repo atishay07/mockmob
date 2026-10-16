@@ -98,7 +98,7 @@ export default function RecoveryOverview({ view }) {
   const [changes, setChanges] = useState(null);
   const [shrug, setShrug] = useState(false); // a failed read shrugs once per run, not on every retry
   const wait = useWaitStage(!data && !error);
-  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your recovery record could not be loaded. Please try again.'); setShrug(oopsRun(`record:${view}`)); } }); return () => { alive = false; }; }, [retryCount, view]);
+  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your record did not load.'); setShrug(oopsRun(`record:${view}`)); } }); return () => { alive = false; }; }, [retryCount, view]);
   const retry = () => { setData(null); setError(''); setRetryCount(n => n + 1); };
   const review = data?.ordinaryReview || [];
   const toReview = review.reduce((s, a) => s + (a.mistakes || 0), 0);
@@ -112,7 +112,7 @@ export default function RecoveryOverview({ view }) {
   const newest = review[0] || null;
   const milestoneLine = (m) => {
     if (m.kind === 'first_session' && review.length > 1 && newest) {
-      return { title: `Newest: ${[subjectLabel(newest.subject), when(newest.completedAt)].filter(Boolean).join(', ')}`, detail: null, link: 'Open it', href: `/result/${newest.id}` };
+      return { title: `Newest: ${[subjectLabel(newest.subject), when(newest.completedAt)].filter(Boolean).join(', ')}`, detail: null, link: `Open ${[subjectLabel(newest.subject), when(newest.completedAt)].filter(Boolean).join(', ')}`, href: `/result/${newest.id}` };
     }
     const said = MILESTONES[m.kind];
     return { title: said?.title || m.title, detail: said ? null : m.detail, link: said?.link || 'Open record', href: m.href };
@@ -124,13 +124,14 @@ export default function RecoveryOverview({ view }) {
       {view === 'review' ? (
         <ArenaHead title="Review what mattered." lede="Open a session to see why each miss happened." />
       ) : (
-        <ArenaHead title="Let fresh practice be your evidence." lede="Your saved sessions, your recovery checks and your exam playbook, in one place." />
+        <ArenaHead title="Your study days and checks." lede="Your saved sessions, your recovery checks and your exam playbook, in one place." />
       )}
 
       {error ? <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error} <button type="button" className="pr-link" onClick={retry}>Try again</button></div></div> : null}
       {!data && !error ? <div className="rv-skel" role="status" aria-label="Loading your record"><i /><i /><i /></div> : null}
       {!data ? <ArenaCompanion compact act={error ? (shrug ? 'oops' : 'idle') : wait === 'long' ? 'loading' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Your record can wait a moment.' : 'Opening your saved record.'}>{error ? 'Try again when you are ready.' : 'Your sessions and checks will appear here.'}</ArenaCompanion> : null}
-      {data && review.length > 0 ? <ArenaCompanion compact act="read" pose="attentive" title={`${count(review.length, 'session')} saved.`}>{toReview ? `${count(toReview, 'question')} to look at.` : 'Nothing left to look at. Every answer was right.'}</ArenaCompanion> : null}
+      {/* Review's figures below say the same counts, so Mobi's count line is kept to Progress. */}
+      {data && review.length > 0 && view !== 'review' ? <ArenaCompanion compact act="read" pose="attentive" title={`${count(review.length, 'session')} saved.`}>{toReview ? `${count(toReview, 'question')} to look at.` : 'Nothing left to look at. Every answer was right.'}</ArenaCompanion> : null}
       {data?.milestones?.length ? <div className="rv-notes" role="group" aria-label="Recorded milestones">{data.milestones.map(m => { const line = milestoneLine(m); return <p key={m.kind} className="rv-note"><b>{line.title}</b><span>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></span></p>; })}</div> : null}
 
       {data && view === 'review' ? (

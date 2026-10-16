@@ -214,3 +214,4 @@
   outline-offset: 2px;
   border-radius: var(--r-1);
 }
+.auth-card__why { display: block; margin-top: -0.25rem; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); }

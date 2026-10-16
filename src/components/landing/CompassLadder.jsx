@@ -11,7 +11,7 @@ import { ArrowRight, Play, Pause } from 'lucide-react';
 const AXIS_MIN = 0;
 const AXIS_MAX = 1000;
 const pct = (v) => Math.min(100, Math.max(0, ((v - AXIS_MIN) / (AXIS_MAX - AXIS_MIN)) * 100));
-const ROUND_LABEL = { 'round-1': 'Round I', 'round-2': 'Round II', 'round-3': 'Round III' };
+const ROUND_LABEL = { 'round-1': 'Round 1', 'round-2': 'Round 2', 'round-3': 'Round 3' };
 // The tour eases back and forth across this band, where the showcased cutoffs sit.
 const SWEEP_LOW = 600;
 const SWEEP_HIGH = 960;

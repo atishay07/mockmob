@@ -13,7 +13,11 @@
 .tr__chip i { font-style: normal; font-size: 12px; color: var(--a-ink-3); }
 .tr__chip[data-tone='up'] { border-color: var(--a-volt-line); }
 .tr__chip[data-tone='up'] b { color: var(--a-accent-text); }
-.tr__chip[data-tone='down'] b { color: var(--a-bad-text); }
+/* A lower score is not a danger state (R-015): the fall reads in plain ink, the words say "down". */
+.tr__chip[data-tone='down'] b { color: var(--a-ink); }
+/* The scrub rule shows only while the student is reading the chart, not as a stray line at the last point. */
+.tr__plot:not(:hover):not(:focus-visible):not(:active) .tr__rule { opacity: 0; }
+.tr__plot { padding-right: 10px; }
 
 .rd-bar { grid-column: 2 / -1; display: block; height: 5px; margin-top: 4px; border-radius: 999px; background: var(--a-line); overflow: hidden; }
 .rd-bar i { display: block; height: 100%; width: 100%; border-radius: inherit; background: var(--a-select); transform: scaleX(var(--w, 1)); transform-origin: left center; transition: transform 800ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) var(--rd-delay, 0ms); }
@@ -25,11 +29,10 @@
 /* Across your mocks at the top of the record (AcrossMocks.jsx): its link to the Rule book, its wait and its failure. */
 .rd-main > .am { margin-bottom: 20px; }
 .rd-rules {
-  justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px;
-  border: 1px solid var(--a-line-strong); color: var(--a-ink); font: 700 14px/1.2 var(--font-display); text-decoration: none; font-variant-numeric: tabular-nums;
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; color: var(--a-ink); font: 700 14px/1.2 var(--font-display); font-variant-numeric: tabular-nums;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong);
 }
-.rd-rules svg { color: var(--a-accent-text); }
-.rd-rules:hover { border-color: var(--a-volt-line); background: var(--a-volt-wash); }
+.rd-rules:hover { text-decoration-color: currentColor; }
 .rd-rules:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .rd-across-wait { height: 84px; margin-bottom: 20px; border-radius: 18px; }
 .rd-across-fail { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0 0 20px; font-size: 14px; color: var(--a-ink-2); }

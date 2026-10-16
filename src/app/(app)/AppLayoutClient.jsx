@@ -210,7 +210,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       onClick={onNavigate}
     >
       <AppIcon name={tab.icon} />
-      {tab.label}
+      <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
     </Link>
   );
   const currentTitle = allTabs.find((tab) => isActive(tab.id))?.label

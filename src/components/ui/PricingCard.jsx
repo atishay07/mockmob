@@ -17,7 +17,6 @@ export function PricingCard({
 }) {
   return (
     <article className="mm-plan" data-featured={featured ? 'true' : 'false'}>
-      {featured ? <p className="mm-plan__flag">Full access</p> : null}
 
       <div className="mm-plan__head">
         <h3 className="mm-plan__name">{name}</h3>

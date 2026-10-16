@@ -190,3 +190,9 @@ html[data-motion='reduced'] .ml-seg[data-lift] { transform: none; }
 @keyframes ml-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 @keyframes ml-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @keyframes ml-arrive { 15%, 70% { color: var(--a-accent-text, #d2f000); } }
+
+/* Inside the Lab card the ledger is a ruled list, not a stack of boxes (no cards in a card). */
+.ml-rows { gap: 0 !important; border-bottom: 1px solid var(--a-line, #253026); }
+.ml-row { border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: transparent; }
+.ml-row > button, .ml-row__head { border-radius: 0; }
+.ml-remark { padding: 14px 0; border-radius: 0; background: transparent; border-block: 1px solid var(--a-line, #253026); }

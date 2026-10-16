@@ -48,8 +48,8 @@ test('the result hero follows the app recap table', () => {
   assert.equal(recapReaction({ tone: 'higher', celebrations: 'off' }).act, 'rest');
   assert.equal(recapReaction({ tone: 'lower', celebrations: 'off' }).act, 'encourage');
   assert.equal(recapReaction({ tone: 'higher', isNta: true }), null);
-  assert.deepEqual(recapReaction({ tone: 'higher', hour: 23 }), { act: 'sleepy', line: 'Goodnight.' });
-  assert.deepEqual(recapReaction({ tone: 'higher', hour: 3 }), { act: 'sleepy', line: 'Goodnight.' });
+  assert.deepEqual(recapReaction({ tone: 'higher', hour: 23 }), { act: 'sleepy', line: 'Saved. Repair one mistake tomorrow.' });
+  assert.deepEqual(recapReaction({ tone: 'higher', hour: 3 }), { act: 'sleepy', line: 'Saved. Repair one mistake tomorrow.' });
 });
 
 test('the result page asks for the same hero from an attempt, and never in an NTA attempt', () => {
@@ -57,7 +57,7 @@ test('the result page asks for the same hero from an attempt, and never in an NT
   assert.equal(mobiReaction({ recap: { tone: 'held' } }).alt.includes('answer keys'), true);
   assert.equal(mobiReaction({ recap: {} }).act, 'rest');
   assert.equal(mobiReaction({ selectionMeta: { mode: 'nta' }, recap: { tone: 'higher' } }), null);
-  assert.equal(mobiReaction({ recap: { tone: 'higher' } }, { hour: 2 }).line, 'Goodnight.');
+  assert.equal(mobiReaction({ recap: { tone: 'higher' } }, { hour: 2 }).line, 'Saved. Repair one mistake tomorrow.');
 });
 
 test('an opened answer: wrong or blank encourages then points, right hops then reads, held says nothing', () => {

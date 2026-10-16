@@ -96,3 +96,7 @@ html[data-theme='dark'] .mm-theme-hint b { color: #4f6400; }
 @keyframes mm-theme-nudge { 0%, 100% { box-shadow: 0 0 0 0 rgba(150,185,0,0); } 50% { box-shadow: 0 0 0 7px rgba(150,185,0,.28); } }
 @keyframes mm-theme-hint-in { from { opacity: 0; transform: translateY(-6px) scale(.96); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .mm-theme-toggle[data-hint='true'] .mm-theme-toggle__sky { animation: none; box-shadow: 0 0 0 4px rgba(150,185,0,.28); } .mm-theme-hint { animation: none; } }
+/* Floating UI never covers controls (A-001): the first-visit theme hint stays away from pages with a sticky summary bar,
+   and the bottom dock steps aside while the menu sheet is open. */
+body:has(.du-sum) .mm-theme-hint, body:has(.cp-sum) .mm-theme-hint { display: none; }
+body:has(#mm-nav-sheet) .mm-dock { opacity: 0; pointer-events: none; }

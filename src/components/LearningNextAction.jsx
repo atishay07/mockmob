@@ -141,7 +141,7 @@ export default function LearningNextAction({ compact = false, why = null }) {
             <SegmentedControl size="sm" label="Time for practice" value={minutes ?? plan?.minutes} busy={choosing} onChange={chooseTime} options={TIME_OPTIONS} />
           </fieldset>
           {error ? (
-            <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error} <button type="button" className="pr-link" onClick={retry}>Try again</button> <Link className="pr-link" href="/review">Open Review</Link></div></div>
+            <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error}<span className="na__acts"><button type="button" className="pr-link" onClick={retry}>Try again</button><Link className="pr-link" href="/review">Open Review</Link></span></div></div>
           ) : !plan ? (
             <div className="na__skeleton" role="status" aria-label="Loading tonight’s plan"><i /><i /><i /></div>
           ) : (

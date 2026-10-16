@@ -50,8 +50,9 @@ async function load(userId, { quiet = false } = {}) {
   }
 }
 
-/** Runs one change after the earlier ones. `next` is the list to show now; `send` returns the server body. */
-function change(next, send) {
+/** Runs one change after the earlier ones. `next` is the list to show now; `send` returns the server body;
+ *  `said` is the confirmation for the live region once the server has confirmed it (never before). */
+function change(next, send, said = '') {
   const token = store.token;
   const before = store.state.colleges;
   set({ colleges: next, busy: true, notice: '' });
@@ -62,7 +63,7 @@ function change(next, send) {
       const confirmed = fromServer(body);
       if (!confirmed) throw new Error('unexpected answer');
       store.loadedAt = Date.now();
-      set({ status: 'ready', colleges: confirmed, busy: false, notice: '' });
+      set({ status: 'ready', colleges: confirmed, busy: false, notice: said });
       return true;
     } catch (error) {
       if (token !== store.token) return false;
@@ -95,17 +96,18 @@ export function useMyColleges(userId) {
     const entry = normalizeEntry(raw);
     if (!entry || !userId) return Promise.resolve(false);
     const q = new URLSearchParams({ programmeId: entry.programmeId, college: entry.college });
-    return change(withRemoved(store.state.colleges, entry), () => api(`${COLLEGES_PATH}?${q}`, { method: 'DELETE' }));
+    return change(withRemoved(store.state.colleges, entry), () => api(`${COLLEGES_PATH}?${q}`, { method: 'DELETE' }), `Removed ${entry.college}.`);
   }, [userId]);
-  const replace = useCallback((list) => {
+  const replace = useCallback((list, said = '') => {
     if (!userId) return Promise.resolve(false);
     const entries = list.map(normalizeEntry).filter(Boolean);
-    return change(entries.map((e, i) => ({ ...e, position: i + 1 })), () => api(COLLEGES_PATH, { method: 'PUT', headers: JSON_HEADERS, body: JSON.stringify({ colleges: entries }) }));
+    return change(entries.map((e, i) => ({ ...e, position: i + 1 })), () => api(COLLEGES_PATH, { method: 'PUT', headers: JSON_HEADERS, body: JSON.stringify({ colleges: entries }) }), said);
   }, [userId]);
   const move = useCallback((from, to) => {
     const next = withMoved(store.state.colleges, from, to);
     if (next === store.state.colleges || !userId) return Promise.resolve(false);
-    return replace(next);
+    const moved = store.state.colleges[from];
+    return replace(next, moved ? `Moved ${moved.college} to ${to + 1}.` : '');
   }, [userId, replace]);
   const retry = useCallback(() => { store.loadedAt = 0; load(userId); }, [userId]);
 

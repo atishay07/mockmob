@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
-import { Icon } from '@/components/ui/Icons';
 import '@/app/nav-motion.css';
 
 // Thumb-zone action bar. Mobile only — on desktop the nav CTA carries this
@@ -24,7 +23,6 @@ export function MobileDock({ note = 'Free to start. No card.', label, href }) {
         {/* A jump within this page (the landing's "/#try-practice") never needs the route prefetched. */}
         <Link href={resolvedHref} prefetch={resolvedHref.split('#')[0] === pathname ? false : undefined} className="mm-btn mm-btn--primary">
           {resolvedLabel}
-          <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
         </Link>
       </div>
     </>

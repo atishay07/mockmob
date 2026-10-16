@@ -1,9 +1,9 @@
 /* The rule for this mock on Practice's session card and, on phones and tablets, on the dock above the tab bar
    (StartRule.jsx). Before the clock starts; never inside the timed paper. Arena tokens, so Day and Night both work. */
 
-/* Inside the session card it is a ruled note, not a second card: a volt rule down its left edge. */
+/* Inside the session card it is a ruled note, not a second card: a hairline above it (T-083: no thick side border). */
 .app-shell .pr-rule {
-  display: grid; gap: 4px; padding: 2px 0 2px 14px; border-left: 3px solid var(--a-select);
+  display: grid; gap: 4px; padding: 12px 0 2px; border-top: 1px solid var(--a-line);
 }
 .app-shell .pr-rule__text { display: grid; gap: 4px; min-width: 0; }
 .app-shell .pr-rule__text p { margin: 0; }

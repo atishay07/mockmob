@@ -178,7 +178,7 @@ export function readout(insights, { limit = 4 } = {}) {
   if (c.count >= 2) {
     out.push({ id: 'changes', kind: c.net < 0 ? 'leak' : c.net > 0 ? 'good' : 'info', n: c.count,
       headline: c.net < 0 ? `Changing answers has cost ${-c.net} marks net` : c.net > 0 ? `Changing answers has gained ${c.net} marks net` : 'Changing answers has been about even',
-      detail: `${c.count} changes across ${c.sessionsWithTelemetry} timed session${c.sessionsWithTelemetry === 1 ? '' : 's'}: ${c.gains} helped (${sign(c.marksGained)} marks) and ${c.losses} hurt (−${c.marksLost}). Both directions are counted.`,
+      detail: `${c.count} changes across ${c.sessionsWithTelemetry} saved timed session${c.sessionsWithTelemetry === 1 ? '' : 's'}: ${c.gains} helped (${sign(c.marksGained)} marks) and ${c.losses} hurt (−${c.marksLost}). Both directions are counted.`,
       action: { label: 'See your replay in Review', href: '/review' } });
   }
   const p = insights.pace;

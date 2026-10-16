@@ -18,6 +18,8 @@ export function PlanCard() {
   const pro = Boolean(user?.isPremium);
   const recurring = pro && Boolean(user?.razorpaySubscriptionId);
   const until = user?.premiumUntil || null;
+  // Not Pro but with an end date on record: Pro was held and has ended (the server clears isPremium at the end).
+  const ended = !pro && Boolean(until);
   const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : 0;
   const rolled = useCountUp(balance, { from: 0, duration: 900 });
 
@@ -67,9 +69,10 @@ export function PlanCard() {
         </>
       ) : (
         <>
+          {ended ? <p className="plan-card__lead">Your Pro access ended on <strong>{fmt(until)}</strong>. Your history and saved questions stay.</p> : null}
           <p className="plan-card__lead">Free uses practice credits: Quick practice costs 10 practice credits and Full mock costs 50.</p>
           <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} unitLabel="practice credits" /></div>
-          <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />See Pro</Link>
+          <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />{ended ? 'See Pro to renew' : 'See Pro'}</Link>
         </>
       )}
     </section>

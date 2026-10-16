@@ -206,10 +206,10 @@ export function learningPlan({ episodes = [], activeSession, attempts = [], subj
     const { count, review } = practiceForMinutes(duration);
     const upcoming = live.filter(e => e.nextDueAt && e.nextDueAt > now).sort((a,b) => a.nextDueAt - b.nextDueAt)[0];
     primary = action('ordinary_practice', `Start ${count} practice questions`, `/dashboard?mode=quick&count=${count}`,
-      `${count} questions, about ${count} minutes${review ? `, then ${review} minutes reviewing your mistakes` : ''}. ${availableConcepts.length ? 'No supported concept has been missed twice yet, so this is ordinary practice.' : 'Recovery content is awaiting source and calibration checks, so this is ordinary practice.'}`, [], [
+      `${count} questions, about ${count} minutes${review ? `, then ${review} minutes reviewing your mistakes` : ''}. ${availableConcepts.length ? 'No supported concept has been missed twice yet, so this is ordinary practice.' : 'Recovery steps are not open yet, so this is ordinary practice.'}`, [], [
         fact('record', `${plural(attempts.length, 'saved session')}.`),
         ...(upcoming ? [fact('record', `Your next fresh check (${upcoming.title}) opens ${istTime(upcoming.nextDueAt)}.`)] : []),
-        fact('rule', availableConcepts.length ? 'Recovery starts from a concept you have missed in two separate sessions.' : 'No recovery pathway has passed its release checks yet.')]);
+        fact('rule', availableConcepts.length ? 'Recovery starts from a concept you have missed in two separate sessions.' : 'Recovery steps are not open yet.')]);
   }
   return { primary, alternatives: [action('review', 'Review your mistakes', '/review', `${attempts.length} saved attempts.`), action('practice', 'Choose another subject', '/dashboard', 'Practice available content at your own pace.')].filter(a => a.href !== primary.href).slice(0, 2), minutes: duration };
 }

@@ -106,8 +106,8 @@ export default function CutoffCalculatorPage() {
               <li>
                 <h3 className="lp-h4">Cutoffs come in three rounds</h3>
                 <p>
-                  Round 1 is usually the highest. Rounds 2 and 3 show how far cutoffs fell as seats stayed vacant. Round
-                  III scores are independent of the earlier rounds.
+                  Round 1 is usually the highest. Rounds 2 and 3 show how far cutoffs fell as seats stayed vacant.
+                  Round 3 scores are independent of the earlier rounds.
                 </p>
               </li>
               <li>

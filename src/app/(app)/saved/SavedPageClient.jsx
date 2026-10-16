@@ -88,11 +88,10 @@ function SavedRow({ question, coarse, pending, shake, onRemove, onPractise, rowR
         <span className="sv-under__rm">Remove</span>
       </div>
       <div {...bind} className={`${bind.className} sv-card`}>
-        <QuestionCard row={question} onProgressChange={(event) => { if (event?.type === 'unsave') onRemove(question, { confirmed: true }); }} />
-      </div>
-      <div className="sv-actions">
-        {hasChapter ? <Link className="sv-act sv-act--go mk-press" href={href}>Practise {question.chapter ? 'this chapter' : subjectName(question.subject)}</Link> : <span />}
-        <button type="button" className="sv-act sv-act--rm mk-press" disabled={pending} onClick={() => onRemove(question)}>{pending ? 'Removing…' : 'Remove'}</button>
+        <QuestionCard row={question} variant="saved" onProgressChange={(event) => { if (event?.type === 'unsave') onRemove(question, { confirmed: true }); }} actions={<>
+          {hasChapter ? <Link className="sv-act sv-act--go mk-press" href={href}>Practise {question.chapter ? 'this chapter' : subjectName(question.subject)}</Link> : null}
+          <button type="button" className="sv-act sv-act--rm mk-press" disabled={pending} onClick={() => onRemove(question)}>{pending ? 'Removing…' : 'Remove'}</button>
+        </>} />
       </div>
     </li>
   );
@@ -248,7 +247,7 @@ export default function SavedPageClient() {
           <MobiReact act={shrug ? mobiMoment('setback') : 'idle'} size={84} />
           <div>
             <b>Your saved questions did not load</b>
-            <p>{error || 'Check your connection and try again.'} Nothing was removed.</p>
+            <p>Check your connection and try again. Nothing was removed.</p>
             <button type="button" className="ui-state__action ui-state__action--primary mk-press" onClick={loadSaved}>Try again</button>
           </div>
         </div>
@@ -267,7 +266,7 @@ export default function SavedPageClient() {
       {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
 
       {firstSave && questions.length ? (
-        <p className="sv-first" role="status"><MobiReact act={mobiMoment('saveConfirmed')} size={44} onDone={() => window.setTimeout(() => setFirstSave(false), 5000)} /><span>Your first saved question. It stays here until you remove it.</span></p>
+        <p className="sv-first" role="status"><MobiReact act={mobiMoment('saveConfirmed')} size={44} onDone={() => window.setTimeout(() => setFirstSave(false), 5000)} /><span>Saved. It stays here until you remove it.</span></p>
       ) : null}
 
       {questions.length === 0 ? (

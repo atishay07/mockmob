@@ -1,9 +1,8 @@
 "use client";
 
-// The leaderboard: practice points across recorded mocks. The top three read as a ranking, not three
-// equal cards: first place leads, the next two sit beside it. Below, every position in one ruled table.
-// "Your place" is only said when the signed-in student is on the board, with the denominator (how many
-// are listed). Simulated "Practice rival" entries are always labelled, in the row and in one plain line.
+// The leaderboard: practice points across recorded mocks, one ruled table of real students. Ranks and
+// "Your place" count real students only, with the denominator. A simulated "Practice rival" is never a
+// place on the board: it is shown as a labelled benchmark line beside the table.
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Avatar } from '@/components/ui/Avatar';
@@ -18,7 +17,6 @@ const ordinal = (n) => {
   if (rest >= 11 && rest <= 13) return `${n}th`;
   return `${n}${({ 1: 'st', 2: 'nd', 3: 'rd' })[n % 10] || 'th'}`;
 };
-const kindOf = (entry, you) => (entry.userId === you ? 'You' : entry.isSynthetic ? 'Practice rival' : 'Recorded practice');
 const points = (n) => (Number.isFinite(Number(n)) ? Number(n).toLocaleString('en-IN') : '0');
 
 function YourPlace({ entries, userId }) {
@@ -48,42 +46,38 @@ export default function LeaderboardPageClient() {
   }, []);
   useEffect(() => { let active = true; queueMicrotask(() => { if (active) load(); }); return () => { active = false; }; }, [load]);
   const retry = () => { setState('loading'); load(); };
+  const real = entries.filter((entry) => !entry.isSynthetic);
+  const rivals = entries.filter((entry) => entry.isSynthetic);
   const ready = state === 'ready' && entries.length > 0;
-  const top = entries.slice(0, 3);
   return <div className="student-page student-page--leaderboard ranks-page lb">
     <ArenaHead
       title="Keep good company. Keep practising."
       lede="Total MockMob points across recorded mocks. This board is separate from your CUET exam rank."
-      aside={ready ? <YourPlace entries={entries} userId={user?.id} /> : <Link href="/dashboard" className="lb-go">Start a practice session</Link>}
+      aside={ready ? <YourPlace entries={real} userId={user?.id} /> : <Link href="/dashboard" className="lb-go">Start a practice session</Link>}
     />
     {state === 'loading' && <SkeletonCard lines={6} />}
-    {state === 'error' && <ErrorState scene="unreachable" message="The board did not load. Check your connection and try again." onRetry={retry} />}
+    {state === 'error' && <ErrorState scene="unreachable" title="The board did not load" message="Check your connection and try again." onRetry={retry} />}
     {state === 'ready' && !entries.length && <EmptyState scene="nothingYet" title="The board is waiting for a score." message="Complete a timed mock to begin your practice record." />}
     {ready && <>
-      <ol className="lb-top" aria-label="Top three practice scores">
-        {top.map((entry, index) => (
-          <li key={entry.userId} data-rank={index + 1} data-you={entry.userId === user?.id || undefined}>
-            <span className="lb-top__rank" aria-label={`Rank ${index + 1}`}>{index === 0 ? '1st place' : index + 1}</span>
-            <div className="lb-top__who"><b>{entry.name || 'Mobber'}</b><small>{kindOf(entry, user?.id)}</small></div>
-            <strong className="lb-top__pts">{points(entry.totalScore)}<small>points</small></strong>
-          </li>
-        ))}
-      </ol>
       <div className="lb-table-wrap">
         <table className="lb-table">
           <caption className="sr-only">MockMob practice leaderboard</caption>
           <thead><tr><th scope="col">Rank</th><th scope="col">Mobber</th><th scope="col">Mocks</th><th scope="col">Points</th></tr></thead>
-          <tbody>{entries.map((entry, index) => (
+          <tbody>{real.map((entry, index) => (
             <tr key={entry.userId} data-you={entry.userId === user?.id}>
               <td>{index + 1}</td>
-              <th scope="row"><div className="lb-who"><Avatar name={entry.name} size="sm" /><span><b>{entry.name || 'Mobber'}</b><small>{entry.userId === user?.id ? 'You' : entry.isSynthetic ? 'Practice rival' : 'Mobber'}</small></span></div></th>
+              <th scope="row"><div className="lb-who"><Avatar name={entry.name} size="sm" /><span><b>{entry.name || 'Mobber'}</b><small>{entry.userId === user?.id ? 'You' : 'Mobber'}</small></span></div></th>
               <td>{entry.tests}</td>
               <td>{points(entry.totalScore)}</td>
             </tr>
           ))}</tbody>
         </table>
       </div>
-      {entries.some((entry) => entry.isSynthetic) && <p className="lb-note">Practice rivals are simulated benchmarks, not students or real exam results.</p>}
+      {rivals.length ? (
+        <ul className="lb-bench" aria-label="Benchmarks, not students">
+          {rivals.map((entry) => <li key={entry.userId}><b>{entry.name || 'Practice rival'}</b>, {points(entry.totalScore)} points. A simulated benchmark, not a student or a real exam result, so it takes no place on the board.</li>)}
+        </ul>
+      ) : null}
     </>}
   </div>;
 }

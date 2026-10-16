@@ -104,7 +104,7 @@ export function PlanScreen() {
   return (
     <figure className="mm-screen lp-plan-screen">
       <div className="mm-screen__bar">
-        PrepOS · Today
+        Ask Mobi, Today
         <span className="lp-badge">Example</span>
       </div>
       <div className="mm-screen__body">
@@ -119,7 +119,7 @@ export function PlanScreen() {
           ))}
         </ol>
       </div>
-      <figcaption className="lp-caption">Illustrative plan. The live next action comes from the same record used by Today and Radar.</figcaption>
+      <figcaption className="lp-caption">Illustrative plan. The live next action comes from the same record used by Today and chapter review.</figcaption>
     </figure>
   );
 }

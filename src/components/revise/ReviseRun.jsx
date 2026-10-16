@@ -39,10 +39,10 @@ function Lanes({ boxes, days, moved }) {
   const parts = boxes.map((count, i) => ({ count, i, words: days?.[String(i + 1)] })).filter((p) => p.count > 0 && p.words);
   if (!parts.length) return null;
   return (
-    <p className="rv-ladder" aria-label="Your cards by how long they wait">
-      <span className="rv-ladder__lead">In rotation:</span>{' '}
+    <p className="rvs-ladder" aria-label="Your cards by how long they wait">
+      <span className="rvs-ladder__lead">In rotation:</span>{' '}
       {parts.map((p, k) => (
-        <span key={p.i} className="rv-ladder__part" data-pulse={moved && (moved.from === p.i || moved.to === p.i) ? moved.n : undefined}>
+        <span key={p.i} className="rvs-ladder__part" data-pulse={moved && (moved.from === p.i || moved.to === p.i) ? moved.n : undefined}>
           <b>{p.count}</b> {p.words}{k < parts.length - 1 ? ',' : '.'}{' '}
         </span>
       ))}
@@ -52,10 +52,10 @@ function Lanes({ boxes, days, moved }) {
 
 function CapChoice({ cap, onChange, disabled }) {
   return (
-    <div className="rv-cap" role="group" aria-label="Questions a day">
+    <div className="rvs-cap" role="group" aria-label="Questions a day">
       <span>Questions a day</span>
       {[5, 10].map((n) => (
-        <button key={n} type="button" className="rv-cap__btn" aria-pressed={cap === n} disabled={disabled} onClick={() => onChange(n)}>{n}</button>
+        <button key={n} type="button" className="rvs-cap__btn" aria-pressed={cap === n} disabled={disabled} onClick={() => onChange(n)}>{n}</button>
       ))}
     </div>
   );
@@ -66,40 +66,40 @@ function Card({ item, number, total, result, busy, error, onChoose, onNext, last
   useEffect(() => { if (result || error) nextRef.current?.focus({ preventScroll: false }); }, [result, error]);
   const answered = Boolean(result);
   return (
-    <section className="rv-card" aria-labelledby="rv-q">
-      <p className="rv-card__meta">
+    <section className="rvs-card" aria-labelledby="rvs-q">
+      <p className="rvs-card__meta">
         <span>Question {number} of {total}</span>
         {item.chapter ? <span>{item.chapter}</span> : null}
       </p>
-      {item.passage?.text ? <div className="rv-passage"><p className="rv-passage__label">Passage</p><p>{item.passage.text}</p></div> : null}
-      <h2 className="rv-stem" id="rv-q">{item.question}</h2>
-      <ul className="rv-options">
+      {item.passage?.text ? <div className="rvs-passage"><p className="rvs-passage__label">Passage</p><p>{item.passage.text}</p></div> : null}
+      <h2 className="rvs-stem" id="rvs-q">{item.question}</h2>
+      <ul className="rvs-options">
         {item.options.map((text, j) => {
           const key = answered && result.keyIndex === j;
           const mine = answered && result.chosen === j && !key;
           return (
             <li key={j}>
-              <button type="button" className="rv-option" disabled={answered || busy} data-state={key ? 'key' : mine ? 'mine' : undefined}
+              <button type="button" className="rvs-option" disabled={answered || busy} data-state={key ? 'key' : mine ? 'mine' : undefined}
                 onClick={() => onChoose(j)}>
-                <span className="rv-option__letter" aria-hidden="true">{LETTERS[j]}</span>
-                <span className="rv-option__text"><span className="sr-only">Option {LETTERS[j]}. </span>{text}</span>
-                {key ? <span className="rv-option__tag"><Check size={14} strokeWidth={2.4} aria-hidden="true" />Right answer</span> : null}
-                {mine ? <span className="rv-option__tag"><X size={14} strokeWidth={2.4} aria-hidden="true" />Your pick</span> : null}
+                <span className="rvs-option__letter" aria-hidden="true">{LETTERS[j]}</span>
+                <span className="rvs-option__text"><span className="sr-only">Option {LETTERS[j]}. </span>{text}</span>
+                {key ? <span className="rvs-option__tag"><Check size={14} strokeWidth={2.4} aria-hidden="true" />Right answer</span> : null}
+                {mine ? <span className="rvs-option__tag"><X size={14} strokeWidth={2.4} aria-hidden="true" />Your pick</span> : null}
               </button>
             </li>
           );
         })}
       </ul>
-      {busy ? <p className="rv-status" role="status"><LoaderCircle className="rv-spin" size={16} strokeWidth={2.2} aria-hidden="true" />Checking your answer</p> : null}
-      {error ? <p className="rv-err" role="alert"><StatusIcon kind="error" size={14} />{error}</p> : null}
+      {busy ? <p className="rvs-status" role="status"><LoaderCircle className="rvs-spin" size={16} strokeWidth={2.2} aria-hidden="true" />Checking your answer</p> : null}
+      {error ? <p className="rvs-err" role="alert"><StatusIcon kind="error" size={14} />{error}</p> : null}
       {answered ? (
-        <div className="rv-result" data-correct={result.correct || undefined} role="status">
-          <p className="rv-result__line">{result.correct ? <Check size={18} strokeWidth={2.4} aria-hidden="true" /> : <X size={18} strokeWidth={2.4} aria-hidden="true" />}{result.line}</p>
-          {result.explanation ? <p className="rv-result__why">{result.explanation}</p> : null}
+        <div className="rvs-result" data-correct={result.correct || undefined} role="status">
+          <p className="rvs-result__line">{result.correct ? <Check size={18} strokeWidth={2.4} aria-hidden="true" /> : <X size={18} strokeWidth={2.4} aria-hidden="true" />}{result.line}</p>
+          {result.explanation ? <p className="rvs-result__why">{result.explanation}</p> : null}
         </div>
       ) : null}
       {answered || error ? (
-        <button type="button" className="rv-next" ref={nextRef} onClick={onNext}>{last ? 'Finish' : 'Next question'}</button>
+        <button type="button" className="rvs-next" ref={nextRef} onClick={onNext}>{last ? 'Finish' : 'Next question'}</button>
       ) : null}
     </section>
   );
@@ -149,26 +149,26 @@ export default function ReviseRun() {
   const next = useCallback(() => { setResult(null); setError(null); setAt((i) => i + 1); }, []);
   const changeCap = useCallback((n) => { saveCap(n); setCap(n); setAt(0); setDone([]); setResult(null); setError(null); setBoxes(null); setMoved(null); }, []);
 
-  const back = <Link className="rv-back" href="/review"><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Review</Link>;
+  const back = <Link className="rvs-back" href="/review"><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Review</Link>;
   const head = <ArenaHead title={R.title} lede={R.sub} />;
 
   if (read.state === 'error' || read.state === 'unavailable') {
     return (
-      <section className="pr rv">
+      <section className="pr rvs">
         {back}{head}
-        <div className="rv-fail" role="alert">
+        <div className="rvs-fail" role="alert">
           <StatusIcon kind="error" />
           <p>{read.message || R.unavailable}</p>
-          <button type="button" className="rv-next" onClick={read.retry}><RefreshCw size={16} strokeWidth={2.1} aria-hidden="true" />Try again</button>
+          <button type="button" className="rvs-next" onClick={read.retry}><RefreshCw size={16} strokeWidth={2.1} aria-hidden="true" />Try again</button>
         </div>
       </section>
     );
   }
   if (!data) {
     return (
-      <section className="pr rv">
+      <section className="pr rvs">
         {back}{head}
-        <div className="rv-skel" role="status" aria-label="Loading Revise"><span className="skeleton" /><span className="skeleton" /></div>
+        <div className="rvs-skel" role="status" aria-label="Loading Revise"><span className="skeleton" /><span className="skeleton" /></div>
       </section>
     );
   }
@@ -179,13 +179,13 @@ export default function ReviseRun() {
   const current = items[at];
 
   return (
-    <section className="pr rv">
+    <section className="pr rvs">
       {back}{head}
-      <div className="rv-top">
-        <div className="rv-top__text">
-          {finished ? null : <p className="rv-top__head">{data.head}</p>}
-          {!finished && data.shown ? <p className="rv-top__sub">{fill(R.minutes, { m: data.minutes })}</p> : null}
-          {data.summary ? <p className="rv-top__sub">{data.summary}</p> : null}
+      <div className="rvs-top">
+        <div className="rvs-top__text">
+          {finished ? null : <p className="rvs-top__head">{data.head}</p>}
+          {!finished && data.shown ? <p className="rvs-top__sub">{fill(R.minutes, { m: data.minutes })}</p> : null}
+          {data.summary ? <p className="rvs-top__sub">{data.summary}</p> : null}
         </div>
         <CapChoice cap={cap} onChange={changeCap} disabled={busy} />
       </div>
@@ -195,18 +195,18 @@ export default function ReviseRun() {
         <Card key={current.questionId} item={current} number={at + 1} total={items.length} result={result} busy={busy} error={error} last={at + 1 >= items.length}
           onChoose={choose} onNext={next} />
       ) : finished ? (
-        <div className="rv-end">
-          <p className="rv-end__line">{endText(right, wrong)}</p>
-          {data.next ? <p className="rv-end__sub">{data.next}</p> : null}
-          <Link className="rv-next rv-next--link" href="/review">Back to Review</Link>
+        <div className="rvs-end">
+          <p className="rvs-end__line">{endText(right, wrong)}</p>
+          {data.next ? <p className="rvs-end__sub">{data.next}</p> : null}
+          <Link className="rvs-next rvs-next--link" href="/review">Back to Review</Link>
         </div>
       ) : (
-        <div className="rv-empty">
+        <div className="rvs-empty">
           <p>{data.answeredToday >= (data.cap || 10) ? R.capReached : data.next || R.nextNone}</p>
-          <Link className="rv-next rv-next--link" href="/review">Back to Review</Link>
+          <Link className="rvs-next rvs-next--link" href="/review">Back to Review</Link>
         </div>
       )}
-      <p className="rv-fine">{data.labels?.fine || R.fine}</p>
+      <p className="rvs-fine">{data.labels?.fine || R.fine}</p>
     </section>
   );
 }

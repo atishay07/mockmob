@@ -7,7 +7,7 @@
 // sentences as the end of the Mistake Lab (GET /api/me/rules), open here, with the way into the Rule book.
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { BookMarked, RefreshCw } from 'lucide-react';
+import { RefreshCw } from 'lucide-react';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import LearningNextAction from '@/components/LearningNextAction';
@@ -61,7 +61,7 @@ export default function AnalyticsPageClient() {
     return () => { alive = false; };
   }, [user, authStatus, retryCount]);
 
-  if (error) return <div className="container-std pt-8"><ErrorState scene="unreachable" message={error} onRetry={() => { setData(null); setError(null); setRetryCount((count) => count + 1); }} /></div>;
+  if (error) return <div className="container-std pt-8"><ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again." onRetry={() => { setData(null); setError(null); setRetryCount((count) => count + 1); }} /></div>;
   if (authStatus === 'loading' || !data) {
     return (
       <div className="container-std pb-20">
@@ -90,7 +90,7 @@ export default function AnalyticsPageClient() {
         <div className="pp-arena rd-main">
           {rules.state === 'ready' && rules.data?.acrossMocks ? (
             <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={rules.data.book?.countLabel ? (
-              <Link href="/review/rules" className="rd-rules"><BookMarked size={16} strokeWidth={2.1} aria-hidden="true" />{rules.data.book.countLabel}</Link>
+              <Link href="/review/rules" className="rd-rules">{rules.data.book.countLabel}</Link>
             ) : null} />
           ) : rules.state === 'error' ? (
             <p className="rd-across-fail" role="status">{rules.message} <button type="button" onClick={rules.retry}><RefreshCw size={14} strokeWidth={2.2} aria-hidden="true" />Try again</button></p>

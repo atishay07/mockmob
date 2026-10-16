@@ -1,6 +1,6 @@
 import React from 'react';
 
-// A static, server-rendered example of what Radar returns after a mock.
+// A static, server-rendered example of what chapter review returns after a mock.
 // The numbers are illustrative and labelled as such — the product's real
 // readout is built from the visitor's own attempts.
 const ROWS = [
@@ -14,7 +14,7 @@ export function ChapterReadout() {
   return (
     <figure className="mm-screen mm-readout">
       <div className="mm-screen__bar">
-        Radar · after one full mock
+        Chapter review, after one full mock
         <span className="mm-readout__badge">Example</span>
       </div>
       <div className="mm-screen__body">

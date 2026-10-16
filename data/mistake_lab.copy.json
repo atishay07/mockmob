@@ -308,7 +308,7 @@
   },
   "rules": {
     "title": "Your rules",
-    "countLabel": "Your rules, {n}",
+    "countLabel": "Your rules ({n})",
     "labels": {
       "use": "Use in my next mock",
       "inUse": "Your rule for your next mock",

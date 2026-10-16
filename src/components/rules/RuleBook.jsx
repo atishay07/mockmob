@@ -1,6 +1,6 @@
 "use client";
 // The Rule book (spec tmp/mistake-lab-v4/SPEC.md 4.10): one list, two kinds of rule, reached from the Lab's Repair step
-// ("Your rules, 7") and from Review. Every sentence comes finished from the server (GET /api/me/rules, data/rule_book.js,
+// ("Your rules (7)") and from Review. Every sentence comes finished from the server (GET /api/me/rules, data/rule_book.js,
 // contract_rules_v1.json); this page lays them out and keeps one rule for the next mock.
 //   From your repairs           each repair's rule and memory hook, by chapter, newest first, with Copy
 //   From how you take papers    the four habits, each with its evidence line, its Wilson interval and its gate
@@ -13,7 +13,7 @@
 // (260 ms); the in-use tag pops 0.95 to 1 (200 ms). Reduced motion: every change lands at once.
 import { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
-import { BookMarked, Check, ChevronLeft, Copy, EyeOff, Flag, Hourglass, LoaderCircle, RefreshCw, Repeat2, Target, Timer } from 'lucide-react';
+import { Check, ChevronLeft, Copy, Hourglass, LoaderCircle, MoreHorizontal, RefreshCw } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { StatusIcon } from '@/components/ui/Glyph';
 import { useToast } from '@/components/ToastProvider';
@@ -24,7 +24,6 @@ import { copyText, shortDate, withActiveRule } from '@/components/result/labLoop
 import { useRuleBook } from './useRuleBook';
 import './rule-book.css';
 
-const HABIT_ICON = { 'habit:changes': Repeat2, 'habit:long_stay': Timer, 'habit:never_opened': EyeOff, 'habit:marked': Flag };
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 const SAVE_FAILED = 'Your rule was not saved. Try again.';
 
@@ -38,7 +37,7 @@ function Band({ iv }) {
         <i className="rb-band__range" style={{ '--l': `${iv.low}%`, '--w': `${width}%` }} />
         <b className="rb-band__dot" style={{ '--x': `${iv.pct}%` }} />
       </span>
-      <span className="rb-band__text"><b>{iv.k} of {iv.n}</b> ({iv.pct}%). At this count, the 95% interval runs from {iv.low}% to {iv.high}%.</span>
+      <span className="rb-band__text"><b>{iv.k} of {iv.n}</b> ({iv.pct}%). {iv.n < 20 ? 'Too few cases to be sure yet.' : `Likely between ${iv.low}% and ${iv.high}%.`}</span>
     </div>
   );
 }
@@ -63,12 +62,25 @@ function CopyButton({ rule, hookLabel }) {
   );
 }
 
+// Copy is the secondary action, so it sits behind one row menu instead of repeating on every row.
+function RowMenu({ rule, hookLabel }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <span className="rb-menu">
+      <button type="button" className="rb-menu__btn" aria-expanded={open} aria-label={`More for this rule: ${rule.text}`} onClick={() => setOpen((v) => !v)}>
+        <MoreHorizontal size={18} strokeWidth={2.2} aria-hidden="true" />
+      </button>
+      {open ? <CopyButton rule={rule} hookLabel={hookLabel} /> : null}
+    </span>
+  );
+}
+
 function UseButton({ rule, labels, sending, busy, onUse }) {
   if (rule.active) return <span className="rb-inuse"><Check size={15} strokeWidth={2.6} aria-hidden="true" />{labels.inUse}</span>;
   const mine = sending === rule.id;
   return (
     <button type="button" className="rb-use" disabled={busy} aria-busy={mine || undefined} onClick={() => onUse(rule)}>
-      {mine ? <LoaderCircle className="rb-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : <Target size={16} strokeWidth={2.1} aria-hidden="true" />}
+      {mine ? <LoaderCircle className="rb-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : null}
       {mine ? 'Saving…' : labels.use}
     </button>
   );
@@ -82,8 +94,8 @@ function RepairRule({ rule, labels, use }) {
       <p className="rb-rule__text">{rule.text}</p>
       {rule.hook ? <p className="rb-rule__hook"><span>{labels.hook}</span> {rule.hook}</p> : null}
       <div className="rb-actions">
-        <CopyButton rule={rule} hookLabel={labels.hook} />
         <UseButton rule={rule} labels={labels} {...use} />
+        <RowMenu rule={rule} hookLabel={labels.hook} />
       </div>
       {use.error?.id === rule.id ? <p className="rb-err" role="alert"><StatusIcon kind="error" size={14} />{use.error.message}</p> : null}
     </li>
@@ -91,10 +103,8 @@ function RepairRule({ rule, labels, use }) {
 }
 
 function HabitRule({ rule, labels, use }) {
-  const Icon = HABIT_ICON[rule.id] || Target;
   return (
     <li className="rb-habit" data-active={rule.active || undefined} data-gated={rule.gated || undefined}>
-      <span className="rb-habit__icon" aria-hidden="true"><Icon size={19} strokeWidth={2} /></span>
       <div className="rb-habit__main">
         <p className="rb-habit__text">{rule.text}</p>
         <p className="rb-habit__evidence">{rule.gated ? <><Hourglass size={14} strokeWidth={2} aria-hidden="true" />{rule.evidence}</> : withNumbers(rule.evidence)}</p>
@@ -109,7 +119,7 @@ function HabitRule({ rule, labels, use }) {
 function NowCard({ active, labels, empty = false }) {
   return (
     <section className="rb-now" data-set={active ? '' : undefined} aria-labelledby="rb-now-title">
-      <p className="rb-now__label" id="rb-now-title"><Target size={16} strokeWidth={2.2} aria-hidden="true" />{labels.inUse}</p>
+      <h2 className="rb-now__label" id="rb-now-title">{labels.inUse}</h2>
       {active ? (
         <div className="rb-now__body" key={active.id}>
           <p className="rb-now__text">{active.text}</p>
@@ -190,8 +200,8 @@ export default function RuleBook() {
         <aside className="rb-side">
           <NowCard active={book.active} labels={labels} empty={!repairCount && !habitCount} />
           <nav className="rb-jump" aria-label="Sections">
-            <a href="#rb-repairs"><BookMarked size={16} strokeWidth={2.1} aria-hidden="true" /><span>{labels.repairsTitle}</span><b>{repairCount}</b></a>
-            <a href="#rb-habits"><Target size={16} strokeWidth={2.1} aria-hidden="true" /><span>{labels.habitsTitle}</span><b>{habitCount}</b></a>
+            <a href="#rb-repairs"><span>{labels.repairsTitle}</span><b>{repairCount}</b></a>
+            <a href="#rb-habits"><span>{labels.habitsTitle}</span><b>{habitCount}</b></a>
           </nav>
           {book.basis ? <p className="rb-basis">{book.basis}</p> : null}
         </aside>
@@ -204,7 +214,7 @@ export default function RuleBook() {
                 <h3>{ch.chapter}<span>{plural(ch.rules.length, 'rule')}</span></h3>
                 <ul className="rb-rules">{ch.rules.map((r) => <RepairRule key={r.id} rule={r} labels={labels} use={useProps} />)}</ul>
               </div>
-            )) : <p className="rb-empty"><BookMarked size={18} strokeWidth={2} aria-hidden="true" />{book.repairs?.empty}</p>}
+            )) : <p className="rb-empty">{book.repairs?.empty}</p>}
           </section>
 
           <section className="rb-section" id="rb-habits" aria-labelledby="rb-habits-h">

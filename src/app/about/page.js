@@ -3,7 +3,6 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
-import { Icon } from '@/components/ui/Icons';
 import { breadcrumbJsonLd, seoMetadata } from '@/lib/seo';
 
 export const metadata = seoMetadata({
@@ -28,7 +27,7 @@ const BELIEFS = [
   },
   {
     title: 'A score should tell you what to do next',
-    body: 'A mock should help you choose what to do next. Radar organizes practice history by subject and chapter, while Admission Compass checks programme eligibility and sourced historical cutoffs separately from practice marks.',
+    body: 'A mock should help you choose what to do next. Chapter review organises practice history by subject and chapter, while Admission Compass checks programme eligibility and sourced historical cutoffs separately from practice marks.',
   },
 ];
 
@@ -47,7 +46,7 @@ export default function AboutPage() {
       <main>
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
           <div className="mm-wrap mm-wrap--tight">
-            <h1 className="mm-h1">Built for one exam. Obsessively.</h1>
+            <h1 className="mm-h1">Built for one exam: CUET.</h1>
             <p className="mm-lead" style={{ marginTop: '1rem', maxWidth: '52ch' }}>
               CUET preparation brings subject practice, review, and university requirements into
               one demanding season. We are a small independent team, founded by Atishay Jain,
@@ -85,7 +84,6 @@ export default function AboutPage() {
             <div className="mm-actions" style={{ marginTop: '2rem' }}>
               <Link href="/signup" className="mm-btn mm-btn--primary">
                 Start a free mock
-                <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
               </Link>
               <Link href="/contact" className="mm-btn mm-btn--secondary">
                 Talk to us

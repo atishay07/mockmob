@@ -96,3 +96,8 @@
 .cp .cp-combo__stats dd b { font-size: 1.25rem; }
 
 @media (hover: hover) { .cp .cp-results button:hover:not(:disabled) { border-color: var(--ink-3); } }
+
+/* The planner's sticky outcome bar sits under the nav like the calculator's; the link to the calculator reads as a link. */
+.cp .cp-sum { margin-bottom: 1rem; scroll-margin-top: 5rem; }
+.cp .cp-step { scroll-margin-top: 8rem; }
+.cp .cp-combo__go { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }

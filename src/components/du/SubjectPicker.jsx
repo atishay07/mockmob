@@ -50,7 +50,7 @@ export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) 
           type="search"
           value={query}
           onChange={(e) => onQuery(e.target.value)}
-          placeholder="Find your subject, e.g. Informatics Practices"
+          placeholder="Find a subject"
           autoComplete="off"
         />
         {query ? (

@@ -3,7 +3,7 @@
 // match the answer key before any repair is shown; a mismatch holds the question for review instead.
 import { useContext, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Wrench, Check, ArrowRight, Copy, KeyRound, ChevronRight } from 'lucide-react';
+import { Wrench, Check, Copy, KeyRound, ChevronRight } from 'lucide-react';
 import {
   REPAIR_OUTCOMES, hasExplanation, isKeyReview, repairBlocks, marksAtStake, foldedQuestionLine,
   checkChip, REPAIR_COPY, REPAIR_LOADING, recordLines,
@@ -248,7 +248,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
         // The server's own message is shown whenever it sent one.
         const failure = planRepairFailure(outcome);
         if (failure.resetRequest) requestId.current = null;
-        setState({ status: failure.status, message: failure.message, canRetry: failure.canRetry });
+        setState({ status: failure.status, message: failure.message, canRetry: failure.canRetry, code: body?.error || null });
         return;
       }
       // Every payload version (v3, v2 and v1) must be complete to show; half a repair is never shown.
@@ -278,7 +278,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
 
   // `next` is computed by the page from the mistakes not yet handled, never counting this one.
   const nextButton = next
-    ? <button type="button" className="mr-next-btn" onClick={next.go}>Next mistake: Q{next.number} <ArrowRight size={16} aria-hidden="true" /></button>
+    ? <button type="button" className="mr-next-btn" onClick={next.go}>Next mistake: Q{next.number}</button>
     : onFinish ? <button type="button" className="mr-next-btn" onClick={onFinish}>{RUN_COPY.finish}</button> : null;
   const mobi = nta ? null : <RepairMobi status={state.status} slow={slow} stepKey={`${attemptId}/${questionId}`} visible={isCurrent} />;
 
@@ -343,6 +343,10 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
             <p className="mr-note">{state.message}</p>
           </div>
           {state.canRetry ? <button type="button" className="mr-retry" onClick={run}>{state.status === 'waiting' ? 'Check again' : 'Try again'}</button> : null}
+          {/* Out of AI credits: the free ways forward, not a dead end. */}
+          {state.code === 'insufficient_ai_credits' ? (
+            <p className="mr-note mr-ways"><Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link> <Link href="/pricing/ai-credits">See your AI credits</Link></p>
+          ) : null}
         </div>
       );
     }

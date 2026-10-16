@@ -33,7 +33,7 @@ export default function TermsPage() {
           </section>
           <section>
             <h2>Premium access</h2>
-            <p>Pro access unlocks premium features such as unlimited mocks, Radar, difficulty controls, bookmarks, and Admission Compass. Current season access ends 31 July 2027. Available inventory and reattempts are included; unlimited unique questions are not promised. Existing purchases keep their recorded expiry and rights. DU eligibility and historical cutoffs are free. Recovery is unavailable until its content and journey gates pass.</p>
+            <p>Pro access unlocks premium features such as unlimited mocks, full chapter review, difficulty controls, bookmarks, and Admission Compass. Current season access ends 31 July 2027. Available inventory and reattempts are included; unlimited unique questions are not promised. Existing purchases keep their recorded expiry and rights. DU eligibility and historical cutoffs are free. Recovery is unavailable until its content and journey gates pass.</p>
           </section>
           <section>
             <h2>Exam affiliation</h2>

@@ -215,7 +215,7 @@
 .app-shell .rc-ring__fill[data-met='true'] { filter: drop-shadow(0 0 5px var(--volt-glow, rgba(210, 240, 0, .25))); }
 .app-shell .rc-ring__count { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
 .app-shell .rc-ring__count b { font: 800 calc(var(--rc-size, 132px) * .3)/1 var(--font-display); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--a-ink); }
-.app-shell .rc-ring__count small { margin-top: 2px; font-size: calc(var(--rc-size, 132px) * .09); color: var(--a-ink-3); }
+.app-shell .rc-ring__count small { margin-top: 2px; font-size: max(11px, calc(var(--rc-size, 132px) * .09)); color: var(--a-ink-3); }
 
 /* Seven days */
 .app-shell .rc-days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; }

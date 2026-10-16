@@ -20,14 +20,14 @@ export const publicRoutes = [
     path: '/features',
     title: 'CUET Practice Features, Analytics & Admission Compass | MockMob',
     description:
-      'Explore MockMob features for CUET mock tests, weakness radar, saved questions, leaderboards, and admission guidance.',
+      'What MockMob does for CUET UG: timed practice, mistake review, chapter review, saved questions, Ask Mobi and the free DU cutoff calculator.',
     priority: 0.8,
   },
   {
     path: '/pricing',
     title: 'MockMob Pricing for CUET Mock Tests & Analytics',
     description:
-      'Start free or unlock MockMob Pro for unlimited CUET mocks, advanced Radar analytics, bookmarks, and Admission Compass.',
+      'Start free or unlock MockMob Pro for unlimited CUET mocks, full chapter review, saved questions, and Admission Compass.',
     priority: 0.7,
   },
   {

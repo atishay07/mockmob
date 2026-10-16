@@ -7,17 +7,14 @@
 // Motion: opening the block (or Show all) brings each line up 6 px and in, 180 ms, 45 ms apart; the chevron turns on
 // 180 ms. Reduced motion: the final state at once.
 import { useId, useState } from 'react';
-import { AlarmClock, ChevronDown, EyeOff, GitCompareArrows, History, Hourglass, Repeat2, Timer } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { withNumbers } from './MarksLedger';
 import './lab-loop.css';
 
-const GLYPH = { second_thoughts: Repeat2, changes_help: GitCompareArrows, never_opened: EyeOff, long_stays: Timer, last_ten: AlarmClock };
-
+// A ruled list: no icon tiles; a line below its gate is set quieter, in words.
 function Line({ line, i }) {
-  const Icon = line.gated ? Hourglass : GLYPH[line.id] || History;
   return (
     <li className="am-line" data-id={line.id} data-gated={line.gated || undefined} style={{ '--i': i }}>
-      <span className="am-line__glyph" aria-hidden="true"><Icon size={17} strokeWidth={2} /></span>
       <p className="am-line__text">{line.gated ? line.text : withNumbers(line.text)}</p>
     </li>
   );
@@ -45,7 +42,6 @@ export default function AcrossMocks({ across, defaultOpen = false, surface = 'in
     <section className="am" data-surface={surface} data-open={open || undefined} data-state={across.state} aria-labelledby={`${uid}-title`}>
       <h3 className="am-h">
         <button type="button" className="am-head" aria-expanded={open} aria-controls={bodyId} onClick={() => setOpen((v) => !v)}>
-          <span className="am-head__icon" aria-hidden="true"><History size={18} strokeWidth={2} /></span>
           <span className="am-head__text">
             <span className="am-head__title" id={`${uid}-title`}>{across.title || 'Across your mocks'}</span>
             {!open && teaser ? <span className="am-head__teaser">{teaser}</span> : null}

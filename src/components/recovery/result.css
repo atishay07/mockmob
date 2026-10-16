@@ -90,9 +90,8 @@
 .srl-chapter__gap { grid-area: gap; text-align: right; white-space: nowrap; font: 700 15px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-bad-text, #ff9d92); }
 
 .srl-obs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 8px; }
-.srl-obs li { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--a-line, #253026); border-left: 3px solid var(--a-line-strong, #384736); background: var(--a-sunken, #0f1512); }
-.srl-obs li[data-tone='bad'] { border-left-color: var(--a-warn-text, #e0b93f); }
-.srl-obs li[data-tone='good'] { border-left-color: var(--a-good-text, #b6e36e); }
+/* Observations are ruled rows; the tone is carried by the tag's words and colour, not a thick side border (T-083). */
+.srl-obs li { display: grid; gap: 4px; padding: 12px 0; border-top: 1px solid var(--a-line, #253026); }
 .srl-obs b { font: 650 15px/1.4 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
 .srl-obs__tag { font: 650 12px/1.4 var(--font-display, inherit); color: var(--a-warn-text, #e0b93f); }
 .srl-obs li[data-tone='good'] .srl-obs__tag { color: var(--a-good-text, #b6e36e); }
@@ -155,9 +154,9 @@
 .rp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .rp-empty { padding: 24px; text-align: center; color: var(--a-ink-3); border: 1px dashed var(--a-line-strong); border-radius: 14px; }
 .rp-q { border-radius: 16px; border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); scroll-margin-top: 84px; overflow: hidden; }
-.rp-q[data-verdict='wrong'] { border-left: 3px solid var(--a-bad-text, #ff9d92); }
-.rp-q[data-verdict='correct'] { border-left: 3px solid var(--a-good-text, #b6e36e); }
-.rp-q[data-verdict='skipped'] { border-left: 3px solid var(--a-line-strong, #384736); }
+/* The verdict is in the row's words (Right +5, Wrong -1); the badge carries a tint, the border stays 1px (T-083). */
+.rp-q[data-verdict='wrong'] .rp-q__badge { border-color: color-mix(in oklab, var(--a-bad-text, #ff9d92) 55%, transparent); color: var(--a-bad-text, #ff9d92); }
+.rp-q[data-verdict='correct'] .rp-q__badge { border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 55%, transparent); color: var(--a-good-text, #b6e36e); }
 .rp-q__h { font: inherit; }
 .rp-q__bar { width: 100%; display: grid; grid-template-columns: 32px minmax(0, 1fr) 20px; gap: 12px; align-items: start; padding: 14px 16px; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
 .rp-q__bar:hover { background: var(--a-hover); }
@@ -306,3 +305,18 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 @keyframes rp-ripple { 0% { transform: none; } 45% { transform: scale(1.14); } 100% { transform: none; } }
 @keyframes rp-ripple-end { 0% { transform: none; box-shadow: 0 0 0 0 transparent; } 30% { transform: scale(1.16); box-shadow: 0 0 0 3px var(--a-bad-text, #ff9d92); } 100% { transform: none; box-shadow: 0 0 0 0 transparent; } }
 @keyframes rp-glance { 0% { opacity: 0; transform: translateX(-6px); } 25% { opacity: 1; transform: none; } 55% { transform: rotate(-8deg); } 80% { transform: rotate(-8deg); } 100% { transform: none; } }
+
+/* Find, Repair, Prove are plain headings between hairlines: no numbered discs, no rail (slop list: numbered badges).
+   Inside the Lab card, inner blocks are ruled sections, not cards in a card. */
+.srl-step { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 18px 0 20px; border-top: 1px solid var(--a-line, #253026); }
+.srl-step:last-child { padding-bottom: 0; }
+.srl-step:not(:last-child)::before { display: none; }
+.srl-step__num { display: none; }
+.srl-chapters { gap: 0; }
+.srl .srl-chapter { padding: 10px 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: transparent; }
+.srl .srl-chapter:hover { background: var(--a-hover, rgba(244, 245, 240, .04)); }
+.srl-obs { gap: 0 20px; }
+.srl .rc, .srl .sml { padding: 12px 0; border: 0; border-block: 1px solid var(--a-line, #253026); border-radius: 0; background: transparent; }
+.srl .sml { grid-template-columns: minmax(0, 1fr); }
+.srl .sml__icon { display: none; }
+.srl .srl-changes li { background: transparent; border-radius: 0; padding: 8px 0; border-top: 1px solid var(--a-line, #253026); }

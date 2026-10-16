@@ -92,7 +92,7 @@ function SeatRow({ row, catIndex, category, score, groupName, group, userId }) {
         {subtitle ? <span>{subtitle}</span> : null}
       </div>
       <dl className="du-seat__cuts">
-        {['I', 'II', 'III'].map((label, i) => {
+        {[1, 2, 3].map((label, i) => {
           const arr = row[2 + i];
           const eff = effectiveCutoff(arr, catIndex);
           const viaUr = category !== 'UR' && arr && typeof arr[0] === 'number' && eff === arr[0] && arr[catIndex] !== arr[0];
@@ -238,7 +238,7 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
           </span>
           {matched ? (
             <span className="du-card__match">
-              <b>{matched.label}</b> {matched.text}
+              <b>{optionLabel(matched.label)}</b> {matched.text}
               {secondary ? <em>Considered only if seats remain after Options 1 and 2</em> : null}
             </span>
           ) : null}

@@ -8,8 +8,8 @@
 .rt-bar {
   position: sticky; top: 72px; z-index: 5; margin: 0 0 12px; padding: 0 14px;
   border-radius: 16px; border: 1px solid var(--a-line, #253026);
-  background: color-mix(in oklab, var(--a-raised, #131a16) 94%, transparent);
-  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  /* Opaque: text under a sticky tracker never shows through it. */
+  background: var(--a-raised, #131a16);
   box-shadow: var(--a-shadow-1, none);
 }
 .rt { display: grid; gap: 0; }

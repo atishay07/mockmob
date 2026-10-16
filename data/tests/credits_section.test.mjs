@@ -36,7 +36,7 @@ test('an unknown balance has no figure, never 0', () => {
 test('Pro shows practice as included, with the paid-through date when there is one', () => {
   const body = { ...FIXTURE, plan: { name: 'Pro', until: '2027-01-12' } };
   const [practice] = creditTiles(body);
-  assert.deepEqual([practice.figure, practice.state, practice.lines[0]], ['Unlimited', 'unlimited', 'Included with Pro until 12 January.']);
+  assert.deepEqual([practice.figure, practice.state, practice.lines[0]], ['Unlimited', 'unlimited', 'Included with Pro until 12 January 2027.']);
   assert.equal(creditTiles({ ...FIXTURE, plan: { name: 'Pro', until: null } })[0].lines[0], 'Included with Pro.');
 });
 

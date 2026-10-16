@@ -55,13 +55,13 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
     if (status === 'authenticated' && user?.id) {
       return {
         bubble: 'Your next step, explained',
-        title: 'PrepOS',
+        title: 'Ask Mobi',
         line: 'Same step as Today',
       };
     }
     return {
-      bubble: 'PrepOS explains your next step',
-      title: 'Meet PrepOS',
+      bubble: 'Mobi explains your next step',
+      title: 'Ask Mobi',
       line: 'Ask about MockMob',
     };
   }, [status, user?.id]);
@@ -121,7 +121,7 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
             ? 'gap-3 border border-white/10 bg-[#0c0e09]/94 px-3 pr-4 shadow-[0_18px_60px_rgba(0,0,0,0.42)] backdrop-blur-xl hover:border-volt/35 hover:bg-[#11140b]'
             : 'justify-center bg-transparent p-0'
         }`}
-        aria-label="Meet PrepOS, open the assistant"
+        aria-label="Ask Mobi, open the assistant"
       >
         {!open && !isNarrow ? (
           <motion.span
@@ -131,7 +131,7 @@ export default function AssistantLauncher({ compact = false, hidden = false }) {
               expanded ? '-top-11' : '-top-10'
             }`}
           >
-            {expanded ? nudge.bubble : 'PrepOS'}
+            {expanded ? nudge.bubble : 'Ask Mobi'}
             <span className="absolute -bottom-1 right-8 h-2 w-2 rotate-45 border-b border-r border-volt/20 bg-[#0c0e09]" />
           </motion.span>
         ) : null}

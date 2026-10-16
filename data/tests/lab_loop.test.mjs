@@ -38,7 +38,7 @@ test('the result route adds acrossMocks, repairOrder, rules and prove.ruleCheck 
   assert.equal(acrossMocks.state, 'ready');
   assert.equal(acrossMocks.mocks, 5, 'as of this paper: the four before it and itself');
   assert.equal(repairOrder.state, 'paper', 'no cohort read was given');
-  assert.deepEqual(rules, { count: 7, countLabel: 'Your rules, 7', active: { id: 'habit:never_opened', kind: 'habit', text: 'Open every question once before you go deep on any.', since: PLAYBOOK[0].created_at } });
+  assert.deepEqual(rules, { count: 7, countLabel: 'Your rules (7)', active: { id: 'habit:never_opened', kind: 'habit', text: 'Open every question once before you go deep on any.', since: PLAYBOOK[0].created_at } });
   assert.equal(prove.ruleCheck.state, 'not_kept');
   assert.equal(prove.ruleCheck.result, 'Not kept: 4 of 50 questions never opened (last mock: 4 of 50).');
 });

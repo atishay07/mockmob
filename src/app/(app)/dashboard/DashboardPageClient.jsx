@@ -190,10 +190,14 @@ export default function DashboardPageClient() {
       .filter((subject) => subject.practice !== 'supported'),
     [subjects, user],
   );
-  const myRankIdx = leaderboard.findIndex((entry) => entry.userId === user?.id);
+  // Rank only among real students: the practice rival is a benchmark, never a place on the board.
+  const realBoard = leaderboard.filter((entry) => !entry.isSynthetic);
+  const myRankIdx = realBoard.findIndex((entry) => entry.userId === user?.id);
   const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
+  // A student whose Pro ended is told so, with the date, instead of being shown Pro as if never held.
+  const proEnded = !isPremium && Boolean(user?.premiumUntil);
   const requestedMode = searchParams.get('mode');
   const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : [...MODE_LIST, 'nta'].includes(requestedMode) ? requestedMode : 'quick';
   const mode = TEST_MODES[effectiveModeId];
@@ -239,9 +243,17 @@ export default function DashboardPageClient() {
   useEffect(() => {
     const card = summaryRef.current;
     if (!hasSession || !card || typeof IntersectionObserver !== 'function') return undefined;
-    const io = new IntersectionObserver(([entry]) => setDockShown(!entry.isIntersecting), { rootMargin: '0px 0px -150px 0px' });
+    // The first screen keeps one Start (the tab bar's); the dock only rises once the student has scrolled into
+    // the setup (past 360 px) and the session card is still out of view, so two Starts never show together (R7).
+    let away = false;
+    let scrolled = false;
+    const sync = () => setDockShown(away && scrolled);
+    const io = new IntersectionObserver(([entry]) => { away = !entry.isIntersecting; sync(); }, { rootMargin: '0px 0px -150px 0px' });
+    const onScroll = () => { const next = window.scrollY > 360; if (next !== scrolled) { scrolled = next; sync(); } };
     io.observe(card);
-    return () => io.disconnect();
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => { io.disconnect(); window.removeEventListener('scroll', onScroll); };
   }, [hasSession]);
 
   // Click handler — also clamps count and resets difficulty when needed. Locked modes
@@ -279,7 +291,7 @@ export default function DashboardPageClient() {
   }
 
   if (status === 'error') {
-    return <ErrorState scene="unreachable" message={error} onRetry={() => { setError(null); setStatus('loading'); setLoadNonce(n => n + 1); }} />;
+    return <ErrorState scene="unreachable" title="Practice did not load" message="Check your connection and try again. Nothing was charged." onRetry={() => { setError(null); setStatus('loading'); setLoadNonce(n => n + 1); }} />;
   }
 
   const chapterParam = selectedChapters.length > 0
@@ -315,8 +327,10 @@ export default function DashboardPageClient() {
     return Math.round(seconds / 60);
   })();
   const approximate = quoteMatches && quote.durationEstimated;
+  // A blocked session still states its real price; the reason line and the action say what is missing.
+  const shortfall = quoteStatus === 'ready' && quoteMatches && quote.reasonCode === 'insufficient_credits' ? Math.max(0, (quote.creditCost || 0) - balance) : 0;
   const costLabel = quoteStatus === 'ready' && quoteMatches
-    ? !quote.launchable ? 'Not available'
+    ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : quote.creditCost ? `${quote.creditCost} practice credits` : 'Not available')
       : isPremium ? 'Included with access'
         : quote.creditCost === 0 ? 'Free: today’s included set'
           : `${quote.creditCost} practice credits`
@@ -366,7 +380,7 @@ export default function DashboardPageClient() {
       <header className="pr-head pr-head--solo">
         <div>
           <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
-          <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to Radar.</p>
+          <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to your record.</p>
           {/* The balance and the two prices, one line under the lede at every width (the session panel repeats the balance). */}
           <p className="pr-head__credits">
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} size={15} />
@@ -544,9 +558,11 @@ export default function DashboardPageClient() {
               )}
             </p>
             <StartRule sheet={startSheet} />
-            <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable} onClick={launch}>
+            {quoteStatus === 'ready' && quoteMatches && !quote.launchable && quote.upgradeHref ? (
+              <Link href={quote.upgradeHref} className="btn-outline md pr-summary__cta">{shortfall ? `Need ${shortfall} more credits` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link>
+            ) : <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable} onClick={launch}>
               <AppIcon name="practice" size={18} />{startLabel}
-            </Button>
+            </Button>}
           </aside>
         </div>
       )}
@@ -580,9 +596,9 @@ export default function DashboardPageClient() {
       {/* Ruled figures from the student's own record. The bank size shows only when it is known. */}
       <dl className="pr-stats" data-count={statsAvailable || stats.state === 'loading' ? 4 : 3}>
         {statsAvailable || stats.state === 'loading' ? <div><dt>Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : <span className="pr-stats__wait">Checking</span>}</dd></div> : null}
-        <div><dt>Sessions</dt><dd>{attempts.length}</dd></div>
-        <div><dt>Average score</dt><dd>{attempts.length ? `${avg}%` : <span className="pr-stats__wait">No sessions yet</span>}</dd></div>
-        <div><dt>Leaderboard</dt><dd>{rank ? `#${rank}` : <span className="pr-stats__wait">Not ranked yet</span>}</dd></div>
+        <div><dt>Sessions</dt><dd>{attempts.length}<small className="pr-stats__note">saved</small></dd></div>
+        <div><dt>Average score</dt><dd>{attempts.length ? <>{avg}%<small className="pr-stats__note">over {attempts.length} {attempts.length === 1 ? 'session' : 'sessions'}{attempts.length < 5 ? ', too few to read much into' : ''}</small></> : <span className="pr-stats__wait">No sessions yet</span>}</dd></div>
+        <div><dt>Leaderboard</dt><dd>{rank ? <>#{rank}<small className="pr-stats__note">of {realBoard.length} {realBoard.length === 1 ? 'student' : 'students'} listed</small></> : <span className="pr-stats__wait">Not ranked yet</span>}</dd></div>
       </dl>
 
       <div className="pr-lower">
@@ -614,10 +630,12 @@ export default function DashboardPageClient() {
           <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
           <p className="pr-panel__lead">{isPremium
             ? `Quick practice, Full mock, Smart practice and NTA mode are included${user?.premiumUntil ? ` until ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}` : ''}.`
-            : 'Pro adds Smart practice and NTA mode, and Quick practice and Full mock stop costing practice credits.'}</p>
+            : proEnded
+              ? `Your Pro access ended on ${new Date(user.premiumUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}. Quick practice and Full mock now use practice credits; your history and saved questions stay.`
+              : 'Pro adds Smart practice and NTA mode, and Quick practice and Full mock stop costing practice credits.'}</p>
           <div className="pr-panel__row">
             <CreditAmount kind="practice" amount={isPremium ? 'unlimited' : balance} unit={!isPremium} />
-            {!isPremium && <Link className="pr-link" href="/pricing">See Pro</Link>}
+            {!isPremium && <Link className="pr-link" href="/pricing">{proEnded ? 'See Pro to renew' : 'See Pro'}</Link>}
           </div>
         </section>
 

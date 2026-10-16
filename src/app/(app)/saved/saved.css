@@ -88,3 +88,14 @@
   .app-shell .saved-aside { flex-wrap: nowrap; gap: 8px; }
   .app-shell .saved-aside .na__alt { padding: 0 12px; white-space: nowrap; }
 }
+
+/* Saved is a ruled list, not stacked cards: each question is one row between hairlines, the options open on
+   "Try it again", and the row's own actions sit in its footer (QuestionCard variant="saved"). */
+.sv-row { margin-bottom: 0; border-radius: 0; }
+.sv-list > .sv-row:first-child { border-top: 1px solid var(--a-line); }
+.sv-row { border-bottom: 1px solid var(--a-line); }
+.sv-card { border-radius: 0; }
+.sv-row .ex-question { padding: 20px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.sv-row .ex-question__actions--saved { justify-content: flex-start; gap: 8px 10px; margin-top: 14px; padding-top: 0; border-top: 0; }
+.sv-row .ex-question__actions--saved .sv-act--rm { margin-left: auto; }
+@media (max-width: 639px) { .sv-row { margin-bottom: 0; } .sv-row .ex-question__actions--saved .sv-act--go { flex: 1 1 100%; order: -1; } }

@@ -6,7 +6,7 @@
 // is in no accuracy number; the fine line says so. The button appears once questions are ready, and opens Revise, which is
 // a separate page and never part of a paper.
 import Link from 'next/link';
-import { CalendarClock, ArrowRight } from 'lucide-react';
+import { CalendarClock } from 'lucide-react';
 import './traps-later.css';
 
 export default function SameMistakesLater({ later }) {
@@ -19,7 +19,7 @@ export default function SameMistakesLater({ later }) {
         <p className="sml__line">{later.line}</p>
         <p className="sml__note">{later.note}</p>
         {later.when === 'now' && later.href ? (
-          <Link className="sml__open" href={later.href}>{later.open}<ArrowRight size={16} strokeWidth={2.1} aria-hidden="true" /></Link>
+          <Link className="sml__open" href={later.href}>{later.open}</Link>
         ) : null}
         {later.fine ? <p className="sml__fine">{later.fine}</p> : null}
       </div>

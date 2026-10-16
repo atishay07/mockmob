@@ -34,7 +34,7 @@ export default function SignupPageClient() {
       lead="Keep your recorded mocks, chapter mistakes and saved questions together."
       points={[
         'Quick practice and Full mock on free credits',
-        'Radar traces every mistake back to its chapter',
+        'Chapter review traces every mistake back to its chapter',
         'Go Pro when you want unlimited practice',
       ]}
     >

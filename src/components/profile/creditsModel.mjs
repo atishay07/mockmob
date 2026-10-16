@@ -26,14 +26,15 @@ const SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'O
 const whole = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '')) && Number.isFinite(Number(v)) ? Math.trunc(Number(v)) : null;
 const fmt = (n) => n.toLocaleString('en-IN');
 
-/** "1 November" from "2026-11-01" (a calendar date, never shifted by a time zone). Null when it is not one. */
-export function longDate(ymd) {
+/** "1 November" from "2026-11-01" (a calendar date, never shifted by a time zone), or "1 November 2026" with
+ *  { year: true } for an end date a student may read months ahead. Null when it is not one. */
+export function longDate(ymd, { year = false } = {}) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(ymd || ''));
   if (!m) return null;
   const month = Number(m[2]);
   const day = Number(m[3]);
   if (month < 1 || month > 12 || day < 1 || day > 31) return null;
-  return `${day} ${MONTHS[month - 1]}`;
+  return year ? `${day} ${MONTHS[month - 1]} ${m[1]}` : `${day} ${MONTHS[month - 1]}`;
 }
 
 /** "14 Oct, 3:30 pm" in India time, from an ISO instant. Null when it is not one. */
@@ -56,7 +57,7 @@ export function creditTiles(body) {
   const practiceBalance = whole(body?.practice?.balance);
   const aiBalance = whole(body?.ai?.balance);
   const renews = longDate(body?.ai?.renewsOn);
-  const until = longDate(plan.until);
+  const until = longDate(plan.until, { year: true });
 
   const practice = pro
     ? { state: 'unlimited', figure: 'Unlimited', lines: [until ? `Included with Pro until ${until}.` : 'Included with Pro.'] }

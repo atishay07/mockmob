@@ -43,7 +43,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
 
       const authResponse = await fetch('/api/auth/me');
       if (authResponse.status === 401) {
-        window.location.href = `/login?callbackUrl=${encodeURIComponent('/pricing/prepos')}`;
+        window.location.href = `/login?callbackUrl=${encodeURIComponent('/pricing/ai-credits')}`;
         return;
       }
 
@@ -59,7 +59,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
 
       const checkout = new window.Razorpay({
         key: keyId,
-        name: 'MockMob PrepOS',
+        name: 'MockMob AI credits',
         description: `${serverPack.credits} AI credits`,
         order_id: order.id,
         amount: serverPack.amountPaise,

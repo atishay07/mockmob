@@ -4,6 +4,7 @@
 // "Add to my colleges" key on a Compass college row. All three read and write the one server list
 // (useMyColleges, /api/me/colleges), the same list the app uses. Nothing here invents a number:
 // the count is the list's own, and a list that has not loaded says so instead of showing zero.
+import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowDown, ArrowUp, Check, Plus, Trash2 } from 'lucide-react';
 import { useMyColleges } from './useMyColleges';
@@ -79,6 +80,16 @@ export function TodayColleges({ userId }) {
 export function AccountColleges({ userId }) {
   const mine = useMyColleges(userId);
   const { colleges, busy } = mine;
+  // The last removal, so it can be undone: added back, then moved to the place it had.
+  const [undo, setUndo] = useState(null);
+  const restore = async () => {
+    const back = undo;
+    setUndo(null);
+    if (!back) return;
+    const end = colleges.length; // the restored college lands last, at this index
+    const ok = await mine.add(back.entry);
+    if (ok && back.at < end) await mine.move(end, back.at);
+  };
   return (
     <section className="glass mc-card" id="colleges" aria-labelledby="mc-account-h" data-state={mine.status}>
       <header className="mc-head">
@@ -95,17 +106,18 @@ export function AccountColleges({ userId }) {
             <li key={entryKey(c)} className="mc-row mc-row--edit">
               <Place n={c.position} />
               <span className="mc-name"><b>{c.college}</b>{c.programme ? <span>{c.programme}</span> : null}</span>
+              {/* aria-disabled, not disabled: a disabled button drops keyboard focus to the page after every move. */}
               <span className="mc-tools">
-                <button type="button" className="mc-icon" disabled={busy || i === 0} onClick={() => mine.move(i, i - 1)} aria-label={`Move ${c.college} up`}><ArrowUp size={18} aria-hidden="true" /></button>
-                <button type="button" className="mc-icon" disabled={busy || i === colleges.length - 1} onClick={() => mine.move(i, i + 1)} aria-label={`Move ${c.college} down`}><ArrowDown size={18} aria-hidden="true" /></button>
-                <button type="button" className="mc-icon mc-icon--remove" disabled={busy} onClick={() => mine.remove(c)} aria-label={`Remove ${c.college} from My colleges`}><Trash2 size={18} aria-hidden="true" /></button>
+                <button type="button" className="mc-icon" aria-disabled={busy || i === 0 || undefined} onClick={() => { if (!busy && i > 0) mine.move(i, i - 1); }} aria-label={`Move ${c.college} up`}><ArrowUp size={18} aria-hidden="true" /></button>
+                <button type="button" className="mc-icon" aria-disabled={busy || i === colleges.length - 1 || undefined} onClick={() => { if (!busy && i < colleges.length - 1) mine.move(i, i + 1); }} aria-label={`Move ${c.college} down`}><ArrowDown size={18} aria-hidden="true" /></button>
+                <button type="button" className="mc-icon mc-icon--remove" aria-disabled={busy || undefined} onClick={() => { if (busy) return; const at = i; mine.remove(c).then((ok) => { if (ok) setUndo({ entry: c, at }); }); }} aria-label={`Remove ${c.college} from My colleges`}><Trash2 size={18} aria-hidden="true" /></button>
               </span>
             </li>
           ))}
         </ol>
       ) : null}
       <div className="mc-foot">
-        <p className="mc-notice" role="status" aria-live="polite">{mine.notice}</p>
+        <p className="mc-notice" role="status" aria-live="polite">{mine.notice}{undo && mine.notice.startsWith('Removed') ? <> <button type="button" className="mc-undo" onClick={restore}>Undo</button></> : null}</p>
         {mine.status === 'ready' && colleges.length ? (
           colleges.length < MAX_COLLEGES
             ? <Link className="mc-key" href={COMPASS_HREF}><Plus size={16} aria-hidden="true" />Add from Admission Compass</Link>
@@ -119,7 +131,10 @@ export function AccountColleges({ userId }) {
 /** A Compass college row's key: adds the college in this programme, or takes it off again. */
 export function AddToMyColleges({ userId, programmeId, programme, college }) {
   const mine = useMyColleges(userId);
-  if (!userId || !programmeId) return null;
+  if (!programmeId) return null;
+  // Signed out: the save is still visible, as a quiet way in. The calculator keeps the chosen subjects on this
+  // device, so they are still there after sign-in (T003, T004).
+  if (!userId) return <Link className="mc-signin" href="/login?callbackUrl=%2Fcuet-cutoff-calculator">Sign in to save</Link>;
   const entry = { programmeId, programme, college };
   const on = hasEntry(mine.colleges, entry);
   const full = !on && mine.colleges.length >= MAX_COLLEGES;

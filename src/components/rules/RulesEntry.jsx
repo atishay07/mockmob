@@ -1,8 +1,7 @@
 "use client";
-// Review's way into the Rule book (spec tmp/mistake-lab-v4/SPEC.md 4.10): "Your rules, 7" and the rule chosen for the
+// Review's way into the Rule book (spec tmp/mistake-lab-v4/SPEC.md 4.10): "Your rules (7)" and the rule chosen for the
 // next mock, from GET /api/me/rules. While it loads, or if it fails, the link still opens the Rule book.
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { useRuleBook } from './useRuleBook';
 import './rule-book.css';
 
@@ -18,7 +17,6 @@ export default function RulesEntry() {
         <b>{book?.countLabel || 'Your rules'}</b>
         <span>{detail}</span>
       </span>
-      <ArrowRight className="rb-entry__go" size={18} aria-hidden="true" />
     </Link>
   );
 }

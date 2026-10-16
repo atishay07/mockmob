@@ -81,3 +81,8 @@
   .app-shell .lb-who { gap: 8px; }
   .app-shell .lb-who > .avatar { display: none; }
 }
+
+/* The practice rival: a labelled benchmark line under the table, never a ranked place. */
+.app-shell .lb-bench { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.app-shell .lb-bench li { max-width: 72ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .lb-bench b { color: var(--a-ink); font-weight: 650; }

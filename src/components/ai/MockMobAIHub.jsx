@@ -15,8 +15,6 @@ import { CreditAmount } from '@/components/ui/Glyph';
 import { answerFromInsights } from '../../../data/prepos_insights';
 import RecordView from './RecordView';
 import ArenaHead from '@/components/arena/ArenaHead';
-import ArenaCompanion from '@/components/brand/ArenaCompanion';
-import { useShrug } from '@/lib/mobiHooks';
 import { PrepOSOrb } from '@/components/ui/PrepOSOrb';
 import { useInsights } from './useInsights';
 import { POOL_USE, usedLine, usesLine } from '@/lib/creditCopy.mjs';
@@ -35,7 +33,7 @@ const SECTIONS = [
   { id: 'plan', label: 'Next step' },
   { id: 'record', label: 'Your record' },
   { id: 'ask', label: 'Ask' },
-  { id: 'tools', label: 'Tools and AI credits' },
+  { id: 'tools', label: 'AI credits' },
 ];
 const MINUTES = [10, 20, 30];
 
@@ -57,9 +55,6 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
   const wanted = variant === 'page' && requestedTab ? requestedTab : initialTab;
   const [section, setSection] = useState(SECTIONS.some((s) => s.id === wanted) ? wanted : wanted === 'guide' ? 'tools' : 'plan');
   const insightsState = useInsights(user?.id);
-  // The one Mobi of the hub reads the record; a failed read is one shrug per run.
-  const shrug = useShrug(insightsState.status === 'error', 'hub');
-  const planMobi = shrug ? 'oops' : insightsState.status === 'ready' || insightsState.status === 'empty' ? 'read' : 'idle';
   const [wallet, setWallet] = useState(null);
   const walletSequence = useRef(0);
   const readWallet = useCallback(async () => {
@@ -76,11 +71,11 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
     if (isAuthenticated) Promise.resolve().then(() => { if (active) readWallet(); });
     return () => { active = false; fence.current++; };
   }, [isAuthenticated, readWallet]);
-  const firstName = useMemo(() => String(user?.name || user?.email || 'there').split(/[ @]/)[0] || 'there', [user?.name, user?.email]);
+  const firstName = useMemo(() => String(user?.name || '').trim().split(/\s+/)[0] || '', [user?.name]);
 
   const shellClass = isDrawer
     ? 'arena-dark-island flex h-full min-h-0 flex-col bg-[#090a08] text-zinc-100'
-    : 'arena-dark-island mx-auto flex min-h-[640px] w-full max-w-4xl flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#090a08] text-zinc-100';
+    : 'arena-dark-island flex min-h-[640px] w-full max-w-4xl flex-col overflow-hidden rounded-[26px] border border-white/10 bg-[#090a08] text-zinc-100';
 
   function navigate(route) {
     if (!route) return;
@@ -89,21 +84,21 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
   }
 
   return (
-    <>{!isDrawer && <ArenaHead eyebrow="PrepOS" title="Make tonight's next step clear." lede="The same next action as Today, with the reasoning from your recorded practice." />}<div className={`prepos-console ${shellClass}`}>
+    <>{!isDrawer && <ArenaHead title="Ask Mobi" lede="The same next action as Today, with the reasoning from your recorded practice." />}<div className={`prepos-console ${shellClass}`}>
       <header className="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-3 md:px-6">
         <PrepOSOrb size={40} />
         <div className="min-w-0">
-          <div className="font-display text-lg font-black text-zinc-50">PrepOS</div>
+          <div className="font-display text-lg font-black text-zinc-50">Ask Mobi</div>
           <p className="text-xs text-zinc-400">Your practice record. One useful next move.</p>
         </div>
         {isDrawer && onClose ? (
-          <button type="button" onClick={onClose} aria-label="Close PrepOS" className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-xl border border-white/10 text-zinc-300 hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-volt">
+          <button type="button" onClick={onClose} aria-label="Close Ask Mobi" className="inline-flex h-[44px] w-[44px] items-center justify-center rounded-xl border border-white/10 text-zinc-300 hover:border-white/25 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-volt">
             <Icon name="x" />
           </button>
         ) : null}
       </header>
 
-      <nav className="flex gap-1 border-b border-white/10 px-2 md:px-4" aria-label="PrepOS sections">
+      <nav className="flex gap-1 border-b border-white/10 px-2 md:px-4" aria-label="Ask Mobi sections">
         {SECTIONS.map((s) => (
           <button
             key={s.id}
@@ -118,7 +113,6 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
       </nav>
 
       <div className="min-h-0 flex-1 overflow-y-auto px-4 py-5 md:px-6">
-        {section === 'plan' ? <div className="pp-handover"><ArenaCompanion compact act={planMobi} pose="attentive" title="Read it. Then decide.">Your sessions tell the story. Choose one useful step.</ArenaCompanion></div> : null}
         {!isAuthenticated ? (
           <SignedOut onNavigate={navigate} />
         ) : section === 'plan' ? (
@@ -137,7 +131,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
 function SignedOut({ onNavigate }) {
   return (
     <div className="grid gap-3">
-      <p className="text-sm text-zinc-300">PrepOS explains your next step from your own practice record, so it needs an account.</p>
+      <p className="text-sm text-zinc-300">Mobi explains your next step from your own practice record, so it needs an account.</p>
       <button type="button" className="btn-volt md self-start" onClick={() => onNavigate('/signup?source=prepos')}>Create a free account</button>
     </div>
   );
@@ -167,7 +161,7 @@ function PlanSection({ firstName, onNavigate, insightsState, onInspect, onAsk })
 
   return (
     <section className="pp-plan grid gap-4" aria-label="Your next step">
-      <h2 className="font-display text-2xl font-extrabold text-zinc-50">{firstName}, here is your next step.</h2>
+      <h2 className="font-display text-2xl font-extrabold text-zinc-50">{firstName ? `${firstName}, here is your next step.` : 'Here is your next step.'}</h2>
       <fieldset className="grid gap-2">
         <legend className="mb-1 text-sm font-semibold text-zinc-300">Time you have</legend>
         <div className="flex flex-wrap gap-2">
@@ -192,22 +186,21 @@ function PlanSection({ firstName, onNavigate, insightsState, onInspect, onAsk })
 
       {status === 'ready' && plan ? (
         <div className="grid gap-3 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-          <div className="text-xs font-semibold text-zinc-400">Same step as Today · planned for {plan.minutes || minutes} minutes</div>
+          <div className="text-xs font-semibold text-zinc-400">The same step as Today, planned for {plan.minutes || minutes} minutes</div>
           <h3 className="font-display text-xl font-bold text-zinc-50">{plan.primary.title}</h3>
           <p className="text-sm leading-6 text-zinc-300">{plan.primary.reason}</p>
-          {plan.primary.facts?.length ? (
+          {plan.primary.facts?.some((f) => f.basis === 'record') ? (
             <div className="pp-facts">
               <h4>Why this step</h4>
               <ul>
-                {plan.primary.facts.map((f) => (
-                  <li key={f.text}><span className={`pp-facts__basis pp-facts__basis--${f.basis}`}>{f.basis === 'record' ? 'Your record' : 'Product rule'}</span>{f.text}</li>
+                {plan.primary.facts.filter((f) => f.basis === 'record').map((f) => (
+                  <li key={f.text}>{f.text}</li>
                 ))}
               </ul>
-              <small>Checked facts from the server. Written guidance, when available, explains them and cannot override them.</small>
             </div>
           ) : null}
           <button type="button" className="btn-volt md self-start" onClick={() => onNavigate(plan.primary.href)}>
-            {plan.primary.title} <Icon name="arrow" />
+            {plan.primary.title}
           </button>
           {plan.alternatives?.length ? (
             <div className="flex flex-wrap gap-2 pt-1">
@@ -217,15 +210,15 @@ function PlanSection({ firstName, onNavigate, insightsState, onInspect, onAsk })
             </div>
           ) : null}
           <p className="text-xs leading-5 text-zinc-400">
-            This step comes from your server practice record. PrepOS does not keep a separate schedule, and no AI credits are used to show it.
+            This step comes from your practice record. Showing it uses no AI credits.
           </p>
         </div>
       ) : null}
       <section className="pp-evidence" aria-label="Why this step">
-        <div className="pp-evidence__head"><span>From your recorded practice</span><button type="button" onClick={onInspect}>Inspect your record <Icon name="arrow" /></button></div>
-        {insightsState.status === 'ready' && insightsState.findings?.[0] ? <><h3>{insightsState.findings[0].headline}</h3><p>{insightsState.findings[0].detail}</p><small>{insightsState.insights?.sessions} recorded sessions · a practice observation, not a diagnosis</small></> : <p>{insightsState.status === 'error' ? 'Your record could not be read. The next step above has its own availability check.' : insightsState.status === 'loading' ? 'Reading your recorded sessions…' : 'Take a session first. PrepOS will explain what your record shows, without inventing a weak chapter.'}</p>}
+        <div className="pp-evidence__head"><span>From your recorded practice</span><button type="button" onClick={onInspect}>Inspect your record</button></div>
+        {insightsState.status === 'ready' && insightsState.findings?.[0] ? <><h3>{insightsState.findings[0].headline}</h3><p>{insightsState.findings[0].detail}</p><small>From {insightsState.insights?.sessions} recorded sessions. A practice observation, not a diagnosis.</small></> : <p>{insightsState.status === 'error' ? 'Your record could not be read. The next step above has its own availability check.' : insightsState.status === 'loading' ? 'Reading your recorded sessions…' : 'Take a session first. Mobi will explain what your record shows, without inventing a weak chapter.'}</p>}
       </section>
-      <div className="pp-plan__handoff"><span>Want to understand the choice?</span><button type="button" onClick={onAsk}>Ask Mobi <Icon name="arrow" /></button></div>
+      <div className="pp-plan__handoff"><span>Want to understand the choice?</span><button type="button" onClick={onAsk}>Ask Mobi</button></div>
     </section>
   );
 }
@@ -291,7 +284,7 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
       setRetry(null);
       const response = res.ok ? normalizeResponse({...(data.response || data), runtimeState:data.runtimeState}) : {
         reply: data.message || (res.status === 429 ? 'Too many questions in a short time. Wait a minute and try again.' : 'Mobi could not answer just now. Check your AI credits for the outcome.'),
-        origin:'status', actions: res.status === 402 ? [{ label: 'See your AI credits', type: 'navigate', route: '/pricing/prepos' }] : [{ label: 'Open Today', type: 'navigate', route: '/today' }],
+        origin:'status', actions: res.status === 402 ? [{ label: 'See your AI credits', type: 'navigate', route: '/pricing/ai-credits' }] : [{ label: 'Open Today', type: 'navigate', route: '/today' }],
       };
       setMessages((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response }]);
       if (data.sessionId) setSessionId(data.sessionId);
@@ -310,12 +303,12 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
       <div className="pp-ask__switch" role="group" aria-label="Reply source"><button type="button" aria-pressed={kind==='record'} disabled={pending || Boolean(retry)} onClick={()=>setKind('record')}>About your marks <small>Free</small></button><button type="button" aria-pressed={kind==='model'} disabled={pending || Boolean(retry)} onClick={()=>setKind('model')}>Written guidance <small>1 AI credit</small></button></div>
       {kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? usesLine({ what: 'One written reply', cost: 1, pool: 'ai', balance: wallet.total }) : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? `You have no AI credits left. ${POOL_USE.ai}` : 'Written guidance is unavailable until your AI credits can be read.'}</b><p>{wallet?.state==='available' ? 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.' : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' ? <div className="pp-ask__focus"><span id="prepos-focus-label">Focus</span><Listbox id="prepos-focus" labelledBy="prepos-focus-label" sheetTitle="Focus" size="sm" value={mode} disabled={pending || Boolean(retry)} onChange={setMode} options={FOCUS_OPTIONS} /></div> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no AI credits.</p>}
       <div ref={transcriptRef} className="pp-transcript" aria-live="polite" aria-busy={pending}>
-        {messages.length === 0 && <div className="pp-ask__empty"><p>Start with something your record can answer.</p><div className="pp-ask__suggestions">{['Where am I losing marks?', 'Which chapter should I practise?', 'Am I spending too long?'].map(text=><button type="button" key={text} onClick={()=>send(text)} disabled={kind==='model' && wallet?.state!=='available'}>{text}<Icon name="arrow" /></button>)}</div><small>{current.title}: {current.body}</small></div>}
+        {messages.length === 0 && <div className="pp-ask__empty"><p>Start with something your record can answer.</p><div className="pp-ask__suggestions">{['Where am I losing marks?', 'Which chapter should I practise?', 'Am I spending too long?'].map(text=><button type="button" key={text} onClick={()=>send(text)} disabled={kind==='model' && wallet?.state!=='available'}>{text}</button>)}</div><small>{current.title}: {current.body}</small></div>}
         {messages.map((m) => m.role === 'user' ? (
           <p key={m.id} className="justify-self-end max-w-[85%] rounded-2xl bg-white/[0.06] px-3 py-2 text-sm text-zinc-100">{m.text}</p>
         ) : (
           <div key={m.id} className="pp-response" data-origin={m.response.origin}>
-            <span className="pp-response__source">{m.response.origin==='model' ? 'Mobi, written guidance' : m.response.origin==='record' ? 'From your record, no credits' : m.response.origin==='status' ? 'Service status' : 'Earlier reply · source not recorded'}</span>
+            <span className="pp-response__source">{m.response.origin==='model' ? 'Mobi, written guidance' : m.response.origin==='record' ? 'From your record, no credits' : m.response.origin==='status' ? 'Service status' : 'Earlier reply, source not recorded'}</span>
             <p>{m.response.reply}</p>
             {m.response.origin==='model' ? <small>{m.response.charged ? usedLine({ cost: m.response.charged, pool: 'ai', balance: wallet?.known ? wallet.total : null }) : 'Check your AI credits for the final charge.'}</small> : null}
             {m.response.actions?.length ? (

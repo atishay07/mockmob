@@ -109,7 +109,7 @@ test('GET bodies: the rule in force with the start sheet strings; the Rule book 
   assert.equal(pb.startSheet.rule, 'Your rule for this mock: open every question once before you go deep on any.');
   assert.deepEqual(playbookBody({ attempts: HISTORY, sources: { repairs: [], playbook: [] } }), { active: null, startSheet: null });
   const rb = rulesBody({ attempts: HISTORY, sources: SOURCES });
-  assert.equal(rb.book.countLabel, 'Your rules, 7');
+  assert.equal(rb.book.countLabel, 'Your rules (7)');
   assert.equal(rb.acrossMocks.state, 'ready');
 });
 

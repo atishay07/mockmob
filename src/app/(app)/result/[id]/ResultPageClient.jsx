@@ -438,7 +438,7 @@ export default function ResultPageClient({ previewId = null }) {
       ) : null}
 
       <nav className="rp-links" aria-label="More from your record">
-        <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Full record in PrepOS</Link>
+        <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Your full record</Link>
         <Link href="/review"><AppIcon name="review" size={16} />All saved mistakes</Link>
         <Link href="/analytics"><AppIcon name="radar" size={16} />Open Radar</Link>
         <Link href="/dashboard"><AppIcon name="practice" size={16} />Back to Practice</Link>

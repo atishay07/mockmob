@@ -43,7 +43,7 @@ const WEBSITE_FILES = [
   'src/components/ai/MockMobAIHub.jsx', 'src/components/ai/AIRivalArena.jsx', 'src/components/ai/assistantKnowledge.js',
   'src/components/ui/Glyph.jsx', 'src/components/profile/accountModel.mjs', 'src/components/profile/CreditsSection.jsx',
   'src/components/profile/creditsModel.mjs', 'src/components/billing/PlanCard.jsx', 'src/components/billing/PrepOSCreditPurchaseButton.jsx',
-  'src/app/(app)/AppLayoutClient.jsx', 'src/app/pricing/page.js', 'src/app/pricing/prepos/page.js', 'src/app/refunds/page.js',
+  'src/app/(app)/AppLayoutClient.jsx', 'src/app/pricing/page.js', 'src/app/pricing/ai-credits/page.js', 'src/app/refunds/page.js',
   'src/services/prepos/modelReply.js', 'src/services/recovery/repairFlow.js', 'src/services/credits/aiWalletState.js',
   'src/services/ai-rival/createAIRivalBattle.js', 'src/app/api/ai/actions/execute/route.js',
 ];

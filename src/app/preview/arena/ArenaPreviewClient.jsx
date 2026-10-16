@@ -242,8 +242,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // ?rules=few|new|down for the other states; &save=fail refuses the next choice; &across= as on the result page.
     // A choice is kept in memory for this tab only (window.__previewRule), after a short wait so the saving state shows.
     if (url.pathname === '/api/me/rules' && method === 'GET') {
-      const kind = fixture.get('rules') || 'ready';
-      if (kind === 'down' || state === 'empty') return json({ error: 'unavailable', message: 'Your rules could not be loaded. Try again shortly.' }, 503);
+      // ?data=empty is a student with no record: an empty rule book, not a failed read.
+      const kind = state === 'empty' ? 'new' : fixture.get('rules') || 'ready';
+      if (kind === 'down') return json({ error: 'unavailable', message: 'Your rules could not be loaded. Try again shortly.' }, 503);
       const book = fixtureRuleBook(kind);
       return json({ book: window.__previewRule ? withActiveRule(book, window.__previewRule) : book, acrossMocks: fixtureAcross(kind === 'new' ? 'none' : kind === 'few' ? 'below_gate' : fixture.get('across') || 'ready') });
     }
@@ -272,13 +273,13 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const kind = fixture.get('colleges') || 'ready';
       if (kind === 'down') return json({ error: 'unavailable' }, 503);
       const seed = [
-        ['Shri Ram College of Commerce', 'B.Com (Hons)'], ['Lady Shri Ram College for Women', 'B.Com (Hons)'], ['Hansraj College', 'B.Com (Hons)'],
+        ['Shri Ram College of Commerce', 'B.Com (Hons)'], ['Lady Shri Ram College for Women (W)', 'B.Com (Hons)'], ['Hansraj College', 'B.Com (Hons)'],
         ['Hindu College', 'B.Com (Hons)'], ['Kirori Mal College', 'B.Com (Hons)'], ['Sri Venkateswara College', 'B.Com (Hons)'],
-        ['Ramjas College', 'B.Com (Hons)'], ['Daulat Ram College', 'B.Com (Hons)'],
+        ['Ramjas College', 'B.Com (Hons)'], ['Daulat Ram College (W)', 'B.Com (Hons)'],
       ];
       if (!window.__previewColleges) {
         const n = kind === 'empty' || state === 'empty' ? 0 : kind === 'full' ? 8 : 5;
-        window.__previewColleges = seed.slice(0, n).map(([college, programme]) => ({ college, programme, programmeId: 'fixture-bcom-hons' }));
+        window.__previewColleges = seed.slice(0, n).map(([college, programme]) => ({ college, programme, programmeId: 'b-com-hons' }));
       }
       const body = () => {
         const colleges = window.__previewColleges.slice(0, 8).map((c, i) => ({ ...c, position: i + 1, addedAt: null }));
@@ -324,10 +325,13 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const milestones = empty ? [] : studyMilestones([{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1' } }], []);
       return json({ ordinaryReview, progress: [], milestones, playbook: empty ? [] : [{ id: 'pb1', strategy: 'two_pass', reflection: 'Do the sure questions first, then come back to the long ones.' }], reviewState: 'ready', note: 'Fresh delayed checks provide concept evidence, not a causal score gain.' });
     }
-    if (url.pathname === '/api/bookmarks' && method === 'GET') return json({ questions: state === 'empty' ? [] : fixtureFeed('accountancy').slice(0, 2), questionIds: [], count: state === 'empty' ? 0 : 2 });
+    if (url.pathname === '/api/bookmarks' && method === 'GET') return json({ questions: state === 'empty' ? [] : fixtureFeed('accountancy').slice(0, 2).map((q) => ({ ...q, saved: true })), questionIds: [], count: state === 'empty' ? 0 : 2 });
     if (url.pathname === '/api/learning/plan') {
+      // ?record=down fails the plan read; ?record=empty or ?data=empty has no saved session.
+      if (new URLSearchParams(window.location.search).get('record') === 'down') return json({ error: 'unavailable' }, 503);
+      const noRecord = state === 'empty' || new URLSearchParams(window.location.search).get('record') === 'empty';
       const attempts = fixture.get('tonight') === 'done' ? [{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1', ...tonightMetadata({ tonightKey: 'preview-tonight-key', tonightMinutes: 30, mode: 'quick', count: 20 }) } }] : [];
-      return json({ ...learningPlan({ minutes: Number(url.searchParams.get('minutes')) || 10 }), tonight: tonightCompletion(attempts), episodes: [], supportedConcepts: [], pathwayState: 'blocked_content', recordState: 'ready', ordinaryAttemptCount: state === 'empty' ? 0 : 3 });
+      return json({ ...learningPlan({ minutes: Number(url.searchParams.get('minutes')) || 10, attempts: noRecord ? [] : PREVIEW_ATTEMPTS }), tonight: tonightCompletion(attempts), episodes: [], supportedConcepts: [], pathwayState: 'blocked_content', recordState: 'ready', ordinaryAttemptCount: noRecord ? 0 : 3 });
     }
     if (url.pathname === '/api/recovery/replay') return json({ chapters: state === 'empty' ? [] : [{ chapter: 'Partnership Fundamentals', state: fixture.get('replay') === 'ready' ? 'available' : 'unavailable', href: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt' }], state: 'ready' });
     if (url.pathname === '/api/ai/credits') {

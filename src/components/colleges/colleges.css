@@ -45,9 +45,11 @@
   background: transparent; color: var(--a-ink-2); cursor: pointer; touch-action: manipulation;
   transition: background-color 150ms var(--a-ease), color 150ms var(--a-ease), transform 100ms var(--a-ease);
 }
-.app-shell .mc-icon:active:not(:disabled) { transform: scale(0.94); }
+.app-shell .mc-icon:active:not(:disabled):not([aria-disabled='true']) { transform: scale(0.94); }
 .app-shell .mc-icon:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }
-.app-shell .mc-icon:disabled { opacity: 0.35; cursor: not-allowed; }
+.app-shell .mc-icon:is(:disabled, [aria-disabled='true']) { opacity: 0.35; cursor: not-allowed; }
+.app-shell .mc-icon[aria-disabled='true']:active { transform: none; }
+.app-shell .mc-undo { min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--a-ink); font: 650 14px var(--font-body); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .app-shell .mc-icon--remove { color: var(--a-bad-text); }
 @media (hover: hover) and (pointer: fine) { .app-shell .mc-icon:hover:not(:disabled) { background: var(--a-hover); color: var(--a-ink); } }
 
@@ -92,3 +94,5 @@
   .app-shell .mc-icon, .app-shell .mc-key, .app-shell .mc-add { transition: none; }
   .app-shell .mc-icon:active:not(:disabled), .app-shell .mc-key:active, .app-shell .mc-add:active:not(:disabled) { transform: none; }
 }
+/* Signed out, on the public calculator: a quiet text link in place of the add key. */
+.mc-signin { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8125rem; font-weight: 600; color: inherit; text-decoration: underline; text-underline-offset: 4px; }

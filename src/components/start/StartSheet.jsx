@@ -283,12 +283,11 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
 
         {planState === 'loading' && !hero ? (
           <div className="st-hero st-hero--loading" data-rise role="status" aria-label="Working out your next move">
-            <span className="st-skel st-skel--eyebrow skeleton" /><span className="st-skel st-skel--title skeleton" /><span className="st-skel st-skel--line skeleton" /><span className="st-skel st-skel--cta skeleton" />
+            <span className="st-skel st-skel--title skeleton" /><span className="st-skel st-skel--line skeleton" /><span className="st-skel st-skel--cta skeleton" />
           </div>
         ) : hero ? (
           <section className="st-hero" data-rise aria-labelledby={`${titleId}-move`} data-graphic={hero.graphic}>
             <div className="st-hero__text">
-              <p className="st-hero__eyebrow">{hero.eyebrow}</p>
               <h3 id={`${titleId}-move`} className="st-hero__title">{hero.title}</h3>
               {hero.reason ? <p className="st-hero__reason">{hero.reason}</p> : null}
               <div className="st-hero__go">

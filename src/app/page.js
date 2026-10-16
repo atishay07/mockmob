@@ -45,16 +45,16 @@ import './lab-cinema.css';
 import './home.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
-  'Quick Practice and Full Mock on credits',
+  'Quick practice and Full mock on credits',
   'Weekly progress tracking',
   '25 saved questions',
   'Leaderboard',
 ];
 const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Unlimited saved questions'] : [
-  'Unlimited Quick Practice and Full Mock',
+  'Unlimited Quick practice and Full mock',
   'Compass Pro: your practice mapped to your DU shortlist',
-  'Smart Practice and NTA Mode',
-  'Full Radar: every ranked chapter, pace and changed answers',
+  'Smart practice and NTA mode',
+  'Full chapter review: every ranked chapter, pace and changed answers',
   'Unlimited saved questions',
 ];
 
@@ -97,7 +97,7 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 const TOUR = [
   { id: 'arena', label: 'Practice', icon: <Timer size={18} aria-hidden="true" />, line: 'Drills and full mocks on the exam clock', kicker: 'Arena', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
-    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
+    points: ['Quick drills and full mocks', 'NTA-style screen and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Marked +5 / −1, the way CUET marks it.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', icon: <Wrench size={18} aria-hidden="true" />, line: 'Fix why you got it wrong, not just the answer', kicker: 'Score Recovery', title: 'Fix why you missed it, not just what the answer was.',
     body: 'After a wrong answer, see why your pick was tempting, where it breaks and what to remember, written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
     points: ['If the AI and the key disagree, we hold the question back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'The AI explains only once its answer matches the official key.', href: '/signup', cta: 'Try Mistake Repair' },
@@ -107,12 +107,12 @@ const TOUR = [
   { id: 'replay', label: 'Replay', icon: <History size={18} aria-hidden="true" />, line: 'See where the marks actually went', kicker: 'Mistake Replay', title: 'Replay a mock, answer by answer.',
     body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
     points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'The whole mock in order, so you pick what to fix.', href: '/review', cta: 'Review your mistakes' },
-  { id: 'radar', label: 'Radar', icon: <Radar size={18} aria-hidden="true" />, line: 'The chapter to fix first', kicker: 'Radar', title: 'Know which chapter to fix first.',
-    body: 'A score is just a number. Radar traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
-    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'Explore Radar' },
-  { id: 'prepos', label: 'PrepOS', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'PrepOS', title: 'Ask what to do tonight. Get one clear step.',
-    body: 'PrepOS reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in Radar.',
-    points: ['Questions about your own record are free', 'AI replies use monthly credits: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and Radar.', href: '/mentor', cta: 'Meet PrepOS' },
+  { id: 'radar', label: 'Chapter review', icon: <Radar size={18} aria-hidden="true" />, line: 'The chapter to fix first', kicker: 'Chapter review', title: 'Know which chapter to fix first.',
+    body: 'A score is just a number. Chapter review traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
+    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'See chapter review' },
+  { id: 'prepos', label: 'Ask Mobi', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'Ask Mobi', title: 'Ask what to do tonight. Get one clear step.',
+    body: 'Mobi reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in chapter review.',
+    points: ['Questions about your own record are free', 'AI replies use monthly credits: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and in chapter review.', href: '/mentor', cta: 'Ask Mobi' },
   { id: 'compass', label: 'DU Compass', icon: <Compass size={18} aria-hidden="true" />, line: 'Your shortlist against real DU cutoffs', kicker: 'Admission Compass', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
     points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Your practice, set against DU’s published cutoffs.', href: '/admission-compass', cta: 'Open Compass' },
@@ -121,7 +121,7 @@ const TOUR = [
     points: ['Free to use', 'Compare combinations side by side'], chip: 'Tested against DU’s published 2026 rules.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
   { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and leaderboard', title: 'Beat the score you’re aiming for.',
     body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level. It shows whether you can hold that standard when the clock is running.',
-    points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See the leaderboard' },
+    points: ['The daily benchmark is free', 'Every mock earns points for accuracy and speed on the leaderboard'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See the leaderboard' },
 ];
 
 const faqs = [

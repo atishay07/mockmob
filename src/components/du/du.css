@@ -1566,3 +1566,6 @@ html[data-motion='reduced'] .du-delta { opacity: 1; }
   .du-delta, .du-clear { animation: none; }
   .du-delta { opacity: 1; }
 }
+
+/* The landing's DU teaser: its live count sits in the flow, not stuck over the chips of its own section. */
+.lp .du-live { position: static; }

@@ -154,7 +154,7 @@ export function DemoDrill() {
 
           {missed.length > 0 ? (
             <div className="mm-drill__readout">
-              <p className="mm-drill__readout-head">After a full mock, Radar would flag:</p>
+              <p className="mm-drill__readout-head">After a full mock, chapter review would flag:</p>
               <ul>
                 {missed.map((chapter, i) => (
                   <li key={`${chapter}-${i}`}>

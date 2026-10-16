@@ -33,7 +33,7 @@ export default function Today() {
         <div className="today-record">
           <RhythmCard compact />
           <TodayColleges userId={user?.id} />
-          <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} />
+          <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} link={!top} />
         </div>
       </section>
     </div>

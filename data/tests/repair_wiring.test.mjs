@@ -87,7 +87,7 @@ test('the repair styles: no stage list, no coloured side rails on blocks, 44 px 
   const css = read('src/components/recovery/mistake-repair.css');
   assert.doesNotMatch(css, /\.mr-stages|\.mr-card\b/);
   assert.doesNotMatch(css, /border-left:\s*[3-9]px/, 'no thick coloured side borders');
-  assert.match(css, /\.mr-contrast \{[^}]*border-left: 2px solid var\(--a-ink-3/, 'the contrast pull line sits on a 2 px ink rail');
+  assert.match(css, /\.mr-contrast \{[^}]*border-left: 1px solid var\(--a-ink-3/, 'the contrast pull line sits on a 1 px ink rail (T-083: no side border over 1px)');
   for (const sel of ['.mr-disclose', '.mr-textbtn']) assert.match(css, new RegExp(`\\${sel} \\{[^}]*min-height: 44px`), `${sel} is 44 px`);
   const motion = css.slice(css.indexOf('@media (prefers-reduced-motion: no-preference)'));
   assert.match(motion, /\.mr--done\[data-fresh\] > \[data-stagger\] \{ animation: mr-rise 220ms[^}]*calc\(var\(--mr-i, 0\) \* 50ms\)/);

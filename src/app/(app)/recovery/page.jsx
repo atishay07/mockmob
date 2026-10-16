@@ -3,7 +3,6 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { apiGet, apiPost } from '@/lib/fetcher';
-import { CAPABILITIES } from '@/../data/capabilities';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { LAUNCH_SUBJECTS } from '@/../shared/recoveryContract';
 export default function RecoveryJourney() {
@@ -15,7 +14,7 @@ export default function RecoveryJourney() {
     if (requestKey.current?.fingerprint !== fingerprint) requestKey.current = { fingerprint, key: crypto.randomUUID() };
     return requestKey.current.key;
   }
-  useEffect(() => { let alive=true; apiGet('/api/learning/plan').then(p => { if(alive) {setPlan(p);setEpisode(p.episodes.find(e => e.id === params.get('episode')) || null);} }).catch(() => {if(alive)setError('Your learning record could not be loaded. Try again or open Review.');}); return()=>{alive=false;}; },[params,planRetry]);
+  useEffect(() => { let alive=true; apiGet('/api/learning/plan').then(p => { if(alive) {setPlan(p);setEpisode(p.episodes.find(e => e.id === params.get('episode')) || null);} }).catch(() => {if(alive)setError('Check your connection and try again, or open Review.');}); return()=>{alive=false;}; },[params,planRetry]);
   async function start(conceptId) {
     setBusy(true); setError('');
     try {setEpisode(await apiPost('/api/recovery/episodes',{conceptId,requestKey:keyFor({conceptId})})); requestKey.current=null;}
@@ -32,10 +31,15 @@ export default function RecoveryJourney() {
     if (!subject) {setError('The pathway is currently unavailable. Your credits have not been used.');return;}
     window.location.assign(`/test?${new URLSearchParams({subject,mode:'quick',count:'5',generationKey:crypto.randomUUID(),episodeId:episode.id})}`);
   }
-  return <section className="recovery-lab learning-journey"><ArenaHead eyebrow="Recovery · evidence before claims" title="Check one reasoning gap." lede="Practise the missing step, then check it on fresh material. A repeated answer is not independent evidence." />
-    {error && <p role="alert">{error}</p>}{!plan&&!error&&<p role="status">Loading your learning record…</p>}{!plan&&error&&<button type="button" className="recovery-action" onClick={()=>{setError('');setPlanRetry(n=>n+1);}}>Try again</button>}
+  // Until a pathway is released the page says so plainly: one action, and a real empty state for a new student.
+  const blocked = plan ? plan.pathwayState !== 'available' : false;
+  const noRecord = plan ? (plan.ordinaryAttemptCount ?? 1) === 0 : false;
+  return <section className="recovery-lab learning-journey">{!plan && error ? <ArenaHead title="This page did not load." lede="Your saved sessions and mistakes are safe." /> : blocked ? <ArenaHead title="Recovery steps open soon." lede="Until then, review your mistakes or keep practising. Nothing you do now is lost." /> : <ArenaHead title="Check one reasoning gap." lede="Practise the missing step, then check it on a fresh question later." />}
+    {error && <p role="alert">{error}</p>}{!plan&&!error&&<p role="status">Loading your learning record…</p>}{!plan&&error&&<div className="recovery-next"><button type="button" className="recovery-action" onClick={()=>{setError('');setPlanRetry(n=>n+1);}}>Try again</button><Link href="/review">Open Review</Link></div>}
     {plan && !episode && <>
-      {plan.pathwayState !== 'available' ? <div className="recovery-next"><h2>Practice is ready. Recovery content is being prepared.</h2><p>{CAPABILITIES.recovery.reason}</p><Link className="recovery-action" href="/dashboard">Start ordinary practice</Link><Link href="/review">Review your mistakes</Link></div> : <>
+      {blocked ? (noRecord
+        ? <div className="recovery-next"><h2>Nothing to review yet</h2><p>Finish a practice session first. Every miss lands in Review with its explanation.</p><Link className="recovery-action" href="/dashboard">Start practice</Link></div>
+        : <div className="recovery-next"><h2>Your mistakes are in Review</h2><p>Each miss there has its explanation and a way to practise the chapter again.</p><Link className="recovery-action" href="/review">Review your mistakes</Link><Link href="/dashboard">Start practice</Link></div>) : <>
         <h2>Start with an initial signal</h2><p>Five questions cannot diagnose a whole subject. Your mistakes can identify a distinction worth investigating.</p>
         <div className="learning-alternatives">{LAUNCH_SUBJECTS.map(s => <Link key={s.id} href={`/test?${new URLSearchParams({subject:s.id,count:'5',mode:'quick',purpose:'baseline',generationKey:crypto.randomUUID()})}`}>{s.label} baseline</Link>)}</div>
         <h2>Investigate a concept</h2>{plan.supportedConcepts.map(c => <button className="recovery-record" key={c.id} type="button" disabled={busy} onClick={()=>start(c.id)}>{c.title}</button>)}
@@ -49,7 +53,7 @@ export default function RecoveryJourney() {
         <fieldset disabled={busy}><legend>{episode.step.prompt}</legend>
           {episode.step.type==='numeric_step' ? <><label htmlFor="reasoning-number">Your calculated value</label><input id="reasoning-number" type="number" step="any" required value={value} onChange={e=>setValue(e.target.value)}/></> : (episode.step.type==='evidence_span'?episode.step.spans:episode.step.options.map((o,i)=>({id:String(i),text:typeof o==='string'?o:o.text}))).map(o=><label className="learning-option" key={o.id}><input type="radio" name="response" required checked={value===String(o.id)} value={o.id} onChange={e=>setValue(e.target.value)}/>{o.text}</label>)}
         </fieldset><button className="recovery-action" disabled={busy||value===''}>{busy?'Saving…':'Check this reasoning step'}</button>
-      </form> : <p>{episode.state==='blocked_content' || episode.state==='invalidated' ? 'This pathway is unavailable. Your existing history is preserved.' : episode.nextDueAt ? `Next fresh check: ${new Date(episode.nextDueAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})} IST. Explanations and repeats do not count as independent evidence.` : 'More fresh content is needed before another check can begin.'}</p>}
+      </form> : <p>{episode.state==='blocked_content' || episode.state==='invalidated' ? 'This pathway is unavailable. Your existing history is preserved.' : episode.nextDueAt ? `Next fresh check: ${new Date(episode.nextDueAt).toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})} IST. Only a fresh question counts as a check.` : 'More fresh content is needed before another check can begin.'}</p>}
       <Link href="/today">Return to Today</Link>
     </section>}
   </section>;

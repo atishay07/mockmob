@@ -82,7 +82,7 @@ export function underLevel(act, level = 'full') {
  */
 export function recapReaction({ tone, celebrations = 'full', isNta = false, hour = 12 } = {}) {
   if (isNta) return null;
-  if (isLateNightHour(hour)) return { act: 'sleepy', line: 'Goodnight.' };
+  if (isLateNightHour(hour)) return { act: 'sleepy', line: 'Saved. Repair one mistake tomorrow.' };
   const full = celebrations === 'full';
   switch (tone) {
     case 'first_mock': return { act: full ? 'proud' : 'rest' };

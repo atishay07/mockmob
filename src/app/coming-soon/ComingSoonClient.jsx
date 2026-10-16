@@ -50,8 +50,7 @@ export function ComingSoonClient() {
         />
       </div>
       <button className="coming-soon-button" type="submit" disabled={status === "loading"}>
-        {status === "loading" ? "Checking" : "Enter Preview"}
-        <Icon name="arrow" />
+        {status === "loading" ? "Checking" : "Enter preview"}
       </button>
       {message ? (
         <p role={status === "error" ? "alert" : "status"} className={`coming-soon-message ${status === "error" ? "is-error" : "is-success"}`}>

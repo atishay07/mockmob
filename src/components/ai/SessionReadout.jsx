@@ -24,7 +24,7 @@ export default function SessionReadout({ attempt }) {
     <section className="sr" aria-labelledby="sr-title">
       <div className="sr__head">
         <h2 id="sr-title"><AppIcon name="prepos" size={18} />Where your marks went</h2>
-        <Link href="/mentor?tab=record" className="sr__link">Full record in PrepOS</Link>
+        <Link href="/mentor?tab=record" className="sr__link">Your full record</Link>
       </div>
       <p className="sr__ledger">
         <b>{signed(ledger.net)} marks</b>
@@ -37,7 +37,7 @@ export default function SessionReadout({ attempt }) {
           ))}
         </ul>
       ) : (
-        <p className="sr__note">One session is too short to rank chapters. Finish a few more and PrepOS will show the biggest leak.</p>
+        <p className="sr__note">One session is too short to rank chapters. Finish a few more and your record will show the biggest leak.</p>
       )}
       <p className="sr__note">From this session only. Free to read, no credits used.</p>
     </section>

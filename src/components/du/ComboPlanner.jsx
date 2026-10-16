@@ -3,7 +3,7 @@
 // CUET subject combination planner: "which subjects should I put on the CUET form?"
 // Targets + candidate subjects in, ranked combinations out, each checked against DU's
 // published 2026 eligibility rules. Choices stay on this device.
-import { useDeferredValue, useEffect, useMemo, useState } from 'react';
+import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Search, X } from 'lucide-react';
 import { encodeSelection, loadIndex, PRESETS } from '@/lib/du/client';
@@ -27,6 +27,8 @@ export default function ComboPlanner() {
   const [maxPapers, setMaxPapers] = useState(DEFAULT_MAX_PAPERS);
   const [query, setQuery] = useState('');
   const [attempt, setAttempt] = useState(0);
+  const resultsRef = useRef(null);
+  const listRef = useRef(null);
 
   useEffect(() => {
     let alive = true;
@@ -72,10 +74,22 @@ export default function ComboPlanner() {
     </button>
   );
 
+  const goTo = (ref) => ref.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+  const best = ranked[0];
   return (
     <div className="cp">
+      {/* Phones and tablets: once a subject is ticked, the outcome stays in view, as on the cutoff calculator. */}
+      {pool.length ? (
+        <div className="du-sum cp-sum" role="region" aria-label="Your combinations">
+          <p><strong className="mm-measure">{ranked.length}</strong><span>{ranked.length === 1 ? 'combination' : 'combinations'}{best ? `, best fit ${best.items.length} ${best.items.length === 1 ? 'paper' : 'papers'}` : ''}</span></p>
+          <div>
+            <button type="button" onClick={() => goTo(listRef)}>Edit<span className="du-sum__long"> subjects</span></button>
+            <button type="button" data-primary onClick={() => goTo(resultsRef)}>View combinations</button>
+          </div>
+        </div>
+      ) : null}
       <section className="cp-step" aria-labelledby="cp-s1">
-        <h2 id="cp-s1" className="cp-step__title"><span>1</span>Where do you want to go?</h2>
+        <h2 id="cp-s1" className="cp-step__title">Where do you want to go?</h2>
         <p className="cp-step__hint">Pick up to {MAX_TARGETS} DU programmes. {targets.length} chosen.</p>
         <div className="du-chips">
           {QUICK_TARGETS.map((name) => { const g = groupByName(name); return g ? (
@@ -86,7 +100,7 @@ export default function ComboPlanner() {
         <label className="du-finder cp-search">
           <Search size={18} aria-hidden="true" />
           <span className="du-sr">Search DU programmes</span>
-          <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all 73 programmes, e.g. Psychology" />
+          <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all 73 programmes" />
         </label>
         {matches.length ? (
           <ul className="cp-results">{matches.map((g) => (
@@ -102,8 +116,8 @@ export default function ComboPlanner() {
         ) : null}
       </section>
 
-      <section className="cp-step" aria-labelledby="cp-s2">
-        <h2 id="cp-s2" className="cp-step__title"><span>2</span>Which subjects could you take?</h2>
+      <section className="cp-step" aria-labelledby="cp-s2" ref={listRef}>
+        <h2 id="cp-s2" className="cp-step__title">Which subjects could you take?</h2>
         <p className="cp-step__hint">Tick every subject you studied or could prepare, up to {MAX_POOL}. {pool.length} ticked. We find the best {maxPapers} for your goals.</p>
         <div className="du-presets" role="group" aria-label="Quick start">
           <span>Quick start</span>
@@ -121,15 +135,15 @@ export default function ComboPlanner() {
         </div>
       </section>
 
-      <section className="cp-step cp-out" aria-labelledby="cp-s3" aria-busy={stale}>
-        <h2 id="cp-s3" className="cp-step__title"><span>3</span>Your best combinations</h2>
+      <section className="cp-step cp-out" aria-labelledby="cp-s3" aria-busy={stale} ref={resultsRef}>
+        <h2 id="cp-s3" className="cp-step__title">Your best combinations</h2>
         {!pool.length ? <p className="cp-step__hint">Tick a few subjects, or use a quick start, to see combinations.</p> : null}
         {keep.length ? <p className="cp-keep"><b>Do not drop:</b> {keep.map(nameOf).join(', ')}. Every combination that reaches all your targets uses {keep.length === 1 ? 'it' : 'them'}.</p> : null}
         <ol className="cp-list" aria-live="polite">
           {ranked.map((r, i) => (
             <li key={r.items.map(key).join('|')} className="cp-combo" data-best={i === 0 || undefined}>
               <div className="cp-combo__head">
-                <span className="cp-combo__rank">{i === 0 ? 'Best fit' : `Option ${i + 1}`}</span>
+                <span className="cp-combo__rank">{i === 0 ? 'Best fit' : `Combination ${i + 1}`}</span>
                 <span className="cp-combo__papers">{r.items.length} paper{r.items.length === 1 ? '' : 's'}</span>
               </div>
               <ul className="cp-combo__subjects">{r.items.map((item) => <li key={key(item)}>{nameOf(item)}</li>)}</ul>

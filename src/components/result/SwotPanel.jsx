@@ -89,7 +89,8 @@ export default function SwotPanel({ swot, attemptId, onJump }) {
     ) : null;
   }
   const plan = Array.isArray(swot.plan) ? swot.plan : [];
-  const quadrants = Array.isArray(swot.quadrants) ? swot.quadrants : [];
+  // A quadrant whose only content is a pointer to the ledger above is left out: the ledger already says it.
+  const quadrants = (Array.isArray(swot.quadrants) ? swot.quadrants : []).filter((q) => (Array.isArray(q.items) && q.items.length) || !/Where your marks went/.test(String(q.empty || '')));
   const basis = swot.basis || null;
   const titleId = `${uid}-title`;
 
@@ -131,7 +132,7 @@ export default function SwotPanel({ swot, attemptId, onJump }) {
               const headId = `${uid}-${q.id}`;
               return (
                 <section key={q.id} className="sw-q" data-q={q.id} aria-labelledby={headId} style={{ '--i': plan.length + gi }}>
-                  <h4 id={headId} className="sw-q__h"><span className="sw-dot" aria-hidden="true" />{q.label}</h4>
+                  <h4 id={headId} className="sw-q__h">{q.label}</h4>
                   {items.length ? (
                     <ul className="sw-items">
                       {items.map((item) => (

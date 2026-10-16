@@ -16,11 +16,11 @@
 
 /* ---------- Same mistakes later (Prove) ---------- */
 .sml {
-  display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; align-items: start; min-width: 0;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; min-width: 0;
   padding: 12px 14px 12px 12px; border-radius: 14px; border: 1px solid var(--a-line, #253026); background: var(--a-sunken, #0f1512);
 }
 .sml :is(h4, p) { margin: 0; }
-.sml__icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--a-volt-wash, rgba(210, 240, 0, .07)); color: var(--a-accent-text, #d2f000); }
+.sml__icon { display: none; }
 .sml__main { display: grid; gap: 6px; min-width: 0; }
 .sml__title { font: 700 15px/1.3 var(--font-display, inherit); letter-spacing: -.01em; color: var(--a-ink, #f2f4ec); }
 .sml__line { font: 650 15.5px/1.45 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); max-width: 62ch; font-variant-numeric: tabular-nums; }
@@ -42,12 +42,12 @@
   border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
 }
 .tm-head {
-  width: calc(100% + 16px); min-height: 56px; display: grid; grid-template-columns: 36px minmax(0, 1fr) 20px; align-items: center; gap: 12px;
+  width: calc(100% + 16px); min-height: 56px; display: grid; grid-template-columns: minmax(0, 1fr) 20px; align-items: center; gap: 12px;
   padding: 8px; margin: 0 -8px; box-sizing: border-box; border: 0; border-radius: 14px; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer;
 }
 .tm-head:hover { background: var(--a-hover, rgba(244, 245, 240, .04)); }
 .tm-head:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
-.tm-head__icon { width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center; background: var(--a-volt-wash, rgba(210, 240, 0, .07)); color: var(--a-accent-text, #d2f000); }
+.tm-head__icon { display: none; }
 .tm-head__title { font: 700 15.5px/1.3 var(--font-display, inherit); letter-spacing: -.01em; color: var(--a-ink, #f2f4ec); }
 .tm-head__chev { color: var(--a-ink-3, #93a08f); justify-self: end; }
 .tm-head[aria-expanded='true'] .tm-head__chev { transform: rotate(180deg); }

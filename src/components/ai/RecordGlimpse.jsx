@@ -65,7 +65,7 @@ function PaperTrend() {
 
 // `state` hands in a read the page already made (Today shares one); `skip` leaves out findings the page
 // already shows (Today's plan carries the chapter finding as its why).
-export default function RecordGlimpse({ state: given = null, skip = [] }) {
+export default function RecordGlimpse({ state: given = null, skip = [], link = true }) {
   const { user } = useAuth();
   const own = useInsights(given ? null : user?.id);
   const state = given || own;
@@ -78,7 +78,7 @@ export default function RecordGlimpse({ state: given = null, skip = [] }) {
           <div>
             <b>{f.headline}</b>
             <p>{f.detail}</p>
-            <Link href="/mentor?tab=record">See your full record</Link>
+            {link ? <Link href="/mentor?tab=record">See your full record</Link> : null}
           </div>
         </aside>
       ) : null}
