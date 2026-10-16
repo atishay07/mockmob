@@ -77,7 +77,7 @@ abstract final class ToolsCopy {
   static String unlockValue(int n) => '+$n';
   static String unlockAdd(String name) => 'Add $name';
   static const unlockNotNow = 'Not now';
-  static const couldClearDot = 'Your score could clear a round';
+  static const couldClearDot = 'Your estimate could clear a round';
   static const couldClearWord = 'could clear';
   static String ofOpenToYou(int n) => 'of the $n open to you';
   static String couldClearLine(int n, int open) => '$n of $open open programmes could clear at this score';
@@ -98,7 +98,7 @@ abstract final class ToolsCopy {
   static const sortColleges = 'Most colleges';
   static const sortCutoff = 'Highest cutoff';
   static const sortName = 'A to Z';
-  static const onlyClearing = 'Only where my score clears a cutoff';
+  static const onlyClearing = 'Only where my estimate reaches a cutoff';
   static const nothingMatches = 'Nothing matches these filters.';
   static const noneOpenLine = 'One more subject can change that. Tap one below.';
   static const noneOpenFar = 'Try a different mix with Edit subjects, or let Combo Planner find one.';
@@ -116,7 +116,15 @@ abstract final class ToolsCopy {
   // Compass: best options, the full list and the smaller programmes.
   static const bestHeading = 'Your best options';
   static const bestNote = 'Open to your subjects, with the most colleges first.';
-  static const bestNoteScore = 'Where your score could clear a cutoff, with the most colleges first.';
+  static const bestNoteScore = 'Where your estimate could clear a cutoff, with the most colleges first.';
+  static const whereYouStand = 'Where you stand';
+  static const estimateBelowRange = 'Your estimate is below this range';
+  static String previewLine(String range) => 'Showing a score of $range. This isn’t saved as your estimate.';
+  static const previewUse = 'Use as my estimate';
+  static const previewClose = 'Show my own estimate';
+  static const myCollegesRow = 'My colleges';
+  static String myCollegesRowNote(int n, int? clears) => clears == null ? '$n of 8' : '$n of 8 · $clears clear on your estimate';
+  static const myCollegesRowEmpty = 'Choose the colleges you are aiming for';
   static String openHeading(int n) => '$n open to you';
   static String allOpenHeading(int n) => 'All $n open to you';
   static const openNote = 'By stream. Updates as you change subjects.';
@@ -201,8 +209,10 @@ abstract final class ToolsCopy {
   static const checking = 'Checking every combination';
   static const comboError = 'The combinations could not be checked.';
   static String keep(String names, int n) =>
-      'Do not drop: $names. Every combination that reaches all your targets uses ${n == 1 ? 'it' : 'them'}.';
+      'Keep $names: every combination that reaches all your targets uses ${n == 1 ? 'it' : 'them'}.';
   static const keepHeading = 'Keep these';
+  static const comboEdit = 'Edit';
+  static const comboStepDone = 'Done';
   static String keepReason(String subject, String? lostTarget, int fewer, bool nothing) {
     if (nothing) return '$subject: without it, no programme opens. Every one needs it in some form.';
     final more = fewer > 0 ? '$fewer fewer DU ${fewer == 1 ? 'programme opens' : 'programmes open'}' : 'the same number of DU programmes open';

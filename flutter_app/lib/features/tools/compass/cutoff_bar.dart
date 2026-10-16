@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -15,14 +17,17 @@ import '../domain/du_helpers.dart';
 /// that is in marks. The pin glides to its place when it first draws (and when the score changes; drawn at
 /// once under reduced motion). The words for a screen reader are the caller's row label.
 class CutoffBar extends StatelessWidget {
-  const CutoffBar({super.key, required this.category, required this.low, required this.high, this.score});
+  const CutoffBar({super.key, required this.category, required this.low, required this.high, this.score, this.scoreHigh});
 
   final String category;
   final double low;
   final double high;
 
-  /// The student's score on the same 1000-mark scale, or null when none is set.
+  /// The student's estimate on the same 1000-mark scale, or null when none is set: [score] is its
+  /// low end (or the one figure) and [scoreHigh] its high end. A range draws as a volt band from
+  /// low to high (8 dp, radius 4), clamped to the bar; one figure draws as the pin.
   final double? score;
+  final double? scoreHigh;
 
   static const double trackHeight = 6;
   static const double pin = 14;
@@ -39,9 +44,11 @@ class CutoffBar extends StatelessWidget {
     final type = context.mmType;
     final figure = type.caption.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]);
     final s = score;
+    final sHigh = scoreHigh != null && s != null && scoreHigh! - s >= 0.05 ? scoreHigh : null;
     final inked = colors.isNight ? colors.volt : colors.accentText;
     final f = s == null ? null : fraction(low, high, s);
-    final reached = s != null && s >= low;
+    final fHigh = sHigh == null ? null : fraction(low, high, sHigh);
+    final reached = s != null && (sHigh ?? s) >= low;
     return ExcludeSemantics(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,6 +61,39 @@ class CutoffBar extends StatelessWidget {
             child: LayoutBuilder(
               builder: (context, box) {
                 final reduced = Motion.reduced(context);
+                if (fHigh != null) {
+                  // A range: the band slides and resizes to where the estimate sits (300 ms).
+                  return TweenAnimationBuilder<Offset>(
+                    tween: Tween(begin: Offset(f!, fHigh), end: Offset(f, fHigh)),
+                    duration: reduced ? Duration.zero : Motion.glideDuration,
+                    curve: Motion.glide,
+                    builder: (context, v, _) {
+                      final w = box.maxWidth;
+                      final left = (w * v.dx).clamp(0.0, w - 3);
+                      final width = math.max(3.0, w * v.dy - left);
+                      return Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: (pin - trackHeight) / 2,
+                            height: trackHeight,
+                            child: DecoratedBox(decoration: ShapeDecoration(shape: const StadiumBorder(), color: colors.lineStrong)),
+                          ),
+                          Positioned(
+                            key: const ValueKey('estimate-band'),
+                            left: left,
+                            width: width,
+                            top: (pin - 8) / 2,
+                            height: 8,
+                            child: DecoratedBox(decoration: BoxDecoration(color: reached ? inked : colors.ink3, borderRadius: BorderRadius.circular(4))),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
                 return TweenAnimationBuilder<double>(
                   tween: Tween(begin: 0, end: f ?? 0),
                   duration: reduced ? Duration.zero : Motion.emphasizedDuration,
@@ -89,7 +129,6 @@ class CutoffBar extends StatelessWidget {
                               decoration: ShapeDecoration(
                                 shape: CircleBorder(side: BorderSide(color: reached ? colors.ground : colors.ink3, width: 2)),
                                 color: reached ? inked : colors.raised,
-                                shadows: reached ? [BoxShadow(color: inked.withValues(alpha: 0.4), blurRadius: 6)] : null,
                               ),
                             ),
                           ),
@@ -108,6 +147,10 @@ class CutoffBar extends StatelessWidget {
               Text(duFormatScore(high), style: figure),
             ],
           ),
+          if (s != null && (sHigh ?? s) < low) ...[
+            const SizedBox(height: MmSpace.s2),
+            Text(ToolsCopy.estimateBelowRange, style: type.caption.copyWith(color: colors.ink3)),
+          ],
         ],
       ),
     );

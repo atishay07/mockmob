@@ -131,6 +131,10 @@ typedef ComboRunner = Future<DuComboPlan> Function(List<DuGroup> groups, List<Du
 
 final comboRunnerProvider = Provider<ComboRunner>((ref) => runComboPlan);
 
+/// The runner for the keep reasons' extra plans (one per kept subject). Its own seam, so a test
+/// that gates the main plan is not handed these too.
+final comboKeepRunnerProvider = Provider<ComboRunner>((ref) => runComboPlan);
+
 /// Top level, so the isolate's closure carries only the inputs.
 Future<DuComboPlan> runComboPlan(List<DuGroup> groups, List<DuPick> pool, List<String> targets, int maxPapers) {
   DuComboPlan run() => duPlanCombos(groups: groups, pool: pool, targets: targets, maxPapers: maxPapers);
@@ -151,7 +155,7 @@ final comboKeepReasonsProvider = FutureProvider.autoDispose<List<DuKeepReason>>(
   final s = ref.watch(comboControllerProvider).value;
   final plan = await ref.watch(comboPlanProvider.future);
   if (s == null || plan.keep.isEmpty || plan.ranked.isEmpty) return const [];
-  final run = ref.read(comboRunnerProvider);
+  final run = ref.read(comboKeepRunnerProvider);
   final without = <DuPick, DuComboPlan>{
     for (final k in plan.keep) k: await run(s.catalog.groups, [for (final p in s.pool) if (p != k) p], s.targets, s.maxPapers),
   };

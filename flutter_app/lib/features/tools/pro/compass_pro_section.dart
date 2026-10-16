@@ -320,7 +320,7 @@ class _TargetRow extends ConsumerWidget {
   final CompassState state;
   final ProTotal? band;
 
-  static const _rounds = ['Round I', 'Round II', 'Round III'];
+  static const _rounds = ['Round 1', 'Round 2', 'Round 3'];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

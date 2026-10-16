@@ -225,9 +225,9 @@ DuSeatStatus duSeatStatus(double score, DuSeat seat, int categoryIndex) {
   final rounds = [for (final r in seat.rounds) duEffectiveCutoff(r, categoryIndex)];
   if (rounds.every((v) => v == null)) return const DuSeatStatus(DuSeatStatusId.none, 'No allocation recorded');
   bool cleared(int i) => rounds[i] != null && score >= rounds[i]!;
-  if (cleared(0)) return const DuSeatStatus(DuSeatStatusId.r1, 'Clears Round I');
-  if (cleared(1)) return const DuSeatStatus(DuSeatStatusId.r2, 'Clears Round II');
-  if (cleared(2)) return const DuSeatStatus(DuSeatStatusId.r3, 'Clears Round III');
+  if (cleared(0)) return const DuSeatStatus(DuSeatStatusId.r1, 'Clears Round 1');
+  if (cleared(1)) return const DuSeatStatus(DuSeatStatusId.r2, 'Clears Round 2');
+  if (cleared(2)) return const DuSeatStatus(DuSeatStatusId.r3, 'Clears Round 3');
   return const DuSeatStatus(DuSeatStatusId.below, 'Below Round 1, 2026');
 }
 

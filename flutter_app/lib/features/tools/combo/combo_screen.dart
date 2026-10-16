@@ -41,7 +41,11 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
   final ValueNotifier<int> _targetsLimit = ValueNotifier(0);
 
   /// The Targets and Subjects steps, for the progress header's jumps.
-  final List<GlobalKey> _stepKeys = [GlobalKey(), GlobalKey()];
+  final List<GlobalKey> _stepKeys = [GlobalKey(), GlobalKey(), GlobalKey()];
+
+  /// In result mode the steps are summary rows; this one is open to change (0 targets,
+  /// 1 subjects, 2 papers), or none.
+  int? _editing;
 
   @override
   void dispose() {
@@ -89,6 +93,16 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
     );
   }
 
+  /// Opens step [i] in place (result mode). Subjects go straight to the picker, as in step mode.
+  void _edit(BuildContext context, ComboState s, int i) {
+    setState(() => _editing = i);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = _stepKeys[i].currentContext;
+      if (ctx != null && ctx.mounted) Scrollable.ensureVisible(ctx, duration: Motion.of(ctx, Motion.glideDuration), curve: Motion.glide);
+    });
+    if (i == 1) _pick(context, s);
+  }
+
   List<Widget> _ready(BuildContext context, ComboState s) {
     final colors = context.mmColors;
     final type = context.mmType;
@@ -100,7 +114,7 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
     final result = plan.value ?? DuComboPlan.empty;
 
     final hasResult = s.pool.isNotEmpty && s.targets.isNotEmpty && result.ranked.isNotEmpty;
-    final inputs = <Widget>[
+    final targetsBlock = <Widget>[
       _Step(anchor: _stepKeys[0], title: ToolsCopy.targetsHeading, note: s.targetsFromColleges ? '${ComboProgressCopy.fromColleges}. ${ToolsCopy.targetsHint(duMaxTargets, s.targets.length)}' : ToolsCopy.targetsHint(duMaxTargets, s.targets.length), top: hasResult ? MmRhythm.section : MmSpace.s8),
       SliverToBoxAdapter(
         child: Padding(
@@ -184,6 +198,8 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
         ),
       // The line that says why shakes with the targets (one haptic, from the targets).
       if (s.targetsFull) SliverToBoxAdapter(child: MmShake(pulse: _targetsLimit, haptic: false, child: const ToolsNote(ToolsCopy.targetFull, top: MmSpace.s8))),
+    ];
+    final poolBlock = <Widget>[
       _Step(anchor: _stepKeys[1], title: ToolsCopy.poolHeading, note: s.poolFromSheet ? '${ComboProgressCopy.fromSheet}. ${ToolsCopy.poolHint(duMaxPool, s.pool.length, s.maxPapers)}' : ToolsCopy.poolHint(duMaxPool, s.pool.length, s.maxPapers)),
       SliverToBoxAdapter(
         child: Padding(
@@ -217,7 +233,19 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
                   offset: const Offset(-MmSpace.s8, 0),
                   child: ToolsInlineAction(label: ToolsCopy.editSubjects, icon: LucideIcons.pencilLine, onTap: () => _pick(context, s)),
                 ),
-              const SizedBox(height: MmSpace.s24),
+            ],
+          ),
+        ),
+      ),
+    ];
+    final papersBlock = <Widget>[
+      SliverToBoxAdapter(
+        key: _stepKeys[2],
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s24, MmSpace.gutter, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               Text(ToolsCopy.papersHeading, style: type.labelLarge),
               const SizedBox(height: MmSpace.s8),
               MmSegmented<int>(
@@ -233,12 +261,37 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
         ),
       ),
     ];
+    final blocks = [targetsBlock, poolBlock, papersBlock];
+    // Result mode: the answer first, then each step as one summary row with Edit; the step being
+    // changed opens in place above them with Done (L27).
+    final editing = _editing;
+    final inputs = !hasResult
+        ? [...targetsBlock, ...poolBlock, ...papersBlock]
+        : [
+            if (editing != null) ...[
+              ...blocks[editing],
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(MmSpace.s8, MmSpace.s8, MmSpace.gutter, 0),
+                  child: Align(alignment: Alignment.centerLeft, child: KeyButton.quiet(label: ToolsCopy.comboStepDone, onPressed: () => setState(() => _editing = null))),
+                ),
+              ),
+            ],
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.only(top: MmRhythm.group),
+                child: ToolsPanel(
+                  children: [
+                    for (var i = 0; i < 3; i++)
+                      if (i != editing) _SummaryRow(step: i, state: s, onEdit: () => _edit(context, s, i)),
+                  ],
+                ),
+              ),
+            ),
+          ];
     // Once there is a result it comes first (L27): the answer, then the inputs to change it.
-    final results = <Widget>[
-      if (s.pool.isNotEmpty) _Step(title: ToolsCopy.resultsHeading, top: hasResult ? MmSpace.s8 : MmRhythm.section),
-      if (result.keep.isNotEmpty && s.pool.isNotEmpty && !plan.isLoading)
-        SliverToBoxAdapter(
-          child: Padding(
+    final keep = result.keep.isNotEmpty && s.pool.isNotEmpty && !plan.isLoading
+        ? Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s16),
             child: Builder(builder: (context) {
               // Each subject not to drop says why, in real counts (L27); the plain line stands in
@@ -270,11 +323,21 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
                 ],
               );
             }),
-          ),
-        ),
+          )
+        : null;
+    final results = <Widget>[
+      if (s.pool.isNotEmpty) _Step(title: ToolsCopy.resultsHeading, top: hasResult ? MmSpace.s8 : MmRhythm.section),
+      // Without targets there is nothing to fold or keep for: the plain list, as before.
       if (s.pool.isNotEmpty)
         SliverToBoxAdapter(
-          child: ComboResults(checking: plan.isLoading, ranked: result.ranked, catalog: s.catalog, targetCount: s.targets.length),
+          child: ComboResults(
+            checking: plan.isLoading,
+            ranked: result.ranked,
+            catalog: s.catalog,
+            targetCount: s.targets.length,
+            afterBest: keep,
+            foldOthers: hasResult,
+          ),
         ),
       if (plan.hasError && s.pool.isNotEmpty)
         SliverToBoxAdapter(
@@ -295,7 +358,8 @@ class _ComboScreenState extends ConsumerState<ComboScreen> {
         child: ComboProgress(
           done: [s.targets.isNotEmpty, s.pool.isNotEmpty, true],
           onStep: (i) {
-            final ctx = _stepKeys[i.clamp(0, 1)].currentContext;
+            if (hasResult) return _edit(context, s, i);
+            final ctx = _stepKeys[i].currentContext;
             if (ctx != null) Scrollable.ensureVisible(ctx, duration: Motion.of(context, Motion.glideDuration), curve: Motion.glide);
             if (i == 1 && s.pool.isEmpty) _pick(context, s);
           },
@@ -354,6 +418,59 @@ class PaperBubbles extends StatelessWidget {
           const SizedBox(width: MmSpace.s12),
           Expanded(child: Text(line, style: type.caption.copyWith(color: colors.ink2))),
         ],
+      ),
+    );
+  }
+}
+
+/// One set step in result mode: its name, what it holds (and where a default came from), and Edit.
+class _SummaryRow extends StatelessWidget {
+  const _SummaryRow({required this.step, required this.state, required this.onEdit});
+
+  final int step;
+  final ComboState state;
+  final VoidCallback onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final s = state;
+    final (String title, String value, String? source) = switch (step) {
+      0 => (
+          ComboProgressCopy.steps[0],
+          [for (final id in s.targets) s.catalog.group(id)?.name ?? id].join(', '),
+          s.targetsFromColleges ? ComboProgressCopy.fromColleges : null,
+        ),
+      1 => (
+          ComboProgressCopy.steps[1],
+          '${s.pool.length}: ${[for (final p in s.pool) p.name(s.catalog, short: true)].join(', ')}',
+          s.poolFromSheet ? ComboProgressCopy.fromSheet : null,
+        ),
+      _ => (ComboProgressCopy.steps[2], '${s.maxPapers}', null),
+    };
+    return ToolsRowFrame(
+      onTap: onEdit,
+      semanticsLabel: '$title: $value${source == null ? '' : '. $source'}. ${ToolsCopy.comboEdit}',
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 32),
+        child: Row(
+          children: [
+            SizedBox(width: 76, child: Text(title, style: type.caption.copyWith(color: colors.ink2))),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(value, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(color: colors.ink)),
+                  if (source != null) Text(source, style: type.caption.copyWith(color: colors.ink3)),
+                ],
+              ),
+            ),
+            const SizedBox(width: MmSpace.s8),
+            Text(ToolsCopy.comboEdit, style: type.labelLarge.copyWith(fontSize: 14, color: colors.accentText)),
+          ],
+        ),
       ),
     );
   }

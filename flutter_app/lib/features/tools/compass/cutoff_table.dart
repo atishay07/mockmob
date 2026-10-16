@@ -9,7 +9,9 @@ import '../data/du_repository.dart';
 import '../domain/du_eligibility.dart';
 import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
+import '../estimate/estimate.dart';
 import '../my_colleges/my_colleges_parts.dart' show AddToMyCollegesKey;
+import '../../../core/motion/motion.dart';
 import '../widgets/sort_key.dart';
 import '../widgets/tools_page.dart';
 import 'compass_controller.dart';
@@ -18,14 +20,18 @@ enum SeatSort { fit, high, low, name }
 
 const int _pageSize = 25;
 
-/// College by college minimum allocation scores (CSAS 2026, Rounds I to III) for the chosen
-/// category, the effective cutoff being the lower of the UR and category lists. With a score,
-/// each college says which round it would have cleared. Search, four orders, 25 at a time.
+/// College by college minimum allocation scores (2026, Rounds 1 to 3) for the chosen category,
+/// the effective cutoff being the lower of the UR and category lists. With an estimate, each
+/// college says which round its low end would have cleared and, under the figures, the Round 1
+/// verdict for the whole range. Search, four orders, 25 at a time. [highlight] (from a rung's
+/// `?college=`) scrolls that college into view and outlines it for a moment.
 class CutoffTable extends ConsumerStatefulWidget {
-  const CutoffTable({super.key, required this.group, required this.state});
+  const CutoffTable({super.key, required this.group, required this.state, this.estimate, this.highlight});
 
   final DuGroup group;
   final CompassState state;
+  final Estimate? estimate;
+  final String? highlight;
 
   @override
   ConsumerState<CutoffTable> createState() => _CutoffTableState();
@@ -36,6 +42,8 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
   String _query = '';
   SeatSort? _sort;
   int _shown = _pageSize;
+  final _highlightKey = GlobalKey();
+  bool _scrolled = false;
 
   @override
   void dispose() {
@@ -121,13 +129,26 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
   Widget _table(BuildContext context, List<DuSeat> seats) {
     final type = context.mmType;
     final s = widget.state;
-    final score = s.score;
+    final estimate = widget.estimate;
+    final score = estimate?.low ?? s.score;
     final cat = s.categoryIndex;
     // Best fit needs a score. Without one (never given, or cleared since) the choice falls back
     // to the high-cutoff order, which is what the list shows and what the sort sheet marks.
     final chosen = _sort == SeatSort.fit && score == null ? null : _sort;
     final sort = chosen ?? (score != null ? SeatSort.fit : SeatSort.high);
     final rows = _ordered(seats, cat, score, sort);
+    final target = widget.highlight;
+    final at = target == null || _query.isNotEmpty ? -1 : rows.indexWhere((r) => r.college == target);
+    if (at >= _shown) _shown = at + 1;
+    if (at >= 0 && !_scrolled) {
+      _scrolled = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final c = _highlightKey.currentContext;
+        if (c != null && c.mounted) {
+          Scrollable.ensureVisible(c, alignment: 0.2, duration: Motion.of(c, Motion.glideDuration), curve: Motion.glide);
+        }
+      });
+    }
     final clearing = score == null ? null : seats.where((r) => duSeatStatus(score, r, cat).clears).length;
     final options = [if (score != null) SeatSort.fit, SeatSort.high, SeatSort.low, SeatSort.name];
     // Round III is empty for most programmes: its column only shows when any college has a figure.
@@ -177,7 +198,17 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
         else
           ToolsPanel(
             children: [
-              for (final r in rows.take(_shown)) SeatRow(seat: r, groupName: widget.group.name, groupId: widget.group.id, state: s, showThird: showThird),
+              for (final (i, r) in rows.take(_shown).indexed)
+                SeatRow(
+                  key: i == at ? _highlightKey : null,
+                  seat: r,
+                  groupName: widget.group.name,
+                  groupId: widget.group.id,
+                  state: s,
+                  estimate: estimate,
+                  highlight: i == at,
+                  showThird: showThird,
+                ),
             ],
           ),
         if (rows.length > _shown)
@@ -198,7 +229,22 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
 /// "Unreserved" when the Unreserved list was the lower one), and, with a score, the round it
 /// would have cleared.
 class SeatRow extends StatelessWidget {
-  const SeatRow({super.key, required this.seat, required this.groupName, required this.state, this.groupId = '', this.showThird = true});
+  const SeatRow({
+    super.key,
+    required this.seat,
+    required this.groupName,
+    required this.state,
+    this.groupId = '',
+    this.showThird = true,
+    this.estimate,
+    this.highlight = false,
+  });
+
+  /// The student's estimate (its low end sets the round tag; the range sets the Round 1 verdict).
+  final Estimate? estimate;
+
+  /// The college the student tapped on the Colleges tab: a volt outline that fades over 1.2 s.
+  final bool highlight;
 
   final DuSeat seat;
   final String groupName;
@@ -215,8 +261,11 @@ class SeatRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final cat = state.categoryIndex;
-    final score = state.score;
+    final score = estimate?.low ?? state.score;
     final status = score == null ? null : duSeatStatus(score, seat, cat);
+    final e = estimate;
+    final r1 = duEffectiveCutoff(seat.rounds[0], cat);
+    final verdict = e == null || r1 == null ? null : verdictFor(e, r1);
     final subtitle = duNormName(seat.programme) == duNormName(groupName) ? null : seat.programme;
     const names = ['1', '2', '3'];
     final cells = [
@@ -228,6 +277,7 @@ class SeatRow extends StatelessWidget {
       ?subtitle,
       for (final c in cells) 'Round ${c.name}: ${c.value == null ? 'no cutoff' : duFormatScore(c.value)}${c.ur ? ', ${ToolsCopy.viaUr}' : ''}',
       ?status?.label,
+      if (verdict != null) 'Round 1: ${verdictWords(verdict)}',
     ].join('. ');
     final tone = switch (status?.id) {
       DuSeatStatusId.r1 || DuSeatStatusId.r2 || DuSeatStatusId.r3 => ToolTone.good,
@@ -241,7 +291,7 @@ class SeatRow extends StatelessWidget {
       DuSeatStatusId.r3 => 2,
       _ => -1,
     };
-    return ToolsRowFrame(
+    final row = ToolsRowFrame(
       padding: const EdgeInsets.fromLTRB(MmSpace.s20, 14, MmSpace.s20, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -285,6 +335,20 @@ class SeatRow extends StatelessWidget {
                     if (!showThird) const Spacer(),
                   ],
                 ),
+                if (verdict != null) ...[
+                  const SizedBox(height: MmSpace.s6),
+                  Text(
+                    'Round 1: ${verdictWords(verdict)}',
+                    style: type.caption.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: switch (verdict.v) {
+                        Verdict.clears => colors.goodText,
+                        Verdict.within => colors.accentText,
+                        _ => colors.ink2,
+                      },
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
@@ -295,6 +359,22 @@ class SeatRow extends StatelessWidget {
             ),
         ],
       ),
+    );
+    if (!highlight) return row;
+    // "This is the one you tapped": a volt outline that fades out (still under reduced motion).
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 1, end: 0),
+      duration: Motion.reduced(context) ? Duration.zero : const Duration(milliseconds: 1200),
+      curve: Motion.exit,
+      builder: (context, t, child) => DecoratedBox(
+        position: DecorationPosition.foreground,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(MmSpace.s12),
+          border: Border.all(color: colors.volt.withValues(alpha: t), width: 2),
+        ),
+        child: child,
+      ),
+      child: row,
     );
   }
 }

@@ -12,15 +12,15 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/hybrid/hybrid.dart';
-import '../../../core/motion/entrance.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/onboarding.dart' as ob show DuCatalog;
-import '../compass/category_score.dart' show showCategoryScoreSheet;
 import '../compass/compass_controller.dart';
 import '../data/my_colleges_actions.dart';
 import '../estimate/estimate.dart';
 import '../estimate/estimate_providers.dart';
+import '../estimate/estimate_sheet.dart';
 import '../my_colleges/my_colleges_copy.dart';
 import '../my_colleges/my_colleges_sheet.dart';
 import '../tools_paths.dart';
@@ -72,11 +72,19 @@ class CollegesScreen extends ConsumerWidget {
 }
 
 /// My colleges: heading, the estimate, the rungs and "Add a college", or the empty state.
-class MyCollegesBlock extends ConsumerWidget {
+class MyCollegesBlock extends ConsumerStatefulWidget {
   const MyCollegesBlock({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyCollegesBlock> createState() => _MyCollegesBlockState();
+}
+
+class _MyCollegesBlockState extends ConsumerState<MyCollegesBlock> {
+  /// The colleges already drawn: one added later grows in at its place; the first paint does not.
+  Set<String>? _seen;
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final view = ref.watch(myCollegesProvider);
@@ -88,6 +96,9 @@ class MyCollegesBlock extends ConsumerWidget {
     if (view.ready && rows.isEmpty) return const _EmptyColleges();
 
     final mobi = _mobiAct(ref, view, estimate, category);
+    final seen = _seen;
+    final fresh = <String>{if (seen != null) for (final c in rows) if (!seen.contains(c.key)) c.key};
+    if (view.ready) _seen = {for (final c in rows) c.key};
     final children = <Widget>[
       ToolsHeading(
         CollegesCopy.myColleges,
@@ -162,11 +173,14 @@ class MyCollegesBlock extends ConsumerWidget {
         children.add(ToolsPanel(
           children: [
             for (final (i, c) in rows.indexed)
-              CollegeRung(
+              _GrowIn(
                 key: ValueKey('rung-${c.key}'),
-                college: c,
-                rank: i + 1,
-                onTap: () => context.push('${ToolsPaths.programme(c.programmeId)}?college=${Uri.encodeQueryComponent(c.college)}'),
+                animate: fresh.contains(c.key),
+                child: CollegeRung(
+                  college: c,
+                  rank: i + 1,
+                  onTap: () => context.push('${ToolsPaths.programme(c.programmeId)}?college=${Uri.encodeQueryComponent(c.college)}'),
+                ),
               ),
             if (!view.list.isFull)
               ToolsRowFrame(
@@ -214,34 +228,48 @@ class MyCollegesBlock extends ConsumerWidget {
 }
 
 /// The student's estimate in one line, or what will fill it. Never a field.
-class EstimateBar extends StatelessWidget {
-  const EstimateBar({super.key, required this.estimate, required this.category});
+class EstimateBar extends ConsumerWidget {
+  const EstimateBar({super.key, required this.estimate, required this.category, this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter)});
 
   final Estimate? estimate;
   final String category;
+  final EdgeInsets padding;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
     final e = estimate;
     if (e == null) {
+      // No estimate: say what will fill it (the papers still missing, when some mocks exist) and
+      // offer a typed one. Never a field, never volt.
+      final partial = ref.watch(mockPartialProvider);
+      final catalog = ref.watch(compassControllerProvider).value?.catalog;
+      String subject(String id) => catalog?.language(id)?.shortName ?? catalog?.domain(id)?.shortName ?? id;
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-        child: Row(
+        padding: padding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: Text(CollegesCopy.noEstimate, style: type.small.copyWith(color: colors.ink2))),
-            KeyButton.quiet(label: CollegesCopy.typeEstimate, onPressed: () => showCategoryScoreSheet(context)),
+            Text(
+              partial == null ? CollegesCopy.noEstimate : CollegesCopy.partial(partial.filled, [for (final m in partial.missing) subject(m)]),
+              style: type.small.copyWith(color: colors.ink2),
+            ),
+            // The quiet key's own padding pulled back, so its words line up with the line above.
+            Transform.translate(
+              offset: const Offset(-MmSpace.s16, 0),
+              child: KeyButton.quiet(label: CollegesCopy.typeEstimate, onPressed: () => showEstimateSheet(context)),
+            ),
           ],
         ),
       );
     }
     final range = estimateRange(e);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+      padding: padding,
       child: MmPressable(
         semanticsLabel: '${CollegesCopy.yourEstimate}, $range out of 1000, ${CollegesCopy.source(e.source, category)}. ${CollegesCopy.change}',
-        onTap: () => showCategoryScoreSheet(context),
+        onTap: () => showEstimateSheet(context),
         builder: (context, pressed, _) => Container(
           padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s8, MmSpace.s12),
           decoration: BoxDecoration(color: colors.sunken, borderRadius: BorderRadius.circular(MmSpace.s16)),
@@ -355,7 +383,8 @@ class CompassCard extends ConsumerWidget {
     final known = s != null && !s.selection.isEmpty;
     void open() => context.push('${ToolsPaths.compass}?from=colleges');
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.section, MmSpace.gutter, 0),
+      // ToolsCard brings the page gutter itself, so the card lines up with the panels around it.
+      padding: const EdgeInsets.only(top: MmRhythm.section),
       child: ToolsCard(
         lit: true,
         child: Column(
@@ -421,7 +450,7 @@ class _ToolsList extends ConsumerWidget {
             icon: LucideIcons.calculator,
             title: CollegesCopy.checkTitle,
             note: CollegesCopy.checkNote,
-            onTap: () => context.push(ToolsPaths.collegesCutoff),
+            onTap: () => showCheckScoreSheet(context),
           ),
           ToolsLinkRow(
             icon: LucideIcons.layoutGrid,
@@ -431,26 +460,68 @@ class _ToolsList extends ConsumerWidget {
           ),
           ToolsLinkRow(
             icon: LucideIcons.calendarRange,
-            title: 'CUET 2027 exam guide',
-            note: 'Expected dates and a month-by-month plan',
+            title: CollegesCopy.guideTitle,
+            note: CollegesCopy.guideNote,
             onTap: () => context.push(ToolsPaths.guide2027),
           ),
           ToolsLinkRow(
             icon: LucideIcons.bookOpen,
-            title: 'Previous-year questions',
-            note: 'How to practise with past papers. Opens the website',
+            title: CollegesCopy.pyqTitle,
+            note: CollegesCopy.pyqNote,
             external: true,
             onTap: () => unawaited(openWebPage(ref, ToolsPaths.pyqGuideWebPath)),
           ),
           if (s != null)
             ToolsLinkRow(
               icon: LucideIcons.fileText,
-              title: 'Official DU documents',
-              note: 'The Bulletin and the three round lists',
+              title: CollegesCopy.docsTitle,
+              note: CollegesCopy.docsNote,
               onTap: () => showSourcesSheet(context, s.catalog.meta.sources),
             ),
         ],
       ),
     );
   }
+}
+
+/// A college just added to the list: it opens its own room and fades in at its place (300 ms on
+/// Glide), so the student sees where it landed in the order. Still under reduced motion.
+class _GrowIn extends StatefulWidget {
+  const _GrowIn({super.key, required this.animate, required this.child});
+
+  final bool animate;
+  final Widget child;
+
+  @override
+  State<_GrowIn> createState() => _GrowInState();
+}
+
+class _GrowInState extends State<_GrowIn> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(vsync: this, duration: Motion.glideDuration, value: widget.animate ? 0 : 1);
+  late final Animation<double> _t = CurvedAnimation(parent: _c, curve: Motion.glide);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_c.value < 1) {
+      if (Motion.reduced(context)) {
+        _c.value = 1;
+      } else if (!_c.isAnimating) {
+        _c.forward();
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => SizeTransition(
+        sizeFactor: _t,
+        alignment: Alignment.topCenter,
+        child: FadeTransition(opacity: _t, child: widget.child),
+      );
 }

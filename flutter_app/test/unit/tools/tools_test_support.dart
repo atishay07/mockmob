@@ -118,6 +118,9 @@ List<Override> toolsOverrides({
       comboRunnerProvider.overrideWithValue(
         comboRunner ?? (groups, pool, targets, maxPapers) async => duPlanCombos(groups: groups, pool: pool, targets: targets, maxPapers: maxPapers),
       ),
+      comboKeepRunnerProvider.overrideWithValue(
+        (groups, pool, targets, maxPapers) async => duPlanCombos(groups: groups, pool: pool, targets: targets, maxPapers: maxPapers),
+      ),
       networkStatusProvider.overrideWith(() => FakeToolsNetwork(network)),
       networkRestoredProvider.overrideWith((ref) => restored ?? const Stream<void>.empty()),
       if (now != null) nowProvider.overrideWithValue(() => now),
@@ -186,6 +189,23 @@ const compassProReady = {
 
 /// One full mock (50 questions) per commerce subject, as `GET /api/attempts` returns them:
 /// English 200, Accountancy 150, Business Studies 210 and Economics 180, so 740 in all.
+/// Two full mocks in each Commerce paper, a few days apart: an estimate range of 700 to 750.
+List<Attempt> commerceMockRange() => [
+      for (final (subject, a, b) in const [('english', 40, 44), ('accountancy', 30, 34), ('business_studies', 42, 42), ('economics', 28, 30)])
+        for (final (i, correct) in [a, b].indexed)
+          Attempt.fromJson({
+            'id': 'mock-$subject-$i',
+            'subject': subject,
+            'score': 0,
+            'correct': correct,
+            'wrong': 0,
+            'unattempted': 50 - correct,
+            'total': 50,
+            'mode': 'full',
+            'completedAt': DateTime.utc(2026, 10, 10 + i).toIso8601String(),
+          }),
+    ];
+
 List<Attempt> commerceMocks() => [
       for (final (subject, correct) in const [('english', 40), ('accountancy', 30), ('business_studies', 42), ('economics', 36)])
         Attempt.fromJson({

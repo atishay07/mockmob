@@ -108,4 +108,34 @@ void main() {
     ];
     expect(visible.length, greaterThanOrEqualTo(3));
   });
+
+  testWidgets('a college typed in the course search offers the colleges of the student\'s course, query kept', (tester) async {
+    await pump(
+      tester,
+      Scaffold(
+        body: Builder(builder: (context) => TextButton(onPressed: () => showMyCollegesSheet(context, entry: MyCollegesEntry.chooser), child: const Text('open'))),
+      ),
+    );
+    Future<void> settle() async {
+      for (var i = 0; i < 3; i++) {
+        await tester.pumpAndSettle();
+        await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 40)));
+      }
+      await tester.pumpAndSettle();
+    }
+
+    await tester.tap(find.text('open'));
+    await settle();
+    // It opens on the student's course; the chip goes back to the programme list.
+    await tester.tap(find.text(CollegesCopy.courseChip('B.Com. (Hons.)')));
+    await settle();
+    final sheet = find.byType(MyCollegesSheet);
+    await tester.enterText(find.descendant(of: sheet, matching: find.byType(TextField)), 'hansrj');
+    await settle();
+    expect(find.text(CollegesCopy.nothingMatches('hansrj')), findsOneWidget);
+    await tester.tap(find.text(CollegesCopy.searchCollegesIn('B.Com. (Hons.)')));
+    await settle();
+    expect(find.text(CollegesCopy.courseChip('B.Com. (Hons.)')), findsOneWidget);
+    expect(find.descendant(of: sheet, matching: find.text('Hansraj College')), findsOneWidget);
+  });
 }

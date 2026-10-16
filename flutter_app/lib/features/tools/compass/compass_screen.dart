@@ -27,9 +27,13 @@ import 'compass_controller.dart';
 import 'compass_hero.dart';
 import 'compass_practise.dart';
 import 'programme_rows.dart';
-import 'score_sources.dart';
+import 'stream_fold.dart';
 import '../widgets/tools_origin.dart';
-import '../my_colleges/my_colleges_parts.dart' show MyCollegesSection;
+import '../colleges/college_rung.dart' show collegeFigureProvider;
+import '../colleges/colleges_screen.dart' show EstimateBar;
+import '../estimate/estimate.dart';
+import '../estimate/estimate_providers.dart';
+import '../my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
 import '../my_colleges/college_search.dart' show duMatchRank;
 import '../data/my_colleges_actions.dart' show myCollegesProvider;
 import '../../onboarding/onboarding.dart' show onboardingAnswersProvider;
@@ -53,11 +57,12 @@ const int _fewColleges = 3;
 const int _bestCount = 3;
 const int _bestFrom = 6;
 
-/// The best options: with a score, the programmes it could clear first; then the most colleges.
-List<DuVerdict> compassBestOptions(CompassState s) {
-  final score = s.score;
+/// The best options: with an estimate (its top end [reach], else the typed score), the programmes
+/// it could clear first; then the most colleges.
+List<DuVerdict> compassBestOptions(CompassState s, [double? reach]) {
+  final score = reach ?? s.score;
   final list = [...s.eligible.where((r) => r.group.hasCutoffs)];
-  int clear(DuVerdict r) => score != null && s.couldClear(r.group) ? 0 : 1;
+  int clear(DuVerdict r) => score != null && s.couldClear(r.group, score) ? 0 : 1;
   list.sort((a, b) {
     final c = clear(a) - clear(b);
     if (c != 0) return c;
@@ -81,7 +86,12 @@ List<DuVerdict> compassBestOptions(CompassState s) {
 /// Bulletin rules, then the 2026 college cutoffs by category and round. The website's
 /// admission-compass and cutoff calculator in one native screen, on the same data.
 class CompassScreen extends ConsumerStatefulWidget {
-  const CompassScreen({super.key});
+  const CompassScreen({super.key, this.previewScore, this.previewCategory});
+
+  /// From Check a score (`?score=600-650&category=OBC-NCL`): a score shown here without being
+  /// saved as the student's estimate, until they choose to.
+  final String? previewScore;
+  final String? previewCategory;
 
   @override
   ConsumerState<CompassScreen> createState() => _CompassScreenState();
@@ -89,7 +99,7 @@ class CompassScreen extends ConsumerStatefulWidget {
 
 class _CompassScreenState extends ConsumerState<CompassScreen> {
   final _search = TextEditingController();
-  String _stream = ToolsCopy.all;
+  final String _stream = ToolsCopy.all;
   String _query = '';
   CompassSort _sort = CompassSort.colleges;
   bool _onlyClearing = false;
@@ -110,6 +120,32 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   /// from a filter, a sort, a stream, a category or new subjects, do.
   bool _readyOnce = false;
   bool _settled = false;
+
+  /// Streams the student opened or folded themselves (their choice beats the default).
+  final Map<String, bool> _folds = {};
+
+  /// The Check a score preview is on show (until dismissed or saved).
+  late bool _preview = _previewEstimate != null;
+
+  Estimate? get _previewEstimate {
+    final parts = widget.previewScore?.split('-');
+    if (parts == null) return null;
+    final lo = double.tryParse(parts.first.trim());
+    final hi = parts.length > 1 ? double.tryParse(parts[1].trim()) : lo;
+    if (lo == null || hi == null || lo < 0 || hi > 1000) return null;
+    return Estimate(source: EstimateSource.typed, low: lo < hi ? lo : hi, high: lo < hi ? hi : lo);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    final category = widget.previewCategory;
+    if (category != null && _preview) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) ref.read(compassControllerProvider.notifier).setCategory(category);
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -150,16 +186,22 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
     }
     // A change of order, stream, category or the could-clear switch replays the arrival of the
     // rows that stay (a search does not: new rows arrive, the rest hold still).
-    final replay = '${_sort.name}|$_stream|${s.category}|$_onlyClearing';
-    final score = s.score;
+    final est = _preview ? _previewEstimate : ref.watch(estimateProvider);
+    final replay = '${_sort.name}|$_stream|${s.category}|$_onlyClearing|${est?.low}|${est?.high}';
+    // Everything below reads the one estimate: its low end for the pin, its top for "could clear".
+    final score = est?.low;
+    final reach = est?.high;
     final q = _query.trim().toLowerCase();
     // One matcher with the chooser: "bcom", "B.Com" and "bcom hons" all find B.Com. (Hons.).
+    int? rank(DuVerdict r) => duMatchRank(q, r.group.name, extra: [r.group.id.replaceAll('-', ' '), r.group.family]);
+    // As in the chooser: when the words are found whole somewhere, the loose matches are noise.
+    final strict = q.isNotEmpty && [...s.eligible, ...s.ineligible].any((r) => (rank(r) ?? 9) <= 1);
     bool matches(DuVerdict r) =>
         (_stream == ToolsCopy.all || r.group.stream == _stream) &&
-        (q.isEmpty || duMatchRank(q, r.group.name, extra: [r.group.id.replaceAll('-', ' '), r.group.family]) != null);
+        (q.isEmpty || ((rank(r) ?? 9) <= (strict ? 1 : 3)));
 
     var list = s.eligible.where(matches).toList();
-    if (_onlyClearing && score != null) list = list.where((r) => s.couldClear(r.group)).toList();
+    if (_onlyClearing && reach != null) list = list.where((r) => s.couldClear(r.group, reach)).toList();
     double top(DuVerdict r) => r.group.roundOne(s.category)?.high ?? -1;
     list.sort(switch (_sort) {
       CompassSort.name => (a, b) => a.group.name.compareTo(b.group.name),
@@ -180,14 +222,32 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
     final nearOpen = _nearOpen ?? noneOpen;
     final nearShown = _nearAll ? near : near.take(_nearFirst).toList();
 
-    final best = s.eligible.length >= _bestFrom ? compassBestOptions(s) : const <DuVerdict>[];
-    final mocks = ref.watch(compassMockScoreProvider);
+    final best = s.eligible.length >= _bestFrom ? compassBestOptions(s, reach) : const <DuVerdict>[];
+    final view = ref.watch(myCollegesProvider);
+    final ownCourse = view.ready && view.colleges.isNotEmpty ? view.colleges.first.programmeId : ref.watch(onboardingAnswersProvider).value?.courseId;
+    final ownStream = ownCourse == null ? null : s.catalog.group(ownCourse)?.stream;
+    bool foldOpen(String st) => q.isNotEmpty || (_folds[st] ?? (ownStream == null ? st == streams.firstOrNull : st == ownStream));
     final unlocks = [
       const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.unlocksHeading, top: MmRhythm.group)),
       SliverToBoxAdapter(child: _Unlocks(state: s)),
     ];
 
+    final previewing = _preview && est != null;
     return [
+      if (previewing)
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
+            child: _PreviewLine(
+              range: estimateRange(est),
+              onUse: () {
+                ref.read(compassControllerProvider.notifier).setEstimate(est.low, est.isPoint ? null : est.high);
+                setState(() => _preview = false);
+              },
+              onClose: () => setState(() => _preview = false),
+            ),
+          ),
+        ),
       SliverToBoxAdapter(child: CompassHero(state: s)),
       // The one primary action of the page, straight under the count: the score that makes the
       // list personal, or, once there is one, the programme to open first.
@@ -203,11 +263,11 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
               selected: duMainCategories.contains(s.category) ? duMainCategories.indexOf(s.category) : duMainCategories.length,
               onSelected: (i) => i < duMainCategories.length
                   ? ref.read(compassControllerProvider.notifier).setCategory(duMainCategories[i])
-                  : showCategoryScoreSheet(context),
+                  : showOtherQuotaSheet(context, ref),
             ),
           ),
         ),
-      if (!s.selection.isEmpty && !noneOpen) SliverToBoxAdapter(child: _FirstMove(state: s, onOpen: open)),
+      if (!s.selection.isEmpty && !noneOpen) SliverToBoxAdapter(child: _FirstMove(state: s, reach: reach, onOpen: open)),
       // Nothing open: the way out comes first, straight under the count.
       if (noneOpen) SliverToBoxAdapter(child: _NoneOpen(hasUnlocks: s.unlocks.isNotEmpty, onCombo: () => _openCombo(context))),
       if (noneOpen && s.unlocks.isNotEmpty) ...unlocks,
@@ -226,24 +286,19 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                   verdict: r,
                   category: s.category,
                   score: score,
-                  couldClear: score != null && s.couldClear(r.group),
+                  scoreHigh: reach,
+                  couldClear: reach != null && s.couldClear(r.group, reach),
                   onTap: () => open(r.group.id),
                 ),
             ],
           ),
         ),
       ],
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: EdgeInsets.only(top: best.isNotEmpty ? MmRhythm.group : MmRhythm.item),
-          child: CategoryScoreBar(
-            summary: score == null && mocks != null
-                ? ToolsCopy.categorySummaryMocks(s.category, mocks.total)
-                : ToolsCopy.categorySummary(s.category, score == null ? null : duFormatScore(score)),
-            onTap: () => showCategoryScoreSheet(context),
-          ),
-        ),
-      ),
+      // Where you stand: the estimate, below the answer it sharpens. Never a field (L26).
+      if (!s.selection.isEmpty) ...[
+        SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.whereYouStand, top: best.isNotEmpty ? MmRhythm.group : MmRhythm.item)),
+        SliverToBoxAdapter(child: EstimateBar(estimate: est, category: s.category)),
+      ],
       if (!noneOpen && s.unlocks.isNotEmpty) ...unlocks,
       if (!s.selection.isEmpty) ...[
         if (!noneOpen)
@@ -256,14 +311,11 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
         if (s.eligible.isNotEmpty)
           SliverToBoxAdapter(
             child: _Filters(
-              streams: streams,
-              stream: _stream,
-              onStream: (v) => setState(() => _stream = v),
               search: _search,
               onQuery: (v) => setState(() => _query = v),
               sort: _sort,
               onSort: (v) => setState(() => _sort = v),
-              showClearing: score != null,
+              showClearing: reach != null,
               onlyClearing: _onlyClearing,
               onClearing: (v) => setState(() => _onlyClearing = v),
             ),
@@ -271,20 +323,20 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
         if (s.eligible.isNotEmpty && list.isEmpty)
           SliverToBoxAdapter(child: ToolsNote(ToolsCopy.nothingMatches, top: MmSpace.s20)),
         for (final st in streams)
-          if (list.where((r) => r.group.stream == st).toList() case final rows when rows.isNotEmpty) ...[
+          if (list.where((r) => r.group.stream == st).toList() case final rows when rows.isNotEmpty)
             SliverToBoxAdapter(
-              child: GroupHeading(
-                st,
-                top: MmSpace.s20,
-                trailing: Padding(
-                  padding: const EdgeInsets.only(right: MmSpace.gutter),
-                  child: _SlidingCount(count: rows.length),
+              child: StreamFold(
+                key: ValueKey('fold-$st'),
+                stream: st,
+                note: StreamFoldCopy.note(
+                  rows.length,
+                  rows.fold(0, (m, r) => r.group.colleges > m ? r.group.colleges : m),
+                  reach == null ? null : rows.where((r) => s.couldClear(r.group, reach)).length,
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Builder(
-                builder: (context) {
+                // Open while searching; otherwise the student's own stream by default, or their choice.
+                open: foldOpen(st),
+                onToggle: () => setState(() => _folds[st] = !foldOpen(st)),
+                child: (context) {
                   // The rich programmes lead; the ones at one or two colleges fold under "Other
                   // programmes". A long lead opens on its first rows; the rest is one tap away.
                   final split = compassSplitStream(rows, searching: q.isNotEmpty);
@@ -296,50 +348,53 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
                     ...(collapsible && !all ? lead.take(_streamFirst) : lead),
                     if (otherOpen) ...split.other,
                   ];
-                  return ToolsPanel(
-                    children: [
-                      for (final (i, r) in shown.indexed)
-                        RankedReveal(
-                          key: ValueKey('row-${r.group.id}'),
-                          index: i,
-                          replayKey: replay,
-                          animateOnMount: _settled,
-                          child: ProgrammeRow(
-                            verdict: r,
-                            category: s.category,
-                            score: score,
-                            couldClear: score != null && s.couldClear(r.group),
-                            onTap: () => open(r.group.id),
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: MmSpace.s12),
+                    child: ToolsPanel(
+                      children: [
+                        for (final (i, r) in shown.indexed)
+                          RankedReveal(
+                            key: ValueKey('row-${r.group.id}'),
+                            index: i,
+                            replayKey: replay,
+                            animateOnMount: _settled,
+                            child: ProgrammeRow(
+                              verdict: r,
+                              category: s.category,
+                              score: score,
+                              scoreHigh: reach,
+                              couldClear: reach != null && s.couldClear(r.group, reach),
+                              onTap: () => open(r.group.id),
+                            ),
                           ),
-                        ),
-                      if (collapsible)
-                        ToolsRowFrame(
-                          onTap: () => setState(() => all ? _openStreams.remove(st) : _openStreams.add(st)),
-                          semanticsLabel: all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(lead.length - _streamFirst),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(lead.length - _streamFirst),
-                                  style: context.mmType.labelLarge.copyWith(color: context.mmColors.accentText),
+                        if (collapsible)
+                          ToolsRowFrame(
+                            onTap: () => setState(() => all ? _openStreams.remove(st) : _openStreams.add(st)),
+                            semanticsLabel: all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(lead.length - _streamFirst),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    all ? ToolsCopy.showFewerRows : ToolsCopy.showMoreRows(lead.length - _streamFirst),
+                                    style: context.mmType.labelLarge.copyWith(color: context.mmColors.accentText),
+                                  ),
                                 ),
-                              ),
-                              Icon(all ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 18, color: context.mmColors.accentText),
-                            ],
+                                Icon(all ? LucideIcons.chevronUp : LucideIcons.chevronDown, size: 18, color: context.mmColors.accentText),
+                              ],
+                            ),
                           ),
-                        ),
-                      if (split.other.isNotEmpty)
-                        _OtherProgrammes(
-                          count: split.other.length,
-                          open: otherOpen,
-                          onTap: () => setState(() => otherOpen ? _openOther.remove(st) : _openOther.add(st)),
-                        ),
-                    ],
+                        if (split.other.isNotEmpty)
+                          _OtherProgrammes(
+                            count: split.other.length,
+                            open: otherOpen,
+                            onTap: () => setState(() => otherOpen ? _openOther.remove(st) : _openOther.add(st)),
+                          ),
+                      ],
+                    ),
                   );
                 },
               ),
             ),
-          ],
         if (near.isNotEmpty) ...[
           SliverToBoxAdapter(
             child: ToolsHeading(
@@ -371,7 +426,7 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           ],
         ],
       ],
-      const SliverToBoxAdapter(child: MyCollegesSection()),
+      SliverToBoxAdapter(child: _MyCollegesRow(estimate: est, category: s.category)),
       SliverToBoxAdapter(child: CompassProSection(state: s)),
       SliverToBoxAdapter(child: CompassPractise(state: s)),
       SliverToBoxAdapter(
@@ -405,9 +460,10 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
 /// student's own course (the first college on My colleges, else the course from onboarding) when
 /// their subjects open it, otherwise the best option. Nothing when there is no programme to open.
 class _FirstMove extends ConsumerWidget {
-  const _FirstMove({required this.state, required this.onOpen});
+  const _FirstMove({required this.state, required this.onOpen, this.reach});
 
   final CompassState state;
+  final double? reach;
   final void Function(String id) onOpen;
 
   @override
@@ -415,7 +471,7 @@ class _FirstMove extends ConsumerWidget {
     final view = ref.watch(myCollegesProvider);
     final own = view.ready && view.colleges.isNotEmpty ? view.colleges.first.programmeId : ref.watch(onboardingAnswersProvider).value?.courseId;
     final mine = own == null ? null : state.eligible.where((v) => v.group.id == own).firstOrNull;
-    final pick = mine ?? compassBestOptions(state).firstOrNull;
+    final pick = mine ?? compassBestOptions(state, reach).firstOrNull;
     if (pick == null) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
@@ -499,36 +555,6 @@ class _OtherProgrammes extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-/// A group's count ("12"): when it changes the old figure slides out and the new one in (a half
-/// line, 200 ms); still under reduced motion.
-class _SlidingCount extends StatelessWidget {
-  const _SlidingCount({required this.count});
-
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    final style = context.mmType.caption.copyWith(color: context.mmColors.ink3, fontFeatures: const [FontFeature.tabularFigures()]);
-    final reduced = Motion.reduced(context);
-    return AnimatedSwitcher(
-      duration: reduced ? Duration.zero : Motion.crossFade,
-      switchInCurve: Motion.glide,
-      switchOutCurve: Motion.exit,
-      transitionBuilder: (child, animation) {
-        final incoming = child.key == ValueKey(count);
-        return FadeTransition(
-          opacity: animation,
-          child: SlideTransition(
-            position: Tween(begin: Offset(0, incoming ? 0.5 : -0.5), end: Offset.zero).animate(animation),
-            child: child,
-          ),
-        );
-      },
-      child: Text('$count', key: ValueKey(count), style: style),
     );
   }
 }
@@ -639,9 +665,6 @@ class _UnlocksState extends ConsumerState<_Unlocks> {
 
 class _Filters extends StatelessWidget {
   const _Filters({
-    required this.streams,
-    required this.stream,
-    required this.onStream,
     required this.search,
     required this.onQuery,
     required this.sort,
@@ -651,9 +674,6 @@ class _Filters extends StatelessWidget {
     required this.onClearing,
   });
 
-  final List<String> streams;
-  final String stream;
-  final ValueChanged<String> onStream;
   final TextEditingController search;
   final ValueChanged<String> onQuery;
   final CompassSort sort;
@@ -670,17 +690,10 @@ class _Filters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final all = [ToolsCopy.all, ...streams];
+    // The streams are folded rows below, so the search and the sort are the only filters.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ChipRail.labelled(
-          semanticLabel: 'Stream',
-          labels: [for (final st in all) duStreamShort(st)],
-          selected: all.indexOf(stream).clamp(0, all.length - 1),
-          onSelected: (i) => onStream(all[i]),
-        ),
-        const SizedBox(height: MmSpace.s8),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
           child: Row(
@@ -768,6 +781,86 @@ class _SearchingLoad extends StatelessWidget {
           child: HybridCompass(height: CompassHero.compassHeight, searching: true),
         ),
       ],
+    );
+  }
+}
+
+/// From Check a score: the score on show is not the student's estimate until they say so.
+class _PreviewLine extends StatelessWidget {
+  const _PreviewLine({required this.range, required this.onUse, required this.onClose});
+
+  final String range;
+  final VoidCallback onUse;
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Semantics(
+      liveRegion: true,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s4, MmSpace.s4),
+        decoration: BoxDecoration(color: colors.sunken, borderRadius: BorderRadius.circular(MmSpace.s16)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: MmSpace.s12),
+              child: Text(ToolsCopy.previewLine(range), style: type.small.copyWith(color: colors.ink2)),
+            ),
+            Wrap(
+              children: [
+                KeyButton.quiet(label: ToolsCopy.previewUse, onPressed: onUse),
+                KeyButton.quiet(label: ToolsCopy.previewClose, onPressed: onClose),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// My colleges on Compass: one row into the list (its full view is the Colleges tab), with how
+/// many of them the estimate clears.
+class _MyCollegesRow extends ConsumerWidget {
+  const _MyCollegesRow({required this.estimate, required this.category});
+
+  final Estimate? estimate;
+  final String category;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final view = ref.watch(myCollegesProvider);
+    if (!view.ready) return const SizedBox.shrink();
+    final n = view.colleges.length;
+    int? clears;
+    final e = estimate;
+    if (e != null && n > 0) {
+      var c = 0;
+      var known = 0;
+      for (final m in view.colleges) {
+        final f = ref.watch(collegeFigureProvider((m.programmeId, m.college, category)));
+        if (!f.known) continue;
+        known++;
+        if (f.figure != null && verdictFor(e, f.figure).v == Verdict.clears) c++;
+      }
+      if (known > 0) clears = c;
+    }
+    return Padding(
+      padding: const EdgeInsets.only(top: MmRhythm.section),
+      child: ToolsPanel(
+        dividerIndent: ToolsLinkRow.dividerIndent,
+        children: [
+          ToolsLinkRow(
+            icon: LucideIcons.listOrdered,
+            title: ToolsCopy.myCollegesRow,
+            note: n == 0 ? ToolsCopy.myCollegesRowEmpty : ToolsCopy.myCollegesRowNote(n, clears),
+            onTap: () => showMyCollegesSheet(context),
+          ),
+        ],
+      ),
     );
   }
 }

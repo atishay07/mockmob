@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/tools/combo/combo_screen.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/compass/cutoff_table.dart';
@@ -12,7 +13,6 @@ import 'package:mockmob/features/tools/compass/programme_screen.dart';
 import 'package:mockmob/features/tools/copy.dart';
 import 'package:mockmob/features/tools/guide/guide_2027_screen.dart';
 import 'package:mockmob/features/tools/hub/tools_hub_screen.dart';
-import 'package:mockmob/features/tools/widgets/tools_parts.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -85,8 +85,11 @@ void main() {
 
   testWidgets('a long stream group opens on six programmes and Show more brings the rest', (tester) async {
     await pump(tester, const CompassScreen(), overrides: toolsOverrides(prefs: savedCompass('english,accountancy,business_studies,economics')), size: const Size(384, 6000));
+    // Humanities is a folded row with what is inside; opening it shows its first six.
+    await tester.tap(find.text('Humanities & Social Sciences'));
+    await tester.pumpAndSettle();
     final before = find.byType(ProgrammeRow).evaluate().length;
-    final more = find.textContaining('Show ').first;
+    final more = find.textContaining(RegExp(r'^Show \d+ more$')).first;
     expect(more, findsOneWidget);
     await tester.tap(more);
     await tester.pumpAndSettle();
@@ -108,7 +111,7 @@ void main() {
     expect(find.byType(CutoffTable), findsOneWidget);
   });
 
-  testWidgets('a programme the subjects open shows its cutoffs at once, with a 48 dp Change', (tester) async {
+  testWidgets('a programme the subjects open shows its cutoffs at once, with the category as a 48 dp rail', (tester) async {
     await pump(
       tester,
       const ProgrammeScreen(groupId: 'b-com-hons'),
@@ -116,8 +119,13 @@ void main() {
       size: const Size(384, 4000),
     );
     expect(find.byType(CutoffTable), findsOneWidget);
-    final change = tester.getSize(find.ancestor(of: find.text(ToolsCopy.change), matching: find.byType(ToolsInlineAction)).first);
-    expect(change.height, greaterThanOrEqualTo(48));
-    expect(change.width, greaterThanOrEqualTo(48));
+    // The chip draws at 40 dp inside the rail's 48 dp row.
+    final chip = tester.getRect(find.ancestor(of: find.text('OBC'), matching: find.byType(MmChip)).first);
+    final rail = tester.getRect(find.ancestor(of: find.text('OBC'), matching: find.byType(ChipRail)).first);
+    expect(rail.height, greaterThanOrEqualTo(48));
+    expect(chip.width, greaterThanOrEqualTo(48));
+    await tester.tapAt(chip.center);
+    await tester.pumpAndSettle();
+    expect(tester.widget<MmChip>(find.ancestor(of: find.text('OBC'), matching: find.byType(MmChip)).first).selected, isTrue);
   });
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -12,17 +13,24 @@ import '../domain/du_eligibility.dart' show duDescribeGap;
 import '../domain/du_models.dart';
 import 'combo_card.dart';
 import '../widgets/size_reveal.dart';
+import '../widgets/tools_page.dart' show ToolsPanel, ToolsRowFrame;
 
 /// The ranked combinations. While a new plan is being checked Mobi waits (the loading pose) in place of the old
 /// list (after a short beat, so a quick answer never flashes it). When the plan lands the cards
 /// ink in, in rank order.
 class ComboResults extends StatefulWidget {
-  const ComboResults({super.key, required this.checking, required this.ranked, required this.catalog, required this.targetCount});
+  const ComboResults({super.key, required this.checking, required this.ranked, required this.catalog, required this.targetCount, this.afterBest, this.foldOthers = false});
 
   final bool checking;
   final List<DuCombo> ranked;
   final DuCatalog catalog;
   final int targetCount;
+
+  /// Shown under the best combination (the "Keep these" reasons), before the other options.
+  final Widget? afterBest;
+
+  /// The options after the best fold under "Other options (n)" (the result-first view, L27).
+  final bool foldOthers;
 
   /// How long a check runs before the old list gives way to Mobi.
   static const Duration beat = Duration(milliseconds: 180);
@@ -63,6 +71,7 @@ class ComboOutcome {
 }
 
 class _ComboResultsState extends State<ComboResults> {
+  bool _othersOpen = false;
   Timer? _timer;
   Timer? _reactTimer;
   bool _slow = false;
@@ -117,7 +126,7 @@ class _ComboResultsState extends State<ComboResults> {
   @override
   Widget build(BuildContext context) {
     if (widget.checking && (_slow || widget.ranked.isEmpty)) return const _Checking();
-    final sig = _signature;
+
     final outcome = _outcome;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -125,25 +134,63 @@ class _ComboResultsState extends State<ComboResults> {
         SizeReveal(
           child: outcome == null ? const SizedBox(width: double.infinity) : _Reaction(key: ValueKey(outcome.line), outcome: outcome),
         ),
-        for (var i = 0; i < widget.ranked.length; i++)
-          Padding(
-            padding: const EdgeInsets.only(bottom: MmSpace.s16),
-            child: ComboReveal(
-              key: ValueKey('$sig#$i'),
-              index: i,
-              builder: (context, inked) => ComboCard(
-                combo: widget.ranked[i],
-                rank: i,
-                catalog: widget.catalog,
-                targetCount: widget.targetCount,
-                best: i == 0 ? null : widget.ranked.first,
-                inked: inked,
+        for (var i = 0; i < widget.ranked.length; i++) ...[
+          if (i == 0 || !widget.foldOthers || _othersOpen) card(i),
+          if (i == 0 && widget.afterBest != null) widget.afterBest!,
+          if (i == 0 && widget.foldOthers && widget.ranked.length > 1)
+            Padding(
+              padding: const EdgeInsets.only(bottom: MmSpace.s16),
+              child: ToolsPanel(
+                children: [
+                  ToolsRowFrame(
+                    key: const ValueKey('other-options'),
+                    onTap: () => setState(() => _othersOpen = !_othersOpen),
+                    semanticsLabel: ComboFoldCopy.semantics(widget.ranked.length - 1, _othersOpen),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            ComboFoldCopy.title(widget.ranked.length - 1),
+                            style: context.mmType.labelLarge.copyWith(color: context.mmColors.accentText),
+                          ),
+                        ),
+                        AnimatedRotation(
+                          turns: _othersOpen ? 0.5 : 0,
+                          duration: Motion.of(context, Motion.ui),
+                          curve: Motion.glide,
+                          child: Icon(LucideIcons.chevronDown, size: 18, color: context.mmColors.accentText),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
+        ],
       ],
     );
   }
+
+  Widget card(int i) => Padding(
+        padding: const EdgeInsets.only(bottom: MmSpace.s16),
+        child: ComboReveal(
+          key: ValueKey('$_signature#$i'),
+          index: i,
+          builder: (context, inked) => ComboCard(
+            combo: widget.ranked[i],
+            rank: i,
+            catalog: widget.catalog,
+            targetCount: widget.targetCount,
+            best: i == 0 ? null : widget.ranked.first,
+            inked: inked,
+          ),
+        ),
+      );
+}
+
+abstract final class ComboFoldCopy {
+  static String title(int n) => 'Other options ($n)';
+  static String semantics(int n, bool open) => open ? 'Hide the other $n options' : 'Show $n other options';
 }
 
 /// Mobi's one reaction to a landed plan: 56 dp, an act from the result, one line. It collapses

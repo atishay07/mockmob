@@ -52,6 +52,10 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Best fit'), findsOneWidget);
     expect(find.text('5 papers'), findsOneWidget);
+    // The result leads; the other options fold under one row until asked for (L27).
+    expect(find.text('Option 2'), findsNothing);
+    await tester.tap(find.textContaining('Other options ('));
+    await tester.pumpAndSettle();
     expect(find.text('Option 2'), findsOneWidget);
   });
 }

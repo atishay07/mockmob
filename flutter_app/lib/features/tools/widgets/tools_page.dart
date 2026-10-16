@@ -124,7 +124,7 @@ class ToolsPage extends StatelessWidget {
 
 enum ToolTone { good, mid, low, quiet }
 
-/// A small written status ("Clears Round II", "Below every Round I cutoff"): a glyph and words
+/// A small written status ("Clears Round 2", "Below every Round 1 cutoff"): a glyph and words
 /// on a quiet well, the tone a second signal only.
 class ToolTag extends StatelessWidget {
   const ToolTag(this.text, {super.key, this.tone = ToolTone.quiet});

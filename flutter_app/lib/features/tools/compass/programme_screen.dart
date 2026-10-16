@@ -7,9 +7,12 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/du_repository.dart';
 import '../domain/du_eligibility.dart';
-import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
 import '../combo/combo_controller.dart';
+import '../colleges/colleges_copy.dart';
+import '../estimate/estimate.dart';
+import '../estimate/estimate_providers.dart';
+import '../estimate/estimate_sheet.dart';
 import '../tools_paths.dart';
 import '../widgets/load_states.dart';
 import '../widgets/tools_origin.dart';
@@ -26,9 +29,12 @@ import 'rules_list.dart';
 /// through which Bulletin combination, every combination checked, then the colleges' 2026
 /// cutoffs for the chosen category.
 class ProgrammeScreen extends ConsumerWidget {
-  const ProgrammeScreen({super.key, required this.groupId});
+  const ProgrammeScreen({super.key, required this.groupId, this.college});
 
   final String groupId;
+
+  /// From a rung on the Colleges tab (`?college=`): the college to bring into view.
+  final String? college;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -74,13 +80,15 @@ class ProgrammeScreen extends ConsumerWidget {
   List<Widget> _ready(BuildContext context, WidgetRef ref, CompassState s, DuGroup group) {
     final verdict = s.verdictFor(group.id) ?? duEvaluateGroup(group, s.selection);
     final rules = duExplainCombinations(group, s.selection, s.catalog);
+    final estimate = ref.watch(estimateProvider);
     return [
-      SliverToBoxAdapter(child: _VerdictCard(state: s, verdict: verdict)),
+      SliverToBoxAdapter(child: _VerdictCard(state: s, verdict: verdict, estimate: estimate)),
+      if (group.hasCutoffs) SliverToBoxAdapter(child: _WhereYouStand(group: group, category: s.category, estimate: estimate)),
       const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.rulesHeading)),
       SliverToBoxAdapter(child: ToolsCard(child: RulesList(rows: rules, skipMissingFor: verdict.eligible ? null : verdict.nearest?.label))),
       // A programme the subjects do not open: its cutoffs are folded, not laid out as if the
       // student could act on them.
-      SliverToBoxAdapter(child: _Cutoffs(group: group, state: s, folded: !s.selection.isEmpty && !verdict.eligible)),
+      SliverToBoxAdapter(child: _Cutoffs(group: group, state: s, estimate: estimate, highlight: college, folded: !s.selection.isEmpty && !verdict.eligible)),
       if (group.eligibility.notes.isNotEmpty) ...[
         const SliverToBoxAdapter(child: ToolsHeading(ToolsCopy.notesHeading)),
         SliverToBoxAdapter(
@@ -105,18 +113,20 @@ class ProgrammeScreen extends ConsumerWidget {
 
 /// The college cutoffs of one programme: open by default; folded under "See cutoffs anyway" when
 /// the student's subjects do not open the programme.
-class _Cutoffs extends StatefulWidget {
-  const _Cutoffs({required this.group, required this.state, required this.folded});
+class _Cutoffs extends ConsumerStatefulWidget {
+  const _Cutoffs({required this.group, required this.state, required this.folded, this.estimate, this.highlight});
 
   final DuGroup group;
   final CompassState state;
   final bool folded;
+  final Estimate? estimate;
+  final String? highlight;
 
   @override
-  State<_Cutoffs> createState() => _CutoffsState();
+  ConsumerState<_Cutoffs> createState() => _CutoffsState();
 }
 
-class _CutoffsState extends State<_Cutoffs> {
+class _CutoffsState extends ConsumerState<_Cutoffs> {
   bool _shown = false;
 
   @override
@@ -130,12 +140,22 @@ class _CutoffsState extends State<_Cutoffs> {
         ToolsHeading(
           ToolsCopy.cutoffsHeading,
           note: open
-              ? '${ToolsCopy.categoryNow(s.category)}${s.score != null ? ', score ${duFormatScore(s.score)}' : ''}'
+              ? '${ToolsCopy.categoryNow(s.category)}${widget.estimate != null ? ', your estimate ${estimateRange(widget.estimate!)}' : ''}'
               : ToolsCopy.cutoffsNotOpenNote,
-          trailing: open && group.hasCutoffs
-              ? ToolsInlineAction(label: ToolsCopy.change, icon: LucideIcons.pencilLine, onTap: () => showCategoryScoreSheet(context))
-              : null,
         ),
+        // The category as an inline rail (L26): it changes every figure below.
+        if (open && group.hasCutoffs)
+          Padding(
+            padding: const EdgeInsets.only(bottom: MmSpace.s12),
+            child: ChipRail.labelled(
+              semanticLabel: ToolsCopy.category,
+              labels: [for (final c in duMainCategories) categoryLabel(c), ToolsCopy.otherQuota],
+              selected: duMainCategories.contains(s.category) ? duMainCategories.indexOf(s.category) : duMainCategories.length,
+              onSelected: (i) => i < duMainCategories.length
+                  ? ref.read(compassControllerProvider.notifier).setCategory(duMainCategories[i])
+                  : showOtherQuotaSheet(context, ref),
+            ),
+          ),
         if (widget.folded)
           ToolsPanel(
             children: [
@@ -152,7 +172,10 @@ class _CutoffsState extends State<_Cutoffs> {
             ],
           ),
         if (widget.folded && _shown) const SizedBox(height: MmSpace.s16),
-        if (open) group.hasCutoffs ? CutoffTable(group: group, state: s) : const ToolsNote(ToolsCopy.noCutoffsBody, top: 0),
+        if (open)
+          group.hasCutoffs
+              ? CutoffTable(group: group, state: s, estimate: widget.estimate, highlight: widget.highlight)
+              : const ToolsNote(ToolsCopy.noCutoffsBody, top: 0),
       ],
     );
   }
@@ -161,10 +184,11 @@ class _CutoffsState extends State<_Cutoffs> {
 /// The answer to "can I apply?": an inked bubble and the combination that opens it, or an empty
 /// one with what the nearest combination still needs and the key to change subjects.
 class _VerdictCard extends ConsumerWidget {
-  const _VerdictCard({required this.state, required this.verdict});
+  const _VerdictCard({required this.state, required this.verdict, this.estimate});
 
   final CompassState state;
   final DuVerdict verdict;
+  final Estimate? estimate;
 
   /// Adds this programme to Combo Planner's targets (unless it is there or the six are taken)
   /// and opens the planner.
@@ -183,7 +207,7 @@ class _VerdictCard extends ConsumerWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final v = verdict;
-    final r1 = roundOneVerdict(v.group, state.category, state.score);
+    final r1 = roundOneVerdict(v.group, state.category, estimate?.low, estimate?.high);
     final gaps = [for (final g in v.nearest?.gaps ?? const <DuGap>[]) duDescribeGap(g, state.catalog)];
     final empty = state.selection.isEmpty;
     return ToolsCard(
@@ -246,6 +270,92 @@ class _VerdictCard extends ConsumerWidget {
             const SizedBox(height: MmSpace.s8),
             KeyButton.secondary(label: ToolsCopy.planThisCourse, onPressed: () => _plan(context, ref)),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+/// Where you stand on this course: how many of its colleges the estimate clears in Round 1 and how
+/// many more sit within the range, with one Mobi beside it reacting to that (nod, think or
+/// encourage, once per estimate and category). Without an estimate: what will fill it, and a
+/// quiet "Type an estimate". Never a field.
+class _WhereYouStand extends ConsumerWidget {
+  const _WhereYouStand({required this.group, required this.category, required this.estimate});
+
+  final DuGroup group;
+  final String category;
+  final Estimate? estimate;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final e = estimate;
+    if (e == null) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(CollegesCopy.noEstimate, style: type.small.copyWith(color: colors.ink2)),
+            KeyButton.quiet(label: CollegesCopy.typeEstimate, onPressed: () => showEstimateSheet(context)),
+          ],
+        ),
+      );
+    }
+    final offerings = ref.watch(duOfferingsProvider(group.id)).value;
+    final catalog = ref.watch(compassControllerProvider).value?.catalog;
+    if (offerings == null || catalog == null) return const SizedBox.shrink();
+    final ci = catalog.categoryIndex(category);
+    final seen = <String>{};
+    var total = 0;
+    var clears = 0;
+    var within = 0;
+    for (final seat in offerings.seats) {
+      if (!seen.add(seat.college)) continue;
+      final c = duEffectiveCutoff(seat.rounds[0], ci);
+      if (c == null) continue;
+      total++;
+      switch (verdictFor(e, c).v) {
+        case Verdict.clears:
+          clears++;
+        case Verdict.within:
+          within++;
+        case Verdict.below || Verdict.noSeat:
+          break;
+      }
+    }
+    if (total == 0) return const SizedBox.shrink();
+    final act = clears > 0 ? MobiAct.nod : (within > 0 ? MobiAct.think : MobiAct.encourage);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Semantics(
+              liveRegion: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(ToolsCopy.whereYouStand, style: type.caption.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s4),
+                  Text(CollegesCopy.programmeStands(clears, total, within), style: type.body.copyWith(color: colors.ink)),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: MmSpace.s12),
+          ExcludeSemantics(
+            child: MobiCharacter(
+              key: ValueKey('programme-mobi-${Object.hash(e, category)}'),
+              size: 40,
+              entrance: act,
+              shadow: false,
+              watchTaps: false,
+            ),
+          ),
         ],
       ),
     );

@@ -144,6 +144,9 @@ List<T> duSearch<T>(
     final r = duMatchRank(query, name(item), extra: extra?.call(item) ?? const []);
     if (r != null) scored.add((item, r));
   }
+  // When the query is found whole in some names ("bcom" in B.Com. (Hons.)), the word-prefix and
+  // typo matches ("b" + "com" in B.Sc. Computer Science) are noise: show only the whole matches.
+  if (scored.any((s) => s.$2 <= 1)) scored.removeWhere((s) => s.$2 > 1);
   scored.sort((a, b) {
     final c = a.$2 - b.$2;
     if (c != 0) return c;

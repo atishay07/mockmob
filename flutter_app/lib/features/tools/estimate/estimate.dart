@@ -1,5 +1,5 @@
 // The student's estimate: raw marks out of 1000 with a named source, set against one college's
-// Round 1 cutoff. It replaces "your CUET score" in the Colleges area: nothing ever asks for a
+// Round 1 cutoff. It replaces the old typed score field in the Colleges area: nothing ever asks for a
 // score the student does not have; without an estimate the screens show cutoffs alone.
 // Pure: tested without a phone.
 
@@ -7,7 +7,7 @@
 enum EstimateSource { mocks, projection, typed }
 
 class Estimate {
-  const Estimate({required this.source, required this.low, required this.high});
+  const Estimate({required this.source, required this.low, required this.high, this.at, this.papers = const []});
 
   final EstimateSource source;
 
@@ -17,6 +17,12 @@ class Estimate {
   /// >= [low]; equal to it for a single figure.
   final double high;
 
+  /// The newest mock counted, the projection's time, or when it was typed (null when unknown).
+  final DateTime? at;
+
+  /// From mocks only: each of the four papers DU counts with its newest full mock, out of 250.
+  final List<({String id, int marks})> papers;
+
   bool get isPoint => (high - low).abs() < 0.05;
 
   @override
@@ -24,6 +30,13 @@ class Estimate {
 
   @override
   int get hashCode => Object.hash(source, low, high);
+}
+
+/// Which of the student's estimates wins: one they typed after their newest full mock, else the
+/// mocks, else the practice projection, else one they typed (even if older). Null when none exists.
+Estimate? pickEstimate({Estimate? typed, Estimate? mocks, Estimate? projection}) {
+  if (typed != null && (mocks == null || typed.at == null || mocks.at == null || !mocks.at!.isAfter(typed.at!))) return typed;
+  return mocks ?? projection ?? typed;
 }
 
 enum Verdict { clears, within, below, noSeat }

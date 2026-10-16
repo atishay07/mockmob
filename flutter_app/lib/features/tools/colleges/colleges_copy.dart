@@ -18,6 +18,7 @@ abstract final class CollegesCopy {
   // The rung.
   static const String roundOne = 'Round 1, 2026';
   static const String noSeat = 'No Round 1 seat';
+  static const String figureOffline = 'Figure loads when you’re online';
   static String rungChoice(int n, String college, String programme) => programme.isEmpty ? 'Choice $n, $college' : 'Choice $n, $college, $programme';
   static String rungFigure(String f) => 'Round 1, 2026: $f of 1000';
   static String rungVerdict(String words) => 'Your estimate: $words';
@@ -53,6 +54,12 @@ abstract final class CollegesCopy {
   static const String checkNote = 'See which colleges a score clears';
   static const String comboTitle = 'Combo planner';
   static const String comboNote = 'Find the papers that open your courses';
+  static const String guideTitle = 'CUET 2027 exam guide';
+  static const String guideNote = 'Expected dates and a month-by-month plan';
+  static const String pyqTitle = 'Previous-year questions';
+  static const String pyqNote = 'How to practise with past papers. Opens the website';
+  static const String docsTitle = 'Official DU documents';
+  static const String docsNote = 'The Bulletin and the three round lists';
 
   static const String dataLine = 'DU data: 2026 admission rounds and the UG Bulletin 2026-27.';
 
@@ -65,10 +72,14 @@ abstract final class CollegesCopy {
   static const String findCollege = 'Find a college';
   static const String findProgramme = 'Find a course, like B.Com';
   static String programmeCount(int n) => n == 1 ? '1 programme' : '$n programmes';
-  static String programmeNote(int colleges, String? low, String? high) =>
-      low == null || high == null ? '$colleges colleges' : '$colleges colleges · Round 1: $low to $high';
+  static String programmeNote(int colleges, String? low, String? high) {
+    final n = colleges == 1 ? '1 college' : '$colleges colleges';
+    if (low == null || high == null) return n;
+    return low == high ? '$n · Round 1: $low' : '$n · Round 1: $low to $high';
+  }
   static const String noList = 'No CUET cutoff list published';
   static String nothingMatches(String q) => 'Nothing matches “$q”. Try the course’s short name, like B.Com.';
+  static String searchCollegesIn(String course) => 'Search $course colleges';
   static const String addTitle = 'Add a college';
   static const String done = 'Done';
   static const String back = 'Back';
@@ -94,6 +105,30 @@ abstract final class CollegesCopy {
   static const String seeEvery = 'See every programme';
   static const String useAsEstimate = 'Use as my estimate';
   static const String savedEstimate = 'Saved as your estimate.';
+  static String clearsOfCourse(int clears, int total, String course) => '$clears of $total $course colleges';
+  static String estimateClearsLine(bool point, int within) =>
+      point ? 'your estimate clears' : (within > 0 ? 'your range clears · $within more within it' : 'your range clears');
+  static const String typeToUse = 'Type a score first.';
+  static const String toWord = 'to';
+
+  // The estimate sheet.
+  static const String fromMocks = 'From your latest full mocks';
+  static const String fromProjection = 'From your practice projection';
+  static const String typeOwn = 'Type your own';
+  static const String mocksTruth = 'Raw marks, out of 250 a paper. Your last 3 mocks in each paper set the range.';
+  static const String clearEstimate = 'Clear my estimate';
+  static String partial(int filled, List<String> missing) {
+    final need = missing.isEmpty
+        ? ''
+        : ' ${_and(missing)} still ${missing.length == 1 ? 'needs' : 'need'} one.';
+    return 'Full mocks in $filled of the 4 papers DU counts.$need';
+  }
+
+  static String practise(String subject) => 'Practise $subject';
+  static String _and(List<String> xs) => xs.length <= 1 ? xs.join() : '${xs.sublist(0, xs.length - 1).join(', ')} and ${xs.last}';
+
+  static String programmeStands(int clears, int total, int within) =>
+      'Your estimate clears $clears of $total colleges here.${within > 0 ? ' $within more ${within == 1 ? 'is' : 'are'} within your range.' : ''}';
   static const String loadingCutoffs = 'Loading DU cutoffs';
   static const String cutoffsOffline = 'Cutoffs load once with a connection, then stay on this phone.';
   static const String tryAgain = 'Try again';

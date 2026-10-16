@@ -14,6 +14,8 @@ import 'package:mockmob/features/tools/compass/score_sources.dart';
 import 'package:mockmob/features/tools/copy.dart';
 import 'package:mockmob/features/tools/domain/du_mock_score.dart';
 import 'package:mockmob/features/tools/domain/du_models.dart';
+import 'package:mockmob/features/tools/estimate/estimate.dart';
+import 'package:mockmob/features/tools/estimate/estimate_providers.dart';
 
 import 'tools_test_support.dart';
 
@@ -138,7 +140,12 @@ void main() {
       await c.read(compassControllerProvider.future);
       await c.read(practiceSubjectsProvider.future);
       expect(c.read(compassMockScoreProvider)?.total, 200 + 150 + 210 + 180);
-      expect(ToolsCopy.categorySummaryMocks('UR', 740), 'Unreserved. Your latest mocks add up to 740');
+      expect(ToolsCopy.categorySummaryMocks('UR', 740), 'Unreserved. Your latest full mocks: 740 of 1000');
+      // The one estimate every screen reads: one mock per paper is a single figure, from mocks.
+      final e = c.read(estimateProvider);
+      expect(e?.source, EstimateSource.mocks);
+      expect(e?.low, 740);
+      expect(e?.isPoint, isTrue);
     });
   });
 }

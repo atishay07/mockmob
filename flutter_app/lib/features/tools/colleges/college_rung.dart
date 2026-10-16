@@ -11,6 +11,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../data/du_repository.dart';
+import '../domain/du_eligibility.dart' show duEffectiveCutoff;
 import '../estimate/estimate.dart';
 import '../estimate/estimate_providers.dart';
 import '../widgets/tools_page.dart' show ToolsRowFrame;
@@ -18,21 +19,26 @@ import 'colleges_copy.dart';
 
 /// The Round 1, 2026 figure of [college] in [programmeId] for [category]: `(known: false)` while
 /// the DU files load or when they cannot, `(known: true, figure: null)` when the college had no
-/// Round 1 seat for the category.
-typedef CollegeFigure = ({bool known, double? figure});
+/// Round 1 seat for the category. [failed] when the files could not load (offline the first time).
+typedef CollegeFigure = ({bool known, double? figure, bool failed});
 
 final collegeFigureProvider = Provider.autoDispose.family<CollegeFigure, (String, String, String)>((ref, key) {
   final (programmeId, college, category) = key;
-  final catalog = ref.watch(duCatalogProvider).value;
-  final offerings = ref.watch(duOfferingsProvider(programmeId)).value;
-  if (catalog == null || offerings == null) return (known: false, figure: null);
+  final catalogAsync = ref.watch(duCatalogProvider);
+  final offeringsAsync = ref.watch(duOfferingsProvider(programmeId));
+  final catalog = catalogAsync.value;
+  final offerings = offeringsAsync.value;
+  if (catalog == null || offerings == null) {
+    return (known: false, figure: null, failed: (catalogAsync.hasError && catalog == null) || (offeringsAsync.hasError && offerings == null));
+  }
   final i = catalog.categoryIndex(category);
   for (final s in offerings.seats) {
     if (s.college != college) continue;
     final r1 = s.rounds.isEmpty ? null : s.rounds.first;
-    return (known: true, figure: r1 == null || i >= r1.length ? null : r1[i]);
+    // The effective figure: a reserved-category student clears on the UR list too.
+    return (known: true, figure: duEffectiveCutoff(r1, i), failed: false);
   }
-  return (known: true, figure: null);
+  return (known: true, figure: null, failed: false);
 });
 
 class CollegeRung extends ConsumerWidget {
@@ -96,7 +102,12 @@ class CollegeRung extends ConsumerWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            if (!fig.known)
+            if (!fig.known && fig.failed)
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 112),
+                child: Text(CollegesCopy.figureOffline, textAlign: TextAlign.end, style: type.caption.copyWith(color: colors.ink3)),
+              )
+            else if (!fig.known)
               const Skeleton.line(width: 44)
             else
               Text(

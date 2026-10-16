@@ -13,6 +13,7 @@ import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/my_colleges.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
+import 'package:mockmob/features/tools/copy.dart';
 import 'package:mockmob/features/tools/data/my_colleges_actions.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/compass/programme_screen.dart';
@@ -356,7 +357,7 @@ void main() {
       expect(fake.server.single.programme, 'B.Com. (Hons.)');
     });
 
-    testWidgets('Compass shows the list to everyone, and a college row adds itself and takes itself off', (tester) async {
+    testWidgets('Compass names the list in one row, and the row opens it', (tester) async {
       final fake = FakeMyColleges(start: [mc('b-com-hons', 'Hindu College', 'B.Com. (Hons.)')]);
       await pumpMockmob(
         tester,
@@ -369,9 +370,13 @@ void main() {
       await tester.pumpAndSettle();
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
       await tester.pumpAndSettle();
-      expect(find.text(MyCollegesCopy.title), findsOneWidget);
+      // The full list lives on the Colleges tab; Compass keeps one row into it (nothing is cut).
+      expect(find.text(ToolsCopy.myCollegesRow), findsOneWidget);
+      expect(find.text(ToolsCopy.myCollegesRowNote(1, null)), findsOneWidget);
+      expect(find.text('Hindu College'), findsNothing);
+      await tester.tap(find.text(ToolsCopy.myCollegesRow));
+      await tester.pumpAndSettle();
       expect(find.text('Hindu College'), findsOneWidget);
-      expect(find.text(MyCollegesCopy.count(1)), findsOneWidget);
       expect(find.text(MyCollegesCopy.add), findsOneWidget);
     });
 

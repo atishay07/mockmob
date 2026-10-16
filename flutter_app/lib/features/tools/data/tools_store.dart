@@ -8,12 +8,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/storage/prefs_store.dart';
 
 class SavedCompass {
-  const SavedCompass({required this.subjects, this.category = 'UR', this.score = ''});
+  const SavedCompass({required this.subjects, this.category = 'UR', this.score = '', this.scoreHigh = '', this.scoreAt});
 
   /// Comma-separated ids in the website's `?s=` form.
   final String subjects;
   final String category;
+
+  /// The student's typed estimate: [score] is its low end (or the one figure), [scoreHigh] its
+  /// high end ('' for a single figure), [scoreAt] when it was typed. A score saved before the
+  /// estimate had a time reads with a null [scoreAt]; Compass then stamps it once (migration).
   final String score;
+  final String scoreHigh;
+  final DateTime? scoreAt;
 }
 
 class SavedCombo {
@@ -80,10 +86,18 @@ class ToolsStore {
       subjects: m['s'] as String,
       category: m['c'] is String ? m['c'] as String : 'UR',
       score: m['score'] is String ? m['score'] as String : '',
+      scoreHigh: m['scoreHigh'] is String ? m['scoreHigh'] as String : '',
+      scoreAt: m['scoreAt'] is int ? DateTime.fromMillisecondsSinceEpoch(m['scoreAt'] as int) : null,
     );
   }
 
-  Future<void> saveCompass(SavedCompass v) => _write(_compass, {'s': v.subjects, 'c': v.category, 'score': v.score});
+  Future<void> saveCompass(SavedCompass v) => _write(_compass, {
+        's': v.subjects,
+        'c': v.category,
+        'score': v.score,
+        if (v.scoreHigh.isNotEmpty) 'scoreHigh': v.scoreHigh,
+        if (v.scoreAt != null) 'scoreAt': v.scoreAt!.millisecondsSinceEpoch,
+      });
 
   Future<SavedCombo?> combo() async {
     final m = await _read(_combo);

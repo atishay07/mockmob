@@ -10,6 +10,7 @@ import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/tools/combo/combo_card.dart';
 import 'package:mockmob/features/tools/combo/combo_screen.dart';
+import 'package:mockmob/features/tools/compass/category_score.dart';
 import 'package:mockmob/features/tools/compass/compass_controller.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/copy.dart';
@@ -83,6 +84,9 @@ void main() {
         ],
       );
       await tester.pumpAndSettle();
+      // Result mode: the targets are a summary row first; Edit opens them in place.
+      await tester.tap(find.text(ToolsCopy.comboEdit).first);
+      await tester.pumpAndSettle();
       expect(find.text(ToolsCopy.targetFull), findsOneWidget, reason: 'the line that says why is on screen');
       final lightBefore = haptics.count('light');
       await tester.tap(find.text('B.A. (Programme)'));
@@ -105,6 +109,8 @@ void main() {
           hapticsProvider.overrideWithValue(Haptics(enabled: true, driver: haptics)),
         ],
       );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(ToolsCopy.comboEdit).first);
       await tester.pumpAndSettle();
       expect(find.text(ToolsCopy.targetFull), findsNothing);
       await tester.tap(find.text('B.A. (Hons.) Economics'));
@@ -175,16 +181,17 @@ void main() {
     final scoreField = find.byWidgetPredicate((w) => w is TextField && w.decoration?.hintText == ToolsCopy.scoreHint);
 
     testWidgets('a typed score shows how many could clear in a 48 dp ring, and clearing it takes the strip away', (tester) async {
+      // The older category and score sheet (no longer reached from Compass's rail, which opens
+      // only the other quotas) keeps its live strip.
       await pumpMockmob(
         tester,
-        const CompassScreen(),
+        Builder(builder: (context) => Center(child: TextButton(onPressed: () => showCategoryScoreSheet(context), child: const Text('open')))),
         size: const Size(384, 2400),
-        wrapInScaffold: false,
         disableAnimations: true,
         overrides: toolsOverrides(prefs: savedCompass('english,accountancy,business_studies,economics')),
       );
       await tester.pumpAndSettle();
-      await tester.tap(find.text(ToolsCopy.categoryHeading));
+      await tester.tap(find.text('open'));
       await tester.pumpAndSettle();
       expect(find.text(ToolsCopy.couldClearWord), findsNothing, reason: 'no score, no strip');
 

@@ -27,6 +27,7 @@ import '../copy.dart' show categoryLabel;
 import '../data/du_repository.dart';
 import '../data/my_colleges_actions.dart';
 import '../domain/du_models.dart';
+import '../domain/du_eligibility.dart' show duEffectiveCutoff;
 import '../estimate/estimate.dart';
 import '../estimate/estimate_providers.dart';
 import '../widgets/tools_page.dart';
@@ -87,6 +88,10 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
 
   /// The course whose ladder is open, or null for the programme list.
   String? _course;
+
+  /// Opened as the chooser before the list had loaded: once it lands, the chooser moves to the
+  /// student's own course (their first college's), unless they have already typed or chosen.
+  bool _awaitCourse = false;
   final _search = TextEditingController();
   final _focus = FocusNode();
   final _scroll = ScrollController();
@@ -111,6 +116,7 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
     };
     if (_chooser) {
       _course = widget.programmeId ?? _knownCourse(view);
+      _awaitCourse = _course == null && !view.ready;
       if (_course == null) _focusSoon();
     }
   }
@@ -137,21 +143,25 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
   }
 
   void _setQuery(String v) {
+    _awaitCourse = false;
     setState(() => _query = v);
     // Each new query starts at the top, without animation, so typing never lags.
     if (_scroll.hasClients) _scroll.jumpTo(0);
   }
 
-  void _openCourse(String? id) {
+  void _openCourse(String? id, {bool keepQuery = false}) {
+    _awaitCourse = false;
     setState(() {
       _course = id;
-      _query = '';
-      _search.clear();
+      if (!keepQuery) {
+        _query = '';
+        _search.clear();
+      }
       _showAll = false;
       _line = '';
     });
     if (id == null) _focusSoon();
-    if (id != null) _focus.unfocus();
+    if (id != null && !keepQuery) _focus.unfocus();
   }
 
   void _toChooser() => setState(() {
@@ -174,6 +184,13 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<MyCollegesView>(myCollegesProvider, (_, next) {
+      if (!_awaitCourse || !next.ready) return;
+      _awaitCourse = false;
+      if (!_chooser || _course != null || _query.isNotEmpty || next.colleges.isEmpty) return;
+      setState(() => _course = next.colleges.first.programmeId);
+      _focus.unfocus();
+    });
     final inset = MediaQuery.viewInsetsOf(context).bottom;
     final large = MediaQuery.textScalerOf(context).scale(1) >= kSheetFullPageTextScale;
     return Padding(
@@ -476,9 +493,22 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
       weight: (g) => g.hasCutoffs ? g.colleges : -1,
     );
     if (shown.isEmpty) {
+      // A college's name typed where a course goes: search the colleges of the student's course.
+      final own = _knownCourse(ref.read(myCollegesProvider));
+      final ownGroup = own == null ? null : catalog.group(own);
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20),
-        child: Text(CollegesCopy.nothingMatches(_query.trim()), style: type.body.copyWith(color: colors.ink3)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(CollegesCopy.nothingMatches(_query.trim()), style: type.body.copyWith(color: colors.ink3)),
+            if (ownGroup != null && ownGroup.hasCutoffs)
+              Transform.translate(
+                offset: const Offset(-MmSpace.s12, 0),
+                child: KeyButton.quiet(label: CollegesCopy.searchCollegesIn(ownGroup.name), onPressed: () => _openCourse(ownGroup.id, keepQuery: true)),
+              ),
+          ],
+        ),
       );
     }
     return ListView.builder(
@@ -539,7 +569,7 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
     final ci = catalog.categoryIndex(category);
     double? fig(DuSeat s) {
       final r1 = s.rounds.isEmpty ? null : s.rounds.first;
-      return r1 == null || ci >= r1.length ? null : r1[ci];
+      return duEffectiveCutoff(r1, ci);
     }
 
     final byName = <String, double?>{};

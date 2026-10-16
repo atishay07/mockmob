@@ -31,6 +31,31 @@ Future<void> showCategoryScoreSheet(BuildContext context) => showToolsSheet<void
       ),
     );
 
+/// "Other quota" from a category rail: the other lists (Sikh, PwBD, KM, SGC, orphan) as rows. A
+/// tap sets the category and closes the sheet. Nothing here asks for a score.
+Future<void> showOtherQuotaSheet(BuildContext context, WidgetRef ref) {
+  final controller = ref.read(compassControllerProvider.notifier);
+  final current = ref.read(compassControllerProvider).value?.category;
+  return showMmSheet<void>(
+    context: context,
+    title: ToolsCopy.otherQuota,
+    builder: (sheetContext) => Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final c in duOtherCategories)
+          MmSelectRow(
+            title: duCategoryLabels[c] ?? c,
+            selected: current == c,
+            onTap: () {
+              controller.setCategory(c);
+              Navigator.of(sheetContext).maybePop();
+            },
+          ),
+      ],
+    ),
+  );
+}
+
 /// Category chips (the five main lists, then "Other quota" in a sheet) and the optional
 /// programme-specific score that labels each college row.
 class CategoryScorePanel extends ConsumerStatefulWidget {

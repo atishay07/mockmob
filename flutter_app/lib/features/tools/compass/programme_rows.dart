@@ -10,23 +10,29 @@ import '../domain/du_models.dart';
 import '../widgets/tools_page.dart';
 import 'cutoff_bar.dart';
 
-/// The Round I verdict for a score, from the programme's effective cutoff range.
-(String, ToolTone)? roundOneVerdict(DuGroup group, String category, double? score) {
+/// The Round 1 verdict for an estimate ([score], up to [scoreHigh] for a range), from the
+/// programme's effective cutoff range: above when even the low end clears every college, within
+/// when the top of the estimate reaches the lowest, below otherwise.
+(String, ToolTone)? roundOneVerdict(DuGroup group, String category, double? score, [double? scoreHigh]) {
   final r1 = group.roundOne(category);
   if (score == null || !group.hasCutoffs || r1 == null || r1.low == null || r1.high == null) return null;
+  final top = scoreHigh ?? score;
   if (score >= r1.high!) return (ToolsCopy.verdictAbove, ToolTone.good);
-  if (score >= r1.low!) return (ToolsCopy.verdictWithin, ToolTone.mid);
+  if (top >= r1.low!) return (ToolsCopy.verdictWithin, ToolTone.mid);
   return (ToolsCopy.verdictBelow, ToolTone.low);
 }
 
 /// One open programme: its name, how many colleges and the Round I range for the category, and,
 /// with a score, where the score sits in that range. Opens the programme.
 class ProgrammeRow extends StatelessWidget {
-  const ProgrammeRow({super.key, required this.verdict, required this.category, required this.score, required this.onTap, this.couldClear = false, this.bar = false});
+  const ProgrammeRow({super.key, required this.verdict, required this.category, required this.score, required this.onTap, this.couldClear = false, this.bar = false, this.scoreHigh});
 
   final DuVerdict verdict;
   final String category;
+
+  /// The student's estimate: its low end (or one figure) and, for a range, its high end.
   final double? score;
+  final double? scoreHigh;
   final VoidCallback onTap;
 
   /// The student's score meets the lowest cutoff of some round (the website's `couldClear`): a
@@ -47,7 +53,7 @@ class ProgrammeRow extends StatelessWidget {
         ? ToolsCopy.roundOneRange(category, duFormatScore(r1.low), duFormatScore(r1.high))
         : null;
     final collegesLine = group.hasCutoffs ? ToolsCopy.colleges(group.colleges) : ToolsCopy.noCutoffList;
-    final v = roundOneVerdict(group, category, score);
+    final v = roundOneVerdict(group, category, score, scoreHigh);
     final label = [group.name, collegesLine, ?range, if (verdict.secondary) ToolsCopy.secondaryNote, ?v?.$1, if (couldClear) ToolsCopy.couldClearDot].join('. ');
     return ToolsRowFrame(
       onTap: onTap,
@@ -73,7 +79,7 @@ class ProgrammeRow extends StatelessWidget {
                 ],
                 if (range != null && bar && r1?.low != null && r1?.high != null) ...[
                   const SizedBox(height: MmSpace.s8),
-                  CutoffBar(category: category, low: r1!.low!, high: r1.high!, score: score),
+                  CutoffBar(category: category, low: r1!.low!, high: r1.high!, score: score, scoreHigh: scoreHigh),
                 ] else if (range != null) ...[
                   const SizedBox(height: MmSpace.s2),
                   Text(range, style: type.caption.copyWith(color: colors.ink2)),

@@ -7,6 +7,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/auth/auth_state.dart';
 import '../data/du_repository.dart';
 import '../data/tools_store.dart';
@@ -35,17 +36,32 @@ class CompassState {
     required DuSelection selection,
     this.category = 'UR',
     this.scoreText = '',
+    this.scoreHighText = '',
+    this.scoreAt,
     this.seededFromSheet = false,
     this.held,
   }) : _derived = _Derived(catalog, selection);
 
-  CompassState._reuse(this._derived, {required this.category, required this.scoreText, required this.seededFromSheet, required this.held});
+  CompassState._reuse(
+    this._derived, {
+    required this.category,
+    required this.scoreText,
+    required this.scoreHighText,
+    required this.scoreAt,
+    required this.seededFromSheet,
+    required this.held,
+  });
 
   final _Derived _derived;
   DuCatalog get catalog => _derived.catalog;
   DuSelection get selection => _derived.selection;
   final String category;
   final String scoreText;
+
+  /// The high end of a typed range ('' for one figure) and when the estimate was typed (null when
+  /// nothing is typed). A newer full mock takes over from a typed estimate (estimate_providers).
+  final String scoreHighText;
+  final DateTime? scoreAt;
 
   /// The subjects were taken from the student's sheet (shown once, as a note).
   final bool seededFromSheet;
@@ -56,6 +72,14 @@ class CompassState {
   bool get previewing => held != null;
 
   double? get score => duParseScore(scoreText);
+
+  /// The typed range's high end: [score] for a single figure, never below it.
+  double? get scoreHigh {
+    final lo = score;
+    final hi = duParseScore(scoreHighText);
+    if (lo == null) return null;
+    return hi == null || hi < lo ? lo : hi;
+  }
   bool get scoreInvalid => scoreText.trim().isNotEmpty && score == null;
   int get categoryIndex => catalog.categoryIndex(category);
   int get total => catalog.groups.length;
@@ -72,9 +96,10 @@ class CompassState {
     return null;
   }
 
-  /// The website's `couldClear`: the score meets the lowest effective cutoff of any round.
-  bool couldClear(DuGroup group) {
-    final s = score;
+  /// The website's `couldClear`: the score (or [value], the top of the student's estimate) meets
+  /// the lowest effective cutoff of any round.
+  bool couldClear(DuGroup group, [double? value]) {
+    final s = value ?? score;
     if (s == null) return true;
     final lows = [
       for (final r in const ['round-1', 'round-2', 'round-3'])
@@ -90,6 +115,9 @@ class CompassState {
     DuSelection? selection,
     String? category,
     String? scoreText,
+    String? scoreHighText,
+    DateTime? scoreAt,
+    bool clearScoreAt = false,
     bool? seededFromSheet,
     DuSelection? held,
     bool clearHeld = false,
@@ -100,6 +128,8 @@ class CompassState {
         _derived,
         category: category ?? this.category,
         scoreText: scoreText ?? this.scoreText,
+        scoreHighText: scoreHighText ?? this.scoreHighText,
+        scoreAt: clearScoreAt ? null : (scoreAt ?? this.scoreAt),
         seededFromSheet: seededFromSheet ?? this.seededFromSheet,
         held: nextHeld,
       );
@@ -109,6 +139,8 @@ class CompassState {
       selection: selection,
       category: category ?? this.category,
       scoreText: scoreText ?? this.scoreText,
+      scoreHighText: scoreHighText ?? this.scoreHighText,
+      scoreAt: clearScoreAt ? null : (scoreAt ?? this.scoreAt),
       seededFromSheet: seededFromSheet ?? this.seededFromSheet,
       held: nextHeld,
     );
@@ -129,12 +161,22 @@ class CompassController extends AsyncNotifier<CompassState> {
     final CompassState base;
     if (saved != null) {
       final category = catalog.meta.categories.contains(saved.category) ? saved.category : 'UR';
+      // A score saved before estimates had a time counts as typed now (once), so it still wins
+      // over mocks taken before today and gives way to the next new one.
+      final migrate = saved.score.trim().isNotEmpty && saved.scoreAt == null;
       base = CompassState(
         catalog: catalog,
         selection: DuSelection.decode(saved.subjects, catalog),
         category: category,
         scoreText: saved.score,
+        scoreHighText: saved.scoreHigh,
+        scoreAt: saved.score.trim().isEmpty ? null : (saved.scoreAt ?? ref.read(nowProvider)()),
       );
+      if (migrate) {
+        unawaited(ref.read(toolsStoreProvider).saveCompass(
+              SavedCompass(subjects: saved.subjects, category: category, score: saved.score, scoreHigh: saved.scoreHigh, scoreAt: base.scoreAt),
+            ));
+      }
     } else {
       final sheet = ref.read(authSnapshotProvider).subjects;
       final seeded = DuSelection.fromIds(sheet, catalog);
@@ -161,7 +203,13 @@ class CompassController extends AsyncNotifier<CompassState> {
       for (var next = _unsaved; next != null; next = _unsaved) {
         _unsaved = null;
         await ref.read(toolsStoreProvider).saveCompass(
-              SavedCompass(subjects: (next.held ?? next.selection).encode(), category: next.category, score: next.scoreText),
+              SavedCompass(
+                subjects: (next.held ?? next.selection).encode(),
+                category: next.category,
+                score: next.scoreText,
+                scoreHigh: next.scoreHighText,
+                scoreAt: next.scoreAt,
+              ),
             );
       }
     } finally {
@@ -211,7 +259,29 @@ class CompassController extends AsyncNotifier<CompassState> {
     final s = _now;
     if (s == null) return;
     final clean = text.replaceAll(RegExp('[^0-9.]'), '');
-    _set(s.copyWith(scoreText: clean.length > 7 ? clean.substring(0, 7) : clean));
+    final kept = clean.length > 7 ? clean.substring(0, 7) : clean;
+    _set(kept.isEmpty
+        ? s.copyWith(scoreText: '', scoreHighText: '', clearScoreAt: true)
+        : s.copyWith(scoreText: kept, scoreHighText: '', scoreAt: ref.read(nowProvider)()));
+  }
+
+  /// The student's own estimate, a range or one figure ([high] null or equal), typed now.
+  void setEstimate(double low, double? high) {
+    final s = _now;
+    if (s == null) return;
+    final lo = high != null && high < low ? high : low;
+    final hi = high == null ? null : (high < low ? low : high);
+    _set(s.copyWith(
+      scoreText: duFormatScore(lo),
+      scoreHighText: hi == null || (hi - lo).abs() < 0.05 ? '' : duFormatScore(hi),
+      scoreAt: ref.read(nowProvider)(),
+    ));
+  }
+
+  /// Drops the typed estimate (mocks or the projection take over when there are any).
+  void clearEstimate() {
+    final s = _now;
+    if (s != null) _set(s.copyWith(scoreText: '', scoreHighText: '', clearScoreAt: true));
   }
 }
 
