@@ -21,7 +21,7 @@ Widget _tiers() {
         height: 196,
         child: Stack(
           children: [
-            Positioned(left: 16, top: 16, right: 16, child: Text('Financial Markets is where the most marks are open', style: type.body)),
+            Positioned(left: 16, top: 16, right: 16, child: Text('Financial Markets is where the most marks are open', style: type.small, maxLines: 1)),
             Positioned(
               left: 16,
               top: 52,

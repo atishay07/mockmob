@@ -52,11 +52,19 @@ class MmGlassControl extends StatefulWidget {
 }
 
 class _MmGlassControlState extends State<MmGlassControl> with TickerProviderStateMixin {
-  late final AnimationController _lift = AnimationController.unbounded(vsync: this, value: 1);
-  late final AnimationController _lightIn = AnimationController(vsync: this, duration: GlassTokens.touchLightIn);
-  late final AnimationController _lightOut = AnimationController(vsync: this, duration: GlassTokens.touchLightOut);
+  late final AnimationController _lift;
+  late final AnimationController _lightIn;
+  late final AnimationController _lightOut;
   Offset? _touch;
   bool _pressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _lift = AnimationController.unbounded(vsync: this, value: 1);
+    _lightIn = AnimationController(vsync: this, duration: GlassTokens.touchLightIn);
+    _lightOut = AnimationController(vsync: this, duration: GlassTokens.touchLightOut);
+  }
 
   @override
   void dispose() {

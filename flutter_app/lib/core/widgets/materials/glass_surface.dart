@@ -37,6 +37,7 @@ class GlassSurface extends StatelessWidget {
     this.sheetTintAlpha,
     this.materialize,
     this.fill = 0,
+    this.evenTint = false,
   });
 
   /// The tint ramp the Start sheet's morph has always passed ([sheetTintAlpha]): 0.45 on its
@@ -65,6 +66,9 @@ class GlassSurface extends StatelessWidget {
   /// How far a sheet has filled the screen (0 to 1): glass turns into the opaque surface.
   final double fill;
 
+  /// One density edge to edge (see [MmGlass.evenTint]).
+  final bool evenTint;
+
   GlassKind get _kind => switch (role) {
     GlassRole.dock => GlassKind.bar,
     GlassRole.sheet => GlassKind.sheet,
@@ -90,6 +94,7 @@ class GlassSurface extends StatelessWidget {
       fill: fill,
       boost: pressed ? MmElevation.pressedEdgeBoost : 1,
       shadow: shadow,
+      evenTint: evenTint,
       child: child,
     );
   }

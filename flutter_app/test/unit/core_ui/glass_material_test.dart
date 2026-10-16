@@ -55,6 +55,7 @@ void main() {
       final basic = spec(night, GlassKind.sheet, GlassTier.fullBasic);
       expect(basic.tint.a, closeTo(0.985, 0.002));
       expect(basic.rimTint!.a, closeTo(0.72, 0.002));
+      expect(spec(day, GlassKind.sheet, GlassTier.fullBasic).rimTint!.a, closeTo(0.80, 0.002));
       final full = spec(day, GlassKind.sheet, GlassTier.full);
       expect(full.tint.a, closeTo(0.88, 0.002));
       expect(full.rimTint!.a, closeTo(0.50, 0.002));

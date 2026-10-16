@@ -158,6 +158,26 @@ class GlassMaterialSpec {
   /// The grain on Lite.
   final double noise;
 
+  /// The same glass with one even tint (see [MmGlass.evenTint]).
+  GlassMaterialSpec withoutRim() => GlassMaterialSpec(
+    tier: tier,
+    tint: tint,
+    blur: blur,
+    core: core,
+    band: band,
+    bend: bend,
+    lumMax: lumMax,
+    lumMin: lumMin,
+    saturation: saturation,
+    rimLightTop: rimLightTop,
+    rimLightMid: rimLightMid,
+    rimLightBottom: rimLightBottom,
+    sheen: sheen,
+    shadow: shadow,
+    hairline: hairline,
+    noise: noise,
+  );
+
   /// True when the pane reads the backdrop live.
   bool get live => tier.live;
 
@@ -273,11 +293,12 @@ class GlassMaterialSpec {
         blur: GlassTokens.barCoreBlur,
       ),
       // The reading core stays at the 0.985 of device finding 1 (glyphs behind never read); the
-      // rim band, where no text sits, thins to 0.72 so the blurred page shows at the edge and
-      // the sheet reads as glass rather than a dark panel (build decision 2 in GLASS-1017).
+      // rim band, where no text sits, thins to 0.72 (Day 0.80, where a thinner rim read as a
+      // frame) so the blurred page shows at the edge and the sheet reads as glass rather than a
+      // dark panel (build decision 2 in GLASS-1017).
       (GlassTier.fullBasic, GlassKind.sheet) => spec(
         tint: a(0.985),
-        rimTint: a(0.72),
+        rimTint: a(night ? 0.72 : 0.80),
         blur: GlassTokens.sheetBlur,
       ),
       (GlassTier.fullBasic, GlassKind.bubble) => spec(
@@ -483,6 +504,7 @@ class MmGlass extends StatefulWidget {
     this.fill = 0,
     this.boost = 1,
     this.shadow = true,
+    this.evenTint = false,
   });
 
   final Widget child;
@@ -506,6 +528,10 @@ class MmGlass extends StatefulWidget {
   /// Brightens the rim light (a press, a lifted control).
   final double boost;
   final bool shadow;
+
+  /// One density edge to edge, no thinner rim: for a sheet whose content paints an opaque band
+  /// to its edges (the Start sheet's title band), where a thinner rim would show a seam.
+  final bool evenTint;
 
   /// The live filter without the lens: a blur over a saturation lift.
   static ui.ImageFilter basicFilter(double sigma, {double saturation = GlassTokens.saturation}) {
@@ -548,8 +574,12 @@ class _MmGlassState extends State<MmGlass> {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final highContrast = MediaQuery.maybeHighContrastOf(context) ?? false;
-    final tier = widget.tier ?? GlassScope.tierOf(context, quality: widget.quality);
-    final spec = GlassMaterialSpec.of(colors, widget.kind, tier, highContrast: highContrast);
+    var tier = widget.tier ?? GlassScope.tierOf(context, quality: widget.quality);
+    // Full's thin tint is only legible with the lens's clamp: without the lens it is always the
+    // thicker "Full without the shader", even when a tier was forced.
+    if (tier == GlassTier.full && !GlassShader.ready) tier = GlassTier.fullBasic;
+    var spec = GlassMaterialSpec.of(colors, widget.kind, tier, highContrast: highContrast);
+    if (widget.evenTint && spec.rimTint != null) spec = spec.withoutRim();
     final m = widget.materialize.clamp(0.0, 1.0);
     final f = widget.fill.clamp(0.0, 1.0);
     final live = spec.live && m > 0 && f < 1;
@@ -770,7 +800,7 @@ class _GlassFillPainter extends CustomPainter {
         // rimA + a' (1 - rimA) = coreA. A blurred inner shape feathers it across 12 to 20 dp.
         final inner = (coreA - rimA) / (1 - rimA);
         const mid = (GlassTokens.featherFrom + GlassTokens.featherTo) / 2;
-        const sigma = (GlassTokens.featherTo - GlassTokens.featherFrom) / 3;
+        const sigma = (GlassTokens.featherTo - GlassTokens.featherFrom) / 2;
         final innerRect = rect.deflate(mid);
         if (!innerRect.isEmpty) {
           final rr = RRect.fromRectAndCorners(
