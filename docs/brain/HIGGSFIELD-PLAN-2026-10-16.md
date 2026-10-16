@@ -1,5 +1,8 @@
 # Higgsfield (AI video) plan, 16 Oct 2026
 
+> **Direction update, 16 Oct about 11:15 pm (owner):** subject-object animations (U1) are deprioritised. Use the budget where "proper animation" beats SVG and code: the **landing page (including scroll storytelling)** and **app onboarding** first, then other places. Ideas, rules and the iteration loop are in **HIGGSFIELD-IDEAS-2026-10-16.md**. The budget rules, models and ledger below still apply. Re-plan the step amounts for the picked ideas after the storyboard step.
+
+
 The owner's question (16 Oct, about 10:40 pm): is Higgsfield video useful for MockMob's website and app, where are we lacking motion, and how should a USD 15 API budget be spent, with a plan future agents can follow. Prices are the owner's screenshot of the Higgsfield API page on 16 Oct. They are "from" prices for each model's cheapest mode, so 1080p costs more. Confirm the mode price in the API before every run.
 
 ## 1. Verdict: useful, but only for a narrow set of jobs
