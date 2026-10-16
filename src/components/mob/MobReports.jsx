@@ -4,11 +4,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { istDateTime } from '@/lib/mob/model.mjs';
 import { mobFetch } from './useMob';
+import { useMobEnabled } from './MobFlag';
 import './mob.css';
 
 const REASONS = { name: 'Name', nudge: 'Nudges', safety: 'Safety' };
 
 export function MobReports() {
+  // Mob off: no request at all (no 404 in the console, no read of a table that may not exist).
+  const mobOn = useMobEnabled();
   const [state, setState] = useState({ status: 'loading', reports: [], error: null });
   const [busy, setBusy] = useState(null);
   const load = useCallback(async () => {
@@ -17,17 +20,18 @@ export function MobReports() {
     else setState({ status: r.status === 404 || r.status === 403 ? 'hidden' : 'error', reports: [], error: r.message });
   }, []);
   useEffect(() => {
+    if (!mobOn) return undefined;
     let cancelled = false;
     Promise.resolve().then(() => { if (!cancelled) load(); });
     return () => { cancelled = true; };
-  }, [load]);
+  }, [load, mobOn]);
   const resolve = async (id, remove) => {
     setBusy(id);
     const r = await mobFetch('/api/mob/reports', { method: 'POST', body: { id, remove } });
     setBusy(null);
     if (!r.ok) setState((s) => ({ ...s, error: r.message })); else load();
   };
-  if (state.status === 'hidden' || state.status === 'loading') return null;
+  if (!mobOn || state.status === 'hidden' || state.status === 'loading') return null;
   return (
     <section className="glass mob-card mb-6" aria-labelledby="mob-reports-h">
       <header className="mob-head">
