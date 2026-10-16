@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/account_access/access_routes.dart';
+import '../../features/social/mob_routes.dart';
 import '../auth/auth_state.dart';
 import '../widgets/mm_sheet.dart';
 import 'action_router.dart';
@@ -313,6 +314,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('subjects', youSubjectsScreen, root: true),
             page('sheet', youSheetScreen, root: true),
             page('credits', youCreditsScreen, root: true),
+            // The Mob (SOCIAL-SPEC section 8): one line, the page lives in features/social.
+            page('mob', mobScreen, root: true),
           ]),
         ]),
       ],
@@ -363,6 +366,10 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     ]),
 
     sheet(AppRoutes.permissionsNotifications, permissionsNotificationsScreen, footer: permissionsNotificationsFooter),
+
+    // The Mob's invite link (www.mockmob.in/join/<code>) and the web page's path.
+    page('/join/:code', mobJoinScreen, root: true),
+    GoRoute(path: '/mob', redirect: (context, state) => MobPaths.mob),
 
     // Web alias. The redirect also catches it; this keeps the path "known" to the router.
     GoRoute(path: AppRoutes.dashboard, redirect: (context, state) => AppRoutes.today),

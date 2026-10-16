@@ -76,6 +76,8 @@
                 <data android:pathPrefix="/explore" />
                 <data android:pathPrefix="/saved" />
                 <data android:pathPrefix="/analytics" />
+                <data android:pathPrefix="/join" />
+                <data android:pathPrefix="/mob" />
             </intent-filter>
 
             <!-- Browser sign-in callback (docs/AUTH.md): in.mockmob.app://login-callback?code=...

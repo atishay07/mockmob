@@ -30,6 +30,7 @@ import 'widgets/you_row.dart';
 import '../rules/copy.dart';
 import '../rules/data/rules_data.dart';
 import '../rules/widgets/across_mocks_view.dart';
+import '../social/social.dart' show MobHubRow;
 import 'copy.dart';
 import 'edit_copy.dart';
 import 'data/student_target.dart';
@@ -343,6 +344,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                       // repair record.
                       MmStaggerItem(index: 4, child: KeyedSubtree(key: _sectionKeys[3], child: const _AcrossSection())),
                       const MmStaggerItem(index: 5, child: _RepairRecordRow()),
+                      // The Mob's permanent entry (SOCIAL-SPEC section 9); draws nothing while the server's switch is off.
+                      const MmStaggerItem(index: 5, child: MobHubRow()),
                       // 5. My subjects, with the Aim row (course and colleges live in Colleges).
                       MmStaggerItem(
                         index: 6,
