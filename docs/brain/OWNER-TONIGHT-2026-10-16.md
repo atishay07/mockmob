@@ -1,6 +1,6 @@
 # Your steps tonight, 16 Oct 2026
 
-Four jobs. Each says what you do, what to send me, and what I do next. Never paste a secret (a key, a password or a connection string) into the chat. Put secrets only where a step says.
+Three jobs (the fourth turned out to be done already). Each says what you do, what to send me, and what I do next. Never paste a secret (a key, a password or a connection string) into the chat. Put secrets only where a step says.
 
 ## 1. Razorpay monthly plan (TEST first), about 10 minutes
 
@@ -59,13 +59,9 @@ I report each step as pass or fail.
 
 The 14-day closed test with 12 to 20 testers starts at the first upload, so this step is the long pole.
 
-## 4. CUET_EVIDENCE_SIGNING_KEY, about 3 minutes
+## 4. CUET_EVIDENCE_SIGNING_KEY: already done, nothing to do
 
-1. Open `C:\Users\atish\Desktop\mockmob copy\mockmob-next\.env.local` and copy the value of `CUET_EVIDENCE_SIGNING_KEY`.
-2. In Vercel, add it to the **Production** environment variables under the same name.
-3. Tell me "signing key set".
-
-**Then I apply** the `nta_question_index` table under your standing database grant (staging dry run, undo file, STATUS entry), build the index once, redeploy, and check the next nightly run.
+The key is already set in Vercel production (checked by name on 16 Oct; its value was not read). Vercel verified 653 of 666 signed evidence records last night, so it matches the factory's key. The `nta_question_index` table was applied to production at about 14:00 under the standing grant, and the index build runs right after.
 
 ## Your own testing
 
