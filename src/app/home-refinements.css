@@ -75,7 +75,7 @@ html[data-theme='light'] .lp .lp-stage .mm-screen { border-color: rgb(16 24 12 /
 .lp-exam__bar > span:first-child { display: flex; align-items: center; gap: .5rem; font-weight: 600; }
 .lp-exam__clock { display: flex; align-items: center; gap: .45rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .lp-exam__clock small { font-size: .625rem; color: var(--exam-muted); }
-.lp-exam__body { display: grid; grid-template-columns: minmax(0, 1fr) 290px; min-height: 560px; } /* tallest skin, so switching never reflows the page */
+.lp-exam__body { display: grid; grid-template-columns: minmax(0, 1fr) 336px; min-height: 560px; } /* tallest skin, so switching never reflows the page; 336px gives the eight palette columns cells of at least 32px */
 .lp-exam__paper { display: flex; flex-direction: column; padding: 1.75rem; min-width: 0; }
 .lp-exam__meta { display: flex; justify-content: space-between; gap: 1rem; font-size: .75rem; color: var(--exam-muted); }
 .lp-exam__meta > span:last-child { display: flex; align-items: center; gap: .6rem; }
@@ -126,7 +126,7 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
 .lp-exam-bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem 1.5rem; margin-top: 1.5rem; }
 .lp-exam-bottom p { flex: 1 1 0; min-width: 0; font-size: .875rem; line-height: 1.45; color: var(--ink-2); margin: 0; text-wrap: pretty; }
 .lp-exam-bottom p > svg { display: inline; vertical-align: middle; margin-right: .4rem; }
-.lp-exam-bottom p > span { display: inline-block; font-size: .6875rem; color: var(--ink-3); max-width: 75ch; margin-top: .4rem; }
+.lp-exam-bottom p > span { display: inline-block; font-size: .75rem; color: var(--ink-3); max-width: 75ch; margin-top: .4rem; }
 .lp-exam-bottom .mm-btn { flex: none; width: auto; padding-inline: 1.5rem; }
 /* NTA's conventional white paper and shaped palette are intentionally independent of the page theme. */
 .lp-exam[data-interface='nta'] { --exam-bg: #fff; --exam-panel: #eef4f8; --exam-line: #c7d1d8; --exam-ink: #222; --exam-muted: #52616a; font-family: Arial, sans-serif; border-radius: 6px; color-scheme: light; }
@@ -141,9 +141,9 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
 .lp-exam[data-interface='nta'] :is(.lp-exam__letter, .lp-exam__check) { display: none; }
 .lp-exam[data-interface='nta'] .lp-exam__actions .lp-exam__save { background: #338a3b; border-color: #338a3b; color: white; }
 .lp-exam[data-interface='nta'] .lp-exam__review { background: #7650a6; border-color: #7650a6; color: white; }
-.lp-exam[data-interface='nta'] .lp-exam__numbers { --cell-h: 25px; gap: 6px; }
+.lp-exam[data-interface='nta'] .lp-exam__numbers { --cell-h: 32px; gap: 6px; }
 .lp-exam[data-interface='nta'] .lp-exam__num { border-radius: 3px; }
-.lp-exam[data-interface='nta'] button.lp-exam__num::before { inset: -10px -3px; }
+.lp-exam[data-interface='nta'] button.lp-exam__num::before { inset: -3px; }
 .lp-exam[data-interface='nta'] .lp-exam__cell { font-size: .75rem; }
 .lp-exam[data-interface='nta'] .lp-exam__num--rest .lp-exam__cell { opacity: 1; }
 .lp-exam[data-interface='nta'] [data-state='unseen'] { background: linear-gradient(#fff, #e4e4e4); color: #555; border-color: #b3b3b3; }

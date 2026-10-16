@@ -10,9 +10,8 @@
 // evenly between) and owns the band around it (one invisible "beat" per step); an IntersectionObserver
 // on the beats picks the step whose beat crosses the middle of the window, so nothing runs per frame.
 // The page scrolls through the story natively (see "Scroll-linked" below): the step follows the scroll
-// position, and a stopped page settles onto the step on stage only when its resting place is a short way
-// ahead. The track is also a named view timeline (--ss-track), which
-// consumers use for compositor-only progress fills (see scroll-story.css). Elements marked data-ss-fit
+// position. Nothing moves the page by itself: a stopped page stays exactly where the reader left it. The track
+// is also a named view timeline (--ss-track), which consumers use for compositor-only progress fills (see scroll-story.css). Elements marked data-ss-fit
 // are scaled once per resize to fit their parent, so short phones and landscape keep the hold instead
 // of clipping the screen, and the band left under elements marked data-ss-end is measured as
 // --ss-slack (centring, exit gap).
@@ -31,17 +30,12 @@ const reducedNow = () => {
 
 // Scroll-linked. Nothing here cancels a wheel, a swipe or a scroll key: the page scrolls through a story exactly
 // as it scrolls anywhere else, so a fling or a trackpad stream moves the page as far as it would move past any
-// other section, and the step on stage is simply the beat crossing the middle of the window. Only once the
-// scroll has stopped (SETTLE_MS without a scroll event, no finger down) does the story tidy up: when the step on
-// stage rests a short way further on in the direction the reader was going (at most SNAP_REACH of the gap
-// between two steps), the page eases onto that resting place. It never pulls the reader back against their
-// direction, never runs under reduced motion, and any wheel, touch, key or scroll of the reader's cancels it.
+// other section, and the step on stage is simply the beat crossing the middle of the window. There is no settle
+// after a stop: each scene is whole on screen wherever the page rests, so the page never moves without input.
 // A step's tab (goTo) glides the page to that step's resting place in STEP_MS. A screen inside the stage may ask
 // the story to stay on its step while the reader reads it (pause): the story then keeps that step until the
 // screen lets go or the page leaves the story.
 const STEP_MS = 440;
-const SETTLE_MS = 160;
-const SNAP_REACH = 0.35;
 const SCROLL_KEYS = new Set(['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Spacebar', 'Home', 'End']);
 const easeOut = (t) => 1 - (1 - t) ** 3;
 const now = () => performance.now();
@@ -201,20 +195,15 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
     };
   }, [pinned]);
 
-  // Scroll-linked (see the top of the file): the page scrolls natively; the story only settles a stopped page onto
-  // the step already on stage, and glides to a step its tabs ask for. The listeners exist only while the story is
-  // within a screen of the window.
+  // Scroll-linked (see the top of the file): the page scrolls natively; the story only glides to a step its tabs
+  // ask for. The listeners exist only while the story is within a screen of the window.
   useEffect(() => {
     const track = trackRef.current;
     const stage = stageRef.current;
     if (!pinned || !track || !stage || steps < 2) return undefined;
     let glide = 0;
-    let settle = 0;
     let listening = false;
     let selfY = null; // the last scroll position this story set itself
-    let lastY = window.scrollY;
-    let dir = 0; // the way the reader last scrolled
-    let touches = 0;
 
     // s: how far the page is into the track; hold: how far it can go with the stage held.
     // The stage (not the track, whose height is set exactly) is what waits while the story is undrawn.
@@ -270,50 +259,21 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       glideTo(restOf(next, at), at, instant || reducedNow() ? 0 : STEP_MS);
     };
 
-    // The page has stopped: settle it onto the step on stage when that step rests a little further on.
-    const snap = () => {
-      settle = 0;
-      if (touches > 0 || steering.current || paused.current || reducedNow() || dir === 0) return;
-      const at = locate();
-      if (!at || at.s <= 1 || at.s >= at.hold - 1) return;
-      const gap = at.hold / (steps - 1);
-      const f = at.s / gap;
-      const lower = Math.floor(f);
-      const frac = f - lower;
-      let n = -1;
-      if (dir > 0 && frac >= 1 - SNAP_REACH) n = lower + 1;
-      else if (dir < 0 && frac <= SNAP_REACH) n = lower;
-      if (n < 0 || n > steps - 1) return;
-      const target = restOf(n, at);
-      const distance = Math.abs(target - window.scrollY);
-      if (distance < 2) return;
-      glideTo(target, at, Math.min(STEP_MS, 180 + distance * 0.6));
-    };
-    const later = () => { clearTimeout(settle); settle = setTimeout(snap, SETTLE_MS); };
-
     const onScroll = () => {
       const y = window.scrollY;
       const ours = selfY !== null && Math.abs(y - selfY) < 1.5;
       if (!ours) {
         // The reader moved the page (a scrollbar drag, a fling's tail): a glide of ours gives way at once.
         if (glide) stopGlide();
-        if (Math.abs(y - lastY) >= 1) dir = y > lastY ? 1 : -1;
         selfY = null;
       }
-      lastY = y;
       if (paused.current) {
         const at = locate();
         if (at && (at.s < -1 || at.s > at.hold + 1)) { paused.current = false; resync(); }
       }
-      if (!ours) later();
     };
     const onInput = () => { if (glide) stopGlide(); };
     const onKey = (event) => { if (SCROLL_KEYS.has(event.key)) onInput(); };
-    const onTouch = (event) => {
-      touches = event.touches.length;
-      if (event.type === 'touchstart') onInput();
-      else if (touches === 0) later();
-    };
 
     const listen = (on) => {
       if (on === listening) return;
@@ -323,8 +283,8 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       window[how]('wheel', onInput, { passive: true });
       window[how]('keydown', onKey, { passive: true });
       window[how]('mousedown', onInput, { passive: true });
-      for (const type of ['touchstart', 'touchend', 'touchcancel']) window[how](type, onTouch, { passive: true });
-      if (on) { lastY = window.scrollY; dir = 0; } else { clearTimeout(settle); stopGlide(); touches = 0; }
+      window[how]('touchstart', onInput, { passive: true });
+      if (!on) stopGlide();
     };
     const near = new IntersectionObserver((entries) => listen(entries[entries.length - 1].isIntersecting), { rootMargin: '100% 0px 100% 0px', threshold: 0 });
     near.observe(track);

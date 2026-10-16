@@ -297,7 +297,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
               ))}
             </ol>
             <p className="ml__status" data-state={recoveryState}>
-              {recoveryState === 'available' ? 'Open for every repair you finish.' : 'Fresh checks open soon.'}
+              {recoveryState === 'available' ? 'Open for every repair you finish.' : 'In this sample, each check unlocks on its day.'}
             </p>
             <SessionStrip kind="check" />
           </section>

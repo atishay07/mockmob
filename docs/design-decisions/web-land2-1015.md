@@ -80,3 +80,55 @@ the Mistake Lab and the rest of the product do, and decides whether to start fre
 - npm run test:app passes 256 of 256. The landing tests (src/components/landing/*.test.mjs plus landing_content, mistake_lab, lab_loop and sample_import) pass 77 of 77. ESLint is clean on every touched JS file.
 
 Not run: a production build, or a real touch device. Native touch momentum is not emulated by CDP, so it was not exercised; with no interception left, it is the browser's own.
+
+## Round 4 fixer (16 Oct 2026), answering the round 4 critic's defects
+
+User task (unchanged): a CUET 2027 student lands on mockmob.in, tries five questions with no account, understands what
+the Mistake Lab and the rest of the product do, and decides whether to start free or pay once for Pro.
+
+### What changed and why
+
+| Defect (severity) | Decision | Evidence | Trade-off |
+| --- | --- | --- | --- |
+| The sample's result rendered above the window, under the bar (medium) | When the result mounts, the card's top glides to 16px under the bar (250ms ease-out, instant under reduced motion). It moves only when the top is hidden or sits low in the window. Focus still goes to the score. | AGENT_RULES 15 and 18 (value before the account wall, say what happens next), T003 | The page moves once, in answer to the reader's own press |
+| Features demoed twice: DU Compass, Combo Planner and Mistake Repair appeared in the tour and in their own sections (medium) | The held tour now has only the tools shown nowhere else: Practice, Replay, Weak chapters, Ask MockMob and Benchmarks (plus Learn when study content is on). The other three are named as links to where they live: "Also on this page: Mistake Repair in the Lab above; DU Compass and the Combo Planner, further down." On desktop that line sits in the tour's control row, so it stays in view through the tour. On phones it follows the tour. The Repair link lands on the Lab's Repair scene (DemoJump reads `data-ss-step`), not on the Lab's first scene. Every section stays. | AGENT_RULES 8 (rank by what helps the next decision), S011 | Desktop loses three tour mock-ups, each a repeat of a demo that is richer in its own section. The phone page is 25,267px (was 27,290px). The tour at 390 is 4,138px, with 5 beats instead of 8. |
+| Two volt Start free keys on screen at once on phones (medium) | While the dock is up (shown, no held story live, no menu, not yet at the close), the bar's key steps out in 150ms and the menu button stays. The key comes back with its 380ms rise when the dock leaves. | AGENT_RULES 7 (one main action) | The bar's key comes and goes as held stories take the screen |
+| Tour tab row cut "Weak chapte" and "Ask" at the right edge (low) | The row shows only whole labels. It is masked from the first tab wholly in view to the last one, with an 8px fade into the gap beyond, so a cut tab is hidden. The mask is written on every row scroll and on each change of the active tab, and fitRowEnd also runs on each change. | S016 (consistent identification) | Later tabs stay hidden until the row scrolls to them. "Next: ..." names the next tool. |
+| The page moved by itself after a stop: +19px in the Lab at 390, +152px in the tour at 1440 (low) | The settle is gone. ScrollStory never moves the page after a stop. Its only scroll of its own is the glide that a tab, Previous or Next asks for. | AGENT_RULES 31, slop list 17 | A reader can rest between two scenes, and each scene is whole wherever the page rests |
+| The Lab's calculator bobbed forever (low) | The 7.2s float and its shadow loop are off inside the Lab section. The object keeps its scroll-linked move with the story. | Slop list 6 | Mobi's breath and blink are the only loops left, as a character |
+| "Two exam screens: MockMob or NTA style" read as free (low) | The fact now reads "Two exam screens: MockMob, and NTA style with Pro." | T006, AGENT_RULES 19 | It runs to three lines on a 390 phone |
+| The Compass sweep rested on 780, where nothing clears (low) | The sweep goes 900, 760, 900 and rests on 900. The honest summary line stays: "900 clears 5 of these 10 Round I UR cutoffs (CSAS 2026-27)". | AGENT_RULES 29 | none |
+| "Fresh checks open soon." read like an unshipped feature (low) | The line now reads "In this sample, each check unlocks on its day." Recovery is still not released (capabilities `blocked_content`), so the line describes the sample and does not promise the feature. Once it is released, the line reads "Open for every repair you finish." | AGENT_RULES 24, T007 | none |
+| 11px and 9.6px captions inside the tour devices, and 26x25px palette cells at 1440 (low) | Every caption inside the tour devices is at least 12px. At desktop the palette column is 336px, so its eight columns give 33x36px MockMob cells and 32x32px NTA cells. The NTA hit slop no longer reaches into the next cell. | S016 | The exam's question column is 46px narrower at desktop |
+| AI credits were stated only in the tour, and the pricing keys reversed the page's weights (low) | Free lists "10 Ask MockMob credits a month" and Pro lists "50 Ask MockMob credits a month". These match the wallet's defaults: 10 in the reservation RPC, and 50 for paid in the wallet tests. In pricing, Start free is volt as it is everywhere else, and See Pro is the secondary key. | T006, T007, AGENT_RULES 7 | Pro's key is quieter, but its price is still the largest figure in the section |
+| A 188-follower account sat beside 161K and 12.7K (low) | Creators with an audience come first, in follower order. Below them, a quiet "Shared by a student" sub-line and a lighter row (the name one step down, in the second ink) hold Prathna Jain, a Hansraj College student. Her follower count stays on her row. | AGENT_RULES 5 (no inflated proof) | none |
+| Blank bands of 150 to 200px after the held stories on phones (low) | Phone sections (under 600px) now pad 64px above and 72px below (was 80 and 88). The tour now ends on its "Also on this page" line, so the gaps after the tour and after Compass Pro are one short band. The content-visibility size estimates were re-measured at 360, 390, 430, 960 and 1440 and updated. | AGENT_RULES 28 (whitespace separates ideas) | Sections sit closer together on phones than on tablets |
+
+### Success metric and guardrails (AGENT_RULES 37)
+
+- Primary measures:
+  - Sample drill starts per landing visit (a subject picked in the hero sample).
+  - Drill completion to signup (the result seen, then Start free pressed in the same session).
+- Guardrails:
+  - On phones, the median scroll depth still reaches the top of the pricing section.
+  - The bounce rate on phones does not rise.
+  - Start free presses from the dock and the bar together do not fall now that the bar's key steps aside.
+- How to read it: compare the two weeks before and after the deploy, with phones and desktop counted apart. This branch adds no analytics events, so these numbers come from the existing ones. The owner decides whether those are enough.
+
+### Verification (16 Oct 2026, my own headless Chrome over CDP on dev server :3122, real CDP pointer and wheel events)
+
+- Drill result at 390 Night (Economics) and 390 Day (Accountancy), every press a pointer click: after "See your result", the card top moves from -1 to 77 in about 150ms (the bar ends at 61), so the score is the first thing under the bar. Captures: `fix-4/run-drill-*-390/01-result-as-landed.png`.
+- Keys: I swept the whole page in 300px steps at 390 Night (83 stops), 390 Day (82) and 1440 Day (71). No stop shows the bar's key and the dock's key together. At Compass on a phone, only the dock's key shows (`check-*-390/dock-at-compass.png`).
+- Tour: 40 wheel ticks walk all five scenes at 390 Night, 390 Day and 1440 Day. No tab is cut in any settled state (`check-*/tour-*.png`, `check.json`).
+- Tour links: a pointer click on "Mistake Repair" lands on the Lab's Repair scene (`data-step` 2) at 390 Night and 1440 Day. "DU Compass" puts #compass 78px from the top at both widths. Every target was hit-tested.
+- Drift: three stops (two in the Lab, one in the tour) keep the same scrollY for 1s afterwards at 390 Night, 390 Day and 1440 Day.
+- Exam palette at 1440: NTA cells measure 32x32 and MockMob cells 33x36. I captured pricing, Instagram, Compass at 900 and the hero facts at 1440 Night and Day (`spots-night-1440/`, `run-links-day-1440/`).
+- A rendered text scan at 390 and 1440 finds:
+  - no PrepOS, Radar or XP;
+  - no horizontal overflow;
+  - 0 text nodes under 12px inside the tour devices;
+  - no infinite animation inside the Lab (the only running loops are Mobi's breath and blink).
+- Every run logged 0 console errors.
+- npm run test:app passes 256 of 256. The landing tests pass 77 of 77 (src/components/landing/*.test.mjs plus landing_content, mistake_lab, lab_loop and sample_import). ESLint is clean on page.js and every landing component.
+
+Not run: a production build and Lighthouse. Free memory was 1 to 3 GB while another agent's dev server was running, and a `next build` next to it could have taken that server down. Run `next build` and Lighthouse mobile once before the owner's review. No real touch device was used either.

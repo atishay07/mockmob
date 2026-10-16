@@ -6,9 +6,10 @@
 .ft__list { position: relative; display: flex; gap: var(--sp-5, 1.5rem); overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; list-style: none; margin: 0; padding: 0 calc(2px + var(--row-end-pad, 0px)) 0 2px; }
 .ft__list::-webkit-scrollbar, .ft__track::-webkit-scrollbar { display: none; }
 /* The tab row fades only at an edge with more tabs beyond it, so a half-shown tab reads as "more". */
-.ft__list { scroll-padding-inline: 24px; --ft-fade-l: #000; --ft-fade-r: #000; -webkit-mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 24px, #000 calc(100% - 24px), var(--ft-fade-r)); mask-image: linear-gradient(90deg, var(--ft-fade-l), #000 24px, #000 calc(100% - 24px), var(--ft-fade-r)); }
-.ft__list:is([data-fade='start'], [data-fade='both']) { --ft-fade-l: transparent; }
-.ft__list:is([data-fade='end'], [data-fade='both']) { --ft-fade-r: transparent; }
+/* It shows only whole labels: FeatureTour writes --ft-cut-l and --ft-cut-r (the room before the first tab wholly in
+   view and after the last), and the mask fades to nothing over 8px of the gap there, so a tab cut by an edge is
+   hidden, never shown as stray letters. An edge with nothing beyond it is not masked. */
+.ft__list { scroll-padding-inline: 24px; --ft-cut-l: 0px; --ft-cut-r: 0px; -webkit-mask-image: linear-gradient(90deg, transparent max(0px, calc(var(--ft-cut-l) - 8px)), #000 var(--ft-cut-l), #000 calc(100% - var(--ft-cut-r)), transparent calc(100% - var(--ft-cut-r) + 8px)); mask-image: linear-gradient(90deg, transparent max(0px, calc(var(--ft-cut-l) - 8px)), #000 var(--ft-cut-l), #000 calc(100% - var(--ft-cut-r)), transparent calc(100% - var(--ft-cut-r) + 8px)); }
 .ft__list li { flex: 0 0 auto; }
 .ft__row { position: relative; display: flex; align-items: center; min-height: 44px; padding: 0 0 0.25rem; border: 0; background: transparent; color: var(--ink-3); font: 600 var(--t-label, 0.875rem)/1.2 var(--font-body); white-space: nowrap; cursor: pointer; transition: color 150ms ease; }
 .ft__row[data-on='true'] { color: var(--ink); }
@@ -36,6 +37,15 @@
 .ft__controls .ft__next { color: var(--ink); white-space: nowrap; }
 .ft__next b { overflow: hidden; text-overflow: ellipsis; margin-left: 0.3em; font-weight: 600; }
 .ft__play:disabled { color: var(--ink-3); cursor: default; }
+/* The tools shown in their own sections, named as links to them (FeatureTour.jsx, Elsewhere). Desktop: in the
+   controls row, between Pause and Previous. Phones: one plain sentence under the held tour. */
+.ft__more { margin: 0; color: var(--ink-3); font-size: var(--t-label, 0.875rem); font-weight: 500; line-height: 1.5; }
+.ft__away { color: var(--ink-2); font-weight: 600; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.22em; text-decoration-color: var(--line-strong, var(--ink-3)); transition: color 150ms ease, text-decoration-color 150ms ease; }
+.ft__more--bar { display: none; }
+.ft__more--after { padding: var(--sp-3, 0.75rem) 0 0; line-height: 1.9; }
+/* Links inside a sentence (the WCAG 2.2 inline exception); the taller line keeps each one its own row of space,
+   so a tap on one wrapped line never lands on a link on the other. */
+.ft__more--after .ft__away { display: inline-block; padding-block: 0.15rem; margin-block: -0.15rem; line-height: 1.5; }
 .ft :is(button, a) { touch-action: manipulation; }
 .ft :is(button, a):focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
 .ft__controls button:active { transform: scale(.97); }
@@ -69,10 +79,15 @@
   .ft__media { padding: var(--sp-5, 1.5rem) 0; }
   .ft__shot { max-width: 30rem; }
   .ft__controls { margin-top: var(--sp-2, 0.5rem); }
+  .ft__more--bar { display: block; flex: 1 1 auto; min-width: 0; text-align: center; }
+  .ft__more--bar .ft__away { display: inline-flex; align-items: center; min-height: 44px; }
+  .ft__more--bar + .ft__arrow { margin-left: 0; }
+  .ft__more--after { display: none; }
 }
 @media (hover: hover) and (pointer: fine) {
   .ft__row:not([data-on='true']):hover, .ft__controls button:not(:disabled):hover { color: var(--ink); }
   .ft__cta:hover { text-decoration-color: var(--ink); }
+  .ft__away:hover { color: var(--ink); text-decoration-color: var(--ink); }
 }
 @keyframes ft-change { from { opacity: .35; } to { opacity: 1; } }
 

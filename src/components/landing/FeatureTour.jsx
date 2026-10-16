@@ -42,7 +42,7 @@ function TourVideo({ slide, playing }) {
 // otherwise). Tabs, Previous and Next jump the page to that tool's beat, so the
 // scroll position and the tool on stage never disagree. Without IntersectionObserver the old
 // carousel returns: native swipes, timed autoplay with an explicit Pause, keyboard focus holds it.
-function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
+function TourStage({ slides, elsewhere = [], step, pinned, reduced, goTo: storyGoTo }) {
   const trackRef = useRef(null);
   const navRef = useRef(null);
   const clockRef = useRef(null);
@@ -87,13 +87,29 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
     const start = nav.scrollLeft > 2;
     const end = more > 2 && nav.scrollLeft < more - 2;
     setFade(start && end ? 'both' : start ? 'start' : end ? 'end' : 'none');
+    // The row shows only whole labels: it is masked from the first tab wholly in view to the last one, with an 8px
+    // fade into the gap beyond, so a tab cut by either edge is hidden rather than shown as stray letters. Written
+    // straight to the row's style on every scroll frame, so nothing re-renders.
+    const box = nav.getBoundingClientRect();
+    let left = Infinity;
+    let right = -Infinity;
+    for (const tab of nav.children) {
+      const r = tab.getBoundingClientRect();
+      if (r.left >= box.left - 0.5 && r.right <= box.right + 0.5) { left = Math.min(left, r.left); right = Math.max(right, r.right); }
+    }
+    const cutL = Number.isFinite(left) && start ? Math.max(0, left - box.left) : 0;
+    const cutR = Number.isFinite(right) && end ? Math.max(0, box.right - right) : 0;
+    nav.style.setProperty('--ft-cut-l', `${Math.round(cutL)}px`);
+    nav.style.setProperty('--ft-cut-r', `${Math.round(cutR)}px`);
   }, []);
   useEffect(() => {
     const nav = navRef.current;
     const item = nav?.querySelector('[data-chapter="' + active + '"]');
     if (!nav || !item || undrawn(nav)) return;
+    fitRowEnd(nav);
     revealTab(nav, active, { smooth: !reduced });
-  }, [active, reduced]);
+    readFade();
+  }, [active, reduced, readFade]);
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return undefined;
@@ -224,6 +240,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
           {/* Plain text controls: the demos' stop control (autoplay over 5 s needs one), then the way back and on. */}
           <div className="ft__controls">
             <button type="button" className="ft__play" aria-label={reduced ? 'Autoplay is off' : paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>{playLabel}</button>
+            <Elsewhere links={elsewhere} className="ft__more--bar" />
             <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature">Previous</button>
             <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}>Next: <b>{next?.label}</b></button>
           </div>
@@ -233,6 +250,34 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
   );
 }
 
+// The tools this page already shows in their own sections (the Lab's Repair scene, DU Compass, the Combo Planner)
+// are not drawn a second time in the tour. They are named under it as links to where they live, so the tour stays
+// an index of everything without repeating a demo. DemoJump glides the page there; a link into a held story names
+// its scene (data-ss-step), so the Repair link lands on the Lab's Repair, not its first scene.
+function Elsewhere({ links, className }) {
+  if (!links.length) return null;
+  const at = (slide) => (
+    <a href={slide.elsewhere.href} className="ft__away" data-ss-step={slide.elsewhere.step}>{slide.label}</a>
+  );
+  const above = links.filter((slide) => slide.elsewhere.above);
+  const below = links.filter((slide) => !slide.elsewhere.above);
+  const list = (items) => items.map((slide, i) => <span key={slide.id}>{i > 0 ? (i === items.length - 1 ? ' and the ' : ', ') : ''}{at(slide)}</span>);
+  return (
+    <p className={'ft__more ' + className}>
+      Also on this page:{' '}
+      {above.length ? <>{list(above)} in the Lab above{below.length ? '; ' : '.'}</> : null}
+      {below.length ? <>{list(below)}, further down.</> : null}
+    </p>
+  );
+}
+
 export default function FeatureTour({ slides = [] }) {
-  return <ScrollStory steps={slides.length} className="ft-story ss--centre" label="What is inside MockMob, tool by tool" Content={TourStage} slides={slides} />;
+  const scenes = slides.filter((slide) => !slide.elsewhere);
+  const links = slides.filter((slide) => slide.elsewhere);
+  return (
+    <>
+      <ScrollStory steps={scenes.length} className="ft-story ss--centre" label="What is inside MockMob, tool by tool" Content={TourStage} slides={scenes} elsewhere={links} />
+      <Elsewhere links={links} className="ft__more--after" />
+    </>
+  );
 }

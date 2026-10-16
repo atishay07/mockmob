@@ -111,6 +111,35 @@ export function DemoDrill() {
     return () => window.clearTimeout(id);
   }, [answered, index]);
 
+  // The result replaces the fifth question, which the reader had scrolled down to answer, so the score would
+  // render above the window, under the bar. Bring the card's top to just under the bar (16px clear) so the
+  // score is the first thing seen: a 250ms ease-out glide, instant under reduced motion.
+  useEffect(() => {
+    if (!done) return undefined;
+    const card = rootRef.current?.closest('.lp-stage__card') || rootRef.current;
+    if (!card) return undefined;
+    let glide = 0;
+    const frame = window.requestAnimationFrame(() => {
+      const bar = document.querySelector('.mm-nav');
+      const clear = (bar ? Math.round(bar.getBoundingClientRect().bottom) : 62) + 16;
+      const top = card.getBoundingClientRect().top;
+      if (top >= clear && top <= window.innerHeight * 0.4) return;
+      const target = Math.max(0, window.scrollY + top - clear);
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) { window.scrollTo({ top: target, behavior: 'instant' }); return; }
+      const from = window.scrollY;
+      const t0 = performance.now();
+      const ease = (t) => 1 - (1 - t) ** 3;
+      const step = (now) => {
+        const t = Math.min(1, (now - t0) / 250);
+        window.scrollTo({ top: from + (target - from) * ease(t), behavior: 'instant' });
+        if (t < 1) glide = window.requestAnimationFrame(step);
+      };
+      glide = window.requestAnimationFrame(step);
+    });
+    return () => { window.cancelAnimationFrame(frame); window.cancelAnimationFrame(glide); };
+  }, [done]);
+
   async function choose(id, event) {
     if (busy) return;
     setBusy(id);

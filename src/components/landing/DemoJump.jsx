@@ -48,6 +48,18 @@ function headroom(stage) {
   return 12 + (tall > 0 ? Math.round(tall) : 0);
 }
 
+// A link that names a scene of a held story (data-ss-step on the anchor, as the feature tour's link to the Lab's
+// Repair does) lands on that scene's resting place, not on the story's first scene. The stage is one window tall
+// (read from the window while the story is still undrawn); glideTo reads this again as the page settles.
+function storyRest(node, step) {
+  const track = node.querySelector('.ss[data-pinned="true"] .ss__track');
+  const stage = track?.querySelector('.ss__stage');
+  const steps = Number(track?.parentElement?.style.getPropertyValue('--ss-steps'));
+  if (!track || !stage || !(steps > 1) || !Number.isFinite(step)) return null;
+  const hold = Math.max(0, track.offsetHeight - (stage.offsetHeight || window.innerHeight));
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  return Math.round(Math.max(0, Math.min(max, window.scrollY + track.getBoundingClientRect().top + (hold * Math.min(step, steps - 1)) / (steps - 1))));
+}
 // Keyboard and screen-reader users land where the page went: a section without its own tab stop takes one
 // for the moment, and gives it back when focus leaves.
 function focusSection(node) {
@@ -80,9 +92,10 @@ export function DemoJump() {
       cancel = glideTo(() => topFor(stage, headroom(stage)), () => arrive(stage));
     };
 
-    const toSection = (node, url) => {
+    const toSection = (node, url, step) => {
       cancel();
-      cancel = glideTo(() => topFor(node), () => focusSection(node));
+      const scene = Number.isFinite(step) && storyRest(node, step) !== null;
+      cancel = glideTo(() => (scene ? storyRest(node, step) ?? topFor(node) : topFor(node)), () => focusSection(node));
       try { window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash); } catch { /* the page still moved */ }
     };
 
@@ -112,7 +125,7 @@ export function DemoJump() {
         const node = document.getElementById(id);
         if (!node) return;
         event.preventDefault();
-        toSection(node, url);
+        toSection(node, url, anchor.dataset.ssStep === undefined ? NaN : Number(anchor.dataset.ssStep));
         return;
       }
       // A link to this very page with no hash (the logo): the top of the page. Only the page's own links to

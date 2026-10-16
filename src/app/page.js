@@ -50,6 +50,7 @@ import './landing-rest.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   '100 practice credits to start: a Quick Practice uses 10, a Full Mock 50',
+  '10 Ask MockMob credits a month',
   'Weekly progress tracking',
   '25 saved questions',
   'Leaderboard',
@@ -59,6 +60,7 @@ const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh 
   'Compass Pro: your practice mapped to your DU shortlist',
   'Smart Practice and NTA Mode',
   'Every chapter ranked, with pace and changed answers',
+  '50 Ask MockMob credits a month',
   'Unlimited saved questions',
 ];
 
@@ -98,13 +100,16 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 // The feature tour: every product area, one idea per slide. Screens are labelled illustrations; the
 // captions say what is true of the product. Each slide's demo screen lives in TourScreens.jsx, keyed by id.
 // Add `video: '/demos/<id>.mp4'` to a slide to play a real screen recording in its place.
+// A slide with `elsewhere` is demoed in its own section of this page, so the tour names it as a link to that
+// section (FeatureTour.jsx) instead of drawing it twice: the held tour has only the tools shown nowhere else.
 const TOUR = [
   { id: 'arena', label: 'Practice', line: 'Drills and full mocks on the exam clock', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
     points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', line: 'Fix why you got it wrong, not just the answer', title: 'Fix why you missed it, not just the answer.',
     body: 'After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the official key.',
-    points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'Then a 10-minute next step and 5 fresh questions to test the fix.', href: '/signup', cta: 'Try Mistake Repair' },
+    points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'Then a 10-minute next step and 5 fresh questions to test the fix.', href: '/signup', cta: 'Try Mistake Repair',
+    elsewhere: { href: '#inside-the-lab', step: 2, above: true } },
   ...(STUDY_LIVE && STUDY_LESSONS ? [{ id: 'learn', label: 'Learn', line: 'Learn the idea, then keep it', title: 'Learn the idea behind the mark, then keep it.',
     body: 'Short lessons with worked examples and the common mistake, then recall cards that return before you are likely to forget. When a chapter keeps costing you marks, its lesson is linked from your result.',
     points: [`${STUDY_LESSONS} lessons across ${STUDY_SUBJECTS} subjects, with more on the way`, 'Lessons and recall are free and use no credits', 'Then practise the same chapter with marks'], chip: 'Made to sit beside your NCERT.', href: '/learn', cta: 'Open Learn' }] : []),
@@ -119,10 +124,12 @@ const TOUR = [
     points: ['Questions about your own record are free', 'AI credits each month: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'Questions about your own record are free.', href: '/mentor', cta: 'Ask about your record' },
   { id: 'compass', label: 'DU Compass', line: 'Your shortlist against real DU cutoffs', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
-    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Cutoffs from DU’s published Round I to III lists.', href: '/admission-compass', cta: 'Open Compass' },
+    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Cutoffs from DU’s published Round I to III lists.', href: '/admission-compass', cta: 'Open Compass',
+    elsewhere: { href: '#compass' } },
   { id: 'combo', label: 'Combo Planner', line: 'Choose your five CUET papers', title: 'Choosing five papers? Check the combination first.',
     body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
-    points: ['Free to use', 'Compare combinations side by side'], chip: 'Compare combinations side by side, free.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
+    points: ['Free to use', 'Compare combinations side by side'], chip: 'Compare combinations side by side, free.', href: '/cuet-subject-combination', cta: 'Plan my subjects',
+    elsewhere: { href: '#du-eligibility' } },
   { id: 'rival', label: 'Benchmarks', line: 'Beat a target score under the clock', title: 'Beat the score you’re aiming for.',
     body: 'Run a short timed set against a fixed target for accuracy and pace, at daily, college or DU level. See whether you hold the standard with the clock running.',
     points: ['The daily benchmark is free', 'Every mock earns leaderboard points for accuracy and speed'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See the leaderboard' },
@@ -197,7 +204,7 @@ export default function LandingPage() {
               73 DU programmes belong to the DU section, so neither is repeated here. */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="What MockMob gives you">
-              <a href="#exam-experience"><b>Two exam screens</b>: MockMob or NTA style.</a>
+              <a href="#exam-experience"><b>Two exam screens</b>: MockMob, and NTA style with Pro.</a>
               <a href="#your-prep"><b>One full CUET mock</b>: 50 questions in 60 minutes.</a>
             </nav>
           </div>
@@ -246,7 +253,7 @@ export default function LandingPage() {
         {/* --------------------------- FEATURE TOUR -------------------------- */}
         <section className="lp-sec lp-sec--tour lp-sh-host" id="your-prep" aria-labelledby="your-prep-title">
           <SectionHeading titleId="your-prep-title" title="What’s inside MockMob."
-            sub="Practice, repair, replay and the plan that ties them together."
+            sub="Practice, replay, your weak chapters and the plan that ties them together."
             mini="What’s inside MockMob" />
           <div className="mm-wrap">
             <FeatureTour slides={TOUR} />
@@ -357,7 +364,8 @@ export default function LandingPage() {
               <h2 className="lp-h2">Start free. Go Pro when you want more room.</h2>
               <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `Free keeps practice and your progress open. Pro is one payment of ₹${OFFER.oneTime.rupees}, not a subscription.`}</p>
             </div>
-            {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. */}
+            {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. Start free
+                keeps the volt key it has everywhere else on the page; See Pro is the secondary key. */}
             <div className="lp-plans">
               <div className="lp-plan">
                 <h3 className="lp-h3">Free</h3>
@@ -365,7 +373,7 @@ export default function LandingPage() {
                 <ul className="lp-plan__list">
                   {freePlan.map((item) => <li key={item}>{item}</li>)}
                 </ul>
-                <Link href="/signup" className="mm-btn mm-btn--secondary">Start free</Link>
+                <Link href="/signup" className="mm-btn mm-btn--primary">Start free</Link>
               </div>
               <div className="lp-plan lp-plan--pro">
                 <h3 className="lp-h3">Pro</h3>
@@ -375,7 +383,7 @@ export default function LandingPage() {
                   <li className="lp-plan__lead">Everything in Free</li>
                   {proPlan.map((item) => <li key={item}>{item}</li>)}
                 </ul>
-                <Link href="/pricing" className="mm-btn mm-btn--primary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}</Link>
+                <Link href="/pricing" className="mm-btn mm-btn--secondary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}</Link>
               </div>
             </div>
           </div>

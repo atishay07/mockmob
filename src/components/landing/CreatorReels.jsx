@@ -7,7 +7,10 @@
 // sentence above the list. The embed mounts only after a press (nothing is sent to Instagram before that), and the
 // original link stays one tap away if Instagram blocks the embed.
 import { useEffect, useRef, useState } from 'react';
-import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, embedSrc, permalink } from '@/lib/social';
+import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, creatorReach, embedSrc, permalink } from '@/lib/social';
+
+// Below this many followers (with any second account), a creator is listed as a student who shared MockMob.
+const SMALL_REACH = 1000;
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 // '2026-04-28' -> { day: 28, month: 'April', year: 2026 }, written out by hand so the server and the phone agree.
@@ -88,14 +91,14 @@ function Embed({ item }) {
   );
 }
 
-function CreatorRow({ item, active, onToggle }) {
+function CreatorRow({ item, active, onToggle, small = false }) {
   const meta = [
     item.attribution || null,
     item.partnership ? 'Paid partnership' : null,
     item.likes ? `${item.likes.toLocaleString('en-IN')} likes` : null,
   ].filter(Boolean);
   return (
-    <li className="rl__row" data-active={active ? 'true' : 'false'}>
+    <li className={small ? 'rl__row rl__row--small' : 'rl__row'} data-active={active ? 'true' : 'false'}>
       <div className="rl__id">
         <h3 className="rl__name">{item.creator}</h3>
         <p className="rl__fact">@{item.handle}{item.followers ? <>, {audience(item)}</> : null}</p>
@@ -150,6 +153,10 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
   const creators = items.filter((item) => item.kind === 'reel');
   const posts = items.filter((item) => item.kind !== 'reel');
   const reach = combinedReach(creators.filter((c) => c.followers));
+  // Creators with an audience lead, in follower order. A student who shared MockMob with a small following sits
+  // under its own quiet sub-line in a lighter row, so the list stays honest without a 188 beside a 161K.
+  const leading = creators.filter((c) => !c.followers || creatorReach(c) >= SMALL_REACH);
+  const students = creators.filter((c) => c.followers && creatorReach(c) < SMALL_REACH);
   const [activeCode, setActiveCode] = useState(null);
   const toggle = (code) => setActiveCode((now) => (now === code ? null : code));
 
@@ -161,8 +168,12 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
         </p>
       ) : null}
       <ul className="rl__list" aria-label="Creators who featured MockMob on Instagram">
-        {creators.map((item) => (
+        {leading.map((item) => (
           <CreatorRow key={item.code} item={item} active={activeCode === item.code} onToggle={() => toggle(item.code)} />
+        ))}
+        {students.length ? <li className="rl__sub">{students.length === 1 ? 'Shared by a student' : 'Shared by students'}</li> : null}
+        {students.map((item) => (
+          <CreatorRow key={item.code} item={item} small active={activeCode === item.code} onToggle={() => toggle(item.code)} />
         ))}
         {posts.length ? <PostsRow posts={posts} activeCode={activeCode} onToggle={toggle} /> : null}
       </ul>

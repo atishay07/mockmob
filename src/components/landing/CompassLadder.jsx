@@ -13,10 +13,12 @@ const AXIS_MAX = 1000;
 const pct = (v) => Math.min(100, Math.max(0, ((v - AXIS_MIN) / (AXIS_MAX - AXIS_MIN)) * 100));
 const ROUND_LABEL = { 'round-1': 'Round I', 'round-2': 'Round II', 'round-3': 'Round III' };
 // Once per visit, when the ladder is first 60% in view and nobody has touched it, the score makes one short pass
-// (780 down to 650 and back, 1.1 s, eased) so the visitor sees colleges fall short and clear again, then rests on
-// 780. It never plays again in that visit: leaving the view mid-pass ends it on 780, and the first pointer, key,
+// (900 down to 760 and back, 1.1 s, eased) so the visitor sees colleges fall short and clear again, then rests on
+// 900, a score that clears some of the 2026 Round I rows (780 cleared none, so the resting ladder showed nothing
+// working). It never plays again in that visit: leaving the view mid-pass ends it on 900, and the first pointer, key,
 // touch or input anywhere in the ladder ends it for good, so the control never moves under the visitor's hand.
-const SWEEP = [780, 650, 780];
+const REST = 900;
+const SWEEP = [REST, 760, REST];
 const SWEEP_MS = 1100;
 const sweepAt = (t) => {
   const half = t < 0.5;
@@ -32,7 +34,7 @@ export default function CompassLadder({ data }) {
   const [programme, setProgramme] = useState(0);
   const [category, setCategory] = useState('UR');
   const [round, setRound] = useState('round-1');
-  const [score, setScore] = useState(780);
+  const [score, setScore] = useState(REST);
   const [sweeping, setSweeping] = useState(true);
   const handRef = useRef(false); // the visitor has touched the ladder
   const [inView, setInView] = useState(false);
@@ -51,8 +53,8 @@ export default function CompassLadder({ data }) {
     const node = rootRef.current;
     if (!node) return undefined;
     const input = node.querySelector('input[type="range"]');
-    const early = input ? Number(input.value) : 780;
-    if (early !== 780) queueMicrotask(() => { setSweeping(false); setScore(early); });
+    const early = input ? Number(input.value) : REST;
+    if (early !== REST) queueMicrotask(() => { setSweeping(false); setScore(early); });
     const stop = () => { handRef.current = true; setSweeping(false); };
     const types = ['pointerdown', 'touchstart', 'keydown', 'input', 'focusin'];
     for (const type of types) node.addEventListener(type, stop, { capture: true, passive: true });

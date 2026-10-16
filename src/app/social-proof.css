@@ -32,6 +32,11 @@
 /* MockMob's own row on a phone: its three post keys sit under the words, left-aligned, not squeezed beside the name. */
 .rl__row--own { grid-template-areas: 'id' 'words' 'act' 'frame'; grid-template-columns: minmax(0, 1fr); }
 .rl__row--own .rl__act { justify-content: flex-start; }
+/* A student who shared MockMob with a small following: a quiet sub-line (no rule of its own, sentence case), then a
+   lighter row, its name a step down in the second ink. */
+.rl__sub { padding: var(--sp-5, 1.5rem) 0 0; color: var(--ink-3); font-size: var(--t-label, 0.875rem); font-weight: 600; line-height: 1.4; }
+.rl__row--small { padding-top: var(--sp-3, 0.75rem); }
+.rl__row--small .rl__name { font-size: var(--t-lede, 1.125rem); color: var(--ink-2); }
 .rl__watch {
   display: inline-flex;
   align-items: center;

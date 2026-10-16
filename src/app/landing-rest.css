@@ -196,3 +196,7 @@
   .mm.lp .lp-close .pip-seat { order: 0; }
   .mm.lp .lp-close .pip-seat__art { width: 120px; height: 146px; }
 }
+
+/* The Lab's calculator (LabCinema.jsx) does not bob forever: an endless loop that answers nothing (slop list 6).
+   It keeps its scroll-linked move with the story (lab-cinema.css) and stands still otherwise. */
+.mm.lp .lp-sec--cinema .subj-obj--alive :is(.subj-obj__float, .subj-obj__shadow) { animation: none; }
