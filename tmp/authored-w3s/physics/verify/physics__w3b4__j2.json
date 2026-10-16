@@ -1,0 +1,192 @@
+[
+  {
+    "id": "0392836e-9179-49bd-b40b-efb9cd1dad4e",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.brewster-angle-perpendicularity",
+    "flags": [],
+    "note": "Key A holds via the explanation's derivation, but R (tan ip = mu) and A are equivalent under Snell's law, so a sceptic can argue for B (R restates A). Not flagged; score down."
+  },
+  {
+    "id": "5c5ecfa2-89c2-4360-ae66-4d20bc0a5239",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.malus-law-unpolarised-light",
+    "flags": [],
+    "note": "Key C correct: I0/2 after the polariser, then (I0/2)cos^2 60 = I0/8. Distractors include the I0/4 halving slip. Label hard is a notch high (two steps)."
+  },
+  {
+    "id": "75299146-fa6b-4a36-a45e-8d012723a4ec",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.resultant-intensity-phase-difference",
+    "flags": [],
+    "note": "Key B correct: I = 4I0cos^2(pi/3) = I0. 2I0 is a good incoherent-sum distractor. I0 is the only non-extreme option, so partly guessable by elimination."
+  },
+  {
+    "id": "0731d7d3-671e-4714-8b36-65d0a388117c",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.fringe-shift-thin-sheet",
+    "flags": [],
+    "note": "Key D correct: (mu-1)t/lambda = 10 fringes. Label hard is a notch high (known formula, two steps). Distractor 20 has no clear slip behind it."
+  },
+  {
+    "id": "4b97458d-a381-4f1a-a2b7-fcceb8a3cd94",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.displacement-current-definition",
+    "flags": [],
+    "note": "Key A correct, direct recall. Option D (rate of change of monopole density) is absurd, so one throwaway distractor."
+  },
+  {
+    "id": "68e3c2d7-242d-4736-b989-93d19ef92835",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.speed-from-mu0-epsilon0",
+    "flags": [],
+    "note": "Key C correct: c = 3.0e8 m/s. Distractors are clean slips: 100x too small (A), factor 2 (B), and 1/(mu0 eps0) without the root (D)."
+  },
+  {
+    "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.spectrum-order-by-wavelength",
+    "flags": [],
+    "note": "Key A correct. The stem lists the items in exactly the key's order (gamma, visible, microwaves, radio), which invites copying the stem. A presentation tell, not a flag."
+  },
+  {
+    "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-waves.spectrum-uses-of-waves",
+    "flags": [],
+    "note": "Key B correct: a-R, b-P, c-Q, d-S, and each other option is a different wrong pairing. All facts checked (IR remotes, UV sterilising, X-ray radiographs, microwave radar)."
+  },
+  {
+    "id": "90eccf23-4148-4c31-b430-b3d4ab676ad3",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-waves.em-wave-field-directions",
+    "flags": [],
+    "note": "Key B correct: E x B along -z with B along +x gives E along +y. Distractors are the B-direction, propagation-direction and sign-flip slips."
+  },
+  {
+    "id": "3a02b025-c5f6-4fce-b1ea-065b95c32dbd",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.wavelength-from-frequency",
+    "flags": [],
+    "note": "Key D correct: 3e8/1.5e9 = 0.2 m. 0.02 m (x10 slip) and 2 m (dropped power of ten) are real slips; 0.5 m is arbitrary."
+  },
+  {
+    "id": "fb9cd358-0b96-4d88-948d-61c5f12549d6",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.ray-optics-and-optical-instruments.lens-makers-formula-sign-convention",
+    "flags": [],
+    "note": "Key B correct: f = 20 cm. Only 40 cm (missing factor 2) is a real slip; 10 cm and 30 cm are arbitrary, so the distractor set is weak."
+  },
+  {
+    "id": "4e2730f5-b6b5-4784-8ad4-fb9b909398de",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.ray-optics-and-optical-instruments.prism-refractive-index-minimum-deviation",
+    "flags": [],
+    "note": "Key C correct: sin45/sin30 = 1.41, and the geometry is consistent. 1.73 (sin60/sin30 slip) is good; 1.33 is an unrelated index, so one weak distractor."
+  },
+  {
+    "id": "abb95356-5484-457f-87c3-9668cd683b07",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.ray-optics-and-optical-instruments.critical-angle-from-refractive-index",
+    "flags": [],
+    "note": "Key B correct: sin C = 1/1.5, C about 42 degrees. 30 and 60 are formula slips; 48 is arbitrary. Clean direct recall."
+  },
+  {
+    "id": "ab6c6117-e474-4b8c-907a-59951e5ceb37",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.ray-optics-and-optical-instruments.telescope-magnifying-power-normal-adjustment",
+    "flags": [],
+    "note": "Key A correct: 120/4 = 30. Distractors are the usual slips: 4 (eyepiece focal length), 116 (fo minus fe), 480 (fo times fe)."
+  },
+  {
+    "id": "405b35f7-e06b-4e4f-a3c7-fd61928658d4",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.alternating-current.half-cycle-average-value-of-ac",
+    "flags": [],
+    "note": "Key C correct: 2I0/pi. 0 (full-cycle average) and I0/sqrt2 (rms) are real traps; I0 is a throwaway. Explanation is accurate."
+  },
+  {
+    "id": "2be3fcb0-30ce-427f-ae83-14e5d868f7d0",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.alternating-current.capacitive-reactance-formula",
+    "flags": [],
+    "note": "Key B correct: 1/(2pi x 50 x 100e-6) = 31.8 ohm. Distractors are decimal and power-of-ten slips. Label medium is a notch high (one formula)."
+  },
+  {
+    "id": "f3677c62-dac9-4fbd-9c40-f3874e49b06c",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.average-power-in-lcr-circuit",
+    "flags": [],
+    "note": "Key D correct: Z = 5 ohm, P = I^2 R = 300 W. 500 W is the I^2 Z trap, a good one. Label hard is a notch high: two steps."
+  },
+  {
+    "id": "7156b397-65f5-4272-aad7-2444451f0d72",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.resonant-frequency-of-lc-circuit",
+    "flags": [],
+    "note": "Key B correct: f0 = 503 Hz. 159 Hz (LC mis-calculated) and 5.03 kHz (decimal slip) are real slips. Label hard is a notch high for one formula."
+  },
+  {
+    "id": "8e7f15cc-e80f-455f-81f0-fbbd13ee56b3",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.alternating-current.transformer-current-ratio-ideal",
+    "flags": [],
+    "note": "Key C correct: Ip = 20 x 0.5 = 10 A. 0.025 A (inverted ratio) is a real slip; 0.5 A (no change) and 11.5 A (arbitrary) are weak distractors."
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "fb045322-08ef-4936-ba8a-3be3190bc89e",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.total-count-from-two-ranks",
+    "flags": [],
+    "note": "Clean ranking item, 15+18-1 = 32 verified. Distractor 33 is the classic overlap slip, so the distractors are well built."
+  },
+  {
+    "id": "76a4ec3a-0bfe-43ae-8afb-855d89439611",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.series-sum-of-two-previous-terms",
+    "flags": [],
+    "note": "Each term is the sum of the two before it; 47 verified. Distractors 40 and 45 are weak, otherwise fit for paper."
+  },
+  {
+    "id": "afbe82bd-a14e-4f5d-bfd6-a25d30ed0864",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.grid-row-product-rule",
+    "flags": [],
+    "note": "Third cell = first x second fits both rows and gives 14 uniquely among the options. Key verified. Distractor 9 is a sum slip."
+  },
+  {
+    "id": "307b8146-2141-49c9-abb2-cdc2e2c42bb9",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.letter-series-increasing-gaps",
+    "flags": [],
+    "note": "Gaps 2,3,4 in both letter positions give O and P, so OP verified. NO is a gap-slip distractor. Label hard, my check medium."
+  },
+  {
+    "id": "52a1adba-4ac2-48f0-9803-5f519207dc97",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.number-pairs-cube-relationship",
+    "flags": [],
+    "note": "2:8, 3:27, 5:125 are cubes and 4:16 is a square, so C is the odd pair. Key verified. Other pairs are fine."
+  },
+  {
+    "id": "7367fbed-0bb2-40de-ad1a-bef8a0ebb962",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 3,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-mental-ability.letter-pairs-opposite-direction-steps",
+    "flags": ["factual_error"],
+    "note": "Key EV is correct, but the explanation says V is the letter before W in the reverse sequence. In the reverse run Z Y X W V, V follows W. Fix that sentence."
+  },
+  {
+    "id": "cf11e1b2-690f-4878-a6e7-c8925821c44c",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-mental-ability.odd-one-out-perfect-squares",
+    "flags": [],
+    "note": "121, 169, 225 are squares and 250 is not, so D is verified. Trivial recognition item with no real distractor trap."
+  },
+  {
+    "id": "e1479500-60ec-4884-ae31-679f70d3eb8b",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.linear-seating-positions-from-ends",
+    "flags": [],
+    "note": "P at left end, R at right end, T at 4, so S is at 3 and in the middle. Key S verified. Distractors are plausible."
+  },
+  {
+    "id": "c397d567-7836-4f84-a2ff-2e3913967ac9",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.inequality-chain-conclusions",
+    "flags": [],
+    "note": "I and III follow from the chain T>=P>Q>=R>S. II fails because S is below R, which is at most Q. Key B verified."
+  },
+  {
+    "id": "012e2c37-e60a-4306-bee3-7b8eafd080b4",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 5,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.opposite-faces-sum-seven",
+    "flags": ["answer_in_stem"],
+    "note": "Key B (4) is correct, but the stem states the opposite-faces-sum-to-7 rule and asks to apply it, so the stem gives the method away."
+  },
+  {
+    "id": "6892ed66-c504-4d51-8d9e-bba0cb1c1166",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.ranking-position-from-comparison-chain",
+    "flags": [],
+    "note": "Chain U>S>R>P>Q>T gives P fourth; key B verified. The stem lists the whole order, so the item is trivial."
+  },
+  {
+    "id": "70fa0d92-2494-40f8-83af-cb4649685922",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.calendar-day-of-week-shift",
+    "flags": [],
+    "note": "31+28 = 59, remainder 3, Wednesday to Saturday verified. Sunday is a leap-year slip and Friday a count slip. Dates are true."
+  },
+  {
+    "id": "9c407b8f-146d-407d-8f8c-7d09d4ce18c9",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.syllogism-undetermined-conclusions",
+    "flags": [],
+    "note": "I fails because writers among readers may be non-engineers; II fails because engineers may be painters. Key D verified. Label hard, my check medium."
+  },
+  {
+    "id": "0f2b8121-9083-4961-a25f-ac0878f9a15a",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.circular-seating-opposite-person",
+    "flags": [],
+    "note": "Seating is unique (P1, Q2, R3, S4, T5, U6), so T is opposite Q. Key C verified. Well-built multi-constraint item."
+  },
+  {
+    "id": "4c830508-835a-4040-8064-984024bf0778",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.floor-relative-position-deduction",
+    "flags": [],
+    "note": "C on 5 gives B on 2 and A on 3; key B verified. The even-floor clue is not needed, so the item is trivial two-step."
+  },
+  {
+    "id": "aed34b71-fcf1-4bb3-bd90-b76d3b0ce52a",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.basic-mathematical-concepts.roots-sum-of-squares-identity",
+    "flags": [],
+    "note": "alpha^2 + beta^2 = 7^2 - 2(12) = 25 verified. Distractor 49 is the sum squared and 13 a plausible slip. Clean item."
+  },
+  {
+    "id": "352e7338-650c-45f2-a195-74266a9fa337",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.basic-mathematical-concepts.ap-sum-of-first-n-terms",
+    "flags": [],
+    "note": "S20 = 10 x (6 + 76) = 820 verified. Options 780, 800 and 840 are plausible formula slips. Clean standard item."
+  },
+  {
+    "id": "4c4837c1-e4d1-4788-af4a-ba9ddac78419",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.basic-mathematical-concepts.sine-addition-complementary-angles",
+    "flags": [],
+    "note": "Expression equals sin 90 = 1, verified as 1/4 + 3/4. Distractor 0 is the sign slip of the subtraction identity. Key B verified."
+  },
+  {
+    "id": "f19a4dec-edf5-46f4-ba35-f0f0e4485de9",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.basic-mathematical-concepts.two-dice-sum-probability",
+    "flags": [],
+    "note": "Six favourable outcomes out of 36 gives 1/6, verified. Distractor 5/36 is the missed-outcome slip. Clean recall item."
+  }
+]

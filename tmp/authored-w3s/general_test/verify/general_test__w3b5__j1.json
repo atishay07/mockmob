@@ -1,0 +1,192 @@
+[
+  {
+    "id": "fb045322-08ef-4936-ba8a-3be3190bc89e",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.ranking-total-from-two-positions",
+    "flags": [],
+    "note": "Key B verified: 15 + 18 - 1 = 32. Clean one-step ranking item; 33 is the trap for not counting Meera twice."
+  },
+  {
+    "id": "76a4ec3a-0bfe-43ae-8afb-855d89439611",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.number-series-sum-of-two-previous",
+    "flags": [],
+    "note": "Key C verified: each term is the sum of the two before it, giving 18 + 29 = 47. Fair recurrence item with no defect."
+  },
+  {
+    "id": "afbe82bd-a14e-4f5d-bfd6-a25d30ed0864",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.grid-row-product-rule",
+    "flags": [],
+    "note": "Key B verified: third = first x second gives 14. Stem says 'the grid below' but the rows are inline in the stem, a wording slip. Label hard is one level high."
+  },
+  {
+    "id": "307b8146-2141-49c9-abb2-cdc2e2c42bb9",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.letter-series-increasing-gaps",
+    "flags": [],
+    "note": "Key B verified: first letters at 1,3,6,10 then 15 (O); second letters at 2,4,7,11 then 16 (P). Explanation correct. Label hard is one level high."
+  },
+  {
+    "id": "52a1adba-4ac2-48f0-9803-5f519207dc97",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.general-mental-ability.odd-one-out-cube-relation",
+    "flags": [],
+    "note": "Key C verified: 4 to 16 is a square, the other three pairs are cubes. Clean odd-one-out item with a unique answer."
+  },
+  {
+    "id": "7367fbed-0bb2-40de-ad1a-bef8a0ebb962",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 3,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-mental-ability.letter-pair-opposite-shift",
+    "flags": ["factual_error"],
+    "note": "Explanation says V is 'the letter before W in the reverse sequence'; in the reverse run V follows W. Key A (EV) is correct; item itself is clean."
+  },
+  {
+    "id": "cf11e1b2-690f-4878-a6e7-c8925821c44c",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.general-mental-ability.odd-one-out-perfect-square",
+    "flags": [],
+    "note": "Key D verified: 121, 169, 225 are squares of 11, 13, 15; 250 is not. Direct recall item with no defect."
+  },
+  {
+    "id": "e1479500-60ec-4884-ae31-679f70d3eb8b",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.linear-seating-position-deduction",
+    "flags": [],
+    "note": "Key C verified: P 1, Q 2, S 3, T 4, R 5 is the only arrangement. Distractors P, Q and T are natural placement slips."
+  },
+  {
+    "id": "c397d567-7836-4f84-a2ff-2e3913967ac9",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.inequality-chain-conclusions",
+    "flags": [],
+    "note": "Key B verified: I and III follow from T >= P > Q >= R > S; II fails since S < R <= Q. Clean statement item."
+  },
+  {
+    "id": "012e2c37-e60a-4306-bee3-7b8eafd080b4",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 5,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.dice-opposite-faces-complement",
+    "flags": ["answer_in_stem"],
+    "note": "Stem states the opposite-faces-add-to-7 rule and asks only to apply it, so the answer is given away. Key B (4) is correct; the 5 and 1 clues are unused."
+  },
+  {
+    "id": "6892ed66-c504-4d51-8d9e-bba0cb1c1166",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.ranking-from-comparison-chain",
+    "flags": [],
+    "note": "Key B verified: chain U > S > R > P > Q > T puts P fourth. Clean easy item; distractors R and Q are the natural slips."
+  },
+  {
+    "id": "70fa0d92-2494-40f8-83af-cb4649685922",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.calendar-day-shift-by-days",
+    "flags": [],
+    "note": "Key C verified: 31 + 28 = 59 days, 59 mod 7 = 3, Wednesday + 3 = Saturday. Distractors are day-count slips; explanation correct."
+  },
+  {
+    "id": "9c407b8f-146d-407d-8f8c-7d09d4ce18c9",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.syllogism-some-and-no-statements",
+    "flags": [],
+    "note": "Key D verified: neither I nor II is forced by the statements. Only II is a fair trap. Label hard is one level high."
+  },
+  {
+    "id": "0f2b8121-9083-4961-a25f-ac0878f9a15a",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "hard",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.circular-seating-opposite-person",
+    "flags": [],
+    "note": "Key C verified: seats P1, Q2, R3, S4, T5, U6 is forced and T sits opposite Q. Explanation is correct; distractors are the neighbours."
+  },
+  {
+    "id": "4c830508-835a-4040-8064-984024bf0778",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.floor-offset-chain-deduction",
+    "flags": [],
+    "note": "Key B verified: C on 5 gives B on 2 and A on 3. The even-floor clue and floor 7 are redundant signposting; score down one point."
+  },
+  {
+    "id": "aed34b71-fcf1-4bb3-bd90-b76d3b0ce52a",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.basic-mathematical-concepts.sum-of-squares-of-roots",
+    "flags": [],
+    "note": "Key C verified: (7)^2 - 2(12) = 25. Distractors 49 and 19 are the classic identity slips; explanation correct."
+  },
+  {
+    "id": "352e7338-650c-45f2-a195-74266a9fa337",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.basic-mathematical-concepts.sum-of-arithmetic-progression",
+    "flags": [],
+    "note": "Key C verified: S20 = 10 x (6 + 76) = 820. Direct formula application with plausible slip options."
+  },
+  {
+    "id": "4c4837c1-e4d1-4788-af4a-ba9ddac78419",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.basic-mathematical-concepts.trig-ratios-of-specific-angles",
+    "flags": [],
+    "note": "Key B verified: expression equals sin 90 = 1, or 1/4 + 3/4. Clean item; 1/2 and root3/2 are plausible distractors."
+  },
+  {
+    "id": "f19a4dec-edf5-46f4-ba35-f0f0e4485de9",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.basic-mathematical-concepts.dice-sum-probability",
+    "flags": [],
+    "note": "Key A verified: 6 of 36 outcomes give sum 7. 5/36 is the sum-6 count, a good distractor. No defect."
+  }
+]

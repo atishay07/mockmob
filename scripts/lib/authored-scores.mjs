@@ -416,7 +416,11 @@ const votes = (values) => Object.fromEntries([...values.reduce((map, value) => m
 export const PIPELINE_TEXT = Object.freeze({
   1: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over all accepted items, blind re-solve of every repaired item; fresh judges (and solvers, for reworded items) on the final text where it changed afterwards',
   2: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards',
+  3: 'author, blind check of every draft (haiku_blind_verified), a stronger audit of 107 of the 294 drafts that solved them itself (opus_audited) with 28 rows repaired before scoring; then on the final text 5 blind solvers, 2 quality judges and 3 CUET-fit judges; no expert pass and no rewording after judging',
 });
+
+// Waves 1 and 2 keep their literal batch prefix (their tables are committed with it); wave 3 names its own run.
+const batchPrefixOf = (candidate) => (waveOf(candidate).wave === 3 ? 'authored-2026-10-17-w3__' : 'authored-2026-10-14__');
 
 function provenanceOf(record, hashes, policy, header, candidate = null) {
   const wave = waveOf(candidate);
@@ -431,6 +435,9 @@ function provenanceOf(record, hashes, policy, header, candidate = null) {
     pipeline: PIPELINE_TEXT[wave.wave],
     expert_verdict: record.text.expert_verdict,
     expert_issue: record.text.expert_issue,
+    // Wave 3 only: the check the draft had before scoring (haiku_blind_verified or opus_audited); waves 1 and 2 have an expert verdict instead.
+    ...(record.text.authoring_verdict ? { authoring_verdict: record.text.authoring_verdict } : {}),
+    ...(record.text.audit_repaired ? { audit_repaired: true } : {}),
     // final: the expert reviewed the final text; earlier_text: the question was reworded after the expert pass (engine content gate) and
     // only the fresh judges and solvers below have seen the reworded text.
     expert_reviewed_text: record.text.expert_reviewed_text,
@@ -476,7 +483,7 @@ export function agentEntryFor(id, candidate, record, { policy, header, position 
   const useFinal = !hashes.hashChanged || policy === 'admit' || record.text.judged === 'final';
   return {
     question_id: id,
-    batch: `authored-2026-10-14__${record.batch}`,
+    batch: `${batchPrefixOf(candidate)}${record.batch}`,
     chapter: candidate.chapter,
     key,
     content_hash: useFinal ? hashes.finalHash : hashes.judgedHash,
@@ -520,7 +527,7 @@ export function fitEntryFor(id, candidate, record, { policy, header, position = 
   const useFinal = !hashes.hashChanged || policy === 'admit' || record.text.judged === 'final';
   return {
     question_id: id,
-    batch: `authored-2026-10-14__${record.batch}`,
+    batch: `${batchPrefixOf(candidate)}${record.batch}`,
     db_chapter: candidate.chapter,
     content_hash: useFinal ? hashes.finalHash : hashes.judgedHash,
     engine_type_guess: engineTypeGuess,
@@ -576,7 +583,9 @@ export function mergeAgentTable(base, entries, { subject, now, header, policy, r
   table.authored = {
     ...(table.authored || {}),
     [source]: {
-      note: waveOf(source).wave === 2
+      note: waveOf(source).wave === 3
+        ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the wave-3 entries (docs/brain/reports/authored-w3/wave3-score-entries-2026-10-17.json, built by scripts/authored-w2-accept.mjs --wave=w3 from the raw judge files). Per-question provenance says which text each judge scored.'
+        : waveOf(source).wave === 2
         ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (docs/brain/reports/authored-w2/wave2-score-entries-final-2026-10-14.json, built by scripts/authored-w2-accept.mjs --mode=final from the raw judge files). Per-question provenance says which text each judge scored.'
         : 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave (see docs/brain/AUTHORED-QUESTIONS-WAVE1-2026-10-14.md). Per-question provenance says which text each judge scored.',
       merged_at: now,
@@ -618,7 +627,9 @@ export function mergeFitTable(base, entries, { subject, now, header, policy, rub
   table.authored = {
     ...(table.authored || {}),
     [source]: {
-      note: waveOf(source).wave === 2
+      note: waveOf(source).wave === 3
+        ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the wave-3 entries (built by scripts/authored-w2-accept.mjs --wave=w3). The measures block above describes the base merge only.'
+        : waveOf(source).wave === 2
         ? 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the final wave-2 entries (built by scripts/authored-w2-accept.mjs --mode=final). The measures block above describes the base merge only.'
         : 'Entries with provenance.kind = this key were written by scripts/authored-scores-merge.mjs from the raw judge files of the authored wave. The measures block above describes the base merge only.',
       merged_at: now,

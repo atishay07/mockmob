@@ -1,0 +1,192 @@
+[
+  {
+    "id": "39a9f1f5-675b-4aa4-961e-56b0b6be1145",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.force-between-parallel-currents",
+    "flags": [],
+    "note": "Key A verified: same-direction currents attract, F/L = mu0 I1 I2/(2 pi d). Four-statement set is clean and distractors are plausible. Score 8, not 9, for the wordy four-statement layout."
+  },
+  {
+    "id": "9ef7bafe-2ca1-4e14-a12a-08890c27374c",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.moving-charges-and-magnetism.galvanometer-to-voltmeter",
+    "flags": [],
+    "note": "Key B correct: voltmeter needs a large series resistance R = V/Ig - G. The shunt-for-ammeter distractor is a fair trap. Direct recall; label medium is one notch high."
+  },
+  {
+    "id": "118b1495-3889-49b3-8002-f805c6ca1e57",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.torque-on-current-loop",
+    "flags": [],
+    "note": "Key B correct: torque NIAB sin(theta) is maximal when the normal is perpendicular to B. Option A (normal parallel) is the standard trap; option C (45 degrees) is a weaker distractor."
+  },
+  {
+    "id": "340a6c47-3d6f-42c8-a1a5-af3a9bb0830f",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.moving-charges-and-magnetism.radius-of-charged-particle-orbit",
+    "flags": [],
+    "note": "Key B verified: r = mv/qB = 0.1 m. Distractors come from a power-of-ten slip (0.01), inversion (1.0) and factor-2 (0.2). Clean one-step numerical; label medium is a notch high."
+  },
+  {
+    "id": "8172d9b4-c41c-413a-a5c2-70ea7df2adf0",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.amperian-loop-net-enclosed-current",
+    "flags": [],
+    "note": "Key B verified: net enclosed current 5 - 3 = 2 A gives 2 mu0 T m. Distractors are the sum 8 mu0, the outside wire 4 mu0 and zero. Label hard is a notch high for a two-step sign item."
+  },
+  {
+    "id": "704cf988-599d-49f6-a9cf-c15e4dfdda8f",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.finite-wire-field-vs-infinite",
+    "flags": [],
+    "note": "Key C correct (sin theta < 1 for finite wire). Stem never says the infinite-wire field is compared at the same d; natural reading assumed, not flagged, score docked. Option D is a throwaway."
+  },
+  {
+    "id": "80ca588c-3c3a-415f-ab76-b6b5a5cd4ec8",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.moving-charges-and-magnetism.work-rotating-dipole-in-field",
+    "flags": [],
+    "note": "Key C verified: W = U(180) - U(0) = 2MB. Option D (-2MB) is the sign trap a student meets on the agent's work. Clean one-step item with a fair distractor set."
+  },
+  {
+    "id": "2686431a-ab28-4bf0-844a-4be4f88f754a",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.intrinsic-silicon-at-zero-kelvin",
+    "flags": [],
+    "note": "Key C correct (no free carriers at 0 K). Options B (superconductor) and D (n-type) are throwaways, so only A and C are plausible. Score docked for two weak distractors."
+  },
+  {
+    "id": "c9fd89c4-508e-43f3-991f-a7881e54fd72",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.energy-gap-comparison-materials",
+    "flags": [],
+    "note": "Key C correct. Conductor (zero gap) is a decent distractor; 'Conductor and semiconductor are equal' is a throwaway. Direct NCERT recall; label easy is right."
+  },
+  {
+    "id": "4b294509-bfcb-4828-a8cd-d2513aa29da3",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.half-wave-output-pulse-frequency",
+    "flags": [],
+    "note": "Key B correct: half-wave gives one pulse per input cycle, so 60 Hz. The 30 Hz, 120 Hz (full-wave) and 0 Hz options are classic distractors. Direct recall."
+  },
+  {
+    "id": "a5de8f62-b02d-4723-8192-449d5eaa6266",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.zener-diode-voltage-regulation",
+    "flags": [],
+    "note": "Key A correct: II explains why I holds. The lead sentence repeats Statement I, which over-signposts the item; score docked one point, not flagged."
+  },
+  {
+    "id": "363ac2b3-431d-45f1-a7b4-d03bce246584",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.solar-cell-carrier-separation",
+    "flags": [],
+    "note": "Key A correct: the depletion-region built-in field sweeps carriers. Options B and C are reasonable traps; D (Earth's magnetic field) is a throwaway. Label medium is a notch high for a direct fact."
+  },
+  {
+    "id": "deb9beb8-bb5d-48af-b1c0-fecad65bee2b",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.knee-cut-in-voltage",
+    "flags": [],
+    "note": "Key B correct: knee or cut-in voltage. Breakdown and Zener are plausible; saturation is weaker. Stem gives the value and asks for the term, which is normal NCERT recall."
+  },
+  {
+    "id": "48b434ae-1e86-41b4-aae0-aae582c8a520",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.half-wave-average-output",
+    "flags": [],
+    "note": "Key A verified: Vm/pi = 3.18 V. Distractors 6.37 (full-wave), 5.00 (Vm/2) and 10.0 (peak) are ratio slips. Clean, all inputs in the stem."
+  },
+  {
+    "id": "3c52abd8-b99f-46ac-aa70-29811ca6fe13",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.logic-gate-definitions-matching",
+    "flags": [],
+    "note": "Key B verified: AND-III, OR-II, NOR-I, NOT-IV; content is sound. The match lists are run into one stem paragraph rather than laid out, so score docked for awkward layout."
+  },
+  {
+    "id": "898006b1-95b2-4d03-93dc-23c3afb8a925",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.gate-identification-from-truth-table",
+    "flags": [],
+    "note": "Key C verified: outputs 1,1,1,0 are NAND. AND, OR and XOR are ruled out by the 00 and 11 rows. Direct truth-table recognition item."
+  },
+  {
+    "id": "dff97aad-a78a-4772-bb3b-335df7f6577a",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.or-then-not-output-expression",
+    "flags": [],
+    "note": "Key C verified: Y = (A+B)' is NOR. (A.B)' (NAND) is the named confusion trap. Two-gate composition; label hard is a notch high."
+  },
+  {
+    "id": "7f417185-bf9c-48af-a21b-ea3e7a065115",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.semiconductor-electronics.capacitor-filter-ripple-factors",
+    "flags": [],
+    "note": "Key B correct: II is true but explains the load resistance, not the capacitance in I. A sceptic could argue RC discharge explains I too; not flagged, score docked for abstract wording."
+  },
+  {
+    "id": "0d5f2ae0-8dca-4ccc-aa7f-eaa1a54ab5f8",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.semiconductor-electronics.led-wavelength-from-band-gap",
+    "flags": [],
+    "note": "Key A verified: 1240/2.0 = 620 nm. Distractors 310 (halved) and 1240 (inverted) are ratio slips. Clean one-step numerical; label medium is a notch high."
+  }
+]

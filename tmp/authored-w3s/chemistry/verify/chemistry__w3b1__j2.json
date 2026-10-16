@@ -1,0 +1,182 @@
+[
+  {
+    "id": "b4b8360e-d316-4b1a-b9b1-183816cbecc8",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.iupac-naming-of-alcohols",
+    "flags": [],
+    "note": "Key A verified: butan-2-ol chain with methyl on C3. Distractors are locant, chain and isomer slips. One-step recall, fair item."
+  },
+  {
+    "id": "ef23884f-5078-44c2-9b85-99f1e94374d7",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.lucas-test-alcohol-classes",
+    "flags": [],
+    "note": "Key D verified: tertiary alcohol turns turbid at once, secondary slowly, primary not at room temperature. Each distractor is a real class trap; wording is clean."
+  },
+  {
+    "id": "d862ff6c-f6be-4dfd-8dc3-ff22bb40da51",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.hydroboration-oxidation-anti-markovnikov",
+    "flags": [],
+    "note": "Key C verified (anti-Markovnikov hydroboration, propan-1-ol). Propane is a weak distractor; propan-2-ol and propanal are fair. Explanation is correct."
+  },
+  {
+    "id": "97fb26ff-9b4f-4e06-9282-e26477186a35",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.acidity-phenol-vs-alcohols-and-water",
+    "flags": [],
+    "note": "Key C verified: phenol is the most acidic of the four. Direct NCERT recall; water is a fair distractor, cyclohexanol a throwaway."
+  },
+  {
+    "id": "b7040276-8080-4b60-b1d7-408c21275d48",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.reimer-tiemann-and-kolbe-products",
+    "flags": [],
+    "note": "Key B verified: Reimer-Tiemann to II, Kolbe to III, Williamson to IV, hydroboration to I. Options are distinct. Williamson giving methoxyethane is a slightly unusual pairing."
+  },
+  {
+    "id": "ca00177e-6d6f-442c-bf3c-c6cc46a80694",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.saytzeff-dehydration-major-alkene",
+    "flags": [],
+    "note": "Key D verified (Saytzeff trisubstituted alkene). 2-Methylbutane is an alkane, not an alkene, so it is a throwaway; 3-methylbut-1-ene is a weak distractor."
+  },
+  {
+    "id": "e4daafaf-3af8-4cad-a9d2-a1f41b1826ea",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.grignard-with-methanal-primary-alcohol",
+    "flags": [],
+    "note": "Key D verified (three carbons, primary alcohol). Propan-2-ol (MeMgBr with ethanal) and butan-2-ol are fair reagent-mix distractors; ethanol is a throwaway."
+  },
+  {
+    "id": "1d013847-e124-44e4-b400-a5a55ad558cb",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.acidity-order-with-electron-withdrawing-group",
+    "flags": [],
+    "note": "Key B verified: ethanol < water < phenol < p-nitrophenol. Each wrong option swaps one adjacent pair, so the distractors are real errors. Labels are defined in the stem."
+  },
+  {
+    "id": "89809a17-0fba-4ab6-8195-07e43d6a51f8",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.ethanol-dehydration-temperature-dependence",
+    "flags": [],
+    "note": "Key D verified: I and II true, III false (ether forms near 413 K, ethene near 443 K). Clean statements and fair distractors; difficulty medium."
+  },
+  {
+    "id": "ec1be2ad-e341-40cf-a70c-d057c972d3d5",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.phenol-bromine-water-tribromination",
+    "flags": [],
+    "note": "Key C verified: 2,4,6-tribromophenol with bromine water. The two monobromo options are fair; bromobenzene is a throwaway. Direct recall."
+  },
+  {
+    "id": "f526f37e-b6e4-4ffb-afeb-da6369a0a985",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.ether-cleavage-by-hi-tertiary",
+    "flags": [],
+    "note": "Key D verified for one equivalent of cold HI. Option C is a real excess-HI trap, excluded by the stated stoichiometry. Tertiary SN1 cleavage is the decisive idea."
+  },
+  {
+    "id": "3e145f1e-c334-4a36-9480-c00b019ed495",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.phenol-nahco3-test-negative",
+    "flags": [],
+    "note": "Key C verified: I and II true, III false (phenol does not release CO2 from NaHCO3). Statements II and III test the same phenol acidity point, so the item is slightly repetitive."
+  },
+  {
+    "id": "6a4e7b4f-47b5-425d-8887-7778fc06e6ee",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.tertiary-carbocation-dehydration-rate",
+    "flags": [],
+    "note": "Key A verified: tertiary carbocation stability explains the faster dehydration. Standard assertion-reason form; option B is the usual trap. No defect found."
+  },
+  {
+    "id": "c53fecad-2f57-4258-be11-13c1ba1da7bb",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.oxidation-products-primary-secondary-alcohols",
+    "flags": [],
+    "note": "Key B verified: PCC to propanal, dichromate to propanoic acid, 2-propanol to propanone, ethanol to ethene. Well-built match list with distinct options."
+  },
+  {
+    "id": "48c754fd-ca11-4ac5-befa-c26c2d651416",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.hydroboration-oxidation-anti-markovnikov",
+    "flags": [],
+    "note": "Key A verified: anti-Markovnikov hydroboration puts OH on C2, giving 2-methylcyclohexan-1-ol. Markovnikov, skeleton and oxidation traps are each a real error."
+  },
+  {
+    "id": "a4538d76-6c2a-4f95-82b7-eb792559e888",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.williamson-synthesis-reagent-choice",
+    "flags": [],
+    "note": "Key C verified: tert-butoxide with iodomethane is the only pairing giving MTBE by SN2. Option A eliminates; option B gives dimethyl ether. Traps are well chosen."
+  },
+  {
+    "id": "705cf90e-079e-4dc2-99b2-3b305b1a4151",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.alcohols-phenols-and-ethers.acid-catalysed-hydration-markovnikov",
+    "flags": [],
+    "note": "Key D verified (Markovnikov hydration). 2-Methylpropan-1-ol is a fair anti-Markovnikov trap; propan-2-ol and butan-2-ol are weak carbon-count distractors."
+  },
+  {
+    "id": "a81ff47e-8241-4c92-9afe-2ac6106b901f",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "chemistry.haloalkanes-and-haloarenes.chiral-centre-four-different-groups",
+    "flags": [],
+    "note": "Key A verified: only 2-chlorobutane has a carbon with four different groups. Direct recall; the other three options are achiral and fair as foils."
+  }
+]

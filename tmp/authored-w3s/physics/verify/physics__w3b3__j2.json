@@ -1,0 +1,182 @@
+[
+  {
+    "id": "14640fcc-4496-4528-84bb-930a5d17bbae",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.threshold-frequency-from-work-function",
+    "flags": [],
+    "note": "Clean one-step f0 = phi/h = 4.83e14 Hz. Distractors: half-value slip (2.07e14), doubled value (8.28e14), speed of light as Hz. Label medium is one level high."
+  },
+  {
+    "id": "b99f8b77-0523-4011-8194-f9f00c0c1ecb",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.slope-of-stopping-potential-graph",
+    "flags": [],
+    "note": "Accurate direct recall. e/h (inverse), h/2e (factor-2 slip) and phi/e (intercept) are decent distractors. Explanation correct, including the intercept giving threshold frequency."
+  },
+  {
+    "id": "3238f380-53b1-4775-b76b-5576a417e983",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.work-function-from-stopping-potential",
+    "flags": [],
+    "note": "Key 2.5 eV verified (4.0 - 1.5). Distractors: sum slip (5.5), stopping potential taken as work function (1.5), photon energy (4.0). Explanation accurate."
+  },
+  {
+    "id": "ff1c150d-b69e-4daf-8ea1-753dcc7ca034",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.intensity-affects-saturation-current",
+    "flags": [],
+    "note": "Key C verified. Explanation says Kmax depends only on frequency; strictly it also depends on the metal's work function. Wording fix, not a flag."
+  },
+  {
+    "id": "2c39441e-d740-4186-869a-98f8013dca61",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-accelerated-charges",
+    "flags": [],
+    "note": "Key 2 root 2 verified (mass 4x, charge 2x, lambda ratio root 8). Solver must supply the charge term from the stem's wording. Label hard is one level high. Distractor 2 is a good mass-only slip."
+  },
+  {
+    "id": "3840357a-d19c-49f6-aa10-173701a99c42",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.de-broglie-wavelength-same-kinetic-energy",
+    "flags": [],
+    "note": "Root 1836 = 42.85, so 42.9 is the closest option, verified. 1836 (mass ratio without the root) and the inverse 1/42.9 are good distractors."
+  },
+  {
+    "id": "3613d550-a4c8-426a-b3ab-2737252b2959",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.photoelectric-equation-quantities",
+    "flags": [],
+    "note": "Key B verified (A-IV, B-III, C-I, D-II). List-II (I) phi = h f0 and (IV) f0 = phi/h are the same equation, so only the option set keeps the key unique. Held at 7."
+  },
+  {
+    "id": "2dd3f1b3-dd5a-4465-83a7-b8da3eb6449f",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.dual-nature-of-radiation-and-matter.threshold-frequency-photon-energy",
+    "flags": [],
+    "note": "Key A correct. The reason restates the explanation almost verbatim and the stem is wordy, so down one point. Not answer_in_stem, since the solver must still judge the link."
+  },
+  {
+    "id": "f2018a0d-8361-4072-b88f-fa2b356c2a4b",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 6,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.atoms.rutherford-scattering-conclusion",
+    "flags": [],
+    "note": "Key A correct. B (neutral alpha), C (insulator foil) and D (electrons heavier) are throwaway, so the item is answered by elimination. Practice-grade distractors."
+  },
+  {
+    "id": "c1e4cf45-80e1-46e1-93d0-c86e37752d8b",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.atoms.bohr-orbit-energy-scaling",
+    "flags": [],
+    "note": "E2/E1 = (-3.4)/(-13.6) = 1/4 verified. Distractors: inverse (4), n-instead-of-n-squared slip (1/2), and 2. Explanation accurate."
+  },
+  {
+    "id": "3d3a5b97-0249-4275-9f58-5fd7ab90a3d3",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.atoms.hydrogen-spectral-series-names",
+    "flags": [],
+    "note": "Key B verified: Lyman n=1 (III), Balmer n=2 (IV), Paschen n=3 (II), Brackett n=4 (I). Each option is a distinct pairing with a plausible swap. Explanation accurate."
+  },
+  {
+    "id": "0ac2e9bd-113f-4e47-bbb4-becf5cfbd80d",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.atoms.rydberg-formula-wavelength",
+    "flags": [],
+    "note": "1/lambda = 5R/36 gives 654.5 nm, so 655 nm verified. 486, 122 and 365 nm each come from a different transition or limit error."
+  },
+  {
+    "id": "447cb804-4233-4e18-bd61-d45642719b58",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.atoms.hydrogen-like-ionisation-energy",
+    "flags": [],
+    "note": "E = 13.6 x 4 = 54.4 eV verified. Formula is given in the stem, so this is a one-step application with a Z-squared trap. Label hard is one level high. 3.4 eV is the weakest distractor."
+  },
+  {
+    "id": "c37ac200-ac31-42a5-b383-c0a8150a1771",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.wave-optics.fringe-width-formula",
+    "flags": [],
+    "note": "beta = lambda D / d = 1.2 mm verified. 0.6 mm and 2.4 mm are factor-2 slips. 1.8 mm has no clear origin and is the one weak distractor."
+  },
+  {
+    "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.wave-optics.huygens-principle-envelope",
+    "flags": [],
+    "note": "Envelope of secondary wavelets is correct; explanation facts (reflection and refraction) are accurate. A and C are ray and focus ideas, throwaway; D is plausible-looking but wrong."
+  },
+  {
+    "id": "dc2ce9a0-e395-4cd7-8eb0-65f3f42725fe",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.wave-optics.diffraction-needs-comparable-size",
+    "flags": [],
+    "note": "Key C verified. B (sound speed) and D (absorption) are irrelevant, A is a common misconception, so two or more weak distractors. Explanation facts hold (audible about 1 cm to 20 m, visible 400 to 700 nm)."
+  },
+  {
+    "id": "0e2ae512-b283-4e41-80ef-31ef6ac18fd1",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.interference-max-min-intensity-ratio",
+    "flags": [],
+    "note": "Key 9 : 1 verified (amplitudes 2 : 1). 3 : 1 is an amplitude-sum slip and 4 : 1 ignores interference. 5 : 1 has no clear error origin, so held at 8."
+  },
+  {
+    "id": "ac790a10-fd25-4723-8101-0ef4ac18fde3",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.wave-optics.single-slit-first-minimum-position",
+    "flags": [],
+    "note": "y = lambda D / a = 3 mm verified. 6 mm (full central width), 1.5 mm (half) and 0.3 mm (slit width) are each a plausible slip. Stem asks distance from centre, so 6 mm is unambiguously wrong."
+  }
+]
