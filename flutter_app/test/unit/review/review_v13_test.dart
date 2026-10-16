@@ -7,6 +7,7 @@ import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/notes/feature_note_view.dart';
 import 'package:mockmob/core/notes/feature_notes.dart';
 import 'package:mockmob/core/notes/sample_row.dart';
+import 'package:mockmob/core/models/repair.dart' show RepairResponse;
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
@@ -16,6 +17,7 @@ import 'package:mockmob/features/review/data/paper_when.dart';
 import 'package:mockmob/features/review/data/repair_check_logic.dart';
 import 'package:mockmob/features/review/data/review_providers.dart';
 import 'package:mockmob/features/review/widgets/mistake_map.dart' show MistakeRow;
+import 'package:mockmob/features/review/widgets/mistake_view.dart' show MistakeView;
 import 'package:mockmob/features/review/widgets/repair_entry_view.dart';
 
 import '../../helpers/fonts.dart';
@@ -305,8 +307,20 @@ void main() {
         const SampleRow(leading: SampleRank(1), value: '172 / 250', title: 'Best mock', note: 'Your subject and the date show here.'),
         size: const Size(390, 200),
       );
-      expect(find.textContaining(SampleRow.tag, findRichText: true), findsOneWidget);
+      expect(find.text(SampleRow.tag), findsOneWidget);
       expect(tester.getSemantics(find.byType(SampleRow)).label, startsWith('Example. Best mock'));
+    });
+  });
+
+  group('the fine print under a repair that was made before (F17)', () {
+    final response = RepairResponse.fromJson(explainedJson(status: 'stored'));
+
+    test('a saved repair says when it was made and that no credit was used', () {
+      expect(MistakeView.finePrint(response, reopened: true, savedWhen: '12 Oct, 10:35 PM'), 'Saved repair from 12 Oct, 10:35 PM. No credit used.');
+    });
+
+    test('without a known time it still says no credit was used and never guesses a date', () {
+      expect(MistakeView.finePrint(response, reopened: true), ReviewCopy.savedRepairNoCredit);
     });
   });
 }

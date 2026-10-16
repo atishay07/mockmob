@@ -81,6 +81,17 @@ Future<void> _answerRight(WidgetTester tester) async {
 void main() {
   reviewGolden('r390_tab', () => const ReviewScreen(), size: _phone, overrides: () => reviewOverrides(records: [repairedRecord]));
   reviewGolden('r390_tab_full', () => const ReviewScreen(), size: const Size(390, 2300), overrides: () => reviewOverrides(records: [repairedRecord]));
+  // The first chapter opened: every mistake names its paper with the date and the 12-hour time, and a repaired one says its saved repair is there and opens free.
+  reviewGolden(
+    'r390_tab_rows_open',
+    () => const ReviewScreen(),
+    size: const Size(390, 2300),
+    overrides: () => reviewOverrides(records: [repairedRecord]),
+    after: (tester) async {
+      await tester.tap(find.text('Partnership: admission of a partner').last);
+      await tester.pumpAndSettle();
+    },
+  );
   reviewGolden('r390_tab_empty', () => const ReviewScreen(), size: _phone, overrides: () => reviewOverrides(attempts: const []));
   reviewGolden(
     'r390_tab_history',

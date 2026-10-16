@@ -246,18 +246,19 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
                 reopen ? ReviewCopy.reopenLead : ReviewCopy.entryMeaning(repairMinutes(n)),
                 style: type.lead.copyWith(color: colors.ink2),
               ),
-              const SizedBox(height: MmSpace.s32),
+              const SizedBox(height: MmSpace.s24),
               MistakeRun(numbers: numbers, state: reopen ? BubbleState.filled : BubbleState.wrong, inkIn: true),
-              const SizedBox(height: MmSpace.s32),
-              // The thread, flat on the ground: where each of these is headed.
-              LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
-              const SizedBox(height: MmSpace.s12),
-              Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
-              // What Repair gives, before any call. What it costs and what is left is pinned above the key.
+              // What Repair gives, before any call, high enough to be read without scrolling. What it
+              // costs and what is left is pinned above the key.
               if (!reopen) ...[
                 const SizedBox(height: MmSpace.s24),
                 _Gives(keyOnly: widget.plan.keyOnly),
               ],
+              const SizedBox(height: MmSpace.s24),
+              // The thread, flat on the ground: where each of these is headed.
+              LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
+              const SizedBox(height: MmSpace.s12),
+              Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
             ],
           ),
           // The pinned band holds the one volt key and, when the wallet is short, the quiet way to

@@ -79,7 +79,7 @@ void main() {
       await _pump(tester, attempts: const []);
       expect(find.text('Nothing to review yet'), findsOneWidget);
       expect(find.text(ReviewCopy.emptyMessage), findsOneWidget);
-      expect(find.textContaining(SampleRow.tag, findRichText: true), findsOneWidget);
+      expect(find.text(SampleRow.tag), findsOneWidget);
       expect(find.text('Start 10 questions'), findsOneWidget);
       expect(find.text('Your mistakes gather here'), findsNothing);
     });
