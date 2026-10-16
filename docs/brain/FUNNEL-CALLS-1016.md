@@ -1,6 +1,6 @@
 # Funnel calls (16 Oct 2026, branch web/funnel-calls-1016)
 
-Not pushed, not deployed. Migration 20261016120000 is NOT applied to production; it was applied to STAGING (onwkqxmjqjrhfbjjdydu) and probed in a rolled-back transaction (first call true, second false, count 1, anon cannot execute, service_role can). Builds on `FUNNEL-INTEGRATION-2026-10-15.md`.
+Not pushed, not deployed. Migration 20261016120100 (renamed from 20261016120000 to keep timestamps unique) is NOT applied to production; it was applied to STAGING (onwkqxmjqjrhfbjjdydu) and probed in a rolled-back transaction (first call true, second false, count 1, anon cannot execute, service_role can). Builds on `FUNNEL-INTEGRATION-2026-10-15.md`.
 
 ## What now calls the funnel (server side)
 
@@ -27,7 +27,7 @@ App versus web is the existing platform column: the server reads the User-Agent 
 
 ## Production steps
 
-1. Review and apply `supabase/migrations/20261016120000_funnel_product_steps.sql` to production (after `20261015233000_funnel_daily.sql`). Undo: `supabase/undo/20261016120000_funnel_product_steps.undo.sql`.
+1. Review and apply `supabase/migrations/20261016120100_funnel_product_steps.sql` to production (after `20261015233000_funnel_daily.sql`). Undo: `supabase/undo/20261016120100_funnel_product_steps.undo.sql`.
 2. Verify: `select has_function_privilege('anon','public.funnel_count_once(text,text,text)','execute')` is false, service_role true, `users.funnel_seen` exists.
 3. Deploy, then set `FUNNEL_ENABLED=true`.
 4. Until the migration is applied, calls fail quietly (one warning code per call) and nothing else changes.

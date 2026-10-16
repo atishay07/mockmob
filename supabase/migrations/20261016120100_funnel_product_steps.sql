@@ -3,7 +3,7 @@
 -- aggregate daily counters. The once-per-user rule is a flag on the person's OWN row (users.funnel_seen, a
 -- list of step names they have already reached); the claim and the counter increment happen in one
 -- transaction inside funnel_count_once, so a person counts once per step and a failure counts nothing.
--- Service role only. Not applied to production by this change. Undo: supabase/undo/20261016120000_funnel_product_steps.undo.sql
+-- Service role only. Not applied to production by this change. Undo: supabase/undo/20261016120100_funnel_product_steps.undo.sql
 
 alter table public.users add column if not exists funnel_seen text[] not null default '{}';
 

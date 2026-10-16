@@ -108,7 +108,7 @@ test('the migration counts each person once per step, atomically, with no id in 
     await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
     await db.exec('create table public.users (id text primary key, name text not null);');
     await db.exec(read('../../supabase/migrations/20261015233000_funnel_daily.sql'));
-    const sql = read('../../supabase/migrations/20261016120000_funnel_product_steps.sql');
+    const sql = read('../../supabase/migrations/20261016120100_funnel_product_steps.sql');
     await db.exec(sql); await db.exec(sql);
     await db.exec("insert into users values ('u1','A'),('u2','B')");
     const once = async (u, s, p = 'desktop') => (await db.query('select funnel_count_once($1,$2,$3) r', [u, s, p])).rows[0].r;
@@ -152,7 +152,7 @@ test('the migration counts each person once per step, atomically, with no id in 
     await assert.rejects(db.query("select funnel_count_once('u1','first_repair','desktop')"), /permission denied/);
     await db.exec('reset role');
     // Undo: the function, the column and the new rows go; the first migration's shape is back; it runs twice.
-    const undo = read('../../supabase/undo/20261016120000_funnel_product_steps.undo.sql');
+    const undo = read('../../supabase/undo/20261016120100_funnel_product_steps.undo.sql');
     await db.exec(undo); await db.exec(undo);
     assert.equal((await db.query("select count(*)::int n from pg_proc where proname='funnel_count_once'")).rows[0].n, 0);
     assert.equal((await db.query("select count(*)::int n from information_schema.columns where table_name='users' and column_name='funnel_seen'")).rows[0].n, 0);
@@ -208,5 +208,5 @@ test('wiring: each call sits at its real step, is fire-and-forget, and the funne
   // The id-free landing path is untouched: the funnel table module never sees a user id or the flag.
   assert.match(read('../../src/lib/server/funnelOnceStore.js'), /schedule: after/);
   assert.doesNotMatch(read('../../src/lib/server/funnelStore.js').replace(/\/\/.*$/gm, ''), /funnel_count_once|funnel_seen/);
-  assert.match(read('../../supabase/migrations/20261016120000_funnel_product_steps.sql'), /update public\.users\s+set funnel_seen = array_append/);
+  assert.match(read('../../supabase/migrations/20261016120100_funnel_product_steps.sql'), /update public\.users\s+set funnel_seen = array_append/);
 });

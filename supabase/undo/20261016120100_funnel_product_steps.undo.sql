@@ -1,4 +1,4 @@
--- Undo for supabase/migrations/20261016120000_funnel_product_steps.sql. NOT a migration: it lives outside
+-- Undo for supabase/migrations/20261016120100_funnel_product_steps.sql. NOT a migration: it lives outside
 -- supabase/migrations so the Supabase CLI never applies it by itself.
 -- Removes the once-per-user function, the per-user flag column and the seven in-product step rows, and puts
 -- the original seven-step whitelist back. Landing and sign-up counts are untouched. While the function is
