@@ -196,7 +196,7 @@ function CutoffTable({ group, catIndex, category, score }) {
         <label className="du-search">
           <Search size={16} aria-hidden="true" />
           <span className="du-sr">Search colleges</span>
-          <input data-du-search type="search" value={query} placeholder="Search a college" autoComplete="off" enterKeyHint="search" onChange={(e) => { setQuery(e.target.value); setShown(PAGE_SIZE); }} />
+          <input data-du-search type="search" value={query} placeholder="Search a college" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="search" onChange={(e) => { setQuery(e.target.value); setShown(PAGE_SIZE); }} />
         </label>
         <div className="du-select">
           <Listbox aria-label="Sort colleges" sheetTitle="Sort colleges" size="sm" placeholder="Sort colleges" value={sort} onChange={setSort}
@@ -607,7 +607,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                     <label className="du-search">
                       <Search size={16} aria-hidden="true" />
                       <span className="du-sr">Search programmes</span>
-                      <input data-du-search type="search" value={query} placeholder="Search programmes" autoComplete="off" enterKeyHint="search" onChange={(e) => setQuery(e.target.value)} />
+                      <input data-du-search type="search" value={query} placeholder="Search programmes" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="search" onChange={(e) => setQuery(e.target.value)} />
                     </label>
                     <div className="du-select">
                       <Listbox aria-label="Sort programmes" sheetTitle="Sort programmes" size="sm" value={sort} onChange={setSort}

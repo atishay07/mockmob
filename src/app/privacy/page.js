@@ -2,6 +2,7 @@ import React from 'react';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { seoMetadata } from '@/lib/seo';
+import { APP_STREAM_AND_REPORT_LIVE } from '@/lib/appReleaseGates.mjs';
 
 export const metadata = seoMetadata({
   title: 'Privacy Policy | MockMob',
@@ -31,6 +32,8 @@ export default function PrivacyPage() {
             <h2>Optional usage data (from 12 October 2026)</h2>
             <p>If you confirm you are 18 or older, you can choose Allow usage data to improve MockMob in Profile. It is off by default and stays off for people under 18 or who have not said. When on, we record which screens and steps were used, such as starting a session or opening a result, with the app version. We never collect answers, marks, free text or contacts. It is first-party only: no third-party tracking and no advertising. We keep it for 180 days. You can withdraw at any time, and withdrawing deletes what was collected.</p>
           </section>
+          {/* Held until the app build with the stream events and the Report this reply button is live (appReleaseGates.mjs). */}
+          {APP_STREAM_AND_REPORT_LIVE ? (<>
           <section>
             <h2>Question stream activity (required in the app)</h2>
             <p>When you are signed in, the Android app sends three kinds of event about the questions in the question stream: seen (a question was shown to you), attempted (you picked an answer; the event carries the option you picked and whether it was right) and skip (you moved on without answering). Each event carries your account, the question, how you were using the stream and how long the question was on screen. We need these to run the app: they update your learning progress, and they let us check that a like or a save comes from someone who actually saw the question. They are a required part of using the stream, separate from the optional usage data above, so turning that off does not stop them. They are first-party only, never used for advertising and never shared with anyone else. They are kept with your account and deleted with it, within 30 days of a deletion request.</p>
@@ -39,6 +42,7 @@ export default function PrivacyPage() {
             <h2>Reporting an AI reply</h2>
             <p>Replies written by AI in the app have a Report this reply button. When you use it, we keep the reason you chose (from a short list), the text of that reply, and the date, linked to your account, so we can check the reply and improve it. You can only report a reply you were sent. We read reports to check replies; we do not use them for advertising. They are deleted with your account.</p>
           </section>
+          </>) : null}
           <section>
             <h2>Android app</h2>
             <p>The Android app stores your push notification token so we can send reminders, plus your notification preferences and study goal. These are linked to your account and removed when your account is deleted. You can turn notifications off in the app or in your phone settings.</p>

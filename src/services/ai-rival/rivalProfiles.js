@@ -9,7 +9,7 @@ export const RIVAL_PROFILES = {
   NORTH_CAMPUS_RIVAL: {
     name: 'Daily Benchmark',
     archetype: 'daily benchmark',
-    description: 'A short daily pressure check. Good for proving you can execute today without taking a full mock.',
+    description: 'A short daily check. Good for proving you can execute today without taking a full mock.',
     freeAllowed: true,
     paidAllowed: true,
     tier: 'basic',

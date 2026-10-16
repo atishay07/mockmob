@@ -102,7 +102,7 @@ export default function ComboPlanner() {
         <label className="du-finder cp-search">
           <Search size={18} aria-hidden="true" />
           <span className="du-sr">Search DU programmes</span>
-          <input data-du-search type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all 73 programmes" autoComplete="off" enterKeyHint="search" />
+          <input data-du-search type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all 73 programmes" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} enterKeyHint="search" />
         </label>
         {matches.length ? (
           <ul className="cp-results">{matches.map((g) => (

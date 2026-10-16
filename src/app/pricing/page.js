@@ -342,10 +342,10 @@ export default async function PricingPage() {
                 </details>
               ))}
             </div>
-            <p className="mm-small" style={{ marginTop: '2rem' }}>
+            <p className="mm-small" style={{ marginTop: '2rem', lineHeight: 1.5 }}>
               Need team or institute pricing?{' '}
               <a
-                className="mm-link"
+                className="mm-link mm-link--inline"
                 href="mailto:support@mockmob.in?subject=Team%20%2F%20institute%20pricing"
               >
                 Email us
@@ -357,7 +357,7 @@ export default async function PricingPage() {
       </main>
 
       <MarketingFooter />
-      <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label={offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`} href="#plans" checkoutAware isPremium={isCurrentUserPremium} />
+      <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label={offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`} href="#plans" checkoutAware isPremium={isCurrentUserPremium} hideAtFooter />
     </div>
   );
 }

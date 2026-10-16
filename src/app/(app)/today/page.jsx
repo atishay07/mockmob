@@ -63,8 +63,9 @@ export default function Today() {
         <LearningNextAction why={top} moment={weekGoal} />
         <FirstTimedMock prompt={firstTimed} />
         <div className="today-record">
-          <TodayCompass />
+          {/* This week first; the Compass line names the first of My colleges, so it sits right above that list. */}
           <RhythmCard compact quietMet={Boolean(weekGoal)} />
+          <TodayCompass />
           <TodayColleges userId={user?.id} />
           <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} link={!top} />
         </div>

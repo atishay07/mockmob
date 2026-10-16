@@ -20,6 +20,8 @@
 .pip-drill-result { width: 78px; height: 90px; margin: 0 auto 12px; }
 .pip-state { width: 64px; min-height: 74px; margin-bottom: 12px; }
 .mm .mm-link { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+/* A link inside a sentence stays inline, so the line keeps its leading; the padding still widens the tap area. */
+.mm .mm-link.mm-link--inline { display: inline; min-height: 0; min-width: 0; padding-block: 12px; }
 .mm .mm-crumbs a { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; }
 .mm a[href='/refunds'] { display: inline-flex; align-items: center; min-height: 44px; }
 @media (max-width: 420px) { .mm .ml__tiles { gap: 3px; } }

@@ -51,11 +51,25 @@ export const DU_SEARCH_ALIASES = Object.freeze({
 
 /** The query's words after aliases ("bcom hons" -> b, com, hons). */
 export function duQueryTokens(q) {
-  const out = [];
-  for (const t of duNormalise(q).split(' ')) {
-    if (!t) continue;
-    out.push(...(DU_SEARCH_ALIASES[t] ?? t).split(' '));
+  return queryTokenInfo(q).map((x) => x.t);
+}
+
+/**
+ * The query's words with whether each must match a whole candidate word. A word that comes from an
+ * alias standing for several words ("bcom" -> b, com), or a typed pair that spells one ("b com"), is a
+ * complete word: "com" there must not reach into "Computer" or "Communication".
+ */
+function queryTokenInfo(q) {
+  const words = duNormalise(q).split(' ').filter(Boolean);
+  const whole = new Array(words.length).fill(false);
+  for (let i = 0; i + 1 < words.length; i++) {
+    if (DU_SEARCH_ALIASES[words[i] + words[i + 1]] === `${words[i]} ${words[i + 1]}`) whole[i] = whole[i + 1] = true;
   }
+  const out = [];
+  words.forEach((t, i) => {
+    const parts = (DU_SEARCH_ALIASES[t] ?? t).split(' ');
+    for (const part of parts) out.push({ t: part, whole: whole[i] || parts.length > 1 });
+  });
   return out;
 }
 
@@ -98,14 +112,19 @@ function rank(query, qc, candidate) {
   if (!cc) return null;
   if (cc.startsWith(qc)) return 0;
   if (qc.length >= 3 && cc.includes(qc)) return 1;
-  const qt = duQueryTokens(query);
-  if (!qt.length) return null;
+  const info = queryTokenInfo(query);
+  if (!info.length) return null;
+  const qt = info.map((x) => x.t);
   const ct = candidateTokens(candidate);
   const aliased = qt.join('');
   if (aliased !== qc && cc.startsWith(aliased)) return 0;
-  if (qt.every((q) => ct.some((c) => c.startsWith(q)))) return 2;
-  const fuzzy = qt.every((q) => {
-    if (ct.some((c) => c.startsWith(q))) return true;
+  // A whole word matches only a whole word; any other word may start a longer one.
+  const hit = ({ t, whole }) => ct.some((c) => (whole ? c === t : c.startsWith(t)));
+  if (info.every(hit)) return 2;
+  const fuzzy = info.every((x) => {
+    if (hit(x)) return true;
+    if (x.whole) return false;
+    const q = x.t;
     if (q.length < 5) return false;
     const allowed = q.length >= 8 ? 2 : 1;
     // A slip inside a word, or across a space the student left out ("hans raj" / "hansrj").

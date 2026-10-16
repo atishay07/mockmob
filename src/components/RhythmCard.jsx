@@ -64,7 +64,8 @@ function WeekRing({ rhythm, armed, size }) {
       </svg>
       <span className="rc-ring__count" aria-hidden="true">
         <b>{shown}</b>
-        <small>of {goal} study days</small>
+        {/* The compact Today ring (about 80px) has no room for "study days" inside the stroke. */}
+        <small>{size >= 110 ? `of ${goal} study days` : `of ${goal} days`}</small>
       </span>
     </div>
   );

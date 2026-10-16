@@ -152,23 +152,24 @@
 /* ---------- Weekly goal ---------- */
 .app-shell .acct-goal { display: grid; gap: 14px; min-width: 0; }
 .app-shell .acct-goal__q { margin: 0; font: 600 15px/1.4 var(--font-body); color: var(--a-ink); }
-.app-shell .acct-goal__days { display: grid; grid-template-columns: repeat(7, minmax(44px, 1fr)); gap: clamp(2px, 1.2vw, 8px); max-width: 460px; }
+.app-shell .acct-goal__days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(2px, 1.2vw, 8px); max-width: 460px; min-width: 0; }
 .app-shell .acct-day {
-  display: grid; place-items: center; height: 44px; min-width: 0; padding: 0; border: 1.5px solid var(--a-line-strong); border-radius: 999px;
+  display: grid; place-items: center; width: 100%; height: 44px; min-width: 0; padding: 0; border: 1.5px solid var(--a-line-strong); border-radius: 999px;
   background: transparent; color: var(--a-ink-2); font: 700 15px/1 var(--font-display); font-variant-numeric: tabular-nums; cursor: pointer; touch-action: manipulation;
   transition: background-color 160ms var(--a-ease), border-color 160ms var(--a-ease), color 160ms var(--a-ease), transform 100ms var(--a-ease);
   transition-delay: var(--acct-delay, 0ms);
 }
 .app-shell .acct-day--wd { font-size: 13px; letter-spacing: 0; }
 @media (max-width: 420px) { .app-shell .acct-goal__days { gap: 6px; } .app-shell .acct-day--wd { font-size: 12px; } }
+@media (max-width: 340px) { .app-shell .acct-goal__days { gap: 4px; } .app-shell .acct-day--wd { font-size: 11px; } }
 .app-shell .acct-day:active:not(:disabled) { transform: scale(0.94); }
 .app-shell .acct-day:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 .app-shell .acct-day:disabled { cursor: not-allowed; opacity: 0.6; }
 @media (hover: hover) and (pointer: fine) { .app-shell .acct-day:hover:not(:disabled):not([data-study='true']):not([aria-checked='true']) { border-color: var(--a-line-hover); background: var(--a-hover); } }
 .app-shell .acct-day[data-study='true'] { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-bg); }
 .app-shell .acct-day[aria-checked='true'] { background: var(--volt, #d2f000); border-color: var(--volt, #d2f000); color: #0b1000; }
-.app-shell .acct-goal__split { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.app-shell .acct-goal__counts { margin: 0; max-width: 56ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); }
+.app-shell .acct-goal__split { margin: 0; min-width: 0; overflow-wrap: anywhere; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .acct-goal__counts { margin: 0; max-width: 56ch; min-width: 0; overflow-wrap: anywhere; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); }
 .app-shell .acct-goal__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
 
 /* ---------- Community and help: a typographic list, label over note, hairlines between ---------- */

@@ -512,10 +512,13 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
   const wide = useWide();
   const rootRef = useRef(null);
   // The score is the first thing seen: a submit tapped low on a phone would otherwise leave the
-  // result scrolled past its own headline. Instant, before the first part lands.
+  // result scrolled past its own headline, or tucked under the sticky top bar. Instant, before the
+  // first part lands; .rv-root's scroll-margin-top (76px) lands the headline below the bar.
   useLayoutEffect(() => {
     const node = rootRef.current;
-    if (node && node.getBoundingClientRect().top < 0) node.scrollIntoView({ block: 'start' });
+    if (!node) return;
+    const margin = parseFloat(getComputedStyle(node).scrollMarginTop) || 0;
+    if (node.getBoundingClientRect().top < margin) node.scrollIntoView({ block: 'start' });
   }, []);
   useEffect(() => {
     if (prefs.reduced) {
@@ -568,7 +571,7 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
         </div>
       </header>
 
-      <section className="rv-compare" aria-label="How you compare">
+      <section className="rv-compare" aria-label="How you compare" data-in={shown('comparison') ? 'true' : 'false'}>
         <ResultStat part={partProps('comparison', { style: { '--i': 0 } })} label="Your accuracy" value={`${result.user.accuracy}%`} note={accuracyLine} />
         <ResultStat part={partProps('comparison', { style: { '--i': 1 } })} label="Benchmark accuracy" value={`${result.rival.accuracy}%`} note={`${battle.profile.name}, a simulated benchmark`} />
         <ResultStat part={partProps('comparison', { style: { '--i': 2 } })} label="Your time" value={formatSeconds(result.user.totalTimeSeconds)} note={Number.isFinite(result.rival.totalTimeSeconds) ? `Benchmark ${formatSeconds(result.rival.totalTimeSeconds)}` : null} />
@@ -595,9 +598,6 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
         <div className="rv-part" {...partProps('next')}>
           <h2 className="text-[13px] font-semibold text-volt">Next move</h2>
           <p className="mt-2 text-sm leading-6 text-zinc-300">{result.outro?.nextMove || result.nextMoveHint}</p>
-          <p className="mt-2 text-xs leading-5 text-zinc-500">
-            Share text: {share.headline || 'Shadow Benchmark result'}, score {share.score ?? result.user.score} vs {share.rivalScore ?? result.rival.score}.
-          </p>
         </div>
         <div className={`rv-part flex flex-wrap gap-2 ${reaction ? 'col-span-2 lg:col-span-1' : ''}`} {...partProps('next', { style: { '--i': 1 } })}>
           <button
@@ -766,7 +766,7 @@ function serverStartError(data) {
 function formatFreeRival(usage) {
   const value = usage?.remaining?.basicRivalBattles;
   if (value === 'unlimited' || value === Infinity) return 'unlimited';
-  if (value === undefined || value === null) return '--';
+  if (value === undefined || value === null) return '—';
   return value;
 }
 

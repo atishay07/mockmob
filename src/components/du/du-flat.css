@@ -103,6 +103,9 @@
 .cp .cp-combo__go { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 
 /* Search fields on phones: the field stays below the sticky header when scrolled into view, and the
-   suggestion list never runs under the on-screen keyboard (--du-vv-h is the visual viewport, set by useAboveKeyboard). */
-.du-search input, .du-finder input { scroll-margin-top: 5.5rem; scroll-margin-bottom: 1rem; }
-.cp .cp-results { max-height: calc(var(--du-vv-h, 100dvh) - 9rem); overflow-y: auto; overscroll-behavior: contain; }
+   suggestion list never runs under the on-screen keyboard (--du-vv-h is the visual viewport, set by useAboveKeyboard).
+   --du-clear is the sticky stack's height (nav, plus the summary bar when it shows), set by the hook on focus. */
+.du-search input, .du-finder input { scroll-margin-top: var(--du-clear, 5.5rem); scroll-margin-bottom: 1rem; }
+/* Before the hook has measured: below 1100px the calculator's summary bar sits under the nav, so clear both. */
+@media (max-width: 1099.98px) { .du-app:has(> .du-sum) .du-search input { scroll-margin-top: var(--du-clear, 9rem); } }
+.cp .cp-results { max-height: calc(var(--du-vv-h, 100dvh) - var(--du-clear, 5.5rem) - 3.5rem); overflow-y: auto; overscroll-behavior: contain; }

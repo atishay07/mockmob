@@ -240,6 +240,8 @@ test('the privacy page names the required stream events and the AI reply report 
   assert.match(page, /separate from the optional usage data/);
   assert.match(page, /Reporting an AI reply/);
   assert.match(page, /They are deleted with your account/);
+  // Both sections stay held behind the app release gate until the app build that has them is live.
+  assert.match(page, /APP_STREAM_AND_REPORT_LIVE \? \(/);
 });
 
 test('account deletion removes the reports', async () => {

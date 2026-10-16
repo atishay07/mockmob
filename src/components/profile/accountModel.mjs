@@ -102,7 +102,7 @@ export const GOAL_COPY = Object.freeze({
   title: 'Weekly goal',
   question: 'Which days do you want to study?',
   noDaysYet: 'Choose at least one day.',
-  counts: 'A study day is a day you finish a practice, a mock or a repair. Today and Progress plan around this number.',
+  counts: 'A study day is a day you finish a scored session of at least 5 answers, or a Mistake Repair. Today and Progress plan around this number.',
   save: 'Save goal',
   saving: 'Saving',
   loadFailedTitle: 'We could not load your goal',

@@ -105,3 +105,15 @@ test('the real DU programme list: every B.Com spelling leads with B.Com.', () =>
   const eco = duSearch('eco', idx.groups, (g) => g.name).map((g) => g.name);
   assert.ok(eco.includes('B.A. (Hons.) Economics'));
 });
+
+test('the real DU programme list: a B.Com spelling does not pull in Computer or Communication degrees', () => {
+  const idx = JSON.parse(readFileSync(new URL('../../public/du/2026/index.json', import.meta.url), 'utf8'));
+  const names = (q) => duSearch(q, idx.groups, (g) => g.name).map((g) => g.name);
+  for (const q of ['bcom', 'b com', 'bcom hons', 'b.com']) {
+    const hits = names(q);
+    assert.ok(hits.length >= 1 && hits.every((n) => n.startsWith('B.Com')), `${q}: ${hits.join(' | ')}`);
+  }
+  // A student still typing a longer word keeps prefix matching.
+  assert.ok(names('comp sci').some((n) => /Computer Science/.test(n)));
+  assert.ok(names('mass comm').some((n) => /Mass Communication/.test(n)));
+});

@@ -52,6 +52,9 @@ export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) 
           onChange={(e) => onQuery(e.target.value)}
           placeholder="Find a subject"
           autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
         />
         {query ? (
           <button type="button" className="du-finder__clear" onClick={() => { onQuery(''); finderRef.current?.focus(); }} aria-label="Clear search">

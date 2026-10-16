@@ -37,7 +37,7 @@ export const FAQ_ITEMS = Object.freeze([
     id: 'study-days',
     question: 'What counts as a study day?',
     answer: Object.freeze([
-      'A day on which you finish a practice, a mock or a repair. Your weekly goal is how many study days you aim for in a week. You set it in Account, under Weekly goal.',
+      'A day on which you finish a scored session of at least 5 answers (a practice or a mock), or a Mistake Repair. Your weekly goal is how many study days you aim for in a week. You set it in Account, under Weekly goal.',
       'MockMob counts only the days you finished something. Going away? Pause study days in the app and your run is kept. Account shows the pause.',
     ]),
   }),

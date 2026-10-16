@@ -3224,6 +3224,10 @@ body:has(.mm) {
     gap: 0.625rem;
     margin: 0;
     padding: 0 0 0 1.1rem;
+    list-style: disc;
+  }
+  .mm-plans__note li::marker {
+    color: var(--ink-3);
   }
   .mm-plans__note a {
     justify-self: start;

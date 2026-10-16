@@ -17,18 +17,30 @@ export function useAboveKeyboard() {
     const root = document.documentElement;
     const isField = (el) => el instanceof HTMLElement && el.hasAttribute(DU_SEARCH_ATTR);
     const reduced = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    // How far down the sticky stack reaches: the nav alone (5.5rem), or the nav plus a sticky summary
+    // bar (.du-sum, shown below 1100px once subjects are picked), measured where it sticks, plus a gap.
+    const stickyClear = () => {
+      const sum = document.querySelector('.du-sum');
+      if (sum) {
+        const cs = getComputedStyle(sum);
+        if (cs.display !== 'none' && cs.position === 'sticky') return Math.round((parseFloat(cs.top) || 0) + sum.offsetHeight + 12);
+      }
+      return 88;
+    };
     const reveal = () => {
       const field = document.activeElement;
       if (!isField(field)) return;
+      const clear = stickyClear();
       root.style.setProperty('--du-vv-h', `${Math.round(vv.height)}px`);
+      root.style.setProperty('--du-clear', `${clear}px`);
       const r = field.getBoundingClientRect();
-      // Keep the field in the upper part of what is visible so its results show below it, above the keyboard.
-      if (r.top < 8 || r.bottom > vv.height * 0.45) {
+      // Keep the field in the upper part of what is visible, below the sticky bars, so its results show below it, above the keyboard.
+      if (r.top < clear || r.bottom > Math.max(vv.height * 0.45, clear + r.height + 4)) {
         field.scrollIntoView({ block: 'start', behavior: reduced() ? 'auto' : 'smooth' });
       }
     };
     const onFocusIn = (e) => { if (isField(e.target)) { reveal(); window.setTimeout(reveal, 320); } };
-    const onFocusOut = (e) => { if (isField(e.target)) root.style.removeProperty('--du-vv-h'); };
+    const onFocusOut = (e) => { if (isField(e.target)) { root.style.removeProperty('--du-vv-h'); root.style.removeProperty('--du-clear'); } };
     document.addEventListener('focusin', onFocusIn);
     document.addEventListener('focusout', onFocusOut);
     vv.addEventListener('resize', reveal);
@@ -37,6 +49,7 @@ export function useAboveKeyboard() {
       document.removeEventListener('focusout', onFocusOut);
       vv.removeEventListener('resize', reveal);
       root.style.removeProperty('--du-vv-h');
+      root.style.removeProperty('--du-clear');
     };
   }, []);
 }

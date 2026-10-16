@@ -5,10 +5,13 @@
 .app-shell .sb-block { display: grid; gap: 16px; min-width: 0; }
 .app-shell .sb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .app-shell .sb-head .rc-h { margin: 0; }
+/* On Progress these are section heads like Concept checks and Your exam playbook (recovery/overview.css): same size. */
+.app-shell .student-page--progress .sb-head .rc-h { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+@media (max-width: 639px) { .app-shell .student-page--progress .sb-head .rc-h { font-size: 19px; } }
 .app-shell .sb-count { margin: 0; font-size: 13px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 .app-shell .sb-empty { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); max-width: 56ch; }
 .app-shell .sb-retry { justify-self: start; }
-.app-shell .sb-link { color: var(--a-accent-text); font-weight: 650; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.app-shell .sb-link { white-space: nowrap; color: var(--a-accent-text); font-weight: 650; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .app-shell .sb-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
 .app-shell .sb-foot { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--a-ink-3); max-width: 62ch; }
 

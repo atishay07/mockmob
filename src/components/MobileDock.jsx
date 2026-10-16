@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useSyncExternalStore } from 'react';
+import React, { useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
@@ -11,8 +11,10 @@ import '@/app/nav-motion.css';
 // job, so the bar is display:none rather than duplicated.
 // On /pricing (checkoutAware) the dock follows the plan card: it never invites a payment while
 // one is confirming, after money may have moved, or once Pro is active.
-export function MobileDock({ note = 'Free to start. No card.', label, href, checkoutAware = false, isPremium = false }) {
+// hideAtFooter: the bar slides away as the page footer comes into view (96px early, its own height), so it never sits over the footer links.
+export function MobileDock({ note = 'Free to start. No card.', label, href, checkoutAware = false, isPremium = false, hideAtFooter = false }) {
   const { isAuthenticated } = useAuth();
+  const atFooter = useFooterInView(hideAtFooter);
   const pathname = usePathname();
   const checkout = useSyncExternalStore(subscribeCheckoutStatus, readCheckoutStatus, readCheckoutStatusOnServer);
   const stage = !checkoutAware ? 'open' : isPremium || checkout === 'active' ? 'active' : checkout;
@@ -36,8 +38,9 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, chec
 
   return (
     <>
-      <div className="mm-dockpad" aria-hidden="true" />
-      <div className="mm-dock" data-motion-dock="true">
+      {/* With hideAtFooter the bar leaves before the footer arrives, so no pad is needed below the footer. */}
+      {hideAtFooter ? null : <div className="mm-dockpad" aria-hidden="true" />}
+      <div className="mm-dock" data-motion-dock="true" data-hidden={atFooter ? 'true' : undefined} inert={atFooter ? true : undefined}>
         <p className="mm-dock__note">{resolvedNote}</p>
         {/* A jump within this page (the landing's "/#try-practice") never needs the route prefetched. */}
         <Link href={resolvedHref} prefetch={resolvedHref.split('#')[0] === pathname ? false : undefined} className="mm-btn mm-btn--primary">
@@ -46,4 +49,17 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, chec
       </div>
     </>
   );
+}
+
+function useFooterInView(enabled) {
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    if (!enabled || typeof IntersectionObserver === 'undefined') return undefined;
+    const foot = document.querySelector('.mm-foot');
+    if (!foot) return undefined;
+    const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold: 0, rootMargin: '0px 0px 96px 0px' });
+    io.observe(foot);
+    return () => io.disconnect();
+  }, [enabled]);
+  return enabled && inView;
 }
