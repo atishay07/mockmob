@@ -54,6 +54,7 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'rival_battles', action: 'delete', match: own(), why: 'rival battles' },
   { table: 'mentor_messages', action: 'delete', match: own(), why: 'mentor chat' },
   { table: 'mentor_sessions', action: 'delete', match: own(), why: 'mentor chat' },
+  { table: 'ai_reply_reports', action: 'delete', match: own(), why: 'reports about AI replies' },
   { table: 'ai_usage_logs', action: 'delete', match: own(), why: 'AI usage log' },
   { table: 'ai_credit_reservations', action: 'delete', match: own(), why: 'operational credit holds (final charges stay in the ledger)' },
   { table: 'ai_credit_wallets', action: 'delete', match: own(), why: 'wallet balance is forfeited with the account' },
