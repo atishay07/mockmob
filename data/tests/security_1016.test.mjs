@@ -99,7 +99,7 @@ const sql = (rel) => readFileSync(resolve(root, rel), 'utf8');
 const code = (text) => text.split('\n').filter((l) => !l.trim().startsWith('--')).join('\n').toLowerCase();
 
 test('migration 20261016140000: browser roles lose every grant on public.questions, service_role keeps it', () => {
-  const up = code(sql('supabase/migrations/20261016140000_questions_private_to_browser_roles.sql'));
+  const up = code(sql('supabase/migrations/20261016141000_questions_private_to_browser_roles.sql'));
   assert.match(up, /revoke all on public\.questions from anon, authenticated;/);
   assert.match(up, /grant all on public\.questions to service_role;/);
   assert.doesNotMatch(up, /grant[^;]*\bto\b[^;]*\b(anon|authenticated|public)\b/, 'nothing is granted to a browser role');
@@ -107,7 +107,7 @@ test('migration 20261016140000: browser roles lose every grant on public.questio
 });
 
 test('undo 20261016140000: puts the default grants back and lives outside supabase/migrations', () => {
-  const down = code(sql('supabase/undo/20261016140000_questions_private_to_browser_roles.undo.sql'));
+  const down = code(sql('supabase/undo/20261016141000_questions_private_to_browser_roles.undo.sql'));
   assert.match(down, /grant all on public\.questions to anon, authenticated;/);
 });
 
