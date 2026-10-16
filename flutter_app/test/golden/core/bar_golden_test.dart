@@ -1,4 +1,5 @@
-// The bar (docs/brain/ui-phase2/DOCK.md 9.3, geometry app-ia-1016.md section 4): contact sheets
+// The bar (NAV-1017 section 6, Option A1: five tabs in a glass capsule and the round volt Start
+// key beside it on one 64 dp row; GLASS-1017 5.4 to 5.6): contact sheets
 // of its states and of the lens travelling, Night and Day. Each sheet stacks the bottom of a phone (content behind the glass,
 // the scrim, the capsule and the bar) for one state per row, so the bar is judged over real
 // content, not on a flat ground.
@@ -54,8 +55,9 @@ class _Shot {
   /// A narrower phone (the bar is laid out for this width, at the left of the frame).
   final double? width;
 
-  /// Draws the measuring lines of app-ia 4.2 over the bar: the icon centre line (y 23), the
-  /// pill centre (y 32, compact 38), the label centre line (y 46) and every slot's centre.
+  /// Draws the measuring lines of NAV-1017 6.1 over the bar: the icon centre line (y 23), the
+  /// row's centre (y 32, compact 38), the label centre line (y 46), the capsule's and the key's
+  /// top and bottom edges, every slot's centre and the key's centre.
   final bool ruler;
 }
 
@@ -74,8 +76,10 @@ class _RulerPainter extends CustomPainter {
     final e = compact ? 1.0 : 0.0;
     final ys = <double>[
       geo.iconRect(0, collapse: e).center.dy,
-      geo.pillRect(0, collapse: e).center.dy,
+      geo.capsuleShape(e).center.dy,
       if (!compact) MmBar.labelTop + MmBar.labelHeight / 2,
+      geo.capsuleShape(e).top,
+      geo.capsuleShape(e).bottom - 0.5,
     ];
     for (final y in ys) {
       canvas.drawLine(Offset(0, y), Offset(size.width, y), line);
@@ -84,6 +88,8 @@ class _RulerPainter extends CustomPainter {
       final x = geo.slotCenter(i);
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), line);
     }
+    final k = geo.keyBox.center.dx;
+    canvas.drawLine(Offset(k, 0), Offset(k, size.height), line);
   }
 
   @override
@@ -134,7 +140,7 @@ class _Scene extends StatelessWidget {
               child: Center(
                 child: LiveCapsule(
                   live: shot.live,
-                  width: geo.width - 32,
+                  width: geo.width,
                   collapse: shot.compact ? kAlwaysCompleteAnimation : kAlwaysDismissedAnimation,
                   quality: shot.quality,
                 ),
@@ -222,16 +228,20 @@ void main() {
     _Shot(branch: 0, startPressed: true),
   ]);
 
-  // app-ia 4.5: the six slots at 360, 390 and 412 dp, expanded and compact, each with the ruler of
-  // 4.2 drawn over it (icon centres, the pill centre, the label line, every slot centre) and
-  // then clean.
-  for (final width in const [360.0, 390.0, 412.0]) {
-    _barSheet('bar_six_${width.toInt()}', [
+  // NAV-1017 6.1 and check A3: the split row at 320, 360, 390 and 412 dp. Today expanded with the
+  // ruler (icon line, row centre, label line, capsule and key edges, every slot centre and the
+  // key's); Practice with Review's count and Colleges' dot; You; Review compact with the ruler;
+  // Colleges compact; Practice and Colleges at text scale 1.2 (the bar's clamp), where the lens
+  // must still hold the icon and the whole word.
+  for (final width in const [320.0, 360.0, 390.0, 412.0]) {
+    _barSheet('bar_split_${width.toInt()}', [
       _Shot(branch: 0, width: width, ruler: true),
-      _Shot(branch: 3, width: width, badges: const BarBadges(reviewCount: 3, collegesDot: true)),
+      _Shot(branch: 1, width: width, badges: const BarBadges(reviewCount: 3, collegesDot: true)),
       _Shot(branch: 4, width: width),
       _Shot(branch: 2, width: width, compact: true, ruler: true),
       _Shot(branch: 3, width: width, compact: true),
+      _Shot(branch: 1, width: width, textScale: 1.2, badges: const BarBadges(reviewCount: 3)),
+      _Shot(branch: 3, width: width, textScale: 1.2),
     ], size: Size(width, kNightSize.height));
   }
 
@@ -273,7 +283,7 @@ void main() {
   ]);
 
   // Large text (labels scale down, never clip, the bar keeps its height; the icons never scale)
-  // and a 320 dp phone (8 dp gutters, six 48.7 dp slots), expanded and compact.
+  // and a 320 dp phone (8 dp gutters, five 45.6 dp slots), expanded and compact.
   _barSheet('bar_text', [
     const _Shot(branch: 1, textScale: 1.3, badges: BarBadges(reviewCount: 3)),
     const _Shot(branch: 1, textScale: 2, badges: BarBadges(reviewCount: 3)),
@@ -286,11 +296,10 @@ void main() {
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
 
-    // The lens from Practice to Review, across Start, at 0, 40, 80, 130, 200 and 420 ms (top to
-    // bottom): the leading edge runs ahead, the trailing edge follows, the lens slides under
-    // Start (which dips), the old icon empties to its outline (160 ms), and the new one fills
-    // (200 ms) only once the lens has nearly arrived (no volt on the target before the leading
-    // edge passes 70% of its travel). Then Review back to Today, leftward.
+    // The lens from Practice to Review at 0, 40, 80, 130, 200 and 420 ms (top to bottom): the
+    // leading edge runs ahead, the trailing edge follows, the old icon empties to its outline
+    // (160 ms), and the new one fills (200 ms) only once the lens has nearly arrived (past 70%
+    // of its travel). Then Review back to Today, leftward. The key never moves.
     for (final (name, from, to) in const [('right', 1, 2), ('left', 2, 0)]) {
       testWidgets('bar travel $name (frames), $tag', (tester) async {
         final branch = ValueNotifier(from);

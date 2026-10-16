@@ -107,7 +107,7 @@ void main() {
       expect(driver.selections, 0);
     });
 
-    testWidgets('Start reports its circle, 64 dp at the row's trailing end, for the morph (NAV-1017 6.1)', (tester) async {
+    testWidgets("Start reports its circle, 64 dp at the row's trailing end, for the morph (NAV-1017 6.1)", (tester) async {
       final starts = <Rect>[];
       await pumpMockmob(
         tester,
