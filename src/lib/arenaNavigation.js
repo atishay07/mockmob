@@ -14,7 +14,7 @@ export function arenaNavigation(moderator = false) {
     { label: 'Study', items: STUDY_NAV },
     { label: 'Planning', items: [item('analytics', 'Weak chapters', 'radar', '/analytics'), item('admission-compass', 'Compass', 'compass', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
     { label: 'Community', items: [item('leaderboard', 'Ranks', 'ranks'), item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] },
-    { label: 'Account', items: [item('profile', 'Account', 'account')] },
+    { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help', 'help')] },
   ];
 }
 export const MOBILE_STUDY_NAV = STUDY_NAV.filter((tab) => ['today', 'dashboard', 'learn', 'review'].includes(tab.id));

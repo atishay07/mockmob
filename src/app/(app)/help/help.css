@@ -1,0 +1,33 @@
+/* Help: a ruled accordion on the Arena tokens (Night and Day) and a write-to-us row. No cards.
+   The answer height eases with grid rows; everything is still under reduced motion. */
+.help { max-width: 760px; }
+.help .pr-head { margin-bottom: 28px; }
+.help__h { margin: 0 0 6px; font: 800 18px var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
+.help__list { border-top: 1px solid var(--a-line); }
+.help-q { border-bottom: 1px solid var(--a-line); }
+.help-q__h { margin: 0; font: inherit; }
+.help-q__btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; width: 100%; min-height: 56px; padding: 12px 2px;
+  background: transparent; border: 0; color: var(--a-ink); font: 700 16px/1.35 var(--font-display); text-align: left; cursor: pointer;
+}
+.help-q__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+.help-q__chev { flex: none; color: var(--a-ink-3); transition: transform 220ms var(--a-ease); }
+.help-q[data-open='true'] .help-q__chev { transform: rotate(180deg); }
+@media (hover: hover) and (pointer: fine) { .help-q__btn:hover .help-q__chev { color: var(--a-ink); } }
+.help-q__panel { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 240ms var(--a-ease); }
+.help-q[data-open='true'] .help-q__panel { grid-template-rows: 1fr; }
+.help-q__inner { overflow: hidden; min-height: 0; }
+.help-q__inner p { margin: 0 0 10px; max-width: 62ch; font-size: 15px; line-height: 1.6; color: var(--a-ink-2); }
+.help-q__inner p:last-child { margin-bottom: 18px; }
+.help-write {
+  display: flex; align-items: center; gap: 14px; margin-top: 28px; padding: 14px 2px; min-height: 56px; text-decoration: none; color: var(--a-ink);
+  border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line);
+}
+.help-write svg { flex: none; color: var(--a-accent-text); }
+.help-write__text { display: grid; gap: 2px; }
+.help-write__text b { font: 700 16px var(--font-display); }
+.help-write__text span { font-size: 14px; color: var(--a-ink-2); }
+.help-write:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+@media (hover: hover) and (pointer: fine) { .help-write:hover { background: var(--a-hover); } }
+@media (prefers-reduced-motion: reduce) { .help-q__chev, .help-q__panel { transition: none; } }
+:root[data-motion='reduced'] .help-q__chev, :root[data-motion='reduced'] .help-q__panel { transition: none; }

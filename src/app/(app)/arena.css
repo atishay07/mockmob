@@ -249,6 +249,7 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
 }
 .app-shell .arena-sidebar__foot {
   margin-top: auto;
+  position: sticky; bottom: 0; padding: 10px 0 8px; border-top: 1px solid var(--a-line); background: var(--a-bg);
   display: grid;
   gap: 8px;
 }
@@ -1753,6 +1754,21 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
 /* Chosen segments and checks are flat volt in the arena: no keycap edge under them. */
 .app-shell :is(.ctl-seg__lens, .ctl-seg:not([data-lens='on']) .ctl-seg__opt[aria-checked='true'], .ctl-pop__option[aria-selected='true'] .ctl-pop__check) { box-shadow: none; }
 .app-shell .student-page--today .pr-head p { max-width: 66ch; }
+
+/* Night, Daylight, Match device: three choices in one ruled row, in the sidebar and the More sheet. */
+.app-shell .arena-appearance { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; padding: 4px; border: 1px solid var(--a-line); border-radius: 12px; }
+.app-shell .arena-appearance button {
+  display: grid; justify-items: center; gap: 2px; min-height: 44px; padding: 6px 2px; border: 0; border-radius: 8px; background: transparent;
+  color: var(--a-ink-2); font: 600 11.5px/1.2 var(--font-display); text-align: center; cursor: pointer;
+  transition: background-color 160ms var(--a-ease), color 160ms var(--a-ease);
+}
+.app-shell .arena-appearance button[aria-checked='true'] { background: var(--a-volt-wash); color: var(--a-ink); box-shadow: inset 0 0 0 1px var(--a-select); }
+.app-shell .arena-appearance button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .arena-appearance button[aria-checked='false']:hover { background: var(--a-hover); color: var(--a-ink); } }
+@media (prefers-reduced-motion: reduce) { .app-shell .arena-appearance button { transition: none; } }
+:root[data-motion='reduced'] .app-shell .arena-appearance button { transition: none; }
+.app-shell .arena-sidebar__foot .arena-appearance { margin-bottom: 10px; }
+.app-shell .arena-sheet .arena-appearance { margin: 0 0 12px; }
 
 /* Today, done state: the recorded line is plain text with a check, not a box inside the card. */
 .na__done { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--a-ink-2); }

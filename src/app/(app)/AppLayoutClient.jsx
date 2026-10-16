@@ -12,6 +12,7 @@ import { useRole } from '@/lib/roleContext';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
 import './arena.css';
@@ -238,6 +239,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           </nav>
         ))}
         <div className="arena-sidebar__foot">
+          <AppearanceSwitch />
           <button
             type="button"
             className="arena-chip"
@@ -324,7 +326,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <span>{user?.name ?? 'Account'}</span>
               </Link>
               <div className="arena-sheet__tools">
-                <span className="arena-theme"><ThemeToggle /></span>
                 <button
                   type="button"
                   className="arena-chip"
@@ -344,6 +345,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 </button>
               </div>
             </div>
+            <AppearanceSwitch />
             {navGroups.map((group) => (
               <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
                 <p className="arena-nav-label">{group.label}</p>

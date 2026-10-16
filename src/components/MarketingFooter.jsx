@@ -23,6 +23,7 @@ const SUBJECT_LINKS = [
 
 const COMPANY_LINKS = [
   ['About', '/about'],
+  ['Help', '/help'],
   ['Contact', '/contact'],
   ['Privacy', '/privacy'],
   ['Terms', '/terms'],
