@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show debugPrint, kDebugMode;
@@ -176,7 +177,10 @@ class ApiClient {
         if (ApiError.carriesBlockHeader(response.headers.value)) {
           throw ApiError.fromResponse(response.statusCode ?? 200, response.data, blockHeader: true);
         }
-        return ApiResponse(response.statusCode ?? 200, response.data);
+        // dio decodes a JSON answer even when the raw body was asked for, so a plainBody caller
+        // got a List or Map and ApiResponse.text read ''. Hand back the text it asked for.
+        final data = response.data;
+        return ApiResponse(response.statusCode ?? 200, options.plainBody && data != null && data is! String ? jsonEncode(data) : data);
       } on ApiError {
         rethrow;
       } on DioException catch (e) {
