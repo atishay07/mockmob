@@ -36,6 +36,8 @@ const ABOUT = {
   other_wrong: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} wrong from the first pick.`,
   other_blank: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} opened and left blank.`,
 };
+// What the phone-width pills say; each accessible name starts with it so the spoken name holds the visible word.
+const SHORT_STEP = ['Replay', 'Find', 'Plan', 'Check'];
 const STEPS = [
   { key: 'replay', title: 'Replay the session', body: 'Every answer and every minute, with the marks each one cost.', ms: 4800 },
   { key: 'leak', title: 'Find where marks leaked', body: 'Every mark you missed, sorted by how it went: changed answers, wrong picks and blanks.', ms: 4800 },
@@ -204,9 +206,9 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
             const active = index === step;
             return (
               <li key={item.key} data-active={active} data-done={index < step}>
-                <button type="button" aria-label={item.title} onClick={(event) => { keyboardStep.current = event.detail === 0; if (pinned) { goTo(index, event.detail === 0); return; } setPlaying(false); goTo(index); if (index === 0) { clockRef.current.elapsed = SESSION.length * REVEAL_MS; setRevealed(SESSION.length); setPicked(3); } }} aria-current={active ? 'step' : undefined}>
+                <button type="button" aria-label={item.title.startsWith(SHORT_STEP[index]) ? item.title : SHORT_STEP[index] + ': ' + item.title} onClick={(event) => { keyboardStep.current = event.detail === 0; if (pinned) { goTo(index, event.detail === 0); return; } setPlaying(false); goTo(index); if (index === 0) { clockRef.current.elapsed = SESSION.length * REVEAL_MS; setRevealed(SESSION.length); setPicked(3); } }} aria-current={active ? 'step' : undefined}>
                   <span className="ml__label">{item.title}</span>
-                  <span className="ml__short" aria-hidden="true">{['Replay', 'Find', 'Plan', 'Check'][index]}</span>
+                  <span className="ml__short" aria-hidden="true">{SHORT_STEP[index]}</span>
                   <i className="ml__bar" aria-hidden="true">
                     {pinned ? <b className="ss-fill" data-state={index < step ? 'done' : active ? 'on' : 'off'} style={{ '--ss-i': index }} /> : active ? <b ref={progressRef} key={token} data-auto={!reduced} /> : null}
                   </i>

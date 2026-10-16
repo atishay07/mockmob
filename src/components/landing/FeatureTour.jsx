@@ -210,7 +210,7 @@ function TourStage({ slides, elsewhere = [], step, pinned, reduced, goTo: storyG
       <div className="ft__room">
         <div className="ft__stage" data-ss-fit="0.6" data-ss-end="">
 
-          <ul className="ft__track" ref={trackRef} aria-label="MockMob features" aria-live={paused ? 'polite' : 'off'} onScroll={readSwipe}
+          <ul className="ft__track" ref={trackRef} role="group" aria-label="MockMob features" aria-live={paused ? 'polite' : 'off'} onScroll={readSwipe}
             onPointerDown={event => { programmaticRef.current = false; pointerRef.current = { x: event.clientX, y: event.clientY }; }}
             onPointerMove={event => { const start = pointerRef.current; if (!pinned && start && Math.abs(event.clientX - start.x) > 10 && Math.abs(event.clientX - start.x) > Math.abs(event.clientY - start.y)) setInteracting(true); }}
             onPointerUp={() => { pointerRef.current = null; setInteracting(false); }} onPointerCancel={() => { pointerRef.current = null; setInteracting(false); }}
@@ -241,7 +241,7 @@ function TourStage({ slides, elsewhere = [], step, pinned, reduced, goTo: storyG
           <div className="ft__controls">
             <button type="button" className="ft__play" aria-label={reduced ? 'Autoplay is off' : paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>{playLabel}</button>
             <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature">Previous</button>
-            <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}>Next: <b>{next?.label}</b></button>
+            <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })}>Next: <b>{next?.label}</b></button>
           </div>
           {/* Desktop: the tools shown elsewhere on the page, as their own sentence under the controls. */}
           <Elsewhere links={elsewhere} className="ft__more--bar" />
