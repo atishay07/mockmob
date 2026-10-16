@@ -11,6 +11,7 @@ import { generateAIResponse } from '@/services/ai/providers';
 import { buildReplyDeps, modelRepliesOpen } from '@/services/prepos/replyDeps';
 import { readAIWallet } from '@/services/credits/aiCreditWallet';
 import { publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
+import { readFullQuestionRow, readQuestionRow } from '@/../data/question_reads';
 import { runRepair } from './repairFlow';
 import { recordTrap } from '@/lib/server/trapAtlas';
 import { checkStatus } from './repairCheck';
@@ -47,8 +48,14 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     generate,
     gateOpen: modelRepliesOpen,
     loadAttempt: (id) => Database.getAttemptById(id),
-    loadQuestion: (id) => supabaseAdmin().from('questions').select('*').eq('id', id).maybeSingle(),
-    evidenceEligible: (question) => !!question && publicationEligibility(question, sharedEligibilitySnapshot()).eligible,
+    // The row without its signed evidence record (data/question_reads.js).
+    loadQuestion: (id) => readQuestionRow(supabaseAdmin(), id),
+    // Called only when the key changed since the snapshot: reads the full row for the verdict. Any read failure is "not eligible".
+    evidenceEligible: async (question) => {
+      if (!question) return false;
+      const { data, error } = await readFullQuestionRow(supabaseAdmin(), question.id);
+      return !error && !!data && publicationEligibility(data, sharedEligibilitySnapshot()).eligible;
+    },
     // A finished repair is stored on its committed reservation and reopens free.
     findStored: async (userId, id) => {
       const { data } = await supabaseAdmin().from('ai_credit_reservations').select('receipt').eq('user_id', userId).eq('state', 'committed')

@@ -4,12 +4,14 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { createCheckStore } from './repairCheckStore';
+import { readQuestionRow } from '@/../data/question_reads';
 
 export function buildCheckDeps() {
   const db = supabaseAdmin();
   return {
     ...createCheckStore({ db, recordProgress: (args) => Database._recordAttemptProgress(args) }),
     loadAttempt: (id) => Database.getAttemptById(id),
-    loadQuestion: (id) => db.from('questions').select('*').eq('id', id).maybeSingle(),
+    // The row without its signed evidence record (data/question_reads.js); nothing in the repair check reads the record.
+    loadQuestion: (id) => readQuestionRow(db, id),
   };
 }
