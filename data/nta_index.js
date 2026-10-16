@@ -9,7 +9,7 @@
 // evidence passes the NTA score checks (data/nta_engine.js ntaScoreIntegrity), and writes one signed slim
 // row each. It writes only nta_question_index. The score bar is not applied here; the runtime does.
 import { CUET_PUBLIC_ALLOWED_SUBJECTS, toInternalSubjectId } from './cuet_controls.js';
-import { NTA_INDEX_VERSION, ntaScoreIntegrity, ntaScoreOf, signNtaIndex } from './nta_engine.js';
+import { NTA_INDEX_VERSION, ntaIndexRound2, ntaScoreIntegrity, ntaScoreOf, signNtaIndex } from './nta_engine.js';
 import { loadNtaPoolFull, loadNtaPoolFromIndex, attachPassages } from './nta_pool.js';
 import { contentHash } from './content_evidence.js';
 import { objectiveTagOf } from './nta_item_checks.js';
@@ -43,9 +43,10 @@ export async function buildNtaIndexRows(db, subject, { secret, now = new Date(),
     const entry = {
       question_id: row.id,
       subject,
-      score,
-      luna,
-      gemini,
+      // Stored exactly as numeric(4,2) will hand them back, so the signed value is the read-back value.
+      score: ntaIndexRound2(score),
+      luna: ntaIndexRound2(luna),
+      gemini: ntaIndexRound2(gemini),
       content_hash: contentHash(row),
       family_id: row.family_id || row.evidence?.record?.family_id || null,
       objective_tag: objectiveTagOf(row),

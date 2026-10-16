@@ -210,17 +210,41 @@ function signatureMatches(envelope, secret) {
   return hmacMatches(envelope?.signature, [canonicalJSON(envelope.record), JSON.stringify(envelope.record)], secret);
 }
 
-/** The fields of an nta_question_index row that its signature covers. */
+/**
+ * The value a numeric(4,2) column hands back for a score: a Number rounded to 2 decimals, null kept null.
+ * The builder stores exactly this and the signature covers exactly this, so what Postgres returns verifies.
+ */
+export function ntaIndexRound2(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const number = Number(value);
+  if (!Number.isFinite(number)) return null;
+  return Math.round((number + Number.EPSILON) * 100) / 100;
+}
+
+/**
+ * The instant a timestamptz column hands back, in one spelling. The builder holds "2026-10-16T08:31:49.324Z";
+ * PostgREST returns "2026-10-16T08:31:49.324+00:00". Both are the same instant and both must sign the same.
+ * An unparseable value is kept as text, so it can only fail verification, never throw.
+ */
+export function ntaIndexInstant(value) {
+  const time = value instanceof Date ? value.getTime() : Date.parse(value);
+  return Number.isFinite(time) ? new Date(time).toISOString() : String(value);
+}
+
+/**
+ * The fields of an nta_question_index row that its signature covers, in the canonical form that survives a
+ * round trip through Postgres (timestamptz with an offset, numeric(4,2) as a 2-decimal number).
+ */
 export function ntaIndexSignedBody(index) {
   return {
     question_id: index.question_id,
     subject: index.subject,
-    score: Number(index.score),
-    luna: index.luna ?? null,
-    gemini: index.gemini ?? null,
+    score: ntaIndexRound2(index.score),
+    luna: ntaIndexRound2(index.luna),
+    gemini: ntaIndexRound2(index.gemini),
     content_hash: index.content_hash,
     index_version: index.index_version,
-    verified_at: index.verified_at,
+    verified_at: ntaIndexInstant(index.verified_at),
   };
 }
 
