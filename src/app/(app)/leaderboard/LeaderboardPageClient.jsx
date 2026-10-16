@@ -52,14 +52,14 @@ export default function LeaderboardPageClient() {
           <div><dt>Average score</dt><dd>{count(standing.average)}%</dd></div>
         </dl>
         <p className="lb-note">Ranked by total points across your recorded mocks, so your place moves as you practise. Nobody else is named here.</p>
-        <Link href="/dashboard" className="lb-go">Start a practice session</Link>
+        <Link href="/dashboard" className="lb-go" data-page-primary="">Start a practice session</Link>
       </section>
     )}
     {state === 'ready' && !standing && (
       <section className="lb-stand" aria-labelledby="lb-empty">
         <p className="lb-stand__place lb-stand__place--empty" id="lb-empty">You have no recorded mocks yet.</p>
         <p className="lb-note">Your standing appears here after your first recorded mock. Nobody else is named here.</p>
-        <Link href="/dashboard" className="lb-go">Start a practice session</Link>
+        <Link href="/dashboard" className="lb-go" data-page-primary="">Start a practice session</Link>
       </section>
     )}
   </div>;
