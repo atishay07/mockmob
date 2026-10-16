@@ -1,0 +1,18 @@
+/* The first-timed-mock line (FirstTimedMock.jsx): one sentence and one quiet key, a hairline above and no box, no icon,
+   no colour of its own. The key is outlined so the page's own filled key (Start, Repair) stays the only loud one. */
+.ftm { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-top: 16px; border-top: 1px solid var(--a-line, #253026); }
+.ftm-line { flex: 1 1 320px; max-width: 64ch; margin: 0; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); text-wrap: pretty; }
+.ftm-key {
+  flex: none; display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border-radius: 12px; max-width: 100%;
+  border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink, #f2f4ec);
+  font: 700 15px/1.2 var(--font-display, inherit); text-decoration: none; cursor: pointer;
+}
+.ftm-key:hover { border-color: var(--a-line-hover, rgba(244, 245, 240, 0.32)); }
+.ftm-key:focus-visible { outline: 2px solid var(--a-accent-text, #d2f000); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .ftm-key { transition: border-color 150ms var(--a-ease, ease-out), transform 100ms var(--a-ease, ease-out); }
+  .ftm-key:active { transform: scale(.98); }
+}
+@media (max-width: 480px) { .ftm-key { width: 100%; } }
+/* On Radar it closes the Lab's empty block, inside the card's own padding. */
+.ftm[data-surface='radar'] { margin-top: 14px; }

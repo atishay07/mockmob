@@ -11,6 +11,8 @@ import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
 import { apiGet } from '@/lib/fetcher';
 import { weekCheerKey, weekGoalAct } from '@/lib/mobiScreens';
+import FirstTimedMock from '@/components/timed/FirstTimedMock';
+import { useFirstTimedMock } from '@/components/timed/useFirstTimedMock';
 
 // Today opens on the date, the way the app's Today does: it leads the lede, in the reading line,
 // not as a kicker above the headline. The server render leaves it out.
@@ -49,6 +51,8 @@ export default function Today() {
   const top = insights.status === 'ready' ? insights.insights?.chapters?.ranked?.[0] || null : null;
   // A student with no saved session yet has no record to plan from, so the page says how the record starts.
   const fresh = insights.status === 'empty';
+  // A student with sessions and no timed mock yet: one line on what a timed mock adds, and one key (data/first_timed_mock.js).
+  const firstTimed = useFirstTimedMock('today');
   const lede = fresh ? 'Ten questions is enough to begin. After that, each step is planned from what you got right and wrong.' : 'Planned from your own practice record, one step at a time.';
   return (
     <div className="student-page student-page--today">
@@ -57,6 +61,7 @@ export default function Today() {
           title={fresh ? (first ? `${first}, your record starts with one session.` : 'Your record starts with one session.') : first ? `${first}, here is your next step.` : 'Here is your next step.'}
           lede={day ? <><time className="today-date">{day}.</time> {lede}</> : lede} />
         <LearningNextAction why={top} moment={weekGoal} />
+        <FirstTimedMock prompt={firstTimed} />
         <div className="today-record">
           <TodayCompass />
           <RhythmCard compact quietMet={Boolean(weekGoal)} />

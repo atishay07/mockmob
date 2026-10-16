@@ -21,6 +21,8 @@ import { useInView } from '@/lib/motion';
 import TrendScrub from './TrendScrub';
 import AcrossMocks from '@/components/result/AcrossMocks';
 import { useRuleBook } from '@/components/rules/useRuleBook';
+import FirstTimedMock from '@/components/timed/FirstTimedMock';
+import { useFirstTimedMock } from '@/components/timed/useFirstTimedMock';
 import './analytics.css';
 
 // A thin bar that inks in when its row scrolls into view. The figure beside it carries the number.
@@ -70,6 +72,8 @@ export default function AnalyticsPageClient() {
   const pro = Boolean(user?.isPremium);
   const rules = useRuleBook({ enabled: authStatus !== 'loading' && Boolean(user?.id) });
   const wide = useWide();
+  // The Lab's empty block (Across your mocks, no timed mock yet) gets the one key into a timed mock (data/first_timed_mock.js).
+  const firstTimed = useFirstTimedMock('radar');
 
   useEffect(() => {
     if (authStatus === 'loading' || !user?.id) return undefined;
@@ -110,9 +114,10 @@ export default function AnalyticsPageClient() {
 
       {(() => {
         const across = rules.state === 'ready' && rules.data?.acrossMocks ? (
-          <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={rules.data.book?.countLabel ? (
-            <Link href="/review/rules" className="rd-rules">{rules.data.book.countLabel}</Link>
-          ) : null} />
+          <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={<>
+            {rules.data.acrossMocks.state === 'none' ? <FirstTimedMock prompt={firstTimed} /> : null}
+            {rules.data.book?.countLabel ? <Link href="/review/rules" className="rd-rules">{rules.data.book.countLabel}</Link> : null}
+          </>} />
         ) : rules.state === 'error' ? (
           <p className="rd-across-fail" role="status">{rules.message} <button type="button" onClick={rules.retry}><RefreshCw size={14} strokeWidth={2.2} aria-hidden="true" />Try again</button></p>
         ) : rules.state === 'loading' ? <div className="rd-across-wait skeleton" aria-hidden="true" /> : null;
