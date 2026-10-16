@@ -43,11 +43,15 @@ abstract final class ReviewAgainCopy {
   static const backToReview = 'Back to Review';
   static const anotherSet = 'Review again';
 
-  static String endTitleFor(AgainTone tone) => switch (tone) {
-    AgainTone.proud => 'Most of them held.',
-    AgainTone.nod => 'Some held.',
-    AgainTone.encourage => 'These need another look.',
-  };
+  /// The line over the figure. It never says "most" of a set that all held.
+  static String endTitleFor(AgainTone tone, {required int held, required int total}) {
+    if (total > 0 && held == total) return total == 1 ? 'It held.' : 'All of them held.';
+    return switch (tone) {
+      AgainTone.proud => 'Most of them held.',
+      AgainTone.nod => 'Some held.',
+      AgainTone.encourage => 'These need another look.',
+    };
+  }
 
   // ---- States ---------------------------------------------------------------------------------
 

@@ -6,9 +6,9 @@ import '../../../core/models/question.dart';
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../again/review_again_copy.dart';
 import '../copy.dart';
 import 'question_panel.dart';
+import 'try_first.dart';
 
 /// The sheet behind "See the answer" and "Try it again" for a skipped question. The key and
 /// explanation follow the key rule of spec 5.7, read from the attempt detail. A try stays on
@@ -89,11 +89,11 @@ class _AnswerSheetBodyState extends ConsumerState<AnswerSheetBody> {
           Text(ReviewCopy.tryNotRecorded, style: type.caption.copyWith(color: colors.ink3)),
         ] else ...[
           // A try says how it went in the same words as Review again, before the key's reason.
-          if (widget.tryFirst && _picked != null && keyIndex != null) ...[
+          if (widget.tryFirst && TryFirst.verdictLine(_picked, keyIndex, q.options) != null) ...[
             Semantics(
               liveRegion: true,
               child: Text(
-                _picked == keyIndex ? ReviewAgainCopy.verdictRight : ReviewAgainCopy.verdictWrong(q.options[keyIndex].key),
+                TryFirst.verdictLine(_picked, keyIndex, q.options)!,
                 style: type.headline.copyWith(fontSize: 18, height: 24 / 18, fontWeight: FontWeight.w600),
               ),
             ),

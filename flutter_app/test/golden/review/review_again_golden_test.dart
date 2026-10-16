@@ -52,6 +52,8 @@ final _swot = Swot.fromJson({
 List<Override> _withSwot() => reviewOverrides(records: [repairedRecord], details: {'m7': AttemptDetail(attempt: mock7, swot: _swot)});
 
 Future<void> _tapKey(WidgetTester tester, String label) async {
+  // A key ignores a second tap inside its tap lock, and the test clock only moves when told to.
+  await tester.pump(const Duration(seconds: 1));
   final key = find.byWidgetPredicate((w) => w is KeyButton && w.label == label);
   await tester.ensureVisible(key);
   await tester.tap(key);
@@ -117,8 +119,6 @@ void main() {
     after: (tester) async {
       await _answerRight(tester, 'Check');
       await _tapKey(tester, 'Next question');
-      // ignore: avoid_print
-      print('DBG ${find.byType(Text).evaluate().map((e) => (e.widget as Text).data).whereType<String>().toList()}');
       await _answerRight(tester, 'Check');
       await _tapKey(tester, 'See how it went');
     },

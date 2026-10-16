@@ -231,6 +231,7 @@ class _Run extends StatelessWidget {
   });
 
   final ReviseRead read;
+
   final int cap;
   final int at;
   final List<bool> done;
@@ -276,11 +277,15 @@ class _Run extends StatelessWidget {
         ),
       );
     } else if (finished) {
-      stage = ReviseEnd(
-        line: ReviseCopy.end(right: right, wrong: wrong),
-        next: read.next,
-        right: right,
-        wrong: wrong,
+      // Only the end needs the phone's repaired count, so only the end reads it.
+      stage = Consumer(
+        builder: (context, ref, _) => ReviseEnd(
+          line: ReviseCopy.end(right: right, wrong: wrong),
+          next: read.next,
+          right: right,
+          wrong: wrong,
+          repaired: ref.watch(reviewAgainCountProvider),
+        ),
       );
     } else {
       stage = _Empty(
@@ -836,8 +841,8 @@ class _Option extends StatelessWidget {
 /// honoured through [MobiRation.underLevel]: Quiet seats him (no hop), Off keeps the plain check
 /// ring that draws itself in. Reduced motion holds his pose still (the character does that).
 /// He is the only Mobi on the Revise screen.
-class ReviseEnd extends ConsumerWidget {
-  const ReviseEnd({super.key, required this.line, required this.next, required this.right, required this.wrong});
+class ReviseEnd extends StatelessWidget {
+  const ReviseEnd({super.key, required this.line, required this.next, required this.right, required this.wrong, this.repaired = 0});
 
   final String? line;
   final String? next;
@@ -845,6 +850,9 @@ class ReviseEnd extends ConsumerWidget {
   /// Recalls the server graded right and wrong in this run.
   final int right;
   final int wrong;
+
+  /// Mistakes the student repaired on this phone; above 0 the end offers Review again.
+  final int repaired;
 
   /// Mobi's height at the end of a run.
   static const double mobiSize = 88;
@@ -893,12 +901,11 @@ class ReviseEnd extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     // Revise's cards are the server's; the mistakes the student repaired are the phone's. After a
     // run the second is offered, so the two never leave a dead end.
-    final repaired = ref.watch(reviewAgainCountProvider);
     final level = MobiCelebrations.of(context);
     final act = MobiRation.underLevel(actFor(right: right, wrong: wrong), level, held: true);
     return Column(

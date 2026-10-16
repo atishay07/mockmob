@@ -18,6 +18,7 @@ import '../widgets/question_panel.dart';
 import '../widgets/review_layout.dart';
 import '../widgets/review_load_failure.dart';
 import '../widgets/review_state_view.dart';
+import '../widgets/try_first.dart';
 import 'review_again_copy.dart';
 import 'review_again_data.dart';
 import 'review_again_entry.dart';
@@ -199,7 +200,6 @@ class _ReviewAgainScreenState extends ConsumerState<ReviewAgainScreen> {
     final q = _current;
     final clock = ref.watch(reviewClockProvider);
     final right = _checked && _picked == q.keyIndex;
-    final keyLetter = q.question.options[q.keyIndex].key;
     final when = q.item.stageAt;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -246,7 +246,7 @@ class _ReviewAgainScreenState extends ConsumerState<ReviewAgainScreen> {
                       const SizedBox(width: MmSpace.s12),
                       Expanded(
                         child: Text(
-                          right ? ReviewAgainCopy.verdictRight : ReviewAgainCopy.verdictWrong(keyLetter),
+                          TryFirst.verdictLine(_picked, q.keyIndex, q.question.options) ?? '',
                           style: type.headline.copyWith(fontSize: 18, height: 24 / 18, fontWeight: FontWeight.w600),
                         ),
                       ),
@@ -438,7 +438,7 @@ class _EndState extends State<_End> {
                 ),
                 Semantics(
                   header: true,
-                  child: Text(ReviewAgainCopy.endTitleFor(r.tone), style: type.caption.copyWith(color: colors.ink2)),
+                  child: Text(ReviewAgainCopy.endTitleFor(r.tone, held: r.held, total: r.total), style: type.lead.copyWith(color: colors.ink2)),
                 ),
                 const SizedBox(height: MmSpace.s8),
                 FittedBox(
