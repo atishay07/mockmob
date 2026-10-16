@@ -28,7 +28,19 @@ import 'lab_older_note.dart';
 /// dims the other segments to 40% and lifts its own by 2 dp. Under reduced motion the ledger is
 /// at rest at once and only the dimming remains.
 class LabLedgerSection extends StatefulWidget {
-  const LabLedgerSection({super.key, required this.attemptId, required this.lab, required this.onOpenQuestion, this.onSeeChanges, this.onSeeInReplay});
+  const LabLedgerSection({
+    super.key,
+    required this.attemptId,
+    required this.lab,
+    required this.onOpenQuestion,
+    this.onSeeChanges,
+    this.onSeeInReplay,
+    this.outOf,
+  });
+
+  /// The paper's full marks, for the hero's denominator ("marks missed, of 250"). Null keeps the
+  /// server's heading sentence as the head of the section.
+  final int? outOf;
 
   final String attemptId;
   final MistakeLab lab;
@@ -59,6 +71,25 @@ class LabLedgerSection extends StatefulWidget {
   /// Questions shown in a row before "Show {k} more".
   static const int chipsShown = 8;
 
+  /// The hero numeral's size (pass 1016e AP3-04, A09): the recap's display numeral, condensed.
+  static const double heroSize = 56;
+
+  /// How long tapping a segment takes to bring its row into view (Motion.glide).
+  static const Duration glideToRow = Duration(milliseconds: 300);
+
+  /// The hero's unit line under the numeral.
+  static String heroUnit(int outOf) => 'marks missed, of $outOf';
+
+  /// The server's heading without its first sentence when that sentence only says the count the
+  /// hero numeral already shows ("You missed 112 marks."); null when the heading is something
+  /// else, so the hero is not used and nothing is said twice or lost.
+  static String? headingRest(String heading, int gap) {
+    const lead = 'You missed ';
+    final first = '$lead$gap marks.';
+    if (!heading.startsWith(first)) return null;
+    return heading.substring(first.length).trim();
+  }
+
   /// The length of the whole split for [segments] groups.
   static Duration splitLength(int segments) =>
       lead + segmentStep * math.max(0, segments - 1) + (rowDelay + rowFade > segment ? rowDelay + rowFade : segment);
@@ -77,6 +108,10 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
   final Set<String> _allChips = {};
   String? _focused;
   bool _decided = false;
+
+  /// Each row's place, so a tap on its segment can bring it into view.
+  final Map<String, GlobalKey> _rowKeys = {};
+  GlobalKey _rowKey(String id) => _rowKeys.putIfAbsent(id, GlobalKey.new);
 
   List<LabGroup> get _groups => [for (final g in widget.lab.groups) if (g.marks > 0) g];
 
@@ -159,9 +194,26 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
     if (_open.contains(id) && _focused != id) {
       setState(() => _focused = id);
       _moveFocus();
+      _glideTo(id);
       return;
     }
     _toggle(id);
+    if (_open.contains(id)) _glideTo(id);
+  }
+
+  /// Brings [id]'s row into view after the frame that opened it (300 ms on Motion.glide, at once
+  /// under reduced motion), only as far as needed so a row already in view stays put.
+  void _glideTo(String id) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = _rowKeys[id]?.currentContext;
+      if (!mounted || ctx == null) return;
+      unawaited(Scrollable.ensureVisible(
+        ctx,
+        duration: Motion.of(context, LabLedgerSection.glideToRow),
+        curve: Motion.glide,
+        alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+      ));
+    });
   }
 
   @override
@@ -185,6 +237,7 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
     final fine = type.small.copyWith(color: colors.ink3);
     final cohort = lab.cohort;
     final remark = lab.remark;
+    final hero = widget.outOf != null && widget.outOf! > 0 && lab.gap > 0 ? LabLedgerSection.headingRest(lab.heading, lab.gap) : null;
 
     return MmSection(
       title: lab.labels.name,
@@ -193,7 +246,10 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(lab.heading, style: type.subhead.copyWith(fontSize: 19, height: 25 / 19, letterSpacing: -0.4)),
+            if (hero != null)
+              _Hero(gap: lab.gap, outOf: widget.outOf!, rest: hero, heading: lab.heading, split: _split)
+            else
+              Text(lab.heading, style: type.subhead.copyWith(fontSize: 19, height: 25 / 19, letterSpacing: -0.4)),
             if (lab.headline != null) ...[
               const SizedBox(height: MmSpace.s12),
               _Headline(text: lab.headline!.text, style: headlineIndex < 0 ? null : styles[headlineIndex]),
@@ -212,6 +268,7 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
             for (var i = 0; i < groups.length; i++) ...[
               if (i > 0) const SizedBox(height: MmSpace.s8),
               _Arrive(
+                key: _rowKey(groups[i].id),
                 animation: rowArrival(i),
                 child: _LegendRow(
                   group: groups[i],
@@ -278,6 +335,67 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
   }
 }
 
+/// The section's head as a number (pass 1016e AP3-04, A09; AGENT_RULES 9 and 28; HIGH and Revolut
+/// hierarchy): "112" at the recap's 56 sp condensed numeral with "marks missed, of 250" beside its
+/// baseline, then the rest of the server's heading. The numeral counts up with the bar's split,
+/// in the split's first 60%, so the number and the bar arrive as one thing. Read as the server's
+/// heading sentence.
+class _Hero extends StatelessWidget {
+  const _Hero({required this.gap, required this.outOf, required this.rest, required this.heading, required this.split});
+
+  final int gap;
+  final int outOf;
+  final String rest;
+  final String heading;
+  final Animation<double> split;
+
+  static const Curve _count = Interval(0, 0.6, curve: Motion.out);
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final numeral = type.figure.copyWith(
+      fontSize: LabLedgerSection.heroSize,
+      height: 1,
+      color: colors.ink,
+      fontFeatures: const [FontFeature.tabularFigures()],
+    );
+    return Semantics(
+      header: true,
+      label: heading,
+      excludeSemantics: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.end,
+            spacing: MmSpace.s8,
+            children: [
+              AnimatedBuilder(
+                animation: split,
+                builder: (context, _) => Text(
+                  '${(gap * _count.transform(split.value.clamp(0.0, 1.0))).round()}',
+                  style: numeral,
+                  textHeightBehavior: MmType.figureHeightBehavior,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: MmSpace.s4),
+                child: Text(LabLedgerSection.heroUnit(outOf), style: type.body.copyWith(fontSize: 16, color: colors.ink2)),
+              ),
+            ],
+          ),
+          if (rest.isNotEmpty) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(rest, style: type.body.copyWith(color: colors.ink)),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
 /// The headline, with a short rule in its group's colour so it reads as the bar's biggest part.
 class _Headline extends StatelessWidget {
   const _Headline({required this.text, this.style});
@@ -311,7 +429,7 @@ class _Headline extends StatelessWidget {
 
 /// Fades and rises a legend row in with its segment.
 class _Arrive extends StatelessWidget {
-  const _Arrive({required this.animation, required this.child});
+  const _Arrive({super.key, required this.animation, required this.child});
 
   final Animation<double> animation;
   final Widget child;

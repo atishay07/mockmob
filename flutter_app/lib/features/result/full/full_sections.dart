@@ -50,7 +50,14 @@ Widget whereSection(
   ValueChanged<String>? onSeeInReplay,
 }) {
   if (lab != null && lab.showsLedger && onOpenQuestion != null) {
-    return LabLedgerSection(attemptId: m.attemptId, lab: lab, onOpenQuestion: onOpenQuestion, onSeeChanges: onSeeChanges, onSeeInReplay: onSeeInReplay);
+    return LabLedgerSection(
+      attemptId: m.attemptId,
+      lab: lab,
+      onOpenQuestion: onOpenQuestion,
+      onSeeChanges: onSeeChanges,
+      onSeeInReplay: onSeeInReplay,
+      outOf: m.maxMarks > 0 ? m.maxMarks : null,
+    );
   }
   final section = MmSection(
     title: ResultCopy.sectionWhere,

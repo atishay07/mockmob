@@ -62,6 +62,9 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   RecapReaction? _finishReaction;
   Timer? _reviewAsk;
 
+  /// Where a dragged card is: the card in the hand, the one thrown out, the side the next comes in from.
+  final CardDragController _drag = CardDragController();
+
   RecapModel get m => widget.model;
   ResultActions get _actions => ref.read(resultActionsProvider);
 
@@ -97,6 +100,7 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   @override
   void dispose() {
     _reviewAsk?.cancel();
+    _drag.dispose();
     super.dispose();
   }
 
@@ -194,32 +198,45 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
   }
 
   Widget _transition(Widget child, Animation<double> animation) {
-    final incoming = child.key == ValueKey('card-$_card');
+    final key = child.key;
     final reduced = Motion.reduced(context);
+    // A card thrown by a drag hands its place to one that comes in from the other side (56 dp,
+    // read once here); a turn by a key or the story bar rises from below as before.
+    final enter = key == ValueKey('card-$_card') ? _drag.takeEnter() : 0.0;
     // Cards are a stack the student moves through. The arriving card rises 40 dp into place on
     // the emphasized curve while it fades in; the leaving card sinks back (scale 0.96) and fades
-    // out on the exit curve in the first half. Going back reverses the direction.
+    // out on the exit curve in the first half. Going back reverses the direction. Whether a card
+    // is arriving or leaving is read live: the same transition carries a card in and then out.
     final dir = _forward ? 1.0 : -1.0;
     return AnimatedBuilder(
-      animation: animation,
+      animation: Listenable.merge([animation, _drag]),
       child: child,
       builder: (context, child) {
         final v = animation.value;
+        final incoming = key == ValueKey('card-$_card');
         if (reduced) return Opacity(opacity: v, child: child);
+        // One shape in every state (opacity over a transform), so a card is never rebuilt from
+        // scratch when its transition ends or turns around.
         if (incoming) {
-          if (v >= 1) return child!;
-          final t = Motion.emphasized.transform(v);
+          final x = _drag.shift;
+          final t = v >= 1 ? 1.0 : Motion.emphasized.transform(v);
+          final rise = enter == 0 ? 40 * dir * (1 - t) : 0.0;
           return Opacity(
-            opacity: Motion.glide.transform((v / 0.6).clamp(0.0, 1.0)),
-            child: Transform.translate(offset: Offset(0, 40 * dir * (1 - t)), child: child),
+            opacity: v >= 1 ? 1 : Motion.glide.transform((v / 0.6).clamp(0.0, 1.0)),
+            child: Transform(
+              alignment: Alignment.topCenter,
+              transform: Matrix4.translationValues(x + enter * (1 - t), rise, 0),
+              child: child,
+            ),
           );
         }
         final e = Motion.exit.transform(((1 - v) / 0.5).clamp(0.0, 1.0));
+        final thrown = _drag.exit;
         return Opacity(
           opacity: 1 - e,
           child: Transform(
             alignment: Alignment.topCenter,
-            transform: Matrix4.translationValues(0, -12 * dir * e, 0)..scaleByDouble(1 - 0.04 * e, 1 - 0.04 * e, 1, 1),
+            transform: Matrix4.translationValues(thrown, thrown == 0 ? -12 * dir * e : 0, 0)..scaleByDouble(1 - 0.04 * e, 1 - 0.04 * e, 1, 1),
             child: child,
           ),
         );
@@ -274,6 +291,7 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
                   ),
                   Expanded(
                     child: CardDrag(
+                      controller: _drag,
                       // The sealed sheet is not a card yet: its sideways drags are its own.
                       enabled: _opened,
                       onNext: _order.indexOf(_card) < _order.length - 1 ? _next : null,

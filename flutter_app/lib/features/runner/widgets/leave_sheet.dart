@@ -10,9 +10,11 @@ import '../copy.dart';
 /// The leave guard (spec 5.5, 4.4): the clock keeps running and nothing is discarded. Pops
 /// true when the student chooses to leave.
 ///
-/// With [showMobi] (off under Celebrations Off) a 72 dp Mobi stands beside the words: a hello in
-/// a practice, sitting still in a timed mock. He nods when the student keeps going and waves when
-/// they leave; the sheet closes a beat after, so the act is seen.
+/// With [showMobi] (off under Celebrations Off) a 72 dp Mobi stands beside the words in a
+/// practice: a hello, a nod when the student keeps going and a wave when they leave; the sheet
+/// closes a beat after, so the act is seen. A timed mock never shows him (pass 1016e AP3-07, A20;
+/// MockMob overlay: protect the timer, avoid distraction): the clock is running, so the sheet is
+/// only its words, the real end time and the two keys.
 class LeaveSheet extends StatefulWidget {
   const LeaveSheet({super.key, required this.isMock, required this.until, this.showMobi = false});
 
@@ -41,9 +43,12 @@ class _LeaveSheetState extends State<LeaveSheet> {
     super.dispose();
   }
 
+  /// Mobi only in a practice: a timed mock's sheet is plain.
+  bool get _mobiShown => widget.showMobi && !widget.isMock;
+
   void _choose(bool leave) {
     if (_close != null) return;
-    if (!widget.showMobi || Motion.reduced(context)) {
+    if (!_mobiShown || Motion.reduced(context)) {
       Navigator.of(context).pop(leave);
       return;
     }
@@ -65,7 +70,7 @@ class _LeaveSheetState extends State<LeaveSheet> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (widget.showMobi)
+        if (_mobiShown)
           Row(
             children: [
               SizedBox.square(
@@ -73,8 +78,7 @@ class _LeaveSheetState extends State<LeaveSheet> {
                 child: MobiCharacter(
                   controller: _mobi,
                   size: LeaveSheet.mobiSize,
-                  // A timed mock is still running: he sits, and says nothing.
-                  entrance: widget.isMock ? MobiAct.rest : MobiAct.hello,
+                  entrance: MobiAct.hello,
                   seed: 17,
                 ),
               ),

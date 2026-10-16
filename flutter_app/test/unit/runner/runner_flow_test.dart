@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ui' show Tristate;
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/runner/copy.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
 import 'package:mockmob/core/sync/session/session_submitter.dart';
@@ -205,6 +206,26 @@ void main() {
       expect(h.haptics.calls, containsAllInOrder(['medium', 'light']));
 
       await tester.pump(SubmitPage.handOffDelay);
+      await settle(tester);
+      expect(h.location, '/result/att-1/sealed');
+    });
+
+    testWidgets('the hand-off line fills under the key, and a touch stops it (AP3-07, A22)', (tester) async {
+      final s = FakeRunnerSession(questions: accountancyQuestions(5), currentIndex: 4, answers: all(4));
+      final h = await pumpRunner(tester, session: s);
+      await tester.tap(find.text('Review and submit'));
+      await settle(tester);
+      await tester.tap(find.text('Submit mock'));
+      await _flush(tester);
+      await tester.pump(const Duration(milliseconds: 1400));
+      final line = find.byKey(const ValueKey('submit-handoff-line'));
+      expect(line, findsOneWidget);
+      expect(tester.widget<FractionallySizedBox>(line).widthFactor, closeTo(0.5, 0.1), reason: 'linear over 2,800 ms');
+      await tester.tap(find.text(RunnerCopy.receivedTitle));
+      await tester.pump(SubmitPage.handOffDelay);
+      await settle(tester);
+      expect(h.location, isNot('/result/att-1/sealed'), reason: 'a touch keeps the page');
+      await tester.tap(find.text(RunnerCopy.openResult(true)));
       await settle(tester);
       expect(h.location, '/result/att-1/sealed');
     });

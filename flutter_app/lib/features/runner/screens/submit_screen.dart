@@ -41,14 +41,24 @@ class SubmitPage extends ConsumerStatefulWidget {
   /// before it goes by itself.
   static const Duration handOffDelay = Duration(milliseconds: 2800);
 
+  /// How fast the hand-off line fades when a touch stops it.
+  static const Duration handOffCancelFade = Duration(milliseconds: 120);
+
   @override
   ConsumerState<SubmitPage> createState() => _SubmitPageState();
 }
 
-class _SubmitPageState extends ConsumerState<SubmitPage> {
+class _SubmitPageState extends ConsumerState<SubmitPage> with SingleTickerProviderStateMixin {
   RunnerSession get _s => widget.session;
   Timer? _handOff;
   bool _left = false;
+
+  /// The hand-off made visible (pass 1016e AP3-07, A22): a 2 dp volt line fills under "Open your
+  /// sheet" over [SubmitPage.handOffDelay], linear, so the student sees the page is about to go
+  /// by itself and how long is left. Any touch stops it (the line fades in 120 ms) and the page
+  /// waits for the key. Reduced motion: no auto-advance and no line.
+  late final AnimationController _fill = AnimationController(vsync: this, duration: SubmitPage.handOffDelay);
+  bool _handOffStopped = false;
 
   /// Practice only: the sheet and its "not answered" row, for Mobi to read and point at.
   final GlobalKey _sheetKey = GlobalKey();
@@ -68,6 +78,7 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
   @override
   void dispose() {
     _handOff?.cancel();
+    _fill.dispose();
     _s.submitState.removeListener(_onStage);
     super.dispose();
   }
@@ -80,7 +91,22 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
     // Celebrations setting Off is words only, so the buzz goes with the rest of the moment.
     if (ref.read(celebrationModeProvider) != CelebrationMode.off) unawaited(ref.read(hapticsProvider).success());
     ref.read(runnerAfterSubmitProvider)(_s);
+    if (Motion.reduced(context)) {
+      // Nothing moves on its own: the key opens the result.
+      _handOff = Timer(Duration.zero, () {});
+      _handOffStopped = true;
+      return;
+    }
     _handOff = Timer(SubmitPage.handOffDelay, _openResult);
+    _fill.forward(from: 0);
+  }
+
+  /// A touch anywhere stops the hand-off: the student is reading, so the page waits.
+  void _stopHandOff(PointerDownEvent _) {
+    if (_handOff == null || _handOffStopped || _left) return;
+    _handOff?.cancel();
+    _fill.stop();
+    setState(() => _handOffStopped = true);
   }
 
   void _openResult() {
@@ -265,7 +291,11 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                     // still when the keys change (confirm, sending, received).
                     child: _HoldHeight(
                       hold: !nta,
-                      child: SubmitStageView(
+                      child: _HandOffLine(
+                        fill: _fill,
+                        shown: state.stage == SubmitStage.received && !nta && _handOff != null,
+                        stopped: _handOffStopped,
+                        child: SubmitStageView(
                         state: state,
                         isMock: _s.isMock,
                         timedOut: timeUp,
@@ -294,12 +324,13 @@ class _SubmitPageState extends ConsumerState<SubmitPage> {
                               )
                             : null,
                       ),
+                      ),
                     ),
                   ),
                 ],
               ),
             );
-            return page;
+            return Listener(behavior: HitTestBehavior.translucent, onPointerDown: _stopHandOff, child: page);
           },
         ),
       ),
@@ -620,6 +651,59 @@ class _HoldHeightState extends State<_HoldHeight> {
         alignment: Alignment.topCenter,
         child: KeyedSubtree(key: _inner, child: widget.child),
       ),
+    );
+  }
+}
+
+/// The 2 dp volt line under "Open your sheet" that fills while the page waits to hand off. It sits
+/// just below the key, on the flat of its lower edge (inset by the key's corner), so it never
+/// covers the key's words; a stop fades it out in [SubmitPage.handOffCancelFade].
+class _HandOffLine extends StatelessWidget {
+  const _HandOffLine({required this.fill, required this.shown, required this.stopped, required this.child});
+
+  final Animation<double> fill;
+  final bool shown;
+  final bool stopped;
+  final Widget child;
+
+  static const double inset = MmSpace.s16;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    // One shape whether or not the line shows, so the keys above it are never rebuilt for it.
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        child,
+        if (shown)
+          Positioned(
+          left: inset,
+          right: inset,
+          bottom: -MmSpace.s8,
+          height: 2,
+          child: IgnorePointer(
+            child: AnimatedOpacity(
+              opacity: stopped ? 0 : 1,
+              duration: SubmitPage.handOffCancelFade,
+              child: AnimatedBuilder(
+                animation: fill,
+                builder: (context, _) => Align(
+                  alignment: Alignment.centerLeft,
+                  child: FractionallySizedBox(
+                    key: const ValueKey('submit-handoff-line'),
+                    widthFactor: fill.value,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(color: colors.volt, borderRadius: BorderRadius.circular(1)),
+                      child: const SizedBox.expand(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -72,7 +72,7 @@ void main() {
     test('the leave guard names the real deadline in 12-hour time', () {
       expect(
         RunnerCopy.leaveBody(isMock: true, until: DateTime(2026, 10, 13, 23, 42)),
-        'The clock keeps running. Your answers stay in the mock and you can continue until 11:42 PM.',
+        'The clock keeps running. You can continue until 11:42 PM.',
       );
     });
 

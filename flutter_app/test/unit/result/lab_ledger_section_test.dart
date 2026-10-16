@@ -227,4 +227,29 @@ void main() {
     expect(p.indexAt(1, 300), 0);
     expect(p.indexAt(299, 300), 2);
   });
+
+  test('the hero takes the count out of the heading only when the heading says just that (AP3-04)', () {
+    expect(LabLedgerSection.headingRest("You missed 112 marks. Here's where they went.", 112), "Here's where they went.");
+    expect(LabLedgerSection.headingRest("You missed 112 marks. Here's where they went.", 111), isNull);
+    expect(LabLedgerSection.headingRest("You didn't miss a mark this session.", 0), isNull);
+    expect(LabLedgerSection.heroUnit(250), 'marks missed, of 250');
+  });
+
+  testWidgets('with full marks known, the head is the 56 sp numeral over its denominator, read as the heading', (tester) async {
+    final lab = labOf('ready');
+    final rest = LabLedgerSection.headingRest(lab.heading, lab.gap);
+    expect(rest, isNotNull, reason: 'the ready fixture leads with the count');
+    await pumpLabHost(
+      tester,
+      LabLedgerSection(attemptId: 'hero', lab: lab, onOpenQuestion: (_) {}, outOf: 250),
+      reduced: true,
+      size: const Size(360, 1600),
+    );
+    await tester.pumpAndSettle();
+    final numeral = tester.widget<Text>(find.text('${lab.gap}'));
+    expect(numeral.style?.fontSize, LabLedgerSection.heroSize);
+    expect(find.text(LabLedgerSection.heroUnit(250)), findsOneWidget);
+    expect(find.text(lab.heading), findsNothing, reason: 'the count is said once');
+    expect(find.bySemanticsLabel(lab.heading), findsOneWidget);
+  });
 }

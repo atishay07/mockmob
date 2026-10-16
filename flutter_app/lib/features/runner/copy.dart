@@ -150,7 +150,7 @@ abstract final class RunnerCopy {
   // Leave guard.
   static String leaveTitle(bool isMock) => 'Leave this ${noun(isMock)}?';
   static String leaveBody({required bool isMock, required DateTime until}) => isMock
-      ? 'The clock keeps running. Your answers stay in the mock and you can continue until ${formatTime12(until)}.'
+      ? 'The clock keeps running. You can continue until ${formatTime12(until)}.'
       : 'This practice stays open until ${formatTime12(until)}. Your answers stay in it.';
   static const String keepGoing = 'Keep going';
   static String leaveKey(bool isMock) => 'Leave the ${noun(isMock)}';

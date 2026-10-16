@@ -36,12 +36,24 @@ void main() {
     testWidgets('ledger, ready ($tag)', (tester) async {
       await pumpLabHost(
         tester,
-        LabLedgerSection(attemptId: 'a7', lab: labOf('ready'), onOpenQuestion: (_) {}, onSeeChanges: () {}),
+        LabLedgerSection(attemptId: 'a7', lab: labOf('ready'), onOpenQuestion: (_) {}, onSeeChanges: () {}, outOf: 250),
         brightness: b,
         size: const Size(360, 1500),
       );
       await tester.pumpAndSettle();
       await _shot(tester, 'lab_ledger_ready_$tag');
+    });
+
+    // Pass 1016e AP3-04: the hero numeral over its denominator at the owner's 390 dp phone.
+    testWidgets('ledger hero, ready at 390 ($tag)', (tester) async {
+      await pumpLabHost(
+        tester,
+        LabLedgerSection(attemptId: 'a7', lab: labOf('ready'), onOpenQuestion: (_) {}, onSeeChanges: () {}, outOf: 250),
+        brightness: b,
+        size: const Size(390, 1500),
+      );
+      await tester.pumpAndSettle();
+      await _shot(tester, 'lab_ledger_ready_390_$tag');
     });
 
     testWidgets('ledger, basic ($tag)', (tester) async {

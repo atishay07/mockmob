@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/domain/domain.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
@@ -248,22 +249,48 @@ void main() {
   });
 
   group('the card drag', () {
-    test('the card follows at 0.35, and a sixth of that toward a card that is not there', () {
-      expect(CardDrag.shiftFor(-100, hasNext: true, hasBack: true), closeTo(-35, 1e-9));
-      expect(CardDrag.shiftFor(100, hasNext: true, hasBack: true), closeTo(35, 1e-9));
-      expect(CardDrag.shiftFor(-100, hasNext: false, hasBack: true), closeTo(-35 / 6, 1e-9));
-      expect(CardDrag.shiftFor(100, hasNext: true, hasBack: false), closeTo(35 / 6, 1e-9));
-      expect(CardDrag.shiftFor(-2000, hasNext: true, hasBack: true), -CardDrag.maxShift);
+    test('the card is in the hand toward a card that exists, and on a rubber band toward none (AP3-01)', () {
+      expect(CardDrag.shiftFor(-72, hasNext: true, hasBack: true), -72, reason: 'a 72 dp drag moves the card 72 dp');
+      expect(CardDrag.shiftFor(72, hasNext: true, hasBack: true), 72);
+      expect(CardDrag.shiftFor(-300, hasNext: true, hasBack: true), -300, reason: 'no cap before the commit');
+      expect(CardDrag.shiftFor(-100, hasNext: false, hasBack: true), closeTo(-15, 1e-9));
+      expect(CardDrag.shiftFor(100, hasNext: true, hasBack: false), closeTo(15, 1e-9));
+      expect(CardDrag.shiftFor(-2000, hasNext: false, hasBack: true), -CardDrag.edgeMax);
     });
 
-    test('past 72 dp or a flick turns the card; short of that it springs back', () {
-      expect(CardDrag.decide(-80, 0, hasNext: true, hasBack: true), -1);
-      expect(CardDrag.decide(80, 0, hasNext: true, hasBack: true), 1);
-      expect(CardDrag.decide(-40, 0, hasNext: true, hasBack: true), 0);
-      expect(CardDrag.decide(-40, -900, hasNext: true, hasBack: true), -1, reason: 'a flick');
+    test('past 30% of the card or a 500 px/s flick turns it; short of that it springs back', () {
+      expect(CardDrag.commitFor(384), closeTo(115.2, 1e-9));
+      expect(CardDrag.decide(-120, 0, hasNext: true, hasBack: true, width: 384), -1);
+      expect(CardDrag.decide(120, 0, hasNext: true, hasBack: true, width: 384), 1);
+      expect(CardDrag.decide(-100, 0, hasNext: true, hasBack: true, width: 384), 0);
+      expect(CardDrag.decide(-40, -520, hasNext: true, hasBack: true), -1, reason: 'a flick');
+      expect(CardDrag.decide(-40, -450, hasNext: true, hasBack: true), 0, reason: 'too slow to be a flick');
       expect(CardDrag.decide(-40, 900, hasNext: true, hasBack: true), 0, reason: 'a flick the other way is not a commit');
-      expect(CardDrag.decide(-120, 0, hasNext: false, hasBack: true), 0, reason: 'no next card');
-      expect(CardDrag.decide(120, 0, hasNext: true, hasBack: false), 0, reason: 'no previous card');
+      expect(CardDrag.decide(-200, 0, hasNext: false, hasBack: true), 0, reason: 'no next card');
+      expect(CardDrag.decide(200, 0, hasNext: true, hasBack: false), 0, reason: 'no previous card');
+    });
+
+    testWidgets('a 72 dp drag moves the card 72 dp under the finger', (tester) async {
+      final c = CardDragController();
+      addTearDown(c.dispose);
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: CardDrag(controller: c, onNext: () {}, onBack: () {}, child: const SizedBox.expand()),
+        ),
+      ));
+      final g = await tester.startGesture(tester.getCenter(find.byType(CardDrag)));
+      await g.moveBy(const Offset(-20, 0));
+      await g.moveBy(const Offset(-72, 0));
+      await tester.pump();
+      // The first 20 dp include the drag slop; the 72 after it are followed 1:1.
+      expect(c.shift, lessThanOrEqualTo(-72));
+      final before = c.shift;
+      await g.moveBy(const Offset(-10, 0));
+      await tester.pump();
+      expect(c.shift, closeTo(before - 10, 1e-6));
+      await g.up();
+      await tester.pumpAndSettle();
+      expect(c.shift, 0, reason: 'short of the commit, the card springs home');
     });
   });
 
