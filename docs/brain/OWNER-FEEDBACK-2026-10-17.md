@@ -54,3 +54,13 @@ The owner asked for this to be read carefully, noted completely, and used as con
 
 - Every design agent reads this file with the 16 Oct ledger (APP-OWNER-LEDGER-2026-10-16.md), his research brain (docs/research/premium-ux-ui-2026-10/AGENT_RULES.md) and the ui-ux-standards skill.
 - Work is not done until an emulator walk (app) or a visual gate at 390 and 1440, Night and Day (web) shows the item fixed. Tick items here with the proof path.
+
+## Added about 1:20 am IST (his words, then ledger rows)
+
+> In the review, when I go to review any wrong answer which I had just attempted, the things which I had already repaired... are getting lost. I have to repair it again and spend another credit. That should not happen, and it should show the mock time and date when that was attempted in the review section. ... Okay, now it's working, so maybe it was not a bug.
+> Overall, the UI/UX choices are still very confusing, even to me. ... Even last year, students were confused, and they didn't use 90% of the features because they didn't actually know what they were to do with this. We have to learn this from the top edtech platforms: how they make students utilize all the features, which gives them the feeling that what they're paying for is offering them value.
+
+| Id | Surface | Item | Owner's rule or ask |
+|---|---|---|---|
+| F17 | Web and app | Review shows past repairs and when the mistake happened | A mistake already repaired must open its saved repair, never offer a paid repair again. Each mistake shows the mock and the date and time it was attempted. The data on 17 Oct showed 3 repairs on 3 different questions and no double charge, so the problem is visibility, not billing. |
+| F18 | Both | Feature adoption and perceived value | Students did not use 90% of features last year because they did not know what to do. Learn from top edtech platforms how they lead students to each feature and make paid value felt. Research ran 17 Oct; it feeds the build round. |
