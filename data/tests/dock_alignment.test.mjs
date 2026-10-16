@@ -86,7 +86,7 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
   const { launch } = await import('./cdp_chrome.mjs');
   const chrome = await launch();
   try {
-    const sizes = [[320, 700], [360, 800], [390, 844], [768, 1024]];
+    const sizes = [[320, 700], [360, 800], [390, 844], [430, 932], [768, 1024]];
     for (const theme of ['dark', 'light']) {
       const page = await chrome.page({ width: 390, height: 844, theme });
       try {
