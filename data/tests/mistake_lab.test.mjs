@@ -261,3 +261,57 @@ test('frozen rules match the spec', () => {
   assert.deepEqual([LAB_RULES.longMs, LAB_RULES.quickMs, LAB_RULES.headlineMarks, LAB_RULES.headlineShare, LAB_RULES.cohortMin, LAB_RULES.cohortLabelMin, LAB_RULES.trapMinPicks, LAB_RULES.chipsShown],
     [120000, 20000, 12, 0.15, 10, 20, 5, 8]);
 });
+
+// ---------- Older papers: one line on what the paper cannot show, and one action ----------
+
+test('older papers: each way a record can be missing gets its own one line, and the same one action', () => {
+  const action = { label: 'Take a timed mock to see your full Lab', subject: 'accountancy', mode: 'full', href: '/dashboard?subject=accountancy&mode=full' };
+  const device = labOf(FIX.no_timeline_input);
+  assert.deepEqual(device.older, { reason: 'no_clock', line: 'This paper has no clock record, so its time, answer changes and replay are not shown.', action });
+  const mismatch = labOf(FIX.inconsistent_input);
+  assert.deepEqual(mismatch.older, { reason: 'not_matched', line: 'The clock from your device did not match your submitted answers, so its time, answer changes and replay are not shown.', action });
+  // A server-scored paper whose record has under 2 events: a record exists but is too short to read.
+  const quiet = paper([['W', 30], ['R', 30]]);
+  quiet.attempt.subject = 'economics';
+  quiet.attempt.selectionMeta.recovery.timeline = [];
+  const short = buildMistakeLab({ attempt: quiet.attempt });
+  assert.equal(short.older.reason, 'short');
+  assert.equal(short.older.action.href, '/dashboard?subject=economics&mode=full');
+  // A record the server could not read (telemetry invalid, which a paper taken today can have) is not "no clock record".
+  quiet.attempt.selectionMeta.recovery = { telemetry: 'invalid', timeline: [] };
+  const unreadable = buildMistakeLab({ attempt: quiet.attempt });
+  assert.equal(unreadable.older.reason, 'unreadable');
+  assert.equal(unreadable.older.line, 'The clock record from your device could not be read, so its time, answer changes and replay are not shown.');
+  // No subject: the setup still opens on a Full mock.
+  quiet.attempt.subject = null;
+  quiet.attempt.selectionMeta.recovery = undefined;
+  const bare = buildMistakeLab({ attempt: quiet.attempt });
+  assert.equal(bare.older.reason, 'no_clock');
+  assert.equal(bare.older.action.href, '/dashboard?mode=full');
+  // A subject is encoded into the link.
+  quiet.attempt.subject = 'business studies';
+  assert.equal(buildMistakeLab({ attempt: quiet.attempt }).older.action.href, '/dashboard?subject=business%20studies&mode=full');
+});
+
+test('older papers: a usable record from before the capture of 15 Oct says what it lacks; a whole record has no older key', () => {
+  const pre = labOf(FIX.quick_set_input);
+  assert.equal(pre.state, 'ready', 'the clock record is usable, so the full ledger shows');
+  assert.equal(pre.older.reason, 'before_capture');
+  assert.equal(pre.older.line, "This paper's record has no time away, marks for review or how the paper ended, so those are not shown.");
+  assert.equal(labOf(FIX.no_missed_input).older.reason, 'before_capture', 'a paper with nothing missed still says so');
+  for (const name of ['full_mock_input', 'replay_full_input', 'replay_time_up_input', 'replay_nta_input', 'replay_bst_input', 'replay_english_input']) {
+    const input = name.startsWith('replay') ? load(name) : FIX[name];
+    assert.equal('older' in labOf(input), false, `${name} has a whole record`);
+  }
+});
+
+test('older papers: the existing sentences stay (the app reads them), the new line is plain and passes the copy rules', () => {
+  const device = labOf(FIX.no_timeline_input);
+  assert.match(device.fine[0], /The split shows wrong and blank only\.$/, 'fine is unchanged for the app');
+  for (const s of strings(LAB_COPY.older)) {
+    assert.doesNotMatch(s, /[!—·]/, s);
+    assert.doesNotMatch(s, /\b(?:would have|could have|recoverable|potential|forecast)\b/i, s);
+    assert.ok(s.length < 140, s);
+  }
+  assert.deepEqual(Object.keys(LAB_COPY.older), ['no_clock', 'short', 'not_matched', 'unreadable', 'before_capture', 'action', 'actionAgain']);
+});

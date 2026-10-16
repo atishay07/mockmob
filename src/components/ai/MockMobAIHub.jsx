@@ -51,7 +51,10 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
   const pro = isPaidUser(user);
   const isDrawer = variant === 'drawer';
   // The full-page console honours ?tab=record; the drawer ignores the host page's query string.
-  const requestedTab = useSearchParams().get('tab');
+  const searchParams = useSearchParams();
+  const requestedTab = searchParams.get('tab');
+  // "Ask Mobi about this question" (from a repair): /mentor?tab=ask&q=<attemptId>:<questionId>. Page only, like ?tab.
+  const questionRef = variant === 'page' ? searchParams.get('q') : null;
   const wanted = variant === 'page' && requestedTab ? requestedTab : initialTab;
   const [section, setSection] = useState(SECTIONS.some((s) => s.id === wanted) ? wanted : wanted === 'guide' ? 'tools' : 'plan');
   const insightsState = useInsights(user?.id);
@@ -122,7 +125,7 @@ function Hub({ variant = 'drawer', initialTab = 'plan', onClose }) {
         ) : section === 'tools' ? (
           <ToolsSection onNavigate={navigate} />
         ) : null}
-        {isAuthenticated ? <div hidden={section !== 'ask'}><AskSection pathname={pathname} onNavigate={navigate} insightsState={insightsState} pro={pro} wallet={wallet} readWallet={readWallet} /></div> : null}
+        {isAuthenticated ? <div hidden={section !== 'ask'}><AskSection pathname={pathname} onNavigate={navigate} insightsState={insightsState} pro={pro} wallet={wallet} readWallet={readWallet} questionRef={questionRef} /></div> : null}
       </div>
     </div></>
   );
@@ -223,12 +226,15 @@ function PlanSection({ firstName, onNavigate, insightsState, onInspect, onAsk })
   );
 }
 
-function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWallet }) {
+function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWallet, questionRef = null }) {
   const [messages, setMessages] = useState([]);
   const [sessionId, setSessionId] = useState(null);
   const [input, setInput] = useState('');
   const [pending, setPending] = useState(false);
-  const [kind, setKind] = useState('record');
+  // A question handed over from a repair: its short context is read from the server (free), and the reply is written about
+  // that one question. Written guidance only (a record answer cannot discuss a question), so the cost line shows at once.
+  const [questionCtx, setQuestionCtx] = useState(questionRef ? { status: 'loading' } : null);
+  const [kind, setKind] = useState(questionRef ? 'model' : 'record');
   const [mode, setMode] = useState('mentor');
   const [retry, setRetry] = useState(null);
   const inFlight = useRef(false);
@@ -252,20 +258,38 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
   }, []);
 
   useEffect(() => {
+    if (!questionRef) return undefined;
+    let alive = true;
+    fetch(`/api/recovery/ask-context?q=${encodeURIComponent(questionRef)}`, { cache: 'no-store' })
+      .then(async (res) => ({ res, data: await res.json().catch(() => null) }))
+      .then(({ res, data }) => { if (alive) setQuestionCtx(res.ok && data?.ok ? { status: 'ready', ...data.context } : { status: 'error', message: data?.message || 'That question could not be opened.' }); })
+      .catch(() => { if (alive) setQuestionCtx({ status: 'error', message: 'That question could not be opened.' }); });
+    return () => { alive = false; };
+  }, [questionRef]);
+
+  useEffect(() => {
     if (transcriptRef.current) transcriptRef.current.scrollTop = transcriptRef.current.scrollHeight;
   }, [messages, pending]);
 
+  const withQuestion = questionCtx?.status === 'ready';
+  // While the handed-over question is still being opened, nothing is sent: a reply sent now would go without it and still cost a credit.
+  const opening = questionCtx?.status === 'loading';
+  // A handed-over question can only be answered by a written reply. When written replies cannot be bought (paused, no credits,
+  // credits unreadable) Mobi cannot answer it, so the screen says that once, and offers the record instead. It never says the
+  // question can be asked about for free: a record answer cannot discuss a question.
+  const blockedQuestion = withQuestion && Boolean(wallet) && wallet.state !== 'available';
+
   async function send(text = input, isRetry = false) {
     const finalText = String(text || '').trim();
-    if (!finalText || inFlight.current || (retry && !isRetry)) return;
+    if (!finalText || inFlight.current || opening || (retry && !isRetry)) return;
     inFlight.current = true;
     setInput('');
     if (!isRetry) setMessages((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: finalText }]);
     // Questions about the student's own record are answered from the record: free, instant, no model.
-    const fromRecord = !isRetry && (insightsState?.status === 'ready' || insightsState?.status === 'empty')
+    const fromRecord = !isRetry && !withQuestion && (insightsState?.status === 'ready' || insightsState?.status === 'empty')
       ? answerFromInsights(finalText, insightsState.insights ?? { state: 'empty' }, { pro })
       : null;
-    const local = isRetry ? null : fromRecord ? { ...fromRecord, origin:'record', cards: [], confidence: 0, deterministic: true } : kind === 'record' ? deterministicReplyFor({ text: finalText, pathname }) : null;
+    const local = isRetry || withQuestion ? null : fromRecord ? { ...fromRecord, origin:'record', cards: [], confidence: 0, deterministic: true } : kind === 'record' ? deterministicReplyFor({ text: finalText, pathname }) : null;
     if (local) {
       setMessages((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response: {...local,origin:'record'} }]);
       fetch('/api/ai/mentor/local', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ sessionId, message: finalText, response: local, mode: 'guide' }) })
@@ -275,9 +299,9 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
     setPending(true);
     // One request id per student action. It is reused only if the last attempt ended with an
     // unknown outcome (network error), so a retry can never be charged twice.
-    if (!isRetry) pendingRef.current = { message: finalText, id: crypto.randomUUID().replace(/-/g, ''), mode, kind };
+    if (!isRetry) pendingRef.current = { message: finalText, id: crypto.randomUUID().replace(/-/g, ''), mode, kind, questionRef: withQuestion ? questionRef : null };
     try {
-      const res = await fetch('/api/ai/mentor/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ message: finalText, mode: pendingRef.current.mode, replyKind:pendingRef.current.kind, sessionId, requestId: pendingRef.current.id }) });
+      const res = await fetch('/api/ai/mentor/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ message: finalText, mode: pendingRef.current.mode, replyKind:pendingRef.current.kind, sessionId, requestId: pendingRef.current.id, ...(pendingRef.current.questionRef ? { questionRef: pendingRef.current.questionRef } : {}) }) });
       const data = await res.json();
       if (res.ok && !data?.response?.reply && !data?.reply) throw new Error('Reply outcome unreadable');
       pendingRef.current = null; // the server gave a definite answer
@@ -300,10 +324,12 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
   return (
     <section className="pp-ask" aria-label="Ask Mobi">
       <div className="pp-ask__heading"><div><h2>Ask Mobi</h2></div><span className="pp-ask__balance">{wallet?.known ? `${wallet.total} AI credits` : wallet ? 'AI credits unavailable' : 'Reading AI credits…'}</span></div>
-      <div className="pp-ask__switch" role="group" aria-label="Reply source"><button type="button" aria-pressed={kind==='record'} disabled={pending || Boolean(retry)} onClick={()=>setKind('record')}>About your marks <small>Free</small></button><button type="button" aria-pressed={kind==='model'} disabled={pending || Boolean(retry)} onClick={()=>setKind('model')}>Written guidance <small>1 AI credit</small></button></div>
-      {kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? usesLine({ what: 'One written reply', cost: 1, pool: 'ai', balance: wallet.total }) : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? `You have no AI credits left. ${POOL_USE.ai}` : 'Written guidance is unavailable until your AI credits can be read.'}</b><p>{wallet?.state==='available' ? 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.' : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' ? <div className="pp-ask__focus"><span id="prepos-focus-label">Focus</span><Listbox id="prepos-focus" labelledBy="prepos-focus-label" sheetTitle="Focus" size="sm" value={mode} disabled={pending || Boolean(retry)} onChange={setMode} options={FOCUS_OPTIONS} /></div> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no AI credits.</p>}
+      {questionCtx ? <QuestionContext ctx={questionCtx} blocked={blockedQuestion} onDrop={() => { setQuestionCtx(null); setKind('record'); }} /> : null}
+      {blockedQuestion ? null : <div className="pp-ask__switch" role="group" aria-label="Reply source"><button type="button" aria-pressed={kind==='record'} disabled={pending || Boolean(retry) || withQuestion} onClick={()=>setKind('record')}>About your marks <small>Free</small></button><button type="button" aria-pressed={kind==='model'} disabled={pending || Boolean(retry)} onClick={()=>setKind('model')}>Written guidance <small>1 AI credit</small></button></div>}
+      {blockedQuestion ? null : kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? usesLine({ what: 'One written reply', cost: 1, pool: 'ai', balance: wallet.total }) : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? `You have no AI credits left. ${POOL_USE.ai}` : 'Written guidance is unavailable until your AI credits can be read.'}</b><p>{wallet?.state==='available' ? 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.' : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' ? <div className="pp-ask__focus"><span id="prepos-focus-label">Focus</span><Listbox id="prepos-focus" labelledBy="prepos-focus-label" sheetTitle="Focus" size="sm" value={mode} disabled={pending || Boolean(retry)} onChange={setMode} options={FOCUS_OPTIONS} /></div> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no AI credits.</p>}
       <div ref={transcriptRef} className="pp-transcript" aria-live="polite" aria-busy={pending}>
-        {messages.length === 0 && <div className="pp-ask__empty"><p>Start with something your record can answer.</p><div className="pp-ask__suggestions">{['Where am I losing marks?', 'Which chapter should I practise?', 'Am I spending too long?'].map(text=><button type="button" key={text} onClick={()=>send(text)} disabled={kind==='model' && wallet?.state!=='available'}>{text}</button>)}</div><small>{current.title}: {current.body}</small></div>}
+        {messages.length === 0 && withQuestion && !blockedQuestion && <div className="pp-ask__empty"><p>Ask about the mistake above. Your reply uses its text, your pick, the key and your rule, and nothing else about you.</p></div>}
+        {messages.length === 0 && !withQuestion && <div className="pp-ask__empty"><p>Start with something your record can answer.</p><div className="pp-ask__suggestions">{['Where am I losing marks?', 'Which chapter should I practise?', 'Am I spending too long?'].map(text=><button type="button" key={text} onClick={()=>send(text)} disabled={kind==='model' && wallet?.state!=='available'}>{text}</button>)}</div><small>{current.title}: {current.body}</small></div>}
         {messages.map((m) => m.role === 'user' ? (
           <p key={m.id} className="justify-self-end max-w-[85%] rounded-2xl bg-white/[0.06] px-3 py-2 text-sm text-zinc-100">{m.text}</p>
         ) : (
@@ -323,12 +349,27 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
         {pending && <p className="text-sm text-zinc-400" role="status">Mobi is reading your practice record…</p>}
       </div>
       {retry ? <div className="pp-ask__service" role="alert"><b>The reply outcome could not be confirmed.</b><p>Retry the same request to avoid a second charge. Your AI credits page is the record of any credit used.</p><button type="button" className="btn-outline sm" disabled={pending} onClick={()=>send(retry.message,true)}>Retry this question</button></div> : null}
-      <form className="pp-composer" onSubmit={(event) => { event.preventDefault(); send(); }}>
+      {blockedQuestion ? null : <form className="pp-composer" onSubmit={(event) => { event.preventDefault(); send(); }}>
         <label htmlFor="prepos-input" className="sr-only">Ask Mobi</label>
-        <textarea id="prepos-input" value={input} maxLength={1500} rows={2} disabled={pending || Boolean(retry) || (kind==='model' && wallet?.state!=='available')} onChange={(event) => setInput(event.target.value)} placeholder={kind==='record' ? 'What does my record show?' : 'What would you like to reason through?'} />
-        <div><span>{kind==='record' ? 'Free, from your recorded facts' : usesLine({ what: 'This reply', cost: 1, pool: 'ai', balance: wallet?.known ? wallet.total : null })}</span><button type="submit" className="btn-volt sm" disabled={pending || Boolean(retry) || !input.trim() || (kind==='model' && wallet?.state!=='available')}>{pending ? 'Reading…' : kind==='record' ? 'Ask Mobi, free' : 'Ask Mobi, 1 AI credit'}</button></div>
-      </form>
+        <textarea id="prepos-input" value={input} maxLength={1500} rows={2} disabled={pending || opening || Boolean(retry) || (kind==='model' && wallet?.state!=='available')} onChange={(event) => setInput(event.target.value)} placeholder={withQuestion ? 'What about this mistake is unclear?' : kind==='record' ? 'What does my record show?' : 'What would you like to reason through?'} />
+        <div><span>{kind==='record' ? 'Free, from your recorded facts' : usesLine({ what: 'This reply', cost: 1, pool: 'ai', balance: wallet?.known ? wallet.total : null })}</span><button type="submit" className="btn-volt sm" disabled={pending || opening || Boolean(retry) || !input.trim() || (kind==='model' && wallet?.state!=='available')}>{pending ? 'Reading…' : kind==='record' ? 'Ask Mobi, free' : 'Ask Mobi, 1 AI credit'}</button></div>
+      </form>}
     </section>
+  );
+}
+
+function QuestionContext({ ctx, onDrop, blocked = false }) {
+  if (ctx.status === 'loading') return <p className="pp-note" role="status">Opening your question…</p>;
+  if (ctx.status === 'error') return <div className="pp-ask__service pp-ask__service--q" role="status"><b>{ctx.message}</b><p>You can still ask about your recorded practice.</p><button type="button" className="btn-outline sm" onClick={onDrop}>Ask about my record</button></div>;
+  return (
+    <div className="pp-ask__service pp-ask__service--q" role="status" aria-label="The mistake you are asking about">
+      <b>About the mistake you repaired{ctx.chapter ? `, ${ctx.chapter}` : ''}</b>
+      <p>{ctx.question}{ctx.question && ctx.question.length >= 160 ? '…' : ''}</p>
+      {ctx.pick ? <p>You picked {ctx.pick.letter}.{ctx.hasKey ? '' : ' The key is being re-checked, so Mobi will not name an answer.'}</p> : null}
+      {ctx.rule ? <p>Your rule: {ctx.rule}</p> : null}
+      {blocked ? <p className="pp-ask__blocked"><b>Mobi cannot answer this question right now. Nothing was charged.</b></p> : null}
+      <button type="button" className="btn-outline sm" onClick={onDrop}>{blocked ? 'Ask about my record' : 'Ask something else'}</button>
+    </div>
   );
 }
 

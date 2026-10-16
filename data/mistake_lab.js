@@ -115,6 +115,37 @@ export function othersFor(read, { givenIndex = null, outcome = 'blank' } = {}) {
   };
 }
 
+// ---------- Older papers ----------
+
+/**
+ * The one line an older paper gets, and its one action, or null when the paper's record is whole.
+ *   no_clock        scored in the browser, or no clock record was kept
+ *   short           a record exists but is too short to read
+ *   unreadable      the server could not read the device's record (telemetry invalid)
+ *   not_matched     the device record did not match the submitted answers, so it is not used
+ *   before_capture  a usable record, taken before the capture of 15 Oct (no time away, marks, strike-outs or end)
+ * The action opens the existing practice setup on this paper's subject with a Full mock; the setup shows its cost.
+ * Nothing here is a cause or a forecast: it says what this paper's record cannot show, and why.
+ */
+export function olderPaper({ attempt, td, trace }) {
+  let reason = null;
+  if (td.state === 'device') reason = 'no_clock';
+  else if (td.state === 'inconsistent') reason = 'not_matched';
+  else if (td.state === 'none') {
+    // A record the server could not read (telemetry 'invalid') is not a missing one: a paper taken today can have it.
+    const telemetry = attempt?.selectionMeta?.recovery?.telemetry;
+    reason = telemetry === 'self_reported' ? 'short' : telemetry === 'invalid' ? 'unreadable' : 'no_clock';
+  }
+  else if (td.state === 'ready' && trace && !trace.captured) reason = 'before_capture';
+  if (!reason) return null;
+  const subject = attempt?.subject ? String(attempt.subject) : null;
+  return {
+    reason,
+    line: COPY.older[reason],
+    action: { label: reason === 'before_capture' ? COPY.older.actionAgain : COPY.older.action, subject, mode: 'full', href: `/dashboard?${subject ? `subject=${encodeURIComponent(subject)}&` : ''}mode=full` },
+  };
+}
+
 // ---------- The ledger ----------
 
 function groupEntry(id, rows, { open = false, fourOptionsOnly = false } = {}) {
@@ -226,7 +257,9 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
     if (others) byQuestion[r.qid] = { group: null, others };
   }
 
-  const base = { version: LAB_VERSION, labels: { ...COPY.labels } };
+  // An older paper carries one line and one action (`older`); a paper with a whole record has no such key.
+  const older = olderPaper({ attempt, td, trace });
+  const base = { version: LAB_VERSION, labels: { ...COPY.labels }, ...(older ? { older } : {}) };
   // Slice 2 parts, the same in every state: the Replay (null without a usable record) and the finished time read.
   const resultOf = (qid) => {
     const r = rowsById.get(qid);

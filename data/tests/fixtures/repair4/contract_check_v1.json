@@ -1,0 +1,141 @@
+{
+  "contract": "repair-check-v1",
+  "note": "The HTTP contract of the repair's check (CEO decision 16 Oct 2026): after the v3 explanation the student answers one fresh, unseen, published bank question on the same idea. Included in the repair's credit: no second charge, no model call. The key of the check question is NEVER sent before the answer. Marking uses today's key text. Clients read `check` on the repair response to know before asking; GET returns the question; POST marks it. data/tests/repair_check_routes.test.mjs pins the shapes.",
+  "auth": "Same session as /api/recovery/repair (cookie or app bearer). 401 {ok:false,error:'Unauthorized'}.",
+  "ids": {
+    "attemptId": "string, the attempt that holds the mistake",
+    "questionId": "string, the wrong question the repair explained",
+    "checkQuestionId": "string, from GET",
+    "requestId": "[A-Za-z0-9_-]{16,64}, one per student action; reuse it on a retry"
+  },
+
+  "repairResponseGains": {
+    "where": "POST /api/recovery/repair, status 'explained' and 'stored' only (never held_for_recheck or not_explained)",
+    "check": {
+      "available": "boolean: a check question is on offer right now (false once answered)",
+      "status": "'ready' | 'none' | 'answered' | 'unchecked'",
+      "reason": "null when status is ready or answered; otherwise a code from reasons below",
+      "message": "the reason in plain words, or null",
+      "href": "'/api/recovery/check?attemptId=..&questionId=..' (relative)",
+      "askHref": "'/mentor?tab=ask&q=<attemptId>:<questionId>' (the Ask Mobi follow-up; the key stays visible, Ask has its own credit rules)"
+    },
+    "examples": {
+      "ready": { "available": true, "status": "ready", "reason": null, "message": null, "href": "/api/recovery/check?attemptId=att_1&questionId=q_1", "askHref": "/mentor?tab=ask&q=att_1:q_1" },
+      "none": { "available": false, "status": "none", "reason": "no_unseen", "message": "No unseen question on this idea yet.", "href": "/api/recovery/check?attemptId=att_1&questionId=q_1", "askHref": "/mentor?tab=ask&q=att_1:q_1" },
+      "answered": { "available": false, "status": "answered", "reason": null, "message": null, "href": "/api/recovery/check?attemptId=att_1&questionId=q_1", "askHref": "/mentor?tab=ask&q=att_1:q_1" },
+      "unchecked": { "available": false, "status": "unchecked", "reason": "check_unavailable", "message": "The check is not available right now. Nothing was charged.", "href": "/api/recovery/check?attemptId=att_1&questionId=q_1", "askHref": "/mentor?tab=ask&q=att_1:q_1" }
+    }
+  },
+
+  "reasons": {
+    "no_unseen": "No unseen question on this idea yet.",
+    "passage_format": "This one needs its reading passage, so there is no short check for it.",
+    "repair_first": "The check comes with the repair. Explain this mistake first.",
+    "not_saved": "This repair was not saved, so there is no check to open. Nothing was charged.",
+    "lookup_failed": "We could not confirm which questions you have already seen, so we are not offering one. Nothing was charged.",
+    "check_unavailable": "The check is not available right now. Nothing was charged.",
+    "check_changed": "That question was withdrawn before it was marked. Nothing was recorded.",
+    "invalid_pick": "Pick one of the four options."
+  },
+
+  "get": {
+    "request": "GET /api/recovery/check?attemptId=<id>&questionId=<id>",
+    "headers": { "Cache-Control": "no-store" },
+    "ready": {
+      "http": 200,
+      "body": {
+        "ok": true,
+        "status": "ready",
+        "charged": 0,
+        "check": {
+          "checkQuestionId": "q_fresh_1",
+          "subject": "accountancy",
+          "chapter": "Partnership Accounts",
+          "topic": "Goodwill",
+          "format": "mcq",
+          "question": "stem text",
+          "options": [ { "index": 0, "text": "..." }, { "index": 1, "text": "..." }, { "index": 2, "text": "..." }, { "index": 3, "text": "..." } ],
+          "basis": "concept | topic | chapter",
+          "basisLine": "Same topic: Goodwill",
+          "pool": { "unseen": 7, "ofChapter": 41 },
+          "rule": "the repair's rule line, or null"
+        },
+        "href": "/api/recovery/check?attemptId=att_1&questionId=q_1",
+        "askHref": "/mentor?tab=ask&q=att_1:q_1",
+        "notes": [
+          "options are in the bank's own order (A to D as stored), because bank explanations name option letters; `pick` on POST is the index shown here (0 to 3)",
+          "there is no key, no explanation and no marks field before the answer",
+          "the first GET records the offer on the repair (the question and the hash of each option's text in the order shown) and writes one `seen` interaction for the question before it is sent; a reload shows the same question in the same order. From then on the question counts as seen for every other check, for practice and for learning, answered or not"
+        ]
+      }
+    },
+    "none": {
+      "http": 200,
+      "body": { "ok": true, "status": "none", "charged": 0, "reason": "no_unseen", "message": "No unseen question on this idea yet.", "pool": { "unseen": 0, "ofChapter": 41 }, "href": "/api/recovery/check?attemptId=att_1&questionId=q_1", "askHref": "/mentor?tab=ask&q=att_1:q_1" }
+    },
+    "answered": {
+      "http": 200,
+      "body": { "ok": true, "status": "answered", "charged": 0, "check": "same shape as ready, options in the order shown", "result": "the POST result below, as stored", "href": "...", "askHref": "..." }
+    },
+    "errors": {
+      "401": { "ok": false, "error": "Unauthorized" },
+      "404": { "ok": false, "error": "not_found", "message": "That session was not found." },
+      "409 repair_first": { "ok": false, "status": "repair_first", "error": "repair_first", "message": "The check comes with the repair. Explain this mistake first." },
+      "409 other": "any repairEligibility code (question_withdrawn, question_under_review, key_changed): the check follows the repair's own eligibility",
+      "422": { "ok": false, "error": "invalid_request", "message": "That check request was incomplete." },
+      "429": { "ok": false, "error": "rate_limited", "message": "Please wait a moment before the next check." },
+      "503 lookup_failed": { "ok": false, "status": "none", "error": "lookup_failed", "reason": "lookup_failed", "message": "We could not confirm which questions you have already seen, so we are not offering one. Nothing was charged." }
+    }
+  },
+
+  "post": {
+    "request": "POST /api/recovery/check",
+    "body": { "attemptId": "att_1", "questionId": "q_1", "checkQuestionId": "q_fresh_1", "pick": 2, "requestId": "req_0123456789abcdef" },
+    "ok": {
+      "http": 200,
+      "body": {
+        "ok": true,
+        "status": "answered",
+        "replayed": false,
+        "charged": 0,
+        "result": {
+          "right": true,
+          "checkQuestionId": "q_fresh_1",
+          "pick": 2,
+          "key": { "index": 1, "text": "the key option's text, today's key" },
+          "picked": { "index": 2, "text": "the option the student chose" },
+          "explanation": "the bank's explanation, cut at a sentence end; empty string when the bank has none",
+          "ruleLine": "the repair's rule, or null",
+          "line": "Right on a new question from the same topic. One question is a check, not a measure.",
+          "basis": "topic",
+          "basisLine": "Same topic: Goodwill",
+          "options": [ { "index": 0, "text": "...", "isKey": false, "isPick": false } ],
+          "answeredAt": "ISO time",
+          "revise": { "scheduled": true, "nextAt": "2026-10-16T18:30:00.000Z", "dueDay": "2026-10-17", "whenLabel": "tomorrow", "cards": 1 }
+        }
+      },
+      "reviseWhenTableMissing": { "scheduled": false, "reason": "unavailable", "nextAt": null },
+      "notes": [
+        "`pick` is the position the student saw; the server maps it through the offered option-text hashes, so a bank row re-ordered or re-keyed after the offer still marks the option the student chose. An option whose text was edited makes the question withdrawn (409 check_changed).",
+        "`replayed` is true when the answer was already stored: the same requestId again, or any later POST for the same repair. The stored result comes back unchanged and nothing is written twice. The first answer counts.",
+        "`revise` is written for the mistake always and for the check question when it was missed; never when the table revise_cards does not exist (then scheduled:false).",
+        "no credit is reserved, charged or released by this route"
+      ]
+    },
+    "errors": {
+      "401": { "ok": false, "error": "Unauthorized" },
+      "422 invalid_request": "attemptId, questionId, checkQuestionId strings; pick an integer; requestId matching the pattern",
+      "422 invalid_pick": { "ok": false, "error": "invalid_pick", "message": "Pick one of the four options." },
+      "422 invalid_pick (not offered)": { "ok": false, "error": "invalid_pick", "message": "That is not the question that was offered for this repair. Open the check again.", "note": "checkQuestionId is not the question offered for this repair, or nothing was offered yet; nothing is written" },
+      "409 repair_first": { "ok": false, "error": "repair_first" },
+      "409 check_changed": { "ok": false, "error": "check_changed", "message": "That question was withdrawn before it was marked. Nothing was recorded." },
+      "429": { "ok": false, "error": "rate_limited" }
+    }
+  },
+
+  "ask": {
+    "link": "/mentor?tab=ask&q=<attemptId>:<questionId>",
+    "context": "GET /api/recovery/ask-context?q=<attemptId>:<questionId> returns { ok, context:{ question (first 160 chars), subject, chapter, rule, cost:{ credits:1, pool:'ai' } } } for the Ask screen's context line.",
+    "chat": "POST /api/ai/mentor/chat gains `questionRef: '<attemptId>:<questionId>'`. The server builds the context itself from the student's own attempt: question text, the options, the student's pick, today's key and the repair's rule. Nothing else about the student is sent when questionRef is present. Ask's own credit rules apply (1 AI credit, shown before sending)."
+  }
+}

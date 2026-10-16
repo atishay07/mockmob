@@ -6,6 +6,7 @@ import { attemptScoring } from './attempt_scoring.js';
 import { getCanonicalChapters, isValidTopSyllabusPair } from './canonical_syllabus.js';
 import { getSubjectById } from './subjects.js';
 import { TEST_MODES } from './test_modes.js';
+import { paperTrace } from './paper_trace.js';
 import { GAP } from './session_recovery.js';
 import {
   buildLedger, comparableMocks, chapterCounts, paperRows, recordFor, earlierFor, paperFor,
@@ -36,6 +37,10 @@ export const SWOT_RULES = Object.freeze({
   repeatLoss: Object.freeze({ mocks: 3, lostEach: 6 }),
   chapterSlipped: Object.freeze({ earlierAnswered: 8, earlierPapers: 2, earlierLowAtLeast: 60, paperAnswered: 3, paperWrong: 2, drop: 30 }),
   notOpened: Object.freeze({ unopened: 3 }),
+  // Marked for review (recovery.marks, kept since the capture of 15 Oct): a paper is read from 3 marked questions.
+  // The item sits where its own numbers put it: any marked blank is an opportunity; with none blank, 3 or more
+  // answered and two thirds right is a strength, and 3 or more wrong and more wrong than right a weakness.
+  markedReview: Object.freeze({ marked: 3, strengthShare: 2 / 3, weaknessWrong: 3 }),
   repeatMisses: Object.freeze({ questions: 2 }),
   plan: Object.freeze({ max: 3, chapterCount: 10, timedCount: 20, mixedCount: 10 }),
   later: Object.freeze({ minQuestions: 5 }),
@@ -76,6 +81,11 @@ export const SWOT_COPY = Object.freeze({
   blanksFourOptions: ' Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and -1 for wrong.',
   later: (date, right, of) => `A set on this chapter on ${date}: ${right} right of ${of}.`,
   blanks: (b, n) => `${b} of ${n} questions left blank: ${b * GAP.blank} marks not earned.`,
+  markedTitle: Object.freeze({ blank: 'Marked for review, left blank', strength: 'Marked for review, then answered', weakness: 'Marked for review, then wrong' }),
+  // "You marked 6 of 50 questions for review and answered 4 of them: 3 right, 1 wrong."
+  marked: (m, n, a, r, w) => `You marked ${m} of ${n} questions for review and answered ${a === m ? 'all of them' : a === 0 ? 'none of them' : `${a} of them`}${a ? `: ${r} right, ${w} wrong` : ''}.`,
+  markedBlank: (b) => ` ${b === 1 ? '1 stayed blank: 5 marks not earned' : `${b} stayed blank: ${b * GAP.blank} marks not earned`}. On average an answer scores more than a blank when it is right more than 1 time in 6, under +5 for right and −1 for wrong.`,
+  markedReason: (b, m) => `${b} of the ${m} questions you marked for review were left blank.`,
   notOpened: (u, n, list) => `${u} of ${n} questions were never opened: ${list}.`,
   notOpenedReason: (u, n, secs) => `${u} of ${n} questions were never opened. Quick sets give ${secs} seconds a question.`,
   repeatMisses: (k, m) => `${k} of the ${m} questions you had missed before were wrong again.`,
@@ -177,6 +187,49 @@ function chapterItems({ attempt, allAttempts, ledger }) {
   return items;
 }
 
+// ---------- Marked for review ----------
+
+/**
+ * The questions marked for review at some point in this paper (the last state does not matter: a question marked and
+ * then unmarked was still marked), counted over the questions in this read. Null when the record carries no marks
+ * (taken before the capture of 15 Oct, scored in the browser, or not matched), so an older paper says nothing here.
+ */
+export function markedRead(attempt, counted) {
+  const trace = paperTrace(attempt);
+  if (trace.state !== 'ready' || !trace.captured) return null;
+  const marked = counted.filter((row) => (trace.marksByQid.get(row.qid) || []).some((m) => m.marked));
+  const answered = marked.filter((row) => row.outcome !== 'blank');
+  const right = answered.filter((row) => row.outcome === 'right').length;
+  return {
+    marked, answered: answered.length, right, wrong: answered.length - right, blank: marked.length - answered.length, counted: counted.length,
+  };
+}
+
+function markedItem(read) {
+  const R = SWOT_RULES.markedReview;
+  if (!read || read.marked.length < R.marked) return null;
+  const { marked, answered, right, wrong, blank } = read;
+  const m = marked.length;
+  const base = SWOT_COPY.marked(m, read.counted, answered, right, wrong);
+  const evidence = { marked: m, answered, right, wrong, blank, counted: read.counted };
+  const numbersOf = (rows) => rows.map((row) => row.number);
+  if (blank > 0) {
+    const blanks = marked.filter((row) => row.outcome === 'blank');
+    return makeItem('marked_review', 'opportunity', { title: SWOT_COPY.markedTitle.blank, detail: base + SWOT_COPY.markedBlank(blank),
+      questions: numbersOf(blanks), weight: blank * GAP.blank, evidence,
+      plan: blank >= 2 ? { reason: SWOT_COPY.markedReason(blank, m), count: SWOT_RULES.plan.timedCount, label: `Practise ${SWOT_RULES.plan.timedCount}, timed` } : null });
+  }
+  if (answered >= R.marked && right / answered >= R.strengthShare) {
+    return makeItem('marked_review', 'strength', { title: SWOT_COPY.markedTitle.strength, detail: base,
+      questions: numbersOf(marked.filter((row) => row.outcome === 'right')), weight: right, evidence });
+  }
+  if (wrong >= R.weaknessWrong && wrong > right) {
+    return makeItem('marked_review', 'weakness', { title: SWOT_COPY.markedTitle.weakness, detail: base,
+      questions: numbersOf(marked.filter((row) => row.outcome === 'wrong')), weight: wrong * GAP.wrong, evidence });
+  }
+  return null;
+}
+
 // ---------- Paper items ----------
 
 /**
@@ -244,6 +297,10 @@ function paperItems({ attempt, allAttempts, ledger, missedBefore, recorded }) {
         plan: { reason: SWOT_COPY.notOpenedReason(u, counted.length, TEST_MODES.quick.durationPerQuestionSec), count: R.plan.timedCount, label: `Practise ${R.plan.timedCount}, timed` } }));
     }
   }
+
+  // Marked for review (recovery.marks): read only when the record carries them.
+  const marked = markedItem(markedRead(attempt, counted));
+  if (marked) items.push(marked);
 
   const dwell = paperDwell(attempt);
   if (dwell) {
@@ -336,6 +393,7 @@ function buildPlan({ attempt, allAttempts, items, now }) {
     ...of(['weak_chapter', 'chapter_slipped', 'weak_chapter_paper']).sort(byLost),
     ...of(['close_chapter']).sort(byLost),
     ...of(['not_opened']),
+    ...of(['marked_review']),
     ...of(['untried']),
   ];
   const plan = [];
