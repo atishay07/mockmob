@@ -89,8 +89,8 @@ Method: "collected" means sent off the device; "shared" means given to a third p
 | Name | optional | App functionality, account management | Google sign-in, or typed by the student |
 | User IDs | required | App functionality, account management | MockMob and Supabase ids |
 | Other personal info (age band) | optional | App functionality, security and compliance | adult, minor or unknown; decides whether usage data may be on |
-| App interactions | required | App functionality, personalization, analytics (consented events only) | answers, timing, submit, results, stream views and attempts, lesson events, goal progress, how a paper ended |
-| Other user-generated content | optional | App functionality | saves, votes, question reports with a reason label |
+| App interactions | required | App functionality, personalization, analytics (consented events only) | answers, timing, submit, results, question stream events (seen, attempted with the picked option and whether it was right, skip with time on screen; sent for every signed-in user, not tied to the usage-data switch, deleted with the account), lesson events, goal progress, how a paper ended |
+| Other user-generated content | optional | App functionality | saves, votes, question reports with a reason label, reports about AI replies (reason from a four-item list plus the reply text, via POST /api/ai/mentor/report; deleted with the account) |
 | Other actions | optional | App functionality, personalization | weekly goal, pause date, reminder preferences, quiet hours, subjects, timezone |
 | Other in-app messages | optional | App functionality, personalization | AI mentor messages, processed for MockMob by the model provider |
 
