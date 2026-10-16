@@ -38,6 +38,10 @@ So the subject-object one-shots (U1 in the plan) are **deprioritised**. The focu
 - **Night and Day:** either a version for each theme or a neutral scene that sits well on both.
 - **Every claim true.** The bank scene must not imply "never repeats". The landing already says an answered question can come back.
 
+## References the owner admires
+- **Opal (iOS) onboarding, via Mobbin**, shared by the owner 16 Oct about 11:40 pm: https://mobbin.com/flows/be4b5aa1-ba9d-494c-acbb-9ce8faa0d6f5 . A dark, cinematic 3D scene: a glowing opal crystal breaks out of rock with the line "Closer..." and a tap to continue. It is almost certainly pre-rendered 3D video or real-time 3D, not SVG. Use it as the bar for I2 (onboarding opening) and I1 (the bank scene), e.g. our central question bank or vault opening to reveal a fresh paper. Adapt the craft and pacing, never copy: our standards ban ALL-CAPS labels ("TAP TO CONTINUE"), keep it skippable, respect reduced motion, and load the still first.
+- **iOS-only references are fine for taste.** MockMob's Flutter app has its own design system, so iOS screens are taste and flow references, not component specs. Translate only the Android conventions: system back, Android 13+ notification permission, share sheet, pickers, stretch rather than bounce scrolling, gesture bar, haptics.
+
 ## How to keep iterating (the loop future agents follow)
 1. **Ideate.** Spawn 5-7 idea agents (mix of Haiku for breadth and Sonnet for depth), each with one lens and read access to this file, the plan, the research file, the landing source (src/app/page.js and src/components/landing on web/land2-1015), the app onboarding code (flutter_app/lib/features/onboarding), and AGENT_RULES.md. Suggested lenses:
    - A: landing scroll storytelling;
