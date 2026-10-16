@@ -311,15 +311,21 @@ export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
       ) : null}
 
       <div className="trd__tokens">
-        <p className="trd__line">
-          {fig.studyDays != null ? <><b className="trd__num">{fig.studyDays}</b> study days at </> : <span className="trd__wait" aria-hidden="true" />}
-          <Token onClick={() => toggle('pace')} open={panel === 'pace'} controls={`${id}-pace`} disabled={goalNow == null} label={`Study days a week, ${goalNow ?? 'loading'}`}>{goalNow ?? '…'} a week</Token>
-        </p>
+        {goal.status === 'error' && goalNow == null ? (
+          // A failed goal read is said once, with a way back; never a skeleton that waits forever.
+          <p className="trd__line">Your study days a week did not load. <button type="button" className="tm__inline" onClick={onGoalSaved}>Try again</button></p>
+        ) : (
+          <p className="trd__line">
+            {fig.studyDays != null ? <><b className="trd__num">{fig.studyDays}</b> study days at </> : <span className="trd__wait" aria-hidden="true" />}
+            <Token onClick={() => toggle('pace')} open={panel === 'pace'} controls={`${id}-pace`} disabled={goalNow == null} label={`Study days a week, ${goalNow ?? 'loading'}`}>{goalNow ?? '…'} a week</Token>
+          </p>
+        )}
         <p className="trd__line">
           <Token onClick={() => toggle('mocks')} open={panel === 'mocks'} controls={`${id}-mocks`} disabled={!onAccount} label={`Full mocks before your date, ${target}${mockTail}`}>{target} full mocks</Token>
           {' '}before your date{mockTail}
         </p>
-        {!onAccount && road.status !== 'loading' ? <p className="trd__note">Your date and mock target are set on the app for now.</p> : null}
+        {road.status === 'error' ? <p className="trd__note">Your saved date and mock target did not load, so the expected date is shown.</p>
+          : !onAccount && road.status !== 'loading' ? <p className="trd__note">Your date and mock target are set on the app for now.</p> : null}
       </div>
 
       <div className="trd__panel" data-open={panel ? 'true' : 'false'}>

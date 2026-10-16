@@ -8,6 +8,7 @@ import Link from 'next/link';
 import MobiReact from '@/components/brand/MobiReact';
 import { weekCheerKey, weekGoalAct, mobCheerKey, mobRingAct } from '@/lib/mobiScreens';
 import { weekCaption, weekMarks, marksWords, todayKeyIn, weekReceipt } from '@/lib/today/week.mjs';
+import { keepTogether } from '@/lib/today/move.mjs';
 
 const read = (key) => { try { return window.localStorage.getItem(key) === '1'; } catch { return false; } };
 const remember = (key) => { try { window.localStorage.setItem(key, '1'); } catch { /* it may cheer again on this device */ } };
@@ -89,7 +90,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
             {moment?.mob ? <>{moment.mob} </> : null}{caption.text} <b>{caption.strong}</b>
           </p>
         </div>
-        {receipt ? <p className="tw__receipt" aria-hidden="true">{receipt.text} <b>{receipt.strong}</b></p> : null}
+        {receipt ? <p className="tw__receipt" aria-hidden="true">{receipt.text} <b>{keepTogether(receipt.strong)}</b></p> : null}
       </Link>
     </section>
   );

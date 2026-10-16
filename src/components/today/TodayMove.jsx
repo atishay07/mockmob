@@ -9,7 +9,7 @@ import { Clock3, Shuffle, FileText, Play, RotateCcw } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
-import { fitMove } from '@/lib/today/move.mjs';
+import { fitMove, keepTogether } from '@/lib/today/move.mjs';
 import TodaySheet from './TodaySheet';
 
 const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.addEventListener('offline', cb); return () => { window.removeEventListener('online', cb); window.removeEventListener('offline', cb); }; };
@@ -120,7 +120,7 @@ export default function TodayMove({ phase, move, word = 'Tonight’s move', slow
       {m.number != null ? (
         <p className="tm__figure" aria-hidden="true"><BigNumber value={m.number} /><span className="tm__label">{m.label}</span></p>
       ) : null}
-      <p className="tm__why">{m.why}{m.link ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}</p>
+      <p className="tm__why">{keepTogether(m.why)}{m.link ? <> <Link className="tm__inline" href={m.link.href}>{m.link.label}</Link></> : null}</p>
       {offline ? <p className="tm__caption" role="status">Needs a connection to start.</p> : null}
       {offline ? (
         <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{m.key.minutes ? <span className="tm__key-len">{m.key.minutes} min</span> : null}</span>
@@ -134,7 +134,7 @@ export default function TodayMove({ phase, move, word = 'Tonight’s move', slow
         {m.pills.second === 'mock' ? (
           <Link className="tm__pill" href={m.mockHref || '/dashboard?mode=full'}><FileText size={17} strokeWidth={1.75} aria-hidden="true" />Full mock instead</Link>
         ) : m.pills.second === 'open' ? (
-          <Link className="tm__pill" href={m.pills.openHref}><FileText size={17} strokeWidth={1.75} aria-hidden="true" />Open tonight’s paper</Link>
+          <Link className="tm__pill" href={m.pills.openHref}><FileText size={17} strokeWidth={1.75} aria-hidden="true" />Open the session</Link>
         ) : null}
         {m.pills.second !== 'mock' ? (
           <button type="button" className="tm__pill" aria-haspopup="dialog" onClick={() => setSheet('else')}><Shuffle size={17} strokeWidth={1.75} aria-hidden="true" />Something else</button>

@@ -169,9 +169,9 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   if (tonightDone) {
     const t = plan.tonight;
     return {
-      id: 'done', overline: 'Done for today', number: t.minutes, label: 'minutes practised tonight',
+      id: 'done', overline: 'Done for today', number: t.minutes, label: `minutes practised ${moveWord.startsWith('Tonight') ? 'tonight' : 'today'}`,
       why: `Saved at ${clock(t.completedAt)}. ${open > 0 ? `Tomorrow starts with ${plural(open, 'open mistake')} from it.` : 'Tomorrow’s move is planned from it.'}`,
-      // The key keeps going (one more session is extra, never owed); tonight's paper is one tap away in the pills.
+      // The key keeps going (one more session is extra, never owed); the session just saved is one tap away in the pills.
       key: { label: 'Practise more', href: primary?.kind === 'ordinary_practice' ? primary.href : '/dashboard', minutes: null },
       pills: { length: false, second: 'open', openHref: `/result/${encodeURIComponent(t.sessionId)}` }, art: 'object', subject: last?.subject || null, done: true,
     };
@@ -219,6 +219,9 @@ export function moveOverline(now = Date.now()) {
   const h = new Date(now + 19800000).getUTCHours();
   return h >= 17 || h < 4 ? 'Tonight’s move' : 'Today’s move';
 }
+
+/** For display only: a day and its month ('6 Oct') and a mark count ('6-mark') never break across lines. */
+export const keepTogether = (s) => String(s ?? '').replace(/(\d{1,2}) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/g, '$1\u00a0$2').replace(/(\d)-mark/g, '$1\u2011mark');
 
 /** 8:41 PM in IST. */
 export function clock(at) {

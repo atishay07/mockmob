@@ -70,7 +70,7 @@ export function weekCaption({ rhythm, marks, today, everSessions = null, pausedU
     return { text: countedNames.length ? `${dayList(countedNames)} counted.` : 'No study day yet this week.', strong: 'Tonight counts.' };
   }
   const left = Math.max(0, goal - done);
-  return { text: `Tonight is counted.`, strong: `${left} more to meet ${goal}.` };
+  return { text: 'Today is counted.', strong: `${left} more to meet ${goal}.` };
 }
 
 /**
