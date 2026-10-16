@@ -163,6 +163,27 @@ void main() {
         await _shot(tester, 'tab_order_390', b);
       });
 
+      testWidgets('tab at 390 by 844, scrolled to the exam band: its quiet line on the live bank (16 Oct)', (tester) async {
+        await _pump(
+          tester,
+          '/practice',
+          b,
+          practiceOverrides(
+            quotes: _tabQuotes(),
+            attempts: [_mock()],
+            now: _evening,
+            catalog: FakeCatalog(counts: const {'accountancy': 1240, 'english': 860}),
+          ),
+          size: const Size(390, 844),
+        );
+        await _settle(tester);
+        await tester.scrollUntilVisible(find.text(PracticeCopy.fullMockTitle), 200, scrollable: find.byType(Scrollable).first);
+        await tester.drag(find.byType(Scrollable).first, const Offset(0, -160));
+        await _settle(tester, ms: 600);
+        expect(find.text(PracticeCopy.bankLine(pro: false, subject: 'Accountancy', questions: 1240)), findsOneWidget);
+        await _shot(tester, 'tab_bank_390', b);
+      });
+
       testWidgets('tab offline', (tester) async {
         await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], network: NetworkStatus.offline, now: _evening, auth: signedIn(subjects: const ['english', 'accountancy'])));
         await _settle(tester);

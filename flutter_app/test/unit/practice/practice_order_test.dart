@@ -58,16 +58,11 @@ void main() {
     expect(strip.bottom, lessThanOrEqualTo(card.top), reason: 'the subjects lead, the card follows');
     expect(card.bottom, lessThanOrEqualTo(quick.top), reason: 'the first mode sits under the card');
     expect(quick.bottom, lessThanOrEqualTo(barTop), reason: 'the first mode shows above the bar');
-    // One lit Start key on the whole tab.
-    for (final e in find.byType(KeyButton).evaluate()) {
-      final chain = <String>[];
-      e.visitAncestorElements((a) { chain.add(a.widget.runtimeType.toString()); return chain.length < 14; });
-      // ignore: avoid_print
-      print('DBGKEY ${chain.join(' < ')}');
-    }
-    // ignore: avoid_print
-    print('DBGRECT strip=$strip card=$card quick=$quick barTop=$barTop');
-    expect(find.byType(KeyButton), findsOneWidget);
+    // One lit Start key on the whole tab: the "Edit subjects" link beside the strip's heading is a
+    // quiet key, never a second volt one.
+    final lit = find.byWidgetPredicate((w) => w is KeyButton && w.variant == KeyVariant.primary);
+    expect(lit, findsOneWidget);
+    expect(tester.widget<KeyButton>(find.descendant(of: find.byType(SuggestionCard), matching: find.byType(KeyButton))).variant, KeyVariant.primary);
   });
 
   testWidgets('the compact card keeps its count in the key', (tester) async {

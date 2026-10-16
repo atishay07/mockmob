@@ -270,7 +270,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: MmSpace.s16),
+                      // 8 to the "Practise in" row: its 40 dp Edit subjects key holds air of its own above
+                      // the words; a notice under the header keeps the full 16.
+                      SizedBox(height: _refreshFailed || offline || stale.isNotEmpty ? MmSpace.s16 : MmSpace.s8),
                       if (_refreshFailed) ...[
                         Padding(
                           padding: gutter,
@@ -312,8 +314,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                 onAction: () => openEditSubjects(context),
                               ),
                             ),
-                            // 12 to the tiles: the strip holds 4 of it as room for the chosen tile's lift.
-                            const SizedBox(height: MmRhythm.item - SubjectTiles.liftRoom),
+                            // Straight to the tiles: the heading row's key leaves about 8 under the words and
+                            // the strip holds 4 more as room for the chosen tile's lift, so the words sit 12
+                            // over the tiles without a spacer.
                             // The tiles' objects lean with the page's own scroll (not the strip's
                             // sideways one), as the objects in the cards below do.
                             MmParallax(
@@ -383,6 +386,11 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                               ),
                             ChoiceRow.band(
                               title: PracticeCopy.examBandTitle,
+                              foot: PracticeCopy.bankLine(
+                                pro: auth.isPro,
+                                subject: subjectNameFor(subject, catalog),
+                                questions: counts?[internalSubjectFor(subject, catalog)],
+                              ),
                               rows: [
                                 _examRow(
                                   full: ChoiceOption(

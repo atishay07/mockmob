@@ -49,13 +49,13 @@ class SubjectTiles extends StatefulWidget {
   final double gutter;
 
   static const double width = 132;
-  static const double height = 136;
+  static const double height = 132;
 
   /// Room above the tiles for the chosen one's lift, inside the strip's edge fade (which clips).
   static const double liftRoom = MmSpace.s4;
 
   /// The subject emblem's side in a tile: what the name block leaves above it.
-  static double emblemSize(bool withCount) => withCount ? 72 : 84;
+  static double emblemSize(bool withCount) => withCount ? 68 : 80;
   static const double gap = MmSpace.s8;
 
   /// The "More subjects" tile's width.

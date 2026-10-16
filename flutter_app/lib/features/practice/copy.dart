@@ -96,6 +96,17 @@ abstract final class PracticeCopy {
   /// The band that holds the exam-shaped modes.
   static const String examBandTitle = 'Exam conditions';
 
+  /// The exam band's quiet foot (owner, 16 Oct: the one question bank is the headline, said
+  /// plainly and never in the face). True on every plan: each paper is drawn fresh from the live
+  /// bank. Only Pro says "unlimited" (Free spends Practice credits on a mock), and nothing here
+  /// promises a question never comes back (the selector prefers unseen ones, it does not
+  /// guarantee them). An unknown or zero count drops the number, never shows 0.
+  static String bankLine({required bool pro, String? subject, int? questions}) {
+    final lead = pro ? 'Unlimited mocks.' : 'No fixed set of mocks.';
+    if (subject == null || questions == null || questions <= 0) return '$lead Each paper is built fresh from the live question bank.';
+    return '$lead Each paper is built fresh from the ${_grouped(questions)} questions in $subject.';
+  }
+
   // Confirm sheet and setup page.
   static String confirmTitle(String mode, String subject) => '$mode, $subject';
   static String mockTitle(String? mockLabel, String subject) => '${mockLabel ?? 'Full mock'}, $subject';

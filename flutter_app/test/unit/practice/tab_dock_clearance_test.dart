@@ -8,7 +8,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/features/practice/widgets/suggestion_card.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
@@ -112,9 +111,7 @@ void main() {
     // above it (the card's foot may pass behind the glass on the shortest phones).
     for (final (id, title, note) in const [('quick', 'Quick practice', PracticeCopy.quickLine), ('chapter', 'By chapter', PracticeCopy.chapterLine)]) {
       final card = tester.getRect(find.byKey(ValueKey('choice-$id')));
-      // ignore: avoid_print
-      print('DBGDOCK $id card=$card title=${tester.getRect(find.text(title))} barTop=$barTop hero=${tester.getRect(find.byType(SuggestionCard))}');
-      expect(card.top, lessThanOrEqualTo(barTop - 90), reason: 'the $id card starts well above the bar');
+      expect(card.top, lessThanOrEqualTo(barTop - 120), reason: 'the $id card starts well above the bar');
       expect(tester.getRect(find.text(title)).bottom, lessThanOrEqualTo(barTop - MmSpace.s24), reason: '$title rests above the bar at first view');
       expect(tester.getRect(find.text(note)).top + 20, lessThanOrEqualTo(barTop), reason: 'the first line of the $id note rests above the bar');
     }

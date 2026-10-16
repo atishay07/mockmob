@@ -186,7 +186,7 @@ class SuggestionHero extends ConsumerWidget {
       SubjectSuggestion(:final subjectId, :final attempt) => 'subject:$subjectId:${attempt.id}',
       StartingSuggestion(:final subjectId, :final firstEver) => 'start:$subjectId:$firstEver',
     };
-    // The hero swap (brief 2.8): the new card fades in from 0.96 over the old one, 240 ms, and
+    // The hero swap (brief 2.8): the new card rises into place over the old one (the overlap switcher's rise), 240 ms, and
     // the height eases; never from a small scale. Reduced motion swaps at once. The Start key's
     // mark sits on the swap, so Mobi aims at the card while two cards briefly share the slot.
     final swap = Motion.of(context, Motion.card);
@@ -196,15 +196,9 @@ class SuggestionHero extends ConsumerWidget {
         duration: swap,
         curve: Motion.out,
         alignment: Alignment.topCenter,
-        child: AnimatedSwitcher(
+        child: MmOverlapSwitcher.rise(
           duration: swap,
-          switchInCurve: Motion.out,
-          switchOutCurve: Motion.exit,
-          layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
-          transitionBuilder: (child, t) => FadeTransition(
-            opacity: t,
-            child: ScaleTransition(scale: Tween<double>(begin: 0.96, end: 1).animate(t), child: child),
-          ),
+          alignment: Alignment.topCenter,
           child: KeyedSubtree(key: ValueKey(identity), child: card),
         ),
       ),

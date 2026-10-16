@@ -65,7 +65,8 @@ sealed class ChoiceRow {
 
   /// A titled band of rows on a full-bleed sunken ground ("Exam conditions"), so a group reads as
   /// a group without a card around cards.
-  const factory ChoiceRow.band({required String title, required List<ChoiceRow> rows, String? note}) = BandRow;
+  /// [foot] is a quiet caption under the rows, inside the band (it cross-fades when it changes).
+  const factory ChoiceRow.band({required String title, required List<ChoiceRow> rows, String? note, String? foot}) = BandRow;
 
   List<ChoiceOption> get options;
 }
@@ -103,9 +104,10 @@ class QuietRow extends ChoiceRow {
 }
 
 class BandRow extends ChoiceRow {
-  const BandRow({required this.title, required this.rows, this.note});
+  const BandRow({required this.title, required this.rows, this.note, this.foot});
   final String title;
   final String? note;
+  final String? foot;
   final List<ChoiceRow> rows;
   @override
   List<ChoiceOption> get options => [for (final r in rows) ...r.options];
@@ -241,10 +243,11 @@ class ChoiceDeck extends StatelessWidget {
         return _rise(slot, WideChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}')));
       case QuietRow(:final option):
         return _rise(slot, QuietChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}')));
-      case BandRow(:final title, :final note, :final rows):
+      case BandRow(:final title, :final note, :final foot, :final rows):
         return _Band(
           title: title,
           note: note,
+          foot: foot,
           bleed: bleed,
           child: ChoiceDeck(rows: rows, gap: gap, animateIn: animateIn, onSheet: onSheet, startDelay: startDelay),
           rise: (child) => _rise(slot, child),
@@ -443,13 +446,8 @@ Widget _note(BuildContext context, String note, TextStyle style, int? lines) {
     duration: duration,
     curve: Motion.out,
     alignment: Alignment.topLeft,
-    child: AnimatedSwitcher(
-      duration: duration,
-      switchInCurve: Motion.glide,
-      switchOutCurve: Motion.exit,
-      layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
-      child: text,
-    ),
+    // The overlap switcher keeps the two notes' summed strength up, so the swap never dips.
+    child: MmOverlapSwitcher(duration: duration, alignment: Alignment.topLeft, child: text),
   );
   if (lines == null || lines <= 1) return swapped;
   final line = MediaQuery.textScalerOf(context).scale(style.fontSize! * style.height!);
@@ -622,8 +620,8 @@ class TileChoice extends StatelessWidget {
   /// The object's box for [weight].
   static double objectFor(TileWeight weight) => switch (weight) {
     TileWeight.even => objectSize,
-    TileWeight.primary => 72,
-    TileWeight.secondary => 56,
+    TileWeight.primary => 64,
+    TileWeight.secondary => 52,
   };
 
   @override
@@ -720,7 +718,8 @@ class TileChoice extends StatelessWidget {
                               ],
                             ],
                           ),
-                          const SizedBox(height: MmSpace.s12),
+                          // A weighted pair (the Practice tab) keeps 8 under the object, the sheet's even pair 12.
+                          SizedBox(height: weight == TileWeight.even ? MmSpace.s12 : MmSpace.s8),
                           const Spacer(),
                           Text(o.title, style: type.cardTitle.copyWith(fontSize: primary ? 19 : (secondary ? 16 : 17))),
                           const SizedBox(height: 2),
@@ -851,10 +850,11 @@ class QuietChoice extends StatelessWidget {
 /// A titled group on a full-bleed sunken ground, ruled top and bottom: a change of ground, not a
 /// card around cards. The tiles inside keep the page's gutter.
 class _Band extends StatelessWidget {
-  const _Band({required this.title, required this.child, required this.rise, required this.bleed, this.note});
+  const _Band({required this.title, required this.child, required this.rise, required this.bleed, this.note, this.foot});
 
   final String title;
   final String? note;
+  final String? foot;
   final Widget child;
   final Widget Function(Widget child) rise;
   final double bleed;
@@ -896,6 +896,12 @@ class _Band extends StatelessWidget {
               ),
             ),
             child,
+            // The foot holds two lines from the first frame, so a count that lands later changes
+            // the words in place and nothing under the band moves.
+            if (foot != null) ...[
+              const SizedBox(height: MmSpace.s12),
+              rise(_note(context, foot!, type.caption.copyWith(color: colors.ink2), 2)),
+            ],
           ],
         ),
       ),

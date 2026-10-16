@@ -91,8 +91,11 @@ class SuggestionCard extends StatelessWidget {
   static const double artClear = artBox - artBleedRight + MmSpace.s12;
 
   /// The compact card's object box and object.
-  static const double compactArtBox = 104;
-  static const double compactEmblemSize = 88;
+  static const double compactArtBox = 88;
+  static const double compactEmblemSize = 72;
+
+  /// The compact card's Start key height (the brief's 52 dp volt key).
+  static const double compactKeyHeight = 52;
   static const double compactPad = 16;
 
   @override
@@ -211,6 +214,7 @@ class SuggestionCard extends StatelessWidget {
               enabled: !offline && onAction != null,
               child: KeyButton(
                 label: actionLabel,
+                minHeight: compact ? compactKeyHeight : null,
                 onPressed: offline || onAction == null
                     ? null
                     : () {
