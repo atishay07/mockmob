@@ -1,4 +1,5 @@
 import { contentHash, evidenceSignature } from '../../../data/content_evidence.js';
+import { noteNtaIndexPublish } from '../../../data/nta_index.js';
 import { publicationEligibility } from '../../../data/evidence_registry.js';
 import { FACTORY_POLICY, inventoryFingerprint, hashJSON } from '../../../data/question_factory_policy.mjs';
 import { verifyCandidate } from './evidencePipeline.mjs';
@@ -170,6 +171,7 @@ export async function publishFactoryQuestion(question,jobId,db) {
   if(holdError || hold) throw new Error('family_hold_lookup_or_release_required');
   const {data,error}=await db.rpc('publish_factory_question',{p_row:row,p_fingerprint:fingerprint,p_job:jobId});
   if(error) throw new Error(/checkpoint|target/.test(error.message || '')?'factory_checkpoint_or_subject_target_reached':`factory_publication_failed:${error.code || 'unknown'}`);
+  await noteNtaIndexPublish(db,[row.subject]);// keeps nta_question_index current; throttled, never throws (data/nta_index.js)
   return data;
 }
 export function factoryPassageGroup(questions,registry) {
@@ -195,5 +197,6 @@ export async function publishFactoryGroup(questions,db,registry) {
   if(holdError || holds.length)throw new Error('family_hold_lookup_or_release_required');
   const {data,error}=await db.rpc('publish_factory_passage_group',{p_group:group,p_rows:prepared.map(p=>p.row),p_fingerprints:prepared.map(p=>p.fingerprint),p_jobs:questions.map(q=>q.id)});
   if(error)throw new Error(/checkpoint|target/.test(error.message || '')?'factory_checkpoint_or_subject_target_reached':`factory_group_publication_failed:${error.code || 'unknown'}`);
+  await noteNtaIndexPublish(db,[group.subject]);
   return data;
 }

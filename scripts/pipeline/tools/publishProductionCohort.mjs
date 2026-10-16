@@ -3,6 +3,7 @@ import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {createClient} from '@supabase/supabase-js';
 import {publishFactoryQuestion,publishFactoryGroup} from '../lib/factoryCore.mjs';
+import {flushNtaIndexRebuilds} from '../../../data/nta_index.js';
 import {hashJSON} from '../../../data/question_factory_policy.mjs';
 import {publicationEligibility} from '../../../data/evidence_registry.js';
 import {BudgetLedger} from '../lib/budgetLedger.mjs';
@@ -37,4 +38,4 @@ try{
  const {data:stored,error:storedError}=await db.from('questions').select('*').in('id',approved.map(j=>j.id));if(storedError)throw storedError;
  if(stored.length!==approved.length||stored.some(q=>!publicationEligibility(q).eligible))throw Error('production_stored_evidence_invalid');
  const proof={at:new Date().toISOString(),project_ref:'isrxrxzjocewrdureyhp',cohort:report.campaign_id||directory,approved_unique:stored.length,newly_inserted:stored.length-before,previously_published:before,publication_receipts:receipts,current_stored_evidence_valid:true,publication_accounting:accounting,cost_settled:accounting.settled,student_retrieval_verified:false,paid_model_calls:0};if(existsSync(dir+'/publication.json')&&!existsSync(dir+'/publication-first.json'))writeFileSync(dir+'/publication-first.json',readFileSync(dir+'/publication.json'));writeFileSync(dir+'/publication.json',JSON.stringify(proof,null,2)+'\n');console.log(JSON.stringify({...proof,publication_receipts:receipts.length}));completed=true;
-}finally{const {error}=await db.from('question_factory_control').update({paused:true,publication_enabled:false,updated_at:new Date().toISOString()}).eq('id',1);if(error)throw Error('production_pause_failed:'+error.code);if(!completed)console.error('Publication stopped; retained progress is safe to resume by job ID.');}
+}finally{const {error}=await db.from('question_factory_control').update({paused:true,publication_enabled:false,updated_at:new Date().toISOString()}).eq('id',1);if(error)throw Error('production_pause_failed:'+error.code);if(!completed)console.error('Publication stopped; retained progress is safe to resume by job ID.');await flushNtaIndexRebuilds();}

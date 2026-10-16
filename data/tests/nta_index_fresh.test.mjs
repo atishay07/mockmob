@@ -1,108 +1,18 @@
 // nta_question_index never goes stale: the pool falls back to the full read while an index is older than the
-// subject's newest live question, the publish path and the daily cron rebuild it, and the cron obeys the
-// full-bank guard. No network: the database is an in-memory fake that sorts, limits, upserts and deletes like
+// subject's newest live question, the publish paths and the daily run (which rides on the inventory cron) rebuild it,
+// and the daily run obeys the full-bank guard. No network: the database is an in-memory fake that sorts, limits, upserts and deletes like
 // the real one, so the query shapes are checked too.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { NTA_INDEX_VERSION, signNtaIndex } from '../nta_engine.js';
 import { buildNtaPaper, clearNtaPoolCache, loadNtaPool, loadNtaPoolFromIndex } from '../nta_pool.js';
 import { ntaIndexBuiltAt, ntaIndexFreshness, newestLiveQuestionAt } from '../nta_index_freshness.js';
 import {
   NTA_INDEX_SUBJECTS, buildNtaIndexRows, rebuildNtaIndexForSubjects, rebuildNtaIndexSubject, refreshStaleNtaIndexes, writeNtaIndexRows,
 } from '../nta_index.js';
 import { FullBankReadBlocked } from '../full_bank_guard.js';
-import { contentHash } from '../content_evidence.js';
 import { FIXTURE_SECRET, makeBank } from './ntaEngineFixtures.mjs';
-
-const BUILT = '2026-10-13T12:00:00.000Z';
-const OLD = '2026-10-01T00:00:00.000Z';
-const PRODUCTION = { VERCEL_ENV: 'production' };
-
-function fakeDb(tables, { missing = [], failOn = null } = {}) {
-  const calls = [];
-  const builder = (table) => {
-    const filters = [];
-    let range = null;
-    let columns = '*';
-    let order = null;
-    let max = null;
-    let op = 'select';
-    let payload = null;
-    const query = {
-      select(value) { if (op === 'select') { columns = value; calls.push(['select', table, value]); } return query; },
-      eq(column, value) { filters.push((row) => row[column] === value); return query; },
-      is(column, value) { filters.push((row) => (row[column] ?? null) === value); return query; },
-      gt(column, value) { filters.push((row) => Number(row[column]) > value); return query; },
-      in(column, values) { filters.push((row) => values.includes(row[column])); return query; },
-      or() { filters.push((row) => row.evidence != null || Number(row.quality_score) > 0); return query; },
-      order(column, { ascending = true, nullsFirst } = {}) { order = { column, ascending, nullsFirst }; return query; },
-      limit(n) { max = n; return query; },
-      range(from, to) { range = [from, to]; return query; },
-      abortSignal() { return query; },
-      upsert(rows) { op = 'upsert'; payload = rows; calls.push(['upsert', table, rows.length]); return query; },
-      delete() { op = 'delete'; calls.push(['delete', table]); return query; },
-      then(resolve, reject) {
-        if (missing.includes(table)) return Promise.resolve({ data: null, error: { code: '42P01', message: 'missing' } }).then(resolve, reject);
-        if (failOn && failOn(table, op, columns)) return Promise.resolve({ data: null, error: { code: 'XX000', message: 'boom' } }).then(resolve, reject);
-        tables[table] ||= [];
-        if (op === 'upsert') {
-          for (const row of payload) {
-            const at = tables[table].findIndex((existing) => existing.question_id === row.question_id);
-            if (at >= 0) tables[table][at] = { ...row }; else tables[table].push({ ...row });
-          }
-          return Promise.resolve({ data: null, error: null }).then(resolve, reject);
-        }
-        if (op === 'delete') {
-          const hit = tables[table].filter((row) => filters.every((filter) => filter(row)));
-          tables[table] = tables[table].filter((row) => !hit.includes(row));
-          return Promise.resolve({ data: null, error: null }).then(resolve, reject);
-        }
-        let data = tables[table].filter((row) => filters.every((filter) => filter(row)));
-        if (order) {
-          const { column, ascending } = order;
-          // Nulls last either way, as nullsFirst:false asks.
-          data = [...data].sort((a, b) => {
-            const x = a[column] ?? null; const y = b[column] ?? null;
-            if (x === null || y === null) return x === y ? 0 : x === null ? 1 : -1;
-            return (x < y ? -1 : x > y ? 1 : 0) * (ascending ? 1 : -1);
-          });
-        }
-        if (range) data = data.slice(range[0], range[1] + 1);
-        if (max !== null) data = data.slice(0, max);
-        if (columns && columns !== '*') {
-          const keep = columns.split(',').map((value) => value.trim());
-          data = data.map((row) => Object.fromEntries(keep.filter((key) => key in row).map((key) => [key, row[key]])));
-        }
-        return Promise.resolve({ data, error: null }).then(resolve, reject);
-      },
-    };
-    return query;
-  };
-  return { calls, tables, from: (table) => builder(table) };
-}
-
-const sideTables = { passage_groups: [], question_content_disputes: [], recovery_family_holds: [], user_question_progress: [], attempts: [] };
-
-function indexRows(rows, subject, verifiedAt = BUILT) {
-  return rows.map((row) => {
-    const record = row.evidence.record;
-    const entry = {
-      question_id: row.id, subject, score: 8.5, luna: record.checks.exam_fit.item_quality_score, gemini: record.checks.independent_evaluation.item_quality_score,
-      content_hash: contentHash(row), family_id: null, objective_tag: null, index_version: NTA_INDEX_VERSION, verified_at: verifiedAt,
-    };
-    return { ...entry, signature: signNtaIndex(entry, FIXTURE_SECRET) };
-  });
-}
-
-// A subject whose bank holds `total` questions; the last one was published after the index was built.
-function setup({ published = '2026-10-14T09:00:00.000Z', column = 'created_at' } = {}) {
-  const all = makeBank('chemistry').map((row) => ({ ...row, created_at: OLD, live_at: OLD }));
-  const fresh = { ...all[all.length - 1], [column]: published };
-  const questions = [...all.slice(0, -1), fresh];
-  const indexed = all.slice(0, -1);
-  return { questions, indexed, fresh, index: indexRows(indexed, 'chemistry') };
-}
+import { BUILT, OLD, PRODUCTION, fakeDb, indexRows, setup, sideTables } from './ntaIndexFakeDb.mjs';
 
 const read = (db) => db.calls.filter(([kind, table]) => kind === 'select' && table === 'questions');
 
@@ -248,7 +158,9 @@ test('after a publish: touched subjects are rebuilt (public or internal ids), an
   assert.match(lines[0], /rebuild of chemistry failed/);
 });
 
-test('the daily cron rebuilds only subjects whose index is older than their newest question, reading only those', async () => {
+const CLOCK = Date.parse('2026-10-14T12:00:00.000Z'); // a day after BUILT
+
+test('the daily run rebuilds only subjects whose index is older than their newest question, reading only those', async () => {
   const chemistry = setup();
   const physics = makeBank('physics').slice(0, 6).map((row) => ({ ...row, created_at: OLD, live_at: OLD }));
   const history = makeBank('history').slice(0, 6).map((row) => ({ ...row, created_at: OLD, live_at: OLD }));
@@ -259,20 +171,31 @@ test('the daily cron rebuilds only subjects whose index is older than their newe
   });
   const rebuilt = [];
   const rebuild = async (client, subject, options) => { rebuilt.push(subject); return rebuildNtaIndexSubject(client, subject, { ...options, now: new Date('2026-10-14T10:00:00.000Z') }); };
-  const out = await refreshStaleNtaIndexes(db, { secret: FIXTURE_SECRET, env: PRODUCTION, subjects: ['chemistry', 'physics', 'history', 'economics'], rebuild });
+  const run = (subjects) => refreshStaleNtaIndexes(db, { secret: FIXTURE_SECRET, env: PRODUCTION, subjects, rebuild, now: () => CLOCK });
+  const out = await run(['chemistry', 'physics', 'history', 'economics']);
   assert.deepEqual(rebuilt, ['chemistry']);
-  assert.deepEqual(out.subjects.map((subject) => [subject.subject, subject.skipped || 'rebuilt']), [['chemistry', 'rebuilt'], ['physics', 'fresh'], ['history', 'never_built'], ['economics', 'never_built']]);
+  const by = Object.fromEntries(out.subjects.map((subject) => [subject.subject, subject]));
+  assert.deepEqual(Object.keys(by).sort(), ['chemistry', 'economics', 'history', 'physics']);
+  assert.equal(by.chemistry.reason, 'newer_questions');
+  assert.equal(by.physics.skipped, 'fresh');
+  assert.equal(by.history.skipped, 'never_built');
+  assert.equal(by.economics.skipped, 'never_built');
   assert.equal(out.status, 'ok');
   assert.equal(out.rebuilt, 1);
-  assert.equal(out.subjects[0].previouslyBuiltAt, BUILT);
-  // Only chemistry's evidence column was read; the other subjects cost the small freshness selects.
+  assert.equal(by.chemistry.previouslyBuiltAt, BUILT);
+  // Only chemistry's evidence column was read; the other subjects cost the small freshness selects (physics also a slim drift read).
   const evidenceReads = db.calls.filter(([kind, table, columns]) => kind === 'select' && table === 'questions' && columns.includes('evidence'));
   assert.ok(evidenceReads.length > 0);
-  // A second run finds everything fresh and rebuilds nothing.
+  // Idempotent: a second run, and a third, find everything fresh and write nothing.
   rebuilt.length = 0;
-  const again = await refreshStaleNtaIndexes(db, { secret: FIXTURE_SECRET, env: PRODUCTION, subjects: ['chemistry', 'physics'], rebuild });
+  const writes = () => db.calls.filter(([kind]) => kind === 'upsert' || kind === 'delete').length;
+  const before = writes();
+  for (let i = 0; i < 2; i += 1) {
+    const again = await run(['chemistry', 'physics']);
+    assert.deepEqual(again.subjects.map((subject) => subject.skipped), ['fresh', 'fresh']);
+  }
   assert.deepEqual(rebuilt, []);
-  assert.deepEqual(again.subjects.map((subject) => subject.skipped), ['fresh', 'fresh']);
+  assert.equal(writes(), before, 'no write on a repeat');
 });
 
 test('the cron follows the full-bank guard: outside Vercel production it reads nothing', async () => {
@@ -285,20 +208,19 @@ test('the cron follows the full-bank guard: outside Vercel production it reads n
   }
 });
 
-test('the cron skips cleanly without a signing key or before the migration, stops starting subjects when out of time, and reports a failing subject', async () => {
+test('the daily run skips cleanly without a signing key or before the migration, stops starting subjects when out of time, and reports a failing subject', async () => {
   assert.deepEqual(await refreshStaleNtaIndexes(fakeDb({}), { secret: '', env: PRODUCTION }), { status: 'skipped', reason: 'no_signing_key', subjects: [] });
   const noTable = fakeDb({}, { missing: ['nta_question_index'] });
   assert.deepEqual(await refreshStaleNtaIndexes(noTable, { secret: FIXTURE_SECRET, env: PRODUCTION }), { status: 'skipped', reason: 'index_table_missing', subjects: [] });
-  let clock = 0;
-  const slow = await refreshStaleNtaIndexes(fakeDb({ nta_question_index: [] }), { secret: FIXTURE_SECRET, env: PRODUCTION, subjects: ['chemistry', 'physics'], now: () => (clock += 200000), deadlineMs: 250000 });
-  assert.deepEqual(slow.subjects.map((subject) => subject.skipped), ['never_built', 'out_of_time']);
+  const empty = await refreshStaleNtaIndexes(fakeDb({ nta_question_index: [] }), { secret: FIXTURE_SECRET, env: PRODUCTION, subjects: ['chemistry', 'physics'] });
+  assert.deepEqual(empty.subjects.map((subject) => subject.skipped), ['never_built', 'never_built'], 'a subject nobody built yet is left to the first manual build');
   const { questions, index } = setup();
   const lines = [];
   const failing = await refreshStaleNtaIndexes(fakeDb({ questions, nta_question_index: index, ...sideTables }), {
-    secret: FIXTURE_SECRET, env: PRODUCTION, subjects: ['chemistry'], log: (line) => lines.push(line), rebuild: async () => { throw new Error('write refused'); },
+    secret: FIXTURE_SECRET, env: PRODUCTION, subjects: ['chemistry'], now: () => CLOCK, log: (line) => lines.push(line), rebuild: async () => { throw new Error('write refused'); },
   });
   assert.equal(failing.status, 'partial');
-  assert.match(lines[0], /cron rebuild of chemistry failed: write refused/);
+  assert.match(lines[0], /daily rebuild of chemistry failed: write refused/);
   assert.ok(NTA_INDEX_SUBJECTS.includes('chemistry') && NTA_INDEX_SUBJECTS.includes('gat') && !NTA_INDEX_SUBJECTS.includes('general_test'), 'internal subject ids');
 });
 
@@ -312,4 +234,18 @@ test('the cron route authenticates like the other internal routes and answers 40
   assert.match(route, /refreshStaleNtaIndexes/);
   assert.match(route, /CUET_EVIDENCE_SIGNING_KEY/);
   assert.match(route, /export const GET = run;/);
+  assert.match(route, /force/, 'a forced manual rebuild is available');
+});
+
+test('the inventory cron route runs the NTA index pass after the inventory refresh, behind the same secret and guard, and never turns an index problem into a failed inventory', () => {
+  const route = readFileSync(new URL('../../src/app/api/internal/refresh-inventory/route.js', import.meta.url), 'utf8');
+  assert.match(route, /CRON_SECRET/);
+  assert.match(route, /INTERNAL_API_SECRET/);
+  assert.ok(route.indexOf('authorised(request)') < route.indexOf('refreshInventorySnapshot()'), 'the secret is checked first');
+  assert.ok(route.indexOf('await refreshInventorySnapshot()') < route.indexOf('await refreshNtaIndex(startedAt)'));
+  assert.match(route, /isFullBankReadBlocked\(error\)[\s\S]*status: 409/, 'not production: the inventory answers 409 and the index pass does not start');
+  assert.match(route, /refreshStaleNtaIndexes\(supabaseAdmin\(\)/);
+  assert.match(route, /CUET_EVIDENCE_SIGNING_KEY/);
+  assert.match(route, /deadlineMs/, 'the pass has its own deadline inside the 300 s function');
+  assert.match(route, /ntaIndex/, 'the outcome is in the response');
 });

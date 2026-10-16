@@ -10,15 +10,17 @@ test('functions run in Singapore (sin1, AWS ap-southeast-1), next to the Supabas
   assert.equal('functionFailoverRegions' in config, false, 'failover regions are Enterprise only');
 });
 
-test('the daily crons (the two original ones unchanged, plus the NTA index rebuild) point at existing routes', () => {
+test('the two daily crons stay unchanged and point at existing routes; the NTA index safety rebuild rides on the inventory cron, not on a third entry', () => {
   assert.deepEqual(config.crons, [
     { path: '/api/internal/finalise-sessions', schedule: '45 21 * * *' },
     { path: '/api/internal/refresh-inventory', schedule: '30 21 * * *' },
-    { path: '/api/internal/rebuild-nta-index', schedule: '0 22 * * *' },
   ]);
   for (const cron of config.crons) {
     assert.match(cron.schedule, /^\d+ \d+ \* \* \*$/, 'Hobby crons run at most once a day');
     assert.ok(existsSync(new URL(`../../src/app${cron.path}/route.js`, import.meta.url)), cron.path);
   }
   assert.deepEqual(Object.keys(config).sort(), ['crons', 'regions']);
+  const route = readFileSync(new URL('../../src/app/api/internal/refresh-inventory/route.js', import.meta.url), 'utf8');
+  assert.match(route, /refreshStaleNtaIndexes/);
+  assert.ok(route.indexOf('await refreshInventorySnapshot()') < route.indexOf('await refreshNtaIndex(startedAt)'), 'the inventory refresh keeps its place; the index pass follows it');
 });

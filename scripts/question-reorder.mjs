@@ -21,6 +21,11 @@
 // release  keeps the rewritten text and puts the saved state back (after the rewritten rows are re-verified).
 //
 // A list file is a JSON array of ids, or of objects with an id field.
+//
+// NTA index: --keep-live (apply), restore and release change the text or the visibility of questions the NTA pool reads, so
+// after them the script rebuilds the nta_question_index rows of the subjects it touched (data/nta_index.js; skipped without
+// CUET_EVIDENCE_SIGNING_KEY or the table; --no-index-rebuild switches it off; it never fails the run). A plain apply only
+// withholds rows, which need no rebuild: the pool reads only live questions.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -28,6 +33,7 @@ import { pathToFileURL } from 'node:url';
 import { listedOrderKeyReasons } from '../data/nta_item_checks.js';
 import { classifyNtaType, getNtaBlueprint } from '../data/nta_engine.js';
 import { planListedOrderFix, restoreEntry, rowStillAsWritten, updateFor, REORDER_VERSION } from './lib/listed-order-reorder.mjs';
+import { rebuildNtaIndexForSubjects } from '../data/nta_index.js';
 
 // The same hold as scripts/question-hold.mjs and Mistake Repair: status pending, verification disputed, exploration pending_review.
 const HOLD = Object.freeze({ status: 'pending', verification_state: 'disputed', exploration_state: 'pending_review' });
@@ -40,9 +46,10 @@ const chunks = (items, size) => Array.from({ length: Math.ceil(items.length / si
 const stamp = () => new Date().toISOString().replace(/[:.]/g, '-');
 
 export function parseArgs(argv) {
-  const out = { mode: 'dry-run', lists: [], reason: '', restore: null, plan: null, source: 'db', fixtures: 'tmp/nta-fixtures', seed: DEFAULT_SEED, keepLive: false, outDir: REPORT_DIR };
+  const out = { mode: 'dry-run', lists: [], reason: '', restore: null, plan: null, source: 'db', fixtures: 'tmp/nta-fixtures', seed: DEFAULT_SEED, keepLive: false, indexRebuild: true, outDir: REPORT_DIR };
   for (const arg of argv) {
     if (arg === '--keep-live') { out.keepLive = true; continue; }
+    if (arg === '--no-index-rebuild') { out.indexRebuild = false; continue; }
     const m = arg.match(/^--([\w-]+)=(.*)$/);
     if (!m) continue;
     if (m[1] === 'mode') out.mode = m[2];
@@ -78,6 +85,12 @@ async function makeClient() {
   const { createClient } = await import('@supabase/supabase-js');
   const env = loadEnv();
   return createClient(env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
+}
+
+// The key that signs index rows: the environment, else .env.local (never printed).
+function signingKey() {
+  if (process.env.CUET_EVIDENCE_SIGNING_KEY) return process.env.CUET_EVIDENCE_SIGNING_KEY;
+  try { return loadEnv().CUET_EVIDENCE_SIGNING_KEY || ''; } catch { return ''; }
 }
 
 export async function fetchRows(sb, ids) {
@@ -163,17 +176,18 @@ export async function apply(args, { sb }) {
   }, null, 1));
   let written = 0;
   const notWritten = [];
+  const touchedSubjects = new Set();
   for (const { row, plan } of toWrite) {
     let query = sb.from('questions').update({ ...updateFor(plan), ...(args.keepLive ? {} : HOLD), updated_at: new Date().toISOString() }).eq('id', row.id).eq('is_deleted', false);
     if (row.updated_at) query = query.eq('updated_at', row.updated_at);
     const { data, error } = await query.select('id');
     if (error) throw error;
-    if ((data || []).length) written += 1; else notWritten.push(row.id);
+    if ((data || []).length) { written += 1; if (row.subject) touchedSubjects.add(row.subject); } else notWritten.push(row.id);
   }
   const after = await fetchRows(sb, toWrite.map(({ row }) => row.id));
   const stillListedOrder = after.filter((row) => listedOrderKeyReasons(row, typeOfRow(row)).length).map((r) => r.id);
   const stillVisible = args.keepLive ? [] : after.filter(isVisible).map((r) => r.id);
-  return { ...report, written, notWritten, stillListedOrder, stillVisible, restoreFile };
+  return { ...report, written, notWritten, stillListedOrder, stillVisible, restoreFile, touchedSubjects: [...touchedSubjects] };
 }
 
 /** restore: original text and state back, only where the row still holds exactly what apply wrote. */
@@ -185,15 +199,16 @@ export async function restore(args, { sb }) {
   const byId = new Map(rows.map((r) => [r.id, r]));
   let restored = 0;
   const skipped = [];
+  const touchedSubjects = new Set();
   for (const entry of saved.rows) {
     const row = byId.get(entry.id);
     if (!row) { skipped.push({ id: entry.id, why: 'row_not_found' }); continue; }
     if (!rowStillAsWritten(row, entry)) { skipped.push({ id: entry.id, why: 'edited_since_apply' }); continue; }
     const { data, error } = await sb.from('questions').update({ ...entry.original, ...entry.state, updated_at: new Date().toISOString() }).eq('id', entry.id).select('id');
     if (error) throw error;
-    if ((data || []).length) restored += 1; else skipped.push({ id: entry.id, why: 'update_matched_nothing' });
+    if ((data || []).length) { restored += 1; if (row.subject) touchedSubjects.add(row.subject); } else skipped.push({ id: entry.id, why: 'update_matched_nothing' });
   }
-  return { restored, of: saved.rows.length, skipped };
+  return { restored, of: saved.rows.length, skipped, touchedSubjects: [...touchedSubjects] };
 }
 
 /** release: keep the rewritten text and put the saved state back (after the rewritten rows are re-verified). */
@@ -205,6 +220,7 @@ export async function release(args, { sb }) {
   const byId = new Map(rows.map((r) => [r.id, r]));
   let released = 0;
   const skipped = [];
+  const touchedSubjects = new Set();
   for (const entry of saved.rows) {
     const row = byId.get(entry.id);
     if (!row) { skipped.push({ id: entry.id, why: 'row_not_found' }); continue; }
@@ -212,9 +228,9 @@ export async function release(args, { sb }) {
     if (!STATE_FIELDS.every((f) => row[f] === HOLD[f])) { skipped.push({ id: entry.id, why: 'not_in_the_hold_state' }); continue; }
     const { data, error } = await sb.from('questions').update({ ...entry.state, updated_at: new Date().toISOString() }).eq('id', entry.id).match(HOLD).select('id');
     if (error) throw error;
-    if ((data || []).length) released += 1; else skipped.push({ id: entry.id, why: 'update_matched_nothing' });
+    if ((data || []).length) { released += 1; if (row.subject) touchedSubjects.add(row.subject); } else skipped.push({ id: entry.id, why: 'update_matched_nothing' });
   }
-  return { released, of: saved.rows.length, skipped };
+  return { released, of: saved.rows.length, skipped, touchedSubjects: [...touchedSubjects] };
 }
 
 async function main() {
@@ -223,7 +239,14 @@ async function main() {
   const needsDb = args.mode !== 'dry-run' || args.source === 'db';
   const sb = needsDb ? await makeClient() : null;
   const result = await ({ 'dry-run': dryRun, apply, restore, release })[args.mode](args, { sb });
-  const { plans, ...printable } = result;
+  const { plans, touchedSubjects = [], ...printable } = result;
+  // Only after the database changed in a way the NTA pool can see (see the header).
+  const visible = args.mode === 'restore' || args.mode === 'release' || (args.mode === 'apply' && args.keepLive);
+  if (visible && touchedSubjects.length) {
+    printable.ntaIndex = args.indexRebuild === false
+      ? { status: 'skipped', reason: 'disabled', subjects: [] }
+      : await rebuildNtaIndexForSubjects(sb, touchedSubjects, { secret: signingKey() });
+  }
   console.log(JSON.stringify(printable, null, 1));
 }
 

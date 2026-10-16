@@ -20,6 +20,7 @@ import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_re
 import { assertFullBankRead } from './full_bank_guard';
 import { readablePracticeQuestions } from './practice_library';
 import { selectPracticeQuestions, PRACTICE_LIGHT_SELECT, PRACTICE_POOL_CACHE_MS } from './practice_pick';
+import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
 import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
@@ -1312,50 +1313,17 @@ export const Database = {
     return ids;
   },
 
+  // Chunked, so a long history is not dropped by an over-long request URL (data/practice_progress.js).
   async _userProgress(userId, questionIds) {
-    if (!userId || !Array.isArray(questionIds) || questionIds.length === 0) return new Map();
-    const { data, error } = await supabaseAdmin()
-      .from('user_question_progress')
-      .select('question_id, attempt_count, correct_count, last_attempted_at')
-      .eq('user_id', userId)
-      .in('question_id', questionIds);
-    if (error) {
-      // Schema may not be present in older envs — degrade gracefully.
-      return new Map();
-    }
-    return new Map((data || []).map((row) => [row.question_id, row]));
+    return readUserProgress(supabaseAdmin(), userId, questionIds);
   },
 
   async _weakConcepts(userId, subjectId, threshold) {
     // Cheap aggregate. STEP 3 mandates JS-layer logic — no new SQL function.
-    // 1. Pull this user's per-question progress rows for the subject.
-    // 2. Look up concept_id for each question_id in a single batched query.
+    // 1. Pull this user's per-question progress rows for the subject (paged).
+    // 2. Look up concept_id for each question_id in batched queries.
     // 3. Bucket by concept and flag those with >=3 attempts and accuracy < threshold.
-    const { data: progressRows, error } = await supabaseAdmin()
-      .from('user_question_progress')
-      .select('question_id, attempt_count, correct_count')
-      .eq('user_id', userId)
-      .eq('subject', subjectId)
-      .gt('attempt_count', 0);
-    if (error || !progressRows?.length) return new Set();
-
-    const ids = progressRows.map((row) => row.question_id);
-    const { data: qRows, error: qError } = await supabaseAdmin()
-      .from('questions')
-      .select('id, concept_id')
-      .in('id', ids);
-    if (qError) return new Set();
-    const conceptByQid = new Map((qRows || []).map((row) => [row.id, row.concept_id]));
-
-    const buckets = new Map(); // concept_id -> { attempts, correct }
-    for (const row of progressRows) {
-      const concept = conceptByQid.get(row.question_id);
-      if (!concept) continue;
-      const bucket = buckets.get(concept) || { attempts: 0, correct: 0 };
-      bucket.attempts += row.attempt_count || 0;
-      bucket.correct += row.correct_count || 0;
-      buckets.set(concept, bucket);
-    }
+    const buckets = await readConceptBuckets(supabaseAdmin(), userId, subjectId);
     const weak = new Set();
     for (const [concept, b] of buckets.entries()) {
       if (b.attempts >= 3 && (b.correct / b.attempts) < threshold) weak.add(concept);
