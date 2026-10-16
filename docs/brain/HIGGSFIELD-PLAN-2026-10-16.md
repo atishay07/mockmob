@@ -27,37 +27,38 @@ The owner's research brain agrees: motion must answer an action or show state (A
 
 **Not planned:** hero background video, ambient loops, fake product demos, AI Mobi, talking heads, any marketing campaign video. Marketing waits until January, per the owner.
 
-## 3. Which model for which job (16 Oct prices)
+## 3. Which model for which job (revised after research, 16 Oct about 11 pm; sources and caveats in HIGGSFIELD-RESEARCH-2026-10-16.md)
 
-| Model | Price (from) | Use it for |
-|---|---|---|
-| **Wan 3.0** | USD 0.020/s (60% off until 31 Oct, then 50% off) | **Exploration**: finding prompts and motion on low-res 3-4 s drafts. The cheapest way to learn what works. |
-| **Wan 3.0 Prime** | USD 0.027/s (60% off until 31 Oct) | Better drafts when Wan 3.0 is close but not clean |
-| **Kling 3.0** | USD 0.042/s (60% off, max-discount) | **Production for U1 and U3**: short image-to-video one-shots from our own still, which must end on that still. Good adherence at a low price. |
-| **Seedance 2.5** | USD 0.144/s (30% off) | **Only the 2-4 hero shots of U2**, where prompt accuracy and cinematic quality matter most. Never for drafts. |
-| Seedance 2.0, Kling 2.5/2.6/O1, Genjutsu | 0.036-0.270/s | Not planned. Kling 3.0 and Seedance 2.5 cover the need. |
-| Marketing Studio Image | USD 0.011/image | Only if the GPT image account cannot make a needed still |
+**Correction:** the screenshot's "from" prices are 480p (cheapest) rates. The first draft of this plan underpriced 1080p badly.
 
-**Stills (keyframes, Play graphics, object variants):** use the owner's GPT account (GPT Image) first. Its cost is already paid, and image-to-video from our own approved stills keeps every clip on-brand.
+| Model | 480p | 720p | 1080p | Verified features | Use |
+|---|---|---|---|---|---|
+| **Wan 3.0** | USD 0.020/s | about 0.04/s | about 0.08/s | last-frame control, 1:1, fixed seed, 2-30 s; arena rank 4, close to Seedance | **Primary for U1/U3** (drafts at 480p, finals at 720p), and a U2 candidate at 1080p |
+| **Kling 3.0 Standard** | 0.042-0.063/s (the reason for the split is unverified) | n/a (no resolution field) | Pro and 4K are separate endpoints | last frame (not Turbo), 3-15 s, no seed or negative prompt documented; arena rank 18 | **A/B against Wan** on the 3 test subjects; U2 candidate (Pro) |
+| **Seedance 2.5** | 0.144/s | about 0.32/s | about 0.80/s | last frame, 4-30 s (minimum 4 s); arena rank 2 | **Only** for a U2 shot the owner picks that Wan and Kling cannot hold, at **720p** (about USD 1.3-1.6 per 4-5 s shot). Never at 1080p on this budget. |
+| Wan 3.0 Prime | 0.027/s | 0.056/s | 0.112/s | speed tier, no quality gain | Skip |
 
-## 4. The USD 15 budget
+**Facts that shape spending:** failed, moderated and timed-out requests are not charged, and a queued cancel is refunded. A clip that renders but that we reject IS charged. There is a `/estimate/` endpoint: call it before every generation. Credits expire after a year. The Wan 60% discount ends 31 Oct. The Kling and Seedance promo end dates are not published: if Kling's discount ends, use Wan at 720p for the rollout.
 
-| Step | Model | Plan | Cost |
+**Stills (keyframes, Play graphics):** the owner's GPT Image account first, since its cost is already paid.
+
+## 4. The USD 15 budget (revised)
+
+| Step | Model and mode | Plan | Cost |
 |---|---|---|---|
-| 0 | none | Pick keyframes from our approved object art. Write one prompt sheet per use. The owner approves the 3 test subjects. | 0 |
-| 1 | Wan 3.0 | 3 subjects x 4 prompt variants x 4 s at low res (about 48 s) | about 1.0 |
-| 2 | Kling 3.0 | U1 for the 3 test subjects, 3 s each at 1080p, 2 tries each (about 18 s, 1080p priced at about 2x) | about 1.5 |
-| 3 | Owner review | He watches the 3 clips in the app and on the website. **Stop here unless he approves.** | 0 |
-| 4 | Kling 3.0 | U1 for the other 12 offered subjects, 3 s each with 1 retry (about 72 s at 1080p) | about 6.0 |
-| 5 | Seedance 2.5 | U2: 3 hero shots of 5 s, 1 try each (15 s; more at 1080p) | about 3.0-4.5 |
-| 6 | reserve | Retries, U3 | about 2.0 |
-| | | **Total** | **about 14.5, cap 15.0** |
-
-Step 1 runs before 31 Oct, while Wan's 60% discount lasts.
+| 0 | none | Keyframes from approved object art (the canonical still as the LAST frame); prompt sheet per use; owner picks the 3 test subjects | 0 |
+| 1 | Wan 3.0 480p, 1:1, fixed seed, audio off | 3 subjects x 3 prompt variants x 3 s (27 s) | about 0.55 |
+| 2 | A/B at production quality: Wan 3.0 720p vs Kling 3.0 Std | 3 subjects x 3 s on each (18 s) | about 1.5 |
+| 3 | Owner review in place (app and site) | **STOP unless he approves**; he also picks the winning model | 0 |
+| 4 | U1 rollout on the winner | 12 subjects x 3 s + 1 retry each (about 72 s at Wan 720p) | about 3.0-4.5 |
+| 5 | U2 promo, 3 shots of 5 s | Wan 3.0 1080p or Kling Pro first (about 0.8 per shot); Seedance 2.5 720p only for one shot the owner picks | about 2.5-4.0 |
+| 6 | U3 | 1 clip of 3 s on the U1 winner | about 0.4 |
+| 7 | **Reserve** | Rejected clips we must pay for, retries, price changes | **at least 2.2 (15%)** |
+| | | **Planned total about 12.8, hard cap 15.0** | |
 
 ## 5. Rules every agent follows
 
-1. **Ledger first.** Log every generation in `mockmob-next/tmp/higgsfield/LEDGER.csv`: time, model, mode, seconds, resolution, estimated and actual cost, purpose, result file, kept or rejected. Before each call, sum the actuals. If the call would pass USD 15, do not make it.
+1. **Estimate, then ledger.** Call the `/estimate/` endpoint before every generation. **Ledger first.** Log every generation in `mockmob-next/tmp/higgsfield/LEDGER.csv`: time, model, mode, seconds, resolution, estimated and actual cost, purpose, result file, kept or rejected. Before each call, sum the actuals. If the call would pass USD 15, do not make it.
 2. **The key never appears in chat or a commit.** The owner puts `HIGGSFIELD_API_KEY` in a git-ignored local env file. Agents read it from the environment only.
 3. **Image-to-video from our own approved stills.** No text-to-video of the product, no AI Mobi, no AI UI.
 4. **Owner approval at step 3** before any batch run. Show the clips in place, in the app and on the site, not as files.
