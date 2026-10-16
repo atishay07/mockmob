@@ -428,6 +428,9 @@ function fakeSupabase(table) {
         select(columns) { state.columns = columns; return builder; },
         update(patch) { state.op = 'update'; state.patch = patch; return builder; },
         insert(row) { state.op = 'insert'; state.patch = row; return builder; },
+        // ensureUser: upsert(row, { ignoreDuplicates }).select(cols) is awaited as a list; an existing row gives [].
+        upsert(row) { state.op = 'upsert'; state.patch = row; return builder; },
+        then(resolveFn, rejectFn) { return run().then((r) => ({ data: r.list, error: null })).then(resolveFn, rejectFn); },
         eq(_col, id) { state.id = id; return builder; },
         async maybeSingle() { return run(); },
         async single() { return run(); },
@@ -435,9 +438,14 @@ function fakeSupabase(table) {
       const run = async () => {
         log.push({ op: state.op, columns: state.columns, id: state.id });
         if (state.op === 'update') Object.assign(table.get(state.id) || {}, state.patch);
+        let list = [];
+        if (state.op === 'upsert' && !table.has(state.patch.id)) {
+          table.set(state.patch.id, { ...state.patch, created_at: '2026-01-01T00:00:00Z' });
+          list = [{ ...table.get(state.patch.id) }];
+        }
         if (state.op === 'insert') table.set(state.patch.id, { ...state.patch, created_at: '2026-01-01T00:00:00Z' });
         const row = table.get(state.id ?? state.patch?.id);
-        return { data: row ? { ...row } : null, error: null };
+        return { data: row ? { ...row } : null, list, error: null };
       };
       return builder;
     },
