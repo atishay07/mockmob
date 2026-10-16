@@ -4,13 +4,17 @@ import { legacyPracticeVisible } from './practice_availability.js';
 import { verifyAnswerIntegrity } from './answer_integrity.js';
 import { FACTORY_POLICY } from './question_factory_policy.mjs';
 
-export async function readablePracticeQuestions(rows, db, { requireEvidence = false } = {}) {
+// `known` (optional): Map(question id -> eligible) for evidence-managed questions whose eligibility a stored
+// verdict already settles (data/practice_verdicts.js). Those rows skip publicationEligibility and need only
+// carry what the other checks read (family, provenance kind, evidence policy). Every other check still runs
+// on the row, and a row that is not in `known` is judged on its evidence as before.
+export async function readablePracticeQuestions(rows, db, { requireEvidence = false, known = null } = {}) {
   // Apply the same structural answer and community quality floor to inventory
   // aggregates and every selector. These checks do not certify academic truth.
   rows = rows.filter(row => String(row.body ?? row.question ?? '').trim() && Number(row.score ?? 0) >= -2 && verifyAnswerIntegrity(row).accepted);
   // Read the registry and calibration once for this pass; parsing them per row took ~35 ms each.
   const snapshot = rows.length ? sharedEligibilitySnapshot() : undefined;
-  const eligible = rows.filter(row => publicationEligibility(row, snapshot).eligible);
+  const eligible = rows.filter(row => (known?.has(row.id) ? known.get(row.id) === true : publicationEligibility(row, snapshot).eligible));
   const checked = await excludeHeldFamilies(eligible, db);
   const evidenceTier=row=>row.provenance?.kind && row.evidence?.record?.policy_version===FACTORY_POLICY?3:2;
   if (requireEvidence) return checked.map(row=>({...row,selection_evidence_tier:evidenceTier(row)}));

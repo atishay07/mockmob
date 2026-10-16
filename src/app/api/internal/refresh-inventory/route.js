@@ -3,6 +3,7 @@ import { refreshInventorySnapshot } from '@/lib/server/inventory';
 import { supabaseAdmin } from '@/lib/supabase';
 import { refreshStaleNtaIndexes, describeNtaIndexRun } from '@/../data/nta_index';
 import { isFullBankReadBlocked } from '@/../data/full_bank_guard';
+import { refreshAllPracticeVerdicts, describePracticeVerdictRun } from '@/../data/practice_verdicts';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -46,8 +47,30 @@ async function refreshNtaIndex(startedAt) {
   }
 }
 
+// The practice verdicts (practice_verdict_index, data/practice_verdicts.js) ride on this cron too. A practice start
+// trusts a stored verdict only while it matches the question's current content, evidence and registry, so a late
+// or failed refresh costs egress (the start reads that question's evidence as before), never a different pick. The
+// pass reads each evidence-managed subject's questions without their evidence and the evidence of only the
+// questions that need a new verdict. It never changes this route's status code; the result is under practiceVerdicts.
+const PRACTICE_VERDICT_DEADLINE_FROM_START_MS = 270000;
+async function refreshPracticeVerdicts(startedAt) {
+  const began = Date.now();
+  try {
+    const result = await refreshAllPracticeVerdicts(supabaseAdmin(), {
+      secret: process.env.CUET_EVIDENCE_SIGNING_KEY,
+      deadlineMs: Math.max(0, PRACTICE_VERDICT_DEADLINE_FROM_START_MS - (began - startedAt)),
+    });
+    const line = describePracticeVerdictRun(result, { ms: Date.now() - began });
+    if (result.status === 'partial') console.error(line); else console.info(line);
+    return { status: result.status, reason: result.reason, subjects: (result.subjects || []).map(({ subject, status, reason, kept, rebuilt, removed, error }) => ({ subject, status, reason, kept, rebuilt, removed, error })) };
+  } catch (error) {
+    console.error(`[practice-verdicts] daily refresh failed: ${error?.message || 'unknown error'}`);
+    return { status: 'failed', subjects: [] };
+  }
+}
+
 // Vercel cron (see vercel.json) refreshes the public inventory snapshot once a day (3:00 AM IST), then the
-// NTA question index (nta_question_index): see refreshNtaIndex.
+// NTA question index (nta_question_index): see refreshNtaIndex, then the practice verdicts: see refreshPracticeVerdicts.
 // The inventory refresh is the only place the counts are recomputed: requests serve the stored row and never
 // refresh it. Both passes read the whole bank or whole subjects, so they run only on Vercel production
 // (data/full_bank_guard.js).
@@ -68,8 +91,9 @@ export async function GET(request) {
     console.error(`[inventory] daily refresh failed: ${error?.message || 'unknown error'}`);
   }
   const ntaIndex = await refreshNtaIndex(startedAt);
+  const practiceVerdicts = await refreshPracticeVerdicts(startedAt);
   if (inventoryFailed) {
-    return Response.json({ error: 'inventory_unavailable', message: 'The inventory could not be refreshed.', ntaIndex }, { status: 503, headers });
+    return Response.json({ error: 'inventory_unavailable', message: 'The inventory could not be refreshed.', ntaIndex, practiceVerdicts }, { status: 503, headers });
   }
-  return Response.json({ ok: true, bankSize: inventory.bankSize, checkedAt: inventory.checkedAt, ntaIndex }, { headers });
+  return Response.json({ ok: true, bankSize: inventory.bankSize, checkedAt: inventory.checkedAt, ntaIndex, practiceVerdicts }, { headers });
 }
