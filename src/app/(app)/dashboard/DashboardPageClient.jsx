@@ -560,7 +560,7 @@ export default function DashboardPageClient() {
             <StartRule sheet={startSheet} />
             {quoteStatus === 'ready' && quoteMatches && !quote.launchable && quote.upgradeHref ? (
               <Link href={quote.upgradeHref} className="btn-outline md pr-summary__cta">{shortfall ? `Need ${shortfall} more credits` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link>
-            ) : <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable} onClick={launch}>
+            ) : <Button variant="volt" size="md" className="pr-summary__cta" data-page-primary="" disabled={isLaunching || !quoteLaunchable} onClick={launch}>
               <AppIcon name="practice" size={18} />{startLabel}
             </Button>}
           </aside>

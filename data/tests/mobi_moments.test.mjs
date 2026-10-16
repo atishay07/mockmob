@@ -183,7 +183,7 @@ test('greeting: asleep late at night, a hello the first time today, then idle', 
 });
 
 // ---- The website's screens (src/lib/mobiScreens.js): the moments map, one test per screen ----------------------------
-import { SCREEN_MOMENTS, screenAct, reviseAnswerAct, reviseEndAct, ruleCheckAct, weekGoalAct, weekCheerKey, aloneInView } from '../../src/lib/mobiScreens.js';
+import { SCREEN_MOMENTS, screenAct, reviseAnswerAct, reviseEndAct, ruleCheckAct, weekGoalAct, weekCheerKey, mobRingAct, mobCheerKey, aloneInView } from '../../src/lib/mobiScreens.js';
 import { MOBI_ACTS } from '../../src/components/brand/mobiActs.js';
 
 test('every act in the moments map is one the rig already has (nothing redrawn)', () => {
@@ -206,6 +206,13 @@ test('Today: hello on the first visit of the day, proud once a week when the goa
   assert.equal(weekGoalAct({ met: false, cheered: false }), null, 'a week the server has not called met gets nothing');
   assert.equal(weekGoalAct({ met: 'yes' }), null, 'only the server’s boolean counts');
   assert.equal(weekGoalAct(), null);
+  // The Mob's full ring (SOCIAL-SPEC 7): proud once per Mob week; a Mob of one has no ring to complete.
+  assert.equal(mobRingAct({ size: 4, sat: 4, cheered: false }), 'proud');
+  assert.equal(mobRingAct({ size: 4, sat: 4, cheered: true }), null, 'a Mob week is cheered once');
+  assert.equal(mobRingAct({ size: 4, sat: 3, cheered: false }), null);
+  assert.equal(mobRingAct({ size: 1, sat: 1, cheered: false }), null);
+  assert.equal(mobRingAct(), null);
+  assert.equal(mobCheerKey('2026-10-12'), 'mm:mob-cheer:2026-10-12');
   assert.equal(weekCheerKey('2026-10-12'), 'mm:rhythm-cheer:2026-10-12', 'the same key the Progress week card writes');
   assert.equal(screenAct('today', 'failed'), 'oops');
 });

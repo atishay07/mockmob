@@ -1,6 +1,8 @@
 // /preview/arena?view=mob and ?view=join: the Mob against the app contract fixtures (data/tests/fixtures/mob), the same
 // bodies the routes answer with. Development only: writes change this tab's copy and nothing else.
 //   ?mob=ready (default, you sat, trap showing) | notsat (a nudge waiting, cost line) | alone | none | full | closed | error | loading
+//   | complete (4 of 4 sat: the ring settles, Today's Mobi moment) | two (a Mob of two who both sat and show their score:
+//   the Together card) | private (a Mob of two, both sat, your score private: the hint to compare)
 //   ?view=join&invite=valid (default) | invalid, &auth=out for the signed-out join page
 import getV1 from '@/../data/tests/fixtures/mob/get_v1.json';
 import getNotSat from '@/../data/tests/fixtures/mob/get_not_sat_v1.json';
@@ -15,6 +17,22 @@ function initial(kind) {
   if (kind === 'alone') return clone(getAlone);
   if (kind === 'notsat') return clone(getNotSat);
   if (kind === 'closed') { const m = clone(getNotSat); m.mob.week.closed = true; m.mob.nudge.received = null; return m; }
+  if (kind === 'complete') {
+    const m = clone(getV1);
+    m.mob.members = m.mob.members.map((x) => ({ ...x, sat: true }));
+    m.mob.week.sat = 4; m.mob.nudge = { canSend: false, reason: 'everyone_sat', received: null };
+    return m;
+  }
+  if (kind === 'two' || kind === 'private') {
+    const m = clone(getV1);
+    const shows = kind === 'two';
+    m.mob.members = m.mob.members.slice(0, 2).map((x) => ({ ...x, sat: true, ...(shows ? { score: x.you ? { value: 7, of: 10 } : { value: 6, of: 10 } } : (x.you ? { score: { value: 7, of: 10 } } : {})) }));
+    m.mob.you.showScore = shows;
+    m.mob.week.size = 2; m.mob.week.sat = 2; m.mob.seatsLeft = 3; m.mob.trap = null;
+    m.mob.nudge = { canSend: false, reason: 'everyone_sat', received: null };
+    if (shows) m.mob.together = { with: 1, sameRight: 5, of: 10, sharedMiss: 6 };
+    return m;
+  }
   if (kind === 'full') {
     const m = clone(getV1);
     m.mob.members.push({ memberId: 'Q9W3E7R1T5Y2', name: 'Vihaan', colour: 6, you: false, sat: false });

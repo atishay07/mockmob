@@ -4,10 +4,12 @@
 //   - One primary action per state: start a Mob; sit the paper; or, alone, invite (rule 7).
 //   - The name is prefilled from the account and editable (T001, rule 13). Score sharing is off until the student turns
 //     it on (rule 14). The cost line is the server's, under the button, before the tap (T006, T008, rules 19 and 23).
-//   - No streak to lose, no countdown, no list of who has not sat (T005, rule 22). Nothing is shown as done before the
+//   - No streak to lose, no countdown, no list of who has not sat (T005, rule 22): the ring names sitters, the roster
+//     carries no sitting state, and the nudge reply is not repeated as a count (P6). Nothing is shown as done before the
 //     server answers (standards 7).
+//   - The page's volt key carries data-page-primary, so the Start key in the bar or sidebar steps back (rule 7, WB-05).
 //   - The effect of the loop is a hypothesis [I] to measure (rules 37 and 38): SOCIAL-SPEC section 13.
-import { useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Check, Copy, Ellipsis, Share2, UserPlus } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
@@ -15,7 +17,7 @@ import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import { resolveSubject } from '@/../data/subject_registry';
 import {
   CLOSED_LINE, CLOSES_LINE, COLOUR_COUNT, MAX_MEMBERS, canAfford, checkName, cleanName, costLine, initialOf,
-  inviteExpiryLine, nudgeLine, paperHref, resultHref, seatsLine, trapLine,
+  inviteExpiryLine, nudgeLine, paperHref, resultHref, seatsLine, togetherLine, trapLine,
 } from '@/lib/mob/model.mjs';
 import { MobRing } from './MobRing';
 import { MobDialog } from './MobDialog';
@@ -66,7 +68,7 @@ function NameField({ value, onChange, error, id }) {
 }
 
 /** No Mob yet: what it is, then subject, name and colour, then one key. */
-function StartMob({ user, mob }) {
+function StartMob({ user, mob, invited = false }) {
   const subjects = useMemo(() => subjectsFrom(user), [user]);
   const [subject, setSubject] = useState(() => subjects[0]?.id || '');
   const [name, setName] = useState(() => cleanName(user?.name || '').split(' ')[0].slice(0, 18));
@@ -109,7 +111,7 @@ function StartMob({ user, mob }) {
         <NameField id={nameId} value={name} onChange={setName} error={nameError} />
         <ColourPicker value={colour} onChange={setColour} name="mob-colour-start" />
         <div className="mob-actions">
-          <button type="button" className="btn-volt md mob-primary" onClick={start} disabled={!subject || mob.busy === 'create'} aria-busy={mob.busy === 'create' || undefined}>
+          <button type="button" className={invited ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={invited ? undefined : ''} onClick={start} disabled={!subject || mob.busy === 'create'} aria-busy={mob.busy === 'create' || undefined}>
             {mob.busy === 'create' ? 'Starting your Mob' : 'Start a Mob'}
           </button>
           <p className="mob-note">Sent a link by a friend? Open the link to join their Mob instead.</p>
@@ -121,15 +123,19 @@ function StartMob({ user, mob }) {
 }
 
 /** A friend's invite opened before sign-in: the code waits on this device for an hour (T004). */
-function PendingInvite() {
-  const [code] = useState(() => (typeof window === 'undefined' ? null : pendingJoin()));
+function PendingInvite({ code }) {
   if (!code) return null;
   return (
     <section className="glass mob-card mob-trap" aria-labelledby="mob-pending-h">
       <h2 id="mob-pending-h" className="mob-h3">You were invited to a Mob.</h2>
-      <Link className="btn-volt md mob-primary" href={`/join/${code}`}>Open the invite</Link>
+      <Link className="btn-volt md mob-primary" data-page-primary="" href={`/join/${code}`}>Open the invite</Link>
     </section>
   );
+}
+
+function NoMob({ user, mob }) {
+  const [code] = useState(() => (typeof window === 'undefined' ? null : pendingJoin()));
+  return <><PendingInvite code={code} /><StartMob user={user} mob={mob} invited={Boolean(code)} /></>;
 }
 
 function InviteDialog({ open, onClose, mob, run, busy }) {
@@ -278,6 +284,21 @@ function TrapCard({ trap, resultId }) {
   );
 }
 
+/** What you and the sitters who show their score have in common (model.mjs computeTogether). No rank, no names. */
+function TogetherCard({ together, showScore, othersSat }) {
+  if (together) {
+    return (
+      <section className="glass mob-card mk-rise" aria-labelledby="mob-together-h">
+        <h2 id="mob-together-h" className="mob-h3">This week together</h2>
+        <p className="mob-note">{togetherLine(together)}</p>
+      </section>
+    );
+  }
+  // You sat with others but keep your score private: say plainly how to compare, once, quietly.
+  if (!showScore && othersSat) return <p className="mob-hint mob-together-hint">Turn on Show my score below to compare this week&apos;s paper with members who show theirs.</p>;
+  return null;
+}
+
 function InMob({ data, mob }) {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [member, setMember] = useState(null);
@@ -292,7 +313,7 @@ function InMob({ data, mob }) {
     setNotice(null);
     const r = await run('/api/mob/nudge', undefined, { name: 'nudge' });
     if (!r.ok) { setNotice(r.message); return; }
-    setNotice(r.data.to === 1 ? 'Sent to the 1 member who has not sat.' : `Sent to the ${r.data.to} members who have not sat.`);
+    setNotice('Sent. Members who have not sat will see it when they next open MockMob.');
     await reload();
   };
   const seenNudge = async () => { await run('/api/mob/nudge/seen', undefined, { name: 'seen' }); await reload(); };
@@ -319,14 +340,14 @@ function InMob({ data, mob }) {
             {!week.youSat && !week.closed ? (
               <>
                 {afford
-                  ? <Link className={alone ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} href={paperHref(data)}>Sit this week&apos;s paper (10 questions, about 12 min)</Link>
-                  : <Link className="btn-volt md mob-primary" href="/pricing?reason=credits">Get credits to sit it</Link>}
+                  ? <Link className={alone ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={alone ? undefined : ''} href={paperHref(data)}>Sit this week&apos;s paper (10 questions, about 12 min)</Link>
+                  : <Link className={alone ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={alone ? undefined : ''} href="/pricing?reason=credits">Get credits to sit it</Link>}
                 <p className="mob-cost">{costLine(cost)}</p>
               </>
             ) : null}
             {week.youSat ? (
               <>
-                {week.yourResultId ? <Link className="btn-volt md mob-primary" href={resultHref(week.yourResultId)}>See your answers</Link> : null}
+                {week.yourResultId ? <Link className={alone ? 'mob-key mob-primary' : 'btn-volt md mob-primary'} data-page-primary={alone ? undefined : ''} href={resultHref(week.yourResultId)}>See your answers</Link> : null}
                 {!alone ? (
                   <button type="button" className="mob-key" onClick={sendNudge} disabled={!nudge.canSend || mob.busy === 'nudge'} aria-describedby={nudgeReason ? 'mob-nudge-why' : undefined}>
                     Ask the others to sit it
@@ -335,12 +356,12 @@ function InMob({ data, mob }) {
                 {nudgeReason && !alone ? <p id="mob-nudge-why" className="mob-hint">{nudgeReason}</p> : null}
               </>
             ) : null}
-            {week.closed && !week.youSat ? <p className="mob-note">{CLOSED_LINE}</p> : null}
           </div>
         </div>
       </section>
 
       <TrapCard trap={data.trap} resultId={week.yourResultId} />
+      {week.youSat && !alone ? <TogetherCard together={data.together} showScore={you.showScore} othersSat={week.sat > 1} /> : null}
 
       <section className="glass mob-card" aria-labelledby="mob-members-h">
         <header className="mob-head">
@@ -352,13 +373,14 @@ function InMob({ data, mob }) {
             <li key={m.memberId} className="mob-member">
               <span className="mob-disc" data-colour={m.colour} aria-hidden="true">{initialOf(m.name)}</span>
               <span className="mob-member__name"><b>{m.name}</b>{m.you ? <span>You</span> : null}</span>
-              <span className="mob-member__state">{m.sat ? 'Sat' : ''}{m.sat && m.score ? <span className="mob-score">{m.score.value} of {m.score.of}</span> : null}</span>
+              {/* P6: no "Sat" or blank beside a name, so no row reads as "has not sat". The ring names the sitters. */}
+              {m.sat && m.score ? <span className="mob-member__state"><span className="mob-score">{m.score.value} of {m.score.of}</span></span> : null}
               {!m.you ? <button type="button" className="mob-icon" aria-label={`More for ${m.name}`} onClick={() => setMember(m)}><Ellipsis size={18} aria-hidden="true" /></button> : <span className="mob-icon mob-icon--spacer" aria-hidden="true" />}
             </li>
           ))}
         </ol>
         {data.seatsLeft > 0 ? (
-          <button type="button" className={alone ? 'btn-volt md mob-invite-row' : 'mob-key mob-invite-row'} onClick={() => setInviteOpen(true)}>
+          <button type="button" className={alone ? 'btn-volt md mob-invite-row' : 'mob-key mob-invite-row'} data-page-primary={alone ? '' : undefined} onClick={() => setInviteOpen(true)}>
             <UserPlus size={16} aria-hidden="true" />Invite a friend ({seatsLine(data.seatsLeft)})
           </button>
         ) : <p className="mob-note">Your Mob is full: 5 of 5.</p>}
@@ -367,8 +389,11 @@ function InMob({ data, mob }) {
       <section className="glass mob-card" aria-labelledby="mob-settings-h">
         <h2 id="mob-settings-h" className="mob-h2">Settings</h2>
         <div className="mob-settings">
-          <ToggleRow checked={you.showScore} onChange={(v) => toggle('showScore', v)} disabled={Boolean(mob.busy)} label="Show my score to my Mob" hint="Off by default. Your Mob sees 7 of 10 beside your name, never a ranking." />
-          <ToggleRow checked={you.nudgesMuted} onChange={(v) => toggle('nudgesMuted', v)} disabled={Boolean(mob.busy)} label="Mute nudges" hint="You will not see Sit it with me notes." />
+          {/* A Mob of one has nobody to show a score to or to be nudged by: the two switches arrive with the first friend. */}
+          {!alone ? <>
+            <ToggleRow checked={you.showScore} onChange={(v) => toggle('showScore', v)} disabled={Boolean(mob.busy)} label="Show my score to my Mob" hint="Off by default. Your Mob sees 7 of 10 beside your name, never a ranking." />
+            <ToggleRow checked={you.nudgesMuted} onChange={(v) => toggle('nudgesMuted', v)} disabled={Boolean(mob.busy)} label="Mute nudges" hint="You will not see Sit it with me notes." />
+          </> : null}
           <button type="button" className="mob-row-btn" onClick={() => setRenameOpen(true)}>Change name or colour</button>
           <button type="button" className="mob-row-btn mob-row-btn--bad" onClick={() => setLeaveOpen(true)}>Leave Mob</button>
         </div>
@@ -384,6 +409,9 @@ function InMob({ data, mob }) {
 }
 
 function Loading() {
+  const [shown, setShown] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setShown(true), 250); return () => clearTimeout(t); }, []);
+  if (!shown) return <div className="mob-loading" aria-busy="true" aria-label="Loading your Mob" />;
   return (
     <div className="mob-loading" aria-busy="true" aria-label="Loading your Mob">
       <div className="glass mob-card mob-ringcard"><span className="mob-skel mob-skel--ring" /><span className="mob-skel mob-skel--line" /></div>
@@ -395,14 +423,16 @@ function Loading() {
 export default function MobPage({ user }) {
   const mob = useMob(user?.id);
   const data = mob.mob;
-  const title = data ? 'This week in your Mob' : 'Sit one paper a week with up to 4 friends.';
+  // The h1 never changes after focus lands on it (WA-01): "Your Mob" in every state, the state's phrase in the lede.
   const lede = data
-    ? (data.week.size === 1 ? 'Invite a friend to start your ring. Same 10 questions for everyone, fresh each week.' : 'The ring fills as your Mob sits this week\'s paper. It never shows who has not.')
-    : 'A small private group. One shared 10-question paper each week, about 12 minutes.';
+    ? (data.week.size === 1 ? 'Invite a friend to start your ring. Same 10 questions for everyone, fresh each week.'
+      : data.week.closed ? 'The ring shows who sat this week\'s paper. It never shows who did not.'
+        : 'The ring fills as your Mob sits this week\'s paper. It shows who sat, never who has not.')
+    : 'Sit one paper a week with up to 4 friends. A small private group, one shared 10-question paper, about 12 minutes.';
   return (
     <div className="student-page student-page--mob">
       <section className="pr ov mob-page">
-        <ArenaHead title={mob.status === 'ready' || mob.status === 'error' ? title : 'Your Mob'} lede={mob.status === 'ready' ? lede : null} />
+        <ArenaHead title="Your Mob" lede={mob.status === 'ready' ? lede : null} />
         {mob.status === 'idle' || mob.status === 'loading' ? <Loading /> : null}
         {mob.status === 'error' && !data ? (
           <section className="glass mob-card" role="alert">
@@ -411,7 +441,7 @@ export default function MobPage({ user }) {
           </section>
         ) : null}
         {mob.status === 'disabled' ? <section className="glass mob-card"><p className="mob-note">The Mob is not available yet.</p></section> : null}
-        {mob.status === 'ready' && !data ? <><PendingInvite /><StartMob user={user} mob={mob} /></> : null}
+        {mob.status === 'ready' && !data ? <NoMob user={user} mob={mob} /> : null}
         {data ? <InMob data={data} mob={mob} /> : null}
       </section>
     </div>

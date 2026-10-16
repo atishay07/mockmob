@@ -10,9 +10,9 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  CLOSED_LINE, CLOSES_LINE, CODE_RE, ERRORS, MAX_MEMBERS, buildView, checkName, closesAt, codeFromBytes, computeTrap, costLine,
+  CLOSED_LINE, CLOSES_LINE, CODE_RE, ERRORS, MAX_MEMBERS, buildView, checkName, closesAt, codeFromBytes, computeTogether, computeTrap, costLine,
   errorBody, finishedInWindow, initialOf, inviteExpiryLine, istDateTime, mobWeek, nameBlocked, nextOpensAt, normalizeCode,
-  nudgeLine, picksFromAttempt, ringLine, seatsLine, tooLateToStart, trapLine, trapPayload,
+  nudgeLine, picksFromAttempt, ringLine, seatsLine, togetherLine, tooLateToStart, trapLine, trapPayload,
 } from '../../src/lib/mob/model.mjs';
 import { createMobService, memberIdFor } from '../../src/lib/server/mob/service.js';
 import { ACTIONS, LIMITS, handleMob } from '../../src/lib/server/mob/http.js';
@@ -173,6 +173,33 @@ test('the view: a non-sitter is never named; the nudge shows once to someone who
   assert.equal(all.nudge.reason, 'everyone_sat');
   assert.equal(buildView(null, { userId: 'u1' }).mob, null);
   assert.equal(buildView(fixedState(), { userId: 'stranger', now: NOW, memberIdFor: fixedIds }).mob, null);
+});
+
+test('together: only between sitters who show their score, a count and one shared miss, never a rank', () => {
+  const keys = [0, 1, 2, 3, 0, 1, 2, 3, 0, -1];
+  const asha = { user_id: 'u2', picks: [0, 1, 2, 3, 0, 1, 2, 0, 1, 2] }; // right on 1 to 7; wrong on 8 and 9
+  const riya = { user_id: 'u1', picks: [0, 1, 2, 0, 0, 1, 2, 0, 1, 0] }; // wrong on 4, 8 and 9
+  const kabir = { user_id: 'u3', picks: [0, 1, 2, 3, 0, 0, 2, 3, 0, 0] };
+  const both = computeTogether([asha, riya], keys, { userId: 'u2', optedIn: ['u1', 'u2'] });
+  assert.deepEqual(both, { with: 1, sameRight: 6, of: 9, sharedMiss: 8 }, 'the unreadable key (question 10) is left out');
+  assert.equal(togetherLine(both), 'You and 1 other member both got the same 6 questions right. You both missed question 8.');
+  assert.equal(computeTogether([asha, riya], keys, { userId: 'u2', optedIn: ['u2'] }), null, 'the other member keeps their score private');
+  assert.equal(computeTogether([asha, riya], keys, { userId: 'u2', optedIn: ['u1'] }), null, 'you keep yours private, so you compare with nobody');
+  assert.equal(computeTogether([riya], keys, { userId: 'u2', optedIn: ['u1', 'u2'] }), null, 'you have not sat');
+  const three = computeTogether([asha, riya, kabir], keys, { userId: 'u2', optedIn: new Set(['u1', 'u2', 'u3']) });
+  assert.deepEqual(three, { with: 2, sameRight: 5, of: 9, sharedMiss: null });
+  assert.equal(togetherLine(three), 'You and 2 other members all got the same 5 questions right.');
+  assert.equal(togetherLine({ with: 1, sameRight: 1, of: 10, sharedMiss: null }), 'You and 1 other member both got the same question right.');
+  assert.equal(togetherLine({ with: 1, sameRight: 0, of: 10, sharedMiss: 2 }), 'You and 1 other member got no question right in common. You both missed question 2.');
+  for (const line of [togetherLine(both), togetherLine(three)]) {
+    assert.doesNotMatch(line, /Riya|Kabir|better|worse|ahead|behind|rank|first/i, line);
+    assert.doesNotMatch(line, /[!→]|—/, line);
+  }
+  // The view carries it only to a sitter, and leaves the key out otherwise (the contract shape is unchanged).
+  const t = { with: 1, sameRight: 6, of: 9, sharedMiss: 8 };
+  assert.deepEqual(buildView(fixedState(), { userId: 'u2', now: NOW, memberIdFor: fixedIds, together: t }).mob.together, t);
+  assert.equal('together' in buildView(fixedState(), { userId: 'u2', now: NOW, memberIdFor: fixedIds }).mob, false);
+  assert.equal('together' in buildView(fixedState(), { userId: 'u4', now: NOW, memberIdFor: fixedIds, together: t }).mob, false, 'Meera has not sat');
 });
 
 test('picks follow the paper order, blanks are -1', () => {

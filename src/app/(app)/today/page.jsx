@@ -1,16 +1,17 @@
 "use client";
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import LearningNextAction from '@/components/LearningNextAction';
 import InstallPractice from '@/components/InstallPractice';
 import RecordGlimpse from '@/components/ai/RecordGlimpse';
 import RhythmCard from '@/components/RhythmCard';
 import { TodayColleges } from '@/components/colleges/MyColleges';
 import { MobTodayCard } from '@/components/mob/MobTodayCard';
+import { useMob } from '@/components/mob/useMob';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
 import { apiGet } from '@/lib/fetcher';
-import { weekCheerKey, weekGoalAct } from '@/lib/mobiScreens';
+import { mobCheerKey, mobRingAct, weekCheerKey, weekGoalAct } from '@/lib/mobiScreens';
 
 // Today opens on the date, the way the app's Today does: it leads the lede, in the reading line,
 // not as a kicker above the headline. The server render leaves it out.
@@ -39,6 +40,24 @@ function useWeekGoal(userId) {
   return moment;
 }
 
+// The Mob's ring completing (every member sat this week) is one real moment, once per Mob week on this device, said
+// by the plan's one companion (SOCIAL-SPEC 7 and 9). Read from the same server view the Mob card draws.
+function useMobMoment(mob) {
+  const week = mob.status === 'ready' ? mob.mob?.week || null : null;
+  const start = week?.start || null;
+  const size = week?.size ?? 0;
+  const sat = week?.sat ?? 0;
+  // Read once per Mob week, so the moment stays for this visit after it is remembered.
+  const cheered = useMemo(() => {
+    if (!start) return true;
+    try { return window.localStorage.getItem(mobCheerKey(start)) === '1'; } catch { return false; }
+  }, [start]);
+  return useMemo(() => {
+    const act = start ? mobRingAct({ size, sat, cheered }) : null;
+    return act ? { act, week: start, title: `Your Mob all sat this week: ${sat} of ${size}.`, line: 'Everyone sat the same 10 questions. The ring stays full until Monday.' } : null;
+  }, [start, size, sat, cheered]);
+}
+
 export default function Today() {
   const { user } = useAuth();
   const day = useSyncExternalStore(noSubscribe, dayLine, () => '');
@@ -46,6 +65,15 @@ export default function Today() {
   // One read of the record: the plan's why (the chapter with the most marks open) and the glimpse below it.
   const insights = useInsights(user?.id);
   const weekGoal = useWeekGoal(user?.id);
+  const mob = useMob(user?.id);
+  const mobMoment = useMobMoment(mob);
+  // One Mobi on Today: the week's study goal first; the Mob's full ring otherwise. A moment is remembered only once it
+  // has actually been the one shown.
+  const moment = weekGoal || mobMoment;
+  useEffect(() => {
+    if (!moment || moment !== mobMoment) return;
+    try { window.localStorage.setItem(mobCheerKey(mobMoment.week), '1'); } catch { /* it may cheer again on this device */ }
+  }, [moment, mobMoment]);
   const top = insights.status === 'ready' ? insights.insights?.chapters?.ranked?.[0] || null : null;
   // A student with no saved session yet has no record to plan from, so the page says how the record starts.
   const fresh = insights.status === 'empty';
@@ -56,11 +84,11 @@ export default function Today() {
         <ArenaHead
           title={fresh ? (first ? `${first}, your record starts with one session.` : 'Your record starts with one session.') : first ? `${first}, here is your next step.` : 'Here is your next step.'}
           lede={day ? <><time className="today-date">{day}.</time> {lede}</> : lede} />
-        <LearningNextAction why={top} moment={weekGoal} />
+        <LearningNextAction why={top} moment={moment} />
         <div className="today-record">
           <RhythmCard compact quietMet={Boolean(weekGoal)} />
           {/* The Mob: only when you are in one (and MOB_ENABLED is on); otherwise it draws nothing. */}
-          <MobTodayCard userId={user?.id} />
+          <MobTodayCard userId={user?.id} mob={mob} />
           <TodayColleges userId={user?.id} />
           <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} link={!top} />
         </div>

@@ -4,6 +4,7 @@
 //   P5 never ranked: members in join order; another member's score only when that member opted in.
 //   P6 never names a non-sitter: the view says who sat, never who did not.
 //   P7 the shared trap is aggregate: 3 or more sitters, an option picked by 2 or more and by half or more, no names.
+//   Together (the payoff a Mob of two can have): only between sitters who all show their score; a count, never a rank.
 // Nothing here grants, spends or rewards credits or money.
 import { localDay, weekStart } from '../server/rhythm.js';
 
@@ -158,13 +159,55 @@ export function computeTrap(sittings, keys) {
 
 export const letterFor = (i) => LETTERS[i] || String(i + 1);
 
+// ---------- Together: what a Mob of two can compare (P5, P7) ----------
+
+/**
+ * What you and the other sitters who show their score have in common on this week's paper, so two friends who both sat
+ * see something about each other (the trap needs 3 sitters). Only when you sat AND chose to show your score, and only
+ * over the other sitters who chose the same: each of them already shows "7 of 10" beside their name, so a shared count
+ * adds no private detail. A count and one shared miss; never who did better, never anyone who kept their score private.
+ * sittings: [{ user_id, picks }]; keys: the key's option index per paper question (-1 unreadable); optedIn: user ids.
+ * Returns { with, sameRight, of, sharedMiss } or null.
+ */
+export function computeTogether(sittings, keys, { userId, optedIn } = {}) {
+  const list = Array.isArray(sittings) ? sittings : [];
+  const shows = optedIn instanceof Set ? optedIn : new Set(optedIn || []);
+  const mine = list.find((s) => s?.user_id === userId);
+  if (!mine || !shows.has(userId) || !Array.isArray(keys)) return null;
+  const peers = list.filter((s) => s?.user_id !== userId && shows.has(s?.user_id));
+  if (!peers.length) return null;
+  const group = [mine, ...peers];
+  const right = (s, q) => Array.isArray(s.picks) && s.picks[q] === keys[q];
+  let sameRight = 0;
+  let of = 0;
+  let sharedMiss = null;
+  for (let q = 0; q < keys.length; q += 1) {
+    if (!Number.isInteger(keys[q]) || keys[q] < 0) continue; // a question with no readable key is left out of both
+    of += 1;
+    if (group.every((s) => right(s, q))) sameRight += 1;
+    else if (sharedMiss === null && group.every((s) => !right(s, q))) sharedMiss = q + 1;
+  }
+  return of ? { with: peers.length, sameRight, of, sharedMiss } : null;
+}
+
+/** "You and 1 other member both got 6 of the same questions right. You both missed question 4." No rank, no names. */
+export function togetherLine(t) {
+  if (!t) return '';
+  const two = t.with === 1;
+  const you = two ? 'You and 1 other member' : `You and ${t.with} other members`;
+  const first = t.sameRight === 0
+    ? `${you} got no question right in common.`
+    : `${you} ${two ? 'both' : 'all'} got ${t.sameRight === 1 ? 'the same question' : `the same ${t.sameRight} questions`} right.`;
+  return t.sharedMiss ? `${first} ${two ? 'You both' : 'You all'} missed question ${t.sharedMiss}.` : first;
+}
+
 // ---------- The cost line (D-S2 default: exactly what a quick 10 costs) ----------
 
 /** cost: { type: 'included'|'allowance'|'credits', credits?, balance? }. Never a number the server did not supply. */
 export function costLine(cost) {
   if (!cost || typeof cost !== 'object') return '';
   if (cost.type === 'included') return 'Included with Pro.';
-  if (cost.type === 'allowance') return 'Free today: it uses today\'s included 10-question set.';
+  if (cost.type === 'allowance') return 'Free today.';
   if (cost.type === 'credits' && Number.isFinite(cost.credits)) {
     if (!Number.isFinite(cost.balance)) return `${cost.credits} credits.`;
     if (cost.balance < cost.credits) return `${cost.credits} credits. You have ${cost.balance}, so you need ${cost.credits - cost.balance} more.`;
@@ -203,10 +246,10 @@ export const inviteExpiryLine = (iso) => (istDateTime(iso) ? `Link works until $
 /**
  * state: what mob_state returns (snake_case rows). opts:
  *   userId, now, memberIdFor(userId) -> string, cost, trap (already enriched: { ...computeTrap, questionId, option,
- *   trapName, youPicked }), keys? (unused here), subjectName
+ *   trapName, youPicked }), together (computeTogether's answer), subjectName
  * Returns { mob: null } or { mob: {...} }.
  */
-export function buildView(state, { userId, now, memberIdFor, cost = null, trap = null, subjectName = null } = {}) {
+export function buildView(state, { userId, now, memberIdFor, cost = null, trap = null, together = null, subjectName = null } = {}) {
   if (!state || !state.mob) return { mob: null };
   const week = state.week;
   const members = Array.isArray(state.members) ? [...state.members] : [];
@@ -256,6 +299,9 @@ export function buildView(state, { userId, now, memberIdFor, cost = null, trap =
       },
       // P7: only to a member who sat; the server already returned null under 3 sitters.
       trap: mine && trap ? trap : null,
+      // Only to a sitter who shows their score, when another sitter does too (computeTogether). Left out otherwise, so
+      // the contract shape is unchanged for every member it does not apply to.
+      ...(mine && together ? { together } : {}),
       nudge: { canSend: nudgeReason === null, reason: nudgeReason, received },
       invite: inviteOut,
     },

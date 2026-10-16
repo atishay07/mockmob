@@ -57,7 +57,14 @@ export default function JoinMob({ code: rawCode }) {
     return () => { cancelled = true; };
   }, [user?.name]);
 
-  const signIn = () => { rememberJoin(code); router.push(loginPathFor(`/join/${code}`)); };
+  // The sign-in page can take a moment to open; the key says so and takes no second tap until the route changes.
+  const [opening, setOpening] = useState(false);
+  const signIn = () => {
+    if (opening) return;
+    setOpening(true);
+    rememberJoin(code);
+    router.push(loginPathFor(`/join/${code}`));
+  };
   const join = async () => {
     setError(null);
     const checked = checkName(name);
@@ -100,7 +107,7 @@ export default function JoinMob({ code: rawCode }) {
             </ul>
             {!signedIn ? (
               <div className="mob-actions">
-                <button type="button" className="mob-volt" onClick={signIn} disabled={authStatus === 'loading'}>Sign in to join</button>
+                <button type="button" className="mob-volt" onClick={signIn} disabled={authStatus === 'loading'} aria-busy={opening || undefined} aria-disabled={opening || undefined}>{opening ? 'Opening sign-in' : 'Sign in to join'}</button>
                 <Link className="mob-link" href="/#try-practice">Try a sample question first</Link>
               </div>
             ) : (

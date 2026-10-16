@@ -140,17 +140,31 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     const moved = landedPath.current !== activePath;
     landedPath.current = activePath;
     if (first || !moved || isTestRoute) return undefined;
-    const frame = requestAnimationFrame(() => {
+    // A page whose h1 mounts after its first frame (Practice reads its subjects first) is waited for, briefly: the
+    // heading is focused as soon as it exists, and <main> only if none arrives within about 400 ms.
+    const main = document.getElementById('app-main');
+    if (!main) return undefined;
+    let done = false;
+    let observer = null;
+    let timer = 0;
+    const finish = () => { done = true; observer?.disconnect(); clearTimeout(timer); };
+    const land = (fallback) => {
+      if (done) return;
       const active = document.activeElement;
       // A page that put focus on purpose (a search box, a sheet) keeps it.
-      if (active && active !== document.body && !active.closest('.arena-sidebar, .arena-bottomnav, .arena-sheet, .arena-topbar')) return;
-      const main = document.getElementById('app-main');
-      const heading = main?.querySelector('h1') || main;
-      if (!heading) return;
-      if (heading !== main && !heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
-      heading.focus({ preventScroll: true });
-    });
-    return () => cancelAnimationFrame(frame);
+      if (active && active !== document.body && active !== main && !active.closest('.arena-sidebar, .arena-bottomnav, .arena-sheet, .arena-topbar')) { finish(); return; }
+      const heading = main.querySelector('h1');
+      if (!heading && !fallback) return;
+      finish();
+      const target = heading || main;
+      if (target !== main && !target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    };
+    const frame = requestAnimationFrame(() => land(false));
+    observer = new MutationObserver(() => land(false));
+    observer.observe(main, { childList: true, subtree: true });
+    timer = setTimeout(() => land(true), 400);
+    return () => { finish(); cancelAnimationFrame(frame); };
   }, [activePath, status, isTestRoute]);
 
   useEffect(() => {

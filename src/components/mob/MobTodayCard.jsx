@@ -1,15 +1,18 @@
 "use client";
 // Today's Mob card (SOCIAL-SPEC sections 7 and 9): only when you are in a Mob, the ring and one action. Present, not in
 // the face: no Mob means no card, a failed read means no card (Today is a glance, /mob says why and retries).
-// Wiring: one import line in src/app/(app)/today/page.jsx after WEB-PASS WP-B merges (WP-B owns that file).
+// The ring completing is Today's Mobi moment (today/page.jsx, mobRingAct), said by the plan's one companion, so the
+// card itself never adds a second figure.
 import Link from 'next/link';
 import { canAfford, costLine, nudgeLine, paperHref, ringLine } from '@/lib/mob/model.mjs';
 import { MobRing } from './MobRing';
 import { useMob } from './useMob';
 import './mob.css';
 
-export function MobTodayCard({ userId }) {
-  const mob = useMob(userId);
+/** `mob` (optional): the page's own useMob state, so Today reads the Mob once for this card and its Mobi moment. */
+export function MobTodayCard({ userId, mob: given = null }) {
+  const own = useMob(given ? null : userId);
+  const mob = given || own;
   const data = mob.mob;
   if (!userId || mob.status !== 'ready' || !data) return null;
   const { week, nudge } = data;

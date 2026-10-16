@@ -10,7 +10,7 @@
 import { createHmac } from 'node:crypto';
 import {
   CODE_ALPHABET, INVITE_DAYS, MobError, PAPER_COUNT, REPORT_REASONS, buildView, checkColour, checkName, codeFromBytes,
-  computeTrap, finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, tooLateToStart, trapPayload,
+  computeTogether, computeTrap, finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, tooLateToStart, trapPayload,
 } from '../../mob/model.mjs';
 
 const DAY_MS = 86_400_000;
@@ -102,21 +102,27 @@ export function createMobService(deps) {
     return { type: 'credits', credits: 10, balance: Math.max(0, Number(user.creditBalance) || 0) };
   }
 
-  async function trapFor(state, userId) {
+  // The trap (P7, 3 or more sitters) and Together (2 or more sitters who show their score) read the same keys once.
+  async function comparisonsFor(state, userId) {
+    const none = { trap: null, together: null };
     const sittings = state.sittings || [];
     const mine = sittings.find((s) => s.user_id === userId);
     const ids = state.paper?.question_ids;
-    if (!mine || sittings.length < 3 || !Array.isArray(ids) || !deps.loadQuestions) return null;
+    if (!mine || sittings.length < 2 || !Array.isArray(ids) || !deps.loadQuestions) return none;
+    const optedIn = new Set((state.members || []).filter((m) => m.show_score).map((m) => m.user_id));
+    const wantsTogether = optedIn.has(userId) && sittings.some((s) => s.user_id !== userId && optedIn.has(s.user_id));
+    if (sittings.length < 3 && !wantsTogether) return none;
     try {
       const questions = await deps.loadQuestions(ids);
       const byId = new Map(questions.map((q) => [q.id, q]));
       const keys = ids.map((id) => (Number.isInteger(byId.get(id)?.correctIndex) ? byId.get(id).correctIndex : -1));
-      const raw = computeTrap(sittings, keys);
-      if (!raw) return null;
+      const together = wantsTogether ? computeTogether(sittings, keys, { userId, optedIn }) : null;
+      const raw = sittings.length >= 3 ? computeTrap(sittings, keys) : null;
+      if (!raw) return { trap: null, together };
       const question = byId.get(ids[raw.questionIndex]);
       const trapName = deps.trapNameFor ? await Promise.resolve(deps.trapNameFor(question, raw.optionIndex)).catch(() => null) : null;
-      return trapPayload(raw, { questionId: ids[raw.questionIndex], trapName, youPicked: mine.picks?.[raw.questionIndex], key: keys[raw.questionIndex] });
-    } catch { return null; }
+      return { trap: trapPayload(raw, { questionId: ids[raw.questionIndex], trapName, youPicked: mine.picks?.[raw.questionIndex], key: keys[raw.questionIndex] }), together };
+    } catch { return none; }
   }
 
   async function view(userId, { sync = true } = {}) {
@@ -125,9 +131,9 @@ export function createMobService(deps) {
     if (!state) return { mob: null };
     if (sync) state = await syncSittings(state, userId);
     const youSat = (state.sittings || []).some((s) => s.user_id === userId);
-    const [paperCost, trap] = await Promise.all([youSat ? null : cost(userId), trapFor(state, userId)]);
+    const [paperCost, { trap, together }] = await Promise.all([youSat ? null : cost(userId), comparisonsFor(state, userId)]);
     const subject = deps.subjectInfo ? deps.subjectInfo(state.mob.subject) : null;
-    return buildView(state, { userId, now: now(), memberIdFor: idFor(state.mob.id), cost: paperCost, trap, subjectName: subject?.name || null });
+    return buildView(state, { userId, now: now(), memberIdFor: idFor(state.mob.id), cost: paperCost, trap, together, subjectName: subject?.name || null });
   }
 
   async function mustState(userId, { sync = false } = {}) {

@@ -31,7 +31,7 @@
 .rp-stats [data-kind='wrong'] dd { color: var(--a-bad-text, #ff9d92); }
 .rp-strip { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
 .rp-strip button {
-  position: relative; width: 44px; height: 44px; border-radius: 10px; font: 700 14px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; cursor: pointer;
+  position: relative; flex: none; width: 44px; height: 44px; min-height: 44px; border-radius: 10px; font: 700 14px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; cursor: pointer;
   border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink-3, #93a08f);
 }
 .rp-strip button[data-verdict='correct'] { background: color-mix(in oklab, var(--a-good-text, #b6e36e) 18%, transparent); border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 55%, transparent); color: var(--a-ink, #f2f4ec); }

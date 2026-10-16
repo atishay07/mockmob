@@ -187,6 +187,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       const attempt = fixtureAttempt(); const kind = fixture.get('repair');
+      // &mobpaper=1: the attempt was this week's Mob paper, so the result shows the Mob row (pair with &mob=two|ready).
+      if (fixture.get('mobpaper') === '1') attempt.selectionMeta = { ...(attempt.selectionMeta || {}), mobPaper: { mobId: 'preview-mob', weekStart: '2026-10-12' } };
       if (['corrected', 'key-unverified', 'held'].includes(kind)) {
         const receipt = CIRCULAR_QUEUE_CORRECTION;
         const qid = attempt.questionsSnapshot[1].id;
