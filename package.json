@@ -15,6 +15,8 @@
     "test:question-reorder": "node --test data/tests/question_reorder.test.mjs",
     "test:authored-publish": "node --test data/tests/authored_publish.test.mjs data/tests/authored_w2.test.mjs",
     "test:study": "node --test data/tests/study_engine.test.mjs data/tests/study_content.test.mjs data/tests/study_database.test.mjs data/tests/study_feel.test.mjs",
+    "test:attempt-reads": "node --test data/tests/egress_attempts.test.mjs",
+    "test:health-auth-board": "node --test data/tests/health_auth_board.test.mjs",
     "test:answer-integrity": "node --test data/tests/answer_integrity.test.mjs",
     "db:seed": "node scripts/seed.mjs",
     "autonomous": "node --use-system-ca --env-file=.env.local scripts/pipeline/autonomous/worker.mjs --start",

@@ -45,7 +45,7 @@ export async function validateCurrentPathway(p) {
   }
 }
 
-export async function learningRecord(userId, { subject, minutes } = {}) {
+export async function learningRecord(userId, { subject, minutes, memo } = {}) {
   if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
     try {
       const prefs=await getStudyPreferences(userId);
@@ -56,7 +56,7 @@ export async function learningRecord(userId, { subject, minutes } = {}) {
     } catch { /* Existing learning record remains available if study storage is not deployed. */ }
   }
   const db = supabaseAdmin();
-  const attempts = await Database.getAttempts(userId);
+  const attempts = await Database.getAttempts(userId, { memo }); // a caller that already read them in this request passes its memo
   const [episodeResult, sessionResult] = await Promise.all([
     db.from('learning_episodes').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
     db.from('recovery_sessions').select('id,subject,mode,expires_at,selection_meta').eq('user_id', userId).eq('state', 'active').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(1),
@@ -110,7 +110,7 @@ export async function startEpisode(userId, input) {
   const p = (await releasedPathways()).find(p => p.id === input.conceptId);
   if (!p) throw new Error('PATHWAY_AWAITING_SOURCES_AND_CALIBRATION');
   // Legacy attempts are exposures too; server scoring is not required to have seen a family.
-  const history = await Database.getAttempts(userId);
+  const history = await Database.getAttempts(userId, { columns: ['questions_snapshot'] }); // only the snapshots are read below
   const seen = history.flatMap(a => a.questionsSnapshot || []);
   const e = createEpisode(p, { id: randomUUID(), at: Date.now(), seenIds: seen.map(q => q.id), seenFamilies: seen.map(q => q.familyId).filter(Boolean) });
   const user = await Database.getUserById(userId);

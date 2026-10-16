@@ -117,17 +117,22 @@ export async function ensureDbUser(identity, db, { onCreated } = {}) {
   let dbUser = (identity.id ? await db.getUserById(identity.id) : null) || await db.getUserByEmail(identity.email);
   if (!dbUser) {
     try {
-      const created = await db.createUser({
+      const row = {
         id: identity.id,
         name: identity.name || identity.email.split('@')[0],
         email: identity.email,
         image: identity.image || null,
         subjects: [],
-      });
-      if (typeof onCreated === 'function') {
+      };
+      // ensureUser (data/db.js) is idempotent: the loser of a race gets the winner's row with created false.
+      // A db without it (a test double) keeps the older create-and-catch path below.
+      const { user: account, created } = typeof db.ensureUser === 'function'
+        ? await db.ensureUser(row)
+        : { user: await db.createUser(row), created: true };
+      if (created && typeof onCreated === 'function') {
         try { await onCreated(); } catch { /* counting is never allowed to break sign-in */ }
       }
-      return created;
+      return account;
     } catch (error) {
       if (String(error?.code) !== UNIQUE_VIOLATION) throw error;
       dbUser = (identity.id ? await db.getUserById(identity.id) : null) || await db.getUserByEmail(identity.email);

@@ -20,6 +20,7 @@ import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_re
 import { assertFullBankRead } from './full_bank_guard';
 import { readablePracticeQuestions } from './practice_library';
 import { selectPracticeQuestions, PRACTICE_LIGHT_SELECT, PRACTICE_POOL_CACHE_MS } from './practice_pick';
+import { attemptMemoKey, memoisedAttempts, readAttemptRows } from './attempt_reads';
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
@@ -337,7 +338,12 @@ export const Database = {
     return userOut(data);
   },
 
-  async createUser(user) {
+  // Creates the account row once. Two first requests of a new student at the same moment (the callback page and
+  // the AuthProvider both call /api/auth/me) both reach this: INSERT ... ON CONFLICT (id) DO NOTHING lets exactly one
+  // of them create the row (with the 100 starting credits) and the other read that row back. An existing row is never
+  // written to, so a profile the student has already changed is never reset. `created` is true only for the call that
+  // inserted the row. A conflict on another unique column (an email held by a different id) still throws.
+  async ensureUser(user) {
     const row = {
       id: user.id || newUserId(),
       name: user.name,
@@ -348,9 +354,18 @@ export const Database = {
       credit_balance: 100,
     };
     const { data, error } = await supabaseAdmin()
-      .from('users').insert(row).select('*').single();
+      .from('users').upsert(row, { onConflict: 'id', ignoreDuplicates: true }).select('*');
     if (error) throw error;
-    return userOut(data);
+    if (Array.isArray(data) && data.length) return { user: userOut(data[0]), created: true };
+    const { data: existing, error: readError } = await supabaseAdmin()
+      .from('users').select('*').eq('id', row.id).maybeSingle();
+    if (readError) throw readError;
+    if (!existing) throw new Error('user_create_unreadable');
+    return { user: userOut(existing), created: false };
+  },
+
+  async createUser(user) {
+    return (await this.ensureUser(user)).user;
   },
 
   async updateUser(id, updates) {
@@ -1557,17 +1572,15 @@ export const Database = {
   // =====================================================================
   // ATTEMPTS
   // =====================================================================
-  async getAttempts(userId) {
+  /**
+   * Every attempt of one student, newest first. `columns` (attempts column names) and `limit` (newest N) narrow the read;
+   * `memo` (one Map per request) makes a second read of the same shape free. See data/attempt_reads.js. Without options
+   * this is the old full read.
+   */
+  async getAttempts(userId, { columns, limit, memo } = {}) {
     if (!userId) throw new Error('attempt_owner_required');
-    const rows = [];
-    for (let offset = 0; ; offset += 1000) {
-      const { data, error } = await supabaseAdmin().from('attempts').select('*').eq('user_id', userId)
-        .order('completed_at', { ascending: false }).order('id').range(offset, offset + 999);
-      if (error) throw error;
-      rows.push(...(data || []));
-      if (!data || data.length < 1000) break;
-    }
-    return rows.map(attemptOut);
+    const load = async () => (await readAttemptRows(supabaseAdmin(), userId, { columns, limit })).map(attemptOut);
+    return memoisedAttempts(memo, attemptMemoKey(userId, { columns, limit }), load);
   },
 
   async getAttemptById(id) {
@@ -1673,8 +1686,28 @@ export const Database = {
   // LEADERBOARD
   // =====================================================================
   async getLeaderboard() {
-    // Denormalized aggregate: one row per user with >= 1 attempt.
-    // PostgREST caps a response at 1000 rows, so page through every attempt.
+    // One group-by query in the database (mm_leaderboard): one row per user with >= 1 attempt, with name and
+    // image joined. Only a missing function (migration not applied yet) falls back to the old paging below.
+    const { data: ranked, error: rankedError } = await supabaseAdmin().rpc('mm_leaderboard');
+    if (!rankedError) {
+      return (ranked || []).map(r => {
+        const tests = Number(r.tests) || 0;
+        const totalScore = Number(r.total_score) || 0;
+        return {
+          userId: r.user_id,
+          name: r.name || 'Unknown User',
+          image: r.image || null,
+          tests,
+          totalScore,
+          avg: tests ? Math.round(totalScore / tests) : 0,
+        };
+      }).sort((a, b) => b.totalScore - a.totalScore);
+    }
+    const missing = rankedError.code === 'PGRST202' || rankedError.code === '42883'
+      || /could not find the function|does not exist/i.test(String(rankedError.message || ''));
+    if (!missing) throw rankedError;
+
+    // Fallback: denormalized aggregate. PostgREST caps a response at 1000 rows, so page through every attempt.
     const attempts = [];
     const PAGE = 1000;
     for (let from = 0; ; from += PAGE) {

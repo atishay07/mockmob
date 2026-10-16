@@ -20,7 +20,7 @@ export async function GET(request) {
     return Response.json({ error: 'rate_limited' }, { status: 429, headers });
   }
   try {
-    const attempts = (await Database.getAttempts(session.user.id)).slice(0, 60);
+    const attempts = await Database.getAttempts(session.user.id, { limit: 60 });
     const insights = computePrepOSInsights(attempts, { subjectNames: SUBJECT_NAMES });
     return Response.json({ ok: true, userId: session.user.id, insights, findings: readout(insights, { limit: 4 }), basis: 'Your server-scored sessions. Timing comes from device events.' }, { headers });
   } catch {

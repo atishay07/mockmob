@@ -60,7 +60,7 @@ export async function startSession(userId, input) {
   if (input.recoveryFrom) {
     const previous = await Database.getAttemptById(input.recoveryFrom);
     if (!previous || previous.userId !== userId) throw new Error('SESSION_NOT_FOUND');
-    exposures = (await Database.getAttempts(userId)).flatMap(a => a.questionsSnapshot || []);
+    exposures = (await Database.getAttempts(userId, { columns: ['questions_snapshot'] })).flatMap(a => a.questionsSnapshot || []);
   }
   const result = await Database.getQuestions(selection.internalSubject, count, {
     mode: mode.id, userId, returnMeta: true, requestedCount: count,
