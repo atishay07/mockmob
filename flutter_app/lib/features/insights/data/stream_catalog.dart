@@ -14,7 +14,7 @@ final streamSubjectsProvider = FutureProvider<List<Subject>>((ref) async {
   return [
     for (final j in list)
       if (j['mergedInto'] == null) Subject.fromJson(j),
-  ].where((s) => s.isSupported && s.id.isNotEmpty).toList();
+  ].where((s) => s.isOffered && s.id.isNotEmpty).toList();
 });
 
 /// `GET /api/chapters?subject=`: chapter names, grouped into units where the subject has them.
