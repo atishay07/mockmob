@@ -6,7 +6,7 @@
 import {
   Atom, BadgeIndianRupee, BookOpenText, Bookmark, Briefcase, Calculator, CalendarCheck, Check, ChefHat, ChevronDown,
   ChevronUp, X as CloseIcon, CircleCheck, CircleHelp, CircleX, Cpu, Compass, Dna, Dumbbell, FilePlus2, FlaskConical, Globe2, GraduationCap,
-  Home, Info, Infinity as InfinityIcon, ListChecks, MonitorCheck, Landmark, Languages, Layers, Leaf, Library, Lightbulb, LogOut, Map, Mic,
+  Home, Info, Infinity as InfinityIcon, LifeBuoy, Mail, ListChecks, MonitorCheck, Landmark, Languages, Layers, Leaf, Library, Lightbulb, LogOut, Map, Mic,
   Music, Newspaper, NotebookText, Orbit, Palette, Radar, RefreshCw, Scale, Scroll, ShieldCheck, Telescope, Timer,
   TrendingUp, Trophy, TriangleAlert, UserRound, Users, Wheat, Brain, Ruler, Gavel, Sprout, Lock, Clock, Wallet,
 } from 'lucide-react';
@@ -31,6 +31,8 @@ const APP_ICONS = {
   uploads: Library,
   moderation: ShieldCheck,
   guide: CircleHelp,
+  help: LifeBuoy,
+  mail: Mail,
   signout: LogOut,
   home: Home,
   wallet: Wallet,

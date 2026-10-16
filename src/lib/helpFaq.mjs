@@ -1,0 +1,74 @@
+// Help: the questions and answers on the website, the same six as the app's Help (flutter_app
+// lib/features/you/help/faq.dart), checked against what the website really does. Where the website works
+// differently from the phone (the credits history, sign-in, offline answers) the answer says how it works here.
+// Credit words come from creditCopy.mjs, the same source as the rest of the site. Plain sentence case:
+// no "!", no em dash, no middle dot. Pure, so a test can hold every word.
+import { AI_CREDITS, PRACTICE_CREDITS } from './creditCopy.mjs';
+
+export const SUPPORT_EMAIL = 'support@mockmob.in';
+export const HELP_HEADING = 'Common questions';
+export const HELP_LEDE = 'Short answers to what students ask most. Not here? Write to us and a person replies.';
+
+export const FAQ_ITEMS = Object.freeze([
+  Object.freeze({
+    id: 'credits',
+    question: `What are ${PRACTICE_CREDITS} and ${AI_CREDITS}?`,
+    answer: Object.freeze([
+      `${PRACTICE_CREDITS} pay for mocks and practice sets. ${AI_CREDITS} pay for Ask Mobi replies and repair explanations. Each has its own balance. ${AI_CREDITS} show the date they renew. ${PRACTICE_CREDITS} do not renew.`,
+      `On Pro, practice is unlimited. Your ${AI_CREDITS} still count.`,
+    ]),
+  }),
+  Object.freeze({
+    id: 'history',
+    question: 'How do I see what I have used?',
+    answer: Object.freeze([
+      'Open Account, then Credits. Every line says which credits it used, how many, and how many are left.',
+    ]),
+  }),
+  Object.freeze({
+    id: 'nta',
+    question: 'What is NTA mode?',
+    answer: Object.freeze([
+      'NTA mode sets a paper out like the real CUET screen. The question palette, Mark for Review and the timer look and behave as they do on exam day. It comes with Pro.',
+      'Nothing else appears while the paper runs. Your result, review and repair come after you submit.',
+    ]),
+  }),
+  Object.freeze({
+    id: 'study-days',
+    question: 'What counts as a study day?',
+    answer: Object.freeze([
+      'A day on which you finish a practice, a mock or a repair. Your weekly goal is how many study days you aim for in a week. You set it in Account, under Weekly goal.',
+      'MockMob counts only the days you finished something. Going away? Pause study days in the app and your run is kept. Account shows the pause.',
+    ]),
+  }),
+  Object.freeze({
+    id: 'sign-in',
+    question: 'I cannot sign in. What can I do?',
+    answer: Object.freeze([
+      'Choose the email code. We send a code to your address, and it works even when Google does not. Not there? It can take a minute, so check Spam or Promotions too. You can also tap the button in that email.',
+      'Google does not open inside the Instagram, Facebook or WhatsApp browser. Open MockMob in Chrome or Safari, or use the email code.',
+      `Still stuck? Write to ${SUPPORT_EMAIL} from your account address.`,
+    ]),
+  }),
+  Object.freeze({
+    id: 'offline',
+    question: 'What happens to my answers if I lose connection?',
+    answer: Object.freeze([
+      'They stay on this device and the timer keeps running. Reconnect before you submit. If you submit while offline, MockMob waits and sends it when you are back online, as long as the submission window is still open.',
+    ]),
+  }),
+]);
+
+export const FAQ_IDS = Object.freeze(FAQ_ITEMS.map((item) => item.id));
+
+/** The id a ?q= or #hash names, or null when it is not one of the questions. */
+export function faqIdFrom(value) {
+  const id = String(value || '').replace(/^#/, '').trim().toLowerCase();
+  return FAQ_IDS.includes(id) ? id : null;
+}
+
+export const SUPPORT_ROW = Object.freeze({
+  label: 'Write to us',
+  note: `${SUPPORT_EMAIL}. We reply within a day.`,
+  href: `mailto:${SUPPORT_EMAIL}?subject=MockMob%20help`,
+});
