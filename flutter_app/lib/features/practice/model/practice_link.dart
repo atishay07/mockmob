@@ -47,7 +47,7 @@ class PracticeLink {
       mode: mode,
       subjectId: id,
       count: nearestPracticeCount(count, counts: mode.counts, fallback: mode.defaultCount),
-      chapters: mode == PracticeMode.chapter ? chapters : const [],
+      chapters: mode.allowsChapters ? chapters : const [],
       difficulty: PracticeDifficulty.parse(difficulty),
       purpose: allowedPurpose,
       recoveryFrom: mode == PracticeMode.chapter ? recoveryFrom : null,

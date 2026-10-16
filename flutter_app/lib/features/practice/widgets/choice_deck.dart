@@ -22,6 +22,7 @@ class ChoiceOption {
     this.facts = const [],
     this.id,
     this.noteLines,
+    this.titleLines,
   });
 
   final ChoiceGlyphKind glyph;
@@ -41,6 +42,10 @@ class ChoiceOption {
   /// Note lines the tile always reserves, so a note that grows later (a count that arrives)
   /// never moves what is below.
   final int? noteLines;
+
+  /// Title lines a lead always reserves, so a title that changes with the subject ("10 Economics
+  /// questions" to "10 Business Studies questions") never moves what is below.
+  final int? titleLines;
 }
 
 /// How a row of the deck is laid out. Hierarchy comes from shape and size, not colour: the lead is
@@ -155,9 +160,14 @@ class ChoiceDeck extends StatelessWidget {
     this.onSheet = false,
     this.leadKey,
     this.startDelay = Duration.zero,
+    this.goMarks = false,
   });
 
   final List<ChoiceRow> rows;
+
+  /// Every session row and tile says it starts: an outlined go disc at its edge (Start sheet,
+  /// owner 17 Oct F5). The Practice tab keeps its own look.
+  final bool goMarks;
 
   /// Waits this long before the first row rises: a page that stages its own entrance (the
   /// Practice tab) lets the blocks above arrive first.
@@ -221,6 +231,7 @@ class ChoiceDeck extends StatelessWidget {
                   child: TileChoice(
                     option: first,
                     onSheet: onSheet,
+                    goMark: goMarks,
                     weight: weighted ? TileWeight.primary : TileWeight.even,
                     key: ValueKey('choice-${first.id ?? first.title}'),
                   ),
@@ -231,6 +242,7 @@ class ChoiceDeck extends StatelessWidget {
                   child: TileChoice(
                     option: second,
                     onSheet: onSheet,
+                    goMark: goMarks,
                     weight: weighted ? TileWeight.secondary : TileWeight.even,
                     key: ValueKey('choice-${second.id ?? second.title}'),
                   ),
@@ -240,7 +252,7 @@ class ChoiceDeck extends StatelessWidget {
           ),
         );
       case WideRow(:final option):
-        return _rise(slot, WideChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}')));
+        return _rise(slot, WideChoice(option: option, goMark: goMarks, key: ValueKey('choice-${option.id ?? option.title}')));
       case QuietRow(:final option):
         return _rise(slot, QuietChoice(option: option, key: ValueKey('choice-${option.id ?? option.title}')));
       case BandRow(:final title, :final note, :final foot, :final rows):
@@ -249,7 +261,7 @@ class ChoiceDeck extends StatelessWidget {
           note: note,
           foot: foot,
           bleed: bleed,
-          child: ChoiceDeck(rows: rows, gap: gap, animateIn: animateIn, onSheet: onSheet, startDelay: startDelay),
+          child: ChoiceDeck(rows: rows, gap: gap, animateIn: animateIn, onSheet: onSheet, startDelay: startDelay, goMarks: goMarks),
           rise: (child) => _rise(slot, child),
         );
     }
@@ -546,7 +558,7 @@ class LeadChoice extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(o.title, style: type.headline.copyWith(fontSize: 30, height: 32 / 30)),
+                                  _leadTitle(context, o, type.headline.copyWith(fontSize: 30, height: 32 / 30)),
                                   const SizedBox(height: MmSpace.s4),
                                   _note(context, o.note, type.small.copyWith(fontSize: 15, color: colors.ink2), o.noteLines),
                                   if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
@@ -568,6 +580,24 @@ class LeadChoice extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The lead's title. A title that changes (the subject changed under it) cross-fades in place, and
+/// [ChoiceOption.titleLines] keeps its room, so the card never changes height.
+Widget _leadTitle(BuildContext context, ChoiceOption o, TextStyle style) {
+  final lines = o.titleLines;
+  if (lines == null || lines <= 1) return Text(o.title, style: style);
+  final line = MediaQuery.textScalerOf(context).scale(style.fontSize! * style.height!);
+  final duration = Motion.of(context, Motion.ui);
+  return ConstrainedBox(
+    constraints: BoxConstraints(minHeight: line * lines),
+    child: MmSizeEase(
+      duration: duration,
+      curve: Motion.out,
+      alignment: Alignment.topLeft,
+      child: MmOverlapSwitcher(duration: duration, alignment: Alignment.topLeft, child: Text(o.title, key: ValueKey(o.title), style: style)),
+    ),
+  );
 }
 
 /// The volt disc that says "this one starts": a play glyph on volt. It sinks a little further
@@ -601,6 +631,41 @@ class _GoDisc extends StatelessWidget {
   }
 }
 
+/// The go mark of a session row on the Start sheet: an outlined disc (never volt, so the hero's go
+/// disc stays the one volt in the sheet) with a play glyph where the row starts a session and a
+/// chevron where it opens Practice. It sinks a little further than its row when pressed.
+class ChoiceGoMark extends StatelessWidget {
+  const ChoiceGoMark({super.key, required this.pressed, this.opens = false, this.size = 36});
+
+  final bool pressed;
+
+  /// A chevron: the row opens Practice instead of starting a session.
+  final bool opens;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: AnimatedScale(
+        scale: pressed ? 0.92 : 1,
+        duration: Motion.of(context, Motion.press),
+        curve: Motion.out,
+        child: DecoratedBox(
+          decoration: ShapeDecoration(
+            color: pressed ? colors.ink.withValues(alpha: 0.08) : null,
+            shape: CircleBorder(side: BorderSide(color: pressed ? colors.ink3 : colors.lineStrong, width: 1.5)),
+          ),
+          child: SizedBox.square(
+            dimension: size,
+            child: Icon(opens ? LucideIcons.chevronRight : LucideIcons.play, size: opens ? 18 : 15, color: colors.ink),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 /// How much a tile of a pair weighs: [even] is two equals (the quick-start sheet), [primary] leads
 /// (a larger, lit object on a lit fill) and [secondary] steps back (the object smaller, no fill,
 /// a hairline), so a pair on the Practice tab has one first choice, never two of the same weight.
@@ -609,11 +674,16 @@ enum TileWeight { even, primary, secondary }
 /// A tile of a pair: borderless, a tonal step above the ground, its object large at the top left
 /// and the title and a short note at the bottom.
 class TileChoice extends StatelessWidget {
-  const TileChoice({super.key, required this.option, this.onSheet = false, this.weight = TileWeight.even});
+  const TileChoice({super.key, required this.option, this.onSheet = false, this.weight = TileWeight.even, this.goMark = false});
 
   final ChoiceOption option;
   final bool onSheet;
   final TileWeight weight;
+
+  /// The Start sheet's tile: the object at the top left and an outlined go disc at the top right,
+  /// then the title and note from a fixed line under the object, so a pair's two titles share one
+  /// line however long either note runs (L09). The tag sits after the title.
+  final bool goMark;
 
   static const double objectSize = 72;
 
@@ -701,10 +771,16 @@ class TileChoice extends StatelessWidget {
                                 offset: const Offset(-4, 0),
                                 child: ChoiceGlyph(kind: o.glyph, size: glyphSize, lit: primary, motion: motion),
                               ),
-                              // The tag takes what the object leaves: on a 360 dp phone at large text a
-                              // "Pro" tag beside the 72 dp object would run past the tile's edge, so it
-                              // scales down to fit instead.
-                              if (o.tag != null) ...[
+                              if (goMark) ...[
+                                const Spacer(),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: MmSpace.s4),
+                                  child: ChoiceGoMark(pressed: pressed),
+                                ),
+                              ] else if (o.tag != null) ...[
+                                // The tag takes what the object leaves: on a 360 dp phone at large text a
+                                // "Pro" tag beside the 72 dp object would run past the tile's edge, so it
+                                // scales down to fit instead.
                                 const SizedBox(width: MmSpace.s4),
                                 Expanded(
                                   child: Padding(
@@ -720,8 +796,23 @@ class TileChoice extends StatelessWidget {
                           ),
                           // A weighted pair (the Practice tab) keeps 8 under the object, the sheet's even pair 12.
                           SizedBox(height: weight == TileWeight.even ? MmSpace.s12 : MmSpace.s8),
-                          const Spacer(),
-                          Text(o.title, style: type.cardTitle.copyWith(fontSize: primary ? 19 : (secondary ? 16 : 17))),
+                          if (!goMark) const Spacer(),
+                          if (goMark)
+                            // One line at every width and text size: it scales down before it wraps (L09).
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(o.title, maxLines: 1, softWrap: false, style: type.cardTitle.copyWith(fontSize: 17)),
+                                  ),
+                                ),
+                                if (o.tag != null) ...[const SizedBox(width: MmSpace.s8), _Tag(o.tag!)],
+                              ],
+                            )
+                          else
+                            Text(o.title, style: type.cardTitle.copyWith(fontSize: primary ? 19 : (secondary ? 16 : 17))),
                           const SizedBox(height: 2),
                           _note(context, o.note, type.caption.copyWith(color: colors.ink2), o.noteLines),
                           if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
@@ -742,9 +833,12 @@ class TileChoice extends StatelessWidget {
 /// One row across, read as a list row: no card, the object at the left, the title and note beside
 /// it, a chevron at the right and a rule under it.
 class WideChoice extends StatelessWidget {
-  const WideChoice({super.key, required this.option});
+  const WideChoice({super.key, required this.option, this.goMark = false});
 
   final ChoiceOption option;
+
+  /// The Start sheet's row: an outlined go disc where the chevron was.
+  final bool goMark;
 
   static const double objectSize = 56;
 
@@ -789,7 +883,7 @@ class WideChoice extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: MmSpace.s8),
-                Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+                if (goMark) ChoiceGoMark(pressed: pressed) else Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
               ],
             ),
           ),
