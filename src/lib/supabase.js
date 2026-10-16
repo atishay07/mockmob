@@ -1,5 +1,6 @@
 import 'server-only';
 import { createClient } from '@supabase/supabase-js';
+import { warnIfProductionFromOutside } from '@/../data/db_target';
 
 /**
  * Admin client — uses the service_role key.
@@ -19,6 +20,9 @@ export function supabaseAdmin() {
       'Supabase env vars missing. Set NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env.local'
     );
   }
+
+  // A dev server, preview or test run pointed at the production project spends the students' egress: say so once.
+  warnIfProductionFromOutside();
 
   _admin = createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },

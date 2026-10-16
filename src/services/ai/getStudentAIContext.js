@@ -28,6 +28,8 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     effectiveUser?.subscriptionStatus === 'active' ||
     effectiveUser?.isPremium === true;
 
+  // One read of the attempts for the whole context: the shared plan below reads the same ones.
+  const attemptsMemo = new Map();
   // Pull data in parallel; each branch swallows its own errors.
   const [
     attempts,
@@ -37,7 +39,7 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     usageSnapshot,
     targetRows,
   ] = await Promise.all([
-    Database.getAttempts(userId).catch(() => []),
+    Database.getAttempts(userId, { memo: attemptsMemo }).catch(() => []),
     safeSelect('user_question_progress', userId),
     safeSelect('question_bookmarks', userId),
     safeSelect('question_votes', userId, 100),
@@ -98,7 +100,7 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     selectedSubjects: effectiveUser?.subjects,
   });
 
-  const sharedPlan = await learningRecord(userId).catch(() => null);
+  const sharedPlan = await learningRecord(userId, { memo: attemptsMemo }).catch(() => null);
   return {
     sharedPlan: sharedPlan ? {primary:sharedPlan.primary,alternatives:sharedPlan.alternatives,pathwayState:sharedPlan.pathwayState,...(sharedPlan.sequence ? {sequence:sharedPlan.sequence,study:sharedPlan.study} : {})} : null,
     userId,

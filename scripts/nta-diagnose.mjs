@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
+import { assertScriptFullBankRead } from '../data/full_bank_guard.js';
 import { CUET_ALLOWED_SUBJECTS } from '../data/cuet_controls.js';
 import { NTA_QUESTION_COUNT, selectNtaQuestionSet } from '../data/nta_question_selector.js';
 
@@ -67,6 +68,8 @@ if (!url || !key) {
   process.exit(1);
 }
 
+// Reads whole subjects with every column: refused against production unless --allow-production (docs/brain/LOCAL-ENV-STAGING.md).
+assertScriptFullBankRead('the NTA diagnosis', { url });
 const supabase = createClient(url, key, { auth: { persistSession: false } });
 
 console.log('subject | total candidates | usable | hard rejected | tier1 | tier2 | tier3 | canBuild50 | passageGroups | top reject reasons');

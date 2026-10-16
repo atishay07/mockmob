@@ -19,8 +19,9 @@ import {
 import { SEED_QUESTIONS } from './questions';
 import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_registry';
 import { assertFullBankRead } from './full_bank_guard';
-import { readablePracticeQuestions } from './practice_library';
-import { selectPracticeQuestions, PRACTICE_LIGHT_SELECT, PRACTICE_POOL_CACHE_MS } from './practice_pick';
+import { selectPracticeQuestions } from './practice_pick';
+import { createPracticeSource, isMissingPhase1VoteSchema } from './practice_source';
+import { attemptMemoKey, memoisedAttempts, readAttemptRows } from './attempt_reads';
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
@@ -206,16 +207,7 @@ const questionOut = (r) => r && ({
   createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
 });
 
-const VISIBLE_QUESTION_FILTER = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
-// Light subject pools for the slim session-start read (data/practice_pick.js), kept 5 minutes per server.
-const PRACTICE_LIGHT_POOLS = new Map();
 const PAID_SALE_STATUSES = new Set(['captured', 'completed', 'paid']);
-
-function isMissingPhase1VoteSchema(error) {
-  return error?.code === '42703' ||
-    error?.code === '42P01' ||
-    /question_votes|score|upvotes|downvotes|schema cache|column .* does not exist/i.test(error?.message || '');
-}
 
 function isMissingReferralSchema(error) {
   return error?.code === '42703' ||
@@ -366,7 +358,12 @@ export const Database = {
     return userOut(data);
   },
 
-  async createUser(user) {
+  // Creates the account row once. Two first requests of a new student at the same moment (the callback page and
+  // the AuthProvider both call /api/auth/me) both reach this: INSERT ... ON CONFLICT (id) DO NOTHING lets exactly one
+  // of them create the row (with the 100 starting credits) and the other read that row back. An existing row is never
+  // written to, so a profile the student has already changed is never reset. `created` is true only for the call that
+  // inserted the row. A conflict on another unique column (an email held by a different id) still throws.
+  async ensureUser(user) {
     const row = {
       id: user.id || newUserId(),
       name: user.name,
@@ -377,9 +374,18 @@ export const Database = {
       credit_balance: 100,
     };
     const { data, error } = await supabaseAdmin()
-      .from('users').insert(row).select('*').single();
+      .from('users').upsert(row, { onConflict: 'id', ignoreDuplicates: true }).select('*');
     if (error) throw error;
-    return userOut(data);
+    if (Array.isArray(data) && data.length) return { user: userOut(data[0]), created: true };
+    const { data: existing, error: readError } = await supabaseAdmin()
+      .from('users').select('*').eq('id', row.id).maybeSingle();
+    if (readError) throw readError;
+    if (!existing) throw new Error('user_create_unreadable');
+    return { user: userOut(existing), created: false };
+  },
+
+  async createUser(user) {
+    return (await this.ensureUser(user)).user;
   },
 
   async updateUser(id, updates) {
@@ -1157,81 +1163,16 @@ export const Database = {
     };
 
     // Slim read (data/practice_pick.js): rank on the subject without its evidence records, then read
-    // full rows only for the questions that decide the picks. The full read is the fallback, and the
-    // behaviour PRACTICE_SLIM_READ=off keeps. Picks are identical either way (tests/practice_pick_parity).
-    const poolSize = Math.max(60, targetCount * 6);
-    const db = supabaseAdmin();
-    const buildQuery = (columns, withScore, offset = null) => {
-      let query = db
-        .from('questions')
-        .select(columns)
-        .eq('subject', subjectId)
-        .eq('is_deleted', false)
-        .or(VISIBLE_QUESTION_FILTER);
-      if (Array.isArray(opts.chapters) && opts.chapters.length > 0) query = query.in('chapter', opts.chapters);
-      else if (opts.chapter) query = query.eq('chapter', opts.chapter);
-      if (mode.allowDifficultyOverride && ['easy', 'medium', 'hard'].includes(opts.difficulty)) {
-        query = query.eq('difficulty', opts.difficulty);
-      }
-      if (withScore) {
-        query = query.gte('score', -2);
-      }
-      query = query.order('created_at', { ascending: false }).order('score', { ascending: false }).order('id');
-      return offset === null ? query.limit(poolSize) : query.range(offset, offset + 999);
-    };
-    // Evidence precedence and freshness need the whole filtered subject pool;
-    // a recent sample can hide older, fully verified inventory.
-    const readPool = async (columns) => {
-      const pool = [];
-      for (let offset = 0; ; offset += 1000) {
-        let { data, error } = await buildQuery(columns, true, offset);
-        if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(columns, false, offset));
-        if (error) throw error;
-        pool.push(...(data || []));
-        if (!data || data.length < 1000) break;
-      }
-      return pool;
-    };
-    const readManagedIds = async () => {
-      const ids = new Set();
-      for (const column of ['evidence', 'provenance']) {
-        for (let offset = 0; ; offset += 1000) {
-          const { data, error } = await db.from('questions').select('id').eq('subject', subjectId).eq('is_deleted', false)
-            .not(column, 'is', null).order('id').range(offset, offset + 999);
-          if (error) throw error;
-          for (const row of data || []) ids.add(row.id);
-          if (!data || data.length < 1000) break;
-        }
-      }
-      return ids;
-    };
-    const source = {
-      loadFullPool: () => readPool('*'),
-      loadLightPool: async () => {
-        const key = JSON.stringify([subjectId, opts.chapters || null, opts.chapter || null, mode.allowDifficultyOverride ? opts.difficulty || null : null]);
-        const hit = PRACTICE_LIGHT_POOLS.get(key);
-        if (hit && Date.now() - hit.at < PRACTICE_POOL_CACHE_MS) return hit.value;
-        const [rows, managedIds] = await Promise.all([readPool(PRACTICE_LIGHT_SELECT), readManagedIds()]);
-        const value = { rows, managedIds };
-        PRACTICE_LIGHT_POOLS.set(key, { at: Date.now(), value });
-        while (PRACTICE_LIGHT_POOLS.size > 40) PRACTICE_LIGHT_POOLS.delete(PRACTICE_LIGHT_POOLS.keys().next().value);
-        return value;
+    // full rows only for the questions that decide the picks. The queries live in data/practice_source.js.
+    const source = createPracticeSource({
+      db: supabaseAdmin(), subjectId, mode, opts, targetCount,
+      hooks: {
+        attachPassages: (rows) => this._attachPassageMetadata(rows),
+        recentIds: () => this._recentQuestionIds(opts.userId, subjectId, mode.recencyLimit),
+        userProgress: (ids) => this._userProgress(opts.userId, ids),
+        weakConcepts: (threshold) => this._weakConcepts(opts.userId, subjectId, threshold),
       },
-      loadFullRows: async (ids) => {
-        const rows = [];
-        for (let i = 0; i < ids.length; i += 100) {
-          const { data, error } = await db.from('questions').select('*').in('id', ids.slice(i, i + 100));
-          if (error) throw error;
-          rows.push(...(data || []));
-        }
-        return rows;
-      },
-      attachPassages: (rows) => this._attachPassageMetadata(rows),
-      readable: (rows) => readablePracticeQuestions(rows, db, { requireEvidence: opts.requireEvidence === true }),
-      recentIds: () => this._recentQuestionIds(opts.userId, subjectId, mode.recencyLimit),
-      userProgress: (ids) => this._userProgress(opts.userId, ids),
-      weakConcepts: (threshold) => this._weakConcepts(opts.userId, subjectId, threshold),
-    };
+    });
     const stats = {};
     const ctx = {
       mode, targetCount, opts, stats,
@@ -1561,17 +1502,15 @@ export const Database = {
   // =====================================================================
   // ATTEMPTS
   // =====================================================================
-  async getAttempts(userId) {
+  /**
+   * Every attempt of one student, newest first. `columns` (attempts column names) and `limit` (newest N) narrow the read;
+   * `memo` (one Map per request) makes a second read of the same shape free. See data/attempt_reads.js. Without options
+   * this is the old full read.
+   */
+  async getAttempts(userId, { columns, limit, memo } = {}) {
     if (!userId) throw new Error('attempt_owner_required');
-    const rows = [];
-    for (let offset = 0; ; offset += 1000) {
-      const { data, error } = await supabaseAdmin().from('attempts').select('*').eq('user_id', userId)
-        .order('completed_at', { ascending: false }).order('id').range(offset, offset + 999);
-      if (error) throw error;
-      rows.push(...(data || []));
-      if (!data || data.length < 1000) break;
-    }
-    return rows.map(attemptOut);
+    const load = async () => (await readAttemptRows(supabaseAdmin(), userId, { columns, limit })).map(attemptOut);
+    return memoisedAttempts(memo, attemptMemoKey(userId, { columns, limit }), load);
   },
 
   async getAttemptById(id) {
@@ -1677,8 +1616,28 @@ export const Database = {
   // LEADERBOARD
   // =====================================================================
   async getLeaderboard() {
-    // Denormalized aggregate: one row per user with >= 1 attempt.
-    // PostgREST caps a response at 1000 rows, so page through every attempt.
+    // One group-by query in the database (mm_leaderboard): one row per user with >= 1 attempt, with name and
+    // image joined. Only a missing function (migration not applied yet) falls back to the old paging below.
+    const { data: ranked, error: rankedError } = await supabaseAdmin().rpc('mm_leaderboard');
+    if (!rankedError) {
+      return (ranked || []).map(r => {
+        const tests = Number(r.tests) || 0;
+        const totalScore = Number(r.total_score) || 0;
+        return {
+          userId: r.user_id,
+          name: r.name || 'Unknown User',
+          image: r.image || null,
+          tests,
+          totalScore,
+          avg: tests ? Math.round(totalScore / tests) : 0,
+        };
+      }).sort((a, b) => b.totalScore - a.totalScore);
+    }
+    const missing = rankedError.code === 'PGRST202' || rankedError.code === '42883'
+      || /could not find the function|does not exist/i.test(String(rankedError.message || ''));
+    if (!missing) throw rankedError;
+
+    // Fallback: denormalized aggregate. PostgREST caps a response at 1000 rows, so page through every attempt.
     const attempts = [];
     const PAGE = 1000;
     for (let from = 0; ; from += PAGE) {

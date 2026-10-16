@@ -11,6 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
+import { assertScriptFullBankRead } from '../data/full_bank_guard.js';
 
 function loadEnv(file = '.env.local') {
   return Object.fromEntries(fs.readFileSync(file, 'utf8').split(/\r?\n/).map((line) => line.trim())
@@ -22,6 +23,8 @@ const { CUET_PUBLIC_ALLOWED_SUBJECTS, toInternalSubjectId } = await import('../d
 const outDir = process.argv[2] || 'tmp/nta-fixtures';
 fs.mkdirSync(outDir, { recursive: true });
 const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+// Reads every live question of every subject with every column: refused against production unless --allow-production (docs/brain/LOCAL-ENV-STAGING.md).
+assertScriptFullBankRead('the NTA fixture export', { url });
 const db = createClient(url, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 const PAGE = 1000;
 

@@ -69,7 +69,7 @@ export async function POST(request) {
   // 1. Questions about the student's own record are answered from the record: free, instant, no model.
   let insights = null;
   try {
-    if(!studyLesson && !questionContext) insights = computePrepOSInsights((await Database.getAttempts(userId)).slice(0, 60), { subjectNames: SUBJECT_NAMES });
+    if(!studyLesson && !questionContext) insights = computePrepOSInsights(await Database.getAttempts(userId, { limit: 60 }), { subjectNames: SUBJECT_NAMES });
   } catch { /* the record is unavailable; fall through to the plan or model path */ }
   const fromRecord = !studyLesson && !questionContext && insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
   if (fromRecord) {

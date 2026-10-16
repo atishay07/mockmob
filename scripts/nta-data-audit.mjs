@@ -8,6 +8,7 @@
 // sequential "N papers without repeats" simulation with the real NTA selector under four pool rules.
 import fs from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
+import { assertScriptFullBankRead } from '../data/full_bank_guard.js';
 
 function loadEnv(path = '.env.local') {
   return Object.fromEntries(
@@ -31,7 +32,10 @@ const { legacyPracticeVisible } = await import('../data/practice_availability.js
 
 const out = process.argv[2];
 if (!out) throw new Error('usage: node scripts/nta-data-audit.mjs <out.json>');
-const sb = createClient(env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
+const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+// Reads every live question with every column: refused against production unless --allow-production (docs/brain/LOCAL-ENV-STAGING.md).
+assertScriptFullBankRead('the NTA data audit', { url });
+const sb = createClient(url, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 
 const timings = {};
 async function fetchLive() {

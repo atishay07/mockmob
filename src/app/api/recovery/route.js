@@ -12,7 +12,9 @@ export async function GET(request) {
   if(!session?.user)return Response.json({error:'Unauthorized'},{status:401});
   // The record reads every attempt and the current copy of every question in them: the heaviest free read.
   if(!(await checkPersistentRateLimit(request,{route:'/api/recovery:get',limit:40,keyParts:[session.user.id],fallback:'memory'})).allowed)return Response.json({error:'Too many requests'},{status:429,headers:{'Cache-Control':'no-store','Retry-After':'30'}});
-  const allAttempts=await Database.getAttempts(session.user.id);
+
+  const memo=new Map(); // the learning record below reads the same attempts
+  const allAttempts=await Database.getAttempts(session.user.id,{memo});
   const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length}));
   const attempts=allAttempts.filter(a=>a.selectionMeta?.scoringVersion==='server_snapshot_v1' && a.selectionMeta?.contentEvidence !== 'legacy_bank');
   const db=supabaseAdmin();
@@ -40,7 +42,7 @@ export async function GET(request) {
     concepts[concept].push({questionId:q.id,familyId:q.familyId,at:a.completedAt,correct:d?.isCorrect===true,assisted:false,fresh});
     seenIds.add(q.id);if(q.familyId)seenFamilies.add(q.familyId);
   }
-  const learning = await learningRecord(session.user.id);
+  const learning = await learningRecord(session.user.id,{memo});
   return Response.json({attempts,ordinaryReview,episodes:learning.episodes,reviews:reviews || [],playbook:playbook || [],
     reviewState:reviewError?'unavailable':'ready',playbookState:playbookError?'unavailable':'ready',
     dueReviews:(reviews || []).filter(r=>Date.parse(r.due_at)<=Date.now()).length,invalidatedChecks,

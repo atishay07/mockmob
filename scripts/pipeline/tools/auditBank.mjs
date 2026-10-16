@@ -6,6 +6,7 @@ import { canonicalQuestion, contentHash } from '../../../data/content_evidence.j
 import { isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import { verifyAnswerIntegrity } from '../../../data/answer_integrity.js';
 import { publicationEligibility } from '../../../data/evidence_registry.js';
+import { assertScriptFullBankRead } from '../../../data/full_bank_guard.js';
 
 function str_key(row){return String(row.correct_answer ?? row.correct_option ?? row.correct_index ?? '');}
 export function auditRows(rows) {
@@ -53,6 +54,8 @@ async function main() {
   }
   let database = 'not_requested';
   if (process.argv.includes('--database')) {
+    // Pages through every question with every column: refused against production unless --allow-production (docs/brain/LOCAL-ENV-STAGING.md).
+    assertScriptFullBankRead('the bank audit', { url: process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL });
     const { createClient } = await import('@supabase/supabase-js');
     const client = createClient(process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
     database = 'complete';

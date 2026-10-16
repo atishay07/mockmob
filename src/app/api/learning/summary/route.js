@@ -94,7 +94,8 @@ export async function GET(request) {
     const weekStart = startOfWeek().getTime();
 
     const [attempts, bookmarksResult, progressResult, contributorResult] = await Promise.all([
-      Database.getAttempts(session.user.id).catch(() => []),
+      // Only what this summary reads: no question snapshots (93% of an attempt row) and no selection meta.
+      Database.getAttempts(session.user.id, { columns: ['subject', 'score', 'total', 'details', 'completed_at'] }).catch(() => []),
       supabaseAdmin()
         .from('question_bookmarks')
         .select('question_id, created_at')
