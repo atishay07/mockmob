@@ -119,7 +119,9 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   const sparse = papers.length < 3;
   const lastWhen = last ? paperDay(last.completedAt) : '';
   const lastName = paperName(last, subjectName);
-  const sparseClause = sparse && last ? (papers.length === 1 ? ` From your one paper so far; a full mock gives a fuller picture.` : ` From your ${word(papers.length)} papers so far.`) : '';
+  // Thin data says so (AGENT_RULES overlay); a fuller picture is offered only when the one paper was not a full mock.
+  const oneFull = Boolean(last) && ['full', 'nta'].includes(last.mode);
+  const sparseClause = sparse && last ? (papers.length === 1 ? ` From your one paper so far${oneFull ? '.' : '; a full mock gives a fuller picture.'}` : ` From your ${word(papers.length)} papers so far.`) : '';
 
   const away = whole(rhythm?.daysSinceLastActivity) ? rhythm.daysSinceLastActivity : null;
   if (away != null && away >= RETURNING_AFTER_DAYS) {
@@ -168,8 +170,9 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     return {
       id: 'done', overline: 'Done for today', number: t.minutes, label: 'minutes practised tonight',
       why: `Saved at ${clock(t.completedAt)}. ${open > 0 ? `Tomorrow starts with ${plural(open, 'open mistake')} from it.` : 'Tomorrow’s move is planned from it.'}`,
-      key: { label: 'Review tonight’s session', href: `/result/${encodeURIComponent(t.sessionId)}`, minutes: t.reviewMinutes || null },
-      pills: { length: false, second: 'more', moreHref: primary?.href || '/dashboard' }, art: 'object', subject: last?.subject || null, done: true,
+      // The key keeps going (one more session is extra, never owed); tonight's paper is one tap away in the pills.
+      key: { label: 'Practise more', href: primary?.kind === 'ordinary_practice' ? primary.href : '/dashboard', minutes: null },
+      pills: { length: false, second: 'open', openHref: `/result/${encodeURIComponent(t.sessionId)}` }, art: 'object', subject: last?.subject || null, done: true,
     };
   }
   if (open > 0) return repairMove('repair', weekLine || 'Tonight’s move');

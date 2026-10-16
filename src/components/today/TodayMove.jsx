@@ -96,7 +96,7 @@ export default function TodayMove({ phase, move, slow = false, triedAt = '', cau
           <div className="tm__head"><h2 id="tm-title" className="tm__subject">Tonight’s move did not load</h2></div>
           <Art failed />
         </div>
-        <p className="tm__why">{cause || 'The plan service did not answer.'} Your papers and mistakes are safe; Review still opens them.</p>
+        <p className="tm__why">{cause || 'MockMob did not answer, so tonight’s move could not be worked out.'} Your papers and mistakes are safe; Review still opens them.</p>
         {triedAt ? <p className="tm__caption" role="status">Tried again at {triedAt}. Still not loading.</p> : null}
         <button type="button" className="tm__key" data-page-primary onClick={onRetry}><RotateCcw size={18} strokeWidth={2} aria-hidden="true" />Try again</button>
         <div className="tm__pills"><Link className="tm__pill" href="/dashboard"><Play size={17} strokeWidth={1.75} aria-hidden="true" />Practise anyway</Link></div>
@@ -133,8 +133,8 @@ export default function TodayMove({ phase, move, slow = false, triedAt = '', cau
         ) : null}
         {m.pills.second === 'mock' ? (
           <Link className="tm__pill" href={m.mockHref || '/dashboard?mode=full'}><FileText size={17} strokeWidth={1.75} aria-hidden="true" />Full mock instead</Link>
-        ) : m.pills.second === 'more' ? (
-          <Link className="tm__pill" href={m.pills.moreHref}><Play size={17} strokeWidth={1.75} aria-hidden="true" />Practise more</Link>
+        ) : m.pills.second === 'open' ? (
+          <Link className="tm__pill" href={m.pills.openHref}><FileText size={17} strokeWidth={1.75} aria-hidden="true" />Open tonight’s paper</Link>
         ) : null}
         {m.pills.second !== 'mock' ? (
           <button type="button" className="tm__pill" aria-haspopup="dialog" onClick={() => setSheet('else')}><Shuffle size={17} strokeWidth={1.75} aria-hidden="true" />Something else</button>

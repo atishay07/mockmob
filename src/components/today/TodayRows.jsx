@@ -68,7 +68,8 @@ function Colleges({ userId }) {
   }
   const more = mine.colleges.length - 1;
   const cut = offer.key === firstKey ? offer.cut : null;
-  const sub = `${first.programme ? `${first.programme}, ` : ''}2026 Round 1${cut ? `, ${cut.category}` : ''}.${more > 0 ? ` ${more} more saved.` : ''}`;
+  const cat = cut ? (cut.category === 'UR' ? 'unreserved' : cut.category) : '';
+  const sub = `${first.programme ? `${first.programme}, ` : ''}2026 Round 1${cat ? `, ${cat}` : ''}.${more > 0 ? ` ${more} more saved.` : ''}`;
   return <Row href="/admission-compass" label="Your colleges" title={first.college} sub={sub} figure={cut ? formatScore(cut.cutoff) : null} of={cut ? 'of 1000' : null} aria={`Your colleges: ${first.college}, ${sub}${cut ? ` Cutoff ${formatScore(cut.cutoff)} of 1000.` : ''} Open Colleges.`} />;
 }
 

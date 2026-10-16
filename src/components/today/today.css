@@ -151,7 +151,9 @@ html[data-theme='light'] .app-shell .trd__pips i[data-on] { box-shadow: 0 0 0 1p
 .app-shell .trd__lane-months span { position: absolute; top: 0; font-size: 11px; font-weight: 600; color: var(--a-ink-3); }
 .app-shell .trd__receipt { margin: 10px 0 0; font-size: 14px; color: var(--a-ink-2); }
 .app-shell .trd__tokens { display: grid; gap: 2px; margin-top: 12px; }
-.app-shell .trd__line { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; min-height: 44px; margin: 0; font-size: 15px; color: var(--a-ink-2); }
+/* Block, not flex: the sentence wraps as words around its token instead of dropping whole onto its own line. */
+.app-shell .trd__line { display: block; min-height: 44px; margin: 0; font-size: 15px; line-height: 44px; color: var(--a-ink-2); }
+.app-shell .trd__line .trd__token { vertical-align: middle; line-height: 1; }
 .app-shell .trd__num { color: var(--a-ink); font-weight: 700; font-variant-numeric: tabular-nums; }
 .app-shell .trd__wait { display: inline-block; width: 120px; height: 14px; border-radius: 6px; background: var(--a-raised-2); }
 .app-shell .trd__token {

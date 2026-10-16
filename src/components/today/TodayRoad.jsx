@@ -258,6 +258,8 @@ export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
   const regCol = columns.findIndex((c) => c.registration);
   const flagSide = examAt > 0.72 ? 'end' : examAt < 0.2 ? 'start' : 'mid';
   const weeksWord = fig.phase === 'days' ? `${fig.days}` : `${fig.weeks}`;
+  // "before your date, 7 taken" once there is a target; day one says "suggested" and leaves out "0 taken".
+  const mockTail = `${plan.mockTarget == null ? ', suggested' : ''}${taken ? `, ${taken} taken` : ''}`;
   return (
     <section className="trd" aria-labelledby={`${id}-h`}>
       <header className="tg__row">
@@ -288,8 +290,8 @@ export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
           {span ? <span className="trd__boards" style={{ left: pct(span.first / N), width: pct((span.last - span.first + 1) / N) }}><span>Boards</span></span> : null}
         </div>
         <button type="button" className="trd__weeks" onClick={(e) => openRailAt(e.clientX || (stripRef.current.getBoundingClientRect().left + 1))} aria-label={`${fig.phase === 'days' ? 'Days' : 'Weeks'} to your exam. Open them week by week.`} aria-expanded={panel === 'rail'}>
-          {columns.map((c) => (
-            <span key={c.key} className="trd__col" data-current={c.current || undefined} data-after={c.after || undefined} data-exam={c.exam || undefined} data-boards={c.boards || undefined}>
+          {columns.map((c, k) => (
+            <span key={c.key} className="trd__col" style={{ '--k': k }} data-current={c.current || undefined} data-after={c.after || undefined} data-exam={c.exam || undefined} data-boards={c.boards || undefined}>
               <Pips n={c.planned} counted={c.counted} />
             </span>
           ))}
@@ -314,8 +316,8 @@ export default function TodayRoad({ road, goal, rhythm, facts, onGoalSaved }) {
           <Token onClick={() => toggle('pace')} open={panel === 'pace'} controls={`${id}-pace`} disabled={goalNow == null} label={`Study days a week, ${goalNow ?? 'loading'}`}>{goalNow ?? '…'} a week</Token>
         </p>
         <p className="trd__line">
-          <Token onClick={() => toggle('mocks')} open={panel === 'mocks'} controls={`${id}-mocks`} disabled={!onAccount} label={`Full mocks before your date, ${target}${plan.mockTarget == null ? ', suggested' : ''}${taken != null ? `, ${taken} taken` : ''}`}>{target} full mocks</Token>
-          {' '}before your date{plan.mockTarget == null ? ', suggested' : ''}{taken != null ? `, ${taken} taken` : ''}
+          <Token onClick={() => toggle('mocks')} open={panel === 'mocks'} controls={`${id}-mocks`} disabled={!onAccount} label={`Full mocks before your date, ${target}${mockTail}`}>{target} full mocks</Token>
+          {' '}before your date{mockTail}
         </p>
         {!onAccount && road.status !== 'loading' ? <p className="trd__note">Your date and mock target are set on the app for now.</p> : null}
       </div>

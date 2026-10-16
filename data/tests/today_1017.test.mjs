@@ -138,8 +138,10 @@ test('move: a first paper with mistakes and no Repair yet introduces Repair (fir
   assert.equal(m.id, 'firstRepair');
   assert.equal(m.overline, 'Day 1 of your first week');
   assert.match(m.why, /Repair shows why your answer went wrong/);
-  assert.match(m.why, /From your one paper so far/);
+  assert.match(m.why, /From your one paper so far\.$/);
   assert.equal(m.pills.second, 'mock');
+  const quick = buildMove(base({ papers: [paper({ mode: 'quick' })], rhythm: r, facts: facts({ sessions: 1, mocks: 0 }) }));
+  assert.match(quick.why, /From your one paper so far; a full mock gives a fuller picture\.$/);
 });
 
 test('move: Revise due comes before ordinary repair once a repair has been made (Keep)', () => {
@@ -182,7 +184,10 @@ test('move: done for today previews tomorrow and keeps one key', () => {
   assert.equal(m.id, 'done');
   assert.equal(m.overline, 'Done for today');
   assert.match(m.why, /Saved at 8:41 PM\./);
-  assert.equal(m.key.href, '/result/s1');
+  assert.equal(m.key.label, 'Practise more');
+  assert.equal(m.key.href, '/dashboard?mode=quick&count=10');
+  assert.equal(m.pills.second, 'open');
+  assert.equal(m.pills.openHref, '/result/s1');
 });
 
 test('move: unknown is never zero; a failed plan with nothing known is the failed state; resume wins', () => {
