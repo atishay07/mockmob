@@ -116,7 +116,11 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   const base = { practiceHref: practiceHref({ subject: attempt.subject, chapter: eligible.question.chapter, attemptId }), chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex };
 
   // A finished repair is stored on its committed reservation and reopens free.
-  const stored = await deps.findStored(user.id, id);
+  // F17: if the lookup itself fails the answer is "we could not look", never "nothing saved": charging here could take a
+  // second credit for a repair the student already holds. Nothing is reserved; the next try looks again.
+  let stored;
+  try { stored = await deps.findStored(user.id, id); }
+  catch { return out(503, { ok: false, error: 'repair_lookup_unavailable', charged: 0, message: 'We could not check your saved repairs just now. Nothing was charged. Try again in a moment.' }); }
   if (stored) {
     const [pattern, check] = await Promise.all([
       patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: stored.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: stored.generatedAt }),

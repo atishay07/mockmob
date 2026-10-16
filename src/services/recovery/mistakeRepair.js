@@ -13,6 +13,7 @@ import { readAIWallet } from '@/services/credits/aiCreditWallet';
 import { publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { readFullQuestionRow, readQuestionRow } from '@/../data/question_reads';
 import { runRepair } from './repairFlow';
+import { findStoredRepair } from '@/lib/server/repairSaved';
 import { recordTrap } from '@/lib/server/trapAtlas';
 import { checkStatus } from './repairCheck';
 import { buildCheckDeps } from './repairCheckDeps';
@@ -58,12 +59,9 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
       const { data, error } = await readFullQuestionRow(supabaseAdmin(), question.id);
       return !error && !!data && publicationEligibility(data, sharedEligibilitySnapshot()).eligible;
     },
-    // A finished repair is stored on its committed reservation and reopens free.
-    findStored: async (userId, id) => {
-      const { data } = await supabaseAdmin().from('ai_credit_reservations').select('receipt').eq('user_id', userId).eq('state', 'committed')
-        .like('operation_key', `repair:${id}:%`).order('created_at', { ascending: false }).limit(1);
-      return data?.[0]?.receipt?.repair || null;
-    },
+    // A finished repair is stored on its committed reservation and reopens free. A failed read throws (never "none"),
+    // so the flow stops before it could reserve a second credit for a repair the student already owns (F17).
+    findStored: (userId, id) => findStoredRepair(supabaseAdmin(), userId, id),
     // Reservations for this mistake that have not finished (reserved or executing).
     findOpenReservations: async (userId, id) => {
       const { data, error } = await supabaseAdmin().from('ai_credit_reservations').select('operation_key,state,created_at,expires_at')

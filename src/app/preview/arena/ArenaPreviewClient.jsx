@@ -222,7 +222,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       }
       // Fixture only: two questions already missed in an earlier labelled paper, so the earlier-miss line and the Missed twice tag can be seen here.
       const missedBefore = { 'fixture-q2': [{ attemptId: 'fixture-earlier', source: 'Mock 2', completedAt: Date.parse('2026-09-28T18:00:00.000Z') }], 'fixture-q4': [{ attemptId: 'fixture-earlier', source: 'Mock 2', completedAt: Date.parse('2026-09-28T18:00:00.000Z') }] };
-      return json({ ...attempt, missedBefore, answerReviewState: 'ready' });
+      // F17 fixtures: the paper's name and attempt time always; &saved=1 makes it Mock 3 and gives two of its wrong answers a saved repair
+      // (pair with &repair=v3-stored, the free reopen), so Review can be seen with repairs that are not lost and never offered again.
+      const saved = fixture.get('saved') === '1';
+      const paper = { source: saved ? 'Mock 3' : 'Quick practice', completedAt: Date.parse(attempt.completedAt) };
+      const savedRepairs = saved ? { 'fixture-q2': { repairedAt: '2026-10-04T18:22:00.000Z' }, 'fixture-q4': { repairedAt: '2026-10-04T18:31:00.000Z' } } : undefined;
+      return json({ ...attempt, missedBefore, paper, ...(savedRepairs ? { savedRepairs } : {}), answerReviewState: 'ready' });
     }
     if (url.pathname.startsWith('/api/users/') && method === 'PATCH') return state === 'save-error' ? json({ error: 'Fixture profile save failure' }, 503) : json({ ok: true });
     if (url.pathname === '/api/bookmarks' && method === 'POST') return state === 'save-error' ? json({ error: 'Save limit', limit: 25 }, 402) : json({ saved: JSON.parse(init.body || '{}').saved });
@@ -381,7 +386,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const page = new URLSearchParams(window.location.search);
       if (page.get('record') === 'down') return json({ error: 'unavailable' }, 503);
       const empty = page.get('record') === 'empty' || state === 'empty';
-      const ordinaryReview = empty ? [] : PREVIEW_ATTEMPTS.map((a) => ({ id: a.id, subject: a.subject, completedAt: a.completedAt, correct: a.correct, total: a.total, mistakes: a.total - a.correct }));
+      const ordinaryReview = empty ? [] : PREVIEW_ATTEMPTS.map((a) => ({ id: a.id, subject: a.subject, completedAt: a.completedAt, correct: a.correct, total: a.total, mistakes: a.total - a.correct, source: a.id === 'preview-a1' && page.get('saved') === '1' ? 'Mock 3' : 'Quick practice', repaired: a.id === 'preview-a1' && page.get('saved') === '1' ? 2 : 0 }));
       const milestones = empty ? [] : studyMilestones([{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1' } }], []);
       return json({ ordinaryReview, progress: [], milestones, playbook: empty ? [] : [{ id: 'pb1', strategy: 'two_pass', reflection: 'Do the sure questions first, then come back to the long ones.' }], reviewState: 'ready', note: 'Fresh delayed checks provide concept evidence, not a causal score gain.' });
     }

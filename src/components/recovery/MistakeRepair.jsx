@@ -9,6 +9,7 @@ import {
   checkChip, REPAIR_COPY, REPAIR_LOADING, recordLines,
 } from '@/../data/repair_presentation.mjs';
 import { requestRepair, planRepairFailure } from '@/../data/repair_client.mjs';
+import { attemptedWhen } from '@/../data/repair_paper.mjs';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
 import { usedLine, usesLine } from '@/lib/creditCopy.mjs';
@@ -57,6 +58,11 @@ function FoldLine({ number, chosen, answer, folded, onToggle, animate }) {
       <button type="button" className="mr-fold__toggle" aria-expanded={!folded} onClick={onToggle}>{folded ? 'Show the question' : 'Hide the question'}</button>
     </div>
   );
+}
+
+// Which paper this mistake came from and when it was attempted: "From Mock 3, Accountancy, 16 Oct, 9:40 pm".
+function PaperFrom({ line }) {
+  return line ? <p className="mr-from"><span>{REPAIR_COPY.fromPaper}</span> {line}</p> : null;
 }
 
 function RuleCard({ rule, hook = null, style }) {
@@ -132,7 +138,7 @@ function AnotherWay({ text, style }) {
 
 // A finished repair (spec A.1): blocks 1 to 12 in order, one column. Exported so fixture payloads can be rendered
 // on their own (data/tests/repair_wiring.test.mjs): v1, v2 and v3 payloads each keep their own set of blocks.
-export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null }) {
+export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null, from = null }) {
   const blocks = repairBlocks(state.repair);
   if (!blocks) return null;
   const fresh = state.status === 'explained';
@@ -152,6 +158,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
   const practiceLabel = REPAIR_COPY.practise(state.practiceAction?.chapter || null);
   return (
     <section className="mr mr--panel mr--done" data-fold={folded ? 'folded' : 'open'} data-fresh={fresh || undefined} data-version={blocks.version} aria-label="Mistake Repair">
+      <PaperFrom line={from} />
       <FoldLine number={number} chosen={chosen} answer={answer} folded={folded} onToggle={onToggleFold} animate={fresh} />
       <header className="mr-head" data-stagger style={stagger('head')}>
         {mobi}
@@ -196,7 +203,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
         </div>
       ) : null}
       <footer className="mr-foot" data-stagger style={stagger('foot')}>
-        <span className="mr-fine">{state.status === 'stored' ? 'Saved repair. No credit used.' : state.charged ? usedLine({ cost: typeof state.charged === 'number' ? state.charged : 1, pool: 'ai', balance: state.wallet?.known === false ? null : state.wallet?.total ?? null }) : 'No credit used.'}</span>
+        <span className="mr-fine">{state.status === 'stored' ? REPAIR_COPY.savedFoot(attemptedWhen(Date.parse(state.repair?.generatedAt))) : state.charged ? usedLine({ cost: typeof state.charged === 'number' ? state.charged : 1, pool: 'ai', balance: state.wallet?.known === false ? null : state.wallet?.total ?? null }) : 'No credit used.'}</span>
         {nextButton || <p className="mr-left">No other mistakes left to repair in this session.</p>}
       </footer>
     </section>
@@ -211,7 +218,7 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
 //   onFinish   there is nothing left to open: the last key says Finish and shows the ending
 //   handover   'a' | 'b': this panel was just brought back by the track and rises in over 160 ms
 //   insights   { lines: [{ kind, text }] } | null: this answer's "From your record" sentences, built on the server
-export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null }) {
+export default function MistakeRepair({ attemptId, questionId, chosen, answer, number = null, scheme = 'cuet', nta = false, autoStart = false, onSettled, onReview, initialReview = null, next = null, isCurrent = true, earlier = null, onStart, onStep, onFinish, handover = null, insights = null, saved = null, paper = null }) {
   const [state, setState] = useState({ status: 'idle' });
   const [slow, setSlow] = useState(false);
   const [long, setLong] = useState(false);
@@ -222,11 +229,12 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
   const started = useRef(false);
   const inFlight = useRef(false);
 
-  async function run() {
+  // `quiet`: reopening a saved repair on its own does not begin the repair run (no track, no hand-over).
+  async function run({ quiet = false } = {}) {
     if (inFlight.current) return;
     inFlight.current = true;
     try {
-      onStart?.(questionId);
+      if (!quiet) onStart?.(questionId);
       requestId.current ??= newRequestId();
       setSlow(false);
       setLong(false);
@@ -279,9 +287,9 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
   useEffect(() => {
     if (!autoStart || started.current || initialReview) return;
     started.current = true;
-    queueMicrotask(run);
+    queueMicrotask(() => run({ quiet: !!saved }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [autoStart, initialReview]);
+  }, [autoStart, initialReview, saved]);
 
   // `next` is computed by the page from the mistakes not yet handled, never counting this one.
   const nextButton = next
@@ -316,9 +324,22 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
     if (review?.state === 'corrected' || review?.state === 'key_changed_unverified') return <AnswerCorrectionNotice review={review} next={nextButton} />;
     if (review) return <KeyReviewNotice chosenLetter={chosen} keyLetter={answer} reviewState={review.state} next={nextButton} />;
 
+    if (state.status === 'idle' && saved) {
+      // A mistake that already holds a repair never offers the paid start again: it opens the saved one, free.
+      return (
+        <div className="mr">
+          <PaperFrom line={paper} />
+          <button type="button" className="mr-start" data-saved="" onClick={() => { started.current = true; run(); }}>
+            <span className="mr-start__icon" aria-hidden="true"><Check size={18} strokeWidth={2.4} /></span>
+            <span className="mr-start__text"><b>{REPAIR_COPY.openSaved}</b><small>{REPAIR_COPY.savedFree(attemptedWhen(Date.parse(saved)))}</small></span>
+          </button>
+        </div>
+      );
+    }
     if (state.status === 'idle') {
       return (
         <div className="mr">
+          <PaperFrom line={paper} />
           <button type="button" className="mr-start" onClick={() => { started.current = true; run(); }}>
             <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
             <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep</small></span>
@@ -329,7 +350,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
       );
     }
     if (state.status === 'loading') {
-      const line = long ? REPAIR_LOADING.long : slow ? REPAIR_LOADING.slow : REPAIR_LOADING.writing(number);
+      const line = saved ? (slow || long ? REPAIR_LOADING.openingSlow : REPAIR_LOADING.opening(number)) : long ? REPAIR_LOADING.long : slow ? REPAIR_LOADING.slow : REPAIR_LOADING.writing(number);
       return (
         <div className="mr mr--panel mr--loading" role="status" aria-live="polite" data-has-mobi={mobi ? true : undefined}>
           <div className="mr-top">
@@ -378,7 +399,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
       );
     }
     return <RepairDone state={state} attemptId={attemptId} questionId={questionId} chosen={chosen} answer={answer} number={number} scheme={scheme} insights={insights}
-      folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} />;
+      folded={folded} onToggleFold={() => setFolded(f => !f)} mobi={mobi} nextButton={nextButton} next={next} from={paper} />;
   })();
   return <div className="mr-shell" data-handover={handover || undefined} {...shellProps}>{earlierEl}{content}</div>;
 }
