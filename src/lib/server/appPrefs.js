@@ -117,13 +117,28 @@ export async function loadActivity(userId, now = Date.now()) {
   return [...(recentS.data || []).map(s), ...(earlyS.data || []).map(s), ...(fullS.data || []).map(s), ...(recentR.data || []).map(rep), ...(earlyR.data || []).map(rep)];
 }
 
+/**
+ * "It held": the earliest right "Check it held" answer the student gave (the repair check stores its result on the
+ * repair's committed reservation, receipt.check, with `right` and `answeredAt`; see repairCheck.js). One row, two
+ * short columns. null = none yet; undefined = the read failed (the caller leaves the badge out rather than lock it).
+ */
+export async function loadFirstHold(userId) {
+  try {
+    const { data, error } = await supabaseAdmin().from('ai_credit_reservations').select('answered_at:receipt->check->>answeredAt')
+      .eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair').eq('receipt->check->>right', 'true')
+      .order('receipt->check->>answeredAt', { ascending: true }).limit(1);
+    if (error) return undefined;
+    return data?.[0]?.answered_at || null;
+  } catch { return undefined; }
+}
+
 export async function getRhythm(userId, now = Date.now()) {
   const tzQuery = supabaseAdmin().from('notification_prefs').select('timezone').eq('user_id', userId).maybeSingle();
-  const [goal, activities, tzRes, goalHistory] = await Promise.all([getGoal(userId), loadActivity(userId, now), tzQuery, loadGoalHistory(userId)]);
+  const [goal, activities, tzRes, goalHistory, firstHoldAt] = await Promise.all([getGoal(userId), loadActivity(userId, now), tzQuery, loadGoalHistory(userId), loadFirstHold(userId)]);
   if (tzRes.error) throw fail('PREFS_UNAVAILABLE', tzRes.error);
   // notification_prefs.timezone is the single source of truth (the only place a student sets it).
   const timeZone = tzRes.data?.timezone || goal.timezone || 'Asia/Kolkata';
-  return computeRhythm({ activities, daysPerWeek: goal.daysPerWeek, goalHistory, pausedUntil: goal.pausedUntil, timeZone, now });
+  return computeRhythm({ activities, daysPerWeek: goal.daysPerWeek, goalHistory, pausedUntil: goal.pausedUntil, timeZone, now, firstHoldAt });
 }
 
 /** Idempotent: one pending request per user (partial unique index). */
