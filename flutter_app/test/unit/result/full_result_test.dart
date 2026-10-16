@@ -215,16 +215,18 @@ void main() {
 
     setUp(LabLedgerSection.debugResetSeen);
 
-    testWidgets('order: summary, the Lab, Time and decisions, the first fix, After this mock, the answers', (tester) async {
+    testWidgets('order: summary, the Lab, After this mock, Time and decisions, the first fix, the answers', (tester) async {
       await pump(tester, data: withDetail(detail(attemptBody: withLabAndSwot())));
       await tester.pumpAndSettle();
       expect(find.byType(LabLedgerSection), findsOneWidget);
       double top(String t) => tester.getTopLeft(find.text(t).first).dy;
       expect(top('26 of 50 correct, 15 wrong, 9 not attempted.') < top('Mistake Lab'), isTrue);
-      expect(top('Mistake Lab') < top(TimeCopy.title), isTrue);
+      // After this mock sits right under where the marks went: what to do next is the second thing
+      // a mock's result says (Result owner's move, app-practice-review-1016.md L15).
+      expect(top('Mistake Lab') < top('After this mock'), isTrue);
+      expect(top('After this mock') < top(TimeCopy.title), isTrue);
       expect(top(TimeCopy.title) < top('The first thing to fix'), isTrue);
-      expect(top('The first thing to fix') < top('After this mock'), isTrue);
-      expect(top('After this mock') < top('Answer by answer'), isTrue);
+      expect(top('The first thing to fix') < top('Answer by answer'), isTrue);
       // The old title is gone from the full result.
       expect(find.text('Where the marks went'), findsNothing);
     });

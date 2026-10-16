@@ -276,6 +276,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             // The Rule book: over the dock, so the result page (outside the shell) can push it too.
             page('rules', reviewRulesScreen, root: true),
             page('revise', reviewReviseScreen, root: true),
+            // Review again: repaired mistakes asked once more, key hidden. Over the dock like Revise.
+            page('again', reviewAgainScreen, root: true),
             page('insights', reviewInsightsScreen),
             page('saved', reviewSavedScreen),
             // Literal "ending" before the :questionId pattern.

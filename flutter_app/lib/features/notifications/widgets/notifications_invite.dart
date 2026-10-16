@@ -222,8 +222,8 @@ class _NotificationsInviteState extends ConsumerState<NotificationsInvite> {
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 2),
-                        child: AnimatedSwitcher(
-                          duration: Motion.of(context, Motion.crossFade),
+                        child: MmOverlapSwitcher.fade(
+                          duration: Motion.crossFade,
                           child: Column(
                             key: ValueKey('${_phase.name}-${words.title}-${words.line}'),
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -263,10 +263,8 @@ class _NotificationsInviteState extends ConsumerState<NotificationsInvite> {
     }
 
     return YouSizeEase(
-      child: AnimatedSwitcher(
-        duration: Motion.of(context, Motion.card),
-        switchInCurve: Motion.out,
-        switchOutCurve: Motion.exit,
+      child: MmOverlapSwitcher.fade(
+        duration: Motion.card,
         child: show
             ? KeyedSubtree(
                 key: const ValueKey('invite'),

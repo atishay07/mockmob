@@ -83,8 +83,9 @@ class CollegeRung extends ConsumerWidget {
               if (college.programme.isNotEmpty) Text(college.programme, style: type.caption.copyWith(color: colors.ink2)),
               if (verdict != null && verdict.v != Verdict.noSeat) ...[
                 const SizedBox(height: MmSpace.s4),
-                AnimatedSwitcher(
-                  duration: Motion.of(context, Motion.ui),
+                MmOverlapSwitcher.fade(
+                  duration: Motion.ui,
+                  alignment: Alignment.centerLeft,
                   child: Row(
                     key: ValueKey(verdictWords(verdict)),
                     children: [

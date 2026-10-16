@@ -98,10 +98,8 @@ class _FoldBody extends StatelessWidget {
       duration: Motion.glideDuration,
       curve: Motion.glide,
       alignment: Alignment.topCenter,
-      child: AnimatedSwitcher(
+      child: MmOverlapSwitcher.fade(
         duration: Motion.ui,
-        switchInCurve: Motion.out,
-        switchOutCurve: Motion.exit,
         child: open ? KeyedSubtree(key: const ValueKey('open'), child: child(context)) : const SizedBox(key: ValueKey('closed'), width: double.infinity),
       ),
     );

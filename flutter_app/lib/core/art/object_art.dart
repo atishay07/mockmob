@@ -92,7 +92,7 @@ class SubjectRender {
   // file's alpha (the lowest opaque rows), widened a little for the objects drawn in three-quarter view,
   // whose foot is a slanted plane.
   static const accountancy = SubjectRender._('accountancy', 1024, 666, footX: 0.54, footWidth: 0.80, ground: 0.92);
-  static const business = SubjectRender._('business', 685, 769, footX: 0.50, footWidth: 0.88, ground: 0.955);
+  static const business = SubjectRender._('business', 685, 582, footX: 0.48, footWidth: 0.88, ground: 0.965);
   static const economics = SubjectRender._('economics', 792, 1006, footX: 0.50, footWidth: 0.88, ground: 0.96);
   static const english = SubjectRender._('english', 1024, 631, footX: 0.48, footWidth: 0.80, ground: 0.88);
   static const generalTest = SubjectRender._('generaltest', 911, 722, footX: 0.50, footWidth: 0.86, ground: 0.93);

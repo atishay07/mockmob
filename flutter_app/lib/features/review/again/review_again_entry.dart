@@ -48,7 +48,7 @@ class ReviewAgainRow extends ConsumerWidget {
                   icon: LucideIcons.rotateCcw,
                   title: ReviewAgainCopy.title,
                   note: reviseDue ? (revise.summary ?? ReviewAgainCopy.rowNote(repaired)) : ReviewAgainCopy.rowNote(repaired),
-                  onTap: () => context.push(reviseDue ? AppRoutes.reviewRevise : ReviewAgainCopy.path),
+                  onTap: () => context.push(reviseDue ? AppRoutes.reviewRevise : AppRoutes.reviewAgain),
                 ),
                 if (divider) Divider(height: 1, color: context.mmColors.line),
               ],

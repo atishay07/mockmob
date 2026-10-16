@@ -71,6 +71,9 @@ abstract final class AppRoutes {
 
   /// Revise: the student's own wrong answers come back after 1, 3, 7 and 21 days (Mistake Lab v4 slice 4).
   static const String reviewRevise = '/review/revise';
+
+  /// Review again: repaired mistakes asked once more with the key hidden (`?keys=attemptId/questionId,...`).
+  static const String reviewAgain = '/review/again';
   static String reviewRepair(String attemptId, String questionId) =>
       '/review/repair/${Uri.encodeComponent(attemptId)}/${Uri.encodeComponent(questionId)}';
   static String reviewRepairEnding(String attemptId) => '/review/repair/${Uri.encodeComponent(attemptId)}/ending';
@@ -156,6 +159,7 @@ abstract final class AppRoutes {
     reviewRecord,
     reviewRules,
     reviewRevise,
+    reviewAgain,
     '/review/repair/:attemptId/:questionId',
     learn,
     '/learn/:unitId',

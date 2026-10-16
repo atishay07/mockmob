@@ -94,17 +94,9 @@ class _ComboCardState extends ConsumerState<ComboCard> {
                     ],
                     Expanded(
                       child: best
-                          // The best combination wears the volt: a filled tag, the card's lit edge and the one volt key.
-                          ? Align(
-                              alignment: Alignment.centerLeft,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(color: colors.volt, borderRadius: MmRadius.pillAll),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s4),
-                                  child: Text(ToolsCopy.bestFit, style: type.labelLarge.copyWith(fontSize: 13, color: colors.voltInk)),
-                                ),
-                              ),
-                            )
+                          // The best combination is named in full ink; its volt is the card's lit edge and the
+                          // one volt key, never a pill beside the bubble (no eyebrow pill, AGENT_RULES).
+                          ? Text(ToolsCopy.bestFit, style: type.labelLarge.copyWith(color: colors.ink))
                           : Text(ToolsCopy.option(rank + 1), style: type.labelLarge.copyWith(color: colors.ink2)),
                     ),
                     Text(ToolsCopy.papers(combo.items.length), style: type.caption.copyWith(color: colors.ink2)),

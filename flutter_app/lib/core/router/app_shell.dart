@@ -119,7 +119,12 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
           behavior: SnackBarBehavior.floating,
           duration: _exitWindow,
           // Above the dock, never under it.
-          margin: EdgeInsets.fromLTRB(16, 0, 16, media.viewPadding.bottom + MmBar.lift + MmBar.height + 12),
+          margin: EdgeInsets.fromLTRB(
+            MmSpace.gutter,
+            0,
+            MmSpace.gutter,
+            media.viewPadding.bottom + MmBar.lift + MmBar.height + MmSpace.s12,
+          ),
         ),
       );
   }
@@ -437,7 +442,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
 
     final capsule = LiveCapsule(
       live: live,
-      width: geo.width - 32,
+      width: geo.width - 2 * MmSpace.gutter,
       collapse: _collapse,
       quality: quality,
       onAction: _onCapsuleAction,

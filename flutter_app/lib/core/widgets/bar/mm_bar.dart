@@ -878,7 +878,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
                 child: AnimatedScale(
                   scale: _pressedTab == branch ? MmBottomBar.tabPressScale : 1,
                   duration: _reduced ? Duration.zero : (_pressedTab == branch ? Motion.press : MmBottomBar.tabRelease),
-                  curve: _pressedTab == branch ? Motion.out : Curves.easeOutBack,
+                  curve: _pressedTab == branch ? Motion.out : Motion.emphasized,
                   child: content,
                 ),
               ),

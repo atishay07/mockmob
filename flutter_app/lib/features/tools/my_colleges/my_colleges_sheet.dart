@@ -275,7 +275,7 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
               proxyDecorator: (child, _, anim) => AnimatedBuilder(
                 animation: anim,
                 builder: (context, _) => Transform.scale(
-                  scale: 1 + 0.02 * Curves.easeOut.transform(anim.value),
+                  scale: 1 + 0.02 * Motion.out.transform(anim.value),
                   child: Material(color: colors.raised, elevation: 6 * anim.value, borderRadius: BorderRadius.circular(MmSpace.s12), child: child),
                 ),
               ),
@@ -414,14 +414,10 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
           ),
         ),
         Expanded(
-          child: AnimatedSwitcher(
-            duration: Motion.of(context, Motion.glideDuration),
-            switchInCurve: Motion.glide,
-            switchOutCurve: Motion.exit,
-            transitionBuilder: (child, anim) => FadeTransition(
-              opacity: anim,
-              child: SlideTransition(position: Tween(begin: const Offset(0.08, 0), end: Offset.zero).animate(anim), child: child),
-            ),
+          child: MmOverlapSwitcher.axis(
+            duration: Motion.glideDuration,
+            alignment: Alignment.topLeft,
+            fit: StackFit.expand,
             child: KeyedSubtree(
               key: ValueKey(_course ?? '_programmes'),
               child: switch (catalog) {
@@ -721,9 +717,9 @@ class _PickBubble extends StatelessWidget {
         border: on ? null : Border.all(color: colors.lineStrong, width: 1.4),
       ),
       alignment: Alignment.center,
-      child: AnimatedSwitcher(
-        duration: Motion.of(context, Motion.card),
-        transitionBuilder: (child, anim) => ScaleTransition(scale: Tween(begin: 0.6, end: 1.0).animate(CurvedAnimation(parent: anim, curve: Curves.easeOutBack)), child: child),
+      child: MmOverlapSwitcher.rise(
+        duration: Motion.card,
+        alignment: Alignment.center,
         child: on
             ? Text('$n', key: ValueKey(n), textScaler: TextScaler.noScaling, style: context.mmType.caption.copyWith(fontSize: 13, height: 1, fontWeight: FontWeight.w700, color: colors.voltInk))
             : Icon(LucideIcons.plus, key: const ValueKey('plus'), size: 14, color: colors.ink3),
