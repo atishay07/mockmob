@@ -146,15 +146,16 @@ body { min-height: 100vh; }
 }
 
 /* ============== BUTTONS ============== */
+/* Sentence case, no tracking, no glow (ui-ux-standards 4 and 10): the same button inside and outside the arena. */
 .btn-volt {
   background: var(--volt);
   color: #050600;
   font-family: var(--font-display);
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border-radius: 8px;
-  box-shadow: 0 0 24px var(--volt-glow);
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+  border-radius: 10px;
+  box-shadow: none;
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s var(--ease-out); /* was transition: all */
   cursor: pointer;
   border: none;
@@ -163,12 +164,12 @@ body { min-height: 100vh; }
   justify-content: center;
   gap: 8px;
 }
-.btn-volt:hover { background: #e8ff4a; box-shadow: 0 0 32px var(--volt-glow-strong); }
+.btn-volt:hover { background: #e8ff4a; box-shadow: none; }
 .btn-volt:active { transform: scale(0.97); }
 .btn-volt:disabled { opacity: 0.3; cursor: not-allowed; box-shadow: none; }
-.btn-volt.sm { padding: 10px 18px; font-size: 12px; }
-.btn-volt.md { padding: 12px 22px; font-size: 13px; }
-.btn-volt.lg { padding: 16px 32px; font-size: 14px; }
+.btn-volt.sm { padding: 10px 18px; font-size: 13px; }
+.btn-volt.md { padding: 12px 22px; font-size: 15px; }
+.btn-volt.lg { padding: 16px 32px; font-size: 16px; }
 
 .btn-outline {
   background: rgba(255,255,255,0.02);
@@ -176,9 +177,9 @@ body { min-height: 100vh; }
   border: 1px solid rgba(255,255,255,0.12);
   font-family: var(--font-display);
   font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border-radius: 8px;
+  letter-spacing: 0;
+  text-transform: none;
+  border-radius: 10px;
   transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.15s var(--ease-out); /* was transition: all */
   cursor: pointer;
   display: inline-flex;
@@ -187,9 +188,9 @@ body { min-height: 100vh; }
   gap: 8px;
 }
 .btn-outline:hover { border-color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.05); }
-.btn-outline.sm { padding: 10px 18px; font-size: 12px; }
-.btn-outline.md { padding: 12px 22px; font-size: 13px; }
-.btn-outline.lg { padding: 16px 32px; font-size: 14px; }
+.btn-outline.sm { padding: 10px 18px; font-size: 13px; }
+.btn-outline.md { padding: 12px 22px; font-size: 15px; }
+.btn-outline.lg { padding: 16px 32px; font-size: 16px; }
 
 .btn-ghost {
   background: transparent;
@@ -850,20 +851,18 @@ html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, t
   justify-content: center;
   gap: 8px;
   font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
   cursor: pointer;
-  box-shadow: 0 0 26px var(--volt-glow);
-  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
+  box-shadow: none;
+  transition: transform 0.16s ease, background 0.16s ease;
   white-space: nowrap;
 }
 @media (hover: hover) and (pointer: fine){
 .coming-soon-button:hover {
   background: #e6ff42;
-  box-shadow: 0 0 38px var(--volt-glow-strong);
-  transform: translateY(-1px);
 }
 }
 .coming-soon-button:disabled {
@@ -2953,6 +2952,8 @@ body:has(.mm) {
 }
 .mm-article__head--object .mm-article__title { grid-row: 3; }
 .mm-article__head--object .mm-article__intro { grid-row: 4; }
+.mm-article__head--object .mm-article__go { grid-row: 5; }
+.mm-article__go { margin: 1.25rem 0 0; }
 @media (min-width: 768px) {
   .mm-article__head--object .mm-wrap {
     grid-template-columns: minmax(0, 1fr) auto;
@@ -2961,9 +2962,10 @@ body:has(.mm) {
   .mm-article__head--object .mm-crumbs { grid-row: 1; grid-column: 1; }
   .mm-article__head--object .mm-article__title { grid-row: 2; grid-column: 1; }
   .mm-article__head--object .mm-article__intro { grid-row: 3; grid-column: 1; }
+  .mm-article__head--object .mm-article__go { grid-row: 4; grid-column: 1; }
   .mm-article__head--object .mm-article__object {
     grid-column: 2;
-    grid-row: 1 / span 3;
+    grid-row: 1 / span 4;
     align-self: center;
     margin: 0 -1rem 0 0;
   }
@@ -3121,7 +3123,6 @@ body:has(.mm) {
   border-color: var(--ink);
   border-width: 2px;
   box-shadow: var(--sh-3);
-  padding-top: 2.25rem;
 }
 .mm-plan__flag {
   position: absolute;
@@ -3364,11 +3365,11 @@ body:has(.mm) {
   border-top: 1px solid var(--line);
   background: var(--paper-sunken);
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-2);
 }
 .mm-cmp > .mm-cmp__group:first-of-type {
   border-top: 0;
@@ -3382,8 +3383,8 @@ body:has(.mm) {
    one emphasised group at table scale, so the rule carries a tint with it. */
 .mm-cmp__row[data-popular="true"] {
   background: rgba(16, 20, 14, 0.05);
-  box-shadow: inset 3px 0 0 var(--ink);
 }
+.mm-cmp__row[data-popular="true"] .mm-cmp__feature { font-weight: 700; color: var(--ink); }
 .mm-cmp__row[data-popular="true"] + .mm-cmp__row[data-popular="true"] {
   border-top-color: rgba(16, 20, 14, 0.12);
 }
@@ -3409,11 +3410,11 @@ body:has(.mm) {
 }
 .mm-cmp__cell::before {
   content: attr(data-label);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
   color: var(--ink-3);
 }
 .mm-cmp__yes {
@@ -3440,10 +3441,10 @@ body:has(.mm) {
   .mm-cmp__head > div {
     padding: 0.875rem 1.125rem;
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
   }
   .mm-cmp__row {
     display: grid;

@@ -154,7 +154,7 @@ function Ribbon({ ribbon, armed }) {
           </li>
         ))}
       </ol>
-      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'Volt weeks met the goal. Tap a week to read it.'}</p>
+      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'A full bar means the goal was met. Tap a week to read it.'}</p>
     </div>
   );
 }
@@ -256,14 +256,14 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
   if (state.status === 'error') {
     if (compact) return null;
     return (
-      <section className="rc rc--note" aria-label="Your weekly rhythm">
-        <p role="alert">Your weekly rhythm could not be loaded. Your saved sessions are still in Review.</p>
+      <section className="rc rc--note" aria-label="Your study days">
+        <p role="alert">Your study days could not be loaded. Your saved sessions are still in Review.</p>
         <button type="button" className="pr-link" onClick={() => { setState({ status: 'loading', rhythm: null, cheered: true, pick: null }); setAttempt((n) => n + 1); }}>Try again</button>
       </section>
     );
   }
   if (state.status !== 'ready' || !rhythm) {
-    return <section className={`rc${compact ? ' rc--compact' : ''} rc--wait`} aria-label="Your weekly rhythm" aria-busy="true"><span className="rc__skeleton" aria-hidden="true" /></section>;
+    return <section className={`rc${compact ? ' rc--compact' : ''} rc--wait`} aria-label="Your study days" aria-busy="true"><span className="rc__skeleton" aria-hidden="true" /></section>;
   }
 
   const armed = inView || reduced;
@@ -275,14 +275,15 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
   const streak = rhythm.weeksMetStreak;
 
   return (
-    <section ref={ref} className={`rc${compact ? ' rc--compact' : ''}`} aria-label="Your weekly rhythm" data-met={met ? 'true' : 'false'}>
+    <section ref={ref} className={`rc${compact ? ' rc--compact' : ''}`} aria-label="Your study days" data-met={met ? 'true' : 'false'}>
       <header className="rc__head">
         <div>
-          <h2 className="rc__title">{compact ? 'This week' : 'Your weekly rhythm'}</h2>
+          <h2 className="rc__title">{compact ? 'This week' : 'Your study days'}</h2>
           <p className="rc__status">{status}</p>
           {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line ? <p className="rc__status" role="status">{pick.line}</p> : null}
         </div>
-        {pick ? <MobiReact act={pick.act} size={compact ? 56 : 76} mood={pick.mood} interactive={!compact} label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
+        {/* Today already holds Mobi in its plan card, so its slim weekly card keeps him out: once per screen. */}
+        {pick && !compact ? <MobiReact act={pick.act} size={76} mood={pick.mood} interactive label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
       </header>
 
       <div className="rc__top">
@@ -290,7 +291,7 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
         <div className="rc__week">
           <DayBubbles week={week} armed={armed} picked={picked} onPick={setPicked} />
           <DayCaption week={week} index={shownIndex} />
-          {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <> · best run {rhythm.bestRun}</> : null}</p> : null}
+          {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <>, best run {rhythm.bestRun}</> : null}</p> : null}
         </div>
       </div>
 

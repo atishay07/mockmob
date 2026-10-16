@@ -254,7 +254,7 @@ function RowLive({ row, width, height, rowSec, t, settled, now, geo }) {
       {now ? <rect className="rpl-nowring" x={(now.from - row.from) * k - 0.5} y={BAR_Y - 2} width={Math.max(3, (now.to - now.from) * k + 1)} height={BAR_H + 4} rx={6} /> : null}
       <rect className="rpl-veil" x={px} y={0} width={Math.max(0, width - px)} height={height} />
       {inside ? (
-        <g className="rpl-head">
+        <g className="rpl-playhead">
           <line x1={px} x2={px} y1={3} y2={DOT_Y + 6} />
           <circle cx={px} cy={4} r={3.6} />
         </g>

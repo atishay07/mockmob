@@ -9,9 +9,10 @@ import { CutoffCalculator } from '@/components/du/CutoffCalculator';
 import CompassPro from '@/components/du/CompassPro';
 import { DU_SOURCES } from '@/lib/du/sources';
 import { useAuth } from '@/components/AuthProvider';
-import { AppIcon, StatusIcon, SubjectIcon } from '@/components/ui/Glyph';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useInsights } from '@/components/ai/useInsights';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
+import './compass.css';
 
 // Profile subject ids -> DU catalog ids (they match, except the aptitude test).
 const toDuId = (id) => (id === 'general_test' ? 'gat' : id);
@@ -23,10 +24,10 @@ function PracticeBridge({ userId }) {
   if (!top) return null;
   return (
     <aside className="cmp-bridge" aria-label="From your practice">
-      <span className="cmp-bridge__icon"><SubjectIcon id={top.subject} size={20} /></span>
+      <span className="cmp-bridge__obj" aria-hidden="true"><SubjectObject id={top.subject} size={56} framed={false} /></span>
       <div>
         <b>Your practice says: {top.chapter}</b>
-        <p>{top.subjectName} has the most marks open in your record ({top.right} right, {top.wrong} wrong, {top.skip} blank over {top.n} questions). Cutoffs are history, but the subjects you drill are the ones you control.</p>
+        <p>{top.subjectName} has the most marks open in your record ({top.right} right, {top.wrong} wrong, {top.skip} blank over {top.n} questions{top.n < 30 ? ', a small sample so far' : ''}). Cutoffs are history, but the subjects you drill are the ones you control.</p>
         <Link href={`/dashboard?subject=${encodeURIComponent(top.subject)}&mode=quick`}>Practise {top.subjectName}</Link>
       </div>
     </aside>
@@ -40,33 +41,28 @@ export default function AdmissionCompassPageClient() {
     <main className="cmp">
       <header className="cmp-head">
         <div>
-          <div className="eyebrow">Admission Compass</div>
           <h1 className="display-md">Which DU courses can your subjects get?</h1>
           <p>
             {seed.length > 0
-              ? 'Your subjects are already ticked below. Add a category and a score, or try a what-if, to check subject eligibility under the 2026 rules and compare published 2026 cutoffs.'
-              : 'Tick your CUET subjects to check programme subject eligibility under the 2026 rules, then compare published 2026 cutoffs by category and round.'}
+              ? 'Your subjects are already ticked below. Add your category and a score to see which programmes your subjects open under DU’s 2026 rules, and the 2026 cutoff college by college.'
+              : 'Tick your CUET subjects, then add your category and a score to see which programmes they open under DU’s 2026 rules, and the 2026 cutoff college by college.'}
           </p>
         </div>
-        <ol className="cmp-steps" aria-label="How it works">
-          <li><AppIcon name="saved" size={16} /><span><b>1. Subjects</b>Checked against DU’s 2026 Bulletin rules</span></li>
-          <li><AppIcon name="compass" size={16} /><span><b>2. Category and score</b>Real minimum allocation scores, Rounds I to III</span></li>
-          <li><AppIcon name="progress" size={16} /><span><b>3. The gap</b>Compare the 2026 cutoff, college by college</span></li>
-        </ol>
       </header>
 
-      <div className="cmp-note" role="note">
-        <StatusIcon kind="info" size={16} />
-        <p>The calculator compares scores with published history. Compass Pro adds a projection from your own practice, labelled as such: it is not a prediction or a normalised CUET score. 2027 rules stay provisional until DU publishes them. Your choices are saved on this device.</p>
-      </div>
+      <p className="cmp-note" role="note">Cutoffs are DU’s published 2026 history, not a prediction; 2027 rules stay provisional until DU publishes them. Your subjects and score stay on this device; colleges you add to My colleges are saved to your account.</p>
 
-      {user?.id ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
-      {user?.id && !user?.isPremium ? <PracticeBridge userId={user.id} /> : null}
+      {/* The tool comes first. Pro students get their projection and colleges above it; everyone else gets one
+          quiet line about Compass Pro after the results (CompassPro renders the locked row). */}
+      {user?.id && user?.isPremium ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
 
       <CutoffCalculator seedSubjects={seed} />
 
+      {user?.id && !user?.isPremium ? <PracticeBridge userId={user.id} /> : null}
+      {user?.id && !user?.isPremium ? <CompassPro userId={user.id} seedSubjects={seed} /> : null}
+
       <SmoothDetails className="cmp-sources" chevron summary="Official source documents">
-        <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a> · {s.use}</li>)}</ul>
+        <ul>{DU_SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noopener noreferrer">{s.title}</a>. {s.use}</li>)}</ul>
       </SmoothDetails>
     </main>
   );

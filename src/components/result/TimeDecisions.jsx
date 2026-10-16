@@ -10,9 +10,11 @@ import './time-decisions.css';
 const verdictWord = (v) => TIME_COPY.verdict[v] || TIME_COPY.verdict.skipped;
 
 // changesId: an id for "Every answer you changed", so the Lab's "See every change" can bring it into view.
-export default function TimeDecisions({ read, onJump, changesId = null }) {
+// said: the basic ledger above already says the device record was not used, so it is not said twice.
+export default function TimeDecisions({ read, onJump, changesId = null, said = false }) {
   const [allChanges, setAllChanges] = useState(false);
   if (!read) return null;
+  if (said && read.state === 'inconsistent') return null;
   if (read.state !== 'ready') return <p className="srl-muted td-none">{read.message}</p>;
   const { summary, longest, changes, pace } = read;
   const max = longest[0]?.ms || 1;

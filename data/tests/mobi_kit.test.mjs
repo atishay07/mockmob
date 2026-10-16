@@ -5,26 +5,31 @@ import { MOBI_ACTS, SPEC, resolveAct } from '../../src/components/brand/mobiActs
 import { actAllowed, CELEBRATION_ACTS, CELEBRATION_LEVELS } from '../../src/lib/mobiPrefs.js';
 
 const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), 'utf8');
-const manifest = JSON.parse(read('public/brand/mascot/manifest.json'));
-const css = read('src/app/motion-kit.css');
+const rigJson = JSON.parse(read('data/mobi_rig.v2.json'));
+const css = read('src/components/brand/mobi-figure.css');
 const globals = read('src/app/globals.css');
 
-test('the published act list is exactly the app acts, each with a pose that exists', () => {
-  assert.equal(MOBI_ACTS.length, 26);
-  assert.deepEqual([...MOBI_ACTS].sort(), ['appear', 'brace', 'celebrate', 'cheer', 'correct', 'encourage', 'hello', 'listen', 'loading', 'nod', 'nudge', 'oops', 'point', 'proud', 'read', 'relief', 'rest', 'sleep', 'sleepy', 'startle', 'talk', 'think', 'tilt', 'wake', 'walk', 'wave']);
+test('the published act list is exactly the app acts, each one a program in the rig table', () => {
+  assert.equal(MOBI_ACTS.length, 31);
+  assert.deepEqual([...MOBI_ACTS].sort(), ['appear', 'brace', 'celebrate', 'cheer', 'correct', 'curious', 'encourage', 'focus', 'hello', 'hop', 'idea', 'listen', 'loading', 'nod', 'nudge', 'oops', 'point', 'proud', 'read', 'relief', 'rest', 'sleep', 'sleepy', 'startle', 'sympathy', 'talk', 'think', 'tilt', 'wake', 'walk', 'wave']);
   for (const act of [...MOBI_ACTS, 'idle']) {
     assert.ok(SPEC[act], `${act} has a spec`);
-    assert.ok(manifest[SPEC[act].pose], `${act} wears an existing pose (${SPEC[act].pose})`);
+    assert.ok(rigJson.acts[act], `${act} is in the rig table`);
     assert.ok(SPEC[act].held || SPEC[act].ms > 0, `${act} is held or has a duration`);
   }
 });
 
-test('every act except idle has its own motion in motion-kit.css', () => {
-  for (const act of MOBI_ACTS.filter((a) => !['think', 'point', 'rest'].includes(a))) assert.ok(css.includes(`[data-act='${act}']`), `${act} has CSS`);
+test('Mobi is drawn by the rig: acts are not CSS animations, MobiReact draws no raster, and the old marks are gone', () => {
+  const motionKit = read('src/app/motion-kit.css');
+  assert.ok(!motionKit.includes('mobi-react__body') && !motionKit.includes('mr-cheer-body') && !motionKit.includes('.mm-tick'), 'the old raster animations are removed');
+  assert.ok(!css.includes("[data-act="), 'acts are not CSS animations any more');
+  const react = read('src/components/brand/MobiReact.jsx');
+  assert.ok(!react.includes("from './Mascot'"), 'MobiReact no longer draws the raster art');
+  assert.ok(react.includes("from './MobiFigure'"));
 });
 
 test('Celebrations: Full plays as authored, Quiet turns a celebration into a nod, Off plays nothing', () => {
-  assert.deepEqual([...CELEBRATION_ACTS].sort(), ['celebrate', 'cheer', 'proud']);
+  assert.deepEqual([...CELEBRATION_ACTS].sort(), ['celebrate', 'cheer', 'hop', 'proud']);
   assert.deepEqual(CELEBRATION_LEVELS, ['full', 'quiet', 'off']);
   for (const act of CELEBRATION_ACTS) {
     assert.equal(resolveAct(act, { celebrations: 'full' }).act, act);
@@ -57,9 +62,10 @@ test('one data-motion=reduced block calms the site, and it keeps Mobi still and 
   assert.match(globals, /@import "\.\/motion-kit\.css";/);
   assert.match(globals, /:root\[data-motion='reduced'\] \*,/);
   assert.match(globals, /:root\[data-motion='reduced'\] \.skeleton::after \{ animation: none !important; \}/);
-  assert.match(css, /\.mobi-react\[data-live='false'\] :is\(\.mm-spark/);
-  // The held pose still shows the marks that carry information.
-  assert.ok(!/\.mobi-react\[data-live='false'\][^{]*\.mm-tick/.test(css), 'the tick stays in the held pose');
+  // Mobi has no CSS animation to switch off: under Reduce motion MobiReact runs no frame loop and draws his still pose.
+  const react = read('src/components/brand/MobiReact.jsx');
+  assert.ok(react.includes('if (resolved.live) return;'), 'a still Mobi runs no sim');
+  assert.ok(!css.includes('animation:'), 'mobi-figure.css animates nothing');
 });
 
 test('the Look and feel card uses the app words', () => {
@@ -76,7 +82,7 @@ test('profile and onboarding copy', () => {
   const profile = read('src/app/(app)/profile/ProfilePageClient.jsx') + read('src/components/profile/YourSheet.jsx');
   assert.ok(profile.includes('Saved. Your name is updated.'));
   assert.ok(profile.includes("'Saving'"));
-  assert.ok(/Open Today<(svg|ChevronRight)/.test(profile), 'Open Today carries a real icon, not an arrow glyph');
+  assert.ok(/>Open Today</.test(profile) && !/Open Today<(svg|ChevronRight)/.test(profile), 'Open Today is plain text, with no arrow or chevron appended');
   assert.ok(profile.includes('No mocks yet'));
   assert.ok(!profile.includes('Open Today ↗'));
   assert.ok(!profile.includes('Profile updated successfully.'));

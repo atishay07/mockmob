@@ -3,9 +3,10 @@
 // "Your record": the student's own sessions, explained. Every figure states its sample;
 // nothing here uses a model or credits, and nothing claims a cause or a prediction.
 import { useEffect, useState } from 'react';
-import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
+import { StatusIcon } from '@/components/ui/Glyph';
 import MobiReact from '@/components/brand/MobiReact';
-import { useCountUp, useInView } from '@/lib/motion';
+import SceneVignette from '@/components/scenes/SceneVignette';
+import { useCountUpState, useInView } from '@/lib/motion';
 import AnswerSheet from './AnswerSheet';
 import { lookChange, readLastLook, rememberLook } from './useInsights';
 import './prepos.css';
@@ -35,7 +36,9 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
   const [from] = useState(() => readLastLook(userId));
   const now = accuracy.pct;
   const change = lookChange(from, now);
-  const shown = useCountUp(now ?? 0, { from: from ?? undefined, duration: 800 });
+  // The number remembers what it showed in this visit: back on this page with the same accuracy it just shows it;
+  // a changed one rolls from the old figure, in volt when it rose and dimmed when it fell.
+  const { value: shown, ink } = useCountUpState(now ?? 0, { from: from ?? undefined, duration: 800, memoryKey: `record-accuracy:${userId}` });
   useEffect(() => { rememberLook(userId, now); }, [userId, now]);
   return (
     <>
@@ -44,12 +47,11 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
         <div><dt>Right</dt><dd>{right}</dd></div>
         <div><dt>Wrong</dt><dd>{wrong}</dd></div>
         <div><dt>Blank</dt><dd>{blank}</dd></div>
-        <div><dt>Accuracy</dt><dd>{now === null ? '—' : `${shown}%`}</dd><small>{now === null ? 'No attempted questions' : `Likely ${accuracy.low}–${accuracy.high}% (${accuracy.n} answered)`}</small></div>
+        <div><dt>Accuracy</dt><dd className="mk-num" data-ink={ink || undefined}>{now === null ? 'None yet' : `${shown}%`}</dd><small>{now === null ? 'No attempted questions' : `Likely ${accuracy.low} to ${accuracy.high}% (${accuracy.n} answered)`}</small></div>
       </dl>
       {change ? (
         <p className="pp-look" data-dir={change.delta > 0 ? 'up' : 'down'} role="status">
           {change.delta >= 5 ? <MobiReact act="correct" size={40} /> : null}
-          <span className="pp-look__arrow" aria-hidden="true">{change.delta > 0 ? '↑' : '↓'}</span>
           <b>{change.text}</b>
           <i>Accuracy was {from}%.</i>
         </p>
@@ -61,7 +63,6 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
 function ProLock({ what, onNavigate }) {
   return (
     <div className="pp-lock">
-      <AppIcon name="lock" size={16} />
       <p>{what}</p>
       <button type="button" onClick={() => onNavigate('/pricing')}>See Pro</button>
     </div>
@@ -85,9 +86,9 @@ export default function RecordView({ state, onNavigate, pro = false }) {
   }
   if (status === 'empty') {
     return (
-      <div className="pp-empty">
-        <AppIcon name="practice" size={22} />
-        <div><b>Nothing to analyse yet.</b><p>Finish one practice session. PrepOS will then show where your marks went: which chapters, which answer changes, and where the time went.</p></div>
+      <div className="pp-empty pp-empty--room">
+        <SceneVignette scene="nothingYet" compact />
+        <div><b>Nothing to analyse yet.</b><p>Finish one practice session. Your record will then show where your marks went: which chapters, which answer changes, and where the time went.</p></div>
         <button type="button" className="btn-volt sm" onClick={() => onNavigate('/dashboard?mode=quick')}>Start a set</button>
       </div>
     );
@@ -113,7 +114,6 @@ export default function RecordView({ state, onNavigate, pro = false }) {
           <ol className="pp-findings">
             {findings.map((f) => (
               <li key={f.id} data-kind={f.kind}>
-                <span className="pp-findings__icon"><StatusIcon kind={f.kind === 'good' ? 'success' : f.kind === 'leak' ? 'warning' : 'info'} size={16} /></span>
                 <div>
                   <b>{f.headline}</b>
                   <p>{f.detail}</p>
@@ -135,7 +135,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
               <li key={c.key}>
                 <div className="pp-chapters__top"><b>{c.chapter}</b><span>{c.subjectName}</span></div>
                 <Stack right={c.right} wrong={c.wrong} skip={c.skip} label={`${c.right} right, ${c.wrong} wrong, ${c.skip} blank`} />
-                <div className="pp-chapters__meta"><span>{c.right} right · {c.wrong} wrong · {c.skip} blank</span><span>{c.open} marks open · {c.n} questions</span></div>
+                <div className="pp-chapters__meta"><span>{c.right} right, {c.wrong} wrong, {c.skip} blank</span><span>{c.open} marks open from {c.n} questions</span></div>
               </li>
             ))}
           </ul>
@@ -146,7 +146,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
             <button type="button" className="pp-toggle" aria-expanded={showThin} onClick={() => setShowThin((v) => !v)}>
               {showThin ? 'Hide' : 'Show'} {chapters.thin.length} chapter{chapters.thin.length === 1 ? '' : 's'} with too few questions to rank
             </button>
-            {showThin && <ul className="pp-thin">{chapters.thin.slice(0, 8).map((c) => <li key={c.key}>{c.chapter} · {c.subjectName} · {c.right}/{c.n} right</li>)}</ul>}
+            {showThin && <ul className="pp-thin">{chapters.thin.slice(0, 8).map((c) => <li key={c.key}>{c.chapter}, {c.subjectName}: {c.right} of {c.n} right</li>)}</ul>}
           </>
         )}
       </section>
@@ -180,7 +180,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
               {pace.medianRightSec && pace.medianWrongSec ? <div><dt>Right vs wrong</dt><dd>{sec(pace.medianRightSec)} / {sec(pace.medianWrongSec)}</dd></div> : null}
               {pace.shareOnWrong !== null ? <div><dt>Time on wrong</dt><dd>{pace.shareOnWrong}%</dd></div> : null}
             </dl>
-            {pace.slowest.length > 0 && <ul className="pp-thin">{pace.slowest.slice(0, 3).map((s) => <li key={`${s.attemptId}-${s.position}`}>Q{s.position} · {s.chapter} · {sec(s.seconds)} ({s.outcome === 'skip' ? 'blank' : s.outcome})</li>)}</ul>}
+            {pace.slowest.length > 0 && <ul className="pp-thin">{pace.slowest.slice(0, 3).map((s) => <li key={`${s.attemptId}-${s.position}`}>Question {s.position}, {s.chapter}: {sec(s.seconds)} ({s.outcome === 'skip' ? 'blank' : s.outcome})</li>)}</ul>}
             <p className="pp-note">Timing comes from device events across {pace.questionsTimed} questions in {pace.sessionsTimed} session{pace.sessionsTimed === 1 ? '' : 's'}.</p>
           </>
         )}
@@ -192,8 +192,8 @@ export default function RecordView({ state, onNavigate, pro = false }) {
           {[['Last 7 days', week.thisWeek], ['Week before', week.lastWeek]].map(([label, w]) => (
             <div key={label}>
               <span>{label}</span>
-              <b>{w.sessions ? signed(w.net) : '—'}</b>
-              <small>{w.sessions ? `${w.sessions} session${w.sessions === 1 ? '' : 's'} · ${w.questions} questions${w.accuracy.pct !== null ? ` · ${w.accuracy.pct}%` : ''}` : 'No sessions'}</small>
+              <b>{w.sessions ? signed(w.net) : 'None'}</b>
+              <small>{w.sessions ? `${w.sessions} session${w.sessions === 1 ? '' : 's'}, ${w.questions} questions${w.accuracy.pct !== null ? `, ${w.accuracy.pct}% accuracy` : ''}` : 'No sessions'}</small>
             </div>
           ))}
         </div>

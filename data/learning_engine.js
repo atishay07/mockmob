@@ -158,7 +158,7 @@ export function allowancePeriod(kind, now) {
   return kind.startsWith('baseline:') || kind.startsWith('full_sample:') ? 'cuet_2027' : ist.toISOString().slice(0, 10);
 }
 
-// 10/20/30 minutes → Quick Practice size. Quick Practice allows at most 20 questions, so the
+// 10/20/30 minutes → Quick practice size. Quick practice allows at most 20 questions, so the
 // 30-minute choice adds a review block instead of inventing a longer timed set.
 export function practiceForMinutes(minutes) {
   const m = [10, 20, 30].includes(Number(minutes)) ? Number(minutes) : 10;
@@ -202,14 +202,14 @@ export function learningPlan({ episodes = [], activeSession, attempts = [], subj
   if (!primary && availableConcepts.length && !attempts.some(a => a.subject === subject)) primary = action('baseline', 'Start a five-question baseline', `/recovery?subject=${subject}`, 'Five questions provide an initial signal for this subject.', [],
     [fact('record', 'No recorded session in this subject yet.')]);
   if (!primary) {
-    // The chosen time sets the session: Quick Practice is timed at one minute a question.
+    // The chosen time sets the session: Quick practice is timed at one minute a question.
     const { count, review } = practiceForMinutes(duration);
     const upcoming = live.filter(e => e.nextDueAt && e.nextDueAt > now).sort((a,b) => a.nextDueAt - b.nextDueAt)[0];
     primary = action('ordinary_practice', `Start ${count} practice questions`, `/dashboard?mode=quick&count=${count}`,
-      `${count} questions, about ${count} minutes${review ? `, then ${review} minutes reviewing your mistakes` : ''}. ${availableConcepts.length ? 'No supported concept has been missed twice yet, so this is ordinary practice.' : 'Recovery content is awaiting source and calibration checks, so this is ordinary practice.'}`, [], [
+      `${count} questions, about ${count} minutes${review ? `, then ${review} minutes reviewing your mistakes` : ''}. ${availableConcepts.length ? 'No supported concept has been missed twice yet, so this is ordinary practice.' : 'Recovery steps are not open yet, so this is ordinary practice.'}`, [], [
         fact('record', `${plural(attempts.length, 'saved session')}.`),
         ...(upcoming ? [fact('record', `Your next fresh check (${upcoming.title}) opens ${istTime(upcoming.nextDueAt)}.`)] : []),
-        fact('rule', availableConcepts.length ? 'Recovery starts from a concept you have missed in two separate sessions.' : 'No recovery pathway has passed its release checks yet.')]);
+        fact('rule', availableConcepts.length ? 'Recovery starts from a concept you have missed in two separate sessions.' : 'Recovery steps are not open yet.')]);
   }
   return { primary, alternatives: [action('review', 'Review your mistakes', '/review', `${attempts.length} saved attempts.`), action('practice', 'Choose another subject', '/dashboard', 'Practice available content at your own pace.')].filter(a => a.href !== primary.href).slice(0, 2), minutes: duration };
 }

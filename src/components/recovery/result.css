@@ -2,7 +2,7 @@
 .rp { display: grid; gap: 20px; padding-top: 12px; }
 .rp [hidden] { display: none !important; }
 .rp :is(h1, h2, h3) { margin: 0; }
-.rp-eyebrow, .srl-eyebrow { margin: 0; font: 600 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
+.rp-eyebrow { margin: 0; font: 600 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
 
 /* ---------- 1. Summary ---------- */
 .rp-hero {
@@ -45,8 +45,6 @@
   display: grid; gap: 16px; padding: clamp(18px, 3vw, 28px); border-radius: var(--a-radius, 18px);
   border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
 }
-.srl-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--a-accent-text, #d2f000); }
-.srl-eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 2px; background: #d2f000; transform: rotate(45deg); }
 .srl-head { display: grid; gap: 6px; }
 .srl-head h2 { font: 700 clamp(22px, 3.2vw, 30px)/1.15 var(--font-display, inherit); letter-spacing: -.02em; color: var(--a-ink, #f2f4ec); }
 .srl-rule { margin: -8px 0 0; font-size: 13px; color: var(--a-ink-3, #93a08f); }
@@ -92,9 +90,8 @@
 .srl-chapter__gap { grid-area: gap; text-align: right; white-space: nowrap; font: 700 15px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-bad-text, #ff9d92); }
 
 .srl-obs { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 8px; }
-.srl-obs li { display: grid; gap: 4px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--a-line, #253026); border-left: 3px solid var(--a-line-strong, #384736); background: var(--a-sunken, #0f1512); }
-.srl-obs li[data-tone='bad'] { border-left-color: var(--a-warn-text, #e0b93f); }
-.srl-obs li[data-tone='good'] { border-left-color: var(--a-good-text, #b6e36e); }
+/* Observations are ruled rows; the tone is carried by the tag's words and colour, not a thick side border (T-083). */
+.srl-obs li { display: grid; gap: 4px; padding: 12px 0; border-top: 1px solid var(--a-line, #253026); }
 .srl-obs b { font: 650 15px/1.4 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
 .srl-obs__tag { font: 650 12px/1.4 var(--font-display, inherit); color: var(--a-warn-text, #e0b93f); }
 .srl-obs li[data-tone='good'] .srl-obs__tag { color: var(--a-good-text, #b6e36e); }
@@ -157,9 +154,9 @@
 .rp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .rp-empty { padding: 24px; text-align: center; color: var(--a-ink-3); border: 1px dashed var(--a-line-strong); border-radius: 14px; }
 .rp-q { border-radius: 16px; border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); scroll-margin-top: 84px; overflow: hidden; }
-.rp-q[data-verdict='wrong'] { border-left: 3px solid var(--a-bad-text, #ff9d92); }
-.rp-q[data-verdict='correct'] { border-left: 3px solid var(--a-good-text, #b6e36e); }
-.rp-q[data-verdict='skipped'] { border-left: 3px solid var(--a-line-strong, #384736); }
+/* The verdict is in the row's words (Right +5, Wrong -1); the badge carries a tint, the border stays 1px (T-083). */
+.rp-q[data-verdict='wrong'] .rp-q__badge { border-color: color-mix(in oklab, var(--a-bad-text, #ff9d92) 55%, transparent); color: var(--a-bad-text, #ff9d92); }
+.rp-q[data-verdict='correct'] .rp-q__badge { border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 55%, transparent); color: var(--a-good-text, #b6e36e); }
 .rp-q__h { font: inherit; }
 .rp-q__bar { width: 100%; display: grid; grid-template-columns: 32px minmax(0, 1fr) 20px; gap: 12px; align-items: start; padding: 14px 16px; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
 .rp-q__bar:hover { background: var(--a-hover); }
@@ -179,7 +176,7 @@
 .rp-options li { display: grid; grid-template-columns: 28px 1fr auto; gap: 10px; align-items: start; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--a-line, #253026); font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
 .rp-options__letter { width: 28px; height: 24px; border-radius: 7px; display: grid; place-items: center; background: var(--a-letter, #222d22); font: 700 12px/1 var(--font-display, inherit); color: var(--a-ink-2); }
 .rp-options__text { overflow-wrap: anywhere; }
-.rp-options__tag { font: 600 11px/1.6 var(--font-mono, monospace); letter-spacing: .03em; text-transform: uppercase; white-space: nowrap; }
+.rp-options__tag { font: 650 12.5px/1.6 var(--font-body, inherit); white-space: nowrap; }
 .rp-options li[data-state='key'] { border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 60%, transparent); background: color-mix(in oklab, var(--a-good-text, #b6e36e) 10%, transparent); color: var(--a-ink, #f2f4ec); }
 .rp-options li[data-state='key'] .rp-options__letter { background: var(--a-good-text, #b6e36e); color: #10140e; }
 .rp-options li[data-state='key'] .rp-options__tag { color: var(--a-good-text, #b6e36e); }
@@ -197,7 +194,7 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 .rp-expl p { margin: 0; padding: 0 14px 14px; }
 .rp-expl--open { padding: 12px 14px; display: grid; gap: 4px; }
 .rp-expl--open p { padding: 0; }
-.rp-expl--open span { font: 600 11px/1.4 var(--font-mono, monospace); letter-spacing: .04em; text-transform: uppercase; color: var(--a-ink-3); }
+.rp-expl--open span { font: 600 12.5px/1.4 var(--font-body, inherit); color: var(--a-ink-3); }
 .rp-q__foot { display: flex; justify-content: flex-end; }
 .rp-report { min-height: 36px; padding: 0 4px; border: 0; background: transparent; color: var(--a-ink-3, #93a08f); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .rp-report:disabled { text-decoration: none; cursor: default; }
@@ -308,3 +305,18 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 @keyframes rp-ripple { 0% { transform: none; } 45% { transform: scale(1.14); } 100% { transform: none; } }
 @keyframes rp-ripple-end { 0% { transform: none; box-shadow: 0 0 0 0 transparent; } 30% { transform: scale(1.16); box-shadow: 0 0 0 3px var(--a-bad-text, #ff9d92); } 100% { transform: none; box-shadow: 0 0 0 0 transparent; } }
 @keyframes rp-glance { 0% { opacity: 0; transform: translateX(-6px); } 25% { opacity: 1; transform: none; } 55% { transform: rotate(-8deg); } 80% { transform: rotate(-8deg); } 100% { transform: none; } }
+
+/* Find, Repair, Prove are plain headings between hairlines: no numbered discs, no rail (slop list: numbered badges).
+   Inside the Lab card, inner blocks are ruled sections, not cards in a card. */
+.srl-step { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 18px 0 20px; border-top: 1px solid var(--a-line, #253026); }
+.srl-step:last-child { padding-bottom: 0; }
+.srl-step:not(:last-child)::before { display: none; }
+.srl-step__num { display: none; }
+.srl-chapters { gap: 0; }
+.srl .srl-chapter { padding: 10px 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: transparent; }
+.srl .srl-chapter:hover { background: var(--a-hover, rgba(244, 245, 240, .04)); }
+.srl-obs { gap: 0 20px; }
+.srl .rc, .srl .sml { padding: 12px 0; border: 0; border-block: 1px solid var(--a-line, #253026); border-radius: 0; background: transparent; }
+.srl .sml { grid-template-columns: minmax(0, 1fr); }
+.srl .sml__icon { display: none; }
+.srl .srl-changes li { background: transparent; border-radius: 0; padding: 8px 0; border-top: 1px solid var(--a-line, #253026); }

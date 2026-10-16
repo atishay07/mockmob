@@ -128,7 +128,13 @@
 .app-shell .cmp-sources a { display: inline-flex; align-items: center; min-height: 44px; }
 .prepos-console > nav { flex-wrap: wrap; }
 .app-shell .arena-tour-card button { min-width: 44px; min-height: 44px; }
-.app-shell .learning-journey { background: var(--a-raised); color: var(--text-primary); border: 1px solid var(--a-line); }
+/* The recovery page sits on the page like every other arena page: no outer card, one heading size below the title. */
+.app-shell .learning-journey { background: transparent; color: var(--a-ink); border: 0; padding: 0; margin: 0 auto; }
+.app-shell .learning-journey h2 { margin: 0 0 6px; font: 700 20px/1.25 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
+.app-shell .learning-journey p { margin: 0 0 4px; max-width: 62ch; color: var(--a-ink-2); font-size: 15px; line-height: 1.6; }
+.app-shell .learning-journey .recovery-next { margin: 8px 0 0; padding-top: 20px; border-top: 1px solid var(--a-line); }
+.app-shell .learning-journey .recovery-action { margin: 12px 16px 0 0; }
+.app-shell .learning-journey .recovery-next a:not(.recovery-action) { color: var(--a-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }
 .app-shell .recovery-lab > a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; }
 .app-shell .ex-record a { display: inline-flex; align-items: center; min-height: 44px; }
 .app-shell .learning-time button { min-height: 44px; }
@@ -175,3 +181,5 @@
   .app-shell .pr-wallet { padding: 12px 14px; }
   .app-shell .pr-wallet__note { font-size: 12px; }
 }
+/* An error's two ways forward sit apart, on their own line, never run together with the sentence. */
+.app-shell .na__acts { display: flex; flex-wrap: wrap; gap: 0 20px; margin-top: 4px; }

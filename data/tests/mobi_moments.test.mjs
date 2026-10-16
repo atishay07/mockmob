@@ -48,8 +48,8 @@ test('the result hero follows the app recap table', () => {
   assert.equal(recapReaction({ tone: 'higher', celebrations: 'off' }).act, 'rest');
   assert.equal(recapReaction({ tone: 'lower', celebrations: 'off' }).act, 'encourage');
   assert.equal(recapReaction({ tone: 'higher', isNta: true }), null);
-  assert.deepEqual(recapReaction({ tone: 'higher', hour: 23 }), { act: 'sleepy', line: 'Goodnight.' });
-  assert.deepEqual(recapReaction({ tone: 'higher', hour: 3 }), { act: 'sleepy', line: 'Goodnight.' });
+  assert.deepEqual(recapReaction({ tone: 'higher', hour: 23 }), { act: 'sleepy', line: 'Saved. Repair one mistake tomorrow.' });
+  assert.deepEqual(recapReaction({ tone: 'higher', hour: 3 }), { act: 'sleepy', line: 'Saved. Repair one mistake tomorrow.' });
 });
 
 test('the result page asks for the same hero from an attempt, and never in an NTA attempt', () => {
@@ -57,7 +57,7 @@ test('the result page asks for the same hero from an attempt, and never in an NT
   assert.equal(mobiReaction({ recap: { tone: 'held' } }).alt.includes('answer keys'), true);
   assert.equal(mobiReaction({ recap: {} }).act, 'rest');
   assert.equal(mobiReaction({ selectionMeta: { mode: 'nta' }, recap: { tone: 'higher' } }), null);
-  assert.equal(mobiReaction({ recap: { tone: 'higher' } }, { hour: 2 }).line, 'Goodnight.');
+  assert.equal(mobiReaction({ recap: { tone: 'higher' } }, { hour: 2 }).line, 'Saved. Repair one mistake tomorrow.');
 });
 
 test('an opened answer: wrong or blank encourages then points, right hops then reads, held says nothing', () => {
@@ -122,7 +122,7 @@ test('the week Mobi follows the app rules in order', () => {
 test('the tap cycle never repeats an act, restarts after 8 s and stops at six', () => {
   const run = createTapRun(TAP_CYCLE);
   const first = [run.tap(0), run.tap(100), run.tap(200), run.tap(300)];
-  assert.deepEqual(first, ['hello', 'tilt', 'correct', 'startle']);
+  assert.deepEqual(first, ['hello', 'tilt', 'hop', 'startle']);
   assert.equal(run.tap(400), 'hello');
   assert.equal(run.tap(500), 'tilt');
   assert.equal(run.tap(600), null, 'six acts are the visit cap');

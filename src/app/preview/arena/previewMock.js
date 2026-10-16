@@ -28,6 +28,11 @@ import RULES from '../../../../data/tests/fixtures/mistake_lab/contract_rules_v1
 import RULECHECK from '../../../../data/tests/fixtures/mistake_lab/contract_rulecheck_v1.json';
 import LAB_COPY from '../../../../data/mistake_lab.copy.json';
 import { buildRepairOrder } from '../../../../data/repair_order';
+import TRAPS from '../../../../data/tests/fixtures/mistake_lab/contract_traps_v1.json';
+import LATER from '../../../../data/tests/fixtures/mistake_lab/contract_later_v1.json';
+import { buildTrapTags, indexAtlas } from '../../../../data/trap_atlas';
+import { buildLater } from '../../../../data/revise';
+import { optionHash } from '../../../../data/option_hash';
 
 const DAY = 86_400_000;
 const SUBJECT = 'accountancy';
@@ -242,3 +247,32 @@ export function fixtureLabLoop({ lab, attempt, answerReviews = {}, across = 'rea
     prove: { ...(lab.prove || {}), ruleCheck: ruleCheck === 'none' ? null : JSON.parse(JSON.stringify(RULECHECK[ruleCheck] || RULECHECK.kept)) },
   };
 }
+
+// ---------- Slice 4: the trap tag, Same mistakes later, Traps you meet and Revise ----------
+
+/**
+ * The lab with slice 4 (data/lab_loop.js buildLabSlice4), for the preview's Full mock: illustrative trap atlas rows on
+ * three of the paper's wrong answers (a look-alike term, the wrong rule, a reversed relation), the real builders over them,
+ * and lab.prove.later for the paper. `&traps=off` leaves slice 4 out (the Lab as it was).
+ */
+export function fixtureSlice4({ lab, attempt, answerReviews = {}, traps = 'on' } = {}) {
+  if (!lab || traps === 'off') return lab;
+  const snapshot = new Map((attempt.questionsSnapshot || []).map((q) => [q.id, q]));
+  const types = ['look_alike_term', 'wrong_rule', 'reversed'];
+  const wrong = (attempt.details || []).filter((d) => d.isCorrect === false && Number.isInteger(d.givenIndex) && !answerReviews[d.qid]);
+  const rows = wrong.slice(0, 3).map((d, i) => ({ qid: d.qid, option_hash: optionHash(snapshot.get(d.qid).options[d.givenIndex]), trap_type: types[i], repairs_agreeing: 2, repairs_disagreeing: 0, source: 'repair' }));
+  const tags = buildTrapTags({ attempt, answerReviews, lab, atlas: indexAtlas(rows) });
+  const later = buildLater({ attempt, allAttempts: [attempt], answerReviews, cards: null, now: Date.now() });
+  return { ...lab, ...(tags ? { traps: tags } : {}), prove: { ...(lab.prove || {}), ...(later ? { later } : {}) } };
+}
+
+/** GET /api/me/traps: the committed `sheet` contract, or `empty`. */
+export const fixtureTrapsMeet = (kind = 'ready') => JSON.parse(JSON.stringify(kind === 'empty' ? TRAPS.empty : TRAPS.sheet));
+/** GET /api/me/revise: the committed contract, or the empty state. */
+export function fixtureRevise(kind = 'ready') {
+  const body = JSON.parse(JSON.stringify(LATER.revise));
+  if (kind !== 'empty') return body;
+  return { ...body, state: 'empty', items: [], shown: 0, due: 0, minutes: 0, boxes: [0, 0, 0, 0], cards: 0, head: LAB_COPY.revise.head.none, summary: null, next: LAB_COPY.revise.nextNone, nextDay: null, nextDayLabel: null };
+}
+/** POST /api/me/revise/answer: the committed right, wrong and done answers (the key of every fixture question is B). */
+export const fixtureReviseAnswer = (choice, box = 1) => JSON.parse(JSON.stringify(choice === 1 ? (box >= 4 ? LATER.answers.done : LATER.answers.right) : LATER.answers.wrong));

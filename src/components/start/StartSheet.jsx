@@ -3,7 +3,7 @@
 // The Start sheet: start a session in two taps, from anywhere in the signed-in site.
 //
 // What it holds, top to bottom: the subject the sessions are for (the student's own subjects, with
-// their lit objects), the next move with its real reason (the same plan Today shows), then Quick 10,
+// their lit objects), the next move with its real reason (the same plan Today shows), then Quick practice,
 // Full mock, NTA mode and Choose your own. Every row prints its cost against the student's balance.
 // Nothing is spent here: a row opens Practice set up for that session, and Practice shows the exact
 // set and its cost again before Start.
@@ -21,6 +21,10 @@ import { PipActor } from '@/components/brand/PipActor';
 import { RowArt, SubjectObject } from './StartArt';
 import { balanceLine, dragOffset, dragOutcome, springEasing, subjectName } from './startModel.mjs';
 import { useSubjectRail } from './useSubjectRail';
+
+// Full mock and NTA mode are the two exam-conditions sessions: they sit side by side as tiles (the app's deck);
+// the rest run as rows.
+const PAIRED = new Set(['full', 'nta']);
 
 const SETTLE = 'cubic-bezier(0.23, 1, 0.32, 1)';
 const SPRING_FALLBACK = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
@@ -279,12 +283,11 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
 
         {planState === 'loading' && !hero ? (
           <div className="st-hero st-hero--loading" data-rise role="status" aria-label="Working out your next move">
-            <span className="st-skel st-skel--eyebrow skeleton" /><span className="st-skel st-skel--title skeleton" /><span className="st-skel st-skel--line skeleton" /><span className="st-skel st-skel--cta skeleton" />
+            <span className="st-skel st-skel--title skeleton" /><span className="st-skel st-skel--line skeleton" /><span className="st-skel st-skel--cta skeleton" />
           </div>
         ) : hero ? (
           <section className="st-hero" data-rise aria-labelledby={`${titleId}-move`} data-graphic={hero.graphic}>
             <div className="st-hero__text">
-              <p className="st-hero__eyebrow">{hero.eyebrow}</p>
               <h3 id={`${titleId}-move`} className="st-hero__title">{hero.title}</h3>
               {hero.reason ? <p className="st-hero__reason">{hero.reason}</p> : null}
               <div className="st-hero__go">
@@ -309,7 +312,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
         <h3 className="st-section" data-rise>{hero ? 'Or start something else' : 'Pick a session'}</h3>
         <ul className="st-rows">
           {[...rows, choose].filter(Boolean).map((row) => (
-            <li key={row.id} data-rise>
+            <li key={row.id} data-rise data-pair={PAIRED.has(row.id) ? '' : undefined}>
               <Link className="st-row mk-press" href={linkFor(row.href)} onClick={onFollow} data-row={row.id}>
                 <span className="st-row__art">
                   <RowArt key={row.graphic === 'subject' ? row.subject : row.graphic} graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={56} />

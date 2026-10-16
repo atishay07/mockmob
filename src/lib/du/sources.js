@@ -10,19 +10,19 @@ export const DU_SOURCES = [
   {
     id: 'round-1',
     title: 'First round of allocation: minimum allocation scores',
-    use: 'Round I cutoffs',
+    use: 'Round 1 cutoffs',
     url: 'https://admission.uod.ac.in/userfiles/17072026-CutOff_UG_Round_One_compressed.pdf',
   },
   {
     id: 'round-2',
     title: 'Second round of allocation: minimum allocation scores',
-    use: 'Round II cutoffs',
+    use: 'Round 2 cutoffs',
     url: 'https://admission.uod.ac.in/userfiles/downloads/2026/25072026_CutOff_UG_Round_Two_compressed.pdf',
   },
   {
     id: 'round-3',
     title: 'Third round of allocation: minimum allocation scores',
-    use: 'Round III cutoffs',
+    use: 'Round 3 cutoffs',
     url: 'https://admission.uod.ac.in/userfiles/downloads/2026/09082026_Minimum_Allocation_Score_RoundThree.pdf',
   },
 ];

@@ -60,7 +60,7 @@ export function entranceAt(when, otherwise = 'hello') {
 }
 
 /** The acts the Celebrations setting gates (the app's MobiRation.celebrations). */
-export const CELEBRATION_SET = ['cheer', 'celebrate', 'proud'];
+export const CELEBRATION_SET = ['cheer', 'celebrate', 'proud', 'hop'];
 
 /**
  * The act he plays for `act` under a Celebrations level, or null when he plays nothing and keeps
@@ -82,7 +82,7 @@ export function underLevel(act, level = 'full') {
  */
 export function recapReaction({ tone, celebrations = 'full', isNta = false, hour = 12 } = {}) {
   if (isNta) return null;
-  if (isLateNightHour(hour)) return { act: 'sleepy', line: 'Goodnight.' };
+  if (isLateNightHour(hour)) return { act: 'sleepy', line: 'Saved. Repair one mistake tomorrow.' };
   const full = celebrations === 'full';
   switch (tone) {
     case 'first_mock': return { act: full ? 'proud' : 'rest' };
@@ -139,7 +139,7 @@ export function weekMobi(week, { hour = 12, returning = false } = {}) {
 // How he answers being tapped again and again (the app's MobiTapCycle.standard): hello, a curious
 // tilt, a little hop, then ticklish. Never the same act twice in a row; the cycle starts over after
 // 8 s without a tap; after 6 acts in one visit a tap only gets the light squash.
-export const TAP_CYCLE = { acts: ['hello', 'tilt', 'correct', 'startle'], resetAfterMs: 8000, cap: 6 };
+export const TAP_CYCLE = { acts: ['hello', 'tilt', 'hop', 'startle'], resetAfterMs: 8000, cap: 6 };
 
 /** One visit's progress through a cycle. `tap(now)` returns the act for a tap, or null at the cap. */
 export function createTapRun(cycle = TAP_CYCLE) {

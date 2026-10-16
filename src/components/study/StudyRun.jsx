@@ -2,7 +2,9 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, Check, X, BookOpenText, Target, RotateCcw } from 'lucide-react';
-import { ReadingBlock, AnswerForm, Feedback, HearButton, usePronounce, Passage } from './StudyBlocks';
+import { ReadingBlock, AnswerForm, Feedback, ResultOptions, HearButton, usePronounce, Passage } from './StudyBlocks';
+import { isMotionReduced } from '@/lib/motion/draw';
+import { flyAway, rightIndex, softClick } from './studyFeel';
 import MobiReact from '@/components/brand/MobiReact';
 import { BLOCK_LABEL, RATINGS, doneReaction, friendlyError, itemLabel, practiceHref, subjectName, whenDue } from './studyCopy';
 import StudyHelp from './StudyHelp';
@@ -11,10 +13,24 @@ const newKey = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypt
 
 export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
   const [run, setRun] = useState(initial), [busy, setBusy] = useState(false), [error, setError] = useState(null), [saved, setSaved] = useState(''), [hasPending, setHasPending] = useState(false);
-  const pending = useRef(null), heading = useRef(null), flight=useRef(false);
+  // The feel of a concept check (studyFeel.js): `freshRev` is the revision an answer or a reveal made here
+  // just produced (a step reopened from a saved state has none, so nothing replays); `picked` is the
+  // rating on its way; `arrive` is the step that is sliding in.
+  const [freshRev, setFreshRev] = useState(null), [picked, setPicked] = useState(null), [arrive, setArrive] = useState(null);
+  const pending = useRef(null), heading = useRef(null), flight=useRef(false), stage = useRef(null), ghosts = useRef(null), focusNext = useRef(false);
   const { speak, notice, cancel } = usePronounce();
   useEffect(() => () => cancel(), []); // eslint-disable-line react-hooks/exhaustive-deps
+  // The new step is a new element (it arrives on its own), so focus waits for it rather than for a frame.
+  useEffect(() => { if (focusNext.current) { focusNext.current = false; heading.current?.focus(); } }, [run.cursor, run.state]);
   const item = run.item, isLesson = run.mode === 'learn', unit = run.units?.[0];
+  // A check answered here just now: the feedback panel comes into view above the sticky Next key (its scroll-margin
+  // in study.css clears the key), so the explanation is never hidden behind the button. Instant under reduced motion.
+  const feedbackShown = freshRev !== null && freshRev === run.revision && !!run.revealed;
+  useEffect(() => {
+    if (!feedbackShown) return;
+    const panel = stage.current?.querySelector('.sx-feedback');
+    panel?.scrollIntoView({ block: 'nearest', behavior: isMotionReduced() ? 'auto' : 'smooth' });
+  }, [feedbackShown, run.revision]);
 
   const send = async event => {
     if (flight.current) return;
@@ -27,10 +43,20 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
       if (next.cursor !== run.cursor || next.state !== run.state) {
         // After a card is finished, say when it returns: the scheduling is the point of review.
         setSaved(!isLesson && next.lastReview?.cardId === run.item.id ? `Saved. “${run.item.word || run.item.title || 'That card'}” comes back ${whenDue(next.lastReview.due) || 'later'}.` : '');
-        requestAnimationFrame(() => heading.current?.focus());
+        focusNext.current = true; // the step's heading takes focus once the new step is on screen (the effect below)
+      }
+      // Everything below runs on the server's acknowledgement, so a click or a flight never comes before it.
+      if ((event.type === 'answer' || event.type === 'reveal') && next.revealed && next.revision !== run.revision) {
+        setFreshRev(next.revision);
+        if (event.type === 'answer' && next.feedback?.correct === true) softClick(); // one soft click for a right answer, none for a miss
+      }
+      if (next.cursor !== run.cursor && next.state === 'active' && (event.type === 'rate' || event.type === 'continue')) {
+        const reduced = isMotionReduced();
+        flyAway(stage.current, ghosts.current, event.type === 'rate' ? 'fly' : 'axis', { reduced }); // the card leaves; the next arrives
+        setArrive(reduced ? null : next.cursor);
       }
       setRun(next);
-    } catch (e) { setError(friendlyError(e)); } finally { flight.current=false;setBusy(false); }
+    } catch (e) { setError(friendlyError(e)); } finally { flight.current=false;setBusy(false);setPicked(null); }
   };
   const reload = async () => {
     pending.current = null; setHasPending(false); setBusy(true); setError(null);
@@ -51,16 +77,19 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
     <div className="sx-actions">{unit ? <Link className="btn-volt md" href={`/learn/${unit.id}`}>Open the lesson</Link> : null}<Link className="sx-quiet" href="/learn">Back to Learn</Link></div></div></div>;
 
   const label = isLesson ? (item.kind === 'knowledge_check' ? BLOCK_LABEL.knowledge_check : BLOCK_LABEL[item.kind] || 'Lesson') : itemLabel(item);
+  const fresh = freshRev === run.revision;
+  const options = item.type === 'choice' && rightIndex(item) !== null; // the option rows show the result
   return <div className="sx sx-run">
+    <div className="sx-ghosts" ref={ghosts} aria-hidden="true" />
     {back}
     <header className="sx-run__head">
-      <p className="sx-run__title">{isLesson ? 'Lesson' : 'Recall'} · {run.title}</p>
+      <p className="sx-run__title">{isLesson ? 'Lesson' : 'Recall'}: {run.title}</p>
       <p className="sx-run__count" aria-live="polite">{isLesson ? `Step ${step} of ${total}` : `Card ${step} of ${total}`}</p>
     </header>
     <ol className="sx-pips" aria-label={`${isLesson ? 'Step' : 'Card'} ${step} of ${total}`}>{Array.from({ length: total }, (_, i) => <li key={i} className={i < run.cursor ? 'done' : i === run.cursor ? 'now' : ''} />)}</ol>
     {saved ? <p className="sx-saved" role="status"><Check size={16} aria-hidden="true" />{saved}</p> : null}
     {errorBox}
-    <section className={`sx-stage ${!isLesson ? 'sx-memory-card' : ''}`} aria-busy={busy} data-revealed={run.revealed || undefined}>
+    <section key={run.cursor} ref={stage} className={`sx-stage ${!isLesson ? 'sx-memory-card' : ''}`} aria-busy={busy} data-revealed={run.revealed || undefined} data-arrive={arrive === run.cursor ? 'true' : undefined}>
       <p className="sx-stage__label">{label}</p>
       <h1 ref={heading} tabIndex={-1} className="sx-focus">{item.title && (isLesson || item.type === 'reading') ? item.title : item.prompt}</h1>
       {item.type === 'reading' ? <>
@@ -71,14 +100,15 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
         {item.title && item.prompt && (isLesson || item.type === 'reading') ? <p className="sx-prompt">{item.prompt}</p> : null}
         {item.word && run.revealed ? <HearButton word={item.word} speak={speak} /> : null}
         {run.revealed ? <>
-          <Feedback feedback={run.feedback} item={item} />
+          {options ? <ResultOptions item={item} feedback={run.feedback} fresh={fresh} /> : null}
+          <Feedback feedback={run.feedback} fresh={fresh} compact={options} />
           {!isLesson && item.type === 'reveal' ? <fieldset className="sx-ratings"><legend>How well did you remember it?</legend>
-            {RATINGS.map(r => <button key={r.value} type="button" onClick={() => send({ type: 'rate', rating: r.value })} disabled={busy}><b>{r.label}</b><small>{r.hint}</small></button>)}
+            {RATINGS.map(r => <button key={r.value} type="button" data-picked={picked === r.value || undefined} onClick={() => { setPicked(r.value); send({ type: 'rate', rating: r.value }); }} disabled={busy}><b>{r.label}</b><small>{r.hint}</small></button>)}
           </fieldset> : <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'continue' })} disabled={busy}>{step === total ? (isLesson ? 'Finish lesson' : 'Finish review') : 'Next'}<ArrowRight size={16} aria-hidden="true" /></button></div>}
           {!isLesson && unit && item.unitId ? <p className="sx-small"><Link className="sx-link" href={`/learn/${item.unitId}`}>Reread the lesson for this card</Link></p> : null}
         </> : item.type === 'reveal' ? <>
           <p className="sx-hint">Say or write your answer first, then check it.</p>
-          <div className="sx-actions sx-actions--sticky"><button className="btn-volt md sx-turn" type="button" onClick={() => send({ type: 'reveal' })} disabled={busy} aria-label="Turn card and show the answer">Turn card · check your recall<RotateCcw size={18} aria-hidden="true" /></button></div>
+          <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'reveal' })} disabled={busy} aria-label="Turn card and show the answer">Check your recall<RotateCcw size={18} aria-hidden="true" /></button></div>
         </> : <AnswerForm key={`${item.id}-${run.revision}`} item={item} busy={busy} locked={hasPending} assistedToggle={!isLesson}
           onSubmit={(value, assisted) => send({ type: 'answer', value: item.type === 'choice' ? value : String(value), assisted })} onSkip={(value, assisted) => send({ type: 'answer', value, assisted })} />}
       </>}
@@ -110,14 +140,14 @@ function LessonDone({ run, api, onOpenRun }) {
       <div><p className="sx-done__badge"><Check size={22} aria-hidden="true" />Lesson complete</p>{mood.line ? <p className="sx-done__line">{mood.line}</p> : null}</div>
     </div>
     <h1>{run.title}</h1>
-    {checks.length ? <p className="sx-lede">You got {right} of {checks.length} quick {checks.length === 1 ? 'check' : 'checks'} right on the first try{right < checks.length ? ' — the recall cards will bring those ideas back.' : '.'}</p> : null}
+    {checks.length ? <p className="sx-lede">You got {right} of {checks.length} quick {checks.length === 1 ? 'check' : 'checks'} right on the first try{right < checks.length ? '. The recall cards will bring those ideas back.' : '.'}</p> : null}
     {info?.objectives?.length ? <><h2 className="sx-h3">This lesson covered</h2><ul className="sx-ticks">{info.objectives.map(o => <li key={o}><Check size={16} aria-hidden="true" />{o}</li>)}</ul></> : null}
     <div className="sx-next">
       <h2 className="sx-h3">Next: lock it in</h2>
-      <p className="sx-small">Your lesson’s recall cards are ready. Answer from memory, then we’ll bring them back when they’re due. Included — no AI credits.</p>
+      <p className="sx-small">Your lesson’s recall cards are ready. Answer from memory, then we’ll bring them back when they’re due. Included, no AI credits.</p>
       {!info ? <p className="sx-small" role="status">Checking your review cards…</p>
-        : available ? <><p>Answer {available} {available === 1 ? 'card' : 'cards'} from this lesson from memory — about {Math.max(2, Math.ceil(available * 0.6))} minutes. Each answer sets when you’ll see that card again, so the idea is still there on exam day.</p>
-          <button className="btn-volt md" type="button" onClick={lockIn} disabled={busy}>Lock it in · {available} {available === 1 ? 'card' : 'cards'}<ArrowRight size={16} aria-hidden="true" /></button></>
+        : available ? <><p>Answer {available} {available === 1 ? 'card' : 'cards'} from this lesson from memory, about {Math.max(2, Math.ceil(available * 0.6))} minutes. Each answer sets when you’ll see that card again, so the idea is still there on exam day.</p>
+          <button className="btn-volt md" type="button" onClick={lockIn} disabled={busy}>Lock it in with {available} {available === 1 ? 'card' : 'cards'}<ArrowRight size={16} aria-hidden="true" /></button></>
         : info.recall?.unseen ? <p>You’ve started today’s {info.recall.newCardsPerDay} new cards. This lesson’s {info.recall.unseen} cards will be ready tomorrow, and Today will remind you.</p>
         : <p>All of this lesson’s cards are already in your reviews. They’ll come back when they’re due.</p>}
       {error ? <p className="sx-alert" role="alert">{error.text}</p> : null}

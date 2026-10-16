@@ -1,0 +1,129 @@
+{
+  "paper": {
+    "version": 1,
+    "tags": {
+      "p1-q1": {
+        "index": 1,
+        "letter": "B",
+        "trapType": "look_alike_term",
+        "label": "A look-alike term",
+        "text": "Trap: a look-alike term",
+        "detail": null,
+        "source": "repair",
+        "sourceText": "Named by Mistake Repair"
+      },
+      "p1-q2": {
+        "index": 1,
+        "letter": "B",
+        "trapType": "assertion_reason_link",
+        "label": "The assertion and reason link",
+        "text": "Trap: the assertion and reason link",
+        "detail": "This option and the key agree on both statements; only the link differs.",
+        "source": "format",
+        "sourceText": "From the question format"
+      },
+      "p1-q3": {
+        "index": 1,
+        "letter": "B",
+        "trapType": "partly_true",
+        "label": "A partly true option",
+        "text": "Trap: a partly true option",
+        "detail": "This option matches 2 of the 4 pairs as the key does.",
+        "source": "format",
+        "sourceText": "From the question format"
+      },
+      "p1-q4": {
+        "index": 1,
+        "letter": "B",
+        "trapType": "partly_true",
+        "label": "A partly true option",
+        "text": "Trap: a partly true option",
+        "detail": "This option puts 2 of the 4 items in the same place as the key.",
+        "source": "format",
+        "sourceText": "From the question format"
+      }
+    }
+  },
+  "sheet": {
+    "version": 1,
+    "state": "ready",
+    "title": "Traps you meet",
+    "rows": [
+      {
+        "trapType": "look_alike_term",
+        "label": "A look-alike term",
+        "caught": 5,
+        "of": 10,
+        "text": "A look-alike term: caught 5 of 10 times.",
+        "periods": {
+          "date": "8 Oct",
+          "before": {
+            "k": 4,
+            "n": 5
+          },
+          "since": {
+            "k": 1,
+            "n": 5
+          },
+          "text": "Before 8 Oct: 4 of 5. Since: 1 of 5."
+        },
+        "status": "falling",
+        "statusLabel": "Catching you less"
+      },
+      {
+        "trapType": "wrong_rule",
+        "label": "The wrong rule applied",
+        "caught": 4,
+        "of": 6,
+        "text": "The wrong rule applied: caught 4 of 6 times.",
+        "periods": {
+          "date": "8 Oct",
+          "before": {
+            "k": 1,
+            "n": 2
+          },
+          "since": {
+            "k": 3,
+            "n": 4
+          },
+          "text": "Before 8 Oct: 1 of 2. Since: 3 of 4."
+        },
+        "status": "still",
+        "statusLabel": "Still catching you"
+      },
+      {
+        "trapType": "assertion_reason_link",
+        "label": "The assertion and reason link",
+        "caught": 2,
+        "of": 3,
+        "text": "The assertion and reason link: caught 2 of 3 times.",
+        "periods": {
+          "date": "9 Oct",
+          "before": {
+            "k": 1,
+            "n": 2
+          },
+          "since": {
+            "k": 1,
+            "n": 1
+          },
+          "text": "Before 9 Oct: 1 of 2. Since: 1 of 1."
+        },
+        "status": null,
+        "statusLabel": null
+      }
+    ],
+    "message": null,
+    "basis": "A chance is a question you answered where one wrong option carries this trap.",
+    "fine": "A trap shows only where Mistake Repair named it on that same option and no other repair named a different one, or where the question's own format makes it. A row shows from 3 chances."
+  },
+  "empty": {
+    "version": 1,
+    "state": "empty",
+    "title": "Traps you meet",
+    "rows": [],
+    "message": "Your traps show here once a named trap has been a wrong option on 3 questions you answered.",
+    "basis": "A chance is a question you answered where one wrong option carries this trap.",
+    "fine": "A trap shows only where Mistake Repair named it on that same option and no other repair named a different one, or where the question's own format makes it. A row shows from 3 chances."
+  }
+}

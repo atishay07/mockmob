@@ -114,6 +114,20 @@ export const counts = Object.freeze({
   shimmerSweeps: 4,
 });
 
+/** Vibrate patterns (ms on, off, on...) for the haptics the app also has; an empty pattern is a no-op. */
+export const haptics = Object.freeze({
+  tick: Object.freeze([8]),
+  settle: Object.freeze([14]),
+  open: Object.freeze([22]),
+  warn: Object.freeze([12, 80, 12]),
+  confirm: Object.freeze([18]),
+  gestureStart: Object.freeze([]),
+  gestureEnd: Object.freeze([]),
+  segmentTick: Object.freeze([8]),
+  toggleOn: Object.freeze([12]),
+  toggleOff: Object.freeze([8]),
+});
+
 /** Page transitions, as the app's router draws them. Curves are names in `curves`. */
 export const transitions = Object.freeze({
   place: Object.freeze({ outMs: 90, inMs: 200, overlapStart: 0.22, outTail: 0.1, slide: 10, drift: 6, outCurve: 'exit', inCurve: 'glide' }),

@@ -131,7 +131,7 @@ export function SignupCard({ mode = 'signup' }) {
         <p>
           {isLogin
             ? 'Open your recorded mocks, saved questions and chapter review.'
-            : 'Free to start. No card needed. Your practice, Radar and saved questions stay with your account.'}
+            : 'Free to start. No card needed. Your practice, chapter review and saved questions stay with your account.'}
         </p>
       </div>
 
@@ -192,6 +192,8 @@ export function SignupCard({ mode = 'signup' }) {
         <button type="submit" className="mm-btn mm-btn--primary" disabled={submitDisabled}>
           {emailLoading ? (otpSent ? 'Checking the code…' : 'Sending…') : otpSent ? 'Verify code and continue' : 'Email me a login code'}
         </button>
+        {/* The only primary action says why it is waiting, instead of sitting dim with no reason. */}
+        {!emailLoading && !otpSent && !email.trim() ? <small className="auth-card__why">Enter your email to continue.</small> : null}
         {otpSent ? (
           <div className="auth-card__actions">
             <button type="button" className="auth-card__textbtn" onClick={sendCode} disabled={busy || resendIn > 0}>

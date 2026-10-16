@@ -12,6 +12,7 @@ import { buildReplyDeps, modelRepliesOpen } from '@/services/prepos/replyDeps';
 import { readAIWallet } from '@/services/credits/aiCreditWallet';
 import { publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { runRepair } from './repairFlow';
+import { recordTrap } from '@/lib/server/trapAtlas';
 
 async function withheldForRecheck(db, { questionId, userId, attemptId, firstIndex, blindIndex, model }) {
   // Same path as a student report: recorded, then withheld from practice until re-checked.
@@ -71,6 +72,8 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
       if (error) throw new Error('repair_traps_unavailable');
       return data || [];
     },
+    // Fills the trap atlas from this committed v3 repair (the trap type on the option the student chose). Never throws.
+    recordTrap: (record) => recordTrap(record),
     withhold: (args) => withheldForRecheck(supabaseAdmin(), args),
     readWallet: (u) => readAIWallet(u).catch(() => null),
     now: Date.now,

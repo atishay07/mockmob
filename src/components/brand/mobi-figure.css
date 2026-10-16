@@ -1,0 +1,75 @@
+/* Mobi, drawn in SVG (MobiReact.jsx, MobiFigure.jsx, MobiMarks.jsx). The shapes are the app's; this
+   file is the light around them. The lime paper and soft black are the same in both themes; what
+   changes is the lamp: a warm amber rim and a deep contact shadow at Night, a paper-white rim and a
+   soft warm shadow in Daylight (the app's MobiPalette). Night is the default; Day follows
+   html[data-theme='light'], or `theme="day"` on the component (previews). Every colour is a
+   variable, so a theme change repaints with no script. */
+
+.mobi-react {
+  /* Night */
+  --mb-limb: #3A3631; --mb-limb-hi: #6A6358; --mb-limb-lo: #1D1B18;
+  --mb-hose-hi: #937D5C; --mb-lip-hi: #8C785B;
+  --mb-rim: #F2B865; --mb-rim-a: 0.5;
+  --mb-shadow: #000; --mb-pool-a: 0.12; --mb-core-a: 0.1364;
+  --mb-zzz: #F4F0E6;
+  --mb-lamp: #F2B865; --mb-lamp-a: 0.42;
+  --mb-bloom-a: 0.42; --mb-bloom-b: 0.12;
+  --mb-halo-in: #EFFF7A; --mb-halo-mid: #D2F000;
+  --mb-piece-edge: #A2BB00; --mb-piece-rim: #6F8200; --mb-piece-rim-w: 0.9;
+  --mb-ring: #EFFF7A; --mb-ring-edge: #4F5D00;
+  --mb-bubble-edge: #E2FA2E; --mb-bubble-w: 1;
+  --mb-spark: #EFFF7A; --mb-spark-edge: transparent; --mb-spark-w: 0;
+
+  position: relative; display: inline-block; flex: none; vertical-align: bottom;
+  width: calc(var(--mobi-size) * var(--mobi-ar, 0.8333)); height: var(--mobi-size);
+  pointer-events: none; user-select: none;
+}
+
+/* Day */
+html[data-theme='light'] .mobi-react:not([data-mb-theme='night']),
+.mobi-react[data-mb-theme='day'] {
+  --mb-limb: #262421; --mb-limb-hi: #45413B; --mb-limb-lo: #131210;
+  --mb-hose-hi: #54504B; --mb-lip-hi: #4E4B45;
+  --mb-rim: #FFFFFF; --mb-rim-a: 0.22;
+  --mb-shadow: #3B2A12; --mb-pool-a: 0.06; --mb-core-a: 0.0638;
+  --mb-zzz: #17150F;
+  --mb-lamp: #FFFFFF; --mb-lamp-a: 0.4;
+  --mb-bloom-a: 0.34; --mb-bloom-b: 0.1;
+  --mb-halo-in: #E2FA2E; --mb-halo-mid: #BFDB00;
+  --mb-piece-edge: #BFDB00; --mb-piece-rim: #4F5D00; --mb-piece-rim-w: 1.3;
+  --mb-ring: #D2F000; --mb-ring-edge: #4F5D00;
+  --mb-bubble-edge: #17150F; --mb-bubble-w: 1.6;
+  --mb-spark: #D2F000; --mb-spark-edge: #6F8200; --mb-spark-w: 0.7;
+}
+
+/* Parts that exist in only one theme: the screen glow behind the eyes and the bulb's halo at Night,
+   the bulb's olive edge in Daylight (no glows on paper). Only the other theme's rule hides them, so
+   the element's own display attribute still decides the rest of the time. */
+:is(html[data-theme='light'] .mobi-react:not([data-mb-theme='night']), .mobi-react[data-mb-theme='day']) .mb-n { display: none; }
+:is(html:not([data-theme='light']) .mobi-react:not([data-mb-theme='day']), .mobi-react[data-mb-theme='night']) .mb-d { display: none; }
+
+/* The drawing. */
+.mobi-react__look { position: absolute; inset: 0; }
+.mb-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; display: block; }
+.mobi-react[data-facing='left'] .mb-svg { transform: scaleX(-1); }
+
+.mb-hose--lo { stroke: var(--mb-limb-lo); }
+.mb-hose--hi { stroke: var(--mb-hose-hi); }
+.mb-hose--main { stroke: var(--mb-limb); }
+.mb-hand-rim { stroke: var(--mb-rim); stroke-opacity: calc(var(--mb-rim-a) * 0.8); }
+.mb-hand-rim--finger { stroke-opacity: calc(var(--mb-rim-a) * 0.6); }
+.mb-ant-rim { stroke-opacity: calc(var(--mb-rim-a) * 0.7); }
+.mb-crease { stroke: var(--mb-limb-lo); }
+.mb-shadow--pool { opacity: calc(var(--mb-pool-a) * var(--mb-k, 1)); }
+.mb-shadow--core { opacity: calc(var(--mb-core-a) * var(--mb-k, 1)); }
+.mb-bubble-edge { fill: none; stroke: var(--mb-bubble-edge); stroke-width: calc(var(--mb-bubble-w) * 2); stroke-linejoin: round; }
+.mb-spark { fill: var(--mb-spark); stroke: var(--mb-spark-edge); stroke-width: var(--mb-spark-w); stroke-linejoin: round; }
+
+/* Interactive: the art is a 44 px target at least. */
+.mobi-react[data-interactive='true'] { pointer-events: auto; }
+.mobi-react__hit { position: absolute; inset: 0; z-index: 2; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 18%; -webkit-tap-highlight-color: transparent; }
+.mobi-react__hit::before { content: ''; position: absolute; left: 50%; top: 50%; width: max(100%, 44px); height: max(100%, 44px); translate: -50% -50%; }
+.mobi-react__hit:focus-visible { outline: 2px solid var(--focus-ring, #d2f000); outline-offset: 2px; }
+
+/* Nothing here animates by CSS: the rig moves the elements frame by frame and stops when he is at
+   rest. Under Reduce motion he is drawn once, in his still pose (no frame loop runs). */

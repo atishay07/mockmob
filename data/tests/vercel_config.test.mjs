@@ -10,10 +10,11 @@ test('functions run in Singapore (sin1, AWS ap-southeast-1), next to the Supabas
   assert.equal('functionFailoverRegions' in config, false, 'failover regions are Enterprise only');
 });
 
-test('the two daily crons are unchanged and still point at existing routes', () => {
+test('the daily crons (the two original ones unchanged, plus the NTA index rebuild) point at existing routes', () => {
   assert.deepEqual(config.crons, [
     { path: '/api/internal/finalise-sessions', schedule: '45 21 * * *' },
     { path: '/api/internal/refresh-inventory', schedule: '30 21 * * *' },
+    { path: '/api/internal/rebuild-nta-index', schedule: '0 22 * * *' },
   ]);
   for (const cron of config.crons) {
     assert.match(cron.schedule, /^\d+ \d+ \* \* \*$/, 'Hobby crons run at most once a day');

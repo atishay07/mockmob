@@ -1,0 +1,96 @@
+/* Mistake Lab slice 4 on the website: the trap tag under a wrong option (TrapTag.jsx), "Traps you meet" (TrapsMeet.jsx) and
+   "Same mistakes later" in Prove (SameMistakesLater.jsx). Arena tokens, so Day and Night both work; colour always comes with
+   words or an icon. Only opacity and transform move, and reduced motion lands every state at once. Targets are 44 px or more. */
+
+/* ---------- The trap tag: one more row under the option's text, never over it ---------- */
+.rp-options li > .tt { grid-column: 2 / -1; }
+.tt {
+  display: grid; grid-template-columns: 15px minmax(0, 1fr); gap: 8px; align-items: start;
+  margin-top: 2px; padding-top: 8px; border-top: 1px solid var(--a-line, #253026);
+}
+.tt__icon { margin-top: 2px; color: var(--a-warn-text, #e0b93f); }
+.tt__text { margin: 0; display: grid; gap: 2px; min-width: 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-2, #bcc5b9); }
+.tt__text b { font-weight: 650; color: var(--a-ink, #f2f4ec); }
+.tt__detail { overflow-wrap: anywhere; }
+.tt__source { font-size: 12px; line-height: 1.4; color: var(--a-ink-3, #93a08f); }
+
+/* ---------- Same mistakes later (Prove) ---------- */
+.sml {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; min-width: 0;
+  padding: 12px 14px 12px 12px; border-radius: 14px; border: 1px solid var(--a-line, #253026); background: var(--a-sunken, #0f1512);
+}
+.sml :is(h4, p) { margin: 0; }
+.sml__icon { display: none; }
+.sml__main { display: grid; gap: 6px; min-width: 0; }
+.sml__title { font: 700 15px/1.3 var(--font-display, inherit); letter-spacing: -.01em; color: var(--a-ink, #f2f4ec); }
+.sml__line { font: 650 15.5px/1.45 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); max-width: 62ch; font-variant-numeric: tabular-nums; }
+.sml__note { font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 62ch; }
+.sml__fine { font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #93a08f); max-width: 62ch; }
+.sml__open {
+  justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; text-decoration: none;
+  border: 1px solid var(--a-line-hover, rgba(244, 245, 240, .32)); background: transparent; color: var(--a-ink, #f2f4ec); font: 650 14px/1 var(--font-body, inherit);
+}
+.sml__open:hover { background: var(--a-hover, rgba(244, 245, 240, .06)); }
+.sml__open:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+
+/* ---------- Traps you meet ---------- */
+.tm { display: grid; min-width: 0; }
+.tm :is(p, ul) { margin: 0; }
+.tm[data-surface='inset'] { padding-top: 6px; border-top: 1px solid var(--a-line, #253026); }
+.tm[data-surface='card'] {
+  padding: 8px clamp(10px, 2vw, 16px) clamp(12px, 2vw, 18px); border-radius: var(--a-radius, 18px);
+  border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
+}
+.tm-head {
+  width: calc(100% + 16px); min-height: 56px; display: grid; grid-template-columns: minmax(0, 1fr) 20px; align-items: center; gap: 12px;
+  padding: 8px; margin: 0 -8px; box-sizing: border-box; border: 0; border-radius: 14px; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.tm-head:hover { background: var(--a-hover, rgba(244, 245, 240, .04)); }
+.tm-head:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+.tm-head__icon { display: none; }
+.tm-head__title { font: 700 15.5px/1.3 var(--font-display, inherit); letter-spacing: -.01em; color: var(--a-ink, #f2f4ec); }
+.tm-head__chev { color: var(--a-ink-3, #93a08f); justify-self: end; }
+.tm-head[aria-expanded='true'] .tm-head__chev { transform: rotate(180deg); }
+.tm-body { display: grid; gap: 12px; padding: 4px 0 6px 48px; min-width: 0; }
+.tm-muted { font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 62ch; }
+.tm-rows { list-style: none; padding: 0; display: grid; }
+.tm-row { display: grid; gap: 6px; padding: 12px 0; border-top: 1px solid var(--a-line, #253026); }
+.tm-row:first-child { border-top: 0; padding-top: 2px; }
+.tm-row__head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.tm-row__text { font: 650 15px/1.45 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); font-variant-numeric: tabular-nums; }
+.tm-row__status {
+  display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: 999px; font: 650 12.5px/1 var(--font-body, inherit);
+  border: 1px solid var(--a-line-hover, rgba(244, 245, 240, .32)); color: var(--a-ink, #f2f4ec);
+}
+.tm-row[data-status='falling'] .tm-row__status { border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 60%, transparent); color: var(--a-good-text, #b6e36e); }
+.tm-row[data-status='still'] .tm-row__status { border-color: color-mix(in oklab, var(--a-warn-text, #e0b93f) 60%, transparent); color: var(--a-warn-text, #e0b93f); }
+.tm-row__periods { font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
+.tm-bar { display: block; height: 4px; max-width: 320px; border-radius: 999px; background: var(--a-line, #253026); overflow: hidden; }
+.tm-bar i { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--a-warn-text, #e0b93f); transform-origin: left; transform: scaleX(var(--p, 0)); }
+.tm-fine { font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #93a08f); max-width: 62ch; }
+.tm-fail { display: grid; gap: 8px; justify-items: start; }
+.tm-fail p { font-size: 14px; line-height: 1.5; color: var(--a-ink, #f2f4ec); }
+.tm-retry {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--a-line-hover, rgba(244, 245, 240, .32)); background: transparent; color: var(--a-ink, #f2f4ec); font: 650 14px/1 var(--font-body, inherit);
+}
+.tm-retry:hover { background: var(--a-hover, rgba(244, 245, 240, .06)); }
+.tm-retry:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+
+@media (max-width: 560px) {
+  .tm-body { padding-left: 0; }
+  .sml { grid-template-columns: minmax(0, 1fr); }
+  .sml__icon { display: none; }
+}
+
+/* ---------- Motion. Every state lands without it. ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .tm-head { transition: background-color 150ms var(--a-ease, ease-out); }
+  :root:not([data-motion='reduced']) .tm-head__chev { transition: transform 180ms var(--a-ease, ease-out); }
+  :root:not([data-motion='reduced']) .tm[data-open] .tm-row { animation: tl-rise 180ms var(--a-ease, ease-out) both; }
+  :root:not([data-motion='reduced']) .tm[data-open] .tm-bar i { animation: tl-grow 240ms var(--a-ease, ease-out) 60ms both; }
+  :root:not([data-motion='reduced']) .sml__open { transition: background-color 150ms var(--a-ease, ease-out), transform 100ms var(--a-ease, ease-out); }
+  :root:not([data-motion='reduced']) .sml__open:active { transform: scale(.985); }
+}
+@keyframes tl-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes tl-grow { from { transform: scaleX(0); } to { transform: scaleX(var(--p, 0)); } }

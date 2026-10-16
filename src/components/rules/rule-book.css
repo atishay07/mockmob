@@ -25,9 +25,7 @@
   border: 1px solid var(--a-line-strong, #384736); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
 }
 .rb-now[data-set] { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); }
-/* A thin volt rule along the top edge marks the chosen rule; the empty state has none. */
-.rb-now[data-set]::before { content: ''; position: absolute; inset: 0 0 auto; height: 3px; background: var(--a-select, #d2f000); }
-.rb-now__label { display: inline-flex; align-items: center; gap: 8px; font: 650 13px/1.3 var(--font-display, inherit); color: var(--a-accent-text, #d2f000); }
+.rb-now__label { margin: 0; font: 700 16px/1.3 var(--font-display, inherit); letter-spacing: -.01em; color: var(--a-ink-2, #bcc5b9); }
 .rb-now__body { display: grid; gap: 10px; }
 .rb-now__text { font: 700 clamp(19px, 2.2vw, 22px)/1.32 var(--font-display, inherit); letter-spacing: -.015em; color: var(--a-ink, #f2f4ec); text-wrap: pretty; }
 .rb-now__text--empty { font-size: 18px; color: var(--a-ink-2, #bcc5b9); }
@@ -35,7 +33,7 @@
 
 .rb-jump { display: grid; border-top: 1px solid var(--a-line, #253026); }
 .rb-jump a {
-  display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 48px; padding: 0 6px;
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; min-height: 48px; padding: 0 6px;
   border-bottom: 1px solid var(--a-line, #253026); color: var(--a-ink-2, #bcc5b9); font: 600 14px/1.3 var(--font-body, inherit); text-decoration: none;
 }
 .rb-jump a svg { color: var(--a-ink-3, #93a08f); }
@@ -53,26 +51,20 @@
 .rb-chapter + .rb-chapter { margin-top: 10px; }
 .rb-chapter h3 { display: flex; align-items: baseline; gap: 10px; font: 650 14px/1.35 var(--font-display, inherit); color: var(--a-ink-2, #bcc5b9); }
 .rb-chapter h3 span { font: 500 12.5px/1 var(--font-body, inherit); color: var(--a-ink-3, #93a08f); }
-.rb-rules, .rb-habits { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.rb-rules, .rb-habits { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-bottom: 1px solid var(--a-line, #253026); }
 
+/* A ruled list, not a stack of cards: one hairline between rules. */
 .rb-rule, .rb-habit {
-  min-width: 0; padding: 16px; border-radius: 16px;
-  border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16);
+  min-width: 0; padding: 16px 0; border-top: 1px solid var(--a-line, #253026);
 }
 .rb-rule { display: grid; gap: 8px; }
-.rb-rule[data-active], .rb-habit[data-active] { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); background: color-mix(in oklab, var(--a-raised, #131a16) 92%, var(--a-select, #d2f000)); }
+.rb-rule[data-active], .rb-habit[data-active] { margin-inline: -12px; padding-inline: 12px; border-radius: 12px; background: var(--a-volt-wash, rgba(210, 240, 0, .07)); }
 .rb-rule__meta { font-size: 12.5px; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
 .rb-rule__text { font: 650 16px/1.45 var(--font-display, inherit); letter-spacing: -.005em; color: var(--a-ink, #f2f4ec); max-width: 64ch; }
 .rb-rule__hook { font-size: 14px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); max-width: 64ch; }
 .rb-rule__hook span { font-weight: 650; color: var(--a-ink-3, #93a08f); }
 
-.rb-habit { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; align-items: start; }
-.rb-habit__icon {
-  width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center;
-  border: 1px solid var(--a-line, #253026); background: var(--a-sunken, #0f1512); color: var(--a-ink-2, #bcc5b9);
-}
-.rb-habit[data-active] .rb-habit__icon { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); color: var(--a-accent-text, #d2f000); }
-.rb-habit[data-gated] .rb-habit__icon { border-style: dashed; background: transparent; color: var(--a-ink-3, #93a08f); }
+.rb-habit { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; align-items: start; }
 .rb-habit__main { display: grid; gap: 8px; min-width: 0; }
 .rb-habit__text { padding-top: 2px; font: 650 16px/1.45 var(--font-display, inherit); letter-spacing: -.005em; color: var(--a-ink, #f2f4ec); max-width: 60ch; }
 .rb-habit__evidence { font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 64ch; font-variant-numeric: tabular-nums; }
@@ -97,9 +89,12 @@
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: 12px; cursor: pointer;
   font: 700 14px/1.2 var(--font-display, inherit); letter-spacing: -.003em;
 }
-.rb-use { border: 1px solid var(--a-line-strong, #384736); background: transparent; color: var(--a-ink, #f2f4ec); }
-.rb-use svg { color: var(--a-accent-text, #d2f000); }
-.rb-use:hover:not(:disabled) { border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); background: var(--a-volt-wash, rgba(210, 240, 0, .07)); }
+.rb-use { padding: 0; border: 0; background: transparent; color: var(--a-ink, #f2f4ec); font-family: var(--font-body, inherit); font-weight: 650; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong, #384736); }
+.rb-use:hover:not(:disabled) { text-decoration-color: currentColor; }
+.rb-menu { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; }
+.rb-menu__btn { display: inline-grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 12px; background: transparent; color: var(--a-ink-3, #93a08f); cursor: pointer; }
+.rb-menu__btn:hover, .rb-menu__btn[aria-expanded='true'] { background: var(--a-hover, rgba(244, 245, 240, .04)); color: var(--a-ink, #f2f4ec); }
+.rb-menu__btn:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 .rb-use:disabled { cursor: default; opacity: .5; }
 .rb-use[aria-busy] { opacity: 1; border-color: var(--a-volt-line, rgba(210, 240, 0, .5)); }
 .rb-copy { padding: 0 12px; border: 1px solid transparent; background: transparent; color: var(--a-ink-2, #bcc5b9); font-family: var(--font-body, inherit); font-weight: 600; }
@@ -128,9 +123,7 @@
 
 @media (max-width: 560px) {
   .rb-now { padding: 18px 16px; }
-  .rb-rule, .rb-habit { padding: 14px; }
-  .rb-habit { grid-template-columns: 38px minmax(0, 1fr); gap: 12px; }
-  .rb-habit__icon { width: 38px; height: 38px; border-radius: 11px; }
+  .rb-rule, .rb-habit { padding: 14px 0; }
   .rb-rule__text, .rb-habit__text { font-size: 15.5px; }
 }
 
@@ -157,22 +150,16 @@
 
 /* ---------- Review's way in (RulesEntry.jsx) ---------- */
 .rb-entry {
-  display: grid; grid-template-columns: 44px minmax(0, 1fr) 20px; align-items: center; gap: 14px; min-height: 72px; padding: 14px 16px 14px 14px;
-  border-radius: 18px; border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); box-shadow: var(--a-shadow-1);
+  display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: 14px; min-height: 64px; padding: 12px 4px;
   color: var(--a-ink, #f2f4ec); text-decoration: none;
 }
-.rb-entry__icon { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: var(--a-volt-wash, rgba(210, 240, 0, .07)); color: var(--a-accent-text, #d2f000); box-shadow: inset 0 0 0 1px var(--a-volt-line, rgba(210, 240, 0, .5)); }
+/* The title is the link: underlined so the row reads as a way in, not static copy. No arrow. */
+.rb-entry__text b { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong, #384736); }
+.rb-entry:hover .rb-entry__text b { text-decoration-color: currentColor; }
 .rb-entry__text { display: grid; gap: 3px; min-width: 0; }
 .rb-entry__text b { font: 700 16px/1.3 var(--font-display, inherit); letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
 .rb-entry__text span { font-size: 13.5px; line-height: 1.45; color: var(--a-ink-2, #bcc5b9); }
-.rb-entry__go { color: var(--a-ink-3, #93a08f); }
-.rb-entry:hover { border-color: var(--a-line-hover, rgba(244, 245, 240, .32)); }
-.rb-entry:hover .rb-entry__go { color: var(--a-ink, #f2f4ec); }
 .rb-entry:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
 @media (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']) .rb-entry { transition: border-color 150ms var(--a-ease, ease-out), transform 100ms var(--a-ease, ease-out); }
-  :root:not([data-motion='reduced']) .rb-entry:active { transform: scale(.99); }
-  :root:not([data-motion='reduced']) .rb-entry__go { transition: transform 180ms var(--a-ease, ease-out), color 150ms ease-out; }
-  :root:not([data-motion='reduced']) .rb-entry:hover .rb-entry__go { transform: translateX(3px); }
   :root:not([data-motion='reduced']) .rb-entry[data-state='ready'] .rb-entry__text { animation: rb-fade 200ms var(--a-ease, ease-out) both; }
 }

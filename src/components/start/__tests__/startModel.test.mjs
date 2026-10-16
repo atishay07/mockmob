@@ -100,7 +100,7 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
   assert.equal(hero.quick, true);
   assert.equal(hero.subject, 'economics');
   assert.equal(hero.cost.text, 'Uses 10 of your 40 practice credits.');
-  assert.equal(hero.eyebrow, 'Your next move');
+  assert.equal(hero.eyebrow, undefined, 'the card heading says it; no kicker above it');
   const keyed = heroFromPlan(plan, { subject: 'economics', tonightKey: 'tonight-start-r1x' });
   assert.equal(keyed.href, '/dashboard?mode=quick&count=10&subject=economics&tonightKey=tonight-start-r1x&tonightMinutes=10');
   assert.equal(heroFromPlan(plan, { subject: 'economics', tonightKey: 'bad key' }).href, '/dashboard?mode=quick&count=10&subject=economics');
@@ -122,7 +122,7 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
   assert.equal(heroFromPlan(null), null);
 });
 
-test('rows: Quick 10 folds into a hero that is already 10 questions; NTA says Pro on Free', () => {
+test('rows: Quick practice folds into a hero that is already 10 questions; NTA says Pro on Free', () => {
   const plan = learningPlan({ minutes: 10 });
   const merged = startRows({ plan, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
   assert.deepEqual(merged.rows.map((r) => r.id), ['full', 'nta']);
@@ -138,7 +138,7 @@ test('rows: Quick 10 folds into a hero that is already 10 questions; NTA says Pr
   assert.equal(loading.hero, null);
   assert.deepEqual(loading.rows.map((r) => r.id), ['quick', 'full', 'nta']);
   const nta = loading.rows.find((r) => r.id === 'nta');
-  assert.equal(nta.tag, 'Pro');
+  assert.equal(nta.tag, null, 'the cost line says Needs Pro; no pill');
   assert.equal(nta.href, '/dashboard?subject=economics&mode=nta&interface=nta');
   assert.equal(nta.cost.text, 'Needs Pro.');
   const ntaPro = startRows({ plan: null, subjects: ['economics'], pro: true }).rows.find((r) => r.id === 'nta');

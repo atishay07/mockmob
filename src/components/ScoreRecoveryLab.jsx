@@ -13,12 +13,15 @@
 // times. Its chapter list is left out while the result page shows the SWOT, which already reads the chapters.
 // Slice 3 (spec 4.7 to 4.10), each part only when the server sends it, so an older server shows the Lab as before:
 // Repair follows lab.repairOrder (most other students got it right first, marked in the queue) and links to the Rule
-// book ("Your rules, 7"); Prove opens with the rule check (result/RuleCheck.jsx); "Across your mocks" closes the Lab,
+// book ("Your rules (7)"); Prove opens with the rule check (result/RuleCheck.jsx); "Across your mocks" closes the Lab,
 // folded (result/AcrossMocks.jsx).
-import { useEffect, useId, useRef, useState } from 'react';
+// Slice 4 (spec 4.7 second part, 4.8, 4.11): Prove then also says which of this paper's wrong answers come back in Revise and
+// when ("Same mistakes later", result/SameMistakesLater.jsx, from lab.prove.later); Find ends with "Your traps across mocks"
+// (result/TrapsMeet.jsx, GET /api/me/traps); the trap tag itself sits under the wrong option in the opened answer (result page).
+import { useContext, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowRight, BookMarked, Check, Users } from 'lucide-react';
+import { Check, Users } from 'lucide-react';
 import { apiGet } from '@/lib/fetcher';
 import { TIME_COPY } from '@/../data/time_decisions';
 import MistakeLessonLink from './study/MistakeLessonLink';
@@ -27,7 +30,12 @@ import MarksLedger from './result/MarksLedger';
 import Replay from './result/Replay';
 import AcrossMocks from './result/AcrossMocks';
 import RuleCheck from './result/RuleCheck';
+import SameMistakesLater from './result/SameMistakesLater';
+import TrapsMeet from './result/TrapsMeet';
 import { cohortItems, inRepairOrder } from './result/labLoop';
+import { AuthContext } from '@/components/AuthProvider';
+import { useWalletSummary } from '@/components/useWalletSummary';
+import { usesLine } from '@/lib/creditCopy.mjs';
 import COPY from '../../data/mistake_lab.copy.json' with { type: 'json' };
 
 // Adds data-in once the Lab scrolls into view, so its bars grow when the student actually sees them.
@@ -44,6 +52,16 @@ function useInView() {
   return [ref, inView];
 }
 
+// The repair total in the one spend line: each repair is 1 AI credit, so the ones left cost that many together.
+// Nothing to repair, nothing to say. Unknown balance shows no number, never 0.
+function RepairTotal({ remaining }) {
+  const auth = useContext(AuthContext);
+  const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
+  if (!(remaining > 0)) return null;
+  const what = remaining === 1 ? 'This repair' : `These ${remaining} repairs`;
+  return <p className="srl-fine">{usesLine({ what, verb: remaining === 1 ? 'uses' : 'use', cost: remaining, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
+}
+
 function QChips({ numbers, onJump }) {
   if (!numbers?.length) return null;
   return (
@@ -54,7 +72,7 @@ function QChips({ numbers, onJump }) {
   );
 }
 
-function Prove({ attempt, topChapter, ruleCheck = null }) {
+function Prove({ attempt, topChapter, ruleCheck = null, later = null }) {
   const router = useRouter();
   const [replay, setReplay] = useState(null);
   useEffect(() => {
@@ -70,14 +88,15 @@ function Prove({ attempt, topChapter, ruleCheck = null }) {
   return (
     <div className="srl-step__body">
       <RuleCheck check={ruleCheck} />
+      <SameMistakesLater later={later} />
       {!replay ? <p className="srl-muted" role="status">Checking for fresh questions…</p>
         : fresh ? <>
             <p>Five questions you have not seen from <b>{fresh.chapter}</b>. Getting them right in a day or two is how you know a repair stuck.</p>
-            <button type="button" className="srl-cta" onClick={() => go(fresh.href)}>Try 5 fresh questions <ArrowRight size={16} aria-hidden="true" /></button>
+            <button type="button" className="srl-cta" onClick={() => go(fresh.href)}>Try 5 fresh questions</button>
           </>
         : <>
             <p>{topChapter ? <>We don’t have five unseen, verified questions for <b>{topChapter}</b> yet, so this is a regular set on that chapter.</> : 'We don’t have five unseen, verified questions yet, so this is a regular set in the same subject.'} Questions you have seen before don’t count as proof.</p>
-            <button type="button" className="srl-cta srl-cta--quiet" onClick={() => go(ordinary)}>{topChapter ? `Practise ${topChapter}` : 'Practise 10 more'} <ArrowRight size={16} aria-hidden="true" /></button>
+            <button type="button" className="srl-cta srl-cta--quiet" onClick={() => go(ordinary)}>{topChapter ? `Practise ${topChapter}` : 'Practise 10 more'}</button>
           </>}
     </div>
   );
@@ -119,7 +138,6 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
   return (
     <section ref={ref} className="srl" data-in={inView || undefined} aria-labelledby="srl-title">
       <header className="srl-head">
-        <p className="srl-eyebrow">{lab?.labels?.name || 'Mistake Lab'}</p>
         <h2 id="srl-title">{lab?.heading ? lab.heading : marks.gap ? <>You missed {marks.gap} marks. Here’s where they went.</> : 'You didn’t miss a mark this session.'}</h2>
       </header>
 
@@ -167,7 +185,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
                       <span className="srl-obs__tag">{o.label}</span>
                       <b>{o.headline}</b>
                       <span className="srl-obs__detail">{o.detail}</span>
-                      <span className="srl-obs__tip"><ArrowRight size={14} aria-hidden="true" />{o.tip}</span>
+                      <span className="srl-obs__tip">{o.tip}</span>
                       <QChips numbers={o.questions} onJump={onJump} />
                     </li>
                   ))}
@@ -176,7 +194,8 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
               {(chapters.length > 1 || observations.length > 1) && <button type="button" className="srl-find-toggle" aria-expanded={expanded} aria-controls={findId} onClick={() => setExpanded(value => !value)}>{expanded ? 'Show the key finding' : observations.length ? 'See all chapters and observations' : 'See all chapters'}<span aria-hidden="true">{expanded ? '−' : '+'}</span></button>}
               <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4>
             </>}
-            <TimeDecisions read={timeRead} onJump={onJump} changesId={ledger ? changesId : null} />
+            <TimeDecisions read={timeRead} onJump={onJump} changesId={ledger ? changesId : null} said={ledger?.state === 'basic'} />
+            {lab ? <TrapsMeet label={COPY.traps.labels.open} /> : null}
           </div>
         </li>
 
@@ -204,15 +223,14 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
                 })}
               </div>
               {handled.size < mistakes.length ? (
-                <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${queue.find(r => !handled.has(r.q.id)).number}`} <ArrowRight size={16} aria-hidden="true" /></button>
+                <button type="button" className="srl-cta" onClick={onRepairNext}>{`Repair Q${queue.find(r => !handled.has(r.q.id)).number}`}</button>
               ) : done === mistakes.length ? <p className="srl-done">All explanations ready. Try fresh questions when you are ready.</p> : <p className="srl-fine">Review the recorded answers below or continue with ordinary practice.</p>}
-              <p className="srl-fine">1 credit per repair. Reopening a repair is free. No charge if a question is held for review.</p>
+              <RepairTotal remaining={mistakes.length - handled.size} />
+              <p className="srl-fine">Reopening a repair is free. No charge if a question is held for review.</p>
             </> : <p>No wrong answers to repair this session.</p>}
             {rules ? (
               <Link className="srl-rules" href="/review/rules">
-                <span className="srl-rules__icon" aria-hidden="true"><BookMarked size={17} strokeWidth={2.1} /></span>
                 <span className="srl-rules__text"><b>{rules.countLabel}</b>{rules.active?.text ? <small>{COPY.rules.labels.inUse}: {rules.active.text}</small> : null}</span>
-                <ArrowRight className="srl-rules__go" size={16} aria-hidden="true" />
               </Link>
             ) : null}
           </div>
@@ -222,7 +240,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
           <div className="srl-step__num" aria-hidden="true">3</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Prove</h3><p>Show it stuck, on questions you haven’t seen</p></div>
-            <Prove attempt={attempt} topChapter={topChapter} ruleCheck={lab?.prove?.ruleCheck || null} />
+            <Prove attempt={attempt} topChapter={topChapter} ruleCheck={lab?.prove?.ruleCheck || null} later={lab?.prove?.later || null} />
           </div>
         </li>
       </ol>

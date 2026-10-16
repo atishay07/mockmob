@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { ArrowRight, BookOpenText, Brain, Target, Timer, ChevronRight } from 'lucide-react';
 import { SubjectIcon } from '@/components/ui/Glyph';
+import { SubjectObject } from '@/components/brand/SubjectObject';
 import { useInView } from '@/lib/motion';
 import { SUBJECTS, STATUS, friendlyError, practiceHref, subjectName, whenDue } from './studyCopy';
 
@@ -76,7 +77,7 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
   const next = catalog.nextUnit && catalog.units.find(u => u.id === catalog.nextUnit.id);
   const hero = active ? { title: active.mode === 'learn' ? `Finish “${active.title}”` : 'Finish your review', text: `You stopped at ${active.mode === 'learn' ? 'step' : 'card'} ${active.step} of ${active.total}. Everything before it is saved.`, cta: 'Continue', href: `/study/${active.id}`, icon: BookOpenText }
     : q.dueCount ? { title: `${q.dueCount} ${q.dueCount === 1 ? 'card is' : 'cards are'} due for review`, text: `About ${Math.max(2, Math.ceil(Math.min(q.dueCount, 10) * 0.5))} minutes. Reviewing on time is what keeps lessons from fading before the exam.`, cta: 'Start review', action: startReview, icon: Brain }
-    : next ? { title: catalog.progress.lessonsRead ? `Next lesson: ${next.title}` : `Start here: ${next.title}`, text: `${catalog.nextUnit.reason} · ${next.estimatedMinutes} min`, cta: 'Open lesson', href: `/learn/${next.id}`, unitId: next.id, icon: BookOpenText }
+    : next ? { title: catalog.progress.lessonsRead ? `Next lesson: ${next.title}` : `Start here: ${next.title}`, text: `${catalog.nextUnit.reason}, ${next.estimatedMinutes} min`, cta: 'Open lesson', href: `/learn/${next.id}`, unitId: next.id, icon: BookOpenText }
     : q.availableCount ? { title: `Lock in ${q.newCount} new ${q.newCount === 1 ? 'card' : 'cards'}`, text: 'From lessons you have already read.', cta: 'Start', action: startReview, icon: Brain }
     : { title: 'You’re up to date', text: 'Every published lesson is read and nothing is due. Practise a chapter or take a mock to find what to study next.', cta: 'Practise questions', href: '/dashboard', icon: Target };
 
@@ -96,8 +97,8 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
         : <Link className="btn-volt md" href={hero.href} onClick={hero.unitId ? e => open(e, hero.unitId) : undefined}>{hero.cta}<ArrowRight size={16} aria-hidden="true" /></Link>}
     </section>
     <ol className="sx-flow" aria-label="How each concept works">
-      <li><BookOpenText size={18} aria-hidden="true" /><div><b>Learn</b><small>5–7 min · worked examples and quick checks</small></div></li>
-      <li><Brain size={18} aria-hidden="true" /><div><b>Lock it in</b><small>2–3 min · answer from memory; reviews are scheduled for you</small></div></li>
+      <li><BookOpenText size={18} aria-hidden="true" /><div><b>Learn</b><small>5 to 7 min, worked examples and quick checks</small></div></li>
+      <li><Brain size={18} aria-hidden="true" /><div><b>Lock it in</b><small>2 to 3 min, answer from memory; reviews are scheduled for you</small></div></li>
       <li><Target size={18} aria-hidden="true" /><div><b>Apply</b><small>Practice questions with marks, then mocks</small></div></li>
     </ol>
 
@@ -109,20 +110,23 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
       <SubjectIcon id={id} size={18} /><span>{title}</span><small>{bySubject[id].length}</small></button>)}</div>
 
     <section id="sx-subject-panel" role="tabpanel" aria-labelledby={`sx-tab-${subject}`} className="sx-subject">
-      <p className="sx-small">{units.length ? `${units.length} ${units.length === 1 ? 'lesson' : 'lessons'} across ${taught.length} of ${syllabus?.chapters.length || 0} chapters in ${subjectName(subject)}. More are added as each one passes its source checks.` : `${subjectName(subject)} lessons are still being prepared. Practice questions are available now.`}</p>
+      <div className="sx-subject__head">
+        <span key={subject} className="sx-subject__obj mk-pop" aria-hidden="true"><SubjectObject id={subject} size={112} framed={false} lit /></span>
+        <p className="sx-small">{units.length ? `${units.length} ${units.length === 1 ? 'lesson' : 'lessons'} across ${taught.length} of ${syllabus?.chapters.length || 0} chapters in ${subjectName(subject)}. More are added as each one passes its source checks.` : `${subjectName(subject)} lessons are still being prepared. Practice questions are available now.`}</p>
+      </div>
       {taught.map(chapter => <div key={chapter.id} className="sx-chapter">
         <div className="sx-chapter__head"><h2>{chapter.title}</h2><Link className="sx-link" href={practiceHref(subject, chapter.title)}>Practise</Link></div>
         <Link className="sx-link sx-small" href={`/learn/summary?${new URLSearchParams({subject,chapter:chapter.title})}`}>Read or print the chapter summary</Link>
         <ul className="sx-units">{units.filter(u => u.chapter === chapter.title).map(u => <li key={u.id}>
           <Link href={`/learn/${u.id}`} onClick={e => open(e, u.id)} className="sx-unit">
             <UnitRing unit={u} />
-            <span className="sx-unit__main"><b>{u.title}</b><span className="sx-unit__summary">{u.summary}</span>
-              <span className="sx-unit__meta"><Timer size={14} aria-hidden="true" />{u.estimatedMinutes} min{u.skill ? ` · ${u.skill}` : ''} · {u.cardCount} recall {u.cardCount === 1 ? 'card' : 'cards'}</span></span>
+            <span className="sx-unit__main"><b>{u.title}</b><span className="sx-unit__summary">{String(u.summary || '').replaceAll(' · ', ', ')}</span>
+              <span className="sx-unit__meta"><Timer size={14} aria-hidden="true" />{u.estimatedMinutes} min{u.skill ? `, ${u.skill}` : ''}, {u.cardCount} recall {u.cardCount === 1 ? 'card' : 'cards'}</span></span>
             {u.status !== 'new' ? <span className="sx-unit__status" data-status={u.status}>{u.status === 'in_progress' ? `Step ${u.inProgress.step}/${u.inProgress.total}` : u.status === 'due' ? `${u.memory.due} due` : u.status === 'learned' && u.memory.nextDue ? `Review ${whenDue(u.memory.nextDue)}` : STATUS[u.status]?.label}</span> : null}
             <ChevronRight size={18} aria-hidden="true" />
           </Link></li>)}</ul>
       </div>)}
-      {untaught.length ? <details className="sx-untaught"><summary>{untaught.length} more {untaught.length === 1 ? 'chapter' : 'chapters'} · practice available, lessons later</summary>
+      {untaught.length ? <details className="sx-untaught"><summary>{untaught.length} more {untaught.length === 1 ? 'chapter' : 'chapters'}, practice available, lessons later</summary>
         <ul>{untaught.map(c => <li key={c.id}><span>{c.title}</span><Link className="sx-link" href={practiceHref(subject, c.title)}>Practise</Link></li>)}</ul>
         <p className="sx-small">Chapter list from the CUET UG 2026 syllabus; the 2027 syllabus is provisional until NTA publishes it.</p></details> : null}
     </section>

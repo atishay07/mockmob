@@ -258,7 +258,6 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
   return {
     id: 'move',
     kind: String(primary.kind || 'next'),
-    eyebrow: 'Your next move',
     title: String(primary.title),
     reason: heroReason(primary, { count, minutes: plan?.minutes }),
     href: finalHref,
@@ -271,7 +270,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
 }
 
 // ---------------------------------------------------------------------------------------------
-// The rows. At most: the hero, Quick 10, Full mock, NTA mode; then Choose your own.
+// The rows. At most: the hero, Quick practice, Full mock, NTA mode; then Choose your own.
 
 /**
  * @param {object} o
@@ -288,17 +287,16 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
   const name = subjectName(chosen);
   const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey });
   const rows = [];
-  // A hero that is already "10 questions" in this subject is Quick 10: one row, not two.
+  // A hero that is already "10 questions" in this subject is Quick practice: one row, not two.
   if (!hero?.quick) {
-    rows.push({ id: 'quick', title: `Quick ${SESSION.quickCount}`, detail: `${plural(SESSION.quickCount, 'question')}, about ${SESSION.quickMinutes} minutes${name ? ` in ${name}` : ''}`,
+    rows.push({ id: 'quick', title: 'Quick practice', detail: `${plural(SESSION.quickCount, 'question')}, about ${SESSION.quickMinutes} minutes${name ? ` in ${name}` : ''}`,
       href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance }), badge: String(SESSION.quickCount) });
   }
   rows.push({ id: 'full', title: 'Full mock', detail: `${SESSION.fullCount} questions, ${SESSION.fullMinutes} minutes${name ? ` in ${name}` : ''}`,
     href: practiceHref({ subject: chosen, mode: 'full' }), graphic: 'paper', subject: chosen, cost: costLine('full', { pro, balance }) });
-  const ntaLocked = SESSION.ntaPro && !pro;
   rows.push({ id: 'nta', title: 'NTA mode', detail: `${SESSION.ntaCount} questions, ${SESSION.ntaMinutes} minutes on the exam-style screen`,
     // Locked: Practice shows the screen preview and what Pro adds, so the row still opens it.
-    href: practiceHref({ subject: chosen, mode: 'nta', screen: 'nta' }), graphic: 'nta', subject: chosen, cost: costLine('nta', { pro, balance }), tag: ntaLocked ? 'Pro' : null });
+    href: practiceHref({ subject: chosen, mode: 'nta', screen: 'nta' }), graphic: 'nta', subject: chosen, cost: costLine('nta', { pro, balance }), tag: null });
   const choose = { id: 'choose', title: 'Choose your own', detail: 'Any subject, chapters, mode and length', href: PRACTICE_HREF, graphic: 'fan', subjects: subjects.slice(0, 3) };
   return { hero, rows, choose };
 }

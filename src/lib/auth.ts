@@ -5,6 +5,7 @@ import { Database } from "@/../data/db";
 import { supabaseAdmin } from '@/lib/supabase';
 import { AUTH_STALE_HEADER, isTransientAuthError } from '@/lib/supabase-auth-errors';
 import { ensureDbUser, hasConfirmedEmail, readCookieUser } from '@/lib/server/cookieSession';
+import { countSignup } from '@/lib/server/funnelStore';
 
 // Live sign-in is Supabase only (Google OAuth with PKCE and the emailed code). The old
 // next-auth setup and its /api/auth/[...nextauth] route were removed on 13 Oct 2026: nothing
@@ -68,7 +69,17 @@ export async function authWithStatus(request?: Request): Promise<{ session: any;
     name: supabaseUser.user_metadata?.full_name || supabaseUser.user_metadata?.name || null,
     email: supabaseUser.email,
     image: supabaseUser.user_metadata?.avatar_url || null,
-  }, Database);
+  }, Database, {
+    // Aggregate funnel only: one count for the platform category of this request, nothing about the
+    // person. Runs once, when the account row is first created.
+    onCreated: async () => {
+      let requestHeaders: Headers | null = request?.headers || null;
+      if (!requestHeaders) {
+        try { requestHeaders = await headers(); } catch { requestHeaders = null; }
+      }
+      await countSignup(requestHeaders);
+    },
+  });
   if (!dbUser) return { session: null, transient: false };
 
   return {

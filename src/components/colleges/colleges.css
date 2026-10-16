@@ -1,0 +1,98 @@
+/* ==========================================================================
+   MY COLLEGES  scope: .app-shell
+   Today's short ladder, the Account list and the Compass row key. Tokens only (--a-*), so Night and
+   Day match. Targets are 44 px. Motion answers a tap (150 ms, transform and opacity) and is off under
+   reduced motion. A row that has not loaded keeps its height, so nothing jumps when it arrives.
+   ========================================================================== */
+
+.app-shell .mc-card { display: grid; gap: 14px; align-content: start; min-width: 0; padding: clamp(18px, 3vw, 24px); }
+.app-shell .mc-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-width: 0; }
+.app-shell .mc-h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+.app-shell .mc-count { font-variant-numeric: tabular-nums; font-size: 13px; font-weight: 700; color: var(--a-ink-2); white-space: nowrap; }
+.app-shell .mc-lede { margin: -4px 0 0; max-width: 56ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .mc-note { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
+
+/* Plain divided rows: no border or fill of their own inside the card. */
+.app-shell .mc-list { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.app-shell .mc-row {
+  display: flex; align-items: center; gap: 12px; min-width: 0; min-height: 56px; padding: 10px 0;
+  border-top: 1px solid var(--a-line);
+}
+.app-shell .mc-row:first-child { border-top: 0; }
+.app-shell .mc-row--quiet { min-height: 56px; }
+.app-shell .mc-bar { display: block; width: 62%; height: 12px; border-radius: 6px; background: var(--a-line); opacity: 0.8; }
+.app-shell .mc-place {
+  flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  font: 800 13px/1 var(--font-display); color: var(--a-ink); border: 1px solid var(--a-line-strong);
+}
+.app-shell .mc-row:first-child .mc-place { background: var(--volt, #d2f000); border-color: transparent; color: #0b1000; }
+.app-shell .mc-name { display: grid; gap: 2px; min-width: 0; flex: 1 1 auto; }
+.app-shell .mc-name b { font: 700 15px/1.3 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.app-shell .mc-name span { font-size: 13px; line-height: 1.35; color: var(--a-ink-3); overflow-wrap: anywhere; }
+/* Account rows: the name takes the full width; move and remove sit on a second line under it. */
+.app-shell .mc-row--edit { display: grid; grid-template-columns: 28px minmax(0, 1fr); column-gap: 12px; row-gap: 2px; align-items: start; }
+.app-shell .mc-row--edit .mc-place { margin-top: 2px; }
+.app-shell .mc-row--edit .mc-tools { grid-column: 2; margin-left: -12px; }
+.app-shell .mc-tools { flex: none; display: flex; align-items: center; gap: 2px; }
+@media (min-width: 560px) {
+  .app-shell .mc-row--edit { grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; }
+  .app-shell .mc-row--edit .mc-place { margin-top: 0; }
+  .app-shell .mc-row--edit .mc-tools { grid-column: 3; margin-left: 0; }
+}
+
+.app-shell .mc-icon {
+  display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 12px;
+  background: transparent; color: var(--a-ink-2); cursor: pointer; touch-action: manipulation;
+  transition: background-color 150ms var(--a-ease), color 150ms var(--a-ease), transform 100ms var(--a-ease);
+}
+.app-shell .mc-icon:active:not(:disabled):not([aria-disabled='true']) { transform: scale(0.94); }
+.app-shell .mc-icon:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }
+.app-shell .mc-icon:is(:disabled, [aria-disabled='true']) { opacity: 0.35; cursor: not-allowed; }
+.app-shell .mc-icon[aria-disabled='true']:active { transform: none; }
+.app-shell .mc-undo { min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--a-ink); font: 650 14px var(--font-body); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.app-shell .mc-icon--remove { color: var(--a-bad-text); }
+@media (hover: hover) and (pointer: fine) { .app-shell .mc-icon:hover:not(:disabled) { background: var(--a-hover); color: var(--a-ink); } }
+
+.app-shell .mc-link {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--a-accent-text); font: 700 14px/1.2 var(--font-body); text-decoration: none; text-underline-offset: 3px;
+}
+.app-shell .mc-link:focus-visible, .app-shell .mc-more:focus-visible, .app-shell .mc-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .mc-link:hover, .app-shell .mc-more:hover { text-decoration: underline; } }
+.app-shell .mc-more { display: inline-flex; align-items: center; min-height: 44px; color: var(--a-accent-text); font: 700 14px/1.2 var(--font-body); text-decoration: none; text-underline-offset: 3px; }
+
+.app-shell .mc-empty { display: grid; gap: 12px; justify-items: start; }
+.app-shell .mc-empty p { margin: 0; max-width: 52ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .mc-key {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px;
+  border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
+  font: 700 14px/1.2 var(--font-display); text-decoration: none; cursor: pointer; touch-action: manipulation;
+  transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease);
+}
+.app-shell .mc-key:active { transform: scale(0.98); }
+@media (hover: hover) and (pointer: fine) { .app-shell .mc-key:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
+
+.app-shell .mc-foot { display: grid; gap: 10px; justify-items: start; }
+.app-shell .mc-notice { margin: 0; min-height: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-bad-text); }
+.app-shell .mc-notice:empty { display: none; }
+
+/* The key on a Compass college row. */
+.app-shell .mc-add {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 14px;
+  border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
+  font: 700 13px/1.2 var(--font-display); cursor: pointer; touch-action: manipulation; text-align: left;
+  transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), color 150ms var(--a-ease), transform 100ms var(--a-ease);
+}
+.app-shell .mc-add:active:not(:disabled) { transform: scale(0.97); }
+.app-shell .mc-add:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .mc-add:disabled { opacity: 0.5; cursor: progress; }
+.app-shell .mc-add[data-on] { border-color: color-mix(in srgb, var(--a-accent-text) 55%, transparent); color: var(--a-accent-text); }
+@media (hover: hover) and (pointer: fine) { .app-shell .mc-add:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); } }
+.app-shell .mc-full { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; color: var(--a-ink-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .mc-icon, .app-shell .mc-key, .app-shell .mc-add { transition: none; }
+  .app-shell .mc-icon:active:not(:disabled), .app-shell .mc-key:active, .app-shell .mc-add:active:not(:disabled) { transform: none; }
+}
+/* Signed out, on the public calculator: a quiet text link in place of the add key. */
+.mc-signin { display: inline-flex; align-items: center; min-height: 44px; font-size: 0.8125rem; font-weight: 600; color: inherit; text-decoration: underline; text-underline-offset: 4px; }

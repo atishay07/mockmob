@@ -14,7 +14,7 @@ import {
 } from './attempt_ledger.js';
 import { buildMistakeInsights } from './mistake_insights.js';
 import { buildMistakeLab } from './mistake_lab.js';
-import { buildLabLoop } from './lab_loop.js';
+import { buildLabLoop, buildLabSlice4 } from './lab_loop.js';
 
 export const SWOT_VERSION = 1;
 
@@ -445,8 +445,13 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
  * `labLoop: true` adds slice 3 to the Lab (data/lab_loop.js: acrossMocks, repairOrder, rules, prove.ruleCheck);
  * `ruleSourcesOf({ attempt, allAttempts })` (server only: src/lib/server/ruleBook.js loadRuleSources) gives the
  * repairs and playbook rows the rules and the rule check need; without it, or when it fails, those two are null.
+ * `labSlice4: { atlasOf, cardsOf }` adds slice 4 (data/lab_loop.js buildLabSlice4): lab.traps, the trap tag per wrong
+ * answer, and lab.prove.later, which wrong answers come back in Revise. `atlasOf({ attempt, allAttempts })` (server only:
+ * src/lib/server/trapAtlas.js) gives the trap atlas rows for this paper's questions and `cardsOf({ attempt })`
+ * (src/lib/server/revise.js) the student's Revise cards for them; a read that fails is skipped, so the format rules
+ * still tag and `later` only speaks of a recent paper. Without the option the Lab is exactly slice 3.
  */
-export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, cohortOf = null, labLoop = false, ruleSourcesOf = null, swotEnabled = true, now = Date.now(), warn = () => {} }) {
+export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, cohortOf = null, labLoop = false, ruleSourcesOf = null, labSlice4 = null, swotEnabled = true, now = Date.now(), warn = () => {} }) {
   const out = { recap: null, missedBefore: {}, mistakeInsights: {}, lab: null, ...(swotEnabled ? { swot: null } : {}) };
   let allAttempts;
   try { allAttempts = await loadAttempts(); } catch (e) { warn('history', e); return out; }
@@ -464,6 +469,15 @@ export async function resultHistory({ attempt, answerReviews = {}, answerReviewS
       let sources = null;
       if (ruleSourcesOf) { try { sources = (await ruleSourcesOf({ attempt, allAttempts })) ?? null; } catch (e) { warn('ruleSources', e); } }
       Object.assign(out.lab, buildLabLoop({ attempt, allAttempts, answerReviews, lab: out.lab, sources, warn }));
+    }
+    if (out.lab && labSlice4) {
+      let atlas = null;
+      let cards = null;
+      if (labSlice4.atlasOf) { try { atlas = (await labSlice4.atlasOf({ attempt, allAttempts })) ?? null; } catch (e) { warn('atlas', e); } }
+      if (labSlice4.cardsOf) { try { cards = (await labSlice4.cardsOf({ attempt })) ?? null; } catch (e) { warn('reviseCards', e); } }
+      const slice4 = buildLabSlice4({ attempt, allAttempts, answerReviews, lab: out.lab, atlas, cards, now, warn });
+      if (slice4.traps) out.lab.traps = slice4.traps;
+      if (slice4.later) out.lab.prove = { ...(out.lab.prove || {}), later: slice4.later };
     }
   }
   const ledgerGroups = out.lab && (out.lab.state === 'ready' || out.lab.state === 'basic') ? out.lab.groups.map((g) => g.id) : null;

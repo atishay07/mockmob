@@ -10,6 +10,7 @@ import ScoreRecoveryLab from '@/components/ScoreRecoveryLab';
 import { QuestionStrip } from '@/components/result/Replay';
 import SwotPanel from '@/components/result/SwotPanel';
 import OthersAnswered, { OptionShare, shareTone } from '@/components/result/OthersAnswered';
+import TrapTag from '@/components/result/TrapTag';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
 import KeyReviewLog from '@/components/recovery/KeyReviewLog';
 import AnswerCorrectionNotice from '@/components/recovery/AnswerCorrectionNotice';
@@ -278,7 +279,7 @@ export default function ResultPageClient({ previewId = null }) {
       <header className="rp-hero" data-mobi={reaction ? undefined : 'none'}>
         {reaction ? <div className="rp-hero__pip pip-drill-result"><MobiReact act={reaction.act} size={84} label={reaction.alt} still={engaged || reading != null} /></div> : null}
         <div className="rp-hero__main">
-          <p className="rp-eyebrow">Session complete · {subjectName(attempt.subject)} · {attempt.total} questions{timing ? ` · ${formatDuration(timing.totalMs)}` : ''}</p>
+          <p className="rp-eyebrow">Session complete, {subjectName(attempt.subject)}, {attempt.total} questions{timing ? `, ${formatDuration(timing.totalMs)}` : ''}</p>
           <h1 className="rp-hero__score"><b data-tone={marks.scored < 0 ? 'bad' : isPass ? 'good' : 'mid'}>{marks.scored < 0 ? '−' : ''}<CountUp value={Math.abs(marks.scored)} /></b><span>/ {marks.max} marks</span></h1>
           <p className="rp-hero__line">{verdictLine(analysis)}{reaction?.line ? ` ${reaction.line}` : ''}</p>
         </div>
@@ -357,6 +358,8 @@ export default function ResultPageClient({ previewId = null }) {
             const repairInsights = insights && timeRow?.lines.length ? { ...insights, lines: (insights.lines || []).filter(l => l?.kind !== 'change' && l?.kind !== 'time') } : insights;
             // How others answered (server-built; null under 10 other students, on held keys, or without the Lab).
             const others = attempt.lab?.byQuestion?.[q.id]?.others || null;
+            // The trap tag under the student's own wrong option (server-built: the trap atlas, then the question format).
+            const trap = isWrong ? attempt.lab?.traps?.tags?.[q.id] || null : null;
             return (
               <li key={q.id} id={`q-${number}`} className="rp-q" hidden={filter !== 'all' && filter !== verdict} data-verdict={verdict} data-open={isOpen || undefined}>
                 {arrived?.number === number ? <span key={arrived.n} className="rp-q__ring" aria-hidden="true" /> : null}
@@ -386,8 +389,9 @@ export default function ResultPageClient({ previewId = null }) {
                           <li key={j} data-state={corrected || (!review && key) ? 'key' : mine ? 'mine' : undefined} data-others={others ? '' : undefined}>
                             <span className="rp-options__letter">{LETTERS[j]}</span>
                             <span className="rp-options__text">{displayValue(plainOptionTexts(q.options)[j] ?? opt, 'Option')}</span>
-                            {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick · corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick · key at submission' : 'Key at submission' : 'Your pick'}</span> : null}
+                            {mine || key || corrected ? <span className="rp-options__tag">{corrected ? mine ? 'Your pick, corrected answer' : 'Corrected answer' : key ? mine ? 'Your pick, key at submission' : 'Key at submission' : 'Your pick'}</span> : null}
                             {others ? <OptionShare others={others} index={j} tone={shareTone(others, j, given)} /> : null}
+                            {trap && trap.index === j && mine ? <TrapTag trap={trap} /> : null}
                           </li>
                         );
                       })}
@@ -434,7 +438,7 @@ export default function ResultPageClient({ previewId = null }) {
       ) : null}
 
       <nav className="rp-links" aria-label="More from your record">
-        <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Full record in PrepOS</Link>
+        <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Your full record</Link>
         <Link href="/review"><AppIcon name="review" size={16} />All saved mistakes</Link>
         <Link href="/analytics"><AppIcon name="radar" size={16} />Open Radar</Link>
         <Link href="/dashboard"><AppIcon name="practice" size={16} />Back to Practice</Link>

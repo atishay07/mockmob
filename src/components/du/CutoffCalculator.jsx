@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Check, ChevronDown, Printer, RotateCcw, Search, Share2, Sparkles, X } from 'lucide-react';
+import { Check, ChevronDown, Printer, RotateCcw, Search, Share2, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { SubjectPicker } from '@/components/du/SubjectPicker';
 import EligibleMeter, { RollingCount } from '@/components/du/EligibleMeter';
@@ -37,6 +37,8 @@ import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import '@/components/du/du.css';
+import { AddToMyColleges } from '@/components/colleges/MyColleges';
+import '@/components/du/du-flat.css';
 
 const PAGE_SIZE = 25;
 
@@ -53,6 +55,11 @@ function normName(s) {
 // ---------------------------------------------------------------------------------------
 // The exact Bulletin rules for a programme, checked against the student's subjects.
 
+function optionLabel(label) {
+  const n = { I: 1, II: 2, III: 3, IV: 4 }[String(label).replace(/^Combination /, '')];
+  return n ? `Option ${n}` : label;
+}
+
 function RulesList({ rows }) {
   return (
     <ul className="du-rules">
@@ -61,11 +68,11 @@ function RulesList({ rows }) {
           <span className="du-rules__mark" aria-hidden="true">{r.ok ? <Check size={13} strokeWidth={3} /> : <X size={13} strokeWidth={3} />}</span>
           <div>
             <p>
-              <b>{r.label}</b> {r.text}
+              <b>{optionLabel(r.label)}</b> {r.text}
             </p>
-            {r.ok ? <small>You meet this{r.secondary ? '. Considered only if seats remain after Combinations I and II' : ''}.</small> : null}
+            {r.ok ? <small>You meet this{r.secondary ? '. Considered only if seats remain after Options 1 and 2' : ''}.</small> : null}
             {!r.ok && r.missing.length > 0 ? <small>{r.missing.join(', ')}</small> : null}
-            {r.extraLanguage ? <small>The Bulletin also requires at least one language from List A.</small> : null}
+            {r.extraLanguage ? <small>The Bulletin also requires at least one language from its approved language list.</small> : null}
           </div>
         </li>
       ))}
@@ -75,7 +82,7 @@ function RulesList({ rows }) {
 
 // ---------------------------------------------------------------------------------------
 
-function SeatRow({ row, catIndex, category, score, groupName }) {
+function SeatRow({ row, catIndex, category, score, groupName, group, userId }) {
   const status = score != null ? seatStatus(score, row, catIndex) : null;
   const subtitle = normName(row[1]) === normName(groupName) ? '' : row[1];
   return (
@@ -85,7 +92,7 @@ function SeatRow({ row, catIndex, category, score, groupName }) {
         {subtitle ? <span>{subtitle}</span> : null}
       </div>
       <dl className="du-seat__cuts">
-        {['I', 'II', 'III'].map((label, i) => {
+        {[1, 2, 3].map((label, i) => {
           const arr = row[2 + i];
           const eff = effectiveCutoff(arr, catIndex);
           const viaUr = category !== 'UR' && arr && typeof arr[0] === 'number' && eff === arr[0] && arr[catIndex] !== arr[0];
@@ -100,12 +107,16 @@ function SeatRow({ row, catIndex, category, score, groupName }) {
           );
         })}
       </dl>
-      {status ? <span className="du-seat__status">{status.label}</span> : null}
+      <div className="du-seat__side">
+        {status ? <span className="du-seat__status">{status.label}</span> : null}
+        <AddToMyColleges userId={userId} programmeId={group?.id} programme={group?.name} college={row[0]} />
+      </div>
     </li>
   );
 }
 
 function CutoffTable({ group, catIndex, category, score }) {
+  const { user } = useAuth();
   const [state, setState] = useState({ status: 'loading', rows: [] });
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState(score != null ? 'fit' : 'high');
@@ -153,7 +164,7 @@ function CutoffTable({ group, catIndex, category, score }) {
     return state.rows.filter((r) => ['r1', 'r2', 'r3'].includes(seatStatus(score, r, catIndex).id)).length;
   }, [state.rows, score, catIndex]);
 
-  if (state.status === 'loading') return <p className="du-state">Loading college cutoffs…</p>;
+  if (state.status === 'loading') return <p className="du-state">Loading college cutoffs</p>;
   if (state.status === 'error') {
     return (
       <div className="du-state du-state--error">
@@ -188,7 +199,7 @@ function CutoffTable({ group, catIndex, category, score }) {
       ) : (
         <ul className="du-seats">
           {rows.slice(0, shown).map((row) => (
-            <SeatRow key={`${row[0]}|${row[1]}`} row={row} catIndex={catIndex} category={category} score={score} groupName={group.name} />
+            <SeatRow key={`${row[0]}|${row[1]}`} row={row} catIndex={catIndex} category={category} score={score} groupName={group.name} group={group} userId={user?.id} />
           ))}
         </ul>
       )}
@@ -208,7 +219,7 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
   let verdict = null;
   if (hasCutoffs && score != null) {
     const [, , lo, hi] = r1;
-    verdict = score >= hi ? 'Above every Round I cutoff' : score >= lo ? 'Within the Round I range' : 'Below every Round I cutoff';
+    verdict = score >= hi ? 'Above every Round 1 cutoff' : score >= lo ? 'Within the Round 1 range' : 'Below every Round 1 cutoff';
   }
   const panelId = `du-panel-${group.id}`;
   return (
@@ -221,14 +232,14 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
             {group.offerings > 0 ? <span>{group.colleges} {group.colleges === 1 ? 'college' : 'colleges'}</span> : <span>No CUET cutoff list published</span>}
             {hasCutoffs ? (
               <span className="mm-measure">
-                Round I ({category}): {formatScore(r1[2])} to {formatScore(r1[3])}
+                Round 1 ({category}): {formatScore(r1[2])} to {formatScore(r1[3])}
               </span>
             ) : null}
           </span>
           {matched ? (
             <span className="du-card__match">
-              <b>{matched.label}</b> {matched.text}
-              {secondary ? <em>Considered only if seats remain after Combinations I and II</em> : null}
+              <b>{optionLabel(matched.label)}</b> {matched.text}
+              {secondary ? <em>Considered only if seats remain after Options 1 and 2</em> : null}
             </span>
           ) : null}
           {group.eligibility.performanceTest ? <span className="du-card__flag">Merit also uses a separate performance or practical test</span> : null}
@@ -285,7 +296,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   const sideRef = useRef(null);
   const resultsRef = useRef(null);
 
-  // Load the data, then take the starting selection from the link (teaser, Radar, a shared URL)
+  // Load the data, then take the starting selection from the link (teaser, chapter review, a shared URL)
   // or from this device. After applying a link we remove its parameters, so a later reload
   // cannot override edits made since. The address bar is never rewritten while editing.
   useEffect(() => {
@@ -484,7 +495,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
               </div>
             </div>
             <label className="du-field">
-              <span className="du-label">Your programme-specific CUET score</span>
+              <span className="du-label">Target score</span>
               <input
                 className="du-input mm-measure"
                 inputMode="decimal"
@@ -494,7 +505,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                 aria-describedby="du-score-help"
               />
               <small id="du-score-help">
-                DU shows this per programme on your CSAS dashboard after results. Before results, enter a target. DU’s 2026 lists run up to {formatScore(data.meta.scoreRange[1])}.
+                Before results, enter the score you are aiming for. Once results are out, DU shows your actual score for each programme. DU’s 2026 lists run up to {formatScore(data.meta.scoreRange[1])}.
                 {scoreText && score == null ? ' Enter a number between 0 and 1000.' : ''}
               </small>
             </label>
@@ -544,12 +555,12 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                 ))}
               </ul>
               <p className="du-printonly">
-                Subjects: {selectedList.map((s) => s.title).join(', ')}. Category: {category}.{score != null ? ` Score: ${formatScore(score)}.` : ''} Source: University of Delhi CSAS UG 2026 documents. Historical cutoffs do not predict a future allocation.
+                Subjects: {selectedList.map((s) => s.title).join(', ')}. Category: {category}.{score != null ? ` Score: ${formatScore(score)}.` : ''} Source: University of Delhi admissions 2026 documents. Historical cutoffs do not predict a future allocation.
               </p>
 
               {unlocks.length > 0 ? (
                 <div className="du-unlocks">
-                  <p><Sparkles size={15} aria-hidden="true" /> Add one subject to open more programmes</p>
+                  <p>Add one subject to open more programmes</p>
                   <ul>
                     {unlocks.map((u) => (
                       <li key={u.id}>
@@ -646,12 +657,12 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         <div>
           <h2 id="du-cta-title" className="du-h2">Cutoffs are only half the plan.</h2>
           <p className="du-sub">
-            A cutoff gives you the target. Radar shows the chapters standing between you and it: finish one mock and every miss is traced back to its chapter.
+            A cutoff gives you the target. Chapter review shows the chapters standing between you and it: finish one mock and every miss is traced back to its chapter.
           </p>
           {practiceSubjects.length > 0 ? (
             <ul className="du-hubs" aria-label="Practise your subjects">
               {practiceSubjects.slice(0, 5).map((id) => (
-                <li key={id}><Link href={PRACTICE_HUBS[id]}>{subjectName(id)} practice<ArrowRight size={14} aria-hidden="true" /></Link></li>
+                <li key={id}><Link href={PRACTICE_HUBS[id]}>{subjectName(id)} practice</Link></li>
               ))}
             </ul>
           ) : null}
@@ -659,10 +670,9 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
         <div className="du-cta__actions">
           <Link href={isAuthenticated ? '/dashboard' : '/signup'} className="mm-btn mm-btn--primary">
             {isAuthenticated ? 'Go to Practice' : 'Start a free mock'}
-            <ArrowRight size={18} aria-hidden="true" />
           </Link>
           <Link href={isAuthenticated ? '/analytics' : '/features'} className="mm-btn mm-btn--secondary">
-            {isAuthenticated ? 'Open my Radar' : 'See how Radar works'}
+            {isAuthenticated ? 'Open my chapter review' : 'See how chapter review works'}
           </Link>
         </div>
       </section>

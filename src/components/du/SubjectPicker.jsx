@@ -50,7 +50,7 @@ export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) 
           type="search"
           value={query}
           onChange={(e) => onQuery(e.target.value)}
-          placeholder="Find your subject, e.g. Informatics Practices"
+          placeholder="Find a subject"
           autoComplete="off"
         />
         {query ? (
@@ -75,7 +75,7 @@ export function SubjectPicker({ catalog, selection, onToggle, query, onQuery }) 
       {languages.length > 0 ? (
         <fieldset className="du-group">
           <legend>
-            Language <small>List A, at least one</small>
+            Language <small>pick at least one</small>
           </legend>
           <div className="du-chips">
             {languages.map((l) => (

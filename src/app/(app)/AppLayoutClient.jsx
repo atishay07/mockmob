@@ -67,7 +67,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     fitMenu();
     window.addEventListener('resize', fitMenu);
     window.addEventListener('scroll', fitMenu, { passive: true });
-    const frame = requestAnimationFrame(() => sheet?.querySelector('a')?.focus({ preventScroll: true }));
+    const frame = requestAnimationFrame(() => sheet?.querySelector('.arena-nav-link')?.focus({ preventScroll: true }));
     const closeOnEscape = (event) => { if (event.key === 'Escape') { setMobileMenuOpen(false); opener?.focus({ preventScroll: true }); } };
     // The scrim closes on its own click, so a tap on it never falls through to the page beneath.
     const inMenu = (target) => target.closest?.('.arena-topbar, .arena-bottomnav, .arena-sheet, .arena-sheet-scrim');
@@ -210,7 +210,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       onClick={onNavigate}
     >
       <AppIcon name={tab.icon} />
-      {tab.label}
+      <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
     </Link>
   );
   const currentTitle = allTabs.find((tab) => isActive(tab.id))?.label
@@ -263,7 +263,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <CreditAmount kind="practice" amount={user?.isPremium ? 'unlimited' : (user?.creditBalance || 0)} unit={false} />
             </Link>
             {wallet.status !== 'idle' && (
-              <Link href="/mentor" className="arena-chip arena-chip--prepos arena-sm-up" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `PrepOS credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'PrepOS credits unavailable'}>
+              <Link href="/mentor" className="arena-chip arena-chip--prepos arena-sm-up" data-state={wallet.wallet?.state || 'unknown'} aria-label={wallet.wallet?.known ? `AI credits: ${wallet.wallet.total}${wallet.wallet.state === 'paused' ? ', paused' : ''}` : 'AI credits unavailable'}>
                 <CreditAmount kind="prepos" amount={wallet.wallet?.known ? wallet.wallet.total : null} unit={false} />
               </Link>
             )}
@@ -316,12 +316,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           <div className="arena-sheet-scrim arena-mobile-only" aria-hidden="true" onClick={() => setMobileMenuOpen(false)} />
           <div className="arena-sheet arena-mobile-only" id="arena-sheet" role="region" aria-label="More places">
             <span className="arena-sheet__handle" aria-hidden="true" />
-            {navGroups.map((group) => (
-              <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
-                <p className="arena-nav-label">{group.label}</p>
-                {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false)))}
-              </nav>
-            ))}
             <div className="arena-sheet__account">
               <Link href={previewLinks?.profile || '/profile'} className="arena-sheet__who" onClick={() => setMobileMenuOpen(false)}>
                 <Avatar name={user?.name} size="sm" />
@@ -348,6 +342,12 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 </button>
               </div>
             </div>
+            {navGroups.map((group) => (
+              <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
+                <p className="arena-nav-label">{group.label}</p>
+                {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false)))}
+              </nav>
+            ))}
           </div>
         </>
       )}

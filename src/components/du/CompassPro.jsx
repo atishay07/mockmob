@@ -4,23 +4,27 @@
 // Every number is either the student's own server-scored practice (projected with the +5/-1
 // arithmetic and a Wilson range) or a cutoff DU published for 2026. Nothing here is a
 // prediction, a normalised CUET score or an admission chance, and the copy says so.
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Lock, Plus, Sparkles, Target, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { decodeSelection, formatScore, loadIndex, loadOfferings, readSaved } from '@/lib/du/client';
 import { CATEGORY_LABELS, MAIN_CATEGORIES, effectiveCutoff, evaluateGroup } from '@/lib/du/eligibility';
 import { compareToCutoff } from '@/../data/compass_projection';
 import { Listbox } from '@/components/ui/controls/Listbox';
+import { useMyColleges } from '@/components/colleges/useMyColleges';
+import { MAX_COLLEGES, entryKey } from '@/lib/colleges/model.mjs';
 
-const SHORTLIST_LIMIT = 8;
-const ROUNDS = ['Round I', 'Round II', 'Round III'];
-const storeKey = (userId) => `mm.compass.shortlist.v1.${userId || 'anon'}`;
+const SHORTLIST_LIMIT = MAX_COLLEGES;
+const ROUNDS = ['Round 1', 'Round 2', 'Round 3'];
+// The shortlist used to live only in this browser. It is now My colleges, saved to the account and
+// shared with the app; a list found here is moved over once and then cleared.
+const legacyKey = (userId) => `mm.compass.shortlist.v1.${userId || 'anon'}`;
 
-function readShortlist(userId) {
-  try { const list = JSON.parse(window.localStorage.getItem(storeKey(userId)) || '[]'); return Array.isArray(list) ? list.slice(0, SHORTLIST_LIMIT) : []; } catch { return []; }
+function readLegacy(userId) {
+  try { const list = JSON.parse(window.localStorage.getItem(legacyKey(userId)) || '[]'); return Array.isArray(list) ? list.slice(0, SHORTLIST_LIMIT) : []; } catch { return []; }
 }
-function writeShortlist(userId, list) {
-  try { window.localStorage.setItem(storeKey(userId), JSON.stringify(list)); } catch { /* storage blocked: the list lasts this visit */ }
+function clearLegacy(userId) {
+  try { window.localStorage.removeItem(legacyKey(userId)); } catch { /* storage blocked: nothing to clear */ }
 }
 
 function useCompassPro(userId) {
@@ -54,7 +58,7 @@ function PaperRow({ paper, max }) {
   const pct = (v) => `${(v / max) * 100}%`;
   return (
     <li className="cpro-paper">
-      <span className="cpro-paper__name">{paper.name}<small>{paper.n} questions · {paper.accuracy.pct}% accuracy · {paper.attemptShare}% attempted</small></span>
+      <span className="cpro-paper__name">{paper.name}<small>{paper.n} questions, {paper.accuracy.pct}% accuracy, {paper.attemptShare}% attempted</small></span>
       <span className="cpro-paper__track" aria-hidden="true">
         <i style={{ left: pct(paper.low), width: `calc(${pct(paper.high)} - ${pct(paper.low)})` }} />
         <b style={{ left: pct(paper.mid) }} />
@@ -64,23 +68,15 @@ function PaperRow({ paper, max }) {
   );
 }
 
+// Free students: one quiet row after the calculator, one sentence and one button. The tool above stays free.
 function Locked() {
   return (
-    <section className="cpro cpro--locked" aria-labelledby="cpro-title">
-      <div className="cpro-head">
-        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />Compass Pro</span>
-        <h2 id="cpro-title">Map your practice to the colleges you want.</h2>
-        <p>Pro turns your own practice into a projected score band, checks it against the DU cutoffs for your shortlist, and names the paper that can move your total the most.</p>
+    <section className="cpro cpro--locked cpro-quiet" aria-labelledby="cpro-title">
+      <div className="cpro-quiet__text">
+        <h2 id="cpro-title">Compass Pro</h2>
+        <p>Projects each paper from your own practice, with a range, and checks it against the cutoffs of up to 8 colleges you choose.</p>
       </div>
-      <ul className="cpro-features">
-        <li><Target size={18} aria-hidden="true" /><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, with an honest range.</span></li>
-        <li><Plus size={18} aria-hidden="true" /><b>Your DU shortlist</b><span>Up to 8 college and programme targets, compared round by round in your category.</span></li>
-        <li><ArrowRight size={18} aria-hidden="true" /><b>Next move</b><span>The paper with the most marks open, and its weakest chapter, one tap from practice.</span></li>
-      </ul>
-      <div className="cpro-cta">
-        <Link href="/pricing" className="btn-volt md"><Lock size={16} aria-hidden="true" />Unlock Compass Pro</Link>
-        <span>Eligibility and published cutoffs below stay free for everyone.</span>
-      </div>
+      <Link href="/pricing" className="btn-outline md">See Compass Pro</Link>
     </section>
   );
 }
@@ -88,18 +84,21 @@ function Locked() {
 export default function CompassPro({ userId, seedSubjects = [] }) {
   const [state, retry] = useCompassPro(userId);
   const [index, setIndex] = useState(null);
-  const [shortlist, setShortlist] = useState([]);
+  const mine = useMyColleges(userId);
+  const shortlist = useMemo(() => mine.colleges.map((c) => ({ groupId: c.programmeId, college: c.college, programme: c.programme })), [mine.colleges]);
+  const moved = useRef(false);
   const [category, setCategory] = useState('UR');
   const [programme, setProgramme] = useState('');
   const [college, setCollege] = useState('');
   const [offerings, setOfferings] = useState({});
+  // Per programme: absent while loading, 'error' when the cutoff file failed. Missing data is never shown as DU's.
+  const [offerFail, setOfferFail] = useState({});
 
   useEffect(() => {
     if (state.status !== 'ready') return undefined;
     let alive = true;
     const saved = readSaved();
     const timer = window.setTimeout(() => {
-      setShortlist(readShortlist(userId));
       if (saved?.c && MAIN_CATEGORIES.includes(saved.c)) setCategory(saved.c);
     }, 0);
     loadIndex().then((data) => { if (alive) setIndex(data); }).catch(() => {});
@@ -111,11 +110,30 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
   useEffect(() => {
     let alive = true;
     for (const id of needed) {
-      if (offerings[id]) continue;
-      loadOfferings(id).then((data) => { if (alive) setOfferings((prev) => ({ ...prev, [id]: data })); }).catch(() => {});
+      if (offerings[id] || offerFail[id]) continue;
+      loadOfferings(id)
+        .then((data) => { if (alive) setOfferings((prev) => ({ ...prev, [id]: data })); })
+        .catch(() => { if (alive) setOfferFail((prev) => ({ ...prev, [id]: true })); });
     }
     return () => { alive = false; };
-  }, [needed, offerings]);
+  }, [needed, offerings, offerFail]);
+  const retryOffer = (id) => setOfferFail((prev) => { const next = { ...prev }; delete next[id]; return next; });
+
+  // Move a shortlist found in this browser onto the account list, once, and only after the server list has loaded.
+  useEffect(() => {
+    if (moved.current || state.status !== 'ready' || mine.status !== 'ready' || !index || mine.busy) return;
+    moved.current = true;
+    const legacy = readLegacy(userId);
+    if (!legacy.length) return;
+    const have = new Set(mine.colleges.map(entryKey));
+    const extra = legacy
+      .filter((t) => t && typeof t.groupId === 'string' && typeof t.college === 'string')
+      .map((t) => ({ programmeId: t.groupId, programme: index.groups.find((g) => g.id === t.groupId)?.name || '', college: t.college }))
+      .filter((e) => !have.has(entryKey(e)));
+    const merged = [...mine.colleges, ...extra].slice(0, SHORTLIST_LIMIT);
+    if (!extra.length) { clearLegacy(userId); return; }
+    mine.replace(merged).then((ok) => { if (ok) clearLegacy(userId); else moved.current = false; });
+  }, [state.status, mine, index, userId]);
 
   const eligible = useMemo(() => {
     if (!index) return [];
@@ -125,7 +143,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
   }, [index, seedSubjects]);
 
   if (state.status === 'locked') return <Locked />;
-  if (state.status === 'loading') return <section className="cpro" aria-busy="true"><p className="cpro-muted">Reading your practice record…</p></section>;
+  if (state.status === 'loading') return <section className="cpro" aria-busy="true"><p className="cpro-muted">Reading your practice record</p></section>;
   if (state.status === 'error') return <section className="cpro"><p className="cpro-muted">Compass Pro could not read your record just now. <button type="button" className="pr-link" onClick={retry}>Try again</button></p></section>;
 
   const { projection } = state;
@@ -133,22 +151,21 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
   const band = { low: total.low, mid: total.mid, high: total.high };
   const ready = papers.some((p) => p.status === 'ready');
   const add = () => {
-    if (!programme || !college || shortlist.some((t) => t.groupId === programme && t.college === college)) return;
-    const list = [...shortlist, { groupId: programme, college }].slice(0, SHORTLIST_LIMIT);
-    setShortlist(list); writeShortlist(userId, list); setCollege('');
+    if (!programme || !college || mine.status !== 'ready' || shortlist.some((t) => t.groupId === programme && t.college === college)) return;
+    const name = eligible.find((g) => g.id === programme)?.name || offerings[programme]?.name || '';
+    mine.add({ programmeId: programme, programme: name, college });
+    setCollege('');
   };
   const remove = (target) => {
-    const list = shortlist.filter((t) => !(t.groupId === target.groupId && t.college === target.college));
-    setShortlist(list); writeShortlist(userId, list);
+    mine.remove({ programmeId: target.groupId, college: target.college });
   };
   const colleges = offerings[programme]?.rows?.map((r) => r[0]) || [];
 
   return (
     <section className="cpro" aria-labelledby="cpro-title">
       <div className="cpro-head">
-        <span className="cpro-badge"><Sparkles size={14} aria-hidden="true" />Compass Pro</span>
         <h2 id="cpro-title">Your practice, mapped to your colleges.</h2>
-        <p>If exam day went exactly like your practice so far, this is what each paper would be worth. It is a projection from your own record, not a prediction: CUET scores are normalised and your practice will change it.</p>
+        <p>Compass Pro shows what each paper would be worth if exam day went exactly like your practice so far. It is a projection from your own record, not a prediction: CUET scores are normalised and your practice will change it.</p>
       </div>
 
       <div className="cpro-grid">
@@ -156,12 +173,13 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
           <h3>Practice projection</h3>
           {ready ? (
             <>
-              <p className="cpro-total mm-measure"><b>{total.mid}</b><span> / {total.max}</span></p>
-              <p className="cpro-range">Likely range {total.low}–{total.high}{total.complete ? ' from your strongest language and three domain papers' : ` from ${total.count} of 4 papers. Practise more subjects for a full total`}</p>
+              {/* The range leads at reading weight; a three-digit midpoint beside a wide range would be false precision. */}
+              <p className="cpro-total mm-measure"><b>{total.low} to {total.high}</b><span> of {total.max}</span></p>
+              <p className="cpro-range">{total.complete ? 'From your strongest language and three domain papers' : `From ${total.count} of 4 papers. Practise more subjects for a full total`}. Midpoint about {Math.round(total.mid / 25) * 25}.</p>
             </>
           ) : <p className="cpro-muted">Practise at least {projection.minSample} questions in a subject to project its paper.</p>}
           <ul className="cpro-papers">{papers.map((p) => <PaperRow key={p.subject} paper={p} max={paperMax} />)}</ul>
-          {!papers.length ? <Link href="/dashboard" className="pr-link">Start a practice session<ArrowRight size={14} aria-hidden="true" /></Link> : null}
+          {!papers.length ? <Link href="/dashboard" className="pr-link">Start a practice session</Link> : null}
         </article>
 
         <article className="cpro-card cpro-next">
@@ -170,7 +188,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
             <>
               <p className="cpro-next__lead"><b>{next.name}</b> has the most room: {next.open} of {paperMax} marks are still open in your practice.</p>
               {next.chapter ? <p className="cpro-muted">Start with {next.chapter.name}: {next.chapter.wrong} wrong and {next.chapter.skip} blank in {next.chapter.n} questions.</p> : null}
-              <Link href={`/dashboard?subject=${encodeURIComponent(next.subject)}&mode=quick`} className="btn-volt md">Practise {next.name}<ArrowRight size={16} aria-hidden="true" /></Link>
+              <Link href={`/dashboard?subject=${encodeURIComponent(next.subject)}&mode=quick`} className="btn-volt md">Practise {next.name}</Link>
             </>
           ) : <p className="cpro-muted">Your next move appears once a paper has enough practice.</p>}
         </article>
@@ -178,7 +196,7 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
 
       <article className="cpro-card cpro-short">
         <div className="cpro-short__head">
-          <h3>Your DU shortlist</h3>
+          <h3>My colleges</h3>
           <label className="cpro-select"><span id="cpro-l-category">Category</span>
             <Listbox labelledBy="cpro-l-category" sheetTitle="Category" size="sm" value={category} onChange={setCategory} options={MAIN_CATEGORIES.map((c) => ({ value: c, label: CATEGORY_LABELS[c] || c }))} />
           </label>
@@ -187,24 +205,27 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
           <div className="cpro-add">
             <label className="cpro-select"><span id="cpro-l-programme">Programme you are eligible for</span>
               <Listbox labelledBy="cpro-l-programme" sheetTitle="Programme" size="sm" value={programme} disabled={!index}
-                placeholder={index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes…'}
+                placeholder={index ? (eligible.length ? 'Choose a programme' : 'Tick your subjects in the calculator below') : 'Loading programmes'}
                 options={eligible.map((g) => ({ value: g.id, label: g.name }))}
                 onChange={(value) => { setProgramme(value); setCollege(''); }} />
             </label>
             <label className="cpro-select"><span id="cpro-l-college">College</span>
               <Listbox labelledBy="cpro-l-college" sheetTitle="College" size="sm" value={college} disabled={!colleges.length}
-                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges…') : 'Choose a programme first'}
+                placeholder={programme ? (colleges.length ? 'Choose a college' : 'Loading colleges') : 'Choose a programme first'}
                 options={colleges.map((c) => ({ value: c, label: c }))}
                 onChange={setCollege} />
             </label>
-            <button type="button" className="btn-outline md" onClick={add} disabled={!programme || !college}><Plus size={16} aria-hidden="true" />Add target</button>
+            <button type="button" className="btn-outline md" onClick={add} disabled={!programme || !college || mine.status !== 'ready' || mine.busy}>Add target</button>
           </div>
-        ) : <p className="cpro-muted">Your shortlist is full. Remove a target to add another.</p>}
+        ) : <p className="cpro-muted">My colleges is full. Remove a target to add another.</p>}
+        {mine.notice ? <p className="cpro-muted" role="status">{mine.notice}</p> : null}
 
         {shortlist.length ? (
           <ul className="cpro-targets">
             {shortlist.map((t) => {
               const data = offerings[t.groupId];
+              const failed = !data && offerFail[t.groupId];
+              const loadingCutoffs = !data && !failed;
               const row = data?.rows?.find((r) => r[0] === t.college);
               const catIndex = data ? data.categories.indexOf(category) : -1;
               const cutoffs = row ? [row[2], row[3], row[4]].map((r) => effectiveCutoff(r, catIndex < 0 ? 0 : catIndex)) : [null, null, null];
@@ -212,7 +233,14 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
               const verdict = ready && total.complete ? compareToCutoff(band, first) : null;
               return (
                 <li key={`${t.groupId}::${t.college}`} className="cpro-target" data-position={verdict?.position || 'unknown'}>
-                  <div className="cpro-target__who"><b>{t.college}</b><span>{data?.name || '…'}</span></div>
+                  <div className="cpro-target__who"><b>{t.college}</b><span>{data?.name || t.programme || ''}</span></div>
+                  {failed ? (
+                    <p className="cpro-target__verdict" role="status">Cutoffs did not load. <button type="button" className="pr-link" onClick={() => retryOffer(t.groupId)}>Try again</button></p>
+                  ) : loadingCutoffs ? (
+                    <div className="cpro-target__rounds" role="status" aria-label="Loading cutoffs"><span className="skeleton cpro-skel" /><span className="skeleton cpro-skel" /><span className="skeleton cpro-skel" /></div>
+                  ) : !row ? (
+                    <p className="cpro-target__verdict">This college is not in DU’s 2026 list for this programme.</p>
+                  ) : <>
                   <dl className="cpro-target__rounds">
                     {cutoffs.map((c, i) => <div key={ROUNDS[i]}><dt>{ROUNDS[i]}</dt><dd className="mm-measure">{c === null ? 'Not listed' : formatScore(c)}</dd></div>)}
                   </dl>
@@ -222,12 +250,13 @@ export default function CompassPro({ userId, seedSubjects = [] }) {
                       verdict.position === 'within' ? 'The earliest listed cutoff sits inside your band: within reach.' :
                       verdict.position === 'below' ? `Your band is ${verdict.by}+ below the earliest listed cutoff.` : 'DU listed no cutoff for this category.'}
                   </p>
-                  <button type="button" className="cpro-remove" onClick={() => remove(t)} aria-label={`Remove ${t.college} from your shortlist`}><Trash2 size={16} aria-hidden="true" /></button>
+                  </>}
+                  <button type="button" className="cpro-remove" onClick={() => remove(t)} aria-label={`Remove ${t.college} from My colleges`}><Trash2 size={16} aria-hidden="true" /></button>
                 </li>
               );
             })}
           </ul>
-        ) : <p className="cpro-muted">Add colleges you are aiming for. They stay on this device.</p>}
+        ) : mine.status === 'error' ? <p className="cpro-muted">My colleges did not load. <button type="button" className="pr-link" onClick={mine.retry}>Try again</button></p> : <p className="cpro-muted">{mine.status === 'ready' ? 'Add colleges you are aiming for. They are saved to your account and show in the app.' : 'Loading My colleges'}</p>}
         <p className="cpro-fine">Cutoffs are DU’s published 2026 minimum allocation scores; reserved categories clear a round at the lower of their own or the UR cutoff. 2027 cutoffs will differ with seats and demand.</p>
       </article>
     </section>

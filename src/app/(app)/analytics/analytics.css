@@ -4,7 +4,7 @@
 .tr__plot { position: relative; touch-action: pan-y; cursor: crosshair; border-radius: 12px; }
 .tr__plot:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; }
 .tr__plot svg { display: block; overflow: visible; }
-.tr__dot { transition: opacity 320ms ease, r 200ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)); }
+.tr__dot { transition: opacity 320ms ease, r 200ms var(--mk-spring); }
 .tr__rule { transition: opacity 200ms ease; }
 .tr__halo { transform-box: fill-box; transform-origin: center; animation: tr-halo 520ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) both; }
 @keyframes tr-halo { from { transform: scale(0.8); opacity: 0.9; } to { transform: scale(2.6); opacity: 0; } }
@@ -13,7 +13,11 @@
 .tr__chip i { font-style: normal; font-size: 12px; color: var(--a-ink-3); }
 .tr__chip[data-tone='up'] { border-color: var(--a-volt-line); }
 .tr__chip[data-tone='up'] b { color: var(--a-accent-text); }
-.tr__chip[data-tone='down'] b { color: var(--a-bad-text); }
+/* A lower score is not a danger state (R-015): the fall reads in plain ink, the words say "down". */
+.tr__chip[data-tone='down'] b { color: var(--a-ink); }
+/* The scrub rule shows only while the student is reading the chart, not as a stray line at the last point. */
+.tr__plot:not(:hover):not(:focus-visible):not(:active) .tr__rule { opacity: 0; }
+.tr__plot { padding-right: 10px; }
 
 .rd-bar { grid-column: 2 / -1; display: block; height: 5px; margin-top: 4px; border-radius: 999px; background: var(--a-line); overflow: hidden; }
 .rd-bar i { display: block; height: 100%; width: 100%; border-radius: inherit; background: var(--a-select); transform: scaleX(var(--w, 1)); transform-origin: left center; transition: transform 800ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) var(--rd-delay, 0ms); }
@@ -25,13 +29,88 @@
 /* Across your mocks at the top of the record (AcrossMocks.jsx): its link to the Rule book, its wait and its failure. */
 .rd-main > .am { margin-bottom: 20px; }
 .rd-rules {
-  justify-self: start; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px;
-  border: 1px solid var(--a-line-strong); color: var(--a-ink); font: 700 14px/1.2 var(--font-display); text-decoration: none; font-variant-numeric: tabular-nums;
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; color: var(--a-ink); font: 700 14px/1.2 var(--font-display); font-variant-numeric: tabular-nums;
+  text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong);
 }
-.rd-rules svg { color: var(--a-accent-text); }
-.rd-rules:hover { border-color: var(--a-volt-line); background: var(--a-volt-wash); }
+.rd-rules:hover { text-decoration-color: currentColor; }
 .rd-rules:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .rd-across-wait { height: 84px; margin-bottom: 20px; border-radius: 18px; }
 .rd-across-fail { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin: 0 0 20px; font-size: 14px; color: var(--a-ink-2); }
 .rd-across-fail button { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--a-accent-text); font: 700 14px/1 var(--font-body); cursor: pointer; }
 .rd-across-fail button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+
+/* ---------- De-slop pass: open sections and ruled rows instead of boxes ----------
+   The page keeps every part of the record. The side column and the record's blocks lose their
+   boxes, icon tiles, tints and the dashed Pro rows; hairlines and type carry the hierarchy. */
+.app-shell .rd { gap: 28px; }
+.app-shell .rd-ask { min-height: 44px; padding: 0 16px; border-radius: 12px; background: transparent; font-size: 14px; }
+.app-shell .rd-ask:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+
+.app-shell .rd-side { gap: 28px; }
+.app-shell .rd-card { gap: 14px; padding: 0; border: 0; border-radius: 0; background: none; }
+.app-shell .rd-card + .rd-card { padding-top: 24px; border-top: 1px solid var(--a-line); }
+.app-shell .rd-card h2 { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.app-shell .rd-foot { font-size: 13px; }
+.app-shell .tr__chip { padding: 0; border: 0; border-radius: 0; background: none; }
+.app-shell .tr__chip[data-tone='up'] { border: 0; }
+
+.app-shell .rd-subjects li { min-height: 60px; }
+.app-shell .rd-subjects__acc { display: grid; justify-items: end; gap: 0; font: inherit; }
+.app-shell .rd-subjects__acc b { font: 800 20px/1.1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.app-shell .rd-subjects__acc small { font-size: 12px; color: var(--a-ink-3); }
+.app-shell .rd-link { min-height: 44px; }
+
+/* The record (RecordView, shared with the Mentor record tab; only this page is changed here) */
+.app-shell .rd .pp-record { gap: 36px; }
+.app-shell .rd .pp-record > section { padding-top: 28px; border-top: 1px solid var(--a-line); }
+.app-shell .rd .pp-h { margin: 0 0 14px; font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.app-shell .rd .pp-note { font-size: 13px; }
+
+/* Marks ledger: ruled figures, no tinted tile */
+.app-shell .rd .pp-ledger { border: 0; border-block: 1px solid var(--a-line); border-radius: 0; overflow: visible; }
+.app-shell .rd .pp-ledger > div { padding: 16px 0 16px 20px; border: 0; border-left: 1px solid var(--a-line); background: none; }
+.app-shell .rd .pp-ledger > div:first-child { padding-left: 0; border-left: 0; }
+.app-shell .rd .pp-ledger > div[data-emph] { background: none; }
+.app-shell .rd .pp-ledger > div[data-emph] dd { color: var(--a-ink); font-size: 34px; }
+.app-shell .rd .pp-ledger dd { font-size: 28px; }
+.app-shell .rd .pp-ledger small { font-size: 12.5px; }
+@media (max-width: 639px) {
+  .app-shell .rd .pp-ledger > div { padding: 14px 0 14px 14px; border-bottom: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(even) { padding-left: 0; border-left: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(n + 2) { border-top: 1px solid var(--a-line); }
+  .app-shell .rd .pp-ledger > div[data-emph] { grid-column: 1 / -1; border-top: 0; padding-left: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(odd):not([data-emph]) { padding-left: 0; border-left: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(even):not([data-emph]) { padding-left: 14px; border-left: 1px solid var(--a-line); }
+}
+.app-shell .rd .pp-look { margin: 0; padding: 0; border: 0; border-radius: 0; background: none; }
+
+/* What stands out: ruled findings, the action a plain link */
+.app-shell .rd .pp-findings { gap: 0; }
+.app-shell .rd .pp-findings li { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 18px 0; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: none; }
+.app-shell .rd .pp-findings li:first-child { border-top: 0; padding-top: 4px; }
+.app-shell .rd .pp-findings b { font-size: 17px; letter-spacing: -0.01em; }
+.app-shell .rd .pp-findings p { font-size: 14.5px; max-width: 64ch; }
+.app-shell .rd .pp-findings__foot { margin-top: 8px; }
+.app-shell .rd .pp-findings__foot button { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); font: 700 14px var(--font-display); }
+.app-shell .rd .pp-findings__foot button:hover { border: 0; text-decoration: underline; text-underline-offset: 3px; color: var(--a-accent-text); }
+
+/* Chapters: the bar is the data; the rest is type */
+.app-shell .rd .pp-chapters { gap: 20px; }
+.app-shell .rd .pp-chapters__top b { font-size: 15px; }
+.app-shell .rd .pp-chapters__meta { font-size: 12.5px; }
+
+/* Pro rows: one plain line and a text link, no dashed box and no padlock */
+.app-shell .rd .pp-lock { gap: 4px 16px; margin-top: 0; padding: 4px 0; border: 0; border-radius: 0; }
+.app-shell .rd .pp-lock button { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--a-accent-text); }
+.app-shell .rd .pp-lock button:hover { border: 0; text-decoration: underline; text-underline-offset: 3px; color: var(--a-accent-text); }
+
+/* Pace and this week: ruled figures */
+.app-shell .rd .pp-pace, .app-shell .rd .pp-week { gap: 0; }
+.app-shell .rd .pp-pace > div, .app-shell .rd .pp-week > div { padding: 4px 0 4px 20px; border: 0; border-left: 1px solid var(--a-line); border-radius: 0; background: none; }
+.app-shell .rd .pp-pace > div:nth-child(odd), .app-shell .rd .pp-week > div:first-child { padding-left: 0; border-left: 0; }
+.app-shell .rd .pp-pace > div:nth-child(n + 3) { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--a-line); }
+.app-shell .rd .pp-pace dd { font-size: 22px; }
+.app-shell .rd .pp-week b { font-size: 28px; }
+.app-shell .rd .pp-week span { font-size: 13px; }
+.app-shell .rd .pp-week small { font-size: 12.5px; }
+.app-shell .rd .pp-empty { padding: 20px 0; border: 0; border-block: 1px solid var(--a-line); border-radius: 0; }

@@ -1,16 +1,16 @@
 /* Saved questions: slot meter, subject chips, swipeable rows, Undo bar, empty and failed states.
    Transform and opacity only; the Arena tokens carry Night and Day. */
 
-.sv-meter { display: grid; gap: 8px; margin: 0 0 18px; padding: 14px 16px; border: 1px solid var(--a-line-strong); border-radius: 16px; background: var(--a-raised); }
+.sv-meter { display: grid; gap: 10px; margin: 0 0 22px; padding: 0; }
 .sv-meter__pips { display: flex; gap: 3px; }
 .sv-meter__pips i { flex: 1 1 0; min-width: 0; height: 9px; border-radius: 3px; background: var(--a-line); transition: background-color 220ms ease; }
 .sv-meter__pips i[data-on='true'] { background: var(--a-select); }
-.sv-meter__pips i[data-pop='out'] { animation: sv-pip-out 520ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both; }
-.sv-meter__pips i[data-pop='in'] { animation: sv-pip-in 520ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both; }
+.sv-meter__pips i[data-pop='out'] { animation: sv-pip-out 520ms var(--mk-spring) both; }
+.sv-meter__pips i[data-pop='in'] { animation: sv-pip-in 520ms var(--mk-spring) both; }
 @keyframes sv-pip-out { 0% { transform: scaleY(2.1); background: var(--a-select); } 100% { transform: none; background: var(--a-line); } }
 @keyframes sv-pip-in { 0% { transform: scaleY(0.4); } 55% { transform: scaleY(2.1); } 100% { transform: none; } }
-.sv-meter__text { margin: 0; font-size: 13px; line-height: 1.45; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-.sv-meter__text b { color: var(--a-ink); font-weight: 800; }
+.sv-meter__text { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.sv-meter__text b { color: var(--a-ink); font: 800 18px var(--font-display); letter-spacing: -0.01em; }
 
 .sv-first { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: 13.5px; color: var(--a-ink-2); }
 
@@ -32,7 +32,7 @@
 
 /* What the row reveals as it slides. It sits behind the card and only shows while a swipe is on. */
 .sv-under { position: absolute; inset: 0; z-index: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 22px; border-radius: var(--a-radius); opacity: 0; pointer-events: none; font: 800 13px var(--font-display); letter-spacing: 0.02em; }
-.sv-row:has(.sv-card[data-swipe]) .sv-under { opacity: 1; background: linear-gradient(90deg, var(--a-volt-wash), transparent 40%, transparent 60%, var(--a-bad-wash)); }
+.sv-row:has(.sv-card[data-swipe]) .sv-under { opacity: 1; background: linear-gradient(90deg, var(--a-volt-wash) 50%, var(--a-bad-wash) 50%); }
 .sv-under__go { display: inline-flex; align-items: center; gap: 8px; color: var(--a-accent-text); }
 .sv-under__rm { color: var(--a-bad-text); }
 
@@ -43,12 +43,12 @@
 .sv-act--rm:hover:not(:disabled) { color: var(--a-bad-text); border-color: var(--a-bad-text); background: var(--a-bad-wash); }
 .sv-act:disabled { opacity: 0.55; cursor: default; }
 
-.sv-empty { display: flex; align-items: center; gap: 22px; padding: 26px clamp(18px, 4vw, 32px); border: 1px dashed var(--a-line-strong); border-radius: var(--a-radius); background: var(--a-raised); }
-.sv-empty b { display: block; margin-top: 4px; font: 800 20px/1.2 var(--font-display); color: var(--a-ink); }
+.sv-empty { display: flex; align-items: center; gap: 24px; padding: 28px 0; border-block: 1px solid var(--a-line); }
+.sv-empty b { display: block; font: 800 22px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
 .sv-empty p { margin: 8px 0 16px; max-width: 46ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); }
 .sv-empty__link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; text-decoration: none; }
-.sv-empty__link[data-lit='true'] { animation: sv-nudge 900ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) 1 both; }
-@keyframes sv-nudge { 0% { transform: translateX(-10px); box-shadow: 0 0 0 0 var(--a-volt-line); } 55% { transform: translateX(3px); box-shadow: 0 0 0 8px transparent; } 100% { transform: none; } }
+.sv-empty__link[data-lit='true'] { animation: sv-nudge 900ms var(--mk-spring) 1 both; }
+@keyframes sv-nudge { 0% { transform: translateX(-10px); } 55% { transform: translateX(3px); } 100% { transform: none; } }
 @media (max-width: 520px) { .sv-empty { flex-direction: column; text-align: left; align-items: flex-start; } }
 
 .sv-fail { display: flex; align-items: center; gap: 18px; padding: 20px; border: 1px solid var(--a-bad-text); border-radius: var(--a-radius); background: var(--a-bad-wash); }
@@ -67,9 +67,8 @@
 :root[data-motion='reduced'] .sv-meter__pips i[data-pop], :root[data-motion='reduced'] .sv-empty__link, :root[data-motion='reduced'] .sv-undo, :root[data-motion='reduced'] .sv-row[data-shake='true'] { animation: none; }
 :root[data-motion='reduced'] .sv-undo__clock { animation: none; transform: none; opacity: 0.4; }
 
-/* The header's two ways out: icon and words spaced, equal keys; on a phone they sit two-up. */
+/* The header's two ways out: plain words, equal keys; on a phone they sit two-up. */
 .app-shell .saved-aside .na__alt { gap: 8px; }
-.app-shell .saved-aside .na__alt svg { flex: none; color: var(--a-ink-3); }
 
 /* A saved question's own keys sit under its card, aligned with it. */
 .sv-actions { padding: 10px 0 0; }
@@ -89,3 +88,14 @@
   .app-shell .saved-aside { flex-wrap: nowrap; gap: 8px; }
   .app-shell .saved-aside .na__alt { padding: 0 12px; white-space: nowrap; }
 }
+
+/* Saved is a ruled list, not stacked cards: each question is one row between hairlines, the options open on
+   "Try it again", and the row's own actions sit in its footer (QuestionCard variant="saved"). */
+.sv-row { margin-bottom: 0; border-radius: 0; }
+.sv-list > .sv-row:first-child { border-top: 1px solid var(--a-line); }
+.sv-row { border-bottom: 1px solid var(--a-line); }
+.sv-card { border-radius: 0; }
+.sv-row .ex-question { padding: 20px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.sv-row .ex-question__actions--saved { justify-content: flex-start; gap: 8px 10px; margin-top: 14px; padding-top: 0; border-top: 0; }
+.sv-row .ex-question__actions--saved .sv-act--rm { margin-left: auto; }
+@media (max-width: 639px) { .sv-row { margin-bottom: 0; } .sv-row .ex-question__actions--saved .sv-act--go { flex: 1 1 100%; order: -1; } }

@@ -3,7 +3,6 @@ import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
 import { JsonLd } from '@/components/JsonLd';
-import { Icon } from '@/components/ui/Icons';
 import { breadcrumbJsonLd, courseJsonLd, faqJsonLd } from '@/lib/seo';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 
@@ -42,6 +41,8 @@ export function SeoContentPage({ page }) {
               </nav>
               <h1 className="mm-h1 mm-article__title">{page.h1}</h1>
               <p className="mm-article__intro">{page.intro}</p>
+              {/* The page's one action, before the essay: a visitor who came to practise can start here. */}
+              <p className="mm-article__go"><Link href="/signup" className="mm-btn mm-btn--primary">Start a free mock</Link></p>
               {/* A subject guide carries its paper's lamp-lit object, the same one the landing shelf links from. */}
               {page.subjectArt ? <SubjectObject id={page.subjectArt} size={168} lit priority className="mm-article__object" /> : null}
             </div>
@@ -68,11 +69,6 @@ export function SeoContentPage({ page }) {
                     {section.links.map((link) => (
                       <Link key={link.href} href={link.href} className="mm-chip">
                         {link.label}
-                        <Icon
-                          name="arrow"
-                          style={{ width: '14px', height: '14px' }}
-                          aria-hidden="true"
-                        />
                       </Link>
                     ))}
                   </div>
@@ -103,7 +99,6 @@ export function SeoContentPage({ page }) {
               <div className="mm-actions" style={{ marginTop: '1.75rem' }}>
                 <Link href="/signup" className="mm-btn mm-btn--primary">
                   Start a free mock
-                  <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
                 </Link>
                 <Link href="/pricing" className="mm-btn mm-btn--secondary">
                   See what Pro adds

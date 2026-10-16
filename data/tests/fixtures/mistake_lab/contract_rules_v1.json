@@ -3,7 +3,7 @@
     "version": 1,
     "title": "Your rules",
     "count": 7,
-    "countLabel": "Your rules, 7",
+    "countLabel": "Your rules (7)",
     "labels": {
       "use": "Use in my next mock",
       "inUse": "Your rule for your next mock",
@@ -131,7 +131,7 @@
   },
   "summary": {
     "count": 7,
-    "countLabel": "Your rules, 7",
+    "countLabel": "Your rules (7)",
     "active": {
       "id": "habit:never_opened",
       "kind": "habit",

@@ -38,7 +38,7 @@ test('below 3 timed mocks the habit rules wait, and the gate says so in words', 
     assert.deepEqual(book.habits.rules, []);
     assert.equal(book.repairs.empty, 'Your first repair adds a rule here.');
     assert.equal(book.count, 0);
-    assert.equal(book.countLabel, 'Your rules, 0');
+    assert.equal(book.countLabel, 'Your rules (0)');
   }
 });
 
@@ -73,7 +73,7 @@ test('rules from repairs: the receipt\'s rule and hook, by chapter, newest first
   assert.equal(cash.text, 'Operating activities are the main revenue-producing activities of the business.', 'a v1 receipt gives its idea to keep');
   assert.equal(cash.hook, null);
   assert.equal(BOOK.count, 3 + 4);
-  assert.equal(BOOK.countLabel, 'Your rules, 7');
+  assert.equal(BOOK.countLabel, 'Your rules (7)');
 });
 
 test('repair receipts only become rules for the student\'s own wrong answers, and only when shown in full', () => {

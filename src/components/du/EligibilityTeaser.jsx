@@ -158,7 +158,7 @@ export function EligibilityTeaser() {
               {counted
                 ? 'accept these subjects under DU’s 2026 rules, each with its college cutoffs.'
                 : hasDomains
-                  ? 'Checking them against DU’s 2026 rules…'
+                  ? 'Checking them against DU’s 2026 rules.'
                   : selection.languages.length
                     ? `Tick your domain subjects to see which of DU’s ${total} programmes open.`
                     : `Tick your subjects to see which of DU’s ${total} programmes open.`}

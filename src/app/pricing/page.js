@@ -20,8 +20,8 @@ export function generateMetadata() {
   return seoMetadata({
     title: monthly ? `MockMob Pro Pricing: ₹${offer.monthly.rupees} a month` : `MockMob Pro Pricing: ₹${offer.oneTime.rupees} to start`,
     description: monthly
-      ? `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month: unlimited Quick Practice and Full Mock, Smart Practice, NTA Mode and full Radar. Cancel anytime.`
-      : `Start free. MockMob Pro access is ₹${offer.oneTime.rupees} once through ${offer.oneTime.expires}: unlimited Quick Practice and Full Mock, Smart Practice, NTA Mode and full Radar. Monthly Pro opens soon.`,
+      ? `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. Cancel anytime.`
+      : `Start free. MockMob Pro access is ₹${offer.oneTime.rupees} once through ${offer.oneTime.expires}: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. Monthly Pro opens soon.`,
     path: '/pricing',
   });
 }
@@ -34,8 +34,8 @@ const buildPlans = (offer) => [
     description: 'Enough to see whether MockMob suits you. No card needed.',
     ctaLabel: 'Create a free account',
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
-      'Quick Practice, 5 to 20 questions, on credits',
-      'Full Mock, 50 questions in 60 minutes, on credits',
+      'Quick practice, 5 to 20 questions, on credits',
+      'Full mock, 50 questions in 60 minutes, on credits',
       'Weekly progress tracking',
       '25 saved questions',
       'Leaderboard',
@@ -57,10 +57,10 @@ const buildPlans = (offer) => [
       ? 'Renews automatically each month. Cancel in Account and keep Pro to the end of the month you paid for.'
       : `Access ends ${offer.oneTime.expires}. No auto-renewal on this payment.`,
     features: newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full recovery history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Full priorities and playbook', 'Unlimited saved questions'] : [
-      'Unlimited Quick Practice and Full Mocks',
-      'NTA Mode: the exam-day screen, 50 questions in 60 minutes',
-      'Smart Practice: every set aimed at your weak chapters',
-      'Full Radar: every ranked chapter, pace and changed-answer detail',
+      'Unlimited Quick practice and Full mocks',
+      'NTA mode: the exam-day screen, 50 questions in 60 minutes',
+      'Smart practice: every set aimed at your weak chapters',
+      'Full chapter review: every ranked chapter, pace and changed-answer detail',
       'Compass Pro: your practice projected paper by paper, against your DU shortlist',
       'Compass Pro next move: the paper and chapter that can move your total most',
       'DU eligibility and published cutoffs',
@@ -74,8 +74,8 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
   {
     heading: 'Core test modes',
     rows: [
-      ['Quick Practice (5 to 20 questions)', '10 credits a session', 'Unlimited'],
-      ['Full Mock (50 questions, 60 minutes)', '50 credits a mock', 'Unlimited'],
+      ['Quick practice (5 to 20 questions)', '10 credits a session', 'Unlimited'],
+      ['Full mock (50 questions, 60 minutes)', '50 credits a mock', 'Unlimited'],
     ],
   },
   {
@@ -92,15 +92,15 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
       ['DU eligibility and published cutoffs', true, true],
       ['Compass Pro: practice projection, DU shortlist and next move', false, true, 'popular'],
       ['Difficulty selector', false, 'Easy, medium, hard, auto'],
-      ['Radar: marks ledger, top three chapters, weekly summary', true, true],
-      ['Radar: every ranked chapter, pace and changed-answer detail', false, true],
+      ['Chapter review: marks ledger, top three chapters, weekly summary', true, true],
+      ['Chapter review: every ranked chapter, pace and changed-answer detail', false, true],
     ],
   },
   {
     heading: 'Advanced test modes',
     rows: [
-      ['Smart Practice, aimed at your weak chapters', false, 'Unlimited'],
-      ['NTA Mode, the exam-day screen', false, 'Unlimited'],
+      ['Smart practice, aimed at your weak chapters', false, 'Unlimited'],
+      ['NTA mode, the exam-day screen', false, 'Unlimited'],
     ],
   },
 ];
@@ -144,8 +144,8 @@ const buildFaqs = (offer) => [
     a: 'Compass uses official DU programme rules and published historical allocation scores, free for everyone. Compass Pro adds a practice projection: what each CUET paper would be worth if exam day went like your own practice, with a range, checked against the 2026 cutoffs of the colleges on your shortlist.',
   },
   {
-    q: 'Is Compass the same as Radar?',
-    a: 'Radar describes your practice history. Compass checks sourced eligibility and historical cutoffs; with Pro, it also maps your practice to your DU shortlist and names the paper with the most marks open.',
+    q: 'Is Compass the same as chapter review?',
+    a: 'Chapter review describes your practice history. Compass checks sourced eligibility and historical cutoffs; with Pro, it also maps your practice to your DU shortlist and names the paper with the most marks open.',
   },
   {
     q: 'How do you check the questions?',
@@ -153,7 +153,7 @@ const buildFaqs = (offer) => [
   },
   {
     q: 'How does the leaderboard work?',
-    a: 'Every mock you take earns XP based on your speed, accuracy, and the difficulty of the questions. Your XP sets your rank on the global leaderboard, and the daily Mock Sprint carries a multiplier.',
+    a: 'Every mock you take adds points for speed, accuracy and the difficulty of the questions. Your points set your place on the leaderboard, which is separate from your CUET exam rank.',
   },
 ];
 
@@ -201,15 +201,15 @@ export default async function PricingPage() {
             <h1 className="mm-h1">{offer.purchasable === 'monthly' ? `Pro is ₹${offer.monthly.rupees} a month.` : `₹${offer.oneTime.rupees} gets you in.`}</h1>
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
               {offer.purchasable === 'monthly'
-                ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and the full Radar. Cancel any month.'
+                ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any month.'
                 : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} is coming. Pay once now and keep every day you paid for.`}
             </p>
           </div>
         </section>
 
-        <section className="mm-section">
+        <section className="mm-section" style={{ paddingTop: '1.5rem' }}>
           <div className="mm-wrap">
-            <div className="mm-plans">
+            <div className="mm-plans" id="plans">
               {PLANS.map((plan) => (
                 <PricingCard
                   key={plan.name}
@@ -270,16 +270,16 @@ export default async function PricingPage() {
 
         <section className="mm-section">
           <div className="mm-wrap mm-wrap--tight">
-            <h2 className="mm-h2">PrepOS, and its own credits.</h2>
+            <h2 className="mm-h2">Ask Mobi, and its own credits.</h2>
             <p className="mm-body mm-section__intro">
-              PrepOS reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
+              Ask Mobi reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
             </p>
             <p className="mm-body">
-              Model replies use a separate PrepOS wallet: 10 credits a month on Free and 50 on Pro, kept apart from practice credits.
-              Credits you have already bought stay in your wallet.
+              Model replies use AI credits: 10 a month on Free and 50 on Pro, kept apart from Practice credits.
+              AI credits you have already bought stay in your account.
             </p>
             <p style={{ marginTop: '1rem' }}>
-              <Link href="/pricing/prepos" className="mm-btn mm-btn--secondary">See your PrepOS wallet</Link>
+              <Link href="/pricing/ai-credits" className="mm-btn mm-btn--secondary">See your AI credits</Link>
             </p>
           </div>
         </section>
@@ -310,7 +310,7 @@ export default async function PricingPage() {
       </main>
 
       <MarketingFooter />
-      <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label="Start free" href="/signup" />
+      <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label={offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`} href="#plans" />
     </div>
   );
 }

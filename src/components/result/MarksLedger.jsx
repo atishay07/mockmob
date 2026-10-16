@@ -9,7 +9,7 @@
 // It plays once per attempt (sessionStorage). Opening a row dims the other segments to 40% and lifts its own by
 // 2 px (150 ms). Reduced motion, a later view or no IntersectionObserver: the final state at once, dimming only.
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { ArrowRight, ChevronDown, Play, Users } from 'lucide-react';
+import { ChevronDown, Play, Users } from 'lucide-react';
 import './marks-ledger.css';
 
 const CHIPS_SHOWN = 8; // LAB_RULES.chipsShown in data/mistake_lab.js
@@ -147,7 +147,7 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
                 <ChevronDown className="ml-row__chev" size={16} strokeWidth={2.2} aria-hidden="true" />
               </button>
               <div className="ml-row__panel" id={panelId} hidden={!isOpen}>
-                {g.doLine ? <p className="ml-do"><ArrowRight size={14} strokeWidth={2.4} aria-hidden="true" /><span>{g.doLine}</span></p> : null}
+                {g.doLine ? <p className="ml-do"><span>{g.doLine}</span></p> : null}
                 <LabChips numbers={g.numbers} onJump={onJump} showMore={labels.showMore} />
                 {replay?.ids?.has(g.id) && replay.label ? (
                   <button type="button" className="ml-textbtn ml-replaylink" onClick={() => replay.onSee(g.id)}>

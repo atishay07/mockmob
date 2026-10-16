@@ -73,11 +73,16 @@ export function takeNextPath({ store, now = Date.now() } = {}) {
   return safeNextPath(saved.path);
 }
 
-/** Where a signed-in student goes: onboarding first, then the saved page, then the dashboard. */
+/** The arena's front door: onboarding until subjects are chosen, then Today (which fits new and returning students, free and paid). */
+export function arenaHomePath({ needsOnboarding } = {}) {
+  return needsOnboarding ? '/onboarding' : '/today';
+}
+
+/** Where a signed-in student goes: onboarding first, then the saved page, then the arena's front door. */
 export function postSignInPath({ needsOnboarding, store, now } = {}) {
   const next = takeNextPath({ store, now });
-  if (needsOnboarding) return '/onboarding';
-  return next || '/dashboard';
+  if (needsOnboarding) return arenaHomePath({ needsOnboarding });
+  return next || arenaHomePath({ needsOnboarding });
 }
 
 /** `/login?next=<current page>` for a gate that found no session. */

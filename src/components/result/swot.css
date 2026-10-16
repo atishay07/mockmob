@@ -42,11 +42,6 @@
 .sw-q { display: grid; gap: 12px; align-content: start; min-width: 0; padding: 18px 0; border-top: 1px solid var(--a-line, #253026); }
 .sw-q:last-child { padding-bottom: 0; }
 .sw-q__h { display: flex; align-items: center; gap: 8px; font: 650 14px/1.4 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
-.sw-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-.sw-q[data-q='strength'] .sw-dot { color: var(--a-good-text, #b6e36e); }
-.sw-q[data-q='weakness'] .sw-dot { color: var(--a-bad-text, #ff9d92); }
-.sw-q[data-q='opportunity'] .sw-dot { color: var(--a-accent-text, #d2f000); }
-.sw-q[data-q='threat'] .sw-dot { color: var(--a-warn-text, #e0b93f); }
 .sw-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
 .sw-item { display: grid; gap: 4px; min-width: 0; }
 .sw-item__title { font: 600 16px/1.4 var(--font-body, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }

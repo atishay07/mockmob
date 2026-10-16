@@ -7,6 +7,8 @@ import { buildMissedBefore } from '@/components/recovery/repairRun.js';
 import { resultHistory } from '@/../data/mock_swot';
 import { readCohort } from '@/../data/cohort_picks';
 import { loadRuleSources } from '@/lib/server/ruleBook';
+import { atlasForAttempt } from '@/lib/server/trapAtlas';
+import { cardsFor } from '@/lib/server/revise';
 
 export async function GET(request, { params }) {
   try {
@@ -28,6 +30,9 @@ export async function GET(request, { params }) {
     //    answer checks are ready); the SWOT then leaves out what the ledger already shows. Slice 3 adds
     //    lab.acrossMocks, lab.repairOrder, lab.rules and lab.prove.ruleCheck (data/lab_loop.js), each null on its own
     //    failure; the rules and the rule check also need the repairs and playbook rows (src/lib/server/ruleBook.js);
+    //    Slice 4 adds lab.traps (the trap tag under the student's wrong option: the trap atlas, then the question format) and
+    //    lab.prove.later (which wrong answers come back in Revise, and when); each is left out on its own failure, and a failed
+    //    atlas read leaves only the format tags (data/lab_loop.js buildLabSlice4);
     //  - swot: the post-mock SWOT and "Do these next" (left out entirely when SWOT_ENABLED=off).
     const history = await resultHistory({
       attempt,
@@ -39,6 +44,10 @@ export async function GET(request, { params }) {
       cohortOf: readCohort,
       labLoop: true,
       ruleSourcesOf: ({ allAttempts }) => loadRuleSources(session.user.id, allAttempts),
+      labSlice4: {
+        atlasOf: ({ attempt: paper }) => atlasForAttempt(paper),
+        cardsOf: ({ attempt: paper }) => cardsFor(session.user.id, (paper.questionsSnapshot || []).map((q) => q?.id)),
+      },
       swotEnabled: process.env.SWOT_ENABLED !== 'off',
       warn: (part, e) => console.warn(`[api/attempts/:id] ${part} skipped:`, e?.message),
     });

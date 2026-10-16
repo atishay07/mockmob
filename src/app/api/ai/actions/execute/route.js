@@ -125,7 +125,7 @@ export async function POST(request) {
         ok: true,
         kind: 'inline',
         message:
-          'Open the question from Saved or Result. PrepOS will use that exact question context on your next prompt.',
+          'Open the question from Saved or Result. Ask Mobi will use that exact question context on your next prompt.',
         target: params.questionId ? '/saved' : '/dashboard',
         params: { questionId: params.questionId || null },
       });
@@ -173,8 +173,8 @@ export async function POST(request) {
       return NextResponse.json({
         ok: true,
         kind: 'redirect',
-        target: '/pricing/prepos',
-        message: aiCommerceOpen() ? 'Open PrepOS credit packs to top up without changing your subscription.' : `${PREPOS_PAUSED_MESSAGE} New top-ups are paused; your existing wallet is preserved.`,
+        target: '/pricing/ai-credits',
+        message: aiCommerceOpen() ? 'Open AI credit packs to top up without changing your subscription.' : `${PREPOS_PAUSED_MESSAGE} New top-ups are paused; your existing AI credits are preserved.`,
         params: { reason: 'ai_credits', balance: snapshot.aiWallet?.known ? snapshot.aiWallet.total : null },
         packs: AI_CREDIT_PACKS,
       });

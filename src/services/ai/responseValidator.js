@@ -65,13 +65,13 @@ export function buildFallbackMentorResponse({ context, mode = 'mentor', error } 
   const recentCount = context?.recentMockSummary?.attemptCount || 0;
   const reply =
     recentCount === 0
-      ? "I don't have any mock data on you yet. Take one Quick Practice or Full Mock so I can read your speed and accuracy leaks, then ask me again."
+      ? "I don't have any mock data on you yet. Take one Quick practice or Full mock so I can read your speed and accuracy leaks, then ask me again."
       : `I'm temporarily unable to reach the model. Based on your last ${recentCount} attempt(s), the safest next move is to replay your weakest subject and run a short benchmark.`;
 
   const actions = [];
   if (recentCount === 0) {
     actions.push({
-      label: 'Start a Quick Practice',
+      label: 'Start a Quick practice',
       action: 'create_next_mock',
       params: { mode: 'quick' },
       creditCost: 0,

@@ -165,7 +165,7 @@ export function ArenaPreview() {
           Mob solved in <strong>{question.seconds}s</strong>
         </span>
         <span className="arena-preview-score">
-          XP <strong>{score}</strong>
+          Points <strong>{score}</strong>
         </span>
       </div>
     </div>

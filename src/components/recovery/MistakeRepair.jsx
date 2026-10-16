@@ -1,14 +1,17 @@
 "use client";
 // Score Recovery · Mistake Repair for one wrong answer. The server works the question and must
 // match the answer key before any repair is shown; a mismatch holds the question for review instead.
-import { useEffect, useId, useRef, useState } from 'react';
+import { useContext, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Wrench, Check, ArrowRight, Copy, KeyRound, ChevronRight } from 'lucide-react';
+import { Wrench, Check, Copy, KeyRound, ChevronRight } from 'lucide-react';
 import {
   REPAIR_OUTCOMES, hasExplanation, isKeyReview, repairBlocks, marksAtStake, foldedQuestionLine,
   checkChip, REPAIR_COPY, REPAIR_LOADING, recordLines,
 } from '@/../data/repair_presentation.mjs';
 import { requestRepair, planRepairFailure } from '@/../data/repair_client.mjs';
+import { AuthContext } from '@/components/AuthProvider';
+import { useWalletSummary } from '@/components/useWalletSummary';
+import { usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import KeyReviewNotice from './KeyReviewNotice';
 import AnswerCorrectionNotice from './AnswerCorrectionNotice';
 import RepairMobi from './RepairMobi';
@@ -20,6 +23,14 @@ const newRequestId = () => (globalThis.crypto?.randomUUID?.() || `${Date.now()}-
 // allows 90 s. There are no invented stages.
 const SLOW_AFTER_MS = REPAIR_LOADING.slowAfterMs;
 const LONG_AFTER_MS = REPAIR_LOADING.longAfterMs;
+
+// What a repair costs and what the student has, in the one spend line: "This repair uses 1 AI credit. You have 9."
+// The balance is the one the top bar already read (reused for five minutes); unknown shows no number.
+function RepairCost() {
+  const auth = useContext(AuthContext);
+  const wallet = useWalletSummary(auth?.user?.id, { reuseFresh: true });
+  return <p className="mr-cost">{usesLine({ what: 'This repair', cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null })}</p>;
+}
 
 // "Q7. Your pick B. Key C." as a small reveal: the pick settles, then the key's ring draws and fills.
 // A stored repair (or reduced motion, via CSS) paints the final state at once.
@@ -178,7 +189,7 @@ export function RepairDone({ state, chosen = null, answer = null, number = null,
         </div>
       ) : null}
       <footer className="mr-foot" data-stagger style={stagger('foot')}>
-        <span className="mr-fine">{state.status === 'stored' ? 'Saved repair. No credit used.' : state.charged ? `1 credit used${state.wallet ? `. ${state.wallet.total} left.` : '.'}` : 'No credit used.'}</span>
+        <span className="mr-fine">{state.status === 'stored' ? 'Saved repair. No credit used.' : state.charged ? usedLine({ cost: typeof state.charged === 'number' ? state.charged : 1, pool: 'ai', balance: state.wallet?.known === false ? null : state.wallet?.total ?? null }) : 'No credit used.'}</span>
         {nextButton || <p className="mr-left">No other mistakes left to repair in this session.</p>}
       </footer>
     </section>
@@ -237,7 +248,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
         // The server's own message is shown whenever it sent one.
         const failure = planRepairFailure(outcome);
         if (failure.resetRequest) requestId.current = null;
-        setState({ status: failure.status, message: failure.message, canRetry: failure.canRetry });
+        setState({ status: failure.status, message: failure.message, canRetry: failure.canRetry, code: body?.error || null });
         return;
       }
       // Every payload version (v3, v2 and v1) must be complete to show; half a repair is never shown.
@@ -267,7 +278,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
 
   // `next` is computed by the page from the mistakes not yet handled, never counting this one.
   const nextButton = next
-    ? <button type="button" className="mr-next-btn" onClick={next.go}>Next mistake: Q{next.number} <ArrowRight size={16} aria-hidden="true" /></button>
+    ? <button type="button" className="mr-next-btn" onClick={next.go}>Next mistake: Q{next.number}</button>
     : onFinish ? <button type="button" className="mr-next-btn" onClick={onFinish}>{RUN_COPY.finish}</button> : null;
   const mobi = nta ? null : <RepairMobi status={state.status} slow={slow} stepKey={`${attemptId}/${questionId}`} visible={isCurrent} />;
 
@@ -304,8 +315,9 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
           <button type="button" className="mr-start" onClick={() => { started.current = true; run(); }}>
             <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
             <span className="mr-start__text"><b>Repair this mistake</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep</small></span>
-            <span className="mr-start__cost">1 credit</span>
+            <span className="mr-start__cost">1 AI credit</span>
           </button>
+          <RepairCost />
         </div>
       );
     }
@@ -331,6 +343,10 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
             <p className="mr-note">{state.message}</p>
           </div>
           {state.canRetry ? <button type="button" className="mr-retry" onClick={run}>{state.status === 'waiting' ? 'Check again' : 'Try again'}</button> : null}
+          {/* Out of AI credits: the free ways forward, not a dead end. */}
+          {state.code === 'insufficient_ai_credits' ? (
+            <p className="mr-note mr-ways"><Link href="/dashboard?mode=quick&count=5">Practise 5 fresh questions</Link> <Link href="/pricing/ai-credits">See your AI credits</Link></p>
+          ) : null}
         </div>
       );
     }

@@ -161,7 +161,7 @@ test('shared plan explains a due check with record facts and a rule, and stays d
   const waiting = learningPlan({ episodes: [publicEpisode(built, e, 0)], now: 1, availableConcepts: [built.id], attempts: [{ subject: 'economics' }] });
   assert.equal(waiting.primary.kind, 'ordinary_practice');
   assert.ok(waiting.primary.facts.some(f => /next fresh check/.test(f.text)));
-  assert.equal(learningPlan({}).primary.facts.at(-1).text, 'No recovery pathway has passed its release checks yet.');
+  assert.equal(learningPlan({}).primary.facts.at(-1).text, 'Recovery steps are not open yet.');
 });
 
 test('validation metrics report completion, fresh checks, attrition, defects and cost with sample sizes', () => {

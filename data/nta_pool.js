@@ -9,13 +9,16 @@
 //    column (about 95% of the bytes). The engine re-checks each index row's signature and that the
 //    question's content hash is still the one that was scored.
 //  - full (fallback): questions with their evidence records, verified at request time. Used while the
-//    index table does not exist or holds nothing for the subject.
+//    index table does not exist or holds nothing for the subject, and while the subject's index is older
+//    than its newest live question (a question published after the last build must never drop out of NTA
+//    papers; the publish script and the daily cron rebuild the index, this keeps the gap harmless).
 // Either way, questions that only the agent pass scored (data/nta_agent_scores.js) are added: the ids
 // whose committed agent scores already pass every row-free check, read without the evidence column
 // and only where the question has no factory evidence (factory evidence always wins).
 // Either way the subject's pool is cached in memory for NTA_POOL_CACHE_MS.
 import { assembleNtaPaper, getNtaBlueprint, NTA_TIME_BUDGET_MS } from './nta_engine.js';
 import { ntaAgentAdmissibleIds } from './nta_agent_scores.js';
+import { builtAtOfRows, ntaIndexFreshness } from './nta_index_freshness.js';
 
 // Columns the engine, the hard gates and the session snapshot (questionOut in data/db.js) read.
 const SLIM_COLUMNS = [
@@ -68,8 +71,10 @@ export async function loadNtaPoolFull(db, subject, { signal } = {}) {
 /**
  * The subject's signed index rows and their questions without evidence. Returns null when the
  * index table is missing or has nothing for the subject, so the caller falls back to the full read.
+ * Also returns null when the index is older than the subject's newest live question (a few small
+ * selects, unless checkFresh is false); onStale then receives { builtAt, newestAt }.
  */
-export async function loadNtaPoolFromIndex(db, subject, { signal } = {}) {
+export async function loadNtaPoolFromIndex(db, subject, { signal, checkFresh = true, onStale } = {}) {
   const index = [];
   for (let from = 0; ; from += PAGE) {
     const { data, error } = await withSignal(db.from('nta_question_index')
@@ -85,6 +90,21 @@ export async function loadNtaPoolFromIndex(db, subject, { signal } = {}) {
     if (!data || data.length < PAGE) break;
   }
   if (!index.length) return null;
+  if (checkFresh) {
+    let freshness;
+    try {
+      freshness = await ntaIndexFreshness(db, subject, builtAtOfRows(index), { signal });
+    } catch (error) {
+      // The right answer to "cannot tell" is the full read, but a spent time budget is not ours to hide.
+      if (signal?.aborted) throw error;
+      freshness = { stale: true, builtAt: null, newestAt: null, checkFailed: error?.message || 'check_failed' };
+    }
+    if (freshness.stale) {
+      console.warn(`[nta-index] stale index for ${subject}: built ${freshness.builtAt}, newest live question ${freshness.newestAt}${freshness.checkFailed ? `, check failed: ${freshness.checkFailed}` : ''}. Reading the full pool.`);
+      if (onStale) onStale(freshness);
+      return null;
+    }
+  }
   const byId = new Map(index.map((entry) => [entry.question_id, entry]));
   const ids = [...byId.keys()];
   const rows = [];
@@ -121,14 +141,16 @@ export async function loadNtaAgentRows(db, subject, have = new Set(), { signal, 
   return rows;
 }
 
-/** One subject's pool: the index when it exists, else the full read; plus agent-scored rows. An array with .source. */
+/** One subject's pool: the index when it exists and is current, else the full read; plus agent-scored rows. An array with .source and .indexStale. */
 export async function loadNtaPool(db, subject, { signal, source = 'auto', agentScores } = {}) {
+  let indexStale = null;
   const withAgentRows = async (rows, label) => {
     const agentRows = await loadNtaAgentRows(db, subject, new Set(rows.map((row) => row.id)), { signal, agentScores });
-    return Object.assign([...rows, ...agentRows], { source: label, agentRows: agentRows.length });
+    return Object.assign([...rows, ...agentRows], { source: label, agentRows: agentRows.length, indexStale });
   };
   if (source !== 'full') {
-    const rows = await loadNtaPoolFromIndex(db, subject, { signal });
+    // A forced 'index' read is for measurement and tests: it never falls back, so it skips the freshness check.
+    const rows = await loadNtaPoolFromIndex(db, subject, { signal, checkFresh: source !== 'index', onStale: (info) => { indexStale = info; } });
     if (rows) return withAgentRows(rows, 'index');
     if (source === 'index') return withAgentRows([], 'index');
   }
@@ -138,11 +160,11 @@ export async function loadNtaPool(db, subject, { signal, source = 'auto', agentS
 // The subject's pool with passages attached, from memory while it is fresh.
 async function cachedPool(db, subject, { signal, cache = true, source, agentScores } = {}) {
   const hit = cache ? poolCache.get(subject) : null;
-  if (hit && Date.now() - hit.at < NTA_POOL_CACHE_MS) return { rows: hit.rows, source: hit.source, cached: true };
+  if (hit && Date.now() - hit.at < NTA_POOL_CACHE_MS) return { rows: hit.rows, source: hit.source, indexStale: hit.indexStale, cached: true };
   const pool = await loadNtaPool(db, subject, { signal, source, agentScores });
   const rows = await attachPassages(db, pool, { signal });
-  if (cache) poolCache.set(subject, { at: Date.now(), rows, source: pool.source });
-  return { rows, source: pool.source, cached: false };
+  if (cache) poolCache.set(subject, { at: Date.now(), rows, source: pool.source, indexStale: pool.indexStale });
+  return { rows, source: pool.source, indexStale: pool.indexStale, cached: false };
 }
 
 /** Copies live passage text onto passage children, as the practice reader does. */
@@ -237,7 +259,7 @@ function timeBudgetError(subject) {
   const bp = getNtaBlueprint(subject);
   const label = bp?.subject === 'general_test' ? 'General Test' : String(bp?.officialName || subject).split(' / ')[0];
   const error = new Error('NTA_TIME_BUDGET_EXCEEDED');
-  error.publicMessage = `Building the ${label} paper took too long, so it was stopped before it started. Please try again in a minute; if it happens again, try a Full Mock for ${label}.`;
+  error.publicMessage = `Building the ${label} paper took too long, so it was stopped before it started. Please try again in a minute; if it happens again, try a Full mock for ${label}.`;
   error.publicDetail = { reason: 'time_budget', retryable: true, items: [] };
   return error;
 }
@@ -271,9 +293,10 @@ export async function buildNtaPaper(db, subject, options = {}) {
       result.structure.crossPaper = { ...result.structure.crossPaper, lookupFailed: true };
       if (result.shortfall) result.shortfall.crossPaper = result.structure.crossPaper;
     }
-    result.timings = { ...result.timings, readMs, loadMs, endToEndMs: Date.now() - startedAt, budgetMs: budget, poolSource: pool.source, poolCached: pool.cached };
+    result.timings = { ...result.timings, readMs, loadMs, endToEndMs: Date.now() - startedAt, budgetMs: budget, poolSource: pool.source, poolCached: pool.cached, indexStale: Boolean(pool.indexStale) };
     result.pool.loaded = rows.length;
     result.pool.source = pool.source;
+    if (pool.indexStale) result.pool.indexStale = pool.indexStale;
     return result;
   } catch (error) {
     if (signal.aborted) throw timeBudgetError(subject);

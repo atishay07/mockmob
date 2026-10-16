@@ -87,7 +87,7 @@ test('the repair styles: no stage list, no coloured side rails on blocks, 44 px 
   const css = read('src/components/recovery/mistake-repair.css');
   assert.doesNotMatch(css, /\.mr-stages|\.mr-card\b/);
   assert.doesNotMatch(css, /border-left:\s*[3-9]px/, 'no thick coloured side borders');
-  assert.match(css, /\.mr-contrast \{[^}]*border-left: 2px solid var\(--a-ink-3/, 'the contrast pull line sits on a 2 px ink rail');
+  assert.match(css, /\.mr-contrast \{[^}]*border-left: 1px solid var\(--a-ink-3/, 'the contrast pull line sits on a 1 px ink rail (T-083: no side border over 1px)');
   for (const sel of ['.mr-disclose', '.mr-textbtn']) assert.match(css, new RegExp(`\\${sel} \\{[^}]*min-height: 44px`), `${sel} is 44 px`);
   const motion = css.slice(css.indexOf('@media (prefers-reduced-motion: no-preference)'));
   assert.match(motion, /\.mr--done\[data-fresh\] > \[data-stagger\] \{ animation: mr-rise 220ms[^}]*calc\(var\(--mr-i, 0\) \* 50ms\)/);
@@ -194,7 +194,7 @@ test('a v3 payload with every field renders blocks 1 to 12 in the A.1 order', as
     'From your record', INSIGHTS.lines[0].text, INSIGHTS.lines[1].text, V3_FULL.pattern.line, // 9
     'This answer cost 6 marks in this session: 5 not earned and 1 penalty.', // 10
     'Do this next', 'Practise 5 on Correct Word Usage', // 11
-    '1 credit used. 43 left.', // 12
+    '1 AI credit used. You have 43.', // 12
   ]);
   assert.match(html, /data-version="3"/);
   assert.match(html, /data-fresh="true"/, 'a fresh repair carries the motion hook');

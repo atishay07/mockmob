@@ -35,6 +35,7 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'learning_question_exposure', action: 'delete', match: own(), why: 'exposure history' },
   { table: 'recovery_review_queue', action: 'delete', match: own(), why: 'recovery queue' },
   { table: 'recovery_playbook', action: 'delete', match: own(), why: 'recovery playbook' },
+  { table: 'revise_cards', action: 'delete', match: own(), why: 'Revise schedule' },
   { table: 'attempt_recalculation_queue', action: 'delete', match: viaAttempt(), why: 'derived from the user\'s attempts' },
   { table: 'attempt_score_revisions', action: 'delete', match: viaAttempt(), why: 'derived from the user\'s attempts' },
   { table: 'recovery_sessions', action: 'delete', match: own(), why: 'recovery and practice sessions' },
@@ -62,6 +63,7 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'notification_prefs', action: 'delete', match: own(), why: 'notification settings' },
   { table: 'study_goal_history', action: 'delete', match: own(), why: 'goal history' },
   { table: 'study_goals', action: 'delete', match: own(), why: 'weekly goal' },
+  { table: 'my_colleges', action: 'delete', match: own(), why: 'saved college list' },
   { table: 'usage_events', action: 'delete', match: own(), why: 'analytics events' },
   { table: 'usage_consent', action: 'delete', match: own(), why: 'analytics consent' },
   // Kept for legal/financial reasons, with personal fields minimised.

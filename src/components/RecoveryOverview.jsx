@@ -2,13 +2,14 @@
 // Review and Progress: the student's saved sessions and recovery evidence, in the same Arena
 // language as Practice. Claims stay as before: reviewing an explanation is not evidence of
 // understanding, and ordinary scores cannot certify a recovery episode.
+// Layout: a title, one line from Mobi, ruled figures with their denominators, then ruled lists.
+// No boxes inside boxes and no arrows on rows: the whole row is the control.
 import { Fragment, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
-import { ArrowRight } from 'lucide-react';
 import LearningNextAction from './LearningNextAction';
-import ArenaHead, { ArenaStats } from './arena/ArenaHead';
-import { AppIcon, StatusIcon } from './ui/Glyph';
+import ArenaHead from './arena/ArenaHead';
+import { StatusIcon } from './ui/Glyph';
 import { SubjectObject } from './brand/SubjectObject';
 import ArenaCompanion, { OneMobi } from './brand/ArenaCompanion';
 import SceneVignette from './scenes/SceneVignette';
@@ -16,8 +17,11 @@ import { useWaitStage } from '@/lib/mobiHooks';
 import { oopsRun } from '@/lib/mobiRation';
 import StudyProgress from './study/StudyProgress';
 import RulesEntry from './rules/RulesEntry';
+import ReviseEntry from './revise/ReviseEntry';
 import { reviewChanges } from './recovery/reviewChanges';
+import { SUBJECTS } from '@/../data/subjects';
 import './recovery/review-changes.css';
+import './recovery/overview.css';
 
 // Counts in words up to ten, the way the app says them ("Two sessions saved.").
 const WORDS = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
@@ -27,7 +31,12 @@ const MILESTONES = {
   first_session: { title: 'Your first session is on the record.', link: 'Open it' },
   first_fresh_check: { title: 'A fresh delayed check passed.', link: 'See the check' },
 };
-const label = (id = '') => id.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+// Sentence case, the way the rest of the arena writes: "Two pass", "Business studies".
+const sentence = (id = '') => {
+  const text = String(id).replace(/_/g, ' ').trim().toLowerCase();
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
+const subjectLabel = (id = '') => SUBJECTS.find((s) => s.id === id)?.name || sentence(id);
 const when = (ts) => {
   if (!ts) return '';
   const d = new Date(ts);
@@ -50,20 +59,34 @@ function RollNumber({ from, to }) {
   return <span className="ov-roll">{shown}</span>;
 }
 
-function SessionCard({ a, fresh = false, index = 0 }) {
+/** Four ruled figures. Every figure carries what it is out of, so none stands alone. */
+function Figures({ label, items }) {
+  return (
+    <dl className="rv-figs" aria-label={label}>
+      {items.map((item) => (
+        <div key={item.label}>
+          <dt>{item.label}</dt>
+          <dd>{item.value}<small>{item.note}</small></dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function SessionRow({ a, fresh = false, index = 0 }) {
   const pct = a.total ? Math.round((a.correct / a.total) * 100) : 0;
+  const date = when(a.completedAt);
   return (
     <li data-fresh={fresh || undefined} style={fresh ? { '--ov-i': index } : undefined}>
-      <Link className="ov-session" href={`/result/${a.id}`}>
-        <span className="ov-session__icon ov-session__icon--obj" aria-hidden="true"><SubjectObject id={a.subject} size={68} framed={false} /></span>
-        <span className="ov-session__main">
-          <b>{label(a.subject)}{fresh ? <> <span className="ov-new">New since your last look</span></> : null}</b>
-          <span>{when(a.completedAt)}{when(a.completedAt) ? ' · ' : ''}{a.correct}/{a.total} correct</span>
+      <Link className="rv-session" href={`/result/${a.id}`}>
+        <span className="rv-session__art" aria-hidden="true"><SubjectObject id={a.subject} size={68} framed={false} /></span>
+        <span className="rv-session__main">
+          <b>{subjectLabel(a.subject)}{fresh ? <span className="ov-new">New since your last look</span> : null}</b>
+          <span>{date ? `${date}, ` : ''}{a.correct} of {a.total} correct</span>
           <i className="ov-bar" aria-hidden="true"><em style={{ transform: `scaleX(${pct / 100})` }} /></i>
         </span>
-        <span className="ov-session__side">
-          {a.mistakes > 0 ? <span className="pr-badge" data-tone="mid">{a.mistakes} to review</span> : <span className="pr-badge" data-tone="good">All correct</span>}
-          <ArrowRight size={18} aria-hidden="true" />
+        <span className="rv-session__state" data-tone={a.mistakes > 0 ? 'open' : 'clear'}>
+          {a.mistakes > 0 ? <><b>{a.mistakes}</b> to review</> : 'All correct'}
         </span>
       </Link>
     </li>
@@ -75,18 +98,21 @@ export default function RecoveryOverview({ view }) {
   const [changes, setChanges] = useState(null);
   const [shrug, setShrug] = useState(false); // a failed read shrugs once per run, not on every retry
   const wait = useWaitStage(!data && !error);
-  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your recovery record could not be loaded. Please try again.'); setShrug(oopsRun(`record:${view}`)); } }); return () => { alive = false; }; }, [retryCount, view]);
+  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your record did not load.'); setShrug(oopsRun(`record:${view}`)); } }); return () => { alive = false; }; }, [retryCount, view]);
   const retry = () => { setData(null); setError(''); setRetryCount(n => n + 1); };
   const review = data?.ordinaryReview || [];
   const toReview = review.reduce((s, a) => s + (a.mistakes || 0), 0);
   const answered = review.reduce((s, a) => s + (a.total || 0), 0);
   const correct = review.reduce((s, a) => s + (a.correct || 0), 0);
+  const rightFigure = answered
+    ? { value: `${Math.round((correct / answered) * 100)}%`, note: `${correct} of ${answered} answers` }
+    : { value: 'None yet', note: 'No answers recorded' };
   // "Your first session is on the record." is true only while there is one. With more saved, the same
-  // card points at the newest instead, so it never argues with Mobi's count above it.
+  // line points at the newest instead, so it never argues with Mobi's count above it.
   const newest = review[0] || null;
   const milestoneLine = (m) => {
     if (m.kind === 'first_session' && review.length > 1 && newest) {
-      return { title: `Newest: ${[label(newest.subject), when(newest.completedAt)].filter(Boolean).join(', ')}`, detail: null, link: 'Open it', href: `/result/${newest.id}` };
+      return { title: `Newest: ${[subjectLabel(newest.subject), when(newest.completedAt)].filter(Boolean).join(', ')}`, detail: null, link: `Open ${[subjectLabel(newest.subject), when(newest.completedAt)].filter(Boolean).join(', ')}`, href: `/result/${newest.id}` };
     }
     const said = MILESTONES[m.kind];
     return { title: said?.title || m.title, detail: said ? null : m.detail, link: said?.link || 'Open record', href: m.href };
@@ -94,63 +120,64 @@ export default function RecoveryOverview({ view }) {
 
   const Mobis = view === 'progress' ? OneMobi : Fragment;
   return (
-    <section className="pr ov"><Mobis>
+    <section className="pr ov rv"><Mobis>
       {view === 'review' ? (
-        <ArenaHead eyebrow="Review" title="Review what mattered." lede="Open a session to see why each miss happened." />
+        <ArenaHead title="Review what mattered." lede="Open a session to see why each miss happened." />
       ) : (
-        <ArenaHead eyebrow="Progress" title="Let fresh practice be your evidence." lede="Your saved sessions, your recovery checks and your exam playbook, in one place." />
+        <ArenaHead title="Your study days and checks." lede="Your saved sessions, your recovery checks and your exam playbook, in one place." />
       )}
 
       {error ? <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error} <button type="button" className="pr-link" onClick={retry}>Try again</button></div></div> : null}
-      {!data && !error ? <div className="na__skeleton" role="status" aria-label="Loading your record"><i /><i /><i /></div> : null}
+      {!data && !error ? <div className="rv-skel" role="status" aria-label="Loading your record"><i /><i /><i /></div> : null}
       {!data ? <ArenaCompanion compact act={error ? (shrug ? 'oops' : 'idle') : wait === 'long' ? 'loading' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Your record can wait a moment.' : 'Opening your saved record.'}>{error ? 'Try again when you are ready.' : 'Your sessions and checks will appear here.'}</ArenaCompanion> : null}
-      {data && review.length > 0 ? <ArenaCompanion compact act="read" pose="attentive" title={`${count(review.length, 'session')} saved.`}>{toReview ? `${count(toReview, 'question')} to look at.` : 'Nothing left to look at. Every answer was right.'}</ArenaCompanion> : null}
-      {data?.milestones?.length ? <section className="ov-section" aria-label="Recorded milestones">{data.milestones.map(m => { const line = milestoneLine(m); return <div key={m.kind}><b>{line.title}</b><p>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></p></div>; })}</section> : null}
+      {/* Review's figures below say the same counts, so Mobi's count line is kept to Progress. */}
+      {data && review.length > 0 && view !== 'review' ? <ArenaCompanion compact act="read" pose="attentive" title={`${count(review.length, 'session')} saved.`}>{toReview ? `${count(toReview, 'question')} to look at.` : 'Nothing left to look at. Every answer was right.'}</ArenaCompanion> : null}
+      {data?.milestones?.length ? <div className="rv-notes" role="group" aria-label="Recorded milestones">{data.milestones.map(m => { const line = milestoneLine(m); return <p key={m.kind} className="rv-note"><b>{line.title}</b><span>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></span></p>; })}</div> : null}
 
       {data && view === 'review' ? (
         <>
-          <ArenaStats label="Review summary" items={[
-            { icon: <AppIcon name="practice" size={15} />, label: 'Sessions saved', value: review.length },
-            { icon: <AppIcon name="review" size={15} />, label: 'Questions to review', value: changes?.changed ? <RollNumber from={changes.fromToReview} to={toReview} /> : toReview },
-            { icon: <AppIcon name="check" size={15} />, label: 'Answered right', value: answered ? `${Math.round((correct / answered) * 100)}%` : '—' },
-            { icon: <AppIcon name="clock" size={15} />, label: 'Last session', value: when(review[0]?.completedAt) || '—' },
-          ]} />
+          {review.length > 0 ? <Figures label="Review summary" items={[
+            { label: 'Sessions saved', value: review.length, note: `${answered} questions answered` },
+            { label: 'Questions to review', value: changes?.changed ? <RollNumber from={changes.fromToReview} to={toReview} /> : toReview, note: answered ? `of ${answered} answered` : 'Nothing answered yet' },
+            { label: 'Answered right', ...rightFigure },
+            { label: 'Last session', value: when(review[0]?.completedAt) || 'None yet', note: review[0] ? subjectLabel(review[0].subject) : 'No session yet' },
+          ]} /> : null}
+          <section className="rv-sec" aria-labelledby="ov-sessions">
+            <div className="rv-sec__head"><h2 id="ov-sessions">Your sessions</h2>{review.length > 1 ? <span>Newest first</span> : null}</div>
+            {review.length ? <ul className="ov-list rv-list">{review.map((a, i) => <SessionRow key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={i} />)}</ul> : (
+              <div className="rv-empty rv-empty--room"><SceneVignette scene="nothingYet" interactive /><ArenaCompanion mobi={false} title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice</Link></div>
+            )}
+          </section>
           <LearningNextAction compact />
           <StudyProgress review />
           {data.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
-          <RulesEntry />
-          <section className="ov-section" aria-labelledby="ov-sessions">
-            <div className="pr-step__head"><h2 id="ov-sessions">Your sessions</h2><span className="pr-hint">Newest first</span></div>
-            {review.length ? <ul className="ov-list">{review.map(a => <SessionCard key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={review.indexOf(a)} />)}</ul> : (
-              <div className="ov-empty"><SceneVignette scene="nothingYet" interactive /><ArenaCompanion mobi={false} title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice<ArrowRight size={16} aria-hidden="true" /></Link></div>
-            )}
-          </section>
+          <div className="ov-links"><ReviseEntry /><RulesEntry /></div>
         </>
       ) : null}
 
       {data && view === 'progress' ? (
         <>
-          <ArenaStats label="Progress summary" items={[
-            { icon: <AppIcon name="practice" size={15} />, label: 'Practice sessions', value: review.length },
-            { icon: <AppIcon name="progress" size={15} />, label: 'Concept checks', value: data.progress.length },
-            { icon: <AppIcon name="saved" size={15} />, label: 'Playbook entries', value: data.playbook.length },
-            { icon: <AppIcon name="check" size={15} />, label: 'Answered right', value: answered ? `${Math.round((correct / answered) * 100)}%` : '—' },
-          ]} />
+          {review.length > 0 || data.progress.length > 0 || data.playbook.length > 0 ? <Figures label="Progress summary" items={[
+            { label: 'Practice sessions', value: review.length, note: `${answered} questions answered` },
+            { label: 'Concept checks', value: data.progress.length, note: data.progress.length ? 'with delayed checks' : 'None completed yet' },
+            { label: 'Playbook entries', value: data.playbook.length, note: data.playbook.length ? 'saved from results' : 'None saved yet' },
+            { label: 'Answered right', ...rightFigure },
+          ]} /> : null}
           <LearningNextAction compact />
           <StudyProgress />
-          <section className="ov-section" aria-labelledby="ov-checks">
-            <div className="pr-step__head"><h2 id="ov-checks">Concept checks</h2><span className="pr-hint">Fresh, delayed questions only</span></div>
-            {data.progress.length ? <ul className="ov-list">{data.progress.map(p => (
-              <li key={p.concept} className="ov-row"><b>{label(p.concept)}</b><span>{p.evidenceLabel}</span><span className="pr-badge">{p.sampleSize} delayed check{p.sampleSize === 1 ? '' : 's'}</span></li>
-            ))}</ul> : <div className="ov-empty"><AppIcon name="progress" size={22} /><b>No completed recovery checks yet</b><p>Ordinary practice is ready while recovery sources and calibration are being prepared.</p></div>}
+          <section className="rv-sec" aria-labelledby="ov-checks">
+            <div className="rv-sec__head"><h2 id="ov-checks">Concept checks</h2><span>Fresh, delayed questions only</span></div>
+            {data.progress.length ? <ul className="rv-rows">{data.progress.map(p => (
+              <li key={p.concept}><b>{sentence(p.concept)}</b><span>{p.evidenceLabel}</span><small>{p.sampleSize} delayed check{p.sampleSize === 1 ? '' : 's'}</small></li>
+            ))}</ul> : <div className="rv-empty"><b>No delayed checks yet</b><p>After you repair a mistake, a fresh question on the same idea comes back later. Its result lands here.</p></div>}
           </section>
-          <section className="ov-section" aria-labelledby="ov-playbook">
-            <div className="pr-step__head"><h2 id="ov-playbook">Your exam playbook</h2><span className="pr-hint">Strategies you saved from results</span></div>
-            {data.playbook.length ? <ul className="ov-list">{data.playbook.map(p => (
-              <li key={p.id} className="ov-row"><b>{label(p.strategy)}</b><span>{p.reflection || 'No reflection yet'}</span><span className="pr-badge">Awaiting repeated evidence</span></li>
-            ))}</ul> : <div className="ov-empty"><AppIcon name="saved" size={22} /><b>Your playbook is empty</b><p>The rule you keep for your next mock is chosen in <Link className="pr-link" href="/review/rules">Your rules</Link>.</p></div>}
+          <section className="rv-sec" aria-labelledby="ov-playbook">
+            <div className="rv-sec__head"><h2 id="ov-playbook">Your exam playbook</h2><span>Strategies you saved from results</span></div>
+            {data.playbook.length ? <ul className="rv-rows">{data.playbook.map(p => (
+              <li key={p.id}><b>{sentence(p.strategy)}</b><span>{p.reflection || 'No reflection yet'}</span><small>Awaiting repeated evidence</small></li>
+            ))}</ul> : <div className="rv-empty"><b>Your playbook is empty</b><p>The rule you keep for your next mock is chosen in <Link className="pr-link" href="/review/rules">Your rules</Link>.</p></div>}
           </section>
-          {data.note ? <p className="na__note">{data.note}</p> : null}
+          {data.note ? <p className="rv-foot">{data.note}</p> : null}
         </>
       ) : null}
     </Mobis></section>

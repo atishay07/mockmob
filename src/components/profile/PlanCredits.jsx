@@ -1,7 +1,7 @@
 "use client";
 
 // Account > Plan and credits: the live plan card (Free with practice credits, or Pro), joined to one
-// line for the PrepOS wallet, so both currencies sit together the way the top bar shows them.
+// line for the AI credits wallet, so both currencies sit together the way the top bar shows them.
 // The wallet is read once per account by useWalletSummary; unknown is never shown as 0.
 import Link from 'next/link';
 import { PlanCard } from '@/components/billing/PlanCard';
@@ -20,10 +20,10 @@ export default function PlanCredits({ userId }) {
       <div className="acct-wallet" data-state={line.state} aria-busy={line.state === 'loading' || undefined}>
         <div className="acct-wallet__amount">
           {line.state === 'loading' ? <span className="acct-sk acct-sk--figure skeleton" aria-hidden="true" /> : null}
-          {line.state === 'known' ? <CreditAmount kind="prepos" amount={line.total} unit={false} size={18} /> : null}
-          <span className="acct-wallet__line" role="status">{line.line}</span>
+          {line.state === 'known' ? <CreditAmount kind="prepos" amount={line.total} size={18} /> : null}
+          <span className="acct-wallet__line" role="status">{line.state === 'known' ? line.line.replace(/^AI credits /, '') : line.line}</span>
         </div>
-        <Link href={PREPOS_HREF} className="acct-link">Open PrepOS</Link>
+        <span className="acct-wallet__links"><Link href="#credits" className="acct-link">See history</Link><Link href={PREPOS_HREF} className="acct-link">Ask Mobi</Link></span>
       </div>
     </section>
   );

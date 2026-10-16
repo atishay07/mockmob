@@ -18,6 +18,8 @@ export function PlanCard() {
   const pro = Boolean(user?.isPremium);
   const recurring = pro && Boolean(user?.razorpaySubscriptionId);
   const until = user?.premiumUntil || null;
+  // Not Pro but with an end date on record: Pro was held and has ended (the server clears isPremium at the end).
+  const ended = !pro && Boolean(until);
   const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : 0;
   const rolled = useCountUp(balance, { from: 0, duration: 900 });
 
@@ -50,7 +52,7 @@ export function PlanCard() {
               ? <>Pro renews every month{until ? <>. Paid through <strong>{fmt(until)}</strong></> : null}.</>
               : <>Pro access{until ? <> runs through <strong>{fmt(until)}</strong></> : null}. It does not renew, so there is nothing to cancel.</>}
           </p>
-          <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick Practice and Full Mock</span></div>
+          <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick practice and Full mock</span></div>
           {recurring && phase === 'idle' && <button type="button" className="plan-card__quiet" onClick={() => setPhase('confirm')}>Cancel renewal</button>}
           {recurring && phase === 'confirm' && (
             <div className="plan-card__confirm" role="group" aria-label="Confirm cancellation">
@@ -67,9 +69,10 @@ export function PlanCard() {
         </>
       ) : (
         <>
-          <p className="plan-card__lead">Free uses credits: Quick Practice costs 10 and Full Mock costs 50.</p>
-          <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} /></div>
-          <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />See Pro</Link>
+          {ended ? <p className="plan-card__lead">Your Pro access ended on <strong>{fmt(until)}</strong>. Your history and saved questions stay.</p> : null}
+          <p className="plan-card__lead">Free uses practice credits: Quick practice costs 10 practice credits and Full mock costs 50.</p>
+          <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} unitLabel="practice credits" /></div>
+          <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />{ended ? 'See Pro to renew' : 'See Pro'}</Link>
         </>
       )}
     </section>

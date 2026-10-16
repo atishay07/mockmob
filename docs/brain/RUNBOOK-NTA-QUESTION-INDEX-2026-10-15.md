@@ -28,6 +28,30 @@ is applied at runtime; moving it needs no rebuild. The engine itself (`data/nta_
    content-hash check and the question simply falls out of the pool until rebuilt) and after the signing key
    rotates. The build removes a subject's rows that no longer verify.
 
+## Keeping the index current (Q8b, 15 Oct 2026)
+
+The index no longer needs a manual rebuild after a publish. Three layers, each safe on its own:
+
+1. **Pool fallback (always on, no deploy step).** `loadNtaPoolFromIndex` compares the subject's newest index
+   `verified_at` with the newest `created_at` or `live_at` of its live, undeleted questions (two one-row selects,
+   once per subject per 5-minute pool cache). If a question is newer, the subject is read in full for that start
+   (`timings.poolSource = full`, `timings.indexStale = true`, one `[nta-index] stale index` log line), so a question
+   published after the last build is never missing from a paper. A failed check also reads in full.
+2. **Publish rebuild.** `scripts/question-publish-authored.mjs --mode=apply` rebuilds the index rows of the subjects it
+   touched right after its read-back is clean (`ntaIndex` in its output). It needs `CUET_EVIDENCE_SIGNING_KEY` in the
+   environment or `.env.local`, skips quietly when the key or the table is missing, never fails the publish, and
+   `--no-index-rebuild` switches it off. The factory and moderation publish one question at a time; they rely on
+   layers 1 and 3 (a rebuild per question would re-read the subject each time).
+3. **Daily cron.** `/api/internal/rebuild-nta-index` (vercel.json, 22:00 UTC, 03:30 IST) rebuilds each subject whose
+   index is older than its newest live question, one subject at a time, reading only that subject. It runs only on
+   Vercel production (`data/full_bank_guard.js`; 409 elsewhere), uses the same CRON_SECRET or INTERNAL_API_SECRET
+   check as the other internal routes, needs `CUET_EVIDENCE_SIGNING_KEY` in the Vercel production environment, and
+   leaves a subject with no index rows alone (the first build stays the owner's step). `?subject=<id>` with the
+   internal secret rebuilds one subject by hand. A fresh subject costs a few small selects.
+
+`verified_at` is stamped per subject at or after that subject's newest live question, so a clock difference between
+the builder and the database cannot leave a fresh build looking stale. No migration change.
+
 ## Apply and verify (production)
 
 Use the Supabase MCP `apply_migration` with name `nta_question_index` and the SQL of the migration file, or

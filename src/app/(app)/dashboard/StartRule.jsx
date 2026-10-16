@@ -2,11 +2,10 @@
 // The rule for this mock on MockMob's own session card, before the clock starts (spec tmp/mistake-lab-v4/SPEC.md 4.12):
 // "Your rule for this mock: open every question once before you go deep on any." and "Last mock: 6 questions never
 // opened." Both sentences come finished from GET /api/me/playbook (data/rule_book.js startSheetLines). Shown only for a
-// Full mock or NTA Mode, on this page, before Start: nothing is added inside the timed paper, and the NTA screen itself
+// Full mock or NTA mode, on this page, before Start: nothing is added inside the timed paper, and the NTA screen itself
 // is untouched. A failed read shows nothing; the session starts exactly as before.
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Target } from 'lucide-react';
 import { apiGet } from '@/lib/fetcher';
 import { MOCK_MODES } from '@/components/result/labLoop';
 import './start-rule.css';
@@ -31,7 +30,6 @@ export default function StartRule({ sheet }) {
   if (!sheet?.rule) return null;
   return (
     <div className="pr-rule">
-      <span className="pr-rule__icon" aria-hidden="true"><Target size={18} strokeWidth={2.2} /></span>
       <div className="pr-rule__text">
         <p className="pr-rule__line">{sheet.rule}</p>
         {sheet.last ? <p className="pr-rule__last">{sheet.last}</p> : null}

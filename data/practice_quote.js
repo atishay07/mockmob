@@ -43,7 +43,7 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
 
   const mode = TEST_MODES[modeId];
   const capability = MODE_CAPABILITIES[modeId];
-  if (!mode || !capability) return block('unavailable', 'mode_unknown', 'Choose Quick Practice, Full Mock, Smart Practice or NTA Mode.', { subject: subjectOut });
+  if (!mode || !capability) return block('unavailable', 'mode_unknown', 'Choose Quick practice, Full mock, Smart practice or NTA mode.', { subject: subjectOut });
   if (capability.state !== 'available') return block('unavailable', 'mode_unavailable', capability.reason || `${mode.label} is not available right now.`, { subject: subjectOut });
 
   const n = resolveCount(mode, Math.max(5, Math.min(50, Number(count) || mode.defaultCount || 10)));
@@ -60,7 +60,7 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
   };
 
   if (mode.premium && !isPremium) {
-    return block('blocked', 'access_required', `${mode.label} needs Pro. Quick Practice and Full Mock are available with credits.`, { ...common, upgradeHref: '/pricing?reason=premium_mode' });
+    return block('blocked', 'access_required', `${mode.label} needs Pro. Quick practice and Full mock are available with credits.`, { ...common, upgradeHref: '/pricing?reason=premium_mode' });
   }
 
   // Inventory: a count is a necessary condition only; the exact set is built at launch.

@@ -10,7 +10,7 @@ export default function manifest() {
     start_url: '/today',
     scope: '/',
     display: 'standalone',
-    background_color: '#0b100e',
+    background_color: '#12110E',
     theme_color: '#0b100e',
     icons: [
       { src: '/pwa/icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },

@@ -49,9 +49,9 @@ function newGenerationKey() {
     : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`;
 }
 
-// A Full Mock for the subject: started directly for a Premium student (it costs them nothing), set up on
+// A Full mock for the subject: started directly for a Premium student (it costs them nothing), set up on
 // the dashboard otherwise, where its cost is shown before it starts. One key per refusal, so following
-// the link twice reopens the same Full Mock.
+// the link twice reopens the same Full mock.
 function fullMockHref(subjectId, isPremium, key) {
   const subject = encodeURIComponent(subjectId || '');
   if (!isPremium) return `/dashboard?subject=${subject}&mode=full`;
@@ -434,7 +434,7 @@ function TestRunner() {
         if (!alive) return;
         if (e?.status === 402 && e?.body?.upgrade) {
           try { await refreshSession({ silent: true }); } catch {}
-          setError('Insufficient credits. Upgrade to Premium for unlimited mocks.');
+          setError('Not enough practice credits. Upgrade to Pro for unlimited mocks.');
           setLoading(false);
           router.replace('/pricing?reason=insufficient_credits');
           return;
@@ -891,7 +891,7 @@ function TestRunner() {
         title={`No NTA paper for ${displayLabel(subjectId)} yet`}
         message={refusal.message}
         actions={<>
-          <Link href={fullMockHref(subjectId, user?.isPremium === true, refusal.fullMockKey)} className="ui-state__action ui-state__action--primary">Start a Full Mock</Link>
+          <Link href={fullMockHref(subjectId, user?.isPremium === true, refusal.fullMockKey)} className="ui-state__action ui-state__action--primary">Start a Full mock</Link>
           <Link href="/dashboard" className="ui-state__action">Back to dashboard</Link>
         </>}
       />
@@ -922,7 +922,7 @@ function TestRunner() {
   const pendingCount = questions.length - answered;
   const lowTime = timeLeft < 60;
   const isLastBlock = block.endIdx >= questions.length - 1;
-  const attemptLabel = isNtaMode ? 'NTA Mode' : mode.label;
+  const attemptLabel = isNtaMode ? 'NTA mode' : mode.label;
   const subjectLabel = displayLabel(subjectId);
 
   const chipStateFor = (qid) => {

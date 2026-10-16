@@ -1,0 +1,103 @@
+/* ==========================================================================
+   DU tools, de-slopped (arena pass, 16 Oct 2026). Loads after du.css; the selectors carry a .du-app or
+   .cp parent so they win by specificity, not by order. What changes and why:
+   - the programme list is one ruled list, not 73 identical rounded cards;
+   - no tinted pills, no dashed boxes, no tinted wash, no glow, no tracked all-caps tags, no gradient edge;
+   - numbers are proportional tabular figures, not a monospace costume;
+   - a status is words in the status colour, not a filled pill.
+   Nothing is removed: every control, number and state is still here. Tokens only, so Night and Daylight match.
+   ========================================================================== */
+
+/* Numbers: tabular, in the body face. */
+.du-app .mm-measure, .cp .mm-measure, .du-page .mm-measure { font-family: var(--font-body); font-variant-numeric: tabular-nums; letter-spacing: 0; }
+
+/* Page title: one voice, no accent on the second phrase. */
+.du-page .du-title span { display: inline; margin: 0; color: inherit; }
+
+/* ---------- Subjects pane ---------- */
+.du-app .du-side { background: var(--paper-raised); box-shadow: none; }
+.du-app .du-count { font-family: var(--font-body); font-variant-numeric: tabular-nums; }
+.du-app .du-presets > span, .cp .du-presets > span { font-size: 0.8125rem; letter-spacing: 0; text-transform: none; font-weight: 600; }
+.du-app .du-preset, .cp .du-preset { border-radius: var(--r-2); border-color: var(--line-strong); background: transparent; }
+.du-app .du-preset--ghost, .cp .du-preset--ghost { border-color: transparent; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-strong); }
+@media (hover: hover) {
+  .du-app .du-preset:hover, .cp .du-preset:hover { border-color: var(--ink-3); background: rgb(var(--tint, 244 245 240) / 0.05); }
+}
+.du-app .du-chip[aria-pressed="true"], .cp .du-chip[aria-pressed="true"] { background: rgb(var(--tint, 244 245 240) / 0.06); }
+
+/* Selected subjects: neutral chips, the volt tick already says "chosen" in the picker. */
+.du-app .du-tray button, .cp .du-tray button { border-radius: var(--r-2); border-color: var(--line-strong); background: transparent; }
+@media (hover: hover) {
+  .du-app .du-tray button:hover, .cp .du-tray button:hover { border-color: var(--ink-3); background: rgb(var(--tint, 244 245 240) / 0.05); }
+}
+
+/* "Add one subject": a plain row with a hairline above it, no dashed box, no icon. */
+.du-app .du-unlocks { padding: 0.9rem 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; }
+.du-app .du-unlocks button { border-radius: var(--r-2); }
+.du-app .du-unlocks button b { padding: 0; background: none; font-size: 0.8125rem; color: var(--accent-text, var(--volt)); }
+
+/* ---------- Results ---------- */
+.du-app .du-streams button { border-radius: var(--r-2); }
+.du-app .du-btn { border-radius: var(--r-2); background: transparent; }
+.du-app .du-clearing { padding: 0; border: 0; border-radius: 0; background: none; }
+.du-app .du-empty { padding: 0; border: 0; border-radius: 0; background: none; }
+
+/* The programme list: ruled rows. Opening one shows its panel in place. */
+.du-app .du-list { gap: 0; border-top: 1px solid var(--line-strong); }
+.du-app .du-card { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
+.du-app .du-card[data-open="true"] { border-bottom-color: var(--line-strong); }
+.du-app .du-card__head { padding: 1.1rem 0; border-radius: 0; }
+.du-app .du-card__head:focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
+.du-app .du-card__panel { border-top: 0; padding-bottom: 0.5rem; }
+.du-app .du-sec { padding-inline: 0; }
+.du-app .du-notes { padding-inline: 0; }
+.du-app .du-card__meta { gap: 0.3rem 1rem; }
+.du-app .du-tag { padding: 0; border: 0; border-radius: 0; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0; text-transform: none; color: var(--ink-2); }
+.du-app .du-card__match em, .du-app .du-card__flag { font-style: normal; }
+.du-app .du-verdict { padding: 0; border-radius: 0; background: none; }
+.du-app .du-verdict[data-tone] { background: none; }
+
+/* The Bulletin rules: one ruled list; the mark and the words carry the state. */
+.du-app .du-rules { gap: 0; }
+.du-app .du-rules li { padding: 0.7rem 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; }
+.du-app .du-rules li:first-child { border-top: 0; }
+.du-app .du-rules li[data-ok="true"] { border-color: var(--line); background: none; }
+
+/* Cutoffs by college: three figures on a row, no tiles, the fit as words. */
+.du-app .du-seat__cuts div { padding: 0; background: none; }
+.du-app .du-seat__cuts abbr { background: none; padding: 0; font-size: 0.6875rem; font-weight: 600; text-decoration: none; }
+.du-app .du-seat__status, .du-app .du-seat[data-status] .du-seat__status { padding: 0; border-radius: 0; background: none; }
+.du-app .du-more { border-style: solid; border-radius: var(--r-2); }
+
+/* Not eligible yet */
+.du-app .du-near { padding: 0; border: 0; border-top: 1px solid var(--line-strong); border-radius: 0; }
+
+/* The count ring keeps its meaning; it loses the glow on the could-clear dot. */
+.du-app .du-clear { box-shadow: none; }
+
+/* The closing step: a ruled block, not a gradient card. */
+.du-app .du-cta { padding-inline: 0; border: 0; border-top: 1px solid var(--line-strong); border-radius: 0; background: none; }
+
+/* ---------- Combo planner ---------- */
+.cp .cp-step { padding: clamp(0.25rem, 1vw, 0.5rem) 0 clamp(1rem, 3vw, 1.5rem); border: 0; border-top: 1px solid var(--line-strong); border-radius: 0; background: none; }
+.cp .cp-step__title { gap: 0.55rem; }
+.cp .cp-step__title span { display: inline; width: auto; height: auto; border: 0; border-radius: 0; font-family: var(--font-display); font-size: inherit; font-weight: 800; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.cp .cp-step__title span::after { content: '.'; }
+.cp .cp-results button { border-radius: var(--r-2); }
+.cp .cp-results__dot { grid-area: icon; width: 0.6rem; height: 0.6rem; margin: 0 0.15rem; border: 1.5px solid var(--line-strong); border-radius: 50%; }
+.cp .cp-limit button { border-radius: var(--r-2); }
+.cp .cp-keep { padding: 0; border: 0; border-radius: 0; background: none; }
+.cp .cp-list { gap: 0; border-top: 1px solid var(--line-strong); }
+.cp .cp-combo { padding: 1.1rem 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: none; }
+.cp .cp-combo[data-best] { border-color: var(--line); background: none; }
+.cp .cp-combo__subjects { gap: 0.1rem 0; }
+.cp .cp-combo__subjects li { padding: 0; border: 0; border-radius: 0; font-size: 1rem; font-weight: 700; }
+.cp .cp-combo__subjects li:not(:last-child)::after { content: ','; margin-right: 0.3em; font-weight: 500; color: var(--ink-3); }
+.cp .cp-combo__stats dd b { font-size: 1.25rem; }
+
+@media (hover: hover) { .cp .cp-results button:hover:not(:disabled) { border-color: var(--ink-3); } }
+
+/* The planner's sticky outcome bar sits under the nav like the calculator's; the link to the calculator reads as a link. */
+.cp .cp-sum { margin-bottom: 1rem; scroll-margin-top: 5rem; }
+.cp .cp-step { scroll-margin-top: 8rem; }
+.cp .cp-combo__go { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }

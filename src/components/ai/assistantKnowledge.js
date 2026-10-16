@@ -3,14 +3,14 @@
 // match a shipped capability (see data/capabilities.js).
 import { CAPABILITIES } from '@/../data/capabilities';
 
-export const PREPOS_PAUSED_MESSAGE = 'PrepOS paid features are temporarily unavailable. Your credits have not been used.';
+export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your AI credits have not been used.';
 
 export const FEATURE_GUIDE = [
   {
     key: 'today',
     name: 'Today',
     route: '/today',
-    description: 'One next step from your practice record, sized to 10, 20 or 30 minutes. PrepOS shows the same step.',
+    description: 'One next step from your practice record, sized to 10, 20 or 30 minutes. Ask Mobi shows the same step.',
     whenToUse: 'Start here when you are not sure what to do next.',
     actionLabel: 'Open Today',
   },
@@ -42,7 +42,7 @@ export const FEATURE_GUIDE = [
     key: 'compass',
     name: 'DU eligibility and cutoffs',
     route: '/admission-compass',
-    description: 'Checks your subjects against DU’s published 2026 eligibility rules and shows the 2026 Round I–III minimum allocation scores by category. Historical figures only: it does not predict admission or turn mock marks into a CUET score.',
+    description: 'Checks your subjects against DU’s published 2026 eligibility rules and shows the 2026 Round 1–III minimum allocation scores by category. Historical figures only: it does not predict admission or turn mock marks into a CUET score.',
     whenToUse: 'Use it to check which programmes your subject combination allows.',
     actionLabel: 'Open Compass',
   },
@@ -58,30 +58,30 @@ export const FEATURE_GUIDE = [
     key: 'benchmark',
     name: 'Shadow Benchmark',
     route: '/rival',
-    description: 'A timed set against a simulated pace. Basic benchmarks are included; premium benchmarks use PrepOS credits and are paused with paid PrepOS.',
+    description: 'A timed set against a simulated pace. Basic benchmarks are included; premium benchmarks use AI credits and are paused for now.',
     whenToUse: 'Use it for a short timed check without a full mock.',
     actionLabel: 'Open Benchmark',
   },
   {
     key: 'credits',
-    name: 'PrepOS credits',
-    route: '/pricing/prepos',
-    description: 'PrepOS credits are a separate wallet from practice credits. Paid PrepOS replies and new top-ups are paused; existing balances are preserved and nothing is charged.',
-    whenToUse: 'Use it to see your preserved PrepOS balance.',
-    actionLabel: 'View PrepOS wallet',
+    name: 'AI credits',
+    route: '/pricing/ai-credits',
+    description: 'AI credits are separate from Practice credits. Paid AI replies and new top-ups are paused; existing balances are preserved and nothing is charged.',
+    whenToUse: 'Use it to see your preserved AI credit balance.',
+    actionLabel: 'See your AI credits',
   },
 ];
 
 export function pageHelpForPath(pathname = '/') {
   const help = (title, body, primary) => ({ title, body, primary });
   if (pathname.startsWith('/dashboard')) return help('Practice', 'Pick a subject, a mode and a question count. The launch check shows the cost, time and any reason a session cannot start.', { label: 'Open Today', type: 'navigate', route: '/today' });
-  if (pathname.startsWith('/test')) return help('Active session', 'Stay with the questions. PrepOS stays out of the way until you submit.', null);
+  if (pathname.startsWith('/test')) return help('Active session', 'Stay with the questions. Mobi stays out of the way until you submit.', null);
   if (pathname.startsWith('/rival')) return help('Shadow Benchmark', 'A timed set against a simulated pace. It reports accuracy, pace and skips for this set only.', null);
   if (pathname.startsWith('/admission-compass')) return help('DU eligibility and cutoffs', FEATURE_GUIDE.find((f) => f.key === 'compass').description, null);
   if (pathname.startsWith('/analytics')) return help('Radar', 'Radar summarises your server-scored sessions. Review the chapters you missed more than once.', { label: 'Open Review', type: 'navigate', route: '/review' });
   if (pathname.startsWith('/saved')) return help('Saved questions', 'Saved questions are for short revision blocks.', null);
-  if (pathname.startsWith('/pricing')) return help('Plans and credits', 'Pro and PrepOS credits are separate. New PrepOS top-ups are paused; existing balances are preserved.', null);
-  return help('MockMob', 'PrepOS explains your next step and the tools. Your plan comes from your practice record.', { label: 'Open Today', type: 'navigate', route: '/today' });
+  if (pathname.startsWith('/pricing')) return help('Plans and credits', 'Pro and AI credits are separate. New AI credit top-ups are paused; existing balances are preserved.', null);
+  return help('MockMob', 'Mobi explains your next step and the tools. Your plan comes from your practice record.', { label: 'Open Today', type: 'navigate', route: '/today' });
 }
 
 /** Instant answers that need no model. Returns null when PrepOS should use the shared plan. */
@@ -100,10 +100,10 @@ export function deterministicReplyFor({ text, pathname }) {
     const paused = CAPABILITIES.optionalAi.state !== 'available';
     return reply(
       paused
-        ? `${PREPOS_PAUSED_MESSAGE} Practice credits (for Quick Practice and Full Mock) are a separate balance and still work.`
-        : 'PrepOS credits are separate from practice credits.',
+        ? `${PREPOS_PAUSED_MESSAGE} Practice credits (for Quick practice and Full mock) are a separate balance and still work.`
+        : 'AI credits are separate from Practice credits.',
       'Wallet state comes from the server.',
-      { label: 'View PrepOS wallet', type: 'navigate', route: '/pricing/prepos' },
+      { label: 'See your AI credits', type: 'navigate', route: '/pricing/ai-credits' },
     );
   }
   if (q.includes('college') || q.includes('admission') || q.includes('cutoff') || q.includes('chance') || q.includes(' du ') || q.startsWith('du ')) {

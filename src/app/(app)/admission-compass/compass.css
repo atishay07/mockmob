@@ -1,0 +1,55 @@
+/* ==========================================================================
+   ADMISSION COMPASS  scope: .app-shell .cmp
+   The arena's Compass page, de-slopped (16 Oct 2026). arena.css still holds the base rules; these carry one
+   more class (.cmp, or .cpro on its own) so they win without editing it. What changes:
+   - the how-it-works steps are a ruled list with plain numbers, no icons in boxes;
+   - the note is one quiet paragraph, not a bordered banner with an icon;
+   - Compass Pro loses its glow, its badge pill and the nested feature cards: it is a ruled block, its three
+     features are a ruled row of bold lead and one line each;
+   - the shortlist rows and the practice bridge are ruled rows, not bordered cards.
+   Every control, number and state is kept. Tokens only (--a-*), so Night and Daylight match.
+   ========================================================================== */
+
+/* How it works */
+.app-shell .cmp .cmp-steps { border: 0; border-top: 1px solid var(--a-line-strong); border-radius: 0; background: none; }
+.app-shell .cmp .cmp-steps li { grid-template-columns: 1.4em minmax(0, 1fr); gap: 10px; padding: 12px 0; }
+.app-shell .cmp .cmp-steps i { font: normal 700 14px/1.4 var(--a-display, var(--font-display)); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+
+/* The note */
+.app-shell .cmp .cmp-note { display: block; max-width: 78ch; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; font-size: 13.5px; line-height: 1.6; color: var(--a-ink-3); }
+
+/* From your practice: a ruled row with the subject's object */
+.app-shell .cmp .cmp-bridge { padding: 16px 0; border: 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); border-radius: 0; background: none; }
+
+/* Official sources: one quiet disclosure */
+.app-shell .cmp .cmp-sources { padding: 0; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: none; }
+.app-shell .cmp .cmp-sources ul { padding-left: 0; list-style: none; }
+.app-shell .cmp .cmp-sources li { color: var(--a-ink-3); }
+
+/* ---------- Compass Pro ---------- */
+.app-shell section.cpro { gap: 20px; padding: 22px 0 0; border: 0; border-top: 1px solid var(--a-line-strong); border-radius: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.app-shell section.cpro::before { display: none; }
+.app-shell .cpro .cpro-head h2 { font-size: clamp(20px, 2.6vw, 24px); }
+.app-shell .cpro .cpro-grid { gap: 28px; }
+@media (min-width: 900px) { .app-shell .cpro .cpro-grid { gap: 40px; } }
+.app-shell .cpro .cpro-card { padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; gap: 12px; }
+.app-shell .cpro .cpro-card h3 { font-size: 16px; }
+.app-shell section.cpro .mm-measure { font-family: var(--font-body); letter-spacing: 0; }
+
+/* The three features: a ruled row, a bold lead and one line each. No icons, no boxes. */
+.app-shell .cpro .cpro-features { grid-template-columns: minmax(0, 1fr); gap: 0; }
+.app-shell .cpro .cpro-features li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; padding: 14px 0; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: none; }
+.app-shell .cpro .cpro-features li > b { font: 700 15px/1.3 var(--font-display); color: var(--a-ink); }
+@media (min-width: 760px) {
+  .app-shell .cpro .cpro-features { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 28px; }
+}
+
+/* Shortlist: ruled rows */
+.app-shell .cpro .cpro-targets { gap: 0; margin-top: 8px; border-top: 1px solid var(--a-line-strong); }
+.app-shell .cpro .cpro-target { padding: 14px 52px 14px 0; border: 0; border-bottom: 1px solid var(--a-line); border-radius: 0; background: none; }
+.app-shell .cpro .cpro-target[data-position="above"] { border-color: var(--a-line); }
+.app-shell .cpro .cpro-remove { right: 0; }
+
+/* The projection bar: a thin range, not a pill track */
+.app-shell .cpro .cpro-paper__track { height: 6px; border-radius: 3px; }
+.app-shell .cpro .cpro-paper__track i { border-radius: 3px; }

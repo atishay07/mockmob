@@ -85,12 +85,13 @@ test('the rate limits, the late-night window and the tap cycle are the app numbe
   assert.equal(FOLLOW.clampY, spec.followPointer.clampY);
 });
 
-test('every act has its own motion in motion-kit.css, and every act wears a pose that exists', () => {
-  const css = read('src/app/motion-kit.css');
-  const manifest = JSON.parse(read('public/brand/mascot/manifest.json'));
-  for (const act of MOBI_ACTS) {
-    if (act === 'think' || act === 'point' || act === 'rest') continue; // held stances: their motion is in the shared rules
-    assert.ok(css.includes(`[data-act='${act}']`), `${act} has CSS`);
+test('every act is a program in the rig table with the same length and stance as the choreography table', () => {
+  const rig = JSON.parse(read('data/mobi_rig.v2.json'));
+  for (const [act, app] of Object.entries(spec.acts)) {
+    const row = rig.acts[act];
+    assert.ok(row, `${act} is in the rig table`);
+    assert.equal(Math.round(row.seconds * 1000), app.durationMs, `${act} seconds`);
+    assert.equal(row.stance, app.stance, `${act} stance`);
+    assert.equal(Boolean(row.held), app.held, `${act} held`);
   }
-  for (const act of [...MOBI_ACTS, 'idle']) assert.ok(manifest[SPEC[act].pose], `${act} wears an existing pose`);
 });

@@ -72,6 +72,9 @@ await call('rhythm', 'GET', '/api/me/rhythm', { token });
 // Results, record, bests, sample import.
 await call('attempts summary', 'GET', '/api/attempts/summary?limit=5', { token });
 await call('repair record', 'GET', '/api/me/repair-record', { token });
+const credits = await call('credits and history', 'GET', '/api/me/credits', { token });
+assert.deepEqual(Object.keys(credits.json), ['practice', 'ai', 'plan', 'history', 'nextCursor']);
+await call('credits without a bearer is rejected', 'GET', '/api/me/credits', { expect: 401 });
 await call('bests', 'GET', '/api/me/bests', { token });
 const importKey = `e2e_sample_${Date.now()}`;
 const sample = { importKey, sampleVersion: 'landing-v1', subject: 'accountancy', answers: ['B', 'B', 'C', 'A', 'B'].map((optionKey, i) => ({ sampleQuestionId: `q${i + 1}`, optionKey })) };

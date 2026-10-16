@@ -4,16 +4,16 @@ import { useEffect, useRef, useState } from 'react';
 
 // Decorative miniature of the NTA-style console on the Practice "Closest to exam day" card.
 // It lives inside the card's <button>, so it is phrasing content only and hidden from
-// assistive tech. The clock counts down for real while the card is on screen and the tab
-// is visible, and the palette blink pauses otherwise: no offscreen work on budget phones.
+// assistive tech. The clock is a still picture of the exam timer (60:00): a ticking countdown on a page
+// where nothing is timed reads like a live timer (R22). The palette blink pauses off screen.
 const PALETTE = ['a', 'a', 'v', 'a', 'm', 'n', 'a', 'v', 'n', 'a', 'a', 'n', 'v', 'n', 'n'];
-const START = 58 * 60 + 12;
+const START = 60 * 60;
 
 export default function NtaConsolePreview({ subject = 'Accountancy' }) {
   const ref = useRef(null);
   const [onScreen, setOnScreen] = useState(false);
   const [pageVisible, setPageVisible] = useState(true);
-  const [left, setLeft] = useState(START);
+  const left = START;
   const awake = onScreen && pageVisible;
 
   useEffect(() => {
@@ -25,12 +25,6 @@ export default function NtaConsolePreview({ subject = 'Accountancy' }) {
     document.addEventListener('visibilitychange', onVisibility);
     return () => { observer.disconnect(); document.removeEventListener('visibilitychange', onVisibility); };
   }, []);
-
-  useEffect(() => {
-    if (!awake || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const id = window.setInterval(() => setLeft((s) => (s > 0 ? s - 1 : START)), 1000);
-    return () => window.clearInterval(id);
-  }, [awake]);
 
   const mm = String(Math.floor(left / 60)).padStart(2, '0');
   const ss = String(left % 60).padStart(2, '0');
