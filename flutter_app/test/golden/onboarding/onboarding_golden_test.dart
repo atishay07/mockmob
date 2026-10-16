@@ -85,6 +85,17 @@ void main() {
   onboardingGolden('subjects_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.subjects)));
   onboardingGolden('rhythm_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.rhythm)));
   onboardingGolden('plan_sealed_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan)));
+  // The steps that share the pill row and the pinned key, at 390 dp (the pill label is never cut).
+  onboardingGolden('welcome_390', () => const OnboardingFlow(skipColdOpen: true), size: phone390);
+  onboardingGolden('stage_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.stage)));
+  onboardingGolden('worry_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.worry)));
+  onboardingGolden('question_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.worry, step: Steps.question)));
+  onboardingGolden(
+    'first_move_390',
+    _flow,
+    size: phone390,
+    overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.firstMove).copyWith(age: AgeAnswer.minor, notNow: true)),
+  );
   // The save step at 390 dp: the quiet line about the live question bank sits under the sheet.
   onboardingGolden('save_ready_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult)));
   // The count could not be read: the same line, without the number.
