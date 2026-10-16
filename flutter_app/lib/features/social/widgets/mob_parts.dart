@@ -15,35 +15,45 @@ class ColourPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return Wrap(
-      children: [
-        for (var i = 0; i < MobColours.count; i++)
-          Semantics(
-            button: true,
-            selected: i == value,
-            label: 'Colour ${i + 1}',
-            child: InkResponse(
-              onTap: () => onChanged(i),
-              radius: 24,
-              child: SizedBox.square(
-                dimension: MmTarget.min,
-                child: Center(
-                  child: AnimatedContainer(
-                    duration: Motion.ui,
-                    curve: Motion.out,
-                    width: 28,
-                    height: 28,
-                    decoration: BoxDecoration(
-                      color: MobColours.of(context, i),
-                      shape: BoxShape.circle,
-                      border: Border.all(color: i == value ? colors.ink : Colors.transparent, width: 2.5),
-                    ),
-                  ),
-                ),
+    Widget dot(int i) => Semantics(
+      button: true,
+      selected: i == value,
+      label: 'Colour ${i + 1}',
+      child: InkResponse(
+        onTap: () => onChanged(i),
+        radius: 24,
+        child: SizedBox.square(
+          dimension: MmTarget.min,
+          child: Center(
+            child: AnimatedContainer(
+              duration: Motion.ui,
+              curve: Motion.out,
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                color: MobColours.of(context, i),
+                shape: BoxShape.circle,
+                border: Border.all(color: i == value ? colors.ink : Colors.transparent, width: 2.5),
               ),
             ),
           ),
-      ],
+        ),
+      ),
+    );
+    // One row of 8 when 48 dp each fits, else two even rows of 4: never a lone dot on a line.
+    return LayoutBuilder(
+      builder: (context, box) {
+        final perRow = box.maxWidth >= MobColours.count * MmTarget.min ? MobColours.count : MobColours.count ~/ 2;
+        return Column(
+          children: [
+            for (var r = 0; r < MobColours.count ~/ perRow; r++)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [for (var i = r * perRow; i < (r + 1) * perRow; i++) dot(i), if (perRow < MobColours.count) const Spacer()],
+              ),
+          ],
+        );
+      },
     );
   }
 }
@@ -127,7 +137,11 @@ class MobNote extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text, textAlign: center ? TextAlign.center : TextAlign.start, style: context.mmType.small.copyWith(color: context.mmColors.ink2));
+    return Text(
+      text,
+      textAlign: center ? TextAlign.center : TextAlign.start,
+      style: context.mmType.small.copyWith(color: context.mmColors.ink2),
+    );
   }
 }
 

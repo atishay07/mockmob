@@ -53,6 +53,7 @@ class _MobTodayCardState extends ConsumerState<MobTodayCard> {
       child: MobCard(
         padding: const EdgeInsets.all(MmSpace.s16),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Row(
