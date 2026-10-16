@@ -16,6 +16,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
+import { assertScriptFullBankRead } from '../data/full_bank_guard.js';
 
 function loadEnv(file = '.env.local') {
   return Object.fromEntries(
@@ -35,7 +36,10 @@ const TARGET = 25;
 const MAX_WITH_SET = 30;
 const SCORED_SUBJECTS = ['english', 'accountancy', 'business_studies', 'economics'];
 
-const sb = createClient(env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
+const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+// Reads every live question with every column: refused against production unless --allow-production (docs/brain/LOCAL-ENV-STAGING.md).
+assertScriptFullBankRead('the NTA pass export', { url });
+const sb = createClient(url, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 const supported = new Set([...CUET_PUBLIC_ALLOWED_SUBJECTS].map((s) => toInternalSubjectId(s)));
 
 // ---- read (select only) ----

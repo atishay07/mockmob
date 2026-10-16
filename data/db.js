@@ -18,8 +18,8 @@ import {
 import { SEED_QUESTIONS } from './questions';
 import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_registry';
 import { assertFullBankRead } from './full_bank_guard';
-import { readablePracticeQuestions } from './practice_library';
-import { selectPracticeQuestions, PRACTICE_LIGHT_SELECT, PRACTICE_POOL_CACHE_MS } from './practice_pick';
+import { selectPracticeQuestions } from './practice_pick';
+import { createPracticeSource, isMissingPhase1VoteSchema } from './practice_source';
 import { attemptMemoKey, memoisedAttempts, readAttemptRows } from './attempt_reads';
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
@@ -206,16 +206,7 @@ const questionOut = (r) => r && ({
   createdAt: r.created_at ? new Date(r.created_at).getTime() : null,
 });
 
-const VISIBLE_QUESTION_FILTER = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
-// Light subject pools for the slim session-start read (data/practice_pick.js), kept 5 minutes per server.
-const PRACTICE_LIGHT_POOLS = new Map();
 const PAID_SALE_STATUSES = new Set(['captured', 'completed', 'paid']);
-
-function isMissingPhase1VoteSchema(error) {
-  return error?.code === '42703' ||
-    error?.code === '42P01' ||
-    /question_votes|score|upvotes|downvotes|schema cache|column .* does not exist/i.test(error?.message || '');
-}
 
 function isMissingReferralSchema(error) {
   return error?.code === '42703' ||
@@ -1168,81 +1159,16 @@ export const Database = {
     };
 
     // Slim read (data/practice_pick.js): rank on the subject without its evidence records, then read
-    // full rows only for the questions that decide the picks. The full read is the fallback, and the
-    // behaviour PRACTICE_SLIM_READ=off keeps. Picks are identical either way (tests/practice_pick_parity).
-    const poolSize = Math.max(60, targetCount * 6);
-    const db = supabaseAdmin();
-    const buildQuery = (columns, withScore, offset = null) => {
-      let query = db
-        .from('questions')
-        .select(columns)
-        .eq('subject', subjectId)
-        .eq('is_deleted', false)
-        .or(VISIBLE_QUESTION_FILTER);
-      if (Array.isArray(opts.chapters) && opts.chapters.length > 0) query = query.in('chapter', opts.chapters);
-      else if (opts.chapter) query = query.eq('chapter', opts.chapter);
-      if (mode.allowDifficultyOverride && ['easy', 'medium', 'hard'].includes(opts.difficulty)) {
-        query = query.eq('difficulty', opts.difficulty);
-      }
-      if (withScore) {
-        query = query.gte('score', -2);
-      }
-      query = query.order('created_at', { ascending: false }).order('score', { ascending: false }).order('id');
-      return offset === null ? query.limit(poolSize) : query.range(offset, offset + 999);
-    };
-    // Evidence precedence and freshness need the whole filtered subject pool;
-    // a recent sample can hide older, fully verified inventory.
-    const readPool = async (columns) => {
-      const pool = [];
-      for (let offset = 0; ; offset += 1000) {
-        let { data, error } = await buildQuery(columns, true, offset);
-        if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(columns, false, offset));
-        if (error) throw error;
-        pool.push(...(data || []));
-        if (!data || data.length < 1000) break;
-      }
-      return pool;
-    };
-    const readManagedIds = async () => {
-      const ids = new Set();
-      for (const column of ['evidence', 'provenance']) {
-        for (let offset = 0; ; offset += 1000) {
-          const { data, error } = await db.from('questions').select('id').eq('subject', subjectId).eq('is_deleted', false)
-            .not(column, 'is', null).order('id').range(offset, offset + 999);
-          if (error) throw error;
-          for (const row of data || []) ids.add(row.id);
-          if (!data || data.length < 1000) break;
-        }
-      }
-      return ids;
-    };
-    const source = {
-      loadFullPool: () => readPool('*'),
-      loadLightPool: async () => {
-        const key = JSON.stringify([subjectId, opts.chapters || null, opts.chapter || null, mode.allowDifficultyOverride ? opts.difficulty || null : null]);
-        const hit = PRACTICE_LIGHT_POOLS.get(key);
-        if (hit && Date.now() - hit.at < PRACTICE_POOL_CACHE_MS) return hit.value;
-        const [rows, managedIds] = await Promise.all([readPool(PRACTICE_LIGHT_SELECT), readManagedIds()]);
-        const value = { rows, managedIds };
-        PRACTICE_LIGHT_POOLS.set(key, { at: Date.now(), value });
-        while (PRACTICE_LIGHT_POOLS.size > 40) PRACTICE_LIGHT_POOLS.delete(PRACTICE_LIGHT_POOLS.keys().next().value);
-        return value;
+    // full rows only for the questions that decide the picks. The queries live in data/practice_source.js.
+    const source = createPracticeSource({
+      db: supabaseAdmin(), subjectId, mode, opts, targetCount,
+      hooks: {
+        attachPassages: (rows) => this._attachPassageMetadata(rows),
+        recentIds: () => this._recentQuestionIds(opts.userId, subjectId, mode.recencyLimit),
+        userProgress: (ids) => this._userProgress(opts.userId, ids),
+        weakConcepts: (threshold) => this._weakConcepts(opts.userId, subjectId, threshold),
       },
-      loadFullRows: async (ids) => {
-        const rows = [];
-        for (let i = 0; i < ids.length; i += 100) {
-          const { data, error } = await db.from('questions').select('*').in('id', ids.slice(i, i + 100));
-          if (error) throw error;
-          rows.push(...(data || []));
-        }
-        return rows;
-      },
-      attachPassages: (rows) => this._attachPassageMetadata(rows),
-      readable: (rows) => readablePracticeQuestions(rows, db, { requireEvidence: opts.requireEvidence === true }),
-      recentIds: () => this._recentQuestionIds(opts.userId, subjectId, mode.recencyLimit),
-      userProgress: (ids) => this._userProgress(opts.userId, ids),
-      weakConcepts: (threshold) => this._weakConcepts(opts.userId, subjectId, threshold),
-    };
+    });
     const stats = {};
     const ctx = {
       mode, targetCount, opts, stats,

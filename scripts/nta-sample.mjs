@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
+import { assertScriptFullBankRead } from '../data/full_bank_guard.js';
 import {
   getNtaContentWarnings,
   getPassageText,
@@ -138,6 +139,8 @@ if (!url || !key) {
   process.exit(1);
 }
 
+// Reads whole subjects with every column: refused against production unless --allow-production (docs/brain/LOCAL-ENV-STAGING.md).
+assertScriptFullBankRead('the NTA sample', { url });
 const supabase = createClient(url, key, { auth: { persistSession: false } });
 function normalizeSubjectArg(subject) {
   const normalized = String(subject || '').trim().toLowerCase().replace(/-/g, '_');
