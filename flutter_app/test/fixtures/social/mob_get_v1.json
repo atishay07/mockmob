@@ -1,0 +1,23 @@
+{
+  "_note": "Stand-in for SOCIAL-APP-CONTRACT.json, written from SOCIAL-SPEC section 6 (the server contract did not exist yet).",
+  "mob": {
+    "subject": "accountancy",
+    "you": { "memberId": "M3ABCDEF1234", "name": "Asha", "colour": 2, "role": "owner", "showScore": true, "nudgesMuted": false },
+    "members": [
+      { "memberId": "M3ABCDEF1234", "name": "Asha", "colour": 2, "you": true, "sat": true, "score": 7, "maxScore": 10 },
+      { "memberId": "M4ZZZZZZ0001", "name": "Riya", "colour": 5, "you": false, "sat": true },
+      { "memberId": "M4ZZZZZZ0002", "name": "Kabir", "colour": 0, "you": false, "sat": true, "score": { "score": 8, "max": 10 } },
+      { "memberId": "M4ZZZZZZ0003", "name": "Dev", "colour": 7, "you": false, "sat": false }
+    ],
+    "week": {
+      "start": "2026-10-12",
+      "closesAt": "2026-10-18T18:29:59Z",
+      "paper": { "count": 10, "durationSec": 720, "cost": { "type": "included" } },
+      "sat": 3, "size": 4, "youSat": true, "yourResultId": "sess_123"
+    },
+    "trap": { "questionNumber": 6, "questionId": "q_abc", "option": 1, "count": 3, "of": 3, "trapName": "Goodwill as an expense" },
+    "nudge": { "canSend": true, "received": null },
+    "invite": { "code": "7K3M9QXA", "url": "https://www.mockmob.in/join/7K3M9QXA", "expiresAt": "2026-10-23T16:10:00Z", "usesLeft": 1 },
+    "futureField": { "ignored": true }
+  }
+}
