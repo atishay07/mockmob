@@ -93,3 +93,12 @@ test('dealing shuffles words, keeps ordered scales, and always moves the key wit
   assert.equal(positions.size, 4);
   assert.deepEqual(dealSet('nope'), []);
 });
+
+test('a finished run names its one next move, and a later run keeps it until it finishes', () => {
+  const done = nextRecord(null, { answered: 5, done: true, subject: 'accountancy', at: 'T1', focus: 'Partnership' });
+  assert.equal(done.focus, 'Partnership');
+  const again = nextRecord(done, { answered: 1, done: false, subject: 'economics', at: 'T2', focus: null });
+  assert.equal(again.focus, 'Partnership');
+  const clean = nextRecord(again, { answered: 5, done: true, subject: 'economics', at: 'T3', focus: null });
+  assert.equal('focus' in clean, false, 'a run with no misses names no chapter');
+});

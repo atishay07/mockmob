@@ -12,6 +12,11 @@ import { loadPractisedCounts } from './landingStats.mjs';
 // page (initial: { questions, subjects }), so the line is in the first HTML; the client read only refreshes it.
 // Without either, the line holds its place empty (so nothing below it moves).
 
+// The 15 public subjects carried 94.9% of CUET UG paper registrations in 2026 (NTA totals; docs/brain/
+// SUBJECT-COVERAGE-2026-10-17.md), so the line says "19 of every 20 papers" only while all 15 have questions to
+// practise; with fewer it falls back to the plain count. It never names the stored total of every subject.
+const COVERED_SUBJECTS = 15;
+
 export function HeroLive({ initial = null }) {
   const [counts, setCounts] = useState(initial?.questions > 0 ? initial : null);
 
@@ -25,7 +30,7 @@ export function HeroLive({ initial = null }) {
     <p className="lp-live" data-ready={counts ? 'true' : 'false'}>
       {counts ? (
         <span className="lp-live__text">
-          <b>{formatCount(counts.questions)}</b> questions to practise across {counts.subjects} CUET subjects.
+          <b>{formatCount(counts.questions)}</b> questions to practise{counts.subjects === COVERED_SUBJECTS ? ` in the ${COVERED_SUBJECTS} subjects behind 19 of every 20 CUET papers in 2026.` : ` across ${counts.subjects} CUET subjects.`}
         </span>
       ) : null}
     </p>

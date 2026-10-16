@@ -23,7 +23,7 @@ export const SESSION = Object.freeze([
   row(5, 'right', 62, 'Ratios'),
   row(6, 'blank', 41, 'Cash flow'),
   row(7, 'right', 130, 'Partnership'),
-  row(8, 'wrong', 125, 'Partnership', { from: 'A', fromVerdict: 'right', at: 700, to: 'C', toAt: 880 }),
+  row(8, 'wrong', 125, 'Partnership', { from: 'A', fromVerdict: 'right', at: 700, to: 'C', toAt: 750 }),
   row(9, 'right', 95, 'Cash flow', { from: 'D', fromVerdict: 'wrong', at: 784, to: 'B', toAt: 850 }),
   row(10, 'blank', 35, 'Cash flow'),
 ]);

@@ -46,6 +46,18 @@ test('every change happens inside the session clock and after its first pick', (
   assert.deepEqual(story.changes.map((c) => c.toAtSec), story.changes.map((c) => c.toAtSec).slice().sort((a, b) => a - b));
 });
 
+test('every change falls inside the open window of its own question, as the Time scene and the Replay draw it', () => {
+  let opened = 0;
+  for (const r of SESSION) {
+    const closed = opened + r.sec;
+    if (r.change) {
+      assert.ok(r.change.at >= opened && r.change.at <= closed, `Q${r.n}'s first pick falls inside ${opened}-${closed}`);
+      assert.ok(r.change.toAt >= opened && r.change.toAt <= closed, `Q${r.n}'s change falls inside ${opened}-${closed}`);
+    }
+    opened = closed;
+  }
+});
+
 test('time figures are derived, not typed', () => {
   assert.equal(story.pace, '1:12');
   assert.equal(PAPER_PACE_SEC, 72);

@@ -15,7 +15,10 @@ function shape(value) {
   if (!value || typeof value !== 'object') return NO_SAMPLE;
   const n = Math.floor(Number(value.answered));
   const answered = Number.isFinite(n) && n > 0 ? n : 0;
-  return { answered, done: value.done === true && answered > 0 };
+  const done = value.done === true && answered > 0;
+  // The finished run's next move (a chapter name), only when the record carries a plain one.
+  const focus = done && typeof value.focus === 'string' && value.focus.trim() ? value.focus.trim().slice(0, 60) : null;
+  return focus ? { answered, done, focus } : { answered, done };
 }
 
 export function readSample() {
@@ -33,12 +36,12 @@ export function visitorKind(isAuthenticated, sample) {
   return sample && sample.answered > 0 ? 'sampled' : 'new';
 }
 
-/** { answered, done } for this browser. Starts empty (so the server and the first paint agree), then reads. */
+/** { answered, done, focus? } for this browser. Starts empty (so the server and the first paint agree), then reads. */
 export function useSample() {
   const [sample, setSample] = useState(NO_SAMPLE);
 
   useEffect(() => {
-    const take = (next) => setSample((prev) => (prev.answered === next.answered && prev.done === next.done ? prev : next));
+    const take = (next) => setSample((prev) => (prev.answered === next.answered && prev.done === next.done && prev.focus === next.focus ? prev : next));
     const onEvent = (event) => {
       const stored = readSample();
       // With storage blocked the event's own detail still tells the page what happened.

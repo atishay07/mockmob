@@ -154,6 +154,9 @@
      one Start free, on the screen. Phones keep the card's own key (the hero's keys are off screen by then). */
   .mm.lp .lp-hero--v3:has(.lp-keys[data-sample='done']) .lp-stage .mm-drill__actions > .mm-btn--onnight { display: none; }
 }
+@media (max-width: 959px) {
+  .mm.lp .lp-hero--v3 .lp-key__move { display: none; }
+}
 .mm.lp .lp-hero--v3 .lp-key--go {
   background: var(--volt);
   color: var(--volt-ink);

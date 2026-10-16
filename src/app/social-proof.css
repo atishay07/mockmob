@@ -36,6 +36,12 @@
    lighter row, its name a step down in the second ink. */
 .rl__sub { padding: var(--sp-5, 1.5rem) 0 0; color: var(--ink-3); font-size: var(--t-label, 0.875rem); font-weight: 600; line-height: 1.4; }
 .rl__row--small { padding-top: var(--sp-3, 0.75rem); }
+/* MockMob's own posts: their own list under the creators, opened by the same quiet sub-line, so they are never read
+   as one of the creators. The creators' last hairline is the rule above it. */
+.rl__own { display: grid; }
+.rl__sub--own { margin: 0; padding-top: 0; }
+.rl__list--own { margin-top: 0; border-top: 0; }
+.rl__list--own .rl__row { padding-top: var(--sp-3, 0.75rem); }
 .rl__row--small .rl__name { font-size: var(--t-lede, 1.125rem); color: var(--ink-2); }
 .rl__watch {
   display: inline-flex;

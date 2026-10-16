@@ -115,6 +115,8 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 .ml__panel[data-active='true'] .ml__checks li { animation: ml-rise var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease) forwards; animation-delay: calc(var(--i) * var(--mm-dur-stagger-step, 45ms) + 60ms); }
 .ml__checkicon { display: grid; place-items: center; width: 16px; color: #9aa795; }
 .ml__checks li:first-child .ml__checkicon { color: #d2f000; }
+/* Not released yet: every check is shown locked, in the second ink, so none of them reads as due. */
+.ml__panel[data-soon='true'] .ml__checks li:first-child .ml__checkicon { color: #9aa795; }
 .ml__checks div { display: grid; }
 .ml__checks b { font: 700 1rem var(--font-display); }
 .ml__checks div span { font-size: 0.8125rem; color: #9aa795; }

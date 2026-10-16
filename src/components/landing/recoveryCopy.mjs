@@ -20,7 +20,7 @@ const SOON = {
   sub: 'The Mistake Lab reads one mock. The Score Recovery Lab follows one leak: replay, find and plan run after every mock today. Its fresh checks, spread over a week, open soon.',
   checkTitle: 'Fresh checks, opening soon',
   checkBody: 'Checks on new questions, a few days apart. Not open yet.',
-  checkHead: 'Opens soon',
+  checkHead: 'When it opens: questions you have not answered before',
   checkStatus: 'Opens soon. Until then, practise five fresh questions on the chapter after any mock.',
   soon: true,
 };

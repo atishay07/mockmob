@@ -138,7 +138,7 @@ function PostsRow({ posts, activeCode, onToggle }) {
     <li className="rl__row rl__row--own" data-active={open ? 'true' : 'false'}>
       <div className="rl__id">
         <h3 className="rl__name">MockMob</h3>
-        <p className="rl__fact">@{handle}, our own posts</p>
+        <p className="rl__fact">@{handle}</p>
       </div>
       <div className="rl__words">
         <p className="rl__about">{posts.length === 1 ? 'One post' : `${WORDS[posts.length] || posts.length} posts`} from {datesLine(posts.map((p) => p.date))}, on the account that runs this site.</p>
@@ -189,8 +189,17 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
         {students.map((item) => (
           <CreatorRow key={item.code} item={item} small active={activeCode === item.code} onToggle={() => toggle(item.code)} />
         ))}
-        {posts.length ? <PostsRow posts={posts} activeCode={activeCode} onToggle={toggle} /> : null}
       </ul>
+      {/* MockMob's own posts are not a creator's endorsement, so they sit in a list of their own under the creators,
+          with its own line, never counted among them. */}
+      {posts.length ? (
+        <div className="rl__own">
+          <p className="rl__sub rl__sub--own">Our own posts</p>
+          <ul className="rl__list rl__list--own" aria-label="MockMob’s own posts">
+            <PostsRow posts={posts} activeCode={activeCode} onToggle={toggle} />
+          </ul>
+        </div>
+      ) : null}
       <div className="rl__foot">
         <a href={profileUrl} target="_blank" rel="noopener noreferrer" className="rl__follow">Follow @{handle} on Instagram</a>
         <p className="rl__note">Counts as of {countsDate(asOf, REEL_VIEWS_AS_OF)}.</p>

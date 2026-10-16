@@ -205,7 +205,7 @@ export function DemoDrill() {
     if (index + 1 >= set.length) {
       focusNext.current = 'result';
       setDone(true);
-      recordSample({ answered: set.length, done: true, subject });
+      recordSample({ answered: set.length, done: true, subject, focus: nextChapter(groupMissed(missed)) });
       // The end of the drill is proportional, like a finished run in the app: all five right celebrates,
       // most right is a cheer, and a third or more missed gets encouragement.
       if (event.detail > 0) pipReact('hero', runMood(score, set.length));

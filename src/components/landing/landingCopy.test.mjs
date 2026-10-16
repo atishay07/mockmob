@@ -25,9 +25,11 @@ test('the question bank and unlimited mocks are said at heading level, and alway
   assert.match(PAGE, /<h2 className="lp-shelf__title"[^>]*>One question bank\. As many mocks as you want with Pro\.<\/h2>/);
   assert.match(PAGE, /Unlimited mocks with Pro, ₹\$\{OFFER\.oneTime\.rupees\} once\./, 'the pricing heading names unlimited mocks with Pro');
   assert.match(PAGE, /Unlimited mocks with Pro, ₹\$\{OFFER\.monthly\.rupees\} a month\./);
-  // The hero's facts lead with the bank.
+  // The hero's facts lead with the full mock it links to; the unlimited claim is said once, on the shelf's heading,
+  // not again one screen above it.
   const facts = PAGE.slice(PAGE.indexOf('<nav className="lp-proof"'), PAGE.indexOf('</nav>'));
-  assert.ok(facts.indexOf('Unlimited mocks with Pro') < facts.indexOf('Two exam screens'), 'the bank fact comes first');
+  assert.ok(facts.indexOf('Full mocks') >= 0 && facts.indexOf('Full mocks') < facts.indexOf('Two exam screens'), 'the full-mock fact comes first');
+  assert.doesNotMatch(facts, /Unlimited/, 'the hero facts do not repeat the shelf heading');
   // The shelf's note is honest that an answered question can come back.
   assert.match(PAGE, /one you have answered can come back/);
 });
@@ -73,4 +75,38 @@ test('the Benchmarks scene shows the real benchmark levels and a question count 
 test('the leaderboard line matches how the leaderboard ranks (the sum of mock scores, not speed)', () => {
   assert.doesNotMatch(PAGE, /leaderboard points for accuracy and speed/);
   assert.match(PAGE, /Every mock adds its score to the leaderboard/);
+});
+
+test('Score Recovery delayed fresh checks are promised only while Recovery is released', async () => {
+  const { recoveryCopy } = await import('./recoveryCopy.mjs');
+  const soon = recoveryCopy('blocked_content');
+  const text = Object.values(soon).filter((v) => typeof v === 'string').join(' ');
+  assert.doesNotMatch(text, /days later|Check it holds|Open for every repair/i, 'a blocked Recovery is not sold as live');
+  assert.equal(soon.soon, true);
+  assert.equal(recoveryCopy('available').soon, false);
+  // The page reads the copy from the real capability state, never a typed one.
+  assert.match(PAGE, /recoveryCopy\(CAPABILITIES\.recovery\.state\)/);
+  assert.doesNotMatch(PAGE, /days later|Check it holds/, 'page.js types no recovery promise of its own');
+  const lab = read(new URL('MistakeLab.jsx', here));
+  assert.doesNotMatch(lab, /each check unlocks on its day/);
+});
+
+test('the landing never says "41 subjects": counts and claims cover only the 15 public subjects', async () => {
+  for (const [name, source] of [['page.js', PAGE], ...LANDING]) {
+    assert.doesNotMatch(source, /(^|[^\d])41\s+(CUET\s+)?subjects/i, `${name} says 41 subjects`);
+  }
+  const { SAMPLE_SUBJECTS } = await import('./sampleSubjects.mjs');
+  assert.equal(SAMPLE_SUBJECTS.length, 15);
+});
+
+test('the benchmark run is a whole number of right answers, and its clock follows from the numbers', async () => {
+  const { BENCH_YOU, BENCH_COUNT, BENCH_RIGHT, BENCH_PACE, BENCH_DAILY, BENCH_USED, BENCH_ALLOWED } = await import('./benchLadder.mjs');
+  assert.ok(Number.isInteger((BENCH_YOU * BENCH_COUNT) / 100), `${BENCH_YOU}% of ${BENCH_COUNT} is a whole number of answers`);
+  assert.equal((BENCH_RIGHT * 100) / BENCH_COUNT, BENCH_YOU);
+  const sec = (mmss) => mmss.split(':').reduce((m, s) => Number(m) * 60 + Number(s));
+  assert.equal(sec(BENCH_USED), BENCH_COUNT * BENCH_PACE);
+  assert.equal(sec(BENCH_ALLOWED), BENCH_COUNT * BENCH_DAILY.avgTimePerQuestion);
+  assert.ok(sec(BENCH_USED) <= sec(BENCH_ALLOWED), 'the run fits inside the time it had');
+  const tour = read(new URL('TourScreens.jsx', here));
+  assert.doesNotMatch(tour, /<b>52s<\/b>|useCountdown\(play, 4 \* 60/, 'no hard-coded pace or countdown');
 });

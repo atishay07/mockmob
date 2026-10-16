@@ -69,3 +69,9 @@ test('one dock rule: up from the hero to the close, never retired by a held stor
   // An in-page volt key quiets the top bar's key.
   assert.ok(depth.includes("[data-volt-held='true'] .mm-nav .mm-nav__cta"));
 });
+
+test('the next-move chapter is read only from a finished record', () => {
+  withStorage('{"answered":5,"done":true,"focus":"Partnership"}', () => assert.deepEqual(readSample(), { answered: 5, done: true, focus: 'Partnership' }));
+  withStorage('{"answered":2,"done":false,"focus":"Partnership"}', () => assert.deepEqual(readSample(), { answered: 2, done: false }));
+  withStorage('{"answered":5,"done":true,"focus":42}', () => assert.deepEqual(readSample(), { answered: 5, done: true }));
+});

@@ -323,7 +323,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
             <ol className="ml__checks">
               {[['Tomorrow', 'First check'], ['In 3 days', 'Second check'], ['In a week', 'Does it hold?']].map(([when, what], i) => (
                 <li key={when} style={{ '--i': i }}>
-                  <span className="ml__checkicon">{i === 0 ? <Clock size={16} aria-hidden="true" /> : <Lock size={16} aria-hidden="true" />}</span>
+                  <span className="ml__checkicon">{i === 0 && !copy.soon ? <Clock size={16} aria-hidden="true" /> : <Lock size={16} aria-hidden="true" />}</span>
                   <div><b>{when}</b><span>{what}</span></div>
                 </li>
               ))}
