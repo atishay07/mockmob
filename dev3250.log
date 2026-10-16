@@ -1,0 +1,18 @@
+▲ Next.js 16.2.4 (webpack)
+- Local:         http://localhost:3250
+- Network:       http://192.168.1.8:3250
+- Environments: .env.local
+✓ Ready in 1716ms
+- Experiments (use with caution):
+  ✓ viewTransition
+
+○ Compiling /pricing ...
+[db-target] this server is not Vercel production (VERCEL_ENV=unset) but its Supabase URL is the production project. Every read here spends the students' egress allowance. Point .env.local at staging: docs/brain/LOCAL-ENV-STAGING.md.
+ GET /pricing 200 in 15.5s (next.js: 13.2s, proxy.ts: 299ms, application-code: 1982ms)
+ GET /api/mob 404 in 2.5s (next.js: 2.5s, application-code: 37ms)
+ GET /api/mob/join/ABCD1234 404 in 2.2s (next.js: 2.2s, application-code: 11ms)
+ GET /api/mob/reports 404 in 700ms (next.js: 680ms, application-code: 19ms)
+ GET /join/7KQ2M9XR 404 in 1619ms (next.js: 1325ms, proxy.ts: 122ms, application-code: 172ms)
+○ Compiling /mob ...
+ GET /mob 200 in 4.2s (next.js: 4.0s, proxy.ts: 7ms, application-code: 204ms)
+ GET /mob 200 in 57ms (next.js: 5ms, proxy.ts: 12ms, application-code: 41ms)
