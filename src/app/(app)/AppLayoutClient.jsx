@@ -169,33 +169,23 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     return () => { finish(); cancelAnimationFrame(frame); };
   }, [activePath, status, isTestRoute]);
 
-  // One volt per viewport (AGENT_RULES 7, WB-05): a page marks its own volt key data-page-primary. While one of them is
-  // on screen, #app-main carries data-primary-shown and the Start key in the bar or sidebar steps back (start.css).
-  // Scrolled away, the Start key is the volt again, so a viewport is never left without its one action.
+  // One volt per viewport (AGENT_RULES 7, WB-05): a page that owns a volt action marks it data-page-primary (or marks its
+  // root data-owns-start). While such a page is mounted, #app-main carries data-start-quiet and the Start key in the bar or
+  // sidebar is outlined for the whole visit (start.css). The key's look follows the route and what the page holds, never the
+  // scroll position: a key that flips as the page scrolls is the bug the owner saw on Practice (F12, START-1017 section 5).
   useEffect(() => {
     // <main> exists only once the session is known, so this waits for it.
     const main = status === 'authenticated' ? document.getElementById('app-main') : null;
-    if (!main || typeof IntersectionObserver !== 'function') return undefined;
-    const shown = new Set();
-    const sync = () => { if (shown.size) main.dataset.primaryShown = ''; else delete main.dataset.primaryShown; };
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries) { if (e.isIntersecting) shown.add(e.target); else shown.delete(e.target); }
-      sync();
-    }, { rootMargin: '0px 0px -80px 0px' });
-    let watched = new Set();
+    if (!main) return undefined;
     let frame = 0;
-    const scan = () => {
+    const sync = () => {
       frame = 0;
-      const now = new Set(main.querySelectorAll('[data-page-primary]'));
-      for (const el of watched) if (!now.has(el)) { io.unobserve(el); shown.delete(el); }
-      for (const el of now) if (!watched.has(el)) io.observe(el);
-      watched = now;
-      sync();
+      if (main.querySelector('[data-page-primary], [data-owns-start]')) main.dataset.startQuiet = ''; else delete main.dataset.startQuiet;
     };
-    const mo = new MutationObserver(() => { if (!frame) frame = requestAnimationFrame(scan); });
-    mo.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-page-primary'] });
-    scan();
-    return () => { mo.disconnect(); io.disconnect(); cancelAnimationFrame(frame); delete main.dataset.primaryShown; };
+    const mo = new MutationObserver(() => { if (!frame) frame = requestAnimationFrame(sync); });
+    mo.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-page-primary', 'data-owns-start'] });
+    sync();
+    return () => { mo.disconnect(); cancelAnimationFrame(frame); delete main.dataset.startQuiet; };
   }, [activePath, status]);
 
   useEffect(() => {

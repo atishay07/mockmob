@@ -2,29 +2,32 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Target } from 'lucide-react';
+import { Check, Target } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { Button } from '@/components/ui/Button';
-import { SkeletonCard, ErrorState, EmptyState } from '@/components/ui/Skeleton';
+import { ErrorState, EmptyState } from '@/components/ui/Skeleton';
 import { apiGet } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
 import { CreditsRemainingModal } from '@/components/CreditsRemainingModal';
 import NtaConsolePreview from '@/components/arena/NtaConsolePreview';
-import ArenaCompanion from '@/components/brand/ArenaCompanion';
+import { PipActor } from '@/components/brand/PipActor';
 import { SegmentedControl as Segmented } from '@/components/ui/controls/SegmentedControl';
-import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
-import { Chip } from '@/components/ui/controls/Chip';
 import { SubjectObject } from '@/components/brand/SubjectObject';
+import { ExamPanel, Stopwatch, WeightsGlyph } from '@/components/start/StartArt';
 import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
-import { TEST_MODES, resolveCount } from '@/../data/test_modes';
+import { TEST_MODES, fineTuneScope, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
 import StartRule, { useStartRule } from './StartRule';
-import { MODE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
+import ChapterPicker from './ChapterPicker';
+import { chapterUnits, chaptersForMode } from './chapterGroups.mjs';
+import { MODE_SPECS, MODE_TILE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import './practice.css';
+import './chapter-picker.css';
 
-const MODE_LIST = ['quick', 'full', 'smart'];
+// The four modes, as a 2 x 2 grid of pressable tiles (START-1017 D4, owner F5).
+const MODE_LIST = ['quick', 'full', 'smart', 'nta'];
 
 // Short facts are joined by a comma, never a dot.
 const Sep = () => <>, </>;
@@ -48,6 +51,55 @@ function answerPick(event) {
   layer.animate(tapKeyframes(PICK_AMPLITUDE), { duration: LIFE.reactMs, easing: 'linear' });
 }
 
+// "40% easy, 40% medium, 20% hard" from the mode's own mix (data/test_modes.js), never typed twice.
+const mixLine = (mode) => {
+  const d = mode?.difficulty || {};
+  return `Balanced is ${Math.round((d.easy || 0) * 100)}% easy, ${Math.round((d.medium || 0) * 100)}% medium, ${Math.round((d.hard || 0) * 100)}% hard`;
+};
+
+// The fine-tune scope sentence at the top of the block (START-1017 4.3). Smart and NTA say we choose, with Mobi.
+const SCOPE_LINE = {
+  quick: 'For Quick practice you can pick the chapters and the difficulty.',
+  full: 'For a Full mock you can set the difficulty. It covers every chapter, like the exam.',
+  smart: 'We choose for you: Smart practice leans on the topics where you get under 60% right, so there is nothing to set.',
+  nta: 'We choose for you: 50 questions across the syllabus in the exam’s mix, so there is nothing to set.',
+};
+
+// Why a link's chapter was set aside, by mode.
+const LINK_DROP = {
+  full: 'A Full mock covers every chapter, like the exam',
+  smart: 'Smart practice chooses its own topics',
+  nta: 'NTA mode covers the whole syllabus, like the exam',
+};
+
+// The mode tile's picture: the subject itself for Quick practice, the app's stopwatch for a Full mock, topic weights for
+// Smart practice, the exam screen for NTA mode.
+function ModeArt({ id, subjectId, on }) {
+  if (id === 'quick') return <SubjectObject id={subjectId} size={64} lit={on} />;
+  if (id === 'full') return <Stopwatch width={52} />;
+  if (id === 'smart') return <WeightsGlyph width={60} height={56} />;
+  return <ExamPanel width={66} height={56} />;
+}
+
+function PracticeSkeleton() {
+  // Shapes that hold the setup's places (subjects, four tiles, the length, fine-tune, the session), so nothing jumps.
+  return (
+    <div className="pr view pr-skeleton" aria-busy="true" aria-label="Loading practice">
+      <div className="pr-skel pr-skel--h1 skeleton" />
+      <div className="pr-skel pr-skel--line skeleton" />
+      <div className="pr-layout">
+        <div className="pr-steps">
+          <div className="pr-skel-row">{[0, 1, 2, 3, 4].map((i) => <span key={i} className="pr-skel pr-skel--disc skeleton" />)}</div>
+          <div className="pr-skel-grid">{[0, 1, 2, 3].map((i) => <span key={i} className="pr-skel pr-skel--tile skeleton" />)}</div>
+          <div className="pr-skel pr-skel--seg skeleton" />
+          <div className="pr-skel pr-skel--fine skeleton" />
+        </div>
+        <div className="pr-skel pr-skel--card skeleton" />
+      </div>
+    </div>
+  );
+}
+
 export default function DashboardPageClient() {
   const { user, status: authStatus } = useAuth();
   const toast = useToast();
@@ -66,10 +118,14 @@ export default function DashboardPageClient() {
   const [subRefreshing, setSubRefreshing] = useState(false);
 
   const [selSubj, setSelSubj] = useState(null);
-  const [chapters, setChapters] = useState([]);
-  const [chapterSearch, setChapterSearch] = useState('');
-  const [selChapter, setSelChapter] = useState(null);
+  // The chosen subject's chapters, grouped by unit for the picker: { state, units, count, flat } (chapterGroups.mjs).
+  const [chapterData, setChapterData] = useState({ state: 'loading', units: [], count: 0, flat: true });
+  const [chapterNonce, setChapterNonce] = useState(0);
+  // The chapters the student picked. Kept while another mode is chosen (folded away, not deleted) and used only for
+  // Quick practice (START-1017 4.3); coming back to Quick practice brings them back.
   const [selectedChapters, setSelectedChapters] = useState([]);
+  // One quiet line under Chapters when the choice changed by itself (a new subject, a return, a link it could not use).
+  const [chapterNote, setChapterNote] = useState(null);
   const [difficultyMode, setDifficultyMode] = useState('auto');
   // null until the user picks one — defaults are derived from plan during render.
   const [selMode, setSelMode] = useState(null);
@@ -79,10 +135,11 @@ export default function DashboardPageClient() {
     const requested = Number(searchParams.get('count'));
     return TEST_MODES.quick.countOptions.includes(requested) ? requested : 10;
   });
-  const [chapterOpen, setChapterOpen] = useState(false);
   // Which console NTA mode opens in: MockMob's own layout, or the conventional exam-style screen.
   const [ntaScreen, setNtaScreen] = useState(() => (searchParams.get('interface') === 'nta' ? 'nta' : 'mockmob'));
   const [isLaunching, setIsLaunching] = useState(false);
+  // A start that takes longer than 600 ms gets Mobi thinking in the card (D9); a quick one never shows him.
+  const [slowLaunch, setSlowLaunch] = useState(false);
   const launchingKeyRef = useRef(null);
   const [creditError, setCreditError] = useState(null);
   const [launchSuccess, setLaunchSuccess] = useState(null);
@@ -91,9 +148,9 @@ export default function DashboardPageClient() {
   const [quote, setQuote] = useState(null);
   const [quoteStatus, setQuoteStatus] = useState('idle');
   const [quoteNonce, setQuoteNonce] = useState(0);
-  // Phones: the dock above the tab bar, shown while the in-page session card is out of sight.
-  const summaryRef = useRef(null);
-  const [dockShown, setDockShown] = useState(false);
+  const fineRef = useRef(null);
+  const chapterButtonRef = useRef(null);
+  const shelfRef = useRef(null);
 
   // After a mock attempt the test page sets `mm:postTest=1` in sessionStorage
   // before redirecting. When the user lands back here (Arena), pop the modal
@@ -160,23 +217,45 @@ export default function DashboardPageClient() {
     }
   }
 
+  const requestedMode = searchParams.get('mode');
+  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : MODE_LIST.includes(requestedMode) ? requestedMode : 'quick';
+  const mode = TEST_MODES[effectiveModeId];
+  const scope = fineTuneScope(effectiveModeId);
+
   useEffect(() => {
     if (!selSubj) return;
     let alive = true;
+    const internal = subjects.find((entry) => entry.id === selSubj)?.internalId || selSubj;
     apiGet(`/api/chapters?subject=${selSubj}`)
       .then((data) => {
         if (!alive) return;
-        const list = data?.grouped
-          ? (data.units || []).flatMap((unit) => (unit.chapters || []).map((chapter) => ({ ...chapter, unitName: unit.name })))
-          : (data?.chapters || []);
-        setChapters(list);
-        setChapterSearch('');
-        const linkedChapter=searchParams.get('subject')===selSubj ? searchParams.get('chapter') : null;
-        setSelectedChapters(linkedChapter && list.some(c=>c.name===linkedChapter) ? [linkedChapter] : []);
+        const grouped = chapterUnits(data, internal);
+        setChapterData({ state: 'ready', ...grouped });
+        const known = grouped.units.flatMap((unit) => unit.chapters.map((chapter) => chapter.name));
+        // A link's chapter (?chapter= or ?chapters=) is used only by a mode that takes chapters; otherwise it is set aside
+        // and the Chapters row says so (START-1017 4.2, states).
+        const linked = searchParams.get('subject') === selSubj
+          ? [...(searchParams.get('chapters') || '').split(','), searchParams.get('chapter') || ''].map((name) => name.trim()).filter(Boolean)
+          : [];
+        const linkMode = MODE_LIST.includes(searchParams.get('mode')) ? searchParams.get('mode') : 'quick';
+        const kept = chaptersForMode(fineTuneScope(linkMode).chapters, linked, known);
+        setSelectedChapters(kept.chapters);
+        setChapterNote(linked.length && !kept.chapters.length && !fineTuneScope(linkMode).chapters
+          ? `${LINK_DROP[linkMode] || 'This mode covers every chapter'}, so the chapter from your link was not used.`
+          : null);
       })
-      .catch(() => { if (alive) setChapters([]); });
+      .catch(() => { if (alive) setChapterData({ state: 'error', units: [], count: 0, flat: true }); });
     return () => { alive = false; };
-  }, [selSubj,searchParams]);
+  }, [selSubj, searchParams, subjects, chapterNonce]);
+
+  // On a phone the shelf is one sideways row: the chosen subject is brought to the middle when it changes.
+  useEffect(() => {
+    const shelf = shelfRef.current;
+    const on = shelf?.querySelector('[aria-pressed="true"]');
+    if (!shelf || !on || shelf.scrollWidth <= shelf.clientWidth + 1) return;
+    const left = on.offsetLeft - (shelf.clientWidth - on.offsetWidth) / 2;
+    shelf.scrollTo({ left: Math.max(0, left), behavior: reducedMotion() ? 'auto' : 'smooth' });
+  }, [selSubj, status]);
 
   const mySubs = useMemo(
     () => subjects.filter((subject) => user?.subjects?.includes(subject.id) && subject.practice === 'supported'),
@@ -198,20 +277,12 @@ export default function DashboardPageClient() {
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
   // A student whose Pro ended is told so, with the date, instead of being shown Pro as if never held.
   const proEnded = !isPremium && Boolean(user?.premiumUntil);
-  const requestedMode = searchParams.get('mode');
-  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : [...MODE_LIST, 'nta'].includes(requestedMode) ? requestedMode : 'quick';
-  const mode = TEST_MODES[effectiveModeId];
   const balance = user?.creditBalance || 0;
   const quoteCount = mode.fixedCount || count;
   const quoteMatches = Boolean(quote && quote.subject?.storedId === selSubj && quote.mode?.id === mode.id && quote.count === quoteCount);
   // The rule the student chose for their next mock (the Rule book), on this card before the clock starts: Full and NTA only.
   const startSheet = useStartRule(status === 'ready' ? selSubj : null, effectiveModeId);
   const quoteLaunchable = quoteStatus === 'ready' && quoteMatches && quote.launchable === true;
-  const filteredChapters = useMemo(() => {
-    const needle = chapterSearch.trim().toLowerCase();
-    if (!needle) return chapters;
-    return chapters.filter((chapter) => chapter.name?.toLowerCase().includes(needle));
-  }, [chapters, chapterSearch]);
 
   useEffect(() => {
     if (status !== 'ready' || !selSubj) return;
@@ -236,91 +307,82 @@ export default function DashboardPageClient() {
     return () => { alive = false; window.clearTimeout(id); };
   }, [status, selSubj, effectiveModeId, quoteCount, quoteNonce, user?.id]);
 
-  // On a phone the session card sits four screens down, under Subject, Mode, NTA mode and Questions, so
-  // the dock carries the session and its Start until the card itself comes into view (as the app does).
-  // The bottom 150 px are the tab bar and the dock, so the card only counts once it clears them.
-  const hasSession = status === 'ready' && mySubs.length > 0;
+  // Mobi thinks in the card only when a start takes longer than 600 ms.
   useEffect(() => {
-    const card = summaryRef.current;
-    if (!hasSession || !card || typeof IntersectionObserver !== 'function') return undefined;
-    // The first screen keeps one Start (the tab bar's); the dock only rises once the student has scrolled into
-    // the setup (past 360 px) and the session card is still out of view, so two Starts never show together (R7).
-    let away = false;
-    let scrolled = false;
-    const sync = () => setDockShown(away && scrolled);
-    const io = new IntersectionObserver(([entry]) => { away = !entry.isIntersecting; sync(); }, { rootMargin: '0px 0px -150px 0px' });
-    const onScroll = () => { const next = window.scrollY > 360; if (next !== scrolled) { scrolled = next; sync(); } };
-    io.observe(card);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => { io.disconnect(); window.removeEventListener('scroll', onScroll); };
-  }, [hasSession]);
+    if (!isLaunching) return undefined;
+    const id = window.setTimeout(() => setSlowLaunch(true), 600);
+    return () => window.clearTimeout(id);
+  }, [isLaunching]);
 
-  // Click handler — also clamps count and resets difficulty when needed. Locked modes
-  // stay selectable so the server quote can say what access they need.
+  // Changing the mode keeps the count in range and folds away what the new mode does not take (the chapters are kept in
+  // memory and come back with Quick practice; a set level goes back to Balanced). Locked modes stay selectable so the
+  // server quote can say what access they need.
   function chooseMode(id) {
     const next = TEST_MODES[id];
     if (!next) return;
+    const before = fineTuneScope(effectiveModeId);
+    const after = fineTuneScope(id);
     setSelMode(id);
     setCount((current) => resolveCount(next, current));
-    if (!next.allowDifficultyOverride) setDifficultyMode('auto');
+    if (!after.difficulty) setDifficultyMode('auto');
+    if (!before.chapters && after.chapters && selectedChapters.length) {
+      setChapterNote(`Your ${selectedChapters.length} ${selectedChapters.length === 1 ? 'chapter is' : 'chapters are'} back.`);
+    } else if (id !== effectiveModeId) setChapterNote(null);
   }
 
-  if (status === 'loading') {
-    return (
-      <div className="flex flex-col gap-6">
-        <div>
-          <div className="h-10 w-72 max-w-full skeleton mb-2" />
-          <div className="h-4 w-64 max-w-full skeleton" />
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="glass p-4">
-              <div className="h-4 w-24 skeleton mb-4" />
-              <div className="h-8 w-20 skeleton" />
-            </div>
-          ))}
-        </div>
-        <SkeletonCard lines={5} />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          <SkeletonCard lines={3} />
-          <SkeletonCard lines={3} />
-        </div>
-      </div>
-    );
+  function chooseSubject(event, subject) {
+    answerPick(event);
+    if (subject.id === selSubj) return;
+    const total = subject.chapters?.length || 0;
+    setChapterNote(selectedChapters.length && total ? `Chapters reset to all ${total} for ${subject.name}.` : null);
+    setSelSubj(subject.id);
+    setSelectedChapters([]);
+    setDifficultyMode('auto');
+    setChapterData({ state: 'loading', units: [], count: 0, flat: true });
   }
+
+  // Arrow keys move through the four mode tiles (a radio group with one tab stop, WAI-ARIA).
+  function onModeKey(event) {
+    const moves = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+    let at = MODE_LIST.indexOf(effectiveModeId);
+    if (event.key === 'Home') at = 0;
+    else if (event.key === 'End') at = MODE_LIST.length - 1;
+    else if (moves[event.key]) at = (at + moves[event.key] + MODE_LIST.length) % MODE_LIST.length;
+    else return;
+    event.preventDefault();
+    chooseMode(MODE_LIST[at]);
+    event.currentTarget.querySelectorAll('[role="radio"]')[at]?.focus();
+  }
+
+  if (status === 'loading') return <PracticeSkeleton />;
 
   if (status === 'error') {
     return <ErrorState scene="unreachable" title="Practice did not load" message="Check your connection and try again. Nothing was charged." onRetry={() => { setError(null); setStatus('loading'); setLoadNonce(n => n + 1); }} />;
   }
 
-  const chapterParam = selectedChapters.length > 0
-    ? `&chapters=${encodeURIComponent(selectedChapters.join(','))}`
+  // What this session sends: chapters only for a mode that takes them, a level only where the mode allows one and the
+  // student has Pro (the server refuses anything else; data/test_modes.js fineTuneScope).
+  const sentChapters = scope.chapters ? selectedChapters : [];
+  const chapterParam = sentChapters.length > 0
+    ? `&chapters=${encodeURIComponent(sentChapters.join(','))}`
     : '';
-  const difficultyParam = mode.allowDifficultyOverride && isPremium && difficultyMode !== 'auto'
+  const difficultyParam = scope.difficulty && isPremium && difficultyMode !== 'auto'
     ? `&difficulty=${encodeURIComponent(difficultyMode)}`
     : '';
   const modeParam = `&mode=${encodeURIComponent(mode.id)}`;
   const interfaceParam = effectiveModeId === 'nta' && ntaScreen === 'nta' ? '&interface=nta' : '';
   const launchHref = `/test?subject=${selSubj}&count=${count}${modeParam}${chapterParam}${difficultyParam}${interfaceParam}`;
   const selectedSubject = subjects.find((entry) => entry.id === selSubj);
-  const selectedSubjectCount = stats.subjectCounts?.[selectedSubject?.internalId || selSubj] ?? 0;
+  const subjectLabel = selectedSubject?.name || '';
   const statsAvailable = stats?.state !== 'unavailable' && stats?.bankSize != null;
   const selectedSubjectBank = statsAvailable ? bankCount(stats, selectedSubject?.internalId, selSubj) : null;
-
-  function togglePremiumChapter(chapterName) {
-    setSelectedChapters((prev) => (
-      prev.includes(chapterName)
-        ? prev.filter((entry) => entry !== chapterName)
-        : [...prev, chapterName]
-    ));
-  }
+  const chapterTotal = chapterData.count || selectedSubject?.chapters?.length || 0;
 
   const modeBadge = (id) => {
     const capability = MODE_CAPABILITIES[id];
     if (capability.state !== 'available') return { text: 'Unavailable', tone: 'muted' };
     if (isPremium) return { text: 'Included', tone: 'included' };
-    if (capability.entitlement === 'access') return { text: 'Needs access', tone: 'locked' };
+    if (capability.entitlement === 'access') return { text: 'Needs Pro', tone: 'locked' };
     return { text: `${TEST_MODES[id].creditCost} ${TEST_MODES[id].creditCost === 1 ? 'credit' : 'credits'}`, tone: 'cost' };
   };
   const minutes = (() => {
@@ -336,20 +398,26 @@ export default function DashboardPageClient() {
         : quote.creditCost === 0 ? 'Free: today’s included set'
           : `${quote.creditCost} practice credits`
     : 'Checking';
+  const costTone = quoteStatus === 'ready' && quoteMatches && !quote.launchable ? 'locked' : 'cost';
   const startLabel = isLaunching ? 'Starting…'
     : quoteStatus === 'loading' ? 'Checking…'
       : !quoteLaunchable ? 'Not available'
         : `Start ${mode.label}`;
-  // The dock's short price: the server quote once it is in, the mode's own price until then.
   const ntaOn = effectiveModeId === 'nta';
-  const ntaBadge = modeBadge('nta');
-  const dockBlocked = quoteStatus === 'ready' && quoteMatches && !quote.launchable;
-  const dockCost = quoteStatus === 'ready' && quoteMatches
+  const blocked = quoteStatus === 'ready' && quoteMatches && !quote.launchable;
+  const blockedLabel = shortfall ? `Need ${shortfall} more practice ${shortfall === 1 ? 'credit' : 'credits'}` : quote?.reasonCode === 'access_required' ? 'See Pro' : 'See options';
+  // The bar's short price: the server quote once it is in, the mode's own price until then.
+  const barCost = quoteStatus === 'ready' && quoteMatches
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : 'Not available')
       : isPremium ? 'Included'
         : quote.creditCost === 0 ? 'Free today'
           : `${quote.creditCost} ${quote.creditCost === 1 ? 'credit' : 'credits'}`
     : modeBadge(effectiveModeId).text;
+  const chapterValue = !scope.chapters ? 'All, as the exam' : sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `All ${chapterTotal}` : 'All';
+  const difficultyValue = !scope.difficulty ? 'Chosen for you' : difficultyMode === 'auto' ? 'Balanced' : difficultyMode[0].toUpperCase() + difficultyMode.slice(1);
+  // Mobi on this page only at a real moment: thinking in the card while a start is slow, or after a failed start; else
+  // beside "We choose for you" in Fine-tune. Never both (D9).
+  const cardMobi = creditError ? 'oops' : isLaunching && slowLaunch ? 'think' : null;
 
   function launch() {
     if (isLaunching || launchingKeyRef.current || !quoteLaunchable) return;
@@ -364,16 +432,30 @@ export default function DashboardPageClient() {
     router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
   }
 
-  // A session that cannot start says why in the card, so the dock takes the student there.
-  function showSession() {
-    const card = summaryRef.current;
-    if (!card) return;
-    card.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
-    card.querySelector('.pr-summary__reason')?.focus?.({ preventScroll: true });
+  // The card's Chapters and Difficulty rows go to Fine-tune and put focus on its first control.
+  function goToFine(what) {
+    const block = fineRef.current;
+    if (!block) return;
+    block.scrollIntoView({ behavior: reducedMotion() ? 'auto' : 'smooth', block: 'center' });
+    const target = what === 'chapters' ? chapterButtonRef.current : block.querySelector('[role="radio"][aria-checked="true"]');
+    window.setTimeout(() => target?.focus?.({ preventScroll: true }), reducedMotion() ? 0 : 320);
   }
 
+  // The session card's Start (from 1024 px) and the phone bar's Start: one volt each, never both on one layout.
+  const startKey = (className, short = false) => (blocked && quote.upgradeHref ? (
+    <Link href={quote.upgradeHref} className={`btn-outline md ${className}`}>{short ? (shortfall ? `Need ${shortfall} more` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options') : blockedLabel}</Link>
+  ) : quoteStatus === 'error' && short ? (
+    <button type="button" className={`btn-outline md ${className}`} onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button>
+  ) : (
+    <Button variant="volt" size="md" className={className} data-page-primary={short ? undefined : ''} disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || quoteStatus === 'loading' || undefined} onClick={launch}>
+      <AppIcon name="practice" size={short ? 17 : 18} />{short ? (isLaunching ? 'Starting…' : 'Start') : startLabel}
+    </Button>
+  ));
+
   return (
-    <div className="pr view" data-rule={startSheet ? '' : undefined}>
+    // data-owns-start: Practice owns the volt Start, so the bar's and the sidebar's Start key are quiet (outlined) for the
+    // whole visit, never flipping as the page scrolls (owner F12; AppLayoutClient, start.css).
+    <div className="pr view" data-rule={startSheet ? '' : undefined} data-owns-start="">
       {!isPremium && (
         <CreditsRemainingModal open={showCreditsModal} credits={user?.creditBalance ?? 0} offer={quote?.offer} onClose={() => setShowCreditsModal(false)} />
       )}
@@ -396,8 +478,6 @@ export default function DashboardPageClient() {
 
       {linkedSubjectUnavailable && <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning"/><div><strong>The lesson’s subject is not in your available practice subjects.</strong><p>Choose an available subject below, or add the lesson’s subject before starting practice.</p><Link href="/onboarding?edit=true">Edit subjects</Link></div></div>}
 
-
-
       {staleSubs.length > 0 && (
         <div className="pr-alert" data-tone="warning" role="status">
           <StatusIcon kind="warning" />
@@ -417,29 +497,28 @@ export default function DashboardPageClient() {
           onAction={() => router.push('/onboarding?edit=true')}
         />
       ) : (
-        <div className="pr-layout">
+        <div className="pr-layout pr-layout--1017">
           <div className="pr-steps">
             <section className="pr-step pr-step--subjects" aria-labelledby="pr-s1">
               <div className="pr-step__head">
-                <h2 id="pr-s1"><span className="pr-step__n" aria-hidden="true">1</span>Subject</h2>
+                <h2 id="pr-s1">Subject</h2>
                 <Link href="/onboarding?edit=true" className="pr-link">Edit subjects</Link>
               </div>
-              {/* The subject shelf: each subject's object stands on one shared shelf line, its name under it. No box
-                  per subject; the chosen one has its lamp on and a volt rule under its name (practice.css). */}
-              <div className="pr-subjects" role="group" aria-label="Subject" data-count={Math.min(mySubs.length, 6)}>
+              {/* The subject shelf: each subject's object on one shelf line, its name and chapter count under it. The chosen
+                  one is sharp with its lamp on and a volt rule under its name; the others stand back, blurred, dimmer and a
+                  little smaller (owner F7). Phones: one sideways row that brings the chosen subject to the middle. */}
+              <div className="pr-subjects" role="group" aria-label="Subject" data-count={Math.min(mySubs.length, 6)} ref={shelfRef}>
                 {mySubs.map((subject) => {
                   const on = selSubj === subject.id;
-                  const count = stats.subjectCounts?.[subject.internalId || subject.id];
+                  const total = subject.chapters?.length || 0;
                   return (
-                    <button key={subject.id} type="button" aria-pressed={on} className="pr-subject"
-                      onClick={(event) => { answerPick(event); setSelSubj(subject.id); setSelChapter(null); setSelectedChapters([]); setDifficultyMode('auto'); }}>
+                    <button key={subject.id} type="button" aria-pressed={on} className="pr-subject" onClick={(event) => chooseSubject(event, subject)}>
                       {/* Drawn at the shelf's largest size and alive at every size; the lamp is always there and
                           practice.css lights it on the chosen subject. */}
                       <SubjectObject id={subject.internalId || subject.id} size={132} life lit className="pr-subject__obj" />
                       <span className="pr-subject__name">{subject.name}</span>
-                      {/* The bank count when it is known; never a wall of "unavailable". The NTA code under it. */}
                       <span className="pr-subject__meta">
-                        {statsAvailable ? <span>{Number(count ?? 0).toLocaleString('en-IN')} questions</span> : stats.state === 'loading' ? <span>Checking…</span> : null}
+                        {total ? <span>{total} {total === 1 ? 'chapter' : 'chapters'}</span> : null}
                         {subject.officialCode ? <span>Code {subject.officialCode}</span> : null}
                       </span>
                     </button>
@@ -449,46 +528,37 @@ export default function DashboardPageClient() {
             </section>
 
             <section className="pr-step pr-step--modes" aria-labelledby="pr-s2">
-              <div className="pr-step__head"><h2 id="pr-s2"><span className="pr-step__n" aria-hidden="true">2</span>Mode</h2><span className="pr-hint">Every mode uses the same checked questions.</span></div>
-              {/* One list of modes, a radio row each: the name and what it is on the left, the price on the right.
-                  NTA mode carries its exam-screen picture in the row from 1100 px; on narrower screens the picture
-                  opens under the list once NTA mode is chosen. Locked modes stay choosable so the quote can say why. */}
-              <div className="pr-modes" role="group" aria-label="Mode">
+              <div className="pr-step__head"><h2 id="pr-s2">Mode</h2><span className="pr-hint">Every mode uses the same checked questions.</span></div>
+              {/* Four pressable tiles, one radio group: a ring in the corner fills to a tick on the chosen tile (owner F5:
+                  the modes must feel like buttons that do something). Locked modes stay choosable so the quote can say why. */}
+              <div className="pr-tiles" role="radiogroup" aria-labelledby="pr-s2" onKeyDown={onModeKey}>
                 {MODE_LIST.map((id) => {
                   const m = TEST_MODES[id];
                   const badge = modeBadge(id);
                   const on = effectiveModeId === id;
                   return (
-                    <button key={id} type="button" aria-pressed={on} className="pr-mode" data-mode={id} data-tone={badge.tone} onClick={() => chooseMode(id)}>
-                      <span className="pr-mode__radio" aria-hidden="true" />
-                      <span className="pr-mode__text">
-                        <span className="pr-mode__name">{m.label}</span>
-                        <span className="pr-mode__spec">{MODE_SPECS[id]}</span>
+                    <button key={id} type="button" role="radio" aria-checked={on} tabIndex={on ? 0 : -1} className="pr-tile mk-press" data-mode={id} data-tone={badge.tone}
+                      onClick={(event) => { answerPick(event); chooseMode(id); }}>
+                      <span className="pr-tile__ring" aria-hidden="true"><Check size={13} strokeWidth={3} /></span>
+                      <span className="pr-tile__art" aria-hidden="true"><ModeArt id={id} subjectId={selectedSubject?.internalId || selSubj} on={on} /></span>
+                      <span className="pr-tile__text">
+                        <span className="pr-tile__name">{m.label}</span>
+                        <span className="pr-tile__spec">{MODE_TILE_SPECS[id]}</span>
                       </span>
-                      <span className="pr-mode__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
+                      <span className="pr-tile__price" data-tone={badge.tone}>{badge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{badge.text}</span>
                     </button>
                   );
                 })}
-                <button type="button" aria-pressed={ntaOn} className="pr-mode pr-nta" data-mode="nta" data-tone={ntaBadge.tone} onClick={() => chooseMode('nta')}>
-                  <span className="pr-mode__radio" aria-hidden="true" />
-                  <span className="pr-mode__text">
-                    <span className="pr-mode__name">NTA mode</span>
-                    <span className="pr-mode__spec">{MODE_SPECS.nta}</span>
-                  </span>
-                  <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
-                  <span className="pr-mode__price" data-tone={ntaBadge.tone}>{ntaBadge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{ntaBadge.text}</span>
-                </button>
               </div>
-              {/* The bank behind every paper, said once and quietly (owner, 16 Oct): no fixed set of mocks, each paper
-                  built fresh from this subject's bank, unseen questions first. Count from /api/stats; unknown is not 0. */}
-              <p className="pr-modes__bank" role="note">{freshPaperLine({ count: selectedSubjectBank, subjectName: selectedSubject?.name || '', isPremium, mode: effectiveModeId })}</p>
               {ntaOn ? (
                 <div className="pr-nta__after">
-                  {/* Under 1100 px the row has no room for the exam screen, so it opens here once NTA mode is chosen. */}
+                  {/* NTA mode's panel: the exam screen, what the mode is in full, and the screen choice. Moved here from the
+                      mode row and from the old Mobi line under the setup; nothing is dropped. */}
                   <div className="pr-nta__more">
-                    <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
+                    <NtaConsolePreview subject={subjectLabel || 'Accountancy'} />
                   </div>
                   <div className="pr-nta__screen">
+                    <p className="pr-nta__about">{MODE_SPECS.nta} Mobi stays outside while you answer.</p>
                     {isPremium ? (
                       <>
                         <span className="pr-fine__label">Exam screen</span>
@@ -505,7 +575,7 @@ export default function DashboardPageClient() {
             </section>
 
             <section className="pr-step" aria-labelledby="pr-s3">
-              <div className="pr-step__head"><h2 id="pr-s3"><span className="pr-step__n" aria-hidden="true">3</span>Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `About ${minutes} minutes`}</span></div>
+              <div className="pr-step__head"><h2 id="pr-s3">Questions</h2><span className="pr-hint">{mode.fixedCount ? 'Fixed for this mode' : `About ${minutes} minutes`}</span></div>
               {mode.fixedCount ? (
                 <p className="pr-fixed"><b>{mode.fixedCount} questions</b><span>{minutes} minutes, one sitting, exam timing</span></p>
               ) : (
@@ -513,46 +583,58 @@ export default function DashboardPageClient() {
               )}
             </section>
 
-            <SmoothDetails className="pr-step pr-fine" open={chapterOpen || difficultyMode !== 'auto' || selectedChapters.length > 0} onToggle={(event) => setChapterOpen(event.currentTarget.open)} summary={<>
-                <span>Fine-tune</span>
-                <span className="pr-hint">{difficultyMode === 'auto' && selectedChapters.length === 0 ? 'Optional: balanced mix, all chapters' : `${difficultyMode === 'auto' ? 'Balanced mix' : `${difficultyMode} only`}, ${selectedChapters.length ? `${selectedChapters.length} ${selectedChapters.length === 1 ? 'chapter' : 'chapters'}` : 'all chapters'}`}</span>
-                <AppIcon name="expand" size={16} className="pr-fine__chev" />
-              </>}>
-              {mode.allowDifficultyOverride && (
-                <div className="pr-fine__block">
-                  <div className="pr-fine__label">Difficulty {!isPremium ? <span className="pr-badge" data-tone="locked"><AppIcon name="lock" size={12} />Needs access</span> : null}</div>
+            {/* Fine-tune: always open, above the session and its Start, and scoped by the mode (owner F8, F9; START-1017
+                4.3). Quick practice: chapters and difficulty. Full mock: difficulty only. Smart and NTA: we choose. */}
+            <section className="pr-step pr-fine2" aria-labelledby="pr-s4" ref={fineRef} id="pr-fine" data-scope={scope.chapters ? 'both' : scope.difficulty ? 'level' : 'none'}>
+              <div className="pr-step__head"><h2 id="pr-s4">Fine-tune</h2>{scope.chapters || scope.difficulty ? <span className="pr-hint">Optional</span> : null}</div>
+              {scope.chapters || scope.difficulty ? (
+                <p className="pr-fine2__scope" key={effectiveModeId}>{SCOPE_LINE[effectiveModeId]}</p>
+              ) : (
+                <div className="pr-fine2__we" key={effectiveModeId}>
+                  {cardMobi ? null : <span className="pr-fine2__mobi" aria-hidden="true"><PipActor pose="thinking" blink={1} /></span>}
+                  <p>{SCOPE_LINE[effectiveModeId]}{effectiveModeId === 'smart' && !attempts.length ? ' With no answers yet, it starts from the standard mix.' : ''}</p>
+                </div>
+              )}
+              {scope.chapters ? (
+                <div className="pr-fine2__row">
+                  <div className="pr-fine2__label"><span>Chapters</span><small>{sentChapters.length ? `${sentChapters.length} of ${chapterTotal}` : chapterTotal ? `All ${chapterTotal}` : ''}</small></div>
+                  <ChapterPicker key={selSubj} subjectName={subjectLabel} data={chapterData} chosen={selectedChapters}
+                    onChange={(next) => { setSelectedChapters(next); setChapterNote(null); }}
+                    onRetry={() => { setChapterData({ state: 'loading', units: [], count: 0, flat: true }); setChapterNonce((n) => n + 1); }} buttonRef={chapterButtonRef} />
+                  {chapterNote ? <p className="pr-fine2__note" role="status">{chapterNote}</p> : null}
+                </div>
+              ) : chapterNote ? <p className="pr-fine2__note" role="status">{chapterNote}</p> : null}
+              {scope.difficulty ? (
+                <div className="pr-fine2__row">
+                  <div className="pr-fine2__label"><span>Difficulty</span><small>{mixLine(mode)}</small></div>
                   <Segmented label="Difficulty" value={difficultyMode} disabledValues={isPremium ? [] : ['easy', 'medium', 'hard']}
                     options={['auto', 'easy', 'medium', 'hard'].map((d) => ({ value: d, label: d === 'auto' ? 'Balanced' : d[0].toUpperCase() + d.slice(1) }))} onChange={setDifficultyMode} />
+                  {!isPremium ? <p className="pr-fine2__mix">A set level comes with Pro. <Link href="/pricing" className="pr-link">See Pro</Link></p> : null}
                 </div>
-              )}
-              {chapters.length > 0 && (
-                <div className="pr-fine__block">
-                  <div className="pr-fine__label">Chapters</div>
-                  <label className="sr-only" htmlFor="pr-chapter-search">Search chapters</label>
-                  <input id="pr-chapter-search" className="input" value={chapterSearch} onChange={(event) => setChapterSearch(event.target.value)} placeholder="Search chapters" />
-                  <div className="ctl-chipset" data-scroll="true" role="group" aria-label="Chapters">
-                    <Chip pressed={selectedChapters.length === 0} onClick={() => { setSelChapter(null); setSelectedChapters([]); }}>All chapters</Chip>
-                    {filteredChapters.map((chapter) => (
-                      <Chip key={chapter.id || chapter.name} pressed={selectedChapters.includes(chapter.name)} title={chapter.name} onClick={() => togglePremiumChapter(chapter.name)}>{chapter.name}</Chip>
-                    ))}
-                    {filteredChapters.length === 0 && <p className="pr-hint">No chapter matches that search.</p>}
-                  </div>
-                </div>
-              )}
-            </SmoothDetails>
+              ) : null}
+            </section>
           </div>
 
-          <aside className="pr-summary" aria-label="Session summary" ref={summaryRef}>
-            <h2>Your session</h2>
+          <aside className="pr-summary pr-ticket" aria-label="Your session">
+            <div className="pr-ticket__top">
+              <span className="pr-ticket__obj" key={selSubj}><SubjectObject id={selectedSubject?.internalId || selSubj} size={76} lit /></span>
+              <div>
+                <h2 className="pr-ticket__mode">{mode.label}</h2>
+                <p className="pr-ticket__what">{quoteCount} {subjectLabel ? `${subjectLabel} ` : ''}questions</p>
+              </div>
+              {cardMobi ? <span className="pr-ticket__mobi" aria-hidden="true"><PipActor pose={cardMobi === 'oops' ? 'encouraging' : 'thinking'} blink={1} /></span> : null}
+            </div>
             <dl>
-              <div><dt>Subject</dt><dd>{selectedSubject?.name || 'Not chosen'}</dd></div>
-              <div><dt>Mode</dt><dd>{mode.label}</dd></div>
-              <div><dt>Questions</dt><dd>{quoteCount}</dd></div>
               <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
               <div><dt>Marking</dt><dd>+5 / −1</dd></div>
-              <div data-emph="true"><dt>Cost</dt><dd>{costLabel}</dd></div>
-              {!isPremium ? <div data-balance="true"><dt>Your practice credits</dt><dd>{balance.toLocaleString('en-IN')}</dd></div> : null}
+              <div data-wide=""><dt>Chapters</dt><dd>{scope.chapters ? <button type="button" className="pr-ticket__go" onClick={() => goToFine('chapters')}>{chapterValue}</button> : chapterValue}</dd></div>
+              <div data-wide=""><dt>Difficulty</dt><dd>{scope.difficulty ? <button type="button" className="pr-ticket__go" onClick={() => goToFine('difficulty')}>{difficultyValue}</button> : difficultyValue}</dd></div>
+              <div data-wide="" data-emph=""><dt>Cost</dt><dd data-tone={costTone}>{costLabel}</dd></div>
+              {!isPremium ? <div data-wide="" data-balance=""><dt>Your practice credits</dt><dd>{balance.toLocaleString('en-IN')}</dd></div> : null}
             </dl>
+            {/* The bank behind every paper, said once and quietly (owner, 16 Oct; START-1017 D10): no fixed set of mocks,
+                each paper built fresh, unseen questions first. Count from /api/stats; unknown is not 0. */}
+            <p className="pr-ticket__fresh">{freshPaperLine({ count: selectedSubjectBank, subjectName: subjectLabel, isPremium, mode: effectiveModeId })}</p>
             <p className="pr-summary__reason" role="status" aria-live="polite" tabIndex={-1}>
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
               {quoteStatus === 'error' && <>Could not check this session. Nothing was charged. <button type="button" onClick={() => setQuoteNonce((n) => n + 1)}>Check again</button></>}
@@ -562,40 +644,27 @@ export default function DashboardPageClient() {
               )}
             </p>
             <StartRule sheet={startSheet} />
-            {quoteStatus === 'ready' && quoteMatches && !quote.launchable && quote.upgradeHref ? (
-              <Link href={quote.upgradeHref} className="btn-outline md pr-summary__cta">{shortfall ? `Need ${shortfall} more practice ${shortfall === 1 ? 'credit' : 'credits'}` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link>
-            ) : <Button variant="volt" size="md" className="pr-summary__cta" data-page-primary="" disabled={isLaunching || !quoteLaunchable} onClick={launch}>
-              <AppIcon name="practice" size={18} />{startLabel}
-            </Button>}
+            {startKey('pr-summary__cta')}
           </aside>
+
+          {/* Phones and tablets: the session bar, sticky inside the setup (practice.css). It rides above the tab bar while
+              the setup is on screen, lands as the card's footer at its end and leaves with it: no scroll script, so it can
+              never come back lower down (owner F12). From 1024 px the card is a sticky side panel and there is no bar. */}
+          <div className="pr-bar" role="region" aria-label="Start this session">
+            <div className="pr-bar__in">
+              {startSheet ? <p className="pr-dock__rule"><Target size={14} strokeWidth={2.3} aria-hidden="true" /><span>{startSheet.rule}</span></p> : null}
+              <span className="pr-bar__obj" key={selSubj}>
+                <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
+              </span>
+              <span className="pr-bar__text">
+                <b>{mode.label}</b>
+                <span><span className="sr-only">{subjectLabel}, </span>{quoteCount} Q<span className="pr-bar__min"><Sep />{approximate ? 'about ' : ''}{minutes} min</span><Sep /><i data-tone={blocked ? 'locked' : undefined}>{barCost}</i></span>
+              </span>
+              {startKey('pr-bar__go', true)}
+            </div>
+          </div>
         </div>
       )}
-
-      {/* Phones and tablets (practice.css): the session in one line above the tab bar, with its Start, until
-          the session card scrolls into view. Out of the tab order and the reading order while it is away. */}
-      {mySubs.length > 0 ? (
-        <div className="pr-dock" role="region" aria-label="Your session" data-shown={dockShown || undefined} inert={!dockShown}>
-          {startSheet ? <p className="pr-dock__rule"><Target size={14} strokeWidth={2.3} aria-hidden="true" /><span>{startSheet.rule}</span></p> : null}
-          <span className="pr-dock__obj" key={selSubj}>
-            <SubjectObject id={selectedSubject?.internalId || selSubj} size={60} lit />
-          </span>
-          <span className="pr-dock__text">
-            <b>{mode.label}</b>
-            <span><span className="sr-only">{selectedSubject?.name}, </span>{quoteCount} Q<span className="pr-dock__min"><Sep />{approximate ? 'about ' : ''}{minutes} min</span><Sep /><i data-tone={dockBlocked ? 'locked' : undefined}>{dockCost}</i></span>
-          </span>
-          {/* One width in every state: "Start" waits, disabled, while the quote is checked. A session that cannot
-              start (or a quote that failed) sends the student to the card, which says why. */}
-          {dockBlocked || quoteStatus === 'error' ? (
-            <button type="button" className="pr-dock__go pr-dock__go--why mk-press" onClick={showSession}>See why</button>
-          ) : (
-            <button type="button" className="pr-dock__go mk-press" onClick={launch} disabled={isLaunching || !quoteLaunchable} aria-busy={isLaunching || !quoteLaunchable || undefined}>
-              <AppIcon name="practice" size={17} />Start
-            </button>
-          )}
-        </div>
-      ) : null}
-
-      <ArenaCompanion compact act={creditError ? 'oops' : isLaunching ? 'think' : 'idle'} pose="attentive" title={effectiveModeId === 'nta' ? 'Meet the exam before exam day.' : `Set up ${mode.label}.`}>{effectiveModeId === 'nta' ? 'Choose your screen below. Mobi stays outside while you answer.' : 'Check the subject, time and access before you start.'}</ArenaCompanion>
 
       {/* Ruled figures from the student's own record. The bank size shows only when it is known. */}
       <dl className="pr-stats" data-count={statsAvailable || stats.state === 'loading' ? 4 : 3}>

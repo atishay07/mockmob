@@ -70,8 +70,18 @@ export function freshPaperLine({ count = null, subjectName = '', isPremium = fal
 export const MODE_SPECS = Object.freeze({
   quick: '5 to 20 questions, 1 minute each',
   full: '50 questions, 60 minutes, a new paper every time',
-  smart: 'Weights chapters you have missed',
+  // Smart practice weights topics (data/practice_pick.js weakAccuracyThreshold on topics), not chapters.
+  smart: 'Leans on the topics you miss most',
   nta: 'The closest thing to exam day: 50 questions in 60 minutes on an exam-style screen, with the question palette, mark for review, clear response, and a countdown that submits for you. Each paper leaves out your earlier NTA questions while the bank allows.',
+});
+
+/** The one-line specs on Practice's mode tiles (START-1017 4.2). NTA mode's long sentence above moves into the NTA panel
+ * that opens under the tiles when NTA mode is chosen; it is not dropped. */
+export const MODE_TILE_SPECS = Object.freeze({
+  quick: MODE_SPECS.quick,
+  full: MODE_SPECS.full,
+  smart: MODE_SPECS.smart,
+  nta: '50 questions, 60 minutes on the exam screen',
 });
 
 const MODE_NAMES = Object.freeze({ quick: 'Quick practice', full: 'Full mock', smart: 'Smart practice', nta: 'NTA mode' });

@@ -9,7 +9,7 @@ import { CUET_PUBLIC_ALLOWED_SUBJECTS } from '../../../../data/cuet_controls.js'
 import { learningPlan } from '../../../../data/learning_engine.js';
 import {
   SESSION, SUBJECT_ART, START_SUBJECTS, artBox, balanceLine, costLine, dragOffset, dragOutcome, heroFromPlan, heroReason, morphFrom,
-  pickSubject, practiceHref, safeHref, springEasing, startRequestFromSearch, startRows, startSubjects, subjectArt, subjectName,
+  pickSubject, practiceHref, safeHref, sheetTitle, springEasing, startRequestFromSearch, startRows, startSubjects, subjectArt, subjectName,
 } from '../startModel.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -92,7 +92,11 @@ test('practice links open Practice set up, never the test itself', () => {
 test('the hero is the live plan, with the chosen subject added to a bare practice link', () => {
   const plan = learningPlan({ minutes: 10 });
   const hero = heroFromPlan(plan, { subject: 'economics', balance: 40 });
-  assert.equal(hero.title, plan.primary.title);
+  // START-1017 D3: plain practice follows the chosen subject, so its title names it (the plan's own title is kept too).
+  assert.equal(hero.followsSubject, true);
+  assert.equal(hero.title, '10 Economics questions');
+  assert.equal(hero.planTitle, plan.primary.title);
+  assert.equal(heroFromPlan(plan, { subject: 'accountancy' }).title, '10 Accountancy questions');
   // Plain practice: the planner's own reason (recovery release state) never reaches the student.
   assert.equal(hero.reason, '10 questions, about 10 minutes. Then see why each miss happened.');
   assert.doesNotMatch(hero.reason, /recovery|calibration|ordinary|concept/i);
@@ -118,6 +122,11 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
   assert.equal(resume.cta, 'Resume');
   assert.equal(resume.graphic, 'resume');
   assert.equal(resume.cost, null);
+  assert.equal(resume.followsSubject, false, 'a resume is fixed: it sits above the rail and keeps its title');
+  assert.equal(resume.title, 'Resume your practice');
+  const linked = heroFromPlan({ primary: { kind: 'ordinary_practice', title: 'Practise Accountancy', href: '/dashboard?subject=accountancy&mode=quick&count=10' } }, { subject: 'economics' });
+  assert.equal(linked.followsSubject, false, 'a plan link that names its subject does not follow the chips');
+  assert.equal(linked.title, 'Practise Accountancy');
   assert.equal(heroFromPlan({ primary: { kind: 'repair', title: 'x', href: 'javascript:alert(1)' } }), null);
   assert.equal(heroFromPlan(null), null);
 });
@@ -127,22 +136,36 @@ test('rows: Quick practice folds into a hero that is already 10 questions; NTA s
   const merged = startRows({ plan, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
   assert.deepEqual(merged.rows.map((r) => r.id), ['full', 'nta']);
   assert.equal(merged.choose.href, '/dashboard');
+  assert.equal(merged.section, 'Or start something else');
+  // Every session is a button with a go mark that says where it goes: start a session, or open Practice.
+  assert.deepEqual([...merged.rows, merged.choose].map((r) => r.go), ['start', 'start', 'open']);
+  assert.equal(merged.rows[0].detail, '50 Economics questions, 60 minutes, a new paper every time');
+  assert.equal(merged.rows[0].graphic, 'stopwatch');
+  assert.equal(merged.rows[1].detail, 'The exam-day screen in Economics, 50 questions in 60 minutes');
+  assert.equal(merged.rows[1].graphic, 'exam');
+
+  // A fixed hero (a resume) stays above the rail: the Quick practice row comes back and the label names the subject.
+  const fixed = startRows({ plan: { primary: { kind: 'resume_session', title: 'Finish your recall session', href: '/recall?session=r1', reason: '7 cards left.' } }, subjects: ['accountancy', 'economics'], subject: 'economics', balance: 40 });
+  assert.equal(fixed.hero.followsSubject, false);
+  assert.deepEqual(fixed.rows.map((r) => r.id), ['quick', 'full', 'nta']);
+  assert.equal(fixed.section, 'Or start in Economics');
+  assert.equal(startRows({ plan: null, subjects: ['economics'] }).section, 'Pick a session');
 
   const twenty = startRows({ plan: learningPlan({ minutes: 20 }), subjects: ['accountancy'], balance: 40 });
   assert.deepEqual(twenty.rows.map((r) => r.id), ['quick', 'full', 'nta']);
   const quick = twenty.rows[0];
   assert.equal(quick.href, '/dashboard?subject=accountancy&mode=quick&count=10');
-  assert.equal(quick.detail, '10 questions, about 10 minutes in Accountancy');
+  assert.equal(quick.detail, '10 Accountancy questions, about 10 minutes');
 
   const loading = startRows({ plan: null, subjects: ['economics'], balance: 40 });
   assert.equal(loading.hero, null);
   assert.deepEqual(loading.rows.map((r) => r.id), ['quick', 'full', 'nta']);
   const nta = loading.rows.find((r) => r.id === 'nta');
-  assert.equal(nta.tag, null, 'the cost line says Needs Pro; no pill');
+  assert.equal(nta.tag, 'Pro', 'locked on Free: an outlined Pro tag on the tile, and the cost line says Needs Pro');
   assert.equal(nta.href, '/dashboard?subject=economics&mode=nta&interface=nta');
   assert.equal(nta.cost.text, 'Needs Pro.');
   const ntaPro = startRows({ plan: null, subjects: ['economics'], pro: true }).rows.find((r) => r.id === 'nta');
-  assert.equal(ntaPro.tag, null);
+  assert.equal(ntaPro.tag, null, 'Pro: no tag');
   assert.equal(ntaPro.cost.text, 'Included with Pro.');
 });
 
@@ -156,7 +179,9 @@ test('copy rules: sentence case, no exclamation mark, no em dash', () => {
     }
   }
   const sheet = readFileSync(join(startDir, 'StartSheet.jsx'), 'utf8');
-  for (const literal of ['Start a session', 'Subject', 'Or start something else', 'Pick a session', 'Nothing is spent here. Practice shows the cost again before you start.', 'Your next move could not be loaded. The sessions below still work.', 'Try again', 'Opens Practice']) {
+  texts.push(sheetTitle(new Date(2026, 9, 17, 9)), sheetTitle(new Date(2026, 9, 17, 21)));
+  assert.ok(sheet.includes('sheetTitle(new Date())'), 'the title follows the clock');
+  for (const literal of ['Subject', 'Or start something else', 'Pick a session', 'Nothing is spent here. Practice shows the cost again before you start.', 'Your next move could not be loaded. The sessions below still work.', 'Try again', 'Opens Practice']) {
     assert.ok(sheet.includes(literal), literal);
     texts.push(literal);
   }
@@ -182,6 +207,13 @@ test('motion helpers', () => {
   assert.ok(curve.endsWith(', 1)'));
   const values = curve.slice(7, -1).split(', ').map(Number);
   assert.ok(Math.max(...values) > 1 && Math.max(...values) < 1.08, 'a small overshoot');
+});
+
+test('the sheet title follows the clock (tonight from 4 PM)', () => {
+  assert.equal(sheetTitle(new Date(2026, 9, 17, 15, 59)), 'Pick today’s work');
+  assert.equal(sheetTitle(new Date(2026, 9, 17, 16, 0)), 'Pick tonight’s work');
+  assert.equal(sheetTitle(new Date(2026, 9, 17, 23, 30)), 'Pick tonight’s work');
+  assert.equal(sheetTitle(new Date('nope')), 'Pick today’s work');
 });
 
 test('?start= requests', () => {

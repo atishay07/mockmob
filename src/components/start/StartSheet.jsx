@@ -15,11 +15,11 @@
 // solid fill where backdrop-filter is missing.
 import Link from 'next/link';
 import { useCallback, useEffect, useId, useLayoutEffect, useRef } from 'react';
-import { X, Lock, Check, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Lock, Check, RefreshCw, ChevronLeft, ChevronRight, Play } from 'lucide-react';
 import { CreditMark } from '@/components/ui/Glyph';
 import { PipActor } from '@/components/brand/PipActor';
 import { RowArt, SubjectObject } from './StartArt';
-import { balanceLine, dragOffset, dragOutcome, springEasing, subjectName } from './startModel.mjs';
+import { balanceLine, dragOffset, dragOutcome, sheetTitle, springEasing, subjectName } from './startModel.mjs';
 import { useSubjectRail } from './useSubjectRail';
 
 // Full mock and NTA mode are the two exam-conditions sessions: they sit side by side as tiles (the app's deck);
@@ -91,6 +91,16 @@ function animateOut(el, fromDrag = null) {
   return el.animate([{ transform: 'none', opacity: 1 }, { transform: 'translate3d(-10px, 0, 0) scale(0.96)', opacity: 0 }], { duration: 180, easing: SETTLE, fill: 'forwards' }).finished.catch(() => {});
 }
 
+// The go disc: every session is a button and looks it (owner F5). A play mark starts a session (set up in Practice); a
+// chevron opens Practice to choose. Outlined, never volt: the hero's button is the sheet's one volt (AGENT_RULES 7).
+function GoDisc({ kind = 'start' }) {
+  return (
+    <span className="st-go" data-kind={kind} aria-hidden="true">
+      {kind === 'open' ? <ChevronRight size={18} strokeWidth={2.2} /> : <Play size={15} strokeWidth={0} fill="currentColor" />}
+    </span>
+  );
+}
+
 function CostLine({ cost }) {
   if (!cost) return null;
   const icon = cost.tone === 'locked' ? <Lock size={14} strokeWidth={2} aria-hidden="true" />
@@ -104,7 +114,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
   const closing = useRef(false);
   const titleId = useId();
   const subjectsId = useId();
-  const { hero = null, rows = [], choose = null, subjects = [], subject = null, pro = false, balance = null, planState = 'loading', selectSubject = () => {}, retry = () => {} } = model || {};
+  const { hero = null, rows = [], choose = null, section = null, subjects = [], subject = null, pro = false, balance = null, planState = 'loading', selectSubject = () => {}, retry = () => {} } = model || {};
   const { railRef, edges: railEdges, step: railStep } = useSubjectRail(subject, open && subjects.length > 1);
   // Read once as the sheet opens, so a re-render never re-opens or re-animates it.
   const opening = useRef({ initialRow, returnFocus });
@@ -238,6 +248,41 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
   const onFollow = () => requestClose();
   const balanceText = balanceLine({ pro, balance });
   const heroName = hero?.subject ? subjectName(hero.subject) : '';
+  // START-1017 D3: what follows the subject sits under the rail, and nothing above it does. A fixed move (a resume, a
+  // repair, a linked subject) stands above the rail and does not change when a chip is pressed.
+  const heroAbove = Boolean(hero && !hero.followsSubject);
+  const label = section || (hero ? 'Or start something else' : 'Pick a session');
+  // The hero's object: 112 px on a phone, 132 px wider (drawn at that size, never zoomed).
+  const heroArt = (() => { try { return window.matchMedia('(max-width: 479px)').matches ? 112 : 132; } catch { return 132; } })();
+
+  const heroNode = planState === 'loading' && !hero ? (
+    <div className="st-hero st-hero--loading" data-rise role="status" aria-label="Working out your next move">
+      <span className="st-skel st-skel--title skeleton" /><span className="st-skel st-skel--line skeleton" /><span className="st-skel st-skel--cta skeleton" />
+    </div>
+  ) : hero ? (
+    <section className="st-hero" data-rise aria-labelledby={`${titleId}-move`} data-graphic={hero.graphic} data-follows={hero.followsSubject || undefined}>
+      {/* The title names the subject when the move follows it; its words cross-fade when a chip changes it. */}
+      <h3 id={`${titleId}-move`} className="st-hero__title"><span key={hero.title} className="st-words">{hero.title}</span></h3>
+      <div className="st-hero__text">
+        {hero.reason ? <p className="st-hero__reason">{hero.reason}</p> : null}
+        <div className="st-hero__go">
+          <Link className="st-cta mk-press" href={linkFor(hero.href)} onClick={onFollow} data-autofocus="" data-row="move">{hero.cta}</Link>
+          <CostLine cost={hero.cost} />
+        </div>
+      </div>
+      {/* With the subject row above, the chosen chip already names the subject and the object stands on its own; a
+          student with one subject has no row, so the object keeps its name. */}
+      <figure className="st-hero__art" aria-hidden="true">
+        <RowArt key={hero.subject || hero.graphic} graphic={hero.graphic} subject={hero.subject} subjects={subjects} size={heroArt} priority />
+        {heroName && subjects.length < 2 ? <figcaption className="st-hero__caption">{heroName}</figcaption> : null}
+      </figure>
+    </section>
+  ) : planState === 'failed' ? (
+    <div className="st-miss" data-rise role="status">
+      <p>Your next move could not be loaded. The sessions below still work.</p>
+      <button type="button" className="st-miss__retry mk-press" onClick={retry}><RefreshCw size={15} strokeWidth={2} aria-hidden="true" />Try again</button>
+    </div>
+  ) : null;
 
   return (
     <dialog ref={dialog} id="start-sheet" className="st-sheet" aria-labelledby={titleId} onClick={onDialogClick}>
@@ -246,7 +291,7 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
         <div className="st-head">
           <span className="st-mobi" aria-hidden="true"><PipActor pose="pointing" blink={1} motion="land-0" /></span>
           <div className="st-head__text">
-            <h2 id={titleId} className="st-title">Start a session</h2>
+            <h2 id={titleId} className="st-title">{sheetTitle(new Date())}</h2>
             {balanceText ? <p className="st-balance">{pro ? <Check size={14} strokeWidth={2.25} aria-hidden="true" /> : <CreditMark kind="practice" size={15} />}{balanceText}</p> : null}
           </div>
           <button type="button" className="st-close mk-press" aria-label="Close" onClick={() => requestClose()}><X size={20} strokeWidth={1.9} aria-hidden="true" /></button>
@@ -254,6 +299,8 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
       </div>
 
       <div className="st-body">
+        {heroAbove ? heroNode : null}
+
         {subjects.length > 1 ? (
           <fieldset className="st-subjects" data-rise>
             <legend id={subjectsId} className="st-label">Subject</legend>
@@ -264,8 +311,9 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                 {subjects.map((id) => (
                   <label key={id} className="st-chip mk-press" data-on={id === subject || undefined} data-subject={id}>
                     <input type="radio" name={`${titleId}-subject`} value={id} checked={id === subject} onChange={() => selectSubject(id)} />
-                    {/* A 48 px stage: the object stands on one floor line and leans out over the chip's top edge. */}
-                    <SubjectObject subject={id} size={48} lit={false} floor />
+                    {/* A 64 px stage: the object leans out over the chip's top edge. The chosen one is sharp and lit; the
+                        others stand back (blurred, dimmer, smaller; start.css), so the choice reads at a glance (F6, F7). */}
+                    <SubjectObject subject={id} size={64} lit={false} floor />
                     <span>{subjectName(id)}</span>
                   </label>
                 ))}
@@ -281,49 +329,45 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
           </fieldset>
         ) : null}
 
-        {planState === 'loading' && !hero ? (
-          <div className="st-hero st-hero--loading" data-rise role="status" aria-label="Working out your next move">
-            <span className="st-skel st-skel--title skeleton" /><span className="st-skel st-skel--line skeleton" /><span className="st-skel st-skel--cta skeleton" />
-          </div>
-        ) : hero ? (
-          <section className="st-hero" data-rise aria-labelledby={`${titleId}-move`} data-graphic={hero.graphic}>
-            <div className="st-hero__text">
-              <h3 id={`${titleId}-move`} className="st-hero__title">{hero.title}</h3>
-              {hero.reason ? <p className="st-hero__reason">{hero.reason}</p> : null}
-              <div className="st-hero__go">
-                <Link className="st-cta mk-press" href={linkFor(hero.href)} onClick={onFollow} data-autofocus="" data-row="move">{hero.cta}</Link>
-                <CostLine cost={hero.cost} />
-              </div>
-            </div>
-            {/* With the subject row above, the chosen chip already names the subject and the object stands on
-                its own; a student with one subject has no row, so the object keeps its name. */}
-            <figure className="st-hero__art" aria-hidden="true">
-              <RowArt key={hero.subject || hero.graphic} graphic={hero.graphic} subject={hero.subject} subjects={subjects} size={132} priority />
-              {heroName && subjects.length < 2 ? <figcaption className="st-hero__caption">{heroName}</figcaption> : null}
-            </figure>
-          </section>
-        ) : planState === 'failed' ? (
-          <div className="st-miss" data-rise role="status">
-            <p>Your next move could not be loaded. The sessions below still work.</p>
-            <button type="button" className="st-miss__retry mk-press" onClick={retry}><RefreshCw size={15} strokeWidth={2} aria-hidden="true" />Try again</button>
-          </div>
-        ) : null}
+        {heroAbove ? null : heroNode}
 
-        <h3 className="st-section" data-rise>{hero ? 'Or start something else' : 'Pick a session'}</h3>
+        <h3 className="st-section" data-rise>{label}</h3>
         <ul className="st-rows">
           {[...rows, choose].filter(Boolean).map((row) => (
             <li key={row.id} data-rise data-pair={PAIRED.has(row.id) ? '' : undefined}>
-              <Link className="st-row mk-press" href={linkFor(row.href)} onClick={onFollow} data-row={row.id}>
-                <span className="st-row__art">
-                  <RowArt key={row.graphic === 'subject' ? row.subject : row.graphic} graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={56} />
-                  {row.badge ? <span className="st-row__badge" aria-hidden="true">{row.badge}</span> : null}
-                </span>
-                <span className="st-row__text">
-                  <span className="st-row__title">{row.title}{row.tag ? <span className="st-tag">{row.tag}</span> : null}</span>
-                  <span className="st-row__detail">{row.detail}</span>
-                  {row.cost ? <CostLine cost={row.cost} /> : <span className="st-cost" data-tone="open">Opens Practice</span>}
-                </span>
-              </Link>
+              {PAIRED.has(row.id) ? (
+                // Full mock and NTA mode: two tiles of equal height, the object on top (the app's stopwatch and the exam
+                // screen, F4), the name and note, then the cost and the go disc at the foot.
+                <Link className="st-tile mk-press" href={linkFor(row.href)} onClick={onFollow} data-row={row.id}>
+                  <span className="st-tile__top">
+                    <span className="st-tile__art"><RowArt graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={84} /></span>
+                    {row.tag ? <span className="st-tag">{row.tag}</span> : null}
+                  </span>
+                  <span className="st-tile__text">
+                    <span className="st-row__title">{row.title}</span>
+                    <span className="st-row__detail"><span key={row.detail} className="st-words">{row.detail}</span></span>
+                  </span>
+                  <span className="st-tile__foot">
+                    <CostLine cost={row.cost} />
+                    <GoDisc kind={row.go} />
+                  </span>
+                  <span className="sr-only">, opens Practice set up for it</span>
+                </Link>
+              ) : (
+                <Link className="st-row mk-press" href={linkFor(row.href)} onClick={onFollow} data-row={row.id}>
+                  <span className="st-row__art">
+                    <RowArt key={row.graphic === 'subject' ? row.subject : row.graphic} graphic={row.graphic} subject={row.subject} subjects={row.subjects || subjects} size={60} />
+                    {row.badge ? <span className="st-row__badge" aria-hidden="true">{row.badge}</span> : null}
+                  </span>
+                  <span className="st-row__text">
+                    <span className="st-row__title">{row.title}{row.tag ? <span className="st-tag">{row.tag}</span> : null}</span>
+                    <span className="st-row__detail"><span key={row.detail} className="st-words">{row.detail}</span></span>
+                    {row.cost ? <CostLine cost={row.cost} /> : <span className="st-cost" data-tone="open">Opens Practice</span>}
+                  </span>
+                  <GoDisc kind={row.go} />
+                  {row.cost ? <span className="sr-only">, opens Practice set up for it</span> : null}
+                </Link>
+              )}
             </li>
           ))}
         </ul>

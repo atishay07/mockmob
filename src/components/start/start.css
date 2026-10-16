@@ -90,30 +90,27 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
   html .app-shell .arena-bottomnav > button.stk--bar:focus-visible { outline: none; }
   html .app-shell .arena-bottomnav > button.stk--bar:focus-visible .stk__disc { box-shadow: 0 0 0 4px var(--a-bg), 0 0 0 6px var(--a-focus); }
   html[data-theme='light'] .app-shell .arena-bottomnav > button.stk--bar .stk__disc { box-shadow: 0 0 0 4px var(--a-bg), inset 0 0 0 1px rgb(82 103 0 / 0.35); }
-  /* Practice's session dock is up, with its own volt Start right above the bar: one volt Start on screen. The key
-     goes quiet (outlined, ink mark) and still opens the Start sheet. */
-  /* The same holds on Today while its plan key is on screen (LearningNextAction marks the hero data-cta-shown), and on a
-     result, whose Repair key is the page's action (AGENT_RULES 7). The bar keeps all six places, so the dock never changes
-     shape between pages (rule 11, S016). The disc changes colour over 200 ms, never its place.
-     Any other page whose own volt action is on screen marks that key data-page-primary (the Mob, Review, Practice's
-     session card); AppLayoutClient sets #app-main[data-primary-shown] while one is on screen, so a new page cannot bring
-     back a second volt by forgetting a selector here, and a viewport scrolled past it keeps the volt Start (AGENT_RULES 7). */
+  /* One volt per viewport (AGENT_RULES 7): on a page that owns a volt action the key is quiet (outlined, ink mark) and still
+     opens the Start sheet. Which pages: Practice (its session Start), Today while its plan key is there, a result (its Repair
+     key), and any page with a data-page-primary key, which AppLayoutClient turns into #app-main[data-start-quiet].
+     The look follows the route and what the page holds, never the scroll: the old rule keyed it to the Practice dock and to
+     whether a key was in view, so the disc turned white and back as the page scrolled (owner F12, START-1017 section 5).
+     The bar keeps all six places, so the dock never changes shape between pages (rule 11, S016). */
   html .app-shell .arena-bottomnav > button.stk--bar .stk__disc { transition: transform 420ms var(--mk-spring), background-color 200ms ease, color 200ms ease, box-shadow 200ms ease; }
-  :is(html:has(.pr-dock[data-shown]), html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .arena-bottomnav > button.stk--bar { color: var(--a-ink-2); }
-  :is(html:has(.pr-dock[data-shown]), html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .arena-bottomnav > button.stk--bar .stk__disc {
+  :is(html:has(#app-main[data-start-quiet]), html:has(.student-page--today .na--hero .na__cta.btn-volt), html:has(.student-page--result)) .app-shell .arena-bottomnav > button.stk--bar { color: var(--a-ink-2); }
+  :is(html:has(#app-main[data-start-quiet]), html:has(.student-page--today .na--hero .na__cta.btn-volt), html:has(.student-page--result)) .app-shell .arena-bottomnav > button.stk--bar .stk__disc {
     background: var(--a-raised); color: var(--a-ink);
     box-shadow: 0 0 0 4px var(--a-bg), inset 0 0 0 1.5px var(--a-line-strong);
   }
 }
-/* Wide screens: on Today, on a result and on any page with a data-page-primary key the sidebar key steps back the same
-   way, outlined with an ink word, so the page's own volt action is the only volt on screen. It still opens the sheet. */
+/* Wide screens: the same pages, the same rule: the sidebar key steps back, outlined with an ink word, for the whole visit. */
 @media (min-width: 1024px) {
-  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .stk--sidebar {
+  :is(html:has(#app-main[data-start-quiet]), html:has(.student-page--today .na--hero .na__cta.btn-volt), html:has(.student-page--result)) .app-shell .stk--sidebar {
     background: transparent; color: var(--a-ink);
     box-shadow: inset 0 0 0 1.5px var(--a-line-strong);
   }
-  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .stk--sidebar .stk__disc { color: var(--a-accent-text); }
-  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .stk--sidebar:hover { background: var(--a-hover); }
+  :is(html:has(#app-main[data-start-quiet]), html:has(.student-page--today .na--hero .na__cta.btn-volt), html:has(.student-page--result)) .app-shell .stk--sidebar .stk__disc { color: var(--a-accent-text); }
+  :is(html:has(#app-main[data-start-quiet]), html:has(.student-page--today .na--hero .na__cta.btn-volt), html:has(.student-page--result)) .app-shell .stk--sidebar:hover { background: var(--a-hover); }
 }
 
 /* ---------- The sheet ---------- */
@@ -261,8 +258,8 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   position: relative;
   display: flex;
   gap: 8px;
-  margin: -11px calc(var(--st-pad) * -1) 0;
-  padding: 13px var(--st-pad) 6px;
+  margin: -18px calc(var(--st-pad) * -1) 0;
+  padding: 20px var(--st-pad) 6px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
@@ -350,48 +347,60 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   align-items: center;
   gap: 8px;
   flex: none;
-  min-height: 46px;
-  /* The object stands at the left on its own 48 px stage (absolutely placed, below), so the words start past it. */
-  padding: 3px 16px 3px 58px;
+  --mk-press-scale: 0.97;
+  min-height: 56px;
+  /* The object stands at the left on its own 64 px stage (absolutely placed, below), so the words start past it. */
+  padding: 0 18px 0 76px;
   border: 1px solid var(--a-line);
   border-radius: 999px;
   background: var(--a-raised-2);
   color: var(--a-ink-2);
-  font: 600 14px/1.2 var(--font-body);
+  font: 600 15px/1.2 var(--font-body);
   cursor: pointer;
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 420ms var(--mk-spring);
 }
+.st-chip:not([data-on]) { color: var(--a-ink-3); }
 .st-chip input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
 .st-chip:hover { border-color: var(--a-line-strong); color: var(--a-ink); }
-.st-chip[data-on] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); font-weight: 700; box-shadow: inset 0 0 0 1px var(--a-select); }
+.st-chip[data-on] { border-color: var(--a-select); background: var(--a-volt-wash); color: var(--a-ink); font-weight: 750; box-shadow: inset 0 0 0 1px var(--a-select); }
 .st-chip:has(input:focus-visible) { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-/* The chip's object: 36 to 44 px of picture on a 48 px stage whose floor line is 35 px down the chip, so a
-   tall stamp or flask leans about 8 px out over the top edge and a wide calculator rests on the same line.
-   The chosen one rises a little and takes the lamp's shadow on the settle spring; hover lifts it by a hair. */
+/* The chip's object: a 64 px stage standing 6 px above the chip's floor, so it leans about 14 px out over the top edge
+   (owner F6: logos as big as the next-move card's). The chosen one is sharp, rises a little and takes the lamp's shadow on
+   the settle spring. The others stand back: blurred, desaturated, dimmer and a little smaller (owner F7: "increase the
+   blur of the other subjects"). The blur sits on the small pictures only, never on a name or any content, and the names
+   stay sharp. Going back is the exit curve (200 ms); coming forward is the settle spring. Hover lifts by a hair. */
 .st-chip .st-obj {
   position: absolute;
   left: 6px;
-  top: -10px;
+  bottom: 6px;
   pointer-events: none;
   transform-origin: 50% 92%;
-  transition: translate var(--mm-spring-settle-dur) var(--mm-spring-settle), scale var(--mm-spring-settle-dur) var(--mm-spring-settle);
+  filter: blur(1.6px) saturate(0.55);
+  opacity: 0.55;
+  scale: 0.9;
+  transition: translate var(--mm-dur-exit) var(--mm-ease-exit), scale var(--mm-dur-exit) var(--mm-ease-exit), filter var(--mm-dur-exit) var(--mm-ease-exit), opacity var(--mm-dur-exit) var(--mm-ease-exit);
 }
 .st-chip .st-obj__shadow { opacity: 0.8; }
-.st-chip[data-on] .st-obj { translate: 0 -2px; scale: 1.08; }
+.st-chip[data-on] .st-obj {
+  translate: 0 -2px; scale: 1.08; filter: none; opacity: 1;
+  transition: translate var(--mm-spring-settle-dur) var(--mm-spring-settle), scale var(--mm-spring-settle-dur) var(--mm-spring-settle), filter 240ms var(--mm-ease-out), opacity 240ms var(--mm-ease-out);
+}
 .st-chip[data-on] .st-obj__img { filter: drop-shadow(0 5px 6px var(--st-shadow)); }
 @media (hover: hover) and (pointer: fine) {
-  .st-chip:not([data-on]):hover .st-obj { translate: 0 -1px; scale: 1.03; }
+  .st-chip:not([data-on]):hover .st-obj { translate: 0 -1px; scale: 0.93; opacity: 0.7; }
 }
 
-/* The next move: the one lit card. */
+/* The next move: the one lit card. The title runs the full width; under it, the reason and the go row on the left and
+   the object on the right, standing on the card's floor in a pool of lamp light (START-1017 4.1). A move that follows
+   the subject names it in the title ("10 Economics questions"), and the words cross-fade when a chip changes them. */
 .st-hero {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 132px;
-  align-items: center;
-  gap: 4px 14px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 4px 12px;
   margin: 0;
-  padding: 18px 14px 18px 18px;
+  padding: 16px 14px 16px 18px;
   overflow: hidden;
   isolation: isolate;
   border: 1px solid var(--a-volt-line);
@@ -400,10 +409,13 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   box-shadow: inset 0 1px 0 var(--a-edge);
 }
 .st-hero__eyebrow { margin: 0 0 6px; font-size: 13px; font-weight: 650; line-height: 1.3; color: var(--a-accent-text); }
-.st-hero__title { margin: 0; font-family: var(--font-display); font-size: 20px; font-weight: 750; line-height: 1.2; letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
+.st-hero::before { content: ''; position: absolute; right: -60px; top: -40px; z-index: -1; width: 300px; height: 280px; background: radial-gradient(closest-side, var(--st-lamp), transparent); pointer-events: none; }
+.st-hero__title { grid-column: 1 / -1; margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 750; line-height: 1.12; letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; }
+@media (min-width: 1024px) { .st-hero__title { font-size: 28px; } }
+.st-hero__text { grid-column: 1; grid-row: 2; min-width: 0; }
 .st-hero__reason { margin: 8px 0 0; max-width: 46ch; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); text-wrap: pretty; }
 .st-hero__go { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-top: 16px; }
-.st-hero__art { position: relative; display: grid; justify-items: center; gap: 2px; margin: 0; align-self: center; }
+.st-hero__art { position: relative; grid-column: 2; grid-row: 2; display: grid; justify-items: center; gap: 2px; margin: 0 -2px -6px 0; align-self: end; }
 .st-hero__caption { font-size: 12px; font-weight: 600; line-height: 1.2; color: var(--a-ink-3); text-align: center; }
 .st-cta {
   display: inline-flex;
@@ -428,17 +440,16 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 .st-skel--title { width: 72%; height: 22px; }
 .st-skel--line { width: 88%; height: 14px; }
 .st-skel--cta { width: 120px; height: 46px; margin-top: 6px; border-radius: 14px; }
-/* Narrow phones: the object sits beside the title; the reason and button take the full width. */
+/* Narrow phones: the object is drawn at 112 px (StartSheet.jsx picks the size), beside the reason and the go row. */
 @media (max-width: 479px) {
-  .st-hero { grid-template-columns: minmax(0, 1fr) 96px; padding: 16px 12px 16px 16px; }
-  .st-hero__text { display: contents; }
-  .st-hero__eyebrow, .st-hero__title { grid-column: 1; }
-  .st-hero__art { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
-  /* The 132 px object drawn at the column's 96 px, whole (zoom scales its box, picture and shadow together). */
-  .st-hero__art > :first-child { zoom: 0.7273; }
-  .st-hero__reason, .st-hero__go { grid-column: 1 / -1; }
-  .st-hero__title { align-self: start; }
+  .st-hero { padding: 16px 12px 16px 16px; }
+  .st-hero__go { margin-top: 14px; }
 }
+/* The subject's words: out on the exit curve, in from a 2 px blur and 4 px under (START-1017 4.1). Keyed in StartSheet.jsx,
+   so they play only when the words change. */
+.st-words { display: inline; animation: st-words-in 200ms var(--mm-ease-out) both; }
+@keyframes st-words-in { from { opacity: 0; filter: blur(2px); translate: 0 4px; } }
+.st-sheet[data-state='open'] .st-body > [data-rise] .st-words { animation-delay: 0ms; }
 
 .st-miss { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 14px 16px; border: 1px dashed var(--a-line-strong); border-radius: 18px; }
 .st-miss p { flex: 1 1 220px; margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
@@ -449,33 +460,46 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 .st-miss__retry:hover { background: var(--a-hover); }
 .st-miss__retry:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 
-/* The other sessions: rows, not cards. */
+/* The other sessions: every one a button (owner F5). A go disc at the trailing edge, a press that sinks the whole row or
+   tile to 0.97 and the disc to 0.92, a hover that raises the surface and nudges the disc 2 px (fine pointers only), and
+   a 2 px focus ring. Rows for Quick practice and Choose your own; the exam pair as two tiles. */
 .st-section { margin: 2px 0 -10px; font-size: 13px; font-weight: 650; line-height: 1.3; color: var(--a-ink-3); }
 .st-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 10px; margin: 0; padding: 0; list-style: none; }
 .st-rows > li { grid-column: 1 / -1; }
-/* The exam-conditions pair (Full mock, NTA mode): two tiles, the picture on top, the words and the price under it. */
+/* The exam-conditions pair (Full mock, NTA mode): two tiles of equal height, the object on top (the app's stopwatch and
+   the exam screen, F4), the name and note, then the cost and the go disc at the foot. */
 .st-rows > li[data-pair] { grid-column: auto; margin-bottom: 8px; }
-.st-rows > li[data-pair] .st-row {
-  grid-template-columns: minmax(0, 1fr);
-  align-content: start;
-  align-items: start;
+.st-tile {
+  --mk-press-scale: 0.97;
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   gap: 10px;
   height: 100%;
-  min-height: 0;
-  margin: 0;
-  padding: 12px 12px 14px;
-  border: 1px solid var(--a-line);
+  min-height: 196px;
+  padding: 12px 12px 12px 14px;
   border-radius: 20px;
   background: var(--a-sunken);
+  box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--a-edge);
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
 }
-.st-rows > li[data-pair] .st-row:hover { background: var(--a-hover); border-color: var(--a-line-strong); }
-.st-rows > li[data-pair] .st-row__title { font-size: 16px; }
-.st-rows > li[data-pair] .st-row__detail { font-size: 13px; }
-.st-rows > li[data-pair] .st-cost { align-items: flex-start; font-size: 12.5px; }
-.st-rows > li[data-pair] .st-cost svg { margin-top: 2px; }
+.st-tile:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.st-tile__top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; min-height: 84px; }
+.st-tile__art { display: flex; align-items: flex-end; height: 84px; }
+.st-tile__art > * { transition: transform 200ms var(--mm-ease-out); }
+.st-tile__text { display: grid; gap: 3px; align-content: start; min-width: 0; }
+.st-tile .st-row__title { font-size: 18px; font-weight: 750; letter-spacing: -0.015em; }
+.st-tile .st-row__detail { font-size: 13px; line-height: 1.42; }
+.st-tile__foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; }
+.st-tile__foot .st-cost { align-items: flex-start; margin-top: 0; font-size: 12.5px; line-height: 1.3; }
+.st-tile__foot .st-cost svg { margin-top: 1px; }
+.st-tile .st-tag { height: 22px; }
 .st-row {
+  --mk-press-scale: 0.97;
   display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-columns: 64px minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
   min-height: 80px;
@@ -486,8 +510,37 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
   text-decoration: none;
   transition: background-color 180ms ease, transform 420ms var(--mk-spring);
 }
-.st-row:hover { background: var(--a-hover); }
 .st-row:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+/* The go disc: outlined, never volt (the hero's button is the sheet's one volt). */
+.st-go {
+  display: grid; place-items: center; flex: none; width: 40px; height: 40px; border-radius: 50%;
+  border: 1.5px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink);
+  transition: transform 200ms var(--mm-ease-out), background-color 160ms ease, border-color 160ms ease;
+}
+.st-go[data-kind='start'] svg { margin-left: 2px; }
+.st-row:active .st-go, .st-tile:active .st-go { transform: scale(0.92); transition-duration: 100ms; }
+@media (hover: hover) and (pointer: fine) {
+  .st-row:hover, .st-tile:hover { background: var(--a-hover); }
+  .st-tile:hover { box-shadow: inset 0 0 0 1px var(--a-line-strong), inset 0 1px 0 var(--a-edge); }
+  .st-row:hover .st-go, .st-tile:hover .st-go { border-color: var(--a-ink-3); background: var(--a-hover); transform: translateX(2px); }
+  .st-tile:hover .st-tile__art > * { transform: translateY(-2px); }
+}
+
+/* The stopwatch (the app's render, its hand drawn at the pivot), the exam screen and the topic weights. */
+.st-watch { position: relative; display: inline-block; flex: none; }
+.st-watch__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 8px 10px var(--st-shadow, rgb(0 0 0 / 0.45))); }
+.st-watch__hand { position: absolute; inset: 0; overflow: visible; }
+.st-watch__hand line { stroke: #1b1f17; stroke-width: 14; stroke-linecap: round; }
+.st-watch__hand circle { fill: #1b1f17; }
+.st-exam { position: relative; display: inline-block; flex: none; overflow: hidden; border-radius: 9px; background: #f6f7f9; box-shadow: 0 8px 14px -6px var(--st-shadow, rgb(0 0 0 / 0.45)), inset 0 0 0 1px rgb(0 0 0 / 0.08); }
+.st-exam::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 15%; background: #2f6fd6; }
+.st-exam b { position: absolute; display: block; width: 18%; height: 15%; border-radius: 2px; background: #fff; box-shadow: inset 0 0 0 1px #b9c0c8; }
+.st-exam b[data-tone='g'] { background: #2e9e52; box-shadow: none; }
+.st-exam b[data-tone='o'] { background: #e36a1f; box-shadow: none; }
+.st-exam b[data-tone='p'] { background: #6a3fb5; box-shadow: none; }
+.st-weights { position: relative; display: inline-flex; flex: none; align-items: flex-end; gap: 9%; padding: 14% 12% 16%; border-radius: 12px; background: var(--a-sunken); box-shadow: inset 0 0 0 1px var(--a-line); }
+.st-weights i { flex: 1; border-radius: 3px 3px 1px 1px; background: var(--a-line-strong); }
+.st-weights i[data-hot] { background: var(--a-accent-text); }
 .st-row__art {
   position: relative;
   display: grid;
@@ -501,8 +554,10 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
     var(--a-sunken);
 }
 .st-row__art > .st-obj, .st-row__art > .st-draw, .st-row__art > .st-fan { transition: transform 260ms var(--mk-settle); }
-.st-row:hover .st-row__art > * { transform: translateY(-2px); }
-.st-row:hover .st-row__badge { transform: none; }
+@media (hover: hover) and (pointer: fine) {
+  .st-row:hover .st-row__art > * { transform: translateY(-2px); }
+  .st-row:hover .st-row__badge { transform: none; }
+}
 .st-row__badge {
   position: absolute;
   right: -6px;
@@ -597,9 +652,14 @@ html[data-theme='light'] .st-cta { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.
 /* ---------- Reduced motion: hover and press without movement ---------- */
 :root[data-motion='reduced'] :is(.st-row, .st-chip, .st-close, .stk__disc, .st-row__art > *) { transition-property: background-color, border-color, color, box-shadow; transform: none !important; }
 :root[data-motion='reduced'] :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; transition-property: opacity, background-color, border-color; }
-:root[data-motion='reduced'] .st-chip .st-obj { translate: none !important; scale: none !important; transition: none; }
+:root[data-motion='reduced'] .st-chip .st-obj { translate: none !important; scale: none !important; transition: filter 120ms linear, opacity 120ms linear; }
+:root[data-motion='reduced'] :is(.st-tile, .st-go, .st-tile__art > *) { transform: none !important; transition-property: background-color, border-color, color, box-shadow; }
+:root[data-motion='reduced'] .st-words { animation: st-words-fade 120ms linear both; }
 @media (prefers-reduced-motion: reduce) {
   :is(.st-row, .st-chip, .st-close, .stk__disc, .st-row__art > *) { transition-property: background-color, border-color, color, box-shadow; transform: none !important; }
   :is(.st-rail__arrow, .st-rail__disc) { scale: 1 !important; transform: none !important; transition-property: opacity, background-color, border-color; }
-  .st-chip .st-obj { translate: none !important; scale: none !important; transition: none; }
+  .st-chip .st-obj { translate: none !important; scale: none !important; transition: filter 120ms linear, opacity 120ms linear; }
+  :is(.st-tile, .st-go, .st-tile__art > *) { transform: none !important; transition-property: background-color, border-color, color, box-shadow; }
+  .st-words { animation: st-words-fade 120ms linear both; }
 }
+@keyframes st-words-fade { from { opacity: 0; } }

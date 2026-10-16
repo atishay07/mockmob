@@ -1,0 +1,92 @@
+/* The chapter picker (ChapterPicker.jsx; START-1017 4.4, owner F8). Chapters grouped by unit, a search that forgives
+   case, punctuation and "&", the chosen chapters as removable chips. Desktop: inline under the Chapters row. Phones: a
+   bottom sheet with the search pinned and "Use N chapters" in its foot (the one volt while it is up). Arena tokens, so
+   Night and Day stay in step. Reduced motion: no movement, short fades. */
+.app-shell .cp { display: grid; gap: 12px; min-width: 0; }
+.app-shell .cp-skel { display: block; width: 180px; height: 44px; border-radius: 13px; }
+.app-shell .cp-sum { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; margin: 0; font-size: 14.5px; line-height: 1.45; color: var(--a-ink-2); }
+.app-shell .cp-sum p { margin: 0; }
+.app-shell .cp-open, .app-shell .cp-done, .app-shell .cp-clear {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px;
+  border: 1px solid var(--a-line-strong); border-radius: 13px; background: var(--a-raised-2); color: var(--a-ink);
+  font: 700 14.5px/1 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.app-shell .cp-open:hover, .app-shell .cp-done:hover, .app-shell .cp-clear:hover:not(:disabled) { background: var(--a-hover); border-color: var(--a-ink-3); }
+.app-shell .cp-clear:disabled { opacity: 0.5; cursor: default; }
+.app-shell :is(.cp-open, .cp-done, .cp-clear, .cp-use, .cp-close, .cp-link, .cp-chap, .cp-chosen button):focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .cp-link { min-height: 32px; padding: 0; border: 0; background: none; color: var(--a-accent-text); font: 700 13px/1.2 var(--font-body); cursor: pointer; white-space: nowrap; }
+.app-shell .cp-link:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* The chosen chapters: volt wash chips with a 44 px remove target. */
+.app-shell .cp-chosen { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.app-shell .cp-chosen li { display: inline-flex; align-items: center; gap: 2px; min-height: 36px; padding: 0 0 0 12px; border-radius: 999px; background: var(--a-volt-wash); box-shadow: inset 0 0 0 1px var(--a-volt-line); font-size: 13.5px; font-weight: 650; color: var(--a-ink); animation: cp-in 200ms var(--mm-ease-out) both; }
+.app-shell .cp-chosen button { position: relative; display: grid; place-items: center; width: 36px; height: 36px; margin: 0; padding: 0; border: 0; border-radius: 50%; background: none; color: var(--a-ink-3); cursor: pointer; }
+.app-shell .cp-chosen button::after { content: ''; position: absolute; inset: -4px; }
+.app-shell .cp-chosen button:hover { color: var(--a-ink); }
+@keyframes cp-in { from { opacity: 0; scale: 0.92; } }
+
+/* The inline panel (desktop). */
+.app-shell .cp-panel { display: grid; gap: 14px; padding: 14px; border-radius: 18px; background: var(--a-sunken); box-shadow: inset 0 0 0 1px var(--a-line); animation: cp-open 300ms var(--mm-ease-glide, ease-out) both; }
+@keyframes cp-open { from { opacity: 0; translate: 0 -6px; } }
+.app-shell .cp-search { display: flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 13px; background: var(--a-raised); color: var(--a-ink-3); }
+.app-shell .cp-search:focus-within { border-color: var(--a-focus); box-shadow: 0 0 0 1px var(--a-focus); }
+.app-shell .cp-search input { flex: 1; min-width: 0; height: 44px; border: 0; outline: 0; background: transparent; color: var(--a-ink); font: 500 16px/1.2 var(--font-body); }
+.app-shell .cp-search input::placeholder { color: var(--a-ink-3); }
+.app-shell .cp-search input::-webkit-search-cancel-button { display: none; }
+.app-shell .cp-units { display: grid; gap: 10px; }
+.app-shell .cp-unit { display: grid; gap: 4px; }
+.app-shell .cp-unit__head { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 4px 2px; }
+.app-shell .cp-unit__head b { font: 700 14.5px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .cp-unit__head b small { margin-left: 6px; font: 600 12.5px/1 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .cp-chaps { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2px; }
+@media (min-width: 1024px) { .app-shell .cp-panel .cp-chaps { grid-template-columns: 1fr 1fr; column-gap: 8px; } }
+.app-shell .cp-chap {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: center; gap: 12px; min-height: 44px; padding: 6px 10px;
+  border: 0; border-radius: 12px; background: none; color: var(--a-ink); font: 500 14.5px/1.35 var(--font-body); text-align: left; cursor: pointer;
+  transition: background-color 160ms ease, opacity 160ms ease; -webkit-tap-highlight-color: transparent;
+}
+.app-shell .cp-chap:hover { background: var(--a-hover); }
+.app-shell .cp-chap i { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; box-shadow: inset 0 0 0 1.5px var(--a-line-strong); color: #182000; transition: background-color 160ms var(--mm-ease-out), box-shadow 160ms var(--mm-ease-out); }
+.app-shell .cp-chap i svg { opacity: 0; stroke-dasharray: 24; stroke-dashoffset: 24; transition: opacity 120ms ease, stroke-dashoffset var(--mm-dur-ink, 260ms) var(--mm-ease-out); }
+.app-shell .cp-chap[data-on] { background: var(--a-volt-wash); }
+.app-shell .cp-chap[data-on] i { background: var(--a-select); box-shadow: none; }
+.app-shell .cp-chap[data-on] i svg { opacity: 1; stroke-dashoffset: 0; }
+html[data-theme='light'] .app-shell .cp-chap i { color: #fff; }
+.app-shell .cp-chap[aria-disabled='true'] { opacity: 0.45; cursor: not-allowed; }
+.app-shell .cp-none { margin: 4px 2px; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
+.app-shell .cp-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px solid var(--a-line); font-size: 14px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .cp-foot b { color: var(--a-ink); }
+.app-shell .cp-limit { color: var(--a-warn-text); font-weight: 600; }
+
+/* The phone sheet: a native modal <dialog>, 90 vh, the header and search pinned, the units scrolling. */
+.app-shell .cp-sheet {
+  position: fixed; inset: auto 0 0 0; z-index: 95; display: none; width: 100%; max-width: 560px; max-height: 90dvh; margin: 0 auto; padding: 0;
+  border: 1px solid var(--a-line-strong); border-bottom: 0; border-radius: 26px 26px 0 0; background: var(--a-raised); color: var(--a-ink);
+  box-shadow: inset 0 1px 0 var(--a-edge), 0 -28px 64px -28px rgb(0 0 0 / 0.6); overflow: hidden;
+}
+.app-shell .cp-sheet[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; animation: cp-rise 420ms var(--mm-spring-smooth, cubic-bezier(0.2, 0.9, 0.25, 1)) both; }
+@keyframes cp-rise { from { translate: 0 100%; } }
+.app-shell .cp-sheet::backdrop { background: rgb(5 8 6 / 0.58); animation: cp-scrim 240ms ease-out both; }
+html[data-theme='light'] .app-shell .cp-sheet::backdrop { background: rgb(23 32 22 / 0.3); }
+@keyframes cp-scrim { from { opacity: 0; } }
+.app-shell .cp-sheet__head { display: grid; gap: 10px; padding: 0 18px 10px; }
+.app-shell .cp-sheet__handle { display: block; width: 36px; height: 4px; margin: 10px auto 2px; border-radius: 4px; background: var(--a-line-strong); }
+.app-shell .cp-sheet__title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.app-shell .cp-sheet__title h2 { margin: 0; font: 750 22px/1.2 var(--font-display); letter-spacing: -0.02em; }
+.app-shell .cp-sheet__title p { margin: 2px 0 0; font-size: 13.5px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .cp-close { display: grid; place-items: center; flex: none; width: 44px; height: 44px; border: 1px solid var(--a-line-strong); border-radius: 50%; background: transparent; color: var(--a-ink-2); cursor: pointer; }
+.app-shell .cp-sheet__list { overflow-y: auto; overscroll-behavior: contain; padding: 4px 18px 12px; }
+.app-shell .cp-sheet__foot { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: center; padding: 12px 18px calc(16px + env(safe-area-inset-bottom)); border-top: 1px solid var(--a-line); background: var(--a-raised); }
+.app-shell .cp-sheet__foot p { grid-column: 1 / -1; margin: 0; font-size: 13px; }
+.app-shell .cp-use { min-height: 50px; padding: 0 18px; border: 0; border-radius: 15px; background: var(--volt); color: #182000; font: 750 16px/1 var(--font-display); cursor: pointer; }
+html[data-theme='light'] .app-shell .cp-use { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 0.35); }
+.app-shell .cp-sheet .cp-clear { min-height: 50px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell :is(.cp-panel, .cp-chosen li) { animation: cp-scrim 120ms linear both; }
+  .app-shell .cp-sheet[open] { animation: cp-scrim 120ms linear both; }
+  .app-shell .cp-chap i svg { stroke-dasharray: none; transition: opacity 120ms linear; }
+}
+:root[data-motion='reduced'] .app-shell :is(.cp-panel, .cp-chosen li) { animation: cp-scrim 120ms linear both; }
+:root[data-motion='reduced'] .app-shell .cp-sheet[open] { animation: cp-scrim 120ms linear both; }
+:root[data-motion='reduced'] .app-shell .cp-chap i svg { stroke-dasharray: none; transition: opacity 120ms linear; }

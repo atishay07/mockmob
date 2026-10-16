@@ -1732,7 +1732,7 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
    (AGENT_RULES 32: nothing sticky hides the content or the key a student is reaching for). */
 @media (max-width: 1023px) {
   html:has(.app-shell) { --dock-h: 84px; scroll-padding-bottom: calc(var(--dock-h) + 16px + env(safe-area-inset-bottom)); }
-  html:has(.pr-dock[data-shown]) { scroll-padding-bottom: calc(var(--dock-h) + 88px + env(safe-area-inset-bottom)); }
+  html:has(.pr-bar) { scroll-padding-bottom: calc(var(--dock-h) + 88px + env(safe-area-inset-bottom)); }
   html .app-shell:not(.app-shell--test) .app-main { padding-bottom: calc(var(--dock-h, 84px) + 24px + env(safe-area-inset-bottom)); }
 }
 
