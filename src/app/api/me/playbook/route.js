@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { checkRateLimit } from '@/lib/server/rateLimit';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { loadRuleSources, writeRule } from '@/lib/server/ruleBook';
 import { PLAYBOOK_COPY, parseSubject, playbookBody, postPlaybook } from '@/lib/server/playbook';
 
@@ -30,7 +30,7 @@ export async function GET(request) {
 export async function POST(request) {
   const session = await auth(request);
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: NO_STORE });
-  if (!checkRateLimit(request, { route: '/api/me/playbook', limit: 20, keyParts: [session.user.id] }).allowed) {
+  if (!(await checkPersistentRateLimit(request, { route: '/api/me/playbook', limit: 20, keyParts: [session.user.id], fallback: 'memory' })).allowed) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: NO_STORE });
   }
   const body = await request.json().catch(() => null);

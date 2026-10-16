@@ -1,73 +1,19 @@
-import { timingSafeEqual } from 'node:crypto';
 import { NextResponse } from 'next/server';
-import { supabaseAdmin } from '@/lib/supabase';
 
 export const dynamic = 'force-dynamic';
 
-const ACTIVE_EVENTS = new Set([
-  'subscription.active',
-  'subscription.paid',
-  'payment.success',
-  'checkout.success',
-]);
-
-const INACTIVE_EVENTS = new Set([
-  'subscription.cancelled',
-  'subscription.canceled',
-  'subscription.expired',
-  'payment.failed',
-]);
-
-export async function POST(request) {
-  try {
-    const secret = process.env.BILLING_WEBHOOK_SECRET;
-    if (!secret) {
-      return NextResponse.json({ error: 'BILLING_WEBHOOK_SECRET is required' }, { status: 503 });
-    }
-
-    const provided = request.headers.get('x-mockmob-signature');
-    const providedBuf = Buffer.from(provided || '');
-    const secretBuf = Buffer.from(secret);
-    if (providedBuf.length !== secretBuf.length || !timingSafeEqual(providedBuf, secretBuf)) {
-      return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 401 });
-    }
-
-    const body = await request.json();
-    const event = body?.event || body?.type;
-    const userId = body?.userId || body?.user_id || body?.metadata?.userId || body?.metadata?.user_id;
-    const email = body?.email || body?.customer_email || body?.metadata?.email;
-
-    if (!event || (!userId && !email)) {
-      return NextResponse.json({ error: 'event and user identity are required' }, { status: 400 });
-    }
-
-    const subscriptionStatus = ACTIVE_EVENTS.has(event)
-      ? 'active'
-      : INACTIVE_EVENTS.has(event)
-        ? 'cancelled'
-        : body?.subscriptionStatus || body?.subscription_status;
-
-    if (!['active', 'free', 'cancelled', 'past_due'].includes(subscriptionStatus)) {
-      return NextResponse.json({ error: 'Unsupported subscription event' }, { status: 422 });
-    }
-
-    let query = supabaseAdmin().from('users').update({
-      subscription_status: subscriptionStatus,
-      is_premium: subscriptionStatus === 'active',
-    });
-    query = userId ? query.eq('id', userId) : query.eq('email', email);
-    const { data, error } = await query.select('id, subscription_status').maybeSingle();
-    if (error) throw error;
-    if (!data) return NextResponse.json({ error: 'User not found' }, { status: 404 });
-
-    return NextResponse.json({
-      ok: true,
-      userId: data.id,
-      subscriptionStatus: data.subscription_status,
-      isPremium: data.subscription_status === 'active',
-    });
-  } catch (e) {
-    console.error('[api/billing/webhook] POST failed:', e);
-    return NextResponse.json({ error: 'Failed to update subscription' }, { status: 500 });
-  }
+// RETIRED 16 Oct 2026 (security review item 7). This route used to be a second payment-granting path: a caller
+// holding BILLING_WEBHOOK_SECRET (header x-mockmob-signature) could set subscription_status and is_premium on any
+// user, by id or email, with no premium_until date and no Razorpay evidence. Nothing calls it:
+//   - the real Razorpay webhook is /webhook (src/app/webhook/route.js, HMAC signature, amount and order checks);
+//   - BILLING_WEBHOOK_SECRET appears only in this file's history and in docs/brain/RUNBOOK-MONTHLY-BILLING-2026-10-16.md,
+//     which says to leave it unset (so the old route already answered 503 in production);
+//   - no client, cron or script in the repository posts here.
+// It now answers 410 Gone to every call and touches nothing. The old behaviour is in git history (this file before the
+// commit "Retire the legacy billing webhook"); it is described in docs/brain/RUNBOOK-MONTHLY-BILLING-2026-10-16.md.
+// To bring a generic webhook back, add a new route that records provider evidence and a paid-through date, never a
+// bare is_premium flip.
+export async function POST() {
+  console.warn('[api/billing/webhook] 410: the legacy generic billing webhook is retired; a call reached it and was refused');
+  return NextResponse.json({ error: 'This webhook is retired. Payments are confirmed at /webhook.' }, { status: 410, headers: { 'Cache-Control': 'no-store' } });
 }

@@ -10,6 +10,7 @@
 
 import { supabaseAdmin } from '@/lib/supabase';
 import { formatIdFor } from '@/lib/server/attemptSummary';
+import { claimWebhookEventWith } from '@/lib/server/webhookClaim';
 import {
   effectivePremiumFromRow,
   REFUND_REVOKED_PREMIUM_ACTION,
@@ -302,6 +303,34 @@ const attemptOut = (r) => r && ({
 
 // Re-export seed for any place still importing it directly.
 export { SEED_QUESTIONS };
+
+// The claim used before the lease column existed. Kept for the window between deploying this code and applying
+// migration 20261016170100 (and for a schema where it is missing): same behaviour as before, no in-flight check.
+async function claimWebhookEventLegacy({ eventId, eventType, payload, provider }) {
+  const { error } = await supabaseAdmin()
+    .from('webhook_events')
+    .insert({ event_id: eventId, provider, event_type: eventType, payload: payload || {} });
+  if (!error) return true;
+  if (error.code === '23505') {
+    const { data, error: readError } = await supabaseAdmin()
+      .from('webhook_events')
+      .select('processed_at, error_message')
+      .eq('event_id', eventId)
+      .maybeSingle();
+    if (readError) throw readError;
+    if (data?.error_message) {
+      const { error: resetError } = await supabaseAdmin()
+        .from('webhook_events')
+        .update({ event_type: eventType, payload: payload || {}, processed_at: null, error_message: null })
+        .eq('event_id', eventId);
+      if (resetError) throw resetError;
+      return true;
+    }
+    return !data?.processed_at;
+  }
+  if (error.code === '42P01') return true;
+  throw error;
+}
 
 export const Database = {
   // =====================================================================
@@ -982,47 +1011,22 @@ export const Database = {
   // WEBHOOK EVENTS (idempotency)
   // =====================================================================
   /**
-   * Insert a webhook event row keyed by event_id. Returns true if this is
-   * the first time we've seen this event_id (caller should process), false
-   * if it's a duplicate (caller should no-op).
+   * Claim a webhook event so it is processed once. Returns:
+   *   true         this delivery owns the event: process it
+   *   false        already processed: caller no-ops (duplicate)
+   *   'in_flight'  another delivery claimed it under 120 s ago and is still working: caller answers 503 so it is retried
+   * The decision lives in src/lib/server/webhookClaim.js (lease on webhook_events.claimed_at, migration
+   * 20261016170100; until it is applied the previous claim below is used).
    */
   async claimWebhookEvent({ eventId, eventType, payload, provider = 'razorpay' }) {
     if (!eventId) throw new Error('eventId required');
-    const { error } = await supabaseAdmin()
-      .from('webhook_events')
-      .insert({
-        event_id: eventId,
-        provider,
-        event_type: eventType,
-        payload: payload || {},
-      });
-    if (!error) return true;
-    if (error.code === '23505') {
-      const { data, error: readError } = await supabaseAdmin()
-        .from('webhook_events')
-        .select('processed_at, error_message')
-        .eq('event_id', eventId)
-        .maybeSingle();
-      if (readError) throw readError;
-
-      if (data?.error_message) {
-        const { error: resetError } = await supabaseAdmin()
-          .from('webhook_events')
-          .update({
-            event_type: eventType,
-            payload: payload || {},
-            processed_at: null,
-            error_message: null,
-          })
-          .eq('event_id', eventId);
-        if (resetError) throw resetError;
-        return true;
-      }
-
-      return !data?.processed_at;
-    }
-    if (error.code === '42P01') return true;  // table not yet migrated — don't block prod
-    throw error;
+    const table = () => supabaseAdmin().from('webhook_events');
+    return claimWebhookEventWith({
+      insert: async (row) => table().insert(row),
+      read: async (id) => table().select('processed_at, error_message, claimed_at').eq('event_id', id).maybeSingle(),
+      reclaim: async (id, patch, filter) => table().update(patch).eq('event_id', id).or(filter).select('event_id'),
+      legacy: () => claimWebhookEventLegacy({ eventId, eventType, payload, provider }),
+    }, { eventId, eventType, payload, provider });
   },
 
   async markWebhookEventProcessed(eventId, errorMessage = null) {

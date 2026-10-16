@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { checkRateLimit } from '@/lib/server/rateLimit';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { repairMistake } from '@/services/recovery/mistakeRepair';
 import { actionFromHref } from '@/lib/server/actionFields';
 
@@ -16,7 +16,7 @@ export async function POST(request) {
   const headers = { 'Cache-Control': 'no-store' };
   const session = await auth(request);
   if (!session?.user?.id) return Response.json({ ok: false, error: 'Unauthorized' }, { status: 401, headers });
-  if (!checkRateLimit(request, { route: '/api/recovery/repair', limit: 12, keyParts: [session.user.id] }).allowed)
+  if (!(await checkPersistentRateLimit(request, { route: '/api/recovery/repair', limit: 12, keyParts: [session.user.id], fallback: 'memory' })).allowed)
     return Response.json({ ok: false, error: 'rate_limited', message: 'Please wait a moment before the next repair.' }, { status: 429, headers });
   const body = await request.json().catch(() => null);
   if (!body || typeof body.attemptId !== 'string' || typeof body.questionId !== 'string')

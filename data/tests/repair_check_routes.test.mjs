@@ -123,7 +123,7 @@ test('the check route: signed in, rate limited on both methods, no credit and no
   assert.match(route, /export async function GET\(/);
   assert.match(route, /export async function POST\(/);
   assert.match(route, /export const dynamic = 'force-dynamic'/);
-  assert.equal((route.match(/checkRateLimit\(/g) || []).length, 2);
+  assert.equal((route.match(/checkPersistentRateLimit\(/g) || []).length, 2);
   assert.match(route, /error: 'Unauthorized' \}, \{ status: 401/);
   assert.match(route, /status: 422/);
   assert.match(route, /Cache-Control': 'no-store'/);
@@ -161,7 +161,7 @@ test('the Ask hand-off: the chat route builds the context on the server before a
   assert.match(chat, /!studyLesson && !questionContext && insights/, 'no free record answer interrupts a question follow-up');
   assert.match(read('src/services/prepos/replyDeps.js'), /context\?\.questionContext \? `\\n\$\{QUESTION_RULES\}`/);
   const askRoute = read('src/app/api/recovery/ask-context/route.js');
-  assert.match(askRoute, /checkRateLimit\(/);
+  assert.match(askRoute, /checkPersistentRateLimit\(/);
   assert.match(askRoute, /error: 'Unauthorized' \}, \{ status: 401/);
   assert.match(askRoute, /context: loaded\.preview/, 'the screen gets the short preview, not the full context');
 });

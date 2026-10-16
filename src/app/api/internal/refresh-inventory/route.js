@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'node:crypto';
+import { sameSecret as same } from '@/lib/server/secretCompare';
 import { refreshInventorySnapshot } from '@/lib/server/inventory';
 import { refreshCohortStats, describeCohortRun } from '@/lib/server/cohortStats';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -13,12 +13,6 @@ export const maxDuration = 300;
 // The NTA index pass stops starting subjects at 200 s after the request began (one subject is a few seconds), so
 // the cohort pass, which needs about 15 s and is capped by COHORT_DEADLINE_FROM_START_MS below, always has room.
 const NTA_INDEX_DEADLINE_FROM_START_MS = 200000;
-
-function same(a, b) {
-  const x = Buffer.from(String(a || ''));
-  const y = Buffer.from(String(b || ''));
-  return x.length > 0 && x.length === y.length && timingSafeEqual(x, y);
-}
 
 function authorised(request) {
   const cron = process.env.CRON_SECRET;

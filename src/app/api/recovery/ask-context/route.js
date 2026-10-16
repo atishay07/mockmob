@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { checkRateLimit } from '@/lib/server/rateLimit';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { loadQuestionContext } from '@/services/recovery/askContext';
 import { buildCheckDeps } from '@/services/recovery/repairCheckDeps';
 
@@ -14,7 +14,7 @@ const headers = { 'Cache-Control': 'no-store' };
 export async function GET(request) {
   const session = await auth(request);
   if (!session?.user?.id) return Response.json({ ok: false, error: 'Unauthorized' }, { status: 401, headers });
-  if (!checkRateLimit(request, { route: '/api/recovery/ask-context', limit: 30, keyParts: [session.user.id] }).allowed)
+  if (!(await checkPersistentRateLimit(request, { route: '/api/recovery/ask-context', limit: 30, keyParts: [session.user.id], fallback: 'memory' })).allowed)
     return Response.json({ ok: false, error: 'rate_limited', message: 'Please wait a moment.' }, { status: 429, headers });
   const user = await Database.getUserById(session.user.id);
   if (!user) return Response.json({ ok: false, error: 'user_not_found' }, { status: 404, headers });

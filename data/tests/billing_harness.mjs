@@ -9,6 +9,7 @@ import { register, createRequire } from 'node:module';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { effectivePremiumFromRow, refundRevocationMatchesPayment } from '../../src/lib/payments/entitlements.js';
+import { claimWebhookEventWith } from '../../src/lib/server/webhookClaim.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 export const TEST_ENV = {
@@ -135,11 +136,30 @@ export function createFakeDatabase() {
     },
     async getCreatorById() { return null; },
     async setPaymentEarning() {},
-    async claimWebhookEvent({ eventId, eventType, payload }) {
-      const row = events.get(eventId);
-      if (!row) { events.set(eventId, { eventId, eventType, payload, processed_at: null, error_message: null }); return true; }
-      if (row.error_message) { Object.assign(row, { eventType, payload, processed_at: null, error_message: null }); return true; }
-      return !row.processed_at;
+    // The real claim decision (src/lib/server/webhookClaim.js) over an in-memory table, so the lease behaves as in production.
+    // db.clock() is the time the claim sees; a test moves it to expire a lease.
+    clock: () => Date.now(),
+    async claimWebhookEvent({ eventId, eventType, payload, provider = 'razorpay' }) {
+      const matches = (row, filter) => {
+        // the filter string from reclaimFilter(), evaluated here: noted or failed, or unprocessed with no live lease
+        const cutoff = filter.split('claimed_at.lt.')[1].split(')')[0];
+        return row.error_message != null || (row.processed_at == null && (row.claimed_at == null || row.claimed_at < cutoff));
+      };
+      return claimWebhookEventWith({
+        insert: async (r) => {
+          if (events.has(r.event_id)) return { error: { code: '23505' } };
+          events.set(r.event_id, { eventId: r.event_id, eventType: r.event_type, payload: r.payload, processed_at: null, error_message: null, claimed_at: r.claimed_at });
+          return { error: null };
+        },
+        read: async (id) => ({ data: events.get(id) || null, error: null }),
+        reclaim: async (id, patch, filter) => {
+          const row = events.get(id);
+          if (!row || !matches(row, filter)) return { data: [], error: null };
+          Object.assign(row, { eventType: patch.event_type, payload: patch.payload, processed_at: patch.processed_at, error_message: patch.error_message, claimed_at: patch.claimed_at });
+          return { data: [{ event_id: id }], error: null };
+        },
+        legacy: async () => { throw new Error('legacy claim must not be used in the harness'); },
+      }, { eventId, eventType, payload, provider }, { now: db.clock() });
     },
     async markWebhookEventProcessed(eventId, message = null) { const r = events.get(eventId); if (r) { r.processed_at = 'now'; r.error_message = message; } },
     async markWebhookEventFailed(eventId, message = null) { const r = events.get(eventId); if (r) { r.processed_at = null; r.error_message = message || 'unknown error'; } },
@@ -154,13 +174,14 @@ export async function loadBilling() {
   if (cached) return cached;
   register(`data:text/javascript,${encodeURIComponent(HOOKS)}`);
   const url = (rel) => pathToFileURL(resolve(root, rel)).href;
-  const [webhook, verify, cancel, create, razorpay, plans] = await Promise.all([
+  const [webhook, verify, cancel, create, razorpay, plans, legacyWebhook] = await Promise.all([
     import(url('src/app/webhook/route.js')),
     import(url('src/app/verify-payment/route.js')),
     import(url('src/app/api/billing/cancel/route.js')),
     import(url('src/app/create-monthly-subscription/route.js')),
     import(url('src/lib/payments/razorpay.js')),
     import(url('src/lib/payments/plans.js')),
+    import(url('src/app/api/billing/webhook/route.js')),
   ]);
 
   // The real SDK object, with every network method replaced by a recording fake.
@@ -202,7 +223,7 @@ export async function loadBilling() {
     return rz.payments.get(id);
   };
 
-  cached = { webhook, verify, cancel, create, razorpay, plans, rz };
+  cached = { webhook, verify, cancel, create, razorpay, plans, legacyWebhook, rz };
   return cached;
 }
 

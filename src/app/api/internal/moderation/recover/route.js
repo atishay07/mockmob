@@ -11,6 +11,7 @@
 // Call this from a cron every 2 minutes — safely idempotent.
 
 import { supabase } from '@/lib/supabase'
+import { hasInternalSecret } from '@/lib/server/secretCompare'
 
 /**
  * POST /api/internal/moderation/recover
@@ -24,8 +25,7 @@ import { supabase } from '@/lib/supabase'
  * { recovered_count: number }
  */
 export async function POST(request) {
-  const secret = request.headers.get('x-internal-secret')
-  if (!process.env.INTERNAL_API_SECRET || secret !== process.env.INTERNAL_API_SECRET) {
+  if (!hasInternalSecret(request)) {
     return Response.json({ error: 'Forbidden.' }, { status: 403 })
   }
 
