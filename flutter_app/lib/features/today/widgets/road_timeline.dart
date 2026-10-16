@@ -63,8 +63,8 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
   late final AnimationController _scrubPresence =
       AnimationController(vsync: this, duration: const Duration(milliseconds: 140), reverseDuration: const Duration(milliseconds: 320));
 
-  /// Mobi's caption (the real next stop) for 2.8 s: it eases in and out around the hold.
-  late final AnimationController _caption = AnimationController(vsync: this, duration: const Duration(milliseconds: 2800));
+  /// Mobi's caption (the real next stop) for 2 s: 180 ms in, a 1640 ms hold, 180 ms out (AP1-16).
+  late final AnimationController _caption = AnimationController(vsync: this, duration: const Duration(milliseconds: 2000));
   final ValueNotifier<String?> _captionText = ValueNotifier(null);
 
   final MobiController _mobi = MobiController();
@@ -261,7 +261,8 @@ class _RoadTimelineState extends State<RoadTimeline> with TickerProviderStateMix
             size: size,
             fromX: math.min(slot.left - 90, -slot.width),
             toX: slot.left,
-            duration: const Duration(milliseconds: 1700),
+            // 1100 ms (from 1700): the walk is a beat, not a scene (AP1-16, MOTION.md T2 cap).
+            duration: const Duration(milliseconds: 1100),
             controller: _mobi,
             seed: 31,
             onArrive: (c) {
@@ -733,12 +734,12 @@ class _RoadPainter extends CustomPainter {
     _readout(canvas, size, x, start);
   }
 
-  /// Mobi's caption, shown 0 to 1: it eases in, holds and eases out over its 2.8 s.
+  /// Mobi's caption, shown 0 to 1: it eases in, holds and eases out over its 2 s.
   double get _captionShow {
     final t = captionPresence.value;
     if (t <= 0 || t >= 1 || caption.value == null) return 0;
     if (reduced) return 1;
-    const edge = 220 / 2800;
+    const edge = 180 / 2000;
     return Motion.emphasized.transform(math.min(t / edge, (1 - t) / edge).clamp(0.0, 1.0));
   }
 

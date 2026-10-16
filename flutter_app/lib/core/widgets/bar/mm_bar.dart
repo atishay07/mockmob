@@ -1012,7 +1012,9 @@ class _BadgeState extends State<_Badge> with SingleTickerProviderStateMixin {
       if (Motion.reduced(context)) {
         _in.value = 1;
       } else {
-        _in.animateWith(Motion.spring(Springs.smooth, 0, 1));
+        // From 0.95 and clear on Out over 200 ms: a badge arrives, it does not bounce in from
+        // 0.6 (AP1-10, standards s8 and s10 item 6 [T-105, A-006]).
+        _in.animateTo(1, duration: Motion.ui, curve: Motion.out);
       }
     }
   }
@@ -1079,8 +1081,8 @@ class _BadgeState extends State<_Badge> with SingleTickerProviderStateMixin {
       builder: (context, child) {
         final v = _in.value;
         return Opacity(
-          opacity: (v / 0.45).clamp(0.0, 1.0),
-          child: Transform.scale(scale: 0.6 + 0.4 * v, child: child),
+          opacity: v.clamp(0.0, 1.0),
+          child: Transform.scale(scale: 0.95 + 0.05 * v, child: child),
         );
       },
       child: body,

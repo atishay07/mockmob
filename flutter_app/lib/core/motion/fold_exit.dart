@@ -2,8 +2,8 @@ import 'package:flutter/widgets.dart';
 
 import 'motion.dart';
 
-/// A row leaving a list for good, reversibly: it slides [travel] dp and fades (on [Motion.leave]),
-/// then its height folds to nothing (on [Motion.emphasized]) so the rows below glide up into the
+/// A row leaving a list for good, reversibly: it slides [travel] dp and fades (200 ms on [Motion.out]),
+/// then its height folds to nothing (200 ms on [Motion.out]) so the rows below glide up into the
 /// gap instead of jumping. Setting [folded] back to false plays it in reverse (an Undo): the gap
 /// opens, then the row slides home and brightens.
 ///
@@ -30,8 +30,8 @@ class MmFoldExit extends StatefulWidget {
   final VoidCallback? onRestored;
 
   /// The slide and fade, then the fold.
-  static const Duration slide = Duration(milliseconds: 180);
-  static const Duration fold = Duration(milliseconds: 240);
+  static const Duration slide = Duration(milliseconds: 200);
+  static const Duration fold = Duration(milliseconds: 200);
 
   /// The share of the whole timeline the slide takes.
   static double get slideShare => slide.inMicroseconds / (slide + fold).inMicroseconds;
@@ -98,9 +98,11 @@ class _MmFoldExitState extends State<MmFoldExit> with SingleTickerProviderStateM
         } else {
           final a = (v / share).clamp(0.0, 1.0);
           final b = ((v - share) / (1 - share)).clamp(0.0, 1.0);
-          fade = 1 - Motion.leave.transform(a);
-          move = widget.travel * Motion.leave.transform(a);
-          height = 1 - Motion.emphasized.transform(b);
+          // Out, never ease-in (AP1-14, standards s8 [T-103]): the row answers at once and keeps
+          // moving, so a swiped row never hangs before it goes.
+          fade = 1 - Motion.out.transform(a);
+          move = widget.travel * Motion.out.transform(a);
+          height = 1 - Motion.out.transform(b);
         }
         // One structure at every value, so the row keeps its state through a fold and an Undo.
         return IgnorePointer(

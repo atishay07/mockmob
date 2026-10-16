@@ -203,13 +203,15 @@ class _SweepState extends State<_Sweep> with SingleTickerProviderStateMixin {
   /// The sweep has played in this app run.
   static bool _played = false;
 
-  /// The wait before the band starts, as a share of the controller: 700 of 1400 ms.
-  static const double _lead = 0.5;
+  /// The wait before the band starts, as a share of the controller: 300 of 900 ms. The band
+  /// itself crosses in 600 ms on Motion.sweep (from 700 after a 700 ms wait; AP1-16): one
+  /// authored load moment, then the hero is still.
+  static const double _lead = 1 / 3;
 
   @override
   void initState() {
     super.initState();
-    _t = AnimationController(vsync: this, duration: const Duration(milliseconds: 1400));
+    _t = AnimationController(vsync: this, duration: const Duration(milliseconds: 900));
   }
 
   @override
