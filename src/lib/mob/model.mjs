@@ -5,10 +5,20 @@
 //   P6 never names a non-sitter: the view says who sat, never who did not.
 //   P7 the shared trap is aggregate: 3 or more sitters, an option picked by 2 or more and by half or more, no names.
 //   Together (the payoff a Mob of two can have): only between sitters who all show their score; a count, never a rank.
+// Free and Pro (SOCIAL-SPEC section 15): the plan is decided on the server and arrives in the view as `plan`. Free:
+// start or join a Mob, sit the weekly paper without credits, see the ring, your own result and a one-line teaser of where
+// the Mob split. Pro: the full side-by-side, past weeks, extra papers on a chosen chapter and length, up to 3 Mobs.
 // Nothing here grants, spends or rewards credits or money.
 import { localDay, weekStart } from '../server/rhythm.js';
 
 export const MAX_MEMBERS = 5;
+export const FREE_MAX_MOBS = 1;
+export const PRO_MAX_MOBS = 3;
+export const EXTRA_MAX_PER_WEEK = 3;
+export const EXTRA_LENGTHS = Object.freeze([5, 10, 15, 20]);
+export const EXTRA_OPEN_DAYS = 7;
+export const SECONDS_PER_QUESTION = 72;
+export const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const PAPER_COUNT = 10;
 export const PAPER_SECONDS = 720;
 export const INVITE_DAYS = 7;
@@ -38,7 +48,19 @@ export const ERRORS = Object.freeze({
   INVITE_INVALID: [404, 'This invite can\'t be used. Ask your friend for a new link.'],
   INVITE_EXPIRED: [410, 'This invite can\'t be used. Ask your friend for a new link.'],
   MOB_FULL: [409, 'This Mob already has 5 members.'],
-  ALREADY_IN_MOB: [409, 'You are already in a Mob. Leave it first to start or join another.'],
+  ALREADY_IN_MOB: [409, 'You are already in this Mob.'],
+  MOB_LIMIT: [409, 'Free includes one Mob. Leave yours to start or join another, or go Pro to be in up to 3.'],
+  MOB_LIMIT_PRO: [409, 'You are in 3 Mobs already. Leave one to start or join another.'],
+  MOB_REQUIRED: [422, 'Say which Mob this is for.'],
+  PRO_REQUIRED: [402, 'This part of the Mob is included with Pro.'],
+  COMPARE_UNAVAILABLE: [409, 'There is nothing to compare yet. It needs one more member to sit this paper.'],
+  SHARE_FIRST: [409, 'Share your answers with your Mob to compare. Members who share see each other, never a ranking.'],
+  COMPARE_WAITING: [409, 'No one else has shared their answers yet. Your first comparison stays free until someone does.'],
+  FREE_PAPER_USED: [409, 'You already sat a Mob paper this week. Pro lets you sit one in every Mob.'],
+  EXTRA_LIMIT: [409, 'Your Mob already has 3 extra papers this week. It can make more next week.'],
+  EXTRA_CLOSED: [410, 'This extra paper has closed.'],
+  CHAPTER_INVALID: [422, 'Choose a chapter of this subject.'],
+  LENGTH_INVALID: [422, 'Choose 5, 10, 15 or 20 questions.'],
   NOT_OWNER: [403, 'Only the member who started the Mob can remove someone.'],
   NOT_SAT_YET: [409, 'Sit this week\'s paper first, then you can ask the others.'],
   ALREADY_NUDGED: [409, 'You already asked the others this week.'],
@@ -201,11 +223,22 @@ export function togetherLine(t) {
   return t.sharedMiss ? `${first} ${two ? 'You both' : 'You all'} missed question ${t.sharedMiss}.` : first;
 }
 
+// ---------- The teaser (free): where the Mob split, in one line, never who was right ----------
+
+/** t: { split, of, with: name | null }. */
+export function teaserLine(t) {
+  if (!t) return '';
+  const q = (n) => `${n} ${n === 1 ? 'question' : 'questions'}`;
+  if (t.with) return t.split === 0 ? `You and ${t.with} picked the same on every question.` : `You and ${t.with} split on ${q(t.split)}.`;
+  return t.split === 0 ? 'Your Mob picked the same on every question.' : `Your Mob split on ${t.split} of ${t.of} questions.`;
+}
+
 // ---------- The cost line (D-S2 default: exactly what a quick 10 costs) ----------
 
 /** cost: { type: 'included'|'allowance'|'credits', credits?, balance? }. Never a number the server did not supply. */
 export function costLine(cost) {
   if (!cost || typeof cost !== 'object') return '';
+  if (cost.type === 'free') return 'Free. No credits.';
   if (cost.type === 'included') return 'Included with Pro.';
   if (cost.type === 'allowance') return 'Free today.';
   if (cost.type === 'credits' && Number.isFinite(cost.credits)) {
@@ -246,10 +279,12 @@ export const inviteExpiryLine = (iso) => (istDateTime(iso) ? `Link works until $
 /**
  * state: what mob_state returns (snake_case rows). opts:
  *   userId, now, memberIdFor(userId) -> string, cost, trap (already enriched: { ...computeTrap, questionId, option,
- *   trapName, youPicked }), together (computeTogether's answer), subjectName
+ *   trapName, youPicked }), together (computeTogether's answer), subjectName,
+ *   plan { pro }, mobs [{ id, subject, subjectName }] (all the student's Mobs), compare (the free teaser and the access
+ *   the plan gives, from the service), extras (this week's Pro extra papers as the student sees them), freeBlocked
  * Returns { mob: null } or { mob: {...} }.
  */
-export function buildView(state, { userId, now, memberIdFor, cost = null, trap = null, together = null, subjectName = null } = {}) {
+export function buildView(state, { userId, now, memberIdFor, cost = null, trap = null, together = null, subjectName = null, plan = null, mobs = null, compare = null, extras = null, freeBlocked = false } = {}) {
   if (!state || !state.mob) return { mob: null };
   const week = state.week;
   const members = Array.isArray(state.members) ? [...state.members] : [];
@@ -282,10 +317,16 @@ export function buildView(state, { userId, now, memberIdFor, cost = null, trap =
   const usesLeft = inv ? Math.min(seatsLeft, Math.max(0, Number(inv.max_uses) - Number(inv.uses))) : 0;
   const inviteOut = inv && usesLeft > 0 && Date.parse(inv.expires_at) > now
     ? { code: inv.code, url: inviteUrl(inv.code), expiresAt: new Date(inv.expires_at).toISOString(), usesLeft } : null;
+  const pro = plan?.pro === true;
+  const mobList = Array.isArray(mobs) && mobs.length ? mobs : [{ id: state.mob.id, subject: state.mob.subject, subjectName: subjectName || state.mob.subject }];
+  const maxMobs = pro ? PRO_MAX_MOBS : FREE_MAX_MOBS;
   return {
     mob: {
+      id: state.mob.id,
       subject: state.mob.subject,
       subjectName: subjectName || state.mob.subject,
+      plan: { pro, maxMobs, mobCount: mobList.length, canMakeExtra: pro, canStartAnother: pro && mobList.length < maxMobs },
+      mobs: mobList.map((x) => ({ id: x.id, subject: x.subject, subjectName: x.subjectName || x.subject, active: x.id === state.mob.id })),
       you: { memberId: memberIdFor(userId), name: me.display_name, colour: me.colour, role: userId === ownerId ? 'owner' : 'member', showScore: Boolean(me.show_score), nudgesMuted: Boolean(me.nudges_muted) },
       members: members.map(memberOut),
       seatsLeft,
@@ -293,7 +334,7 @@ export function buildView(state, { userId, now, memberIdFor, cost = null, trap =
         start: week,
         closesAt: closesAt(week),
         closed,
-        paper: { count: PAPER_COUNT, durationSec: PAPER_SECONDS, cost },
+        paper: { count: PAPER_COUNT, durationSec: PAPER_SECONDS, cost, blocked: freeBlocked ? 'free_used' : null },
         sat, size, youSat: Boolean(mine),
         yourResultId: mine ? mine.session_id : null,
       },
@@ -302,6 +343,11 @@ export function buildView(state, { userId, now, memberIdFor, cost = null, trap =
       // Only to a sitter who shows their score, when another sitter does too (computeTogether). Left out otherwise, so
       // the contract shape is unchanged for every member it does not apply to.
       ...(mine && together ? { together } : {}),
+      // The free teaser and what this plan may open (src/lib/mob/compare.mjs). Null until you sat and 2 have sat.
+      compare: mine && compare ? compare : null,
+      // This week's extra papers (Pro makes them; any member sits them), and how many past weeks have a paper (Pro opens them).
+      extras: Array.isArray(extras) ? extras : [],
+      pastWeeks: Number(state.past_weeks) || 0,
       nudge: { canSend: nudgeReason === null, reason: nudgeReason, received },
       invite: inviteOut,
     },
@@ -330,6 +376,9 @@ export function picksFromAttempt(questionIds, attempt) {
 }
 
 /** The runner link for this week's Mob paper. The key only names this device's draft; the server derives its own. */
-export const paperHref = (mob) => `/test?${new URLSearchParams({ subject: mob.subject, mode: 'quick', count: String(PAPER_COUNT), mob: '1', generationKey: `mob-${mob.week.start}-${mob.you.memberId}` })}`;
+export const paperHref = (mob, extra = null) => `/test?${new URLSearchParams({
+  subject: mob.subject, mode: 'quick', count: String(extra?.count || PAPER_COUNT), mob: '1', mobId: mob.id || '',
+  generationKey: `mob-${extra?.id || mob.week.start}-${mob.you.memberId}`, ...(extra ? { extra: extra.id } : {}),
+})}`;
 /** A result link for "See your answers". */
 export const resultHref = (id) => `/result/${encodeURIComponent(id)}`;

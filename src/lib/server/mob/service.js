@@ -1,20 +1,30 @@
-// The Mob's server logic (SOCIAL-SPEC sections 5 and 6). No 'server-only' and no '@/' imports on purpose, so
+// The Mob's server logic (SOCIAL-SPEC sections 5, 6 and 15). No 'server-only' and no '@/' imports on purpose, so
 // node:test drives it against the real migration on PGlite (data/tests/mob.test.mjs); src/lib/server/mob/deps.js wires
 // the production pieces (Supabase, the question bank, the practice session engine).
 //
 // Every write goes through one of the migration's functions, which take the acting user id from here and hold a
 // per-Mob lock. User ids never leave the server: members are addressed by memberId, an HMAC of (mobId, userId).
-// Nothing here grants, spends or rewards credits or money; a Mob paper is started by startPractice, which applies the
-// same charge as any quick 10 (D-S2 default).
+// Free and Pro (section 15) are decided here and nowhere else, from the account's plan, never from anything the client
+// sent:
+//   Free   start or join a Mob (one at a time), sit the weekly paper without credits (one a week, whichever Mob), the
+//          ring, your own result, a one-line teaser, and one free side-by-side (the sample).
+//   Pro    the full side-by-side, past weeks, extra papers on a chosen chapter and length (3 a Mob and week), up to 3 Mobs.
+// A Mob paper is started by startPractice, which charges no credits and uses no daily allowance for it (the Mob calls
+// no AI model: its cost is a few rows a week).
 // TODO(owner D-S4): an invite tied to credits is the owner's decision and is not built. Do not add one here.
 import { createHmac } from 'node:crypto';
 import {
-  CODE_ALPHABET, INVITE_DAYS, MobError, PAPER_COUNT, REPORT_REASONS, buildView, checkColour, checkName, codeFromBytes,
-  computeTogether, computeTrap, finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, tooLateToStart, trapPayload,
+  CODE_ALPHABET, EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, EXTRA_OPEN_DAYS, FREE_MAX_MOBS, INVITE_DAYS, MobError, PAPER_COUNT, PRO_MAX_MOBS,
+  REPORT_REASONS, SECONDS_PER_QUESTION, UUID_RE, buildView, checkColour, checkName, closesAt, codeFromBytes, computeTogether, computeTrap,
+  finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, tooLateToStart, trapPayload,
 } from '../../mob/model.mjs';
+import { buildCompare, compareSummary, sharingSet } from '../../mob/compare.mjs';
+import { detailFromAttempt } from './detail.js';
 
 const DAY_MS = 86_400_000;
+const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
 const missingSchema = (e) => /PGRST20[25]|42883|42P01|does not exist|schema cache|Could not find the function/i.test(`${e?.code || ''} ${e?.message || ''}`);
+const validMobId = (v) => typeof v === 'string' && UUID_RE.test(v);
 
 /** memberId: the first 12 Crockford characters of HMAC-SHA256(secret, mobId:userId). */
 export function memberIdFor(secret, mobId, userId) {
@@ -30,12 +40,12 @@ export function memberIdFor(secret, mobId, userId) {
  *   now() -> ms, randomBytes(n) -> Uint8Array, secret
  *   blocklist                              data/mob_name_blocklist.json
  *   subjectInfo(subject) -> { ok, id, name }   a launchable subject, stored id and its official name
- *   loadUser(userId) -> { isPremium, creditBalance } | null
- *   allowanceEnabled, readAllowanceUsed(userId) -> true | false | null
- *   pickQuestionIds(subject, { mobId, week }) -> string[]   from the central bank, no personal exclusions
- *   loadQuestions(ids) -> questions in that order (missing ones left out)
+ *   loadUser(userId) -> { isPremium } | null     the plan: Pro is isPremium === true, anything else is Free
+ *   validChapter(subject, chapter) -> boolean    a chapter of that subject's official syllabus
+ *   pickQuestionIds(subject, { mobId, week, count, chapter, key }) -> string[]   from the central bank, no personal exclusions
+ *   loadQuestions(ids) -> questions in that order (missing ones left out): { id, stem, correctIndex, options }
  *   trapNameFor(question, optionIndex) -> string | null
- *   findAttempts(userIds, { mobId, week }) -> [{ id, userId, correct, total, details, completedAt }]
+ *   findAttempts(userIds, { mobId, week, extraId }) -> [{ id, userId, correct, total, details, selectionMeta, completedAt }]
  *   startPractice(userId, input, server) -> the POST /api/sessions practice-start response
  * }
  */
@@ -55,51 +65,70 @@ export function createMobService(deps) {
     const ids = idFor(state.mob.id);
     return (state.members || []).find((m) => ids(m.user_id) === memberId) || null;
   };
+  const nameIn = (state) => (u) => (state.members || []).find((m) => m.user_id === u)?.display_name || null;
 
-  async function readState(userId, week) {
-    const state = await call('mob_state', { p_user_id: userId, p_week: week });
-    if (!state || !state.mob) return null;
-    return { ...state, week };
+  // The plan. A failed read is Free: the safe side for every gate below.
+  async function isPro(userId) {
+    const user = deps.loadUser ? await deps.loadUser(userId).catch(() => null) : null;
+    return user?.isPremium === true;
   }
 
-  /**
-   * A paper finished through the durable session path (finishSession) never passes finishPractice, so a read records
-   * any finished Mob paper of this week the members have not been credited with yet. Idempotent; a failure here only
-   * leaves the ring as it was.
-   */
-  async function syncSittings(state, userId) {
-    const ids = state.paper?.question_ids;
-    if (!Array.isArray(ids) || !deps.findAttempts) return state;
-    const sat = new Set((state.sittings || []).map((s) => s.user_id));
-    const missing = (state.members || []).map((m) => m.user_id).filter((u) => !sat.has(u));
-    if (!missing.length) return state;
-    let recorded = 0;
-    try {
-      const attempts = await deps.findAttempts(missing, { mobId: state.mob.id, week: state.week });
-      for (const a of attempts || []) {
-        if (!missing.includes(a.userId) || !finishedInWindow(state.week, a.completedAt)) continue;
-        const r = await call('mob_record_sitting', sittingParams(a.userId, state.mob.id, state.week, ids, a));
-        if (r === 'recorded') recorded += 1;
-      }
-    } catch { return state; }
-    return recorded ? readState(userId, state.week) : state;
+  async function readState(userId, week, mobId = null) {
+    const state = await call('mob_state', { p_user_id: userId, p_week: week, p_mob_id: mobId || null, p_now: new Date(now()).toISOString() });
+    if (!state || !state.mob) return null;
+    return { ...state, week };
   }
 
   const sittingParams = (userId, mobId, week, questionIds, attempt) => ({
     p_user_id: userId, p_mob_id: mobId, p_week: week, p_session_id: String(attempt.id),
     p_score: Number(attempt.correct) || 0, p_max_score: Math.max(1, Number(attempt.total) || questionIds.length),
     p_picks: picksFromAttempt(questionIds, attempt), p_sat_at: new Date(attempt.completedAt || now()).toISOString(),
+    p_detail: detailFromAttempt(questionIds, attempt),
   });
+  const extraParams = (userId, extra, attempt) => ({
+    p_user_id: userId, p_extra_id: extra.id, p_session_id: String(attempt.id),
+    p_score: Number(attempt.correct) || 0, p_max_score: Math.max(1, Number(attempt.total) || extra.question_ids.length),
+    p_picks: picksFromAttempt(extra.question_ids, attempt), p_sat_at: new Date(attempt.completedAt || now()).toISOString(),
+    p_detail: detailFromAttempt(extra.question_ids, attempt),
+  });
+  const extraClosed = (extra) => Date.parse(extra.closes_at) <= now();
+  const extraTooLate = (extra) => now() + (extra.question_ids?.length || PAPER_COUNT) * SECONDS_PER_QUESTION * 1000 > Date.parse(extra.closes_at);
 
-  async function cost(userId) {
-    const user = deps.loadUser ? await deps.loadUser(userId).catch(() => null) : null;
-    if (!user) return null;
-    if (user.isPremium === true) return { type: 'included' };
-    if (deps.allowanceEnabled && deps.readAllowanceUsed) {
-      const used = await deps.readAllowanceUsed(userId).catch(() => null);
-      if (used === false) return { type: 'allowance' };
-    }
-    return { type: 'credits', credits: 10, balance: Math.max(0, Number(user.creditBalance) || 0) };
+  /**
+   * A paper finished through the durable session path (finishSession) never passes finishPractice, so a read records
+   * any finished Mob paper of this week (and any open extra paper) the members have not been credited with yet.
+   * Idempotent; a failure here only leaves the ring as it was.
+   */
+  async function syncSittings(state, userId) {
+    if (!deps.findAttempts) return state;
+    let recorded = 0;
+    try {
+      const ids = state.paper?.question_ids;
+      if (Array.isArray(ids)) {
+        const sat = new Set((state.sittings || []).map((s) => s.user_id));
+        const missing = (state.members || []).map((m) => m.user_id).filter((u) => !sat.has(u));
+        if (missing.length) {
+          const attempts = await deps.findAttempts(missing, { mobId: state.mob.id, week: state.week });
+          for (const a of attempts || []) {
+            if (!missing.includes(a.userId) || !finishedInWindow(state.week, a.completedAt)) continue;
+            const r = await call('mob_record_sitting', sittingParams(a.userId, state.mob.id, state.week, ids, a));
+            if (r === 'recorded') recorded += 1;
+          }
+        }
+      }
+      for (const x of state.extras || []) {
+        const sat = new Set((x.sittings || []).map((s) => s.user_id));
+        const missing = (state.members || []).map((m) => m.user_id).filter((u) => !sat.has(u));
+        if (!missing.length || extraClosed(x)) continue;
+        const attempts = await deps.findAttempts(missing, { mobId: state.mob.id, week: x.week_start, extraId: x.id });
+        for (const a of attempts || []) {
+          if (!missing.includes(a.userId) || !Number.isFinite(a.completedAt) || a.completedAt >= Date.parse(x.closes_at)) continue;
+          const r = await call('mob_extra_record', extraParams(a.userId, x, a));
+          if (r === 'recorded') recorded += 1;
+        }
+      }
+    } catch { return state; }
+    return recorded ? readState(userId, state.week, state.mob.id) : state;
   }
 
   // The trap (P7, 3 or more sitters) and Together (2 or more sitters who show their score) read the same keys once.
@@ -109,7 +138,7 @@ export function createMobService(deps) {
     const mine = sittings.find((s) => s.user_id === userId);
     const ids = state.paper?.question_ids;
     if (!mine || sittings.length < 2 || !Array.isArray(ids) || !deps.loadQuestions) return none;
-    const optedIn = new Set((state.members || []).filter((m) => m.show_score).map((m) => m.user_id));
+    const optedIn = sharingSet(state.members);
     const wantsTogether = optedIn.has(userId) && sittings.some((s) => s.user_id !== userId && optedIn.has(s.user_id));
     if (sittings.length < 3 && !wantsTogether) return none;
     try {
@@ -125,20 +154,57 @@ export function createMobService(deps) {
     } catch { return none; }
   }
 
-  async function view(userId, { sync = true } = {}) {
-    const week = mobWeek(now());
-    let state = await readState(userId, week);
-    if (!state) return { mob: null };
-    if (sync) state = await syncSittings(state, userId);
-    const youSat = (state.sittings || []).some((s) => s.user_id === userId);
-    const [paperCost, { trap, together }] = await Promise.all([youSat ? null : cost(userId), comparisonsFor(state, userId)]);
-    const subject = deps.subjectInfo ? deps.subjectInfo(state.mob.subject) : null;
-    return buildView(state, { userId, now: now(), memberIdFor: idFor(state.mob.id), cost: paperCost, trap, together, subjectName: subject?.name || null });
+  const subjectName = (subject) => (deps.subjectInfo ? deps.subjectInfo(subject)?.name || null : null);
+
+  /** Extra papers as a student sees them: the paper, its window and your own place in it. Never another member's picks. */
+  function extrasFor(state, userId, { pro }) {
+    const nameOf = nameIn(state);
+    return (state.extras || []).map((x) => {
+      const mine = (x.sittings || []).find((s) => s.user_id === userId);
+      const count = x.question_ids?.length || 0;
+      const summary = mine ? compareSummary({ pro, sample: state.sample, mobId: state.mob.id, week: String(x.week_start).slice(0, 10), sittings: x.sittings, userId, members: state.members, nameOf, count }) : null;
+      return {
+        id: x.id, chapter: x.chapter || null, count, createdByYou: x.created_by === userId,
+        createdAt: new Date(x.created_at).toISOString(), closesAt: new Date(x.closes_at).toISOString(), closed: extraTooLate(x),
+        sat: (x.sittings || []).length, youSat: Boolean(mine), yourResultId: mine ? mine.session_id : null,
+        compare: summary && summary.available ? summary : null,
+      };
+    });
   }
 
-  async function mustState(userId, { sync = false } = {}) {
-    const state = await readState(userId, mobWeek(now()));
+  async function view(userId, { mobId = null, sync = true } = {}) {
+    const week = mobWeek(now());
+    const wanted = validMobId(mobId) ? mobId : null;
+    let state = await readState(userId, week, wanted);
+    if (!state && wanted) state = await readState(userId, week, null); // a Mob you have since left: show the one you have
+    if (!state) return { mob: null };
+    if (sync) state = await syncSittings(state, userId);
+    const pro = await isPro(userId);
+    const youSat = (state.sittings || []).some((s) => s.user_id === userId);
+    const { trap, together } = await comparisonsFor(state, userId);
+    const ids = state.paper?.question_ids;
+    const summary = youSat && Array.isArray(ids)
+      ? compareSummary({ pro, sample: state.sample, mobId: state.mob.id, week: state.week, sittings: state.sittings, userId, members: state.members, nameOf: nameIn(state), count: ids.length })
+      : null;
+    // The weekly paper costs no credits, for anyone. A free student gets one a week, whichever Mob it is in.
+    const freeBlocked = !pro && !youSat && Boolean(state.free_claim && state.free_claim.mob_id !== state.mob.id);
+    // The Mob's shared trap and the together line are part of the side-by-side: Pro, or the sample week. A free student
+    // gets the teaser, which says where the Mob split and nothing more.
+    const unlocked = pro || summary?.access === 'sample';
+    const mobs = (state.mobs || []).map((m) => ({ id: m.id, subject: m.subject, subjectName: subjectName(m.subject) }));
+    return buildView(state, {
+      userId, now: now(), memberIdFor: idFor(state.mob.id), cost: youSat ? null : { type: 'free' }, trap: unlocked ? trap : null, together: unlocked ? together : null,
+      subjectName: subjectName(state.mob.subject), plan: { pro }, mobs, freeBlocked,
+      compare: summary && summary.available ? summary : null, extras: extrasFor(state, userId, { pro }),
+    });
+  }
+
+  /** The student's Mob for a write. Several Mobs and none named is MOB_REQUIRED: a write never guesses which one. */
+  async function mustState(userId, mobId, { sync = false, week = null, lenient = false } = {}) {
+    if (mobId !== undefined && mobId !== null && !validMobId(mobId)) throw new MobError('NOT_IN_MOB');
+    const state = await readState(userId, week || mobWeek(now()), mobId || null);
     if (!state) throw new MobError('NOT_IN_MOB');
+    if (!mobId && !lenient && (state.mobs || []).length > 1) throw new MobError('MOB_REQUIRED');
     return sync ? syncSittings(state, userId) : state;
   }
 
@@ -157,6 +223,8 @@ export function createMobService(deps) {
     return out;
   };
 
+  const limitFor = async (userId) => ((await isPro(userId)) ? { max: PRO_MAX_MOBS, code: 'MOB_LIMIT_PRO' } : { max: FREE_MAX_MOBS, code: 'MOB_LIMIT' });
+
   return {
     view,
 
@@ -164,53 +232,57 @@ export function createMobService(deps) {
       const subject = deps.subjectInfo(body.subject);
       if (!subject?.ok) throw new MobError('SUBJECT_INVALID');
       const { name, colour } = nameAndColour(body, { required: true });
-      const r = await call('mob_create', { p_user_id: userId, p_subject: subject.id, p_name: name, p_colour: colour });
-      if (r === 'already') throw new MobError('ALREADY_IN_MOB');
-      return view(userId, { sync: false });
+      const plan = await limitFor(userId);
+      const r = await call('mob_create', { p_user_id: userId, p_subject: subject.id, p_name: name, p_colour: colour, p_max_mobs: plan.max });
+      if (r?.status === 'limit') throw new MobError(plan.code);
+      return view(userId, { mobId: r?.mob_id, sync: false });
     },
 
-    async invite(userId) {
+    async invite(userId, body = {}) {
+      const state = await mustState(userId, body.mob);
       const expires = new Date(now() + INVITE_DAYS * DAY_MS).toISOString();
       for (let attempt = 0; attempt < 3; attempt += 1) {
         const code = codeFromBytes(deps.randomBytes(5));
         let r;
         try {
-          r = await deps.rpc('mob_invite_new', { p_user_id: userId, p_code: code, p_expires_at: expires });
+          r = await deps.rpc('mob_invite_new', { p_user_id: userId, p_mob_id: state.mob.id, p_code: code, p_expires_at: expires });
         } catch (error) {
           if (/23505|duplicate key/.test(`${error?.code || ''} ${error?.message || ''}`)) continue; // a 40-bit collision: draw again
           throw new MobError(missingSchema(error) ? 'MIGRATION' : 'UNAVAILABLE', { cause: error });
         }
         if (r === 'not_member') throw new MobError('NOT_IN_MOB');
         if (r === 'full') throw new MobError('MOB_FULL');
-        const out = await view(userId, { sync: false });
+        const out = await view(userId, { mobId: state.mob.id, sync: false });
         if (!out.mob?.invite) throw new MobError('UNAVAILABLE');
         return out.mob.invite;
       }
       throw new MobError('UNAVAILABLE');
     },
 
-    /** Public: never a name, never a member id. */
-    async lookup(rawCode) {
+    /** Public: never a name, never a member id. A signed-in student (viewerId) also gets who made the link: "Riya invited you". */
+    async lookup(rawCode, { viewerId = null } = {}) {
       const code = normalizeCode(rawCode);
       if (!code) throw new MobError('INVITE_INVALID');
-      const r = await call('mob_invite_lookup', { p_code: code });
+      const r = await call('mob_invite_lookup', { p_code: code, p_now: new Date(now()).toISOString() });
       if (r?.status === 'expired') throw new MobError('INVITE_EXPIRED');
       if (r?.status !== 'valid') throw new MobError('INVITE_INVALID');
-      const subject = deps.subjectInfo ? deps.subjectInfo(r.subject) : null;
-      return { valid: true, code, subject: r.subject, subjectName: subject?.name || r.subject, size: Number(r.size), seatsLeft: Number(r.seats_left), expiresAt: new Date(r.expires_at).toISOString() };
+      return { valid: true, code, subject: r.subject, subjectName: subjectName(r.subject) || r.subject, size: Number(r.size), seatsLeft: Number(r.seats_left), expiresAt: new Date(r.expires_at).toISOString(), ...(viewerId && r.inviter ? { inviter: r.inviter } : {}) };
     },
 
     async join(userId, body) {
       const code = normalizeCode(body.code);
       if (!code) throw new MobError('INVITE_INVALID');
       const { name, colour } = nameAndColour(body, { required: true });
-      const r = await call('mob_join', { p_user_id: userId, p_code: code, p_name: name, p_colour: colour });
+      const plan = await limitFor(userId);
+      const r = await call('mob_join', { p_user_id: userId, p_code: code, p_name: name, p_colour: colour, p_max_mobs: plan.max, p_now: new Date(now()).toISOString() });
+      const status = r?.status;
       // P10: a block either way reads exactly like a bad code, so the joiner learns nothing.
-      if (r === 'invalid' || r === 'blocked') throw new MobError('INVITE_INVALID');
-      if (r === 'expired') throw new MobError('INVITE_EXPIRED');
-      if (r === 'full') throw new MobError('MOB_FULL');
-      if (r === 'already') throw new MobError('ALREADY_IN_MOB');
-      return view(userId, { sync: false });
+      if (status === 'invalid' || status === 'blocked') throw new MobError('INVITE_INVALID');
+      if (status === 'expired') throw new MobError('INVITE_EXPIRED');
+      if (status === 'full') throw new MobError('MOB_FULL');
+      if (status === 'limit') throw new MobError(plan.code);
+      // Opening the link of a Mob you are already in just takes you there.
+      return view(userId, { mobId: r?.mob_id, sync: false });
     },
 
     async patchMe(userId, body) {
@@ -222,92 +294,185 @@ export function createMobService(deps) {
         flags[key] = body[key];
       }
       if (name === undefined && colour === undefined && !Object.keys(flags).length) throw new MobError('BODY_INVALID');
+      const state = await mustState(userId, body.mob);
       const r = await call('mob_patch_me', {
-        p_user_id: userId, p_name: name ?? null, p_colour: colour ?? null,
+        p_user_id: userId, p_mob_id: state.mob.id, p_name: name ?? null, p_colour: colour ?? null,
         p_show_score: flags.showScore ?? null, p_nudges_muted: flags.nudgesMuted ?? null,
       });
       if (r === 'not_member') throw new MobError('NOT_IN_MOB');
-      return view(userId, { sync: false });
+      return view(userId, { mobId: state.mob.id, sync: false });
     },
 
     async leave(userId, body = {}) {
-      const state = await mustState(userId);
+      const state = await mustState(userId, body.mob);
       if (body.block !== undefined && body.block !== null) {
         const target = memberByMemberId(state, body.block);
         if (!target || target.user_id === userId) throw new MobError('NOT_FOUND');
         await call('mob_block', { p_blocker: userId, p_blocked: target.user_id });
       }
-      const r = await call('mob_leave', { p_user_id: userId });
+      const r = await call('mob_leave', { p_user_id: userId, p_mob_id: state.mob.id });
       if (r === 'not_member') throw new MobError('NOT_IN_MOB');
       return { left: true };
     },
 
     async remove(userId, body = {}) {
-      const state = await mustState(userId);
+      const state = await mustState(userId, body.mob);
       const target = memberByMemberId(state, body.memberId);
       if (!target) throw new MobError('NOT_FOUND');
       const r = await call('mob_remove', { p_actor: userId, p_mob_id: state.mob.id, p_target: target.user_id });
       if (r === 'not_owner') throw new MobError('NOT_OWNER');
       if (r !== 'removed') throw new MobError(r === 'not_member' ? 'NOT_IN_MOB' : 'NOT_FOUND');
-      return view(userId, { sync: false });
+      return view(userId, { mobId: state.mob.id, sync: false });
     },
 
     async report(userId, body = {}) {
       if (!REPORT_REASONS.includes(body.reason)) throw new MobError('REASON_INVALID');
       for (const key of ['alsoLeave', 'block']) if (body[key] !== undefined && typeof body[key] !== 'boolean') throw new MobError('BODY_INVALID');
-      const state = await mustState(userId);
+      const state = await mustState(userId, body.mob);
       const target = memberByMemberId(state, body.memberId);
       if (!target || target.user_id === userId) throw new MobError('NOT_FOUND');
-      const r = await call('mob_report', { p_reporter: userId, p_reported: target.user_id, p_reason: body.reason });
+      const r = await call('mob_report', { p_reporter: userId, p_mob_id: state.mob.id, p_reported: target.user_id, p_reason: body.reason });
       if (r !== 'reported') throw new MobError('NOT_FOUND');
       if (body.block === true) await call('mob_block', { p_blocker: userId, p_blocked: target.user_id });
-      if (body.alsoLeave === true || body.block === true) await call('mob_leave', { p_user_id: userId });
+      if (body.alsoLeave === true || body.block === true) await call('mob_leave', { p_user_id: userId, p_mob_id: state.mob.id });
       return { reported: true, left: body.alsoLeave === true || body.block === true };
     },
 
-    async nudge(userId) {
-      const state = await mustState(userId, { sync: true });
-      const r = await call('mob_nudge', { p_user_id: userId, p_week: state.week });
+    async nudge(userId, body = {}) {
+      const state = await mustState(userId, body.mob, { sync: true });
+      const r = await call('mob_nudge', { p_user_id: userId, p_mob_id: state.mob.id, p_week: state.week });
       if (r?.status === 'not_member') throw new MobError('NOT_IN_MOB');
       if (r?.status === 'not_sat') throw new MobError('NOT_SAT_YET');
       if (r?.status === 'already') throw new MobError('ALREADY_NUDGED');
       return { sent: true, to: Math.max(0, Number(r?.to) || 0) };
     },
 
-    async nudgeSeen(userId) {
-      const r = await call('mob_nudge_seen_mark', { p_user_id: userId, p_week: mobWeek(now()) });
+    async nudgeSeen(userId, body = {}) {
+      const state = await mustState(userId, body.mob);
+      const r = await call('mob_nudge_seen_mark', { p_user_id: userId, p_mob_id: state.mob.id, p_week: state.week });
       if (r === -1) throw new MobError('NOT_IN_MOB');
       return { ok: true };
     },
 
-    /** Start (or resume) this week's paper: the same 10 questions in the same option order for every member. */
+    /**
+     * Start (or resume) this week's paper, or one of the Mob's extra papers (body.extra): the same questions in the same
+     * option order for every member. No credits and no daily allowance, ever. A free student gets one weekly Mob paper a
+     * week, whichever Mob it is in (the claim outlives the membership, so leaving and joining another Mob mid-week cannot
+     * be used to sit a second one); Pro has no such limit. Extra papers belong to the Mob: any member sits them.
+     */
     async startPaper(userId, body = {}) {
-      const state = await mustState(userId, { sync: true });
+      const state = await mustState(userId, body.mob, { sync: true });
+      if (body.extra !== undefined && body.extra !== null) return startExtra(userId, state, body);
       if ((state.sittings || []).some((s) => s.user_id === userId)) throw new MobError('PAPER_ALREADY_SAT');
       if (tooLateToStart(state.week, now())) throw new MobError('WEEK_CLOSED');
-      let ids = state.paper?.question_ids;
-      if (!Array.isArray(ids)) {
-        const picked = await deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week }).catch(() => []);
-        if (!Array.isArray(picked) || picked.length < PAPER_COUNT) throw new MobError('PAPER_UNAVAILABLE');
-        ids = await call('mob_paper_put', { p_mob_id: state.mob.id, p_week: state.week, p_subject: state.mob.subject, p_ids: picked.slice(0, PAPER_COUNT) });
+      const pro = await isPro(userId);
+      let claimed = false;
+      if (!pro) {
+        const c = await call('mob_free_claim', { p_user_id: userId, p_mob_id: state.mob.id, p_week: state.week });
+        if (c === 'used') throw new MobError('FREE_PAPER_USED');
+        claimed = c === 'new';
+      }
+      const release = async () => { if (claimed) await deps.rpc('mob_free_release', { p_user_id: userId, p_mob_id: state.mob.id, p_week: state.week }).catch(() => null); };
+      try {
+        let ids = state.paper?.question_ids;
+        if (!Array.isArray(ids)) {
+          const picked = await deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week, count: PAPER_COUNT }).catch(() => []);
+          if (!Array.isArray(picked) || picked.length < PAPER_COUNT) throw new MobError('PAPER_UNAVAILABLE');
+          ids = await call('mob_paper_put', { p_mob_id: state.mob.id, p_week: state.week, p_subject: state.mob.subject, p_ids: picked.slice(0, PAPER_COUNT) });
+        }
+        const questions = await deps.loadQuestions(ids).catch(() => []);
+        if (!Array.isArray(questions) || questions.length !== ids.length) throw new MobError('PAPER_UNAVAILABLE');
+        // One key per member and week: a retry resumes the same session and is never charged twice (it is never charged).
+        const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`paper:${state.mob.id}:${state.week}:${userId}`).digest('hex').slice(0, 40)}`;
+        const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
+        if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
+        return await runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: state.week, questions } });
+      } catch (error) {
+        await release();
+        throw error;
+      }
+    },
+
+    /** The side-by-side (Pro, or the one free sample). GET /api/mob/compare?mob=&week= or ?extra=. */
+    async compare(userId, q = {}) {
+      let state; let ids; let sittings; let week; let extra = null; let kind = 'weekly';
+      if (q.extra !== undefined && q.extra !== null && q.extra !== '') {
+        if (!validMobId(q.extra)) throw new MobError('NOT_FOUND');
+        extra = await call('mob_extra_get', { p_user_id: userId, p_extra_id: q.extra });
+        if (!extra) throw new MobError('NOT_FOUND');
+        state = await mustState(userId, extra.mob_id);
+        ids = extra.question_ids; sittings = extra.sittings || []; week = String(extra.week_start).slice(0, 10); kind = 'extra';
+      } else {
+        const current = mobWeek(now());
+        week = q.week ? String(q.week) : current;
+        if (!WEEK_RE.test(week) || week > current || mobWeek(Date.parse(`${week}T12:00:00+05:30`)) !== week) throw new MobError('NOT_FOUND');
+        state = await mustState(userId, q.mob, { sync: week === current, week, lenient: true });
+        ids = state.paper?.question_ids; sittings = state.sittings || [];
+      }
+      if (!sittings.some((s) => s.user_id === userId)) throw new MobError('NOT_SAT_YET');
+      if (!Array.isArray(ids) || sittings.length < 2) throw new MobError('COMPARE_UNAVAILABLE');
+      const pro = await isPro(userId);
+      let access = 'full';
+      if (!pro) {
+        const sum = compareSummary({ pro: false, sample: state.sample, mobId: state.mob.id, week, sittings, userId, members: state.members, nameOf: nameIn(state), count: ids.length });
+        if (sum.access === 'locked') throw new MobError('PRO_REQUIRED');
+        access = 'sample';
+        if (sum.access === 'offer') {
+          // The one free side-by-side is spent only when there is something to read: you share and someone else does.
+          if (!sum.youShare) throw new MobError('SHARE_FIRST');
+          if (sum.needsShare) throw new MobError('COMPARE_WAITING');
+          const claim = await call('mob_sample_claim', { p_user_id: userId, p_mob_id: state.mob.id, p_week: week });
+          if (!claim?.allowed) throw new MobError('PRO_REQUIRED');
+        }
       }
       const questions = await deps.loadQuestions(ids).catch(() => []);
-      if (!Array.isArray(questions) || questions.length !== ids.length) throw new MobError('PAPER_UNAVAILABLE');
-      // One key per member and week: a retry resumes the same session and is never charged twice.
-      const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`paper:${state.mob.id}:${state.week}:${userId}`).digest('hex').slice(0, 40)}`;
-      const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
-      if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
-      try {
-        return await deps.startPractice(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: state.week, questions } });
-      } catch (error) {
-        const m = String(error?.message || '');
-        if (/CREDITS/.test(m)) throw new MobError('CREDITS');
-        if (/SESSION_EXPIRED/.test(m)) throw new MobError('PAPER_EXPIRED');
-        if (/ALREADY_SUBMITTED/.test(m)) throw new MobError('PAPER_ALREADY_SAT');
-        if (/INSUFFICIENT_PRACTICE_CONTENT|SUBJECT_NOT_SUPPORTED/.test(m)) throw new MobError('PAPER_UNAVAILABLE');
-        if (/MIGRATION/.test(m)) throw new MobError('MIGRATION');
-        throw new MobError('UNAVAILABLE', { cause: error });
-      }
+      if (!Array.isArray(questions) || !questions.length) throw new MobError('UNAVAILABLE');
+      const byId = new Map(questions.map((x) => [x.id, x]));
+      const keys = ids.map((id) => (Number.isInteger(byId.get(id)?.correctIndex) ? byId.get(id).correctIndex : -1));
+      const raw = sittings.length >= 3 ? computeTrap(sittings, keys) : null;
+      const trapName = raw && deps.trapNameFor ? await Promise.resolve(deps.trapNameFor(byId.get(ids[raw.questionIndex]), raw.optionIndex)).catch(() => null) : null;
+      const out = buildCompare({
+        members: state.members, sittings, ids, questions: questions.map((x) => ({ id: x.id, stem: x.stem ?? x.question ?? x.body ?? '', correctIndex: x.correctIndex })),
+        userId, memberIdFor: idFor(state.mob.id), access, kind, week, extra, trapName, nameOf: nameIn(state),
+      });
+      const mine = sittings.find((s) => s.user_id === userId);
+      return { compare: { ...out, mobId: state.mob.id, yourResultId: mine?.session_id || null } };
+    },
+
+    /** Past weekly papers (Pro). GET /api/mob/history?mob=. */
+    async history(userId, q = {}) {
+      const state = await mustState(userId, q.mob, { lenient: true });
+      if (!(await isPro(userId))) throw new MobError('PRO_REQUIRED');
+      const rows = await call('mob_history', { p_user_id: userId, p_mob_id: state.mob.id, p_before: mobWeek(now()), p_limit: 26 });
+      if (rows === null || rows === undefined) throw new MobError('NOT_IN_MOB');
+      return {
+        mobId: state.mob.id,
+        weeks: rows.map((w) => ({
+          week: String(w.week_start).slice(0, 10), closedAt: closesAt(String(w.week_start).slice(0, 10)), sat: Number(w.sat), extras: Number(w.extras),
+          you: w.mine ? { sat: true, score: { value: Number(w.mine.score), of: Number(w.mine.max_score) }, resultId: w.mine.session_id } : { sat: false },
+        })),
+      };
+    },
+
+    /** Make an extra paper on a chosen chapter and length (Pro). POST /api/mob/extra { mob, chapter?, count }. */
+    async createExtra(userId, body = {}) {
+      const state = await mustState(userId, body.mob);
+      if (!(await isPro(userId))) throw new MobError('PRO_REQUIRED');
+      const count = body.count === undefined ? PAPER_COUNT : body.count;
+      if (!EXTRA_LENGTHS.includes(count)) throw new MobError('LENGTH_INVALID');
+      const chapter = typeof body.chapter === 'string' && body.chapter.trim() ? body.chapter.trim() : null;
+      if (body.chapter !== undefined && body.chapter !== null && typeof body.chapter !== 'string') throw new MobError('CHAPTER_INVALID');
+      if (chapter && (chapter.length > 120 || !deps.validChapter || !deps.validChapter(state.mob.subject, chapter))) throw new MobError('CHAPTER_INVALID');
+      const key = `x${Array.from(deps.randomBytes(6), (b) => b.toString(16).padStart(2, '0')).join('')}`;
+      const picked = await deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week: state.week, count, chapter, key }).catch(() => []);
+      if (!Array.isArray(picked) || picked.length < count) throw new MobError('PAPER_UNAVAILABLE');
+      const r = await call('mob_extra_put', {
+        p_user_id: userId, p_mob_id: state.mob.id, p_week: state.week, p_chapter: chapter, p_ids: picked.slice(0, count),
+        p_closes_at: new Date(now() + EXTRA_OPEN_DAYS * DAY_MS).toISOString(), p_max_per_week: EXTRA_MAX_PER_WEEK,
+      });
+      if (r?.status === 'limit') throw new MobError('EXTRA_LIMIT');
+      if (r?.status !== 'ok') throw new MobError('NOT_IN_MOB');
+      return { ...(await view(userId, { mobId: state.mob.id, sync: false })), extraId: r.id };
     },
 
     /**
@@ -318,11 +483,46 @@ export function createMobService(deps) {
       try {
         const tag = attempt?.selectionMeta?.mobPaper;
         if (!tag?.mobId || !tag?.weekStart) return 'skipped';
+        if (tag.extraId) {
+          const extra = await call('mob_extra_get', { p_user_id: userId, p_extra_id: tag.extraId });
+          if (!extra || extra.mob_id !== tag.mobId) return 'skipped';
+          if (!Number.isFinite(attempt.completedAt) || attempt.completedAt >= Date.parse(extra.closes_at)) return 'late';
+          return await call('mob_extra_record', extraParams(userId, extra, attempt));
+        }
         if (!finishedInWindow(tag.weekStart, attempt.completedAt)) return 'late';
-        const state = await readState(userId, tag.weekStart);
+        const state = await readState(userId, tag.weekStart, tag.mobId);
         if (!state || state.mob.id !== tag.mobId || !Array.isArray(state.paper?.question_ids)) return 'skipped';
         return await call('mob_record_sitting', sittingParams(userId, tag.mobId, tag.weekStart, state.paper.question_ids, attempt));
       } catch { return 'skipped'; }
     },
   };
+
+  async function startExtra(userId, state, body) {
+    if (!validMobId(body.extra)) throw new MobError('NOT_FOUND');
+    const extra = await call('mob_extra_get', { p_user_id: userId, p_extra_id: body.extra });
+    if (!extra || extra.mob_id !== state.mob.id) throw new MobError('NOT_FOUND');
+    if ((extra.sittings || []).some((s) => s.user_id === userId)) throw new MobError('PAPER_ALREADY_SAT');
+    if (extraTooLate(extra)) throw new MobError('EXTRA_CLOSED');
+    const questions = await deps.loadQuestions(extra.question_ids).catch(() => []);
+    if (!Array.isArray(questions) || questions.length !== extra.question_ids.length) throw new MobError('PAPER_UNAVAILABLE');
+    const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`extra:${extra.id}:${userId}`).digest('hex').slice(0, 40)}`;
+    const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
+    if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
+    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, questions } });
+  }
+
+  async function runStart(userId, input, server) {
+    try {
+      return await deps.startPractice(userId, input, server);
+    } catch (error) {
+      const m = String(error?.message || '');
+      if (/CREDITS/.test(m)) throw new MobError('CREDITS');
+      if (/SESSION_EXPIRED/.test(m)) throw new MobError('PAPER_EXPIRED');
+      if (/ALREADY_SUBMITTED/.test(m)) throw new MobError('PAPER_ALREADY_SAT');
+      if (/INSUFFICIENT_PRACTICE_CONTENT|SUBJECT_NOT_SUPPORTED/.test(m)) throw new MobError('PAPER_UNAVAILABLE');
+      if (/MIGRATION/.test(m)) throw new MobError('MIGRATION');
+      if (error instanceof MobError) throw error;
+      throw new MobError('UNAVAILABLE', { cause: error });
+    }
+  }
 }

@@ -70,6 +70,13 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'mob_nudge_seen', action: 'delete', match: [{ column: 'to_user' }, { column: 'from_user' }], why: 'Mob nudges seen' },
   { table: 'mob_nudges', action: 'delete', match: [{ column: 'from_user' }], why: 'Mob nudges sent' },
   { table: 'mob_sittings', action: 'delete', match: own(), why: 'Mob paper sittings' },
+  { table: 'mob_extra_sittings', action: 'delete', match: own(), why: 'Mob extra paper sittings' },
+  { table: 'mob_free_claims', action: 'delete', match: own(), why: 'the free weekly Mob paper claim' },
+  { table: 'mob_samples', action: 'delete', match: own(), why: 'the free side-by-side sample claim' },
+  {
+    table: 'mob_extras', action: 'anonymise', match: own('created_by'), why: 'extra papers belong to the Mob and keep no creator',
+    set: [{ column: 'created_by', value: 'null' }],
+  },
   { table: 'mob_members', action: 'delete', match: own(), why: 'Mob membership and display name' },
   { table: 'mob_blocks', action: 'delete', match: [{ column: 'blocker_id' }, { column: 'blocked_id' }], why: 'Mob blocks' },
   {

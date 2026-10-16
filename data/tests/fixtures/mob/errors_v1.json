@@ -67,7 +67,115 @@
     "body": {
       "error": {
         "code": "ALREADY_IN_MOB",
-        "message": "You are already in a Mob. Leave it first to start or join another."
+        "message": "You are already in this Mob."
+      }
+    }
+  },
+  "MOB_LIMIT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MOB_LIMIT",
+        "message": "Free includes one Mob. Leave yours to start or join another, or go Pro to be in up to 3."
+      }
+    }
+  },
+  "MOB_LIMIT_PRO": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MOB_LIMIT_PRO",
+        "message": "You are in 3 Mobs already. Leave one to start or join another."
+      }
+    }
+  },
+  "MOB_REQUIRED": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "MOB_REQUIRED",
+        "message": "Say which Mob this is for."
+      }
+    }
+  },
+  "PRO_REQUIRED": {
+    "status": 402,
+    "body": {
+      "error": {
+        "code": "PRO_REQUIRED",
+        "message": "This part of the Mob is included with Pro."
+      }
+    }
+  },
+  "COMPARE_UNAVAILABLE": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "COMPARE_UNAVAILABLE",
+        "message": "There is nothing to compare yet. It needs one more member to sit this paper."
+      }
+    }
+  },
+  "SHARE_FIRST": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "SHARE_FIRST",
+        "message": "Share your answers with your Mob to compare. Members who share see each other, never a ranking."
+      }
+    }
+  },
+  "COMPARE_WAITING": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "COMPARE_WAITING",
+        "message": "No one else has shared their answers yet. Your first comparison stays free until someone does."
+      }
+    }
+  },
+  "FREE_PAPER_USED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "FREE_PAPER_USED",
+        "message": "You already sat a Mob paper this week. Pro lets you sit one in every Mob."
+      }
+    }
+  },
+  "EXTRA_LIMIT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "EXTRA_LIMIT",
+        "message": "Your Mob already has 3 extra papers this week. It can make more next week."
+      }
+    }
+  },
+  "EXTRA_CLOSED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "EXTRA_CLOSED",
+        "message": "This extra paper has closed."
+      }
+    }
+  },
+  "CHAPTER_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "CHAPTER_INVALID",
+        "message": "Choose a chapter of this subject."
+      }
+    }
+  },
+  "LENGTH_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "LENGTH_INVALID",
+        "message": "Choose 5, 10, 15 or 20 questions."
       }
     }
   },

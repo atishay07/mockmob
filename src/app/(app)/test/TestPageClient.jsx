@@ -380,7 +380,7 @@ function TestRunner() {
         const receipt = new URLSearchParams(window.location.search).get('startReceipt');
         if (receipt) qs.set('startReceipt', receipt);
         // A Mob paper (/test?mob=1) starts on the Mob's route: the server picks the frozen weekly questions and the key.
-        const payload = launch.get('mob') === '1' ? await startMobPaper(receipt) : await apiPost('/api/sessions', Object.fromEntries(qs));
+        const payload = launch.get('mob') === '1' ? await startMobPaper(receipt, { mobId: launch.get('mobId'), extraId: launch.get('extra') }) : await apiPost('/api/sessions', Object.fromEntries(qs));
         if (!alive) return;
 
         const { questions: loadedQuestions, meta } = normalizeQuestionPayload(payload);

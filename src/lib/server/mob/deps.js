@@ -6,13 +6,12 @@ import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { mobileOptions } from '@/lib/server/mobileCors';
-import { durableLearningEnabled } from '@/lib/server/learning';
 import { readAtlasRows } from '@/lib/server/trapAtlas';
 import { Database, questionOut } from '@/../data/db';
 import { VISIBLE_QUESTION_FILTER } from '@/../data/practice_source';
 import { resolveSubject } from '@/../data/subject_registry';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
-import { allowancePeriod } from '@/../data/learning_engine';
+import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 import { indexAtlas, trapForOption } from '@/../data/trap_atlas';
 import blocklist from '@/../data/mob_name_blocklist.json';
 import { createMobService } from './service';
@@ -34,19 +33,19 @@ function subjectInfo(raw) {
   return { ok: true, id: selection.internalSubject, name: resolved.officialName };
 }
 
-async function readAllowanceUsed(userId) {
-  const { data, error } = await supabaseAdmin().from('learning_allowances').select('kind')
-    .eq('user_id', userId).eq('kind', 'daily_practice').eq('period', allowancePeriod('daily_practice', Date.now())).maybeSingle();
-  return error ? null : Boolean(data);
-}
-
-/** Ten questions for the Mob's subject from the central bank: the quick selector, with no personal exclusions. */
-async function pickQuestionIds(subject, { mobId, week }) {
-  const { questions } = await Database.getQuestions(subject, 10, {
-    mode: 'quick', count: 10, requestedCount: 10, returnMeta: true, requireEvidence: false, generationKey: `mob_${mobId}_${week}`,
+/**
+ * Questions for a Mob paper from the central bank: the quick selector, with no personal exclusions, so every Mob member
+ * gets the same paper. `chapter` narrows an extra paper to one chapter of the subject; `key` varies the draw.
+ */
+async function pickQuestionIds(subject, { mobId, week, count = 10, chapter = null, key = null }) {
+  const { questions } = await Database.getQuestions(subject, count, {
+    mode: 'quick', count, requestedCount: count, returnMeta: true, requireEvidence: false,
+    chapters: chapter ? [chapter] : undefined, generationKey: `mob_${mobId}_${week}${key ? `_${key}` : ''}`,
   });
   return (questions || []).map((q) => q.id);
 }
+
+const validChapter = (subject, chapter) => isValidTopSyllabusPair(subject, chapter);
 
 /** The frozen paper's questions in paper order, canonical option order (quick papers never shuffle options). */
 async function loadQuestions(ids) {
@@ -65,11 +64,18 @@ async function trapNameFor(question, optionIndex) {
   return trapForOption({ question, index: optionIndex, atlasByHash: atlas.get(question.id) || null })?.label || null;
 }
 
-async function findAttempts(userIds, { mobId, week }) {
-  const { data, error } = await supabaseAdmin().from('attempts').select('id,user_id,correct,total,details,completed_at')
-    .in('user_id', userIds).contains('selection_meta', { mobPaper: { mobId, weekStart: week } }).limit(20);
+/**
+ * Finished attempts of Mob papers. A weekly paper's attempts carry { mobId, weekStart }; an extra paper's also carry its
+ * extraId, so the two are told apart here. selection_meta comes with them for the time and changes the side-by-side keeps.
+ */
+async function findAttempts(userIds, { mobId, week, extraId = null }) {
+  const tag = extraId ? { mobPaper: { mobId, extraId } } : { mobPaper: { mobId, weekStart: week } };
+  const { data, error } = await supabaseAdmin().from('attempts').select('id,user_id,correct,total,details,selection_meta,completed_at')
+    .in('user_id', userIds).contains('selection_meta', tag).limit(20);
   if (error) throw error;
-  return (data || []).map((r) => ({ id: r.id, userId: r.user_id, correct: r.correct, total: r.total, details: r.details || [], completedAt: Date.parse(r.completed_at) }));
+  return (data || [])
+    .filter((r) => Boolean(r.selection_meta?.mobPaper?.extraId) === Boolean(extraId))
+    .map((r) => ({ id: r.id, userId: r.user_id, correct: r.correct, total: r.total, details: r.details || [], selectionMeta: r.selection_meta || {}, completedAt: Date.parse(r.completed_at) }));
 }
 
 let cached = null;
@@ -78,8 +84,7 @@ export function mobService() {
   cached = createMobService({
     rpc, secret: secret(), randomBytes: (n) => randomBytes(n), blocklist, subjectInfo,
     loadUser: (id) => Database.getUserById(id),
-    allowanceEnabled: durableLearningEnabled(), readAllowanceUsed,
-    pickQuestionIds, loadQuestions, trapNameFor, findAttempts,
+    validChapter, pickQuestionIds, loadQuestions, trapNameFor, findAttempts,
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),
   });

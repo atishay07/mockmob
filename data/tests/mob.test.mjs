@@ -14,6 +14,7 @@ import {
   errorBody, finishedInWindow, initialOf, inviteExpiryLine, istDateTime, mobWeek, nameBlocked, nextOpensAt, normalizeCode,
   nudgeLine, picksFromAttempt, ringLine, seatsLine, togetherLine, tooLateToStart, trapLine, trapPayload,
 } from '../../src/lib/mob/model.mjs';
+import { buildCompare } from '../../src/lib/mob/compare.mjs';
 import { createMobService, memberIdFor } from '../../src/lib/server/mob/service.js';
 import { ACTIONS, LIMITS, handleMob } from '../../src/lib/server/mob/http.js';
 import { DELETION_STEPS } from '../../src/lib/server/accountDeletion.js';
@@ -220,21 +221,26 @@ async function database(users = 8) {
   return db;
 }
 const one = async (db, sql, params = []) => (await db.query(sql, params)).rows[0]?.r;
-const join = (db, user, code, name = 'Friend') => one(db, "select mob_join($1,$2,$3,0::smallint) r", [user, code, name]);
-const create = (db, user, name = 'Riya') => one(db, "select mob_create($1,'accountancy',$2,0::smallint) r", [user, name]);
-const invite = (db, user, code, expires = "now() + interval '7 days'") => one(db, `select mob_invite_new($1,$2,${expires}) r`, [user, code]);
+// Free is one Mob, Pro is 3: the API passes the cap in. The helpers return the status text, as the old ones did.
+const join = async (db, user, code, name = 'Friend', max = 1) => (await one(db, 'select mob_join($1,$2,$3,0::smallint,$4::int) r', [user, code, name, max])).status;
+const create = async (db, user, name = 'Riya', max = 1, subject = 'accountancy') => (await one(db, 'select mob_create($1,$2,$3,0::smallint,$4::int) r', [user, subject, name, max])).status;
+const mobOf = (db, user, nth = 0) => one(db, 'select mob_id::text r from mob_members where user_id = $1 order by joined_at, mob_id offset $2 limit 1', [user, nth]);
+const invite = async (db, user, code, expires = "now() + interval '7 days'", mob = null) => one(db, `select mob_invite_new($1,$2::uuid,$3,${expires}) r`, [user, mob || await mobOf(db, user), code]);
 
 test('anon and authenticated get permission denied on every Mob table and function', async () => {
   const db = await database();
   try {
-    const tables = ['mobs', 'mob_members', 'mob_invites', 'mob_papers', 'mob_sittings', 'mob_nudges', 'mob_nudge_seen', 'mob_blocks', 'mob_reports'];
+    const tables = ['mobs', 'mob_members', 'mob_invites', 'mob_papers', 'mob_sittings', 'mob_nudges', 'mob_nudge_seen', 'mob_blocks', 'mob_reports',
+      'mob_extras', 'mob_extra_sittings', 'mob_free_claims', 'mob_samples'];
     const fns = (await db.query("select p.oid::regprocedure::text sig from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'mob\\_%'")).rows.map((r) => r.sig);
-    assert.equal(fns.length, 14);
+    assert.equal(fns.length, 22);
     for (const role of ['anon', 'authenticated']) {
       await db.exec(`set role ${role}`);
       for (const t of tables) await assert.rejects(db.query(`select * from public.${t}`), /permission denied/, `${role} ${t}`);
       await assert.rejects(db.query("select public.mob_invite_lookup('ABCDEFGH')"), /permission denied/, `${role} lookup`);
-      await assert.rejects(db.query("select public.mob_state('u1', current_date)"), /permission denied/, `${role} state`);
+      await assert.rejects(db.query("select public.mob_state('u1', current_date, null)"), /permission denied/, `${role} state`);
+      await assert.rejects(db.query("select public.mob_free_claim('u1', gen_random_uuid(), current_date)"), /permission denied/, `${role} claim`);
+      await assert.rejects(db.query("select public.mob_history('u1', gen_random_uuid(), current_date, 5)"), /permission denied/, `${role} history`);
       await db.exec('reset role');
     }
     for (const sig of fns) {
@@ -250,7 +256,7 @@ test('joining: a 6th member is full, a second Mob is already, an expired code is
   const db = await database();
   try {
     assert.equal(await create(db, 'u1'), 'created');
-    assert.equal(await create(db, 'u1'), 'already');
+    assert.equal(await create(db, 'u1'), 'limit', 'free is one Mob');
     assert.equal(await invite(db, 'u1', 'AAAAAAAA'), 'ok');
     assert.equal((await one(db, "select mob_invite_lookup('AAAAAAAA') r")).seats_left, 4);
     assert.equal(await join(db, 'u2', 'AAAAAAAA'), 'joined');
@@ -268,10 +274,10 @@ test('joining: a 6th member is full, a second Mob is already, an expired code is
     assert.equal(await join(db, 'u6', 'BBBBBBBB'), 'full');
     assert.equal((await one(db, "select mob_invite_lookup('BBBBBBBB') r")).status, 'expired', 'a full Mob reads as a used-up link');
     assert.equal(await invite(db, 'u1', 'CCCCCCCC'), 'full');
-    // A second Mob: u6 starts one; a member of the first cannot join it.
+    // A second Mob: u6 starts one; a free member of the first cannot join it (free is one Mob at a time).
     assert.equal(await create(db, 'u6', 'Kabir'), 'created');
     assert.equal(await invite(db, 'u6', 'DDDDDDDD'), 'ok');
-    assert.equal(await join(db, 'u2', 'DDDDDDDD'), 'already');
+    assert.equal(await join(db, 'u2', 'DDDDDDDD'), 'limit');
     // Blocks, either way.
     await db.exec("insert into mob_blocks values ('u6','u7')");
     assert.equal(await join(db, 'u7', 'DDDDDDDD'), 'blocked');
@@ -297,16 +303,16 @@ test('leaving: the owner passes the role on, the last leave deletes the Mob and 
     await db.query("select mob_paper_put($1::uuid, '2026-10-12', 'accountancy', $2::jsonb)", [mob, JSON.stringify(Array.from({ length: 10 }, (_, i) => `q${i}`))]);
     assert.equal(await one(db, "select mob_record_sitting('u1',$1::uuid,'2026-10-12','s1',7,10,'{0,1,2,3,0,1,2,3,0,1}'::smallint[],now()) r", [mob]), 'recorded');
     assert.equal(await one(db, "select mob_record_sitting('u1',$1::uuid,'2026-10-12','s1b',9,10,'{0,1,2,3,0,1,2,3,0,1}'::smallint[],now()) r", [mob]), 'exists');
-    assert.equal((await one(db, "select (mob_nudge('u1','2026-10-12'))->>'status' r")), 'sent');
-    assert.equal(await one(db, "select mob_leave('u1') r"), 'left');
+    assert.equal((await one(db, "select (mob_nudge('u1',$1::uuid,'2026-10-12'))->>'status' r", [mob])), 'sent');
+    assert.equal(await one(db, "select mob_leave('u1',$1::uuid) r", [mob]), 'left');
     assert.equal(await one(db, "select role r from mob_members where user_id='u2'"), 'owner', 'the earliest remaining member');
     assert.equal(await one(db, "select count(*)::int r from mob_sittings"), 0, 'the leaver\'s sittings leave with them');
     assert.equal(await one(db, "select count(*)::int r from mob_nudges"), 0);
     assert.equal(await one(db, "select mob_remove('u3',$1::uuid,'u2') r", [mob]), 'not_owner');
     assert.equal(await one(db, "select mob_remove('u2',$1::uuid,'u3') r", [mob]), 'removed');
-    assert.equal(await one(db, "select mob_leave('u2') r"), 'left_and_closed');
+    assert.equal(await one(db, "select mob_leave('u2',$1::uuid) r", [mob]), 'left_and_closed');
     for (const t of ['mobs', 'mob_members', 'mob_invites', 'mob_papers']) assert.equal(await one(db, `select count(*)::int r from ${t}`), 0, t);
-    assert.equal(await one(db, "select mob_leave('u2') r"), 'not_member');
+    assert.equal(await one(db, "select mob_leave('u2',$1::uuid) r", [mob]), 'not_member');
   } finally { await db.close(); }
 });
 
@@ -339,11 +345,17 @@ test('account deletion: Mob rows go, report links are nulled, and nothing Mob-sh
     const mob = await one(db, 'select id::text r from mobs');
     await db.query("select mob_paper_put($1::uuid, '2026-10-12', 'accountancy', $2::jsonb)", [mob, JSON.stringify(Array.from({ length: 10 }, (_, i) => `q${i}`))]);
     for (const u of ['u1', 'u2']) await db.query("select mob_record_sitting($1,$2::uuid,'2026-10-12','s',7,10,'{0,1,2,3,0,1,2,3,0,1}'::smallint[],now())", [u, mob]);
-    await db.query("select mob_nudge('u1','2026-10-12')");
-    await db.query("select mob_nudge_seen_mark('u3','2026-10-12')");
-    await db.query("select mob_report('u2','u1','name')");
-    await db.query("select mob_report('u1','u3','nudge')");
+    await db.query("select mob_nudge('u1',$1::uuid,'2026-10-12')", [mob]);
+    await db.query("select mob_nudge_seen_mark('u3',$1::uuid,'2026-10-12')", [mob]);
+    await db.query("select mob_report('u2',$1::uuid,'u1','name')", [mob]);
+    await db.query("select mob_report('u1',$1::uuid,'u3','nudge')", [mob]);
     await db.query("select mob_block('u1','u3')");
+    // The Free and Pro tables: the free weekly claim, the free sample, an extra paper and a sitting on it.
+    await db.query("select mob_free_claim('u1',$1::uuid,'2026-10-12')", [mob]);
+    await db.query("select mob_sample_claim('u1',$1::uuid,'2026-10-12')", [mob]);
+    const extra = await one(db, "select (mob_extra_put('u1',$1::uuid,'2026-10-12','Chapter',$2::jsonb, now() + interval '7 days', 3))->>'id' r", [mob, JSON.stringify(['a', 'b', 'c', 'd', 'e'])]);
+    await db.query("select mob_extra_record('u1',$1::uuid,'s',3,5,'{0,1,2,3,0}'::smallint[],now(),null)", [extra]);
+    await db.query("select mob_extra_record('u2',$1::uuid,'s',3,5,'{0,1,2,3,0}'::smallint[],now(),null)", [extra]);
     await db.exec("insert into account_deletion_requests (user_id, requested_at, source) values ('u1', now() - interval '2 days', 'web')");
     const req = (await db.query("select id from account_deletion_requests where user_id='u1'")).rows[0].id;
     const r = (await db.query('select public.account_deletion_run($1::bigint, $2, $3::jsonb, true) as r', [req, 'u1', JSON.stringify(DELETION_STEPS)])).rows[0].r;
@@ -351,11 +363,14 @@ test('account deletion: Mob rows go, report links are nulled, and nothing Mob-sh
     for (const [t, where] of [['mob_members', "user_id='u1'"], ['mob_sittings', "user_id='u1'"], ['mob_nudges', "from_user='u1'"], ['mob_nudge_seen', "from_user='u1' or to_user='u1'"], ['mob_blocks', "blocker_id='u1' or blocked_id='u1'"], ['mob_invites', "created_by='u1'"], ['mob_reports', "reporter_id='u1' or reported_id='u1'"]]) {
       assert.equal(await one(db, `select count(*)::int r from ${t} where ${where}`), 0, t);
     }
+    for (const t of ['mob_extra_sittings', 'mob_free_claims', 'mob_samples']) assert.equal(await one(db, `select count(*)::int r from ${t} where user_id='u1'`), 0, t);
+    assert.equal(await one(db, "select count(*)::int r from mob_extra_sittings where user_id='u2'"), 1, 'the other members sittings stay');
+    assert.equal(await one(db, 'select count(*)::int r from mob_extras where created_by is null'), 1, 'the extra paper stays with the Mob, with no creator');
     assert.equal(await one(db, 'select count(*)::int r from mob_reports'), 2, 'both reports stay, with the reason and the name');
     assert.equal(await one(db, "select count(*)::int r from mob_members where user_id in ('u2','u3')"), 2, 'the others stay in the Mob');
     assert.equal(await one(db, "select count(*)::int r from mob_sittings where user_id='u2'"), 1);
     // The tombstoned owner is gone, so the next read gives the earliest remaining member the owner's controls.
-    const state = await one(db, "select mob_state('u2','2026-10-12') r");
+    const state = await one(db, "select mob_state('u2','2026-10-12', null) r");
     const view = buildView({ ...state, week: WEEK }, { userId: 'u2', now: NOW, memberIdFor: (u) => u.toUpperCase().padEnd(12, '0') }).mob;
     assert.equal(view.you.role, 'owner');
   } finally { await db.close(); }
@@ -379,17 +394,19 @@ function pgRpc(db) {
   };
 }
 
-const BANK = Array.from({ length: 10 }, (_, i) => ({ id: `q${i + 1}`, correctIndex: i % 4, options: ['A', 'B', 'C', 'D'].map((t) => ({ key: t, text: `Option ${t}${i}` })) }));
+const BANK = Array.from({ length: 10 }, (_, i) => ({ id: `q${i + 1}`, correctIndex: i % 4, question: `Question ${i + 1} stem`, options: ['A', 'B', 'C', 'D'].map((t) => ({ key: t, text: `Option ${t}${i}` })) }));
+// 20 questions for the weekly paper (the first 10) and extra papers of 5 to 20.
+const EXTRA_BANK = Array.from({ length: 20 }, (_, i) => BANK[i] || { id: `q${i + 1}`, correctIndex: i % 4, question: `Question ${i + 1} stem`, options: BANK[0].options });
 function serviceFor(db, { clock = { now: NOW }, attempts = [], balance = 40, premium = false, started = [] } = {}) {
   let seed = 1;
   return createMobService({
     rpc: pgRpc(db), now: () => clock.now, secret: 'test-secret', blocklist,
     randomBytes: (n) => Uint8Array.from({ length: n }, () => (seed = (seed * 97 + 13) % 256)),
     subjectInfo: (s) => (['accountancy', 'economics'].includes(s) ? { ok: true, id: s, name: s === 'accountancy' ? 'Accountancy' : 'Economics' } : { ok: false }),
-    loadUser: async () => ({ isPremium: premium, creditBalance: balance }),
-    allowanceEnabled: false,
-    pickQuestionIds: async () => BANK.map((q) => q.id),
-    loadQuestions: async (ids) => ids.map((id) => BANK.find((q) => q.id === id)).filter(Boolean),
+    loadUser: async (id) => ({ isPremium: typeof premium === 'function' ? premium(id) : premium, creditBalance: balance }),
+    validChapter: (subject, chapter) => subject === 'accountancy' && ['Partnership Accounts', 'Cash Flow Statement'].includes(chapter),
+    pickQuestionIds: async (_s, { count = 10 } = {}) => EXTRA_BANK.slice(0, count).map((q) => q.id),
+    loadQuestions: async (ids) => ids.map((id) => EXTRA_BANK.find((q) => q.id === id)).filter(Boolean),
     trapNameFor: async (q, i) => (q.id === 'q2' && i === 3 ? 'A look-alike term' : null),
     findAttempts: async (userIds) => attempts.filter((a) => userIds.includes(a.userId)),
     startPractice: async (userId, input, server) => {
@@ -404,7 +421,7 @@ test('the service: start, invite, join, sit, ring, trap, nudge, leave and block,
   const db = await database();
   const started = [];
   const attempts = [];
-  const svc = serviceFor(db, { started, attempts });
+  const svc = serviceFor(db, { started, attempts, premium: true }); // Pro sees the trap; the Free view of the same Mob is checked at the end
   try {
     assert.deepEqual(await svc.view('u1'), { mob: null });
     await assert.rejects(svc.create('u1', { subject: 'physics', name: 'Riya', colour: 0 }), expectCode('SUBJECT_INVALID'));
@@ -414,8 +431,7 @@ test('the service: start, invite, join, sit, ring, trap, nudge, leave and block,
     const made = await svc.create('u1', { subject: 'accountancy', name: 'Riya', colour: 0 });
     assert.equal(made.mob.week.size, 1);
     assert.equal(made.mob.you.role, 'owner');
-    assert.deepEqual(made.mob.week.paper.cost, { type: 'credits', credits: 10, balance: 40 });
-    await assert.rejects(svc.create('u1', { subject: 'accountancy', name: 'Riya', colour: 0 }), expectCode('ALREADY_IN_MOB'));
+    assert.deepEqual(made.mob.week.paper.cost, { type: 'free' }, 'the weekly Mob paper costs no credits');
     const inv = await svc.invite('u1');
     assert.match(inv.code, CODE_RE);
     assert.equal(inv.url, `https://www.mockmob.in/join/${inv.code}`);
@@ -496,6 +512,11 @@ test('the service: start, invite, join, sit, ring, trap, nudge, leave and block,
     await assert.rejects(svc.join('u4', { code: again.code, name: 'Meera', colour: 5 }), expectCode('INVITE_INVALID'));
     const after = await svc.remove('u1', { memberId: (await svc.view('u1')).mob.members.find((m) => m.name === 'Kabir S').memberId });
     assert.equal(after.mob.week.size, 2);
+    // The same Mob for a Free student: the ring and the teaser, not the trap or the together line (those are Pro).
+    const free = await serviceFor(db, { started, attempts, premium: false }).view('u2');
+    assert.equal(free.mob.trap, null);
+    assert.equal('together' in free.mob, false);
+    assert.equal(free.mob.plan.pro, false);
     const everything = JSON.stringify(await svc.view('u1'));
     for (const leak of ['"u1"', '"u2"', 'u3', 'u4', 'att_u2', 'att_u3', 'picks']) assert.equal(everything.includes(leak), false, leak);
   } finally { await db.close(); }
@@ -520,14 +541,15 @@ test('the service: the week closing, credits and a paper the bank cannot build',
     await assert.rejects(short.startPaper('u1', {}), expectCode('PAPER_UNAVAILABLE'));
     assert.equal(await one(db, 'select count(*)::int r from mob_papers'), 0, 'nothing frozen when the bank fell short');
     const pro = serviceFor(db, { clock, premium: true });
-    assert.deepEqual((await pro.view('u1')).mob.week.paper.cost, { type: 'included' });
+    assert.deepEqual((await pro.view('u1')).mob.week.paper.cost, { type: 'free' });
+    assert.equal((await pro.view('u1')).mob.plan.pro, true);
   } finally { await db.close(); }
 });
 function serviceDeps(db, clock) {
   return {
     rpc: pgRpc(db), now: () => clock.now, secret: 's', blocklist, randomBytes: (n) => new Uint8Array(n).fill(7),
     subjectInfo: (s) => ({ ok: true, id: s, name: s }), loadUser: async () => ({ isPremium: false, creditBalance: 0 }),
-    pickQuestionIds: async () => BANK.map((q) => q.id), loadQuestions: async (ids) => ids.map((id) => BANK.find((q) => q.id === id)).filter(Boolean),
+    pickQuestionIds: async () => BANK.map((q) => q.id), loadQuestions: async (ids) => ids.map((id) => EXTRA_BANK.find((q) => q.id === id)).filter(Boolean),
     findAttempts: async () => [], startPractice: async () => ({}),
   };
 }
@@ -622,12 +644,47 @@ const memberIds = { u1: 'K7Q2M9XR4T1A', u2: 'B3N8D2WQ6Z0C', u3: 'H5P1R7SV2E9F', 
 const fixtureView = (userId, opts = {}, stateOpts = {}) => buildView(fixedState(stateOpts), {
   userId, now: NOW, memberIdFor: (u) => memberIds[u], subjectName: 'Accountancy', ...opts,
 });
+// A Pro student in two Mobs, with extra papers, and the side-by-side of a Mob of three who share their answers.
+const SECOND_MOB = '3c9e1a52-7d40-4f6b-8a1e-2b5d9c0f7e14';
+const STEMS = ["A partner's salary is charged to which account?", "Goodwill is valued at 3 years' purchase of average profit.", 'Interest on drawings is calculated from the date of withdrawal.',
+  'Which ratio compares current assets to current liabilities?', 'On dissolution, realisation expenses paid by a partner are debited to which account?', 'Capital reserves are created by which transaction?',
+  'The profit-sharing ratio of Asha and Riya is 3 to 2. Their sacrificing ratio on admitting Kabir is', 'A bonus issue of shares is made out of', 'Depreciation is charged on', 'The accounting equation is'];
+function compareFixture() {
+  const members = fixedState().members.map((m) => ({ ...m, show_score: m.user_id !== 'u4' }));
+  const keys = [0, 1, 2, 3, 0, 2, 2, 3, 0, 1];
+  const t = (...n) => ({ t: n, c: [0, 0, 0, 1, 0, 0, 0, 0, 2, 0] });
+  const sittings = [
+    { user_id: 'u1', picks: [0, 1, 2, 3, 0, 1, 2, 3, 0, 1], detail: { t: [38, 22, 41, 30, 25, 71, 44, 19, 52, 28], c: [0, 0, 0, 0, 0, 1, 0, 0, 0, 0] } },
+    { user_id: 'u2', picks: [0, 1, 2, 0, 0, 1, 2, 3, 0, 1], detail: { ...t(45, 20, 36, 88, 31, 63, 52, 27, 40, 33), c: [0, 0, 0, 1, 0, 0, 0, 0, 0, 0] } },
+    { user_id: 'u3', picks: [0, 2, 2, 3, 0, 1, 2, 3, 3, 1], detail: { ...t(30, 64, 29, 41, 22, 59, 38, 24, 77, 26), c: [0, 1, 0, 0, 0, 0, 0, 0, 2, 0] } },
+  ];
+  return buildCompare({
+    members, sittings, ids: keys.map((_, i) => `q${i + 1}`), questions: keys.map((k, i) => ({ id: `q${i + 1}`, stem: STEMS[i], correctIndex: k })),
+    userId: 'u2', memberIdFor: (u) => memberIds[u], access: 'full', week: WEEK, trapName: 'A look-alike term', nameOf: (u) => members.find((m) => m.user_id === u).display_name,
+  });
+}
 function fixtures() {
   const trap = { questionNumber: 6, questionId: 'q6', option: 'B', count: 3, of: 3, trapName: 'A look-alike term', youPickedIt: true, youGotItRight: false };
+  const teaser = { split: 3, of: 10, with: null, text: 'Your Mob split on 3 of 10 questions.' };
+  const mobs = [{ id: MOB_ID, subject: 'accountancy', subjectName: 'Accountancy' }, { id: SECOND_MOB, subject: 'economics', subjectName: 'Economics' }];
+  const extras = [
+    { id: 'c1a7e5d2-3b94-4e08-9f61-0a2d8b7c4e35', chapter: 'Partnership Accounts', count: 10, createdByYou: true, createdAt: '2026-10-13T08:00:00.000Z', closesAt: '2026-10-20T08:00:00.000Z', closed: false, sat: 1, youSat: false, yourResultId: null, compare: null },
+    { id: 'd5f2b8a1-6c37-4a90-8e14-7b3c9d0a5f62', chapter: null, count: 5, createdByYou: false, createdAt: '2026-10-12T15:00:00.000Z', closesAt: '2026-10-19T15:00:00.000Z', closed: false, sat: 3, youSat: true, yourResultId: 'practice_u2x',
+      compare: { available: true, access: 'full', youShare: true, needsShare: false, teaser: { split: 1, of: 5, with: null, text: 'Your Mob split on 1 of 5 questions.' } } },
+  ];
   return {
-    'get_v1.json': fixtureView('u2', { trap }, { nudges: [] }),
-    'get_not_sat_v1.json': fixtureView('u4', { cost: { type: 'credits', credits: 10, balance: 40 } }, { nudges: [{ from_user: 'u1', sent_at: at(6), seen: false }] }),
-    'get_alone_v1.json': buildView({ ...fixedState({ sat: [] }), members: [fixedState().members[1]], invite: null }, { userId: 'u1', now: NOW, memberIdFor: (u) => memberIds[u], subjectName: 'Accountancy', cost: { type: 'allowance' } }),
+    'get_v1.json': fixtureView('u2', { trap, compare: { available: true, access: 'offer', youShare: true, needsShare: true, teaser } }, { nudges: [] }),
+    'get_not_sat_v1.json': fixtureView('u4', { cost: { type: 'free' } }, { nudges: [{ from_user: 'u1', sent_at: at(6), seen: false }] }),
+    'get_alone_v1.json': buildView({ ...fixedState({ sat: [] }), members: [fixedState().members[1]], invite: null }, { userId: 'u1', now: NOW, memberIdFor: (u) => memberIds[u], subjectName: 'Accountancy', cost: { type: 'free' } }),
+    'get_pro_v2.json': { mob: { ...fixtureView('u2', { trap, plan: { pro: true }, mobs, extras, compare: { available: true, access: 'full', youShare: true, needsShare: false, teaser } }, { nudges: [] }).mob, pastWeeks: 2 } },
+    'compare_v2.json': { compare: { ...compareFixture(), mobId: MOB_ID, yourResultId: 'practice_u2' } },
+    'history_v2.json': {
+      mobId: MOB_ID,
+      weeks: [
+        { week: '2026-10-05', closedAt: closesAt('2026-10-05'), sat: 4, extras: 1, you: { sat: true, score: { value: 8, of: 10 }, resultId: 'practice_u2_w1' } },
+        { week: '2026-09-28', closedAt: closesAt('2026-09-28'), sat: 2, extras: 0, you: { sat: false } },
+      ],
+    },
     'get_none_v1.json': { mob: null },
     'lookup_v1.json': { valid: true, code: '7KQ2M9XR', subject: 'accountancy', subjectName: 'Accountancy', size: 3, seatsLeft: 2, expiresAt: '2026-10-20T16:10:00.000Z' },
     'errors_v1.json': Object.fromEntries(Object.keys(ERRORS).map((code) => [code, { status: ERRORS[code][0], body: errorBody(code) }])),

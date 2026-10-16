@@ -13,12 +13,15 @@ import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck';
 import { tonightMetadata } from '@/../data/study_progress';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
+import { practiceCharge } from '@/../data/practice_charge';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // `server` carries what only the server may decide; POST /api/sessions never passes it. server.mobPaper (the Mob, set by
 // src/lib/server/mob/service.js) serves the Mob's frozen weekly questions in canonical option order instead of the
-// selector, and stamps selection_meta.mobPaper so the finish can record the sitting. Charges are a quick 10's (D-S2).
+// selector, and stamps selection_meta.mobPaper so the finish can record the sitting. A Mob paper charges no credits and
+// uses no daily allowance (SOCIAL-SPEC section 15: free of practice credits for every member); the Mob service decides who
+// may start one (one free weekly paper per student per week, Pro without that limit) before it ever calls this.
 export async function startPractice(userId, input, server = {}) {
   const mobPaper = server?.mobPaper && Array.isArray(server.mobPaper.questions) ? server.mobPaper : null;
   const db = supabaseAdmin();
@@ -52,7 +55,7 @@ export async function startPractice(userId, input, server = {}) {
   }
   // Mathematics and Computer Science papers have two section-B variants; only NTA mode reads it.
   const ntaVariant = mode.id === 'nta' && /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : '';
-  const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : []), ...(mobPaper ? ['mob', mobPaper.mobId, mobPaper.weekStart] : [])]);
+  const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : []), ...(mobPaper ? ['mob', mobPaper.mobId, mobPaper.weekStart, ...(mobPaper.extraId ? [mobPaper.extraId] : [])] : [])]);
   const previous = await Database.getAttemptById(id);
   if (previous) throw new Error('SESSION_ALREADY_SUBMITTED');
   const { questions, meta } = mobPaper
@@ -78,13 +81,11 @@ export async function startPractice(userId, input, server = {}) {
   }
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
-    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart } } : {}) } };
+    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart, ...(mobPaper.extraId ? { extraId: mobPaper.extraId } : {}) } } : {}) } };
+  const charge = practiceCharge({ isPremium: user?.isPremium, mobPaper, modeId: mode.id, creditAction: mode.creditAction, count, purpose: input.purpose, subject: selection.internalSubject });
   if (durableLearningEnabled()) {
-    let quota = null;
-    if (!user?.isPremium && mode.id === 'quick' && count === 10) quota = 'daily_practice';
-    if (!user?.isPremium && input.purpose === 'baseline' && mode.id === 'quick' && count === 5 && ['english','accountancy','economics','business_studies'].includes(selection.internalSubject)) quota = `baseline:${selection.internalSubject}`;
-    if (!user?.isPremium && input.purpose === 'full_sample' && mode.id === 'full' && ['english','accountancy','economics','business_studies'].includes(selection.internalSubject)) quota = `full_sample:${selection.internalSubject}`;
-    const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: user?.isPremium ? null : mode.creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });
+    const { quota } = charge;
+    const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: charge.creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });
     if (error) throw new Error(/credit/.test(error.message) ? 'INSUFFICIENT_CREDITS' : 'SESSION_CREATE_FAILED');
     return publicSessionView(data);
   }
@@ -92,8 +93,8 @@ export async function startPractice(userId, input, server = {}) {
   if (Date.now() > Date.parse(row.expires_at) + SUBMISSION_GRACE_MS) throw new Error('SESSION_EXPIRED');
   const ticket = sealPractice(row, secret());
   // Existing atomic ledger makes retries free; charge only after a complete usable set exists.
-  if (!user?.isPremium && mode.creditAction) {
-    const paid = await Database.spendCredits(userId, mode.creditAction, `practice_${id}`);
+  if (charge.creditAction) {
+    const paid = await Database.spendCredits(userId, charge.creditAction, `practice_${id}`);
     if (!paid) throw new Error('INSUFFICIENT_CREDITS');
   }
   const view = publicSessionView(row);
