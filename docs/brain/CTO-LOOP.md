@@ -62,21 +62,27 @@ Sources this consolidates (his words win; read them when in doubt):
 | V17 | Minimal first-party analytics with consent (off for minors and unknown ages); quiet hours 11 pm-7 am | consent switch done; funnel queued (Q10) |
 | V18 | Play Store release (14-day test) | owner steps pending |
 
-## 3. Running now (updated 15 Oct about 23:05 IST)
+## 3. Running now (updated 16 Oct about 09:25 IST)
 
-- **Deployed tonight:**
-  - usage fixes 1-4 (3be06112);
-  - fix 5 A5 (d9e290eb);
-  - the landing one-gesture fix, footer, illustrations and speed pass, plus Mistake Lab slice 3 (3fc0095b).
+- **Production database, 16 Oct about 04:20:** trap_atlas, revise_cards, my_colleges, app_errors and funnel_daily applied under the standing grant; RLS on, service role only; STATUS.md 2a20d407 with undo paths.
+- **Batch 1 pushed to main 16 Oct about 09:15 (09421b29):**
+  - Mistake Lab slice 4 web (traps, Traps you meet, Revise, same mistakes later);
+  - Mobi rig v2 web, My colleges, crash reports, names, Learn concept checks;
+  - the arena de-slop A1-A3.
 
-  Vercel READY, 0 runtime errors.
-- **App:** feat/app-and-web 649c973c (waves 3 and 4a, Lab slice 3 app, the 403 fix). Analyze clean. APK v9 building.
-- **Wave N+1 (wf_85d004db-503):**
-  - Mobi quality pass: Opus high app rig, then a Sonnet web port (wt-mobi);
-  - Lab slice 4: Sonnet high core, web and app, plus truth review (wt-lab4);
-  - credits page and history (wt-you) and the You hub (app), Sonnet high;
-  - arena on phones pass 3, Sonnet high (wt-arena3);
-  - then a web check and an app check (Sonnet medium).
+  Gate: four critics with the research rubric found 78 defects (1 blocker, 36 majors). An Opus fixer fixed them, and an independent verifier passed it: lint clean; test:app 328, test:recovery 231, test:learning 277, test:nta 169 all pass; `next build --webpack` passes. Check Vercel READY and runtime errors.
+- **Batch 2 gate (wf_9bf4ba21-fa3, wt-batch2, deploy/batch-1016b):**
+  - Repair v4: Check it held, Ask Mobi about Qn, the older-paper Lab line, marked-for-review in the SWOT, plus the follow-ups (e2d950ae);
+  - web/ntaidx-1016: the practice-progress chunking fix; the index stays inert without the signing key;
+  - web/pay-monthly-1016: inert until RAZORPAY_PLAN_ID_PRO_MONTHLY_99 is set; honest pricing copy bca252dc.
+- **App:** APK v10 built at tmp/apk/mockmob-v10-9ccb7d0c.apk, with the zip sent to the owner. feat/app-and-web 9ccb7d0c holds ui/phase2 7501acf9 (phase2b merged) and a8252ca4 (Repair v4 in the app). Analyze clean; 4,715 unit tests and 1,063 goldens pass. Not installed: no phone was attached.
+- **Landing (wf_3ee8e5c5-8e4, wt-land2):** critic scores 76, 82, 84, 87; fix-4 then critic 5. It needs the owner's look on a local server before launch.
+- **Slice 5, cohort time (wt-slice5, web/slice5-1016):** being built. Migration on staging only; it rides on the inventory cron.
+- **Open gaps after these land:**
+  - Mobi at real moments everywhere (web and app);
+  - Q13 landing calm-down;
+  - the app half of slice 5;
+  - live-database checks of `.is('receipt->check', null)` and `receipt->offered` claims after the deploy.
 
 ## 4. Queue (in order; skip anything the running wave finished)
 
