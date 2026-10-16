@@ -1,42 +1,23 @@
 import { NextResponse } from 'next/server';
 import { Database } from '@/../data/db';
+import { auth } from '@/lib/auth';
+import { standingFor } from '@/lib/server/standing';
 
-const PRACTICE_RIVALS = [
-  ['Aarav Sharma', 68, 2815],
-  ['Ananya Iyer', 64, 2630],
-  ['Vivaan Gupta', 61, 2485],
-  ['Meera Nair', 59, 2320],
-  ['Kabir Singh', 58, 2245],
-  ['Ishita Verma', 56, 2110],
-  ['Reyansh Patel', 55, 2040],
-  ['Saanvi Rao', 54, 1965],
-  ['Arjun Mehta', 53, 1890],
-  ['Diya Chatterjee', 52, 1785],
-  ['Rohan Das', 51, 1660],
-  ['Tara Kapoor', 50, 1545],
-].map(([name, tests, totalScore], index) => ({
-  userId: `practice_rival_${index + 1}`,
-  name,
-  image: null,
-  tests,
-  totalScore,
-  avg: Math.round(totalScore / tests),
-  isSynthetic: true,
-  label: 'Practice rival',
-}));
+export const dynamic = 'force-dynamic';
 
-function withPracticeRivals(rows = []) {
-  const realRows = Array.isArray(rows) ? rows : [];
-  return [...realRows, ...PRACTICE_RIVALS]
-    .sort((a, b) => b.totalScore - a.totalScore);
-}
-
-export async function GET() {
+// Privacy: this used to return every ranked student's name, user id and photo to anyone, signed in or not.
+// It now answers only "where do I stand": the caller's own rank, the number of ranked students, and the
+// caller's own tests and average. No other student is identifiable from this response.
+export async function GET(request) {
   try {
-    const leaderboard = await Database.getLeaderboard();
-    return NextResponse.json(withPracticeRivals(leaderboard));
+    const session = await auth(request);
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: { 'Cache-Control': 'no-store' } });
+    }
+    const rows = await Database.getLeaderboard();
+    return NextResponse.json(standingFor(rows, session.user.id), { headers: { 'Cache-Control': 'private, no-store' } });
   } catch (e) {
     console.error('[api/leaderboard] GET failed:', e);
-    return NextResponse.json({ error: 'Failed to load leaderboard' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to load your standing' }, { status: 500, headers: { 'Cache-Control': 'no-store' } });
   }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 // Account > Community and help: the calm list from the restructure's You page, inside the live
-// navigation. Ranks, Contribute and My uploads are the same pages and the same words as the sidebar's
+// navigation. Your standing, Contribute and My uploads are the same pages and the same words as the sidebar's
 // Community group, so a phone that never opens the menu still reaches the leaderboard from here.
 // "Replay the guide" opens the live shell's tour: it asks the shell first (GUIDE_EVENT, cancelable),
 // then presses the shell's own Guide button, and says where the guide lives if neither answered.

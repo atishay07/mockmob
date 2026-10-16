@@ -174,11 +174,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const raw = rows.slice(offset, offset + limit);
       return json({ questions: state === 'held' && offset === 0 ? [] : raw, total: null, nextOffset: offset + raw.length, hasMore: raw.length === limit });
     }
-    if (url.pathname === '/api/leaderboard') return json(state === 'empty' ? [] : [
-      { userId: 'fixture-rival', name: 'A labelled practice rival', tests: 12, totalScore: 610, isSynthetic: true },
-      { userId: 'preview-user', name: state === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', tests: 2, totalScore: 112 },
-      { userId: 'fixture-student', name: 'Illustrative student', tests: 1, totalScore: 50 },
-    ]);
+    // Your standing: the one shape the server returns, only for the signed-in student. ?state=empty is a student with no mocks; ?state=long is a big board.
+    if (url.pathname === '/api/leaderboard') return json(state === 'empty' ? { you: null, window: 'all time' } : state === 'long' ? { you: { rank: 1203, of: 12408, tests: 148, average: 71 }, window: 'all time' } : { you: { rank: 14, of: 212, tests: 12, average: 62 }, window: 'all time' });
     // Recent papers (Today trend). Newest first; ?trend=few has too few to draw.
     if (url.pathname === '/api/attempts/summary') {
       const marks = fixture.get('trend') === 'few' || state === 'empty' ? [92, 88] : [76, 84, 80, 96, 104, 118];

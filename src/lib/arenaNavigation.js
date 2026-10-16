@@ -13,7 +13,7 @@ export function arenaNavigation(moderator = false) {
     ...(moderator ? [{ label: 'Moderation', items: [item('moderation', 'Mod queue', 'moderation')] }] : []),
     { label: 'Study', items: STUDY_NAV },
     { label: 'Planning', items: [item('analytics', 'Weak chapters', 'radar', '/analytics'), item('admission-compass', 'Compass', 'compass', '/admission-compass', 'DU cutoffs'), item('mentor', 'Ask Mobi', 'prepos')] },
-    { label: 'Community', items: [item('leaderboard', 'Ranks', 'ranks'), item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] },
+    { label: 'Community', items: [item('leaderboard', 'Your standing', 'ranks'), item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] },
     { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help', 'help')] },
   ];
 }

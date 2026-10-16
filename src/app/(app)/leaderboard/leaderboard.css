@@ -1,88 +1,29 @@
 /* ==========================================================================
-   LEADERBOARD  scope: .app-shell .lb
-   A ranking, not a card row: first place leads at display size, second and third sit beside it, then one
-   ruled table of every position. Tokens only (--a-*), so Night and Daylight match. Numbers are tabular,
-   sentence case throughout, no mono labels, no arrows, no glow. The only motion is the arena's own page rise.
+   YOUR STANDING  scope: .app-shell .lb
+   One calm block about the signed-in student only: a rank at display size, two plain figures, one note and
+   one action. Tokens only (--a-*), so Night and Daylight match. Numbers are tabular, sentence case, no mono
+   labels, no arrows, no glow. The only motion is the arena's own page rise.
    ========================================================================== */
 .app-shell .lb { display: grid; gap: 28px; align-content: start; }
-.app-shell .lb .pr-head { align-items: end; }
 
-/* Your place, beside the headline */
-.app-shell .lb-you { display: grid; gap: 4px; justify-items: start; align-self: end; padding: 0 0 0 20px; border-left: 1px solid var(--a-line-strong); min-width: 0; }
-.app-shell .lb-you p { margin: 0; }
-.app-shell .lb-you__place { font-size: 14px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.app-shell .lb-you__place b { font: 800 clamp(34px, 5vw, 44px)/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); margin-right: 6px; }
-.app-shell .lb-you__pts { font-size: 14px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; max-width: 34ch; }
-@media (max-width: 899px) { .app-shell .lb-you { padding-left: 0; border-left: 0; padding-top: 14px; border-top: 1px solid var(--a-line); width: 100%; } }
+/* The standing: ruled above and below, left aligned, no card */
+.app-shell .lb-stand { display: grid; gap: 18px; justify-items: start; max-width: 640px; padding: 28px 0; border-top: 1px solid var(--a-line-strong); border-bottom: 1px solid var(--a-line); }
+.app-shell .lb-stand p, .app-shell .lb-stand dl, .app-shell .lb-stand dd { margin: 0; }
+.app-shell .lb-stand__place { font-size: 16px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.app-shell .lb-stand__place b { display: block; margin-bottom: 4px; font: 800 clamp(48px, 9vw, 72px)/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); }
+.app-shell .lb-stand__place--empty { font: 700 clamp(20px, 3vw, 26px)/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .lb-stand__figs { display: flex; flex-wrap: wrap; gap: 8px 40px; }
+.app-shell .lb-stand__figs dt { font-size: 12.5px; font-weight: 650; color: var(--a-ink-3); }
+.app-shell .lb-stand__figs dd { margin-top: 4px; font: 800 28px/1.1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .lb-note { margin: 0; max-width: 60ch; font-size: 13.5px; line-height: 1.6; color: var(--a-ink-3); }
 
-/* The one action: a plain text button, filled on press (no arrow, no glow). */
+/* The one action: filled, plain text, no arrow, no glow. */
 .app-shell .lb .lb-go {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 10px; padding: 0 18px;
-  border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 4px; padding: 0 20px;
+  border-radius: 12px; border: 1px solid transparent; background: var(--volt); color: #0b1000;
   font: 700 14px/1.2 var(--font-display); text-decoration: none; touch-action: manipulation;
-  transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease);
+  transition: background-color 150ms var(--a-ease), transform 100ms var(--a-ease);
 }
 .app-shell .lb .lb-go:active { transform: scale(0.98); }
 .app-shell .lb .lb-go:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-@media (hover: hover) and (pointer: fine) { .app-shell .lb .lb-go:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
-
-/* The top three: one ruled surface. First place spans the left, the other two stack on the right. */
-.app-shell .lb-top {
-  list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  border-top: 1px solid var(--a-line-strong); border-bottom: 1px solid var(--a-line);
-}
-.app-shell .lb-top > li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 0 18px; min-width: 0; padding: 18px 0; }
-.app-shell .lb-top > li + li { border-top: 1px solid var(--a-line); }
-.app-shell .lb-top > li[data-rank='1'] {
-  grid-row: 1 / span 2; grid-template-columns: 1fr; align-content: center; gap: 6px; padding: 28px 28px 28px 0; border-right: 1px solid var(--a-line);
-}
-.app-shell .lb-top > li[data-rank='2'] { padding-left: 28px; border-top: 0; }
-.app-shell .lb-top > li[data-rank='3'] { padding-left: 28px; }
-.app-shell .lb-top__rank { font: 800 28px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink-3); font-variant-numeric: tabular-nums; min-width: 1ch; }
-.app-shell .lb-top > li[data-rank='1'] .lb-top__rank { font-size: 15px; letter-spacing: 0; font-weight: 700; color: var(--a-ink-2); }
-.app-shell .lb-top__who { min-width: 0; }
-.app-shell .lb-top__who b { display: block; font: 700 17px/1.3 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
-.app-shell .lb-top__who small { display: block; margin-top: 3px; font-size: 12.5px; font-weight: 500; color: var(--a-ink-3); }
-.app-shell .lb-top > li[data-rank='1'] .lb-top__who b { font-size: clamp(22px, 3vw, 30px); letter-spacing: -0.02em; line-height: 1.15; }
-.app-shell .lb-top__pts { display: flex; align-items: baseline; gap: 6px; font: 800 24px/1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.app-shell .lb-top__pts small { font: 500 12.5px/1 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
-.app-shell .lb-top > li[data-rank='1'] .lb-top__pts { font-size: clamp(44px, 6vw, 64px); color: var(--a-accent-text); }
-.app-shell .lb-top > li[data-you='true'] .lb-top__who small { color: var(--a-accent-text); font-weight: 700; }
-
-/* Every position */
-.app-shell .lb-table-wrap { overflow-x: auto; }
-.app-shell .lb-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 14px; }
-.app-shell .lb-table th, .app-shell .lb-table td { padding: 14px 12px; border-bottom: 1px solid var(--a-line); text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; color: var(--a-ink); }
-.app-shell .lb-table thead th { padding-top: 6px; color: var(--a-ink-3); font-size: 12.5px; font-weight: 650; border-bottom-color: var(--a-line-strong); }
-.app-shell .lb-table th:nth-child(1), .app-shell .lb-table td:nth-child(1) { width: 72px; text-align: left; padding-left: 0; color: var(--a-ink-3); }
-.app-shell .lb-table th:nth-child(2) { text-align: left; }
-.app-shell .lb-table th:nth-child(3) { width: 84px; }
-.app-shell .lb-table th:nth-child(4) { width: 104px; padding-right: 0; }
-.app-shell .lb-table td:nth-child(4) { padding-right: 0; font-weight: 700; }
-.app-shell .lb-table tbody th { font-weight: 500; }
-.app-shell .lb-table tr[data-you='true'] > * { background: var(--a-volt-wash); }
-.app-shell .lb-table tr[data-you='true'] td:nth-child(1) { padding-left: 12px; color: var(--a-ink); }
-.app-shell .lb-table tr[data-you='true'] td:nth-child(4) { padding-right: 12px; }
-.app-shell .lb-who { display: flex; align-items: center; gap: 12px; min-width: 0; text-align: left; }
-.app-shell .lb-who > span { min-width: 0; }
-.app-shell .lb-who b { overflow-wrap: anywhere; font-weight: 650; }
-.app-shell .lb-who small { display: block; margin-top: 3px; font-size: 12px; font-weight: 500; color: var(--a-ink-3); }
-.app-shell .lb-note { margin: 0; max-width: 60ch; font-size: 13px; line-height: 1.6; color: var(--a-ink-3); }
-
-@media (max-width: 700px) {
-  .app-shell .lb-top { grid-template-columns: minmax(0, 1fr); }
-  .app-shell .lb-top > li[data-rank='1'] { grid-row: auto; padding: 22px 0; border-right: 0; }
-  .app-shell .lb-top > li[data-rank='2'], .app-shell .lb-top > li[data-rank='3'] { padding-left: 0; border-top: 1px solid var(--a-line); }
-  .app-shell .lb-top > li[data-rank='1'] .lb-top__pts { font-size: 44px; }
-  .app-shell .lb-table th, .app-shell .lb-table td { padding: 14px 6px; font-size: 13px; }
-  .app-shell .lb-table th:nth-child(1), .app-shell .lb-table td:nth-child(1) { width: 40px; }
-  .app-shell .lb-table th:nth-child(3) { width: 52px; }
-  .app-shell .lb-table th:nth-child(4) { width: 72px; }
-  .app-shell .lb-who { gap: 8px; }
-  .app-shell .lb-who > .avatar { display: none; }
-}
-
-/* The practice rival: a labelled benchmark line under the table, never a ranked place. */
-.app-shell .lb-bench { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
-.app-shell .lb-bench li { max-width: 72ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.app-shell .lb-bench b { color: var(--a-ink); font-weight: 650; }
+@media (hover: hover) and (pointer: fine) { .app-shell .lb .lb-go:hover { background: #e8ff4a; } }

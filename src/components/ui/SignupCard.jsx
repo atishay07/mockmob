@@ -218,7 +218,7 @@ export function SignupCard({ mode = 'signup' }) {
         {isLogin ? 'New here?' : 'Already have an account?'}{' '}
         <Link href={isLogin ? '/signup' : '/login'}>{isLogin ? 'Create an account' : 'Log in'}</Link>
       </p>
-      <p className="auth-card__fine">Your display name shows on the leaderboard. Your email is how you sign in, and you stay signed in on this device until you sign out.</p>
+      <p className="auth-card__fine">Your email is how you sign in, and you stay signed in on this device until you sign out.</p>
     </div>
   );
 }

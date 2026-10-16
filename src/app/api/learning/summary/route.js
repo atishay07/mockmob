@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
+import { topContributorCounts } from '@/lib/server/standing';
 import {
   failRequestDiagnostics,
   finishRequestDiagnostics,
@@ -166,28 +167,8 @@ export async function GET(request) {
       if (activityMap.has(day) && row.attempt_count > 0) activityMap.set(day, activityMap.get(day) + 1);
     }
 
-    const contributorCounts = new Map();
-    for (const row of contributorResult.error ? [] : (contributorResult.data || [])) {
-      const id = row.uploaded_by || row.author_id;
-      if (!id) continue;
-      contributorCounts.set(id, (contributorCounts.get(id) || 0) + 1);
-    }
-    const contributorIds = [...contributorCounts.entries()]
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 3)
-      .map(([id]) => id);
-    let topContributors = contributorIds.map((id) => ({ id, name: 'Contributor', count: contributorCounts.get(id) || 0 }));
-    if (contributorIds.length > 0) {
-      const { data: users } = await supabaseAdmin()
-        .from('users')
-        .select('id, name')
-        .in('id', contributorIds);
-      const userMap = new Map((users || []).map((row) => [row.id, row.name]));
-      topContributors = topContributors.map((row) => ({
-        ...row,
-        name: userMap.get(row.id) || 'Contributor',
-      }));
-    }
+    // Counts only. Other students' ids, names and photos never leave this route (privacy hotfix, 17 Oct 2026).
+    const topContributors = topContributorCounts(contributorResult.error ? [] : (contributorResult.data || []));
 
     const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;
     const weeklyGoal = isPremium ? PREMIUM_WEEKLY_GOAL : FREE_WEEKLY_GOAL;

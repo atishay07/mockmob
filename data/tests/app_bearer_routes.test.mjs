@@ -10,6 +10,7 @@ const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
 // Every exported handler in these routes must take (request) and call auth(request).
 const BEARER_ROUTES = {
   'src/app/api/learning/summary/route.js': ['GET'],
+  'src/app/api/leaderboard/route.js': ['GET'],
   'src/app/api/users/[id]/route.js': ['GET', 'PATCH'],
   'src/app/api/bookmarks/route.js': ['GET', 'POST'],
   'src/app/api/questions/feed/route.js': ['GET'],

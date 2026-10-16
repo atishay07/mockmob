@@ -56,7 +56,7 @@ export default function DashboardPageClient() {
 
   const [subjects, setSubjects] = useState([]);
   const [attempts, setAttempts] = useState([]);
-  const [leaderboard, setLeaderboard] = useState([]);
+  const [standing, setStanding] = useState(null);
   const [status, setStatus] = useState('loading');
   const [error, setError] = useState(null);
   const [loadNonce, setLoadNonce] = useState(0);
@@ -120,7 +120,7 @@ export default function DashboardPageClient() {
     const optional = (path, apply, fallback) => apiGet(path)
       .then(value => { if (alive) apply(value ?? fallback); })
       .catch(() => { if (alive) apply(fallback); });
-    optional('/api/leaderboard', setLeaderboard, []);
+    optional('/api/leaderboard', value => setStanding(value?.you ?? null), null);
     optional('/api/stats', setStats, { state: 'unavailable' });
     optional('/api/questions/mine', value => setSubmissions(Array.isArray(value) ? value : []), []);
     optional('/api/learning/summary', setLearningSummary, null);
@@ -191,11 +191,10 @@ export default function DashboardPageClient() {
       .filter((subject) => subject.practice !== 'supported'),
     [subjects, user],
   );
-  // Rank only among real students: the practice rival is a benchmark, never a place on the board.
-  const realBoard = leaderboard.filter((entry) => !entry.isSynthetic);
-  const myRankIdx = realBoard.findIndex((entry) => entry.userId === user?.id);
+  // Only the student's own standing comes from the server: { rank, of, tests, average } or null.
   const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
-  const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
+  const rank = Number.isFinite(Number(standing?.rank)) ? Number(standing.rank) : null;
+  const rankedOf = Number.isFinite(Number(standing?.of)) ? Number(standing.of) : 0;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
   // A student whose Pro ended is told so, with the date, instead of being shown Pro as if never held.
   const proEnded = !isPremium && Boolean(user?.premiumUntil);
@@ -603,7 +602,7 @@ export default function DashboardPageClient() {
         {statsAvailable || stats.state === 'loading' ? <div><dt>Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : <span className="pr-stats__wait">Checking</span>}</dd></div> : null}
         <div><dt>Sessions</dt><dd>{attempts.length}<small className="pr-stats__note">saved</small></dd></div>
         <div><dt>Average score</dt><dd>{attempts.length ? <>{avg}%<small className="pr-stats__note">over {attempts.length} {attempts.length === 1 ? 'session' : 'sessions'}{attempts.length < 5 ? ', too few to read much into' : ''}</small></> : <span className="pr-stats__wait">No sessions yet</span>}</dd></div>
-        <div><dt>Leaderboard</dt><dd>{rank ? <>#{rank}<small className="pr-stats__note">of {realBoard.length} {realBoard.length === 1 ? 'student' : 'students'} listed</small></> : <span className="pr-stats__wait">Not ranked yet</span>}</dd></div>
+        <div><dt>Your standing</dt><dd>{rank ? <>#{rank}<small className="pr-stats__note">of {rankedOf.toLocaleString('en-IN')} {rankedOf === 1 ? 'student' : 'students'} ranked</small></> : <span className="pr-stats__wait">Not ranked yet</span>}</dd></div>
       </dl>
 
       <div className="pr-lower">

@@ -220,7 +220,7 @@ export function goalUncertainLine() {
 export const GUIDE_EVENT = 'mockmob:open-guide';
 
 export const COMMUNITY_ROWS = Object.freeze([
-  Object.freeze({ id: 'leaderboard', label: 'Ranks', note: 'The practice points board. It is separate from your CUET exam rank.', href: '/leaderboard' }),
+  Object.freeze({ id: 'leaderboard', label: 'Your standing', note: 'Where your recorded mocks place you. It is separate from your CUET exam rank.', href: '/leaderboard' }),
   Object.freeze({ id: 'upload', label: 'Contribute', note: 'Write an original question for other students', href: '/upload' }),
   Object.freeze({ id: 'my-uploads', label: 'My uploads', note: 'Where each of your questions stands', href: '/my-uploads' }),
 ]);
