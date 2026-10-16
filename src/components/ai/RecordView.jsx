@@ -106,7 +106,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
   const chaptersSection = (
       <section aria-labelledby="pp-c">
         <h3 id="pp-c" className="pp-h">Chapters, by marks left open</h3>
-        {chapters.ranked.length ? <p className="pp-note">Worth counts 5 marks for each wrong or blank answer, what a right answer would have added. Each wrong answer also cost −1 on its paper.</p> : null}
+        {chapters.ranked.length ? <p className="pp-note">Worth is 5 marks for each wrong or blank answer, what a right answer would have added. Each wrong answer also cost −1 on its paper.</p> : null}
         {chapters.ranked.length === 0 ? (
           <p className="pp-note">No chapter has {MIN_CHAPTER_SAMPLE}+ answered questions with misses yet, so none is ranked. Rankings need a few questions per chapter to mean anything.</p>
         ) : (

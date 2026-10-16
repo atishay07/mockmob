@@ -783,10 +783,8 @@ body:has(.mm.lp) {
 .lp-plan-list__kind {
   min-width: 3.4rem;
   font-family: var(--font-display);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  font-weight: 650;
   color: var(--accent-text);
 }
 .lp-plan-list__what {
@@ -968,9 +966,7 @@ body:has(.mm.lp) {
 }
 .lp-compass__next strong {
   font-family: var(--font-display);
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.875rem;
   color: var(--chalk);
 }
 

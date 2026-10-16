@@ -6,7 +6,7 @@
 // no admission chance, no prediction, no conversion of practice marks into a CUET score.
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Play, Pause } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 
 const AXIS_MIN = 0;
 const AXIS_MAX = 1000;
@@ -119,8 +119,8 @@ export default function CompassLadder({ data }) {
           )}
         </p>
         <div className="cl__cta">
-          <Link href="/cuet-cutoff-calculator" className="mm-btn mm-btn--primary">Check my subjects<ArrowRight size={17} aria-hidden="true" /></Link>
-          <Link href="/admission-compass" className="lp-link">Open Compass<ArrowRight size={16} aria-hidden="true" /></Link>
+          <Link href="/cuet-cutoff-calculator" className="mm-btn mm-btn--primary">Check my subjects</Link>
+          <Link href="/admission-compass" className="lp-link">Open Compass</Link>
         </div>
       </div>
 

@@ -216,7 +216,8 @@ export default function ResultPageClient({ previewId = null }) {
   const accuracy = answered ? Math.round((marks.right / answered) * 100) : 0;
   const isPass = attempt.score >= 40;
   const toggle = (qid) => { if (!open.has(qid)) { setReading(qid); const verdict = analysis.rows.find(r => r.q.id === qid)?.verdict; const react = !engaged ? answerReaction(verdict, { celebrations: prefs.celebrations, reduced: prefs.reduced }) : null; setReaderReact(react ? { qid, ...react } : null); } setVisited(s => new Set(s).add(qid)); setOpen(s => { const n = new Set(s); if (n.has(qid)) n.delete(qid); else n.add(qid); return n; }); };
-  // Mobi's reaction follows the server's recap tone, the same table as the app; none in NTA mode.
+  // Mobi's reaction follows the server's recap tone, the same table as the app; none in NTA mode by design: an NTA paper is
+  // exam-day mode and its result reads like the scorecard, plain, so the reveal has no figure (b3 gate, 16 Oct).
   const reaction = mobiReaction(attempt, { celebrations: prefs.celebrations, hour });
   const isNtaAttempt = attempt.selectionMeta?.mode === 'nta';
   const candidates = repairCandidates(analysis, handled, attempt.answerReviews, repairOrder);

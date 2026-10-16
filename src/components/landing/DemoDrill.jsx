@@ -176,7 +176,6 @@ export function DemoDrill() {
           <div className="mm-drill__actions">
             <Link href="/signup" className="mm-btn mm-btn--onnight">
               Start practising free
-              <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
             </Link>
             <button type="button" className="mm-drill__replay" onClick={restart}>
               Try the five again
@@ -253,7 +252,6 @@ export function DemoDrill() {
               </p>
               <button type="button" className="mm-btn mm-btn--onnight" onClick={next}>
                 {index + 1 >= DRILL.length ? 'See your readout' : 'Next question'}
-                <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
               </button>
             </>
           ) : (

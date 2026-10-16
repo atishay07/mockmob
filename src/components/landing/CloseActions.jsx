@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Check } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
-import { Icon } from '@/components/ui/Icons';
 import { recoveryReleased } from '@/../data/capabilities';
 import '@/app/landing-close.css';
 
@@ -48,7 +47,6 @@ export function CloseActions() {
       <div className="mm-actions lp-close__actions">
         <Link href={isAuthenticated ? homeHref : signupHref} className="mm-btn mm-btn--primary">
           {isAuthenticated ? homeText : 'Sign up free'}
-          <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
         </Link>
         <a href="#try-practice" className="mm-btn mm-btn--secondary">Try a CUET question</a>
       </div>

@@ -15,13 +15,14 @@
 // one act in proportion to what was recalled (the app's runMood); one calm figure when nothing is due or Revise failed.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, ChevronLeft, LoaderCircle, RefreshCw, X } from 'lucide-react';
+import { Check, ChevronLeft, LoaderCircle, X } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { StatusIcon } from '@/components/ui/Glyph';
 import { apiPost } from '@/lib/fetcher';
 import MobiReact from '@/components/brand/MobiReact';
 import MomentMobi from '@/components/brand/MomentMobi';
-import { EmptyMobi, FailedMobi } from '@/components/ui/StateMobi';
+import { EmptyMobi } from '@/components/ui/StateMobi';
+import { ErrorState } from '@/components/ui/Skeleton';
 import { useMobiGate } from '@/lib/mobiHooks';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { reactNow } from '@/lib/mobiRation';
@@ -179,11 +180,8 @@ export default function ReviseRun() {
     return (
       <section className="pr rvs">
         {back}{head}
-        <div className="rvs-fail" role="alert">
-          <FailedMobi size={72} />
-          <p>{read.message || R.unavailable}</p>
-          <button type="button" className="rvs-next" onClick={read.retry}><RefreshCw size={16} strokeWidth={2.1} aria-hidden="true" />Try again</button>
-        </div>
+        {/* The shared failed state (as on Weak chapters, Review and Progress): one figure, one sentence, one Try again. */}
+        <ErrorState scene="unreachable" title="Revise did not load" message="Check your connection and try again. Your saved questions are safe." onRetry={read.retry} />
       </section>
     );
   }

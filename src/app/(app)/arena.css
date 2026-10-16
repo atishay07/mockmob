@@ -1347,6 +1347,8 @@ html[data-theme='light'] .app-shell .cmp {
 .app-shell .rd-ask { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 16px; border-radius: 14px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink); font: 700 14px var(--font-display); text-decoration: none; }
 .app-shell .rd-ask:hover { border-color: var(--a-select); }
 .app-shell .rd-ask svg { color: var(--a-accent-text); }
+/* Radar and Compass are two-column by design (the record beside a 340px side column of trend and subjects), so they take the
+   full arena width; the one-column pages (Today, Review, Progress, Rules) keep the centred 960px column (b3 gate, 16 Oct). */
 .app-shell .rd-cols { display: grid; gap: 22px; align-items: start; }
 @media (min-width: 1100px) { .app-shell .rd-cols { grid-template-columns: minmax(0, 1fr) 340px; gap: 32px; } .app-shell .rd-side { position: sticky; top: 84px; } }
 .app-shell .rd-main { min-width: 0; }
@@ -1755,3 +1757,9 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
 /* Today, done state: the recorded line is plain text with a check, not a box inside the card. */
 .na__done { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--a-ink-2); }
 .na__done svg { flex-shrink: 0; margin-top: 2px; color: var(--a-accent-text, currentColor); }
+
+/* Skip link: the first Tab stop on every arena page, off screen until focused. */
+.app-shell .arena-skip { position: fixed; top: 10px; left: 10px; z-index: 200; padding: 10px 16px; border-radius: 12px; background: var(--a-raised, #151c15); color: var(--a-ink, #f2f4ec); border: 1px solid var(--a-line-strong, #384736); font: 700 14px var(--font-display); text-decoration: none; transform: translateY(-160%); transition: transform 0.15s ease; }
+.app-shell .arena-skip:focus-visible { transform: none; outline: 2px solid var(--a-focus, var(--a-volt, #d2f000)); outline-offset: 2px; }
+.app-shell .app-main:focus { outline: none; }
+html[data-motion='reduced'] .app-shell .arena-skip { transition: none; }

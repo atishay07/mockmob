@@ -15,13 +15,13 @@
 // a choice made here, rests in it while the book is empty, and stands once beside a failed load. Nowhere else.
 import { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, ChevronLeft, Copy, Hourglass, LoaderCircle, MoreHorizontal, RefreshCw } from 'lucide-react';
+import { Check, ChevronLeft, Copy, Hourglass, LoaderCircle, MoreHorizontal } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { StatusIcon } from '@/components/ui/Glyph';
 import { useToast } from '@/components/ToastProvider';
 import { apiPost } from '@/lib/fetcher';
 import MomentMobi from '@/components/brand/MomentMobi';
-import { FailedMobi } from '@/components/ui/StateMobi';
+import { ErrorState } from '@/components/ui/Skeleton';
 import { screenAct } from '@/lib/mobiScreens';
 import { withNumbers } from '@/components/result/MarksLedger';
 import TrapsMeet from '@/components/result/TrapsMeet';
@@ -188,11 +188,8 @@ export default function RuleBook() {
     return (
       <section className="pr rb">
         {back}{head}
-        <div className="rb-fail" role="alert">
-          <FailedMobi size={72} />
-          <p>{read.message}</p>
-          <button type="button" className="rb-use" onClick={read.retry}><RefreshCw size={16} strokeWidth={2.1} aria-hidden="true" />Try again</button>
-        </div>
+        {/* The shared failed state (as on Weak chapters, Review and Progress): one figure, one sentence, one Try again. */}
+        <ErrorState scene="unreachable" title="Your rules did not load" message="Check your connection and try again. Your saved rules are safe." onRetry={read.retry} />
       </section>
     );
   }

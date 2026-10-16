@@ -226,6 +226,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   return (
     <div className={`view app-shell ${isTestRoute ? 'app-shell--test' : ''}`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      {/* Keyboard users reach the page before the fourteen navigation stops; hidden until it has focus. */}
+      <a href="#app-main" className="arena-skip">Skip to content</a>
       <aside className="arena-sidebar" aria-label="Arena navigation">
         <Logo />
         {!isTestRoute && <StartKey variant="sidebar" />}
@@ -305,7 +307,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       </header>
       )}
 
-      <main className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
+      <main id="app-main" tabIndex={-1} className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
         <div className="arena-backdrop" aria-hidden="true" />
         <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
           {children}

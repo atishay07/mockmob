@@ -218,7 +218,7 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                     <p className="ft__lede">{slide.lede || LEDE[slide.id] || slide.line}</p>
                     <p className="ft__summary">{slide.chip || slide.line}</p>
                     {slide.points?.length ? <ul className="ft__points">{slide.points.map(point => <li key={point}>{point}</li>)}</ul> : null}
-                    <Link href={slide.href} className="lp-link ft__cta">{slide.cta}<ArrowRight size={16} aria-hidden="true" /></Link>
+                    <Link href={slide.href} className="lp-link ft__cta">{slide.cta}</Link>
                   </div>
                 </article>
               </li>

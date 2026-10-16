@@ -25,11 +25,14 @@ export function HeroDockGate({ children }) {
     const cta = document.querySelector('.lp-hero .lp-cta');
     const demo = document.getElementById('try-practice');
     const elig = document.querySelector('#du-eligibility .du-teaser__pick');
+    // The interactive product panels (the feature tour's screen, the exam comparator) are content you read to the
+    // last row, so the bar steps aside while a real part of one holds the screen, as it does for the demo.
+    const panels = [...document.querySelectorAll('.lp .ft, .lp .lp-exam')];
     const show = (on) => { node.dataset.shown = on ? 'true' : 'false'; };
     if (typeof IntersectionObserver === 'undefined' || (!cta && !demo)) { show(true); return undefined; }
-    const state = { cta: Boolean(cta), demo: Boolean(demo), elig: false };
+    const state = { cta: Boolean(cta), demo: Boolean(demo), elig: false, panels: new Set() };
     const update = () => {
-      show(!state.cta && !state.demo && !state.elig);
+      show(!state.cta && !state.demo && !state.elig && state.panels.size === 0);
       if (state.elig && !state.cta && !state.demo) node.dataset.yield = 'elig';
       else delete node.dataset.yield;
     };
@@ -49,10 +52,15 @@ export function HeroDockGate({ children }) {
       state.elig = entries[entries.length - 1].isIntersecting;
       update();
     }, { rootMargin: `-${NAV}px 0px -${DOCK + ELIG_MIN_PX}px 0px`, threshold: 0 });
+    const panelWatch = new IntersectionObserver((entries) => {
+      for (const entry of entries) { if (entry.isIntersecting) state.panels.add(entry.target); else state.panels.delete(entry.target); }
+      update();
+    }, { rootMargin: `-${NAV + DEMO_MIN_PX}px 0px -${DOCK + DEMO_MIN_PX}px 0px`, threshold: 0 });
+    panels.forEach((panel) => panelWatch.observe(panel));
     if (cta) ctaWatch.observe(cta);
     if (demo) demoWatch.observe(demo);
     if (elig) eligWatch.observe(elig);
-    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); eligWatch.disconnect(); delete node.dataset.yield; };
+    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); eligWatch.disconnect(); panelWatch.disconnect(); delete node.dataset.yield; };
   }, []);
 
   return <div ref={gate} className="lp-dockgate" data-shown="false">{children}</div>;

@@ -157,8 +157,14 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
   const companion = error || !plan ? null
     : chosen ? { act: listening ? SCREEN_MOMENTS.today.timeChosen : 'idle', title: `${chosen} minutes it is.`, line: chosenLine(chosen) }
     : moment ? moment
-    : hello ? { act: SCREEN_MOMENTS.today.firstVisitToday, title: daypartHello(), line: recorded ? 'Tonight’s practice is already on your record.' : 'Tonight’s plan is set from your last sessions.' }
+    : hello ? { act: SCREEN_MOMENTS.today.firstVisitToday, title: daypartHello(), line: recorded ? 'Anything more tonight is extra.' : 'Tonight’s plan is set from your last sessions.' }
     : null;
+
+  // A plan that never loaded is the shared page-level failed state (as on Review, Progress and Weak chapters): one
+  // figure, one sentence, one Try again, standing on its own rather than boxed inside the plan card.
+  if (error && !plan) {
+    return <ErrorState scene="unreachable" title="Tonight’s plan did not load" message="Your saved sessions are safe in Review. Try again in a moment." onRetry={retry} />;
+  }
 
   // Tonight's plan leads the page (the install prompt sits at the foot of Today, below the fold).
   return (<>
@@ -168,17 +174,17 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
         <div className="na__plan">
           {plan && !error ? <h2 className="na__title na__title--hero">{recorded ? 'Tonight’s practice is recorded.' : heroTitle(plan, top, planned)}</h2> : null}
           <fieldset className="na__time">
-            <legend className="na__time-label">Tonight’s plan{planned ? <>, <MinutesRoll value={planned} /></> : null}</legend>
+            <legend className="na__time-label">{recorded ? 'More practice tonight' : 'Tonight’s plan'}{planned ? <>, <MinutesRoll value={planned} /></> : null}</legend>
             <SegmentedControl size="sm" label="Time for practice" value={minutes ?? plan?.minutes} busy={choosing} onChange={chooseTime} options={TIME_OPTIONS} />
           </fieldset>
           {error ? (
-            // One shared failed state: one Mobi, one sentence, one Try again (Review is one tap away in the menu).
-            <ErrorState mascot title={plan ? 'Your time was not saved' : 'Tonight’s plan did not load'} message={plan ? 'Your plan is unchanged. Try again, or pick the time later.' : 'Your saved sessions are safe in Review. Try again in a moment.'} onRetry={retry} />
+            // A time that did not save: one line in place, the plan below it unchanged.
+            <p className="na__reason" role="alert">Your time was not saved, so your plan is unchanged. <button type="button" className="pr-link" onClick={retry}>Try again</button></p>
           ) : !plan ? (
             <div className="na__skeleton" role="status" aria-label="Loading tonight’s plan"><i /><i /><i /></div>
           ) : (
             <>
-              {recorded ? <p className="na__done" role="status"><StatusIcon kind="success" size={18} /><span>{plan.tonight.reviewMinutes ? `Tonight’s plan still has ${plan.tonight.reviewMinutes} minutes of review. Open the session to see what you missed.` : 'Open the session to see what you missed, or practise more below.'}</span></p> : null}
+              {recorded ? <p className="na__done" role="status"><StatusIcon kind="success" size={18} /><span>{plan.tonight.reviewMinutes ? `Next, ${plan.tonight.reviewMinutes} minutes of review: open the session to see what you missed.` : 'Open the session to see what you missed, or practise more below.'}</span></p> : null}
               {plan.primary.kind === 'ordinary_practice' && top ? <p className="na__reason">{firstSentence(plan.primary.reason)}</p> : null}
               {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link>{step.purpose ? <p>{step.purpose}</p> : null}<small>About {step.estimatedMinutes} min{step.done ? `, ${step.done}` : ''}</small></div></li>)}</ol> : null}
               <div className="na__actions">
