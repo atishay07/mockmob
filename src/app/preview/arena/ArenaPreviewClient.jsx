@@ -262,6 +262,15 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     // The Rule book and Across your mocks (GET /api/me/rules), the rule for the next mock (GET and POST /api/me/playbook).
     // ?rules=few|new|down for the other states; &save=fail refuses the next choice; &across= as on the result page.
     // A choice is kept in memory for this tab only (window.__previewRule), after a short wait so the saving state shows.
+    // The facts behind the first-timed-mock line (GET /api/me/timed-mock). ?timed=none (default, sessions and no timed mock),
+    // has (a timed mock with a readable clock: the line is gone), older (a mock saved without a clock record), down (unreadable).
+    // ?data=empty is a student with no saved session.
+    if (url.pathname === '/api/me/timed-mock' && method === 'GET') {
+      const kind = fixture.get('timed') || 'none';
+      if (kind === 'down') return json({ error: 'unavailable' }, 503);
+      const sessions = state === 'empty' ? 0 : 6;
+      return json({ sessions, mocks: kind === 'has' || kind === 'older' ? 2 : 0, timedMocks: kind === 'has' ? 2 : 0, subject: state === 'empty' ? null : 'accountancy' });
+    }
     if (url.pathname === '/api/me/rules' && method === 'GET') {
       // ?data=empty is a student with no record: an empty rule book, not a failed read.
       const kind = state === 'empty' ? 'new' : fixture.get('rules') || 'ready';

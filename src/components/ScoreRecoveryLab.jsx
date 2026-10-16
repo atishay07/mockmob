@@ -33,6 +33,8 @@ import RuleCheck from './result/RuleCheck';
 import SameMistakesLater from './result/SameMistakesLater';
 import TrapsMeet from './result/TrapsMeet';
 import OlderPaper from './result/OlderPaper';
+import FirstTimedMock from './timed/FirstTimedMock';
+import { useFirstTimedMock } from './timed/useFirstTimedMock';
 import { cohortItems, inRepairOrder } from './result/labLoop';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -133,6 +135,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
   // An older paper (no clock record, or one from before the capture of 15 Oct): one line on what it cannot show and
   // one action (lab.older). Time and decisions then says nothing of its own, and Find is left out when it would be empty.
   const older = lab?.older?.line ? lab.older : null;
+  const firstTimed = useFirstTimedMock('result', { resultMode: attempt?.selectionMeta?.mode || attempt?.mode || null });
   const timeReady = timeRead?.state === 'ready';
   const findShown = !(older && swotShown && !replay && !timeReady);
   const repairNo = findShown ? 2 : 1;
@@ -163,7 +166,9 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
         {marks.wrong ? <p className="srl-rule">Each wrong answer costs 6: the 5 you didn’t get, plus the 1 penalty.</p> : null}
       </> : null}
 
-      <OlderPaper older={older} />
+      {/* A student with no timed mock yet gets one line and one key here, in place of the older-paper action (never two
+          prompts on a page). Gone once a timed mock has a readable clock. */}
+      {firstTimed ? <FirstTimedMock prompt={firstTimed} /> : <OlderPaper older={older} />}
 
       <ol className="srl-steps">
         {findShown ? <li className="srl-step">
