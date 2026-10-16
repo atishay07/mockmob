@@ -188,3 +188,48 @@ Read this whole file first, then CTO-LOOP.md, APP-OWNER-LEDGER-2026-10-16.md, an
 - **Next session, batch 3:** merge origin/main (4db57fc5) into deploy/batch-1016c, then run the full gate.
 - **Next session, landing:** check the WIP against the critic-6 list (dead phone links in the tour, one consistent sample student, the repeated changed-answer moment, the desktop type scale, honest Free pricing copy, product names), then run a critic round.
 - **Dev servers** may still hold RAM: ports 3122 (landing), 3180 (polish) and others. Stop the ones you do not need.
+
+## 9. Evening update (16 Oct about 11:20 pm, session 604ced81, after the crashed session cc0bf1af and two restarts)
+
+### Live now
+- **mockmob.in = main 8a0141ba (batches 1-3).** Vercel READY, 0 runtime errors.
+  - Batch 3 adds: slice 5 cohort time (its lines stay hidden until enough timed students exist), Mobi moments on the website, Progress, Review and Weak chapters improved, the NTA index signature fix, and the homepage bank line.
+- **Production DB, applied tonight under the standing grant** (STATUS entries on branch db/status-1016e: 4a7c204c, 63bfd822, ea40b6ad):
+  - submit_rival_battle (was missing; dry-run proven in a rolled-back transaction);
+  - mm_leaderboard();
+  - least privilege for the browser roles;
+  - pinned search_path on 17 functions;
+  - the payments policy in initplan form;
+  - the NTA index rebuilt (653 rows, **0 signature failures**, verified with scripts/nta-engine-run.mjs).
+- **English NTA** refuses a full paper (34 too few high-score questions). That is a content gap, unchanged since 13 Oct.
+
+### In flight at handoff (check each with its journal; resume with Workflow({scriptPath, resumeFromRunId}) in the same session, otherwise relaunch the missing agents)
+- **wave-0935pm (wf_967ff020-5e0)**, script in the session's workflows/scripts:
+  - **Batch 4** on wt-batch4b, deploy/batch-1016d (merge e1b868ff passed all suites and the build). The critic found 1 blocker: the weekday chips overflow on phones. The fixer, then the verifier, were running. After a pass: apply its production migrations from the merge report (webhook_event_lease, study_weekdays, ai_reply_report, funnel_product_steps, renamed), then push.
+  - **Web motion/UX + social** on wt-webux2, web/ux-social-1016. WP-B 1485a42e and WP-C 3cf9c751 are done. WP-A (motion) and the Mob server and website were running, then the wux gate.
+  - **App v12 walk on the emulator rig** (tmp/rig-1016e/RIG-READY.md), then fixes, the re-walk and the v12 release. NOTE: this script also runs app UX + social packets after the release, which duplicates app-ux-social-now. Skip or stop that tail.
+- **app-ux-social-now (wf_0fd124eb-6d5)** on wt-appux2, ui/ux-social-1016 (from ui/owner-1016). AP-1, AP-2 and AP-3 Opus packets plus the Mob app side, then integrate. AP-1 and AP-3 handovers exist in the brain.
+- **APK v12 preview** (sent to the owner): mockmob-next/tmp/apk/mockmob-v12-preview-f5d848bf.zip, from ui/owner-1016 f5d848bf. Debug-signed (no key.properties), and **not yet walked**.
+- **Landing**, wt-land2 web/land2-1015 at 326a1c74: **round 9 scored 80**, below round 8's 84, so it is NOT shipped.
+  - The good part: the unlimited-mocks message is at heading level, there is no "never repeats", and the counts are server-rendered.
+  - Next: read the critic r9 defects in the recover-0820pm journal (wf_432183b4-4cb), fix, re-score to 85 or more, then ship through a gate.
+
+### Owner decisions pending
+- **The Mob social spec** (design-decisions/pass-1016e/SOCIAL-SPEC.md): decisions D-S1 to D-S4. No credits or money in social without his OK.
+- **Landing 41-subjects figure:** Hindi has 10 questions and Sanskrit 8. Consider dropping the subject count.
+- **Feed-keys fix:** held until the new app ships.
+- **Credit fast-path rewrite:** dropped.
+- **Optional hardening, his to switch:** PERSISTENT_LIMITS_ENABLED=true in Vercel; Supabase leaked-password protection.
+- **Local env files:** 52 .env.local files point at production; switching them to staging is his call (docs/brain/LOCAL-ENV-STAGING.md on fix/health-1016).
+- **His steps tonight (21:00 reminder):** the Razorpay TEST plan ID and keys, SUPABASE_DB_URL plus pg tools, the Play account and upload key, and one fresh mock plus one repair to prove Repair v4 live.
+
+### Higgsfield (AI video), owner-funded USD 15. Include this in context whenever he asks
+- **Read:** HIGGSFIELD-IDEAS-2026-10-16.md (the direction and the iteration loop), HIGGSFIELD-PLAN-2026-10-16.md (budget, models, rules), HIGGSFIELD-RESEARCH-2026-10-16.md (verified prices: the screenshot's "from" prices are 480p; Seedance 2.5 1080p is about USD 0.80/s; Wan 3.0 is primary; failed or moderated runs are free, rejected renders are charged; call /estimate first).
+- **Owner direction:** use it for the **landing page (scroll storytelling) and app onboarding**, where "proper animation" beats SVG and code. Not for subject objects.
+- **Round 1 of idea agents is PENDING** (5-7 Haiku and Sonnet agents with the lenses listed in the ideas file, then one synthesizer). It was not run at 11:15 pm because usage was at 87%. Run it after the reset.
+- **Spend gate:** free storyboard stills first (GPT image account), the owner picks, then Wan drafts. Ledger in tmp/higgsfield/LEDGER.csv. The key goes in env only.
+
+### Lessons tonight (memory: agent-swarm-resource-hygiene, time-and-estimates-format, usp-unlimited-mocks)
+- The 5-hour limit killed 28 agents at about 6:50 pm. Leaked Gradle daemons and headless Chrome later crashed the app (0.4 GB free). Reap leftovers, put a RAM rule in every prompt, and check usage before each wave.
+- **Push the moment a verifier passes.** Batch 3 sat ready for 45 minutes.
+- Give relative times and size them for parallel agents. Never repeat an estimate without new evidence.
