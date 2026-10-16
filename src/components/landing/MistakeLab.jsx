@@ -279,7 +279,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
             <div className="ml__move">
               <h3>Try 10 questions. {LEDGER.doLine}</h3>
               <p className="ml__why">Why this: {LEDGER.headline}</p>
-              <p className="ml__where">Shown in Today, Radar, PrepOS and Results.</p>
+              <p className="ml__where">Shown on Today, in your results and in your weak chapters.</p>
             </div>
             <p className="ml__note">Each mock you finish makes the next move sharper.</p>
             <SessionStrip kind="move" />

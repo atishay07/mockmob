@@ -204,15 +204,9 @@ export default function PipGuide() {
       const pending=new Map();
       let activeId='',rendered='',previousY=scrollY,direction=1,visible=false,geometry=[],dirty=true,mainEnd=Infinity;
       function measure() {
-        const wide=innerWidth>=1100;
-        for (const s of stations) {
-          s.seat.style.transform='none';
-          // The close seat is his last stop: he lands on it, standing over the close's own key, not in a lane.
-          if (wide && s.id!=='close') {
-            const r=s.seat.getBoundingClientRect();
-            s.seat.style.transform=`translateX(${innerWidth-174-r.left}px)`;
-          }
-        }
+        // No lane: every seat is where the page put it (the sample card's top edge, the close's own seat), and
+        // he flies only between seats he can stand on.
+        for (const s of stations) s.seat.style.transform='none';
         geometry=stations.map(s=>{const r=s.art.getBoundingClientRect();return {x:r.left,y:r.top+scrollY,w:r.width,h:r.height};});
         mainEnd=(document.querySelector('main')?.getBoundingClientRect().bottom || innerHeight)+scrollY;
         dirty=false;
@@ -229,16 +223,17 @@ export default function PipGuide() {
         if(next!==index){index=next;mood=null;reactionUntil=0;}
         const s=stations[index],g=geometry[index],y=g.y-scrollY;
         const onScreen=y>=72 && y+g.h<=innerHeight-100;
-        const target={x:g.x,y:wide?clamp(y,100,Math.max(100,innerHeight-g.h-110)):y,w:g.w,h:g.h};
-        // Phone frames follow the document exactly; only an 8px local arrival eases.
-        // Easing the viewport coordinate itself would trail fast scroll over controls.
-        if(!wide && (!current || current.station!==s.id)) current={...target,arrival:direction*8,station:s.id};
+        // He stands on his seat, never on a clamped point between seats: the target is the seat itself.
+        const target={x:g.x,y,w:g.w,h:g.h};
+        // Frames follow the document exactly at every width (he rides his seat as it scrolls); only an 8px local
+        // arrival eases. Easing the viewport coordinate itself would trail fast scroll and leave him off his seat.
+        if(!current || current.station!==s.id) current={...target,arrival:direction*8,station:s.id};
         if(!current) current={...target,station:s.id};
         const elapsed=clamp(now-lastTime||16,1,40);lastTime=now;
         const slow=process.env.NODE_ENV!=='production'?Math.max(1,window.__pipSlow||1):1;
         const alpha=1-Math.exp(-elapsed/(65*slow));
         for(const key of ['x','y','w','h']) current[key]+=(target[key]-current[key])*alpha;
-        if(!wide){current.arrival=(current.arrival||0)*(1-alpha);current.x=target.x;current.y=target.y+current.arrival;}
+        current.arrival=(current.arrival||0)*(1-alpha);current.x=target.x;current.y=target.y+current.arrival;
         current.station=s.id;
         const settled=Math.abs(current.y-target.y)<.5 && Math.abs(current.x-target.x)<.5;
         if(mood && now>=reactionUntil) mood=null;
@@ -251,8 +246,10 @@ export default function PipGuide() {
         // He no longer rides the right-hand lane down the whole page: on wide screens he shows only while the
         // seat he is headed for is in the window (the sample card at the top, then the close), and stays out of
         // every section in between.
-        const near=y<innerHeight && y+g.h>0;
-        const shown=(wide?near:onScreen) && scrollY < mainEnd-140;
+        // On wide screens he shows only once at least 60% of that seat is in the window, so he is never parked
+        // over the section before it (the FAQ's last line, when the close's key is still below the fold).
+        const inside=(Math.min(y+g.h,innerHeight)-Math.max(y,0))/Math.max(1,g.h);
+        const shown=(wide?inside>=.6:onScreen) && scrollY < mainEnd-140;
         if(activeId!==s.id||visible!==shown){root.dataset.pipPerch=s.id;root.dataset.pipPerchVisible=String(shown);activeId=s.id;visible=shown;window.dispatchEvent(new CustomEvent('pip:presence',{detail:{station:s.id,visible:shown}}));}
         // Small scroll corrections should not keep swapping the face. Only a
         // substantial journey between stations gets the neutral travelling pose.

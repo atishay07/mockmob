@@ -81,7 +81,7 @@ html[data-theme='light'] .lp .lp-stage .mm-screen { border-color: rgb(16 24 12 /
 .lp-exam__meta > span:last-child { display: flex; align-items: center; gap: .6rem; }
 .lp-exam__meta i { width: 1px; height: 12px; background: var(--exam-line); }
 .lp-exam__number { margin: 1.75rem 0 .65rem; font-size: .8125rem; font-weight: 600; }
-.lp-exam__number span { margin-left: .5rem; font-weight: 400; color: var(--exam-muted); font-size: .6875rem; }
+.lp-exam__number span { margin-left: .5rem; font-weight: 400; color: var(--exam-muted); font-size: .75rem; }
 .lp-exam__question h3 { font-family: var(--font-display); font-size: clamp(1.125rem, 1.8vw, 1.5rem); line-height: 1.4; margin: 0 0 1.5rem; min-height: 2.8em; font-weight: 600; }
 .lp-exam__options { display: grid; gap: .65rem; padding: 0; margin: 0; border: 0; }
 .lp-exam__options label { position: relative; display: flex; align-items: center; gap: .8rem; padding: .6rem .8rem; min-height: 48px; border: 1px solid var(--exam-line); border-radius: .625rem; background: var(--exam-panel); cursor: pointer; font-size: .875rem; }
@@ -109,10 +109,10 @@ button.lp-exam__num::before { content: ''; position: absolute; inset: -6px -3px;
 .lp-exam__num[aria-current] { outline: 2px solid #a9bd91; outline-offset: 2px; }
 button.lp-exam__num:focus-visible { outline: 2px solid #d2f000; outline-offset: 2px; }
 button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
-.lp-exam__palette-note { margin: 0; font-size: .6875rem; color: var(--exam-muted); }
+.lp-exam__palette-note { margin: 0; font-size: .75rem; color: var(--exam-muted); }
 .lp-exam__legend-title { font-size: .8125rem; margin: 1.25rem 0 .6rem; font-weight: 600; }
 .lp-exam__legend { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem .5rem; list-style: none; padding: 0; margin: 0; }
-.lp-exam__legend li { display: flex; align-items: center; gap: .4rem; font-size: .625rem; line-height: 1.4; }
+.lp-exam__legend li { display: flex; align-items: center; gap: .4rem; font-size: .75rem; line-height: 1.4; }
 .lp-exam__legend li:last-child { grid-column: 1 / -1; }
 .lp-exam__legend li > span { position: relative; display: grid; place-items: center; flex-shrink: 0; width: 19px; height: 19px; border: 1px solid var(--exam-line); border-radius: 3px; }
 .lp-exam [data-state='answered'] { background: #d2f000; color: #142000; border-color: #d2f000; }
@@ -169,7 +169,7 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp-exam__clock { margin-left: auto; font-size: .75rem; }
   .lp-exam__question h3 { min-height: 3em; }
   .lp-exam__actions { gap: .5rem; padding-top: 1.3rem; }
-  .lp-exam__actions button { flex: 1 1 auto; font-size: .6875rem; }
+  .lp-exam__actions button { flex: 1 1 auto; font-size: .75rem; }
   .lp-exam__actions .lp-exam__save { flex-basis: 100%; }
   .lp-exam__foot { padding: .75rem 1rem; align-items: start; flex-direction: column; gap: .3rem; }
   /* Phones keep the sentence and See Pro on one row: the key sizes to its words, the sentence takes the rest. */

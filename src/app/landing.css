@@ -200,7 +200,7 @@ body:has(.mm.lp) {
    so the page never settles on half-faded content that is still staggering in (Reveal.jsx, data-snap). */
 .lp .rv[data-snap="true"],
 .lp .rv[data-snap="true"] .rv-item {
-  transition-duration: 200ms;
+  transition-duration: 0.2s;
   transition-delay: 0s;
 }
 
@@ -428,8 +428,14 @@ body:has(.mm.lp) {
 .lp-stage__card {
   position: relative;
 }
+/* Desktop keeps the reason's room reserved, so answering never moves the question (the card's foot is pinned
+   level with the hero's keys and it would otherwise grow upward). On phones the card grows downward into the page
+   instead: no empty band waits under the hint before you answer. */
 .lp-stage .mm-drill__foot {
   min-height: 8.75rem;
+}
+@media (max-width: 959px) {
+  .lp-stage .mm-drill__foot { min-height: 0; }
 }
 
 /* ---------- Marquee ---------- */
@@ -686,30 +692,19 @@ body:has(.mm.lp) {
   }
 }
 
-/* Resting-state preview of the explanation the drill reveals, so the reserved
-   space reads as intent, not a gap. */
-.lp-stage .mm-drill__ghost {
-  display: grid;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-  padding: 0.75rem 0 0;
-  border-top: 1px solid var(--slate-line);
-  font-size: 0.8125rem;
-  color: var(--chalk-2);
-}
-.lp-stage .mm-drill__ghost span {
-  font-size: 0.8125rem;
-  font-weight: 600;
-}
-.lp-stage .mm-drill__ghost i {
+/* The finished sample: each missed chapter once, its topics in grey under it (DemoDrill groupMissed). */
+.lp-stage .mm-drill__readout-topic {
   display: block;
-  height: 0.5rem;
-  border-radius: 4px;
-  background: linear-gradient(90deg, var(--slate-3), rgba(34, 43, 33, 0.35));
+  margin-top: 0.125rem;
+  color: var(--chalk-2);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
-.lp-stage .mm-drill__ghost i:last-child {
-  width: 62%;
-}
+/* No Mobi inside the sample card's result. On desktop he already stands on the card's top edge, and on phones the
+   card scrolls up to the bar while you answer, where his feet peeked out under the translucent bar. The phone
+   dock's Mobi reacts to your answers instead. */
+.lp-stage .pip-drill-result { display: none; }
 
 /* Step micro-visuals */
 

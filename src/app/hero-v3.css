@@ -29,7 +29,21 @@
   .mm.lp .lp-hero--v3 .lp-cta { margin-top: 2rem; }
 }
 @media (min-width: 960px) {
-  .mm.lp .lp-hero--v3 .lp-hero__grid { gap: clamp(2.5rem, 5vw, 5rem); }
+  /* The copy and the card end on one line: the card's foot sits level with the keys' edge, Mobi stands on the
+     card beside the headline, and the small print runs on under the keys (row 2). Nothing leaves an empty band. */
+  .mm.lp .lp-hero--v3 .lp-hero__grid {
+    grid-template-areas: 'copy stage' 'fine .';
+    column-gap: clamp(2.5rem, 5vw, 5rem);
+    row-gap: 0;
+    align-items: end;
+  }
+  .mm.lp .lp-hero--v3 .lp-hero__copy { grid-area: copy; }
+  .mm.lp .lp-hero--v3 .lp-stage { grid-area: stage; }
+  .mm.lp .lp-hero--v3 .lp-hero__fine { grid-area: fine; align-self: start; }
+}
+.mm.lp .lp-hero--v3 .lp-hero__fine { display: grid; justify-items: start; min-width: 0; }
+@media (max-width: 959px) {
+  .mm.lp .lp-hero--v3 .lp-hero__fine { margin-top: -2.25rem; }
 }
 
 /* The copy and the sample are there at first paint: no rise, no fade. */
@@ -297,6 +311,9 @@ html[data-theme='light'] .mm.lp .lp-hero--v3 .lp-key--go { box-shadow: 0 var(--b
     white-space: nowrap;
   }
   html[data-pip-perch='hero-card'] .pip-guide-flyer { visibility: hidden; }
+  /* Under the bar (DemoDrill marks it): he fades out rather than showing his feet below the bar. */
+  .mm.lp .lp-hero--v3 .lp-stage__card > .pip-seat { transition: opacity 150ms ease-out; }
+  .mm.lp .lp-hero--v3 .lp-stage__card > .pip-seat[data-under='true'] { opacity: 0; }
 }
 /* He steps onto the card once, as the page opens (the same squash, hop and wave as his arrivals elsewhere,
    brand-pip.css); reduced motion (either switch) gets him already standing there. */

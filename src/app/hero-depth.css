@@ -59,8 +59,13 @@
   .lp-proof a:hover b { text-decoration: underline; text-decoration-color: var(--accent-line); text-underline-offset: 4px; }
 }
 @media (min-width: 900px) {
-  .lp-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; max-width: 52rem; }
-  .lp-proof a { max-width: 40ch; font-size: 0.9375rem; }
+  .lp-proof { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+  .lp-proof a { max-width: none; font-size: 0.9375rem; }
+}
+/* Desktop: the two columns end together (the sample card's foot on the copy's last line, see hero-v3.css), so the
+   facts' hairline follows close under both and runs the full content column, peeking above the fold at 1440x900. */
+@media (min-width: 960px) {
+  .lp-proof { margin-top: 1.75rem; }
 }
 
 /* ---------- 3. Statement: words light up as the reader scrolls through ---------- */
@@ -85,7 +90,11 @@
     }
   }
 }
-@keyframes lp-word { from { opacity: 0.18; } to { opacity: 1; } }
+/* The unlit words stay readable (at least 3:1 against the page in both themes), so a reader who stops mid-scroll
+   still reads the whole sentence; the scrub lights them the rest of the way. */
+.lp-statement { --lp-word-dim: 0.42; }
+[data-theme='light'] .lp-statement { --lp-word-dim: 0.52; }
+@keyframes lp-word { from { opacity: var(--lp-word-dim, 0.42); } to { opacity: 1; } }
 
 /* ---------- 4. Phones: the statement holds the screen while it plays ----------
    The landing is phone-first, so on a phone the statement is a short scroll story, like the desktop's pinned

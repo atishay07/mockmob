@@ -90,10 +90,26 @@
   .mm.lp .lp-shelf__name { padding-top: var(--sp-4); font-size: var(--t-lede); }
   .mm.lp .lp-shelf__fact { font-size: var(--t-label); }
 }
-@media (max-width: 760px) {
-  .mm.lp .lp-shelf__row { gap: 1.5rem 1rem; }
-  .mm.lp .lp-shelf__link { padding-inline: 0; }
-  .mm.lp .lp-shelf__float { margin-bottom: calc((var(--base, 0.9) - 1) * var(--shelf-obj)); }
+/* Phones and tablets: the lineup reads as data, not tiles. Each paper is one row on its own hairline floor: the
+   object standing at the left, the paper's name, and its real question count set right in tabular figures, so
+   the four counts line up down one edge. The rows keep the held scene's rise (hero-depth.css): each object lifts
+   onto its floor as its share of the statement lights. */
+@media (max-width: 959px) {
+  .mm.lp .lp-statement .lp-shelf { --shelf-obj: 4.5rem; }
+  .mm.lp .lp-shelf__row { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .mm.lp .lp-shelf__item { align-self: stretch; }
+  .mm.lp .lp-shelf__item:nth-child(3) { margin-top: 0; }
+  .mm.lp .lp-shelf__link {
+    grid-template-columns: var(--shelf-obj) minmax(0, 1fr) auto;
+    align-items: end;
+    column-gap: var(--sp-4, 1rem);
+    padding: 0.375rem 0 0.75rem;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .mm.lp .lp-shelf__item:first-child .lp-shelf__link { border-top: 1px solid var(--line-strong); }
+  .mm.lp .lp-shelf__float { grid-row: 1; margin-bottom: calc((var(--base, 0.9) - 1) * var(--shelf-obj) - 0.75rem + 2px); }
+  .mm.lp .lp-shelf__name { grid-row: 1; padding-top: 0; border-top: 0; font-size: var(--t-body); white-space: normal; }
+  .mm.lp .lp-shelf__fact { grid-row: 1; min-height: 0; margin-top: 0; text-align: right; font-size: var(--t-label, 0.875rem); }
 }
 .mm.lp .lp-shelf__link:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; border-radius: 4px; }
 .mm.lp .lp-shelf__link:focus-visible .lp-shelf__float { transform: translateY(-6px); }

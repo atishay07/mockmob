@@ -56,7 +56,8 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 .ts__check svg { flex: none; }
 .ts__steps p { margin: 0; font-size: .75rem; line-height: 1.35; color: var(--ts-ink2); }
 .ts__steps b { display: block; font-size: .8125rem; color: var(--ts-ink); }
-.ts__cta { align-self: flex-start; display: inline-flex; align-items: center; margin: 0; padding: .45rem .75rem; border-radius: 8px; background: var(--ts-volt); color: #0b1000; font: 700 .8125rem var(--font-body); }
+/* Keys inside the depicted screens are outlines, not filled volt keys: they are part of the picture, not controls. */
+.ts__cta { align-self: flex-start; display: inline-flex; align-items: center; margin: 0; padding: .45rem .75rem; border-radius: 8px; background: transparent; box-shadow: inset 0 0 0 1.5px var(--ts-volt); color: var(--ts-ink); font: 700 .8125rem var(--font-body); }
 
 /* 3. Mistake Replay */
 .ts__timeline { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: .4rem; padding: .35rem .2rem .1rem; }
@@ -122,7 +123,7 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 .ts__bubble--ai .ts__ai-head b { color: var(--ts-ink); font-size: .8125rem; }
 .ts__bubble--ai .ts__replies { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }
 .ts__replies span { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .65rem; border-radius: 99px; border: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink); }
-.ts__replies span[data-main='true'] { background: var(--ts-volt); border-color: var(--ts-volt); color: #0b1000; }
+.ts__replies span[data-main='true'] { border-color: var(--ts-volt); border-width: 1.5px; color: var(--ts-ink); }
 
 /* 6. Compass */
 .ts__compass { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }

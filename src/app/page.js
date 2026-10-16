@@ -58,7 +58,7 @@ const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh 
   'Unlimited Quick Practice and Full Mock',
   'Compass Pro: your practice mapped to your DU shortlist',
   'Smart Practice and NTA Mode',
-  'Full Radar: every ranked chapter, pace and changed answers',
+  'Every chapter ranked, with pace and changed answers',
   'Unlimited saved questions',
 ];
 
@@ -111,12 +111,12 @@ const TOUR = [
   { id: 'replay', label: 'Replay', line: 'See where the marks actually went', title: 'Replay a mock, answer by answer.',
     body: 'Every answer you changed, every question that ate your time, every skip, in the order it happened. Then turn the costly ones into a short drill.',
     points: ['An answer-by-answer timeline', 'Save any question to revisit later'], chip: 'Then turn the costly questions into a short drill.', href: '/review', cta: 'Review your mistakes' },
-  { id: 'radar', label: 'Radar', line: 'The chapter to fix first', title: 'Know which chapter to fix first.',
-    body: 'A score is just a number. Radar traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
-    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Your weakest chapters, free after every mock.', href: '/analytics', cta: 'Explore Radar' },
-  { id: 'prepos', label: 'PrepOS', line: 'Ask what to do tonight', title: 'Ask what to do tonight. Get one clear step.',
-    body: 'PrepOS reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in Radar.',
-    points: ['Questions about your own record are free', 'AI credits each month: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'Questions about your own record are free.', href: '/mentor', cta: 'Meet PrepOS' },
+  { id: 'radar', label: 'Weak chapters', line: 'The chapter to fix first', title: 'Know which chapter to fix first.',
+    body: 'A score is just a number. MockMob traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
+    points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Your weakest chapters, free after every mock.', href: '/analytics', cta: 'See your weak chapters' },
+  { id: 'prepos', label: 'Ask MockMob', line: 'Ask what to do tonight', title: 'Ask what to do tonight. Get one clear step.',
+    body: 'Ask MockMob reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in your weak chapters.',
+    points: ['Questions about your own record are free', 'AI credits each month: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'Questions about your own record are free.', href: '/mentor', cta: 'Ask about your record' },
   { id: 'compass', label: 'DU Compass', line: 'Your shortlist against real DU cutoffs', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
     points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Cutoffs from DU’s published Round I to III lists.', href: '/admission-compass', cta: 'Open Compass' },
@@ -125,14 +125,14 @@ const TOUR = [
     points: ['Free to use', 'Compare combinations side by side'], chip: 'Compare combinations side by side, free.', href: '/cuet-subject-combination', cta: 'Plan my subjects' },
   { id: 'rival', label: 'Benchmarks', line: 'Beat a target score under the clock', title: 'Beat the score you’re aiming for.',
     body: 'Run a short timed set against a fixed target for accuracy and pace, at daily, college or DU level. See whether you hold the standard with the clock running.',
-    points: ['The daily benchmark is free', 'Every mock earns XP for accuracy and speed on the leaderboard'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See the leaderboard' },
+    points: ['The daily benchmark is free', 'Every mock earns leaderboard points for accuracy and speed'], chip: 'The daily benchmark is free.', href: '/leaderboard', cta: 'See the leaderboard' },
 ];
 
 const faqs = [
   { question: 'Can I try it before signing up?', answer: 'Yes. Pick your subject at the top of this page and answer five CUET-style questions, each with the reason behind the answer. No account needed.' },
   { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. DU eligibility and published cutoffs sit alongside.' },
   { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
-  { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `Monthly Pro at ₹${OFFER.monthly.rupees} a month is opening soon. Until then, ₹${OFFER.oneTime.rupees} once covers access through ${OFFER.oneTime.expires}, with no auto-renewal. Whoever pays now keeps the full term.` },
+  { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `₹${OFFER.oneTime.rupees} once, for access through ${OFFER.oneTime.expires}. It does not renew and nothing is charged again.` },
   { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. The exam pattern and the DU rules you see here come from what NTA and DU publish.' },
 ];
 
@@ -168,6 +168,10 @@ export default function LandingPage() {
               <div className="lp-cta">
                 <HeroKeys />
               </div>
+            </div>
+            {/* The small print is its own block under the copy, so on desktop the sample card's foot lines up with
+                the keys (hero-v3.css) and the small print runs on beneath both. */}
+            <div className="lp-hero__fine">
               <p className="lp-terms">
                 <b>Free to start.</b>{' '}
                 {OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month, and you can cancel anytime.` : `Pro is ₹${OFFER.oneTime.rupees} once, through ${OFFER.oneTime.expires}, with no auto-renewal.`}
@@ -193,7 +197,7 @@ export default function LandingPage() {
               73 DU programmes belong to the DU section, so neither is repeated here. */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="What MockMob gives you">
-              <a href="#exam-experience"><b>Two exam screens</b>, MockMob or NTA style. Your pick.</a>
+              <a href="#exam-experience"><b>Two exam screens</b>: MockMob or NTA style.</a>
               <a href="#your-prep"><b>One full CUET mock</b>: 50 questions in 60 minutes.</a>
             </nav>
           </div>
@@ -351,7 +355,7 @@ export default function LandingPage() {
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
               <h2 className="lp-h2"><span className="lp-h2__name">Start free.</span> <span className="lp-h2__rest">Go Pro when you want more room.</span></h2>
-              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `Monthly Pro, ₹${OFFER.monthly.rupees} a month, opens soon. Pay ₹${OFFER.oneTime.rupees} once now and keep access through ${OFFER.oneTime.expires}.`}</p>
+              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `Free keeps practice and your progress open. Pro is one payment of ₹${OFFER.oneTime.rupees}, not a subscription.`}</p>
             </div>
             {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. */}
             <div className="lp-plans">

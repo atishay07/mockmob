@@ -38,7 +38,9 @@ const reducedNow = () => {
 // a new gesture in the way out is left alone, so the page carries on. A fling or a fast wheel that
 // carries the page into a story from outside stops at its edge, on the first step coming from above
 // and on the last coming from below; that gesture is then spent. Escape lets the page scroll freely
-// through the story until it leaves it.
+// through the story until it leaves it. A wheel that keeps spinning is not a gesture to swallow: once one
+// unbroken wheel stream has pushed more than SPIN_OUT screens past the step it was given, the story lets go
+// (as Escape does) and the page scrolls on through the remaining steps, which the beats show as they pass.
 const QUIET_MS = 200;
 const STEP_MS = 440;
 const CALM_MS = 160;
@@ -46,6 +48,7 @@ const WHEEL_MIN = 12;
 const SWIPE_MIN = 28;
 const FLICK_MIN = 12;
 const FLING_MS = 2500;
+const SPIN_OUT = 1.5;
 const KEYS = { ArrowDown: 1, PageDown: 1, ' ': 1, Spacebar: 1, ArrowUp: -1, PageUp: -1 };
 const easeOut = (t) => 1 - (1 - t) ** 3;
 // When the input happened, not when the handler ran: a busy main thread delivers a steady trackpad tail in
@@ -374,7 +377,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       put(at.top + keep);
       // Whatever carried the page in (a fling, a wheel's inertia) ends here, not a frame at a time.
       hushMomentum();
-      if (input.kind === 'wheel') wheel = { dir, last: t, sum: 0, own: true, done: true };
+      if (input.kind === 'wheel') wheel = { dir, last: t, sum: 0, spent: 0, own: true, done: true };
       if (touch) Object.assign(touch, { decided: true, dir, own: true, done: true });
       if (input.kind === 'key') pressed = { own: true };
     };
@@ -386,14 +389,36 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       if (!wheel || t - wheel.last > QUIET_MS || dir !== wheel.dir) {
         const own = claims(dir, event.target);
         // Begun while a step still glides: more of the same push, swallowed whole (never a queued step).
-        wheel = { dir, last: t, sum: 0, own, done: own && t < busyUntil };
+        wheel = { dir, last: t, sum: 0, spent: 0, own, done: own && t < busyUntil };
         if (!own) { keep = null; thawMomentum(); }
       }
       wheel.last = t;
+      // A stream that began on a screen scrolling on its own (the Lab's Repair on a phone) belongs to that screen
+      // until the screen has reached its end that way. The screen is contained, so from then on the page would
+      // never get the rest of the stream: the story takes it over as a new gesture (one step, then SPIN_OUT).
+      if (!wheel.own && !released && event.target && stage.contains(event.target) && !scrollsInside(event.target, stage, dir) && claims(dir, event.target)) {
+        Object.assign(wheel, { sum: 0, spent: 0, own: true, done: t < busyUntil });
+      }
       if (!wheel.own) return;
+      const delta = Math.abs(event.deltaY) * (event.deltaMode ? 40 : 1);
+      // Still spinning long after its step: the reader wants past the story, not one step of it. Let go.
+      if (wheel.done) wheel.spent = (wheel.spent || 0) + delta;
+      if (wheel.done && wheel.spent > SPIN_OUT * window.innerHeight) {
+        wheel.own = false;
+        released = true;
+        // Screens that scroll on their own stop containing the stream, so it reaches the page.
+        if (rootRef.current) rootRef.current.dataset.released = 'true';
+        keep = null;
+        cancelAnimationFrame(glide);
+        glide = 0;
+        steering.current = false;
+        busyUntil = 0;
+        thawMomentum();
+        return;
+      }
       if (event.cancelable) event.preventDefault();
       keptAt = now();
-      wheel.sum += Math.abs(event.deltaY) * (event.deltaMode ? 40 : 1);
+      wheel.sum += delta;
       if (!wheel.done && t >= busyUntil && wheel.sum >= WHEEL_MIN) { wheel.done = true; step(dir); }
     };
 
@@ -466,7 +491,7 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
       const at = locate();
       if (!at) { prevS = null; return; }
       const ours = selfY !== null && Math.abs(window.scrollY - selfY) < 1.5;
-      if (released && !holding(at)) released = false;
+      if (released && !holding(at)) { released = false; if (rootRef.current) delete rootRef.current.dataset.released; }
       // Momentum the page could not cancel, arriving mid-glide: end it (the glide's next frame puts the page back).
       if (!ours && steering.current && input.jump < keptSince) hushMomentum();
       if (!ours && !steering.current && !released) {

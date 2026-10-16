@@ -17,6 +17,22 @@ import { recordSample } from './sampleRecord.mjs';
 const KEYS = ['A', 'B', 'C', 'D'];
 const FEATURED = SAMPLE_SUBJECTS.filter((s) => s.featured);
 const MORE = SAMPLE_SUBJECTS.filter((s) => !s.featured);
+// The finished screen lists each missed chapter once: 'Partnership: admission of a partner' and 'Partnership:
+// new profit-sharing ratio' are one chapter with two topics, shown as the chapter with its topics in grey.
+function groupMissed(list) {
+  const groups = new Map();
+  for (const label of list) {
+    const cut = label.indexOf(': ');
+    const chapter = cut > 0 ? label.slice(0, cut) : label;
+    const topic = cut > 0 ? label.slice(cut + 2) : '';
+    if (!groups.has(chapter)) groups.set(chapter, []);
+    if (topic && !groups.get(chapter).includes(topic)) groups.get(chapter).push(topic);
+  }
+  return [...groups].map(([chapter, topics]) => ({
+    chapter,
+    topics: topics.length ? `${topics[0][0].toUpperCase()}${topics[0].slice(1)}${topics.length > 1 ? `, ${topics.slice(1).join(', ')}` : ''}` : '',
+  }));
+}
 
 let bankLoad = null;
 function loadBank() {
@@ -65,6 +81,21 @@ export function DemoDrill() {
     else if (target === 'pick') rootRef.current?.querySelector('.lp-pick__chip')?.focus({ preventScroll: true });
     else if (target === 'more') moreRef.current?.querySelector('.lp-pick__chip')?.focus({ preventScroll: true });
   }, [answered, index, done, subject, more]);
+
+  // Mobi stands on the card's top edge at desktop. Once that edge scrolls up under the translucent bar, his feet
+  // would peek out below it: he steps away (150 ms fade, hero-v3.css) while any of him is under the bar.
+  useEffect(() => {
+    const seat = rootRef.current?.closest('.lp-stage__card')?.querySelector(':scope > .pip-seat');
+    const bar = document.querySelector('.mm-nav');
+    if (!seat || !bar || typeof IntersectionObserver === 'undefined') return undefined;
+    const top = Math.round(bar.getBoundingClientRect().height) + 4;
+    const io = new IntersectionObserver(([entry]) => {
+      const under = entry.boundingClientRect.top < top && entry.boundingClientRect.bottom > 0;
+      if (under) seat.dataset.under = 'true'; else delete seat.dataset.under;
+    }, { rootMargin: `-${top}px 0px 0px 0px`, threshold: [0, 0.25, 0.5, 0.75, 0.99, 1] });
+    io.observe(seat);
+    return () => { io.disconnect(); delete seat.dataset.under; };
+  }, []);
 
   // Answering grows the panel by the reason plus the forward key, which on a
   // 360x800 phone pushes that key under the sticky action bar. Bring it back
@@ -222,15 +253,18 @@ export function DemoDrill() {
           <p className="mm-drill__verdict">
             {score >= 4
               ? 'A full mock is 50 of these in 60 minutes.'
-              : 'Radar shows which chapters to fix first.'}
+              : 'A full mock shows which chapters to fix first.'}
           </p>
 
           {missed.length > 0 ? (
             <div className="mm-drill__readout">
-              <p className="mm-drill__readout-head">Radar would flag these chapters after a full mock</p>
+              <p className="mm-drill__readout-head">The chapters these misses came from</p>
               <ul>
-                {missed.map((chapter, i) => (
-                  <li key={`${chapter}-${i}`}>{chapter}</li>
+                {groupMissed(missed).map(({ chapter, topics }) => (
+                  <li key={chapter}>
+                    {chapter}
+                    {topics ? <span className="mm-drill__readout-topic">{topics}</span> : null}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -326,14 +360,9 @@ export function DemoDrill() {
           ) : (
             <>
               <p className="mm-drill__hint lp-pick__row">
-                <span>Tap an answer. No sign-up needed.</span>
+                <span>Tap an answer to see why the key is right.</span>
                 <button type="button" className="lp-pick__change" onClick={backToPicker}>Change subject</button>
               </p>
-              <div className="mm-drill__ghost" aria-hidden="true">
-                <span>The reasoning shows up here</span>
-                <i />
-                <i />
-              </div>
             </>
           )}
         </div>

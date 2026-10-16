@@ -113,22 +113,10 @@
 .lp-exam-bottom .pip-seat--demo .pip-seat__art { width: 120px; height: 150px; }
 .lp-close .pip-seat { grid-template-columns: 140px minmax(0,1fr); width: 330px; }
 .lp-close .pip-seat__art { width: 140px; height: 180px; }
-/* Mobi's desktop lane: the right 174px of the window (PipGuide seats him at innerWidth - 174), plus 40px of air.
-   The lane belongs to the content, never to the page: main and its sections stay full bleed (bands, rules and
-   auroras reach both edges), and each top-level content column (.mm-wrap) grows by the lane and pads it on its
-   right, so it is centred exactly where it was and its text stops short of Mobi. The lane is only as wide as a
-   centred 75rem column still needs, none on a wide screen. The header and footer columns grow the same way but
-   keep a plain gutter on the right: one left edge for header, content and footer, and a header row that sits
-   symmetric in the window (Mobi never flies above y = 100, so the bar's right end is his to keep).
-   100% is the page width in both places. Reduce motion (either switch) seats him in the flow: no lane. */
+/* No desktop lane any more. Mobi no longer rides the right edge between sections: on wide screens he stands on
+   the sample card at the top and lands on the close's seat at the end (PipGuide), so the content column, the
+   header row and the footer share one centred 75rem column (landing.css) and nothing pads the right side. */
 @media (min-width: 1100px) and (prefers-reduced-motion: no-preference) {
-  :root:not([data-motion='reduced']) .mm.lp { --pip-lane: clamp(0px, 75rem + 348px - 100%, 180px); }
-  :root:not([data-motion='reduced']) .mm.lp main .mm-wrap:not(.mm-wrap .mm-wrap) {
-    max-width: calc(75rem + var(--pip-lane));
-    padding-right: calc(var(--gutter) + var(--pip-lane));
-  }
-  :root:not([data-motion='reduced']) .mm.lp main .mm-wrap--tight:not(.mm-wrap .mm-wrap) { max-width: calc(51rem + var(--pip-lane)); }
-  :root:not([data-motion='reduced']) .mm.lp :is(.mm-nav, .mm-foot) > .mm-wrap { max-width: calc(75rem + var(--pip-lane)); }
   :root:not([data-motion='reduced']) .lp-hero__greeting { position: relative; }
   :root:not([data-motion='reduced']) .lp-hero__greeting .pip-seat { position: absolute; top: 0; }
   :root:not([data-motion='reduced']) .mm.lp .pip-seat[data-pip-station] { width: 160px; grid-template-columns: 1fr; text-align: center; justify-items: center; flex-basis: 160px; }

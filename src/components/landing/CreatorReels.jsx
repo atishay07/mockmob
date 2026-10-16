@@ -7,7 +7,7 @@
 // sentence above the list. The embed mounts only after a press (nothing is sent to Instagram before that), and the
 // original link stays one tap away if Instagram blocks the embed.
 import { useEffect, useRef, useState } from 'react';
-import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, embedSrc, floorForPlus, permalink, recordedEngagement } from '@/lib/social';
+import { REEL_VIEWS_AS_OF, REEL_VIEWS_FLOOR, combinedReach, compactCount, embedSrc, permalink } from '@/lib/social';
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 // '2026-04-28' -> { day: 28, month: 'April', year: 2026 }, written out by hand so the server and the phone agree.
@@ -18,6 +18,7 @@ function parts(date) {
 }
 const WORDS = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
 const dayLabel = (date) => { const p = parts(date); return p ? `${p.day} ${p.month} ${p.year}` : ''; };
+const shortDay = (date) => { const p = parts(date); return p ? `${p.day} ${p.month}` : ''; };
 
 // "26 and 28 April 2026" for a run of posts in one month; otherwise each date in full.
 function datesLine(dates) {
@@ -122,11 +123,14 @@ function PostsRow({ posts, activeCode, onToggle }) {
         <p className="rl__about">{posts.length === 1 ? 'One post' : `${WORDS[posts.length] || posts.length} posts`} from {datesLine(posts.map((p) => p.date))}, on the account that runs this site.</p>
       </div>
       <div className="rl__act rl__act--many">
-        {posts.map((post, i) => {
+        {[...posts].sort((a, b) => a.date.localeCompare(b.date)).map((post) => {
           const on = post.code === activeCode;
+          // Each key names its post by day ('28 April'); two posts on one day are told apart by order (1 and 2).
+          const sameDay = posts.filter((p) => p.date === post.date);
+          const name = `${shortDay(post.date)}${sameDay.length > 1 ? ` (${sameDay.indexOf(post) + 1})` : ''}`;
           return (
-            <button key={post.code} type="button" className="rl__watch" aria-expanded={on} aria-label={on ? `Close MockMob’s post of ${dayLabel(post.date)}` : `Watch MockMob’s post of ${dayLabel(post.date)} here`} onClick={() => onToggle(post.code)}>
-              {on ? 'Close' : `Post ${i + 1}`}
+            <button key={post.code} type="button" className="rl__watch" aria-expanded={on} aria-label={`${on ? 'Close' : 'Watch'} MockMob’s post of ${dayLabel(post.date)}${sameDay.length > 1 ? `, post ${sameDay.indexOf(post) + 1} of that day` : ''}${on ? '' : ' here'}`} onClick={() => onToggle(post.code)}>
+              {on ? 'Close' : name}
             </button>
           );
         })}
@@ -140,7 +144,6 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
   const creators = items.filter((item) => item.kind === 'reel');
   const posts = items.filter((item) => item.kind !== 'reel');
   const reach = combinedReach(creators.filter((c) => c.followers));
-  const engagement = floorForPlus(recordedEngagement(items));
   const [activeCode, setActiveCode] = useState(null);
   const toggle = (code) => setActiveCode((now) => (now === code ? null : code));
 
@@ -148,7 +151,7 @@ export default function CreatorReels({ items = [], profileUrl, handle, asOf }) {
     <div className="rl">
       {reach ? (
         <p className="rl__summary">
-          <b>{compactCount(Math.floor(reach / 1000) * 1000)}+</b> combined followers, <b>{compactCount(REEL_VIEWS_FLOOR)}+</b> reel views{engagement ? <> and <b>{engagement.toLocaleString('en-IN')}+</b> likes and comments</> : null}.
+          <b>{compactCount(Math.floor(reach / 1000) * 1000)}+</b> combined followers and <b>{compactCount(REEL_VIEWS_FLOOR)}+</b> reel views.
         </p>
       ) : null}
       <ul className="rl__list" aria-label="Creators who featured MockMob on Instagram">

@@ -192,7 +192,7 @@ const RADAR_ROWS = [
 export function RadarScreen({ play }) {
   const step = useSteps(play, RADAR_T);
   return (
-    <Frame title="Radar after one mock" step={step}>
+    <Frame title="Weak chapters after one mock" step={step}>
       <ul className="ts__bars">
         {RADAR_ROWS.map(([chapter, subject, pct], i) => (
           <li key={chapter} data-in={on(step > i)} data-low={on(pct < 50)}>
@@ -214,7 +214,7 @@ const PREP_PLAN = [['20 min', 'Retirement: 10 fresh questions'], ['10 min', 'Re-
 export function PrepOSScreen({ play }) {
   const step = useSteps(play, PREP_T);
   return (
-    <Frame title="PrepOS" step={step} right={<span className="ts__badge">Your record</span>}>
+    <Frame title="Ask MockMob" step={step} right={<span className="ts__badge">Your record</span>}>
       <p className="ts__bubble ts__bubble--me" data-in={on(step >= 1)}>What should I do tonight?</p>
       <div className="ts__reply">
         {step === 2 ? <p className="ts__typing" aria-hidden="true"><i /><i /><i /></p> : null}
