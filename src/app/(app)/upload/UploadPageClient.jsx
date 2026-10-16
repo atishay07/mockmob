@@ -45,7 +45,7 @@ export default function UploadPageClient() {
 
     const { ok: valid, errors } = validateBulk(parsed);
     if (!valid.length) {
-      setBulkError(`Nothing valid to submit (${errors.length} error(s))`);
+      setBulkError(`Nothing valid to submit (${errors.length} ${errors.length === 1 ? 'error' : 'errors'})`);
       setBulkReport({ submitted: 0, errors });
       return;
     }
@@ -72,7 +72,7 @@ export default function UploadPageClient() {
     }
     setSubmitting(false);
     setBulkReport({ submitted, errors: submitErrors });
-    if (submitted > 0) setBulkOk(`${submitted} question(s) sent to moderation.`);
+    if (submitted > 0) setBulkOk(`${submitted} ${submitted === 1 ? 'question' : 'questions'} sent to moderation.`);
   };
 
   return (

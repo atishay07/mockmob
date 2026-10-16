@@ -18,7 +18,7 @@ export const FEATURE_GUIDE = [
     key: 'practice',
     name: 'Practice',
     route: '/dashboard',
-    description: 'Timed CUET practice by subject, mode and question count, marked +5 / −1 on the server. Access and credits are checked before a session starts.',
+    description: 'Timed CUET practice by subject, mode and question count, marked +5 / −1 on the server. Access and practice credits are checked before a session starts.',
     whenToUse: 'Use it for daily sets and full-length timing practice.',
     actionLabel: 'Open Practice',
   },
@@ -58,7 +58,7 @@ export const FEATURE_GUIDE = [
     key: 'benchmark',
     name: 'Shadow Benchmark',
     route: '/rival',
-    description: 'A timed set against a simulated pace. Basic benchmarks are included; premium benchmarks use AI credits and are paused for now.',
+    description: 'A timed set against a simulated pace. Basic benchmarks are included; Pro benchmarks use AI credits and are paused for now.',
     whenToUse: 'Use it for a short timed check without a full mock.',
     actionLabel: 'Open Benchmark',
   },
@@ -66,7 +66,7 @@ export const FEATURE_GUIDE = [
     key: 'credits',
     name: 'AI credits',
     route: '/pricing/ai-credits',
-    description: 'AI credits are separate from Practice credits. Paid AI replies and new top-ups are paused; existing balances are preserved and nothing is charged.',
+    description: 'AI credits are separate from practice credits. Paid AI replies and new top-ups are paused; existing balances are preserved and nothing is charged.',
     whenToUse: 'Use it to see your preserved AI credit balance.',
     actionLabel: 'See your AI credits',
   },
@@ -100,8 +100,8 @@ export function deterministicReplyFor({ text, pathname }) {
     const paused = CAPABILITIES.optionalAi.state !== 'available';
     return reply(
       paused
-        ? `${PREPOS_PAUSED_MESSAGE} Practice credits (for Quick practice and Full mock) are a separate balance and still work.`
-        : 'AI credits are separate from Practice credits.',
+        ? `${PREPOS_PAUSED_MESSAGE} Your practice credits (for Quick practice and Full mock) are a separate balance and still work.`
+        : 'AI credits are separate from practice credits.',
       'Wallet state comes from the server.',
       { label: 'See your AI credits', type: 'navigate', route: '/pricing/ai-credits' },
     );
