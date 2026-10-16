@@ -68,6 +68,13 @@ export async function POST(request) {
       payload: event,
     });
 
+    // Another delivery of this event is still being processed (lease in webhook_events.claimed_at): answer 503 so
+    // Razorpay retries it later. By then the first one has finished (the retry is a duplicate, 200) or crashed (it runs).
+    if (shouldProcess === 'in_flight') {
+      console.warn('[webhook] duplicate delivery while the first is still processing; asked the sender to retry', eventType);
+      return NextResponse.json({ ok: false, retry: true }, { status: 503, headers: { 'Retry-After': '30' } });
+    }
+
     if (!shouldProcess) {
       return NextResponse.json({ ok: true, deduped: true });
     }
