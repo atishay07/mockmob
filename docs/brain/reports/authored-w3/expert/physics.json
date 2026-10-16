@@ -24,7 +24,8 @@
     "drop (8): 704cf988 is beyond NCERT; a5de8f62, 363ac2b3, 3c52abd8, 898006b1, dff97aad, 7f417185 and 0d5f2ae0 (Zener, solar cell, logic gates x3, capacitor-filter ripple, LED) are outside the CUET UG 2026 Physics Electronic Devices unit that the nine-unit blueprint implies (energy bands, diode I-V, rectifier). Basis: the blueprint excludes Communication Systems as outside the 9-unit syllabus and a public syllabus summary lists the unit that way; it was not checked against the NTA PDF (other coaching pages still list the older 10-unit syllabus). If the owner confirms the older syllabus, a5de8f62, 363ac2b3, 3c52abd8, 898006b1, 7f417185 and 0d5f2ae0 can return (their keys and explanations are correct) and dff97aad as a repaired item with its options written in words.",
     "The 4 repairs with solver-visible text changed (c1e3486d, fe0417ed, fc6098bd, d72339f5) need the blind re-solve of waves 1 and 2 (3 solvers on the final text); the other repairs change only the difficulty label, chapter or NCERT reference.",
     "Keys moved to D in the four visible repairs (the physics pool had 6 of 67 keys on D, 26 on B).",
-    "Left as is: weak but not giveaway distractors (c9fd89c4 option D, 4b294509 option D); the Ch 9 telescope reference of ab6c6117 (9.7; 9.8 in the unrationalised book), because the rationalised numbering could not be checked."
+    "Left as is: weak but not giveaway distractors (c9fd89c4 option D, 4b294509 option D); the Ch 9 telescope reference of ab6c6117 (9.7; 9.8 in the unrationalised book), because the rationalised numbering could not be checked.",
+    "Syllabus call confirmed 2026-10-17 against the official CUET (UG) 2026 Physics syllabus PDF in the repo (data/CUET 2026/physics.pdf): Unit 9 Electronic Devices lists energy bands (qualitative), intrinsic/extrinsic semiconductors, p-n junction diode I-V characteristics, and the diode as a rectifier only. Zener, solar cell, LED, logic gates and ripple/capacitor filter are not listed, so the 7 Electronic Devices drops stand (the earlier caveat that this was not checked against the NTA PDF is closed). 704cf988 stays dropped for the separate reason that it is beyond NCERT."
   ],
   "verdicts": [
     {
@@ -249,15 +250,17 @@
       "id": "a5de8f62-b02d-4723-8192-449d5eaa6266",
       "verdict": "drop",
       "key": null,
-      "why": "Outside the CUET UG 2026 Physics syllabus. The nine-unit blueprint (Communication Systems excluded) follows the rationalised syllabus, whose Electronic Devices unit covers energy bands (qualitative), the p-n junction diode I-V characteristics and the diode as a rectifier; Zener, LED, solar cell and logic gates are not listed there. The physics (Zener regulation in reverse breakdown, key A) is correct.",
-      "repair": null
+      "why": "Outside the CUET UG 2026 Physics syllabus, confirmed against the official syllabus text. Official CUET (UG) 2026 Physics syllabus (data/CUET 2026/physics.pdf, page 4), Unit 9: Electronic Devices lists only: \"Energy bands in conductors, semiconductors and insulators (qualitative ideas only). Intrinsic and extrinsic semiconductors, p-type and n-type, p-n junction Semiconductor diode its I-V characteristics in forward and reverse bias. Application of junction diode -diode as a rectifier.\" Here Zener diode / voltage regulation is not listed. Drop kept. The physics (Zener regulation in reverse breakdown, key A) is correct.",
+      "repair": null,
+      "syllabus_check": "official-pdf-2026-10-17"
     },
     {
       "id": "363ac2b3-431d-45f1-a7b4-d03bce246584",
       "verdict": "drop",
       "key": null,
-      "why": "Outside the CUET UG 2026 Physics syllabus. The nine-unit blueprint (Communication Systems excluded) follows the rationalised syllabus, whose Electronic Devices unit covers energy bands (qualitative), the p-n junction diode I-V characteristics and the diode as a rectifier; Zener, LED, solar cell and logic gates are not listed there. The physics (solar cell, built-in field separates the pairs, key A) is correct.",
-      "repair": null
+      "why": "Outside the CUET UG 2026 Physics syllabus, confirmed against the official syllabus text. Official CUET (UG) 2026 Physics syllabus (data/CUET 2026/physics.pdf, page 4), Unit 9: Electronic Devices lists only: \"Energy bands in conductors, semiconductors and insulators (qualitative ideas only). Intrinsic and extrinsic semiconductors, p-type and n-type, p-n junction Semiconductor diode its I-V characteristics in forward and reverse bias. Application of junction diode -diode as a rectifier.\" Here solar cell is not listed. Drop kept. The physics (solar cell, built-in field separates the pairs, key A) is correct.",
+      "repair": null,
+      "syllabus_check": "official-pdf-2026-10-17"
     },
     {
       "id": "deb9beb8-bb5d-48af-b1c0-fecad65bee2b",
@@ -277,36 +280,41 @@
       "id": "3c52abd8-b99f-46ac-aa70-29811ca6fe13",
       "verdict": "drop",
       "key": null,
-      "why": "Outside the CUET UG 2026 Physics syllabus. The nine-unit blueprint (Communication Systems excluded) follows the rationalised syllabus, whose Electronic Devices unit covers energy bands (qualitative), the p-n junction diode I-V characteristics and the diode as a rectifier; Zener, LED, solar cell and logic gates are not listed there. The matching (AND = III, OR = II, NOR = I, NOT = IV, key B) is correct.",
-      "repair": null
+      "why": "Outside the CUET UG 2026 Physics syllabus, confirmed against the official syllabus text. Official CUET (UG) 2026 Physics syllabus (data/CUET 2026/physics.pdf, page 4), Unit 9: Electronic Devices lists only: \"Energy bands in conductors, semiconductors and insulators (qualitative ideas only). Intrinsic and extrinsic semiconductors, p-type and n-type, p-n junction Semiconductor diode its I-V characteristics in forward and reverse bias. Application of junction diode -diode as a rectifier.\" Here logic gates are not listed. Drop kept. The matching (AND = III, OR = II, NOR = I, NOT = IV, key B) is correct.",
+      "repair": null,
+      "syllabus_check": "official-pdf-2026-10-17"
     },
     {
       "id": "898006b1-95b2-4d03-93dc-23c3afb8a925",
       "verdict": "drop",
       "key": null,
-      "why": "Outside the CUET UG 2026 Physics syllabus. The nine-unit blueprint (Communication Systems excluded) follows the rationalised syllabus, whose Electronic Devices unit covers energy bands (qualitative), the p-n junction diode I-V characteristics and the diode as a rectifier; Zener, LED, solar cell and logic gates are not listed there. The truth table 1, 1, 1, 0 is a NAND gate, key C, correct.",
-      "repair": null
+      "why": "Outside the CUET UG 2026 Physics syllabus, confirmed against the official syllabus text. Official CUET (UG) 2026 Physics syllabus (data/CUET 2026/physics.pdf, page 4), Unit 9: Electronic Devices lists only: \"Energy bands in conductors, semiconductors and insulators (qualitative ideas only). Intrinsic and extrinsic semiconductors, p-type and n-type, p-n junction Semiconductor diode its I-V characteristics in forward and reverse bias. Application of junction diode -diode as a rectifier.\" Here logic gates are not listed. Drop kept. The truth table 1, 1, 1, 0 is a NAND gate, key C, correct.",
+      "repair": null,
+      "syllabus_check": "official-pdf-2026-10-17"
     },
     {
       "id": "dff97aad-a78a-4772-bb3b-335df7f6577a",
       "verdict": "drop",
       "key": null,
-      "why": "Outside the CUET UG 2026 Physics syllabus. The nine-unit blueprint (Communication Systems excluded) follows the rationalised syllabus, whose Electronic Devices unit covers energy bands (qualitative), the p-n junction diode I-V characteristics and the diode as a rectifier; Zener, LED, solar cell and logic gates are not listed there. The engine had also refused it (options differ only by symbols: A.B, A + B, (A + B)', (A.B)').",
-      "repair": null
+      "why": "Outside the CUET UG 2026 Physics syllabus, confirmed against the official syllabus text. Official CUET (UG) 2026 Physics syllabus (data/CUET 2026/physics.pdf, page 4), Unit 9: Electronic Devices lists only: \"Energy bands in conductors, semiconductors and insulators (qualitative ideas only). Intrinsic and extrinsic semiconductors, p-type and n-type, p-n junction Semiconductor diode its I-V characteristics in forward and reverse bias. Application of junction diode -diode as a rectifier.\" Here logic gates are not listed. Drop kept.  The engine had also refused it (options differ only by symbols).",
+      "repair": null,
+      "syllabus_check": "official-pdf-2026-10-17"
     },
     {
       "id": "7f417185-bf9c-48af-a21b-ea3e7a065115",
       "verdict": "drop",
       "key": null,
-      "why": "Outside the CUET UG 2026 Physics syllabus. The nine-unit blueprint (Communication Systems excluded) follows the rationalised syllabus, whose Electronic Devices unit covers energy bands (qualitative), the p-n junction diode I-V characteristics and the diode as a rectifier; Zener, LED, solar cell and logic gates are not listed there. The ripple formula with a capacitor filter is also beyond NCERT. Statements are true, key B.",
-      "repair": null
+      "why": "Outside the CUET UG 2026 Physics syllabus, confirmed against the official syllabus text. Official CUET (UG) 2026 Physics syllabus (data/CUET 2026/physics.pdf, page 4), Unit 9: Electronic Devices lists only: \"Energy bands in conductors, semiconductors and insulators (qualitative ideas only). Intrinsic and extrinsic semiconductors, p-type and n-type, p-n junction Semiconductor diode its I-V characteristics in forward and reverse bias. Application of junction diode -diode as a rectifier.\" Here the capacitor filter and ripple voltage are not listed (only the diode as a rectifier is). Drop kept. Statements are true, key B. The ripple formula is also beyond NCERT.",
+      "repair": null,
+      "syllabus_check": "official-pdf-2026-10-17"
     },
     {
       "id": "0d5f2ae0-8dca-4ccc-aa7f-eaa1a54ab5f8",
       "verdict": "drop",
       "key": null,
-      "why": "Outside the CUET UG 2026 Physics syllabus. The nine-unit blueprint (Communication Systems excluded) follows the rationalised syllabus, whose Electronic Devices unit covers energy bands (qualitative), the p-n junction diode I-V characteristics and the diode as a rectifier; Zener, LED, solar cell and logic gates are not listed there. The physics (620 nm for a 2.0 eV gap, key A) is correct.",
-      "repair": null
+      "why": "Outside the CUET UG 2026 Physics syllabus, confirmed against the official syllabus text. Official CUET (UG) 2026 Physics syllabus (data/CUET 2026/physics.pdf, page 4), Unit 9: Electronic Devices lists only: \"Energy bands in conductors, semiconductors and insulators (qualitative ideas only). Intrinsic and extrinsic semiconductors, p-type and n-type, p-n junction Semiconductor diode its I-V characteristics in forward and reverse bias. Application of junction diode -diode as a rectifier.\" Here the LED and the band-gap-to-wavelength calculation are not listed (bands are qualitative only). Drop kept. The physics (620 nm for a 2.",
+      "repair": null,
+      "syllabus_check": "official-pdf-2026-10-17"
     },
     {
       "id": "14640fcc-4496-4528-84bb-930a5d17bbae",
