@@ -10,6 +10,7 @@ import {
   MODE_SPECS, ONBOARDING_LEAD, bankCount, bankPhrase, freshPaperLine, nextPaper, practiceSubjectId,
   pricingBankFaq, pricingBankLine, tileCount,
 } from '../../src/lib/paperCopy.mjs';
+import { practiceBankSize } from '../../src/lib/practiceBank.mjs';
 import { TEST_MODES } from '../test_modes.js';
 import { rankCandidates } from '../mock_question_selector.js';
 
@@ -131,4 +132,23 @@ test('NTA papers build unseen first, keep earlier NTA questions out while they c
   assert.match(engine, /seenPolicy: 'seen_first'/);
   assert.match(engine, /const fresh = pool\.filter\(\(row\) => !previous\.has\(row\?\.id\)\)/);
   assert.match(engine, /repeat\$\{repeats === 1 \? '' : 's'\}|repeats' : 's repeat'\} from your earlier NTA papers/);
+});
+
+test('Pro-only modes never quote practice credits on Free, and the pricing count covers only subjects Practice offers', () => {
+  // Smart practice and NTA mode are premium in the code, so a Free student selecting one is told it is part of Pro.
+  assert.equal(TEST_MODES.nta.premium, true);
+  assert.equal(TEST_MODES.smart.premium, true);
+  for (const mode of ['nta', 'smart']) {
+    const line = freshPaperLine({ count: 1404, subjectName: 'Accountancy', isPremium: false, mode });
+    assert.match(line, /is part of Pro, which has no cap on how many you take\.$/);
+    assert.doesNotMatch(line, /practice credits/);
+  }
+  assert.equal(nextPaper({ mode: 'nta', subject: 'english', isPremium: true }).action, 'Set up another NTA paper');
+  // The stored bankSize also holds subjects Practice does not offer (not_offered, retired); the pricing sentence sums
+  // only the offered ones (15 Oct 2026: 5,941 of 8,197).
+  const counts = { english: 382, accountancy: 1404, gat: 227, hindi: 10, sanskrit: 8, legal_studies: 136, teaching_aptitude: 15 };
+  assert.equal(practiceBankSize({ state: 'available', bankSize: 9999, subjectCounts: counts }), 382 + 1404 + 227);
+  assert.equal(practiceBankSize({ state: 'unavailable' }), null);
+  assert.equal(practiceBankSize(null), null);
+  assert.equal(practiceBankSize({ state: 'available', subjectCounts: { hindi: 10 } }), null);
 });

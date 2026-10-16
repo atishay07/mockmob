@@ -54,7 +54,12 @@ export function bankPhrase(count, subjectName) {
  * Free each paper costs practice credits (the price sits beside each mode).
  */
 export function freshPaperLine({ count = null, subjectName = '', isPremium = false, mode = null } = {}) {
-  const cap = isPremium ? 'There is no cap on how many you take.' : 'There is no cap on how many you take, only the practice credits each one uses.';
+  // Smart practice and NTA mode are Pro only (data/test_modes.js premium: true), never paid for with practice credits,
+  // so on Free their line says what they are part of rather than quoting a credit price they do not have.
+  const proOnly = mode === 'nta' || mode === 'smart';
+  const cap = isPremium ? 'There is no cap on how many you take.'
+    : proOnly ? `${mode === 'nta' ? 'NTA mode' : 'Smart practice'} is part of Pro, which has no cap on how many you take.`
+      : 'There is no cap on how many you take, only the practice credits each one uses.';
   // NTA mode draws only on questions with a checked quality score of 8 or more out of 10 (data/nta_engine.js
   // NTA_MIN_SCORE), a subset the public counts do not give, so its line never presents the whole bank as its pool.
   if (mode === 'nta') return `Each NTA paper is built fresh from the ${subjectName ? `${subjectName} ` : ''}questions that meet NTA mode’s quality bar${Number.isInteger(count) && count > 0 ? ` (the full bank holds ${fmt(count)})` : ''}, questions you have not answered first. ${cap}`;
@@ -93,7 +98,7 @@ export function nextPaper({ mode, subject, subjectName = '', count = null, total
   else if (modeId === 'nta' || modeId === 'smart') price = `There is no cap on how many papers you take. ${name} needs Pro.`;
   else if (modeId === 'full') price = `There is no cap on how many papers you take. ${usesLine({ what: 'A Full mock', cost: MODE_COST.full, pool: 'practice', balance })}`;
   else price = ['There is no cap on how many papers you take. Practice shows the price before it starts.', haveLine(balance) && `You have ${creditCountShort(balance)}.`].filter(Boolean).join(' ');
-  return { title: 'Take another fresh paper', fresh, price, href, action: modeId ? `Set up another ${name}` : 'Set up another paper' };
+  return { title: 'Take another fresh paper', fresh, price, href, action: modeId ? `Set up another ${modeId === 'nta' ? 'NTA paper' : name}` : 'Set up another paper' };
 }
 
 function creditCountShort(balance) {
@@ -109,7 +114,7 @@ export function pricingBankLine(bankSize) {
 
 /** Pricing FAQ: the question students ask about other sites' mock counts, answered with the code's rules. */
 export function pricingBankFaq(bankSize) {
-  const bank = Number.isInteger(bankSize) && bankSize > 0 ? ` (${fmt(bankSize)} questions across all subjects at the last daily count)` : '';
+  const bank = Number.isInteger(bankSize) && bankSize > 0 ? ` (${fmt(bankSize)} questions in the subjects Practice offers, at the last daily count)` : '';
   return {
     q: 'How many mocks do I get per subject?',
     a: `As many as you take. MockMob keeps one checked question bank${bank}, and each paper is built from it when you start, with questions you have not answered first. With Pro there is no cap. On Free, Quick practice uses 10 practice credits a session and a Full mock uses 50. A subject with a small bank can bring back questions you have answered before; NTA mode names any repeat on the paper.`,

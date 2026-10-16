@@ -21,7 +21,7 @@ Every sentence is in `src/lib/paperCopy.mjs`. It is pure, so `data/tests/paper_c
 | Questions you have not answered come first | Quick, Full and Smart: `rankCandidates` sorts unseen ahead of seen (`data/mock_question_selector.js` 62). This happens inside the evidence tier, which is sorted first (line 61). Questions from the student's last 3 (Quick) or 5 (Full, Smart) sessions in that subject are also left out while at least 70% of the paper can still be filled (`data/practice_pick.js` 106-112, `test_modes.js` recencyLimit). NTA mode: `seenPolicy: 'seen_first'` (`data/nta_engine.js` 1488), with seen questions read by `loadSeenQuestionIds` (`data/nta_pool.js` 218). |
 | An NTA paper leaves out your earlier NTA questions while the bank allows, and names any repeat | `const fresh = pool.filter((row) => !previous.has(row?.id))` (`nta_engine.js` 1511), with earlier papers from `loadPreviousNtaPaperIds` (`nta_pool.js` 240). The notice line is "N questions repeat from your earlier NTA papers" (`nta_engine.js` 1283). |
 | NTA mode uses only the questions that meet its quality bar | `NTA_MIN_SCORE = 8` (`nta_engine.js` 45). The public counts do not give this subset, so NTA lines never present the whole bank count as the NTA pool. On Practice the count shows in brackets as "the full bank holds N". |
-| "1,404 Accountancy questions in the bank", "a live bank of 8,197 questions" | `/api/stats` → `publicInventory()` (`src/lib/server/inventory.js`). This is the stored daily count of questions that pass the same publication and family-hold policy as practice. Live values on 16 Oct (checked 15 Oct 21:57 UTC): bankSize 8,197; accountancy 1,404, economics 466, business_studies 422, english 382. Loading or failed counts are never written as 0; the sentence drops the number. |
+| "1,404 Accountancy questions in the bank", "a live bank of 5,941 questions" | `/api/stats` → `publicInventory()` (`src/lib/server/inventory.js`). This is the stored daily count of questions that pass the same publication and family-hold policy as practice. Live values on 16 Oct (checked 15 Oct 21:57 UTC): bankSize 8,197; accountancy 1,404, economics 466, business_studies 422, english 382. Loading or failed counts are never written as 0; the sentence drops the number. |
 | New accounts start with 100 practice credits; an approved upload adds 15 | `credit_balance: 100` (`data/db.js` 348); `v_amount INTEGER := 15` in `grant_contribution_credits` (`supabase/migrations/0027_enforce_credit_integrity.sql` 136). |
 
 What is never said, and why:
@@ -42,7 +42,7 @@ What is never said, and why:
    - It has one outline action, "Set up another Full mock" (or Quick practice, NTA mode, Smart practice, or "paper" for older attempts without a mode). The action opens Practice with the same subject and mode already chosen, and Quick keeps its count. It does not start a paper or spend credits; the price appears on Practice before Start (rule 18: say what happens next; T007 and T009: specific action wording).
    - The price line follows the plan. Pro: "Pro covers every one". Full mock on Free: the shared spend line, "A Full mock uses 50 practice credits. You have 40." (`src/lib/creditCopy.mjs`). Quick on Free: "Practice shows the price before it starts", because today's included 10-question set can make it free and only the server quote knows that. NTA and Smart on Free: "needs Pro". This follows rule 23: no unbacked fixed quote.
 3. **/pricing** (`src/app/pricing/page.js`)
-   - One sentence under the lead: "There is no fixed set of mocks: each paper is built when you start it, from a live bank of 8,197 questions, questions you have not answered first. Pro covers as many as you take; on Free, each one uses practice credits."
+   - One sentence under the lead: "There is no fixed set of mocks: each paper is built when you start it, from a live bank of 5,941 questions, questions you have not answered first. Pro covers as many as you take; on Free, each one uses practice credits."
    - The Free list now names the real costs (10 and 50 practice credits) and adds "Every paper built fresh from the live question bank".
    - On Pro, "each a fresh paper" is added to the unlimited line, and NTA mode gets "as many papers as you take".
    - Comparison: a "A fresh paper each time, questions you have not answered first" row, included on both plans.
@@ -90,3 +90,9 @@ Motion scores 1 because the press sink is the only motion added (`mk-press`), an
 
 - The pricing page reads the stored inventory row on each request through `publicInventory()`, which is memoised. That does not happen in local dev, so the bank number was checked only by unit test and the live `/api/stats`.
 - Older attempts store no `selectionMeta.mode`, so the result action says "Set up another paper" and opens Practice on the subject only.
+
+## Critic pass fixes (16 Oct 2026)
+
+- Pricing quoted the stored `bankSize` (8,197), which also counts subjects Practice does not offer or has retired (1,915 not offered, 341 retired on 15 Oct). It now sums the offered subjects only (`src/lib/practiceBank.mjs`, 5,941 on the 15 Oct counts), and the FAQ says "in the subjects Practice offers".
+- On Free, with Smart practice or NTA mode selected, the Practice line said "only the practice credits each one uses", but both are Pro only and never paid for with credits. The line now says the mode "is part of Pro, which has no cap on how many you take".
+- The result action for NTA read "Set up another NTA mode"; it now reads "Set up another NTA paper".

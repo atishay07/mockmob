@@ -15,6 +15,7 @@ import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { publicInventory } from '@/lib/server/inventory';
 import { pricingBankFaq, pricingBankLine } from '@/lib/paperCopy.mjs';
+import { practiceBankSize } from '@/lib/practiceBank.mjs';
 
 export function generateMetadata() {
   const offer = publicOffer();
@@ -194,7 +195,8 @@ export default async function PricingPage() {
   const offer = publicOffer();
   // The stored daily count only (never a bank read on a request); without it the sentence names no number.
   const inventory = await publicInventory().catch(() => null);
-  const bankSize = inventory?.state === 'available' && Number.isInteger(inventory.bankSize) ? inventory.bankSize : null;
+  // Summed over the subjects Practice offers: the stored bankSize also holds subjects that are not offered or retired.
+  const bankSize = practiceBankSize(inventory);
   const PLANS = buildPlans(offer);
   const FAQS = buildFaqs(offer, bankSize);
 
