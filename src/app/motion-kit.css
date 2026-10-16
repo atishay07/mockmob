@@ -238,10 +238,17 @@ html[data-theme='light'] {
 @keyframes mk-pop { from { transform: scale(var(--mm-enter-scale)); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .mk-rise { animation: mk-rise var(--mm-dur-enter) var(--mm-ease-emphasized) var(--mk-delay, 0ms) backwards; }
 @keyframes mk-rise { from { transform: translate3d(0, var(--mm-enter-rise), 0); opacity: 0; } to { transform: none; opacity: 1; } }
-/* backwards, not both: once it has arrived, the element is free to press and transition again. */
-.mk-stagger > * {
-  animation: mk-rise var(--mm-dur-enter) var(--mm-ease-emphasized) calc(min(var(--i, 0), var(--mm-stagger-cap)) * var(--mm-dur-stagger-step)) backwards;
-}
+/* One stagger for everything (pass 1016e WA-05, the app's M13; standards s8 T-024, T-112, T-114, anti-slop
+   item 10): never the same fade-up on every child. The lead rises 14 px over 360 ms on emphasized; the next two
+   fade up 6 px at 60 and 120 ms; the rest arrive together, opacity only, from 160 ms. --i is no longer read.
+   .mk-stagger--flat is for lists: every item fades in at once, no travel.
+   backwards, not both: once it has arrived, the element is free to press and transition again. */
+.mk-stagger > * { animation: mk-fade var(--mm-dur-ui) var(--mm-ease-out) 160ms backwards; }
+.mk-stagger > :nth-child(1) { animation: mk-rise var(--mm-dur-enter) var(--mm-ease-emphasized) backwards; }
+.mk-stagger > :nth-child(2) { animation: mk-rise-near var(--mm-dur-card) var(--mm-ease-out) 60ms backwards; }
+.mk-stagger > :nth-child(3) { animation: mk-rise-near var(--mm-dur-card) var(--mm-ease-out) 120ms backwards; }
+.mk-stagger--flat > :nth-child(n) { animation: mk-fade var(--mm-dur-ui) var(--mm-ease-out) backwards; }
+@keyframes mk-rise-near { from { transform: translate3d(0, 6px, 0); opacity: 0; } to { transform: none; opacity: 1; } }
 @keyframes mk-fade { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- Swipe to commit (useSwipeCommit): follows the finger, springs home on the smooth
@@ -249,7 +256,11 @@ html[data-theme='light'] {
 .mk-swipe { transform: translate3d(var(--mk-swipe-x, 0px), 0, 0); }
 .mk-swipe[data-swipe='drag'] { transition: none; cursor: grabbing; user-select: none; }
 .mk-swipe[data-swipe='settle'] { transition: transform var(--mm-spring-smooth-dur) var(--mm-spring-smooth); }
-.mk-swipe[data-swipe='commit'] { transition: transform var(--mm-dur-leave) var(--mm-ease-leave), opacity var(--mm-dur-leave) var(--mm-ease-leave); opacity: 0; }
+/* A committed swipe keeps the finger's speed (pass 1016e WA-06, the app's M24; standards s8 T-103): useSwipeCommit
+   plays the lift spring from the release velocity with the Web Animations API ('fling'). 'commit' is the fallback
+   for a browser without it, and never an ease-in that hangs and then drops: 200 ms on ease-out. */
+.mk-swipe[data-swipe='fling'] { transition: none; }
+.mk-swipe[data-swipe='commit'] { transition: transform var(--mm-dur-ui) var(--mm-ease-out), opacity var(--mm-dur-ui) var(--mm-ease-out); opacity: 0; }
 
 /* ---------- Drag to commit (useDragCommit): the script moves `translate` frame by frame with the
    app's springs (and the finger's speed), so this only sets the gesture up ---------- */
@@ -422,6 +433,59 @@ html[data-theme='light'] .mk-rim::after { background: conic-gradient(from -90deg
 ::view-transition-old(.mm-fade) { animation: none; }
 ::view-transition-new(.mm-fade) { animation: mm-vt-fade-in var(--mm-t-fade-in-dur) var(--mm-t-fade-curve) both; }
 
+/* The old page's picture leaves from where the student saw it. The new page lands at its own scroll
+   first, so AppLayoutClient sets --mm-vt-from-y to the difference; transform, so the travel (translate)
+   and the rise (scale) still play on top. */
+::view-transition-old(.mm-place-fwd), ::view-transition-old(.mm-place-back),
+::view-transition-old(.mm-push), ::view-transition-old(.mm-pop),
+::view-transition-old(.mm-rise), ::view-transition-old(.mm-rise-back),
+::view-transition-old(.mm-fade) { transform: translateY(var(--mm-vt-from-y, 0px)); }
+
+/* See-through pages (pass 1016e). In the app every page is opaque, so the page under a push can
+   dim beneath it. On the web the content sits on the live backdrop with no ground of its own, so two
+   pages on screen at once read as doubled text. The leaving page is therefore gone within the place
+   switch's 119 ms (the same exit as the fade-through), and the arriving one starts at the place switch's
+   64 ms; each keeps its own travel (push 28 px, recede 6 px, rise 24 px from 0.97). Later opacity
+   animations win, so the recede and unrecede keep their slide and lose only their 0.55 dim. */
+::view-transition-old(.mm-push), ::view-transition-old(.mm-rise), ::view-transition-old(.mm-fade) {
+  animation:
+    mm-vt-recede var(--mm-t-push-in-dur) var(--mm-t-push-curve) both,
+    mm-vt-fade-out calc(var(--mm-t-place-out-dur) + var(--mm-t-place-out-tail) * (var(--mm-t-place-out-dur) + var(--mm-t-place-in-dur))) var(--mm-t-place-out-curve) both;
+}
+::view-transition-old(.mm-fade) { animation: mm-vt-fade-out calc(var(--mm-t-place-out-dur) + var(--mm-t-place-out-tail) * (var(--mm-t-place-out-dur) + var(--mm-t-place-in-dur))) var(--mm-t-place-out-curve) both; }
+::view-transition-old(.mm-pop), ::view-transition-old(.mm-rise-back) {
+  animation:
+    mm-vt-push-out var(--mm-t-push-out-dur) var(--mm-t-push-reverse-curve) both,
+    mm-vt-fade-out calc(var(--mm-t-place-out-dur) + var(--mm-t-place-out-tail) * (var(--mm-t-place-out-dur) + var(--mm-t-place-in-dur))) var(--mm-t-place-out-curve) both;
+}
+::view-transition-old(.mm-rise-back) {
+  animation:
+    mm-vt-rise-out var(--mm-t-rise-out-dur) var(--mm-ease-exit) both,
+    mm-vt-fade-out calc(var(--mm-t-place-out-dur) + var(--mm-t-place-out-tail) * (var(--mm-t-place-out-dur) + var(--mm-t-place-in-dur))) var(--mm-t-place-out-curve) both;
+}
+::view-transition-new(.mm-pop), ::view-transition-new(.mm-rise-back) {
+  animation:
+    mm-vt-unrecede var(--mm-t-push-out-dur) var(--mm-ease-glide-reverse) both,
+    mm-vt-fade-in calc(var(--mm-t-push-out-dur) - var(--mm-t-place-overlap-start) * (var(--mm-t-place-out-dur) + var(--mm-t-place-in-dur))) var(--mm-t-place-in-curve)
+      calc(var(--mm-t-place-overlap-start) * (var(--mm-t-place-out-dur) + var(--mm-t-place-in-dur))) both;
+}
+::view-transition-new(.mm-push), ::view-transition-new(.mm-rise), ::view-transition-new(.mm-fade) { animation-delay: 0ms, calc(var(--mm-t-place-overlap-start) * (var(--mm-t-place-out-dur) + var(--mm-t-place-in-dur))); }
+::view-transition-new(.mm-fade) { animation-delay: calc(var(--mm-t-place-overlap-start) * (var(--mm-t-place-out-dur) + var(--mm-t-place-in-dur))); }
+
+/* After a navigation the new page's heading takes focus (AppLayoutClient) so a screen reader starts
+   there; it is not a control, so it draws no focus ring. */
+#app-main h1[tabindex='-1']:focus { outline: none; }
+
+/* The frame holds still: the bar, the dock and the sidebar are taken out of the page's picture only
+   while an arena navigation plays (never during the theme switch), and drawn above it, so the content
+   moves under them as in the app and never across the dock. */
+:root:active-view-transition-type(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade) .arena-topbar { view-transition-name: mm-frame-top; }
+:root:active-view-transition-type(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade) .arena-bottomnav { view-transition-name: mm-frame-dock; }
+:root:active-view-transition-type(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade) .arena-sidebar { view-transition-name: mm-frame-side; }
+::view-transition-group(mm-frame-top), ::view-transition-group(mm-frame-dock), ::view-transition-group(mm-frame-side) { animation: none; z-index: 100; }
+::view-transition-old(mm-frame-top), ::view-transition-old(mm-frame-dock), ::view-transition-old(mm-frame-side) { display: none; }
+::view-transition-new(mm-frame-top), ::view-transition-new(mm-frame-dock), ::view-transition-new(mm-frame-side) { animation: none; }
+
 /* ==========================================================================
    REDUCED MOTION for the kit. globals.css finishes every one-shot motion at once; the app instead
    keeps a short fade where something arrives, so nothing pops in. Opacity only, 120 ms.
@@ -443,6 +507,7 @@ html[data-theme='light'] .mk-rim::after { background: conic-gradient(from -90deg
 }
 @media (prefers-reduced-motion: reduce) {
   :is(.mk-pop, .mk-rise, .mk-stagger > *) { animation: mk-fade var(--mm-dur-reduced-fade) linear backwards; }
+  .mk-stagger > :nth-child(n) { animation: mk-fade var(--mm-dur-reduced-fade) linear backwards; }
   ::view-transition-old(.mm-place-fwd), ::view-transition-old(.mm-place-back), ::view-transition-old(.mm-push), ::view-transition-old(.mm-pop),
   ::view-transition-old(.mm-rise), ::view-transition-old(.mm-rise-back), ::view-transition-old(.mm-fade) {
     z-index: auto; animation: mm-vt-fade-out var(--mm-t-reduced-out-dur) linear both;

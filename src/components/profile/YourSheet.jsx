@@ -13,8 +13,9 @@ import { useCountUp } from '@/lib/motion';
 import { EXAM_LABEL, SUBJECT_LIMIT, SUBJECTS_EDIT_HREF, sheetSubjects, subjectCountLine } from './accountModel.mjs';
 import './account.css';
 
-function Roll({ value, suffix = '' }) {
-  const shown = useCountUp(value, { from: 0, duration: 800 });
+// The first view climbs from 0; after that the figure is remembered and only a real change rolls (WA-02).
+function Roll({ id, value, suffix = '' }) {
+  const shown = useCountUp(value, { from: 0, memoryKey: `your-sheet:${id}` });
   return <>{shown}{suffix}</>;
 }
 
@@ -88,12 +89,12 @@ export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', 
 
       <dl className="acct-stats" aria-label="Your mocks at a glance" aria-busy={mocks.status === 'loading' || undefined}>
         <Stat label="Mocks taken">
-          {mocks.status === 'loading' ? <><span className="acct-sk acct-sk--figure skeleton" aria-hidden="true" /><span className="sr-only">Loading</span></> : mocks.status === 'error' ? <span className="acct-stats__none">Did not load</span> : <Roll value={mocks.count} />}
+          {mocks.status === 'loading' ? <><span className="acct-sk acct-sk--figure skeleton" aria-hidden="true" /><span className="sr-only">Loading</span></> : mocks.status === 'error' ? <span className="acct-stats__none">Did not load</span> : <Roll id={`${user?.id || 'you'}:mocks`} value={mocks.count} />}
         </Stat>
         <Stat label="Average score">
           {mocks.status === 'loading' ? <><span className="acct-sk acct-sk--figure skeleton" aria-hidden="true" /><span className="sr-only">Loading</span></>
             : mocks.status === 'error' ? <button type="button" className="acct-link acct-link--inline" onClick={onRetry}>Try again</button>
-              : mocks.average === null ? <span className="acct-stats__none">No mocks yet</span> : <Roll value={mocks.average} suffix="%" />}
+              : mocks.average === null ? <span className="acct-stats__none">No mocks yet</span> : <Roll id={`${user?.id || 'you'}:average`} value={mocks.average} suffix="%" />}
         </Stat>
         <div className="acct-stats__item acct-stats__next">
           <dt>Next session</dt>

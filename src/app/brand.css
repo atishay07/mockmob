@@ -98,7 +98,7 @@
 @keyframes logoDotWake {
   0% {
     opacity: 0;
-    transform: scale(0.2);
+    transform: scale(0.6); /* a small mark wakes from 0.6, never from a point (pass 1016e WA-04) */
   }
   55% {
     opacity: 1;

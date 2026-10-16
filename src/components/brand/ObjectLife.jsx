@@ -117,6 +117,16 @@ function onPopState() {
   markFlight('back');
 }
 
+// In the arena the float runs twice and rests (subject-object.css). Coming back into view, the pointer arriving
+// or focus breathes it once more: a fresh animation name restarts it from the rest pose. Only once it is resting,
+// so it never jumps out of a float that is still playing.
+function breatheAgain(el) {
+  if (!el?.classList.contains('subj-obj--alive') || reducedMotion()) return;
+  const float = el.querySelector('.subj-obj__float');
+  if (float?.getAnimations?.().some((a) => a.playState === 'running')) return;
+  el.dataset.float = el.dataset.float === 'a' ? 'b' : 'a';
+}
+
 function register(life) {
   loop.lives.add(life);
   if (!loop.listening) {
@@ -129,9 +139,11 @@ function register(life) {
       for (const entry of entries) {
         const found = entry.target.__mmLife;
         if (!found) continue;
+        const back = entry.isIntersecting && entry.target.hasAttribute('data-offscreen');
         found.visible = entry.isIntersecting;
         entry.target.toggleAttribute('data-offscreen', !entry.isIntersecting);
         if (!entry.isIntersecting) found.rest();
+        else if (back) breatheAgain(entry.target);
       }
     }, { rootMargin: '64px' });
   }
@@ -345,8 +357,10 @@ function attachLife(el, { art, framed, flight, amplitude, parallax }) {
   };
   const onEnter = (e) => {
     if (e.pointerType !== 'mouse' || reducedMotion()) return;
+    breatheAgain(el);
     aimFrom(e);
   };
+  const onFocus = () => breatheAgain(el);
   const onMove = (e) => {
     if (reducedMotion()) return;
     if (down && e.pointerId === down.id && Math.hypot(e.clientX - down.x, e.clientY - down.y) > LIFE.tapSlopPx) down.travelled = true;
@@ -384,6 +398,8 @@ function attachLife(el, { art, framed, flight, amplitude, parallax }) {
   el.addEventListener('pointerdown', onDown);
   el.addEventListener('pointerup', onUp);
   el.addEventListener('pointercancel', onCancel);
+  const focusHost = el.closest('a, button') || el;
+  focusHost.addEventListener('focusin', onFocus);
   // A keyboard press on the link around the object also starts the flight.
   const host = flight ? el.closest('a, button') : null;
   const onHostClick = (e) => { if (e.detail === 0) claimFlight(); };
@@ -406,6 +422,7 @@ function attachLife(el, { art, framed, flight, amplitude, parallax }) {
     el.removeEventListener('pointerdown', onDown);
     el.removeEventListener('pointerup', onUp);
     el.removeEventListener('pointercancel', onCancel);
+    focusHost.removeEventListener('focusin', onFocus);
     host?.removeEventListener('click', onHostClick);
     imgEl?.removeEventListener('load', applyMask);
     // A landing still due plays on the same element when React re-runs the effect in development.

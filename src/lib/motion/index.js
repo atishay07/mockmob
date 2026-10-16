@@ -26,7 +26,7 @@ export const MK = {
   draw: 'mk-draw', // stroke inks on (the path needs pathLength="1")
   pop: 'mk-pop', // arrives from 0.97 with a fade
   rise: 'mk-rise', // fades in rising 14 px
-  stagger: 'mk-stagger', // children rise in order (set --i on each child; capped at the eighth)
+  stagger: 'mk-stagger', // one lead rises, the next two fade up, the rest arrive together (mk-stagger--flat: fade only)
   swipe: 'mk-swipe', // follows --mk-swipe-x
   drag: 'mk-drag', // useDragCommit's element
   swap: 'mk-swap', // SwapKey's box

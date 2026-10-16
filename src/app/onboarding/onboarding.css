@@ -146,10 +146,11 @@ html[data-theme='light'] .ob {
 .ob-tick--on { border-color: transparent; }
 .ob-tick--on::before {
   content: ''; position: absolute; inset: 0; border-radius: 50%; background: var(--volt, #d2f000);
-  transform-origin: 100% 0; animation: ob-disc var(--mm-spring-release-dur) var(--mk-spring) both;
+  transform-origin: 100% 0; animation: ob-disc var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop) both;
 }
 html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow: inset 0 0 0 1px #9db400; }
-@keyframes ob-disc { from { transform: scale(0.2); opacity: 0; } 60% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
+/* The ink disc is a small mark: from 0.6 and nothing, on the icon-pop spring (WA-04). */
+@keyframes ob-disc { from { transform: scale(0.6); opacity: 0; } 40% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
 
 /* ---------- Step 2: study days a week ---------- */
 .ob-days { display: grid; gap: 14px; justify-items: stretch; max-width: 680px; }
