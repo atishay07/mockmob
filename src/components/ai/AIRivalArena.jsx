@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -19,6 +19,10 @@ import {
 import { RIVAL_PROFILES } from '@/services/ai-rival/rivalProfiles';
 import { useAuth } from '@/components/AuthProvider';
 import { creditCount, usesLine } from '@/lib/creditCopy.mjs';
+import MobiReact from '@/components/brand/MobiReact';
+import { useMobiPrefs } from '@/lib/mobiPrefs';
+import { REVEAL_AT, REVEAL_PARTS, accuracyNote, rivalMobi } from './rivalReveal.mjs';
+import './rival-reveal.css';
 
 const VISIBLE_RIVAL_IDS = [
   'NORTH_CAMPUS_RIVAL',
@@ -499,38 +503,103 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
   const share = result.shareCard || {};
   const shareText = `${share.headline || title} Score ${share.score ?? result.user.score} vs ${share.rivalScore ?? result.rival.score} against ${battle.profile.name}. Next move: ${result.outro?.nextMove || result.nextMoveHint || 'review the benchmark leak.'}`;
 
+  // The reveal: the score, then the comparison, then Mobi's reaction, then the next move
+  // (rivalReveal.mjs). A tap or a key lands everything at once; Reduce motion draws it in place.
+  const prefs = useMobiPrefs();
+  const reaction = rivalMobi(result.result, { celebrations: prefs.celebrations });
+  const [stage, setStage] = useState(0);
+  const [mobiDone, setMobiDone] = useState(false);
+  const wide = useWide();
+  const rootRef = useRef(null);
+  // The score is the first thing seen: a submit tapped low on a phone would otherwise leave the
+  // result scrolled past its own headline. Instant, before the first part lands.
+  useLayoutEffect(() => {
+    const node = rootRef.current;
+    if (node && node.getBoundingClientRect().top < 0) node.scrollIntoView({ block: 'start' });
+  }, []);
+  useEffect(() => {
+    if (prefs.reduced) {
+      const id = window.requestAnimationFrame(() => setStage(REVEAL_PARTS.length));
+      return () => window.cancelAnimationFrame(id);
+    }
+    const timers = [];
+    // The first part waits one frame so its entering state is painted and the score lands.
+    const frame = window.requestAnimationFrame(() => {
+      REVEAL_PARTS.forEach((part, index) => {
+        timers.push(window.setTimeout(() => setStage((current) => Math.max(current, index + 1)), REVEAL_AT[part]));
+      });
+    });
+    const landAll = () => {
+      timers.forEach((id) => window.clearTimeout(id));
+      setStage(REVEAL_PARTS.length);
+    };
+    window.addEventListener('pointerdown', landAll, { once: true });
+    window.addEventListener('keydown', landAll, { once: true });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      timers.forEach((id) => window.clearTimeout(id));
+      window.removeEventListener('pointerdown', landAll);
+      window.removeEventListener('keydown', landAll);
+    };
+  }, [prefs.reduced]);
+  const shown = (part) => stage > REVEAL_PARTS.indexOf(part);
+  const partProps = (part, extra = {}) => ({ 'data-in': shown(part) ? 'true' : 'false', inert: shown(part) ? undefined : true, ...extra });
+  // After his one act he stands still beside the next move: no idle loop. Under Reduce motion he
+  // keeps the act's still frame. Under Celebrations Off he stands still from the start.
+  const mobiAct = reaction && (mobiDone && !prefs.reduced ? 'idle' : reaction.act);
+  const mobiStill = Boolean(reaction) && ((mobiDone && !prefs.reduced) || reaction.act === 'idle');
+  const accuracyLine = accuracyNote(result.user);
+
   return (
-    <div className="grid gap-6">
-      <header className="grid gap-5 rounded-2xl border border-white/10 bg-black/25 p-5 lg:grid-cols-[1fr_auto] lg:items-center">
+    <div ref={rootRef} className="rv-root grid gap-6" data-reveal-stage={stage}>
+      <header className="rv-part rv-score grid gap-5 rounded-2xl border border-white/10 bg-black/25 p-5 lg:grid-cols-[1fr_auto] lg:items-center" {...partProps('score')}>
         <div>
-          <div className="mono-label text-volt">Benchmark result</div>
-          <h1 className="mt-2 font-display text-[clamp(30px,5vw,56px)] font-black leading-[1.02] text-zinc-50">{title}</h1>
+          <h1 className="font-display text-[clamp(30px,5vw,56px)] font-black leading-[1.02] text-zinc-50">{title}</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-400">
             {result.outro?.summary || `${share.headline || 'Shadow Benchmark complete'}.`}
           </p>
         </div>
         <div className="rounded-2xl border border-volt/25 bg-volt/10 p-5 text-center">
-          <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-volt">{share.rankTitle || 'Rival card'}</div>
-          <div className="mt-2 font-display text-4xl font-black text-zinc-50">{result.user.score}-{result.rival.score}</div>
-          <div className="mt-1 text-xs font-semibold text-zinc-400">{battle.profile.name}</div>
+          <div className="text-[13px] font-semibold text-volt">{share.rankTitle || 'Rival card'}</div>
+          <div className="rv-scoreline mt-2 font-display text-4xl font-black text-zinc-50" role="img" aria-label={`You ${result.user.score}, ${battle.profile.name} ${result.rival.score}`}>
+            {result.user.score}<span className="px-1 text-zinc-500" aria-hidden="true">–</span>{result.rival.score}
+          </div>
+          <div className="mt-1 text-xs font-semibold text-zinc-400">You against {battle.profile.name}</div>
         </div>
       </header>
 
-      <section className="grid gap-3 md:grid-cols-3">
-        <Metric label="Your accuracy" value={`${result.user.accuracy}%`} icon={<Trophy size={15} />} />
-        <Metric label="Benchmark accuracy" value={`${result.rival.accuracy}%`} icon={<Swords size={15} />} />
-        <Metric label="Your time" value={formatSeconds(result.user.totalTimeSeconds)} icon={<Timer size={15} />} />
+      <section className="rv-compare" aria-label="How you compare">
+        <ResultStat part={partProps('comparison', { style: { '--i': 0 } })} label="Your accuracy" value={`${result.user.accuracy}%`} note={accuracyLine} />
+        <ResultStat part={partProps('comparison', { style: { '--i': 1 } })} label="Benchmark accuracy" value={`${result.rival.accuracy}%`} note={`${battle.profile.name}, a simulated benchmark`} />
+        <ResultStat part={partProps('comparison', { style: { '--i': 2 } })} label="Your time" value={formatSeconds(result.user.totalTimeSeconds)} note={Number.isFinite(result.rival.totalTimeSeconds) ? `Benchmark ${formatSeconds(result.rival.totalTimeSeconds)}` : null} />
       </section>
 
-      <section className="grid gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 lg:grid-cols-[1fr_auto] lg:items-center">
-        <div>
-          <div className="mono-label text-volt">Next move</div>
+      <section className={`rv-part grid gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 ${reaction ? 'grid-cols-[auto_minmax(0,1fr)] lg:grid-cols-[auto_minmax(0,1fr)_auto]' : 'lg:grid-cols-[1fr_auto]'} items-center`} {...partProps('mobi')}>
+        {reaction ? (
+          <div className="rv-mobi">
+            {/* Mounted when his part lands, so the act starts on the moment. The Rival console is a
+                dark island in Day too (arena.css), so his light is pinned to Night. */}
+            {shown('mobi') ? (
+              <MobiReact
+                act={mobiAct}
+                still={mobiStill}
+                mood={reaction.mood}
+                size={wide ? 106 : 86}
+                theme="night"
+                label={reaction.label}
+                onDone={() => setMobiDone(true)}
+              />
+            ) : null}
+          </div>
+        ) : null}
+        <div className="rv-part" {...partProps('next')}>
+          <h2 className="text-[13px] font-semibold text-volt">Next move</h2>
           <p className="mt-2 text-sm leading-6 text-zinc-300">{result.outro?.nextMove || result.nextMoveHint}</p>
           <p className="mt-2 text-xs leading-5 text-zinc-500">
-            Share-card data is ready: {share.headline || 'Shadow Benchmark result'} with score {share.score ?? result.user.score} vs {share.rivalScore ?? result.rival.score}.
+            Share text: {share.headline || 'Shadow Benchmark result'}, score {share.score ?? result.user.score} vs {share.rivalScore ?? result.rival.score}.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className={`rv-part flex flex-wrap gap-2 ${reaction ? 'col-span-2 lg:col-span-1' : ''}`} {...partProps('next', { style: { '--i': 1 } })}>
           <button
             type="button"
             onClick={onRematch}
@@ -565,6 +634,29 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
       </section>
     </div>
   );
+}
+
+function ResultStat({ part, label, value, note }) {
+  return (
+    <div className="rv-part rv-stat" {...part}>
+      <div className="rv-stat__label">{label}</div>
+      <div className="rv-stat__value font-display font-black text-zinc-50">{value}</div>
+      {note ? <div className="rv-stat__note">{note}</div> : null}
+    </div>
+  );
+}
+
+// Mobi is drawn a size up on wide screens; the box he stands in is reserved at both sizes.
+function useWide() {
+  const [wide, setWide] = useState(false);
+  useEffect(() => {
+    const media = window.matchMedia('(min-width: 1024px)');
+    const update = () => setWide(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  return wide;
 }
 
 function DailyChallenge({ profile, onStart, disabled }) {

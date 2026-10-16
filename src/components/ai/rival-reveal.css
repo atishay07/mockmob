@@ -1,0 +1,53 @@
+/* The Rival result reveal (AIRivalArena ResultScreen; the order and timings are rivalReveal.mjs).
+   The score lands, then the comparison, then Mobi's reaction, then the next move. Each part enters
+   once: opacity and a short rise, 280 ms on the Arena's ease-out (--a-ease). Transitions, not
+   keyframes, so a tap that lands everything at once retargets from wherever each part is. A part
+   that has not landed is inert (no clicks, no focus) until it does. Reduce motion (the device
+   setting or the student's own) draws every part in place with no movement. */
+
+.rv-part {
+  transition: opacity 280ms var(--a-ease, cubic-bezier(0.16, 1, 0.3, 1)), transform 280ms var(--a-ease, cubic-bezier(0.16, 1, 0.3, 1));
+  transition-delay: calc(var(--i, 0) * 50ms);
+}
+.rv-part[data-in='false'] { opacity: 0; transform: translate3d(0, 8px, 0); }
+
+/* The score lands rather than rises: a small settle in scale from where the eye already is. */
+.rv-score { transform-origin: 50% 60%; }
+.rv-score[data-in='false'] { transform: scale(0.96); }
+
+.rv-scoreline { font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+
+/* Mobi's box is reserved from the start, so nothing moves when he arrives. He fades in place; the
+   rig carries the act. */
+.rv-mobi { display: flex; align-items: flex-end; justify-content: center; width: 72px; min-height: 86px; }
+@media (min-width: 1024px) { .rv-mobi { width: 88px; min-height: 106px; } }
+
+/* The comparison. On a phone it is one list (label and note on the left, the number on the right),
+   so the score, the comparison and Mobi fit the first screen together; from 768px it is three
+   side-by-side panels. */
+.rv-root { scroll-margin-top: 76px; }
+.rv-compare {
+  display: grid; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; background: rgba(255, 255, 255, 0.03);
+}
+.rv-stat {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; row-gap: 2px; align-items: center;
+  padding: 12px 16px;
+}
+.rv-stat + .rv-stat { border-top: 1px solid rgba(255, 255, 255, 0.08); }
+.rv-stat__label { grid-column: 1; font-size: 13px; font-weight: 600; color: var(--a-ink-3, #93a08f); }
+.rv-stat__value { grid-column: 2; grid-row: 1 / span 2; font-size: 22px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.rv-stat__note { grid-column: 1; font-size: 12px; line-height: 1.4; color: var(--a-ink-3, #93a08f); }
+@media (min-width: 768px) {
+  .rv-compare { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; border: 0; border-radius: 0; background: none; }
+  .rv-stat { display: block; padding: 16px; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; background: rgba(255, 255, 255, 0.03); }
+  .rv-stat + .rv-stat { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+  .rv-stat__value { display: block; margin-top: 8px; font-size: 24px; }
+  .rv-stat__note { margin-top: 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-part { transition: none; }
+  .rv-part[data-in='false'], .rv-score[data-in='false'] { opacity: 1; transform: none; }
+}
+html[data-motion='reduced'] .rv-part { transition: none; }
+html[data-motion='reduced'] :is(.rv-part, .rv-score)[data-in='false'] { opacity: 1; transform: none; }

@@ -52,6 +52,27 @@ const SAMPLE = [
   ['Vocabulary', 'Choose the option nearest in meaning to CANDID:', ['Hidden', 'Frank', 'Careful', 'Sweet']],
 ];
 
+// Illustrative Rival benchmark for ?view=rival&battle=win|loss|tie: the sample questions, a labelled
+// practice rival and a result in the shape /api/ai/rival/submit returns. Never real scores.
+const RIVAL_FIXTURE_PROFILE = { name: 'North Campus Rival', archetype: 'Steady benchmark', description: 'A simulated benchmark that answers at a steady pace.' };
+function rivalFixtureBattle() {
+  const questions = SAMPLE.map(([chapter, question, options], i) => ({ id: `preview-rival-q${i + 1}`, subject: 'accountancy', chapter, question, options, difficulty: 'medium' }));
+  return { ok: true, battle: { id: 'preview-battle', rivalType: 'NORTH_CAMPUS_RIVAL', profile: RIVAL_FIXTURE_PROFILE, subjects: ['accountancy'], questions, questionCount: questions.length, timeLimitMinutes: 10, rivalBenchmark: { score: 30, accuracy: 60, totalTimeSeconds: 240 }, requiresCredits: false, creditCost: 0, charge: null, createdAt: new Date().toISOString() }, usageSnapshot: {} };
+}
+function rivalFixtureResult(kind) {
+  const user = kind === 'win' ? { score: 40, accuracy: 100, correct: 4, answered: 4, total: 5, totalTimeSeconds: 196 }
+    : kind === 'tie' ? { score: 30, accuracy: 60, correct: 3, answered: 5, total: 5, totalTimeSeconds: 240 }
+      : { score: 20, accuracy: 50, correct: 2, answered: 4, total: 5, totalTimeSeconds: 288 };
+  const result = kind;
+  const headline = kind === 'win' ? 'Benchmark cleared' : kind === 'tie' ? 'Dead heat' : 'Benchmark leak found';
+  return {
+    ok: true, result, user, rival: { score: 30, accuracy: 60, totalTimeSeconds: 240, profile: RIVAL_FIXTURE_PROFILE }, rivalType: 'NORTH_CAMPUS_RIVAL',
+    shareCard: { headline, score: user.score, rivalScore: 30, rankTitle: 'Practice benchmark', accuracy: user.accuracy },
+    nextMoveHint: kind === 'loss' ? 'Your pace slipped on the last two questions. Retry with five questions and aim for 50 seconds each.' : 'Retry with ten questions to see if the pace holds.',
+    outro: { summary: kind === 'win' ? `You beat ${RIVAL_FIXTURE_PROFILE.name} ${user.score}-30.` : kind === 'tie' ? `Level at ${user.score}-30, and the same time.` : `You lost ${user.score}-30.` },
+  };
+}
+
 function sessionFor(count) {
   const started = Date.now();
   const questions = Array.from({ length: count }, (_, i) => {
@@ -201,6 +222,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/vote')) return state === 'vote-error' ? json({ error: 'Fixture vote failure' }, 503) : json({ score: 1, userVote: JSON.parse(init.body || '{}').vote_type });
     if (url.pathname === '/api/questions/upload') return json({ error: 'Preview only: no question was submitted. Your draft is still here.' }, 418);
     if (url.pathname === '/api/ai/usage') return json({ ok: true, isPaid: fixture.get('plan') === 'pro', freeRivalUsedToday: false, aiWallet: unreadableWallet('paid_ai_paused') });
+    // ?view=rival&battle=win|loss|tie plays an illustrative benchmark end to end so the result reveal can be seen; nothing is scored or charged.
+    if (url.pathname === '/api/ai/rival/start' && ['win', 'loss', 'tie'].includes(fixture.get('battle'))) return json(rivalFixtureBattle());
+    if (url.pathname === '/api/ai/rival/submit' && ['win', 'loss', 'tie'].includes(fixture.get('battle'))) return json(rivalFixtureResult(fixture.get('battle')));
     if (url.pathname.startsWith('/api/ai/rival/')) return json({ error: 'Preview only: benchmarks cannot start or submit here.' }, 418);
     if (url.pathname === '/api/attempts' && method === 'GET') return json(state === 'empty' ? [] : PREVIEW_ATTEMPTS);
     if (url.pathname === '/api/attempts' && method === 'POST') {
