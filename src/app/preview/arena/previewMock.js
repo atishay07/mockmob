@@ -213,7 +213,8 @@ export const RESULT_PAPER_NAMES = Object.freeze(Object.keys(RESULT_PAPERS));
  * One of the result screen's illustrative papers (weak, avg, strong, perfect, blank: Accountancy full mocks of 50;
  * practice5: a 5-question Business Studies practice), scored by the real scorer, with the real Lab, SWOT and record
  * lines over it and the illustrative cohort repair order the shared fixtures use. Options: held (Q42's key under
- * re-check on avg), repaired (a return visit: the first mistake in repair order already has a written repair).
+ * re-check on avg), repaired (a return visit: true, the first mistake in repair order already has a written repair; 'all', every
+ * mistake repair could open has one).
  */
 export function fixtureResultPaper(name = 'avg', { held = false, repaired = false } = {}) {
   const now = Date.now();
@@ -227,11 +228,19 @@ export function fixtureResultPaper(name = 'avg', { held = false, repaired = fals
   const built = buildMistakeLab({ attempt, answerReviews, cohort: null });
   const order = paperRepairOrder(name);
   const live = order ? { ...order, items: order.items.filter((x) => !answerReviews[x.qid]), qids: order.qids.filter((q) => !answerReviews[q]) } : null;
-  const lab = built ? { ...fixtureLabLoop({ lab: built, attempt, answerReviews }), repairOrder: live, repaired: repaired && live?.qids?.length ? [live.qids[0]] : [] } : null;
+  const lab = built ? { ...fixtureLabLoop({ lab: built, attempt, answerReviews }), repairOrder: live, repaired: repaired === 'all' ? mistakeIds(attempt, answerReviews) : repaired && live?.qids?.length ? [live.qids[0]] : [] } : null;
   const ledgerGroups = lab && (lab.state === 'ready' || lab.state === 'basic') ? lab.groups.map((g) => g.id) : null;
   const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState: 'ready', missedBefore: {}, now, ledgerGroups });
   const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
   return { attempt, swot, mistakeInsights, answerReviewState: 'ready', answerReviews, lab };
+}
+
+// The wrong answers of a fixture paper that repair can open (keys held for re-check are left out).
+function mistakeIds(attempt, answerReviews) {
+  return (attempt.questionsSnapshot || []).filter((q, i) => {
+    const given = attempt.details?.[i]?.givenIndex;
+    return Number.isInteger(given) && given !== q.correctIndex && !answerReviews[q.id];
+  }).map((q) => q.id);
 }
 
 // A v3 Mistake Repair payload (fixture text, no model call, no credit). `stored` is the free reopen.

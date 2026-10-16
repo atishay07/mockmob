@@ -201,9 +201,10 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // &lab=older leaves the rule check as not checked (the older-paper line).
       const loop = (built) => (mock === 'full' ? fixtureSlice4({ lab: fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || (fixture.get('lab') === 'older' ? 'not_checked' : 'kept'), order: fixture.get('order') || 'cohort' }), attempt: built.attempt, answerReviews: built.answerReviews, traps: fixture.get('traps') || 'on' }) : built.lab);
       // The 17 Oct result papers (RESULT-1017 section 5): &paper=weak|avg|strong|perfect|blank|practice5, with &held=1 (a key
-      // under re-check) and &return=1 (the first mistake already repaired: it opens free, never offered as paid).
+      // under re-check), &return=1 (the first mistake already repaired: it opens free, never offered as paid) and &return=all
+      // (every mistake repaired). &wallet=zero is a known balance of 0 AI credits.
       if (RESULT_PAPER_NAMES.includes(fixture.get('paper'))) {
-        const built = fixtureResultPaper(fixture.get('paper'), { held: fixture.get('held') === '1', repaired: fixture.get('return') === '1' });
+        const built = fixtureResultPaper(fixture.get('paper'), { held: fixture.get('held') === '1', repaired: fixture.get('return') === 'all' ? 'all' : fixture.get('return') === '1' });
         return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
       }
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
@@ -404,6 +405,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // ?wallet=down simulates a missing schema; otherwise a paused wallet with stored balances.
       const page = new URLSearchParams(window.location.search);
       const wallet = page.get('wallet') === 'down' ? unreadableWallet('schema_unavailable')
+        : page.get('wallet') === 'zero' ? projectWallet({ included_monthly_credits: 50, included_credits_used: 50, bonus_credits: 0, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: false, includedMonthlyCredits: 50, paidAiOpen: false })
         : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')) });
       return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: 40, label: 'Practice credits (Quick Practice and Full Mock)' } });
     }
