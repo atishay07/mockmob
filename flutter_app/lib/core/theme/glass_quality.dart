@@ -9,10 +9,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../storage/app_prefs.dart';
 import '../storage/storage_providers.dart';
+import '../widgets/materials/glass_shader.dart';
 
-/// How glass is drawn (brief section 5), chosen in You > Appearance.
+/// How glass is drawn (brief section 5), chosen in You > Appearance. This setting is also the
+/// app's Reduce Transparency (Android has no system flag for it): Off is solid with hairlines.
 enum GlassQuality {
-  /// Live backdrop blur on the dock, Start and sheets.
+  /// Live glass: the lens where the phone can run it, otherwise blur and a thicker tint.
   full,
 
   /// Tint plus edge light, no live blur.
@@ -24,6 +26,36 @@ enum GlassQuality {
   static GlassQuality? parse(String? raw) => values.asNameMap()[raw];
 }
 
+/// The glass actually drawn (GLASS-1017 section 5.1): the student's [GlassQuality] after the
+/// phone's abilities and its accessibility settings.
+enum GlassTier {
+  /// The lens: rim bend, core blur and the luminosity clamp (`mm_glass.frag`).
+  full,
+
+  /// Full without the shader: blur, a 1.15 saturation lift and a thicker tint, no rim bend.
+  fullBasic,
+
+  /// No live blur: a dense tint with grain.
+  lite,
+
+  /// Solid, with a hairline.
+  off;
+
+  /// True for the two tiers that read the backdrop live.
+  bool get live => this == full || this == fullBasic;
+
+  /// The tier for [quality] on a phone where the lens is [shaderReady], with high-contrast text
+  /// [highContrast] (which forces Off: section 5.11).
+  static GlassTier resolve(GlassQuality quality, {required bool shaderReady, bool highContrast = false}) {
+    if (highContrast) return GlassTier.off;
+    return switch (quality) {
+      GlassQuality.full => shaderReady ? GlassTier.full : GlassTier.fullBasic,
+      GlassQuality.lite => GlassTier.lite,
+      GlassQuality.off => GlassTier.off,
+    };
+  }
+}
+
 /// The saved glass settings, read before `runApp` so a saved Lite or Off is right on the first
 /// frame instead of flipping from Full after it.
 class GlassBoot {
@@ -33,6 +65,9 @@ class GlassBoot {
   final bool autoLite;
 
   static Future<GlassBoot> read(AppPrefs prefs, {Future<bool> Function()? lowMemory}) async {
+    // The lens program loads alongside the preferences, so the first frame is already the right
+    // tier (no flip from the basic glass to the lens). It never throws.
+    final shader = GlassShader.load();
     try {
       // Both reads start together: each is a round trip to the platform before the first frame.
       final (savedRaw, savedAuto) = await (prefs.glassQuality(), prefs.glassAutoLite()).wait;
@@ -44,8 +79,10 @@ class GlassBoot {
         auto = true;
         await prefs.setGlassAutoLite(true);
       }
+      await shader;
       return GlassBoot(chosen: saved ?? GlassQuality.full, autoLite: auto);
     } on Object {
+      await shader;
       return const GlassBoot();
     }
   }
@@ -141,13 +178,26 @@ final glassQualityProvider = NotifierProvider<GlassQualitySetting, GlassQuality>
 
 /// Publishes the glass quality to the widget tree, so glass widgets need no Riverpod and render
 /// Full in isolation (goldens, the lab).
+///
+/// High-contrast text on the phone (`MediaQuery.highContrast`) forces Off everywhere, whatever
+/// was chosen (GLASS-1017 section 5.11): solid surfaces with stronger hairlines.
 class GlassScope extends InheritedWidget {
   const GlassScope({super.key, required this.quality, required super.child});
 
   final GlassQuality quality;
 
-  static GlassQuality of(BuildContext context) =>
-      context.dependOnInheritedWidgetOfExactType<GlassScope>()?.quality ?? GlassQuality.full;
+  /// The quality in effect: the inherited choice, or Off under high contrast.
+  static GlassQuality of(BuildContext context) {
+    if (MediaQuery.maybeHighContrastOf(context) ?? false) return GlassQuality.off;
+    return context.dependOnInheritedWidgetOfExactType<GlassScope>()?.quality ?? GlassQuality.full;
+  }
+
+  /// The tier drawn: [of], with the lens when [GlassShader.ready]. [quality] overrides the
+  /// inherited choice (the lab and goldens), never high contrast.
+  static GlassTier tierOf(BuildContext context, {GlassQuality? quality}) {
+    final highContrast = MediaQuery.maybeHighContrastOf(context) ?? false;
+    return GlassTier.resolve(quality ?? of(context), shaderReady: GlassShader.ready, highContrast: highContrast);
+  }
 
   @override
   bool updateShouldNotify(GlassScope oldWidget) => quality != oldWidget.quality;
