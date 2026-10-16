@@ -284,6 +284,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     // either way (a reopened result would otherwise mount with no bubbles and jump when they arrive).
     final rowsSettled = model.hasRows || detail != null || failedKeys;
     final isFresh = _fresh;
+    final tone = finishToneFor(marks, previousAccuracy: _previousAccuracy(attempt));
     final staged = isFresh == true && !_settled && !Motion.reduced(context);
     // What is below the moment waits for it, then rises in: the list never gives the result away
     // while the score still counts up.
@@ -344,7 +345,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                   key: ValueKey('finish-${model.cells.length}'),
                                   marks: marks,
                                   cells: model.cells,
-                                  tone: finishToneFor(marks, previousAccuracy: _previousAccuracy(attempt)),
+                                  tone: tone,
                                   recordedAt: recordedAt,
                                   fresh: isFresh,
                                   subject: subjectNameFor(_publicSubject(attempt), ref.watch(practiceSubjectsProvider).value),
@@ -392,7 +393,14 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                           ],
                         ),
                       ),
-                      ResultFoot(primary: _primary(attempt, model), showFinish: !large, onFinish: _finish),
+                      ResultFoot(
+                        primary: _primary(attempt, model),
+                        showFinish: !large,
+                        onFinish: _finish,
+                        // After a calm or good set only (after a mixed one the next step is Repair, not
+                        // a nudge to stop), and once the moment is over.
+                        lateLine: isFresh != null && !staged && (tone == FinishTone.good || tone == FinishTone.great),
+                      ),
                     ],
                   ),
                 ),

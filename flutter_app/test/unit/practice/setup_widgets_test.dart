@@ -1,9 +1,14 @@
 // Walk-through round 3 on the practice setup page: the chosen subject tile is in view (P3-28)
-// and a tap on a locked Pro difficulty answers (P3-6).
+// and a tap on a locked Pro difficulty answers (P3-6, reworked in AP3-08 A26).
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
+import 'package:mockmob/core/motion/shake.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
@@ -122,44 +127,74 @@ void main() {
     });
   });
 
-  group('a tap on the locked difficulty answers', () {
-    Future<_Recorder> pumpPicker(WidgetTester tester, {required bool isPro}) => _pump(
+  group('a tap on the locked difficulty answers (AP3-08, A26)', () {
+    Future<_Recorder> pumpPicker(WidgetTester tester, {required bool isPro, ValueChanged<PracticeDifficulty>? onChanged}) => _pump(
       tester,
       Padding(
         padding: const EdgeInsets.all(16),
-        child: DifficultyPicker(value: PracticeDifficulty.balanced, isPro: isPro, onChanged: (_) {}),
+        child: DifficultyPicker(value: PracticeDifficulty.balanced, isPro: isPro, onChanged: onChanged ?? (_) {}),
       ),
     );
 
-    Color noteColor(WidgetTester tester) => tester.widget<Text>(find.text(PracticeCopy.difficultyProNote)).style!.color!;
+    double shakeOffset(WidgetTester tester) => tester.widget<Transform>(find.descendant(of: find.byType(MmShake), matching: find.byType(Transform)).first).transform.getTranslation().x;
 
-    testWidgets('a free account: a tick, and the reason lights up for a moment without moving anything', (tester) async {
-      final haptics = await pumpPicker(tester, isPro: false);
-      final resting = noteColor(tester);
-      final before = tester.getRect(find.text(PracticeCopy.difficultyProNote));
-
-      await tester.tap(find.text('Hard'));
-      await tester.pump();
-      expect(haptics.calls, ['selection']);
-      await tester.pump(const Duration(milliseconds: 550));
-      expect(noteColor(tester), isNot(resting), reason: 'the reason is lit at the peak');
-      expect(tester.getRect(find.text(PracticeCopy.difficultyProNote)), before, reason: 'colour only: nothing shifts');
-
-      await tester.pump(const Duration(milliseconds: 700));
-      expect(noteColor(tester).toARGB32(), resting.toARGB32(), reason: 'and settles back');
+    testWidgets('a free account sees three small locks, Balanced chosen and the quiet note, and no Pro tag or button', (tester) async {
+      await pumpPicker(tester, isPro: false);
+      expect(find.byIcon(LucideIcons.lock), findsNWidgets(3));
+      expect(find.text(PracticeCopy.difficultyBalancedNote), findsOneWidget);
+      expect(find.text(PracticeCopy.difficultyLocked), findsNothing);
+      expect(find.text(PracticeCopy.proTag), findsNothing);
+      for (final lock in tester.widgetList<Icon>(find.byIcon(LucideIcons.lock))) {
+        expect(lock.size, 12);
+      }
+      // At 360 dp every word stays whole beside its lock (a locked level has no bubble to take the room).
+      for (final word in ['Balanced', 'Easy', 'Medium', 'Hard']) {
+        final paragraph = tester.renderObject<RenderParagraph>(find.text(word));
+        expect(paragraph.didExceedMaxLines, isFalse, reason: '$word is not cut');
+      }
     });
 
-    testWidgets('a Pro account changes the level and gets no extra feedback', (tester) async {
+    testWidgets('a tap does not select: the row shakes 4 dp or less, comes back to rest, and the line says why', (tester) async {
       PracticeDifficulty? picked;
-      final haptics = await _pump(
-        tester,
-        DifficultyPicker(value: PracticeDifficulty.balanced, isPro: true, onChanged: (d) => picked = d),
-      );
+      final haptics = await pumpPicker(tester, isPro: false, onChanged: (d) => picked = d);
+      await tester.tap(find.text('Hard'));
+      await tester.pump();
+      expect(picked, isNull, reason: 'a locked level is never chosen');
+      var widest = 0.0;
+      for (var t = 0; t < MmShake.duration.inMilliseconds; t += 11) {
+        await tester.pump(const Duration(milliseconds: 11));
+        widest = math.max(widest, shakeOffset(tester).abs());
+      }
+      expect(widest, inInclusiveRange(1, MmShake.amplitude));
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(shakeOffset(tester), 0);
+      expect(haptics.calls, ['light', 'light'], reason: 'the shake carries the one warn haptic (two light taps) and no selection tick');
+      expect(find.text(PracticeCopy.difficultyLocked), findsOneWidget);
+      expect(find.text(PracticeCopy.difficultyBalancedNote), findsNothing);
+    });
+
+    testWidgets('at 1.3x text the chips lock the same way', (tester) async {
+      tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      PracticeDifficulty? picked;
+      await pumpPicker(tester, isPro: false, onChanged: (d) => picked = d);
+      expect(find.byIcon(LucideIcons.lock), findsNWidgets(3));
+      await tester.tap(find.text('Medium'));
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(picked, isNull);
+      expect(find.text(PracticeCopy.difficultyLocked), findsOneWidget);
+    });
+
+    testWidgets('a Pro account sees no lock or note, changes the level and gets the one selection tick', (tester) async {
+      PracticeDifficulty? picked;
+      final haptics = await pumpPicker(tester, isPro: true, onChanged: (d) => picked = d);
+      expect(find.byIcon(LucideIcons.lock), findsNothing);
       await tester.tap(find.text('Hard'));
       await tester.pump();
       expect(picked, PracticeDifficulty.hard);
       expect(haptics.calls, ['selection']);
-      expect(find.text(PracticeCopy.difficultyProNote), findsNothing);
+      expect(find.text(PracticeCopy.difficultyBalancedNote), findsNothing);
+      expect(find.text(PracticeCopy.difficultyLocked), findsNothing);
     });
   });
 }

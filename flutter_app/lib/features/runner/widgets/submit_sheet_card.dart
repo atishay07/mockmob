@@ -129,9 +129,30 @@ class SubmitSheetCard extends StatelessWidget {
   }
 }
 
-/// What the two marked shapes on the sheet mean, in words, only for the shapes that are on it:
-/// a ringed disc is an answer that is marked for review, a ringed dot a marked question without
-/// an answer. Unanswered (dashed) needs no key: it is the "not answered" count's own glyph.
+/// The four states of a question on the sheet, apart, so the four counts add up to the total:
+/// answered, not answered, and each of those marked for review (AP3-07, A21).
+typedef SheetLegendCounts = ({int answered, int notAnswered, int markedAnswered, int markedNotAnswered});
+
+SheetLegendCounts sheetLegendCountsOf(List<SheetCell> cells) {
+  var a = 0, n = 0, ma = 0, mn = 0;
+  for (final c in cells) {
+    if (c.answered && c.marked) {
+      ma++;
+    } else if (c.marked) {
+      mn++;
+    } else if (c.answered) {
+      a++;
+    } else {
+      n++;
+    }
+  }
+  return (answered: a, notAnswered: n, markedAnswered: ma, markedNotAnswered: mn);
+}
+
+/// What each shape on the sheet means, in words with its count, four entries at 12 sp that add up to
+/// the total: a filled disc is an answer, a dashed ring a question without one, and the two marked
+/// shapes (a ringed disc, a ringed dot) are those same two marked for review. It shows only when a
+/// question is marked, and wraps to two lines at 360 dp.
 class _SheetLegend extends StatelessWidget {
   const _SheetLegend({required this.cells});
 
@@ -141,32 +162,51 @@ class _SheetLegend extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final markedAnswered = cells.any((c) => c.answered && c.marked);
-    final markedBlank = cells.any((c) => !c.answered && c.marked);
-    if (!markedAnswered && !markedBlank) return const SizedBox.shrink();
-    Widget item(Widget glyph, String label) => Row(
+    final n = sheetLegendCountsOf(cells);
+    // With nothing marked the sheet has only the two plain shapes, which the figure and the "not
+    // answered" row already say; the legend is for when marks are on it, and then it is all four,
+    // so that the counts add up.
+    if (n.markedAnswered + n.markedNotAnswered == 0) return const SizedBox.shrink();
+    Widget item(Widget glyph, String label, int count) => Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox.square(dimension: 22, child: Center(child: glyph)),
-        const SizedBox(width: MmSpace.s8),
-        Text(label, style: type.caption.copyWith(color: colors.ink2)),
+        const SizedBox(width: MmSpace.s4),
+        Text(
+          '$label $count',
+          style: type.caption.copyWith(color: colors.ink2, fontSize: 12, fontFeatures: const [FontFeature.tabularFigures()]),
+        ),
       ],
     );
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s16),
       child: ExcludeSemantics(
         child: Wrap(
-          spacing: MmSpace.s16,
-          runSpacing: MmSpace.s8,
+          spacing: MmSpace.s12,
+          runSpacing: MmSpace.s4,
           children: [
-            if (markedAnswered)
-              item(CustomPaint(size: const Size.square(22), painter: _MarkedAnsweredGlyph(colors)), RunnerCopy.legendMarkedAnswered),
-            if (markedBlank) item(const Bubble(state: BubbleState.marked, size: 16, animate: false), RunnerCopy.legendMarkedBlank),
+            item(CustomPaint(size: const Size.square(22), painter: _AnsweredGlyph(colors)), RunnerCopy.answered, n.answered),
+            item(const Bubble(state: BubbleState.blank, size: 14, animate: false), RunnerCopy.notAnswered, n.notAnswered),
+            item(CustomPaint(size: const Size.square(22), painter: _MarkedAnsweredGlyph(colors)), RunnerCopy.legendMarkedAnswered, n.markedAnswered),
+            item(const Bubble(state: BubbleState.marked, size: 16, animate: false), RunnerCopy.legendMarkedBlank, n.markedNotAnswered),
           ],
         ),
       ),
     );
   }
+}
+
+/// The disc of an answered question as the sheet draws it: solid ink, no ring.
+class _AnsweredGlyph extends CustomPainter {
+  const _AnsweredGlyph(this.colors);
+
+  final MmColors colors;
+
+  @override
+  void paint(Canvas canvas, Size size) => canvas.drawCircle(size.center(Offset.zero), 6.5, Paint()..color = colors.ink);
+
+  @override
+  bool shouldRepaint(_AnsweredGlyph old) => old.colors != colors;
 }
 
 /// The disc of an answered, marked question as the sheet draws it: solid ink with a ring round it.

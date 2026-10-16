@@ -266,7 +266,7 @@ void main() {
     // The three things to know are one icon row (the full sentences are what a screen reader hears).
     expect(text('Submit ends the mock'), findsOneWidget);
     expect(text('Do Not Disturb on'), findsOneWidget);
-    expect(text('Water, pencil, rough sheet.'), findsOneWidget);
+    expect(text('Water, pencil, rough sheet.'), findsNothing);
     // The ticket-mode line needs a ticket-mode session, which only exists after the start.
     expect(find.textContaining('open MockMob again'), findsNothing);
     await tester.ensureVisible(text('Start mock'));

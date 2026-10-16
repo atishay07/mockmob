@@ -68,7 +68,7 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('12: the before-mock notes are one row', () {
-    testWidgets('the timer, Submit and Do Not Disturb sit on one line, and the aside is under them', (tester) async {
+    testWidgets('the timer, Submit and Do Not Disturb sit on one line, with no orphan aside under them (AP3-08, A25)', (tester) async {
       await _pump(tester, const MockLines());
       final timer = tester.getRect(find.text(PracticeCopy.ruleTimer));
       final submit = tester.getRect(find.text(PracticeCopy.ruleSubmit));
@@ -76,8 +76,7 @@ void main() {
       expect(timer.top, submit.top);
       expect(submit.top, silence.top);
       expect(timer.right <= submit.left && submit.right <= silence.left, isTrue, reason: 'three columns, left to right');
-      final aside = tester.getRect(find.text(PracticeCopy.sheetAside));
-      expect(aside.top >= timer.bottom, isTrue);
+      expect(find.text('Water, pencil, rough sheet.'), findsNothing);
       // The old stacked notes are gone from the screen.
       expect(find.text(PracticeCopy.sheetDnd), findsNothing);
       expect(find.text(PracticeCopy.sheetTimer), findsNothing);

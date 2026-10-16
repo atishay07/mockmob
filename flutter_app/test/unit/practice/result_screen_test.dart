@@ -50,9 +50,9 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.bySemanticsLabel(RegExp('8 of 10 correct')), findsWidgets);
     expect(find.text('8 right, 1 wrong, 1 not attempted'), findsOneWidget);
-    expect(find.text('Accountancy practice, Admission of a partner'), findsOneWidget);
-    // A By-chapter run: the receipt names the chapter as the page does.
-    expect(find.text('Chapter practice finished, Admission of a partner. Recorded at 11:51 PM.'), findsOneWidget);
+    // The eyebrow says what it is and that it is finished; the receipt under the figure is just the time.
+    expect(find.text('Accountancy practice, Admission of a partner, finished'), findsOneWidget);
+    expect(find.text('Recorded at 11:51 PM.'), findsOneWidget);
     // 8 right, 1 wrong: 39 of 50; the wrong answer cost 6 of the 11 marks missed.
     expect(find.text('39 of 50 marks. 1 wrong answer cost 6 of the 11 marks you missed.'), findsOneWidget);
     expect(find.text('Repair 1 mistake'), findsWidgets);
@@ -71,7 +71,7 @@ void main() {
     gate.complete(DateTime(2026, 10, 12, 23, 53));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.text('Practice finished. Recorded at 11:53 PM.'), findsOneWidget);
+    expect(find.text('Recorded at 11:53 PM.'), findsOneWidget);
   });
 
   testWidgets('the first wrong answer is open with its key and explanation, with no raster art', (tester) async {

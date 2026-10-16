@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,10 +51,10 @@ class LengthPicker extends StatelessWidget {
 }
 
 /// Balanced, Easy, Medium or Hard. Choosing a level is a Pro feature on the server
-/// (`PREMIUM_REQUIRED`), so a free account sees the control set to Balanced, disabled, with a
-/// quiet Pro tag and the plain reason; there is no purchase path in the app. A tap on the locked
-/// control answers with the lightest tick and the reason lighting up for a moment (colour only,
-/// so nothing moves).
+/// (`PREMIUM_REQUIRED`), so a free account sees Balanced chosen and Easy, Medium and Hard at 60% ink
+/// with a small lock after the word (AP3-08, A26). A tap on a locked level does not select it: the
+/// row shakes 4 dp and the line under it says why, "Easy, Medium and Hard come with Pro." There is
+/// no upsell button and no purchase path in the app. A Pro student sees no lock at all.
 class DifficultyPicker extends ConsumerStatefulWidget {
   const DifficultyPicker({super.key, required this.value, required this.isPro, required this.onChanged});
 
@@ -71,30 +69,24 @@ class DifficultyPicker extends ConsumerStatefulWidget {
     PracticeDifficulty.hard => PracticeCopy.difficultyHard,
   };
 
+  /// Whether [d] is shut for a free account: every level but Balanced.
+  static bool lockedFor(PracticeDifficulty d, {required bool isPro}) => !isPro && d != PracticeDifficulty.balanced;
+
   @override
   ConsumerState<DifficultyPicker> createState() => _DifficultyPickerState();
 }
 
-class _DifficultyPickerState extends ConsumerState<DifficultyPicker> with SingleTickerProviderStateMixin {
-  /// 0 to 1 and back: how strongly the reason is lit.
-  late final AnimationController _lit;
+class _DifficultyPickerState extends ConsumerState<DifficultyPicker> {
+  final GlobalKey<MmShakeState> _shake = GlobalKey<MmShakeState>();
 
-  @override
-  void initState() {
-    super.initState();
-    _lit = AnimationController(vsync: this, duration: const Duration(milliseconds: 1100));
-  }
+  /// A locked level has been tapped: the helper line says why.
+  bool _told = false;
 
-  @override
-  void dispose() {
-    _lit.dispose();
-    super.dispose();
-  }
-
-  /// A tap on the locked control: the reason is already on the page, so point at it.
-  void _explain() {
-    unawaited(ref.read(hapticsProvider).selection());
-    _lit.forward(from: 0);
+  /// A tap on a locked level: the row shakes (with its own warn haptic) and the line under it says
+  /// why. Nothing is selected.
+  void _locked() {
+    _shake.currentState?.shake();
+    if (!_told) setState(() => _told = true);
   }
 
   @override
@@ -105,40 +97,33 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> with Single
     // Four equal segments cut "Balanced" and "Medium" to "Balan..." from 1.3x text up: the
     // same choice reads as a wrapped row of chips there, with nothing cut and the Start key not
     // pushed out of sight.
+    final value = isPro ? widget.value : PracticeDifficulty.balanced;
     final control = MediaQuery.textScalerOf(context).scale(1) >= _listTextScale
-        ? _DifficultyChips(value: isPro ? widget.value : PracticeDifficulty.balanced, onChanged: isPro ? widget.onChanged : null)
+        ? _DifficultyChips(value: value, isPro: isPro, onChanged: widget.onChanged, onLockedTap: _locked)
         : MmSegmented<PracticeDifficulty>(
             semanticsLabel: PracticeCopy.difficultyLabel,
-            segments: [for (final d in PracticeDifficulty.values) MmSegment(d, DifficultyPicker.label(d))],
-            value: isPro ? widget.value : PracticeDifficulty.balanced,
-            onChanged: isPro ? widget.onChanged : null,
+            segments: [for (final d in PracticeDifficulty.values) MmSegment(d, DifficultyPicker.label(d), locked: DifficultyPicker.lockedFor(d, isPro: isPro))],
+            value: value,
+            onChanged: widget.onChanged,
+            onLockedTap: (_) => _locked(),
+            lockedHint: PracticeCopy.difficultyLockedHint,
           );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          children: [
-            Semantics(
-              header: true,
-              child: Text(PracticeCopy.difficultyLabel, style: type.label.copyWith(color: colors.ink2)),
-            ),
-            if (!isPro) ...[const SizedBox(width: MmSpace.s8), const ProTag()],
-          ],
+        Semantics(
+          header: true,
+          child: Text(PracticeCopy.difficultyLabel, style: type.label.copyWith(color: colors.ink2)),
         ),
         const SizedBox(height: MmSpace.s8),
-        if (isPro)
-          control
-        else
-          // The disabled control ignores taps itself; this hears them (a tap on a child with no
-          // handler still reaches the parent's recognizer).
-          GestureDetector(behavior: HitTestBehavior.translucent, onTap: _explain, child: control),
+        MmShake(key: _shake, child: control),
         if (!isPro) ...[
           const SizedBox(height: MmSpace.s8),
-          AnimatedBuilder(
-            animation: _lit,
-            builder: (context, _) => Text(
-              PracticeCopy.difficultyProNote,
-              style: type.small.copyWith(color: Color.lerp(colors.ink2, colors.ink, math.sin(math.pi * _lit.value))),
+          MmOverlapSwitcher.fade(
+            child: Text(
+              _told ? PracticeCopy.difficultyLocked : PracticeCopy.difficultyBalancedNote,
+              key: ValueKey(_told),
+              style: type.small.copyWith(color: colors.ink2),
             ),
           ),
         ],
@@ -151,10 +136,12 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> with Single
 const double _listTextScale = 1.25;
 
 class _DifficultyChips extends ConsumerWidget {
-  const _DifficultyChips({required this.value, required this.onChanged});
+  const _DifficultyChips({required this.value, required this.isPro, required this.onChanged, required this.onLockedTap});
 
   final PracticeDifficulty value;
-  final ValueChanged<PracticeDifficulty>? onChanged;
+  final bool isPro;
+  final ValueChanged<PracticeDifficulty> onChanged;
+  final VoidCallback onLockedTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -174,11 +161,13 @@ class _DifficultyChips extends ConsumerWidget {
               selected: d == value,
               inMutuallyExclusiveGroup: true,
               focusRadius: radius,
-              onTap: onChanged == null || d == value
+              onTap: DifficultyPicker.lockedFor(d, isPro: isPro)
+                  ? onLockedTap
+                  : d == value
                   ? null
                   : () {
                       ref.read(hapticsProvider).selection();
-                      onChanged!(d);
+                      onChanged(d);
                     },
               // The pick lands on the switch's detent spring (240 ms, bounce 0.14): the fill, the
               // rim and the words cross together and the chip swells 3 percent at mid-change,
@@ -210,9 +199,13 @@ class _DifficultyChips extends ConsumerWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              SelectBubble(selected: d == value),
-                              const SizedBox(width: MmSpace.s8),
-                              Text(DifficultyPicker.label(d), style: type.labelLarge.copyWith(color: Color.lerp(colors.ink2, colors.ink, c))),
+                              if (!DifficultyPicker.lockedFor(d, isPro: isPro)) ...[SelectBubble(selected: d == value), const SizedBox(width: MmSpace.s8)],
+                              if (DifficultyPicker.lockedFor(d, isPro: isPro)) ...[
+                                Text(DifficultyPicker.label(d), style: type.labelLarge.copyWith(color: colors.ink.withValues(alpha: 0.6))),
+                                const SizedBox(width: MmSpace.s4),
+                                ExcludeSemantics(child: Icon(LucideIcons.lock, size: MmSegmented.lockSize, color: colors.ink.withValues(alpha: 0.6))),
+                              ] else
+                                Text(DifficultyPicker.label(d), style: type.labelLarge.copyWith(color: Color.lerp(colors.ink2, colors.ink, c))),
                             ],
                           ),
                         ),
@@ -228,29 +221,11 @@ class _DifficultyChips extends ConsumerWidget {
   }
 }
 
-/// The quiet "Pro" tag after a title: an outline, never a button.
-class ProTag extends StatelessWidget {
-  const ProTag({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s8, vertical: 1),
-        child: Text(PracticeCopy.proTag, style: context.mmType.caption.copyWith(fontSize: 11, color: colors.ink2)),
-      ),
-    );
-  }
-}
-
 /// The before-mock lines, calm and factual: the student's own rule first, then the three things
-/// to know in one icon row (the timer keeps running, Submit ends it, silence the phone) and the
-/// one human aside under it. One row instead of three stacked notes, so the last line is never
-/// cut by the pinned Start key (Design critic 12).
+/// to know in one icon row (the timer keeps running, Submit ends it, silence the phone). One row
+/// instead of three stacked notes, so the last line is never cut by the pinned Start key (Design
+/// critic 12). The orphan "Water, pencil, rough sheet." line under it is gone (AP3-08, A25): it
+/// belonged to no row and told a student what they already knew.
 class MockLines extends StatelessWidget {
   const MockLines({super.key, this.ticketBy, this.noLength = false, this.subject});
 
@@ -280,8 +255,6 @@ class MockLines extends StatelessWidget {
             child: Text(PracticeCopy.sheetTicket(ticketBy!), style: type.small.copyWith(color: colors.ink)),
           ),
         const MockRulesRow(),
-        const SizedBox(height: MmSpace.s12),
-        Text(PracticeCopy.sheetAside, style: type.caption.copyWith(color: colors.ink2)),
         if (noLength) ...[const SizedBox(height: MmSpace.s12), PlainNotice(message: PracticeCopy.sheetNoLength, tone: BannerTone.error)],
       ],
     );

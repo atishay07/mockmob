@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../rhythm/rhythm.dart' show LateNightLine;
 import '../copy.dart';
 
 /// The one main thing to do next, said as what it does.
@@ -18,13 +19,18 @@ class ResultFootAction {
 /// The pinned foot of the practice result: the next step (repair these, try the blanks, or
 /// another chapter) and "Finish for now".
 class ResultFoot extends StatelessWidget {
-  const ResultFoot({super.key, required this.primary, required this.onFinish, required this.showFinish});
+  const ResultFoot({super.key, required this.primary, required this.onFinish, required this.showFinish, this.lateLine = false});
 
   final ResultFootAction primary;
   final VoidCallback onFinish;
 
   /// At large text sizes the quiet key moves into the scrolling page so the pinned foot stays small.
   final bool showFinish;
+
+  /// Late at night, after a calm or good set: the "good place to stop for tonight" line, under the
+  /// key and above "Finish for now". The line decides for itself whether it shows (the setting, the
+  /// student's own clock, once a night), so this only says that this result may carry it.
+  final bool lateLine;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +60,7 @@ class ResultFoot extends StatelessWidget {
                 ),
               ),
             ],
+            if (lateLine) const LateNightLine(),
             if (showFinish) ...[
               const SizedBox(height: MmSpace.s4),
               Align(child: KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish)),

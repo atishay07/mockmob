@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/core/repositories/repositories.dart';
@@ -344,7 +345,7 @@ void main() {
   });
 
   group('an evidence row stays lit while its sheet is up (MOTION C4 item 6)', () {
-    testWidgets('the arrow turns toward the sheet and comes back when it closes', (tester) async {
+    testWidgets('the words go to full ink while the sheet is up and come back to the accent when it closes (no arrow, AP3-05)', (tester) async {
       final closed = Completer<void>();
       await tester.pumpWidget(
         ProviderScope(
@@ -354,15 +355,16 @@ void main() {
           ),
         ),
       );
-      double turns() => tester.widget<AnimatedRotation>(find.byType(AnimatedRotation)).turns;
-      expect(turns(), 0);
+      Color? ink() => tester.widget<AnimatedDefaultTextStyle>(find.descendant(of: find.byType(EvidenceLink), matching: find.byType(AnimatedDefaultTextStyle))).style.color;
+      expect(find.byIcon(LucideIcons.arrowRight), findsNothing);
+      final accent = ink();
       await tester.tap(find.text('Why this?'));
-      await tester.pump();
-      expect(turns(), 0.25);
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(ink(), isNot(accent));
       closed.complete();
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
-      expect(turns(), 0);
+      expect(ink(), accent);
     });
 
     testWidgets('a row that opens a page, not a sheet, never lights', (tester) async {
@@ -374,9 +376,11 @@ void main() {
           ),
         ),
       );
+      Color? ink() => tester.widget<AnimatedDefaultTextStyle>(find.descendant(of: find.byType(EvidenceLink), matching: find.byType(AnimatedDefaultTextStyle))).style.color;
+      final accent = ink();
       await tester.tap(find.text('See the questions'));
-      await tester.pump();
-      expect(tester.widget<AnimatedRotation>(find.byType(AnimatedRotation)).turns, 0);
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(ink(), accent);
     });
   });
 }

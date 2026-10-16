@@ -8,7 +8,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../rhythm/rhythm.dart' show CelebrationMode, LateNightLine, celebrationModeProvider;
+import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../model/finish_reaction.dart';
 import 'finish_ceremony.dart';
@@ -129,6 +129,25 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     _stamp.addListener(() {
       if (!_landed && _stamp.value >= FinishCeremony.landAt) _land();
     });
+    _c.addListener(_followInk);
+  }
+
+  /// How many bubbles have inked so far.
+  int get _inked => _c.value >= 1 ? widget.cells.length : math.min(widget.cells.length, (_ink.value * widget.cells.length + 1e-6).floor());
+
+  /// The last bubble Mobi's eyes were sent to.
+  int _gazeAt = -1;
+
+  /// Mobi reads the sheet as it inks: his eyes go to the newest bubble, every other one so the glance
+  /// travels along the row and never twitches (AP2-03). Not once the moment has landed, and not
+  /// under reduced motion, where nothing is inking.
+  void _followInk() {
+    if (_landed || _reacted || !_c.isAnimating) return;
+    final i = _inked - 1;
+    if (i < 0 || i == _gazeAt || i.isOdd) return;
+    _gazeAt = i;
+    final at = _cellGlobal(i);
+    if (at != null) _mobi.lookAt(at);
   }
 
   /// A good or great set: the ring and the burst (on Full) and the success haptic.
@@ -234,6 +253,8 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   void _react() {
     if (_reacted) return;
     _reacted = true;
+    // The eyes come off the ink: the act below, or his rest, takes them from here.
+    _mobi.lookAt(null);
     // Through react: a still pose with no travel under reduced motion, and never twice in a hurry.
     // His face follows the tone once the number has landed (Full and Quiet; Off is words only).
     if (_mode != CelebrationMode.off) _mobi.setMood(widget.tone.mood);
@@ -259,16 +280,22 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     if (first >= 0) _pointAtCell(first);
   }
 
-  /// Aims Mobi at bubble [index] of the sheet.
-  void _pointAtCell(int index) {
+  /// Where bubble [index] of the sheet is on screen, or null before the sheet is laid out.
+  Offset? _cellGlobal(int index) {
     final box = _sheetKey.currentContext?.findRenderObject();
-    if (box is! RenderBox || !box.hasSize || !mounted) return;
+    if (box is! RenderBox || !box.hasSize || !mounted) return null;
     final g = NumberedSheet.geometry(widget.cells.length, box.size.width);
     final local = Offset(
       g.left + (index % g.columns) * (g.cell + g.gap) + g.cell / 2,
       (index ~/ g.columns) * (g.cell + g.gap) + g.cell / 2,
     );
-    _mobi.pointAt(box.localToGlobal(local));
+    return box.localToGlobal(local);
+  }
+
+  /// Aims Mobi at bubble [index] of the sheet.
+  void _pointAtCell(int index) {
+    final at = _cellGlobal(index);
+    if (at != null) _mobi.pointAt(at);
   }
 
   @override
@@ -297,10 +324,12 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     final colors = context.mmColors;
     final type = context.mmType;
     final m = widget.marks;
-    final overline = [
+    // "Accountancy practice, Admission of a partner, finished": the one line that says what this is.
+    final named = [
       if (widget.subject != null) PracticeCopy.resultOverline(widget.subject!),
       if (widget.chapter != null) widget.chapter!,
-    ].join(', ');
+    ];
+    final overline = named.isEmpty ? '' : [...named, PracticeCopy.resultFinished].join(', ');
 
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
@@ -365,20 +394,24 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             ),
           ),
           const SizedBox(height: MmSpace.s12),
-          // The bar's track is there from the first frame (no dead band); the marks fill it once
-          // Mobi has spoken.
+          // The bar's track is there from the first frame (no dead band) and fills with the ink,
+          // bubble by bubble: each right bubble adds its marks, each wrong one what it cost, each
+          // blank what was left. It is full when the figure stamps. Its line comes in after
+          // Mobi's.
           TweenAnimationBuilder<double>(
             tween: Tween(end: _marksOn ? 1 : 0),
             duration: Motion.of(context, Motion.emphasizedDuration),
             curve: Motion.out,
-            builder: (context, reveal, _) => MarksBar(marks: m, reveal: reveal),
+            builder: (context, reveal, _) => AnimatedBuilder(
+              animation: _c,
+              builder: (context, _) => MarksBar(marks: m, reveal: reveal, fill: MarksFill.after(widget.cells, _inked)),
+            ),
           ),
           const SizedBox(height: MmSpace.s12),
           // The line keeps its height while the acknowledgement time is read, so nothing jumps.
-          SizedBox(height: MmSpace.s24, child: widget.recordedAt == null ? null : ReceiptLine(text: PracticeCopy.recorded(widget.recordedAt!, chapter: widget.chapter))),
-          // After a calm or good set only: after a mixed one the next step is Repair, not a nudge
-          // to stop.
-          if (_celebrates) const LateNightLine(),
+          SizedBox(height: MmSpace.s24, child: widget.recordedAt == null ? null : ReceiptLine(text: PracticeCopy.recordedLine(widget.recordedAt!))),
+          // The late-night "good place to stop" line is not here any more: it sits under the pinned
+          // key, with "Finish for now" (AP3-06, A14).
         ],
       ),
     );

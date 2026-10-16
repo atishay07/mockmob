@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../haptics/haptics.dart';
 import '../../motion/motion.dart';
@@ -10,10 +11,14 @@ import 'selection_style.dart';
 
 /// One choice of an [MmSegmented].
 class MmSegment<T> {
-  const MmSegment(this.value, this.label);
+  const MmSegment(this.value, this.label, {this.locked = false});
 
   final T value;
   final String label;
+
+  /// Not available to this student: drawn at 60% ink with a small lock after the word. A tap does not
+  /// select it; it goes to [MmSegmented.onLockedTap] (the screen shakes and says why).
+  final bool locked;
 }
 
 /// A segmented control: a sunken track with a raised thumb that glides to the chosen segment
@@ -26,6 +31,8 @@ class MmSegmented<T> extends ConsumerWidget {
     required this.value,
     required this.onChanged,
     this.semanticsLabel,
+    this.onLockedTap,
+    this.lockedHint,
   });
 
   final List<MmSegment<T>> segments;
@@ -34,6 +41,15 @@ class MmSegmented<T> extends ConsumerWidget {
   /// Null disables the control.
   final ValueChanged<T>? onChanged;
   final String? semanticsLabel;
+
+  /// A tap on a [MmSegment.locked] segment.
+  final ValueChanged<T>? onLockedTap;
+
+  /// What a screen reader adds to a locked segment ("Comes with Pro").
+  final String? lockedHint;
+
+  /// The lock after a locked segment's word.
+  static const double lockSize = 12;
 
   /// The painted track. The 48 dp target is [MmHitSlop], not layout (SPACING.md 3.3).
   static const double height = 44;
@@ -102,9 +118,12 @@ class MmSegmented<T> extends ConsumerWidget {
                             button: true,
                             selected: i == index,
                             inMutuallyExclusiveGroup: true,
+                            hint: segments[i].locked ? lockedHint : null,
                             child: GestureDetector(
                               behavior: HitTestBehavior.opaque,
-                              onTap: onChanged == null || i == index
+                              onTap: segments[i].locked
+                                  ? (onLockedTap == null ? null : () => onLockedTap!(segments[i].value))
+                                  : onChanged == null || i == index
                                   ? null
                                   : () {
                                       ref.read(hapticsProvider).selection();
@@ -114,8 +133,9 @@ class MmSegmented<T> extends ConsumerWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    SelectBubble(selected: i == index),
-                                    const SizedBox(width: MmSpace.s8),
+                                    // A locked segment is not a choice, so it has no bubble to ink: that
+                                    // room is what keeps its word whole next to the lock.
+                                    if (!segments[i].locked) ...[SelectBubble(selected: i == index), const SizedBox(width: MmSpace.s8)],
                                     Flexible(
                                       child: Text(
                                         segments[i].label,
@@ -123,10 +143,14 @@ class MmSegmented<T> extends ConsumerWidget {
                                         overflow: TextOverflow.ellipsis,
                                         style: type.labelLarge.copyWith(
                                           fontSize: 14,
-                                          color: i == index ? colors.ink : colors.ink2,
+                                          color: segments[i].locked ? colors.ink.withValues(alpha: 0.6) : (i == index ? colors.ink : colors.ink2),
                                         ),
                                       ),
                                     ),
+                                    if (segments[i].locked) ...[
+                                      const SizedBox(width: MmSpace.s4),
+                                      ExcludeSemantics(child: Icon(LucideIcons.lock, size: lockSize, color: colors.ink.withValues(alpha: 0.6))),
+                                    ],
                                   ],
                                 ),
                               ),

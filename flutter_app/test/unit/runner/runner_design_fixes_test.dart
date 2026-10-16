@@ -192,16 +192,19 @@ void main() {
       );
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit', size: const Size(360, 780));
       await settle(tester);
-      expect(find.text('Marked, answered'), findsOneWidget);
-      expect(find.text('Marked, not answered'), findsOneWidget);
+      // Four entries with their counts, which add up to the 50 questions (7 + 41 + 1 + 1).
+      expect(find.text('Answered 7'), findsOneWidget);
+      expect(find.text('Not answered 41'), findsOneWidget);
+      expect(find.text('Marked, answered 1'), findsOneWidget);
+      expect(find.text('Marked, not answered 1'), findsOneWidget);
     });
 
     testWidgets('with no marked question there is no legend', (tester) async {
       final s = FakeRunnerSession(answers: {'q1': 0});
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit', size: const Size(360, 780));
       await settle(tester);
-      expect(find.text('Marked, answered'), findsNothing);
-      expect(find.text('Marked, not answered'), findsNothing);
+      expect(find.textContaining('Marked, answered'), findsNothing);
+      expect(find.textContaining('Marked, not answered'), findsNothing);
     });
 
     testWidgets('answers held back say it once, with one icon, and the key retries', (tester) async {

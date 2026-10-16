@@ -328,16 +328,20 @@ void main() {
     });
   }
 
-  test('Mobi names wrong answers and blanks apart, so the line matches "Repair these 3"', () {
+  test('Mobi reacts instead of counting again (AP3-06): the other N is the wrong answers, the number "Repair these 3" uses', () {
     const m = FinishMarks(correct: 1, wrong: 3, blank: 1, total: 5);
-    final line = PracticeCopy.finishLine(FinishTone.mixed, m);
-    expect(line, 'Let’s look at the 3 wrong answers and 1 not attempted. The reasons are below.');
-    expect(line.contains('4'), isFalse);
-    expect(PracticeCopy.repairThese(m.wrong), 'Repair these 3');
+    // Under 6 in 10 right: no count at all.
+    expect(PracticeCopy.finishLine(FinishTone.mixed, m), 'The reasons are below.');
+    const most = FinishMarks(correct: 7, wrong: 3, blank: 0, total: 10);
+    final line = PracticeCopy.finishLine(FinishTone.good, most);
+    expect(line, 'Most of this set is right. The reasons for the other 3 are below.');
+    expect(PracticeCopy.repairThese(most.wrong), 'Repair these 3');
+    // Blanks have no reasons to read: they are named as left out, never added to the wrong ones.
     expect(
       PracticeCopy.finishLine(FinishTone.good, const FinishMarks(correct: 7, wrong: 0, blank: 3, total: 10)),
-      'Most of this set is right. 3 not attempted to look at below.',
+      'Most of this set is right. The 3 not attempted are below.',
     );
+    expect(PracticeCopy.finishLine(FinishTone.great, const FinishMarks(correct: 8, wrong: 1, blank: 1, total: 10)).contains('2'), isFalse);
   });
 
   test('the NTA card is built from the NTA rules, and the start failure promises nothing it cannot know', () {

@@ -113,7 +113,8 @@ void main() {
   test('one word for a question left out: not attempted, everywhere in practice', () {
     const m = FinishMarks(correct: 4, wrong: 2, blank: 1, total: 7);
     expect(PracticeCopy.countsLine(4, 2, 1), '4 right, 2 wrong, 1 not attempted');
-    expect(PracticeCopy.finishLine(FinishTone.mixed, m), contains('1 not attempted'));
+    // Mobi no longer counts again (AP3-06): the counts are in the figure and the line under it.
+    expect(PracticeCopy.finishLine(FinishTone.mixed, m), 'The reasons are below.');
     expect(PracticeCopy.finishLine(FinishTone.mixed, m), isNot(contains('blank')));
     expect(PracticeCopy.marksLine(const FinishMarks(correct: 4, wrong: 0, blank: 2, total: 6)), contains('2 questions not attempted'));
     expect(PracticeCopy.markingValue, '+5 right, −1 wrong, 0 not attempted');

@@ -144,7 +144,9 @@ abstract final class PracticeCopy {
   static const String difficultyEasy = 'Easy';
   static const String difficultyMedium = 'Medium';
   static const String difficultyHard = 'Hard';
-  static const String difficultyProNote = 'Choosing a level comes with Pro. Balanced is the exam’s own mix.';
+  static const String difficultyBalancedNote = 'Balanced is the exam’s own mix.';
+  static const String difficultyLocked = 'Easy, Medium and Hard come with Pro.';
+  static const String difficultyLockedHint = 'Comes with Pro';
 
   // The summary of what starts.
   static const String summarySubject = 'Subject';
@@ -245,7 +247,6 @@ abstract final class PracticeCopy {
   static const String sheetTimer = 'The timer keeps running if you leave the app. Submit ends the mock.';
   static String sheetTicket(DateTime by) => 'If you leave, open MockMob again before ${formatTime12(by)} so your answers can be sent.';
   static const String sheetDnd = 'For fewer interruptions, turn on Do Not Disturb from Quick Settings.';
-  static const String sheetAside = 'Water, pencil, rough sheet.';
 
   /// The three things to know, one short line each, in the icon row under the mock's details.
   static const String ruleTimer = 'Timer keeps running';
@@ -270,6 +271,7 @@ abstract final class PracticeCopy {
   // Practice result. Feedback after finishing, never during.
   static const String resultTitle = 'Practice result';
   static String resultOverline(String subject) => '$subject practice';
+  static const String resultFinished = 'finished';
   static String figureNumber(int correct) => '$correct';
   static String figureUnit(int total) => 'of $total';
   static String figureSemantics(int correct, int total) => '$correct of $total correct';
@@ -278,24 +280,26 @@ abstract final class PracticeCopy {
     return ['$right right', if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank not attempted'].join(', ');
   }
 
-  /// Mobi's line after the reaction. About the sheet, never about the person. Wrong answers and
-  /// blanks are named apart, so the line never sums them beside "Repair these 3" (wrong only).
+  /// Mobi's line after the reaction. About the sheet, never about the person. The counts are said
+  /// once on the page, in the figure and under it, so this line reacts instead of counting again
+  /// (AP3-06, A14): "Most of this set is right. The reasons for the other 3 are below." when 6 in
+  /// 10 or more are right (3 is the wrong answers, the same number as "Repair these 3"), otherwise
+  /// "The reasons are below."
   static String finishLine(FinishTone tone, FinishMarks m) {
-    final toLook = _toLook(m.wrong, m.blank);
+    final mostRight = m.correct * 10 >= m.total * 6;
+    final String reasons;
+    if (m.wrong > 0) {
+      reasons = mostRight ? 'Most of this set is right. The reasons for the other ${m.wrong} are below.' : 'The reasons are below.';
+    } else if (m.blank > 0) {
+      reasons = mostRight ? 'Most of this set is right. The ${m.blank} not attempted are below.' : 'The ones not attempted are below.';
+    } else {
+      reasons = 'Every one right. Nothing to fix from this set.';
+    }
     return switch (tone) {
-      FinishTone.great || FinishTone.good when toLook == null => 'Every one right. Nothing to fix from this set.',
-      FinishTone.great => 'Most of this set is right. $toLook to look at below.',
-      FinishTone.good => 'Most of this set is right. $toLook to look at below.',
-      FinishTone.mixed => 'Let’s look at the $toLook. The reasons are below.',
+      FinishTone.great || FinishTone.good || FinishTone.mixed => reasons,
       FinishTone.blank => 'A lot was not attempted. Try those below, no clock running.',
       FinishTone.low => 'Start with the first one below. The reason is right there.',
     };
-  }
-
-  /// "3 wrong answers and 1 blank", "1 wrong answer", "2 blanks"; null when there is nothing.
-  static String? _toLook(int wrong, int blank) {
-    final parts = [if (wrong > 0) plural(wrong, 'wrong answer'), if (blank > 0) '$blank not attempted'];
-    return parts.isEmpty ? null : parts.join(' and ');
   }
 
   /// The website's arithmetic: right +5, wrong -1; each wrong answer costs 6 of the marks missed.
@@ -321,6 +325,8 @@ abstract final class PracticeCopy {
   static String recorded(DateTime at, {String? chapter}) => chapter == null || chapter.trim().isEmpty
       ? 'Practice finished. Recorded at ${formatTime12(at)}.'
       : 'Chapter practice finished, ${_noStop(chapter)}. Recorded at ${formatTime12(at)}.';
+  /// Under the result's figure, where the eyebrow already says the practice is finished: just the time.
+  static String recordedLine(DateTime at) => 'Recorded at ${formatTime12(at)}.';
   static String _noStop(String s) {
     final t = s.trim();
     return t.endsWith('.') ? t.substring(0, t.length - 1) : t;
