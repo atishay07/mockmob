@@ -1890,3 +1890,12 @@ two v1 units back to `published` (no deletes are needed; v2 rows are ignored by 
   | Political Science | 272 | 281 |
 
 - **Restore file:** docs/brain/reports/authored-publish/authored-publish-restore-2026-10-14T18-48-05-150Z.json (`--mode=restore` hides wave 2 only).
+
+### 2026-10-16 about 13:50 IST — Security: the question bank closed to the public anon key (production)
+
+- Found by the 16 Oct security review: `public.questions` kept Supabase's default grants for `anon` and `authenticated` plus the policy "anon read live questions", so anyone with the browser's public key could read all 8,196 live questions with answer keys, explanations, evidence and internal fields straight from PostgREST.
+- Checked first that nothing needs it: every server read uses the service role (`src/lib/supabase.js`), the browser client and both apps use Supabase only for sign-in.
+- Applied under the standing database grant: `supabase/migrations/20261016141000_questions_private_to_browser_roles.sql` (revoke all from anon and authenticated; service_role keeps all). Staging dry run first; undo `supabase/undo/20261016141000_questions_private_to_browser_roles.undo.sql`.
+- Verified on production: grants now postgres and service_role only; `/rest/v1/questions` with the anon key answers 401 `permission denied for table questions`; with the service role 200; www.mockmob.in `/`, `/pricing`, `/api/stats` 200.
+- Still open from the review: PERSISTENT_LIMITS_ENABLED (rate limits per instance), `/api/questions/feed` sends keys to signed-out callers (owner decision), revoke default grants on other RLS-only tables (defence in depth), the low items in the review.
+
