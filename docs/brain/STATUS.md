@@ -1929,6 +1929,14 @@ two v1 units back to `published` (no deletes are needed; v2 rows are ignored by 
 - Option layout: the session stores `selection_meta.ntaOptionLayout` ({order, key, shuffled}) from the engine's `nta_option_order`; a paper whose remapped key does not point at the served option is refused before a session or a credit exists.
 - Tests: data/tests/nta_session_state.test.mjs (test:nta), data/tests/nta_e2e_state.test.mjs (test:nta-e2e), plus a mark test in recovery.test.mjs.
 
+### 2026-10-17 about 2:35 am IST - Per-user AI cap and two-model allowlist APPLIED on production
+
+- Migration 20261017120000_runtime_ai_user_cap applied to production (isrxrxzjocewrdureyhp) under the standing grant, after a staging dry run and an independent verifier pass.
+- Post-check: runtime_ai_requests.user_id exists; reserve_runtime_ai now takes 7 arguments; anon cannot execute it.
+- Owner decision (17 Oct, 2:15 am): the paid cap is Rs 5 a month, so `update runtime_ai_budget set monthly_cap_usd=0.0568 where id='student_user_paid'` ran right after.
+- Caps now: student_ai 25 (global, unchanged), student_user_paid 0.0568, student_user_free 0.0114.
+- Undo: supabase/undo/20261017120000_runtime_ai_user_cap.undo.sql.
+
 ### 2026-10-14 13:43 IST — Authored wave 1 published to production (owner approved in chat)
 - 475 questions and 12 passage groups inserted (source `claude-authored-2026-10-14`) with `scripts/question-publish-authored.mjs --mode=apply`; plan hash 39a4b051… and candidates sha 18b27c06… matched the runbook exactly; read-back: missing 0, notVisible 0, hashMismatch 0.
 - Live before → after: chemistry 281→376, english 269→327, history 192→273, political_science 191→272, psychology 82→161, sociology 199→280.
