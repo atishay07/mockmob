@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show MmMark;
 import 'package:mockmob/features/onboarding/data/warmup_pool.dart';
 import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/screens/welcome_view.dart';
@@ -178,30 +179,54 @@ void main() {
   });
 
   group('the road to CUET', () {
-    Future<void> road(WidgetTester tester, int? lit, {bool reduced = false}) => pumpMockmob(
+    Future<void> road(WidgetTester tester, int? lit, {bool reduced = false, MobiController? mobi}) => pumpMockmob(
           tester,
-          Padding(padding: const EdgeInsets.all(16), child: WeekTrack(nearWeeks: 29, farWeeks: 81, litWeeks: lit)),
+          Padding(padding: const EdgeInsets.all(16), child: WeekTrack(nearWeeks: 29, farWeeks: 81, litWeeks: lit, mobi: mobi)),
           disableAnimations: reduced,
         );
 
-    testWidgets('a small Mobi stands on the road and walks to the chosen window', (tester) async {
+    testWidgets('the 16 dp mark stands on the road and travels to the chosen window; no Mobi on the road', (tester) async {
       await road(tester, null);
       await tester.pump(const Duration(milliseconds: 100));
-      expect(find.byType(MobiWalker), findsOneWidget);
-      final start = tester.getTopLeft(find.byType(MobiCharacter)).dx;
+      expect(find.byType(MmMark), findsOneWidget);
+      expect(find.byType(MobiCharacter), findsNothing, reason: "the guide bar's Mobi is the screen's one Mobi");
+      final start = tester.getTopLeft(find.byType(MmMark)).dx;
       await road(tester, 81);
       await tester.pump(const Duration(milliseconds: 100));
       await tester.pump(const Duration(milliseconds: 700));
-      final end = tester.getTopLeft(find.byType(MobiCharacter)).dx;
-      expect(end, greaterThan(start + 100), reason: 'he walked along the road to May 2028');
-      expect(tester.getSize(find.byType(MobiCharacter)).height, 28);
+      final end = tester.getTopLeft(find.byType(MmMark)).dx;
+      expect(end, greaterThan(start + 100), reason: 'the mark travelled along the road to May 2028');
+      expect(tester.getSize(find.byType(MmMark)).height, 16);
       await tester.pumpWidget(const SizedBox());
     });
 
-    testWidgets('under reduced motion he simply stands at the window', (tester) async {
+    testWidgets("the guide's Mobi answers the arrival at the near window, once", (tester) async {
+      final mobi = _SpyMobi();
+      addTearDown(mobi.dispose);
+      await road(tester, null, mobi: mobi);
+      expect(mobi.acts, isEmpty, reason: 'nothing chosen, nothing to answer');
+      await road(tester, 29, mobi: mobi);
+      await tester.pump(const Duration(milliseconds: 600));
+      await tester.pump();
+      expect(mobi.acts, [MobiMoments.act(MobiEvent.answerRight)], reason: 'once, when the mark has arrived');
+      await tester.pumpWidget(const SizedBox());
+    });
+
+    testWidgets('under reduced motion the mark is simply there and Mobi still answers', (tester) async {
+      final mobi = _SpyMobi();
+      addTearDown(mobi.dispose);
+      await road(tester, null, mobi: mobi, reduced: true);
+      await road(tester, 29, mobi: mobi, reduced: true);
+      await tester.pump();
+      expect(mobi.acts, [MobiMoments.act(MobiEvent.answerRight)]);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+    });
+
+    testWidgets('under reduced motion the mark simply stands at the window', (tester) async {
       await road(tester, 29, reduced: true);
       await tester.pump(const Duration(milliseconds: 100));
-      expect(find.byType(MobiWalker), findsOneWidget);
+      expect(find.byType(MmMark), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   });

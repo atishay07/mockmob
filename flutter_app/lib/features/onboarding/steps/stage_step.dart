@@ -19,10 +19,13 @@ import '../widgets/week_track.dart';
 /// the real number of weeks to that student's expected CUET window. The weeks then roll onto the
 /// sheet above.
 class StageStep extends ConsumerWidget {
-  const StageStep({super.key, required this.answers, required this.onNext});
+  const StageStep({super.key, required this.answers, required this.onNext, this.mobi});
 
   final OnboardingAnswers answers;
   final VoidCallback onNext;
+
+  /// The guide bar's Mobi, the screen's one Mobi: he answers when the mark reaches the window.
+  final MobiController? mobi;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -66,6 +69,7 @@ class StageStep extends ConsumerWidget {
                       nearWeeks: nearWeeks,
                       farWeeks: farWeeks,
                       litWeeks: stage == null ? null : CuetCalendar.weeksTo(stage.cuetYear, now),
+                      mobi: mobi,
                     ),
                     const SizedBox(height: MmSpace.s12),
                     // The weeks land here, under the road, at the same height before and after the

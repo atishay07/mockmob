@@ -5,16 +5,22 @@ import 'package:flutter/material.dart';
 import '../../../core/mascot/mascot.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart' show MmMark;
 import '../copy.dart';
 
 /// The road to CUET, one tick per week from today: a marker where the May 2027 window opens and
 /// one for May 2028. Choosing a stage lights the ticks up to its window, so the student sees how
 /// much road they have, not only a number. Drawn in one paint; the light travels in 520 ms (at
-/// once under reduced motion). A small Mobi (28 dp) stands at Today and walks the road to the chosen
-/// window in the same 520 ms, then answers on arrival: a hop at the near window, a look ahead at
-/// the far one. Decorative: each tile already says its weeks to TalkBack.
+/// once under reduced motion). The student's place on the road is the 16 dp mo mark: it stands at
+/// Today and travels to the chosen window in the same 520 ms. Mobi himself is not on the road: the
+/// step already has him in the guide bar, and one Mobi per screen means the largest one answers.
+/// So when the mark arrives, the guide's Mobi ([mobi]) reacts: a small hop at the near window, a
+/// look down the road at the far one. Decorative: each tile already says its weeks to TalkBack.
 class WeekTrack extends StatefulWidget {
-  const WeekTrack({super.key, required this.nearWeeks, required this.farWeeks, required this.litWeeks});
+  const WeekTrack({super.key, required this.nearWeeks, required this.farWeeks, required this.litWeeks, this.mobi});
+
+  /// The screen's one Mobi (the guide bar's), who answers the arrival. Null: nobody reacts.
+  final MobiController? mobi;
 
   /// Weeks to the closer window (May 2027), and to the next one (May 2028).
   final int nearWeeks;
@@ -25,8 +31,8 @@ class WeekTrack extends StatefulWidget {
 
   static const double height = 58;
 
-  /// Mobi's height on the road, and how long his walk takes (the light's own 520 ms).
-  static const double walker = 28;
+  /// The mark's side on the road, and how long its travel takes (the light's own 520 ms).
+  static const double walker = 16;
   static const Duration walk = Duration(milliseconds: 520);
 
   @override
@@ -47,16 +53,19 @@ class _WeekTrackState extends State<WeekTrack> {
     if (old.litWeeks != widget.litWeeks) _from = old.litWeeks;
   }
 
-  /// He answers on arrival: a small hop at the near window, a look ahead along the road at the far
-  /// one, nothing elsewhere. The Class 11 note under the road is the step's own words.
-  void _arrived(MobiController mobi) {
+  final GlobalKey _mark = GlobalKey();
+
+  /// The guide's Mobi answers the arrival: a small hop at the near window, a look down the road to
+  /// the mark at the far one, nothing elsewhere. The Class 11 note under the road is the step's own
+  /// words.
+  void _arrived() {
     final lit = litWeeks;
-    if (lit == null) return;
+    final mobi = widget.mobi;
+    if (lit == null || mobi == null || !mounted) return;
     if (lit == nearWeeks) {
       mobi.react(MobiMoments.act(MobiEvent.answerRight));
     } else if (lit == farWeeks) {
-      final box = context.findRenderObject();
-      if (box is RenderBox && box.hasSize) mobi.glance(box.localToGlobal(Offset(box.size.width + 240, 0)), hold: const Duration(milliseconds: 1400));
+      mobi.glanceAtWidget(_mark, hold: const Duration(milliseconds: 1400));
     }
   }
 
@@ -76,10 +85,10 @@ class _WeekTrackState extends State<WeekTrack> {
             final w = box.maxWidth;
             final nearX = (w - 2) * (nearWeeks / farWeeks) + 1;
             double xOf(int? weeks) => weeks == null ? 0 : (w - 2) * (weeks / farWeeks) + 1;
-            final mobiW = MobiFigure.widthFor(WeekTrack.walker);
-            // His box's left edge: just before a window's tick (so its marker stays in view), kept
+            const markW = WeekTrack.walker;
+            // The mark's left edge: just before a window's tick (so its marker stays in view), kept
             // inside the road.
-            double leftFor(int? weeks) => (xOf(weeks) - mobiW - 2).clamp(0.0, math.max(0.0, w - mobiW));
+            double leftFor(int? weeks) => (xOf(weeks) - markW - 2).clamp(0.0, math.max(0.0, w - markW));
             return Stack(
               clipBehavior: Clip.none,
               children: [
@@ -104,22 +113,18 @@ class _WeekTrackState extends State<WeekTrack> {
                     ),
                   ),
                 ),
-                // He stands on the road line (the road is drawn 34 dp down), over the ticks. A new
-                // walker per choice, so each walk starts where the last one ended.
-                Positioned(
-                  left: 0,
-                  top: 34 + 3 - WeekTrack.walker,
-                  child: IgnorePointer(
-                    child: MobiWalker(
-                      key: ValueKey(litWeeks),
-                      size: WeekTrack.walker,
-                      fromX: leftFor(_from),
-                      toX: leftFor(litWeeks),
-                      duration: WeekTrack.walk,
-                      seed: 3,
-                      onArrive: _arrived,
-                    ),
-                  ),
+                // The mark stands on the road line (the road is drawn 34 dp down), over the ticks. A
+                // new travel per choice, so each one starts where the last one ended; at once under
+                // reduced motion, and the guide's Mobi still answers.
+                TweenAnimationBuilder<double>(
+                  key: ValueKey(litWeeks),
+                  tween: Tween(begin: leftFor(_from), end: leftFor(litWeeks)),
+                  duration: Motion.of(context, WeekTrack.walk),
+                  curve: Motion.emphasized,
+                  // After the frame: under reduced motion the travel ends inside the build.
+                  onEnd: () => WidgetsBinding.instance.addPostFrameCallback((_) => _arrived()),
+                  builder: (context, x, child) => Positioned(left: x, top: 34 + 3 - markW, child: child!),
+                  child: IgnorePointer(child: MmMark(key: _mark, size: markW)),
                 ),
                 Positioned(left: 0, bottom: 0, child: Text(OnboardingCopy.trackToday, style: label)),
                 Positioned(

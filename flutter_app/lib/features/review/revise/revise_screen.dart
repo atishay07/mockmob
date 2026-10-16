@@ -13,6 +13,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../learn/widgets/feedback_mobi.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_state_view.dart';
 import 'revise_copy.dart';
@@ -273,9 +274,11 @@ class _Run extends StatelessWidget {
         ),
       );
     } else if (finished) {
-      stage = _End(
+      stage = ReviseEnd(
         line: ReviseCopy.end(right: right, wrong: wrong),
         next: read.next,
+        right: right,
+        wrong: wrong,
       );
     } else {
       stage = _Empty(
@@ -699,6 +702,14 @@ class ReviseCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    // The server has just graded this recall: Mobi answers it beside the line, a
+                    // small correct hop or the "come on" lean (Full only, at most once every
+                    // 2.5 s, dropped for large text; the line says it in words either way).
+                    FeedbackMobi(
+                      right: r.correct,
+                      rateKey: FeedbackMobi.reviseGate,
+                      full: MobiCelebrations.of(context) == MobiCelebrationLevel.full,
+                    ),
                   ],
                 ),
                 if (r.explanation != null) ...[
@@ -813,13 +824,35 @@ class _Option extends StatelessWidget {
   }
 }
 
-/// The end of a run: a ring and check that draw themselves in, then "8 recalled, 2 come back
+/// The end of a run: Mobi reacts to what the server graded, then "8 recalled, 2 come back
 /// tomorrow" and when the next ones are due.
-class _End extends StatelessWidget {
-  const _End({required this.line, required this.next});
+///
+/// The finished run is a real moment (every answer was graded by the server before the run could
+/// end), so Mobi stands where the check ring was and plays one act for it: a cheer when every
+/// recall held, the small correct hop when most did, and the warm "come on" lean when more came
+/// back than held. He says nothing; the line carries the numbers. The Celebrations setting is
+/// honoured through [MobiRation.underLevel]: Quiet seats him (no hop), Off keeps the plain check
+/// ring that draws itself in. Reduced motion holds his pose still (the character does that).
+/// He is the only Mobi on the Revise screen.
+class ReviseEnd extends StatelessWidget {
+  const ReviseEnd({super.key, required this.line, required this.next, required this.right, required this.wrong});
 
   final String? line;
   final String? next;
+
+  /// Recalls the server graded right and wrong in this run.
+  final int right;
+  final int wrong;
+
+  /// Mobi's height at the end of a run.
+  static const double mobiSize = 88;
+
+  /// The act for a finished run of [right] recalled and [wrong] coming back.
+  static MobiAct actFor({required int right, required int wrong}) {
+    if (wrong == 0) return MobiMoments.act(MobiEvent.sessionDone);
+    if (right >= wrong) return MobiMoments.act(MobiEvent.answerRight);
+    return MobiMoments.act(MobiEvent.answerWrong);
+  }
 
   static Path _check(Size size) => MmPaths.check(
     Rect.fromLTWH(
@@ -830,39 +863,48 @@ class _End extends StatelessWidget {
     ),
   );
 
+  Widget _ring(BuildContext context) {
+    final colors = context.mmColors;
+    return SizedBox.square(
+      dimension: 44,
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: colors.goodText, width: 1.5),
+              ),
+            ),
+          ),
+          Positioned.fill(
+            child: MmStrokeDraw(
+              path: _check,
+              color: colors.goodText,
+              strokeWidth: 2.5,
+              delay: const Duration(milliseconds: 120),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final level = MobiCelebrations.of(context);
+    final act = MobiRation.underLevel(actFor(right: right, wrong: wrong), level, held: true);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // Left-aligned at its own size: a stretched column would widen it.
         Align(
           alignment: Alignment.centerLeft,
-          child: SizedBox.square(
-            dimension: 44,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: colors.goodText, width: 1.5),
-                    ),
-                  ),
-                ),
-                Positioned.fill(
-                  child: MmStrokeDraw(
-                    path: _check,
-                    color: colors.goodText,
-                    strokeWidth: 2.5,
-                    delay: const Duration(milliseconds: 120),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          child: level == MobiCelebrationLevel.off || act == null
+              ? _ring(context)
+              : MobiCharacter(key: const ValueKey('revise-end-mobi'), size: mobiSize, entrance: act, seed: 23, interactive: true, tapCycle: MobiTapCycle.standard),
         ),
         const SizedBox(height: MmSpace.s16),
         if (line != null)

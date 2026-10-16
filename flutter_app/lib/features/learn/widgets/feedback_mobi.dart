@@ -18,14 +18,27 @@ import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 ///
 /// Build it only for a step answered on this phone just now, never for one reopened from a saved
 /// state: asking consumes the gate.
+///
+/// Revise uses the same reaction for a recall the server has just graded, under its own gate
+/// ([reviseGate]), so the two surfaces react alike and neither starves the other.
 class FeedbackMobi extends ConsumerStatefulWidget {
-  const FeedbackMobi({super.key, required this.right});
+  const FeedbackMobi({super.key, required this.right, this.rateKey = gate, this.full});
 
   /// A right answer plays `correct`; anything else `encourage`.
   final bool right;
 
+  /// The rate-limit gate this reaction asks ([gate] for Learn, [reviseGate] for Revise).
+  final String rateKey;
+
+  /// Whether Celebrations is Full, when the caller already knows it (Revise reads the app's
+  /// [MobiCelebrations]); null reads the setting itself.
+  final bool? full;
+
   /// The key of the rate-limit gate, shared by every concept check of the app run.
   static const String gate = 'learn:feedback';
+
+  /// The gate of Revise's graded recalls.
+  static const String reviseGate = 'revise:feedback';
 
   /// Mobi's square in the panel's row, and the air between him and the words.
   static const double slot = 56;
@@ -40,7 +53,7 @@ class FeedbackMobi extends ConsumerStatefulWidget {
 
 class _FeedbackMobiState extends ConsumerState<FeedbackMobi> {
   final MobiController _mobi = MobiController();
-  late final bool _allowed = MobiRation.reactNow(FeedbackMobi.gate);
+  late final bool _allowed = MobiRation.reactNow(widget.rateKey);
 
   @override
   void initState() {
@@ -56,7 +69,7 @@ class _FeedbackMobiState extends ConsumerState<FeedbackMobi> {
 
   @override
   Widget build(BuildContext context) {
-    final full = ref.watch(celebrationModeProvider) == CelebrationMode.full;
+    final full = widget.full ?? ref.watch(celebrationModeProvider) == CelebrationMode.full;
     final largeText = MediaQuery.textScalerOf(context).scale(16) > 16 * 1.3;
     if (!_allowed || !full || largeText) return const SizedBox.shrink();
     return Padding(

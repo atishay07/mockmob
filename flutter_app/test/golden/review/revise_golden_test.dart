@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/mascot/mascot.dart' show MobiRation;
 import 'package:mockmob/core/models/lab_loop.dart' show RulesRead;
 import 'package:mockmob/core/models/mistake_lab_traps.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
@@ -53,6 +54,13 @@ ReviseAnswer _answer(String which, {bool? correct, int? box}) {
   return ReviseAnswer.tryParse({...base, 'correct': ?correct, 'box': ?box})!;
 }
 
+/// Mobi answers a graded recall at most once every 2.5 s across the run: each frame starts with
+/// fresh gates on a fixed afternoon, so the Night and Day twins match whatever order they run in.
+void _freshGates() {
+  MobiRation.reset();
+  MobiRation.now = () => DateTime(2026, 10, 15, 14);
+}
+
 Future<void> _settle(WidgetTester tester) async {
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 400));
@@ -83,6 +91,7 @@ void main() {
     ],
     size: size,
     after: (tester) async {
+      _freshGates();
       await _settle(tester);
       await tester.tap(find.text('B. Illustrative option 5b'));
       await _settle(tester);
@@ -99,6 +108,7 @@ void main() {
     ],
     size: size,
     after: (tester) async {
+      _freshGates();
       await _settle(tester);
       await tester.tap(find.text('A. Illustrative option 5a'));
       await _settle(tester);
@@ -116,6 +126,7 @@ void main() {
     // Tall while the run is answered (a list builds only what is on screen), then the end at phone height.
     size: size,
     after: (tester) async {
+      _freshGates();
       await _settle(tester);
       for (var i = 0; i < 4; i++) {
         await tester.tap(find.text('B. Illustrative option ${[5, 1, 2, 3][i]}b'));

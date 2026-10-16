@@ -455,7 +455,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   Widget _body(DeckStep step, OnboardingAnswers a) {
     void next() => unawaited(_next(a));
     return switch (step.kind) {
-      StepKind.single => StageStep(answers: a, onNext: next),
+      StepKind.single => StageStep(answers: a, onNext: next, mobi: _mobi),
       StepKind.ladder => CourseStep(answers: a, onNext: next),
       StepKind.confidence => SubjectsStep(answers: a, onNext: next),
       StepKind.choice => WorryStep(answers: a, onNext: next),

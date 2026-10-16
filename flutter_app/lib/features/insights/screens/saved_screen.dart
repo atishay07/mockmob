@@ -111,6 +111,10 @@ class SavedBody extends ConsumerStatefulWidget {
   final bool stale;
   final Future<void> Function() onRefresh;
 
+  /// Mobi's height in the slot beside the meter, and his key once he has arrived.
+  static const double mobiSize = 44;
+  static const Key mobiKey = ValueKey('saved-mobi');
+
   @override
   ConsumerState<SavedBody> createState() => _SavedBodyState();
 }
@@ -158,14 +162,15 @@ class _SavedBodyState extends ConsumerState<SavedBody> with SingleTickerProvider
     final list = widget.list;
     final pad = MediaQuery.paddingOf(context);
 
-    // The first server-acknowledged save of the visit (an Undo) gets one small nod from Mobi.
+    // Mobi is not parked beside the meter: he arrives only for the first server-acknowledged save
+    // of the visit (an Undo), stepping into the slot kept for him and nodding once (the event
+    // table's small nod, not a hop). Until then the slot is plain air, so nothing moves when he
+    // comes. He is the one Mobi on the list.
     ref.listen<SaveMarks>(saveControllerProvider, (prev, next) {
       if (_hopped) return;
       final saved = next.acked.entries.any((e) => e.value && prev?.acked[e.key] != true);
-      if (saved) {
-        _hopped = true;
-        // The server confirmed a save: the small nod of the event table, not a hop.
-        _mobi.react(MobiMoments.act(MobiEvent.saveConfirmed), key: 'saved:first');
+      if (saved && MobiRation.reactNow('saved:first')) {
+        if (mounted) setState(() => _hopped = true);
       }
     });
 
@@ -220,9 +225,24 @@ class _SavedBodyState extends ConsumerState<SavedBody> with SingleTickerProvider
               ),
               const SizedBox(width: MmSpace.s12),
               SizedBox(
-                width: MobiFigure.widthFor(44),
-                height: 44,
-                child: MobiCharacter(controller: _mobi, size: 44, entrance: MobiAct.rest, seed: 31, watchTaps: false, shadow: false, interactive: true, tapCycle: MobiTapCycle.standard),
+                width: MobiFigure.widthFor(SavedBody.mobiSize),
+                height: SavedBody.mobiSize,
+                child: _hopped
+                    ? MmEntrance(
+                        rise: 6,
+                        child: MobiCharacter(
+                          key: SavedBody.mobiKey,
+                          controller: _mobi,
+                          size: SavedBody.mobiSize,
+                          entrance: MobiMoments.act(MobiEvent.saveConfirmed),
+                          seed: 31,
+                          watchTaps: false,
+                          shadow: false,
+                          interactive: true,
+                          tapCycle: MobiTapCycle.standard,
+                        ),
+                      )
+                    : null,
               ),
             ],
           ),
