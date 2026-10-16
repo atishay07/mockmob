@@ -121,6 +121,8 @@ html[data-theme='light'] .ml {
 .ml-cohort__icon { width: 28px; height: 28px; border-radius: 8px; display: grid; place-items: center; background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); color: var(--a-accent-text, #d2f000); }
 .ml-cohort__main { display: grid; gap: 8px; min-width: 0; }
 .ml-cohort__main > p { font-size: 15px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); max-width: 64ch; padding-top: 2px; }
+/* Slice 5: the ledger finding about time follows the cohort line and its chips, set a little apart. */
+.ml-cohort__main .ml-chips + p { margin-top: 10px; }
 .ml-fines { display: grid; gap: 4px; padding-top: 12px; border-top: 1px solid var(--a-line, #253026); }
 .ml-fine { font-size: 12px; line-height: 1.55; color: var(--a-ink-3, #93a08f); max-width: 76ch; }
 
@@ -144,7 +146,9 @@ html[data-theme='light'] .ml {
 .ml-others p { margin: 0; }
 .ml-others__label { display: flex; align-items: center; gap: 6px; font: 600 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
 .ml-others__label svg { color: var(--a-accent-text, #d2f000); }
-.ml-others__line { font-size: 14px; line-height: 1.55; color: var(--a-ink, #f2f4ec); max-width: 68ch; font-variant-numeric: tabular-nums; }
+.ml-others__line { font-size: 14px; line-height: 1.55; color: var(--a-ink, #f2f4ec); max-width: 68ch; font-variant-numeric: tabular-nums; text-wrap: pretty; }
+/* Slice 5: the time, changes and strike lines follow the picks line in the secondary ink, in the same type. */
+.ml-others__line ~ .ml-others__line { color: var(--a-ink-2, #bcc5b9); }
 .ml-share__count { align-self: center; min-width: 2ch; text-align: right; font: 650 14px/1 var(--font-display, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink-2, #bcc5b9); }
 .ml-share__count[data-tone='key'] { color: var(--a-good-text, #b6e36e); }
 .ml-share__count[data-tone='mine'] { color: var(--a-bad-text, #ff9d92); }

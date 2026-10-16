@@ -3,6 +3,8 @@
 // per option, a right-aligned count with a 2 px bar under the option text. The line and the counts come finished
 // from the server (data/mistake_lab.js othersFor): other students' first answers, mapped by option text in this
 // paper's own order, right against today's key, the student's own answer left out, and nothing under 10 students.
+// From slice 5 the server may add `lines`: how long the students who got it right took, how many changed their answer and how
+// many crossed out the key, each present only once its gate passed (30, 20 and 20 students).
 import { Users } from 'lucide-react';
 import './marks-ledger.css';
 
@@ -13,6 +15,8 @@ export default function OthersAnswered({ others, title = 'How others answered' }
     <div className="ml-others">
       <p className="ml-others__label"><Users size={14} strokeWidth={2.2} aria-hidden="true" />{title}</p>
       <p className="ml-others__line">{others.line}</p>
+      {/* Time, changes and strike-outs from the nightly table, each line only once its gate passed (server-built). */}
+      {Array.isArray(others.lines) ? others.lines.map((line) => <p key={line} className="ml-others__line">{line}</p>) : null}
     </div>
   );
 }

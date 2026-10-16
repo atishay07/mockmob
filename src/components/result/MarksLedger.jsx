@@ -168,12 +168,15 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
         </div>
       ) : null}
 
-      {lab.cohort?.line ? (
+      {lab.cohort?.line || lab.cohort?.slow ? (
         <div className="ml-cohort">
           <span className="ml-cohort__icon" aria-hidden="true"><Users size={16} strokeWidth={2.2} /></span>
           <div className="ml-cohort__main">
-            <p>{withNumbers(lab.cohort.line)}</p>
-            <LabChips numbers={lab.cohort.numbers} onJump={onJump} showMore={labels.showMore} />
+            {lab.cohort.line ? <p>{withNumbers(lab.cohort.line)}</p> : null}
+            {lab.cohort.line ? <LabChips numbers={lab.cohort.numbers} onJump={onJump} showMore={labels.showMore} /> : null}
+            {/* Slice 5: the questions that took over twice as long as the students who got them right (the nightly table). */}
+            {lab.cohort.slow ? <p>{withNumbers(lab.cohort.slow.line)}</p> : null}
+            {lab.cohort.slow ? <LabChips numbers={lab.cohort.slow.numbers} onJump={onJump} showMore={labels.showMore} /> : null}
           </div>
         </div>
       ) : null}

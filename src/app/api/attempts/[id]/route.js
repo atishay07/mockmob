@@ -5,7 +5,7 @@ import { readAnswerReviews } from '@/services/recovery/answerReviews';
 import { buildRecap } from '@/lib/server/recap';
 import { buildMissedBefore } from '@/components/recovery/repairRun.js';
 import { resultHistory } from '@/../data/mock_swot';
-import { readCohort } from '@/../data/cohort_picks';
+import { readCohortWithTime } from '@/lib/server/cohortStats';
 import { loadRuleSources } from '@/lib/server/ruleBook';
 import { atlasForAttempt } from '@/lib/server/trapAtlas';
 import { cardsFor } from '@/lib/server/revise';
@@ -26,6 +26,9 @@ export async function GET(request, { params }) {
     //  - missedBefore: real wrong answers to the same question in the student's other attempts;
     //  - mistakeInsights: "From your record" lines under each repair (server-built sentences); {} until the answer
     //    checks are ready, as the SWOT says checks_pending;
+    //  - cohort: other students' picks, and from slice 5 their time, changes and strike-outs: the nightly table
+    //    question_option_stats while it is at most 48 hours old, else the committed snapshot as before
+    //    (src/lib/server/cohortStats.js readCohortWithTime);
     //  - lab: the Mistake Lab ledger, first-pick re-mark and How others answered (data/mistake_lab.js; null until the
     //    answer checks are ready); the SWOT then leaves out what the ledger already shows. Slice 3 adds
     //    lab.acrossMocks, lab.repairOrder, lab.rules and lab.prove.ruleCheck (data/lab_loop.js), each null on its own
@@ -41,7 +44,7 @@ export async function GET(request, { params }) {
       loadAttempts: () => Database.getAttempts(session.user.id),
       recapOf: buildRecap,
       missedBeforeOf: buildMissedBefore,
-      cohortOf: readCohort,
+      cohortOf: (input) => readCohortWithTime(input),
       labLoop: true,
       ruleSourcesOf: ({ allAttempts }) => loadRuleSources(session.user.id, allAttempts),
       labSlice4: {

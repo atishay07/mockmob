@@ -142,7 +142,33 @@
       "one": "1 of the {total} questions in this paper has answers from 10 or more other students.",
       "many": "{c} of the {total} questions in this paper have answers from 10 or more other students."
     },
-    "source": "Other students' first answers to the same question on MockMob, {from} to {to}. Your own answers are not counted."
+    "source": "Other students' first answers to the same question on MockMob, {from} to {to}. Your own answers are not counted.",
+    "time": {
+      "median": "Students who got this right took a median of {time} ({n} students).",
+      "changes": {
+        "none": "None of the {n} timed students changed their answer here.",
+        "one": "1 of {n} timed students changed their answer here.",
+        "many": "{c} of {n} timed students changed their answer here."
+      },
+      "moved": {
+        "none": " None of them moved off the key.",
+        "single": " That student moved off the key.",
+        "one": " 1 of them moved off the key.",
+        "many": " {m} of them moved off the key."
+      },
+      "struck": {
+        "none": "None of the {n} students crossed out the key here.",
+        "one": "1 of {n} students crossed out the key here.",
+        "many": "{s} of {n} students crossed out the key here."
+      },
+      "slow": "On {k} questions you took over twice as long as the students who got them right. {right}",
+      "slowRight": {
+        "none": "You got none of the {k} right.",
+        "all": "You got all {k} right.",
+        "some": "You got {r} of the {k} right."
+      },
+      "slowFine": "Each of the {k} has 15 or more students who got it right and were timed."
+    }
   },
   "listJoin": {
     "comma": ", ",
