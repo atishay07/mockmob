@@ -176,8 +176,8 @@ The Practice setup is `/dashboard`, in `src/app/(app)/dashboard/DashboardPageCli
 - The always-on `ArenaCompanion` block ("Set up Quick practice. Check the subject, time and access...") leaves its place.
 - Mobi appears:
   - in the Fine-tune block for Smart practice and NTA mode, beside "We choose for you";
-  - in the session card on a launch error ('oops').
-- Never both: the error wins.
+  - in the session card while a start takes longer than 600 ms ('think') or fails ('oops').
+- Never both: when the card's Mobi shows, the Fine-tune line's Mobi steps out.
 - Its NTA line ("Mobi stays outside while you answer") moves into the NTA panel that opens under the tiles. Nothing is lost.
 - Why: Mobi at most once per screen, at a real moment (owner, 16 Oct).
 
@@ -294,6 +294,10 @@ Order, top to bottom. Nothing removed (see section 7).
      - Start, or the honest blocked action: "Need 10 more practice credits" or "See Pro";
      - the reason line: "10 credits are charged only after a complete set is built."
 7. **Below, unchanged:** the stats, Recent sessions, MockMob Pro, "Add a question" / "Feed the bank" and My submissions.
+
+**Day parity details** (found in the Day captures):
+- Selected segments (Questions, Difficulty) are volt with volt ink in both themes, plus a 1 px olive edge in Day. The Day select colour `#6f8700` with dark ink failed contrast.
+- Ticks on the Day select colour (the mode ring, chapter checks) are white.
 
 **States:**
 - **Loading:** skeleton shapes that match the new layout: 5 object discs, 4 tiles, a segmented bar, the fine-tune block, the session card. Each holds its own place, so nothing jumps when data lands.
