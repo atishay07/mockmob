@@ -1,0 +1,8 @@
+# Template for android/key.properties (the real file is git-ignored and never committed).
+# Copy it to key.properties and fill it in, or let tool\make_upload_key.ps1 write it for you.
+# Gradle reads this file in android/app/build.gradle.kts to sign the release bundle.
+# Use forward slashes in storeFile, also on Windows.
+storePassword=PASSWORD-OF-THE-KEYSTORE
+keyPassword=PASSWORD-OF-THE-KEY
+keyAlias=upload
+storeFile=C:/Users/YOUR-NAME/mockmob-keys/mockmob-upload.jks

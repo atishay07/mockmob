@@ -1,5 +1,7 @@
 # Releasing the MockMob Android app
 
+Newest hand-off: `docs/brain/PLAY-RELEASE-2026-10-16.md` (owner's steps, listing, Data safety, screenshots). One command once the key exists: `bash tool/build_release_aab.sh --bump`. Template for the key file: `android/key.properties.example`. Where this file and that one differ, that one wins.
+
 Package `in.mockmob.app`. Everything below runs from `flutter_app` in Git Bash, except the key
 script (PowerShell). Flutter commands always go through `bash tool/flutter_locked.sh <args>`
 (it shares build slots with other agents on this PC).
@@ -16,7 +18,7 @@ script (PowerShell). Flutter commands always go through `bash tool/flutter_locke
 | R8 code shrinking and resource shrinking | on for release (Flutter Gradle plugin) | Rules for plugins that use reflection are in `android/app/proguard-rules.pro` (Gson in flutter_local_notifications, WorkManager workers, Credential Manager, Tink in flutter_secure_storage, home_widget). |
 | Native debug symbols | `SYMBOL_TABLE` in the AAB | Lets Play Console symbolicate native crashes. |
 | 16 KB page size | see "16 KB check" below | Play requires it for apps targeting Android 15+ (hard deadline 1 Feb 2027; source: developer.android.com/guide/practices/page-sizes). |
-| Permissions | 9 in the merged release manifest (aapt2 on the arm64 release APK, 14 Oct 2026). The app declares INTERNET, ACCESS_NETWORK_STATE, POST_NOTIFICATIONS, RECEIVE_BOOT_COMPLETED and WAKE_LOCK. Plugins add VIBRATE (flutter_local_notifications), FOREGROUND_SERVICE and FOREGROUND_SERVICE_SHORT_SERVICE (workmanager), and USE_BIOMETRIC (androidx.biometric; the app never asks for biometrics). | No exact alarms, no location, no contacts, no storage, no ad ID. Short service is not a Play special foreground-service type, but the Play Console foreground-service declaration should say it is used for short background sync of answers; FOREGROUND_SERVICE_DATA_SYNC is not declared. Re-run `aapt2 dump badging` on the exact upload. Matches the Data safety answers below; the reasoning is in `docs/brain/PLAY-LISTING-2026-10-14.md`. |
+| Permissions | 8 since 16 Oct (USE_BIOMETRIC and USE_FINGERPRINT are removed in the manifest). Earlier: 9 in the merged release manifest (aapt2 on the arm64 release APK, 14 Oct 2026). The app declares INTERNET, ACCESS_NETWORK_STATE, POST_NOTIFICATIONS, RECEIVE_BOOT_COMPLETED and WAKE_LOCK. Plugins add VIBRATE (flutter_local_notifications), FOREGROUND_SERVICE and FOREGROUND_SERVICE_SHORT_SERVICE (workmanager), and USE_BIOMETRIC (androidx.biometric; the app never asks for biometrics). | No exact alarms, no location, no contacts, no storage, no ad ID. Short service is not a Play special foreground-service type, but the Play Console foreground-service declaration should say it is used for short background sync of answers; FOREGROUND_SERVICE_DATA_SYNC is not declared. Re-run `aapt2 dump badging` on the exact upload. Matches the Data safety answers below; the reasoning is in `docs/brain/PLAY-LISTING-2026-10-14.md`. |
 | Cleartext traffic | only in the debug manifest | Release is HTTPS only. |
 
 ## 1. Create the upload key (owner, once)
@@ -130,10 +132,8 @@ count for this one. The 14 days start when testers have opted in, so start as ea
      password you create on the site) in "App access".
    - **Ads**: no ads.
    - **Content rating**: questionnaire (education, no violence); expect a rating suitable for all.
-   - **Target audience**: 18 and over only (the decision is consenting adults; do not select under-13
-     or "appeals to children").
-   - **Data safety**: collects email and account identifier, app activity (mock scores and study
-     progress), crash and diagnostics if enabled; data encrypted in transit; deletion request at
+   - **Target audience**: tick 16-17 and 18 and over; never under-13 or "appeals to children" (the in-app age question allows "No" and "Prefer not to say"; see PLAY-RELEASE-2026-10-16 section 7).
+   - **Data safety**: collects email, user id, optional name and age band, app interactions (answers, scores, study progress), optional goal and reminder settings and AI mentor messages; no crash SDK; data encrypted in transit; deletion request at
      https://www.mockmob.in/account-deletion; not shared with third parties for ads. Answer from
      what the build really sends, and re-check after each feature change.
    - **Government apps / Financial features / Health**: none apply. Do not claim affiliation with
