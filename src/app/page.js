@@ -49,22 +49,26 @@ import './hero-v3.css';
 import './landing-rest.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
-  '100 practice credits to start: a Quick Practice uses 10, a Full Mock 50',
-  '10 Ask MockMob credits a month',
+  '100 practice credits to start: a Quick practice uses 10, a Full mock 50',
+  '10 Ask Mobi credits a month for questions beyond your own record',
   'Weekly progress tracking',
   '25 saved questions',
   'Leaderboard',
 ];
 const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Unlimited saved questions'] : [
-  'Unlimited Quick Practice and Full Mock',
+  'Unlimited Quick practice and Full mock',
   'Compass Pro: your practice mapped to your DU shortlist',
-  'Smart Practice and NTA Mode',
+  'Smart practice and NTA mode',
   'Every chapter ranked, with pace and changed answers',
-  '50 Ask MockMob credits a month',
+  '50 Ask Mobi credits a month',
   'Unlimited saved questions',
 ];
 
 const OFFER = publicOffer();
+// What Free gives, in one sentence that says no more than the Free list above does.
+const FREE_LINE = newOfferReleased()
+  ? 'Free gives you a baseline in each launch subject and a daily 10-question set, and keeps your progress.'
+  : 'Free gives you 100 practice credits and keeps your progress.';
 const SHOWCASE = buildCompassShowcase();
 const WALL_VOICES = publishedVoices();
 
@@ -105,7 +109,7 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 const TOUR = [
   { id: 'arena', label: 'Practice', line: 'Drills and full mocks on the exam clock', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
-    points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
+    points: ['Quick drills and full mocks', 'NTA mode and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', line: 'Fix why you got it wrong', title: 'Fix why you missed it.',
     body: 'After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the official key.',
     points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'Then a 10-minute next step and 5 fresh questions to test the fix.', href: '/signup', cta: 'Try Mistake Repair',
@@ -119,12 +123,12 @@ const TOUR = [
   { id: 'radar', label: 'Weak chapters', line: 'The chapter to fix first', title: 'Know which chapter to fix first.',
     body: 'A score is just a number. MockMob traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Your weakest chapters, free after every mock.', href: '/analytics', cta: 'See your weak chapters' },
-  { id: 'prepos', label: 'Ask MockMob', line: 'Ask what to do tonight', title: 'Ask MockMob what to do tonight.',
-    body: 'Ask MockMob reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in your weak chapters.',
-    points: ['Questions about your own record are free', 'AI credits each month: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'Questions about your own record are free.', href: '/mentor', cta: 'Ask about your record' },
+  { id: 'prepos', label: 'Ask Mobi', line: 'Ask what to do tonight', title: 'Ask Mobi what to do tonight.',
+    body: 'Ask Mobi reads your practice record and answers with where the marks went and a single next step, the same one the app’s Today screen shows.',
+    points: ['Questions about your own record use no credits', 'Other questions use AI credits: 10 a month on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'Questions about your own record use no credits.', href: '/mentor', cta: 'Ask about your record' },
   { id: 'compass', label: 'DU Compass', line: 'Your shortlist against real DU cutoffs', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
-    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Cutoffs from DU’s published Round I to III lists.', href: '/admission-compass', cta: 'Open Compass',
+    points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Cutoffs from DU’s published Round 1 to 3 lists.', href: '/admission-compass', cta: 'Open Compass',
     elsewhere: { href: '#compass' } },
   { id: 'combo', label: 'Combo Planner', line: 'Choose your five CUET papers', title: 'Choosing five papers? Check the combination first.',
     body: 'Pick your DU goals and the subjects you can take, then see which five-paper combinations the published 2026 rules keep open.',
@@ -263,7 +267,7 @@ export default function LandingPage() {
         {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
         <section className="lp-sec lp-sh-host" id="score-recovery-lab" aria-labelledby="score-recovery-lab-title">
           <SectionHeading titleId="score-recovery-lab-title" title="Fix it once. Check it holds."
-            sub="The Score Recovery Lab replays the session, repairs the leak, then proves the fix on fresh questions days later."
+            sub="The Mistake Lab reads one mock. The Score Recovery Lab works on one leak over days: it finds it, sets one next move, then checks the fix on fresh questions."
             mini="Score Recovery Lab" />
           <div className="mm-wrap">
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
@@ -291,7 +295,7 @@ export default function LandingPage() {
                 </div>
                 <dl className="lp-cpro__list">
                   <div><dt>Practice projection</dt><dd>Each paper out of 250, from your attempt rate and accuracy, shown as a range.</dd></div>
-                  <div><dt>Your DU shortlist</dt><dd>Up to 8 college and programme targets, compared with Rounds I to III.</dd></div>
+                  <div><dt>Your DU shortlist</dt><dd>Up to 8 college and programme targets, compared with Rounds 1 to 3.</dd></div>
                   <div><dt>Next move</dt><dd>The paper with the most marks open, and its weakest chapter.</dd></div>
                 </dl>
                 <p className="lp-cpro__fine">Comparing cutoffs stays free.</p>
@@ -361,8 +365,8 @@ export default function LandingPage() {
         <section className="lp-sec" id="pricing">
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
-              <h2 className="lp-h2">{OFFER.purchasable === 'monthly' ? `Free to practise, ₹${OFFER.monthly.rupees} a month for Pro.` : `Free to practise, ₹${OFFER.oneTime.rupees} once for Pro.`}</h2>
-              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? 'Free keeps practice and your progress open. Cancel Pro any month and keep what you paid for.' : 'Free keeps practice and your progress open. Pro is one payment, not a subscription.'}</p>
+              <h2 className="lp-h2">{OFFER.purchasable === 'monthly' ? `Free to start, ₹${OFFER.monthly.rupees} a month for Pro.` : `Free to start, ₹${OFFER.oneTime.rupees} once for Pro.`}</h2>
+              <p className="lp-sub">{FREE_LINE} {OFFER.purchasable === 'monthly' ? 'Cancel Pro any month and keep what you paid for.' : 'Pro is one payment, not a subscription.'}</p>
             </div>
             {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. Start free
                 keeps the volt key it has everywhere else on the page; See Pro is the secondary key. */}

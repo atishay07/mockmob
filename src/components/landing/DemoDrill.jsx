@@ -291,7 +291,9 @@ export function DemoDrill() {
           <p className="mm-drill__verdict">
             {score >= 4
               ? 'A full mock is 50 of these in 60 minutes.'
-              : 'A full mock shows which chapters to fix first.'}
+              : score >= 2
+                ? 'Part of this held. A full mock shows which chapters to fix first.'
+                : 'Five questions are a small sample. A full mock of 50 shows which chapters to fix first.'}
           </p>
 
           {missed.length > 0 ? (

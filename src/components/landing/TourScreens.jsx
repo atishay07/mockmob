@@ -1,10 +1,10 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Check, ShieldCheck, X } from 'lucide-react';
+import { Check, Clock, ShieldCheck } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
-import { labStory, signed } from './labStory.mjs';
+import { PAPER_PACE_SEC, SESSION, clock, nextMove, openedAt, weakChapters } from './labStory.mjs';
 
 export const DemoPlaybackContext = createContext({ active: false, reduced: false, paused: false });
 
@@ -150,87 +150,86 @@ export function LearnScreen({ play }) {
 }
 
 // ---------- 3. Mistake Replay ----------
-// Q4 of the landing's sample mock (labStory.mjs), on the paper's clock like the Mistake Lab scenes: the
-// right first pick, the change crossed out on its way to the wrong one, then the other two changes.
-const STORY = labStory();
-const REPLAY_Q = STORY.changes.find((c) => c.n === 4);
+// The landing's one sample student (labStory.mjs). The Mistake Lab above already shows this mock's changed
+// answers, so the tour's replay shows another moment of the same paper: Q7, right but slow, then the two
+// questions it left blank. Clock times count from the start of the paper, as the Lab's do.
+const SLOW = SESSION.find((r) => r.n === 7);
+const SLOW_OPEN = openedAt(SLOW.n);
+const SLOW_OVER = clock(SLOW.sec - PAPER_PACE_SEC);
+const PACE = clock(PAPER_PACE_SEC);
 const REPLAY_T = [...lineUp(3), 420, 480, 540];
-const REPLAY_MORE = STORY.changes.filter((c) => c.n !== REPLAY_Q.n).map((c) => [`Q${c.n}`, `${c.from} at ${c.at}, then ${c.to} at ${c.toAt}`, signed(c.net), c.net < 0 ? 'bad' : 'good']);
+const REPLAY_MORE = SESSION.filter((r) => r.verdict === 'blank').map((r) => [`Q${r.n}`, `Opened at ${clock(openedAt(r.n))}, left blank after ${clock(r.sec)}`, '0']);
 export function ReplayScreen({ play }) {
   const step = useSteps(play, REPLAY_T);
-  const changed = step >= 4;
-  const q = REPLAY_Q;
+  const timed = step >= 4;
   return (
-    <Frame title={`Replay, question ${q.n}`} step={step}>
+    <Frame title={`Replay, question ${SLOW.n}`} step={step}>
       <div className="ts__timeline">
-        <div className="ts__node" data-in={on(step >= 1)}><span className="ts__node-dot" data-tone="good"><Check size={14} aria-hidden="true" /></span><b>{q.at}</b><small>Picked {q.from}</small></div>
+        <div className="ts__node" data-in={on(step >= 1)}><span className="ts__node-dot"><Clock size={14} aria-hidden="true" /></span><b>{clock(SLOW_OPEN)}</b><small>Opened</small></div>
         <span className="ts__link" aria-hidden="true">
-          <i className="ts__line" data-in={on(step >= 2)} />
-          <b className="ts__cross" data-in={on(step >= 3)}><X size={10} strokeWidth={3} /></b>
+          <i className="ts__line" data-tone="time" data-in={on(step >= 2)} />
+          <b className="ts__span" data-in={on(step >= 3)}>{clock(SLOW.sec)}</b>
         </span>
-        <div className="ts__node" data-in={on(step >= 3)}><span className="ts__node-dot" data-tone="bad"><X size={14} aria-hidden="true" /></span><b>{q.toAt}</b><small>Changed to {q.to}</small></div>
+        <div className="ts__node" data-in={on(step >= 3)}><span className="ts__node-dot" data-tone="good"><Check size={14} aria-hidden="true" /></span><b>{clock(SLOW_OPEN + SLOW.sec)}</b><small>Answered, right</small></div>
       </div>
-      <div className="ts__verdict" data-changed={on(changed)}>
-        <span className="ts__opt">{changed ? q.to : q.from}</span>
-        <p><b>{changed ? 'Wrong' : 'Right'}</b>{changed ? 'After the change' : 'First pick'}</p>
-        <strong className="ts__marks">{changed ? '−1' : '+5'}<small>marks</small></strong>
+      <div className="ts__verdict" data-timed={on(timed)}>
+        <span className="ts__opt">{timed ? <Clock size={16} aria-hidden="true" /> : <Check size={16} aria-hidden="true" />}</span>
+        <p><b>{timed ? `${clock(SLOW.sec)} on one question` : 'Right'}</b>{timed ? `The paper’s pace is ${PACE}` : 'Partnership'}</p>
+        <strong className="ts__marks">{timed ? `+${SLOW_OVER}` : '+5'}<small>{timed ? 'over pace' : 'marks'}</small></strong>
       </div>
-      <p className="ts__note" data-in={on(step >= 5)}>Changed {q.gap} later. That change cost you <b>{-q.net} marks</b>.</p>
-      <ul className="ts__also" data-in={on(step >= 6)} aria-label="Other answers changed in this mock">
-        {REPLAY_MORE.map(([label, what, marks, tone]) => <li key={label}><b>{label}</b><span>{what}</span><em data-tone={tone}>{marks}</em></li>)}
+      <p className="ts__note" data-in={on(step >= 5)}>Right, but <b>{SLOW_OVER} past the pace</b>. That time came out of the questions after it.</p>
+      <ul className="ts__also" data-in={on(step >= 6)} aria-label="Questions left blank in this mock">
+        {REPLAY_MORE.map(([label, what, marks]) => <li key={label}><b>{label}</b><span>{what}</span><em data-tone="none">{marks}<small> marks</small></em></li>)}
       </ul>
     </Frame>
   );
 }
 
-// ---------- 4. Radar ----------
-const RADAR_T = [...lineUp(6), 400];
-// Across several mocks (one CUET paper is one subject), each chapter with its count of right answers, so a bar is
-// never a bare percentage from a handful of questions.
-const RADAR_ROWS = [
-  ['Partner retirement', 'Accountancy', 5, 13],
-  ['Money and banking', 'Economics', 11, 21],
-  ['Reading passages', 'English', 14, 23],
-  ['Business environment', 'Business Studies', 13, 19],
-  ['Ratio analysis', 'Accountancy', 16, 21],
-  ['Cash flow', 'Accountancy', 21, 25],
-];
+// ---------- 4. Weak chapters ----------
+// The same student as the Mistake Lab: its Accountancy chapters are counted from the Lab's three papers, so a
+// chapter never shows one count there and another here. Each row carries its count of right answers, so a bar
+// is never a bare percentage from a handful of questions.
+const MOVE = nextMove();
+const RADAR_ROWS = weakChapters();
+const RADAR_T = [...lineUp(RADAR_ROWS.length), 400];
 export function RadarScreen({ play }) {
   const step = useSteps(play, RADAR_T);
+  const done = step >= RADAR_ROWS.length + 1;
   return (
     <Frame title="Weak chapters across your last mocks" step={step}>
       <ul className="ts__bars">
-        {RADAR_ROWS.map(([chapter, subject, right, of], i) => (
+        {RADAR_ROWS.map(({ chapter, subject, right, of }, i) => (
           <li key={chapter} data-in={on(step > i)} data-low={on(right / of < 0.5)}>
-            <span className="ts__bars-name"><b>{chapter}</b><small>{subject}</small>{i === 0 ? <span className="ts__flag" data-in={on(step >= 7)}>Fix first</span> : null}</span>
+            <span className="ts__bars-name"><b>{chapter}</b><small>{subject}</small>{i === 0 ? <span className="ts__flag" data-in={on(done)}>Fix first</span> : null}</span>
             <span className="ts__bars-track" aria-hidden="true"><i style={{ '--w': `${(right / of) * 100}%` }} /></span>
             <em>{right} of {of}</em>
           </li>
         ))}
       </ul>
-      <p className="ts__note" data-in={on(step >= 7)}>Partner retirement lost the most marks. Tonight starts there.</p>
+      <p className="ts__note" data-in={on(done)}>{RADAR_ROWS[0].chapter} lost marks in each of your last {MOVE.lost.length} mocks. It goes first.</p>
     </Frame>
   );
 }
 
-// ---------- 5. PrepOS ----------
-// Your question lands, the reply is typed for a beat, then it and its three steps line up.
-const PREP_T = [40, 160, ...lineUp(5, 420)];
-const PREP_PLAN = [['20 min', 'Retirement: 10 fresh questions'], ['10 min', 'Re-read the two you changed'], ['Tomorrow', 'One timed half mock']];
+// ---------- 5. Ask Mobi ----------
+// Your question lands, the reply is typed for a beat, then the one next move and its rule line up: the same move
+// the Lab's SWOT puts first and the Score Recovery Lab's plan shows (labStory.mjs, nextMove).
+const PREP_T = [40, 160, ...lineUp(4, 420)];
 export function PrepOSScreen({ play }) {
   const step = useSteps(play, PREP_T);
   return (
-    <Frame title="Ask MockMob" step={step} right={<span className="ts__badge">Your record</span>}>
+    <Frame title="Ask Mobi" step={step} right={<span className="ts__badge">Your record</span>}>
       <p className="ts__bubble ts__bubble--me" data-in={on(step >= 1)}>What should I do tonight?</p>
       <div className="ts__reply">
         {step === 2 ? <p className="ts__typing" aria-hidden="true"><i /><i /><i /></p> : null}
         <div className="ts__bubble ts__bubble--ai" data-in={on(step >= 3)}>
-          <p className="ts__ai-head"><b>Mobi</b><small>from your last 3 mocks</small></p>
-          <p>Retirement in Accountancy cost you the most this week. Tonight:</p>
+          <p className="ts__ai-head"><b>Mobi</b><small>from your last {MOVE.lost.length} Accountancy mocks</small></p>
+          <p>{MOVE.why}</p>
           <ol>
-            {PREP_PLAN.map(([time, what], i) => <li key={what} data-in={on(step >= 4 + i)}><b>{time}</b>{what}</li>)}
+            <li data-in={on(step >= 4)}><b>Tonight</b>{MOVE.label}</li>
+            <li data-in={on(step >= 5)}><b>Rule</b>{MOVE.rule}</li>
           </ol>
-          <p className="ts__replies" data-in={on(step >= 7)}><span data-main="true">Start the 10</span><span>Why this?</span></p>
+          <p className="ts__replies" data-in={on(step >= 6)}><span data-main="true">Start the {MOVE.count}</span><span>Why this?</span></p>
         </div>
       </div>
     </Frame>
@@ -244,7 +243,7 @@ export function CompassScreen({ play }) {
   const step = useSteps(play, COMPASS_T);
   return (
     <Frame title="Your Compass shortlist" step={step}>
-      <p className="ts__meta">Your practice range against 2026 Round I cutoffs</p>
+      <p className="ts__meta">Your practice range against 2026 Round 1 cutoffs</p>
       <ul className="ts__compass">
         {COMPASS_ROWS.map(([college, course, cut, label, fit], i) => (
           <li key={college} data-in={on(step > i)}>

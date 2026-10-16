@@ -18,7 +18,7 @@ const LEDE = {
   learn: 'Short lessons with worked examples, then recall cards that come back before you forget.',
   replay: 'Every changed answer, every slow question and every skip, in the order it happened.',
   radar: 'Every miss traced back to its chapter, so tonight has one clear target.',
-  prepos: 'Ask about your own record and get one next step, the same one Today shows you.',
+  prepos: 'Ask about your own record and get one next step, the same one the app’s Today screen shows.',
   compass: 'Your score against the published 2026 DU cutoffs, by college, category and round.',
   combo: 'Pick your DU goals and see which five-paper combinations the 2026 rules keep open.',
   rival: 'A short timed run against a fixed target for accuracy and pace.',
@@ -188,7 +188,7 @@ function TourStage({ slides, elsewhere = [], step, pinned, reduced, goTo: storyG
 
   const paused = !playing || keyboardHold;
   const next = slides[(active + 1) % slides.length];
-  const playLabel = reduced ? 'Autoplay is off' : paused ? 'Play' : 'Pause';
+  const playLabel = reduced ? 'Autoplay is off' : paused ? 'Play demos' : 'Pause demos';
 
   return (
     <div className="ft" role="region" aria-roledescription="carousel" aria-label="Explore MockMob features" data-playing={running ? 'true' : 'false'} data-live={onScreen ? 'true' : 'false'} data-keyboard={keyboardHold ? 'true' : 'false'}
@@ -239,7 +239,7 @@ function TourStage({ slides, elsewhere = [], step, pinned, reduced, goTo: storyG
 
           {/* Plain text controls: the demos' stop control (autoplay over 5 s needs one), then the way back and on. */}
           <div className="ft__controls">
-            <button type="button" className="ft__play" aria-label={reduced ? 'Autoplay is off' : paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>{playLabel}</button>
+            <button type="button" className="ft__play" disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>{playLabel}</button>
             <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature">Previous</button>
             <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })}>Next: <b>{next?.label}</b></button>
           </div>

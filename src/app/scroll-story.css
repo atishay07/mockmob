@@ -34,6 +34,10 @@
 }
 /* The stage's empty bands never catch a tap meant for the page around it (the slack margins below
    let the next section slide under them); the content itself takes pointers as usual. */
+/* The track is taller than its stage, and on phones the page after a short story slides up under the track's
+   foot (the negative slack margins below). The track paints over that page, so it takes no pointers either:
+   only the stage's content does. */
+.ss[data-pinned='true'] .ss__track,
 .ss[data-pinned='true'] .ss__stage { pointer-events: none; }
 .ss[data-pinned='true'] .ss__stage > * { pointer-events: auto; }
 /* Short content: a story that marks its content's end (data-ss-end) gets --ss-slack, the band left under

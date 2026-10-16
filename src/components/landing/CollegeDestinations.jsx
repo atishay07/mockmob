@@ -51,7 +51,7 @@ export function CollegeDestinations() {
               </picture>
               <span className="lp-college__copy"><strong>{college.name}</strong><span>{college.detail}</span></span>
               {college.cutoff ? (
-                <span className="lp-college__cut"><b>{college.cutoff}</b><span>Round I, UR</span></span>
+                <span className="lp-college__cut"><b>{college.cutoff}</b><span>Round 1, UR</span></span>
               ) : null}
             </Link>
           </li>

@@ -43,9 +43,13 @@
    fine print, each fluid between its phone value (390 px) and its desktop value (from about 1200 px). Product
    screens (the dark devices) may also use 12 px inside them, nowhere else. Sentence case everywhere; numbers
    use tabular figures, never a monospace face.
-     --t-display   40 -> 72   800  hero line, the close line, the Pro price
-     --t-headline  32 -> 56   800  every section h2 (the statement runs to 64)
-     --t-title     22 -> 30   700  h3, scene and slide titles, plan names, row names
+     --t-hero      42 -> 72   800  the hero h1 only, the page's largest words (56 and 64 between)
+     --t-close     36 -> 64   800  the close line, one step under the h1 at every width
+     --t-display   40 -> 64   800  the Pro price
+     --t-headline  32 -> 48   800  every section h2, a clear step under the h1 (40 between; the statement runs to 64)
+     --t-step      22 -> 32   800  the title of a held story's step: the Lab's scenes and the tour's tools (28 between)
+     --t-title     22 -> 30   700  other h3s: plan names, row names (26 between)
+   Sizes step at 761 and 1100 px, never fluid, so no heading lands on a fractional size.
      --t-lede      18 -> 20   400  section ledes, under every h2, --ink-2, at most 52ch
      --t-body      16         400  paragraphs, list rows, FAQ answers, at most 62ch
      --t-label     14         600  buttons, tabs, captions, table text
@@ -54,10 +58,13 @@
    then its h2 (one ink; only the statement and the close set a second clause in --ink-3), --head-gap, the lede,
    --head-after, then its content. Sections pad --sec-top above and --sec-bottom (8 px more) below. */
 .mm.lp {
-  --t-display: 2.5rem; /* 40, then 56 and 72 px: scale steps, never a fluid size (see below) */
-  --t-headline: clamp(2rem, 1.25rem + 3vw, 3.5rem);
+  --t-hero: 2.625rem; /* 42, then 56, 64 and 72 px (see below) */
+  --t-close: 2.25rem; /* 36, then 48, 56 and 64 px: always one step under --t-hero */
+  --t-display: 2.5rem; /* 40, then 56 and 64 px: scale steps, never a fluid size (see below) */
+  --t-headline: 2rem; /* 32, then 40 and 48 px */
   --t-statement: clamp(2rem, 1.1rem + 3.6vw, 4rem);
-  --t-title: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
+  --t-step: 1.375rem; /* 22, then 28 and 32 px */
+  --t-title: 1.375rem; /* 22, then 26 and 30 px */
   --t-lede: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
   --t-body: 1rem;
   --t-label: 0.875rem;
@@ -101,8 +108,12 @@
 /* Phones: 64 px above a section and 72 below (was 80 and 88), so a section's end and the next heading are one
    short band apart, not 170 px of empty page after every held story and block. */
 @media (max-width: 599px) { .mm.lp { --sec-top: 4rem; } }
-@media (min-width: 761px) { .mm.lp { --t-display: 3.5rem; } }
-@media (min-width: 1200px) { .mm.lp { --t-display: 4.5rem; } }
+@media (min-width: 761px) { .mm.lp { --t-hero: 3.5rem; --t-close: 3rem; --t-display: 3.5rem; --t-headline: 2.5rem; --t-step: 1.75rem; --t-title: 1.625rem; } }
+@media (min-width: 1100px) { .mm.lp { --t-headline: 3rem; --t-step: 2rem; --t-title: 1.875rem; } }
+/* The hero's last two steps need the height to keep its keys on the first screen; the close follows the hero. */
+@media (min-width: 1100px) and (min-height: 700px) { .mm.lp { --t-hero: 4rem; --t-close: 3.5rem; } }
+@media (min-width: 1200px) { .mm.lp { --t-display: 4rem; } }
+@media (min-width: 1360px) and (min-height: 760px) { .mm.lp { --t-hero: 4.5rem; --t-close: 4rem; } }
 html:has(.lp) {
   font-size: 16px;
   color-scheme: dark;
@@ -237,7 +248,7 @@ body:has(.mm.lp) {
 .lp-h2__rest { color: var(--ink-3); }
 .lp-h2--xl {
   max-width: 16ch;
-  font-size: var(--t-display);
+  font-size: var(--t-close);
   line-height: var(--lh-display);
   letter-spacing: var(--tr-display);
 }
@@ -350,7 +361,8 @@ body:has(.mm.lp) {
 }
 @media (min-width: 960px) {
   .lp-hero__grid {
-    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+    /* The copy column is wide enough for "went somewhere." on one line at the 72 px headline. */
+    grid-template-columns: minmax(0, 1.16fr) minmax(0, 0.84fr);
     gap: clamp(2.5rem, 5vw, 5rem);
   }
 }

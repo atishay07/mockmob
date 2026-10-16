@@ -24,7 +24,7 @@
 .ft__shot { width: 100%; min-width: 0; max-width: 28rem; }
 .ft__shot video { display: block; width: 100%; max-height: 18rem; object-fit: contain; background: #0e120d; border-radius: 20px; }
 .ft__copy { min-width: 0; display: flex; flex-direction: column; gap: var(--sp-2, 0.5rem); padding: var(--sp-4, 1rem) 0 0; }
-.ft__title { margin: 0; color: var(--ink); font: 800 var(--t-title, 1.375rem)/var(--lh-title, 1.12) var(--font-display); letter-spacing: var(--tr-title, -0.025em); text-wrap: balance; }
+.ft__title { margin: 0; color: var(--ink); font: 800 var(--t-step, 1.375rem)/var(--lh-title, 1.12) var(--font-display); letter-spacing: var(--tr-title, -0.025em); text-wrap: balance; }
 .ft__body, .ft__lede { margin: 0; color: var(--ink-2); font-size: var(--t-body, 1rem); line-height: 1.5; text-wrap: pretty; }
 /* The proof line: a plain sentence, quieter than the lede. */
 .ft__summary { margin: 0; color: var(--ink-3); font-size: var(--t-label, 0.875rem); font-weight: 500; line-height: 1.4; }
@@ -34,6 +34,10 @@
 .ft__controls { display: flex; align-items: center; gap: var(--sp-5, 1.5rem); margin-top: var(--sp-3, 0.75rem); border-top: 1px solid var(--line); }
 .ft__controls button { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; padding: 0; border: 0; background: transparent; color: var(--ink-2); font: 600 var(--t-label, 0.875rem)/1.2 var(--font-body); cursor: pointer; transition: color 150ms ease; }
 .ft__arrow { margin-left: auto; }
+/* The held stage is scaled to fit its room (data-ss-fit), so its 44 px targets would draw smaller than 44 px:
+   they grow by the same factor and land at a real 44 px on screen. */
+.ss[data-pinned='true'] .ft__stage :is(.ft__controls button, .ft__cta, .ft__away) { min-height: calc(44px / var(--ss-fit, 1)); }
+.ss[data-pinned='true'] .ft__stage .ft__controls button { min-width: calc(44px / var(--ss-fit, 1)); }
 .ft__controls .ft__next { color: var(--ink); white-space: nowrap; }
 .ft__next b { overflow: hidden; text-overflow: ellipsis; margin-left: 0.3em; font-weight: 600; }
 .ft__play:disabled { color: var(--ink-3); cursor: default; }

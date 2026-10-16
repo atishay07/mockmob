@@ -43,12 +43,12 @@
 html[data-theme='light'] .lc {
   --s-shadow: 0 20px 40px -24px rgba(32, 26, 14, 0.32);
 }
-/* ---------- Copy: the scene's title (--t-title), then its words ---------- */
+/* ---------- Copy: the scene's title (--t-step, the same role and size as the tour's tool titles), then its words ---------- */
 .lc-scene__title {
   margin: 0;
   max-width: 20ch;
   font-family: var(--font-display);
-  font-size: var(--t-title, 1.375rem);
+  font-size: var(--t-step, 1.375rem);
   font-weight: 800;
   line-height: var(--lh-title, 1.12);
   letter-spacing: var(--tr-title, -0.025em);
@@ -469,7 +469,7 @@ html[data-theme='light'] .lc {
   .lcp--repair[data-open='true'] :is(.lcr-stem, .lcr-pair, .lcp-check, .lcr-brief) { display: none; }
   .lcp--repair[data-open='false'] :is(.lcp-blocks, .lcr-record) { display: none; }
   .lcp-blocks .lcp-block p { display: inline; font-size: 0.9375rem; line-height: 1.45; }
-  .lcp-blocks .lcp-block .lcp-block__label { display: inline; margin: 0 0.3rem 0 0; font-size: 0.9375rem; }
+  .lcp-blocks .lcp-block .lcp-block__label { display: block; margin: 0 0 0.15rem; font-size: 0.9375rem; }
   .lcp--repair .lcr-record { font-size: 0.875rem; }
   .lcp--repair[data-open='true'] :is(.lcp-blocks, .lcr-record) { animation: lcr-swap 320ms var(--lc-ease) backwards; }
 
@@ -507,7 +507,7 @@ html[data-theme='light'] .lc {
 /* Short windows: the words shrink before the screen does. */
 @media (max-height: 740px) {
   .lc[data-pinned='true'] .lc-scene__body { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
-  .lc-scene__title { font-size: clamp(1.3rem, 5.6vw, var(--t-title, 1.875rem)); }
+  .lc-scene__title { font-size: min(var(--t-step, 1.375rem), 1.375rem); }
 }
 
 /* ---------- Wide or landscape: words beside the screen ---------- */
@@ -532,7 +532,7 @@ html[data-theme='light'] .lc {
   .lc[data-pinned='true'] .lc__grid { height: min(100%, 46rem); grid-template-rows: auto minmax(0, 1fr) auto; row-gap: 0; }
   .lc[data-pinned='true'] .lc__rail { grid-row: 1; padding-top: 0.25rem; }
   .lc[data-pinned='true'] .lc-scene__copy { grid-row: 3; align-self: end; padding: var(--sp-7, 3rem) 0 0.25rem; }
-  .lc-scene__title { max-width: 15ch; font-size: clamp(1.875rem, 0.9rem + 1.75vw, 2.625rem); line-height: 1.06; }
+  .lc-scene__title { max-width: 15ch; font-size: var(--t-step, 2rem); line-height: 1.06; }
   .lc-scene__take { display: inline; }
   .lc-scene__body { margin-top: var(--sp-4, 1rem); font-size: var(--t-lede, 1.25rem); line-height: var(--lh-lede, 1.5); }
   .lcd-bar { padding: 0.5rem var(--lc-obj-clear) 0.35rem 1.4rem; }

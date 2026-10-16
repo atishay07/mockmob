@@ -83,11 +83,23 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 .ts__verdict[data-changed='true'] .ts__marks { color: var(--ts-bad); animation: ts-pop .45s var(--ts-ease) both; }
 .ts__verdict[data-changed='true'] .ts__opt { animation: ts-flip .45s var(--ts-ease) both; }
 
+/* A slow question (the tour's replay of Q7): a neutral time line with the minutes it took at its middle, and a
+   verdict that turns to the time past the pace. Time is not a lost mark, so none of it is coral. */
+.ts__node-dot:not([data-tone]) { background: rgba(255,255,255,.1); color: var(--ts-ink); }
+.ts__line[data-tone='time'] { background: var(--ts-ink2); }
+.ts__span { position: absolute; left: 50%; top: 8px; translate: -50% 0; padding: 0 .35rem; border-radius: 6px; background: #101611; color: var(--ts-ink); font: 700 .75rem/1.4 var(--font-body); font-variant-numeric: tabular-nums; transition: opacity var(--mm-dur-enter, 360ms) var(--mm-ease-out, ease-out); }
+.ts .ts__span[data-in='false'] { opacity: 0; }
+.ts__verdict[data-timed='true'] { border-color: rgba(255,255,255,.24); }
+.ts__verdict[data-timed='true'] .ts__marks { color: var(--ts-ink); animation: ts-pop .45s var(--ts-ease) both; }
+.ts__verdict[data-timed='true'] .ts__opt { animation: ts-flip .45s var(--ts-ease) both; }
+
 .ts__also { list-style: none; margin: 0; padding: 0; display: grid; border-bottom: 1px solid var(--ts-line); }
 .ts__also li { display: grid; grid-template-columns: 1.9rem minmax(0, 1fr) auto; align-items: center; gap: .5rem; padding: .45rem 0; border-top: 1px solid var(--ts-line); font-size: .75rem; color: var(--ts-ink2); }
 .ts__also b { color: var(--ts-ink); font-size: .8125rem; }
 .ts__also em { font: 800 .875rem var(--font-display); font-style: normal; color: var(--ts-volt); font-variant-numeric: tabular-nums; }
 .ts__also em[data-tone='bad'] { color: var(--ts-bad); }
+.ts__also em[data-tone='none'] { color: var(--ts-ink2); }
+.ts__also em small { font: 600 .75rem var(--font-body); }
 
 /* 4. Radar */
 .ts__bars { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }

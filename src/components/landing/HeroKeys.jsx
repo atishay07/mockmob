@@ -20,7 +20,8 @@ export function HeroKeys() {
     );
   }
 
-  const tryText = sample.done ? 'Another subject' : sample.answered > 0 ? 'Back to your questions' : 'Try 5 questions';
+  // Once the sample is finished its card offers another subject itself, so this key only leads back to it.
+  const tryText = sample.done ? 'Back to the sample' : sample.answered > 0 ? 'Back to your questions' : 'Try 5 questions';
   return (
     <div className="mm-actions lp-keys" data-visitor={kind}>
       <Link href={signupHref} className="mm-btn mm-btn--primary lp-key lp-key--go">Start free</Link>

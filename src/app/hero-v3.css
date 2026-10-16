@@ -51,19 +51,16 @@
 
 /* ---------- Headline ----------
    One family, one weight, one size, one ink: no coloured year or label above it (the year runs on in the lead).
-   Tracking at the -0.04em floor, lines set nearly solid. On phones it is the page's display step (--t-display,
-   40 px at 390, the same as the close line and the Pro price), held under 11.9cqi so "went somewhere." (8.26em)
-   always fits one line on a narrow phone. Wider, it steps 48, 56 and 64 px: scale steps, never a fluid size. */
+   Tracking at the -0.04em floor, lines set nearly solid. It is the page's largest step (--t-hero: 42 px at 390,
+   above the close's 36 and the h2s' 32), held under 12cqi so "went somewhere." (8.26em) always fits one line. */
 .mm.lp .lp-hero--v3 .lp-title {
   margin: 0;
-  font-size: clamp(2rem, min(var(--t-display), 11.9cqi), 3rem);
+  font-size: clamp(2rem, min(var(--t-hero), 12cqi), var(--t-hero));
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.04em;
 }
-@media (min-width: 761px) { .mm.lp .lp-hero--v3 .lp-title { font-size: 3rem; } }
-@media (min-width: 1100px) and (min-height: 700px) { .mm.lp .lp-hero--v3 .lp-title { font-size: 3.5rem; } }
-@media (min-width: 1360px) and (min-height: 760px) { .mm.lp .lp-hero--v3 .lp-title { font-size: 4rem; } }
+/* Wider, it steps 56, 64 and 72 px with --t-hero (landing.css). */
 
 /* Mobi has no seat in the headline: on phones and tablets the dock carries him once the hero's keys have gone,
    and from 960px he stands on the sample card (see "Mobi on the sample card" below). */

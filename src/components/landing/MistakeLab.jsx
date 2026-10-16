@@ -16,11 +16,12 @@ import { pipReact } from '@/components/brand/pipEvents';
 import { useReadableRegion } from './useReadableRegion';
 import ScrollStory from './ScrollStory';
 import { durations } from '@/lib/motion/tokens.g.js';
-import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, clock, marksLedger } from './labStory.mjs';
+import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, clock, marksLedger, nextMove } from './labStory.mjs';
 
 // The story's rows in the replay's terms ('skip' for a blank), with the clock times of every change.
 const SESSION = STORY.map((r) => ({
   n: r.n,
+  chapter: r.chapter,
   first: r.change ? r.change.fromVerdict : r.verdict === 'blank' ? 'skip' : r.verdict,
   final: r.verdict === 'blank' ? 'skip' : r.verdict,
   sec: r.sec,
@@ -30,6 +31,10 @@ const SESSION = STORY.map((r) => ({
 const MARK = { right: MARKS.right, wrong: MARKS.wrong, skip: MARKS.blank };
 const PACE = clock(PAPER_PACE_SEC);
 const LEDGER = marksLedger();
+// The sample student's one next move, the same one the Lab's SWOT puts first and the tour's Ask Mobi gives.
+const MOVE = nextMove();
+// The replay opens on Q3, wrong from its first pick: the Lab above already walked through the changed answers.
+const FIRST_PICK = STORY.findIndex((r) => r.verdict === 'wrong' && !r.change);
 const qList = (qs) => (qs.length > 1 ? `${qs.slice(0, -1).map((n) => `Q${n}`).join(', ')} and Q${qs.at(-1)}` : `Q${qs[0]}`);
 const ABOUT = {
   changed_from_right: (qs) => `${qList(qs)} ${qs.length > 1 ? 'were' : 'was'} right until you changed ${qs.length > 1 ? 'them' : 'it'}.`,
@@ -41,7 +46,7 @@ const SHORT_STEP = ['Replay', 'Find', 'Plan', 'Check'];
 const STEPS = [
   { key: 'replay', title: 'Replay the session', body: 'Every answer and every minute, with the marks each one cost.', ms: 4800 },
   { key: 'leak', title: 'Find where marks leaked', body: 'Every mark you missed, sorted by how it went: changed answers, wrong picks and blanks.', ms: 4800 },
-  { key: 'move', title: 'Get one next move', body: 'One next step, the same one Today shows you.', ms: 4800 },
+  { key: 'move', title: 'Get one next move', body: 'One next step, with the record behind it.', ms: 4800 },
   { key: 'check', title: 'Check it on fresh questions', body: 'New questions, days apart, show whether the fix held.', ms: 4800 },
 ];
 // The ten tiles deal one shared stagger step apart (the app's staggerStep), so the replay is whole within
@@ -65,7 +70,8 @@ function inspectorText(tile) {
   if (tile.final === 'skip') return `Q${tile.n}: opened for ${tile.time} and left blank. No penalty, and no marks.`;
   const ratio = Math.round((tile.sec / PAPER_PACE_SEC) * 10) / 10;
   const pace = ratio >= 1.05 ? `${ratio} times the paper’s pace` : `inside the paper’s ${PACE} a question`;
-  return `Q${tile.n}: ${tile.final === 'right' ? 'right' : 'wrong'}. ${tile.time} on this question, ${pace}.`;
+  if (tile.final === 'wrong') return `Q${tile.n}: wrong from the first pick, never changed. ${tile.time} on this question, ${pace}.`;
+  return `Q${tile.n}: right. ${tile.time} on this question, ${pace}.`;
 }
 
 // The same ten questions in a row at the foot of the leak, move and check panels, the ones that step is
@@ -73,8 +79,8 @@ function inspectorText(tile) {
 // Wide screens only (phones fit each panel to its content). Drawn from SESSION, nothing new is claimed.
 const STRIP = {
   leak: { label: `The questions behind the ${LEDGER.gap} missed marks`, lit: (t) => t.final !== 'right' },
-  move: { label: 'The two right answers you changed', lit: (t) => t.first === 'right' && t.final === 'wrong' },
-  check: { label: 'Fresh questions on the idea behind Q4 and Q8', lit: (t) => t.first === 'right' && t.final === 'wrong' },
+  move: { label: `The ${MOVE.chapter} questions in this paper`, lit: (t) => t.chapter === MOVE.chapter },
+  check: { label: `Fresh ${MOVE.chapter} questions, on the ideas behind ${qList(SESSION.filter((t) => t.chapter === MOVE.chapter && t.final !== 'right').map((t) => t.n))}`, lit: (t) => t.chapter === MOVE.chapter && t.final !== 'right' },
 };
 function SessionStrip({ kind }) {
   const { label, lit } = STRIP[kind];
@@ -152,7 +158,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
       if (step === 0) {
         const count = Math.min(SESSION.length, Math.floor(time / REVEAL_MS));
         setRevealed(count);
-        if (count === SESSION.length) setPicked(value => value ?? 3);
+        if (count === SESSION.length) setPicked(value => value ?? FIRST_PICK);
       }
       if (time >= duration) {
         if (pinned) return; // Held: the reader's scroll moves the step, never a timer.
@@ -177,7 +183,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
 
   useEffect(() => {
     if (!reduced || step !== 0) return undefined;
-    const id = window.setTimeout(() => { setRevealed(SESSION.length); setPicked(3); }, 0);
+    const id = window.setTimeout(() => { setRevealed(SESSION.length); setPicked(FIRST_PICK); }, 0);
     return () => window.clearTimeout(id);
   }, [reduced, step]);
 
@@ -186,7 +192,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
     const nextToken = clockRef.current.token + 1;
     clockRef.current = { token: nextToken, elapsed: 0 };
     setTimeline({ step: index, token: nextToken });
-    if (index === 0) { setRevealed(reduced ? SESSION.length : 0); setPicked(reduced ? 3 : null); }
+    if (index === 0) { setRevealed(reduced ? SESSION.length : 0); setPicked(reduced ? FIRST_PICK : null); }
   };
 
   // The session's result is printed whole from the start (never a 0 / 50 counting up); only the tiles deal in.
@@ -206,7 +212,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
             const active = index === step;
             return (
               <li key={item.key} data-active={active} data-done={index < step}>
-                <button type="button" aria-label={item.title.startsWith(SHORT_STEP[index]) ? item.title : SHORT_STEP[index] + ': ' + item.title} onClick={(event) => { keyboardStep.current = event.detail === 0; if (pinned) { goTo(index, event.detail === 0); return; } setPlaying(false); goTo(index); if (index === 0) { clockRef.current.elapsed = SESSION.length * REVEAL_MS; setRevealed(SESSION.length); setPicked(3); } }} aria-current={active ? 'step' : undefined}>
+                <button type="button" aria-label={item.title.startsWith(SHORT_STEP[index]) ? item.title : SHORT_STEP[index] + ': ' + item.title} onClick={(event) => { keyboardStep.current = event.detail === 0; if (pinned) { goTo(index, event.detail === 0); return; } setPlaying(false); goTo(index); if (index === 0) { clockRef.current.elapsed = SESSION.length * REVEAL_MS; setRevealed(SESSION.length); setPicked(FIRST_PICK); } }} aria-current={active ? 'step' : undefined}>
                   <span className="ml__label">{item.title}</span>
                   <span className="ml__short" aria-hidden="true">{SHORT_STEP[index]}</span>
                   <i className="ml__bar" aria-hidden="true">
@@ -279,11 +285,11 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
           <section className="ml__panel" data-active={step === 2} aria-hidden={step !== 2} inert={step !== 2 ? true : undefined} aria-label="Get one next move">
             <p className="ml__eyebrow">Your next move</p>
             <div className="ml__move">
-              <h3>Try 10 questions. {LEDGER.doLine}</h3>
-              <p className="ml__why">Why this: {LEDGER.headline}</p>
-              <p className="ml__where">Shown on Today, in your results and in your weak chapters.</p>
+              <h3>{MOVE.label}.</h3>
+              <p className="ml__why">Why this: {MOVE.why}</p>
+              <p className="ml__where">While you practise: {MOVE.rule.charAt(0).toLowerCase() + MOVE.rule.slice(1)}</p>
             </div>
-            <p className="ml__note">Each mock you finish makes the next move sharper.</p>
+            <p className="ml__note">From your last {MOVE.lost.length} Accountancy mocks. Each mock you finish makes the next move sharper.</p>
             <SessionStrip kind="move" />
           </section>
 

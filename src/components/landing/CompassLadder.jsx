@@ -11,7 +11,7 @@ import { fitRowEnd, revealTab } from './tabScroll';
 const AXIS_MIN = 0;
 const AXIS_MAX = 1000;
 const pct = (v) => Math.min(100, Math.max(0, ((v - AXIS_MIN) / (AXIS_MAX - AXIS_MIN)) * 100));
-const ROUND_LABEL = { 'round-1': 'Round I', 'round-2': 'Round II', 'round-3': 'Round III' };
+const ROUND_LABEL = { 'round-1': 'Round 1', 'round-2': 'Round 2', 'round-3': 'Round 3' };
 // Once per visit, when the ladder is first 60% in view and nobody has touched it, the score makes one short pass
 // (900 down to 760 and back, 1.1 s, eased) so the visitor sees colleges fall short and clear again, then rests on
 // 900, a score that clears some of the 2026 Round I rows (780 cleared none, so the resting ladder showed nothing
