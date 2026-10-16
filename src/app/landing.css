@@ -47,7 +47,8 @@
      --t-close     36 -> 64   800  the close line, one step under the h1 at every width
      --t-display   40 -> 64   800  the Pro price
      --t-headline  32 -> 48   800  every section h2, a clear step under the h1 (40 between)
-     --t-statement 32 -> 64   600  the statement after the hero: the h2 size on phones, the close's size wider
+     --t-statement 26 -> 44   600  the statement after the hero: a display lede, a step under the h2s (36 between),
+                                  so the order reads h1 > the bank's h2 = section h2s > statement
      --t-step      22 -> 32   800  the title of a held story's step: the Lab's scenes and the tour's tools (28 between)
      --t-title     22 -> 30   700  other h3s: plan names, row names (26 between)
    Sizes step at 761 and 1100 px, never fluid, so no heading lands on a fractional size.
@@ -63,7 +64,7 @@
   --t-close: 2.25rem; /* 36, then 48, 56 and 64 px: always one step under --t-hero */
   --t-display: 2.5rem; /* 40, then 56 and 64 px: scale steps, never a fluid size (see below) */
   --t-headline: 2rem; /* 32, then 40 and 48 px */
-  --t-statement: var(--t-headline); /* phones: the h2 size; wider, the close's size (below): one display role */
+  --t-statement: 1.625rem; /* 26, then 36 and 44 px: a display lede under the h2 size at every width */
   --t-step: 1.375rem; /* 22, then 28 and 32 px */
   --t-title: 1.375rem; /* 22, then 26 and 30 px */
   --t-lede: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
@@ -109,8 +110,8 @@
 /* Phones: 40 px above a section and 48 below (was 64 and 72), so a section's end and the next heading are one
    88 px band apart with the hairline in it, not a 136 px void after every block. */
 @media (max-width: 599px) { .mm.lp { --sec-top: 2.5rem; } }
-@media (min-width: 761px) { .mm.lp { --t-hero: 3.5rem; --t-close: 3rem; --t-statement: var(--t-close); --t-display: 3.5rem; --t-headline: 2.5rem; --t-step: 1.75rem; --t-title: 1.625rem; } }
-@media (min-width: 1100px) { .mm.lp { --t-headline: 3rem; --t-step: 2rem; --t-title: 1.875rem; } }
+@media (min-width: 761px) { .mm.lp { --t-hero: 3.5rem; --t-close: 3rem; --t-statement: 2.25rem; --t-display: 3.5rem; --t-headline: 2.5rem; --t-step: 1.75rem; --t-title: 1.625rem; } }
+@media (min-width: 1100px) { .mm.lp { --t-headline: 3rem; --t-statement: 2.75rem; --t-step: 2rem; --t-title: 1.875rem; } }
 /* The hero's last two steps need the height to keep its keys on the first screen; the close follows the hero. */
 @media (min-width: 1100px) and (min-height: 700px) { .mm.lp { --t-hero: 4rem; --t-close: 3.5rem; } }
 @media (min-width: 1200px) { .mm.lp { --t-display: 4rem; } }
@@ -448,14 +449,10 @@ body:has(.mm.lp) {
 .lp-stage__card {
   position: relative;
 }
-/* Desktop keeps the reason's room reserved, so answering never moves the question (the card's foot is pinned
-   level with the hero's keys and it would otherwise grow upward). On phones the card grows downward into the page
-   instead: no empty band waits under the hint before you answer. */
+/* The card is top-aligned at every width, so it grows downward when the reason opens and the question never moves:
+   no room is reserved under the hint before you answer. */
 .lp-stage .mm-drill__foot {
-  min-height: 8.75rem;
-}
-@media (max-width: 959px) {
-  .lp-stage .mm-drill__foot { min-height: 0; }
+  min-height: 0;
 }
 
 /* ---------- Marquee ---------- */

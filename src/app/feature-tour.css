@@ -11,6 +11,16 @@
    hidden, never shown as stray letters. An edge with nothing beyond it is not masked. */
 .ft__list { scroll-padding-inline: 24px; --ft-cut-l: 0px; --ft-cut-r: 0px; -webkit-mask-image: linear-gradient(90deg, transparent max(0px, calc(var(--ft-cut-l) - 8px)), #000 var(--ft-cut-l), #000 calc(100% - var(--ft-cut-r)), transparent calc(100% - var(--ft-cut-r) + 8px)); mask-image: linear-gradient(90deg, transparent max(0px, calc(var(--ft-cut-l) - 8px)), #000 var(--ft-cut-l), #000 calc(100% - var(--ft-cut-r)), transparent calc(100% - var(--ft-cut-r) + 8px)); }
 .ft__list li { flex: 0 0 auto; }
+/* Phones: the row runs on to the window's edge, so about 24px of the next tab peeks in under a fade while more tabs
+   remain: the fifth tab is seen as there before Next names it. The left edge keeps its whole-label mask. */
+@media (max-width: 599px) {
+  .ft__list { margin-right: calc((100% - 100vw) / 2); }
+  .ft__list:is([data-fade='end'], [data-fade='both']) {
+    -webkit-mask-image: linear-gradient(90deg, transparent max(0px, calc(var(--ft-cut-l) - 8px)), #000 var(--ft-cut-l), #000 calc(100% - 48px), rgb(0 0 0 / 0.35) calc(100% - 14px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent max(0px, calc(var(--ft-cut-l) - 8px)), #000 var(--ft-cut-l), #000 calc(100% - 48px), rgb(0 0 0 / 0.35) calc(100% - 14px), transparent 100%);
+  }
+}
+
 .ft__row { position: relative; display: flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 0 0 0.25rem; border: 0; background: transparent; color: var(--ink-3); font: 600 var(--t-label, 0.875rem)/1.2 var(--font-body); white-space: nowrap; cursor: pointer; transition: color 150ms ease; }
 .ft__row[data-on='true'] { color: var(--ink); }
 .ft__rule { position: absolute; left: 0; right: 0; bottom: 0; display: block; height: 2px; overflow: hidden; background: var(--line); }

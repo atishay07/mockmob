@@ -254,11 +254,11 @@ function TourStage({ slides, elsewhere = [], step, pinned, reduced, goTo: storyG
 // The tools this page already shows in their own sections (the Lab's Repair scene, DU Compass, the Combo Planner)
 // are not drawn a second time in the tour. They are named under it as links to where they live, so the tour stays
 // an index of everything without repeating a demo. DemoJump glides the page there; a link into a held story names
-// its scene (data-ss-step), so the Repair link lands on the Lab's Repair, not its first scene.
+// its scene (data-jump-step, not data-ss-step, so the tour's own story never reads it as one of its steps), so the Repair link lands on the Lab's Repair, not its first scene.
 function Elsewhere({ links, className }) {
   if (!links.length) return null;
   const at = (slide) => (
-    <a href={slide.elsewhere.href} className="ft__away" data-ss-step={slide.elsewhere.step}>{slide.label}</a>
+    <a href={slide.elsewhere.href} className="ft__away" data-jump-step={slide.elsewhere.step}>{slide.label}</a>
   );
   const above = links.filter((slide) => slide.elsewhere.above);
   const below = links.filter((slide) => !slide.elsewhere.above);

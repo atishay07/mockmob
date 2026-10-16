@@ -26,12 +26,21 @@ function groupMissed(list) {
     const chapter = cut > 0 ? label.slice(0, cut) : label;
     const topic = cut > 0 ? label.slice(cut + 2) : '';
     if (!groups.has(chapter)) groups.set(chapter, []);
-    if (topic && !groups.get(chapter).includes(topic)) groups.get(chapter).push(topic);
+    const topicsOf = groups.get(chapter);
+    topicsOf.misses = (topicsOf.misses || 0) + 1;
+    if (topic && !topicsOf.includes(topic)) topicsOf.push(topic);
   }
   return [...groups].map(([chapter, topics]) => ({
     chapter,
+    misses: topics.misses,
     topics: topics.length ? `${topics[0][0].toUpperCase()}${topics[0].slice(1)}${topics.length > 1 ? `, ${topics.slice(1).join(', ')}` : ''}` : '',
   }));
+}
+
+// The one next move after five answers: the chapter with the most misses, ties going to the one missed first (the
+// groups keep question order). A Quick practice is 10 questions and uses 10 practice credits; Free starts with 100.
+function nextChapter(groups) {
+  return groups.reduce((best, g) => (!best || g.misses > best.misses ? g : best), null)?.chapter ?? null;
 }
 
 let bankLoad = null;
@@ -276,6 +285,8 @@ export function DemoDrill() {
   const subjectName = sampleSubject(subject)?.name || 'Your subject';
 
   if (done) {
+    const groups = groupMissed(missed);
+    const focus = nextChapter(groups);
     return (
       <div className="mm-screen mm-drill" aria-live="polite" ref={rootRef}>
         <div className="mm-screen__bar">
@@ -300,13 +311,14 @@ export function DemoDrill() {
             <div className="mm-drill__readout">
               <p className="mm-drill__readout-head">The chapters these misses came from</p>
               <ul>
-                {groupMissed(missed).map(({ chapter, topics }) => (
+                {groups.map(({ chapter, topics }) => (
                   <li key={chapter}>
                     {chapter}
                     {topics ? <span className="mm-drill__readout-topic">{topics}</span> : null}
                   </li>
                 ))}
               </ul>
+              <p className="mm-drill__move"><b>Your next move:</b> practise 10 questions on {focus}. With a free account that set uses 10 of the 100 practice credits Free starts with.</p>
             </div>
           ) : (
             <div className="mm-drill__readout">
@@ -319,7 +331,7 @@ export function DemoDrill() {
 
           <div className="mm-drill__actions">
             <Link href="/signup" className="mm-btn mm-btn--onnight">
-              Start free
+              {focus ? `Start free and practise ${focus}` : 'Start free'}
             </Link>
             <button type="button" className="mm-drill__replay" onClick={backToPicker}>
               Try another subject

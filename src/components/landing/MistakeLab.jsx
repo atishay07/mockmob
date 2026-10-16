@@ -17,6 +17,7 @@ import { useReadableRegion } from './useReadableRegion';
 import ScrollStory from './ScrollStory';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, chapterRecord, clock, marksLedger, nextMove } from './labStory.mjs';
+import { recoveryCopy } from './recoveryCopy.mjs';
 
 // The story's rows in the replay's terms ('skip' for a blank), with the clock times of every change.
 const SESSION = STORY.map((r) => ({
@@ -52,6 +53,8 @@ const STEPS = [
   { key: 'move', title: 'Get one next move', body: 'One next step, with the record behind it.', ms: 4800 },
   { key: 'check', title: 'Check it on fresh questions', body: 'New questions, days apart, show whether the fix held.', ms: 4800 },
 ];
+// The Check step speaks in Recovery's real release state: while it is not released it is marked as opening soon.
+const stepsFor = (copy) => STEPS.map((item) => (item.key === 'check' ? { ...item, title: copy.checkTitle, body: copy.checkBody } : item));
 // The ten tiles deal one shared stagger step apart (the app's staggerStep), so the replay is whole within
 // about half a second of its step coming on and a reader scrolling on never meets a half-dealt board.
 const REVEAL_MS = durations.staggerStep;
@@ -108,6 +111,8 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
   const progressRef = useRef(null);
   const clockRef = useRef({ token: 0, elapsed: 0 });
   const { step, token } = timeline;
+  const copy = recoveryCopy(recoveryState);
+  const steps = stepsFor(copy);
   const [playing, setPlaying] = useState(true);
   const inView = useReadableRegion(readingRef);
   const [hold, setHold] = useState(false);
@@ -211,7 +216,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
     <div className="ml" ref={rootRef} data-playing={running} data-held={pinned ? 'true' : 'false'} onFocus={(event) => { if (event.target.matches?.(':focus-visible')) setHold(true); }} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHold(false); }}>
       <div className="ml__rail" data-ss-end="">
         <ol className="ml__steps">
-          {STEPS.map((item, index) => {
+          {steps.map((item, index) => {
             const active = index === step;
             return (
               <li key={item.key} data-active={active} data-done={index < step}>
@@ -229,7 +234,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
         {/* All four descriptions share one slot sized to the tallest, so changing step never
             changes the rail's height or moves anything below it. */}
         <div className="ml__caption">
-          {STEPS.map((item, index) => <p key={item.key} data-active={index === step} aria-hidden={index !== step}>{item.body}</p>)}
+          {steps.map((item, index) => <p key={item.key} data-active={index === step} aria-hidden={index !== step}>{item.body}</p>)}
         </div>
         <div className="ml__controls"><button type="button" className="ml__pause" onClick={() => { keyboardStep.current = false; setPlaying((value) => !value); }} disabled={reduced}>
           {playing ? <Pause size={15} aria-hidden="true" /> : <Play size={15} aria-hidden="true" />}
@@ -238,9 +243,9 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
         <button type="button" className="ml__restart" onClick={(event) => { keyboardStep.current = event.detail === 0; goTo(0); setPlaying(true); }}><RotateCcw size={15} aria-hidden="true" />Replay</button></div>
       </div>
 
-      <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label="Sample Accountancy session, 10 questions">
+      <figure className="ml__stage" data-ss-fit="0.62" data-ss-end="" aria-label="Sample 10-question set, Accountancy">
         <div className="ml__bar-top">
-          <div className="ml__session-label"><span>Sample Accountancy session, 10 questions</span></div>
+          <div className="ml__session-label"><span>Sample 10-question set, Accountancy</span></div>
         </div>
 
         <div className="ml__panels">
@@ -301,7 +306,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                 {MOVE.lost.map((n, i) => (
                   <li key={i} data-now={i === MOVE.lost.length - 1 ? 'true' : undefined}>
                     <b>{n}</b>
-                    <span>{i === MOVE.lost.length - 1 ? 'This mock' : MOVE.lost.length - 1 - i === 1 ? 'Last mock' : `${MOVE.lost.length - 1 - i} mocks ago`}</span>
+                    <span>{i === MOVE.lost.length - 1 ? 'This set' : MOVE.lost.length - 1 - i === 1 ? 'Last mock' : `${MOVE.lost.length - 1 - i} mocks ago`}</span>
                   </li>
                 ))}
               </ol>
@@ -311,10 +316,10 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
           </section>
 
           {/* 4. Check */}
-          <section className="ml__panel" data-active={step === 3} aria-hidden={step !== 3} inert={step !== 3 ? true : undefined} aria-label="Check it on fresh questions">
+          <section className="ml__panel" data-active={step === 3} data-soon={copy.soon ? 'true' : undefined} aria-hidden={step !== 3} inert={step !== 3 ? true : undefined} aria-label={copy.checkTitle}>
             {/* Recovery checks leave out questions the student has already seen (recoverySessions.js, studyExposures),
                 so this says what they are and promises nothing about a bank that runs dry. */}
-            <p className="ml__eyebrow">Questions you have not answered before</p>
+            <p className="ml__eyebrow">{copy.checkHead}</p>
             <ol className="ml__checks">
               {[['Tomorrow', 'First check'], ['In 3 days', 'Second check'], ['In a week', 'Does it hold?']].map(([when, what], i) => (
                 <li key={when} style={{ '--i': i }}>
@@ -323,9 +328,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                 </li>
               ))}
             </ol>
-            <p className="ml__status" data-state={recoveryState}>
-              {recoveryState === 'available' ? 'Open for every repair you finish.' : 'In this sample, each check unlocks on its day.'}
-            </p>
+            <p className="ml__status" data-state={recoveryState}>{copy.checkStatus}</p>
             <SessionStrip kind="check" />
           </section>
         </div>

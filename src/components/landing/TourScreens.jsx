@@ -5,7 +5,7 @@ import { Check, Clock, ShieldCheck } from 'lucide-react';
 import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { durations } from '@/lib/motion/tokens.g.js';
 import { PAPER_PACE_SEC, SESSION, clock, nextMove, openedAt, weakChapters } from './labStory.mjs';
-import { BENCH_COUNT, BENCH_DAILY, BENCH_LADDER, BENCH_YOU } from './benchLadder.mjs';
+import { BENCH_ALLOWED, BENCH_COUNT, BENCH_DAILY, BENCH_LADDER, BENCH_PACE, BENCH_RIGHT, BENCH_USED, BENCH_YOU } from './benchLadder.mjs';
 
 export const DemoPlaybackContext = createContext({ active: false, reduced: false, paused: false });
 
@@ -291,16 +291,17 @@ const BENCH_T = lineUp(3);
 const BENCH_TARGET = Math.round(BENCH_DAILY.targetAccuracy * 100);
 export function BenchmarkScreen({ play }) {
   const step = useSteps(play, BENCH_T);
-  const clock = useCountdown(play, 4 * 60 + 30);
+  // A finished run, so the clock shows the time it used of the time it had, both derived from the numbers.
   return (
-    <Frame title="Daily benchmark" step={step} right={<span className="ts__timer">{clock}</span>}>
+    <Frame title="Daily benchmark" step={step} right={<span className="ts__timer">{BENCH_USED} of {BENCH_ALLOWED}</span>}>
       <p className="ts__meta">{BENCH_COUNT} questions. Hold {BENCH_TARGET}% accuracy at {BENCH_DAILY.avgTimePerQuestion} seconds a question.</p>
       <div className="ts__lanes">
         <div className="ts__lane" data-run={on(step >= 1)}><span>Your run</span><i><b style={{ '--w': `${BENCH_YOU}%`, '--t': '1.1s' }} /></i><em>{BENCH_YOU}%</em></div>
         <div className="ts__lane" data-run={on(step >= 1)} data-target="true"><span>Target</span><i><b style={{ '--w': `${BENCH_TARGET}%`, '--t': '0.8s' }} /></i><em>{BENCH_TARGET}%</em></div>
       </div>
       <div className="ts__facts" data-in={on(step >= 2)}>
-        <p><b>52s</b>a question</p>
+        <p><b>{BENCH_RIGHT} of {BENCH_COUNT}</b>right, {BENCH_YOU}%</p>
+        <p><b>{BENCH_PACE}s</b>a question</p>
         <p><b>{BENCH_TARGET - BENCH_YOU} pts</b>short today</p>
       </div>
       <ol className="ts__ladder" data-in={on(step >= 3)} aria-label="Benchmark levels">

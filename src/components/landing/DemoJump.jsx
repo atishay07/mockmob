@@ -48,7 +48,7 @@ function headroom(stage) {
   return 12 + (tall > 0 ? Math.round(tall) : 0);
 }
 
-// A link that names a scene of a held story (data-ss-step on the anchor, as the feature tour's link to the Lab's
+// A link that names a scene of a held story (data-jump-step on the anchor, as the feature tour's link to the Lab's
 // Repair does) lands on that scene's resting place, not on the story's first scene. The stage is one window tall
 // (read from the window while the story is still undrawn); glideTo reads this again as the page settles.
 function storyRest(node, step) {
@@ -125,7 +125,7 @@ export function DemoJump() {
         const node = document.getElementById(id);
         if (!node) return;
         event.preventDefault();
-        toSection(node, url, anchor.dataset.ssStep === undefined ? NaN : Number(anchor.dataset.ssStep));
+        toSection(node, url, anchor.dataset.jumpStep === undefined ? NaN : Number(anchor.dataset.jumpStep));
         return;
       }
       // A link to this very page with no hash (the logo): the top of the page. Only the page's own links to

@@ -330,6 +330,8 @@ html[data-theme='light'] .lc {
 
 /* ---------- 4. SWOT: Do these next, then the SWOT for this mock ---------- */
 .lcs-block { display: grid; gap: 0.45rem; }
+.lcs-step { display: grid; gap: 0.35rem; }
+.lcs-step + .lcs-step { margin-top: 0.2rem; }
 .lcs-h { margin: 0; color: var(--s-ink-2); font-size: 0.8125rem; font-weight: 750; }
 /* The plan: three rows with a hairline between, the first set leading with a 3px volt edge and the
    screen's one filled key. */

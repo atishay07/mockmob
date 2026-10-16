@@ -13,6 +13,26 @@ import '@/app/landing-close.css';
  * From the moment they enter the window, and through the footer below them, the phone dock steps down
  * (data-close-in on the page, landing-close.css), so the screen shows one set of these actions, not two.
  */
+// The close's words follow the same visitor as its keys, so the heading and the volt key point at one thing: a new
+// visitor is told what the free account keeps, someone who has answered the sample is told the next move is one
+// sign-up away, and a signed-in student is sent back to their record. The server HTML carries the new visitor's.
+const CLOSE_COPY = {
+  new: { name: 'Start free.', rest: 'Your record and your next move, kept.', sub: 'Free keeps every mock, the chapters behind your misses and the next move. Try five questions first if you like.' },
+  sampled: { name: 'Five questions.', rest: 'Then your next move.', sub: 'Start free to keep these answers and get the next move from your own record.' },
+  member: { name: 'Your record is kept.', rest: 'Pick up the next move.', sub: 'Every mock and every chapter is where you left it.' },
+};
+
+export function CloseCopy() {
+  const { kind } = useVisitor();
+  const copy = CLOSE_COPY[kind] || CLOSE_COPY.new;
+  return (
+    <div className="lp-close__copy">
+      <h2 className="lp-h2 lp-h2--xl" id="close-title"><span className="lp-h2__name">{copy.name}</span> <span className="lp-h2__rest">{copy.rest}</span></h2>
+      <p className="lp-sub">{copy.sub}</p>
+    </div>
+  );
+}
+
 export function CloseActions() {
   const { kind, signupHref, homeHref, homeText } = useVisitor();
   const ref = useRef(null);
@@ -47,7 +67,7 @@ export function CloseActions() {
     <div className="lp-close__go" ref={ref} data-visitor={kind}>
       <div className="lp-close__actions">
         <Link href={kind === 'member' ? homeHref : signupHref} className="mm-btn mm-btn--primary">
-          {kind === 'member' ? homeText : 'Start free'}
+          {kind === 'member' ? homeText : kind === 'sampled' ? 'Start free and see your next move' : 'Start free'}
         </Link>
         {kind === 'new' ? <a href="#try-practice" className="lp-textlink">Try 5 questions</a> : null}
       </div>

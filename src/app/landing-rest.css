@@ -32,16 +32,17 @@
    inside the held scene. They land once as the statement scrolls (home.css, hero-depth.css) and then stay
    still: no idle float, no pool of light. A pointer lifts the object 6px and underlines the name. */
 .mm.lp .lp-shelf { justify-items: stretch; gap: 0; }
-/* The shelf's heading: the bank, said once at heading level (an h2 at the step size, a clear step under the
-   statement's display words), calm ink, no accent. The counts under it are its evidence. */
+/* The shelf's heading: the bank, the page's key difference, said once at the section h2 size (32 to 48 px, 800),
+   above the statement's display lede (26 to 44 px, 600), so it reads as a heading, not a caption. Calm ink, no
+   accent. The counts under it are its evidence. */
 .mm.lp .lp-shelf__title {
-  max-width: 24ch;
+  max-width: 20ch;
   margin: 0 0 var(--sp-6, 2rem);
   font-family: var(--font-display);
-  font-size: var(--t-step);
+  font-size: var(--t-headline);
   font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
+  line-height: var(--lh-headline);
+  letter-spacing: var(--tr-headline);
   color: var(--ink);
   text-wrap: balance;
 }

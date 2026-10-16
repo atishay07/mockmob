@@ -2876,6 +2876,19 @@ body:has(.mm) {
 .mm-drill__readout li:last-child {
   border-bottom: 0;
 }
+/* The one next move after the five: the chapter with the most misses, said once under the list. */
+.mm-drill__move {
+  margin: 0;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--slate-line);
+  color: var(--chalk-2);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.mm-drill__move b {
+  color: var(--chalk);
+  font-weight: 700;
+}
 .mm-drill__actions {
   display: grid;
   gap: 0.5rem;

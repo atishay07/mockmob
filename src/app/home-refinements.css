@@ -92,7 +92,8 @@ html[data-theme='light'] .lp .lp-stage .mm-screen { border-color: rgb(16 24 12 /
 .lp-exam__check { margin-left: auto; color: #d2f000; }
 .lp-exam__actions { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: auto; padding-top: 2rem; }
 .lp-exam__actions button, .lp-exam__foot button { display: flex; align-items: center; justify-content: center; gap: .4rem; min-height: 44px; padding: .55rem .8rem; border: 1px solid var(--exam-line); border-radius: 6px; background: var(--exam-panel); color: var(--exam-ink); font-size: .75rem; font-weight: 600; cursor: pointer; }
-.lp-exam__actions .lp-exam__save { margin-left: auto; background: #d2f000; border-color: #d2f000; color: #152000; }
+/* The preview's Next is a demo control, not the page's action: ink, not volt, so the page keeps one volt key on screen. */
+.lp-exam__actions .lp-exam__save { margin-left: auto; background: var(--exam-ink); border-color: var(--exam-ink); color: var(--exam-panel); }
 .lp-exam__palette { padding: 1.5rem 1.25rem; border-left: 1px solid var(--exam-line); background: var(--exam-panel); }
 .lp-exam__palette-heading h4 { margin: 0 0 .3rem; font-size: .9375rem; font-weight: 600; }
 .lp-exam__palette-heading > span { font-size: .75rem; color: var(--exam-muted); }

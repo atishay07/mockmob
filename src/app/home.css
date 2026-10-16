@@ -163,13 +163,12 @@
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
-/* ---------- The statement: the page's largest words after the hero ----------
-   One ink, no green. The scrub already lights each word in turn; the two words that carry the idea ("reason",
-   "shortlist") are set heavier (800) against the rest (600), so the emphasis is weight, not colour. The phone
-   hold keeps its own fitted size (hero-depth.css); elsewhere the size is the page's --t-statement. */
+/* ---------- The statement: a display lede after the hero ----------
+   One ink and one weight (600): the scrub lights each word in turn, and no word is singled out. It sits a step
+   under the bank's h2 beneath it. The phone hold keeps its own fitted size (hero-depth.css); elsewhere the size
+   is the page's --t-statement. */
 .lp-statement__text { font-size: var(--t-statement); }
 .mm.lp .lp-statement__text { font-weight: 600; max-width: 20ch; }
-.mm.lp .lp-statement__w[data-accent] { color: inherit; font-weight: 800; }
 @media (min-width: 960px) {
   .mm.lp .lp-statement__text { font-size: var(--t-statement); }
 }

@@ -9,7 +9,7 @@ import { HeroKeys } from '@/components/landing/HeroKeys';
 import { HeroLive } from '@/components/landing/HeroLive';
 import { TypeLine } from '@/components/landing/TypeLine';
 import { DemoDrill } from '@/components/landing/DemoDrill';
-import { CloseActions } from '@/components/landing/CloseActions';
+import { CloseActions, CloseCopy } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { LandingDock } from '@/components/landing/HeroDockGate';
@@ -21,6 +21,7 @@ import FeatureTour from '@/components/landing/FeatureTour';
 import { SectionHeading } from '@/components/landing/SectionHeading';
 import MistakeLab from '@/components/landing/MistakeLab';
 import LabCinema from '@/components/landing/LabCinema';
+import { recoveryCopy } from '@/components/landing/recoveryCopy.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
 import { subjectArt } from '@/../data/subject_art.mjs';
@@ -90,8 +91,10 @@ const WALL_VOICES = publishedVoices();
 
 // The statement scrubs word by word with the scroll (on phones it holds the screen while it does). It carries on
 // from the hero, which has said what the marks cost: what you do once you can see where they went.
-// Words marked with * carry the accent.
-const STATEMENT = 'Fix the *reason, not just the answer. Prove it on fresh questions days later. Then test your DU *shortlist against real cutoffs.';
+// It scrubs in one ink. Its middle sentence follows Recovery's real release state (recoveryCopy.mjs): the delayed
+// fresh checks are promised only once Recovery is available.
+const RECOVERY = recoveryCopy(CAPABILITIES.recovery.state);
+const STATEMENT = RECOVERY.statement;
 // The four launch papers as the app's lamp-lit objects. Each lands on its shadow from its own height as the
 // statement scrolls: depth is how far it falls (px), tilt how far it turns on the way. base is where the
 // object's contact shadow ends, as a share of its square box, so on phones the name sits right under it.
@@ -126,7 +129,7 @@ const TOUR = [
   { id: 'arena', label: 'Practice', line: 'Drills and full mocks on the exam clock', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend, each a new paper drawn from the question bank. Same timer, same question palette, same pressure.',
     lede: 'A quick drill or a full 50-question, 60-minute mock, each a new paper from the question bank. Unlimited with Pro.',
-    points: ['Quick drills and full mocks, unlimited with Pro', 'NTA mode and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
+    points: ['Quick drills and full mocks on the exam clock', 'NTA mode and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', line: 'Fix why you got it wrong', title: 'Fix why you missed it.',
     body: 'After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the official key.',
     points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'Then a 10-minute next step and 5 fresh questions to test the fix.', href: '/signup', cta: 'Try Mistake Repair',
@@ -229,7 +232,7 @@ export default async function LandingPage() {
               2026). The sample already offers five questions, and the 73 DU programmes belong to the DU section. */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="What MockMob gives you">
-              <a href="#question-bank"><b>Unlimited mocks with Pro</b>: 50 questions in 60 minutes, built from the question bank each time.</a>
+              <a href="#question-bank"><b>Full mocks</b>: 50 questions in 60 minutes, a new paper from the question bank each time.</a>
               <a href="#exam-experience"><b>Two exam screens</b>: MockMob’s own, plus the NTA-style one with Pro.</a>
             </nav>
           </div>
@@ -240,8 +243,8 @@ export default async function LandingPage() {
           <div className="mm-wrap lp-statement__grid">
             <p className="lp-statement__text">
               {STATEMENT.split(' ').map((word, i, all) => (
-                <span key={i} className="lp-statement__w" data-accent={word.startsWith('*') || undefined} style={{ '--p': (i / (all.length - 1)).toFixed(3) }}>
-                  {word.replace('*', '')}{i < all.length - 1 ? ' ' : ''}
+                <span key={i} className="lp-statement__w" style={{ '--p': (i / (all.length - 1)).toFixed(3) }}>
+                  {word}{i < all.length - 1 ? ' ' : ''}
                 </span>
               ))}
             </p>
@@ -295,8 +298,8 @@ export default async function LandingPage() {
 
         {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
         <section className="lp-sec lp-sh-host" id="score-recovery-lab" aria-labelledby="score-recovery-lab-title">
-          <SectionHeading titleId="score-recovery-lab-title" title="Fix it once. Check it holds."
-            sub="The Mistake Lab reads one mock. The Score Recovery Lab works on one leak over days: it finds it, sets one next move, then checks the fix on fresh questions."
+          <SectionHeading titleId="score-recovery-lab-title" title={RECOVERY.title}
+            sub={RECOVERY.sub}
             mini="Score Recovery Lab" />
           <div className="mm-wrap">
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
@@ -438,10 +441,7 @@ export default async function LandingPage() {
         <section className="lp-close" aria-labelledby="close-title">
           <div className="mm-wrap">
             <div className="lp-close__inner">
-              <div className="lp-close__copy">
-                <h2 className="lp-h2 lp-h2--xl" id="close-title"><span className="lp-h2__name">Five questions.</span> <span className="lp-h2__rest">Then your next move.</span></h2>
-                <p className="lp-sub">Answer five now. Start free when you want MockMob to keep your record.</p>
-              </div>
+              <CloseCopy />
               <div className="lp-close__act">
                 <MascotSeat station="close" pose="greeting" />
                 <CloseActions />

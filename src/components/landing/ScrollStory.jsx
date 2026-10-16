@@ -313,8 +313,9 @@ export default function ScrollStory({ steps, className = '', beat, label, onStep
 
   // Focus moving into a step that is off stage brings that step on (keyboard reading order).
   const onFocus = useCallback((event) => {
+    // Only this story's own scenes count: a nested story or a link naming another story's scene is not a step here.
     const host = event.target.closest?.('[data-ss-step]');
-    if (!host) return;
+    if (!host || host.closest('.ss') !== rootRef.current) return;
     const i = Number(host.dataset.ssStep);
     if (Number.isFinite(i) && i !== step) goTo(i, { instant: true });
   }, [goTo, step]);

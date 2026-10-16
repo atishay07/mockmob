@@ -304,25 +304,28 @@ function RepairSheet({ on }) {
   );
 }
 
-// ---------- 4. SWOT: Do these next, then the four groups ----------
+// ---------- 4. SWOT: Do this next, then, then the four groups ----------
 function SwotPanel() {
   return (
     <div className="lcp lcp--swot">
-      <p className="lcp__h">After this mock</p>
+      <p className="lcp__h">After this set</p>
+      {/* One move first, then what follows it: the page promises a single next move, so the plan says which one. */}
       <div className="lcs-block">
-        <p className="lcs-h">Do these next</p>
-        <ol className="lcs-plan">
-          {S.swot.plan.map((p, i) => (
-            <li key={p.label} className="lcp-plan" data-first={i === 0 ? 'true' : undefined} style={{ '--i': i }}>
-              <span className="lcp-plan__n" aria-hidden="true">{i + 1}</span>
-              <div><p className="lcp-plan__label">{p.label}</p><p className="lcp-plan__why">{p.reason}</p></div>
-              <span className="lcp-plan__go" aria-hidden="true">Set up</span>
-            </li>
-          ))}
-        </ol>
+        {S.swot.plan.map((p, i) => (
+          <div key={p.label} className="lcs-step">
+            <p className="lcs-h">{i === 0 ? 'Do this next' : 'Then'}</p>
+            <ol className="lcs-plan" start={i + 1}>
+              <li className="lcp-plan" data-first={i === 0 ? 'true' : undefined} style={{ '--i': i }}>
+                <span className="lcp-plan__n" aria-hidden="true">{i + 1}</span>
+                <div><p className="lcp-plan__label">{p.label}</p><p className="lcp-plan__why">{p.reason}</p></div>
+                <span className="lcp-plan__go" aria-hidden="true">Set up</span>
+              </li>
+            </ol>
+          </div>
+        ))}
       </div>
       <div className="lcs-block">
-        <p className="lcs-h">SWOT for this mock</p>
+        <p className="lcs-h">SWOT for this set</p>
         <div className="lcp-swot">
           {S.swot.quadrants.map((q, i) => (
             <div key={q.id} className="lcp-swot__q" data-q={q.id} style={{ '--i': i }}>
@@ -352,7 +355,7 @@ function ScreenBar({ label }) {
     <div className="lcd-bar">
       <div className="lcd-bar__title">
         <span className="lcd-bar__subject">
-          <span>Accountancy<small>Sample mock</small></span>
+          <span>Accountancy<small>Sample 10-question set</small></span>
         </span>
         <b>{S.facts.marks}<small> / {S.facts.outOf} marks</small></b>
       </div>

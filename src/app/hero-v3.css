@@ -29,16 +29,20 @@
   .mm.lp .lp-hero--v3 .lp-cta { margin-top: 2rem; }
 }
 @media (min-width: 960px) {
-  /* The copy and the card end on one line: the card's foot sits level with the keys' edge, Mobi stands on the
-     card beside the headline, and the small print runs on under the keys (row 2). Nothing leaves an empty band. */
+  /* The copy and the sample start on one line: the stage's column begins level with the headline's top, with Mobi
+     standing in its first 8.25rem on the card's top edge (his head level with the headline's cap height), and the
+     card under him at 32rem wide (the headline keeps 64 px or more), so the product moment carries the right half beside the headline
+     instead of sitting low under an empty band. The card grows downward with its content. The small print runs on
+     under the keys (row 2). */
   .mm.lp .lp-hero--v3 .lp-hero__grid {
-    grid-template-areas: 'copy stage' 'fine .';
+    grid-template-areas: 'copy stage' 'fine stage';
+    grid-template-columns: minmax(0, 1fr) minmax(0, 32rem);
     column-gap: clamp(2.5rem, 5vw, 5rem);
     row-gap: 0;
-    align-items: end;
+    align-items: start;
   }
   .mm.lp .lp-hero--v3 .lp-hero__copy { grid-area: copy; }
-  .mm.lp .lp-hero--v3 .lp-stage { grid-area: stage; }
+  .mm.lp .lp-hero--v3 .lp-stage { grid-area: stage; max-width: 32rem; padding-top: 8.25rem; align-self: start; }
   .mm.lp .lp-hero--v3 .lp-hero__fine { grid-area: fine; align-self: start; }
 }
 .mm.lp .lp-hero--v3 .lp-hero__fine { display: grid; justify-items: start; min-width: 0; }

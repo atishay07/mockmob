@@ -189,7 +189,7 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 .ts__lane[data-target='true'] b { background: #9aa596; }
 .ts__lane[data-run='false'] b { transform: scaleX(0); }
 .ts__lane em { font: 700 .75rem var(--font-body); font-style: normal; text-align: right; }
-.ts__facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding-top: .55rem; border-top: 1px solid var(--ts-line); }
+.ts__facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding-top: .55rem; border-top: 1px solid var(--ts-line); }
 .ts__facts p { margin: 0; font-size: .75rem; color: var(--ts-ink2); }
 .ts__facts b { display: block; font: 800 1.125rem var(--font-display); color: var(--ts-ink); }
 
