@@ -15,6 +15,8 @@ import 'package:mockmob/features/practice/widgets/choice_deck.dart';
 import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
 import 'package:mockmob/features/practice/widgets/composer_ticket.dart';
 import 'package:mockmob/features/practice/widgets/exam_sheet_start.dart';
+import 'package:mockmob/features/practice/model/practice_selection.dart';
+import 'package:mockmob/features/practice/widgets/practice_composer.dart';
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart' show FileAssetBundle;
@@ -167,28 +169,40 @@ void main() {
     test('a lap runs the long hand one full turn back round to 12 while the small hand holds', () {
       final sim = StopwatchSim()..jump(long: 0, short: 0, mode: StopwatchMode.done);
       sim.lap(1);
+      const lead = StopwatchSim.lapLead;
+      const half = 1 + lead + StopwatchSim.lapDuration / 2;
       expect(sim.mode, StopwatchMode.lap);
       expect(sim.longAt(1), closeTo(0, 1e-9));
-      expect(sim.settledAt(1 + StopwatchSim.lapDuration / 2), isFalse);
-      final mid = sim.longAt(1 + StopwatchSim.lapDuration / 2);
+      // It holds at 12 while the dial fades in.
+      expect(sim.longAt(1 + lead), closeTo(0, 1e-9));
+      expect(sim.settledAt(half), isFalse);
+      final mid = sim.longAt(half);
       expect(mid, greaterThan(0));
       expect(mid, lessThan(StopwatchSim.turn));
-      expect(sim.longAt(1 + StopwatchSim.lapDuration), closeTo(StopwatchSim.turn, 1e-9));
-      expect(sim.shortAt(1 + StopwatchSim.lapDuration / 2), closeTo(0, 1e-9));
-      expect(sim.shortAt(1 + StopwatchSim.lapDuration), closeTo(0, 1e-9));
-      expect(sim.settledAt(1 + StopwatchSim.lapDuration), isTrue);
+      expect(sim.longAt(1 + StopwatchSim.lapLanded), closeTo(StopwatchSim.turn, 1e-9));
+      expect(sim.shortAt(half), closeTo(0, 1e-9));
+      expect(sim.shortAt(1 + StopwatchSim.lapLanded), closeTo(0, 1e-9));
+      expect(sim.settledAt(1 + StopwatchSim.lapLanded), isTrue);
       // The hand only ever goes forward.
       var last = -1.0;
       for (var i = 0; i <= 60; i++) {
-        final a = sim.longAt(1 + StopwatchSim.lapDuration * i / 60);
+        final a = sim.longAt(1 + StopwatchSim.lapLanded * i / 60);
         expect(a, greaterThanOrEqualTo(last - 1e-9));
         last = a;
       }
     });
 
-    test('it lands inside the 260 ms the ticket already holds after the server says yes', () {
+    test('a Full mock holds 920 ms: lead 160 + turn 700 + rest 60, under the T2 cap of 1200 ms', () {
+      expect(StopwatchSim.lapLead, 0.16);
+      expect(StopwatchSim.lapDuration, 0.70);
+      expect(PracticeComposerKeys.clockHold, const Duration(milliseconds: 920));
+      expect(PracticeComposerKeys.clockHold.inMilliseconds, lessThanOrEqualTo(1200));
+      expect(PracticeComposerKeys.holdFor(PracticeMode.full), PracticeComposerKeys.clockHold);
+      expect(PracticeComposerKeys.holdFor(PracticeMode.nta), const Duration(milliseconds: 620));
+      expect(PracticeComposerKeys.holdFor(PracticeMode.quick), PracticeComposerKeys.tearHold);
+      // The hand is on 12 before the paper opens.
       final sim = StopwatchSim()..lap(0);
-      expect(sim.longAt(0.26) / StopwatchSim.turn, greaterThan(0.97));
+      expect(sim.longAt(PracticeComposerKeys.clockHold.inMilliseconds / 1000), closeTo(StopwatchSim.turn, 1e-9));
     });
   });
 
@@ -265,8 +279,9 @@ void main() {
 
   test('the lap reads as a whole turn, not a flick: half the lap is past the quarter mark', () {
     final sim = StopwatchSim()..lap(0);
-    expect(sim.longAt(StopwatchSim.lapDuration / 2), greaterThan(StopwatchSim.turn / 4));
-    expect(sim.longAt(StopwatchSim.lapDuration / 2), lessThan(StopwatchSim.turn * 0.9));
+    const half = StopwatchSim.lapLead + StopwatchSim.lapDuration / 2;
+    expect(sim.longAt(half), greaterThan(StopwatchSim.turn / 4));
+    expect(sim.longAt(half), lessThan(StopwatchSim.turn * 0.9));
   });
 
   group('NTA mode starts with its own moment: the exam sheet slides in and the mark settles', () {
@@ -293,8 +308,8 @@ void main() {
     });
 
     test('it ends inside the tear and the hold the ticket already has after the yes', () {
-      // 220 ms tear plus the 260 ms hold (PracticeComposerKeys.tearHold).
-      expect(ExamSheetStart.duration.inMilliseconds, lessThanOrEqualTo(220 + 260));
+      // Inside the NTA hold: the moment, then 200 ms held (PracticeComposerKeys.examSheetHold).
+      expect(ExamSheetStart.duration.inMilliseconds, lessThanOrEqualTo(PracticeComposerKeys.examSheetHold.inMilliseconds - 200));
     });
 
     testWidgets('waits unplayed at rest and while the request is out; plays on the yes and settles', (tester) async {

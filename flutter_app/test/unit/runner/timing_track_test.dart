@@ -9,23 +9,53 @@ List<SheetCell> _cells(int n, int current, {Set<int> answered = const {}}) => [
     SheetCell(number: i + 1, answered: answered.contains(i), visited: i <= current, marked: false, unsynced: false, current: i == current),
 ];
 
-Future<void> _pump(WidgetTester tester, List<SheetCell> cells, double width, {ValueChanged<int>? onJump, Brightness b = Brightness.dark}) async {
+Future<void> _pump(WidgetTester tester, List<SheetCell> cells, double width, {ValueChanged<int>? onJump, Brightness b = Brightness.dark, bool calm = false}) async {
   await tester.pumpWidget(
     MaterialApp(
-      theme: buildTheme(b),
+      // One theme object per brightness, so a re-pump does not start a theme lerp.
+      theme: _themes.putIfAbsent(b, () => buildTheme(b)),
       home: Scaffold(
         body: Align(
           alignment: Alignment.topLeft,
-          child: SizedBox(width: width, child: TimingTrack(cells: cells, onJump: onJump)),
+          child: SizedBox(width: width, child: TimingTrack(cells: cells, onJump: onJump, calm: calm)),
         ),
       ),
     ),
   );
 }
 
+final _themes = <Brightness, ThemeData>{};
+
 RenderBox _paintBox(WidgetTester tester) => tester.renderObject<RenderBox>(find.descendant(of: find.byType(TimingTrack), matching: find.byType(CustomPaint)).first);
 
 void main() {
+  group('a timed mock keeps the strip calm (AP2-02)', () {
+    for (final calm in [true, false]) {
+      testWidgets(calm ? 'mock: an answer only inks, and 200 ms on nothing is still running' : 'practice: the spark and the half-way sweep still play', (tester) async {
+        await _pump(tester, _cells(10, 4, answered: {0, 1, 2, 3}), 328, calm: calm);
+        await tester.pump(const Duration(milliseconds: 50));
+        // The fifth answer crosses half the paper (a sweep in practice) and sparks its cell.
+        await _pump(tester, _cells(10, 4, answered: {0, 1, 2, 3, 4}), 328, calm: calm);
+        // Real frames, 16 ms apart, for 208 ms after the answer.
+        for (var f = 0; f < 5; f++) {
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+        expect(tester.binding.transientCallbackCount, greaterThan(0), reason: 'the cell is inking');
+        for (var f = 0; f < 8; f++) {
+          await tester.pump(const Duration(milliseconds: 16));
+        }
+        if (calm) {
+          expect(tester.binding.transientCallbackCount, 0, reason: 'no sweep, no spark tail in a mock');
+          expect(TimingTrack.calmInk, const Duration(milliseconds: 160));
+        } else {
+          expect(tester.binding.transientCallbackCount, greaterThan(0));
+        }
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+      });
+    }
+  });
+
   group('geometry from the real width', () {
     test('a 20-question paper fits 328 and 288 dp with every cell as a bubble', () {
       for (final w in [328.0, 288.0, 360.0]) {

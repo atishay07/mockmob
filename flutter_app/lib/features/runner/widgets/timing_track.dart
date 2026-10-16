@@ -90,15 +90,25 @@ class TrackGeometry {
 /// - a marked question shows a **notch**, a small ink pennant above its bubble;
 /// - at half the paper answered, and at all of it, one soft light band crosses the strip.
 ///
+/// In a timed mock ([calm]) nothing sparkles inside the paper: a newly answered cell only inks to
+/// paper ink over 160 ms on Motion.out (no volt flood) and no light band crosses the strip; the
+/// ring still glides (APP-PASS AP2-02, M04; the MockMob overlay: during exams avoid distraction).
+///
 /// The strip is a labelled control, not a picture: it reads "Question 3 of 20, answered", and a
 /// tap on a bubble jumps there (a 48 dp tall hit box per cell; the screen-reader target of every
 /// cell is a full 48 x 48 dp, wider than the slot it is drawn in). Timing marks are too fine to
 /// tap, so on a long paper only TalkBack gets jump targets, for the few cells around the current
 /// question; the Questions key holds the whole sheet.
 class TimingTrack extends StatefulWidget {
-  const TimingTrack({super.key, required this.cells, this.onJump});
+  const TimingTrack({super.key, required this.cells, this.onJump, this.calm = false});
 
   final List<SheetCell> cells;
+
+  /// A timed mock: answered cells only ink, no spark and no sweep.
+  final bool calm;
+
+  /// How long a calm cell takes to ink.
+  static const Duration calmInk = Duration(milliseconds: 160);
 
   /// Zero-based index to go to; null makes the strip a plain, labelled indicator.
   final ValueChanged<int>? onJump;
@@ -170,7 +180,7 @@ class TimingTrackState extends State<TimingTrack> with TickerProviderStateMixin 
     final crossed = (half && !_halfSeen) || (full && !_fullSeen);
     _halfSeen = half;
     _fullSeen = full;
-    if (crossed && old.cells.length == n && !RunnerMotion.reduced(context)) _sweep.forward(from: 0);
+    if (crossed && old.cells.length == n && !widget.calm && !RunnerMotion.reduced(context)) _sweep.forward(from: 0);
 
     // A cell that became answered with no dot on its way sparks at once.
     if (old.cells.length == n) {
@@ -191,6 +201,7 @@ class TimingTrackState extends State<TimingTrack> with TickerProviderStateMixin 
   void _startSpark(int index) {
     if (RunnerMotion.reduced(context)) return;
     _sparkIndex = index;
+    _spark.duration = widget.calm ? TimingTrack.calmInk : RunnerMotion.spark;
     _spark.forward(from: 0);
   }
 
@@ -270,6 +281,7 @@ class TimingTrackState extends State<TimingTrack> with TickerProviderStateMixin 
                           sweep: _sweep,
                           sparkIndex: _sparkIndex,
                           held: Set.unmodifiable(_held),
+                          calm: widget.calm,
                         ),
                       ),
                     ),
@@ -346,6 +358,7 @@ class _TrackPainter extends CustomPainter {
     required this.sweep,
     required this.sparkIndex,
     required this.held,
+    this.calm = false,
   }) : super(repaint: Listenable.merge([ring, spark, sweep]));
 
   final List<SheetCell> cells;
@@ -356,6 +369,7 @@ class _TrackPainter extends CustomPainter {
   final AnimationController sweep;
   final int sparkIndex;
   final Set<int> held;
+  final bool calm;
 
   bool _answered(int i) => cells[i].answered && !held.contains(i);
 
@@ -390,7 +404,9 @@ class _TrackPainter extends CustomPainter {
   double get _sparkT => spark.value;
 
   /// The colour of a sparking cell: volt flooding in, then cooling to [rest].
-  Color _cooled(Color rest, double t) => Color.lerp(colors.volt, rest, Curves.easeIn.transform(((t - 0.3) / 0.7).clamp(0.0, 1.0)))!;
+  Color _cooled(Color rest, double t) => calm
+      ? Color.lerp(colors.lineStrong, rest, Motion.out.transform(t.clamp(0.0, 1.0)))!
+      : Color.lerp(colors.volt, rest, Curves.easeIn.transform(((t - 0.3) / 0.7).clamp(0.0, 1.0)))!;
 
   void _bubbles(Canvas canvas, Size size) {
     final d = geometry.diameter;
@@ -403,7 +419,10 @@ class _TrackPainter extends CustomPainter {
       final c = cells[i];
       final center = Offset(geometry.centerX(i), mid);
       if (_answered(i)) {
-        if (i == sparkIndex && t > 0 && t < 1) {
+        if (i == sparkIndex && t > 0 && t < 1 && calm) {
+          // A timed mock: the cell only inks, in place.
+          canvas.drawCircle(center, d / 2 - 0.4, Paint()..color = _cooled(_inkFill, t));
+        } else if (i == sparkIndex && t > 0 && t < 1) {
           // Floods volt from the centre in the first third, then cools to paper ink.
           final reach = Curves.easeOut.transform((t / 0.34).clamp(0.0, 1.0));
           canvas.drawCircle(center, d / 2 * (0.25 + 0.75 * reach), Paint()..color = _cooled(_inkFill, t));
@@ -513,6 +532,7 @@ class _TrackPainter extends CustomPainter {
       old.colors != colors ||
       old.geometry.width != geometry.width ||
       old.sparkIndex != sparkIndex ||
+      old.calm != calm ||
       old.held.length != held.length ||
       !old.held.containsAll(held) ||
       !_same(old.cells);

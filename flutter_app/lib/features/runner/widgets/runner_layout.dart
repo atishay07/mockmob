@@ -240,7 +240,7 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                           ),
                         ),
                       ),
-                      TimingTrack(key: _trackKey, cells: cells, onJump: s.canAnswer ? onJump : null),
+                      TimingTrack(key: _trackKey, cells: cells, onJump: s.canAnswer ? onJump : null, calm: s.isMock),
                     ],
                   ),
                 ),

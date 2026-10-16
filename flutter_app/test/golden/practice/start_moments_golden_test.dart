@@ -134,12 +134,14 @@ void main() {
         await tester.pump(const Duration(milliseconds: 200));
         tear.value = TicketTear.torn;
         await tester.pump();
-        // Mid-turn: the stub on its way out, the hand past half way round.
-        await tester.pump(const Duration(milliseconds: 140));
-        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mock_start_lap_mid_$tag.png'));
-        // Landed at 12, the stub gone.
-        await tester.pump(const Duration(milliseconds: 400));
-        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mock_start_lap_landed_$tag.png'));
+        // The five-frame sheet of the turn (AP2-01): the dial in at 160 ms, the hand on its way at
+        // 400, past the bottom near 700, on 12 at 920 when the paper opens.
+        var at = 0;
+        for (final ms in const [0, 160, 400, 700, 920]) {
+          await tester.pump(Duration(milliseconds: ms - at));
+          at = ms;
+          await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mock_start_lap_${ms}ms_$tag.png'));
+        }
       });
       testWidgets('NTA mode starts: the exam sheet slides in and the mark settles', (tester) async {
         final tear = ValueNotifier(TicketTear.rest);

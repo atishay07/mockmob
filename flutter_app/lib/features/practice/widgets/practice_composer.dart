@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/art/hybrid/hybrid_sims.dart' show StopwatchSim;
 import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/haptics/haptics.dart';
@@ -23,6 +24,7 @@ import '../model/practice_selection.dart';
 import 'chapter_picker.dart';
 import 'composer_parts.dart';
 import 'composer_ticket.dart';
+import 'exam_sheet_start.dart' show ExamSheetStart;
 import 'failure_copy.dart';
 import 'get_panel.dart';
 import 'other_subjects_sheet.dart';
@@ -425,6 +427,26 @@ class PracticeComposerKeys extends ConsumerStatefulWidget {
   final ComposerController controller;
   final ComposerExits exits;
 
+  /// How long the sheet holds after the stub tears (the tear is 220 ms, the check 120 ms).
+  static const Duration tearHold = Duration(milliseconds: 260);
+
+  /// A Full mock's hold: the dial fades in (160 ms), the long hand turns once (700 ms on the sweep
+  /// curve) and rests on 12 (60 ms): 920 ms, under the T2 cap of 1200 ms (MOTION.md 1.2; APP-PASS
+  /// AP2-01). It costs the student no time: the paper's clock counts down to the server's end
+  /// time (RunnerSession.endsAt), set when the server started the session, not when the runner
+  /// opens.
+  static final Duration clockHold = Duration(milliseconds: (StopwatchSim.lapLanded * 1000).round() + 60);
+
+  /// NTA mode's hold: the exam sheet's slide and the mark's settle (420 ms), then 200 ms held.
+  static final Duration examSheetHold = ExamSheetStart.duration + const Duration(milliseconds: 200);
+
+  /// The hold after the server's yes for [mode].
+  static Duration holdFor(PracticeMode mode) => switch (mode) {
+    PracticeMode.full => clockHold,
+    PracticeMode.nta => examSheetHold,
+    _ => tearHold,
+  };
+
   @override
   ConsumerState<PracticeComposerKeys> createState() => _PracticeComposerKeysState();
 }
@@ -463,9 +485,6 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
     _c.change(PracticeSelection(mode: s.mode == PracticeMode.smart ? PracticeMode.quick : PracticeMode.full, subjectId: s.subjectId));
   }
 
-  /// How long the sheet holds after the stub tears (the tear is 220 ms, the check 120 ms).
-  static const Duration tearHold = Duration(milliseconds: 260);
-
   Future<void> _start(PracticeQuote quote) async {
     if (_c.starting) return;
     final selection = _c.selection;
@@ -482,11 +501,27 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
       case LaunchStarted(:final sessionId):
         // Only now, with the server's yes: the stub tears off (a Full mock's stopwatch runs its
         // turn under it), the key says Starting, and the sheet lets go once that has been seen,
-        // inside the same hold as before (nothing waits under reduced motion). The key's
+        // inside the hold for its mode (PracticeComposerKeys.holdFor; under reduced motion a
+        // mock shows its landed frame for 300 ms and practice does not wait). The key's
         // `leading` check is not drawn: KeyButton paints a leading on option keys only.
-        ref.read(hapticsProvider).medium();
+        // One selection at the tear; a Full mock adds a segment tick as the hand lands on 12.
+        final haptics = ref.read(hapticsProvider);
+        haptics.selection();
         _c.update(() => _c.tear = TicketTear.torn);
-        if (!Motion.reduced(context)) await Future<void>.delayed(tearHold);
+        if (Motion.reduced(context)) {
+          // The landed frame, seen for a moment, then the paper.
+          if (selection.mode == PracticeMode.full || selection.mode == PracticeMode.nta) {
+            await Future<void>.delayed(const Duration(milliseconds: 300));
+          }
+        } else if (selection.mode == PracticeMode.full) {
+          final landed = Duration(milliseconds: (StopwatchSim.lapLanded * 1000).round());
+          await Future<void>.delayed(landed);
+          if (!mounted) return;
+          haptics.segmentTick();
+          await Future<void>.delayed(PracticeComposerKeys.clockHold - landed);
+        } else {
+          await Future<void>.delayed(PracticeComposerKeys.holdFor(selection.mode));
+        }
         if (!mounted) return;
         widget.exits.run(sessionId);
       case LaunchNeedsLook(:final quote, :final costChanged):

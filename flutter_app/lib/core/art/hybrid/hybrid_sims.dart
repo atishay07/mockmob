@@ -285,9 +285,10 @@ class StopwatchSim {
     _start = now;
   }
 
-  /// One full turn of the long hand from where it stands, from [now], over [lapDuration] on a
-  /// fast-out, gentle-in curve, so it whips away and lands softly on the same place one turn on.
-  /// The small hand holds: the paper starts from zero.
+  /// One full turn of the long hand from where it stands: it holds for [lapLead] while the dial
+  /// fades in where the stub was, then turns over [lapDuration] on the sweep curve (slow away,
+  /// even through the bottom, soft onto 12), so the whole turn is seen and lands on the same place
+  /// one turn on. The small hand holds: the paper starts from zero.
   void lap(double now) {
     _longFrom = longAt(now);
     _shortFrom = shortAt(now);
@@ -299,11 +300,27 @@ class StopwatchSim {
     _shortSpring = null;
   }
 
-  /// How long a [lap] takes, in seconds. It lands inside the 260 ms the ticket holds after the
-  /// server's yes, give or take the last few degrees, so it never holds the paper back.
-  static const double lapDuration = 0.3;
+  /// The hold before a [lap] turns, in seconds: the dial fades in (0.9 to 1) over it, so the turn
+  /// starts where the eye can already see it (APP-PASS AP2-01, M02; owner 15 Oct, "the clock
+  /// doing a 360").
+  static const double lapLead = 0.16;
 
-  double _lapEased(double t) => const Cubic(0.3, 0, 0.12, 1).transform(((t - _start) / lapDuration).clamp(0.0, 1.0));
+  /// How long a [lap]'s turn takes, in seconds: the motion system's sweep (700 ms). The ticket's
+  /// hold is lead + turn + a 60 ms rest (PracticeComposerKeys.clockHold, 920 ms, under the T2 cap
+  /// of 1200 ms). The paper's clock reads the server's end time, so the hold costs no time.
+  static const double lapDuration = 0.70;
+
+  /// When the long hand reaches 12 again, in seconds after [lap] was called.
+  static const double lapLanded = lapLead + lapDuration;
+
+  /// MotionCurves.sweep, (0.45, 0, 0.55, 1).
+  static const Cubic lapCurve = Cubic(0.45, 0, 0.55, 1);
+
+  double _lapEased(double t) {
+    final p = (t - _start - lapLead) / lapDuration;
+    // Lands exactly on 12, whatever the rounding of lead + turn.
+    return p >= 1 - 1e-9 ? 1.0 : lapCurve.transform(p.clamp(0.0, 1.0));
+  }
 
   /// Puts the hands at a pose at once (reduced motion, first frame).
   void jump({required double long, required double short, StopwatchMode mode = StopwatchMode.stages}) {
@@ -356,7 +373,7 @@ class StopwatchSim {
       StopwatchMode.stages => dt >= sweep,
       StopwatchMode.running => false,
       StopwatchMode.done => (_longSpring?.isDone(dt) ?? true) && (_shortSpring?.isDone(dt) ?? true),
-      StopwatchMode.lap => dt >= lapDuration,
+      StopwatchMode.lap => dt >= lapLanded - 1e-9,
     };
   }
 }
