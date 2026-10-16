@@ -75,7 +75,9 @@ function heroTitle(plan, top, planned) {
 }
 
 // `quiet` (compact only): the page already has its one primary action, so this step is a ruled row with an outline key.
-export default function LearningNextAction({ compact = false, why = null, quiet = false }) {
+// `moment` (Today): a real moment the page saw, { act, title, line }, e.g. the week's study-day goal met (lib/mobiScreens.js).
+// It takes the companion's idle slot once the plan is on screen; a failure, the wait and a time choice still come first.
+export default function LearningNextAction({ compact = false, why = null, quiet = false, moment = null }) {
   const tonightKey = `tonight-plan-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const [plan, setPlan] = useState(null), [minutes, setMinutes] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0),[choosing,setChoosing]=useState(false);
   // The minutes the held plan was asked for. A new choice keeps the plan on screen (the card never collapses to a
@@ -133,7 +135,7 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
   // Tonight's plan leads the page; the install prompt waits under it.
   return (<>
     <section className="na na--hero" aria-label="Tonight’s plan">
-      <ArenaCompanion act={error ? 'oops' : !plan ? 'think' : listening ? 'tilt' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Try your record again.' : !plan ? 'Reading your record.' : 'Pick the time you have.'}>{error ? 'Review still has your saved sessions.' : !plan ? 'Tonight’s plan is a moment away.' : 'The set fits it, one question a minute.'}</ArenaCompanion>
+      <ArenaCompanion act={error ? 'oops' : !plan ? 'think' : listening ? 'tilt' : moment?.act || 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Try your record again.' : !plan ? 'Reading your record.' : moment?.title || 'Pick the time you have.'}>{error ? 'Review still has your saved sessions.' : !plan ? 'Tonight’s plan is a moment away.' : moment?.line || 'The set fits it, one question a minute.'}</ArenaCompanion>
       <div className="na__grid">
         <div className="na__plan">
           {plan && !error ? <h2 className="na__title na__title--hero">{heroTitle(plan, top, planned)}</h2> : null}

@@ -5,6 +5,8 @@ import { useSearchParams } from 'next/navigation';
 import { apiGet, apiPost } from '@/lib/fetcher';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { LAUNCH_SUBJECTS } from '@/../shared/recoveryContract';
+import { EmptyMobi, FailedMobi } from '@/components/ui/StateMobi';
+import { screenAct } from '@/lib/mobiScreens';
 export default function RecoveryJourney() {
   const params = useSearchParams();
   const [plan,setPlan] = useState(null), [episode,setEpisode] = useState(null), [value,setValue] = useState(''), [busy,setBusy] = useState(false), [error,setError] = useState(''), [planRetry,setPlanRetry] = useState(0);
@@ -35,10 +37,10 @@ export default function RecoveryJourney() {
   const blocked = plan ? plan.pathwayState !== 'available' : false;
   const noRecord = plan ? (plan.ordinaryAttemptCount ?? 1) === 0 : false;
   return <section className="recovery-lab learning-journey">{!plan && error ? <ArenaHead title="This page did not load." lede="Your saved sessions and mistakes are safe." /> : blocked ? <ArenaHead title="Recovery steps open soon." lede="Until then, review your mistakes or keep practising. Nothing you do now is lost." /> : <ArenaHead title="Check one reasoning gap." lede="Practise the missing step, then check it on a fresh question later." />}
-    {error && <p role="alert">{error}</p>}{!plan&&!error&&<p role="status">Loading your learning record…</p>}{!plan&&error&&<div className="recovery-next"><button type="button" className="recovery-action" onClick={()=>{setError('');setPlanRetry(n=>n+1);}}>Try again</button><Link href="/review">Open Review</Link></div>}
+    {error && <p role="alert">{error}</p>}{!plan&&!error&&<p role="status">Loading your learning record…</p>}{!plan&&error&&<div className="recovery-next"><FailedMobi size={72} /><button type="button" className="recovery-action" onClick={()=>{setError('');setPlanRetry(n=>n+1);}}>Try again</button><Link href="/review">Open Review</Link></div>}
     {plan && !episode && <>
       {blocked ? (noRecord
-        ? <div className="recovery-next"><h2>Nothing to review yet</h2><p>Finish a practice session first. Every miss lands in Review with its explanation.</p><Link className="recovery-action" href="/dashboard">Start practice</Link></div>
+        ? <div className="recovery-next"><EmptyMobi act={screenAct('recovery', 'noRecordYet')} size={72} /><h2>Nothing to review yet</h2><p>Finish a practice session first. Every miss lands in Review with its explanation.</p><Link className="recovery-action" href="/dashboard">Start practice</Link></div>
         : <div className="recovery-next"><h2>Your mistakes are in Review</h2><p>Each miss there has its explanation and a way to practise the chapter again.</p><Link className="recovery-action" href="/review">Review your mistakes</Link><Link href="/dashboard">Start practice</Link></div>) : <>
         <h2>Start with an initial signal</h2><p>Five questions cannot diagnose a whole subject. Your mistakes can identify a distinction worth investigating.</p>
         <div className="learning-alternatives">{LAUNCH_SUBJECTS.map(s => <Link key={s.id} href={`/test?${new URLSearchParams({subject:s.id,count:'5',mode:'quick',purpose:'baseline',generationKey:crypto.randomUUID()})}`}>{s.label} baseline</Link>)}</div>

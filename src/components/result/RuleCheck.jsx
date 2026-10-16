@@ -7,7 +7,13 @@
 // Beside the sentence, two thin bars show the same two counts (this mock, last mock) out of their own totals, so the
 // comparison reads at a glance. They are drawn only from the server's numbers and are hidden from screen readers,
 // which read the sentence. The bars grow once when the step comes into view (240 ms); reduced motion shows them at once.
+//
+// A rule kept is a real moment: when the check comes into view Mobi takes the icon's place and is proud once (not kept:
+// one lean of encouragement), lib/mobiScreens.js ruleCheckAct. Only when no other Mobi is in view (the result's hero
+// wins); otherwise the icon stays. Counted and not checked keep the icon.
 import { CircleCheck, CircleDashed, CircleSlash, ListChecks } from 'lucide-react';
+import MomentMobi from '@/components/brand/MomentMobi';
+import { ruleCheckAct } from '@/lib/mobiScreens';
 import { withNumbers } from './MarksLedger';
 import './lab-loop.css';
 
@@ -41,9 +47,11 @@ function Bars({ check }) {
 export default function RuleCheck({ check }) {
   if (!check || typeof check.state !== 'string' || !check.line) return null;
   const Icon = ICON[check.state] || CircleDashed;
+  const icon = <span className="rc-icon" aria-hidden="true"><Icon size={20} strokeWidth={2.1} /></span>;
+  const act = ruleCheckAct(check.state);
   return (
     <div className="rc" data-state={check.state}>
-      <span className="rc-icon" aria-hidden="true"><Icon size={20} strokeWidth={2.1} /></span>
+      {act ? <MomentMobi act={act} size={52} alone fallback={icon} className="rc-mobi" /> : icon}
       <div className="rc-main">
         <p className="rc-rule">{check.line}</p>
         {check.result ? <p className="rc-result">{check.state === 'not_checked' ? check.result : withNumbers(check.result)}</p> : null}

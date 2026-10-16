@@ -181,3 +181,90 @@ test('greeting: asleep late at night, a hello the first time today, then idle', 
   assert.equal(ration.greeting('today'), 'sleep');
   ration.reset();
 });
+
+// ---- The website's screens (src/lib/mobiScreens.js): the moments map, one test per screen ----------------------------
+import { SCREEN_MOMENTS, screenAct, reviseAnswerAct, reviseEndAct, ruleCheckAct, weekGoalAct, weekCheerKey, aloneInView } from '../../src/lib/mobiScreens.js';
+import { MOBI_ACTS } from '../../src/components/brand/mobiActs.js';
+
+test('every act in the moments map is one the rig already has (nothing redrawn)', () => {
+  const known = new Set([...MOBI_ACTS, 'idle', 'runMood']);
+  for (const [screen, moments] of Object.entries(SCREEN_MOMENTS)) {
+    for (const [moment, act] of Object.entries(moments)) assert.ok(known.has(act), `${screen}.${moment} plays ${act}`);
+  }
+  assert.equal(screenAct('nowhere', 'anything'), null);
+  assert.equal(screenAct('revise', 'runFinished'), null, 'a proportional ending is not one fixed act');
+});
+
+test('the map leaves Progress, Review and Radar to their own pages', () => {
+  for (const screen of ['progress', 'review', 'radar']) assert.equal(SCREEN_MOMENTS[screen], undefined);
+});
+
+test('Today: hello on the first visit of the day, proud once a week when the goal is met', () => {
+  assert.equal(screenAct('today', 'firstVisitToday'), 'hello');
+  assert.equal(weekGoalAct({ met: true, cheered: false }), 'proud');
+  assert.equal(weekGoalAct({ met: true, cheered: true }), null, 'a week is cheered once');
+  assert.equal(weekGoalAct({ met: false, cheered: false }), null, 'a week the server has not called met gets nothing');
+  assert.equal(weekGoalAct({ met: 'yes' }), null, 'only the server’s boolean counts');
+  assert.equal(weekGoalAct(), null);
+  assert.equal(weekCheerKey('2026-10-12'), 'mm:rhythm-cheer:2026-10-12', 'the same key the Progress week card writes');
+  assert.equal(screenAct('today', 'failed'), 'oops');
+});
+
+test('Practice: a hello, a think while launching, and the submit sheet’s three gestures', () => {
+  assert.equal(screenAct('practice', 'launching'), 'think');
+  assert.equal(screenAct('practice', 'sheetAllAnswered'), 'nod');
+  assert.equal(screenAct('practice', 'sheetUnanswered'), 'point');
+});
+
+test('Result: the reveal follows the recap tone, a repair is acknowledged, a rule check kept is proud', () => {
+  assert.equal(screenAct('result', 'firstMock'), recapReaction({ tone: 'first_mock' }).act);
+  assert.equal(screenAct('result', 'scoreUp'), recapReaction({ tone: 'higher' }).act);
+  assert.equal(screenAct('result', 'scoreDown'), recapReaction({ tone: 'lower' }).act);
+  assert.equal(ruleCheckAct('kept'), 'proud');
+  assert.equal(ruleCheckAct('not_kept'), 'encourage');
+  assert.equal(ruleCheckAct('counted'), null, 'a repair rule counted on its chapter keeps its icon');
+  assert.equal(ruleCheckAct('not_checked'), null);
+  assert.equal(ruleCheckAct(undefined), null);
+});
+
+test('Revise: a retired card is a milestone, an answer a hop or a lean, the end is proportional', () => {
+  assert.equal(reviseAnswerAct({ correct: true, retired: true }), 'proud');
+  assert.equal(reviseAnswerAct({ correct: true, retired: false }), 'correct');
+  assert.equal(reviseAnswerAct({ correct: false, retired: false }), 'encourage');
+  assert.equal(reviseAnswerAct({ correct: false, retired: true }), 'encourage', 'only a right answer retires a card');
+  assert.equal(reviseAnswerAct(null), null, 'nothing before the server has graded');
+  assert.equal(reviseAnswerAct({ line: 'no verdict' }), null);
+  assert.equal(reviseEndAct(10, 10), 'celebrate');
+  assert.equal(reviseEndAct(4, 4), 'cheer');
+  assert.equal(reviseEndAct(0, 4), 'encourage');
+  assert.equal(reviseEndAct(1, 1), 'correct');
+  assert.equal(reviseEndAct(0, 0), null, 'an empty run has no ending');
+  assert.equal(screenAct('revise', 'nothingDue'), 'rest');
+  assert.equal(screenAct('revise', 'failed'), 'oops');
+});
+
+test('Rules: a confirmed choice is a nod, an empty book a rest, a failed load one shrug', () => {
+  assert.equal(screenAct('rules', 'ruleChosen'), 'nod');
+  assert.equal(screenAct('rules', 'noRulesYet'), 'rest');
+  assert.equal(screenAct('rules', 'failed'), 'oops');
+});
+
+test('Recovery, Learn, Explore, Saved and Account keep their calm states and their checks', () => {
+  assert.equal(screenAct('recovery', 'noRecordYet'), 'read');
+  assert.equal(screenAct('recovery', 'failed'), 'oops');
+  assert.equal(screenAct('learn', 'checkRight'), 'correct');
+  assert.equal(screenAct('learn', 'checkMissed'), 'encourage');
+  assert.equal(screenAct('explore', 'answerRight'), mobiMoment('rightAnswer'));
+  assert.equal(screenAct('saved', 'firstSave'), mobiMoment('saveConfirmed'));
+  assert.equal(screenAct('profile', 'saveFailed'), mobiMoment('saveFailed'));
+});
+
+test('one Mobi in view: a smaller one plays only when no other is on screen', () => {
+  const box = (top, height = 80, width = 70) => ({ top, bottom: top + height, width });
+  assert.equal(aloneInView([], 844), true);
+  assert.equal(aloneInView([box(-200)], 844), true, 'the hero scrolled above the screen');
+  assert.equal(aloneInView([box(900)], 844), true, 'one below the screen');
+  assert.equal(aloneInView([box(100)], 844), false, 'the hero still on screen wins');
+  assert.equal(aloneInView([box(-40)], 844), false, 'partly on screen still counts');
+  assert.equal(aloneInView([box(100, 80, 0)], 844), true, 'a hidden one (no width) does not count');
+});

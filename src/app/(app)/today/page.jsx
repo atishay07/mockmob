@@ -1,5 +1,5 @@
 "use client";
-import { useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import LearningNextAction from '@/components/LearningNextAction';
 import RecordGlimpse from '@/components/ai/RecordGlimpse';
 import RhythmCard from '@/components/RhythmCard';
@@ -7,11 +7,35 @@ import { TodayColleges } from '@/components/colleges/MyColleges';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
+import { apiGet } from '@/lib/fetcher';
+import { weekCheerKey, weekGoalAct } from '@/lib/mobiScreens';
 
 // Today opens on the date, the way the app's Today does: it leads the lede, in the reading line,
 // not as a kicker above the headline. The server render leaves it out.
 const noSubscribe = () => () => {};
 const dayLine = () => new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
+
+// The week's study-day goal, met by the server's count, is a real moment: Today's companion is proud once per week on
+// this device (the same key the Progress week card uses, so the week is never cheered twice). Nothing until the server
+// has answered; a failed read just leaves the companion as it was.
+function useWeekGoal(userId) {
+  const [moment, setMoment] = useState(null);
+  useEffect(() => {
+    if (!userId) return undefined;
+    let alive = true;
+    apiGet('/api/me/rhythm').then((r) => {
+      if (!alive || !r?.weekStart) return;
+      let cheered = false;
+      try { cheered = window.localStorage.getItem(weekCheerKey(r.weekStart)) === '1'; } catch { cheered = false; }
+      const act = weekGoalAct({ met: r.metThisWeek, cheered });
+      if (!act) return;
+      try { window.localStorage.setItem(weekCheerKey(r.weekStart), '1'); } catch { /* he may cheer again on this device */ }
+      setMoment({ act, title: `Week goal met: ${r.studyDays} of ${r.daysGoal} study days.`, line: 'Pick the time you have tonight. The set fits it, one question a minute.' });
+    }).catch(() => {});
+    return () => { alive = false; };
+  }, [userId]);
+  return moment;
+}
 
 export default function Today() {
   const { user } = useAuth();
@@ -19,6 +43,7 @@ export default function Today() {
   const first = user?.name ? user.name.split(' ')[0] : '';
   // One read of the record: the plan's why (the chapter with the most marks open) and the glimpse below it.
   const insights = useInsights(user?.id);
+  const weekGoal = useWeekGoal(user?.id);
   const top = insights.status === 'ready' ? insights.insights?.chapters?.ranked?.[0] || null : null;
   // A student with no saved session yet has no record to plan from, so the page says how the record starts.
   const fresh = insights.status === 'empty';
@@ -29,7 +54,7 @@ export default function Today() {
         <ArenaHead
           title={fresh ? (first ? `${first}, your record starts with one session.` : 'Your record starts with one session.') : first ? `${first}, here is your next step.` : 'Here is your next step.'}
           lede={day ? <><time className="today-date">{day}.</time> {lede}</> : lede} />
-        <LearningNextAction why={top} />
+        <LearningNextAction why={top} moment={weekGoal} />
         <div className="today-record">
           <RhythmCard compact />
           <TodayColleges userId={user?.id} />

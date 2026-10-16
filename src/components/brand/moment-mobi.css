@@ -1,0 +1,17 @@
+/* MomentMobi: one fixed slot, the same size whether it holds Mobi or the fallback icon, so nothing beside it moves
+   when he arrives. The figure is 140:168 (MobiReact), so the slot is his width by his height. */
+.moment-mobi {
+  flex: none; display: inline-grid; place-items: center;
+  width: calc(var(--moment-size, 56px) * 0.8333); height: var(--moment-size, 56px);
+}
+.moment-mobi[data-shown='false'] { width: auto; height: auto; }
+
+/* The rule check (result/RuleCheck.jsx): he stands in the icon's 40 px column, his feet level with the first line. */
+.rc-mobi[data-shown='true'] { justify-self: center; margin-top: -8px; }
+
+/* The rule for the next mock (rules/RuleBook.jsx NowCard): he stands at the block's top right, beside the label and
+   the rule, and the text keeps clear of him. Only while there is a moment (a confirmed choice, or an empty book). */
+.rb-now[data-mobi] { position: relative; }
+.rb-now[data-mobi] > .rb-now__label, .rb-now[data-mobi] > .rb-now__body { padding-inline-end: 64px; }
+.rb-now__mobi { position: absolute; top: 14px; right: 4px; }
+.app-shell .rb-now .rb-now__mobi { top: 12px; right: 0; }

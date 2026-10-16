@@ -10,12 +10,22 @@
 //   End    "8 recalled, 2 come back tomorrow"
 // Motion: a card rises once on arrival (180 ms); after a recall the card's old and new lanes pulse once (200 ms); reduced
 // motion lands every change at once. Targets are 48 px.
+// Mobi (lib/mobiScreens.js, one at a time): beside a graded answer a small hop for a right one, a lean for a miss, and
+// proud when the card leaves the rotation for good (Celebrations Full only, at most one per 2.5 s); at the end of the run
+// one act in proportion to what was recalled (the app's runMood); one calm figure when nothing is due or Revise failed.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, ChevronLeft, LoaderCircle, RefreshCw, X } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { StatusIcon } from '@/components/ui/Glyph';
 import { apiPost } from '@/lib/fetcher';
+import MobiReact from '@/components/brand/MobiReact';
+import MomentMobi from '@/components/brand/MomentMobi';
+import { EmptyMobi, FailedMobi } from '@/components/ui/StateMobi';
+import { useMobiGate } from '@/lib/mobiHooks';
+import { useMobiPrefs } from '@/lib/mobiPrefs';
+import { reactNow } from '@/lib/mobiRation';
+import { reviseAnswerAct, reviseEndAct } from '@/lib/mobiScreens';
 import COPY from '../../../data/mistake_lab.copy.json';
 import { readCap, saveCap, useRevise } from './useRevise';
 import './revise.css';
@@ -61,6 +71,15 @@ function CapChoice({ cap, onChange, disabled }) {
   );
 }
 
+// Mounted only for an answer the server has just graded, because asking the gate consumes it.
+function AnswerMobi({ result }) {
+  const allowed = useMobiGate(() => reactNow('revise:answer'), false);
+  const { celebrations } = useMobiPrefs();
+  const act = reviseAnswerAct(result);
+  if (!allowed || celebrations !== 'full' || !act) return null;
+  return <span className="rvs-result__mobi"><MobiReact act={act} size={52} facing="left" /></span>;
+}
+
 function Card({ item, number, total, result, busy, error, onChoose, onNext, last }) {
   const nextRef = useRef(null);
   useEffect(() => { if (result || error) nextRef.current?.focus({ preventScroll: false }); }, [result, error]);
@@ -94,7 +113,10 @@ function Card({ item, number, total, result, busy, error, onChoose, onNext, last
       {error ? <p className="rvs-err" role="alert"><StatusIcon kind="error" size={14} />{error}</p> : null}
       {answered ? (
         <div className="rvs-result" data-correct={result.correct || undefined} role="status">
-          <p className="rvs-result__line">{result.correct ? <Check size={18} strokeWidth={2.4} aria-hidden="true" /> : <X size={18} strokeWidth={2.4} aria-hidden="true" />}{result.line}</p>
+          <div className="rvs-result__head">
+            <p className="rvs-result__line">{result.correct ? <Check size={18} strokeWidth={2.4} aria-hidden="true" /> : <X size={18} strokeWidth={2.4} aria-hidden="true" />}{result.line}</p>
+            <AnswerMobi result={result} />
+          </div>
           {result.explanation ? <p className="rvs-result__why">{result.explanation}</p> : null}
         </div>
       ) : null}
@@ -157,7 +179,7 @@ export default function ReviseRun() {
       <section className="pr rvs">
         {back}{head}
         <div className="rvs-fail" role="alert">
-          <StatusIcon kind="error" />
+          <FailedMobi size={72} />
           <p>{read.message || R.unavailable}</p>
           <button type="button" className="rvs-next" onClick={read.retry}><RefreshCw size={16} strokeWidth={2.1} aria-hidden="true" />Try again</button>
         </div>
@@ -196,12 +218,16 @@ export default function ReviseRun() {
           onChoose={choose} onNext={next} />
       ) : finished ? (
         <div className="rvs-end">
-          <p className="rvs-end__line">{endText(right, wrong)}</p>
+          <div className="rvs-end__top">
+            <MomentMobi act={reviseEndAct(right, done.length) || 'idle'} size={88} />
+            <p className="rvs-end__line" role="status">{endText(right, wrong)}</p>
+          </div>
           {data.next ? <p className="rvs-end__sub">{data.next}</p> : null}
           <Link className="rvs-next rvs-next--link" href="/review">Back to Review</Link>
         </div>
       ) : (
         <div className="rvs-empty">
+          <EmptyMobi act="rest" size={72} />
           <p>{data.answeredToday >= (data.cap || 10) ? R.capReached : data.next || R.nextNone}</p>
           <Link className="rvs-next rvs-next--link" href="/review">Back to Review</Link>
         </div>

@@ -122,3 +122,10 @@ html[data-motion='reduced'] .rvs-spin { animation: none; }
    The options are the controls, so they keep their edges; the box around them goes (no card holding cards). */
 .app-shell .rvs-card { gap: 16px; padding: 20px 0 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: none; box-shadow: none; }
 .app-shell .rvs-result { padding: 14px 0 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: none; }
+
+/* Mobi (lib/mobiScreens.js): beside a graded answer, at the end of a run, and once in an empty or failed state. */
+.rvs-result__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.rvs-result__mobi { flex: none; display: block; margin: -10px -2px -8px 0; }
+.rvs-end__top { display: flex; align-items: center; gap: 14px; }
+.rvs-end__top .rvs-end__line { margin: 0; }
+.rvs-empty .pip-state, .rvs-fail .pip-state { margin-bottom: 0; }

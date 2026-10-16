@@ -11,6 +11,8 @@
 //
 // Motion: the page's sections rise once on arrival (45 ms apart); the chosen rule's card settles in when it changes
 // (260 ms); the in-use tag pops 0.95 to 1 (200 ms). Reduced motion: every change lands at once.
+// Mobi (lib/mobiScreens.js): he joins the "rule for your next mock" card with one nod only once the server has confirmed
+// a choice made here, rests in it while the book is empty, and stands once beside a failed load. Nowhere else.
 import { useCallback, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, ChevronLeft, Copy, Hourglass, LoaderCircle, MoreHorizontal, RefreshCw } from 'lucide-react';
@@ -18,6 +20,9 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { StatusIcon } from '@/components/ui/Glyph';
 import { useToast } from '@/components/ToastProvider';
 import { apiPost } from '@/lib/fetcher';
+import MomentMobi from '@/components/brand/MomentMobi';
+import { FailedMobi } from '@/components/ui/StateMobi';
+import { screenAct } from '@/lib/mobiScreens';
 import { withNumbers } from '@/components/result/MarksLedger';
 import TrapsMeet from '@/components/result/TrapsMeet';
 import { copyText, shortDate, withActiveRule } from '@/components/result/labLoop';
@@ -116,9 +121,12 @@ function HabitRule({ rule, labels, use }) {
   );
 }
 
-function NowCard({ active, labels, empty = false }) {
+function NowCard({ active, labels, empty = false, confirmed = 0 }) {
+  // A choice the server confirmed on this visit earns one nod; an empty book has him resting. Otherwise no Mobi.
+  const act = confirmed ? screenAct('rules', 'ruleChosen') : empty && !active ? screenAct('rules', 'noRulesYet') : null;
   return (
-    <section className="rb-now" data-set={active ? '' : undefined} aria-labelledby="rb-now-title">
+    <section className="rb-now" data-set={active ? '' : undefined} data-mobi={act ? '' : undefined} aria-labelledby="rb-now-title">
+      {act ? <MomentMobi key={`${act}-${confirmed}`} act={act} size={60} className="rb-now__mobi" /> : null}
       <h2 className="rb-now__label" id="rb-now-title">{labels.inUse}</h2>
       {active ? (
         <div className="rb-now__body" key={active.id}>
@@ -150,6 +158,7 @@ export default function RuleBook() {
   const [sending, setSending] = useState(null);
   const [error, setError] = useState(null); // { id, message }
   const [said, setSaid] = useState('');
+  const [confirmed, setConfirmed] = useState(0); // how many choices the server confirmed on this visit
   const book = read.data?.book || null;
   const labels = book?.labels || {};
 
@@ -162,6 +171,7 @@ export default function RuleBook() {
       if (out?.active?.id !== rule.id) throw new Error('unconfirmed');
       read.setBook((b) => withActiveRule(b, out.active));
       setSaid(`${labels.inUse || 'Your rule for your next mock'}: ${out.active.text}`);
+      setConfirmed((n) => n + 1);
       toast.success(`Saved for your next mock: ${out.active.text}`);
     } catch (e) {
       // The server's own words when it refused the choice (422); otherwise a plain "not saved".
@@ -179,7 +189,7 @@ export default function RuleBook() {
       <section className="pr rb">
         {back}{head}
         <div className="rb-fail" role="alert">
-          <StatusIcon kind="error" />
+          <FailedMobi size={72} />
           <p>{read.message}</p>
           <button type="button" className="rb-use" onClick={read.retry}><RefreshCw size={16} strokeWidth={2.1} aria-hidden="true" />Try again</button>
         </div>
@@ -198,7 +208,7 @@ export default function RuleBook() {
       <p className="sr-only" aria-live="polite">{said}</p>
       <div className="rb-layout">
         <aside className="rb-side">
-          <NowCard active={book.active} labels={labels} empty={!repairCount && !habitCount} />
+          <NowCard active={book.active} labels={labels} empty={!repairCount && !habitCount} confirmed={confirmed} />
           <nav className="rb-jump" aria-label="Sections">
             <a href="#rb-repairs"><span>{labels.repairsTitle}</span><b>{repairCount}</b></a>
             <a href="#rb-habits"><span>{labels.habitsTitle}</span><b>{habitCount}</b></a>
