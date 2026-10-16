@@ -1,3 +1,10 @@
+## 16 October 2026 - Production database: slice 5 table question_option_stats applied; first refresh timed out, nothing written
+
+- Applied by Claude (session 604ced81) under the owner's standing database grant at about 10:35 IST to production isrxrxzjocewrdureyhp: migration 20261016120000_question_option_stats (table question_option_stats, RLS on, service role only; function refresh_question_option_stats(), service role only). Staging dry run passed earlier (web/slice5-1016 13347c3e).
+- The first `select public.refresh_question_option_stats()` on production hit the 2-minute statement timeout (57014) at production size (1,815 attempts, 35,067 answers). It runs in one transaction, so nothing was written: the table is empty and the website falls back to the committed snapshot of other students' picks exactly as before slice 5. The live code (09421b29) does not read the table yet.
+- Next: an optimised function (migration 20261016130000_question_option_stats_refresh_v2, being written on web/slice5-1016 with v1/v2 equality and volume tests) replaces it before batch 1016c ships; then one manual refresh, and the nightly pass on /api/internal/refresh-inventory keeps it current.
+- Undo: supabase/undo/20261016120000_question_option_stats.undo.sql (drops the function and the table; derived data only).
+
 ## 16 October 2026 - Mistake Lab v4 slice 5: cohort time (branch web/slice5-1016 from the 1016 batch merge c87407e0; local, not pushed, not deployed; NOT applied to production)
 
 Spec `mockmob-next/tmp/mistake-lab-v4/SPEC.md` 4.13 and "Slice 5". The owner decision on shared anchor questions per NTA paper is deferred and not built.
