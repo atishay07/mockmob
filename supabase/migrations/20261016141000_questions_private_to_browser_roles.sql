@@ -13,6 +13,6 @@
 -- Row level security stays on, the policy stays (it matches nothing without a grant), service_role keeps full access.
 -- Additive and idempotent. Not applied to production by this change; dry run on staging (onwkqxmjqjrhfbjjdydu) 16 Oct:
 -- anon and authenticated lose SELECT, service_role keeps SELECT and UPDATE, and the undo restores the old grants.
--- Undo: supabase/undo/20261016140000_questions_private_to_browser_roles.undo.sql
+-- Undo: supabase/undo/20261016141000_questions_private_to_browser_roles.undo.sql
 revoke all on public.questions from anon, authenticated;
 grant all on public.questions to service_role;
