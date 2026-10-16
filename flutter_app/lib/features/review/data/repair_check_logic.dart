@@ -90,8 +90,60 @@ abstract final class CheckCopy {
     return '${_weekdays[dueDay.weekday - 1]} ${dueDay.day} ${_months[dueDay.month - 1]}';
   }
 
+  /// The receipt under an answered check: what the mistake cost, in which paper, and how many checks
+  /// held. "Fixed. This trap cost you 6 marks in Mock 3. Held 1 of 1." A miss says "Not yet." and
+  /// the same facts. The marks clause is left out when the scheme is not known (never guessed), and
+  /// "trap" only when the repair named one; otherwise it says "mistake".
+  static String receipt({required bool right, required String source, required int? marks, required bool trap, required int held, required int answered}) {
+    final head = right ? 'Fixed.' : 'Not yet.';
+    final thing = trap ? 'This trap' : 'This mistake';
+    final cost = marks == null ? '$thing was in $source.' : '$thing cost you ${marks == 1 ? '1 mark' : '$marks marks'} in $source.';
+    return '$head $cost Held $held of $answered.';
+  }
+
   /// The tag for an answered row, or null.
   static String? tag({required bool isKey, required bool isPick}) => isKey && isPick ? tagBoth : (isKey ? tagKey : (isPick ? tagPick : null));
+}
+
+/// How many of the checks answered so far held. Only checks the student has answered count, and
+/// only the ones this tally is given: a check never answered is not a miss, and a repair that
+/// offered none counts for nothing.
+class HeldTally {
+  const HeldTally({required this.held, required this.answered});
+
+  /// Answered right the first time.
+  final int held;
+
+  /// Answered at all.
+  final int answered;
+
+  /// Tallies the answered ones among [views].
+  factory HeldTally.of(Iterable<CheckView> views) {
+    var held = 0;
+    var answered = 0;
+    for (final v in views) {
+      final r = v.result;
+      if (!v.answered || r == null) continue;
+      answered++;
+      if (r.right) held++;
+    }
+    return HeldTally(held: held, answered: answered);
+  }
+}
+
+/// What the receipt of one check needs from the repair it belongs to: the paper's name, what the
+/// mistake cost, whether the repair named a trap, and the checks of the same run to tally.
+class CheckReceipt {
+  const CheckReceipt({required this.source, required this.marks, required this.trap, required this.runKeys});
+
+  final String source;
+
+  /// Marks the mistake cost in its paper, from the marking scheme alone; null when unknown.
+  final int? marks;
+  final bool trap;
+
+  /// The (attemptId, questionId) of every mistake in this run, whose checks are counted.
+  final List<({String attemptId, String questionId})> runKeys;
 }
 
 /// What the repair says about Ask Mobi, from the AI wallet. The price is promised only while

@@ -56,6 +56,12 @@ abstract final class ReviseCopy {
   static const String entryTitle = 'Revise';
   static const String entryNote = 'Questions you got wrong come back after 1, 3, 7 and 21 days.';
 
+  /// The first-time empty state: one sample card (tagged "Example") and the next action. Not on the
+  /// website's copy list: the website's own sentence above them says when cards come back.
+  static const String sampleTitle = 'Question 4, Partnership';
+  static const String sampleNote = 'Comes back in 1 day';
+  static const String startAction = 'Start 10 questions';
+
   static String questionOf(int n, int total) => 'Question $n of $total';
   static String capSpoken(int n) => '$n questions a day';
   static String optionSpoken(String letter, String text) => 'Option $letter. $text';

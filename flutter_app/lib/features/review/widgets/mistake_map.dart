@@ -12,6 +12,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
+import '../data/paper_when.dart';
 import '../data/review_providers.dart';
 import '../data/review_seen.dart';
 import 'collapsible.dart';
@@ -757,10 +758,16 @@ class MistakeRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final found = ReviewCopy.foundIn(item.source, formatDayMonth(clock.local(item.foundAt)));
+    // Which paper and when it was attempted, in the student's own time (F17).
+    final found = paperWhen(clock, item.source, item.foundAt);
     final tappable = item.stage != MistakeStage.setAside;
     final repeat = missedTimes >= 2 ? ReviewCopy.missedTimes(missedTimes) : null;
-    final label = '${ReviewCopy.questionLabel(item.number)}, ${item.chapter}. $found.${repeat == null ? '' : ' $repeat.'} ${_stageWord(item.stage)}.';
+    // A repaired mistake says its saved repair is there and opens free: never a second paid one.
+    final saved = item.stage == MistakeStage.repaired
+        ? (item.stageAt == null ? ReviewCopy.savedRepairOpens : ReviewCopy.savedRepairFrom(whenText(clock, item.stageAt!)))
+        : null;
+    final label =
+        '${ReviewCopy.questionLabel(item.number)}, ${item.chapter}. $found.${saved == null ? '' : ' $saved'}${repeat == null ? '' : ' $repeat.'} ${_stageWord(item.stage)}.';
     // The bubble carries the stage's colour; the word beside it stays quiet, so red crosses and
     // volt text do not compete.
     final bubble = switch (item.stage) {
@@ -810,6 +817,7 @@ class MistakeRow extends StatelessWidget {
                       Text(ReviewCopy.questionLabel(item.number), style: type.labelLarge),
                       const SizedBox(height: MmSpace.s2),
                       Text(found, style: type.caption.copyWith(color: colors.ink2)),
+                      if (saved != null) Text(saved, style: type.caption.copyWith(color: colors.ink2)),
                       if (repeat != null) ...[
                         const SizedBox(height: MmSpace.s4),
                         Row(

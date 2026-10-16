@@ -19,6 +19,8 @@ import '../../rhythm/rhythm.dart'
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
+import '../data/repair_check_controller.dart' show repairCheckProvider;
+import '../data/repair_check_logic.dart' show HeldTally;
 import '../data/repair_run.dart';
 import '../data/repair_state.dart';
 import '../data/review_providers.dart';
@@ -212,6 +214,10 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
     // mistakes Review still has open, from the run itself.
     final run = ref.read(repairRunProvider(widget.attemptId));
     final retry = retryQuestionIds(run, index);
+    final held = HeldTally.of([
+      for (final step in run?.steps ?? const <RepairStep>[])
+        ref.watch(repairCheckProvider((attemptId: widget.attemptId, questionId: step.item.questionId))),
+    ]);
     final reviewAgainKeys = [
       for (final step in run?.steps ?? const <RepairStep>[])
         if (step.countsAsRepaired) step.item.key,
@@ -373,6 +379,12 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
                         ),
                         style: type.lead,
                       ),
+                      // The checks of this run that were answered, each one a fresh question the
+                      // server marked: said only when there is one, and never beyond them.
+                      if (held.answered > 0) ...[
+                        const SizedBox(height: MmSpace.s4),
+                        Text(ReviewCopy.endingHeld(held.held, held.answered), style: type.small.copyWith(color: colors.ink2)),
+                      ],
                       const SizedBox(height: MmSpace.s24),
                       LifeRow(stage: _lifeInked ? MistakeStage.repaired : MistakeStage.found),
                       const SizedBox(height: MmSpace.s12),

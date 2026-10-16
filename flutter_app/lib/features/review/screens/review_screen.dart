@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/domain/tonight_pick.dart' show isRepairBasis;
+import '../../../core/notes/feature_note_view.dart';
+import '../../../core/notes/feature_notes.dart';
+import '../../../core/notes/sample_row.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/models/attempt.dart' show Attempt;
 import '../../../core/repositories/attempts_repository.dart';
@@ -18,6 +22,8 @@ import '../../rules/widgets/rules_entry.dart';
 import '../../you/you_providers.dart' show lateNightLinesProvider;
 import '../copy.dart';
 import '../data/mistake_index.dart';
+import '../data/paper_when.dart';
+import '../data/repair_run.dart' show repairRunProvider;
 import '../data/review_providers.dart';
 import '../data/review_seen.dart';
 import '../widgets/mistake_map.dart';
@@ -75,6 +81,15 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final index = ref.watch(reviewIndexProvider);
     final attempts = inputs.attempts;
     final pad = MediaQuery.paddingOf(context);
+
+    // The account's saved repairs for tonight's paper (a repair made on another phone or the website)
+    // are copied to the phone's record, so its mistakes read as repaired here and open free (F17).
+    final tonightId = index?.tonight?.attemptId;
+    if (tonightId != null) {
+      ref.listen(attemptDetailProvider(tonightId).select((s) => s.value?.savedRepairs), fireImmediately: true, (_, saved) {
+        if (saved != null && saved.isNotEmpty) unawaited(ref.read(repairRunProvider(tonightId).notifier).recordSaved(saved, ref.read(reviewInputsProvider).records));
+      });
+    }
 
     // A scene on screen (the empty state, the all-clear hero, the load failure) carries the one
     // Mobi, so the Ask pill's face steps aside.
@@ -178,6 +193,12 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             pointAtKey: true,
             title: ReviewCopy.emptyTitle,
             message: ReviewCopy.emptyMessage,
+            // What will appear, drawn as it will look: the paper it came from and when it was attempted.
+            sample: SampleRow(
+              leading: const Bubble(state: BubbleState.wrong, size: 14, animate: false),
+              title: ReviewCopy.sampleTitle,
+              note: paperWhen(clock, ReviewCopy.sampleSource, clock.now().subtract(const Duration(hours: 1))),
+            ),
             primary: StateAction(ReviewCopy.emptyAction, () => startQuickTen(context)),
           ),
         ),
@@ -279,6 +300,18 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     Widget gutter(Widget child, {double top = 0}) =>
         Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
     return [
+      // After the first repair: Revise, once, in the page's own flow (never a popup).
+      if (index.repairedCount > 0)
+        gutter(
+          FeatureNoteView(
+            note: FeatureNote.revise,
+            lead: ReviewCopy.noteReviseLead,
+            text: ReviewCopy.noteRevise,
+            actionLabel: ReviewCopy.noteReviseAction,
+            onAction: () => context.push(AppRoutes.reviewRevise),
+          ),
+          top: ReviewSpace.group,
+        ),
       if (groups.isNotEmpty) ...[
         gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)), top: ReviewSpace.group),
         // The progress line and its bar teach the colours of the map under it.
@@ -309,7 +342,34 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
     final shown = records.take(2).toList();
     final latestMock = mocks.isEmpty ? null : mocks.first;
+    // One note at a time, in order: the Lab after the first mock, then Colleges once there is a
+    // full-mock score. Stacked prompts after a result are what the notes exist to avoid.
+    final notes = ref.watch(featureNotesProvider);
+    final labNote = latestMock != null && notes.visible(FeatureNote.lab);
+    final collegesNote = latestMock != null && !labNote && notes.visible(FeatureNote.colleges);
     return [
+      if (labNote)
+        gutter(
+          FeatureNoteView(
+            note: FeatureNote.lab,
+            lead: ReviewCopy.noteLabLead,
+            text: ReviewCopy.noteLab(sourceLabel(index.attempts, latestMock!)),
+            actionLabel: ReviewCopy.noteLabAction,
+            onAction: () => context.push(AppRoutes.result(latestMock!.id)),
+          ),
+          top: ruled ? ReviewSpace.section : ReviewSpace.group,
+        ),
+      if (collegesNote)
+        gutter(
+          FeatureNoteView(
+            note: FeatureNote.colleges,
+            lead: ReviewCopy.noteCollegesLead,
+            text: ReviewCopy.noteColleges,
+            actionLabel: ReviewCopy.noteCollegesAction,
+            onAction: () => context.go(AppRoutes.colleges),
+          ),
+          top: ruled ? ReviewSpace.section : ReviewSpace.group,
+        ),
       // The SWOT's next step after the latest mock (only when its read is ready with a plan).
       if (latestMock != null)
         gutter(
@@ -385,6 +445,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
       context: context,
       title: '${pick.chapter}, ${pick.source}',
       builder: (sheetContext) => EvidenceList(
+        clock: ref.read(reviewClockProvider),
         items: pick.items,
         questionText: text,
         onOpen: (item) {

@@ -12,6 +12,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart' show MistakeStage;
+import '../data/repair_check_logic.dart' show CheckReceipt;
 import '../data/repair_state.dart';
 import 'life_row.dart';
 import 'outcome_views.dart';
@@ -74,9 +75,18 @@ class MistakeView extends StatelessWidget {
     this.scheme,
     this.earlier,
     this.tryNote,
+    this.attempted,
+    this.savedWhen,
   });
 
   final RepairRunState run;
+
+  /// Which paper this mistake came from and when it was attempted, in the student's own time:
+  /// "Mock 3, 14 Oct, 9:41 PM". Null shows the paper's name alone.
+  final String? attempted;
+
+  /// When the saved repair on screen was made ("15 Oct, 8:05 PM"), or null.
+  final String? savedWhen;
 
   /// The cost line under "Check my answer" ("The reason uses 1 AI credit. You have 43.", "The key
   /// explanation is free."), or null when the balance is not known.
@@ -168,7 +178,7 @@ class MistakeView extends StatelessWidget {
                 key: PageStorageKey(step.item.key),
                 padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s48),
                 children: [
-                  Text('${ReviewCopy.questionLabel(step.item.number)}, ${step.item.source}', style: type.caption.copyWith(color: colors.ink2)),
+                  Text('${ReviewCopy.questionLabel(step.item.number)}, ${attempted ?? step.item.source}', style: type.caption.copyWith(color: colors.ink2)),
                   if (earlier case final e?) _EarlierLine(miss: e),
                   const SizedBox(height: MmSpace.s8),
                   if (question == null)
@@ -289,6 +299,14 @@ class MistakeView extends StatelessWidget {
       questionId: item.questionId,
       number: item.number,
       check: check,
+      receipt: CheckReceipt(
+        source: item.source,
+        // What the mistake cost in its paper: free, from the marking scheme alone, left out when the
+        // key of this answer was corrected (its marks then changed).
+        marks: (detail?.answerReviews[item.questionId]?.isCorrected ?? false) ? null : marksAtStake(scheme)?.total,
+        trap: response.explanation?.trapHeading != null,
+        runKeys: [for (final s in run.steps) (attemptId: run.attemptId, questionId: s.item.questionId)],
+      ),
     );
   }
 
@@ -308,8 +326,10 @@ class MistakeView extends StatelessWidget {
   /// The small print under a repair: "1 credit used. 43 left." for a fresh one, "Saved repair. No
   /// credit used." for one opened again. An answer that does not say what it cost says nothing
   /// about cost: an unknown charge is never shown as none.
-  static String? finePrint(RepairResponse response, {required bool reopened}) {
-    if (reopened || response.status == RepairStatus.stored) return ReviewCopy.savedRepairNoCredit;
+  static String? finePrint(RepairResponse response, {required bool reopened, String? savedWhen}) {
+    if (reopened || response.status == RepairStatus.stored) {
+      return savedWhen == null ? ReviewCopy.savedRepairNoCredit : ReviewCopy.savedRepairFinePrint(savedWhen);
+    }
     final charged = response.charged;
     if (charged == null) return null;
     if (charged <= 0) return ReviewCopy.noCreditUsed;
@@ -347,7 +367,7 @@ class MistakeView extends StatelessWidget {
           ),
         ];
       case OutcomeExplained(:final response, :final reopened, :final requestId):
-        final fine = finePrint(response, reopened: reopened);
+        final fine = finePrint(response, reopened: reopened, savedWhen: savedWhen);
         return [
           // A repair made earlier and opened again is repaired too: its thread is simply there,
           // with no draw, since nothing new happened.

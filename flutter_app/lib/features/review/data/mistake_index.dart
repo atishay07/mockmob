@@ -50,6 +50,20 @@ class MistakeItem {
   final DateTime? stageAt;
 
   String get key => '$attemptId/$questionId';
+
+  /// The same mistake at another stage (a saved repair the server reports, found on the phone).
+  MistakeItem atStage(MistakeStage next, DateTime? at) => MistakeItem(
+    attemptId: attemptId,
+    questionId: questionId,
+    number: number,
+    chapter: chapter,
+    subjectId: subjectId,
+    source: source,
+    foundAt: foundAt,
+    givenIndex: givenIndex,
+    stage: next,
+    stageAt: at,
+  );
 }
 
 /// The mistakes of one chapter (across attempts), newest first.

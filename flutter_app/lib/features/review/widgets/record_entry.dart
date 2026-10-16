@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/copy/formatters.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/mistake_index.dart';
+import '../data/paper_when.dart';
 import '../data/review_providers.dart';
 import 'mistake_map.dart' show MistakeRow;
+
+export '../data/paper_when.dart' show whenText;
 
 /// The record's entries: every mistake that moved past Found, newest first. Reviewed entries
 /// have no server time and come last.
@@ -24,12 +26,6 @@ List<MistakeItem> recordEntries(ReviewIndex index) {
     return y.compareTo(x);
   });
   return out;
-}
-
-/// "12 Oct, 11:08 PM", with the time held together so "11:08 PM" never splits across two lines.
-String whenText(ReviewClock clock, DateTime t) {
-  final local = clock.local(t);
-  return '${formatDayMonthShort(local)}, ${ReviewCopy.bindTime(formatTime12(local))}';
 }
 
 /// One mistake on the record's thread (spec 5.8 and 6.4): its node on a vertical 2 dp thread,

@@ -9,6 +9,7 @@ import '../../core/api/api_providers.dart';
 import '../../core/auth/auth_state.dart';
 import '../../core/copy/copy.dart';
 import '../../core/motion/motion.dart';
+import '../../core/notes/sample_row.dart';
 import '../../core/repositories/repositories.dart';
 import '../../core/settings/changed_row.dart';
 import '../../core/router/routes.dart';
@@ -603,6 +604,22 @@ class _AcrossSection extends ConsumerWidget {
           Expanded(child: Text(RulesCopy.acrossLoadFailed, style: type.small.copyWith(color: colors.ink2))),
           const SizedBox(width: MmSpace.s8),
           KeyButton.quiet(label: YouCopy.tryAgain, onPressed: () => ref.read(rulesRepositoryProvider.notifier).refresh(force: true)),
+        ],
+      );
+    } else if (state.value != null) {
+      // Read, and nothing across mocks yet: say what will appear, show one sample row (tagged
+      // "Example") and go to the next action (an empty state that teaches).
+      child = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(YouCopy.acrossEmpty, style: type.body.copyWith(color: colors.ink2)),
+          const SizedBox(height: MmSpace.s12),
+          const SampleRow(title: YouCopy.acrossSampleTitle, note: YouCopy.acrossSampleNote),
+          const SizedBox(height: MmSpace.s4),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: KeyButton.quiet(label: YouCopy.acrossStart, onPressed: () => context.push(AppRoutes.practiceStart)),
+          ),
         ],
       );
     } else {

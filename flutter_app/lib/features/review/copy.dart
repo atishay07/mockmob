@@ -122,6 +122,20 @@ abstract final class ReviewCopy {
 
   static const recordPreviewEmpty = 'Your first repair will show here, with when it was found and when it was repaired.';
 
+  // ---- Features introduced at their moment (F18): one inline note each, never a tour ---------------
+
+  static const noteReviseLead = 'Revise';
+  static const noteRevise = 'Mistakes you repair come back after 1, 3, 7 and 21 days, so they stay fixed.';
+  static const noteReviseAction = 'Open Revise';
+  static const noteLabLead = 'Mistake Lab';
+  static String noteLab(String mock) => 'The result of $mock shows where its marks went and which mistakes cost the most.';
+  static const noteLabAction = 'Open the result';
+  static const noteCollegesLead = 'Colleges';
+  static const noteColleges = 'A full-mock score shows which DU programmes are within reach. Colleges and Compass use it.';
+  static const noteCollegesAction = 'Open Colleges';
+  static const noteAskLead = 'Ask Mobi';
+  static const noteAsk = 'You can ask Mobi about any question you review. It starts from this one.';
+
   // ---- Stage words ----------------------------------------------------------------------
   //
   // The four steps of a mistake, the same words as the website's RUN_COPY.stages
@@ -156,7 +170,11 @@ abstract final class ReviewCopy {
   /// Shown only when the attempts read succeeded and came back with no papers (never for a read
   /// that failed or has not answered).
   static const emptyTitle = 'Nothing to review yet';
-  static const emptyMessage = 'Finish one practice and every wrong answer comes here, sorted by chapter.';
+  static const emptyMessage = 'Finish one practice and every wrong answer comes here, sorted by chapter, with the paper and when you attempted it.';
+
+  /// The sample row of the empty tab (tagged "Example"): a question, then its paper and time.
+  static const sampleTitle = 'Question 4, Partnership';
+  static const sampleSource = 'Mock 1';
   static const emptyAction = 'Start 10 questions';
   static const allClearTitle = 'Nothing waiting to repair';
   static const allClearMessage = "Every mistake you've found is repaired.";
@@ -200,6 +218,29 @@ abstract final class ReviewCopy {
   static String startWith(int n) => 'Start with ${plural(n, 'mistake')}';
   static const begin = 'Begin';
   static const reopenLead = 'Already repaired. Opening it again is free and changes nothing on your record.';
+
+  /// What Repair gives, said on the entry before any call (L13): three lines, each with what it
+  /// is and what it holds. The cost follows directly under them.
+  static const givesHeading = 'What Repair gives you';
+  static const givesTryLead = 'Try it again.';
+  static const givesTry = 'You answer the question once more, with no key showing.';
+  static const givesReasonLead = 'The reason.';
+  static const givesReason = 'Why it looked right, where it breaks, and the trap named.';
+  static const givesCheckLead = 'A checked question.';
+  static const givesCheck = 'A new one on the same idea, marked for you, with no extra credit.';
+  static const givesKeyLead = 'The answer key.';
+  static const givesKey = 'Its explanation is free.';
+
+  /// Under the cost line, when the repair holds more than one mistake: what the whole repair takes.
+  static String costAfter(int mistakes, int balance) => 'This repair takes $mistakes and leaves ${balance - mistakes}.';
+
+  /// The entry's second line under the paper: when it was attempted.
+  static String attemptedAt(String when) => 'Attempted $when';
+
+  /// A saved repair, on its row in Review (F17): when it was made, and that it opens free.
+  static String savedRepairFrom(String when) => 'Saved repair from $when. Opens free.';
+  static const savedRepairOpens = 'Saved repair. Opens free.';
+  static String savedRepairFinePrint(String when) => 'Saved repair from $when. No credit used.';
   static const readKeys = 'Read the key explanations';
   static const readKey = 'Read the key explanation';
   static const pausedHeadline = 'Explanations are paused right now';
@@ -368,6 +409,8 @@ abstract final class ReviewCopy {
 
   // ---- Ending ---------------------------------------------------------------------------
 
+  /// What the new questions of this repair showed: only the checks answered, each marked by the server.
+  static String endingHeld(int held, int answered) => 'Check it held: $held of $answered new ${answered == 1 ? 'question' : 'questions'}.';
   static String endingUnit(int n) => n == 1 ? 'mistake repaired' : 'mistakes repaired';
   /// The one fact the hero's number does not carry: what is left in the chapter, and anything set
   /// aside or read with the key. [left] is the open mistakes of this chapter in this paper (what
