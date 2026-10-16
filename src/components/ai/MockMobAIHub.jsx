@@ -239,6 +239,8 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
   const [retry, setRetry] = useState(null);
   const inFlight = useRef(false);
   const transcriptRef = useRef(null);
+  const askRef = useRef(null);
+  const arrived = useRef(false);
   const pendingRef = useRef(null);
   const current = useMemo(() => pageHelpForPath(pathname), [pathname]);
 
@@ -272,6 +274,15 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
   }, [messages, pending]);
 
   const withQuestion = questionCtx?.status === 'ready';
+  // Arriving from a repair with a question: bring the question card and the composer into view once, so the student can
+  // type without first scrolling past the page head. Instant under reduced motion.
+  useEffect(() => {
+    if (!withQuestion || arrived.current || !askRef.current) return;
+    arrived.current = true;
+    let reduced = false;
+    try { reduced = document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { reduced = true; }
+    askRef.current.scrollIntoView({ block: 'start', behavior: reduced ? 'auto' : 'smooth' });
+  }, [withQuestion]);
   // While the handed-over question is still being opened, nothing is sent: a reply sent now would go without it and still cost a credit.
   const opening = questionCtx?.status === 'loading';
   // A handed-over question can only be answered by a written reply. When written replies cannot be bought (paused, no credits,
@@ -322,12 +333,12 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
   }
 
   return (
-    <section className="pp-ask" aria-label="Ask Mobi">
+    <section className="pp-ask" ref={askRef} aria-label="Ask Mobi">
       <div className="pp-ask__heading"><div><h2>Ask Mobi</h2></div><span className="pp-ask__balance">{wallet?.known ? `${wallet.total} AI credits` : wallet ? 'AI credits unavailable' : 'Reading AI credits…'}</span></div>
-      {questionCtx ? <QuestionContext ctx={questionCtx} blocked={blockedQuestion} onDrop={() => { setQuestionCtx(null); setKind('record'); }} /> : null}
-      {blockedQuestion ? null : <div className="pp-ask__switch" role="group" aria-label="Reply source"><button type="button" aria-pressed={kind==='record'} disabled={pending || Boolean(retry) || withQuestion} onClick={()=>setKind('record')}>About your marks <small>Free</small></button><button type="button" aria-pressed={kind==='model'} disabled={pending || Boolean(retry)} onClick={()=>setKind('model')}>Written guidance <small>1 AI credit</small></button></div>}
-      {blockedQuestion ? null : kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? usesLine({ what: 'One written reply', cost: 1, pool: 'ai', balance: wallet.total }) : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? `You have no AI credits left. ${POOL_USE.ai}` : 'Written guidance is unavailable until your AI credits can be read.'}</b><p>{wallet?.state==='available' ? 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.' : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' ? <div className="pp-ask__focus"><span id="prepos-focus-label">Focus</span><Listbox id="prepos-focus" labelledBy="prepos-focus-label" sheetTitle="Focus" size="sm" value={mode} disabled={pending || Boolean(retry)} onChange={setMode} options={FOCUS_OPTIONS} /></div> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no AI credits.</p>}
-      <div ref={transcriptRef} className="pp-transcript" aria-live="polite" aria-busy={pending}>
+      {questionCtx ? <QuestionContext ctx={questionCtx} blocked={blockedQuestion} costLine={withQuestion && !blockedQuestion && wallet?.state==='available' ? usesLine({ what: 'One written reply', cost: 1, pool: 'ai', balance: wallet.total }) : null} onDrop={() => { setQuestionCtx(null); setKind('record'); }} /> : null}
+      {blockedQuestion || withQuestion ? null : <div className="pp-ask__switch" role="group" aria-label="Reply source"><button type="button" aria-pressed={kind==='record'} disabled={pending || Boolean(retry) || withQuestion} onClick={()=>setKind('record')}>About your marks <small>Free</small></button><button type="button" aria-pressed={kind==='model'} disabled={pending || Boolean(retry)} onClick={()=>setKind('model')}>Written guidance <small>1 AI credit</small></button></div>}
+      {blockedQuestion || (withQuestion && wallet?.state==='available') ? null : kind==='model' ? <div className="pp-ask__service" role="status"><b>{wallet?.state==='available' ? usesLine({ what: 'One written reply', cost: 1, pool: 'ai', balance: wallet.total }) : wallet?.state==='paused' ? 'Written guidance is paused.' : wallet?.state==='empty' ? `You have no AI credits left. ${POOL_USE.ai}` : 'Written guidance is unavailable until your AI credits can be read.'}</b><p>{wallet?.state==='available' ? (withQuestion ? 'The reply is guidance on this question, not a verified answer key.' : 'Your record is the context. The reply is guidance, not a verified answer key or an admission prediction.') : 'You can still ask about your recorded practice for free. Existing purchased credits are preserved.'}</p>{wallet?.state==='available' && !withQuestion ? <div className="pp-ask__focus"><span id="prepos-focus-label">Focus</span><Listbox id="prepos-focus" labelledBy="prepos-focus-label" sheetTitle="Focus" size="sm" value={mode} disabled={pending || Boolean(retry)} onChange={setMode} options={FOCUS_OPTIONS} /></div> : null}</div> : <p className="pp-note">Answers use your recorded sessions and product rules. No model call, no AI credits.</p>}
+      <div ref={transcriptRef} className={`pp-transcript${messages.length === 0 && (withQuestion || opening) ? ' pp-transcript--fit' : ''}`} aria-live="polite" aria-busy={pending}>
         {messages.length === 0 && withQuestion && !blockedQuestion && <div className="pp-ask__empty"><p>Ask about the mistake above. Your reply uses its text, your pick, the key and your rule, and nothing else about you.</p></div>}
         {messages.length === 0 && !withQuestion && <div className="pp-ask__empty"><p>Start with something your record can answer.</p><div className="pp-ask__suggestions">{['Where am I losing marks?', 'Which chapter should I practise?', 'Am I spending too long?'].map(text=><button type="button" key={text} onClick={()=>send(text)} disabled={kind==='model' && wallet?.state!=='available'}>{text}</button>)}</div><small>{current.title}: {current.body}</small></div>}
         {messages.map((m) => m.role === 'user' ? (
@@ -358,7 +369,7 @@ function AskSection({ pathname, onNavigate, insightsState, pro, wallet, readWall
   );
 }
 
-function QuestionContext({ ctx, onDrop, blocked = false }) {
+function QuestionContext({ ctx, onDrop, blocked = false, costLine = null }) {
   if (ctx.status === 'loading') return <p className="pp-note" role="status">Opening your question…</p>;
   if (ctx.status === 'error') return <div className="pp-ask__service pp-ask__service--q" role="status"><b>{ctx.message}</b><p>You can still ask about your recorded practice.</p><button type="button" className="btn-outline sm" onClick={onDrop}>Ask about my record</button></div>;
   return (
@@ -368,6 +379,7 @@ function QuestionContext({ ctx, onDrop, blocked = false }) {
       {ctx.pick ? <p>You picked {ctx.pick.letter}.{ctx.hasKey ? '' : ' The key is being re-checked, so Mobi will not name an answer.'}</p> : null}
       {ctx.rule ? <p>Your rule: {ctx.rule}</p> : null}
       {blocked ? <p className="pp-ask__blocked"><b>Mobi cannot answer this question right now. Nothing was charged.</b></p> : null}
+      {costLine ? <p className="pp-ask__qcost"><b>{costLine}</b> The reply is guidance on this question, not a verified answer key.</p> : null}
       <button type="button" className="btn-outline sm" onClick={onDrop}>{blocked ? 'Ask about my record' : 'Ask something else'}</button>
     </div>
   );

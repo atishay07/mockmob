@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, ShieldCheck, Tag } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import { setCheckoutStatus } from '@/lib/payments/checkoutStatus';
 
 const REF_STORAGE_KEY = 'mm_ref';
 const CODE_PATTERN = /^(offer_[A-Za-z0-9]{6,64}|[a-z0-9._-]{1,64})$/;
@@ -132,6 +133,12 @@ export function RazorpayPaymentButton({
       return () => window.clearTimeout(id);
     }
   }, []);
+
+  // Tell the rest of the page (the phone dock) where checkout stands.
+  useEffect(() => {
+    setCheckoutStatus(isPremium ? 'active' : status === 'confirming' ? 'confirming' : status === 'error' && afterPayment ? 'hold' : 'open');
+  }, [isPremium, status, afterPayment]);
+  useEffect(() => () => setCheckoutStatus('open'), []);
 
   async function handlePayment() {
     try {

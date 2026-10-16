@@ -136,7 +136,7 @@ export async function GET(request) {
         scoreRange > 25 ? 'Score volatility is high; use shorter controlled drills' : 'Score volatility is stable enough for timed mocks',
       ],
       premiumMoves: [
-        weakest ? `Ask Radar: why do I miss ${weakest.chapter} questions?` : 'Ask Radar: what should I practice today?',
+        weakest ? `Ask Mobi: why do I miss ${weakest.chapter} questions?` : 'Ask Mobi: what should I practise today?',
         `Build a ${completionRate < 85 ? 'confidence-first' : 'speed-first'} mock recipe for the next session.`,
         lowConfidenceSubjects[0] ? `Compare ${lowConfidenceSubjects[0].name} mistakes against your strongest subject.` : 'Unlock subject-vs-subject trap analysis.',
       ],

@@ -492,7 +492,8 @@ test('marked for review: marked and answered counts with their denominator, blan
   const item = itemsOf(s).find((i) => i.kind === 'marked_review');
   assert.equal(item.quadrant, 'opportunity');
   assert.equal(item.title, 'Marked for review, left blank');
-  assert.equal(item.detail, 'You marked 6 of 50 questions for review and answered 4 of them: 3 right, 1 wrong. 2 stayed blank: 10 marks not earned. On average an answer scores more than a blank when it is right more than 1 time in 6, under +5 for right and −1 for wrong.');
+  assert.equal(item.detail, 'You marked 6 of 50 questions for review and answered 4 of them: 3 right, 1 wrong. 2 stayed blank: 10 marks not earned.');
+  assert.equal(item.note, 'Under +5 for right and −1 for wrong, an answer beats a blank when it is right more than 1 time in 6.', 'the break-even sits on its own quieter line');
   assert.deepEqual(item.questions, [5, 6], 'the marked questions left blank');
   assert.deepEqual(item.evidence, { marked: 6, answered: 4, right: 3, wrong: 1, blank: 2, counted: 50 });
   const row = s.plan.find((p) => p.id === item.planId);

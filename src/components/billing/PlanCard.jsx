@@ -8,11 +8,15 @@ import Link from 'next/link';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { useAuth } from '@/components/AuthProvider';
 import { DrawnCheck } from '@/components/ui/DrawnCheck';
-import { useCountUp } from '@/lib/motion';
 import { PAYMENT_PLANS } from '@/lib/payments/plans';
 
 const MONTHLY_RUPEES = Math.round(PAYMENT_PLANS.pro_monthly_99.amount / 100);
-const fmt = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+// Dates are India dates: a paid-through instant of 18:29:59Z is 23:59 IST, and must not read as the next day elsewhere.
+const fmt = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' });
+// The lead names the timezone once, beside its date.
+// Balances are shown once on Account, in Credits right under this card; the plan says what things cost.
+const FREE_COSTS = 'Free uses practice credits: Quick practice costs 10 practice credits and Full mock costs 50. Your balance is under Credits.';
+const LeadDate = ({ iso }) => <><strong>{fmt(iso)}</strong> (IST)</>;
 
 export function PlanCard() {
   const { user, refreshSession } = useAuth();
@@ -33,8 +37,6 @@ export function PlanCard() {
   const until = user?.premiumUntil || null;
   // Not Pro but with an end date on record: Pro was held and has ended (the server clears isPremium at the end).
   const ended = !pro && Boolean(until);
-  const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : 0;
-  const rolled = useCountUp(balance, { from: 0, duration: 900 });
 
   async function cancelRenewal() {
     setPhase('working');
@@ -61,13 +63,14 @@ export function PlanCard() {
       {pro || paymentFailed ? (
         <>
           {!cancelledNow && <p className="plan-card__lead">
-            {renewing && <>Pro renews every month at ₹{MONTHLY_RUPEES}.{until ? <> Paid through <strong>{fmt(until)}</strong>. The next payment is due then.</> : null}</>}
-            {renewalOff && <>Renewal is off, so no further payment will be taken. Pro stays active{until ? <> until <strong>{fmt(until)}</strong></> : null}, then your account moves to Free.</>}
-            {pro && paymentFailed && <>Your last monthly payment did not go through. Pro stays active{until ? <> until <strong>{fmt(until)}</strong></> : null}. Razorpay retries the charge and emails you. Cancel renewal to stop the retries.</>}
+            {renewing && <>Pro renews every month at ₹{MONTHLY_RUPEES}.{until ? <> Paid through <LeadDate iso={until} />. The next payment is due then.</> : null}</>}
+            {renewalOff && <>Renewal is off, so no further payment will be taken. Pro stays active{until ? <> until <LeadDate iso={until} /></> : null}, then your account moves to Free.</>}
+            {pro && paymentFailed && <>Your last monthly payment did not go through. Pro stays active{until ? <> until <LeadDate iso={until} /></> : null}. Razorpay retries the charge and emails you. Cancel renewal to stop the retries.</>}
             {!pro && paymentFailed && <>Your last monthly payment did not go through, so Pro is off. Razorpay may still retry the charge. Cancel renewal to stop it, then you can start Pro again.</>}
-            {pro && !hasSubscription && <>Pro access{until ? <> runs through <strong>{fmt(until)}</strong></> : null}. It does not renew, so there is nothing to cancel.</>}
+            {pro && !hasSubscription && <>Pro access{until ? <> runs through <LeadDate iso={until} /></> : null}. It does not renew, so there is nothing to cancel.</>}
           </p>}
           {pro && <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick practice and Full mock</span></div>}
+          {!pro && paymentFailed && <p className="plan-card__lead">{FREE_COSTS}</p>}
           {canCancel && (phase === 'idle' || phase === 'error') && <button type="button" className="plan-card__quiet" onClick={() => setPhase('confirm')}>{phase === 'error' ? 'Try cancelling again' : 'Cancel renewal'}</button>}
           {canCancel && phase === 'confirm' && (
             <div className="plan-card__confirm" role="group" aria-label="Confirm cancellation">
@@ -87,8 +90,7 @@ export function PlanCard() {
       ) : (
         <>
           {lapsed ? <p className="plan-card__lead">Your monthly Pro has ended and no further payment will be taken.{until ? <> It ended on <strong>{fmt(until)}</strong>.</> : null} Your history and saved questions stay.</p> : ended ? <p className="plan-card__lead">Your Pro access ended on <strong>{fmt(until)}</strong>. Your history and saved questions stay.</p> : null}
-          <p className="plan-card__lead">Free uses practice credits: Quick practice costs 10 practice credits and Full mock costs 50.</p>
-          <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} unitLabel="practice credits" /></div>
+          <p className="plan-card__lead">{FREE_COSTS}</p>
           <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />{ended || lapsed ? 'See Pro to renew' : 'See Pro'}</Link>
         </>
       )}

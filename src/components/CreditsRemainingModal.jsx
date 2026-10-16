@@ -1,21 +1,26 @@
 "use client";
 
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { Icon } from '@/components/ui/Icons';
 
 const QUICK_COST = 10;
 const FULL_COST = 50;
 
-const LOCKED = [
-  'Radar: your weakest chapter from this mock',
-  'Free sourced DU eligibility and historical cutoffs',
-  'Chapter priority map for the next 7 days',
+// Only what is Pro-only on /pricing today. DU eligibility, published cutoffs and the top three
+// chapters are free there, so they are never listed here.
+const PRO_ADDS = [
+  'Full chapter review: every ranked chapter, pace and changed answers',
+  'Compass Pro: your practice projected against your DU shortlist',
+  'Smart practice, aimed at your weak chapters',
+  'NTA mode, the exam-day screen',
 ];
 
 export function CreditsRemainingModal({ open, credits, onClose, offer = null }) {
   const router = useRouter();
   const panelRef = useRef(null);
+
   const closeRef = useRef(null);
 
   useEffect(() => {
@@ -65,14 +70,16 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
     };
   }, [open, onClose]);
 
-  if (!open) return null;
+  // Rendered into <body> so the app's top bar and bottom navigation can never sit above it.
+  // It only opens after a client action, so document always exists when it renders.
+  if (!open || typeof document === 'undefined') return null;
 
   const safe = Math.max(0, Number.isFinite(credits) ? credits : 0);
   const quickRuns = Math.floor(safe / QUICK_COST);
   const fullRuns = Math.floor(safe / FULL_COST);
   const isEmpty = safe < QUICK_COST;
 
-  return (
+  return createPortal(
     <div
       className="mmx-scrim"
       role="dialog"
@@ -92,20 +99,19 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
         </button>
 
         <h2 id="credits-modal-title" className="mmx-sheet__title">
-          {isEmpty ? 'You are out of credits.' : 'Your score is just the headline.'}
+          {isEmpty ? 'You are out of practice credits' : 'What Pro adds'}
         </h2>
         <p className="mmx-sheet__lede">
           {isEmpty
-            ? 'Free credits gate how often you can generate a mock — not what you can see. Pro removes the gate entirely.'
-            : 'Pro turns this attempt into a plan. Here is what stays locked on the free lane.'}
+            ? 'Practice credits set how many new sets you can start. Your results, explanations and DU eligibility stay open on Free. Pro removes the credit limit and adds:'
+            : 'Your results, explanations, DU eligibility and top three chapters stay open on Free. Pro adds:'}
         </p>
 
         <ul className="mmx-locked">
-          {LOCKED.map((line) => (
+          {PRO_ADDS.map((line) => (
             <li key={line}>
-              <Icon name="shield" aria-hidden="true" />
+              <Icon name="check" aria-hidden="true" />
               <span>{line}</span>
-              <em>Pro</em>
             </li>
           ))}
         </ul>
@@ -135,10 +141,10 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
 
         <p className="mmx-sheet__price">
           {offer?.purchasable === 'monthly'
-            ? <>Pro is <strong>₹{offer.monthly.rupees} a month</strong>. Unlimited mocks, full Radar and NTA mode. Cancel anytime.</>
-            : offer
-              ? <>Pro access is <strong>₹{offer.oneTime.rupees} once</strong>. Unlimited mocks, full Radar and NTA mode through {offer.oneTime.expires}.</>
-              : <>Pro removes the credit gate. See pricing for the current offer.</>}
+            ? <>Pro is <strong>₹{offer.monthly.rupees} a month</strong>, with unlimited Quick practice and Full mock. Renews monthly. Cancel anytime in Account.</>
+            : offer?.oneTime
+              ? <>Pro access is <strong>₹{offer.oneTime.rupees} once</strong>, through {offer.oneTime.expires}, with unlimited Quick practice and Full mock. No renewal.</>
+              : <>The price could not be read just now. See Pro shows the current price before any payment.</>}
         </p>
 
         <div className="mmx-sheet__actions">
@@ -157,6 +163,7 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

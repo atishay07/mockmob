@@ -9,6 +9,8 @@ import AppLayoutClient from '@/app/(app)/AppLayoutClient';
 import DashboardPageClient from '@/app/(app)/dashboard/DashboardPageClient';
 import TestPageClient from '@/app/(app)/test/TestPageClient';
 import { buildPracticeQuote } from '@/../data/practice_quote';
+import { CURRENT_OFFER } from '@/../data/capabilities';
+import creditsContract from '@/../data/tests/fixtures/credits/contract_credits_v1.json';
 import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/../data/learning_engine';
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
 import { previewCompass, previewInsights } from './previewRecord';
@@ -217,11 +219,28 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const pro = page.get('plan') === 'pro';
       const inventory = page.get('inventory') === 'down' ? { state: 'unavailable' }
         : { state: 'available', checkedAt: new Date().toISOString(), subjectCounts: { accountancy: 640, economics: 720, business_studies: 580, english: 12 } };
-      return json(buildPracticeQuote({
+      // The live route adds publicOffer(); the preview cannot read the plan env, so ?offer=monthly picks the monthly offer.
+      const monthlyOffer = page.get('offer') === 'monthly';
+      const offer = {
+        monthly: { planId: 'pro_monthly_99', rupees: 99, interval: 'month', autoRenews: true, ready: monthlyOffer },
+        oneTime: { planId: CURRENT_OFFER.planId, rupees: CURRENT_OFFER.rupees, expires: CURRENT_OFFER.expires, onSale: !monthlyOffer },
+        purchasable: monthlyOffer ? 'monthly' : 'one_time',
+      };
+      return json({ ...buildPracticeQuote({
         user: { id: 'preview-user', isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
         subject: url.searchParams.get('subject'), mode: url.searchParams.get('mode'), count: Number(url.searchParams.get('count')),
         inventory, allowance: { enabled: page.get('allowance') === 'on', used: false }, token: `preview-${Date.now()}`,
-      }));
+      }), offer });
+    }
+    if (url.pathname === '/api/me/credits') {
+      // Account > Credits from the shared contract fixture (data/tests/fixtures/credits/contract_credits_v1.json);
+      // ?credits=down shows the failed state. Pro and monthly Pro read as Pro with their paid-through date.
+      const page = new URLSearchParams(window.location.search);
+      if (page.get('credits') === 'down') return json({ error: 'unavailable', message: 'Your credits did not load.' }, 503);
+      const profile = MONTHLY_PROFILES[page.get('plan')] || null;
+      const paid = page.get('plan') === 'pro' || Boolean(profile?.isPremium);
+      const until = page.get('plan') === 'pro' ? '2027-07-31' : profile?.isPremium ? '2026-11-16' : null;
+      return json({ ...creditsContract, plan: { name: paid ? 'Pro' : 'Free', until } });
     }
     if (url.pathname === '/api/compass/pro') {
       const page = new URLSearchParams(window.location.search);

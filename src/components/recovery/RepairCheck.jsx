@@ -6,7 +6,7 @@
 // data/tests/fixtures/repair4/contract_check_v1.json.
 import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check, Repeat, RotateCcw } from 'lucide-react';
+import { Check, Minus, Repeat } from 'lucide-react';
 import {
   CHECK_COPY, checkAvailability, safeCheckHref, newCheckRequestId, requestCheck, submitCheck, planCheckLoad, planCheckAnswer,
   openRows, answeredRows, poolLine, reviseLine, leadLine,
@@ -17,7 +17,7 @@ function Verdict({ right, line, innerRef }) {
   return (
     <p className="mr-chk__verdict" data-right={right ? '' : undefined} tabIndex={-1} ref={innerRef} data-rise style={{ '--mr-rise': 0 }}>
       <span className="mr-chk__mark" aria-hidden="true">
-        {right ? <Check size={16} strokeWidth={2.6} /> : <RotateCcw size={15} strokeWidth={2.3} />}
+        {right ? <Check size={16} strokeWidth={2.6} /> : <Minus size={15} strokeWidth={2.6} />}
       </span>
       <span>{line}</span>
     </p>
@@ -107,7 +107,7 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
       {phase === 'loading' ? (
         <div className="mr-chk__load" role="status" aria-live="polite">
           <p className="mr-chk__fine">{CHECK_COPY.loading}</p>
-          <div className="mr-chk__skel" aria-hidden="true"><i /><i /><b /><b /><b /><b /><u /></div>
+          <div className="mr-chk__skel" aria-hidden="true"><s /><s /><i /><i /><i /><i /><i /><b /><b /><b /><b /><u /></div>
         </div>
       ) : null}
 
@@ -185,7 +185,7 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
               {revise ? (
                 <p className="mr-chk__revise" data-rise style={{ '--mr-rise': 2 }}>
                   <Repeat size={14} strokeWidth={2.3} aria-hidden="true" />
-                  <span><Link className="mr-chk__revlink" href="/review/revise"><b>{CHECK_COPY.reviseLabel}</b></Link><b>.</b> {revise}</span>
+                  <span><Link className="mr-chk__revlink" href="/review/revise">{CHECK_COPY.reviseLabel}</Link> {revise}</span>
                 </p>
               ) : null}
             </div>

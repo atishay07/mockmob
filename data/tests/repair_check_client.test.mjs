@@ -64,15 +64,15 @@ test('every count carries its denominator, and no total means no line', () => {
 test('the Revise line says only what was written: nothing when Revise is unavailable, never a forecast', () => {
   assert.equal(reviseLine(null, true), null);
   assert.equal(reviseLine({ scheduled: false, reason: 'unavailable', nextAt: null }, false), null);
-  assert.equal(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 1 }, true), 'This mistake comes back tomorrow.');
-  assert.equal(reviseLine({ scheduled: true, whenLabel: 'Fri 17 Oct', cards: 1 }, true), 'This mistake comes back on Fri 17 Oct.');
-  assert.equal(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 2 }, false), 'Both come back tomorrow: this mistake and the question you just missed.');
-  assert.equal(reviseLine({ scheduled: true, whenLabel: 'today', cards: 1 }, true), 'This mistake comes back today.');
+  assert.equal(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 1 }, true), 'will bring this mistake back tomorrow.');
+  assert.equal(reviseLine({ scheduled: true, whenLabel: 'Fri 17 Oct', cards: 1 }, true), 'will bring this mistake back on Fri 17 Oct.');
+  assert.equal(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 2 }, false), 'will bring both back tomorrow: this mistake and the question you just missed.');
+  assert.equal(reviseLine({ scheduled: true, whenLabel: 'today', cards: 1 }, true), 'will bring this mistake back today.');
   // The day is worked out again from the due day when the screen opens, so a stored answer never says "tomorrow" about a day that has gone.
   const at = Date.parse('2026-10-16T20:00:00Z'); // 17 Oct, 01:30 IST
-  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-18', whenLabel: 'tomorrow', cards: 1 }, true, at), 'This mistake comes back tomorrow.');
-  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-18', whenLabel: 'tomorrow', cards: 1 }, true, Date.parse('2026-10-20T06:00:00Z')), 'This mistake comes back today.');
-  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-21', whenLabel: 'tomorrow', cards: 2 }, false, at), 'Both come back on Wed 21 Oct: this mistake and the question you just missed.');
+  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-18', whenLabel: 'tomorrow', cards: 1 }, true, at), 'will bring this mistake back tomorrow.');
+  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-18', whenLabel: 'tomorrow', cards: 1 }, true, Date.parse('2026-10-20T06:00:00Z')), 'will bring this mistake back today.');
+  assert.equal(reviseLine({ scheduled: true, dueDay: '2026-10-21', whenLabel: 'tomorrow', cards: 2 }, false, at), 'will bring both back on Wed 21 Oct: this mistake and the question you just missed.');
   assert.doesNotMatch(reviseLine({ scheduled: true, whenLabel: 'tomorrow', cards: 1 }, true), /will (improve|learn|remember)|marks|score/i);
 });
 
@@ -230,7 +230,15 @@ test('the Ask screen: a handed-over question with written replies unavailable sa
   assert.match(hub, /Mobi cannot answer this question right now\. Nothing was charged\./);
   assert.match(hub, /blocked \? 'Ask about my record' : 'Ask something else'/, 'the way out drops the question');
   assert.match(hub, /\{blockedQuestion \? null : <form className="pp-composer"/, 'no greyed-out composer for a question that cannot be asked');
-  assert.match(hub, /\{blockedQuestion \? null : <div className="pp-ask__switch"/);
+  assert.match(hub, /\{blockedQuestion \|\| withQuestion \? null : <div className="pp-ask__switch"/, 'no reply-source switch beside a handed-over question');
+});
+
+test('the Ask screen with a handed-over question: no record claim, no Focus select, the cost sits in the question card', () => {
+  const hub = read('src/components/ai/MockMobAIHub.jsx');
+  assert.match(hub, /withQuestion \? 'The reply is guidance on this question, not a verified answer key\.' : 'Your record is the context\./, 'the record wording is only for written guidance without a question');
+  assert.match(hub, /wallet\?\.state==='available' && !withQuestion \? <div className="pp-ask__focus">/, 'Focus is not offered for a handed-over question');
+  assert.match(hub, /costLine=\{withQuestion && !blockedQuestion && wallet\?\.state==='available'/, 'the cost line moves into the card');
+  assert.match(hub, /\{costLine \? <p className="pp-ask__qcost">/);
 });
 
 test('UI details: no first-answer note on a withdrawn question, the skeleton keeps the phone actions row, no Ask link before the wallet is read, no stripes or arrow', () => {

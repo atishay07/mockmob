@@ -32,11 +32,11 @@ export const FEATURE_GUIDE = [
   },
   {
     key: 'radar',
-    name: 'Radar',
+    name: 'Weak chapters',
     route: '/analytics',
     description: 'Accuracy, pace and missed chapters across your server-scored sessions. Small samples are shown as small samples.',
     whenToUse: 'Use it to see which chapters you have missed more than once.',
-    actionLabel: 'Open Radar',
+    actionLabel: 'Open weak chapters',
   },
   {
     key: 'compass',
@@ -78,7 +78,7 @@ export function pageHelpForPath(pathname = '/') {
   if (pathname.startsWith('/test')) return help('Active session', 'Stay with the questions. Mobi stays out of the way until you submit.', null);
   if (pathname.startsWith('/rival')) return help('Shadow Benchmark', 'A timed set against a simulated pace. It reports accuracy, pace and skips for this set only.', null);
   if (pathname.startsWith('/admission-compass')) return help('DU eligibility and cutoffs', FEATURE_GUIDE.find((f) => f.key === 'compass').description, null);
-  if (pathname.startsWith('/analytics')) return help('Radar', 'Radar summarises your server-scored sessions. Review the chapters you missed more than once.', { label: 'Open Review', type: 'navigate', route: '/review' });
+  if (pathname.startsWith('/analytics')) return help('Weak chapters', 'This page summarises your server-scored sessions. Review the chapters you missed more than once.', { label: 'Open Review', type: 'navigate', route: '/review' });
   if (pathname.startsWith('/saved')) return help('Saved questions', 'Saved questions are for short revision blocks.', null);
   if (pathname.startsWith('/pricing')) return help('Plans and credits', 'Pro and AI credits are separate. New AI credit top-ups are paused; existing balances are preserved.', null);
   return help('MockMob', 'Mobi explains your next step and the tools. Your plan comes from your practice record.', { label: 'Open Today', type: 'navigate', route: '/today' });

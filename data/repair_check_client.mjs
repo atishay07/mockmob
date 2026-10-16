@@ -113,9 +113,10 @@ export function reviseLine(revise, right, nowMs = Date.now()) {
   if (!revise || revise.scheduled !== true) return null;
   const label = reviseWhen(revise, nowMs);
   const when = !label ? 'soon' : label === 'tomorrow' || label === 'today' ? label : `on ${label}`;
+  // The words follow the Revise link on screen, so the line reads "Revise will bring ...".
   return right
-    ? `This mistake comes back ${when}.`
-    : `Both come back ${when}: this mistake and the question you just missed.`;
+    ? `will bring this mistake back ${when}.`
+    : `will bring both back ${when}: this mistake and the question you just missed.`;
 }
 
 /** The lead under the title. It says what the question is tied to only once the server has said (concept, topic or chapter). */

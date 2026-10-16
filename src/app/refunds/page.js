@@ -33,7 +33,7 @@ export default function RefundsPage() {
               <section>
                 <h2>Monthly Pro and cancelling</h2>
                 <p>Monthly Pro is ₹99 a month and renews automatically until you cancel. You can cancel at any time in Account, under Plan, with Cancel renewal. Cancelling stops the next charge. You keep Pro until the end of the month you already paid for, then your account moves to Free. Your history and saved questions stay.</p>
-                <p style={{ marginTop: '0.75rem' }}>A month that has been charged is not refunded when you cancel. To avoid the next charge, cancel before the renewal date.</p>
+                <p style={{ marginTop: '0.75rem' }}>A month that has been charged is not refunded when you cancel. To avoid the next charge, cancel before the paid-through date shown in Account, under Plan.</p>
               </section>
               <section>
                 <h2>One-time Pro access</h2>

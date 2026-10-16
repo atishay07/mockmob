@@ -84,7 +84,9 @@ export const SWOT_COPY = Object.freeze({
   markedTitle: Object.freeze({ blank: 'Marked for review, left blank', strength: 'Marked for review, then answered', weakness: 'Marked for review, then wrong' }),
   // "You marked 6 of 50 questions for review and answered 4 of them: 3 right, 1 wrong."
   marked: (m, n, a, r, w) => `You marked ${m} of ${n} questions for review and answered ${a === m ? 'all of them' : a === 0 ? 'none of them' : `${a} of them`}${a ? `: ${r} right, ${w} wrong` : ''}.`,
-  markedBlank: (b) => ` ${b === 1 ? '1 stayed blank: 5 marks not earned' : `${b} stayed blank: ${b * GAP.blank} marks not earned`}. On average an answer scores more than a blank when it is right more than 1 time in 6, under +5 for right and −1 for wrong.`,
+  markedBlank: (b) => ` ${b === 1 ? '1 stayed blank: 5 marks not earned' : `${b} stayed blank: ${b * GAP.blank} marks not earned`}.`,
+  // A quieter second line under the detail (optional item field "note"), so the counts scan on their own.
+  markedNote: 'Under +5 for right and −1 for wrong, an answer beats a blank when it is right more than 1 time in 6.',
   markedReason: (b, m) => `${b} of the ${m} questions you marked for review were left blank.`,
   notOpened: (u, n, list) => `${u} of ${n} questions were never opened: ${list}.`,
   notOpenedReason: (u, n, secs) => `${u} of ${n} questions were never opened. Quick sets give ${secs} seconds a question.`,
@@ -107,8 +109,8 @@ function shell(state, message = null) {
   return { version: SWOT_VERSION, state, message, basis: null, quadrants: [], plan: [] };
 }
 
-function makeItem(kind, quadrant, { chapter = null, title, detail, questions = [], weight = 0, evidence = {}, plan = null }) {
-  return { id: chapter ? `${kind}:${chapter}` : kind, kind, quadrant, title, detail, chapter, questions: [...questions].sort((a, b) => a - b), planId: null, weight, evidence, plan };
+function makeItem(kind, quadrant, { chapter = null, title, detail, note = null, questions = [], weight = 0, evidence = {}, plan = null }) {
+  return { id: chapter ? `${kind}:${chapter}` : kind, kind, quadrant, title, detail, ...(note ? { note } : {}), chapter, questions: [...questions].sort((a, b) => a - b), planId: null, weight, evidence, plan };
 }
 
 // ---------- Chapter items, named once each in precedence order ----------
@@ -215,7 +217,7 @@ function markedItem(read) {
   const numbersOf = (rows) => rows.map((row) => row.number);
   if (blank > 0) {
     const blanks = marked.filter((row) => row.outcome === 'blank');
-    return makeItem('marked_review', 'opportunity', { title: SWOT_COPY.markedTitle.blank, detail: base + SWOT_COPY.markedBlank(blank),
+    return makeItem('marked_review', 'opportunity', { title: SWOT_COPY.markedTitle.blank, detail: base + SWOT_COPY.markedBlank(blank), note: SWOT_COPY.markedNote,
       questions: numbersOf(blanks), weight: blank * GAP.blank, evidence,
       plan: blank >= 2 ? { reason: SWOT_COPY.markedReason(blank, m), count: SWOT_RULES.plan.timedCount, label: `Practise ${SWOT_RULES.plan.timedCount}, timed` } : null });
   }
@@ -484,7 +486,7 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
     quadrants: quadrants.map(({ id, label, items, emptiedByLedger }) => ({
       id, label,
       empty: items.length ? null : emptiedByLedger ? SWOT_COPY.empty.inLedger : id === 'threat' ? (recorded ? SWOT_COPY.empty.threatRecorded : SWOT_COPY.empty.threatNotRecorded) : SWOT_COPY.empty[id],
-      items: items.map(({ id: itemId, kind, title, detail, chapter, questions, planId, evidence }) => ({ id: itemId, kind, title, detail, chapter, questions, planId, evidence })),
+      items: items.map(({ id: itemId, kind, title, detail, note, chapter, questions, planId, evidence }) => ({ id: itemId, kind, title, detail, ...(note ? { note } : {}), chapter, questions, planId, evidence })),
     })),
     plan,
   };

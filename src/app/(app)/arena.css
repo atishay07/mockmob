@@ -1145,6 +1145,14 @@ html[data-theme='light'] .arena-dark-island {
 
 .app-shell .pr-layout { display: grid; gap: 20px; align-items: start; }
 @media (min-width: 1024px) { .app-shell .pr-layout { grid-template-columns: minmax(0, 1fr) 340px; gap: 32px; } }
+/* One column: the session summary and Start follow the three setup steps, and Fine-tune (optional) comes after them,
+   so Start is not 1,500 px down on a phone. */
+@media (max-width: 1023px) {
+  .app-shell .pr-layout { gap: 28px; }
+  .app-shell .pr-layout > .pr-steps { display: contents; }
+  .app-shell .pr-layout > .pr-summary { order: 1; }
+  .app-shell .pr-layout > .pr-steps > .pr-fine { order: 2; }
+}
 .app-shell .pr-steps { display: grid; gap: 28px; min-width: 0; }
 .app-shell .pr-step { display: grid; gap: 14px; min-width: 0; }
 .app-shell .pr-step__head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; }

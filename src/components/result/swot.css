@@ -47,6 +47,7 @@
 .sw-item__title { font: 600 16px/1.4 var(--font-body, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
 .sw-item__detail { font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; text-wrap: pretty; }
 .sw-empty { font-size: 14px; line-height: 1.55; color: var(--a-ink-3, #93a08f); }
+.sw-item__note { font-size: 13px; line-height: 1.55; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; text-wrap: pretty; }
 .sw-see { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 4px; }
 .sw-see__label { font-size: 13px; color: var(--a-ink-3, #93a08f); margin-right: 2px; }
 .sw-see button {
@@ -68,6 +69,9 @@
   .sw-q:nth-child(odd) { padding-right: 24px; }
   .sw-q:nth-child(even) { padding-left: 24px; border-left: 1px solid var(--a-line, #253026); }
   .sw-q:nth-last-child(-n + 2) { padding-bottom: 0; }
+  /* An empty group: one line across both columns, after the groups with findings. */
+  .sw-q[data-empty] { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 16px 0 0; border-left: 0; }
+  .sw-q[data-empty] + .sw-q[data-empty] { padding-top: 12px; }
 }
 @container (max-width: 460px) {
   .sw-plan__row { grid-template-columns: 20px minmax(0, 1fr); }

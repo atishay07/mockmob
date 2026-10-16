@@ -220,28 +220,47 @@ export default async function PricingPage() {
         <section className="mm-section" style={{ paddingTop: '1.5rem' }}>
           <div className="mm-wrap">
             <div className="mm-plans" id="plans">
-              {PLANS.map((plan) => (
-                <PricingCard
-                  key={plan.name}
-                  {...plan}
-                  ctaElement={
-                    plan.planId ? (
-                      <RazorpayPaymentButton
-                        planId={plan.planId}
-                        amount={plan.amount}
-                        label={plan.ctaLabel}
-                        billing={plan.billing}
-                        initialIsPremium={isCurrentUserPremium}
-                      />
-                    ) : null
-                  }
-                />
-              ))}
+              {PLANS.map((plan) => {
+                const card = (
+                  <PricingCard
+                    key={plan.name}
+                    {...plan}
+                    ctaElement={
+                      plan.planId ? (
+                        <RazorpayPaymentButton
+                          planId={plan.planId}
+                          amount={plan.amount}
+                          label={plan.ctaLabel}
+                          billing={plan.billing}
+                          initialIsPremium={isCurrentUserPremium}
+                        />
+                      ) : null
+                    }
+                  />
+                );
+                if (plan.planId) return card;
+                // Side by side, the Free card is far shorter than Pro: how Free works fills that column with
+                // facts from the table below, instead of an empty band.
+                return (
+                  <div className="mm-plans__col" key={plan.name}>
+                    {card}
+                    <aside className="mm-plans__note" aria-label="How Free works">
+                      <h3>How Free works</h3>
+                      <ul>
+                        <li>Quick practice uses 10 practice credits a session. A Full mock uses 50.</li>
+                        <li>Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.</li>
+                        <li>Written replies from Ask Mobi use AI credits: 10 a month on Free.</li>
+                      </ul>
+                      <a className="mm-link" href="#compare">Free and Pro, line by line</a>
+                    </aside>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>
 
-        <section className="mm-section mm-section--sunken">
+        <section className="mm-section mm-section--sunken" id="compare">
           <div className="mm-wrap">
             <h2 className="mm-h2">Free and Pro, line by line.</h2>
             <p className="mm-body mm-section__intro">
@@ -320,7 +339,7 @@ export default async function PricingPage() {
       </main>
 
       <MarketingFooter />
-      <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label={offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`} href="#plans" />
+      <MobileDock note={offer.purchasable === 'monthly' ? `Pro ₹${offer.monthly.rupees} a month. Cancel anytime.` : `₹${offer.oneTime.rupees} once, through ${offer.oneTime.expires}.`} label={offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`} href="#plans" checkoutAware isPremium={isCurrentUserPremium} />
     </div>
   );
 }

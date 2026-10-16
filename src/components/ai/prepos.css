@@ -125,6 +125,10 @@
 .pp-facts small { color:var(--pp-ink-3, #a7b3a2); font-size:12px; line-height:1.5; }
 @media (max-width: 360px) { .pp-facts li { grid-template-columns:minmax(0, 1fr); } }
 .pp-ask { display:grid; gap:18px; min-width:0; }
+/* The question card sits right under the sticky top bar when the page brings it into view. */
+.pp-ask { scroll-margin-top:76px; }
+/* When Mobi cannot answer a handed-over question, the console fits its content: no empty band under the card. */
+.prepos-console:has(.pp-ask__blocked) { min-height:0; }
 .pp-ask__heading { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
 .pp-ask__heading h2 { margin:6px 0 0; font:700 clamp(22px, 3vw, 30px)/1.15 var(--font-display); letter-spacing:-.025em; }
 .pp-ask__balance { font-size:12px; color:var(--pp-ink-2, #c5cebf); font-variant-numeric:tabular-nums; }
@@ -143,6 +147,12 @@
 .pp-ask__focus { display:flex; align-items:center; flex-wrap:wrap; gap:8px 12px; margin-top:6px; font-size:12px; color:var(--pp-ink-3, #a7b3a2); }
 .pp-ask__focus .ctl-select { flex:1 1 15rem; width:auto; max-width:22rem; }
 .pp-transcript { display:grid; align-content:start; gap:18px; min-height:200px; max-height:46vh; overflow-y:auto; overscroll-behavior:contain; padding:8px 4px 8px 0; scroll-padding:12px; }
+.pp-transcript--fit { min-height:0; }
+.pp-transcript--fit:empty { display:none; }
+.pp-transcript--fit .pp-ask__empty { padding-block:4px; }
+.pp-transcript--fit .pp-ask__empty > p { font-size:15px; font-weight:500; color:var(--pp-ink-2, #c5cebf); }
+.pp-ask__qcost { margin:4px 0 0; padding-top:10px; border-top:1px solid var(--pp-line, #354139); }
+.pp-ask__qcost b { font-size:13px; color:var(--pp-ink, inherit); }
 .pp-ask__empty { display:grid; gap:16px; padding-block:16px; }
 .pp-ask__empty > p { margin:0; font:600 18px/1.4 var(--font-display); }
 .pp-ask__empty small { color:var(--pp-ink-3, #a7b3a2); font-size:12px; line-height:1.6; }

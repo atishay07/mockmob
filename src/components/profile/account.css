@@ -18,15 +18,15 @@
   .app-shell .acct-col { gap: 24px; }
   .app-shell .acct-grid--even { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-/* A phone keeps the order sheet, colleges, name, plan, credits, appearance, goal (the columns dissolve); a wide screen has two level
+/* A phone keeps the order sheet, plan, credits, colleges, name, appearance, goal (money and cancel near the top) (the columns dissolve); a wide screen has two level
    columns: sheet, name and appearance on the left, plan, credits and goal on the right. */
 @media (max-width: 1023px) {
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col { display: contents; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #sheet { order: 1; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #colleges { order: 2; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #name { order: 3; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #plan { order: 4; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #credits { order: 5; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #colleges { order: 4; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #name { order: 5; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #plan { order: 2; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #credits { order: 3; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #appearance { order: 6; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #goal { order: 7; }
 }
