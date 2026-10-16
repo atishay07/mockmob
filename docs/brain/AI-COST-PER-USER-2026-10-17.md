@@ -74,3 +74,11 @@ The rule holds with about a 5x margin.
 6. **Re-verify the Luna price row before about 1 Jan 2027.** The guard rejects price rows older than 90 days.
 
 **Owner decision open:** is "50 credits" meant as 50 in total per paid user (the owner's words) or 50 a month (what the code and the pricing copy say)? If it is 50 in total, the grant changes and the pricing copy changes with it. The per-user cap protects the money either way.
+
+## Owner decision, 17 Oct about 2:15 am IST
+
+- Credits: Pro stays at 50 AI credits a month; Free stays at 10 a month.
+- Models: only gpt-6-luna and claude-haiku-5-5, anywhere in the app or the website. This is enforced in code and in reserve_runtime_ai on branch fix/ai-user-cap-1017.
+- Paid cap: **Rs 5 a month** (USD 0.0568), down from the Rs 10 the branch defaults to. Set it with one UPDATE of the student_user_paid row in runtime_ai_budget right after applying the migration.
+- Free cap: Rs 1 (USD 0.0114).
+- Typical use is about Rs 2 a month, so the cap only stops runaway loops.
