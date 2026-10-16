@@ -6,7 +6,10 @@
 import * as React from 'react';
 import { navigationTypesFor } from '@/lib/motion/placeTransition';
 
-const addType = React.addTransitionType || React.unstable_addTransitionType;
+// Read from a copy of the module at run time: a named read (React.addTransitionType) is checked against the stable
+// React's export list by the production build and fails it, although the app's React carries one of the two names.
+const reactApi = { ...React };
+const addType = reactApi.addTransitionType || reactApi.unstable_addTransitionType;
 let lastHref = typeof window === 'undefined' ? null : window.location.href;
 let browserDrewBack = false;
 

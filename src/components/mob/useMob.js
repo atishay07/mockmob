@@ -27,7 +27,9 @@ export function useMob(userId) {
   const [state, setState] = useState({ status: 'idle', mob: null, error: null });
   const [busy, setBusy] = useState(null);
   const alive = useRef(true);
-  useEffect(() => () => { alive.current = false; }, []);
+  // Set on every mount: React's development double mount runs the cleanup once, and a ref left false would drop every
+  // reply (the view would sit at loading).
+  useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
 
   const load = useCallback(async () => {
     setState((s) => ({ ...s, status: s.status === 'ready' ? 'ready' : 'loading', error: null }));

@@ -96,10 +96,11 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
      result, whose Repair key is the page's action (AGENT_RULES 7). The bar keeps all six places, so the dock never changes
      shape between pages (rule 11, S016). The disc changes colour over 200 ms, never its place.
      Any other page whose own volt action is on screen marks that key data-page-primary (the Mob, Review, Practice's
-     session card), so a new page cannot bring back a second volt by forgetting a selector here (AGENT_RULES 7, WB-05). */
+     session card); AppLayoutClient sets #app-main[data-primary-shown] while one is on screen, so a new page cannot bring
+     back a second volt by forgetting a selector here, and a viewport scrolled past it keeps the volt Start (AGENT_RULES 7). */
   html .app-shell .arena-bottomnav > button.stk--bar .stk__disc { transition: transform 420ms var(--mk-spring), background-color 200ms ease, color 200ms ease, box-shadow 200ms ease; }
-  :is(html:has(.pr-dock[data-shown]), html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main [data-page-primary])) .app-shell .arena-bottomnav > button.stk--bar { color: var(--a-ink-2); }
-  :is(html:has(.pr-dock[data-shown]), html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main [data-page-primary])) .app-shell .arena-bottomnav > button.stk--bar .stk__disc {
+  :is(html:has(.pr-dock[data-shown]), html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .arena-bottomnav > button.stk--bar { color: var(--a-ink-2); }
+  :is(html:has(.pr-dock[data-shown]), html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .arena-bottomnav > button.stk--bar .stk__disc {
     background: var(--a-raised); color: var(--a-ink);
     box-shadow: 0 0 0 4px var(--a-bg), inset 0 0 0 1.5px var(--a-line-strong);
   }
@@ -107,12 +108,12 @@ html[data-theme='light'] .app-shell .stk--sidebar { box-shadow: inset 0 0 0 1px 
 /* Wide screens: on Today, on a result and on any page with a data-page-primary key the sidebar key steps back the same
    way, outlined with an ink word, so the page's own volt action is the only volt on screen. It still opens the sheet. */
 @media (min-width: 1024px) {
-  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main [data-page-primary])) .app-shell .stk--sidebar {
+  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .stk--sidebar {
     background: transparent; color: var(--a-ink);
     box-shadow: inset 0 0 0 1.5px var(--a-line-strong);
   }
-  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main [data-page-primary])) .app-shell .stk--sidebar .stk__disc { color: var(--a-accent-text); }
-  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main [data-page-primary])) .app-shell .stk--sidebar:hover { background: var(--a-hover); }
+  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .stk--sidebar .stk__disc { color: var(--a-accent-text); }
+  :is(html:has(.student-page--today .na--hero[data-cta-shown] .na__cta.btn-volt), html:has(.student-page--result), html:has(#app-main[data-primary-shown])) .app-shell .stk--sidebar:hover { background: var(--a-hover); }
 }
 
 /* ---------- The sheet ---------- */

@@ -167,6 +167,35 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     return () => { finish(); cancelAnimationFrame(frame); };
   }, [activePath, status, isTestRoute]);
 
+  // One volt per viewport (AGENT_RULES 7, WB-05): a page marks its own volt key data-page-primary. While one of them is
+  // on screen, #app-main carries data-primary-shown and the Start key in the bar or sidebar steps back (start.css).
+  // Scrolled away, the Start key is the volt again, so a viewport is never left without its one action.
+  useEffect(() => {
+    // <main> exists only once the session is known, so this waits for it.
+    const main = status === 'authenticated' ? document.getElementById('app-main') : null;
+    if (!main || typeof IntersectionObserver !== 'function') return undefined;
+    const shown = new Set();
+    const sync = () => { if (shown.size) main.dataset.primaryShown = ''; else delete main.dataset.primaryShown; };
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) { if (e.isIntersecting) shown.add(e.target); else shown.delete(e.target); }
+      sync();
+    }, { rootMargin: '0px 0px -80px 0px' });
+    let watched = new Set();
+    let frame = 0;
+    const scan = () => {
+      frame = 0;
+      const now = new Set(main.querySelectorAll('[data-page-primary]'));
+      for (const el of watched) if (!now.has(el)) { io.unobserve(el); shown.delete(el); }
+      for (const el of now) if (!watched.has(el)) io.observe(el);
+      watched = now;
+      sync();
+    };
+    const mo = new MutationObserver(() => { if (!frame) frame = requestAnimationFrame(scan); });
+    mo.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-page-primary'] });
+    scan();
+    return () => { mo.disconnect(); io.disconnect(); cancelAnimationFrame(frame); delete main.dataset.primaryShown; };
+  }, [activePath, status]);
+
   useEffect(() => {
     if (status !== 'authenticated') return;
     if (pathname.startsWith('/moderation') && !isModerator) {
