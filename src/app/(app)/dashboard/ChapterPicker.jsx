@@ -74,6 +74,8 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
 
   // Practice keys the picker by subject, so a new subject starts it closed with an empty search.
   const closeInline = () => { setOpen(false); setQuery(''); requestAnimationFrame(() => trigger.current?.focus?.({ preventScroll: true })); };
+  // Closing the phone sheet any way (Escape, the scrim, the close disc) keeps the previous choice and gives focus back.
+  const closeSheet = () => { setSheet(false); requestAnimationFrame(() => trigger.current?.focus?.({ preventScroll: true })); };
   const openPicker = () => {
     setQuery('');
     if (wideLayout()) { setSheet(false); setOpen((value) => !value); return; }
@@ -86,7 +88,7 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
     const el = dialogRef.current;
     if (!sheet || !el) return undefined;
     if (!el.open) { try { el.showModal(); } catch { el.setAttribute('open', ''); } }
-    const onCancel = (event) => { event.preventDefault(); setSheet(false); };
+    const onCancel = (event) => { event.preventDefault(); closeSheet(); };
     el.addEventListener('cancel', onCancel);
     return () => { el.removeEventListener('cancel', onCancel); };
   }, [sheet]);
@@ -94,7 +96,8 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
   useEffect(() => { if (open) searchRef.current?.focus({ preventScroll: true }); }, [open]);
 
   const live = sheet ? draft : chosen;
-  const setLive = (next) => (sheet ? setDraft(next) : onChange(next));
+  // Updates go through a function of the current choice, so quick presses in a row each count.
+  const setLive = (update) => (sheet ? setDraft(update) : onChange(update));
   const label = useMemo(() => (chosen.length ? 'Change chapters' : 'Choose chapters'), [chosen.length]);
 
   if (state === 'loading') {
@@ -113,7 +116,7 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
 
   const list = (
     <ChapterList units={units} flat={flat} chosen={live} query={query} onClearQuery={() => setQuery('')}
-      onToggle={(name) => setLive(toggleChapter(live, name))} onUnit={(unit) => setLive(toggleUnit(live, unit))} />
+      onToggle={(name) => setLive((current) => toggleChapter(current, name))} onUnit={(unit) => setLive((current) => toggleUnit(current, unit))} />
   );
   const search = (
     <label className="cp-search">
@@ -159,7 +162,7 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
 
       {sheet ? (
         <dialog ref={dialogRef} className="cp-sheet" aria-labelledby={`${panelId}-title`}
-          onClick={(event) => { if (event.target === dialogRef.current) setSheet(false); }}>
+          onClick={(event) => { if (event.target === dialogRef.current) closeSheet(); }}>
           <div className="cp-sheet__head">
             <span className="cp-sheet__handle" aria-hidden="true" />
             <div className="cp-sheet__title">
@@ -167,7 +170,7 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
                 <h2 id={`${panelId}-title`}>{subjectName} chapters</h2>
                 <p>{flat ? `${count} chapters` : `${count} chapters in ${units.length} units`}</p>
               </div>
-              <button type="button" className="cp-close mk-press" aria-label="Close" onClick={() => setSheet(false)}><X size={20} strokeWidth={1.9} aria-hidden="true" /></button>
+              <button type="button" className="cp-close mk-press" aria-label="Close" onClick={closeSheet}><X size={20} strokeWidth={1.9} aria-hidden="true" /></button>
             </div>
             {search}
           </div>
@@ -175,7 +178,7 @@ export default function ChapterPicker({ subjectName = '', data, chosen = [], onC
           <div className="cp-sheet__foot">
             {limitLine ? <p>{limitLine}</p> : null}
             <button type="button" className="cp-clear mk-press" onClick={() => setDraft([])} disabled={!draft.length}>Clear</button>
-            <button type="button" className="cp-use mk-press" onClick={() => { onChange(draft); setSheet(false); trigger.current?.focus?.({ preventScroll: true }); }}>
+            <button type="button" className="cp-use mk-press" onClick={() => { onChange(draft); closeSheet(); }}>
               {draft.length ? `Use ${draft.length} ${draft.length === 1 ? 'chapter' : 'chapters'}` : `Use all ${count} chapters`}
             </button>
           </div>

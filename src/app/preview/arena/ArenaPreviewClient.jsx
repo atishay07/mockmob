@@ -37,7 +37,7 @@ import ResultPageClient from '@/app/(app)/result/[id]/ResultPageClient';
 import AIRivalArena from '@/components/ai/AIRivalArena';
 import OnboardingPageClient from '@/app/onboarding/OnboardingPageClient';
 import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
-import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
+import { FIXTURE_SUBJECTS, SYLLABUS_SUBJECTS, fixtureFeed, fixtureChapters, syllabusChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer } from './previewMock';
 import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
@@ -169,8 +169,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const handled = candidateRecovery(url, method, init, fixture);
       if (handled) return handled;
     }
-    if (url.pathname === '/api/subjects') return state === 'subject-error' ? json({ error: 'Fixture subject failure' }, 503) : json(FIXTURE_SUBJECTS);
-    if (url.pathname === '/api/chapters') return state === 'chapter-error' ? json({ error: 'Fixture chapter failure' }, 503) : json(fixtureChapters(url.searchParams.get('subject')));
+    const syllabus = fixture.get('chapters') === 'syllabus';
+    if (url.pathname === '/api/subjects') return state === 'subject-error' ? json({ error: 'Fixture subject failure' }, 503) : json(syllabus ? SYLLABUS_SUBJECTS : FIXTURE_SUBJECTS);
+    if (url.pathname === '/api/chapters') return state === 'chapter-error' ? json({ error: 'Fixture chapter failure' }, 503) : json(syllabus ? syllabusChapters(url.searchParams.get('subject')) : fixtureChapters(url.searchParams.get('subject')));
     if (url.pathname === '/api/questions/feed') {
       const limit = Number(url.searchParams.get('limit')) || 12;
       const offset = Number(url.searchParams.get('offset')) || 0;
@@ -391,7 +392,11 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (new URLSearchParams(window.location.search).get('record') === 'down') return json({ error: 'unavailable' }, 503);
       const noRecord = state === 'empty' || new URLSearchParams(window.location.search).get('record') === 'empty';
       const attempts = fixture.get('tonight') === 'done' ? [{ id: 'preview-a1', completedAt: Date.now() - 1000, selectionMeta: { scoringVersion: 'server_practice_v1', ...tonightMetadata({ tonightKey: 'preview-tonight-key', tonightMinutes: 30, mode: 'quick', count: 20 }) } }] : [];
-      return json({ ...learningPlan({ minutes: Number(url.searchParams.get('minutes')) || 10, attempts: noRecord ? [] : PREVIEW_ATTEMPTS }), tonight: tonightCompletion(attempts), episodes: [], supportedConcepts: [], pathwayState: 'blocked_content', recordState: 'ready', ordinaryAttemptCount: noRecord ? 0 : 3 });
+      // ?move=resume: the move is bound to something other than the chosen subject (a recall session to finish), so the
+      // Start sheet shows it above the subject rail (START-1017 D3).
+      const plan = learningPlan({ minutes: Number(url.searchParams.get('minutes')) || 10, attempts: noRecord ? [] : PREVIEW_ATTEMPTS });
+      if (fixture.get('move') === 'resume') plan.primary = { kind: 'resume_session', title: 'Finish your recall session', reason: '7 cards left from this afternoon. Recall is free and uses no credits.', href: '/review/revise' };
+      return json({ ...plan, tonight: tonightCompletion(attempts), episodes: [], supportedConcepts: [], pathwayState: 'blocked_content', recordState: 'ready', ordinaryAttemptCount: noRecord ? 0 : 3 });
     }
     if (url.pathname === '/api/recovery/replay') return json({ chapters: state === 'empty' ? [] : [{ chapter: 'Partnership Fundamentals', state: fixture.get('replay') === 'ready' ? 'available' : 'unavailable', href: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt' }], state: 'ready' });
     if (url.pathname === '/api/ai/credits') {

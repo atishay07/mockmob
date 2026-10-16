@@ -213,14 +213,16 @@ function hrefParts(href) {
  * student reads what the session is and what follows it instead. Every other kind keeps the plan's
  * own reason, word for word.
  */
-export function heroReason(primary, { count = null, minutes = null } = {}) {
+export function heroReason(primary, { count = null, minutes = null, named = false } = {}) {
   if (primary?.kind !== 'ordinary_practice') return primary?.reason ? String(primary.reason) : null;
   const n = whole(count) || SESSION.quickCount;
   const timed = Math.round((n * TEST_MODES.quick.durationPerQuestionSec) / 60);
   const review = Math.max(0, (whole(minutes) || 0) - timed);
+  // When the title already names the set ("10 Economics questions"), the line starts at the time, not the count again.
+  const lead = named ? `About ${timed} minutes` : `${plural(n, 'question')}, about ${timed} minutes`;
   return review
-    ? `${plural(n, 'question')}, about ${timed} minutes, then ${review} minutes on why each miss happened.`
-    : `${plural(n, 'question')}, about ${timed} minutes. Then see why each miss happened.`;
+    ? `${lead}, then ${review} minutes on why each miss happened.`
+    : `${lead}. Then see why each miss happened.`;
 }
 
 /** A following move's title, naming the subject: '10 Economics questions', 'A Full mock in Economics'. */
@@ -275,7 +277,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
     title: followsSubject ? followingTitle(mode, count, subjectName(linked)) : String(primary.title),
     planTitle: String(primary.title),
     followsSubject,
-    reason: heroReason(primary, { count, minutes: plan?.minutes }),
+    reason: heroReason(primary, { count, minutes: plan?.minutes, named: followsSubject }),
     href: finalHref,
     cta: known.cta,
     graphic: known.graphic === 'subject' && !linked && !subjectFor(subject) ? 'check' : known.graphic,

@@ -1,4 +1,5 @@
 import { scoreSession } from '../../../../data/recovery';
+import { getSubjectById } from '../../../../data/subjects';
 // Original examples for layout and interaction checks. Never content-bank records.
 const SUBJECTS = [
   { id: 'accountancy', name: 'Accountancy', practice: 'supported' },
@@ -34,6 +35,13 @@ export function fixtureChapters(subject) {
   const chapters = (SUBJECT_EXAMPLES[subject] || EXAMPLES).map((example, index) => ({ id: `${subject}-chapter-${index}`, name: example.chapter }));
   return subject === 'accountancy' ? { grouped: true, units: [{ id: 'fixture-unit', name: 'Original illustrative examples', chapters }] } : { grouped: false, chapters };
 }
+// ?chapters=syllabus: the static syllabus chapter list (the /api/chapters fallback, data/subjects.js), so the chapter
+// picker's unit grouping and search can be checked with real chapter names. Flat, as the route's fallback sends it.
+export function syllabusChapters(subject) {
+  const names = getSubjectById(subject)?.chapters || [];
+  return { grouped: false, chapters: names.map((name, i) => ({ id: `${subject}__${i}`, name, sortOrder: i })) };
+}
+export const SYLLABUS_SUBJECTS = FIXTURE_SUBJECTS.map((subject) => ({ ...subject, chapters: getSubjectById(subject.id)?.chapters || subject.chapters }));
 export function fixtureUploads() {
   return fixtureFeed('accountancy').slice(0, 4).map((question, index) => ({ ...question, question: question.body, status: ['pending_moderation', 'live', 'quarantined', 'rejected'][index], createdAt: '2026-10-02T18:00:00.000Z' }));
 }

@@ -222,7 +222,7 @@ html[data-theme='light'] .app-shell .pr .pr-tile__ring { color: #fff; }
 .app-shell .pr .pr-fine2__we { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 12px; align-items: center; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--a-line); animation: pr-fade-in 200ms var(--mm-ease-out) both; }
 .app-shell .pr .pr-fine2__we:not(:has(.pr-fine2__mobi)) { grid-template-columns: minmax(0, 1fr); }
 .app-shell .pr .pr-fine2__we p { margin: 0; font-size: 15px; line-height: 1.5; color: var(--a-ink); text-wrap: pretty; }
-.app-shell .pr .pr-fine2__mobi { display: block; width: 40px; height: 50px; }
+.app-shell .pr .pr-fine2__mobi { position: relative; display: block; width: 40px; height: 50px; }
 .app-shell .pr .pr-fine2__mobi .pip-actor { height: 100%; }
 @keyframes pr-fade-in { from { opacity: 0; } }
 /* Selected segments (Questions, Difficulty) in Day get a fine olive edge so the volt holds its shape on white. */
@@ -248,7 +248,7 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg [role='radio']
 @keyframes pr-obj-in { from { opacity: 0; translate: 0 8px; scale: 0.86; } }
 .app-shell .pr .pr-ticket.pr-summary .pr-ticket__mode { display: block; margin: 0; font: 750 22px/1.15 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
 .app-shell .pr .pr-ticket__what { margin: 3px 0 0; font-size: 14.5px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
-.app-shell .pr .pr-ticket__mobi { display: block; width: 42px; height: 52px; }
+.app-shell .pr .pr-ticket__mobi { position: relative; display: block; width: 42px; height: 52px; }
 .app-shell .pr .pr-ticket__mobi .pip-actor { height: 100%; }
 .app-shell .pr .pr-ticket.pr-summary dl { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; margin: 0; }
 .app-shell .pr .pr-ticket.pr-summary dl > div { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; padding: 9px 0; border: 0; border-top: 1px solid var(--a-line); font-size: 14px; }

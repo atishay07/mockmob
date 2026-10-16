@@ -165,7 +165,7 @@ export function ExamPanel({ width = 76, height = 64, className = '' }) {
 export function WeightsGlyph({ width = 60, height = 56, className = '' }) {
   return (
     <span className={`st-weights ${className}`} style={{ width, height }} aria-hidden="true">
-      <i style={{ height: '22%' }} /><i data-hot="" style={{ height: '58%' }} /><i style={{ height: '36%' }} /><i style={{ height: '16%' }} />
+      <i style={{ height: '38%' }} /><i data-hot="" style={{ height: '100%' }} /><i style={{ height: '62%' }} /><i style={{ height: '24%' }} />
     </span>
   );
 }

@@ -98,7 +98,7 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
   assert.equal(hero.planTitle, plan.primary.title);
   assert.equal(heroFromPlan(plan, { subject: 'accountancy' }).title, '10 Accountancy questions');
   // Plain practice: the planner's own reason (recovery release state) never reaches the student.
-  assert.equal(hero.reason, '10 questions, about 10 minutes. Then see why each miss happened.');
+  assert.equal(hero.reason, 'About 10 minutes. Then see why each miss happened.', 'the title names the set, so the line does not repeat the count');
   assert.doesNotMatch(hero.reason, /recovery|calibration|ordinary|concept/i);
   assert.equal(hero.href, '/dashboard?mode=quick&count=10&subject=economics');
   assert.equal(hero.quick, true);
@@ -111,9 +111,10 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
 
   const withConcepts = heroFromPlan(learningPlan({ minutes: 10, availableConcepts: ['c1'], attempts: [{ subject: 'economics', details: [] }] }), { subject: 'economics' });
   assert.equal(withConcepts.kind, 'ordinary_practice');
-  assert.equal(withConcepts.reason, '10 questions, about 10 minutes. Then see why each miss happened.');
-  assert.equal(heroFromPlan(learningPlan({ minutes: 20 }), { subject: 'economics' }).reason, '20 questions, about 20 minutes. Then see why each miss happened.');
-  assert.equal(heroFromPlan(learningPlan({ minutes: 30 }), { subject: 'economics' }).reason, '20 questions, about 20 minutes, then 10 minutes on why each miss happened.');
+  assert.equal(withConcepts.reason, 'About 10 minutes. Then see why each miss happened.');
+  assert.equal(heroFromPlan(learningPlan({ minutes: 20 }), { subject: 'economics' }).reason, 'About 20 minutes. Then see why each miss happened.');
+  assert.equal(heroReason({ kind: 'ordinary_practice' }, { count: 20 }), '20 questions, about 20 minutes. Then see why each miss happened.');
+  assert.equal(heroFromPlan(learningPlan({ minutes: 30 }), { subject: 'economics' }).reason, 'About 20 minutes, then 10 minutes on why each miss happened.');
   assert.equal(heroReason({ kind: 'repair', reason: 'Pick up the activity you started.' }), 'Pick up the activity you started.');
   assert.equal(heroReason({ kind: 'repair' }), null);
 
