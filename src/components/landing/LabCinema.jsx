@@ -11,7 +11,7 @@
 // the finished screen with the same marks. Only opacity and transform move. All numbers come from
 // labStory.mjs (one sample Accountancy mock), so the scenes cannot disagree with each other or with
 // the replay further down the page. Words on the screens are the product's own.
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Check, Minus, ShieldCheck, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -193,54 +193,25 @@ function NetStrip() {
 // Wide screens show the whole repair at once (the question, the four blocks). Phones show it short, so it
 // reads at full size: the trap's name as the headline, the pick crossed and the key checked, one line each
 // for why the pick tempted, why the key is right and the rule. The rest (where it breaks, the full
-// sentences, the student's record) sits behind one tap, in the same words.
+// sentences, the student's record) opens in a sheet over the page, in the same words: the sheet has its own
+// scroll and its own Close at the top, it sits above the phone dock, and the held story underneath stays put.
+// Nothing scrolls inside the held screen.
 const optionText = (letter) => REPAIR.options.find(([l]) => l === letter)?.[1];
 const BRIEF = REPAIR.blocks.filter((b) => b.short);
 
-function RepairPanel({ on, pause }) {
-  const record = repairRecordLine();
-  const [open, setOpen] = useState(false);
-  const [wasOn, setWasOn] = useState(on);
-  // A scene that goes off stage starts closed again the next time it comes on.
-  if (wasOn !== on) { setWasOn(on); if (!on) setOpen(false); }
-  // While the full repair is open the story keeps this scene, so the reader can scroll through every word of it;
-  // closing it (or scrolling out of the story) gives the scroll back to the scenes.
-  const held = useRef(false);
-  useEffect(() => {
-    if (!pause || held.current === open) return;
-    held.current = open;
-    pause(open);
-  }, [open, pause]);
-  useEffect(() => () => { if (held.current) pause?.(false); }, [pause]);
+function RepairHead() {
   return (
-    <div className="lcp lcp--repair" data-open={open ? 'true' : 'false'}>
-      <div className="lcr-head">
-        <p className="lcr-head__q">Q{REPAIR.n}. Your pick {REPAIR.picked}. Key {REPAIR.key}.</p>
-        <p className="lcr-head__trap">{REPAIR.trap}</p>
-      </div>
-      <p className="lcr-stem">{REPAIR.stemShort}</p>
-      <ul className="lcp-q__opts lcr-pair">
-        <li data-state="picked">
-          <b className="lcp-q__letter">{REPAIR.picked}<i className="lcp-q__badge" aria-hidden="true"><X size={10} strokeWidth={3.2} /></i></b>
-          <span>{optionText(REPAIR.picked)}</span>
-          <em>Your pick</em>
-        </li>
-        <li className="lcr-pair__arrow" aria-hidden="true"><i className="lcr-pair__line" /><i className="lcr-pair__head" /></li>
-        <li data-state="key">
-          <b className="lcp-q__letter">{REPAIR.key}<i className="lcp-q__badge" aria-hidden="true"><Check size={10} strokeWidth={3.2} /></i></b>
-          <span>{optionText(REPAIR.key)}</span>
-          <em>Key</em>
-        </li>
-      </ul>
-      <p className="lcp-check"><ShieldCheck size={15} aria-hidden="true" />Explained from the answer key ({REPAIR.key}).</p>
-      <ul className="lcr-brief">
-        {BRIEF.map((b, i) => (
-          <li key={b.kind} className="lcp-block" data-kind={b.kind} style={{ '--i': i }}>
-            <p className="lcp-block__label">{b.label}</p>
-            <p>{b.short}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="lcr-head">
+      <p className="lcr-head__q">Q{REPAIR.n}. Your pick {REPAIR.picked}. Key {REPAIR.key}.</p>
+      <p className="lcr-head__trap">{REPAIR.trap}</p>
+    </div>
+  );
+}
+
+// The full repair: the question with every option, the four sections and the student's record.
+function RepairFull({ record }) {
+  return (
+    <>
       <div className="lcp-q">
         <p className="lcp-q__stem">{REPAIR.stem}</p>
         <ul className="lcp-q__opts">
@@ -265,9 +236,59 @@ function RepairPanel({ on, pause }) {
         ))}
       </div>
       {record ? <p className="lcr-record"><b>From your record</b>{record}</p> : null}
-      <button type="button" className="lcr-more" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-        {open ? 'Back to the short version' : 'Read the full repair'}
+    </>
+  );
+}
+
+function RepairPanel({ on }) {
+  const record = repairRecordLine();
+  const sheet = useRef(null);
+  // A scene that goes off stage (the reader scrolled on, or picked another scene) takes its sheet with it.
+  useEffect(() => { if (!on && sheet.current?.open) sheet.current.close(); }, [on]);
+  const close = () => sheet.current?.close();
+  return (
+    <div className="lcp lcp--repair">
+      <RepairHead />
+      <p className="lcr-stem">{REPAIR.stemShort}</p>
+      <ul className="lcp-q__opts lcr-pair">
+        <li data-state="picked">
+          <b className="lcp-q__letter">{REPAIR.picked}<i className="lcp-q__badge" aria-hidden="true"><X size={10} strokeWidth={3.2} /></i></b>
+          <span>{optionText(REPAIR.picked)}</span>
+          <em>Your pick</em>
+        </li>
+        <li className="lcr-pair__arrow" aria-hidden="true"><i className="lcr-pair__line" /><i className="lcr-pair__head" /></li>
+        <li data-state="key">
+          <b className="lcp-q__letter">{REPAIR.key}<i className="lcp-q__badge" aria-hidden="true"><Check size={10} strokeWidth={3.2} /></i></b>
+          <span>{optionText(REPAIR.key)}</span>
+          <em>Key</em>
+        </li>
+      </ul>
+      <p className="lcp-check"><ShieldCheck size={15} aria-hidden="true" />Explained from the answer key ({REPAIR.key}).</p>
+      <ul className="lcr-brief">
+        {BRIEF.map((b, i) => (
+          <li key={b.kind} className="lcp-block" data-kind={b.kind} style={{ '--i': i }}>
+            <p className="lcp-block__label">{b.label}</p>
+            <p>{b.short}</p>
+          </li>
+        ))}
+      </ul>
+      <div className="lcr-full"><RepairFull record={record} /></div>
+      <button type="button" className="lcr-more" aria-haspopup="dialog" onClick={() => sheet.current?.showModal()}>
+        Read the full repair
       </button>
+      {/* A tap on the dimmed page around the sheet closes it, as Escape and Close do. */}
+      <dialog ref={sheet} className="lcr-sheet" aria-labelledby="lcr-sheet-title" onClick={(event) => { if (event.target === event.currentTarget) close(); }}>
+        <div className="lcr-sheet__inner">
+          <div className="lcr-sheet__bar">
+            <p className="lcr-sheet__title" id="lcr-sheet-title">The full repair</p>
+            <button type="button" className="lcr-sheet__close" onClick={close} autoFocus>Close</button>
+          </div>
+          <div className="lcp lcr-sheet__body">
+            <RepairHead />
+            <RepairFull record={record} />
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 }
@@ -329,7 +350,7 @@ function ScreenBar({ label }) {
   );
 }
 
-function Stage({ step, pinned, reduced, goTo, pause }) {
+function Stage({ step, pinned, reduced, goTo }) {
   const ready = pinned && !reduced;
   return (
     <div className="mm-wrap lc__grid" data-ready={ready ? 'true' : 'false'}>
@@ -374,7 +395,7 @@ function Stage({ step, pinned, reduced, goTo, pause }) {
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on} pause={pinned ? pause : undefined} /></div>
+              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on} /></div>
             </figure>
           </article>
         );

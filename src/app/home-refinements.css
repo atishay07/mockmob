@@ -74,7 +74,7 @@ html[data-theme='light'] .lp .lp-stage .mm-screen { border-color: rgb(16 24 12 /
 .lp-exam__bar { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--exam-line); font-size: .8125rem; }
 .lp-exam__bar > span:first-child { display: flex; align-items: center; gap: .5rem; font-weight: 600; }
 .lp-exam__clock { display: flex; align-items: center; gap: .45rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.lp-exam__clock small { font-size: .625rem; color: var(--exam-muted); }
+.lp-exam__clock small { font-size: .75rem; color: var(--exam-muted); }
 .lp-exam__body { display: grid; grid-template-columns: minmax(0, 1fr) 336px; min-height: 560px; } /* tallest skin, so switching never reflows the page; 336px gives the eight palette columns cells of at least 32px */
 .lp-exam__paper { display: flex; flex-direction: column; padding: 1.75rem; min-width: 0; }
 .lp-exam__meta { display: flex; justify-content: space-between; gap: 1rem; font-size: .75rem; color: var(--exam-muted); }
@@ -158,7 +158,7 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
   .lp-exam__body { grid-template-columns: 1fr; }
   .lp-exam__palette { border-left: 0; border-top: 1px solid var(--exam-line); padding: 1rem; }
   .lp-exam__numbers, .lp-exam[data-interface='nta'] .lp-exam__numbers { --cell-h: 29px; grid-template-columns: repeat(10, minmax(0, 1fr)); }
-  .lp-exam__cell, .lp-exam[data-interface='nta'] .lp-exam__cell { font-size: .625rem; }
+  .lp-exam__cell, .lp-exam[data-interface='nta'] .lp-exam__cell { font-size: .75rem; }
   .lp-exam__numbers button.lp-exam__num { --cell-h: 44px; grid-column: span 2; }
   .lp-exam__numbers .lp-exam__num--rest { display: none; }
   .lp-exam__numbers button .lp-exam__cell { font-size: .875rem; }

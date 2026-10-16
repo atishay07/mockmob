@@ -263,6 +263,20 @@ function Elsewhere({ links, className }) {
   const above = links.filter((slide) => slide.elsewhere.above);
   const below = links.filter((slide) => !slide.elsewhere.above);
   const list = (items) => items.map((slide, i) => <span key={slide.id}>{i > 0 ? (i === items.length - 1 ? ' and the ' : ', ') : ''}{at(slide)}</span>);
+  // Under the held tour (phones): a short labelled list, each link on its own 44 px row, so no sentence is broken
+  // into fragments by its targets. Inside the desktop stage: the one 14 px sentence under the controls.
+  if (className.includes('--after')) {
+    return (
+      <div className={'ft__more ' + className}>
+        <p className="ft__more-h">Also on this page</p>
+        <ul className="ft__more-list">
+          {[...above, ...below].map((slide) => (
+            <li key={slide.id}>{at(slide)}<span>{slide.elsewhere.above ? 'in the Lab above' : 'further down'}</span></li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
   return (
     <p className={'ft__more ' + className}>
       Also on this page:{' '}

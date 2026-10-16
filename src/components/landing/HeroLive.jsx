@@ -8,11 +8,12 @@ import { loadPractisedCounts } from './landingStats.mjs';
 // from the stored daily counts (landingStats.mjs reads them once for the whole page; liveCount.mjs defines the
 // number). It shows that one figure, whole, the moment it is known: nothing counts up, so no screenshot, reader or
 // test ever sees a number that is not the count. It is a plain sentence in the small print: no dot, no ping and no
-// mono figure, because the count is a daily recount, not a live feed. Until the counts answer, the line holds its
-// place empty (so nothing below it moves), and if they never answer it stays empty.
+// mono figure, because the count is a daily recount, not a live feed. The server passes the counts it read for the
+// page (initial: { questions, subjects }), so the line is in the first HTML; the client read only refreshes it.
+// Without either, the line holds its place empty (so nothing below it moves).
 
-export function HeroLive() {
-  const [counts, setCounts] = useState(null);
+export function HeroLive({ initial = null }) {
+  const [counts, setCounts] = useState(initial?.questions > 0 ? initial : null);
 
   useEffect(() => {
     let alive = true;

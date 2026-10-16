@@ -293,12 +293,28 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
               <p className="ml__where">While you practise: {MOVE.rule.charAt(0).toLowerCase() + MOVE.rule.slice(1)}</p>
             </div>
             <p className="ml__note">Each mock you finish makes the next move sharper.</p>
+            {/* Wide screens: the record behind the move as figures (the same numbers as "Why this"), so the screen holds
+                its evidence instead of an empty band above the strip. Phones keep the sentence alone. */}
+            <div className="ml__record" aria-hidden="true">
+              <p>Marks lost on {MOVE.chapter}, oldest first</p>
+              <ol>
+                {MOVE.lost.map((n, i) => (
+                  <li key={i} data-now={i === MOVE.lost.length - 1 ? 'true' : undefined}>
+                    <b>{n}</b>
+                    <span>{i === MOVE.lost.length - 1 ? 'This mock' : MOVE.lost.length - 1 - i === 1 ? 'Last mock' : `${MOVE.lost.length - 1 - i} mocks ago`}</span>
+                  </li>
+                ))}
+              </ol>
+              <small>{MOVE.record.right} right of {MOVE.record.of} answered across {MOVE.record.papers} papers.</small>
+            </div>
             <SessionStrip kind="move" />
           </section>
 
           {/* 4. Check */}
           <section className="ml__panel" data-active={step === 3} aria-hidden={step !== 3} inert={step !== 3 ? true : undefined} aria-label="Check it on fresh questions">
-            <p className="ml__eyebrow">Fresh questions, never repeats</p>
+            {/* Recovery checks leave out questions the student has already seen (recoverySessions.js, studyExposures),
+                so this says what they are and promises nothing about a bank that runs dry. */}
+            <p className="ml__eyebrow">Questions you have not answered before</p>
             <ol className="ml__checks">
               {[['Tomorrow', 'First check'], ['In 3 days', 'Second check'], ['In a week', 'Does it hold?']].map(([when, what], i) => (
                 <li key={when} style={{ '--i': i }}>

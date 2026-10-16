@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Check, Clock3, RotateCcw } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { pipReact } from '@/components/brand/pipEvents';
+import { LiveStatsBand } from './LiveStatsBand';
 
 const QUESTIONS = [
   { text: 'Choose the option nearest in meaning to CANDID:', options: ['Hidden', 'Frank', 'Careful', 'Sweet'] },
@@ -105,6 +106,7 @@ export function ExamComparator() {
         </div>
         <div className="lp-exam-bottom"><p>Your review marks carry over when you switch.</p>
           <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--secondary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}</Link></div>
+        <LiveStatsBand />
       </div>
     </section>
   );

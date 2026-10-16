@@ -55,13 +55,13 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 .ml__tile:disabled { cursor: default; }
 .ml__tile:not(:disabled):active { transform: scale(0.94); }
 .ml__tile:focus-visible { outline: 2px solid #d2f000; outline-offset: 2px; }
-.ml__tn { position: absolute; top: 5px; left: 8px; font: 700 0.6875rem var(--font-body); font-variant-numeric: tabular-nums; color: #8f9a8b; }
+.ml__tn { position: absolute; top: 4px; left: 7px; font: 700 0.75rem var(--font-body); font-variant-numeric: tabular-nums; color: #8f9a8b; }
 .ml__tile[data-state='right'] { border-color: rgba(210, 240, 0, 0.5); background: rgba(210, 240, 0, 0.1); color: #d2f000; animation: ml-pop var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease); }
 .ml__tile[data-state='wrong'] { border-color: rgba(255, 157, 146, 0.5); background: rgba(255, 122, 107, 0.1); color: #ffb6a9; animation: ml-pop var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease); }
 .ml__tile[data-state='skip'] { border-style: dashed; color: #9aa795; animation: ml-pop var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease); }
 .ml__tile[data-picked='true'] { box-shadow: 0 0 0 2px #f2f4ec; }
 /* A changed answer: its first pick and its final pick, the arrow coral when the change threw away a right answer. */
-.ml__swap { position: absolute; right: 5px; bottom: 5px; display: inline-flex; align-items: center; gap: 1px; height: 16px; padding: 0 4px; border-radius: 6px; background: #f2f4ec; color: #0e130f; font: 800 0.625rem/1 var(--font-body); }
+.ml__swap { position: absolute; right: 4px; bottom: 4px; display: inline-flex; align-items: center; gap: 1px; height: 17px; padding: 0 4px; border-radius: 6px; background: #f2f4ec; color: #0e130f; font: 800 0.75rem/1 var(--font-body); }
 .ml__swap svg { color: #2f7a1f; }
 .ml__swap[data-tone='bad'] svg { color: #c23a2c; }
 @keyframes ml-pop { 0% { transform: scale(0.82); opacity: 0.2; } 60% { transform: scale(1.06); } 100% { transform: scale(1); opacity: 1; } }
@@ -98,6 +98,16 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 .ml__where { margin: 0; font-size: 0.8125rem; font-weight: 600; color: #9aa795; }
 .ml__note { margin: 0; font-size: 0.8125rem; line-height: 1.55; color: #9aa795; }
 .ml__panel[data-active='true'] .ml__move { animation: ml-rise var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease) both; }
+/* The record behind the move (wide screens): three figures on a hairline, this mock's in coral. */
+.ml__record { display: none; gap: 0.5rem; }
+.ml__record p { margin: 0; font-size: 0.8125rem; font-weight: 600; color: #9aa795; }
+.ml__record ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid rgba(244, 245, 240, 0.1); }
+.ml__record li { display: grid; gap: 0.15rem; padding-top: 0.6rem; }
+.ml__record b { font: 800 1.75rem/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: #ffb6a9; }
+.ml__record li:not([data-now]) b { color: #c3cbbd; }
+.ml__record span { font-size: 0.8125rem; color: #9aa795; }
+.ml__record small { font-size: 0.8125rem; color: #9aa795; }
+.ml__panel[data-active='true'] .ml__record { animation: ml-rise var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease) both; animation-delay: calc(2 * var(--mm-dur-stagger-step, 45ms) + 60ms); }
 
 /* 4. check: three typographic rows with a hairline between, a small unboxed icon */
 .ml__checks { list-style: none; margin: 0; padding: 0; display: grid; border-bottom: 1px solid rgba(244, 245, 240, 0.1); }
@@ -126,6 +136,7 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 @media (min-width: 960px) {
   .ml__panel { display: flex; flex-direction: column; }
   .ml__strip { display: grid; margin-top: auto; }
+  .ml__record { display: grid; }
 }
 
 @media (max-width: 420px) { .ml__tiles { gap: 0.4rem; } }
@@ -191,7 +202,9 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 /* Wide: the rail and the stage sit side by side at their own height; ScrollStory's slack (.ss--centre)
    centres them in the held window. Phones: the stage is scaled to fit and centred the same way. */
 @media (min-width: 960px) {
-  .ml-story[data-pinned='true'] .ml { height: auto; grid-template-rows: none; align-content: start; }
+  /* The rail stands beside the middle of the screen, so the left column reads as one block with it, not a list at
+     the top of an empty column. */
+  .ml-story[data-pinned='true'] .ml { height: auto; grid-template-rows: none; align-content: start; align-items: center; }
   .ml-story[data-pinned='true'] .ml__steps li .ml__bar { background: transparent; }
   .ml-story[data-pinned='true'] .ml__steps li[data-active='true'] .ml__bar,
   .ml-story[data-pinned='true'] .ml__steps li[data-done='true'] .ml__bar { background: var(--line); }
@@ -200,4 +213,11 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
   .ml-story { --ss-top: calc(61px + 0.5rem); --ss-bottom: 0.5rem; }
   .ml-story[data-pinned='true'] .ml__caption { display: none; }
   .ml-story[data-pinned='true'] .ml__steps button { min-height: 44px; }
+}
+/* Wide windows: the held stage starts right under the docked heading, as on phones, instead of in the middle of the
+   window with an empty band above it; the band left under the stage is given back to the page after the story
+   (it slides up into it), so the gap after the story stays the usual one. */
+@media (min-width: 900px) {
+  .mm.lp #score-recovery-lab .ss--centre[data-pinned='true'] { margin-block: 0 calc(var(--ss-slack, 0px) * -1); }
+  .mm.lp #score-recovery-lab .ss--centre[data-pinned='true'] .ss__stage > * { translate: none; }
 }

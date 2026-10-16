@@ -20,9 +20,10 @@ export function HeroKeys() {
     );
   }
 
-  // Once the sample is finished its card offers another subject itself, so this key only leads back to it. On wide
+  // Once the sample is finished its card offers another subject itself, so this key only leads back to it. Each label
+  // stays on one line in a half-width key at 360 to 390 px, and Start free stays volt in every state. On wide
   // screens the finished card sits right beside the keys, so the key steps aside there (hero-v3.css, data-sample).
-  const tryText = sample.done ? 'Back to the sample' : sample.answered > 0 ? 'Back to your questions' : 'Try 5 questions';
+  const tryText = sample.done ? 'Back to the sample' : sample.answered > 0 ? 'Your questions' : 'Try 5 questions';
   return (
     <div className="mm-actions lp-keys" data-visitor={kind} data-sample={sample.done ? 'done' : undefined}>
       <Link href={signupHref} className="mm-btn mm-btn--primary lp-key lp-key--go">Start free</Link>

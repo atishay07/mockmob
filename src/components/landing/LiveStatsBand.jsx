@@ -1,6 +1,7 @@
-// The proof line: one sentence, not three stat cards. The hero's small print already gives the size of the practice
-// bank (HeroLive), so this line carries the one fact the page needs a second time in plain words: every question is
-// marked the way CUET marks it. No figure here is a count, so it needs no loading and can never disagree with the hero.
+// The marking line: one sentence at the foot of the exam comparator, at lede size (never a display statement, so it
+// never competes with the section headings). The hero's small print already gives the size of the practice bank
+// (HeroLive), so this line carries the one fact the comparator needs in plain words: every question is marked the way
+// CUET marks it. No figure here is a count, so it needs no loading and can never disagree with the hero.
 export function LiveStatsBand() {
   return (
     <p className="lp-proofline">

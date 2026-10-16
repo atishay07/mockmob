@@ -14,7 +14,6 @@ import { DemoJump } from '@/components/landing/DemoJump';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { LandingDock } from '@/components/landing/HeroDockGate';
 import { Reveal } from '@/components/landing/Reveal';
-import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
 import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
 import { ExamComparator } from '@/components/landing/ExamComparator';
@@ -34,6 +33,8 @@ import { MascotSeat } from '@/components/brand/Mascot';
 import PipGuide from '@/components/brand/PipGuideLazy';
 import WallOfLove from '@/components/landing/WallOfLove';
 import { SubjectCount } from '@/components/landing/SubjectGrid';
+import { practisedCounts } from '@/components/landing/liveCount.mjs';
+import { publicInventory } from '@/lib/server/inventory';
 import { breadcrumbJsonLd, faqJsonLd } from '@/lib/seo';
 import './landing.css';
 import './home-refinements.css';
@@ -66,6 +67,21 @@ const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh 
 ];
 
 const OFFER = publicOffer();
+// The bank's counts are a daily recount (the stored public_inventory_snapshot row behind /api/stats), so the page is
+// rebuilt at most once an hour and carries them in its first HTML: the shelf's counts and the hero's total are there
+// before any script runs. The client read (landingStats.mjs) only refreshes them. Without the stored row (a build
+// with no database, or a failed read) the page renders as before and the client read fills the counts in.
+export const revalidate = 3600;
+async function storedSubjectCounts() {
+  try {
+    const inventory = await publicInventory();
+    return inventory?.state === 'available' && inventory.subjectCounts ? inventory.subjectCounts : null;
+  } catch {
+    return null;
+  }
+}
+// General Test is stored under its internal id.
+const STORED_ID = { general_test: 'gat' };
 // What Free starts you with, said no bigger than the Free list below says it: 100 practice credits is two full
 // mocks, so the headline never calls practice itself free.
 const FREE_START = newOfferReleased() ? 'Start free with a daily 10-question set' : 'Start free with 100 practice credits';
@@ -149,7 +165,9 @@ const faqs = [
   { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. The exam pattern and the DU rules you see here come from what NTA and DU publish.' },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const subjectCounts = await storedSubjectCounts();
+  const bankCounts = practisedCounts(subjectCounts);
   return (
     <div className="mm lp">
       <JsonLd id="home-breadcrumb-json-ld" data={breadcrumbJsonLd([{ name: 'Home', path: '/' }])} />
@@ -189,7 +207,7 @@ export default function LandingPage() {
                 <b>Free to start.</b>{' '}
                 {OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month, and you can cancel anytime.` : `Pro is ₹${OFFER.oneTime.rupees} once, through ${OFFER.oneTime.expires}, with no auto-renewal.`}
               </p>
-              <HeroLive />
+              <HeroLive initial={bankCounts} />
               <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool">Free DU eligibility and cutoff calculator</Link>
             </div>
 
@@ -206,13 +224,13 @@ export default function LandingPage() {
           </div>
 
           {/* Second hero beat: two facts, as plain sentences under a hairline, each a link to the part of the page
-              that shows it. The second is the bank: one question bank behind every mock, so a mock is put together
+              that shows it. The bank leads (stacked first on phones): one question bank behind every mock, so a mock is put together
               when it starts, not taken from a fixed set of papers, and Pro sets no cap on how many (owner, 16 Oct
               2026). The sample already offers five questions, and the 73 DU programmes belong to the DU section. */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="What MockMob gives you">
+              <a href="#question-bank"><b>Unlimited mocks with Pro</b>: 50 questions in 60 minutes, built from the question bank each time.</a>
               <a href="#exam-experience"><b>Two exam screens</b>: MockMob’s own, plus the NTA-style one with Pro.</a>
-              <a href="#your-prep"><b>Unlimited mocks with Pro</b>: 50 questions in 60 minutes, built from the question bank each time.</a>
             </nav>
           </div>
         </section>
@@ -229,22 +247,26 @@ export default function LandingPage() {
             </p>
             {/* The four launch papers as a lineup: each object stands on one shared floor (a hairline), its name
                 and its real question count under the line. No label above: the statement is the heading. */}
-            <div className="lp-shelf">
+            {/* The bank, said once at heading level and calmly (the owner's key difference, 16 Oct 2026), with the four
+                launch papers' real counts under it as its evidence. */}
+            <div className="lp-shelf" id="question-bank" aria-labelledby="question-bank-title">
+              <h2 className="lp-shelf__title" id="question-bank-title">One question bank. As many mocks as you want with Pro.</h2>
               <ul className="lp-shelf__row" aria-label="The four launch papers">
                 {SHELF.map(({ id, name, href, depth, tilt, base, sizes }, i) => (
                   <li key={id} className="lp-shelf__item" style={{ '--k': i, '--depth': depth, '--tilt': `${tilt}deg`, '--base': base }}>
                     <Link href={href} className="lp-shelf__link">
                       <span className="lp-shelf__float"><SubjectObject id={id} size={184} sizes={sizes} className="lp-shelf__obj" style={{ '--obj-size': 'var(--shelf-obj)' }} /></span>
                       <span className="lp-shelf__name">{name}</span>
-                      <SubjectCount id={id} />
+                      <SubjectCount id={id} initial={subjectCounts?.[STORED_ID[id] || id]} />
                     </Link>
                   </li>
                 ))}
               </ul>
               {/* The bank under the counts: a mock is assembled from these questions when it starts, so there is no
-                  fixed set to run out of. Says nothing about repeats: the selector favours questions a student has
-                  not answered but does not promise a question never comes back (data/mock_question_selector.js). */}
-              <p className="lp-shelf__note">A mock is drawn fresh from these questions each time you start one, so there is no fixed set of papers to run out of. Pro puts no cap on how many you take.</p>
+                  fixed set to run out of. On repeats it says only what the selector does: it ranks unanswered questions
+                  ahead of answered ones within an evidence tier, and promises nothing more
+                  (data/mock_question_selector.js rankCandidates), so an answered question can come back. */}
+              <p className="lp-shelf__note">Every mock is a fresh paper drawn from these questions, not one of a fixed set to run out of. It favours questions you have not answered, though one you have answered can come back.</p>
             </div>
           </div>
         </section>
@@ -336,14 +358,8 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* The marking line (+5 / −1 / 0) sits at the foot of the exam comparator it belongs to, at lede size. */}
         <ExamComparator />
-
-        {/* ------------------------------ PROOF ----------------------------- */}
-        <section className="lp-sec lp-sec--tight">
-          <div className="mm-wrap">
-            <LiveStatsBand />
-          </div>
-        </section>
 
         {/* ------------------------------ INSTAGRAM ------------------------------ */}
         <section className="lp-sec" id="on-instagram">
@@ -372,7 +388,7 @@ export default function LandingPage() {
         <section className="lp-sec" id="pricing">
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
-              <h2 className="lp-h2">{OFFER.purchasable === 'monthly' ? `${FREE_START}. ₹${OFFER.monthly.rupees} a month for Pro.` : `${FREE_START}. ₹${OFFER.oneTime.rupees} once for Pro.`}</h2>
+              <h2 className="lp-h2">{OFFER.purchasable === 'monthly' ? `${FREE_START}. Unlimited mocks with Pro, ₹${OFFER.monthly.rupees} a month.` : `${FREE_START}. Unlimited mocks with Pro, ₹${OFFER.oneTime.rupees} once.`}</h2>
               <p className="lp-sub">Free keeps your record and your progress. {OFFER.purchasable === 'monthly' ? 'Cancel Pro any month and keep what you paid for.' : 'Pro is one payment, not a subscription.'}</p>
             </div>
             {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. Start free

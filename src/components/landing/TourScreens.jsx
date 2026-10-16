@@ -196,7 +196,7 @@ export function RadarScreen({ play }) {
   const step = useSteps(play, RADAR_T);
   const done = step >= RADAR_ROWS.length + 1;
   return (
-    <Frame title="Weak chapters across your last mocks" step={step}>
+    <Frame title="Your chapters, weakest first" step={step}>
       <ul className="ts__bars">
         {RADAR_ROWS.map(({ chapter, subject, right, of }, i) => (
           <li key={chapter} data-in={on(step > i)} data-low={on(right / of < 0.5)}>

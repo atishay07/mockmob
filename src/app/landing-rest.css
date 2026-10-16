@@ -32,6 +32,19 @@
    inside the held scene. They land once as the statement scrolls (home.css, hero-depth.css) and then stay
    still: no idle float, no pool of light. A pointer lifts the object 6px and underlines the name. */
 .mm.lp .lp-shelf { justify-items: stretch; gap: 0; }
+/* The shelf's heading: the bank, said once at heading level (an h2 at the step size, a clear step under the
+   statement's display words), calm ink, no accent. The counts under it are its evidence. */
+.mm.lp .lp-shelf__title {
+  max-width: 24ch;
+  margin: 0 0 var(--sp-6, 2rem);
+  font-family: var(--font-display);
+  font-size: var(--t-step);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  text-wrap: balance;
+}
 .mm.lp .lp-shelf::before { display: none; }
 /* Every object stands on one floor: the items sit on the row's bottom edge and never stretch, so the four
    hairlines (and the names under them) share one line whatever each object's height. */
@@ -106,6 +119,9 @@
    onto its floor as its share of the statement lights. */
 @media (max-width: 959px) {
   .mm.lp .lp-statement .lp-shelf { --shelf-obj: 4.5rem; }
+  /* The held scene holds the statement, this heading, the four rows and the note between the bar and the dock. */
+  .mm.lp .lp-shelf__title { margin-bottom: var(--sp-4, 1rem); }
+  .mm.lp .lp-shelf__note { margin-top: var(--sp-4, 1rem); }
   .mm.lp .lp-shelf__row { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .mm.lp .lp-shelf__item { align-self: stretch; }
   .mm.lp .lp-shelf__item:nth-child(3) { margin-top: 0; }
@@ -148,18 +164,21 @@
   .mm.lp .lp-shelf__link:is(:hover, :focus-visible, :active) .lp-shelf__float { transform: none; }
 }
 
-/* ---------- Proof: one sentence, not three stat cards ---------- */
+/* ---------- The marking line: one sentence at the comparator's foot, at lede size ----------
+   It belongs to the exam comparator, so it sits under it at the section ledes' size: display sizes stay with the
+   opening statement and the close, and nothing between the comparator and the creators competes with an h2. */
 .mm.lp .lp-proofline {
-  margin: 0;
-  max-width: 28ch;
+  margin: var(--sp-7, 2.5rem) 0 0;
+  padding-top: var(--sp-5, 1.5rem);
+  border-top: 1px solid var(--line);
+  max-width: 44ch;
   font-family: var(--font-display);
-  font-size: var(--t-headline);
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
   font-weight: 600;
-  line-height: 1.12;
-  letter-spacing: -0.03em;
-  /* Ink-2, not a pale grey: at headline size a grey sentence reads as unlit, so it reads plainly at rest. */
+  line-height: 1.3;
+  letter-spacing: -0.015em;
   color: var(--ink-2);
-  text-wrap: balance;
+  text-wrap: pretty;
 }
 .mm.lp .lp-proofline b { font-weight: 800; color: var(--ink); font-variant-numeric: tabular-nums; }
 

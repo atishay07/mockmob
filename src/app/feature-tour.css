@@ -50,6 +50,13 @@
 /* Each link is a full 44 px tall target: inline-flex at 44 px, so every line of the sentence that holds a link is
    44 px tall and a tap on one line never lands on the link of another. */
 .ft__more .ft__away { display: inline-flex; align-items: center; min-height: 44px; vertical-align: middle; }
+/* Under the held tour: the label, then one row per link (link, then where it is in quieter ink). */
+.ft__more-h { margin: 0; color: var(--ink-3); font-size: var(--t-label, 0.875rem); font-weight: 500; }
+.ft__more-list { display: grid; margin: 0.25rem 0 0; padding: 0; list-style: none; }
+.ft__more-list li { display: flex; align-items: center; flex-wrap: wrap; gap: 0 0.5rem; min-height: 44px; border-top: 1px solid var(--line); }
+.ft__more-list li:last-child { border-bottom: 1px solid var(--line); }
+.ft__more-list .ft__away { min-height: 44px; font-size: var(--t-body, 1rem); }
+.ft__more-list span { color: var(--ink-3); font-size: var(--t-label, 0.875rem); }
 .ft :is(button, a) { touch-action: manipulation; }
 .ft :is(button, a):focus-visible { outline: 2px solid var(--focus-ring, var(--ink)); outline-offset: 2px; }
 .ft__controls button:active { transform: scale(.97); }

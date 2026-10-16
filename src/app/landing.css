@@ -772,8 +772,7 @@ body:has(.mm.lp) {
 /* Phones from 375 px (the 390 and 430 px measures, and the base for wider phones and tablets). */
 .lp main > #compass { contain-intrinsic-size: auto 2453px; }
 .lp main > #du-eligibility { contain-intrinsic-size: auto 2128px; }
-.lp main > #exam-experience { contain-intrinsic-size: auto 1483px; }
-.lp main > .lp-sec--tight { contain-intrinsic-size: auto 179px; }
+.lp main > #exam-experience { contain-intrinsic-size: auto 1798px; }
 .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1270px; }
 .lp main > #pricing { contain-intrinsic-size: auto 1459px; }
 .lp main > .lp-sec--band { contain-intrinsic-size: auto 485px; }
@@ -782,15 +781,13 @@ body:has(.mm.lp) {
   .lp main > #score-recovery-lab .ss--centre { --ss-slack: max(0px, 100svh - var(--ss-top) - var(--ss-bottom) - 437px); }
   .lp main > #compass { contain-intrinsic-size: auto 2478px; }
   .lp main > #du-eligibility { contain-intrinsic-size: auto 2451px; }
-  .lp main > #exam-experience { contain-intrinsic-size: auto 1543px; }
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 215px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 1858px; }
   .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1295px; }
-  .lp main > #pricing { contain-intrinsic-size: auto 1492px; }
+  .lp main > #pricing { contain-intrinsic-size: auto 1782px; }
 }
 @media (min-width: 410px) and (max-width: 599px) {
   .lp main > #du-eligibility { contain-intrinsic-size: auto 2049px; }
-  .lp main > #exam-experience { contain-intrinsic-size: auto 1468px; }
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 184px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 1754px; }
   .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1202px; }
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 464px; }
   .lp main > .lp-close { contain-intrinsic-size: auto 297px; }
@@ -802,10 +799,9 @@ body:has(.mm.lp) {
 @media (min-width: 960px) {
   .lp main > #compass { contain-intrinsic-size: auto 1156px; }
   .lp main > #du-eligibility { contain-intrinsic-size: auto 1292px; }
-  .lp main > #exam-experience { contain-intrinsic-size: auto 1101px; }
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 188px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 1435px; }
   .mm.lp main > #on-instagram { contain-intrinsic-size: auto 1017px; }
-  .lp main > #pricing { contain-intrinsic-size: auto 888px; }
+  .lp main > #pricing { contain-intrinsic-size: auto 1185px; }
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 376px; }
   .lp main > .lp-close { contain-intrinsic-size: auto 248px; }
 }
@@ -813,10 +809,9 @@ body:has(.mm.lp) {
 @media (min-width: 960px) and (max-width: 1199px) {
   .lp main > #compass { contain-intrinsic-size: auto 1228px; }
   .lp main > #du-eligibility { contain-intrinsic-size: auto 1513px; }
-  .lp main > #exam-experience { contain-intrinsic-size: auto 1254px; }
-  .lp main > .lp-sec--tight { contain-intrinsic-size: auto 164px; }
+  .lp main > #exam-experience { contain-intrinsic-size: auto 1491px; }
   .mm.lp main > #on-instagram { contain-intrinsic-size: auto 937px; }
-  .lp main > #pricing { contain-intrinsic-size: auto 979px; }
+  .lp main > #pricing { contain-intrinsic-size: auto 1244px; }
   .lp main > .lp-sec--band { contain-intrinsic-size: auto 374px; }
   .lp main > .lp-close { contain-intrinsic-size: auto 258px; }
 }
