@@ -302,6 +302,8 @@ const attemptOut = (r) => r && ({
 
 // Re-export seed for any place still importing it directly.
 export { SEED_QUESTIONS };
+// The session snapshot shape of one question row: the Mob paper (src/lib/server/mob/deps.js) serves frozen ids in it.
+export { questionOut, VISIBLE_QUESTION_FILTER };
 
 export const Database = {
   // =====================================================================

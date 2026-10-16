@@ -1,0 +1,227 @@
+{
+  "UNAUTHENTICATED": {
+    "status": 401,
+    "body": {
+      "error": {
+        "code": "UNAUTHENTICATED",
+        "message": "Sign in to use your Mob."
+      }
+    }
+  },
+  "MOB_DISABLED": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "MOB_DISABLED",
+        "message": "This page is not available."
+      }
+    }
+  },
+  "NOT_IN_MOB": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "NOT_IN_MOB",
+        "message": "You are not in a Mob."
+      }
+    }
+  },
+  "NOT_FOUND": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "That member is not in your Mob."
+      }
+    }
+  },
+  "INVITE_INVALID": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "INVITE_INVALID",
+        "message": "This invite can't be used. Ask your friend for a new link."
+      }
+    }
+  },
+  "INVITE_EXPIRED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "INVITE_EXPIRED",
+        "message": "This invite can't be used. Ask your friend for a new link."
+      }
+    }
+  },
+  "MOB_FULL": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MOB_FULL",
+        "message": "This Mob already has 5 members."
+      }
+    }
+  },
+  "ALREADY_IN_MOB": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "ALREADY_IN_MOB",
+        "message": "You are already in a Mob. Leave it first to start or join another."
+      }
+    }
+  },
+  "NOT_OWNER": {
+    "status": 403,
+    "body": {
+      "error": {
+        "code": "NOT_OWNER",
+        "message": "Only the member who started the Mob can remove someone."
+      }
+    }
+  },
+  "NOT_SAT_YET": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "NOT_SAT_YET",
+        "message": "Sit this week's paper first, then you can ask the others."
+      }
+    }
+  },
+  "ALREADY_NUDGED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "ALREADY_NUDGED",
+        "message": "You already asked the others this week."
+      }
+    }
+  },
+  "PAPER_ALREADY_SAT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "PAPER_ALREADY_SAT",
+        "message": "You already sat this week's paper. The next one opens Monday."
+      }
+    }
+  },
+  "WEEK_CLOSED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "WEEK_CLOSED",
+        "message": "This week's paper closed. The next one opens Monday."
+      }
+    }
+  },
+  "PAPER_EXPIRED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "PAPER_EXPIRED",
+        "message": "Your time on this week's paper ran out. The next one opens Monday."
+      }
+    }
+  },
+  "CREDITS": {
+    "status": 402,
+    "body": {
+      "error": {
+        "code": "CREDITS",
+        "message": "You do not have enough credits for this paper."
+      }
+    }
+  },
+  "NAME_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "NAME_INVALID",
+        "message": "Use 2 to 18 letters for your name. Spaces, dots, apostrophes and hyphens are fine."
+      }
+    }
+  },
+  "NAME_REFUSED": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "NAME_REFUSED",
+        "message": "Choose a different name. Your Mob sees it."
+      }
+    }
+  },
+  "SUBJECT_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "SUBJECT_INVALID",
+        "message": "Choose one of your subjects."
+      }
+    }
+  },
+  "COLOUR_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "COLOUR_INVALID",
+        "message": "Choose one of the 8 colours."
+      }
+    }
+  },
+  "REASON_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "REASON_INVALID",
+        "message": "Choose why you are reporting."
+      }
+    }
+  },
+  "BODY_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "BODY_INVALID",
+        "message": "Something in the request was not right. Try again."
+      }
+    }
+  },
+  "RATE_LIMITED": {
+    "status": 429,
+    "body": {
+      "error": {
+        "code": "RATE_LIMITED",
+        "message": "Too many tries. Wait a little and try again."
+      }
+    }
+  },
+  "PAPER_UNAVAILABLE": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "PAPER_UNAVAILABLE",
+        "message": "This week's paper could not be built just now. Nothing was charged. Try again shortly."
+      }
+    }
+  },
+  "MIGRATION": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "MIGRATION",
+        "message": "Your Mob is not available just now. Try again shortly."
+      }
+    }
+  },
+  "UNAVAILABLE": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "UNAVAILABLE",
+        "message": "Your Mob did not load. Try again shortly."
+      }
+    }
+  }
+}

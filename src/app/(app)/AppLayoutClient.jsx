@@ -39,7 +39,7 @@ const TOUR_STEPS = [
 // Pip guides the first-run tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
 
-export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false }) {
+export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, status, signOut, refreshSession } = useAuth();
@@ -241,7 +241,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   }
 
   const showStudy=studyEnabled || previewRoute==='/learn';
-  const navGroups = arenaNavigation(isModerator).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
+  const navGroups = arenaNavigation(isModerator, { mob: mobEnabled || Boolean(previewLinks?.mob) }).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
   const mobileTabs=showStudy ? MOBILE_STUDY_NAV : navGroups.flatMap(group=>group.items).filter(tab=>['today','dashboard','explore','review'].includes(tab.id));
   const allTabs = navGroups.flatMap((group) => group.items);
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);

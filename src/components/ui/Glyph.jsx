@@ -27,6 +27,7 @@ const APP_ICONS = {
   prepos: Orbit,
   explore: Telescope,
   ranks: Trophy,
+  mob: Users,
   contribute: FilePlus2,
   uploads: Library,
   moderation: ShieldCheck,

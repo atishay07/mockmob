@@ -10,6 +10,7 @@ import { PageSpinner, ErrorState, NoticeState } from '@/components/ui/Skeleton';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
 import { api, apiPost } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
+import { startMobPaper } from '@/components/mob/useMob';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
@@ -378,7 +379,8 @@ function TestRunner() {
         // Same key, saved draft gone: the receipt in the address makes the server return the original start.
         const receipt = new URLSearchParams(window.location.search).get('startReceipt');
         if (receipt) qs.set('startReceipt', receipt);
-        const payload = await apiPost('/api/sessions', Object.fromEntries(qs));
+        // A Mob paper (/test?mob=1) starts on the Mob's route: the server picks the frozen weekly questions and the key.
+        const payload = launch.get('mob') === '1' ? await startMobPaper(receipt) : await apiPost('/api/sessions', Object.fromEntries(qs));
         if (!alive) return;
 
         const { questions: loadedQuestions, meta } = normalizeQuestionPayload(payload);

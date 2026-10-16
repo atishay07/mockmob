@@ -69,6 +69,19 @@ async function refreshCohortTable(startedAt) {
   }
 }
 
+// Mob reports are kept 180 days (SOCIAL-SPEC P9), then deleted here: one more step on this cron, not a new one. A
+// missing table (the Mob migration not applied) is 'missing'; nothing here changes the route's status code.
+async function purgeMobReports() {
+  try {
+    const cutoff = new Date(Date.now() - 180 * 86_400_000).toISOString();
+    const { error, count } = await supabaseAdmin().from('mob_reports').delete({ count: 'exact' }).lt('created_at', cutoff);
+    if (error) return { status: /mob_reports|does not exist|schema cache|42P01|PGRST20[25]/i.test(`${error.code || ''} ${error.message || ''}`) ? 'missing' : 'failed' };
+    return { status: 'ok', deleted: count ?? 0 };
+  } catch {
+    return { status: 'failed' };
+  }
+}
+
 // Vercel cron (see vercel.json) refreshes the public inventory snapshot once a day (3:00 AM IST), then the
 // NTA question index (nta_question_index): see refreshNtaIndex, then the cohort table: see refreshCohortTable.
 // The inventory refresh is the only place the counts are recomputed: requests serve the stored row and never
@@ -92,8 +105,9 @@ export async function GET(request) {
   }
   const ntaIndex = await refreshNtaIndex(startedAt);
   const cohortStats = await refreshCohortTable(startedAt);
+  const mobReports = await purgeMobReports();
   if (inventoryFailed) {
-    return Response.json({ error: 'inventory_unavailable', message: 'The inventory could not be refreshed.', ntaIndex, cohortStats }, { status: 503, headers });
+    return Response.json({ error: 'inventory_unavailable', message: 'The inventory could not be refreshed.', ntaIndex, cohortStats, mobReports }, { status: 503, headers });
   }
-  return Response.json({ ok: true, bankSize: inventory.bankSize, checkedAt: inventory.checkedAt, ntaIndex, cohortStats }, { headers });
+  return Response.json({ ok: true, bankSize: inventory.bankSize, checkedAt: inventory.checkedAt, ntaIndex, cohortStats, mobReports }, { headers });
 }

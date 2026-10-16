@@ -5,6 +5,7 @@ import InstallPractice from '@/components/InstallPractice';
 import RecordGlimpse from '@/components/ai/RecordGlimpse';
 import RhythmCard from '@/components/RhythmCard';
 import { TodayColleges } from '@/components/colleges/MyColleges';
+import { MobTodayCard } from '@/components/mob/MobTodayCard';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
@@ -58,6 +59,8 @@ export default function Today() {
         <LearningNextAction why={top} moment={weekGoal} />
         <div className="today-record">
           <RhythmCard compact quietMet={Boolean(weekGoal)} />
+          {/* The Mob: only when you are in one (and MOB_ENABLED is on); otherwise it draws nothing. */}
+          <MobTodayCard userId={user?.id} />
           <TodayColleges userId={user?.id} />
           <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} link={!top} />
         </div>

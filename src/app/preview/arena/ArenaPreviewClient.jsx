@@ -42,6 +42,9 @@ import RuleBook from '@/components/rules/RuleBook';
 import ReviseRun from '@/components/revise/ReviseRun';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
 import { withActiveRule } from '@/components/result/labLoop';
+import MobPage from '@/components/mob/MobPage';
+import JoinMob from '@/components/mob/JoinMob';
+import { previewMob } from './previewMob';
 
 // Original illustrative questions (the homepage sample set), never real bank rows.
 const SAMPLE = [
@@ -128,6 +131,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (!window.location.pathname.startsWith('/preview/arena')) return real(input, init);
     if (!url.pathname.startsWith('/api/')) return real(input, init);
     const fixture = new URLSearchParams(window.location.search);
+    if (url.pathname === '/api/mob' || url.pathname.startsWith('/api/mob/')) return previewMob(url, method, init, fixture, json);
     if (url.pathname === '/api/stats' && method === 'GET') {
       if (fixture.get('stats') === 'loading') return new Promise(() => {});
       if (fixture.get('stats') === 'error') return json({ state: 'unavailable', error: 'Fixture counts unavailable' }, 503);
@@ -479,7 +483,7 @@ function PreviewInner({ candidatePathway }) {
   const planParam = params.get('plan');
   const MONTHLY = MONTHLY_PROFILES[planParam] || null;
   const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);
-  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
+  const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', 'mob', 'join', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
   const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' };
   const route = `/${routeNames[view] || view}`;
@@ -497,7 +501,7 @@ function PreviewInner({ candidatePathway }) {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <div className="arena-fixture-note" role="note"><b>Development preview</b><span>Illustrative data · {params.get('plan') || 'free'} · {params.get('data') || 'ready'}. No real saves, scores, credits or billing.</span><label>View<select value={view} onChange={(event) => { window.location.href = previewHref(event.target.value); }}>{views.map((name) => <option key={name} value={name}>{name}</option>)}</select></label>{view === 'test' && <ThemeToggle />}{view === 'prepos' && <button type="button" className="arena-chip" onClick={() => setDrawerOpen(true)}>Preview assistant drawer</button>}</div><AssistantDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
-        {view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
+        {view === 'join' ? <AuthContext.Provider value={params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth}><JoinMob code="7KQ2M9XR" /></AuthContext.Provider> : view === 'onboarding' ? <OnboardingPageClient preview /> : <AppLayoutClient previewRoute={route} previewLinks={previewLinks}>{view === 'mob' ? <MobPage user={auth.user} /> : view === 'test' ? <TestPageClient /> : view === 'prepos' ? <MockMobAIHub variant="page" initialTab={params.get('tab') || 'plan'} /> : view === 'compass' ? <AdmissionCompassPageClient /> : view === 'radar' ? <AnalyticsPageClient /> : view === 'saved' ? <SavedPageClient /> : view === 'today' ? <TodayPage /> : view === 'recovery' ? <RecoveryJourney /> : view === 'review' ? <div className="student-page student-page--review"><RecoveryOverview view="review" /></div> : view === 'rules' ? <div className="student-page student-page--review"><RuleBook /></div> : view === 'revise' ? <div className="student-page student-page--review"><ReviseRun /></div> : view === 'progress' ? <ProgressPage /> : view === 'explore' ? <DiscoveryFeed /> : view === 'upload' ? <UploadForm /> : view === 'my-uploads' ? <MyUploadsPageClient /> : view === 'profile' ? <ProfilePageClient /> : view === 'ranks' ? <LeaderboardPageClient /> : view === 'result' ? <ResultPageClient previewId="fixture-attempt" /> : view === 'moderation' ? <ModerationPageClient /> : view === 'rival' ? <AIRivalArena /> : view === 'onboarding' ? <OnboardingPageClient preview /> : <DashboardPageClient />}</AppLayoutClient>}
       </RoleProvider>
     </AuthContext.Provider>
   );

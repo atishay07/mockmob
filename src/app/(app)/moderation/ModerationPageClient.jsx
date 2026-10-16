@@ -6,6 +6,7 @@ import { apiGet, apiPost } from '@/lib/fetcher';
 import { useRole } from '@/lib/roleContext';
 import { EmptyState, ErrorState, PageSpinner } from '@/components/ui/Skeleton';
 import { useToast } from '@/components/ToastProvider';
+import { MobReports } from '@/components/mob/MobReports';
 
 const DIFF_STYLE = {
   easy: { color: '#4ade80', bg: 'rgba(74,222,128,.1)' },
@@ -268,6 +269,8 @@ export default function ModerationPageClient() {
           </div>
         ))}
       </div>
+
+      <MobReports />
 
       <div className="flex justify-end mb-4">
         <button onClick={load} disabled={loading} className="btn-outline sm" style={{ borderRadius: '999px' }}>
