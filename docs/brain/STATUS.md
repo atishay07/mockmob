@@ -1,3 +1,10 @@
+## 16 October 2026 - NTA index rebuilt on production after the signature fix shipped (batch 3, 8a0141ba)
+
+- The index was emptied at 14:55 after its rows failed the runtime signature check (verified_at signed as Z, read back as +00:00). The fix 35a078e3 shipped in batch 3 (main 8a0141ba, Vercel READY, 0 runtime errors).
+- At about 10:05 pm IST, Claude (session 604ced81, standing grant) ran scripts/nta-index-build.mjs from the live code: dry run (english 173, accountancy 135, business_studies 181, economics 164 = 653 rows; slim reads 0.32-0.43 MB against 5.3-6.6 MB full), then --write --allow-production.
+- Verified at once with the read-only scripts/nta-engine-run.mjs on production: 0 score_signature_invalid; accountancy, business_studies and economics build 3 of 3 papers with factory-scored questions eligible (769, 93, 137). English refuses a full NTA paper (34 too few questions), as it did on 13 Oct before any index: a content gap, not the index.
+- Switch-off if ever needed: truncate public.nta_question_index (the runtime falls back to the full read).
+
 ## 16 October 2026 - Production database: health migrations applied (leaderboard function, least privilege for browser roles, pinned search_path, payments policy)
 
 - From the production health audit (docs/brain/PROD-HEALTH-2026-10-16.md) and branch fix/health-1016 (verifier PASS at 18567057). Each was dry-run on staging by the health fixers (applied, checked, undone), with undo files in supabase/undo/.
