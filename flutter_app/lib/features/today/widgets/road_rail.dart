@@ -7,6 +7,7 @@
 // letting go saves the day. Vertical drags pass to the page; the rail and the flag claim only
 // horizontal ones.
 import 'dart:async';
+import 'dart:math' as math;
 import 'dart:ui' show lerpDouble;
 
 import 'package:flutter/material.dart';
@@ -117,6 +118,17 @@ class _RoadRailState extends State<RoadRail> with SingleTickerProviderStateMixin
   double? _dragX;
   double _grab = 0;
   double _lastLocalX = 0;
+
+  /// Where the finger took the flag. The flag rests in the last column, inside the right edge's
+  /// scroll zone, so the edge only counts from beyond where the finger started: holding the flag
+  /// still never runs the date on by itself.
+  double _startLocalX = 0;
+
+  /// The column count when the flag was taken. While the finger is down the rail keeps at least
+  /// this many columns (empty ones past the exam): a date dragged earlier shortens the road, and a
+  /// rail that shrank under the finger would clamp its scroll, slide the flag on by itself and run
+  /// the date away.
+  int? _heldColumns;
   double _viewport = 0;
   int? _dragDay;
   int? _dragWeek;
@@ -196,6 +208,8 @@ class _RoadRailState extends State<RoadRail> with SingleTickerProviderStateMixin
     _settle.stop();
     _settleFrom = null;
     _lastLocalX = _localX(d.globalPosition);
+    _startLocalX = _lastLocalX;
+    _heldColumns = widget.weeks.length;
     final flag = _xOf(_daysTo(exam));
     _grab = _lastLocalX + _offset - flag;
     _dragDay = _daysTo(exam);
@@ -211,14 +225,17 @@ class _RoadRailState extends State<RoadRail> with SingleTickerProviderStateMixin
     _follow();
   }
 
-  /// Near either edge the rail scrolls toward the finger, faster the closer it is.
+  /// Near either edge the rail scrolls toward the finger, faster the further the finger has gone
+  /// into the edge's zone past where it took the flag (8 dp of slack first).
   void _edgeTick() {
     if (_dragX == null || !_scroll.hasClients) return;
-    const zone = 32.0;
+    const zone = 32.0, slack = 8.0;
     final p = _scroll.position;
+    final leftFrom = math.min(zone, _startLocalX - slack);
+    final rightFrom = math.max(_viewport - zone, _startLocalX + slack);
     double speed = 0;
-    if (_lastLocalX < zone) speed = -(zone - _lastLocalX) * 18;
-    if (_lastLocalX > _viewport - zone) speed = (zone - (_viewport - _lastLocalX)) * 18;
+    if (_lastLocalX < leftFrom) speed = -math.min(zone, leftFrom - _lastLocalX) * 18;
+    if (_lastLocalX > rightFrom) speed = math.min(zone, _lastLocalX - rightFrom) * 18;
     if (speed == 0) return;
     final to = (p.pixels + speed * 0.016).clamp(p.minScrollExtent, p.maxScrollExtent);
     if (to == p.pixels) return;
@@ -250,6 +267,7 @@ class _RoadRailState extends State<RoadRail> with SingleTickerProviderStateMixin
     if (x == null || day == null) return;
     setState(() {
       _dragX = null;
+      _heldColumns = null;
       _settleFrom = x;
     });
     if (Motion.reduced(context)) {
@@ -317,8 +335,9 @@ class _RoadRailState extends State<RoadRail> with SingleTickerProviderStateMixin
                         scrollDirection: Axis.horizontal,
                         physics: const ClampingScrollPhysics(),
                         itemExtent: RoadRail.column,
-                        itemCount: weeks.length,
+                        itemCount: math.max(weeks.length, _heldColumns ?? 0),
                         itemBuilder: (context, i) {
+                          if (i >= weeks.length) return const SizedBox.shrink();
                           final w = weeks[i];
                           final firstOfMonth = i == 0 || weeks[i - 1].start.month != w.start.month;
                           return _WeekColumn(

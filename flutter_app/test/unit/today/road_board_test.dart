@@ -1,5 +1,5 @@
 // The road board (owner test 15 Oct): the student's own exam date and mock target, kept on this
-// phone, the tiles' arithmetic, the sheets that change them, and the "more below" cue.
+// phone, the board's arithmetic, the sheets that change them, and the "more below" cue.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -118,15 +118,19 @@ void main() {
     });
   });
 
-  group('the tiles', () {
-    Future<List<Object>> pumpBoard(WidgetTester tester, RoadBoard board, MemoryPrefsStore store) async {
-      final events = <Object>[];
+  group('the road sheets', () {
+    // The rail's flag opens the date sheet and the mock ruler opens the mocks sheet (L05); here a
+    // plain key stands in for each.
+    Future<void> pumpOpener(WidgetTester tester, RoadBoard board, MemoryPrefsStore store) async {
       await pumpMockmob(
         tester,
-        SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: RoadBoardGrid(board: board, onWeek: () => events.add('week'), onOpen: events.add),
+        Builder(
+          builder: (context) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(onPressed: () => showExamDateSheet(context, board: board), child: const Text('date')),
+              TextButton(onPressed: () => showMocksSheet(context, board: board), child: const Text('mocks')),
+            ],
           ),
         ),
         size: const Size(384, 900),
@@ -137,7 +141,6 @@ void main() {
         ],
       );
       await tester.pump();
-      return events;
     }
 
     final board = RoadBoard(
@@ -153,23 +156,10 @@ void main() {
       weekGoal: 4,
     );
 
-    testWidgets('show the student their own numbers, and the week tile opens the week', (tester) async {
-      final events = await pumpBoard(tester, board, MemoryPrefsStore());
-      expect(find.text(TodayCopy.boardExpectedDate), findsOneWidget);
-      expect(find.text('1 May'), findsOneWidget);
-      expect(find.text('3'), findsOneWidget);
-      expect(find.text(TodayCopy.boardSetTarget), findsOneWidget);
-      expect(find.text('96'), findsOneWidget);
-      expect(find.text('1 of 4'), findsOneWidget);
-      await tester.tap(find.text(TodayCopy.boardThisWeek));
-      await tester.pump();
-      expect(events, ['week']);
-    });
-
     testWidgets('the mocks sheet sets a target and keeps it on this phone', (tester) async {
       final store = MemoryPrefsStore();
-      await pumpBoard(tester, board, store);
-      await tester.tap(find.text(TodayCopy.boardMocks));
+      await pumpOpener(tester, board, store);
+      await tester.tap(find.text('mocks'));
       await tester.pumpAndSettle();
       expect(find.text(TodayCopy.boardMocksSoFar(3, DateTime.utc(2026, 10, 10))), findsOneWidget);
       final start = suggestedMockTarget(weeks: board.weeksToExam, taken: 3);
@@ -182,8 +172,8 @@ void main() {
 
     testWidgets('the date sheet saves a day in the window', (tester) async {
       final store = MemoryPrefsStore();
-      await pumpBoard(tester, board, store);
-      await tester.tap(find.text(TodayCopy.boardExpectedDate));
+      await pumpOpener(tester, board, store);
+      await tester.tap(find.text('date'));
       await tester.pumpAndSettle();
       expect(find.text(TodayCopy.boardDateBody), findsOneWidget);
       await tester.tap(find.text('15 May'));

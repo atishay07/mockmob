@@ -111,6 +111,49 @@ void main() {
     expect(saved.difference(DateTime.utc(from.year, from.month, from.day)).inDays, inInclusiveRange(5, 30));
   });
 
+  testWidgets('dragging the flag earlier moves the date as far as the finger, not further', (tester) async {
+    final saves = _Saves();
+    final road = await pumpRoad(tester, saves);
+    final p = railPosition(tester);
+    p.jumpTo(p.maxScrollExtent);
+    await tester.pumpAndSettle();
+    final gesture = await tester.startGesture(tester.getCenter(find.byKey(const ValueKey('road-flag'))));
+    // A week and a half to the left: 72 dp, in small steps.
+    for (var i = 0; i < 18; i++) {
+      await gesture.moveBy(const Offset(-4, 0));
+      await tester.pump(const Duration(milliseconds: 16));
+    }
+    for (var i = 0; i < 20; i++) {
+      await tester.pump(const Duration(milliseconds: 16));
+    }
+    await gesture.up();
+    await tester.pumpAndSettle();
+    final from = road.board!.examDate;
+    final moved = DateTime.utc(from.year, from.month, from.day).difference(saves.dates.single!).inDays;
+    // The rail shortens as the date comes in; it must not slide the flag on under a still finger.
+    expect(moved, inInclusiveRange(7, 14));
+  });
+
+  testWidgets('holding the flag still at the rail edge never runs the date on by itself', (tester) async {
+    final saves = _Saves();
+    final road = await pumpRoad(tester, saves);
+    final p = railPosition(tester);
+    p.jumpTo(p.maxScrollExtent);
+    await tester.pumpAndSettle();
+    // The flag rests in the last column, inside the right edge's scroll zone.
+    final gesture = await tester.startGesture(tester.getCenter(find.byKey(const ValueKey('road-flag'))));
+    await gesture.moveBy(const Offset(2, 0));
+    for (var i = 0; i < 60; i++) {
+      await tester.pump(const Duration(milliseconds: 16));
+    }
+    await gesture.up();
+    await tester.pumpAndSettle();
+    final from = road.board!.examDate;
+    final saved = saves.dates.isEmpty ? from : saves.dates.single!;
+    expect(saved.difference(DateTime.utc(from.year, from.month, from.day)).inDays.abs(), lessThanOrEqualTo(2),
+        reason: 'a second of holding still moved the date to $saved');
+  });
+
   testWidgets('a tap on a pace stop saves that many days once, and says Saved only after it returns', (tester) async {
     final saves = _Saves();
     await pumpRoad(tester, saves);

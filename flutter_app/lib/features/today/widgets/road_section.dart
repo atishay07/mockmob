@@ -279,9 +279,8 @@ class _RoadSectionState extends State<RoadSection> {
         _figure(road, board),
         if (rail) ...[
           const SizedBox(height: MmSpace.s8),
-          AnimatedSwitcher(
-            duration: Motion.of(context, Motion.crossFade),
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
+          MmOverlapSwitcher.fade(
+            alignment: Alignment.topLeft,
             child: Text(
               board.studyDaysLeft == null || goal == null
                   ? TodayCopy.studyLineNoGoal
@@ -402,9 +401,11 @@ class _RoadSectionState extends State<RoadSection> {
     // Two lines whatever the week, so the rail under it never moves (taller at large text).
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 48),
-      child: AnimatedSwitcher(
-        duration: Motion.of(context, drag != null ? Duration.zero : Motion.crossFade),
-        layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+      // While the flag is dragged the readout follows the finger with no fade.
+      child: MmOverlapSwitcher.fade(
+        duration: drag != null ? Duration.zero : Motion.fadeThroughIn,
+        outDuration: drag != null ? Duration.zero : Motion.fadeThroughOut,
+        alignment: Alignment.centerLeft,
         child: Row(
           key: ValueKey('$i|$line1|$line2'),
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -490,9 +491,8 @@ class _RoadSectionState extends State<RoadSection> {
               child: Row(
                 children: [
                   Expanded(
-                    child: AnimatedSwitcher(
-                      duration: Motion.of(context, Motion.crossFade),
-                      layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+                    child: MmOverlapSwitcher.fade(
+                      alignment: Alignment.centerLeft,
                       child: Text(
                         failed
                             ? TodayCopy.dateFailed
@@ -539,9 +539,8 @@ class _RoadSectionState extends State<RoadSection> {
         Row(
           children: [
             Expanded(
-              child: AnimatedSwitcher(
-                duration: Motion.of(context, Motion.crossFade),
-                layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+              child: MmOverlapSwitcher.fade(
+                alignment: Alignment.centerLeft,
                 child: Text(
                   caption,
                   key: ValueKey(caption),
@@ -624,9 +623,8 @@ class _RoadSectionState extends State<RoadSection> {
             constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: double.infinity),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: AnimatedSwitcher(
-                duration: Motion.of(context, Motion.crossFade),
-                layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerLeft, children: [...previous, ?current]),
+              child: MmOverlapSwitcher.fade(
+                alignment: Alignment.centerLeft,
                 child: Text.rich(
                   key: ValueKey(caption),
                   _linked(caption, taken, colors, type, pressed),

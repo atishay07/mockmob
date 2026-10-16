@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
@@ -65,6 +67,39 @@ Widget _roadFailing(TodayInputs inputs) => Builder(
         ),
       ),
     );
+
+/// The road whose saves have not returned yet (a slow connection): the tuners say Saving.
+Widget _roadSaving(TodayInputs inputs) => Builder(
+      builder: (context) => ColoredBox(
+        color: context.mmColors.ground,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s32),
+          child: RoadSection(
+            road: buildRoad(inputs)!,
+            actions: RoadActions(
+              savePace: (_) => Completer<void>().future,
+              setExamDate: (_) => Completer<void>().future,
+              setMockTarget: (_) => Completer<void>().future,
+            ),
+          ),
+        ),
+      ),
+    );
+
+/// Brings the exam end of the rail into view and holds the CUET flag a week and a half earlier,
+/// the finger still down and clear of the rail's edges (an edge would scroll the rail on).
+Future<void> _holdFlag(WidgetTester tester) async {
+  final list = tester.widget<ListView>(find.descendant(of: find.byType(RoadRail), matching: find.byType(ListView)));
+  final p = list.controller!.position;
+  p.jumpTo(p.maxScrollExtent);
+  await tester.pump(const Duration(milliseconds: 300));
+  final gesture = await tester.startGesture(tester.getCenter(find.byKey(const ValueKey('road-flag'))));
+  for (var i = 0; i < 18; i++) {
+    await gesture.moveBy(const Offset(-4, 0));
+    await tester.pump(const Duration(milliseconds: 16));
+  }
+  await tester.pump(const Duration(milliseconds: 200));
+}
 
 /// Taps the pace strip at stop [n] and lets its save run.
 Future<void> _tapPace(WidgetTester tester, int n) async {
@@ -217,6 +252,8 @@ void main() {
     act: (tester) async {
       final rail = tester.getRect(find.byType(RoadRail));
       await tester.tapAt(Offset(rail.left + RoadRail.column * 4.5, rail.top + 90));
+      // The tap lands on this frame; the readout's fade runs on the frames after it.
+      await tester.pump();
       await tester.pump(const Duration(milliseconds: 400));
     },
   );
@@ -226,6 +263,16 @@ void main() {
   screenGolden(
     'today_road_save_failed',
     () => _roadFailing(ashaInputs()),
+    size: const Size(390, 1000),
+    dock: false,
+    act: (tester) => _tapPace(tester, 6),
+  );
+  // L05 8.6: the flag held a week and a half earlier: the readout and the figure say the new date.
+  screenGolden('today_road_flag_dragging', () => _road(ashaInputs()), size: const Size(390, 1000), dock: false, act: _holdFlag);
+  // L05 8.7: a pace stop tapped and its save still out: Saving, never Saved before it returns.
+  screenGolden(
+    'today_road_pace_saving',
+    () => _roadSaving(ashaInputs()),
     size: const Size(390, 1000),
     dock: false,
     act: (tester) => _tapPace(tester, 6),
