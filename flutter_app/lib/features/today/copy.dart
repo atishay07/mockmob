@@ -670,4 +670,6 @@ abstract final class TodayCopy {
   static const String markOpen = 'not counted';
   static String rowSemantics(String label, String title, String sub, String figure) => '$label. $title. $sub. $figure.';
   static String ofDenominator(int n) => 'of $n';
+  static const String bandRegistration = 'Registration';
+  static const String bandBoards = 'Boards';
 }

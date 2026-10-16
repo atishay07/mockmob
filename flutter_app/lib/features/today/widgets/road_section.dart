@@ -1,12 +1,11 @@
-// "The road to May" (L05, L07, app-today-1016 section 8; owner 13 to 16 Oct: "interactive,
-// editable, adjustable directly in the scrolling"). The weeks to the exam as one figure with the
-// study days it gives, then the road itself as a strip of weeks you scroll sideways: each week
-// shows its planned study days, a planned mock, boards and registration. A tap selects a week and
-// the readout says it in words; jump chips glide to each stop; the exam flag drags along the rail
-// to set the date. Under it the student tunes the plan in place: study days a week (a drag strip
-// saved to the account) and full mocks before the date (a ruler saved on the phone). Every change
-// redraws the rail and the figure while the finger moves; "Saved" shows only once the save has
-// returned. Calendar arithmetic and the student's own choices only: nothing here predicts marks.
+// "Road to May" (TODAY-1017 4.4; L05, owner 13 to 16 Oct: "interactive, editable, adjustable
+// directly in the timeline"). The heading carries the weeks to the date; under it the whole road
+// as one strip (road_strip.dart), the flag dragged to set the date; then two values as tokens,
+// "98 study days at [4 a week]" and "[14 full mocks] before your date", each opening its tuner in
+// place (the pace strip saved to the account, the mock ruler). A tap on the strip opens the
+// week-by-week rail in place at that week, with the readout and the jump chips. One thing is open
+// at a time. Every change redraws the strip and the figures while the finger moves; "Saved" shows
+// only once the save has returned. Calendar arithmetic and the student's own choices only.
 //
 // The section reads no providers: the screen hands it [RoadActions] (tests and goldens pump it
 // without a database).
@@ -15,7 +14,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../core/auth/load_problem.dart';
-import '../../../core/copy/formatters.dart' show formatDayMonth;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -29,9 +27,9 @@ import '../logic/today_model.dart';
 import 'road_board.dart';
 import 'road_rail.dart';
 import 'road_timeline.dart';
+import 'road_strip.dart';
 import 'road_tuners.dart';
-import 'section_heading.dart';
-import 'today_type.dart';
+import 'today_pill.dart';
 
 /// What the road saves through: the study-days goal and its weekdays (the account), the exam day
 /// and the mock target (this phone). Each future completes when the save has returned and throws
@@ -67,9 +65,15 @@ class RoadSection extends StatefulWidget {
 
 enum _Save { idle, saving, saved, failed }
 
+/// What is open under the tokens: the pace tuner, the mock ruler, or the week-by-week rail.
+enum _Tuner { pace, mocks, rail }
+
 class _RoadSectionState extends State<RoadSection> {
   final ScrollController _rail = ScrollController();
   int _selected = 0;
+
+  /// The one thing open under the tokens, or null (TODAY-1017 4.4: one tuner at a time).
+  _Tuner? _open;
 
   /// Mobi on this week's pips: he says a pace save's truth (waiting, then a nod or a shrug) and,
   /// tapped, points the rail at the next stop.
@@ -269,64 +273,15 @@ class _RoadSectionState extends State<RoadSection> {
             mocksLeft: board.mocksLeft,
             stops: road.stops,
           );
-    final rail = board != null && weeks.length > 1;
+    final strip = board != null && weeks.length > 1;
     final selected = _selected.clamp(0, weeks.isEmpty ? 0 : weeks.length - 1);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const TodaySectionHeading(title: TodayCopy.roadTitle),
-        const SizedBox(height: MmSpace.s16),
-        _figure(road, board),
-        if (rail) ...[
-          const SizedBox(height: MmSpace.s8),
-          MmOverlapSwitcher.fade(
-            alignment: Alignment.topLeft,
-            child: Text(
-              board.studyDaysLeft == null || goal == null
-                  ? TodayCopy.studyLineNoGoal
-                  : TodayCopy.studyLine(board.studyDaysLeft!, goal, boards: weeks.any((w) => w.boards)),
-              key: ValueKey('${board.studyDaysLeft}|$goal'),
-              style: type.body.copyWith(color: colors.ink2),
-            ),
-          ),
-          const SizedBox(height: MmSpace.s20),
-          _readout(weeks, selected, board, goal),
-          const SizedBox(height: MmSpace.s12),
-          RoadRail(
-            weeks: weeks,
-            selected: selected,
-            controller: _rail,
-            ownDate: board.ownDate,
-            examDay: board.examDate,
-            firstDay: board.today.add(const Duration(days: 1)),
-            lastDay: latestExamDate(expectedWindowStart),
-            magnetDay: expectedWindowStart,
-            onSelect: (i) => setState(() => _selected = i),
-            mobi: _mobi,
-            onMobi: () => _mobiToNext(weeks, board.today),
-            onFlag: saved == null ? null : () => unawaited(showExamDateSheet(context, board: saved)),
-            onFlagDrag: widget.actions == null
-                ? null
-                : (d) => setState(() {
-                      _dragDate = d;
-                      _date = _Save.idle;
-                      _selected = 0;
-                    }),
-            onFlagEnd: widget.actions == null ? null : (d) => unawaited(_commitDate(d)),
-            onFlagStep: widget.actions == null ? null : (d) => unawaited(_commitDate(d)),
-          ),
-          if (road.stops.isNotEmpty) ...[
-            const SizedBox(height: MmSpace.s12),
-            _chips(road, weeks),
-          ],
-          _dateReceipt(board),
-          const SizedBox(height: MmSpace.s24),
-          _paceTuner(board, goal),
-          const SizedBox(height: MmSpace.s24),
-          _mockTuner(board),
-        ] else ...[
-          // The window is open, or the board is not known: the road as it was.
-          const SizedBox(height: MmSpace.s20),
+    if (!strip) {
+      // The window is open, or the board is not known: the road as it was.
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _heading(road, board),
+          const SizedBox(height: MmSpace.s16),
           RoadTimeline(today: road.today, stops: road.stops, end: road.end),
           if (road.stops.isNotEmpty) ...[
             const SizedBox(height: MmSpace.s16),
@@ -340,26 +295,196 @@ class _RoadSectionState extends State<RoadSection> {
             Text(TodayCopy.boardsOn, style: type.body.copyWith(color: colors.ink2)),
           ],
         ],
+      );
+    }
+    // Under 22 days to the date the strip counts days (4.4, phases).
+    final dayMode = board.daysToExam < 22;
+    final planned = road.plannedDays;
+    final dayColumns = !dayMode
+        ? null
+        : [
+            for (var d = 0; d <= board.daysToExam; d++)
+              d < board.daysToExam &&
+                  goal != null &&
+                  (planned == null || planned.contains(board.today.add(Duration(days: d)).weekday - 1)),
+          ];
+    final taken = board.mocksTaken ?? 0;
+    final target = board.mockTarget;
+    final suggested = target == null ? suggestedMockTarget(weeks: board.weeksToExam, taken: taken) : null;
+    final mocks = target ?? suggested!;
+    final valueStyle = type.body.copyWith(color: colors.ink2);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _heading(road, board),
+        const SizedBox(height: MmSpace.s12),
+        RoadStrip(
+          weeks: weeks,
+          examDay: board.examDate,
+          ownDate: board.ownDate,
+          firstDay: board.today.add(const Duration(days: 1)),
+          lastDay: latestExamDate(expectedWindowStart),
+          magnetDay: expectedWindowStart,
+          dayColumns: dayColumns,
+          onWeek: (i) => _openRail(i),
+          onFlag: saved == null ? null : () => unawaited(showExamDateSheet(context, board: saved)),
+          onFlagDrag: widget.actions == null
+              ? null
+              : (d) => setState(() {
+                    _dragDate = d;
+                    _date = _Save.idle;
+                  }),
+          onFlagEnd: widget.actions == null ? null : (d) => unawaited(_commitDate(d)),
+          onFlagStep: widget.actions == null ? null : (d) => unawaited(_commitDate(d)),
+        ),
+        _dateReceipt(board),
+        const SizedBox(height: MmSpace.s12),
+        // The two values, each a token that opens its tuner in place (only one open at a time).
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: MmSpace.s8,
+          runSpacing: MmSpace.s4,
+          children: [
+            MmOverlapSwitcher.fade(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                board.studyDaysLeft == null || goal == null ? TodayCopy.studyDaysPick : TodayCopy.studyDaysAt(board.studyDaysLeft!),
+                key: ValueKey('${board.studyDaysLeft}|$goal'),
+                style: valueStyle,
+              ),
+            ),
+            TodayToken(
+              tokenKey: const ValueKey('road-token-pace'),
+              label: goal == null ? TodayCopy.setDays : TodayCopy.tokenPace(goal),
+              open: _open == _Tuner.pace,
+              semanticsLabel: goal == null ? TodayCopy.setDays : TodayCopy.paceTokenSemantics(goal),
+              onTap: () => _toggle(_Tuner.pace),
+            ),
+          ],
+        ),
+        const SizedBox(height: MmSpace.s8),
+        Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
+          spacing: MmSpace.s8,
+          runSpacing: MmSpace.s4,
+          children: [
+            TodayToken(
+              tokenKey: const ValueKey('road-token-mocks'),
+              label: TodayCopy.tokenMocks(mocks),
+              open: _open == _Tuner.mocks,
+              semanticsLabel: TodayCopy.mocksTokenSemantics(mocks, board.mocksTaken),
+              onTap: () => _toggle(_Tuner.mocks),
+            ),
+            Text(TodayCopy.mocksBefore(taken, suggested: target == null), style: valueStyle),
+          ],
+        ),
+        // The open tuner, or the rail, eases open under the tokens (240 ms) and closes the same way.
+        AnimatedSize(
+          duration: Motion.of(context, const Duration(milliseconds: 240)),
+          curve: Motion.out,
+          alignment: Alignment.topCenter,
+          child: switch (_open) {
+            null => const SizedBox(width: double.infinity),
+            _Tuner.pace => Padding(padding: const EdgeInsets.only(top: MmSpace.s16), child: _paceTuner(board, goal)),
+            _Tuner.mocks => Padding(padding: const EdgeInsets.only(top: MmSpace.s16), child: _mockTuner(board)),
+            _Tuner.rail => Padding(padding: const EdgeInsets.only(top: MmSpace.s16), child: _railBlock(road, board, weeks, selected, goal)),
+          },
+        ),
       ],
     );
   }
 
-  Widget _figure(RoadModel road, RoadBoard? board) => switch (road.phase) {
-        // A day the student chose counts instead of the expected window.
-        RoadPhase.countdown when board != null && board.ownDate && board.weeksToExam < 1 =>
-          _Stat(value: '${board.daysToExam}', unit: TodayCopy.daysToOwnDate(board.daysToExam, formatDayMonth(board.examDate))),
-        RoadPhase.countdown when board != null && board.ownDate =>
-          _Stat(value: '${board.weeksToExam}', unit: TodayCopy.weeksToOwnDate(board.weeksToExam, formatDayMonth(board.examDate))),
-        // Under a week out the card counts days; "0 weeks" would read as the window being here.
-        RoadPhase.countdown when road.weeks < 1 && (road.daysToWindow ?? 0) > 0 =>
-          _Stat(value: '${road.daysToWindow}', unit: TodayCopy.daysToWindowLabel(road.daysToWindow!)),
-        RoadPhase.countdown => _Stat(value: '${road.weeks}', unit: TodayCopy.weeksLabel(road.weeks)),
-        RoadPhase.window => _Stat(
-            value: '${road.daysLeft ?? 0}',
-            unit: TodayCopy.windowDaysLeft(road.daysLeft ?? 0),
-            headline: TodayCopy.windowOpen,
-          ),
-      };
+  /// Opens one tuner and closes the other (or folds the one that is open).
+  void _toggle(_Tuner t) => setState(() => _open = _open == t ? null : t);
+
+  /// The week-by-week rail, opened in place at week [i].
+  void _openRail(int i) {
+    setState(() {
+      _open = _Tuner.rail;
+      _selected = i;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) _jumpTo(i);
+    });
+  }
+
+  /// "Road to May" with the weeks (or days) to the date on the right.
+  Widget _heading(RoadModel road, RoadBoard? board) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final int n;
+    final String unit;
+    if (road.phase == RoadPhase.window) {
+      n = road.daysLeft ?? 0;
+      unit = TodayCopy.windowDaysLeft(n);
+    } else if (board != null && board.weeksToExam < 1) {
+      n = board.daysToExam;
+      unit = TodayCopy.roadDaysTo(own: board.ownDate, n: n);
+    } else if (board != null) {
+      n = board.weeksToExam;
+      unit = TodayCopy.roadWeeksTo(own: board.ownDate, n: n);
+    } else {
+      n = road.weeks;
+      unit = TodayCopy.roadWeeksTo(own: false, n: n);
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.baseline,
+      textBaseline: TextBaseline.alphabetic,
+      children: [
+        Expanded(child: Semantics(header: true, child: Text(TodayCopy.roadTitle, style: type.title.copyWith(fontSize: 19)))),
+        MmCountUp(
+          value: n,
+          fromZeroOnFirstBuild: false,
+          style: type.figureCompact.copyWith(fontSize: 30, height: 1, color: colors.ink, fontFeatures: const [FontFeature.tabularFigures()]),
+        ),
+        const SizedBox(width: MmSpace.s6),
+        Text(unit, style: type.caption.copyWith(fontSize: 14, color: colors.ink2)),
+      ],
+    );
+  }
+
+  /// The detailed rail, in place: the readout, the 48 dp week columns, the jump chips, and Done.
+  Widget _railBlock(RoadModel road, RoadBoard board, List<RoadWeek> weeks, int selected, int? goal) {
+    final saved = road.board;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _readout(weeks, selected, board, goal),
+        const SizedBox(height: MmSpace.s12),
+        RoadRail(
+          weeks: weeks,
+          selected: selected,
+          controller: _rail,
+          ownDate: board.ownDate,
+          examDay: board.examDate,
+          firstDay: board.today.add(const Duration(days: 1)),
+          lastDay: latestExamDate(expectedWindowStart),
+          magnetDay: expectedWindowStart,
+          onSelect: (i) => setState(() => _selected = i),
+          mobi: _mobi,
+          onMobi: () => _mobiToNext(weeks, board.today),
+          onFlag: saved == null ? null : () => unawaited(showExamDateSheet(context, board: saved)),
+          onFlagDrag: widget.actions == null
+              ? null
+              : (d) => setState(() {
+                    _dragDate = d;
+                    _date = _Save.idle;
+                    _selected = 0;
+                  }),
+          onFlagEnd: widget.actions == null ? null : (d) => unawaited(_commitDate(d)),
+          onFlagStep: widget.actions == null ? null : (d) => unawaited(_commitDate(d)),
+        ),
+        if (road.stops.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s12),
+          _chips(road, weeks),
+        ],
+        Align(
+          alignment: Alignment.centerRight,
+          child: KeyButton.quiet(label: TodayCopy.doneRail, onPressed: () => setState(() => _open = null)),
+        ),
+      ],
+    );
+  }
 
   Widget _readout(List<RoadWeek> weeks, int i, RoadBoard board, int? goal) {
     final colors = context.mmColors;
@@ -657,50 +782,5 @@ class _RoadSectionState extends State<RoadSection> {
       ),
       TextSpan(text: caption.substring(at + link!.length)),
     ]);
-  }
-}
-
-/// The figure with its two-line meaning beside it. The number rolls when the flag or the pace
-/// changes it, never on the first build.
-class _Stat extends StatelessWidget {
-  const _Stat({required this.value, required this.unit, this.headline});
-
-  final String value;
-  final String unit;
-
-  /// A line above the figure ("Exam window open").
-  final String? headline;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      container: true,
-      label: '${headline == null ? '' : '$headline. '}$value ${unit.replaceAll('\n', ' ')}',
-      excludeSemantics: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (headline != null) ...[
-            Text(headline!, style: type.labelLarge.copyWith(color: colors.isNight ? colors.volt : colors.accentText)),
-            const SizedBox(height: MmSpace.s4),
-          ],
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              MonumentalNumber(value: value, style: type.countdownFigure, fromZeroOnFirstBuild: false),
-              const SizedBox(width: MmSpace.s12),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Text(unit, style: type.stageLead.copyWith(color: colors.ink)),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
   }
 }

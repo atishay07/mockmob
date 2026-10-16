@@ -73,7 +73,6 @@ class _GreetingRow extends StatelessWidget {
     required this.dateLine,
     required this.greeting,
     this.updatedLine,
-    this.trailing,
     this.onRefresh,
     this.refreshing = false,
   });
@@ -87,7 +86,6 @@ class _GreetingRow extends StatelessWidget {
   /// its height whether or not it is shown.
   final String? updatedLine;
   final String greeting;
-  final Widget? trailing;
 
   @override
   Widget build(BuildContext context) {
@@ -158,10 +156,6 @@ class _GreetingRow extends StatelessWidget {
               ),
             ),
           ),
-          if (trailing != null) ...[
-            const SizedBox(width: MmSpace.s12),
-            trailing!,
-          ],
         ],
       ),
     );

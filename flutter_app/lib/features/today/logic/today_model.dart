@@ -343,7 +343,11 @@ class RoadModel {
     this.weekNeeds,
     this.board,
     this.plannedDays,
+    this.ladderSaved = 0,
   });
+
+  /// Every college on My colleges (the ladder shows the first three): "2 more saved".
+  final int ladderSaved;
 
   /// The weekdays the student plans to study (0 = Monday), when the plan matches the goal: the
   /// pace strip keeps these picks when the count changes.

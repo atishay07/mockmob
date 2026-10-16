@@ -17,7 +17,6 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'hero_stage.dart';
-import 'move_keys.dart';
 import 'number_block.dart';
 import 'length_pill.dart';
 import 'today_pill.dart';
@@ -338,7 +337,7 @@ class MeaningWithShowMe extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final link = colors.isNight ? colors.volt : colors.accentText;
+    final linkColor = colors.isNight ? colors.volt : colors.accentText;
     final shown = (marks ?? const <BubbleState>[]).take(3).toList();
     return MmPressable(
       semanticsLabel: '$text $link. ${TodayCopy.showMeSemantics}',
@@ -374,7 +373,7 @@ class MeaningWithShowMe extends StatelessWidget {
                           color: pressed ? colors.ink2 : colors.ink,
                           fontWeight: FontWeight.w600,
                           decoration: TextDecoration.underline,
-                          decorationColor: link,
+                          decorationColor: linkColor,
                           decorationThickness: 2,
                         ),
                       ),

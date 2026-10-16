@@ -20,12 +20,13 @@ import '../copy.dart';
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
-import '../widgets/colleges_card.dart';
+import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
 import '../widgets/move_hero.dart';
 import '../widgets/resume_hero.dart';
 import '../widgets/road_section.dart';
 import '../widgets/sealed_hero.dart';
-import '../widgets/sheet_section.dart';
+import '../widgets/today_rows.dart';
+import '../widgets/today_week.dart';
 import '../widgets/today_header.dart';
 import '../widgets/today_entrance.dart';
 import '../widgets/today_skeleton.dart';
@@ -41,6 +42,7 @@ class TodayCallbacks {
     this.onRefresh,
     this.road,
     this.onCollegesRetry,
+    this.onWeeklyEnding,
   });
 
   final void Function(TodayAction action) onAction;
@@ -56,6 +58,9 @@ class TodayCallbacks {
 
   /// Your colleges did not load: read the list again.
   final VoidCallback? onCollegesRetry;
+
+  /// The week that just closed: the This week row opens its ending.
+  final VoidCallback? onWeeklyEnding;
 }
 
 class TodayBody extends StatefulWidget {
@@ -65,10 +70,8 @@ class TodayBody extends StatefulWidget {
     required this.callbacks,
     this.controller,
     this.weeklyEnding,
-    this.insights,
-    this.roadFooter,
     this.colleges = const CollegesCardInfo(),
-    this.insightsLoading = false,
+    this.lastWeek,
     this.mobiController,
     this.retrying = false,
     this.skeletonDelay = const Duration(milliseconds: 400),
@@ -78,21 +81,15 @@ class TodayBody extends StatefulWidget {
   final TodayCallbacks callbacks;
   final ScrollController? controller;
 
-  /// The rhythm module's weekly ending card, hosted under the hero when it has one to show.
+  /// A moment under the move when there is one to show (the first repair, the first met week).
   final Widget? weeklyEnding;
 
-  /// The integrator's slot for the record finding (the Insights card, `findings[0]` with Show
-  /// me). Placed under the hero; absent when null.
-  final Widget? insights;
+  /// The week that just closed, (study days, goal), on Sunday night and Monday: the This week row
+  /// says it and opens the week's ending.
+  final (int, int)? lastWeek;
 
-  /// The record card's finding is still being read: its slot is held at its height (L03).
-  final bool insightsLoading;
-
-  /// What the Your colleges card knows beyond the road (the list's state, what Compass opens).
+  /// What the Your colleges row knows beyond the road (the list's state).
   final CollegesCardInfo colleges;
-
-  /// A quiet line under the road to May (the CUET tools link); absent when null.
-  final Widget? roadFooter;
 
   /// Drives Mobi when the hero is a human moment (day one, coming back, late at night).
   final MobiController? mobiController;
@@ -539,8 +536,6 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final padding = MediaQuery.paddingOf(context);
     final view = widget.view;
     final callbacks = widget.callbacks;
-    final insights = widget.insights;
-    final roadFooter = widget.roadFooter;
     // The shell lifts a tab root's bottom padding by the bar's clearance (MmBarInsets).
     final bar = MmBarInsets.maybeOf(context);
     _bar = bar != null && bar.showing ? bar : null;
@@ -550,79 +545,77 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       if (mounted) _measure();
     });
     final hero = _heroSwap();
+    final heroMobi = view.hero is MoveHero && (view.hero! as MoveHero).art.isMobi;
     final head = <Widget>[
       TodayHeader(
         header: view.header,
         onWeek: callbacks.onWeek,
-        aim: view.hero is MoveHero ? _moveKey : null,
         bleed: _bleed,
         onRefresh: () => callbacks.onAction(const TodayAction(TodayCopy.tryAgain, RetryLoad())),
         refreshing: widget.retrying,
       ),
-      // Header to the first block (SPACING.md 3.1, audit T3): the hero starts high enough that its
-      // key is above the bar on a 640 dp phone.
-      const SizedBox(height: MmSpace.s16),
-      // The hero rises 16 dp and fades over 420 ms from 120 ms (MOTION.md 4.3); its object then
-      // scales in place and the number lands at about 660 ms.
-      TodayEnter(delay: const Duration(milliseconds: 120), child: KeyedSubtree(key: _heroBoxKey, child: hero)),
+      // Header to the move: 18 (TODAY-1017 4.1).
+      const SizedBox(height: 18),
+      // The move rises 12 dp and fades (4.8); its object then scales in place and the number lands.
+      TodayEnter(delay: const Duration(milliseconds: 80), child: KeyedSubtree(key: _heroBoxKey, child: hero)),
     ];
+    final road = view.road;
+    final first = road == null || road.ladder.isEmpty ? null : road.ladder.first;
     final after = <Widget>[
       if (view.also.isNotEmpty)
         TodayEnter(
-          delay: const Duration(milliseconds: 200),
+          delay: const Duration(milliseconds: 160),
           child: AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
         ),
-      // The record card's slot is held at its height while its finding is read, so it never
-      // arrives late above the fold (L03); a read with no finding closes the slot with an ease.
-      if (insights != null) ...[
-        const SizedBox(height: MmSpace.s16),
-        AnimatedSize(
-          duration: Motion.of(context, Motion.card),
-          curve: Motion.out,
-          alignment: Alignment.topCenter,
-          child: widget.insightsLoading && view.hero != null
-              ? const InsightsSlot()
-              : TodayEnter(delay: const Duration(milliseconds: 220), child: insights),
-        ),
-      ],
       ?widget.weeklyEnding,
-      // Section to section: 32, then the section's own hairline rule and heading (audit T8).
-      if (view.road != null) ...[
-        const SizedBox(height: MmSpace.group),
+      // The glance (4.1): This week, the Road to May, then the two record rows. No cards: space
+      // and hairlines. Each block holds its height from the first frame (L03), so nothing above
+      // the fold moves when the rhythm or the colleges land.
+      const SizedBox(height: MmSpace.group),
+      TodayEnter(
+        delay: const Duration(milliseconds: 200),
+        rise: 8,
+        child: TodayWeekRow(
+          week: view.header.week,
+          loading: view.header.weekLoading,
+          failed: view.header.weekFailed,
+          onTap: widget.lastWeek != null ? callbacks.onWeeklyEnding ?? callbacks.onWeek : callbacks.onWeek,
+          onRetry: callbacks.onRefresh == null ? null : () => unawaited(callbacks.onRefresh!()),
+          onSetDays: callbacks.onWeek,
+          lastWeek: widget.lastWeek,
+          allowMobi: !heroMobi,
+        ),
+      ),
+      if (road != null) ...[
+        const SizedBox(height: 28),
         TodayEnter(
           delay: const Duration(milliseconds: 240),
+          rise: 8,
           child: RoadSection(
             key: _roadKey,
-            road: view.road!,
+            road: road,
             actions: callbacks.road,
             onChooseColleges: callbacks.onChooseColleges,
             onWeek: callbacks.onWeek,
             onOpen: callbacks.onTarget,
           ),
         ),
-        if (roadFooter != null) ...[const SizedBox(height: MmSpace.s16), roadFooter],
       ],
-      // Recent papers sit under the road (L07): the plan for May first, then the record behind it.
-      if (view.sheet.isNotEmpty) ...[
-        const SizedBox(height: MmSpace.group),
-        TodayEnter(delay: const Duration(milliseconds: 320), child: SheetSection(rows: view.sheet, papers: view.papers, trend: view.trend, onOpen: callbacks.onTarget)),
-      ],
-      // Your colleges: the last block, on its own (IA 5.2), reading the shared My colleges list.
-      if (view.road != null) ...[
-        const SizedBox(height: MmSpace.group),
-        TodayEnter(
-          delay: const Duration(milliseconds: 360),
-          child: CollegesCard(
-            road: view.road!,
-            info: widget.colleges,
-            onChoose: callbacks.onChooseColleges,
-            onSeeAll: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
-            onCompass: () => callbacks.onTarget(const GoTo('${ToolsPaths.compass}?from=today')),
-            onRow: (r) => callbacks.onTarget(GoTo('${ToolsPaths.programme(r.programmeId!)}?college=${Uri.encodeQueryComponent(r.college)}&from=today')),
-            onRetry: callbacks.onCollegesRetry,
-          ),
+      const SizedBox(height: 28),
+      TodayEnter(
+        delay: const Duration(milliseconds: 280),
+        rise: 8,
+        child: TodayRows(
+          lastPaper: view.lastPaper,
+          firstCollege: first,
+          collegesSaved: road?.ladderSaved ?? 0,
+          collegesStatus: first != null ? CollegesCardStatus.ready : widget.colleges.status,
+          onPaper: callbacks.onTarget,
+          onColleges: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
+          onChoose: callbacks.onChooseColleges,
+          onRetry: callbacks.onCollegesRetry,
         ),
-      ],
+      ),
     ];
     // The cue lives in the page, in the gap under the hero (design critic 16 Oct, finding 2): it
     // takes the place of the first block's own leading gap (at least the 32 between sections), so
