@@ -15,7 +15,7 @@ for(const subject of ['english','accountancy','business_studies','economics']){
  const feed=await get('/api/questions/feed?subject='+subject+'&limit=50',student),actual=feed.questions||[];
  assert.equal(actual.length,all.filter(j=>j.subject===subject&&j.state==='published').length);assert.ok(actual.every(q=>expected.has(q.id)&&!rejected.has(q.id)));actual.forEach(q=>received.add(q.id));
  for(const q of actual){const registered=all.find(j=>j.id===q.id).candidate;
-  assert.equal(q.correct_answer,registered.correct_answer);assert.equal(q.explanation,registered.explanation);
+  assert.ok(!('correct_answer' in q)&&!('explanation' in q),'The feed must not carry the key');if(actual.indexOf(q)<3){const r=await fetch(base+'/api/questions/'+encodeURIComponent(q.id)+'/answer',{method:'POST',headers:{Cookie:student,'Content-Type':'application/json'},body:JSON.stringify({choice:null,ticket:q.ticket})}),a=await r.json();assert.equal(r.status,200,JSON.stringify(a));assert.equal(a.correct_answer,registered.correct_answer);assert.equal(a.explanation,registered.explanation);}
   assert.deepEqual(q.options.map(o=>o.key),['A','B','C','D']);assert.deepEqual(q.options.map(o=>o.text),registered.options);
   if(registered.route==='passage')assert.equal(q.passage_text,registered.passage_text,'Student receives the complete validated passage');
  }

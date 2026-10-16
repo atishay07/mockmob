@@ -27,12 +27,14 @@ if(staging){await request('/api/admin/question-factory',{status:404});await requ
  await request('/api/admin/question-factory',{cookie:admin,action:'release_1000'});await request('/api/admin/question-factory',{cookie:admin,action:'release_1000'});checks.push({name:'funded 1000 checkpoint release and replay, completed original pilot retained',passed:true});
  await request('/api/admin/question-factory',{cookie:admin,action:'release_10000',status:409});checks.push({name:'unfunded ten-thousand checkpoint rejected',passed:true});}
 console.log(JSON.stringify({stage:'authenticated_admin_verified',published:publications.length}));
-const received=new Set(),groups=new Map();let pages=0;
+const received=new Set(),groups=new Map();let pages=0,keyed=0;
+async function answer(q){const r=await boundedFetch(base+'/api/questions/'+encodeURIComponent(q.id)+'/answer',{method:'POST',headers:{...(student?{Cookie:student}:{}),'Content-Type':'application/json'},body:JSON.stringify({choice:null,ticket:q.ticket})},30000);const d=await r.json();assert.equal(r.status,200,'answer '+q.id+':'+JSON.stringify(d));return d;} // a few per run: the answer endpoint is rate-limited
 for(const subject of ['english','accountancy','business_studies','economics']){
  let offset=0,count=0;
  for(;;){const data=await request('/api/questions/feed?subject='+subject+'&limit=50&offset='+offset);pages++;count+=(data.questions||[]).length;
   for(const q of data.questions||[]){assert.ok(!rejected.has(q.id),'Rejected question available: '+q.id);if(!expected.has(q.id))continue;const e=expected.get(q.id);received.add(q.id);
-   assert.equal(q.correct_answer,e.correct_answer);assert.equal(q.explanation,e.explanation);assert.deepEqual(q.options.map(o=>o.key),['A','B','C','D']);assert.deepEqual(q.options.map(o=>o.text),e.options);
+   assert.ok(!('correct_answer' in q)&&!('explanation' in q),'The feed must not carry the key');if(keyed<3){keyed++;const a=await answer(q);assert.equal(a.correct_answer,e.correct_answer);assert.equal(a.explanation,e.explanation);}
+   assert.deepEqual(q.options.map(o=>o.key),['A','B','C','D']);assert.deepEqual(q.options.map(o=>o.text),e.options);
    if(e.passage_text){assert.equal(q.passage_text,e.passage_text);assert.ok(q.passage_text.split(/\s+/).length<=300);}
    if(e.passage_group_id){assert.equal(q.passage_group_id,e.passage_group_id);groups.set(q.passage_group_id,(groups.get(q.passage_group_id)||0)+1);}
   }
