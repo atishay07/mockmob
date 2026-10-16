@@ -55,10 +55,10 @@ test('moderation queue requires a moderator or admin', () => {
   assert.match(src, /status: 403/);
 });
 
-test('billing webhook compares the secret in constant time', () => {
+test('the legacy generic billing webhook is retired: 410, no secret, no grant', () => {
   const src = read('src/app/api/billing/webhook/route.js');
-  assert.match(src, /timingSafeEqual/);
-  assert.doesNotMatch(src, /provided !== secret/);
+  assert.match(src, /status: 410/);
+  assert.doesNotMatch(src.split(/\r?\n/).filter((line) => !line.trim().startsWith('//')).join(' '), /timingSafeEqual|supabaseAdmin|is_premium/);
 });
 
 test('auth.ts has no demo provider or insecure fallbacks', () => {

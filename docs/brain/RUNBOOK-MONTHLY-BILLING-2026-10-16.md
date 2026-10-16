@@ -54,7 +54,7 @@ So you create the plan twice, once in Test mode (for the main session's local ch
 7. Decide about the six accounts below (the main session will have read the list before you flip anything).
 8. In **Vercel**, project settings, Environment Variables, add for **Production**:
    `RAZORPAY_PLAN_ID_PRO_MONTHLY_99` = the LIVE `plan_...` ID. Then redeploy (an environment variable only applies to a new deployment).
-   Leave `BILLING_WEBHOOK_SECRET` unset: it belongs to an older generic webhook that would write plan status without dates.
+   Leave `BILLING_WEBHOOK_SECRET` unset (and do not add it): it belonged to an older generic webhook that wrote plan status without dates. That route (`/api/billing/webhook`) is now retired and answers 410 whatever is set.
 9. Open `/pricing` on the live site. It must say Pro is Rs 99 a month and show a "Start Pro for Rs 99/month" button. Until then, one-time access is still on sale.
 
 Tonight's order that is safe: steps 1 to 4 and 6 first, so the main session can run Part 2. Do steps 5, 8 and 9 only after Part 2 has passed.
@@ -160,5 +160,5 @@ the webhook, verify and cancel routes do not depend on the variable. Their renew
 - **Monthly plans run for 24 cycles** (`totalCount: 24`), which ends in October 2028, long after CUET 2027. That is the existing product choice.
 - **The Flutter app only displays the plan** ("Pro is active until <date>", from `premiumUntil` of `/api/auth/me`). It never sells and has no cancel. For a renewing subscriber the date is the paid-through date and moves forward each month. No app change was needed.
 - **Cancelling while Razorpay holds the subscription in `pending`** can be refused by Razorpay for cycle-end cancel. The route returns a clear error and changes nothing; this is the existing, tested behaviour of `cancelMonthlyRenewal`.
-- **Two deliveries of the same event at the same instant** can both run before the first is marked processed. Every handler is idempotent (dates only move forward, the same fields are written), so the result is the same.
-- **The generic `/api/billing/webhook`** (needs `BILLING_WEBHOOK_SECRET`) is untouched and should stay unset.
+- **Two deliveries of the same event at the same instant**: the first claims the event with a lease (`webhook_events.claimed_at`, 120 s). A duplicate that arrives while the first is still working gets a 503 so Razorpay retries it later; once the first finishes, a retry is answered as a duplicate (200). If the first crashed, the retry after the lease runs the event. Needs migration `20261016170100_webhook_event_lease.sql`; until it is applied the code falls back to the old claim (handlers are idempotent, so the result is the same).
+- **The generic `/api/billing/webhook`** is retired (16 Oct 2026 security follow-up): it returns 410 and writes nothing. Before this it let a holder of `BILLING_WEBHOOK_SECRET` set `subscription_status` and `is_premium` for any user id or email, with no paid-through date and no Razorpay evidence. Nothing in the repository called it. The old code is in git history (the commit "Retire the legacy billing webhook").
