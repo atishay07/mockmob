@@ -26,22 +26,57 @@ class _ParsedAttempts {
   final List<String> jsons;
 }
 
+/// Parses the body of `GET /api/attempts`. The route sends a bare array: anything else (an error
+/// object that arrived with a 200, a page from something in front of the server) is not a list of
+/// attempts, and reading it as an empty list would tell a student with a record that they have
+/// none. One row that cannot be read is left out, not allowed to take the other rows with it; a
+/// body where no row can be read is unreadable.
 _ParsedAttempts _parseAttempts(String body) {
   final decoded = jsonDecode(body);
+  if (decoded is! List) throw const FormatException('attempts body is not a list');
   final attempts = <Attempt>[];
   final jsons = <String>[];
-  if (decoded is List) {
-    for (final item in decoded) {
-      if (item is! Map) continue;
+  var rows = 0;
+  for (final item in decoded) {
+    if (item is! Map) continue;
+    rows++;
+    try {
       final map = Json.from(item);
       attempts.add(Attempt.fromJson(map));
       jsons.add(jsonEncode(map));
+    } on Object {
+      continue;
     }
   }
+  if (rows > 0 && attempts.isEmpty) throw const FormatException('no attempt could be read');
   return _ParsedAttempts(attempts, jsons);
 }
 
-List<Attempt> _parseCachedRows(List<String> rows) => [for (final r in rows) Attempt.fromJson(asJson(jsonDecode(r)))];
+/// Cached rows that still read. A row an older version wrote that no longer parses is left out
+/// instead of hiding the rest of the list.
+List<Attempt> _parseCachedRows(List<String> rows) {
+  final out = <Attempt>[];
+  for (final r in rows) {
+    try {
+      out.add(Attempt.fromJson(asJson(jsonDecode(r))));
+    } on Object {
+      continue;
+    }
+  }
+  return out;
+}
+
+/// Large bodies are read in an isolate. When the isolate cannot run (no memory to start one, a
+/// message it cannot send back) the body is read here instead: a phone that cannot spawn an
+/// isolate must not report a good answer as unreadable.
+Future<T> _offMain<T>(int chars, T Function() inline, Future<T> Function() isolate) async {
+  if (chars <= _isolateThresholdChars) return inline();
+  try {
+    return await isolate();
+  } on Object {
+    return inline();
+  }
+}
 
 /// The `cache_entries` row whose `fetchedAtMs` is when the whole list was last read from the
 /// server. The rows of `cached_attempts` carry their own times: one added by a submit is newer
@@ -69,9 +104,9 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
         .get();
     if (rows.isEmpty) return null;
     final jsons = [for (final r in rows) r.json];
-    final attempts = jsons.fold<int>(0, (n, j) => n + j.length) > _isolateThresholdChars
-        ? await Isolate.run(() => _parseCachedRows(jsons))
-        : _parseCachedRows(jsons);
+    final chars = jsons.fold<int>(0, (n, j) => n + j.length);
+    final attempts = await _offMain(chars, () => _parseCachedRows(jsons), () => Isolate.run(() => _parseCachedRows(jsons)));
+    if (attempts.isEmpty) return null;
     return CachedValue(attempts, DateTime.fromMillisecondsSinceEpoch(await _listFetchedAtMs(db, userId, rows)));
   }
 
@@ -91,7 +126,7 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
     final response = await api.get('/api/attempts', options: const ApiOptions(plainBody: true, receiveTimeout: Duration(seconds: 60)));
     final body = response.text;
     try {
-      final parsed = body.length > _isolateThresholdChars ? await Isolate.run(() => _parseAttempts(body)) : _parseAttempts(body);
+      final parsed = await _offMain(body.length, () => _parseAttempts(body), () => Isolate.run(() => _parseAttempts(body)));
       return Fetched(parsed.attempts, parsed.jsons);
     } on Object {
       throw const ApiError(kind: ApiErrorKind.unknown, code: 'unusable_response');

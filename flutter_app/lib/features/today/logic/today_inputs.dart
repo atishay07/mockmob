@@ -2,6 +2,7 @@
 // that tests can feed fixtures. `today_providers.dart` gathers these from the repositories.
 import 'package:timezone/timezone.dart' as tz;
 
+import '../../../core/auth/load_problem.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/models/learning_plan.dart';
 import '../../../core/notifications/timezones.dart';
@@ -86,6 +87,7 @@ class TodayInputs {
     this.subjects = const [],
     this.attempts,
     this.attemptsFailed = false,
+    this.readProblem,
     this.attemptsFetchedAt,
     this.attemptsStale = false,
     this.plan,
@@ -116,6 +118,11 @@ class TodayInputs {
 
   /// The attempts read failed with nothing cached.
   final bool attemptsFailed;
+
+  /// Why the record did not load, when it did not: the cause the failed read reported (offline,
+  /// slow, refused, an answer the app could not read), so the card says what happened instead of
+  /// one sentence for everything. Null when nothing is known, and the card keeps its general line.
+  final LoadProblem? readProblem;
   final DateTime? attemptsFetchedAt;
 
   /// Showing cached attempts because the read failed.

@@ -233,6 +233,9 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     subjects: auth.subjects,
     attempts: attempts.value,
     attemptsFailed: attempts.isFailedEmpty,
+    readProblem: attempts.isFailedEmpty
+        ? LoadProblem.of(attempts.error)
+        : ((plan.value?.recordUnavailable ?? false) ? LoadProblem.record : null),
     attemptsFetchedAt: attempts.fetchedAt,
     attemptsStale: attempts.isStale,
     plan: plan.value,

@@ -1,6 +1,7 @@
 // Every line Today says (Night Sheet brief sections 1.1, 8 and 12; design spec 5.3, 6.7, 6.8).
 // Voice: a sharp senior who has been through CUET. Short, specific, warm, never defensive.
 // Sentence case, no exclamation marks, no arrows, 12-hour times, real dates.
+import '../../core/auth/load_problem.dart';
 import '../../core/copy/formatters.dart' as fmt;
 import '../../core/copy/formatters.dart';
 import '../../core/domain/cuet_dates.dart';
@@ -139,6 +140,14 @@ abstract final class TodayCopy {
   /// The label on the error card: a failed read is not tonight's move.
   static const String unavailableTitle = 'Your earlier results are still there.';
   static const String unavailableLine = 'Could not reach MockMob just now.';
+
+  /// What failed, said as it was: a read that came back unreadable, refused or slow is not "could
+  /// not reach MockMob" (the phone did reach it). Without a known cause the general line stands.
+  static String unavailableFor(LoadProblem? problem) => switch (problem) {
+        null => unavailableLine,
+        LoadProblem.offline => unavailableOffline,
+        _ => '${problem.sentence} ${problem.advice}',
+      };
   static const String unavailableOffline = 'You are offline. Your record loads again when you reconnect.';
   static const String tryAgain = 'Try again';
   static const String choosePractice = 'Choose practice';
