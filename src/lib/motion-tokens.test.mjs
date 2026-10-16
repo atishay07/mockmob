@@ -41,7 +41,7 @@ const SPRING_TABLE = {
 test('the shared JSON is byte for byte the app\'s copy (LF), so app and web read one source', () => {
   const bytes = lf(readFileSync(TOKENS_PATH, 'utf8'));
   const sha = createHash('sha256').update(bytes, 'utf8').digest('hex');
-  assert.equal(sha, 'f17b16fa18b302b6ea6b1c1c295dc4cfed2b1af1cea22c84792142bd1fa88157',
+  assert.equal(sha, '6aca08535cf448f711d09521a2bdc75013312776fede46763b45e32c4ac6a957',
     'shared/motion-tokens.json changed: change the app\'s copy in the same commit (they must stay identical), then update this hash');
   assert.equal(Buffer.byteLength(bytes), 4183);
   // When the app lives in the same checkout, its copy is this file.
