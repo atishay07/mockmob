@@ -149,7 +149,7 @@
   inset: 0;
   z-index: -1;
   border-radius: inherit;
-  background: radial-gradient(70% 60% at 22% 18%, var(--a-volt-wash), transparent 70%);
+  background: var(--a-volt-wash);
   opacity: 0;
   transition: opacity var(--mm-dur-exit) var(--mm-ease-exit);
   pointer-events: none;

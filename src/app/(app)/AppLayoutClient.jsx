@@ -170,8 +170,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   }, [activePath, status, isTestRoute]);
 
   // One volt per viewport (AGENT_RULES 7, WB-05): a page that owns a volt action marks it data-page-primary (or marks its
-  // root data-owns-start). While such a page is mounted, #app-main carries data-start-quiet and the Start key in the bar or
-  // sidebar is outlined for the whole visit (start.css). The key's look follows the route and what the page holds, never the
+  // root data-owns-start). While such a page is mounted, #app-main carries data-start-quiet and the sidebar's Start key (from
+  // 1024 px) is outlined for the whole visit (start.css); the phone bar's key keeps its lime disc everywhere (nav A1). The key's look follows the route and what the page holds, never the
   // scroll position: a key that flips as the page scrolls is the bug the owner saw on Practice (F12, START-1017 section 5).
   useEffect(() => {
     // <main> exists only once the session is known, so this waits for it.
