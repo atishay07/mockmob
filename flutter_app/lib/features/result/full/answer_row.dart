@@ -12,6 +12,7 @@ import '../copy.dart';
 import '../model/answer_items.dart';
 import '../model/time_decisions.dart' show TimeCopy;
 import '../widgets/trap_tag.dart';
+import 'keep_numbers.dart';
 
 /// One answer of the full result: a collapsed header (bubble, number, verdict in words, chapter)
 /// that opens to the question, the options with the student's choice and, only where the key rule
@@ -212,6 +213,11 @@ class _Body extends StatelessWidget {
           Text(othersTitle ?? const LabLabels().othersTitle, style: type.label.copyWith(color: colors.ink3)),
           const SizedBox(height: MmSpace.s4),
           Text(others!.line, style: type.body.copyWith(fontSize: 15, height: 22 / 15, fontFeatures: const [FontFeature.tabularFigures()])),
+          // Slice 5: time, changes and strike-outs, each only when the server sent it, in the second ink so the picks line stays first.
+          for (final line in others!.lines) ...[
+            const SizedBox(height: MmSpace.s4),
+            Text(keepNumbersWithWords(line), style: type.body.copyWith(fontSize: 15, height: 22 / 15, color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
+          ],
         ],
         const SizedBox(height: MmSpace.s12),
         _Options(item: item, keysOff: keysOff, others: others, trap: trap),

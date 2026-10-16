@@ -369,19 +369,43 @@ class LabRemark {
 /// "3 questions you lost were ones most other students got right: ...", and the fine lines that
 /// say where the other students' answers come from.
 class LabCohort {
-  const LabCohort({this.line, this.numbers = const [], this.marks, this.fine = const []});
+  const LabCohort({this.line, this.numbers = const [], this.marks, this.fine = const [], this.slow});
 
   static LabCohort? tryParse(Json j) {
     final line = _text(j['line']);
     final fine = _texts(j['fine']);
-    if (line == null && fine.isEmpty) return null;
-    return LabCohort(line: line, numbers: line == null ? const [] : _numbers(j['numbers']), marks: asInt(j['marks']), fine: fine);
+    final slow = j['slow'] is Map ? LabSlow.tryParse(asJson(j['slow'])) : null;
+    if (line == null && slow == null && fine.isEmpty) return null;
+    return LabCohort(line: line, numbers: line == null ? const [] : _numbers(j['numbers']), marks: asInt(j['marks']), fine: fine, slow: slow);
   }
 
   final String? line;
   final List<int> numbers;
   final int? marks;
   final List<String> fine;
+
+  /// Slice 5: the questions that took over twice as long as the students who got them right. Null
+  /// until the server sends it (5 or more such questions, each with 15 or more timed right answers).
+  final LabSlow? slow;
+}
+
+/// `cohort.slow`: "On 7 questions you took over twice as long as the students who got them right.
+/// You got 5 of the 7 right." with the question numbers as chips. The sentence arrives finished;
+/// [questions] and [right] are its two numbers, read only so the line can be checked against them.
+class LabSlow {
+  const LabSlow({required this.line, required this.numbers, this.questions, this.right});
+
+  /// Null when the line is missing. A line without numbers still shows, without chips.
+  static LabSlow? tryParse(Json j) {
+    final line = _text(j['line']);
+    if (line == null) return null;
+    return LabSlow(line: line, numbers: _numbers(j['numbers']), questions: asInt(j['questions']), right: asInt(j['right']));
+  }
+
+  final String line;
+  final List<int> numbers;
+  final int? questions;
+  final int? right;
 }
 
 /// One question's place in the Lab.
@@ -407,6 +431,7 @@ class LabOthers {
     this.keyIndex,
     this.small = false,
     this.optionLabels = const [],
+    this.lines = const [],
   });
 
   /// Null when the line is missing or the counts do not add up to [n] (the bars would lie).
@@ -425,6 +450,7 @@ class LabOthers {
       keyIndex: asInt(j['keyIndex']),
       small: asBool(j['small']) ?? false,
       optionLabels: _texts(j['optionLabels']),
+      lines: j['lines'] is List ? _texts([for (final e in j['lines'] as List) if (e is String) e]) : const [],
     );
   }
 
@@ -446,6 +472,11 @@ class LabOthers {
 
   /// "Option A: chosen by 3 of 31 other students.", one per option.
   final List<String> optionLabels;
+
+  /// Slice 5, each present only once the server's gate passed (30, 20 and 20 students): how long the
+  /// students who got it right took, how many changed their answer, how many crossed out the key.
+  /// Every line carries its own denominator. Empty when the server sends none.
+  final List<String> lines;
 
   /// The share of [n] that chose option [i], 0 to 1.
   double shareOf(int i) => i < 0 || i >= counts.length ? 0 : counts[i] / n;

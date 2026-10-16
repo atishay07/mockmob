@@ -1,0 +1,3726 @@
+{
+  "version": 1,
+  "labels": {
+    "name": "Mistake Lab",
+    "othersTitle": "How others answered",
+    "showMore": "Show {k} more",
+    "seeChanges": "See every change"
+  },
+  "state": "ready",
+  "heading": "You missed 105 marks. Here's where they went.",
+  "gap": 105,
+  "headline": {
+    "group": "quick_wrong",
+    "text": "3 wrong answers took under 20 seconds each. They cost 18 of the 105 marks you missed."
+  },
+  "groups": [
+    {
+      "id": "changed_from_right",
+      "label": "Right, then changed",
+      "marks": 12,
+      "count": 2,
+      "numbers": [
+        17,
+        31
+      ],
+      "line": "12 marks on 2 questions",
+      "doLine": "Change an answer only when you can point to the line that proves it wrong.",
+      "open": false
+    },
+    {
+      "id": "struck_key",
+      "label": "Crossed out the key",
+      "marks": 12,
+      "count": 2,
+      "numbers": [
+        6,
+        16
+      ],
+      "line": "12 marks on 2 questions",
+      "doLine": "Before you cross out an option, name the word in it that makes it wrong.",
+      "open": false
+    },
+    {
+      "id": "long_stay",
+      "label": "2 minutes or more, still lost",
+      "marks": 17,
+      "count": 3,
+      "numbers": [
+        5,
+        12,
+        28
+      ],
+      "line": "17 marks on 3 questions",
+      "doLine": "At 2 minutes, mark it for review and move on. Come back at the end.",
+      "open": false
+    },
+    {
+      "id": "quick_wrong",
+      "label": "Wrong in under 20 seconds",
+      "marks": 18,
+      "count": 3,
+      "numbers": [
+        3,
+        19,
+        33
+      ],
+      "line": "18 marks on 3 questions",
+      "doLine": "Read the whole question before you look at the options.",
+      "open": true
+    },
+    {
+      "id": "other_wrong",
+      "label": "Other wrong answers",
+      "marks": 30,
+      "count": 5,
+      "numbers": [
+        22,
+        26,
+        38,
+        42,
+        49
+      ],
+      "line": "30 marks on 5 questions",
+      "doLine": "Each one has a repair below: the trap, why the key is right and one rule to keep.",
+      "open": false
+    },
+    {
+      "id": "other_blank",
+      "label": "Opened, left blank",
+      "marks": 10,
+      "count": 2,
+      "numbers": [
+        40,
+        47
+      ],
+      "line": "10 marks on 2 questions",
+      "doLine": "Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and −1 for wrong.",
+      "open": false
+    },
+    {
+      "id": "held",
+      "label": "Under re-check or corrected",
+      "marks": 6,
+      "count": 1,
+      "numbers": [
+        14
+      ],
+      "line": "6 marks on 1 question",
+      "doLine": "These are being re-checked or were corrected, so they are not sorted by how they were lost.",
+      "open": false
+    }
+  ],
+  "barLabel": "105 marks missed: 12 right then changed, 12 crossed out the key, 17 at 2 minutes or more, 18 wrong in under 20 seconds, 30 other wrong answers, 10 opened and left blank, 6 under re-check or corrected.",
+  "remark": {
+    "first": 151,
+    "final": 146,
+    "questions": 5,
+    "text": "Your first picks, re-marked: 151. Your final answers: 146. Changing answers cost 5 marks over 5 questions.",
+    "fine": "Same paper, same key, only your first picks swapped in. 1 question under re-check is left out of both."
+  },
+  "cohort": {
+    "line": "7 questions you lost were ones most other students got right: Q6, Q12, Q16, Q17, Q22, Q40 and Q42 (41 marks).",
+    "numbers": [
+      6,
+      12,
+      16,
+      17,
+      22,
+      40,
+      42
+    ],
+    "marks": 41,
+    "fine": [
+      "33 of the 50 questions in this paper have answers from 10 or more other students.",
+      "Other students' first answers to the same question on MockMob, 21 Apr to 15 Oct 2026. Your own answers are not counted."
+    ]
+  },
+  "fine": [
+    "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits."
+  ],
+  "byQuestion": {
+    "q1": {
+      "group": null,
+      "others": {
+        "n": 45,
+        "right": 36,
+        "counts": [
+          3,
+          6,
+          0,
+          36
+        ],
+        "keyIndex": 3,
+        "small": false,
+        "line": "45 other students answered this. 36 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 3 of 45 other students.",
+          "Option B: chosen by 6 of 45 other students.",
+          "Option C: chosen by 0 of 45 other students.",
+          "Option D: chosen by 36 of 45 other students."
+        ]
+      }
+    },
+    "q2": {
+      "group": null,
+      "others": {
+        "n": 39,
+        "right": 33,
+        "counts": [
+          0,
+          3,
+          33,
+          3
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "39 other students answered this. 33 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 0 of 39 other students.",
+          "Option B: chosen by 3 of 39 other students.",
+          "Option C: chosen by 33 of 39 other students.",
+          "Option D: chosen by 3 of 39 other students."
+        ]
+      }
+    },
+    "q4": {
+      "group": null,
+      "others": {
+        "n": 54,
+        "right": 36,
+        "counts": [
+          36,
+          9,
+          6,
+          3
+        ],
+        "keyIndex": 0,
+        "small": false,
+        "line": "54 other students answered this. 36 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 36 of 54 other students.",
+          "Option B: chosen by 9 of 54 other students.",
+          "Option C: chosen by 6 of 54 other students.",
+          "Option D: chosen by 3 of 54 other students."
+        ]
+      }
+    },
+    "q5": {
+      "group": "long_stay",
+      "others": {
+        "n": 42,
+        "right": 24,
+        "counts": [
+          6,
+          9,
+          3,
+          24
+        ],
+        "keyIndex": 3,
+        "small": false,
+        "line": "42 other students answered this. 24 got it right. 9 of the 18 who got it wrong chose B, as you did.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 42 other students.",
+          "Option B: chosen by 9 of 42 other students.",
+          "Option C: chosen by 3 of 42 other students.",
+          "Option D: chosen by 24 of 42 other students."
+        ]
+      }
+    },
+    "q6": {
+      "group": "struck_key",
+      "others": {
+        "n": 72,
+        "right": 45,
+        "counts": [
+          12,
+          6,
+          45,
+          9
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "72 other students answered this. 45 got it right. 12 others chose A, as you did.",
+        "optionLabels": [
+          "Option A: chosen by 12 of 72 other students.",
+          "Option B: chosen by 6 of 72 other students.",
+          "Option C: chosen by 45 of 72 other students.",
+          "Option D: chosen by 9 of 72 other students."
+        ]
+      }
+    },
+    "q7": {
+      "group": null,
+      "others": {
+        "n": 84,
+        "right": 66,
+        "counts": [
+          6,
+          66,
+          3,
+          9
+        ],
+        "keyIndex": 1,
+        "small": false,
+        "line": "84 other students answered this. 66 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 84 other students.",
+          "Option B: chosen by 66 of 84 other students.",
+          "Option C: chosen by 3 of 84 other students.",
+          "Option D: chosen by 9 of 84 other students."
+        ]
+      }
+    },
+    "q9": {
+      "group": null,
+      "others": {
+        "n": 60,
+        "right": 36,
+        "counts": [
+          15,
+          3,
+          6,
+          36
+        ],
+        "keyIndex": 3,
+        "small": false,
+        "line": "60 other students answered this. 36 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 15 of 60 other students.",
+          "Option B: chosen by 3 of 60 other students.",
+          "Option C: chosen by 6 of 60 other students.",
+          "Option D: chosen by 36 of 60 other students."
+        ]
+      }
+    },
+    "q10": {
+      "group": null,
+      "others": {
+        "n": 63,
+        "right": 42,
+        "counts": [
+          6,
+          9,
+          42,
+          6
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "63 other students answered this. 42 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 63 other students.",
+          "Option B: chosen by 9 of 63 other students.",
+          "Option C: chosen by 42 of 63 other students.",
+          "Option D: chosen by 6 of 63 other students."
+        ]
+      }
+    },
+    "q11": {
+      "group": null,
+      "others": {
+        "n": 69,
+        "right": 48,
+        "counts": [
+          6,
+          48,
+          9,
+          6
+        ],
+        "keyIndex": 1,
+        "small": false,
+        "line": "69 other students answered this. 48 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 69 other students.",
+          "Option B: chosen by 48 of 69 other students.",
+          "Option C: chosen by 9 of 69 other students.",
+          "Option D: chosen by 6 of 69 other students."
+        ]
+      }
+    },
+    "q12": {
+      "group": "long_stay",
+      "others": {
+        "n": 78,
+        "right": 63,
+        "counts": [
+          63,
+          3,
+          9,
+          3
+        ],
+        "keyIndex": 0,
+        "small": false,
+        "line": "78 other students answered this. 63 got it right. 9 of the 15 who got it wrong chose C, as you did.",
+        "optionLabels": [
+          "Option A: chosen by 63 of 78 other students.",
+          "Option B: chosen by 3 of 78 other students.",
+          "Option C: chosen by 9 of 78 other students.",
+          "Option D: chosen by 3 of 78 other students."
+        ]
+      }
+    },
+    "q13": {
+      "group": null,
+      "others": {
+        "n": 57,
+        "right": 30,
+        "counts": [
+          12,
+          9,
+          6,
+          30
+        ],
+        "keyIndex": 3,
+        "small": false,
+        "line": "57 other students answered this. 30 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 12 of 57 other students.",
+          "Option B: chosen by 9 of 57 other students.",
+          "Option C: chosen by 6 of 57 other students.",
+          "Option D: chosen by 30 of 57 other students."
+        ]
+      }
+    },
+    "q15": {
+      "group": null,
+      "others": {
+        "n": 72,
+        "right": 54,
+        "counts": [
+          6,
+          54,
+          6,
+          6
+        ],
+        "keyIndex": 1,
+        "small": false,
+        "line": "72 other students answered this. 54 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 72 other students.",
+          "Option B: chosen by 54 of 72 other students.",
+          "Option C: chosen by 6 of 72 other students.",
+          "Option D: chosen by 6 of 72 other students."
+        ]
+      }
+    },
+    "q16": {
+      "group": "struck_key",
+      "others": {
+        "n": 63,
+        "right": 48,
+        "counts": [
+          48,
+          6,
+          6,
+          3
+        ],
+        "keyIndex": 0,
+        "small": false,
+        "line": "63 other students answered this. 48 got it right. 6 others chose C, as you did.",
+        "optionLabels": [
+          "Option A: chosen by 48 of 63 other students.",
+          "Option B: chosen by 6 of 63 other students.",
+          "Option C: chosen by 6 of 63 other students.",
+          "Option D: chosen by 3 of 63 other students."
+        ]
+      }
+    },
+    "q17": {
+      "group": "changed_from_right",
+      "others": {
+        "n": 93,
+        "right": 57,
+        "counts": [
+          9,
+          24,
+          3,
+          57
+        ],
+        "keyIndex": 3,
+        "small": false,
+        "line": "93 other students answered this. 57 got it right. 24 of the 36 who got it wrong chose B, as you did.",
+        "optionLabels": [
+          "Option A: chosen by 9 of 93 other students.",
+          "Option B: chosen by 24 of 93 other students.",
+          "Option C: chosen by 3 of 93 other students.",
+          "Option D: chosen by 57 of 93 other students."
+        ]
+      }
+    },
+    "q18": {
+      "group": null,
+      "others": {
+        "n": 51,
+        "right": 39,
+        "counts": [
+          3,
+          3,
+          39,
+          6
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "51 other students answered this. 39 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 3 of 51 other students.",
+          "Option B: chosen by 3 of 51 other students.",
+          "Option C: chosen by 39 of 51 other students.",
+          "Option D: chosen by 6 of 51 other students."
+        ]
+      }
+    },
+    "q19": {
+      "group": "quick_wrong",
+      "others": {
+        "n": 63,
+        "right": 33,
+        "counts": [
+          6,
+          33,
+          18,
+          6
+        ],
+        "keyIndex": 1,
+        "small": false,
+        "line": "63 other students answered this. 33 got it right. 6 others chose D, as you did. More chose C: 18.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 63 other students.",
+          "Option B: chosen by 33 of 63 other students.",
+          "Option C: chosen by 18 of 63 other students.",
+          "Option D: chosen by 6 of 63 other students."
+        ]
+      }
+    },
+    "q20": {
+      "group": null,
+      "others": {
+        "n": 69,
+        "right": 51,
+        "counts": [
+          51,
+          6,
+          6,
+          6
+        ],
+        "keyIndex": 0,
+        "small": false,
+        "line": "69 other students answered this. 51 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 51 of 69 other students.",
+          "Option B: chosen by 6 of 69 other students.",
+          "Option C: chosen by 6 of 69 other students.",
+          "Option D: chosen by 6 of 69 other students."
+        ]
+      }
+    },
+    "q22": {
+      "group": "other_wrong",
+      "others": {
+        "n": 120,
+        "right": 90,
+        "counts": [
+          15,
+          6,
+          90,
+          9
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "120 other students answered this. 90 got it right. 15 of the 30 who got it wrong chose A, as you did.",
+        "optionLabels": [
+          "Option A: chosen by 15 of 120 other students.",
+          "Option B: chosen by 6 of 120 other students.",
+          "Option C: chosen by 90 of 120 other students.",
+          "Option D: chosen by 9 of 120 other students."
+        ]
+      }
+    },
+    "q23": {
+      "group": null,
+      "others": {
+        "n": 51,
+        "right": 36,
+        "counts": [
+          3,
+          36,
+          9,
+          3
+        ],
+        "keyIndex": 1,
+        "small": false,
+        "line": "51 other students answered this. 36 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 3 of 51 other students.",
+          "Option B: chosen by 36 of 51 other students.",
+          "Option C: chosen by 9 of 51 other students.",
+          "Option D: chosen by 3 of 51 other students."
+        ]
+      }
+    },
+    "q24": {
+      "group": null,
+      "others": {
+        "n": 60,
+        "right": 42,
+        "counts": [
+          42,
+          9,
+          6,
+          3
+        ],
+        "keyIndex": 0,
+        "small": false,
+        "line": "60 other students answered this. 42 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 42 of 60 other students.",
+          "Option B: chosen by 9 of 60 other students.",
+          "Option C: chosen by 6 of 60 other students.",
+          "Option D: chosen by 3 of 60 other students."
+        ]
+      }
+    },
+    "q25": {
+      "group": null,
+      "others": {
+        "n": 63,
+        "right": 54,
+        "counts": [
+          3,
+          3,
+          3,
+          54
+        ],
+        "keyIndex": 3,
+        "small": false,
+        "line": "63 other students answered this. 54 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 3 of 63 other students.",
+          "Option B: chosen by 3 of 63 other students.",
+          "Option C: chosen by 3 of 63 other students.",
+          "Option D: chosen by 54 of 63 other students."
+        ]
+      }
+    },
+    "q26": {
+      "group": "other_wrong",
+      "others": {
+        "n": 48,
+        "right": 27,
+        "counts": [
+          0,
+          9,
+          27,
+          12
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "48 other students answered this. 27 got it right. No other student chose A.",
+        "optionLabels": [
+          "Option A: chosen by 0 of 48 other students.",
+          "Option B: chosen by 9 of 48 other students.",
+          "Option C: chosen by 27 of 48 other students.",
+          "Option D: chosen by 12 of 48 other students."
+        ]
+      }
+    },
+    "q27": {
+      "group": null,
+      "others": {
+        "n": 51,
+        "right": 42,
+        "counts": [
+          3,
+          42,
+          3,
+          3
+        ],
+        "keyIndex": 1,
+        "small": false,
+        "line": "51 other students answered this. 42 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 3 of 51 other students.",
+          "Option B: chosen by 42 of 51 other students.",
+          "Option C: chosen by 3 of 51 other students.",
+          "Option D: chosen by 3 of 51 other students."
+        ]
+      }
+    },
+    "q29": {
+      "group": null,
+      "others": {
+        "n": 57,
+        "right": 39,
+        "counts": [
+          3,
+          9,
+          6,
+          39
+        ],
+        "keyIndex": 3,
+        "small": false,
+        "line": "57 other students answered this. 39 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 3 of 57 other students.",
+          "Option B: chosen by 9 of 57 other students.",
+          "Option C: chosen by 6 of 57 other students.",
+          "Option D: chosen by 39 of 57 other students."
+        ]
+      }
+    },
+    "q30": {
+      "group": null,
+      "others": {
+        "n": 54,
+        "right": 45,
+        "counts": [
+          3,
+          3,
+          45,
+          3
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "54 other students answered this. 45 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 3 of 54 other students.",
+          "Option B: chosen by 3 of 54 other students.",
+          "Option C: chosen by 45 of 54 other students.",
+          "Option D: chosen by 3 of 54 other students."
+        ]
+      }
+    },
+    "q31": {
+      "group": "changed_from_right",
+      "others": {
+        "n": 30,
+        "right": 18,
+        "counts": [
+          3,
+          18,
+          6,
+          3
+        ],
+        "keyIndex": 1,
+        "small": false,
+        "line": "30 other students answered this. 18 got it right. 3 others chose D, as you did. More chose C: 6.",
+        "optionLabels": [
+          "Option A: chosen by 3 of 30 other students.",
+          "Option B: chosen by 18 of 30 other students.",
+          "Option C: chosen by 6 of 30 other students.",
+          "Option D: chosen by 3 of 30 other students."
+        ]
+      }
+    },
+    "q32": {
+      "group": null,
+      "others": {
+        "n": 60,
+        "right": 48,
+        "counts": [
+          48,
+          3,
+          6,
+          3
+        ],
+        "keyIndex": 0,
+        "small": false,
+        "line": "60 other students answered this. 48 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 48 of 60 other students.",
+          "Option B: chosen by 3 of 60 other students.",
+          "Option C: chosen by 6 of 60 other students.",
+          "Option D: chosen by 3 of 60 other students."
+        ]
+      }
+    },
+    "q34": {
+      "group": null,
+      "others": {
+        "n": 54,
+        "right": 36,
+        "counts": [
+          9,
+          3,
+          36,
+          6
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "54 other students answered this. 36 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 9 of 54 other students.",
+          "Option B: chosen by 3 of 54 other students.",
+          "Option C: chosen by 36 of 54 other students.",
+          "Option D: chosen by 6 of 54 other students."
+        ]
+      }
+    },
+    "q36": {
+      "group": null,
+      "others": {
+        "n": 60,
+        "right": 45,
+        "counts": [
+          45,
+          3,
+          6,
+          6
+        ],
+        "keyIndex": 0,
+        "small": false,
+        "line": "60 other students answered this. 45 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 45 of 60 other students.",
+          "Option B: chosen by 3 of 60 other students.",
+          "Option C: chosen by 6 of 60 other students.",
+          "Option D: chosen by 6 of 60 other students."
+        ]
+      }
+    },
+    "q38": {
+      "group": "other_wrong",
+      "others": {
+        "n": 69,
+        "right": 27,
+        "counts": [
+          6,
+          18,
+          27,
+          18
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "69 other students answered this. 27 got it right. 6 others chose A, as you did.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 69 other students.",
+          "Option B: chosen by 18 of 69 other students.",
+          "Option C: chosen by 27 of 69 other students.",
+          "Option D: chosen by 18 of 69 other students."
+        ]
+      }
+    },
+    "q40": {
+      "group": "other_blank",
+      "others": {
+        "n": 45,
+        "right": 30,
+        "counts": [
+          30,
+          9,
+          6,
+          0
+        ],
+        "keyIndex": 0,
+        "small": false,
+        "line": "45 other students answered this. 30 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 30 of 45 other students.",
+          "Option B: chosen by 9 of 45 other students.",
+          "Option C: chosen by 6 of 45 other students.",
+          "Option D: chosen by 0 of 45 other students."
+        ]
+      }
+    },
+    "q41": {
+      "group": null,
+      "others": {
+        "n": 57,
+        "right": 39,
+        "counts": [
+          6,
+          6,
+          6,
+          39
+        ],
+        "keyIndex": 3,
+        "small": false,
+        "line": "57 other students answered this. 39 got it right.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 57 other students.",
+          "Option B: chosen by 6 of 57 other students.",
+          "Option C: chosen by 6 of 57 other students.",
+          "Option D: chosen by 39 of 57 other students."
+        ]
+      }
+    },
+    "q42": {
+      "group": "other_wrong",
+      "others": {
+        "n": 66,
+        "right": 54,
+        "counts": [
+          6,
+          3,
+          54,
+          3
+        ],
+        "keyIndex": 2,
+        "small": false,
+        "line": "66 other students answered this. 54 got it right. 6 of the 12 who got it wrong chose A, as you did.",
+        "optionLabels": [
+          "Option A: chosen by 6 of 66 other students.",
+          "Option B: chosen by 3 of 66 other students.",
+          "Option C: chosen by 54 of 66 other students.",
+          "Option D: chosen by 3 of 66 other students."
+        ]
+      }
+    },
+    "q3": {
+      "group": "quick_wrong",
+      "others": null
+    },
+    "q14": {
+      "group": "held",
+      "others": null
+    },
+    "q28": {
+      "group": "long_stay",
+      "others": null
+    },
+    "q33": {
+      "group": "quick_wrong",
+      "others": null
+    },
+    "q47": {
+      "group": "other_blank",
+      "others": null
+    },
+    "q49": {
+      "group": "other_wrong",
+      "others": null
+    }
+  },
+  "replay": {
+    "version": 1,
+    "rowSec": 600,
+    "durationSec": 3600,
+    "recordSec": 3106,
+    "playMs": 15000,
+    "total": 50,
+    "labels": {
+      "title": "Replay",
+      "sub": "Your paper, minute by minute",
+      "play": "Play",
+      "pause": "Pause",
+      "previous": "Previous",
+      "next": "Next",
+      "seeInReplay": "See it in the replay",
+      "clockNote": "Clock times count from the start of the paper.",
+      "evenPaceNote": "Even pace is the paper's own time a question. It is a reference, not a target."
+    },
+    "end": {
+      "at": 3106,
+      "reason": "submit",
+      "label": "Submitted at 51:46."
+    },
+    "rows": [
+      {
+        "from": 0,
+        "to": 600,
+        "label": "By 10:00: 9 of 50 answered. Even pace: 8.",
+        "answeredBy": 9,
+        "evenPaceBy": 8,
+        "bars": [
+          {
+            "qid": "q1",
+            "n": 1,
+            "from": 0,
+            "to": 50,
+            "result": "right",
+            "picks": [
+              {
+                "at": 30,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q2",
+            "n": 2,
+            "from": 50,
+            "to": 100,
+            "result": "right",
+            "picks": [
+              {
+                "at": 80,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q3",
+            "n": 3,
+            "from": 100,
+            "to": 112,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 108,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q4",
+            "n": 4,
+            "from": 112,
+            "to": 162,
+            "result": "right",
+            "picks": [
+              {
+                "at": 142,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q5",
+            "n": 5,
+            "from": 162,
+            "to": 312,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 302,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q6",
+            "n": 6,
+            "from": 312,
+            "to": 357,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 347,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q7",
+            "n": 7,
+            "from": 357,
+            "to": 407,
+            "result": "right",
+            "picks": [
+              {
+                "at": 387,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q8",
+            "n": 8,
+            "from": 407,
+            "to": 447,
+            "result": "right",
+            "picks": [
+              {
+                "at": 437,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q9",
+            "n": 9,
+            "from": 447,
+            "to": 497,
+            "result": "right",
+            "picks": [
+              {
+                "at": 477,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q10",
+            "n": 10,
+            "from": 497,
+            "to": 600,
+            "result": "right",
+            "picks": [],
+            "marks": [],
+            "away": [
+              {
+                "from": 517,
+                "to": 587,
+                "label": "Away 1m 10s"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "from": 600,
+        "to": 1200,
+        "label": "By 20:00: 20 of 50 answered. Even pace: 16.",
+        "answeredBy": 20,
+        "evenPaceBy": 16,
+        "bars": [
+          {
+            "qid": "q10",
+            "n": 10,
+            "from": 600,
+            "to": 622,
+            "result": "right",
+            "picks": [
+              {
+                "at": 607,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q11",
+            "n": 11,
+            "from": 622,
+            "to": 657,
+            "result": "right",
+            "picks": [
+              {
+                "at": 647,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q12",
+            "n": 12,
+            "from": 657,
+            "to": 792,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 782,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q13",
+            "n": 13,
+            "from": 792,
+            "to": 842,
+            "result": "right",
+            "picks": [
+              {
+                "at": 822,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q14",
+            "n": 14,
+            "from": 842,
+            "to": 882,
+            "result": "held",
+            "picks": [
+              {
+                "at": 867,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q15",
+            "n": 15,
+            "from": 882,
+            "to": 932,
+            "result": "right",
+            "picks": [
+              {
+                "at": 912,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q16",
+            "n": 16,
+            "from": 932,
+            "to": 982,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 972,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q17",
+            "n": 17,
+            "from": 982,
+            "to": 1042,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 1002,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q18",
+            "n": 18,
+            "from": 1042,
+            "to": 1092,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1072,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q19",
+            "n": 19,
+            "from": 1092,
+            "to": 1104,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 1100,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q20",
+            "n": 20,
+            "from": 1104,
+            "to": 1134,
+            "result": "right",
+            "picks": [],
+            "marks": [
+              1119
+            ],
+            "away": []
+          },
+          {
+            "qid": "q21",
+            "n": 21,
+            "from": 1134,
+            "to": 1184,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1164,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q22",
+            "n": 22,
+            "from": 1184,
+            "to": 1200,
+            "result": "wrong",
+            "picks": [],
+            "marks": [],
+            "away": []
+          }
+        ]
+      },
+      {
+        "from": 1200,
+        "to": 1800,
+        "label": "By 30:00: 27 of 50 answered. Even pace: 25.",
+        "answeredBy": 27,
+        "evenPaceBy": 25,
+        "bars": [
+          {
+            "qid": "q22",
+            "n": 22,
+            "from": 1200,
+            "to": 1244,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 1204,
+                "option": 3,
+                "change": false
+              },
+              {
+                "at": 1234,
+                "option": 0,
+                "change": true
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q23",
+            "n": 23,
+            "from": 1244,
+            "to": 1294,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1274,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q24",
+            "n": 24,
+            "from": 1294,
+            "to": 1344,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1324,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q25",
+            "n": 25,
+            "from": 1344,
+            "to": 1394,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1374,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q26",
+            "n": 26,
+            "from": 1394,
+            "to": 1439,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 1429,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q27",
+            "n": 27,
+            "from": 1439,
+            "to": 1489,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1469,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q28",
+            "n": 28,
+            "from": 1489,
+            "to": 1614,
+            "result": "blank",
+            "picks": [],
+            "marks": [
+              1549
+            ],
+            "away": []
+          },
+          {
+            "qid": "q29",
+            "n": 29,
+            "from": 1614,
+            "to": 1664,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1644,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q30",
+            "n": 30,
+            "from": 1664,
+            "to": 1800,
+            "result": "right",
+            "picks": [],
+            "marks": [],
+            "away": [
+              {
+                "from": 1674,
+                "to": 1800,
+                "label": "Away 4m"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "from": 1800,
+        "to": 2400,
+        "label": "By 40:00: 37 of 50 answered. Even pace: 33.",
+        "answeredBy": 37,
+        "evenPaceBy": 33,
+        "bars": [
+          {
+            "qid": "q30",
+            "n": 30,
+            "from": 1800,
+            "to": 1964,
+            "result": "right",
+            "picks": [
+              {
+                "at": 1944,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": [
+              {
+                "from": 1800,
+                "to": 1914,
+                "label": "Away 4m"
+              }
+            ]
+          },
+          {
+            "qid": "q31",
+            "n": 31,
+            "from": 1964,
+            "to": 2044,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 1979,
+                "option": 1,
+                "change": false
+              },
+              {
+                "at": 2034,
+                "option": 3,
+                "change": true
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q32",
+            "n": 32,
+            "from": 2044,
+            "to": 2094,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2074,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q33",
+            "n": 33,
+            "from": 2094,
+            "to": 2106,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 2102,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q34",
+            "n": 34,
+            "from": 2106,
+            "to": 2156,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2136,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q35",
+            "n": 35,
+            "from": 2156,
+            "to": 2206,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2186,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q36",
+            "n": 36,
+            "from": 2206,
+            "to": 2256,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2236,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q37",
+            "n": 37,
+            "from": 2256,
+            "to": 2306,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2286,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q38",
+            "n": 38,
+            "from": 2306,
+            "to": 2351,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 2341,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q39",
+            "n": 39,
+            "from": 2351,
+            "to": 2400,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2381,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          }
+        ]
+      },
+      {
+        "from": 2400,
+        "to": 3000,
+        "label": "By 50:00: 47 of 50 answered. Even pace: 41.",
+        "answeredBy": 47,
+        "evenPaceBy": 41,
+        "bars": [
+          {
+            "qid": "q39",
+            "n": 39,
+            "from": 2400,
+            "to": 2401,
+            "result": "right",
+            "picks": [],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q40",
+            "n": 40,
+            "from": 2401,
+            "to": 2441,
+            "result": "blank",
+            "picks": [
+              {
+                "at": 2416,
+                "option": 2,
+                "change": false
+              },
+              {
+                "at": 2433,
+                "option": null,
+                "change": true
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q41",
+            "n": 41,
+            "from": 2441,
+            "to": 2491,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2471,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q42",
+            "n": 42,
+            "from": 2491,
+            "to": 2536,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 2526,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q43",
+            "n": 43,
+            "from": 2536,
+            "to": 2586,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2566,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q44",
+            "n": 44,
+            "from": 2586,
+            "to": 2636,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2616,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q45",
+            "n": 45,
+            "from": 2636,
+            "to": 2686,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2666,
+                "option": 3,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q46",
+            "n": 46,
+            "from": 2686,
+            "to": 2736,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2716,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q47",
+            "n": 47,
+            "from": 2736,
+            "to": 2766,
+            "result": "blank",
+            "picks": [],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q48",
+            "n": 48,
+            "from": 2766,
+            "to": 2816,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2796,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q49",
+            "n": 49,
+            "from": 2816,
+            "to": 2861,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 2851,
+                "option": 1,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q50",
+            "n": 50,
+            "from": 2861,
+            "to": 2911,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2891,
+                "option": 2,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q8",
+            "n": 8,
+            "from": 2911,
+            "to": 2941,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2936,
+                "option": 0,
+                "change": true
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q20",
+            "n": 20,
+            "from": 2941,
+            "to": 2971,
+            "result": "right",
+            "picks": [
+              {
+                "at": 2961,
+                "option": 0,
+                "change": false
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q17",
+            "n": 17,
+            "from": 2971,
+            "to": 3000,
+            "result": "wrong",
+            "picks": [],
+            "marks": [],
+            "away": []
+          }
+        ]
+      },
+      {
+        "from": 3000,
+        "to": 3600,
+        "label": "By 51:46: 47 of 50 answered. Even pace: 43.",
+        "answeredBy": 47,
+        "evenPaceBy": 43,
+        "bars": [
+          {
+            "qid": "q17",
+            "n": 17,
+            "from": 3000,
+            "to": 3066,
+            "result": "wrong",
+            "picks": [
+              {
+                "at": 3061,
+                "option": 1,
+                "change": true
+              }
+            ],
+            "marks": [],
+            "away": []
+          },
+          {
+            "qid": "q22",
+            "n": 22,
+            "from": 3066,
+            "to": 3106,
+            "result": "wrong",
+            "picks": [],
+            "marks": [],
+            "away": []
+          }
+        ]
+      }
+    ],
+    "opened": [
+      {
+        "n": 1,
+        "at": 0,
+        "result": "right"
+      },
+      {
+        "n": 2,
+        "at": 50,
+        "result": "right"
+      },
+      {
+        "n": 3,
+        "at": 100,
+        "result": "wrong"
+      },
+      {
+        "n": 4,
+        "at": 112,
+        "result": "right"
+      },
+      {
+        "n": 5,
+        "at": 162,
+        "result": "wrong"
+      },
+      {
+        "n": 6,
+        "at": 312,
+        "result": "wrong"
+      },
+      {
+        "n": 7,
+        "at": 357,
+        "result": "right"
+      },
+      {
+        "n": 8,
+        "at": 407,
+        "result": "right"
+      },
+      {
+        "n": 9,
+        "at": 447,
+        "result": "right"
+      },
+      {
+        "n": 10,
+        "at": 497,
+        "result": "right"
+      },
+      {
+        "n": 11,
+        "at": 622,
+        "result": "right"
+      },
+      {
+        "n": 12,
+        "at": 657,
+        "result": "wrong"
+      },
+      {
+        "n": 13,
+        "at": 792,
+        "result": "right"
+      },
+      {
+        "n": 14,
+        "at": 842,
+        "result": "held"
+      },
+      {
+        "n": 15,
+        "at": 882,
+        "result": "right"
+      },
+      {
+        "n": 16,
+        "at": 932,
+        "result": "wrong"
+      },
+      {
+        "n": 17,
+        "at": 982,
+        "result": "wrong"
+      },
+      {
+        "n": 18,
+        "at": 1042,
+        "result": "right"
+      },
+      {
+        "n": 19,
+        "at": 1092,
+        "result": "wrong"
+      },
+      {
+        "n": 20,
+        "at": 1104,
+        "result": "right"
+      },
+      {
+        "n": 21,
+        "at": 1134,
+        "result": "right"
+      },
+      {
+        "n": 22,
+        "at": 1184,
+        "result": "wrong"
+      },
+      {
+        "n": 23,
+        "at": 1244,
+        "result": "right"
+      },
+      {
+        "n": 24,
+        "at": 1294,
+        "result": "right"
+      },
+      {
+        "n": 25,
+        "at": 1344,
+        "result": "right"
+      },
+      {
+        "n": 26,
+        "at": 1394,
+        "result": "wrong"
+      },
+      {
+        "n": 27,
+        "at": 1439,
+        "result": "right"
+      },
+      {
+        "n": 28,
+        "at": 1489,
+        "result": "blank"
+      },
+      {
+        "n": 29,
+        "at": 1614,
+        "result": "right"
+      },
+      {
+        "n": 30,
+        "at": 1664,
+        "result": "right"
+      },
+      {
+        "n": 31,
+        "at": 1964,
+        "result": "wrong"
+      },
+      {
+        "n": 32,
+        "at": 2044,
+        "result": "right"
+      },
+      {
+        "n": 33,
+        "at": 2094,
+        "result": "wrong"
+      },
+      {
+        "n": 34,
+        "at": 2106,
+        "result": "right"
+      },
+      {
+        "n": 35,
+        "at": 2156,
+        "result": "right"
+      },
+      {
+        "n": 36,
+        "at": 2206,
+        "result": "right"
+      },
+      {
+        "n": 37,
+        "at": 2256,
+        "result": "right"
+      },
+      {
+        "n": 38,
+        "at": 2306,
+        "result": "wrong"
+      },
+      {
+        "n": 39,
+        "at": 2351,
+        "result": "right"
+      },
+      {
+        "n": 40,
+        "at": 2401,
+        "result": "blank"
+      },
+      {
+        "n": 41,
+        "at": 2441,
+        "result": "right"
+      },
+      {
+        "n": 42,
+        "at": 2491,
+        "result": "wrong"
+      },
+      {
+        "n": 43,
+        "at": 2536,
+        "result": "right"
+      },
+      {
+        "n": 44,
+        "at": 2586,
+        "result": "right"
+      },
+      {
+        "n": 45,
+        "at": 2636,
+        "result": "right"
+      },
+      {
+        "n": 46,
+        "at": 2686,
+        "result": "right"
+      },
+      {
+        "n": 47,
+        "at": 2736,
+        "result": "blank"
+      },
+      {
+        "n": 48,
+        "at": 2766,
+        "result": "right"
+      },
+      {
+        "n": 49,
+        "at": 2816,
+        "result": "wrong"
+      },
+      {
+        "n": 50,
+        "at": 2861,
+        "result": "right"
+      }
+    ],
+    "facts": [
+      "You opened all 50 questions.",
+      "Your first pass ended at 48:31, on Q50. You spent the last 3m 15s on 4 return visits.",
+      "At 40:00 you had answered 37 of 50. Even pace gets to 33."
+    ],
+    "chips": [
+      {
+        "id": "all",
+        "label": "All",
+        "count": null
+      },
+      {
+        "id": "changed_from_right",
+        "label": "Right, then changed",
+        "count": 2
+      },
+      {
+        "id": "struck_key",
+        "label": "Crossed out the key",
+        "count": 2
+      },
+      {
+        "id": "long_stay",
+        "label": "2 minutes or more",
+        "count": 3
+      },
+      {
+        "id": "quick_wrong",
+        "label": "Under 20 seconds",
+        "count": 3
+      }
+    ]
+  },
+  "time": {
+    "state": "ready",
+    "lastQid": "q22",
+    "end": {
+      "qid": "q22",
+      "at": 3106000,
+      "reason": "submit"
+    },
+    "captured": true,
+    "pace": {
+      "paperMs": 3600000,
+      "perQuestionMs": 72000,
+      "total": 50
+    },
+    "medianMs": 50000,
+    "timedCount": 50,
+    "rows": [
+      {
+        "qid": "q1",
+        "number": 1,
+        "verdict": "correct",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 30000,
+            "gapSeconds": null,
+            "visit": 0,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 0:30."
+        ]
+      },
+      {
+        "qid": "q2",
+        "number": 2,
+        "verdict": "correct",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 80000,
+            "gapSeconds": null,
+            "visit": 1,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 1:20."
+        ]
+      },
+      {
+        "qid": "q3",
+        "number": 3,
+        "verdict": "wrong",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 12000,
+        "visits": 1,
+        "ratio": 0.16666666666666666,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 108000,
+            "gapSeconds": null,
+            "visit": 2,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "12s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 1:48."
+        ]
+      },
+      {
+        "qid": "q4",
+        "number": 4,
+        "verdict": "correct",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 142000,
+            "gapSeconds": null,
+            "visit": 3,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 2:22."
+        ]
+      },
+      {
+        "qid": "q5",
+        "number": 5,
+        "verdict": "wrong",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 150000,
+        "visits": 1,
+        "ratio": 2.0833333333333335,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 302000,
+            "gapSeconds": null,
+            "visit": 4,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "2m 30s on this question. The paper gives 1m 12s a question, and your median was 50s. That is 2.1 times the paper's pace.",
+          "Picked B at 5:02."
+        ]
+      },
+      {
+        "qid": "q6",
+        "number": 6,
+        "verdict": "wrong",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 45000,
+        "visits": 1,
+        "ratio": 0.625,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 347000,
+            "gapSeconds": null,
+            "visit": 5,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "45s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 5:47.",
+          "You crossed out C, the key, at 5:22."
+        ]
+      },
+      {
+        "qid": "q7",
+        "number": 7,
+        "verdict": "correct",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 387000,
+            "gapSeconds": null,
+            "visit": 6,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 6:27."
+        ]
+      },
+      {
+        "qid": "q8",
+        "number": 8,
+        "verdict": "correct",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 70000,
+        "visits": 2,
+        "ratio": 0.9722222222222222,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 437000,
+            "gapSeconds": null,
+            "visit": 7,
+            "laterVisit": null
+          },
+          {
+            "kind": "change",
+            "answer": 0,
+            "at": 2936000,
+            "gapSeconds": 2499,
+            "visit": 50,
+            "laterVisit": true
+          }
+        ],
+        "changes": [
+          {
+            "qid": "q8",
+            "at": 2936000,
+            "before": 2,
+            "after": 0,
+            "markEffect": 6
+          }
+        ],
+        "net": 6,
+        "held": false,
+        "lines": [
+          "1m 10s on this question. The paper gives 1m 12s a question, and your median was 50s. You opened it 2 times.",
+          "Picked C at 7:17. Changed to A at 48:56, 41m 39s later, on a later visit.",
+          "That change gained 6 marks."
+        ]
+      },
+      {
+        "qid": "q9",
+        "number": 9,
+        "verdict": "correct",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 477000,
+            "gapSeconds": null,
+            "visit": 8,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 7:57."
+        ]
+      },
+      {
+        "qid": "q10",
+        "number": 10,
+        "verdict": "correct",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 55000,
+        "visits": 1,
+        "ratio": 0.7638888888888888,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 607000,
+            "gapSeconds": null,
+            "visit": 9,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "55s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 10:07.",
+          "Away from the paper for 1m 10s while this question was open. Not counted."
+        ]
+      },
+      {
+        "qid": "q11",
+        "number": 11,
+        "verdict": "correct",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 35000,
+        "visits": 1,
+        "ratio": 0.4861111111111111,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 647000,
+            "gapSeconds": null,
+            "visit": 10,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "35s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 10:47.",
+          "You crossed out C at 10:30."
+        ]
+      },
+      {
+        "qid": "q12",
+        "number": 12,
+        "verdict": "wrong",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 135000,
+        "visits": 1,
+        "ratio": 1.875,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 782000,
+            "gapSeconds": null,
+            "visit": 11,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "2m 15s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 13:02."
+        ]
+      },
+      {
+        "qid": "q13",
+        "number": 13,
+        "verdict": "correct",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 822000,
+            "gapSeconds": null,
+            "visit": 12,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 13:42."
+        ]
+      },
+      {
+        "qid": "q14",
+        "number": 14,
+        "verdict": "wrong",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 40000,
+        "visits": 1,
+        "ratio": 0.5555555555555556,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 867000,
+            "gapSeconds": null,
+            "visit": 13,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": true,
+        "lines": [
+          "40s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 14:27."
+        ]
+      },
+      {
+        "qid": "q15",
+        "number": 15,
+        "verdict": "correct",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 912000,
+            "gapSeconds": null,
+            "visit": 14,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 15:12."
+        ]
+      },
+      {
+        "qid": "q16",
+        "number": 16,
+        "verdict": "wrong",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 972000,
+            "gapSeconds": null,
+            "visit": 15,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 16:12.",
+          "You crossed out A, the key, at 15:37 and restored it at 15:47."
+        ]
+      },
+      {
+        "qid": "q17",
+        "number": 17,
+        "verdict": "wrong",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 155000,
+        "visits": 2,
+        "ratio": 2.1527777777777777,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1002000,
+            "gapSeconds": null,
+            "visit": 16,
+            "laterVisit": null
+          },
+          {
+            "kind": "change",
+            "answer": 1,
+            "at": 3061000,
+            "gapSeconds": 2059,
+            "visit": 52,
+            "laterVisit": true
+          }
+        ],
+        "changes": [
+          {
+            "qid": "q17",
+            "at": 3061000,
+            "before": 3,
+            "after": 1,
+            "markEffect": -6
+          }
+        ],
+        "net": -6,
+        "held": false,
+        "lines": [
+          "2m 35s on this question. The paper gives 1m 12s a question, and your median was 50s. That is 2.2 times the paper's pace. You opened it 2 times.",
+          "Picked D at 16:42. Changed to B at 51:01, 34m 19s later, on a later visit.",
+          "That change cost 6 marks."
+        ]
+      },
+      {
+        "qid": "q18",
+        "number": 18,
+        "verdict": "correct",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 1072000,
+            "gapSeconds": null,
+            "visit": 17,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 17:52."
+        ]
+      },
+      {
+        "qid": "q19",
+        "number": 19,
+        "verdict": "wrong",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 12000,
+        "visits": 1,
+        "ratio": 0.16666666666666666,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1100000,
+            "gapSeconds": null,
+            "visit": 18,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "12s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 18:20."
+        ]
+      },
+      {
+        "qid": "q20",
+        "number": 20,
+        "verdict": "correct",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 60000,
+        "visits": 2,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2961000,
+            "gapSeconds": null,
+            "visit": 51,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 50s. You opened it 2 times.",
+          "Picked A at 49:21.",
+          "You marked it for review at 18:39 and removed the mark at 49:23."
+        ]
+      },
+      {
+        "qid": "q21",
+        "number": 21,
+        "verdict": "correct",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1164000,
+            "gapSeconds": null,
+            "visit": 20,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 19:24."
+        ]
+      },
+      {
+        "qid": "q22",
+        "number": 22,
+        "verdict": "wrong",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 100000,
+        "visits": 2,
+        "ratio": 1.3888888888888888,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1204000,
+            "gapSeconds": null,
+            "visit": 21,
+            "laterVisit": null
+          },
+          {
+            "kind": "change",
+            "answer": 0,
+            "at": 1234000,
+            "gapSeconds": 30,
+            "visit": 21,
+            "laterVisit": false
+          }
+        ],
+        "changes": [
+          {
+            "qid": "q22",
+            "at": 1234000,
+            "before": 3,
+            "after": 0,
+            "markEffect": 0
+          }
+        ],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m 40s on this question, until you submitted at 51:46. The paper gives 1m 12s a question, and your median was 50s. You opened it 2 times.",
+          "Picked D at 20:04. Changed to A at 20:34, 30s later, without leaving the question.",
+          "That change made no difference to your marks."
+        ]
+      },
+      {
+        "qid": "q23",
+        "number": 23,
+        "verdict": "correct",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 1274000,
+            "gapSeconds": null,
+            "visit": 22,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 21:14."
+        ]
+      },
+      {
+        "qid": "q24",
+        "number": 24,
+        "verdict": "correct",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 1324000,
+            "gapSeconds": null,
+            "visit": 23,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 22:04."
+        ]
+      },
+      {
+        "qid": "q25",
+        "number": 25,
+        "verdict": "correct",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1374000,
+            "gapSeconds": null,
+            "visit": 24,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 22:54."
+        ]
+      },
+      {
+        "qid": "q26",
+        "number": 26,
+        "verdict": "wrong",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 45000,
+        "visits": 1,
+        "ratio": 0.625,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 1429000,
+            "gapSeconds": null,
+            "visit": 25,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "45s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 23:49."
+        ]
+      },
+      {
+        "qid": "q27",
+        "number": 27,
+        "verdict": "correct",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 1469000,
+            "gapSeconds": null,
+            "visit": 26,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 24:29."
+        ]
+      },
+      {
+        "qid": "q28",
+        "number": 28,
+        "verdict": "skipped",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 125000,
+        "visits": 1,
+        "ratio": 1.7361111111111112,
+        "steps": [],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "2m 05s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "You marked it for review at 25:49. It was still marked when you submitted."
+        ]
+      },
+      {
+        "qid": "q29",
+        "number": 29,
+        "verdict": "correct",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 1644000,
+            "gapSeconds": null,
+            "visit": 28,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 27:24."
+        ]
+      },
+      {
+        "qid": "q30",
+        "number": 30,
+        "verdict": "correct",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 60000,
+        "visits": 1,
+        "ratio": 0.8333333333333334,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 1944000,
+            "gapSeconds": null,
+            "visit": 29,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "1m on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 32:24.",
+          "Away from the paper for 4m while this question was open. Not counted."
+        ]
+      },
+      {
+        "qid": "q31",
+        "number": 31,
+        "verdict": "wrong",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 80000,
+        "visits": 1,
+        "ratio": 1.1111111111111112,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 1979000,
+            "gapSeconds": null,
+            "visit": 30,
+            "laterVisit": null
+          },
+          {
+            "kind": "change",
+            "answer": 3,
+            "at": 2034000,
+            "gapSeconds": 55,
+            "visit": 30,
+            "laterVisit": false
+          }
+        ],
+        "changes": [
+          {
+            "qid": "q31",
+            "at": 2034000,
+            "before": 1,
+            "after": 3,
+            "markEffect": -6
+          }
+        ],
+        "net": -6,
+        "held": false,
+        "lines": [
+          "1m 20s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 32:59. Changed to D at 33:54, 55s later, without leaving the question.",
+          "That change cost 6 marks."
+        ]
+      },
+      {
+        "qid": "q32",
+        "number": 32,
+        "verdict": "correct",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2074000,
+            "gapSeconds": null,
+            "visit": 31,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 34:34."
+        ]
+      },
+      {
+        "qid": "q33",
+        "number": 33,
+        "verdict": "wrong",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 12000,
+        "visits": 1,
+        "ratio": 0.16666666666666666,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 2102000,
+            "gapSeconds": null,
+            "visit": 32,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "12s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 35:02."
+        ]
+      },
+      {
+        "qid": "q34",
+        "number": 34,
+        "verdict": "correct",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2136000,
+            "gapSeconds": null,
+            "visit": 33,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 35:36."
+        ]
+      },
+      {
+        "qid": "q35",
+        "number": 35,
+        "verdict": "correct",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 2186000,
+            "gapSeconds": null,
+            "visit": 34,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 36:26."
+        ]
+      },
+      {
+        "qid": "q36",
+        "number": 36,
+        "verdict": "correct",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2236000,
+            "gapSeconds": null,
+            "visit": 35,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 37:16."
+        ]
+      },
+      {
+        "qid": "q37",
+        "number": 37,
+        "verdict": "correct",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 2286000,
+            "gapSeconds": null,
+            "visit": 36,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 38:06."
+        ]
+      },
+      {
+        "qid": "q38",
+        "number": 38,
+        "verdict": "wrong",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 45000,
+        "visits": 1,
+        "ratio": 0.625,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2341000,
+            "gapSeconds": null,
+            "visit": 37,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "45s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 39:01."
+        ]
+      },
+      {
+        "qid": "q39",
+        "number": 39,
+        "verdict": "correct",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 2381000,
+            "gapSeconds": null,
+            "visit": 38,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 39:41."
+        ]
+      },
+      {
+        "qid": "q40",
+        "number": 40,
+        "verdict": "skipped",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 40000,
+        "visits": 1,
+        "ratio": 0.5555555555555556,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2416000,
+            "gapSeconds": null,
+            "visit": 39,
+            "laterVisit": null
+          },
+          {
+            "kind": "clear",
+            "answer": null,
+            "at": 2433000,
+            "gapSeconds": 17,
+            "visit": 39,
+            "laterVisit": false
+          }
+        ],
+        "changes": [
+          {
+            "qid": "q40",
+            "at": 2433000,
+            "before": 2,
+            "after": null,
+            "markEffect": 1
+          }
+        ],
+        "net": 1,
+        "held": false,
+        "lines": [
+          "40s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 40:16. Cleared it at 40:33, 17s later, without leaving the question.",
+          "That change gained 1 mark."
+        ]
+      },
+      {
+        "qid": "q41",
+        "number": 41,
+        "verdict": "correct",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 2471000,
+            "gapSeconds": null,
+            "visit": 40,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 41:11."
+        ]
+      },
+      {
+        "qid": "q42",
+        "number": 42,
+        "verdict": "wrong",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 45000,
+        "visits": 1,
+        "ratio": 0.625,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2526000,
+            "gapSeconds": null,
+            "visit": 41,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "45s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 42:06."
+        ]
+      },
+      {
+        "qid": "q43",
+        "number": 43,
+        "verdict": "correct",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 2566000,
+            "gapSeconds": null,
+            "visit": 42,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 42:46."
+        ]
+      },
+      {
+        "qid": "q44",
+        "number": 44,
+        "verdict": "correct",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2616000,
+            "gapSeconds": null,
+            "visit": 43,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 43:36."
+        ]
+      },
+      {
+        "qid": "q45",
+        "number": 45,
+        "verdict": "correct",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 3,
+            "at": 2666000,
+            "gapSeconds": null,
+            "visit": 44,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked D at 44:26."
+        ]
+      },
+      {
+        "qid": "q46",
+        "number": 46,
+        "verdict": "correct",
+        "chapter": "Partnership Fundamentals",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2716000,
+            "gapSeconds": null,
+            "visit": 45,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 45:16."
+        ]
+      },
+      {
+        "qid": "q47",
+        "number": 47,
+        "verdict": "skipped",
+        "chapter": "Share Capital",
+        "opened": true,
+        "ms": 30000,
+        "visits": 1,
+        "ratio": 0.4166666666666667,
+        "steps": [],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "30s on this question. The paper gives 1m 12s a question, and your median was 50s."
+        ]
+      },
+      {
+        "qid": "q48",
+        "number": 48,
+        "verdict": "correct",
+        "chapter": "Accounting Ratios",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 0,
+            "at": 2796000,
+            "gapSeconds": null,
+            "visit": 47,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked A at 46:36."
+        ]
+      },
+      {
+        "qid": "q49",
+        "number": 49,
+        "verdict": "wrong",
+        "chapter": "Cash Flow Statement",
+        "opened": true,
+        "ms": 45000,
+        "visits": 1,
+        "ratio": 0.625,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 1,
+            "at": 2851000,
+            "gapSeconds": null,
+            "visit": 48,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "45s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked B at 47:31."
+        ]
+      },
+      {
+        "qid": "q50",
+        "number": 50,
+        "verdict": "correct",
+        "chapter": "Depreciation",
+        "opened": true,
+        "ms": 50000,
+        "visits": 1,
+        "ratio": 0.6944444444444444,
+        "steps": [
+          {
+            "kind": "first",
+            "answer": 2,
+            "at": 2891000,
+            "gapSeconds": null,
+            "visit": 49,
+            "laterVisit": null
+          }
+        ],
+        "changes": [],
+        "net": 0,
+        "held": false,
+        "lines": [
+          "50s on this question. The paper gives 1m 12s a question, and your median was 50s.",
+          "Picked C at 48:11."
+        ]
+      }
+    ],
+    "longest": [
+      {
+        "number": 17,
+        "verdict": "wrong",
+        "ms": 155000,
+        "time": "2m 35s",
+        "ratio": 2.1527777777777777,
+        "ratioText": "2.2 times the paper's pace"
+      },
+      {
+        "number": 5,
+        "verdict": "wrong",
+        "ms": 150000,
+        "time": "2m 30s",
+        "ratio": 2.0833333333333335,
+        "ratioText": "2.1 times the paper's pace"
+      },
+      {
+        "number": 12,
+        "verdict": "wrong",
+        "ms": 135000,
+        "time": "2m 15s",
+        "ratio": 1.875,
+        "ratioText": "1.9 times the paper's pace"
+      },
+      {
+        "number": 28,
+        "verdict": "skipped",
+        "ms": 125000,
+        "time": "2m 05s",
+        "ratio": 1.7361111111111112,
+        "ratioText": "1.7 times the paper's pace"
+      },
+      {
+        "number": 22,
+        "verdict": "wrong",
+        "ms": 100000,
+        "time": "1m 40s",
+        "ratio": 1.3888888888888888,
+        "ratioText": "1.4 times the paper's pace"
+      }
+    ],
+    "summary": {
+      "pace": "This paper gives you 1m 12s a question: 60 minutes for 50 questions.",
+      "median": "Your median was 50s a question, over 50 timed questions.",
+      "split": "You spent 27m 10s on 32 right answers, 16m 11s on 15 wrong answers and 3m 15s on 3 blank questions.",
+      "longestNote": "The mark on each bar is the paper's 1m 12s a question."
+    },
+    "changes": {
+      "count": 5,
+      "questions": 5,
+      "net": -5,
+      "lead": "You changed answers 5 times across 5 questions. Net effect on your marks: −5.",
+      "parts": [
+        {
+          "kind": "gained",
+          "text": "2 changes gained 7 marks"
+        },
+        {
+          "kind": "cost",
+          "text": "2 changes cost 12 marks"
+        },
+        {
+          "kind": "neutral",
+          "text": "1 change made no difference"
+        }
+      ],
+      "held": null,
+      "rows": [
+        {
+          "number": 8,
+          "qid": "q8",
+          "net": 6,
+          "text": "Picked C at 7:17. Changed to A at 48:56, 41m 39s later, on a later visit."
+        },
+        {
+          "number": 17,
+          "qid": "q17",
+          "net": -6,
+          "text": "Picked D at 16:42. Changed to B at 51:01, 34m 19s later, on a later visit."
+        },
+        {
+          "number": 22,
+          "qid": "q22",
+          "net": 0,
+          "text": "Picked D at 20:04. Changed to A at 20:34, 30s later, without leaving the question."
+        },
+        {
+          "number": 31,
+          "qid": "q31",
+          "net": -6,
+          "text": "Picked B at 32:59. Changed to D at 33:54, 55s later, without leaving the question."
+        },
+        {
+          "number": 40,
+          "qid": "q40",
+          "net": 1,
+          "text": "Picked C at 40:16. Cleared it at 40:33, 17s later, without leaving the question."
+        }
+      ]
+    }
+  }
+}

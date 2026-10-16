@@ -11,6 +11,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../insights/widgets/motion_bits.dart' show WhenInView;
 import '../copy.dart';
+import 'keep_numbers.dart';
 import 'lab_older_note.dart';
 
 /// "Mistake Lab" on the full result (Mistake Lab v4 slice 1, spec 4.1 to 4.3): the marks ledger.
@@ -242,12 +243,24 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
                 ),
               ),
             ],
-            if (cohort?.line != null) ...[
+            if (cohort?.line != null || cohort?.slow != null) ...[
               const SizedBox(height: MmSpace.s20),
-              Text(cohort!.line!, style: type.body),
-              if (cohort.numbers.isNotEmpty) ...[
-                const SizedBox(height: MmSpace.s4),
-                _Chips(numbers: cohort.numbers, onOpenQuestion: widget.onOpenQuestion),
+              if (cohort!.line != null) ...[
+                Text(cohort.line!, style: type.body),
+                if (cohort.numbers.isNotEmpty) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  _Chips(numbers: cohort.numbers, onOpenQuestion: widget.onOpenQuestion),
+                ],
+              ],
+              // Slice 5: the questions that took over twice as long as the students who got them right, in the same
+              // cohort block, set a little apart from the line above it. Only when the server sent it.
+              if (cohort.slow != null) ...[
+                if (cohort.line != null) const SizedBox(height: MmSpace.s12),
+                Text(keepNumbersWithWords(cohort.slow!.line), style: type.body.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
+                if (cohort.slow!.numbers.isNotEmpty) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  _Chips(numbers: cohort.slow!.numbers, onOpenQuestion: widget.onOpenQuestion),
+                ],
               ],
             ],
             if (lab.fine.isNotEmpty || (cohort?.fine.isNotEmpty ?? false)) const SizedBox(height: MmSpace.s16),
