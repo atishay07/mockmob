@@ -1,3 +1,16 @@
+## 16 October 2026 - Production database: health migrations applied (leaderboard function, least privilege for browser roles, pinned search_path, payments policy)
+
+- From the production health audit (docs/brain/PROD-HEALTH-2026-10-16.md) and branch fix/health-1016 (verifier PASS at 18567057). Each was dry-run on staging by the health fixers (applied, checked, undone), with undo files in supabase/undo/.
+- Applied by Claude (session 604ced81) under the standing grant at about 7:20 pm IST, in order: 20261016160100_leaderboard_group_by (mm_leaderboard(), service role only; live code still pages until fix/health-1016 ships, then uses it), 20261016170000_browser_roles_least_privilege (revoke anon/authenticated on RLS tables with no policy; revoke execute on 10 server-only functions), 20261016170300_function_search_path (17 functions pinned to public, pg_temp), 20261016170400_payments_policy_initplan (same rule, (select auth.uid()) form).
+- Pre-check: mm_leaderboard missing; 23 RLS-no-policy tables open to the browser roles; 6 server-only functions executable by anon; 7 unpinned functions; payments policy per-row auth.uid(). Post-check: mm_leaderboard returns 794 rows and anon cannot execute it; 0 open tables; 0 anon-executable server functions; 0 unpinned; policy in the select form; service_role still reads attempts. Live smoke after: /, /pricing, /api/stats, /leaderboard, /api/leaderboard all 200.
+- Undo, newest first: supabase/undo/20261016170400_payments_policy_initplan.undo.sql, 20261016170300_function_search_path.undo.sql, 20261016170000_browser_roles_least_privilege.undo.sql, 20261016160100_leaderboard_group_by.undo.sql (files on fix/health-1016).
+
+## 16 October 2026 - Production database: missing submit_rival_battle applied (Rival submissions were failing closed)
+
+- Found by the post-crash reconciliation: live code (src/services/ai-rival/scoreRivalBattle.js) calls rpc submit_rival_battle, but production never had the function (migration 20261002122000_rival_atomic_submission.sql was saved but not applied). Any Rival submission would have returned 503 battle_submission_temporarily_unavailable. No student was affected today: the last Rival battle was created 7 May 2026.
+- Dry run on PRODUCTION inside a rolled-back transaction (staging has no Rival tables): create the function, insert a throwaway battle, submit two answers, replay the same submission. Result: first and replay calls return the same response, status submitted, 2 answer rows; after ROLLBACK no leftover rows and no function.
+- Applied by Claude (session 604ced81) under the owner's standing database grant at about 6:15 pm IST, service role execute only. Undo: supabase/undo/20261002122000_rival_atomic_submission.undo.sql.
+
 ## 16 October 2026 - Production database: slice 5 refresh v2 applied; first refresh filled 461 questions in 13 s
 
 - Applied by Claude (session 604ced81) under the standing grant at about 11:10 IST: migration 20261016130000_question_option_stats_refresh_v2 (create or replace of refresh_question_option_stats; same signature, grants and results as v1, proven by the v1/v2 equality tests on PGlite; staging dry run 1.2 s at production size, then undone).
