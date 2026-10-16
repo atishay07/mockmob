@@ -65,6 +65,7 @@ test('the receipt is one line, 12-hour, with the day when it is not today', () =
   assert.equal(receiptLine({ subjectName: 'Accountancy', mode: 'full', completedAt: at, durationMs: 2_796_000, now: at + 60_000, timeZone: 'Asia/Kolkata' }), 'Accountancy full mock. Recorded 9:41 PM, 46m 36s.');
   assert.equal(receiptLine({ subjectName: 'Business Studies', mode: 'quick', completedAt: at, durationMs: 156_000, now: at, timeZone: 'Asia/Kolkata' }), 'Business Studies practice. Recorded 9:41 PM, 2m 36s.');
   assert.equal(receiptLine({ subjectName: 'Accountancy', mode: 'nta', completedAt: at, now: at + 3 * 86_400_000, timeZone: 'Asia/Kolkata' }), 'Accountancy NTA paper. Recorded 17 Oct, 9:41 PM.');
+  assert.equal(receiptLine({ subjectName: 'Accountancy', mode: 'full', completedAt: at, now: at + 6 * 3_600_000, timeZone: 'Asia/Kolkata' }), 'Accountancy full mock. Recorded yesterday, 9:41 PM.', 'the day before is said as a relative day');
   for (const word of ['submitted', 'submission', 'saved', 'session complete', 'practice finished']) {
     assert.ok(!receiptLine({ subjectName: 'Accountancy', mode: 'quick', completedAt: at, now: at }).toLowerCase().includes(word));
   }
@@ -93,11 +94,13 @@ test('repair value and cost: the four parts before paying, the balance, the no-c
 });
 
 test('the mistakes head: marks at stake, then repaired and held counts', () => {
-  assert.deepEqual(mistakesHead({ count: 12 }), { title: 'Your 12 mistakes', side: '−72 marks' });
-  assert.deepEqual(mistakesHead({ count: 12, repairedCount: 1 }), { title: 'Your 12 mistakes', side: '1 of 12 repaired' });
-  assert.deepEqual(mistakesHead({ count: 12, repairedCount: 3, heldCount: 2 }), { title: 'Your 12 mistakes', side: '3 of 12 repaired, 2 held' });
-  assert.deepEqual(mistakesHead({ count: 1 }), { title: 'Your 1 mistake', side: '−6 marks' });
+  assert.deepEqual(mistakesHead({ count: 12 }), { title: 'Your 12 mistakes', empty: null, side: '−72 marks' });
+  assert.deepEqual(mistakesHead({ count: 12, repairedCount: 1 }), { title: 'Your 12 mistakes', empty: null, side: '1 of 12 repaired' });
+  assert.deepEqual(mistakesHead({ count: 12, repairedCount: 3, heldCount: 2 }), { title: 'Your 12 mistakes', empty: null, side: '3 of 12 repaired, 2 held' });
+  assert.deepEqual(mistakesHead({ count: 1 }), { title: 'Your 1 mistake', empty: null, side: '−6 marks' });
   assert.equal(mistakesHead({ count: 0 }).title, 'No mistakes to repair');
+  assert.equal(mistakesHead({ count: 0, answered: 0 }).title, 'No answers to repair', 'an all-blank paper');
+  assert.ok(mistakesHead({ count: 0, answered: 50 }).empty.includes('its own repair'), 'the empty state teaches what appears here');
 });
 
 test('a return visit recomputes the move: after Q42 the next repair in Share Capital is next', () => {

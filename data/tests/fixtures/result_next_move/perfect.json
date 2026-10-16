@@ -430,7 +430,7 @@
       "kind": "harder",
       "rule": 1,
       "label": "Set up a harder full mock",
-      "why": "Every question right. A harder paper finds what is left.",
+      "why": "A harder paper finds what is left to fix.",
       "value": null,
       "cost": null,
       "late": null,

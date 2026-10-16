@@ -61,7 +61,7 @@ export function shortDuration(ms) {
 
 /**
  * The one receipt: "Accountancy full mock. Recorded 9:41 PM, 46m 36s." A paper from another day names the day:
- * "Recorded 14 Oct, 9:41 PM". No duration when the clock record has none.
+ * "Recorded yesterday, 9:41 PM" or "Recorded 14 Oct, 9:41 PM". No duration when the clock record has none.
  */
 export function receiptLine({ subjectName = '', mode = null, completedAt = null, durationMs = null, now = Date.now(), timeZone } = {}) {
   const head = [subjectName, paperKind(mode)].filter(Boolean).join(' ');
@@ -69,7 +69,10 @@ export function receiptLine({ subjectName = '', mode = null, completedAt = null,
   let when = '';
   if (Number.isFinite(t)) {
     const time = clockTime(t, { timeZone });
-    const day = dayKey(t, timeZone) === dayKey(now, timeZone) ? '' : `${new Date(t).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', ...(timeZone ? { timeZone } : {}) })}, `;
+    // Today says only the time; yesterday says so (a relative day); older papers name the date.
+    const sameDay = dayKey(t, timeZone) === dayKey(now, timeZone);
+    const yesterday = !sameDay && dayKey(t, timeZone) === dayKey(now - 86_400_000, timeZone);
+    const day = sameDay ? '' : yesterday ? 'yesterday, ' : `${new Date(t).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', ...(timeZone ? { timeZone } : {}) })}, `;
     when = `Recorded ${day}${time}`;
   }
   const dur = shortDuration(durationMs);
@@ -119,7 +122,9 @@ export function costliestLine(analysis, { answerReviews = {} } = {}) {
   const detail = c.n && c.right / c.n < NEXT_MOVE_RULES.fewRight
     ? `${c.right} right of ${c.n}: ${parts}.`
     : `${parts}, of ${plural(c.n, 'question')}.`;
-  return { line: `${c.chapter} cost ${c.marks} of the ${marks.gap} marks you missed.`, detail, chapter: c.chapter };
+  // One chapter holding every missed mark says so, rather than "11 of the 11".
+  const line = c.marks === marks.gap ? `${c.chapter} cost all ${marks.gap} marks you missed.` : `${c.chapter} cost ${c.marks} of the ${marks.gap} marks you missed.`;
+  return { line, detail, chapter: c.chapter };
 }
 
 /** The wrong answers repair can open, in the server's repair order: not held, not repaired yet. */
@@ -243,7 +248,7 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
     return {
       kind: 'harder', rule: 1,
       label: mock ? 'Set up a harder full mock' : `Practise ${NEXT_MOVE_RULES.setSize} harder in ${subjectLabel}`,
-      why: 'Every question right. A harder paper finds what is left.',
+      why: 'A harder paper finds what is left to fix.', // layer 1 already says "Every question right."
       value: null, cost: null, late: null,
       alt: { kind: 'paper', label: 'Take another fresh paper', target: null },
       note: null,
@@ -303,9 +308,13 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
 }
 
 /** "Your 12 mistakes" head: the right side reads "−72 marks", or "3 of 12 repaired" once any are. */
-export function mistakesHead({ count, repairedCount = 0, heldCount = 0 }) {
+export function mistakesHead({ count, repairedCount = 0, heldCount = 0, answered = null }) {
   return {
-    title: count ? `Your ${plural(count, 'mistake')}` : 'No mistakes to repair',
+    title: count ? `Your ${plural(count, 'mistake')}` : answered === 0 ? 'No answers to repair' : 'No mistakes to repair',
+    // The empty state teaches what will appear here (FEATURE-ADOPTION item 10).
+    empty: count ? null : answered === 0
+      ? 'Questions you answer and get wrong on your next paper show up here, each with its own repair.'
+      : 'A wrong answer shows up here with its own repair: why your pick looked right, one rule to keep and a new question to check it held.',
     side: !count ? null : repairedCount ? `${repairedCount} of ${count} repaired${heldCount ? `, ${heldCount} held` : ''}` : `−${count * NEXT_MOVE_RULES.gapWrong} marks`,
   };
 }

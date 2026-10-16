@@ -479,7 +479,7 @@ export default function ResultPageClient({ previewId = null }) {
         statusOf={statusOf} cohortOf={cohortOf} renderBody={renderBody}
         showAll={showAll} onShowAll={setShowAll} blanksOpen={blanksOpen} onBlanks={setBlanksOpen}
         repairedCount={repaired.size} heldCount={heldCount} ordered={repairOrder?.state === 'cohort' ? 'repair' : 'paper'}
-        cheer={cheer} arrived={arrived} arrive={arrive}
+        cheer={cheer} arrived={arrived} arrive={arrive} answered={marks.right + marks.wrong}
         top={engaged && segments.length > 1 ? (
           <div className="rt-bar">
             <RunTrack segments={segments} onGo={goSegment} onFinish={runIds.some(id => repairOutcomes[id]) ? () => setEnding(true) : null} />

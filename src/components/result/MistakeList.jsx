@@ -70,13 +70,14 @@ function Row({ row, open, onToggle, status, cohort, cheer, children, arrived }) 
  * showAll, onShowAll, blanksOpen, onBlanks
  * repairedCount, heldCount   for the head ("3 of 12 repaired, 2 held")
  * cheer        qid whose check just held (Mobi's one cheer), or null
+ * answered     right plus wrong answers on the paper (the empty state's words), or null
  * top          a node at the head of the section (the repair run's track, once a run has begun)
  * after        nodes under the list (the credit line, the lesson link)
  */
-export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', cheer = null, arrived = null, top = null, after = null, arrive = false }) {
+export default function MistakeList({ mistakes, blanks, openIds, onToggle, statusOf, cohortOf, renderBody, visited, showAll, onShowAll, blanksOpen, onBlanks, repairedCount = 0, heldCount = 0, ordered = 'repair', cheer = null, arrived = null, top = null, after = null, arrive = false, answered = null }) {
   const listId = useId();
   const blankId = useId();
-  const head = mistakesHead({ count: mistakes.length, repairedCount, heldCount });
+  const head = mistakesHead({ count: mistakes.length, repairedCount, heldCount, answered });
   const shown = showAll ? mistakes : mistakes.slice(0, SHOWN_FIRST);
   const rest = mistakes.length - SHOWN_FIRST;
   const row = (r) => (
@@ -95,6 +96,7 @@ export default function MistakeList({ mistakes, blanks, openIds, onToggle, statu
       {mistakes.length ? (
         <p className="rx-mistakes__sub">{ordered === 'repair' ? 'In repair order: the ones most other students got right come first. Repaired ones say whether the fix held.' : 'In paper order. Repaired ones say whether the fix held.'}</p>
       ) : null}
+      {head.empty ? <p className="rx-mistakes__sub">{head.empty}</p> : null}
       {mistakes.length ? <ol className="rx-list" id={listId}>{shown.map(row)}</ol> : null}
       {rest > 0 ? (
         <button type="button" className="rx-more" aria-expanded={showAll} aria-controls={listId} onClick={() => onShowAll(!showAll)}>
