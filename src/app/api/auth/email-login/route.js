@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { resend } from '@/lib/resend';
-import { EMAIL_LOGIN_LIMITS, getSiteOrigin } from '@/lib/server/emailLoginPolicy';
+import { EMAIL_LOGIN_LIMITS, getSiteOrigin, pruneLocalBuckets } from '@/lib/server/emailLoginPolicy';
 
 export const runtime = 'nodejs';
 
@@ -24,6 +24,7 @@ function rateLimitKey(request, email) {
 // Returns 0 when a code may be sent now, else the seconds to wait (shown as a countdown).
 function checkRateLimit(request, email) {
   const now = Date.now();
+  pruneLocalBuckets(rateBuckets, now);
   const key = rateLimitKey(request, email);
   const bucket = rateBuckets.get(key) || { lastAt: 0, attempts: [] };
   bucket.attempts = bucket.attempts.filter((time) => now - time < 60 * 60 * 1000);
