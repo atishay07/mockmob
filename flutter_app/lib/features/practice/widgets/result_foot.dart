@@ -15,13 +15,13 @@ class ResultFootAction {
   final String? note;
 }
 
-/// The pinned foot of the practice result: the next step (repair these, try the blanks, or
-/// another chapter) and "Finish for now".
+/// The pinned foot of a result (RESULT-1017 4.1): the next move as the screen's one volt key, its cost and balance
+/// under it, and on a practice set "Finish for now".
 class ResultFoot extends StatelessWidget {
-  const ResultFoot({super.key, required this.primary, required this.onFinish, required this.showFinish});
+  const ResultFoot({super.key, required this.primary, this.onFinish, required this.showFinish});
 
   final ResultFootAction primary;
-  final VoidCallback onFinish;
+  final VoidCallback? onFinish;
 
   /// At large text sizes the quiet key moves into the scrolling page so the pinned foot stays small.
   final bool showFinish;
@@ -54,9 +54,9 @@ class ResultFoot extends StatelessWidget {
                 ),
               ),
             ],
-            if (showFinish) ...[
+            if (showFinish && onFinish != null) ...[
               const SizedBox(height: MmSpace.s4),
-              Align(child: KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish)),
+              Align(child: KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish!)),
             ],
           ],
         ),

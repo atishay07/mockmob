@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/analytics/analytics.dart';
-import '../../core/domain/repair_candidates.dart' show RepairCandidates, RepairKeyScope;
+import '../../core/api/api_providers.dart' show nowProvider;
 import '../../core/models/models.dart';
 import '../../core/motion/motion.dart';
 import '../../core/repositories/attempts_repository.dart';
@@ -15,35 +15,42 @@ import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../insights/data/saved_repository.dart'
     show SaveDone, SaveLimitReached, SaveFailed, saveControllerProvider, savedRepositoryProvider;
-import '../review/data/repair_key_plan.dart';
-import '../review/data/review_providers.dart' show reviewIndexProvider;
+import '../result/data/move_state.dart';
+import '../result/layers_copy.dart';
+import '../result/model/move_inputs.dart';
+import '../result/model/next_move.dart';
+import '../result/move_nav.dart';
+import '../result/widgets/fold_section.dart';
+import '../result/widgets/mistake_row.dart';
+import '../result/widgets/next_move_panel.dart';
+import '../result/widgets/result_head.dart';
 import 'copy.dart';
 import 'data/default_subject.dart' show publicIdOf;
 import 'data/practice_catalog.dart';
 import 'data/practice_notes.dart';
 import 'data/result_actions.dart';
-import 'model/finish_reaction.dart';
 import 'model/practice_result_model.dart';
 import 'model/session_analysis.dart';
-import 'widgets/finish_stage.dart';
+import 'widgets/numbered_sheet.dart';
 import 'widgets/observations_panel.dart';
 import 'widgets/practice_app_bar.dart';
 import 'widgets/prove_card.dart';
 import 'widgets/result_foot.dart';
 import 'widgets/result_list.dart';
 import 'widgets/report_key.dart';
+import 'widgets/result_question_card.dart';
 import 'widgets/result_states.dart';
 import 'widgets/top_edge_fade.dart';
 import 'widgets/save_key.dart';
 
-/// When the server acknowledged the attempt on this phone ("Recorded at 11:51 PM").
+/// When the server acknowledged the attempt on this phone ("Recorded 11:51 PM").
 final resultReceivedAtProvider = FutureProvider.autoDispose.family<DateTime?, String>((ref, attemptId) async {
   final pending = await ref.watch(pendingResultRepositoryProvider).find(attemptId);
   return pending?.receivedAt;
 });
 
 /// True when this result was acknowledged on this phone and has not been opened yet: the
-/// student is arriving straight from the submit, so the finish moment plays. Read once, before
+/// student is arriving straight from the submit, so the arrival plays. Read once, before
 /// the result is marked opened.
 final finishFreshProvider = FutureProvider.autoDispose.family<bool, String>((ref, attemptId) async {
   try {
@@ -54,9 +61,12 @@ final finishFreshProvider = FutureProvider.autoDispose.family<bool, String>((ref
   }
 });
 
-/// `/practice/result/:attemptId`: the finish moment of Quick, Smart and chapter practice, then
-/// every answer with its explanation. Correctness appears here for the first time, because
-/// feedback while answering is off.
+/// `/practice/result/:attemptId` (RESULT-1017, packet A1): the result of Quick, Smart and chapter practice in four
+/// layers, the same order as a full mock's. (1) What happened in one glance: the one receipt, the marks with their
+/// denominator, the marks bar and the chapter that cost the most. (2) The one next move, chosen by stated rules, as the
+/// foot's volt key, with why and (for a repair) what a repair gives before paying. (3) The mistakes in repair order,
+/// each with its repair inline and its status. (4) Everything else, folded under plain names. Nothing is removed:
+/// what this set shows, the proof set, the answer map and the right answers all sit in the folds.
 class PracticeResultScreen extends ConsumerStatefulWidget {
   const PracticeResultScreen({super.key, required this.attemptId});
 
@@ -72,12 +82,18 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   bool _seeded = false;
   bool _finished = false;
 
-  /// The finish moment has ended: the answers below it come in (a result opened again, or reduced
+  /// The first rows of the mistakes show; "Show all" opens the rest in place.
+  static const int _firstRows = 4;
+  bool _showAll = false;
+  bool _blankOpen = false;
+
+  /// The arrival has ended: the layers below the head come in (a result opened again, or reduced
   /// motion, shows them at once).
   bool _settled = false;
+  Timer? _settleTimer;
 
-  /// Whether the moment plays, read once from the pending-result row on the first build that has
-  /// it and then held, so marking the result opened can never flip it mid-moment.
+  /// Whether the arrival plays, read once from the pending-result row on the first build that has
+  /// it and then held, so marking the result opened can never flip it mid-arrival.
   bool? _fresh;
   Timer? _leaveTimer;
   PracticeResultModel? _model;
@@ -85,20 +101,17 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   @override
   void dispose() {
     _leaveTimer?.cancel();
+    _settleTimer?.cancel();
     _scroll.dispose();
     _list.dispose();
     super.dispose();
   }
 
-  /// First data: open the first wrong answer, and mark the result opened (after the moment has
-  /// read whether it is fresh) so Today and the Review tab stop pointing at it.
-  void _onFirstData(Attempt attempt, PracticeResultModel model) {
+  /// First data: mark the result opened (after the arrival has read whether it is fresh) so Today
+  /// and the Review tab stop pointing at it.
+  void _onFirstData(Attempt attempt) {
     if (_seeded) return;
     _seeded = true;
-    final wrong = model.wrong;
-    if (wrong.isNotEmpty) _list.open.add(wrong.first.qid);
-    // With nothing wrong or blank the correct group is the whole list, so it starts open.
-    if (wrong.isEmpty && model.blank.isEmpty) _list.correctGroupOpen = true;
     scheduleMicrotask(() async {
       // Bookkeeping must never break the screen: the result is already on display.
       try {
@@ -119,16 +132,32 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     }
   }
 
+  /// Opens [q] where it lives (a mistake past the first rows, the folded blanks, or the right answers inside the
+  /// "Every answer" fold) and scrolls it under the bar.
   void _jumpTo(ResultQuestion q, {List<ResultQuestion> alsoOpen = const []}) {
-    for (final other in alsoOpen) {
-      _list.reveal(other);
-    }
-    _list.reveal(q);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final ctx = _list.keyFor(q.qid).currentContext;
-      if (ctx != null && ctx.mounted) {
-        Scrollable.ensureVisible(ctx, duration: Motion.of(ctx, Motion.card), curve: Motion.out, alignment: 0.08);
+    final model = _model;
+    setState(() {
+      for (final item in [q, ...alsoOpen]) {
+        switch (item.verdict) {
+          case Verdict.wrong:
+            final index = model?.wrong.indexWhere((w) => w.qid == item.qid) ?? 0;
+            if (index >= _firstRows) _showAll = true;
+          case Verdict.blank:
+            _blankOpen = true;
+          case Verdict.correct:
+            FoldMemory.instance.set(_Folds.every, open: true);
+        }
+        _list.open.add(item.qid);
       }
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // A row inside a fold arrives while the fold is still opening: scroll once it has settled.
+      Future<void>.delayed(q.verdict == Verdict.wrong ? Duration.zero : FoldSection.openDuration + const Duration(milliseconds: 30), () {
+        final ctx = _list.keyFor(q.qid).currentContext;
+        if (ctx != null && ctx.mounted) {
+          Scrollable.ensureVisible(ctx, duration: Motion.of(ctx, Motion.card), curve: Motion.out, alignment: 0.08);
+        }
+      });
     });
   }
 
@@ -152,19 +181,6 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   }
 
   String _publicSubject(Attempt attempt) => publicIdOf(attempt.subject, ref.read(practiceSubjectsProvider).value);
-
-  /// The share right in the student's previous practice in this subject, for the tone.
-  double? _previousAccuracy(Attempt attempt) {
-    final all = ref.read(attemptsRepositoryProvider).value;
-    if (all == null) return null;
-    Attempt? best;
-    for (final a in all) {
-      if (a.id == attempt.id || a.isMock || a.subject != attempt.subject || a.total == 0) continue;
-      if (!a.completedAt.isBefore(attempt.completedAt)) continue;
-      if (best == null || a.completedAt.isAfter(best.completedAt)) best = a;
-    }
-    return best == null ? null : best.correct / best.total;
-  }
 
   Future<void> _toggleSave(String qid, bool saved) async {
     final outcome = await ref.read(saveControllerProvider.notifier).set(qid, saved: !saved, source: 'result');
@@ -215,29 +231,79 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     });
   }
 
-  ResultFootAction _primary(Attempt attempt, PracticeResultModel model) {
-    // The key opens one repair run: one chapter of this paper (the chapter with the most open
-    // mistakes), so its count and its caption name that run, not every wrong answer on the page.
-    final plan = RepairKeyPlan.of(
-      [for (final q in model.wrong) RepairKeyRow(qid: q.qid, number: q.number, chapter: q.question?.chapter)],
-      attemptId: attempt.id,
-      index: ref.watch(reviewIndexProvider),
+  void _go(String location) {
+    _track(AnalyticsEvents.nextMoveStarted, {'screen': 'practice_result'});
+    unawaited(context.push(location));
+  }
+
+  /// The arrival ends 520 ms in (the panel's cue in RESULT-1017 4.8); the layers below then rise in.
+  void _scheduleSettle(bool staged) {
+    if (!staged || _settleTimer != null) return;
+    _settleTimer = Timer(const Duration(milliseconds: 520), () {
+      if (mounted && !_settled) setState(() => _settled = true);
+    });
+  }
+
+  /// One wrong (or blank) row: the plain row with the mistake's summary as its face and its repair inline.
+  Widget _row(
+    ResultQuestion q, {
+    required Attempt attempt,
+    required AttemptDetail? detail,
+    required SessionAnalysis analysis,
+    MistakeStatus? status,
+    String? cohort,
+    String? cost,
+  }) {
+    final keyView = KeyView.of(detail, q.qid);
+    final isBlank = q.verdict == Verdict.blank;
+    final yours = letterOf(q.givenIndex);
+    final answer = keyView.state == KeyState.ready ? letterOf(keyView.keyIndex) : null;
+    final summary = status == null
+        ? null
+        : MistakeSummary(
+            number: q.number,
+            chapter: q.chapter,
+            stem: q.question?.question,
+            yours: yours,
+            answer: answer,
+            cohort: cohort,
+            status: status,
+            expanded: _list.open.contains(q.qid),
+          );
+    return KeyedSubtree(
+      key: _list.keyFor(q.qid),
+      child: ResultQuestionRow(
+        item: q,
+        keyView: keyView,
+        expanded: _list.open.contains(q.qid),
+        onToggle: () => _list.toggle(q.qid),
+        blankMode: isBlank ? (_list.blank[q.qid] ?? BlankMode.question) : BlankMode.question,
+        tried: _list.tried[q.qid],
+        onTry: isBlank ? () => _list.setBlank(q.qid, BlankMode.trying) : null,
+        onShowAnswer: isBlank ? () => _list.setBlank(q.qid, BlankMode.answer) : null,
+        onTryPick: isBlank ? (j) => _list.pick(q.qid, j) : null,
+        save: _saveFor(q.qid),
+        report: _reportFor(attempt, detail, q),
+        time: analysis.timeLabel(q.qid),
+        changed: analysis.changed(q.qid),
+        summary: summary,
+        summarySemantics: status == null
+            ? null
+            : MistakeSummary.spoken(number: q.number, chapter: q.chapter, yours: yours, answer: answer, cohort: cohort, status: status),
+        repair: status == null
+            ? null
+            : MistakeRepairEntry(
+                number: q.number,
+                status: status,
+                letter: yours,
+                cost: cost,
+                onRepair: status == MistakeStatus.keyHeld || status == MistakeStatus.corrected
+                    ? null
+                    : () => _go(Uri(path: AppRoutes.reviewRepair(attempt.id, q.qid), queryParameters: const {'count': '1'}).toString()),
+                onOpenSaved: () => _go(AppRoutes.reviewRepair(attempt.id, q.qid)),
+              ),
+      ),
     );
-    if (plan != null) {
-      final location = Uri(
-        path: AppRoutes.reviewRepair(attempt.id, plan.firstQid),
-        queryParameters: {'count': '${plan.count}'},
-      ).toString();
-      // The key says what it opens in the words every other repair key uses (count, chapter,
-      // minutes, and what stays in Review): one sentence for one run.
-      final scope = RepairKeyScope(chapter: plan.chapter, firstQuestionId: plan.firstQid, count: plan.count, othersInPaper: plan.others);
-      return ResultFootAction(RepairCandidates.keyLabel(scope), () => context.push(location), note: RepairCandidates.describe(scope));
-    }
-    if (model.blank.isNotEmpty) {
-      return ResultFootAction(PracticeCopy.tryTheBlanks, () => _jumpTo(model.blank.first));
-    }
-    final location = Uri(path: AppRoutes.practiceSetup('chapter'), queryParameters: {'subject': _publicSubject(attempt)}).toString();
-    return ResultFootAction(PracticeCopy.practiceAnotherChapter, () => context.go(location));
   }
 
   @override
@@ -261,7 +327,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     // Time per question: the server's own read (`lab.time`) once the detail is here, else the
     // same one time rule over the attempt's record.
     final analysis = SessionAnalysis.of(attempt, serverTime: detail?.lab?.time);
-    _onFirstData(attempt, model);
+    _onFirstData(attempt);
     // The receipt waits for the time the server acknowledged on this phone; only a result with
     // no record here (opened later from Review) falls back to the attempt's own time.
     final recordedAt = receivedState.hasValue ? (receivedState.value ?? attempt.completedAt).toLocal() : null;
@@ -277,25 +343,156 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
 
     final large = MediaQuery.textScalerOf(context).scale(1) >= kSheetFullPageTextScale;
     final failedKeys = detail == null && detailState.error != null && !detailState.loading;
-    final marks = FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total);
-    // The moment plays on the real sheet: straight from the cached attempt (the submit put it
-    // there with its rows), without waiting for the full result read. Only when the cache has no
-    // rows does the moment, fresh or reopened, wait for them, and only until the read has settled
-    // either way (a reopened result would otherwise mount with no bubbles and jump when they arrive).
     final rowsSettled = model.hasRows || detail != null || failedKeys;
     final isFresh = _fresh;
-    final staged = isFresh == true && !_settled && !Motion.reduced(context);
-    // What is below the moment waits for it, then rises in: the list never gives the result away
-    // while the score still counts up.
+    final reduced = Motion.reduced(context);
+    final staged = isFresh == true && !_settled && !reduced;
+    _scheduleSettle(staged);
+
+    // The rules' inputs: the paper's rows in the order this screen numbers them, the key reviews, the server's repair
+    // order, what is repaired and checked, and the balances.
+    final subjectId = _publicSubject(attempt);
+    final subjectName = subjectNameFor(subjectId, ref.watch(practiceSubjectsProvider).value);
+    final rows = MoveAnalysis([
+      for (final q in model.questions)
+        MoveRow(
+          qid: q.qid,
+          number: q.number,
+          chapter: q.chapter,
+          verdict: switch (q.verdict) {
+            Verdict.correct => RowVerdict.correct,
+            Verdict.wrong => RowVerdict.wrong,
+            Verdict.blank => RowVerdict.skipped,
+          },
+          givenIndex: q.givenIndex,
+        ),
+    ]);
+    final reviews = moveReviewsOf(detail);
+    final order = moveOrderOf(detail?.lab?.repairOrder);
+    final state = MoveState.watch(ref, attemptId: attempt.id, wrongQids: [for (final q in model.wrong) q.qid]);
+    final now = ref.watch(nowProvider)();
+    final move = nextMove(
+      analysis: rows,
+      reviews: reviews,
+      order: order,
+      repaired: state.repaired,
+      checks: state.checks,
+      aiCredits: state.aiCredits,
+      practiceCredits: state.practiceCredits,
+      isPremium: state.isPro,
+      mode: attempt.mode,
+      subjectName: subjectName,
+      labReady: detail?.lab != null,
+      hour: now.hour,
+    );
+    final receipt = receiptLine(subjectName: subjectName, mode: attempt.mode, at: recordedAt ?? attempt.completedAt.toLocal(), duration: timeOnPaper(attempt), now: now);
+    final notice = keyNotice(reviews, (qid) => model.questions.where((q) => q.qid == qid).firstOrNull?.number);
+    final wrong = inRepairOrder(rows.rows.where((r) => r.verdict == RowVerdict.wrong).toList(), order);
+    final byQid = {for (final q in model.questions) q.qid: q};
+    final shownWrong = _showAll ? wrong : wrong.take(_firstRows).toList();
+    final repairCost = repairCostLine(state.aiCredits);
+    final proveChapter = model.wrong.isEmpty ? null : ref.watch(replayInventoryProvider(attempt.id)).value?.firstAvailable;
+    final m = rows.marks;
+
+    // What is below the head waits for the arrival, then rises in: the list never gives the result away while the score
+    // still counts up.
     Widget gate(Widget child) => IgnorePointer(
       ignoring: staged || isFresh == null,
       child: AnimatedOpacity(
         opacity: staged || isFresh == null ? 0 : 1,
-        duration: isFresh == true ? Motion.of(context, Motion.card) : Duration.zero,
+        duration: isFresh == true ? Motion.of(context, const Duration(milliseconds: 280)) : Duration.zero,
         curve: Motion.out,
         child: child,
       ),
     );
+
+    final layers = <Widget>[
+      // Layer 2: the one next move, why, and what a repair gives before paying.
+      const SizedBox(height: MmSpace.s24),
+      NextMovePanel(
+        move: move,
+        onAlt: switch (move.alt) {
+          final alt? => switch (MoveNav.forAlt(alt, attemptId: attempt.id, subject: subjectId)) {
+            final to? => () => _go(to),
+            null => null,
+          },
+          null => null,
+        },
+      ),
+      // Layer 3: the mistakes, in repair order, each with its repair inline.
+      const SizedBox(height: MmSpace.group),
+      MistakesHead(
+        count: wrong.length,
+        repairedCount: wrong.where((r) => state.repaired.contains(r.qid)).length,
+        cohort: order?.cohort ?? false,
+        nothingAnswered: m.answered == 0,
+      ),
+      const SizedBox(height: MmSpace.s8),
+      for (final r in shownWrong) ...[
+        Divider(height: 1, thickness: 1, color: colors.line),
+        _row(
+          byQid[r.qid]!,
+          attempt: attempt,
+          detail: detail,
+          analysis: analysis,
+          status: mistakeStatusOf(qid: r.qid, reviews: reviews, repaired: state.repaired, checks: state.checks, move: move),
+          cohort: cohortLine(order, r.qid),
+          cost: repairCost,
+        ),
+      ],
+      if (wrong.length > _firstRows) ShowAllRow(count: wrong.length, open: _showAll, onTap: () => setState(() => _showAll = !_showAll)),
+      if (model.blank.isNotEmpty)
+        LeftBlankRow(
+          count: model.blank.length,
+          open: _blankOpen,
+          onTap: () => setState(() => _blankOpen = !_blankOpen),
+          children: [
+            for (final q in model.blank) ...[
+              Divider(height: 1, thickness: 1, color: colors.line),
+              _row(q, attempt: attempt, detail: detail, analysis: analysis),
+            ],
+          ],
+        ),
+      // Layer 4: everything else, folded under plain names.
+      const SizedBox(height: MmSpace.group),
+      const FoldsHeading(),
+      if (analysis.observations.isNotEmpty || analysis.dwellMs.isNotEmpty)
+        FoldSection(
+          id: _Folds.where,
+          title: LayersCopy.foldWhere,
+          teaser: LayersCopy.answeredRight(m.right, m.answered),
+          builder: (_) => ObservationsPanel(analysis: analysis, onShow: _showQuestions),
+        ),
+      if (proveChapter != null)
+        FoldSection(
+          id: _Folds.proof,
+          title: LayersCopy.foldProof,
+          teaser: LayersCopy.proveTeaser(proveChapter),
+          builder: (_) => ProveCard(attemptId: attempt.id, subjectId: subjectId),
+        ),
+      FoldSection(
+        id: _Folds.every,
+        title: LayersCopy.foldEvery(model.questions.length),
+        teaser: LayersCopy.everyTeaser(m.right, m.wrong, m.blank),
+        builder: (_) => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            NumberedSheet(cells: model.cells, onCellTap: _tapCell),
+            if (model.correct.isNotEmpty) ...[
+              const SizedBox(height: MmSpace.s20),
+              Text(LayersCopy.rightAnswers(model.correct.length), style: context.mmType.cardTitle.copyWith(fontSize: 16)),
+              const SizedBox(height: MmSpace.s4),
+              ResultPanel(children: [for (final q in model.correct) _row(q, attempt: attempt, detail: detail, analysis: analysis)]),
+            ],
+          ],
+        ),
+      ),
+      Divider(height: 1, thickness: 1, color: colors.line),
+      if (large) ...[
+        const SizedBox(height: MmSpace.s24),
+        KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: _finish),
+      ],
+    ];
 
     return PopScope(
       // Opened by link or straight after a session there is nothing to go back to: back
@@ -310,97 +507,89 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
           children: [
             Positioned(top: 0, left: 0, right: 0, height: 440, child: IgnorePointer(child: LightField.lamp(context, strength: 0.75))),
             SafeArea(
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                  child: Column(
-                    children: [
-                      const PracticeAppBar(),
-                      Expanded(
-                        // The rows dim into the ground over the last 24 dp above the pinned foot,
-                        // never a half row cut at a hard edge (SPACING-AUDIT G10, P5).
-                        child: Stack(
-                          children: [
-                            Positioned.fill(
-                              child: TopEdgeFade(
-                          controller: _scroll,
-                          child: ListView(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+              child: Column(
+                children: [
+                  const PracticeAppBar(),
+                  Expanded(
+                    // The rows dim into the ground over the last 24 dp above the pinned foot,
+                    // never a half row cut at a hard edge (SPACING-AUDIT G10, P5).
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: TopEdgeFade(
                             controller: _scroll,
-                            // The last row scrolls fully clear of the fade above the foot.
-                            padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, BarFade.extent + MmSpace.s16),
-                            children: [
-                              // The moment waits the few milliseconds it takes to know whether
-                              // this is the first open (so it never plays twice or not at all), and
-                              // for the sheet's rows; meanwhile Mobi reads the sheet. Keyed by the
-                              // number of bubbles, so rows that arrive late ink in from the start.
-                              // The failure is said first, where the page opens: below the moment it
-                              // would sit past the fold, half behind the keys.
-                              if (failedKeys) ...[
-                                ResultLoadFailed(onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
-                                const SizedBox(height: MmSpace.s16),
-                              ],
-                              if (isFresh != null && rowsSettled)
-                                FinishStage(
-                                  key: ValueKey('finish-${model.cells.length}'),
-                                  marks: marks,
-                                  cells: model.cells,
-                                  tone: finishToneFor(marks, previousAccuracy: _previousAccuracy(attempt)),
-                                  recordedAt: recordedAt,
-                                  fresh: isFresh,
-                                  subject: subjectNameFor(_publicSubject(attempt), ref.watch(practiceSubjectsProvider).value),
-                                  chapter: chapter,
-                                  onCellTap: model.hasRows ? _tapCell : null,
-                                  onSettled: () {
-                                    if (mounted && !_settled) setState(() => _settled = true);
-                                  },
-                                )
-                              else
-                                const ResultReading(),
-                              if (detailState.isStale && detailState.fetchedAt != null) ...[
-                                const SizedBox(height: MmSpace.s12),
-                                Text(
-                                  PracticeCopy.lastLoaded(detailState.fetchedAt!.toLocal()),
-                                  style: context.mmType.small.copyWith(color: colors.ink3),
-                                ),
-                              ],
-                              if (model.hasRows && !failedKeys) ...[
-                                const SizedBox(height: MmSpace.group),
-                                gate(
-                                  ResultList(
-                                    model: model,
-                                    controller: _list,
-                                    keyFor: (qid) => KeyView.of(detail, qid),
-                                    saveFor: _saveFor,
-                                    reportFor: (q) => _reportFor(attempt, detail, q),
-                                    analysis: analysis,
-                                  ),
-                                ),
-                              ],
-                              // After the answers: what the set shows as a whole, then the way to prove
-                              // a repair held. Each claim opens the questions behind it.
-                              if (model.hasRows) gate(ObservationsPanel(analysis: analysis, onShow: _showQuestions)),
-                              if (model.wrong.isNotEmpty) gate(ProveCard(attemptId: attempt.id, subjectId: _publicSubject(attempt))),
-                              if (large) ...[
-                                const SizedBox(height: MmSpace.s24),
-                                KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: _finish),
-                              ],
-                            ],
+                            child: ListenableBuilder(
+                              listenable: _list,
+                              builder: (context, _) => ListView(
+                                controller: _scroll,
+                                // The app owns this scroll, so it bounces (F3) instead of Android's stretch.
+                                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                                // The last row scrolls fully clear of the fade above the foot.
+                                padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, BarFade.extent + MmSpace.s16),
+                                children: [
+                                  // The failure is said first, where the page opens.
+                                  if (failedKeys) ...[
+                                    ResultLoadFailed(onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+                                    const SizedBox(height: MmSpace.s16),
+                                  ],
+                                  // Layer 1: what happened. It waits the few milliseconds it takes to know whether this is
+                                  // the first open (so the arrival never plays twice or not at all), and for the rows.
+                                  if (isFresh != null && rowsSettled)
+                                    ResultHead(
+                                      receipt: receipt,
+                                      marks: m,
+                                      scored: attempt.marks,
+                                      max: attempt.maxMarks,
+                                      costliest: costliestLine(rows, reviews: reviews),
+                                      notice: notice,
+                                      arrival: isFresh,
+                                    )
+                                  else
+                                    const ResultReading(),
+                                  if (detailState.isStale && detailState.fetchedAt != null) ...[
+                                    const SizedBox(height: MmSpace.s12),
+                                    Text(
+                                      PracticeCopy.lastLoaded(detailState.fetchedAt!.toLocal()),
+                                      style: context.mmType.small.copyWith(color: colors.ink3),
+                                    ),
+                                  ],
+                                  if (model.hasRows && !failedKeys) gate(Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: layers)),
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                            ),
-                            const BarFade(),
-                          ],
-                        ),
-                      ),
-                      ResultFoot(primary: _primary(attempt, model), showFinish: !large, onFinish: _finish),
-                    ],
+                        const BarFade(),
+                      ],
+                    ),
                   ),
-                ),
+                  ResultFoot(
+                    primary: ResultFootAction(
+                      move.label,
+                      () => _go(MoveNav.forMove(move, attemptId: attempt.id, subject: subjectId)),
+                      note: move.cost,
+                    ),
+                    showFinish: !large,
+                    onFinish: _finish,
+                  ),
+                ],
               ),
             ),
+          ),
+        ),
           ],
         ),
       ),
     );
   }
+}
+
+/// The folds' names in the session's memory.
+abstract final class _Folds {
+  static const where = 'practice.where';
+  static const proof = 'practice.proof';
+  static const every = 'practice.every';
 }

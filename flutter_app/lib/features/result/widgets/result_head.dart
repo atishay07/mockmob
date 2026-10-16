@@ -23,6 +23,8 @@ class ResultHead extends StatefulWidget {
     this.onNotice,
     this.arrival = false,
     this.beside,
+    this.scored,
+    this.max,
   });
 
   final String receipt;
@@ -36,6 +38,10 @@ class ResultHead extends StatefulWidget {
 
   /// Drawn at the score's right (the subject's emblem on a mock).
   final Widget? beside;
+
+  /// The server's own figure and maximum when it has them (a corrected key moves the figure); else the rows' count.
+  final int? scored;
+  final int? max;
 
   /// The whole arrival, from the first frame to the last part landing.
   static const Duration arrivalDuration = Duration(milliseconds: 760);
@@ -95,7 +101,10 @@ class _ResultHeadState extends State<ResultHead> with SingleTickerProviderStateM
                   Expanded(
                     child: AnimatedBuilder(
                       animation: count,
-                      builder: (context, _) => ResultScore(scored: (m.scored * count.value).round(), max: m.max, finalScored: m.scored),
+                      builder: (context, _) {
+                        final scored = widget.scored ?? m.scored;
+                        return ResultScore(scored: (scored * count.value).round(), max: widget.max ?? m.max, finalScored: scored);
+                      },
                     ),
                   ),
                   if (widget.beside != null) ...[const SizedBox(width: MmSpace.s8), widget.beside!],
@@ -257,14 +266,8 @@ class _BarPainter extends CustomPainter {
         final rect = RRect.fromRectAndRadius(Rect.fromLTWH(x, 0, w, h), r);
         switch (i) {
           case 0:
-            canvas.drawRRect(rect, Paint()..color = colors.volt);
-            // On Daylight a 1 dp ink edge keeps the volt apart from the paper.
-            if (!colors.isNight) {
-              canvas.drawRRect(rect.deflate(0.5), Paint()
-                ..style = PaintingStyle.stroke
-                ..strokeWidth = 1
-                ..color = colors.ink.withValues(alpha: 0.24));
-            }
+            // Ink, not volt: the foot key is the screen's one volt fill.
+            canvas.drawRRect(rect, Paint()..color = colors.ink);
           case 1:
             canvas.drawRRect(rect, Paint()..color = colors.wrongMark);
           default:
@@ -339,12 +342,7 @@ class _Swatch extends CustomPainter {
     final rect = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(2.5));
     switch (kind) {
       case 0:
-        canvas.drawRRect(rect, Paint()..color = colors.volt);
-        if (!colors.isNight) {
-          canvas.drawRRect(rect.deflate(0.5), Paint()
-            ..style = PaintingStyle.stroke
-            ..color = colors.ink.withValues(alpha: 0.3));
-        }
+        canvas.drawRRect(rect, Paint()..color = colors.ink);
       case 1:
         canvas.drawRRect(rect, Paint()..color = colors.wrongMark);
       default:
