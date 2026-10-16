@@ -51,7 +51,7 @@ export function buildRibbon(rhythm) {
   }));
   const now = { key: rhythm.weekStart, days: rhythm.studyDays, goal: rhythm.daysGoal, met: !!rhythm.metThisWeek, paused: false, current: true };
   return [...closed, now].slice(-12).map((w) => {
-    const of = `${w.days} of ${w.goal} days`;
+    const of = `${w.days} of ${w.goal} study days`;
     const words = w.current
       ? (w.met ? `This week: ${of}, goal met` : `This week: ${of} so far`)
       : w.met ? `Week of ${shortDate(w.key)}: ${of}, goal met`
@@ -73,32 +73,4 @@ export function weekStatus(rhythm) {
       : 'No study day counted yet this week.';
   }
   return `${plural(left, 'more study day', 'more study days')} to meet your weekly goal.`;
-}
-
-const PATHS = [
-  { id: 'practice', title: 'Practice', steps: [
-    { id: 'first_scored_session', short: 'First session', condition: () => 'Finish one scored practice session with at least 5 answers' },
-    { id: 'first_full_mock', short: 'First full mock', condition: () => 'Finish one full mock' },
-    { id: 'sessions_10', short: '10 sessions', condition: () => 'Finish 10 scored practice sessions, each with at least 5 answers' },
-  ] },
-  { id: 'repair', title: 'Repair', steps: [
-    { id: 'first_repair', short: 'First repair', condition: () => 'Complete one Mistake Repair' },
-    { id: 'repairs_5', short: '5 repairs', condition: () => 'Complete 5 Mistake Repairs' },
-    { id: 'repairs_10', short: '10 repairs', condition: () => 'Complete 10 Mistake Repairs' },
-    { id: 'repairs_25', short: '25 repairs', condition: () => 'Complete 25 Mistake Repairs' },
-  ] },
-  { id: 'rhythm', title: 'Study days', steps: [
-    { id: 'first_week_met', short: 'First week met', condition: (r) => `Reach your goal of ${r.daysGoal} study days in one week` },
-    { id: 'weeks_met_4', short: '4 weeks met', condition: () => 'Meet your weekly goal in 4 different weeks' },
-  ] },
-];
-
-/** Three paths. A step is done only when the server gave it an achievedAt. `next` is the first one left. */
-export function buildPaths(rhythm) {
-  const at = new Map((rhythm?.milestones || []).map((m) => [m.id, m.achievedAt || null]));
-  return PATHS.map((p) => {
-    const steps = p.steps.map((s) => ({ id: s.id, short: s.short, achievedAt: at.get(s.id) || null, done: !!at.get(s.id), condition: s.condition(rhythm || { daysGoal: 4 }) }));
-    const next = steps.find((s) => !s.done) || null;
-    return { id: p.id, title: p.title, steps, next, doneCount: steps.filter((s) => s.done).length };
-  });
 }

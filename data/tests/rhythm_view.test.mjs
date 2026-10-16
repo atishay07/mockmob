@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { computeRhythm } from '../../src/lib/server/rhythm.js';
-import { buildWeek, buildRibbon, buildPaths, weekStatus, dayKeyNow, shortDate } from '../../src/lib/rhythmView.js';
+import { buildWeek, buildRibbon, weekStatus, dayKeyNow, shortDate } from '../../src/lib/rhythmView.js';
 
 const ist = (date, hhmm = '12:00') => Date.parse(`${date}T${hhmm}:00+05:30`);
 const session = (date, id) => ({ id, at: ist(date), kind: 'session', answered: 10 });
@@ -48,24 +48,11 @@ test('the ribbon ends with this week and never invents weeks', () => {
   const ribbon = buildRibbon(r);
   assert.equal(ribbon.length, 2); // last week and this week; nothing before the first activity
   assert.equal(ribbon[0].met, true);
-  assert.equal(ribbon[0].words, 'Week of 5 Oct: 2 of 2 days, goal met');
+  assert.equal(ribbon[0].words, 'Week of 5 Oct: 2 of 2 study days, goal met');
   assert.equal(ribbon[1].current, true);
-  assert.equal(ribbon[1].words, 'This week: 1 of 2 days so far');
+  assert.equal(ribbon[1].words, 'This week: 1 of 2 study days so far');
   assert.equal(ribbon[1].fill, 0.5);
   assert.equal(buildRibbon(computeRhythm({ activities: [], now })).length, 1);
-});
-
-test('three paths, the next step carries its exact condition', () => {
-  const now = ist('2026-10-15');
-  const r = computeRhythm({ activities: [session('2026-10-13', 'a'), { id: 'r1', at: ist('2026-10-14'), kind: 'repair' }], daysPerWeek: 3, now });
-  const paths = buildPaths(r);
-  assert.deepEqual(paths.map((p) => p.id), ['practice', 'repair', 'rhythm']);
-  const [practice, repair, rhythm] = paths;
-  assert.equal(practice.steps[0].done, true);
-  assert.equal(practice.next.condition, 'Finish one full mock');
-  assert.equal(repair.next.condition, 'Complete 5 Mistake Repairs');
-  assert.equal(rhythm.next.condition, 'Reach your goal of 3 study days in one week');
-  assert.equal(paths.flatMap((p) => p.steps).length, 9);
 });
 
 test('date words', () => {

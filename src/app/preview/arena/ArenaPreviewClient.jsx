@@ -15,6 +15,8 @@ import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/..
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
 import { previewCompass, previewInsights } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
+import { previewStudyRecord } from './previewStudy';
+import { buildStudyRecord } from '@/lib/studyBadges';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
 import MockMobAIHub from '@/components/ai/MockMobAIHub';
 import AssistantDrawer from '@/components/ai/AssistantDrawer';
@@ -429,6 +431,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       }
       return json(computeRhythm({ activities, daysPerWeek: kind === 'met' ? 4 : 4, now: Date.now() }));
     }
+    // Badges and personal bests (Progress). ?badges=none: one set and nothing earned from papers; ?data=empty has no papers.
+    if (url.pathname === '/api/me/study-record') return json(state === 'empty' ? buildStudyRecord([], []) : previewStudyRecord(fixture.get('badges')));
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
     if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null });
     if (url.pathname === '/api/me/goal' && method === 'PUT') {

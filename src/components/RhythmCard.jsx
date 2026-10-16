@@ -2,7 +2,7 @@
 
 // Your weekly study rhythm, from the real record (/api/me/rhythm) and nothing else.
 // Full form (Progress): a week ring with one arc per goal day, seven day bubbles, a 12-week
-// ribbon, and three milestone paths with the exact condition for the next step.
+// ribbon, then the sixteen badges on four paths and the personal bests (StudyBadges).
 // Compact form (Today): the ring, the seven days and one line.
 // Nothing shows, and Mobi does not react, until the server has answered. A day is "counted" only
 // when the server listed it; a week is "met" only when the server said so.
@@ -20,7 +20,8 @@ import { useInView } from '@/lib/motion/useInView';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { weekMobi } from '@/lib/mobiMoments';
 import { helloToday, speakOnce } from '@/lib/mobiRation';
-import { buildPaths, buildRibbon, buildWeek, dayKeyNow, weekStatus } from '@/lib/rhythmView';
+import StudyBadges from '@/components/StudyBadges';
+import { buildRibbon, buildWeek, dayKeyNow, weekStatus } from '@/lib/rhythmView';
 
 const R = 46;
 const C = 60;
@@ -63,7 +64,7 @@ function WeekRing({ rhythm, armed, size }) {
       </svg>
       <span className="rc-ring__count" aria-hidden="true">
         <b>{shown}</b>
-        <small>of {goal} days</small>
+        <small>of {goal} study days</small>
       </span>
     </div>
   );
@@ -159,32 +160,6 @@ function Ribbon({ ribbon, armed }) {
   );
 }
 
-function Paths({ paths, armed }) {
-  return (
-    <div className="rc-block">
-      <h3 className="rc-h">Three paths</h3>
-      <div className="rc-paths">
-        {paths.map((p) => (
-          <section key={p.id} className="rc-path" aria-label={`${p.title} path`}>
-            <header><b>{p.title}</b><span>{p.doneCount} of {p.steps.length}</span></header>
-            <ol className="rc-steps" style={{ '--rc-n': p.steps.length }}>
-              {p.steps.map((s, i) => (
-                <li key={s.id} data-done={s.done ? 'true' : 'false'} data-next={p.next?.id === s.id ? 'true' : 'false'} data-armed={armed ? 'true' : 'false'} style={{ '--rc-i': i }}>
-                  <span className="rc-step__dot" aria-hidden="true">
-                    {s.done ? <svg viewBox="0 0 24 24" focusable="false"><path d="M6 12.5l4 4 8-9" pathLength="1" /></svg> : null}
-                  </span>
-                  <span className="rc-step__label">{s.short}<span className="sr-only">{s.done ? ', done' : p.next?.id === s.id ? ', next' : ', later'}</span></span>
-                </li>
-              ))}
-            </ol>
-            <p className="rc-next">{p.next ? <><span>Next</span> {p.next.condition}</> : 'Every step on this path is done.'}</p>
-          </section>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /**
  * Which Mobi, what he does and what he says, once, when the week arrives from the server. The gates
  * (hello once a day, a line once a run) are asked here, in the fetch callback, never in render.
@@ -251,7 +226,6 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
   const today = useMemo(() => (rhythm ? dayKeyNow(rhythm.timeZone) : null), [rhythm]);
   const week = useMemo(() => (rhythm ? buildWeek(rhythm, today) : []), [rhythm, today]);
   const ribbon = useMemo(() => (rhythm ? buildRibbon(rhythm) : []), [rhythm]);
-  const paths = useMemo(() => (rhythm ? buildPaths(rhythm) : []), [rhythm]);
 
   if (state.status === 'error') {
     if (compact) return null;
@@ -300,7 +274,7 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
       ) : (
         <>
           <Ribbon ribbon={ribbon} armed={armed} />
-          <Paths paths={paths} armed={armed} />
+          <StudyBadges rhythm={rhythm} armed={armed} />
           <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
         </>
       )}
