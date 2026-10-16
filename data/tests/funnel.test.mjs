@@ -13,11 +13,15 @@ const BROWSER = 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KH
 const headers = (extra = {}) => new Headers({ 'user-agent': BROWSER, host: 'mockmob.in', origin: 'https://mockmob.in', 'sec-fetch-site': 'same-origin', ...extra });
 const body = (step) => JSON.stringify({ step });
 
-test('the step whitelist is exactly the seven agreed steps', () => {
-  assert.deepEqual([...FUNNEL_STEPS], ['landing_view', 'sample_subject_chosen', 'sample_started', 'sample_done', 'signup_click', 'signup_complete', 'login_click']);
+// The first seven steps are the landing funnel; the seven after them are in-product steps (data/tests/funnel_calls.test.mjs).
+const LANDING_STEPS = ['landing_view', 'sample_subject_chosen', 'sample_started', 'sample_done', 'signup_click', 'signup_complete', 'login_click'];
+
+test('the step whitelist is the seven landing steps plus the seven in-product steps', () => {
+  assert.deepEqual([...FUNNEL_STEPS].slice(0, 7), LANDING_STEPS);
+  assert.equal(FUNNEL_STEPS.length, 14);
   assert.equal(isFunnelStep('landing_view'), true);
   for (const bad of ['', 'LANDING_VIEW', 'landing_view ', '__proto__', 'constructor', null, undefined, 3, {}, ['landing_view']]) assert.equal(isFunnelStep(bad), false);
-  assert.deepEqual(FUNNEL_STAGES.map((s) => s.step), FUNNEL_STEPS.filter((s) => s !== 'login_click'));
+  assert.deepEqual(FUNNEL_STAGES.map((s) => s.step), LANDING_STEPS.filter((s) => s !== 'login_click'));
 });
 
 test('the migration matches the whitelist, is idempotent and counts atomically', async () => {
@@ -27,13 +31,13 @@ test('the migration matches the whitelist, is idempotent and counts atomically',
     const sql = read('../../supabase/migrations/20261015233000_funnel_daily.sql');
     await db.exec(sql); await db.exec(sql);
     // The database list is the same as the code list, in both directions.
-    for (const step of FUNNEL_STEPS) await db.query("select funnel_increment($1, 'desktop')", [step]);
+    for (const step of LANDING_STEPS) await db.query("select funnel_increment($1, 'desktop')", [step]);
     await assert.rejects(db.query("select funnel_increment('page_view', 'desktop')"), /check/);
     await assert.rejects(db.query("select funnel_increment('landing_view', 'smart_fridge')"), /check/);
     await assert.rejects(db.query("select funnel_increment('landing_view', null)"), /null|check/);
     await assert.rejects(db.query("insert into funnel_daily(day, step, platform, count) values (current_date, 'nope', 'desktop', 1)"), /check/);
     await assert.rejects(db.query("insert into funnel_daily(day, step, platform, count) values (current_date, 'landing_view', 'Desktop', 1)"), /check/);
-    assert.equal((await db.query('select count(*)::int n from funnel_daily')).rows[0].n, FUNNEL_STEPS.length);
+    assert.equal((await db.query('select count(*)::int n from funnel_daily')).rows[0].n, LANDING_STEPS.length);
     // The platform list in the database is the code list, and the platform is part of the key.
     for (const platform of FUNNEL_PLATFORMS) await db.query("select funnel_increment('landing_view', $1)", [platform]);
     assert.equal((await db.query("select count(*)::int n from funnel_daily where step = 'landing_view'")).rows[0].n, FUNNEL_PLATFORMS.length);
@@ -90,7 +94,7 @@ test('the undo lives outside the migrations folder', () => {
 test('request rules: whitelist, size, shape', () => {
   for (const step of FUNNEL_STEPS.filter((x) => !SERVER_ONLY_STEPS.includes(x))) assert.deepEqual(evaluateFunnelRequest({ headers: headers(), bodyText: body(step) }), { ok: true, step, platform: 'android_web' });
   // signup_complete is counted by the server where the account is created, never by a beacon.
-  assert.deepEqual([...SERVER_ONLY_STEPS], ['signup_complete']);
+  assert.deepEqual([...SERVER_ONLY_STEPS], ['signup_complete', 'first_practice_started', 'first_practice_finished', 'first_mock_finished', 'first_repair', 'pricing_viewed', 'checkout_opened', 'payment_captured']);
   assert.equal(evaluateFunnelRequest({ headers: headers(), bodyText: body('signup_complete') }).reason, 'server_only');
   const reason = (bodyText, h = headers()) => evaluateFunnelRequest({ headers: h, bodyText }).reason;
   assert.equal(reason(body('purchase')), 'unknown_step');

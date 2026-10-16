@@ -104,6 +104,22 @@ export default function FunnelSummary({ summary, enabled, notSetUp, failed }) {
               </ol>
             </section>
 
+            <section aria-labelledby="funnel-product" className="space-y-1">
+              <h2 id="funnel-product" className="text-lg font-semibold">After sign up</h2>
+              <p className="text-sm text-zinc-400">Each step counts a signed-in person once, the first time they reach it. Android app and web together. Older accounts can reach a step too, so a rate can pass 100%.</p>
+              <ol className="divide-y divide-white/10">
+                {(summary.product || []).map((stage) => (
+                  <li key={stage.step} className="space-y-2 py-4">
+                    <div className="flex items-baseline justify-between gap-3">
+                      <span className="font-medium text-white">{stage.label}</span>
+                      <span className="text-xl font-bold tabular-nums text-white">{number(stage.count)}</span>
+                    </div>
+                    <Rate label="Of finished sign ups in the window" part={stage.ofSignups} />
+                  </li>
+                ))}
+              </ol>
+            </section>
+
             <section aria-labelledby="funnel-platform" className="space-y-4">
               <div className="space-y-1">
                 <h2 id="funnel-platform" className="text-lg font-semibold">By platform</h2>

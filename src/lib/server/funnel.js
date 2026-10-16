@@ -1,6 +1,6 @@
 // Pure rules for the aggregate landing funnel. No I/O here; the route and the store call these.
 import {
-  FUNNEL_PLATFORMS, FUNNEL_PLATFORM_LABELS, FUNNEL_STAGES, FUNNEL_SIDE_STEPS, SERVER_ONLY_STEPS, isFunnelPlatform, isFunnelStep,
+  FUNNEL_PLATFORMS, FUNNEL_PLATFORM_LABELS, FUNNEL_STAGES, FUNNEL_PRODUCT_STAGES, FUNNEL_SIDE_STEPS, SERVER_ONLY_STEPS, isFunnelPlatform, isFunnelStep,
 } from '../funnelSteps.js';
 
 export const MAX_BODY_BYTES = 200;
@@ -155,8 +155,15 @@ export function summariseFunnel(rows, { today = istDay(), days = 14 } = {}) {
       signupShare: { count: own('signup_complete'), ...rate(own('signup_complete'), total('signup_complete')), ofLabel: 'All finished sign ups' },
     };
   });
+  // The in-product steps are not strictly sequential (a student can see pricing before a first repair), so
+  // each is compared with finished sign ups, not with the step above it.
+  const product = FUNNEL_PRODUCT_STAGES.map((stage) => ({
+    ...stage,
+    count: total(stage.step),
+    ofSignups: { ...rate(total(stage.step), total('signup_complete')), againstLabel: 'Finished signing up' },
+  }));
   return {
-    from: dayList[0], to: dayList[dayList.length - 1], days, stages, side, daily, empty,
+    from: dayList[0], to: dayList[dayList.length - 1], days, stages, side, daily, empty: empty && product.every((p) => p.count === 0), product,
     byPlatform,
     totalVisits: total('landing_view'),
     totalSignups: total('signup_complete'),

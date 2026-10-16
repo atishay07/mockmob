@@ -13,6 +13,7 @@ import {
 import { settleUserEntitlement } from '@/lib/payments/settle';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
+import { countStepOnce } from '@/lib/server/funnelOnceStore';
 import { getAICreditPack, grantPurchasedAICredits } from '@/services/credits/aiCreditWallet';
 
 export const dynamic = 'force-dynamic';
@@ -280,6 +281,9 @@ async function grantPaidSubscriptionAccess({ subscriptionId, payment, subscripti
   });
 
   await recordEarningIfApplicable(subscriptionId);
+  // Aggregate funnel: first captured payment of this student. The webhook is Razorpay's request, not the
+  // student's device, so it counts under the platform "other" (null headers).
+  countStepOnce(paymentRecord.userId, 'payment_captured', null);
 }
 
 async function keepRefundRevoked({ subscriptionId, payment, subscription, paymentRecord }) {
@@ -466,6 +470,9 @@ async function processOneTimeAccessWebhook({ eventType, payment, orderId, paymen
     });
 
     await recordEarningIfApplicable({ orderId: resolvedOrderId });
+    // Aggregate funnel: first captured payment of this student. The webhook is Razorpay's request, not the
+    // student's device, so it counts under the platform "other" (null headers).
+    countStepOnce(paymentRecord.userId, 'payment_captured', null);
   }
 
   if (eventType === 'payment.failed' && !hasPaidPaymentEvidence(paymentRecord)) {

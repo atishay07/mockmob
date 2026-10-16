@@ -15,6 +15,7 @@ import { getPaymentPlan, getPlanAccessUntil, getPlanCheckoutAmount, isOneTimeAcc
 import { settleUserEntitlement } from '@/lib/payments/settle';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
+import { countStepOnce } from '@/lib/server/funnelOnceStore';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -33,11 +34,11 @@ export async function POST(request) {
     } = body || {};
 
     if (orderId) {
-      return verifyOneTimeAccessPayment({ body, orderId, sessionUserId: session.user.id });
+      return verifyOneTimeAccessPayment({ body, orderId, sessionUserId: session.user.id, requestHeaders: request.headers });
     }
 
     if (subscriptionId) {
-      return verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUserId: session.user.id });
+      return verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUserId: session.user.id, requestHeaders: request.headers });
     }
 
     return NextResponse.json({ error: 'Missing Razorpay order or subscription id' }, { status: 400 });
@@ -47,7 +48,7 @@ export async function POST(request) {
   }
 }
 
-async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
+async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId, requestHeaders }) {
   const {
     razorpay_payment_id: paymentId,
     razorpay_signature: signature,
@@ -131,6 +132,8 @@ async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
   });
 
   await recordEarningIfApplicable({ orderId });
+  // Aggregate funnel: first captured payment of this student (once per person; no-op while FUNNEL_ENABLED is off).
+  countStepOnce(userId, 'payment_captured', requestHeaders);
 
   return NextResponse.json({
     ok: true,
@@ -146,7 +149,7 @@ async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
   });
 }
 
-async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUserId }) {
+async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUserId, requestHeaders }) {
   const {
     razorpay_payment_id: paymentId,
     razorpay_signature: signature,
@@ -259,6 +262,8 @@ async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUs
   });
 
   await recordEarningIfApplicable(subscriptionId);
+  // Aggregate funnel: first captured payment of this student (once per person; no-op while FUNNEL_ENABLED is off).
+  countStepOnce(userId, 'payment_captured', requestHeaders);
 
   return NextResponse.json({
     ok: true,
