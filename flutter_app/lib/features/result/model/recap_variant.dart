@@ -1,4 +1,3 @@
-import '../../../core/domain/next_move.dart' show isLateNightHour;
 import '../../../core/mascot/mobi_acts.dart' show MobiAct, MobiMoves;
 import '../../../core/mascot/mobi_mood.dart' show MobiMood;
 import '../../rhythm/rhythm.dart' show CelebrationMode;
@@ -83,13 +82,15 @@ class RecapReaction {
 /// screens):
 ///
 ///  * NTA mode: nothing. The exam is exam-faithful, so no Mobi and no celebration follows it.
-///  * Late at night (11 PM to 5 AM, the shared window): sleepy, and "Goodnight".
+///  * The hour never changes the reaction: the sleepy late-night Mobi is retired from the recap and the result
+///    (owner, 17 Oct, F11: "Mobby sleeping here ... is very confusing"). A late result reads like any other; the
+///    result's next-move panel says the late hour in plain words instead.
 ///  * The first full mock: proud. A higher result: cheer. A lower or held result: encourage (a
 ///    warm nod, never a frown). Anything else: rest.
 ///  * Celebrations on Quiet or Off turns proud and cheer into rest: Mobi sits, it does not act
 ///    out a celebration.
 ///
-/// [hour] is the local hour, 0 to 23.
+/// [hour] is the local hour, 0 to 23, kept so callers need not change; it no longer decides anything.
 RecapReaction? recapReaction({
   required RecapVariant variant,
   required CelebrationMode mode,
@@ -97,7 +98,6 @@ RecapReaction? recapReaction({
   required int hour,
 }) {
   if (isNta) return null;
-  if (isLateNightHour(hour)) return const RecapReaction(MobiAct.sleepy, line: RecapLineId.goodnight);
   final full = mode == CelebrationMode.full;
   return switch (variant) {
     RecapVariant.firstMock => RecapReaction(full ? MobiAct.proud : MobiAct.rest),

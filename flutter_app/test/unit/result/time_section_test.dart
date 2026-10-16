@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/models.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
+import 'package:mockmob/features/result/widgets/mistake_row.dart' show MistakeSummary;
 import 'package:mockmob/features/result/model/time_decisions.dart';
 
 import '../../helpers/fonts.dart';
@@ -50,6 +51,7 @@ void main() {
     final d = AttemptDetail.fromJson({...json, 'answerReviews': <String, dynamic>{}, 'answerReviewState': 'ready'});
     await pumpResultRoute(
       tester,
+      openFolds: true,
       location: '/result/a7',
       disableAnimations: true,
       overrides: resultOverrides(attemptId: 'a7', data: RecapData(model: mock7(withDetail: d), attempt: d.attempt, detail: d)),
@@ -71,7 +73,17 @@ void main() {
     // The section reads after the Mistake Lab.
     expect(tester.getTopLeft(find.text('Mistake Lab')).dy < tester.getTopLeft(find.text(TimeCopy.title)).dy, isTrue);
 
-    // The first wrong answer opens with the page: its own time and picks, in the same words.
+    // A mistake opens on a tap (none opens by itself, RESULT-1017 4.5): its own time and picks, in the same words.
+    final summary = find.byWidgetPredicate((w) => w is MistakeSummary && w.number == r.changed + 1, skipOffstage: false);
+    if (summary.evaluate().isEmpty) {
+      await tester.ensureVisible(find.textContaining('Show all'));
+      await tester.tap(find.textContaining('Show all'));
+      await tester.pump();
+    }
+    await tester.ensureVisible(summary);
+    await tester.pump();
+    await tester.tap(summary);
+    await tester.pump(const Duration(milliseconds: 400));
     expect(find.text(TimeCopy.rowLabel), findsOneWidget);
     expect(find.text("3m 20s on this question. The paper gives 1m 12s a question, and your median was 1m. That is 2.8 times the paper's pace."), findsOneWidget);
     // Once in the change list and once in the open answer.

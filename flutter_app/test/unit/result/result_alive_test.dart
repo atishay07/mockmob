@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiAct, MobiMood;
 import 'package:mockmob/core/models/models.dart' show AttemptDetail;
 import 'package:mockmob/core/widgets/widgets.dart' show BubbleGrid, BubbleState, Mobi, MobiPose;
+import 'package:mockmob/features/credits/data/credit_figures.dart' show CreditFigures;
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/result/full/answer_row.dart' show AnswerRow;
 import 'package:mockmob/features/result/model/recap_model.dart';
@@ -43,9 +44,10 @@ void main() {
       expect(recapMood(RecapVariant.standard, at(RecapVariant.standard)), MobiMood.calm);
     });
 
-    test('sleepy late at night, whatever the result, and nothing at all with no reaction', () {
+    test('late at night the face is the daytime one (no sleepy Mobi), and calm with no reaction', () {
       for (final v in RecapVariant.values) {
-        expect(recapMood(v, at(v, hour: 2)), MobiMood.sleepy, reason: '$v at 2 AM');
+        expect(recapMood(v, at(v, hour: 2)), recapMood(v, at(v, hour: 15)), reason: '$v at 2 AM');
+        expect(recapMood(v, at(v, hour: 2)), isNot(MobiMood.sleepy), reason: '$v at 2 AM');
         expect(recapMood(v, null), MobiMood.calm);
       }
     });
@@ -98,22 +100,25 @@ void main() {
   });
 
   group('the repair key on the full result says what opens', () {
-    testWidgets('the count on the key, the chapter and the minutes under it, and the link opens that run', (tester) async {
+    testWidgets('the foot key names the one mistake, the panel says what a repair gives and its cost, and the key opens that repair', (tester) async {
       final d = detail();
       final router = await pumpResultRoute(
         tester,
         location: '/result/a7',
-        overrides: resultOverrides(attemptId: 'a7', data: _ready(mock7(withDetail: d), d)),
+        overrides: resultOverrides(attemptId: 'a7', data: _ready(mock7(withDetail: d), d), credits: const CreditFigures(ai: 68, practice: 40)),
       );
       await _run(tester, 400);
-      await tester.scrollUntilVisible(find.text('Repair 4 mistakes'), 300);
-      expect(find.text('Repair 4 mistakes'), findsOneWidget);
-      expect(find.text('Admission of a partner, about 15 minutes. The other 11 are in Review.'), findsOneWidget);
-      expect(find.bySemanticsLabel('Repair 4 mistakes. Admission of a partner, about 15 minutes. The other 11 are in Review.'), findsOneWidget);
-      await tester.tap(find.text('Repair 4 mistakes'));
+      final key = find.textContaining(RegExp(r'^Repair Q\d+$'));
+      expect(key, findsWidgets);
+      final label = tester.widget<Text>(key.first).data!;
+      expect(find.text('Why ${label.substring(7)} first'), findsOneWidget);
+      expect(find.textContaining('A repair gives you why'), findsOneWidget);
+      expect(find.text('1 AI credit. You have 68. No charge if the repair cannot be written.'), findsOneWidget);
+      await tester.tap(key.first);
       await tester.pumpAndSettle();
-      expect(_at(router), startsWith('/review/repair/a7/'));
-      expect(_at(router), contains('count=4'));
+      // Pushed over the result, so back returns to it: the stub names where it was opened.
+      expect(find.textContaining(RegExp(r'^AT /review/repair/a7/q\d+\?count=1$')), findsOneWidget);
+      expect(_at(router), isNotEmpty);
     });
 
     testWidgets('a shorter length on the last card opens fewer, and the line under it counts what is left for Review', (tester) async {
@@ -173,9 +178,12 @@ void main() {
       await pumpResultRoute(
         tester,
         location: '/result/a7',
+        openFolds: true,
         overrides: resultOverrides(attemptId: 'a7', data: _ready(mock7(withDetail: d), d)),
       );
       await _run(tester, 1200);
+      await tester.ensureVisible(find.byType(BubbleGrid));
+      await _run(tester, 400);
       final blank = mock7().cells.indexOf(BubbleState.blank) + 1;
       await tester.tapAt(bubbleAt(tester, blank));
       await _run(tester, 1200);
@@ -184,21 +192,22 @@ void main() {
       expect(row.expanded, isTrue);
     });
 
-    testWidgets('late at night the reader Mobi stands sleepy', (tester) async {
+    testWidgets('late at night there is no Mobi on the result, and the panel says the hour in plain words', (tester) async {
       final d = detail();
       await pumpResultRoute(
         tester,
         location: '/result/a7',
         hour: 2,
-        overrides: resultOverrides(attemptId: 'a7', data: _ready(mock7(withDetail: d), d)),
+        overrides: resultOverrides(attemptId: 'a7', data: _ready(mock7(withDetail: d), d), now: DateTime(2026, 10, 13, 0, 30)),
       );
       await _run(tester, 600);
-      expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.sleepy);
+      expect(find.byType(Mobi), findsNothing);
+      expect(find.text('It is late. One repair is enough for tonight.'), findsOneWidget);
     });
   });
 
   group('the finish screen late at night', () {
-    testWidgets('Mobi is sleepy and says Goodnight beside it, then Today takes over', (tester) async {
+    testWidgets('Mobi is never sleepy and says no Goodnight (F11), then Today takes over', (tester) async {
       final d = detail();
       final router = await pumpResultRoute(
         tester,
@@ -211,9 +220,10 @@ void main() {
       await _run(tester, 700);
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 400);
-      expect(find.text('Goodnight'), findsOneWidget);
-      expect(find.byType(Mobi), findsOneWidget);
-      expect(tester.widget<Mobi>(find.byType(Mobi)).pose, MobiPose.sleepy);
+      expect(find.text('Goodnight'), findsNothing);
+      for (final m in tester.widgetList<Mobi>(find.byType(Mobi))) {
+        expect(m.pose, isNot(MobiPose.sleepy));
+      }
       await _run(tester, 4200);
       await tester.pumpAndSettle();
       expect(_at(router), '/today');

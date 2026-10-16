@@ -26,6 +26,7 @@ void main() {
     final d = detail(attemptBody: {...attemptJson(), 'lab': ?lab});
     await pumpResultRoute(
       tester,
+      openFolds: true,
       location: location,
       overrides: resultOverrides(attemptId: 'a7', data: RecapData(model: mock7(withDetail: d), attempt: d.attempt, detail: d), log: ResultLog()),
     );

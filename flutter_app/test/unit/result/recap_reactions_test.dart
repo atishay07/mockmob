@@ -59,13 +59,13 @@ void main() {
       }
     });
 
-    test('late at night (11 PM to 5 AM) it is sleepy and says Goodnight, whatever the result', () {
+    test('the hour never changes the reaction: the sleepy late-night Mobi is retired (owner, 17 Oct, F11)', () {
       for (final v in RecapVariant.values) {
         for (final h in [23, 0, 1, 4]) {
-          expect(at(v, hour: h), const RecapReaction(MobiAct.sleepy, line: RecapLineId.goodnight), reason: '$v at $h');
+          expect(at(v, hour: h), at(v, hour: 15), reason: '$v at $h reads like the afternoon');
+          expect(at(v, hour: h)?.act, isNot(MobiAct.sleepy), reason: '$v at $h');
+          expect(at(v, hour: h)?.line, isNull, reason: 'no Goodnight at $h');
         }
-        expect(at(v, hour: 5)?.line, isNull, reason: '5 AM is morning');
-        expect(at(v, hour: 22)?.line, isNull, reason: '10 PM is not late');
       }
       expect(ResultCopy.goodnight, 'Goodnight');
     });

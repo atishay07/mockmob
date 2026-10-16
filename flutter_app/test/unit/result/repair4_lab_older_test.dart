@@ -118,6 +118,7 @@ void main() {
       final d = detail(attemptBody: body);
       final router = await pumpResultRoute(
         tester,
+        openFolds: true,
         location: '/result/a7',
         size: size,
         overrides: resultOverrides(attemptId: 'a7', data: RecapData(model: mock7(withDetail: d), attempt: d.attempt, detail: d)),

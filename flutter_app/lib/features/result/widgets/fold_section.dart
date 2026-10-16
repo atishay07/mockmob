@@ -91,8 +91,11 @@ class FoldSection extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(title, style: type.cardTitle.copyWith(fontSize: 16)),
-                            const SizedBox(height: MmSpace.s2),
-                            Text(teaser, style: type.small.copyWith(color: colors.ink2), maxLines: 2, overflow: TextOverflow.ellipsis),
+                            // Open, the body says the finding in full, so the teaser steps out of its way.
+                            if (!open) ...[
+                              const SizedBox(height: MmSpace.s2),
+                              Text(teaser, style: type.small.copyWith(color: colors.ink2), maxLines: 2, overflow: TextOverflow.ellipsis),
+                            ],
                           ],
                         ),
                       ),
