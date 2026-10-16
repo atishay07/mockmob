@@ -146,6 +146,9 @@
   .app-shell .pr .pr-nta > .pr-nta__console { display: grid; }
   .app-shell .pr .pr-nta__more { display: none; }
 }
+/* The bank line under the list: one quiet sentence, read after the choice, never a banner (owner, 16 Oct). Same ink
+   and size as the specs above it, so it reads as part of the list's footing; the count keeps tabular figures. */
+.app-shell .pr .pr-modes__bank { max-width: 68ch; margin: -4px 2px 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
 .app-shell .pr .pr-nta__after { display: grid; gap: 12px; }
 .app-shell .pr .pr-nta__more { max-width: 360px; }
 .app-shell .pr .pr-sep { display: inline-block; width: 3px; height: 3px; margin: 0 7px; border-radius: 50%; background: currentColor; opacity: 0.55; vertical-align: middle; }

@@ -216,6 +216,20 @@ html[data-theme='light'] .rp-options li:is([data-state='key'], [data-state='mine
 .rp-report { min-height: 36px; padding: 0 4px; border: 0; background: transparent; color: var(--a-ink-3, #93a08f); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .rp-report:disabled { text-decoration: none; cursor: default; }
 
+/* ---------- 5. The next paper ----------
+   Not a card: a hairline rule, the sentence on the left and one outline action on the right, so it reads as the
+   page's closing line and never competes with the repair work above it (owner, 16 Oct: "not in the face"). */
+.rp-next { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px 24px; padding-top: 20px; border-top: 1px solid var(--a-line, #253026); }
+.rp-next__text { display: grid; gap: 6px; min-width: 0; }
+.rp-next h2 { font: 700 18px/1.3 var(--font-display, inherit); letter-spacing: -0.01em; color: var(--a-ink, #f2f4ec); }
+.rp-next p { margin: 0; max-width: 64ch; font-size: 14.5px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.rp-next .rp-next__price { font-size: 13.5px; color: var(--a-ink-3, #93a08f); }
+.rp-next__go { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; white-space: nowrap; }
+@media (max-width: 640px) {
+  .rp-next { grid-template-columns: 1fr; }
+  .rp-next__go { justify-self: stretch; justify-content: center; }
+}
+
 .rp-links { display: flex; flex-wrap: wrap; gap: 8px; }
 .rp-links a { display: inline-flex; align-items: center; gap: 8px; min-height: 42px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--a-line, #253026); color: var(--a-ink-2, #bcc5b9); font-size: 14px; font-weight: 600; text-decoration: none; }
 .rp-links a:hover { border-color: var(--a-line-hover); color: var(--a-ink); }

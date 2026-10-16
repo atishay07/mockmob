@@ -13,6 +13,9 @@ import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButto
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
+import { publicInventory } from '@/lib/server/inventory';
+import { pricingBankFaq, pricingBankLine } from '@/lib/paperCopy.mjs';
+import { practiceBankSize } from '@/lib/practiceBank.mjs';
 
 export function generateMetadata() {
   const offer = publicOffer();
@@ -34,8 +37,9 @@ const buildPlans = (offer) => [
     description: 'Enough to see whether MockMob suits you. No card needed.',
     ctaLabel: 'Create a free account',
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
-      'Quick practice, 5 to 20 questions, on credits',
-      'Full mock, 50 questions in 60 minutes, on credits',
+      'Quick practice, 5 to 20 questions, 10 practice credits a session',
+      'Full mock, 50 questions in 60 minutes, 50 practice credits a mock',
+      'Every paper built fresh from the live question bank',
       'Weekly progress tracking',
       '25 saved questions',
       'Leaderboard',
@@ -57,8 +61,8 @@ const buildPlans = (offer) => [
       ? 'Cancel any time in Account. You keep Pro to the end of the month you paid for.'
       : `Access ends ${offer.oneTime.expires}. No auto-renewal on this payment.`,
     features: newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full recovery history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Full priorities and playbook', 'Unlimited saved questions'] : [
-      'Unlimited Quick practice and Full mocks',
-      'NTA mode: the exam-day screen, 50 questions in 60 minutes',
+      'Unlimited Quick practice and Full mocks, each a fresh paper',
+      'NTA mode: the exam-day screen, 50 questions in 60 minutes, as many papers as you take',
       'Smart practice: every set aimed at your weak chapters',
       'Full chapter review: every ranked chapter, pace and changed-answer detail',
       'Compass Pro: your practice projected paper by paper, against your DU shortlist',
@@ -76,6 +80,7 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
     rows: [
       ['Quick practice (5 to 20 questions)', '10 credits a session', 'Unlimited'],
       ['Full mock (50 questions, 60 minutes)', '50 credits a mock', 'Unlimited'],
+      ['A fresh paper each time, questions you have not answered first', true, true],
     ],
   },
   {
@@ -128,7 +133,7 @@ const AI_PACKS = [
   },
 ];
 
-const buildFaqs = (offer) => [
+const buildFaqs = (offer, bankSize = null) => [
   {
     q: 'Is Pro a monthly subscription?',
     a: offer.purchasable === 'monthly'
@@ -141,6 +146,7 @@ const buildFaqs = (offer) => [
       ? 'Renewals stop. Pro stays active until the end of the month you already paid for, then your account moves to Free. Your history, saved questions and credits stay.'
       : `There is nothing to cancel. Pro is one payment with no renewal. It stays active until ${offer.oneTime.expires}, then your account moves to Free. Your history, saved questions and credits stay.`,
   },
+  pricingBankFaq(bankSize),
   ...(offer.purchasable === 'monthly' ? [
     {
       q: 'What if a renewal payment fails?',
@@ -189,8 +195,12 @@ export default async function PricingPage() {
   const currentUser = session?.user?.id ? await Database.getUserById(session.user.id) : null;
   const isCurrentUserPremium = Boolean(currentUser?.isPremium);
   const offer = publicOffer();
+  // The stored daily count only (never a bank read on a request); without it the sentence names no number.
+  const inventory = await publicInventory().catch(() => null);
+  // Summed over the subjects Practice offers: the stored bankSize also holds subjects that are not offered or retired.
+  const bankSize = practiceBankSize(inventory);
   const PLANS = buildPlans(offer);
-  const FAQS = buildFaqs(offer);
+  const FAQS = buildFaqs(offer, bankSize);
 
   return (
     <div className="mm">
@@ -216,6 +226,7 @@ export default async function PricingPage() {
                 ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any time in Account.'
                 : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}, with no renewal.`}
             </p>
+            <p className="mm-body" style={{ marginTop: '0.875rem', maxWidth: '60ch', fontVariantNumeric: 'tabular-nums' }}>{pricingBankLine(bankSize)}</p>
           </div>
         </section>
 
@@ -250,6 +261,7 @@ export default async function PricingPage() {
                       <h3>How Free works</h3>
                       <ul>
                         <li>Quick practice uses 10 practice credits a session. A Full mock uses 50.</li>
+                        <li>New accounts start with 100 practice credits. Each question you upload that passes moderation adds 15.</li>
                         <li>Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.</li>
                         <li>Written replies from Ask Mobi use AI credits: 10 a month on Free.</li>
                       </ul>
