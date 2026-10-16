@@ -44,9 +44,13 @@ test('the wave config: wave 3 has its own source, files and settings, wave 2 kee
   assert.equal(parseArgs(['--wave=w3', '--raw=x']).raw, 'x');
 });
 
-test('wave 3 has no final mode: the expert pass, the fresh pass and the hand decisions are wave 2 things', async () => {
-  await assert.rejects(() => runFinal(args(['--mode=final'])), /wave-2 mode/);
-  await assert.rejects(() => runCheck(args(['--final'])), /wave-2 flag/);
+test('wave 3 has a final mode of its own (finalInputs); the accept mode keeps its defaults, wave 2 has none of it', () => {
+  assert.deepEqual(WAVE_CONFIGS.w3.finalInputs, { expert: 'docs/brain/reports/authored-w3/expert', resolve: 'tmp/authored-w3s/resolve', fresh: ['tmp/authored-w3s/reword'] });
+  assert.deepEqual(WAVE_CONFIGS.w3.publishRule, { qualityMeanAtLeast: 8, fitMedianAtLeast: 8 });
+  assert.equal(WAVE_CONFIGS.w2.finalInputs, null);
+  assert.equal(WAVE_CONFIGS.w2.carryBlindAnswers, false);
+  const w3 = parseArgs(['--wave=w3', '--mode=final']);
+  assert.deepEqual([w3.expert, w3.resolve, w3.fresh], [null, null, []], 'the final inputs come from the config at run time, the accept defaults stay empty');
 });
 
 test('the raw files are 13 batches of 10 role files, laid out as the manifest says, and every one is read', async () => {
@@ -121,7 +125,7 @@ test('what is written: three files, the wave-3 names, the candidates carry the a
   try {
     const run = await runAccept(args([`--out=${dir}`]));
     assert.deepEqual(fs.readdirSync(dir).sort(), ['wave3-acceptance-2026-10-17.json', 'wave3-candidates-scored-2026-10-17.json', 'wave3-score-entries-2026-10-17.json']);
-    assert.deepEqual(Object.keys(run.out).filter((key) => typeof run.out[key] === 'string').sort(), ['acceptance', 'candidates', 'dir', 'entries']);
+    assert.deepEqual(Object.keys(run.out).filter((key) => typeof run.out[key] === 'string').sort(), ['acceptance', 'acceptanceFinal', 'candidates', 'candidatesFinal', 'dir', 'dropped', 'entries', 'entriesFinal', 'held'], 'the names of the final files are in the config; accept mode writes only the first three');
     const candidates = readJson(`${dir}/wave3-candidates-scored-2026-10-17.json`);
     const entries = readJson(`${dir}/wave3-score-entries-2026-10-17.json`);
     assert.equal(candidates.length, 219);

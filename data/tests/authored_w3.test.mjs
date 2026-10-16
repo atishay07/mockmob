@@ -161,7 +161,9 @@ test('the dry run, offline: wave 3 plans cleanly and its only blocker is the mis
   assert.equal(report.summary.passageGroups, 5);
   assert.equal(report.blockers.length, 1);
   assert.match(report.blockers[0], /without an agent score entry/);
-  assert.deepEqual(report.checks.agentScores, { bound: 0, missing: 294, hashMismatch: 0 });
+  // 17 Oct 2026: the tables now hold the 153 rows of the wave-3 publication set (merged after the expert pass). Against this first-pass file (the as-authored text) 138 are bound,
+  // 15 are bound to their repaired text (an expert repair changed a hashed field, so the as-authored hash differs), and 141 have no entry (held 7 to 7.9, dropped, Hindi).
+  assert.deepEqual(report.checks.agentScores, { bound: 138, missing: 141, hashMismatch: 15 });
   assert.equal(report.candidatesSha256, loadCandidates(CANDIDATES_FILE).sha256);
 });
 

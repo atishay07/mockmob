@@ -114,6 +114,8 @@ function tagsOf(candidate) {
     `question_type:${AUTHORED_QUESTION_TYPE[candidate.type] || candidate.type}`,
     ...(text(candidate.unit) ? [`unit:${text(candidate.unit)}`] : []),
     ...(candidate._verdict ? [`expert_review:${candidate._verdict}`] : []),
+    // Wave 3 after its expert pass: the expert verdict (ready or repaired) beside the authoring check above.
+    ...(candidate._expert ? [`expert_pass:${candidate._expert}`] : []),
     ...(candidate._reworded ? ['authored_revision:reworded'] : []),
     ...(ncert ? [`ncert:${ncert.slice(0, 240)}`] : []),
   ];

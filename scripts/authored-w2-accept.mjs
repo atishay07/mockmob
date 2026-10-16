@@ -46,6 +46,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { applyExpertRepair } from './lib/authored-w3-repair.mjs';
 
 const SKIP_DIRS = new Set(['reword', 'expert', 'resolve', 'exemplars', 'prompts']);
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -77,6 +78,7 @@ export const WAVE_CONFIGS = {
     resolve: 'tmp/authored-w2/resolve', decisions: 'docs/brain/reports/authored-w2/wave2-drop-decisions-2026-10-14.json',
     spotcheck: 'docs/brain/reports/authored-w2/wave2-spotcheck-2026-10-14.md', engineReasons: 'docs/brain/reports/authored-w2/wave2-engine-check-working-r5.2-2026-10-14.json',
     sourceCandidates: null, manifest: null,
+    resolvePrefix: 'rv-w2', finalInputs: null, carryBlindAnswers: false,
   },
   w3: {
     id: 'w3', wave: 3, source: W3_SOURCE, label: 'wave3', kind: 'authored_w3', modelNote: 'the model of the subagents that produced the raw files is not recorded in them',
@@ -88,11 +90,19 @@ export const WAVE_CONFIGS = {
     batchRe: /^(chemistry|general_test|physics)__w3b\d+$/, priorFiles: [{ from: 'wave2', file: 'docs/brain/reports/authored-w2/wave2-candidates-final-2026-10-14.json' }],
     expert: null, asjudged: null, fresh: [], resolve: null, decisions: null, spotcheck: null, engineReasons: null,
     sourceCandidates: 'docs/brain/reports/authored-w3/wave3-candidates-2026-10-17.json', manifest: 'tmp/authored-w3s/manifest.json',
+    // --mode=final (17 Oct 2026, after the expert pass): the inputs the first-pass acceptance above does not read. The accept mode keeps its defaults (null) so its output never changes.
+    // repairs: the expert verdicts' repairs are applied to the batch text here (the batch files are never edited); resolve: blind re-solves rv-w3-blind.json and rv-w3__s1..s3.json;
+    // fresh: the full fresh pass (rw-w3 batch text, blind text, s1-s5, j1-j2, h1-h3) on the reworded rows.
+    resolvePrefix: 'rv-w3', carryBlindAnswers: true,
+    finalInputs: { expert: 'docs/brain/reports/authored-w3/expert', resolve: 'tmp/authored-w3s/resolve', fresh: ['tmp/authored-w3s/reword'] },
+    // The owner's publish rule of 17 Oct 2026: the mean of the two quality judges and the fit median are both 8 or more; 7 to 7.9 is held.
+    publishRule: { qualityMeanAtLeast: 8, fitMedianAtLeast: 8 },
   },
 };
 const FILES = (date, cfg = WAVE_CONFIGS.w2) => ({
   ...cfg.files(date),
   ...(cfg.finalMode ? { candidatesFinal: `wave2-candidates-final-${date}.json`, entriesFinal: `wave2-score-entries-final-${date}.json`, dropped: `wave2-dropped-${date}.json` } : {}),
+  ...(cfg.finalInputs ? { acceptanceFinal: `wave3-final-acceptance-${date}.json`, candidatesFinal: `wave3-candidates-final-${date}.json`, entriesFinal: `wave3-score-entries-final-${date}.json`, dropped: `wave3-dropped-${date}.json`, held: `wave3-held-7-${date}.json` } : {}),
   engine: (label) => cfg.engineFile(label, date),
 });
 
@@ -338,7 +348,7 @@ const REASON_CATEGORY = [
   [/^incomplete_/, 'verification_incomplete'], [/^structural_/, 'structural'], [/^blind_text_/, 'blind_text'], [/^duplicate_/, 'duplicate'],
   [/^solvers_/, 'solvers'], [/^j\d_quality_/, 'quality_score'], [/^j\d_flags_/, 'quality_flag'], [/^j\d_blind_answer_/, 'judge_blind_answer'],
   [/^fit_median_/, 'fit_median'], [/^fit_flagged_by_two/, 'fit_flags'],
-  [/^(no_blind_solver_evidence_on_final_text|repaired_text_without_blind_resolve)/, 'repaired_without_resolve'], [/^resolve_/, 'resolve'], [/^expert_verdict_/, 'expert_verdict'],
+  [/^(no_blind_solver_evidence_on_final_text|repaired_text_without_blind_resolve)/, 'repaired_without_resolve'], [/^resolve_/, 'resolve'], [/^expert_verdict_/, 'expert_verdict'], [/^expert_repair_/, 'expert_verdict'], [/^reworded_/, 'repaired_without_resolve'],
 ];
 export const categoryOf = (reason) => (REASON_CATEGORY.find(([re]) => re.test(reason)) || [null, 'other'])[1];
 const CATEGORIES = ['solvers', 'quality_score', 'quality_flag', 'judge_blind_answer', 'fit_median', 'fit_flags', 'verification_incomplete', 'structural', 'blind_text', 'duplicate', 'repaired_without_resolve', 'resolve', 'expert_verdict', 'other'];
@@ -392,6 +402,8 @@ function evaluateQuestion(q, loaded, lib, ctx) {
   // 2. The expert verdict, where there is one: practice and reject are not published.
   const expert = ctx.expert.get(q.id) || null;
   if (expert && !['ready', 'repaired'].includes(expert.verdict)) reasons.push(`expert_verdict_${expert.verdict}`);
+  // Wave 3: a reworded row is judged on its reworded text by its own fresh pass; without all ten records of that pass it is held (the as-authored judges never saw this text).
+  if (ctx.cfg.id === 'w3' && ctx.rewordIds?.has(q.id) && !fresh) reasons.push('reworded_without_complete_fresh_pass');
   // 3. The text the blind solvers saw. After an expert repair it differs by design: the five solvers solved the text before the repair.
   const blindDiff = sameBlind(view.blind.get(q.id), q, ctx.cfg.blindFields);
   let drift = null;
@@ -425,12 +437,24 @@ function evaluateQuestion(q, loaded, lib, ctx) {
     const preRepair = !fresh && asjudged ? lib.scores.preRepairDiff(asjudged, q) : {};
     const reworded = fresh && asjudged ? Object.keys(lib.scores.preRepairDiff(asjudged, q)) : [];
     const spot = ctx.spot.get(q.id) || null;
+    // Wave 3: a repair that moved or reshuffled the options leaves the judges' blind answer on the pre-repair text. Where the judge answered the pre-repair key and the three blind
+    // re-solvers (two of three on the key) confirm the repaired key, the judge's answer is carried to the repaired key and the carry is recorded; otherwise the answer stays as given.
+    const carried = [];
+    const blindAnswerOf = (role, r) => {
+      const given = up(r.blind_answer);
+      const judgedKey = asjudged?.correct_key;
+      if (drift && ctx.cfg.carryBlindAnswers && resolve && resolve.matched_key >= 2 && judgedKey && judgedKey !== q.correct_key && given === judgedKey) {
+        carried.push({ judge: role, judged_answer: given, judged_key: judgedKey, repaired_key: q.correct_key });
+        return q.correct_key;
+      }
+      return given;
+    };
     record = {
       subject: loaded.subject, batch: loaded.batch, chapter: q.chapter, set_id: q.set_id || null,
       text: {
         expert_verdict: expert?.verdict ?? null, expert_issue: expert?.why || null,
         // earlier_text: the expert reviewed the wording before it was reworded for the engine; only the fresh judges and solvers saw the final text.
-        expert_reviewed_text: !expert ? 'not_reviewed' : (fresh ? 'earlier_text' : 'final'),
+        expert_reviewed_text: !expert ? 'not_reviewed' : (fresh && ctx.cfg.id !== 'w3' ? 'earlier_text' : 'final'),
         judged: fresh ? 'final' : 'as_authored',
         pre_repair: Object.keys(preRepair).length ? preRepair : null,
         ...(reworded.length ? { reworded_after_acceptance: reworded, reworded_engine_reasons: ctx.engineReasons.get(q.id) || null } : {}),
@@ -442,13 +466,14 @@ function evaluateQuestion(q, loaded, lib, ctx) {
       blind_resolve_on_final_text: resolve,
       quality: QUALITY.map((role) => {
         const r = roles[role].value;
-        return { judge: role, quality_score: r.quality_score, blind_answer: up(r.blind_answer), key_matches: r.key_matches, difficulty_check: r.difficulty_check, objective_tag: r.objective_tag.trim(), flags: r.flags.map(String), note: text(r.note).slice(0, 240), on_final_text: fresh ? true : null, batch: fresh ? fresh.batch : loaded.batch };
+        return { judge: role, quality_score: r.quality_score, blind_answer: blindAnswerOf(role, r), key_matches: r.key_matches, difficulty_check: r.difficulty_check, objective_tag: r.objective_tag.trim(), flags: r.flags.map(String), note: text(r.note).slice(0, 240), on_final_text: fresh ? true : null, batch: fresh ? fresh.batch : loaded.batch };
       }),
       fit: FIT.map((role) => ({ judge: role, ...roles[role].value, on_final_text: fresh ? true : null, batch: fresh ? fresh.batch : loaded.batch })),
     };
+    if (carried.length) record.text.judge_blind_answer_carried_over = carried; // filled while the quality records above were built
     // The wave-1 rule itself (scripts/lib/authored-scores.mjs acceptanceReasons), so wave 2 cannot drift from it.
     reasons.push(...lib.scores.acceptanceReasons(record, q));
-    for (const role of QUALITY) if (roles[role].value.key_matches !== (up(roles[role].value.blind_answer) === q.correct_key)) warnings.push(`${role}_key_matches_field_disagrees_with_blind_answer`);
+    for (const role of QUALITY) if (roles[role].value.key_matches !== (up(roles[role].value.blind_answer) === q.correct_key) && !carried.some((c) => c.judge === role)) warnings.push(`${role}_key_matches_field_disagrees_with_blind_answer`);
   } else {
     // Partial evidence is reported as it stands; the question stays unaccepted (the rule needs all ten records).
     if (solvers.n === 5 && matched < RULE.solversMatchingKeyAtLeast) reasons.push(`solvers_${matched}_of_${solvers.n}`);
@@ -501,7 +526,7 @@ function loadExpert(dir) {
       for (const v of res.value.verdicts) {
         if (!v?.id || !v?.verdict) continue;
         if (verdicts.has(v.id) && verdicts.get(v.id).verdict !== v.verdict) conflicts.push({ id: v.id, files: [verdicts.get(v.id).file, name], verdicts: [verdicts.get(v.id).verdict, v.verdict] });
-        verdicts.set(v.id, { verdict: v.verdict, why: text(v.why), repair: v.repair ?? null, file: name });
+        verdicts.set(v.id, { verdict: v.verdict, why: text(v.why), repair: v.repair ?? null, file: name, raw: v });
       }
     }
   }
@@ -509,14 +534,15 @@ function loadExpert(dir) {
 }
 
 /** Blind re-solves of repaired text: rv-w2-blind.json (the blind questions the solvers saw) and rv-w2__s1..s3.json ([{ id, answer }]). */
-function loadResolve(dir) {
+function loadResolve(dir, prefix = 'rv-w2') {
   const out = { blind: new Map(), solvers: [] };
   if (!fs.existsSync(dir)) return out;
-  const blind = tryJson(path.join(dir, 'rv-w2-blind.json'));
+  const blind = tryJson(path.join(dir, `${prefix}-blind.json`));
   if (blind.state === 'ok') for (const question of (Array.isArray(blind.value) ? blind.value : blind.value?.questions) || []) out.blind.set(question.id, question);
   for (const role of ['s1', 's2', 's3']) {
-    const res = tryJson(path.join(dir, `rv-w2__${role}.json`));
-    if (res.state === 'ok' && Array.isArray(res.value)) out.solvers.push(new Map(res.value.filter((r) => r?.id).map((r) => [r.id, up(r.answer)])));
+    const res = tryJson(path.join(dir, `${prefix}__${role}.json`));
+    // A solver whose answer is not A to D gave no answer (wave 2's files hold only valid letters, so its output does not change).
+    if (res.state === 'ok' && Array.isArray(res.value)) out.solvers.push(new Map(res.value.filter((r) => r?.id && OPTION_KEYS.includes(up(r.answer))).map((r) => [r.id, up(r.answer)])));
   }
   return out;
 }
@@ -555,32 +581,36 @@ async function loadExtras(args, lib) {
   const expert = loadExpert(abs(args.expert));
   const asjudgedList = tryJson(abs(args.asjudged)).value || [];
   const fresh = lib.scores.scanFresh(args.fresh.map((dir) => path.resolve(dir)).filter((dir) => fs.existsSync(dir)));
-  const resolve = loadResolve(abs(args.resolve));
+  const cfgOf = args.cfg || WAVE_CONFIGS.w2;
+  const resolve = loadResolve(abs(args.resolve), cfgOf.resolvePrefix);
   const rewordText = new Map();
   for (const scan of fresh) for (const [batch, questions] of scan.texts) if (!batch.endsWith('-blind')) for (const [id, question] of questions) rewordText.set(id, question);
   const decisions = loadDecisions(abs(args.decisions));
   const supplementFile = 'supplement-2026-10-14.json';
   const ctx = {
-    lib, expert: expert.verdicts, fresh, freshPartial: [], asjudged: new Map(asjudgedList.map((c) => [c.id, c])),
+    lib, expert: expert.verdicts, fresh, freshPartial: [], rewordIds: new Set(rewordText.keys()), asjudged: new Map(asjudgedList.map((c) => [c.id, c])),
     // The ids the first acceptance took (the as-judged file also holds the pre-repair text of questions reviewed later, flagged _added_after_first_pass).
     firstPass: new Set(asjudgedList.filter((c) => !c._added_after_first_pass).map((c) => c.id)), engineReasons: loadEngineReasons(abs(args.engineReasons)),
     spot: loadSpotCheck(abs(args.spotcheck)), supplementFile, supplementReviewer: 'Claude Sonnet 5.5 (this session)',
     resolveFor: (q) => {
       const blind = resolve.blind.get(q.id);
-      if (!blind || sameBlind(blind, q).length) return null;
+      if (!blind || sameBlind(blind, q, cfgOf.blindFields).length) return null;
       const given = resolve.solvers.map((solver) => solver.get(q.id)).filter(Boolean);
       return given.length === 3 ? { n: 3, matched_key: given.filter((a) => a === q.correct_key).length, answers: given } : null;
     },
   };
   // The final text of a reworded question is the text its fresh pass judged (a later pass of the expert had set one of the ten back: see the report).
+  // Wave 3 (final mode): the expert verdict's repair is applied to the batch text first (scripts/lib/authored-w3-repair.mjs); the batch files stay as they were.
   const finalText = (raw) => {
+    const repair = cfgOf.id === 'w3' && expert.verdicts.size ? applyExpertRepair(raw, expert.verdicts.get(raw.id)?.raw) : null;
+    const base = repair ? repair.q : raw;
     const fresh_ = rewordText.get(raw.id);
-    if (!fresh_) return { q: raw, overridden: [] };
+    if (!fresh_) return { q: base, overridden: [], repair };
     const fields = ['unit', 'stem', 'options', 'correct_key', 'explanation', 'difficulty_label', 'ncert_ref'];
-    const next = { ...raw };
+    const next = { ...base };
     const overridden = [];
-    for (const field of fields) if (field in fresh_ && JSON.stringify(fresh_[field] ?? null) !== JSON.stringify(raw[field] ?? null)) { next[field] = fresh_[field]; overridden.push(field); }
-    return { q: next, overridden };
+    for (const field of fields) if (field in fresh_ && JSON.stringify(fresh_[field] ?? null) !== JSON.stringify(base[field] ?? null)) { next[field] = fresh_[field]; overridden.push(field); }
+    return { q: next, overridden, repair };
   };
   return { ctx, expert, decisions, finalText, rewordIds: new Set(rewordText.keys()), resolve, asjudgedList };
 }
@@ -698,6 +728,10 @@ export async function runAccept(args, { write = true } = {}) {
     wave1Sets.set(c.set_id, known);
   }
 
+  // Wave 3 final: what the judges saw is the as-authored text; a reworded row was judged on the expert-repaired text by its fresh pass.
+  if (cfg.id === 'w3' && sourceCandidates && extras.expert.verdicts.size) {
+    for (const [id, v] of sourceCandidates.byId) extras.ctx.asjudged.set(id, extras.rewordIds.has(id) ? applyExpertRepair(v.text, extras.expert.verdicts.get(id)?.raw).q : v.text);
+  }
   const subjects = [...new Set(batches.map((b) => b.subject))];
   const live = liveStemIndex(args.fixtures, subjects);
   const otherFlags = {};
@@ -716,16 +750,20 @@ export async function runAccept(args, { write = true } = {}) {
     if (!facts.has(spec.subject)) { facts.set(spec.subject, blueprintFacts(lib, spec.subject)); cards.set(spec.subject, facts.get(spec.subject) ? lib.scores.allowedCard(spec.subject) : null); }
     const ctx = { card: cards.get(spec.subject), facts: facts.get(spec.subject), otherFlags, blockingFlags, ...extras.ctx };
     for (const raw of loaded.questions) {
-      const { q, overridden } = extras.finalText(raw);
+      const { q, overridden, repair } = extras.finalText(raw);
       if (overridden.length) overriddenText.push({ id: q.id, batch: loaded.batch, fields_set_to_the_fresh_pass_text: overridden });
       const { row, record } = evaluateQuestion(q, loaded, lib, ctx);
       if (overridden.length) (row.warnings ||= []).push(`batch_file_text_differs_from_the_fresh_pass_text:${overridden.join('+')}`);
+      // Wave 3 final: a repair that cannot be applied cleanly holds the row; a fresh pass on text other than the expert's repaired text does not speak for the expert's review.
+      if (repair?.problems.length) row.reasons.push(`expert_repair_${repair.problems.join('; ')}`);
+      if (cfg.id === 'w3' && overridden.length) row.reasons.push(`reworded_text_is_not_the_expert_repaired_text:${overridden.join('+')}`);
+      if (repair?.changed.length) { row.expert_repaired_fields = repair.changed; if (record) record.text.expert_repaired_fields = repair.changed; }
       if (sourceCandidates) {
         // The batch text the judges were given must be the assembled candidate's text (the _ marks are not in it), and the candidate carries its authoring verdict.
         const source = sourceCandidates.byId.get(q.id);
         if (!source) row.reasons.push('structural_id_not_in_source_candidates');
         else {
-          if (canonical(Object.fromEntries(Object.entries(q).filter(([key]) => !key.startsWith('_')))) !== canonical(source.text)) row.reasons.push('structural_text_differs_from_source_candidates');
+          if (canonical(Object.fromEntries(Object.entries(raw).filter(([key]) => !key.startsWith('_')))) !== canonical(source.text)) row.reasons.push('structural_text_differs_from_source_candidates');
           if (record) { record.text.authoring_verdict = source.verdict; if (source.marks._reworded) record.text.audit_repaired = true; }
         }
       }
@@ -782,7 +820,8 @@ export async function runAccept(args, { write = true } = {}) {
       const completes = q.set_id ? wave1Sets.get(q.set_id) : null;
       candidates.push({
         id: q.id, subject: q.subject, unit: q.unit ?? null, chapter: q.chapter, type: q.type, stem: q.stem, options: q.options, correct_key: q.correct_key, explanation: q.explanation,
-        passage_text: q.passage_text ?? null, set_id: q.set_id ?? null, difficulty_label: q.difficulty_label, ncert_ref: q.ncert_ref ?? null, source: q.source, _verdict: extras.ctx.expert.get(q.id)?.verdict ?? sourceCandidates?.byId.get(q.id)?.verdict ?? null,
+        passage_text: q.passage_text ?? null, set_id: q.set_id ?? null, difficulty_label: q.difficulty_label, ncert_ref: q.ncert_ref ?? null, source: q.source, _verdict: cfg.id === 'w3' ? (sourceCandidates?.byId.get(q.id)?.verdict ?? null) : (extras.ctx.expert.get(q.id)?.verdict ?? sourceCandidates?.byId.get(q.id)?.verdict ?? null),
+        ...(cfg.id === 'w3' && extras.ctx.expert.get(q.id) ? { _expert: extras.ctx.expert.get(q.id).verdict } : {}),
         ...(row.fresh_pass ? { _reworded: true } : {}),
         ...(sourceCandidates?.byId.get(q.id)?.marks || {}),
         ...(completes ? { _extends_set: { source: 'claude-authored-2026-10-14', existing_children: completes.n } } : {}),
@@ -890,6 +929,7 @@ const DROP_CATEGORY_OF = [
  * is not a hand decision, and (if a repair changed what solvers see) has its blind re-solve.
  */
 export async function runFinal(args) {
+  if ((args.cfg || WAVE_CONFIGS.w2).finalInputs) return runFinalW3(args);
   if (!(args.cfg || WAVE_CONFIGS.w2).finalMode) throw new Error('--mode=final is a wave-2 mode (expert pass, fresh pass, hand decisions); wave 3 has none');
   const built = await runAccept(args, { write: false });
   const { acceptance, candidates, records, rows, extras, lib, names, outDir, now } = built;
@@ -980,6 +1020,153 @@ export async function runFinal(args) {
 }
 
 // ---------------------------------------------------------------------------------------------
+// final, wave 3 (17 Oct 2026)
+// ---------------------------------------------------------------------------------------------
+
+const mean = (values) => values.reduce((sum, v) => sum + v, 0) / values.length;
+const round2 = (value) => Math.round(value * 100) / 100;
+
+/**
+ * Wave 3 final: the first-pass acceptance rule on the as-authored text, then the expert pass (verdicts ready / repaired / drop, repairs applied to the text),
+ * the blind re-solve of every repair that changed what a solver sees (2 of 3 on the key, else held), the full fresh pass on the reworded rows (the same
+ * rule on their own ten records), and the owner's publish rule of 17 Oct 2026 (quality mean 8 or more, fit median 8 or more). A missing or malformed role file
+ * holds the row; nothing is invented. Writes the final acceptance, the publish set (candidates and entries), the held 7 to 7.9 set and the ledger of every drop.
+ * The first-pass files (wave3-acceptance-, wave3-candidates-scored-, wave3-score-entries-) are not touched.
+ */
+async function runFinalW3(args) {
+  const cfg = args.cfg;
+  const inputs = cfg.finalInputs;
+  const run = { ...args, expert: args.expert || inputs.expert, resolve: args.resolve || inputs.resolve, fresh: args.fresh.length ? args.fresh : [...inputs.fresh] };
+  const built = await runAccept(run, { write: false });
+  const { acceptance, candidates, records, rows, extras, lib, names, outDir, now } = built;
+  const rule = cfg.publishRule;
+  const source = loadSourceCandidates(run);
+  const firstPass = tryJson(path.resolve(cfg.out, names.acceptance)); // the committed first-pass file, whatever --out says
+  const firstPassAccepted = new Set((firstPass.state === 'ok' ? firstPass.value.questions || [] : []).filter((r) => r.accepted).map((r) => r.id));
+  const candidateById = new Map(candidates.map((c) => [c.id, c]));
+  const rowOf = new Map(rows.map((row) => [row.id, row]));
+  const final = [];
+  const held = [];
+  const dropped = [];
+  const drop = (id, category, reason, extra = {}) => {
+    const row = rowOf.get(id);
+    dropped.push({ id, subject: row?.subject ?? null, batch: row?.batch ?? null, chapter: row?.chapter ?? null, type: row?.type ?? null, first_pass: firstPassAccepted.has(id) ? 'accepted_in_the_first_pass' : 'not_accepted_in_the_first_pass', category, reason, ...extra });
+  };
+  for (const row of rows) {
+    const candidate = candidateById.get(row.id);
+    const verdict = extras.expert.verdicts.get(row.id);
+    if (!candidate) {
+      const categories = [...new Set(row.reasons.map(categoryOf))];
+      const expertDrop = verdict && !PUBLISHABLE.includes(verdict.verdict);
+      const category = expertDrop ? 'expert_drop' : (DROP_CATEGORY_OF.find(([re]) => categories.some((c) => re.test(c)))?.[1] || 'not_accepted_by_the_rule');
+      const others = row.reasons.filter((r) => !r.startsWith('expert_verdict_'));
+      const reason = expertDrop ? `expert verdict ${verdict.verdict}: ${verdict.why}${others.length ? ` (also: ${others.join('; ')})` : ''}` : row.reasons.join('; ');
+      drop(row.id, category, reason, { ...(row.repaired_after_solve ? { repaired_after_solve: row.repaired_after_solve } : {}), ...(verdict?.raw?.syllabus_check ? { syllabus_check: verdict.raw.syllabus_check } : {}) });
+      continue;
+    }
+    if (!PUBLISHABLE.includes(candidate._expert)) { drop(row.id, 'no_expert_verdict', 'accepted by the rule but no expert verdict of ready or repaired exists for it'); continue; }
+    const record = records.get(row.id);
+    const qualityScores = record.quality.map((judge) => judge.quality_score);
+    const qualityMean = mean(qualityScores);
+    const fitMedian = row.fit.median;
+    const scores = { quality_scores: qualityScores, quality_mean: round2(qualityMean), fit_scores: row.fit.scores, fit_median: fitMedian };
+    if (qualityMean >= rule.qualityMeanAtLeast && fitMedian >= rule.fitMedianAtLeast) final.push(candidate);
+    else held.push({ candidate, record, ...scores, held_because: [...(qualityMean < rule.qualityMeanAtLeast ? [`quality_mean_${round2(qualityMean)}_below_${rule.qualityMeanAtLeast}`] : []), ...(fitMedian < rule.fitMedianAtLeast ? [`fit_median_${fitMedian}_below_${rule.fitMedianAtLeast}`] : [])] });
+  }
+  // A set that lost children: fewer than two left is not a set (the wave-1 validator refuses it). Wave 3 has none outside Hindi, which stays out; the rule is kept for safety.
+  for (let changed = true; changed;) {
+    changed = false;
+    const bySet = new Map();
+    for (const c of final) if (c.set_id && !c._extends_set) bySet.set(c.set_id, [...(bySet.get(c.set_id) || []), c]);
+    for (const [setId, children] of bySet) {
+      if (children.length >= 2) continue;
+      for (const child of children) { final.splice(final.indexOf(child), 1); drop(child.id, 'set_left_with_fewer_than_2_children', `the passage set ${setId} has ${children.length} question left after the drops`); }
+      changed = true;
+    }
+  }
+  const plan = lib.wave.planPublication(final);
+  const problems = [...plan.problems];
+  const finalIds = new Set(final.map((c) => c.id));
+  const heldIds = new Set(held.map((h) => h.candidate.id));
+  const count = (list, key) => list.reduce((by, item) => { const k = key(item); by[k] = (by[k] || 0) + 1; return by; }, {});
+  // The expert files cover only the scored rows; Hindi has no verdicts and no rows.
+  const expertBySubject = {};
+  for (const row of rows) {
+    const verdict = extras.expert.verdicts.get(row.id)?.verdict || 'none';
+    const by = (expertBySubject[row.subject] ||= { ready: 0, repaired: 0, drop: 0, none: 0 });
+    by[verdict] = (by[verdict] || 0) + 1;
+  }
+  const drafted = source ? count([...source.byId.values()], (v) => v.text.subject) : {};
+  const resolveHeld = (row) => row.reasons.some((r) => /^(repaired_text_without_blind_resolve|resolve_|reworded_)/.test(r));
+  const subjects = Object.keys(count(rows, (row) => row.subject)).sort();
+  const bySubject = Object.fromEntries(subjects.map((subject) => [subject, {
+    drafted: drafted[subject] ?? null,
+    scored: rows.filter((r) => r.subject === subject).length,
+    accepted_first_pass: rows.filter((r) => r.subject === subject && firstPassAccepted.has(r.id)).length,
+    accepted_after_expert_and_resolve: candidates.filter((c) => c.subject === subject).length,
+    expert: expertBySubject[subject],
+    resolve_or_fresh_pass_held: rows.filter((r) => r.subject === subject && resolveHeld(r)).length,
+    publish_8_plus: final.filter((c) => c.subject === subject).length,
+    held_7_to_7_9: held.filter((h) => h.candidate.subject === subject).length,
+    dropped_or_not_accepted: dropped.filter((d) => d.subject === subject).length,
+  }]));
+  const finalSummary = {
+    note: 'Publication set under the owner rule of 17 Oct 2026: accepted by the first-pass rule (or the fresh pass for reworded rows), expert verdict ready or repaired, repair applied, blind re-solve where the text a solver sees changed, quality mean of the two judges 8 or more and fit median 8 or more. Rows that pass everything but score a quality mean of 7 to 7.9 are held for a later decision.',
+    publish_rule: rule, publish: final.length, held_7_to_7_9: held.length, dropped: dropped.length, droppedByCategory: count(dropped, (d) => d.category),
+    byVerdict: count(final, (c) => c._expert), reworded_with_fresh_pass: final.filter((c) => rowOf.get(c.id)?.fresh_pass).length,
+    blindResolveOnFinalText: final.filter((c) => records.get(c.id)?.blind_resolve_on_final_text).length,
+    judgeBlindAnswerCarriedOver: final.filter((c) => records.get(c.id)?.text.judge_blind_answer_carried_over).map((c) => c.id),
+    bySubject, problems,
+  };
+  acceptance.final = finalSummary;
+  for (const row of acceptance.questions) row.final = finalIds.has(row.id) ? 'publish' : heldIds.has(row.id) ? 'held_7_to_7_9' : (dropped.find((d) => d.id === row.id)?.category || 'not_accepted');
+  // The final acceptance file: rows without the full judge records (those are in the entries file); the first-pass acceptance file stays as committed.
+  const slim = acceptance.questions.map((row) => {
+    const quality = row.quality.filter((j) => !j.missing).map((j) => j.score);
+    return {
+      id: row.id, subject: row.subject, batch: row.batch, chapter: row.chapter, type: row.type, accepted: row.accepted, final: row.final, reasons: row.reasons,
+      expert: row.expert?.verdict ?? null, expert_repaired_fields: row.expert_repaired_fields ?? null, fresh_pass: row.fresh_pass?.batch ?? null,
+      repaired_after_solve: row.repaired_after_solve ?? null, solvers: row.solvers, quality_scores: quality, quality_mean: quality.length === 2 ? round2(mean(quality)) : null,
+      fit_scores: row.fit.scores, fit_median: row.fit.median, ...(row.warnings ? { warnings: row.warnings } : {}),
+    };
+  });
+  const finalAcceptance = {
+    kind: `${cfg.kind}_final_acceptance`, source: cfg.source, date: args.date, built_at: now, models: cfg.models, rule: RULE, publish_rule: rule,
+    inputs: { expert: run.expert, resolve: run.resolve, fresh: run.fresh, raw: acceptance.raw, first_pass_acceptance: rel(path.resolve(cfg.out, names.acceptance)), expert_files: extras.expert.files, expert_conflicts: extras.expert.conflicts, blind_resolve_files_present: extras.resolve.solvers.length, fresh_pass_ids: extras.rewordIds.size, fresh_pass_partial: extras.ctx.freshPartial },
+    note: 'Wave-3 final acceptance, built by scripts/authored-w2-accept.mjs --wave=w3 --mode=final. Hindi is not in any file (no fluent reviewer). Repairs are applied from the expert verdicts (scripts/lib/authored-w3-repair.mjs); the batch files are unchanged.',
+    total: acceptance.total, final: finalSummary, files: acceptance.files, questions: slim,
+  };
+  fs.mkdirSync(outDir, { recursive: true });
+  const finalFile = path.join(outDir, names.candidatesFinal);
+  fs.writeFileSync(path.join(outDir, names.acceptanceFinal), stableJson(finalAcceptance, 1));
+  fs.writeFileSync(finalFile, stableJson(final, 2));
+  fs.writeFileSync(path.join(outDir, names.dropped), stableJson(dropped, 2));
+  fs.writeFileSync(path.join(outDir, names.held), stableJson({
+    kind: `${cfg.kind}_held_7_to_7_9`, source: cfg.source, date: args.date, built_at: now, rule,
+    note: 'Questions that passed every gate (rule, expert verdict ready or repaired, repair applied, re-solve) but whose two quality judges average between 7 and 7.9. Held for a later owner decision: NOT in the publication set and NOT merged into any score table. Each item carries the candidate text and its full judge record, so it can be published with the same tooling.',
+    count: held.length, bySubject: count(held, (h) => h.candidate.subject), items: held,
+  }, 2));
+  const finalRecords = Object.fromEntries(final.map((c) => [c.id, records.get(c.id)]));
+  const entries = {
+    kind: 'authored_score_entries', version: lib.scores.SCORES_VERSION, source: cfg.source, wave: cfg.wave, built_at: now, date: args.date, models: cfg.models,
+    models_note: `The raw judge files do not record the model; ${cfg.modelNote}.`,
+    note: 'One record per question of the wave-3 publication set (quality mean 8 or more, fit median 8 or more), in the wave-1 entries format, built by scripts/authored-w2-accept.mjs --wave=w3 --mode=final from the raw files (tmp/authored-w3s), the expert verdicts, the blind re-solves and the fresh pass on the reworded rows. Tables are built from it by scripts/authored-scores-merge.mjs.',
+    candidates_file: rel(finalFile), candidates_sha256: sha256Text(finalFile),
+    fresh_passes: run.fresh,
+    counts: {
+      candidates: final.length, entries: Object.keys(finalRecords).length, problems: problems.length,
+      repaired: final.filter((c) => c._expert === 'repaired').length,
+      judgedTextDiffers: Object.values(finalRecords).filter((r) => r.text.pre_repair).length,
+      judgedOnFinalTextByFreshPass: Object.values(finalRecords).filter((r) => r.text.judged === 'final').length,
+      blindResolveOnFinalText: Object.values(finalRecords).filter((r) => r.blind_resolve_on_final_text).length,
+    },
+    entries: finalRecords,
+  };
+  fs.writeFileSync(path.join(outDir, names.entriesFinal), stableJson(entries, 1));
+  return { acceptance: finalAcceptance, final, held, dropped, problems, plan, names, out: { dir: rel(outDir), ...names } };
+}
+
+// ---------------------------------------------------------------------------------------------
 // check
 // ---------------------------------------------------------------------------------------------
 
@@ -1032,7 +1219,7 @@ function gateOfReason(engine, reason) {
 
 export async function runCheck(args) {
   const cfg = args.cfg || WAVE_CONFIGS.w2;
-  if (args.final && !cfg.finalMode) throw new Error('--final is a wave-2 flag; wave 3 checks the scored candidates');
+  if (args.final && !cfg.finalMode && !cfg.finalInputs) throw new Error('--final needs a wave with a final mode');
   const lib = await loadLib(args.root);
   const { engine, scores, wave, evidence, items } = lib;
   const gateOf = (reason) => gateOfReason(engine, reason);

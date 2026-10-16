@@ -416,7 +416,7 @@ const votes = (values) => Object.fromEntries([...values.reduce((map, value) => m
 export const PIPELINE_TEXT = Object.freeze({
   1: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over all accepted items, blind re-solve of every repaired item; fresh judges (and solvers, for reworded items) on the final text where it changed afterwards',
   2: 'author, 5 blind solvers, 2 quality judges, 3 CUET-fit judges, expert pass over the accepted items (repairs applied in place), independent spot-check of 60 accepted items, blind re-solve by 3 solvers of every repaired item whose solver-visible text changed (an item without it is held back, not published); fresh judges and solvers on the final text for the questions the engine refused and that were reworded afterwards',
-  3: 'author, blind check of every draft (haiku_blind_verified), a stronger audit of 107 of the 294 drafts that solved them itself (opus_audited) with 28 rows repaired before scoring; then on the final text 5 blind solvers, 2 quality judges and 3 CUET-fit judges; no expert pass and no rewording after judging',
+  3: 'author, blind check of every draft (haiku_blind_verified), a stronger audit of 107 of the 294 drafts that solved them itself (opus_audited) with 28 rows repaired before scoring; then 5 blind solvers, 2 quality judges and 3 CUET-fit judges on the text as authored; then one expert review of every accepted question (ready, repaired or dropped; repairs applied to the text), a blind re-solve by 3 solvers of every repair that changed the text a solver sees, and a full fresh pass (5 solvers, 2 quality judges, 3 CUET-fit judges) on the questions the engine refused that the expert repair reworded; published only where the two quality judges average 8 or more and the fit median is 8 or more',
 });
 
 // Waves 1 and 2 keep their literal batch prefix (their tables are committed with it); wave 3 names its own run.
@@ -427,7 +427,7 @@ function provenanceOf(record, hashes, policy, header, candidate = null) {
   const acceptance = !hashes.hashChanged ? 'judged_text_is_final_text'
     : policy === 'hold' ? 'held_until_fresh_judge_pass_on_final_text'
       // Wave 2: a repair that left the blind text alone (explanation, label, NCERT reference) is admitted on the expert verdict; the blind solvers saw the final blind text.
-      : wave.wave === 2 && !record.blind_resolve_on_final_text ? 'admitted_on_expert_verdict_blind_text_unchanged'
+      : wave.wave >= 2 && !record.blind_resolve_on_final_text ? 'admitted_on_expert_verdict_blind_text_unchanged'
         : 'admitted_on_expert_verdict_and_blind_resolve';
   return {
     kind: wave.source,
@@ -444,6 +444,9 @@ function provenanceOf(record, hashes, policy, header, candidate = null) {
     ...(record.text.reworded_after_wave1 ? { reworded_after_wave1: record.text.reworded_after_wave1, reworded_engine_reasons: record.text.reworded_engine_reasons } : {}),
     ...(record.text.reworded_after_acceptance ? { reworded_after_acceptance: record.text.reworded_after_acceptance, reworded_engine_reasons: record.text.reworded_engine_reasons } : {}),
     ...(record.text.spot_check ? { spot_check: record.text.spot_check } : {}),
+    // Wave 3: the fields the expert's repair changed, and a judge's blind answer carried from the pre-repair key to the repaired key (only where the re-solvers confirmed it).
+    ...(record.text.expert_repaired_fields ? { expert_repaired_fields: record.text.expert_repaired_fields } : {}),
+    ...(record.text.judge_blind_answer_carried_over ? { judge_blind_answer_carried_over: record.text.judge_blind_answer_carried_over } : {}),
     ...(record.text.supplementary_review ? { supplementary_review: record.text.supplementary_review } : {}),
     // final: the judges scored the hashed content as it stands now (a repair that touched only the difficulty label or the NCERT
     // reference leaves the hashed content alone); pre_repair: they scored the text before the expert's repair;
