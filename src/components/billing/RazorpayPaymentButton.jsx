@@ -32,10 +32,20 @@ async function postJson(url, payload) {
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    throw new Error(data.error || 'Payment request failed');
+    const error = new Error(data.error || 'Payment request failed');
+    error.code = data.code || null;
+    throw error;
   }
   return data;
 }
+
+// A server message may lack its full stop; the line that follows it must start a new sentence.
+const asSentence = (text) => {
+  const value = String(text || '').trim();
+  return value && !/[.!?]$/.test(value) ? `${value}.` : value;
+};
+// These refusals mean "you already have Pro or an open plan": trying again cannot help, so no retry line follows.
+const NO_RETRY_CODES = new Set(['already_active', 'subscription_open']);
 
 function readRefFromUrl() {
   try {
@@ -99,6 +109,7 @@ export function RazorpayPaymentButton({
   const [appliedCode, setAppliedCode] = useState(null);
   // Once Razorpay's window has taken a payment, an error no longer means "nothing was charged".
   const [afterPayment, setAfterPayment] = useState(false);
+  const [noRetry, setNoRetry] = useState(false);
 
   // Prefill on mount: URL ?ref= wins, then localStorage. URL also writes
   // through to localStorage so the code persists across navigation.
@@ -127,6 +138,7 @@ export function RazorpayPaymentButton({
       setStatus('loading');
       setMessage('');
       setAfterPayment(false);
+      setNoRetry(false);
 
       const authResponse = await fetch('/api/auth/me');
       if (authResponse.status === 401) {
@@ -144,9 +156,10 @@ export function RazorpayPaymentButton({
       }
 
       if (user.isPremium) {
+        // The green "already active" box says it; a second line would repeat it.
         setIsPremium(true);
-        setStatus('success');
-        setMessage('Pro is already active on this account.');
+        setStatus('idle');
+        setMessage('');
         return;
       }
 
@@ -182,14 +195,14 @@ export function RazorpayPaymentButton({
                 userId: user.id,
               });
               if (verified?.pending) {
-                setStatus('idle');
+                setStatus('confirming');
                 setMessage(verified.message || 'Your payment is being confirmed. Pro turns on within a few minutes.');
                 return;
               }
               await refreshSession({ silent: false });
               setIsPremium(true);
               setStatus('success');
-              setMessage('Payment verified. Pro is active and renews monthly until you cancel in Account.');
+              setMessage('Payment verified. Pro is active and renews every month until you cancel in Account, where the date of your next payment is shown.');
             } catch (error) {
               setStatus('error');
               setMessage(error.message);
@@ -278,18 +291,28 @@ export function RazorpayPaymentButton({
 
       checkout.open();
     } catch (error) {
+      setNoRetry(NO_RETRY_CODES.has(error?.code));
       setStatus('error');
       setMessage(error.message || 'Payment failed. Please try again.');
     }
   }
 
   const isLoading = status === 'loading';
+  const isConfirming = status === 'confirming';
 
   if (isPremium) {
     return (
-      <div className="mm-checkout__active">
-        <ShieldCheck aria-hidden="true" />
-        <span>Pro is already active on this account</span>
+      <div className="mm-checkout__done">
+        <div className="mm-checkout__active">
+          <ShieldCheck aria-hidden="true" />
+          <span>Pro is already active on this account</span>
+        </div>
+        {status === 'success' && message ? (
+          <p className="mm-checkout__msg" data-tone="ok" role="status">
+            <CheckCircle2 aria-hidden="true" />
+            <span>{message}</span>
+          </p>
+        ) : null}
       </div>
     );
   }
@@ -299,7 +322,7 @@ export function RazorpayPaymentButton({
       <label className="mm-checkout__field">
         <span className="mm-checkout__label">
           <Tag aria-hidden="true" />
-          Referral or discount code
+          {billing === 'monthly' ? 'Referral code' : 'Referral or discount code'}
           <em>optional</em>
         </span>
         <input
@@ -315,8 +338,9 @@ export function RazorpayPaymentButton({
           }}
           placeholder="Paste a creator code"
           maxLength={64}
-          disabled={isLoading}
+          disabled={isLoading || isConfirming}
         />
+        {billing === 'monthly' ? <span className="mm-checkout__hint">A referral code does not change the price.</span> : null}
         {appliedCode ? (
           <span className="mm-checkout__applied">
             <BadgeCheck aria-hidden="true" />
@@ -330,11 +354,11 @@ export function RazorpayPaymentButton({
       <button
         type="button"
         className="mm-btn mm-btn--primary mm-checkout__submit"
-        disabled={isLoading}
+        disabled={isLoading || isConfirming}
         onClick={handlePayment}
       >
         {isLoading ? <Loader2 className="mm-checkout__spin" aria-hidden="true" /> : null}
-        {isLoading ? 'Opening secure checkout' : label}
+        {isLoading ? 'Opening secure checkout' : isConfirming ? 'Confirming your payment' : label}
       </button>
 
       {message ? (
@@ -345,8 +369,8 @@ export function RazorpayPaymentButton({
             <AlertCircle aria-hidden="true" />
           )}
           <span>
-            {message}
-            {status === 'error'
+            {status === 'error' ? asSentence(message) : message}
+            {status === 'error' && !noRetry
               ? (afterPayment
                 ? ' If money left your account, do not pay again. Pro turns on once Razorpay confirms it, or write to support.'
                 : ' Nothing has been charged. You can try again.')

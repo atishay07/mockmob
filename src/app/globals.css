@@ -3356,8 +3356,22 @@ body:has(.mm) {
   height: 15px;
   color: var(--volt-edge);
 }
+.mm-checkout__hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
 .mm-checkout__submit {
   width: 100%;
+}
+.mm-checkout__submit:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+  background: var(--paper-sunken);
+  border-color: var(--line-strong);
+  color: var(--ink-2);
+  box-shadow: none;
 }
 .mm-checkout__spin {
   width: 18px;
@@ -3445,11 +3459,9 @@ body:has(.mm) {
   border-top: 1px solid var(--line);
   background: var(--paper-sunken);
   font-family: var(--font-display);
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--ink-2);
 }
 .mm-cmp > .mm-cmp__group:first-of-type {
   border-top: 0;
@@ -3463,7 +3475,6 @@ body:has(.mm) {
    one emphasised group at table scale, so the rule carries a tint with it. */
 .mm-cmp__row[data-popular="true"] {
   background: rgba(16, 20, 14, 0.05);
-  box-shadow: inset 3px 0 0 var(--ink);
 }
 .mm-cmp__row[data-popular="true"] + .mm-cmp__row[data-popular="true"] {
   border-top-color: rgba(16, 20, 14, 0.12);
@@ -3490,11 +3501,9 @@ body:has(.mm) {
 }
 .mm-cmp__cell::before {
   content: attr(data-label);
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
   color: var(--ink-3);
 }
 .mm-cmp__yes {
@@ -3521,10 +3530,8 @@ body:has(.mm) {
   .mm-cmp__head > div {
     padding: 0.875rem 1.125rem;
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
   .mm-cmp__row {
     display: grid;

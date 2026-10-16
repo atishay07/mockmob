@@ -9,7 +9,9 @@ import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
 import { useAuth } from '@/components/AuthProvider';
 import { DrawnCheck } from '@/components/ui/DrawnCheck';
 import { useCountUp } from '@/lib/motion';
+import { PAYMENT_PLANS } from '@/lib/payments/plans';
 
+const MONTHLY_RUPEES = Math.round(PAYMENT_PLANS.pro_monthly_99.amount / 100);
 const fmt = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
 
 export function PlanCard() {
@@ -19,9 +21,13 @@ export function PlanCard() {
   const pro = Boolean(user?.isPremium);
   const hasSubscription = Boolean(user?.razorpaySubscriptionId);
   const status = user?.subscriptionStatus || 'free';
-  const renewing = pro && hasSubscription && status === 'active';
-  const renewalOff = pro && hasSubscription && status === 'cancelled';
-  const paymentFailed = hasSubscription && status === 'past_due';
+  // Once Razorpay has accepted the cancel, the card says so even if the session refresh is slow or fails.
+  const cancelledNow = phase === 'done';
+  const renewing = pro && hasSubscription && status === 'active' && !cancelledNow;
+  const renewalOff = pro && hasSubscription && (status === 'cancelled' || cancelledNow);
+  const paymentFailed = hasSubscription && status === 'past_due' && !cancelledNow;
+  // Monthly Pro that has ended: nothing is charged any more and the account is on Free.
+  const lapsed = !pro && hasSubscription && (status === 'cancelled' || cancelledNow);
   // A cancel is offered while Razorpay may still charge: renewing, or retrying after a failed payment.
   const canCancel = hasSubscription && (status === 'active' || status === 'past_due');
   const until = user?.premiumUntil || null;
@@ -52,16 +58,15 @@ export function PlanCard() {
 
       {pro || paymentFailed ? (
         <>
-          <p className="plan-card__lead">
-            {renewing && <>Pro renews every month{until ? <>. Paid through <strong>{fmt(until)}</strong></> : null}.</>}
-            {renewalOff && <>Renewal is off. Pro stays active{until ? <> until <strong>{fmt(until)}</strong></> : null}, then your account moves to Free.</>}
-            {pro && paymentFailed && <>Your last monthly payment did not go through. Pro stays active{until ? <> until <strong>{fmt(until)}</strong></> : null}. Razorpay retries the charge and emails you.</>}
-            {!pro && paymentFailed && <>Your last monthly payment did not go through, so Pro is off. Razorpay may still retry the charge. Cancel renewal here to stop it, or start Pro again.</>}
+          {!cancelledNow && <p className="plan-card__lead">
+            {renewing && <>Pro renews every month at ₹{MONTHLY_RUPEES}.{until ? <> Paid through <strong>{fmt(until)}</strong>. The next payment is due then.</> : null}</>}
+            {renewalOff && <>Renewal is off, so no further payment will be taken. Pro stays active{until ? <> until <strong>{fmt(until)}</strong></> : null}, then your account moves to Free.</>}
+            {pro && paymentFailed && <>Your last monthly payment did not go through. Pro stays active{until ? <> until <strong>{fmt(until)}</strong></> : null}. Razorpay retries the charge and emails you. Cancel renewal to stop the retries.</>}
+            {!pro && paymentFailed && <>Your last monthly payment did not go through, so Pro is off. Razorpay may still retry the charge. Cancel renewal to stop it, then you can start Pro again.</>}
             {pro && !hasSubscription && <>Pro access{until ? <> runs through <strong>{fmt(until)}</strong></> : null}. It does not renew, so there is nothing to cancel.</>}
-          </p>
+          </p>}
           {pro && <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick Practice and Full Mock</span></div>}
-          {canCancel && phase === 'idle' && <button type="button" className="plan-card__quiet" onClick={() => setPhase('confirm')}>Cancel renewal</button>}
-          {!pro && paymentFailed && <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />See Pro</Link>}
+          {canCancel && (phase === 'idle' || phase === 'error') && <button type="button" className="plan-card__quiet" onClick={() => setPhase('confirm')}>{phase === 'error' ? 'Try cancelling again' : 'Cancel renewal'}</button>}
           {canCancel && phase === 'confirm' && (
             <div className="plan-card__confirm" role="group" aria-label="Confirm cancellation">
               <p>{pro
@@ -79,7 +84,7 @@ export function PlanCard() {
         </>
       ) : (
         <>
-          <p className="plan-card__lead">Free uses Practice credits: Quick Practice costs 10 and Full Mock costs 50.</p>
+          <p className="plan-card__lead">{lapsed ? 'Your monthly Pro has ended and no further payment will be taken. ' : ''}Free uses Practice credits: Quick Practice costs 10 and Full Mock costs 50.</p>
           <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} /></div>
           <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />See Pro</Link>
         </>

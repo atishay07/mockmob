@@ -113,7 +113,7 @@ test('Account says what a student has in each monthly state, including a failed 
   const card = read('src/components/billing/PlanCard.jsx');
   for (const needle of [
     'Pro renews every month',
-    'Renewal is off. Pro stays active',
+    'Renewal is off, so no further payment will be taken',
     'Your last monthly payment did not go through',
     'does not renew, so there is nothing to cancel',
     "status === 'cancelled'",
