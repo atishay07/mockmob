@@ -130,7 +130,7 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
   bool _firstLookJudged = false;
 
   /// The first study week of the session explains itself, when a mark on it needs words: the key
-  /// unfolds under the rail (at once under reduced motion), holds, then folds.
+  /// fades in over the count row (at once under reduced motion), holds, then hands it back.
   void _judgeFirstLook() {
     if (_firstLookJudged) return;
     _firstLookJudged = true;
@@ -242,62 +242,69 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
             children: [
               FadeTransition(
                 opacity: ReverseAnimation(_legendCurve),
+                // Screen readers keep the count while the key (decorative to them) is up.
+                alwaysIncludeSemantics: true,
                 child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: bleed),
-            child: MmPressable(
-            semanticsLabel: [week.count, ?week.outlook, if (tap != null) 'Opens your week'].join('. '),
-            onTap: tap == null
-                ? null
-                : () {
-                    ref.read(hapticsProvider).selection();
-                    tap();
-                  },
-            pressedScale: 0.985,
-            focusRadius: MmRadius.panelAll,
-            // At least 48 dp tall: the whole count row is one touch target.
-            builder: (context, pressed, _) => ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 48),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // The count never breaks mid-phrase: when the outlook does not fit beside it
-                    // (large text), the outlook drops to its own line.
-                    Expanded(
-                      child: Wrap(
-                        alignment: WrapAlignment.spaceBetween,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: MmSpace.s8,
-                        runSpacing: 2,
-                        children: [
-                          _Count(count: week.count),
-                          // The chevron travels with the outlook, so a wrapped line keeps its
-                          // arrow beside it instead of leaving one orphaned at the edge.
-                          if (week.outlook != null || tap != null)
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (week.outlook != null)
-                                  _Outlook(
-                                    text: week.outlook!,
-                                    met: week.met,
-                                    style: type.caption.copyWith(color: week.met ? colors.accentText : colors.ink2, fontWeight: FontWeight.w600),
-                                    rule: colors.litMark,
-                                  ),
-                                if (tap != null) ...[if (week.outlook != null) const SizedBox(width: MmSpace.s4), Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3)],
-                              ],
+                  padding: EdgeInsets.symmetric(horizontal: bleed),
+                  child: MmPressable(
+                    semanticsLabel: [week.count, ?week.outlook, if (tap != null) 'Opens your week'].join('. '),
+                    onTap: tap == null
+                        ? null
+                        : () {
+                            ref.read(hapticsProvider).selection();
+                            tap();
+                          },
+                    pressedScale: 0.985,
+                    focusRadius: MmRadius.panelAll,
+                    // At least 48 dp tall: the whole count row is one touch target.
+                    builder: (context, pressed, _) => ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: 48),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            // The count never breaks mid-phrase: when the outlook does not fit
+                            // beside it (large text), the outlook drops to its own line.
+                            Expanded(
+                              child: Wrap(
+                                alignment: WrapAlignment.spaceBetween,
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                spacing: MmSpace.s8,
+                                runSpacing: 2,
+                                children: [
+                                  _Count(count: week.count),
+                                  // The chevron travels with the outlook, so a wrapped line keeps
+                                  // its arrow beside it instead of leaving one orphaned at the edge.
+                                  if (week.outlook != null || tap != null)
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        if (week.outlook != null)
+                                          _Outlook(
+                                            text: week.outlook!,
+                                            met: week.met,
+                                            style: type.caption.copyWith(color: week.met ? colors.accentText : colors.ink2, fontWeight: FontWeight.w600),
+                                            rule: colors.litMark,
+                                          ),
+                                        if (tap != null) ...[
+                                          if (week.outlook != null) const SizedBox(width: MmSpace.s4),
+                                          Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+                                        ],
+                                      ],
+                                    ),
+                                ],
+                              ),
                             ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-            ),
-          ),
-              ),
+              // The key, over the count row's place while it shows (one line, scaled down
+              // rather than wrapped, so it always fits the row).
               Positioned.fill(
                 child: IgnorePointer(
                   child: AnimatedBuilder(

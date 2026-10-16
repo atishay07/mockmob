@@ -9,6 +9,7 @@ import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
 import 'package:mockmob/core/mascot/mobi_painter.dart' show MobiPainter;
+import 'package:mockmob/core/widgets/widgets.dart' show StudyWeekLegendMemory;
 import 'package:mockmob/features/rhythm/logic/plan_week.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/mobi_presence.dart';
@@ -282,6 +283,22 @@ void main() {
       await pumpLedger(tester, model: week(todayDone: true));
       await tester.pump(const Duration(milliseconds: 600));
       expect(tester.hasRunningAnimations, isFalse, reason: 'a counted day has nothing left to breathe for');
+    });
+
+    testWidgets('the key takes the count row\'s place: the week keeps one height while it shows and folds (L03)', (tester) async {
+      WeekLedger.legendMemory = StudyWeekLegendMemory();
+      addTearDown(() => WeekLedger.legendMemory = null);
+      await pumpLedger(tester);
+      await tester.pump(const Duration(milliseconds: 500));
+      expect(find.text('Counted'), findsOneWidget, reason: 'a rest day on the rail: the first look explains the marks');
+      final shown = tester.getSize(find.byType(WeekLedger));
+      final railTop = tester.getTopLeft(find.bySemanticsLabel(RegExp('^Thursday'))).dy;
+      await tester.pump(const Duration(seconds: 5));
+      expect(find.text('Counted'), findsNothing, reason: 'the key folds on its own');
+      expect(tester.getSize(find.byType(WeekLedger)), shown, reason: 'nothing under the week moves');
+      expect(tester.getTopLeft(find.bySemanticsLabel(RegExp('^Thursday'))).dy, railTop);
+      // The count stays with screen readers while the key is up, and it is back on screen after.
+      expect(find.textContaining('study days'), findsOneWidget);
     });
   });
 
