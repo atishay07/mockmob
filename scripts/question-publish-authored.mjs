@@ -5,7 +5,7 @@
 // how), with one passage_groups row per English passage set. Insert only: an id that already exists is never touched.
 // Every applied change is saved first to a restore file, and --mode=restore hides or deletes exactly those rows.
 //
-//   node --use-system-ca scripts/question-publish-authored.mjs --mode=dry-run [--candidates=<file>] [--offline] [--fixtures=tmp/nta-fixtures] [--expect-project=<ref>]
+//   node --use-system-ca scripts/question-publish-authored.mjs --mode=dry-run [--candidates=<file>] [--offline] [--fixtures=tmp/nta-fixtures] [--expect-project=<ref>] [--env-file=<.env.staging>]
 //   node --use-system-ca scripts/question-publish-authored.mjs --mode=apply   --plan=<dry-run.json> --reason=<text> --expect-project=<ref> [--allow-unscored]
 //   node --use-system-ca scripts/question-publish-authored.mjs --mode=restore --restore=<restore.json> [--hard-delete] --expect-project=<ref>
 //
@@ -51,7 +51,7 @@ const isVisible = (row) => !row.is_deleted && row.status === 'live' && row.verif
 export function parseArgs(argv) {
   const out = {
     mode: 'dry-run', candidates: DEFAULT_CANDIDATES, plan: null, restore: null, reason: '', outDir: REPORT_DIR, offline: false,
-    fixtures: 'tmp/nta-fixtures', expectProject: null, allowUnscored: false, hardDelete: false, indexRebuild: true, now: null, fitDir: 'data/nta_fit_scores', agentDir: null,
+    fixtures: 'tmp/nta-fixtures', envFile: null, expectProject: null, allowUnscored: false, hardDelete: false, indexRebuild: true, now: null, fitDir: 'data/nta_fit_scores', agentDir: null,
   };
   for (const arg of argv) {
     if (arg === '--offline') { out.offline = true; continue; }
@@ -69,6 +69,7 @@ export function parseArgs(argv) {
     else if (name === 'out') out.outDir = path.resolve(value);
     else if (name === 'fixtures') out.fixtures = value;
     else if (name === 'expect-project') out.expectProject = value;
+    else if (name === 'env-file') out.envFile = value;
     else if (name === 'fit-dir') out.fitDir = value;
     else if (name === 'agent-dir') out.agentDir = value;
     else if (name === 'now') out.now = value;
@@ -96,12 +97,13 @@ export function targetOf(url) {
 
 async function makeClient(args) {
   const { createClient } = await import('@supabase/supabase-js');
-  const env = loadEnv();
-  const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL;
+  // --env-file names another env file (a .env.staging holds STAGING_SUPABASE_URL and STAGING_SUPABASE_SERVICE_ROLE_KEY); --expect-project still has to match the URL it holds.
+  const env = loadEnv(args.envFile || '.env.local');
+  const url = env.SUPABASE_URL || env.NEXT_PUBLIC_SUPABASE_URL || env.STAGING_SUPABASE_URL;
   const target = targetOf(url);
   if (args.expectProject && target.ref !== args.expectProject) throw new Error(`--expect-project=${args.expectProject} but the target is ${target.ref}; nothing was done`);
   if (args.mode !== 'dry-run' && !args.expectProject) throw new Error(`--mode=${args.mode} needs --expect-project=<ref> (the target is ${target.ref}); nothing was done`);
-  return { sb: createClient(url, env.SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } }), target, signingKey: env.CUET_EVIDENCE_SIGNING_KEY || process.env.CUET_EVIDENCE_SIGNING_KEY || '' };
+  return { sb: createClient(url, env.SUPABASE_SERVICE_ROLE_KEY || env.STAGING_SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } }), target, signingKey: env.CUET_EVIDENCE_SIGNING_KEY || process.env.CUET_EVIDENCE_SIGNING_KEY || '' };
 }
 
 // ---------------------------------------------------------------------------------------------
