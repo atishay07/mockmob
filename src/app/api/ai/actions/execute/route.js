@@ -145,7 +145,8 @@ export async function POST(request) {
           { status: 402 },
         );
       }
-      const attempts = await Database.getAttempts(session.user.id).catch(() => []);
+      // Only the newest attempt's id, subject and score are read below.
+      const attempts = await Database.getAttempts(session.user.id, { columns: ['id', 'subject', 'score'], limit: 1 }).catch(() => []);
       if (!attempts.length) {
         return NextResponse.json({
           ok: false,

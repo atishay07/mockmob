@@ -11,6 +11,7 @@
 // the injected `db` (a supabase client) and the injected ticket and attempt helpers.
 import { answerReview } from '../../../data/answer_corrections.mjs';
 import { correctIndexOf } from '../../../data/mistake_repair.js';
+import { readFullQuestionRow, readQuestionRow, reviewWithVerdict } from '../../../data/question_reads.js';
 
 export const CHECK_MODES = ['quick', 'smart'];
 const text = v => String(v ?? '').replace(/\s+/g, ' ').trim();
@@ -34,7 +35,10 @@ export function checkAllowed(row) {
  * content is used. Returns {keyIndex, explanation} or {unavailable:true}.
  */
 export function resolveKey(snapshotQ, currentQ, { evidenceEligible = false } = {}) {
-  const review = answerReview(snapshotQ, currentQ, null, { evidenceEligible });
+  return keyFromReview(snapshotQ, answerReview(snapshotQ, currentQ, null, { evidenceEligible }));
+}
+
+function keyFromReview(snapshotQ, review) {
   if (review === null) {
     const keyIndex = correctIndexOf(snapshotQ);
     if (!Number.isInteger(keyIndex) || keyIndex < 0) return { unavailable: true };
@@ -120,10 +124,17 @@ export async function checkSessionAnswer(deps) {
   if (readError) throw UNAVAILABLE();
   if (!first && Date.parse(row.expires_at) <= now) throw fail(409, 'session_expired', 'This session has ended.');
 
-  const { data: current, error: qError } = await db.from('questions').select('*').eq('id', qid).maybeSingle();
+  // The row without its signed evidence record (data/question_reads.js). The evidence verdict decides only the case of
+  // a key that changed since the snapshot, and only then is the full row read.
+  const { data: current, error: qError } = await readQuestionRow(db, qid);
   if (qError) throw UNAVAILABLE();
-  const evidenceEligible = deps.eligible ? !!current && !!deps.eligible(current) : false;
-  const keyInfo = resolveKey(question, current, { evidenceEligible });
+  let verdictError = false;
+  const { review } = await reviewWithVerdict({
+    snapshot: question, current, detail: null, eligible: deps.eligible,
+    loadFull: async () => { const full = await readFullQuestionRow(db, qid); if (full.error) verdictError = true; return full.data; },
+  });
+  if (verdictError) throw UNAVAILABLE();
+  const keyInfo = keyFromReview(question, review);
   if (keyInfo.unavailable) throw fail(409, 'question_under_review', 'This question is being re-checked, so it cannot be checked right now. Your answer is not locked.');
 
   if (first) return checkResult(keyInfo, first.answer);

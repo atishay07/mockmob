@@ -11,7 +11,8 @@ export async function GET(request) {
   const session = await auth(request);
   if (!session?.user?.id) return NextResponse.json({ error: 'unauthorized', message: 'Sign in to continue.' }, { status: 401, headers: NO_STORE });
   try {
-    const attempts = await Database.getAttempts(session.user.id);
+    // Bests read marks, mode, scoring version and the question ids of the snapshot (retakes), never the answers.
+    const attempts = await Database.getAttempts(session.user.id, { columns: ['id', 'user_id', 'subject', 'score', 'correct', 'wrong', 'unattempted', 'total', 'questions_snapshot', 'completed_at', 'selection_meta'] });
     return NextResponse.json({ bests: computeBests(attempts) }, { headers: NO_STORE });
   } catch (e) {
     console.error('[api/me/bests] GET failed:', e);

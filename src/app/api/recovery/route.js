@@ -3,14 +3,14 @@ import { Database } from '@/../data/db';
 import { supabaseAdmin } from '@/lib/supabase';
 import { improvementEvidence } from '@/../data/recovery';
 import { checkRateLimit } from '@/lib/server/rateLimit';
-import { eligibilitySnapshot, publicationEligibility } from '@/../data/evidence_registry';
-import { excludeHeldFamilies } from '@/../data/evidence_holds';
+import { currentEvidenceHashes } from '@/../data/question_reads';
 import { learningRecord } from '@/lib/server/learning';
 
 export async function GET(request) {
   const session=await auth(request);
   if(!session?.user)return Response.json({error:'Unauthorized'},{status:401});
-  const allAttempts=await Database.getAttempts(session.user.id);
+  const memo=new Map(); // the learning record below reads the same attempts
+  const allAttempts=await Database.getAttempts(session.user.id,{memo});
   const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length}));
   const attempts=allAttempts.filter(a=>a.selectionMeta?.scoringVersion==='server_snapshot_v1' && a.selectionMeta?.contentEvidence !== 'legacy_bank');
   const db=supabaseAdmin();
@@ -19,15 +19,9 @@ export async function GET(request) {
     // The free-text notes only: rows of the rule for the next mock (strategy rule:...) belong to /api/me/playbook.
     db.from('recovery_playbook').select('*').eq('user_id',session.user.id).not('strategy','like','rule:%').order('created_at',{ascending:false}),
   ]);
-  const questionIds=[...new Set(attempts.flatMap(a=>a.questionsSnapshot.map(q=>q.id)))];
-  const currentQuestions=new Map();let evidenceUnavailable=false;
-  for(let i=0;i<questionIds.length;i+=300){
-    const {data,error}=await db.from('questions').select('*').in('id',questionIds.slice(i,i+300));
-    if(error){evidenceUnavailable=true;break;}
-    let unheld;try{unheld=await excludeHeldFamilies(data || [],db);}catch{evidenceUnavailable=true;break;}
-    const snapshot=unheld.length?eligibilitySnapshot():undefined;
-    for(const q of unheld)if(publicationEligibility(q,snapshot).eligible)currentQuestions.set(q.id,q.evidence.record.content_hash);
-  }
+  // Only a question whose snapshot kept a content hash can match the current record, so only those rows are read.
+  const questionIds=[...new Set(attempts.flatMap(a=>a.questionsSnapshot.filter(q=>q.verificationEvidence?.content_hash).map(q=>q.id)))];
+  const {hashes:currentQuestions,unavailable:evidenceUnavailable}=await currentEvidenceHashes(db,questionIds);
   const concepts={};const seenIds=new Set(),seenFamilies=new Set();let invalidatedChecks=0;
   for(const a of [...attempts].sort((a,b)=>a.completedAt-b.completedAt)) for(const q of a.questionsSnapshot) {
     const d=a.details.find(d=>d.qid===q.id); const concept=q.conceptId || `${a.subject}:${q.chapter}`;
@@ -38,7 +32,7 @@ export async function GET(request) {
     concepts[concept].push({questionId:q.id,familyId:q.familyId,at:a.completedAt,correct:d?.isCorrect===true,assisted:false,fresh});
     seenIds.add(q.id);if(q.familyId)seenFamilies.add(q.familyId);
   }
-  const learning = await learningRecord(session.user.id);
+  const learning = await learningRecord(session.user.id,{memo});
   return Response.json({attempts,ordinaryReview,episodes:learning.episodes,reviews:reviews || [],playbook:playbook || [],
     reviewState:reviewError?'unavailable':'ready',playbookState:playbookError?'unavailable':'ready',
     dueReviews:(reviews || []).filter(r=>Date.parse(r.due_at)<=Date.now()).length,invalidatedChecks,

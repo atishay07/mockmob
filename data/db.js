@@ -20,6 +20,7 @@ import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_re
 import { assertFullBankRead } from './full_bank_guard';
 import { readablePracticeQuestions } from './practice_library';
 import { selectPracticeQuestions, PRACTICE_LIGHT_SELECT, PRACTICE_POOL_CACHE_MS } from './practice_pick';
+import { attemptMemoKey, memoisedAttempts, readAttemptRows } from './attempt_reads';
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
@@ -1557,17 +1558,15 @@ export const Database = {
   // =====================================================================
   // ATTEMPTS
   // =====================================================================
-  async getAttempts(userId) {
+  /**
+   * Every attempt of one student, newest first. `columns` (attempts column names) and `limit` (newest N) narrow the read;
+   * `memo` (one Map per request) makes a second read of the same shape free. See data/attempt_reads.js. Without options
+   * this is the old full read.
+   */
+  async getAttempts(userId, { columns, limit, memo } = {}) {
     if (!userId) throw new Error('attempt_owner_required');
-    const rows = [];
-    for (let offset = 0; ; offset += 1000) {
-      const { data, error } = await supabaseAdmin().from('attempts').select('*').eq('user_id', userId)
-        .order('completed_at', { ascending: false }).order('id').range(offset, offset + 999);
-      if (error) throw error;
-      rows.push(...(data || []));
-      if (!data || data.length < 1000) break;
-    }
-    return rows.map(attemptOut);
+    const load = async () => (await readAttemptRows(supabaseAdmin(), userId, { columns, limit })).map(attemptOut);
+    return memoisedAttempts(memo, attemptMemoKey(userId, { columns, limit }), load);
   },
 
   async getAttemptById(id) {

@@ -8,7 +8,7 @@
 // The rule that matters most: a credit is kept only for a repair the student actually received and the server
 // acknowledged. Every other ending, a timeout included, releases it.
 import { createHash } from 'node:crypto';
-import { answerReview } from '../../../data/answer_corrections.mjs';
+import { reviewWithVerdict } from '../../../data/question_reads.js';
 import {
   repairEligibility, buildRepairPrompt, buildBlindSolvePrompt, interpretRepair,
   MISTAKE_REPAIR_SCHEMA, REPAIR_CREDIT_COST, practiceHref,
@@ -105,7 +105,10 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   if (!eligible.ok) {
     const snapshot = (attempt?.questionsSnapshot || []).find(q => q.id === questionId);
     const detail = (attempt?.details || []).find(d => d.qid === questionId);
-    const review = snapshot && attempt.userId === user.id ? answerReview(snapshot, current, detail, { evidenceEligible: deps.evidenceEligible(current) }) : null;
+    // The row was read without its signed evidence record; deps.evidenceEligible (async) reads it only when the key changed.
+    const review = snapshot && attempt.userId === user.id
+      ? (await reviewWithVerdict({ snapshot, current, detail, loadFull: async () => current, eligible: deps.evidenceEligible })).review
+      : null;
     return out(eligible.http, { ok: false, error: eligible.code, message: eligible.message, ...(review ? { review, charged: 0 } : {}) });
   }
 
