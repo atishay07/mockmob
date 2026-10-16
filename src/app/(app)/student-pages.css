@@ -235,9 +235,9 @@
 @keyframes rc-breathe { 0% { transform: scale(.82); opacity: .55; } 70%, 100% { transform: scale(1.12); opacity: 0; } }
 .app-shell .rc-day[data-picked='true'] .rc-day__name { color: var(--a-ink); }
 .app-shell .rc-day[data-picked='true'] .rc-day__dot { box-shadow: 0 0 0 3px var(--a-volt-wash); }
-.app-shell .rc-day__dot svg, .app-shell .rc-step__dot svg { width: 70%; height: 70%; fill: none; stroke: #0b1000; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.app-shell .rc-day__dot path, .app-shell .rc-step__dot path { stroke-dasharray: 1 2; stroke-dashoffset: 1; transition: stroke-dashoffset 340ms var(--mk-settle, ease-out) calc(var(--rc-i, 0) * 55ms + 240ms); }
-.app-shell .rc-day[data-armed='true'] .rc-day__dot path, .app-shell .rc-steps li[data-armed='true'] .rc-step__dot path { stroke-dashoffset: 0; }
+.app-shell .rc-day__dot svg { width: 70%; height: 70%; fill: none; stroke: #0b1000; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.app-shell .rc-day__dot path { stroke-dasharray: 1 2; stroke-dashoffset: 1; transition: stroke-dashoffset 340ms var(--mk-settle, ease-out) calc(var(--rc-i, 0) * 55ms + 240ms); }
+.app-shell .rc-day[data-armed='true'] .rc-day__dot path { stroke-dashoffset: 0; }
 .app-shell .rc-chip { margin: 0; min-height: 22px; font-size: 13px; font-weight: 600; color: var(--a-ink-2); }
 
 /* Ribbon: twelve weeks, volt when met */
@@ -255,37 +255,17 @@
 .app-shell .rc-wk:active { transform: scale(.94); transition-duration: 90ms; }
 .app-shell .rc-block .rc-chip { margin-top: 10px; }
 
-/* Three paths */
-.app-shell .rc-paths { display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-@media (max-width: 760px) { .app-shell .rc-paths { grid-template-columns: minmax(0, 1fr); } }
-.app-shell .rc-path { display: grid; gap: 10px; align-content: start; padding: 12px 14px 14px; border: 1px solid var(--a-line); border-radius: 14px; background: var(--a-sunken); min-width: 0; }
-.app-shell .rc-path header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.app-shell .rc-path header b { font: 700 14px var(--font-display); color: var(--a-ink); }
-.app-shell .rc-path header span { font-size: 12px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-.app-shell .rc-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--rc-n, 3), minmax(0, 1fr)); }
-.app-shell .rc-steps li { position: relative; display: grid; justify-items: center; align-content: start; gap: 6px; text-align: center; min-width: 0; }
-.app-shell .rc-steps li::before { content: ''; position: absolute; top: 11px; right: 50%; width: 100%; height: 2px; background: var(--a-line-strong); transform-origin: 100% 50%; }
-.app-shell .rc-steps li:first-child::before { display: none; }
-.app-shell .rc-steps li[data-done='true']::before { background: var(--a-select); transform: scaleX(0); transition: transform 460ms var(--mk-settle, ease-out) calc(var(--rc-i, 0) * 140ms); }
-.app-shell .rc-steps li[data-done='true'][data-armed='true']::before { transform: scaleX(1); }
-.app-shell .rc-step__dot { position: relative; z-index: 1; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--a-line-strong); background: var(--a-sunken); transition: background-color 240ms ease calc(var(--rc-i, 0) * 140ms), border-color 240ms ease calc(var(--rc-i, 0) * 140ms); }
-.app-shell .rc-steps li[data-done='true'] .rc-step__dot { background: var(--volt); border-color: var(--volt); }
-.app-shell .rc-steps li[data-next='true'] .rc-step__dot { border-color: var(--a-select); box-shadow: 0 0 0 3px var(--a-volt-wash); }
-.app-shell .rc-step__label { font-size: 11.5px; line-height: 1.3; color: var(--a-ink-3); overflow-wrap: anywhere; }
-.app-shell .rc-steps li[data-done='true'] .rc-step__label, .app-shell .rc-steps li[data-next='true'] .rc-step__label { color: var(--a-ink-2); }
-.app-shell .rc-next { margin: 0; font-size: 13px; line-height: 1.5; color: var(--a-ink-2); }
-.app-shell .rc-next span { font-weight: 700; color: var(--a-accent-text); margin-right: 2px; }
-
+/* Badges and personal bests: see src/components/study-badges.css */
 @media (max-width: 420px) {
   .app-shell .rc__top { grid-template-columns: minmax(0, 1fr); justify-items: center; }
   .app-shell .rc__week { width: 100%; }
   .app-shell .rc-ribbon { gap: 4px; }
 }
-html[data-motion='reduced'] .app-shell .rc-ring__fill, html[data-motion='reduced'] .app-shell .rc-day__dot, html[data-motion='reduced'] .app-shell .rc-day__dot path, html[data-motion='reduced'] .app-shell .rc-step__dot path, html[data-motion='reduced'] .app-shell .rc-wk, html[data-motion='reduced'] .app-shell .rc-wk__fill, html[data-motion='reduced'] .app-shell .rc-step__dot, html[data-motion='reduced'] .app-shell .rc-steps li::before { transition: none !important; }
+html[data-motion='reduced'] .app-shell .rc-ring__fill, html[data-motion='reduced'] .app-shell .rc-day__dot, html[data-motion='reduced'] .app-shell .rc-day__dot path, html[data-motion='reduced'] .app-shell .rc-wk, html[data-motion='reduced'] .app-shell .rc-wk__fill { transition: none !important; }
 html[data-motion='reduced'] .app-shell .rc-day__dot::after, html[data-motion='reduced'] .app-shell .rc__skeleton { animation: none !important; }
 html[data-motion='reduced'] .app-shell .rc-day[data-state='open'] .rc-day__dot::after { opacity: .5; transform: scale(1.02); }
 @media (prefers-reduced-motion: reduce) {
-  .app-shell .rc-ring__fill, .app-shell .rc-day__dot, .app-shell .rc-day__dot path, .app-shell .rc-step__dot path, .app-shell .rc-wk, .app-shell .rc-wk__fill, .app-shell .rc-step__dot, .app-shell .rc-steps li::before { transition: none !important; }
+  .app-shell .rc-ring__fill, .app-shell .rc-day__dot, .app-shell .rc-day__dot path, .app-shell .rc-wk, .app-shell .rc-wk__fill { transition: none !important; }
   .app-shell .rc-day__dot::after, .app-shell .rc__skeleton { animation: none !important; }
   .app-shell .rc-day[data-state='open'] .rc-day__dot::after { opacity: .5; transform: scale(1.02); }
 }
@@ -308,3 +288,6 @@ html[data-motion='reduced'] .app-shell .rc-day[data-state='open'] .rc-day__dot::
 .app-shell .pt__hold { opacity: 0; }
 html[data-motion='reduced'] .app-shell .pt__plot svg, html[data-motion='reduced'] .app-shell .pt__dot { transition: none; }
 @media (prefers-reduced-motion: reduce) { .app-shell .pt__plot svg, .app-shell .pt__dot { transition: none; } }
+
+/* The ring says "of 4 study days" under the numeral; the small ring wraps it onto two lines */
+.app-shell .rc-ring__count small { max-width: 72%; margin-inline: auto; line-height: 1.2; text-wrap: balance; }

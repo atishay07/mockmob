@@ -1,0 +1,75 @@
+/* Badges and Personal bests on Progress (StudyBadges). Open sections on the page ground, ruled
+   rather than boxed: a medal is a circle, the figures are plain tabular numerals, no glow. Colours
+   are the arena tokens, so Night and Day come from the theme. */
+
+.app-shell .sb-block { display: grid; gap: 16px; min-width: 0; }
+.app-shell .sb-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.app-shell .sb-head .rc-h { margin: 0; }
+.app-shell .sb-count { margin: 0; font-size: 13px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .sb-empty { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); max-width: 56ch; }
+.app-shell .sb-retry { justify-self: start; }
+.app-shell .sb-link { color: var(--a-accent-text); font-weight: 650; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.app-shell .sb-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
+.app-shell .sb-foot { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--a-ink-3); max-width: 62ch; }
+
+/* The four paths: two ruled columns from tablets up, one column on a phone */
+.app-shell .sb-paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+.app-shell .sb-path { display: grid; gap: 14px; align-content: start; padding: 4px 28px 22px 0; min-width: 0; }
+.app-shell .sb-path:nth-child(even) { padding: 4px 0 22px 28px; border-left: 1px solid var(--a-line); }
+.app-shell .sb-path header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.app-shell .sb-path header b { font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
+.app-shell .sb-path header span { font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .sb-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+@media (max-width: 760px) {
+  .app-shell .sb-paths { grid-template-columns: minmax(0, 1fr); }
+  .app-shell .sb-path, .app-shell .sb-path:nth-child(even) { padding: 18px 0; border-left: 0; border-top: 1px solid var(--a-line); }
+  .app-shell .sb-path:first-child { padding-top: 4px; border-top: 0; }
+}
+
+/* One badge: the medal, its name, and one line that is true of it */
+.app-shell .sb-badge { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; align-items: start; }
+.app-shell .sb-medal { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 1.5px solid var(--a-line-strong); color: var(--a-ink-3); background: transparent; font: 800 14px/1 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; flex: none; }
+.app-shell .sb-medal b { font: inherit; }
+.app-shell .sb-medal[data-status='later'] { border-style: dashed; border-color: var(--a-line); }
+.app-shell .sb-medal[data-status='next'] { border-color: var(--a-ink-2); color: var(--a-ink-2); }
+.app-shell .sb-medal[data-status='earned'] { background: var(--volt); border-color: var(--volt); color: #0b1000; }
+.app-shell .sb-badge__body { display: grid; gap: 3px; min-width: 0; }
+.app-shell .sb-badge__name { font: 650 15px/1.35 var(--font-body); color: var(--a-ink); }
+.app-shell .sb-badge[data-status='later'] .sb-badge__name { color: var(--a-ink-2); }
+.app-shell .sb-badge__state, .app-shell .sb-badge__paper, .app-shell .sb-badge__go { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); max-width: 56ch; }
+.app-shell .sb-badge__lead { font-weight: 700; color: var(--a-ink); }
+.app-shell .sb-badge[data-status='earned'] .sb-badge__state { color: var(--a-ink); }
+.app-shell .sb-badge__paper { color: var(--a-ink-3); font-size: 13px; }
+.app-shell .sb-badge__go { padding-top: 2px; }
+
+/* A count toward the next one: only where it can be counted exactly */
+.app-shell .sb-so-far { display: flex; align-items: center; gap: 10px; padding-top: 4px; }
+.app-shell .sb-so-far__text { font-size: 13px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.app-shell .sb-bar { position: relative; display: block; flex: 1 1 auto; min-width: 48px; max-width: 220px; height: 4px; border-radius: 2px; background: var(--a-line-strong); overflow: visible; }
+.app-shell .sb-bar__fill { position: absolute; inset: 0; border-radius: 2px; background: var(--a-select); transform-origin: 0 50%; transform: scaleX(0); transition: transform 720ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)); }
+.app-shell .sb-bar__fill[data-armed='true'] { transform: scaleX(var(--sb-fill, 0)); }
+.app-shell .sb-bar--wide { max-width: 360px; height: 6px; border-radius: 3px; }
+.app-shell .sb-bar--wide .sb-bar__fill { border-radius: 3px; }
+.app-shell .sb-bar__tick { position: absolute; top: -4px; width: 2px; height: 14px; margin-left: -1px; border-radius: 1px; background: var(--a-ink); }
+
+/* Personal bests: value first, then what it is and where it came from */
+.app-shell .sb-bests { list-style: none; margin: 0; padding: 0; display: grid; }
+.app-shell .sb-best { display: grid; grid-template-columns: minmax(104px, 150px) minmax(0, 1fr); gap: 16px; align-items: center; min-height: 64px; padding: 10px 0; border-top: 1px solid var(--a-line); }
+.app-shell .sb-best:first-child { border-top: 0; padding-top: 0; }
+.app-shell .sb-best__value { font: 800 clamp(24px, 4vw, 28px)/1.15 var(--font-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--a-ink); white-space: nowrap; }
+.app-shell .sb-best__text { display: grid; gap: 2px; min-width: 0; }
+.app-shell .sb-best__label { font: 650 15px/1.35 var(--font-body); color: var(--a-ink); }
+.app-shell .sb-best__note { font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
+@media (max-width: 420px) {
+  .app-shell .sb-best { grid-template-columns: minmax(96px, 118px) minmax(0, 1fr); gap: 12px; }
+}
+
+.app-shell .sb-types { display: grid; gap: 12px; padding-top: 4px; }
+.app-shell .sb-types__title { margin: 0; font: 650 14px/1.3 var(--font-body); color: var(--a-ink); }
+.app-shell .sb-types ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+.app-shell .sb-type { display: grid; gap: 8px; min-width: 0; }
+.app-shell .sb-type b { font: 650 14px/1.35 var(--font-body); color: var(--a-ink); }
+.app-shell .sb-type__line { font-size: 13px; line-height: 1.5; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+
+html[data-motion='reduced'] .app-shell .sb-bar__fill { transition: none !important; }
+@media (prefers-reduced-motion: reduce) { .app-shell .sb-bar__fill { transition: none !important; } }
