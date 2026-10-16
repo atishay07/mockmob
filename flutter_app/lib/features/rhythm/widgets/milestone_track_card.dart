@@ -19,6 +19,8 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../../insights/data/subject_names.dart' show subjectDisplayName;
+import '../logic/badge_record.dart';
 import '../logic/milestone_progress.dart';
 import '../logic/milestone_tracks.dart';
 import '../logic/tokens.dart';
@@ -71,11 +73,15 @@ class MilestoneTrackCard extends StatefulWidget {
     required this.dateOf,
     this.progress = const {},
     this.freshIds = const {},
+    this.records = const {},
     this.onOpen,
     this.onAction,
   });
 
   final TrackView track;
+
+  /// The paper behind each badge the phone worked out (the sheet's record line).
+  final Map<String, BadgeRecord> records;
 
   /// "9 October" for an earned step.
   final String Function(DateTime) dateOf;
@@ -122,8 +128,6 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
     final earned = track.earned.length;
     final total = track.steps.length;
     final next = track.next;
-    final count = next == null ? null : widget.progress[next.step.id];
-    final target = next == null ? null : milestoneTargets[next.step.id];
     // The newest step of this path that landed since the last visit, if any.
     StepView? landed;
     for (final s in track.earned) {
@@ -183,6 +187,8 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
             view: track.steps[i],
             first: i == 0,
             last: i == track.steps.length - 1,
+            // Your best work is not a sequence: no line runs between its coins.
+            sequence: track.track != MilestoneTrack.best,
             segments: track.steps.length - 1,
             index: i,
             trail: _trail,
@@ -198,6 +204,11 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
               dateOf: widget.dateOf,
               previous: i > 0 ? track.steps[i - 1] : null,
               count: track.steps[i].status == StepStatus.next ? widget.progress[track.steps[i].step.id] : null,
+              pathLine: track.track == MilestoneTrack.best
+                  ? RhythmCopy.badgeNoSequence(track.track.title)
+                  : RhythmCopy.badgePathStep(track.track.title, i + 1, track.steps.length),
+              record: widget.records[track.steps[i].step.id]?.text(widget.dateOf, subjectDisplayName),
+              paperId: widget.records[track.steps[i].step.id]?.attemptId,
               onAction: widget.onAction,
             ),
           ),
@@ -301,6 +312,7 @@ class _TrailStep extends StatelessWidget {
     required this.view,
     required this.first,
     required this.last,
+    required this.sequence,
     required this.segments,
     required this.index,
     required this.trail,
@@ -315,6 +327,9 @@ class _TrailStep extends StatelessWidget {
   final StepView view;
   final bool first;
   final bool last;
+
+  /// False draws no line through the coin (a path whose badges do not wait on each other).
+  final bool sequence;
 
   /// Lines on the whole trail (steps - 1) and the index of this step.
   final int segments;
@@ -361,6 +376,10 @@ class _TrailStep extends StatelessWidget {
             ),
           ),
           if (date != null) ...[const SizedBox(height: MmSpace.s2), Text(date, style: type.caption.copyWith(color: colors.ink2))],
+          if (status == StepStatus.later) ...[
+            const SizedBox(height: MmSpace.s2),
+            Text(view.step.condition, style: type.small.copyWith(color: colors.ink3)),
+          ],
           if (status == StepStatus.next) ...[
             const SizedBox(height: MmSpace.s2),
             Text(view.step.condition, style: type.small.copyWith(color: colors.ink2)),
@@ -392,8 +411,8 @@ class _TrailStep extends StatelessWidget {
                     trail: trail,
                     segments: segments,
                     index: index,
-                    hasTop: !first,
-                    hasBottom: !last,
+                    hasTop: sequence && !first,
+                    hasBottom: sequence && !last,
                     topLit: status == StepStatus.earned,
                     bottomLit: nextLanded,
                   ),

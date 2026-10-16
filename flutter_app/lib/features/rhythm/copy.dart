@@ -173,6 +173,13 @@ abstract final class RhythmCopy {
     'sessions_10' => '10 sessions finished on $date',
     'first_week_met' => 'First week in rhythm on $date',
     'weeks_met_4' => '4 weeks met on $date',
+    'first_nta' => 'First NTA mode paper on $date',
+    'full_mocks_5' => '5 full mocks finished on $date',
+    'first_hold' => 'First repair that held on $date',
+    'run_weeks_3' => '3 weeks in a row on $date',
+    'clean_set' => 'Clean set on $date',
+    'four_subjects' => 'Four subjects on $date',
+    'new_best' => 'New best on $date',
     _ => null,
   };
 
@@ -199,6 +206,20 @@ abstract final class RhythmCopy {
   static const String bestsLoadFailedTitle = 'We could not load your marks';
   static const String bestsFootnote =
       'These are marks from your own mocks of the same type. A retake of a paper you have seen does not count.';
+
+  static const String bestMockTitle = 'Best mock';
+  static const String bestSetTitle = 'Best set';
+  static const String bestRunTitle = 'Longest run at your goal';
+  static String bestRunContext(int now, int goal) =>
+      'Now: ${plural(now, 'week')} in a row. Goal: ${plural(goal, 'study day')} a week.';
+  static const String bestRunFirst = 'Your first week at your goal starts the count.';
+  static const String fastestTitle = 'Fastest right answer';
+  static String fastestContext(String subject, int question, String date) => '$subject, question $question, $date';
+  static const String fastestFootnote = 'Answers under 3 seconds are not counted.';
+  static const String fastestNone = 'No timed answers yet. Timings are kept from your next paper.';
+  static const String openThatQuestion = 'Open that question';
+  static const String bestsEmptyLine = 'Your bests show after your first scored set.';
+  static const String startQuick = 'Start a quick practice';
 
   static String bestFormat(String mode, String subject, int questions) => '$mode, $subject, ${plural(questions, 'question')}';
 
@@ -372,6 +393,22 @@ abstract final class RhythmCopy {
   /// The small volt line under the achievement headline of a path that just landed a step.
   static const String justLanded = 'Just landed';
 
+  // A badge opened in its sheet (app-you-1016 Screen C).
+  static String badgeEarnedOn(String date) => 'Earned on $date';
+  static const String badgeNotYet = 'Not yet';
+  static String badgeLanded(String name) => '$name landed.';
+  static String badgePathStep(String path, int step, int of) => '$path, step $step of $of.';
+  static String badgeNoSequence(String path) => '$path. Any of these can come first.';
+  static const String openThatPaper = 'Open that paper';
+  static const String badgeDone = 'Done';
+  static String badgeFromPaper(String subject, String kind, String date, String marks, {String? before}) =>
+      'From your $subject $kind, $date: $marks${before == null ? '' : ' (before: $before)'}';
+  static String paperKind(String mode) => switch (mode) {
+        'full' => 'full mock',
+        'nta' => 'NTA mode paper',
+        _ => 'practice set',
+      };
+
   // A step opened in its sheet.
   static String stepLandedOn(String date) => 'Landed on $date.';
   static String stepAfter(String previous) => 'Comes after $previous.';
@@ -394,6 +431,13 @@ abstract final class RhythmCopy {
     'repairs_25' => 'Your 25th finished repair',
     'first_week_met' => 'Your first week in rhythm',
     'weeks_met_4' => 'Your fourth week at your goal',
+    'first_nta' => 'Your exam-day rehearsal',
+    'full_mocks_5' => 'Your 5th full mock',
+    'first_hold' => 'Your first repair that held',
+    'run_weeks_3' => 'Your 3 weeks in a row',
+    'clean_set' => 'Your clean set',
+    'four_subjects' => 'Your fourth subject',
+    'new_best' => 'Your new best',
     _ => null,
   };
 

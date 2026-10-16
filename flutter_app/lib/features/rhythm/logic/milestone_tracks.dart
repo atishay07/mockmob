@@ -141,3 +141,17 @@ List<TrackView> milestoneTracks(List<RhythmMilestone> milestones) {
       }(),
   ];
 }
+
+/// The name of the newest badge in [fresh] that is earned in [milestones], or null: the one that
+/// landed since the last visit (Mobi reads it once on You).
+String? freshBadgeName(Set<String> fresh, List<RhythmMilestone> milestones) {
+  RhythmMilestone? newest;
+  for (final m in milestones) {
+    final at = m.achievedAt;
+    if (at == null || !fresh.contains(m.id)) continue;
+    if (!milestoneSteps.any((s) => s.id == m.id)) continue;
+    if (newest == null || at.isAfter(newest.achievedAt!)) newest = m;
+  }
+  if (newest == null) return null;
+  return milestoneSteps.firstWhere((s) => s.id == newest!.id).name;
+}

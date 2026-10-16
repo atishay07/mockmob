@@ -4,11 +4,14 @@
 // hero is typeset on the page and the other formats are plain rows (SPACING.md 3.1, 4.3).
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/copy/formatters.dart';
 import '../../../core/haptics/haptics.dart';
+import '../../../core/models/rhythm.dart';
+import '../../../core/repositories/repositories.dart';
+import '../../../core/router/routes.dart';
 import '../../../core/motion/motion.dart';
-import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../you/widgets/you_page.dart' show SectionTitle;
@@ -17,6 +20,7 @@ import '../copy.dart';
 import '../data/bests.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
+import '../logic/fastest_answer.dart';
 import '../widgets/rhythm_layout.dart';
 import '../widgets/rhythm_page.dart';
 
@@ -69,10 +73,18 @@ class _YouBestsScreenState extends ConsumerState<YouBestsScreen> {
     final state = ref.watch(bestsRepositoryProvider);
     final mocks = ref.watch(bestMocksProvider);
     final zone = ref.watch(rhythmSnapshotProvider.select((s) => s.timezone));
+    final rhythm = ref.watch(rhythmSnapshotProvider.select((s) => s.rhythm));
+    final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
+    // With no mock yet the best set stands in (the same component, set formats).
+    final sets = [for (final b in state.value ?? const <PersonalBest>[]) if (!b.isMock) b];
     return buildBestsPage(
       state: state,
-      mocks: mocks,
+      mocks: mocks.isNotEmpty ? mocks : sets,
       zone: zone,
+      rhythm: rhythm,
+      fastest: attempts == null ? null : fastestRightAnswer(attempts),
+      onOpenPaper: (id) => context.push(AppRoutes.result(id)),
+      onStart: () => context.push(AppRoutes.practiceStart),
       onRetry: () => ref.read(bestsRepositoryProvider.notifier).refresh(force: true),
     );
   }
@@ -84,6 +96,10 @@ Widget buildBestsPage({
   required List<PersonalBest> mocks,
   required String zone,
   required VoidCallback onRetry,
+  Rhythm? rhythm,
+  FastestAnswer? fastest,
+  ValueChanged<String>? onOpenPaper,
+  VoidCallback? onStart,
 }) {
   if (state.isInitialLoading) {
     return const RhythmPage(
@@ -103,16 +119,32 @@ Widget buildBestsPage({
       ),
     );
   }
-  if (mocks.isEmpty) {
-    return const RhythmPage(
+  if (mocks.isEmpty && fastest == null) {
+    return RhythmPage(
       title: RhythmCopy.bestsTitle,
       scrollable: false,
-      child: StateView(kind: StateViewKind.empty, title: RhythmCopy.bestsEmptyTitle, message: RhythmCopy.bestsEmptyBody),
+      child: StateView(
+        kind: StateViewKind.empty,
+        title: RhythmCopy.bestsEmptyTitle,
+        message: RhythmCopy.bestsEmptyLine,
+        primary: onStart == null ? null : StateAction(RhythmCopy.startQuick, onStart),
+      ),
     );
   }
   return RhythmPage(
     title: RhythmCopy.bestsTitle,
-    child: BestsList(mocks: mocks, zone: zone, asOf: state.isStale ? state.fetchedAt : null),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (mocks.isNotEmpty) BestsList(mocks: mocks, zone: zone, asOf: state.isStale ? state.fetchedAt : null),
+        if (rhythm != null) ...[
+          const SectionBreak(),
+          _RunBlock(rhythm: rhythm),
+        ],
+        const SectionBreak(),
+        _FastestBlock(fastest: fastest, zone: zone, onOpen: onOpenPaper),
+      ],
+    ),
   );
 }
 
@@ -320,6 +352,102 @@ class _BestsSkeleton extends StatelessWidget {
         SizedBox(height: MmRhythm.group),
         MmSkeletonCard(),
       ],
+    );
+  }
+}
+
+/// A block of the page: its name, one figure with its unit, and what it is measured against.
+class _StatBlock extends StatelessWidget {
+  const _StatBlock({required this.title, required this.value, required this.unit, required this.lines, this.footer});
+
+  final String title;
+  final String value;
+  final String unit;
+  final List<String> lines;
+  final Widget? footer;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Semantics(
+          container: true,
+          label: [title, '$value $unit', ...lines].join('. '),
+          excludeSemantics: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: type.labelLarge.copyWith(fontSize: 16, color: colors.ink2)),
+              const SizedBox(height: MmSpace.s8),
+              MonumentalNumber(value: value, unit: unit, style: type.figure.copyWith(fontSize: 56), delay: kNumberRollDelay),
+              const SizedBox(height: MmSpace.s12),
+              for (final line in lines) Text(line, style: type.small.copyWith(color: colors.ink2)),
+            ],
+          ),
+        ),
+        ?footer,
+      ],
+    );
+  }
+}
+
+/// The longest run of weeks at the goal, from the rhythm's own counts. No date is shown until the
+/// server sends the week the run ended, and none is made up.
+class _RunBlock extends StatelessWidget {
+  const _RunBlock({required this.rhythm});
+
+  final Rhythm rhythm;
+
+  @override
+  Widget build(BuildContext context) {
+    final run = rhythm.bestRun > rhythm.weeksMetStreak ? rhythm.bestRun : rhythm.weeksMetStreak;
+    return _StatBlock(
+      title: RhythmCopy.bestRunTitle,
+      value: '$run',
+      unit: run == 1 ? 'week' : 'weeks',
+      lines: [run == 0 ? RhythmCopy.bestRunFirst : RhythmCopy.bestRunContext(rhythm.weeksMetStreak, rhythm.daysGoal)],
+    );
+  }
+}
+
+/// The quickest right answer that took at least 3 seconds, with its subject, question and date.
+class _FastestBlock extends StatelessWidget {
+  const _FastestBlock({required this.fastest, required this.zone, this.onOpen});
+
+  final FastestAnswer? fastest;
+  final String zone;
+  final ValueChanged<String>? onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final f = fastest;
+    if (f == null) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(RhythmCopy.fastestTitle, style: type.labelLarge.copyWith(fontSize: 16, color: colors.ink2)),
+          const SizedBox(height: MmSpace.s8),
+          Text(RhythmCopy.fastestNone, style: type.body.copyWith(color: colors.ink2)),
+        ],
+      );
+    }
+    return _StatBlock(
+      title: RhythmCopy.fastestTitle,
+      value: '${f.seconds}',
+      unit: 's',
+      lines: [
+        RhythmCopy.fastestContext(subjectDisplayName(f.subject), f.question, formatDayMonth(studentDate(f.at, zone))),
+        RhythmCopy.fastestFootnote,
+      ],
+      footer: switch (onOpen) {
+        final open? => FlushQuietKey(label: RhythmCopy.openThatQuestion, chevron: true, onPressed: () => open(f.attemptId)),
+        null => null,
+      },
     );
   }
 }

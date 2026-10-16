@@ -14,7 +14,6 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../credits/credits.dart';
-import '../../credits/credits_copy.dart';
 import '../../insights/data/subject_names.dart' show subjectDisplayName;
 import '../../rhythm/data/bests.dart';
 import '../../rhythm/data/rhythm_providers.dart';

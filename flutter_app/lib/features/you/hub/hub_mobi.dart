@@ -23,11 +23,13 @@ class HubMobiReading {
   final HubMobiGate gate;
 }
 
-enum HubMobiGate { none, met, nudge }
+enum HubMobiGate { none, met, nudge, badge }
 
 /// Chooses Mobi's reading of the week. Pure: the screen asks once the week has resolved.
 ///
 /// - 0 to 4 AM: sleepy, silent, whatever the week says.
+/// - A badge landed since the last visit: proud (a nod under Quiet) with "Clean set landed."; it
+///   wins over the week, so he speaks once.
 /// - The week paused: rest, silent.
 /// - The server's count has met the goal: proud with "Goal met. Four of four." from the real
 ///   counts. Quiet swaps proud for correct (a nod), Off plays nothing and keeps the words.
@@ -35,8 +37,12 @@ enum HubMobiGate { none, met, nudge }
 /// - Anything else on a loaded week: a hello (the caller decides whether today's hello is spent).
 /// - Loading, failed or Rhythm off: idle and silent. `null` means "not decided yet" (loading or
 ///   failed), so a later load can still play its reading.
-HubMobiReading? readWeek({required SheetWeek week, required DateTime now, required CelebrationMode mode}) {
+HubMobiReading? readWeek({required SheetWeek week, required DateTime now, required CelebrationMode mode, String? landedBadge}) {
   if (now.hour >= 0 && now.hour < 5) return const HubMobiReading(MobiAct.sleepy);
+  // A badge that landed since the last visit is the moment of the visit: he speaks once, about it.
+  if (landedBadge != null && mode != CelebrationMode.off) {
+    return HubMobiReading(mode == CelebrationMode.full ? MobiAct.proud : MobiAct.nod, line: YouCopy.badgeLandedLine(landedBadge), gate: HubMobiGate.badge);
+  }
   switch (week.state) {
     case SheetWeekState.loading:
     case SheetWeekState.failed:

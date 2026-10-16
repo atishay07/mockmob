@@ -8,11 +8,14 @@ import '../../../core/models/rhythm.dart';
 
 /// A derived badge and the attempt that earned it.
 class DerivedBadge {
-  const DerivedBadge(this.id, this.at, this.attemptId);
+  const DerivedBadge(this.id, this.at, this.attemptId, {this.before});
 
   final String id;
   final DateTime at;
   final String attemptId;
+
+  /// For `new_best`: the marks it beat (the best of the earlier papers of the same kind).
+  final int? before;
 }
 
 /// Targets of the derived badges that can be counted exactly.
@@ -25,7 +28,7 @@ List<Attempt> _scored(List<Attempt> attempts) =>
 Map<String, DerivedBadge> deriveBadges(List<Attempt> attempts) {
   final scored = _scored(attempts);
   final out = <String, DerivedBadge>{};
-  void put(String id, Attempt a) => out.putIfAbsent(id, () => DerivedBadge(id, a.completedAt, a.id));
+  void put(String id, Attempt a, {int? before}) => out.putIfAbsent(id, () => DerivedBadge(id, a.completedAt, a.id, before: before));
 
   var mocks = 0;
   final subjects = <String>{};
@@ -39,7 +42,7 @@ Map<String, DerivedBadge> deriveBadges(List<Attempt> attempts) {
     final format = a.formatId ?? '';
     if (format.isNotEmpty) {
       final before = bestByFormat[format];
-      if (before != null && a.marks > before) put('new_best', a);
+      if (before != null && a.marks > before) put('new_best', a, before: before);
       if (before == null || a.marks > before) bestByFormat[format] = a.marks;
     }
   }

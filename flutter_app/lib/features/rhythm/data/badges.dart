@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/models/rhythm.dart';
 import '../../../core/repositories/repositories.dart';
+import '../logic/badge_record.dart';
 import '../logic/derived_badges.dart';
 import '../logic/milestone_progress.dart';
 import '../logic/milestone_tracks.dart';
@@ -31,4 +32,11 @@ final badgeProgressProvider = Provider<Map<String, int>>((ref) {
   final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
   final rhythm = ref.watch(rhythmSnapshotProvider.select((s) => s.rhythm));
   return milestoneProgress(attempts: attempts, rhythm: rhythm);
+});
+
+/// The paper behind each derived badge earned (for the badge sheet's record line).
+final badgeRecordsProvider = Provider<Map<String, BadgeRecord>>((ref) {
+  final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
+  if (attempts == null) return const {};
+  return badgeRecords(ref.watch(derivedBadgesProvider), attempts);
 });

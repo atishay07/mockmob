@@ -24,6 +24,7 @@ import '../copy.dart';
 import '../data/badges.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
+import '../logic/badge_record.dart';
 import '../logic/milestone_tracks.dart';
 import '../widgets/milestone_backdrop.dart';
 import '../widgets/rhythm_layout.dart';
@@ -109,6 +110,7 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
         zone: snapshot.timezone,
         now: now,
         progress: ref.watch(badgeProgressProvider),
+        records: ref.watch(badgeRecordsProvider),
         freshIds: _fresh,
         mobiSpeaks: _mobiSpeaks,
         asOf: snapshot.stale ? snapshot.fetchedAt : null,
@@ -127,6 +129,7 @@ class MilestoneTimeline extends StatelessWidget {
     required this.zone,
     required this.now,
     this.progress = const {},
+    this.records = const {},
     this.freshIds = const {},
     this.mobiSpeaks = true,
     this.asOf,
@@ -140,6 +143,9 @@ class MilestoneTimeline extends StatelessWidget {
 
   /// Exact counts toward the next step (see `milestoneProgress`).
   final Map<String, int> progress;
+
+  /// The paper behind each badge the phone worked out (the sheet's record line).
+  final Map<String, BadgeRecord> records;
   final Set<String> freshIds;
 
   /// Mobi says his line at the two ends of the paths. False after he has said it once this app run:
@@ -207,6 +213,7 @@ class MilestoneTimeline extends StatelessWidget {
                 track: tracks[k],
                 dateOf: (d) => formatAchievedDate(d, zone, now),
                 progress: progress,
+                records: records,
                 freshIds: freshIds,
                 onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
                 onAction: onOpen,
@@ -219,7 +226,7 @@ class MilestoneTimeline extends StatelessWidget {
   }
 }
 
-/// "3 of 9 landed" as a monumental figure over nine small coins grouped by path, so the shape of
+/// "6 of 16 earned" as a monumental figure over the small coins grouped by path, so the shape of
 /// the whole shows at a glance. The coins are brass when the server dated the step and rings when
 /// it did not.
 class _Summary extends ConsumerWidget {
@@ -244,16 +251,16 @@ class _Summary extends ConsumerWidget {
             onLanded: () => ref.read(hapticsProvider).selection(),
           ),
           const SizedBox(height: MmSpace.s16),
-          // Nine coins grouped 3 | 4 | 2. One even gap inside a group and exactly double between
-          // groups, and the coins are sized so the row runs the whole width, edge to edge.
+          // The coins grouped by path (5 | 5 | 3 | 3 of 16). One even gap inside a group and
+          // exactly double between groups, sized so the row runs the whole width, edge to edge.
           ExcludeSemantics(
             child: LayoutBuilder(
               builder: (context, box) {
-                const gap = 8.0;
-                const groupGap = gap * 2;
+                const gap = 4.0;
+                const groupGap = 12.0;
                 final steps = tracks.fold<int>(0, (n, t) => n + t.steps.length);
                 final fixed = gap * (steps - tracks.length) + groupGap * (tracks.length - 1);
-                final coin = ((box.maxWidth - fixed) / steps).clamp(16.0, 30.0);
+                final coin = ((box.maxWidth - fixed) / steps).clamp(12.0, 22.0);
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

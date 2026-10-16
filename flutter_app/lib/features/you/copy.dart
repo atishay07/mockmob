@@ -52,6 +52,7 @@ abstract final class YouCopy {
   // its section: Plan and credits, Appearance, Study days, Notifications, My subjects and colleges.
   // You as the student's study (app-you-1016 A.2).
   static const hubWeek = 'This week';
+  static String badgeLandedLine(String name) => '$name landed.';
   static const seeRhythm = 'See rhythm';
   static const hubSubjects = 'My subjects';
   static const editSubjectsShort = 'Edit';

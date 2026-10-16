@@ -1,8 +1,8 @@
-// A milestone step opened in a sheet: its medal at 120 dp, what lands it said exactly, the date it
-// landed or (for the next step, where the app can count it) how far along it is, and one key for
-// the next step. Nothing here is a guess: a step that has not landed shows no date, and a count
-// shows only where the app holds it exactly (`milestoneProgress`). Later steps say what comes
-// first and offer no key.
+// A badge opened in a sheet (app-you-1016 Screen C): its medal at 96 dp, the name, "Earned on 12
+// October" or "Not yet", what lands it said exactly, the paper it came from when the phone holds
+// that record, how far along it is where the app can count it exactly, where it sits on its path,
+// and one key. Nothing here is a guess: a badge not earned shows no date, a count shows only where
+// the app holds it (`milestoneProgress`), and there is no padlock and no plan anywhere near it.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,14 +30,19 @@ import 'milestone_track_card.dart' show engravingOf;
     };
 
 /// Opens [view] in a sheet. [previous] is the step before it on its path (for a later step),
-/// [count] the exact count toward it, when there is one. [onAction] defaults to going to the
-/// step's own place; it is told the location.
+/// [count] the exact count toward it, when there is one, [pathLine] where it sits on its path,
+/// [record] the paper that earned it ("From your Accountancy full mock, 12 October: 152 of 250")
+/// and [paperId] the attempt behind it. [onAction] defaults to going to the step's own place; it is
+/// told the location.
 Future<void> showStepSheet(
   BuildContext context, {
   required StepView view,
   required String Function(DateTime) dateOf,
   StepView? previous,
   int? count,
+  String? pathLine,
+  String? record,
+  String? paperId,
   ValueChanged<String>? onAction,
 }) {
   return showMmSheet<void>(
@@ -48,6 +53,9 @@ Future<void> showStepSheet(
       dateOf: dateOf,
       previous: previous,
       count: count,
+      pathLine: pathLine,
+      record: record,
+      paperId: paperId,
       onAction: (location) {
         Navigator.of(sheet).pop();
         if (onAction != null) {
@@ -61,12 +69,29 @@ Future<void> showStepSheet(
 }
 
 class StepSheetBody extends StatelessWidget {
-  const StepSheetBody({super.key, required this.view, required this.dateOf, this.previous, this.count, required this.onAction});
+  const StepSheetBody({
+    super.key,
+    required this.view,
+    required this.dateOf,
+    this.previous,
+    this.count,
+    this.pathLine,
+    this.record,
+    this.paperId,
+    required this.onAction,
+  });
 
   final StepView view;
   final String Function(DateTime) dateOf;
   final StepView? previous;
   final int? count;
+
+  /// "Papers, step 3 of 5." (null on a path with no order).
+  final String? pathLine;
+
+  /// The paper behind an earned badge, in words. Null when the phone does not hold it.
+  final String? record;
+  final String? paperId;
   final ValueChanged<String> onAction;
 
   @override
@@ -77,9 +102,15 @@ class StepSheetBody extends StatelessWidget {
     final status = view.status;
     final face = engravingOf(step.id);
     final target = milestoneTargets[step.id];
-    final fraction = status == StepStatus.next && count != null ? milestoneFraction(step.id, {step.id: count!}) : null;
-    final action = status == StepStatus.next ? stepAction(step) : null;
+    final earned = status == StepStatus.earned;
+    final counted = !earned && count != null && target != null;
+    final fraction = counted ? milestoneFraction(step.id, {step.id: count!}) : null;
+    final action = earned ? null : stepAction(step);
     final date = view.earnedAt == null ? null : dateOf(view.earnedAt!);
+    final order = [
+      ?pathLine,
+      if (!earned && status == StepStatus.later && previous != null) RhythmCopy.stepAfter(previous!.step.name),
+    ].join(' ');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
@@ -93,29 +124,72 @@ class StepSheetBody extends StatelessWidget {
             },
             icon: face.icon,
             text: face.text,
-            size: 120,
+            size: 96,
             arc: fraction,
           ),
         ),
         const SizedBox(height: MmSpace.s16),
-        // The date of a landed step; the count of the next one; what comes first for a later one.
-        if (date != null)
-          Semantics(
-            liveRegion: true,
-            child: Text(RhythmCopy.stepLandedOn(date), textAlign: TextAlign.center, style: type.subhead),
-          )
-        else if (status == StepStatus.next && count != null && target != null)
-          Text(RhythmCopy.soFar(count!, target), textAlign: TextAlign.center, style: type.subhead)
-        else if (status == StepStatus.later && previous != null)
-          Text(RhythmCopy.stepAfter(previous!.step.name), textAlign: TextAlign.center, style: type.subhead),
+        // The state, said in words as well as drawn: the date it landed, or "Not yet".
+        Semantics(
+          liveRegion: true,
+          child: Text(
+            earned && date != null ? RhythmCopy.badgeEarnedOn(date) : RhythmCopy.badgeNotYet,
+            textAlign: TextAlign.center,
+            style: type.subhead.copyWith(color: earned ? colors.ink : colors.ink2),
+          ),
+        ),
         const SizedBox(height: MmSpace.s8),
-        Text(step.condition, textAlign: TextAlign.center, style: type.body.copyWith(color: colors.ink2)),
+        Text(step.condition, textAlign: TextAlign.center, style: type.body),
+        if (earned && record != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(record!, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+        ],
+        if (counted) ...[
+          const SizedBox(height: MmSpace.s16),
+          _CountBar(fraction: (count! / target).clamp(0.0, 1.0)),
+          const SizedBox(height: MmSpace.s8),
+          Text(RhythmCopy.soFar(count!, target), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+        ],
+        if (order.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s12),
+          Text(order, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+        ],
         const SizedBox(height: MmSpace.s24),
         if (action != null)
           KeyButton(label: action.label, onPressed: () => onAction(action.location))
-        else
-          Align(child: KeyButton.quiet(label: RhythmCopy.close, onPressed: () => Navigator.of(context).pop())),
+        else ...[
+          if (paperId != null && earned)
+            Align(child: KeyButton.quiet(label: RhythmCopy.openThatPaper, onPressed: () => onAction(AppRoutes.result(paperId!)))),
+          Align(child: KeyButton.quiet(label: RhythmCopy.badgeDone, onPressed: () => Navigator.of(context).pop())),
+        ],
       ],
+    );
+  }
+}
+
+/// The 4 dp bar of a counted badge: the volt fill over the hairline.
+class _CountBar extends StatelessWidget {
+  const _CountBar({required this.fraction});
+
+  final double fraction;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(2),
+        child: SizedBox(
+          height: 4,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              ColoredBox(color: colors.line),
+              FractionallySizedBox(alignment: Alignment.centerLeft, widthFactor: fraction, child: ColoredBox(color: colors.volt)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

@@ -6,7 +6,9 @@ import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart';
+import '../../../core/models/attempt.dart';
 import '../../../core/models/rhythm.dart';
+import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/repositories/rhythm_repository.dart';
 import '../../../core/repositories/rhythm_seen_repository.dart';
@@ -14,6 +16,7 @@ import '../copy.dart';
 import '../data/rhythm_prefs.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
+import '../logic/derived_badges.dart';
 import 'celebration_controller.dart';
 import 'celebration_event.dart';
 
@@ -38,7 +41,7 @@ class MilestonePlan {
 /// student's history. Later, a milestone inside 48 hours is a moment (or a dated row), and the
 /// older ones that landed while the app was away become one receipt ("Your first repair landed
 /// on 11 October.") for the newest of them, with the others counted in it.
-MilestonePlan planMilestones(Rhythm rhythm, RhythmSeenState seen, DateTime now) {
+MilestonePlan planMilestones(Rhythm rhythm, RhythmSeenState seen, DateTime now, {List<RhythmMilestone>? milestones}) {
   final events = <CelebrationEvent>[];
   final silent = <String>[];
   final away = <RhythmMilestone>[];
@@ -80,7 +83,12 @@ Future<void> processFreshRhythm(Ref ref, Rhythm rhythm) async {
   if (ref.read(rhythmPrefsProvider).hidden) return;
   final seenRepo = ref.read(rhythmSeenRepositoryProvider);
   final seen = await seenRepo.read();
-  final plan = planMilestones(rhythm, seen, ref.read(nowProvider)());
+  // The badges the phone works out from the attempts list (clean set, new best, ...) are news in
+  // the same way as the server's: dated by their paper, celebrated once, and an old one on a phone
+  // that already knows the student is remembered quietly (never five ceremonies at once).
+  final attempts = ref.read(attemptsRepositoryProvider).value;
+  final merged = attempts == null ? null : mergeDerived(rhythm.milestones, deriveBadges(attempts));
+  final plan = planMilestones(rhythm, seen, ref.read(nowProvider)(), milestones: merged);
   for (final id in plan.silent) {
     await seenRepo.markCelebrated(id);
   }
@@ -107,7 +115,18 @@ Future<void> _safely(Ref ref, Rhythm rhythm) async {
 bool _isFreshRead(RemoteState<Rhythm>? prev, RemoteState<Rhythm> next) =>
     next.value != null && !next.fromCache && !next.loading && next.error == null && next.fetchedAt != prev?.fetchedAt;
 
+/// A scored paper that lands after the rhythm was read can earn a derived badge: read the badges
+/// again against the rhythm already on the phone.
+(int, String?)? _attemptsKey(RemoteState<List<Attempt>> s) {
+  final list = s.value;
+  return list == null ? null : (list.length, list.isEmpty ? null : list.first.id);
+}
+
 final rhythmWatcherProvider = Provider<void>((ref) {
+  ref.listen<RemoteState<List<Attempt>>>(attemptsRepositoryProvider, (prev, next) {
+    final rhythm = ref.read(rhythmRepositoryProvider).value;
+    if (rhythm != null && next.value != null && _attemptsKey(prev ?? next) != _attemptsKey(next)) unawaited(_safely(ref, rhythm));
+  });
   ref.listen<RemoteState<Rhythm>>(rhythmRepositoryProvider, (prev, next) {
     if (_isFreshRead(prev, next)) unawaited(_safely(ref, next.value!));
   }, fireImmediately: true);

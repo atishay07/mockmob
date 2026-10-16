@@ -42,7 +42,11 @@ class SheetCard extends StatefulWidget {
     this.onEditName,
     this.showWeek = true,
     this.weekKey,
+    this.landedBadge,
   });
+
+  /// The name of a badge that landed since the last visit: Mobi reads it once, ahead of the week.
+  final String? landedBadge;
 
   /// False leaves the week field off: the hub shows it inside its one Study block (critic 16 Oct,
   /// finding 27), so the ring is not drawn twice on one screen.
@@ -92,6 +96,7 @@ class _SheetCardState extends State<SheetCard> {
   GlobalKey get _weekKey => widget.weekKey ?? _ownWeekKey;
   Timer? _later;
   bool _read = false;
+  bool _badgeRead = false;
   MobiAct _entrance = MobiAct.idle;
 
   /// The nudge is waiting for the student to be still: a touch or a scroll anywhere restarts its
@@ -106,7 +111,7 @@ class _SheetCardState extends State<SheetCard> {
     super.initState();
     // Mobi reads the real week once, the first time it is known. A week still loading leaves him
     // idle; the reading plays when it lands.
-    final reading = readWeek(week: widget.week, now: _now(), mode: widget.celebrations);
+    final reading = readWeek(week: widget.week, now: _now(), mode: widget.celebrations, landedBadge: widget.landedBadge);
     if (reading != null) {
       _read = true;
       _entrance = _consume(reading);
@@ -116,8 +121,18 @@ class _SheetCardState extends State<SheetCard> {
   @override
   void didUpdateWidget(SheetCard old) {
     super.didUpdateWidget(old);
+    // A badge that lands after the first reading is the moment of the visit: he reads it once.
+    if (!_badgeRead && widget.landedBadge != null && old.landedBadge == null) {
+      final badge = readWeek(week: widget.week, now: _now(), mode: widget.celebrations, landedBadge: widget.landedBadge);
+      if (badge != null && badge.gate == HubMobiGate.badge) {
+        _badgeRead = true;
+        _read = true;
+        _mobi.react(_consume(badge));
+        return;
+      }
+    }
     if (_read) return;
-    final reading = readWeek(week: widget.week, now: _now(), mode: widget.celebrations);
+    final reading = readWeek(week: widget.week, now: _now(), mode: widget.celebrations, landedBadge: widget.landedBadge);
     if (reading == null) return;
     _read = true;
     _mobi.react(_consume(reading));
@@ -169,12 +184,14 @@ class _SheetCardState extends State<SheetCard> {
     if (!widget.showWeek && reading.gate == HubMobiGate.nudge) return MobiAct.idle;
     // A goal the server has counted as met keeps a proud face all week (a calm one under Off),
     // whether or not today's act is spent: the face is a state, the act is a moment.
-    _mobi.setMood(reading.gate == HubMobiGate.met && widget.celebrations != CelebrationMode.off ? MobiMood.proud : MobiMood.calm);
+    _mobi.setMood((reading.gate == HubMobiGate.met || reading.gate == HubMobiGate.badge) && widget.celebrations != CelebrationMode.off ? MobiMood.proud : MobiMood.calm);
     switch (reading.gate) {
       case HubMobiGate.met:
         if (!MobiRation.helloToday('you:week')) return MobiAct.idle;
       case HubMobiGate.nudge:
         if (!MobiRation.nudgeToday('you')) return MobiAct.idle;
+      case HubMobiGate.badge:
+        if (!MobiRation.helloToday('you:badge')) return MobiAct.idle;
       case HubMobiGate.none:
         // A plain hello is the first open of the day only.
         if (reading.act == MobiAct.hello) return MobiRation.helloToday('you') ? MobiAct.hello : MobiAct.idle;

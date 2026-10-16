@@ -4,6 +4,7 @@ import '../../../core/copy/state_words.dart';
 import '../../../core/models/rhythm.dart';
 import '../../../core/router/routes.dart';
 import '../copy.dart';
+import '../logic/milestone_tracks.dart';
 
 /// L0 (an answer was recorded) is plain text in the host screen and never comes here.
 /// L1 repair finished or week met; L2 firsts; L3 a dated row that fades into the timeline.
@@ -120,6 +121,19 @@ class CelebrationEvent {
           ring: true,
         );
       default:
+        // The badges the phone works out and the two new server ones get one quiet line when they
+        // land ("Clean set landed."); the badges the server already dated stay dated rows.
+        final badge = milestoneSteps.where((s) => s.id == milestone.id && s.source != BadgeSource.server).firstOrNull;
+        if (badge != null) {
+          return CelebrationEvent(
+            id: milestone.id,
+            kind: CelebrationKind.milestone,
+            level: CelebrationLevel.l1,
+            scope: scope,
+            sentence: RhythmCopy.badgeLanded(badge.name),
+            receipt: receipt == null ? null : '$receipt.',
+          );
+        }
         return CelebrationEvent(id: milestone.id, kind: CelebrationKind.milestone, level: CelebrationLevel.l3, scope: scope);
     }
   }

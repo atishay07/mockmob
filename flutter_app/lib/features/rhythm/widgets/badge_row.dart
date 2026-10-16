@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../insights/data/subject_names.dart' show subjectDisplayName;
 import '../copy.dart';
+import '../logic/badge_record.dart';
 import '../logic/milestone_progress.dart';
 import '../logic/milestone_tracks.dart';
 import 'medal.dart';
@@ -17,12 +19,16 @@ import 'step_sheet.dart';
 
 /// The five coins on You and the badge they lead to next.
 class BadgeRowModel {
-  BadgeRowModel._(this.coins, this.next, this.earned, this.total, this.previous);
+  BadgeRowModel._(this.coins, this.next, this.earned, this.total, this.previous, this.paths);
 
   factory BadgeRowModel.of(List<TrackView> tracks) {
     final all = [for (final t in tracks) ...t.steps];
     final previous = <String, StepView>{};
+    final paths = <String, String>{};
     for (final t in tracks) {
+      for (var i = 0; i < t.steps.length; i++) {
+        paths[t.steps[i].step.id] = t.track == MilestoneTrack.best ? RhythmCopy.badgeNoSequence(t.track.title) : RhythmCopy.badgePathStep(t.track.title, i + 1, t.steps.length);
+      }
       if (t.track == MilestoneTrack.best) continue;
       for (var i = 1; i < t.steps.length; i++) {
         previous[t.steps[i].step.id] = t.steps[i - 1];
@@ -48,7 +54,7 @@ class BadgeRowModel {
         next = n;
       }
     }
-    return BadgeRowModel._(coins, next, earned.length, all.length, previous);
+    return BadgeRowModel._(coins, next, earned.length, all.length, previous, paths);
   }
 
   final List<StepView> coins;
@@ -56,6 +62,9 @@ class BadgeRowModel {
   final int earned;
   final int total;
   final Map<String, StepView> previous;
+
+  /// Where each badge sits on its path, in words ("Papers, step 3 of 5.").
+  final Map<String, String> paths;
 }
 
 class BadgeRow extends StatelessWidget {
@@ -65,6 +74,7 @@ class BadgeRow extends StatelessWidget {
     required this.dateOf,
     this.progress = const {},
     this.freshIds = const {},
+    this.records = const {},
     this.loading = false,
   });
 
@@ -76,6 +86,9 @@ class BadgeRow extends StatelessWidget {
 
   /// Badge ids that landed since the last visit: their coin plays its landing once.
   final Set<String> freshIds;
+
+  /// The paper behind each badge the phone worked out (the sheet's record line).
+  final Map<String, BadgeRecord> records;
 
   /// Ghost coins with the final height, so nothing jumps when data lands.
   final bool loading;
@@ -135,6 +148,9 @@ class BadgeRow extends StatelessWidget {
                     dateOf: dateOf,
                     previous: model.previous[view.step.id],
                     count: view.status == StepStatus.next ? progress[view.step.id] : null,
+                    pathLine: model.paths[view.step.id],
+                    record: records[view.step.id]?.text(dateOf, subjectDisplayName),
+                    paperId: records[view.step.id]?.attemptId,
                   ),
                 ),
               ),

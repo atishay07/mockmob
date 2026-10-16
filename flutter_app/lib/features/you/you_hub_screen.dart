@@ -11,14 +11,12 @@ import '../../core/copy/copy.dart';
 import '../../core/motion/motion.dart';
 import '../../core/repositories/repositories.dart';
 import '../../core/settings/changed_row.dart';
-import '../../core/router/external_link_opener.dart';
 import '../../core/router/routes.dart';
 import '../../core/sync/pending_work.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../rhythm/copy.dart' show RhythmCopy;
 import '../rhythm/logic/milestone_tracks.dart';
-import '../rhythm/logic/tokens.dart';
 import '../rhythm/logic/week_view.dart' show WeekStatus, runNote, weeksInRhythmText;
 import '../rhythm/rhythm.dart';
 import '../rhythm/widgets/rhythm_layout.dart' show SectionBreak;
@@ -36,13 +34,11 @@ import 'copy.dart';
 import 'edit_copy.dart';
 import 'data/student_target.dart';
 import 'hub/hub_cards.dart';
-import 'hub/hub_sections.dart';
 import 'hub/sheet_card.dart';
 import 'hub/sheet_fields.dart';
 import 'widgets/you_page.dart';
 import 'account/name_sheet.dart' show showNameSheet;
 import 'you_routes.dart';
-import '../credits/credits.dart' show openCreditsPage;
 
 /// You is the student's study (IA D4, app-you-1016 A.2): the name in the lamp light, then this
 /// week as "3 of 4 study days", the badges, the personal bests, across your mocks and the subjects,
@@ -185,6 +181,10 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     final subjects = auth.subjects.isNotEmpty ? auth.subjects : target.subjects;
     final bottom = MediaQuery.viewPaddingOf(context).bottom;
     final week = _week(snapshot, off);
+    final landedBadge = freshBadgeName(
+      ref.watch(celebrationControllerProvider.select((s) => s.freshRows)),
+      ref.watch(badgeMilestonesProvider) ?? const [],
+    );
 
     // You is the fourth tab on the bar (DOCK.md 9.1): it uses the tab-root recipe of Practice and
     // Review. The shell has already added the bar's clearance to the bottom padding, so the list
@@ -248,6 +248,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           // The ring and the week stand once, in the Study block below.
                           showWeek: false,
                           weekKey: _weekKey,
+                          landedBadge: landedBadge,
                           onOpenRhythm: () => context.push(AppRoutes.youRhythm),
                           onEdit: () => openYouPage(context, YouPaths.sheet),
                           onEditName: _editName,
@@ -404,6 +405,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                 loading: snapshot.isInitialLoading,
                 dateOf: (d) => formatAchievedDate(d, snapshot.timezone, now),
                 progress: ref.watch(badgeProgressProvider),
+                records: ref.watch(badgeRecordsProvider),
                 freshIds: ref.watch(celebrationControllerProvider.select((s) => s.freshRows)),
               ),
       ),
