@@ -37,6 +37,8 @@ import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import '@/components/du/du.css';
+import { duMatchRank, duSearch } from '@/lib/du/collegeSearch.mjs';
+import { useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
 import { AddToMyColleges } from '@/components/colleges/MyColleges';
 import '@/components/du/du-flat.css';
 
@@ -134,8 +136,14 @@ function CutoffTable({ group, catIndex, category, score }) {
   }, [group.id, attempt]);
 
   const rows = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    let list = state.rows.filter((r) => !q || `${r[0]} ${r[1]}`.toLowerCase().includes(q));
+    // Typed search: B.Com, bcom and b com all match; prefix matches lead, then the chosen sort.
+    const tierOf = new Map();
+    let list = state.rows.filter((r) => {
+      const t = duMatchRank(query, String(r[0]), [`${r[0]} ${r[1] ?? ''}`, String(r[1] ?? '')]);
+      tierOf.set(r, t);
+      return t !== null;
+    });
+    const byTier = (a, b) => (tierOf.get(a) ?? 0) - (tierOf.get(b) ?? 0);
     const r1 = (r) => effectiveCutoff(r[2], catIndex);
     const best = (r) => {
       const vals = [r[2], r[3], r[4]].map((a) => effectiveCutoff(a, catIndex)).filter((v) => v != null);
@@ -143,10 +151,11 @@ function CutoffTable({ group, catIndex, category, score }) {
     };
     const num = (v, fallback) => (v == null ? fallback : v);
     list = [...list];
-    if (sort === 'name') list.sort((a, b) => a[0].localeCompare(b[0]) || String(a[1]).localeCompare(String(b[1])));
-    else if (sort === 'low') list.sort((a, b) => num(best(a), 9999) - num(best(b), 9999));
+    if (sort === 'name') list.sort((a, b) => byTier(a, b) || a[0].localeCompare(b[0]) || String(a[1]).localeCompare(String(b[1])));
+    else if (sort === 'low') list.sort((a, b) => byTier(a, b) || num(best(a), 9999) - num(best(b), 9999));
     else if (sort === 'fit' && score != null) {
       list.sort((a, b) => {
+        if (byTier(a, b)) return byTier(a, b);
         const ba = best(a);
         const bb = best(b);
         const ca = ba != null && score >= ba;
@@ -155,7 +164,7 @@ function CutoffTable({ group, catIndex, category, score }) {
         if (ca) return num(r1(b), 0) - num(r1(a), 0);
         return num(ba, 9999) - num(bb, 9999);
       });
-    } else list.sort((a, b) => num(r1(b), -1) - num(r1(a), -1));
+    } else list.sort((a, b) => byTier(a, b) || num(r1(b), -1) - num(r1(a), -1));
     return list;
   }, [state.rows, query, sort, score, catIndex]);
 
@@ -187,7 +196,7 @@ function CutoffTable({ group, catIndex, category, score }) {
         <label className="du-search">
           <Search size={16} aria-hidden="true" />
           <span className="du-sr">Search colleges</span>
-          <input type="search" value={query} placeholder="Search a college" onChange={(e) => { setQuery(e.target.value); setShown(PAGE_SIZE); }} />
+          <input data-du-search type="search" value={query} placeholder="Search a college" autoComplete="off" enterKeyHint="search" onChange={(e) => { setQuery(e.target.value); setShown(PAGE_SIZE); }} />
         </label>
         <div className="du-select">
           <Listbox aria-label="Sort colleges" sheetTitle="Sort colleges" size="sm" placeholder="Sort colleges" value={sort} onChange={setSort}
@@ -279,6 +288,7 @@ function ProgrammeCard({ result, explain, category, catIndex, score, clears = nu
 // ---------------------------------------------------------------------------------------
 
 export function CutoffCalculator({ seedSubjects = null } = {}) {
+  useAboveKeyboard();
   const { isAuthenticated } = useAuth();
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
@@ -373,16 +383,18 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
   );
 
   const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    const matches = (r) => (stream === 'All' || r.group.stream === stream) && (!q || r.group.name.toLowerCase().includes(q));
+    // Typed search ignores case, dots, spaces and hyphens ("bcom", "B.Com", "b com"); the closest names lead.
+    const tier = new Map([...eligible, ...ineligible].map((r) => [r.group.id, duMatchRank(query, r.group.name)]));
+    const matches = (r) => (stream === 'All' || r.group.stream === stream) && tier.get(r.group.id) !== null;
+    const byTier = (a, b) => (tier.get(a.group.id) ?? 0) - (tier.get(b.group.id) ?? 0);
     let list = eligible.filter(matches);
     if (onlyClearing && score != null) list = list.filter((r) => couldClear(r.group));
     const top = (g) => g.summary?.['round-1']?.[category]?.[3] ?? g.summary?.['round-1']?.UR?.[3] ?? -1;
     list = [...list];
-    if (sort === 'name') list.sort((a, b) => a.group.name.localeCompare(b.group.name));
-    else if (sort === 'cutoff') list.sort((a, b) => top(b.group) - top(a.group));
-    else list.sort((a, b) => b.group.colleges - a.group.colleges || a.group.name.localeCompare(b.group.name));
-    return { list, near: ineligible.filter(matches) };
+    if (sort === 'name') list.sort((a, b) => byTier(a, b) || a.group.name.localeCompare(b.group.name));
+    else if (sort === 'cutoff') list.sort((a, b) => byTier(a, b) || top(b.group) - top(a.group));
+    else list.sort((a, b) => byTier(a, b) || b.group.colleges - a.group.colleges || a.group.name.localeCompare(b.group.name));
+    return { list, near: ineligible.filter(matches).sort(byTier) };
   }, [eligible, ineligible, stream, query, sort, onlyClearing, score, couldClear, category]);
 
   const listRef = useFlipList(visible.list.map((r) => r.group.id).join('|'));
@@ -595,7 +607,7 @@ export function CutoffCalculator({ seedSubjects = null } = {}) {
                     <label className="du-search">
                       <Search size={16} aria-hidden="true" />
                       <span className="du-sr">Search programmes</span>
-                      <input type="search" value={query} placeholder="Search programmes" onChange={(e) => setQuery(e.target.value)} />
+                      <input data-du-search type="search" value={query} placeholder="Search programmes" autoComplete="off" enterKeyHint="search" onChange={(e) => setQuery(e.target.value)} />
                     </label>
                     <div className="du-select">
                       <Listbox aria-label="Sort programmes" sheetTitle="Sort programmes" size="sm" value={sort} onChange={setSort}

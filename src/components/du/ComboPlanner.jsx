@@ -7,6 +7,8 @@ import { useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Search, X } from 'lucide-react';
 import { encodeSelection, loadIndex, PRESETS } from '@/lib/du/client';
+import { duSearch } from '@/lib/du/collegeSearch.mjs';
+import { useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
 import { describeGap } from '@/lib/du/eligibility';
 import { DEFAULT_MAX_PAPERS, MAX_POOL, planCombos } from '@/lib/du/combos';
 import '@/components/du/du-flat.css';
@@ -20,6 +22,7 @@ function readStore() { try { return JSON.parse(window.localStorage.getItem(STORE
 function writeStore(value) { try { window.localStorage.setItem(STORE, JSON.stringify(value)); } catch { /* storage blocked: still works this visit */ } }
 
 export default function ComboPlanner() {
+  useAboveKeyboard();
   const [index, setIndex] = useState(null);
   const [error, setError] = useState('');
   const [targets, setTargets] = useState([]);
@@ -66,8 +69,7 @@ export default function ComboPlanner() {
   const toggleTarget = (id) => setTargets((list) => list.includes(id) ? list.filter((t) => t !== id) : list.length >= MAX_TARGETS ? list : [...list, id]);
   const applyPreset = (p) => setPool([...p.languages.map((id) => ({ kind: 'language', id })), ...p.domains.map((id) => ({ kind: 'domain', id })), ...(p.gat ? [{ kind: 'gat', id: 'gat' }] : [])].slice(0, MAX_POOL));
   const groupByName = (name) => index.groups.find((g) => g.name === name);
-  const q = query.trim().toLowerCase();
-  const matches = q ? index.groups.filter((g) => g.name.toLowerCase().includes(q)).slice(0, 8) : [];
+  const matches = query.trim() ? duSearch(query, index.groups, (g) => g.name, { weight: (g) => g.colleges ?? 0 }).slice(0, 8) : [];
   const chip = (item) => (
     <button key={key(item)} type="button" className="du-chip" aria-pressed={inPool(item)} onClick={() => toggle(item)} disabled={!inPool(item) && pool.length >= MAX_POOL}>
       <span className="du-chip__tick" aria-hidden="true"><Check size={12} /></span>{nameOf(item)}
@@ -100,7 +102,7 @@ export default function ComboPlanner() {
         <label className="du-finder cp-search">
           <Search size={18} aria-hidden="true" />
           <span className="du-sr">Search DU programmes</span>
-          <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all 73 programmes" />
+          <input data-du-search type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all 73 programmes" autoComplete="off" enterKeyHint="search" />
         </label>
         {matches.length ? (
           <ul className="cp-results">{matches.map((g) => (

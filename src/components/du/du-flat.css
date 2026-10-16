@@ -101,3 +101,8 @@
 .cp .cp-sum { margin-bottom: 1rem; scroll-margin-top: 5rem; }
 .cp .cp-step { scroll-margin-top: 8rem; }
 .cp .cp-combo__go { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+/* Search fields on phones: the field stays below the sticky header when scrolled into view, and the
+   suggestion list never runs under the on-screen keyboard (--du-vv-h is the visual viewport, set by useAboveKeyboard). */
+.du-search input, .du-finder input { scroll-margin-top: 5.5rem; scroll-margin-bottom: 1rem; }
+.cp .cp-results { max-height: calc(var(--du-vv-h, 100dvh) - 9rem); overflow-y: auto; overscroll-behavior: contain; }
