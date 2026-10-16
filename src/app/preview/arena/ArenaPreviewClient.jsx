@@ -148,7 +148,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const offset = Number(url.searchParams.get('offset')) || 0;
       const rows = state === 'empty' ? [] : fixtureFeed(url.searchParams.get('subject'), state === 'long').filter((question) => (!url.searchParams.get('chapter') || question.chapter === url.searchParams.get('chapter')) && (!url.searchParams.get('difficulty') || question.difficulty === url.searchParams.get('difficulty')));
       const raw = rows.slice(offset, offset + limit);
-      return json({ questions: state === 'held' && offset === 0 ? [] : raw, total: null, nextOffset: offset + raw.length, hasMore: raw.length === limit });
+      return json({ questions: state === 'held' && offset === 0 ? [] : raw.map(({ correct_answer: _key, explanation: _why, ...open }) => ({ ...open, ticket: 'fixture-ticket' })), total: null, nextOffset: offset + raw.length, hasMore: raw.length === limit });
     }
     if (url.pathname === '/api/leaderboard') return json(state === 'empty' ? [] : [
       { userId: 'fixture-rival', name: 'A labelled practice rival', tests: 12, totalScore: 610, isSynthetic: true },
@@ -197,6 +197,15 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     if (url.pathname.startsWith('/api/users/') && method === 'PATCH') return state === 'save-error' ? json({ error: 'Fixture profile save failure' }, 503) : json({ ok: true });
     if (url.pathname === '/api/bookmarks' && method === 'POST') return state === 'save-error' ? json({ error: 'Save limit', limit: 25 }, 402) : json({ saved: JSON.parse(init.body || '{}').saved });
+    // The feed carries no key; the answer endpoint grades the pick, as the real one does.
+    if (method === 'POST' && /^\/api\/questions\/[^/]+\/answer$/.test(url.pathname)) {
+      const id = decodeURIComponent(url.pathname.split('/')[3]);
+      const row = fixtureFeed(id.replace(/^fixture-/, '').replace(/-\d+$/, ''), false).find((question) => question.id === id);
+      if (!row) return json({ error: 'Question not found.' }, 404);
+      let choice = null;
+      try { choice = JSON.parse(init.body || '{}').choice ?? null; } catch { /* a fixture body is always JSON */ }
+      return json({ state: choice == null ? 'revealed' : choice === row.correct_answer ? 'correct' : 'incorrect', correct_answer: row.correct_answer, explanation: row.explanation });
+    }
     if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/interact')) return json({ ok: true });
     if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/vote')) return state === 'vote-error' ? json({ error: 'Fixture vote failure' }, 503) : json({ score: 1, userVote: JSON.parse(init.body || '{}').vote_type });
     if (url.pathname === '/api/questions/upload') return json({ error: 'Preview only: no question was submitted. Your draft is still here.' }, 418);

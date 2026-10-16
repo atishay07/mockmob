@@ -88,6 +88,23 @@ export async function interactWithQuestion(questionId, {
 }
 
 /**
+ * POST /api/questions/:id/answer. The feed sends no key; this returns it with the verdict once the student has answered.
+ * @param {string} questionId
+ * @param {{ choice: string|null, ticket?: string }} opts  choice null = show the answer
+ * @returns {{ state: 'correct'|'incorrect'|'revealed', correct_answer: string, explanation: string|null }}
+ */
+export async function answerQuestion(questionId, { choice = null, ticket } = {}) {
+  const res = await fetch(`/api/questions/${encodeURIComponent(questionId)}/answer`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ choice, ticket }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw Object.assign(new Error(data.error || 'Answer check failed'), { status: res.status, data });
+  return data;
+}
+
+/**
  * POST /api/bookmarks
  * @param {string} questionId
  * @param {boolean} saved

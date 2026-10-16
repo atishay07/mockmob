@@ -1,10 +1,11 @@
 import { readablePracticeQuestions } from '@/../data/practice_library';
 import { attachBankPassages } from '@/../scripts/pipeline/lib/bankSnapshot.mjs';
-import { advanceFeedPage, feedWindow,feedOptions } from '@/../data/explore_feed';
+import { advanceFeedPage, feedWindow, feedPublicOptions } from '@/../data/explore_feed';
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
+import { signFeedTicket } from '@/lib/server/feedTicket';
 import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
 import {
   failRequestDiagnostics,
@@ -36,6 +37,7 @@ function jsonWithDiagnostics(context, body, init, extra) {
  *   limit    (default 20, max 50)
  *   offset   (default 0)
  *
+ * Questions carry no correct_answer or explanation; each has a short-lived `ticket` for the answer endpoint.
  * Response: { questions: [...], total: null, nextOffset: number, hasMore: boolean }
  */
 export async function GET(request) {
@@ -123,12 +125,12 @@ export async function GET(request) {
         chapter: r.chapter,
         difficulty: r.difficulty,
         body: r.question ?? r.body,
-        options: feedOptions(r.options),
+        options: feedPublicOptions(r.options),
+        // The key and the explanation are not sent here: POST /api/questions/[id]/answer returns them once the student answers.
+        ticket: signFeedTicket(r.id),
         passage_text: r.passage_text || null,
         passage_group_id: r.passage_group_id || r.passage_id || null,
         order_index: r.order_index ?? null,
-        correct_answer: r.correct_answer,
-        explanation: r.explanation,
         tags: r.tags || [],
         ai_tier: r.ai_tier,
         ai_score: r.ai_score,

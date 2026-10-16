@@ -15,6 +15,7 @@ const BEARER_ROUTES = {
   'src/app/api/questions/feed/route.js': ['GET'],
   'src/app/api/questions/explore/route.js': ['GET'],
   'src/app/api/questions/[id]/interact/route.js': ['POST'],
+  'src/app/api/questions/[id]/answer/route.js': ['POST'],
   'src/app/api/questions/[id]/vote/route.js': ['POST'],
   'src/app/api/ai/credits/route.js': ['GET'],
   'src/app/api/me/credits/route.js': ['GET'],

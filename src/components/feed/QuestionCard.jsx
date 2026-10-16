@@ -2,7 +2,7 @@
 
 import { memo, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
-import { interactWithQuestion, setQuestionBookmark } from '@/lib/services/questionService';
+import { answerQuestion, interactWithQuestion, setQuestionBookmark } from '@/lib/services/questionService';
 import { VoteControls } from '@/components/questions/VoteControls';
 import { useToast } from '@/components/ToastProvider';
 import { questionFeedback,feedOptions } from '@/../data/explore_feed';
@@ -32,7 +32,12 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
   const startedAt = useRef(null);
   const answerLock = useRef(false);
   const saveLock = useRef(false);
-  const feedback = questionFeedback(q, selected);
+  // A row from the feed carries no key: the server grades the pick and sends the key and explanation back. A row that does
+  // carry one (the Saved list) is graded here as before.
+  const holdsKey = q.correct_answer != null;
+  const [graded, setGraded] = useState(null);
+  const feedback = holdsKey ? questionFeedback(q, selected) : graded ? { state: graded.state, correctKey: graded.correct_answer } : { state: revealed ? 'pending' : 'idle', correctKey: null };
+  const explanation = holdsKey ? q.explanation : graded?.explanation;
   // Mobi answers a verdict (right: correct, wrong: encourage), but only on the newest answered card,
   // at most one reaction per 2.5 s, and the Celebrations setting decides how much (Quiet a nod, Off none).
   const prefs = useMobiPrefs();
@@ -52,17 +57,32 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
     return () => observer.disconnect();
   }, [q.id]);
 
-  function reveal(key, keyboard) {
-    if (answerLock.current) return;
-    answerLock.current = true;
-    setSelected(key);
-    setRevealed(true);
-    const verdict = questionFeedback(q, key).state;
+  function celebrate(verdict) {
     if ((verdict === 'correct' || verdict === 'incorrect') && prefs.celebrations !== 'off' && reactNow('feed:answer')) {
       // Answers in quick succession are browsing, not reactions: he stays with the one he answered.
       claimFeedMobi(q.id);
       const act = mobiMoment(verdict === 'correct' ? 'rightAnswer' : 'wrongAnswer');
       setReact(prefs.celebrations === 'quiet' ? 'nod' : act);
+    }
+  }
+
+  function reveal(key, keyboard) {
+    if (answerLock.current) return;
+    answerLock.current = true;
+    setSelected(key);
+    setRevealed(true);
+    if (holdsKey) celebrate(questionFeedback(q, key).state);
+    else {
+      answerQuestion(q.id, { choice: key, ticket: q.ticket }).then((result) => {
+        setGraded(result);
+        celebrate(result.state);
+      }).catch(() => {
+        // The pick was not graded (offline, rate limit, expired ticket): give the card back so he can try again.
+        answerLock.current = false;
+        setSelected(null);
+        setRevealed(false);
+        toast.error('Could not check that answer. Check your connection and try again.');
+      });
     }
     if (keyboard) requestAnimationFrame(() => feedbackNode.current?.focus({ preventScroll: true }));
     interactWithQuestion(q.id, { interaction_type: key == null ? 'skip' : 'attempted', dwell_ms: Math.max(0, Date.now() - (startedAt.current ?? Date.now())), metadata: key == null ? {} : { selected_key: key } }).then((result) => {
@@ -97,7 +117,7 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
           return <button key={option.key ?? index} type="button" className="ex-option" data-state={correct ? 'correct' : wrong ? 'wrong' : 'idle'} disabled={revealed || option.key == null || feedback.state === 'unavailable'} onClick={(event) => reveal(option.key, event.detail === 0)}><span className="ex-option__key">{option.key ?? 'ABCD'[index]}</span><span>{option.text}</span>{correct ? <StatusIcon kind="success" size={18} /> : wrong ? <StatusIcon kind="error" size={18} /> : null}</button>;
         })}
       </div> : null}
-      {revealed && <div ref={feedbackNode} className="ex-feedback" data-state={feedback.state} tabIndex={-1} role="status"><div className="ex-feedback__row"><b>{feedback.state === 'correct' ? 'Correct. Keep the reasoning.' : feedback.state === 'incorrect' ? `The answer is ${feedback.correctKey}. Here’s why.` : feedback.state === 'revealed' ? `Answer: ${feedback.correctKey}` : 'The answer is unavailable.'}</b>{react && mobiOwner === q.id ? <MobiReact act={react} size={44} facing="left" /> : null}</div><p>{q.explanation || 'An explanation is not available for this question.'}</p></div>}
+      {revealed && <div ref={feedbackNode} className="ex-feedback" data-state={feedback.state} tabIndex={-1} role="status"><div className="ex-feedback__row"><b>{feedback.state === 'correct' ? 'Correct. Keep the reasoning.' : feedback.state === 'incorrect' ? `The answer is ${feedback.correctKey}. Here’s why.` : feedback.state === 'revealed' ? `Answer: ${feedback.correctKey}` : feedback.state === 'pending' ? 'Checking your answer…' : 'The answer is unavailable.'}</b>{react && mobiOwner === q.id ? <MobiReact act={react} size={44} facing="left" /> : null}</div><p>{feedback.state === 'pending' ? ' ' : explanation || 'An explanation is not available for this question.'}</p></div>}
       {recordError && <p className="ex-recorderror" role="status">Feedback is shown, but this activity could not be recorded.</p>}
       {feedback.state === 'unavailable' && !revealed && <p className="ex-recorderror">This question has no usable answer key. Try the next one.</p>}
       {savedList ? (
