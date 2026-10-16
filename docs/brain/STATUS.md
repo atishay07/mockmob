@@ -1915,3 +1915,20 @@ two v1 units back to `published` (no deletes are needed; v2 rows are ignored by 
   | Political Science | 272 | 281 |
 
 - **Restore file:** docs/brain/reports/authored-publish/authored-publish-restore-2026-10-14T18-48-05-150Z.json (`--mode=restore` hides wave 2 only).
+
+### 2026-10-16 about 15:25 IST — NTA index: applied, built, rolled back (signature mismatch), fix in progress
+
+- 14:00 IST: `nta_question_index` applied to production under the standing grant (RLS on, service role only) and built with `scripts/nta-index-build.mjs --write --allow-production`: 653 rows (english 173, accountancy 135, business_studies 181, economics 164). `CUET_EVIDENCE_SIGNING_KEY` was already in Vercel production; Vercel's own nightly snapshot verified the same 653 evidence records, so the keys match.
+- The read-only `scripts/nta-engine-run.mjs` then showed every index row rejected as `score_signature_invalid`: Accountancy and Business Studies could not start an NTA paper, Economics fell to 45 questions.
+- 14:55 IST: rolled back with `truncate public.nta_question_index` (the runbook's switch-off; the table stays). The engine run after it: Accountancy 3 of 3 papers (57 factory + 713 agent eligible), Business Studies 3 of 3 (56 + 71), Economics 3 of 3 at 50. English cannot start, as on 13 Oct (separate cause).
+- Exposure: 0 attempts completed on production from 14:00 IST to 15:20 IST, and no NTA log lines from 14:33 (Hobby keeps 1 h), so most likely no student hit it.
+- Cause (suspected, being proven on staging by branch fix/nta-index-sig-1016): `ntaIndexSignedBody` signs `verified_at` and `luna`/`gemini` as the builder holds them in JS, but PostgREST returns timestamptz as `+00:00` and numeric(4,2) rounded, so the canonical JSON differs. Tests used fakes that returned the builder's own values. Do not rebuild the index until that fix is deployed and the engine run shows `poolSource` index with 0 signature failures.
+
+### 2026-10-16 about 13:50 IST — Security: the question bank closed to the public anon key (production)
+
+- Found by the 16 Oct security review: `public.questions` kept Supabase's default grants for `anon` and `authenticated` plus the policy "anon read live questions", so anyone with the browser's public key could read all 8,196 live questions with answer keys, explanations, evidence and internal fields straight from PostgREST.
+- Checked first that nothing needs it: every server read uses the service role (`src/lib/supabase.js`), the browser client and both apps use Supabase only for sign-in.
+- Applied under the standing database grant: `supabase/migrations/20261016141000_questions_private_to_browser_roles.sql` (revoke all from anon and authenticated; service_role keeps all). Staging dry run first; undo `supabase/undo/20261016141000_questions_private_to_browser_roles.undo.sql`.
+- Verified on production: grants now postgres and service_role only; `/rest/v1/questions` with the anon key answers 401 `permission denied for table questions`; with the service role 200; www.mockmob.in `/`, `/pricing`, `/api/stats` 200.
+- Still open from the review: PERSISTENT_LIMITS_ENABLED (rate limits per instance), `/api/questions/feed` sends keys to signed-out callers (owner decision), revoke default grants on other RLS-only tables (defence in depth), the low items in the review.
+

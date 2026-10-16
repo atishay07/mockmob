@@ -74,10 +74,14 @@ async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
 
   const isSignatureValid = verifyRazorpayPaymentSignature({ orderId, paymentId, signature });
   if (!isSignatureValid) {
-    await Database.updatePaymentByOrderId(orderId, {
-      paymentId,
-      status: 'failed',
-    });
+    // A bad signature never rewrites an order that already paid (security review 16 Oct 2026): that would erase the
+    // paid evidence a later subscription event reads before it decides which access to keep.
+    if (!hasPaidPaymentEvidence(paymentRecord)) {
+      await Database.updatePaymentByOrderId(orderId, {
+        paymentId,
+        status: 'failed',
+      });
+    }
     return NextResponse.json({ error: 'Invalid Razorpay signature' }, { status: 400 });
   }
 
@@ -99,13 +103,15 @@ async function verifyOneTimeAccessPayment({ body, orderId, sessionUserId }) {
     razorpayPayment.status === 'captured';
 
   if (!paymentMatchesOrder) {
-    await Database.updatePaymentByOrderId(orderId, {
-      paymentId,
-      status: 'failed',
-      amountPaid: typeof razorpayPayment.amount === 'number' ? razorpayPayment.amount : null,
-      accessUntil: null,
-      rawPayment: razorpayPayment,
-    });
+    if (!hasPaidPaymentEvidence(paymentRecord)) {
+      await Database.updatePaymentByOrderId(orderId, {
+        paymentId,
+        status: 'failed',
+        amountPaid: typeof razorpayPayment.amount === 'number' ? razorpayPayment.amount : null,
+        accessUntil: null,
+        rawPayment: razorpayPayment,
+      });
+    }
     return NextResponse.json({ error: 'Payment details do not match the access order' }, { status: 400 });
   }
 
