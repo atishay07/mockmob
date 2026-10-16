@@ -360,3 +360,31 @@ class _CollapsingTitleDelegate extends SliverPersistentHeaderDelegate {
       old.textScale != textScale ||
       old.gutter != gutter;
 }
+
+/// One scroll-to-top for every tab reselect (AP1-12, MOTION.md 5 item 4): from more than 1.5
+/// viewports down it jumps to one viewport and glides the rest over 360 ms on Emphasized;
+/// otherwise it glides over 300 ms. It never collapses the bar and never replays an entrance
+/// (the list only scrolls). Under reduced motion it jumps.
+abstract final class MmScroll {
+  /// Past this many viewports the trip starts with a jump.
+  static const double jumpAfterViewports = 1.5;
+  static const Duration longGlide = Duration(milliseconds: 360);
+  static const Duration shortGlide = Duration(milliseconds: 300);
+
+  /// Where the trip jumps first (null: no jump) and how long the glide takes.
+  static ({double? jumpTo, Duration glide}) planToTop(double pixels, double viewport) =>
+      pixels > viewport * jumpAfterViewports ? (jumpTo: viewport, glide: longGlide) : (jumpTo: null, glide: shortGlide);
+
+  static Future<void> toTop(BuildContext context, ScrollController controller) async {
+    if (!controller.hasClients) return;
+    final position = controller.position;
+    if (position.pixels <= position.minScrollExtent) return;
+    if (Motion.reduced(context)) {
+      controller.jumpTo(position.minScrollExtent);
+      return;
+    }
+    final plan = planToTop(position.pixels - position.minScrollExtent, position.viewportDimension);
+    if (plan.jumpTo != null) controller.jumpTo(position.minScrollExtent + plan.jumpTo!);
+    await controller.animateTo(position.minScrollExtent, duration: plan.glide, curve: Motion.emphasized);
+  }
+}

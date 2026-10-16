@@ -179,13 +179,35 @@ class MmRiseTransition extends StatelessWidget {
 
 /// A container transform: the page shows through a rounded window that grows from [origin]
 /// (global) to the full screen, its corners opening from 24 dp to square, while a raised fill in
-/// the window gives way to the page. Clip and fade only; the page is laid out once.
+/// the window gives way to the page. Clip, scale and fade only; the page is laid out once.
+///
+/// MOTION.md C4 and C8: the page's content comes through over 30 to 80% of the raw controller on
+/// Glide (the raised fill alone carries 0 to 30%), and no glyph shows while the window is under
+/// 80% of its final size. The page grows from 0.94 about the origin's centre while it is clipped.
+/// Pop decelerates into the card on Emphasized flipped, so it never holds and then snaps.
 class MmContainerTransform extends StatelessWidget {
   const MmContainerTransform({super.key, required this.animation, required this.origin, required this.child});
 
   final Animation<double> animation;
   final Rect origin;
   final Widget child;
+
+  /// The page's scale when the window is closed.
+  static const double startScale = 0.94;
+
+  static const Interval _content = Interval(0.30, 0.80, curve: Motion.glide);
+
+  /// The window's growth `t` (0 at the origin, 1 full screen) and the content's opacity for a
+  /// raw controller value. [reverse] is a pop.
+  static ({double t, double content}) frameAt(double raw, {required bool reverse}) {
+    final v = raw.clamp(0.0, 1.0);
+    final t = reverse ? Motion.emphasized.flipped.transform(v) : Motion.emphasized.transform(v);
+    // Never text in a half-grown window: content is held at 0 until the window passes 80%.
+    final gate = ((t - 0.8) / 0.2).clamp(0.0, 1.0);
+    final eased = _content.transform(v);
+    final content = v >= 1 ? 1.0 : (eased < gate ? eased : gate);
+    return (t: t, content: content);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,27 +216,39 @@ class MmContainerTransform extends StatelessWidget {
       animation: animation,
       child: child,
       builder: (context, child) {
-        final t = Motion.emphasized.transform(animation.value.clamp(0.0, 1.0));
-        return _window(t, fill, child!);
+        final frame = frameAt(animation.value, reverse: animation.status == AnimationStatus.reverse);
+        return _window(frame.t, frame.content, fill, child!);
       },
     );
   }
 
-  Widget _window(double t, Color fill, Widget child) {
-    // Content comes through over the first 45% of the travel; the raised fill fades as it does.
-    final content = (t / 0.45).clamp(0.0, 1.0);
-    return ClipPath(
-      clipper: _WindowClipper(origin: origin, t: t),
-      // Once open, nothing is clipped: the page costs what it costs anywhere else.
-      clipBehavior: t >= 1 ? Clip.none : Clip.antiAlias,
-      child: Stack(
-        fit: StackFit.passthrough,
-        children: [
-          Opacity(opacity: content, child: child),
-          if (content < 1)
-            Positioned.fill(child: IgnorePointer(child: ColoredBox(color: fill.withValues(alpha: 1 - content)))),
-        ],
-      ),
+  Widget _window(double t, double content, Color fill, Widget child) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final size = constraints.biggest;
+        final centre = origin.center;
+        final alignment = size.width > 0 && size.height > 0 && size.isFinite
+            ? Alignment(centre.dx / size.width * 2 - 1, centre.dy / size.height * 2 - 1)
+            : Alignment.center;
+        final scale = t >= 1 ? 1.0 : startScale + (1 - startScale) * t;
+        return ClipPath(
+          clipper: _WindowClipper(origin: origin, t: t),
+          // Once open, nothing is clipped: the page costs what it costs anywhere else.
+          clipBehavior: t >= 1 ? Clip.none : Clip.antiAlias,
+          child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Transform.scale(
+                scale: scale,
+                alignment: alignment,
+                child: Opacity(opacity: content, child: child),
+              ),
+              if (content < 1)
+                Positioned.fill(child: IgnorePointer(child: ColoredBox(color: fill.withValues(alpha: 1 - content)))),
+            ],
+          ),
+        );
+      },
     );
   }
 }
@@ -315,7 +349,18 @@ class FadingBranchContainer extends StatefulWidget {
 
 class _FadingBranchContainerState extends State<FadingBranchContainer> with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(vsync: this, duration: FadingBranchContainer.fadeOut + FadingBranchContainer.fadeIn, value: 1);
-  int? _previous;
+  late int _current = widget.currentIndex;
+
+  /// Branches fading out, with the opacity and offset each had when the switch began (MOTION.md
+  /// 1.1 Robustness: a switch during a switch starts from the current value, nothing jumps). A
+  /// third branch still on screen from an earlier switch fades out with the rest over the out
+  /// share (90 ms) instead of going offstage.
+  final Map<int, ({double opacity, double dx})> _leaving = {};
+
+  /// The incoming branch's opacity and offset when the switch began: 0 and a full slide for a
+  /// branch that was offstage, its live values for one that was mid-fade.
+  double _inFrom = 1;
+  double _inDxFrom = 0;
 
   /// 1 when the new branch is to the right of the old one (it slides in from the right).
   double _side = 1;
@@ -332,21 +377,54 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
   late final Animation<double> _in = CurvedAnimation(parent: _controller, curve: const Interval(_overlapStart, 1, curve: Motion.glide));
   late final Animation<double> _out = ReverseAnimation(CurvedAnimation(parent: _controller, curve: Interval(0, _split + 0.1, curve: Motion.exit)));
 
+  late final List<Animation<double>> _opacities = [
+    for (var i = 0; i < widget.children.length; i++) _BranchOpacity(_controller, () => _opacityOf(i)),
+  ];
+
   @override
   void initState() {
     super.initState();
     _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed && _previous != null) setState(() => _previous = null);
+      if (status == AnimationStatus.completed && _leaving.isNotEmpty) setState(_leaving.clear);
     });
+  }
+
+  double _inProgress() => _reducedSwitch ? _controller.value : _in.value;
+  double _outProgress() => _reducedSwitch ? 1 - _controller.value : _out.value;
+
+  double _opacityOf(int i) {
+    if (i == _current) return _inFrom + (1 - _inFrom) * _inProgress();
+    final leaving = _leaving[i];
+    if (leaving != null) return leaving.opacity * _outProgress();
+    return 0;
+  }
+
+  double _dxOf(int i) {
+    if (_reducedSwitch) return 0;
+    if (i == _current) return _inDxFrom * (1 - _in.value);
+    final leaving = _leaving[i];
+    if (leaving != null) return leaving.dx - FadingBranchContainer.drift * _side * (1 - _out.value);
+    return 0;
   }
 
   @override
   void didUpdateWidget(FadingBranchContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentIndex == widget.currentIndex) return;
-    _side = widget.currentIndex > oldWidget.currentIndex ? 1 : -1;
+    if (widget.currentIndex == _current) return;
+    final next = widget.currentIndex;
+    // Snapshot what is on screen now, before the switch changes the roles.
+    final snapshot = <int, ({double opacity, double dx})>{
+      for (final i in {_current, ..._leaving.keys}) i: (opacity: _opacityOf(i), dx: _dxOf(i)),
+    };
+    final incoming = snapshot.remove(next);
+    _side = next > _current ? 1 : -1;
     _reducedSwitch = Motion.reduced(context);
-    _previous = oldWidget.currentIndex;
+    _leaving
+      ..clear()
+      ..addEntries(snapshot.entries.where((e) => e.value.opacity > 0.001));
+    _inFrom = incoming?.opacity ?? 0;
+    _inDxFrom = incoming?.dx ?? FadingBranchContainer.slide * _side;
+    _current = next;
     _controller.duration = _reducedSwitch ? Motion.reducedFade : FadingBranchContainer.fadeOut + FadingBranchContainer.fadeIn;
     _controller.forward(from: 0);
   }
@@ -359,42 +437,24 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
 
   @override
   Widget build(BuildContext context) {
-    final previous = _previous;
-    final reduced = _reducedSwitch;
     return Stack(
       fit: StackFit.expand,
       children: [
         for (var i = 0; i < widget.children.length; i++)
           Offstage(
-            offstage: i != widget.currentIndex && i != previous,
+            offstage: i != _current && !_leaving.containsKey(i),
             child: TickerMode(
-              enabled: i == widget.currentIndex,
+              enabled: i == _current,
               // Same widget types for every branch, so switching tabs never remounts one.
               child: IgnorePointer(
-                ignoring: i != widget.currentIndex,
+                ignoring: i != _current,
                 child: FadeTransition(
-                  opacity: i == widget.currentIndex
-                      ? (reduced ? _controller : _in)
-                      : i == previous
-                      ? (reduced ? ReverseAnimation(_controller) : _out)
-                      : kAlwaysCompleteAnimation,
-                  // Always the same wrapper, so a branch never remounts; only the two branches
-                  // in the switch are offset.
+                  opacity: i < _opacities.length ? _opacities[i] : kAlwaysCompleteAnimation,
+                  // Always the same wrapper, so a branch never remounts; only the branches in
+                  // the switch are offset.
                   child: AnimatedBuilder(
                     animation: _controller,
-                    builder: (context, child) => Transform.translate(
-                      offset: Offset(
-                        reduced
-                            ? 0
-                            : i == widget.currentIndex
-                            ? FadingBranchContainer.slide * _side * (1 - _in.value)
-                            : i == previous && _controller.isAnimating
-                            ? -FadingBranchContainer.drift * _side * (1 - _out.value)
-                            : 0,
-                        0,
-                      ),
-                      child: child,
-                    ),
+                    builder: (context, child) => Transform.translate(offset: Offset(_dxOf(i), 0), child: child),
                     child: widget.children[i],
                   ),
                 ),
@@ -404,4 +464,16 @@ class _FadingBranchContainerState extends State<FadingBranchContainer> with Sing
       ],
     );
   }
+}
+
+/// One branch's opacity in a switch, read from the container's state on every tick.
+class _BranchOpacity extends Animation<double> with AnimationWithParentMixin<double> {
+  _BranchOpacity(this.parent, this._value);
+
+  @override
+  final Animation<double> parent;
+  final double Function() _value;
+
+  @override
+  double get value => _value().clamp(0.0, 1.0);
 }

@@ -204,13 +204,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       // Coming back to Today: Mobi, when it is on the hero, says hello again.
       final hero = ref.read(todayViewProvider).hero;
       if (hero is MoveHero && hero.art.isMobi) _mobi.play(MobiAct.hello);
-      if (!_scroll.hasClients) return;
-      final glide = Motion.of(context, Motion.emphasizedDuration);
-      if (glide <= Duration.zero) {
-        _scroll.jumpTo(0);
-      } else {
-        unawaited(_scroll.animateTo(0, duration: glide, curve: Motion.emphasized));
-      }
+      unawaited(MmScroll.toTop(context, _scroll));
     });
     ref.listen(networkStatusProvider, (previous, next) {
       if (previous == NetworkStatus.offline && next == NetworkStatus.online && _failing) _retrySoon();

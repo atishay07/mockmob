@@ -178,9 +178,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(tabReselectProvider, (_, event) {
-      if (event?.tabIndex == 1 && _scroll.hasClients) {
-        _scroll.animateTo(0, duration: Motion.of(context, Motion.card), curve: Motion.out);
-      }
+      if (event?.tabIndex == 1) unawaited(MmScroll.toTop(context, _scroll));
     });
 
     // Mobi nods once when the card lands for a new subject or a new paper (brief 2.9), never on
@@ -240,13 +238,17 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                 // line and the quick pair, the heading, the subjects, then the longer modes (their
                 // own rows) and the shelves.
                 child: MmStagger(
+                  // The lead rises 8 dp here, not 14 (app-practice-review-1016 s2.8).
+                  rise: 8,
                   // The app's own pull (MOTION.md C10): the ring is the only thing that answers it,
                   // so the platform's stretch is off and the figures roll from what they showed.
                   child: MmPullRefresh(
                     onRefresh: _refresh,
                     onError: _onRefreshFailed,
                     child: ScrollConfiguration(
-                      behavior: ScrollConfiguration.of(context).copyWith(overscroll: false),
+                      // The top edge draws only the pull ring (MmPullRefresh drops the leading
+                      // stretch); the bottom keeps the platform's stretch (AP1-11, MOTION.md C10).
+                      behavior: ScrollConfiguration.of(context),
                   child: ListView(
                     // Back from a result or a setup lands where the student left the list.
                     key: const PageStorageKey<String>('practice-tab-list'),

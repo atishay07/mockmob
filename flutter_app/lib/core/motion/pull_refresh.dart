@@ -181,7 +181,14 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
       customSemanticsActions: {const CustomSemanticsAction(label: 'Refresh'): () => unawaited(_refresh())},
       child: NotificationListener<ScrollNotification>(
         onNotification: _onScroll,
-        child: Stack(
+        // The top edge answers with the ring alone: the platform's leading stretch is dropped,
+        // the trailing edge keeps it, so the bottom of a list still feels like an edge (M16).
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (n) {
+            if (widget.enabled && n.leading && n.depth == 0) n.disallowIndicator();
+            return false;
+          },
+          child: Stack(
           children: [
             widget.child,
             Positioned(
@@ -205,6 +212,7 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
               ),
             ),
           ],
+        ),
         ),
       ),
     );

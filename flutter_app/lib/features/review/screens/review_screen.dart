@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -66,9 +67,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(tabReselectProvider, (_, event) {
-      if (event?.tabIndex == 2 && _scroll.hasClients) {
-        _scroll.animateTo(0, duration: const Duration(milliseconds: 360), curve: Curves.easeOutCubic);
-      }
+      if (event?.tabIndex == 2) unawaited(MmScroll.toTop(context, _scroll));
     });
     final colors = context.mmColors;
     final inputs = ref.watch(reviewInputsProvider);

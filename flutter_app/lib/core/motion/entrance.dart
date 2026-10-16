@@ -40,10 +40,15 @@ class MmStagger extends StatefulWidget {
     this.routeStart = 0.3,
     this.routeStep = 0.06,
     this.routeLength = 0.5,
+    this.rise,
   });
 
   final Widget child;
   final MmStaggerDriver driver;
+
+  /// The lead's rise for this group, in dp (null: [Motion.enterRise], 14). The Practice tab
+  /// passes 8 (app-practice-review-1016 s2.8). Items 1 and 2 rise at most 6; the rest only fade.
+  final double? rise;
 
   /// Waits this long before the first item ([MmStaggerDriver.self] only).
   final Duration delay;
@@ -71,8 +76,7 @@ class _MmStaggerState extends State<MmStagger> with SingleTickerProviderStateMix
   bool _active = false;
   bool _decided = false;
 
-  Duration get _total =>
-      widget.delay + Motion.staggerStep * Motion.staggerCap + Motion.enterDuration;
+  Duration get _total => widget.delay + _SelfTiming.span;
 
   @override
   void didChangeDependencies() {
@@ -141,6 +145,7 @@ class _MmStaggerState extends State<MmStagger> with SingleTickerProviderStateMix
     final parent = _controller ?? _route;
     return _StaggerScope(
       parent: _active ? parent : null,
+      leadRise: widget.rise,
       timing: widget.driver == MmStaggerDriver.self
           ? _SelfTiming(delay: widget.delay, total: _total)
           : _RouteTiming(start: widget.routeStart, step: widget.routeStep, length: widget.routeLength),
@@ -155,18 +160,38 @@ abstract class _Timing {
   Interval intervalFor(int index);
 }
 
+/// The default choreography (AP1-04, standards s8 [T-024, T-112, T-114]): one lead, then its
+/// meaning, then everything else as one group, so no two screens arrive as the same per-row
+/// cascade.
+/// - Index 0, the lead (hero, number or object): rises 14 dp on Emphasized over 360 ms.
+/// - Indices 1 and 2: fade up 6 dp at 60 and 120 ms, over 300 ms.
+/// - Index 3 and later: one group, opacity only, over 200 ms from 160 ms.
 class _SelfTiming extends _Timing {
   const _SelfTiming({required this.delay, required this.total});
 
   final Duration delay;
   final Duration total;
 
+  static const Duration leadLength = Duration(milliseconds: 360);
+  static const Duration secondStep = Duration(milliseconds: 60);
+  static const Duration secondLength = Duration(milliseconds: 300);
+  static const Duration groupStart = Duration(milliseconds: 160);
+  static const Duration groupLength = Duration(milliseconds: 200);
+
+  /// From the first item's start to the last item's landing.
+  static const Duration span = Duration(milliseconds: 420);
+
   @override
   Interval intervalFor(int index) {
     final ms = total.inMicroseconds.toDouble();
-    final start = (delay + Motion.staggerStep * index.clamp(0, Motion.staggerCap)).inMicroseconds / ms;
-    final end = start + Motion.enterDuration.inMicroseconds / ms;
-    return Interval(start.clamp(0.0, 1.0), end.clamp(0.0, 1.0), curve: Motion.emphasized);
+    final (Duration start, Duration length, Curve curve) = switch (index) {
+      <= 0 => (Duration.zero, leadLength, Motion.emphasized),
+      1 || 2 => (secondStep * index, secondLength, Motion.emphasized),
+      _ => (groupStart, groupLength, Motion.out),
+    };
+    final s = (delay + start).inMicroseconds / ms;
+    final e = (delay + start + length).inMicroseconds / ms;
+    return Interval(s.clamp(0.0, 1.0), e.clamp(0.0, 1.0), curve: curve);
   }
 
   @override
@@ -185,7 +210,7 @@ class _RouteTiming extends _Timing {
 
   @override
   Interval intervalFor(int index) {
-    final s = (start + step * index.clamp(0, Motion.staggerCap)).clamp(0.0, 0.95);
+    final s = (start + step * index.clamp(0, 3)).clamp(0.0, 0.95);
     return Interval(s, (s + length).clamp(s + 0.05, 1.0), curve: Motion.emphasized);
   }
 
@@ -197,34 +222,50 @@ class _RouteTiming extends _Timing {
 }
 
 class _StaggerScope extends InheritedWidget {
-  const _StaggerScope({required this.parent, required this.timing, required super.child});
+  const _StaggerScope({required this.parent, required this.timing, required this.leadRise, required super.child});
 
   /// Null while the group is at rest.
   final Animation<double>? parent;
   final _Timing timing;
+  final double? leadRise;
 
   static _StaggerScope? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<_StaggerScope>();
 
   @override
-  bool updateShouldNotify(_StaggerScope old) => old.parent != parent || old.timing != timing;
+  bool updateShouldNotify(_StaggerScope old) => old.parent != parent || old.timing != timing || old.leadRise != leadRise;
 }
 
 /// One item of an [MmStagger]: fades in and rises [rise] from [scale] at its turn. Outside a
 /// group, or once the group is at rest, it is just its child (the wrappers stay, so the child's
 /// state is never lost).
+///
+/// By default the rise follows the item's place: the lead (index 0) rises the group's lead rise
+/// (14 dp) from [Motion.enterScale], items 1 and 2 rise 6 dp, and later items only fade.
 class MmStaggerItem extends StatefulWidget {
   const MmStaggerItem({
     super.key,
     required this.index,
     required this.child,
-    this.rise = Motion.enterRise,
-    this.scale = Motion.enterScale,
+    this.rise,
+    this.scale,
   });
 
   final int index;
   final Widget child;
-  final double rise;
-  final double scale;
+
+  /// Null: by place (see the class doc).
+  final double? rise;
+
+  /// Null: [Motion.enterScale] for the lead, 1 for the rest.
+  final double? scale;
+
+  /// The rise an item gets by its place, given the group's lead rise.
+  static double riseFor(int index, {double? leadRise}) {
+    final lead = leadRise ?? Motion.enterRise;
+    if (index <= 0) return lead;
+    if (index <= 2) return lead < 6 ? lead : 6;
+    return 0;
+  }
 
   @override
   State<MmStaggerItem> createState() => _MmStaggerItemState();
@@ -253,9 +294,15 @@ class _MmStaggerItemState extends State<MmStaggerItem> {
 
   @override
   Widget build(BuildContext context) {
+    final leadRise = _StaggerScope.maybeOf(context)?.leadRise;
     return FadeTransition(
       opacity: _progress,
-      child: _RiseTransition(progress: _progress, rise: widget.rise, scale: widget.scale, child: widget.child),
+      child: _RiseTransition(
+        progress: _progress,
+        rise: widget.rise ?? MmStaggerItem.riseFor(widget.index, leadRise: leadRise),
+        scale: widget.scale ?? (widget.index <= 0 ? Motion.enterScale : 1),
+        child: widget.child,
+      ),
     );
   }
 }
