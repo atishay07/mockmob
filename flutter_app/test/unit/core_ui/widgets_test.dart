@@ -136,16 +136,21 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('the bar is 64 dp tall and every slot is at least 48 by 64, even at 320 dp', (tester) async {
-      await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)), size: const Size(320, 700));
-      expect(tester.getSize(find.byType(MmBottomBar)).height, MmBar.height);
-      for (final label in ['Today', 'Practice', 'Start', 'Review', 'Colleges', 'You']) {
-        final slot = find.ancestor(of: find.text(label), matching: find.byType(GestureDetector)).first;
-        final size = tester.getSize(slot);
-        expect(size.width, greaterThanOrEqualTo(48), reason: label);
-        expect(size.height, MmBar.height, reason: label);
-      }
-    });
+    // NAV-1017 6.1: a tab slot is 49.6 dp at 360 and wider above; at 320 the five tabs and the
+    // 64 dp key share 304 dp, so a slot is 45.6 (above the 44 dp floor the spec sets there). The
+    // whole slot is the target, 64 tall; the key is a 64 dp circle.
+    for (final (width, floor) in const [(320.0, 44.0), (360.0, 48.0), (412.0, 48.0)]) {
+      testWidgets('the bar is 64 dp tall; every tab is at least $floor by 64 at ${width.toInt()} dp, the key 64 by 64', (tester) async {
+        await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)), size: Size(width, 700));
+        expect(tester.getSize(find.byType(MmBottomBar)).height, MmBar.height);
+        for (final label in ['Today', 'Practice', 'Review', 'Colleges', 'You', 'Start']) {
+          final slot = find.ancestor(of: find.text(label), matching: find.byType(GestureDetector)).first;
+          final size = tester.getSize(slot);
+          expect(size.width, greaterThanOrEqualTo(label == 'Start' ? MmBar.keySize : floor), reason: label);
+          expect(size.height, MmBar.height, reason: label);
+        }
+      });
+    }
   });
 
   group('SavePill', () {

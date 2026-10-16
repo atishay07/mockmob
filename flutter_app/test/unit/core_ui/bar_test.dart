@@ -46,7 +46,7 @@ BarIconPainter _painterOf(WidgetTester tester, BarIconKind kind) => tester.widge
 double _onOf(WidgetTester tester, BarIconKind kind) => _painterOf(tester, kind).on.value;
 
 double _scaleOf(WidgetTester tester, BarIconKind kind) =>
-    tester.widget<Transform>(find.ancestor(of: _iconOf(kind), matching: find.byType(Transform)).first).transform.getMaxScaleOnAxis();
+    tester.widget<Transform>(find.ancestor(of: _iconOf(kind), matching: find.byType(Transform)).first).transform.entry(0, 0);
 
 BarLensPainter _lens(WidgetTester tester) =>
     tester.widgetList<CustomPaint>(find.byType(CustomPaint)).map((w) => w.painter).whereType<BarLensPainter>().first;

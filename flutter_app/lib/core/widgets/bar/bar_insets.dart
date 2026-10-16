@@ -48,10 +48,12 @@ class MmBarInsets extends InheritedWidget {
 }
 
 /// The ground fading in behind the bar (replaces the old `DockScrim`). It runs from 40 dp above
-/// the bar's top (or the capsule's, while it shows) to the screen's bottom: clear at the top,
-/// ground at 85% 16 dp below the bar's top, solid at the bar's bottom edge. The bar's upper half,
-/// where the icons sit, shows content moving behind the glass; its lower half, where the labels
-/// sit, is always over at least 85% ground, so labels keep 4.5:1 over any page.
+/// the bar's top (or the capsule's, while it shows) to the screen's bottom: clear at the top, 25%
+/// ground at the bar's top, 45% at its bottom edge and 80% at the screen's bottom. It only
+/// separates the floating row from the page; it no longer erases what scrolls under the glass,
+/// so content shows through the frost as soft colour and shape (L33, NAV-1017 6.7, GLASS-1017
+/// 6.1). Legibility is the glass's job: its luminosity step keeps the labels above 4.5:1 over
+/// any page, from paper white to a volt key (`BarGlass`).
 class BarScrim extends StatelessWidget {
   const BarScrim({super.key, required this.bottomInset, this.capsule = false});
 
@@ -68,16 +70,16 @@ class BarScrim extends StatelessWidget {
     final ground = context.mmColors.ground;
     final height = heightFor(bottomInset, capsule: capsule);
     // Stops measured from the top of whichever surface is highest (bar or capsule).
-    final surfaceTop = 40.0;
-    final dense = (surfaceTop + 16) / height;
-    final solid = (height - bottomInset - MmBar.lift) / height;
+    const surfaceTop = 40.0;
+    final top = surfaceTop / height;
+    final bottom = ((height - bottomInset - MmBar.lift) / height).clamp(top, 1.0);
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          stops: [0, dense, solid.clamp(dense, 1.0), 1],
-          colors: [ground.withValues(alpha: 0), ground.withValues(alpha: 0.85), ground, ground],
+          stops: [0, top, bottom, 1],
+          colors: [ground.withValues(alpha: 0), ground.withValues(alpha: 0.25), ground.withValues(alpha: 0.45), ground.withValues(alpha: 0.8)],
         ),
       ),
     );

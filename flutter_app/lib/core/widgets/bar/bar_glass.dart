@@ -14,7 +14,7 @@ typedef BarShape = RRect Function(Size size);
 /// * Full: one `BackdropFilter.grouped` per surface inside the shell's `BackdropGroup` (so the
 ///   capsule, the live capsule and a glass Start key share one backdrop snapshot), clipped to the
 ///   surface's own shape. What scrolls under it is lifted to 1.5 saturation, its luminosity is
-///   compressed toward the glass (Night: scaled to 40%; Day: lifted to at least 45% white), then
+///   compressed toward the glass (Night: scaled to 50%; Day: lifted to at least 45% white), then
 ///   blurred at sigma 32 ([MmBar.blurSigma], the owner's frost, L33), under a warm tint at 50%
 ///   (Night) or 55% (Daylight). Content shows through as soft colour and shape, never as an
 ///   opaque slab, and the labels stay above 5:1 over any backdrop from black to paper white or
@@ -46,7 +46,7 @@ class BarGlass extends StatefulWidget {
   );
 
   /// How far Night scales the backdrop's light down, and the white floor Day lifts it to.
-  static const double nightLuminosity = 0.40;
+  static const double nightLuminosity = 0.50;
   static const double dayFloor = 0.45;
 
   /// The colour matrix applied to the backdrop before the blur: saturation [MmBar.saturation]
@@ -134,7 +134,7 @@ class BarGlassSpec {
       const shadow = Color(0x66000000); // black 40%
       return switch (quality) {
         GlassQuality.full => const BarGlassSpec(tint: Color(0x801B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow),
-        GlassQuality.lite => const BarGlassSpec(tint: Color(0xEB1B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, noise: 0.03),
+        GlassQuality.lite => const BarGlassSpec(tint: Color(0xF71B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, noise: 0.03),
         GlassQuality.off => const BarGlassSpec(
           tint: Color(0xFF1B1A16),
           edgeTop: edgeTop,
@@ -151,7 +151,7 @@ class BarGlassSpec {
     return switch (quality) {
       GlassQuality.full => const BarGlassSpec(tint: Color(0x8CFFFDF8), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, hairline: hairline),
       GlassQuality.lite => const BarGlassSpec(
-        tint: Color(0xF0FFFDF8),
+        tint: Color(0xF7FFFDF8),
         edgeTop: edgeTop,
         edgeMid: edgeMid,
         shadow: shadow,

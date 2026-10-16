@@ -42,6 +42,7 @@ class _Shot {
     this.textScale = 1,
     this.width,
     this.ruler = false,
+    this.behind = false,
   });
 
   final int branch;
@@ -59,6 +60,40 @@ class _Shot {
   /// row's centre (y 32, compact 38), the label centre line (y 46), the capsule's and the key's
   /// top and bottom edges, every slot's centre and the key's centre.
   final bool ruler;
+
+  /// Puts real content right under the bar (a line of text, a volt key and a card's edge), so the
+  /// frost is judged over something (L33; GLASS-1017 check A3: no volt behind a label at full
+  /// strength, no glyph readable through the glass).
+  final bool behind;
+}
+
+/// What scrolls under the bar on a [_Shot.behind] row.
+class _Behind extends StatelessWidget {
+  const _Behind();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.mmColors;
+    final type = context.mmType;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text('Business Studies, 162 questions in the bank', style: type.body.copyWith(color: c.ink)),
+          const SizedBox(height: 10),
+          Container(
+            height: 52,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(color: c.volt, borderRadius: BorderRadius.circular(26)),
+            child: Text('Start 10 questions', style: type.body.copyWith(color: c.voltInk, fontWeight: FontWeight.w700)),
+          ),
+          const SizedBox(height: 10),
+          Text('Partnership: 4 mistakes to repair', style: type.body.copyWith(color: c.ink2)),
+        ],
+      ),
+    );
+  }
 }
 
 /// The ruler of [_Shot.ruler]: hairlines in a colour no part of the bar uses.
@@ -126,6 +161,7 @@ class _Scene extends StatelessWidget {
         artHeight: 420,
         child: Stack(
           children: [
+            if (shot.behind) const Positioned(left: 0, right: 0, bottom: _inset - 4, child: _Behind()),
             Positioned(
               left: 0,
               right: 0,
@@ -273,6 +309,16 @@ void main() {
     const _Shot(live: BarOffline(answers: 3)),
     const _Shot(live: BarSynced()),
     _Shot(live: BarMove(title: 'Accountancy repair', detail: '15 min', onStart: () {})),
+  ]);
+
+  // The frost over real content (L33): a line of text, a volt key and a muted line pass under the
+  // bar. Full (blurred, the volt dimmed to olive at Night and paled at Day), compact, then Lite
+  // and Off.
+  _barSheet('bar_frost', const [
+    _Shot(branch: 1, behind: true, quality: GlassQuality.full),
+    _Shot(branch: 1, behind: true, quality: GlassQuality.full, compact: true),
+    _Shot(branch: 1, behind: true, quality: GlassQuality.lite),
+    _Shot(branch: 1, behind: true, quality: GlassQuality.off),
   ]);
 
   // Glass tiers: Full (live blur), Lite (tint and noise), Off (solid with a hairline).

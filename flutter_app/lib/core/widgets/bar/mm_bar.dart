@@ -1348,8 +1348,10 @@ class _BadgeState extends State<_Badge> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final fill = colors.isNight ? colors.volt : colors.ink;
-    final ink = colors.isNight ? colors.voltInk : const Color(0xFFF4F0E6);
+    // Ink, not volt, in both themes: the lime Start key beside the capsule and the page's own
+    // primary action are the only lime fills on a screen (one volt fill per screen).
+    final fill = colors.ink;
+    final ink = colors.isNight ? const Color(0xFF1B1A16) : const Color(0xFFF4F0E6);
     final text = widget.text;
     final reduced = Motion.reduced(context);
 
