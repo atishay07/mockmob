@@ -19,7 +19,7 @@ import '../../insights/data/subject_names.dart' show subjectDisplayName;
 import '../../rhythm/data/bests.dart';
 import '../../rhythm/data/rhythm_providers.dart';
 import '../../rhythm/logic/fastest_answer.dart';
-import '../copy.dart';
+import '../copy.dart' hide subjectDisplayName;
 import '../data/student_target.dart';
 import '../widgets/you_page.dart' show youText;
 import '../widgets/you_row.dart';
@@ -40,17 +40,17 @@ class BestsRows extends ConsumerWidget {
     final rhythm = ref.watch(rhythmSnapshotProvider.select((s) => s.rhythm));
     final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
     if (bestsState.isInitialLoading && bestsState.value == null) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(horizontal: youText),
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: youText),
         child: SkeletonGroup(
           label: YouCopy.bestsTitle,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               for (var i = 0; i < 3; i++) ...[
-                SizedBox(height: MmSpace.s16),
-                Row(children: [Skeleton.line(width: 64, height: 24), SizedBox(width: MmSpace.s16), Skeleton.line(width: 160, height: 14)]),
-                SizedBox(height: MmSpace.s16),
+                const SizedBox(height: MmSpace.s16),
+                const Row(children: [Skeleton.line(width: 64, height: 24), SizedBox(width: MmSpace.s16), Skeleton.line(width: 160, height: 14)]),
+                const SizedBox(height: MmSpace.s16),
               ],
             ],
           ),
