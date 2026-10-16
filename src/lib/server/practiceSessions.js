@@ -2,7 +2,7 @@ import 'server-only';
 import { Database } from '@/../data/db';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
-import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
+import { fineTuneViolation, getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { scoreSession, scorePracticeSubmission, submitMeta } from '@/../data/recovery';
 import { openPractice, openStart, practiceId, sealPractice, sealStart } from '@/../data/practice_ticket';
 import { publicSessionView } from '@/../shared/recoveryContract';
@@ -36,10 +36,13 @@ export async function startPractice(userId, input, server = {}) {
   const mode = getMode(input.mode || 'quick');
   const chapters = (typeof input.chapters === 'string' ? input.chapters.split(',') : input.chapter ? [input.chapter] : []).filter(Boolean).slice(0, 12);
   if (chapters.some(chapter => !isValidTopSyllabusPair(selection.internalSubject, chapter))) throw new Error('INVALID_CHAPTER');
+  const difficulty = ['easy', 'medium', 'hard'].includes(input.difficulty) ? input.difficulty : '';
+  // The fine-tune scope (data/test_modes.js fineTuneScope): chapters only for Quick practice, a difficulty only where the
+  // mode allows one. Every client sends only these, so a request asking for more was crafted, and is refused, not trimmed.
+  const outOfScope = fineTuneViolation(mode.id, { chapters, difficulty });
+  if (outOfScope) throw new Error(outOfScope);
   const user = await Database.getUserById(userId);
   if (mode.premium && !user?.isPremium) throw new Error('PREMIUM_REQUIRED');
-  const difficulty = ['easy', 'medium', 'hard'].includes(input.difficulty) ? input.difficulty : '';
-  if (difficulty && !mode.allowDifficultyOverride) throw new Error('DIFFICULTY_NOT_ALLOWED');
   if (difficulty && !user?.isPremium) throw new Error('PREMIUM_REQUIRED');
   const count = resolveCount(mode, Math.max(5, Math.min(50, Number(input.count) || 10)));
   if (durableLearningEnabled()) {

@@ -12,7 +12,7 @@ import { api, apiPost } from '@/lib/fetcher';
 import { useAuth } from '@/components/AuthProvider';
 import { startMobPaper } from '@/components/mob/useMob';
 import { VoteControls } from '@/components/questions/VoteControls';
-import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
+import { fineTuneScope, getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { progressFromEvents, resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { plainOptionTexts } from '@/../data/option_text';
 import './nta-classic.css';
@@ -184,12 +184,15 @@ function TestRunner() {
   const { user, status: authStatus, refreshSession } = useAuth();
 
   const subjectId = searchParams.get('subject');
-  const chapter = searchParams.get('chapter') || null;
-  const chapters = searchParams.get('chapters') || null;
-  const difficulty = searchParams.get('difficulty') || null;
   const modeIdRaw = searchParams.get('mode') || 'quick';
   const modeId = isValidModeId(modeIdRaw) ? modeIdRaw : 'quick';
   const mode = getMode(modeId);
+  // An older link may carry a chapter or a level its mode does not take (fineTuneScope); the server refuses those, so
+  // they are left off here and the paper is the mode's own.
+  const scope = fineTuneScope(modeId);
+  const chapter = scope.chapters ? searchParams.get('chapter') || null : null;
+  const chapters = scope.chapters ? searchParams.get('chapters') || null : null;
+  const difficulty = scope.difficulty ? searchParams.get('difficulty') || null : null;
   const requestedCount = parseInt(searchParams.get('count') || '10', 10);
   const count = resolveCount(mode, requestedCount);
   const generationKey = searchParams.get('generationKey');
