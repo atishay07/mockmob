@@ -5,6 +5,7 @@ import { SUBJECTS } from '@/../data/subjects';
 import { toPublicSubjectId } from '@/../data/cuet_controls';
 import { computePrepOSInsights, answerFromInsights } from '@/../data/prepos_insights';
 import { getStudentAIContext } from '@/services/ai/getStudentAIContext';
+import { capContextBytes } from '@/services/ai/contextBudget';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { supabaseAdmin } from '@/lib/supabase';
@@ -109,7 +110,7 @@ export async function POST(request) {
     : { n: 0 };
   const out = await runModelReply({
     user: dbUser, message, mode:studyLesson || questionContext ? 'revision' : mode, requestId: payload.requestId, creditCost: 1, tier: !studyLesson && !questionContext && SMART_MODES.has(mode) ? 'smart' : 'fast',
-    gateOpen: true, context: { ...context, ...(questionContext ? { questionContext } : { recordInsights: compact }), ...(studyLesson ? {studyLesson} : {}) }, deps: buildReplyDeps({ user: dbUser }),
+    gateOpen: true, context: capContextBytes({ ...context, ...(questionContext ? { questionContext } : { recordInsights: compact }), ...(studyLesson ? {studyLesson} : {}) }).context, deps: buildReplyDeps({ user: dbUser }),
   });
   if (out.status !== 'answered') {
     // A response lost in transit can be recovered from owner-bound history without another call.

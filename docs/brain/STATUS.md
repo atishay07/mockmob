@@ -1,3 +1,10 @@
+## 17 October 2026 - Per-user AI cap, two-model allowlist, two-call ladder (branch fix/ai-user-cap-1017 from a2fe34b4; local, not pushed, not deployed; nothing applied to production)
+
+- Migration `20261017120000_runtime_ai_user_cap.sql` (undo in supabase/undo): runtime_ai_requests.user_id and index; cap rows student_user_paid 0.1136 and student_user_free 0.0114 in runtime_ai_budget (USD per IST month, change with one UPDATE); reserve_runtime_ai takes p_user_id and p_user_tier, refuses with 'runtime user limit reached', and refuses any model but openai gpt-6-luna and anthropic claude-haiku-5-5 ('runtime model not allowed'). The global USD 25 check is untouched. Dry run on STAGING (onwkqxmjqjrhfbjjdydu): apply, proof in a rolled-back transaction, undo, apply again; staging is left migrated.
+- Deploy order: apply the migration to production BEFORE the code (the old function has no p_user_id).
+- Code: providerCore allowlist (an env override such as AI_LUNA_MODEL to another model is refused, logged, nothing called), at most 2 physical calls per action (the third Luna fallback after a failed JSON retry is gone), 'low' reasoning headroom 2,500 to 1,000, user_budget kind and the limit message, Ask Mobi context capped at 12 KB (src/services/ai/contextBudget.js), account deletion unlinks runtime_ai_requests.user_id.
+- Tests: data/tests/ai_user_cap.test.mjs (in test:learning). Recovery 352, app 343, auth 109, billing 118, learning 323 pass.
+
 ## 17 October 2026, about 12:25 am IST - Batch 1016d production migrations applied (before its deploy)
 
 - Applied by Claude (session cc0bf1af) under the standing database grant, in this order, each with a pre-check and a post-check on production (isrxrxzjocewrdureyhp); each was dry-run on staging per the batch merge report and has an undo in supabase/undo:

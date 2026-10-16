@@ -17,7 +17,8 @@ import {
  * Owner rule (5 Oct 2026): GPT-6 Luna only. 'fast' = no reasoning, 'smart' = low reasoning.
  * Callers that solve or generate questions pass reasoningEffort explicitly (medium or higher).
  *   OPENAI_API_KEY
- *   AI_LUNA_MODEL         = optional model-id override (default 'gpt-6-luna')
+ *   AI_LUNA_MODEL         = model-id override; anything but 'gpt-6-luna' is REFUSED by the allowlist in providerCore
+ *                           (only GPT-6 Luna and Claude Haiku 5.5 may be called, owner decision 17 Oct 2026)
  *
  * Public API:
  *   generateAIResponse({ tier, systemPrompt, userMessage, context, responseSchema, maxRetries,
@@ -27,7 +28,6 @@ import {
  *   tier is 'smart' (low effort) or 'fast' (no reasoning); both run GPT-6 Luna
  */
 
-let _deepseek = null;
 let _openai = null;
 let _anthropic = null;
 
@@ -44,19 +44,6 @@ function getAnthropicClient() {
   return _anthropic;
 }
 
-function getDeepseekClient() {
-  if (_deepseek) return _deepseek;
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-  if (!apiKey) return null;
-  _deepseek = new OpenAI({
-    maxRetries: 0,
-    timeout: DEFAULT_TIMEOUT_MS,
-    apiKey,
-    baseURL: process.env.DEEPSEEK_BASE_URL || 'https://api.deepseek.com',
-  });
-  return _deepseek;
-}
-
 function getOpenAIClient() {
   if (_openai) return _openai;
   const apiKey = process.env.OPENAI_API_KEY;
@@ -66,7 +53,6 @@ function getOpenAIClient() {
 }
 
 function getClient(provider) {
-  if (provider === 'deepseek') return getDeepseekClient();
   if (provider === 'openai') return getOpenAIClient();
   if (provider === 'anthropic') return getAnthropicClient();
   return null;

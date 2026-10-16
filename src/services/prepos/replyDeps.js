@@ -29,6 +29,11 @@ async function rpc(name, args) {
   return data;
 }
 
+/** Whose monthly AI limit a call counts against, and which limit (paid or free) applies. Used for every student-facing call. */
+export function spendUserFor(user) {
+  return { userId: user?.id || null, userTier: isPaidUser(user) ? 'paid' : 'free' };
+}
+
 export function buildReplyDeps({ user }) {
   return {
     reserve: ({ userId, amount, action, operationKey }) => {
@@ -42,7 +47,7 @@ export function buildReplyDeps({ user }) {
     commit: (operationKey, receipt) => rpc('mm_ai_commit_credits', { p_operation_key: operationKey, p_receipt: receipt }),
     release: (operationKey, reason) => rpc('mm_ai_release_credits', { p_operation_key: operationKey, p_reason: reason }),
     generate: ({ requestKey, tier, mode, message, context }) => generateAIResponse({
-      requestKey, tier, systemPrompt: `${buildMentorSystemPrompt(mode)}\n${RECORD_RULES}\n${context?.studyLesson ? STUDY_RULES : ''}${context?.questionContext ? `\n${QUESTION_RULES}` : ''}`, userMessage: message, context, responseSchema: MENTOR_RESPONSE_SCHEMA,
+      requestKey, tier, ...spendUserFor(user), systemPrompt: `${buildMentorSystemPrompt(mode)}\n${RECORD_RULES}\n${context?.studyLesson ? STUDY_RULES : ''}${context?.questionContext ? `\n${QUESTION_RULES}` : ''}`, userMessage: message, context, responseSchema: MENTOR_RESPONSE_SCHEMA,
     }),
     // An empty or non-string reply is unusable (the pipeline releases the credit); everything else
     // is sanitised and held to the same action policy as before.

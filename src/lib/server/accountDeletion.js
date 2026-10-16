@@ -80,6 +80,11 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'credit_transactions', action: 'keep', match: own(), why: 'credit ledger tied to purchases and spends' },
   { table: 'ai_credit_ledger', action: 'keep', match: own(), why: 'credit ledger tied to purchases and spends' },
   {
+    table: 'runtime_ai_requests', action: 'anonymise', match: own(),
+    why: 'provider cost records feed the monthly AI budget; the link to the student is removed, the cost rows stay',
+    set: [{ column: 'user_id', value: 'null' }],
+  },
+  {
     table: 'creators', action: 'anonymise', match: own(),
     why: 'payout records are required by law; the account link, email and notes are removed, name and code stay on the payee record',
     set: [

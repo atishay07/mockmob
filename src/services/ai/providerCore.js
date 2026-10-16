@@ -9,6 +9,15 @@
 // Owner decision D2 (14 Oct 2026): Mistake Repair may fall back, once, to Anthropic claude-haiku-5-5 when Luna
 // fails with quota or a rate limit, a timeout, a 5xx or a rejected parameter (see fallbackRoute below).
 export const LUNA_MODEL = process.env.AI_LUNA_MODEL || 'gpt-6-luna';
+// Owner decision, 17 Oct 2026: "Everything should just use GPT-6 Luna or Haiku 5.5. Those are the only two models that,
+// anywhere in the entire app or website, are allowed to be used." A hard allowlist, checked in callOnce before any client is
+// touched and before any reservation is made, and again in the database (reserve_runtime_ai). An environment override
+// (AI_LUNA_MODEL, AI_REPAIR_MODEL, AI_REPAIR_FALLBACK_MODEL) or a caller that names another model is REFUSED, never
+// substituted: the call is not made and one log line says which model was refused.
+export const ALLOWED_MODELS = Object.freeze({ openai: Object.freeze(['gpt-6-luna']), anthropic: Object.freeze(['claude-haiku-5-5']) });
+export function isAllowedModel(provider, model) {
+  return Object.prototype.hasOwnProperty.call(ALLOWED_MODELS, provider) && ALLOWED_MODELS[provider].includes(model);
+}
 export const DEFAULT_EFFORT = Object.freeze({ fast: 'none', smart: 'low' });
 export function pickModelForTier() {
   return LUNA_MODEL;
@@ -34,7 +43,9 @@ const COST_TABLE = {
 // OpenAI reasoning models (GPT-5 and later, o-series) reject temperature and max_tokens. Their hidden
 // reasoning is billed as output, so the output bound grows with the effort level. Claude Haiku 5.5 thinks
 // adaptively by default and its thinking also counts against max_tokens, so it gets the same headroom.
-const REASONING_HEADROOM = { none: 0, minimal: 500, low: 2500, medium: 5000, high: 10000, xhigh: 16000, max: 32000 };
+// 'low' was 2,500; cut to 1,000 on 17 Oct 2026 (AI-COST-PER-USER-2026-10-17): the largest completion measured in
+// production at low effort was 754 tokens in total, hidden reasoning included, so 1,000 still covers it.
+export const REASONING_HEADROOM = Object.freeze({ none: 0, minimal: 500, low: 1000, medium: 5000, high: 10000, xhigh: 16000, max: 32000 });
 export function isReasoningModel(model) { return /^(gpt-(5|6)|o\d)/.test(String(model || '')); }
 // Claude Haiku 5.5: adaptive thinking on by default, `output_config.effort` is the only control, `temperature` and
 // `thinking.budget_tokens` are rejected with a 400.
@@ -114,6 +125,8 @@ export function validateAgainstSchema(value, schema) {
 //   auth           401 / 403 (bad key, no access to the model)
 //   bad_request    400 / 404 / 422, for example 400 unsupported_parameter or an unknown model
 //   budget         the monthly student-AI cap in the runtime guard is used up
+//   model_not_allowed      the provider or model is not GPT-6 Luna (openai) or Claude Haiku 5.5 (anthropic)
+//   user_budget    this student's own monthly rupee cap in the runtime guard is used up
 //   guard_paused   the runtime guard is paused or has no funding row
 //   price          the guard has no fresh price row for this model
 //   provider_unavailable   no client or key for the provider
@@ -144,6 +157,8 @@ export function classifyProviderError(err) {
 export function classifyGuardMessage(message) {
   const text = String(message || '');
   if (/budget exhausted/i.test(text)) return 'budget';
+  if (/user limit reached/i.test(text)) return 'user_budget';
+  if (/model not allowed/i.test(text)) return 'model_not_allowed';
   if (/verified model price/i.test(text)) return 'price';
   if (/funding unavailable/i.test(text)) return 'guard_paused';
   return 'guard_unavailable';
@@ -155,7 +170,12 @@ export const FALLBACK_KINDS = new Set(['timeout', 'quota', 'rate_limit', 'server
 // A same-provider retry can still succeed after these (a rejected parameter, a flaky 5xx), unlike a timeout or quota.
 const SAME_PROVIDER_MAY_HELP = new Set(['bad_request', 'server', 'rate_limit', 'network']);
 // After these, a second call is certain to fail the same way, so none is made.
-const NO_RETRY_KINDS = new Set(['budget', 'guard_paused']);
+const NO_RETRY_KINDS = new Set(['budget', 'user_budget', 'guard_paused', 'model_not_allowed']);
+// One charged action makes at most this many physical provider calls (a call that was refused by the guard, or never
+// left because there was no client, is not physical). The ladder is: the primary call, then at most ONE more, which is
+// the same-model JSON retry after unusable output, or the fallback after a failed call. The old third step (the Luna
+// fallback after a failed JSON retry) is gone. 17 Oct 2026, AI-COST-PER-USER-2026-10-17.
+export const MAX_PHYSICAL_CALLS = 2;
 
 // ---- Request bodies ---------------------------------------------------------------------------------------
 export function openaiRequestBody({ model, messages, jsonMode, maxTokens, reasoningEffort }) {
@@ -207,7 +227,7 @@ export function resolveMaxTokens(tier, requested) {
   return tier === 'smart' ? DEFAULT_MAX_TOKENS.smart : DEFAULT_MAX_TOKENS.fast;
 }
 
-export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntime, now = Date.now, hardStopGraceMs = HARD_STOP_GRACE_MS }) {
+export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntime, now = Date.now, hardStopGraceMs = HARD_STOP_GRACE_MS, maxPhysicalCalls = MAX_PHYSICAL_CALLS, log = (line) => console.error(line) }) {
   async function failure(err, { requestKey, provider, model }) {
     const info = classifyProviderError(err);
     await receiptRuntime(requestKey, null, { error: 'physical_request_failed', errorKind: info.kind, status: info.status, code: info.code, type: info.type }).catch(() => {});
@@ -269,7 +289,12 @@ export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
     }
   }
 
-  async function callOnce({ requestKey, provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950, reasoningEffort = null, timeoutMs = null }) {
+  async function callOnce({ requestKey, provider, model, systemPrompt, userMessage, context, jsonMode, maxTokens = 950, reasoningEffort = null, timeoutMs = null, userId = null, userTier = null }) {
+    if (!isAllowedModel(provider, model)) {
+      // No prompt text, no student data: the provider and model names only.
+      try { log(JSON.stringify({ route: 'ai_guard', stage: 'model_allowlist', code: 'model_not_allowed', provider: String(provider), model: String(model) })); } catch { /* logging never blocks a refusal */ }
+      return { ok: false, error: 'model_not_allowed', errorKind: 'model_not_allowed', provider, model };
+    }
     const client = getClient(provider);
     if (!client) {
       return { ok: false, error: `provider_unavailable:${provider}`, errorKind: 'provider_unavailable', provider, model };
@@ -288,13 +313,14 @@ export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
 
     let reservation;
     try {
-      reservation = await reserveRuntime({ requestKey, provider, model, messages, maxTokens: outputBound(model, maxTokens, reasoningEffort) });
+      reservation = await reserveRuntime({ requestKey, provider, model, messages, maxTokens: outputBound(model, maxTokens, reasoningEffort), ...(userId ? { userId, userTier } : {}) });
       if (!reservation.dispatch) return reservation.receipt?.response || { ok: false, error: 'runtime_request_pending', errorKind: 'pending' };
     } catch (err) {
       return { ok: false, error: 'runtime_ai_temporarily_unavailable', errorKind: err?.kind || 'guard_unavailable', provider, model };
     }
     const call = provider === 'anthropic' ? callAnthropic : callOpenAICompatible;
-    return call({ client, requestKey, provider, model, messages, jsonMode, maxTokens, reasoningEffort, timeoutMs, reservation });
+    // From here a request has gone to the provider (or failed on its way there): it counts against maxPhysicalCalls.
+    return { ...(await call({ client, requestKey, provider, model, messages, jsonMode, maxTokens, reasoningEffort, timeoutMs, reservation })), dispatched: true };
   }
 
   /**
@@ -330,6 +356,10 @@ export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
     callTimeoutMs = null,
     // Optional visible-output cap (see resolveMaxTokens). Absent: 950 fast, 900 smart, as before.
     maxTokens: requestedMaxTokens = null,
+    // The student this spend belongs to, and their plan ('paid', anything else is the free cap). The guard refuses
+    // when the student's month-to-date spend plus this reservation is over their cap. Absent: no per-user check.
+    userId = null,
+    userTier = null,
   } = {}) {
     if (!systemPrompt || !userMessage) {
       return {
@@ -357,9 +387,12 @@ export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
       if (left < MIN_ATTEMPT_MS) return 0;
       return cap ? Math.min(cap, left) : left;
     };
+    let physicalCalls = 0;
     const attemptCall = async (stage, route, extra) => {
       const timeoutMs = timeoutFor(extra.capMs ?? callTimeoutMs);
-      const result = timeoutMs === 0
+      const result = physicalCalls >= maxPhysicalCalls
+        ? { ok: false, error: 'call_limit_reached', errorKind: 'call_limit', skipped: true }
+        : timeoutMs === 0
         ? { ok: false, error: 'deadline_exceeded', errorKind: 'timeout', skipped: true }
         : await callOnce({
           requestKey: requestKey ? `${requestKey}:${stage}` : null,
@@ -372,8 +405,12 @@ export function createProviderRuntime({ getClient, reserveRuntime, receiptRuntim
           jsonMode: true,
           maxTokens,
           timeoutMs,
+          userId,
+          userTier,
         });
-      if (!result.ok) failures.push({ stage, provider: route.provider, model: route.model, kind: result.errorKind || 'unknown', status: result.status ?? null, code: result.code ?? null, skipped: !!result.skipped });
+      if (result.dispatched) physicalCalls += 1;
+      // A step skipped for the call limit is not a failure of any call; it leaves no trace in `failure`.
+      if (!result.ok && result.errorKind !== 'call_limit') failures.push({ stage, provider: route.provider, model: route.model, kind: result.errorKind || 'unknown', status: result.status ?? null, code: result.code ?? null, skipped: !!result.skipped });
       return result;
     };
 

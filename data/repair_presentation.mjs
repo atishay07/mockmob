@@ -2,7 +2,7 @@ export const REPAIR_OUTCOMES = ['explained', 'stored', 'held_for_recheck', 'not_
 export function hasExplanation(status) { return status === 'explained' || status === 'stored'; }
 // Failures where trying the same repair again cannot help: this month's student-AI budget is used up, or
 // PrepOS paid features are switched off. The server's message says so; the screen offers no retry button.
-const NO_RETRY_ERRORS = ['budget_reached', 'paused'];
+const NO_RETRY_ERRORS = ['budget_reached', 'user_limit_reached', 'paused'];
 // `body` is the parsed failure body. `charged: 0` means the server released the credit and the request id,
 // so the next attempt needs a fresh id (a released id only answers `operation_released`).
 export function repairRetryPolicy(httpStatus, error, body = null) {

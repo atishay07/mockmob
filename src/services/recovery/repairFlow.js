@@ -183,11 +183,12 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
     ? buildRepairPromptV3({ question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, subjectName: subjectDisplayName(attempt.subject) })
     : buildRepairPrompt({ question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, subject: attempt.subject });
   const mainDeadline = Math.min(t0 + budget.totalMs, t0 + budget.mainMs);
+  const spend = deps.spendUser ? deps.spendUser(user) : { userId: user.id, userTier: null };
   let ai;
   try {
     ai = await hardStop(
       deps.generate({
-        requestKey: operationKey, tier: 'fast', ...route, reasoningEffort: effort.repair, systemPrompt: prompt.system, userMessage: prompt.user,
+        requestKey: operationKey, tier: 'fast', ...route, ...spend, reasoningEffort: effort.repair, systemPrompt: prompt.system, userMessage: prompt.user,
         responseSchema: v3 ? MISTAKE_REPAIR_SCHEMA_V3 : MISTAKE_REPAIR_SCHEMA, ...(v3 ? { maxTokens: REPAIR_V3_MAX_TOKENS } : {}),
         fallbackRoute, deadlineAt: mainDeadline, callTimeoutMs: budget.callMs,
       }),
@@ -211,7 +212,7 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
     try {
       blind = await hardStop(
         deps.generate({
-          requestKey: `${operationKey}:blind`, tier: 'smart', ...route, reasoningEffort: effort.secondOpinion, systemPrompt: blindPrompt.system, userMessage: blindPrompt.user,
+          requestKey: `${operationKey}:blind`, tier: 'smart', ...route, ...spend, reasoningEffort: effort.secondOpinion, systemPrompt: blindPrompt.system, userMessage: blindPrompt.user,
           responseSchema: { required: ['solved_index'], types: { solved_index: 'number' } }, deadlineAt: totalDeadline, callTimeoutMs: budget.blindCallMs,
         }),
         totalDeadline - deps.now() + budget.hardStopSlackMs, null,

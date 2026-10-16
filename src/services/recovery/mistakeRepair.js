@@ -8,7 +8,7 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { generateAIResponse } from '@/services/ai/providers';
-import { buildReplyDeps, modelRepliesOpen } from '@/services/prepos/replyDeps';
+import { buildReplyDeps, modelRepliesOpen, spendUserFor } from '@/services/prepos/replyDeps';
 import { readAIWallet } from '@/services/credits/aiCreditWallet';
 import { publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { readFullQuestionRow, readQuestionRow } from '@/../data/question_reads';
@@ -46,6 +46,8 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     commit: replyDeps.commit,
     release: replyDeps.release,
     generate,
+    // Every model call of a repair (the explanation and its blind key check) counts against this student's monthly limit.
+    spendUser: spendUserFor,
     gateOpen: modelRepliesOpen,
     loadAttempt: (id) => Database.getAttemptById(id),
     // The row without its signed evidence record (data/question_reads.js).

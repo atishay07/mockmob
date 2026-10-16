@@ -65,12 +65,12 @@ test('Haiku 5.5 request: no temperature, no thinking budget, low effort through 
   assert.ok(!('temperature' in body), 'claude-haiku-5-5 returns a 400 on any non-default temperature');
   assert.ok(!('thinking' in body), 'no thinking config: adaptive is the default and budget_tokens is rejected');
   assert.deepEqual(body.output_config, { effort: 'low' });
-  assert.equal(body.max_tokens, 950 + 2500);
+  assert.equal(body.max_tokens, 950 + 1000);
   assert.equal(body.model, 'claude-haiku-5-5');
   assert.match(body.system, /one JSON object only/);
   // An effort the API does not know (or "none") falls back to low rather than being sent.
   assert.deepEqual(anthropicRequestBody({ model: 'claude-haiku-5-5', messages, jsonMode: false, maxTokens: 100, reasoningEffort: 'none' }).output_config, { effort: 'low' });
-  assert.equal(outputBound('claude-haiku-5-5', 950, 'low'), 3450);
+  assert.equal(outputBound('claude-haiku-5-5', 950, 'low'), 1950);
 });
 
 test('older Claude models keep their own request shape', () => {
@@ -80,7 +80,7 @@ test('older Claude models keep their own request shape', () => {
   const s55 = anthropicRequestBody({ model: 'claude-sonnet-5-5', messages, jsonMode: true, maxTokens: 950 });
   assert.ok(!('temperature' in s55)); assert.deepEqual(s55.thinking, { type: 'between_tools' });
   const luna = openaiRequestBody({ model: 'gpt-6-luna', messages, jsonMode: true, maxTokens: 950, reasoningEffort: 'low' });
-  assert.equal(luna.max_completion_tokens, 3450); assert.equal(luna.reasoning_effort, 'low'); assert.ok(!('temperature' in luna));
+  assert.equal(luna.max_completion_tokens, 1950); assert.equal(luna.reasoning_effort, 'low'); assert.ok(!('temperature' in luna));
 });
 
 test('a per-call timeout reaches the SDK as its `timeout` option, capped by the time left', async () => {
@@ -175,14 +175,21 @@ test('no fallback while the primary works', async () => {
   assert.equal(h.log.reserve.length, 1);
 });
 
-test('invalid JSON from a call that worked keeps the old ladder: one same-model retry, then Luna with no reasoning, never Haiku', async () => {
-  const h = harness({ openai: async (body, opts, n) => okOpenAI(n < 3 ? 'not json at all' : '{"solved_index":1}'), anthropic: async () => okAnthropic() });
+test('invalid JSON from a call that worked: one same-model retry and no third call (the Luna fallback step is gone), never Haiku', async () => {
+  const h = harness({ openai: async (body, opts, n) => okOpenAI(n < 2 ? 'not json at all' : '{"solved_index":1}'), anthropic: async () => okAnthropic() });
   const out = await run(h, { fallbackRoute: HAIKU });
   assert.equal(out.ok, true);
-  assert.equal(out.fallbackUsed, true);
-  assert.equal(out.fallbackReason, 'invalid_output');
-  assert.deepEqual(h.log.openai.map(c => c.body.reasoning_effort), ['low', 'low', 'none']);
+  assert.equal(out.fallbackUsed, false);
+  assert.deepEqual(h.log.openai.map(c => c.body.reasoning_effort), ['low', 'low']);
   assert.equal(h.log.anthropic.length, 0);
+  // Both calls unusable: the action ends there. The old third call would have run on Luna with no reasoning.
+  const bad = harness({ openai: async () => okOpenAI('still not json'), anthropic: async () => okAnthropic() });
+  const failed = await run(bad, { fallbackRoute: HAIKU });
+  assert.equal(failed.ok, false);
+  assert.equal(failed.failure, null, 'every call worked; the output was the problem, and skipping the third step is not a failure');
+  assert.equal(bad.log.openai.length, 2);
+  assert.equal(bad.log.reserve.length, 2);
+  assert.equal(bad.log.anthropic.length, 0);
 });
 
 test('when both providers fail, the Luna failure is the one reported and nothing is invented', async () => {
@@ -261,12 +268,12 @@ import { resolveMaxTokens, DEFAULT_MAX_TOKENS } from '../../src/services/ai/prov
 test('no maxTokens: the request body and the guard reservation bound are exactly as before', async () => {
   const fast = harness({ openai: async () => okOpenAI() });
   await run(fast);
-  assert.equal(fast.log.openai[0].body.max_completion_tokens, 950 + 2500);
-  assert.equal(fast.log.reserve[0].maxTokens, 950 + 2500, 'reservation bound for fast Luna at low effort');
+  assert.equal(fast.log.openai[0].body.max_completion_tokens, 950 + 1000);
+  assert.equal(fast.log.reserve[0].maxTokens, 950 + 1000, 'reservation bound for fast Luna at low effort');
   const smart = harness({ openai: async () => okOpenAI() });
   await run(smart, { tier: 'smart' });
-  assert.equal(smart.log.openai[0].body.max_completion_tokens, 900 + 2500);
-  assert.equal(smart.log.reserve[0].maxTokens, 900 + 2500);
+  assert.equal(smart.log.openai[0].body.max_completion_tokens, 900 + 1000);
+  assert.equal(smart.log.reserve[0].maxTokens, 900 + 1000);
   const none = harness({ openai: async () => okOpenAI() });
   await run(none, { reasoningEffort: 'none' });
   assert.equal(none.log.openai[0].body.max_completion_tokens, 950);
@@ -274,16 +281,16 @@ test('no maxTokens: the request body and the guard reservation bound are exactly
   assert.deepEqual(DEFAULT_MAX_TOKENS, { fast: 950, smart: 900 });
 });
 
-test('maxTokens 1400 reaches the OpenAI body, the Haiku body and both guard reservations (1,400 + 2,500 = 3,900)', async () => {
+test('maxTokens 1400 reaches the OpenAI body, the Haiku body and both guard reservations (1,400 + 1,000 = 2,400)', async () => {
   const h = harness({ openai: async () => { throw new ApiError(429, 'insufficient_quota'); }, anthropic: async () => okAnthropic() });
   const out = await run(h, { maxTokens: 1400, fallbackRoute: HAIKU });
   assert.equal(out.ok, true);
-  assert.equal(h.log.openai[0].body.max_completion_tokens, 3900);
-  assert.equal(h.log.anthropic[0].body.max_tokens, 3900);
-  assert.deepEqual(h.log.reserve.map((r) => r.maxTokens), [3900, 3900]);
-  const retry = harness({ openai: async (body, opts, n) => okOpenAI(n < 3 ? 'not json' : '{"solved_index":1}') });
+  assert.equal(h.log.openai[0].body.max_completion_tokens, 2400);
+  assert.equal(h.log.anthropic[0].body.max_tokens, 2400);
+  assert.deepEqual(h.log.reserve.map((r) => r.maxTokens), [2400, 2400]);
+  const retry = harness({ openai: async (body, opts, n) => okOpenAI(n < 2 ? 'not json' : '{"solved_index":1}') });
   await run(retry, { maxTokens: 1400 });
-  assert.deepEqual(retry.log.openai.map((c) => c.body.max_completion_tokens), [3900, 3900, 1400], 'the JSON retry keeps the cap; the no-reasoning fallback has no headroom');
+  assert.deepEqual(retry.log.openai.map((c) => c.body.max_completion_tokens), [2400, 2400], 'the JSON retry keeps the cap');
 });
 
 test('maxTokens is clamped to 200..2,000; anything else falls back to the default', () => {

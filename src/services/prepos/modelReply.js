@@ -10,6 +10,7 @@
 //   4. usable reply       -> commit the student credits
 //      anything else      -> release them. A failed request never costs the student a credit.
 import { usesLine } from '../../lib/creditCopy.mjs';
+import { userLimitMessage } from '../../../data/repair_failures.js';
 
 export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your AI credits have not been used.';
 const REQUEST_ID = /^[A-Za-z0-9_-]{16,64}$/;
@@ -71,6 +72,8 @@ export async function runModelReply({
   } catch {
     return await fail('provider_error', 502, 'The reply service did not answer.');
   }
+  // This student's own monthly AI limit is used up: say so honestly, with the reset date. The credit is released.
+  if (!ai?.data && ai?.failure?.kind === 'user_budget') return await fail('user_limit_reached', 429, userLimitMessage(new Date(deps.now ? deps.now() : Date.now())));
   if (!ai?.ok || !ai.data || ai.schemaValid === false) return await fail('unusable_output', 502, 'PrepOS could not produce a reliable reply this time.');
 
   const response = deps.sanitize(ai.data);
