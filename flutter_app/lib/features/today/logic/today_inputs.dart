@@ -108,6 +108,8 @@ class TodayInputs {
     this.lastTriedAt,
     this.reviseDue,
     this.isPro = false,
+    this.email,
+    this.repairedToday = 0,
   });
 
   final DateTime now;
@@ -172,6 +174,12 @@ class TodayInputs {
 
   /// A Pro account: Smart practice is a Pro mode, so only Pro gets it as the move.
   final bool isPro;
+
+  /// The account's email: a first name equal to its local part is a handle, never a name.
+  final String? email;
+
+  /// Mistakes whose repair the server acknowledged today (the student's date): the done state.
+  final int repairedToday;
 
   /// Whole days since the newest paper, or null with no paper on record.
   int? get daysAway {

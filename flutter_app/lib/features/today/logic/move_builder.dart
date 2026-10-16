@@ -14,7 +14,7 @@ import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/widgets/art/mm_art.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
-import '../../practice/model/practice_selection.dart' show practiceCounts;
+import '../../practice/model/practice_selection.dart' show mockQuestionCount, practiceCounts;
 import '../copy.dart';
 import 'links.dart';
 import 'subjects.dart';
@@ -121,9 +121,16 @@ class MoveFacts {
 /// The dismissal key of a client-built repair (spec 5.3: kind, subject, chapter, source).
 DismissalKey dismissalKeyFor(Attempt basis) => DismissalKey(kind: 'repair', subject: basis.subject, sourceAttemptId: basis.id);
 
+/// Days away from the last paper that make the move a "pick up where you left off" (TODAY-1017 4.2).
+const int returningAfterDays = 7;
+
+/// Seven or more days since the newest paper: the returning move and Mobi's greet.
+bool isAway(TodayInputs i) => (i.daysAway ?? 0) >= returningAfterDays;
+
 TodayMood moodOf(TodayInputs i, MoveFacts f) {
   if (i.attempts != null && i.attempts!.isEmpty) return TodayMood.dayOne;
-  if (i.returning) return TodayMood.returning;
+  if (i.returning || isAway(i)) return TodayMood.returning;
+  // Late night only shortens the default length: the art and the words stay (F11).
   if (isLateNight(i.clock())) return TodayMood.lateNight;
   return TodayMood.normal;
 }
@@ -167,19 +174,32 @@ MoveHero buildMove(TodayInputs i) {
   final f = MoveFacts(i);
   final state = nextMoveState(f.table);
   final mood = moodOf(i, f);
-  final overline = mood == TodayMood.dayOne ? TodayCopy.firstMoveOverline : TodayCopy.moveOverline(i.clock());
+  final away = isAway(i) && f.attempts.isNotEmpty;
+  final overline = switch (mood) {
+    TodayMood.dayOne => TodayCopy.firstMoveOverline,
+    _ when away => TodayCopy.returningOverline,
+    _ => TodayCopy.moveOverline(i.clock()),
+  };
   final b = f.basis;
 
-  HeroArt artFor(String? subject) => switch (mood) {
-        TodayMood.returning => const HeroArt.mobi(MmArt.mobiGreet),
-        TodayMood.lateNight => const HeroArt.mobi(MmArt.mobiSleepy),
-        _ => HeroArt.object(subject: subject == null ? null : canonicalSubject(subject)),
-      };
-  String? headlineFor() => switch (mood) {
-        TodayMood.returning => TodayCopy.returningHeadline(f.attempts.isEmpty ? null : i.daysSince(f.attempts.first.completedAt)),
-        // Late at night Mobi says the whole line itself (see MoveHeroCard.moodLine).
-        _ => null,
-      };
+  // Mobi stands in the art box only at a real moment (4.6): day one and coming back after a week.
+  // Late at night the subject's object stays: the sleepy act retired (F11).
+  HeroArt artFor(String? subject) => away
+      ? const HeroArt.mobi(MmArt.mobiGreet)
+      : HeroArt.object(subject: subject == null ? null : canonicalSubject(subject));
+  // The overline and the why carry the words now: no warm line between the title and the number.
+  String? headlineFor() => null;
+
+  // The first week's path and the done state sit inside the one move (FEATURE-ADOPTION 7).
+  if (state != NextMoveState.historyUnavailable && state != NextMoveState.newUser && state != NextMoveState.subjectChanged) {
+    final done = _doneToday(i, f, state, overline);
+    if (done != null) return done;
+    final path = _firstWeek(i, f, state);
+    if (path != null) return path;
+    if (away && (state == NextMoveState.repairedCheckNotDue || state == NextMoveState.noStrongWeakness || state == NextMoveState.stale)) {
+      return _warmUp(i, f, overline);
+    }
+  }
 
   switch (state) {
     case NextMoveState.historyUnavailable:
@@ -200,6 +220,7 @@ MoveHero buildMove(TodayInputs i) {
         basisLine: tried != null ? TodayCopy.failTried(i.clock(tried)) : (offline ? TodayCopy.failOfflineWatch : null),
         primary: const TodayAction(TodayCopy.tryAgain, RetryLoad()),
         secondary: offline ? null : const TodayAction(TodayCopy.practiseAnyway, GoTo(AppRoutes.practice)),
+        kind: MoveKind.failure,
       );
 
     case NextMoveState.newUser:
@@ -216,7 +237,7 @@ MoveHero buildMove(TodayInputs i) {
         subjectId: canonicalSubject(subject),
         subjectLine: name,
         art: state == NextMoveState.newUser ? const HeroArt.mobi(MmArt.mobiGreet) : artFor(subject),
-        mobiLine: state == NextMoveState.newUser ? TodayCopy.mobiDayOne : null,
+        kind: state == NextMoveState.newUser ? MoveKind.dayOne : MoveKind.other,
         headline: state == NextMoveState.subjectChanged ? TodayCopy.subjectChanged : (scheduled ? TodayCopy.checkSetFor(i.clock(at)) : null),
         number: '10',
         numberLabel: 'questions to your\nstarting point',
@@ -257,7 +278,7 @@ MoveHero buildMove(TodayInputs i) {
           startsSession: true,
           actionType: 'practice',
         ),
-        secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
+        secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
       );
 
     case NextMoveState.thinHistory:
@@ -287,7 +308,7 @@ MoveHero buildMove(TodayInputs i) {
           startsSession: true,
           actionType: 'practice',
         ),
-        secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
+        secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
       );
 
     case NextMoveState.ready:
@@ -320,7 +341,7 @@ MoveHero buildMove(TodayInputs i) {
           startsSession: true,
           actionType: 'practice',
         ),
-        secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
+        secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
         dismissedLine: f.dismissed ? TodayCopy.hiddenUntilTomorrow : null,
       );
 
@@ -333,34 +354,58 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
   // A repair run covers one chapter, so tonight's count is that chapter's open mistakes.
   final tonight = f.tonight!;
   final chapterCount = tonight.items.length;
+  final away = isAway(i);
   final options = [for (final o in repairDurationOptions(chapterCount)) DurationChoice(minutes: o.minutes, mistakes: o.mistakes)];
   final choice = options.isEmpty
       ? DurationChoice(minutes: repairMinutes(chapterCount) ?? 5, mistakes: chapterCount)
       : _pick(options, i.selectedMinutes, preferred: _repairPreferred(mood));
-  final n = choice.mistakes ?? chapterCount;
+  // Back after a week: the few that cost the most first (tonight's pick is ordered that way),
+  // three at most until the student picks a length of their own.
+  final full = choice.mistakes ?? chapterCount;
+  final n = away && i.selectedMinutes == null && full > _returningFirst ? _returningFirst : full;
   final source = paperLabel(f.attempts, b);
   final date = i.date(b.completedAt);
   final now = i.clock();
   final chapterLine = tonight.hasNamedChapter
       ? TodayCopy.tonightLine(n, chapterCount, source, tonight.chapter, date)
       : TodayCopy.questionNumbers([for (final c in tonight.items.take(n)) c.number]);
-  final mocksInSubject = f.attempts.where((a) => a.isMock && a.subject == b.subject).length;
-  final meaning = mood == TodayMood.returning ? TodayCopy.lastMockStillHere(source, date, tonight.paperOpen) : chapterLine;
+  // The sparse clause (AGENT_RULES overlay: say when the data is thin): one paper replaces the
+  // source sentence, two add a clause.
+  final papers = f.attempts.length;
+  final String meaning;
+  final MoveKind kind;
+  String? whyLink;
+  if (away) {
+    meaning = TodayCopy.returningWhy(source, date, tonight.paperOpen, n);
+    kind = MoveKind.returning;
+    if (tonight.paperOpen > n) whyLink = TodayCopy.seeAll(tonight.paperOpen);
+  } else {
+    final firstRepair = i.firstWeekDay != null && i.repaired.values.every((s) => s.isEmpty);
+    final base = papers == 1
+        ? TodayCopy.sparseOne(source, date)
+        : papers == 2
+            ? '$chapterLine ${TodayCopy.sparseFew(papers)}'
+            : chapterLine;
+    // The first Repair of the first week says what Repair does, at the moment it is the move (F18).
+    meaning = firstRepair ? '$base ${TodayCopy.firstRepairTeach}' : base;
+    kind = firstRepair ? MoveKind.firstRepair : MoveKind.repair;
+  }
+  final oneOnly = papers == 1;
   return MoveHero(
     state: NextMoveState.ready,
     mood: mood,
-    overline: overline,
+    kind: kind,
+    overline: kind == MoveKind.firstRepair ? TodayCopy.firstWeekOverline(i.firstWeekDay!) : overline,
     subjectId: canonicalSubject(b.subject),
     subjectLine: subjectName(b.subject),
     art: art,
     headline: headline,
     number: '$n',
-    numberLabel: repairNumberLabel(n: n, chapterCount: chapterCount, minutes: choice.minutes, now: now),
+    numberLabel: away ? TodayCopy.mistakesFirstLabel(n) : repairNumberLabel(n: n, chapterCount: chapterCount, minutes: choice.minutes, now: now),
     meaning: meaning,
+    whyLink: whyLink,
     evidenceId: b.id,
     evidence: List.filled(n.clamp(1, 3), BubbleState.wrong),
-    // The chips say "5 min" themselves, so an ordinary day adds no prompt line above them.
-    durationPrompt: mood == TodayMood.returning && options.isNotEmpty ? TodayCopy.howLong(now) : null,
     durations: options,
     selectedMinutes: choice.minutes,
     summary: 'Repair ${n == 1 ? '1 mistake' : '$n mistakes'} from $source',
@@ -370,9 +415,148 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
       startsSession: true,
       actionType: 'repair',
     ),
-    secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
-    // The date is in the meaning line; the basis line only says when one paper is all there is.
-    basisLine: mood != TodayMood.returning && mocksInSubject <= 1 && b.isMock ? TodayCopy.earlySignal : null,
+    // With one paper on record the fuller picture is a full mock (4.2, sparse row).
+    secondary: oneOnly
+        ? TodayAction(TodayCopy.fullMockInstead, GoTo(TodayLinks.fullMock(subject: b.subject)), startsSession: true, actionType: 'mock')
+        : const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
+  );
+}
+
+/// How many of the last paper's open mistakes the returning move offers first.
+const int _returningFirst = 3;
+
+/// Tonight is done: repairs the server acknowledged today, and nothing left open on the paper the
+/// move is built from (TODAY-1017 4.2, "Tonight done"). The key offers more practice.
+MoveHero? _doneToday(TodayInputs i, MoveFacts f, NextMoveState state, String overline) {
+  final n = i.repairedToday;
+  final b = f.basis;
+  if (n <= 0 || b == null) return null;
+  final nothingOpen = state == NextMoveState.repairedCheckNotDue || (state == NextMoveState.ready && f.tonight == null && !f.planReady);
+  if (!nothingOpen) return null;
+  final options = _practiceOptions();
+  final count = _practiceCount(i, options);
+  return MoveHero(
+    state: state,
+    mood: TodayMood.normal,
+    kind: MoveKind.done,
+    overline: overline,
+    subjectId: canonicalSubject(b.subject),
+    subjectLine: subjectName(b.subject),
+    art: HeroArt.object(subject: canonicalSubject(b.subject)),
+    number: '$n',
+    numberLabel: TodayCopy.doneRepairLabel(n),
+    meaning: TodayCopy.doneRepairWhy(null),
+    durations: options,
+    selectedMinutes: count,
+    summary: TodayCopy.practiseMore,
+    primary: TodayAction(
+      TodayCopy.withCount(TodayCopy.practiseMore, count),
+      GoTo(TodayLinks.quick(subject: b.subject, count: count)),
+      startsSession: true,
+      actionType: 'practice',
+    ),
+    alternate: const TodayAction(TodayCopy.openTheRepair, GoTo(TodayLinks.repairRecord)),
+    secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
+  );
+}
+
+/// The first week as a chained path inside the move (FEATURE-ADOPTION 7): day 2 on, Revise when
+/// it has questions due; days 3 and 4 smart practice (Pro); days 5 to 7 the first full mock while
+/// none is on record. Day 1 is the check and its first Repair, which the ladder already makes. A
+/// mistake still open stays the move (the path never jumps over one), except Revise, which is due
+/// today only. Null hands the move back to the ladder.
+MoveHero? _firstWeek(TodayInputs i, MoveFacts f, NextMoveState state) {
+  final day = i.firstWeekDay;
+  if (day == null || day < 2 || f.attempts.isEmpty) return null;
+  final latest = f.attempts.first;
+  final subject = latest.subject;
+  final name = subjectName(subject);
+  final overline = TodayCopy.firstWeekOverline(day);
+  final art = HeroArt.object(subject: canonicalSubject(subject));
+  final due = i.reviseDue ?? 0;
+  if (due > 0) {
+    final minutes = due <= 5 ? 5 : 10;
+    return MoveHero(
+      state: state,
+      mood: TodayMood.normal,
+      kind: MoveKind.revise,
+      overline: overline,
+      subjectId: canonicalSubject(subject),
+      subjectLine: name,
+      art: art,
+      number: '$due',
+      numberLabel: TodayCopy.reviseLabel(due),
+      meaning: TodayCopy.reviseWhy(due),
+      summary: TodayCopy.startRevise(minutes),
+      primary: TodayAction(TodayCopy.startRevise(minutes), const GoTo(TodayLinks.revise), startsSession: true, actionType: 'revise'),
+      secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
+    );
+  }
+  if (state == NextMoveState.ready && f.tonight != null && !f.dismissed) return null;
+  final hasMock = f.attempts.any((a) => a.isMock);
+  if (day >= 5 && !hasMock) {
+    const minutes = 60;
+    return MoveHero(
+      state: state,
+      mood: TodayMood.normal,
+      kind: MoveKind.firstMock,
+      overline: overline,
+      subjectId: canonicalSubject(subject),
+      subjectLine: name,
+      art: art,
+      number: '$mockQuestionCount',
+      numberLabel: TodayCopy.firstMockLabel(minutes),
+      meaning: TodayCopy.firstMockWhy,
+      summary: TodayCopy.startTimedMock(minutes),
+      primary: TodayAction(TodayCopy.startTimedMock(minutes), GoTo(TodayLinks.fullMock(subject: subject)), startsSession: true, actionType: 'mock'),
+      secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
+    );
+  }
+  if ((day == 3 || day == 4) && i.isPro) {
+    final options = _practiceOptions();
+    final count = _practiceCount(i, options);
+    return MoveHero(
+      state: state,
+      mood: TodayMood.normal,
+      kind: MoveKind.smart,
+      overline: overline,
+      subjectId: canonicalSubject(subject),
+      subjectLine: name,
+      art: art,
+      number: '$count',
+      numberLabel: TodayCopy.smartLabel,
+      meaning: TodayCopy.smartWhy(name, f.attempts.length),
+      durations: options,
+      selectedMinutes: count,
+      summary: TodayCopy.startSmart(count),
+      primary: TodayAction(TodayCopy.startSmartFor(count), GoTo(TodayLinks.smart(subject: subject, count: count)), startsSession: true, actionType: 'smart'),
+      secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
+    );
+  }
+  return null;
+}
+
+/// Back after a week with nothing open: ten questions to find the footing again.
+MoveHero _warmUp(TodayInputs i, MoveFacts f, String overline) {
+  final latest = f.attempts.first;
+  final options = _practiceOptions();
+  final count = _practiceCount(i, options);
+  return MoveHero(
+    state: NextMoveState.stale,
+    mood: TodayMood.returning,
+    kind: MoveKind.warmUp,
+    overline: overline,
+    subjectId: canonicalSubject(latest.subject),
+    subjectLine: subjectName(latest.subject),
+    art: const HeroArt.mobi(MmArt.mobiGreet),
+    number: '$count',
+    numberLabel: TodayCopy.warmUpLabel(count),
+    meaning: TodayCopy.warmUpWhy(i.daysAway ?? returningAfterDays),
+    durations: options,
+    selectedMinutes: count,
+    summary: TodayCopy.startQuestions(count),
+    primary: TodayAction(TodayCopy.warmUpKey(count), GoTo(TodayLinks.quick(subject: latest.subject, count: count)), startsSession: true, actionType: 'practice'),
+    secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
   );
 }
 
@@ -404,7 +588,7 @@ MoveHero _planReady(
       startsSession: true,
       actionType: action.kind,
     ),
-    secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
+    secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
     dismissedLine: f.dismissed ? TodayCopy.hiddenUntilTomorrow : null,
   );
 }
@@ -437,7 +621,7 @@ MoveHero _mixed(
     selectedMinutes: minutes,
     summary: TodayCopy.startMixed(minutes),
     primary: TodayAction(TodayCopy.startMixed(minutes), GoTo(TodayLinks.quick(subject: subject, count: minutes)), startsSession: true, actionType: 'practice'),
-    secondary: const TodayAction(TodayCopy.chooseSomethingElse, OpenAlternatives()),
+    secondary: const TodayAction(TodayCopy.somethingElse, OpenAlternatives()),
     dismissedLine: f.dismissed ? TodayCopy.hiddenUntilTomorrow : null,
   );
 }

@@ -402,9 +402,13 @@ class WeekModel {
     this.captionKey,
     this.beforeAccount = const {},
     this.weekId,
+    this.counted = const [],
   });
 
   final List<PlanDay> days;
+
+  /// The weekdays the server counted (0 = Monday).
+  final List<int> counted;
 
   /// Study days counted this week, and the goal ("3 of 4"); the goal is null when none is set.
   final int done;

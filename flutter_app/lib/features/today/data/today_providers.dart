@@ -12,6 +12,7 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/session_rules.dart';
 import '../../../core/repositories/repositories.dart';
+import '../../review/revise/revise_data.dart' show reviseEntryProvider;
 import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
 import '../../rhythm/logic/dates.dart' show formatIsoDate, studentDate;
 import '../../rhythm/rhythm.dart';
@@ -239,13 +240,29 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
   final weekFailed = week == null && rhythmOn && rhythm.isFailedEmpty;
   final records = ref.watch(repairLocalRecordsProvider).value ?? const [];
   final repaired = <String, Set<String>>{};
+  final now = ref.watch(nowProvider)();
+  final zone = ref.watch(studentTimezoneProvider);
+  final todayKey = TodayInputs(now: now, timezone: zone).date();
+  var repairedToday = 0;
   for (final r in records) {
-    if (r.isRepaired) (repaired[r.attemptId] ??= {}).add(r.questionId);
+    if (!r.isRepaired) continue;
+    (repaired[r.attemptId] ??= {}).add(r.questionId);
+    final at = r.ackedAt;
+    if (at != null && TodayInputs(now: now, timezone: zone).date(at) == todayKey) repairedToday++;
   }
+  // Revise is read only in the first week, from day 2, where it can be the move (FEATURE-ADOPTION 7):
+  // an unknown count never makes Revise the move.
+  final list = attempts.value;
+  final firstDay = list == null || list.isEmpty ? null : TodayInputs(now: now, timezone: zone, attempts: list).firstWeekDay;
+  final reviseDue = firstDay != null && firstDay >= 2 ? ref.watch(reviseEntryProvider).value?.due : null;
   return TodayInputs(
-    now: ref.watch(nowProvider)(),
-    timezone: ref.watch(studentTimezoneProvider),
+    now: now,
+    timezone: zone,
     firstName: firstNameOf(auth.name),
+    email: auth.email,
+    isPro: auth.isPro,
+    repairedToday: repairedToday,
+    reviseDue: reviseDue,
     subjects: auth.subjects,
     attempts: attempts.value,
     attemptsFailed: attempts.isFailedEmpty,

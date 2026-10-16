@@ -5,7 +5,6 @@
 // student was away, then an unopened result as the sealed sheet, then tonight's move. Whatever
 // does not win the hero becomes a compact slot under it, so nothing real is hidden.
 import '../../../core/copy/formatters.dart';
-import '../../../core/domain/next_move.dart' show isLateNight;
 import '../../../core/domain/session_rules.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/router/routes.dart';
@@ -44,7 +43,6 @@ TodayView buildToday(TodayInputs i) {
     weekFailed: plain.weekFailed,
     updatedLine: plain.updatedLine,
     refreshable: plain.refreshable,
-    mobi: _headerMobi(i, hero),
   );
   // An ended mock that could not be recorded only offers a picker; tonight's move under it is
   // then the one volt key and the picker steps back to a text key.
@@ -62,39 +60,19 @@ TodayView buildToday(TodayInputs i) {
     trend: buildTrend(i),
     road: buildRoad(i),
     offline: i.offline,
+    lastPaper: buildLastPaper(i),
   );
-}
-
-/// Mobi beside the greeting: every day, unless the hero card already has him. He cheers only for
-/// an opened result that improved or held; every other submission today gets a plain wave.
-HeaderMobiCue? _headerMobi(TodayInputs i, TodayHero hero) {
-  if (hero is MoveHero && hero.art.isMobi) return null;
-  final clock = i.clock();
-  if (isLateNight(clock)) return const HeaderMobiCue(HeaderMobiKind.sleepy, TodayCopy.mobiSleepy);
-  final today = i.date();
-  final all = i.attempts ?? const <Attempt>[];
-  final unopened = {for (final u in i.unopened) u.attemptId};
-  final recordedToday = [for (final a in all) if (i.date(a.completedAt) == today) a];
-  if (recordedToday.isNotEmpty) {
-    // A paper from today whose result is still sealed: wave, and say nothing about the marks.
-    if (recordedToday.any((a) => unopened.contains(a.id))) return const HeaderMobiCue(HeaderMobiKind.idle, TodayCopy.mobiSealed);
-    // Cheer only when the newest opened result improved on, or held against, the paper before
-    // it. A lower result, or a first paper with nothing to compare, gets the neutral wave.
-    final latest = recordedToday.first;
-    final prev = _previousComparable(all, latest, unopened);
-    if (prev != null && latest.marks >= prev.marks) return const HeaderMobiCue(HeaderMobiKind.cheer, TodayCopy.mobiCheer);
-    return const HeaderMobiCue(HeaderMobiKind.idle, TodayCopy.mobiRecorded);
-  }
-  if (hero is MoveHero && hero.number != null) return const HeaderMobiCue(HeaderMobiKind.point, TodayCopy.mobiPoint);
-  return const HeaderMobiCue(HeaderMobiKind.idle, TodayCopy.mobiIdle);
 }
 
 HeaderModel buildHeader(TodayInputs i) {
   final clock = i.clock();
   final week = i.week;
+  final name = i.firstName;
+  // A name field that is really a handle ("app-e2e-student") is never read out (acceptance 11).
+  final usable = name == null || name.isEmpty || TodayCopy.isHandleName(name, email: i.email) ? null : name;
   return HeaderModel(
     dateLine: formatWeekdayDate(clock),
-    greeting: TodayCopy.greeting(clock.hour, i.firstName),
+    greeting: TodayCopy.greeting(clock.hour, usable, returning: i.attempts != null && i.attempts!.isNotEmpty && isAway(i)),
     week: week == null ? null : _week(i, week),
     weekLoading: week == null && i.weekLoading,
     weekFailed: week == null && !i.weekLoading && i.weekFailed,
@@ -127,12 +105,88 @@ WeekModel _week(TodayInputs i, TodayWeek w) {
   final outlook = w.goal == null
       ? null
       : weekOutlook(studied: w.studied, todayIndex: today, goal: w.goal!, paused: w.paused, planned: planned);
+  final done = w.studied.where((d) => d).length;
+  final met = outlook?.kind == OutlookKind.met || w.met;
+  // Days of this week before the account's first paper read as a short dash, never a miss.
+  final clock = i.clock();
+  final monday = i.date().subtract(Duration(days: clock.weekday - 1));
+  final all = i.attempts;
+  final first = all == null ? null : (all.isEmpty ? i.date() : i.date(all.last.completedAt));
+  final before = <int>{
+    if (first != null)
+      for (var d = 0; d < 7; d++)
+        if (monday.add(Duration(days: d)).isBefore(first) && !w.studied[d]) d,
+  };
+  final counted = [for (var d = 0; d < 7; d++) if (w.studied[d]) d];
+  final (caption, key) = _weekCaption(i, w, today: today, planned: planned, done: done, met: met);
+  final m = monday.month.toString().padLeft(2, '0'), dd = monday.day.toString().padLeft(2, '0');
   return WeekModel(
     days: planWeek(studied: w.studied, todayIndex: today, planned: planned, dates: w.dates),
-    count: w.goal == null || w.paused ? w.label : '${w.studied.where((d) => d).length} of ${plural(w.goal!, 'study day')}',
+    count: w.goal == null || w.paused ? w.label : '$done of ${plural(w.goal!, 'study day')}',
     outlook: outlook?.short,
-    met: outlook?.kind == OutlookKind.met || w.met,
+    met: met,
     paused: w.paused,
+    done: done,
+    goal: w.paused ? null : w.goal,
+    caption: caption,
+    captionKey: key,
+    beforeAccount: before,
+    weekId: '${monday.year}-$m-$dd',
+    counted: counted,
+  );
+}
+
+/// The one line under the week's marks (TODAY-1017 4.3): the first case that matches wins.
+(String, String?) _weekCaption(TodayInputs i, TodayWeek w, {required int? today, required Set<int>? planned, required int done, required bool met}) {
+  final counted = [for (var d = 0; d < 7; d++) if (w.studied[d]) d];
+  final goal = w.goal;
+  if (w.paused) return (TodayCopy.weekPaused, null);
+  if (goal == null) return (TodayCopy.weekNoGoal, null);
+  if (met) {
+    final line = TodayCopy.weekGoalMet(goal);
+    return (line, line.substring(0, line.indexOf('.') + 1));
+  }
+  final all = i.attempts;
+  if (all != null && all.isEmpty) return (TodayCopy.weekDayOne, TodayCopy.tonightCounts);
+  if (done == 0 && all != null && all.isNotEmpty && isAway(i)) return (TodayCopy.weekNew, TodayCopy.tonightCounts);
+  final todayCounted = today != null && w.studied[today];
+  final todayPlanned = today != null && (planned == null || planned.contains(today));
+  if (todayPlanned && !todayCounted) {
+    if (done + 1 >= goal) {
+      final key = TodayCopy.tonightMakes(done + 1);
+      return (TodayCopy.weekLine(counted, key), key);
+    }
+    return (TodayCopy.weekLine(counted, TodayCopy.tonightCounts), TodayCopy.tonightCounts);
+  }
+  final left = goal - done;
+  final tail = TodayCopy.weekLeft(left < 0 ? 0 : left);
+  return (TodayCopy.weekLine(counted, tail), null);
+}
+
+/// Today's "Last paper" row: the newest paper whose result has been opened, with its change on the
+/// paper before it of the same kind (4.5). Null with no opened paper.
+LastPaper? buildLastPaper(TodayInputs i) {
+  final all = i.attempts ?? const <Attempt>[];
+  final unopened = {for (final u in i.unopened) u.attemptId};
+  Attempt? a;
+  for (final x in all) {
+    if (!unopened.contains(x.id)) {
+      a = x;
+      break;
+    }
+  }
+  if (a == null) return null;
+  final change = _change(all, a, unopened);
+  final prev = _previousComparable(all, a, unopened);
+  final date = formatDayMonthShort(i.date(a.completedAt));
+  return LastPaper(
+    title: TodayCopy.lastPaperName(paperLabel(all, a), subjectName(a.subject)),
+    sub: TodayCopy.lastPaperSub(date, change),
+    marks: a.marks,
+    outOf: a.maxMarks,
+    target: GoTo(a.isMock ? AppRoutes.result(a.id) : AppRoutes.practiceResult(a.id)),
+    change: change,
+    up: prev == null ? null : a.marks > prev.marks,
   );
 }
 

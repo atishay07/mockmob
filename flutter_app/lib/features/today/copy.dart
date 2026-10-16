@@ -34,7 +34,7 @@ abstract final class TodayCopy {
   /// email's own local part is never used in the greeting (acceptance 11).
   static bool isHandleName(String name, {String? email}) {
     if (RegExp(r'[0-9_.\-@]').hasMatch(name)) return true;
-    final local = email == null ? null : email.split('@').first.toLowerCase();
+    final local = email?.split('@').first.toLowerCase();
     return local != null && local.isNotEmpty && name.toLowerCase() == local;
   }
 
@@ -55,7 +55,7 @@ abstract final class TodayCopy {
   // Day one and new user (brief 11.11).
   static const String questionsUnit = 'questions';
   static String startingPointLine(String subject) =>
-      'Ten CUET-style questions in $subject. The result shows where your marks go, chapter by chapter.';
+      'Ten CUET-style $subject questions, marked +5 and −1. The result shows where your marks go, chapter by chapter.';
   static String startingPointWith(String subject, String framing) => 'Ten CUET-style questions in $subject. $framing';
   static String checkSetFor(DateTime at) => 'Your check is set for ${formatTime12(at)}.';
   /// One wording at every text size: the chips above already say "10 min", and the key never
@@ -589,7 +589,7 @@ abstract final class TodayCopy {
   static String startRevise(int minutes) => 'Start Revise, $minutes min';
 
   // Done for today.
-  static String doneRepairLabel(int n) => 'repaired\ntonight';
+  static String doneRepairLabel(int total) => 'of $total repaired\ntonight';
   static String doneRepairWhy(String? chapter) => chapter == null
       ? 'Every repair is saved in Review. Check it held opens there when a fix is due.'
       : '$chapter is clear for now. Check it held opens in Review when a fix is due.';
@@ -606,6 +606,8 @@ abstract final class TodayCopy {
   static String smartWhy(String subject, int sessions) =>
       'Smart practice picks questions from the chapters where your $subject marks went, from ${plural(sessions, 'saved session')}.';
   static String startSmart(int n) => 'Start smart practice, $n questions';
+  static String startSmartFor(int n) => startSmart(n);
+  static String warmUpKey(int n) => 'Start practice, $n questions';
 
   /// Under a failure's cause: what is still safe.
   static const String safeLine = 'Your papers and mistakes are safe; Review still opens them.';
@@ -650,4 +652,22 @@ abstract final class TodayCopy {
   static String collegesSub(String course, int more) => more > 0 ? '$course, 2026 Round 1. $more more saved.' : '$course, 2026 Round 1.';
   static const String collegesEmpty = 'Pick up to 8 to see their 2026 cutoffs here';
   static const String choose = 'Choose';
+
+  // Today 1017, second half.
+  /// The key's length, drawn inside the key after the verb ("Start repair  15 min"): what comes
+  /// after the first comma of every move key. Null when the label has none.
+  static String? keyLength(String label) {
+    final at = label.indexOf(', ');
+    return at <= 0 ? null : label.substring(at + 2);
+  }
+
+  static String weekLine(Iterable<int> counted, String tail) => counted.isEmpty ? tail : '${weekCounted(counted)} $tail';
+  static String weekFigureSemantics(int done, int? goal) => goal == null ? plural(done, 'study day') : '$done of ${plural(goal, 'study day')}';
+  static const String markCounted = 'counted';
+  static const String markPlanned = 'planned';
+  static const String markRest = 'rest day';
+  static const String markBefore = 'before your account';
+  static const String markOpen = 'not counted';
+  static String rowSemantics(String label, String title, String sub, String figure) => '$label. $title. $sub. $figure.';
+  static String ofDenominator(int n) => 'of $n';
 }
