@@ -13,7 +13,7 @@ import { buildRuleBook, buildRuleCheck, ruleInForce, ruleSummary, bookRules } fr
 import { buildTrapTags } from './trap_atlas.js';
 import { buildLater } from './revise.js';
 
-/** { acrossMocks, repairOrder, rules, prove: { ruleCheck } }. `warn(part, error)` hears each part that failed. */
+/** { acrossMocks, repairOrder, rules, repaired, prove: { ruleCheck } }. `warn(part, error)` hears each part that failed. */
 export function buildLabLoop({ attempt, allAttempts = [], answerReviews = {}, lab = null, sources = null, warn = () => {} } = {}) {
   const step = (name, fn) => { try { return fn() ?? null; } catch (e) { warn(name, e); return null; } };
   const acrossMocks = step('acrossMocks', () => buildAcrossMocks({ attempts: allAttempts, asOf: when(attempt) }));
@@ -25,7 +25,10 @@ export function buildLabLoop({ attempt, allAttempts = [], answerReviews = {}, la
     const found = bookRules(book).find((r) => r.id === rule.id);
     return buildRuleCheck({ attempt, attempts: allAttempts, rule: { ...rule, chapter: found?.chapter ?? null, subject: found?.subject ?? null } });
   }) : null;
-  return { acrossMocks, repairOrder, rules: ruleSummary(book), prove: { ruleCheck } };
+  // The wrong answers of this paper that already have a written repair (committed receipts with a rule): the result
+  // opens their saved repair (free) and never offers a paid one again (owner ledger F17).
+  const repaired = sources ? step('repaired', () => [...new Set((sources.repairs || []).filter((r) => r?.attemptId === attempt?.id && typeof r.questionId === 'string').map((r) => r.questionId))]) : null;
+  return { acrossMocks, repairOrder, rules: ruleSummary(book), repaired, prove: { ruleCheck } };
 }
 
 // ---------- Slice 4: the trap tag and "Same mistakes later" (spec 4.7 second part, 4.8) ----------

@@ -24,7 +24,9 @@ function Verdict({ right, line, innerRef }) {
   );
 }
 
-export default function RepairCheck({ attemptId, questionId, check, style }) {
+// onResult({ right, replayed }): the server marked this check (now, or earlier: replayed). Called once per marked answer,
+// only after the server's acknowledgement, so the result row's chip and Mobi's one cheer never run ahead of it.
+export default function RepairCheck({ attemptId, questionId, check, style, onResult }) {
   const availability = checkAvailability(check);
   const titleId = useId();
   const stemId = useId();
@@ -60,6 +62,13 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
   // The repair response is read once, when the repair appears; the screen then follows the server's own answers.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [attemptId, questionId]);
+
+  const told = useRef(null);
+  useEffect(() => {
+    if (view.phase !== 'answered' || !view.result || told.current === view.result) return;
+    told.current = view.result;
+    onResult?.({ right: view.result.right === true, replayed: !!view.replayed });
+  }, [view, onResult]);
 
   // After the student's own answer the verdict takes focus (the button that sent it is gone). A stored answer does not steal focus.
   useEffect(() => {

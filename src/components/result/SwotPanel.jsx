@@ -2,6 +2,8 @@
 // "After this mock" on the result page: "Do these next" (up to 3 practice sets, each with its reason)
 // and the SWOT for this mock. Every sentence and number comes from the server (data/mock_swot.js);
 // this file lays out only the section headings and button labels below. Free: no model, no credit.
+// On the 17 Oct result it sits inside the fold "After this mock: strengths, gaps and plan" (inFold): the fold names it,
+// so its own title is left to screen readers, and the student-facing heading is plain words, not "SWOT" (F11; adoption 11).
 import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import './swot.css';
@@ -9,7 +11,7 @@ import './swot.css';
 export const SWOT_UI_COPY = Object.freeze({
   title: 'After this mock',
   next: 'Do these next',
-  swot: 'SWOT for this mock',
+  swot: 'Strengths, gaps and risks',
   setUp: 'Set up',
   see: 'See',
   setUpLabel: (label) => `Set up, ${label}`,
@@ -76,7 +78,7 @@ function QuestionButtons({ numbers, onJump }) {
   );
 }
 
-export default function SwotPanel({ swot, attemptId, onJump }) {
+export default function SwotPanel({ swot, attemptId, onJump, inFold = false }) {
   const ready = swot?.state === 'ready';
   const [ref, phase] = useFirstView(attemptId, ready);
   const uid = useId();
@@ -99,8 +101,8 @@ export default function SwotPanel({ swot, attemptId, onJump }) {
   const titleId = `${uid}-title`;
 
   return (
-    <section ref={ref} className="sw" aria-labelledby={titleId} data-motion={phase}>
-      <h2 id={titleId} className="sw-title">{SWOT_UI_COPY.title}</h2>
+    <section ref={ref} className="sw" aria-labelledby={titleId} data-motion={phase} data-in-fold={inFold || undefined}>
+      <h2 id={titleId} className={inFold ? 'sw-title mr-sr' : 'sw-title'}>{SWOT_UI_COPY.title}</h2>
 
       {plan.length ? (
         <div className="sw-block">

@@ -37,6 +37,7 @@ import LATER from '../../../../data/tests/fixtures/mistake_lab/contract_later_v1
 import { buildTrapTags, indexAtlas } from '../../../../data/trap_atlas';
 import { buildLater } from '../../../../data/revise';
 import { optionHash } from '../../../../data/option_hash';
+import { RESULT_PAPERS, paperRepairOrder } from '../../../../data/result_papers.mjs';
 
 const DAY = 86_400_000;
 const SUBJECT = 'accountancy';
@@ -199,6 +200,35 @@ export async function fixtureReplayMock(paperName = 'full', { cohortTime = null,
   }
   const earlier = earlierPapers(now);
   const ledgerGroups = lab.state === 'ready' || lab.state === 'basic' ? lab.groups.map((g) => g.id) : null;
+  const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState: 'ready', missedBefore: {}, now, ledgerGroups });
+  const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
+  return { attempt, swot, mistakeInsights, answerReviewState: 'ready', answerReviews, lab };
+}
+
+// ---------- The 17 Oct result papers (RESULT-1017 section 5, data/result_papers.mjs) ----------
+
+export const RESULT_PAPER_NAMES = Object.freeze(Object.keys(RESULT_PAPERS));
+
+/**
+ * One of the result screen's illustrative papers (weak, avg, strong, perfect, blank: Accountancy full mocks of 50;
+ * practice5: a 5-question Business Studies practice), scored by the real scorer, with the real Lab, SWOT and record
+ * lines over it and the illustrative cohort repair order the shared fixtures use. Options: held (Q42's key under
+ * re-check on avg), repaired (a return visit: the first mistake in repair order already has a written repair).
+ */
+export function fixtureResultPaper(name = 'avg', { held = false, repaired = false } = {}) {
+  const now = Date.now();
+  const practice = name === 'practice5';
+  const attempt = paper({ id: 'fixture-attempt', prefix: `paper-${name}`, mode: practice ? 'quick' : 'full', completedAt: now - 3_600_000, blocks: RESULT_PAPERS[name] || RESULT_PAPERS.avg });
+  if (practice) attempt.subject = 'business_studies';
+  attempt.mode = attempt.selectionMeta.mode;
+  if (practice) attempt.selectionMeta = { ...attempt.selectionMeta, scoringVersion: 'server_practice_v1' };
+  const answerReviews = held ? { [`paper-${name}-q42`]: { state: 'under_review', originalIndex: 42 % 4 } } : {};
+  const earlier = earlierPapers(now);
+  const built = buildMistakeLab({ attempt, answerReviews, cohort: null });
+  const order = paperRepairOrder(name);
+  const live = order ? { ...order, items: order.items.filter((x) => !answerReviews[x.qid]), qids: order.qids.filter((q) => !answerReviews[q]) } : null;
+  const lab = built ? { ...fixtureLabLoop({ lab: built, attempt, answerReviews }), repairOrder: live, repaired: repaired && live?.qids?.length ? [live.qids[0]] : [] } : null;
+  const ledgerGroups = lab && (lab.state === 'ready' || lab.state === 'basic') ? lab.groups.map((g) => g.id) : null;
   const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState: 'ready', missedBefore: {}, now, ledgerGroups });
   const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
   return { attempt, swot, mistakeInsights, answerReviewState: 'ready', answerReviews, lab };

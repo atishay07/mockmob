@@ -57,7 +57,9 @@ test('the result page asks for the same hero from an attempt, and never in an NT
   assert.equal(mobiReaction({ recap: { tone: 'held' } }).alt.includes('answer keys'), true);
   assert.equal(mobiReaction({ recap: {} }).act, 'rest');
   assert.equal(mobiReaction({ selectionMeta: { mode: 'nta' }, recap: { tone: 'higher' } }), null);
-  assert.equal(mobiReaction({ recap: { tone: 'higher' } }, { hour: 2 }).line, 'Saved. Repair one mistake tomorrow.');
+  // F11 (17 Oct): a result is never sleepy, whatever the hour; the sleepy act stays for Today and the reminder.
+  assert.equal(mobiReaction({ recap: { tone: 'higher' } }, { hour: 2 }).act, 'cheer');
+  assert.notEqual(mobiReaction({ recap: {} }, { hour: 23 }).act, 'sleepy');
 });
 
 test('an opened answer: wrong or blank encourages then points, right hops then reads, held says nothing', () => {

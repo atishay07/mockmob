@@ -33,12 +33,14 @@ test('the result route adds acrossMocks, repairOrder, rules and prove.ruleCheck 
     labLoop: true, ruleSourcesOf: async ({ allAttempts }) => { assert.equal(allAttempts, HISTORY); return SOURCES; },
   });
   const base = buildMistakeLab({ attempt: M5_NOT, answerReviews: {} });
-  const { acrossMocks, repairOrder, rules, prove, ...lab } = out.lab;
+  const { acrossMocks, repairOrder, rules, repaired, prove, ...lab } = out.lab;
   assert.deepEqual(lab, base, 'the slice 1 and 2 contract is unchanged');
   assert.equal(acrossMocks.state, 'ready');
   assert.equal(acrossMocks.mocks, 5, 'as of this paper: the four before it and itself');
   assert.equal(repairOrder.state, 'paper', 'no cohort read was given');
   assert.deepEqual(rules, { count: 7, countLabel: 'Your rules (7)', active: { id: 'habit:never_opened', kind: 'habit', text: 'Open every question once before you go deep on any.', since: PLAYBOOK[0].created_at } });
+  const mine = SOURCES.repairs.filter((r) => r.attemptId === M5_NOT.id).map((r) => r.questionId);
+  assert.deepEqual(repaired, [...new Set(mine)], 'lab.repaired: the mistakes of this paper with a written repair (F17)');
   assert.equal(prove.ruleCheck.state, 'not_kept');
   assert.equal(prove.ruleCheck.result, 'Not kept: 4 of 50 questions never opened (last mock: 4 of 50).');
 });
@@ -51,6 +53,7 @@ test('each slice 3 part fails on its own: no rule sources, a failed read, and th
   });
   assert.deepEqual(warned, ['ruleSources']);
   assert.equal(failed.lab.rules, null);
+  assert.equal(failed.lab.repaired, null, 'unknown, never an empty list that would offer paid repairs again');
   assert.deepEqual(failed.lab.prove, { ruleCheck: null });
   assert.equal(failed.lab.acrossMocks.state, 'ready', 'the pure parts still build');
   assert.ok(failed.swot, 'the rest of the result still loads');

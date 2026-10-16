@@ -39,7 +39,7 @@ import OnboardingPageClient from '@/app/onboarding/OnboardingPageClient';
 import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
-import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer } from './previewMock';
+import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer, fixtureResultPaper, RESULT_PAPER_NAMES } from './previewMock';
 import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
 import RuleBook from '@/components/rules/RuleBook';
 import ReviseRun from '@/components/revise/ReviseRun';
@@ -200,6 +200,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // Slice 4 (fixtureSlice4): the trap tag under three wrong options and Same mistakes later in Prove; &traps=off leaves them out.
       // &lab=older leaves the rule check as not checked (the older-paper line).
       const loop = (built) => (mock === 'full' ? fixtureSlice4({ lab: fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || (fixture.get('lab') === 'older' ? 'not_checked' : 'kept'), order: fixture.get('order') || 'cohort' }), attempt: built.attempt, answerReviews: built.answerReviews, traps: fixture.get('traps') || 'on' }) : built.lab);
+      // The 17 Oct result papers (RESULT-1017 section 5): &paper=weak|avg|strong|perfect|blank|practice5, with &held=1 (a key
+      // under re-check) and &return=1 (the first mistake already repaired: it opens free, never offered as paid).
+      if (RESULT_PAPER_NAMES.includes(fixture.get('paper'))) {
+        const built = fixtureResultPaper(fixture.get('paper'), { held: fixture.get('held') === '1', repaired: fixture.get('return') === '1' });
+        return json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: built.lab, missedBefore: {}, answerReviewState: built.answerReviewState });
+      }
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
         return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort'), marks: fixture.get('marks') }).then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
       }
