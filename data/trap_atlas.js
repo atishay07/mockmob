@@ -17,7 +17,7 @@
 // the one they picked. Arithmetic only: no cause, no forecast, no rank.
 import COPY from './mistake_lab.copy.json' with { type: 'json' };
 import { TRAP_LABELS } from './repair_presentation.mjs';
-import { TRAP_TYPES } from './mistake_repair.js';
+import { TRAP_TYPES, allowedTrapType } from './mistake_repair.js';
 import { optionHash, optionRawText } from './option_hash.js';
 import { correctIndex } from './recovery.js';
 import { when, istDayMonth } from './attempt_ledger.js';
@@ -59,7 +59,7 @@ const istDayNumber = (ms) => Math.floor((Number(ms) + IST_OFFSET_MS) / DAY_MS);
  * trap, so it is never stored; a chosen option that reads the same as the key is not a wrong option.
  */
 export function atlasRecordFor({ question, chosenIndex, keyIndex, trapType } = {}) {
-  if (!question?.id || !NAMED.has(trapType)) return null;
+  if (!question?.id || !NAMED.has(trapType) || allowedTrapType(trapType, question) !== trapType) return null;
   const options = Array.isArray(question.options) ? question.options : [];
   if (!Number.isInteger(chosenIndex) || chosenIndex < 0 || chosenIndex >= options.length) return null;
   if (!Number.isInteger(keyIndex) || keyIndex < 0 || keyIndex >= options.length || keyIndex === chosenIndex) return null;

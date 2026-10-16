@@ -93,6 +93,8 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     // One line per failed repair, for the Vercel logs: stage, error code, provider status and code, model, elapsed ms.
     // Never a student id, a question id, prompt text or a key.
     log: (line) => console.error(line),
+    // The per-repair interpretation line is a diagnostic, not an error: stdout, so Vercel does not list it as one.
+    info: (line) => console.log(line),
   };
   return runRepair({ user, attemptId, questionId, requestId, startedAt, deps, config: { route: REPAIR_ROUTE, effort: REPAIR_EFFORT, fallbackRoute: REPAIR_FALLBACK_ROUTE } });
 }

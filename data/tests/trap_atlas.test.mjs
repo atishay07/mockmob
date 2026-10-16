@@ -376,3 +376,10 @@ test('no atlas row for "other", an uncommitted repair, a v1 repair, or a failing
   const without = repairHarness();
   assert.equal((await without.run()).body.status, 'explained', 'a harness without recordTrap (the older wiring) still works');
 });
+
+test('a passage-only trap is written to the atlas only for a question that has a passage', () => {
+  const plain = q('p1', FOUR('p1'), 2);
+  assert.equal(atlasRecordFor({ question: plain, chosenIndex: 1, keyIndex: 2, trapType: 'not_in_passage' }), null);
+  const reading = { ...plain, passageText: 'A short passage.' };
+  assert.equal(atlasRecordFor({ question: reading, chosenIndex: 1, keyIndex: 2, trapType: 'not_in_passage' })?.trapType, 'not_in_passage');
+});

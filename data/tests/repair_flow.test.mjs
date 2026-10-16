@@ -33,7 +33,7 @@ const okAI = (data = good, extra = {}) => ({ ok: true, data, usage, fallbackUsed
 const failedAI = (kind, extra = {}) => ({ ok: false, data: null, usage: null, fallbackUsed: false, failure: { stage: 'primary', provider: 'openai', model: 'gpt-6-luna', kind, status: null, code: null, ...extra } });
 
 function harness(over = {}) {
-  const calls = []; const logs = []; let t = T0;
+  const calls = []; const logs = []; const infos = []; let t = T0;
   const deps = {
     now: () => t,
     loadAttempt: async () => over.attempt ?? attempt,
@@ -51,8 +51,9 @@ function harness(over = {}) {
     withhold: async (args) => { calls.push(['withhold', args]); if (over.withhold) return over.withhold(args); },
     readWallet: async () => over.wallet ?? { total: 8, state: 'ok' },
     log: (line) => logs.push(line),
+    ...(over.splitInfo ? { info: (line) => infos.push(line) } : {}),
   };
-  return { deps, calls, logs, tick: (ms) => { t += ms; }, run: (extra = {}) => runRepair({ user, attemptId: 'a1', questionId: 'q1', requestId: REQ, startedAt: T0, deps, config, ...extra }) };
+  return { deps, calls, logs, infos, tick: (ms) => { t += ms; }, run: (extra = {}) => runRepair({ user, attemptId: 'a1', questionId: 'q1', requestId: REQ, startedAt: T0, deps, config, ...extra }) };
 }
 const kinds = (calls) => calls.map(c => c[0]);
 const releases = (calls) => calls.filter(c => c[0] === 'release').map(c => c[2]);
@@ -458,4 +459,31 @@ test('REPAIR_PROMPT_VERSION=1 rollback: today\'s prompt, schema, interpreter and
   assert.equal(body.pattern, null);
   assert.equal(h.logs.length, 0);
   assert.equal(h.calls.find(c => c[0] === 'commit')[2].promptVersion, 1);
+});
+
+test('the interpret diagnostic goes to the info sink, not the error log; real failures still go to the error log', async () => {
+  const ok = harness({ splitInfo: true });
+  await ok.run();
+  assert.equal(ok.logs.length, 0, 'nothing on the error log for a good repair');
+  assert.equal(ok.infos.length, 1);
+  assert.deepEqual(JSON.parse(ok.infos[0]), { route: 'repair', stage: 'interpret', kind: 'explained', dropped: [] });
+  const bad = harness({ splitInfo: true, generate: async () => okAI({ ...good, trap: '' }) });
+  await bad.run();
+  assert.equal(JSON.parse(bad.infos[0]).kind, 'unusable');
+  assert.ok(bad.logs.length === 1 && JSON.parse(bad.logs[0]).code === 'unusable_output', 'the failure line (with its code) is on the error log; the diagnostic is not');
+});
+
+test('a passage-only trap label on a question without a passage is stored as other, and never offered in its prompt', async () => {
+  const plain = { id: 'q1', subject: 'accountancy', chapter: 'Journal', question: 'Which entry records the purchase?', options: [{ key: 'A', text: 'Debit the asset' }, { key: 'B', text: 'Credit the asset' }, { key: 'C', text: 'Debit the capital' }, { key: 'D', text: 'Credit the capital' }], correctIndex: 0 };
+  const h = harness({
+    attempt: { ...attempt, subject: 'accountancy', questionsSnapshot: [plain], details: [{ qid: 'q1', isCorrect: false, givenIndex: 1 }] },
+    live: { id: 'q1', status: 'live', verification_state: 'verified', options: plain.options.map((o) => ({ ...o })), correct_answer: 'A' },
+    generate: async () => okAI({ ...good, solved_index: 0, trap: 'Credit sounds like the safe side of an entry.', why_wrong: 'Buying an asset debits it, so credit is the wrong side.', why_right: 'An asset that comes in is debited, so option A.', contrast: '', others: [{ index: 2, why: 'Capital is not the account affected here.' }, { index: 3, why: 'Capital is not the account affected here either.' }], rule: 'Debit what comes in.', memory_hook: '', another_way: '' }),
+  });
+  const res = await h.run();
+  assert.equal(res.body.ok, true);
+  assert.equal(res.body.repair.trap_type, 'other');
+  const main = h.calls.find((c) => c[0] === 'generate')[2];
+  assert.doesNotMatch(main.systemPrompt, /not_in_passage/);
+  assert.equal(h.calls.some((c) => c[0] === 'commit' && c[2]?.repair?.trap_type === 'not_in_passage'), false);
 });

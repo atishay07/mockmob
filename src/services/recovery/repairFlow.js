@@ -198,10 +198,10 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   if (!ai?.data) return await failForModel(ai, 'generate');
   const optionCount = eligible.question.options.length;
   const verdict = v3
-    ? interpretRepairV3(ai.data, { keyIndex: eligible.keyIndex, chosenIndex: eligible.chosenIndex, optionCount })
+    ? interpretRepairV3(ai.data, { keyIndex: eligible.keyIndex, chosenIndex: eligible.chosenIndex, optionCount, question: eligible.question })
     : interpretRepair(ai.data, { keyIndex: eligible.keyIndex, optionCount });
   // One line per v3 interpretation, so the drop and unusable rates can be watched. No student, question or text.
-  if (v3) deps.log?.(JSON.stringify({ route: 'repair', stage: 'interpret', kind: verdict.kind, ...(verdict.reason ? { reason: verdict.reason } : {}), dropped: verdict.dropped ?? [] }));
+  if (v3) (deps.info ?? deps.log)?.(JSON.stringify({ route: 'repair', stage: 'interpret', kind: verdict.kind, ...(verdict.reason ? { reason: verdict.reason } : {}), dropped: verdict.dropped ?? [] }));
   if (verdict.kind === 'unusable') return await fail('unusable_output', 502, 'The repair could not be prepared reliably this time.', { stage: 'interpret', model: ai.usage?.model });
 
   if (verdict.kind === 'disputed') {
