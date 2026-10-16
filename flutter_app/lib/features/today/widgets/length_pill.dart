@@ -31,10 +31,17 @@ class LengthPill extends StatelessWidget {
   DurationChoice get _choice => durations.firstWhere((d) => d.minutes == selected, orElse: () => durations.first);
 
   Future<void> _open(BuildContext context) async {
+    final picked = await openPanel(context, durations: durations, selected: selected, title: title);
+    if (picked != null && picked != selected) onChanged?.call(picked);
+  }
+
+  /// Opens the lengths panel just above [context]'s box (the Change length pill uses it too) and
+  /// returns the chosen minutes, or null when it closed without a choice.
+  static Future<int?> openPanel(BuildContext context, {required List<DurationChoice> durations, required int selected, required String title}) async {
     final box = context.findRenderObject();
-    if (box is! RenderBox || !box.hasSize) return;
+    if (box is! RenderBox || !box.hasSize) return null;
     final anchor = box.localToGlobal(Offset.zero) & box.size;
-    final picked = await Navigator.of(context).push<int>(
+    return Navigator.of(context).push<int>(
       _LengthPanelRoute(
         anchor: anchor,
         title: title,
@@ -43,7 +50,6 @@ class LengthPill extends StatelessWidget {
         barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
       ),
     );
-    if (picked != null && picked != selected) onChanged?.call(picked);
   }
 
   @override

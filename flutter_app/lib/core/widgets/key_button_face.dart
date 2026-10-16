@@ -37,9 +37,14 @@ class KeyButtonFace extends StatelessWidget {
     this.leading,
     this.minHeight,
     this.scaleWithDepth = true,
+    this.detail,
   });
 
   final String label;
+
+  /// A quieter second part after the label, in the same key ("Start repair  15 min"): weight 500
+  /// at 78% of the label's ink. Null draws the label alone.
+  final String? detail;
   final KeyVariant variant;
 
   /// 0 = rest, 1 = pressed.
@@ -215,6 +220,15 @@ class KeyButtonFace extends StatelessWidget {
               const SizedBox(width: MmSpace.s8),
             ],
             Flexible(child: ghost ? Text(label, style: style, textAlign: TextAlign.center) : _LabelMorph(label: label, style: style, alignment: Alignment.center, textAlign: TextAlign.center)),
+            if (detail != null) ...[
+              const SizedBox(width: MmSpace.s8),
+              _LabelMorph(
+                label: detail!,
+                style: style.copyWith(fontWeight: FontWeight.w500, color: (style.color ?? textColor).withValues(alpha: 0.78)),
+                alignment: Alignment.center,
+                textAlign: TextAlign.center,
+              ),
+            ],
           ],
         );
 
