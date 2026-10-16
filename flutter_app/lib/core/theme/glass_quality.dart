@@ -7,6 +7,7 @@ import 'package:flutter/services.dart' show MethodChannel;
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../platform/device_corner.dart';
 import '../storage/app_prefs.dart';
 import '../storage/storage_providers.dart';
 import '../widgets/materials/glass_shader.dart';
@@ -67,7 +68,7 @@ class GlassBoot {
   static Future<GlassBoot> read(AppPrefs prefs, {Future<bool> Function()? lowMemory}) async {
     // The lens program loads alongside the preferences, so the first frame is already the right
     // tier (no flip from the basic glass to the lens). It never throws.
-    final shader = GlassShader.load();
+    final shader = (GlassShader.load(), DeviceCorner.load()).wait;
     try {
       // Both reads start together: each is a round trip to the platform before the first frame.
       final (savedRaw, savedAuto) = await (prefs.glassQuality(), prefs.glassAutoLite()).wait;

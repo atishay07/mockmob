@@ -4,7 +4,9 @@ import '../motion/motion.dart';
 import '../theme/theme.dart';
 import 'feedback.dart';
 import 'key_button.dart';
+import '../platform/device_corner.dart';
 import 'materials/glass_surface.dart';
+import 'materials/mm_glass.dart';
 
 /// At or above this text scale a sheet becomes a full page with a visible Close (spec 11).
 const double kSheetFullPageTextScale = 1.5;
@@ -24,23 +26,102 @@ AnimationStyle _sheetAnimationStyle(BuildContext context) {
   );
 }
 
-/// The sheet's body: smoked glass with a 32 dp top radius and the edge light, or a solid page
-/// at large text scale.
+/// The sheet's glass (GLASS-1017 section 5.7): it floats, then fills.
+///
+/// * **Partial detent** (every sheet shorter than the screen): MockMob Glass inset 8 dp from the
+///   sides and the bottom, 32 dp top corners and bottom corners concentric with the phone's
+///   (its corner radius minus 8, [DeviceCorner]). The rim is thinner glass over the page; the
+///   reading core stays dense. The page behind keeps the scrim and does not recede.
+/// * **Toward the full detent** (a sheet opened at 85% of the screen or more, [heightFactor]):
+///   over the last 15% the insets and the bottom corners go to 0 and the glass turns into the
+///   opaque `raised` surface (LG-3).
+/// * **Materialise, do not fade** (LG-1): over the first 60% of the rise the blur, the rim and
+///   the tint grow together; closing runs the same path back. Under reduced motion the route's
+///   own 120 ms fade carries it and the glass is whole from the first frame.
+/// * With the keyboard up the sheet sits on it: no bottom inset, square bottom corners.
+/// * At large text scale (1.5 and up) it is a solid full page with a visible Close (unchanged).
 class MmSheetGlass extends StatelessWidget {
-  const MmSheetGlass({super.key, required this.child});
+  const MmSheetGlass({super.key, required this.child, this.heightFactor});
 
   final Widget child;
+
+  /// The share of the screen the sheet opens at, when it is fixed (see [MmSheetScaffold]).
+  final double? heightFactor;
+
+  /// How far a sheet of [heightFactor] has filled the screen: 0 up to 85%, 1 at the full height.
+  static double fillFor(double? heightFactor) => heightFactor == null ? 0 : ((heightFactor - 0.85) / 0.15).clamp(0.0, 1.0);
+
+  /// How far the glass has materialised at route value [t] (0 to 1).
+  static double materializeAt(double t) => (t / GlassTokens.materializeShare).clamp(0.0, 1.0);
 
   @override
   Widget build(BuildContext context) {
     if (_isLargeText(context)) {
       return ColoredBox(color: context.mmColors.ground, child: child);
     }
-    return GlassSurface(
-      role: GlassRole.sheet,
-      borderRadius: MmRadius.sheetTopOnly,
-      shadow: false,
-      child: child,
+    final route = Motion.reduced(context) ? null : ModalRoute.of(context)?.animation;
+    if (route == null) return _frame(context, 1);
+    return _SheetMaterialize(route: route, builder: (context, m) => _frame(context, m));
+  }
+
+  Widget _frame(BuildContext context, double materialize) {
+    final media = MediaQuery.of(context);
+    final fill = fillFor(heightFactor);
+    final keyboard = media.viewInsets.bottom > 0;
+    final side = DeviceCorner.sheetInset * (1 - fill);
+    final bottom = keyboard ? 0.0 : side;
+    final cornerBottom = keyboard ? 0.0 : DeviceCorner.sheetRadius * (1 - fill);
+    final radius = BorderRadius.only(
+      topLeft: const Radius.circular(32),
+      topRight: const Radius.circular(32),
+      bottomLeft: Radius.circular(cornerBottom),
+      bottomRight: Radius.circular(cornerBottom),
+    );
+    // The sheet's own safe area (the gesture bar) is measured from the glass's bottom, which
+    // now sits [bottom] above the screen's.
+    EdgeInsets lift(EdgeInsets p) => p.copyWith(bottom: (p.bottom - bottom).clamp(0.0, double.infinity));
+    return Padding(
+      padding: EdgeInsets.fromLTRB(side, 0, side, bottom),
+      child: MediaQuery(
+        data: media.copyWith(padding: lift(media.padding), viewPadding: lift(media.viewPadding)),
+        child: GlassSurface(
+          role: GlassRole.sheet,
+          borderRadius: radius,
+          materialize: materialize,
+          fill: fill,
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+
+/// Rebuilds the sheet's glass from its route: materialising on the way up, whole once it has
+/// landed (a drag down keeps the glass), and dematerialising along the same path on the way out.
+class _SheetMaterialize extends StatefulWidget {
+  const _SheetMaterialize({required this.route, required this.builder});
+
+  final Animation<double> route;
+  final Widget Function(BuildContext context, double materialize) builder;
+
+  @override
+  State<_SheetMaterialize> createState() => _SheetMaterializeState();
+}
+
+class _SheetMaterializeState extends State<_SheetMaterialize> {
+  bool _landed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: widget.route,
+      builder: (context, _) {
+        final route = widget.route;
+        if (route.status == AnimationStatus.completed) _landed = true;
+        final closing = route.status == AnimationStatus.reverse || route.status == AnimationStatus.dismissed;
+        final m = _landed && !closing ? 1.0 : MmSheetGlass.materializeAt(route.value);
+        return widget.builder(context, m);
+      },
     );
   }
 }
@@ -108,12 +189,13 @@ class MmSheetScaffold extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ...header,
-        fixed ? Expanded(child: _EdgeFadeScroll(child: body)) : Flexible(child: _EdgeFadeScroll(child: body)),
+        // Above a pinned footer the body dissolves into the glass over 40 dp instead of meeting a
+        // hairline (GLASS-1017 5.7).
+        fixed
+            ? Expanded(child: _EdgeFadeScroll(bottomExtent: footer != null ? 40 : 24, child: body))
+            : Flexible(child: _EdgeFadeScroll(bottomExtent: footer != null ? 40 : 24, child: body)),
         if (footer != null)
-          DecoratedBox(
-            decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
-            child: Padding(padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s16), child: footer),
-          ),
+          Padding(padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s8, MmSpace.s20, MmSpace.s16), child: footer),
       ],
     );
 
@@ -129,9 +211,12 @@ class MmSheetScaffold extends StatelessWidget {
 /// so a cut-off row reads as "more here" instead of being sliced by the title or the pinned
 /// footer. At rest with everything visible nothing is faded.
 class _EdgeFadeScroll extends StatefulWidget {
-  const _EdgeFadeScroll({required this.child});
+  const _EdgeFadeScroll({required this.child, this.bottomExtent = 24});
 
   final Widget child;
+
+  /// How far the bottom edge dissolves: 40 dp above a pinned footer.
+  final double bottomExtent;
 
   @override
   State<_EdgeFadeScroll> createState() => _EdgeFadeScrollState();
@@ -170,13 +255,14 @@ class _EdgeFadeScrollState extends State<_EdgeFadeScroll> {
       blendMode: BlendMode.dstIn,
       shaderCallback: (rect) {
         final stop = (_extent / rect.height).clamp(0.0, 0.5);
+        final stopBottom = (widget.bottomExtent / rect.height).clamp(0.0, 0.5);
         const clear = Color(0x00FFFFFF);
         const solid = Color(0xFFFFFFFF);
         return LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [_above ? clear : solid, solid, solid, _below ? clear : solid],
-          stops: [0, stop, 1 - stop, 1],
+          stops: [0, stop, 1 - stopBottom, 1],
         ).createShader(rect);
       },
       child: scroll,
@@ -212,6 +298,7 @@ Future<T?> showMmSheet<T>({
     shape: const RoundedRectangleBorder(),
     sheetAnimationStyle: _sheetAnimationStyle(context),
     builder: (context) => MmSheetGlass(
+      heightFactor: heightFactor,
       child: MmSheetScaffold(title: title, footer: footer?.call(context), heightFactor: heightFactor, child: builder(context)),
     ),
   );
@@ -372,7 +459,9 @@ class _MmSheetBodyRevealState extends State<MmSheetBodyReveal> {
       child: widget.child,
       builder: (context, child) {
         if (route.status == AnimationStatus.completed || route.status == AnimationStatus.reverse) _landed = true;
-        final t = _landed ? 1.0 : Motion.emphasized.transform(((route.value - 0.33) / 0.67).clamp(0.0, 1.0));
+        // The glass materialises over the first 60% of the rise; the words begin once it is
+        // mostly there, so text never lands on thin glass.
+        final t = _landed ? 1.0 : Motion.emphasized.transform(((route.value - 0.5) / 0.5).clamp(0.0, 1.0));
         return _shell(t, child!);
       },
     );

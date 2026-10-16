@@ -99,7 +99,6 @@ flutter:
   # The navigation layer's glass (GLASS-1017 section 5.3): rim lensing, core blur, luminosity clamp.
   shaders:
     - shaders/mm_glass.frag
-    - shaders/probe.frag
 
   # To add assets to your application, add an assets section, like this:
   # assets:

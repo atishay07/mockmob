@@ -5,7 +5,8 @@
 //   1. d = the distance inside the rounded rect, n = its outward normal.
 //   2. Rim (d < band): the sample is pulled in along -n by bend * (1 - d / band)^2, so content
 //      visibly bends as it crosses the edge.
-//   3. Core: 13 bilinear taps (centre and two rings of six) over the pre-blurred input.
+//   3. Core: 13 bilinear taps (centre and two rings of six) over the pre-blurred input, or none
+//      when uCore is 0 (sheets: the inner filter is already their blur).
 //      Rim and core are feathered across band * 0.55 to band.
 //   4. Saturation lift (uSat).
 //   5. Luminosity clamp in linear light, hue kept: Night scales down to uLumMax, Day lifts
@@ -86,11 +87,13 @@ void main() {
     float k = clamp(1.0 - d / max(uBand, 1.0), 0.0, 1.0);
     vec4 rim = tap(frag - n * uBend * k * k);
 
-    // Core: centre plus two rings of six.
-    vec4 core = base * 0.2;
+    // Core: centre plus two rings of six. A sheet passes uCore 0: its inner filter is already
+    // the sigma 30 blur, so the core is the input itself (no taps).
+    vec4 core = base;
+    if (uCore > 0.0) core = base * 0.2;
     float r1 = uCore * 0.5;
     float r2 = uCore;
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 6 && uCore > 0.0; i++) {
       float a = float(i) * 1.0471976; // 60 degrees
       vec2 dir = vec2(cos(a), sin(a));
       vec2 dir2 = vec2(cos(a + 0.5235988), sin(a + 0.5235988)); // offset by 30 degrees

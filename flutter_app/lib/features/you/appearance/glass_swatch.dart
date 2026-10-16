@@ -17,11 +17,9 @@ import '../widgets/you_motion.dart';
 class GlassSwatch extends ConsumerStatefulWidget {
   const GlassSwatch({super.key});
 
-  static String lineFor(GlassQuality quality) => switch (quality) {
-        GlassQuality.full => YouCopy.glassPreviewFull,
-        GlassQuality.lite => YouCopy.glassPreviewLite,
-        GlassQuality.off => YouCopy.glassPreviewOff,
-      };
+  /// The picker's own words for each choice (GLASS-1017 section 5.11), so the swatch and the
+  /// setting never disagree.
+  static String lineFor(GlassQuality quality) => GlassQualityPicker.describe(quality);
 
   static const Duration drift = Duration(seconds: 14);
 
