@@ -78,11 +78,10 @@ abstract final class MmElevation {
   /// Pressed glass brightens its edge light by this factor.
   static const double pressedEdgeBoost = 1.6;
 
-  /// Blur sigma per glass role. Capped at 14 (perf review, round 1): under the dense tint the
-  /// difference from 20 to 28 is invisible, and every point of radius costs a weak GPU each
-  /// scrolling frame.
-  static const double sigmaDock = 14;
-  static const double sigmaSheet = 14;
+  /// Blur sigma per glass role. The dock reads as frost only when the blur is strong under a
+  /// thinner tint (owner test 15 Oct: "the blur reads weak"): 24 for the bar, 18 for sheets.
+  static const double sigmaDock = 24;
+  static const double sigmaSheet = 18;
   static const double sigmaControl = 12;
 }
 

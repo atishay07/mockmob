@@ -92,6 +92,7 @@ class TodayInputs {
     this.planFetchedAt,
     this.planStale = false,
     this.week,
+    this.weekLoading = false,
     this.returning = false,
     this.draft,
     this.unopened = const [],
@@ -123,6 +124,9 @@ class TodayInputs {
   final DateTime? planFetchedAt;
   final bool planStale;
   final TodayWeek? week;
+
+  /// The rhythm is visible and its first read has not landed: Today shows the strip as a skeleton.
+  final bool weekLoading;
 
   /// The server's `returning` (3 or more days away).
   final bool returning;

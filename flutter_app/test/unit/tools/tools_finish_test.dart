@@ -1,4 +1,4 @@
-// The bar and tools packet, finishing pass: one Mobi per tools screen and one entrance for him, a
+// The bar and tools packet, finishing pass: no second character on Compass (the compass is the one), a
 // refused target or subject shakes with the warn haptic beside the line that says why, the
 // combo cards open to a truthful comparison, paper bubbles show the best combination against
 // the limit, the score sheet's live strip rolls with the typed score, and the guide rail fills
@@ -28,7 +28,7 @@ const _pool = ['language:english', 'domain:accountancy', 'domain:business_studie
 void main() {
   setUpAll(loadAppFonts);
 
-  group('one Mobi per tools screen', () {
+  group('no second character on Compass', () {
     Future<void> compass(WidgetTester tester, String subjects) async {
       await pumpMockmob(
         tester,
@@ -41,30 +41,21 @@ void main() {
       await tester.pumpAndSettle();
     }
 
-    testWidgets('with nothing open the hero Mobi thinks and the page has no second one', (tester) async {
+    testWidgets('with nothing open the hero has the compass and no Mobi', (tester) async {
       await compass(tester, 'english,business_studies,economics');
       expect(find.text(ToolsCopy.noneOpenLine), findsOneWidget);
-      expect(_mobis(), findsOneWidget);
-      expect(tester.widget<Mobi>(_mobis()).pose, MobiPose.think);
-      expect(tester.widget<Mobi>(_mobis()).size, 56);
+      expect(_mobis(), findsNothing);
+      expect(find.byKey(const ValueKey('compass-ring')), findsOneWidget);
     });
 
-    testWidgets('with programmes open there is still the one, and he greets', (tester) async {
+    testWidgets('with programmes open it is still the compass alone, and it stays when the count changes', (tester) async {
       await compass(tester, 'english,accountancy,business_studies,economics');
-      expect(_mobis(), findsOneWidget);
-      expect(tester.widget<Mobi>(_mobis()).entrance, MobiAct.hello);
-    });
-
-    testWidgets('his entrance does not change when the count does: later changes are reactions', (tester) async {
-      await compass(tester, 'english,business_studies,economics');
-      final before = tester.widget<Mobi>(_mobis()).entrance;
-      expect(before, MobiAct.think);
+      expect(_mobis(), findsNothing);
       final container = ProviderScope.containerOf(tester.element(find.byType(CompassScreen)));
       container.read(compassControllerProvider.notifier).toggle(const DuPick.domain('mathematics'));
       await tester.pumpAndSettle();
-      expect(find.text(ToolsCopy.noneOpenLine), findsNothing, reason: 'Mathematics opens programmes');
-      expect(_mobis(), findsOneWidget);
-      expect(tester.widget<Mobi>(_mobis()).entrance, before, reason: 'one entrance for the life of the card');
+      expect(_mobis(), findsNothing);
+      expect(find.byKey(const ValueKey('compass-ring')), findsOneWidget);
     });
   });
 

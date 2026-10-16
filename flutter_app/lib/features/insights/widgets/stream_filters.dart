@@ -8,7 +8,6 @@ import '../copy.dart';
 import '../data/stream_catalog.dart';
 import '../data/stream_controller.dart';
 import '../data/subject_names.dart';
-import 'edge_fade.dart';
 import 'practice_card.dart';
 
 /// Subject, chapter and difficulty as three filter keys. Each opens a sheet; choosing reloads
@@ -22,46 +21,40 @@ class StreamFilterBar extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final f = filters;
-    // A chip never ends in a hard cut at the screen edge: the edge fades where more is behind it.
-    return EdgeFade(
-      child: SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-      child: Row(
-        children: [
-          _FilterKey(
-            label: subjectDisplayName(f.subject),
-            hint: InsightsCopy.chooseSubject,
-            onTap: () async {
-              final picked = await _pickSubject(context, f.subject);
-              if (picked != null && picked != f.subject) onChanged(StreamFilters(subject: picked));
-            },
-          ),
-          const SizedBox(width: MmSpace.s8),
-          _FilterKey(
-            label: f.chapter ?? InsightsCopy.allChapters,
-            hint: InsightsCopy.chooseChapter,
-            active: f.chapter != null,
-            onTap: () async {
-              final picked = await _pickChapter(context, f.subject, f.chapter);
-              if (picked == null) return;
-              onChanged(picked.isEmpty ? f.copyWith(clearChapter: true) : f.copyWith(chapter: picked));
-            },
-          ),
-          const SizedBox(width: MmSpace.s8),
-          _FilterKey(
-            label: f.difficulty == null ? InsightsCopy.anyDifficulty : difficultyWord(f.difficulty),
-            hint: 'Difficulty',
-            active: f.difficulty != null,
-            onTap: () async {
-              final picked = await _pickDifficulty(context, f.difficulty);
-              if (picked == null) return;
-              onChanged(picked.isEmpty ? f.copyWith(clearDifficulty: true) : f.copyWith(difficulty: picked));
-            },
-          ),
-        ],
-      ),
-      ),
+    // The three keys ride one rail: it snaps to a key, fades the edge with more behind it and
+    // always peeks a clean start of the next key, never a label cut through a letter.
+    return ChipRail(
+      semanticLabel: InsightsCopy.streamFilters,
+      children: [
+        _FilterKey(
+          label: subjectDisplayName(f.subject),
+          hint: InsightsCopy.chooseSubject,
+          onTap: () async {
+            final picked = await _pickSubject(context, f.subject);
+            if (picked != null && picked != f.subject) onChanged(StreamFilters(subject: picked));
+          },
+        ),
+        _FilterKey(
+          label: f.chapter ?? InsightsCopy.allChapters,
+          hint: InsightsCopy.chooseChapter,
+          active: f.chapter != null,
+          onTap: () async {
+            final picked = await _pickChapter(context, f.subject, f.chapter);
+            if (picked == null) return;
+            onChanged(picked.isEmpty ? f.copyWith(clearChapter: true) : f.copyWith(chapter: picked));
+          },
+        ),
+        _FilterKey(
+          label: f.difficulty == null ? InsightsCopy.anyDifficulty : difficultyWord(f.difficulty),
+          hint: 'Difficulty',
+          active: f.difficulty != null,
+          onTap: () async {
+            final picked = await _pickDifficulty(context, f.difficulty);
+            if (picked == null) return;
+            onChanged(picked.isEmpty ? f.copyWith(clearDifficulty: true) : f.copyWith(difficulty: picked));
+          },
+        ),
+      ],
     );
   }
 

@@ -254,6 +254,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('record', reviewRecordScreen),
             // The Rule book: over the dock, so the result page (outside the shell) can push it too.
             page('rules', reviewRulesScreen, root: true),
+            page('revise', reviewReviseScreen, root: true),
             page('insights', reviewInsightsScreen),
             page('saved', reviewSavedScreen),
             // Literal "ending" before the :questionId pattern.
@@ -281,6 +282,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('help', youHelpScreen, root: true),
             page('subjects', youSubjectsScreen, root: true),
             page('sheet', youSheetScreen, root: true),
+            page('credits', youCreditsScreen, root: true),
           ]),
         ]),
       ],

@@ -126,9 +126,9 @@ void main() {
       await _run(tester, 1000);
       await tester.tap(find.text('5 min'));
       await _run(tester, 600);
-      expect(find.text('Repair Admission of a partner, 2 mistakes'), findsOneWidget);
+      expect(find.text('Repair 2 mistakes'), findsOneWidget);
       expect(
-        find.text('Admission of a partner, about 5 minutes. The other 13 are in Review.'),
+        find.text('Admission of a partner, 2 of its 4 wrong answers.\nAbout 5 minutes. The other 13 are in Review.'),
         findsOneWidget,
         reason: 'the two in the run leave thirteen of the fifteen in Review, the chapter\'s other two among them',
       );
@@ -207,7 +207,7 @@ void main() {
         overrides: resultOverrides(attemptId: 'a7', data: _ready(mock7(withDetail: d), d), ritual: const RecapRitual(sheetsOpened: 1)),
       );
       await _run(tester, 1000);
-      await tester.tap(find.bySemanticsLabel('More'));
+      await tester.tap(find.text('Choose something else'));
       await _run(tester, 700);
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 400);

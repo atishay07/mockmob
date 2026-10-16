@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/models/models.dart' show LabLabels, LabOthers;
+import '../../../core/models/models.dart' show LabLabels, LabOthers, TrapTag;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -11,6 +11,7 @@ import '../../insights/widgets/motion_bits.dart' show WhenInView;
 import '../copy.dart';
 import '../model/answer_items.dart';
 import '../model/time_decisions.dart' show TimeCopy;
+import '../widgets/trap_tag.dart';
 
 /// One answer of the full result: a collapsed header (bubble, number, verdict in words, chapter)
 /// that opens to the question, the options with the student's choice and, only where the key rule
@@ -26,6 +27,7 @@ class AnswerRow extends StatefulWidget {
     this.onOpened,
     this.others,
     this.othersTitle,
+    this.trap,
   });
 
   final AnswerItem item;
@@ -46,6 +48,10 @@ class AnswerRow extends StatefulWidget {
 
   /// The small label above it ("How others answered"), the server's word.
   final String? othersTitle;
+
+  /// The trap the server named on the student's wrong option (Mistake Lab slice 4, spec 4.7), shown
+  /// as one more row under that option. Null shows nothing.
+  final TrapTag? trap;
 
   @override
   State<AnswerRow> createState() => _AnswerRowState();
@@ -86,6 +92,9 @@ class _AnswerRowState extends State<AnswerRow> {
     // or while the question's key is being checked.
     others: widget.keysOff || item.verdict == Verdict.held ? null : widget.others,
     othersTitle: widget.othersTitle,
+    // A trap names the student's own wrong option: never on a right, blank or held answer, and never
+    // while keys are off (the tag is a statement about the key).
+    trap: widget.keysOff || item.verdict != Verdict.wrong ? null : widget.trap,
   );
 
   BubbleState get _bubble => switch (item.verdict) {
@@ -157,13 +166,14 @@ class _AnswerRowState extends State<AnswerRow> {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({required this.item, required this.keysOff, this.onRepair, this.others, this.othersTitle});
+  const _Body({required this.item, required this.keysOff, this.onRepair, this.others, this.othersTitle, this.trap});
 
   final AnswerItem item;
   final bool keysOff;
   final VoidCallback? onRepair;
   final LabOthers? others;
   final String? othersTitle;
+  final TrapTag? trap;
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +214,7 @@ class _Body extends StatelessWidget {
           Text(others!.line, style: type.body.copyWith(fontSize: 15, height: 22 / 15, fontFeatures: const [FontFeature.tabularFigures()])),
         ],
         const SizedBox(height: MmSpace.s12),
-        _Options(item: item, keysOff: keysOff, others: others),
+        _Options(item: item, keysOff: keysOff, others: others, trap: trap),
         if (item.verdict == Verdict.blank) ...[
           const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.didNotAnswer, style: type.small.copyWith(color: colors.ink2)),
@@ -253,11 +263,12 @@ class _Body extends StatelessWidget {
 /// when the answer comes into view (240 ms on the ease-out curve; the student's own option settles
 /// 80 ms after the rest). Under reduced motion they are drawn at once.
 class _Options extends StatefulWidget {
-  const _Options({required this.item, required this.keysOff, this.others});
+  const _Options({required this.item, required this.keysOff, this.others, this.trap});
 
   final AnswerItem item;
   final bool keysOff;
   final LabOthers? others;
+  final TrapTag? trap;
 
   static const Duration grow = Motion.card;
   static const Duration mineLag = Duration(milliseconds: 80);
@@ -314,6 +325,16 @@ class _OptionsState extends State<_Options> with SingleTickerProviderStateMixin 
     return _grow.drive(CurveTween(curve: mine ? Interval(lag, 1, curve: Motion.out) : Interval(0, 1 - lag, curve: Motion.out)));
   }
 
+  /// The trap shows on option [i] only when it is the student's own wrong pick and the tag's own
+  /// index (and letter, when it names one) say the same option.
+  TrapTag? _trapFor(int i) {
+    final t = widget.trap;
+    final item = widget.item;
+    if (t == null || item.given != i || t.index != i) return null;
+    if (t.letter.isNotEmpty && item.question.options[i].key != t.letter) return null;
+    return t;
+  }
+
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
@@ -334,6 +355,7 @@ class _OptionsState extends State<_Options> with SingleTickerProviderStateMixin 
             share: others?.shareOf(i),
             othersLabel: others?.labelFor(i),
             grow: others == null ? null : _phase(item.given == i),
+            trap: _trapFor(i),
           ),
         ],
       ],
@@ -353,6 +375,7 @@ class _Option extends StatelessWidget {
     this.share,
     this.othersLabel,
     this.grow,
+    this.trap,
   });
 
   final String letter;
@@ -369,6 +392,9 @@ class _Option extends StatelessWidget {
   final String? othersLabel;
   final Animation<double>? grow;
 
+  /// The trap named on this option (the student's own wrong pick), one row under its text.
+  final TrapTag? trap;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -378,7 +404,7 @@ class _Option extends StatelessWidget {
     final border = isKey ? colors.ink2 : (mineWrong ? colors.wrongBorder : colors.line);
     final counted = count != null && share != null;
     final heard = othersLabel == null ? null : (othersLabel!.endsWith('.') ? othersLabel!.substring(0, othersLabel!.length - 1) : othersLabel!);
-    final spoken = ['$letter. $text', ...tags, ?heard].join('. ');
+    final spoken = ['$letter. $text', ...tags, ?heard, if (trap != null) TrapTagView.spokenOf(trap!)].join('. ');
     // The key's bar in the right-answer tone, a wrong pick's in the wrong tone, the rest neutral.
     final barTone = isKey ? colors.goodText : (mineWrong ? colors.badText : colors.ink4);
     return Semantics(
@@ -416,6 +442,8 @@ class _Option extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 2),
                           child: Text(tags.join('. '), style: type.label.copyWith(color: mineWrong ? colors.wrongText : colors.ink2)),
                         ),
+                      // The trap, one more row under the option's own words: it never covers them.
+                      if (trap != null) Padding(padding: const EdgeInsets.only(top: MmSpace.s8), child: TrapTagView(trap: trap!)),
                     ],
                   ),
                 ),

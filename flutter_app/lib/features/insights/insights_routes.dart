@@ -53,5 +53,10 @@ Widget practiceStreamScreen(BuildContext context, GoRouterState state) {
   );
 }
 
-/// `/ask`. A String `extra` starts the composer with that text (never sends it).
-Widget askScreen(BuildContext context, GoRouterState state) => AskScreen(seed: state.extra is String ? state.extra! as String : null);
+/// `/ask`. A String `extra` starts the composer with that text (never sends it). `?q=attemptId:questionId`
+/// hands over the repaired mistake "Ask Mobi about Q3" is about.
+Widget askScreen(BuildContext context, GoRouterState state) => AskScreen(
+      key: ValueKey(state.uri.toString()),
+      seed: state.extra is String ? state.extra! as String : null,
+      questionRef: state.uri.queryParameters['q'],
+    );

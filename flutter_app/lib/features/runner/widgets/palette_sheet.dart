@@ -29,6 +29,7 @@ class PaletteSheet extends StatefulWidget {
     this.filter,
     this.onFilter,
     this.showMobi = false,
+    this.openUntil,
   });
 
   final List<SheetCell> cells;
@@ -46,6 +47,10 @@ class PaletteSheet extends StatefulWidget {
 
   /// Mobi's 56 dp head by the count (off under Celebrations Off).
   final bool showMobi;
+
+  /// "Open until 11:42 PM": the one fact a practice has instead of a clock, a quiet line under the
+  /// count (it used to sit in the top bar). Null in a mock, which has its timer.
+  final String? openUntil;
 
   /// Mobi's head.
   static const double mobiSize = 56;
@@ -137,6 +142,10 @@ class _PaletteSheetState extends State<PaletteSheet> {
             ),
           ),
         ),
+        if (widget.openUntil != null) ...[
+          const SizedBox(height: MmSpace.s4),
+          Text(widget.openUntil!, style: type.caption.copyWith(color: colors.ink2)),
+        ],
         const SizedBox(height: MmSpace.s8),
         _Legend(counts: counts, unsynced: cells.where((c) => c.unsynced).length, filter: filter, onFilter: widget.onFilter),
         if (target >= 0) ...[

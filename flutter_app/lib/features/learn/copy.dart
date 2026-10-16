@@ -181,6 +181,13 @@ abstract final class LearnCopy {
   static const String correct = 'Correct.';
   static const String notQuite = 'Not quite.';
   static const String skipped = 'Skipped.';
+
+  /// The one short line under a miss, beside Mobi (the website's `NUDGE_LINES.miss`, kept equal by
+  /// the shared copy test): it never says how close it was, only that the answer is there.
+  static const String missNudge = 'Good to find out here. The answer is below.';
+
+  /// The line under a skipped card (the website's `NUDGE_LINES.skipped`).
+  static const String skippedNudge = 'That is fine. The answer is below.';
   static const String yourAnswer = 'Your answer';
   static const String correctAnswer = 'Correct answer';
   static const String theAnswer = 'Answer';

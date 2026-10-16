@@ -47,7 +47,7 @@ class MarksFlow extends StatelessWidget {
   static const double columnWidth = 14;
 
   /// Room to the left of the column for its scale (0 at the top, the paper's marks at the bottom).
-  static const double scaleWidth = 30;
+  static const double scaleWidth = 34;
 
   /// The least height a destination block draws at, so a small part (15 of 250) is still a band
   /// you can see and read. The column keeps the true share.
@@ -79,7 +79,7 @@ class MarksFlow extends StatelessWidget {
     final unitStyle = type.labelLarge.copyWith(color: colors.ink2);
     final labelStyle = type.body.copyWith(height: 1.3);
     final detailStyle = type.caption.copyWith(color: colors.ink3);
-    final scaleStyle = type.caption.copyWith(color: colors.ink3, fontSize: 11, height: 1.2);
+    final scaleStyle = type.caption.copyWith(color: colors.ink3, fontSize: 12, height: 1.2);
 
     return LayoutBuilder(
       builder: (context, box) {

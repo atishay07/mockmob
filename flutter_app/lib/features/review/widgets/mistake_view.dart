@@ -16,6 +16,7 @@ import '../data/repair_state.dart';
 import 'life_row.dart';
 import 'outcome_views.dart';
 import 'question_panel.dart';
+import 'repair_check_section.dart';
 import 'repair_mobi.dart';
 import 'review_bits.dart' show FlushKey;
 import 'run_track.dart';
@@ -131,7 +132,7 @@ class MistakeView extends StatelessWidget {
                   index: run.index,
                   child: ListView(
                 key: PageStorageKey(step.item.key),
-                padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s32),
+                padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s48),
                 children: [
                   Text('${ReviewCopy.questionLabel(step.item.number)}, ${step.item.source}', style: type.caption.copyWith(color: colors.ink2)),
                   if (earlier case final e?) _EarlierLine(miss: e),
@@ -214,6 +215,21 @@ class MistakeView extends StatelessWidget {
     );
   }
 
+  /// "Ask Mobi about Q3" and "Check it held" under the explanation, or null when the repair
+  /// response has no `check` (an older server, a held repair): then neither is drawn.
+  Widget? _follow(RepairResponse response) {
+    final check = response.check;
+    if (check == null) return null;
+    final item = run.current!.item;
+    return RepairFollowUp(
+      key: ValueKey('follow-${item.key}'),
+      attemptId: run.attemptId,
+      questionId: item.questionId,
+      number: item.number,
+      check: check,
+    );
+  }
+
   /// The sentences of "From your record" for [questionId]: the lines the server built from the
   /// student's own answers (null renders nothing, never a placeholder), then the repeated-trap
   /// line from this repair's answer. A pattern the lines already say is not said twice.
@@ -281,6 +297,8 @@ class MistakeView extends StatelessWidget {
               // it is on screen; a saved one, or one gone back to along the track, is simply there.
               animate: !reopened && response.status == RepairStatus.explained,
               arrivalKey: '${run.attemptId}/${run.current!.item.key}/${requestId ?? ''}',
+              // "Ask Mobi about Q3", then "Check it held": only for a repair that carried a `check`.
+              follow: _follow(response),
             ),
           ?_marks(context),
           ConceptRow(chapter: run.chapter),

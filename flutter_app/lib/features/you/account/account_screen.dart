@@ -12,6 +12,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../account_access/access_gateway.dart' show accessMethodsProvider;
 import '../../account_access/access_routes.dart' show AccountAccessRoutes;
 import '../../account_access/state/password_hints.dart' show passwordNudgeProvider;
+import '../../credits/credits_routes.dart' show openCreditsPage;
 import '../copy.dart';
 import '../data/student_target.dart';
 import '../edit_copy.dart';
@@ -110,6 +111,14 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
       title: YouCopy.accountTitle,
       children: [
         PlanCard(auth: auth, mobi: _mobi),
+        // Both pools and every use of them live on Credits; the plan card shows Practice credits.
+        Padding(
+          padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: KeyButton.quiet(label: YouCopy.seeHistory, semanticsLabel: YouCopy.seeHistoryLabel, onPressed: () => openCreditsPage(context)),
+          ),
+        ),
         const GroupHeading(YouCopy.accountProfile, top: MmSpace.s32),
         YouPanel(
           flat: true,

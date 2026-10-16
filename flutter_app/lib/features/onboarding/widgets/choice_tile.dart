@@ -220,3 +220,110 @@ class GlyphMedallion extends StatelessWidget {
     );
   }
 }
+
+/// A short one-of-a-set question answered in a single row of 48 dp pills (the age question on
+/// the save step): each pill is a full 48 dp target in the answer-sheet selection language
+/// ([MmSelection]): a hollow bubble and a hairline at rest; chosen, the raised fill, the paper-ink
+/// rim and an inked bubble. The pills share the row, each given the width its words need plus an
+/// equal share of what is left, so no label is ever cut; when the words cannot fit in one row (a
+/// narrow phone at a large text size) they wrap onto a second row at their own widths.
+class ChoicePills<T> extends ConsumerWidget {
+  const ChoicePills({super.key, required this.options, required this.selected, required this.onSelected});
+
+  /// Each answer and its label, in order.
+  final List<(T, String)> options;
+  final T? selected;
+  final ValueChanged<T> onSelected;
+
+  static const double height = MmTarget.min;
+  static const double _lead = MmSpace.s16 + 10 + MmSpace.s8;
+  static const double _trail = MmSpace.s16;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final type = context.mmType;
+    final style = type.labelLarge.copyWith(fontSize: 14);
+    final scaler = MediaQuery.textScalerOf(context);
+    final needs = [
+      for (final (_, label) in options) _textWidth(label, style, scaler) + _lead + _trail,
+    ];
+    Widget pill((T, String) o, {double? width}) => SizedBox(
+          width: width,
+          child: _Pill(
+            label: o.$2,
+            style: style,
+            selected: selected == o.$1,
+            onTap: () {
+              ref.read(hapticsProvider).selection();
+              GuideGlance.at(context);
+              onSelected(o.$1);
+            },
+          ),
+        );
+    return LayoutBuilder(
+      builder: (context, box) {
+        const gap = MmSpace.s8;
+        final total = needs.fold<double>(0, (a, b) => a + b) + gap * (options.length - 1);
+        if (box.hasBoundedWidth && total <= box.maxWidth) {
+          final extra = (box.maxWidth - total) / options.length;
+          return Row(
+            children: [
+              for (var i = 0; i < options.length; i++) ...[
+                if (i > 0) const SizedBox(width: gap),
+                pill(options[i], width: needs[i] + extra),
+              ],
+            ],
+          );
+        }
+        return Wrap(spacing: gap, runSpacing: gap, children: [for (final o in options) pill(o)]);
+      },
+    );
+  }
+
+  static double _textWidth(String text, TextStyle style, TextScaler scaler) {
+    final p = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout();
+    final w = p.width.ceilToDouble();
+    p.dispose();
+    return w;
+  }
+}
+
+class _Pill extends StatelessWidget {
+  const _Pill({required this.label, required this.style, required this.selected, required this.onTap});
+
+  final String label;
+  final TextStyle style;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return MmPressable(
+      semanticsLabel: label,
+      selected: selected,
+      inMutuallyExclusiveGroup: true,
+      pressedScale: 0.97,
+      onTap: onTap,
+      builder: (context, pressed, _) => AnimatedContainer(
+        duration: Motion.of(context, Motion.ui),
+        curve: Motion.glide,
+        height: ChoicePills.height,
+        decoration: ShapeDecoration(
+          color: MmSelection.fill(colors, selected: selected, pressed: pressed),
+          shape: StadiumBorder(side: MmSelection.side(colors, selected: selected)),
+        ),
+        padding: const EdgeInsets.only(left: MmSpace.s16, right: MmSpace.s16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SelectBubble(selected: selected),
+            const SizedBox(width: MmSpace.s8),
+            Flexible(child: Text(label, maxLines: 1, softWrap: false, overflow: TextOverflow.fade, style: style.copyWith(color: colors.ink))),
+          ],
+        ),
+      ),
+    );
+  }
+}

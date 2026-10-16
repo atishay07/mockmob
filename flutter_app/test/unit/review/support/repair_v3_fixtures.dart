@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/misc.dart' show Override;
+import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/mistake_insights.dart';
 import 'package:mockmob/core/models/repair.dart';
@@ -100,9 +101,11 @@ List<Override> v3Overrides(
   RepairApi? api,
   List<MistakeOutcome?> before = const [],
   ConceptLink? concept,
+  AiCredits? credits,
+  List<Override> extra = const [],
 }) => [
   // The shared fixtures read Mock 7 without any insights; this replaces just that one read.
-  for (final o in reviewOverrides(records: [repairedRecord], run: runOf(outcomes: [...before, outcome], index: before.length), concept: concept))
+  for (final o in reviewOverrides(records: [repairedRecord], run: runOf(outcomes: [...before, outcome], index: before.length), concept: concept, credits: credits))
     // ignore: unrelated_type_equality_checks
     if (o.origin != attemptDetailProvider('m7')) o,
   // The result read with its free record lines (`AttemptDetail.mistakeInsights`).
@@ -110,4 +113,5 @@ List<Override> v3Overrides(
     (ref, n) => RemoteState(value: AttemptDetail(attempt: mock7, mistakeInsights: insights), fetchedAt: eveningUtc),
   ),
   ?(api == null ? null : repairApiProvider.overrideWithValue(api)),
+  ...extra,
 ];

@@ -33,6 +33,9 @@ class PlanSheet extends StatelessWidget {
     this.compact = false,
     this.stamp,
     this.wave = true,
+    this.allLines = false,
+    this.onAllLines,
+    this.onChange,
   });
 
   final PlanSummary plan;
@@ -58,7 +61,29 @@ class PlanSheet extends StatelessWidget {
   /// A ring wave spreads from the seal as it lands.
   final bool wave;
 
+  /// Every line of the plan, not just the three that lead (design critic 20).
+  final bool allLines;
+
+  /// Toggles [allLines] from the "See all 6" link under the rows; null hides the link.
+  final VoidCallback? onAllLines;
+
+  /// "Change" under the rows, at the right; null hides it (a sealed plan).
+  final VoidCallback? onChange;
+
+  /// How many lines lead the plan before "See all".
+  static const int leadLines = 3;
+
+  /// The indexes into [PlanSummary.lines] shown: week one, the pace and the last line (the aim,
+  /// or what stands in for it), or all of them in order.
+  static List<int> shownLines(int count, {required bool all}) {
+    if (all || count <= leadLines) return [for (var i = 0; i < count; i++) i];
+    return [0, 1, count - 1];
+  }
+
   static const BorderRadius radius = MmRadius.panelAll;
+
+  /// On the "See all" link, for tests.
+  static const Key allLinesKey = ValueKey('plan-all-lines');
   static const Duration stagger = Duration(milliseconds: 160);
 
   /// How long the rows take to print after the flip lands.
@@ -68,6 +93,8 @@ class PlanSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final shown = shownLines(plan.lines.length, all: allLines);
+    final more = plan.lines.length > leadLines;
     final card = FakeGlass(
       borderRadius: radius,
       lamp: true,
@@ -98,17 +125,55 @@ class PlanSheet extends StatelessWidget {
                   const SizedBox(height: MmSpace.s8),
                   Text(OnboardingCopy.planFrom(from), style: type.small.copyWith(color: colors.ink3)),
                   SizedBox(height: compact ? MmSpace.s12 : MmSpace.s20),
-                  for (var i = 0; i < plan.lines.length; i++)
-                    _PlanRow(
-                      number: i + 1,
-                      text: plan.lines[i],
-                      show: revealed,
-                      delay: stagger * i,
-                      animate: animate,
-                      gap: compact ? MmSpace.s8 : MmSpace.s12,
-                      last: i == plan.lines.length - 1,
+                  _FootGrow(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (final (n, i) in shown.indexed)
+                          _PlanRow(
+                            key: ValueKey('plan-line-$i'),
+                            number: n + 1,
+                            text: plan.lines[i],
+                            show: revealed,
+                            // The leading rows print in turn after the flip; a row unfolded by
+                            // "See all" engraves at once.
+                            delay: allLines && n >= leadLines - 1 ? Duration.zero : stagger * n,
+                            animate: animate,
+                            gap: compact ? MmSpace.s8 : MmSpace.s12,
+                            last: n == shown.length - 1,
+                          ),
+                      ],
                     ),
-                  const SizedBox(height: MmSpace.s4),
+                  ),
+                  // Two quiet words on the sheet itself, under its rows: the rest of the plan, and
+                  // the way to change an answer. Hold to seal stays the one action under the card.
+                  // Each word's text lines up with the rows; its target overhangs the padding.
+                  if ((more && onAllLines != null) || onChange != null)
+                    Row(
+                      children: [
+                        if (more && onAllLines != null)
+                          Transform.translate(
+                            offset: const Offset(-MmSpace.s12, 0),
+                            child: KeyButton.quiet(
+                              key: PlanSheet.allLinesKey,
+                              label: allLines ? OnboardingCopy.fewerLines : OnboardingCopy.seeAllLines(plan.lines.length),
+                              onPressed: onAllLines,
+                            ),
+                          ),
+                        const Spacer(),
+                        if (onChange != null)
+                          Transform.translate(
+                            offset: const Offset(MmSpace.s12, 0),
+                            child: KeyButton.quiet(
+                              label: OnboardingCopy.change,
+                              semanticsLabel: OnboardingCopy.changeSomething,
+                              onPressed: onChange,
+                            ),
+                          ),
+                      ],
+                    )
+                  else
+                    const SizedBox(height: MmSpace.s4),
                   // The foil seal joins the caption only when it lands (the card grows to take
                   // it), so there is no empty target waiting in the corner.
                   _FootGrow(
@@ -184,6 +249,7 @@ class _Headline extends StatelessWidget {
 /// One printed row: a numbered answer bubble that inks at its turn, then the line engraving.
 class _PlanRow extends StatefulWidget {
   const _PlanRow({
+    super.key,
     required this.number,
     required this.text,
     required this.show,

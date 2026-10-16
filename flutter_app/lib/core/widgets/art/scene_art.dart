@@ -51,6 +51,11 @@ enum SceneArt {
   /// The milestone backdrop of the theme in [colors].
   static SceneArt milestone(MmColors colors) => colors.isNight ? milestoneNight : milestoneDay;
 
+  /// The welcome room of a theme: the lamp-lit study by night, and by day the same room in
+  /// daylight, the painting the all-clear states use (design critic 3: Day gets its own first
+  /// impression, from the art it already has).
+  static SceneArt welcomeRoom({required bool night}) => night ? welcomeHero : allClearDay;
+
   /// Decoded [logicalWidth] wide at [dpr], never wider than the file. Widths are rounded up to
   /// 8 px so a box that moves by a fraction of a pixel never asks for a second decode.
   ImageProvider provider(double logicalWidth, double dpr) {

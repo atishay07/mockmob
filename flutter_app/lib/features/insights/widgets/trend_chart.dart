@@ -14,9 +14,9 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/trend.dart';
-import 'edge_fade.dart';
 import 'evidence.dart';
 import 'motion_bits.dart';
+import 'rail_bleed.dart';
 
 /// Marks per session in one format, with a chip per format the student has played. A single
 /// session is a point and a sentence, never a line.
@@ -162,18 +162,12 @@ class _TrendSectionState extends ConsumerState<TrendSection> with TickerProvider
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (formats.length > 1) ...[
-          EdgeFade(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              clipBehavior: Clip.none,
-              child: Row(
-                children: [
-                  for (final f in formats) ...[
-                    MmChip(label: f.label, selected: f.key == s.key, onTap: () => _select(f.key)),
-                    const SizedBox(width: MmSpace.s8),
-                  ],
-                ],
-              ),
+          RailBleed(
+            child: ChipRail.labelled(
+              labels: [for (final f in formats) f.label],
+              selected: formats.indexWhere((f) => f.key == s.key).clamp(0, formats.length - 1),
+              onSelected: (i) => _select(formats[i].key),
+              semanticLabel: InsightsCopy.trendFormats,
             ),
           ),
           const SizedBox(height: MmSpace.s16),
@@ -560,7 +554,7 @@ class _DeltaChip extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(text, style: type.cardTitle.copyWith(color: tint, height: 1.1)),
-              Text(InsightsCopy.trendDeltaNote, style: type.caption.copyWith(fontSize: 11.5, height: 1.2, color: colors.ink3)),
+              Text(InsightsCopy.trendDeltaNote, style: type.caption.copyWith(fontSize: 12, height: 1.2, color: colors.ink3)),
             ],
           ),
         ),

@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'dart:ui';
 
 import 'mobi_geometry.dart';
@@ -8,9 +9,11 @@ import 'mobi_palette.dart';
 /// visor gloss, a boot and the little answer sheet. Animation then costs only transforms.
 class MobiParts {
   MobiParts._(MobiPalette p)
-      : body = _record((c) => _body(c)),
+      : body = _record((c) => _body(c, p)),
         gloss = _record(_gloss),
         boot = _record((c) => _boot(c, p)),
+        bootLip = _record((c) => _bootLip(c, p, lite: false)),
+        bootLipLite = _record((c) => _bootLip(c, p, lite: true)),
         sheet = _record(_sheet);
 
   final Picture body;
@@ -18,6 +21,22 @@ class MobiParts {
 
   /// A right boot with its ankle at the origin and its toe toward +x. Mirror it for the left.
   final Picture boot;
+
+  /// The front lip of the boot's cuff, drawn over the leg where it goes in (and a soft shadow on
+  /// the leg just inside it). [bootLipLite] is the lip alone, for small sizes.
+  final Picture bootLip;
+  final Picture bootLipLite;
+
+  /// Where the cuff opening sits in the boot's own frame (its ankle at the origin).
+  static const Rect cuff = Rect.fromLTRB(-7.9, -1.6, 7.5, 2.8);
+
+  /// The part of a leg that shows, in the boot's frame: everything above the middle of the cuff
+  /// opening, and the opening itself.
+  static final Path legWindow = Path.combine(
+    PathOperation.union,
+    Path()..addRect(Rect.fromLTRB(-400, -400, 400, cuff.center.dy)),
+    Path()..addOval(cuff),
+  );
 
   /// The answer sheet Mobi reads, centred on the origin.
   final Picture sheet;
@@ -35,7 +54,7 @@ class MobiParts {
 
   // ---- Body --------------------------------------------------------------------------------
 
-  static void _body(Canvas c) {
+  static void _body(Canvas c, MobiPalette p) {
     final outline = MobiGeo.body;
     c.drawPath(
       outline,
@@ -121,6 +140,47 @@ class MobiParts {
         ..shader = Gradient.radial(const Offset(72, 146), 42, [
           MobiPalette.limeShade.withValues(alpha: 0.42),
           MobiPalette.limeShade.withValues(alpha: 0),
+        ]),
+    );
+
+    // Form (rig v2): the lamp sits up and to the left, as it does over the subject objects, so
+    // the planes turn away from it toward the lower right into a soft core shadow...
+    c.drawCircle(
+      const Offset(134, 128),
+      82,
+      Paint()
+        ..shader = Gradient.radial(const Offset(134, 128), 82, [
+          MobiPalette.limeShade.withValues(alpha: 0.34),
+          MobiPalette.limeShade.withValues(alpha: 0.12),
+          MobiPalette.limeShade.withValues(alpha: 0),
+        ], const [0, 0.55, 1]),
+    );
+    // ...and a broad, soft specular bloom sits on the upper-left plane where the lamp hits it.
+    c.save();
+    c.translate(47, 57);
+    c.rotate(-0.72);
+    c.scale(1, 0.58);
+    c.drawCircle(
+      Offset.zero,
+      22,
+      Paint()
+        ..shader = Gradient.radial(Offset.zero, 22, [
+          const Color(0xFFFFFFFF).withValues(alpha: p.night ? 0.42 : 0.34),
+          const Color(0xFFFFFFFF).withValues(alpha: p.night ? 0.12 : 0.1),
+          const Color(0xFFFFFFFF).withValues(alpha: 0),
+        ], const [0, 0.45, 1]),
+    );
+    c.restore();
+    // The warm lamp catching the top-left edges (at Night the lamp is amber; in Daylight the
+    // room light is white and the rim is quieter).
+    c.drawPath(
+      outline,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 5
+        ..shader = Gradient.linear(const Offset(22, 50), const Offset(70, 98), [
+          (p.night ? p.rim : const Color(0xFFFFFFFF)).withValues(alpha: p.night ? 0.42 : 0.4),
+          (p.night ? p.rim : const Color(0xFFFFFFFF)).withValues(alpha: 0),
         ]),
     );
 
@@ -245,15 +305,22 @@ class MobiParts {
           p.rim.withValues(alpha: 0),
         ]),
     );
-    // Cuff opening where the leg goes in.
-    c.drawOval(Rect.fromCenter(center: const Offset(-0.2, 0.6), width: 15.4, height: 4.4), Paint()..color = const Color(0xFF0C0B0A));
-    c.drawArc(
-      Rect.fromCenter(center: const Offset(-0.2, 0.6), width: 15.4, height: 4.4),
-      0.2,
-      2.7,
-      false,
-      _stroke(p.limbHi, 0.9),
-    );
+    // Cuff opening where the leg goes in: a dark well with the cuff's back rim catching light.
+    c.drawOval(cuff, Paint()..color = const Color(0xFF0C0B0A));
+    c.drawArc(cuff, math.pi + 0.15, math.pi - 0.3, false, _stroke(p.limbHi.withValues(alpha: 0.55), 0.8));
+  }
+
+  static void _bootLip(Canvas c, MobiPalette p, {required bool lite}) {
+    if (!lite) {
+      // The leg in shadow just inside the cuff.
+      c.save();
+      c.clipPath(Path()..addOval(cuff));
+      c.drawArc(cuff.shift(const Offset(0, 0.9)), 0.15, math.pi - 0.3, false, _stroke(const Color(0xFF000000).withValues(alpha: 0.55), 2.2));
+      c.restore();
+    }
+    // The cuff's front lip, a rolled edge over the leg.
+    c.drawArc(cuff, 0.12, math.pi - 0.24, false, _stroke(p.limb, 2.0));
+    c.drawArc(cuff, 0.3, math.pi - 0.6, false, _stroke(Color.lerp(p.limbHi, p.rim, p.night ? 0.25 : 0.05)!, 0.9));
   }
 
   // ---- Answer sheet prop -------------------------------------------------------------------

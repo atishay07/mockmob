@@ -583,7 +583,7 @@ class _DayBars extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: MmSpace.s4),
-                  Text(d.letter, style: type.caption.copyWith(fontSize: 11.5, color: d.net == null ? colors.ink4 : colors.ink2)),
+                  Text(d.letter, style: type.caption.copyWith(fontSize: 12, color: d.net == null ? colors.ink4 : colors.ink2)),
                 ],
               ),
             ),

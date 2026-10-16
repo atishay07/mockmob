@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'app_overrides.dart';
 import 'core/art/subject_emblem.dart' show SubjectEmblem;
+import 'core/errors/errors.dart' show ErrorKinds, ErrorReporter, ErrorReportingHost;
 import 'core/permissions/permission_requester.dart';
 import 'core/router/error_fallback.dart';
 import 'core/router/router.dart' show intendedRouteProvider;
@@ -22,7 +23,7 @@ import 'core/sync/sync.dart';
 import 'features/notifications/services/android_permission_requester.dart';
 
 void main() {
-  runZonedGuarded(_start, (error, stack) => _report(error, stack));
+  runZonedGuarded(_start, (error, stack) => _report(error, stack, ErrorKinds.zone));
 }
 
 Future<void> _start() async {
@@ -63,7 +64,7 @@ Future<void> _start() async {
         // Module 11: the Android 13 notification permission.
         permissionRequesterProvider.overrideWith((ref) => ref.watch(androidPermissionRequesterProvider)),
       ],
-      child: const MockMobApp(),
+      child: const ErrorReportingHost(child: MockMobApp()),
     ),
   );
 
@@ -87,11 +88,11 @@ void _installErrorHandling() {
     if (kDebugMode) {
       framework?.call(details);
     } else {
-      _report(details.exception, details.stack);
+      _report(details.exception, details.stack, ErrorKinds.flutter);
     }
   };
   PlatformDispatcher.instance.onError = (error, stack) {
-    _report(error, stack);
+    _report(error, stack, ErrorKinds.platform);
     return true;
   };
   if (kReleaseMode) {
@@ -99,5 +100,13 @@ void _installErrorHandling() {
   }
 }
 
-void _report(Object error, StackTrace? stack) => ErrorLog.add(error, stack);
+void _report(Object error, StackTrace? stack, [String kind = ErrorKinds.other]) {
+  ErrorLog.add(error, stack);
+  // Kept on the phone, and sent only if the student allowed usage data (core/errors).
+  try {
+    ErrorReporter.shared.report(error, stack, kind: kind);
+  } on Object {
+    // Never a second failure.
+  }
+}
 

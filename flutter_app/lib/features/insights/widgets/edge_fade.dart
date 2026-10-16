@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart' show SchedulerBinding, SchedulerPhase;
 
 /// Fades the edge of a scroller wherever there is more to scroll to, so a chip, a rail or a long
 /// question never ends in a hard cut at the screen edge. The fade shows only on an edge that
@@ -26,12 +27,26 @@ class _EdgeFadeState extends State<EdgeFade> {
     final before = m.pixels > m.minScrollExtent + 2;
     final after = m.pixels < m.maxScrollExtent - 2;
     if (before != _before || after != _after) {
-      setState(() {
-        _before = before;
-        _after = after;
-      });
+      // A scroller can start a settling scroll while it is being laid out (a rail that snaps to
+      // its chips does when its size changes), and its notifications arrive then: a rebuild may
+      // not be asked for during layout, so it waits for the end of the frame.
+      if (SchedulerBinding.instance.schedulerPhase == SchedulerPhase.persistentCallbacks) {
+        SchedulerBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _apply(before, after);
+        });
+      } else {
+        _apply(before, after);
+      }
     }
     return false;
+  }
+
+  void _apply(bool before, bool after) {
+    if (before == _before && after == _after) return;
+    setState(() {
+      _before = before;
+      _after = after;
+    });
   }
 
   @override

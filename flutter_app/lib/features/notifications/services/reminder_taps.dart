@@ -1,4 +1,5 @@
 import '../../../core/notifications/notifications.dart';
+import '../../../core/router/action_router.dart';
 import '../../../core/router/routes.dart';
 import '../logic/reminder_plan.dart';
 
@@ -10,7 +11,8 @@ import '../logic/reminder_plan.dart';
 /// - Resume (on the answer to Mute) turns the reminders back on.
 /// Not tonight and Mute are each answered with a silent replacement notification ([acknowledge]),
 /// so the student sees the tap did something.
-/// A payload is only ever an in-app route: anything else is ignored.
+/// A payload is only ever an in-app route (resolved by the action router, with the query its
+/// screen reads, such as a repair's count or a practice run's subject): anything else is ignored.
 ///
 /// [handle] never throws: the route opens first and does not depend on the record write, and a
 /// failed write (local storage trouble) is dropped, since the record is only bookkeeping.
@@ -58,9 +60,12 @@ class ReminderTapHandler {
         return;
     }
 
-    if (AppRoutes.isNativePath(decoded.route)) {
+    // The route goes through the action router (read-only use): it keeps only a native screen of
+    // this app and only the query that screen reads, so a payload can never open anything else.
+    final target = ActionRouter.resolve(decoded.route);
+    if (target is NativeTarget && !AppRoutes.isAuthPath(Uri.parse(target.location).path)) {
       try {
-        open(decoded.route);
+        open(target.location);
       } on Object {
         // The router is not ready: the record below still counts the tap.
       }

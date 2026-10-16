@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
@@ -19,6 +20,18 @@ void main() {
     () => const ReviewScreen(),
     size: const Size(384, 2300),
     overrides: () => reviewOverrides(records: [repairedRecord]),
+  );
+
+  // The other side of the switch: the repair record and the past results.
+  reviewGolden(
+    'review_tab_history',
+    () => const ReviewScreen(),
+    size: const Size(384, 1100),
+    overrides: () => reviewOverrides(records: [repairedRecord]),
+    after: (tester) async {
+      await tester.tap(find.text('History'));
+      await tester.pumpAndSettle();
+    },
   );
 
   reviewGolden(

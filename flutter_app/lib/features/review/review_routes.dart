@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../rules/screens/rule_book_screen.dart';
+import 'revise/revise_screen.dart';
 import 'screens/mistakes_screen.dart';
 import 'screens/record_screen.dart';
 import 'screens/repair_ending_screen.dart';
@@ -22,6 +23,9 @@ Widget reviewRecordScreen(BuildContext context, GoRouterState state) => const Re
 
 /// `/review/rules`: the Rule book (Mistake Lab v4 slice 3).
 Widget reviewRulesScreen(BuildContext context, GoRouterState state) => const RuleBookScreen();
+
+/// `/review/revise`: Revise, the student's own wrong answers coming back (Mistake Lab v4 slice 4).
+Widget reviewReviseScreen(BuildContext context, GoRouterState state) => const ReviseScreen();
 
 /// `/review/repair/:attemptId/:questionId`: the repair flow, starting at that mistake.
 Widget reviewRepairScreen(BuildContext context, GoRouterState state) {

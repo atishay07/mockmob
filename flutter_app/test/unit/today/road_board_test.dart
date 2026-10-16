@@ -12,6 +12,7 @@ import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/data/road_plan.dart';
 import 'package:mockmob/features/today/logic/road_board.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
@@ -191,19 +192,23 @@ void main() {
     });
   });
 
+  Future<void> pumpBody(WidgetTester tester, TodayView view, Size size) => pumpMockmob(
+        tester,
+        TodayBody(view: view, skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {})),
+        size: size,
+        disableAnimations: true,
+        overrides: [
+          authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u', name: 'Asha')),
+          rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+        ],
+      );
+
   testWidgets('a road below the first screen gets a cue that glides to it and goes once scrolled', (tester) async {
     final view = buildToday(TodayInputs(now: tuesdayEvening, firstName: 'Asha', attempts: [accountancyMock('m1', daysBefore(tuesdayEvening, 1))]));
     expect(view.road, isNotNull);
-    await pumpMockmob(
-      tester,
-      TodayBody(view: view, skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {})),
-      size: const Size(384, 600),
-      disableAnimations: true,
-      overrides: [
-        authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u', name: 'Asha')),
-        rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
-      ],
-    );
+    // The gap under the hero sits at about 461 to 485 dp and the road heading at 670: a screen
+    // 600 dp tall shows the gap (so the cue can be tapped) and still has the road below it.
+    await pumpBody(tester, view, const Size(384, 600));
     await tester.pump();
     await tester.pump();
     final cue = find.bySemanticsLabel(TodayCopy.moreBelow);
@@ -213,6 +218,53 @@ void main() {
     expect(find.text(TodayCopy.roadTitle).hitTestable(), findsOneWidget, reason: 'the page glided to the road');
     expect(find.bySemanticsLabel(TodayCopy.moreBelow).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
   });
+
+  // Design critic 16 Oct, finding 2: the cue sat over the key at late night and over the chart
+  // when a paper had ended. It now lives in the gap under the hero, so it never covers a card, a
+  // key or a line, in any state.
+  for (final (name, inputs) in [
+    ('late night', ashaInputs(now: tuesdayLate)),
+    ('ready', ashaInputs()),
+    (
+      'ended',
+      ashaInputs(
+        draft: TodayDraft(
+          sessionId: 's8',
+          subject: 'accountancy',
+          isMock: true,
+          mockNumber: 8,
+          total: 50,
+          answered: 31,
+          acknowledgedAnswered: 31,
+          endsAt: tuesdayEvening.subtract(const Duration(hours: 3)),
+          resumable: false,
+          attemptExists: false,
+        ),
+      ),
+    ),
+  ]) {
+    testWidgets('$name: the more-below cue never overlaps a key, a line or the hero', (tester) async {
+      await pumpBody(tester, buildToday(inputs), const Size(384, 853));
+      await tester.pump();
+      final slot = find.byType(MoreBelowSlot);
+      expect(slot, findsOneWidget);
+      final cueRect = tester.getRect(find.descendant(of: slot, matching: find.byType(MoreBelowCue)));
+      final slotRect = tester.getRect(slot);
+      expect(slotRect.contains(cueRect.topLeft) && slotRect.contains(cueRect.bottomRight - const Offset(0.01, 0.01)), isTrue,
+          reason: 'the cue is drawn inside its own gap');
+      for (final key in tester.widgetList(find.byType(KeyButton))) {
+        final rect = tester.getRect(find.byWidget(key));
+        expect(rect.overlaps(cueRect), isFalse, reason: 'the cue never covers a key');
+      }
+      for (final element in find.byType(RichText).evaluate()) {
+        if (find.descendant(of: slot, matching: find.byWidget(element.widget)).evaluate().isNotEmpty) continue;
+        final box = element.renderObject! as RenderBox;
+        if (!box.hasSize) continue;
+        final rect = box.localToGlobal(Offset.zero) & box.size;
+        expect(rect.overlaps(cueRect), isFalse, reason: 'the cue never covers a line: ${(element.widget as RichText).text.toPlainText()}');
+      }
+    });
+  }
 
   test('the error card never names a move', () {
     final view = buildToday(TodayInputs(now: tuesdayEvening, attemptsFailed: true));

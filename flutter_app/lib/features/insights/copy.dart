@@ -93,6 +93,9 @@ abstract final class InsightsCopy {
   static String trendLatest(int marks, int max) => '$marks of $max';
   static String trendSessions(int n) => _n(n, 'session');
 
+  static const trendFormats = 'Paper formats';
+  static const savedSubjects = 'Saved subjects';
+  static const streamFilters = 'Stream filters';
   static const chaptersHeading = 'Chapters by marks left open';
   static const chaptersCaption = 'Ranked once 4 or more questions are answered in a chapter.';
   static String chapterCounts(int r, int w, int b, int n) => '$r right, $w wrong, $b blank of ${_n(n, 'question')}';
@@ -283,6 +286,20 @@ abstract final class InsightsCopy {
   static const behindAnswer = 'The sessions behind this answer';
   static const openRecord = 'Open your record';
   static const askHint = 'Ask a question';
+  static const askHintQuestion = 'What about this mistake is unclear?';
+
+  // Ask Mobi about a repaired mistake (`/ask?q=`): the card the screen opens with.
+  static String questionCardTitle(String? chapter) =>
+      chapter == null ? 'About the mistake you repaired' : 'About the mistake you repaired, $chapter';
+  static String questionPicked(String letter, {required bool hasKey}) =>
+      'You picked $letter.${hasKey ? '' : ' The key is being re-checked, so Mobi will not name an answer.'}';
+  static String questionRule(String rule) => 'Your rule: $rule';
+  static const questionOpening = 'Opening your question.';
+  static const questionBlocked = 'Mobi cannot answer this question right now. Nothing was charged.';
+  static const questionErrorHelp = 'You can still ask about your recorded practice.';
+  static const questionAskRecord = 'Ask about my record';
+  static const questionAskElse = 'Ask something else';
+  static const questionHint = 'Ask about the mistake above. Your reply uses its text, your pick, the key and your rule, and nothing else about you.';
   static const askSend = 'Send';
   static const askSending = 'Sending';
   static const askPausedLine = 'AI replies are paused just now. Questions about your record still work.';
@@ -366,6 +383,7 @@ abstract final class InsightsCopy {
 
   // AI replies: a plain caveat, a way to report, and a one-time notice before the first send.
   static const aiCaveat = 'AI wrote this and can be wrong. Check it against your record.';
+  static const aboutReply = 'About this reply';
   static const reportReply = 'Report this reply';
   static const reportTitle = 'What is wrong with this reply?';
   static const reportReasons = ['It is wrong about my record', 'It is wrong about the subject', 'It is unsafe or unkind', 'Something else'];
@@ -375,6 +393,9 @@ abstract final class InsightsCopy {
   static const disclosureTitle = 'This question goes to an AI service';
   static const disclosureBody = 'MockMob answers questions about your record on this phone. Other questions are sent, '
       'with a short summary of your record, to an AI service that writes the reply. It uses 1 AI credit and can be wrong.';
+  static const disclosureTitleQuestion = 'This message goes to an AI service';
+  static const disclosureBodyQuestion = 'Your message, the question, your pick, the key and your rule are sent to an AI service '
+      'that writes the reply. Nothing else about you is sent. It uses 1 AI credit and can be wrong.';
   static const disclosureSend = 'Send it';
   static const disclosureNotNow = 'Not now';
   static String askAboutQuestion(String body, String? key) {

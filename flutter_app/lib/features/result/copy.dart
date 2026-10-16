@@ -195,10 +195,16 @@ abstract final class ResultCopy {
   static String readyToRepair(int n, int? minutes) => minutes == null
       ? '${plural(n, 'wrong answer')} ready to repair.'
       : '${plural(n, 'wrong answer')} ready to repair, about $minutes minutes.';
+
+  /// When some of the paper's wrong answers cannot be repaired right now (already repaired, or their
+  /// answer key is being checked), the line says what it counts: "13 of 15 wrong answers ready to
+  /// repair." with the other 2 named, so card 3's wrong count and this one never look like two
+  /// different numbers.
+  static String readyToRepairOf(int n, int wrong) => '$n of ${plural(wrong, 'wrong answer')} ready to repair.';
+  static String readyToRepairRest(int rest) =>
+      '${rest == 1 ? 'The other one is' : 'The other $rest are'} repaired already, or ${rest == 1 ? 'its' : 'their'} answer ${rest == 1 ? 'key is' : 'keys are'} being checked.';
   static String blanksInReview(int n) => '$n not attempted. ${n == 1 ? 'It is' : 'They are'} in Review.';
   static String blanksCount(int n) => '$n not attempted.';
-  static String startWithChapter(String chapter, int n) =>
-      n == 1 ? 'The repair starts with the one in $chapter.' : 'The repair starts with the $n in $chapter.';
   static const noMistakes = 'No wrong answers to repair from this mock.';
   static String walletShort(int needed, int balance) => balance <= 0
       ? 'This repair needs $needed explanation credits. You have none. Read the key explanations in Review.'
@@ -210,20 +216,25 @@ abstract final class ResultCopy {
   /// all the paper's mistakes the key gives their count and the time ("Repair 5 mistakes, about 10
   /// min"); when other chapters are left in Review it names the chapter ("Repair Principles of
   /// management, 1 mistake").
-  static String repairKey(RepairKeyScope scope, int minutes) {
-    if (scope.othersInPaper <= 0 || !scope.hasNamedChapter) return '${RepairCandidates.keyLabel(scope)}, about $minutes min';
-    return 'Repair ${shortChapterName(scope.chapter)}, ${plural(scope.count, 'mistake')}';
+  static String repairKey(RepairKeyScope scope, int minutes) => RepairCandidates.keyLabel(scope);
+
+  /// The words above the key, in two short lines: the chapter the run opens (and how many of its
+  /// wrong answers the length chosen holds, when it is not all of them), then the time and what waits
+  /// in Review. "Admission of a partner, 3 of its 4 wrong answers." and "About 10 minutes. The other
+  /// 12 are in Review." A screen reader hears them as one sentence ([repairScopeSpoken]).
+  static String repairScopeLine(RepairKeyScope scope, int minutes, {int? chapterTotal}) {
+    final where = scope.hasNamedChapter ? shortChapterName(scope.chapter) : 'Questions with no chapter';
+    final part = chapterTotal != null && scope.count < chapterTotal ? ', ${scope.count} of its ${plural(chapterTotal, 'wrong answer')}' : '';
+    final rest = scope.othersInPaper <= 0 ? '' : ' The other ${scope.othersInPaper} ${scope.othersInPaper == 1 ? 'is' : 'are'} in Review.';
+    return '$where$part.\nAbout $minutes minutes.$rest';
   }
+
+  static String repairScopeSpoken(RepairKeyScope scope, int minutes, {int? chapterTotal}) =>
+      repairScopeLine(scope, minutes, chapterTotal: chapterTotal).replaceAll('\n', ' ');
 
   /// What a screen reader hears for the key: the key and where the rest of the paper's mistakes are.
-  static String repairKeySpoken(RepairKeyScope scope, int minutes) => '${repairKey(scope, minutes)}. ${repairScopeLine(scope, minutes)}';
-
-  /// Under the lengths: "Principles of management, about 10 minutes. The other 4 are in Review."
-  static String repairScopeLine(RepairKeyScope scope, int minutes) {
-    final where = scope.hasNamedChapter ? shortChapterName(scope.chapter) : 'Questions with no chapter';
-    final rest = scope.othersInPaper <= 0 ? '' : ' The other ${scope.othersInPaper} ${scope.othersInPaper == 1 ? 'is' : 'are'} in Review.';
-    return '$where, about $minutes minutes.$rest';
-  }
+  static String repairKeySpoken(RepairKeyScope scope, int minutes, {int? chapterTotal}) =>
+      '${repairKey(scope, minutes)}. ${repairScopeSpoken(scope, minutes, chapterTotal: chapterTotal)}';
 
   static String startRepair(int minutes) => 'Start $minutes-minute repair';
   static const chooseElse = 'Choose something else';
@@ -231,6 +242,8 @@ abstract final class ResultCopy {
   static const continueToToday = 'Continue to Today';
   static const goodnight = 'Goodnight';
   static const more = 'More';
+  static const somethingElse = 'Something else';
+  static const otherOptions = 'See other options';
   static const reminderAsk = 'Want a reminder when your repair is due? You choose the time.';
   static const setReminder = 'Set a reminder';
   static const notNow = 'Not now';
@@ -239,6 +252,7 @@ abstract final class ResultCopy {
   // ---- Your sheet, to keep (card 4) ----------------------------------------------------------
 
   static const shareSheet = 'Share your sheet';
+  /// Heard by a screen reader on the share chip; the preview shows exactly what is shared.
   static const shareSheetHint = 'Your answers as a card. No marks on it.';
   static const shareTitle = 'Share your sheet';
   static const share = 'Share';

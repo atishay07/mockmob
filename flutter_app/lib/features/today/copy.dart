@@ -5,6 +5,7 @@ import '../../core/copy/formatters.dart' as fmt;
 import '../../core/copy/formatters.dart';
 import '../../core/domain/cuet_dates.dart';
 import '../../core/domain/next_move.dart' show isLateNightHour;
+import 'logic/today_model.dart' show DurationChoice;
 
 abstract final class TodayCopy {
   // Header.
@@ -64,7 +65,28 @@ abstract final class TodayCopy {
   static String tonightLine(int n, int chapterOpen, String source, String chapter, DateTime marked) {
     final from = 'from $source on ${formatDayMonthShort(marked)}';
     if (n < chapterOpen) return '$n of the $chapterOpen open mistakes in $chapter, $from.';
-    return n == 1 ? 'The one in $chapter, $from.' : 'All $n in $chapter, $from.';
+    // The whole chapter: the big number already says how many, so the line never repeats it
+    // (design critic 16 Oct, finding 1). "Every" keeps the denominator: all of them.
+    return n == 1 ? 'The one open mistake in $chapter, $from.' : 'Every open mistake in $chapter, $from.';
+  }
+
+  // The hero's length pill and its panel (design critic 16 Oct, finding 1).
+  /// What the pill and a panel row say: "15 min" for a repair, "10 questions" for practice.
+  static String lengthWords(DurationChoice d) => d.questions == null ? '${d.minutes} min' : '${d.questions} questions';
+
+  /// What a length gets, beside it in the panel: "2 to repair". Null for practice, whose row
+  /// already says its count.
+  static String? lengthGets(DurationChoice d) => d.mistakes == null ? null : '${d.mistakes} to repair';
+
+  /// The pill for a screen reader: "Length of today's repair, 15 min. Opens the lengths".
+  static String lengthPillSemantics(String title, String words) => '$title, $words. Opens the lengths';
+
+  /// The key's words when the pill beside it says the length: "Start repair, 15 min" is drawn as
+  /// "Start repair". Every move key is `verb, length`, so the verb is what comes before the
+  /// first comma. Screen readers still hear the whole label.
+  static String keyVerb(String label) {
+    final at = label.indexOf(', ');
+    return at <= 0 ? label : label.substring(0, at);
   }
 
   static const String repairLength = "Length of today's repair";
@@ -124,6 +146,9 @@ abstract final class TodayCopy {
   static const String hiddenUntilTomorrow = 'Hidden until tomorrow. Your mistakes are still in Review.';
   static const String connectToStart = 'Needs a connection to start.';
   static const String showMe = 'Show me';
+
+  /// What the sentence's link opens, for a screen reader.
+  static const String showMeSemantics = 'Show me, the paper behind this.';
 
   // Returning and late night (brief 1.1, spec 6.7, 6.8).
   /// The greeting already says the name, so the returning hero never repeats it.
@@ -186,10 +211,11 @@ abstract final class TodayCopy {
   static const String yourSheet = 'Recent papers';
   // One name per set, each with its real count (owner recording 15 Oct, item 4): "papers" are
   // every finished paper, the rows; the strip is one kind of them, named with its subject.
-  /// The rows under "Recent papers": "Newest 4 of 8", or "All 3" when every paper is shown.
+  /// The rows under "Recent papers", naming what is counted (design critic 16 Oct, finding 6):
+  /// "Last 4 of 8 papers", or "All 3 papers" when every paper is shown.
   static String sheetCaption(int shown, int total) {
-    if (shown < total) return 'Newest $shown of $total';
-    return total == 1 ? 'Your only paper' : 'All $total';
+    if (shown < total) return 'Last $shown of $total papers';
+    return total == 1 ? 'Your only paper' : 'All $total papers';
   }
 
   /// The kind the strip draws, said the way the rows label them: "Accountancy mocks",
@@ -197,10 +223,14 @@ abstract final class TodayCopy {
   static String trendKind({required String subject, required bool mock, bool nta = false, required int questions}) =>
       mock ? '$subject ${nta ? 'NTA mode mocks' : 'mocks'}' : '$subject ${quickLabel(questions)} papers';
 
-  /// The strip above the rows: "Marks in your newest 6 of 7 Accountancy mocks", or "Marks in all
-  /// 3 of your Accountancy mocks" when it draws every one.
+  /// The chart's own caption, never the rows': "Marks in your last 6 of 7 Accountancy mocks", or
+  /// "Marks in all 3 of your Accountancy mocks" when it draws every one.
   static String trendCaption(int shown, int total, String kind) =>
-      shown < total ? 'Marks in your newest $shown of $total $kind' : 'Marks in all $total of your $kind';
+      shown < total ? 'Marks in your last $shown of $total $kind' : 'Marks in all $total of your $kind';
+
+  /// A row whose subject is not the chart's says it in its title ("Quick 10, Business Studies"),
+  /// so it never reads as part of the chart above it.
+  static String rowTitleWithSubject(String label, String subject) => '$label, $subject';
   static String trendDot(String label, String date, int marks, int outOf) => '$label, $date. $marks of $outOf marks. Opens the result.';
   static const String sealed = 'Sealed';
   static String quickLabel(int total) => 'Quick $total';
@@ -260,11 +290,11 @@ abstract final class TodayCopy {
 
   /// A college-portal category in words a student says (the shared mapping in core).
   static String categoryWords(String? category) => fmt.categoryWords(category);
-  static const String ladderTitle = 'Your colleges';
+  static const String ladderTitle = 'My colleges';
   static const String dreamTag = 'Dream';
   static const String chooseColleges = 'Choose your colleges';
   static const String changeColleges = 'Change';
-  static const String ladderEmpty = 'Pick up to three colleges and see where each one closed in Round 1, 2026.';
+  static const String ladderEmpty = 'Add the colleges you are aiming for and see where each one closed in Round 1, 2026.';
 
   // The road board (owner test 15 Oct): the student's own tiles under the road.
   static const String boardTitle = 'Your road';

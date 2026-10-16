@@ -14,8 +14,9 @@ class MobiTapCycle {
   /// [acts] needs at least two different acts, or the cycle would repeat itself.
   const MobiTapCycle(this.acts, {this.resetAfter = const Duration(seconds: 8), this.cap = 6});
 
-  /// hello, tilt, correct, startle.
-  static const MobiTapCycle standard = MobiTapCycle([MobiAct.hello, MobiAct.tilt, MobiAct.correct, MobiAct.startle]);
+  /// hello, tilt, hop, startle. (Before rig v2 the third was `correct`, whose tick bubble said
+  /// "right answer" to a poke; a plain hop says only "hi again".)
+  static const MobiTapCycle standard = MobiTapCycle([MobiAct.hello, MobiAct.tilt, MobiAct.hop, MobiAct.startle]);
 
   final List<MobiAct> acts;
   final Duration resetAfter;

@@ -519,7 +519,9 @@ class _MobiCharacterState extends State<MobiCharacter> with SingleTickerProvider
         final g = _gaze(global);
         if (g != null) _sim.glance(g, seconds: 0.5);
       }
-      if (act != null) {
+      // An act the Celebrations setting holds back (the hop under Off) still answers the finger
+      // with the plain squash.
+      if (act != null && MobiRation.underLevel(act, _level) != null) {
         play(act);
       } else {
         _sim.boop();

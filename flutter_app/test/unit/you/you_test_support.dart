@@ -8,18 +8,23 @@ import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/consent_repository.dart';
+import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/goal_repository.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/repositories/notification_prefs_repository.dart';
+import 'package:mockmob/core/models/notification_prefs.dart' show NotificationPrefs;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/rhythm_repository.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart';
 import 'package:mockmob/core/sync/outbox_repository.dart';
 import 'package:mockmob/core/sync/pending_work.dart';
 import 'package:mockmob/features/account_access/state/password_hints.dart';
+import 'package:mockmob/features/credits/data/credits_data.dart';
+import 'package:mockmob/features/credits/data/credits_models.dart';
 import 'package:mockmob/core/router/external_link_opener.dart';
 import 'package:mockmob/core/storage/app_prefs.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
@@ -219,6 +224,40 @@ ConsentState consentState(AgeBand band, {bool on = false, ConsentStatus status =
 
 class MockApi extends Mock implements ApiClient {}
 
+/// `GET /api/me/credits` as the test sets it: nothing reaches the network or the database.
+class FakeMeCredits extends MeCreditsRepository {
+  FakeMeCredits(this.initial);
+
+  final RemoteState<CreditsOverview> initial;
+  int refreshes = 0;
+
+  @override
+  RemoteState<CreditsOverview> build() => initial;
+
+  @override
+  Future<void> refresh({bool force = false}) async => refreshes++;
+}
+
+/// The two pools as Asha has them: 38 Practice credits, 8 AI credits renewing 1 November, Free.
+RemoteState<CreditsOverview> creditsState({
+  int? practice = 38,
+  int? ai = 8,
+  bool pro = false,
+  String? proUntil,
+  List<Map<String, Object?>> history = const [],
+  String? nextCursor,
+}) =>
+    RemoteState(
+      value: CreditsOverview.fromJson({
+        'practice': {'balance': practice, 'renewsOn': null, 'label': 'Practice credits'},
+        'ai': {'balance': ai, 'renewsOn': '2026-11-01', 'label': 'AI credits'},
+        'plan': {'name': pro ? 'Pro' : 'Free', 'until': proUntil},
+        'history': history,
+        'nextCursor': nextCursor,
+      }),
+      fetchedAt: DateTime(2026, 10, 12, 21, 15),
+    );
+
 class MockAnalytics extends Mock implements AnalyticsClient {}
 
 MockAnalytics quietAnalytics() {
@@ -302,6 +341,10 @@ List<Override> youOverrides({
   SubjectCatalog? catalog,
   String? version = '1.0.0 (1)',
   RemoteState<RulesRead>? rules,
+  RemoteState<CreditsOverview>? credits,
+  DateTime? now,
+  NotificationPrefs? notificationPrefs,
+  Override? notificationPrefsProvider,
 }) {
 
   return [
@@ -316,7 +359,7 @@ List<Override> youOverrides({
     if (api != null) apiClientProvider.overrideWithValue(api),
     if (opener != null) externalLinkOpenerProvider.overrideWithValue(opener),
     analyticsClientProvider.overrideWithValue(analytics ?? quietAnalytics()),
-    nowProvider.overrideWithValue(() => DateTime(2026, 10, 12, 22, 39, 30)),
+    nowProvider.overrideWithValue(() => now ?? DateTime(2026, 10, 12, 22, 39, 30)),
     supportMailerProvider.overrideWithValue(mailer ?? RecordingMailer()),
     appPrefsProvider.overrideWithValue(prefs ?? AppPrefs(MemoryPrefsStore())),
     rhythmPrefsStoreProvider.overrideWithValue(rhythmStore ?? MemoryPrefsStore()),
@@ -327,6 +370,9 @@ List<Override> youOverrides({
     userIdProvider.overrideWithValue('u1'),
     studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
     appVersionProvider.overrideWith((ref) async => version),
+    notificationPrefsProvider ?? notificationPrefsRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: notificationPrefs ?? NotificationPrefs.defaults)),
+    meCreditsProvider.overrideWith(() => FakeMeCredits(credits ?? creditsState())),
+    creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
     // Across your mocks on the hub (Mistake Lab v4 slice 3): settled, no network.
     rulesRepositoryProvider.overrideWithBuild((ref, n) => rules ?? const RemoteState()),
   ];

@@ -376,11 +376,15 @@ class WeekModel {
 }
 
 class HeaderModel {
-  const HeaderModel({required this.dateLine, required this.greeting, this.week, this.updatedLine, this.mobi});
+  const HeaderModel({required this.dateLine, required this.greeting, this.week, this.weekLoading = false, this.updatedLine, this.mobi});
 
   final String dateLine;
   final String greeting;
   final WeekModel? week;
+
+  /// The rhythm is still loading for the first time: the header holds the strip's height with a
+  /// skeleton so nothing below it jumps when the week lands.
+  final bool weekLoading;
 
   /// "Updated 9:40 PM" when Today shows cached data.
   final String? updatedLine;

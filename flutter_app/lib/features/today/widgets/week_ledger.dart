@@ -12,11 +12,19 @@
 // ring while it is open (off under reduced motion and when the tab is not on screen); when a
 // refresh shows today newly counted by the server, the bubble inks in with one ripple ring and a
 // light tick, and the outlook text rolls to its new words. "Goal met" draws one volt underline.
+//
+// One dialect (design critic 16 Oct, finding 5): every day is drawn with the shared study-week
+// mark ([StudyWeekDotPainter]), the weekday letters are the shared 12 sp, and the key is the
+// shared [StudyWeekKey] with the shared behaviour: it shows itself on the first study week a
+// student sees in the session (when a mark needs words), holds four seconds and folds away; a
+// long press on the week brings it back, and screen readers get it as an action. Today keeps its
+// own life on top: the inked rail, the lit edge, the breathing ring, the day chips and the pop.
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show ValueListenable;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart' show CustomSemanticsAction;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -27,7 +35,6 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/logic/plan_week.dart';
-import '../../rhythm/widgets/plan_week_strip.dart' show PlanWeekKey;
 import '../logic/today_model.dart';
 import '../logic/week_chip.dart';
 import 'today_entrance.dart';
@@ -55,7 +62,12 @@ class WeekLedger extends ConsumerStatefulWidget {
   /// The bubble's pop, 1 to 1.35 and back.
   static const Duration popLength = Duration(milliseconds: 260);
 
-  /// Whether the one-line key is shown: only when a rest day or a day not counted is on the rail.
+  /// Where "the key has been shown" is remembered; null uses the shared session memory, so the
+  /// key explains the week once across Today, You and Rhythm.
+  static StudyWeekLegendMemory? legendMemory;
+
+  /// Whether the key shows itself on a first view: only when a rest day or a day not counted is
+  /// on the rail (filled and hollow read on their own). A long press always brings it.
   static bool needsKey(List<PlanDay> days) => days.any((d) => d.mark == PlanDayMark.rest || d.mark == PlanDayMark.open);
 
   String describe() => [week.count, ?week.outlook, week.days.map((d) => d.describe()).join('; '), if (onTap != null) 'Opens your week'].join('. ');
@@ -84,6 +96,16 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
   /// Each change plays one ring from today's bubble (see [MmRippleRing]).
   final ValueNotifier<int> _ripplePulse = ValueNotifier(0);
 
+  /// The shared key: up while it is shown, folding on [Motion.exit].
+  late final AnimationController _legend = AnimationController(vsync: this, duration: Motion.glideDuration, reverseDuration: Motion.exitDuration);
+  late final CurvedAnimation _legendCurve = CurvedAnimation(parent: _legend, curve: Motion.glide, reverseCurve: Motion.exit);
+
+  /// How long the key holds before it folds (the shared [StudyWeek.legendHold]).
+  late final AnimationController _legendHold = AnimationController(vsync: this, duration: StudyWeek.legendHold)
+    ..addStatusListener((status) {
+      if (status == AnimationStatus.completed && mounted) _legend.reverse();
+    });
+
   int? _popIndex;
   int? _chipIndex;
   int? _inkIndex;
@@ -105,10 +127,41 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
     _ink.value = 1;
   }
 
+  bool _firstLookJudged = false;
+
+  /// The first study week of the session explains itself, when a mark on it needs words: the key
+  /// unfolds under the rail (at once under reduced motion), holds, then folds.
+  void _judgeFirstLook() {
+    if (_firstLookJudged) return;
+    _firstLookJudged = true;
+    final memory = WeekLedger.legendMemory ?? StudyWeekLegendMemory.session;
+    if (memory.seen || !WeekLedger.needsKey(widget.week.days)) return;
+    memory.markSeen();
+    if (Motion.reduced(context)) {
+      _legend.value = 1;
+    } else {
+      _legend.forward();
+    }
+    _legendHold.forward();
+  }
+
+  /// A long press (or the screen reader's action) brings the key back for four seconds.
+  void _showKey() {
+    ref.read(hapticsProvider).selection();
+    (WeekLedger.legendMemory ?? StudyWeekLegendMemory.session).markSeen();
+    if (Motion.reduced(context)) {
+      _legend.value = 1;
+    } else {
+      _legend.forward();
+    }
+    _legendHold.forward(from: 0);
+  }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _syncBreathe();
+    _judgeFirstLook();
   }
 
   @override
@@ -161,6 +214,9 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
     _breathe.dispose();
     _ink.dispose();
     _ripplePulse.dispose();
+    _legendHold.dispose();
+    _legendCurve.dispose();
+    _legend.dispose();
     super.dispose();
   }
 
@@ -171,7 +227,7 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
     final week = widget.week;
     final tap = widget.onTap;
     final bleed = widget.bleed;
-    return Padding(
+    final ledger = Padding(
       padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -250,17 +306,31 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
             onDay: _tapDay,
             bleed: bleed,
           ),
-          // The key earns its row only when a mark needs words (a rest day, a day not counted);
-          // filled and hollow read on their own, and the week sheet names every mark (audit T3).
-          if (WeekLedger.needsKey(week.days)) ...[
-            const SizedBox(height: MmSpace.s8),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: MmSpace.s4 + bleed),
-              child: PlanWeekKey(days: week.days),
-            ),
-          ],
+          // The shared key, only while it is shown (first view, a long press): never a standing
+          // line of small print. A folded key is no widget.
+          AnimatedBuilder(
+            animation: _legend,
+            builder: (context, _) => _legend.isDismissed
+                ? const SizedBox.shrink()
+                : SizeTransition(
+                    sizeFactor: _legendCurve,
+                    alignment: Alignment.topCenter,
+                    child: FadeTransition(
+                      opacity: _legendCurve,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: MmSpace.s8, left: MmSpace.s4 + bleed, right: MmSpace.s4 + bleed),
+                        child: StudyWeekKey(days: [for (final d in week.days) d.toBubble()]),
+                      ),
+                    ),
+                  ),
+          ),
         ],
       ),
+    );
+    const showKeyAction = CustomSemanticsAction(label: 'Show what the marks mean');
+    return Semantics(
+      customSemanticsActions: {showKeyAction: _showKey},
+      child: GestureDetector(behavior: HitTestBehavior.translucent, onLongPress: _showKey, child: ledger),
     );
   }
 }
@@ -418,7 +488,8 @@ class _Rail extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
-    final letter = type.micro.copyWith(fontWeight: FontWeight.w500, color: colors.ink2, letterSpacing: 0.4);
+    // The shared study-week letters: 12 sp, up to 1.3x.
+    final letter = type.caption.copyWith(fontSize: 12, height: 16 / 12, fontWeight: FontWeight.w500, color: colors.ink2, letterSpacing: 0.4);
     // The rail's ink draws from Monday to today, then the counted days ink in, left to right.
     final draw = todayEnterValue(context, delay: const Duration(milliseconds: 120));
     final fill = todayEnterValue(context, delay: const Duration(milliseconds: 220), length: Motion.drawIn);
@@ -659,15 +730,9 @@ class _RailPainter extends CustomPainter {
       chipRect = Rect.fromCenter(center: Offset(centre, 14), width: w, height: h);
     }
 
-    final bubbles = BubblePaint(colors);
     for (var i = 0; i < n; i++) {
       final d = days[i];
       final c = Offset(cx(i), cy);
-      final state = switch (d.mark) {
-        PlanDayMark.done => BubbleState.filled,
-        PlanDayMark.rest => BubbleState.rest,
-        PlanDayMark.planned || PlanDayMark.open => BubbleState.hollow,
-      };
       // Counted days ink in one after another; a planned day ahead is a full ring, a day that
       // passed without study a dim one.
       final stagger = n <= 1 ? 0.0 : i / (n - 1) * 0.5;
@@ -677,8 +742,12 @@ class _RailPainter extends CustomPainter {
       final dim = d.mark == PlanDayMark.open && !d.isToday ? 0.5 : (paused ? 0.6 : 1.0);
       final scale = i == popIndex && !reduced ? WeekLedger.popScale(pop.value) : 1.0;
       final r = _bubble * scale;
-      if (d.mark == PlanDayMark.done && f < 1) bubbles.paint(canvas, c, r, BubbleState.hollow, dim: dim);
-      bubbles.paint(canvas, c, r, state, fill: f, dim: dim);
+      // The shared study-week mark, so this rail, the You hub, Rhythm and the week sheet draw the
+      // same bubble for the same day.
+      if (dim < 1) canvas.saveLayer(Rect.fromCircle(center: c, radius: r + 4), Paint()..color = Color.fromRGBO(0, 0, 0, dim));
+      if (d.mark == PlanDayMark.done && f < 1) _dot(canvas, c, r, WeekDayMark.open, d.isToday, null);
+      _dot(canvas, c, r, d.toBubble().mark, d.isToday, d.mark == PlanDayMark.done ? f : null);
+      if (dim < 1) canvas.restore();
       final tp = _tp(d.initial, d.isToday ? today : (d.mark == PlanDayMark.rest ? rest : letter));
       final at = Offset(c.dx - tp.width / 2, 8);
       final covered = chipRect != null && chipRect.inflate(4).overlaps(Rect.fromLTWH(at.dx, at.dy, tp.width, tp.height));
@@ -705,6 +774,15 @@ class _RailPainter extends CustomPainter {
       chipWords.paint(canvas, Offset(chipRect.center.dx - chipWords.width / 2, chipRect.center.dy - chipWords.height / 2));
       canvas.restore();
     }
+  }
+
+  /// One day's mark, radius [r] at [c], through the shared [StudyWeekDotPainter].
+  void _dot(Canvas canvas, Offset c, double r, WeekDayMark mark, bool today, double? fill) {
+    canvas.save();
+    canvas.translate(c.dx - r, c.dy - r);
+    StudyWeekDotPainter(colors: colors, mark: mark, today: today, pad: 0, fill: fill == null ? null : AlwaysStoppedAnimation<double>(fill))
+        .paint(canvas, Size.square(r * 2));
+    canvas.restore();
   }
 
   @override

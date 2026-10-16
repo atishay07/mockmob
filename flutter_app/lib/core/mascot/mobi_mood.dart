@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'mobi_rig.dart';
+import 'mobi_rig_eval.dart';
 
 /// Mobi's face between acts: a persistent expression that sits under whatever he does, set with
 /// `MobiController.setMood` and blended over [MobiMoods.blend]. Mobi has a visor, not a mouth, so
@@ -25,65 +26,28 @@ enum MobiMood {
   /// A soft slope to the upper lids and a gentle warm lower lid, a small lean in. Never sad, never
   /// at the student: "that did not go to plan, and that is fine".
   concerned,
+
+  // ---- Added 15 Oct 2026 (rig v2) -------------------------------------------------------------
+
+  /// Level, lowered upper lids, eyes steady and a touch down at the work, the bulb faintly on:
+  /// concentrating with the student (a timed drill's start sheet, a long read). Never stern.
+  focused,
 }
 
-/// What each [MobiMood] does to a rig.
+/// What each [MobiMood] does to a rig, read from the rig table (`moods` in `mobi_rig_data.dart`).
 abstract final class MobiMoods {
   /// How long a change of mood takes.
-  static const Duration blend = Duration(milliseconds: 300);
+  static final Duration blend = Duration(microseconds: ((MobiBook.instance.spec['moodBlend']! as num) * 1e6).round());
+
+  static final List<_Mood> _moods = [
+    for (final m in MobiMood.values) _Mood.of((MobiBook.instance.section('moods')[m.name] as Map<String, Object?>?) ?? const {}),
+  ];
 
   /// [r] with [mood] laid over it at strength [w] (0 none, 1 full). [MobiMood.calm] changes
   /// nothing, so a calm Mobi paints exactly as before moods existed.
   static MobiRig apply(MobiMood mood, MobiRig r, [double w = 1]) {
     if (mood == MobiMood.calm || w <= 0) return r;
-    MobiEye eye(MobiEye e, {double open = 0, double lid = 0, double smile = 0, double slant = 0}) => e.copyWith(
-          open: e.open * (1 + open * w),
-          lid: math.max(e.lid, lid * w),
-          smile: math.max(e.smile, smile * w),
-          slant: e.slant + slant * w,
-        );
-    switch (mood) {
-      case MobiMood.calm:
-        return r;
-      case MobiMood.happy:
-        return r.copyWith(
-          eyeL: eye(r.eyeL, smile: 0.38),
-          eyeR: eye(r.eyeR, smile: 0.38),
-          antenna: r.antenna - 0.05 * w,
-        );
-      case MobiMood.proud:
-        return r.copyWith(
-          eyeL: eye(r.eyeL, smile: 0.3),
-          eyeR: eye(r.eyeR, smile: 0.3),
-          lookY: r.lookY - 0.18 * w,
-          squash: r.squash + 0.012 * w,
-          y: r.y - 0.6 * w,
-          glow: r.glow + 0.18 * w,
-        );
-      case MobiMood.curious:
-        return r.copyWith(
-          eyeL: eye(r.eyeL, open: 0.06),
-          eyeR: eye(r.eyeR, open: 0.14),
-          lookY: r.lookY - 0.14 * w,
-          tilt: r.tilt + 0.03 * w,
-          antenna: r.antenna - 0.14 * w,
-        );
-      case MobiMood.sleepy:
-        return r.copyWith(
-          eyeL: eye(r.eyeL, lid: 0.34),
-          eyeR: eye(r.eyeR, lid: 0.34),
-          lookY: r.lookY + 0.12 * w,
-          antenna: r.antenna + 0.16 * w,
-        );
-      case MobiMood.concerned:
-        return r.copyWith(
-          eyeL: eye(r.eyeL, slant: 0.42, smile: 0.16),
-          eyeR: eye(r.eyeR, slant: 0.42, smile: 0.16),
-          lookY: r.lookY + 0.08 * w,
-          tilt: r.tilt - 0.02 * w,
-          y: r.y + 0.4 * w,
-        );
-    }
+    return _moods[mood.index].apply(r, w);
   }
 
   /// [r] blending from mood [from] to [to] at progress [k] (0 to 1, already eased).
@@ -91,5 +55,43 @@ abstract final class MobiMoods {
     if (k >= 1 || from == to) return apply(to, r);
     if (k <= 0) return apply(from, r);
     return MobiRig.lerp(apply(from, r), apply(to, r), k);
+  }
+}
+
+/// One mood's numbers: eye changes (both eyes, then each) and fields added to the rig.
+class _Mood {
+  const _Mood(this.both, this.left, this.right, this.add);
+
+  factory _Mood.of(Map<String, Object?> m) {
+    Map<String, double> nums(Object? v) => {for (final e in ((v as Map<String, Object?>?) ?? const {}).entries) e.key: (e.value! as num).toDouble()};
+    return _Mood(nums(m['eyes']), nums(m['eyeL']), nums(m['eyeR']), nums(m['add']));
+  }
+
+  final Map<String, double> both, left, right, add;
+
+  static MobiEye _eye(MobiEye e, Map<String, double> m, double w) {
+    if (m.isEmpty) return e;
+    return e.copyWith(
+      open: e.open * (1 + (m['open'] ?? 0) * w),
+      lid: math.max(e.lid, (m['lid'] ?? 0) * w),
+      smile: math.max(e.smile, (m['smile'] ?? 0) * w),
+      slant: e.slant + (m['slant'] ?? 0) * w,
+    );
+  }
+
+  MobiRig apply(MobiRig r, double w) {
+    double a(String k, double v) => v + (add[k] ?? 0) * w;
+    return r.copyWith(
+      eyeL: _eye(_eye(r.eyeL, both, w), left, w),
+      eyeR: _eye(_eye(r.eyeR, both, w), right, w),
+      x: a('x', r.x),
+      y: a('y', r.y),
+      tilt: a('tilt', r.tilt),
+      squash: a('squash', r.squash),
+      lookX: a('lookX', r.lookX),
+      lookY: a('lookY', r.lookY),
+      antenna: a('antenna', r.antenna),
+      glow: a('glow', r.glow),
+    );
   }
 }

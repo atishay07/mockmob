@@ -710,7 +710,7 @@ class _HeaderBell extends StatelessWidget {
   final int rings;
   final bool muted;
 
-  static const double height = 46;
+  static const double height = 40;
 
   @override
   Widget build(BuildContext context) {

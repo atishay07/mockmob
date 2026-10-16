@@ -12,8 +12,8 @@ typedef BarShape = RRect Function(Size size);
 /// The bar's and the capsule's glass, in three tiers (DOCK.md section 4):
 ///
 /// * Full: one `BackdropFilter.grouped` per surface inside the shell's `BackdropGroup`, clipped
-///   to the surface's own shape: a 20 sigma blur over a 1.15 saturation lift (HIGH's "juicy"
-///   frost), under a warm tint at 72% (Night) or 80% (Daylight).
+///   to the surface's own shape: a 24 sigma blur over a 1.15 saturation lift (HIGH's "juicy"
+///   frost), under a warm tint at 60% (Night) or 68% (Daylight).
 /// * Lite: no live blur; a thicker tint and the noise tile.
 /// * Off: solid, with a hairline.
 ///
@@ -31,7 +31,7 @@ class BarGlass extends StatefulWidget {
 
   /// The live blur and its saturation lift.
   static final ui.ImageFilter filter = ui.ImageFilter.compose(
-    outer: ui.ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+    outer: ui.ImageFilter.blur(sigmaX: MmElevation.sigmaDock, sigmaY: MmElevation.sigmaDock),
     inner: const ui.ColorFilter.matrix(_saturate115),
   );
 
@@ -109,7 +109,7 @@ class BarGlassSpec {
       const edgeMid = Color(0x08FFFFFF); // white 3%
       const shadow = Color(0x66000000); // black 40%
       return switch (quality) {
-        GlassQuality.full => const BarGlassSpec(tint: Color(0xB81B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow),
+        GlassQuality.full => const BarGlassSpec(tint: Color(0x991B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow),
         GlassQuality.lite => const BarGlassSpec(tint: Color(0xEB1B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, noise: 0.03),
         GlassQuality.off => const BarGlassSpec(
           tint: Color(0xFF1B1A16),
@@ -125,7 +125,7 @@ class BarGlassSpec {
     const shadow = Color(0x1F3A3020); // #3A3020 at 12%
     const hairline = Color(0x99D8D1C2); // #D8D1C2 at 60%
     return switch (quality) {
-      GlassQuality.full => const BarGlassSpec(tint: Color(0xCCFFFDF8), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, hairline: hairline),
+      GlassQuality.full => const BarGlassSpec(tint: Color(0xAEFFFDF8), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, hairline: hairline),
       GlassQuality.lite => const BarGlassSpec(
         tint: Color(0xF0FFFDF8),
         edgeTop: edgeTop,

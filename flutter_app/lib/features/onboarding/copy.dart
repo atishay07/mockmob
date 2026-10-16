@@ -168,6 +168,15 @@ abstract final class OnboardingCopy {
   static const String holdToSeal = 'Hold to seal';
   static const String sealing = 'Keep holding';
   static const String sealIt = 'Tap to seal instead';
+
+  /// The one line under Hold to seal: how the hold works, and the tap for anyone who cannot hold
+  /// (the whole line is the tap; TalkBack reads it as [sealIt]).
+  static const String sealHint = 'Hold for a second, or tap here to seal.';
+
+  /// The plan shows three lines (week one, the pace, the aim); the rest unfold in place.
+  static String seeAllLines(int n) => 'See all $n';
+  static const String fewerLines = 'Show fewer';
+  static const String change = 'Change';
   static const String sealed = 'Sealed';
   static const String planSet = 'Your plan is set.';
   static const String changeSomething = 'Change something';
@@ -179,6 +188,9 @@ abstract final class OnboardingCopy {
   static const String saveSupport = 'Sign in and it follows you to mockmob.in and any phone.';
   static const String ageQuestion = 'Quick one: are you 18 yet?';
   static const String ageNote = 'Under 18, usage tracking stays off.';
+
+  /// The hint on a sign-in key that waits for the age question above it.
+  static const String ageFirst = 'Answer the age question first';
   static const String continueWithGoogle = 'Continue with Google';
   static const String googleBusy = 'Signing in';
   static const String cancelBrowser = 'Cancel';

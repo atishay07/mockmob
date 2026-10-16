@@ -8,6 +8,7 @@ import 'package:mockmob/features/rhythm/copy.dart';
 import 'package:mockmob/features/rhythm/logic/week_mobi.dart';
 import 'package:mockmob/features/rhythm/logic/week_outlook.dart';
 import 'package:mockmob/features/rhythm/logic/week_view.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show StudyWeek;
 import 'package:mockmob/features/rhythm/widgets/rhythm_body.dart';
 import 'package:mockmob/features/rhythm/widgets/week_dial.dart';
 import 'package:mockmob/features/rhythm/widgets/week_mobi_slot.dart';
@@ -241,18 +242,18 @@ void main() {
       );
       await tester.pump(const Duration(milliseconds: 1500));
       expect(find.text('Resume rhythm'), findsNothing);
-      final legendTop = tester.getTopLeft(find.text('Counted')).dy;
+      final legendTop = tester.getTopLeft(find.byType(StudyWeek)).dy;
 
       week.value = weekOf(['2026-10-12', '2026-10-13'], paused: true);
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 140));
       // Half way: the key is on its way in, and the week card is part of the way down.
       expect(find.text('Resume rhythm'), findsOneWidget);
-      expect(tester.getTopLeft(find.text('Counted')).dy, greaterThan(legendTop));
+      expect(tester.getTopLeft(find.byType(StudyWeek)).dy, greaterThan(legendTop));
       for (var i = 0; i < 12; i++) {
         await tester.pump(const Duration(milliseconds: 100));
       }
-      final pausedTop = tester.getTopLeft(find.text('Counted')).dy;
+      final pausedTop = tester.getTopLeft(find.byType(StudyWeek)).dy;
       expect(pausedTop, greaterThan(legendTop + 40), reason: 'the 48 dp key is now in the column');
 
       week.value = weekOf(['2026-10-12', '2026-10-13']);
@@ -267,7 +268,7 @@ void main() {
       for (var i = 0; i < 12; i++) {
         await tester.pump(const Duration(milliseconds: 100));
       }
-      expect(tester.getTopLeft(find.text('Counted')).dy, closeTo(legendTop, 1.5), reason: 'the page comes back to where it was');
+      expect(tester.getTopLeft(find.byType(StudyWeek)).dy, closeTo(legendTop, 1.5), reason: 'the page comes back to where it was');
       await tester.pumpWidget(const SizedBox());
     });
 

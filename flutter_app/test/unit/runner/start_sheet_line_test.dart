@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/lab_loop.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/practice/copy.dart' show PracticeCopy;
 import 'package:mockmob/features/practice/data/practice_quote.dart';
 import 'package:mockmob/features/practice/widgets/composer_parts.dart' show MockLines;
 import 'package:mockmob/features/rules/data/rules_data.dart';
@@ -102,8 +103,9 @@ void main() {
     expect(asked, ['accountancy']);
     final rule = find.text('Your rule for this mock: open every question once before you go deep on any.');
     expect(rule, findsOneWidget);
-    // Above the timer line: the rule is the first thing the sheet says about the mock.
-    expect(tester.getTopLeft(rule).dy < tester.getTopLeft(find.textContaining('timer')).dy, isTrue);
+    // Above the timer note (one row of three since critic 12: "Timer keeps running" leads it): the
+    // rule is the first thing the sheet says about the mock.
+    expect(tester.getTopLeft(rule).dy < tester.getTopLeft(find.text(PracticeCopy.ruleTimer)).dy, isTrue);
   });
 
   testWidgets('without a subject (an older caller), the lines are as before', (tester) async {

@@ -47,6 +47,8 @@ class RhythmStep extends ConsumerWidget {
 
     return StepLayout(
       title: OnboardingCopy.rhythmTitle,
+      // The Evening and Late tiles end the list: they scroll fully clear of Continue.
+      endInset: StepLayout.tileEndInset,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

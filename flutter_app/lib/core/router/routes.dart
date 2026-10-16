@@ -55,6 +55,9 @@ abstract final class AppRoutes {
 
   /// The Rule book (Mistake Lab v4 slice 3): rules from repairs and from how papers are taken.
   static const String reviewRules = '/review/rules';
+
+  /// Revise: the student's own wrong answers come back after 1, 3, 7 and 21 days (Mistake Lab v4 slice 4).
+  static const String reviewRevise = '/review/revise';
   static String reviewRepair(String attemptId, String questionId) =>
       '/review/repair/${Uri.encodeComponent(attemptId)}/${Uri.encodeComponent(questionId)}';
   static String reviewRepairEnding(String attemptId) => '/review/repair/${Uri.encodeComponent(attemptId)}/ending';
@@ -81,6 +84,9 @@ abstract final class AppRoutes {
   // Review: the record and saved questions. Practice: the question stream.
   static const String reviewInsights = '/review/insights';
   static const String reviewSaved = '/review/saved';
+  /// Credits: both balances, the plan and the history (the Credits feature owns the screen).
+  static const String youCredits = '/you/credits';
+
   static const String practiceStream = '/practice/stream';
 
   /// Ask your record.
@@ -134,6 +140,7 @@ abstract final class AppRoutes {
     reviewMistakes,
     reviewRecord,
     reviewRules,
+    reviewRevise,
     '/review/repair/:attemptId/:questionId',
     learn,
     '/learn/:unitId',
@@ -164,6 +171,7 @@ abstract final class AppRoutes {
     reviewSaved,
     practiceStream,
     ask,
+    youCredits,
     examNta,
     tools,
     toolsCompass,

@@ -45,4 +45,17 @@ abstract final class RulesCopy {
 
   /// The block's title before Across your mocks has loaded (the server's own title replaces it).
   static const String acrossTitle = 'Across your mocks';
+
+  /// A habit's Wilson interval in words (the same sentence as the website's Rule book band):
+  /// "8 of 23 (35%). At this count, the 95% interval runs from 19% to 55%."
+  static String intervalLine(int k, int n, int pct, int low, int high) =>
+      '$k of $n ($pct%). At this count, the 95% interval runs from $low% to $high%.';
+
+  // Traps you meet (slice 4, spec 4.11): the website's `traps.labels` and `traps.unavailable`.
+  static const String trapsTitle = 'Traps you meet';
+  static const String trapsOpen = 'Your traps across mocks';
+  static const String trapsUnavailable = 'Your traps could not be loaded. Try again shortly.';
+  static const String trapsLoading = 'Reading your answers';
+  static String trapsHeadSpoken(String label, {required bool open}) => open ? '$label. Hide.' : '$label. Show.';
+  static String trapBarSpoken(int caught, int of) => '$caught of $of';
 }

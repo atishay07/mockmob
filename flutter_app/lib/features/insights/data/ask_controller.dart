@@ -11,6 +11,7 @@ import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/local_scope.dart';
 import '../../../core/storage/prefs_store.dart';
 import 'ai_reply_report.dart';
+import 'ask_question.dart';
 import 'ask_wallet.dart';
 import 'insights_repository.dart';
 import 'readout.dart';
@@ -80,6 +81,7 @@ class AskMessage {
         failure = null,
         balance = null,
         retryText = null,
+        questionRef = null,
         requestId = null,
         charged = null,
         left = null,
@@ -92,6 +94,7 @@ class AskMessage {
         sending = false,
         failure = null,
         retryText = null,
+        questionRef = null,
         balance = null,
         creditHeld = false;
 
@@ -104,6 +107,7 @@ class AskMessage {
         failure = null,
         balance = null,
         retryText = null,
+        questionRef = null,
         requestId = null,
         charged = null,
         left = null,
@@ -111,7 +115,7 @@ class AskMessage {
 
   /// [retryText] and [requestId] are the question this failure belongs to, so Send again on any
   /// failed bubble sends that bubble's own question.
-  const AskMessage.failed(AskFailure this.failure, {this.balance, this.retryText, this.requestId, this.creditHeld = false})
+  const AskMessage.failed(AskFailure this.failure, {this.balance, this.retryText, this.requestId, this.questionRef, this.creditHeld = false})
       : fromStudent = false,
         text = '',
         origin = null,
@@ -138,6 +142,10 @@ class AskMessage {
 
   /// On a failure: the question to send again.
   final String? retryText;
+
+  /// On a failure: the handed-over question (`<attemptId>:<questionId>`) the message was about, so
+  /// Send again goes with the same one. Null for an ordinary message.
+  final String? questionRef;
 
   /// Credits the server took for this reply: 1, 0 (nothing was charged) or null (not reported).
   final int? charged;
@@ -188,6 +196,8 @@ class AskController extends Notifier<AskState> {
   bool answersOnPhone(String raw) {
     final text = raw.trim();
     if (text.isEmpty || text.length > askMaxChars) return true;
+    // A record answer cannot discuss a question: with one handed over, every message goes to Mobi.
+    if (ref.read(askQuestionProvider)?.ready ?? false) return false;
     final insights = ref.read(insightsRepositoryProvider).value;
     return insights != null && answerFromInsights(text, insights, pro: ref.read(insightsProProvider)) != null;
   }
@@ -201,14 +211,19 @@ class AskController extends Notifier<AskState> {
       _append([AskMessage.student(text), const AskMessage.failed(AskFailure.tooLong)]);
       return AskFailure.tooLong;
     }
+    final hand = ref.read(askQuestionProvider);
+    // The question is still being opened: nothing is sent, because a reply sent now would go
+    // without it and still cost a credit. The words stay in the field.
+    if (hand != null && hand.loading) return null;
+    final questionRef = hand != null && hand.ready ? hand.ref : null;
     final insights = ref.read(insightsRepositoryProvider).value;
-    final local = insights == null ? null : answerFromInsights(text, insights, pro: ref.read(insightsProProvider));
+    final local = questionRef != null || insights == null ? null : answerFromInsights(text, insights, pro: ref.read(insightsProProvider));
     if (local != null) {
       _append([AskMessage.student(text), AskMessage.reply(local.reply, origin: AskOrigin.phone, actions: local.actions)]);
       return null;
     }
     _append([AskMessage.student(text), const AskMessage.sending()]);
-    return _post(state.messages.length - 1, text, const Uuid().v4());
+    return _post(state.messages.length - 1, text, const Uuid().v4(), questionRef: questionRef);
   }
 
   /// Sends a failed message again: the one at [index], or the last message. After an unknown
@@ -221,7 +236,7 @@ class AskController extends Notifier<AskState> {
     final text = failed.retryText;
     if (failed.failure == null || text == null) return null;
     _replaceAt(i, const AskMessage.sending());
-    return _post(i, text, failed.requestId ?? const Uuid().v4());
+    return _post(i, text, failed.requestId ?? const Uuid().v4(), questionRef: failed.questionRef);
   }
 
   // ---- A question in flight survives the app being killed ----------------------------------
@@ -231,13 +246,14 @@ class AskController extends Notifier<AskState> {
   /// How long a remembered question is still offered again.
   static const _pendingFor = Duration(hours: 24);
 
-  Future<void> _remember(PrefsStore store, String text, String requestId) async {
+  Future<void> _remember(PrefsStore store, String text, String requestId, String? questionRef) async {
     try {
       await store.setString(
         _pendingKey,
         jsonEncode({
           'text': text,
           'requestId': requestId,
+          'questionRef': ?questionRef,
           'userId': ref.read(userIdProvider),
           'sessionId': state.sessionId,
           'at': ref.read(nowProvider)().toUtc().toIso8601String(),
@@ -283,7 +299,7 @@ class AskController extends Notifier<AskState> {
       state = AskState(
         messages: [
           AskMessage.student(text),
-          AskMessage.failed(AskFailure.interrupted, retryText: text, requestId: requestId),
+          AskMessage.failed(AskFailure.interrupted, retryText: text, requestId: requestId, questionRef: cleanQuestionRef(j['questionRef'] is String ? j['questionRef'] as String : null)),
         ],
         sessionId: j['sessionId'] is String ? j['sessionId'] as String : null,
       );
@@ -292,16 +308,18 @@ class AskController extends Notifier<AskState> {
     }
   }
 
-  Future<AskFailure?> _post(int index, String text, String requestId) async {
+  Future<AskFailure?> _post(int index, String text, String requestId, {String? questionRef}) async {
     final epoch = _epoch;
     final store = ref.read(insightsPrefsStoreProvider);
-    await _remember(store, text, requestId);
+    await _remember(store, text, requestId, questionRef);
     try {
       final res = await ref.read(apiClientProvider).post('/api/ai/mentor/chat', body: {
         'message': text,
         'mode': 'mentor',
         'requestId': requestId,
         'sessionId': ?state.sessionId,
+        // The server builds the question's context itself from the student's own attempt.
+        'questionRef': ?questionRef,
       });
       final body = res.map;
       final origin = switch (asString(body['origin'])) {
@@ -355,6 +373,7 @@ class AskController extends Notifier<AskState> {
           balance: balance,
           retryText: text,
           requestId: next,
+          questionRef: questionRef,
           creditHeld: e.serverMessage?.contains('held briefly') ?? false,
         ),
         // A refusal for credits names the balance, so the header shows it at once.

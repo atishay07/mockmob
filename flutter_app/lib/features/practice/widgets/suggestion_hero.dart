@@ -82,7 +82,8 @@ class SuggestionHero extends ConsumerWidget {
     // The "Late-night lines" setting turns this one off too.
     final late = isLateNight(now) && ref.watch(lateNightLinesProvider);
     final subject = subjectNameFor(suggestion.subjectId, catalog);
-    final overline = late ? PracticeCopy.lateOverline : PracticeCopy.suggestedOverline;
+    // An ordinary suggestion has no eyebrow: its title and kicker say what it is.
+    final String? overline = late ? PracticeCopy.lateOverline : null;
 
     void confirm(PracticeSelection selection) => showPracticeConfirm(context, selection: selection);
 

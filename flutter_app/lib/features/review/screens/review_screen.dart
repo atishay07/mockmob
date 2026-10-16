@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/domain/tonight_pick.dart' show isRepairBasis;
 import '../../../core/motion/motion.dart';
+import '../../../core/models/attempt.dart' show Attempt;
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
@@ -20,6 +21,7 @@ import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
 import '../data/review_seen.dart';
 import '../widgets/mistake_map.dart';
+import '../revise/revise_entry.dart';
 import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
@@ -43,6 +45,10 @@ class ReviewScreen extends ConsumerStatefulWidget {
 
 class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   final ScrollController _scroll = ScrollController();
+
+  /// The side of the tab the student chose (To repair or History); null until they choose, when
+  /// the tab opens on what is waiting.
+  ReviewSection? _section;
 
   @override
   void dispose() {
@@ -152,6 +158,9 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final changes = ref.read(reviewSeenProvider.notifier).look(openCountsOf(index.groups));
     final records = recordEntries(index);
     final mocks = index.mocks.take(5).toList();
+    // The switch is for a tab that has something to repair; otherwise the record follows the hero.
+    final hasRepair = groups.isNotEmpty || index.blanks != null;
+    final section = _section ?? ReviewSection.repair;
 
     if (index.attempts.isEmpty && unopened.isEmpty) {
       return [
@@ -209,42 +218,90 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             ),
           ),
         ),
-      if (groups.isNotEmpty) ...[
-        item(mapAt, gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)), top: ReviewSpace.section)),
-        // The progress line and its bar teach the colours of the map under it.
-        item(mapAt, gutter(RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount))),
-        const SizedBox(height: ReviewSpace.item),
+      // To repair and History share one place under the hero: a switch, and only the chosen side
+      // below it. Both sides keep every section they had; the switch only stops one long scroll
+      // holding five of them. With nothing to repair the record simply follows the hero.
+      if (hasRepair) ...[
         item(
           mapAt,
           gutter(
-            MistakeMap(
-              groups: groups.take(tabChapterLimit).toList(),
-              scaleTo: mapScaleOf(groups),
-              showSubject: spansSubjects(groups),
-              clock: clock,
-              onOpen: _openRepair,
-              changes: changes,
-              index: index,
+            MmSegmented<ReviewSection>(
+              segments: const [MmSegment(ReviewSection.repair, ReviewCopy.tabRepair), MmSegment(ReviewSection.history, ReviewCopy.tabHistory)],
+              value: section,
+              semanticsLabel: ReviewCopy.sectionsLabel,
+              onChanged: (v) => setState(() => _section = v),
             ),
+            top: ReviewSpace.group,
           ),
         ),
-        if (groups.length > tabChapterLimit)
-          gutter(FlushKey(label: ReviewCopy.seeAllChapters(groups.length), onPressed: () => context.push(AppRoutes.reviewMistakes))),
-      ],
-      if (index.blanks case final blanks?) item(belowAt, gutter(NotAttemptedGroup(group: blanks), top: ReviewSpace.group)),
+        item(
+          belowAt,
+          _SectionSwitch(
+            section: section,
+            child: section == ReviewSection.repair
+                ? Column(key: const ValueKey('section-repair'), crossAxisAlignment: CrossAxisAlignment.stretch, children: _repairSection(context, index, groups, clock, changes))
+                : Column(key: const ValueKey('section-history'), crossAxisAlignment: CrossAxisAlignment.stretch, children: _historySection(context, index, records, mocks, clock, ruled: false)),
+          ),
+        ),
+      ] else
+        ..._historySection(context, index, records, mocks, clock, ruled: true),
       // The record's numbers and the saved questions (the website's analytics and saved pages).
       item(belowAt, gutter(const ReviewInsightsRows(), top: ReviewSpace.section)),
       // The Rule book, under the record and the saved questions (Mistake Lab v4 slice 3).
       item(
         belowAt,
-        gutter(Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [Divider(height: 1, color: context.mmColors.line), const RulesEntry()])),
+        gutter(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // Revise (slice 4) opens under the Rule book once its read arrives, and stays out for a student with no card.
+            children: [Divider(height: 1, color: context.mmColors.line), const RulesEntry(), const ReviseEntry()],
+          ),
+        ),
       ),
-      item(belowAt, gutter(SectionHeading(ReviewCopy.recordHeading, rule: true), top: ReviewSpace.section)),
+    ];
+  }
+
+  /// What is waiting: the mistakes by chapter with the progress line over them, then the skipped
+  /// questions.
+  List<Widget> _repairSection(BuildContext context, ReviewIndex index, List<ChapterGroup> groups, ReviewClock clock, Map<String, ChapterChange> changes) {
+    Widget gutter(Widget child, {double top = 0}) =>
+        Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
+    return [
+      if (groups.isNotEmpty) ...[
+        gutter(SectionHeading(ReviewCopy.mistakesHeading, caption: mapCaptionOf(index)), top: ReviewSpace.group),
+        // The progress line and its bar teach the colours of the map under it.
+        gutter(RepairsProgress(repaired: index.repairedCount, found: index.foundCount, setAside: index.setAsideCount)),
+        const SizedBox(height: ReviewSpace.item),
+        gutter(
+          MistakeMap(
+            groups: groups.take(tabChapterLimit).toList(),
+            scaleTo: mapScaleOf(groups),
+            showSubject: spansSubjects(groups),
+            clock: clock,
+            onOpen: _openRepair,
+            changes: changes,
+            index: index,
+          ),
+        ),
+        if (groups.length > tabChapterLimit)
+          gutter(FlushKey(label: ReviewCopy.seeAllChapters(groups.length), onPressed: () => context.push(AppRoutes.reviewMistakes))),
+      ],
+      if (index.blanks case final blanks?) gutter(NotAttemptedGroup(group: blanks), top: ReviewSpace.group),
+    ];
+  }
+
+  /// What is done: the repair record (two entries and the way to the rest), then the past results.
+  /// [ruled] opens it with the hairline the sections of the old single scroll had.
+  List<Widget> _historySection(BuildContext context, ReviewIndex index, List<MistakeItem> records, List<Attempt> mocks, ReviewClock clock, {required bool ruled}) {
+    Widget gutter(Widget child, {double top = 0}) =>
+        Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
+    final shown = records.take(2).toList();
+    return [
+      gutter(SectionHeading(ReviewCopy.recordHeading, rule: ruled), top: ruled ? ReviewSpace.section : ReviewSpace.group),
       if (records.isEmpty)
         gutter(Text(ReviewCopy.recordPreviewEmpty, style: context.mmType.body.copyWith(color: context.mmColors.ink2)))
       else ...[
-        for (var i = 0; i < records.take(2).length; i++)
-          gutter(RecordEntry(item: records[i], clock: clock, first: i == 0, last: i == records.take(2).length - 1)),
+        for (var i = 0; i < shown.length; i++) gutter(RecordEntry(item: shown[i], clock: clock, first: i == 0, last: i == shown.length - 1)),
         gutter(FlushKey(label: ReviewCopy.seeRecord, onPressed: () => context.push(AppRoutes.reviewRecord))),
       ],
       if (mocks.isNotEmpty) ...[
@@ -436,4 +493,20 @@ class _ReviewSkeleton extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The two sides of the Review tab under the hero.
+enum ReviewSection { repair, history }
+
+/// Fades one side of the tab into the other in place, the way the app's other keyed swaps do (the
+/// overlap switcher: the sum of the two layers never dips, so the ground never flashes), so
+/// switching never jolts the page. Under reduced motion the swap is the short fade.
+class _SectionSwitch extends StatelessWidget {
+  const _SectionSwitch({required this.section, required this.child});
+
+  final ReviewSection section;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => MmOverlapSwitcher(child: child);
 }

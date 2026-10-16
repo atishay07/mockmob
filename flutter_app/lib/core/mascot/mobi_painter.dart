@@ -34,17 +34,18 @@ class MobiPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
+    double scale;
     if (head) {
       const f = headFrame;
-      final scale = math.min(size.width / f.width, size.height / f.height);
+      scale = math.min(size.width / f.width, size.height / f.height);
       canvas.translate((size.width - f.width * scale) / 2 - f.left * scale, (size.height - f.height * scale) / 2 - f.top * scale);
       canvas.scale(scale);
     } else {
-      final scale = size.height / MobiGeo.height;
+      scale = size.height / MobiGeo.height;
       canvas.translate((size.width - MobiGeo.width * scale) / 2, 0);
       canvas.scale(scale);
     }
-    paintRig(canvas, rig.value, palette, shadow: shadow, lite: lite, head: head);
+    paintRig(canvas, rig.value, palette, shadow: shadow, lite: lite, head: head, px: scale);
     canvas.restore();
   }
 
@@ -54,8 +55,10 @@ class MobiPainter extends CustomPainter {
 }
 
 /// Paints [r] in design units (a 140 by 168 box). [lite] drops sub-pixel detail for small sizes;
-/// [head] paints only the body, face and antenna (no limbs, boots or shadow).
-void paintRig(Canvas c, MobiRig r, MobiPalette p, {bool shadow = true, bool lite = false, bool head = false}) {
+/// [head] paints only the body, face and antenna (no limbs, boots or shadow). [px] is how many
+/// logical pixels one design unit covers: below about 0.42 the face grows and its strokes
+/// thicken so every expression still reads at 32 dp (see `MobiDetails.legibility`).
+void paintRig(Canvas c, MobiRig r, MobiPalette p, {bool shadow = true, bool lite = false, bool head = false, double px = 1}) {
   final parts = MobiParts.of(p);
   final body = _BodyXf(r);
   final lift = math.max(0.0, -r.y);
@@ -78,10 +81,14 @@ void paintRig(Canvas c, MobiRig r, MobiPalette p, {bool shadow = true, bool lite
   c.restore();
 
   if (!head) {
-    _leg(c, body.map(MobiGeo.hipL), MobiGeo.ankleL, r.bootL, -1, p, lite);
-    _leg(c, body.map(MobiGeo.hipR), MobiGeo.ankleR, r.bootR, 1, p, lite);
+    // Each boot, then its leg going into it, then the boot's front lip over the leg: the leg
+    // reads as stepping into the boot, not as standing on a dark hole.
     _boot(c, parts, MobiGeo.ankleL, r.bootL, -1);
+    _leg(c, body.map(MobiGeo.hipL), MobiGeo.ankleL, r.bootL, -1, p, lite);
+    _bootLip(c, parts, MobiGeo.ankleL, r.bootL, -1, lite);
     _boot(c, parts, MobiGeo.ankleR, r.bootR, 1);
+    _leg(c, body.map(MobiGeo.hipR), MobiGeo.ankleR, r.bootR, 1, p, lite);
+    _bootLip(c, parts, MobiGeo.ankleR, r.bootR, 1, lite);
   }
 
   // The body, face and anything held in front.
@@ -90,7 +97,7 @@ void paintRig(Canvas c, MobiRig r, MobiPalette p, {bool shadow = true, bool lite
   c.drawPicture(parts.body);
   // The glint is a reflection on the glass, so it sits under the (lit) eyes and never crosses them.
   MobiDetails.glint(c, r.glint, tilt: r.tilt);
-  MobiDetails.eyes(c, r);
+  MobiDetails.eyes(c, r, legible: MobiDetails.legibility(px), glow: p.night && !lite);
   c.drawPicture(parts.gloss);
   if (!head) {
     // Front arms; a held sheet sits over the mittens, as if held from behind.
@@ -213,6 +220,9 @@ void _hose(Canvas c, Path path, double width, MobiPalette p, [bool lite = false]
   c.restore();
 }
 
+/// One path per limb, reset and rebuilt each frame instead of allocated.
+final Path _limbPath = Path();
+
 void _arm(Canvas c, MobiArm a, double side, MobiPalette p, bool lite) {
   final shoulder = side < 0 ? MobiGeo.shoulderL : MobiGeo.shoulderR;
   final dir = MobiGeo.armDir(a.angle, side);
@@ -220,7 +230,8 @@ void _arm(Canvas c, MobiArm a, double side, MobiPalette p, bool lite) {
   final wrist = shoulder + dir * len;
   final outward = Offset(dir.dy * side, -dir.dx * side);
   final ctrl = (shoulder + wrist) / 2 + outward * a.bend * 9;
-  final path = Path()
+  final path = _limbPath
+    ..reset()
     ..moveTo(shoulder.dx, shoulder.dy)
     ..quadraticBezierTo(ctrl.dx, ctrl.dy, wrist.dx, wrist.dy);
   _hose(c, path, MobiGeo.armWidth, p, lite);
@@ -240,18 +251,44 @@ void _arm(Canvas c, MobiArm a, double side, MobiPalette p, bool lite) {
 void _leg(Canvas c, Offset hip, Offset ankle, MobiBoot b, double side, MobiPalette p, bool lite) {
   final end = ankle + Offset(b.dx, b.dy);
   final mid = (hip + end) / 2 + Offset(side * 1.5, 0);
-  final path = Path()
+  final path = _limbPath
+    ..reset()
     ..moveTo(hip.dx, hip.dy)
-    ..quadraticBezierTo(mid.dx, mid.dy, end.dx, end.dy + 2);
+    ..quadraticBezierTo(mid.dx, mid.dy, end.dx, end.dy + 5);
+  // The leg is cut where it enters the boot: everything above the cuff's middle, and inside the
+  // cuff's opening (in the boot's own frame).
+  c.save();
+  _bootFrame(c, ankle, b, side);
+  c.clipPath(MobiParts.legWindow);
+  _unBootFrame(c, ankle, b, side);
   _hose(c, path, MobiGeo.legWidth, p, lite);
+  c.restore();
+}
+
+void _bootFrame(Canvas c, Offset ankle, MobiBoot b, double side) {
+  c.translate(ankle.dx + b.dx, ankle.dy + b.dy);
+  c.rotate(-b.rot * side);
+  c.scale(side * MobiGeo.bootScale, MobiGeo.bootScale);
+}
+
+void _unBootFrame(Canvas c, Offset ankle, MobiBoot b, double side) {
+  c.scale(1 / (side * MobiGeo.bootScale), 1 / MobiGeo.bootScale);
+  c.rotate(b.rot * side);
+  c.translate(-(ankle.dx + b.dx), -(ankle.dy + b.dy));
 }
 
 void _boot(Canvas c, MobiParts parts, Offset ankle, MobiBoot b, double side) {
   c.save();
-  c.translate(ankle.dx + b.dx, ankle.dy + b.dy);
-  c.rotate(-b.rot * side);
-  c.scale(side * MobiGeo.bootScale, MobiGeo.bootScale);
+  _bootFrame(c, ankle, b, side);
   c.drawPicture(parts.boot);
+  c.restore();
+}
+
+/// The boot's front lip, drawn over the leg where it goes in.
+void _bootLip(Canvas c, MobiParts parts, Offset ankle, MobiBoot b, double side, bool lite) {
+  c.save();
+  _bootFrame(c, ankle, b, side);
+  c.drawPicture(lite ? parts.bootLipLite : parts.bootLip);
   c.restore();
 }
 

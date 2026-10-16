@@ -104,60 +104,6 @@ class ToolsInlineAction extends ConsumerWidget {
   }
 }
 
-/// A horizontal row that scrolls, with a soft fade on the right edge while more lies past it
-/// (a cut-off chip alone reads as a mistake; the fade says it moves).
-class ToolsFadingScroller extends StatefulWidget {
-  const ToolsFadingScroller({super.key, required this.child, this.padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter)});
-
-  final Widget child;
-  final EdgeInsets padding;
-
-  @override
-  State<ToolsFadingScroller> createState() => _ToolsFadingScrollerState();
-}
-
-class _ToolsFadingScrollerState extends State<ToolsFadingScroller> {
-  final _controller = ScrollController();
-  bool _more = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(_update);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _update());
-  }
-
-  void _update() {
-    if (!mounted || !_controller.hasClients) return;
-    final more = _controller.position.maxScrollExtent - _controller.offset > 2;
-    if (more != _more) setState(() => _more = more);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final scroller = SingleChildScrollView(
-      controller: _controller,
-      scrollDirection: Axis.horizontal,
-      padding: widget.padding,
-      child: widget.child,
-    );
-    return ShaderMask(
-      blendMode: BlendMode.dstIn,
-      shaderCallback: (rect) => LinearGradient(
-        colors: [Colors.white, Colors.white, _more ? Colors.transparent : Colors.white],
-        stops: const [0, 0.9, 1],
-      ).createShader(rect),
-      child: scroller,
-    );
-  }
-}
-
 /// A progress ring: [fraction] of a full turn in volt over a quiet track, with [child] (a
 /// number) in the middle. The arc sweeps in once when the card arrives, and afterwards travels
 /// from where it was to the new fraction whenever [fraction] changes; under reduced motion it is

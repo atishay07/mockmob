@@ -231,6 +231,10 @@ void main() {
       );
       await tester.pump();
       await tester.pump();
+      // The capsule waits until the whole hero card is out (audit 20): scroll it out first.
+      controller.jumpTo(controller.position.maxScrollExtent);
+      await tester.pump();
+      await tester.pump();
       expect(capsule(), findsOneWidget);
       return controller;
     }
@@ -238,17 +242,19 @@ void main() {
     testWidgets('a drag that starts just above the capsule scrolls the page: no ground slab sits over it', (tester) async {
       final controller = await pumpPinned(tester);
       final rect = tester.getRect(capsule());
-      await tester.dragFrom(Offset(180, rect.top - 8), const Offset(0, -120));
+      final before = controller.offset;
+      await tester.dragFrom(Offset(180, rect.top - 8), const Offset(0, 120));
       await tester.pump();
-      expect(controller.offset, greaterThan(0));
+      expect(controller.offset, lessThan(before));
     });
 
     testWidgets('a drag that starts beside the capsule scrolls too', (tester) async {
       final controller = await pumpPinned(tester);
       final rect = tester.getRect(capsule());
-      await tester.dragFrom(Offset(rect.left / 2, rect.center.dy), const Offset(0, -120));
+      final before = controller.offset;
+      await tester.dragFrom(Offset(rect.left / 2, rect.center.dy), const Offset(0, 120));
       await tester.pump();
-      expect(controller.offset, greaterThan(0));
+      expect(controller.offset, lessThan(before));
     });
   });
 }

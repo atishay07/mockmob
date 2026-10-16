@@ -14,13 +14,22 @@ abstract final class ReviewCopy {
   static const askKey = 'Ask Mobi';
   static String tonightOverline(DateTime now, String subject) => "${tonightOrTodayTitle(now)}'s repair, $subject";
   static const mistakesHeading = 'Mistakes to repair';
+
+  /// The switch under the hero: what is waiting, and what is done.
+  static const tabRepair = 'To repair';
+  static const tabHistory = 'History';
+  static const sectionsLabel = 'Review sections';
   static const recordHeading = 'Repair record';
   static const pastHeading = 'Past results';
   static const seeRecord = 'See your record';
   static const replayRecap = 'Replay recap';
   static const showMe = 'Show me';
 
-  static String mistakesSummary(int open, int chapters) => '${plural(open, 'mistake')} across ${plural(chapters, 'chapter')}';
+  /// What is left, in one count (never "7 mistakes" beside "1 of 8"): the repaired and found counts are the progress line's.
+  static String mistakesSummary(int open, int chapters) => '$open left to repair across ${plural(chapters, 'chapter')}';
+
+  /// A chapter's own progress, with its denominator: "1 of 5 repaired".
+  static String chapterRepaired(int repaired, int total) => '$repaired of $total repaired';
 
   static String seeAllChapters(int chapters) => 'See all $chapters chapters';
 
@@ -150,9 +159,11 @@ abstract final class ReviewCopy {
       "Tonight's repair comes from a mock or a 10-question check. Your open mistakes are in a shorter practice, so they wait in the list below.";
   static const noTonightUnopened = "Your open mistakes are in a result you haven't opened yet. Open it first, then repair from it.";
 
-  /// "3 of 12 repaired": repaired mistakes of all mistakes found, nothing else.
-  static String repairsProgress(int repaired, int found) => '$repaired of $found repaired';
-  static String repairsProgressSemantics(int repaired, int found) => '$repaired of ${plural(found, 'mistake')} found so far repaired';
+  /// "3 repaired, 12 found": repaired mistakes and all mistakes found, nothing else.
+  static String repairsProgress(int repaired, int found, {int setAside = 0}) =>
+      '$repaired repaired, $found found${setAside > 0 ? ', $setAside set aside' : ''}';
+  static String repairsProgressSemantics(int repaired, int found, {int setAside = 0}) =>
+      '$repaired repaired of ${plural(found, 'mistake')} found so far${setAside > 0 ? ', $setAside set aside' : ''}';
   static const loadErrorTitle = 'We could not load your mistakes';
   static const loadErrorMessage = 'Check your connection and try again.';
   static const offlineTitle = 'You are offline';

@@ -29,6 +29,7 @@ import 'compass_practise.dart';
 import 'programme_rows.dart';
 import 'score_sources.dart';
 import '../widgets/tools_origin.dart';
+import '../my_colleges/my_colleges_parts.dart' show MyCollegesSection;
 import '../pro/compass_pro_section.dart';
 import '../widgets/size_reveal.dart';
 
@@ -182,6 +183,9 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
 
     return [
       SliverToBoxAdapter(child: CompassHero(state: s)),
+      // The one primary action of the page, straight under the count: the score that makes the
+      // list personal, or, once there is one, the programme to open first.
+      if (!s.selection.isEmpty && !noneOpen) SliverToBoxAdapter(child: _FirstMove(state: s, onOpen: open)),
       // Nothing open: the way out comes first, straight under the count.
       if (noneOpen) SliverToBoxAdapter(child: _NoneOpen(hasUnlocks: s.unlocks.isNotEmpty, onCombo: () => _openCombo(context))),
       if (noneOpen && s.unlocks.isNotEmpty) ...unlocks,
@@ -196,6 +200,7 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
               for (final r in best)
                 ProgrammeRow(
                   key: ValueKey('best-${r.group.id}'),
+                  bar: true,
                   verdict: r,
                   category: s.category,
                   score: score,
@@ -344,6 +349,7 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
           ],
         ],
       ],
+      const SliverToBoxAdapter(child: MyCollegesSection()),
       SliverToBoxAdapter(child: CompassProSection(state: s)),
       SliverToBoxAdapter(child: CompassPractise(state: s)),
       SliverToBoxAdapter(
@@ -370,6 +376,32 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
       ),
       const SliverToBoxAdapter(child: ToolsNote(ToolsCopy.dataLine, top: MmSpace.s20)),
     ];
+  }
+}
+
+/// The one primary under the hero. No score yet: it asks for the expected score (the sheet also
+/// holds the category). With a score: it opens the best option, the programme the score could
+/// clear first, so the student always has a first move. Nothing when there is no programme to open.
+class _FirstMove extends StatelessWidget {
+  const _FirstMove({required this.state, required this.onOpen});
+
+  final CompassState state;
+  final void Function(String id) onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final best = compassBestOptions(state).firstOrNull;
+    final KeyButton? key = state.score == null
+        ? KeyButton(key: const ValueKey('compass-first-move'), label: ToolsCopy.addScore, onPressed: () => showCategoryScoreSheet(context))
+        : best == null
+            ? null
+            : KeyButton(
+                key: const ValueKey('compass-first-move'),
+                label: ToolsCopy.openProgramme(best.group.name),
+                onPressed: () => onOpen(best.group.id),
+              );
+    if (key == null) return const SizedBox.shrink();
+    return Padding(padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0), child: key);
   }
 }
 
@@ -507,35 +539,32 @@ class _UnlocksState extends ConsumerState<_Unlocks> {
     final state = widget.state;
     final reduced = Motion.reduced(context);
     final previewed = [for (final u in state.unlocks) if (u.pick.key == _preview) u].firstOrNull;
-    // One row that scrolls (with its edge fade), so the chips never stagger into a ragged block.
+    // One rail that scrolls, snaps to chip edges and always peeks a clean chip, so the chips never
+    // stagger into a ragged block or end cut through a letter.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ToolsFadingScroller(
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-          child: Row(
-            children: [
-              for (final u in state.unlocks) ...[
-                Semantics(
-                  label: ToolsCopy.unlockSemantics(u.name, u.unlocks),
-                  excludeSemantics: true,
-                  button: true,
-                  selected: u.pick.key == _preview,
-                  child: KeyedSubtree(
-                    key: _keys.putIfAbsent(u.pick.key, GlobalKey.new),
-                    child: ToolsActionChip(
-                      label: u.pick.name(state.catalog, short: true),
-                      trailing: ToolsCopy.unlockValue(u.unlocks),
-                      icon: LucideIcons.plus,
-                      active: u.pick.key == _preview,
-                      onTap: () => setState(() => _preview = u.pick.key == _preview ? null : u.pick.key),
-                    ),
+        ChipRail(
+          semanticLabel: ToolsCopy.unlocksHeading,
+          children: [
+            for (final u in state.unlocks)
+              Semantics(
+                label: ToolsCopy.unlockSemantics(u.name, u.unlocks),
+                excludeSemantics: true,
+                button: true,
+                selected: u.pick.key == _preview,
+                child: KeyedSubtree(
+                  key: _keys.putIfAbsent(u.pick.key, GlobalKey.new),
+                  child: ToolsActionChip(
+                    label: u.pick.name(state.catalog, short: true),
+                    trailing: ToolsCopy.unlockValue(u.unlocks),
+                    icon: LucideIcons.plus,
+                    active: u.pick.key == _preview,
+                    onTap: () => setState(() => _preview = u.pick.key == _preview ? null : u.pick.key),
                   ),
                 ),
-                const SizedBox(width: MmSpace.s8),
-              ],
-            ],
-          ),
+              ),
+          ],
         ),
         SizeReveal(
           child: AnimatedSwitcher(
@@ -618,18 +647,15 @@ class _Filters extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final all = [ToolsCopy.all, ...streams];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ToolsFadingScroller(
-          child: Row(
-            children: [
-              for (final st in [ToolsCopy.all, ...streams]) ...[
-                MmChip(label: duStreamShort(st), selected: stream == st, onTap: () => onStream(st)),
-                const SizedBox(width: MmSpace.s8),
-              ],
-            ],
-          ),
+        ChipRail.labelled(
+          semanticLabel: 'Stream',
+          labels: [for (final st in all) duStreamShort(st)],
+          selected: all.indexOf(stream).clamp(0, all.length - 1),
+          onSelected: (i) => onStream(all[i]),
         ),
         const SizedBox(height: MmSpace.s8),
         Padding(

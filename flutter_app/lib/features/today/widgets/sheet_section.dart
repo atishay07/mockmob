@@ -44,10 +44,15 @@ class SheetSection extends StatelessWidget {
       children: [
         // Heading to its content: 12, which is the first row's own top padding (SPACING.md 3.1).
         TodaySectionHeading(title: TodayCopy.yourSheet, caption: TodayCopy.sheetCaption(rows.length, math.max(papers, rows.length))),
-        if (trend != null) PaperTrendStrip(trend: trend!, onOpen: onOpen),
+        // The chart is its own block with its own caption: a hairline closes it, so its
+        // "Accountancy mocks" never reads as the rows' heading (design critic 16 Oct, finding 6).
+        if (trend != null) ...[
+          PaperTrendStrip(trend: trend!, onOpen: onOpen),
+          Divider(height: 1, thickness: 1, color: colors.line.withValues(alpha: 0.7)),
+        ],
         for (var k = 0; k < rows.length; k++) ...[
           if (k > 0) Divider(height: 1, thickness: 1, color: colors.line.withValues(alpha: 0.7)),
-          _PaperRow(row: rows[k], index: k, onTap: () => onOpen(rows[k].target)),
+          _PaperRow(row: rows[k], index: k, chartSubject: trend?.subject, onTap: () => onOpen(rows[k].target)),
         ],
       ],
     );
@@ -55,9 +60,14 @@ class SheetSection extends StatelessWidget {
 }
 
 class _PaperRow extends ConsumerWidget {
-  const _PaperRow({required this.row, required this.index, required this.onTap});
+  const _PaperRow({required this.row, required this.index, required this.onTap, this.chartSubject});
 
   final SheetRow row;
+
+  /// The subject the chart above draws. A row of another subject names it in its title.
+  final String? chartSubject;
+
+  bool get _otherSubject => chartSubject != null && row.subject != chartSubject;
 
   /// The row's place from the top: its marks start counting 60 ms after the row above.
   final int index;
@@ -103,10 +113,15 @@ class _PaperRow extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(row.label, style: type.cardTitle),
+                          Text(
+                            _otherSubject ? TodayCopy.rowTitleWithSubject(row.label, row.subject) : row.label,
+                            style: type.cardTitle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                           const SizedBox(height: 2),
                           Text(
-                            '${row.subject}, ${row.date}',
+                            _otherSubject ? row.date : '${row.subject}, ${row.date}',
                             style: type.caption.copyWith(color: colors.ink2),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,

@@ -158,10 +158,14 @@ void main() {
         final f = firstBusinessStudiesMock();
         await open(tester, '/result/a7', f.model, f.detail, size: size, textScale: scale);
         expect(tester.takeException(), isNull);
-        final title = find.text('Mock 1, Business Studies');
-        expect(title, findsOneWidget);
-        final paragraph = tester.renderObject<RenderParagraph>(title);
-        expect(paragraph.didExceedMaxLines, isFalse, reason: 'the title would end in an ellipsis');
+        // The paper's name is one line and its subject a second one: neither is cut, and the
+        // title never wraps against "Replay recap".
+        for (final line in [find.text('Mock 1'), find.text('Business Studies')]) {
+          expect(line, findsWidgets);
+          final paragraph = tester.renderObject<RenderParagraph>(line.first);
+          expect(paragraph.didExceedMaxLines, isFalse, reason: 'a line of the title would end in an ellipsis');
+        }
+        expect(find.bySemanticsLabel('Mock 1, Business Studies'), findsWidgets);
         expect(find.text('Replay recap'), findsOneWidget);
       });
     }
@@ -171,21 +175,19 @@ void main() {
     testWidgets('every chip sits above the pinned key, and the quiet keys are still reachable', (tester) async {
       await open(tester, '/result/a7/recap/4', mock7(), detail(), size: const Size(360, 748), textScale: 1.3);
       expect(tester.takeException(), isNull);
-      final keyTop = tester.getRect(find.text('Repair Admission of a partner, 3 mistakes')).top;
+      final keyTop = tester.getRect(find.text('Repair 3 mistakes')).top;
       for (final label in ['5 min', '10 min', '15 min']) {
         expect(tester.getRect(find.text(label)).bottom, lessThanOrEqualTo(keyTop), reason: '$label chip is under the key');
       }
       // The quiet keys are pinned with the primary one, so they are always in reach.
       expect(find.text('Choose something else'), findsOneWidget);
-      expect(find.bySemanticsLabel('More'), findsOneWidget);
     });
 
     testWidgets('at normal text the quiet keys stay pinned under the primary key', (tester) async {
       await open(tester, '/result/a7/recap/4', mock7(), detail());
-      final keyBottom = tester.getRect(find.text('Repair Admission of a partner, 3 mistakes')).bottom;
-      expect(find.text('Finish for now'), findsNothing, reason: 'one quiet key, the other behind More');
+      final keyBottom = tester.getRect(find.text('Repair 3 mistakes')).bottom;
+      expect(find.text('Finish for now'), findsNothing, reason: 'one quiet key, the other waits in its sheet');
       expect(tester.getRect(find.text('Choose something else')).top, greaterThan(keyBottom));
-      expect(tester.getRect(find.bySemanticsLabel('More')).top, greaterThan(keyBottom));
     });
   });
 
@@ -211,8 +213,7 @@ void main() {
       final primary = find.text(mixed.label);
       expect(primary, findsOneWidget);
       final bottom = tester.getRect(primary).bottom;
-      expect(find.text('Finish for now'), findsNothing, reason: 'it waits behind More');
-      expect(find.bySemanticsLabel('More'), findsOneWidget);
+      expect(find.text('Finish for now'), findsNothing, reason: 'it waits in the sheet Choose something else opens');
       expect(tester.getRect(find.text('Choose something else')).top, greaterThan(bottom));
       // The key is a real 48 dp target.
       final box = tester.renderObject<RenderBox>(find.ancestor(of: primary, matching: find.byType(Semantics)).first);
@@ -241,10 +242,9 @@ void main() {
 
     testWidgets('a paper with something to repair keeps the repair as the primary key', (tester) async {
       await open(tester, '/result/a7/recap/4', mock7(), detail(), nextMove: mixed);
-      expect(find.text('Repair Admission of a partner, 3 mistakes'), findsOneWidget);
+      expect(find.text('Repair 3 mistakes'), findsOneWidget);
       expect(find.text(mixed.label), findsNothing);
-      expect(find.text('Finish for now'), findsNothing, reason: 'it waits behind More');
-      expect(find.bySemanticsLabel('More'), findsOneWidget);
+      expect(find.text('Finish for now'), findsNothing, reason: 'it waits in the sheet Choose something else opens');
       expect(find.text('Choose something else'), findsOneWidget);
     });
   });

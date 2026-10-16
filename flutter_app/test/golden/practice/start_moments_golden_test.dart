@@ -1,7 +1,7 @@
-// Goldens for the owner's APK v8 notes on Practice and Start (15 Oct): the NTA mode tile and the
-// Start sheet's NTA row with the palette glyph inside its panel, at the narrowest phone with
-// large text and at the widest, and a Full mock's ticket as the stub tears and the stopwatch
-// under it runs its turn.
+// Goldens for the owner's APK v8 notes on Practice and Start (15 Oct): the Practice tab's exam band
+// (one NTA entry, its palette glyph inside its own tile) at the narrowest phone with large text
+// and at the widest, and a Full mock's ticket as the stub tears and the stopwatch under it runs
+// its turn.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
@@ -45,14 +45,8 @@ class _ExamFrame extends StatelessWidget {
                       ),
                     ],
                   ),
-                  ChoiceRow.wide(
-                    _o('nta-row', ChoiceGlyphKind.nta, 'NTA mode', 'The exam-day screen in Accountancy, as on the day.', tag: 'Pro'),
-                  ),
                 ],
               ),
-              const SizedBox(height: MmSpace.s24),
-              // The palette at a size where its margins can be checked by eye.
-              const Center(child: ChoiceGlyph(kind: ChoiceGlyphKind.nta, size: 160)),
             ],
           ),
         ),
@@ -108,7 +102,7 @@ void main() {
           tester,
           const _ExamFrame(),
           brightness: b,
-          size: const Size(360, 900),
+          size: const Size(360, 520),
           textScale: 1.3,
           wrapInScaffold: false,
           overrides: haptics,
@@ -119,7 +113,7 @@ void main() {
       });
 
       testWidgets('the exam band at 430 dp', (tester) async {
-        await pumpMockmob(tester, const _ExamFrame(), brightness: b, size: const Size(430, 800), wrapInScaffold: false, overrides: haptics);
+        await pumpMockmob(tester, const _ExamFrame(), brightness: b, size: const Size(430, 380), wrapInScaffold: false, overrides: haptics);
         await tester.pump(const Duration(milliseconds: 500));
         expect(tester.takeException(), isNull);
         await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/exam_band_430_$tag.png'));

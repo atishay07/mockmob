@@ -17,6 +17,7 @@ import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/onboarding_routes.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
+import 'package:mockmob/features/onboarding/steps/plan_step.dart';
 import 'package:mockmob/features/onboarding/widgets/hold_to_seal.dart';
 
 import '../../golden/onboarding/support.dart';
@@ -199,17 +200,16 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('Tap to seal instead seals at once, under the one full-width hold, at a full touch target', (tester) async {
+  testWidgets('the hint line under the one full-width hold seals at once, at a full touch target', (tester) async {
     final c = await _pump(tester, answers: studentUpTo(Steps.rhythm, step: Steps.plan));
     await _tap(tester, OnboardingCopy.continuePlan);
-    final seal = find.byWidgetPredicate((w) => w is KeyButton && w.label == OnboardingCopy.sealIt);
+    final seal = find.byKey(PlanStep.tapToSealKey);
     expect(seal, findsOneWidget);
+    expect(find.text(OnboardingCopy.sealHint, findRichText: true), findsOneWidget);
     expect(find.byType(HoldToSeal), findsOneWidget, reason: 'the hold stays, as the one dominant control');
-    // Painted at 40, answering a finger anywhere in a 48 dp box (MmHitSlop, SPACING.md 3.3).
-    expect(tester.getSize(seal).height, 40);
-    final slop = tester.widget<MmHitSlop>(find.descendant(of: seal, matching: find.byType(MmHitSlop)).first).slop;
-    expect(tester.getSize(seal).height + slop.vertical, greaterThanOrEqualTo(48));
-    expect(tester.getTopLeft(seal).dy, greaterThan(tester.getBottomLeft(find.byType(HoldToSeal)).dy - 1), reason: 'the link sits under the hold');
+    expect(find.widgetWithText(KeyButton, OnboardingCopy.sealIt), findsNothing, reason: 'not a second key under the hold');
+    expect(tester.getSize(seal).height, greaterThanOrEqualTo(48));
+    expect(tester.getTopLeft(seal).dy, greaterThan(tester.getBottomLeft(find.byType(HoldToSeal)).dy - 1), reason: 'the line sits under the hold');
     expect(tester.getSize(find.byType(HoldToSeal)).width, greaterThan(300), reason: 'the hold takes the full width');
     await tester.tap(seal);
     await _settle(tester);

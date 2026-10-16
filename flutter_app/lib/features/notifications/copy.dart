@@ -226,4 +226,30 @@ abstract final class NotificationsCopy {
   // The header Mobi's label (decorative: the screen's words carry the meaning).
   static const String weeklyTitle = 'Weekly plan';
   static const String weeklyBody = 'Your week is ready to look at.';
+
+  // The evening reminder names tonight's move, from the same rules Today uses. The title says
+  // "Tonight" or "Today" (see `eveningTitle`); these are the lines under it. No streak, no guilt.
+  static String moveRepair(int mistakes, String? chapter, int? minutes) {
+    final what = chapter == null ? plural(mistakes, 'mistake') : '$mistakes $chapter ${pluralWord(mistakes, 'mistake')}';
+    return '$what to repair${minutes == null ? '' : ', ${formatDurationAbout(Duration(minutes: minutes))}'}';
+  }
+
+  static String movePractice(int questions, String? subject) {
+    final what = subject == null || subject.isEmpty
+        ? '$questions practice ${pluralWord(questions, 'question')}'
+        : '$questions $subject ${pluralWord(questions, 'question')}';
+    return '$what, ${formatDurationAbout(Duration(minutes: questions))}';
+  }
+
+  /// The server's own action, in its own words, with no full stop.
+  static String movePlan(String title) {
+    final t = title.trim();
+    return t.endsWith('.') ? t.substring(0, t.length - 1) : t;
+  }
+
+  // The Sunday line: the real week, with its denominator.
+  static const String weeklyPersonalTitle = 'Your week';
+  static String weeklyPersonalBody(int studied, int goal) => studied > goal
+      ? 'You studied ${plural(studied, 'day')} this week, with $goal planned.'
+      : 'You studied $studied of $goal planned ${pluralWord(goal, 'day')} this week.';
 }

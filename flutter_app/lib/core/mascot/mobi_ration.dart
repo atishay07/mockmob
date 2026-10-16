@@ -53,8 +53,9 @@ abstract final class MobiRation {
   /// A screen's Mobi points at its one action only after this long with no touch and no scroll.
   static const Duration nudgeAfter = Duration(seconds: 4);
 
-  /// The acts that celebrate (ladder T2 and T3). The Celebrations setting gates them.
-  static const Set<MobiAct> celebrations = {MobiAct.cheer, MobiAct.celebrate, MobiAct.proud};
+  /// The acts that celebrate (ladder T2 and T3, and the small hop). The Celebrations setting gates
+  /// them.
+  static const Set<MobiAct> celebrations = {MobiAct.cheer, MobiAct.celebrate, MobiAct.proud, MobiAct.hop};
 
   /// The clock the gates and the glance gap read. Tests replace it; [reset] restores it.
   static DateTime Function() now = DateTime.now;

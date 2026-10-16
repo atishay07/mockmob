@@ -1,11 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
 import '../../../core/repositories/remote_state.dart';
+import '../../../core/models/my_colleges.dart';
+import '../data/my_colleges_actions.dart';
 import '../data/tools_store.dart';
 import 'compass_pro_models.dart';
 
@@ -31,39 +31,22 @@ final compassProRepositoryProvider = NotifierProvider<CompassProRepository, Remo
 /// Access comes from the account (the same Pro flag the quote model and Insights use).
 final compassProAccessProvider = Provider<bool>((ref) => ref.watch(authSnapshotProvider.select((s) => s.isPro)));
 
-/// The DU programmes and colleges the student is aiming for (up to [limit]), kept on this phone
-/// per account, as the website keeps them in the browser.
-class ShortlistController extends AsyncNotifier<List<ShortlistTarget>> {
-  static const int limit = 8;
+/// The DU programmes and colleges the student is aiming for: the Compass view of My colleges, the
+/// one list saved on the server and shared with Today, You and the website. Empty until the list
+/// has loaded (the Compass section says so; it never shows an empty list that did not load).
+final shortlistProvider = Provider<List<ShortlistTarget>>((ref) {
+  final view = ref.watch(myCollegesProvider);
+  return [for (final c in view.colleges) ShortlistTarget(groupId: c.programmeId, college: c.college, programme: c.programme)];
+});
 
-  String? get _userId => ref.read(authSnapshotProvider).userId;
+/// The most colleges the list holds.
+abstract final class ShortlistController {
+  static const int limit = MyColleges.maxColleges;
 
-  @override
-  Future<List<ShortlistTarget>> build() async {
-    final id = ref.watch(authSnapshotProvider.select((s) => s.userId));
-    if (id == null) return const [];
-    return (await ref.read(toolsStoreProvider).shortlist(id)).take(limit).toList();
-  }
+  static MyCollege _entry(ShortlistTarget t) => MyCollege(programmeId: t.groupId, programme: t.programme, college: t.college);
 
-  Future<void> _set(List<ShortlistTarget> next) async {
-    state = AsyncData(next);
-    final id = _userId;
-    if (id != null) unawaited(ref.read(toolsStoreProvider).saveShortlist(id, next));
-  }
+  /// Adds a target to My colleges. A college is on the list once for each programme.
+  static Future<MyCollegesOutcome> add(WidgetRef ref, ShortlistTarget target) => ref.read(myCollegesActionsProvider.notifier).add(_entry(target));
 
-  Future<void> add(ShortlistTarget target) async {
-    final now = state.value ?? const <ShortlistTarget>[];
-    if (now.length >= limit || now.contains(target)) return;
-    await _set([...now, target]);
-  }
-
-  Future<void> remove(ShortlistTarget target) async {
-    final now = state.value ?? const <ShortlistTarget>[];
-    await _set([...now.where((t) => t != target)]);
-  }
+  static Future<MyCollegesOutcome> remove(WidgetRef ref, ShortlistTarget target) => ref.read(myCollegesActionsProvider.notifier).remove(_entry(target));
 }
-
-final shortlistProvider = AsyncNotifierProvider<ShortlistController, List<ShortlistTarget>>(
-  ShortlistController.new,
-  retry: (count, error) => null,
-);

@@ -200,8 +200,8 @@ void main() {
       final order = <String>[
         'A partly true option',
         'Explained from the answer key (B).',
-        'Why A looked right',
         'Where it breaks',
+        'Why A looked right',
         'Why B is right',
         'If C took 1/5 from A alone, A would fit. Here both give, so B.',
         'The other options (2)',
@@ -369,7 +369,7 @@ void main() {
 
     testWidgets('a v1 repair keeps its layout, with the fine print and no chip', (tester) async {
       await pumpRepair(tester, v3Overrides(explained));
-      expect(find.text('What happened here'), findsOneWidget);
+      expect(find.text('Where it breaks'), findsOneWidget);
       expect(find.text('The idea'), findsOneWidget);
       expect(find.text('Next time'), findsOneWidget);
       expect(find.textContaining('Explained from the answer key'), findsNothing);

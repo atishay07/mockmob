@@ -1,5 +1,6 @@
 import 'ai_credits.dart';
 import 'json_helpers.dart';
+import 'repair_check.dart';
 
 /// The trap types of a v2 repair (REPAIR-LAB-AUDIT-2026-10-14 section 5.3), each with a plain
 /// label about the option, never about the student. The same labels as the website's
@@ -217,6 +218,7 @@ class RepairResponse {
     this.chosenIndex,
     this.keyIndex,
     this.pattern,
+    this.check,
   });
 
   /// Accepts only the four documented statuses and requires `key_idea` for `explained` and
@@ -238,6 +240,7 @@ class RepairResponse {
       chosenIndex: asInt(j['chosenIndex']),
       keyIndex: asInt(j['keyIndex']),
       pattern: RepairPattern.tryParse(j['pattern']),
+      check: status.countsAsRepaired ? RepairCheckInfo.tryParse(j['check']) : null,
     );
   }
 
@@ -256,4 +259,8 @@ class RepairResponse {
   /// A repeated trap across the student's repaired mistakes, or null (also when the server could
   /// not work it out in time). Shown under "From your record".
   final RepairPattern? pattern;
+
+  /// "Check it held": what the server offers after the explanation (`explained` and `stored`
+  /// only). Null on an older server and for any other outcome: the screen then renders nothing.
+  final RepairCheckInfo? check;
 }

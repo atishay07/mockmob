@@ -20,6 +20,10 @@ abstract final class ResultSpace {
   /// Moment scaffold (SPACING 7): free height splits 2 above the content to 3 below it, so the
   /// content sits at about 40% of the free band instead of stacking at the top.
   static const double momentWeight = -0.2;
+
+  /// A card whose content is a short status block (card 4): centred in the free height, so no hole
+  /// opens between its last line and the key.
+  static const double centered = 0;
 }
 
 /// The result screens' share of the motion spec (docs/brain/ui-phase2/MOTION.md 4.8 and 6).

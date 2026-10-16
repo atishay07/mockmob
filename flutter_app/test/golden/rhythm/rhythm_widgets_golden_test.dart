@@ -9,6 +9,7 @@ import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/logic/dates.dart';
 import 'package:mockmob/features/rhythm/logic/milestone_tracks.dart';
 import 'package:mockmob/features/rhythm/logic/weekly_ending.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show StudyWeekLegendMemory;
 import 'package:mockmob/features/rhythm/screens/week_sheet.dart';
 import 'package:mockmob/features/rhythm/widgets/goal_editor.dart';
 import 'package:mockmob/features/rhythm/widgets/milestone_track_card.dart';
@@ -62,6 +63,7 @@ Celebration _moment(CelebrationEvent e, {bool quiet = false}) => Celebration(
 
 void main() {
   setUpAll(loadAppFonts);
+  setUp(StudyWeekLegendMemory.session.reset);
 
   void golden(String name, Widget Function() build) {
     for (final brightness in [Brightness.dark, Brightness.light]) {

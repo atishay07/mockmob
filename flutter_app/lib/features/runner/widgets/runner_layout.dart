@@ -9,6 +9,7 @@ import '../../../core/theme/theme.dart';
 import '../copy.dart';
 import '../data/runner_session.dart';
 import '../logic/sheet_cells.dart';
+import 'clear_band.dart';
 import 'lock_flight.dart';
 import 'question_enter.dart';
 import 'question_stage.dart';
@@ -208,7 +209,6 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                         total: s.questions.length,
                         isMock: s.isMock,
                         remaining: s.isMock ? s.remaining : null,
-                        openUntil: s.isMock ? null : RunnerCopy.openUntil(s.endsAt.toLocal()),
                         onLeave: widget.onLeave,
                         onQuestions: widget.onQuestions,
                       ),
@@ -248,7 +248,9 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                   child: LayoutBuilder(
                     builder: (context, box) {
                       final padTop = trackHeight == TimingTrack.tappableHeight ? MmSpace.s4 : MmSpace.s12;
-                      const padBottom = MmSpace.s16;
+                      // 4 dp: the pinned clear band under the region adds its own air, and a bigger foot
+                      // gap would make a question that just fits scroll by padding alone (and fade).
+                      const padBottom = MmSpace.s4;
                       Widget layer(int at, {required bool ghost}) {
                         final question = s.questions[at];
                         return SingleChildScrollView(
@@ -312,6 +314,18 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                         ),
                       );
                     },
+                  ),
+                ),
+                // "Clear my answer" is pinned here, under the scrolling question and above the bar:
+                // never cut by the bar, never under the fade (finding 11). Keyed by question so
+                // its Undo belongs to the question it was given on.
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+                  child: ClearBand(
+                    key: ValueKey(q.id),
+                    selected: s.answerFor(q.id),
+                    canAnswer: s.canAnswer,
+                    onSelect: (option) => widget.onSelect(q.id, option),
                   ),
                 ),
                 RunnerBottomBar(

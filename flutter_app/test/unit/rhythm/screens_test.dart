@@ -15,6 +15,7 @@ import 'package:mockmob/features/rhythm/celebration/celebration_slot.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_providers.dart';
 import 'package:mockmob/features/rhythm/screens/rhythm_screen.dart';
 import 'package:mockmob/features/rhythm/screens/week_sheet.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show StudyWeekLegendMemory;
 import 'package:mockmob/features/rhythm/widgets/rhythm_page.dart' show QuietPill;
 import 'package:mockmob/features/rhythm/widgets/week_strip_section.dart';
 import 'package:mockmob/features/rhythm/widgets/weekly_ending_card.dart';
@@ -116,6 +117,7 @@ void main() {
     });
 
     testWidgets('without a plan the study days row says Not set and the strip names its marks on one line', (tester) async {
+      StudyWeekLegendMemory.session.reset();
       await pumpMockmob(tester, const YouRhythmScreen(), wrapInScaffold: false, disableAnimations: true, overrides: overrides(rhythmFixture()));
       await settle(tester);
       expect(find.text('Study days'), findsOneWidget);

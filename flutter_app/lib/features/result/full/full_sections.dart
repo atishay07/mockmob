@@ -17,6 +17,7 @@ import '../result_nav.dart';
 import '../widgets/breakdown_section.dart';
 import 'answer_row.dart';
 import 'lab_ledger_section.dart';
+import 'lab_older_note.dart';
 
 /// Held, keys unavailable and corrected keys: said plainly, never a silent rewrite.
 List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {required VoidCallback onRetry}) {
@@ -51,10 +52,15 @@ Widget whereSection(
   if (lab != null && lab.showsLedger && onOpenQuestion != null) {
     return LabLedgerSection(attemptId: m.attemptId, lab: lab, onOpenQuestion: onOpenQuestion, onSeeChanges: onSeeChanges, onSeeInReplay: onSeeInReplay);
   }
-  return MmSection(
+  final section = MmSection(
     title: ResultCopy.sectionWhere,
     child: BreakdownSection(breakdown: m.breakdown, flow: true, cells: onOpenQuestion == null ? null : m.cells, onOpenQuestion: onOpenQuestion),
   );
+  // An older paper with nothing to split (nothing missed, or answer checks not ready) still says
+  // what its record cannot show, under the same breakdown.
+  final older = lab?.older;
+  if (older == null) return section;
+  return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [section, LabOlderNote(older: older)]);
 }
 
 /// The first wrong answer the repair order leads with (Mistake Lab v4 slice 3, spec 4.7): one most
@@ -172,6 +178,7 @@ Widget answersSection(
             keysOff: keysOff,
             others: lab?.othersFor(items[i].qid),
             othersTitle: lab?.labels.othersTitle,
+            trap: lab?.traps?.tagFor(items[i].qid),
             onOpened: onOpened == null ? null : () => onOpened(items[i]),
             onRepair: items[i].repairable
                 ? () => context.go(

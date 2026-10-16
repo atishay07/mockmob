@@ -70,6 +70,10 @@ class AskWallet {
   bool get known => total != null;
   bool get paused => state == 'paused';
 
+  /// Written replies cannot be bought now: paused, no credits, or a wallet the server could not
+  /// read. An unknown state is not a refusal.
+  bool get cannotWrite => paused || empty || state == 'schema_unavailable' || state == 'error';
+
   /// A real zero, read from the server. An unknown balance is never empty.
   bool get empty => !paused && total == 0;
 

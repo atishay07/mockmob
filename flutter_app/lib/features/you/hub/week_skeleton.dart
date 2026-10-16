@@ -21,6 +21,9 @@ class WeekSkeleton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // The "This week" line, then the ring with its headline and caption beside it.
+          const Skeleton.line(width: 72, height: 14),
+          const SizedBox(height: MmSpace.s12),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -30,12 +33,8 @@ class WeekSkeleton extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Skeleton.line(width: 72, height: 12),
-                    SizedBox(height: MmSpace.s12),
                     Skeleton.line(height: 20),
                     SizedBox(height: MmSpace.s8),
-                    Skeleton.line(width: 120, height: 20),
-                    SizedBox(height: MmSpace.s12),
                     Skeleton.line(width: 96, height: 12),
                   ],
                 ),

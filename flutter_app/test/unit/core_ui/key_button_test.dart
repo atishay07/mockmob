@@ -2,7 +2,6 @@ import 'dart:ui' show Tristate;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
@@ -113,12 +112,7 @@ void main() {
     await pumpMockmob(tester, key(loading: false), overrides: haptics());
     final idleWidth = tester.getSize(find.byType(KeyButtonFace)).width;
 
-    await tester.pumpWidget(
-      ProviderScope(
-        overrides: haptics(),
-        child: MaterialApp(home: Scaffold(body: key(loading: true))),
-      ),
-    );
+    await pumpMockmob(tester, key(loading: true), overrides: haptics());
     await tester.pump();
     final loadingWidth = tester.getSize(find.byType(KeyButtonFace)).width;
     expect(loadingWidth, idleWidth);

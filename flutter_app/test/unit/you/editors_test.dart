@@ -40,12 +40,12 @@ MockApi _api({Object? error}) {
   return api;
 }
 
-Future<void> _pump(WidgetTester tester, Widget screen, {MockApi? api, FakeAuth? auth}) => pumpMockmob(
+Future<void> _pump(WidgetTester tester, Widget screen, {MockApi? api, FakeAuth? auth, double height = 1400}) => pumpMockmob(
       tester,
       screen,
       wrapInScaffold: false,
       disableAnimations: true,
-      size: const Size(384, 1400),
+      size: Size(384, height),
       overrides: youOverrides(fakeAuth: auth ?? FakeAuth(_user), api: api),
     );
 
@@ -59,27 +59,27 @@ Future<void> _tap(WidgetTester tester, String text) async {
 void main() {
   group('hub', () {
     testWidgets('Edit opens the sheet editor', (tester) async {
-      await _pump(tester, const YouHubScreen());
-      await tester.tap(find.bySemanticsLabel('Edit your sheet'));
+      await _pump(tester, const YouHubScreen(), height: 6000);
+      await tester.tap(find.bySemanticsLabel('Edit your profile'));
       await tester.pumpAndSettle();
       expect(find.byType(SheetEditorScreen), findsOneWidget);
     });
 
     testWidgets('the subjects field opens the subjects editor', (tester) async {
-      await _pump(tester, const YouHubScreen());
+      await _pump(tester, const YouHubScreen(), height: 6000);
       await tester.tap(find.bySemanticsLabel(RegExp('^Edit subjects')));
       await tester.pumpAndSettle();
       expect(find.byType(SubjectsScreen), findsOneWidget);
     });
 
-    testWidgets('the account row shows the credit balance', (tester) async {
-      await _pump(tester, const YouHubScreen());
-      await tester.dragUntilVisible(find.text('40 credits'), find.byType(ListView), const Offset(0, -300));
-      expect(find.text('40 credits'), findsOneWidget);
+    testWidgets('Plan and credits shows both balances, each named for its pool', (tester) async {
+      await _pump(tester, const YouHubScreen(), height: 6000);
+      expect(find.bySemanticsLabel(RegExp(r'^Practice credits, 38\. For mocks and practice sets')), findsOneWidget);
+      expect(find.bySemanticsLabel(RegExp(r'^AI credits, 8\. For Ask Mobi and repair explanations')), findsOneWidget);
     });
 
     testWidgets('a tools slot replaces the website rows', (tester) async {
-      await _pump(tester, const YouHubScreen(tools: Text('tools shelf')));
+      await _pump(tester, const YouHubScreen(tools: Text('tools shelf')), height: 6000);
       await tester.dragUntilVisible(find.text('tools shelf'), find.byType(ListView), const Offset(0, -300));
       expect(find.text('tools shelf'), findsOneWidget);
       expect(find.text('Combo Planner'), findsNothing);
@@ -190,7 +190,7 @@ void main() {
     testWidgets('the plan card reads the balance; the name sheet patches the name', (tester) async {
       final api = _api();
       await _pump(tester, const AccountScreen(), api: api);
-      expect(find.bySemanticsLabel('40 practice credits'), findsOneWidget);
+      expect(find.bySemanticsLabel('40 Practice credits'), findsOneWidget);
       await tester.tap(find.text('Asha Verma'));
       await tester.pumpAndSettle();
       await tester.enterText(find.byType(TextField), '  Asha V.  ');

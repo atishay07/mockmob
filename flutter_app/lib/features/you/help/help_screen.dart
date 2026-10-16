@@ -8,6 +8,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../widgets/you_motion.dart' show YouMobi;
+import 'faq.dart';
 import '../widgets/you_page.dart';
 import '../widgets/you_row.dart';
 import '../you_providers.dart';
@@ -16,7 +17,10 @@ import '../you_providers.dart';
 /// app), the two policies, and About, which is where the non-affiliation statement and the
 /// official sources live (brief section 8).
 class HelpScreen extends ConsumerStatefulWidget {
-  const HelpScreen({super.key});
+  const HelpScreen({super.key, this.openFaq});
+
+  /// The id of the question to open ([FaqItem.id]), from `/you/help?q=credits`.
+  final String? openFaq;
 
   @override
   ConsumerState<HelpScreen> createState() => _HelpScreenState();
@@ -80,6 +84,9 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
       title: YouCopy.helpTitle,
       children: [
         const SizedBox(height: MmSpace.s8),
+        const GroupHeading(FaqCopy.heading, top: MmSpace.s4),
+        FaqList(openId: widget.openFaq),
+        const GroupHeading(YouCopy.helpContactHeading, top: MmSpace.s32),
         YouPanel(
           children: [
             Padding(
@@ -134,7 +141,7 @@ class _HelpScreenState extends ConsumerState<HelpScreen> {
                   // The wordmark alone: a "mo" tile beside it read as "mo mockmob".
                   ExcludeSemantics(child: Wordmark(height: 26, color: colors.ink)),
                   const SizedBox(height: MmSpace.s16),
-                  Text(YouCopy.helpNonAffiliation, style: type.body.copyWith(color: colors.ink2)),
+                  Text(YouCopy.helpAboutLine, style: type.body.copyWith(color: colors.ink2)),
                   if (version != null) ...[
                     const SizedBox(height: MmSpace.s12),
                     Text(YouCopy.helpVersion(version), style: type.caption.copyWith(color: colors.ink3)),

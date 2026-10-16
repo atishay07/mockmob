@@ -7,6 +7,7 @@ import 'package:mockmob/core/widgets/key_button_motion.dart' show PressHalo;
 import 'package:mockmob/core/widgets/widgets.dart' show BarMove, LiveCapsule;
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/week_ledger.dart';
 
 import '../../golden/today/today_golden_support.dart' show PhoneFrame, todayOverrides;
 import '../../helpers/fonts.dart';
@@ -62,7 +63,7 @@ void main() {
 
   testWidgets('each day of the week rail is at least 48 dp wide at 360 dp', (tester) async {
     await _pump(tester, size: const Size(360, 800), dock: false);
-    final halos = find.byType(PressHalo);
+    final halos = find.descendant(of: find.byType(WeekLedger), matching: find.byType(PressHalo));
     expect(halos, findsNWidgets(7));
     for (var i = 0; i < 7; i++) {
       expect(tester.getSize(halos.at(i)).width, greaterThanOrEqualTo(48), reason: 'day $i');

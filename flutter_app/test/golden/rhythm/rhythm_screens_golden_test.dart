@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/art/hybrid/hybrid_objects.dart' show HybridMetronome;
 import 'package:mockmob/core/models/rhythm.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show StudyWeekLegendMemory;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/rhythm/data/bests.dart';
 import 'package:mockmob/features/rhythm/screens/bests_screen.dart';
@@ -60,6 +62,9 @@ void main() {
     await loadMaterialIcons();
   });
 
+  // Every shot is a first view in a fresh session, so the study-week key is up in each.
+  setUp(StudyWeekLegendMemory.session.reset);
+
   Future<void> shoot(
     WidgetTester tester,
     String name,
@@ -95,6 +100,27 @@ void main() {
     testWidgets('rhythm screen top, $b', (tester) async {
       await shoot(tester, 'rhythm_screen_top', brightness, const YouRhythmScreen(), rhythm: loaded(_rhythm));
     });
+
+    // Finding 26: the metronome is whole at every system-inset height (no inset, a status bar, a
+    // notch or a camera cut-out), and never above the first visible pixel.
+    for (final inset in const [0.0, 24.0, 47.0]) {
+      testWidgets('rhythm screen metronome at a ${inset.toInt()} dp top inset, $b', (tester) async {
+        await shoot(
+          tester,
+          'rhythm_screen_inset_${inset.toInt()}',
+          brightness,
+          Builder(
+            builder: (context) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(padding: EdgeInsets.only(top: inset), viewPadding: EdgeInsets.only(top: inset)),
+              child: const YouRhythmScreen(),
+            ),
+          ),
+          rhythm: loaded(_rhythm),
+        );
+        final top = tester.getTopLeft(find.byType(HybridMetronome)).dy;
+        expect(top, greaterThanOrEqualTo(inset + 8), reason: 'the object starts below the safe edge, uncropped');
+      });
+    }
 
     testWidgets('rhythm screen scrolled, $b', (tester) async {
       await shoot(tester, 'rhythm_screen_scrolled', brightness, const YouRhythmScreen(), rhythm: loaded(_rhythm), scrollBy: 700);

@@ -18,19 +18,19 @@ ChoiceOption _o(String id, String title, String note, {String? tag}) =>
     ChoiceOption(id: id, glyph: QuickStartDeck.glyphFor(id), title: title, note: note, tag: tag, onTap: () {});
 
 final _fresh = [
-  _o('quick', 'Quick 10', '10 questions, about 10 minutes.'),
+  _o('quick', 'Quick 10', '10 Accountancy questions, about 10 minutes.'),
   _o('mock', 'Full mock', '50 questions, 60 minutes, timed like the exam.'),
-  _o('nta', 'NTA mode', 'The exam-day screen in Business Studies: palette, Mark for Review.'),
+  _o('nta', 'NTA mode', 'The exam-day screen in Accountancy, as on the day.'),
   _o('repair', 'Repair the next mistake', 'A worked explanation for your next mistake, in Admission of a partner.'),
   _o('ask', 'Ask your record', 'Questions about your marks and chapters, answered from what you have done.'),
 ];
 
 final _resume = [
   _o('resume', 'Resume Economics mock', 'Ends at 9:47 PM. 23 of 50 answered.'),
-  _o('quick', 'Quick 10', '10 questions, about 10 minutes.'),
+  _o('quick', 'Quick 10', '10 Economics questions, about 10 minutes.'),
   _o('mock', 'Full mock', '50 questions, 60 minutes, timed like the exam.'),
-  _o('nta', 'NTA mode, with Pro', 'The exam-day screen in Economics: palette, Mark for Review.'),
-  _o('repair', 'Repair the next mistake', 'A worked explanation for your next mistake, in Goodwill.'),
+  _o('nta', 'NTA mode', 'The exam-day screen in Economics, as on the day.', tag: 'Pro'),
+  _o('repair', 'Repair the next mistake', 'A worked explanation for your next mistake, in Elasticity of demand.'),
 ];
 
 /// The sheet as the dock's Start morphs into it: the page dimmed behind, the title band, the deck.

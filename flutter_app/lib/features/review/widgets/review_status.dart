@@ -7,7 +7,7 @@ import '../copy.dart';
 import '../data/mistake_index.dart';
 import 'mistake_map.dart' show MistakeBar;
 
-/// "3 of 12 repaired": how many of the mistakes found so far are repaired, read from the index
+/// "3 repaired, 12 found": how many of the mistakes found so far are repaired, read from the index
 /// and nothing else. The bar beside it is the map's own: one segment per mistake, volt where
 /// repaired, coral where open, a ring where set aside, so it teaches the bars below it. It fills
 /// in over 420 ms on the emphasized curve when the tab opens.
@@ -54,7 +54,7 @@ class _RepairsProgressState extends State<RepairsProgress> with SingleTickerProv
     final open = (found - widget.repaired - widget.setAside).clamp(0, found);
     final label = type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600);
     return Semantics(
-      label: ReviewCopy.repairsProgressSemantics(widget.repaired, found),
+      label: ReviewCopy.repairsProgressSemantics(widget.repaired, found, setAside: widget.setAside),
       excludeSemantics: true,
       child: Row(
         children: [
@@ -63,7 +63,7 @@ class _RepairsProgressState extends State<RepairsProgress> with SingleTickerProv
           MmCountUp(
             value: widget.repaired,
             from: widget.repaired,
-            format: (v) => ReviewCopy.repairsProgress(v.round(), found),
+            format: (v) => ReviewCopy.repairsProgress(v.round(), found, setAside: widget.setAside),
             style: label,
           ),
           const SizedBox(width: MmSpace.s12),

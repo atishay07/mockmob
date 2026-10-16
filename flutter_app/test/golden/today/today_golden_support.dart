@@ -115,7 +115,16 @@ class _PhoneFrameState extends State<PhoneFrame> {
 }
 
 /// Renders Today for [view] in both themes as `<name>_<night|day>.png`.
-void todayGolden(String name, TodayView Function() view, {Size size = kTodaySize, double scrollTo = 0, bool dock = true, double textScale = 1}) {
+void todayGolden(
+  String name,
+  TodayView Function() view, {
+  Size size = kTodaySize,
+  double scrollTo = 0,
+  bool dock = true,
+  double textScale = 1,
+  bool firstWeekLook = false,
+  Future<void> Function(WidgetTester tester)? act,
+}) {
   screenGolden(
     name,
     () => _Scrolled(offset: scrollTo, builder: (controller) => TodayBody(view: view(), callbacks: noopCallbacks, controller: controller, skeletonDelay: Duration.zero)),
@@ -123,11 +132,25 @@ void todayGolden(String name, TodayView Function() view, {Size size = kTodaySize
     dock: dock,
     settle: scrollTo > 0,
     textScale: textScale,
+    firstWeekLook: firstWeekLook,
+    act: act,
   );
 }
 
 /// Any widget in the phone frame, both themes.
-void screenGolden(String name, Widget Function() build, {Size size = kTodaySize, bool dock = true, bool settle = false, double textScale = 1}) {
+///
+/// The study-week key shows itself only on the first study week of a session; a golden is a later
+/// look unless [firstWeekLook]. [act] runs after the first pump (a tap that opens a panel).
+void screenGolden(
+  String name,
+  Widget Function() build, {
+  Size size = kTodaySize,
+  bool dock = true,
+  bool settle = false,
+  double textScale = 1,
+  bool firstWeekLook = false,
+  Future<void> Function(WidgetTester tester)? act,
+}) {
   setUpAll(() async {
     await loadAppFonts();
     // The bar's tab glyphs are Material icons.
@@ -137,6 +160,11 @@ void screenGolden(String name, Widget Function() build, {Size size = kTodaySize,
     final tag = brightness == Brightness.dark ? 'night' : 'day';
     testWidgets('$name, $tag', (tester) async {
       final boundary = GlobalKey();
+      if (firstWeekLook) {
+        StudyWeekLegendMemory.session.reset();
+      } else {
+        StudyWeekLegendMemory.session.markSeen();
+      }
       await pumpMockmob(
         tester,
         RepaintBoundary(key: boundary, child: PhoneFrame(dock: dock, child: build())),
@@ -147,6 +175,7 @@ void screenGolden(String name, Widget Function() build, {Size size = kTodaySize,
         overrides: todayOverrides,
       );
       if (settle) await tester.pumpAndSettle();
+      if (act != null) await act(tester);
       await expectLater(find.byType(Scaffold).first, matchesGoldenFile('goldens/${name}_$tag.png'));
       await _preview(tester, boundary, '${name}_$tag');
     });

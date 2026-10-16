@@ -61,6 +61,12 @@ class YouPanel extends StatelessWidget {
   }
 }
 
+/// A row's words as one sentence run for TalkBack: parts joined by a full stop, with no second
+/// full stop where a part already ends in one.
+String spokenRow(List<String> parts) => [
+      for (var i = 0; i < parts.length; i++) i < parts.length - 1 && parts[i].endsWith('.') ? parts[i].substring(0, parts[i].length - 1) : parts[i],
+    ].join('. ');
+
 /// The outer margin of a [YouPanel].
 const EdgeInsets youPanelMargin = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
 
@@ -209,7 +215,7 @@ class YouRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final label = [title, ?note, ?value].join('. ');
+    final label = spokenRow([title, ?note, ?value]);
     final iconColor = destructive ? colors.badText : (flat ? colors.ink : null);
     Widget well(bool pressed) => flat
         ? SizedBox.square(

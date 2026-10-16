@@ -227,6 +227,9 @@ class ChoiceGlyphPainter extends CustomPainter {
 
   void _quick(Canvas canvas, double p) {
     final b = bell(p);
+    // The lit bolt is volt on Night; on Day pale volt on cream has no contrast, so it deepens to
+    // the darker volt (Design critic 30) and its pool of light is the same tone.
+    final litVolt = colors.isNight ? colors.volt : colors.voltEdge;
     if (lit) {
       // A pool of volt light the bolt sits in.
       canvas.drawCircle(
@@ -234,8 +237,8 @@ class ChoiceGlyphPainter extends CustomPainter {
         12,
         Paint()
           ..shader = ui.Gradient.radial(const Offset(12, 12), 12, [
-            colors.volt.withValues(alpha: 0.34 + 0.2 * b),
-            colors.volt.withValues(alpha: 0),
+            litVolt.withValues(alpha: (colors.isNight ? 0.34 : 0.3) + 0.2 * b),
+            litVolt.withValues(alpha: 0),
           ]),
       );
     }
@@ -245,7 +248,7 @@ class ChoiceGlyphPainter extends CustomPainter {
       ..scale(1 + 0.1 * b)
       ..translate(-12, -12);
     _drop(canvas, _bolt);
-    final base = lit ? colors.volt : Color.lerp(_body, colors.volt, b)!;
+    final base = lit ? litVolt : Color.lerp(_body, colors.volt, b)!;
     final rect = _bolt.getBounds();
     canvas.drawPath(_bolt, _solid(base, rect, hi: 0.28, lo: lit ? 0.22 : 0.32));
     _rim(canvas, _bolt, rect, width: 0.6, alpha: 0.7);

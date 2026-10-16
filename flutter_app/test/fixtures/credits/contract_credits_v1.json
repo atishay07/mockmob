@@ -1,0 +1,68 @@
+{
+  "practice": {
+    "balance": 40,
+    "renewsOn": null,
+    "label": "Practice credits"
+  },
+  "ai": {
+    "balance": 9,
+    "renewsOn": "2026-11-01",
+    "label": "AI credits"
+  },
+  "plan": {
+    "name": "Free",
+    "until": null
+  },
+  "history": [
+    {
+      "at": "2026-10-14T11:00:00.000Z",
+      "pool": "practice",
+      "what": "Practice set",
+      "delta": -10,
+      "balanceAfter": 40
+    },
+    {
+      "at": "2026-10-14T09:30:00.000Z",
+      "pool": "ai",
+      "what": "Repair, Q2 Accountancy",
+      "delta": -1,
+      "balanceAfter": 9
+    },
+    {
+      "at": "2026-10-14T05:00:00.000Z",
+      "pool": "practice",
+      "what": "Daily bonus",
+      "delta": 10,
+      "balanceAfter": 50
+    },
+    {
+      "at": "2026-10-13T18:00:05.000Z",
+      "pool": "ai",
+      "what": "Ask Mobi returned",
+      "delta": 1,
+      "balanceAfter": 11
+    },
+    {
+      "at": "2026-10-13T18:00:00.000Z",
+      "pool": "ai",
+      "what": "Ask Mobi",
+      "delta": -1,
+      "balanceAfter": 10
+    },
+    {
+      "at": "2026-10-12T08:00:00.000Z",
+      "pool": "practice",
+      "what": "Full mock",
+      "delta": -50,
+      "balanceAfter": 40
+    },
+    {
+      "at": "2026-10-11T08:00:00.000Z",
+      "pool": "practice",
+      "what": "Rated a question",
+      "delta": 2,
+      "balanceAfter": 90
+    }
+  ],
+  "nextCursor": null
+}

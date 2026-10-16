@@ -12,7 +12,7 @@ import 'package:mockmob/core/widgets/account/account_avatar.dart' show AccountAv
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
-import 'package:mockmob/features/you/hub/hub_sections.dart' show SettingsPanel;
+import 'package:mockmob/features/you/hub/hub_sections.dart' show HubFacts;
 import 'package:mockmob/features/you/you_hub_screen.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -27,7 +27,7 @@ Future<GoRouter> _pumpHub(
   StudentTarget? target,
 }) async {
   // Tall enough for the whole hub, tools shelf included, so every row is built and hit-testable.
-  tester.view.physicalSize = const Size(768, 5000);
+  tester.view.physicalSize = const Size(768, 10000);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
   final router = GoRouter(
@@ -38,6 +38,12 @@ Future<GoRouter> _pumpHub(
       GoRoute(path: '/you/milestones', builder: (_, _) => const Text('milestones page')),
       GoRoute(path: '/review/record', builder: (_, _) => const Text('record page')),
       GoRoute(path: '/you/privacy', builder: (_, _) => const Text('privacy page')),
+      GoRoute(path: '/you/goal', builder: (_, _) => const Text('goal page')),
+      GoRoute(path: '/you/credits', builder: (_, _) => const Text('credits page')),
+      GoRoute(path: '/you/notifications', builder: (_, _) => const Text('notifications page')),
+      GoRoute(path: '/you/account', builder: (_, _) => const Text('account page')),
+      GoRoute(path: '/you/help', builder: (_, _) => const Text('help page')),
+      GoRoute(path: '/you/appearance', builder: (_, _) => const Text('appearance page')),
     ],
   );
   await tester.pumpWidget(
@@ -56,13 +62,13 @@ Future<GoRouter> _pumpHub(
 void main() {
   testWidgets('identity comes first: the sheet card with name, email, subjects and this week', (tester) async {
     await _pumpHub(tester);
-    expect(find.text('Your sheet, CUET UG 2027'), findsOneWidget);
+    expect(find.text('Your CUET plan, UG 2027'), findsOneWidget);
     expect(find.text('Asha Verma'), findsOneWidget);
     expect(find.text('asha.verma@example.com'), findsOneWidget);
     for (final subject in ['Accountancy', 'Business Studies', 'Economics', 'English']) {
       expect(find.text(subject), findsOneWidget, reason: subject);
     }
-    expect(find.text('of 4 study days'), findsOneWidget);
+    expect(find.text('3 days to your goal'), findsOneWidget, reason: 'the shared study week says what is left');
     expect(find.text('3 weeks in rhythm'), findsOneWidget);
   });
 
@@ -86,34 +92,87 @@ void main() {
   testWidgets('fields with nothing in them are left off, never shown as unknown', (tester) async {
     await _pumpHub(tester);
     expect(find.text('Course'), findsNothing);
-    expect(find.text('Colleges'), findsNothing);
+    expect(find.text('Colleges'), findsOneWidget, reason: 'only the section chip: no Colleges field');
     expect(find.textContaining('unknown'), findsNothing);
   });
 
-  testWidgets('lists the progress, settings and tools rows', (tester) async {
+  testWidgets('lists the sections of the hub: plan, appearance, study days, reminders, progress, account, tools, help', (tester) async {
     await _pumpHub(tester);
     for (final label in [
-      'Weekly goal and rhythm',
+      'Plan and credits',
+      'Appearance',
+      'Study days',
+      'Notifications',
+      'Progress',
+      'Account and privacy',
+      'CUET tools',
+      'Help',
+      'Milestones',
+    ]) {
+      expect(find.text(label), findsWidgets, reason: label);
+    }
+    for (final label in [
+      'Weekly goal',
+      'Planned days',
+      'Pause study days',
+      'Reminders',
+      'Quiet hours',
       'Repair record',
       'Personal bests',
-      'Milestones',
-      'Notifications',
-      'Appearance and feel',
+      'Name and email',
+      'Ways to sign in',
       'Privacy',
-      'Account',
-      'Help and about',
       'Compass',
       'Combo Planner',
+      'Help and about',
+      'Glass, touch and celebrations',
     ]) {
       expect(find.text(label), findsOneWidget, reason: label);
     }
-    expect(find.text('Night'), findsOneWidget, reason: 'the appearance row says the theme');
   });
 
-  testWidgets('the rhythm row shows the goal', (tester) async {
+  testWidgets('the theme is one tap on the hub: Night, Day and Match phone', (tester) async {
     await _pumpHub(tester);
-    expect(find.text('Goal: 4 days a week'), findsOneWidget);
-    expect(find.bySemanticsLabel('Weekly goal and rhythm. Goal: 4 days a week'), findsOneWidget);
+    for (final label in ['Night', 'Day', 'Match phone']) {
+      expect(find.text(label), findsOneWidget, reason: label);
+    }
+    expect(find.text('Night is the dark look. Day is the light look.'), findsOneWidget);
+    expect(find.text('Daylight'), findsNothing);
+  });
+
+  testWidgets('the weekly goal row shows the goal and what counts as a study day', (tester) async {
+    await _pumpHub(tester);
+    expect(find.text('4 days a week'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp(r'^Weekly goal\. A study day is a day you finish a practice, a mock or a repair\. 4 days a week$')), findsOneWidget);
+  });
+
+  testWidgets('planned days: a line asking for the weekdays until some are chosen', (tester) async {
+    await _pumpHub(tester);
+    expect(find.text('Pick the weekdays you will study'), findsOneWidget, reason: 'no weekdays chosen on this phone yet');
+  });
+
+  testWidgets('the credit tiles on the hub name both pools and open the Credits page', (tester) async {
+    final router = await _pumpHub(tester);
+    expect(find.text('Practice credits'), findsOneWidget);
+    expect(find.text('AI credits'), findsOneWidget);
+    expect(find.text('See history'), findsOneWidget);
+    expect(find.text('Free'), findsOneWidget);
+    expect(find.text('Free plan'), findsNothing);
+    expect(find.text('Renews 1 November'), findsOneWidget);
+    await tester.tap(find.text('See history'));
+    await tester.pumpAndSettle();
+    expect(find.text('credits page'), findsOneWidget);
+    router.pop();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('AI credits'));
+    await tester.pumpAndSettle();
+    expect(find.text('credits page'), findsOneWidget);
+  });
+
+  testWidgets('the reminders row says when the study reminder is, and quiet hours say the window', (tester) async {
+    await _pumpHub(tester);
+    expect(find.text('11:00 PM to 7:00 AM'), findsOneWidget);
+    expect(find.text('No study time set'), findsOneWidget);
   });
 
   testWidgets('a run of zero weeks is never printed as a number', (tester) async {
@@ -122,11 +181,12 @@ void main() {
     expect(find.textContaining('weeks in rhythm'), findsNothing);
   });
 
-  testWidgets('a pause is said on the rhythm row', (tester) async {
+  testWidgets('a pause is said on the pause row', (tester) async {
     final until = DateTime.now().add(const Duration(days: 10));
     final iso = '${until.year}-${until.month.toString().padLeft(2, '0')}-${until.day.toString().padLeft(2, '0')}';
     await _pumpHub(tester, goal: FakeGoal(goalState(4, pausedUntil: iso)));
-    expect(find.textContaining('Rhythm is paused until'), findsWidgets);
+    expect(find.text('Study days are paused'), findsOneWidget);
+    expect(find.textContaining('Paused until'), findsWidgets);
   });
 
   testWidgets('earned tokens carry their date; an empty slot says plainly what fills it', (tester) async {
@@ -157,26 +217,31 @@ void main() {
         expect(find.text('Usage data is off'), findsNothing);
         expect(find.text('Usage data is on'), findsNothing);
         expect(find.text('Off for your account'), findsNothing);
-        expect(SettingsPanel.privacyNote(consentState(AgeBand.adult, status: status)), isNull);
+        expect(HubFacts.privacyNote(consentState(AgeBand.adult, status: status)), isNull);
       });
     }
 
     testWidgets('a loaded adult sees the real state, on or off', (tester) async {
-      expect(SettingsPanel.privacyNote(consentState(AgeBand.adult, on: true)), 'Usage data is on');
-      expect(SettingsPanel.privacyNote(consentState(AgeBand.adult)), 'Usage data is off');
+      expect(HubFacts.privacyNote(consentState(AgeBand.adult, on: true)), 'Usage data is on');
+      expect(HubFacts.privacyNote(consentState(AgeBand.adult)), 'Usage data is off');
       await _pumpHub(tester, consent: FakeConsent(consentState(AgeBand.adult, on: true)));
       expect(find.text('Usage data is on'), findsOneWidget);
     });
 
     test('a withdrawal the server has not acknowledged reads off', () {
       final pending = consentState(AgeBand.adult, on: true).copyWith(withdrawalPending: true);
-      expect(SettingsPanel.privacyNote(pending), 'Usage data is off');
+      expect(HubFacts.privacyNote(pending), 'Usage data is off');
     });
   });
 
   testWidgets('rows and the week field open their screens', (tester) async {
     final router = await _pumpHub(tester);
-    await tester.tap(find.text('Weekly goal and rhythm'));
+    await tester.tap(find.text('Weekly goal'));
+    await tester.pumpAndSettle();
+    expect(find.text('goal page'), findsOneWidget);
+    router.pop();
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Pause study days'));
     await tester.pumpAndSettle();
     expect(find.text('rhythm page'), findsOneWidget);
     router.pop();
@@ -191,7 +256,7 @@ void main() {
     expect(find.text('milestones page'), findsOneWidget);
     router.pop();
     await tester.pumpAndSettle();
-    await tester.tap(find.text('of 4 study days'));
+    await tester.tap(find.text('This week'));
     await tester.pumpAndSettle();
     expect(find.text('rhythm page'), findsOneWidget);
   });
@@ -225,17 +290,17 @@ void main() {
       const YouHubScreen(),
       disableAnimations: true,
       wrapInScaffold: false,
-      size: const Size(384, 2000),
+      size: const Size(384, 6000),
       overrides: youOverrides(),
     );
     await tester.pump();
-    expect(find.text('Account'), findsOneWidget);
+    expect(find.text('Account and privacy'), findsOneWidget);
   });
 
   testWidgets('rows are at least 48 dp tall and labelled for TalkBack', (tester) async {
     await _pumpHub(tester);
-    expect(tester.getSize(find.bySemanticsLabel('Help and about')).height, greaterThanOrEqualTo(48));
-    expect(find.bySemanticsLabel('Appearance and feel. Night'), findsOneWidget);
+    expect(tester.getSize(find.bySemanticsLabel('Help and about. All questions, contact and policies')).height, greaterThanOrEqualTo(48));
+    expect(find.bySemanticsLabel('Glass, touch and celebrations. How MockMob looks and feels on this phone'), findsOneWidget);
   });
 
   testWidgets('You is a tab root: the title row has the name of the tab, no back key and no avatar', (tester) async {
@@ -254,10 +319,10 @@ void main() {
     final edge = tester.getTopLeft(find.byType(AccountAvatar)).dx;
     expect(edge, 16);
     expect(tester.getTopLeft(find.text('You')).dx, 16 + AccountAvatarButton.visual + 12);
-    expect(tester.getTopLeft(find.text('Your sheet, CUET UG 2027')).dx, edge);
+    expect(tester.getTopLeft(find.text('Your CUET plan, UG 2027')).dx, edge);
     expect(tester.getTopLeft(find.text('Asha Verma')).dx, edge);
     expect(tester.getTopLeft(find.text('Milestones')).dx, edge);
-    expect(tester.getTopLeft(find.text('Settings')).dx, edge);
+    expect(tester.getTopLeft(find.text('Account and privacy')).dx, edge);
   });
 
   testWidgets('the milestone shelf is one way into Milestones, beside See all', (tester) async {

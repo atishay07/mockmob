@@ -136,7 +136,7 @@ class _OptionTile extends StatelessWidget {
                 alignment: Alignment.center,
                 children: [
                   Bubble(state: bubble, size: 24),
-                  if (bubble == BubbleState.hollow) Text(option.key, style: type.label.copyWith(fontSize: 11, height: 1, color: colors.ink2)),
+                  if (bubble == BubbleState.hollow) Text(option.key, style: type.label.copyWith(fontSize: 12, height: 1, color: colors.ink2)),
                 ],
               ),
             ),

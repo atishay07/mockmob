@@ -89,9 +89,9 @@ class SheetShareCard extends StatelessWidget {
                                       children: [
                                         Row(
                                           children: [
-                                            Text(ResultCopy.answerSheet, style: type.caption.copyWith(color: colors.ink3, fontSize: 11)),
+                                            Text(ResultCopy.answerSheet, style: type.caption.copyWith(color: colors.ink3, fontSize: 12)),
                                             const Spacer(),
-                                            Text(ResultCopy.answeredOf(count, m.questionCount), style: type.caption.copyWith(color: colors.ink2, fontSize: 11)),
+                                            Text(ResultCopy.answeredOf(count, m.questionCount), style: type.caption.copyWith(color: colors.ink2, fontSize: 12)),
                                           ],
                                         ),
                                         const SizedBox(height: MmSpace.s8),
@@ -127,9 +127,10 @@ class SheetShareCard extends StatelessWidget {
   }
 }
 
-/// "Share your sheet" on card 4: a quiet row of text on the card itself (an icon, the words, and
-/// one line saying no marks are on it), 56 dp tall. The preview it opens shows the card exactly as
-/// it would be shared, so nothing about the row needs to be a picture.
+/// "Share your sheet" on card 4: one 48 dp chip on the card itself (an icon and the words, on the
+/// raised surface with a hairline), the quiet second thing under the repair. The preview it opens
+/// shows the card exactly as it would be shared, so the chip carries no explaining line; a screen
+/// reader still hears that no marks are on it.
 class SheetKeepsakeRow extends StatelessWidget {
   const SheetKeepsakeRow({super.key, required this.model, required this.onTap});
 
@@ -142,28 +143,28 @@ class SheetKeepsakeRow extends StatelessWidget {
     final type = context.mmType;
     return MmPressable(
       onTap: onTap,
-      pressedScale: 0.985,
-      focusRadius: MmRadius.smallAll,
+      focusRadius: MmRadius.pillAll,
       haptic: MmPressHaptic.selection,
-      semanticsLabel: ResultCopy.shareSheet,
-      builder: (context, pressed, _) => ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 56),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
-          child: Row(
-            children: [
-              Icon(LucideIcons.share, size: 20, color: pressed ? colors.ink2 : colors.ink),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(ResultCopy.shareSheet, style: type.labelLarge.copyWith(color: pressed ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600)),
-                    Text(ResultCopy.shareSheetHint, style: type.small.copyWith(color: colors.ink3)),
-                  ],
+      semanticsLabel: '${ResultCopy.shareSheet}. ${ResultCopy.shareSheetHint}',
+      builder: (context, pressed, _) => DecoratedBox(
+        decoration: ShapeDecoration(
+          color: pressed ? colors.raised2 : colors.raised,
+          shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+        ),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(MmSpace.s16, 0, MmSpace.s20, 0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(LucideIcons.share, size: 18, color: colors.ink),
+                const SizedBox(width: MmSpace.s8),
+                Flexible(
+                  child: Text(ResultCopy.shareSheet, style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w600), maxLines: 1, overflow: TextOverflow.ellipsis),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

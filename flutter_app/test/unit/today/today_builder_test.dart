@@ -69,7 +69,7 @@ void main() {
       // holds the whole chapter, as Review offers it.
       expect(m.number, '4');
       expect(m.numberLabel, 'to repair\ntonight');
-      expect(m.meaning, 'All 4 in Partnership fundamentals, from Mock 7 on 11 Oct.');
+      expect(m.meaning, 'Every open mistake in Partnership fundamentals, from Mock 7 on 11 Oct.');
       expect(m.selectedMinutes, 15);
       expect(m.durations.map((d) => d.minutes), [5, 10, 15]);
       expect(m.evidenceId, 'm7');

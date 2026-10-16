@@ -13,9 +13,11 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/core/widgets/account/account_avatar.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/credits/data/credits_data.dart' show meCreditsProvider;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
+import '../../unit/you/you_test_support.dart' show FakeMeCredits, creditsState;
 
 const Size _size = Size(360, 800);
 
@@ -79,8 +81,7 @@ List<Override> _overrides() => [
       creditBalance: 24,
     ),
   ),
-  creditsRepositoryProvider.overrideWithBuild(
-    (ref, n) => RemoteState(value: AiCredits(state: 'available', wallet: AiWallet(known: true, spendable: 18, resetAt: DateTime(2026, 11, 1)))),
-  ),
+  creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
+  meCreditsProvider.overrideWith(() => FakeMeCredits(creditsState(practice: 24, ai: 18))),
   appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
 ];

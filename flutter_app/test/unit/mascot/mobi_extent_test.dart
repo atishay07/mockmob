@@ -82,6 +82,11 @@ void main() {
       MobiAct.nudge,
       MobiAct.proud,
       MobiAct.listen,
+      MobiAct.hop,
+      MobiAct.curious,
+      MobiAct.focus,
+      MobiAct.sympathy,
+      MobiAct.idea,
     ]) {
       inside(await extentOf(tester, MobiMoves.keyPose(act)), 'key pose of ${act.name}');
     }
@@ -103,5 +108,11 @@ void main() {
     inside(await widest(tester, MobiAct.hello), 'hello wave');
     inside(await widest(tester, MobiAct.listen), 'listen');
     inside(await widest(tester, MobiAct.correct), 'correct');
+  });
+
+  testWidgets('the rig v2 acts stay inside the paint box over their whole length, follow-through included', (tester) async {
+    for (final act in [MobiAct.hop, MobiAct.curious, MobiAct.focus, MobiAct.sympathy, MobiAct.idea]) {
+      inside(await widest(tester, act), act.name);
+    }
   });
 }

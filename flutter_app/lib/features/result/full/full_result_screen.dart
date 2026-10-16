@@ -14,6 +14,8 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rules/widgets/across_mocks_view.dart';
 import '../../rules/widgets/rule_check_view.dart';
+import '../../rules/widgets/same_mistakes_later_view.dart';
+import '../../rules/widgets/traps_meet_view.dart';
 import '../../rhythm/rhythm.dart' show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationControllerProvider, celebrationModeProvider;
 import '../../review/data/review_providers.dart' show reviewClockProvider;
 import '../copy.dart';
@@ -344,11 +346,22 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                 const SizedBox(height: MmRhythm.section),
                 item(TimeSection(read: timeRead, onOpenQuestion: _openFromMap, changesKey: _changesKey)),
               ],
+              // Find ends with the traps the student keeps meeting across mocks (slice 4, spec 4.11), behind a
+              // disclosure: nothing is read until it opens.
+              if (lab != null) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(const TrapsMeetView()),
+              ],
               if (fix != null) ...[const SizedBox(height: MmRhythm.section), item(fix)],
               // Prove (spec 4.8): the rule chosen before this mock, checked on its record.
               if (lab?.ruleCheck case final check?) ...[
                 const SizedBox(height: MmRhythm.section),
                 item(RuleCheckView(check: check)),
+              ],
+              // Same mistakes later (slice 4, spec 4.8): which wrong answers come back in Revise, and when.
+              if (lab?.later case final later?) ...[
+                const SizedBox(height: MmRhythm.section),
+                item(SameMistakesLaterView(later: later)),
               ],
               // Across your mocks (spec 4.9): the record as it stood when this paper was taken.
               if (lab?.acrossMocks case final across?) ...[
@@ -399,7 +412,8 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
               child: Column(
                 children: [
                   _TopBar(
-                    title: model?.title ?? '',
+                    title: model?.mockLabel ?? '',
+                    subtitle: model?.subjectName,
                     onBack: _back,
                     // One way back into the recap: "Continue" while it is unfinished, "Replay" once it is done.
                     onReplay: model == null || progress != null ? null : () => context.go(AppRoutes.resultRecap(id, 1)),
@@ -409,7 +423,37 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                     duration: Motion.of(context, const Duration(milliseconds: 160)),
                     child: Divider(height: 1, thickness: 1, color: colors.line),
                   ),
-                  Expanded(child: body),
+                  // A row that scrolls up to the bar dissolves into the page's own ground over the
+                  // bar's last 24 dp, so no line of text is ever cut mid-letter under the title.
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Positioned.fill(child: body),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: 0,
+                          height: _scrimHeight,
+                          child: IgnorePointer(
+                            child: AnimatedOpacity(
+                              opacity: _scrolled ? 1 : 0,
+                              duration: Motion.of(context, const Duration(milliseconds: 160)),
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [colors.ground, colors.ground, colors.ground.withValues(alpha: 0)],
+                                    stops: const [0, 0.4, 1],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -420,18 +464,25 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
   }
 }
 
+/// How tall the fade under the bar is while the page is scrolled.
+const double _scrimHeight = 24;
+
 class _TopBar extends StatelessWidget {
-  const _TopBar({required this.title, required this.onBack, this.onReplay});
+  const _TopBar({required this.title, required this.onBack, this.subtitle, this.onReplay});
 
   final String title;
+
+  /// The subject, a second line under the paper's name.
+  final String? subtitle;
   final VoidCallback onBack;
   final VoidCallback? onReplay;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    // The title wraps to more lines rather than losing its subject to an ellipsis: "Replay
-    // recap" and the back key take the rest of the row. The bar is 56 dp for one line.
+    // The paper's name is one line ("Mock 7") and its subject a second, smaller one, so the title
+    // never wraps against "Replay recap". A screen reader hears both as one heading. The bar is
+    // 56 dp.
     return ConstrainedBox(
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
@@ -450,7 +501,16 @@ class _TopBar extends StatelessWidget {
           Expanded(
             child: Semantics(
               header: true,
-              child: Text(title, style: context.mmType.title.copyWith(fontSize: 20), maxLines: 3, overflow: TextOverflow.ellipsis),
+              label: subtitle == null ? title : '$title, $subtitle',
+              excludeSemantics: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(title, style: context.mmType.title.copyWith(fontSize: 20), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  if (subtitle != null) Text(subtitle!, style: context.mmType.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis),
+                ],
+              ),
             ),
           ),
           if (onReplay != null) KeyButton.quiet(label: ResultCopy.replay, onPressed: onReplay),

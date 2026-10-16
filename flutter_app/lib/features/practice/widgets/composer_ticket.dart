@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart' show SpringSimulation;
+import 'package:flutter/rendering.dart' show OverflowBoxFit;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -257,7 +258,7 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
         if (reduced) {
           _c.value = 1;
         } else {
-          _c.animateTo(1, duration: const Duration(milliseconds: 220), curve: Curves.easeIn);
+          _c.animateTo(1, duration: const Duration(milliseconds: 220), curve: Motion.exit);
         }
     }
   }
@@ -293,7 +294,7 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
                   child: ExcludeSemantics(
                     child: LayoutBuilder(
                       builder: (context, box) => Opacity(
-                        opacity: (1 - Curves.easeIn.transform(torn)).clamp(0.0, 1.0),
+                        opacity: (1 - Motion.exit.transform(torn)).clamp(0.0, 1.0),
                         child: Transform(
                           alignment: Alignment((box.maxWidth - stub) / box.maxWidth * 2 - 1, 1),
                           transform: Matrix4.identity()
@@ -321,11 +322,11 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
                 child: IgnorePointer(
                   // In over the first half of the tear, so most of the turn is seen.
                   child: Opacity(
-                    opacity: cut ? Curves.easeOut.transform((torn * 2).clamp(0.0, 1.0)) : 0,
+                    opacity: cut ? Motion.out.transform((torn * 2).clamp(0.0, 1.0)) : 0,
                     child: LayoutBuilder(
                       builder: (context, box) => Center(
                         child: Transform.scale(
-                          scale: 0.9 + 0.1 * Curves.easeOut.transform((torn * 2).clamp(0.0, 1.0)),
+                          scale: 0.9 + 0.1 * Motion.out.transform((torn * 2).clamp(0.0, 1.0)),
                           child: widget.clock
                               ? HybridStopwatch(
                                   height: math.min(_TearStage.clockHeight, math.max(0.0, box.maxHeight - MmSpace.s16)),
@@ -508,9 +509,21 @@ class _CountFigure extends StatelessWidget {
 
 /// The subjects as tactile chips for the setup page (which can change subject): each the
 /// subject's line glyph on its own light, the name, and on the chosen chip the volt bubble and
-/// its identity underline. Scrolls sideways; the chosen chip glides into view.
-class SubjectChips extends ConsumerStatefulWidget {
-  const SubjectChips({super.key, required this.choices, required this.selectedId, required this.onSelected, this.onMore});
+/// its identity underline. They ride a [ChipRail]: the rail snaps to chip edges, fades its edges
+/// and always shows a clean peek of the next chip, so none is cut through a letter (Design critic
+/// 15). The chosen chip glides into view.
+///
+/// It runs edge to edge across a gutter-padded parent: [bleed] is that gutter, so the rail's peek
+/// meets the screen edge while the first chip stays on the gutter.
+class SubjectChips extends ConsumerWidget {
+  const SubjectChips({
+    super.key,
+    required this.choices,
+    required this.selectedId,
+    required this.onSelected,
+    this.onMore,
+    this.bleed = MmSpace.gutter,
+  });
 
   final List<SubjectChoice> choices;
   final String selectedId;
@@ -519,127 +532,42 @@ class SubjectChips extends ConsumerStatefulWidget {
   /// Null hides the "More subjects" chip.
   final VoidCallback? onMore;
 
+  /// How far the rail runs past the parent's width on each side, and the inset of its content.
+  final double bleed;
+
   static const double height = 52;
 
   @override
-  ConsumerState<SubjectChips> createState() => _SubjectChipsState();
-}
-
-class _SubjectChipsState extends ConsumerState<SubjectChips> {
-  final ScrollController _scroll = ScrollController();
-  final GlobalKey _selectedKey = GlobalKey();
-
-  /// Whether more chips wait past the left or right edge: the strip fades out there, so a chip
-  /// cut by the edge reads as "scrolls", not as a clipped label.
-  bool _fadeLeft = false;
-  bool _fadeRight = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _scroll.addListener(_edges);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _reveal(animate: false);
-      _edges();
-    });
-  }
-
-  void _edges() {
-    if (!mounted || !_scroll.hasClients) return;
-    final m = _scroll.position;
-    final left = m.pixels > 2;
-    final right = m.pixels < m.maxScrollExtent - 2;
-    if (left != _fadeLeft || right != _fadeRight) {
-      setState(() {
-        _fadeLeft = left;
-        _fadeRight = right;
-      });
-    }
-  }
-
-  @override
-  void didUpdateWidget(SubjectChips old) {
-    super.didUpdateWidget(old);
-    if (old.selectedId != widget.selectedId) WidgetsBinding.instance.addPostFrameCallback((_) => _reveal(animate: true));
-  }
-
-  /// Brings the chosen chip into view inside the strip only (the page never scrolls for it).
-  void _reveal({required bool animate}) {
-    final box = _selectedKey.currentContext?.findRenderObject();
-    if (!mounted || box == null || !_scroll.hasClients) return;
-    final d = animate ? Motion.of(context, Motion.glideDuration) : Duration.zero;
-    unawaited(_scroll.position.ensureVisible(box, alignment: 0.5, duration: d, curve: Motion.glide));
-  }
-
-  @override
-  void dispose() {
-    _scroll
-      ..removeListener(_edges)
-      ..dispose();
-    super.dispose();
-  }
-
-  /// The strip, faded to nothing over its last [fade] dp on each side that has more chips. Always
-  /// wrapped, so the list keeps its scroll position when a fade comes or goes.
-  Widget _faded(Widget strip) {
-    const fade = 36.0;
-    return ShaderMask(
-      blendMode: BlendMode.dstIn,
-      shaderCallback: (rect) {
-        final f = (fade / rect.width).clamp(0.0, 0.5);
-        return LinearGradient(
-          colors: [
-            _fadeLeft ? const Color(0x00FFFFFF) : const Color(0xFFFFFFFF),
-            const Color(0xFFFFFFFF),
-            const Color(0xFFFFFFFF),
-            _fadeRight ? const Color(0x00FFFFFF) : const Color(0xFFFFFFFF),
-          ],
-          stops: [0, f, 1 - f, 1],
-        ).createShader(rect);
-      },
-      child: strip,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final choices = widget.choices;
-    return Semantics(
-      container: true,
-      label: PracticeCopy.subjectLabel,
-      child: SizedBox(
-        height: SubjectChips.height,
-        child: NotificationListener<ScrollMetricsNotification>(
-          onNotification: (_) {
-            WidgetsBinding.instance.addPostFrameCallback((_) => _edges());
-            return false;
-          },
-          child: _faded(
-            ListView.separated(
-              controller: _scroll,
-              scrollDirection: Axis.horizontal,
-              clipBehavior: Clip.none,
-              itemCount: choices.length + (widget.onMore == null ? 0 : 1),
-              separatorBuilder: (_, _) => const SizedBox(width: MmSpace.s8),
-              itemBuilder: (context, i) {
-                if (i == choices.length) return _MoreChip(onTap: widget.onMore!);
-                final c = choices[i];
-                final selected = c.id == widget.selectedId;
-                return _SubjectChip(
-                  key: selected ? _selectedKey : ValueKey(c.id),
-                  id: c.id,
-                  name: c.name,
-                  selected: selected,
-                  onTap: () {
-                    if (selected) return;
-                    unawaited(ref.read(hapticsProvider).selection());
-                    widget.onSelected(c.id);
-                  },
-                );
-              },
-            ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = choices.indexWhere((c) => c.id == selectedId);
+    final rail = ChipRail(
+      height: height,
+      padding: EdgeInsets.symmetric(horizontal: bleed),
+      revealIndex: selectedIndex < 0 ? null : selectedIndex,
+      semanticLabel: PracticeCopy.subjectLabel,
+      children: [
+        for (final c in choices)
+          _SubjectChip(
+            key: ValueKey(c.id),
+            id: c.id,
+            name: c.name,
+            selected: c.id == selectedId,
+            onTap: () {
+              if (c.id == selectedId) return;
+              unawaited(ref.read(hapticsProvider).selection());
+              onSelected(c.id);
+            },
           ),
-        ),
+        if (onMore != null) _MoreChip(onTap: onMore!),
+      ],
+    );
+    if (bleed <= 0) return rail;
+    return LayoutBuilder(
+      builder: (context, constraints) => OverflowBox(
+        minWidth: constraints.maxWidth + 2 * bleed,
+        maxWidth: constraints.maxWidth + 2 * bleed,
+        fit: OverflowBoxFit.deferToChild,
+        child: rail,
       ),
     );
   }

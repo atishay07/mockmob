@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -30,7 +31,7 @@ import 'motion_bits.dart';
 /// It reacts to a real change in the share right (a refresh landing while it is open, or a new
 /// record since the last look this run): the figure rolls from the old to the new, only the
 /// bubbles whose kind changed ink again, and for 4 s one line says how far it moved ("Up 3 points
-/// since your last look"). A rise of 5 points or more also earns a small Mobi hop beside the line.
+/// since your last look"). A rise of 5 points or more also earns a small rising mark beside the line.
 /// Nothing is said when there was no earlier look, and nothing is invented.
 class LedgerHero extends ConsumerStatefulWidget {
   const LedgerHero({super.key, required this.insights, this.evidence});
@@ -49,7 +50,6 @@ class LedgerHero extends ConsumerStatefulWidget {
 
 class _LedgerHeroState extends ConsumerState<LedgerHero> {
   final AnswerSheetController _sheet = AnswerSheetController();
-  final MobiController _mobi = MobiController();
   late final LastLookStore _store = ref.read(lastLookProvider.notifier);
   Timer? _hide;
   int? _delta;
@@ -98,7 +98,6 @@ class _LedgerHeroState extends ConsumerState<LedgerHero> {
   @override
   void dispose() {
     _hide?.cancel();
-    _mobi.dispose();
     _sheet.dispose();
     super.dispose();
   }
@@ -130,11 +129,13 @@ class _LedgerHeroState extends ConsumerState<LedgerHero> {
               ),
               if (_hop) ...[
                 const SizedBox(width: MmSpace.s8),
-                SizedBox(
-                  width: MobiFigure.widthFor(40),
-                  height: 40,
-                  // A small hop for a real rise, then he stands beside the line until it goes.
-                  child: MobiCharacter(controller: _mobi, size: 40, entrance: MobiAct.correct, seed: 41, watchTaps: false, shadow: false),
+                // A real rise gets a small rising mark that lifts in beside the line. Mobi is not
+                // here: he stands once on this page, on the lead finding.
+                RiseIn(
+                  key: const ValueKey('rise-mark'),
+                  dy: MmSpace.s8,
+                  duration: Motion.card,
+                  child: Icon(LucideIcons.trendingUp, size: 20, color: colors.isNight ? colors.volt : colors.accentText),
                 ),
               ],
             ],

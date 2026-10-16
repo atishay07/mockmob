@@ -11,10 +11,10 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart';
 import 'package:mockmob/features/today/widgets/header_mobi.dart';
+import 'package:mockmob/features/today/widgets/length_pill.dart';
 import 'package:mockmob/features/today/widgets/week_ledger.dart';
 import 'package:mockmob/features/today/widgets/today_celebration.dart';
 import 'package:mockmob/core/router/routes.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show MmSegmented;
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
@@ -60,11 +60,14 @@ void main() {
     return events;
   }
 
-  testWidgets('the volt pill starts the repair; Show me reports back; the length chips are on the card', (tester) async {
+  testWidgets('the volt pill starts the repair; Show me reports back; the length pill is beside the key', (tester) async {
     final events = await pumpToday(tester, buildToday(ashaInputs()));
-    expect(find.text('5 min'), findsOneWidget, reason: 'a move with more than one length shows its chooser every day');
-    await tester.tap(find.text(TodayCopy.startRepair(15)));
-    await tester.tap(find.text(TodayCopy.showMe));
+    expect(find.byType(LengthPill), findsOneWidget, reason: 'a move with more than one length shows its length every day');
+    expect(find.text('15 min'), findsOneWidget, reason: 'the pill says the length once');
+    expect(find.text('Start repair'), findsOneWidget, reason: 'the key says the verb, not the length again');
+    expect(find.bySemanticsLabel(TodayCopy.startRepair(15)), findsOneWidget, reason: 'a screen reader still hears the length on the key');
+    await tester.tap(find.text('Start repair'));
+    await tester.tap(find.textContaining(TodayCopy.showMe, findRichText: true));
     await tester.pump();
     final action = events.whereType<TodayAction>().single;
     expect((action.target as GoTo).location, startsWith(AppRoutes.reviewRepair('m7', 'm7-q3')));
@@ -75,7 +78,7 @@ void main() {
     final events = await pumpToday(tester, buildToday(ashaInputs(offline: true)));
     expect(find.text(TodayCopy.connectToStart), findsOneWidget);
     expect(find.text('Updated 7:30 PM. You are offline.'), findsOneWidget);
-    await tester.tap(find.text(TodayCopy.startRepair(15)));
+    await tester.tap(find.text('Start repair'));
     await tester.pump();
     expect(events.whereType<TodayAction>(), isEmpty);
   });
@@ -127,17 +130,19 @@ void main() {
     expect(rows.any((r) => r.note.contains('credit') || r.note.contains('Rs')), isFalse);
   });
 
-  testWidgets('a practice move offers 5, 10 and 20 questions and the chip reports the count', (tester) async {
+  testWidgets('a practice move offers 5, 10 and 20 questions and the panel reports the count', (tester) async {
     final inputs = ashaInputs(attempts: [accountancyMock('clean', daysBefore(tuesdayEvening, 1))]);
     final events = await pumpToday(tester, buildToday(inputs));
-    Finder chip(String n) => find.descendant(of: find.byType(MmSegmented<int>), matching: find.text(n));
-    expect(find.text(TodayCopy.practiceLength), findsOneWidget);
-    expect(chip('5'), findsOneWidget);
-    expect(chip('10'), findsOneWidget);
-    expect(chip('20'), findsOneWidget);
-    expect(chip('15'), findsNothing);
-    await tester.tap(chip('20'));
-    await tester.pump();
+    await tester.tap(find.byType(LengthPill));
+    await tester.pumpAndSettle();
+    Finder row(String n) => find.descendant(of: find.byType(LengthPanel), matching: find.text(n));
+    expect(find.descendant(of: find.byType(LengthPanel), matching: find.text(TodayCopy.practiceLength)), findsOneWidget);
+    expect(row('5 questions'), findsOneWidget);
+    expect(row('10 questions'), findsOneWidget);
+    expect(row('20 questions'), findsOneWidget);
+    expect(row('15 questions'), findsNothing);
+    await tester.tap(row('20 questions'));
+    await tester.pumpAndSettle();
     expect(events, contains('minutes:20'));
   });
 

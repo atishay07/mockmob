@@ -39,10 +39,10 @@ void main() {
   }
 
   group('Compass with no programme open', () {
-    testWidgets('opens the nearest five, names what one more subject unlocks, and Mobi thinks', (tester) async {
+    testWidgets('opens the nearest five, names what one more subject unlocks', (tester) async {
       await compass(tester, prefs: savedCompass('english,business_studies,economics'));
       expect(find.text(ToolsCopy.noneOpenLine), findsOneWidget);
-      expect(_mobi(MobiPose.think), findsOneWidget);
+      expect(_mobi(MobiPose.think), findsNothing, reason: 'the hero compass is the one character');
       // The old three-sentence paragraph is gone.
       expect(find.textContaining('one language and three domain subjects'), findsNothing);
       expect(find.text(ToolsCopy.unlocksHeading), findsOneWidget);

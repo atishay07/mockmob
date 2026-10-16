@@ -6,6 +6,7 @@ import '../../../core/notifications/notifications.dart';
 import '../../../core/router/routes.dart';
 import '../copy.dart';
 import '../data/reminder_state.dart';
+import 'evening_move.dart';
 
 /// How many days of study-window reminders are scheduled ahead. They are re-planned every time
 /// the app opens, so a student who stays away gets nothing after this many days.
@@ -46,15 +47,24 @@ class RepairReady {
 
 /// The value handed back when a notification is tapped: an in-app route plus the task id that
 /// lets the app count a response. Never raw data.
-String encodeReminderPayload(String route, String taskId) =>
-    Uri(path: route, queryParameters: {'nx': taskId}).toString();
+String encodeReminderPayload(String route, String taskId) {
+  // A route may carry its own query (a repair's count, a practice run's subject): it travels
+  // beside the task id, never inside the path.
+  final target = Uri.tryParse(route);
+  if (target == null || target.queryParameters.isEmpty) {
+    return Uri(path: route, queryParameters: {'nx': taskId}).toString();
+  }
+  return Uri(path: target.path, queryParameters: {...target.queryParameters, 'nx': taskId}).toString();
+}
 
-/// The route and task id inside a payload. The task id is null for payloads from other parts
-/// of the app, such as the result-ready notification.
+/// The route (with its own query, when it has one) and task id inside a payload. The task id is
+/// null for payloads from other parts of the app, such as the result-ready notification.
 ({String route, String? taskId}) decodeReminderPayload(String payload) {
   final uri = Uri.tryParse(payload);
   if (uri == null) return (route: payload, taskId: null);
-  return (route: uri.path, taskId: uri.queryParameters['nx']);
+  final rest = {...uri.queryParameters}..remove('nx');
+  final route = rest.isEmpty ? uri.path : Uri(path: uri.path, queryParameters: rest).toString();
+  return (route: route, taskId: uri.queryParameters['nx']);
 }
 
 const _startAction = NotificationActionSpec(
@@ -102,12 +112,17 @@ String _dayKey(tz.TZDateTime t) =>
 /// - A slot less than a minute away is not newly planned, but one that is already scheduled
 ///   ([scheduledIds], the task ids that were ahead before this re-plan) is kept, so a re-plan
 ///   a few seconds before it fires does not cancel it and lose it.
+/// - Evening facts ([evening], from the student's own record): the reminder names tonight's move
+///   in the words and route of Today's card, the day a student has already studied gets none,
+///   and the Sunday line carries the real week. Without them (nothing loaded, another day's
+///   facts) every reminder says its ordinary line, never a guess.
 /// Quiet hours and the weekly and daily caps are applied later by the notification engine.
 List<NotificationRequest> buildReminderPlan({
   required DateTime now,
   required NotificationPrefs prefs,
   required ReminderState state,
   RepairReady? repair,
+  EveningFacts? evening,
   Set<String> scheduledIds = const {},
 }) {
   final location = locationFor(prefs.timezone);
@@ -123,14 +138,27 @@ List<NotificationRequest> buildReminderPlan({
   final out = <NotificationRequest>[];
   final repairOn = repair != null && state.repairReadyOn && !state.category(repairReadyKey).paused;
 
+  // Facts taken on another day say nothing about this one.
+  final localDay = _dayKey(local);
+  final facts = evening != null && evening.day == _dayKey(local) ? evening : null;
+
+  /// The move for a slot on [at]'s day: today's own, or the usual one for a later evening.
+  EveningMove? moveFor(tz.TZDateTime at) => facts == null ? null : (_dayKey(at) == localDay ? facts.today : facts.later);
+
+  /// Today's slot is skipped once the student has studied today.
+  bool studiedOn(tz.TZDateTime at) => facts != null && facts.studiedToday && _dayKey(at) == localDay;
+
   NotificationRequest repairRequest(tz.TZDateTime at, tz.TZDateTime until) {
     final taskId = '$repairTaskPrefix${repair!.attemptId}';
+    final move = moveFor(at);
+    final named = move != null && move.kind == EveningMoveKind.repair;
     return NotificationRequest(
       taskId: taskId,
       channel: NotificationChannels.repairReady,
       title: NotificationsCopy.repairTitle,
-      body: NotificationsCopy.repairBody(repair.mistakes, repair.minutes),
-      payload: encodeReminderPayload(AppRoutes.reviewMistakes, taskId),
+      // The count Today shows (tonight's chapter), not a different one.
+      body: named ? move.line : NotificationsCopy.repairBody(repair.mistakes, repair.minutes),
+      payload: encodeReminderPayload(named ? move.route : AppRoutes.reviewMistakes, taskId),
       at: at,
       validUntil: until,
       actions: const [_startAction, _notTonightAction, _muteAction],
@@ -163,6 +191,7 @@ List<NotificationRequest> buildReminderPlan({
         if (start.isBefore(local) || !alreadyScheduled) continue;
       }
       if (muted(start)) continue;
+      if (studiedOn(start)) continue;
       var end = tz.TZDateTime(
         location,
         start.year,
@@ -181,7 +210,10 @@ List<NotificationRequest> buildReminderPlan({
           window.end.minute,
         );
       }
-      if (repairOn && !repairUsed) {
+      final move = moveFor(start);
+      // A repair reminder only rides this slot when Today's own move for the evening is that repair.
+      final repairHere = repairOn && !repairUsed && (move == null || move.kind == EveningMoveKind.repair);
+      if (repairHere) {
         repairUsed = true;
         out.add(repairRequest(start, end));
       } else {
@@ -190,9 +222,9 @@ List<NotificationRequest> buildReminderPlan({
           NotificationRequest(
             taskId: taskId,
             channel: NotificationChannels.studyReminders,
-            title: NotificationsCopy.studyTitle,
-            body: NotificationsCopy.studyBody,
-            payload: encodeReminderPayload(AppRoutes.today, taskId),
+            title: move == null ? NotificationsCopy.studyTitle : eveningTitle(start),
+            body: move?.line ?? NotificationsCopy.studyBody,
+            payload: encodeReminderPayload(move?.route ?? AppRoutes.today, taskId),
             at: start,
             validUntil: end,
             actions: const [_startAction, _notTonightAction, _muteAction],
@@ -206,7 +238,11 @@ List<NotificationRequest> buildReminderPlan({
   if (repairOn && !repairUsed) {
     for (var i = 0; i < studyWindowHorizonDays; i++) {
       final at = tz.TZDateTime(location, base.year, base.month, base.day + i, repairEveningTime.hour, repairEveningTime.minute);
-      if (muted(at)) continue;
+      if (muted(at) || studiedOn(at)) continue;
+      final move = moveFor(at);
+      // Today's own move for that evening is not this repair (a "Not today", another pick):
+      // the reminder does not push it.
+      if (move != null && move.kind != EveningMoveKind.repair) continue;
       if (at.isBefore(soonest) &&
           (at.isBefore(local) ||
               !scheduledIds.contains('$repairTaskPrefix${repair.attemptId}'))) {
@@ -244,12 +280,14 @@ List<NotificationRequest> buildReminderPlan({
     }
     if (!muted(sunday)) {
       final taskId = '$weeklyTaskPrefix${weekKey(sunday)}';
+      // The real week when it can be told truthfully, else the ordinary line.
+      final line = weeklyLineFor(facts?.week, sunday);
       out.add(
         NotificationRequest(
           taskId: taskId,
           channel: NotificationChannels.weeklyPlan,
-          title: NotificationsCopy.weeklyTitle,
-          body: NotificationsCopy.weeklyBody,
+          title: line?.title ?? NotificationsCopy.weeklyTitle,
+          body: line?.body ?? NotificationsCopy.weeklyBody,
           payload: encodeReminderPayload(AppRoutes.todayWeeklyEnding, taskId),
           at: sunday,
           // Still welcome on Monday morning, stale after that.

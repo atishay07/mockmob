@@ -62,7 +62,7 @@ void main() {
     expect(goal.saves, [(5, '2026-10-26')]);
     verify(() => analytics.track('goal_set', props: {'count': 5})).called(1);
     expect(find.text('Goal saved at 10:39 PM.'), findsOneWidget);
-    expect(find.text('Rhythm is paused until 26 October. Changing the goal keeps the pause.'), findsOneWidget);
+    expect(find.text('Study days are paused until 26 October. Changing the goal keeps the pause.'), findsOneWidget);
   });
 
   testWidgets('an offline save says nothing was changed and shows no receipt', (tester) async {

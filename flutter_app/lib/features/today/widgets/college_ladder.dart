@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../tools/my_colleges/my_colleges_copy.dart';
+import '../../tools/my_colleges/my_colleges_parts.dart' show MyCollegesMoreLine;
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'section_heading.dart';
@@ -63,6 +65,8 @@ class CollegeLadder extends StatelessWidget {
         ],
         const SizedBox(height: MmSpace.s8),
         for (final (i, r) in rungs.indexed) _Rung(index: i, rung: r),
+        // The ladder is the first three of My colleges: the rest are one tap away.
+        const MyCollegesMoreLine(),
       ],
     );
   }
@@ -81,7 +85,7 @@ class _Rung extends StatelessWidget {
     final r = rung;
     return Semantics(
       container: true,
-      label: '${r.college}, ${r.course}. Closed at ${r.score}${r.outOf == null ? '' : ' of ${r.outOf}'}${r.dream ? '. Your dream pick' : ''}',
+      label: '${r.college}, ${r.course}. ${r.score.isEmpty ? MyCollegesCopy.noFigure : 'Closed at ${r.score}${r.outOf == null ? '' : ' of ${r.outOf}'}'}${r.dream ? '. Your dream pick' : ''}',
       excludeSemantics: true,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
@@ -111,17 +115,24 @@ class _Rung extends StatelessWidget {
               ),
             ),
             const SizedBox(width: MmSpace.s12),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Text(r.score, style: type.scoreFigure),
-                if (r.outOf != null) ...[
-                  const SizedBox(width: MmSpace.s4),
-                  Text('of ${r.outOf}', style: type.caption.copyWith(color: colors.ink3)),
+            if (r.score.isEmpty)
+              // No Round 1 figure on file for this college and category: say so, never a number.
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 96),
+                child: Text(MyCollegesCopy.noFigure, textAlign: TextAlign.right, style: type.caption.copyWith(color: colors.ink3)),
+              )
+            else
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  Text(r.score, style: type.scoreFigure),
+                  if (r.outOf != null) ...[
+                    const SizedBox(width: MmSpace.s4),
+                    Text('of ${r.outOf}', style: type.caption.copyWith(color: colors.ink3)),
+                  ],
                 ],
-              ],
-            ),
+              ),
           ],
         ),
       ),

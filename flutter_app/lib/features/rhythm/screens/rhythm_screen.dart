@@ -122,7 +122,9 @@ class _WeekMetronome extends StatefulWidget {
 
   final WeekView week;
 
-  /// The art's height; it stands a little past the 56 dp row, above and below.
+  /// The art's height. Its top is the row's top (the safe area's edge plus the 8 dp screen top),
+  /// so no part of it is ever above the first visible pixel; it hangs 16 dp below the 56 dp row
+  /// into the air above the ring, never above the row.
   static const double height = 72;
 
   /// The weeks and counts already ticked in this run.
@@ -155,6 +157,7 @@ class _WeekMetronomeState extends State<_WeekMetronome> {
       height: 56,
       child: OverflowBox(
         maxHeight: _WeekMetronome.height,
+        alignment: Alignment.topCenter,
         child: HybridMetronome(height: _WeekMetronome.height, ticks: live, paused: paused),
       ),
     );

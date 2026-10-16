@@ -20,6 +20,12 @@ Future<void> markColdOpenSeen(WidgetRef ref) async {
 
 /// The brand opening as a standalone screen, for the lab and goldens: the "mo" grows into
 /// "mockmob". [progress] (0 to 1) freezes it; [onDone] fires once when it has handed off.
+///
+/// It is the same in Day and Night on purpose (design critic 3, decided 16 Oct): it continues the
+/// system splash, which is the warm Night ground in both system modes (`splash_ground`,
+/// #12110E, so there is no flash), so a pale opening would blink the screen. Day's own first
+/// impression is the welcome room, drawn in daylight (`WelcomeHeroLayout.day`), one frame after
+/// the opening lifts.
 class ColdOpen extends StatelessWidget {
   const ColdOpen({super.key, required this.onDone, this.progress});
 

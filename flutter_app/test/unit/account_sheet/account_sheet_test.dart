@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
+import 'package:mockmob/features/credits/data/credits_models.dart' show CreditsOverview;
 import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/session_draft_repository.dart' show sessionDraftRepositoryProvider;
@@ -18,9 +19,11 @@ import 'package:mockmob/core/widgets/account/account_avatar.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/account_sheet/account_copy.dart';
 import 'package:mockmob/features/account_sheet/account_sheet.dart';
+import 'package:mockmob/features/credits/credits.dart' show CreditsCopy;
+import 'package:mockmob/features/credits/data/credits_data.dart' show meCreditsProvider;
 import 'package:mockmob/features/you/you_providers.dart';
 
-import '../you/you_test_support.dart' show draftsWithUnsent, outboxWith;
+import '../you/you_test_support.dart' show FakeMeCredits, creditsState, draftsWithUnsent, outboxWith;
 
 const _asha = AuthSnapshot(
   status: AuthStatus.signedIn,
@@ -47,7 +50,13 @@ class _Mailer implements SupportMailer {
 }
 
 /// A tab root with the shared header, and a stub page for every path the sheet can open.
-Future<void> _pumpApp(WidgetTester tester, {_Mailer? mailer, AuthSnapshot auth = _asha, List<Override> extra = const []}) async {
+Future<void> _pumpApp(
+  WidgetTester tester, {
+  _Mailer? mailer,
+  AuthSnapshot auth = _asha,
+  List<Override> extra = const [],
+  RemoteState<CreditsOverview>? credits,
+}) async {
   tester.view.physicalSize = const Size(360, 780) * 2;
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
@@ -70,6 +79,7 @@ Future<void> _pumpApp(WidgetTester tester, {_Mailer? mailer, AuthSnapshot auth =
       stub(AccountSheetPaths.privacy),
       stub(AccountSheetPaths.help),
       stub(AccountSheetPaths.ask),
+      stub(AccountSheetPaths.credits),
     ],
   );
   addTearDown(router.dispose);
@@ -78,9 +88,8 @@ Future<void> _pumpApp(WidgetTester tester, {_Mailer? mailer, AuthSnapshot auth =
     ProviderScope(
       overrides: [
         authSnapshotProvider.overrideWithBuild((ref, n) => auth),
-        creditsRepositoryProvider.overrideWithBuild(
-          (ref, n) => RemoteState(value: AiCredits(state: 'available', wallet: AiWallet(known: true, spendable: 18, resetAt: DateTime(2026, 11, 1)))),
-        ),
+        creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
+        meCreditsProvider.overrideWith(() => FakeMeCredits(credits ?? creditsState(practice: 24, ai: 18))),
         appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
         supportMailerProvider.overrideWithValue(mailer ?? _Mailer()),
         ...extra,
@@ -127,10 +136,10 @@ void main() {
     expect(find.text(AccountCopy.planFree), findsOneWidget);
     // Both ledgers, each with its meaning.
     expect(find.text('24'), findsOneWidget);
-    expect(find.text(AccountCopy.practiceMeaning), findsOneWidget);
+    expect(find.text(CreditsCopy.practiceMeaning), findsOneWidget);
     expect(find.text('18'), findsOneWidget);
-    expect(find.text(AccountCopy.aiMeaning), findsOneWidget);
-    expect(find.text(AccountCopy.aiRenews('1 November')), findsOneWidget);
+    expect(find.text(CreditsCopy.aiMeaning), findsOneWidget);
+    expect(find.text(CreditsCopy.renews(DateTime(2026, 11, 1))), findsOneWidget);
   });
 
   testWidgets('the avatar answers a finger anywhere in 48 dp', (tester) async {
@@ -142,10 +151,14 @@ void main() {
   });
 
   testWidgets('a balance that did not load is never shown as zero', (tester) async {
-    await _pumpApp(tester, auth: const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Asha'));
+    await _pumpApp(
+      tester,
+      auth: const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Asha'),
+      credits: creditsState(practice: null, ai: 18),
+    );
     await _openSheet(tester);
     expect(find.text('0'), findsNothing);
-    expect(find.text(AccountCopy.notLoaded), findsOneWidget);
+    expect(find.text(CreditsCopy.notLoaded), findsOneWidget);
   });
 
   testWidgets('the appearance switch changes the theme at once', (tester) async {
@@ -154,12 +167,12 @@ void main() {
     Brightness brightness() => Theme.of(tester.element(find.byType(TabRootHeader))).brightness;
     expect(brightness(), Brightness.dark);
 
-    await tester.tap(find.text(AccountCopy.themeLight));
+    await tester.tap(find.text('Day'));
     await tester.pumpAndSettle();
     expect(brightness(), Brightness.light);
     expect(find.byType(AccountSheet), findsOneWidget, reason: 'the sheet stays open while the theme changes');
 
-    await tester.tap(find.text(AccountCopy.themeDark));
+    await tester.tap(find.text('Night'));
     await tester.pumpAndSettle();
     expect(brightness(), Brightness.dark);
   });
@@ -170,8 +183,8 @@ void main() {
     AccountCopy.rowStudyDays: AccountSheetPaths.studyDays,
     AccountCopy.rowPrivacy: AccountSheetPaths.privacy,
     AccountCopy.rowHelp: AccountSheetPaths.help,
-    AccountCopy.practiceTitle: AccountSheetPaths.account,
-    AccountCopy.aiTitle: AccountSheetPaths.ask,
+    'Practice credits': AccountSheetPaths.credits,
+    'AI credits': AccountSheetPaths.credits,
   };
   for (final MapEntry(key: label, value: path) in rows.entries) {
     testWidgets('"$label" closes the sheet and opens $path', (tester) async {
@@ -204,9 +217,9 @@ void main() {
       outboxRepositoryProvider.overrideWithValue(outboxWith(0)),
     ]);
     await _openSheet(tester);
-    await tester.ensureVisible(find.text(AccountCopy.signOut));
+    await tester.ensureVisible(find.text('Sign out'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text(AccountCopy.signOut));
+    await tester.tap(find.text('Sign out'));
     await tester.pumpAndSettle();
     // The confirm sheet's safe key.
     expect(find.text('Stay signed in'), findsOneWidget);

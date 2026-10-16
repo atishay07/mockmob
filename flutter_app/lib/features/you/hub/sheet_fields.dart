@@ -4,9 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/copy.dart' show RhythmCopy;
-import '../../rhythm/logic/plan_week.dart' show PlanDay;
-import '../../rhythm/widgets/plan_week_strip.dart';
-import '../../rhythm/widgets/week_dial.dart';
+import '../../rhythm/logic/plan_week.dart' show PlanDay, bubbleWeek;
 import '../copy.dart';
 import '../widgets/you_page.dart' show PillKey, youText;
 import 'week_skeleton.dart';
@@ -300,8 +298,9 @@ class WeekField extends StatelessWidget {
   final SheetWeek week;
   final VoidCallback onOpen;
 
-  /// The ring's diameter. The skeleton reserves the same height, so nothing moves when data lands.
-  static const double dialSize = 144;
+  /// The ring's diameter (the shared study week's ring). The skeleton reserves the same height, so
+  /// nothing moves when data lands.
+  static const double dialSize = 96;
 
   /// The page margin the field aligns to.
   static const double side = youText;
@@ -319,7 +318,6 @@ class WeekField extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final ready = week.state == SheetWeekState.ready;
     final Widget body = switch (week.state) {
       SheetWeekState.loading => const WeekSkeleton(),
       SheetWeekState.failed => Column(
@@ -335,47 +333,19 @@ class WeekField extends StatelessWidget {
     };
     final labelled = week.state == SheetWeekState.failed || week.state == SheetWeekState.off;
 
-    // No container: the ring stands on the ground in a pool of lamp light that fades to nothing
-    // well inside every edge (a radial with a long, soft tail, never a clipped rectangle), and the
-    // week strip below it is plain columns between two hairlines.
-    const ringCentre = Offset(side + dialSize / 2, MmSpace.s4 + dialSize / 2);
-    const glow = 256.0;
-    final pane = Stack(
-      clipBehavior: Clip.none,
-      children: [
-        if (ready)
-          Positioned(
-            left: ringCentre.dx - glow / 2,
-            top: ringCentre.dy - glow / 2,
-            width: glow,
-            height: glow,
-            child: IgnorePointer(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    colors: [
-                      for (final a in const [1.0, 0.55, 0.22, 0.06, 0.0]) colors.lamp.withValues(alpha: a * (colors.isNight ? 0.2 : 0.15)),
-                    ],
-                    stops: const [0, 0.3, 0.55, 0.8, 1],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(side, MmSpace.s4, side, MmSpace.s12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (labelled) ...[
-                Text(YouCopy.fieldWeek, style: type.caption.copyWith(color: colors.ink2)),
-                const SizedBox(height: MmSpace.s8),
-              ],
-              body,
-            ],
-          ),
-        ),
-      ],
+    // No container and no glow: the shared study week stands on the ground between the margins.
+    final pane = Padding(
+      padding: const EdgeInsets.fromLTRB(side, MmSpace.s4, side, MmSpace.s12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (labelled) ...[
+            Text(YouCopy.fieldWeek, style: type.caption.copyWith(color: colors.ink2)),
+            const SizedBox(height: MmSpace.s8),
+          ],
+          body,
+        ],
+      ),
     );
     if (week.state != SheetWeekState.ready && week.state != SheetWeekState.off) return pane;
     // The whole pane is the way in to Rhythm: it sinks a touch under the finger, shows the press veil
@@ -397,83 +367,45 @@ class WeekField extends StatelessWidget {
     final type = context.mmType;
     final headline = _headline();
     final hasDial = week.done != null && week.goal != null;
+    // The week as planned (rest days dashed) when the plan is known, else the counted days. The
+    // shared study week needs seven columns; a week without them draws only its words.
+    final days = week.planDays != null ? bubbleWeek(week.planDays!) : week.days;
+    final seven = days.length == 7;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // "This week" names the field and the way in; the chevron says it opens Rhythm.
         Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (hasDial) ...[
-              _DialWithTrack(done: week.done!, goal: week.goal!, paused: week.paused),
-              const SizedBox(width: MmSpace.s16),
-            ],
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(child: Text(YouCopy.fieldWeek, style: type.caption.copyWith(color: colors.ink2))),
-                      Text(YouCopy.weekOpen, style: type.labelLarge.copyWith(fontSize: 14)),
-                      const SizedBox(width: MmSpace.s2),
-                      Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2),
-                    ],
-                  ),
-                  if (headline != null) ...[
-                    const SizedBox(height: MmSpace.s6),
-                    Text(headline, style: type.title),
-                  ],
-                  if (!week.paused && week.note != null) ...[
-                    const SizedBox(height: MmSpace.s8),
-                    Text(week.note!, style: type.small.copyWith(color: colors.ink2)),
-                  ],
-                ],
-              ),
-            ),
+            Expanded(child: Text(YouCopy.weekOpen, style: type.labelLarge.copyWith(fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis)),
+            const SizedBox(width: MmSpace.s2),
+            Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2),
           ],
         ),
         const SizedBox(height: MmSpace.s12),
-        // Each day is its own stop for TalkBack ("Wednesday, today, planned study day"), read
-        // from the rhythm's own words. The key to the marks lives on Rhythm.
-        if (week.planDays != null) ...[
-          _Hairline(color: colors.line),
-          const SizedBox(height: MmSpace.s12),
-          PlanWeekStrip(days: week.planDays!, bubble: 22, daySemantics: true, animateIn: true),
-        ] else
-          WeekBubbles(days: week.days, bubbleSize: 24, gap: 13, semanticsLabel: week.description),
+        if (seven)
+          // Today, Rhythm and the week sheet draw this same widget: one ring, one row, one key (it
+          // shows on a first look at a week and on a long press, never as a line of its own).
+          StudyWeek(
+            days: days,
+            variant: hasDial ? StudyWeekVariant.ring : StudyWeekVariant.compact,
+            done: week.done,
+            goal: week.goal?.clamp(1, 7),
+            paused: week.paused,
+            headline: hasDial ? headline : null,
+            caption: hasDial && !week.paused ? week.note : null,
+            ringSize: WeekField.dialSize,
+            animateIn: true,
+            semanticsLabel: week.description,
+          )
+        else
+          const SizedBox.shrink(),
+        if (!hasDial && headline != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(headline, style: type.title),
+        ],
       ],
     );
   }
 }
 
-/// The ring with a track one step stronger than the hairline, so the empty segments read on the
-/// ground (Night: warm grey; Daylight: warm tan). The dial paints its track in the hairline
-/// colour, so the hub gives it a hairline of its own.
-class _DialWithTrack extends StatelessWidget {
-  const _DialWithTrack({required this.done, required this.goal, required this.paused});
-
-  final int done;
-  final int goal;
-  final bool paused;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final base = Theme.of(context);
-    final track = colors.isNight ? Color.lerp(colors.lineStrong, colors.ink3, 0.4)! : Color.lerp(colors.lineStrong, colors.lamp, 0.25)!;
-    final tuned = colors.copyWith(line: track);
-    return Theme(
-      data: base.copyWith(extensions: [for (final e in base.extensions.values) if (e is! MmColors) e, tuned]),
-      child: WeekDial(done: done, goal: goal, size: WeekField.dialSize, paused: paused),
-    );
-  }
-}
-
-class _Hairline extends StatelessWidget {
-  const _Hairline({required this.color});
-
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) => SizedBox(height: 1, child: ColoredBox(color: color));
-}

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
 /// Forgot, Hard, Got it, Easy (ratings 1 to 4) as four equal keys in two rows. None is the
-/// volt key: no rating is nudged, so the student answers honestly. While one is being sent it
-/// shows the spinner and the others wait.
+/// volt key at rest: no rating is nudged, so the student answers honestly. The one that is tapped
+/// inks volt (a cross-fade from the glass key, with the spinner on it) while its rating is on its
+/// way, and the others wait; once the server has acknowledged it, the card flies off.
 class RatingKeys extends StatelessWidget {
   const RatingKeys({super.key, required this.onRate, this.sending});
 
@@ -24,12 +26,28 @@ class RatingKeys extends StatelessWidget {
 
   Widget _key(int rating) {
     final inFlight = sending != null;
+    final picked = sending == rating;
+    final label = _labels[rating - 1];
     return Expanded(
-      child: KeyButton.secondary(
-        label: _labels[rating - 1],
-        loading: sending == rating,
-        onPressed: inFlight ? null : () => onRate(rating),
-        semanticsLabel: _labels[rating - 1],
+      child: MmOverlapSwitcher(
+        fit: StackFit.passthrough,
+        child: picked
+            // Inked: the volt key, loading, taps ignored. It keeps its label and its width.
+            ? KeyButton(
+                key: ValueKey('picked-$rating'),
+                label: label,
+                loading: true,
+                // A no-op, not null: a null press reads as a disabled key and would grey the ink out
+                // (the key ignores taps while it is loading anyway).
+                onPressed: () {},
+                semanticsLabel: label,
+              )
+            : KeyButton.secondary(
+                key: ValueKey('rest-$rating'),
+                label: label,
+                onPressed: inFlight ? null : () => onRate(rating),
+                semanticsLabel: label,
+              ),
       ),
     );
   }

@@ -12,6 +12,7 @@ import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
+import 'package:mockmob/features/practice/copy.dart' show PracticeCopy;
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/practice/practice_start_screen.dart';
@@ -209,6 +210,22 @@ void main() {
         await _settle(tester);
         await _open(tester, 'Full mock');
         await _shot(tester, 'confirm_mock', b);
+      });
+
+      testWidgets('confirm, full mock on a 360 by 640 phone at 1.3x text: the notes sit clear above the pinned Start', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], now: _evening), size: const Size(360, 640), textScale: 1.3);
+        await _settle(tester);
+        await _open(tester, 'Full mock');
+        // Critic finding 12: the Do Not Disturb note was half behind Start. The body scrolls above a
+        // pinned footer, so wherever it is scrolled to, a visible note ends above the key.
+        final silence = find.text(PracticeCopy.ruleSilence);
+        expect(silence, findsOneWidget);
+        // Scrolled into view, the note ends above the pinned Start key (never under it).
+        await tester.ensureVisible(silence);
+        await tester.pump(const Duration(milliseconds: 400));
+        final start = tester.getRect(find.text(PracticeCopy.startMock));
+        expect(tester.getRect(silence).bottom, lessThanOrEqualTo(start.top), reason: 'the note is not under the Start key');
+        await _shot(tester, 'confirm_mock_360_large', b);
       });
 
       testWidgets('NTA mode opens its instructions, which say it comes with Pro', (tester) async {

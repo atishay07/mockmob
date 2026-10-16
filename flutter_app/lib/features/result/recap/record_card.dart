@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/domain/domain.dart';
+import '../../../core/models/models.dart' show RepairOrder, RepairOrderItem;
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -16,6 +17,7 @@ import '../../today/logic/today_model.dart' show GoTo, TodayAction;
 import '../../today/widgets/move_keys.dart' show fitKeyLabel;
 import '../copy.dart';
 import '../data/result_providers.dart';
+import '../full/full_sections.dart' show cohortLead;
 import '../../rhythm/rhythm.dart' show CelebrationMode, CelebrationScope, CelebrationSlot, celebrationModeProvider;
 import '../model/recap_model.dart';
 import '../model/recap_variant.dart';
@@ -62,9 +64,21 @@ class _RecordCardState extends ConsumerState<RecordCard> {
 
   RecapModel get m => widget.model;
 
+  /// The server's repair order for this paper, set on every build (Mistake Lab v4 slice 3, spec
+  /// 4.7): when it leads with a question most other students got right, or a common trap, the key
+  /// here opens that run, the same as the full result's key and the repair run itself.
+  RepairOrder? _order;
+
+  /// The question the repair order leads with and the run it starts, or null (today's pick stays).
+  (RepairOrderItem, RepairKeyScope)? get _lead => cohortLead(m, _order);
+
+  /// How many mistakes the run holds in all: the led chapter's, else tonight's chapter's. The
+  /// length chips and every default are sized to this, so the key never offers more than exists.
+  int get _runTotal => _lead?.$2.count ?? m.tonightCount;
+
   /// The repair length in force: the student's choice while it is still one of the options,
   /// else the model's default as it is now, never 0 while there is something to repair.
-  int get _minutes => effectiveRepairMinutes(m, _chosen);
+  int get _minutes => effectiveRepairMinutes(m, _chosen, runCount: _runTotal);
 
   @override
   void dispose() {
@@ -77,7 +91,7 @@ class _RecordCardState extends ConsumerState<RecordCard> {
   void _chooseMinutes(int v) {
     setState(() => _chosen = v);
     if (Motion.reduced(context) || m.isNta || !_mobiShown) return;
-    final all = [for (final o in repairDurationOptions(m.tonightCount)) o.minutes];
+    final all = [for (final o in repairDurationOptions(_runTotal)) o.minutes];
     if (all.length < 2) return;
     final lo = all.reduce((a, b) => a < b ? a : b);
     final hi = all.reduce((a, b) => a > b ? a : b);
@@ -91,6 +105,9 @@ class _RecordCardState extends ConsumerState<RecordCard> {
   /// opens fewer than the chapter holds, and the ones it leaves are in Review too, so the count
   /// of "the others" is everything the run does not hold.
   RepairKeyScope? get _scope {
+    final lead = _lead;
+    // A led run starts on that question and holds that question's chapter, cut to the length chosen.
+    if (lead != null) return RepairCandidates.scopeOf(m.candidates, startQuestionId: lead.$1.qid, limit: _mistakes);
     final s = RepairCandidates.scopeOf(m.candidates, limit: _mistakes);
     if (s == null) return null;
     return RepairKeyScope(chapter: s.chapter, firstQuestionId: s.firstQuestionId, count: s.count, othersInPaper: m.candidates.length - s.count);
@@ -125,10 +142,10 @@ class _RecordCardState extends ConsumerState<RecordCard> {
   );
 
   int get _mistakes {
-    for (final o in repairDurationOptions(m.tonightCount)) {
+    for (final o in repairDurationOptions(_runTotal)) {
       if (o.minutes == _minutes) return o.mistakes;
     }
-    return m.tonightCount;
+    return _runTotal;
   }
 
   /// Opens Today's next move the way Today does: a tab root switches tabs, anything else is pushed.
@@ -147,7 +164,9 @@ class _RecordCardState extends ConsumerState<RecordCard> {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final options = repairDurationOptions(m.tonightCount);
+    _order = ref.watch(recapDataProvider(m.attemptId).select((d) => d.detail?.lab?.repairOrder));
+    final lead = _lead;
+    final options = repairDurationOptions(_runTotal);
     final hasRepair = m.candidates.isNotEmpty;
     final shortfall = hasRepair ? repairWalletShortfall(mistakes: _mistakes, balance: m.creditBalance) : null;
     // The reminder row follows the notifications policy, not "first result only": it comes back
@@ -167,12 +186,11 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     // primary, so the card has one dominant action and one secondary one.
     final next = hasRepair ? null : ref.watch(todayNextActionProvider);
     final finishIsPrimary = !hasRepair && next == null;
-    final quietKeys = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Flexible(child: KeyButton.quiet(label: ResultCopy.chooseElse, onPressed: () => context.push(AppRoutes.todayAlternatives))),
-        if (!finishIsPrimary) MoreKey(onFinish: widget.onFinish),
-      ],
+    final quietKeys = Align(
+      child: ChooseElseKey(
+        onChoose: () => context.push(AppRoutes.todayAlternatives),
+        onFinish: finishIsPrimary ? null : widget.onFinish,
+      ),
     );
     final effort = _effortLine;
     final reaction = _reaction(ref.watch(celebrationModeProvider));
@@ -183,15 +201,25 @@ class _RecordCardState extends ConsumerState<RecordCard> {
     return RecapCardPage(
       onNext: null,
       onBack: widget.onBack,
+      // What was recorded sits in the middle of the free height, not above a hole at the key. With
+      // nothing to repair the card is only a few lines, and keeps the shared top weighting.
+      weight: hasRepair ? ResultSpace.centered : ResultSpace.momentWeight,
       footer: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // The chapter the repair opens, above the key that opens it; the key itself stays short.
+          if (hasRepair && options.isNotEmpty) ...[
+            RepairScopeLine(text: _scope == null ? ResultCopy.chipLabel(_minutes, _mistakes) : ResultCopy.repairScopeLine(_scope!, _minutes, chapterTotal: _runTotal)),
+            const SizedBox(height: MmSpace.s8),
+          ],
           if (hasRepair)
             _RepairKey(
               label: _scope == null ? ResultCopy.startRepair(_minutes) : ResultCopy.repairKey(_scope!, _minutes),
-              spoken: _scope == null ? null : ResultCopy.repairKeySpoken(_scope!, _minutes),
-              onPressed: () => context.go(ResultNav.repair(m, minutes: _minutes)),
+              spoken: _scope == null ? null : ResultCopy.repairKeySpoken(_scope!, _minutes, chapterTotal: _runTotal),
+              onPressed: () => context.go(
+                ResultNav.repair(m, minutes: _minutes, startQuestionId: lead?.$1.qid, runCount: lead == null ? null : _runTotal),
+              ),
             )
           else if (next != null)
             LayoutBuilder(
@@ -240,7 +268,8 @@ class _RecordCardState extends ConsumerState<RecordCard> {
           minutes: _minutes,
           shortfall: shortfall,
           options: options,
-          scope: _scope,
+          // The server's line for why the led run leads (the website's words).
+          leadLine: lead == null ? null : '${lead.$1.key}. ${lead.$1.line}',
           onMinutes: _chooseMinutes,
           onRetryKeys: widget.onRetryKeys,
         ),
@@ -259,10 +288,10 @@ class _RecordCardState extends ConsumerState<RecordCard> {
             ),
           ),
         ),
-        // The sheet, to keep: a quiet row, previewed as a card with no marks on it before anything
+        // The sheet, to keep: one 48 dp chip, previewed as a card with no marks on it before anything
         // leaves.
-        const SizedBox(height: MmSpace.s8),
-        SheetKeepsakeRow(model: m, onTap: () => showSheetShare(context, model: m)),
+        const SizedBox(height: MmSpace.s20),
+        Align(alignment: Alignment.centerLeft, child: SheetKeepsakeRow(model: m, onTap: () => showSheetShare(context, model: m))),
         if (widget.showSkipHint) ...[
           const SizedBox(height: MmSpace.s12),
           Text(ResultCopy.skipHint, style: type.small.copyWith(color: colors.ink3)),
@@ -275,12 +304,24 @@ class _RecordCardState extends ConsumerState<RecordCard> {
 /// The repair length card 4 offers for [m]: [chosen] while it is still one of the duration
 /// options, else the model's default. Never 0 while there is something to repair: with
 /// candidates but no fitting option, the time for every candidate (at least 5 minutes).
-int effectiveRepairMinutes(RecapModel m, int? chosen) {
-  final options = repairDurationOptions(m.tonightCount);
+int effectiveRepairMinutes(RecapModel m, int? chosen, {int? runCount}) {
+  final count = runCount ?? m.tonightCount;
+  final options = repairDurationOptions(count);
   if (chosen != null && options.any((o) => o.minutes == chosen)) return chosen;
-  final d = m.defaultRepairMinutes;
+  final d = _defaultMinutesFor(count);
   if (d > 0 || m.candidates.isEmpty) return d;
   return repairMinutes(m.candidates.length) ?? repairMinutesPerMistake;
+}
+
+/// The default length for a run of [count] mistakes: the 10-minute chip when it exists, else the
+/// first, else the time for all of them (the same rule as [RecapModel.defaultRepairMinutes]).
+int _defaultMinutesFor(int count) {
+  final options = repairDurationOptions(count);
+  for (final o in options) {
+    if (o.minutes == 10) return 10;
+  }
+  if (options.isNotEmpty) return options.first.minutes;
+  return repairMinutes(count) ?? 0;
 }
 
 /// The repair key. When its words change (a different length was chosen) the key stays and its

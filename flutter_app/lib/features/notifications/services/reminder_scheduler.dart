@@ -4,6 +4,7 @@ import '../../../core/models/notification_prefs.dart';
 import '../../../core/notifications/notifications.dart';
 import '../data/reminder_state.dart';
 import '../data/reminder_store.dart';
+import '../logic/evening_move.dart';
 import '../logic/next_reminder.dart';
 import '../logic/reminder_outcomes.dart';
 import '../logic/reminder_plan.dart';
@@ -33,6 +34,7 @@ class ReminderScheduler {
     DateTime Function()? now,
     this._onStateChanged,
     this._onNext,
+    this._evening,
   }) : _now = now ?? DateTime.now;
 
   final NotificationService _service;
@@ -45,6 +47,20 @@ class ReminderScheduler {
 
   /// Told the next reminder (or why there is none) after every planning pass.
   final void Function(NextReminder next)? _onNext;
+
+  /// The student's own record, as far as it has loaded: what tonight's move is, whether today is
+  /// already studied, the week so far. Null (or a null result) plans the ordinary lines.
+  final EveningFacts? Function()? _evening;
+
+  /// The student's record for the plan. Reading it must never cost a student their reminders: a
+  /// failed read plans the ordinary lines.
+  EveningFacts? _eveningOrNull() {
+    try {
+      return _evening?.call();
+    } on Object {
+      return null;
+    }
+  }
 
   Future<void>? _running;
   bool _again = false;
@@ -117,6 +133,7 @@ class ReminderScheduler {
       prefs: prefs,
       state: state,
       repair: _repair(),
+      evening: _eveningOrNull(),
       scheduledIds: {for (final d in stillAhead) d.taskId},
     );
     // The reminders still ahead are cancelled by now, so one failed request must not stop the

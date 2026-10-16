@@ -5,6 +5,7 @@ import 'package:flutter/animation.dart';
 import 'mobi_acts.dart';
 import 'mobi_mood.dart';
 import 'mobi_rig.dart';
+import 'mobi_rig_eval.dart';
 
 /// Mobi's body in time: the stance, the act playing, idle beats (a breath, a blink, a glance, a
 /// listening nod) and two springs (the antenna and the eyes). Pure Dart and deterministic for a
@@ -19,6 +20,7 @@ class MobiSim {
       : _rand = math.Random(seed),
         _fidgetRand = math.Random(seed * 31 + 5),
         _microRand = math.Random(seed * 53 + 11),
+        _saccRand = math.Random(seed * 71 + 3),
         _stance = stance {
     _stanceRig = MobiMoves.stance(stance);
     _rig = _stanceRig;
@@ -29,13 +31,102 @@ class MobiSim {
     _px = _rig.x;
     _py = _rig.y;
     _pt = _rig.tilt;
-    _breathWait = 1.2 + _rand.nextDouble() * 0.8;
-    _blinkWait = 1.6 + _rand.nextDouble() * 2.0;
-    _glanceWait = 4.5 + _rand.nextDouble() * 4.0;
-    _beatWait = 2.4 + _rand.nextDouble() * 1.6;
-    _fidgetWait = 9 + _fidgetRand.nextDouble() * 6;
-    _microWait = 6 + _microRand.nextDouble() * 3;
+    _breathWait = _draw(_rand, _breathFirst);
+    _blinkWait = _draw(_rand, _blinkFirst);
+    _glanceWait = _draw(_rand, _glanceFirst);
+    _beatWait = _draw(_rand, _listenFirst);
+    _fidgetWait = _draw(_fidgetRand, _fidgetFirst);
+    _microWait = _draw(_microRand, _microFirst);
+    _saccWait = _saccFirst[0] + _saccRand.nextDouble() * _saccFirst[1];
+    _armPrevL = _rig.armL.angle;
+    _armPrevR = _rig.armR.angle;
   }
+
+  // ---- Numbers from the rig table (idle and springs) --------------------------------------
+
+  static Map<String, Object?> get _idleSpec => MobiBook.instance.section('idle');
+  static Map<String, Object?> _springSpec(String k) => MobiBook.instance.section('springs')[k]! as Map<String, Object?>;
+  static double _n(Map<String, Object?> m, String k) => (m[k]! as num).toDouble();
+  static List<double> _pair(Object? v) => [for (final x in v! as List<Object?>) (x! as num).toDouble()];
+
+  /// base + u * spread, for a [base, spread] pair from the table.
+  static double _draw(math.Random r, List<double> p) => p[0] + r.nextDouble() * p[1];
+
+  static final Map<String, Object?> _breathSpec = _idleSpec['breath']! as Map<String, Object?>;
+  static final List<double> _breathFirst = _pair(_breathSpec['firstWait']);
+  static Map<String, Object?> _breathPart(String k) => _breathSpec[k]! as Map<String, Object?>;
+  static final List<double> _breathSleep = _pair(_breathPart('seconds')['sleep']);
+  static final List<double> _breathSleepy = _pair(_breathPart('seconds')['sleepy']);
+  static final List<double> _breathRest = _pair(_breathPart('seconds')['rest']);
+  static final List<double> _breathOther = _pair(_breathPart('seconds')['other']);
+  static final double _deepSleep = _n(_breathPart('deep'), 'sleep');
+  static final double _deepSleepy = _n(_breathPart('deep'), 'sleepy');
+  static final double _deepOther = _n(_breathPart('deep'), 'other');
+  static final List<double> _breathPauseDozing = _pair(_breathPart('rest')['sleep']);
+  static final List<double> _breathPauseOther = _pair(_breathPart('rest')['other']);
+  static final double _swellSquash = _n(_breathPart('swell'), 'squash');
+  static final double _swellY = _n(_breathPart('swell'), 'y');
+  static final double _swellArm = _n(_breathPart('swell'), 'armAngle');
+  static final double _swellAntenna = _n(_breathPart('swell'), 'antennaAsleep');
+
+  static final List<double> _blinkFirst = _pair((_idleSpec['blink']! as Map<String, Object?>)['firstWait']);
+  static final Map<String, Object?> _blinkGapSpec = (_idleSpec['blink']! as Map<String, Object?>)['gap']! as Map<String, Object?>;
+  static final double _blinkDouble = _n(_idleSpec['blink']! as Map<String, Object?>, 'doubleChance');
+  static final double _blinkBase = _n(_blinkGapSpec, 'base');
+  static final double _blinkSpread = _n(_blinkGapSpec, 'squaredSpread');
+  static final double _blinkStareChance = _n(_blinkGapSpec, 'longStareChance');
+  static final double _blinkStare = _n(_blinkGapSpec, 'longStare');
+
+  static final Map<String, Object?> _glanceSpec = _idleSpec['glance']! as Map<String, Object?>;
+  static final List<double> _glanceFirst = _pair(_glanceSpec['firstWait']);
+  static final List<double> _glanceHold = _pair(_glanceSpec['hold']);
+  static final List<double> _glanceX = _pair(_glanceSpec['x']);
+  static final List<double> _glanceY = _pair(_glanceSpec['y']);
+  static final List<double> _glanceGap = _pair(_glanceSpec['gap']);
+  static final double _glanceLeanChance = _n(_glanceSpec, 'leanChance');
+  static final double _glanceLeanBy = _n(_glanceSpec, 'lean');
+  static final double _glanceBlinkChance = _n(_glanceSpec, 'blinkChance');
+  static final double _glanceIn = _n(_glanceSpec, 'in'), _glanceOut = _n(_glanceSpec, 'out');
+  static final double _glanceLeanIn = _n(_glanceSpec, 'leanIn'), _glanceLeanOut = _n(_glanceSpec, 'leanOut');
+
+  static final List<double> _listenFirst = _pair(_idleSpec['listenFirstWait']);
+  static final List<double> _listenGap = _pair(_idleSpec['listenNodGap']);
+  static final double _listenNodLength = _n(_idleSpec, 'listenNodSeconds');
+  static final List<double> _fidgetFirst = _pair(_idleSpec['fidgetFirstWait']);
+  static final List<double> _fidgetGap = _pair(_idleSpec['fidgetGap']);
+  static final double _fidgetRetry = _n(_idleSpec, 'fidgetRetry');
+  static final List<double> _microFirst = _pair(_idleSpec['microFirstWait']);
+  static final List<double> _microGap = _pair(_idleSpec['microGap']);
+  static final double _boopLength = _n(_idleSpec, 'boopSeconds');
+
+  static final Map<String, Object?> _saccSpec = _idleSpec['saccade']! as Map<String, Object?>;
+  static final List<double> _saccFirst = _pair(_saccSpec['firstWait']);
+  static final List<double> _saccGap = _pair(_saccSpec['gap']);
+  static final double _saccX = _n(_saccSpec, 'x');
+  static final double _saccY = _n(_saccSpec, 'y');
+  static final double _saccHome = _n(_saccSpec, 'homeChance');
+
+  static final Map<String, Object?> _blinkSpec = _idleSpec['blink']! as Map<String, Object?>;
+  static final double _blinkClose = _n(_blinkSpec, 'close');
+  static final double _blinkHold = _n(_blinkSpec, 'shut');
+  static final double _blinkOpen = _n(_blinkSpec, 'open');
+  static final double _blinkGapDouble = _n(_blinkSpec, 'gapBetweenDouble');
+  static final double _blinkTrail = _n(_blinkSpec, 'trail');
+  static final double _blinkShutTo = _n(_blinkSpec, 'shutTo');
+
+  static final Map<String, Object?> _antSpec = _springSpec('antenna');
+  static final Map<String, Object?> _eyeSpec = _springSpec('eyes');
+  static final Map<String, Object?> _armSpec = _springSpec('arms');
+  static final Map<String, Object?> _jigSpec = _springSpec('jiggle');
+  static final double _armK = _n(_armSpec, 'k'), _armC = _n(_armSpec, 'c'), _armGain = _n(_armSpec, 'gain');
+  static final double _armTwistGain = _n(_armSpec, 'twistGain'), _armAccel = _n(_armSpec, 'accelClamp');
+  static final double _armClamp = _n(_armSpec, 'clamp'), _armTwistClamp = _n(_armSpec, 'twistClamp');
+  static final double _jigK = _n(_jigSpec, 'k'), _jigC = _n(_jigSpec, 'c'), _jigGain = _n(_jigSpec, 'gain');
+  static final double _jigAccel = _n(_jigSpec, 'accelClamp'), _jigClamp = _n(_jigSpec, 'clamp');
+  static final double _antK = _n(_antSpec, 'k'), _antC = _n(_antSpec, 'c'), _antTorque = _n(_antSpec, 'torqueClamp');
+  static final double _antAx = _n(_antSpec, 'fromAx'), _antAy = _n(_antSpec, 'fromAy'), _antAt = _n(_antSpec, 'fromTilt');
+  static final double _antClamp = _n(_antSpec, 'clamp');
+  static final double _eyeK = _n(_eyeSpec, 'k'), _eyeC = _n(_eyeSpec, 'c'), _eyeLean = _n(_eyeSpec, 'leanToTarget');
 
   /// How long the loading scan runs before it settles into quiet thinking beats.
   static const double loadingScanFor = 12;
@@ -47,6 +138,21 @@ class MobiSim {
 
   /// A third stream for micro-fidgets (15 Oct), for the same reason.
   final math.Random _microRand;
+
+  /// A fourth stream for micro-saccades (rig v2), for the same reason.
+  final math.Random _saccRand;
+
+  // Micro-saccades: small fixational darts of the eyes while standing at ease.
+  double _saccWait = 0;
+  double _saccDX = 0, _saccDY = 0;
+
+  // Follow-through: each arm's angle overshoots and settles after a swing; the mitten flops.
+  double _armPrevL = 0, _armPrevR = 0, _armVelL = 0, _armVelR = 0;
+  double _armOffL = 0, _armOffR = 0, _armOffVL = 0, _armOffVR = 0;
+  double _twOffL = 0, _twOffR = 0, _twOffVL = 0, _twOffVR = 0;
+
+  // The paper body's jiggle after a landing.
+  double _jig = 0, _jigV = 0;
 
   MobiStance _stance;
   late MobiRig _stanceRig;
@@ -62,7 +168,7 @@ class MobiSim {
 
   MobiRig? _carry;
   double _carryT = 0;
-  static const double _carryDur = 0.16;
+  static final double _carryDur = _n(_idleSpec, 'carrySeconds');
 
   double _talkLeft = 0;
   double _talkT = 0;
@@ -143,7 +249,20 @@ class MobiSim {
       _scanning ||
       _stanceFrom != null ||
       _carry != null ||
-      _springMoving;
+      _springMoving ||
+      _secondaryMoving;
+
+  bool get _secondaryMoving =>
+      _armOffL.abs() > 0.002 ||
+      _armOffR.abs() > 0.002 ||
+      _armOffVL.abs() > 0.01 ||
+      _armOffVR.abs() > 0.01 ||
+      _twOffL.abs() > 0.003 ||
+      _twOffR.abs() > 0.003 ||
+      _twOffVL.abs() > 0.015 ||
+      _twOffVR.abs() > 0.015 ||
+      _jig.abs() > 0.0008 ||
+      _jigV.abs() > 0.004;
 
   bool get _springMoving =>
       _antV.abs() > 0.004 ||
@@ -163,6 +282,7 @@ class MobiSim {
       };
   bool get _beats => _stance == MobiStance.listen;
   bool get _fidgets => _stance == MobiStance.stand;
+  bool get _saccades => _glances || _stance == MobiStance.read;
 
   /// Seconds until the next idle beat.
   double get idleWait {
@@ -170,6 +290,7 @@ class MobiSim {
     if (_glances) w = math.min(w, _glanceWait);
     if (_beats) w = math.min(w, _beatWait);
     if (_fidgets) w = math.min(w, math.min(_fidgetWait, _microWait));
+    if (_saccades) w = math.min(w, _saccWait);
     return math.max(0, w);
   }
 
@@ -181,6 +302,7 @@ class MobiSim {
     _beatWait -= seconds;
     _fidgetWait -= seconds;
     _microWait -= seconds;
+    _saccWait -= seconds;
     _holdT += seconds;
   }
 
@@ -202,6 +324,8 @@ class MobiSim {
     _beatT = -1;
     _fidgetT = -1;
     _microT = -1;
+    _saccDX = 0;
+    _saccDY = 0;
   }
 
   /// The face under every act.
@@ -362,7 +486,7 @@ class MobiSim {
     if (_boopT >= 0) {
       _boopT += h;
       r = MobiMoves.boop(_boopT, r, _boopSide);
-      if (_boopT >= 0.45) _boopT = -1;
+      if (_boopT >= _boopLength) _boopT = -1;
     }
 
     // Hand-off from an interrupted act.
@@ -384,10 +508,10 @@ class MobiSim {
       if (_breathWait <= 0 && !quiet && _talkW == 0) {
         _breathT = 0;
         _breathDur = switch (_stance) {
-          MobiStance.sleep => 4.8 + _rand.nextDouble() * 0.6,
-          MobiStance.sleepy => 4.2,
-          MobiStance.rest => 3.8,
-          _ => 3.0 + _rand.nextDouble() * 0.6,
+          MobiStance.sleep => _draw(_rand, _breathSleep),
+          MobiStance.sleepy => _breathSleepy[0],
+          MobiStance.rest => _breathRest[0],
+          _ => _draw(_rand, _breathOther),
         };
       }
     }
@@ -396,24 +520,24 @@ class MobiSim {
       final p = (_breathT / _breathDur).clamp(0.0, 1.0);
       final b = (1 - math.cos(p * 2 * math.pi)) / 2;
       final deep = switch (_stance) {
-        MobiStance.sleep => 2.1,
-        MobiStance.sleepy => 1.6,
-        _ => 1.0,
+        MobiStance.sleep => _deepSleep,
+        MobiStance.sleepy => _deepSleepy,
+        _ => _deepOther,
       };
       final dozing = _stance == MobiStance.sleepy || _asleep;
       r = r.copyWith(
-        squash: r.squash + 0.014 * b * deep,
-        y: r.y - 0.9 * b * deep,
-        armL: r.armL.copyWith(angle: r.armL.angle + 0.035 * b),
-        armR: r.armR.copyWith(angle: r.armR.angle + 0.035 * b),
-        antenna: _asleep ? r.antenna - 0.08 * b : r.antenna,
+        squash: r.squash + _swellSquash * b * deep,
+        y: r.y + _swellY * b * deep,
+        armL: r.armL.copyWith(angle: r.armL.angle + _swellArm * b),
+        armR: r.armR.copyWith(angle: r.armR.angle + _swellArm * b),
+        antenna: _asleep ? r.antenna + _swellAntenna * b : r.antenna,
         zzz: dozing ? p : r.zzz,
       );
       if (p >= 1) {
         _breathT = -1;
         _breathWait = switch (_stance) {
-          MobiStance.sleepy || MobiStance.sleep => 0.3 + _rand.nextDouble() * 0.5,
-          _ => 0.5 + _rand.nextDouble() * 1.4,
+          MobiStance.sleepy || MobiStance.sleep => _draw(_rand, _breathPauseDozing),
+          _ => _draw(_rand, _breathPauseOther),
         };
       }
     }
@@ -424,30 +548,48 @@ class MobiSim {
         _glanceWait -= h;
         if (_glanceWait <= 0 && !quiet && _attendLeft <= 0 && _lookTarget == null && _talkW == 0 && _fidgetT < 0) {
           _glanceT = 0;
-          _glanceDur = 0.7 + _rand.nextDouble() * 0.9;
+          _glanceDur = _draw(_rand, _glanceHold);
           final side = _rand.nextBool() ? 1.0 : -1.0;
-          _glance = Offset(side * (0.45 + _rand.nextDouble() * 0.45), -0.45 + _rand.nextDouble() * 0.8);
-          _glanceLean = _rand.nextDouble() < 0.45 ? side * 0.022 : 0;
-          if (_rand.nextDouble() < 0.4 && _blinkT < 0) {
+          _glance = Offset(side * _draw(_rand, _glanceX), _draw(_rand, _glanceY));
+          _glanceLean = _rand.nextDouble() < _glanceLeanChance ? side * _glanceLeanBy : 0;
+          if (_rand.nextDouble() < _glanceBlinkChance && _blinkT < 0) {
             _blinkT = 0;
             _doubleBlink = false;
           }
-          _glanceWait = 4 + _rand.nextDouble() * 5;
+          _glanceWait = _draw(_rand, _glanceGap);
         }
       }
       if (_glanceT >= 0) {
         _glanceT += h;
-        final w = MobiMoves.ease(_glanceT, 0, 0.12, Curves.easeOut) * (1 - MobiMoves.ease(_glanceT, _glanceDur, _glanceDur + 0.14, Curves.easeOut));
-        final lean = MobiMoves.ease(_glanceT, 0, 0.45) * (1 - MobiMoves.ease(_glanceT, _glanceDur, _glanceDur + 0.5));
+        final w = MobiMoves.ease(_glanceT, 0, _glanceIn, Curves.easeOut) * (1 - MobiMoves.ease(_glanceT, _glanceDur, _glanceDur + _glanceOut, Curves.easeOut));
+        final lean = MobiMoves.ease(_glanceT, 0, _glanceLeanIn) * (1 - MobiMoves.ease(_glanceT, _glanceDur, _glanceDur + _glanceLeanOut));
         r = r.copyWith(
           lookX: r.lookX + (_glance.dx - r.lookX) * w,
           lookY: r.lookY + (_glance.dy - r.lookY) * w,
           tilt: r.tilt + _glanceLean * lean,
         );
-        if (_glanceT >= _glanceDur + 0.5) _glanceT = -1;
+        if (_glanceT >= _glanceDur + _glanceLeanOut) _glanceT = -1;
       }
     } else {
       _glanceT = -1;
+    }
+
+    // Micro-saccades: now and then the eyes dart a hair aside (or back home), so a Mobi that is
+    // only looking at the student still reads as looking, not as painted on.
+    if (_saccades && !_asleep) {
+      _saccWait -= h;
+      if (_saccWait <= 0) {
+        _saccWait = _saccGap[0] + _saccRand.nextDouble() * _saccGap[1];
+        final home = _saccRand.nextDouble() < _saccHome;
+        final dx = (_saccRand.nextDouble() * 2 - 1) * _saccX;
+        final dy = (_saccRand.nextDouble() * 2 - 1) * _saccY;
+        final free = !quiet && _attendLeft <= 0 && _lookTarget == null && _glanceT < 0 && _talkW == 0;
+        _saccDX = free && !home ? dx : 0;
+        _saccDY = free && !home ? dy : 0;
+      }
+    } else {
+      _saccDX = 0;
+      _saccDY = 0;
     }
 
     // Stance beats: a slow nod while listening.
@@ -459,9 +601,9 @@ class MobiSim {
       if (_beatT >= 0) {
         _beatT += h;
         r = MobiMoves.listenNod(_beatT, r);
-        if (_beatT >= 0.7) {
+        if (_beatT >= _listenNodLength) {
           _beatT = -1;
-          _beatWait = 2.6 + _rand.nextDouble() * 2.2;
+          _beatWait = _draw(_rand, _listenGap);
         }
       }
     } else {
@@ -476,9 +618,9 @@ class MobiSim {
           if (!quiet && _talkW == 0 && _attendLeft <= 0 && _lookTarget == null && _glanceT < 0) {
             _fidgetT = 0;
             _fidget = _fidgetRand.nextInt(3);
-            _fidgetWait = 12 + _fidgetRand.nextDouble() * 10;
+            _fidgetWait = _draw(_fidgetRand, _fidgetGap);
           } else {
-            _fidgetWait = 1.5;
+            _fidgetWait = _fidgetRetry;
           }
         }
       }
@@ -500,7 +642,7 @@ class MobiSim {
             _microT = 0;
             _micro = _microRand.nextInt(2);
           }
-          _microWait = 6 + _microRand.nextDouble() * 3;
+          _microWait = _draw(_microRand, _microGap);
         }
       }
       if (_microT >= 0) {
@@ -520,21 +662,26 @@ class MobiSim {
         _blinkWait -= h;
         if (_blinkWait <= 0) {
           _blinkT = 0;
-          _doubleBlink = _rand.nextDouble() < 0.2;
+          _doubleBlink = _rand.nextDouble() < _blinkDouble;
           // Mostly 2.5 to 4.5 s apart, now and then a longer stare.
           final u = _rand.nextDouble();
-          _blinkWait = 2.4 + 2.2 * u * u + (_rand.nextDouble() < 0.15 ? 2.5 : 0);
+          _blinkWait = _blinkBase + _blinkSpread * u * u + (_rand.nextDouble() < _blinkStareChance ? _blinkStare : 0);
         }
       }
       if (_blinkT >= 0) {
         _blinkT += h;
-        const one = 0.2;
-        final len = _doubleBlink ? 2 * one + 0.06 : one;
-        final local = _blinkT < one + 0.06 ? _blinkT : _blinkT - one - 0.06;
-        final shut = _blinkT >= len ? 0.0 : _blinkShut(local);
-        final k = 1 - 0.94 * shut;
-        r = r.copyWith(eyeL: r.eyeL.copyWith(open: r.eyeL.open * k), eyeR: r.eyeR.copyWith(open: r.eyeR.open * k));
-        if (_blinkT >= len) _blinkT = -1;
+        final one = _blinkClose + _blinkHold + _blinkOpen;
+        final len = _doubleBlink ? 2 * one + _blinkGapDouble : one;
+        double shutAt(double bt) {
+          if (bt <= 0 || bt >= len) return 0;
+          return _blinkShut(bt < one + _blinkGapDouble ? bt : bt - one - _blinkGapDouble);
+        }
+
+        // The right eye trails the left by a few milliseconds: two eyes never move as one.
+        final kL = 1 - (1 - _blinkShutTo) * shutAt(_blinkT);
+        final kR = 1 - (1 - _blinkShutTo) * shutAt(_blinkT - _blinkTrail);
+        r = r.copyWith(eyeL: r.eyeL.copyWith(open: r.eyeL.open * kL), eyeR: r.eyeR.copyWith(open: r.eyeR.open * kR));
+        if (_blinkT >= len + _blinkTrail) _blinkT = -1;
       }
     }
 
@@ -549,12 +696,13 @@ class MobiSim {
     return r;
   }
 
-  /// Lid closure over one blink: 55 ms closing, 30 ms shut, 115 ms opening.
+  /// Lid closure over one blink: 55 ms closing, 30 ms shut, 115 ms opening (the table's
+  /// `idle.blink`).
   static double _blinkShut(double t) {
     if (t <= 0) return 0;
-    if (t < 0.055) return Curves.easeIn.transform(t / 0.055);
-    if (t < 0.085) return 1;
-    if (t < 0.2) return 1 - Curves.easeOut.transform((t - 0.085) / 0.115);
+    if (t < _blinkClose) return Curves.easeIn.transform(t / _blinkClose);
+    if (t < _blinkClose + _blinkHold) return 1;
+    if (t < _blinkClose + _blinkHold + _blinkOpen) return 1 - Curves.easeOut.transform((t - _blinkClose - _blinkHold) / _blinkOpen);
     return 0;
   }
 
@@ -574,25 +722,52 @@ class MobiSim {
     _vt = vt;
 
     _antTarget = r.antenna;
-    const k = 190.0;
-    const c = 5.2;
-    final torque = -ax * 0.0016 + ay * 0.00075 - at * 0.05;
-    final acc = -k * (_ant - _antTarget) - c * _antV + torque.clamp(-400.0, 400.0);
+    final torque = ax * _antAx + ay * _antAy + at * _antAt;
+    final acc = -_antK * (_ant - _antTarget) - _antC * _antV + torque.clamp(-_antTorque, _antTorque);
     _antV += acc * h;
-    _ant = (_ant + _antV * h).clamp(-0.75, 0.75);
+    _ant = (_ant + _antV * h).clamp(-_antClamp, _antClamp);
 
     // Eyes glide to where they look: a short attention look first, then a held target, then
-    // the pose's own gaze.
+    // the pose's own gaze (with its micro-saccade).
     final target = _attend ?? _lookTarget;
-    _lookGoal = target ?? Offset(r.lookX, r.lookY);
-    const lk = 520.0;
-    const lc = 34.0;
-    _lookVX += (-lk * (_lookX - _lookGoal.dx) - lc * _lookVX) * h;
-    _lookVY += (-lk * (_lookY - _lookGoal.dy) - lc * _lookVY) * h;
+    _lookGoal = target ?? Offset(r.lookX + _saccDX, r.lookY + _saccDY);
+    _lookVX += (-_eyeK * (_lookX - _lookGoal.dx) - _eyeC * _lookVX) * h;
+    _lookVY += (-_eyeK * (_lookY - _lookGoal.dy) - _eyeC * _lookVY) * h;
     _lookX += _lookVX * h;
     _lookY += _lookVY * h;
 
-    final lean = target == null ? 0.0 : target.dx * 0.03;
-    return r.copyWith(antenna: _ant, lookX: _lookX, lookY: _lookY, tilt: r.tilt + lean);
+    // Follow-through: an arm that swings and stops overshoots a little and settles, and the
+    // mitten flops behind the swing. Driven by each arm's angular acceleration.
+    final aL = r.armL.angle, aR = r.armR.angle;
+    final vL = (aL - _armPrevL) / h, vR = (aR - _armPrevR) / h;
+    final accL = ((vL - _armVelL) / h).clamp(-_armAccel, _armAccel);
+    final accR = ((vR - _armVelR) / h).clamp(-_armAccel, _armAccel);
+    _armPrevL = aL;
+    _armPrevR = aR;
+    _armVelL = vL;
+    _armVelR = vR;
+    _armOffVL += (-_armK * _armOffL - _armC * _armOffVL - _armGain * accL) * h;
+    _armOffVR += (-_armK * _armOffR - _armC * _armOffVR - _armGain * accR) * h;
+    _armOffL = (_armOffL + _armOffVL * h).clamp(-_armClamp, _armClamp);
+    _armOffR = (_armOffR + _armOffVR * h).clamp(-_armClamp, _armClamp);
+    _twOffVL += (-_armK * _twOffL - _armC * _twOffVL + _armTwistGain * accL) * h;
+    _twOffVR += (-_armK * _twOffR - _armC * _twOffVR + _armTwistGain * accR) * h;
+    _twOffL = (_twOffL + _twOffVL * h).clamp(-_armTwistClamp, _armTwistClamp);
+    _twOffR = (_twOffR + _twOffVR * h).clamp(-_armTwistClamp, _armTwistClamp);
+
+    // The paper body jiggles after a push or a landing (vertical acceleration, down positive).
+    _jigV += (-_jigK * _jig - _jigC * _jigV + _jigGain * ay.clamp(-_jigAccel, _jigAccel)) * h;
+    _jig = (_jig + _jigV * h).clamp(-_jigClamp, _jigClamp);
+
+    final lean = target == null ? 0.0 : target.dx * _eyeLean;
+    return r.copyWith(
+      antenna: _ant,
+      lookX: _lookX,
+      lookY: _lookY,
+      tilt: r.tilt + lean,
+      squash: r.squash + _jig,
+      armL: r.armL.copyWith(angle: aL + _armOffL, twist: r.armL.twist + _twOffL),
+      armR: r.armR.copyWith(angle: aR + _armOffR, twist: r.armR.twist + _twOffR),
+    );
   }
 }

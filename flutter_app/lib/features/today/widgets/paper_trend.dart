@@ -38,11 +38,11 @@ class PaperTrendStrip extends ConsumerWidget {
     final type = context.mmType;
     final points = trend.points;
     return Padding(
-      padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s4),
+      padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(TodayCopy.trendCaption(points.length, trend.ofKind, trend.kind), style: type.micro.copyWith(color: colors.ink3)),
+          Text(TodayCopy.trendCaption(points.length, trend.ofKind, trend.kind), style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: colors.ink2)),
           const SizedBox(height: MmSpace.s4),
           TodayReveal(
             child: Builder(

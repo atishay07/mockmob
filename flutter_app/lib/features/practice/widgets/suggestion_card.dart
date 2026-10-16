@@ -25,7 +25,7 @@ class SuggestionCard extends StatelessWidget {
   const SuggestionCard({
     super.key,
     required this.subjectId,
-    required this.overline,
+    this.overline,
     required this.number,
     required this.unit,
     required this.title,
@@ -47,7 +47,9 @@ class SuggestionCard extends StatelessWidget {
   final Widget? sheet;
 
   final String subjectId;
-  final String overline;
+  /// A status line over the title ("Still open", "This one, then sleep"). Null on an ordinary
+  /// suggestion: the title and kicker already say what it is, so no "Your next practice" eyebrow.
+  final String? overline;
   final String number;
   final String unit;
   final String title;
@@ -91,11 +93,13 @@ class SuggestionCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: clear,
-          child: Text(overline, style: type.caption.copyWith(color: colors.ink2)),
-        ),
-        const SizedBox(height: MmSpace.s4),
+        if (overline != null) ...[
+          Padding(
+            padding: clear,
+            child: Text(overline!, style: type.caption.copyWith(color: colors.ink2)),
+          ),
+          const SizedBox(height: MmSpace.s4),
+        ],
         Padding(
           padding: clear,
           child: Semantics(
@@ -147,7 +151,13 @@ class SuggestionCard extends StatelessWidget {
             child: Align(alignment: Alignment.topLeft, child: band),
           ),
           const SizedBox(height: MmSpace.s12),
-          Text(offline ? PracticeCopy.offlineStart : reason, style: type.small.copyWith(color: colors.ink)),
+          // One line (the copy is written to fit); only large text lets it wrap, so nothing is cut.
+          Text(
+            offline ? PracticeCopy.offlineStart : reason,
+            style: type.small.copyWith(color: colors.ink),
+            maxLines: offline || MediaQuery.textScalerOf(context).scale(1) > 1.2 ? null : 1,
+            overflow: TextOverflow.ellipsis,
+          ),
           if (sheet != null) ...[const SizedBox(height: MmSpace.s12), sheet!],
           if (onShowMe != null) ...[
             const SizedBox(height: MmSpace.s4),

@@ -1,0 +1,502 @@
+{
+  "version": 1,
+  "labels": {
+    "name": "Mistake Lab",
+    "othersTitle": "How others answered",
+    "showMore": "Show {k} more",
+    "seeChanges": "See every change"
+  },
+  "heading": {
+    "one": "You missed {gap} mark. Here's where it went.",
+    "many": "You missed {gap} marks. Here's where they went."
+  },
+  "headingNone": "You didn't miss a mark this session.",
+  "groups": {
+    "changed_from_right": {
+      "label": "Right, then changed",
+      "bar": "{m} right then changed",
+      "do": "Change an answer only when you can point to the line that proves it wrong."
+    },
+    "struck_key": {
+      "label": "Crossed out the key",
+      "bar": "{m} crossed out the key",
+      "do": "Before you cross out an option, name the word in it that makes it wrong."
+    },
+    "never_opened": {
+      "label": "Never opened",
+      "bar": "{m} never opened",
+      "do": "Open every question once before you go deep on any."
+    },
+    "long_stay": {
+      "label": "2 minutes or more, still lost",
+      "bar": "{m} at 2 minutes or more",
+      "do": "At 2 minutes, mark it for review and move on. Come back at the end."
+    },
+    "quick_wrong": {
+      "label": "Wrong in under 20 seconds",
+      "bar": "{m} wrong in under 20 seconds",
+      "do": "Read the whole question before you look at the options."
+    },
+    "other_wrong": {
+      "label": "Other wrong answers",
+      "bar": "{m} other wrong answers",
+      "do": "Each one has a repair below: the trap, why the key is right and one rule to keep."
+    },
+    "other_blank": {
+      "label": "Opened, left blank",
+      "bar": "{m} opened and left blank",
+      "do": "Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and −1 for wrong."
+    },
+    "wrong": {
+      "label": "Wrong answers",
+      "bar": "{m} wrong answers",
+      "do": "Each one has a repair below: the trap, why the key is right and one rule to keep."
+    },
+    "blank": {
+      "label": "Blanks",
+      "bar": "{m} left blank",
+      "do": "Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and −1 for wrong."
+    },
+    "held": {
+      "label": "Under re-check or corrected",
+      "bar": "{m} under re-check or corrected",
+      "do": "These are being re-checked or were corrected, so they are not sorted by how they were lost."
+    }
+  },
+  "groupLine": {
+    "one": "{m} marks on 1 question",
+    "many": "{m} marks on {n} questions"
+  },
+  "barLabel": "{gap} marks missed: {parts}.",
+  "headline": {
+    "changed_from_right": {
+      "one": "1 answer was right until you changed it. That cost {m} of the {gap} marks you missed.",
+      "many": "{n} answers were right until you changed them. That cost {m} of the {gap} marks you missed."
+    },
+    "struck_key": {
+      "one": "1 wrong answer had its key crossed out at some point. It cost {m} of the {gap} marks you missed.",
+      "many": "{n} wrong answers had their key crossed out at some point. They cost {m} of the {gap} marks you missed."
+    },
+    "never_opened": {
+      "one": "You never opened 1 of the {total} questions. That is {m} of the {gap} marks you missed.",
+      "many": "You never opened {n} of the {total} questions. That is {m} of the {gap} marks you missed."
+    },
+    "long_stay": {
+      "one": "1 question took 2 minutes or more and was still lost: {time} of your {paper}, and {m} of the {gap} marks you missed.",
+      "many": "{n} questions took 2 minutes or more each and were still lost: {time} of your {paper}, and {m} of the {gap} marks you missed."
+    },
+    "long_stay_no_paper": {
+      "one": "1 question took 2 minutes or more and was still lost: {time} in all, and {m} of the {gap} marks you missed.",
+      "many": "{n} questions took 2 minutes or more each and were still lost: {time} in all, and {m} of the {gap} marks you missed."
+    },
+    "quick_wrong": {
+      "one": "1 wrong answer took under 20 seconds. It cost {m} of the {gap} marks you missed.",
+      "many": "{n} wrong answers took under 20 seconds each. They cost {m} of the {gap} marks you missed."
+    }
+  },
+  "atLeast": "at least {time}",
+  "paperMinutes": {
+    "one": "{n} minute",
+    "many": "{n} minutes"
+  },
+  "fineReady": "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits.",
+  "fineBasic": "{message} The split shows wrong and blank only.",
+  "remark": {
+    "cost": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers cost {d} marks over {k} {questions}.",
+    "gained": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers gained {d} marks over {k} {questions}.",
+    "even": "Your first picks, re-marked: {first}, the same as your final answers. Your changes on {k} {questions} evened out.",
+    "questionWord": {
+      "one": "question",
+      "many": "questions"
+    },
+    "fine": "Same paper, same key, only your first picks swapped in.",
+    "fineHeld": {
+      "one": " 1 question under re-check is left out of both.",
+      "many": " {h} questions under re-check are left out of both."
+    }
+  },
+  "others": {
+    "base": "{n} other students answered this. {right}",
+    "right": {
+      "zero": "None of them got it right.",
+      "one": "1 got it right.",
+      "many": "{r} got it right."
+    },
+    "small": " A small group so far.",
+    "commonTrap": " {c} of the {w} who got it wrong chose {L}, as you did.",
+    "sameAsYou": {
+      "one": " 1 other student chose {L}, as you did.",
+      "many": " {c} others chose {L}, as you did."
+    },
+    "moreChose": " More chose {L2}: {c2}.",
+    "nobodyElse": " No other student chose {L}.",
+    "option": "Option {L}: chosen by {c} of {n} other students."
+  },
+  "cohort": {
+    "line": {
+      "one": "1 question you lost was one most other students got right: {list} ({m} marks).",
+      "many": "{k} questions you lost were ones most other students got right: {list} ({m} marks)."
+    },
+    "coverage": {
+      "zero": "No question in this paper has answers from 10 or more other students yet.",
+      "one": "1 of the {total} questions in this paper has answers from 10 or more other students.",
+      "many": "{c} of the {total} questions in this paper have answers from 10 or more other students."
+    },
+    "source": "Other students' first answers to the same question on MockMob, {from} to {to}. Your own answers are not counted."
+  },
+  "listJoin": {
+    "comma": ", ",
+    "and": " and "
+  },
+  "months": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+  "trace": {
+    "steps": {
+      "changed": {
+        "later": "Changed to {L} at {at}, {gap} later, on a later visit.",
+        "same": "Changed to {L} at {at}, {gap} later, without leaving the question."
+      },
+      "cleared": {
+        "later": "Cleared it at {at}, {gap} later, on a later visit.",
+        "same": "Cleared it at {at}, {gap} later, without leaving the question."
+      },
+      "repicked": {
+        "later": "Picked {L} at {at}, {gap} later, on a later visit.",
+        "same": "Picked {L} at {at}, {gap} later, without leaving the question."
+      }
+    },
+    "untilSubmit": "{spent} on this question, until you submitted at {at}.",
+    "untilSheet": "{spent} on this question, until you went to submit at {at}.",
+    "endHere": {
+      "time_up": "Time ran out at {at} with this question open.",
+      "nta_strikes": "Your answers were submitted at {at}, after the third warning, with this question open."
+    },
+    "endSheet": {
+      "time_up": "Time ran out at {at} with the submit check open over this question.",
+      "nta_strikes": "Your answers were submitted at {at}, after the third warning, with the submit check open over this question."
+    },
+    "marked": {
+      "kept": {
+        "submit": "You marked it for review at {at}. It was still marked when you submitted.",
+        "time_up": "You marked it for review at {at}. It was still marked when time ran out.",
+        "nta_strikes": "You marked it for review at {at}. It was still marked when your answers were submitted.",
+        "open": "You marked it for review at {at}. It was still marked at the end of the record."
+      },
+      "removed": "You marked it for review at {at} and removed the mark at {at2}."
+    },
+    "away": {
+      "one": "Away from the paper for {time} while this question was open. Not counted.",
+      "many": "Away from the paper {n} times, {time} in all, while this question was open. Not counted."
+    },
+    "struck": {
+      "key": "You crossed out {L}, the key, at {at}.",
+      "plain": "You crossed out {L} at {at}.",
+      "keyRestored": "You crossed out {L}, the key, at {at} and restored it at {at2}.",
+      "plainRestored": "You crossed out {L} at {at} and restored it at {at2}."
+    }
+  },
+  "replay": {
+    "labels": {
+      "title": "Replay",
+      "sub": "Your paper, minute by minute",
+      "play": "Play",
+      "pause": "Pause",
+      "previous": "Previous",
+      "next": "Next",
+      "seeInReplay": "See it in the replay",
+      "clockNote": "Clock times count from the start of the paper.",
+      "evenPaceNote": "Even pace is the paper's own time a question. It is a reference, not a target."
+    },
+    "row": {
+      "pace": "By {clock}: {a} of {total} answered. Even pace: {p}.",
+      "noPace": "By {clock}: {a} of {total} answered."
+    },
+    "away": "Away {time}",
+    "gap": "Not counted {time}",
+    "end": {
+      "submit": "Submitted at {at}.",
+      "time_up": "Time ran out at {at}.",
+      "nta_strikes": "Submitted at {at}, after the third warning."
+    },
+    "opened": {
+      "all": "You opened all {total} questions.",
+      "one": "You opened 1 of {total} questions.",
+      "many": "You opened {o} of {total} questions."
+    },
+    "firstPass": {
+      "tail": {
+        "one": "Your first pass ended at {at}, on Q{q}. You spent the last {time} on 1 return visit.",
+        "many": "Your first pass ended at {at}, on Q{q}. You spent the last {time} on {n} return visits."
+      },
+      "count": {
+        "one": "Your first pass ended at {at}, on Q{q}. After it you made 1 return visit.",
+        "many": "Your first pass ended at {at}, on Q{q}. After it you made {n} return visits."
+      },
+      "none": "Your first pass ended at {at}, on Q{q}.",
+      "reached": "You opened Q{q}, the last question you had not seen, at {at}.",
+      "reachedSet": "You opened Q{q} to Q{q2}, the last questions you had not seen, at {at}."
+    },
+    "noFirstPass": {
+      "one": "You never finished a first pass. 1 of {total} questions was never opened.",
+      "many": "You never finished a first pass. {k} of {total} questions were never opened."
+    },
+    "check": "At {clock} you had answered {a} of {total}. Even pace gets to {p}.",
+    "chips": {
+      "all": "All",
+      "changed_from_right": "Right, then changed",
+      "struck_key": "Crossed out the key",
+      "long_stay": "2 minutes or more",
+      "quick_wrong": "Under 20 seconds",
+      "never_opened": "Never opened"
+    }
+  },
+  "across": {
+    "title": "Across your mocks",
+    "showAll": "Show all {n}",
+    "showFewer": "Show fewer",
+    "basis": {
+      "one": "From your device's record of 1 timed mock, marked as it was scored.",
+      "many": "From your device's record of {n} timed mocks, marked as each paper was scored."
+    },
+    "none": "Across your mocks starts with your first Full or NTA mock that your device records.",
+    "belowGate": {
+      "one": "Across your mocks opens at 2 timed mocks with a device record. You have 1.",
+      "many": "Across your mocks opens at 2 timed mocks with a device record. You have {n}."
+    },
+    "mocks": {
+      "one": "1 timed mock",
+      "many": "{n} timed mocks"
+    },
+    "secondThoughts": {
+      "lead": {
+        "one": "Across {mocks}: 1 change from one option to another.",
+        "many": "Across {mocks}: {n} changes from one option to another."
+      },
+      "toRight": "{n} wrong to right ({marks})",
+      "toWrong": "{n} right to wrong ({marks})",
+      "wrongWrong": {
+        "one": "1 between two wrong options (0)",
+        "many": "{n} between two wrong options (0)"
+      },
+      "net": "Net {marks} marks.",
+      "none": "Across {mocks}: no answer changed from one option to another."
+    },
+    "changesHelp": {
+      "text": "Changed on a later visit: {a} of {b} helped. Changed without leaving the question: {c} of {d} helped.",
+      "gate": "Changes on a later visit against changes without leaving the question: this comparison opens at 8 of each. You have {b} and {d}."
+    },
+    "neverOpened": "Never opened, last {k} {subject} mocks, oldest first: {list}.",
+    "longStays": {
+      "none": "Across {mocks}, none of {total} questions took 2 minutes or more.",
+      "one": "Across {mocks}, 1 of {total} questions took 2 minutes or more. {right}",
+      "many": "Across {mocks}, {n} of {total} questions took 2 minutes or more. {right}",
+      "rightOne": {
+        "zero": "It was not right.",
+        "one": "It was right."
+      },
+      "rightMany": {
+        "zero": "None of them were right.",
+        "one": "1 of them was right.",
+        "many": "{r} of them were right."
+      }
+    },
+    "lastTen": {
+      "text": "Last 10 minutes, across {mocks}: {a} right of {b} answered. {earlier}: {c} right of {d}.",
+      "firstMinutes": "First {m} minutes",
+      "earlier": "Earlier in the paper",
+      "gate": "Last 10 minutes against the rest of the paper opens at 3 timed mocks with 20 answers on each side. You have {mocks}, with {b} answers in the last 10 minutes and {d} before."
+    }
+  },
+  "rules": {
+    "title": "Your rules",
+    "countLabel": "Your rules, {n}",
+    "labels": {
+      "use": "Use in my next mock",
+      "inUse": "Your rule for your next mock",
+      "repairsTitle": "From your repairs",
+      "habitsTitle": "From how you take papers",
+      "hook": "To remember it:"
+    },
+    "repairsEmpty": "Your first repair adds a rule here.",
+    "habitsGate": "Rules from how you take papers need 3 timed mocks. You have {n} of 3.",
+    "marked": "Answer the questions you mark for review.",
+    "evidence": {
+      "changes": "Right answers changed to wrong in your last {mocks}: {k} of {n} changes, costing {marks} marks.",
+      "changesNone": "Right answers changed to wrong in your last {mocks}: none of {n} changes.",
+      "changesGate": "This evidence opens at 10 answer changes. You have {n}.",
+      "longStay": "Answers after 2 minutes: {a} right of {b}. Faster answers: {c} right of {d}.",
+      "longStayGate": "This evidence opens at 8 answers after 2 minutes. You have {n}.",
+      "neverOpened": "Never opened: {list} in your last {k} mocks, oldest first.",
+      "marked": "Marked and answered: {r} right of {n}, {marks} marks. Under +5 and −1, an answer that is right more than 1 time in 6 scores more than a blank.",
+      "markedGate": "This evidence opens at 15 marked answers. You have {n}."
+    }
+  },
+  "ruleCheck": {
+    "title": "Your rule",
+    "line": "Your rule: {rule}",
+    "fine": "Counted from your device's record of this mock and the timed mock before it.",
+    "fineNoLast": "Counted from your device's record of this mock.",
+    "fineRepair": "Counted from your answers in this mock and the timed mock before it.",
+    "fineRepairNoLast": "Counted from your answers in this mock.",
+    "noRecord": "This mock has no device record, so this rule could not be checked.",
+    "noMarks": "This mock's record has no marks for review, so this rule could not be checked.",
+    "noRepair": "The repair behind this rule is no longer on your record, so it could not be checked.",
+    "habits": {
+      "never_opened": {
+        "kept": "Kept: every question opened",
+        "notKept": "Not kept: {n} of {total} questions never opened",
+        "lastKept": "last mock: {n} of {total} never opened",
+        "lastNotKept": "last mock: {n} of {total}"
+      },
+      "changes": {
+        "kept": "Kept: no right answer changed to wrong",
+        "notKept": "Not kept: {n} of {total} changes went from right to wrong",
+        "lastKept": "last mock: {n} of {total} changes went from right to wrong",
+        "lastNotKept": "last mock: {n} of {total}",
+        "lastNone": "last mock: no answer changes"
+      },
+      "long_stay": {
+        "kept": "Kept: no visit to a question lasted 2 minutes or more",
+        "notKept": "Not kept: {n} of {total} questions had a visit of 2 minutes or more",
+        "lastKept": "last mock: {n} of {total} questions had one",
+        "lastNotKept": "last mock: {n} of {total}"
+      },
+      "marked": {
+        "kept": "Kept: every question you marked was answered",
+        "notKept": "Not kept: {n} of {total} questions you marked were left blank",
+        "none": "You marked no question for review in this mock",
+        "lastKept": "last mock: {n} of {total} marked questions left blank",
+        "lastNotKept": "last mock: {n} of {total}",
+        "lastNone": "last mock: no question marked"
+      }
+    },
+    "repair": {
+      "count": "{chapter} in this mock: {r} right of {n}",
+      "none": "{chapter} had no questions in this mock",
+      "last": "last mock: {r} right of {n}",
+      "lastNone": "last mock: no questions on it"
+    },
+    "withLast": "{result} ({last}).",
+    "alone": "{result}."
+  },
+  "startSheet": {
+    "rule": "Your rule for this mock: {rule}",
+    "last": {
+      "never_opened": "Last mock: {n} of {total} questions never opened.",
+      "never_openedNone": "Last mock: every question opened.",
+      "changes": "Last mock: {n} of {total} changes went from right to wrong.",
+      "changesNone": "Last mock: no right answer changed to wrong, over {total} changes.",
+      "changesZero": "Last mock: no answer changes.",
+      "long_stay": "Last mock: {n} of {total} questions had a visit of 2 minutes or more.",
+      "long_stayNone": "Last mock: no visit to a question lasted 2 minutes or more.",
+      "marked": "Last mock: {n} of {total} questions you marked were left blank.",
+      "markedNone": "Last mock: every question you marked was answered.",
+      "markedZero": "Last mock: no question marked for review.",
+      "repair": "Last {subject} mock: {chapter}, {r} right of {n}."
+    }
+  },
+  "repairOrder": {
+    "key": "Repair Q{n} first",
+    "mostRight": "{r} of {n} other students got it right.",
+    "commonTrap": "{c} of the {w} who got it wrong chose {L}, as you did."
+  },
+  "traps": {
+    "labels": {
+      "title": "Traps you meet",
+      "open": "Your traps across mocks",
+      "tag": "Trap: {phrase}"
+    },
+    "source": {
+      "repair": "Named by Mistake Repair",
+      "format": "From the question format"
+    },
+    "format": {
+      "assertion_reason_link": "This option and the key agree on both statements; only the link differs.",
+      "match_list": "This option matches {k} of the {n} pairs as the key does.",
+      "sequence": "This option puts {k} of the {n} items in the same place as the key."
+    },
+    "row": "{trap}: caught {k} of {n} times.",
+    "periods": "Before {date}: {k} of {n}. Since: {k2} of {n2}.",
+    "status": {
+      "falling": "Falling",
+      "still": "Still catching you"
+    },
+    "basis": "A chance is a question you answered where one wrong option carries this trap.",
+    "fine": "A trap shows only where Mistake Repair named it on that same option and no other repair named a different one, or where the question's own format makes it. A row shows from 3 chances.",
+    "empty": "Your traps show here once a named trap has been a wrong option on 3 questions you answered.",
+    "unavailable": "Your traps could not be loaded. Try again shortly."
+  },
+  "later": {
+    "labels": {
+      "title": "Same mistakes later",
+      "open": "Open Revise"
+    },
+    "line": {
+      "tomorrow": {
+        "one": "1 of these comes back tomorrow, {day}.",
+        "many": "{n} of these come back tomorrow, {day}."
+      },
+      "day": {
+        "one": "1 of these comes back on {day}.",
+        "many": "{n} of these come back on {day}."
+      },
+      "now": {
+        "one": "1 of these is ready to revise now.",
+        "many": "{n} of these are ready to revise now."
+      }
+    },
+    "rest": {
+      "one": "The other 1 follows a day or more later.",
+      "many": "The other {k} follow a day or more later."
+    },
+    "note": "Same questions, so this checks memory. Fresh questions check the idea.",
+    "fine": "Revise shows 10 questions a day at most, so a busy day can push some of them a day later. It costs no credits and is not counted in any accuracy number."
+  },
+  "revise": {
+    "title": "Revise",
+    "sub": "Same question, so this checks memory. A check on new questions is separate.",
+    "head": {
+      "due": {
+        "one": "1 question to revise today",
+        "many": "{n} questions to revise today"
+      },
+      "none": "Nothing to revise today"
+    },
+    "next": "The next ones are due on {day}.",
+    "nextNone": "Questions you get wrong in a paper or a practice set come back here after 1, 3, 7 and 21 days.",
+    "minutes": "About {m} minutes",
+    "summary": "{due} due today. {cards}, {twice} recalled twice.",
+    "cards": {
+      "one": "1 card",
+      "many": "{n} cards"
+    },
+    "boxes": "Box {n}",
+    "boxDays": {
+      "1": "back after 1 day",
+      "2": "after 3 days",
+      "3": "after 7 days",
+      "4": "after 21 days"
+    },
+    "result": {
+      "right": "Right. It comes back {when}.",
+      "rightDone": "Right again. This one is done.",
+      "wrong": "Not this time. It comes back tomorrow."
+    },
+    "when": {
+      "days": {
+        "3": "in 3 days",
+        "7": "in 7 days",
+        "21": "in 21 days"
+      },
+      "on": "on {day}"
+    },
+    "end": {
+      "both": "{r} recalled, {w} come back tomorrow",
+      "right": "{r} recalled",
+      "wrong": "{w} come back tomorrow"
+    },
+    "fine": "Revise costs no credits. It does not change your record, your chapter numbers or any accuracy.",
+    "unavailable": "Revise is not available right now. Try again shortly.",
+    "notDue": "That question is not due now.",
+    "capReached": "You have done today's questions. The rest come back tomorrow."
+  }
+}

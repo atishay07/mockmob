@@ -60,12 +60,16 @@ void main() {
       expect(find.text('Questions'), findsNothing);
     });
 
-    testWidgets('a practice shows when it is open until in the bar, not on the subject line', (tester) async {
+    testWidgets('a practice header is one row: leave, the count as a pill, Questions; the time is not up there', (tester) async {
       final s = FakeRunnerSession(mode: 'quick', mockNumber: null, chapter: 'Goodwill', questions: accountancyQuestions(10));
       await pumpRunner(tester, session: s, size: const Size(360, 780));
       await tester.pump(const Duration(seconds: 1));
-      expect(find.descendant(of: find.byType(RunnerTopBar), matching: find.text('Open until')), findsOneWidget);
-      expect(find.descendant(of: find.byType(RunnerTopBar), matching: find.text('11:42 PM')), findsOneWidget);
+      expect(find.descendant(of: find.byType(RunnerTopBar), matching: find.textContaining('Open until')), findsNothing);
+      expect(find.descendant(of: find.byType(RunnerTopBar), matching: find.text('Questions')), findsOneWidget);
+      final count = tester.getRect(find.byType(RunnerCount));
+      final bar = tester.getRect(find.byType(RunnerTopBar));
+      expect(count.height, lessThanOrEqualTo(44), reason: 'the pill is as tall as the keys beside it');
+      expect(count.center.dy, closeTo(bar.center.dy, 1.5), reason: 'one row');
     });
 
     testWidgets('the warning has one treatment: the clock takes the warning colour and nothing is drawn under it', (tester) async {
@@ -119,7 +123,7 @@ void main() {
       expect(sizeOf(tester), 19, reason: 'at large text the options keep their room');
     });
 
-    testWidgets('the options grow on a tall screen and keep 60 dp on a short one', (tester) async {
+    testWidgets('the option cards grow on a tall screen and keep 56 dp on a short one', (tester) async {
       await pumpRunner(tester, session: FakeRunnerSession(), size: const Size(384, 853));
       await tester.pump(const Duration(seconds: 1));
       final tall = tester.getSize(find.ancestor(of: find.text('5:3:2'), matching: find.byType(ConstrainedBox)).first).height;
@@ -129,7 +133,7 @@ void main() {
       await pumpRunner(tester, session: FakeRunnerSession(), size: const Size(360, 640));
       await tester.pump(const Duration(seconds: 1));
       final short = tester.getSize(find.ancestor(of: find.text('5:3:2'), matching: find.byType(ConstrainedBox)).first).height;
-      expect(short, closeTo(60, 0.5));
+      expect(short, closeTo(56, 0.5));
     });
   });
 

@@ -54,7 +54,7 @@ void main() {
   });
 
   group('Mobi in the thread', () {
-    testWidgets('a reply is carried by the face of Mobi, and a reply that just landed nods', (tester) async {
+    testWidgets('a reply is headed by the small mo mark, never a second Mobi face', (tester) async {
       await pumpMockmob(
         tester,
         const Column(children: [
@@ -64,16 +64,15 @@ void main() {
         brightness: Brightness.dark,
         disableAnimations: true,
       );
-      final faces = tester.widgetList<MobiFace>(find.byType(MobiFace)).toList();
-      expect(faces, hasLength(2));
-      expect(faces.map((f) => f.entrance), [MobiAct.idle, MobiAct.correct]);
-      // A thread is a list of many: its faces do not follow taps.
-      expect(faces.every((f) => !f.watchTaps && f.size == 32), isTrue);
+      expect(find.byType(MobiFace), findsNothing);
+      expect(find.byType(MobiCharacter), findsNothing);
+      expect(find.byType(MmMark), findsNWidgets(2));
     });
 
-    testWidgets('a pending reply shows a face that scans while the bubbles ink', (tester) async {
+    testWidgets('a pending reply shows the mark beside the inking bubbles, not a face', (tester) async {
       await pumpMockmob(tester, const AskMessageView(message: AskMessage.sending(), onRetry: _noop), brightness: Brightness.dark, disableAnimations: true);
-      expect(tester.widget<MobiFace>(find.byType(MobiFace)).entrance, MobiAct.loading);
+      expect(find.byType(MobiFace), findsNothing);
+      expect(find.byType(MmMark), findsOneWidget);
     });
   });
 
@@ -98,6 +97,7 @@ void main() {
         wrapInScaffold: false,
       );
       expect(find.byType(MobiStage), findsOneWidget);
+      expect(find.byType(MobiFace), findsNothing, reason: 'Mobi stands once on the screen');
       await tester.tap(find.byType(TextField));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));

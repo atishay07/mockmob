@@ -32,20 +32,11 @@ Future<void> openCompassPicker(BuildContext context, WidgetRef ref, DuCatalog ca
   );
 }
 
-/// How the hero's Mobi answers a change in what the subjects open, and the figure the delta chip
-/// shows. Pure, so the choices are tested without a screen.
+/// What the hero says about a change in what the subjects open: the figure the delta chip shows.
+/// Pure, so the choices are tested without a screen.
 abstract final class CompassReaction {
   /// The eligible count the hero shows: nothing ticked is 0.
   static int openOf(CompassState s) => s.selection.isEmpty ? 0 : s.eligible.length;
-
-  /// More open: correct. Fewer: encourage. Nothing open now: think. A first non-zero count from
-  /// nothing: hello. No change: null (he stays as he is).
-  static MobiAct? actFor({required int before, required int after}) {
-    if (before == after) return null;
-    if (after == 0) return MobiAct.think;
-    if (before == 0) return MobiAct.hello;
-    return after > before ? MobiAct.correct : MobiAct.encourage;
-  }
 
   /// "+12" or "-4"; null when nothing changed (or there was no count before to compare with).
   static String? deltaText({required int before, required int after}) {
@@ -60,11 +51,11 @@ abstract final class CompassReaction {
 /// With nothing ticked it becomes the starting point: the rule of thumb and the presets.
 ///
 /// With subjects ticked the count rolls from the old value to the new, the ring travels from the
-/// previous fraction, a small "+12" or "-4" chip rises beside the figure for a couple of seconds,
-/// and a 56 dp Mobi reacts to the direction (more: a right-answer nod; fewer: encouragement; none
-/// open: thinking; the first non-zero count: hello). The gimbal compass beside the figure carries
-/// the share open round its dial and swings its needle with each change. Every figure is the real
-/// count.
+/// previous fraction, and a small "+12" or "-4" chip rises beside the figure for a couple of
+/// seconds. The gimbal compass beside the figure is the card's one character: it carries the share
+/// open round its dial and swings its needle with each change (off the line while nothing is
+/// open). No Mobi here: the compass is the largest thing on the card and two characters competing
+/// in one card read as clutter. Every figure is the real count.
 class CompassHero extends ConsumerStatefulWidget {
   const CompassHero({super.key, required this.state});
 
@@ -84,7 +75,6 @@ class CompassHero extends ConsumerStatefulWidget {
 }
 
 class _CompassHeroState extends ConsumerState<CompassHero> {
-  final MobiController _mobi = MobiController();
   String? _delta;
   int _deltaId = 0;
   Timer? _deltaTimer;
@@ -98,11 +88,6 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
   int _nudge = 0;
   int _nudgeWay = 1;
 
-  /// How Mobi came in when this card was made (thinking when nothing is open, hello otherwise).
-  /// Fixed for as long as the card lives, so later changes are his reactions, never a second
-  /// entrance on top of them; reset when the selection is emptied and the card is new again.
-  MobiAct? _entrance;
-
   @override
   void initState() {
     super.initState();
@@ -115,10 +100,6 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
     final before = CompassReaction.openOf(old.state);
     final after = CompassReaction.openOf(widget.state);
     if (before == after) return;
-    final act = CompassReaction.actFor(before: before, after: after);
-    // From an empty selection the card is new and Mobi greets in his entrance; once he is there,
-    // every change of the count (a first one after "none open" too) is answered by an act.
-    if (act != null && !old.state.selection.isEmpty) _mobi.react(act, key: 'compass-hero', gap: const Duration(milliseconds: 600));
     _nudge++;
     _nudgeWay = after > before ? 1 : -1;
     final text = CompassReaction.deltaText(before: before, after: after);
@@ -137,7 +118,6 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
   @override
   void dispose() {
     _deltaTimer?.cancel();
-    _mobi.dispose();
     super.dispose();
   }
 
@@ -149,7 +129,6 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
     final controller = ref.read(compassControllerProvider.notifier);
 
     if (s.selection.isEmpty) {
-      _entrance = null;
       return ToolsCard(
         lit: true,
         child: Column(
@@ -177,7 +156,6 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
 
     final open = s.eligible.length;
     final fraction = s.total == 0 ? 0.0 : open / s.total;
-    final entrance = _entrance ??= open == 0 ? MobiAct.think : MobiAct.hello;
     return ToolsCard(
       lit: true,
       child: Column(
@@ -254,28 +232,13 @@ class _CompassHeroState extends ConsumerState<CompassHero> {
             InlineBanner(message: ToolsCopy.overLimit(s.selection.count, duDefaultMaxPapers), tone: BannerTone.warning),
           ],
           const SizedBox(height: MmSpace.s4),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Transform.translate(
-                offset: const Offset(-MmSpace.s8, 0),
-                child: ToolsInlineAction(
-                  label: ToolsCopy.editSubjects,
-                  icon: LucideIcons.pencilLine,
-                  onTap: () => openCompassPicker(context, ref, s.catalog),
-                ),
-              ),
-              const Spacer(),
-              // The one Mobi on the page: he weighs the count with the student, thinking when
-              // nothing is open, and answers each change of it.
-              Mobi(
-                key: const ValueKey('compass-mobi'),
-                pose: entrance == MobiAct.think ? MobiPose.think : MobiPose.greeting,
-                size: 56,
-                controller: _mobi,
-                entrance: entrance,
-              ),
-            ],
+          Transform.translate(
+            offset: const Offset(-MmSpace.s8, 0),
+            child: ToolsInlineAction(
+              label: ToolsCopy.editSubjects,
+              icon: LucideIcons.pencilLine,
+              onTap: () => openCompassPicker(context, ref, s.catalog),
+            ),
           ),
         ],
       ),
