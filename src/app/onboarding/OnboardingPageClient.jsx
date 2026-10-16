@@ -23,6 +23,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import { mobiAct, useMobiScope } from '@/components/brand/pipEvents';
 import { useCountUp } from '@/lib/motion';
 import { getMobiPrefs } from '@/lib/mobiPrefs';
+import { ONBOARDING_LEAD, bankCount, tileCount } from '@/lib/paperCopy.mjs';
 import {
   DAY_OPTIONS, DEFAULT_DAYS, DONE_PATH, GOAL_PATH, SIGNUP_PATH, STUDY_DAY_RULE, SUBJECT_CAP,
   cleanDays, dayRhythm, daysLine, goalBody, mobiForDays, onboardingEntry, pickedLine, pickedSlots, resolveStep, ringArcs, thumbIndex,
@@ -40,7 +41,7 @@ const DAYS_FAILED = 'Your days did not save. Try again, or skip for now.';
 const COPY = {
   subjects: {
     title: 'Which subjects are you taking?',
-    lead: 'Pick up to 5. Your mocks and practice use these, and you can change them any time.',
+    lead: ONBOARDING_LEAD,
   },
   edit: {
     title: 'Your subjects',
@@ -126,6 +127,16 @@ export default function OnboardingPageClient({ preview = false }) {
       return () => window.clearTimeout(id);
     }
   }, [user]);
+
+  // Each subject's bank size on its tile, from the stored daily counts. A failed read only leaves the count off.
+  const [stats, setStats] = useState(null);
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch('/api/stats', { signal: controller.signal })
+      .then(async (response) => { const data = await response.json(); if (response.ok) setStats(data); })
+      .catch(() => {});
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -384,6 +395,7 @@ export default function OnboardingPageClient({ preview = false }) {
                       <span className="ob-tile__meta">
                         {s.officialCode ? <span>CUET code {s.officialCode}</span> : null}
                         {Array.isArray(s.chapters) && s.chapters.length > 0 ? <span>{s.chapters.length} chapters</span> : null}
+                        {tileCount(bankCount(stats, s.internalId, s.id)) ? <span>{tileCount(bankCount(stats, s.internalId, s.id))}</span> : null}
                       </span>
                       <Tick on={isSelected} />
                     </button>

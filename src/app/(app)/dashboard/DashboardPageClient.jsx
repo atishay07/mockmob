@@ -21,6 +21,7 @@ import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
 import StartRule, { useStartRule } from './StartRule';
+import { MODE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import './practice.css';
 
 const MODE_LIST = ['quick', 'full', 'smart'];
@@ -306,6 +307,7 @@ export default function DashboardPageClient() {
   const selectedSubject = subjects.find((entry) => entry.id === selSubj);
   const selectedSubjectCount = stats.subjectCounts?.[selectedSubject?.internalId || selSubj] ?? 0;
   const statsAvailable = stats?.state !== 'unavailable' && stats?.bankSize != null;
+  const selectedSubjectBank = statsAvailable ? bankCount(stats, selectedSubject?.internalId, selSubj) : null;
 
   function togglePremiumChapter(chapterName) {
     setSelectedChapters((prev) => (
@@ -472,12 +474,15 @@ export default function DashboardPageClient() {
                   <span className="pr-mode__radio" aria-hidden="true" />
                   <span className="pr-mode__text">
                     <span className="pr-mode__name">NTA mode</span>
-                    <span className="pr-mode__spec">The closest thing to exam day: 50 questions in 60 minutes on an exam-style screen, with the question palette, mark for review, clear response, and a countdown that submits for you.</span>
+                    <span className="pr-mode__spec">{MODE_SPECS.nta}</span>
                   </span>
                   <NtaConsolePreview subject={selectedSubject?.name || 'Accountancy'} />
                   <span className="pr-mode__price" data-tone={ntaBadge.tone}>{ntaBadge.tone === 'locked' ? <AppIcon name="lock" size={13} /> : null}{ntaBadge.text}</span>
                 </button>
               </div>
+              {/* The bank behind every paper, said once and quietly (owner, 16 Oct): no fixed set of mocks, each paper
+                  built fresh from this subject's bank, unseen questions first. Count from /api/stats; unknown is not 0. */}
+              <p className="pr-modes__bank" role="note">{freshPaperLine({ count: selectedSubjectBank, subjectName: selectedSubject?.name || '', isPremium, mode: effectiveModeId })}</p>
               {ntaOn ? (
                 <div className="pr-nta__after">
                   {/* Under 1100 px the row has no room for the exam screen, so it opens here once NTA mode is chosen. */}
@@ -667,13 +672,6 @@ export default function DashboardPageClient() {
     </div>
   );
 }
-
-const MODE_SPECS = {
-  quick: '5 to 20 questions, 1 minute each',
-  full: '50 questions, 60 minutes',
-  smart: 'Weights chapters you have missed',
-  nta: '50 questions, 60 minutes, exam console',
-};
 
 const SUBMISSION_STATUS = {
   live: { label: 'Approved', icon: 'success', tone: 'good' },

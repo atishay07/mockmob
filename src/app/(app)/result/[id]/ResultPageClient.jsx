@@ -29,6 +29,8 @@ import '@/components/recovery/result.css';
 import { plainOptionTexts } from '@/../data/option_text';
 import { mobiReaction, answerReaction, repairKeyLabel, repairCandidates, verdictWord } from './reaction';
 import { heroRepairKey, inRepairOrder } from '@/components/result/labLoop';
+import { useAuth } from '@/components/AuthProvider';
+import { bankCount, nextPaper } from '@/lib/paperCopy.mjs';
 
 function displayValue(value, fallback = '') {
   if (value == null) return fallback;
@@ -93,6 +95,15 @@ export default function ResultPageClient({ previewId = null }) {
   const [epochs, setEpochs] = useState({}); // qid -> times "Try the same mistakes again" reopened it
   const pressRef = useRef(null);
   const suppressRef = useRef(false);
+  const { user } = useAuth();
+  // The bank count for "Take another fresh paper": the stored daily counts (/api/stats). A failed read leaves the
+  // count out of the sentence; it is never shown as 0.
+  const [stats, setStats] = useState({ state: 'loading' });
+  useEffect(() => {
+    let alive = true;
+    apiGet('/api/stats').then((data) => { if (alive) setStats(data || { state: 'unavailable' }); }).catch(() => { if (alive) setStats({ state: 'unavailable' }); });
+    return () => { alive = false; };
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -436,6 +447,22 @@ export default function ResultPageClient({ previewId = null }) {
         <RepairEnding ids={runIds} numbers={runNumbers} model={runModel} ackedAt={ackedAt}
           chapter={retryChapter} onClose={() => setEnding(false)} onRetry={tryAgain} withMobi={!isNtaAttempt} />
       ) : null}
+
+      {/* ---------- 5. The next paper: after the repair work, never above it. No fixed set of mocks: the next one is built
+           fresh from this subject's bank (src/lib/paperCopy.mjs holds the words and the code facts behind them). ---------- */}
+      {(() => {
+        const next = nextPaper({ mode: attempt.selectionMeta?.mode, subject: attempt.subject, subjectName: subjectName(attempt.subject), count: bankCount(stats, attempt.subject), total: attempt.total, isPremium: Boolean(user?.isPremium), balance: user ? user.creditBalance ?? null : null });
+        return (
+          <section className="rp-next" aria-labelledby="rp-next-title">
+            <div className="rp-next__text">
+              <h2 id="rp-next-title">{next.title}</h2>
+              <p>{next.fresh}</p>
+              <p className="rp-next__price">{next.price}</p>
+            </div>
+            <Link href={next.href} className="btn-outline md rp-next__go mk-press"><AppIcon name="practice" size={16} />{next.action}</Link>
+          </section>
+        );
+      })()}
 
       <nav className="rp-links" aria-label="More from your record">
         <Link href="/mentor?tab=record"><AppIcon name="prepos" size={16} />Your full record</Link>
