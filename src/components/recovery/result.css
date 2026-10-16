@@ -47,6 +47,12 @@
 }
 .srl-head { display: grid; gap: 6px; }
 .srl-head h2 { font: 700 clamp(22px, 3.2vw, 30px)/1.15 var(--font-display, inherit); letter-spacing: -.02em; color: var(--a-ink, #f2f4ec); }
+/* WC-03: "Mistake Lab" is a 13 px eyebrow in the second ink (sentence case), and the missed marks are the Lab's one
+   display numeral, the same size as the result's own score (64 px at 1440, 44 px at 390), so the two read as one scale. */
+.srl-eyebrow { margin: 0; font: 600 13px/1.3 var(--font-body, inherit); letter-spacing: 0; text-transform: none; color: var(--a-ink-2, #bcc5b9); }
+.srl-head h2.srl-hero { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; font-family: var(--font-display, inherit); }
+.srl-hero__n { font-size: clamp(44px, 7vw, 64px); line-height: 1; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: var(--a-ink, #f2f4ec); }
+.srl-hero__label { font: 600 16px/1.3 var(--font-body, inherit); letter-spacing: 0; color: var(--a-ink-2, #bcc5b9); }
 .srl-rule { margin: -8px 0 0; font-size: 13px; color: var(--a-ink-3, #93a08f); }
 .srl-bar { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: var(--a-sunken, #0f1512); border: 1px solid var(--a-line, #253026); }
 .srl-bar__seg { display: block; height: 100%; }

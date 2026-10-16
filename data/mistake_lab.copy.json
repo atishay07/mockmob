@@ -11,6 +11,15 @@
     "many": "You missed {gap} marks. Here's where they went."
   },
   "headingNone": "You didn't miss a mark this session.",
+  "hero": {
+    "one": "mark missed, of {max}",
+    "many": "marks missed, of {max}"
+  },
+  "method": {
+    "label": "How this is counted",
+    "ready": "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits.",
+    "remark": "First picks are re-marked on the same paper with the same key, with only your first picks swapped in."
+  },
   "groups": {
     "changed_from_right": {
       "label": "Right, then changed",
@@ -111,9 +120,23 @@
     "actionAgain": "Take another timed mock to see your full Lab"
   },
   "remark": {
-    "cost": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers cost {d} marks over {k} {questions}.",
-    "gained": "Your first picks, re-marked: {first}. Your final answers: {final}. Changing answers gained {d} marks over {k} {questions}.",
-    "even": "Your first picks, re-marked: {first}, the same as your final answers. Your changes on {k} {questions} evened out.",
+    "net": {
+      "cost": "Changing answers: lost {lost} on {lq}, won back {wn} on {wq}. Net cost {d}.",
+      "gain": "Changing answers: lost {lost} on {lq}, won back {wn} on {wq}. Net gain {d}.",
+      "even": "Changing answers: lost {lost} on {lq}, won back {wn} on {wq}. They evened out.",
+      "lostOnly": "Changing answers lost {lost} on {lq} {lqWord}.",
+      "wonOnly": "Changing answers won back {won} on {wq} {wqWord}.",
+      "none": "You changed answers on {k} {questions}, and your marks came out the same."
+    },
+    "scores": "First picks: {first} of {max}. Final answers: {final} of {max}{held}.",
+    "scoresHeld": {
+      "one": " (1 question under re-check left out of both)",
+      "many": " ({h} questions under re-check left out of both)"
+    },
+    "markWord": {
+      "one": "{n} mark",
+      "many": "{n} marks"
+    },
     "questionWord": {
       "one": "question",
       "many": "questions"
@@ -145,6 +168,10 @@
     "line": {
       "one": "1 question you lost was one most other students got right: {list} ({m} marks).",
       "many": "{k} questions you lost were ones most other students got right: {list} ({m} marks)."
+    },
+    "truth": {
+      "one": "It had answers from 20 or more other students.",
+      "many": "Each had answers from 20 or more other students."
     },
     "coverage": {
       "zero": "No question in this paper has answers from 10 or more other students yet.",

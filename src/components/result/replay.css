@@ -257,12 +257,10 @@ html[data-theme='light'] .rpl-sw[data-g='other_wrong'] { background: #7a1d15; }
   /* The steps no longer have a number column (result.css: plain headings between hairlines), so the replay sits in
      the step's own text column, inside the Lab's padding. A negative margin here pushed it 4px off the screen. */
   .rpl-stage { padding: 12px 12px 8px; border-radius: 14px; }
-  /* Chips stay on one line and scroll inside their own row; the page itself never scrolls sideways. */
-  .rpl-chips { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 -12px 0 0; padding: 2px 36px 2px 2px;
-    /* An edge fade says the row goes on; the end padding lets the last chip scroll clear of it. */
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); }
-  .rpl-chips::-webkit-scrollbar { display: none; }
-  .rpl-chip { flex: none; }
+  /* Pass 1016e WC-03: the chips wrap inside the column (critic A measured chips at 430 and 614 px on a 390 screen when
+     they scrolled in one row), so every filter is on screen and each keeps its 44 px height. */
+  .rpl-chips { flex-wrap: wrap; gap: 8px; }
+  .rpl-chip { min-width: 0; }
   .rpl-clock__time { font-size: 24px; }
   .rpl .rpl-endline { flex-basis: 100%; margin: -4px 0 0; }
   .rpl-panel { padding: 12px 14px; }
