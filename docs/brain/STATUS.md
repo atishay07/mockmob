@@ -1,3 +1,9 @@
+## 16 October 2026 - Production database: slice 5 refresh v2 applied; first refresh filled 461 questions in 13 s
+
+- Applied by Claude (session 604ced81) under the standing grant at about 11:10 IST: migration 20261016130000_question_option_stats_refresh_v2 (create or replace of refresh_question_option_stats; same signature, grants and results as v1, proven by the v1/v2 equality tests on PGlite; staging dry run 1.2 s at production size, then undone).
+- First production refresh: 13 s; 461 questions, 13,877 first answers counted (the same 461 questions as the committed snapshot), 0 timed answers yet (no question has 10 or more timed first answers since the 15 Oct capture), so every cohort-time line stays hidden, as designed. refreshed_at 2026-10-16 05:40:41 UTC. The nightly pass on /api/internal/refresh-inventory keeps it current once batch 1016c ships.
+- Undo: supabase/undo/20261016130000_question_option_stats_refresh_v2.undo.sql (restores v1), then the v1 undo drops the table and function.
+
 ## 16 October 2026 - Production database: slice 5 table question_option_stats applied; first refresh timed out, nothing written
 
 - Applied by Claude (session 604ced81) under the owner's standing database grant at about 10:35 IST to production isrxrxzjocewrdureyhp: migration 20261016120000_question_option_stats (table question_option_stats, RLS on, service role only; function refresh_question_option_stats(), service role only). Staging dry run passed earlier (web/slice5-1016 13347c3e).
