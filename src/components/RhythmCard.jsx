@@ -20,7 +20,7 @@ import { useInView } from '@/lib/motion/useInView';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { weekMobi } from '@/lib/mobiMoments';
 import { helloToday, speakOnce } from '@/lib/mobiRation';
-import { buildPaths, buildRibbon, buildWeek, dayKeyNow, weekStatus } from '@/lib/rhythmView';
+import { buildPaths, buildRibbon, buildWeek, dayKeyNow, shortDate, weekStatus } from '@/lib/rhythmView';
 
 const R = 46;
 const C = 60;
@@ -125,14 +125,20 @@ function DayCaption({ week, index }) {
   );
 }
 
+// Each week is a labelled column (its start date, or "This week"), so the row reads without a tap.
+// The heading carries the count over its denominator: finished weeks only, the open week is still running.
 function Ribbon({ ribbon, armed }) {
   const [picked, setPicked] = useState(null);
   const shown = picked != null ? ribbon[picked] : null;
   const pick = useCallback((i) => setPicked(i), []);
+  const closed = ribbon.filter((w) => !w.current);
+  const metClosed = closed.filter((w) => w.met).length;
+  const title = closed.length === 0 ? 'Your first week'
+    : `Goal met in ${metClosed} of ${ribbon.length >= 12 ? `the last ${closed.length}` : `your ${closed.length}`} finished week${closed.length === 1 ? '' : 's'}`;
   return (
     <div className="rc-block">
-      <h3 className="rc-h">{ribbon.length >= 12 ? 'The last 12 weeks' : ribbon.length === 1 ? 'Your first week' : `Your ${ribbon.length} weeks so far`}</h3>
-      <ol className="rc-ribbon" aria-label="Weeks, oldest first">
+      <h3 className="rc-h">{title}</h3>
+      <ol className="rc-ribbon" aria-label="Weeks, oldest first" data-many={ribbon.length > 8 ? 'true' : undefined} data-few={ribbon.length < 4 ? 'true' : undefined} style={{ '--rc-weeks': ribbon.length }}>
         {ribbon.map((w, i) => (
           <li key={w.key}>
             <button
@@ -151,18 +157,21 @@ function Ribbon({ ribbon, armed }) {
             >
               <span className="rc-wk__fill" aria-hidden="true" />
             </button>
+            <span className="rc-wk__label" aria-hidden="true" data-current={w.current ? 'true' : 'false'}>{w.current ? 'This week' : shortDate(w.key)}</span>
           </li>
         ))}
       </ol>
-      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'A full bar means the goal was met. Tap a week to read it.'}</p>
+      <p className="rc-chip" role="status" aria-live="polite">{shown ? shown.words : 'A full bar means the goal was met. Tap a week for its days.'}</p>
     </div>
   );
 }
 
 function Paths({ paths, armed }) {
+  const done = paths.reduce((n, p) => n + p.doneCount, 0);
+  const all = paths.reduce((n, p) => n + p.steps.length, 0);
   return (
     <div className="rc-block">
-      <h3 className="rc-h">Three paths</h3>
+      <h3 className="rc-h">Milestones: {done} of {all} steps done</h3>
       <div className="rc-paths">
         {paths.map((p) => (
           <section key={p.id} className="rc-path" aria-label={`${p.title} path`}>
@@ -210,13 +219,16 @@ function pickMobi(rhythm, { cheered, hello, counted, hour }) {
   return { kind: found.kind, act, mood, line, wakeLine: found.wakeLine || '' };
 }
 
-export default function RhythmCard({ compact = false, mobi = !compact }) {
+// Full form takes `between`: what the page puts after this week (Progress puts the next step there, so the
+// action that earns the next study day sits right under the count), before the weeks and the paths.
+export default function RhythmCard({ compact = false, mobi = !compact, between = null }) {
   const { reduced } = useMobiPrefs();
   const [wakeLine, setWakeLine] = useState('');
   const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null });
   const [attempt, setAttempt] = useState(0);
   const [picked, setPicked] = useState(null);
   const [ref, inView] = useInView({ threshold: 0.25 });
+  const [moreRef, moreInView] = useInView({ threshold: 0.15 });
 
   useEffect(() => {
     let alive = true;
@@ -256,14 +268,18 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
   if (state.status === 'error') {
     if (compact) return null;
     return (
-      <section className="rc rc--note" aria-label="Your study days">
-        <p role="alert">Your study days could not be loaded. Your saved sessions are still in Review.</p>
-        <button type="button" className="pr-link" onClick={() => { setState({ status: 'loading', rhythm: null, cheered: true, pick: null }); setAttempt((n) => n + 1); }}>Try again</button>
-      </section>
+      <>
+        <section className="rc rc--note" aria-label="Your study days">
+          <p role="alert">Your study days could not be loaded. Your saved sessions are still in Review.</p>
+          <button type="button" className="pr-link" onClick={() => { setState({ status: 'loading', rhythm: null, cheered: true, pick: null }); setAttempt((n) => n + 1); }}>Try again</button>
+        </section>
+        {between}
+      </>
     );
   }
   if (state.status !== 'ready' || !rhythm) {
-    return <section className={`rc${compact ? ' rc--compact' : ''} rc--wait`} aria-label="Your study days" aria-busy="true"><span className="rc__skeleton" aria-hidden="true" /></section>;
+    const wait = <section className={`rc${compact ? ' rc--compact' : ''} rc--wait`} aria-label="Your study days" aria-busy="true"><span className="rc__skeleton" aria-hidden="true" /></section>;
+    return compact ? wait : <>{wait}{between}</>;
   }
 
   const armed = inView || reduced;
@@ -274,7 +290,7 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
   const status = weekStatus(rhythm);
   const streak = rhythm.weeksMetStreak;
 
-  return (
+  const card = (
     <section ref={ref} className={`rc${compact ? ' rc--compact' : ''}`} aria-label="Your study days" data-met={met ? 'true' : 'false'}>
       <header className="rc__head">
         <div>
@@ -295,15 +311,20 @@ export default function RhythmCard({ compact = false, mobi = !compact }) {
         </div>
       </div>
 
-      {compact ? (
-        <Link className="rc__more" href="/progress">See your weeks and milestones</Link>
-      ) : (
-        <>
-          <Ribbon ribbon={ribbon} armed={armed} />
-          <Paths paths={paths} armed={armed} />
-          <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
-        </>
-      )}
+      {compact ? <Link className="rc__more" href="/progress">See your weeks and milestones</Link> : null}
     </section>
+  );
+  if (compact) return card;
+  const moreArmed = moreInView || reduced;
+  return (
+    <>
+      {card}
+      {between}
+      <section ref={moreRef} className="rc rc--more" aria-label="Your weeks and milestones">
+        <Ribbon ribbon={ribbon} armed={moreArmed} />
+        <Paths paths={paths} armed={moreArmed} />
+        <p className="rc__foot">A study day is a day with a scored session of at least 5 answers or a finished Mistake Repair. <Link href="/profile#goal" className="rc__foot-link">Change your study days</Link> in Account or in the app.</p>
+      </section>
+    </>
   );
 }

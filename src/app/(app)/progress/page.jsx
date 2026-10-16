@@ -1,5 +1,4 @@
 import RecoveryOverview from '@/components/RecoveryOverview';
-import RhythmCard from '@/components/RhythmCard';
 import './progress.css';
-// The page header (inside RecoveryOverview) leads; arena.css places the weekly rhythm right under it.
-export default function Progress(){return <div className="student-page student-page--progress"><RhythmCard/><RecoveryOverview view="progress"/></div>;}
+// RecoveryOverview renders the header, the week (RhythmCard) with the next step under it, then the record, in reading order.
+export default function Progress(){return <div className="student-page student-page--progress"><RecoveryOverview view="progress"/></div>;}

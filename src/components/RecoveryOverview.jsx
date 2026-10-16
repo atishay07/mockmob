@@ -2,9 +2,10 @@
 // Review and Progress: the student's saved sessions and recovery evidence, in the same Arena
 // language as Practice. Claims stay as before: reviewing an explanation is not evidence of
 // understanding, and ordinary scores cannot certify a recovery episode.
-// Layout: a title, one line from Mobi, ruled figures with their denominators, then ruled lists.
+// Review: the open-question count over what was answered (the anchor) and the one session to open first, the ways
+// into Revise and Rules, then the sessions. Progress: this week out of the goal, the next step, then the record.
 // No boxes inside boxes and no arrows on rows: the whole row is the control.
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import LearningNextAction from './LearningNextAction';
@@ -17,6 +18,7 @@ import { useWaitStage } from '@/lib/mobiHooks';
 import { oopsRun } from '@/lib/mobiRation';
 import StudyProgress from './study/StudyProgress';
 import RulesEntry from './rules/RulesEntry';
+import RhythmCard from './RhythmCard';
 import ReviseEntry from './revise/ReviseEntry';
 import { reviewChanges } from './recovery/reviewChanges';
 import { SUBJECTS } from '@/../data/subjects';
@@ -62,7 +64,7 @@ function RollNumber({ from, to }) {
 /** Four ruled figures. Every figure carries what it is out of, so none stands alone. */
 function Figures({ label, items }) {
   return (
-    <dl className="rv-figs" aria-label={label}>
+    <dl className="rv-figs" aria-label={label} data-n={items.length}>
       {items.map((item) => (
         <div key={item.label}>
           <dt>{item.label}</dt>
@@ -118,53 +120,83 @@ export default function RecoveryOverview({ view }) {
     return { title: said?.title || m.title, detail: said ? null : m.detail, link: said?.link || 'Open record', href: m.href };
   };
 
-  const Mobis = view === 'progress' ? OneMobi : Fragment;
-  return (
-    <section className="pr ov rv"><Mobis>
-      {view === 'review' ? (
-        <ArenaHead title="Review what mattered." lede="Open a session to see why each miss happened." />
-      ) : (
-        <ArenaHead title="Your study days and checks." lede="Your saved sessions, your recovery checks and your exam playbook, in one place." />
-      )}
+  // Review leads with what is open and the one session to open first: the newest session that still has misses.
+  const openFirst = review.find((a) => (a.mistakes || 0) > 0) || null;
+  const sessionName = (a) => [subjectLabel(a.subject), when(a.completedAt)].filter(Boolean).join(', ');
+  // On Review the lead already opens the newest session, so the milestone that only points at the newest is not repeated.
+  const notes = (data?.milestones || []).filter((m) => !(view === 'review' && m.kind === 'first_session' && review.length > 0));
 
-      {error ? <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error} <button type="button" className="pr-link" onClick={retry}>Try again</button></div></div> : null}
+  const status = (
+    <>
+      {error ? <div className="pr-alert rv-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error} <button type="button" className="pr-link" onClick={retry}>Try again</button></div></div> : null}
       {!data && !error ? <div className="rv-skel" role="status" aria-label="Loading your record"><i /><i /><i /></div> : null}
       {!data ? <ArenaCompanion compact act={error ? (shrug ? 'oops' : 'idle') : wait === 'long' ? 'loading' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Your record can wait a moment.' : 'Opening your saved record.'}>{error ? 'Try again when you are ready.' : 'Your sessions and checks will appear here.'}</ArenaCompanion> : null}
-      {/* Review's figures below say the same counts, so Mobi's count line is kept to Progress. */}
-      {data && review.length > 0 && view !== 'review' ? <ArenaCompanion compact act="read" pose="attentive" title={`${count(review.length, 'session')} saved.`}>{toReview ? `${count(toReview, 'question')} to look at.` : 'Nothing left to look at. Every answer was right.'}</ArenaCompanion> : null}
-      {data?.milestones?.length ? <div className="rv-notes" role="group" aria-label="Recorded milestones">{data.milestones.map(m => { const line = milestoneLine(m); return <p key={m.kind} className="rv-note"><b>{line.title}</b><span>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></span></p>; })}</div> : null}
+    </>
+  );
+  const noteList = notes.length ? <div className="rv-notes" role="group" aria-label="Recorded milestones">{notes.map(m => { const line = milestoneLine(m); return <p key={m.kind} className="rv-note"><b>{line.title}</b><span>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></span></p>; })}</div> : null;
 
-      {data && view === 'review' ? (
-        <>
-          {review.length > 0 ? <Figures label="Review summary" items={[
-            { label: 'Sessions saved', value: review.length, note: `${answered} questions answered` },
-            { label: 'Questions to review', value: changes?.changed ? <RollNumber from={changes.fromToReview} to={toReview} /> : toReview, note: answered ? `of ${answered} answered` : 'Nothing answered yet' },
-            { label: 'Answered right', ...rightFigure },
-            { label: 'Last session', value: when(review[0]?.completedAt) || 'None yet', note: review[0] ? subjectLabel(review[0].subject) : 'No session yet' },
-          ]} /> : null}
+  if (view === 'review') {
+    return (
+      <section className="pr ov rv rv--review">
+        <ArenaHead title="Review what mattered." lede="Open a session to see why each miss happened." />
+        {status}
+        {data && review.length > 0 ? (
+          <section className="rv-lead" aria-labelledby="rv-lead-h">
+            <p className="rv-lead__num" aria-hidden="true">{changes?.changed ? <RollNumber from={changes.fromToReview} to={toReview} /> : toReview}</p>
+            <div className="rv-lead__body">
+              <h2 id="rv-lead-h">{toReview ? <><span className="sr-only">{toReview} </span>{toReview === 1 ? 'question' : 'questions'} to review, of {answered} answered</> : `Nothing to review in ${answered} answers`}</h2>
+              <p>{openFirst ? <>{openFirst === review[0] ? 'Your newest session' : 'Your newest session with misses'} has {openFirst.mistakes} of its {openFirst.total} {openFirst.total === 1 ? 'question' : 'questions'} to look at.</> : 'Every answer in your saved sessions was right.'}</p>
+            </div>
+            {openFirst ? <Link className="btn-volt md rv-lead__go mk-press" href={`/result/${openFirst.id}`}>Open {sessionName(openFirst)}</Link> : null}
+          </section>
+        ) : null}
+        {noteList}
+        {data && review.length > 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}
+        {data ? (
           <section className="rv-sec" aria-labelledby="ov-sessions">
-            <div className="rv-sec__head"><h2 id="ov-sessions">Your sessions</h2>{review.length > 1 ? <span>Newest first</span> : null}</div>
+            <div className="rv-sec__head"><h2 id="ov-sessions">{review.length > 1 ? `Your ${review.length} sessions` : review.length === 1 ? 'Your session' : 'Your sessions'}</h2>{review.length > 1 ? <span>Newest first</span> : null}</div>
+            {review.length > 0 ? <Figures label="Review summary" items={[
+              { label: 'Sessions saved', value: review.length, note: `${answered} questions answered` },
+              { label: 'Answered right', ...rightFigure },
+              { label: 'Last session', value: when(review[0]?.completedAt) || 'None yet', note: review[0] ? subjectLabel(review[0].subject) : 'No session yet' },
+            ]} /> : null}
             {review.length ? <ul className="ov-list rv-list">{review.map((a, i) => <SessionRow key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={i} />)}</ul> : (
               <div className="rv-empty rv-empty--room"><SceneVignette scene="nothingYet" interactive /><ArenaCompanion mobi={false} title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice</Link></div>
             )}
           </section>
-          <LearningNextAction compact />
-          <StudyProgress review />
-          {data.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
-          <div className="ov-links"><ReviseEntry /><RulesEntry /></div>
-        </>
-      ) : null}
+        ) : null}
+        {data ? <LearningNextAction compact quiet={review.length === 0 || Boolean(openFirst)} /> : null}
+        {data ? <StudyProgress review /> : null}
+        {data?.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
+        {data && review.length === 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}
+      </section>
+    );
+  }
 
-      {data && view === 'progress' ? (
-        <>
+  // Progress: this week (the anchor, out of the goal), the next step that earns a study day, then the evidence.
+  return (
+    <section className="pr ov rv rv--progress"><OneMobi>
+      <ArenaHead title="Your study days and checks." lede="This week first, then what your sessions, recovery checks and playbook show." />
+      <RhythmCard between={<LearningNextAction compact />} />
+      {status}
+      {data ? (
+        <section className="rv-sec" aria-labelledby="ov-record">
+          <div className="rv-sec__head"><h2 id="ov-record">Your record so far</h2><span>From your saved sessions and results</span></div>
           {review.length > 0 || data.progress.length > 0 || data.playbook.length > 0 ? <Figures label="Progress summary" items={[
             { label: 'Practice sessions', value: review.length, note: `${answered} questions answered` },
+            { label: 'Answered right', ...rightFigure },
             { label: 'Concept checks', value: data.progress.length, note: data.progress.length ? 'with delayed checks' : 'None completed yet' },
             { label: 'Playbook entries', value: data.playbook.length, note: data.playbook.length ? 'saved from results' : 'None saved yet' },
-            { label: 'Answered right', ...rightFigure },
-          ]} /> : null}
-          <LearningNextAction compact />
-          <StudyProgress />
+          ]} /> : <div className="rv-empty"><b>No saved session yet</b><p>Your first scored session starts this record. The next step above is the quickest way in.</p></div>}
+          {review.length > 0 ? (
+            <p className="rv-note rv-note--review"><b>{toReview ? `${count(toReview, 'question')} to look at in Review` : 'Nothing left to look at in Review'}</b><span>{toReview ? `From ${count(review.length, 'saved session').toLowerCase()}. ` : 'Every saved answer was right. '}<Link className="pr-link" href="/review">Open Review</Link></span></p>
+          ) : null}
+          {noteList}
+        </section>
+      ) : null}
+      {data ? <StudyProgress /> : null}
+      {data ? (
+        <>
           <section className="rv-sec" aria-labelledby="ov-checks">
             <div className="rv-sec__head"><h2 id="ov-checks">Concept checks</h2><span>Fresh, delayed questions only</span></div>
             {data.progress.length ? <ul className="rv-rows">{data.progress.map(p => (
@@ -180,6 +212,6 @@ export default function RecoveryOverview({ view }) {
           {data.note ? <p className="rv-foot">{data.note}</p> : null}
         </>
       ) : null}
-    </Mobis></section>
+    </OneMobi></section>
   );
 }

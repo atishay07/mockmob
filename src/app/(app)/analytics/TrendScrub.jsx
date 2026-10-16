@@ -6,7 +6,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInView } from '@/lib/motion';
 
-const PAD = { l: 38, r: 14, t: 14, b: 26 };
+const PAD = { l: 38, r: 24, t: 14, b: 26 }; // r leaves the last point and its date clear of the edge
 const HEIGHT = 200;
 
 const dayLabel = (at) => {

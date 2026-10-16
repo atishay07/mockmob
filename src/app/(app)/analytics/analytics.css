@@ -17,7 +17,8 @@
 .tr__chip[data-tone='down'] b { color: var(--a-ink); }
 /* The scrub rule shows only while the student is reading the chart, not as a stray line at the last point. */
 .tr__plot:not(:hover):not(:focus-visible):not(:active) .tr__rule { opacity: 0; }
-.tr__plot { padding-right: 10px; }
+/* Room for the last point comes from the plot's own right margin (TrendScrub PAD.r). Padding here fed the width
+   read back into the ResizeObserver and grew the chart by 10 px a frame, off the page. */
 
 .rd-bar { grid-column: 2 / -1; display: block; height: 5px; margin-top: 4px; border-radius: 999px; background: var(--a-line); overflow: hidden; }
 .rd-bar i { display: block; height: 100%; width: 100%; border-radius: inherit; background: var(--a-select); transform: scaleX(var(--w, 1)); transform-origin: left center; transition: transform 800ms var(--mk-settle, cubic-bezier(0.23, 1, 0.32, 1)) var(--rd-delay, 0ms); }
@@ -114,3 +115,18 @@
 .app-shell .rd .pp-week span { font-size: 13px; }
 .app-shell .rd .pp-week small { font-size: 12.5px; }
 .app-shell .rd .pp-empty { padding: 20px 0; border: 0; border-block: 1px solid var(--a-line); border-radius: 0; }
+
+/* Pass 2 (16 Oct): on narrow screens the trend and subjects sit inside the record, right after the marks. */
+.app-shell .rd .pp-record > .rd-side--inline { display: grid; gap: 28px; padding-top: 28px; border-top: 1px solid var(--a-line); position: static; }
+.app-shell .rd .pp-record > .am { margin: 0; }
+/* The one Pro line closes the record */
+.app-shell .rd .pp-pro .pp-lock { padding: 0; }
+/* Across your mocks inside the record: one hairline above (the record's section rule), none below, and its title at the record's heading size */
+.app-shell .rd .pp-record > .am[data-surface='card'] { border-bottom: 0; padding-bottom: 0; }
+.app-shell .rd .pp-record > .am .am-head__title { font-size: 20px; letter-spacing: -0.02em; }
+/* Marks ledger at phone width: net marks spans the row, then two columns ruled down the middle */
+@media (max-width: 639px) {
+  .app-shell .rd .pp-ledger > div:nth-child(even):not([data-emph]) { padding-left: 0; border-left: 0; }
+  .app-shell .rd .pp-ledger > div:nth-child(odd):not([data-emph]) { padding-left: 14px; border-left: 1px solid var(--a-line); }
+}
+.app-shell .rd .pp-week + .pp-note { margin-top: 14px; }

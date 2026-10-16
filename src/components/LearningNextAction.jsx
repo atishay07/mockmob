@@ -74,7 +74,8 @@ function heroTitle(plan, top, planned) {
   return review ? `${count} questions, then a look at what you missed.` : `${count} questions against the clock.`;
 }
 
-export default function LearningNextAction({ compact = false, why = null }) {
+// `quiet` (compact only): the page already has its one primary action, so this step is a ruled row with an outline key.
+export default function LearningNextAction({ compact = false, why = null, quiet = false }) {
   const tonightKey = `tonight-plan-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const [plan, setPlan] = useState(null), [minutes, setMinutes] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0),[choosing,setChoosing]=useState(false);
   // The minutes the held plan was asked for. A new choice keeps the plan on screen (the card never collapses to a
@@ -114,7 +115,7 @@ export default function LearningNextAction({ compact = false, why = null }) {
 
   if (compact) {
     return (
-      <section className="na na--compact" aria-label="Your next step">
+      <section className={`na na--compact${quiet ? ' na--quiet' : ''}`} aria-label="Your next step">
         {error ? (
           <div className="na__body"><p className="na__reason" role="alert">{error}</p><button type="button" className="pr-link" onClick={retry}>Try again</button></div>
         ) : !plan ? (
@@ -122,7 +123,7 @@ export default function LearningNextAction({ compact = false, why = null }) {
         ) : (
           <>
             <div className="na__body"><b className="na__title"><span className="na__lead">Your next step: </span>{plan.primary.title}</b><p className="na__reason">{firstSentence(plan.primary.reason)}</p></div>
-            <Link className="btn-volt md na__cta mk-press" href={plan.primary.href}>Start</Link>
+            <Link className={`${quiet ? 'btn-outline' : 'btn-volt'} md na__cta mk-press`} href={plan.primary.href}>Start</Link>
           </>
         )}
       </section>

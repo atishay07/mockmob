@@ -69,7 +69,10 @@ function ProLock({ what, onNavigate }) {
   );
 }
 
-export default function RecordView({ state, onNavigate, pro = false }) {
+// Radar passes `afterLedger` (its trend and subjects on narrow screens, right under the marks), `afterFindings`
+// (Across your mocks), `oneLock` (the free plan's two Pro rows said once, at the end) and `emptyAction={false}`
+// (its page already offers the next step). The Mentor record tab passes none of them and is unchanged.
+export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true }) {
   const [showThin, setShowThin] = useState(false);
   const [changesRef, changesSeen] = useInView({ threshold: 0.4 });
   const { status, insights, findings } = state;
@@ -89,7 +92,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
       <div className="pp-empty pp-empty--room">
         <SceneVignette scene="nothingYet" compact />
         <div><b>Nothing to analyse yet.</b><p>Finish one practice session. Your record will then show where your marks went: which chapters, which answer changes, and where the time went.</p></div>
-        <button type="button" className="btn-volt sm" onClick={() => onNavigate('/dashboard?mode=quick')}>Start a set</button>
+        {emptyAction ? <button type="button" className="btn-volt sm" onClick={() => onNavigate('/dashboard?mode=quick')}>Start a set</button> : null}
       </div>
     );
   }
@@ -105,6 +108,8 @@ export default function RecordView({ state, onNavigate, pro = false }) {
       <p className="pp-note">Based on {insights.sessions} session{insights.sessions === 1 ? '' : 's'} and {insights.questions} questions, {day(insights.window.first)} to {day(insights.window.last)}. Free to read, no credits used.</p>
 
       <Ledger userId={state.userId} ledger={ledger} accuracy={accuracy} right={right} wrong={wrong} blank={blank} />
+
+      {afterLedger}
 
       <AnswerSheet right={right} wrong={wrong} blank={blank} />
 
@@ -124,6 +129,8 @@ export default function RecordView({ state, onNavigate, pro = false }) {
           </ol>
         </section>
       )}
+
+      {afterFindings}
 
       <section aria-labelledby="pp-c">
         <h3 id="pp-c" className="pp-h">Chapters, by marks left open</h3>
@@ -151,7 +158,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
         )}
       </section>
 
-      <section aria-labelledby="pp-a">
+      {oneLock && !pro ? null : <section aria-labelledby="pp-a">
         <h3 id="pp-a" className="pp-h">Changed answers</h3>
         {!pro ? (
           <ProLock what="Changed-answer detail is part of Pro. The headline above already counts both gains and losses." onNavigate={onNavigate} />
@@ -164,9 +171,9 @@ export default function RecordView({ state, onNavigate, pro = false }) {
             <p className="pp-note">Net {signed(changes.net)} marks across {changes.count} changes in {changes.sessionsWithTelemetry} replayed session{changes.sessionsWithTelemetry === 1 ? '' : 's'}. This shows what happened, not why you changed.</p>
           </div>
         )}
-      </section>
+      </section>}
 
-      <section aria-labelledby="pp-p">
+      {oneLock && !pro ? null : <section aria-labelledby="pp-p">
         <h3 id="pp-p" className="pp-h">Pace</h3>
         {!pro ? (
           <ProLock what="Pace detail from your replayed sessions is part of Pro." onNavigate={onNavigate} />
@@ -184,7 +191,7 @@ export default function RecordView({ state, onNavigate, pro = false }) {
             <p className="pp-note">Timing comes from device events across {pace.questionsTimed} questions in {pace.sessionsTimed} session{pace.sessionsTimed === 1 ? '' : 's'}.</p>
           </>
         )}
-      </section>
+      </section>}
 
       <section aria-labelledby="pp-w">
         <h3 id="pp-w" className="pp-h">This week and last</h3>
@@ -199,6 +206,13 @@ export default function RecordView({ state, onNavigate, pro = false }) {
         </div>
         <p className="pp-note">Active on {week.activeDaysLast14} of the last 14 days. Small samples swing a lot, so read this as a description, not a verdict.</p>
       </section>
+
+      {oneLock && !pro ? (
+        <section aria-labelledby="pp-pro" className="pp-pro">
+          <h3 id="pp-pro" className="pp-h">Changed answers and pace</h3>
+          <ProLock what="The detail from your replayed sessions is part of Pro. The marks above already count both gains and losses from changed answers." onNavigate={onNavigate} />
+        </section>
+      ) : null}
     </div>
   );
 }

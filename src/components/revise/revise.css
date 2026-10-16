@@ -117,3 +117,8 @@ html[data-motion='reduced'] .rvs-spin { animation: none; }
 @keyframes rvs-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes rvs-pulse { from { opacity: .55; transform: scale(.97); } to { opacity: 1; transform: none; } }
 @keyframes rvs-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Pass 2 (16 Oct): the question sits on the page, not in a card ----------
+   The options are the controls, so they keep their edges; the box around them goes (no card holding cards). */
+.app-shell .rvs-card { gap: 16px; padding: 20px 0 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: none; box-shadow: none; }
+.app-shell .rvs-result { padding: 14px 0 0; border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: none; }

@@ -3,9 +3,11 @@
 // Radar: where the student's marks are going. The record view (ledger, leaks, chapters, changed
 // answers, pace, week on week) is the same free, model-free analysis PrepOS uses, so the two never
 // disagree. The score trend keeps the attempt-level chart. No invented composite scores.
-// "Across your mocks" (spec tmp/mistake-lab-v4/SPEC.md 4.9) leads the record: the same component and the same server
-// sentences as the end of the Mistake Lab (GET /api/me/rules), open here, with the way into the Rule book.
-import React, { useEffect, useState } from 'react';
+// "Across your mocks" (spec tmp/mistake-lab-v4/SPEC.md 4.9): the same component and the same server sentences as the end
+// of the Mistake Lab (GET /api/me/rules), open here, with the way into the Rule book. Pass 2 (16 Oct): the marks lead
+// (the ledger is the anchor), Across sits after What stands out, and on narrow screens the trend and subjects follow
+// the marks instead of closing a 3,500 px page.
+import React, { useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { RefreshCw } from 'lucide-react';
 import { SkeletonCard, ErrorState } from '@/components/ui/Skeleton';
@@ -29,6 +31,20 @@ function SubjectBar({ pct, delay = 0 }) {
 
 // Chart.js paints on a canvas, so it cannot read CSS variables. Read the live Arena tokens and
 // re-read when the theme switches.
+// Two columns from 1100 px. Below that the trend and subjects are placed right after the marks inside the record.
+const WIDE = '(min-width: 1100px)';
+const wideSubscribe = (onChange) => {
+  let query;
+  try { query = window.matchMedia(WIDE); } catch { return () => {}; }
+  query.addEventListener?.('change', onChange);
+  return () => query.removeEventListener?.('change', onChange);
+};
+const wideSnapshot = () => { try { return window.matchMedia(WIDE).matches; } catch { return true; } };
+// null on the server: neither layout is assumed until the browser answers.
+function useWide() {
+  return useSyncExternalStore(wideSubscribe, wideSnapshot, () => null);
+}
+
 function useChartColors() {
   const [colors, setColors] = useState({ ink: '#93a08f', line: 'rgba(244,245,240,0.08)', accent: '#d2f000' });
   useEffect(() => {
@@ -53,6 +69,7 @@ export default function AnalyticsPageClient() {
   const colors = useChartColors();
   const pro = Boolean(user?.isPremium);
   const rules = useRuleBook({ enabled: authStatus !== 'loading' && Boolean(user?.id) });
+  const wide = useWide();
 
   useEffect(() => {
     if (authStatus === 'loading' || !user?.id) return undefined;
@@ -86,47 +103,57 @@ export default function AnalyticsPageClient() {
 
       <LearningNextAction compact />
 
-      <div className="rd-cols">
-        <div className="pp-arena rd-main">
-          {rules.state === 'ready' && rules.data?.acrossMocks ? (
-            <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={rules.data.book?.countLabel ? (
-              <Link href="/review/rules" className="rd-rules">{rules.data.book.countLabel}</Link>
-            ) : null} />
-          ) : rules.state === 'error' ? (
-            <p className="rd-across-fail" role="status">{rules.message} <button type="button" onClick={rules.retry}><RefreshCw size={14} strokeWidth={2.2} aria-hidden="true" />Try again</button></p>
-          ) : rules.state === 'loading' ? <div className="rd-across-wait skeleton" aria-hidden="true" /> : null}
-          <RecordView state={record} pro={pro} onNavigate={(href) => { window.location.assign(href); }} />
-        </div>
-
-        <aside className="rd-side">
-          <section className="rd-card" aria-labelledby="rd-trend">
-            <h2 id="rd-trend">Score by session</h2>
-            <div className="rd-chart rd-chart--scrub">
-              {timeline.length > 1
-                ? <TrendScrub timeline={timeline} colors={colors} />
-                : <p className="pr-empty">{timeline.length === 0 ? 'Finish a session to start your trend.' : 'One more session and the trend line appears.'}</p>}
-            </div>
-            {timeline.length > 1 && <p className="rd-foot">{timeline[0].score}% to {timeline[timeline.length - 1].score}% over {timeline.length} sessions. Each session is a different set of questions, so read it as a rough guide.</p>}
-          </section>
-
-          {subjects.length > 0 && (
-            <section className="rd-card" aria-labelledby="rd-subj">
-              <h2 id="rd-subj">By subject</h2>
-              <ul className="rd-subjects">
-                {subjects.map((s, i) => (
-                  <li key={s.id}>
-                    <span className="rd-subjects__obj"><SubjectObject id={s.id} size={44} framed={false} /></span>
-                    <span className="rd-subjects__name"><b>{s.name}</b><i>{s.tests} session{s.tests === 1 ? '' : 's'}, average {s.avg}%</i></span>
-                    <span className="rd-subjects__acc"><b>{s.accuracy}%</b><small>accuracy</small></span>
-                    <SubjectBar pct={s.accuracy} delay={i * 80} />
-                  </li>
-                ))}
-              </ul>
-              <Link href="/admission-compass" className="rd-link">Where can these subjects take you?</Link>
+      {(() => {
+        const across = rules.state === 'ready' && rules.data?.acrossMocks ? (
+          <AcrossMocks across={rules.data.acrossMocks} defaultOpen surface="card" footer={rules.data.book?.countLabel ? (
+            <Link href="/review/rules" className="rd-rules">{rules.data.book.countLabel}</Link>
+          ) : null} />
+        ) : rules.state === 'error' ? (
+          <p className="rd-across-fail" role="status">{rules.message} <button type="button" onClick={rules.retry}><RefreshCw size={14} strokeWidth={2.2} aria-hidden="true" />Try again</button></p>
+        ) : rules.state === 'loading' ? <div className="rd-across-wait skeleton" aria-hidden="true" /> : null;
+        const side = (
+          <>
+            <section className="rd-card" aria-labelledby="rd-trend">
+              <h2 id="rd-trend">Score by session</h2>
+              <div className="rd-chart rd-chart--scrub">
+                {timeline.length > 1
+                  ? <TrendScrub timeline={timeline} colors={colors} />
+                  : <p className="pr-empty">{timeline.length === 0 ? 'Finish a session to start your trend.' : 'One more session and the trend line appears.'}</p>}
+              </div>
+              {timeline.length > 1 && <p className="rd-foot">{timeline[0].score}% to {timeline[timeline.length - 1].score}% over {timeline.length} sessions. Each session is a different set of questions, so read it as a rough guide.</p>}
             </section>
-          )}
-        </aside>
-      </div>
+
+            {subjects.length > 0 && (
+              <section className="rd-card" aria-labelledby="rd-subj">
+                <h2 id="rd-subj">By subject</h2>
+                <ul className="rd-subjects">
+                  {subjects.map((s, i) => (
+                    <li key={s.id}>
+                      <span className="rd-subjects__obj"><SubjectObject id={s.id} size={44} framed={false} /></span>
+                      <span className="rd-subjects__name"><b>{s.name}</b><i>{s.tests} session{s.tests === 1 ? '' : 's'}, mean session score {s.avg}%</i></span>
+                      <span className="rd-subjects__acc"><b>{s.accuracy}%</b><small>of answers right</small></span>
+                      <SubjectBar pct={s.accuracy} delay={i * 80} />
+                    </li>
+                  ))}
+                </ul>
+                <Link href="/admission-compass" className="rd-link">Where can these subjects take you?</Link>
+              </section>
+            )}
+          </>
+        );
+        // Inline only when the record is ready to carry it; otherwise the column follows the page as before.
+        const inline = wide === false && record.status === 'ready';
+        const narrowSide = inline ? <div className="rd-side rd-side--inline">{side}</div> : null;
+        return (
+          <div className="rd-cols">
+            <div className="pp-arena rd-main">
+              <RecordView state={record} pro={pro} oneLock emptyAction={false} afterLedger={narrowSide} afterFindings={across} onNavigate={(href) => { window.location.assign(href); }} />
+              {record.status !== 'ready' ? across : null}
+            </div>
+            {!inline ? <aside className="rd-side" aria-label="Score by session and by subject">{side}</aside> : null}
+          </div>
+        );
+      })()}
     </div>
   );
 }

@@ -163,3 +163,17 @@
 @media (prefers-reduced-motion: no-preference) {
   :root:not([data-motion='reduced']) .rb-entry[data-state='ready'] .rb-entry__text { animation: rb-fade 200ms var(--a-ease, ease-out) both; }
 }
+
+/* ---------- Pass 2 (16 Oct): the chosen rule is the page's anchor, said in type between hairlines ----------
+   No card, no tinted row and no pill: the chosen rule leads at statement size, and in the list it is marked by a
+   check and the words "Your rule for your next mock" in the accent ink. The empty and gate lines are ruled text. */
+.app-shell .rb-now { gap: 10px; padding: 20px 0 22px; border: 0; border-block: 1px solid var(--a-line, #253026); border-radius: 0; background: none; box-shadow: none; overflow: visible; }
+.app-shell .rb-now[data-set] { border-color: var(--a-line, #253026); }
+.app-shell .rb-now__label { font: 650 14px/1.3 var(--font-body, inherit); letter-spacing: 0; color: var(--a-ink-3, #93a08f); }
+.app-shell .rb-now__text { font-size: clamp(22px, 2.6vw, 26px); line-height: 1.25; letter-spacing: -.02em; text-wrap: balance; }
+.app-shell .rb-now__text--empty { font-size: 19px; }
+.app-shell .rb-now + .rb-jump { border-top: 0; }
+.app-shell .rb-rule[data-active], .app-shell .rb-habit[data-active] { margin-inline: 0; padding-inline: 0; border-radius: 0; background: none; }
+.app-shell .rb-inuse { min-height: 44px; padding: 0; border: 0; border-radius: 0; background: none; font: 650 14px/1.2 var(--font-body, inherit); }
+.app-shell .rb-empty { padding: 16px 0; border: 0; border-block: 1px solid var(--a-line, #253026); border-radius: 0; }
+@media (max-width: 560px) { .app-shell .rb-now { padding: 18px 0 20px; } }

@@ -2,7 +2,7 @@
    The three paths become ruled columns, and the glows and the looping pulse go: a ring, a border or
    a heavier label marks the day, week or step that matters. Compact Today card is untouched. */
 
-.app-shell .student-page--progress > .rc:not(.rc--compact) { gap: 24px; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.app-shell .student-page--progress .rc:not(.rc--compact) { gap: 24px; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
 .app-shell .student-page--progress .rc__title { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.02em; }
 .app-shell .student-page--progress .rc__status { font-size: 15px; }
 .app-shell .student-page--progress .rc-h { margin: 0 0 12px; font: 700 15px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
@@ -35,3 +35,25 @@
   .app-shell .student-page--progress .rc-path + .rc-path { border-left: 0; border-top: 1px solid var(--a-line); }
   .app-shell .student-page--progress .rc-path:first-child { padding-top: 4px; }
 }
+
+/* Pass 2 (16 Oct): the week card and its weeks and paths are two sections with the next step between them.
+   The weeks are labelled columns that fill the row; the heading carries the met count over finished weeks. */
+.app-shell .student-page--progress .rc--more { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.app-shell .student-page--progress .rc-wk__label[data-current='true'] { white-space: normal; }
+.app-shell .student-page--progress .rc--more > .rc-block:first-child { padding-top: 24px; }
+.app-shell .student-page--progress .rc-ribbon { grid-template-columns: repeat(var(--rc-weeks, 7), minmax(0, 1fr)); gap: 8px; }
+.app-shell .student-page--progress .rc-ribbon li { display: grid; gap: 8px; justify-items: stretch; }
+.app-shell .student-page--progress .rc-wk { height: 64px; border-radius: 10px; }
+.app-shell .student-page--progress .rc-wk__label { font-size: 12px; line-height: 1.2; color: var(--a-ink-3); text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+.app-shell .student-page--progress .rc-wk__label[data-current='true'] { color: var(--a-ink); font-weight: 700; }
+@media (min-width: 900px) { .app-shell .student-page--progress .rc-wk { height: 72px; } .app-shell .student-page--progress .rc-wk__label { font-size: 12.5px; } }
+@media (max-width: 639px) {
+  .app-shell .student-page--progress .rc-ribbon { gap: 5px; }
+  .app-shell .student-page--progress .rc-wk { height: 52px; }
+  .app-shell .student-page--progress .rc-wk__label { font-size: 11px; }
+  /* More than eight weeks do not fit their dates at phone width: the first week and this week keep theirs */
+  .app-shell .student-page--progress .rc-ribbon[data-many='true'] li:not(:first-child):not(:last-child) .rc-wk__label { visibility: hidden; }
+}
+.app-shell .student-page--progress .rc-wk[data-picked='true'] { transform: none; border-color: var(--a-ink-2); }
+/* One to three weeks: columns of a set width, not one bar across the page */
+.app-shell .student-page--progress .rc-ribbon[data-few='true'] { grid-template-columns: repeat(var(--rc-weeks, 1), minmax(0, 104px)); }

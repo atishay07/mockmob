@@ -108,3 +108,52 @@
   .app-shell .rv-empty--room { grid-template-columns: minmax(200px, 300px) minmax(0, 1fr); align-items: center; column-gap: 40px; row-gap: 16px; }
   .app-shell .rv-empty--room > :first-child { grid-row: 1 / span 2; }
 }
+
+/* ---------- Pass 2 (16 Oct): Review leads with what is open; Progress reads in task order ----------
+   Review: one anchor (questions to review over questions answered), the session to open first as the one volt
+   action, the ways into Revise and Rules, then the sessions with their three figures. Progress: the week (the
+   ring is the anchor), the next step, then the record. Hairlines and whitespace, no boxes. */
+
+/* Review lead: the big count, what it is out of, and the one action */
+.app-shell .rv-lead { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 4px 20px; padding: 22px 0 24px; border-block: 1px solid var(--a-line); }
+.app-shell .rv-lead__num { margin: 0; font: 800 64px/0.9 var(--font-display); letter-spacing: -0.05em; font-variant-numeric: tabular-nums; color: var(--a-ink); }
+.app-shell .rv-lead__body { display: grid; gap: 6px; min-width: 0; }
+.app-shell .rv-lead__body h2 { margin: 0; font: 700 20px/1.25 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; }
+.app-shell .rv-lead__body p { margin: 0; max-width: 54ch; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .rv-lead__go { grid-column: 1 / -1; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 14px; }
+@media (min-width: 900px) {
+  .app-shell .rv-lead { grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 28px; padding: 28px 0 30px; }
+  .app-shell .rv-lead__num { font-size: 88px; }
+  .app-shell .rv-lead__body h2 { font-size: 22px; }
+  .app-shell .rv-lead__go { grid-column: auto; margin-top: 0; padding-inline: 22px; }
+}
+@media (max-width: 380px) { .app-shell .rv-lead__num { font-size: 52px; } }
+
+/* Revise and Rules sit right under the lead: ruled rows, no box */
+.app-shell .rv--review .rv-lead + .rv-ways, .app-shell .rv--review .rv-notes + .rv-ways { margin-top: -16px; }
+.app-shell .rv--review .rv-lead + .rv-ways > :first-child { border-top: 0; }
+
+/* Figures with three items read on one line at every width */
+.app-shell .rv-figs[data-n='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.app-shell .rv-figs[data-n='3'] > div { border-top: 0; padding: 14px 0 14px 14px; border-left: 1px solid var(--a-line); }
+.app-shell .rv-figs[data-n='3'] > div:first-child { padding-left: 0; border-left: 0; }
+.app-shell .rv-figs[data-n='3'] dd { font-size: 26px; }
+@media (min-width: 900px) {
+  .app-shell .rv-figs[data-n='3'] > div { padding: 18px 0 18px 28px; }
+  .app-shell .rv-figs[data-n='3'] > div:first-child { padding-left: 0; }
+  .app-shell .rv-figs[data-n='3'] dd { font-size: 30px; }
+}
+/* The figures head the session list: one hairline between them, not two */
+.app-shell .rv-sec > .rv-figs + .rv-list > li:first-child { border-top: 0; }
+.app-shell .rv-sec > .rv-figs + .rv-list { margin-top: 4px; }
+
+/* The next step, quiet: the page already has its volt action, so this is a ruled row with an outline key */
+.app-shell .na.na--quiet { padding: 16px 0; border: 0; border-block: 1px solid var(--a-line); border-radius: 0; background: none; box-shadow: none; }
+.app-shell .na.na--quiet .na__cta { min-height: 44px; }
+
+/* Progress: the record figures and the line into Review */
+.app-shell .rv-note--review { padding-top: 6px; }
+.app-shell .rv-sec > .rv-figs + .rv-note, .app-shell .rv-sec > .rv-figs + .rv-notes { margin-top: 8px; }
+
+/* Error: never flush to an edge */
+.app-shell .rv-alert { margin: 0; }
