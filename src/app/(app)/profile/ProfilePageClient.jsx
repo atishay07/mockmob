@@ -30,6 +30,7 @@ import { useToast } from '@/components/ToastProvider';
 import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevices';
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
 import ArenaHead from '@/components/arena/ArenaHead';
+import InstallPractice from '@/components/InstallPractice';
 import './profile-privacy.css';
 import '@/components/profile/account.css';
 
@@ -249,6 +250,8 @@ export default function ProfilePageClient() {
           />
 
           <AccountColleges userId={user?.id} />
+          {/* Add to home screen moved here from the foot of Today (TODAY-1017 section 7); it shows only when the browser offers it. */}
+          <InstallPractice />
 
           <section className="glass acct-card" id="name" aria-labelledby="acct-name-h">
             <h2 className="acct-h2" id="acct-name-h">Your name and sign-in</h2>

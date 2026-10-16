@@ -18,6 +18,10 @@ import { mobiMoment, runMood } from './mobiMoments.js';
  */
 export const SCREEN_MOMENTS = Object.freeze({
   today: {
+    // Today 1017 (TODAY-1017 4.6): Mobi greets on the first ever visit and on a return after 7 or more days, in the move
+    // card's art box. firstVisitToday no longer plays on Today (kept for the screens that still use it).
+    firstEver: 'hello',
+    returning: 'hello',
     firstVisitToday: 'hello',
     weekGoalMet: mobiMoment('goalMet'),
     mobRingComplete: mobiMoment('goalMet'),

@@ -20,6 +20,10 @@ import StudyProgress from './study/StudyProgress';
 import RulesEntry from './rules/RulesEntry';
 import RhythmCard from './RhythmCard';
 import ReviseEntry from './revise/ReviseEntry';
+import RecordGlimpse from './ai/RecordGlimpse';
+import { MobTodayCard } from './mob/MobTodayCard';
+import { useMobEnabled } from './mob/MobFlag';
+import { useAuth } from './AuthProvider';
 import { reviewChanges } from './recovery/reviewChanges';
 import { SUBJECTS } from '@/../data/subjects';
 import './recovery/review-changes.css';
@@ -27,6 +31,13 @@ import './recovery/overview.css';
 
 // Counts in words up to ten, the way the app says them ("Two sessions saved.").
 const WORDS = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+// The Mob's ring and its one action on Progress (from Today). Off, it reads nothing.
+function ProgressMob() {
+  const on = useMobEnabled();
+  const { user } = useAuth();
+  return on && user?.id ? <MobTodayCard userId={user.id} /> : null;
+}
+
 const count = (n, word) => `${n <= 10 ? WORDS[n] : n} ${word}${n === 1 ? '' : 's'}`;
 // Milestones the record names, said plainly; anything new falls back to the record's own words.
 const MILESTONES = {
@@ -155,6 +166,8 @@ export default function RecoveryOverview({ view }) {
         ) : null}
         {noteList}
         {data && review.length > 0 ? <div className="ov-links rv-ways"><ReviseEntry /><RulesEntry /></div> : null}
+        {/* From Today (TODAY-1017 section 7): the record's finding and the paper trend live at the head of Review now. */}
+        {data && review.length > 0 ? <div className="rv-record"><RecordGlimpse /></div> : null}
         {data ? (
           <section className="rv-sec" aria-labelledby="ov-sessions">
             <div className="rv-sec__head"><h2 id="ov-sessions">{review.length > 1 ? `Your ${review.length} sessions` : review.length === 1 ? 'Your session' : 'Your sessions'}</h2>{review.length > 1 ? <span>Newest first</span> : null}</div>
@@ -183,6 +196,8 @@ export default function RecoveryOverview({ view }) {
       {/* One failed read on this page (week, plan or record) is one page-level error with one retry that reloads all three. */}
       {partFailed && !error ? <ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again. Your saved sessions are safe." onRetry={retry} /> : null}
       {!partFailed && !error ? <RhythmCard key={retryCount} onError={partFail} between={<LearningNextAction compact onError={partFail} />} /> : null}
+      {/* The Mob card moved here from Today (TODAY-1017 section 7); only while MOB_ENABLED is on and you are in a Mob. */}
+      <ProgressMob />
       {status}
       {data ? (
         <section className="rv-sec" aria-labelledby="ov-record">
