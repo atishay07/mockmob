@@ -1,0 +1,128 @@
+/* Score Recovery · Mistake Repair, "Check it held". Arena tokens, so both themes stay legible. One new stage under the
+   explanation, set apart by a hairline: no card in a card. The options are the result page's own rows (.rp-options). */
+.mr-chk { display: grid; gap: 14px; min-width: 0; padding-top: 18px; border-top: 1px solid var(--a-line, #253026); }
+.mr-chk__head { display: grid; gap: 4px; }
+.mr-chk__title { margin: 0; font: 700 16px/1.3 var(--font-display, inherit); letter-spacing: -0.005em; color: var(--a-ink, #f2f4ec); }
+.mr-chk__lead { margin: 0; max-width: 72ch; font-size: 13px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); text-wrap: pretty; }
+.mr-chk__body { display: grid; gap: 12px; min-width: 0; }
+.mr-chk__basis { margin: 0; font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
+.mr-chk__stem { margin: 0; max-width: 68ch; font-size: 15px; line-height: 1.6; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.mr-chk__fine { margin: 0; max-width: 62ch; font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.mr-chk__note { margin: 0; max-width: 62ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); text-wrap: pretty; }
+/* What the question is tied to, and how many are left, sit together above it: they say why this question, so they come first. */
+.mr-chk__tie { display: grid; gap: 2px; }
+.mr-chk__quiet { display: grid; gap: 10px; justify-items: start; }
+.mr-chk__err { margin: 0; max-width: 62ch; font-size: 14px; line-height: 1.5; font-weight: 600; color: var(--a-bad-text, #ff9d92); }
+
+/* The options: the result page's rows, made answerable. A native radio sits in each row (visually hidden), so arrow keys,
+   Space and screen readers work as for any radio group; the whole row is the target (44 px or more). */
+.mr-chk__opts li { position: relative; align-items: center; min-height: 44px; cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: border-color 160ms var(--a-ease, ease), background-color 160ms var(--a-ease, ease), color 160ms var(--a-ease, ease), transform 100ms var(--a-ease, ease); }
+.mr-chk__opts[data-answered] li, .mr-chk__opts[data-answered] .mr-chk__radio, .mr-chk__radio:disabled { cursor: default; }
+.mr-chk__radio { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; margin: 0; padding: 0; opacity: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
+.mr-chk__opts[data-answered] .mr-chk__radio { pointer-events: none; }
+.mr-chk__opts .rp-options__letter { transition: background-color 160ms var(--a-ease, ease), color 160ms var(--a-ease, ease); }
+@media (hover: hover) and (pointer: fine) {
+  .mr-chk__opts:not([data-answered]) li:not([data-picked]):hover { border-color: var(--a-line-hover, #8f9a84); color: var(--a-ink, #f2f4ec); }
+}
+.mr-chk__opts:not([data-answered]) li:active { transform: scale(0.992); }
+.mr-chk__opts li[data-picked] { border-color: var(--a-select, #d2f000); background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); color: var(--a-ink, #f2f4ec); }
+.mr-chk__opts li[data-picked] .rp-options__letter { background: var(--a-select, #d2f000); color: #10140e; }
+html[data-theme='light'] .mr-chk__opts li[data-picked] .rp-options__letter { color: #fff; }
+.mr-chk__opts li:has(input:focus-visible) { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+.mr-chk__opts li[data-state='key'], .mr-chk__opts li[data-state='key'] .rp-options__letter { transition-delay: 140ms; }
+/* The tag is a sentence-case word, not the result page's small caps: the words say it, the colour only agrees. */
+.mr-chk .rp-options__tag { font: 650 12px/1.5 var(--font-display, inherit); letter-spacing: 0; text-transform: none; white-space: nowrap; }
+/* A withdrawn question stays readable but is plainly not answerable: the only action is the new question. */
+.mr-chk__opts[data-stale] { opacity: 0.55; pointer-events: none; }
+/* On a phone the tag stays on the option's own line, so marking an answer never makes a row taller (nothing below it moves). */
+@media (max-width: 480px) {
+  .mr-chk__opts li { grid-template-columns: 26px minmax(0, 1fr) auto; align-items: center; column-gap: 10px; }
+  .mr-chk .rp-options__tag { grid-column: 3; grid-row: 1; justify-self: end; font-size: 11.5px; }
+}
+
+.mr-chk__actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 14px; }
+.mr-chk__submit {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 12px; cursor: pointer;
+  background: #d2f000; color: #10140e; font: 700 14px/1.2 var(--font-display, inherit); box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18);
+  transition: transform 100ms var(--a-ease, ease), background-color 160ms var(--a-ease, ease), color 160ms var(--a-ease, ease);
+}
+.mr-chk__submit:hover:not(:disabled) { background: #dcf733; }
+.mr-chk__submit:active:not(:disabled) { transform: scale(0.98); }
+.mr-chk__submit:disabled { cursor: not-allowed; box-shadow: none; background: color-mix(in oklab, var(--a-ink, #f2f4ec) 10%, transparent); color: var(--a-ink-3, #93a08f); }
+.mr-chk__submit[data-sending]:disabled { cursor: progress; background: #d2f000; color: #10140e; box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18); }
+.mr-chk__submit:focus-visible, .mr-ask:focus-visible, .mr-chk .mr-retry:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; }
+.mr-chk__ring { width: 14px; height: 14px; flex: none; border-radius: 50%; border: 2px solid rgba(16, 20, 14, 0.28); border-top-color: #10140e; }
+
+/* Loading: one plain line and a skeleton the shape of the question, so nothing jumps when it arrives. */
+.mr-chk__load { display: grid; gap: 10px; }
+.mr-chk__skel { display: grid; gap: 8px; }
+.mr-chk__skel s, .mr-chk__skel i, .mr-chk__skel b { display: block; border-radius: 10px; background: color-mix(in oklab, var(--a-ink, #f2f4ec) 8%, transparent); text-decoration: none; }
+/* The two tie lines ("Same topic", "Of the N questions"), then the stem: five lines on a phone, three from 481 px
+   (the stem is capped at 68ch there). Measured: 587 to 600 px at 390, 513 to 507 px at 1440. */
+.mr-chk__skel s { height: 12px; width: 34%; }
+.mr-chk__skel s + s { width: 46%; margin-bottom: 6px; }
+.mr-chk__skel i { height: 16px; width: 96%; }
+.mr-chk__skel i:nth-of-type(5) { width: 58%; margin-bottom: 6px; }
+@media (min-width: 481px) {
+  .mr-chk__skel i:nth-of-type(3) { width: 58%; margin-bottom: 6px; }
+  .mr-chk__skel i:nth-of-type(n + 4) { display: none; }
+}
+.mr-chk__skel b { height: 46px; border: 1px solid var(--a-line, #253026); background: transparent; border-radius: 12px; }
+/* The submit row has its own place from the start (44 px, the button's size), so the question does not push anything down. */
+.mr-chk__skel u { display: block; height: 44px; width: 150px; margin-top: 4px; border-radius: 12px; background: color-mix(in oklab, var(--a-ink, #f2f4ec) 8%, transparent); text-decoration: none; }
+/* On a phone the note beside the submit button wraps under it (44 px button + 8 px + one line = 70 px), so the skeleton keeps that row too. */
+@media (max-width: 480px) { .mr-chk__skel u { margin-bottom: 26px; } }
+
+/* The answer: the verdict first, in words, then the explanation, the rule when it was missed, the Revise line. */
+.mr-chk__result { display: grid; gap: 14px; min-width: 0; padding-top: 4px; }
+.mr-chk__verdict { margin: 0; display: flex; align-items: flex-start; gap: 10px; max-width: 64ch; text-wrap: pretty; font: 650 15px/1.5 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
+.mr-chk__verdict:focus { outline: none; }
+.mr-chk__verdict:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; border-radius: 6px; }
+.mr-chk__mark { display: grid; place-items: center; flex: none; width: 24px; height: 24px; margin-top: -1px; border-radius: 50%; border: 1.5px solid var(--a-ink-3, #93a08f); color: var(--a-ink-2, #bcc5b9); }
+.mr-chk__verdict[data-right] .mr-chk__mark { border-color: var(--a-good-text, #b6e36e); color: var(--a-good-text, #b6e36e); background: color-mix(in oklab, var(--a-good-text, #b6e36e) 12%, transparent); }
+.mr-chk__rule { font-weight: 600; }
+.mr-chk__revise { margin: 0; display: flex; align-items: flex-start; gap: 8px; max-width: 64ch; text-wrap: pretty; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); }
+.mr-chk__revise svg { flex: none; margin-top: 3px; color: var(--a-ink-3, #93a08f); }
+.mr-chk__revise b { font-weight: 700; color: var(--a-ink, #f2f4ec); }
+.mr-chk__revlink { display: inline-block; padding: 10px 0; margin: -10px 0; font-weight: 700; color: var(--a-accent-text, #d2f000); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+@media (max-width: 480px) { .mr-chk__revlink { min-height: 44px; } }
+/* While the check waits for an answer it is the one main action: Next mistake steps back to the outlined style. */
+section:has(> .mr-chk[data-phase='loading']) .mr-foot .mr-next-btn,
+section:has(> .mr-chk[data-phase='ready']) .mr-foot .mr-next-btn,
+section:has(> .mr-chk[data-phase='sending']) .mr-foot .mr-next-btn { background: transparent; color: var(--a-ink, #f2f4ec); border: 1px solid var(--a-line-strong, #384736); box-shadow: none; }
+.mr-chk__revlink:hover { text-decoration-thickness: 2px; }
+.mr-chk__revlink:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 3px; }
+
+/* Ask Mobi about Q3: it follows the explanation of the mistake, outlined, never the primary action, with its own price under it. */
+.mr-askq { display: grid; gap: 8px; justify-items: start; }
+/* Until the wallet is read the place of the Ask link is held (its 44 px), with nothing in it: no link and no price that could be taken back. */
+.mr-askq__hold { display: block; height: 44px; width: 1px; }
+.mr-block.mr-askq > p { max-width: 62ch; font-size: 13px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); }
+.mr-block.mr-askq > .mr-askq__off { font-size: 13px; color: var(--a-ink-2, #bcc5b9); }
+.mr-ask {
+  display: inline-flex; align-items: center; min-height: 44px; max-width: 100%; padding: 0 16px; border-radius: 12px; border: 1px solid var(--a-line-strong, #384736);
+  background: transparent; color: var(--a-ink, #f2f4ec); font: 650 14px/1.2 var(--font-display, inherit); text-decoration: none; overflow-wrap: anywhere;
+  transition: border-color 160ms var(--a-ease, ease), background-color 160ms var(--a-ease, ease), transform 100ms var(--a-ease, ease);
+}
+@media (hover: hover) and (pointer: fine) { .mr-ask:hover { border-color: var(--a-ink-3, #93a08f); background: color-mix(in oklab, var(--a-ink, #f2f4ec) 5%, transparent); } }
+.mr-ask:active { transform: scale(0.98); }
+
+/* Motion. Every animation answers an action or shows a state; reduced motion (device or the student's own switch) shows the
+   final state at once. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .mr-chk__body { animation: mr-chk-in 240ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both; }
+  :root:not([data-motion='reduced']) .mr-chk__skel { animation: mr-chk-pulse 1.5s ease-in-out infinite; }
+  :root:not([data-motion='reduced']) .mr-chk__ring { animation: mr-chk-spin 800ms linear infinite; }
+  :root:not([data-motion='reduced']) .mr-chk [data-rise] { animation: mr-chk-rise 260ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both; animation-delay: calc(var(--mr-rise, 0) * 70ms + 120ms); }
+  :root:not([data-motion='reduced']) .mr-chk__verdict[data-right] .mr-chk__mark svg path { stroke-dasharray: 24; animation: mr-chk-draw 300ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 220ms both; }
+  :root:not([data-motion='reduced']) .mr-chk .rp-options__tag { animation: mr-chk-fade 220ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 160ms both; }
+}
+html[data-motion='reduced'] .mr-chk__opts li, html[data-motion='reduced'] .mr-chk__submit, html[data-motion='reduced'] .mr-ask { transition: none; }
+@media (prefers-reduced-motion: reduce) { .mr-chk__opts li, .mr-chk__submit, .mr-ask { transition: none; } }
+@keyframes mr-chk-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes mr-chk-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes mr-chk-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mr-chk-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+@keyframes mr-chk-spin { to { transform: rotate(360deg); } }
+@keyframes mr-chk-draw { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }

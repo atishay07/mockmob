@@ -154,6 +154,7 @@
 .rp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .rp-empty { padding: 24px; text-align: center; color: var(--a-ink-3); border: 1px dashed var(--a-line-strong); border-radius: 14px; }
 .rp-q { border-radius: 16px; border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); scroll-margin-top: 84px; overflow: hidden; }
+/* No side stripe on a question card: its verdict is written in its own header (Wrong, Right, Skipped with the marks), never colour alone. */
 /* The verdict is in the row's words (Right +5, Wrong -1); the badge carries a tint, the border stays 1px (T-083). */
 .rp-q[data-verdict='wrong'] .rp-q__badge { border-color: color-mix(in oklab, var(--a-bad-text, #ff9d92) 55%, transparent); color: var(--a-bad-text, #ff9d92); }
 .rp-q[data-verdict='correct'] .rp-q__badge { border-color: color-mix(in oklab, var(--a-good-text, #b6e36e) 55%, transparent); color: var(--a-good-text, #b6e36e); }

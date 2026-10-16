@@ -13,6 +13,8 @@ import { buildReplyDeps, modelRepliesOpen } from '@/services/prepos/replyDeps';
 import { isPaidUser } from '@/services/credits/aiCreditWallet';
 import { studyTutorContext } from '@/lib/server/study';
 import {studyHelpReplay} from '@/../data/study_help';
+import { loadQuestionContext } from '@/services/recovery/askContext';
+import { buildCheckDeps } from '@/services/recovery/repairCheckDeps';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -52,14 +54,24 @@ export async function POST(request) {
     try { studyLesson=await studyTutorContext(userId,payload.studyRunId,{expectedRevision:payload.studyRevision,itemId:payload.studyItemId}); }
     catch(error) { return NextResponse.json({error:error.message,message:'Answer the current card first, or reopen the current lesson. No credits used.'},{status:422}); }
   }
+  // "Ask Mobi about this question" (the repair's follow-up): `questionRef` is "<attemptId>:<questionId>". The context is built
+  // here from the student's own attempt (data/ask_context.js): the question, the options, their pick, today's key and the
+  // repair's rule, and nothing else about them. A bad or foreign reference ends the request before any credit is touched.
+  let questionContext = null;
+  if (payload.questionRef !== undefined) {
+    if (typeof payload.questionRef !== 'string' || studyLesson) return NextResponse.json({ error: 'invalid_question_ref', message: 'That question link was not valid. No credits were used.', charged: 0 }, { status: 400 });
+    const loaded = await loadQuestionContext({ user: dbUser, ref: payload.questionRef, deps: buildCheckDeps() });
+    if (!loaded.ok) return NextResponse.json({ error: loaded.error, message: loaded.message, charged: 0 }, { status: loaded.http });
+    questionContext = loaded.context;
+  }
   const sessionId = typeof payload.sessionId === 'string' ? payload.sessionId : null;
 
   // 1. Questions about the student's own record are answered from the record: free, instant, no model.
   let insights = null;
   try {
-    if(!studyLesson) insights = computePrepOSInsights((await Database.getAttempts(userId)).slice(0, 60), { subjectNames: SUBJECT_NAMES });
+    if(!studyLesson && !questionContext) insights = computePrepOSInsights((await Database.getAttempts(userId)).slice(0, 60), { subjectNames: SUBJECT_NAMES });
   } catch { /* the record is unavailable; fall through to the plan or model path */ }
-  const fromRecord = !studyLesson && insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
+  const fromRecord = !studyLesson && !questionContext && insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
   if (fromRecord) {
     const response = {
       reply: fromRecord.reply, origin: 'record', confidence: 0, reason: 'From your own sessions. No credits used.', cards: [],
@@ -69,7 +81,7 @@ export async function POST(request) {
   }
 
   // Lesson help needs current teaching, not the student's unrelated record or personal details.
-  const context = studyLesson ? {exam:'CUET',contextVersion:1} : await getStudentAIContext({ user: dbUser });
+  const context = studyLesson || questionContext ? {exam:'CUET',contextVersion:1} : await getStudentAIContext({ user: dbUser });
   // The explicit free-record surface can never fall through to a billed model.
   if (payload.replyKind === 'record') {
     const next=context.sharedPlan?.primary;
@@ -96,8 +108,8 @@ export async function POST(request) {
     ? { n: insights.questions, sessions: insights.sessions, ledger: insights.ledger, accuracy: insights.accuracy, topChapters: insights.chapters.ranked.slice(0, 3).map((c) => ({ chapter: c.chapter, n: c.n, right: c.right, wrong: c.wrong, skip: c.skip })), changes: insights.changes, pace: insights.pace.usable ? { medianSec: insights.pace.medianSec, n: insights.pace.questionsTimed } : null }
     : { n: 0 };
   const out = await runModelReply({
-    user: dbUser, message, mode:studyLesson ? 'revision' : mode, requestId: payload.requestId, creditCost: 1, tier: !studyLesson && SMART_MODES.has(mode) ? 'smart' : 'fast',
-    gateOpen: true, context: { ...context, recordInsights: compact, ...(studyLesson ? {studyLesson} : {}) }, deps: buildReplyDeps({ user: dbUser }),
+    user: dbUser, message, mode:studyLesson || questionContext ? 'revision' : mode, requestId: payload.requestId, creditCost: 1, tier: !studyLesson && !questionContext && SMART_MODES.has(mode) ? 'smart' : 'fast',
+    gateOpen: true, context: { ...context, ...(questionContext ? { questionContext } : { recordInsights: compact }), ...(studyLesson ? {studyLesson} : {}) }, deps: buildReplyDeps({ user: dbUser }),
   });
   if (out.status !== 'answered') {
     // A response lost in transit can be recovered from owner-bound history without another call.

@@ -42,8 +42,8 @@ h4.mr-title { margin: 0; font-size: 18px; line-height: 1.25; letter-spacing: -0.
 .mr-label:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 2px; border-radius: 4px; }
 .mr-block > p, .mr-reveal__inner > p { margin: 0; max-width: 68ch; font-size: 15px; line-height: 1.6; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
 
-/* The worked contrast: a pull line on a 1 px ink rail under "Why D is right" (T-083: no side border over 1px). */
-.mr-contrast { margin: 8px 0 0; padding: 2px 0 2px 14px; border-left: 1px solid var(--a-ink-3, #93a08f); }
+/* The contrast line is plain text in the explanation: no quote stripe, set apart by its own paragraph and weight (T-083 and REPAIR v4 follow-ups: no side border at all). */
+.mr-contrast { margin: 8px 0 0; padding: 0; }
 .mr-contrast p { margin: 0; max-width: 64ch; font-size: 15px; line-height: 1.6; font-weight: 550; color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
 
 /* The other options: a disclosure, closed by default. */

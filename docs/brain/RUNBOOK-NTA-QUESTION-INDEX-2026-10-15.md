@@ -28,7 +28,7 @@ is applied at runtime; moving it needs no rebuild. The engine itself (`data/nta_
    content-hash check and the question simply falls out of the pool until rebuilt) and after the signing key
    rotates. The build removes a subject's rows that no longer verify.
 
-## Keeping the index current (Q8b, 15 Oct 2026)
+## Keeping the index current (Q8b, 15-16 Oct 2026)
 
 The index no longer needs a manual rebuild after a publish. Three layers, each safe on its own:
 
@@ -37,20 +37,52 @@ The index no longer needs a manual rebuild after a publish. Three layers, each s
    once per subject per 5-minute pool cache). If a question is newer, the subject is read in full for that start
    (`timings.poolSource = full`, `timings.indexStale = true`, one `[nta-index] stale index` log line), so a question
    published after the last build is never missing from a paper. A failed check also reads in full.
-2. **Publish rebuild.** `scripts/question-publish-authored.mjs --mode=apply` rebuilds the index rows of the subjects it
-   touched right after its read-back is clean (`ntaIndex` in its output). It needs `CUET_EVIDENCE_SIGNING_KEY` in the
-   environment or `.env.local`, skips quietly when the key or the table is missing, never fails the publish, and
-   `--no-index-rebuild` switches it off. The factory and moderation publish one question at a time; they rely on
-   layers 1 and 3 (a rebuild per question would re-read the subject each time).
-3. **Daily cron.** `/api/internal/rebuild-nta-index` (vercel.json, 22:00 UTC, 03:30 IST) rebuilds each subject whose
-   index is older than its newest live question, one subject at a time, reading only that subject. It runs only on
-   Vercel production (`data/full_bank_guard.js`; 409 elsewhere), uses the same CRON_SECRET or INTERNAL_API_SECRET
-   check as the other internal routes, needs `CUET_EVIDENCE_SIGNING_KEY` in the Vercel production environment, and
-   leaves a subject with no index rows alone (the first build stays the owner's step). `?subject=<id>` with the
-   internal secret rebuilds one subject by hand. A fresh subject costs a few small selects.
+2. **Every publish path rebuilds the subjects it touched** (`data/nta_index.js`):
+   - `scripts/question-publish-authored.mjs --mode=apply`: right after its read-back is clean (`ntaIndex` in its output).
+   - `scripts/question-republish.mjs --mode=apply`, `scripts/question-hold.mjs --mode=restore`,
+     `scripts/question-reorder.mjs` (`--keep-live` apply, restore, release): after the database change (`ntaIndex` in the output).
+   - The factory and the worker publish one question or one passage group at a time (`publishFactoryQuestion`,
+     `publishFactoryGroup`, `publishQuestion`). They note the subject in a queue that rebuilds it at most once per
+     30 minutes per subject (`createNtaIndexTouchQueue`), and the batch ends (`factory.mjs` worker, `publishProductionCohort.mjs`,
+     the offline import) flush it at once.
+   - All of them need `CUET_EVIDENCE_SIGNING_KEY` in the environment or `.env.local`, skip quietly when the key or the table
+     is missing, never fail the publish, and can be switched off (`--no-index-rebuild`, or `NTA_INDEX_REBUILD=off` for the
+     queue). Two rebuilds of the same subject in one process never run at once: the second waits and runs once more, so it
+     sees what was published in between.
+   - The website's routes publish nothing the index can hold: the moderation pass and user uploads work on questions without
+     signed evidence and never set `status: live`, and `/api/admin/question-factory` only changes pause and phase flags.
+     A test fails if one of them starts writing `status: 'live'`.
+3. **Daily safety rebuild, on the existing cron.** `vercel.json` is at its limit, so there is no cron entry of its own:
+   `/api/internal/refresh-inventory` (21:30 UTC, 03:00 IST) runs it right after the inventory refresh, within the same 300 s
+   (it stops starting subjects 250 s after the request began and leaves the rest for the next day). It goes subject by
+   subject, oldest index first, and rebuilds a subject only when one of three things is true:
+   `newer_questions` (a live question is newer than the index), `content_changed` (an indexed question no longer hashes to its
+   row: an edited stem or key; a slim read, about 0.3 MB, no evidence column) or `max_age` (the index is older than 7 days:
+   re-verifies expired evidence and drops rows that no longer verify). Otherwise it costs a few small selects and writes
+   nothing, so a repeat run, or a second run in a day, changes nothing. A subject with no index rows is left alone (the first
+   build stays the owner's step). It runs only on Vercel production (`data/full_bank_guard.js`), uses the same secrets as the
+   inventory route, and never changes that route's status code: the outcome is in the response under `ntaIndex` and in one
+   log line, `[nta-index] daily refresh ok in 1840 ms: rebuilt 1 (chemistry newer_questions 41 rows), fresh 9, never built 3`
+   (`console.error` with `FAILED` when a subject failed). The route `/api/internal/rebuild-nta-index` stays, outside
+   `vercel.json`, for a manual run: `?subject=<id>` for one subject, `?force=1` to rebuild every built subject whether it is
+   stale or not (safe to repeat; one full read per subject).
 
 `verified_at` is stamped per subject at or after that subject's newest live question, so a clock difference between
 the builder and the database cannot leave a fresh build looking stale. No migration change.
+
+What none of this can see: a question the index lost because it was held and later shown again by SQL run by hand (nothing
+in `created_at`, `live_at` or its hash moves). The weekly `max_age` rebuild brings it back; for a change you made by hand,
+call `/api/internal/rebuild-nta-index?subject=<id>&force=1`.
+
+## Switching it on (owner steps, in order)
+
+1. Apply the migration `20261013190000_nta_question_index.sql` (standing database grant; section below). Until this
+   step everything above is inert: the table is missing, every rebuild skips, and NTA mode reads the full pool as before.
+2. Set `CUET_EVIDENCE_SIGNING_KEY` in the Vercel production environment (the same value `.env.local` uses for the factory),
+   then redeploy. Without it the daily pass logs `skipped: no_signing_key`.
+3. Build the first index of every subject once (`scripts/nta-index-build.mjs --write --allow-production`, below). From then
+   on the publish paths and the daily pass keep it current.
+4. Check the next morning's log for `[nta-index] daily refresh ok` (Vercel logs, route `/api/internal/refresh-inventory`).
 
 ## Apply and verify (production)
 

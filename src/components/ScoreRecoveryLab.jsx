@@ -32,6 +32,7 @@ import AcrossMocks from './result/AcrossMocks';
 import RuleCheck from './result/RuleCheck';
 import SameMistakesLater from './result/SameMistakesLater';
 import TrapsMeet from './result/TrapsMeet';
+import OlderPaper from './result/OlderPaper';
 import { cohortItems, inRepairOrder } from './result/labLoop';
 import { AuthContext } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -129,6 +130,12 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
   const queue = inRepairOrder(mistakes, lab?.repairOrder);
   const led = cohortItems(lab?.repairOrder);
   const rules = lab?.rules && typeof lab.rules.countLabel === 'string' ? lab.rules : null;
+  // An older paper (no clock record, or one from before the capture of 15 Oct): one line on what it cannot show and
+  // one action (lab.older). Time and decisions then says nothing of its own, and Find is left out when it would be empty.
+  const older = lab?.older?.line ? lab.older : null;
+  const timeReady = timeRead?.state === 'ready';
+  const findShown = !(older && swotShown && !replay && !timeReady);
+  const repairNo = findShown ? 2 : 1;
   const seeReplay = replay ? {
     label: replay.labels?.seeInReplay,
     ids: new Set((replay.chips || []).filter((c) => c.id !== 'all' && c.count).map((c) => c.id)),
@@ -156,8 +163,10 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
         {marks.wrong ? <p className="srl-rule">Each wrong answer costs 6: the 5 you didn’t get, plus the 1 penalty.</p> : null}
       </> : null}
 
+      <OlderPaper older={older} />
+
       <ol className="srl-steps">
-        <li className="srl-step">
+        {findShown ? <li className="srl-step">
           <div className="srl-step__num" aria-hidden="true">1</div>
           <div className="srl-step__main srl-find" id={findId} data-expanded={expanded}>
             <div className="srl-step__head"><h3>Find</h3><p>{swotShown ? TIME_COPY.sub : 'Which chapters cost you, and why'}</p></div>
@@ -192,15 +201,15 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
                 </ul>
               ) : null}
               {(chapters.length > 1 || observations.length > 1) && <button type="button" className="srl-find-toggle" aria-expanded={expanded} aria-controls={findId} onClick={() => setExpanded(value => !value)}>{expanded ? 'Show the key finding' : observations.length ? 'See all chapters and observations' : 'See all chapters'}<span aria-hidden="true">{expanded ? '−' : '+'}</span></button>}
-              <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4>
+              {older && !timeReady ? null : <h4 className="td-h srl-find__time">{TIME_COPY.title}</h4>}
             </>}
-            <TimeDecisions read={timeRead} onJump={onJump} changesId={ledger ? changesId : null} said={ledger?.state === 'basic'} />
+            <TimeDecisions read={timeRead} onJump={onJump} changesId={ledger ? changesId : null} said={ledger?.state === 'basic'} quiet={!!older} />
             {lab ? <TrapsMeet label={COPY.traps.labels.open} /> : null}
           </div>
-        </li>
+        </li> : null}
 
         <li className="srl-step">
-          <div className="srl-step__num" aria-hidden="true">{mistakes.length && done === mistakes.length ? <Check size={16} strokeWidth={3} /> : 2}</div>
+          <div className="srl-step__num" aria-hidden="true">{mistakes.length && done === mistakes.length ? <Check size={16} strokeWidth={3} /> : repairNo}</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Repair</h3><p>Fix each wrong answer, one at a time</p></div>
             <MistakeLessonLink subject={attempt.subject} chapter={topChapter} chapters={Object.entries(analysis.mistakes.reduce((m,row)=>{if(row.chapter)m[row.chapter]=(m[row.chapter]||0)+1;return m;},{})).sort((x,y)=>y[1]-x[1]).map(([chapter,count])=>({chapter,count}))} conceptIds={analysis.mistakes.map(row=>row.q.conceptId).filter(Boolean)} />
@@ -237,7 +246,7 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
         </li>
 
         <li className="srl-step">
-          <div className="srl-step__num" aria-hidden="true">3</div>
+          <div className="srl-step__num" aria-hidden="true">{repairNo + 1}</div>
           <div className="srl-step__main">
             <div className="srl-step__head"><h3>Prove</h3><p>Show it stuck, on questions you haven’t seen</p></div>
             <Prove attempt={attempt} topChapter={topChapter} ruleCheck={lab?.prove?.ruleCheck || null} later={lab?.prove?.later || null} />

@@ -91,7 +91,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Does MockMob show chapter-wise Accountancy analysis?',
         answer:
-          'Yes. Radar traces every miss to its chapter, so after a mock you can see whether partnership, company accounts or ratios cost you the most.',
+          'Yes. The weak-chapters view traces every miss to its chapter, so after a mock you can see whether partnership, company accounts or ratios cost you the most.',
       },
     ],
   },
@@ -134,7 +134,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'How do I fix a weak Economics chapter fast?',
         answer:
-          'Take a short timed set on that chapter, read why each miss was wrong, then come back a few days later with fresh questions. Radar shows whether the chapter moved.',
+          'Take a short timed set on that chapter, read why each miss was wrong, then come back a few days later with fresh questions. The weak-chapters view shows whether the chapter moved.',
       },
     ],
   },
@@ -177,7 +177,7 @@ export const SUBJECT_HUBS = [
       {
         question: 'Can I combine Business Studies with Accountancy practice on MockMob?',
         answer:
-          'Yes. Practise each subject on its own, and Radar tracks every subject and chapter separately.',
+          'Yes. Practise each subject on its own, and the weak-chapters view tracks every subject and chapter separately.',
       },
     ],
   },

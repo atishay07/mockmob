@@ -90,7 +90,11 @@ export default function SwotPanel({ swot, attemptId, onJump }) {
   }
   const plan = Array.isArray(swot.plan) ? swot.plan : [];
   // A quadrant whose only content is a pointer to the ledger above is left out: the ledger already says it.
-  const quadrants = (Array.isArray(swot.quadrants) ? swot.quadrants : []).filter((q) => (Array.isArray(q.items) && q.items.length) || !/Where your marks went/.test(String(q.empty || '')));
+  const kept = (Array.isArray(swot.quadrants) ? swot.quadrants : []).filter((q) => (Array.isArray(q.items) && q.items.length) || !/Where your marks went/.test(String(q.empty || '')));
+  // Groups with findings come first, in SWOT order; an empty group is one quiet full-width line after them, so it never
+  // leaves a tall empty cell beside a long one.
+  const hasItems = (q) => Array.isArray(q.items) && q.items.length > 0;
+  const quadrants = [...kept.filter(hasItems), ...kept.filter((q) => !hasItems(q))];
   const basis = swot.basis || null;
   const titleId = `${uid}-title`;
 
@@ -131,7 +135,7 @@ export default function SwotPanel({ swot, attemptId, onJump }) {
               const items = Array.isArray(q.items) ? q.items : [];
               const headId = `${uid}-${q.id}`;
               return (
-                <section key={q.id} className="sw-q" data-q={q.id} aria-labelledby={headId} style={{ '--i': plan.length + gi }}>
+                <section key={q.id} className="sw-q" data-q={q.id} data-empty={items.length ? undefined : ''} aria-labelledby={headId} style={{ '--i': plan.length + gi }}>
                   <h4 id={headId} className="sw-q__h">{q.label}</h4>
                   {items.length ? (
                     <ul className="sw-items">
@@ -139,6 +143,7 @@ export default function SwotPanel({ swot, attemptId, onJump }) {
                         <li key={item.id} className="sw-item">
                           <p className="sw-item__title">{item.title}</p>
                           {item.detail ? <p className="sw-item__detail">{item.detail}</p> : null}
+                          {item.note ? <p className="sw-item__note">{item.note}</p> : null}
                           <QuestionButtons numbers={item.questions} onJump={onJump} />
                         </li>
                       ))}

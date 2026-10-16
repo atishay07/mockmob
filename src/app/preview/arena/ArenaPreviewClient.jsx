@@ -9,6 +9,8 @@ import AppLayoutClient from '@/app/(app)/AppLayoutClient';
 import DashboardPageClient from '@/app/(app)/dashboard/DashboardPageClient';
 import TestPageClient from '@/app/(app)/test/TestPageClient';
 import { buildPracticeQuote } from '@/../data/practice_quote';
+import { CURRENT_OFFER } from '@/../data/capabilities';
+import creditsContract from '@/../data/tests/fixtures/credits/contract_credits_v1.json';
 import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/../data/learning_engine';
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
 import { previewCompass, previewInsights } from './previewRecord';
@@ -35,6 +37,7 @@ import ModerationPageClient from '@/app/(app)/moderation/ModerationPageClient';
 import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixtureAttempt } from './previewFixtures';
 import { CIRCULAR_QUEUE_CORRECTION, answerReview } from '@/../data/answer_corrections.mjs';
 import { fixtureMock, fixtureReplayMock, fixtureRepairV3, fixtureLabLoop, fixtureAcross, fixtureRuleBook, FIXTURE_PLAYBOOK, fixtureSlice4, fixtureTrapsMeet, fixtureRevise, fixtureReviseAnswer } from './previewMock';
+import { fixtureCheckField, fixtureCheckGet, fixtureCheckPost, fixtureAskContext, freshCheckMemory } from './previewRepairCheck';
 import RuleBook from '@/components/rules/RuleBook';
 import ReviseRun from '@/components/revise/ReviseRun';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
@@ -170,9 +173,10 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // &cohort=time-gated is one short of each gate, so none of them shows (previewMock.js fixtureCohortTime).
       // Slice 3 parts on the Full mock's lab (previewMock.js fixtureLabLoop): &across=, &rulecheck=, &order=paper.
       // Slice 4 (fixtureSlice4): the trap tag under three wrong options and Same mistakes later in Prove; &traps=off leaves them out.
-      const loop = (built) => (mock === 'full' ? fixtureSlice4({ lab: fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || 'kept', order: fixture.get('order') || 'cohort' }), attempt: built.attempt, answerReviews: built.answerReviews, traps: fixture.get('traps') || 'on' }) : built.lab);
+      // &lab=older leaves the rule check as not checked (the older-paper line).
+      const loop = (built) => (mock === 'full' ? fixtureSlice4({ lab: fixtureLabLoop({ lab: built.lab, attempt: built.attempt, answerReviews: built.answerReviews, across: fixture.get('across') || 'ready', ruleCheck: fixture.get('rulecheck') || (fixture.get('lab') === 'older' ? 'not_checked' : 'kept'), order: fixture.get('order') || 'cohort' }), attempt: built.attempt, answerReviews: built.answerReviews, traps: fixture.get('traps') || 'on' }) : built.lab);
       if (mock === 'full' && fixture.get('paper') !== 'v1' && (fixture.get('checks') || 'ready') === 'ready' && (fixture.get('lab') || 'on') === 'on') {
-        return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort') }).then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
+        return fixtureReplayMock(fixture.get('paper') || 'full', { cohortTime: fixture.get('cohort'), marks: fixture.get('marks') }).then((built) => json({ ...built.attempt, answerReviews: built.answerReviews, swot: built.swot, mistakeInsights: built.mistakeInsights, lab: loop(built), missedBefore: {}, answerReviewState: built.answerReviewState }));
       }
       if (mock === 'full' || mock === 'nta') {
         const built = fixtureMock(mock, { checks: fixture.get('checks') || 'ready', lab: fixture.get('lab') || 'on' });
@@ -217,11 +221,28 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const pro = page.get('plan') === 'pro';
       const inventory = page.get('inventory') === 'down' ? { state: 'unavailable' }
         : { state: 'available', checkedAt: new Date().toISOString(), subjectCounts: { accountancy: 640, economics: 720, business_studies: 580, english: 12 } };
-      return json(buildPracticeQuote({
+      // The live route adds publicOffer(); the preview cannot read the plan env, so ?offer=monthly picks the monthly offer.
+      const monthlyOffer = page.get('offer') === 'monthly';
+      const offer = {
+        monthly: { planId: 'pro_monthly_99', rupees: 99, interval: 'month', autoRenews: true, ready: monthlyOffer },
+        oneTime: { planId: CURRENT_OFFER.planId, rupees: CURRENT_OFFER.rupees, expires: CURRENT_OFFER.expires, onSale: !monthlyOffer },
+        purchasable: monthlyOffer ? 'monthly' : 'one_time',
+      };
+      return json({ ...buildPracticeQuote({
         user: { id: 'preview-user', isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
         subject: url.searchParams.get('subject'), mode: url.searchParams.get('mode'), count: Number(url.searchParams.get('count')),
         inventory, allowance: { enabled: page.get('allowance') === 'on', used: false }, token: `preview-${Date.now()}`,
-      }));
+      }), offer });
+    }
+    if (url.pathname === '/api/me/credits') {
+      // Account > Credits from the shared contract fixture (data/tests/fixtures/credits/contract_credits_v1.json);
+      // ?credits=down shows the failed state. Pro and monthly Pro read as Pro with their paid-through date.
+      const page = new URLSearchParams(window.location.search);
+      if (page.get('credits') === 'down') return json({ error: 'unavailable', message: 'Your credits did not load.' }, 503);
+      const profile = MONTHLY_PROFILES[page.get('plan')] || null;
+      const paid = page.get('plan') === 'pro' || Boolean(profile?.isPremium);
+      const until = page.get('plan') === 'pro' ? '2027-07-31' : profile?.isPremium ? '2026-11-16' : null;
+      return json({ ...creditsContract, plan: { name: paid ? 'Pro' : 'Free', until } });
     }
     if (url.pathname === '/api/compass/pro') {
       const page = new URLSearchParams(window.location.search);
@@ -358,11 +379,31 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       const next = learningPlan({ minutes: 10 }).primary;
       return json({ ok: true, runtimeState:'record', response: { reply: `Your record cannot answer that question yet. ${next.title}. ${next.reason}`, actions: [{ label: next.title, type: 'navigate', route: next.href }] } });
     }
+    // The repair's check (a fresh question on the same idea) and the Ask Mobi hand-off. ?check= picks the state (previewRepairCheck.js).
+    // This tab remembers the first answer, like the server does, so a reload of a repair shows the stored answer.
+    if (url.pathname === '/api/recovery/check') {
+      const mode = fixture.get('check') || 'ready';
+      const memory = (window.__previewCheck ||= freshCheckMemory());
+      const later = (reply, ms) => new Promise((resolve) => setTimeout(() => resolve(reply), ms));
+      if (method === 'GET') {
+        const got = fixtureCheckGet(mode, memory);
+        memory.reads += 1;
+        return later(new Response(JSON.stringify(got.body), { status: got.http, headers: { 'Content-Type': 'application/json' } }), got.delay || 25);
+      }
+      const posted = fixtureCheckPost(mode, JSON.parse(init.body || '{}'), memory);
+      Object.assign(memory, posted.remember || {});
+      if (posted.lost) return new Promise((resolve, reject) => setTimeout(() => reject(new TypeError('Illustrative: the connection dropped before the answer was marked')), 400));
+      return later(new Response(JSON.stringify(posted.body), { status: posted.http, headers: { 'Content-Type': 'application/json' } }), posted.delay || 25);
+    }
+    if (url.pathname === '/api/recovery/ask-context') return json(fixtureAskContext());
     // Mistake Repair fixtures. Illustrative text, no model call, no credit.
     if (url.pathname === '/api/recovery/repair' && method === 'POST') {
-      const kind = fixture.get('repair') || 'explained';
-      // ?repair=v3 is a version 3 repair (trap, why the key is right, other options, rule with hook, another way, pattern); v3-stored is its free reopen.
-      if (kind === 'v3' || kind === 'v3-stored') return json(fixtureRepairV3({ stored: kind === 'v3-stored' }));
+      const kind = fixture.get('repair') === '1' ? 'v3' : fixture.get('repair') || 'explained';
+      // ?repair=v3 (or repair=1) is a version 3 repair (trap, why the key is right, other options, rule with hook, another way, pattern) with its check; v3-stored is its free reopen.
+      if (kind === 'v3' || kind === 'v3-stored') {
+        const check = fixtureCheckField(fixture.get('check') || 'ready');
+        return json({ ...fixtureRepairV3({ stored: kind === 'v3-stored' }), ...(check ? { check } : {}) });
+      }
       const base = { practiceHref: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt', chosenIndex: 0, keyIndex: 2 };
       if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: 1, secondIndex: 1 }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });
       if (kind === 'unexplained') return json({ ok: true, status: 'not_explained', charged: 0, ...base, message: 'Illustrative: no explanation was prepared. Review the recorded answer or try another question.' });
@@ -411,11 +452,25 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/learning/summary') return json(state === 'empty' ? null : { solvedTotal: 7 });
     if (url.pathname.startsWith('/api/auth/')) return json({ user: null }, 200);
     if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/vote')) return json({ score: 0, userVote: 0 });
+    // Account > Plan cancel flow. Fixture only: no Razorpay call. ?cancel=fail shows the failure state.
+    if (url.pathname === '/api/billing/cancel' && method === 'POST') {
+      if (new URLSearchParams(window.location.search).get('cancel') === 'fail') return json({ error: 'Cancellation could not be confirmed. Try again or write to support.' }, 502);
+      return json({ ok: true, message: new URLSearchParams(window.location.search).get('plan') === 'monthly-failed-free' ? 'Renewals are cancelled.' : 'Renewals are cancelled. Pro stays active until 16 November 2026.' });
+    }
     // Unhandled fixture writes are blocked, including billing and model endpoints.
     if (method !== 'GET') return json({ error: 'Preview only: this action is not available.' }, 418);
     return json({ error: 'Fixture endpoint not supplied.' }, 503);
   };
 }
+
+// Account > Plan fixtures for Rs 99 monthly Pro (?plan=monthly and its variants).
+const MONTHLY_PROFILES = {
+  monthly: { isPremium: true, premiumUntil: '2026-11-16T18:29:59.000Z', razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'active' },
+  'monthly-off': { isPremium: true, premiumUntil: '2026-11-16T18:29:59.000Z', razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'cancelled' },
+  'monthly-failed': { isPremium: true, premiumUntil: '2026-11-16T18:29:59.000Z', razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'past_due' },
+  'monthly-failed-free': { isPremium: false, premiumUntil: null, razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'past_due' },
+  'monthly-lapsed': { isPremium: false, premiumUntil: null, razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'cancelled' },
+};
 
 function PreviewInner({ candidatePathway }) {
   const params = useSearchParams();
@@ -423,7 +478,9 @@ function PreviewInner({ candidatePathway }) {
   const recoveryFixture = params.get('recovery') === 'candidate';
   useLayoutEffect(() => { window.__previewPathway = recoveryFixture ? candidatePathway : null; }, [recoveryFixture, candidatePathway]);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const pro = params.get('plan') === 'pro';
+  const planParam = params.get('plan');
+  const MONTHLY = MONTHLY_PROFILES[planParam] || null;
+  const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);
   const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
   const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' };
@@ -433,11 +490,11 @@ function PreviewInner({ candidatePathway }) {
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('stale') === '1' ? ['hindi', 'teaching_aptitude'] : [])],
-      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
+      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40, ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},
-  }), [pro, params]);
+  }), [pro, params, MONTHLY]);
   return (
     <AuthContext.Provider value={auth}>
       <RoleProvider>

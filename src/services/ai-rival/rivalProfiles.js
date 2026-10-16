@@ -105,7 +105,7 @@ export const RIVAL_PROFILES = {
   WEAKNESS_RIVAL: {
     name: 'Weakness Benchmark',
     archetype: 'weakness benchmark',
-    description: 'Targets weak chapters from your MockMob history. Use when Radar shows repeated leaks.',
+    description: 'Targets weak chapters from your MockMob history. Use when your weak chapters show repeated leaks.',
     freeAllowed: false,
     paidAllowed: true,
     tier: 'credit',

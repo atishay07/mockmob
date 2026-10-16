@@ -32,7 +32,7 @@ function paper(prefix, blocks) {
       n++;
       const id = extra.shared?.[i] ?? `${prefix}-${n}`;
       const key = id.length % 4;
-      qs.push({ id, chapter, outcome: o, key, first: extra.first?.[i], secs: extra.secs?.[i] ?? 45, unopened: extra.unopened?.includes(i) || false, options: extra.options ?? 4, given: extra.given?.[i] });
+      qs.push({ id, chapter, outcome: o, key, first: extra.first?.[i], secs: extra.secs?.[i] ?? 45, unopened: extra.unopened?.includes(i) || false, options: extra.options ?? 4, given: extra.given?.[i], marked: extra.marked?.includes(i) || false });
     });
   }
   return qs;
@@ -51,6 +51,7 @@ function makeAttempt({ id, subject = 'accountancy', mode = 'full', day, qs, tele
       if (q.unopened) continue;
       events.push({ seq: ++seq, qid: q.id, at: t, type: 'visit' });
       if (Number.isInteger(q.first)) events.push({ seq: ++seq, qid: q.id, at: t + 500, type: 'answer', answer: q.first });
+      if (q.marked) events.push({ seq: ++seq, qid: q.id, at: t + 700, type: 'mark', marked: true });
       const f = finalOf(q);
       if (f !== null) events.push({ seq: ++seq, qid: q.id, at: t + q.secs * 1000 - 200, type: 'answer', answer: f });
       t += q.secs * 1000;
@@ -474,4 +475,67 @@ test('the route helper: the cohort reader feeds the Lab; when it fails the Lab i
   assert.deepEqual(warned, ['cohort']);
   assert.equal(failed.lab.state, 'ready');
   assert.equal(failed.lab.cohort, null);
+});
+
+// ---------- Marked for review (recovery.marks) ----------
+
+// 50 questions: the marked block first (its pattern), then 15 more right and the usual filler.
+const markedPaper = (pattern, marked, { id = 'marked-paper' } = {}) => makeAttempt({ id, day: 6, qs: paper(id, [
+  ['Accounting Ratios', pattern, { marked }], ['Share Capital', 'RRRRRRRRRRRRRRR'], ...filler()]) });
+const itemsOf = (swot) => swot.quadrants.flatMap((q) => q.items.map((i) => ({ ...i, quadrant: q.id })));
+
+test('marked for review: marked and answered counts with their denominator, blanks as an opportunity with a plan row', () => {
+  const a = markedPaper('RRWRBB', [0, 1, 2, 3, 4, 5]);
+  assert.equal(a.questionsSnapshot.length, 50);
+  assert.equal(a.selectionMeta.recovery.marks.length, 6, 'the record keeps the marks');
+  const s = buildSwot({ attempt: a, allAttempts: [a], now: at(7) });
+  const item = itemsOf(s).find((i) => i.kind === 'marked_review');
+  assert.equal(item.quadrant, 'opportunity');
+  assert.equal(item.title, 'Marked for review, left blank');
+  assert.equal(item.detail, 'You marked 6 of 50 questions for review and answered 4 of them: 3 right, 1 wrong. 2 stayed blank: 10 marks not earned.');
+  assert.equal(item.note, 'Under +5 for right and −1 for wrong, an answer beats a blank when it is right more than 1 time in 6.', 'the break-even sits on its own quieter line');
+  assert.deepEqual(item.questions, [5, 6], 'the marked questions left blank');
+  assert.deepEqual(item.evidence, { marked: 6, answered: 4, right: 3, wrong: 1, blank: 2, counted: 50 });
+  const row = s.plan.find((p) => p.id === item.planId);
+  assert.equal(row.reason, '2 of the 6 questions you marked for review were left blank.');
+  assert.deepEqual(row.practice, { subject: 'accountancy', mode: 'quick', count: 20, chapter: null });
+});
+
+test('marked for review: a marked blank alone gives no plan row; answered marks are a strength or a weakness only on their own numbers', () => {
+  const one = buildSwot({ attempt: markedPaper('RRWRRB', [0, 1, 2, 5], { id: 'm-one' }), allAttempts: [], now: at(7) });
+  const blankOne = itemsOf(one).find((i) => i.kind === 'marked_review');
+  assert.equal(blankOne.quadrant, 'opportunity');
+  assert.match(blankOne.detail, /^You marked 4 of 50 questions for review and answered 3 of them: 2 right, 1 wrong\. 1 stayed blank: 5 marks not earned\./);
+  assert.equal(blankOne.planId, null, 'one blank is not a plan row');
+
+  const strong = itemsOf(buildSwot({ attempt: markedPaper('RRRRRW', [0, 1, 2, 3, 4, 5], { id: 'm-strong' }), allAttempts: [], now: at(7) })).find((i) => i.kind === 'marked_review');
+  assert.equal(strong.quadrant, 'strength');
+  assert.equal(strong.detail, 'You marked 6 of 50 questions for review and answered all of them: 5 right, 1 wrong.');
+
+  const weak = itemsOf(buildSwot({ attempt: markedPaper('WWWWRR', [0, 1, 2, 3, 4], { id: 'm-weak' }), allAttempts: [], now: at(7) })).find((i) => i.kind === 'marked_review');
+  assert.equal(weak.quadrant, 'weakness');
+  assert.equal(weak.detail, 'You marked 5 of 50 questions for review and answered all of them: 1 right, 4 wrong.');
+  assert.deepEqual(weak.questions, [1, 2, 3, 4]);
+
+  const even = itemsOf(buildSwot({ attempt: markedPaper('RRRWWW', [0, 1, 2, 3, 4, 5], { id: 'm-even' }), allAttempts: [], now: at(7) }));
+  assert.ok(!even.some((i) => i.kind === 'marked_review'), 'three right and three wrong says nothing either way');
+});
+
+test('marked for review: under 3 marked, no marks recorded, or a paper from before the capture says nothing', () => {
+  const few = itemsOf(buildSwot({ attempt: markedPaper('RRWRRB', [0, 5], { id: 'm-few' }), allAttempts: [], now: at(7) }));
+  assert.ok(!few.some((i) => i.kind === 'marked_review'));
+  const none = markedPaper('RRWRRB', [], { id: 'm-none' });
+  assert.ok(!Array.isArray(none.selectionMeta.recovery.marks) || none.selectionMeta.recovery.marks.length === 0);
+  assert.ok(!itemsOf(buildSwot({ attempt: none, allAttempts: [], now: at(7) })).some((i) => i.kind === 'marked_review'));
+  // A device-scored paper carries no record at all.
+  const device = makeAttempt({ id: 'm-dev', day: 6, telemetry: false, qs: paper('md', [['Accounting Ratios', 'RRWRBB', { marked: [0, 1, 2, 3, 4, 5] }], ['Share Capital', 'RRRRRRRRRRRRRRR'], ...filler()]) });
+  assert.ok(!itemsOf(buildSwot({ attempt: device, allAttempts: [], now: at(7) })).some((i) => i.kind === 'marked_review'));
+});
+
+test('marked for review: held questions are left out of the counts and the denominator', () => {
+  const a = markedPaper('RRWRBB', [0, 1, 2, 3, 4, 5], { id: 'm-held' });
+  const s = buildSwot({ attempt: a, allAttempts: [a], answerReviews: { 'm-held-3': { state: 'under_review', originalIndex: 0 } }, now: at(7) });
+  const item = itemsOf(s).find((i) => i.kind === 'marked_review');
+  assert.match(item.detail, /^You marked 5 of 49 questions for review and answered 3 of them: 3 right, 0 wrong\. 2 stayed blank: 10 marks not earned\./);
+  assert.equal(item.evidence.counted, 49);
 });

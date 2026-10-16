@@ -13,6 +13,8 @@ import { readAIWallet } from '@/services/credits/aiCreditWallet';
 import { publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { runRepair } from './repairFlow';
 import { recordTrap } from '@/lib/server/trapAtlas';
+import { checkStatus } from './repairCheck';
+import { buildCheckDeps } from './repairCheckDeps';
 
 async function withheldForRecheck(db, { questionId, userId, attemptId, firstIndex, blindIndex, model }) {
   // Same path as a student report: recorded, then withheld from practice until re-checked.
@@ -74,6 +76,8 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     },
     // Fills the trap atlas from this committed v3 repair (the trap type on the option the student chose). Never throws.
     recordTrap: (record) => recordTrap(record),
+    // The fresh check that follows the explanation (data/repair_check.js): the response says whether one is on offer. Free; no model.
+    checkStatus: (args) => checkStatus({ ...args, deps: buildCheckDeps() }),
     withhold: (args) => withheldForRecheck(supabaseAdmin(), args),
     readWallet: (u) => readAIWallet(u).catch(() => null),
     now: Date.now,

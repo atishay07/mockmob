@@ -10,6 +10,7 @@ import {
   referralAttributionFromCheckout,
   resolvePaidThrough,
 } from '@/lib/payments/entitlements';
+import { settleUserEntitlement } from '@/lib/payments/settle';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 import { getAICreditPack, grantPurchasedAICredits } from '@/services/credits/aiCreditWallet';
@@ -21,6 +22,9 @@ const HANDLED_EVENTS = new Set([
   'subscription.authenticated',
   'subscription.activated',
   'subscription.charged',
+  'subscription.pending',
+  'subscription.paused',
+  'subscription.resumed',
   'subscription.cancelled',
   'subscription.completed',
   'subscription.halted',
@@ -126,6 +130,12 @@ export async function POST(request) {
 
     if (eventType === 'payment.captured' || eventType === 'subscription.charged') {
       if (!isCapturedRazorpayPayment(payment) || !amountMatchesPaymentRecord(payment, paymentRecord, { subscription, invoice })) {
+        // A charge that is not a captured payment of the right amount never grants access. It also
+        // never takes back access an earlier captured charge already paid for.
+        if (hasPaidPaymentEvidence(paymentRecord)) {
+          await Database.markWebhookEventProcessed(eventId, 'subscription payment not captured or amount mismatch; paid access kept');
+          return NextResponse.json({ ok: true, ignored: true });
+        }
         await updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscription, paymentRecord });
         await Database.markWebhookEventProcessed(eventId, 'subscription payment amount mismatch');
         return NextResponse.json({ ok: true, ignored: true });
@@ -155,13 +165,19 @@ export async function POST(request) {
       }
     }
 
-    if (['payment.failed', 'subscription.halted'].includes(eventType)) {
+    if (['payment.failed', 'subscription.halted', 'subscription.pending', 'subscription.paused'].includes(eventType)) {
       await handleFailedSubscriptionPayment({
+        eventType,
         subscriptionId,
         payment,
         subscription,
         paymentRecord,
       });
+    }
+
+    if (eventType === 'subscription.resumed' && subscription) {
+      // Nothing to grant yet: the next captured charge restores renewing status.
+      await Database.updatePaymentBySubscriptionId(subscriptionId, { rawSubscription: subscription });
     }
 
     if (['subscription.cancelled', 'subscription.completed'].includes(eventType)) {
@@ -250,11 +266,17 @@ async function grantPaidSubscriptionAccess({ subscriptionId, payment, subscripti
     }),
   });
 
-  await Database.updateUser(paymentRecord.userId, {
-    subscriptionStatus: 'active',
-    isPremium: true,
-    premiumUntil: accessUntil,
-    razorpaySubscriptionId: subscriptionId,
+  // A late charge event for a subscription the student already cancelled must not turn renewals back on.
+  const user = await Database.getUserById(paymentRecord.userId);
+  const cancelledByUser = user?.subscriptionStatus === 'cancelled' && user?.razorpaySubscriptionId === subscriptionId;
+  await settleUserEntitlement({
+    userId: paymentRecord.userId,
+    ownStatus: cancelledByUser ? 'cancelled' : 'active',
+    ownAccessUntil: accessUntil,
+    subscriptionId,
+    paymentId: payment?.id,
+    ownPaid: true,
+    forceOwnId: true,
   });
 
   await recordEarningIfApplicable(subscriptionId);
@@ -290,25 +312,32 @@ async function keepRefundRevoked({ subscriptionId, payment, subscription, paymen
   });
 }
 
-async function handleFailedSubscriptionPayment({ subscriptionId, payment, subscription, paymentRecord }) {
+async function handleFailedSubscriptionPayment({ eventType, subscriptionId, payment, subscription, paymentRecord }) {
   if (hasPaidPaymentEvidence(paymentRecord)) {
+    // A payment.failed that arrives after the subscription recovered (it is active again) is
+    // history, not a new problem. Razorpay marks a subscription "pending" while a charge is failing.
+    if (eventType === 'payment.failed' && subscription?.status === 'active') {
+      await Database.updatePaymentBySubscriptionId(subscriptionId, { rawSubscription: subscription });
+      return;
+    }
     const accessUntil = paymentRecord.accessUntil || resolvePaidThrough({
       subscription,
       payment,
       existingPremiumUntil: paymentRecord.accessUntil,
       nowMs: Number(paymentRecord.createdAt) || Date.now(),
     });
-    const keepAccess = isFutureIso(accessUntil);
     await Database.updatePaymentBySubscriptionId(subscriptionId, {
       accessUntil,
-      rawPayment: payment,
       rawSubscription: subscription,
     });
-    await Database.updateUser(paymentRecord.userId, {
-      subscriptionStatus: 'past_due',
-      isPremium: keepAccess,
-      premiumUntil: accessUntil,
-      razorpaySubscriptionId: subscriptionId,
+    // Pro stays on to the end of the month already paid for; then the date ends it.
+    await settleUserEntitlement({
+      userId: paymentRecord.userId,
+      ownStatus: 'past_due',
+      ownAccessUntil: accessUntil,
+      subscriptionId,
+      paymentId: payment?.id,
+      ownPaid: true,
     });
     return;
   }
@@ -317,6 +346,7 @@ async function handleFailedSubscriptionPayment({ subscriptionId, payment, subscr
 }
 
 async function handleSubscriptionEnd({ eventType, subscriptionId, payment, subscription, invoice, paymentRecord }) {
+  const paid = hasPaidPaymentEvidence(paymentRecord);
   const accessUntil = resolvePaidThrough({
     subscription,
     invoice,
@@ -324,28 +354,28 @@ async function handleSubscriptionEnd({ eventType, subscriptionId, payment, subsc
     existingPremiumUntil: paymentRecord.accessUntil,
     nowMs: Number(paymentRecord.createdAt) || Date.now(),
   });
-  const keepPaidAccess = hasPaidPaymentEvidence(paymentRecord) && isFutureIso(accessUntil);
+  const keepPaidAccess = paid && isFutureIso(accessUntil);
 
-  if (hasPaidPaymentEvidence(paymentRecord)) {
+  if (paid) {
     await Database.updatePaymentBySubscriptionId(subscriptionId, {
       accessUntil,
-      rawPayment: payment,
       rawSubscription: subscription,
     });
   } else {
     await Database.updatePaymentBySubscriptionId(subscriptionId, {
       status: eventType === 'subscription.cancelled' ? 'cancelled' : 'completed',
-      accessUntil: keepPaidAccess ? accessUntil : null,
-      rawPayment: payment,
+      accessUntil: null,
       rawSubscription: subscription,
     });
   }
 
-  await Database.updateUser(paymentRecord.userId, {
-    subscriptionStatus: eventType === 'subscription.cancelled' ? 'cancelled' : 'free',
-    isPremium: keepPaidAccess,
-    premiumUntil: keepPaidAccess ? accessUntil : null,
-    razorpaySubscriptionId: subscriptionId,
+  await settleUserEntitlement({
+    userId: paymentRecord.userId,
+    ownStatus: eventType === 'subscription.cancelled' ? 'cancelled' : 'free',
+    ownAccessUntil: keepPaidAccess ? accessUntil : null,
+    subscriptionId,
+    paymentId: payment?.id,
+    ownPaid: keepPaidAccess,
   });
 }
 
@@ -359,18 +389,14 @@ async function updateUnpaidSubscriptionPayment({ subscriptionId, payment, subscr
     rawSubscription: subscription,
   });
 
-  const hasOtherPaidAccess = await Database.hasOtherPaidSubscriptionEvidence({
-    userId: paymentRecord?.userId,
-    excludingSubscriptionId: subscriptionId,
-    excludingPaymentId: payment?.id,
-  });
-  if (hasOtherPaidAccess) return;
-
-  await Database.updateUser(paymentRecord.userId, {
-    subscriptionStatus: 'past_due',
-    isPremium: false,
-    premiumUntil: null,
-    razorpaySubscriptionId: null,
+  // This subscription never paid. Whatever else the user holds is left as it is.
+  await settleUserEntitlement({
+    userId: paymentRecord.userId,
+    ownStatus: 'past_due',
+    ownAccessUntil: null,
+    subscriptionId,
+    paymentId: payment?.id,
+    ownPaid: false,
   });
 }
 

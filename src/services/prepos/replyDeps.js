@@ -6,6 +6,7 @@ import { generateAIResponse } from '@/services/ai/providers';
 import { buildMentorSystemPrompt, MENTOR_RESPONSE_SCHEMA } from '@/services/ai/systemPrompt';
 import { sanitizeMentorResponse } from '@/services/ai/responseValidator';
 import { enforceMentorActionPolicy } from '@/services/ai/actionPolicy';
+import { QUESTION_RULES } from '@/../data/ask_context';
 import { currentAIWalletWindow, includedMonthlyCreditsForUser, isPaidUser, paidAiOpen } from '@/services/credits/aiCreditWallet';
 
 /** Gate for model replies: the release gate AND the emergency switch. */
@@ -41,7 +42,7 @@ export function buildReplyDeps({ user }) {
     commit: (operationKey, receipt) => rpc('mm_ai_commit_credits', { p_operation_key: operationKey, p_receipt: receipt }),
     release: (operationKey, reason) => rpc('mm_ai_release_credits', { p_operation_key: operationKey, p_reason: reason }),
     generate: ({ requestKey, tier, mode, message, context }) => generateAIResponse({
-      requestKey, tier, systemPrompt: `${buildMentorSystemPrompt(mode)}\n${RECORD_RULES}\n${context?.studyLesson ? STUDY_RULES : ''}`, userMessage: message, context, responseSchema: MENTOR_RESPONSE_SCHEMA,
+      requestKey, tier, systemPrompt: `${buildMentorSystemPrompt(mode)}\n${RECORD_RULES}\n${context?.studyLesson ? STUDY_RULES : ''}${context?.questionContext ? `\n${QUESTION_RULES}` : ''}`, userMessage: message, context, responseSchema: MENTOR_RESPONSE_SCHEMA,
     }),
     // An empty or non-string reply is unusable (the pipeline releases the credit); everything else
     // is sanitised and held to the same action policy as before.

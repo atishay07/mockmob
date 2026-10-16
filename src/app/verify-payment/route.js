@@ -7,10 +7,12 @@ import {
 } from '@/lib/payments/razorpay';
 import {
   amountMatchesPaymentRecord,
+  hasPaidPaymentEvidence,
   referralAttributionFromCheckout,
   resolvePaidThrough,
 } from '@/lib/payments/entitlements';
 import { getPaymentPlan, getPlanAccessUntil, getPlanCheckoutAmount, isOneTimeAccessPlan } from '@/lib/payments/plans';
+import { settleUserEntitlement } from '@/lib/payments/settle';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 
@@ -171,10 +173,13 @@ async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUs
   });
 
   if (!isSignatureValid) {
-    await Database.updatePaymentBySubscriptionId(subscriptionId, {
-      paymentId,
-      status: 'failed',
-    });
+    // A bad signature never rewrites a subscription that already paid.
+    if (!hasPaidPaymentEvidence(paymentRecord)) {
+      await Database.updatePaymentBySubscriptionId(subscriptionId, {
+        paymentId,
+        status: 'failed',
+      });
+    }
     return NextResponse.json({ error: 'Invalid Razorpay signature' }, { status: 400 });
   }
 
@@ -186,6 +191,21 @@ async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUs
   const razorpayPayment = await getRazorpayClient().payments.fetch(paymentId);
   const razorpaySubscription = await getRazorpayClient().subscriptions.fetch(subscriptionId);
 
+  // A payment the bank has authorised but Razorpay has not captured yet is not a failure. The
+  // subscription.charged webhook turns Pro on once it is captured, so say so and write nothing.
+  if (
+    ['authorized', 'created'].includes(razorpayPayment.status) &&
+    razorpaySubscription.id === subscriptionId &&
+    razorpayPayment.currency === 'INR' &&
+    Number(razorpayPayment.amount) > 0
+  ) {
+    return NextResponse.json({
+      ok: true,
+      pending: true,
+      message: 'Your payment is being confirmed. Pro turns on within a few minutes, and you do not need to pay again.',
+    }, { status: 202 });
+  }
+
   const amountIsAcceptable = amountMatchesPaymentRecord(razorpayPayment, paymentRecord, {
     subscription: razorpaySubscription,
   });
@@ -195,14 +215,16 @@ async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUs
     !amountIsAcceptable ||
     razorpayPayment.status !== 'captured'
   ) {
-    await Database.updatePaymentBySubscriptionId(subscriptionId, {
-      paymentId,
-      status: 'failed',
-      amountPaid: null,
-      accessUntil: null,
-      rawPayment: razorpayPayment,
-      rawSubscription: razorpaySubscription,
-    });
+    if (!hasPaidPaymentEvidence(paymentRecord)) {
+      await Database.updatePaymentBySubscriptionId(subscriptionId, {
+        paymentId,
+        status: 'failed',
+        amountPaid: null,
+        accessUntil: null,
+        rawPayment: razorpayPayment,
+        rawSubscription: razorpaySubscription,
+      });
+    }
     return NextResponse.json({ error: 'Payment details do not match subscription' }, { status: 400 });
   }
 
@@ -226,11 +248,14 @@ async function verifyLegacySubscriptionPayment({ body, subscriptionId, sessionUs
     }),
   });
 
-  const user = await Database.updateUser(userId, {
-    subscriptionStatus: 'active',
-    isPremium: true,
-    premiumUntil,
-    razorpaySubscriptionId: subscriptionId,
+  const user = await settleUserEntitlement({
+    userId,
+    ownStatus: 'active',
+    ownAccessUntil: premiumUntil,
+    subscriptionId,
+    paymentId,
+    ownPaid: true,
+    forceOwnId: true,
   });
 
   await recordEarningIfApplicable(subscriptionId);

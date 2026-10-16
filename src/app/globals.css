@@ -1132,7 +1132,8 @@ html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, t
 .mmx-scrim {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  /* Portalled to <body> and above the app top bar (and its menus) and the bottom navigation. */
+  z-index: 1000;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -1222,13 +1223,9 @@ html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, t
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  min-height: 48px;
-  padding: 0.625rem 0.75rem;
-  border: 1px solid rgba(244, 245, 240, 0.09);
-  border-radius: 12px;
-  background: rgba(244, 245, 240, 0.03);
-  font-size: 0.875rem;
-  line-height: 1.4;
+  padding: 0.25rem 0;
+  font-size: 0.9375rem;
+  line-height: 1.45;
 }
 .mmx-locked li svg {
   width: 18px;
@@ -1239,16 +1236,6 @@ html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, t
 .mmx-locked li span {
   flex: 1;
   min-width: 0;
-}
-.mmx-locked li em {
-  flex-shrink: 0;
-  font-family: var(--font-display);
-  font-size: 0.625rem;
-  font-style: normal;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #8b9385;
 }
 .mmx-credits {
   padding: 0.875rem 1rem;
@@ -1301,12 +1288,9 @@ html[data-theme='light'] .skeleton::after { background: linear-gradient(90deg, t
 }
 .mmx-credits__runs span {
   display: block;
-  font-family: var(--font-display);
-  font-size: 0.625rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #8b9385;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #a6ae9f;
 }
 .mmx-credits__runs strong {
   display: block;
@@ -3189,6 +3173,48 @@ body:has(.mm) {
     align-items: start;
   }
 }
+.mm-plans__col {
+  display: grid;
+  gap: 1.25rem;
+  align-content: start;
+  min-width: 0;
+}
+/* Only side by side: on a phone the table right below says the same, so the note stays out of the scroll. */
+.mm-plans__note {
+  display: none;
+}
+@media (min-width: 860px) {
+  .mm-plans__col {
+    gap: 2rem;
+  }
+  .mm-plans__note {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0 1.5rem;
+    color: var(--ink-2);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .mm-plans__note h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .mm-plans__note ul {
+    display: grid;
+    gap: 0.625rem;
+    margin: 0;
+    padding: 0 0 0 1.1rem;
+  }
+  .mm-plans__note a {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
 
 .mm-plan {
   position: relative;
@@ -3357,8 +3383,22 @@ body:has(.mm) {
   height: 15px;
   color: var(--volt-edge);
 }
+.mm-checkout__hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
 .mm-checkout__submit {
   width: 100%;
+}
+.mm-checkout__submit:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+  background: var(--paper-sunken);
+  border-color: var(--line-strong);
+  color: var(--ink-2);
+  box-shadow: none;
 }
 .mm-checkout__spin {
   width: 18px;
@@ -3386,7 +3426,8 @@ body:has(.mm) {
   flex-shrink: 0;
 }
 .mm-checkout__msg[data-tone="bad"] {
-  color: var(--flag);
+  /* Night: #ff9d92 on the dark card (>= 4.5:1). Day: #b0291f. --flag alone was 2.99:1 at night. */
+  color: var(--bad-text, var(--flag));
 }
 .mm-checkout__trust {
   display: flex;
@@ -3417,8 +3458,10 @@ body:has(.mm) {
   min-height: 54px;
   padding: 0.75rem 1rem;
   border-radius: var(--r-2);
-  background: var(--volt);
-  color: var(--volt-ink);
+  /* A status, not a control: hairline, no fill, so it never reads as the primary button. */
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink);
   font-family: var(--font-display);
   font-size: 0.9375rem;
   font-weight: 700;
@@ -3426,6 +3469,7 @@ body:has(.mm) {
 .mm-checkout__active svg {
   width: 18px;
   height: 18px;
+  color: var(--accent-text, var(--ink));
 }
 
 /* ---------- Comparison ---------- */
@@ -3463,7 +3507,7 @@ body:has(.mm) {
    ink rather than with a highlighter wash — but they still have to read as
    one emphasised group at table scale, so the rule carries a tint with it. */
 .mm-cmp__row[data-popular="true"] {
-  background: rgba(16, 20, 14, 0.05);
+  background: transparent;
 }
 .mm-cmp__row[data-popular="true"] .mm-cmp__feature { font-weight: 700; color: var(--ink); }
 .mm-cmp__row[data-popular="true"] + .mm-cmp__row[data-popular="true"] {

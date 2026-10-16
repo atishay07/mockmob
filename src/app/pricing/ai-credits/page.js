@@ -43,10 +43,11 @@ const faqs = [
   },
 ];
 
-const RULES = [
-  ['Monthly credits spend first', 'The credits included with Free or Pro are used before any you bought.'],
-  ['Purchased credits never expire', 'They stay in your account until you use them.'],
-  ['Separate from Pro', 'Buying AI credits does not change your plan, and Pro does not use them up.'],
+// While top-ups are paused, the rules speak only about credits already bought, so none of them reads as an offer.
+const rulesFor = (checkoutOpen) => [
+  ['Monthly credits spend first', checkoutOpen ? 'The credits included with Free or Pro are used before any you bought.' : 'The credits included with Free or Pro are used before any you bought earlier.'],
+  [checkoutOpen ? 'Purchased credits never expire' : 'Credits you already bought never expire', 'They stay in your account until you use them.'],
+  ['Separate from Pro', checkoutOpen ? 'Buying AI credits does not change your plan, and Pro does not use them up.' : 'Credits you bought earlier did not change your plan, and Pro does not use them up.'],
 ];
 
 export default async function AICreditsPage() {
@@ -73,7 +74,6 @@ export default async function AICreditsPage() {
       <main>
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
           <div className="mm-wrap mm-wrap--tight">
-            <p className="aic-back"><Link href="/pricing" className="mm-link">Pricing</Link></p>
             <h1 className="mm-h1">AI credits</h1>
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
               Ask Mobi uses AI credits for written replies: {AI_FREE_MONTHLY_CREDITS} a month on Free and {AI_PRO_INCLUDED_MONTHLY_CREDITS} on Pro, kept apart from Practice credits.
@@ -122,7 +122,7 @@ export default async function AICreditsPage() {
           <div className="mm-wrap mm-wrap--tight">
             <h2 className="mm-h2">How AI credits work</h2>
             <ul className="aic-rules">
-              {RULES.map(([title, body]) => (
+              {rulesFor(checkoutOpen).map(([title, body]) => (
                 <li key={title}><b>{title}</b><p>{body}</p></li>
               ))}
             </ul>

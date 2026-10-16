@@ -1,0 +1,77 @@
+{
+  "note": "A small chapter pool for the repair check tests (data/tests/repair_check.test.mjs). Invented stems for tests only. The mistake is q_mistake; each candidate names what the selection rules must do with it.",
+  "mistake": {
+    "id": "q_mistake", "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_valuation", "concept": "Valuation of goodwill",
+    "question": "A firm earned average profits of 60,000 and the normal profit is 40,000. How is super profit found?",
+    "options": [ { "key": "A", "text": "Average profit minus normal profit" }, { "key": "B", "text": "Average profit plus normal profit" }, { "key": "C", "text": "Normal profit minus average profit" }, { "key": "D", "text": "Average profit divided by normal profit" } ],
+    "correct_answer": "A", "status": "live", "family_id": "fam_mistake", "question_type": "numerical", "explanation": "Super profit is the excess of average profit over normal profit."
+  },
+  "candidates": [
+    {
+      "id": "q_concept", "role": "same concept id: ranks first",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_valuation", "concept": "Valuation of goodwill",
+      "question": "Capitalisation of super profit method needs which two figures before goodwill can be found for a partnership firm?",
+      "options": [ { "key": "A", "text": "Super profit and the normal rate of return" }, { "key": "B", "text": "Drawings and the closing capital" }, { "key": "C", "text": "Sales and the purchase returns" }, { "key": "D", "text": "Reserves and the revaluation loss" } ],
+      "correct_answer": "A", "status": "live", "family_id": "fam_concept", "question_type": "numerical", "explanation": "Goodwill is super profit divided by the normal rate of return."
+    },
+    {
+      "id": "q_topic", "role": "same topic, other concept: ranks after the concept match",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_adjustment",
+      "question": "When a new partner pays a premium for goodwill, to which accounts is the premium credited?",
+      "options": [ { "key": "A", "text": "The sacrificing partners in the sacrificing ratio" }, { "key": "B", "text": "The new partner's capital account only" }, { "key": "C", "text": "The profit and loss account" }, { "key": "D", "text": "The cash book of the outgoing partner" } ],
+      "correct_answer": "A", "status": "live", "family_id": "fam_topic", "question_type": "conceptual"
+    },
+    {
+      "id": "q_chapter", "role": "same chapter only",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Admission of a partner", "concept_id": "adm_ratio",
+      "question": "What is the new profit sharing ratio called when a partner is admitted and the old partners give up shares?",
+      "options": [ { "key": "A", "text": "New ratio" }, { "key": "B", "text": "Gaining ratio" }, { "key": "C", "text": "Capital ratio" }, { "key": "D", "text": "Sacrificing ratio" } ],
+      "correct_answer": "A", "status": "live", "family_id": "fam_chapter", "question_type": "conceptual"
+    },
+    {
+      "id": "q_seen", "role": "same concept but the student has seen it: must be excluded",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_valuation",
+      "question": "Under the average profit method, goodwill equals average profit multiplied by the number of years purchase. True or false?",
+      "options": [ { "key": "A", "text": "True, goodwill is average profit times years of purchase" }, { "key": "B", "text": "False, it is the sum of capitals" }, { "key": "C", "text": "False, it is the closing stock" }, { "key": "D", "text": "False, it is the cash balance" } ],
+      "correct_answer": "A", "status": "live", "family_id": "fam_seen", "question_type": "conceptual"
+    },
+    {
+      "id": "q_family", "role": "same family as the mistake: excluded",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_valuation",
+      "question": "Which quantity do we get by subtracting normal profit from the profit earned by a partnership firm each year?",
+      "options": [ { "key": "A", "text": "Super profit" }, { "key": "B", "text": "Gross profit" }, { "key": "C", "text": "Net loss" }, { "key": "D", "text": "Retained earnings" } ],
+      "correct_answer": "A", "status": "live", "family_id": "fam_mistake", "question_type": "numerical"
+    },
+    {
+      "id": "q_copy", "role": "a near copy of the mistake's stem: excluded",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_valuation",
+      "question": "A firm earned average profits of 60,000 and the normal profit is 40,000. How is super profit found out?",
+      "options": [ { "key": "A", "text": "Average profit less normal profit" }, { "key": "B", "text": "Average profit added to normal profit" }, { "key": "C", "text": "Normal profit less average profit" }, { "key": "D", "text": "Average profit over normal profit" } ],
+      "correct_answer": "A", "status": "live", "family_id": "fam_copy", "question_type": "numerical"
+    },
+    {
+      "id": "q_held", "role": "disputed: excluded",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_valuation",
+      "question": "Which of these is an intangible asset that is valued when a partnership changes its profit sharing ratio?",
+      "options": [ { "key": "A", "text": "Goodwill" }, { "key": "B", "text": "Furniture" }, { "key": "C", "text": "Debtors" }, { "key": "D", "text": "Stock in trade" } ],
+      "correct_answer": "A", "status": "live", "verification_state": "disputed", "family_id": "fam_held", "question_type": "conceptual"
+    },
+    {
+      "id": "q_passage", "role": "passage-linked: excluded",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_valuation",
+      "question": "According to the passage, what did the partners agree about the valuation of goodwill at admission?",
+      "passage_text": "Ravi and Meena agreed that goodwill would be valued at two years purchase of the average profit of the last four years before Sana was admitted.",
+      "options": [ { "key": "A", "text": "Two years purchase of average profit" }, { "key": "B", "text": "Three years purchase of closing profit" }, { "key": "C", "text": "One year of drawings" }, { "key": "D", "text": "No goodwill is valued" } ],
+      "correct_answer": "A", "status": "live", "family_id": "fam_passage", "question_type": "case_study"
+    },
+    {
+      "id": "q_three", "role": "three options only: fails answer integrity",
+      "subject": "accountancy", "chapter": "Partnership Accounts", "topic": "Goodwill", "concept_id": "gw_valuation",
+      "question": "The excess of actual profit over normal profit is a measure used for valuing what kind of asset in a firm?",
+      "options": [ { "key": "A", "text": "Goodwill" }, { "key": "B", "text": "Plant" }, { "key": "C", "text": "Land" } ],
+      "correct_answer": "A", "status": "live", "family_id": "fam_three", "question_type": "conceptual"
+    }
+  ],
+  "seen": ["q_seen"],
+  "expect": { "first": "q_concept", "rankedOrder": ["q_concept", "q_topic", "q_chapter"], "excluded": { "q_seen": "seen", "q_family": "same_family", "q_copy": "near_copy", "q_held": "held", "q_passage": "passage", "q_three": "integrity" } }
+}

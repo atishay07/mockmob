@@ -9,10 +9,17 @@
 //   node --use-system-ca scripts/question-hold.mjs --mode=restore --restore=<restore.json>
 //
 // A list file is a JSON array of ids, or of objects with an id field.
+//
+// --mode=restore puts questions back in front of students, so it then rebuilds the nta_question_index rows of the subjects
+// it touched (data/nta_index.js): an earlier rebuild drops a held question's row, and the freshness check cannot see a
+// question that was only hidden and shown again. It needs CUET_EVIDENCE_SIGNING_KEY in .env.local or the environment, skips
+// quietly without it or without the table, never fails the restore, and --no-index-rebuild switches it off. Holding needs
+// no rebuild: the pool reads only live questions.
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { createClient } from '@supabase/supabase-js';
+import { rebuildNtaIndexForSubjects } from '../data/nta_index.js';
 
 const HOLD = Object.freeze({ status: 'pending', verification_state: 'disputed', exploration_state: 'pending_review' });
 const FIELDS = 'id, subject, chapter, status, verification_state, exploration_state, is_deleted';
@@ -76,14 +83,20 @@ async function main() {
   if (args.mode === 'restore') {
     const saved = JSON.parse(fs.readFileSync(args.restore, 'utf8'));
     let restored = 0;
+    const touched = new Set();
     for (const entry of saved.rows) {
       const { error } = await sb.from('questions')
         .update({ status: entry.status, verification_state: entry.verification_state, exploration_state: entry.exploration_state, updated_at: new Date().toISOString() })
         .eq('id', entry.id).match(HOLD);
       if (error) throw error;
       restored += 1;
+      if (entry.subject) touched.add(entry.subject);
     }
     console.log(`restored ${restored} of ${saved.rows.length}`);
+    if (touched.size && !process.argv.includes('--no-index-rebuild')) {
+      const ntaIndex = await rebuildNtaIndexForSubjects(sb, [...touched], { secret: env.CUET_EVIDENCE_SIGNING_KEY || process.env.CUET_EVIDENCE_SIGNING_KEY || '' });
+      console.log(JSON.stringify({ ntaIndex }, null, 1));
+    }
     return;
   }
 

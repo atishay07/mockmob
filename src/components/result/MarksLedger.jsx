@@ -108,7 +108,8 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
   if (!lab || !groups.length) return null;
   const labels = lab.labels || {};
   const headlineGroup = lab.headline?.group || null;
-  const fine = [...(lab.fine || []), ...(lab.cohort?.fine || [])].filter(Boolean);
+  // A paper without a clock record (state basic) gets its one line from the Lab (OlderPaper), not the ledger's fine line.
+  const fine = [...(lab.state === 'basic' && lab.older ? [] : lab.fine || []), ...(lab.cohort?.fine || [])].filter(Boolean);
 
   return (
     <div className="ml" data-split={phase} data-state={lab.state}>
