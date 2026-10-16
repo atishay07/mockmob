@@ -31,6 +31,7 @@ import { SignOutOtherDevicesSection } from '@/components/auth/SignOutOtherDevice
 import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
 import ArenaHead from '@/components/arena/ArenaHead';
 import InstallPractice from '@/components/InstallPractice';
+import TodayCompass from '@/components/du/TodayCompass';
 import './profile-privacy.css';
 import '@/components/profile/account.css';
 
@@ -249,6 +250,9 @@ export default function ProfilePageClient() {
             onRetry={() => { setMocks((m) => ({ ...m, status: 'loading' })); setMocksTry((n) => n + 1); }}
           />
 
+          {/* The Compass line (the DU programmes your subjects open, one key to Compass) moved here from Today, above
+              the colleges it names (TODAY-1017 section 7). */}
+          <TodayCompass />
           <AccountColleges userId={user?.id} />
           {/* Add to home screen moved here from the foot of Today (TODAY-1017 section 7); it shows only when the browser offers it. */}
           <InstallPractice />
