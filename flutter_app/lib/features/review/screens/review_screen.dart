@@ -26,6 +26,7 @@ import '../again/review_again_copy.dart';
 import '../again/review_again_entry.dart';
 import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
+import '../widgets/review_recent_papers.dart';
 import '../widgets/review_rows.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_layout.dart';
@@ -326,6 +327,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         for (var i = 0; i < shown.length; i++) gutter(RecordEntry(item: shown[i], clock: clock, first: i == 0, last: i == shown.length - 1)),
         gutter(FlushKey(label: ReviewCopy.seeRecord, onPressed: () => context.push(AppRoutes.reviewRecord))),
       ],
+      // The trend and the newest papers, moved here from Today (TODAY-1017 section 7).
+      gutter(ReviewRecentPapers(attempts: index.attempts), top: ReviewSpace.section),
       if (mocks.isNotEmpty) ...[
         gutter(SectionHeading(ReviewCopy.pastHeading, rule: true), top: ReviewSpace.section),
         for (final a in mocks)
