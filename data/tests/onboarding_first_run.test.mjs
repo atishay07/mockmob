@@ -47,7 +47,8 @@ test('the page wires the live rules and saves the goal the server checks', () =>
   assert.equal(GOAL_PATH, '/api/me/goal');
   const route = read('src/app/api/me/goal/route.js');
   assert.ok(route.includes('export async function PUT'));
-  assert.ok(route.includes('body.daysPerWeek < 1 || body.daysPerWeek > 7'), 'the server takes 1 to 7');
+  // The goal is checked by the shared rule (1 to 7, with or without chosen weekdays), tested in study_weekdays.test.mjs.
+  assert.ok(route.includes('resolveGoalWeekdays(body)'), 'the server takes 1 to 7');
   // Preview never writes the goal (the fixture blocks unknown writes).
   assert.ok(/if \(preview\) \{ setNotice\('Preview only: your days were checked here/.test(page));
   assert.ok(page.includes("That's five. Remove one to swap."));
@@ -56,7 +57,7 @@ test('the page wires the live rules and saves the goal the server checks', () =>
 test('days: 1 to 7, Skip keeps the server default of 4', () => {
   assert.deepEqual([...DAY_OPTIONS], [1, 2, 3, 4, 5, 6, 7]);
   assert.equal(DEFAULT_DAYS, 4);
-  assert.match(read('src/lib/server/appPrefs.js'), /daysPerWeek: row\?\.days_per_week \?\? 4/, 'the server reads a missing goal as 4');
+  assert.match(read('src/lib/server/appPrefs.js'), /const daysPerWeek = row\?\.days_per_week \?\? 4;/, 'the server reads a missing goal as 4');
   assert.equal(cleanDays(5), 5);
   assert.equal(cleanDays('6'), 6);
   for (const bad of [0, 8, -1, NaN, null, undefined, 'x']) assert.equal(cleanDays(bad), DEFAULT_DAYS);

@@ -1,6 +1,7 @@
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { computeRhythm, localDay, weekStart, planGoalHistoryWrites, DEFAULT_TIMEZONE } from './rhythm';
+import { maskToStore, weekdaysOut } from '@/lib/studyWeekdays.mjs';
 
 export const TIMEZONES = ['Asia/Kolkata', 'Asia/Dubai', 'Asia/Singapore', 'Asia/Kathmandu', 'Asia/Dhaka', 'Asia/Colombo', 'Asia/Karachi', 'Europe/London', 'America/New_York', 'America/Los_Angeles', 'Australia/Sydney', 'UTC'];
 export const CHANNEL_KEYS = ['check_due', 'weekly_plan', 'study_window', 'result_ready'];
@@ -48,7 +49,12 @@ export async function revokeDevice(userId, token) {
   if (error) throw fail('DEVICE_UNAVAILABLE', error);
 }
 
-export const goalOut = row => ({ daysPerWeek: row?.days_per_week ?? 4, timezone: row?.timezone || 'Asia/Kolkata', pausedUntil: row?.paused_until || null });
+// `weekdays`: the days the student chose (0 = Monday), or null when none are held or their count no longer
+// matches the goal (src/lib/studyWeekdays.mjs). The mask column is read only if the row has it.
+export const goalOut = row => {
+  const daysPerWeek = row?.days_per_week ?? 4;
+  return { daysPerWeek, timezone: row?.timezone || 'Asia/Kolkata', pausedUntil: row?.paused_until || null, weekdays: weekdaysOut(row?.weekday_mask, daysPerWeek) };
+};
 
 export async function getGoal(userId) {
   const { data, error } = await supabaseAdmin().from('study_goals').select('*').eq('user_id', userId).maybeSingle();
@@ -66,10 +72,15 @@ export async function loadGoalHistory(userId) {
   } catch { return []; }
 }
 
-export async function saveGoal(userId, { daysPerWeek, pausedUntil }) {
+/**
+ * `weekdays`: undefined keeps the stored plan while its count still matches the goal (and drops it when
+ * it does not), null clears it, an array of validated weekdays (0 = Monday) replaces it. The plan and the
+ * goal are written in one row, so the website and the app never see one without the other.
+ */
+export async function saveGoal(userId, { daysPerWeek, pausedUntil, weekdays }) {
   const db = supabaseAdmin();
   const [prev, tzRes, history] = await Promise.all([
-    db.from('study_goals').select('days_per_week,timezone').eq('user_id', userId).maybeSingle(),
+    db.from('study_goals').select('*').eq('user_id', userId).maybeSingle(),
     db.from('notification_prefs').select('timezone').eq('user_id', userId).maybeSingle(),
     loadGoalHistory(userId),
   ]);
@@ -84,6 +95,8 @@ export async function saveGoal(userId, { daysPerWeek, pausedUntil }) {
     if (historyError && historyError.code !== '42P01') throw fail('GOAL_UNAVAILABLE', historyError);
   }
   const row = { user_id: userId, days_per_week: daysPerWeek, paused_until: pausedUntil ?? null, updated_at: new Date().toISOString() };
+  const mask = maskToStore({ weekdays, daysPerWeek, previousMask: prev.data?.weekday_mask });
+  if (mask !== undefined) row.weekday_mask = mask;
   const { data, error } = await db.from('study_goals').upsert(row, { onConflict: 'user_id' }).select('*').single();
   if (error) throw fail('GOAL_UNAVAILABLE', error);
   return goalOut(data);
