@@ -105,7 +105,7 @@ test('milestones with first-achieved dates', () => {
   // Week of 2026-08-31 has study days Sep 1..6 => the 4th day (Sep 4) met the goal.
   assert.equal(m.first_week_met, d('2026-09-04'));
   assert.ok(m.weeks_met_4);
-  assert.equal(r.milestones.length, 9);
+  assert.equal(r.milestones.length, 10); // + run_weeks_3 (first_hold only when its read is passed)
   assert.ok(!('fresh_check' in m));
 });
 

@@ -17,6 +17,7 @@ Branch `web/revise-events-1016`. One server list of the 16 badges from `app-you-
   "total": 16,
   "earnedCount": 7,
   "bestRunEndedWeek": "2026-10-05",
+  "unavailable": [],
   "badges": [
     {
       "id": "first_scored_session",
@@ -66,6 +67,8 @@ Fields of each badge:
 
 `bestRunEndedWeek`: Monday (`YYYY-MM-DD`, the student's own timezone) of the last week of the student's longest run of weeks at goal; `null` before any week at goal. The app asked for it in `app-you-1016.md` section 11.
 
+`unavailable`: ids whose record could not be read this time (today only `first_hold`, which has its own read). Such a badge comes back `earned: false`; a client must not draw it as "Not yet" or "locked" but leave it out or show it quietly unknown, and ask again later. Normally `[]`. An answer with a non-empty `unavailable` is never cached.
+
 ### The 16 badges
 
 | # | id | path | earned when (and `earnedAt`) | progress target |
@@ -87,11 +90,13 @@ Fields of each badge:
 | 15 | `four_subjects` | best | Scored set in 4 different subjects (5 or more answered each). The attempt that made the 4th. | 4 |
 | 16 | `new_best` | best | An attempt whose marks (`correct * 5 - wrong`) are strictly above every earlier attempt of the same format id (`formatIdFor`). The beating attempt. | 1 |
 
+Facts from production (read-only, 16 Oct 2026): 1807 of 1815 stored attempts have no `scoringVersion` (scored on the device, before server scoring) and only 8 are server-scored, so almost every student starts with the five attempt-derived badges not earned, exactly as on the phone. `new_best` follows the phone's rule (any format id, so two 10-question quick sets of the same subject can earn it); the vision text says "same kind of mock", so the owner may want it limited to full and NTA papers on both sides at once.
+
 Rules shared with the app (so a badge cannot be earned on one and not the other): only server-scored attempts count (`scoringVersion` is `server_practice_v1` or `server_snapshot_v1`); each attempt is dated by its own `completed_at`; every rule uses a threshold that only grows, so a badge is never taken back; a week that was met stays met in the data the badge reads.
 
 ### Rhythm route
 
-`GET /api/me/rhythm` `milestones[]` gains two ids so the app's existing path works unchanged: `run_weeks_3` (pure, from the weeks already read) and `first_hold` (one extra tiny read: the student's earliest right check). Both are listed with `achievedAt: null` until earned. If the hold read fails, `first_hold` is left out of the list (not shown as falsely locked). The response also gains `bestRunEndedWeek`. Nothing existing is renamed or removed.
+`GET /api/me/rhythm` `milestones[]` gains two ids (and a `counts` object, `{sessions, repairs, weeksMet}`, that the badge progress reads) so the app's existing path works unchanged: `run_weeks_3` (pure, from the weeks already read) and `first_hold` (one extra tiny read: the student's earliest right check). Both are listed with `achievedAt: null` until earned. If the hold read fails, `first_hold` is left out of the list (not shown as falsely locked). The response also gains `bestRunEndedWeek`. Nothing existing is renamed or removed.
 
 ## Where each badge comes from (no new table)
 

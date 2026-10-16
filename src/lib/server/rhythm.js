@@ -13,7 +13,10 @@
 //    applied) every week uses the current goal.
 //  - A week counts as paused only if paused_until covers its Sunday and the goal was not met;
 //    the pause start is not stored, so a pause never retroactively hides a met week.
-//  - Fresh-check milestones are omitted: no server record of passed fresh checks is read here.
+//  - first_hold ("It held") comes from the caller: `firstHoldAt` is the time of the student's earliest right
+//    "Check it held" answer (ISO), null when there is none, or undefined when it could not be read. Undefined
+//    leaves the id out of the list, so a failed read is never shown as a locked badge.
+//  - run_weeks_3 is dated by the moment the third week of the first run of 3 weeks at goal reached its goal.
 
 export const DEFAULT_TIMEZONE = 'Asia/Kolkata';
 export const RETURNING_AFTER_DAYS = 3;
@@ -118,8 +121,9 @@ function normalise(activities) {
  * @param {string|null} [p.pausedUntil]  'YYYY-MM-DD'
  * @param {string} [p.timeZone]
  * @param {number|string|Date} [p.now]
+ * @param {string|null} [p.firstHoldAt]  earliest right "Check it held" answer (ISO); undefined = not read
  */
-export function computeRhythm({ activities = [], daysPerWeek = 4, goalHistory = [], pausedUntil = null, timeZone = DEFAULT_TIMEZONE, now = Date.now() } = {}) {
+export function computeRhythm({ activities = [], daysPerWeek = 4, goalHistory = [], pausedUntil = null, timeZone = DEFAULT_TIMEZONE, now = Date.now(), firstHoldAt = undefined } = {}) {
   const goal = clampGoal(daysPerWeek);
   const nowMs = toMs(now);
   const events = normalise(activities).filter(e => e.at <= nowMs);
@@ -154,11 +158,17 @@ export function computeRhythm({ activities = [], daysPerWeek = 4, goalHistory = 
     }
   }
 
-  // Best run over all history, same rules, oldest to newest.
-  let bestRun = 0, run = 0;
+  // Best run over all history, same rules, oldest to newest. Also: the week the best run ended and the
+  // instant the first run of 3 weeks at goal was complete (the goal-th study day of its third week).
+  let bestRun = 0, run = 0, bestRunEndedWeek = null, run3At = null;
+  const metInstant = w => [...weeks.get(w).values()].sort((a, b) => a - b)[goalOf(w) - 1];
   if (firstWeek) {
     for (let w = firstWeek; w <= thisWeek; w = addDays(w, 7)) {
-      if (metIn(w)) { run++; bestRun = Math.max(bestRun, run); }
+      if (metIn(w)) {
+        run++;
+        if (run >= bestRun) { bestRun = run; bestRunEndedWeek = w; }
+        if (run >= 3 && run3At == null) run3At = metInstant(w);
+      }
       else if (w === thisWeek || pausedWeek(w)) continue;
       else run = 0;
     }
@@ -202,13 +212,26 @@ export function computeRhythm({ activities = [], daysPerWeek = 4, goalHistory = 
     repairsThisWeek,
     mocksThisWeek,
     lastClosedWeek,
-    milestones: computeMilestones(events, weeks, goalOf),
+    bestRunEndedWeek,
+    counts: countsOf(events, weeks, goalOf),
+    milestones: computeMilestones(events, weeks, goalOf, { run3At, firstHoldAt }),
+  };
+}
+
+/** Exact counts toward the countable badges, from the records read (never more than the badge needs is promised). */
+function countsOf(events, weeks, goalOf) {
+  let weeksMet = 0;
+  for (const [w, days] of weeks) if (days.size >= goalOf(w)) weeksMet++;
+  return {
+    sessions: events.filter(e => e.kind === 'session').length,
+    repairs: events.filter(e => e.kind === 'repair').length,
+    weeksMet,
   };
 }
 
 const MILESTONE_IDS = ['first_scored_session', 'first_full_mock', 'first_repair', 'repairs_5', 'repairs_10', 'repairs_25', 'sessions_10', 'first_week_met', 'weeks_met_4'];
 
-function computeMilestones(events, weeks, goalOf) {
+function computeMilestones(events, weeks, goalOf, { run3At = null, firstHoldAt } = {}) {
   const sessions = events.filter(e => e.kind === 'session');
   const repairs = events.filter(e => e.kind === 'repair');
   const iso = e => (e ? new Date(e.at).toISOString() : null);
@@ -230,5 +253,12 @@ function computeMilestones(events, weeks, goalOf) {
     first_week_met: metAt.length >= 1 ? new Date(metAt[0]).toISOString() : null,
     weeks_met_4: metAt.length >= 4 ? new Date(metAt[3]).toISOString() : null,
   };
-  return MILESTONE_IDS.map(id => ({ id, achievedAt: at[id] }));
+  const list = MILESTONE_IDS.map(id => ({ id, achievedAt: at[id] }));
+  // New ids (app-you-1016): run_weeks_3 is always listed; first_hold only when its read succeeded.
+  list.push({ id: 'run_weeks_3', achievedAt: run3At == null ? null : new Date(run3At).toISOString() });
+  if (firstHoldAt !== undefined) {
+    const t = firstHoldAt == null ? NaN : Date.parse(firstHoldAt);
+    list.push({ id: 'first_hold', achievedAt: Number.isFinite(t) ? new Date(t).toISOString() : null });
+  }
+  return list;
 }
