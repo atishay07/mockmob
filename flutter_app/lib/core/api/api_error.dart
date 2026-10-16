@@ -63,6 +63,12 @@ abstract final class ApiCodes {
   static const stepConflict = 'STEP_CONFLICT';
   static const idempotencyConflict = 'IDEMPOTENCY_CONFLICT';
   static const checkNotAvailable = 'check_not_available';
+  // The repair's check (`/api/recovery/check`, contract repair-check-v1): each is sent with a sentence
+  // written for the student, so its `message` may reach the screen (see [ApiError.studentMessageCodes]).
+  static const repairFirst = 'repair_first';
+  static const checkChanged = 'check_changed';
+  static const invalidPick = 'invalid_pick';
+  static const lookupFailed = 'lookup_failed';
 }
 
 /// A failed API call. Carries a machine [code], never the server's own text: servers return
@@ -141,7 +147,8 @@ class ApiError implements Exception {
     return m is String && m.isNotEmpty ? m : null;
   }
 
-  /// Codes whose `message` is plain student copy (the repair route, `data/repair_failures.js`).
+  /// Codes whose `message` is plain student copy (the repair route, `data/repair_failures.js`, and
+  /// the repair's check route).
   static const studentMessageCodes = {
     ApiCodes.providerTimeout,
     ApiCodes.providerUnavailable,
@@ -150,6 +157,10 @@ class ApiError implements Exception {
     ApiCodes.unusableOutput,
     ApiCodes.couldNotStart,
     ApiCodes.providerError,
+    ApiCodes.repairFirst,
+    ApiCodes.checkChanged,
+    ApiCodes.invalidPick,
+    ApiCodes.lookupFailed,
   };
 
   /// True when repeating the same call may succeed without the student changing anything.

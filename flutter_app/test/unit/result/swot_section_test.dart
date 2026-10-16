@@ -396,6 +396,53 @@ void main() {
       }
     });
   });
+  group("marked for review (the website's own sentences)", () {
+    Map<String, dynamic> marked(String which) {
+      final all = jsonDecode(File('test/fixtures/swot_marked_review_v1.json').readAsStringSync()) as Map<String, dynamic>;
+      return {'swot': (all[which] as Map<String, dynamic>)['swot']};
+    }
+
+    testWidgets('marked blanks are an opportunity: the title, the sentence with its denominator, the Q buttons and the timed plan row', (tester) async {
+      await pump(tester, marked('blank'));
+      expect(find.text('Marked for review, left blank'), findsOneWidget);
+      expect(
+        find.textContaining('You marked 6 of 50 questions for review and answered 4 of them: 3 right, 1 wrong. 2 stayed blank: 10 marks not earned.'),
+        findsOneWidget,
+      );
+      await seeInMiddle(tester, find.text('Marked for review, left blank'));
+      expect(find.text('Q5'), findsOneWidget);
+      expect(find.text('Q6'), findsOneWidget);
+      expect(find.text('Practise 20, timed'), findsOneWidget);
+      expect(find.text('2 of the 6 questions you marked for review were left blank.'), findsOneWidget);
+      // The item is the Opportunities group's own: heading, then the item, then Threats.
+      double top(String t) => tester.getTopLeft(find.text(t)).dy;
+      expect(top('Weaknesses') < top('Opportunities'), isTrue);
+      expect(top('Opportunities') < top('Marked for review, left blank'), isTrue);
+      expect(top('Marked for review, left blank') < top('Threats'), isTrue);
+    });
+
+    testWidgets('the timed plan row opens Quick setup for 20, and costs nothing before the second tap', (tester) async {
+      await pump(tester, marked('blank'));
+      await seeInMiddle(tester, find.text('Practise 20, timed'));
+      await tester.tap(find.text('Set up'));
+      await tester.pumpAndSettle();
+      final uri = openedAt(tester);
+      expect(uri.path, '/practice/setup/quick');
+      expect(uri.queryParameters, {'subject': 'accountancy', 'count': '20'});
+    });
+
+    testWidgets('answered marks are a strength or a weakness on their own numbers, with no plan row', (tester) async {
+      await pump(tester, marked('strength'));
+      expect(find.text('Marked for review, then answered'), findsOneWidget);
+      expect(find.text('You marked 6 of 50 questions for review and answered all of them: 5 right, 1 wrong.'), findsOneWidget);
+      expect(find.text('Set up'), findsNothing);
+      SwotSection.debugResetSeen();
+      await pump(tester, marked('weakness'));
+      expect(find.text('Marked for review, then wrong'), findsOneWidget);
+      expect(find.text('You marked 5 of 50 questions for review and answered all of them: 1 right, 4 wrong.'), findsOneWidget);
+    });
+  });
+
   group("the website's real contract_v1.json", () {
     for (final brightness in Brightness.values) {
       testWidgets('${brightness.name}: the server strings are drawn as sent, with no overflow at 360 and 1.3 text', (tester) async {

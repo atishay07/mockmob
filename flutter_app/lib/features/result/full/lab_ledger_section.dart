@@ -11,6 +11,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../insights/widgets/motion_bits.dart' show WhenInView;
 import '../copy.dart';
+import 'lab_older_note.dart';
 
 /// "Mistake Lab" on the full result (Mistake Lab v4 slice 1, spec 4.1 to 4.3): the marks ledger.
 ///
@@ -254,6 +255,9 @@ class _LabLedgerSectionState extends State<LabLedgerSection> with TickerProvider
               Text(line, style: fine),
               const SizedBox(height: MmSpace.s4),
             ],
+            // An older paper: what its record cannot show, and the one timed mock that makes the
+            // next one whole.
+            if (lab.older != null) LabOlderNote(older: lab.older!),
           ],
         ),
       ),

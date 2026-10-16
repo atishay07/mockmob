@@ -32,6 +32,7 @@ class MistakeLab {
     this.ruleCheck,
     this.traps,
     this.later,
+    this.older,
   });
 
   /// A paper with a usable record of its time and picks: the full split.
@@ -95,6 +96,8 @@ class MistakeLab {
       // Slice 4: the trap tags and Same mistakes later, each read on its own.
       traps: LabTraps.tryParse(j['traps']),
       later: j['prove'] is Map ? SameMistakesLater.tryParse(asJson(j['prove'])['later']) : null,
+      // Repair v4: an older paper's one honest line and its one action. Read on its own.
+      older: LabOlder.tryParse(j['older']),
     );
   }
 
@@ -160,6 +163,10 @@ class MistakeLab {
   /// Which of this paper's wrong answers come back in Revise, and when (slice 4, spec 4.8).
   final SameMistakesLater? later;
 
+  /// What this older paper's record cannot show, and why, with the one action that makes the next
+  /// paper whole (Repair v4). Null when the paper's record is whole, or from an older server.
+  final LabOlder? older;
+
   /// The question numbers of group [id] (a replay chip's filter), empty when it has none.
   List<int> numbersOf(String id) {
     for (final g in groups) {
@@ -173,6 +180,53 @@ class MistakeLab {
 
   /// How other students answered question [qid], or null.
   LabOthers? othersFor(String qid) => byQuestion[qid]?.others;
+}
+
+/// An older paper's record is not whole, said once and honestly (`lab.older`, built by the
+/// website's `olderPaper` in `data/mistake_lab.js`): the line says what the record cannot show and
+/// why (nothing here is a cause or a forecast), and the action is a timed mock of that subject.
+class LabOlder {
+  const LabOlder({required this.reason, required this.line, this.action});
+
+  /// Null when there is no line: a note with nothing to say is no note.
+  static LabOlder? tryParse(Object? v) {
+    if (v is! Map) return null;
+    final j = asJson(v);
+    final line = _text(j['line']);
+    if (line == null) return null;
+    return LabOlder(reason: _text(j['reason']) ?? '', line: line, action: LabOlderAction.tryParse(j['action']));
+  }
+
+  /// `no_clock`, `short`, `unreadable`, `not_matched` or `before_capture`; anything else reads as it is.
+  final String reason;
+
+  /// "This paper has no clock record, so its time, answer changes and replay are not shown."
+  final String line;
+
+  /// Null when the server sent no usable action: the line shows alone.
+  final LabOlderAction? action;
+}
+
+/// "Take a timed mock to see your full Lab": a full mock of [subject], through the practice setup
+/// (which shows its cost before anything starts).
+class LabOlderAction {
+  const LabOlderAction({required this.label, this.subject, this.mode = 'full'});
+
+  static LabOlderAction? tryParse(Object? v) {
+    if (v is! Map) return null;
+    final j = asJson(v);
+    final label = _text(j['label']);
+    if (label == null) return null;
+    return LabOlderAction(label: label, subject: _text(j['subject']), mode: _text(j['mode']) ?? 'full');
+  }
+
+  final String label;
+
+  /// The attempt's subject id (`accountancy`), or null for a paper with none.
+  final String? subject;
+
+  /// `full`: a timed mock.
+  final String mode;
 }
 
 /// The words the server sends for the Lab's own labels. A missing label falls back to contract

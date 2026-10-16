@@ -185,11 +185,15 @@ class _OutlineDraw extends CustomPainter {
 
 /// One option row with its mark.
 class MarkedOption extends StatelessWidget {
-  const MarkedOption({super.key, required this.letter, required this.text, this.mark = OptionMark.none, this.reveal});
+  const MarkedOption({super.key, required this.letter, required this.text, this.mark = OptionMark.none, this.reveal, this.word});
 
   final String letter;
   final String text;
   final OptionMark mark;
+
+  /// The tag's words in place of "Your answer" / "Correct answer" (the repair's check says "Key",
+  /// "Your pick" and "Your pick and the key"). Null keeps the review's own words.
+  final String? word;
 
   /// The key reveal's clock, or null for the final state.
   final Animation<double>? reveal;
@@ -210,12 +214,13 @@ class MarkedOption extends StatelessWidget {
     // work, so the two never shout at once.
     // Mid-reveal the key reads as a plain option until its outline has drawn round.
     final keyLanded = t >= KeyRevealTiming.strokeEnd;
-    final (fill, border, bubble, word) = switch (mark) {
+    final (fill, border, bubble, markWord) = switch (mark) {
       OptionMark.yours => (colors.raised, colors.line, BubbleState.wrong, ReviewCopy.yourAnswer),
       OptionMark.correct when !keyLanded => (colors.raised, colors.line, BubbleState.hollow, ReviewCopy.correctAnswer),
       OptionMark.correct => (selectedSurfaceOf(colors), colors.ink, BubbleState.filled, ReviewCopy.correctAnswer),
       OptionMark.none => (colors.raised, colors.line, BubbleState.hollow, null),
     };
+    final word = this.word ?? markWord;
     final wordOpacity = switch (mark) {
       OptionMark.yours => KeyRevealTiming.window(t, KeyRevealTiming.yourWordStart, KeyRevealTiming.yourWordEnd),
       OptionMark.correct => KeyRevealTiming.window(t, KeyRevealTiming.keyWordStart, 1),

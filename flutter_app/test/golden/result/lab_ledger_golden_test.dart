@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/result/full/answer_row.dart';
 import 'package:mockmob/features/result/full/lab_ledger_section.dart';
+import 'package:mockmob/features/result/full/lab_older_note.dart';
 
 import '../../helpers/fonts.dart';
 import '../../unit/result/support/lab_fixtures.dart';
@@ -55,6 +56,19 @@ void main() {
       await tester.tap(find.text('Wrong answers'));
       await tester.pumpAndSettle();
       await _shot(tester, 'lab_ledger_basic_$tag');
+    });
+
+    // Repair v4: the honest older-paper Lab. A paper from before the capture with nothing missed shows only
+    // its one line and its one action, at 390 wide.
+    testWidgets('older paper note, before the capture ($tag)', (tester) async {
+      await pumpLabHost(
+        tester,
+        LabOlderNote(older: labOf('none').older!, onAction: (_) {}),
+        brightness: b,
+        size: const Size(390, 340),
+      );
+      await tester.pumpAndSettle();
+      await _shot(tester, 'lab_older_note_$tag');
     });
 
     testWidgets('answer row with how others answered ($tag)', (tester) async {

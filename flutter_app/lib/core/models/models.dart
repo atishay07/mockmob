@@ -16,6 +16,7 @@ export 'notification_prefs.dart';
 export 'practice_quote.dart';
 export 'question.dart';
 export 'repair.dart';
+export 'repair_check.dart';
 export 'rhythm.dart';
 export 'session.dart';
 export 'session_draft.dart';

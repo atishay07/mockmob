@@ -85,6 +85,8 @@ abstract final class ActionRouter {
 
   static final RegExp _id = RegExp(r'^[A-Za-z0-9_-]{1,100}$');
   static final RegExp _word = RegExp(r'^[a-z][a-z0-9_-]{0,23}$');
+  /// A question handed to Ask: `<attemptId>:<questionId>` (`/ask?q=`).
+  static final RegExp _questionRef = RegExp(r'^[A-Za-z0-9_-]{1,100}:[A-Za-z0-9_-]{1,100}$');
   static final RegExp _subject = RegExp(r'^[A-Za-z0-9_.-]{1,64}$');
   static final RegExp _count = RegExp(r'^\d{1,3}$');
 
@@ -193,7 +195,7 @@ abstract final class ActionRouter {
       case 'analytics':
         if (s.length == 1) return AppRoutes.reviewInsights;
       case 'mentor':
-        if (s.length == 1) return q['tab'] == 'ask' ? AppRoutes.ask : AppRoutes.reviewInsights;
+        if (s.length == 1) return q['tab'] == 'ask' ? _ask(q) : AppRoutes.reviewInsights;
       case 'admission-compass' || 'cuet-cutoff-calculator':
         if (s.length == 1) return AppRoutes.toolsCompass;
       case 'cuet-subject-combination':
@@ -218,6 +220,7 @@ abstract final class ActionRouter {
   /// reads, each checked. Any other parameter is dropped: a link can never pass the app
   /// something no screen asks for. Keep this in step with the route builders:
   ///  - `/review/repair/:attemptId/:questionId`: `count` (review_routes.dart)
+  ///  - `/ask`: `q`, a repaired mistake handed over (insights_routes.dart)
   ///  - `/result/:attemptId`: `q` (result_routes.dart), mapped in [_mapToNative]
   ///  - `/practice/setup/:mode` and `/practice/start`: `mode` and what `PracticeLink.of` reads
   ///  - `/practice/stream`: subject, chapter, difficulty, or `source=saved` with `start`
@@ -229,6 +232,7 @@ abstract final class ActionRouter {
     }
     if (path == AppRoutes.practiceStart) return _start(q);
     if (path == AppRoutes.practiceStream) return _stream(q);
+    if (path == AppRoutes.ask) return _ask(q);
     if (path == AppRoutes.examNta) {
       final subject = q['subject'];
       return _withParams(path, {if (subject != null && _subject.hasMatch(subject)) 'subject': subject});
@@ -238,6 +242,13 @@ abstract final class ActionRouter {
       return _withParams(path, {if (count != null && _positive.hasMatch(count)) 'count': count});
     }
     return path;
+  }
+
+  /// Ask, optionally with the repaired mistake it was handed (`q=<attemptId>:<questionId>`). A
+  /// reference that is not that shape is dropped, so a link can never hand Ask anything else.
+  static String _ask(Map<String, String> q) {
+    final ref = q['q'];
+    return _withParams(AppRoutes.ask, {if (ref != null && _questionRef.hasMatch(ref)) 'q': ref});
   }
 
   static String _withParams(String path, Map<String, dynamic> params) =>

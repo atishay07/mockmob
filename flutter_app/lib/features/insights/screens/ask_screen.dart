@@ -18,6 +18,7 @@ import '../copy.dart';
 import '../data/ai_reply_report.dart';
 import '../data/ask_citation.dart';
 import '../data/ask_controller.dart';
+import '../data/ask_question.dart';
 import '../data/ask_wallet.dart';
 import '../data/evidence.dart';
 import '../data/insights_models.dart';
@@ -27,6 +28,7 @@ import '../widgets/ask_marks.dart';
 import '../widgets/ask_messages.dart';
 import '../widgets/answer_text.dart';
 import '../widgets/ask_prompts.dart';
+import '../widgets/ask_question_card.dart';
 import '../widgets/ask_wallet.dart';
 import '../widgets/insights_bits.dart';
 import '../widgets/motion_bits.dart';
@@ -42,10 +44,14 @@ import 'insights_screen.dart';
 /// by intent. Once the conversation starts Mobi moves into the header and acts (thinks while a
 /// reply is on its way, talks when it lands).
 class AskScreen extends ConsumerStatefulWidget {
-  const AskScreen({super.key, this.seed});
+  const AskScreen({super.key, this.seed, this.questionRef});
 
   /// Text to start the composer with (from "Ask why" on a question). Never sent by itself.
   final String? seed;
+
+  /// The repaired mistake Ask was handed (`<attemptId>:<questionId>`, from "Ask Mobi about Q3"):
+  /// shown in a card, and sent with every message while it is there. Null for an ordinary visit.
+  final String? questionRef;
 
   @override
   ConsumerState<AskScreen> createState() => _AskScreenState();
@@ -85,6 +91,13 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       if (ref.read(insightsRepositoryProvider).value == null) ref.read(insightsRepositoryProvider.notifier).refresh();
+      // A question handed over from a repair is opened (its context read); an ordinary visit hands
+      // nothing over, so an earlier question never rides along.
+      if (cleanQuestionRef(widget.questionRef) != null) {
+        ref.read(askQuestionProvider.notifier).open(widget.questionRef);
+      } else {
+        ref.read(askQuestionProvider.notifier).clear();
+      }
       // A question that was on its way when the app closed comes back with Send again.
       ref.read(askControllerProvider.notifier).restoreInterrupted();
     });
@@ -103,6 +116,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final message = (text ?? _text.text).trim();
     // A reply is still on its way: keep the draft where it is, nothing is sent.
     if (message.isEmpty || ref.read(askControllerProvider).busy) return;
+    // The handed-over question is still opening: nothing is sent, and the words stay in the field.
+    if (ref.read(askQuestionProvider)?.loading ?? false) return;
     if (!await _disclosed(message)) return;
     if (!mounted || ref.read(askControllerProvider).busy) return;
     ref.read(hapticsProvider).light();
@@ -124,14 +139,15 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final store = ref.read(insightsPrefsStoreProvider);
     if (await aiServiceDisclosed(store)) return true;
     if (!mounted) return false;
+    final withQuestion = ref.read(askQuestionProvider)?.ready ?? false;
     final go = await showMmSheet<bool>(
       context: context,
-      title: InsightsCopy.disclosureTitle,
+      title: withQuestion ? InsightsCopy.disclosureTitleQuestion : InsightsCopy.disclosureTitle,
       builder: (sheet) => Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(InsightsCopy.disclosureBody, style: sheet.mmType.body),
+          Text(withQuestion ? InsightsCopy.disclosureBodyQuestion : InsightsCopy.disclosureBody, style: sheet.mmType.body),
           const SizedBox(height: MmSpace.s20),
           KeyButton(label: InsightsCopy.disclosureSend, onPressed: () => Navigator.of(sheet).pop(true)),
           const SizedBox(height: MmSpace.s4),
@@ -157,6 +173,9 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (wallet?.paused ?? false) return InsightsCopy.askPausedLine;
     final text = typed.trim();
     final balance = wallet?.total;
+    // A question handed over from a repair is only ever answered by a written reply: the line never
+    // says record questions are free, because a record answer cannot discuss it.
+    if (ref.read(askQuestionProvider)?.ready ?? false) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
     if (text.isEmpty) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteIdle(balance);
     if (ref.read(askControllerProvider.notifier).answersOnPhone(text)) return InsightsCopy.askNoteFree;
     return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
@@ -278,6 +297,13 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final name = _firstName(ref.watch(authSnapshotProvider.select((s) => s.name)));
     final pad = MediaQuery.paddingOf(context);
     final conversation = state.messages.isNotEmpty;
+    final hand = ref.watch(askQuestionProvider);
+    final withQuestion = hand != null && hand.ready;
+    // A handed-over question can only be answered by a written reply. When those cannot be bought
+    // (paused, no credits, unreadable) Mobi cannot answer it: the card says so once, and the
+    // composer goes (a greyed-out field for a question that cannot be asked is a dead end).
+    final blockedQuestion = withQuestion && wallet != null && wallet.cannotWrite;
+    void dropQuestion() => ref.read(askQuestionProvider.notifier).clear();
     final canReport = ref.watch(aiReplyReportAvailableProvider);
 
     final attempts = inputs.attempts;
@@ -296,7 +322,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     // the footer takes 240 more), one chip after another 60 ms apart.
     final lastIsNew = conversation && state.messages.length - 1 >= settled;
     final revealMs = lastIsNew && !state.messages.last.fromStudent ? (state.messages.last.text.split(RegExp(r'\s+')).length * 18).clamp(300, 900) : 0;
-    final followUps = !conversation || state.busy || last == null || last.failure != null
+    final followUps = hand != null || !conversation || state.busy || last == null || last.failure != null
         ? const <AskPrompt>[]
         : [
             for (final p in [...recordPrompts(record, pro: pro), ...moreRecordPrompts(), ...openPrompts(record)])
@@ -367,14 +393,20 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                           // the space between is the thread's, never a dead band above it.
                           mainAxisAlignment: conversation ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                           children: [
-                            if (!conversation)
+                            if (!conversation && hand != null)
+                              ..._questionStage(record, name, hand, blockedQuestion, dropQuestion)
+                            else if (!conversation)
                               ..._stage(record, pro, name, sendPrompt)
                             else ...[
-                              _head(record, name, size: 104),
+                              _head(record, name, size: 104, greet: hand == null),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   const SizedBox(height: MmSpace.s16),
+                                  if (hand != null) ...[
+                                    AskQuestionCard(hand: hand, blocked: blockedQuestion, onDrop: dropQuestion),
+                                    const SizedBox(height: MmSpace.s20),
+                                  ],
                                   for (final (i, m) in state.messages.indexed) ...[
                                     if (i > 0) SizedBox(height: m.fromStudent ? MmSpace.s20 : MmSpace.s16),
                                     AskMessageView(
@@ -405,10 +437,12 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                     padding: const EdgeInsets.only(bottom: MmSpace.s8),
                     child: FollowUpRail(key: _railKey, prompts: followUps, onTap: sendPrompt, delay: Duration(milliseconds: revealMs == 0 ? 0 : revealMs + 240)),
                   ),
-                if (wallet?.empty ?? false) AskOutOfCredits(onDetails: _openWallet),
+                if ((wallet?.empty ?? false) && hand == null) AskOutOfCredits(onDetails: _openWallet),
+                if (!blockedQuestion)
                 _Composer(
                   controller: _text,
-                  busy: state.busy,
+                  hint: hand != null ? InsightsCopy.askHintQuestion : InsightsCopy.askHint,
+                  busy: state.busy || (hand?.loading ?? false),
                   onSend: _send,
                   note: (text) => _noteFor(text, wallet, renew),
                   bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom,
@@ -428,20 +462,33 @@ class _AskScreenState extends ConsumerState<AskScreen> {
 
   /// Mobi and the line it says about the record it has read. The same widget before and after the
   /// first message (only its size changes), so Mobi never restarts when the conversation begins.
-  Widget _head(PrepInsights? record, String? name, {double size = 132}) {
+  Widget _head(PrepInsights? record, String? name, {double size = 132, bool greet = true}) {
     final ready = record != null && record.isReady;
     return Center(
       child: MobiStage(
         controller: _stageMobi,
         size: size,
         entrance: _entrance,
-        say: _greets ? InsightsCopy.askGreeting(name, ready ? record.sessions : null) : null,
+        // With a repaired mistake handed over he says nothing: his line is about the record.
+        say: _greets && greet ? InsightsCopy.askGreeting(name, ready ? record.sessions : null) : null,
         semanticLabel: 'Mobi',
         bubbleWidth: 300,
         interactive: true,
       ),
     );
   }
+
+  /// The stage with a question handed over: Mobi, the question card, and one line on what Mobi sees.
+  /// No prompt tiles: they are about the record, and a record answer cannot discuss the question.
+  List<Widget> _questionStage(PrepInsights? record, String? name, AskQuestionHand hand, bool blocked, VoidCallback onDrop) => [
+        _head(record, name, greet: false),
+        const SizedBox(height: MmSpace.s24),
+        AskQuestionCard(hand: hand, blocked: blocked, onDrop: onDrop),
+        if (hand.ready && !blocked) ...[
+          const SizedBox(height: MmSpace.s16),
+          Text(InsightsCopy.questionHint, style: context.mmType.small.copyWith(color: context.mmColors.ink2)),
+        ],
+      ];
 
   /// The stage before the first message: Mobi and its line, then the prompts by intent. The first
   /// prompt is the largest and the only lit one; the rest follow in a grid.
@@ -494,6 +541,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
 class _Composer extends StatefulWidget {
   const _Composer({
     required this.controller,
+    required this.hint,
     required this.busy,
     required this.onSend,
     required this.note,
@@ -502,6 +550,7 @@ class _Composer extends StatefulWidget {
   });
 
   final TextEditingController controller;
+  final String hint;
   final ValueChanged<bool>? onFocusChange;
   final bool busy;
   final Future<void> Function([String?]) onSend;
@@ -572,7 +621,7 @@ class _ComposerState extends State<_Composer> {
                         style: type.body,
                         cursorColor: colors.ink,
                         decoration: InputDecoration(
-                          hintText: InsightsCopy.askHint,
+                          hintText: widget.hint,
                           counterText: '',
                           filled: false,
                           border: InputBorder.none,

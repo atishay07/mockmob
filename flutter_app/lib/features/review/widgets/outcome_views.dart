@@ -141,6 +141,7 @@ class WorkedExplanation extends StatefulWidget {
     this.recordLines = const [],
     this.animate = true,
     this.arrivalKey,
+    this.follow,
   });
 
   final RepairExplanation explanation;
@@ -166,6 +167,10 @@ class WorkedExplanation extends StatefulWidget {
   /// track, or a rebuilt screen, shows it at rest instead of staggering it in again. Null: no
   /// memory, it arrives whenever it is built.
   final String? arrivalKey;
+
+  /// What follows the explanation and its rule, before "From your record": Ask Mobi about this
+  /// mistake and "Check it held". Null draws neither (an older server, a held repair).
+  final Widget? follow;
 
   /// The beat between blocks of a v1 or v2 repair (their layouts are as they were).
   static const step = Duration(milliseconds: 60);
@@ -258,6 +263,7 @@ class _WorkedExplanationState extends State<WorkedExplanation> with AutomaticKee
         BreakCard(breaks: e.whyWrong, lookedRight: e.whyTempting, lookedRightLabel: ReviewCopy.whyLookedRight(widget.chosenLetter)),
         ExplanationBlock(label: ReviewCopy.theIdea, paragraphs: [e.keyIdea], lead: true),
         ExplanationBlock(label: ReviewCopy.nextTime, paragraphs: [e.nextStep ?? '']),
+        ?widget.follow,
         if (record.isNotEmpty) RecordLinesBlock(lines: record),
       ];
       return Column(
@@ -299,7 +305,8 @@ class _WorkedExplanationState extends State<WorkedExplanation> with AutomaticKee
           RuleCard(rule: e.rule!, railDelay: ruleDelay + Motion.enterDuration ~/ 2, animate: _animate),
         ),
         if (e.nextStep != null) _enter(blocks.length + 1, ExplanationBlock(label: ReviewCopy.nextTime, paragraphs: [e.nextStep!])),
-        if (record.isNotEmpty) _enter(blocks.length + 2, RecordLinesBlock(lines: record)),
+        if (widget.follow != null) _enter(blocks.length + 2, widget.follow!),
+        if (record.isNotEmpty) _enter(blocks.length + 3, RecordLinesBlock(lines: record)),
       ],
     );
   }
@@ -375,6 +382,7 @@ class _WorkedExplanationState extends State<WorkedExplanation> with AutomaticKee
         ),
       );
     }
+    if (widget.follow != null) blocks.add(widget.follow!);
     if (record.isNotEmpty) blocks.add(RecordLinesBlock(lines: record));
     return MmStagger(
       enabled: _animate,
