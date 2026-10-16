@@ -1,0 +1,72 @@
+[
+  {
+    "id": "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3",
+    "blind_answer": "A",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.dictionary-alphabetical-order",
+    "flags": [],
+    "note": "Key A verified: Tab, Table, Tablet, Tail, Tiger. Option C starts with Table, a non-starter for anyone who knows the prefix rule. Direct recall, one weak distractor."
+  },
+  {
+    "id": "f05bce07-08b2-491b-937f-d70bca9926c5",
+    "blind_answer": "C",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.ranking-from-comparison-clues",
+    "flags": [],
+    "note": "Key C verified: Kiran, Lata, Mohan, Neha, Om is the unique order. Each distractor breaks one clue. Om is last in every option, a minor tell."
+  },
+  {
+    "id": "4650a47a-f12a-4916-975a-1e2bbd999de5",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.linear-seating-adjacency-clues",
+    "flags": [],
+    "note": "Key B verified: S fixed at left, R-P adjacent, Q right of P but not adjacent gives the unique S, R, P, T, Q. Each distractor breaks one clue. Medium is right."
+  },
+  {
+    "id": "c397d567-7836-4f84-a2ff-2e3913967ac9",
+    "blind_answer": "B",
+    "key_matches": true,
+    "quality_score": 9,
+    "difficulty_check": "medium",
+    "objective_tag": "general_test.logical-and-analytical-reasoning.inequality-chain-conclusions",
+    "flags": [],
+    "note": "Key B verified: T >= P > Q >= R > S gives I and III; II fails because S < Q. Clean statement item; II is a fair reversal distractor."
+  },
+  {
+    "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 7,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.wave-optics.huygens-wavefront-envelope",
+    "flags": [],
+    "note": "Key D correct (envelope of secondary wavelets). Options A and B are plainly wrong, so two weak distractors; C is a double-slit idea. Direct NCERT recall."
+  },
+  {
+    "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "easy",
+    "objective_tag": "physics.electromagnetic-waves.em-spectrum-wavelength-order",
+    "flags": [],
+    "note": "Key D verified: gamma, visible, microwave, radio. Option A starts with radio and is a throwaway; B is the reverse-order error. Easy recall, label medium."
+  },
+  {
+    "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029",
+    "blind_answer": "D",
+    "key_matches": true,
+    "quality_score": 8,
+    "difficulty_check": "medium",
+    "objective_tag": "physics.electromagnetic-waves.em-wave-practical-uses",
+    "flags": [],
+    "note": "Key D verified: IR-III, UV-I, X-ray-II, microwave-IV. Distractors are full derangements with no single-swap trap. Fair match item."
+  }
+]
