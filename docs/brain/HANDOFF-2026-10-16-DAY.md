@@ -161,3 +161,30 @@ Read this whole file first, then CTO-LOOP.md, APP-OWNER-LEDGER-2026-10-16.md, an
 - **Cohort SQL:** must be checked at production volume (1,815 attempts, 35k answers). v1 looked fine on tiny staging data and timed out on production.
 - **Test fakes:** must mirror real content types. The plainBody bug hid because test fakes returned plain strings.
 - **App walk:** test the upgrade path from the previous APK, not only fresh installs.
+
+## 8. State at the stop (16 Oct about 12:45 IST; all workflows stopped at the owner's request, 96% usage)
+
+**Every agent was killed mid-work. Nothing below is verified.**
+
+| Worktree | State |
+|---|---|
+| **wt-owner** (`ui/owner-1016`) | WIP commit **3a8bf5ba** holds the partial owner-ledger app build, 115 files, none checked. **Not analyzed, not tested.** |
+| **wt-polish** (`deploy/batch-1016c`) | Clean at **1217aeb6**: W1 Mobi moments web plus W2 arena pass 2, slice 5 and refresh v2. **The batch 3 gate did not finish** (critics, fixer and verifier never completed). |
+| **wt-land2** (`web/land2-1015`) | WIP commit **a7a63e8d** holds the partial round-7 fixes for the critic-6 findings. Last finished score: **85** (round 6). |
+| **wt-phase2** (`ui/phase2`) | fd0da7d3 plus one uncommitted test file (`flutter_test/widget_test.dart`) from the stopped v11 agent; review or discard it. **APK v11 was not built.** Skip it and build v12 after the owner-ledger work. |
+| **mockmob-next** (`feat/app-and-web`) | This handoff, the ledger and the design briefs, all committed. |
+
+**What the stop changes in the plan:**
+- **wt-owner WIP:** the shell/bar and every area left partial edits. They include:
+  - router and app_shell, bar files;
+  - practice, today `road_weeks`, the you hub `study_sections`, rhythm badges;
+  - tools `college_search` and `estimate`, review `again/` and `retry_first`;
+  - onboarding colleges, the notifications invite.
+- **Next session, app:**
+  1. Run `flutter analyze` and the unit tests on wt-owner first.
+  2. List, per area, what is complete against its brief.
+  3. Relaunch builders only for the gaps, each told to continue from the WIP.
+  4. Then integrate, walk on the emulator, fix and release.
+- **Next session, batch 3:** merge origin/main (4db57fc5) into deploy/batch-1016c, then run the full gate.
+- **Next session, landing:** check the WIP against the critic-6 list (dead phone links in the tour, one consistent sample student, the repeated changed-answer moment, the desktop type scale, honest Free pricing copy, product names), then run a critic round.
+- **Dev servers** may still hold RAM: ports 3122 (landing), 3180 (polish) and others. Stop the ones you do not need.
