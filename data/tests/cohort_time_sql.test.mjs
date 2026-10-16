@@ -1,6 +1,7 @@
-// The nightly cohort table on a real Postgres (PGlite): the migration, the refresh function, the undo, and a parity check
-// that the SQL's time, changes and strike-outs equal what data/cohort_time.js ownContribution computes from the same
-// records with the paper trace (data/paper_trace.js). Run: node --test data/tests/cohort_time_sql.test.mjs
+// The nightly cohort table on a real Postgres (PGlite): the migration, the refresh function (v1, then the v2 rewrite that
+// replaces it), the undos, a parity check that the SQL's time, changes and strike-outs equal what data/cohort_time.js
+// ownContribution computes from the same records with the paper trace (data/paper_trace.js), a v1-against-v2 equality
+// check, and a production-sized load that v2 must finish quickly. Run: node --test data/tests/cohort_time_sql.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { PGlite } from '@electric-sql/pglite';
@@ -10,11 +11,14 @@ import { fileURLToPath } from 'node:url';
 import { optionHash } from '../option_hash.js';
 import { correctIndex } from '../recovery.js';
 import { ownContribution, medianOf } from '../cohort_time.js';
+import { buildVolume } from './cohort_volume_fixture.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
-const migration = read('supabase/migrations/20261016120000_question_option_stats.sql');
+const migration = read('supabase/migrations/20261016120000_question_option_stats.sql'); // v1: the table and the first refresh
+const migrationV2 = read('supabase/migrations/20261016130000_question_option_stats_refresh_v2.sql'); // the fast refresh
 const undo = read('supabase/undo/20261016120000_question_option_stats.undo.sql');
+const undoV2 = read('supabase/undo/20261016130000_question_option_stats_refresh_v2.undo.sql');
 const FIX = 'data/tests/fixtures/mistake_lab/';
 const fixture = (name) => JSON.parse(read(`${FIX}${name}.json`));
 const clone = (v) => JSON.parse(JSON.stringify(v));
@@ -28,7 +32,17 @@ const SCHEMA = `
     completed_at timestamptz not null, selection_meta jsonb not null default '{}');
 `;
 
+/** Both migrations in order: the refresh function is v2's. */
 async function freshDb() {
+  const db = new PGlite();
+  await db.exec(SCHEMA);
+  await db.exec(migration);
+  await db.exec(migrationV2);
+  return db;
+}
+
+/** Only the first migration: the refresh function is v1's (the equality tests then switch it to v2). */
+async function freshDbV1() {
   const db = new PGlite();
   await db.exec(SCHEMA);
   await db.exec(migration);
@@ -105,6 +119,37 @@ test('the migration is additive and idempotent, service role only, and the undo 
   assert.equal((await db.query("select count(*)::int n from pg_proc where proname='refresh_question_option_stats'")).rows[0].n, 0);
   await db.exec(undo);
   await db.exec(migration);
+  await db.exec(migrationV2);
+  await db.close();
+});
+
+test('the v2 undo restores the v1 function and leaves the table and its rows alone; v2 and its undo can be re-run', async () => {
+  const db = await freshDbV1();
+  const defOf = async () => (await db.query("select replace(pg_get_functiondef('public.refresh_question_option_stats()'::regprocedure), chr(13), '') d")).rows[0].d;
+  const v1Def = await defOf();
+  await db.exec(migrationV2);
+  await db.exec(migrationV2);
+  const v2Def = await defOf();
+  assert.notEqual(v2Def, v1Def);
+  assert.match(v2Def, /enable_nestloop/);
+  assert.match(v2Def, /statement_timeout/);
+  assert.match(v2Def, /search_path/);
+  const full = fixture('replay_full_input');
+  await addQuestions(db, full.attempt);
+  for (const a of crowd(full, 'u', 10)) await addAttempt(db, a);
+  await refresh(db);
+  const before = await rowsOf(db);
+  assert.ok(before.length > 0);
+  await db.exec(undoV2);
+  assert.equal(await defOf(), v1Def, 'the undo puts the v1 body back');
+  assert.deepEqual(await rowsOf(db), before, 'the table is untouched');
+  for (const role of ['anon', 'authenticated']) {
+    assert.equal((await db.query(`select has_function_privilege('${role}','public.refresh_question_option_stats()','execute') p`)).rows[0].p, false);
+  }
+  assert.equal((await db.query("select has_function_privilege('service_role','public.refresh_question_option_stats()','execute') p")).rows[0].p, true);
+  await db.exec(undoV2);
+  await db.exec(migrationV2);
+  assert.equal(await defOf(), v2Def, 'v2 can be applied again after its undo');
   await db.close();
 });
 
@@ -281,5 +326,153 @@ test('a gap of over 30 minutes on a record with no away data is a break: the que
   const want = expected(noAway, 'q2');
   assert.equal(row.n_timed, want.n_timed);
   assert.equal(want.n_timed, 0, 'the 45-minute gap makes Q2 unreliable on every record');
+  await db.close();
+});
+
+// ---- v1 against v2: the rewrite returns exactly the same table ------------------------------------------------------
+const stripClock = ({ refreshed_at, counted_through, ...rest }) => rest;
+
+/** Load with v1 in place, refresh, switch the function to v2, refresh again: the two tables and summaries must be identical. */
+async function assertSameTable(db, label) {
+  const one = await refresh(db);
+  const tableOne = (await rowsOf(db)).map(stripClock);
+  await db.query('delete from public.question_option_stats'); // v2 must rebuild every row itself, not lean on v1's
+  await db.exec(migrationV2);
+  const two = await refresh(db);
+  const tableTwo = (await rowsOf(db)).map(stripClock);
+  assert.ok(tableOne.length > 0, `${label}: some question has a row`);
+  assert.deepEqual(stripClock(two), stripClock(one), `${label}: the returned summary`);
+  assert.deepEqual(tableTwo, tableOne, `${label}: the table, row by row and column by column`);
+  return tableOne;
+}
+
+for (const name of PAPERS) {
+  test(`v1 and v2 give identical table contents: ${name}`, async () => {
+    const db = await freshDbV1();
+    const input = fixture(name);
+    await addQuestions(db, input.attempt);
+    const mutate = (a2, j) => {
+      if (j % 5 === 4) delete a2.selectionMeta.client;
+      if (j % 6 === 5) delete a2.selectionMeta.recovery.presence;
+    };
+    for (const a of crowd(input, 'p', 12, { mutate })) await addAttempt(db, a);
+    const rows = await assertSameTable(db, name);
+    assert.ok(rows.some((r) => r.n_timed > 0), 'the comparison covers timed questions');
+    await db.close();
+  });
+}
+
+test('v1 and v2 give identical table contents: guards, untimed records, breaks and quirks of the stored data', async () => {
+  const db = await freshDbV1();
+  const full = fixture('replay_full_input');
+  await addQuestions(db, full.attempt);
+  const crowdA = crowd(full, 'g', 16, {
+    mutate: (a, j) => {
+      if (j === 0) delete a.selectionMeta.recovery.end;
+      if (j === 1) a.selectionMeta.recovery.telemetry = 'inconsistent';
+      if (j === 2) a.selectionMeta.scoringVersion = 'device_v1';
+      if (j === 3) delete a.selectionMeta.recovery.presence;
+      if (j === 4) a.selectionMeta.recovery.strikes = [];
+      if (j === 5) {
+        // a later duplicate of a question in the snapshot never wins
+        const dup = clone(a.questionsSnapshot[0]);
+        dup.options = ['x', 'y', 'z', 'w'];
+        a.questionsSnapshot.push(dup);
+      }
+      if (j === 6) a.details[3].givenIndex = -1; // negative reads from the end, as the stored expression always did
+      if (j === 7) a.details[4].givenIndex = 9; // no such option: not an answer
+      if (j === 8) a.details[5].givenIndex = null;
+      if (j === 9) a.questionsSnapshot[6].options = a.questionsSnapshot[6].options.map((o) => ({ text: `  ${o.toUpperCase()} ` }));
+      if (j === 10) {
+        delete a.questionsSnapshot[7].correctIndex;
+        a.questionsSnapshot[7].correctAnswer = 'B';
+      }
+      if (j === 11) a.selectionMeta.recovery.observed = null;
+    },
+  });
+  for (const a of crowdA) await addAttempt(db, a);
+  // The same students, later: never replace a first answer.
+  for (const a of crowd(full, 'g', 6, { when: Date.now() - 3_600_000 })) {
+    a.id += '-again';
+    await addAttempt(db, a);
+  }
+  await db.query("update public.questions set status='draft' where id='q1'");
+  await db.query("update public.questions set verification_state='disputed' where id='q2'");
+  await db.query('update public.questions set correct_index = (correct_index + 1) % 4 where id=$1', ['q3']);
+  await db.query("update public.questions set question='the question was reworded' where id='q5'");
+  const rows = await assertSameTable(db, 'quirks');
+  assert.ok(!rows.some((r) => ['q1', 'q2', 'q3', 'q5'].includes(r.qid)));
+  for (const col of ['n_timed_right', 'n_changed', 'n_struck_key']) assert.ok(rows.some((r) => r[col] > 0), `the fixtures exercise ${col}`);
+  await db.close();
+});
+
+// ---- production size ---------------------------------------------------------------------------------------------------
+async function loadVolume(db, v) {
+  await db.query(
+    'insert into public.questions (id, question, options, correct_index, status) select id, question, options, correct_index, status from jsonb_to_recordset($1::jsonb) x(id text, question text, options jsonb, correct_index int, status text)',
+    [JSON.stringify(v.questions)],
+  );
+  for (let i = 0; i < v.attempts.length; i += 200) {
+    await db.query(
+      'insert into public.attempts (id, user_id, details, questions_snapshot, completed_at, selection_meta) select id, user_id, details, questions_snapshot, completed_at, selection_meta from jsonb_to_recordset($1::jsonb) x(id text, user_id text, details jsonb, questions_snapshot jsonb, completed_at timestamptz, selection_meta jsonb)',
+      [JSON.stringify(v.attempts.slice(i, i + 200))],
+    );
+  }
+}
+
+async function timedRefresh(db) {
+  const t0 = performance.now();
+  const r = await refresh(db);
+  return { ms: Math.round(performance.now() - t0), r };
+}
+
+test('v1 and v2 give identical table contents on a synthetic load (a tenth of production size, where v1 still finishes)', { timeout: 300_000 }, async () => {
+  const db = await freshDbV1();
+  await loadVolume(db, buildVolume({ attempts: 180, users: 45, captured: 30 }));
+  const t0 = performance.now();
+  const one = await refresh(db);
+  const v1ms = Math.round(performance.now() - t0);
+  const tableOne = (await rowsOf(db)).map(stripClock);
+  await db.query('delete from public.question_option_stats');
+  await db.exec(migrationV2);
+  const { ms: v2ms, r: two } = await timedRefresh(db);
+  const tableTwo = (await rowsOf(db)).map(stripClock);
+  console.log(`# cohort refresh at 180 attempts / ${one.answers} first answers: v1 ${v1ms} ms, v2 ${v2ms} ms`);
+  assert.ok(tableOne.length >= 100, 'most of the 120 questions have a row');
+  for (const col of ['n_timed_right', 'n_timed_wrong', 'n_changed', 'n_moved_off_key', 'n_strike_basis', 'n_struck_key']) {
+    assert.ok(tableOne.some((r) => r[col] > 0), `the load exercises ${col}`);
+  }
+  assert.deepEqual(stripClock(two), stripClock(one));
+  assert.deepEqual(tableTwo, tableOne);
+  await db.close();
+});
+
+test('v2 refreshes production-sized data (1,800 attempts, 35,000 answers, 300 captured records) far inside the 120 s limit, in linear time', { timeout: 300_000 }, async () => {
+  const db = await freshDb();
+  const small = buildVolume({ attempts: 360, users: 90, captured: 60 });
+  await loadVolume(db, small);
+  const s = await timedRefresh(db);
+  await db.query('delete from public.attempts');
+  await db.query('delete from public.questions');
+
+  const v = buildVolume({ attempts: 1800, users: 450, captured: 300 });
+  const answers = v.attempts.reduce((n, a) => n + a.details.length, 0);
+  assert.ok(answers >= 34_000 && answers <= 37_000, `${answers} answers in details`);
+  assert.equal(v.attempts.filter((a) => a.selection_meta.recovery).length, 300);
+  await loadVolume(db, v);
+  const big = await timedRefresh(db);
+  console.log(`# cohort refresh v2 at ${v.attempts.length} attempts / ${answers} answers: ${big.ms} ms (${small.attempts.length} attempts: ${s.ms} ms); ${big.r.questions} questions, ${big.r.timed_answers} timed answers`);
+  assert.ok(big.ms < 30_000, `v2 took ${big.ms} ms (limit 120000, target under 10000 on the real server)`);
+  assert.ok(big.ms < Math.max(10 * s.ms, 3000), `not linear: ${big.ms} ms for 5x the data of ${s.ms} ms`);
+  assert.equal(big.r.questions, 120);
+  assert.ok(big.r.answers > 20_000 && big.r.timed_answers > 3_000, JSON.stringify(big.r));
+  assert.equal(big.r.questions_with_time, 120);
+  const rows = await rowsOf(db);
+  assert.equal(rows.length, 120);
+  assert.ok(rows.every((r) => r.n_answered >= 10 && r.n_timed <= r.n_answered));
+  // Idempotent at size too: the second refresh writes the same numbers.
+  const again = await timedRefresh(db);
+  assert.deepEqual((await rowsOf(db)).map(stripClock), rows.map(stripClock));
+  assert.ok(again.ms < 30_000);
   await db.close();
 });
