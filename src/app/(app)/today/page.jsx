@@ -125,7 +125,7 @@ export default function Today() {
         </header>
         <div className="today-grid">
           <div className="today-grid__main">
-            <TodayMove phase={phase} move={move} slow={slow} triedAt={triedAt} onRetry={retry} alternatives={alts} chosen={chosen} onChoose={choose} saving={saving} />
+            <TodayMove phase={phase} move={move} word={hour >= 17 || hour < 4 ? 'Tonight’s move' : 'Today’s move'} slow={slow} triedAt={triedAt} onRetry={retry} alternatives={alts} chosen={chosen} onChoose={choose} saving={saving} />
             <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} />
           </div>
           <div className="today-grid__side">

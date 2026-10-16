@@ -74,13 +74,13 @@ function SomethingElse({ open, onClose, items }) {
  * `phase`: 'loading' | 'failed' | 'ready'. `move` from buildMove (fitted to the chosen length by the page).
  * `slow`: the read has taken over 8 s. `triedAt`: the time a retry also failed (a 12-hour clock string).
  */
-export default function TodayMove({ phase, move, slow = false, triedAt = '', cause = '', onRetry, alternatives = [], chosen = null, onChoose, saving = '' }) {
+export default function TodayMove({ phase, move, word = 'Tonight’s move', slow = false, triedAt = '', cause = '', onRetry, alternatives = [], chosen = null, onChoose, saving = '' }) {
   const online = useSyncExternalStore(subscribeOnline, onlineNow, () => true);
   const [sheet, setSheet] = useState(null);
 
   if (phase === 'loading') {
     return (
-      <section className="tm tm--wait" aria-busy="true" aria-label="Loading tonight’s move">
+      <section className="tm tm--wait" aria-busy="true" aria-label={`Loading ${word.toLowerCase()}`}>
         <span className="tm__sk tm__sk--a" /><span className="tm__sk tm__sk--b" /><span className="tm__sk tm__sk--c" /><span className="tm__sk tm__sk--key" />
         {slow ? (
           <p className="tm__slow" role="status">Still loading. Your connection looks slow. <button type="button" className="tm__inline" onClick={onRetry}>Try again</button></p>
@@ -93,10 +93,10 @@ export default function TodayMove({ phase, move, slow = false, triedAt = '', cau
     return (
       <section className="tm tm--failed" aria-labelledby="tm-title">
         <div className="tm__top">
-          <div className="tm__head"><h2 id="tm-title" className="tm__subject">Tonight’s move did not load</h2></div>
+          <div className="tm__head"><h2 id="tm-title" className="tm__subject">{word} did not load</h2></div>
           <Art failed />
         </div>
-        <p className="tm__why">{cause || 'MockMob did not answer, so tonight’s move could not be worked out.'} Your papers and mistakes are safe; Review still opens them.</p>
+        <p className="tm__why">{cause || 'MockMob did not answer, so ' + word.toLowerCase() + ' could not be worked out.'} Your papers and mistakes are safe; Review still opens them.</p>
         {triedAt ? <p className="tm__caption" role="status">Tried again at {triedAt}. Still not loading.</p> : null}
         <button type="button" className="tm__key" data-page-primary onClick={onRetry}><RotateCcw size={18} strokeWidth={2} aria-hidden="true" />Try again</button>
         <div className="tm__pills"><Link className="tm__pill" href="/dashboard"><Play size={17} strokeWidth={1.75} aria-hidden="true" />Practise anyway</Link></div>

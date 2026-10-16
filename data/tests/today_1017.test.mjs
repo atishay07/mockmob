@@ -306,3 +306,11 @@ test('weekly receipt: only repairs saved this week, counted, never credited with
   assert.equal(weekReceipt({ repairs: [rows[3]], weekStart: '2026-10-12', dayKey }), null);
   assert.equal(weekReceipt({ repairs: null, weekStart: '2026-10-12', dayKey }), null);
 });
+test('move overline: "Tonight’s move" from 5 PM to 4 AM IST, "Today’s move" otherwise', async () => {
+  const { moveOverline } = await import('../../src/lib/today/move.mjs');
+  assert.equal(moveOverline(Date.parse('2026-10-17T15:00:00Z')), 'Tonight’s move'); // 8:30 PM
+  assert.equal(moveOverline(Date.parse('2026-10-17T21:00:00Z')), 'Tonight’s move'); // 2:30 AM
+  assert.equal(moveOverline(Date.parse('2026-10-17T04:30:00Z')), 'Today’s move'); // 10 AM
+  const m = buildMove(base({ now: Date.parse('2026-10-17T04:30:00Z') }));
+  assert.equal(m.overline, 'Today’s move');
+});

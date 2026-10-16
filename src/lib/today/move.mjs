@@ -107,6 +107,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
 
   const firstWeek = firstWeekDay(rhythm?.milestones?.find?.((m) => m.id === 'first_scored_session')?.achievedAt, now);
   const weekLine = firstWeek ? `Day ${firstWeek} of your first week` : null;
+  const moveWord = moveOverline(now);
 
   if (primary && ['fresh_check', 'repair', 'investigate'].includes(primary.kind)) {
     const record = (primary.facts || []).filter((f) => f.basis === 'record').map((f) => f.text);
@@ -154,12 +155,12 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   });
 
   if (!tonightDone && open > 0 && neverRepaired) {
-    return repairMove('firstRepair', weekLine || 'Tonight’s move', ' Repair shows why your answer went wrong and gives you one like it to try.');
+    return repairMove('firstRepair', weekLine || moveWord, ' Repair shows why your answer went wrong and gives you one like it to try.');
   }
   const due = whole(revise?.due) ? revise.due : 0;
   if (!tonightDone && due > 0) {
     return {
-      id: 'revise', overline: weekLine || 'Tonight’s move', number: due, label: due === 1 ? 'mistake comes back today' : 'mistakes come back today',
+      id: 'revise', overline: weekLine || moveWord, number: due, label: due === 1 ? 'mistake comes back today' : 'mistakes come back today',
       why: `Revise brings back what you got wrong after 1, 3, 7 and 21 days. ${due === 1 ? 'This one is' : `These ${word(due)} are`} due today, so the fix holds.`,
       key: { label: 'Start Revise', href: '/review/revise', minutes: Math.max(5, Math.ceil(due / 5) * 5) },
       pills: pills(), art: 'object', subject: last?.subject || null, firstWeek, due,
@@ -175,7 +176,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
       pills: { length: false, second: 'open', openHref: `/result/${encodeURIComponent(t.sessionId)}` }, art: 'object', subject: last?.subject || null, done: true,
     };
   }
-  if (open > 0) return repairMove('repair', weekLine || 'Tonight’s move');
+  if (open > 0) return repairMove('repair', weekLine || moveWord);
 
   // The first full mock: in the first week it comes on days 5 to 7 (the path: check and Repair, Revise, smart
   // practice, then the mock); after the first week, once 3 sessions are saved without one.
@@ -183,7 +184,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   const mockDue = firstWeek ? firstWeek >= 5 : sessions >= 3;
   if (paper && whole(facts?.mocks) && facts.mocks === 0 && mockDue) {
     return {
-      id: 'firstMock', overline: weekLine || 'Tonight’s move', number: paper.questions, label: `questions in ${paper.minutes} minutes`,
+      id: 'firstMock', overline: weekLine || moveWord, number: paper.questions, label: `questions in ${paper.minutes} minutes`,
       why: `Your first full mock, timed like the real paper. It ${FIRST_TIMED_COPY.unlocks}`,
       key: { label: 'Start a timed mock', href: firstTimedMockHref(facts.subject, paper), minutes: paper.minutes },
       pills: pills(), art: 'object', subject: facts.subject || last?.subject || null, firstWeek,
@@ -205,12 +206,18 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   const href = primary?.kind === 'ordinary_practice' ? primary.href : `/dashboard?mode=quick&count=${count}`;
   const aim = top?.subject && top?.chapter ? `${href}${href.includes('?') ? '&' : '?'}${new URLSearchParams({ subject: top.subject, chapter: top.chapter })}` : href;
   return {
-    id: 'practice', overline: weekLine || 'Tonight’s move', number: count, label: top?.chapter ? `questions on ${top.chapter}` : 'practice questions',
+    id: 'practice', overline: weekLine || moveWord, number: count, label: top?.chapter ? `questions on ${top.chapter}` : 'practice questions',
     why: top?.chapter ? `${top.chapter} has ${plural(top.open, 'mark')} open in your record, over ${plural(top.sessions, 'session')}.${sparseClause}` : `Marked +5 and −1, the CUET way. Each miss waits in Review with its explanation.${sparseClause}`,
     key: { label: `Start ${count} questions`, href: aim, minutes: length },
     link: top?.chapter ? { label: 'See why', href: '/mentor?tab=record' } : null,
     pills: pills(), art: 'object', subject: top?.subject || last?.subject || null, firstWeek,
   };
+}
+
+/** The move's overline by the IST hour: "Tonight’s move" from 5 PM to 4 AM, when most sessions happen, else "Today’s move". */
+export function moveOverline(now = Date.now()) {
+  const h = new Date(now + 19800000).getUTCHours();
+  return h >= 17 || h < 4 ? 'Tonight’s move' : 'Today’s move';
 }
 
 /** 8:41 PM in IST. */
