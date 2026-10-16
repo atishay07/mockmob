@@ -18,4 +18,10 @@ export function arenaNavigation(moderator = false, { mob = false } = {}) {
     { label: 'Account', items: [item('profile', 'Account', 'account'), item('help', 'Help', 'help')] },
   ];
 }
-export const MOBILE_STUDY_NAV = STUDY_NAV.filter((tab) => ['today', 'dashboard', 'learn', 'review'].includes(tab.id));
+// The phone dock (NAV-1017 section 8): Today, Practice, Review and Colleges, then More (drawn by the layout). Colleges is
+// the Compass page under the name students use for it, so it is active on /admission-compass. Learn, Explore and the rest
+// stay in STUDY_NAV and the More sheet: moved, never removed.
+export const MOBILE_STUDY_NAV = [
+  ...STUDY_NAV.filter((tab) => ['today', 'dashboard', 'review'].includes(tab.id)),
+  item('admission-compass', 'Colleges', 'colleges', '/admission-compass'),
+];

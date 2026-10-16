@@ -405,9 +405,10 @@ html:has(.app-shell .arena-sheet) { overflow: hidden; scrollbar-gutter: stable; 
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(64px + env(safe-area-inset-bottom));
+  /* It rises from the dock: the same width as the dock's row, 8 px above it (AppLayoutClient keeps it there). */
+  bottom: calc(84px + env(safe-area-inset-bottom));
   z-index: 43;
-  width: min(100%, 560px);
+  width: min(calc(100% - 32px), 440px);
   margin-inline: auto;
   max-height: calc(100dvh - 140px - env(safe-area-inset-bottom));
   overflow-y: auto;
@@ -415,8 +416,7 @@ html:has(.app-shell .arena-sheet) { overflow: hidden; scrollbar-gutter: stable; 
   gap: 18px;
   padding: 8px 16px 16px;
   border: 1px solid var(--a-line-strong);
-  border-bottom: 0;
-  border-radius: 24px 24px 0 0;
+  border-radius: 24px;
   background: var(--a-sheet);
   box-shadow: 0 -24px 56px -28px rgb(0 0 0 / 0.6);
   transform-origin: 50% 100%;
@@ -424,6 +424,7 @@ html:has(.app-shell .arena-sheet) { overflow: hidden; scrollbar-gutter: stable; 
 }
 html[data-theme='light'] .app-shell .arena-sheet { box-shadow: 0 -20px 48px -28px rgb(20 32 14 / 0.3); }
 @keyframes arena-sheet-in { from { opacity: 0; transform: translate3d(0, 28px, 0); } }
+@media (max-width: 359px) { .app-shell .arena-sheet { width: calc(100% - 16px); } }
 .app-shell .arena-sheet__handle {
   display: block;
   width: 40px;
@@ -1524,23 +1525,124 @@ html[data-motion='reduced'] .app-shell .pr-nta__palette em { animation: none; }
 .app-shell .student-page--today .rc--compact { margin: 0; }
 .app-shell .student-page--today .pt { margin: 0; }
 
-/* ---------- Mobile bottom nav: one pill slides between tabs, items spring (AppLayoutClient markup) ----------
-   Five equal columns, so the pill is positioned by the column of the current tab, no script. No tab
-   current (Explore, Saved and so on) hides it. Opening More moves it to More. */
+/* ---------- The phone and tablet dock (NAV-1017 section 8, packet W1; AppLayoutClient markup) ----------
+   One 64 px row floating 12 px above the safe area: a glass capsule holding Today, Practice, Review, Colleges and More,
+   and, 8 px to its right, the round Start key (start.css). Capsule, slots and key share one box, so every icon centre
+   sits 23 px down the row and every label line box spans 39 to 53 px, by construction at every width. The lens is a
+   rounded plate 4 px narrower than its slot, so it frames the current icon and word and never reaches a neighbour's.
+   It slides by the current tab's column, no script; no tab current (Saved, Explore and so on) hides it, and opening
+   More moves it to More. Below 360 px the gutter, gap and inner padding tighten (8, 6, 3) so every slot keeps 44 px. */
 @media (max-width: 1023px) {
-  html .app-shell .arena-bottomnav { --abn-i: 0; --abn-on: 0; }
-  html .app-shell .arena-bottomnav::before { content: ''; position: absolute; left: 6px; top: 5px; width: calc((100% - 12px) / 5); height: 54px; border-radius: 9px; background: var(--a-volt-wash); box-shadow: inset 0 2px 0 var(--a-accent-text); transform: translate3d(calc(var(--abn-i) * 100%), 0, 0); opacity: var(--abn-on); transition: transform var(--mm-spring-release-dur) var(--mk-spring), opacity 160ms ease; pointer-events: none; }
+  html .app-shell .arena-dock {
+    --dock-gutter: 16px;
+    --dock-gap: 8px;
+    --dock-pad: 4px;
+    --dock-glass: rgb(14 20 17 / 0.62);
+    --dock-solid: var(--a-raised);
+    --dock-edge: rgb(244 245 240 / 0.14);
+    --dock-rim: rgb(244 245 240 / 0.07);
+    --dock-lens: rgb(244 245 240 / 0.12);
+    --dock-shadow: 0 20px 40px -22px rgb(0 0 0 / 0.55), 0 2px 6px -2px rgb(0 0 0 / 0.25);
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 44;
+    gap: var(--dock-gap);
+    width: min(calc(100% - 2 * var(--dock-gutter)), 440px);
+    height: 64px;
+    margin-inline: auto;
+    pointer-events: none;
+  }
+  html[data-theme='light'] .app-shell .arena-dock {
+    --dock-glass: rgb(255 255 255 / 0.74);
+    --dock-edge: rgb(255 255 255 / 0.85);
+    --dock-rim: rgb(23 32 22 / 0.1);
+    --dock-lens: rgb(23 32 22 / 0.07);
+    --dock-shadow: 0 18px 36px -20px rgb(23 32 22 / 0.24), 0 1px 3px rgb(23 32 22 / 0.08);
+  }
+  html .app-shell .arena-bottomnav {
+    --abn-i: 0;
+    --abn-on: 0;
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    height: 64px;
+    padding: 0 var(--dock-pad);
+    border-radius: 32px;
+    background: var(--dock-solid);
+    box-shadow: var(--dock-shadow), inset 0 1px 0 var(--dock-edge), inset 0 0 0 1px var(--dock-rim);
+    pointer-events: auto;
+  }
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    html .app-shell .arena-bottomnav {
+      background: var(--dock-glass);
+      -webkit-backdrop-filter: blur(32px) saturate(1.5);
+      backdrop-filter: blur(32px) saturate(1.5);
+    }
+  }
+  html .app-shell .arena-bottomnav::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--dock-pad) + 2px);
+    top: 4px;
+    width: calc((100% - 2 * var(--dock-pad)) / 5 - 4px);
+    height: 56px;
+    border-radius: 28px;
+    background: var(--dock-lens);
+    box-shadow: inset 0 1px 0 var(--dock-edge);
+    transform: translate3d(calc(var(--abn-i) * (100% + 4px)), 0, 0);
+    opacity: var(--abn-on);
+    transition: transform var(--mm-spring-release-dur) var(--mk-spring), opacity 160ms ease;
+    pointer-events: none;
+  }
   html .app-shell .arena-bottomnav:has(> :nth-child(1)[aria-current='page']) { --abn-i: 0; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(2)[aria-current='page']) { --abn-i: 1; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(3)[aria-current='page']) { --abn-i: 2; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(4)[aria-current='page']) { --abn-i: 3; --abn-on: 1; }
   html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-expanded='true']) { --abn-i: 4; --abn-on: 1; }
-  html .app-shell .arena-bottomnav :is(a, button) { position: relative; z-index: 1; transition: transform var(--mm-spring-release-dur) var(--mk-spring), color 160ms ease; }
-  html .app-shell .arena-bottomnav :is(a, button):active { transform: scale(0.92); transition-duration: 90ms, 160ms; }
-  html .app-shell .arena-bottomnav [aria-current='page'], html .app-shell .arena-bottomnav [aria-expanded='true'] { background: transparent; }
-  html .app-shell .arena-bottomnav [aria-current='page'] svg, html .app-shell .arena-bottomnav [aria-expanded='true'] svg { animation: abn-pop 460ms var(--mk-spring); }
+  html .app-shell .arena-bottomnav :is(a, button) {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: 24px 14px;
+    row-gap: 4px;
+    justify-items: center;
+    align-content: start;
+    height: 64px;
+    min-width: 0;
+    margin: 0;
+    padding: 11px 0 0;
+    border: 0;
+    border-radius: 28px;
+    background: transparent;
+    color: var(--a-ink-3);
+    text-decoration: none;
+    font: 600 var(--dock-label, 11px)/14px var(--font-body);
+    letter-spacing: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform var(--mm-spring-release-dur) var(--mk-spring), color 160ms ease;
+  }
+  html .app-shell .arena-bottomnav :is(a, button) > svg { display: block; width: 24px; height: 24px; }
+  html .app-shell .arena-bottomnav :is(a, button) > span { display: block; height: 14px; white-space: nowrap; }
+  html .app-shell .arena-bottomnav :is(a, button):active { transform: scale(0.96); transition-duration: 100ms, 160ms; }
+  html .app-shell .arena-bottomnav :is([aria-current='page'], [aria-expanded='true']) { color: var(--a-ink); background: transparent; }
+  html .app-shell .arena-bottomnav :is([aria-current='page'], [aria-expanded='true']) svg { animation: abn-pop 420ms var(--mk-spring); }
+  html .app-shell .arena-bottomnav :is(a, button):focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
+  /* No blur where it is unsupported or the student asked for less transparency: the capsule is the raised surface. */
+  @media (prefers-reduced-transparency: reduce) {
+    html .app-shell .arena-bottomnav { background: var(--dock-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  }
 }
-@keyframes abn-pop { 0% { transform: scale(0.7); } 100% { transform: scale(1); } }
+@media (max-width: 359px) {
+  /* The words step down to 10 px (0.91, above the app's 0.85 floor) so "Colleges" stays inside its 41.6 px lens; the key's
+     word follows (start.css), so the six labels keep one baseline. */
+  html .app-shell .arena-dock { --dock-gutter: 8px; --dock-gap: 6px; --dock-pad: 3px; --dock-label: 10px; }
+}
+@keyframes abn-pop { 0% { transform: scale(0.86); } 100% { transform: scale(1); } }
 html[data-motion='reduced'] .app-shell .arena-bottomnav::before, html[data-motion='reduced'] .app-shell .arena-bottomnav :is(a, button) { transition: none; }
 html[data-motion='reduced'] .app-shell .arena-bottomnav svg { animation: none !important; }
 @media (prefers-reduced-motion: reduce) { html .app-shell .arena-bottomnav::before, html .app-shell .arena-bottomnav :is(a, button) { transition: none; } html .app-shell .arena-bottomnav svg { animation: none !important; } }
@@ -1556,9 +1658,6 @@ html[data-motion='reduced'] .app-shell .na__cta { transition: none; }
 /* ---------- The arena on phones: Today, Review, Saved and Progress read like the app ----------
    One clear action per screen, Mobi as a caption beside the words instead of a block above them,
    full-width controls a thumb can hit, and tidy two-up rows. Desktop is untouched. */
-@media (max-width: 1023px) {
-  html .app-shell .arena-bottomnav :is(a, button) { font-size: 12px; }
-}
 /* Progress opens on its header, then the weekly rhythm (the header lives inside RecoveryOverview). */
 .app-shell .student-page--progress { display: flex; flex-direction: column; gap: 28px; }
 .app-shell .student-page--progress > .ov { display: contents; }
@@ -1727,11 +1826,12 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
 
 /* On phones the fixed tab bar (and, on Practice, the session dock above it) never covers what keyboard focus scrolls to.
    The header at the top is cleared by each section's own scroll-margin-top.
-   --dock-h is the bar's reach from the screen's bottom edge: its 64 px row plus the Start disc standing 19 px above it
-   (start.css). On a phone with a home indicator the bar grows by the safe-area inset, so every clearance adds it
-   (AGENT_RULES 32: nothing sticky hides the content or the key a student is reaching for). */
+   --dock-h is the dock's reach from the screen's bottom edge: its 64 px row, 12 px of lift and 8 px of air above it
+   (NAV-1017 8.3). --dock-clear is the row and its lift alone, for toasts that sit just above it. On a phone with a home
+   indicator the dock rises by the safe-area inset, so every clearance adds it (AGENT_RULES 32: nothing sticky hides the
+   content or the key a student is reaching for). */
 @media (max-width: 1023px) {
-  html:has(.app-shell) { --dock-h: 84px; scroll-padding-bottom: calc(var(--dock-h) + 16px + env(safe-area-inset-bottom)); }
+  html:has(.app-shell) { --dock-h: 84px; --dock-clear: 76px; scroll-padding-bottom: calc(var(--dock-h) + 16px + env(safe-area-inset-bottom)); }
   html:has(.pr-dock[data-shown]) { scroll-padding-bottom: calc(var(--dock-h) + 88px + env(safe-area-inset-bottom)); }
   html .app-shell:not(.app-shell--test) .app-main { padding-bottom: calc(var(--dock-h, 84px) + 24px + env(safe-area-inset-bottom)); }
 }

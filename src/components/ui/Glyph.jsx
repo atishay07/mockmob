@@ -10,6 +10,8 @@ import {
   Music, Newspaper, NotebookText, Orbit, Palette, Radar, RefreshCw, Scale, Scroll, ShieldCheck, Telescope, Timer,
   TrendingUp, Trophy, TriangleAlert, UserRound, Users, Wheat, Brain, Ruler, Gavel, Sprout, Lock, Clock, Wallet,
 } from 'lucide-react';
+// The phone dock's Colleges tab and its More key (NAV-1017 section 8).
+import { Ellipsis, University } from 'lucide-react';
 
 const STROKE = 1.75;
 
@@ -44,6 +46,8 @@ const APP_ICONS = {
   expand: ChevronDown,
   collapse: ChevronUp,
   unlimited: InfinityIcon,
+  colleges: University,
+  more: Ellipsis,
 };
 
 const STATUS_ICONS = {

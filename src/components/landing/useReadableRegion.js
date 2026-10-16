@@ -12,7 +12,7 @@ export function useReadableRegion(ref) {
     let observer;
     let inView = false;
     const publish = () => setReadable(inView && !document.hidden);
-    const chrome = [...document.querySelectorAll('.mm-nav, .mm-dock, .arena-topbar, .arena-bottomnav')];
+    const chrome = [...document.querySelectorAll('.mm-nav, .mm-dock, .arena-topbar, .arena-dock')];
     const measure = () => {
       let top = 12, bottom = 12;
       for (const element of chrome) {

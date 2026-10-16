@@ -44,7 +44,7 @@ test('the arena frame holds still, and the leaving page is gone before the new o
   for (const name of ['mm-frame-top', 'mm-frame-dock', 'mm-frame-side']) {
     assert.match(css, new RegExp(`view-transition-name: ${name};`));
   }
-  assert.match(css, /:root:active-view-transition-type\(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade\) \.arena-bottomnav/);
+  assert.match(css, /:root:active-view-transition-type\(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade\) \.arena-dock/);
   assert.match(css, /::view-transition-old\(\.mm-fade\) \{ transform: translateY\(var\(--mm-vt-from-y, 0px\)\); \}/);
   assert.match(css, /::view-transition-old\(\.mm-fade\) \{ animation: mm-vt-fade-out /);
 });

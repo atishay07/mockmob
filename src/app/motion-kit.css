@@ -480,7 +480,7 @@ html[data-theme='light'] .mk-rim::after { background: conic-gradient(from -90deg
    while an arena navigation plays (never during the theme switch), and drawn above it, so the content
    moves under them as in the app and never across the dock. */
 :root:active-view-transition-type(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade) .arena-topbar { view-transition-name: mm-frame-top; }
-:root:active-view-transition-type(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade) .arena-bottomnav { view-transition-name: mm-frame-dock; }
+:root:active-view-transition-type(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade) .arena-dock { view-transition-name: mm-frame-dock; }
 :root:active-view-transition-type(mm-place-fwd, mm-place-back, mm-push, mm-pop, mm-rise, mm-rise-back, mm-fade) .arena-sidebar { view-transition-name: mm-frame-side; }
 ::view-transition-group(mm-frame-top), ::view-transition-group(mm-frame-dock), ::view-transition-group(mm-frame-side) { animation: none; z-index: 100; }
 ::view-transition-old(mm-frame-top), ::view-transition-old(mm-frame-dock), ::view-transition-old(mm-frame-side) { display: none; }

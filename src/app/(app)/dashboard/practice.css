@@ -206,8 +206,8 @@
     position: fixed;
     left: 0;
     right: 0;
-    /* Clears the tab bar (65 px) and the Start key's disc, which stands 10 px above it. */
-    bottom: calc(82px + env(safe-area-inset-bottom));
+    /* Rides 8 px above the floating dock (its 64 px row lifted 12 px: --dock-h in arena.css). */
+    bottom: calc(var(--dock-h, 84px) + env(safe-area-inset-bottom));
     z-index: 43;
     display: grid;
     grid-template-columns: 52px minmax(0, 1fr) auto;
