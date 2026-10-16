@@ -9,12 +9,16 @@ import '../materials/grain.dart';
 /// is fixed.
 typedef BarShape = RRect Function(Size size);
 
-/// The bar's and the capsule's glass, in three tiers (DOCK.md section 4):
+/// The bar's and the live capsule's glass, in three tiers (NAV-1017 6.2, GLASS-1017 5.1):
 ///
-/// * Full: one `BackdropFilter.grouped` per surface inside the shell's `BackdropGroup`, clipped
-///   to the surface's own shape: a 32 sigma blur ([MmBar.blurSigma], up from 24 after the
-///   owner's "can be made a bit stronger", L33) over a 1.15 saturation lift (HIGH's "juicy"
-///   frost), under a warm tint at 60% (Night) or 68% (Daylight).
+/// * Full: one `BackdropFilter.grouped` per surface inside the shell's `BackdropGroup` (so the
+///   capsule, the live capsule and a glass Start key share one backdrop snapshot), clipped to the
+///   surface's own shape. What scrolls under it is lifted to 1.5 saturation, its luminosity is
+///   compressed toward the glass (Night: scaled to 40%; Day: lifted to at least 45% white), then
+///   blurred at sigma 32 ([MmBar.blurSigma], the owner's frost, L33), under a warm tint at 50%
+///   (Night) or 55% (Daylight). Content shows through as soft colour and shape, never as an
+///   opaque slab, and the labels stay above 5:1 over any backdrop from black to paper white or
+///   volt (the luminosity step does the legibility work a heavier tint used to do).
 /// * Lite: no live blur; a thicker tint and the noise tile.
 /// * Off: solid, with a hairline.
 ///
@@ -30,19 +34,38 @@ class BarGlass extends StatefulWidget {
   final GlassQuality? quality;
   final Widget? child;
 
-  /// The live blur and its saturation lift.
-  static final ui.ImageFilter filter = ui.ImageFilter.compose(
+  /// The live blur over the saturation lift and the luminosity step, per theme.
+  static ui.ImageFilter filterFor({required bool night}) => night ? _nightFilter : _dayFilter;
+
+  static final ui.ImageFilter _nightFilter = _filter(backdropMatrix(night: true));
+  static final ui.ImageFilter _dayFilter = _filter(backdropMatrix(night: false));
+
+  static ui.ImageFilter _filter(List<double> matrix) => ui.ImageFilter.compose(
     outer: ui.ImageFilter.blur(sigmaX: MmBar.blurSigma, sigmaY: MmBar.blurSigma),
-    inner: const ui.ColorFilter.matrix(_saturate115),
+    inner: ui.ColorFilter.matrix(matrix),
   );
 
-  static const List<double> _saturate115 = [
-    // A 1.15 saturation matrix (Rec. 709 luma).
-    0.2126 * -0.15 + 1.15, 0.7152 * -0.15, 0.0722 * -0.15, 0, 0,
-    0.2126 * -0.15, 0.7152 * -0.15 + 1.15, 0.0722 * -0.15, 0, 0,
-    0.2126 * -0.15, 0.7152 * -0.15, 0.0722 * -0.15 + 1.15, 0, 0,
-    0, 0, 0, 1, 0,
-  ];
+  /// How far Night scales the backdrop's light down, and the white floor Day lifts it to.
+  static const double nightLuminosity = 0.40;
+  static const double dayFloor = 0.45;
+
+  /// The colour matrix applied to the backdrop before the blur: saturation [MmBar.saturation]
+  /// (Rec. 709 luma), then Night's scale or Day's lift.
+  static List<double> backdropMatrix({required bool night}) {
+    const s = MmBar.saturation;
+    const r = 0.2126 * (1 - s), g = 0.7152 * (1 - s), b = 0.0722 * (1 - s);
+    final sat = <List<double>>[
+      [r + s, g, b],
+      [r, g + s, b],
+      [r, g, b + s],
+    ];
+    final k = night ? nightLuminosity : 1 - dayFloor;
+    final offset = night ? 0.0 : dayFloor * 255;
+    return [
+      for (final row in sat) ...[row[0] * k, row[1] * k, row[2] * k, 0, offset],
+      0, 0, 0, 1, 0,
+    ];
+  }
 
   @override
   State<BarGlass> createState() => _BarGlassState();
@@ -76,7 +99,7 @@ class _BarGlassState extends State<BarGlass> {
       child: widget.child ?? const SizedBox.expand(),
     );
     if (quality == GlassQuality.full) {
-      pane = BackdropFilter.grouped(filter: BarGlass.filter, child: pane);
+      pane = BackdropFilter.grouped(filter: BarGlass.filterFor(night: colors.isNight), child: pane);
     }
     return CustomPaint(
       painter: _ShadowPainter(shape: widget.shape, color: spec.shadow, repaint: widget.repaint),
@@ -110,7 +133,7 @@ class BarGlassSpec {
       const edgeMid = Color(0x08FFFFFF); // white 3%
       const shadow = Color(0x66000000); // black 40%
       return switch (quality) {
-        GlassQuality.full => const BarGlassSpec(tint: Color(0x991B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow),
+        GlassQuality.full => const BarGlassSpec(tint: Color(0x801B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow),
         GlassQuality.lite => const BarGlassSpec(tint: Color(0xEB1B1A16), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, noise: 0.03),
         GlassQuality.off => const BarGlassSpec(
           tint: Color(0xFF1B1A16),
@@ -126,7 +149,7 @@ class BarGlassSpec {
     const shadow = Color(0x1F3A3020); // #3A3020 at 12%
     const hairline = Color(0x99D8D1C2); // #D8D1C2 at 60%
     return switch (quality) {
-      GlassQuality.full => const BarGlassSpec(tint: Color(0xAEFFFDF8), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, hairline: hairline),
+      GlassQuality.full => const BarGlassSpec(tint: Color(0x8CFFFDF8), edgeTop: edgeTop, edgeMid: edgeMid, shadow: shadow, hairline: hairline),
       GlassQuality.lite => const BarGlassSpec(
         tint: Color(0xF0FFFDF8),
         edgeTop: edgeTop,

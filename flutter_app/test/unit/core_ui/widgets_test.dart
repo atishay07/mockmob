@@ -107,7 +107,7 @@ void main() {
       expect(driver.selections, 0);
     });
 
-    testWidgets('Start reports its pill, the lens rect of its slot, for the morph (app-ia 4.2)', (tester) async {
+    testWidgets('Start reports its circle, 64 dp at the row's trailing end, for the morph (NAV-1017 6.1)', (tester) async {
       final starts = <Rect>[];
       await pumpMockmob(
         tester,
@@ -117,10 +117,10 @@ void main() {
       await tester.tap(find.text('Start'));
       await tester.pump(const Duration(milliseconds: 400));
       expect(starts, hasLength(1));
-      // 384 dp: the bar is 352 wide, each slot (352 - 12) / 6, the pill a slot less 4 and 52 tall.
-      final geo = BarGeometry(384);
-      expect(starts.single.width, closeTo(geo.lensWidth, 0.5));
-      expect(starts.single.height, closeTo(MmBar.height - 2 * MmBar.pad, 0.5));
+      // 384 dp: the row is 352 wide and the key closes it, a 64 dp circle 16 dp from the edge.
+      expect(starts.single.width, closeTo(MmBar.keySize, 0.5));
+      expect(starts.single.height, closeTo(MmBar.keySize, 0.5));
+      expect(starts.single.right, closeTo(384 - MmBar.gutter, 0.5));
     });
 
     testWidgets('labels clamp the text scale at 1.2 and stay on one line', (tester) async {

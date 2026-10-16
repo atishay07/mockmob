@@ -1,25 +1,33 @@
 import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
+import '../materials/touch_light.dart';
 import 'bar_icons.dart';
 
-/// The volt Start key in the bar's third slot (app-ia-1016.md section 4.2). It is laid out exactly
-/// like a tab: a 24 dp glyph (a rounded play triangle) in the icon box at y 11 to 35, and the word
-/// **Start** in the label box at y 39 to 53, on a volt pill the size and place of the lens (the
-/// slot less 2 dp each side, y 6 to 58). So its glyph shares every tab icon's centre line, its
-/// word every tab label's, and its pill the lens's (L31). It is an action, not a place; it opens
-/// the Start sheet. No breathing: "something to resume" is the capsule's job, in words.
+/// The Start key (NAV-1017 section 6): a 64 dp circle at the trailing end of the bar's row, 8 dp
+/// from the capsule, the same height as the capsule, top and bottom. It is an action, not a tab;
+/// it opens the quick start sheet. Its glyph (a rounded play triangle) sits in the tabs' icon box
+/// at y 11 to 35 and the word **Start** in their label box at y 39 to 53, so the key shares every
+/// tab's two centre lines (L31).
 ///
-/// Pressed, it sinks to 0.94 in 100 ms and its volt deepens 16% toward `voltEdge`; on release it
-/// overshoots a little before it settles (a negative [pressed]) and an ink ring spreads out of it
-/// (380 ms). No glow and no halo: the pill is flat volt with a 1 dp rim, like a pressed key. Dragged up it stretches
-/// tall and narrow ([stretch], volume kept), anchored at its foot. Once per open session its
-/// word slides from Start to Resume and back in the same label box ([labelShift]); the pill never
-/// widens. Compact, the pill shrinks with the lens to 40 tall, the glyph moves down 15 dp and the
-/// word fades with the tab labels ([labelsOut]).
+/// Its look is a function of the theme and its own press only ([MmBar.startKeyStyle]; NAV 6.8):
+///
+/// * [StartKeyStyle.volt] (A1, the owner's choice): filled volt with a 1 dp rim a shade deeper,
+///   the glyph and word in volt ink, a top light on Night and a soft drop shadow. The one tinted
+///   glass in the bar (GLASS-1017 4.2).
+/// * [StartKeyStyle.glass] (A): the capsule's glass with a 1.5 dp volt ring and a volt glyph.
+///
+/// It flexes like gel when pressed ([gel]: 1.04 wide, 0.95 tall, anchored at its foot, then a
+/// small wobble back), its volt deepens 16% ([pressed]), the touch light blooms inside it
+/// ([light]), and on release an ink ring spreads out of it ([ripple], 380 ms). Dragged up it
+/// stretches tall and narrow ([stretch], volume kept), anchored at its foot. Once per open
+/// session its word slides from Start to Resume and back in the same label box ([labelShift]);
+/// the key never widens. Compact, it shrinks to a 52 dp circle about its foot with the capsule,
+/// the glyph moves down 15 dp to the circle's centre and the word fades with the tab labels.
 class StartKeyFace extends StatelessWidget {
   const StartKeyFace({
     super.key,
@@ -28,7 +36,11 @@ class StartKeyFace extends StatelessWidget {
     this.pressed = 0,
     this.ripple = 1,
     this.stretch = 0,
+    this.gel = 0,
     this.labelShift = 0,
+    this.light,
+    this.rimBoost = 0,
+    this.style = MmBar.startKeyStyle,
   });
 
   /// The bar's collapse, 0 expanded to 1 compact.
@@ -37,7 +49,7 @@ class StartKeyFace extends StatelessWidget {
   /// The labels' fade, 0 shown to 1 gone (the bar's compact state).
   final Animation<double> labelsOut;
 
-  /// How far down the press is, 0 to 1.
+  /// How far down the press is, 0 to 1: the volt deepens (the glass key fills with 12% volt).
   final double pressed;
 
   /// The ink ring after a tap, 0 to 1 (1 is gone).
@@ -47,15 +59,23 @@ class StartKeyFace extends StatelessWidget {
   /// (a squash).
   final double stretch;
 
+  /// The gel press: 0 at rest, 1 squashed under the finger, a little below 0 in the wobble back.
+  final double gel;
+
   /// 0 shows "Start", 1 shows "Resume"; between, one slides up out and the other in.
   final double labelShift;
+
+  /// The touch light inside the key, or null.
+  final TouchLightController? light;
+
+  /// How much a finger near the key brightens its rim (0 to 0.4; GLASS-1017 5.4, nearby glass).
+  final double rimBoost;
+
+  final StartKeyStyle style;
 
   /// The word on the key at rest.
   static const String word = 'Start';
   static const String resumeWord = 'Resume';
-
-  /// How far the pressed key sinks.
-  static const double pressDepth = 0.06;
 
   /// The key's height scale and width scale for a [stretch]: tall and narrow, volume kept.
   static (double sx, double sy) squashFor(double stretch) {
@@ -63,21 +83,27 @@ class StartKeyFace extends StatelessWidget {
     return (1 / math.sqrt(sy), sy);
   }
 
-  /// The pill's rect inside its slot box (the bar's full 64 dp height, bottom anchored): the slot
-  /// less 2 dp each side, the bar's height less its padding. The same rect as the lens on that
-  /// slot ([BarLensPainter.lensRect] at rest).
-  static Rect keyRect(Size slot, double collapse) {
-    final barHeight = MmBar.height - (MmBar.height - MmBar.compactHeight) * collapse;
-    final height = barHeight - 2 * MmBar.pad;
-    final top = slot.height - barHeight + MmBar.pad;
-    return Rect.fromLTWH(MmBar.pillInset, top, slot.width - 2 * MmBar.pillInset, height);
+  /// The gel press's width scale and height scale for [gel].
+  static (double sx, double sy) gelFor(double gel) => (1 + 0.04 * gel, 1 - 0.05 * gel);
+
+  /// The key's circle inside its 64 dp box at [collapse]: 64 across expanded, 52 compact, sharing
+  /// the box's foot and its centre line.
+  static Rect keyRect(Size box, double collapse) {
+    final d = ui.lerpDouble(MmBar.keySize, MmBar.compactHeight, collapse)!;
+    return Rect.fromLTWH((box.width - d) / 2, box.height - d, d, d);
   }
+
+  /// The label box's width inside the key (the circle's chord at the label's lowest line, less
+  /// a margin): 44 dp.
+  static const double labelWidth = 44;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final ink = colors.voltInk;
+    final volt = style == StartKeyStyle.volt;
+    final glyphColor = volt ? colors.voltInk : colors.accentText;
+    final wordColor = volt ? colors.voltInk : colors.ink;
     Widget wordText(String text) => Text(
       text,
       maxLines: 1,
@@ -87,7 +113,7 @@ class StartKeyFace extends StatelessWidget {
         height: MmBar.labelHeight / MmBar.labelSize,
         fontWeight: FontWeight.w700,
         letterSpacing: 0,
-        color: ink,
+        color: wordColor,
       ),
     );
     final shift = labelShift.clamp(0.0, 1.0);
@@ -110,65 +136,82 @@ class StartKeyFace extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, box) {
         final size = box.biggest;
-        return CustomPaint(
-          painter: _StartKeyPainter(
-            collapse: collapse,
-            pressed: pressed,
-            ripple: ripple,
-            stretch: stretch,
-            night: colors.isNight,
-            volt: colors.volt,
-            voltEdge: colors.voltEdge,
-            rim: colors.isNight ? colors.voltEdge : colors.accentText.withValues(alpha: 0.45),
-          ),
-          child: AnimatedBuilder(
-            animation: collapse,
-            builder: (context, child) {
-              final e = collapse.value;
-              final rect = keyRect(size, e);
-              final (sx, sy) = squashFor(stretch);
-              final s = 1 - pressed * pressDepth;
-              // Pressed about the pill's centre, then stretched about its (pressed) foot, the way
-              // the painter draws the pill; the content rides down with the compact bar.
-              return Transform(
-                transform: Matrix4.diagonal3Values(sx, sy, 1),
-                origin: Offset(rect.center.dx, rect.center.dy + rect.height * s / 2),
-                child: Transform(
-                  transform: Matrix4.diagonal3Values(s, s, 1),
-                  origin: rect.center,
-                  child: Transform.translate(offset: Offset(0, MmBar.compactShift * e), child: child),
-                ),
-              );
-            },
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                  left: (size.width - MmBar.icon) / 2,
-                  top: MmBar.iconTop,
-                  width: MmBar.icon,
-                  height: MmBar.icon,
-                  child: Icon(kStartGlyph, size: MmBar.icon, color: ink),
-                ),
-                Positioned(
-                  left: MmBar.pillInset,
-                  right: MmBar.pillInset,
-                  top: MmBar.labelTop,
-                  height: MmBar.labelHeight,
-                  child: FadeTransition(
-                    opacity: ReverseAnimation(labelsOut),
-                    child: ClipRect(
-                      child: Center(
-                        child: FittedBox(
-                          fit: BoxFit.scaleDown,
-                          child: MediaQuery.withClampedTextScaling(maxScaleFactor: 1.2, child: label),
+        final light = this.light;
+        return AnimatedBuilder(
+          animation: collapse,
+          builder: (context, child) {
+            final e = collapse.value;
+            final rect = keyRect(size, e);
+            final (sx, sy) = squashFor(stretch);
+            final (gx, gy) = gelFor(gel);
+            // Squashed and stretched about its foot, the way a drop of gel sits on a surface.
+            return Transform(
+              transform: Matrix4.diagonal3Values(sx * gx, sy * gy, 1),
+              origin: rect.bottomCenter,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned.fill(
+                    child: CustomPaint(
+                      painter: _StartKeyPainter(
+                        rect: rect,
+                        pressed: pressed,
+                        ripple: ripple,
+                        rimBoost: rimBoost,
+                        style: style,
+                        night: colors.isNight,
+                        volt: colors.volt,
+                        voltEdge: colors.voltEdge,
+                        accent: colors.accentText,
+                        rim: colors.isNight ? colors.voltEdge : colors.accentText.withValues(alpha: 0.45),
+                      ),
+                    ),
+                  ),
+                  if (light != null)
+                    Positioned.fill(
+                      child: IgnorePointer(
+                        child: CustomPaint(
+                          painter: TouchLightPainter(
+                            light: light,
+                            shape: (_) => RRect.fromRectAndRadius(rect, Radius.circular(rect.width / 2)),
+                            color: volt ? const Color(0x4DFFFFFF) : TouchLightPainter.colorFor(night: colors.isNight),
+                          ),
                         ),
+                      ),
+                    ),
+                  Transform.translate(offset: Offset(0, MmBar.compactShift * e), child: child),
+                ],
+              ),
+            );
+          },
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                left: (size.width - MmBar.icon) / 2,
+                top: MmBar.iconTop,
+                width: MmBar.icon,
+                height: MmBar.icon,
+                child: Icon(kStartGlyph, size: MmBar.icon, color: glyphColor),
+              ),
+              Positioned(
+                left: (size.width - labelWidth) / 2,
+                width: labelWidth,
+                top: MmBar.labelTop,
+                height: MmBar.labelHeight,
+                child: FadeTransition(
+                  opacity: ReverseAnimation(labelsOut),
+                  child: ClipRect(
+                    child: Center(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: MediaQuery.withClampedTextScaling(maxScaleFactor: 1.2, child: label),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },
@@ -178,69 +221,90 @@ class StartKeyFace extends StatelessWidget {
 
 class _StartKeyPainter extends CustomPainter {
   _StartKeyPainter({
-    required this.collapse,
+    required this.rect,
     required this.pressed,
     required this.ripple,
-    required this.stretch,
+    required this.rimBoost,
+    required this.style,
     required this.night,
     required this.volt,
     required this.voltEdge,
+    required this.accent,
     required this.rim,
-  }) : super(repaint: collapse);
+  });
 
-  final Animation<double> collapse;
+  final Rect rect;
   final double pressed;
   final double ripple;
-  final double stretch;
+  final double rimBoost;
+  final StartKeyStyle style;
   final bool night;
   final Color volt;
   final Color voltEdge;
+  final Color accent;
   final Color rim;
 
   @override
   void paint(Canvas canvas, Size size) {
-    var rect = StartKeyFace.keyRect(size, collapse.value);
-    final scale = 1 - StartKeyFace.pressDepth * pressed;
-    final (sx, sy) = StartKeyFace.squashFor(stretch);
-    // Stretched (or squashed) about its foot: the bottom edge stays where it was.
-    final foot = rect.bottomCenter;
-    final w = rect.width * scale * sx;
-    final h = rect.height * scale * sy;
-    rect = Rect.fromLTWH(foot.dx - w / 2, foot.dy - (rect.height - rect.height * scale) / 2 - h, w, h);
-    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(math.min(rect.height, rect.width) / 2));
+    final circle = RRect.fromRectAndRadius(rect, Radius.circular(rect.width / 2));
     final deepen = pressed.clamp(0.0, 1.0);
+    final boost = rimBoost.clamp(0.0, 0.4);
 
-    canvas.drawRRect(rrect, Paint()..color = Color.lerp(volt, voltEdge, 0.16 * deepen)!);
-    // A 1 dp rim a shade deeper, so the key reads as ink pressed into the bar.
-    canvas.drawRRect(
-      rrect.deflate(0.5),
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1
-        ..color = rim,
-    );
-    if (night) {
-      // A 1 dp white highlight along the top.
-      canvas.save();
-      canvas.clipRRect(rrect);
+    if (style == StartKeyStyle.volt) {
+      // A soft drop shadow under the key (offset, never a halo).
       canvas.drawRRect(
-        rrect.deflate(1),
+        circle.shift(Offset(0, night ? 6 : 4)),
+        Paint()
+          ..color = night ? const Color(0x59000000) : const Color(0x2E526700)
+          ..maskFilter = MaskFilter.blur(BlurStyle.normal, ui.Shadow.convertRadiusToSigma(night ? 14 : 10)),
+      );
+      canvas.drawRRect(circle, Paint()..color = Color.lerp(volt, voltEdge, 0.16 * deepen)!);
+      canvas.save();
+      canvas.clipRRect(circle);
+      // The top light (38% to nothing over 45% of the height) and a bottom inner shade, so the
+      // key reads as a lens of volt glass, not a flat disc.
+      canvas.drawRect(
+        rect,
+        Paint()
+          ..shader = ui.Gradient.linear(rect.topCenter, Offset(rect.center.dx, rect.top + rect.height * 0.45), [
+            Colors.white.withValues(alpha: (night ? 0.30 : 0.38) * (1 + boost)),
+            Colors.white.withValues(alpha: 0),
+          ]),
+      );
+      canvas.drawRect(
+        rect,
+        Paint()
+          ..shader = ui.Gradient.linear(rect.bottomCenter, Offset(rect.center.dx, rect.bottom - rect.height * 0.35), [
+            const Color(0x26526700),
+            const Color(0x00526700),
+          ]),
+      );
+      canvas.restore();
+      canvas.drawRRect(
+        circle.deflate(0.5),
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1
-          ..shader = LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.center,
-            colors: [Colors.white.withValues(alpha: 0.35), Colors.white.withValues(alpha: 0)],
-          ).createShader(rect),
+          ..color = Color.lerp(rim, Colors.white, boost)!,
       );
-      canvas.restore();
+    } else {
+      // The glass key: the capsule's glass shows through (the bar paints it); a volt wash on
+      // press and a 1.5 dp volt ring, 2 dp while pressed.
+      if (deepen > 0) canvas.drawRRect(circle, Paint()..color = accent.withValues(alpha: 0.12 * deepen));
+      canvas.drawRRect(
+        circle.deflate(0.75 + 0.25 * deepen),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5 + 0.5 * deepen
+          ..color = Color.lerp(accent, Colors.white, boost * 0.5)!,
+      );
     }
+
     if (ripple < 1) {
       final t = Motion.glide.transform(ripple.clamp(0.0, 1.0));
       final grow = 14 * t;
       canvas.drawRRect(
-        RRect.fromRectAndRadius(rect.inflate(grow), Radius.circular(math.min(rect.height, rect.width) / 2 + grow)),
+        RRect.fromRectAndRadius(rect.inflate(grow), Radius.circular(rect.width / 2 + grow)),
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2 - 1.5 * t
@@ -251,12 +315,14 @@ class _StartKeyPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_StartKeyPainter old) =>
-      old.collapse != collapse ||
+      old.rect != rect ||
       old.pressed != pressed ||
       old.ripple != ripple ||
-      old.stretch != stretch ||
+      old.rimBoost != rimBoost ||
+      old.style != style ||
       old.night != night ||
       old.volt != volt ||
       old.voltEdge != voltEdge ||
+      old.accent != accent ||
       old.rim != rim;
 }

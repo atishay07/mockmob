@@ -12,8 +12,11 @@ import 'motion.dart';
 /// Pull to refresh in the language of the app (MOTION.md C10), in place of the stock Material
 /// spinner on Today, Review, Insights, Saved and Learn.
 ///
-/// The content never moves: the scroll view keeps its clamping physics and the pull is drawn as a
-/// ring under the status bar.
+/// The content moves with the pull (GLASS-1017 5.9): the app's scroll views bounce, so the page
+/// rubber-bands down under the finger and the ring rides in the gap it opens, centred half the
+/// pull below the status bar (at most 36 dp down). On release the page springs back and the ring
+/// settles under the status bar. (Before the bounce, the content never moved: the views clamped
+/// and the ring alone showed the pull. A view that still clamps works as it did.)
 ///
 /// - **Pull.** An answer-bubble ring draws its stroke from nothing to a full circle as the pull grows
 ///   from 0 to [threshold] dp, with one selection tick when it closes.
@@ -83,6 +86,11 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
     super.dispose();
   }
 
+  /// Where the ring sits while pulling, relative to its resting place (its centre 28 dp below the
+  /// status bar): centred half the pull down, at most 36 dp, so it rides in the gap the bouncing
+  /// page opens.
+  static double ringOffsetFor(double pull) => math.min(pull / 2, 36) - (MmSpace.s8 + 20);
+
   bool get _busy => _mode == _PullMode.refreshing || _mode == _PullMode.landing || _mode == _PullMode.failing;
 
   bool _onScroll(ScrollNotification n) {
@@ -98,6 +106,9 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
       } else if (pixels > 0 && _pull > 0) {
         _setPull(0);
       }
+    } else if (n is ScrollUpdateNotification && _pull > 0) {
+      // The finger has lifted and the page is springing back: decide now, not when it lands.
+      _release();
     } else if (n is ScrollEndNotification && _pull > 0) {
       _release();
     }
@@ -192,13 +203,17 @@ class _MmPullRefreshState extends ConsumerState<MmPullRefresh> with TickerProvid
                 child: Center(
                   child: ListenableBuilder(
                     listenable: Listenable.merge([_progress, _spin, _land]),
-                    builder: (context, _) => _PullRing(
-                      progress: _progress.value,
-                      mode: _mode,
-                      spin: _spin.value,
-                      land: _land.value,
-                      reduced: reduced,
-                      slow: _slow,
+                    builder: (context, _) => _RingRide(
+                      offset: _mode == _PullMode.pulling ? ringOffsetFor(_pull) : 0,
+                      animate: _mode != _PullMode.pulling && !reduced,
+                      child: _PullRing(
+                        progress: _progress.value,
+                        mode: _mode,
+                        spin: _spin.value,
+                        land: _land.value,
+                        reduced: reduced,
+                        slow: _slow,
+                      ),
                     ),
                   ),
                 ),
@@ -353,4 +368,23 @@ class _RingPainter extends CustomPainter {
       old.ink != ink ||
       old.stroke != stroke ||
       old.track != track;
+}
+
+/// Moves the ring to [offset] below its resting place: at once while the finger pulls, over
+/// 200 ms on `Motion.out` back to rest when it lets go.
+class _RingRide extends StatelessWidget {
+  const _RingRide({required this.offset, required this.animate, required this.child});
+
+  final double offset;
+  final bool animate;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) => TweenAnimationBuilder<double>(
+    tween: Tween(end: offset),
+    duration: animate ? Motion.ui : Duration.zero,
+    curve: Motion.out,
+    builder: (context, dy, child) => Transform.translate(offset: Offset(0, dy), child: child),
+    child: child,
+  );
 }

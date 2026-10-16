@@ -45,7 +45,8 @@ class MomentScaffold extends StatelessWidget {
           ?header,
           Expanded(
             child: CustomScrollView(
-              physics: const ClampingScrollPhysics(),
+              // Bounces like every scroll the app owns (GLASS-1017 5.9).
+              physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverFillRemaining(
                   hasScrollBody: false,

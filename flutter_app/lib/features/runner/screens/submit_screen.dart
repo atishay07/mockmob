@@ -571,7 +571,8 @@ class _Body extends StatelessWidget {
     if (!centred) return SingleChildScrollView(padding: padding, child: child);
     return LayoutBuilder(
       builder: (context, box) => SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
+        // The bounce is physics under the finger, not decoration (GLASS-1017 5.9).
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         padding: padding,
         child: ConstrainedBox(
           constraints: BoxConstraints(minHeight: (box.maxHeight - padding.vertical).clamp(0.0, double.infinity)),

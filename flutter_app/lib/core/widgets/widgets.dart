@@ -43,6 +43,7 @@ export 'materials/grain.dart';
 export 'materials/light_field.dart';
 export 'materials/lit_edge.dart';
 export 'materials/shape.dart';
+export 'materials/touch_light.dart';
 export 'mm_sheet.dart';
 export 'mm_spinner.dart';
 export 'mobi.dart';

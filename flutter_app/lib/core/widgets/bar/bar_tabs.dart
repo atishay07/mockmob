@@ -26,25 +26,16 @@ abstract final class BarBranch {
   static const int you = 4;
 }
 
-/// The bar's six visual slots, left to right: Today, Practice, Start, Review, Colleges, You.
-const int kBarSlots = 6;
+/// The capsule's five slots, left to right, in branch order. Start is not a slot: it is the
+/// separate key beside the capsule (NAV-1017 section 6), so a slot and a branch are the same
+/// number.
+const int kBarSlots = 5;
 
-/// The visual slot of the Start key.
-const int kStartSlot = 2;
+/// The shell branch a slot opens (the same number; kept so callers read as intent).
+int slotToBranch(int slot) => slot;
 
-/// The shell branch a visual slot opens, or null for the Start slot. Slots 0, 1, 3, 4 and 5 open
-/// branches 0, 1, 2, 3 and 4.
-int? slotToBranch(int slot) => switch (slot) {
-  0 => 0,
-  1 => 1,
-  3 => 2,
-  4 => 3,
-  5 => 4,
-  _ => null,
-};
-
-/// The visual slot of a shell branch.
-int branchToSlot(int branch) => branch < kStartSlot ? branch : branch + 1;
+/// The slot of a shell branch.
+int branchToSlot(int branch) => branch;
 
 /// The spoken name of a tab: "Review, tab 3 of 5, 4 open mistakes to repair". Start is not a tab,
 /// so the tabs count to five. "Selected" comes from the selected flag. Review's count is tonight's

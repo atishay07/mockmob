@@ -206,7 +206,7 @@ void main() {
       expect(_scaleOf(tester, label), closeTo(1, 0.002));
     });
 
-    testWidgets('the Start key sinks to 0.94 while held and returns to 1 (DOCK.md 5.2)', (tester) async {
+    testWidgets('the Start key flexes like gel while held (1.04 wide, anchored at its foot) and settles back (GLASS-1017 5.6)', (tester) async {
       await tester.pumpWidget(_app(Align(alignment: Alignment.bottomCenter, child: MmBottomBar(currentBranch: 0, onTab: (_) {}, onStart: (_) {}))));
       final word = find.text('Start');
       // Relative to rest: the word may also be fitted to the key (the test font is wide).
@@ -214,11 +214,12 @@ void main() {
       final gesture = await tester.startGesture(tester.getCenter(word));
       await _pumpFor(tester, const Duration(milliseconds: 400));
       expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).pressed, closeTo(1, 0.001));
-      expect(_scaleOf(tester, word) / rest, closeTo(0.94, 0.002));
+      expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).gel, closeTo(1, 0.001));
+      expect(_scaleOf(tester, word) / rest, closeTo(1.04, 0.002));
       await gesture.up();
-      await _pumpFor(tester, const Duration(milliseconds: 600));
+      await _pumpFor(tester, const Duration(milliseconds: 700));
       expect(tester.widget<StartKeyFace>(find.byType(StartKeyFace)).pressed, closeTo(0, 0.001));
-      expect(_scaleOf(tester, word) / rest, closeTo(1, 0.002));
+      expect(_scaleOf(tester, word) / rest, closeTo(1, 0.004));
     });
 
     testWidgets('under reduced motion the press is instant', (tester) async {
@@ -265,8 +266,8 @@ void main() {
       await tester.pumpWidget(const SizedBox());
       await tester.pumpWidget(_app(bar(compact)));
       expect(labelOpacity(tester), 0);
-      // Start is laid out like a tab (L31): its word fades with the tab labels and its glyph moves
-      // down with the tab icons, from the first frame.
+      // The Start key shares the tabs' lines (L31): its word fades with the tab labels and its
+      // glyph moves down with the tab icons, from the first frame.
       final startWord = tester.widget<FadeTransition>(find.ancestor(of: find.text('Start'), matching: find.byType(FadeTransition)).first);
       expect(startWord.opacity.value, 0);
       expect(tester.getCenter(find.byIcon(kStartGlyph)).dy - rest, closeTo(MmBar.compactShift, 0.01));

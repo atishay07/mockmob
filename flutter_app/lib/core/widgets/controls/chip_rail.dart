@@ -428,7 +428,7 @@ class _ChipRailState extends State<ChipRail> with SingleTickerProviderStateMixin
                     scrollDirection: Axis.horizontal,
                     controller: _controller,
                     padding: widget.padding,
-                    physics: _ChipSnapPhysics(stops: _stops, parent: const ClampingScrollPhysics()),
+                    physics: _ChipSnapPhysics(stops: _stops, parent: const BouncingScrollPhysics()),
                     child: Row(
                       key: _rowKey,
                       mainAxisSize: MainAxisSize.min,

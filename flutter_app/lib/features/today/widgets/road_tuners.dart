@@ -286,7 +286,7 @@ class _MockRulerState extends State<MockRuler> {
                         child: ListView.builder(
                           controller: _scroll,
                           scrollDirection: Axis.horizontal,
-                          physics: const ClampingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           padding: EdgeInsets.symmetric(horizontal: side),
                           itemExtent: MockRuler.tick,
                           itemCount: mockTargetMax - mockTargetMin + 1,
