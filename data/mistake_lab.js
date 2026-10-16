@@ -13,7 +13,7 @@
 // strike-outs captured a wrong answer whose key was crossed out sits in "Crossed out the key"; and the lab carries
 // `replay` (data/replay.js) and `time` (the whole Time and decisions read, finished here for the app to render).
 import COPY from './mistake_lab.copy.json' with { type: 'json' };
-import { buildTimeDecisions, paperPace, spentLabel, TIME_COPY } from './time_decisions.js';
+import { buildTimeDecisions, paperPace, spentLabel, TIME_COPY, TIME_RULES } from './time_decisions.js';
 import { paperTrace } from './paper_trace.js';
 import { buildReplay } from './replay.js';
 import { GAP } from './session_recovery.js';
@@ -31,6 +31,12 @@ export const LAB_RULES = Object.freeze({
   headlineShare: 0.15, // ... or 15% or more of the gap
   cohortMin: 10, // no cohort line or counts under 10 other students
   cohortLabelMin: 20, // "A small group so far" below 20; "most got right" needs 20 and a Wilson low bound over 50%
+  timeMedianMin: 30, // "Students who got this right took a median of 51s": 30 or more timed right answers, the student left out
+  timeChangesMin: 20, // "6 of 27 timed students changed their answer": 20 or more timed students
+  timeStrikeMin: 20, // "9 of 30 students crossed out the key": 20 or more students with strike data
+  slowQuestionsMin: 5, // the ledger's "over twice as long": 5 or more such questions ...
+  slowRightMin: 15, // ... each with 15 or more timed right answers (the student left out)
+  slowRatio: 2, // "over twice as long" is strictly more than twice the median of the students who got it right
   mostRightLowAbove: 50, // the 95% Wilson low bound, in percent, that "most other students got it right" must beat
   trapMinPicks: 5, // the common trap needs 5 or more picks of the student's option
   chipsShown: 8, // Q chips shown before "Show {k} more"
@@ -82,6 +88,63 @@ const hadBreak = (row) => {
   return first === TIME_COPY.breakOnly || first.includes(TIME_COPY.breakToo.trim());
 };
 
+// ---------- Cohort time and changes, per question (4.13; the nightly table, data/cohort_time.js) ----------
+
+const CT = COPY.cohort.time;
+/** "51s", "1m 05s": a median time in whole seconds. */
+const medianLabel = (ms) => spentLabel(Math.round(ms / 1000));
+
+/**
+ * The lines 4.13 adds to one opened answer, from a cohort read's `time` ({ right: { n, medianMs } | null, timed, changed,
+ * movedOff, strike: { n, struck } }, the student's own first answer already left out). Each line is hidden until its gate
+ * passes, and every number carries its denominator. Never null: an empty array when no gate passes.
+ */
+export function timeLinesFor(time) {
+  if (!time || typeof time !== 'object') return [];
+  const lines = [];
+  if (time.right && time.right.n >= LAB_RULES.timeMedianMin && Number.isFinite(time.right.medianMs)) {
+    lines.push(fill(CT.median, { time: medianLabel(time.right.medianMs), n: time.right.n }));
+  }
+  if (Number.isInteger(time.timed) && time.timed >= LAB_RULES.timeChangesMin) {
+    const c = time.changed;
+    const m = time.movedOff;
+    let line = fill(c === 0 ? CT.changes.none : c === 1 ? CT.changes.one : CT.changes.many, { c, n: time.timed });
+    if (c > 0) line += fill(m === 0 ? CT.moved.none : m === 1 && c === 1 ? CT.moved.single : m === 1 ? CT.moved.one : CT.moved.many, { m });
+    lines.push(line);
+  }
+  const k = time.strike;
+  if (k && Number.isInteger(k.n) && k.n >= LAB_RULES.timeStrikeMin) {
+    lines.push(fill(k.struck === 0 ? CT.struck.none : k.struck === 1 ? CT.struck.one : CT.struck.many, { s: k.struck, n: k.n }));
+  }
+  return lines;
+}
+
+/**
+ * The ledger finding: questions on which the student took more than twice as long as the students who got it right
+ * (their median, the student left out), when 5 or more such questions each have 15 or more timed right answers. Needs the
+ * student's own times to be reliable (a record with an end event, no break on the question, 2 s or more), else null.
+ * Returns { line, numbers, questions, right, fine } or null.
+ */
+export function slowFindingFor(cohort, rows) {
+  const byQid = cohort?.byQid || {};
+  const slow = rows.filter((r) => {
+    if (r.held || r.brk || r.ms === null || r.ms < TIME_RULES.minTimedMs) return false;
+    const right = byQid[r.qid]?.time?.right;
+    return !!right && right.n >= LAB_RULES.slowRightMin && Number.isFinite(right.medianMs) && r.ms > LAB_RULES.slowRatio * right.medianMs;
+  });
+  if (slow.length < LAB_RULES.slowQuestionsMin) return null;
+  const k = slow.length;
+  const r = slow.filter((x) => x.outcome === 'right').length;
+  const right = fill(r === 0 ? CT.slowRight.none : r === k ? CT.slowRight.all : CT.slowRight.some, { r, k });
+  return {
+    line: fill(CT.slow, { k, right }),
+    numbers: slow.map((x) => x.number).sort((a, b) => a - b),
+    questions: k,
+    right: r,
+    fine: fill(CT.slowFine, { k }),
+  };
+}
+
 // ---------- How others answered, per question (4.3) ----------
 
 /**
@@ -109,8 +172,11 @@ export function othersFor(read, { givenIndex = null, outcome = 'blank' } = {}) {
       if (topOther > c && tops.length === 1) line += fill(COPY.others.moreChose, { L2: letter(tops[0].i), c2: topOther });
     }
   }
+  // Slice 5: time, changes and strike-outs, each only once its gate passes (the nightly table, never the static snapshot).
+  const lines = timeLinesFor(read.time);
   return {
     n, right, counts, keyIndex: Number.isInteger(read.keyIndex) ? read.keyIndex : null, small, line,
+    ...(lines.length ? { lines } : {}),
     optionLabels: counts.map((c, i) => fill(COPY.others.option, { L: letter(i), c, n })),
   };
 }
@@ -161,7 +227,7 @@ function remarkFor(rows, heldCount) {
   return { first, final, questions: k, text, fine };
 }
 
-function cohortBlock(cohort, rows, total) {
+function cohortBlock(cohort, rows, total, slow = null) {
   if (!cohort || typeof cohort !== 'object') return null;
   const byQid = cohort.byQid || {};
   const most = rows.filter((r) => r.lost > 0 && !r.held).filter((r) => {
@@ -176,7 +242,8 @@ function cohortBlock(cohort, rows, total) {
   const compared = Object.values(byQid).filter((read) => read && read.n >= LAB_RULES.cohortMin).length;
   const fine = [fill(form(COPY.cohort.coverage, compared), { c: compared, total })];
   if (cohort.since && cohort.until) fine.push(fill(COPY.cohort.source, dateRange(cohort.since, cohort.until)));
-  return { line, numbers, marks: m, fine };
+  if (slow) fine.push(slow.fine);
+  return { line, numbers, marks: m, fine, ...(slow ? { slow: { line: slow.line, numbers: slow.numbers, questions: slow.questions, right: slow.right } } : {}) };
 }
 
 /**
@@ -215,6 +282,7 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
     };
   });
   const total = rows.length;
+  const slow = ready && trace?.end ? slowFindingFor(cohort, rows) : null;
   const gap = rows.reduce((s, r) => s + r.lost, 0);
   const rowsById = new Map(rows.map((r) => [r.qid, r]));
 
@@ -237,7 +305,7 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
     time: JSON.parse(JSON.stringify(td)),
   });
   if (gap === 0) {
-    return { ...base, state: 'none', heading: COPY.headingNone, gap: 0, headline: null, groups: [], barLabel: null, remark: null, cohort: cohortBlock(cohort, rows, total), fine: [], byQuestion, ...slice2([]) };
+    return { ...base, state: 'none', heading: COPY.headingNone, gap: 0, headline: null, groups: [], barLabel: null, remark: null, cohort: cohortBlock(cohort, rows, total, slow), fine: [], byQuestion, ...slice2([]) };
   }
 
   const lostRows = rows.filter((r) => r.lost > 0);
@@ -281,7 +349,7 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
     groups,
     barLabel,
     remark: ready ? remarkFor(rows, rows.filter((r) => r.held).length) : null,
-    cohort: cohortBlock(cohort, rows, total),
+    cohort: cohortBlock(cohort, rows, total, slow),
     fine,
     byQuestion,
     ...slice2(groups),

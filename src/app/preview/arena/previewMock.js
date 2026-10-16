@@ -21,6 +21,7 @@ import { scoreSession } from '../../../../data/recovery';
 import { buildSwot } from '../../../../data/mock_swot';
 import { buildMistakeInsights } from '../../../../data/mistake_insights';
 import { buildMistakeLab } from '../../../../data/mistake_lab';
+import { fixtureCohortTime } from '../../../../data/cohort_time_preview';
 import LAB_PAPER from '../../../../data/tests/fixtures/mistake_lab/full_mock_input.json';
 import LAB_COHORT from '../../../../data/tests/fixtures/mistake_lab/full_mock_cohort.json';
 import ACROSS from '../../../../data/tests/fixtures/mistake_lab/contract_across_v1.json';
@@ -160,7 +161,7 @@ const REPLAY_PAPERS = {
  * The Replay preview: one slice 2 paper (`paper` is 'full', 'time_up', 'nta', 'bst' or 'english'), completed an hour
  * ago, with its committed lab contract, and the SWOT and record lines built over it as the route would.
  */
-export async function fixtureReplayMock(paperName = 'full') {
+export async function fixtureReplayMock(paperName = 'full', { cohortTime = null } = {}) {
   const load = REPLAY_PAPERS[paperName] || REPLAY_PAPERS.full;
   const [{ default: input }, { default: contract }] = await load();
   const now = Date.now();
@@ -172,8 +173,14 @@ export async function fixtureReplayMock(paperName = 'full') {
     ...src, id: 'fixture-attempt', mode, completedAt: now - 3_600_000,
     score: right * 5 - wrong, correct: right, wrong, unattempted: src.details.length - right - wrong, total: src.questionsSnapshot.length,
   };
-  const lab = JSON.parse(JSON.stringify(contract));
+  let lab = JSON.parse(JSON.stringify(contract));
   const answerReviews = { ...(input.answerReviews || {}) };
+  // Slice 5 (&cohort=time|time-gated, Full mock only): the lab rebuilt over the same paper with the nightly table's time
+  // numbers on the cohort read, every line passing its gate ('time') or one short of it ('time-gated').
+  if (paperName === 'full' && (cohortTime === 'time' || cohortTime === 'time-gated')) {
+    const built = buildMistakeLab({ attempt, answerReviews, cohort: fixtureCohortTime(LAB_COHORT, attempt, answerReviews, cohortTime === 'time-gated' ? 'gated' : 'pass') });
+    lab = { ...lab, cohort: built.cohort, byQuestion: built.byQuestion };
+  }
   const earlier = earlierPapers(now);
   const ledgerGroups = lab.state === 'ready' || lab.state === 'basic' ? lab.groups.map((g) => g.id) : null;
   const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState: 'ready', missedBefore: {}, now, ledgerGroups });

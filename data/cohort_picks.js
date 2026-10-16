@@ -16,6 +16,7 @@ import { readFileSync } from 'node:fs';
 import { normalizeOptionComparable } from './option_compare.js';
 import { correctIndex } from './recovery.js';
 import { LAB_RULES } from './mistake_lab.js';
+import { ownContribution, timeRead } from './cohort_time.js';
 
 export const COHORT_SNAPSHOT_VERSION = 1;
 
@@ -62,6 +63,11 @@ const when = (a) => Number(a?.completedAt) || 0;
  * snapshot counted it: only attempts completed at or before `cutoffMs`. qid -> option hash.
  */
 export function ownFirstAnswers(attempts, cutoffMs) {
+  return new Map([...ownFirstEntries(attempts, cutoffMs)].map(([qid, e]) => [qid, e.hash]));
+}
+
+/** The same, with the attempt each first answer was in: qid -> { hash, attempt }. */
+export function ownFirstEntries(attempts, cutoffMs) {
   const sorted = [...(attempts || [])].filter((a) => a && when(a) && when(a) <= cutoffMs)
     .sort((a, b) => when(a) - when(b) || String(a.id).localeCompare(String(b.id)));
   const out = new Map();
@@ -71,7 +77,7 @@ export function ownFirstAnswers(attempts, cutoffMs) {
       if (!d?.qid || out.has(d.qid) || !Number.isInteger(d.givenIndex)) continue;
       const option = snap.get(d.qid)?.options?.[d.givenIndex];
       if (option === undefined || option === null) continue;
-      out.set(d.qid, optionHash(option));
+      out.set(d.qid, { hash: optionHash(option), attempt: a });
     }
   }
   return out;
@@ -86,7 +92,7 @@ export function cohortForAttempt({ attempt, allAttempts = [], answerReviews = {}
   const questions = Array.isArray(attempt.questionsSnapshot) ? attempt.questionsSnapshot : [];
   const cutoff = Date.parse(snapshot.builtAt) || Infinity;
   const others = [attempt, ...(allAttempts || []).filter((a) => a && a.id !== attempt.id)];
-  const own = ownFirstAnswers(others, cutoff);
+  const own = ownFirstEntries(others, cutoff);
   const byQid = {};
   for (const q of questions) {
     const entry = snapshot.questions[q?.id];
@@ -104,9 +110,15 @@ export function cohortForAttempt({ attempt, allAttempts = [], answerReviews = {}
     const counts = hashes.map((h) => Math.max(0, Number(entry.picks[h]) || 0));
     let n = counts.reduce((s, c) => s + c, 0);
     const mine = own.get(q.id);
-    if (mine && at.has(mine) && counts[at.get(mine)] > 0) { counts[at.get(mine)] -= 1; n -= 1; }
+    const ownCounted = !!mine && at.has(mine.hash) && counts[at.get(mine.hash)] > 0;
+    if (ownCounted) { counts[at.get(mine.hash)] -= 1; n -= 1; }
     if (n <= 0) continue;
     byQid[q.id] = { n, right: counts[keyIndex], counts, keyIndex };
+    // Slice 5: the nightly table also carries time, changes and strike-outs. Same student, same first answer, left out.
+    if (entry.stats) {
+      const time = timeRead(entry.stats, ownCounted ? ownContribution(mine.attempt, q.id, entry.keyHash) : null);
+      if (time) byQid[q.id].time = time;
+    }
   }
   const compared = Object.values(byQid).filter((r) => r.n >= LAB_RULES.cohortMin).length;
   return { since: snapshot.since, until: snapshot.until, coverage: { compared, total: questions.length }, byQid };
