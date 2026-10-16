@@ -58,8 +58,12 @@ void main() {
     final glass = tester.widget<GlassSurface>(
       find.ancestor(of: find.byType(MmSheetScaffold), matching: find.byType(GlassSurface)).first,
     );
-    expect(glass.borderRadius, MmRadius.sheetTopOnly);
+    // GLASS-1017 5.7: it floats, so its bottom corners are concentric with the phone's (the
+    // fallback phone corner 36, minus the 8 dp inset).
+    expect(glass.borderRadius.topLeft, const Radius.circular(32));
+    expect(glass.borderRadius.bottomLeft, const Radius.circular(28));
     expect(glass.role, GlassRole.sheet);
+    expect(glass.fill, 0);
 
     await tester.tapAt(const Offset(180, 20));
     await tester.pumpAndSettle();

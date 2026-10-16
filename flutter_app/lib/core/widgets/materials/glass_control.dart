@@ -140,13 +140,16 @@ class _MmGlassControlState extends State<MmGlassControl> with TickerProviderStat
         enabled: widget.onTap != null,
         mouseCursor: widget.onTap != null ? SystemMouseCursors.click : MouseCursor.defer,
         actions: {ActivateIntent: CallbackAction<ActivateIntent>(onInvoke: (_) => widget.onTap?.call())},
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTapDown: (d) => _down(d.localPosition),
-          onTapUp: (_) => _up(),
-          onTapCancel: _up,
-          onTap: widget.onTap,
-          child: ConstrainedBox(constraints: const BoxConstraints(minWidth: MmTarget.min, minHeight: MmTarget.min), child: body),
+        // The glass answers on pointer-down (no 100 ms tap delay); the tap itself commits on up.
+        child: Listener(
+          onPointerDown: (e) => _down(e.localPosition),
+          onPointerUp: (_) => _up(),
+          onPointerCancel: (_) => _up(),
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: widget.onTap,
+            child: ConstrainedBox(constraints: const BoxConstraints(minWidth: MmTarget.min, minHeight: MmTarget.min), child: body),
+          ),
         ),
       ),
     );

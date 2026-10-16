@@ -146,7 +146,6 @@ class MmSheetScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = context.mmColors;
     final type = context.mmType;
     final large = _isLargeText(context);
     final close = onClose ?? () => Navigator.of(context).maybePop();
@@ -420,7 +419,7 @@ class _MmSheetHandleState extends State<MmSheetHandle> {
   }
 }
 
-/// A sheet's body riding in on the sheet: it fades and rises 12 dp over the last two thirds of
+/// A sheet's body riding in on the sheet: it fades and rises 12 dp over the second half of
 /// the sheet's own rise, so the glass arrives first and the content settles into it. After the
 /// sheet has landed it never moves again (a drag moves the whole sheet, not the body). Nothing
 /// under reduced motion.
