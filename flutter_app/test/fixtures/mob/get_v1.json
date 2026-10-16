@@ -1,0 +1,85 @@
+{
+  "mob": {
+    "subject": "accountancy",
+    "subjectName": "Accountancy",
+    "you": {
+      "memberId": "B3N8D2WQ6Z0C",
+      "name": "Asha",
+      "colour": 1,
+      "role": "member",
+      "showScore": true,
+      "nudgesMuted": false
+    },
+    "members": [
+      {
+        "memberId": "K7Q2M9XR4T1A",
+        "name": "Riya",
+        "colour": 0,
+        "you": false,
+        "sat": true,
+        "owner": true
+      },
+      {
+        "memberId": "B3N8D2WQ6Z0C",
+        "name": "Asha",
+        "colour": 1,
+        "you": true,
+        "sat": true,
+        "score": {
+          "value": 7,
+          "of": 10
+        }
+      },
+      {
+        "memberId": "H5P1R7SV2E9F",
+        "name": "Kabir",
+        "colour": 2,
+        "you": false,
+        "sat": true
+      },
+      {
+        "memberId": "M2X6G4KJ8N3D",
+        "name": "Meera",
+        "colour": 5,
+        "you": false,
+        "sat": false
+      }
+    ],
+    "seatsLeft": 1,
+    "week": {
+      "start": "2026-10-12",
+      "closesAt": "2026-10-18T18:29:59.000Z",
+      "closed": false,
+      "paper": {
+        "count": 10,
+        "durationSec": 720,
+        "cost": null
+      },
+      "sat": 3,
+      "size": 4,
+      "youSat": true,
+      "yourResultId": "practice_u2"
+    },
+    "trap": {
+      "questionNumber": 6,
+      "questionId": "q6",
+      "option": "B",
+      "count": 3,
+      "of": 3,
+      "trapName": "A look-alike term",
+      "youPickedIt": true,
+      "youGotItRight": false
+    },
+    "nudge": {
+      "canSend": true,
+      "reason": null,
+      "received": null
+    },
+    "invite": {
+      "code": "7KQ2M9XR",
+      "url": "https://www.mockmob.in/join/7KQ2M9XR",
+      "expiresAt": "2026-10-20T16:10:00.000Z",
+      "usesLeft": 1
+    }
+  }
+}

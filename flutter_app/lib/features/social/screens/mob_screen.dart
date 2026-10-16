@@ -440,7 +440,8 @@ class _MobBodyState extends ConsumerState<MobBody> {
           KeyButton(label: MobCopy.sitKey(paper.count, paper.minutes), loading: _sitting, onPressed: _sitting ? null : _sit),
           const SizedBox(height: MmSpace.s8),
           MobNote(MobCopy.sitNote(paper.count, paper.minutes), center: true),
-          MobNote(_costLine(paper.costType), center: true),
+          // The contract: a null cost draws nothing (mob-v1 rules).
+          if (_costLine(paper.costType) case final line?) MobNote(line, center: true),
         ],
       );
     }
@@ -468,10 +469,11 @@ class _MobBodyState extends ConsumerState<MobBody> {
     );
   }
 
-  static String _costLine(MobCostType t) => switch (t) {
+  static String? _costLine(MobCostType t) => switch (t) {
         MobCostType.included => MobCopy.costIncluded,
         MobCostType.allowance => MobCopy.costAllowance,
-        _ => MobCopy.costConfirm,
+        MobCostType.credits => MobCopy.costConfirm,
+        MobCostType.unknown => null,
       };
 
   Widget _members(BuildContext context) {
