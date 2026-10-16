@@ -2,9 +2,11 @@ import { NextResponse } from 'next/server';
 import { SUBJECTS } from '@/../data/subjects';
 import { toPublicSubjectId } from '@/../data/cuet_controls';
 import { resolveSubject, SUBJECT_REGISTRY_VERSION } from '@/../data/subject_registry';
+import { withoutRetiredSubjects } from '@/../data/subject_claim';
 
 export async function GET() {
-  return NextResponse.json(SUBJECTS.map((subject) => {
+  // The four papers CUET dropped in 2025 are never offered (their rows stay in the database).
+  return NextResponse.json(withoutRetiredSubjects(SUBJECTS).map((subject) => {
     const id = toPublicSubjectId(subject.id);
     const registry = resolveSubject(id);
     return {

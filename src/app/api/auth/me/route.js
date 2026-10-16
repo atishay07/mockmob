@@ -60,6 +60,8 @@ export async function GET(request) {
       email: dbUser.email || '',
       image: dbUser.image || null,
       subjects: [...new Set((dbUser.subjects || []).map((s) => (s === 'GAT' || s === 'gat') ? 'general_test' : s))],
+      // Papers CUET dropped in 2025 that the account still holds: named in a note, never offered or launched.
+      retiredSubjects: dbUser.retiredSubjects || [],
       role: dbUser.role || 'student',
       creditBalance: dbUser.creditBalance || 0,
       subscriptionStatus: dbUser.subscriptionStatus || 'free',

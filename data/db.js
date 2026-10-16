@@ -25,6 +25,7 @@ import { createPracticeSource, isMissingPhase1VoteSchema } from './practice_sour
 import { attemptMemoKey, memoisedAttempts, readAttemptRows } from './attempt_reads';
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
+import { retiredSubjectsIn, withoutRetiredSubjects } from './subject_claim';
 import { getMode } from './test_modes';
 import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
 import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion } from './nta_question_selector';
@@ -44,7 +45,9 @@ const userOut = (r) => r && ({
   name: r.name,
   email: r.email,
   image: r.image,
-  subjects: Array.isArray(r.subjects) ? r.subjects : [],
+  // The four papers CUET dropped in 2025 stay on the stored row but are never read as a choice.
+  subjects: withoutRetiredSubjects(r.subjects),
+  retiredSubjects: retiredSubjectsIn(r.subjects),
   role: r.role,
   creditBalance: r.credit_balance || 0,
   subscriptionStatus: r.subscription_status || 'free',
@@ -71,7 +74,8 @@ const authUserOut = (r) => r && ({
   name: r.name,
   email: r.email,
   image: r.image,
-  subjects: Array.isArray(r.subjects) ? r.subjects : [],
+  // The four papers CUET dropped in 2025 stay on the stored row but are never read as a choice.
+  subjects: withoutRetiredSubjects(r.subjects),
   role: r.role,
 });
 

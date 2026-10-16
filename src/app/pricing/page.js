@@ -16,7 +16,7 @@ import { countStepOnce } from '@/lib/server/funnelOnceStore';
 import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { publicInventory } from '@/lib/server/inventory';
-import { pricingBankFaq, pricingBankLine } from '@/lib/paperCopy.mjs';
+import { pricingBankFaq, pricingBankLine, pricingSubjectLine } from '@/lib/paperCopy.mjs';
 import { practiceBankSize } from '@/lib/practiceBank.mjs';
 
 export function generateMetadata() {
@@ -230,7 +230,7 @@ export default async function PricingPage() {
                 ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any time in Account.'
                 : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}, with no renewal.`}
             </p>
-            <p className="mm-body" style={{ marginTop: '0.875rem', maxWidth: '60ch', fontVariantNumeric: 'tabular-nums' }}>{pricingBankLine(bankSize)}</p>
+            <p className="mm-body" style={{ marginTop: '0.875rem', maxWidth: '60ch', fontVariantNumeric: 'tabular-nums' }}>{pricingBankLine(bankSize)} {pricingSubjectLine()}</p>
           </div>
         </section>
 

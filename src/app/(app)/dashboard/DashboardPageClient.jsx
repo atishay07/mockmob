@@ -20,6 +20,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
 import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
+import { retiredSubjectEntry } from '@/../data/subject_claim';
 import StartRule, { useStartRule } from './StartRule';
 import { MODE_SPECS, bankCount, freshPaperLine } from '@/lib/paperCopy.mjs';
 import './practice.css';
@@ -186,8 +187,8 @@ export default function DashboardPageClient() {
   const linkedSubjectUnavailable=status==='ready' && linkedSubject && !mySubs.some(subject=>subject.id===linkedSubject);
   // Stored choices that cannot launch (not offered, merged or retired) are shown, never launched.
   const staleSubs = useMemo(
-    () => (user?.subjects || [])
-      .map((id) => subjects.find((subject) => subject.id === id) || { id, name: id, practice: 'unknown', practiceReason: 'This saved subject is no longer recognised. Edit your subjects to choose a current CUET subject.' })
+    () => [...(user?.subjects || []), ...(user?.retiredSubjects || [])]
+      .map((id) => retiredSubjectEntry(id) || subjects.find((subject) => subject.id === id) || { id, name: id, practice: 'unknown', practiceReason: 'This saved subject is no longer recognised. Edit your subjects to choose a current CUET subject.' })
       .filter((subject) => subject.practice !== 'supported'),
     [subjects, user],
   );

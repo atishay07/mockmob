@@ -1,9 +1,11 @@
+import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
+
 export const siteConfig = {
   name: 'MockMob',
   legalName: 'MockMob',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://mockmob.in',
   description:
-    'MockMob helps CUET aspirants practise free mock tests, previous year questions, online practice tests, analytics, and DU admission planning.',
+    `${SUBJECT_CLAIM.meta}, with mistake review, weak-chapter tracking and DU admission planning.`,
   email: 'support@mockmob.in',
   socialLinks: [],
 };

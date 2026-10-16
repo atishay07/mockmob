@@ -1,4 +1,5 @@
 import { publicInventory } from '@/lib/server/inventory';
+import { publicStatsView } from '@/lib/server/publicStats';
 import { checkPersistentRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
 import {
   failRequestDiagnostics,
@@ -37,7 +38,8 @@ export async function GET(request) {
     if (inventory?.state !== 'available') {
       return jsonWithDiagnostics(diagnostics, { state: 'unavailable', reason: inventory?.reason, error: 'Question counts unavailable' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
     }
-    return jsonWithDiagnostics(diagnostics, inventory, { headers: { 'Cache-Control': 'public, max-age=30, stale-while-revalidate=30' } });
+    // Public subjects only: the stored total also holds thin subjects and the four papers CUET dropped.
+    return jsonWithDiagnostics(diagnostics, publicStatsView(inventory), { headers: { 'Cache-Control': 'public, max-age=30, stale-while-revalidate=30' } });
   } catch (error) {
     failRequestDiagnostics(diagnostics, error);
     return Response.json({ state: 'unavailable', error: 'Question counts unavailable' }, { status: 503, headers: { 'Cache-Control':'no-store' } });
