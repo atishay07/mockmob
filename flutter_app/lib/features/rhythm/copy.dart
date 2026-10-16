@@ -386,7 +386,7 @@ abstract final class RhythmCopy {
 
   // Mobi on the milestones screen.
   static const String milestonesMobiEmpty = 'Your first one lands with a scored set.';
-  static const String startSet = 'Start a scored set';
+  static const String startSet = 'Start a quick practice';
   static const String milestonesMobiComplete = 'Every path has landed. They stay dated here for good.';
   static String stepJustLanded(String name) => '$name just landed.';
 

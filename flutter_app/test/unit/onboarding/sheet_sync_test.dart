@@ -338,7 +338,9 @@ void main() {
     });
 
     test('a retry never runs for an account that has signed out', () async {
-      final c = start(auth: AuthSnapshot.signedOut, retryDelays: const [Duration(milliseconds: 5)]);
+      // A long timer: the case is the app coming back after the sign-out (the wake-up below), and
+      // a short one would fire inside `settle` on a phone-slow or Windows clock, mid-run.
+      final c = start(auth: AuthSnapshot.signedOut, retryDelays: const [Duration(seconds: 30)]);
       final ok = http.handler!;
       http.handler = (o) => o.path == '/api/me/goal' ? const FakeReply(503, {'error': 'unavailable'}) : ok(o);
       await c.read(onboardingAnswersProvider.future);

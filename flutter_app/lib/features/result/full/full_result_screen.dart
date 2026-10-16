@@ -328,6 +328,14 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                   ),
                 ),
               ],
+              // "After this mock": the plan and the read of the paper, right under where the marks went so
+              // what to do next is the second thing a mock's result says. Written by the server from
+              // stored records. Nothing when the read is missing, unavailable or a practice set's.
+              // It plays its own first-view entrance, so it is not one of the page's staggered items.
+              if (data.detail?.swot case final swot? when swot.isVisible) ...[
+                const SizedBox(height: MmRhythm.section),
+                SwotSection(attemptId: id, swot: swot, onOpenQuestion: _openFromMap),
+              ],
               if (replay != null) ...[
                 const SizedBox(height: MmRhythm.section),
                 item(
@@ -367,13 +375,6 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
               if (lab?.acrossMocks case final across?) ...[
                 const SizedBox(height: MmRhythm.section),
                 item(AcrossMocksView(across: across, seenKey: 'attempt:$id')),
-              ],
-              // "After this mock": the plan and the read of the paper, written by the server from
-              // stored records. Nothing when the read is missing, unavailable or a practice set's.
-              // It plays its own first-view entrance, so it is not one of the page's staggered items.
-              if (data.detail?.swot case final swot? when swot.isVisible) ...[
-                const SizedBox(height: MmRhythm.section),
-                SwotSection(attemptId: id, swot: swot, onOpenQuestion: _openFromMap),
               ],
               const SizedBox(height: MmRhythm.section),
               item(

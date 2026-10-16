@@ -183,6 +183,13 @@ void main() {
                 'repairs_25',
                 'first_week_met',
                 'weeks_met_4',
+                'first_nta',
+                'full_mocks_5',
+                'first_hold',
+                'run_weeks_3',
+                'clean_set',
+                'four_subjects',
+                'new_best',
               ].indexed)
                 RhythmMilestone(id: id, achievedAt: DateTime.utc(2026, 9, 1 + i * 3, 10)),
             ],

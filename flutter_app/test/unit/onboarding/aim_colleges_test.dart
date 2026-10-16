@@ -227,15 +227,17 @@ void main() {
 
     test('the sources of the onboarding, sign-in and account access carry none of the banned lines', () {
       final banned = RegExp(
-        r'not affiliated|not a prediction|CSAS dashboard|stay on this phone for now|ad or analytics companies|(^|[ >"\x27])Fine\.',
+        r'not affiliated|not a prediction|CSAS dashboard|stay on this phone for now|ad or analytics companies',
         caseSensitive: false,
       );
+      // "Fine." as a sentence of its own is the filler; "any college is fine." is a plain answer.
+      final filler = RegExp(r'(^|[ >"\x27])Fine\.');
       final roots = [Directory('lib/features/onboarding'), Directory('lib/features/auth'), Directory('lib/features/account_access')];
       final hits = <String>[];
       for (final root in roots) {
         for (final f in root.listSync(recursive: true).whereType<File>().where((f) => f.path.endsWith('.dart'))) {
           final text = f.readAsStringSync();
-          for (final m in banned.allMatches(text)) {
+          for (final m in [...banned.allMatches(text), ...filler.allMatches(text)]) {
             hits.add('${f.path}: ${m.group(0)}');
           }
         }

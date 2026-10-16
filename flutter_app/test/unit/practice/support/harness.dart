@@ -28,6 +28,7 @@ import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefs
 import 'package:mockmob/features/you/you_providers.dart' show PrefToggle, lateNightLinesProvider;
 import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/review/data/review_providers.dart' show ReviewInputs, reviewInputsProvider;
+import 'package:mockmob/features/review/revise/revise_data.dart' show reviseEntryProvider;
 import 'package:mockmob/features/practice/data/practice_prefs.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
@@ -311,6 +312,8 @@ List<Override> practiceOverrides({
   // A mock's sheet reads the student's rule from the server (Mistake Lab slice 3); offline here,
   // with no rule in force, so the sheet simply has no line.
   startSheetProvider.overrideWith((ref, subject) async => null),
+  // "More ways in" asks Review whether Revise has cards due; no server here, so none (the row falls back to Review again).
+  reviseEntryProvider.overrideWith((ref) async => null),
   savedRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: const SavedList(), fetchedAt: testNow)),
   analyticsClientProvider.overrideWithValue(analytics ?? FakeAnalytics()),
   pendingResultRepositoryProvider.overrideWithValue(pending ?? FakePendingResults()),

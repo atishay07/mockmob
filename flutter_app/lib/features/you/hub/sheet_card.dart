@@ -272,7 +272,7 @@ class _SheetCardState extends State<SheetCard> {
               // Mobi reads the week once a day (proud for a met goal, a nudge toward the Rhythm
               // field one day short, sleepy from midnight to 5 AM), then he is simply there:
               // he breathes and blinks, and each tap plays the next small act.
-              YouMobi(size: 120, controller: _mobi, entrance: _entrance, follow: true),
+              YouMobi(size: 72, controller: _mobi, entrance: _entrance, follow: true),
             ],
           ),
         ),

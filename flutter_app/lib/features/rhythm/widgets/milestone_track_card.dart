@@ -220,7 +220,7 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
         if (earned > 0 && widget.onOpen != null)
           Align(
             alignment: Alignment.centerLeft,
-            child: FlushQuietKey(label: track.track.linkLabel, chevron: true, onPressed: widget.onOpen!),
+            child: FlushQuietKey(label: track.track.linkLabel, onPressed: widget.onOpen!),
           ),
       ],
     );

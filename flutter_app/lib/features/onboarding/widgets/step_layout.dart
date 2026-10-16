@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import 'entrance.dart';
+import 'keyboard_watch.dart';
 
 /// The common body of a step under the sheet: the question as a headline, one line of support,
 /// the answers (scrolling when they need to), and the action area pinned at the bottom. It builds
@@ -20,6 +21,7 @@ class StepLayout extends StatelessWidget {
     this.titleKey,
     this.endInset = fade + MmSpace.s8,
     this.hideBottomForKeyboard = true,
+    this.tight = false,
   });
 
   final String title;
@@ -42,6 +44,10 @@ class StepLayout extends StatelessWidget {
   /// take the room the answers need). Only a step with a text field is ever in this state.
   final bool hideBottomForKeyboard;
 
+  /// Takes the short phones' tighter head (8 dp less above the title and under the support) on any
+  /// height: for a step whose body and pinned keys both need the room (the save step).
+  final bool tight;
+
   /// The end inset of a step whose last answers are tiles (the rhythm step's times).
   static const double tileEndInset = 72;
 
@@ -53,7 +59,7 @@ class StepLayout extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     // Short phones (360 by 640) give the answers the room: the head tightens by 8 dp.
-    final short = MediaQuery.sizeOf(context).height < 720;
+    final short = tight || MediaQuery.sizeOf(context).height < 720;
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
     final head = Padding(
       padding: EdgeInsets.only(top: short ? MmSpace.s16 : MmSpace.s24),
@@ -85,9 +91,10 @@ class StepLayout extends StatelessWidget {
       ),
     );
 
-    final keyboardOpen = hideBottomForKeyboard && (MediaQuery.viewInsetsOf(context).bottom > 0 || View.of(context).viewInsets.bottom > 0);
     final content = scroll
         ? SingleChildScrollView(
+            // Dragging the list puts the keyboard away, so the pinned key comes back.
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
             // Clear of the fade above the pinned key, so the last choice can scroll fully clear.
             padding: EdgeInsets.only(bottom: endInset),
             child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, body]),
@@ -95,16 +102,19 @@ class StepLayout extends StatelessWidget {
         : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, Expanded(child: body)]);
 
     return StepEntrance(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(child: bottom == null ? content : _FadeWhenMore(child: content)),
-          if (bottom != null && !keyboardOpen)
-            Padding(
-              padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s12),
-              child: EntranceItem(at: Entrance.key, child: bottom!),
-            ),
-        ],
+      // The pinned key steps out of the way while the keyboard is up (a step with a text field).
+      child: KeyboardWatch(
+        builder: (context, open) => Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(child: bottom == null ? content : _FadeWhenMore(child: content)),
+            if (bottom != null && !(hideBottomForKeyboard && open))
+              Padding(
+                padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s12),
+                child: EntranceItem(at: Entrance.key, child: bottom!),
+              ),
+          ],
+        ),
       ),
     );
   }

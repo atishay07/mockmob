@@ -31,7 +31,7 @@ void main() {
   testWidgets('the tab offers tonight, skipped questions without a repair key, and the record', (tester) async {
     await pump(tester, const ReviewScreen());
     expect(find.textContaining("'s repair, "), findsOneWidget);
-    expect(find.textContaining('Start, '), findsOneWidget);
+    expect(find.textContaining(RegExp(r'^Repair \d+ mistakes?, \d+ min$')), findsOneWidget);
     expect(find.text('Not attempted in Mock 2 (3)'), findsOneWidget);
     // The record and the past results sit on the other side of the switch, not in the same scroll.
     expect(find.text('Repaired 4 Oct, 11:08\u00A0PM'), findsNothing);

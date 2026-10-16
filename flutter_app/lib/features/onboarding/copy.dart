@@ -195,6 +195,24 @@ abstract final class OnboardingCopy {
   // Save.
   static const String saveTitle = 'Keep your sheet.';
   static const String saveSupport = 'Sign in and it follows you to mockmob.in and any phone.';
+
+  /// The quiet line under the sheet: no fixed set of mocks, a fresh paper from the live bank. The
+  /// number is quoted only when `/api/stats` was read; "never repeats" is not claimed (the
+  /// selector favours questions not yet seen, it does not forbid a repeat).
+  static String bankLine(int? questions) => questions == null
+      ? 'Practice is not a fixed set of mocks: every paper is built fresh from the live question bank.'
+      : 'Practice is not a fixed set of mocks: every paper is built fresh from the live question bank of ${groupThousands(questions)} questions.';
+
+  /// 8197 as "8,197".
+  static String groupThousands(int n) {
+    final s = n.abs().toString();
+    final out = StringBuffer(n < 0 ? '-' : '');
+    for (var i = 0; i < s.length; i++) {
+      if (i > 0 && (s.length - i) % 3 == 0) out.write(',');
+      out.write(s[i]);
+    }
+    return out.toString();
+  }
   static const String ageQuestion = 'Quick one: are you 18 yet?';
   static const String ageNote = 'Under 18, usage tracking stays off.';
 

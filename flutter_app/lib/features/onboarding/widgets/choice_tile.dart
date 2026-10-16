@@ -320,7 +320,15 @@ class _Pill extends StatelessWidget {
           children: [
             SelectBubble(selected: selected),
             const SizedBox(width: MmSpace.s8),
-            Flexible(child: Text(label, maxLines: 1, softWrap: false, overflow: TextOverflow.fade, style: style.copyWith(color: colors.ink))),
+            // Never cut: a label a few dp wider than its pill (a 360 dp phone, where the row has
+            // no spare width) is set a little smaller, not faded away at the pill's rim.
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(label, maxLines: 1, softWrap: false, style: style.copyWith(color: colors.ink)),
+              ),
+            ),
           ],
         ),
       ),

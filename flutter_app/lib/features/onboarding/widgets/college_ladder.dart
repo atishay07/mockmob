@@ -81,7 +81,7 @@ class _CollegeLadderState extends State<CollegeLadder> {
               ];
     final atLimit = widget.picks.length >= kMaxColleges;
     final nothing = filtering && matches.isEmpty;
-    return AnimatedSize(
+    return MmSizeEase(
       duration: Motion.of(context, Motion.ui),
       curve: Motion.out,
       alignment: Alignment.topCenter,

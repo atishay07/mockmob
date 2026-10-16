@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/swot.dart';
-import 'package:mockmob/core/repositories/attempts_repository.dart';
-import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/review/again/review_again_screen.dart';
 import 'package:mockmob/features/review/screens/review_screen.dart';
 
@@ -50,18 +49,27 @@ final _swot = Swot.fromJson({
   ],
 });
 
-List<Override> _withSwot() => [
-  ...reviewOverrides(records: [repairedRecord]),
-  attemptDetailProvider('m7').overrideWithBuild(
-    (ref, n) => RemoteState(value: AttemptDetail(attempt: mock7, swot: _swot), fetchedAt: eveningUtc),
-  ),
-];
+List<Override> _withSwot() => reviewOverrides(records: [repairedRecord], details: {'m7': AttemptDetail(attempt: mock7, swot: _swot)});
+
+Future<void> _tapKey(WidgetTester tester, String label) async {
+  final key = find.byWidgetPredicate((w) => w is KeyButton && w.label == label);
+  await tester.ensureVisible(key);
+  await tester.tap(key);
+  await tester.pumpAndSettle();
+}
 
 Future<void> _answer(WidgetTester tester, String option, String key) async {
   await tester.tap(find.textContaining(option).first);
   await tester.pumpAndSettle();
   await tester.tap(find.text(key));
   await tester.pumpAndSettle();
+}
+
+/// Answers whichever question is showing with its key (the key is option B in every fixture).
+Future<void> _answerRight(WidgetTester tester, String key) async {
+  const keys = ['5:3:2', '40,000', 'Operating activities', 'Securities premium account', 'Realisation account', 'Accepting deposits from the public'];
+  final shown = keys.firstWhere((k) => find.textContaining(k).evaluate().isNotEmpty);
+  await _answer(tester, shown, key);
 }
 
 void main() {
@@ -104,14 +112,15 @@ void main() {
   reviewGolden(
     'review_again_end',
     () => const ReviewAgainScreen(),
+    size: const Size(384, 1300),
     overrides: () => reviewOverrides(records: _records),
     after: (tester) async {
-      await _answer(tester, '5:3:2', 'Check');
-      await tester.tap(find.text('Next question'));
-      await tester.pumpAndSettle();
-      await _answer(tester, '5:3:2', 'Check');
-      await tester.tap(find.text('See how it went'));
-      await tester.pumpAndSettle();
+      await _answerRight(tester, 'Check');
+      await _tapKey(tester, 'Next question');
+      // ignore: avoid_print
+      print('DBG ${find.byType(Text).evaluate().map((e) => (e.widget as Text).data).whereType<String>().toList()}');
+      await _answerRight(tester, 'Check');
+      await _tapKey(tester, 'See how it went');
     },
   );
 

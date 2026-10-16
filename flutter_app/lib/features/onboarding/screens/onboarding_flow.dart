@@ -31,6 +31,7 @@ import '../steps/worry_step.dart';
 import '../widgets/answer_sheet_card.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/guide_bar.dart';
+import '../widgets/keyboard_watch.dart';
 import '../widgets/plan_seal_moment.dart';
 import 'welcome_view.dart';
 
@@ -383,8 +384,9 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                             // The sheet stays put from step to step (only its bubbles and lines
                             // change); it folds away, rather than vanishing, where a step shows
                             // its own copy or none.
-                            _SheetSlot(
-                              child: _showsSheet(step, keyboardOpen: MediaQuery.viewInsetsOf(context).bottom > 0)
+                            KeyboardWatch(
+                              builder: (context, keyboardOpen) => _SheetSlot(
+                              child: _showsSheet(step, keyboardOpen: keyboardOpen)
                                   ? AnswerSheetCard(
                                       key: const ValueKey('sheet'),
                                       answers: answers,
@@ -398,6 +400,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                                       slim: step.id != Steps.stage || _sheetRevealed,
                                     )
                                   : const SizedBox(key: ValueKey('none'), width: double.infinity),
+                              ),
                             ),
                             // An answer the phone could not keep is said, with a way to retry.
                             if (saveFailed)

@@ -3,16 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/api/api_error.dart';
-import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/models/rhythm.dart';
-import 'package:mockmob/core/repositories/consent_repository.dart' show ConsentStatus;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show SubjectPlate;
 import 'package:mockmob/core/widgets/account/account_avatar.dart' show AccountAvatar, AccountAvatarButton;
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
-import 'package:mockmob/features/you/hub/hub_sections.dart' show HubFacts;
+import 'package:mockmob/features/you/hub/sheet_fields.dart' show SheetWeek, WeekField;
 import 'package:mockmob/features/you/you_hub_screen.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -62,14 +60,14 @@ Future<GoRouter> _pumpHub(
 void main() {
   testWidgets('identity comes first: the name, then this week as a count of the goal', (tester) async {
     await _pumpHub(tester);
-    expect(find.text('Your CUET plan, UG 2027'), findsOneWidget);
+    expect(find.text('CUET UG 2027, Commerce'), findsOneWidget);
     expect(find.text('Asha Verma'), findsOneWidget);
     expect(find.text('asha.verma@example.com'), findsNothing, reason: 'the email lives in the account sheet');
     for (final subject in ['Accountancy', 'Business Studies', 'Economics', 'English']) {
       expect(find.text(subject), findsOneWidget, reason: subject);
     }
-    expect(find.text('3 days to your goal'), findsOneWidget, reason: 'the week says what is left');
-    expect(find.text('3 weeks in rhythm'), findsOneWidget);
+    expect(find.text('3 more study days reach your goal'), findsOneWidget, reason: 'the week says what is left');
+    expect(find.text('3 weeks at your goal in a row'), findsOneWidget);
   });
 
   testWidgets('each subject is the shared plate, 136 by 104 dp, not a private tile', (tester) async {
@@ -81,18 +79,19 @@ void main() {
     }
   });
 
-  testWidgets('the course and colleges picked in setup print in order of preference', (tester) async {
+  testWidgets('the course and colleges live in Colleges: You shows one Aim row with the count', (tester) async {
     await _pumpHub(tester, target: ashaTarget);
-    expect(find.text('B.Com (Hons)'), findsOneWidget);
-    expect(find.text('Shri Ram College of Commerce'), findsOneWidget);
-    expect(find.bySemanticsLabel('Choice 1, Shri Ram College of Commerce'), findsOneWidget);
-    expect(find.bySemanticsLabel('Choice 3, Kirori Mal College'), findsOneWidget);
+    expect(find.text('Aim'), findsOneWidget);
+    expect(find.text('B.Com (Hons), 3 colleges'), findsOneWidget);
+    // The college names are not repeated on You (one home, the Colleges tab).
+    expect(find.text('Shri Ram College of Commerce'), findsNothing);
   });
 
   testWidgets('fields with nothing in them are left off, never shown as unknown', (tester) async {
     await _pumpHub(tester);
     expect(find.text('Course'), findsNothing);
-    expect(find.text('Colleges'), findsOneWidget, reason: 'only the section chip: no Colleges field');
+    expect(find.text('Colleges'), findsNothing, reason: 'no Colleges field or chip on You');
+    expect(find.text('Choose a course and colleges'), findsOneWidget, reason: 'the Aim row says what to do');
     expect(find.textContaining('unknown'), findsNothing);
   });
 
@@ -120,10 +119,10 @@ void main() {
     expect(find.bySemanticsLabel(RegExp(r'^1 of 4 study days')), findsWidgets);
   });
 
-  testWidgets('the weekly goal row shows the goal and what counts as a study day', (tester) async {
+  testWidgets('the weekly goal row shows the goal in days a week', (tester) async {
     await _pumpHub(tester);
     expect(find.text('4 days a week'), findsOneWidget);
-    expect(find.bySemanticsLabel(RegExp(r'^Weekly goal\. A study day is a day you finish a practice, a mock or a repair\. 4 days a week$')), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp(r'^Weekly goal\. 4 days a week$')), findsOneWidget);
   });
 
   testWidgets('planned days: a line asking for the weekdays until some are chosen', (tester) async {
@@ -239,7 +238,7 @@ void main() {
     final edge = tester.getTopLeft(find.byType(AccountAvatar)).dx;
     expect(edge, 16);
     expect(tester.getTopLeft(find.text('You')).dx, 16 + AccountAvatarButton.visual + 12);
-    expect(tester.getTopLeft(find.text('Your CUET plan, UG 2027')).dx, edge);
+    expect(tester.getTopLeft(find.text('CUET UG 2027, Commerce')).dx, edge);
     expect(tester.getTopLeft(find.text('Asha Verma')).dx, edge);
     expect(tester.getTopLeft(find.text('Badges').last).dx, edge);
     expect(tester.getTopLeft(find.text('Personal bests')).dx, edge);
@@ -249,6 +248,33 @@ void main() {
     await _pumpHub(tester, rhythm: FakeRhythm(rhythmState(milestones: earnedMilestones)));
     await tester.tap(find.bySemanticsLabel(RegExp(r', earned 27 September$')));
     await tester.pumpAndSettle();
-    expect(find.textContaining('Landed on 27 September'), findsOneWidget);
+    expect(find.text('Earned on 27 September'), findsOneWidget);
+  });
+
+  testWidgets('L06: the ring names what it counts, inside the ring', (tester) async {
+    await _pumpHub(tester);
+    expect(find.text('of 4 study days'), findsOneWidget);
+  });
+
+  testWidgets('study days turned off say how to bring the week back', (tester) async {
+    await pumpMockmob(tester, WeekField(week: const SheetWeek.off(), onOpen: () {}), disableAnimations: true);
+    expect(find.text('Study days are off'), findsOneWidget);
+    expect(find.text('Turn them on to see your week here.'), findsOneWidget);
+  });
+
+  testWidgets('offline, a saved read is labelled with the time it was loaded', (tester) async {
+    final saved = rhythmState();
+    await _pumpHub(
+      tester,
+      rhythm: FakeRhythm(
+        RemoteState<Rhythm>(value: saved.value, fetchedAt: DateTime(2026, 10, 12, 21, 14), error: const ApiError(kind: ApiErrorKind.network, code: 'network')),
+      ),
+    );
+    expect(find.text('Offline. Showing what was last loaded at 9:14 PM.'), findsOneWidget);
+  });
+
+  testWidgets('a live read shows no offline banner', (tester) async {
+    await _pumpHub(tester);
+    expect(find.textContaining('Offline.'), findsNothing);
   });
 }

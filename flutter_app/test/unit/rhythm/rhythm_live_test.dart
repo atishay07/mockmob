@@ -60,16 +60,16 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
     }
 
-    testWidgets('a landed step says the date and has no key to press but Close', (tester) async {
+    testWidgets('a landed step says the date and closes with Done', (tester) async {
       await open(
         tester,
         StepSheetBody(view: view('first_repair', StepStatus.earned, at: DateTime(2026, 10, 9)), dateOf: (d) => '9 October', onAction: (_) {}),
       );
-      expect(find.text('Landed on 9 October.'), findsOneWidget);
+      expect(find.text('Earned on 9 October'), findsOneWidget);
       expect(find.text('Lands when you finish your first repair.'), findsOneWidget);
-      expect(find.text('Close'), findsOneWidget);
+      expect(find.text('Done'), findsOneWidget);
       expect(find.byType(Medal), findsOneWidget);
-      expect(tester.getSize(find.byType(Medal)), const Size.square(120));
+      expect(tester.getSize(find.byType(Medal)), const Size.square(96));
     });
 
     testWidgets('the next step shows the exact count and one key that goes to its place', (tester) async {
@@ -79,8 +79,8 @@ void main() {
         StepSheetBody(view: view('sessions_10', StepStatus.next), dateOf: (d) => '', count: 4, onAction: (l) => went = l),
       );
       expect(find.text('4 of 10 so far'), findsOneWidget);
-      expect(find.text('Start a scored set'), findsOneWidget);
-      await tester.tap(find.text('Start a scored set'));
+      expect(find.text('Start a quick practice'), findsOneWidget);
+      await tester.tap(find.text('Start a quick practice'));
       expect(went, AppRoutes.practiceStart);
     });
 
@@ -95,9 +95,10 @@ void main() {
         tester,
         StepSheetBody(view: view('repairs_10', StepStatus.later), previous: view('repairs_5', StepStatus.next), dateOf: (d) => '', onAction: (_) {}),
       );
+      expect(find.text('Not yet'), findsOneWidget);
       expect(find.text('Comes after 5 repairs.'), findsOneWidget);
       expect(find.text('Lands with your 10th finished repair.'), findsOneWidget);
-      expect(find.text('Close'), findsOneWidget);
+      expect(find.text('Open your mistakes'), findsOneWidget, reason: 'a badge not earned always has the key that earns it');
     });
   });
 
@@ -121,10 +122,13 @@ void main() {
       final dial = tester.widget<WeekDial>(find.byType(WeekDial));
       expect(dial.done, 2);
       expect(dial.goal, 4);
-      expect(dial.size, 96);
+      expect(dial.size, 112);
+      // L06: the ring says what it counts, inside the ring.
+      expect(find.text('of 4 study days'), findsOneWidget);
       await tester.tap(find.text('Weekdays'));
       await tester.pump(const Duration(milliseconds: 100));
       expect(tester.widget<WeekDial>(find.byType(WeekDial)).goal, 5);
+      expect(find.text('of 5 study days'), findsOneWidget);
     });
 
     test('the quick choices are real sets of weekdays, with distinct 5 days and weekdays', () {

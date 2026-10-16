@@ -19,6 +19,7 @@ import '../model/answers.dart';
 import '../model/choices.dart';
 import '../model/plan.dart';
 import '../state/answers_controller.dart';
+import '../state/bank_size.dart';
 import '../widgets/answer_sheet_card.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/entrance.dart';
@@ -56,6 +57,9 @@ class _SaveStepState extends ConsumerState<SaveStep> {
     final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
     final sign = ref.watch(signInControllerProvider);
     final google = ref.watch(appConfigProvider.select((c) => c.googleSignInEnabled));
+    // The live bank's size for the quiet line under the sheet; the line is worded without it
+    // until (or unless) the public count is read.
+    final bank = ref.watch(questionBankSizeProvider).value;
     final problem = sign.problemFor(SignInStep.email);
     final problemText = problem == null ? null : AuthCopy.problem(problem, SignInStep.email);
     return SaveView(
@@ -72,6 +76,7 @@ class _SaveStepState extends ConsumerState<SaveStep> {
       onEmail: () => context.push(AppRoutes.signIn),
       onNotNow: widget.onNotNow,
       note: widget.note,
+      bankLine: OnboardingCopy.bankLine(bank),
       // The whole sealed sheet where the phone has the height for it (and no note above it);
       // the newest line otherwise. The seal and the sealed line sit inside it.
       sheet: AnswerSheetCard(
@@ -114,6 +119,7 @@ class SaveView extends StatefulWidget {
     this.busy = false,
     this.problem,
     this.note,
+    this.bankLine,
     this.sealedLine,
     this.sheet,
   });
@@ -123,6 +129,9 @@ class SaveView extends StatefulWidget {
 
   final AgeAnswer? age;
   final String? note;
+
+  /// One quiet line under the sheet about where papers come from (the live question bank).
+  final String? bankLine;
 
   /// "Sealed tonight at 9:40 PM. Week one starts with Partnership."
   final String? sealedLine;
@@ -173,6 +182,7 @@ class _SaveViewState extends State<SaveView> {
     final note = w.note;
     final sheet = w.sheet;
     final sealedLine = w.sealedLine;
+    final bankLine = w.bankLine;
 
     final ageBlock = MmShake(
       pulse: _askAge,
@@ -254,6 +264,10 @@ class _SaveViewState extends State<SaveView> {
         if (note != null) ...[InlineBanner(message: note), const SizedBox(height: MmSpace.s16)],
         if (sheet != null) EntranceItem.answer(0, child: sheet),
         if (sheet == null && sealedLine != null) Text(sealedLine, style: type.small.copyWith(color: colors.ink2)),
+        if (bankLine != null) ...[
+          const SizedBox(height: MmSpace.s12),
+          EntranceItem.answer(1, child: Text(bankLine, style: type.small.copyWith(color: colors.ink2))),
+        ],
       ],
     );
 
@@ -264,11 +278,13 @@ class _SaveViewState extends State<SaveView> {
       title: OnboardingCopy.saveTitle,
       support: OnboardingCopy.saveSupport,
       scroll: false,
+      // The sheet, the quiet bank line, the age question and two keys all want the room.
+      tight: true,
       body: LayoutBuilder(
         builder: (context, box) => SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: StepLayout.fade + MmSpace.s8),
+          padding: const EdgeInsets.only(bottom: StepLayout.fade + MmSpace.s4),
           child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: (box.maxHeight - StepLayout.fade - MmSpace.s8).clamp(0, double.infinity)),
+            constraints: BoxConstraints(minHeight: (box.maxHeight - StepLayout.fade - MmSpace.s4).clamp(0, double.infinity)),
             child: Align(alignment: SaveView.weight, child: content),
           ),
         ),

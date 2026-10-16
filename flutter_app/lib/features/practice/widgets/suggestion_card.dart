@@ -39,6 +39,7 @@ class SuggestionCard extends StatelessWidget {
     this.actionKey,
     this.sheet,
     this.compact = false,
+    this.showFigure = true,
   });
 
   /// Marks the Start key, so Mobi can point at it.
@@ -69,6 +70,10 @@ class SuggestionCard extends StatelessWidget {
   /// its key take less height. Nothing is cut: every line the full card has is still here.
   final bool compact;
 
+  /// The length as a figure under the title. The compact Practice card hides it when its key
+  /// already says the same ("Start 10 questions"); a resume keeps it ("23 of 50").
+  final bool showFigure;
+
   /// Hero tier: 20 padding, 28 radius.
   static const double pad = 20;
   static const double radius = 28;
@@ -88,6 +93,7 @@ class SuggestionCard extends StatelessWidget {
   /// The compact card's object box and object.
   static const double compactArtBox = 104;
   static const double compactEmblemSize = 88;
+  static const double compactPad = 16;
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +104,8 @@ class SuggestionCard extends StatelessWidget {
     final surface = colors.isNight ? Color.lerp(colors.raised, colors.ground, 0.25)! : colors.raised;
     final art = compact ? compactArtBox : artBox;
     final emblem = compact ? compactEmblemSize : emblemSize;
+    // The compact card takes 16 of padding in place of 20, and its figure is a 28 sp numeral.
+    final pad = compact ? compactPad : SuggestionCard.pad;
     final clear = EdgeInsets.only(right: art - artBleedRight + MmSpace.s12 - pad);
 
     final band = Column(
@@ -126,31 +134,33 @@ class SuggestionCard extends StatelessWidget {
             child: Text(kicker!, style: type.caption.copyWith(color: colors.ink2), maxLines: 2, overflow: TextOverflow.ellipsis),
           ),
         ],
-        const SizedBox(height: MmSpace.s12),
-        // The length (or the answers so far) with its unit beside it, on one baseline.
-        Padding(
-          padding: clear,
-          child: Semantics(
-            label: numberSemantics ?? '$number $unit',
-            excludeSemantics: true,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                // A figure that changes (a pull brings a new answer count) rolls from what it showed;
-                // it never counts up from zero on first show.
-                _rollingNumber(number, type.figureCompact),
-                const SizedBox(width: MmSpace.s8),
-                Flexible(child: Text(unit, style: type.small.copyWith(color: colors.ink2), maxLines: 2)),
-              ],
+        if (showFigure) ...[
+          const SizedBox(height: MmSpace.s12),
+          // The length (or the answers so far) with its unit beside it, on one baseline.
+          Padding(
+            padding: clear,
+            child: Semantics(
+              label: numberSemantics ?? '$number $unit',
+              excludeSemantics: true,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  // A figure that changes (a pull brings a new answer count) rolls from what it showed;
+                  // it never counts up from zero on first show.
+                  _rollingNumber(number, compact ? type.figureCompact.copyWith(fontSize: 28) : type.figureCompact),
+                  const SizedBox(width: MmSpace.s8),
+                  Flexible(child: Text(unit, style: type.small.copyWith(color: colors.ink2), maxLines: 2)),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ],
     );
 
     final body = Padding(
-      padding: const EdgeInsets.all(pad),
+      padding: EdgeInsets.all(pad),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -161,24 +171,39 @@ class SuggestionCard extends StatelessWidget {
             constraints: BoxConstraints(minHeight: artTop + emblem - pad + MmSpace.s4),
             child: Align(alignment: Alignment.topLeft, child: band),
           ),
-          const SizedBox(height: MmSpace.s12),
+          SizedBox(height: compact ? MmSpace.s8 : MmSpace.s12),
           // One line (the copy is written to fit); only large text lets it wrap, so nothing is cut.
-          Text(
-            offline ? PracticeCopy.offlineStart : reason,
-            style: type.small.copyWith(color: colors.ink),
-            maxLines: offline || MediaQuery.textScalerOf(context).scale(1) > 1.2 ? null : 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          if (sheet != null) ...[const SizedBox(height: MmSpace.s12), sheet!],
-          if (onShowMe != null) ...[
-            const SizedBox(height: MmSpace.s4),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: ShowMePill(onTap: onShowMe!, semanticsLabel: PracticeCopy.showMeSemantics),
+          // On the compact card "Show me" sits at the line's end, so the two share one row.
+          if (compact && onShowMe != null && sheet == null) ...[
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(offline ? PracticeCopy.offlineStart : reason, style: type.small.copyWith(color: colors.ink), maxLines: 2, overflow: TextOverflow.ellipsis),
+                ),
+                const SizedBox(width: MmSpace.s8),
+                ShowMePill(onTap: onShowMe!, semanticsLabel: PracticeCopy.showMeSemantics),
+              ],
             ),
-            const SizedBox(height: MmSpace.s4),
-          ] else
-            const SizedBox(height: MmSpace.s16),
+            const SizedBox(height: MmSpace.s8),
+          ] else ...[
+            Text(
+              offline ? PracticeCopy.offlineStart : reason,
+              style: type.small.copyWith(color: colors.ink),
+              maxLines: offline || MediaQuery.textScalerOf(context).scale(1) > 1.2 ? null : 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            if (sheet != null) ...[const SizedBox(height: MmSpace.s12), sheet!],
+            if (onShowMe != null) ...[
+              const SizedBox(height: MmSpace.s4),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: ShowMePill(onTap: onShowMe!, semanticsLabel: PracticeCopy.showMeSemantics),
+              ),
+              const SizedBox(height: MmSpace.s4),
+            ] else
+              SizedBox(height: compact ? MmSpace.s12 : MmSpace.s16),
+          ],
           KeyedSubtree(
             key: actionKey,
             // One light sweep across Start after 4 s with nothing touched, once per card.

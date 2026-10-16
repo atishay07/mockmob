@@ -9,8 +9,8 @@ import 'data/subject_catalog.dart' show youSubjectNames;
 abstract final class YouCopy {
   // The sheet card (identity first).
   static const hubTitle = 'You';
-  static const sheetOverline = 'Your CUET plan, UG 2027';
-  static String sheetOverlineFor(int year) => 'Your CUET plan, UG $year';
+  static const sheetOverline = 'CUET UG 2027, Commerce';
+  static String sheetOverlineFor(int year) => 'CUET UG $year, Commerce';
   static const finishSheet = 'Add your course and colleges. Today plans the road from them.';
   static const finishSheetKey = 'Finish your plan';
   static const editSubjects = 'Edit';
@@ -24,8 +24,15 @@ abstract final class YouCopy {
   static const fieldWeekFailed = 'This week did not load.';
   // Under the section title "Study days" the field is named for what it shows, not the title again.
   static const weekOpen = 'This week';
-  static String weekToGo(int left) => left == 1 ? '1 day to your goal' : '$left days to your goal';
-  static const rhythmOffLine = 'Study days are off. Your record stays.';
+  static String weekToGo(int left) => left == 1 ? '1 more study day reaches your goal' : '$left more study days reach your goal';
+  static const weekReached = 'Goal reached this week';
+  static const weekNone = 'No study days yet this week';
+  static const studyDayDefinition = 'A study day is any day you finish a practice, a mock or a repair.';
+  static String weekDaysLeft(int days) => days == 1 ? '1 day left this week' : '$days days left this week';
+  static String runInARow(int weeks) => '${plural(weeks, 'week')} at your goal in a row';
+  static const rhythmOffTitle = 'Study days are off';
+  static const rhythmOffLine = 'Turn them on to see your week here.';
+  static String savedOffline(DateTime at) => 'Offline. Showing what was last loaded at ${formatTime12(at)}.';
   static String collegeChoice(int rank, String name) => 'Choice $rank, $name';
 
   static const showMe = 'Show me';

@@ -52,6 +52,9 @@ class _Driver implements HapticDriver {
   Future<void> mediumImpact() async => medium++;
 }
 
+/// The hero's key: "Repair 3 mistakes, 10 min" (the count and the minutes depend on the fixture).
+Finder _repairKey() => find.byWidgetPredicate((w) => w is KeyButton && RegExp(r'^Repair \d+ mistakes?, \d+ min$').hasMatch(w.label));
+
 void main() {
   setUpAll(loadAppFonts);
 
@@ -152,12 +155,15 @@ void main() {
     testWidgets('the key is the one volt key, full width, and there is no second character', (tester) async {
       await pumpTab(tester);
       final card = tester.getRect(find.byType(MmSurface).first);
-      final key = tester.getRect(find.widgetWithText(KeyButton, 'Start, 10 minutes'));
+      final key = tester.getRect(_repairKey());
       expect(key.left, card.left + ReviewSpace.heroPad);
       expect(key.right, card.right - ReviewSpace.heroPad);
       expect(key.height, greaterThanOrEqualTo(56));
-      expect(find.byType(Mobi), findsNothing, reason: 'a hero carries an object or Mobi, never both');
-      expect(find.byType(MobiCharacter), findsNothing);
+      final hero = find.byType(TonightCard);
+      expect(find.descendant(of: hero, matching: find.byType(Mobi)), findsNothing, reason: 'a hero carries an object or Mobi, never both');
+      expect(find.descendant(of: hero, matching: find.byType(MobiCharacter)), findsNothing);
+      // The one Mobi on the tab is the 24 dp face in the Ask Mobi pill.
+      expect(find.byType(MobiCharacter), findsOneWidget);
     });
 
     testWidgets('it is shorter than the 560 dp it was, and the same in Night and Day', (tester) async {
@@ -204,7 +210,7 @@ void main() {
         overrides: reviewOverrides(),
       );
       MmLaunchRect.take();
-      await tester.tap(find.widgetWithText(KeyButton, 'Start, 10 minutes'));
+      await tester.tap(_repairKey());
       await tester.pump();
       expect(opened, 1);
       final rect = MmLaunchRect.take();
@@ -231,7 +237,7 @@ void main() {
       final title = tester.getTopLeft(find.text('Partnership: admission of a partner'));
       expect(title.dx, ReviewSpace.moment, reason: 'the headline is on the moment gutter');
       // The credit line sits directly under the thread, not down by the key.
-      final credit = tester.getRect(find.text('Uses 1 credit per mistake. You have 9.'));
+      final credit = tester.getRect(find.text('Uses 1 AI credit per mistake. You have 9.'));
       final caption = tester.getRect(find.text(ReviewCopy.lifeCaption));
       expect(credit.top - caption.bottom, lessThanOrEqualTo(ReviewSpace.group + 4));
       // The block is weighted above the middle of the room: more air under it than over it.

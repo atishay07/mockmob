@@ -12,7 +12,7 @@ String categoryTitle(String? category) => categoryWordsTitle(category);
 abstract final class EditCopy {
   // Subjects editor (WEB-PARITY F1).
   static const subjectsTitle = 'Your subjects';
-  static const subjectsHint = 'Up to five, like the exam.';
+  static const subjectsHint = 'Pick up to 5. Your practice, Today and You follow these.';
   static String subjectsCount(int n) => '$n of 5 chosen';
   static const subjectsCap = 'Five is the most. Remove one to add another.';
   static const subjectsNeedOne = 'Keep at least one subject.';
@@ -20,7 +20,12 @@ abstract final class EditCopy {
   static const subjectsUnchanged = 'Pick or remove a subject to save.';
   static const subjectsProfileLoading = 'Loading your profile. Save turns on once it has.';
   static const subjectsMobiSaved = 'Done. Practice and Today follow these now.';
-  static String subjectsSaved(DateTime at) => 'Subjects saved at ${formatTime12(at)}. Practice and Today now use them.';
+  static String subjectsSaved(DateTime at, int count) => 'Subjects saved at ${formatTime12(at)}. Practice, Today and You now use these $count.';
+  static const subjectsOfflineNow = 'You are offline. Subjects save when you are back online.';
+  static const leaveTitle = 'Leave without saving?';
+  static const leaveBody = 'Your changes to the subjects are not saved yet.';
+  static const leaveStay = 'Keep editing';
+  static const leaveGo = 'Leave';
   static const subjectsOffline = 'You are offline. Your subjects were not changed. Try again when you are connected.';
   static const subjectsRejected = 'That set was not accepted. Choose up to five listed subjects.';
   static const subjectsFailed = 'We could not save your subjects. Nothing was changed. Try again.';

@@ -125,11 +125,14 @@ void main() {
       overrides: practiceOverrides(quotes: quotes, attempts: const [], auth: signedIn(subjects: ['accountancy', 'business_studies'])),
     );
     await _settle(tester);
-    // The longer sessions sit under the tiles: scroll the page (not the strip) down to them.
+    // The longer sessions sit under the tiles: scroll the page (not the strip) down to them, then
+    // back up to the strip to pick (the tiles lead the tab now).
     await tester.scrollUntilVisible(find.text(PracticeCopy.smartTitle), 200, scrollable: find.byType(Scrollable).first);
     await tester.pump();
     expect(find.text(PracticeCopy.smartTitle), findsOneWidget);
 
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, 3000));
+    await tester.pump(const Duration(milliseconds: 600));
     await tester.ensureVisible(find.text('Business Studies').first);
     await tester.pump();
     await tester.tap(find.text('Business Studies').first);

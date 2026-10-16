@@ -622,8 +622,8 @@ class TileChoice extends StatelessWidget {
   /// The object's box for [weight].
   static double objectFor(TileWeight weight) => switch (weight) {
     TileWeight.even => objectSize,
-    TileWeight.primary => 84,
-    TileWeight.secondary => 60,
+    TileWeight.primary => 72,
+    TileWeight.secondary => 56,
   };
 
   @override
@@ -690,7 +690,7 @@ class TileChoice extends StatelessWidget {
                     ),
                   ],
                   ConstrainedBox(
-                    constraints: BoxConstraints(minHeight: primary ? 168 : 156),
+                    constraints: BoxConstraints(minHeight: primary ? 156 : (secondary ? 148 : 156)),
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s16),
                       child: Column(

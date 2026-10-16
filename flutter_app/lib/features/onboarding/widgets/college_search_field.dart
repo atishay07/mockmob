@@ -27,6 +27,8 @@ class CollegeSearchField extends StatelessWidget {
         controller: controller,
         focusNode: focusNode,
         onChanged: onChanged,
+        // The search key puts the keyboard away: the pinned Continue comes back.
+        onSubmitted: (_) => FocusScope.of(context).unfocus(),
         textInputAction: TextInputAction.search,
         textCapitalization: TextCapitalization.words,
         autocorrect: false,

@@ -128,7 +128,7 @@ void main() {
       final body = verify(() => api.patch('/api/users/u1', body: captureAny(named: 'body'), expectUserId: 'u1')).captured.single as Map;
       expect(body['subjects'], ['accountancy', 'business_studies', 'economics', 'english', 'general_test']);
       expect(auth.reloads, 1);
-      expect(find.textContaining('Subjects saved at 10:39 PM'), findsOneWidget);
+      expect(find.textContaining('Subjects saved at 10:39 PM. Practice, Today and You now use these 5.'), findsOneWidget);
     });
 
     testWidgets('a sixth subject is refused inline', (tester) async {
@@ -137,6 +137,25 @@ void main() {
       await _tap(tester, 'Mathematics');
       expect(find.text('5 of 5 chosen'), findsOneWidget);
       expect(find.text('Five is the most. Remove one to add another.'), findsWidgets);
+    });
+
+    testWidgets('Back with unsaved choices asks once; Keep editing stays', (tester) async {
+      await _pump(tester, const SubjectsScreen(), api: _api());
+      await _tap(tester, 'General Test');
+      await (tester.state(find.byType(WidgetsApp)) as dynamic).didPopRoute();
+      await tester.pumpAndSettle();
+      expect(find.text('Leave without saving?'), findsOneWidget);
+      await tester.tap(find.text('Keep editing'));
+      await tester.pumpAndSettle();
+      expect(find.text('Leave without saving?'), findsNothing);
+      expect(find.text('5 of 5 chosen'), findsOneWidget, reason: 'the choices are still there');
+    });
+
+    testWidgets('Back with nothing changed does not ask', (tester) async {
+      await _pump(tester, const SubjectsScreen(), api: _api());
+      await (tester.state(find.byType(WidgetsApp)) as dynamic).didPopRoute();
+      await tester.pumpAndSettle();
+      expect(find.text('Leave without saving?'), findsNothing);
     });
 
     testWidgets('the first refused sixth subject shakes the sentence and it lands back', (tester) async {

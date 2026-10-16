@@ -207,8 +207,8 @@ abstract final class ResultCopy {
   static String blanksCount(int n) => '$n not attempted.';
   static const noMistakes = 'No wrong answers to repair from this mock.';
   static String walletShort(int needed, int balance) => balance <= 0
-      ? 'This repair needs $needed explanation credits. You have none. Read the key explanations in Review.'
-      : 'This repair needs $needed explanation credits. You have $balance. Start with ${plural(balance, 'mistake')}, or read the key explanations in Review.';
+      ? 'This repair needs $needed AI credits. You have none. Read the key explanations in Review.'
+      : 'This repair needs $needed AI credits. You have $balance. Start with ${plural(balance, 'mistake')}, or read the key explanations in Review.';
   static const tryAgain = 'Try again';
   static String chip(int minutes) => '$minutes min';
   static String chipLabel(int minutes, int mistakes) => '$minutes minutes, ${plural(mistakes, 'mistake')}';

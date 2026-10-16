@@ -135,6 +135,7 @@ class SuggestionHero extends ConsumerWidget {
           onAction: () => confirm(s.selection),
           offline: offline,
           compact: compact,
+          showFigure: !compact,
         );
       case SubjectSuggestion():
         final s = suggestion;
@@ -151,6 +152,7 @@ class SuggestionHero extends ConsumerWidget {
           onAction: () => confirm(s.selection),
           offline: offline,
           compact: compact,
+          showFigure: !compact,
         );
       case StartingSuggestion():
         final s = suggestion;
@@ -161,13 +163,18 @@ class SuggestionHero extends ConsumerWidget {
           unit: PracticeCopy.questionsUnit,
           title: s.firstEver ? PracticeCopy.startingTitle : PracticeCopy.subjectTitle(subject),
           kicker: s.firstEver ? PracticeCopy.startingKicker(subject) : PracticeCopy.subjectKicker,
-          reason: s.picked
-              ? (s.attemptsKnown ? PracticeCopy.pickedStartReason(subject) : PracticeCopy.pickedUnknownReason)
-              : (s.firstEver ? PracticeCopy.startingReason(subject) : PracticeCopy.firstOnListReason(subject)),
+          // A student with no paper at all is told what ten questions do; a subject with no paper
+          // while other papers exist says so; the tile always steers the card now (L08).
+          reason: s.firstEver && s.attemptsKnown
+              ? PracticeCopy.startingReason(subject)
+              : s.picked
+                  ? (s.attemptsKnown ? PracticeCopy.pickedStartReason(subject) : PracticeCopy.pickedUnknownReason)
+                  : (s.firstEver ? PracticeCopy.startingReason(subject) : PracticeCopy.firstOnListReason(subject)),
           actionLabel: PracticeCopy.startCount(s.count),
           onAction: () => confirm(s.selection),
           offline: offline,
           compact: compact,
+          showFigure: !compact,
         );
     }
 

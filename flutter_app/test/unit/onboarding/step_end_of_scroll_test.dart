@@ -58,35 +58,42 @@ void main() {
     });
   }
 
-  testWidgets('with the keyboard up on the college search, the pinned key and the sheet strip step aside', (tester) async {
-    tester.view.padding = const FakeViewPadding(top: 48, bottom: 32);
-    await pumpMockmob(
-      tester,
-      const OnboardingFlow(skipColdOpen: true, startInDeck: true),
-      brightness: Brightness.dark,
-      size: const Size(360, 640),
-      disableAnimations: true,
-      overrides: onboardingOverrides(answers: studentUpTo(Steps.course)),
-    );
-    for (var i = 0; i < 3; i++) {
-      await tester.pump(const Duration(milliseconds: 400));
-    }
-    final field = find.byType(TextField);
-    expect(find.text('Continue'), findsOneWidget, reason: 'the key is there while the keyboard is down');
-    await tester.tap(field);
-    await tester.pump();
-    tester.view.viewInsets = const FakeViewPadding(bottom: 600); // a 300 dp keyboard
-    addTearDown(tester.view.resetViewInsets);
-    await tester.pumpAndSettle();
-    expect(find.text('Continue'), findsNothing, reason: 'the key would sit on the keyboard');
-    // The field and at least three rungs are in view above the keyboard (the body ends at 640 - 300).
-    final above = 640.0 - 300.0;
-    final rung = find.text('Shri Ram College of Commerce');
-    expect(tester.getRect(field).bottom, lessThanOrEqualTo(above));
-    await tester.enterText(field, 'college');
-    await tester.pumpAndSettle();
-    final visible = [for (final n in ['Shri Ram College of Commerce', 'Hindu College', 'Lady Shri Ram College for Women', 'Hansraj College']) if (find.text(n).evaluate().isNotEmpty && tester.getRect(find.text(n)).bottom <= above) n];
-    expect(rung, findsOneWidget);
-    expect(visible.length, greaterThanOrEqualTo(3), reason: 'rungs in view: $visible');
-  });
+  // The search field comes to the top of the list when it is tapped, so the colleges it finds
+  // are in view above the keyboard: two rungs whole on the shortest phone (360 by 640, a 300 dp
+  // keyboard), four on a usual one (412 by 915).
+  for (final phone in [(const Size(360, 640), 2), (const Size(412, 915), 4)]) {
+    final size = phone.$1;
+    final wanted = phone.$2;
+    testWidgets('with the keyboard up on the college search at ${size.width.round()} by ${size.height.round()}, the pinned key and the sheet strip step aside', (tester) async {
+      tester.view.padding = const FakeViewPadding(top: 48, bottom: 32);
+      await pumpMockmob(
+        tester,
+        const OnboardingFlow(skipColdOpen: true, startInDeck: true),
+        brightness: Brightness.dark,
+        size: size,
+        disableAnimations: true,
+        overrides: onboardingOverrides(answers: studentUpTo(Steps.course)),
+      );
+      for (var i = 0; i < 3; i++) {
+        await tester.pump(const Duration(milliseconds: 400));
+      }
+      final field = find.byType(TextField);
+      expect(find.text('Continue'), findsOneWidget, reason: 'the key is there while the keyboard is down');
+      await tester.tap(field);
+      await tester.pump();
+      tester.view.viewInsets = const FakeViewPadding(bottom: 600); // a 300 dp keyboard
+      addTearDown(tester.view.resetViewInsets);
+      await tester.pumpAndSettle();
+      expect(find.text('Continue'), findsNothing, reason: 'the key would sit on the keyboard');
+      final above = size.height - 300.0;
+      expect(tester.getRect(field).bottom, lessThanOrEqualTo(above));
+      await tester.enterText(field, 'college');
+      await tester.pumpAndSettle();
+      final names = ['Shri Ram College of Commerce', 'Hindu College', 'Lady Shri Ram College for Women', 'Hansraj College'];
+      expect(find.text('Shri Ram College of Commerce'), findsOneWidget);
+      expect(tester.getRect(field).top, lessThan(120), reason: 'the field is at the top of the list, not at the keyboard');
+      final whole = [for (final n in names) if (find.text(n).evaluate().isNotEmpty && tester.getRect(find.text(n)).bottom <= above) n];
+      expect(whole.length, greaterThanOrEqualTo(wanted), reason: 'rungs in view: $whole');
+    });
+  }
 }

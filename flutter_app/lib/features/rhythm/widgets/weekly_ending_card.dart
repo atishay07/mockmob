@@ -112,7 +112,7 @@ class WeeklyEndingCard extends StatelessWidget {
                 ],
                 if (onShare != null && data.met) ...[
                   const SizedBox(height: MmSpace.s4),
-                  FlushQuietKey(label: RhythmCopy.shareWeek, chevron: true, onPressed: busy ? null : onShare),
+                  FlushQuietKey(label: RhythmCopy.shareWeek, onPressed: busy ? null : onShare),
                 ],
               ],
             ),

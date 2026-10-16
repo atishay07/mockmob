@@ -40,15 +40,38 @@ class _CourseStepState extends ConsumerState<CourseStep> {
   final TextEditingController _search = TextEditingController();
   String _query = '';
 
+  /// The search field's focus and place: when the student taps it, the field comes to the top of
+  /// the list, so the colleges it finds are in view above the keyboard (not the field alone, at
+  /// the bottom edge where the keyboard's own scroll leaves it).
+  final FocusNode _searchFocus = FocusNode();
+  final GlobalKey _searchKey = GlobalKey();
+
   /// Mobi nods at the first pick of this visit only.
   bool _nodded = false;
 
   AnswersController get _c => ref.read(onboardingAnswersProvider.notifier);
 
   @override
+  void initState() {
+    super.initState();
+    _searchFocus.addListener(_searchFocused);
+  }
+
+  @override
   void dispose() {
+    _searchFocus.removeListener(_searchFocused);
+    _searchFocus.dispose();
     _search.dispose();
     super.dispose();
+  }
+
+  void _searchFocused() {
+    if (!_searchFocus.hasFocus) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final field = _searchKey.currentContext;
+      if (!mounted || field == null || !_searchFocus.hasFocus) return;
+      Scrollable.ensureVisible(field, alignment: 0, duration: Motion.of(context, Motion.ui), curve: Motion.out);
+    });
   }
 
   void _changeCourse() {
@@ -151,7 +174,10 @@ class _CourseStepState extends ConsumerState<CourseStep> {
             ],
           ),
           const SizedBox(height: MmSpace.s8),
-          CollegeSearchField(controller: _search, onChanged: (q) => setState(() => _query = q)),
+          KeyedSubtree(
+            key: _searchKey,
+            child: CollegeSearchField(controller: _search, focusNode: _searchFocus, onChanged: (q) => setState(() => _query = q)),
+          ),
           const SizedBox(height: MmSpace.s12),
           LadderCount(picked: a.colleges.length),
           const SizedBox(height: MmSpace.s8),

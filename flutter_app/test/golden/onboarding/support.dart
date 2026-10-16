@@ -22,6 +22,7 @@ import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
+import 'package:mockmob/features/onboarding/state/bank_size.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
 
 import '../../helpers/fonts.dart';
@@ -74,6 +75,7 @@ List<Override> onboardingOverrides({
   DateTime Function()? clock,
   SubjectRegistry? registry,
   AnswersStore? store,
+  int? bank = 8197,
 }) {
   final memory = MemoryPrefsStore();
   memory.values[AnswersStore.key] = jsonEncode(answers.toJson());
@@ -85,6 +87,8 @@ List<Override> onboardingOverrides({
     networkStatusProvider.overrideWith(() => _FakeNetwork(network)),
     appPrefsProvider.overrideWithValue(AppPrefs(appPrefs)),
     shouldPlayColdOpenProvider.overrideWith((ref) async => false),
+    // The live bank's size (`/api/stats`), as the save step's quiet line quotes it.
+    questionBankSizeProvider.overrideWith((ref) async => bank),
     // The Celebrations setting is read from this phone's store (Full until changed).
     rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
     // The picker reads the live list; the default is what the server returns today.

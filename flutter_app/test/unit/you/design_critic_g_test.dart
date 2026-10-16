@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show StudyWeek, StudyWeekVariant, WeekBubbleDay, WeekBubbles, WeekDayMark;
 import 'package:mockmob/features/you/copy.dart';
+import 'package:mockmob/features/rhythm/widgets/week_dial.dart' show WeekDial;
 import 'package:mockmob/features/you/hub/sheet_fields.dart';
 
 import '../../helpers/fonts.dart';
@@ -25,13 +26,13 @@ void main() {
   setUpAll(loadAppFonts);
 
   group('5: the You hub week field is the shared study week', () {
-    testWidgets('with a goal it is the ring variant, with the same words as before', (tester) async {
+    testWidgets('with a goal the ring says what it counts, over the shared seven days', (tester) async {
       await _pump(tester, SheetWeek.ready(days: _week(), count: '2 of 4 study days', description: 'This week', done: 2, goal: 4, note: 'Weeks in rhythm: 3'));
-      final week = tester.widget<StudyWeek>(find.byType(StudyWeek));
-      expect(week.variant, StudyWeekVariant.ring);
-      expect(week.done, 2);
-      expect(week.goal, 4);
-      expect(find.text(YouCopy.weekOpen), findsOneWidget, reason: 'the field still says it opens Rhythm');
+      final dial = tester.widget<WeekDial>(find.byType(WeekDial));
+      expect(dial.done, 2);
+      expect(dial.goal, 4);
+      expect(find.text('of 4 study days'), findsOneWidget, reason: 'L06: the words name the goal inside the ring');
+      expect(tester.widget<StudyWeek>(find.byType(StudyWeek)).variant, StudyWeekVariant.compact);
       expect(find.text(YouCopy.weekToGo(2)), findsOneWidget);
       expect(find.text('Weeks in rhythm: 3'), findsOneWidget);
       expect(find.byType(WeekBubbles), findsNothing, reason: 'the older seven-bubble row is not drawn on You');

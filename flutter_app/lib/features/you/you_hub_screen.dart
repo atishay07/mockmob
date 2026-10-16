@@ -17,7 +17,7 @@ import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../rhythm/copy.dart' show RhythmCopy;
 import '../rhythm/logic/milestone_tracks.dart';
-import '../rhythm/logic/week_view.dart' show WeekStatus, runNote, weeksInRhythmText;
+import '../rhythm/logic/week_view.dart' show WeekStatus, weeksInRhythmText;
 import '../rhythm/rhythm.dart';
 import '../rhythm/widgets/rhythm_layout.dart' show SectionBreak;
 import '../rhythm/data/badges.dart';
@@ -100,6 +100,11 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     });
   }
 
+  /// The section a chip was tapped for. Near the end of the page a short section cannot rise all
+  /// the way to the row, so while the page rests at its end with that section on screen, its chip
+  /// stays lit. Any other resting place clears it.
+  int? _jumped;
+
   /// The chip of the last section whose top has reached the row. Nothing is lit above the first
   /// section (the row is not pinned yet).
   void _trackActive() {
@@ -112,10 +117,23 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
       if (box is! RenderBox || !box.attached) continue;
       if (box.localToGlobal(Offset.zero).dy <= line) active = i;
     }
+    final jumped = _jumped;
+    if (jumped != null && _scroll.hasClients) {
+      final position = _scroll.position;
+      final atEnd = position.pixels >= position.maxScrollExtent - 1;
+      final box = _sectionKeys[jumped].currentContext?.findRenderObject();
+      final onScreen = box is RenderBox && box.attached && box.localToGlobal(Offset.zero).dy < header.localToGlobal(Offset.zero).dy + position.viewportDimension;
+      if (atEnd && onScreen && (active == null || jumped > active)) {
+        active = jumped;
+      } else if (!atEnd && !_scroll.position.isScrollingNotifier.value) {
+        _jumped = null;
+      }
+    }
     if (_active.value != active) _active.value = active;
   }
 
-  /// Scrolls so section [i] starts just under the row. Reduced motion jumps.
+  /// Scrolls so section [i] starts just under the row (or as close as the page's end allows), and
+  /// lights its chip. Reduced motion jumps.
   void _jumpTo(int i) {
     final box = _sectionKeys[i].currentContext?.findRenderObject();
     if (box is! RenderBox || !_scroll.hasClients) return;
@@ -125,12 +143,14 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     // The viewport already leaves room for the pinned row when it reveals a box at its leading
     // edge, so the section lands just under the row without taking the row's height off again.
     final target = viewport.getOffsetToReveal(box, 0).offset.clamp(position.minScrollExtent, position.maxScrollExtent);
+    _jumped = i;
     final duration = Motion.of(context, const Duration(milliseconds: 420));
     if (duration == Duration.zero) {
       _scroll.jumpTo(target);
     } else {
-      unawaited(_scroll.animateTo(target, duration: duration, curve: Motion.glide));
+      unawaited(_scroll.animateTo(target, duration: duration, curve: Motion.glide).whenComplete(_trackAfterFrame));
     }
+    _trackAfterFrame();
   }
 
   /// The name key on the hero: the editor, then Mobi greets the new name on Account's own page;
@@ -150,7 +170,13 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     }
     final paused = week.status == WeekStatus.paused;
     final days = [for (final d in week.days) WeekBubbleDay(mark: d.studyDay ? WeekDayMark.done : WeekDayMark.open, isToday: d.isToday)];
-    final note = paused ? week.label : (runNote(rhythm) ?? weeksInRhythmText(rhythm));
+    final note = paused
+        ? week.label
+        : week.studyDays == 0
+            ? YouCopy.studyDayDefinition
+            : rhythm.weeksMetStreak > 0
+            ? YouCopy.runInARow(rhythm.weeksMetStreak)
+            : (rhythm.bestRun > 0 ? RhythmCopy.bestRun(rhythm.bestRun) : weeksInRhythmText(rhythm));
     final count = YouCopy.weekCount(week.studyDays, week.goal);
     final study = [
       for (var i = 0; i < 7; i++)
@@ -233,6 +259,12 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                         ),
                       ),
                       const _ExpiredWorkNotice(),
+                      // Offline with a saved read: say what the page is made of, with the time.
+                      if (snapshot.stale && snapshot.fetchedAt != null)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
+                          child: InlineBanner(message: YouCopy.savedOffline(snapshot.fetchedAt!), tone: BannerTone.offline, compact: true),
+                        ),
                       const SizedBox(height: MmSpace.s16),
                       MmStaggerItem(
                         index: 0,
@@ -276,6 +308,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                         child: KeyedSubtree(
                           key: _sectionKeys[0],
                           child: _HubSection(
+                            first: true,
                             title: YouCopy.hubWeek,
                             trailing: KeyButton.quiet(label: YouCopy.seeRhythm, onPressed: () => context.push(AppRoutes.youRhythm)),
                             child: Column(
@@ -284,11 +317,9 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                                 KeyedSubtree(key: _weekKey, child: WeekField(week: week, onOpen: () => context.push(AppRoutes.youRhythm))),
                                 const StudyDaysPanel(),
                                 // L19: the invitation to turn reminders on, only while they are off
-                                // (the Account area's widget; it draws nothing otherwise).
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                                  child: NotificationsInvite(),
-                                ),
+                                // (the Account area's widget; it draws nothing otherwise and brings its own
+                                // gutter, so it lines up with the rows above).
+                                const NotificationsInvite(),
                               ],
                             ),
                           ),
@@ -318,6 +349,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                         child: KeyedSubtree(
                           key: _sectionKeys[4],
                           child: _HubSection(
+                            // Your repair record above ends on its own hairline.
+                            rule: false,
                             title: YouCopy.hubSubjects,
                             trailing: KeyButton.quiet(
                               label: YouCopy.editSubjectsShort,
@@ -349,15 +382,14 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                       // 6. Plan and credits: one row; the tiles live in the account sheet.
                       const MmStaggerItem(
                         index: 7,
-                        child: Padding(
-                          padding: EdgeInsets.only(top: MmSpace.s24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Padding(padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: SectionBreak()),
-                              PlanCreditsRow(),
-                            ],
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            // The Aim row above ends on a hairline and this row starts on one, so
+                            // only air sits between them.
+                            SizedBox(height: MmSpace.s32),
+                            PlanCreditsRow(),
+                          ],
                         ),
                       ),
                             ],
@@ -383,6 +415,8 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     final tracks = milestoneTracks(badges);
     final total = tracks.fold<int>(0, (n, t) => n + t.steps.length);
     return _HubSection(
+      // The study-days rows above end on their own hairline.
+      rule: false,
       title: RhythmCopy.badgesTitle,
       trailing: KeyButton.quiet(
         label: total > 0 ? RhythmCopy.badgesSeeAll(total) : YouCopy.shelfSeeAll,
@@ -400,13 +434,24 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                   KeyButton.quiet(label: YouCopy.tryAgain, onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true)),
                 ],
               )
-            : BadgeRow(
-                tracks: tracks,
-                loading: snapshot.isInitialLoading,
-                dateOf: (d) => formatAchievedDate(d, snapshot.timezone, now),
-                progress: ref.watch(badgeProgressProvider),
-                records: ref.watch(badgeRecordsProvider),
-                freshIds: ref.watch(celebrationControllerProvider.select((s) => s.freshRows)),
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  BadgeRow(
+                    tracks: tracks,
+                    loading: snapshot.isInitialLoading,
+                    dateOf: (d) => formatAchievedDate(d, snapshot.timezone, now),
+                    progress: ref.watch(badgeProgressProvider),
+                    records: ref.watch(badgeRecordsProvider),
+                    freshIds: ref.watch(celebrationControllerProvider.select((s) => s.freshRows)),
+                  ),
+                  // Before the first badge, the one thing to do is a scored set.
+                  if (!snapshot.isInitialLoading && tracks.every((t) => t.earned.isEmpty))
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: KeyButton.quiet(label: RhythmCopy.startQuick, onPressed: () => context.push(AppRoutes.practiceStart)),
+                    ),
+                ],
               ),
       ),
     );
@@ -486,18 +531,29 @@ class _ChipsHeader extends SliverPersistentHeaderDelegate {
 /// in Bricolage 24 with its optional action at the far end, 12 dp, then [child]. The title sits on
 /// the gutter exactly under the edge of the sheet above it.
 class _HubSection extends StatelessWidget {
-  const _HubSection({required this.title, required this.child, this.trailing});
+  const _HubSection({required this.title, required this.child, this.trailing, this.first = false, this.rule = true});
 
   final String title;
   final Widget child;
   final Widget? trailing;
+
+  /// The first section sits right under the pinned chips, which already divide it from the hero,
+  /// so it takes no rule of its own (this keeps the top of Badges near the fold on a small phone).
+  final bool first;
+
+  /// False under a block that already ends on a hairline (a flat row list), so two rules never
+  /// stack with air between them: the section keeps its 32 dp of air and drops its own rule.
+  final bool rule;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Padding(padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: SectionBreak()),
+        if (first)
+          const SizedBox(height: MmSpace.s8)
+        else
+          Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: SectionBreak(rule: rule)),
         SectionTitle(
           title,
           trailing: trailing,

@@ -46,7 +46,7 @@ class RepairRun extends Notifier<RepairRunState?> {
     final current = state;
     if (current != null &&
         current.phase == RepairPhase.working &&
-        (current.repairedCount > 0 || current.current?.outcome is OutcomeLoading) &&
+        (current.repairedCount > 0 || current.current?.outcome is OutcomeLoading || (current.current?.awaitingTry ?? false)) &&
         current.current?.item.questionId == questionId) {
       return true;
     }

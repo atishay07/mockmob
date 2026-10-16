@@ -20,15 +20,12 @@ import 'support.dart';
 import 'widget_support.dart';
 
 class _Settings extends SystemSettings {
-  _Settings({this.opens = true});
-
-  final bool opens;
   int opened = 0;
 
   @override
   Future<bool> openNotificationSettings() async {
     opened++;
-    return opens;
+    return true;
   }
 }
 

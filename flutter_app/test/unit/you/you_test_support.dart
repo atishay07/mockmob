@@ -8,6 +8,10 @@ import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/connectivity/connectivity.dart' show NetworkStatus, networkStatusProvider;
+import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier;
+import 'package:mockmob/core/models/attempt.dart' show Attempt;
+import 'package:mockmob/core/repositories/attempts_repository.dart' show attemptsRepositoryProvider;
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/models/rhythm.dart';
@@ -38,6 +42,9 @@ import 'package:mockmob/features/you/you_providers.dart';
 import 'package:mockmob/core/models/lab_loop.dart' show RulesRead;
 import 'package:mockmob/features/rules/data/rules_data.dart' show rulesRepositoryProvider;
 import 'package:mocktail/mocktail.dart';
+
+import '../../golden/rhythm/rhythm_test_kit.dart' show FakeAttemptsRepo, FakeBestsRepo;
+import 'package:mockmob/features/rhythm/data/bests.dart' show PersonalBest, bestsRepositoryProvider;
 
 const youUser = AuthSnapshot(
   status: AuthStatus.signedIn,
@@ -345,10 +352,16 @@ List<Override> youOverrides({
   DateTime? now,
   NotificationPrefs? notificationPrefs,
   Override? notificationPrefsProvider,
+  RemoteState<List<Attempt>>? attempts,
+  RemoteState<List<PersonalBest>>? bests,
 }) {
 
   return [
     authSnapshotProvider.overrideWith(() => fakeAuth ?? FakeAuth(auth)),
+    // The papers and bests read the local database and the network plugin; settle both.
+    attemptsRepositoryProvider.overrideWith(() => FakeAttemptsRepo(attempts ?? const RemoteState<List<Attempt>>(value: <Attempt>[]))),
+    bestsRepositoryProvider.overrideWith(() => FakeBestsRepo(bests ?? const RemoteState(value: []))),
+    networkStatusProvider.overrideWith(_OnlineNetwork.new),
     goalRepositoryProvider.overrideWith(() => goal ?? FakeGoal(goalState(4))),
     consentRepositoryProvider.overrideWith(() => consent ?? FakeConsent(consentState(AgeBand.adult))),
     rhythmRepositoryProvider.overrideWith(() => rhythm ?? FakeRhythm(rhythmState())),
@@ -387,3 +400,8 @@ MockDrafts draftsWithUnsent(int count) {
 ApiError offlineError() => const ApiError(kind: ApiErrorKind.network, code: 'network');
 ApiError unavailableError() => const ApiError(status: 503, kind: ApiErrorKind.unavailable, code: 'unavailable');
 ApiError validationError() => const ApiError(status: 422, kind: ApiErrorKind.validation, code: 'invalid_request');
+
+class _OnlineNetwork extends NetworkStatusNotifier {
+  @override
+  NetworkStatus build() => NetworkStatus.online;
+}

@@ -110,6 +110,7 @@ List<Override> reviewOverrides({
   RhythmSeenRepository? seen,
   RemoteState<RulesRead>? rules,
   ReviseRead? revise,
+  Map<String, AttemptDetail> details = const {},
 }) => [
   authSnapshotProvider.overrideWithBuild((ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Riya')),
   studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
@@ -137,7 +138,7 @@ List<Override> reviewOverrides({
   for (final a in attempts ?? allAttempts)
     attemptDetailProvider(a.id).overrideWithBuild(
       (ref, n) => RemoteState(
-        value: AttemptDetail(attempt: a),
+        value: details[a.id] ?? AttemptDetail(attempt: a),
         fetchedAt: eveningUtc,
       ),
     ),

@@ -46,7 +46,7 @@ MilestonePlan planMilestones(Rhythm rhythm, RhythmSeenState seen, DateTime now, 
   final silent = <String>[];
   final away = <RhythmMilestone>[];
   final baseline = seen.lastSeenWeek == null;
-  for (final m in rhythm.milestones) {
+  for (final m in milestones ?? rhythm.milestones) {
     final at = m.achievedAt;
     if (at == null || seen.celebratedIds.contains(m.id)) continue;
     if (baseline) {

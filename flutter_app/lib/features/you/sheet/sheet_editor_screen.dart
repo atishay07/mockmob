@@ -1,17 +1,16 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/model/answers.dart' show OnboardingAnswers;
 import '../../onboarding/state/answers_controller.dart' show onboardingAnswersProvider;
 import '../../tools/data/my_colleges_actions.dart' show myCollegesProvider;
-import '../../tools/my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
 import '../account/name_sheet.dart';
 import '../copy.dart';
 import '../data/sheet_editor.dart' show CourseSnapshot, sheetEditorProvider;
@@ -163,7 +162,8 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
               icon: LucideIcons.landmark,
               title: EditCopy.rowColleges,
               note: _collegesNote(ref, target.colleges),
-              onTap: () => unawaited(showMyCollegesSheet(context)),
+              // Colleges have one home, the Colleges tab (IA D2): the row goes there.
+              onTap: () => context.go(AppRoutes.colleges),
             ),
             YouRow(
               flat: true,

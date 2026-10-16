@@ -166,7 +166,7 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
           ),
           const SizedBox(height: MmSpace.s4),
           KeyButton(
-            label: ReviewCopy.tonightKey(minutes),
+            label: ReviewCopy.tonightKey(n, minutes),
             semanticsLabel: ReviewCopy.tonightKeySpoken(n, minutes),
             onPressed: _start,
           ),

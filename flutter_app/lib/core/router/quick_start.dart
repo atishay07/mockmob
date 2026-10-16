@@ -527,8 +527,10 @@ class _StartRows extends ConsumerWidget {
           );
 
     final modes = <ChoiceRow>[
-      if (quickIsHero) ChoiceRow.wide(full) else ChoiceRow.pair(quick, full),
-      if (ntaOption != null) ChoiceRow.wide(ntaOption),
+      // Full mock and NTA mode share one row, so their titles sit on one line (L09); Quick 10 is
+      // the lead when nothing else leads, otherwise it keeps a row of its own.
+      if (!quickIsHero) ChoiceRow.wide(quick),
+      if (ntaOption != null) ChoiceRow.pair(full, ntaOption) else ChoiceRow.wide(full),
       if (repairOption != null) ChoiceRow.wide(repairOption),
     ];
 

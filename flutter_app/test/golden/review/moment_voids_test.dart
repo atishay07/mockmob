@@ -80,7 +80,7 @@ void main() {
         wrapInScaffold: false,
       );
       await tester.pump(const Duration(seconds: 2));
-      final gap = _void(tester, find.textContaining('Uses 1 credit'));
+      final gap = _void(tester, find.textContaining('Uses 1 AI credit'));
       expect(gap, lessThanOrEqualTo(144), reason: 'the void under the last line, above the key: $gap');
     });
   }

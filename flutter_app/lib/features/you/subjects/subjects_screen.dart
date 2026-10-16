@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/connectivity/connectivity.dart';
 import '../../../core/motion/motion.dart' show MmShake, MmShakeState;
 import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
@@ -40,6 +41,9 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
   /// The student ticked or removed something, so a late profile must not replace the ticks.
   bool _touched = false;
   bool _saving = false;
+
+  /// Back was confirmed with unsaved choices: the next pop goes through.
+  bool _leave = false;
   String? _error;
   String? _cap;
 
@@ -140,14 +144,44 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
     }
   }
 
+  /// Back with unsaved choices asks once.
+  Future<void> _askLeave() async {
+    final leave = await showMmSheet<bool>(
+      context: context,
+      title: EditCopy.leaveTitle,
+      builder: (sheet) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(EditCopy.leaveBody, style: context.mmType.body),
+          const SizedBox(height: MmSpace.s24),
+          KeyButton(label: EditCopy.leaveStay, onPressed: () => Navigator.of(sheet).pop(false)),
+          const SizedBox(height: MmSpace.s8),
+          Align(child: KeyButton.quiet(label: EditCopy.leaveGo, onPressed: () => Navigator.of(sheet).pop(true))),
+        ],
+      ),
+    );
+    if (leave != true || !mounted) return;
+    setState(() => _leave = true);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) Navigator.of(context).maybePop();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ref.listen(authSnapshotProvider, _onProfile);
     final catalog = ref.watch(youSubjectCatalogProvider);
     final loaded = catalog.value;
-    final canSave = _baselineKnown && _changed && _chosen.isNotEmpty && !_saving;
+    final offline = ref.watch(networkStatusProvider) == NetworkStatus.offline;
+    final canSave = _baselineKnown && _changed && _chosen.isNotEmpty && !_saving && !offline;
 
-    return YouPage(
+    return PopScope(
+      canPop: _leave || !_changed || _saving,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) _askLeave();
+      },
+      child: YouPage(
       title: EditCopy.subjectsTitle,
       footer: Column(
         mainAxisSize: MainAxisSize.min,
@@ -167,7 +201,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
             const SizedBox(height: MmSpace.s12),
           ],
           if (_savedAt != null) ...[
-            ReceiptLine(text: EditCopy.subjectsSaved(_savedAt!)),
+            ReceiptLine(text: EditCopy.subjectsSaved(_savedAt!, _chosen.length)),
             const SizedBox(height: MmSpace.s12),
           ],
           KeyButton(
@@ -176,7 +210,9 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
             onPressed: canSave ? _save : null,
             disabledReason: _saving || _savedAt != null
                 ? null
-                : !_baselineKnown
+                : offline
+                    ? EditCopy.subjectsOfflineNow
+                    : !_baselineKnown
                     ? EditCopy.subjectsProfileLoading
                     : _chosen.isEmpty
                         ? EditCopy.subjectsNeedOne
@@ -236,7 +272,7 @@ class _SubjectsScreenState extends ConsumerState<SubjectsScreen> {
             ],
         ],
       ],
-    );
+    ));
   }
 
   /// Chosen subjects practice cannot open (retired, not offered, or unknown to the registry).

@@ -81,8 +81,8 @@ class BestsRows extends ConsumerWidget {
       ));
     }
 
+    final run = rhythm == null ? 0 : math.max(rhythm.bestRun, rhythm.weeksMetStreak);
     if (rhythm != null) {
-      final run = math.max(rhythm.bestRun, rhythm.weeksMetStreak);
       rows.add(_BestRow(
         value: plural(run, 'week'),
         label: YouCopy.bestRunLabel,
@@ -99,7 +99,9 @@ class BestsRows extends ConsumerWidget {
       ));
     }
 
-    if (paper == null && fastest == null) {
+    // Nothing true to show yet: no paper, no timed answer and no week at the goal. A run of weeks
+    // stands on its own, so a student who studies without a scored set still sees it.
+    if (paper == null && fastest == null && run == 0) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: youText),
         child: Text(YouCopy.bestsEmpty, style: type.body.copyWith(color: colors.ink2)),

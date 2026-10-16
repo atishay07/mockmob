@@ -233,7 +233,7 @@ class _Loaded extends StatelessWidget {
         if (plan == null && onChangeDays != null) ...[
           const SizedBox(height: MmSpace.s8),
           Text(RhythmCopy.noPlanYet, style: type.small.copyWith(color: colors.ink2)),
-          FlushQuietKey(label: RhythmCopy.setStudyDays, chevron: true, onPressed: onChangeDays!),
+          FlushQuietKey(label: RhythmCopy.setStudyDays, onPressed: onChangeDays!),
         ],
         if (outlook?.kind == OutlookKind.outOfReach && onPauseWeek != null) ...[
           const SizedBox(height: MmSpace.s12),
@@ -261,7 +261,7 @@ class _Loaded extends StatelessWidget {
         Text(run, style: type.small.copyWith(color: colors.ink2)),
         // The rule is one tap away, not repeated on every sheet.
         const _RuleInfo(),
-        if (onChangeDays != null && plan != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, chevron: true, onPressed: onChangeDays!),
+        if (onChangeDays != null && plan != null) FlushQuietKey(label: RhythmCopy.changeStudyDays, onPressed: onChangeDays!),
         const SizedBox(height: MmSpace.s8),
         QuietPill(label: RhythmCopy.seeRhythm, onPressed: onSeeRhythm),
       ],

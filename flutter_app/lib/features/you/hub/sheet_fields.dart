@@ -3,7 +3,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../rhythm/copy.dart' show RhythmCopy;
 import '../../rhythm/logic/plan_week.dart' show PlanDay, bubbleWeek;
 import '../../rhythm/widgets/week_dial.dart';
 import '../copy.dart';
@@ -312,7 +311,13 @@ class WeekField extends StatelessWidget {
     final goal = week.goal;
     if (week.paused) return week.note;
     if (done == null || goal == null) return null;
-    return done >= goal ? RhythmCopy.weekDoneSentence : YouCopy.weekToGo(goal - done);
+    if (done >= goal) return YouCopy.weekReached;
+    if (done == 0) return YouCopy.weekNone;
+    // Days still to come this week, today included; a goal that cannot be reached says so.
+    final today = week.days.indexWhere((d) => d.isToday);
+    final left = today < 0 ? null : 7 - today;
+    if (left != null && goal - done > left) return YouCopy.weekDaysLeft(left);
+    return YouCopy.weekToGo(goal - done);
   }
 
   @override
@@ -329,10 +334,17 @@ class WeekField extends StatelessWidget {
             PillKey(label: YouCopy.tryAgain, onPressed: week.onRetry),
           ],
         ),
-      SheetWeekState.off => Text(YouCopy.rhythmOffLine, style: type.small.copyWith(color: colors.ink2)),
+      SheetWeekState.off => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(YouCopy.rhythmOffTitle, style: type.title),
+            const SizedBox(height: MmSpace.s4),
+            Text(YouCopy.rhythmOffLine, style: type.small.copyWith(color: colors.ink2)),
+          ],
+        ),
       SheetWeekState.ready => _ready(context),
     };
-    final labelled = week.state == SheetWeekState.failed || week.state == SheetWeekState.off;
+    final labelled = week.state == SheetWeekState.failed;
 
     // No container and no glow: the shared study week stands on the ground between the margins.
     final pane = Padding(

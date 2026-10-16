@@ -445,7 +445,7 @@ class _FastestBlock extends StatelessWidget {
         RhythmCopy.fastestFootnote,
       ],
       footer: switch (onOpen) {
-        final open? => FlushQuietKey(label: RhythmCopy.openThatQuestion, chevron: true, onPressed: () => open(f.attemptId)),
+        final open? => FlushQuietKey(label: RhythmCopy.openThatQuestion, onPressed: () => open(f.attemptId)),
         null => null,
       },
     );

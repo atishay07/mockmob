@@ -43,7 +43,12 @@ void main() {
     final y = tester.getTopLeft(bests).dy;
     final rowBottom = tester.getBottomLeft(find.widgetWithText(MmChip, 'Bests')).dy;
     expect(y, greaterThan(rowBottom - 8), reason: 'the title is under the pinned row, not behind it');
-    expect(y, lessThan(300), reason: 'and near the top of the screen');
+    // Here the bests are empty, so the page ends before the title can reach the row: it lands
+    // as high as the end allows, whole on the first screen, and its chip is lit.
+    expect(y, lessThan(853 - 120), reason: 'and on the screen with room under it');
+    final scrollable = tester.state<ScrollableState>(find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.down).first);
+    final position = scrollable.position;
+    expect(y < 300 || position.pixels >= position.maxScrollExtent - 1, isTrue, reason: 'near the top, unless the page ended first');
     expect(tester.widget<MmChip>(find.widgetWithText(MmChip, 'Bests')).selected, isTrue);
   });
 
@@ -56,6 +61,8 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
     await tester.pumpAndSettle();
     expect(find.text('My subjects'), findsOneWidget);
-    expect(tester.getTopLeft(find.text('My subjects')).dy, lessThan(300));
+    // The last section cannot rise past the page's end: it shows whole, with its chip lit.
+    expect(tester.getTopLeft(find.text('My subjects')).dy, lessThan(853 - 200));
+    expect(tester.widget<MmChip>(find.widgetWithText(MmChip, 'Subjects')).selected, isTrue);
   });
 }

@@ -114,4 +114,6 @@ List<Override> featureOverrides({
       freshChecksOpenProvider.overrideWithValue(false),
       // The Celebrations choice is read from memory, never from the phone.
       rhythmPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      // The invitation's history and the refusal count live in memory too.
+      reminderPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
     ];

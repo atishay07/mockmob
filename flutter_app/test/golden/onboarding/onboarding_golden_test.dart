@@ -79,6 +79,16 @@ void main() {
 
   // The Aim step at 390 dp: "Find a college" with a search typed, and eight picks at the limit.
   const phone390 = Size(390, 844);
+  // Every step with a pinned key at 390 dp: the scroll body stands clear of the key (L28).
+  onboardingGolden('course_grid_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.stage, step: Steps.course)));
+  onboardingGolden('course_ladder_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.course)));
+  onboardingGolden('subjects_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.subjects)));
+  onboardingGolden('rhythm_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.rhythm)));
+  onboardingGolden('plan_sealed_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan)));
+  // The save step at 390 dp: the quiet line about the live question bank sits under the sheet.
+  onboardingGolden('save_ready_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult)));
+  // The count could not be read: the same line, without the number.
+  onboardingGolden('save_nobank_390', _flow, size: phone390, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult), bank: null));
   onboardingGolden(
     'course_ladder_search',
     _flow,
@@ -234,6 +244,23 @@ void main() {
       onToggleEvents: () {},
       onDone: () {},
     )),
+    overrides: _saveOverrides,
+  );
+  onboardingGolden(
+    'after_sign_in_saved_390',
+    () => _sheet(SheetSavedView(
+      phase: SheetSyncPhase.saved,
+      colleges: CollegesMove.moved,
+      startLabel: 'Start now, about 10 minutes',
+      laterLabel: 'Tomorrow at 8:00 PM',
+      onStart: () {},
+      onLater: () {},
+      onRetry: () {},
+      onToggleUsage: (_) {},
+      onToggleEvents: () {},
+      onDone: () {},
+    )),
+    size: phone390,
     overrides: _saveOverrides,
   );
   onboardingGolden(

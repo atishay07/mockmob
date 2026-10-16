@@ -56,8 +56,9 @@ abstract final class ReviewCopy {
     return 'From $source. ${rest == 1 ? '1 more' : '$rest more'} from earlier papers.';
   }
 
-  /// The hero's key: the number of mistakes is the figure above it, so the key carries the time.
-  static String tonightKey(int? minutes) => minutes == null ? 'Start repairing' : 'Start, $minutes minutes';
+  /// The hero's key says what it does and what it costs in time: "Repair 3 mistakes, 10 min".
+  static String tonightKey(int n, int? minutes) =>
+      minutes == null ? 'Repair ${plural(n, 'mistake')}' : 'Repair ${plural(n, 'mistake')}, $minutes min';
 
   /// What a screen reader says for the same key: it does say how many.
   static String tonightKeySpoken(int n, int? minutes) =>
@@ -192,10 +193,10 @@ abstract final class ReviewCopy {
       '${plural(n, 'mistake')}${minutes == null ? '' : ', about $minutes minutes'}. You can stop after any one.';
   /// The line under the entry's number, which already says how many.
   static String entryMeaning(int? minutes) => '${minutes == null ? 'Take your time' : 'About $minutes minutes'}. You can stop after any one.';
-  static String creditLine(int balance) => 'Uses 1 credit per mistake. You have $balance.';
+  static String creditLine(int balance) => 'Uses 1 AI credit per mistake. You have $balance.';
 
   /// The headline when the wallet covers fewer mistakes than the repair holds.
-  static String shortfallHeadline(int needed, int balance) => 'You have ${plural(balance, 'credit')}, this repair needs $needed';
+  static String shortfallHeadline(int needed, int balance) => 'You have ${plural(balance, 'AI credit')}, this repair needs $needed';
   static String startWith(int n) => 'Start with ${plural(n, 'mistake')}';
   static const begin = 'Begin';
   static const reopenLead = 'Already repaired. Opening it again is free and changes nothing on your record.';
@@ -203,8 +204,8 @@ abstract final class ReviewCopy {
   static const readKey = 'Read the key explanation';
   static const pausedHeadline = 'Explanations are paused right now';
   static const pausedLine = 'The key explanations still work.';
-  static const outOfCreditsHeadline = "You have used this month's explanation credits";
-  static String renewsOn(String date) => 'Explanation credits renew on $date.';
+  static const outOfCreditsHeadline = "You have used this month's AI credits";
+  static String renewsOn(String date) => 'AI credits renew on $date.';
 
   // ---- Try it once more (L13) -----------------------------------------------------------------
   //
@@ -336,7 +337,7 @@ abstract final class ReviewCopy {
   static const heldForRecheck = 'Answer key under check. You were not charged.';
   static const setAsideCheck = 'Answer key under check. Nothing was charged.';
   static const notExplained = 'We could not explain this one. You were not charged. Try another.';
-  static const outOfCredits = "You have used this month's explanation credits.";
+  static const outOfCredits = "You have used this month's AI credits.";
   /// One line, no box: used up, and when they come back.
   static String creditsUsedLine(String? renewDate) => renewDate == null ? 'Credits used up for this month.' : 'Credits used up. They renew on $renewDate.';
   static const paused = 'Explanations are paused right now.';

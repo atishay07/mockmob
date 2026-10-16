@@ -97,7 +97,7 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
     final headline = c.sentence == null ? null : BalancedText(c.sentence!, style: headStyle);
     final receipt = c.receipt == null ? null : ReceiptLine(text: c.receipt!);
     final linkKey = c.linkLabel != null && link != null
-        ? FlushQuietKey(chevron: true, label: c.linkLabel!, onPressed: () => GoRouter.maybeOf(context)?.push(link))
+        ? FlushQuietKey(label: c.linkLabel!, onPressed: () => GoRouter.maybeOf(context)?.push(link))
         : null;
     Widget said(List<Widget> children) => Semantics(
           container: true,

@@ -162,7 +162,9 @@ void main() {
       await _pump(tester, goal: FakeGoal(goalState(4)), extra: [
         plannedDaysProvider.overrideWith(() => _Planned({0, 2, 4, 5})),
       ]);
-      expect(find.text('Monday, Wednesday, Friday and Saturday'), findsOneWidget);
+      // The marks show the plan; the names are spoken, not printed a second time.
+      expect(find.bySemanticsLabel(RegExp('Planned days. Monday, Wednesday, Friday and Saturday')), findsOneWidget);
+      expect(find.text('Monday, Wednesday, Friday and Saturday'), findsNothing);
       expect(find.text('Pick the weekdays you will study'), findsNothing);
     });
 
