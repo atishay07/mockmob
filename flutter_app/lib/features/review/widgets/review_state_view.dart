@@ -179,7 +179,7 @@ class _ReviewStateViewState extends State<ReviewStateView> {
                         ],
                         if (widget.sample != null) ...[
                           const SizedBox(height: MmSpace.s20),
-                          MmStaggerItem(index: 2, child: widget.sample!),
+                          MmStaggerItem(index: 3, child: widget.sample!),
                         ],
                         if (widget.primary != null) ...[
                           SizedBox(height: widget.sample != null ? MmSpace.s20 : MmSpace.s24),

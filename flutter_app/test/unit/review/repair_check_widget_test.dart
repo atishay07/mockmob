@@ -276,6 +276,11 @@ void main() {
       final api = FakeCheckApi(onSubmit: (_, _) => answer(right: true));
       await answerWith(tester, api, 1);
       expect(find.text('Right on a new question from the same topic. One question is a check, not a measure.'), findsOneWidget);
+      // The receipt counts only this run's checks that were answered: one answered, one held.
+      final fixed = tester.widget<Text>(find.byKey(const ValueKey('check-receipt'))).data!;
+      expect(fixed, startsWith('Fixed. This '));
+      expect(fixed, contains('Mock 2'));
+      expect(fixed, endsWith('Held 1 of 1.'));
       expect(find.text('Your pick and the key'), findsOneWidget);
       expect(find.text('Key'), findsNothing);
       expect(find.text('Your pick'), findsNothing);
@@ -296,6 +301,9 @@ void main() {
       final api = FakeCheckApi(onSubmit: (_, _) => answer(pick: 2));
       await answerWith(tester, api, 2);
       expect(find.text('Missed on a new question from the same topic.'), findsOneWidget);
+      final notYet = tester.widget<Text>(find.byKey(const ValueKey('check-receipt'))).data!;
+      expect(notYet, startsWith('Not yet. This '));
+      expect(notYet, endsWith('Held 0 of 1.'));
       expect(find.text('Key'), findsOneWidget);
       expect(find.text('Your pick'), findsOneWidget);
       expect(find.text('Your pick and the key'), findsNothing);

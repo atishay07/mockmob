@@ -110,7 +110,7 @@ class AskAboutMistake extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (intro) ...[
-          const FeatureNoteView(note: FeatureNote.askMobi, lead: ReviewCopy.noteAskLead, text: ReviewCopy.noteAsk),
+          const FeatureNoteView(note: FeatureNote.askMobi, lead: ReviewCopy.noteAskLead, text: ReviewCopy.noteAsk, gotIt: false),
           const SizedBox(height: MmSpace.s12),
         ],
         KeyButton.secondary(

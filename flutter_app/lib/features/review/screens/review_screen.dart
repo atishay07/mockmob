@@ -86,9 +86,14 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     // are copied to the phone's record, so its mistakes read as repaired here and open free (F17).
     final tonightId = index?.tonight?.attemptId;
     if (tonightId != null) {
-      ref.listen(attemptDetailProvider(tonightId).select((s) => s.value?.savedRepairs), fireImmediately: true, (_, saved) {
-        if (saved != null && saved.isNotEmpty) unawaited(ref.read(repairRunProvider(tonightId).notifier).recordSaved(saved, ref.read(reviewInputsProvider).records));
-      });
+      final saved = ref.watch(attemptDetailProvider(tonightId).select((s) => s.value?.savedRepairs));
+      if (saved != null && saved.isNotEmpty) {
+        // Idempotent: a repair the phone already holds as repaired is skipped, so once copied the
+        // rebuild finds nothing left to do.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) unawaited(ref.read(repairRunProvider(tonightId).notifier).recordSaved(saved, ref.read(reviewInputsProvider).records));
+        });
+      }
     }
 
     // A scene on screen (the empty state, the all-clear hero, the load failure) carries the one
@@ -353,9 +358,9 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           FeatureNoteView(
             note: FeatureNote.lab,
             lead: ReviewCopy.noteLabLead,
-            text: ReviewCopy.noteLab(sourceLabel(index.attempts, latestMock!)),
+            text: ReviewCopy.noteLab(sourceLabel(index.attempts, latestMock)),
             actionLabel: ReviewCopy.noteLabAction,
-            onAction: () => context.push(AppRoutes.result(latestMock!.id)),
+            onAction: () => context.push(AppRoutes.result(latestMock.id)),
           ),
           top: ruled ? ReviewSpace.section : ReviewSpace.group,
         ),

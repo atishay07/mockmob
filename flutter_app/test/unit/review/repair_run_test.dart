@@ -545,4 +545,48 @@ void main() {
     expect(after!.requestId, before!.requestId);
     expect(after.ackedAt, before.ackedAt);
   });
+
+  group('a repair the account already holds (F17)', () {
+    final madeAt = DateTime.utc(2026, 10, 11, 14, 35);
+
+    test('the tapped mistake opens alone as a saved repair and never offers a paid one', () async {
+      run().open('m7-q10');
+      expect(state().steps, hasLength(3));
+      expect(run().adoptSaved({'m7-q10': madeAt}), isTrue);
+      expect(state().steps, hasLength(1));
+      final step = state().steps.single;
+      expect(step.item.questionId, 'm7-q10');
+      expect(step.item.stage.isOpen, isFalse);
+      expect(step.item.stageAt, madeAt);
+      expect(state().repairedBefore, isTrue);
+      // It is a reopen: no call is made until the screen begins it, and the key is free.
+      expect(api.calls, isEmpty);
+    });
+
+    test('a saved mistake among the others leaves the run, the others stay', () async {
+      run().open('m7-q10');
+      expect(run().adoptSaved({'m7-q0': madeAt}), isFalse);
+      expect(state().steps.map((s) => s.item.questionId), isNot(contains('m7-q0')));
+      expect(state().steps.first.item.questionId, 'm7-q10');
+    });
+
+    test('nothing saved changes nothing', () async {
+      run().open('m7-q10');
+      expect(run().adoptSaved(const {}), isFalse);
+      expect(state().steps, hasLength(3));
+    });
+
+    test('recordSaved puts the account repair on the phone at the time the server made it, once', () async {
+      await run().recordSaved({'m7-q10': madeAt}, const []);
+      final r = await local('m7-q10');
+      expect(r!.status, RepairLocalStatus.stored);
+      expect(r.ackedAt!.toUtc(), madeAt);
+      final first = r.requestId;
+      // A repair already on the phone is left exactly as it is.
+      await run().recordSaved({'m7-q10': DateTime.utc(2026, 10, 12)}, [r]);
+      final again = await local('m7-q10');
+      expect(again!.ackedAt!.toUtc(), madeAt);
+      expect(again.requestId, first);
+    });
+  });
 }

@@ -236,15 +236,11 @@ void main() {
       expect(find.byType(Mobi), findsNothing);
       final title = tester.getTopLeft(find.text('Partnership: admission of a partner'));
       expect(title.dx, ReviewSpace.moment, reason: 'the headline is on the moment gutter');
-      // The credit line sits directly under the thread, not down by the key.
+      // What Repair gives is stated before any call, and the cost with the balance sits directly above the key that spends it.
+      expect(find.text(ReviewCopy.givesHeading), findsOneWidget);
       final credit = tester.getRect(find.text('Uses 1 AI credit per mistake. You have 9.'));
-      final caption = tester.getRect(find.text(ReviewCopy.lifeCaption));
-      expect(credit.top - caption.bottom, lessThanOrEqualTo(ReviewSpace.group + 4));
-      // The block is weighted above the middle of the room: more air under it than over it.
-      final first = tester.getRect(find.textContaining('Mock 2, Accountancy'));
-      final airAbove = first.top - 56;
-      final airBelow = key.top - credit.bottom;
-      expect(airBelow, greaterThanOrEqualTo(airAbove));
+      expect(key.top - credit.bottom, lessThanOrEqualTo(40), reason: 'the cost line sits directly above the key');
+      expect(credit.bottom, lessThanOrEqualTo(key.top), reason: 'the cost line never sits under the key');
     });
 
     testWidgets('the ending keeps its receipt directly under the thread and pins only the keys', (tester) async {

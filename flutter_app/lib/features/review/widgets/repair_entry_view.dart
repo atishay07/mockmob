@@ -253,22 +253,10 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
               LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
               const SizedBox(height: MmSpace.s12),
               Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
-              // What Repair gives, before any call, and under it what it costs and what is left.
+              // What Repair gives, before any call. What it costs and what is left is pinned above the key.
               if (!reopen) ...[
                 const SizedBox(height: MmSpace.s24),
                 _Gives(keyOnly: widget.plan.keyOnly),
-              ],
-              if (widget.plan.hasWords && !reopen) ...[
-                const SizedBox(height: MmSpace.s16),
-                if (widget.plan.headline != null)
-                  Semantics(
-                    header: true,
-                    child: Text(widget.plan.headline!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
-                  ),
-                if (widget.plan.headline != null && widget.plan.line != null) const SizedBox(height: MmSpace.s4),
-                if (widget.plan.line != null)
-                  Text(widget.plan.line!, style: type.body.copyWith(color: widget.plan.headline == null ? colors.ink : colors.ink2)),
-                if (widget.plan.after != null) Text(widget.plan.after!, style: type.small.copyWith(color: colors.ink2)),
               ],
             ],
           ),
@@ -279,6 +267,20 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                // What it costs and what is left, in words, directly above the key that spends it:
+                // pinned with the key, so it is on screen whenever the key is, never below the fold.
+                if (widget.plan.hasWords && !reopen) ...[
+                  if (widget.plan.headline != null)
+                    Semantics(
+                      header: true,
+                      child: Text(widget.plan.headline!, style: type.title.copyWith(fontSize: 20, height: 24 / 20)),
+                    ),
+                  if (widget.plan.headline != null && widget.plan.line != null) const SizedBox(height: MmSpace.s4),
+                  if (widget.plan.line != null)
+                    Text(widget.plan.line!, style: type.body.copyWith(color: widget.plan.headline == null ? colors.ink : colors.ink2)),
+                  if (widget.plan.after != null) Text(widget.plan.after!, style: type.small.copyWith(color: colors.ink2)),
+                  const SizedBox(height: MmSpace.s12),
+                ],
                 KeyButton(label: reopen ? ReviewCopy.begin : widget.plan.primary, onPressed: widget.onBegin),
                 if (widget.plan.offerKeys && !reopen)
                   Align(

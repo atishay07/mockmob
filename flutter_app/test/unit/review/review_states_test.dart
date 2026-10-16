@@ -5,6 +5,7 @@ import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/auth/load_problem.dart';
 import 'package:mockmob/core/mascot/mascot.dart' show MobiCharacter;
 import 'package:mockmob/core/models/attempt.dart';
+import 'package:mockmob/core/notes/sample_row.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
 import 'package:mockmob/features/review/copy.dart';
@@ -77,7 +78,8 @@ void main() {
     testWidgets('a successful empty list says nothing to review yet, with the key to start', (tester) async {
       await _pump(tester, attempts: const []);
       expect(find.text('Nothing to review yet'), findsOneWidget);
-      expect(find.text('Finish one practice and every wrong answer comes here, sorted by chapter.'), findsOneWidget);
+      expect(find.text(ReviewCopy.emptyMessage), findsOneWidget);
+      expect(find.text(SampleRow.tag), findsOneWidget);
       expect(find.text('Start 10 questions'), findsOneWidget);
       expect(find.text('Your mistakes gather here'), findsNothing);
     });

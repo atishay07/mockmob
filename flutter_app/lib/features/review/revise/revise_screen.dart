@@ -300,10 +300,10 @@ class _Run extends StatelessWidget {
         ),
       );
     } else {
-      // Nothing due and nothing coming at all: the first time here. The page teaches what will
+      // No card at all yet: the first time here. The page teaches what will
       // appear, shows one sample card and goes to the next action. A cap reached, or a day when
       // the next ones are named, keeps the server's own sentence.
-      final firstTime = read.answeredToday < read.cap && read.next == null;
+      final firstTime = read.answeredToday == 0 && (read.state == ReviseRead.empty || (read.cards == 0 && read.nextDay == null));
       stage = _Empty(
         text: read.answeredToday >= read.cap
             ? ReviseCopy.capReached
