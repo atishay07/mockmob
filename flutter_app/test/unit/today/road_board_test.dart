@@ -211,12 +211,12 @@ void main() {
     await pumpBody(tester, view, const Size(384, 600));
     await tester.pump();
     await tester.pump();
-    final cue = find.bySemanticsLabel(TodayCopy.moreBelow);
+    final cue = find.bySemanticsLabel(RegExp('^Road to May'));
     expect(cue.hitTestable(), findsOneWidget);
     await tester.tap(cue);
     await tester.pumpAndSettle();
     expect(find.text(TodayCopy.roadTitle).hitTestable(), findsOneWidget, reason: 'the page glided to the road');
-    expect(find.bySemanticsLabel(TodayCopy.moreBelow).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
+    expect(find.bySemanticsLabel(RegExp('^Road to May')).hitTestable(), findsNothing, reason: 'the cue is gone for the visit');
   });
 
   // Design critic 16 Oct, finding 2: the cue sat over the key at late night and over the chart
@@ -266,10 +266,11 @@ void main() {
     });
   }
 
-  test('the error card never names a move', () {
+  test('the error card says the move did not load, and why', () {
     final view = buildToday(TodayInputs(now: tuesdayEvening, attemptsFailed: true));
     final hero = view.hero! as MoveHero;
-    expect(hero.meaning.toLowerCase(), isNot(contains('move')));
+    expect(hero.subjectLine, TodayCopy.failTitle);
+    expect(hero.secondary?.label, TodayCopy.practiseAnyway);
     final offline = buildToday(TodayInputs(now: tuesdayEvening, attemptsFailed: true, offline: true)).hero! as MoveHero;
     expect(offline.meaning, TodayCopy.unavailableOffline);
   });

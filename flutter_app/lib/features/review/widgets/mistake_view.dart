@@ -18,12 +18,28 @@ import 'outcome_views.dart';
 import 'question_panel.dart';
 import 'repair_check_section.dart';
 import 'repair_mobi.dart';
+import 'retry_first.dart';
 import 'review_bits.dart' show FlushKey;
 import 'run_track.dart';
 
 /// Callbacks of the per-mistake screen.
 class MistakeActions {
-  const MistakeActions({required this.onNext, required this.onFinishForNow, required this.onRetry, required this.onReadKey, this.onGoTo});
+  const MistakeActions({
+    required this.onNext,
+    required this.onFinishForNow,
+    required this.onRetry,
+    required this.onReadKey,
+    this.onGoTo,
+    this.onSelectTry,
+    this.onCheckTry,
+    this.onSkipTry,
+  });
+
+  /// The try step: a pick (free, local), "Check my answer", and "Show the reason now". Null leaves
+  /// the step out (the run never offers it).
+  final ValueChanged<int>? onSelectTry;
+  final VoidCallback? onCheckTry;
+  final VoidCallback? onSkipTry;
 
   final VoidCallback onNext;
   final VoidCallback onFinishForNow;
@@ -57,9 +73,14 @@ class MistakeView extends StatelessWidget {
     this.renewDate,
     this.scheme,
     this.earlier,
+    this.tryNote,
   });
 
   final RepairRunState run;
+
+  /// The cost line under "Check my answer" ("The reason uses 1 AI credit. You have 43.", "The key
+  /// explanation is free."), or null when the balance is not known.
+  final String? tryNote;
 
   /// The same question missed in another paper, or null (never guessed).
   final EarlierMiss? earlier;
@@ -109,11 +130,24 @@ class MistakeView extends StatelessWidget {
     final retryHere = outcome is OutcomeFailed && outcome.failure.canRetry;
     final moveOn = run.isLast ? ReviewCopy.finish : ReviewCopy.nextMistake;
 
+    // A checked try: the pick now leads, the paper's pick is the quiet earlier one, and the key is
+    // known from the phone at once (the server's answer, when it comes, wins).
+    final tried = step.checkedPick;
+    final localKey = detail?.visibleKeyIndex(step.item.questionId);
+    final trying = step.awaitingTry && question != null && actions.onCheckTry != null;
     final (chosen, keyIndex) = switch (outcome) {
-      OutcomeExplained(:final response) => (response.chosenIndex ?? step.item.givenIndex, response.keyIndex),
-      OutcomeKeyReview() => (step.item.givenIndex, detail?.visibleKeyIndex(step.item.questionId)),
-      _ => (step.item.givenIndex, null),
+      OutcomeExplained(:final response) => (tried ?? response.chosenIndex ?? step.item.givenIndex, response.keyIndex),
+      OutcomeKeyReview() => (tried ?? step.item.givenIndex, localKey),
+      _ => (tried ?? step.item.givenIndex, tried == null ? null : localKey),
     };
+    final verdict = switch (outcome) {
+      OutcomeExplained(reopened: false) || OutcomeKeyReview() || null || OutcomeLoading() => retryVerdictOf(pick: tried, key: keyIndex, before: step.item.givenIndex),
+      _ => null,
+    };
+    final earlierPick = tried == null ? null : step.item.givenIndex;
+    final words = tried == null || question == null
+        ? null
+        : retryOptionWords(pick: tried, key: keyIndex, before: step.item.givenIndex, source: step.item.source);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -139,6 +173,16 @@ class MistakeView extends StatelessWidget {
                   const SizedBox(height: MmSpace.s8),
                   if (question == null)
                     Text(ReviewCopy.notFound, style: type.body.copyWith(color: colors.ink2))
+                  else if (trying)
+                    RetryFirstBody(
+                      key: ValueKey('try-${step.item.key}'),
+                      question: question!,
+                      picked: step.retryPick,
+                      before: step.item.givenIndex,
+                      source: step.item.source,
+                      onPick: actions.onSelectTry ?? (_) {},
+                      mobi: (hint) => RepairMobi(stepKey: step.item.key, outcome: null, trying: true, beside: hint),
+                    )
                   else if (outcome is OutcomeExplained)
                     // Once explained the paid part leads: the question folds to one line, and the
                     // key reveals itself on it (a stored repair paints it final).
@@ -155,16 +199,25 @@ class MistakeView extends StatelessWidget {
                         pick: _letter(chosen),
                         answer: _letter(keyIndex),
                         reveal: reveal,
-                        panel: QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex),
+                        panel: QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex, earlier: earlierPick, words: words),
                       ),
                     )
                   else
                     KeyReveal(
                       key: ValueKey('reveal-${step.item.key}'),
                       keyShown: keyIndex != null,
-                      builder: (context, reveal) => QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex, reveal: reveal),
+                      builder: (context, reveal) =>
+                          QuestionPanel(question: question!, chosen: chosen, keyIndex: keyIndex, reveal: reveal, earlier: earlierPick, words: words),
                     ),
-                  ..._outcome(context, outcome, chosenLetter: _letter(chosen), keyLetter: _letter(keyIndex)),
+                  if (!trying)
+                    ..._outcome(
+                      context,
+                      outcome,
+                      chosenLetter: _letter(chosen),
+                      keyLetter: _letter(keyIndex),
+                      verdict: verdict,
+                      skippedTry: step.tryStage == TryStage.done && tried == null,
+                    ),
                 ],
                   ),
                 ),
@@ -199,14 +252,23 @@ class MistakeView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // While the explanation is made the key holds its place and shows its spinner: a
-                // working key, not a grey one that looks broken.
-                KeyButton(
-                  label: retryHere ? ReviewCopy.tryAgainKey : moveOn,
-                  loading: loading,
-                  onPressed: retryHere ? actions.onRetry : actions.onNext,
-                ),
-                if (retryHere) Align(child: KeyButton.quiet(label: moveOn, onPressed: actions.onNext)),
+                if (trying)
+                  RetryBar(
+                    hasPick: step.retryPick != null,
+                    costLine: tryNote,
+                    onCheck: actions.onCheckTry!,
+                    onSkip: actions.onSkipTry ?? actions.onCheckTry!,
+                  )
+                else ...[
+                  // While the explanation is made the key holds its place and shows its spinner: a
+                  // working key, not a grey one that looks broken.
+                  KeyButton(
+                    label: retryHere ? ReviewCopy.tryAgainKey : moveOn,
+                    loading: loading,
+                    onPressed: retryHere ? actions.onRetry : actions.onNext,
+                  ),
+                  if (retryHere) Align(child: KeyButton.quiet(label: moveOn, onPressed: actions.onNext)),
+                ],
               ],
             ),
           ),
@@ -259,15 +321,19 @@ class MistakeView extends StatelessWidget {
   /// (MistakeRepair.jsx): the wait line, the four steps of a landed repair, a failure's notice and
   /// "could not explain". A key review and a set-aside question have no Mobi, as on the website.
   /// He is always the first child here, so he keeps his state from the wait to the repair.
-  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter, String? keyLetter}) {
+  List<Widget> _outcome(BuildContext context, MistakeOutcome? outcome, {String? chosenLetter, String? keyLetter, RetryVerdict? verdict, bool skippedTry = false}) {
     final readKey = StateAction(ReviewCopy.readKey, actions.onReadKey);
-    Widget withMobi(Widget line) => RepairMobi(stepKey: run.current!.item.key, outcome: outcome, beside: line);
+    Widget withMobi(Widget line) => RepairMobi(stepKey: run.current!.item.key, outcome: outcome, beside: line, verdict: verdict, skippedTry: skippedTry);
+    // The verdict, when the phone can already tell it: it leads, with Mobi beside it, and the wait
+    // line or the reason follows under it.
+    final verdictLine = verdict == null ? null : RetryVerdictLine(verdict: verdict, pickLetter: chosenLetter, keyLetter: keyLetter);
     switch (outcome) {
       case null || OutcomeLoading():
+        final wait = RepairWaitLine(key: ValueKey('wait-${run.current!.item.key}'), number: run.current!.item.number);
         return [
           // What is true now, in one line that changes on real elapsed time (8 s, then 45 s), with
           // the website's words and timings. No stage is invented, and nothing is added under it.
-          withMobi(RepairWaitLine(key: ValueKey('wait-${run.current!.item.key}'), number: run.current!.item.number)),
+          if (verdictLine != null) ...[withMobi(verdictLine), const SizedBox(height: MmSpace.s12), wait] else withMobi(wait),
           const SizedBox(height: MmSpace.s16),
           // The placeholder is only a shape: the wait line above is what a screen reader hears.
           ExcludeSemantics(
@@ -285,7 +351,14 @@ class MistakeView extends StatelessWidget {
         return [
           // A repair made earlier and opened again is repaired too: its thread is simply there,
           // with no draw, since nothing new happened.
-          withMobi(StageMoment(repaired: reopened || (run.current?.countsAsRepaired ?? false), animate: !reopened)),
+          if (verdictLine != null) ...[
+            withMobi(verdictLine),
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s16),
+              child: StageMoment(repaired: run.current?.countsAsRepaired ?? false, animate: true),
+            ),
+          ] else
+            withMobi(StageMoment(repaired: reopened || (run.current?.countsAsRepaired ?? false), animate: !reopened)),
           if (response.explanation != null)
             WorkedExplanation(
               explanation: response.explanation!,

@@ -34,6 +34,26 @@ abstract final class NotificationsCopy {
   static const String promptOptionalLine =
       'Studying works the same without reminders. Turn on only the kinds you want.';
 
+  // The invitation on You and the Notifications row in the Account sheet, while reminders are
+  // off. The first ask says what is off; later returns use the wordings above, one each time.
+  static const String inviteTitle = 'Reminders are off';
+  static const String inviteLine = 'One nudge on your study days. Never in a paper.';
+  static const String inviteTurnOn = 'Turn on';
+  static const String inviteTurnOnLabel = 'Turn on reminders';
+  static const String inviteNotNow = 'Not now';
+  static const String inviteOpenSettings = 'Open settings';
+  static const String inviteBlockedLine =
+      "Android is blocking MockMob's notifications. Turn them on in Settings.";
+  static const String inviteRefused = 'Android said no. You can turn them on in Settings later.';
+  static const String inviteOnPlain = 'Reminders are on.';
+  static String inviteOnNext(String when) => 'Reminders are on. Next: $when.';
+
+  // The Notifications row in the Account sheet.
+  static const String rowOff = 'Off';
+  static const String rowOn = 'On';
+  static const String rowBlocked = 'Blocked in Android settings';
+  static String rowNext(String when) => 'Next: $when';
+
   // After Android stopped showing its own question: the key opens its settings instead.
   static const String promptOpenSettings = 'Open settings';
   static const String promptBlockedNote =

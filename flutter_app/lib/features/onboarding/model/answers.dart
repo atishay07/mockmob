@@ -2,9 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../../../core/models/my_colleges.dart' show MyColleges;
 import '../data/du_catalog.dart';
 import '../data/subjects.dart';
 import 'choices.dart';
+
+/// The most colleges the sheet holds: the same limit as My colleges, which the picks move into
+/// after sign-in.
+const int kMaxColleges = MyColleges.maxColleges;
 
 /// The single real question, as answered.
 @immutable
@@ -72,7 +77,8 @@ class OnboardingAnswers {
   /// "Not sure yet" on the course step.
   final bool courseUndecided;
 
-  /// Up to three colleges (full names as DU prints them).
+  /// Up to [kMaxColleges] colleges in the order picked (full names as DU prints them); the first
+  /// three are the ones Today shows.
   final List<String> colleges;
   final bool openToAny;
 
@@ -251,7 +257,8 @@ class OnboardingAnswers {
       stage: Stage.byName(j['stage'] as String?),
       courseId: DuCatalog.course(course) == null ? null : course,
       courseUndecided: j['courseUndecided'] == true,
-      colleges: strings(j['colleges']).take(3).toList(),
+      // Sheets stored before the limit rose to eight hold at most three; both read the same.
+      colleges: strings(j['colleges']).toSet().take(kMaxColleges).toList(),
       openToAny: j['openToAny'] == true,
       category: category ?? DuCatalog.defaultCategory,
       subjects: [for (final id in strings(j['subjects'])) ?SheetSubject.byId(id)],

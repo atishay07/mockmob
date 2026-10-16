@@ -21,12 +21,15 @@ import '../data/mistake_index.dart';
 import '../data/review_providers.dart';
 import '../data/review_seen.dart';
 import '../widgets/mistake_map.dart';
-import '../revise/revise_entry.dart';
+import '../widgets/next_from_mock.dart';
+import '../again/review_again_copy.dart';
+import '../again/review_again_entry.dart';
 import '../widgets/record_entry.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_rows.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_layout.dart';
+import '../widgets/review_load_failure.dart';
 import '../widgets/review_state_view.dart';
 import '../widgets/review_status.dart';
 import '../widgets/tonight_card.dart';
@@ -73,27 +76,29 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     final attempts = inputs.attempts;
     final pad = MediaQuery.paddingOf(context);
 
+    // A scene on screen (the empty state, the all-clear hero, the load failure) carries the one
+    // Mobi, so the Ask pill's face steps aside.
+    final sceneMobi = index == null
+        ? attemptsReadFailed(attempts)
+        : (index.attempts.isEmpty && inputs.unopened.isEmpty) ||
+            (index.tonight == null && index.openGroups.isEmpty && (index.hasAnyMistake || index.attempts.isNotEmpty));
+
     // The offline line lives in the header row, which is tall enough for it: nothing below moves.
     final header = Padding(
       padding: const EdgeInsets.fromLTRB(ReviewSpace.gutter, MmSpace.s8, ReviewSpace.gutter, MmSpace.s16),
       child: AccountLeading(child: ReviewTabHeader(
         title: ReviewCopy.title,
-        notice: attempts.isStale ? HeaderNotice.offline : null,
+        notice: attempts.isStale ? HeaderNotice.forFailure(offline: attempts.error?.isOffline ?? false) : null,
         // Ask answers from the record, so it lives here (DOCK.md 6), not on the bar or the Start sheet.
         onAsk: () => context.push(AppRoutes.ask),
+        showMobi: !sceneMobi,
       )),
     );
 
     Widget body;
     if (index == null) {
-      if (attempts.isFailedEmpty) {
-        final offline = attempts.error?.isOffline ?? false;
-        body = ReviewStateView(
-          kind: offline ? StateViewKind.offline : StateViewKind.error,
-          title: offline ? ReviewCopy.offlineTitle : ReviewCopy.loadErrorTitle,
-          message: offline ? ReviewCopy.offlineMessage : ReviewCopy.loadErrorMessage,
-          primary: StateAction(ReviewCopy.tryAgainKey, _refresh),
-        );
+      if (attemptsReadFailed(attempts)) {
+        body = ReviewLoadFailure(attempts: attempts, onRetry: _refresh);
       } else {
         body = const _ReviewSkeleton();
       }
@@ -170,9 +175,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
           child: ReviewStateView(
             kind: StateViewKind.empty,
             pose: MobiPose.read,
+            pointAtKey: true,
             title: ReviewCopy.emptyTitle,
             message: ReviewCopy.emptyMessage,
-            primary: StateAction(ReviewCopy.emptyAction, () => context.go(AppRoutes.practice)),
+            primary: StateAction(ReviewCopy.emptyAction, () => startQuickTen(context)),
           ),
         ),
       ];
@@ -214,7 +220,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
             _AllClear(
               setAside: index.setAsideCount,
               repaired: index.repairedCount,
-              onStart: () => context.push(Uri(path: AppRoutes.practiceSetup('quick'), queryParameters: {'count': '10'}).toString()),
+              onStart: () => startQuickTen(context),
+              onReviewAgain: () => context.push(ReviewAgainCopy.path),
             ),
           ),
         ),
@@ -245,17 +252,22 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         ),
       ] else
         ..._historySection(context, index, records, mocks, clock, ruled: true),
-      // The record's numbers and the saved questions (the website's analytics and saved pages).
-      item(belowAt, gutter(const ReviewInsightsRows(), top: ReviewSpace.section)),
-      // The Rule book, under the record and the saved questions (Mistake Lab v4 slice 3).
+      // The rows under both sides: Review again first, because it is the one that is an action and
+      // not a page to read (it opens Revise when Revise has cards due), then the record's numbers
+      // and the saved questions (the website's analytics and saved pages), then the Rule book.
       item(
         belowAt,
         gutter(
           Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            // Revise (slice 4) opens under the Rule book once its read arrives, and stays out for a student with no card.
-            children: [Divider(height: 1, color: context.mmColors.line), const RulesEntry(), const ReviseEntry()],
+            children: [
+              const ReviewAgainRow(),
+              const ReviewInsightsRows(),
+              Divider(height: 1, color: context.mmColors.line),
+              const RulesEntry(),
+            ],
           ),
+          top: ReviewSpace.section,
         ),
       ),
     ];
@@ -296,8 +308,18 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     Widget gutter(Widget child, {double top = 0}) =>
         Padding(padding: EdgeInsets.fromLTRB(ReviewSpace.gutter, top, ReviewSpace.gutter, 0), child: child);
     final shown = records.take(2).toList();
+    final latestMock = mocks.isEmpty ? null : mocks.first;
     return [
-      gutter(SectionHeading(ReviewCopy.recordHeading, rule: ruled), top: ruled ? ReviewSpace.section : ReviewSpace.group),
+      // The SWOT's next step after the latest mock (only when its read is ready with a plan).
+      if (latestMock != null)
+        gutter(
+          NextFromMockBlock(attemptId: latestMock.id, label: sourceLabel(index.attempts, latestMock)),
+          top: ruled ? ReviewSpace.section : ReviewSpace.group,
+        ),
+      gutter(
+        SectionHeading(ReviewCopy.recordHeading, rule: ruled || latestMock != null),
+        top: latestMock != null ? ReviewSpace.group : (ruled ? ReviewSpace.section : ReviewSpace.group),
+      ),
       if (records.isEmpty)
         gutter(Text(ReviewCopy.recordPreviewEmpty, style: context.mmType.body.copyWith(color: context.mmColors.ink2)))
       else ...[
@@ -379,18 +401,22 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 /// repaired one), the title is its small caption, Mobi reads at its right (the one character on
 /// this screen), and the one volt key starts the next Quick 10, because that is the next step.
 class _AllClear extends StatelessWidget {
-  const _AllClear({this.setAside = 0, this.repaired = 0, required this.onStart});
+  const _AllClear({this.setAside = 0, this.repaired = 0, required this.onStart, required this.onReviewAgain});
 
   /// Questions waiting on an answer-key check: they are not repaired, so the hero says so.
   final int setAside;
   final int repaired;
   final VoidCallback onStart;
 
+  /// The key when something was repaired: ask those again, with the key hidden.
+  final VoidCallback onReviewAgain;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    const mobi = Mobi(pose: MobiPose.read, size: 96, motion: MobiMotion.settle);
+    // Proud once something was repaired; reading otherwise. The one Mobi of the screen.
+    final mobi = Mobi(pose: repaired > 0 ? MobiPose.proud : MobiPose.read, size: 96, motion: MobiMotion.settle);
     return MmSurface.hero(
       lit: true,
       padding: const EdgeInsets.all(ReviewSpace.heroPad),
@@ -437,7 +463,11 @@ class _AllClear extends StatelessWidget {
             style: type.lead.copyWith(color: colors.ink2),
           ),
           const SizedBox(height: MmSpace.s16),
-          KeyButton(label: ReviewCopy.allClearAction, onPressed: onStart),
+          // Review again when there is a repaired mistake to ask once more; otherwise a fresh set.
+          KeyButton(
+            label: repaired > 0 ? ReviewAgainCopy.title : ReviewCopy.allClearAction,
+            onPressed: repaired > 0 ? onReviewAgain : onStart,
+          ),
         ],
       ),
     );

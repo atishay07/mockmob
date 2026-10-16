@@ -85,7 +85,7 @@ void main() {
     await _tap(tester, OnboardingCopy.next);
 
     expect(find.text(OnboardingCopy.subjectsTitle), findsOneWidget);
-    expect(find.text('This set keeps B.Com (Hons) open.'), findsOneWidget);
+    expect(find.text('Your 4 subjects open B.Com (Hons) at your college.'), findsOneWidget);
     await _tap(tester, OnboardingCopy.next);
 
     await _tap(tester, Worry.knewIt.option);

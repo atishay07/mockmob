@@ -25,6 +25,7 @@ import '../data/review_providers.dart';
 import '../widgets/ending_sheet.dart';
 import '../widgets/foil_burst.dart';
 import '../widgets/life_row.dart';
+import '../again/review_again_copy.dart';
 import '../widgets/review_bits.dart' show FlushKey;
 import '../widgets/review_layout.dart';
 import '../widgets/review_moment.dart';
@@ -211,6 +212,10 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
     // mistakes Review still has open, from the run itself.
     final run = ref.read(repairRunProvider(widget.attemptId));
     final retry = retryQuestionIds(run, index);
+    final reviewAgainKeys = [
+      for (final step in run?.steps ?? const <RepairStep>[])
+        if (step.countsAsRepaired) step.item.key,
+    ];
     // The fired moment takes the receipt's place and, for a first repair, says so with its own
     // sentence and Mobi hop; the screen then leaves those out rather than say them twice.
     final scope = CelebrationScope.repair(widget.attemptId);
@@ -278,6 +283,15 @@ class _RepairEndingScreenState extends ConsumerState<RepairEndingScreen> with Ti
             ),
           ] else
             KeyButton(label: ReviewCopy.finishFor(clock.now()), onPressed: _finish),
+          // The mistakes repaired in this run, asked once more with the key hidden: a quiet way on,
+          // under the keys, never a second volt key.
+          if (reviewAgainKeys.isNotEmpty)
+            Align(
+              child: KeyButton.quiet(
+                label: ReviewAgainCopy.reviewThese,
+                onPressed: () => context.push(Uri(path: ReviewAgainCopy.path, queryParameters: {'keys': reviewAgainKeys.join(',')}).toString()),
+              ),
+            ),
         ],
       ),
     );

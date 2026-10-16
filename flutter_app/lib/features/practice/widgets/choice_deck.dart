@@ -186,11 +186,19 @@ class ChoiceDeck extends StatelessWidget {
     var slot = 0;
     for (var i = 0; i < rows.length; i++) {
       if (i > 0) children.add(SizedBox(height: rows[i] is BandRow || rows[i - 1] is BandRow ? MmSpace.s24 : gap));
-      children.add(_row(rows[i], slot));
+      // Keyed by what the row holds, so a row that arrives later (Smart practice once its quote
+      // answers) never makes the rows after it rebuild and rise again.
+      children.add(KeyedSubtree(key: ValueKey('row-${_rowId(rows[i])}'), child: _row(rows[i], slot)));
       slot += rows[i] is BandRow ? (rows[i] as BandRow).rows.length + 1 : 1;
     }
     return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: children);
   }
+
+  static String _rowId(ChoiceRow row) => switch (row) {
+    LeadRow(:final option) || WideRow(:final option) || QuietRow(:final option) => option.id ?? option.title,
+    PairRow(:final first) => first.id ?? first.title,
+    BandRow(:final title) => 'band:$title',
+  };
 
   Widget _rise(int slot, Widget child) => animateIn ? _Rise(delay: startDelay + stagger * slot, child: child) : child;
 
@@ -425,13 +433,29 @@ Widget _facts(List<String> facts) =>
 
 /// The note text, reserving [lines] lines when asked so a later, longer note never moves the
 /// rows below.
+///
+/// A note that changes (a new subject's facts, a gate that lifts) cross-fades in place over 200 ms
+/// and the card's height eases: same modes, new facts, nothing rises again (brief 2.8).
 Widget _note(BuildContext context, String note, TextStyle style, int? lines) {
-  final text = Text(note, style: style);
-  if (lines == null || lines <= 1) return text;
+  final text = Text(note, style: style, key: ValueKey(note));
+  final duration = Motion.of(context, Motion.ui);
+  final swapped = MmSizeEase(
+    duration: duration,
+    curve: Motion.out,
+    alignment: Alignment.topLeft,
+    child: AnimatedSwitcher(
+      duration: duration,
+      switchInCurve: Motion.glide,
+      switchOutCurve: Motion.exit,
+      layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
+      child: text,
+    ),
+  );
+  if (lines == null || lines <= 1) return swapped;
   final line = MediaQuery.textScalerOf(context).scale(style.fontSize! * style.height!);
   return ConstrainedBox(
     constraints: BoxConstraints(minHeight: line * lines),
-    child: text,
+    child: swapped,
   );
 }
 

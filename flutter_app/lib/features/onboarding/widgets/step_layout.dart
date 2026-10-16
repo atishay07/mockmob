@@ -19,6 +19,7 @@ class StepLayout extends StatelessWidget {
     this.scroll = true,
     this.titleKey,
     this.endInset = fade + MmSpace.s8,
+    this.hideBottomForKeyboard = true,
   });
 
   final String title;
@@ -36,6 +37,10 @@ class StepLayout extends StatelessWidget {
   /// clear of the fade and the key. A step whose answers end in a row of tiles takes more
   /// ([tileEndInset]).
   final double endInset;
+
+  /// While the keyboard is up, the pinned key steps out of the way (it would sit on the keyboard and
+  /// take the room the answers need). Only a step with a text field is ever in this state.
+  final bool hideBottomForKeyboard;
 
   /// The end inset of a step whose last answers are tiles (the rhythm step's times).
   static const double tileEndInset = 72;
@@ -80,6 +85,7 @@ class StepLayout extends StatelessWidget {
       ),
     );
 
+    final keyboardOpen = hideBottomForKeyboard && (MediaQuery.viewInsetsOf(context).bottom > 0 || View.of(context).viewInsets.bottom > 0);
     final content = scroll
         ? SingleChildScrollView(
             // Clear of the fade above the pinned key, so the last choice can scroll fully clear.
@@ -93,7 +99,7 @@ class StepLayout extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(child: bottom == null ? content : _FadeWhenMore(child: content)),
-          if (bottom != null)
+          if (bottom != null && !keyboardOpen)
             Padding(
               padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s12),
               child: EntranceItem(at: Entrance.key, child: bottom!),

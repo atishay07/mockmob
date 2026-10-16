@@ -18,12 +18,14 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/bar/bar_badges.dart';
+import 'package:mockmob/core/widgets/account/account_avatar.dart' show AccountAvatarButton;
 import 'package:mockmob/core/widgets/bar/mm_bar.dart';
 import 'package:mockmob/features/account_access/access_routes.dart';
 import 'package:mockmob/features/account_access/screens/forgot_password_screen.dart';
 import 'package:mockmob/features/account_access/screens/password_sign_in_screen.dart';
 import 'package:mockmob/features/account_access/screens/phone_screens.dart';
 import 'package:mockmob/features/account_access/screens/set_password_screen.dart';
+import 'package:mockmob/features/account_sheet/account_sheet.dart' show AccountSheet;
 import 'package:mockmob/features/practice/practice_setup_screen.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 
@@ -148,6 +150,7 @@ void main() {
     expect(_tab('Practice'), findsOneWidget);
     expect(_tab('Start'), findsOneWidget, reason: 'the volt key in the middle slot');
     expect(_tab('Review'), findsOneWidget);
+    expect(_tab('Colleges'), findsOneWidget, reason: 'Colleges is a place on the bar (app-ia D1, L32)');
     expect(_tab('You'), findsOneWidget, reason: 'You is a place on the bar (DOCK.md option A)');
     expect(_tab('Learn'), findsNothing, reason: 'Learn is no longer a tab');
   });
@@ -295,6 +298,63 @@ void main() {
     expect(event?.tabIndex, 2);
   });
 
+  _test('/colleges is the fourth tab with the bar and the avatar; /tools redirects to it', (tester) async {
+    final container = await _pump(tester);
+    final router = _router(container);
+    await tester.tap(_tab('Colleges'));
+    await _settle(tester);
+    expect(_location(container), AppRoutes.colleges);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+    expect(find.byType(AccountAvatarButton), findsOneWidget, reason: 'the avatar on every tab root');
+
+    router.go(AppRoutes.today);
+    await _settle(tester);
+    router.go(AppRoutes.tools);
+    await _settle(tester);
+    expect(_location(container), AppRoutes.colleges, reason: '/tools is the Colleges tab now');
+
+    // The tool pages keep their paths, cover the bar, and Back returns to the tab.
+    unawaited(router.push(AppRoutes.toolsCompass));
+    await _settle(tester);
+    expect(find.byType(CompassScreen), findsOneWidget);
+    expect(find.byType(MmBottomBar), findsNothing);
+    await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(_location(container), AppRoutes.colleges);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+
+    // Back from Colleges goes to Today, as from every tab.
+    final handled = await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(handled, isTrue);
+    expect(_location(container), AppRoutes.today);
+  });
+
+  _test('a link to a CUET tool opens it over Colleges, so Back never leaves the app (L04)', (tester) async {
+    final container = await _pump(tester);
+    final router = _router(container);
+    openNativeLocation(router, AppRoutes.toolsCompass);
+    await _settle(tester);
+    expect(find.byType(CompassScreen), findsOneWidget);
+    final handled = await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(handled, isTrue);
+    expect(_location(container), AppRoutes.colleges);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+  });
+
+  _test('/you?account=1 (the website profile) lands on You with the account sheet open', (tester) async {
+    final container = await _pump(tester);
+    _router(container).go(AppRoutes.youWithAccount);
+    await _settle(tester);
+    expect(_location(container), AppRoutes.you, reason: 'the query is dropped');
+    expect(find.byType(AccountSheet), findsOneWidget);
+    await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(find.byType(AccountSheet), findsNothing, reason: 'Back closes the sheet first');
+    expect(_location(container), AppRoutes.you);
+  });
+
   _test('back from another tab goes to Today, then exits', (tester) async {
     final container = await _pump(tester);
     await tester.tap(_tab('Review'));
@@ -395,11 +455,12 @@ void main() {
     expect(_location(container), '/result/att9');
   });
 
-  _test('the tabs count to four and carry no badge by default', (tester) async {
+  _test('the tabs count to five and carry no badge by default', (tester) async {
     final container = await _pump(tester);
     final handle = tester.ensureSemantics();
-    expect(find.bySemanticsLabel('Review, tab 3 of 4'), findsOneWidget);
-    expect(find.bySemanticsLabel('You, tab 4 of 4'), findsOneWidget);
+    expect(find.bySemanticsLabel('Review, tab 3 of 5'), findsOneWidget);
+    expect(find.bySemanticsLabel('Colleges, tab 4 of 5'), findsOneWidget);
+    expect(find.bySemanticsLabel('You, tab 5 of 5'), findsOneWidget);
     expect(find.bySemanticsLabel(MmBottomBar.startSemanticsLabel), findsOneWidget);
     handle.dispose();
     expect(container.read(barBadgesProvider), BarBadges.none);
@@ -511,10 +572,8 @@ void main() {
     _test('Practise from Compass opens setup over it, and Back returns to Compass', (tester) async {
       final container = await _pump(tester);
       final router = _router(container);
-      // The way in from the app: Practice, then the tools hub, then Compass.
+      // The way in from the app: Practice's More row opens Compass directly.
       router.go(AppRoutes.practice);
-      await _settle(tester);
-      unawaited(router.push(AppRoutes.tools));
       await _settle(tester);
       unawaited(router.push(AppRoutes.toolsCompass));
       await _settle(tester);
@@ -534,10 +593,7 @@ void main() {
       expect(find.byType(CompassScreen), findsOneWidget);
       expect(find.byType(PracticeSetupScreen), findsNothing);
 
-      // Compass and the hub are still stacked over Practice.
-      await tester.binding.handlePopRoute();
-      await _settle(tester);
-      expect(top(container), AppRoutes.tools);
+      // Compass is still stacked over Practice.
       await tester.binding.handlePopRoute();
       await _settle(tester);
       expect(top(container), AppRoutes.practice);

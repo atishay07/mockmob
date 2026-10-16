@@ -14,6 +14,7 @@ import '../widgets/mistake_map.dart';
 import '../widgets/page_header.dart';
 import '../widgets/review_bits.dart';
 import '../widgets/review_layout.dart';
+import '../widgets/review_load_failure.dart';
 import '../widgets/review_rows.dart';
 import '../widgets/review_state_view.dart';
 import '../widgets/review_status.dart';
@@ -34,13 +35,8 @@ class MistakesScreen extends ConsumerWidget {
 
     Widget body;
     if (index == null) {
-      body = inputs.attempts.isFailedEmpty
-          ? ReviewStateView(
-              kind: (inputs.attempts.error?.isOffline ?? false) ? StateViewKind.offline : StateViewKind.error,
-              title: ReviewCopy.loadErrorTitle,
-              message: ReviewCopy.loadErrorMessage,
-              primary: StateAction(ReviewCopy.tryAgainKey, () => ref.read(attemptsRepositoryProvider.notifier).refresh(force: true)),
-            )
+      body = attemptsReadFailed(inputs.attempts)
+          ? ReviewLoadFailure(attempts: inputs.attempts, onRetry: () => ref.read(attemptsRepositoryProvider.notifier).refresh(force: true))
           : Center(
               child: Semantics(label: ReviewCopy.loadingMistakes, liveRegion: true, child: MmSpinner(color: context.mmColors.ink2)),
             );
@@ -51,7 +47,8 @@ class MistakesScreen extends ConsumerWidget {
         scene: index.attempts.isEmpty ? null : StateScene.allClear,
         title: index.attempts.isEmpty ? ReviewCopy.emptyTitle : ReviewCopy.allClearTitle,
         message: index.attempts.isEmpty ? ReviewCopy.emptyMessage : ReviewCopy.allClearMessage,
-        primary: index.attempts.isEmpty ? StateAction(ReviewCopy.emptyAction, () => context.go(AppRoutes.practice)) : null,
+        pointAtKey: index.attempts.isEmpty,
+        primary: index.attempts.isEmpty ? StateAction(ReviewCopy.emptyAction, () => startQuickTen(context)) : null,
       );
     } else {
       final open = index.openGroups;
@@ -149,7 +146,7 @@ class MistakesScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            PageHeader(title: ReviewCopy.mistakesTitle, notice: index != null && inputs.attempts.isStale ? HeaderNotice.offline : null),
+            PageHeader(title: ReviewCopy.mistakesTitle, notice: index != null && inputs.attempts.isStale ? HeaderNotice.forFailure(offline: inputs.attempts.error?.isOffline ?? false) : null),
             Expanded(child: body),
           ],
         ),

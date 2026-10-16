@@ -7,14 +7,20 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// "Offline. Showing last loaded data." as a legible 14 sp line with its glyph, living inside a
+/// "Offline. Showing what is saved on this phone." as a legible 14 sp line with its glyph, living inside a
 /// header row that is already tall enough for it: it adds no height, so nothing below it moves
 /// when the phone goes offline and comes back.
 class HeaderNotice extends StatelessWidget {
   const HeaderNotice(this.message, {super.key});
 
   /// What the offline header says.
-  static const offline = 'Offline. Showing last loaded data.';
+  static const offline = ReviewCopy.savedOffline;
+
+  /// Online, but the last refresh failed: the saved record is on screen.
+  static const refreshFailed = ReviewCopy.savedRefreshFailed;
+
+  /// The line for a failed read over a saved copy ([offline]: the phone has no connection).
+  static String forFailure({required bool offline}) => offline ? ReviewCopy.savedOffline : ReviewCopy.savedRefreshFailed;
 
   final String message;
 
@@ -40,13 +46,17 @@ class HeaderNotice extends StatelessWidget {
 /// screen is the last loaded copy, the offline line under the title. The row keeps the 56 dp every
 /// tab root has, so the line costs no height.
 class ReviewTabHeader extends StatelessWidget {
-  const ReviewTabHeader({super.key, required this.title, this.notice, this.onAsk});
+  const ReviewTabHeader({super.key, required this.title, this.notice, this.onAsk, this.showMobi = true});
 
   final String title;
   final String? notice;
 
   /// Opens Ask Mobi. Null leaves the header as a title alone (the loading and error states).
   final VoidCallback? onAsk;
+
+  /// Mobi's face in the Ask pill (20 dp, at rest). Off while a scene on screen carries the one
+  /// Mobi of the screen (the empty state, the all-clear hero, a load failure).
+  final bool showMobi;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +75,7 @@ class ReviewTabHeader extends StatelessWidget {
               ],
             ),
           ),
-          if (onAsk != null) ...[const SizedBox(width: MmSpace.s12), _AskPill(onTap: onAsk!)],
+          if (onAsk != null) ...[const SizedBox(width: MmSpace.s12), _AskPill(onTap: onAsk!, showMobi: showMobi)],
         ],
       ),
     );
@@ -75,9 +85,10 @@ class ReviewTabHeader extends StatelessWidget {
 /// "Ask Mobi" in the Review header: a ghost pill (a 1 dp line, no fill, so the one volt key on the
 /// screen stays the hero's), drawn 40 dp tall and answering a finger anywhere in a 48 dp box.
 class _AskPill extends StatelessWidget {
-  const _AskPill({required this.onTap});
+  const _AskPill({required this.onTap, this.showMobi = true});
 
   final VoidCallback onTap;
+  final bool showMobi;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +114,16 @@ class _AskPill extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ExcludeSemantics(child: Icon(LucideIcons.messageCircle, size: 16, color: colors.ink)),
+                  // Mobi is who answers, so his face leads the pill (excluded from semantics: the
+                  // label says "Ask Mobi"). Where a scene carries him instead, the chat glyph stays.
+                  ExcludeSemantics(
+                    child: showMobi
+                        ? const SizedBox.square(
+                            dimension: 24,
+                            child: MobiCharacter(size: 24, head: true, shadow: false, watchTaps: false, entrance: MobiAct.idle),
+                          )
+                        : Icon(LucideIcons.messageCircle, size: 16, color: colors.ink),
+                  ),
                   const SizedBox(width: MmSpace.s8),
                   Text(ReviewCopy.askKey, style: type.labelLarge.copyWith(color: colors.ink)),
                 ],

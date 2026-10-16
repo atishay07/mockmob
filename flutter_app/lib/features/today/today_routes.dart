@@ -6,15 +6,15 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../insights/insights_routes.dart' show InsightsCard;
-import '../tools/tools_routes.dart' show ToolsQuietLink;
 import 'screens/alternatives_sheet.dart';
 import 'screens/today_screen.dart';
 import 'screens/weekly_ending_page.dart';
 import 'screens/why_sheet.dart';
 
-/// Today with the record's top finding under the hero and the quiet CUET tools link under the road.
+/// Today with the record's top finding under the hero. The CUET tools link under the road is gone:
+/// Colleges is a tab of its own and Today ends on the Your colleges card (IA 5.2).
 Widget todayScreen(BuildContext context, GoRouterState state) =>
-    const TodayScreen(insights: InsightsCard(), roadFooter: ToolsQuietLink());
+    const TodayScreen(insights: InsightsCard());
 
 Widget todayWhyScreen(BuildContext context, GoRouterState state) =>
     WhySheet(key: ValueKey(state.uri.toString()), attemptId: state.pathParameters['actionId'] ?? '');

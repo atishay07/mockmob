@@ -5,6 +5,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/tools/colleges/check_score_sheet.dart';
+import 'package:mockmob/features/tools/colleges/colleges_screen.dart';
 import 'package:mockmob/features/tools/combo/combo_screen.dart';
 import 'package:mockmob/features/tools/domain/du_combos.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
@@ -193,5 +195,74 @@ void main() {
       myColleges: FakeMyColleges(readError: const ApiError(kind: ApiErrorKind.network, code: 'network'), cached: fourColleges.take(3).toList()),
     ),
     interact: openSheet,
+  );
+
+  // The Colleges tab (390 dp): a full list with figures, the empty state, the chooser on a course,
+  // the chooser searching "bcom", the list in edit mode, and Check a score.
+  const phone = Size(390, 844);
+  Future<void> settleData(WidgetTester tester) async {
+    for (var i = 0; i < 3; i++) {
+      await tester.pumpAndSettle();
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 60)));
+    }
+    await tester.pumpAndSettle();
+  }
+
+  Widget openerOn(MyCollegesEntry entry, {String? programmeId}) => Builder(
+        builder: (context) => Scaffold(
+          body: Center(child: TextButton(onPressed: () => showMyCollegesSheet(context, entry: entry, programmeId: programmeId), child: const Text('open'))),
+        ),
+      );
+  Future<void> openAndSettle(WidgetTester tester) async {
+    await tester.tap(find.text('open'));
+    await settleData(tester);
+  }
+
+  sheetGolden(
+    'colleges_full',
+    () => const CollegesScreen(),
+    size: const Size(390, 1500),
+    overrides: () => toolsOverrides(myColleges: FakeMyColleges(start: fourColleges), prefs: savedCompass('english,accountancy,business_studies,economics', score: '640')),
+    interact: settleData,
+  );
+  sheetGolden(
+    'colleges_no_estimate',
+    () => const CollegesScreen(),
+    size: phone,
+    overrides: () => toolsOverrides(myColleges: FakeMyColleges(start: fourColleges)),
+    interact: settleData,
+  );
+  sheetGolden('colleges_empty', () => const CollegesScreen(), size: phone, overrides: () => toolsOverrides(myColleges: FakeMyColleges()), interact: settleData);
+  sheetGolden(
+    'chooser_course_ladder',
+    () => openerOn(MyCollegesEntry.chooser, programmeId: 'b-com-hons'),
+    size: phone,
+    overrides: () => toolsOverrides(myColleges: FakeMyColleges(start: fourColleges)),
+    interact: openAndSettle,
+  );
+  sheetGolden(
+    'chooser_programmes_query_bcom',
+    () => openerOn(MyCollegesEntry.chooser),
+    size: phone,
+    overrides: () => toolsOverrides(myColleges: FakeMyColleges()),
+    interact: (tester) async {
+      await openAndSettle(tester);
+      await tester.enterText(find.byType(TextField), 'bcom');
+      await settleData(tester);
+    },
+  );
+  sheetGolden(
+    'my_colleges_list_edit',
+    () => openerOn(MyCollegesEntry.list),
+    size: phone,
+    overrides: () => toolsOverrides(myColleges: FakeMyColleges(start: fourColleges)),
+    interact: openAndSettle,
+  );
+  sheetGolden(
+    'check_score_sheet',
+    () => const Scaffold(body: SafeArea(child: SingleChildScrollView(padding: EdgeInsets.all(20), child: CheckScoreSheet(initialScore: '600-650')))),
+    size: phone,
+    overrides: () => toolsOverrides(myColleges: FakeMyColleges(start: fourColleges)),
+    interact: settleData,
   );
 }

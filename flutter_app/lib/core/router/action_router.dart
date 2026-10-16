@@ -93,6 +93,12 @@ abstract final class ActionRouter {
   /// A whole number from 1 to 999: a repair's `count`, a question number.
   static final RegExp _positive = RegExp(r'^[1-9]\d{0,2}$');
 
+  /// A score for Check a score: one figure (612) or a range (600-650), each at most 3 digits.
+  static final RegExp _score = RegExp(r'^[1-9]\d{0,2}(-[1-9]\d{0,2})?$');
+
+  /// A reservation category for Check a score (UR, OBC-NCL, EWS, SC, ST, PwBD).
+  static final RegExp _category = RegExp(r'^[A-Za-z][A-Za-z-]{0,11}$');
+
   /// The only `purpose` values a link may claim: the two first-use allowances
   /// (`PracticeLink.allowedPurpose` applies the same rule when the screen reads them).
   static const Set<String> _purposes = {'baseline', 'full_sample'};
@@ -182,8 +188,11 @@ abstract final class ActionRouter {
           final mode = q['mode'];
           return mode == null ? AppRoutes.practice : _setup(mode, q);
         }
-      case 'recovery' || 'progress':
+      case 'recovery':
         if (s.length == 1) return AppRoutes.review;
+      // Milestones and personal bests live on You (app-ia-1016.md 8.3).
+      case 'progress':
+        if (s.length == 1) return AppRoutes.you;
       case 'study':
         if (s.length == 2) return _id.hasMatch(s[1]) ? AppRoutes.learnRun(s[1]) : _reject;
       case 'result':
@@ -196,14 +205,18 @@ abstract final class ActionRouter {
         if (s.length == 1) return AppRoutes.reviewInsights;
       case 'mentor':
         if (s.length == 1) return q['tab'] == 'ask' ? _ask(q) : AppRoutes.reviewInsights;
-      case 'admission-compass' || 'cuet-cutoff-calculator':
+      case 'admission-compass':
         if (s.length == 1) return AppRoutes.toolsCompass;
+      // The calculator is Check a score on the Colleges tab.
+      case 'cuet-cutoff-calculator':
+        if (s.length == 1) return AppRoutes.collegesCutoff;
       case 'cuet-subject-combination':
         if (s.length == 1) return AppRoutes.toolsCombo;
       case 'cuet-2027':
         if (s.length == 1) return AppRoutes.toolsGuide2027;
+      // The website's Account page is the app's account sheet, opened over You.
       case 'profile':
-        if (s.length == 1) return AppRoutes.you;
+        if (s.length == 1) return AppRoutes.youWithAccount;
       case 'onboarding':
         if (s.length == 1 && q['edit'] == 'true') return AppRoutes.youSubjects;
     }
@@ -231,6 +244,15 @@ abstract final class ActionRouter {
       return _word.hasMatch(s[2]) ? _setup(s[2], q) : path;
     }
     if (path == AppRoutes.practiceStart) return _start(q);
+    if (path == AppRoutes.you) return q['account'] == '1' ? AppRoutes.youWithAccount : path;
+    if (path == AppRoutes.collegesCutoff) {
+      final score = q['score'];
+      final category = q['category'];
+      return AppRoutes.collegesCutoffWith(
+        score: score != null && _score.hasMatch(score) ? score : null,
+        category: category != null && _category.hasMatch(category) ? category : null,
+      );
+    }
     if (path == AppRoutes.practiceStream) return _stream(q);
     if (path == AppRoutes.ask) return _ask(q);
     if (path == AppRoutes.examNta) {

@@ -19,7 +19,11 @@ import 'milestone_track_card.dart' show engravingOf;
 /// that is not next yet.
 ({String label, String location})? stepAction(MilestoneStep step) => switch (step.id) {
       'first_scored_session' || 'sessions_10' => (label: RhythmCopy.startSet, location: AppRoutes.practiceStart),
-      'first_full_mock' => (label: RhythmCopy.stepActionFullMock, location: AppRoutes.practiceStart),
+      'first_full_mock' || 'full_mocks_5' || 'new_best' => (label: RhythmCopy.stepActionFullMock, location: AppRoutes.practiceStart),
+      'first_nta' => (label: RhythmCopy.stepActionNta, location: AppRoutes.examNta),
+      'clean_set' || 'four_subjects' => (label: RhythmCopy.startSet, location: AppRoutes.practiceStart),
+      'first_hold' => (label: RhythmCopy.stepActionRepair, location: AppRoutes.reviewMistakes),
+      'run_weeks_3' => (label: RhythmCopy.stepActionRhythm, location: AppRoutes.youRhythm),
       'first_repair' || 'repairs_5' || 'repairs_10' || 'repairs_25' => (label: RhythmCopy.stepActionRepair, location: AppRoutes.reviewMistakes),
       'first_week_met' || 'weeks_met_4' => (label: RhythmCopy.stepActionRhythm, location: AppRoutes.youRhythm),
       _ => null,

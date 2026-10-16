@@ -113,7 +113,7 @@ Future<RunnerLoad> _open(String sessionId) async {
 /// Explains the mistake that was asked about, from that question's own key and explanation.
 class _RepairApi implements RepairApi {
   @override
-  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId}) async {
+  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId, int? retryPick}) async {
     await Future<void>.delayed(const Duration(milliseconds: 900));
     final response = demoRepairResponse(demoBook.detail(attemptId), questionId);
     if (response == null) throw const ApiError(status: 404, kind: ApiErrorKind.notFound, code: 'not_found');

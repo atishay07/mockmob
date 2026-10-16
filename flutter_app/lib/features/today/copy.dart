@@ -137,20 +137,35 @@ abstract final class TodayCopy {
   /// A practice key states its length: "Check this skill, 10 questions".
   static String withCount(String label, int count) => '$label, $count questions';
   static const String practiceLength = 'How many questions?';
-  /// The label on the error card: a failed read is not tonight's move.
-  static const String unavailableTitle = 'Your earlier results are still there.';
-  static const String unavailableLine = 'Could not reach MockMob just now.';
+  /// The failure card (L01): its title names what did not load, its body names why. It shows
+  /// only when no attempts are in hand at all; a plan read that failed while the record is on the
+  /// phone never reaches the student (the move is built from the papers instead).
+  static const String failTitle = "Tonight's move did not load";
+  static const String failOfflineTitle = 'You are offline';
 
-  /// What failed, said as it was: a read that came back unreadable, refused or slow is not "could
-  /// not reach MockMob" (the phone did reach it). Without a known cause the general line stands.
+  /// The named cause and what to do, for example "MockMob's server is busy right now. Try again
+  /// in a minute." Without a known cause the general line stands.
   static String unavailableFor(LoadProblem? problem) => switch (problem) {
         null => unavailableLine,
         LoadProblem.offline => unavailableOffline,
         _ => '${problem.sentence} ${problem.advice}',
       };
-  static const String unavailableOffline = 'You are offline. Your record loads again when you reconnect.';
+  static String get unavailableLine => '${LoadProblem.unknown.sentence} ${LoadProblem.unknown.advice}';
+  static const String unavailableOffline = "Tonight's move needs your record. It loads when you reconnect.";
+
+  /// Under the offline card's body: the card is not waiting for a tap.
+  static const String failOfflineWatch = 'Trying again as soon as you reconnect.';
+
+  /// After a Try again that changed nothing: its time changes on every tap, so a repeated tap
+  /// visibly ran (the 5-second snackbar is retired).
+  static String failTried(DateTime at) => 'Tried again at ${formatTime12(at)}. Still not loading.';
+
+  /// The failure card's quiet second action: practice needs no record.
+  static const String practiseAnyway = 'Practise anyway';
+
+  /// Under a skeleton that has waited 8 seconds.
+  static const String stillLoading = 'Still loading. Your connection looks slow.';
   static const String tryAgain = 'Try again';
-  static const String choosePractice = 'Choose practice';
   static const String chooseSomethingElse = 'Choose something else';
   static const String hiddenUntilTomorrow = 'Hidden until tomorrow. Your mistakes are still in Review.';
   static const String connectToStart = 'Needs a connection to start.';
@@ -251,6 +266,72 @@ abstract final class TodayCopy {
 
   // The road.
   static const String roadTitle = 'The road to May';
+
+  // The road as a strip of weeks (L05, app-today-1016 section 8).
+  static const List<String> weekdayShort = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  /// "Mon, Tue, Thu and Sat".
+  static String dayList(Iterable<int> days) {
+    final names = [for (final d in days.toList()..sort()) weekdayShort[d]];
+    if (names.length < 2) return names.join();
+    return '${names.sublist(0, names.length - 1).join(', ')} and ${names.last}';
+  }
+
+  /// The lead figure's study line: "98 study days at 4 a week, 2 in boards weeks."
+  static String studyLine(int days, int goal, {required bool boards}) =>
+      '${plural(days, 'study day')} at $goal a week${boards && goal > 2 ? ', 2 in boards weeks' : ''}.';
+  static const String studyLineNoGoal = 'Pick your study days below to count them.';
+
+  /// The readout over the rail: the selected week in words.
+  static String readThisWeek(int done, int goal) => 'This week: $done of $goal study days done';
+  static String readThisWeekNoGoal(int done) => 'This week: ${plural(done, 'study day')} counted';
+  static const String readThisWeekPaused = 'This week: paused';
+  static String readWeekOf(DateTime start, {int? planned, int? mockNo, int? mockOf, bool boards = false, bool registration = false}) {
+    final parts = <String>[
+      if (planned != null && planned > 0) plural(planned, 'study day'),
+      if (mockNo != null && mockOf != null) 'mock $mockNo of $mockOf',
+      if (boards) 'Class 12 boards',
+      if (registration) 'registration expected',
+    ];
+    return 'Week of ${formatDayMonthShort(start)}${parts.isEmpty ? '' : ': ${parts.join(', ')}'}';
+  }
+  static String readExamWeek(DateTime exam, {required bool own}) =>
+      own ? 'Your date: ${formatDayMonth(exam)}' : 'CUET UG expected from ${formatDayMonth(exam)}';
+  static String weeksToGo(int weeks) => weeks < 1 ? 'This week' : '${plural(weeks, 'week')} to go';
+  static String weeksFromNow(int weeks, {bool boards = false}) =>
+      '${boards ? 'Lighter for boards. ' : ''}${weeks == 1 ? 'Next week' : '$weeks weeks from now'}${boards ? '.' : ''}';
+  static const String readWeekLink = 'Week';
+  static const String railThisA = 'This';
+  static const String railThisB = 'week';
+  static const String railExam = 'CUET UG';
+  static const String railOwnDate = 'Your date';
+  static String railWeekSemantics(DateTime start, int planned, int mocks, int weeksAway) =>
+      'Week of ${formatDayMonth(start)}, ${plural(planned, 'study day')} planned${mocks > 0 ? ', planned mock' : ''}, ${weeksAway == 0 ? 'this week' : '${plural(weeksAway, 'week')} from now'}';
+
+  /// Jump chips under the rail.
+  static String chipIn(String title, int weeks) => weeks < 1 ? '$title, this week' : '$title, in ${plural(weeks, 'week')}';
+
+  // Tuner 1: study days a week.
+  static const String paceTitle = 'Study days a week';
+  static const String paceNone = 'Pick how many days a week you will study.';
+  static const String paceUnread = 'Study days did not load. Pull to refresh.';
+  static const String paceSaving = 'Saving…';
+  static String paceSaved(Iterable<int> days) => 'Saved. ${dayList(days)}.';
+  static String paceRest(Iterable<int> days) => '${dayList(days)}.';
+  static String paceFailed(String sentence, int old) => '$sentence Your days stay at $old.';
+  static const String changeDays = 'Change days';
+  static String paceSemantics(int n, Iterable<int> days) => '${plural(n, 'day')} a week, ${dayList(days)}';
+
+  // Mocks line under the tuners.
+  static String mocksLine(int taken, int? target, int? every) {
+    if (target == null) return '${plural(taken, 'full mock')} taken.';
+    if (taken >= target) return '$taken taken. Target met.';
+    final left = target - taken;
+    final pace = every == null ? '' : (every < 10 ? ': about one every ${plural(every, 'day')}' : ': about one every ${plural((every / 7).round(), 'week')}');
+    return '$taken taken, $left to go$pace.';
+  }
+  static const String mocksTitle = 'Full mocks before your date';
+  static const String mocksChange = 'Change';
   static String daysToWindowLabel(int days) => '${days == 1 ? 'day' : 'days'} to the expected\nCUET window, ${CuetDates.windowMonth}';
   static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nCUET window, ${CuetDates.windowMonth}';
   static String weeksToBoardsUnit(int weeks) => weeks == 1 ? 'week before\nboards begin' : 'weeks before\nboards begin';
@@ -354,6 +435,13 @@ abstract final class TodayCopy {
   /// The cue under the first screen that the road is further down (owner test 15 Oct: "something
   /// in the UI should be leading them below").
   static const String moreBelow = 'Your road to May';
+
+  /// The cue with its number (L07): "Road to May, 28 weeks", or days in the last week.
+  static String moreBelowCount({int? weeks, int? days}) {
+    if (days != null && days < 7) return 'Road to May, ${plural(days, 'day')}';
+    if (weeks != null && weeks > 0) return 'Road to May, ${plural(weeks, 'week')}';
+    return moreBelow;
+  }
 
   // Why this sheet.
   static const String whyTitle = 'Why this';

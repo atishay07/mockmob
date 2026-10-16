@@ -68,7 +68,7 @@ void main() {
     expect(find.text('Free today'), findsNothing);
     expect(find.textContaining('not proof'), findsNothing);
 
-    await openSheet(tester, find.widgetWithText(KeyButton, 'Start').first);
+    await openSheet(tester, find.widgetWithText(KeyButton, 'Start 10 questions').first);
     expect(find.text('What you get'), findsOneWidget);
     expect(find.text('10 questions, about 10 minutes.'), findsOneWidget);
     expect(find.text('Free today'), findsOneWidget);
@@ -167,7 +167,7 @@ void main() {
     await _toExamBand(tester);
     expect(find.text('NTA mode'), findsOneWidget);
     expect(find.text('Pro'), findsOneWidget);
-    expect(find.text('Comes with Pro. A Full mock is open to you now.'), findsOneWidget);
+    expect(find.text('The exam-day screen. Comes with Pro.'), findsOneWidget);
     expect(find.textContaining('Rs'), findsNothing);
     expect(find.textContaining('Upgrade'), findsNothing);
   });

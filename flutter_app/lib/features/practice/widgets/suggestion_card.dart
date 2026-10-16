@@ -38,6 +38,7 @@ class SuggestionCard extends StatelessWidget {
     this.offline = false,
     this.actionKey,
     this.sheet,
+    this.compact = false,
   });
 
   /// Marks the Start key, so Mobi can point at it.
@@ -64,6 +65,10 @@ class SuggestionCard extends StatelessWidget {
   /// quiet, in the card itself, instead of a banner above it that contradicts a live key.
   final bool offline;
 
+  /// The shorter card the Practice tab uses: the object at 88 dp in a 104 dp box, so the band and
+  /// its key take less height. Nothing is cut: every line the full card has is still here.
+  final bool compact;
+
   /// Hero tier: 20 padding, 28 radius.
   static const double pad = 20;
   static const double radius = 28;
@@ -80,6 +85,10 @@ class SuggestionCard extends StatelessWidget {
   /// plus 12 dp of air.
   static const double artClear = artBox - artBleedRight + MmSpace.s12;
 
+  /// The compact card's object box and object.
+  static const double compactArtBox = 104;
+  static const double compactEmblemSize = 88;
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -87,7 +96,9 @@ class SuggestionCard extends StatelessWidget {
     final brightness = Theme.of(context).brightness;
     final light = SubjectLight.forSubject(subjectId) ?? SubjectLight.language;
     final surface = colors.isNight ? Color.lerp(colors.raised, colors.ground, 0.25)! : colors.raised;
-    const clear = EdgeInsets.only(right: artClear - pad);
+    final art = compact ? compactArtBox : artBox;
+    final emblem = compact ? compactEmblemSize : emblemSize;
+    final clear = EdgeInsets.only(right: art - artBleedRight + MmSpace.s12 - pad);
 
     final band = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,7 +158,7 @@ class SuggestionCard extends StatelessWidget {
           // The band is at least as tall as the object's box below its top inset, so the rows
           // under it never run beside the object.
           ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: artTop + emblemSize - pad + MmSpace.s4),
+            constraints: BoxConstraints(minHeight: artTop + emblem - pad + MmSpace.s4),
             child: Align(alignment: Alignment.topLeft, child: band),
           ),
           const SizedBox(height: MmSpace.s12),
@@ -216,11 +227,11 @@ class SuggestionCard extends StatelessWidget {
           Positioned(
             top: artTop,
             right: -artBleedRight,
-            width: artBox,
-            height: artBox,
+            width: art,
+            height: art,
             // The object floats and leans on its own (its life), riding a little against the scroll.
             child: IgnorePointer(
-              child: MmParallax(factor: 0.1, lean: true, child: Center(child: SubjectEmblem(subject: subjectId, size: emblemSize, framed: false))),
+              child: MmParallax(factor: 0.1, lean: true, child: Center(child: SubjectEmblem(subject: subjectId, size: emblem, framed: false))),
             ),
           ),
           body,

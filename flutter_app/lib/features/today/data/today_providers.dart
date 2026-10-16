@@ -213,6 +213,17 @@ String? firstNameOf(String? name) {
   return trimmed.split(RegExp(r'\s+')).first;
 }
 
+/// When the last Try again ended with the record still not loaded (L01), or null. The screen sets
+/// it after a retry that changed nothing and clears it once the record is in hand.
+class TodayLastTried extends Notifier<DateTime?> {
+  @override
+  DateTime? build() => null;
+
+  void set(DateTime? at) => state = at;
+}
+
+final todayLastTriedProvider = NotifierProvider<TodayLastTried, DateTime?>(TodayLastTried.new);
+
 final todayInputsProvider = Provider<TodayInputs>((ref) {
   // Re-sampled on every clock tick (see [TodayClock]).
   ref.watch(todayClockProvider);
@@ -233,9 +244,9 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     subjects: auth.subjects,
     attempts: attempts.value,
     attemptsFailed: attempts.isFailedEmpty,
-    readProblem: attempts.isFailedEmpty
-        ? LoadProblem.of(attempts.error)
-        : ((plan.value?.recordUnavailable ?? false) ? LoadProblem.record : null),
+    // Only the attempts read can fail the card (L01). A plan read that failed while the papers
+    // are in hand is logged, never shown: the move is built from the papers instead.
+    readProblem: attempts.isFailedEmpty ? LoadProblem.of(attempts.error) : null,
     attemptsFetchedAt: attempts.fetchedAt,
     attemptsStale: attempts.isStale,
     plan: plan.value,
@@ -269,6 +280,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     offline: ref.watch(networkStatusProvider) == NetworkStatus.offline,
     selectedMinutes: ref.watch(todayMinutesProvider),
     roadPlan: ref.watch(roadPlanProvider),
+    lastTriedAt: ref.watch(todayLastTriedProvider),
   );
 });
 

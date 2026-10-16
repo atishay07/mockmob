@@ -7,12 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/auth/auth.dart' show LoadProblem;
+import '../../../core/api/api_providers.dart' show nowProvider;
+import '../../../core/connectivity/connectivity_monitor.dart' show NetworkStatus;
+import '../../../core/connectivity/connectivity_providers.dart' show networkStatusProvider;
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
-import '../../../core/theme/theme.dart' show MmBar;
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../rhythm/rhythm.dart';
 import '../../tools/data/my_colleges_actions.dart' show myCollegesProvider;
@@ -48,7 +49,10 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     super.initState();
     // Back from the background (maybe the next morning): Today's clock, the dismissals and the
     // ended-mock check are read again, so nothing says yesterday's greeting or hidden-until-4 AM.
-    _lifecycle = AppLifecycleListener(onResume: () => ref.read(todayClockProvider.notifier).refresh());
+    _lifecycle = AppLifecycleListener(onResume: () {
+      ref.read(todayClockProvider.notifier).refresh();
+      if (_failing) _retrySoon();
+    });
     // A result submitted in the background is in the cache but not in a live list: read the
     // attempts again when one is waiting to be opened.
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -61,6 +65,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
   @override
   void dispose() {
     _lifecycle.dispose();
+    _autoRetry?.cancel();
     _scroll.dispose();
     _mobi.dispose();
     super.dispose();
@@ -97,36 +102,34 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     } finally {
       if (mounted) {
         setState(() => _retrying = false);
-        _sayIfStillFailing();
+        _noteTry();
       }
     }
   }
 
-  /// After a Try again that changed nothing, say what failed in plain words, so the student
-  /// knows the tap worked and why the card is the same.
-  void _sayIfStillFailing() {
+  /// The card is the failure card (nothing in hand to build a move from).
+  bool get _failing {
     final hero = ref.read(todayViewProvider).hero;
-    final stillFailing = (hero is MoveHero && hero.primary.target is RetryLoad) || (hero is EndedHero && hero.action.target is RetryLoad);
-    if (!stillFailing) return;
-    final attempts = ref.read(attemptsRepositoryProvider);
-    final plan = ref.read(planRepositoryProvider(todayPlanMinutes));
-    final LoadProblem problem;
-    if (attempts.value == null && attempts.error != null) {
-      problem = LoadProblem.of(attempts.error);
-    } else if (plan.value?.recordUnavailable ?? false) {
-      problem = LoadProblem.record;
-    } else {
-      problem = LoadProblem.of(plan.error);
-    }
-    ScaffoldMessenger.maybeOf(context)
-      ?..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(
-        content: Text('Still not loading. ${problem.sentence} ${problem.advice}'),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 5),
-        // Above the dock, never under it.
-        margin: EdgeInsets.fromLTRB(16, 0, 16, MediaQuery.viewPaddingOf(context).bottom + MmBar.lift + MmBar.height + 12),
-      ));
+    return (hero is MoveHero && hero.primary.target is RetryLoad) || (hero is EndedHero && hero.action.target is RetryLoad);
+  }
+
+  /// After a Try again the card says what happened in its own words: "Tried again at 10:41 PM.
+  /// Still not loading." The time changes on every tap, so a repeated tap visibly ran (L01; the
+  /// 5-second snackbar is retired). Once the record is in hand the line is cleared.
+  void _noteTry() {
+    final tried = ref.read(todayLastTriedProvider.notifier);
+    tried.set(_failing ? ref.read(nowProvider)() : null);
+  }
+
+  /// Back online, or back in front: a failure card tries again by itself, once, a second after
+  /// the connection settles, so the student never has to find the key.
+  Timer? _autoRetry;
+
+  void _retrySoon() {
+    _autoRetry?.cancel();
+    _autoRetry = Timer(const Duration(seconds: 1), () {
+      if (mounted && _failing) unawaited(_retry());
+    });
   }
 
   void _action(TodayAction action) {
@@ -152,6 +155,9 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       } else {
         unawaited(_scroll.animateTo(0, duration: glide, curve: Motion.emphasized));
       }
+    });
+    ref.listen(networkStatusProvider, (previous, next) {
+      if (previous == NetworkStatus.offline && next == NetworkStatus.online && _failing) _retrySoon();
     });
     final view = ref.watch(todayViewProvider);
     final hasEnding = ref.watch(weeklyEndingProvider) != null;

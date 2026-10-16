@@ -14,6 +14,7 @@ import '../model/answers.dart';
 import '../model/choices.dart';
 import '../model/plan.dart';
 import '../state/answers_controller.dart';
+import '../state/colleges_move.dart';
 import '../state/sheet_sync.dart';
 import '../widgets/sheet_status.dart';
 import '../widgets/usage_data_card.dart';
@@ -134,6 +135,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
         },
         phase: sync.phase,
         offline: sync.offline,
+        colleges: ref.watch(collegesMoveProvider),
         showUsage: answers.age == AgeAnswer.adult,
         usageOn: usageOn,
         usageBusy: _usageBusy,
@@ -187,6 +189,7 @@ class SheetSavedView extends StatelessWidget {
     required this.onToggleEvents,
     required this.onDone,
     this.offline = false,
+    this.colleges = CollegesMove.none,
     this.showUsage = false,
     this.usageOn = false,
     this.usageBusy = false,
@@ -211,6 +214,9 @@ class SheetSavedView extends StatelessWidget {
   final VoidCallback? onStart;
   final VoidCallback? onLater;
   final bool offline;
+
+  /// Where the picked colleges stand (see [SheetStatus.colleges]).
+  final CollegesMove colleges;
   final bool showUsage;
   final bool usageOn;
   final bool usageBusy;
@@ -230,7 +236,7 @@ class SheetSavedView extends StatelessWidget {
       children: [
         Semantics(header: true, child: Text(OnboardingCopy.sheetTitle, style: type.title)),
         const SizedBox(height: MmSpace.s16),
-        SheetStatus(phase: phase, offline: offline),
+        SheetStatus(phase: phase, offline: offline, colleges: colleges),
         if (showUsage) ...[
           const SizedBox(height: MmSpace.s12),
           UsageDataCard(on: usageOn, busy: usageBusy, eventsOpen: eventsOpen, onChanged: onToggleUsage, onToggleEvents: onToggleEvents),

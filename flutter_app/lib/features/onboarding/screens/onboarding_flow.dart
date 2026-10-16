@@ -384,7 +384,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                             // change); it folds away, rather than vanishing, where a step shows
                             // its own copy or none.
                             _SheetSlot(
-                              child: _showsSheet(step)
+                              child: _showsSheet(step, keyboardOpen: MediaQuery.viewInsetsOf(context).bottom > 0)
                                   ? AnswerSheetCard(
                                       key: const ValueKey('sheet'),
                                       answers: answers,
@@ -447,8 +447,12 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
 
   /// The question is the calm work layer and the save step shows the sealed sheet itself, so
   /// neither has the sheet above; the plan flips its own copy.
-  bool _showsSheet(DeckStep step) => switch (step.kind) {
+  ///
+  /// While the keyboard is up on the college search, the sheet strip folds away too, so the
+  /// ladder has the room (on a 360 by 640 phone the field and about three rungs stay in view).
+  bool _showsSheet(DeckStep step, {bool keyboardOpen = false}) => switch (step.kind) {
         StepKind.reveal || StepKind.firstMove || StepKind.check || StepKind.account => false,
+        StepKind.ladder when keyboardOpen => false,
         _ => true,
       };
 
@@ -456,7 +460,7 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
     void next() => unawaited(_next(a));
     return switch (step.kind) {
       StepKind.single => StageStep(answers: a, onNext: next, mobi: _mobi),
-      StepKind.ladder => CourseStep(answers: a, onNext: next),
+      StepKind.ladder => CourseStep(answers: a, onNext: next, mobi: _mobi),
       StepKind.confidence => SubjectsStep(answers: a, onNext: next),
       StepKind.choice => WorryStep(answers: a, onNext: next),
       StepKind.check => QuestionStep(answers: a, onNext: next, mobi: _mobi),

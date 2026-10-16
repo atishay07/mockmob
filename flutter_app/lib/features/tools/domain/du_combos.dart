@@ -148,3 +148,26 @@ DuComboPlan duPlanCombos({
   ];
   return DuComboPlan(ranked: ranked, keep: keep);
 }
+
+/// Why one subject of [DuComboPlan.keep] matters, in real counts: what the best plan without it
+/// loses. [lostTarget] is the first target it no longer reaches (null when all still open);
+/// [fewer] is how many fewer DU programmes the best plan opens; [nothing] when no combination
+/// opens anything without it.
+typedef DuKeepReason = ({DuPick pick, String? lostTarget, int fewer, bool nothing});
+
+/// The keep reasons for [plan], given the plan [without] would make with each kept subject
+/// taken out of the pool (the caller runs the planner; tests pass it in).
+List<DuKeepReason> duKeepReasons(DuComboPlan plan, Map<DuPick, DuComboPlan> without, String Function(String id) targetName) {
+  final best = plan.ranked.firstOrNull;
+  if (best == null) return const [];
+  return [
+    for (final k in plan.keep)
+      if (without[k] case final DuComboPlan alt)
+        () {
+          final altBest = alt.ranked.firstOrNull;
+          if (altBest == null || altBest.unlocked == 0) return (pick: k, lostTarget: null, fewer: best.unlocked, nothing: true);
+          final lost = best.met.where((t) => !altBest.met.contains(t)).firstOrNull;
+          return (pick: k, lostTarget: lost == null ? null : targetName(lost), fewer: best.unlocked - altBest.unlocked, nothing: false);
+        }(),
+  ];
+}

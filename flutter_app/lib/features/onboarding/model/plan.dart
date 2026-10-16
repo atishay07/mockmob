@@ -1,4 +1,5 @@
 import '../../../core/copy/formatters.dart';
+import '../../../core/models/my_colleges.dart' show MyColleges;
 import '../../../core/router/routes.dart';
 import '../data/calendar.dart';
 import '../data/chapter_order.dart';
@@ -145,31 +146,44 @@ class PlanSummary {
     return 'That\'s ${CuetCalendar.about(n)} sessions before May${stage.cuetYear == 2028 ? ' 2028' : ''}.';
   }
 
-  /// The eligibility line for the chosen course, or null without a course or subjects.
+  /// The eligibility line for the chosen course, or null without a course or subjects. With
+  /// colleges it counts them for real ("Your 4 subjects open B.Com (Hons) at all 3 of your colleges."):
+  /// a course is open or closed to a set of subjects for every college that offers it.
   static String? eligibilityLine(OnboardingAnswers a) {
     final course = a.course;
     if (course == null || a.subjects.isEmpty) return null;
     final check = EligibilityCheck.of(course, a.subjects.toSet());
     if (check.eligible) {
       final picks = a.colleges.length;
-      final where = switch (picks) { 2 => ' at both your colleges', 3 => ' at all three of your colleges', _ => '' };
-      return 'This set keeps ${course.short} open$where.';
+      if (picks == 0) return 'This set keeps ${course.short} open.';
+      final n = a.subjects.length;
+      final who = n == 1 ? 'Your subject opens' : 'Your $n subjects open';
+      final where = switch (picks) { 1 => 'your college', 2 => 'both your colleges', _ => 'all $picks of your colleges' };
+      return '$who ${course.short} at $where.';
     }
     return '${course.short} also needs ${joinWithAnd(check.missing)}.';
   }
 
-  /// "Aim: SRCC 924.3, Hindu 919.9. Round 1 minimum, 2026 (unreserved, out of 1000)." "out of 1000" holds
-  /// together (no-break spaces), so the line never ends on a lone "1000.".
+  /// "Aim: SRCC 924.3, Hindu 919.9. Round 1 minimum, 2026 (unreserved, out of 1000)." Names the first
+  /// three (the ones Today shows) and counts the rest ("and 5 more"). "out of 1000" holds together
+  /// (no-break spaces), so the line never ends on a lone "1000.".
   static String? aimLine(OnboardingAnswers a) {
     final course = a.course;
     if (course == null || a.colleges.isEmpty) return null;
     final parts = <String>[];
+    var more = 0;
     for (final name in a.colleges) {
       final o = course.offeringAt(name);
       final score = o?.scoreFor(a.category);
-      if (o != null) parts.add(score == null ? o.short : '${o.short} ${DuCatalog.format(score)}');
+      if (o == null) continue;
+      if (parts.length >= MyColleges.ladderSize) {
+        more++;
+        continue;
+      }
+      parts.add(score == null ? o.short : '${o.short} ${DuCatalog.format(score)}');
     }
     if (parts.isEmpty) return null;
-    return 'Aim: ${parts.join(', ')}. ${DuCatalog.source} (${categoryWords(a.category)}, out\u00A0of\u00A0${DuCatalog.scale}).';
+    final tail = more == 0 ? '' : ' and $more more';
+    return 'Aim: ${parts.join(', ')}$tail. ${DuCatalog.source} (${categoryWords(a.category)}, out\u00A0of\u00A0${DuCatalog.scale}).';
   }
 }

@@ -18,58 +18,70 @@ import 'start_key.dart';
 
 export 'bar_badges.dart' show BarBadges;
 
-/// The bar's measures on one screen width (DOCK.md section 3.1). Slots run left to right:
-/// Today, Practice, Start, Review, You.
+/// The bar's measures on one screen width (app-ia-1016.md section 4.1, which replaces DOCK.md
+/// 3.1). Six equal slots run left to right: Today, Practice, Start, Review, Colleges, You.
 class BarGeometry {
-  BarGeometry(double screenWidth) : width = MmBar.widthFor(screenWidth), startSlot = MmBar.startSlotFor(screenWidth);
+  BarGeometry(double screenWidth) : width = MmBar.widthFor(screenWidth), slot = MmBar.slotFor(screenWidth);
 
-  /// The bar's width: the screen less 16 dp each side, at most 440.
+  /// The bar's width: the screen less 16 dp each side (8 below 360 dp), at most 440.
   final double width;
 
-  /// The Start slot's width.
-  final double startSlot;
+  /// Every slot's width, Start's included: (W - 12) / 6.
+  final double slot;
 
-  /// Each tab slot's width: the four share what the Start slot and the padding leave.
-  double get tabSlot => (width - 2 * MmBar.pad - startSlot) / 4;
+  /// A tab slot's width (the same as every slot).
+  double get tabSlot => slot;
 
-  double slotWidth(int slot) => slot == kStartSlot ? startSlot : tabSlot;
+  /// The Start slot's width (the same as every slot).
+  double get startSlot => slot;
 
-  double slotLeft(int slot) {
-    var x = MmBar.pad;
-    for (var i = 0; i < slot; i++) {
-      x += slotWidth(i);
-    }
-    return x;
-  }
+  double slotWidth(int index) => slot;
 
-  double slotCenter(int slot) => slotLeft(slot) + slotWidth(slot) / 2;
+  double slotLeft(int index) => MmBar.pad + slot * index;
 
-  /// The lens's width at rest: a tab slot less 4.
-  double get lensWidth => tabSlot - 4;
+  double slotCenter(int index) => MmBar.pad + slot * (index + 0.5);
 
-  /// The lens's edges on a tab [slot].
-  (double, double) lensEdges(int slot) {
-    final c = slotCenter(slot);
+  /// The lens's width at rest, and the Start pill's: a slot less 2 dp each side.
+  double get lensWidth => slot - 2 * MmBar.pillInset;
+
+  /// The lens's edges on a tab [index].
+  (double, double) lensEdges(int index) {
+    final c = slotCenter(index);
     return (c - lensWidth / 2, c + lensWidth / 2);
   }
 
-  /// The visual slot under [x] (px from the bar's left edge), clamped to the bar.
-  int slotAt(double x) {
-    for (var i = 0; i < kBarSlots; i++) {
-      if (x < slotLeft(i) + slotWidth(i)) return i;
-    }
-    return kBarSlots - 1;
+  /// The pill's rect (the lens at rest, or the Start pill) on slot [index], in the bar's 64 dp
+  /// box, at [collapse] (0 expanded, 1 compact).
+  Rect pillRect(int index, {double collapse = 0}) {
+    final barHeight = MmBar.height - (MmBar.height - MmBar.compactHeight) * collapse;
+    final (l, r) = lensEdges(index);
+    return Rect.fromLTRB(l, MmBar.height - barHeight + MmBar.pad, r, MmBar.height - MmBar.pad);
   }
+
+  /// The icon box (24 by 24) on slot [index], at [collapse]: y 11 to 35 expanded, 15 dp lower
+  /// compact.
+  Rect iconRect(int index, {double collapse = 0}) => Rect.fromCenter(
+    center: Offset(slotCenter(index), MmBar.iconTop + MmBar.icon / 2 + MmBar.compactShift * collapse),
+    width: MmBar.icon,
+    height: MmBar.icon,
+  );
+
+  /// The label's line box on slot [index] (the slot less 2 dp each side, y 39 to 53).
+  Rect labelRect(int index) => Rect.fromLTWH(slotLeft(index) + MmBar.pillInset, MmBar.labelTop, lensWidth, MmBar.labelHeight);
+
+  /// The visual slot under [x] (px from the bar's left edge), clamped to the bar.
+  int slotAt(double x) => ((x - MmBar.pad) / slot).floor().clamp(0, kBarSlots - 1);
 
   /// The tab slot nearest [x]; never the Start slot.
   int nearestTabSlot(double x) {
     var best = 0;
     var distance = double.infinity;
-    for (final slot in const [0, 1, 3, 4]) {
-      final d = (slotCenter(slot) - x).abs();
+    for (var index = 0; index < kBarSlots; index++) {
+      if (index == kStartSlot) continue;
+      final d = (slotCenter(index) - x).abs();
       if (d < distance) {
         distance = d;
-        best = slot;
+        best = index;
       }
     }
     return best;
@@ -88,8 +100,9 @@ abstract interface class StartDragTarget {
   void end({required bool open});
 }
 
-/// The bottom bar (DOCK.md): one centred glass bar with Today, Practice, the volt Start key,
-/// Review and You.
+/// The bottom bar (DOCK.md, with the geometry of app-ia-1016.md section 4): one centred glass
+/// bar of six equal slots, Today, Practice, the volt Start key, Review, Colleges and You. Start is
+/// laid out like a tab, so every icon, every label and the Start pill share their centre lines.
 ///
 /// * Tap a tab: a `selectionClick`, the lens travels on two springs (its leading edge quick, its
 ///   trailing edge slow, so it stretches toward the new tab and gathers itself), the old icon
@@ -116,14 +129,13 @@ class MmBottomBar extends ConsumerStatefulWidget {
     this.compact,
     this.startPressed = false,
     this.entrance = false,
-    this.youInitial,
     this.startResumeLabel,
     this.onStartResume,
     this.startResumeId,
     this.quality,
   });
 
-  /// The open branch: 0 Today, 1 Practice, 2 Review, 3 You.
+  /// The open branch: 0 Today, 1 Practice, 2 Review, 3 Colleges, 4 You ([BarBranch]).
   final int currentBranch;
 
   /// Called with a branch for every tab tap, including a re-tap of the open tab.
@@ -144,9 +156,6 @@ class MmBottomBar extends ConsumerStatefulWidget {
 
   /// Plays the first appearance (once per cold start).
   final bool entrance;
-
-  /// You's initial, or null for the person glyph.
-  final String? youInitial;
 
   /// Start's TalkBack shortcut ("Resume Accountancy mock"), with [onStartResume].
   final String? startResumeLabel;
@@ -178,6 +187,10 @@ class MmBottomBar extends ConsumerStatefulWidget {
   /// An icon settling as it arrives: 420 ms, bounce 0.12.
   static final SpringDescription iconSettle = SpringDescription.withDurationAndBounce(duration: const Duration(milliseconds: 420), bounce: 0.12);
 
+  /// A pressed tab's scale, and how long it takes to spring back (a small overshoot).
+  static const double tabPressScale = 0.96;
+  static const Duration tabRelease = Duration(milliseconds: 260);
+
   /// How long the first appearance takes in all (the bar, then each item 30 ms apart).
   static const Duration entranceDuration = Duration(milliseconds: 420);
 
@@ -204,8 +217,8 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   late final AnimationController _label = AnimationController(vsync: this, duration: const Duration(milliseconds: 2200));
 
   /// Each tab's icon, 0 outlined to 1 filled (and its label, ink 2 to ink).
-  late final List<AnimationController> _on = [for (var i = 0; i < 4; i++) AnimationController(vsync: this, duration: MmBottomBar.iconIn, reverseDuration: MmBottomBar.iconOut)];
-  late final List<AnimationController> _settle = [for (var i = 0; i < 4; i++) AnimationController.unbounded(vsync: this, value: 1)];
+  late final List<AnimationController> _on = [for (var i = 0; i < kBarTabs.length; i++) AnimationController(vsync: this, duration: MmBottomBar.iconIn, reverseDuration: MmBottomBar.iconOut)];
+  late final List<AnimationController> _settle = [for (var i = 0; i < kBarTabs.length; i++) AnimationController.unbounded(vsync: this, value: 1)];
 
   late final Listenable _edges = Listenable.merge([_left, _right]);
 
@@ -217,6 +230,13 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   bool _scrubbing = false;
   bool _underStart = false;
   int? _focusedSlot;
+
+  /// The tab under a finger: it sinks to 0.96 in 100 ms and springs back on release.
+  int? _pressedTab;
+
+  void _pressTab(int? branch) {
+    if (_pressedTab != branch) setState(() => _pressedTab = branch);
+  }
 
   // The arrival waiting for the lens's leading edge to pass 70% of its travel.
   int? _arriving;
@@ -239,7 +259,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       assert(!c.isAnimating);
     }
     _shown = widget.currentBranch;
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < kBarTabs.length; i++) {
       _on[i].value = i == _shown ? 1 : 0;
     }
     _edges.addListener(_watchEdges);
@@ -278,7 +298,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   void didChangeDependencies() {
     super.didChangeDependencies();
     final geo = BarGeometry(MediaQuery.sizeOf(context).width);
-    final moved = geo.width != _geo.width || geo.startSlot != _geo.startSlot;
+    final moved = geo.width != _geo.width || geo.slot != _geo.slot;
     _geo = geo;
     if (!_placed || moved) {
       // First layout, or the screen width changed: the lens sits on the open tab at once.
@@ -556,7 +576,8 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     final box = _startKey.currentContext?.findRenderObject() as RenderBox?;
     if (box == null || !box.hasSize) {
       final size = MediaQuery.sizeOf(context);
-      return Rect.fromCenter(center: Offset(size.width / 2, size.height - 60), width: MmBar.startKey.width, height: MmBar.startKey.height);
+      final pill = _geo.pillRect(kStartSlot, collapse: _collapse.value);
+      return pill.shift(Offset((size.width - _geo.width) / 2, size.height - 60 - MmBar.height / 2));
     }
     final local = StartKeyFace.keyRect(box.size, _collapse.value);
     return local.shift(box.localToGlobal(Offset.zero));
@@ -655,7 +676,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     Widget item(int slot, Widget child) {
       if (!widget.entrance) return child;
       // Left to right, 30 ms apart; Start comes last.
-      final order = const {0: 0, 1: 1, 3: 2, 4: 3, 2: 4}[slot]!;
+      final order = const {0: 0, 1: 1, 3: 2, 4: 3, 5: 4, 2: 5}[slot]!;
       final total = MmBottomBar.entranceDuration.inMilliseconds;
       final start = order * 30 / total;
       final curve = CurvedAnimation(parent: _enter, curve: Interval(start, (start + 300 / total).clamp(0.0, 1.0), curve: Motion.glide));
@@ -683,9 +704,17 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
           width: width,
           iconColors: iconColors,
           ring: ring,
-          badgeText: branch == 2 ? badges.reviewText : null,
-          dot: (branch == 2 && badges.showReviewDot) || (branch == 3 && badges.youDot),
-          semanticsLabel: barTabSemanticsLabel(branch, reviewCount: badges.reviewCount, reviewDot: badges.showReviewDot, youDot: badges.youDot),
+          badgeText: branch == BarBranch.review ? badges.reviewText : null,
+          dot: (branch == BarBranch.review && badges.showReviewDot) ||
+              (branch == BarBranch.colleges && badges.collegesDot) ||
+              (branch == BarBranch.you && badges.youDot),
+          semanticsLabel: barTabSemanticsLabel(
+            branch,
+            reviewCount: badges.reviewCount,
+            reviewDot: badges.showReviewDot,
+            collegesDot: badges.collegesDot,
+            youDot: badges.youDot,
+          ),
         );
       }
       slots.add(Positioned(left: geo.slotLeft(slot), top: 0, bottom: 0, width: width, child: item(slot, child)));
@@ -737,10 +766,10 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     final colors = context.mmColors;
     final type = context.mmType;
     final tab = kBarTabs[branch];
-    final collapseShift = (MmBar.height - MmBar.compactHeight) + (MmBar.compactHeight - 24) / 2 - 11;
+    const collapseShift = MmBar.compactShift;
 
     final icon = SizedBox.square(
-      dimension: 24,
+      dimension: MmBar.icon,
       child: ScaleTransition(
         scale: _settle[branch],
         child: CustomPaint(
@@ -748,23 +777,21 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
             glyph: tab.icon.glyph,
             colors: iconColors,
             on: _on[branch],
-            initial: branch == 3 ? widget.youInitial : null,
-            initialStyle: const TextStyle(fontFamily: MmFonts.hanken, fontWeight: FontWeight.w700),
           ),
         ),
       ),
     );
 
     final iconGroup = SizedBox(
-      width: 24,
-      height: 24,
+      width: MmBar.icon,
+      height: MmBar.icon,
       child: Stack(
         clipBehavior: Clip.none,
         children: [
           Positioned.fill(child: RepaintBoundary(child: icon)),
           if (badgeText != null || dot)
             Positioned(
-              left: 24 + 2,
+              left: MmBar.icon + 2,
               top: 1,
               child: FractionalTranslation(
                 translation: const Offset(-0.5, -0.5),
@@ -782,10 +809,10 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
         maxLines: 1,
         softWrap: false,
         style: type.navLabel.copyWith(
-          fontSize: 12,
-          height: 16 / 12,
+          fontSize: MmBar.labelSize,
+          height: MmBar.labelHeight / MmBar.labelSize,
           fontWeight: FontWeight.w600,
-          letterSpacing: -0.1,
+          letterSpacing: 0,
           color: Color.lerp(colors.ink2, colors.ink, _on[branch].value),
         ),
       ),
@@ -797,12 +824,12 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          Positioned(left: (width - 24) / 2, top: 11, child: iconGroup),
+          Positioned(left: (width - MmBar.icon) / 2, top: MmBar.iconTop, child: iconGroup),
           Positioned(
-            left: 2,
-            right: 2,
-            top: 11 + 24 + 3,
-            height: 16,
+            left: MmBar.pillInset,
+            right: MmBar.pillInset,
+            top: MmBar.labelTop,
+            height: MmBar.labelHeight,
             child: FadeTransition(
               opacity: ReverseAnimation(_labelsOut),
               child: RepaintBoundary(
@@ -833,12 +860,28 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
           onShowFocusHighlight: (on) => setState(() => _focusedSlot = on ? slot : (_focusedSlot == slot ? null : _focusedSlot)),
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTapDown: (_) => _tabDown(branch),
-            onTapCancel: () => _tabCancel(branch),
+            onTapDown: (_) {
+              _pressTab(branch);
+              _tabDown(branch);
+            },
+            onTapUp: (_) => _pressTab(null),
+            onTapCancel: () {
+              _pressTab(null);
+              _tabCancel(branch);
+            },
             onTap: () => _tabTap(branch),
             child: CustomPaint(
               foregroundPainter: focused ? _FocusRing(collapse: _collapse, color: colors.ink, startKey: false, lensWidth: _geo.lensWidth) : null,
-              child: SizedBox(width: width, height: MmBar.height, child: content),
+              child: SizedBox(
+                width: width,
+                height: MmBar.height,
+                child: AnimatedScale(
+                  scale: _pressedTab == branch ? MmBottomBar.tabPressScale : 1,
+                  duration: _reduced ? Duration.zero : (_pressedTab == branch ? Motion.press : MmBottomBar.tabRelease),
+                  curve: _pressedTab == branch ? Motion.out : Curves.easeOutBack,
+                  child: content,
+                ),
+              ),
             ),
           ),
         ),
@@ -864,7 +907,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
         final pop = p >= 1 ? 1.0 : 1 + 0.05 * (p < 0.4 ? Motion.out.transform(p / 0.4) : 1 - Motion.out.transform((p - 0.4) / 0.6));
         return Transform.scale(
           scale: dip * pop,
-          child: StartKeyFace(collapse: _collapse, pressed: pressed, ripple: _ripple.value, stretch: _stretch.value, labelShift: _labelShift),
+          child: StartKeyFace(collapse: _collapse, labelsOut: _labelsOut, pressed: pressed, ripple: _ripple.value, stretch: _stretch.value, labelShift: _labelShift),
         );
       },
     );

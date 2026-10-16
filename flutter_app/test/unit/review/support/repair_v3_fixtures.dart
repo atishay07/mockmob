@@ -87,7 +87,7 @@ class NoCallRepairApi implements RepairApi {
   int calls = 0;
 
   @override
-  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId}) async {
+  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId, int? retryPick}) async {
     calls++;
     throw StateError('the second explanation must not call the repair');
   }

@@ -137,7 +137,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
     _set(undecided ? next.mark(Steps.course) : next);
   }
 
-  /// Picks or drops a college. Up to three; a fourth is ignored (the screen says why).
+  /// Picks or drops a college. Up to [kMaxColleges]; a ninth is ignored (the screen says why).
   bool toggleCollege(String college) {
     final a = _current;
     final picks = [...a.colleges];
@@ -145,7 +145,7 @@ class AnswersController extends AsyncNotifier<OnboardingAnswers> {
       _set(a.copyWith(colleges: picks));
       return true;
     }
-    if (picks.length >= 3) return false;
+    if (picks.length >= kMaxColleges) return false;
     _set(a.copyWith(colleges: [...picks, college], openToAny: false).mark(Steps.course));
     return true;
   }

@@ -2,16 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/copy/formatters.dart' show categoryWordsTitle;
+import '../../../core/models/my_colleges.dart' show MyColleges;
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/college_match.dart';
 import '../data/du_catalog.dart';
+import '../model/answers.dart' show kMaxColleges;
 import 'choice_tile.dart';
 import 'entrance.dart';
 
 /// The college ladder for one course: every college that seated [category] in Round 1, highest
 /// minimum first, with DU's figure to one decimal, on one rail. Tapping inks a college's bubble
-/// with its pick number (up to three), so the order of the picks shows.
+/// with its pick number (up to eight, the My colleges limit), so the order of the picks shows; the
+/// first three carry "On Today", because those are the ones Today shows.
+///
+/// [query] filters it with the "Find a college" matcher. Picks always show, matched or not, so a
+/// pick can always be seen and unticked.
 class CollegeLadder extends StatefulWidget {
   const CollegeLadder({
     super.key,
@@ -19,6 +27,7 @@ class CollegeLadder extends StatefulWidget {
     required this.category,
     required this.picks,
     required this.onToggle,
+    this.query = '',
     this.initialCount = 7,
   });
 
@@ -26,8 +35,11 @@ class CollegeLadder extends StatefulWidget {
   final String category;
   final List<String> picks;
 
-  /// Returns false when the pick was refused (already three).
+  /// Returns false when the pick was refused (already [kMaxColleges]).
   final bool Function(String college) onToggle;
+
+  /// What the student typed in "Find a college". Empty shows the whole ladder.
+  final String query;
   final int initialCount;
 
   @override
@@ -38,58 +50,135 @@ class _CollegeLadderState extends State<CollegeLadder> {
   bool _all = false;
   bool _full = false;
 
+  /// One shake per row that can be refused (only while the list is at its limit).
+  final Map<String, GlobalKey<MmShakeState>> _shakes = {};
+
+  GlobalKey<MmShakeState> _shakeFor(String college) => _shakes.putIfAbsent(college, GlobalKey<MmShakeState>.new);
+
+  @override
+  void didUpdateWidget(CollegeLadder old) {
+    super.didUpdateWidget(old);
+    // The line under the ladder is about the last refused tap: it goes once a pick is dropped.
+    if (_full && widget.picks.length < kMaxColleges) _full = false;
+    if (old.course.id != widget.course.id) _shakes.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final rows = widget.course.ladder(widget.category);
-    // Picks always show, even when they sit below the fold.
-    final shown = _all
-        ? rows
-        : [
-            ...rows.take(widget.initialCount),
-            ...rows.skip(widget.initialCount).where((o) => widget.picks.contains(o.college)),
-          ];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (var i = 0; i < shown.length; i++)
-          EntranceItem.answer(
-            i,
-            child: _LadderRow(
-              offering: shown[i],
-              score: shown[i].scoreFor(widget.category)!,
-              pick: widget.picks.contains(shown[i].college) ? widget.picks.indexOf(shown[i].college) + 1 : null,
-              first: i == 0,
-              last: i == shown.length - 1,
-              onTap: () {
-                final ok = widget.onToggle(shown[i].college);
-                setState(() => _full = !ok);
-              },
+    final filtering = CollegeMatch.normalise(widget.query).isNotEmpty;
+    final matches = filtering ? CollegeMatch.filter(rows, widget.query).toSet() : const <DuOffering>{};
+    // Picks always show, even when they sit below the fold or the search does not find them.
+    final shown = filtering
+        ? [for (final o in rows) if (matches.contains(o) || widget.picks.contains(o.college)) o]
+        : _all
+            ? rows
+            : [
+                ...rows.take(widget.initialCount),
+                ...rows.skip(widget.initialCount).where((o) => widget.picks.contains(o.college)),
+              ];
+    final atLimit = widget.picks.length >= kMaxColleges;
+    final nothing = filtering && matches.isEmpty;
+    return AnimatedSize(
+      duration: Motion.of(context, Motion.ui),
+      curve: Motion.out,
+      alignment: Alignment.topCenter,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < shown.length; i++)
+            // Keyed by college, so a rung keeps its state while the search adds and drops others.
+            EntranceItem.answer(
+              i,
+              key: ValueKey(shown[i].college),
+              child: _row(shown, i, atLimit: atLimit),
             ),
-          ),
-        if (_full)
-          Padding(
-            padding: const EdgeInsets.only(top: MmSpace.s8),
-            child: Semantics(liveRegion: true, child: Text(OnboardingCopy.threeIsPlenty, style: type.small.copyWith(color: colors.ink2))),
-          ),
-        if (rows.length > widget.initialCount)
-          Align(
-            alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(
-              label: _all ? OnboardingCopy.showFewer : OnboardingCopy.showAll(rows.length),
-              onPressed: () => setState(() => _all = !_all),
+          if (nothing)
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s4),
+              child: Semantics(
+                liveRegion: true,
+                child: Text(OnboardingCopy.noCollegeMatch(widget.query.trim()), style: type.small.copyWith(color: colors.ink3)),
+              ),
             ),
-          ),
-      ],
+          if (_full)
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s8),
+              child: Semantics(liveRegion: true, child: Text(OnboardingCopy.eightIsMost, style: type.small.copyWith(color: colors.ink2))),
+            ),
+          if (!filtering && rows.length > widget.initialCount)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: KeyButton.quiet(
+                label: _all ? OnboardingCopy.showFewer : OnboardingCopy.showAll(rows.length),
+                onPressed: () => setState(() => _all = !_all),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _row(List<DuOffering> shown, int i, {required bool atLimit}) {
+    final name = shown[i].college;
+    final picked = widget.picks.contains(name);
+    final row = _LadderRow(
+      offering: shown[i],
+      score: shown[i].scoreFor(widget.category)!,
+      pick: picked ? widget.picks.indexOf(name) + 1 : null,
+      first: i == 0,
+      last: i == shown.length - 1,
+      onTap: () {
+        final ok = widget.onToggle(name);
+        if (!ok) _shakes[name]?.currentState?.shake();
+        setState(() => _full = !ok);
+      },
+    );
+    // Only a rung that can be refused (the list is at its limit) is wrapped to shake.
+    return atLimit && !picked ? MmShake(key: _shakeFor(name), child: row) : row;
+  }
+}
+
+/// "3 of 8 picked. The first 3 show on Today.", above the ladder. The picked count rolls from the
+/// number it showed when a pick is added or dropped. The second half appears with the first pick.
+class LadderCount extends StatelessWidget {
+  const LadderCount({super.key, required this.picked});
+
+  final int picked;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final style = type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]);
+    final tail = picked > 0;
+    return Semantics(
+      liveRegion: true,
+      container: true,
+      label: OnboardingCopy.pickedSpoken(picked, kMaxColleges, tail: tail),
+      child: ExcludeSemantics(
+        child: Row(
+          children: [
+            MmCountUp(
+              value: picked,
+              fromZeroOnFirstBuild: false,
+              duration: Motion.numberRoll,
+              style: style.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
+            ),
+            Flexible(child: Text(' of $kMaxColleges picked${tail ? '. ${OnboardingCopy.pickedTail}' : ''}', style: style)),
+          ],
+        ),
+      ),
     );
   }
 }
 
 /// One rung: the bubble on the rail (inked with the pick number once picked), the college, and
 /// its closing score in condensed figures. Every rung sits flat on the ground, a hairline between;
-/// a pick is only an inked, numbered bubble and the name in full ink, so three picks read as one
-/// ladder with three marks, not three boxes.
+/// a pick is only an inked, numbered bubble and the name in full ink, so the picks read as one
+/// ladder with a few marks, not a stack of boxes.
 class _LadderRow extends StatelessWidget {
   const _LadderRow({
     required this.offering,
@@ -103,7 +192,7 @@ class _LadderRow extends StatelessWidget {
   final DuOffering offering;
   final double score;
 
-  /// 1, 2 or 3 when picked (the order the student picked in), else null.
+  /// 1 to 8 when picked (the order the student picked in), else null.
   final int? pick;
   final bool first;
   final bool last;
@@ -119,6 +208,7 @@ class _LadderRow extends StatelessWidget {
     final figure = DuCatalog.format(score);
     final name = displayCollege(offering.college);
     final selected = pick != null;
+    final onToday = selected && pick! <= MyColleges.ladderSize;
     // The rail runs through every rung's bubble, over a picked rung's fill too, so the list
     // reads as one ladder.
     return ChoiceTile(
@@ -126,7 +216,7 @@ class _LadderRow extends StatelessWidget {
       exclusive: false,
       flat: true,
       bubble: BubbleSpot.none,
-      semanticsLabel: selected ? '$name, $figure, pick $pick' : '$name, $figure',
+      semanticsLabel: selected ? '$name, $figure, pick $pick${onToday ? ', on Today' : ''}' : '$name, $figure',
       onTap: onTap,
       padding: EdgeInsets.zero,
       child: CustomPaint(
@@ -139,46 +229,56 @@ class _LadderRow extends StatelessWidget {
           ruleFrom: _inset + _bubble + MmSpace.s12,
         ),
         child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: _inset, vertical: MmSpace.s12),
-        child: Row(
-          children: [
-            SizedBox.square(
-              dimension: _bubble,
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  // The ground behind the bubble hides the rail inside the ring.
-                  DecoratedBox(
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: selected ? Colors.transparent : colors.ground),
-                    child: const SizedBox.square(dimension: _bubble - 2),
-                  ),
-                  Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: _bubble, inkOrigin: const Offset(-0.4, -0.4)),
-                  if (selected)
-                    Text(
-                      '$pick',
-                      style: type.label.copyWith(
-                        color: colors.voltInk,
-                        fontWeight: FontWeight.w800,
-                        height: 1,
-                      ),
+          padding: const EdgeInsets.symmetric(horizontal: _inset, vertical: MmSpace.s12),
+          child: Row(
+            children: [
+              SizedBox.square(
+                dimension: _bubble,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // The ground behind the bubble hides the rail inside the ring.
+                    DecoratedBox(
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: selected ? Colors.transparent : colors.ground),
+                      child: const SizedBox.square(dimension: _bubble - 2),
                     ),
-                ],
-              ),
-            ),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Text(
-                name,
-                style: type.labelLarge.copyWith(
-                  color: selected ? colors.ink : colors.ink2,
-                  fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                    Bubble(state: selected ? BubbleState.filled : BubbleState.hollow, size: _bubble, inkOrigin: const Offset(-0.4, -0.4)),
+                    if (selected)
+                      Text(
+                        '$pick',
+                        style: type.label.copyWith(
+                          color: colors.voltInk,
+                          fontWeight: FontWeight.w800,
+                          height: 1,
+                        ),
+                      ),
+                  ],
                 ),
               ),
-            ),
-            const SizedBox(width: MmSpace.s12),
-            Text(figure, style: type.figureCompact.copyWith(fontSize: 26, height: 1, color: selected ? colors.ink : colors.ink2)),
-          ],
-        ),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: type.labelLarge.copyWith(
+                        color: selected ? colors.ink : colors.ink2,
+                        fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                      ),
+                    ),
+                    if (onToday)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: Text(OnboardingCopy.onToday, style: type.caption.copyWith(color: colors.accentText)),
+                      ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: MmSpace.s12),
+              Text(figure, style: type.figureCompact.copyWith(fontSize: 26, height: 1, color: selected ? colors.ink : colors.ink2)),
+            ],
+          ),
         ),
       ),
     );

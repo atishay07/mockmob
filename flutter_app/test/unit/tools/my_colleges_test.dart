@@ -17,6 +17,7 @@ import 'package:mockmob/features/tools/data/my_colleges_actions.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/compass/programme_screen.dart';
 import 'package:mockmob/features/tools/data/tools_store.dart';
+import 'package:mockmob/features/tools/colleges/colleges_copy.dart';
 import 'package:mockmob/features/tools/my_colleges/my_colleges_body.dart';
 import 'package:mockmob/features/tools/my_colleges/my_colleges_copy.dart';
 import 'package:mockmob/features/tools/my_colleges/my_colleges_sheet.dart';
@@ -332,17 +333,20 @@ void main() {
       await tester.pumpAndSettle();
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
       await tester.pumpAndSettle();
-      expect(find.text(MyCollegesCopy.chooseProgramme), findsOneWidget);
+      expect(find.text(CollegesCopy.addTitle), findsOneWidget);
 
-      final sheet = find.byType(BottomSheet);
-      await tester.enterText(find.descendant(of: sheet, matching: find.byType(TextField)), 'B.Com. (Hons.)');
+      final sheet = find.byType(MyCollegesSheet);
+      // The student types it the way they say it.
+      await tester.enterText(find.descendant(of: sheet, matching: find.byType(TextField)), 'bcom hons');
       await tester.pumpAndSettle();
-      await tester.tap(find.descendant(of: sheet, matching: find.text('B.Com. (Hons.)')).last);
+      await tester.tap(find.descendant(of: sheet, matching: find.text('B.Com. (Hons.)')).first);
       await tester.pumpAndSettle();
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 60)));
       await tester.pumpAndSettle();
-      expect(find.text(MyCollegesCopy.chooseCollege), findsOneWidget);
+      expect(find.text(CollegesCopy.courseChip('B.Com. (Hons.)')), findsOneWidget);
 
+      await tester.enterText(find.descendant(of: sheet, matching: find.byType(TextField)), 'acharya');
+      await tester.pumpAndSettle();
       await tester.tap(find.descendant(of: sheet, matching: find.text('Acharya Narendra Dev College')));
       await tester.pumpAndSettle();
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));

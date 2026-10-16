@@ -4,21 +4,38 @@ import 'package:flutter/material.dart';
 
 import '../../motion/motion.dart';
 import '../../theme/theme.dart';
+import 'bar_icons.dart';
 
-/// The volt Start key in the bar's middle slot (DOCK.md sections 3.1, 4 and 5.2): a 60 by 40
-/// stadium (52 by 34 compact) that says **Start**. It is an action, not a place; it opens the
-/// Start sheet. No glyph, no breathing: "something to resume" is the capsule's job, in words.
+/// The volt Start key in the bar's third slot (app-ia-1016.md section 4.2). It is laid out exactly
+/// like a tab: a 24 dp glyph (a rounded play triangle) in the icon box at y 11 to 35, and the word
+/// **Start** in the label box at y 39 to 53, on a volt pill the size and place of the lens (the
+/// slot less 2 dp each side, y 6 to 58). So its glyph shares every tab icon's centre line, its
+/// word every tab label's, and its pill the lens's (L31). It is an action, not a place; it opens
+/// the Start sheet. No breathing: "something to resume" is the capsule's job, in words.
 ///
 /// Pressed, it sinks to 0.94 in 100 ms, its volt deepens 16% toward `voltEdge` and a soft volt
 /// glow gathers round it (anticipation); on release it overshoots a little before it settles
 /// (a negative [pressed]) and an ink ring spreads out of it (380 ms). Dragged up it stretches
 /// tall and narrow ([stretch], volume kept), anchored at its foot. Once per open session its
-/// label slides from Start to Resume and back ([labelShift]).
+/// word slides from Start to Resume and back in the same label box ([labelShift]); the pill never
+/// widens. Compact, the pill shrinks with the lens to 40 tall, the glyph moves down 15 dp and the
+/// word fades with the tab labels ([labelsOut]).
 class StartKeyFace extends StatelessWidget {
-  const StartKeyFace({super.key, required this.collapse, this.pressed = 0, this.ripple = 1, this.stretch = 0, this.labelShift = 0});
+  const StartKeyFace({
+    super.key,
+    required this.collapse,
+    this.labelsOut = kAlwaysDismissedAnimation,
+    this.pressed = 0,
+    this.ripple = 1,
+    this.stretch = 0,
+    this.labelShift = 0,
+  });
 
   /// The bar's collapse, 0 expanded to 1 compact.
   final Animation<double> collapse;
+
+  /// The labels' fade, 0 shown to 1 gone (the bar's compact state).
+  final Animation<double> labelsOut;
 
   /// How far down the press is, 0 to 1.
   final double pressed;
@@ -33,8 +50,12 @@ class StartKeyFace extends StatelessWidget {
   /// 0 shows "Start", 1 shows "Resume"; between, one slides up out and the other in.
   final double labelShift;
 
-  /// How much wider the key gets while it says Resume (the word needs the room).
-  static const double resumeWiden = 8;
+  /// The word on the key at rest.
+  static const String word = 'Start';
+  static const String resumeWord = 'Resume';
+
+  /// How far the pressed key sinks.
+  static const double pressDepth = 0.06;
 
   /// The key's height scale and width scale for a [stretch]: tall and narrow, volume kept.
   static (double sx, double sy) squashFor(double stretch) {
@@ -42,82 +63,115 @@ class StartKeyFace extends StatelessWidget {
     return (1 / math.sqrt(sy), sy);
   }
 
-  /// The key's rect inside its slot box (the bar's full 64 dp height, bottom anchored).
-  static Rect keyRect(Size slot, double collapse, {double widen = 0}) {
-    final w = MmBar.startKey.width + (MmBar.startKeyCompact.width - MmBar.startKey.width) * collapse + widen * (1 - collapse);
-    final h = MmBar.startKey.height + (MmBar.startKeyCompact.height - MmBar.startKey.height) * collapse;
-    // The compact bar is 12 dp shorter and bottom anchored, so its centre is 6 dp lower.
-    final cy = slot.height / 2 + (MmBar.height - MmBar.compactHeight) / 2 * collapse;
-    return Rect.fromCenter(center: Offset(slot.width / 2, cy), width: w, height: h);
+  /// The pill's rect inside its slot box (the bar's full 64 dp height, bottom anchored): the slot
+  /// less 2 dp each side, the bar's height less its padding. The same rect as the lens on that
+  /// slot ([BarLensPainter.lensRect] at rest).
+  static Rect keyRect(Size slot, double collapse) {
+    final barHeight = MmBar.height - (MmBar.height - MmBar.compactHeight) * collapse;
+    final height = barHeight - 2 * MmBar.pad;
+    final top = slot.height - barHeight + MmBar.pad;
+    return Rect.fromLTWH(MmBar.pillInset, top, slot.width - 2 * MmBar.pillInset, height);
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    Text word(String text, double size) => Text(
+    final ink = colors.voltInk;
+    Widget wordText(String text) => Text(
       text,
       maxLines: 1,
-      textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2),
-      style: type.labelLarge.copyWith(
-        fontFamily: MmFonts.hanken,
-        fontSize: size,
-        height: 18 / 15,
+      softWrap: false,
+      style: type.navLabel.copyWith(
+        fontSize: MmBar.labelSize,
+        height: MmBar.labelHeight / MmBar.labelSize,
         fontWeight: FontWeight.w700,
-        letterSpacing: -0.1,
-        color: colors.voltInk,
+        letterSpacing: 0,
+        color: ink,
       ),
     );
-    final label = labelShift <= 0
-        ? word('Start', 15)
+    final shift = labelShift.clamp(0.0, 1.0);
+    final label = shift <= 0
+        ? wordText(word)
         : Stack(
             alignment: Alignment.center,
             children: [
               Opacity(
-                opacity: (1 - labelShift * 1.6).clamp(0.0, 1.0),
-                child: Transform.translate(offset: Offset(0, -12 * labelShift), child: word('Start', 15)),
+                opacity: (1 - shift * 1.6).clamp(0.0, 1.0),
+                child: Transform.translate(offset: Offset(0, -MmBar.labelHeight * shift), child: wordText(word)),
               ),
               Opacity(
-                opacity: ((labelShift - 0.35) * 1.6).clamp(0.0, 1.0),
-                child: Transform.translate(offset: Offset(0, 12 * (1 - labelShift)), child: word('Resume', 14)),
+                opacity: ((shift - 0.35) * 1.6).clamp(0.0, 1.0),
+                child: Transform.translate(offset: Offset(0, MmBar.labelHeight * (1 - shift)), child: wordText(resumeWord)),
               ),
             ],
           );
-    return CustomPaint(
-      painter: _StartKeyPainter(
-        collapse: collapse,
-        pressed: pressed,
-        ripple: ripple,
-        stretch: stretch,
-        widen: resumeWiden * Motion.glide.transform(labelShift.clamp(0.0, 1.0)),
-        night: colors.isNight,
-        volt: colors.volt,
-        voltEdge: colors.voltEdge,
-        rim: colors.isNight ? colors.voltEdge : colors.accentText.withValues(alpha: 0.45),
-      ),
-      child: AnimatedBuilder(
-        animation: collapse,
-        builder: (context, child) {
-          final e = collapse.value;
-          final (sx, sy) = StartKeyFace.squashFor(stretch);
-          final keyHeight = MmBar.startKey.height + (MmBar.startKeyCompact.height - MmBar.startKey.height) * e;
-          return Transform.translate(
-            // The stretch is anchored at the key's foot: its centre rises by half the growth.
-            offset: Offset(0, (MmBar.height - MmBar.compactHeight) / 2 * e - keyHeight * (sy - 1) / 2),
-            child: Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.diagonal3Values(sx, sy, 1),
-              child: Transform.scale(scale: (1 - pressed * 0.06) * (1 - e * (1 / 15)), child: child),
-            ),
-          );
-        },
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: FittedBox(fit: BoxFit.scaleDown, child: label),
+
+    return LayoutBuilder(
+      builder: (context, box) {
+        final size = box.biggest;
+        return CustomPaint(
+          painter: _StartKeyPainter(
+            collapse: collapse,
+            pressed: pressed,
+            ripple: ripple,
+            stretch: stretch,
+            night: colors.isNight,
+            volt: colors.volt,
+            voltEdge: colors.voltEdge,
+            rim: colors.isNight ? colors.voltEdge : colors.accentText.withValues(alpha: 0.45),
           ),
-        ),
-      ),
+          child: AnimatedBuilder(
+            animation: collapse,
+            builder: (context, child) {
+              final e = collapse.value;
+              final rect = keyRect(size, e);
+              final (sx, sy) = squashFor(stretch);
+              final s = 1 - pressed * pressDepth;
+              // Pressed about the pill's centre, then stretched about its (pressed) foot, the way
+              // the painter draws the pill; the content rides down with the compact bar.
+              return Transform(
+                transform: Matrix4.diagonal3Values(sx, sy, 1),
+                origin: Offset(rect.center.dx, rect.center.dy + rect.height * s / 2),
+                child: Transform(
+                  transform: Matrix4.diagonal3Values(s, s, 1),
+                  origin: rect.center,
+                  child: Transform.translate(offset: Offset(0, MmBar.compactShift * e), child: child),
+                ),
+              );
+            },
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  left: (size.width - MmBar.icon) / 2,
+                  top: MmBar.iconTop,
+                  width: MmBar.icon,
+                  height: MmBar.icon,
+                  child: Icon(kStartGlyph, size: MmBar.icon, color: ink),
+                ),
+                Positioned(
+                  left: MmBar.pillInset,
+                  right: MmBar.pillInset,
+                  top: MmBar.labelTop,
+                  height: MmBar.labelHeight,
+                  child: FadeTransition(
+                    opacity: ReverseAnimation(labelsOut),
+                    child: ClipRect(
+                      child: Center(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: MediaQuery.withClampedTextScaling(maxScaleFactor: 1.2, child: label),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -128,7 +182,6 @@ class _StartKeyPainter extends CustomPainter {
     required this.pressed,
     required this.ripple,
     required this.stretch,
-    required this.widen,
     required this.night,
     required this.volt,
     required this.voltEdge,
@@ -139,7 +192,6 @@ class _StartKeyPainter extends CustomPainter {
   final double pressed;
   final double ripple;
   final double stretch;
-  final double widen;
   final bool night;
   final Color volt;
   final Color voltEdge;
@@ -147,8 +199,8 @@ class _StartKeyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var rect = StartKeyFace.keyRect(size, collapse.value, widen: widen);
-    final scale = 1 - 0.06 * pressed;
+    var rect = StartKeyFace.keyRect(size, collapse.value);
+    final scale = 1 - StartKeyFace.pressDepth * pressed;
     final (sx, sy) = StartKeyFace.squashFor(stretch);
     // Stretched (or squashed) about its foot: the bottom edge stays where it was.
     final foot = rect.bottomCenter;
@@ -206,7 +258,7 @@ class _StartKeyPainter extends CustomPainter {
       final t = Motion.glide.transform(ripple.clamp(0.0, 1.0));
       final grow = 14 * t;
       canvas.drawRRect(
-        RRect.fromRectAndRadius(rect.inflate(grow), Radius.circular(rect.height / 2 + grow)),
+        RRect.fromRectAndRadius(rect.inflate(grow), Radius.circular(math.min(rect.height, rect.width) / 2 + grow)),
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2 - 1.5 * t
@@ -221,7 +273,6 @@ class _StartKeyPainter extends CustomPainter {
       old.pressed != pressed ||
       old.ripple != ripple ||
       old.stretch != stretch ||
-      old.widen != widen ||
       old.night != night ||
       old.volt != volt ||
       old.voltEdge != voltEdge ||

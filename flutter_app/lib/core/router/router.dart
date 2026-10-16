@@ -23,7 +23,8 @@ import 'transitions.dart';
 final intendedRouteProvider = Provider<IntendedRoute>((ref) => IntendedRoute());
 
 /// The app's router. Every route of spec 4.2 is declared here; screens come from `screens.dart`.
-/// The shell has four tabs (Today, Practice, Review, You) under the bar; Learn is pushed over it.
+/// The shell has five tabs (Today, Practice, Review, Colleges, You) under the bar, with Start as
+/// the bar's action between Practice and Review; Learn and the CUET tools are pushed over it.
 final routerProvider = Provider<GoRouter>((ref) {
   final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
   final intended = ref.watch(intendedRouteProvider);
@@ -139,7 +140,7 @@ class _AppLinkRouting {
           _intended.remember(location);
         } else {
           // Signed in: open it. Signed out: the redirect remembers it and asks to sign in.
-          _router.go(location);
+          openNativeLocation(_router, location);
         }
       case ExternalTarget(uri: final target):
         unawaited(_ref.read(externalLinkOpenerProvider).open(target));
@@ -163,12 +164,40 @@ class _AuthRefresh extends ChangeNotifier {
 void _handleUnknown(Ref ref, Uri uri, GoRouter router) {
   switch (ActionRouter.resolve(uri.toString())) {
     case NativeTarget(:final location):
-      router.go(location);
+      openNativeLocation(router, location);
     case ExternalTarget(uri: final target):
       ref.read(externalLinkOpenerProvider).open(target);
     case UnsupportedTarget():
       router.go(AppRoutes.today);
   }
+}
+
+/// Opens a native [location] from a link. A CUET tool page (`/tools/...`) is a root page with no
+/// tab under it, so it opens over the Colleges tab: Back then lands on Colleges, never out of the
+/// app (L04). `/profile` lands on You with the account sheet open (`?account=1`).
+void openNativeLocation(GoRouter router, String location) {
+  final path = Uri.parse(location).path;
+  if (path.startsWith('${AppRoutes.tools}/')) {
+    router.go(AppRoutes.colleges);
+    unawaited(router.push<void>(location));
+    return;
+  }
+  router.go(location);
+}
+
+/// `/tools` alone redirects to the Colleges tab; its child pages (Compass, a programme, Combo,
+/// the 2027 guide) keep their paths.
+String? toolsHubRedirect(BuildContext context, GoRouterState state) {
+  final path = state.uri.path;
+  return path == AppRoutes.tools || path == '${AppRoutes.tools}/' ? AppRoutes.colleges : null;
+}
+
+/// `/colleges/cutoff` until the Colleges area's Check a score sheet exists: Compass holds the
+/// same calculator, so the score and category carry over to it.
+String? collegesCutoffStandIn(BuildContext context, GoRouterState state) {
+  final q = state.uri.queryParameters;
+  final query = {'score': ?q['score'], 'category': ?q['category']};
+  return query.isEmpty ? AppRoutes.toolsCompass : Uri(path: AppRoutes.toolsCompass, queryParameters: query).toString();
 }
 
 List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
@@ -222,7 +251,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     ]),
     sheet(AppRoutes.beforeYouStart, beforeYouStartScreen),
 
-    // The four tabs. Each branch keeps its own navigation stack and fades through on a switch.
+    // The five tabs. Each branch keeps its own navigation stack and fades through on a switch.
     StatefulShellRoute(
       pageBuilder: (context, state, shell) => mmShellPage<void>(context: context, state: state, child: AppShell(shell: shell)),
       navigatorContainerBuilder: (context, shell, children) =>
@@ -262,8 +291,14 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('repair/:attemptId/:questionId', reviewRepairScreen, transition: MmTransition.container, root: true),
           ]),
         ]),
-        // You: the student's sheet, the CUET tools and settings. Its own pages cover the bar
-        // (root pages), so their paths and transitions are unchanged.
+        // Colleges (app-ia-1016.md 5.1): My colleges, Admission Compass and the CUET tools.
+        StatefulShellBranch(routes: [
+          tabRoot(AppRoutes.colleges, collegesScreen, routes: [
+            GoRoute(path: 'cutoff', redirect: collegesCutoffStandIn),
+          ]),
+        ]),
+        // You: the student's study. Its own pages and the account pages (reached from the
+        // account sheet) cover the bar (root pages), so their paths and transitions are unchanged.
         StatefulShellBranch(routes: [
           tabRoot(AppRoutes.you, youScreen, routes: [
             page('goal', youGoalScreen, root: true),
@@ -288,8 +323,10 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
       ],
     ),
 
-    // CUET tools: pushed from You, Practice and the quiet link under Today's road.
-    page(AppRoutes.tools, toolsScreen, root: true, routes: [
+    // CUET tools: root pages over the bar, pushed from Colleges, Today's colleges card and
+    // Practice's More rows, so Back returns to the tab they came from. `/tools` itself is the
+    // Colleges tab now (a redirect); the child paths are unchanged (app-ia-1016.md D7).
+    GoRoute(path: AppRoutes.tools, redirect: toolsHubRedirect, routes: [
       page('compass', toolsCompassScreen, root: true, routes: [
         page(':groupId', toolsProgrammeScreen, root: true),
       ]),

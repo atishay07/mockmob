@@ -5,6 +5,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../rhythm/copy.dart' show RhythmCopy;
 import '../../rhythm/logic/plan_week.dart' show PlanDay, bubbleWeek;
+import '../../rhythm/widgets/week_dial.dart';
 import '../copy.dart';
 import '../widgets/you_page.dart' show PillKey, youText;
 import 'week_skeleton.dart';
@@ -300,7 +301,7 @@ class WeekField extends StatelessWidget {
 
   /// The ring's diameter (the shared study week's ring). The skeleton reserves the same height, so
   /// nothing moves when data lands.
-  static const double dialSize = 96;
+  static const double dialSize = 112;
 
   /// The page margin the field aligns to.
   static const double side = youText;
@@ -374,30 +375,43 @@ class WeekField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // "This week" names the field and the way in; the chevron says it opens Rhythm.
-        Row(
-          children: [
-            Expanded(child: Text(YouCopy.weekOpen, style: type.labelLarge.copyWith(fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis)),
-            const SizedBox(width: MmSpace.s2),
-            Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2),
-          ],
-        ),
-        const SizedBox(height: MmSpace.s12),
+        // The section title above names the week; its "See rhythm" key and the whole field open Rhythm.
+        // L06: the ring says what it counts. The big numeral is the days studied this week and the
+        // words inside the ring name the goal ("of 4 study days"), one node for TalkBack.
+        if (hasDial) ...[
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Semantics(
+                container: true,
+                label: [?week.count, ?headline].join('. '),
+                excludeSemantics: true,
+                child: WeekDial(done: week.done!, goal: week.goal!.clamp(1, 7), size: WeekField.dialSize, paused: week.paused),
+              ),
+              const SizedBox(width: MmSpace.s16),
+              Expanded(
+                child: ExcludeSemantics(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (headline != null) Text(headline, style: type.title),
+                      if (headline != null && !week.paused && week.note != null) const SizedBox(height: MmSpace.s4),
+                      if (!week.paused && week.note != null)
+                        Text(week.note!, style: type.caption.copyWith(fontSize: 12, height: 16 / 12, color: colors.ink2)),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: MmSpace.s12),
+          SizedBox(height: 1, child: ColoredBox(color: colors.line)),
+          const SizedBox(height: MmSpace.s4),
+        ],
         if (seven)
-          // Today, Rhythm and the week sheet draw this same widget: one ring, one row, one key (it
-          // shows on a first look at a week and on a long press, never as a line of its own).
-          StudyWeek(
-            days: days,
-            variant: hasDial ? StudyWeekVariant.ring : StudyWeekVariant.compact,
-            done: week.done,
-            goal: week.goal?.clamp(1, 7),
-            paused: week.paused,
-            headline: hasDial ? headline : null,
-            caption: hasDial && !week.paused ? week.note : null,
-            ringSize: WeekField.dialSize,
-            animateIn: true,
-            semanticsLabel: week.description,
-          )
+          // Today, Rhythm and the week sheet draw this same row of days.
+          StudyWeek(days: days, animateIn: true, semanticsLabel: week.description)
         else
           const SizedBox.shrink(),
         if (!hasDial && headline != null) ...[

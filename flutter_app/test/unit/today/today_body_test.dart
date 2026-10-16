@@ -95,15 +95,22 @@ void main() {
     expect(locations, [AppRoutes.result('m7'), AppRoutes.result('m6')]);
   });
 
-  testWidgets('the error state offers Try again and a way to practise', (tester) async {
+  testWidgets('the error state names what did not load, offers Try again and a way to practise', (tester) async {
     final events = await pumpToday(tester, buildToday(TodayInputs(now: tuesdayEvening, firstName: 'Asha', attemptsFailed: true)));
-    expect(find.text(TodayCopy.unavailableTitle), findsOneWidget);
+    expect(find.text(TodayCopy.failTitle), findsOneWidget);
     expect(find.text(TodayCopy.unavailableLine), findsOneWidget);
-    expect(find.textContaining('move'), findsNothing);
     await tester.tap(find.text(TodayCopy.tryAgain));
     await tester.pump();
     expect((events.single as TodayAction).target, isA<RetryLoad>());
-    expect(find.text(TodayCopy.choosePractice), findsOneWidget);
+    expect(find.text(TodayCopy.practiseAnyway), findsOneWidget);
+  });
+
+  testWidgets('a Try again that changed nothing says when it ran, in the card', (tester) async {
+    final tried = DateTime.utc(2026, 10, 13, 17, 11);
+    await pumpToday(tester, buildToday(TodayInputs(now: tuesdayEvening, firstName: 'Asha', attemptsFailed: true, lastTriedAt: tried)));
+    expect(find.textContaining('Tried again at'), findsOneWidget);
+    expect(find.textContaining('Still not loading.'), findsOneWidget);
+    expect(find.byType(SnackBar), findsNothing);
   });
 
   testWidgets('the week in the header has one spoken summary and opens the week', (tester) async {

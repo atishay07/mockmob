@@ -39,9 +39,9 @@ void main() {
       expect(_go('/learn/unit-3'), const NativeTarget('/learn/unit-3'));
     });
 
-    test('recovery and progress land on Review', () {
+    test('recovery lands on Review; progress (milestones and bests) on You', () {
       expect(_go('/recovery?subject=accountancy&chapter=x'), const NativeTarget('/review'));
-      expect(_go('/progress'), const NativeTarget('/review'));
+      expect(_go('/progress'), const NativeTarget('/you'));
     });
 
     test('absolute links to our own domain map the same way', () {
@@ -234,13 +234,23 @@ void main() {
 
     test('the DU tools and the 2027 guide', () {
       expect(_go('/admission-compass'), const NativeTarget('/tools/compass'));
-      expect(_go('/cuet-cutoff-calculator'), const NativeTarget('/tools/compass'));
+      expect(_go('/cuet-cutoff-calculator'), const NativeTarget('/colleges/cutoff'), reason: 'Check a score on Colleges');
       expect(_go('/cuet-subject-combination'), const NativeTarget('/tools/combo'));
       expect(_go('https://www.mockmob.in/cuet-2027'), const NativeTarget('/tools/guide-2027'));
     });
 
-    test('profile and editing subjects', () {
-      expect(_go('/profile'), const NativeTarget('/you'));
+    test('the Colleges tab and Check a score keep only a well-formed score and category', () {
+      expect(_go('/colleges'), const NativeTarget('/colleges'));
+      expect(_go('/colleges/cutoff?score=612&category=UR&x=1'), const NativeTarget('/colleges/cutoff?score=612&category=UR'));
+      expect(_go('/colleges/cutoff?score=abc&category=%3Cb%3E'), const NativeTarget('/colleges/cutoff'));
+      expect(_go('/colleges/cutoff?score=600-650&category=OBC-NCL'), const NativeTarget('/colleges/cutoff?score=600-650&category=OBC-NCL'));
+      expect(_go('/tools'), const NativeTarget('/tools'), reason: 'the router redirects it to /colleges');
+    });
+
+    test('profile opens You with the account sheet, and editing subjects', () {
+      expect(_go('/profile'), const NativeTarget('/you?account=1'));
+      expect(_go('/you?account=1'), const NativeTarget('/you?account=1'));
+      expect(_go('/you?account=2'), const NativeTarget('/you'));
       expect(_go('/onboarding?edit=true'), const NativeTarget('/you/subjects'));
       expect(_go('/onboarding'), isA<ExternalTarget>());
     });

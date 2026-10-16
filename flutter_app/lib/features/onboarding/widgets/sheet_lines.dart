@@ -1,3 +1,4 @@
+import '../../../core/models/my_colleges.dart' show MyColleges;
 import '../model/answers.dart';
 import '../model/deck.dart';
 import '../data/subjects.dart';
@@ -13,7 +14,10 @@ List<String> sheetLines(OnboardingAnswers a) {
   if (course != null) {
     final picks = [for (final name in a.colleges) course.offeringAt(name)?.short ?? name];
     if (picks.isNotEmpty) {
-      lines.add('${course.short}: ${picks.join(', ')}');
+      // The first three are the ones Today shows; the rest are counted, so eight picks stay one line.
+      final shown = picks.take(MyColleges.ladderSize).join(', ');
+      final more = picks.length - MyColleges.ladderSize;
+      lines.add('${course.short}: $shown${more > 0 ? ' and $more more' : ''}');
     } else {
       lines.add(a.openToAny ? '${course.short}, any college is fine' : course.short);
     }

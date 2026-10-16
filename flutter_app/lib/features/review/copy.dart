@@ -1,3 +1,4 @@
+import '../../core/auth/load_problem.dart';
 import '../../core/copy/formatters.dart';
 
 /// Every line the Review feature shows (spec 5.8, Night Sheet brief sections 8 and 10). The
@@ -22,6 +23,13 @@ abstract final class ReviewCopy {
   static const recordHeading = 'Repair record';
   static const pastHeading = 'Past results';
   static const seeRecord = 'See your record';
+
+  /// The History side's first block: the SWOT's next step after the latest mock.
+  static String nextFromMock(String mock) => 'Next from $mock';
+  static const setUp = 'Set up';
+
+  /// "Set up" is opening the practice setup, which starts nothing before its own key.
+  static String setUpSpoken(String label) => 'Set up: $label. Opens the setup, nothing starts yet';
   static const replayRecap = 'Replay recap';
   static const showMe = 'Show me';
 
@@ -144,12 +152,14 @@ abstract final class ReviewCopy {
 
   // ---- Empty, error, offline ------------------------------------------------------------
 
-  static const emptyTitle = 'Your mistakes gather here';
-  static const emptyMessage = 'Every wrong answer lands here, grouped by chapter.';
-  static const emptyAction = 'Start practice';
+  /// Shown only when the attempts read succeeded and came back with no papers (never for a read
+  /// that failed or has not answered).
+  static const emptyTitle = 'Nothing to review yet';
+  static const emptyMessage = 'Finish one practice and every wrong answer comes here, sorted by chapter.';
+  static const emptyAction = 'Start 10 questions';
   static const allClearTitle = 'Nothing waiting to repair';
   static const allClearMessage = "Every mistake you've found is repaired.";
-  static const allClearAction = 'Start a Quick 10';
+  static const allClearAction = 'Start 10 questions';
   static String allClearSetAside(int n) =>
       'Nothing is open. ${plural(n, 'question')} ${n == 1 ? 'is' : 'are'} set aside while the answer key is checked.';
 
@@ -164,10 +174,16 @@ abstract final class ReviewCopy {
       '$repaired repaired, $found found${setAside > 0 ? ', $setAside set aside' : ''}';
   static String repairsProgressSemantics(int repaired, int found, {int setAside = 0}) =>
       '$repaired repaired of ${plural(found, 'mistake')} found so far${setAside > 0 ? ', $setAside set aside' : ''}';
-  static const loadErrorTitle = 'We could not load your mistakes';
-  static const loadErrorMessage = 'Check your connection and try again.';
+  static const loadErrorTitle = 'Your record did not load';
+
+  /// The named cause and what to do about it: the same words every "did not load" in the app uses.
+  static String loadErrorMessage(LoadProblem problem) => '${problem.sentence} ${problem.advice}';
   static const offlineTitle = 'You are offline';
-  static const offlineMessage = 'Your mistakes load when you are back online.';
+  static const offlineMessage = 'Your mistakes load when you are back online. Nothing was lost.';
+
+  /// The header line over a saved copy: offline, or online but the refresh failed.
+  static const savedOffline = 'Offline. Showing what is saved on this phone.';
+  static const savedRefreshFailed = 'Could not refresh. Showing your saved record.';
   static const tryAgainKey = 'Try again';
 
   // ---- Repair entry ---------------------------------------------------------------------
@@ -189,6 +205,39 @@ abstract final class ReviewCopy {
   static const pausedLine = 'The key explanations still work.';
   static const outOfCreditsHeadline = "You have used this month's explanation credits";
   static String renewsOn(String date) => 'Explanation credits renew on $date.';
+
+  // ---- Try it once more (L13) -----------------------------------------------------------------
+  //
+  // Every fresh repair opens on the question again, with no key showing. The step is free, kept on
+  // the phone, and never changes what counts as repaired; the server's own answer wins over the
+  // phone's on the key.
+
+  static const tryTitle = 'Try it once more before the reason.';
+  static const tryHint = 'Pick one. Your first answer here counts.';
+  static const checkMyAnswer = 'Check my answer';
+  static const checkMyAnswerNeedsPick = 'Check my answer, pick an option first';
+  static const showReasonNow = 'Show the reason now';
+
+  /// The tag on the option picked in the paper: "Your pick in Mock 2".
+  static String yourPickIn(String source) => 'Your pick in $source';
+  static const yourPickNow = 'Your pick now';
+  static const yourPickAndKey = 'Your pick and the key';
+  static const keyWord = 'Key';
+
+  /// The cost line under "Check my answer". An unknown balance says nothing about the balance and
+  /// never counts as zero.
+  static String reasonCost(int balance) => 'The reason uses 1 AI credit. You have $balance.';
+  static const reasonCostUnknown = 'The reason uses 1 AI credit.';
+  static const keyExplanationFree = 'The key explanation is free.';
+
+  /// The verdict, in words and never in colour alone.
+  static const verdictRight = 'Right this time.';
+  static const verdictRightLine = 'Here is why it holds.';
+  static String verdictStill(String? pick) => pick == null ? 'Still the same pick.' : 'Still $pick.';
+  static String verdictStillLine(String? key) => key == null ? 'Here is the trap.' : 'The key is $key. Here is the trap.';
+  static String verdictDifferent(String? pick, String? key) =>
+      pick == null || key == null ? 'Not this one.' : '$pick this time. The key is $key.';
+  static String verdictDifferentLine(String? key) => key == null ? 'Here is why.' : 'Here is why $key.';
 
   // ---- Per mistake ----------------------------------------------------------------------
 
@@ -307,6 +356,7 @@ abstract final class ReviewCopy {
   static const notFound = "We can't find this mistake any more. It may already be repaired.";
   static const backToReview = 'Back to Review';
   static const keyNeedsConnection = 'The key explanation needs a connection the first time.';
+  static const questionNeedsConnection = 'Connect to load this question.';
 
   static String retryTitle(String chapter) => 'Practise 5 on ${shortChapter(chapter)}';
   static String retryLine(int? cost, bool free) => free

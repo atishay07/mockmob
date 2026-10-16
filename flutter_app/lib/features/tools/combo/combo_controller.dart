@@ -6,19 +6,34 @@ import 'dart:isolate';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/auth/auth_state.dart';
 import '../data/du_repository.dart';
+import '../data/my_colleges_actions.dart';
 import '../data/tools_store.dart';
 import '../domain/du_combos.dart';
 import '../domain/du_helpers.dart';
 import '../domain/du_models.dart';
 
 class ComboState {
-  const ComboState({required this.catalog, this.targets = const [], this.pool = const [], this.maxPapers = duDefaultMaxPapers});
+  const ComboState({
+    required this.catalog,
+    this.targets = const [],
+    this.pool = const [],
+    this.maxPapers = duDefaultMaxPapers,
+    this.targetsFromColleges = false,
+    this.poolFromSheet = false,
+  });
 
   final DuCatalog catalog;
   final List<String> targets;
   final List<DuPick> pool;
   final int maxPapers;
+
+  /// The targets were filled from My colleges on the first open (the screen says so).
+  final bool targetsFromColleges;
+
+  /// The subjects were filled from the student's sheet on the first open.
+  final bool poolFromSheet;
 
   bool get targetsFull => targets.length >= duMaxTargets;
   bool get poolFull => pool.length >= duMaxPool;
@@ -28,6 +43,8 @@ class ComboState {
         targets: targets ?? this.targets,
         pool: pool ?? this.pool,
         maxPapers: maxPapers ?? this.maxPapers,
+        targetsFromColleges: targets == null && targetsFromColleges,
+        poolFromSheet: pool == null && poolFromSheet,
       );
 }
 
@@ -36,7 +53,17 @@ class ComboController extends AsyncNotifier<ComboState> {
   Future<ComboState> build() async {
     final catalog = await ref.watch(duCatalogProvider.future);
     final saved = await ref.read(toolsStoreProvider).combo();
-    if (saved == null) return ComboState(catalog: catalog);
+    if (saved == null) {
+      // First open: honest defaults from what the student already told us, each labelled.
+      final mine = ref.read(myCollegesProvider);
+      final targets = <String>{
+        if (mine.ready)
+          for (final c in mine.colleges)
+            if (catalog.group(c.programmeId) != null) c.programmeId,
+      }.take(duMaxTargets).toList();
+      final pool = DuSelection.fromIds(ref.read(authSnapshotProvider).subjects, catalog).picks.take(duMaxPool).toList();
+      return ComboState(catalog: catalog, targets: targets, pool: pool, targetsFromColleges: targets.isNotEmpty, poolFromSheet: pool.isNotEmpty);
+    }
     bool known(DuPick p) => switch (p.kind) {
           DuPickKind.language => catalog.isLanguage(p.id),
           DuPickKind.domain => catalog.isDomain(p.id),
@@ -116,4 +143,17 @@ final comboPlanProvider = FutureProvider.autoDispose<DuComboPlan>(retry: (count,
   final s = ref.watch(comboControllerProvider).value;
   if (s == null || s.pool.isEmpty) return DuComboPlan.empty;
   return ref.read(comboRunnerProvider)(s.catalog.groups, s.pool, s.targets, s.maxPapers);
+});
+
+/// Why each "keep" subject matters: the best plan re-run with that subject taken out. Runs after
+/// the plan lands, through the same runner (off the UI thread for real pools).
+final comboKeepReasonsProvider = FutureProvider.autoDispose<List<DuKeepReason>>(retry: (count, error) => null, (ref) async {
+  final s = ref.watch(comboControllerProvider).value;
+  final plan = await ref.watch(comboPlanProvider.future);
+  if (s == null || plan.keep.isEmpty || plan.ranked.isEmpty) return const [];
+  final run = ref.read(comboRunnerProvider);
+  final without = <DuPick, DuComboPlan>{
+    for (final k in plan.keep) k: await run(s.catalog.groups, [for (final p in s.pool) if (p != k) p], s.targets, s.maxPapers),
+  };
+  return duKeepReasons(plan, without, (id) => s.catalog.group(id)?.name ?? id);
 });

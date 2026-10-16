@@ -21,11 +21,14 @@ import '../credits/credits_screen.dart' show PlanTag;
 import '../credits/widgets/credit_tile.dart' show CreditTiles;
 import '../you/account/sign_out_key.dart';
 import '../you/appearance/theme_switch.dart';
+import '../../core/settings/changed_row.dart';
 import '../../core/widgets/widgets.dart';
+import '../you/copy.dart' show YouCopy;
 import '../you/widgets/you_row.dart' show YouPanel, YouRow;
 import '../you/widgets/you_motion.dart' show YouIconMotion;
 import '../you/you_providers.dart' show supportMailerProvider;
 import 'account_copy.dart';
+import 'notifications_row.dart';
 
 /// Opens the Account sheet over everything (the root navigator), so it covers the bar too.
 Future<void> showAccountSheet(BuildContext context) {
@@ -36,7 +39,7 @@ Future<void> showAccountSheet(BuildContext context) {
 abstract final class AccountSheetPaths {
   static const account = AppRoutes.youAccount;
   static const notifications = AppRoutes.youNotifications;
-  static const studyDays = AppRoutes.youRhythm;
+  static const appearance = AppRoutes.youAppearance;
   static const privacy = AppRoutes.youPrivacy;
   static const help = AppRoutes.youHelp;
   static const ask = AppRoutes.ask;
@@ -79,7 +82,7 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _Identity(auth: auth),
+          _Identity(auth: auth, proUntil: figures.isPro ? figures.proUntil : null),
           const SizedBox(height: MmSpace.s24),
           _Caption(AccountCopy.credits),
           const SizedBox(height: MmSpace.s12),
@@ -96,25 +99,21 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
             children: [
               YouRow(
                 flat: true,
+                icon: LucideIcons.sparkles,
+                motion: YouIconMotion.tilt,
+                changeKey: ChangedRowKeys.appearance,
+                title: YouCopy.rowFeel,
+                note: YouCopy.rowFeelNote,
+                onTap: () => _open(AccountSheetPaths.appearance),
+              ),
+              YouRow(
+                flat: true,
                 icon: LucideIcons.user,
                 motion: YouIconMotion.hop,
                 title: AccountCopy.rowAccount,
                 onTap: () => _open(AccountSheetPaths.account),
               ),
-              YouRow(
-                flat: true,
-                icon: LucideIcons.bell,
-                motion: YouIconMotion.swing,
-                title: AccountCopy.rowNotifications,
-                onTap: () => _open(AccountSheetPaths.notifications),
-              ),
-              YouRow(
-                flat: true,
-                icon: LucideIcons.calendarDays,
-                motion: YouIconMotion.ping,
-                title: AccountCopy.rowStudyDays,
-                onTap: () => _open(AccountSheetPaths.studyDays),
-              ),
+              AccountNotificationsRow(onOpen: () => _open(AccountSheetPaths.notifications)),
               YouRow(
                 flat: true,
                 icon: LucideIcons.shieldCheck,
@@ -164,9 +163,12 @@ class _Caption extends StatelessWidget {
 
 /// The disc at 56 dp, the name in the title cut with the email under it, and the plan tag.
 class _Identity extends StatelessWidget {
-  const _Identity({required this.auth});
+  const _Identity({required this.auth, this.proUntil});
 
   final AuthSnapshot auth;
+
+  /// When Pro ends, for the line under the tag. Null for Free, and for Pro with no date.
+  final DateTime? proUntil;
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +201,17 @@ class _Identity extends StatelessWidget {
           ),
         ),
         const SizedBox(width: MmSpace.s12),
-        PlanTag(pro: auth.isPro),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            PlanTag(pro: auth.isPro),
+            if (auth.isPro && proUntil != null) ...[
+              const SizedBox(height: 2),
+              Text(AccountCopy.proUntil(proUntil!), style: type.caption.copyWith(color: colors.ink2)),
+            ],
+          ],
+        ),
       ],
     );
   }

@@ -14,6 +14,8 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../learn/widgets/feedback_mobi.dart';
+import '../again/review_again_copy.dart';
+import '../again/review_again_entry.dart' show reviewAgainCountProvider;
 import '../widgets/page_header.dart';
 import '../widgets/review_state_view.dart';
 import 'revise_copy.dart';
@@ -834,7 +836,7 @@ class _Option extends StatelessWidget {
 /// honoured through [MobiRation.underLevel]: Quiet seats him (no hop), Off keeps the plain check
 /// ring that draws itself in. Reduced motion holds his pose still (the character does that).
 /// He is the only Mobi on the Revise screen.
-class ReviseEnd extends StatelessWidget {
+class ReviseEnd extends ConsumerWidget {
   const ReviseEnd({super.key, required this.line, required this.next, required this.right, required this.wrong});
 
   final String? line;
@@ -891,9 +893,12 @@ class ReviseEnd extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
+    // Revise's cards are the server's; the mistakes the student repaired are the phone's. After a
+    // run the second is offered, so the two never leave a dead end.
+    final repaired = ref.watch(reviewAgainCountProvider);
     final level = MobiCelebrations.of(context);
     final act = MobiRation.underLevel(actFor(right: right, wrong: wrong), level, held: true);
     return Column(
@@ -923,6 +928,13 @@ class ReviseEnd extends StatelessWidget {
           onPressed: () =>
               context.canPop() ? context.pop() : context.go(AppRoutes.review),
         ),
+        if (repaired > 0)
+          Align(
+            child: KeyButton.quiet(
+              label: ReviseCopy.reviewAgainMore(repaired),
+              onPressed: () => context.push(ReviewAgainCopy.path),
+            ),
+          ),
       ],
     );
   }

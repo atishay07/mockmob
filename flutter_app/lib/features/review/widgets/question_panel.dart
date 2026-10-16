@@ -14,10 +14,17 @@ import 'review_layout.dart';
 /// reading): an optional passage, the question, and the options with the student's answer and
 /// the correct one marked by bubble, word and surface, never colour alone.
 class QuestionPanel extends StatelessWidget {
-  const QuestionPanel({super.key, required this.question, this.chosen, this.keyIndex, this.showKey = true, this.reveal});
+  const QuestionPanel({super.key, required this.question, this.chosen, this.keyIndex, this.showKey = true, this.reveal, this.earlier, this.words});
 
   final SnapshotQuestion question;
   final int? chosen;
+
+  /// The pick made in the paper, when [chosen] is a newer pick (the repair's "try it once more"):
+  /// marked quietly as the earlier one.
+  final int? earlier;
+
+  /// The tag's words per option index, in place of "Your answer" / "Correct answer".
+  final Map<int, String>? words;
 
   /// The correct option, or null when no key may be shown (spec 5.7 key rule).
   final int? keyIndex;
@@ -43,7 +50,7 @@ class QuestionPanel extends StatelessWidget {
         const SizedBox(height: MmSpace.s16),
         for (var i = 0; i < question.options.length; i++) ...[
           if (i > 0) const SizedBox(height: MmSpace.s8),
-          MarkedOption(letter: question.options[i].key, text: question.options[i].text, mark: _markFor(i), reveal: reveal),
+          MarkedOption(letter: question.options[i].key, text: question.options[i].text, mark: _markFor(i), reveal: reveal, word: words?[i]),
         ],
       ],
     );
@@ -52,7 +59,7 @@ class QuestionPanel extends StatelessWidget {
   OptionMark _markFor(int i) {
     final isKey = showKey && keyIndex == i;
     if (isKey) return OptionMark.correct;
-    if (chosen == i) return OptionMark.yours;
+    if (chosen == i || earlier == i) return OptionMark.yours;
     return OptionMark.none;
   }
 }

@@ -16,6 +16,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/storage/storage_providers.dart';
 import '../../rhythm/rhythm.dart' show rhythmVisibleProvider;
 import '../../today/data/today_providers.dart' show todayInputsProvider;
+import '../data/invite_store.dart';
 import '../data/reminder_store.dart';
 import '../copy.dart';
 import '../logic/evening_move.dart';
@@ -207,12 +208,15 @@ Future<bool> _prePromptDue(Ref ref, PrePromptMoment moment) async {
       .notificationPermission();
   final state = await ref.watch(reminderStoreProvider).load();
   final last = await ref.watch(appPrefsProvider).lastPrePromptAt();
+  // The invitation on You may already have asked today; then this sheet waits for tomorrow.
+  final invite = await ref.watch(inviteStoreProvider).load();
   return shouldOfferPrePrompt(
     permission: permission,
     askCount: state.prePromptAskCount,
     lastAskedAt: last,
     now: ref.read(nowProvider)(),
     moment: moment,
+    inviteShownOn: invite.shownOn,
   );
 }
 

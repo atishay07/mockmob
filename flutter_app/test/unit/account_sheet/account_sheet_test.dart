@@ -21,8 +21,14 @@ import 'package:mockmob/features/account_sheet/account_copy.dart';
 import 'package:mockmob/features/account_sheet/account_sheet.dart';
 import 'package:mockmob/features/credits/credits.dart' show CreditsCopy;
 import 'package:mockmob/features/credits/data/credits_data.dart' show meCreditsProvider;
+import 'package:mockmob/features/notifications/copy.dart';
+import 'package:mockmob/features/notifications/services/system_settings.dart';
+import 'package:mockmob/core/permissions/permission_requester.dart';
+import 'package:mockmob/features/you/copy.dart' show YouCopy;
 import 'package:mockmob/features/you/you_providers.dart';
 
+import '../notifications/support.dart' show Rig, prefsWith;
+import '../notifications/widget_support.dart' show FakePermissionRequester, FakePrefsRepo, featureOverrides;
 import '../you/you_test_support.dart' show FakeMeCredits, creditsState, draftsWithUnsent, outboxWith;
 
 const _asha = AuthSnapshot(
@@ -75,7 +81,7 @@ Future<void> _pumpApp(
       ),
       stub(AccountSheetPaths.account),
       stub(AccountSheetPaths.notifications),
-      stub(AccountSheetPaths.studyDays),
+      stub(AccountSheetPaths.appearance),
       stub(AccountSheetPaths.privacy),
       stub(AccountSheetPaths.help),
       stub(AccountSheetPaths.ask),
@@ -180,7 +186,7 @@ void main() {
   final rows = <String, String>{
     AccountCopy.rowAccount: AccountSheetPaths.account,
     AccountCopy.rowNotifications: AccountSheetPaths.notifications,
-    AccountCopy.rowStudyDays: AccountSheetPaths.studyDays,
+    YouCopy.rowFeel: AccountSheetPaths.appearance,
     AccountCopy.rowPrivacy: AccountSheetPaths.privacy,
     AccountCopy.rowHelp: AccountSheetPaths.help,
     'Practice credits': AccountSheetPaths.credits,
@@ -227,4 +233,115 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(AccountSheet), findsOneWidget);
   });
+  testWidgets('Study days is not in the sheet: it lives on You', (tester) async {
+    await _pumpApp(tester);
+    await _openSheet(tester);
+    expect(find.text('Study days'), findsNothing);
+    // The rows, in order, are the ones the owner asked for.
+    final order = [
+      YouCopy.rowFeel,
+      AccountCopy.rowAccount,
+      AccountCopy.rowNotifications,
+      AccountCopy.rowPrivacy,
+      AccountCopy.rowHelp,
+      AccountCopy.rowContact,
+    ];
+    double? last;
+    for (final label in order) {
+      await tester.ensureVisible(find.text(label));
+      await tester.pumpAndSettle();
+      final y = tester.getTopLeft(find.text(label)).dy;
+      if (last != null) expect(y, greaterThan(last), reason: label);
+      last = y;
+    }
+  });
+
+  testWidgets('a Pro account shows the tag with the date it runs to', (tester) async {
+    await _pumpApp(
+      tester,
+      auth: AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Asha', email: 'a@b.in', isPro: true, premiumUntil: DateTime(2027, 1, 12)),
+      credits: creditsState(practice: 24, ai: 18, pro: true, proUntil: '2027-01-12'),
+    );
+    await _openSheet(tester);
+    expect(find.text(AccountCopy.planPro), findsOneWidget);
+    expect(find.text('until 12 Jan'), findsOneWidget);
+  });
+
+  group('the Notifications row', () {
+    late Rig rig;
+    late FakePermissionRequester permission;
+    late _Settings settings;
+
+    Future<void> pumpRow(WidgetTester tester, NotificationPermission perm, {NotificationPermission after = NotificationPermission.granted}) async {
+      rig = Rig();
+      permission = FakePermissionRequester(perm, afterRequest: after);
+      settings = _Settings();
+      await _pumpApp(tester, extra: [
+        ...featureOverrides(rig: rig, repo: FakePrefsRepo(prefsWith()), permission: permission),
+        systemSettingsProvider.overrideWithValue(settings),
+      ]);
+      await _openSheet(tester);
+      await tester.ensureVisible(find.text(AccountCopy.rowNotifications));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('off: it says Off and carries a Turn on key; the row still opens its page', (tester) async {
+      await pumpRow(tester, NotificationPermission.notAsked);
+      expect(find.text(NotificationsCopy.rowOff), findsOneWidget);
+      expect(find.text(NotificationsCopy.inviteTurnOn), findsOneWidget);
+      final pill = tester.getRect(find.bySemanticsLabel(NotificationsCopy.inviteTurnOnLabel));
+      final row = tester.getRect(find.bySemanticsLabel('${AccountCopy.rowNotifications}. ${NotificationsCopy.rowOff}'));
+      expect(pill.height, greaterThanOrEqualTo(48));
+      expect(row.height, greaterThanOrEqualTo(48));
+      expect(pill.overlaps(row), isFalse, reason: 'the two targets never overlap');
+
+      await tester.tap(find.text(AccountCopy.rowNotifications));
+      await tester.pumpAndSettle();
+      expect(find.text('page ${AccountSheetPaths.notifications}'), findsOneWidget);
+      expect(permission.requests, 0);
+    });
+
+    testWidgets('Turn on asks Android and the row then reads On', (tester) async {
+      await pumpRow(tester, NotificationPermission.notAsked);
+      await tester.tap(find.text(NotificationsCopy.inviteTurnOn));
+      await tester.pumpAndSettle();
+      expect(permission.requests, 1);
+      expect(find.text(NotificationsCopy.inviteTurnOn), findsNothing);
+      expect(find.text(NotificationsCopy.rowOff), findsNothing);
+      expect(find.byType(AccountSheet), findsOneWidget, reason: 'Turn on does not close the sheet');
+    });
+
+    testWidgets('a refusal leaves the row off and says so once', (tester) async {
+      await pumpRow(tester, NotificationPermission.notAsked, after: NotificationPermission.notAsked);
+      await tester.tap(find.text(NotificationsCopy.inviteTurnOn));
+      await tester.pumpAndSettle();
+      expect(find.text(NotificationsCopy.inviteTurnOn), findsOneWidget);
+      expect(find.text(NotificationsCopy.inviteRefused), findsOneWidget);
+    });
+
+    testWidgets('blocked: it says so and the key opens Android settings', (tester) async {
+      await pumpRow(tester, NotificationPermission.denied);
+      expect(find.text(NotificationsCopy.rowBlocked), findsOneWidget);
+      await tester.tap(find.text(NotificationsCopy.inviteOpenSettings));
+      await tester.pumpAndSettle();
+      expect(settings.opened, 1);
+    });
+
+    testWidgets('on: no key, no Off, the ordinary row', (tester) async {
+      await pumpRow(tester, NotificationPermission.granted);
+      expect(find.text(NotificationsCopy.rowOff), findsNothing);
+      expect(find.text(NotificationsCopy.inviteTurnOn), findsNothing);
+      expect(find.text(NotificationsCopy.rowOn), findsOneWidget);
+    });
+  });
+}
+
+class _Settings extends SystemSettings {
+  int opened = 0;
+
+  @override
+  Future<bool> openNotificationSettings() async {
+    opened++;
+    return true;
+  }
 }

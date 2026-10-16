@@ -8,17 +8,33 @@ import '../../../core/theme/theme.dart';
 import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../data/repair_state.dart';
+import 'retry_first.dart' show RetryVerdict;
 
 /// Which act Mobi plays for a repair outcome (the website's `repairMood`, so both surfaces react
 /// alike). Success only for a repair the server acknowledged and counted.
-enum RepairMobiBeat { think, slow, correct, hello, oops, rest }
+enum RepairMobiBeat { think, slow, correct, hello, oops, rest, listen, sympathy, encourage, idea }
 
-RepairMobiBeat repairMobiBeat(MistakeOutcome? outcome, {bool slow = false}) => switch (outcome) {
-  null || OutcomeLoading() => slow ? RepairMobiBeat.slow : RepairMobiBeat.think,
-  OutcomeExplained(:final reopened) => reopened ? RepairMobiBeat.hello : RepairMobiBeat.correct,
-  OutcomeFailed() => RepairMobiBeat.oops,
-  OutcomeKeyReview() || OutcomeSetAside() || OutcomeNotExplained() => RepairMobiBeat.rest,
-};
+///
+/// On the try step ([trying]) he listens. A repair that landed after a checked try reacts to the
+/// verdict ([verdict]): a hop for right, a sympathetic beat for the same wrong pick, an encouraging
+/// one for a different wrong pick; "Show the reason now" ([skippedTry]) lands on an idea.
+RepairMobiBeat repairMobiBeat(MistakeOutcome? outcome, {bool slow = false, bool trying = false, RetryVerdict? verdict, bool skippedTry = false}) {
+  if (trying) return RepairMobiBeat.listen;
+  return switch (outcome) {
+    null || OutcomeLoading() => slow ? RepairMobiBeat.slow : RepairMobiBeat.think,
+    OutcomeExplained(:final reopened) =>
+      reopened
+          ? RepairMobiBeat.hello
+          : switch (verdict) {
+              RetryVerdict.right => RepairMobiBeat.correct,
+              RetryVerdict.still => RepairMobiBeat.sympathy,
+              RetryVerdict.different => RepairMobiBeat.encourage,
+              null => skippedTry ? RepairMobiBeat.idea : RepairMobiBeat.correct,
+            },
+    OutcomeFailed() => RepairMobiBeat.oops,
+    OutcomeKeyReview() || OutcomeSetAside() || OutcomeNotExplained() => RepairMobiBeat.rest,
+  };
+}
 
 /// Mobi in a fixed 80 dp slot beside the outcome's own line ([beside]): the wait line while the
 /// explanation is made, the four steps once a repair lands, the notice after a failure. The same
@@ -31,7 +47,24 @@ RepairMobiBeat repairMobiBeat(MistakeOutcome? outcome, {bool slow = false}) => s
 /// the line's own. The slot keeps its size whatever plays, so nothing moves. With large text, or
 /// with the celebration turned off, only the line is shown.
 class RepairMobi extends ConsumerStatefulWidget {
-  const RepairMobi({super.key, required this.stepKey, required this.outcome, required this.beside});
+  const RepairMobi({
+    super.key,
+    required this.stepKey,
+    required this.outcome,
+    required this.beside,
+    this.trying = false,
+    this.verdict,
+    this.skippedTry = false,
+  });
+
+  /// The try step is on screen: he listens while the options are live.
+  final bool trying;
+
+  /// The verdict of a checked try, once the phone or the server can tell it.
+  final RetryVerdict? verdict;
+
+  /// "Show the reason now" was chosen: no verdict, an idea when the reason lands.
+  final bool skippedTry;
 
   /// The mistake on screen: a new one starts its reaction afresh.
   final String stepKey;
@@ -97,7 +130,7 @@ class _RepairMobiState extends ConsumerState<RepairMobi> {
       _slowTimer?.cancel();
       _slow = false;
     }
-    final beat = repairMobiBeat(widget.outcome, slow: _slow);
+    final beat = repairMobiBeat(widget.outcome, slow: _slow, trying: widget.trying, verdict: widget.verdict, skippedTry: widget.skippedTry);
     if (beat == _played) return;
     _played = beat;
     _oopsTimer?.cancel();
@@ -114,6 +147,18 @@ class _RepairMobiState extends ConsumerState<RepairMobi> {
         if (!_mobi.react(MobiMoments.act(MobiEvent.answerRight), key: 'repair:${widget.stepKey}', gap: _oncePerMistake)) {
           _mobi.play(MobiAct.idle);
         }
+      case RepairMobiBeat.listen:
+        _mobi.setMood(MobiMood.calm);
+        _mobi.play(MobiAct.listen);
+      case RepairMobiBeat.sympathy:
+        _mobi.setMood(MobiMood.concerned);
+        _mobi.play(MobiAct.sympathy);
+      case RepairMobiBeat.encourage:
+        _mobi.setMood(MobiMood.calm);
+        _mobi.react(MobiMoments.act(MobiEvent.answerWrong));
+      case RepairMobiBeat.idea:
+        _mobi.setMood(MobiMood.happy);
+        _mobi.play(MobiAct.idea);
       case RepairMobiBeat.hello:
         _mobi.setMood(MobiMood.calm);
         _mobi.react(MobiMoments.act(MobiEvent.arrive));

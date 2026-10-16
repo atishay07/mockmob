@@ -58,12 +58,16 @@ bool shouldOfferPrePrompt({
   required DateTime? lastAskedAt,
   required DateTime now,
   PrePromptMoment moment = PrePromptMoment.afterResult,
+  DateTime? inviteShownOn,
 }) {
   if (!moment.mayAsk) return false;
   if (permission == NotificationPermission.granted ||
       permission == NotificationPermission.unavailable) {
     return false;
   }
+  // The invitation on You already asked today: whichever asks first holds the other back until
+  // tomorrow, so a student is never asked twice in a day.
+  if (inviteShownOn != null && sameCalendarDay(inviteShownOn, now)) return false;
   final last = lastAskedAt;
   // No date kept: the next ask records one.
   if (last == null) return true;
@@ -86,3 +90,37 @@ PrePromptPrimary prePromptPrimaryFor(NotificationPermission permission) =>
     permission == NotificationPermission.denied
     ? PrePromptPrimary.openSettings
     : PrePromptPrimary.allow;
+
+/// Whether two moments fall on the same calendar day on this phone.
+bool sameCalendarDay(DateTime a, DateTime b) =>
+    a.year == b.year && a.month == b.month && a.day == b.day;
+
+/// What the invitation's key does: ask Android, or open Android's settings when it no longer asks.
+enum InviteAction { turnOn, openSettings }
+
+/// The key for the permission as it stands.
+InviteAction inviteActionFor(NotificationPermission permission) =>
+    permission == NotificationPermission.denied ? InviteAction.openSettings : InviteAction.turnOn;
+
+/// Whether the invitation on You (and only there: never in a paper, never in the runner or NTA
+/// mode) is due now. It stays while reminders are off, and after a Not now it comes back on the
+/// same gaps as the post-result sheet (2, 4, 7, then every 10 days), counted on its own.
+///
+/// [remindersOn] is the app's own setting (at least one reminder kind switched on), and
+/// [declinedAsks] with [lastDeclinedAt] are this invitation's own history. [postResultAskedAt] is
+/// when the post-result sheet last asked: on that same calendar day the invitation stays away.
+bool shouldShowYouInvite({
+  required NotificationPermission permission,
+  required bool remindersOn,
+  required int declinedAsks,
+  required DateTime? lastDeclinedAt,
+  required DateTime? postResultAskedAt,
+  required DateTime now,
+}) {
+  if (permission == NotificationPermission.unavailable) return false;
+  if (permission == NotificationPermission.granted && remindersOn) return false;
+  if (postResultAskedAt != null && sameCalendarDay(postResultAskedAt, now)) return false;
+  final last = lastDeclinedAt;
+  if (last == null) return true;
+  return now.difference(last) >= prePromptGapAfter(declinedAsks);
+}

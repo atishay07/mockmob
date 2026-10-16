@@ -1,5 +1,5 @@
-// The bar (docs/brain/ui-phase2/DOCK.md 9.3): contact sheets of its states and of the lens
-// travelling, Night and Day. Each sheet stacks the bottom of a phone (content behind the glass,
+// The bar (docs/brain/ui-phase2/DOCK.md 9.3, geometry app-ia-1016.md section 4): contact sheets
+// of its states and of the lens travelling, Night and Day. Each sheet stacks the bottom of a phone (content behind the glass,
 // the scrim, the capsule and the bar) for one state per row, so the bar is judged over real
 // content, not on a flat ground.
 import 'package:flutter/material.dart';
@@ -40,7 +40,7 @@ class _Shot {
     this.quality,
     this.textScale = 1,
     this.width,
-    this.youInitial = 'A',
+    this.ruler = false,
   });
 
   final int branch;
@@ -54,8 +54,40 @@ class _Shot {
   /// A narrower phone (the bar is laid out for this width, at the left of the frame).
   final double? width;
 
-  /// You's initial; null draws the person glyph.
-  final String? youInitial;
+  /// Draws the measuring lines of app-ia 4.2 over the bar: the icon centre line (y 23), the
+  /// pill centre (y 32, compact 38), the label centre line (y 46) and every slot's centre.
+  final bool ruler;
+}
+
+/// The ruler of [_Shot.ruler]: hairlines in a colour no part of the bar uses.
+class _RulerPainter extends CustomPainter {
+  _RulerPainter({required this.geo, required this.compact});
+
+  final BarGeometry geo;
+  final bool compact;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final line = Paint()
+      ..color = const Color(0xCCFF2D95)
+      ..strokeWidth = 0.5;
+    final e = compact ? 1.0 : 0.0;
+    final ys = <double>[
+      geo.iconRect(0, collapse: e).center.dy,
+      geo.pillRect(0, collapse: e).center.dy,
+      if (!compact) MmBar.labelTop + MmBar.labelHeight / 2,
+    ];
+    for (final y in ys) {
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), line);
+    }
+    for (var i = 0; i < kBarSlots; i++) {
+      final x = geo.slotCenter(i);
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), line);
+    }
+  }
+
+  @override
+  bool shouldRepaint(_RulerPainter old) => old.geo.width != geo.width || old.compact != compact;
 }
 
 /// The bottom of a phone in one [_Shot]: the room behind, the bar's scrim, the capsule and the bar.
@@ -80,7 +112,6 @@ class _Scene extends StatelessWidget {
           compact: shot.compact ? _alwaysCompact : null,
           startPressed: shot.startPressed,
           quality: shot.quality,
-          youInitial: shot.youInitial,
           onTab: (_) {},
           onStart: (_) {},
         );
@@ -114,7 +145,13 @@ class _Scene extends StatelessWidget {
               right: 0,
               bottom: _inset + MmBar.lift,
               child: Center(
-                child: branch == null ? bar(shot.branch) : ValueListenableBuilder<int>(valueListenable: branch!, builder: (context, b, _) => bar(b)),
+                child: Stack(
+                  children: [
+                    branch == null ? bar(shot.branch) : ValueListenableBuilder<int>(valueListenable: branch!, builder: (context, b, _) => bar(b)),
+                    if (shot.ruler)
+                      Positioned.fill(child: IgnorePointer(child: CustomPaint(painter: _RulerPainter(geo: geo, compact: shot.compact)))),
+                  ],
+                ),
               ),
             ),
           ],
@@ -172,26 +209,40 @@ void _barSheet(String name, List<_Shot> shots, {Size size = kNightSize}) {
 }
 
 void main() {
-  // Each place on the bar, then You with no name (the person glyph), compact (scrolled down)
-  // on Review and on You, then Start held down.
+  // Each place on the bar (Today, Practice, Review, Colleges, You), compact (scrolled down) on
+  // Review and on You, then Start held down.
   _barSheet('bar_tabs', const [
     _Shot(branch: 0),
     _Shot(branch: 1),
     _Shot(branch: 2),
     _Shot(branch: 3),
-    _Shot(branch: 3, youInitial: null),
+    _Shot(branch: 4),
     _Shot(branch: 2, compact: true),
-    _Shot(branch: 3, compact: true),
+    _Shot(branch: 4, compact: true),
     _Shot(branch: 0, startPressed: true),
   ]);
 
-  // Real counts only: Review's 3 and 9+, the dot after a dismissed Marked capsule, and the two
-  // badges the bar allows at most (Review's count and You's dot).
+  // app-ia 4.5: the six slots at 360 and 412 dp, expanded and compact, each with the ruler of
+  // 4.2 drawn over it (icon centres, the pill centre, the label line, every slot centre) and
+  // then clean.
+  for (final width in const [360.0, 412.0]) {
+    _barSheet('bar_six_${width.toInt()}', [
+      _Shot(branch: 0, width: width, ruler: true),
+      _Shot(branch: 3, width: width, badges: const BarBadges(reviewCount: 3, collegesDot: true)),
+      _Shot(branch: 4, width: width),
+      _Shot(branch: 2, width: width, compact: true, ruler: true),
+      _Shot(branch: 3, width: width, compact: true),
+    ], size: Size(width, kNightSize.height));
+  }
+
+  // Real counts only: Review's 3 and 9+, the dot after a dismissed Marked capsule, Review's
+  // count with You's dot, and Colleges' dot (new cutoffs for a saved college).
   _barSheet('bar_badges', const [
     _Shot(branch: 0, badges: BarBadges(reviewCount: 3)),
     _Shot(branch: 2, badges: BarBadges(reviewCount: 12)),
     _Shot(branch: 1, badges: BarBadges(reviewDot: true)),
     _Shot(branch: 0, badges: BarBadges(reviewCount: 3, youDot: true)),
+    _Shot(branch: 0, badges: BarBadges(collegesDot: true)),
   ]);
 
   // Every capsule state, highest priority first, and tonight's move (Today only).
@@ -222,14 +273,13 @@ void main() {
   ]);
 
   // Large text (labels scale down, never clip, the bar keeps its height; the icons never scale)
-  // and a 320 dp phone, where the Start slot narrows to 68 and the tabs to 52, expanded and
-  // compact.
+  // and a 320 dp phone (8 dp gutters, six 48.7 dp slots), expanded and compact.
   _barSheet('bar_text', [
     const _Shot(branch: 1, textScale: 1.3, badges: BarBadges(reviewCount: 3)),
     const _Shot(branch: 1, textScale: 2, badges: BarBadges(reviewCount: 3)),
     const _Shot(branch: 1, width: 320, badges: BarBadges(reviewCount: 3)),
     _Shot(branch: 1, width: 320, textScale: 1.3, live: BarMove(title: 'Business Studies practice', detail: '20 min', onStart: () {})),
-    const _Shot(branch: 3, width: 320, textScale: 2, compact: true, badges: BarBadges(reviewCount: 3)),
+    const _Shot(branch: 4, width: 320, textScale: 2, compact: true, badges: BarBadges(reviewCount: 3)),
   ]);
 
   setUpAll(_loadFonts);

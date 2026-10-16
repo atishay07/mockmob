@@ -81,7 +81,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.text(PracticeCopy.offlineStart), findsOneWidget);
     expect(find.byType(PlainNotice), findsNothing);
-    final start = tester.widgetList<KeyButton>(find.widgetWithText(KeyButton, PracticeCopy.startKey)).first;
+    final start = tester.widgetList<KeyButton>(find.widgetWithText(KeyButton, PracticeCopy.startCount(10))).first;
     expect(start.onPressed, isNull);
   });
 

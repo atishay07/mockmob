@@ -18,6 +18,7 @@ class LockedCoin extends StatelessWidget {
         MilestoneToken.firstMock => LucideIcons.fileText,
         MilestoneToken.firstRepair => LucideIcons.wrench,
         MilestoneToken.firstWeek => LucideIcons.rotateCw,
+        MilestoneToken.bestWork => LucideIcons.trendingUp,
       };
 
   @override

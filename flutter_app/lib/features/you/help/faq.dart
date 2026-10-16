@@ -40,7 +40,7 @@ abstract final class FaqCopy {
     id: 'history',
     question: 'How do I see what I have used?',
     answer: [
-      'Open You, find Plan and credits and choose See history. Every line says which credits it used, how many, and how many are left.',
+      'Tap your picture at the top left of any tab, then a credit tile. Every line says which credits it used, how many, and how many are left.',
     ],
   );
 
@@ -82,7 +82,7 @@ abstract final class FaqCopy {
 
   static const all = [credits, history, nta, studyDays, signIn, offline];
 
-  /// The ones You shows as quick rows.
+  /// The four most asked. Help shows every question; this short list is for a screen with room for four.
   static const quick = [credits, nta, studyDays, signIn];
 }
 

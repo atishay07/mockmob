@@ -44,12 +44,14 @@ void main() {
   });
 
   group('MmBottomBar', () {
-    testWidgets('names each tab with its position out of four and marks the active one selected', (tester) async {
+    testWidgets('names each tab with its position out of five and marks the active one selected', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 1)));
 
-      expect(barTabSemanticsLabel(1), 'Practice, tab 2 of 4');
-      for (var i = 0; i < 4; i++) {
+      expect(barTabSemanticsLabel(1), 'Practice, tab 2 of 5');
+      expect(barTabSemanticsLabel(3, collegesDot: true), 'Colleges, tab 4 of 5, new cutoffs for your colleges');
+      expect(barTabSemanticsLabel(4, youDot: true), 'You, tab 5 of 5, needs your attention');
+      for (var i = 0; i < 5; i++) {
         final data = tester.getSemantics(find.bySemanticsLabel(barTabSemanticsLabel(i))).getSemanticsData();
         expect(data.flagsCollection.isSelected, i == 1 ? Tristate.isTrue : Tristate.isFalse, reason: 'tab $i');
         expect(data.flagsCollection.isButton, isTrue);
@@ -61,11 +63,11 @@ void main() {
     testWidgets("Review's count is spoken and drawn; the dot adds a hint and no number", (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, badges: BarBadges(reviewCount: 3))));
-      expect(find.bySemanticsLabel('Review, tab 3 of 4, 3 open mistakes to repair'), findsOneWidget);
+      expect(find.bySemanticsLabel('Review, tab 3 of 5, 3 open mistakes to repair'), findsOneWidget);
       expect(find.text('3'), findsOneWidget);
 
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0, badges: BarBadges(reviewDot: true))));
-      expect(find.bySemanticsLabel('Review, tab 3 of 4, a result is waiting'), findsOneWidget);
+      expect(find.bySemanticsLabel('Review, tab 3 of 5, a result is waiting'), findsOneWidget);
       expect(find.textContaining(RegExp(r'\d')), findsNothing);
       handle.dispose();
     });
@@ -131,13 +133,13 @@ void main() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('the bar is 64 dp tall and every slot is at least 52 by 64', (tester) async {
+    testWidgets('the bar is 64 dp tall and every slot is at least 48 by 64, even at 320 dp', (tester) async {
       await pumpMockmob(tester, const Align(alignment: Alignment.bottomCenter, child: _Nav(index: 0)), size: const Size(320, 700));
       expect(tester.getSize(find.byType(MmBottomBar)).height, MmBar.height);
-      for (final label in ['Today', 'Practice', 'Review', 'You']) {
+      for (final label in ['Today', 'Practice', 'Start', 'Review', 'Colleges', 'You']) {
         final slot = find.ancestor(of: find.text(label), matching: find.byType(GestureDetector)).first;
         final size = tester.getSize(slot);
-        expect(size.width, greaterThanOrEqualTo(52), reason: label);
+        expect(size.width, greaterThanOrEqualTo(48), reason: label);
         expect(size.height, MmBar.height, reason: label);
       }
     });

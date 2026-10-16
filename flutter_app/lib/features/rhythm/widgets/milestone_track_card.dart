@@ -41,6 +41,13 @@ import 'step_sheet.dart';
   'repairs_25' => (icon: null, text: '25'),
   'first_week_met' => (icon: LucideIcons.rotateCw, text: null),
   'weeks_met_4' => (icon: null, text: '4'),
+  'first_nta' => (icon: LucideIcons.monitor, text: null),
+  'full_mocks_5' => (icon: null, text: '5'),
+  'first_hold' => (icon: LucideIcons.shieldCheck, text: null),
+  'run_weeks_3' => (icon: LucideIcons.repeat, text: null),
+  'clean_set' => (icon: LucideIcons.circleCheckBig, text: null),
+  'four_subjects' => (icon: LucideIcons.layoutGrid, text: null),
+  'new_best' => (icon: LucideIcons.trendingUp, text: null),
   _ => (icon: LucideIcons.award, text: null),
 };
 
@@ -182,14 +189,15 @@ class _MilestoneTrackCardState extends State<MilestoneTrackCard> with SingleTick
             nextLanded: i + 1 < track.steps.length && track.steps[i + 1].status == StepStatus.earned,
             dateOf: widget.dateOf,
             fresh: widget.freshIds.contains(track.steps[i].step.id),
-            count: track.steps[i].status == StepStatus.next ? count : null,
-            target: track.steps[i].status == StepStatus.next ? target : null,
+            // Each "next" step carries its own exact count (the best-work path has several).
+            count: track.steps[i].status == StepStatus.next ? widget.progress[track.steps[i].step.id] : null,
+            target: track.steps[i].status == StepStatus.next ? milestoneTargets[track.steps[i].step.id] : null,
             onTap: () => showStepSheet(
               context,
               view: track.steps[i],
               dateOf: widget.dateOf,
               previous: i > 0 ? track.steps[i - 1] : null,
-              count: track.steps[i].status == StepStatus.next ? count : null,
+              count: track.steps[i].status == StepStatus.next ? widget.progress[track.steps[i].step.id] : null,
               onAction: widget.onAction,
             ),
           ),

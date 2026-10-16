@@ -50,6 +50,32 @@ abstract final class YouCopy {
 
   // The sticky row of section chips under the header (critic 16 Oct, finding 27). Each scrolls to
   // its section: Plan and credits, Appearance, Study days, Notifications, My subjects and colleges.
+  // You as the student's study (app-you-1016 A.2).
+  static const hubWeek = 'This week';
+  static const seeRhythm = 'See rhythm';
+  static const hubSubjects = 'My subjects';
+  static const editSubjectsShort = 'Edit';
+  static const jumpWeek = 'Week';
+  static const jumpBadges = 'Badges';
+  static const jumpBests = 'Bests';
+  static const jumpMocks = 'Mocks';
+  static const jumpSubjects = 'Subjects';
+  static const bestsTitle = 'Personal bests';
+  static const bestsSeeAll = 'See all';
+  static const bestMockLabel = 'Best full mock';
+  static const bestSetLabel = 'Best set';
+  static const bestRunLabel = 'Longest run at your goal';
+  static const bestRunFirst = 'Your first week at your goal starts the count';
+  static String bestRunNow(int weeks) => 'Now: ${plural(weeks, 'week')}';
+  static const bestFastestLabel = 'Fastest right answer';
+  static const bestsEmpty = 'Your bests show after your first scored set.';
+  static const aimTitle = 'Aim';
+  static const aimEmpty = 'Choose a course and colleges';
+  static const planFree = 'Free plan';
+  static const planNoteUnloaded = 'Credits and history';
+  static String planNote(int practice, int ai) => '${plural(practice, 'practice credit')}, ${plural(ai, 'AI credit')}';
+  static const repairRecordRow = 'Your repair record';
+
   static const jumpLabel = 'Jump to a section';
   static const jumpPlan = 'Plan';
   static const jumpLook = 'Look';

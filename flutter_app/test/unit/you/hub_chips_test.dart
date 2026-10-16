@@ -20,43 +20,42 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('five chips in order: Plan, Look, Study, Alerts, Colleges, each a 48 dp target', (tester) async {
+  testWidgets('five chips in order: Week, Badges, Bests, Mocks, Subjects, each a 48 dp target', (tester) async {
     await pump(tester);
-    for (final label in ['Plan', 'Look', 'Study', 'Alerts', 'Colleges']) {
+    for (final label in ['Week', 'Badges', 'Bests', 'Mocks', 'Subjects']) {
       final chip = find.widgetWithText(MmChip, label);
       expect(chip, findsOneWidget, reason: label);
     }
-    final plan = tester.getTopLeft(find.widgetWithText(MmChip, 'Plan')).dx;
-    final look = tester.getTopLeft(find.widgetWithText(MmChip, 'Look')).dx;
-    final study = tester.getTopLeft(find.widgetWithText(MmChip, 'Study')).dx;
-    expect(plan, lessThan(look));
-    expect(look, lessThan(study));
-    expect(tester.getSize(find.widgetWithText(MmChip, 'Plan')).height, greaterThanOrEqualTo(40));
+    final week = tester.getTopLeft(find.widgetWithText(MmChip, 'Week')).dx;
+    final badges = tester.getTopLeft(find.widgetWithText(MmChip, 'Badges')).dx;
+    final bests = tester.getTopLeft(find.widgetWithText(MmChip, 'Bests')).dx;
+    expect(week, lessThan(badges));
+    expect(badges, lessThan(bests));
+    expect(tester.getSize(find.widgetWithText(MmChip, 'Week')).height, greaterThanOrEqualTo(40));
   });
 
   testWidgets('a chip scrolls its section to just under the row, and the row stays pinned', (tester) async {
     await pump(tester);
-    final study = find.text('Study days');
-    expect(tester.getTopLeft(study).dy, greaterThan(853), reason: 'Study days starts below the first screen');
-    await tester.tap(find.widgetWithText(MmChip, 'Study'));
+    final bests = find.text('Personal bests');
+    expect(tester.getTopLeft(bests).dy, greaterThan(853), reason: 'Personal bests starts below the first screen');
+    await tester.tap(find.widgetWithText(MmChip, 'Bests'));
     await tester.pumpAndSettle();
-    final y = tester.getTopLeft(study).dy;
-    final rowBottom = tester.getBottomLeft(find.widgetWithText(MmChip, 'Study')).dy;
+    final y = tester.getTopLeft(bests).dy;
+    final rowBottom = tester.getBottomLeft(find.widgetWithText(MmChip, 'Bests')).dy;
     expect(y, greaterThan(rowBottom - 8), reason: 'the title is under the pinned row, not behind it');
     expect(y, lessThan(300), reason: 'and near the top of the screen');
-    // The chip row is still on screen, and the chip of this section is the chosen one.
-    expect(tester.widget<MmChip>(find.widgetWithText(MmChip, 'Study')).selected, isTrue);
+    expect(tester.widget<MmChip>(find.widgetWithText(MmChip, 'Bests')).selected, isTrue);
   });
 
   testWidgets('with motion on, the scroll glides and still lands on the section', (tester) async {
     await pump(tester, disableAnimations: false);
     // The rail scrolls sideways: flick it to bring the last chip in reach.
-    await tester.drag(find.widgetWithText(MmChip, 'Look'), const Offset(-300, 0));
+    await tester.drag(find.widgetWithText(MmChip, 'Badges'), const Offset(-300, 0));
     await tester.pumpAndSettle();
-    await tester.tap(find.widgetWithText(MmChip, 'Colleges'));
+    await tester.tap(find.widgetWithText(MmChip, 'Subjects'));
     await tester.pump(const Duration(milliseconds: 100));
     await tester.pumpAndSettle();
-    expect(find.text('My subjects and colleges'), findsOneWidget);
-    expect(tester.getTopLeft(find.text('My subjects and colleges')).dy, lessThan(300));
+    expect(find.text('My subjects'), findsOneWidget);
+    expect(tester.getTopLeft(find.text('My subjects')).dy, lessThan(300));
   });
 }

@@ -112,9 +112,9 @@ void main() {
       expect(find.text('You missed 2 here last time.'), findsOneWidget);
       expect(find.text('Admission of a partner'), findsNothing);
 
-      await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start').first);
+      await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start 10 questions').first);
       await tester.pump();
-      await tester.tap(find.widgetWithText(KeyButton, 'Start').first);
+      await tester.tap(find.widgetWithText(KeyButton, 'Start 10 questions').first);
       await _rise(tester);
       expect(find.bySemanticsLabel('By chapter, Business Studies'), findsOneWidget);
       expect(find.bySemanticsLabel(RegExp(r'^(Quick practice|By chapter), Accountancy')), findsNothing);
@@ -146,9 +146,9 @@ void main() {
       expect(find.text('Quick practice, mixed chapters'), findsOneWidget);
       expect(find.text('No paper here yet. Ten questions will do.'), findsOneWidget);
 
-      await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start').first);
+      await tester.ensureVisible(find.widgetWithText(KeyButton, 'Start 10 questions').first);
       await tester.pump();
-      await tester.tap(find.widgetWithText(KeyButton, 'Start').first);
+      await tester.tap(find.widgetWithText(KeyButton, 'Start 10 questions').first);
       await _rise(tester);
       expect(find.bySemanticsLabel('Quick practice, Business Studies'), findsOneWidget);
       await tester.tap(find.text('Start practice'));

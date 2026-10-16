@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
+import 'package:mockmob/features/onboarding/data/du_catalog.dart';
 import 'package:mockmob/features/onboarding/data/subjects.dart';
 import 'package:mockmob/features/onboarding/model/answers.dart';
 import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/after_sign_in_sheet.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
+import 'package:mockmob/features/onboarding/state/colleges_move.dart';
 import 'package:mockmob/features/onboarding/state/sheet_sync.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/auth/sign_in_controller.dart';
@@ -74,6 +76,49 @@ void main() {
     overrides: () => onboardingOverrides(answers: studentUpTo(Steps.stage, step: Steps.course)),
   );
   onboardingGolden('course_ladder', _flow, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.course)));
+
+  // The Aim step at 390 dp: "Find a college" with a search typed, and eight picks at the limit.
+  const phone390 = Size(390, 844);
+  onboardingGolden(
+    'course_ladder_search',
+    _flow,
+    size: phone390,
+    overrides: () => onboardingOverrides(
+      answers: studentUpTo(Steps.course).copyWith(colleges: const ['Shri Ram College of Commerce']),
+    ),
+    act: (tester) async {
+      await tester.enterText(find.byType(TextField), 'hansrj');
+      await tester.pumpAndSettle();
+    },
+  );
+  final eight = [for (final o in DuCatalog.course('b-com-hons')!.ladder('UR').take(8)) o.college];
+  onboardingGolden(
+    'course_ladder_eight',
+    _flow,
+    size: phone390,
+    overrides: () => onboardingOverrides(answers: studentUpTo(Steps.course).copyWith(colleges: eight)),
+    act: (tester) async {
+      // The end of the scroll: the last control stands fully clear of the pinned key.
+      await tester.drag(find.byType(SingleChildScrollView).first, const Offset(0, -900));
+      await tester.pumpAndSettle();
+    },
+  );
+  // Keyboard open on a 360 by 800 phone (the keyboard is 300 dp): the field and rungs stay above it,
+  // the key and the sheet strip step aside.
+  onboardingGolden(
+    'course_ladder_keyboard',
+    _flow,
+    size: const Size(360, 800),
+    overrides: () => onboardingOverrides(answers: studentUpTo(Steps.course).copyWith(colleges: const [])),
+    act: (tester) async {
+      await tester.tap(find.byType(TextField));
+      await tester.pump();
+      tester.view.viewInsets = const FakeViewPadding(bottom: 600);
+      addTearDown(tester.view.resetViewInsets);
+      await tester.enterText(find.byType(TextField), 'ram');
+      await tester.pumpAndSettle();
+    },
+  );
 
   onboardingGolden(
     'subjects',
@@ -161,7 +206,25 @@ void main() {
     'after_sign_in_saved',
     () => _sheet(SheetSavedView(
       phase: SheetSyncPhase.saved,
+      colleges: CollegesMove.moved,
       showUsage: true,
+      startLabel: 'Start now, about 10 minutes',
+      laterLabel: 'Tomorrow at 8:00 PM',
+      onStart: () {},
+      onLater: () {},
+      onRetry: () {},
+      onToggleUsage: (_) {},
+      onToggleEvents: () {},
+      onDone: () {},
+    )),
+    overrides: _saveOverrides,
+  );
+  // The colleges could not move yet: the line says so, and claims nothing else.
+  onboardingGolden(
+    'after_sign_in_colleges_later',
+    () => _sheet(SheetSavedView(
+      phase: SheetSyncPhase.saved,
+      colleges: CollegesMove.later,
       startLabel: 'Start now, about 10 minutes',
       laterLabel: 'Tomorrow at 8:00 PM',
       onStart: () {},

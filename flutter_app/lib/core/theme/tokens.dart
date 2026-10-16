@@ -85,9 +85,11 @@ abstract final class MmElevation {
   static const double sigmaControl = 12;
 }
 
-/// The bottom bar (docs/brain/ui-phase2/DOCK.md section 3): one centred glass bar holding Today,
-/// Practice, the Start key, Review and You, with a live capsule that rises above it while
-/// something is in progress.
+/// The bottom bar (docs/design-decisions/app-ia-1016.md section 4, which replaces DOCK.md 3.1):
+/// one centred glass bar of six equal slots, Today, Practice, Start, Review, Colleges and You,
+/// with a live capsule that rises above it while something is in progress. Start is laid out
+/// exactly like a tab (icon over label, on a volt pill the size of the lens), so every icon,
+/// every label and the Start pill share their centre lines by construction (L31).
 abstract final class MmBar {
   /// The bar's painted height, expanded and compact (scrolled down).
   static const double height = 64;
@@ -99,20 +101,33 @@ abstract final class MmBar {
   /// Padding inside the bar, every side.
   static const double pad = 6;
 
-  /// The Start slot's width, and on screens narrower than 360 dp.
-  static const double startSlot = 76;
-  static const double startSlotNarrow = 68;
+  /// The six slots, all the same width (Start included).
+  static const int slots = 6;
 
-  /// The Start key, expanded and compact.
-  static const Size startKey = Size(60, 40);
-  static const Size startKeyCompact = Size(52, 34);
+  /// The lens and the Start pill are a slot less this much on each side.
+  static const double pillInset = 2;
+
+  /// The icon box (24 by 24) and its top, measured from the expanded bar's top: y 11 to 35,
+  /// centre 23.
+  static const double icon = 24;
+  static const double iconTop = 11;
+
+  /// The label's line box: 11 sp, line height 14, at y 39 to 53 (centre 46). The icon, the 4 dp
+  /// gap and the label make a 42 dp group centred on y 32, the pill's centre.
+  static const double labelTop = 39;
+  static const double labelHeight = 14;
+  static const double labelSize = 11;
+
+  /// Compact: the icons move down this far to centre on y 38, the compact pill's centre.
+  static const double compactShift = (height - compactHeight) + (compactHeight - 2 * pad) / 2 + pad - (iconTop + icon / 2);
 
   /// The live capsule's height and its gap above the bar.
   static const double capsuleHeight = 44;
   static const double capsuleGap = 8;
 
-  /// The bar's side gutter and its widest size.
+  /// The bar's side gutter (8 on phones narrower than 360 dp) and its widest size.
   static const double gutter = 16;
+  static const double narrowGutter = 8;
   static const double maxWidth = 440;
 
   /// Space between the bar's top edge and the end of a tab root's content.
@@ -126,8 +141,9 @@ abstract final class MmBar {
   static const double clearanceAbove = lift + height + contentGap;
 
   /// The bar's width on a screen [screenWidth] wide.
-  static double widthFor(double screenWidth) => (screenWidth - 2 * gutter).clamp(0.0, maxWidth);
+  static double widthFor(double screenWidth) =>
+      (screenWidth - 2 * (screenWidth < 360 ? narrowGutter : gutter)).clamp(0.0, maxWidth);
 
-  /// The Start slot's width on a screen [screenWidth] wide.
-  static double startSlotFor(double screenWidth) => screenWidth < 360 ? startSlotNarrow : startSlot;
+  /// Each slot's width on a screen [screenWidth] wide: (W - 12) / 6.
+  static double slotFor(double screenWidth) => (widthFor(screenWidth) - 2 * pad) / slots;
 }

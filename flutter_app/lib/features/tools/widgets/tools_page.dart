@@ -191,11 +191,13 @@ class ToolsNote extends StatelessWidget {
 
 /// A search field in the warm well, with a clear key once something is typed.
 class ToolsSearchField extends StatelessWidget {
-  const ToolsSearchField({super.key, required this.controller, required this.hint, required this.onChanged});
+  const ToolsSearchField({super.key, required this.controller, required this.hint, required this.onChanged, this.focusNode, this.autofocus = false});
 
   final TextEditingController controller;
   final String hint;
   final ValueChanged<String> onChanged;
+  final FocusNode? focusNode;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +206,11 @@ class ToolsSearchField extends StatelessWidget {
       valueListenable: controller,
       builder: (context, value, _) => TextField(
         controller: controller,
+        focusNode: focusNode,
+        autofocus: autofocus,
         onChanged: onChanged,
+        // A field low in a sheet scrolls itself into view above the keyboard.
+        scrollPadding: const EdgeInsets.all(96),
         textInputAction: TextInputAction.search,
         style: context.mmType.body,
         decoration: InputDecoration(

@@ -66,7 +66,7 @@ class RoadBoardGrid extends StatelessWidget {
         value: b.studyDaysLeft == null ? TodayCopy.boardNoGoal : '${b.studyDaysLeft}',
         caption: b.goal == null ? TodayCopy.boardSetDays : TodayCopy.boardAtGoal(b.goal!),
         icon: LucideIcons.chevronRight,
-        onTap: () => showStudyDaysSheet(context, board: b),
+        onTap: () => showGoalEditor(context, initialDays: b.goal ?? 4, done: b.weekDone ?? 0),
       ),
       _Tile(
         key: const ValueKey('road-tile-week'),
@@ -444,45 +444,5 @@ class _StepKey extends StatelessWidget {
   }
 }
 
-/// The study days left at the student's goal, how they are counted, and the editor.
-Future<void> showStudyDaysSheet(BuildContext context, {required RoadBoard board}) => showMmSheet<void>(
-      context: context,
-      title: TodayCopy.boardStudyDaysTitle,
-      builder: (context) => _StudyDaysSheet(board: board),
-    );
-
-class _StudyDaysSheet extends StatelessWidget {
-  const _StudyDaysSheet({required this.board});
-
-  final RoadBoard board;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final goal = board.goal;
-    final left = board.studyDaysLeft;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          goal == null || left == null ? TodayCopy.boardStudyDaysNone : TodayCopy.boardStudyDaysBody(left, goal, formatDayMonth(board.examDate)),
-          style: type.body.copyWith(color: colors.ink2),
-        ),
-        const SizedBox(height: MmSpace.s8),
-        Text(TodayCopy.boardBoardsCount, style: type.caption.copyWith(color: colors.ink3)),
-        const SizedBox(height: MmSpace.s20),
-        KeyButton(
-          label: goal == null ? TodayCopy.boardSetDays : TodayCopy.boardChangeDays,
-          onPressed: () async {
-            final navigator = Navigator.of(context);
-            await navigator.maybePop();
-            if (!navigator.mounted) return;
-            await showGoalEditor(navigator.context, initialDays: goal ?? 4, done: board.weekDone ?? 0);
-          },
-        ),
-      ],
-    );
-  }
-}
+// The study days tile opens the one study-days sheet directly (L06): the old two-sheet chain
+// (a sheet that opened the editor over itself) is gone.

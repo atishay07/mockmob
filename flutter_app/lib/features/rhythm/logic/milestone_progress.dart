@@ -7,18 +7,20 @@
 // reaches the target while the server has not dated the step) is dropped, never shown.
 import '../../../core/models/attempt.dart';
 import '../../../core/models/rhythm.dart';
+import 'derived_badges.dart';
 
 /// Closed weeks the server sends at most (`HISTORY_WEEKS`). A shorter history is complete.
 const int rhythmHistoryWeeks = 12;
 
 /// Targets of the counted steps.
-const Map<String, int> milestoneTargets = {'sessions_10': 10, 'weeks_met_4': 4};
+const Map<String, int> milestoneTargets = {'sessions_10': 10, 'weeks_met_4': 4, ...derivedTargets};
 
 /// Step id to the count so far, for the steps that can be counted exactly.
 Map<String, int> milestoneProgress({List<Attempt>? attempts, Rhythm? rhythm}) {
   final out = <String, int>{};
   if (attempts != null) {
     out['sessions_10'] = attempts.where((a) => a.selectionMeta.isServerScored && a.correct + a.wrong >= 5).length;
+    out.addAll(derivedProgress(attempts));
   }
   final history = rhythm?.history;
   if (rhythm != null && history != null && history.length < rhythmHistoryWeeks) {

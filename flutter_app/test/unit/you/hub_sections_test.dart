@@ -1,6 +1,8 @@
-// The sections added to the You hub (audit 3): Plan and credits, the one-tap theme, Study days,
-// Notifications with their times, the tappable course and colleges, Account and privacy with
-// Sign out, and Help with its questions open in place.
+// The panels built for the You hub in audit 3: Plan and credits, the one-tap theme, Study days,
+// Notifications with their times, the course and colleges, Account and privacy with Sign out, and
+// Help with its questions open in place. You is now the student's study (app-you-1016), so most of
+// these left the hub for the account sheet; the panels themselves are still tested here, on a
+// host page, until the account sheet takes them over.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,11 +23,36 @@ import 'package:mockmob/features/rhythm/data/study_days.dart' show PlannedDays, 
 import 'package:mockmob/features/credits/credits_screen.dart' show CreditsScreen;
 import 'package:mockmob/features/you/help/faq.dart';
 import 'package:mockmob/features/you/help/help_screen.dart';
-import 'package:mockmob/features/you/hub/hub_cards.dart' show AccountPanel, NotificationsPanel;
+import 'package:mockmob/features/you/hub/hub_cards.dart';
+import 'package:mockmob/features/you/hub/sheet_card.dart' show TargetFields;
+import 'package:mockmob/features/you/data/student_target.dart' show studentTargetProvider;
 import 'package:mockmob/features/you/you_hub_screen.dart';
 
 import '../../helpers/golden_harness.dart';
 import 'you_test_support.dart';
+
+/// The panels that left the You hub, on one page, so they stay covered while they exist.
+class _Panels extends ConsumerWidget {
+  const _Panels();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final target = ref.watch(studentTargetProvider);
+    return Scaffold(
+      body: ListView(
+        children: [
+          const PlanCreditsCard(),
+          const AppearanceCard(),
+          const StudyDaysPanel(),
+          const NotificationsPanel(),
+          TargetFields(target: target, subjects: target.subjects, onEdit: () => GoRouter.of(context).push('/you/sheet')),
+          const AccountPanel(),
+          const HelpPanel(),
+        ],
+      ),
+    );
+  }
+}
 
 class _Next extends NextReminderNotifier {
   _Next(this.value);
@@ -50,7 +77,7 @@ Future<GoRouter> _pump(
   final router = GoRouter(
     initialLocation: '/you',
     routes: [
-      GoRoute(path: '/you', builder: (_, _) => const YouHubScreen()),
+      GoRoute(path: '/you', builder: (_, _) => const _Panels()),
       GoRoute(path: '/you/sheet', builder: (_, _) => const Text('sheet editor page')),
       GoRoute(path: '/you/subjects', builder: (_, _) => const Text('subjects page')),
       GoRoute(path: '/you/goal', builder: (_, _) => const Text('goal page')),
@@ -111,7 +138,7 @@ void main() {
   group('Appearance', () {
     testWidgets('one tap on Day changes the theme at once, and Night changes it back', (tester) async {
       await _pump(tester);
-      Brightness brightness() => Theme.of(tester.element(find.byType(YouHubScreen))).brightness;
+      Brightness brightness() => Theme.of(tester.element(find.byType(_Panels))).brightness;
       // The harness starts on the app default, Match phone, which is light under the test view.
       await tester.tap(find.descendant(of: find.byType(MmSegmented<ThemeMode>), matching: find.text('Night')));
       await tester.pumpAndSettle();
@@ -222,7 +249,8 @@ void main() {
     });
 
     testWidgets('the name is a key that opens the name sheet', (tester) async {
-      await _pump(tester);
+      await pumpMockmob(tester, const YouHubScreen(), wrapInScaffold: false, disableAnimations: true, size: const Size(384, 4000), overrides: youOverrides(target: ashaTarget));
+      await tester.pump();
       await tester.tap(find.bySemanticsLabel('Edit name. Asha Verma'));
       await tester.pumpAndSettle();
       expect(find.text('Save name'), findsOneWidget);

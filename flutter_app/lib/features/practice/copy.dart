@@ -9,11 +9,15 @@ import 'model/finish_reaction.dart';
 abstract final class PracticeCopy {
   // Practice tab.
   static const String tabTitle = 'Practice';
-  static const String chooseOwn = 'Choose your own';
+  /// The subject strip's heading, first on the tab: the subject decides every mode's facts.
+  static const String practiseIn = 'Practise in';
+
+  /// The modes' heading, under the suggestion.
+  static const String waysHeading = 'Ways to practise';
   static const String concepts = 'Concepts';
-  static const String moreHeading = 'Explore and plan';
-  static const String toolsTitle = 'CUET tools';
-  static const String toolsNote = 'Which DU courses your subjects open, and the Round 1 minimums for 2026.';
+  static const String moreHeading = 'More ways in';
+  static const String toolsTitle = 'Admission Compass';
+  static const String toolsNote = 'Which DU courses your subjects open, with the 2026 Round 1 cutoffs.';
   static const String allConcepts = 'See all';
   static const String moreSubjects = 'More subjects';
   static const String otherSubjectsTitle = 'More subjects';
@@ -22,12 +26,18 @@ abstract final class PracticeCopy {
   // The suggestion at the top.
   static const String suggestedOverline = 'Your next practice';
 
+  /// The suggestion's overline: it names the subject the lit tile chose, so the two always agree.
+  static String upNextIn(String subject) => 'Up next in $subject';
+
   /// The overline after 11 PM: points at the card's one set, with no length the set may not keep.
   static const String lateOverline = 'This one, then sleep';
   static const String resumeOverline = 'Still open';
   static const String showMe = 'Show me';
   static const String showMeSemantics = 'Show me, the attempt behind this';
   static const String startKey = 'Start';
+
+  /// The suggestion's one volt key, with the set's real length.
+  static String startCount(int n) => 'Start $n questions';
   static const String resumeKey = 'Resume';
   static const String questionsUnit = 'questions';
 
@@ -66,13 +76,13 @@ abstract final class PracticeCopy {
   static const String chapterLine = 'Pick up to 12 chapters, then 5 to 20 questions.';
   static const String smartTitle = 'Smart practice';
   static const String smartLine = 'Leans toward the chapters you miss. 10 to 20 questions.';
-  static const String smartGatedLine = 'Comes with Pro. Quick practice is open to you now.';
+  static const String smartGatedLine = 'Leans toward the chapters you miss. Comes with Pro.';
   static const String fullMockTitle = 'Full mock';
   static String fullMockLine({required int questions, int? minutes}) =>
       minutes == null ? '$questions questions, timed like the exam.' : '$questions questions, $minutes minutes, timed like the exam.';
   static const String ntaTitle = 'NTA mode';
   static const String ntaLine = 'The exam-day screen, as you will meet it on the day.';
-  static const String ntaGatedLine = 'Comes with Pro. A Full mock is open to you now.';
+  static const String ntaGatedLine = 'The exam-day screen. Comes with Pro.';
 
   /// The paper's size and clock come from [NtaRules], the same source as the NTA instructions.
   static const List<String> ntaChips = [
@@ -85,11 +95,6 @@ abstract final class PracticeCopy {
 
   /// The band that holds the exam-shaped modes.
   static const String examBandTitle = 'Exam conditions';
-
-  /// The line over the modes naming the subject they start in.
-  static String subjectLine(String subject) => 'In $subject';
-  static String subjectLineSemantics(String subject, int? questions) =>
-      questions == null ? 'Practice in $subject' : 'Practice in $subject, ${questionsAvailable(questions)}';
 
   // Confirm sheet and setup page.
   static String confirmTitle(String mode, String subject) => '$mode, $subject';

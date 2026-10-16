@@ -19,6 +19,7 @@ import '../copy.dart';
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
+import '../widgets/college_ladder.dart';
 import '../widgets/move_hero.dart';
 import '../widgets/resume_hero.dart';
 import '../widgets/road_section.dart';
@@ -555,14 +556,10 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       if (insights != null) ...[const SizedBox(height: MmSpace.s16), TodayEnter(delay: const Duration(milliseconds: 220), child: insights)],
       ?widget.weeklyEnding,
       // Section to section: 32, then the section's own hairline rule and heading (audit T8).
-      if (view.sheet.isNotEmpty) ...[
-        const SizedBox(height: MmSpace.group),
-        TodayEnter(delay: const Duration(milliseconds: 240), child: SheetSection(rows: view.sheet, papers: view.papers, trend: view.trend, onOpen: callbacks.onTarget)),
-      ],
       if (view.road != null) ...[
         const SizedBox(height: MmSpace.group),
         TodayEnter(
-          delay: const Duration(milliseconds: 300),
+          delay: const Duration(milliseconds: 240),
           child: RoadSection(
             key: _roadKey,
             road: view.road!,
@@ -573,12 +570,27 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         ),
         if (roadFooter != null) ...[const SizedBox(height: MmSpace.s16), roadFooter],
       ],
+      // Recent papers sit under the road (L07): the plan for May first, then the record behind it.
+      if (view.sheet.isNotEmpty) ...[
+        const SizedBox(height: MmSpace.group),
+        TodayEnter(delay: const Duration(milliseconds: 320), child: SheetSection(rows: view.sheet, papers: view.papers, trend: view.trend, onOpen: callbacks.onTarget)),
+      ],
+      // Your colleges: the last block, on its own (IA 5.2), reading the shared My colleges list.
+      if (view.road != null) ...[
+        const SizedBox(height: MmSpace.group),
+        TodayEnter(delay: const Duration(milliseconds: 360), child: CollegeLadder(road: view.road!, onChoose: callbacks.onChooseColleges)),
+      ],
     ];
     // The cue lives in the page, in the gap under the hero (design critic 16 Oct, finding 2): it
     // takes the place of the first block's own leading gap (at least the 32 between sections), so
     // it can never sit over a card, a key or a line, and fading it out never moves the page.
     if (view.road != null && view.hero != null) {
-      final cue = MoreBelowSlot(cue: _moreCue, onTap: _toRoad);
+      final road = view.road!;
+      final cue = MoreBelowSlot(
+        cue: _moreCue,
+        onTap: _toRoad,
+        label: road.phase == RoadPhase.countdown ? TodayCopy.moreBelowCount(weeks: road.weeks, days: road.daysToWindow) : TodayCopy.moreBelow,
+      );
       if (after.isNotEmpty && after.first is SizedBox) {
         after[0] = cue;
       } else {
@@ -700,10 +712,13 @@ class TodayTopVeil extends StatelessWidget {
 /// The gap under the hero, holding the "more below" cue centred in it. Always [MmSpace.group]
 /// tall, shown or not, so the page never moves when the cue comes or goes.
 class MoreBelowSlot extends StatelessWidget {
-  const MoreBelowSlot({super.key, required this.cue, required this.onTap});
+  const MoreBelowSlot({super.key, required this.cue, required this.onTap, this.label = TodayCopy.moreBelow});
 
   final ValueListenable<bool> cue;
   final VoidCallback onTap;
+
+  /// "Road to May, 28 weeks": the cue names the number it leads to (L07).
+  final String label;
 
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -711,7 +726,7 @@ class MoreBelowSlot extends StatelessWidget {
     child: Center(
       child: ValueListenableBuilder<bool>(
         valueListenable: cue,
-        builder: (context, shown, _) => MoreBelowCue(shown: shown, onTap: onTap),
+        builder: (context, shown, _) => MoreBelowCue(shown: shown, onTap: onTap, label: label),
       ),
     ),
   );
@@ -722,10 +737,11 @@ class MoreBelowSlot extends StatelessWidget {
 /// under reduced motion), it fades away once the page is scrolled, and its tap glides the page to
 /// the road. 24 dp to see (it sits inside the 32 dp gap), 48 dp to touch.
 class MoreBelowCue extends StatefulWidget {
-  const MoreBelowCue({super.key, required this.shown, required this.onTap});
+  const MoreBelowCue({super.key, required this.shown, required this.onTap, this.label = TodayCopy.moreBelow});
 
   final bool shown;
   final VoidCallback onTap;
+  final String label;
 
   /// The pill's drawn height.
   static const double height = 24;
@@ -787,7 +803,7 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
             visual: MoreBelowCue.height,
             child: Semantics(
               button: true,
-              label: TodayCopy.moreBelow,
+              label: widget.label,
               excludeSemantics: true,
               child: MmPressable(
                 onTap: widget.onTap,
@@ -805,7 +821,14 @@ class _MoreBelowCueState extends State<MoreBelowCue> with SingleTickerProviderSt
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(TodayCopy.moreBelow, style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
+                      // Clamped at 1.2x so the pill stays inside its 32 dp gap at large text.
+                      Text(
+                        widget.label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        textScaler: MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.2),
+                        style: type.caption.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+                      ),
                       const SizedBox(width: MmSpace.s4),
                       AnimatedBuilder(
                         animation: _bob,

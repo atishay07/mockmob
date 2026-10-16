@@ -37,6 +37,9 @@ abstract final class ReviseCopy {
   static const String questionsADay = 'Questions a day';
   static const String back = 'Review';
   static const String backToReview = 'Back to Review';
+
+  /// Under the end's key: the mistakes the student repaired, asked once more on the phone.
+  static String reviewAgainMore(int n) => 'Review again: $n more you repaired';
   static const String checking = 'Checking your answer';
   static const String sendFailed = 'Your answer was not saved. Try again.';
   static const String tryAgain = 'Try again';

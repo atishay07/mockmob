@@ -30,6 +30,9 @@ import 'programme_rows.dart';
 import 'score_sources.dart';
 import '../widgets/tools_origin.dart';
 import '../my_colleges/my_colleges_parts.dart' show MyCollegesSection;
+import '../my_colleges/college_search.dart' show duMatchRank;
+import '../data/my_colleges_actions.dart' show myCollegesProvider;
+import '../../onboarding/onboarding.dart' show onboardingAnswersProvider;
 import '../pro/compass_pro_section.dart';
 import '../widgets/size_reveal.dart';
 
@@ -150,7 +153,10 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
     final replay = '${_sort.name}|$_stream|${s.category}|$_onlyClearing';
     final score = s.score;
     final q = _query.trim().toLowerCase();
-    bool matches(DuVerdict r) => (_stream == ToolsCopy.all || r.group.stream == _stream) && (q.isEmpty || r.group.name.toLowerCase().contains(q));
+    // One matcher with the chooser: "bcom", "B.Com" and "bcom hons" all find B.Com. (Hons.).
+    bool matches(DuVerdict r) =>
+        (_stream == ToolsCopy.all || r.group.stream == _stream) &&
+        (q.isEmpty || duMatchRank(q, r.group.name, extra: [r.group.id.replaceAll('-', ' '), r.group.family]) != null);
 
     var list = s.eligible.where(matches).toList();
     if (_onlyClearing && score != null) list = list.where((r) => s.couldClear(r.group)).toList();
@@ -185,6 +191,22 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
       SliverToBoxAdapter(child: CompassHero(state: s)),
       // The one primary action of the page, straight under the count: the score that makes the
       // list personal, or, once there is one, the programme to open first.
+      // The category as a chip rail near the top (L26): it changes which figures show, so it sits
+      // before the answer it changes. "Other quota" opens the rest in the sheet.
+      if (!s.selection.isEmpty)
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s12),
+            child: ChipRail.labelled(
+              semanticLabel: ToolsCopy.category,
+              labels: [for (final c in duMainCategories) categoryLabel(c), ToolsCopy.otherQuota],
+              selected: duMainCategories.contains(s.category) ? duMainCategories.indexOf(s.category) : duMainCategories.length,
+              onSelected: (i) => i < duMainCategories.length
+                  ? ref.read(compassControllerProvider.notifier).setCategory(duMainCategories[i])
+                  : showCategoryScoreSheet(context),
+            ),
+          ),
+        ),
       if (!s.selection.isEmpty && !noneOpen) SliverToBoxAdapter(child: _FirstMove(state: s, onOpen: open)),
       // Nothing open: the way out comes first, straight under the count.
       if (noneOpen) SliverToBoxAdapter(child: _NoneOpen(hasUnlocks: s.unlocks.isNotEmpty, onCombo: () => _openCombo(context))),
@@ -379,29 +401,30 @@ class _CompassScreenState extends ConsumerState<CompassScreen> {
   }
 }
 
-/// The one primary under the hero. No score yet: it asks for the expected score (the sheet also
-/// holds the category). With a score: it opens the best option, the programme the score could
-/// clear first, so the student always has a first move. Nothing when there is no programme to open.
-class _FirstMove extends StatelessWidget {
+/// The one primary under the hero: always a course to open, never a score to type (L26). The
+/// student's own course (the first college on My colleges, else the course from onboarding) when
+/// their subjects open it, otherwise the best option. Nothing when there is no programme to open.
+class _FirstMove extends ConsumerWidget {
   const _FirstMove({required this.state, required this.onOpen});
 
   final CompassState state;
   final void Function(String id) onOpen;
 
   @override
-  Widget build(BuildContext context) {
-    final best = compassBestOptions(state).firstOrNull;
-    final KeyButton? key = state.score == null
-        ? KeyButton(key: const ValueKey('compass-first-move'), label: ToolsCopy.addScore, onPressed: () => showCategoryScoreSheet(context))
-        : best == null
-            ? null
-            : KeyButton(
-                key: const ValueKey('compass-first-move'),
-                label: ToolsCopy.openProgramme(best.group.name),
-                onPressed: () => onOpen(best.group.id),
-              );
-    if (key == null) return const SizedBox.shrink();
-    return Padding(padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0), child: key);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final view = ref.watch(myCollegesProvider);
+    final own = view.ready && view.colleges.isNotEmpty ? view.colleges.first.programmeId : ref.watch(onboardingAnswersProvider).value?.courseId;
+    final mine = own == null ? null : state.eligible.where((v) => v.group.id == own).firstOrNull;
+    final pick = mine ?? compassBestOptions(state).firstOrNull;
+    if (pick == null) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s16, MmSpace.gutter, 0),
+      child: KeyButton(
+        key: const ValueKey('compass-first-move'),
+        label: ToolsCopy.openProgramme(pick.group.name),
+        onPressed: () => onOpen(pick.group.id),
+      ),
+    );
   }
 }
 

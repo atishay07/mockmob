@@ -157,6 +157,12 @@ void main() {
         await _shot(tester, 'tab_resume', b);
       });
 
+      testWidgets('tab at 390 by 844: the subjects, up next in that subject, then the first modes (L08)', (tester) async {
+        await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: [_mock()], now: _evening), size: const Size(390, 844));
+        await _settle(tester);
+        await _shot(tester, 'tab_order_390', b);
+      });
+
       testWidgets('tab offline', (tester) async {
         await _pump(tester, '/practice', b, practiceOverrides(quotes: _tabQuotes(), attempts: const [], network: NetworkStatus.offline, now: _evening, auth: signedIn(subjects: const ['english', 'accountancy'])));
         await _settle(tester);
@@ -201,7 +207,7 @@ void main() {
         final quotes = FakeQuoteRepository((s, m, c, p) => creditsQuote(cost: 10, balance: 90, count: c ?? 10));
         await _pump(tester, '/practice', b, practiceOverrides(quotes: quotes, attempts: [_mock()], now: _evening));
         await _settle(tester);
-        await _open(tester, 'Start');
+        await _open(tester, 'Start 10 questions');
         await _shot(tester, 'confirm_chapter_credits', b);
       });
 

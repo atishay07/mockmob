@@ -104,6 +104,7 @@ class TodayInputs {
     this.offline = false,
     this.selectedMinutes,
     this.roadPlan = const RoadPlan(),
+    this.lastTriedAt,
   });
 
   final DateTime now;
@@ -153,6 +154,10 @@ class TodayInputs {
 
   /// The student's own road: their exam date and mock target, when they set them.
   final RoadPlan roadPlan;
+
+  /// When the last Try again ended with the record still not loaded, or null (L01: the failure
+  /// card says "Tried again at 10:41 PM. Still not loading.", so a repeated tap visibly ran).
+  final DateTime? lastTriedAt;
 
   tz.Location get _location => locationFor(timezone);
 

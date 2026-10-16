@@ -154,12 +154,20 @@ class _GoalEditorState extends ConsumerState<GoalEditor> {
         const SizedBox(height: MmSpace.s16),
         // The week as it will be: the ring above the days reshapes as they are tapped, with this
         // week's real count in it. Mobi listens beside it.
+        // L06: the ring says what it counts. The numeral is this week's study days so far; the words
+        // inside it name the goal being chosen ("of 4 study days"), and reshape as days are tapped.
         SizedBox(
-          height: 96,
+          height: 112,
           child: Stack(
             alignment: Alignment.center,
             children: [
-              WeekDial(done: widget.done, goal: _days.isEmpty ? 1 : _days.length, size: 96, showWords: false),
+              Semantics(
+                container: true,
+                liveRegion: true,
+                label: RhythmCopy.dialCountsLabel(widget.done, _days.isEmpty ? 0 : _days.length),
+                excludeSemantics: true,
+                child: WeekDial(done: widget.done, goal: _days.isEmpty ? 1 : _days.length, size: 112),
+              ),
               Align(
                 alignment: Alignment.centerRight,
                 child: MobiCharacter(controller: _mobi, size: 68, entrance: MobiAct.appear, watchTaps: false, seed: 5),

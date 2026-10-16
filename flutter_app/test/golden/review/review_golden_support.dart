@@ -13,6 +13,7 @@ import 'package:mockmob/core/models/repair.dart';
 import 'package:mockmob/core/models/rhythm.dart' show Goal, Rhythm;
 import 'package:mockmob/features/insights/data/insights_repository.dart';
 import 'package:mockmob/features/insights/data/saved_repository.dart';
+import 'package:mockmob/features/review/again/review_again_local.dart' show reviewAgainStoreProvider;
 import 'package:mockmob/features/review/data/mistake_index.dart';
 import 'package:mockmob/core/repositories/attempts_repository.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
@@ -124,6 +125,8 @@ List<Override> reviewOverrides({
   creditsRepositoryProvider.overrideWith(() => StillCredits(credits)),
   rhythmRepositoryProvider.overrideWith(StillRhythm.new),
   goalRepositoryProvider.overrideWith(StillGoal.new),
+  // Review again keeps the questions it missed on the phone: in memory here.
+  reviewAgainStoreProvider.overrideWithValue(MemoryPrefsStore()),
   // The record and saved rows on the tab: settled, no network.
   insightsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
   savedRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
@@ -197,6 +200,9 @@ RepairRunState runOf({
   List<MistakeOutcome?> outcomes = const [],
   int index = 0,
   bool repairedBefore = true,
+  List<TryStage> tries = const [],
+  List<int?> picks = const [],
+  bool keyOnly = false,
 }) {
   final pick = buildReviewIndex(allAttempts, const []).tonight!;
   return RepairRunState(
@@ -204,10 +210,19 @@ RepairRunState runOf({
     chapter: pick.chapter,
     subjectId: pick.subjectId,
     source: pick.source,
-    steps: [for (var i = 0; i < pick.items.length; i++) RepairStep(pick.items[i], i < outcomes.length ? outcomes[i] : null)],
+    steps: [
+      for (var i = 0; i < pick.items.length; i++)
+        RepairStep(
+          pick.items[i],
+          i < outcomes.length ? outcomes[i] : null,
+          i < tries.length ? tries[i] : TryStage.none,
+          i < picks.length ? picks[i] : null,
+        ),
+    ],
     index: index,
     phase: phase,
     repairedBefore: repairedBefore,
+    keyOnly: keyOnly,
   );
 }
 

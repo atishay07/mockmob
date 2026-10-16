@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../state/colleges_move.dart';
 import '../state/sheet_sync.dart';
 
 /// Where saving the sheet to the account stands, in one line with its mark: a spinner while the
@@ -11,17 +12,27 @@ import '../state/sheet_sync.dart';
 /// glyph when it failed (the sheet stays on the phone; the sheet that holds this offers "Try
 /// again" as its main key). Today and You may reuse it.
 class SheetStatus extends StatelessWidget {
-  const SheetStatus({super.key, required this.phase, this.offline = false});
+  const SheetStatus({super.key, required this.phase, this.offline = false, this.colleges = CollegesMove.none});
 
   final SheetSyncPhase phase;
   final bool offline;
+
+  /// Where the picked colleges stand. They are named as saved only once the server's list has them.
+  final CollegesMove colleges;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final (title, detail) = switch (phase) {
-      SheetSyncPhase.saved => (OnboardingCopy.savedSheet, OnboardingCopy.savedWhat),
+      SheetSyncPhase.saved => (
+          OnboardingCopy.savedSheet,
+          switch (colleges) {
+            CollegesMove.moved => OnboardingCopy.savedWhatColleges,
+            CollegesMove.later => OnboardingCopy.savedWhatCollegesLater,
+            CollegesMove.none || CollegesMove.pending => OnboardingCopy.savedWhat,
+          },
+        ),
       SheetSyncPhase.failed => (offline ? OnboardingCopy.savedOffline : OnboardingCopy.savedFailed, null),
       SheetSyncPhase.kept => (OnboardingCopy.keptExisting, null),
       SheetSyncPhase.saving || SheetSyncPhase.idle => (OnboardingCopy.savingSheet, null),

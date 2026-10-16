@@ -102,14 +102,44 @@ enum KeyReviewReason {
   fallback,
 }
 
+/// Where the "try it once more" step of a mistake stands. The student answers the question again
+/// before the reason is written (and before the key shows): the step is free, kept on the phone,
+/// and never changes what counts as repaired.
+enum TryStage {
+  /// No try step for this mistake (a repair opened again, a run that reads keys with no try, the
+  /// older flow).
+  none,
+
+  /// Offered: the options are live, nothing was sent.
+  open,
+
+  /// Checked, or skipped with "Show the reason now": the repair call has been (or is being) made.
+  done,
+}
+
 /// One mistake in the run.
 class RepairStep {
-  const RepairStep(this.item, [this.outcome]);
+  const RepairStep(this.item, [this.outcome, this.tryStage = TryStage.none, this.retryPick]);
 
   final MistakeItem item;
   final MistakeOutcome? outcome;
+  final TryStage tryStage;
 
-  RepairStep withOutcome(MistakeOutcome? o) => RepairStep(item, o);
+  /// The option the student picked on the try step (an index into the question's options), or null
+  /// before a pick and after "Show the reason now". Kept through a failed call so "Try again"
+  /// resends the same pick with the same request id.
+  final int? retryPick;
+
+  RepairStep withOutcome(MistakeOutcome? o) => RepairStep(item, o, tryStage, retryPick);
+
+  RepairStep withTry({TryStage? stage, int? pick, bool clearPick = false}) =>
+      RepairStep(item, outcome, stage ?? tryStage, clearPick ? null : (pick ?? retryPick));
+
+  /// The try step is on screen: offered, not yet checked, nothing in flight.
+  bool get awaitingTry => tryStage == TryStage.open && outcome == null;
+
+  /// The pick the student's check was made with, once checked (never a skipped try).
+  int? get checkedPick => tryStage == TryStage.done ? retryPick : null;
 
   /// Counts toward "N mistakes repaired": an acknowledged explained or stored answer that is
   /// not a reopen of an earlier repair.
@@ -224,6 +254,13 @@ class RepairRunState {
   RepairRunState withCurrent(MistakeOutcome? outcome) {
     final next = [...steps];
     next[index] = next[index].withOutcome(outcome);
+    return copyWith(steps: next);
+  }
+
+  /// The run with the current step replaced by [step] (its outcome included).
+  RepairRunState withCurrentStep(RepairStep step) {
+    final next = [...steps];
+    next[index] = step;
     return copyWith(steps: next);
   }
 }

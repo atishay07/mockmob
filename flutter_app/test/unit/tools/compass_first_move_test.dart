@@ -1,5 +1,5 @@
-// Compass, one first move: a single primary under the hero (the score when there is none, the
-// best programme when there is one), the best options drawn as a cutoff bar with the score
+// Compass, one first move: a single primary under the hero that always opens a course, never
+// asks for a score (L26), the best options drawn as a cutoff bar with the score
 // pinned, and the stream and unlock chips on the shared ChipRail (nothing cut through a letter).
 
 import 'package:flutter/material.dart';
@@ -38,11 +38,14 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('without a score the one primary asks for it, and the best options carry bars without a pin', (tester) async {
+  testWidgets('without a score the one primary still opens a course, and the best options carry bars without a pin', (tester) async {
     await compass(tester);
     final primary = find.byKey(const ValueKey('compass-first-move'));
     expect(primary, findsOneWidget);
-    expect(find.descendant(of: primary, matching: find.text(ToolsCopy.addScore)), findsOneWidget);
+    expect(find.descendant(of: primary, matching: find.textContaining('Open ')), findsOneWidget);
+    expect(find.descendant(of: primary, matching: find.text(ToolsCopy.addScore)), findsNothing);
+    expect(find.textContaining('CUET score'), findsNothing);
+    expect(find.textContaining('CSAS'), findsNothing);
     expect(find.byType(CutoffBar), findsNWidgets(3));
     expect(find.byKey(const ValueKey('cutoff-pin')), findsNothing);
     // Under the hero, above the best options.

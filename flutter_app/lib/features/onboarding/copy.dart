@@ -93,9 +93,9 @@ abstract final class OnboardingCopy {
   static String collegesCount(int n) => n == 1 ? '1 college' : '$n colleges';
   static String collegesUnit(int n) => n == 1 ? 'college' : 'colleges';
   static const String notSure = 'Not sure yet';
-  static const String notSureNote = 'Fine. The plan works without it.';
+  static const String notSureNote = 'You can pick one later in Colleges.';
   static const String ladderTitle = 'Which colleges would you say yes to tomorrow?';
-  static const String ladderSupport = 'Round 1 minimum, 2026, out of 1000. Pick up to three.';
+  static const String ladderSupport = 'Lowest Round 1 score in 2026, out of 1000.';
   static String showing(String category) => 'Showing ${categoryWords(category)}';
   static const String categoryTitle = 'Category for the figures';
   static const String categoryNote = 'It only changes which figures you see.';
@@ -103,7 +103,16 @@ abstract final class OnboardingCopy {
   static String showAll(int n) => 'Show all $n';
   static const String showFewer = 'Show fewer';
   static const String changeCourse = 'Change course';
-  static const String threeIsPlenty = 'Three is plenty. Drop one to swap it.';
+  static const String eightIsMost = '8 is the most. Drop one to add another.';
+  static const String findCollege = 'Find a college';
+  static const String clearSearch = 'Clear search';
+  static String noCollegeMatch(String q) => 'No college matches "$q" in this course.';
+
+  /// "3 of 8 picked.", then what Today does with them once there is a pick.
+  static const String pickedTail = 'The first 3 show on Today.';
+  static const String onToday = 'On Today';
+  static String pickedSpoken(int picked, int of, {required bool tail}) =>
+      tail ? '$picked of $of picked. The first 3 show on Today.' : '$picked of $of picked';
   static String barLine(String college, String score, int perPaper) =>
       '$college needed $score of 1000 in Round 1, 2026. That\'s about $perPaper of 250 a paper.';
   static String noSeatsFor(String category) => 'No seats went to ${categoryWords(category)} here in Round 1, 2026.';
@@ -228,7 +237,14 @@ abstract final class OnboardingCopy {
   // After sign-in (the "Before you start" sheet).
   static const String savingSheet = 'Saving your sheet';
   static const String savedSheet = 'Saved to your account.';
-  static const String savedWhat = 'Subjects, study days and study time are on your account. Course and colleges stay on this phone for now.';
+  /// What the account holds, said once the server has it. The colleges are named only after the
+  /// server's own list shows them (never before): [savedWhat] when the sheet has none,
+  /// [savedWhatColleges] once they are on the account, and [savedWhatCollegesLater] when they
+  /// could not be moved yet (nothing is claimed that is not so).
+  static const String savedWhat = 'Subjects, study days and study time are on your account.';
+  static const String savedWhatColleges = 'Subjects, study days, your course and colleges are on your account.';
+  static const String savedWhatCollegesLater =
+      "Subjects and study days are on your account. Your colleges are still on this phone; they move when you're back online.";
   static const String savedFailed = 'Couldn\'t save yet. Your sheet is still on this phone.';
   static const String savedOffline = 'You\'re offline. Your sheet is still on this phone and saves when you\'re back.';
   static const String keptExisting = 'Your account already had subjects, so we kept them. This sheet stays on this phone.';

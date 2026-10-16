@@ -40,7 +40,7 @@ class FakeRepairApi implements RepairApi {
   Completer<void>? gate;
 
   @override
-  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId}) async {
+  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId, int? retryPick}) async {
     calls.add((questionId, requestId));
     await gate?.future;
     final next = answers.isEmpty ? explainedJson() : answers.removeAt(0);
@@ -123,7 +123,7 @@ void main() {
 
   test('explained is recorded with its acknowledgement and counted', () async {
     run().open('m7-q0');
-    run().begin();
+    run().begin(tryFirst: false);
     await settle();
     expect(state().current!.outcome, isA<OutcomeExplained>());
     final r = await local('m7-q0');
@@ -137,7 +137,7 @@ void main() {
   test('a failed call keeps the requestId for the retry', () async {
     api.answers.add(const ApiError(kind: ApiErrorKind.network, code: 'network'));
     run().open('m7-q0');
-    run().begin();
+    run().begin(tryFirst: false);
     await settle();
     expect((state().current!.outcome! as OutcomeFailed).failure, RepairFailure.offline);
     await run().retry();
@@ -150,7 +150,7 @@ void main() {
   test('operation_released mints a new id and calls again once', () async {
     api.answers.add(const ApiError(kind: ApiErrorKind.conflict, code: 'operation_released', status: 409));
     run().open('m7-q0');
-    run().begin();
+    run().begin(tryFirst: false);
     await settle();
     expect(api.calls, hasLength(2));
     expect(api.calls[0].$2, isNot(api.calls[1].$2));
@@ -173,7 +173,7 @@ void main() {
 
     Future<void> begin() async {
       run().open('m7-q0');
-      run().begin();
+      run().begin(tryFirst: false);
       await settle();
     }
 
@@ -310,7 +310,7 @@ void main() {
   test('not_a_mistake removes the step quietly and moves on', () async {
     api.answers.add(const ApiError(kind: ApiErrorKind.validation, code: 'not_a_mistake', status: 422));
     run().open('m7-q0');
-    run().begin();
+    run().begin(tryFirst: false);
     await settle();
     expect(state().steps, hasLength(2));
     expect(state().current!.item.questionId, 'm7-q10');
@@ -320,7 +320,7 @@ void main() {
   test('held_for_recheck is set aside and never counts as repaired', () async {
     api.answers.add({'status': 'held_for_recheck', 'charged': 0});
     run().open('m7-q0');
-    run().begin();
+    run().begin(tryFirst: false);
     await settle();
     expect(state().current!.outcome, isA<OutcomeSetAside>());
     expect(state().repairedCount, 0);
@@ -330,7 +330,7 @@ void main() {
   test('an empty wallet switches the run to key explanations without more calls', () async {
     api.answers.add(const ApiError(kind: ApiErrorKind.paymentRequired, code: 'insufficient_ai_credits', status: 402));
     run().open('m7-q0');
-    run().begin();
+    run().begin(tryFirst: false);
     await settle();
     final outcome = state().current!.outcome! as OutcomeKeyReview;
     expect(outcome.reason, KeyReviewReason.outOfCredits);
@@ -356,14 +356,14 @@ void main() {
       ),
     );
     run().open('m7-q0');
-    run().begin();
+    run().begin(tryFirst: false);
     await settle();
     expect((state().current!.outcome! as OutcomeSetAside).heldByServer, isFalse);
   });
 
   test('finishing ends the run and reports the count', () async {
     run().open('m7-q0');
-    run().begin(limit: 2);
+    run().begin(tryFirst: false, limit: 2);
     await settle();
     run().next();
     await settle();
@@ -377,7 +377,7 @@ void main() {
   group('a repair answered after the student left the step', () {
     test('finishing while a call is in flight still counts the acknowledged answer (result-review-03)', () async {
       run().open('m7-q0');
-      run().begin(limit: 2);
+      run().begin(tryFirst: false, limit: 2);
       await settle();
       expect(state().repairedCount, 1);
       final gate = api.gate = Completer<void>();
@@ -399,7 +399,7 @@ void main() {
     test('an answer that comes back after the run was replaced does not touch the new run', () async {
       final gate = api.gate = Completer<void>();
       run().open('m7-q0');
-      run().begin();
+      run().begin(tryFirst: false);
       await settle();
       expect(state().current!.outcome, isA<OutcomeLoading>());
       run().open('m7-q10');
@@ -416,7 +416,7 @@ void main() {
     test('a run backed out of before any repair is replaced by the tapped mistake and count', () async {
       api.answers.add(const ApiError(kind: ApiErrorKind.network, code: 'network'));
       run().open('m7-q10');
-      run().begin();
+      run().begin(tryFirst: false);
       await settle();
       expect(state().current!.outcome, isA<OutcomeFailed>());
       expect(run().open('m7-q10', count: 1), isTrue);
@@ -438,7 +438,7 @@ void main() {
     test('a run whose call is still in flight is kept for the same question', () async {
       api.gate = Completer<void>();
       run().open('m7-q0');
-      run().begin();
+      run().begin(tryFirst: false);
       await settle();
       expect(run().open('m7-q0'), isTrue);
       expect(state().phase, RepairPhase.working);
@@ -449,7 +449,7 @@ void main() {
 
     test('a run that has repaired something is kept for the same question', () async {
       run().open('m7-q0');
-      run().begin();
+      run().begin(tryFirst: false);
       await settle();
       expect(state().repairedCount, 1);
       expect(run().open('m7-q0'), isTrue);
@@ -473,7 +473,7 @@ void main() {
 
     test('finishing alone fires nothing: no slot is on screen yet, so no id is spent', () async {
       run().open('m7-q0');
-      run().begin(limit: 2);
+      run().begin(tryFirst: false, limit: 2);
       await settle();
       run().next();
       await settle();
@@ -486,7 +486,7 @@ void main() {
 
     test('the ending consumes the moment with the acknowledged time, once, in the run scope', () async {
       run().open('m7-q0');
-      run().begin(limit: 2);
+      run().begin(tryFirst: false, limit: 2);
       await settle();
       run().next();
       await settle();
@@ -507,7 +507,7 @@ void main() {
     test('a run with nothing repaired fires nothing', () async {
       api.answers.add(explainedJson(status: 'not_explained'));
       run().open('m7-q0');
-      run().begin(limit: 1);
+      run().begin(tryFirst: false, limit: 1);
       await settle();
       run().finish();
       await settle();
@@ -518,7 +518,7 @@ void main() {
     test('with the weekly rhythm turned off the moment is not spent unseen', () async {
       rhythmStore.values['rhythm_hidden_u1'] = true;
       run().open('m7-q0');
-      run().begin(limit: 1);
+      run().begin(tryFirst: false, limit: 1);
       await settle();
       run().finish();
       await settle();
@@ -536,7 +536,7 @@ void main() {
     expect(run().open('m7-q0'), isTrue);
     expect(state().steps, hasLength(1));
     api.answers.add(explainedJson(status: 'stored'));
-    run().begin();
+    run().begin(tryFirst: false);
     await settle();
     final o = state().current!.outcome! as OutcomeExplained;
     expect(o.reopened, isTrue);

@@ -1,6 +1,10 @@
-/// The CUET tools' routes. Pushed over the shell (root navigator), reached from You and from a
-/// quiet link under Today's road. See `tools_routes.dart` for the registration.
+/// The Colleges area's routes. `/colleges` is the tab (branch 3) and `/colleges/cutoff` the Check a
+/// score sheet over it; Compass, a programme, Combo and the 2027 guide stay root pages under
+/// `/tools/...`, pushed from Colleges, Today's colleges card and Practice, so Back returns to the
+/// tab they came from. `/tools` alone redirects to `/colleges` (app-ia-1016.md section 8).
 abstract final class ToolsPaths {
+  static const String colleges = '/colleges';
+  static const String collegesCutoff = '/colleges/cutoff';
   static const String hub = '/tools';
   static const String compass = '/tools/compass';
   static const String combo = '/tools/combo';
@@ -11,7 +15,7 @@ abstract final class ToolsPaths {
   /// Website paths that now open these screens (for the ActionRouter's deep links).
   static const Map<String, String> webAliases = {
     '/admission-compass': compass,
-    '/cuet-cutoff-calculator': compass,
+    '/cuet-cutoff-calculator': collegesCutoff,
     '/cuet-subject-combination': combo,
     '/cuet-2027': guide2027,
   };

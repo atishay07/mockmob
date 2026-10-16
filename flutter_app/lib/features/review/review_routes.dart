@@ -1,10 +1,15 @@
 // Route builders for the review feature (spec 5.8). lib/core/router/screens.dart re-exports
 // them and router.dart binds them to the paths of spec 4.2.
 
+// The way into Review again, for the places that link to it (Practice's More list reads these).
+export 'again/review_again_copy.dart' show ReviewAgainCopy;
+export 'again/review_again_entry.dart' show ReviewAgainRow, reviewAgainCountProvider;
+
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import '../rules/screens/rule_book_screen.dart';
+import 'again/review_again_screen.dart';
 import 'revise/revise_screen.dart';
 import 'screens/mistakes_screen.dart';
 import 'screens/record_screen.dart';
@@ -14,6 +19,14 @@ import 'screens/review_screen.dart';
 
 /// The Review tab.
 Widget reviewScreen(BuildContext context, GoRouterState state) => const ReviewScreen();
+
+/// `/review/again`: Review again, the repaired mistakes asked once more with the key hidden.
+/// `?keys=attemptId/questionId,...` (a repair run just finished) narrows the set to those.
+Widget reviewAgainScreen(BuildContext context, GoRouterState state) {
+  final raw = state.uri.queryParameters['keys'];
+  final seed = raw == null || raw.isEmpty ? null : {for (final k in raw.split(',')) if (k.isNotEmpty) k};
+  return ReviewAgainScreen(key: ValueKey(raw ?? ''), seed: seed);
+}
 
 /// `/review/mistakes`: every chapter with mistakes.
 Widget reviewMistakesScreen(BuildContext context, GoRouterState state) => const MistakesScreen();

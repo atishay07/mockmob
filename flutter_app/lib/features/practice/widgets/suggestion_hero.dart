@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/api/api.dart';
 import '../../../core/connectivity/connectivity.dart';
 import '../../../core/domain/domain.dart';
+import '../../../core/motion/motion.dart';
 import '../../../core/models/models.dart';
 import '../../../core/repositories/session_draft_repository.dart';
 import '../../../core/router/routes.dart';
@@ -68,10 +69,14 @@ String evidenceLocation(Attempt attempt) => attempt.isMock ? AppRoutes.result(at
 /// The top of the Practice tab: [practiceSuggestionProvider] drawn as the lit card. It follows
 /// the subject picked on the tiles, and its Start opens the confirm sheet in that same subject.
 class SuggestionHero extends ConsumerWidget {
-  const SuggestionHero({super.key, this.actionKey});
+  const SuggestionHero({super.key, this.actionKey, this.compact = false});
 
   /// Marks the card's Start key (Mobi points at it).
   final GlobalKey? actionKey;
+
+  /// The Practice tab's shorter card (an 88 dp object), so the subject strip above it and the
+  /// first mode below it share the first screen. Other callers keep the full card.
+  final bool compact;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -82,11 +87,13 @@ class SuggestionHero extends ConsumerWidget {
     // The "Late-night lines" setting turns this one off too.
     final late = isLateNight(now) && ref.watch(lateNightLinesProvider);
     final subject = subjectNameFor(suggestion.subjectId, catalog);
-    // An ordinary suggestion has no eyebrow: its title and kicker say what it is.
-    final String? overline = late ? PracticeCopy.lateOverline : null;
+    // The eyebrow names the subject the lit tile chose (L08), so the strip above and this card
+    // read as one choice; after 11 PM it points at the one set instead.
+    final String overline = late ? PracticeCopy.lateOverline : PracticeCopy.upNextIn(subject);
 
     void confirm(PracticeSelection selection) => showPracticeConfirm(context, selection: selection);
 
+    final Widget card;
     switch (suggestion) {
       case ResumeSuggestion(:final draft):
         final total = draft.view.questions.length;
@@ -95,7 +102,7 @@ class SuggestionHero extends ConsumerWidget {
         final flagsRead = ref.watch(draftAnsweredProvider(draft.sessionId));
         final flags = flagsRead.value;
         final showSheet = (flagsRead.isLoading || flags != null) && sheetAgrees(flags: flags, answered: summary?.answered);
-        return SuggestionCard(
+        card = SuggestionCard(
           subjectId: draft.subject,
           overline: PracticeCopy.resumeOverline,
           number: '$answered',
@@ -108,12 +115,12 @@ class SuggestionHero extends ConsumerWidget {
               : PracticeCopy.resumePracticeReason,
           actionLabel: PracticeCopy.resumeKey,
           onAction: () => context.go(AppRoutes.run(draft.sessionId)),
-          actionKey: actionKey,
+          compact: compact,
           sheet: showSheet ? ResumeSheet(total: total, answered: flags) : null,
         );
       case ChapterSuggestion():
         final s = suggestion;
-        return SuggestionCard(
+        card = SuggestionCard(
           subjectId: s.subjectId,
           overline: overline,
           number: '${s.count}',
@@ -124,14 +131,14 @@ class SuggestionHero extends ConsumerWidget {
               ? PracticeCopy.chapterReasonMock(s.marksLost, 'Mock ${s.mockNumber}')
               : PracticeCopy.chapterReasonPractice(s.missed),
           onShowMe: () => context.push(evidenceLocation(s.attempt)),
-          actionLabel: PracticeCopy.startKey,
+          actionLabel: PracticeCopy.startCount(s.count),
           onAction: () => confirm(s.selection),
           offline: offline,
-          actionKey: actionKey,
+          compact: compact,
         );
       case SubjectSuggestion():
         final s = suggestion;
-        return SuggestionCard(
+        card = SuggestionCard(
           subjectId: s.subjectId,
           overline: overline,
           number: '${s.count}',
@@ -140,14 +147,14 @@ class SuggestionHero extends ConsumerWidget {
           kicker: PracticeCopy.subjectKicker,
           reason: PracticeCopy.subjectReason(subject, PracticeCopy.when(s.attempt.completedAt.toLocal(), now)),
           onShowMe: () => context.push(evidenceLocation(s.attempt)),
-          actionLabel: PracticeCopy.startKey,
+          actionLabel: PracticeCopy.startCount(s.count),
           onAction: () => confirm(s.selection),
           offline: offline,
-          actionKey: actionKey,
+          compact: compact,
         );
       case StartingSuggestion():
         final s = suggestion;
-        return SuggestionCard(
+        card = SuggestionCard(
           subjectId: s.subjectId,
           overline: overline,
           number: '${s.count}',
@@ -157,11 +164,43 @@ class SuggestionHero extends ConsumerWidget {
           reason: s.picked
               ? (s.attemptsKnown ? PracticeCopy.pickedStartReason(subject) : PracticeCopy.pickedUnknownReason)
               : (s.firstEver ? PracticeCopy.startingReason(subject) : PracticeCopy.firstOnListReason(subject)),
-          actionLabel: PracticeCopy.startKey,
+          actionLabel: PracticeCopy.startCount(s.count),
           onAction: () => confirm(s.selection),
           offline: offline,
-          actionKey: actionKey,
+          compact: compact,
         );
     }
+
+    // What the card is about: a new subject, a new chapter or a resume swaps it; a new count or a
+    // pull that brings the same suggestion only updates it in place.
+    final identity = switch (suggestion) {
+      ResumeSuggestion(:final draft) => 'resume:${draft.sessionId}',
+      ChapterSuggestion(:final subjectId, :final chapter, :final attempt) => 'chapter:$subjectId:$chapter:${attempt.id}',
+      SubjectSuggestion(:final subjectId, :final attempt) => 'subject:$subjectId:${attempt.id}',
+      StartingSuggestion(:final subjectId, :final firstEver) => 'start:$subjectId:$firstEver',
+    };
+    // The hero swap (brief 2.8): the new card fades in from 0.96 over the old one, 240 ms, and
+    // the height eases; never from a small scale. Reduced motion swaps at once. The Start key's
+    // mark sits on the swap, so Mobi aims at the card while two cards briefly share the slot.
+    final swap = Motion.of(context, Motion.card);
+    return KeyedSubtree(
+      key: actionKey,
+      child: MmSizeEase(
+        duration: swap,
+        curve: Motion.out,
+        alignment: Alignment.topCenter,
+        child: AnimatedSwitcher(
+          duration: swap,
+          switchInCurve: Motion.out,
+          switchOutCurve: Motion.exit,
+          layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+          transitionBuilder: (child, t) => FadeTransition(
+            opacity: t,
+            child: ScaleTransition(scale: Tween<double>(begin: 0.96, end: 1).animate(t), child: child),
+          ),
+          child: KeyedSubtree(key: ValueKey(identity), child: card),
+        ),
+      ),
+    );
   }
 }

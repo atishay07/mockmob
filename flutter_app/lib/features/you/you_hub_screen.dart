@@ -22,7 +22,13 @@ import '../rhythm/logic/tokens.dart';
 import '../rhythm/logic/week_view.dart' show WeekStatus, runNote, weeksInRhythmText;
 import '../rhythm/rhythm.dart';
 import '../rhythm/widgets/rhythm_layout.dart' show SectionBreak;
-import '../rhythm/widgets/token_shelf.dart';
+import '../rhythm/data/badges.dart';
+import '../rhythm/logic/dates.dart' show formatAchievedDate;
+import '../rhythm/widgets/badge_row.dart';
+import '../notifications/notifications.dart' show NotificationsInvite;
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'hub/study_sections.dart';
+import 'widgets/you_row.dart';
 import '../rules/copy.dart';
 import '../rules/data/rules_data.dart';
 import '../rules/widgets/across_mocks_view.dart';
@@ -38,14 +44,15 @@ import 'account/name_sheet.dart' show showNameSheet;
 import 'you_routes.dart';
 import '../credits/credits.dart' show openCreditsPage;
 
-/// You (brief section 12): identity first, settings second. The student's sheet for the season
-/// sits in the lamp light at the top, the brass milestone tokens stand on their shelf beneath it,
-/// and the calm settings panels follow. The fourth tab on the bar.
+/// You is the student's study (IA D4, app-you-1016 A.2): the name in the lamp light, then this
+/// week as "3 of 4 study days", the badges, the personal bests, across your mocks and the subjects,
+/// with plan and credits as one row at the bottom. The account, the theme switch and the settings
+/// live in the avatar sheet (IA D5), so nothing here repeats them above the study.
 class YouHubScreen extends ConsumerStatefulWidget {
   const YouHubScreen({super.key, this.tools});
 
-  /// The CUET tools group (the tools feature's `ToolsShelf`). Null shows the two website rows
-  /// that open in a Custom Tab, so the hub works before the tools routes are registered.
+  /// The CUET tools group. Not drawn on You any more: the tools live in the Colleges tab (IA
+  /// section 5). Kept so the router's call still compiles until the Shell drops it.
   final Widget? tools;
 
   @override
@@ -53,8 +60,6 @@ class YouHubScreen extends ConsumerStatefulWidget {
 }
 
 class _YouHubScreenState extends ConsumerState<YouHubScreen> {
-  bool _openFailed = false;
-
   // The sticky row of section chips (critic 16 Oct, finding 27): Plan, Look, Study, Alerts,
   // Colleges. Each chip scrolls to its section, and the chip of the section under the row is lit.
   final ScrollController _scroll = ScrollController();
@@ -64,11 +69,11 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   final ValueNotifier<int?> _active = ValueNotifier<int?>(null);
 
   static const List<String> _chipLabels = [
-    YouCopy.jumpPlan,
-    YouCopy.jumpLook,
-    YouCopy.jumpStudy,
-    YouCopy.jumpAlerts,
-    YouCopy.jumpColleges,
+    YouCopy.jumpWeek,
+    YouCopy.jumpBadges,
+    YouCopy.jumpBests,
+    YouCopy.jumpMocks,
+    YouCopy.jumpSubjects,
   ];
 
   @override
@@ -130,13 +135,6 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     } else {
       unawaited(_scroll.animateTo(target, duration: duration, curve: Motion.glide));
     }
-  }
-
-  /// The website rows (only when no tools shelf is given): the page itself on www.mockmob.in,
-  /// even though the ActionRouter now sends these paths to the native tools.
-  Future<void> _openTool(String path) async {
-    final ok = await ref.read(externalLinkOpenerProvider).open(Uri.https('www.mockmob.in', path));
-    if (mounted) setState(() => _openFailed = !ok);
   }
 
   /// The name key on the hero: the editor, then Mobi greets the new name on Account's own page;
@@ -228,24 +226,20 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           trailing: PillKey(
                             // "Edit profile", or just "Edit" once text is enlarged enough that the longer words would
                             // push the title off the row (the spoken label is the same either way).
-                            label: MediaQuery.textScalerOf(context).scale(16) > 18.4 ? EditCopy.editSheetShort : EditCopy.editSheet,
+                            label: EditCopy.editSheetShort,
                             semanticsLabel: EditCopy.editSheetLabel,
                             onPressed: () => openYouPage(context, YouPaths.sheet),
                           ),
                         ),
                       ),
                       const _ExpiredWorkNotice(),
-                      if (_openFailed)
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s12),
-                          child: InlineBanner(message: YouCopy.toolOpenFailed, tone: BannerTone.error),
-                        ),
                       const SizedBox(height: MmSpace.s16),
                       MmStaggerItem(
                         index: 0,
                         child: SheetCard(
                           name: auth.name,
-                          email: auth.email,
+                          // The email lives in the account sheet's identity block.
+                          email: null,
                           target: target,
                           subjects: subjects,
                           week: week,
@@ -274,77 +268,97 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
+                      // 1. This week: the ring says what it counts ("3 of 4 study days"), the
+                      // planned week, then the goal, the planned days and the pause.
                       MmStaggerItem(
                         index: 1,
                         child: KeyedSubtree(
                           key: _sectionKeys[0],
                           child: _HubSection(
-                            title: YouCopy.hubPlan,
-                            trailing: KeyButton.quiet(
-                              label: YouCopy.seeHistory,
-                              semanticsLabel: YouCopy.seeHistoryLabel,
-                              onPressed: () => openCreditsPage(context),
-                            ),
-                            child: const PlanCreditsCard(),
-                          ),
-                        ),
-                      ),
-                      MmStaggerItem(
-                        index: 2,
-                        child: KeyedSubtree(key: _sectionKeys[1], child: const _HubSection(title: YouCopy.hubAppearance, child: AppearanceCard())),
-                      ),
-                      // One study block: the ring and the week, then the goal, the planned days and
-                      // the pause (the same week Today shows is not drawn a second time).
-                      MmStaggerItem(
-                        index: 3,
-                        child: KeyedSubtree(
-                          key: _sectionKeys[2],
-                          child: _HubSection(
-                            title: YouCopy.hubStudyDays,
+                            title: YouCopy.hubWeek,
+                            trailing: KeyButton.quiet(label: YouCopy.seeRhythm, onPressed: () => context.push(AppRoutes.youRhythm)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
                                 KeyedSubtree(key: _weekKey, child: WeekField(week: week, onOpen: () => context.push(AppRoutes.youRhythm))),
                                 const StudyDaysPanel(),
+                                // L19: the invitation to turn reminders on, only while they are off
+                                // (the Account area's widget; it draws nothing otherwise).
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+                                  child: NotificationsInvite(),
+                                ),
                               ],
                             ),
                           ),
                         ),
                       ),
+                      // 2. Badges: the coin row and the next one to go for.
+                      MmStaggerItem(index: 2, child: KeyedSubtree(key: _sectionKeys[1], child: _badges(snapshot, now))),
+                      // 3. Personal bests, value first.
                       MmStaggerItem(
-                        index: 4,
-                        child: KeyedSubtree(key: _sectionKeys[3], child: const _HubSection(title: YouCopy.hubNotifications, child: NotificationsPanel())),
+                        index: 3,
+                        child: KeyedSubtree(
+                          key: _sectionKeys[2],
+                          child: _HubSection(
+                            title: YouCopy.bestsTitle,
+                            trailing: KeyButton.quiet(label: YouCopy.bestsSeeAll, onPressed: () => context.push(AppRoutes.youBests)),
+                            child: const BestsRows(),
+                          ),
+                        ),
                       ),
+                      // 4. Across your mocks (the same block as the Mistake Lab's end), then the
+                      // repair record.
+                      MmStaggerItem(index: 4, child: KeyedSubtree(key: _sectionKeys[3], child: const _AcrossSection())),
+                      const MmStaggerItem(index: 5, child: _RepairRecordRow()),
+                      // 5. My subjects, with the Aim row (course and colleges live in Colleges).
                       MmStaggerItem(
-                        index: 5,
+                        index: 6,
                         child: KeyedSubtree(
                           key: _sectionKeys[4],
                           child: _HubSection(
-                            title: YouCopy.hubTarget,
-                            child: TargetFields(
-                              target: target,
-                              subjects: subjects,
-                              ruledTop: false,
-                              onEdit: () => openYouPage(context, YouPaths.sheet),
-                              onEditSubjects: () => openYouPage(context, YouPaths.subjects),
+                            title: YouCopy.hubSubjects,
+                            trailing: KeyButton.quiet(
+                              label: YouCopy.editSubjectsShort,
+                              semanticsLabel: YouCopy.editSubjectsLabel,
+                              onPressed: () => openYouPage(context, YouPaths.subjects),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                if (subjects.isNotEmpty)
+                                  MmPressable(
+                                    onTap: () => openYouPage(context, YouPaths.subjects),
+                                    haptic: MmPressHaptic.selection,
+                                    pressedScale: 0.99,
+                                    focusRadius: MmRadius.smallAll,
+                                    semanticsLabel: YouCopy.editSubjectsLabel,
+                                    builder: (context, pressed, focused) => SubjectList(
+                                      subjects: subjects,
+                                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+                                    ),
+                                  ),
+                                const SizedBox(height: MmSpace.s8),
+                                AimRow(target: target, onOpen: () => context.go(AppRoutes.colleges)),
+                              ],
                             ),
                           ),
                         ),
                       ),
-                      MmStaggerItem(index: 6, child: _shelf(snapshot, now)),
+                      // 6. Plan and credits: one row; the tiles live in the account sheet.
                       const MmStaggerItem(
                         index: 7,
-                        child: _HubSection(title: YouCopy.hubProgress, child: ProgressPanel()),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: MmSpace.s24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Padding(padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: SectionBreak()),
+                              PlanCreditsRow(),
+                            ],
+                          ),
+                        ),
                       ),
-                      // Across your mocks: the same block as the Mistake Lab's end, from the record.
-                      const MmStaggerItem(index: 8, child: _AcrossSection()),
-                      const MmStaggerItem(index: 9, child: _HubSection(title: YouCopy.hubAccount, child: AccountPanel())),
-                      MmStaggerItem(
-                        index: 10,
-                        child: _HubSection(title: YouCopy.hubTools, child: widget.tools ?? ToolsPanel(onOpen: _openTool)),
-                      ),
-                      const MmStaggerItem(index: 11, child: _HubSection(title: YouCopy.hubHelp, child: HelpPanel())),
-                      const HubFooter(),
                             ],
                           ),
                         ),
@@ -360,16 +374,19 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
     );
   }
 
-  Widget _shelf(RhythmSnapshot snapshot, DateTime now) {
+  Widget _badges(RhythmSnapshot snapshot, DateTime now) {
     final colors = context.mmColors;
     final type = context.mmType;
     final failed = !snapshot.hasData && !snapshot.isInitialLoading;
-    final tracks = milestoneTracks(snapshot.rhythm?.milestones ?? const []);
-    final landed = tracks.fold<int>(0, (n, t) => n + t.earned.length);
+    final badges = ref.watch(badgeMilestonesProvider) ?? const [];
+    final tracks = milestoneTracks(badges);
     final total = tracks.fold<int>(0, (n, t) => n + t.steps.length);
     return _HubSection(
-      title: YouCopy.shelfTitle,
-      trailing: KeyButton.quiet(label: YouCopy.shelfSeeAll, onPressed: () => context.push(AppRoutes.youMilestones)),
+      title: RhythmCopy.badgesTitle,
+      trailing: KeyButton.quiet(
+        label: total > 0 ? RhythmCopy.badgesSeeAll(total) : YouCopy.shelfSeeAll,
+        onPressed: () => context.push(AppRoutes.youMilestones),
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
         child: failed
@@ -377,40 +394,37 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
             // so a failed hub reads as one problem with one way out, not two stacked alarms.
             ? Row(
                 children: [
-                  Expanded(child: Text(YouCopy.shelfLoadFailed, style: type.small.copyWith(color: colors.ink2))),
+                  Expanded(child: Text(RhythmCopy.badgesLoadFailed, style: type.small.copyWith(color: colors.ink2))),
                   const SizedBox(width: MmSpace.s8),
                   KeyButton.quiet(label: YouCopy.tryAgain, onPressed: () => ref.read(rhythmRepositoryProvider.notifier).refresh(force: true)),
                 ],
               )
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // How many of the nine steps the server has dated, only once the rhythm has loaded.
-                  if (snapshot.hasData && landed > 0)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: MmSpace.s12),
-                      child: Text(RhythmCopy.trackCountOf(landed, total), style: type.small.copyWith(color: colors.ink2)),
-                    ),
-                  // The shelf is the way in to Milestones: the page grows out of it (container
-                  // transform, MOTION.md C4) and shrinks back into it on back.
-                  MmPressable(
-                    onTap: () => context.push(AppRoutes.youMilestones),
-                    captureLaunch: true,
-                    haptic: MmPressHaptic.selection,
-                    pressedScale: 0.99,
-                    focusRadius: MmRadius.smallAll,
-                    // No label of its own: every token keeps its own words for TalkBack, and "See all"
-                    // above is the named way in.
-                    builder: (context, pressed, focused) => TokenShelf(
-                      slots: tokenSlots(snapshot.rhythm?.milestones ?? const []),
-                      zone: snapshot.timezone,
-                      now: now,
-                      loading: snapshot.isInitialLoading,
-                      freshIds: ref.watch(celebrationControllerProvider.select((s) => s.freshRows)),
-                    ),
-                  ),
-                ],
+            : BadgeRow(
+                tracks: tracks,
+                loading: snapshot.isInitialLoading,
+                dateOf: (d) => formatAchievedDate(d, snapshot.timezone, now),
+                progress: ref.watch(badgeProgressProvider),
+                freshIds: ref.watch(celebrationControllerProvider.select((s) => s.freshRows)),
               ),
+      ),
+    );
+  }
+}
+
+/// Your repair record, under Across your mocks (moved from the old Progress block).
+class _RepairRecordRow extends StatelessWidget {
+  const _RepairRecordRow();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s8),
+      child: YouPanel(
+        flat: true,
+        inset: 28 + MmSpace.s16,
+        children: [
+          YouRow(flat: true, icon: LucideIcons.clipboardCheck, title: YouCopy.repairRecordRow, onTap: () => context.push(AppRoutes.reviewRecord)),
+        ],
       ),
     );
   }

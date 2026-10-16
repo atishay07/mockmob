@@ -48,7 +48,7 @@ class _Api implements RepairApi {
   Completer<void>? gate;
 
   @override
-  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId}) async {
+  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId, int? retryPick}) async {
     calls.add(questionId);
     await gate?.future;
     final next = answers.isEmpty ? explainedJson() : answers.removeAt(0);
@@ -165,7 +165,7 @@ void main() {
 
     test('back and forward along reached steps shows what they had and calls nothing', () async {
       run().open('m7-q0');
-      run().begin();
+      run().begin(tryFirst: false);
       await settle();
       run().next();
       await settle();
@@ -186,7 +186,7 @@ void main() {
 
     test('an answer that lands while the student looks back is kept on its own step', () async {
       run().open('m7-q0');
-      run().begin();
+      run().begin(tryFirst: false);
       await settle();
       api.gate = Completer<void>();
       run().next();

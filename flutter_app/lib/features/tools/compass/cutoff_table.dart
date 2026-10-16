@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../my_colleges/college_search.dart' show duMatchRank;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/theme.dart';
@@ -44,7 +45,7 @@ class _CutoffTableState extends ConsumerState<CutoffTable> {
 
   List<DuSeat> _ordered(List<DuSeat> seats, int cat, double? score, SeatSort sort) {
     final q = _query.trim().toLowerCase();
-    final list = seats.where((r) => q.isEmpty || '${r.college} ${r.programme}'.toLowerCase().contains(q)).toList();
+    final list = q.isEmpty ? seats.toList() : [for (final r in seats) if (duMatchRank(q, r.college, extra: [r.programme]) != null) r];
     double? r1(DuSeat r) => duEffectiveCutoff(r.rounds[0], cat);
     double? best(DuSeat r) {
       final vals = [for (final x in r.rounds) ?duEffectiveCutoff(x, cat)];
@@ -217,7 +218,7 @@ class SeatRow extends StatelessWidget {
     final score = state.score;
     final status = score == null ? null : duSeatStatus(score, seat, cat);
     final subtitle = duNormName(seat.programme) == duNormName(groupName) ? null : seat.programme;
-    const names = ['I', 'II', 'III'];
+    const names = ['1', '2', '3'];
     final cells = [
       for (var i = 0; i < (showThird ? 3 : 2); i++)
         (name: names[i], value: duEffectiveCutoff(seat.rounds[i], cat), ur: duViaUr(seat.rounds[i], cat)),

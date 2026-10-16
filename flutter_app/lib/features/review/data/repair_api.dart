@@ -9,7 +9,11 @@ import '../../../core/models/repair.dart';
 abstract interface class RepairApi {
   /// Throws [ApiError] for a non-2xx answer and [RepairResponseFormatException] for a body
   /// outside the four documented outcomes.
-  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId});
+  ///
+  /// [retryPick] is the option index the student chose on the "try it once more" step. It is sent
+  /// additively and only when there was one: a server that does not know it ignores it, and
+  /// nothing about what counts as repaired depends on it.
+  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId, int? retryPick});
 }
 
 class HttpRepairApi implements RepairApi {
@@ -23,10 +27,10 @@ class HttpRepairApi implements RepairApi {
   final ApiClient _api;
 
   @override
-  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId}) async {
+  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId, int? retryPick}) async {
     final response = await _api.post(
       '/api/recovery/repair',
-      body: {'attemptId': attemptId, 'questionId': questionId, 'requestId': requestId},
+      body: {'attemptId': attemptId, 'questionId': questionId, 'requestId': requestId, 'retry_pick': ?retryPick},
       // The explanation can take a while to write.
       options: const ApiOptions(receiveTimeout: receiveTimeout),
     );

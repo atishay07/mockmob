@@ -73,8 +73,11 @@ class OnboardingDeck {
 }
 
 /// "Your sheet": about two minutes, every step from stage to rhythm skippable.
+///
+/// Version 2 (16 Oct 2026): the Aim step writes the same My colleges list as the Colleges tab, up
+/// to eight, searchable, with the first three marked as the ones Today shows.
 final OnboardingDeck kOnboardingDeck = OnboardingDeck(
-  version: 1,
+  version: 2,
   steps: [
     const DeckStep(
       id: Steps.stage,
@@ -89,8 +92,8 @@ final OnboardingDeck kOnboardingDeck = OnboardingDeck(
       kind: StepKind.ladder,
       bubble: 'Aim',
       writes: ['courseId', 'colleges', 'category', 'openToAny', 'courseUndecided'],
-      changesNow: 'The college ladder with Round 1 minimum scores, 2026; picks engrave onto the sheet.',
-      paysOffLater: 'The dream ladder on Today and in You; the eligibility line on the next step.',
+      changesNow: 'The college ladder with Round 1 minimum scores, 2026, a search and the pick count; picks engrave onto the sheet.',
+      paysOffLater: 'My colleges after sign-in, with the first three on Today; the eligibility line on the next step.',
     ),
     const DeckStep(
       id: Steps.subjects,

@@ -14,6 +14,8 @@ import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/core/theme/theme.dart';
 
 import '../../unit/today/support/today_fixtures.dart';
+import 'package:mockmob/core/auth/load_problem.dart';
+
 import 'today_golden_support.dart';
 
 TodayView _view(TodayInputs inputs) => buildToday(inputs);
@@ -131,6 +133,23 @@ void main() {
   todayGolden('today_offline', () => _view(ashaInputs(offline: true)));
   todayGolden('today_loading', () => _view(TodayInputs(now: now, firstName: 'Asha', week: tuesdayWeek)));
   todayGolden('today_error', () => _view(TodayInputs(now: now, firstName: 'Asha', attemptsFailed: true, week: tuesdayWeek)));
+  // L01: a Try again that changed nothing says when it ran, in the card (no snackbar).
+  todayGolden(
+    'today_fail_tried',
+    () => _view(TodayInputs(
+      now: now,
+      firstName: 'Asha',
+      attemptsFailed: true,
+      readProblem: LoadProblem.busy,
+      lastTriedAt: now.subtract(const Duration(minutes: 1)),
+      week: tuesdayWeek,
+    )),
+  );
+  // L01: nothing cached and offline: the card names it and is already watching for the network.
+  todayGolden(
+    'today_fail_offline_nocache',
+    () => _view(TodayInputs(now: now, firstName: 'Asha', attemptsFailed: true, readProblem: LoadProblem.offline, offline: true, week: tuesdayWeek)),
+  );
   todayGolden(
     'today_repaired',
     () => _view(ashaInputs(repaired: repairedAll(ashaRecord(tuesdayEvening)))),

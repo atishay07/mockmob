@@ -86,12 +86,46 @@ class RepairRun extends Notifier<RepairRunState?> {
 
   /// Starts working through the mistakes. [limit] keeps only the first N (a short wallet);
   /// [keyOnly] reads the key explanations without spending explanation credits.
-  void begin({int? limit, bool keyOnly = false}) {
+  ///
+  /// With [tryFirst] (the app's flow) every open mistake first asks the student to try the
+  /// question once more: nothing is sent and no key shows until they check (or choose "Show the
+  /// reason now"). A mistake already repaired or set aside has no try step.
+  void begin({int? limit, bool keyOnly = false, bool tryFirst = true}) {
     final s = state;
     if (s == null) return;
-    final steps = limit != null && limit > 0 && limit < s.steps.length ? s.steps.sublist(0, limit) : s.steps;
+    var steps = limit != null && limit > 0 && limit < s.steps.length ? s.steps.sublist(0, limit) : s.steps;
+    if (tryFirst) {
+      steps = [for (final st in steps) st.item.stage.isOpen ? st.withTry(stage: TryStage.open) : st];
+    }
     state = s.copyWith(steps: steps, index: 0, phase: RepairPhase.working, keyOnly: keyOnly);
     unawaited(ref.read(analyticsClientProvider).track(AnalyticsEvents.repairStarted, props: {'count': steps.length}));
+    if (!state!.current!.awaitingTry) unawaited(_loadCurrent());
+  }
+
+  /// The student picked [index] on the try step. Free and local: nothing is sent.
+  void selectTry(int index) {
+    final s = state;
+    final step = s?.current;
+    if (s == null || step == null || !step.awaitingTry) return;
+    state = s.withCurrentStep(step.withTry(pick: index));
+  }
+
+  /// "Check my answer": the pick is final, the repair call is made with it (the same pick again
+  /// on every "Try again", with the same request id).
+  void confirmTry() {
+    final s = state;
+    final step = s?.current;
+    if (s == null || step == null || !step.awaitingTry || step.retryPick == null) return;
+    state = s.withCurrentStep(step.withTry(stage: TryStage.done));
+    unawaited(_loadCurrent());
+  }
+
+  /// "Show the reason now": the same call with no retry pick, and no verdict line.
+  void skipTry() {
+    final s = state;
+    final step = s?.current;
+    if (s == null || step == null || !step.awaitingTry) return;
+    state = s.withCurrentStep(step.withTry(stage: TryStage.done, clearPick: true));
     unawaited(_loadCurrent());
   }
 
@@ -109,8 +143,9 @@ class RepairRun extends Notifier<RepairRunState?> {
     if (s.isLast) return finish();
     state = s.copyWith(index: s.index + 1);
     // A step reached before keeps what it has (an explanation, a failure with its own "Try
-    // again"); only a step never opened calls the repair.
-    if (state!.current?.outcome == null) unawaited(_loadCurrent());
+    // again"); only a step never opened calls the repair, and one with a try step waits for it.
+    final now = state!.current;
+    if (now?.outcome == null && !(now?.awaitingTry ?? false)) unawaited(_loadCurrent());
   }
 
   /// The run track and the swipe: shows step [i] if it was already reached. Never a new repair
@@ -264,7 +299,7 @@ class RepairRun extends Notifier<RepairRunState?> {
     MistakeOutcome? outcome;
     try {
       final requestId = await _repo.requestIdFor(attemptId, step.item.questionId);
-      outcome = await _call(step, requestId, wasRepaired: wasRepaired, allowRelease: true);
+      outcome = await _call(step, requestId, wasRepaired: wasRepaired, allowRelease: true, retryPick: step.checkedPick);
     } on Object {
       outcome = const OutcomeFailed(RepairFailure.unknown);
     }
@@ -279,10 +314,10 @@ class RepairRun extends Notifier<RepairRunState?> {
   }
 
   /// Returns the outcome, or null for `not_a_mistake` (the step is removed quietly).
-  Future<MistakeOutcome?> _call(RepairStep step, String requestId, {required bool wasRepaired, required bool allowRelease}) async {
+  Future<MistakeOutcome?> _call(RepairStep step, String requestId, {required bool wasRepaired, required bool allowRelease, int? retryPick}) async {
     final qid = step.item.questionId;
     try {
-      final r = await ref.read(repairApiProvider).repair(attemptId: attemptId, questionId: qid, requestId: requestId);
+      final r = await ref.read(repairApiProvider).repair(attemptId: attemptId, questionId: qid, requestId: requestId, retryPick: retryPick);
       final ackedAt = ref.read(nowProvider)();
       switch (r.status) {
         case RepairStatus.explained || RepairStatus.stored:
@@ -308,7 +343,7 @@ class RepairRun extends Notifier<RepairRunState?> {
       if (e.hasCode(ApiCodes.operationReleased) && allowRelease) {
         await _repo.release(attemptId, qid);
         final fresh = await _repo.requestIdFor(attemptId, qid);
-        return _call(step, fresh, wasRepaired: wasRepaired, allowRelease: false);
+        return _call(step, fresh, wasRepaired: wasRepaired, allowRelease: false, retryPick: retryPick);
       }
       final outcome = _mapError(e);
       // `charged: 0` means the server released this request, so reusing its id would only answer
@@ -383,7 +418,8 @@ class RepairRun extends Notifier<RepairRunState?> {
     final wasLast = s.index >= s.steps.length - 1;
     state = s.without(s.index);
     if (state!.steps.isEmpty || wasLast) return finish();
-    if (state!.current?.outcome == null) unawaited(_loadCurrent());
+    final now = state!.current;
+    if (now?.outcome == null && !(now?.awaitingTry ?? false)) unawaited(_loadCurrent());
   }
 }
 

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -21,6 +23,7 @@ class ReviewStateView extends StatefulWidget {
     this.secondary,
     this.pose = MobiPose.idle,
     this.scene,
+    this.pointAtKey = false,
   }) : assert(primary != null || secondary == null, 'A secondary action needs a primary action.');
 
   final StateViewKind kind;
@@ -38,6 +41,9 @@ class ReviewStateView extends StatefulWidget {
   /// only for an empty state that says so).
   final StateScene? scene;
 
+  /// An empty state points Mobi at its key once, 600 ms after it arrives.
+  final bool pointAtKey;
+
   StateScene? get shownScene => switch (kind) {
         StateViewKind.offline => StateScene.offline,
         StateViewKind.empty => (scene?.forEmpty ?? false) ? scene : StateScene.nothingYet,
@@ -50,21 +56,29 @@ class ReviewStateView extends StatefulWidget {
 
 class _ReviewStateViewState extends State<ReviewStateView> {
   final MobiController _mobi = MobiController();
+  Timer? _pointTimer;
   final GlobalKey _action = GlobalKey(debugLabel: 'review-state-action');
 
   @override
   void initState() {
     super.initState();
-    // Mobi's eyes lead to the way out once the screen is laid out.
+    // Mobi's eyes lead to the way out once the screen is laid out; on an empty state he points at
+    // the key once, 600 ms after arrival ("start here").
     if (widget.primary != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) _mobi.lookAtWidget(_action);
       });
+      if (widget.kind == StateViewKind.empty && widget.pointAtKey) {
+        _pointTimer = Timer(const Duration(milliseconds: 600), () {
+          if (mounted) _mobi.pointAtWidget(_action);
+        });
+      }
     }
   }
 
   @override
   void dispose() {
+    _pointTimer?.cancel();
     _mobi.dispose();
     super.dispose();
   }

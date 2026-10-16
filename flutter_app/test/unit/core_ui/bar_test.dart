@@ -32,9 +32,9 @@ class _Driver implements HapticDriver {
   Future<void> mediumImpact() async => calls.add('medium');
 }
 
-Widget _bar({int branch = 0, ValueChanged<int>? onTab, BarBadges badges = BarBadges.none, ValueNotifier<bool>? compact, String? youInitial}) => Align(
+Widget _bar({int branch = 0, ValueChanged<int>? onTab, BarBadges badges = BarBadges.none, ValueNotifier<bool>? compact}) => Align(
   alignment: Alignment.bottomCenter,
-  child: MmBottomBar(currentBranch: branch, badges: badges, compact: compact, youInitial: youInitial, onTab: onTab ?? (_) {}, onStart: (_) {}),
+  child: MmBottomBar(currentBranch: branch, badges: badges, compact: compact, onTab: onTab ?? (_) {}, onStart: (_) {}),
 );
 
 /// The bar's icon of [kind]: its CustomPaint, its painter, how far it is filled, and its settle.
@@ -56,22 +56,59 @@ const _marked = BarMarked(attemptId: 'a8', paper: 'Mock 8', subject: 'Accountanc
 
 void main() {
   group('slots', () {
-    test('slots 0, 1, 3 and 4 open branches 0 to 3; slot 2 is Start', () {
-      expect([for (var s = 0; s < kBarSlots; s++) slotToBranch(s)], [0, 1, null, 2, 3]);
-      for (var b = 0; b < 4; b++) {
+    test('slots 0, 1, 3, 4 and 5 open branches 0 to 4; slot 2 is Start', () {
+      expect(kBarSlots, 6);
+      expect([for (var s = 0; s < kBarSlots; s++) slotToBranch(s)], [0, 1, null, 2, 3, 4]);
+      for (var b = 0; b < kBarTabs.length; b++) {
         expect(slotToBranch(branchToSlot(b)), b);
       }
+      expect([for (final t in kBarTabs) t.label], ['Today', 'Practice', 'Review', 'Colleges', 'You']);
     });
 
-    test('the geometry of 3.1 holds at 320, 360, 384 and 411', () {
-      for (final (screen, bar, start, tab) in const [(320.0, 288.0, 68.0, 52.0), (360.0, 328.0, 76.0, 60.0), (384.0, 352.0, 76.0, 66.0), (411.0, 379.0, 76.0, 72.75)]) {
+    test('the geometry of app-ia 4.1: six equal slots at 320, 360, 393, 412 and 472', () {
+      for (final (screen, bar, slot) in const [
+        (320.0, 304.0, 48.667),
+        (360.0, 328.0, 52.667),
+        (393.0, 361.0, 58.167),
+        (412.0, 380.0, 61.333),
+        (472.0, 440.0, 71.333),
+      ]) {
         final geo = BarGeometry(screen);
         expect(geo.width, bar, reason: '$screen');
-        expect(geo.startSlot, start, reason: '$screen');
-        expect(geo.tabSlot, closeTo(tab, 0.001), reason: '$screen');
-        expect(geo.slotLeft(4) + geo.slotWidth(4), closeTo(bar - MmBar.pad, 0.001));
+        expect(geo.slot, closeTo(slot, 0.001), reason: '$screen');
+        expect(geo.startSlot, geo.tabSlot, reason: 'Start is a slot like the tabs, $screen');
+        expect(geo.lensWidth, closeTo(slot - 4, 0.001), reason: '$screen');
+        expect(geo.slot, greaterThanOrEqualTo(48), reason: 'a 48 dp target at $screen');
+        // (e) the slot widths sum to W - 12.
+        final sum = [for (var i = 0; i < kBarSlots; i++) geo.slotWidth(i)].fold<double>(0, (a, b) => a + b);
+        expect(sum, closeTo(bar - 2 * MmBar.pad, 0.001), reason: '$screen');
+        for (var i = 0; i < kBarSlots; i++) {
+          expect(geo.slotCenter(i), closeTo(MmBar.pad + geo.slot * (i + 0.5), 0.001));
+        }
       }
       expect(BarGeometry(1000).width, MmBar.maxWidth);
+    });
+
+    test('the vertical measures of app-ia 4.2 and 4.3: one centre line, expanded and compact', () {
+      final geo = BarGeometry(360);
+      for (var i = 0; i < kBarSlots; i++) {
+        final pill = geo.pillRect(i);
+        final icon = geo.iconRect(i);
+        final label = geo.labelRect(i);
+        expect(pill.top, 6);
+        expect(pill.bottom, 58);
+        expect(icon.top, 11);
+        expect(icon.bottom, 35);
+        expect(label.top, 39);
+        expect(label.bottom, 53);
+        // (d) the content group (icon, gap, label) centres on the pill.
+        expect((icon.top + label.bottom) / 2, closeTo(pill.center.dy, 0.5));
+        final compactPill = geo.pillRect(i, collapse: 1);
+        expect(compactPill.top, 18);
+        expect(compactPill.height, 40);
+        expect(geo.iconRect(i, collapse: 1).center.dy, closeTo(compactPill.center.dy, 0.001), reason: 'compact icons centre on the pill');
+      }
+      expect(MmBar.compactShift, 15);
     });
 
     test('the nearest tab is never Start', () {
@@ -79,6 +116,85 @@ void main() {
       for (var x = 0.0; x < geo.width; x += 2) {
         expect(geo.nearestTabSlot(x), isNot(kStartSlot));
       }
+    });
+  });
+
+  group('alignment on screen (L31, app-ia 4.5 a to d)', () {
+    for (final width in const [360.0, 412.0]) {
+      for (final compact in const [false, true]) {
+        final name = '${width.toInt()} dp, ${compact ? 'compact' : 'expanded'}';
+        testWidgets('$name: icons, labels and the Start pill share their lines', (tester) async {
+          final notifier = ValueNotifier(compact);
+          addTearDown(notifier.dispose);
+          await pumpMockmob(tester, _bar(branch: BarBranch.review, compact: notifier), size: Size(width, 780));
+          await tester.pumpAndSettle();
+          final bar = tester.getRect(find.byType(MmBottomBar));
+          final geo = BarGeometry(width);
+          final e = compact ? 1.0 : 0.0;
+          // (a) every icon centre, Start's glyph included, on one y, each centred on its slot.
+          final iconYs = <double>[
+            for (final kind in BarIconKind.values) tester.getRect(_iconOf(kind)).center.dy,
+            tester.getRect(find.byIcon(kStartGlyph)).center.dy,
+          ];
+          for (final y in iconYs) {
+            expect(y, closeTo(bar.top + geo.iconRect(0, collapse: e).center.dy, 0.5));
+          }
+          for (final kind in BarIconKind.values) {
+            expect(tester.getRect(_iconOf(kind)).center.dx, closeTo(bar.left + geo.slotCenter(branchToSlot(kind.index)), 0.5), reason: '$kind');
+          }
+          expect(tester.getRect(find.byIcon(kStartGlyph)).center.dx, closeTo(bar.left + geo.slotCenter(kStartSlot), 0.5));
+          // (b) every label box, Start's word included, on one y (labels fade out when compact).
+          if (!compact) {
+            for (final label in [...kBarTabs.map((t) => t.label), StartKeyFace.word]) {
+              final rect = tester.getRect(find.text(label));
+              expect(rect.center.dy, closeTo(bar.top + MmBar.labelTop + MmBar.labelHeight / 2, 0.5), reason: label);
+            }
+          }
+          // (c) the Start pill is the lens's rect on that slot; and the lens rests on Review.
+          final startBox = tester.getRect(find.byType(StartKeyFace));
+          final pill = StartKeyFace.keyRect(startBox.size, e).shift(startBox.topLeft - bar.topLeft);
+          final lens = geo.pillRect(kStartSlot, collapse: e);
+          expect(pill.left, closeTo(lens.left, 0.01));
+          expect(pill.right, closeTo(lens.right, 0.01));
+          expect(pill.top, closeTo(lens.top, 0.01));
+          expect(pill.bottom, closeTo(lens.bottom, 0.01));
+          final painted = _lens(tester);
+          final review = geo.pillRect(branchToSlot(BarBranch.review), collapse: e);
+          expect(painted.left.value, closeTo(review.left, 0.01));
+          expect(painted.right.value, closeTo(review.right, 0.01));
+          // (d) the content group centres on the pill (compact: the icons do).
+          if (!compact) {
+            final icon = tester.getRect(_iconOf(BarIconKind.today));
+            final group = (icon.top + bar.top + MmBar.labelTop + MmBar.labelHeight) / 2;
+            expect(group, closeTo(bar.top + lens.center.dy, 0.5));
+          } else {
+            expect(iconYs.first, closeTo(bar.top + lens.center.dy, 0.5));
+          }
+        });
+      }
+    }
+
+    testWidgets('at 1.3x text, Practice, Colleges and Start stay on one line inside their pill', (tester) async {
+      await pumpMockmob(tester, _bar(), size: const Size(360, 780), textScale: 1.3);
+      final geo = BarGeometry(360);
+      final bar = tester.getRect(find.byType(MmBottomBar));
+      for (final label in const ['Practice', 'Colleges', 'Start']) {
+        final rect = tester.getRect(find.text(label));
+        expect(rect.height, lessThanOrEqualTo(MmBar.labelHeight + 0.01), reason: '$label never wraps');
+        expect(rect.width, lessThanOrEqualTo(geo.lensWidth + 0.01), reason: label);
+        expect(rect.center.dy, closeTo(bar.top + MmBar.labelTop + MmBar.labelHeight / 2, 0.5), reason: label);
+      }
+    });
+
+    testWidgets('a pressed tab sinks to 0.96 and comes back', (tester) async {
+      await pumpMockmob(tester, _bar(), size: const Size(360, 780));
+      final gesture = await tester.startGesture(tester.getCenter(find.text('Colleges')));
+      await tester.pump(const Duration(milliseconds: 120));
+      final pressed = tester.widgetList<AnimatedScale>(find.byType(AnimatedScale)).where((w) => w.scale != 1);
+      expect(pressed.single.scale, MmBottomBar.tabPressScale);
+      await gesture.up();
+      await tester.pumpAndSettle();
+      expect(tester.widgetList<AnimatedScale>(find.byType(AnimatedScale)).every((w) => w.scale == 1), isTrue);
     });
   });
 
@@ -140,20 +256,20 @@ void main() {
       expect(BarIconKind.today.glyph, const BarGlyph(active: Icons.home_rounded, idle: Icons.home_outlined));
       expect(BarIconKind.practice.glyph, const BarGlyph(active: Icons.quiz_rounded, idle: Icons.quiz_outlined));
       expect(BarIconKind.review.glyph, const BarGlyph(active: Icons.fact_check_rounded, idle: Icons.fact_check_outlined));
+      expect(BarIconKind.colleges.glyph, const BarGlyph(active: Icons.account_balance_rounded, idle: Icons.account_balance_outlined));
       expect(BarIconKind.you.glyph, const BarGlyph(active: Icons.person_rounded, idle: Icons.person_outlined));
       for (final kind in BarIconKind.values) {
         expect(kind.glyph.active.fontFamily, 'MaterialIcons', reason: '$kind: no icon package');
         expect(kind.glyph.idle.fontFamily, 'MaterialIcons');
         expect(kind.glyph.active, isNot(kind.glyph.idle), reason: '$kind: the active state is a shape, not only a colour');
       }
-      expect([for (final t in kBarTabs) t.icon], BarIconKind.values, reason: 'Today, Practice, Review, You');
+      expect([for (final t in kBarTabs) t.icon], BarIconKind.values, reason: 'Today, Practice, Review, Colleges, You');
     });
 
     test('colours: volt on Night, ink on Daylight (no volt on the white lens), ink 2 at rest', () {
       final night = BarIconColors.of(MmColors.dark);
       expect(night.active, const Color(0xFFD2F000));
       expect(night.idle, const Color(0xFFBDB6A6));
-      expect(night.onActive, MmColors.dark.voltInk);
       final day = BarIconColors.of(MmColors.light);
       expect(day.active, const Color(0xFF17150F));
       expect(day.idle, const Color(0xFF454036));
@@ -170,11 +286,11 @@ void main() {
       }
     });
 
-    testWidgets("You is the student's initial, or the person glyph with no name", (tester) async {
-      await pumpMockmob(tester, _bar(branch: 3, youInitial: 'A'));
-      expect(_painterOf(tester, BarIconKind.you).initial, 'A');
-      await pumpMockmob(tester, _bar(branch: 3));
-      expect(_painterOf(tester, BarIconKind.you).initial, isNull);
+    testWidgets('You is a person shape, never the initial (the header avatar has it)', (tester) async {
+      await pumpMockmob(tester, _bar(branch: BarBranch.you));
+      expect(_painterOf(tester, BarIconKind.you).glyph, const BarGlyph(active: Icons.person_rounded, idle: Icons.person_outlined));
+      expect(_onOf(tester, BarIconKind.you), 1);
+      expect(kStartGlyph, Icons.play_arrow_rounded, reason: 'Start is a play triangle, never the retired bolt');
     });
 
     testWidgets('arrival waits for the lens (70% of its travel), fills over 200 ms and settles from 0.9; departure empties over 160 ms', (tester) async {
@@ -239,7 +355,7 @@ void main() {
 
     testWidgets('labels are w600 active or not, so nothing shifts', (tester) async {
       await pumpMockmob(tester, _bar(branch: 2));
-      for (final label in const ['Today', 'Practice', 'Review', 'You']) {
+      for (final label in const ['Today', 'Practice', 'Review', 'Colleges', 'You']) {
         expect(tester.widget<Text>(find.text(label)).style!.fontWeight, FontWeight.w600, reason: label);
       }
     });
@@ -255,7 +371,7 @@ void main() {
       ]) {
         final notifier = ValueNotifier(compact);
         addTearDown(notifier.dispose);
-        await pumpMockmob(tester, _bar(branch: 3, compact: notifier, youInitial: 'W'), size: Size(width, 780), textScale: scale);
+        await pumpMockmob(tester, _bar(branch: 3, compact: notifier), size: Size(width, 780), textScale: scale);
         await tester.pumpAndSettle();
         final bar = tester.getRect(find.byType(MmBottomBar));
         final painted = Rect.fromLTRB(bar.left, bar.bottom - (compact ? MmBar.compactHeight : MmBar.height), bar.right, bar.bottom);
@@ -480,11 +596,12 @@ void main() {
       walk(tester.getSemantics(find.byType(MmBottomBar)));
       final order = [for (final l in labels) if (l.contains(', tab ') || l == MmBottomBar.startSemanticsLabel) l];
       expect(order, [
-        'Today, tab 1 of 4',
-        'Practice, tab 2 of 4',
+        'Today, tab 1 of 5',
+        'Practice, tab 2 of 5',
         MmBottomBar.startSemanticsLabel,
-        'Review, tab 3 of 4',
-        'You, tab 4 of 4',
+        'Review, tab 3 of 5',
+        'Colleges, tab 4 of 5',
+        'You, tab 5 of 5',
       ]);
       handle.dispose();
     });
@@ -493,10 +610,11 @@ void main() {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, _bar(branch: 2));
       for (final (label, selected) in const [
-        ('Today, tab 1 of 4', false),
-        ('Practice, tab 2 of 4', false),
-        ('Review, tab 3 of 4', true),
-        ('You, tab 4 of 4', false),
+        ('Today, tab 1 of 5', false),
+        ('Practice, tab 2 of 5', false),
+        ('Review, tab 3 of 5', true),
+        ('Colleges, tab 4 of 5', false),
+        ('You, tab 5 of 5', false),
       ]) {
         expect(
           tester.getSemantics(find.bySemanticsLabel(label)),

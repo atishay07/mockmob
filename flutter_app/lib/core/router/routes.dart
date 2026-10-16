@@ -20,11 +20,24 @@ abstract final class AppRoutes {
   static String signInCode({String? email}) =>
       email == null ? signInCodeBase : Uri(path: signInCodeBase, queryParameters: {'email': email}).toString();
 
-  // Shell tabs (the bar: Today, Practice, Review, You).
+  // Shell tabs (the bar: Today, Practice, Start, Review, Colleges, You; Start is an action).
   static const String today = '/today';
   static const String practice = '/practice';
   static const String review = '/review';
+  static const String colleges = '/colleges';
   static const String you = '/you';
+
+  /// You with the account sheet open over it (the website's `/profile`). The shell opens the
+  /// sheet and drops the query.
+  static const String youWithAccount = '/you?account=1';
+
+  /// Check a score (the website's cutoff calculator), a sheet over Colleges
+  /// (`?score=&category=`, app-ia-1016.md 5.3).
+  static const String collegesCutoff = '/colleges/cutoff';
+  static String collegesCutoffWith({String? score, String? category}) {
+    final query = {'score': ?score, 'category': ?category};
+    return query.isEmpty ? collegesCutoff : Uri(path: collegesCutoff, queryParameters: query).toString();
+  }
 
   // Pushed over the shell: Learn from Practice and Review.
   static const String learn = '/learn';
@@ -95,7 +108,9 @@ abstract final class AppRoutes {
   /// NTA mode's instructions page (`?subject=`), before any session exists.
   static const String examNta = '/exam/nta';
 
-  // CUET tools, pushed over the shell from You, Practice and Today's road.
+  // CUET tools: root pages over the bar, pushed from Colleges, Today's colleges card and
+  // Practice's More rows; Back returns to the tab they came from. `/tools` itself redirects to
+  // the Colleges tab (app-ia-1016.md D7).
   static const String tools = '/tools';
   static const String toolsCompass = '/tools/compass';
   static const String toolsCombo = '/tools/combo';
@@ -107,9 +122,9 @@ abstract final class AppRoutes {
   /// Alias of [today].
   static const String dashboard = '/dashboard';
 
-  /// The shell tab roots in branch order (the bar: Today, Practice, Review, You; Start sits
-  /// between Practice and Review but is an action, not a tab).
-  static const List<String> tabRoots = [today, practice, review, you];
+  /// The shell tab roots in branch order (the bar: Today, Practice, Review, Colleges, You; Start
+  /// sits between Practice and Review but is an action, not a tab).
+  static const List<String> tabRoots = [today, practice, review, colleges, you];
 
   /// The debug-only design lab.
   static const String lab = '/lab';
@@ -178,6 +193,8 @@ abstract final class AppRoutes {
     '/tools/compass/:groupId',
     toolsCombo,
     toolsGuide2027,
+    colleges,
+    collegesCutoff,
   ];
 
   static final List<RegExp> _nativePatterns = [

@@ -12,7 +12,9 @@ enum MilestoneToken {
   // The tick token: finished repairs.
   firstRepair(MilestoneTrack.repairs, MmArt.tokenFirstRepair, RhythmCopy.tokenFirstRepairEmpty),
   // The turning-arrow token: weeks that came round to their goal.
-  firstWeek(MilestoneTrack.rhythm, MmArt.tokenHeld, RhythmCopy.tokenFirstWeekEmpty);
+  firstWeek(MilestoneTrack.rhythm, MmArt.tokenHeld, RhythmCopy.tokenFirstWeekEmpty),
+  // Your best work: the paper token until the brass best-work object ships (request to art).
+  bestWork(MilestoneTrack.best, MmArt.tokenFirstMock, RhythmCopy.tokenBestEmpty);
 
   const MilestoneToken(this.track, this.art, this.emptyHint);
 

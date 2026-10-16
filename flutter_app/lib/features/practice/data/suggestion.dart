@@ -204,17 +204,17 @@ final practiceSuggestionProvider = Provider.autoDispose<PracticeSuggestion>((ref
   final subjects = ref.watch(authSnapshotProvider.select((a) => a.subjects));
   final catalog = ref.watch(practiceSubjectsProvider).value;
   final now = ref.watch(nowProvider)();
+  // One subject state (L08): the lit tile always steers the card, picked or defaulted, so the
+  // tile, the card's overline and its object never name two subjects. Only a session still open
+  // leads whatever the tile is, and it names its own subject.
   final tile = ref.watch(practiceSubjectProvider);
-  // Only an explicit pick that still stands (the tiles show it) steers the card; with no pick the
-  // card follows the student's latest paper, as before.
-  final picked = ref.watch(pickedPracticeSubjectProvider);
   return suggestPractice(
     draft: draft,
     now: now,
     attempts: attempts,
     chosenSubjects: subjects,
     fallbackSubject: tile,
-    pickedSubject: picked != null && picked == tile ? picked : null,
+    pickedSubject: tile.isEmpty ? null : tile,
     catalog: catalog,
   );
 });

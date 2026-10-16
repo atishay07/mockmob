@@ -1,3 +1,5 @@
+import '../../core/copy/copy.dart' show formatDayMonthShort;
+
 /// The words of the Account sheet that are its own. The credit tiles, the theme switch and sign
 /// out are shared with You (`CreditsCopy`, `YouCopy`), so the same words are said once. Sentence
 /// case, no exclamation marks, no em dashes.
@@ -11,13 +13,15 @@ abstract final class AccountCopy {
   static const planFree = 'Free';
   static const planPro = 'Pro';
 
+  /// Under the Pro tag: "until 12 Jan".
+  static String proUntil(DateTime until) => 'until ${formatDayMonthShort(until)}';
+
   static const credits = 'Credits';
   static const appearance = 'Appearance';
 
   // Rows.
   static const rowAccount = 'Name, sign-in and plan';
   static const rowNotifications = 'Notifications';
-  static const rowStudyDays = 'Study days';
   static const rowPrivacy = 'Privacy';
   static const rowHelp = 'Help and about';
   static const rowContact = 'Write to us';

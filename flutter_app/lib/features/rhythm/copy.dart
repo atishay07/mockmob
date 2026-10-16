@@ -40,6 +40,8 @@ abstract final class RhythmCopy {
   static String stripMet(int days, int goal) => '$days of ${plural(goal, 'study day')}. This week is done.';
 
   static String ofGoal(int goal) => 'of ${plural(goal, 'study day')}';
+  static String dialCountsLabel(int done, int goal) =>
+      goal == 0 ? 'No study days chosen' : '$done of ${plural(goal, 'study day')} this week';
 
   static const String goalMet = 'Goal met.';
 
@@ -155,7 +157,7 @@ abstract final class RhythmCopy {
   static const String celebrationsOffHint = 'Nothing is shown.';
 
   // Milestones.
-  static const String milestonesTitle = 'Milestones';
+  static const String milestonesTitle = 'Badges';
   static const String milestonesEmptyTitle = 'No milestones yet';
   static const String milestonesEmptyBody = 'They appear here as plain dated rows when they happen.';
   static const String milestonesLoadFailedTitle = 'We could not load your milestones';
@@ -182,6 +184,7 @@ abstract final class RhythmCopy {
   static const String tokenFirstMockEmpty = 'Lands with your first scored set';
   static const String tokenFirstRepairEmpty = 'Lands when a repair is finished';
   static const String tokenFirstWeekEmpty = 'Lands when a week meets your goal';
+  static const String tokenBestEmpty = 'Lands with a clean set, four subjects or a new best';
   static String tokenEarned(String name, String date) => '$name, earned on $date';
   static String tokenWaiting(String name, String hint) => '$name, not earned yet. $hint';
   static const String timelineTitle = 'Every milestone, newest first';
@@ -301,7 +304,9 @@ abstract final class RhythmCopy {
   // Milestone tracks.
   static const String trackPapers = 'Papers';
   static const String trackRepairs = 'Repairs';
-  static const String trackRhythm = 'Weeks in rhythm';
+  static const String trackRhythm = 'Weeks at your goal';
+  static const String trackBest = 'Your best work';
+  static const String trackBestLink = 'See your bests';
   static const String trackPapersLink = 'See your papers';
   static const String trackRepairsLink = 'See your repair record';
   static const String trackRhythmLink = 'See your rhythm';
@@ -323,15 +328,40 @@ abstract final class RhythmCopy {
   static const String condRepairs25 = 'Lands with your 25th finished repair.';
   static const String condFirstWeek = 'Lands when a week reaches your goal.';
   static const String condFourWeeks = 'Lands when a fourth week reaches its goal. They need not be in a row.';
+  static const String stepFirstNta = 'Exam-day rehearsal';
+  static const String stepFiveMocks = '5 full mocks';
+  static const String stepFirstHold = 'It held';
+  static const String stepRunThree = '3 weeks in a row';
+  static const String stepCleanSet = 'Clean set';
+  static const String stepFourSubjects = 'Four subjects';
+  static const String stepNewBest = 'New best';
+  static const String condFirstNta = 'Lands when you finish a paper in NTA mode.';
+  static const String condFiveMocks = 'Lands with your 5th scored full mock or NTA paper.';
+  static const String condFirstHold = 'Lands when a mistake you repaired is answered right on a fresh question.';
+  static const String condRunThree = 'Lands when 3 weeks in a row reach your goal.';
+  static const String condCleanSet = 'Lands when every answer is right in a scored set of 10 or more questions.';
+  static const String condFourSubjects = 'Lands when you have a scored set in 4 different subjects.';
+  static const String condNewBest = 'Lands when you beat your own marks on the same kind of mock.';
+  static const String stepActionNta = 'Open NTA mode';
+
+  // Badges on You (app-you-1016 A.2).
+  static const String badgesTitle = 'Badges';
+  static String badgesSeeAll(int total) => 'See all $total';
+  static String badgesEarned(int earned, int total) => earned == 0 ? 'None earned yet' : '$earned of $total earned';
+  static String badgeNext(String name, String condition) => 'Next: $name. $condition';
+  static String badgeNextCounted(String name, int count, int target) => 'Next: $name. $count of $target so far.';
+  static String badgeCoinEarned(String name, String date) => '$name, earned $date';
+  static String badgeCoinNotYet(String name, String condition) => '$name, not yet. $condition';
+  static const String badgesLoadFailed = 'Could not load your badges.';
   static const String trackComplete = 'Every step on this path has landed.';
-  static String trackCount(int earned, int total) => earned == 0 ? 'Nothing landed yet' : '$earned of $total landed';
+  static String trackCount(int earned, int total) => earned == 0 ? 'None earned yet' : '$earned of $total earned';
   static String soFar(int count, int target) => '$count of $target so far';
   static String stepEarned(String name, String date) => '$name, landed on $date';
   static String stepNext(String name, String condition) => 'Next: $name. $condition';
   static String stepLater(String name) => '$name, after that';
   static String trackCountOf(int landed, int total) => '$landed of $total landed';
-  static String ofLanded(int total) => 'of $total landed';
-  static String landedSummary(int landed, int total) => '$landed of $total milestones landed';
+  static String ofLanded(int total) => 'of $total earned';
+  static String landedSummary(int landed, int total) => '$landed of $total badges earned';
 
   // Mobi on the milestones screen.
   static const String milestonesMobiEmpty = 'Your first one lands with a scored set.';
@@ -349,7 +379,7 @@ abstract final class RhythmCopy {
   static const String stepActionRepair = 'Open your mistakes';
   static const String stepActionRhythm = 'See your week';
   static const String close = 'Close';
-  static String trackLanded(String track, int earned, int total) => '$track, $earned of $total landed';
+  static String trackLanded(String track, int earned, int total) => '$track, $earned of $total earned';
 
   // The receipt for milestones that landed while the app was away (more than 48 hours ago).
   static const String seeMilestones = 'See your milestones';

@@ -26,7 +26,7 @@ abstract final class ToolsCopy {
   static const sourcesTitle = 'Official DU documents';
   static const sourcesNote = 'The Bulletin and the three round lists';
   /// The one source line the tools keep: where every rule and cutoff comes from.
-  static const dataLine = 'DU data: CSAS 2026 and the UG Bulletin 2026-27.';
+  static const dataLine = 'DU data: 2026 admission rounds and the UG Bulletin 2026-27.';
 
   static String hubOfTotal(int total) => 'of $total DU programmes';
   static String hubOpens(int subjects) => 'open to your $subjects ${subjects == 1 ? 'subject' : 'subjects'} under the 2026-27 rules.';
@@ -49,21 +49,21 @@ abstract final class ToolsCopy {
   static const keepCombo = 'Use these subjects';
   static String overLimit(int n, int limit) => 'You have picked $n papers. The limit is $limit.';
 
-  static const categoryHeading = 'Category and score';
+  static const categoryHeading = 'Category and estimate';
   /// The bar under the hero. Without a score it says what a score is for, so it never reads as
   /// a demand; with one it names the score.
   static String categorySummary(String category, String? score) =>
-      score == null ? '${categoryLabel(category)}. Add a score to compare it with 2026 cutoffs' : '${categoryLabel(category)}. Score $score';
+      score == null ? '${categoryLabel(category)}. Your full mocks will show here against each college' : '${categoryLabel(category)}. Your estimate $score of 1000';
 
   /// The same bar when the student's own mocks add up to a total they can use.
-  static String categorySummaryMocks(String category, int total) => '${categoryLabel(category)}. Your latest mocks add up to $total';
+  static String categorySummaryMocks(String category, int total) => '${categoryLabel(category)}. Your latest full mocks: $total of 1000';
   static const optional = 'Optional';
   static const category = 'Category';
   static const otherQuota = 'Other quota';
   static const otherQuotaNote = 'Sikh, PwBD, KM, SGC, orphan';
-  static const scoreLabel = 'Your CUET score, out of 1000';
-  static const scoreWhy = 'Optional. Compass works without it. Add one to see which 2026 college cutoffs it would have cleared.';
-  static const scoreHelp = 'Use the score on your CSAS dashboard, or a target you are aiming for.';
+  static const scoreLabel = 'Your estimate, out of 1000';
+  static const scoreWhy = 'Set it against each college’s 2026 Round 1 cutoff.';
+  static const scoreHelp = 'Raw marks, out of 1000. A mock total or a target both work.';
   static const fillHeading = 'Or use a score from MockMob';
   static String fillMocks(int total) => 'Latest mocks, $total';
   static String fillMocksNote(List<String> names) => 'Your latest full mock in ${_list(names)}, one language and three domain papers.';
@@ -132,13 +132,13 @@ abstract final class ToolsCopy {
   static const planThisCourse = 'Find the papers for this course';
   static const noCutoffList = 'No CUET cutoff list published';
   /// The caption over a cutoff bar; the figures stand under its two ends.
-  static String roundOneLabel(String category) => 'Round I, ${categoryWords(category)}';
-  static const addScore = 'Add your expected score';
-  static String openProgramme(String name) => 'Open $name';
-  static String roundOneRange(String category, String low, String high) => 'Round I, ${categoryWords(category)}: $low to $high';
-  static const verdictAbove = 'Above every Round I cutoff';
-  static const verdictWithin = 'Within the Round I range';
-  static const verdictBelow = 'Below every Round I cutoff';
+  static String roundOneLabel(String category) => 'Round 1, ${categoryWords(category)}';
+  static const addScore = 'Type an estimate';
+  static String openProgramme(String name) => 'Open $name colleges';
+  static String roundOneRange(String category, String low, String high) => 'Round 1, ${categoryWords(category)}: $low to $high';
+  static const verdictAbove = 'Above every Round 1 cutoff';
+  static const verdictWithin = 'Within the Round 1 range';
+  static const verdictBelow = 'Below every Round 1 cutoff';
   static const secondaryNote = 'Considered only if seats remain after Combinations I and II';
   static const performanceNote = 'Merit also counts a separate performance or practical test';
 
@@ -160,12 +160,12 @@ abstract final class ToolsCopy {
   static const extraLanguage = 'The Bulletin also requires at least one language from List A.';
   static const eligibleTitle = 'Open to you';
   static const notEligible = 'Not open to these subjects yet';
-  static const cutoffsHeading = 'College cutoffs, CSAS 2026';
+  static const cutoffsHeading = 'College cutoffs, 2026 rounds';
   static const seeCutoffsAnyway = 'See cutoffs anyway';
   static const hideCutoffs = 'Hide cutoffs';
   static const cutoffsNotOpenNote = 'For reference. These subjects do not open this programme yet.';
   static const noCutoffsBody =
-      'DU did not publish a CUET cutoff list for this programme in 2026. Its merit combines your CUET score with a separate test.';
+      'DU did not publish a CUET cutoff list for this programme in 2026. Its merit combines CUET marks with a separate test.';
   static const notesHeading = 'Notes from the DU Bulletin';
   static const searchColleges = 'Find a college';
   static const sortFit = 'Seats you clear first';
@@ -202,6 +202,14 @@ abstract final class ToolsCopy {
   static const comboError = 'The combinations could not be checked.';
   static String keep(String names, int n) =>
       'Do not drop: $names. Every combination that reaches all your targets uses ${n == 1 ? 'it' : 'them'}.';
+  static const keepHeading = 'Keep these';
+  static String keepReason(String subject, String? lostTarget, int fewer, bool nothing) {
+    if (nothing) return '$subject: without it, no programme opens. Every one needs it in some form.';
+    final more = fewer > 0 ? '$fewer fewer DU ${fewer == 1 ? 'programme opens' : 'programmes open'}' : 'the same number of DU programmes open';
+    if (lostTarget != null) return '$subject: without it, $lostTarget closes and $more.';
+    return '$subject: without it, $more.';
+  }
+
   static const bestFit = 'Best fit';
   static String option(int n) => 'Option $n';
   static String papers(int n) => n == 1 ? '1 paper' : '$n papers';

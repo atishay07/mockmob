@@ -1,0 +1,208 @@
+// The study blocks of You (app-you-1016 A.2): the three personal bests as value-first rows, the
+// Aim row under My subjects, and the one Plan and credits row at the very bottom. Every figure is
+// a real record with its denominator or its date; a row with nothing true to say is left off.
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+
+import '../../../core/copy/copy.dart';
+import '../../../core/repositories/repositories.dart';
+import '../../../core/router/routes.dart';
+import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart';
+import '../../credits/credits.dart';
+import '../../credits/credits_copy.dart';
+import '../../insights/data/subject_names.dart' show subjectDisplayName;
+import '../../rhythm/data/bests.dart';
+import '../../rhythm/data/rhythm_providers.dart';
+import '../../rhythm/logic/fastest_answer.dart';
+import '../copy.dart';
+import '../data/student_target.dart';
+import '../widgets/you_page.dart' show youText;
+import '../widgets/you_row.dart';
+
+/// Hairlines of a flat list start where the row text starts: 4 dp, a 28 dp bare icon, 16 dp.
+const double _flatInset = 28 + MmSpace.s16;
+
+/// The three personal bests: best mock (marks out of the paper's total), the longest run of weeks
+/// at the goal, and the fastest right answer. Each row opens Personal bests.
+class BestsRows extends ConsumerWidget {
+  const BestsRows({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final bestsState = ref.watch(bestsRepositoryProvider);
+    final rhythm = ref.watch(rhythmSnapshotProvider.select((s) => s.rhythm));
+    final attempts = ref.watch(attemptsRepositoryProvider.select((s) => s.value));
+    if (bestsState.isInitialLoading && bestsState.value == null) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(horizontal: youText),
+        child: SkeletonGroup(
+          label: YouCopy.bestsTitle,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var i = 0; i < 3; i++) ...[
+                SizedBox(height: MmSpace.s16),
+                Row(children: [Skeleton.line(width: 64, height: 24), SizedBox(width: MmSpace.s16), Skeleton.line(width: 160, height: 14)]),
+                SizedBox(height: MmSpace.s16),
+              ],
+            ],
+          ),
+        ),
+      );
+    }
+    final all = bestsState.value ?? const <PersonalBest>[];
+    final rows = <Widget>[];
+
+    // Best mock: the highest share of its paper's total; a set stands in before the first mock.
+    PersonalBest? top(Iterable<PersonalBest> list) {
+      PersonalBest? best;
+      for (final b in list) {
+        if (b.best.max <= 0) continue;
+        if (best == null || b.best.marks / b.best.max > best.best.marks / best.best.max) best = b;
+      }
+      return best;
+    }
+
+    final mock = top(all.where((b) => b.isMock));
+    final set = mock == null ? top(all.where((b) => !b.isMock)) : null;
+    final paper = mock ?? set;
+    if (paper != null) {
+      final date = paper.best.completedAt;
+      rows.add(_BestRow(
+        value: '${paper.best.marks} / ${paper.best.max}',
+        label: mock != null ? YouCopy.bestMockLabel : YouCopy.bestSetLabel,
+        note: [subjectDisplayName(paper.subject), if (date != null) formatDayMonth(date.toLocal())].join(', '),
+      ));
+    }
+
+    if (rhythm != null) {
+      final run = math.max(rhythm.bestRun, rhythm.weeksMetStreak);
+      rows.add(_BestRow(
+        value: plural(run, 'week'),
+        label: YouCopy.bestRunLabel,
+        note: run == 0 ? YouCopy.bestRunFirst : YouCopy.bestRunNow(rhythm.weeksMetStreak),
+      ));
+    }
+
+    final fastest = attempts == null ? null : fastestRightAnswer(attempts);
+    if (fastest != null) {
+      rows.add(_BestRow(
+        value: '${fastest.seconds} s',
+        label: YouCopy.bestFastestLabel,
+        note: '${subjectDisplayName(fastest.subject)}, ${formatDayMonth(fastest.at.toLocal())}',
+      ));
+    }
+
+    if (paper == null && fastest == null) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: youText),
+        child: Text(YouCopy.bestsEmpty, style: type.body.copyWith(color: colors.ink2)),
+      );
+    }
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows);
+  }
+}
+
+/// A value-first row (R9): the figure in Bricolage tabular on the left, the label and its context
+/// on the right, the whole 64 dp row opening Personal bests.
+class _BestRow extends StatelessWidget {
+  const _BestRow({required this.value, required this.label, required this.note});
+
+  final String value;
+  final String label;
+  final String note;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      onTap: () => context.push(AppRoutes.youBests),
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      pressedScale: 0.985,
+      focusRadius: MmRadius.smallAll,
+      semanticsLabel: '$label: $value. $note',
+      builder: (context, pressed, focused) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 64),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: youText, vertical: MmSpace.s8),
+          child: Row(
+            children: [
+              ConstrainedBox(
+                constraints: const BoxConstraints(minWidth: 112),
+                child: Text(
+                  value,
+                  style: type.figure.copyWith(fontSize: 28, height: 32 / 28, fontFeatures: const [FontFeature.tabularFigures()]),
+                ),
+              ),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(label, style: type.subhead),
+                    const SizedBox(height: 2),
+                    Text(note, style: type.small.copyWith(color: colors.ink2)),
+                  ],
+                ),
+              ),
+              Icon(LucideIcons.chevronRight, size: 18, color: colors.ink2),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Aim: the course and colleges, which live in the Colleges tab. One row that goes there.
+class AimRow extends StatelessWidget {
+  const AimRow({super.key, required this.target, required this.onOpen});
+
+  final StudentTarget target;
+  final VoidCallback onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final course = target.course;
+    final colleges = target.colleges.length;
+    final note = course == null && colleges == 0
+        ? YouCopy.aimEmpty
+        : [?course, if (colleges > 0) plural(colleges, 'college')].join(', ');
+    return YouPanel(
+      flat: true,
+      inset: _flatInset,
+      children: [YouRow(flat: true, icon: LucideIcons.target, title: YouCopy.aimTitle, note: note, onTap: onOpen)],
+    );
+  }
+}
+
+/// Plan and credits as one row at the bottom of You: the tiles live in the account sheet, so they
+/// are not drawn twice (L17).
+class PlanCreditsRow extends ConsumerWidget {
+  const PlanCreditsRow({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final figures = ref.watch(creditFiguresProvider);
+    final until = figures.proUntil;
+    final title = figures.isPro ? (until == null ? CreditsCopy.planProActive : CreditsCopy.planUntil(until)) : YouCopy.planFree;
+    final practice = figures.practice;
+    final ai = figures.ai;
+    final note = practice == null || ai == null ? YouCopy.planNoteUnloaded : YouCopy.planNote(practice, ai);
+    return YouPanel(
+      flat: true,
+      inset: _flatInset,
+      children: [YouRow(flat: true, icon: LucideIcons.wallet, title: title, note: note, onTap: () => openCreditsPage(context))],
+    );
+  }
+}

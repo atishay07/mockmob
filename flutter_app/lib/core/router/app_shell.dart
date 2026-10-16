@@ -6,7 +6,7 @@ import 'package:flutter/scheduler.dart' show SchedulerBinding, SchedulerPhase;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../auth/auth_state.dart';
+import '../../features/account_sheet/account_sheet.dart' show showAccountSheet;
 import '../haptics/haptics.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
@@ -39,8 +39,9 @@ class TabReselect extends Notifier<TabReselectEvent?> {
 
 final tabReselectProvider = NotifierProvider<TabReselect, TabReselectEvent?>(TabReselect.new);
 
-/// The scaffold around the four tab branches (Today, Practice, Review, You), built to
-/// docs/brain/ui-phase2/DOCK.md: content runs under the floating glass bar, inside one
+/// The scaffold around the five tab branches (Today, Practice, Review, Colleges, You; Start is
+/// the bar's action between Practice and Review), built to docs/brain/ui-phase2/DOCK.md and
+/// app-ia-1016.md section 4: content runs under the floating glass bar, inside one
 /// `BackdropGroup` so the bar and the live capsule share a single backdrop snapshot. Tab roots get
 /// the bar's clearance added to their bottom padding through `MediaQuery` (and [MmBarInsets]),
 /// so lists and `SafeArea`s clear it without changes.
@@ -165,9 +166,11 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   void didChangeDependencies() {
     super.didChangeDependencies();
     // A new location (a deep link, a pop back to a tab) brings the bar back to full size.
-    final location = GoRouterState.of(context).uri.toString();
+    final uri = GoRouterState.of(context).uri;
+    final location = uri.toString();
     if (_location != null && location != _location) _expand();
     _location = location;
+    _maybeOpenAccount(uri);
 
     final keyboard = MediaQuery.viewInsetsOf(context).bottom > 0;
     if (keyboard != _keyboardWasOpen) {
@@ -193,6 +196,26 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     _minute?.cancel();
     _exitTimer?.cancel();
     super.dispose();
+  }
+
+  bool _accountOpening = false;
+
+  /// `/you?account=1` (the website's `/profile`): You, with the account sheet open over it. The
+  /// query is dropped first, so Back from the sheet leaves the student on You.
+  void _maybeOpenAccount(Uri uri) {
+    if (_accountOpening || uri.path != AppRoutes.you || uri.queryParameters['account'] != '1') return;
+    _accountOpening = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      GoRouter.of(context).go(AppRoutes.you);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) {
+          _accountOpening = false;
+          return;
+        }
+        unawaited(showAccountSheet(context).whenComplete(() => _accountOpening = false));
+      });
+    });
   }
 
   void _expand() {
@@ -378,8 +401,6 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     // sheet's scrim, so a live blur there would cost frames for nothing.
     final covered = !(ModalRoute.of(context)?.isCurrent ?? true);
     final quality = covered ? GlassQuality.lite : null;
-    final name = ref.watch(authSnapshotProvider.select((a) => a.name))?.trim();
-    final initial = name == null || name.isEmpty ? null : name.characters.first.toUpperCase();
     final resume = ref.watch(barResumeInputProvider);
 
     final bar = MmBottomBar(
@@ -390,7 +411,6 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
       badges: ref.watch(barBadgesProvider),
       compact: _compact,
       entrance: _entrance,
-      youInitial: initial,
       quality: quality,
       startResumeLabel: resume == null ? null : 'Resume ${resume.paper}',
       startResumeId: resume?.sessionId,

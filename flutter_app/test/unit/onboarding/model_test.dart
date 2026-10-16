@@ -173,8 +173,8 @@ void main() {
       expect(PlanSummary.aimLine(_student()), 'Aim: SRCC 924.3, Hindu 919.9. Round 1 minimum, 2026 (unreserved, out\u00A0of\u00A01000).');
     });
 
-    test('the eligibility line says when the set keeps the course open', () {
-      expect(PlanSummary.eligibilityLine(_student()), 'This set keeps B.Com (Hons) open at both your colleges.');
+    test('the eligibility line counts the subjects and colleges the set keeps the course open at', () {
+      expect(PlanSummary.eligibilityLine(_student()), 'Your 4 subjects open B.Com (Hons) at both your colleges.');
     });
 
     test('the rhythm line and the sessions count', () {
@@ -204,6 +204,10 @@ void main() {
       OnboardingCopy.saveSupport,
       OnboardingCopy.savedSheet,
       OnboardingCopy.savedWhat,
+      OnboardingCopy.savedWhatColleges,
+      OnboardingCopy.savedWhatCollegesLater,
+      OnboardingCopy.eightIsMost,
+      OnboardingCopy.notSureNote,
       OnboardingCopy.checkNeedsAccount,
       for (final w in Worry.values) ...[w.option, w.mobiLine],
       for (final s in Stage.values) ...[s.option, s.sheetLine],

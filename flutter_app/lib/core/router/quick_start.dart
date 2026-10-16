@@ -500,15 +500,19 @@ class _StartRows extends ConsumerWidget {
       note: '50 questions, 60 minutes, timed like the exam.',
       onTap: () => go(StartLocations.fullMock(subject), act: startActFor('mock')),
     );
+    // The quote is for the default subject; the Pro tag and the gated note show only where it is known.
+    final ntaGated = nta != null && nta.proOnly && (subject == null || subject == nta.subject);
     final ntaOption = nta == null
         ? null
         : ChoiceOption(
             id: 'nta',
             glyph: QuickStartDeck.glyphFor('nta'),
             title: 'NTA mode',
-            // The quote is for the default subject; the tag shows only where it is known.
-            tag: nta.proOnly && (subject == null || subject == nta.subject) ? 'Pro' : null,
-            note: 'The exam-day screen${subjectName == null ? '' : ' in $subjectName'}, as on the day.',
+            tag: ntaGated ? 'Pro' : null,
+            // What the mode is first, then the gate (L09): the same words as the Practice tab.
+            note: ntaGated
+                ? 'The exam-day screen. Comes with Pro.'
+                : 'The exam-day screen${subjectName == null ? '' : ' in $subjectName'}, as on the day.',
             // No act: NTA mode is the exam as it is, with no Mobi in it.
             onTap: () => go(StartLocations.nta(nta, subject)),
           );

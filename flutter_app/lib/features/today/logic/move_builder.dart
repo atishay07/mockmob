@@ -2,6 +2,7 @@
 // precedence table (`nextMoveState`); this file gathers its inputs from the record and turns
 // the winning state into one number, one sentence and one action. Returning and late night
 // change defaults and warmth only, never the state.
+import '../../../core/auth/load_problem.dart';
 import '../../../core/domain/mock_ordinal.dart';
 import '../../../core/domain/next_move.dart';
 import '../../../core/domain/repair_candidates.dart';
@@ -102,7 +103,10 @@ class MoveFacts {
   NextMoveInputs get table {
     final subjects = {for (final s in inputs.subjects) canonicalSubject(s)};
     return NextMoveInputs(
-      historyUnavailable: (inputs.plan?.recordUnavailable ?? false) || (inputs.attempts == null && inputs.attemptsFailed),
+      // Only a total failure is an error card (L01): with the attempts in hand (live or cached),
+      // a plan read that failed or said `recordUnavailable` falls back to the client candidates,
+      // so the student never sees "did not load" over a record printed under it.
+      historyUnavailable: inputs.attempts == null && inputs.attemptsFailed,
       hasAttempts: attempts.isNotEmpty,
       subjectsChangedWithoutAttempt:
           subjects.isNotEmpty && attempts.isNotEmpty && !attempts.any((a) => subjects.contains(canonicalSubject(a.subject))),
@@ -179,17 +183,23 @@ MoveHero buildMove(TodayInputs i) {
 
   switch (state) {
     case NextMoveState.historyUnavailable:
+      final offline = i.offline || i.readProblem == LoadProblem.offline;
+      final tried = i.lastTriedAt;
       return MoveHero(
         state: state,
-        mood: mood,
+        // The failure card has no mood line: its title says it, not a bubble.
+        mood: TodayMood.normal,
         overline: '',
         art: const HeroArt.mobi(MmArt.mobiThink),
-        mobiLine: TodayCopy.unavailableTitle,
-        // Offline, the card says why instead of a bare failure.
-        meaning: i.offline ? TodayCopy.unavailableOffline : TodayCopy.unavailableFor(i.readProblem),
-        summary: TodayCopy.unavailableFor(i.readProblem),
+        subjectLine: offline ? TodayCopy.failOfflineTitle : TodayCopy.failTitle,
+        // The named cause, never one sentence for everything.
+        meaning: offline ? TodayCopy.unavailableOffline : TodayCopy.unavailableFor(i.readProblem),
+        summary: offline ? TodayCopy.unavailableOffline : TodayCopy.unavailableFor(i.readProblem),
+        // What the last Try again found, its time changing on every tap; offline, the card says
+        // it is watching for the connection instead.
+        basisLine: tried != null ? TodayCopy.failTried(i.clock(tried)) : (offline ? TodayCopy.failOfflineWatch : null),
         primary: const TodayAction(TodayCopy.tryAgain, RetryLoad()),
-        secondary: const TodayAction(TodayCopy.choosePractice, GoTo(AppRoutes.practice)),
+        secondary: offline ? null : const TodayAction(TodayCopy.practiseAnyway, GoTo(AppRoutes.practice)),
       );
 
     case NextMoveState.newUser:

@@ -9,6 +9,8 @@
 ///   matching `PrePromptMoment`: it is false for all of them.
 /// - `notificationsRuntimeProvider` starts the tap handler and the re-planning; read it once
 ///   after the first frame.
+/// - `NotificationsInvite` is the strip on You that keeps inviting the student to turn reminders
+///   on while they are off (the You area places it). It is never placed in a paper.
 /// - `reminderStateProvider` holds the mute and the "Want fewer reminders?" signal.
 library;
 
@@ -28,3 +30,4 @@ export 'services/notification_providers.dart'
         prePromptDueProvider,
         reminderSchedulerProvider,
         repairReadyProvider;
+export 'widgets/notifications_invite.dart' show NotificationsInvite;

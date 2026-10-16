@@ -67,21 +67,19 @@ void main() {
 
     testWidgets('the subjects field opens the subjects editor', (tester) async {
       await _pump(tester, const YouHubScreen(), height: 6000);
-      await tester.tap(find.bySemanticsLabel(RegExp('^Edit subjects')));
+      await tester.tap(find.bySemanticsLabel(RegExp('^Edit subjects')).first);
       await tester.pumpAndSettle();
       expect(find.byType(SubjectsScreen), findsOneWidget);
     });
 
-    testWidgets('Plan and credits shows both balances, each named for its pool', (tester) async {
+    testWidgets('Plan and credits is one row with both balances, each named for its pool', (tester) async {
       await _pump(tester, const YouHubScreen(), height: 6000);
-      expect(find.bySemanticsLabel(RegExp(r'^Practice credits, 38\. For mocks and practice sets')), findsOneWidget);
-      expect(find.bySemanticsLabel(RegExp(r'^AI credits, 8\. For Ask Mobi and repair explanations')), findsOneWidget);
+      expect(find.text('38 practice credits, 8 AI credits'), findsOneWidget);
     });
 
-    testWidgets('a tools slot replaces the website rows', (tester) async {
+    testWidgets('the CUET tools live in the Colleges tab, not on You', (tester) async {
       await _pump(tester, const YouHubScreen(tools: Text('tools shelf')), height: 6000);
-      await tester.dragUntilVisible(find.text('tools shelf'), find.byType(ListView), const Offset(0, -300));
-      expect(find.text('tools shelf'), findsOneWidget);
+      expect(find.text('tools shelf'), findsNothing);
       expect(find.text('Combo Planner'), findsNothing);
     });
   });

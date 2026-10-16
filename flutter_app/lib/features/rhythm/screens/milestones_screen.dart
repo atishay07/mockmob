@@ -15,17 +15,16 @@ import '../../../core/api/api_providers.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/rhythm.dart';
 import '../../../core/motion/motion.dart';
-import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/repositories/rhythm_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../celebration/celebration_controller.dart';
 import '../copy.dart';
+import '../data/badges.dart';
 import '../data/rhythm_providers.dart';
 import '../logic/dates.dart';
 import '../logic/milestone_tracks.dart';
-import '../logic/milestone_progress.dart';
 import '../widgets/milestone_backdrop.dart';
 import '../widgets/rhythm_layout.dart';
 import '../widgets/rhythm_page.dart';
@@ -96,7 +95,8 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
         ),
       );
     }
-    final tracks = milestoneTracks(snapshot.rhythm!.milestones);
+    final badges = ref.watch(badgeMilestonesProvider) ?? snapshot.rhythm!.milestones;
+    final tracks = milestoneTracks(badges);
     return RhythmPage(
       title: RhythmCopy.milestonesTitle,
       // The seam the art pass fills (see milestone_backdrop.dart); empty until then.
@@ -105,10 +105,10 @@ class _YouMilestonesScreenState extends ConsumerState<YouMilestonesScreen> {
         total: tracks.fold<int>(0, (n, t) => n + t.steps.length),
       ),
       child: MilestoneTimeline(
-        milestones: snapshot.rhythm!.milestones,
+        milestones: badges,
         zone: snapshot.timezone,
         now: now,
-        progress: milestoneProgress(attempts: ref.watch(attemptsRepositoryProvider).value, rhythm: snapshot.rhythm),
+        progress: ref.watch(badgeProgressProvider),
         freshIds: _fresh,
         mobiSpeaks: _mobiSpeaks,
         asOf: snapshot.stale ? snapshot.fetchedAt : null,
