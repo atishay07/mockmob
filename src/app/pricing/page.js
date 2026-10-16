@@ -21,7 +21,7 @@ export function generateMetadata() {
     title: monthly ? `MockMob Pro Pricing: ₹${offer.monthly.rupees} a month` : `MockMob Pro Pricing: ₹${offer.oneTime.rupees} to start`,
     description: monthly
       ? `Start free. MockMob Pro is ₹${offer.monthly.rupees} a month: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. Cancel anytime.`
-      : `Start free. MockMob Pro access is ₹${offer.oneTime.rupees} once through ${offer.oneTime.expires}: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. Monthly Pro opens soon.`,
+      : `Start free. MockMob Pro access is ₹${offer.oneTime.rupees} once through ${offer.oneTime.expires}: unlimited Quick practice and Full mock, Smart practice, NTA mode and full chapter review. No renewal.`,
     path: '/pricing',
   });
 }
@@ -46,15 +46,15 @@ const buildPlans = (offer) => [
     price: `₹${offer.purchasable === 'monthly' ? offer.monthly.rupees : offer.oneTime.rupees}`,
     cycle: offer.purchasable === 'monthly' ? '/month' : 'once',
     description: offer.purchasable === 'monthly'
-      ? 'Every mode, no limits. Renews monthly, and you can cancel any time.'
-      : `One payment covers you through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} opens soon.`,
+      ? `Every mode, no limits. ₹${offer.monthly.rupees} is charged when you start, then every month on the same date until you cancel.`
+      : `One payment covers you through ${offer.oneTime.expires}. It does not renew.`,
     ctaLabel: offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`,
     planId: offer.purchasable === 'monthly' ? offer.monthly.planId : offer.oneTime.planId,
     billing: offer.purchasable === 'monthly' ? 'monthly' : 'once',
     amount: (offer.purchasable === 'monthly' ? offer.monthly.rupees : offer.oneTime.rupees) * 100,
     featured: true,
     footnote: offer.purchasable === 'monthly'
-      ? 'Renews automatically each month. Cancel in Account and keep Pro to the end of the month you paid for.'
+      ? 'Cancel any time in Account. You keep Pro to the end of the month you paid for.'
       : `Access ends ${offer.oneTime.expires}. No auto-renewal on this payment.`,
     features: newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full recovery history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Full priorities and playbook', 'Unlimited saved questions'] : [
       'Unlimited Quick practice and Full mocks',
@@ -132,13 +132,23 @@ const buildFaqs = (offer) => [
   {
     q: 'Is Pro a monthly subscription?',
     a: offer.purchasable === 'monthly'
-      ? `Yes. Pro is ₹${offer.monthly.rupees} a month and renews automatically until you cancel. Cancel in Account at any time; you keep Pro until the end of the month you already paid for.`
-      : `Monthly Pro at ₹${offer.monthly.rupees} a month is opening soon. Until then you can pay ₹${offer.oneTime.rupees} once for access through ${offer.oneTime.expires}, with no auto-renewal. That payment keeps its full term when monthly billing opens.`,
+      ? `Yes. Pro is ₹${offer.monthly.rupees} a month. The first payment is taken when you start, and it renews on the same date each month until you cancel. Cancel in Account at any time; you keep Pro until the end of the month you already paid for.`
+      : `Not yet. Right now Pro is one payment of ₹${offer.oneTime.rupees} for access through ${offer.oneTime.expires}, with no auto-renewal. A monthly plan is planned, and this payment keeps its full term when it opens.`,
   },
   {
     q: 'What happens when I cancel?',
     a: 'Renewals stop. Pro stays active until the end of the period you paid for, then your account drops to Free. Your history, saved questions and credits stay.',
   },
+  ...(offer.purchasable === 'monthly' ? [
+    {
+      q: 'What if a renewal payment fails?',
+      a: 'Razorpay retries the charge a few times and emails you. Pro stays active until the end of the month you already paid for. If the payment still fails, the plan stops and your account moves to Free. You can start Pro again at any time.',
+    },
+    {
+      q: `I already paid ₹${offer.oneTime.rupees} once. What happens to it?`,
+      a: `Nothing changes. Your access runs through ${offer.oneTime.expires} with no renewal, and you do not need monthly Pro until it ends.`,
+    },
+  ] : []),
   {
     q: 'What does Admission Compass compare?',
     a: 'Compass uses official DU programme rules and published historical allocation scores, free for everyone. Compass Pro adds a practice projection: what each CUET paper would be worth if exam day went like your own practice, with a range, checked against the 2026 cutoffs of the colleges on your shortlist.',
@@ -196,13 +206,13 @@ export default async function PricingPage() {
       <NavBar />
 
       <main>
-        <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
+        <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem', paddingBottom: '2rem' }}>
           <div className="mm-wrap">
             <h1 className="mm-h1">{offer.purchasable === 'monthly' ? `Pro is ₹${offer.monthly.rupees} a month.` : `₹${offer.oneTime.rupees} gets you in.`}</h1>
             <p className="mm-lead" style={{ marginTop: '1rem' }}>
               {offer.purchasable === 'monthly'
-                ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any month.'
-                : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}. Monthly Pro at ₹${offer.monthly.rupees} is coming. Pay once now and keep every day you paid for.`}
+                ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any time in Account.'
+                : `Start free and stay free if that is enough. For everything, one payment of ₹${offer.oneTime.rupees} covers access through ${offer.oneTime.expires}, with no renewal.`}
             </p>
           </div>
         </section>

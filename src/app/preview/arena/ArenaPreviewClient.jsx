@@ -431,11 +431,25 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/learning/summary') return json(state === 'empty' ? null : { solvedTotal: 7 });
     if (url.pathname.startsWith('/api/auth/')) return json({ user: null }, 200);
     if (url.pathname.startsWith('/api/questions/') && url.pathname.endsWith('/vote')) return json({ score: 0, userVote: 0 });
+    // Account > Plan cancel flow. Fixture only: no Razorpay call. ?cancel=fail shows the failure state.
+    if (url.pathname === '/api/billing/cancel' && method === 'POST') {
+      if (new URLSearchParams(window.location.search).get('cancel') === 'fail') return json({ error: 'Cancellation could not be confirmed. Try again or write to support.' }, 502);
+      return json({ ok: true, message: new URLSearchParams(window.location.search).get('plan') === 'monthly-failed-free' ? 'Renewals are cancelled.' : 'Renewals are cancelled. Pro stays active until 16 November 2026.' });
+    }
     // Unhandled fixture writes are blocked, including billing and model endpoints.
     if (method !== 'GET') return json({ error: 'Preview only: this action is not available.' }, 418);
     return json({ error: 'Fixture endpoint not supplied.' }, 503);
   };
 }
+
+// Account > Plan fixtures for Rs 99 monthly Pro (?plan=monthly and its variants).
+const MONTHLY_PROFILES = {
+  monthly: { isPremium: true, premiumUntil: '2026-11-16T18:29:59.000Z', razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'active' },
+  'monthly-off': { isPremium: true, premiumUntil: '2026-11-16T18:29:59.000Z', razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'cancelled' },
+  'monthly-failed': { isPremium: true, premiumUntil: '2026-11-16T18:29:59.000Z', razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'past_due' },
+  'monthly-failed-free': { isPremium: false, premiumUntil: null, razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'past_due' },
+  'monthly-lapsed': { isPremium: false, premiumUntil: null, razorpaySubscriptionId: 'sub_preview', subscriptionStatus: 'cancelled' },
+};
 
 function PreviewInner({ candidatePathway }) {
   const params = useSearchParams();
@@ -443,7 +457,9 @@ function PreviewInner({ candidatePathway }) {
   const recoveryFixture = params.get('recovery') === 'candidate';
   useLayoutEffect(() => { window.__previewPathway = recoveryFixture ? candidatePathway : null; }, [recoveryFixture, candidatePathway]);
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const pro = params.get('plan') === 'pro';
+  const planParam = params.get('plan');
+  const MONTHLY = MONTHLY_PROFILES[planParam] || null;
+  const pro = planParam === 'pro' || Boolean(MONTHLY?.isPremium);
   const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'rules', 'revise', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];
   const view = views.includes(params.get('view')) ? params.get('view') : 'dashboard';
   const routeNames = { prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' };
@@ -453,11 +469,11 @@ function PreviewInner({ candidatePathway }) {
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('stale') === '1' ? ['hindi', 'teaching_aptitude'] : [])],
-      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40 },
+      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40, ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},
-  }), [pro, params]);
+  }), [pro, params, MONTHLY]);
   return (
     <AuthContext.Provider value={auth}>
       <RoleProvider>

@@ -582,6 +582,37 @@ export const Database = {
     });
   },
 
+  /**
+   * Paid access the user holds outside one subscription: whether any other paid payment exists and
+   * the latest date it runs to. Webhooks use it so that ending, failing or cancelling one
+   * subscription never shortens a one-time pass or another subscription.
+   */
+  async getOtherPaidAccess({ userId, excludingSubscriptionId = null, excludingPaymentId = null } = {}) {
+    if (!userId) return { hasOtherPaid: false, accessUntil: null };
+    const { data, error } = await supabaseAdmin()
+      .from('payments')
+      .select('id, subscription_id, payment_id, status, amount_paid, access_until')
+      .eq('user_id', userId)
+      .not('payment_id', 'is', null)
+      .gt('amount_paid', 0)
+      .in('status', ['captured', 'completed', 'paid'])
+      .limit(50);
+    if (error) {
+      if (isMissingEntitlementSchema(error)) return { hasOtherPaid: await this.hasOtherPaidSubscriptionEvidence({ userId, excludingSubscriptionId, excludingPaymentId }), accessUntil: null };
+      throw error;
+    }
+    let accessUntil = null;
+    let hasOtherPaid = false;
+    for (const row of data || []) {
+      if (excludingSubscriptionId && row.subscription_id === excludingSubscriptionId) continue;
+      if (excludingPaymentId && row.payment_id === excludingPaymentId) continue;
+      hasOtherPaid = true;
+      const ms = row.access_until ? new Date(row.access_until).getTime() : NaN;
+      if (Number.isFinite(ms) && (accessUntil === null || ms > new Date(accessUntil).getTime())) accessUntil = new Date(ms).toISOString();
+    }
+    return { hasOtherPaid, accessUntil };
+  },
+
   async hasRefundPremiumRevocation({ userId, subscriptionId = null, paymentId = null } = {}) {
     if (!userId || (!subscriptionId && !paymentId)) return false;
     const { data, error } = await supabaseAdmin()

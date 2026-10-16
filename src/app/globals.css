@@ -3357,8 +3357,22 @@ body:has(.mm) {
   height: 15px;
   color: var(--volt-edge);
 }
+.mm-checkout__hint {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--ink-3);
+}
 .mm-checkout__submit {
   width: 100%;
+}
+.mm-checkout__submit:disabled {
+  cursor: not-allowed;
+  opacity: 1;
+  background: var(--paper-sunken);
+  border-color: var(--line-strong);
+  color: var(--ink-2);
+  box-shadow: none;
 }
 .mm-checkout__spin {
   width: 18px;

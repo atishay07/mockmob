@@ -1256,7 +1256,8 @@ html[data-theme='light'] .arena-dark-island {
 .app-shell .plan-card__quiet, .app-shell .plan-card__danger { min-height: 44px; padding: 0 16px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink-2); font: 700 14px var(--font-display); cursor: pointer; justify-self: start; }
 .app-shell .plan-card__quiet:hover { color: var(--a-ink); border-color: var(--a-line-hover); }
 .app-shell .plan-card__danger { color: var(--a-bad-text); border-color: var(--a-bad-text); }
-.app-shell .plan-card__confirm { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-sunken); }
+/* An inline question, not a second card: a hairline and spacing set it apart from the plan text. */
+.app-shell .plan-card__confirm { display: grid; gap: 10px; padding-top: 14px; border-top: 1px solid var(--a-line); }
 .app-shell .plan-card__confirm p { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
 .app-shell .plan-card__confirm div { display: flex; gap: 8px; flex-wrap: wrap; }
 .app-shell .plan-card__msg { display: flex; gap: 8px; align-items: flex-start; margin: 0; font-size: 13.5px; color: var(--a-ink-2); }
