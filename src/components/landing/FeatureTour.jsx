@@ -18,7 +18,7 @@ const LEDE = {
   learn: 'Short lessons with worked examples, then recall cards that come back before you forget.',
   replay: 'Every changed answer, every slow question and every skip, in the order it happened.',
   radar: 'Every miss traced back to its chapter, so tonight has one clear target.',
-  prepos: 'Ask about your own record and get one next step, the same one the app’s Today screen shows.',
+  prepos: 'Ask about your own record and get one next step, with the mocks behind it.',
   compass: 'Your score against the published 2026 DU cutoffs, by college, category and round.',
   combo: 'Pick your DU goals and see which five-paper combinations the 2026 rules keep open.',
   rival: 'A short timed run against a fixed target for accuracy and pace.',

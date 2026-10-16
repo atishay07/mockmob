@@ -56,6 +56,8 @@
 .mm.lp .lp-hero--v3 .lp-title {
   margin: 0;
   font-size: clamp(2rem, min(var(--t-hero), 12cqi), var(--t-hero));
+  /* Whole pixels where round() exists, so a narrow phone never lands on a fractional size. */
+  font-size: clamp(2rem, round(down, min(var(--t-hero), 12cqi), 1px), var(--t-hero));
   font-weight: 800;
   line-height: 0.95;
   letter-spacing: -0.04em;
@@ -138,6 +140,12 @@
 @media (min-width: 761px) {
   .mm.lp .lp-hero--v3 .lp-keys { grid-template-columns: repeat(2, max-content); gap: 0.9rem; }
   .mm.lp .lp-hero--v3 .lp-key { min-width: 12.5rem; min-height: 58px; padding-inline: 1.75rem; }
+}
+/* Wide screens show the finished sample beside the keys, and its card offers the next subject itself: the second
+   key steps aside so that action is on screen once. */
+@media (min-width: 960px) {
+  .mm.lp .lp-hero--v3 .lp-keys[data-sample='done'] { grid-template-columns: max-content; }
+  .mm.lp .lp-hero--v3 .lp-keys[data-sample='done'] .lp-key--try { display: none; }
 }
 .mm.lp .lp-hero--v3 .lp-key--go {
   background: var(--volt);

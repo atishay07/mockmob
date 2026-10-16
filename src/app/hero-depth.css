@@ -123,7 +123,7 @@
       align-content: center;
       gap: clamp(1rem, 3svh, 1.75rem);
     }
-    :root:not([data-motion='reduced']) .lp-statement__text { font-size: min(var(--t-headline), 3.9svh); }
+    :root:not([data-motion='reduced']) .lp-statement__text { font-size: min(var(--t-headline), 3.9svh); font-size: round(down, min(var(--t-headline), 3.9svh), 1px); }
     /* 21 words over 0 to 88% of the hold. */
     :root:not([data-motion='reduced']) .lp-statement__w {
       animation-range-start: contain calc(var(--p) * 80%);

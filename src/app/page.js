@@ -50,7 +50,7 @@ import './landing-rest.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   '100 practice credits to start: a Quick practice uses 10, a Full mock 50',
-  '10 Ask Mobi credits a month for questions beyond your own record',
+  '10 AI credits a month, for Ask Mobi beyond your own record',
   'Weekly progress tracking',
   '25 saved questions',
   'Leaderboard',
@@ -60,15 +60,14 @@ const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh 
   'Compass Pro: your practice mapped to your DU shortlist',
   'Smart practice and NTA mode',
   'Every chapter ranked, with pace and changed answers',
-  '50 Ask Mobi credits a month',
+  '50 AI credits a month',
   'Unlimited saved questions',
 ];
 
 const OFFER = publicOffer();
-// What Free gives, in one sentence that says no more than the Free list above does.
-const FREE_LINE = newOfferReleased()
-  ? 'Free gives you a baseline in each launch subject and a daily 10-question set, and keeps your progress.'
-  : 'Free gives you 100 practice credits and keeps your progress.';
+// What Free starts you with, said no bigger than the Free list below says it: 100 practice credits is two full
+// mocks, so the headline never calls practice itself free.
+const FREE_START = newOfferReleased() ? 'Start free with a daily 10-question set' : 'Start free with 100 practice credits';
 const SHOWCASE = buildCompassShowcase();
 const WALL_VOICES = publishedVoices();
 
@@ -124,7 +123,7 @@ const TOUR = [
     body: 'A score is just a number. MockMob traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Your weakest chapters, free after every mock.', href: '/analytics', cta: 'See your weak chapters' },
   { id: 'prepos', label: 'Ask Mobi', line: 'Ask what to do tonight', title: 'Ask Mobi what to do tonight.',
-    body: 'Ask Mobi reads your practice record and answers with where the marks went and a single next step, the same one the app’s Today screen shows.',
+    body: 'Ask Mobi reads your practice record and answers with where the marks went and a single next step, with the mocks behind it.',
     points: ['Questions about your own record use no credits', 'Other questions use AI credits: 10 a month on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'Questions about your own record use no credits.', href: '/mentor', cta: 'Ask about your record' },
   { id: 'compass', label: 'DU Compass', line: 'Your shortlist against real DU cutoffs', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
@@ -365,8 +364,8 @@ export default function LandingPage() {
         <section className="lp-sec" id="pricing">
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
-              <h2 className="lp-h2">{OFFER.purchasable === 'monthly' ? `Free to start, ₹${OFFER.monthly.rupees} a month for Pro.` : `Free to start, ₹${OFFER.oneTime.rupees} once for Pro.`}</h2>
-              <p className="lp-sub">{FREE_LINE} {OFFER.purchasable === 'monthly' ? 'Cancel Pro any month and keep what you paid for.' : 'Pro is one payment, not a subscription.'}</p>
+              <h2 className="lp-h2">{OFFER.purchasable === 'monthly' ? `${FREE_START}. ₹${OFFER.monthly.rupees} a month for Pro.` : `${FREE_START}. ₹${OFFER.oneTime.rupees} once for Pro.`}</h2>
+              <p className="lp-sub">Free keeps your record and your progress. {OFFER.purchasable === 'monthly' ? 'Cancel Pro any month and keep what you paid for.' : 'Pro is one payment, not a subscription.'}</p>
             </div>
             {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. Start free
                 keeps the volt key it has everywhere else on the page; See Pro is the secondary key. */}

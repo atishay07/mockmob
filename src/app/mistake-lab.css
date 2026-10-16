@@ -160,6 +160,18 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
      instead of leaving an empty band under a shorter step. */
   .ml__panel { padding: 1rem; display: flex; flex-direction: column; }
   .ml__panel > :last-child { margin-top: auto; }
+  /* Plan and Check are shorter than Find (the tallest step, which sets the device's height), so on phones they show
+     the session strip too, in a compact row: the chapter the move works on, then the questions the checks come back
+     to. It sits on the device's bottom edge in the room those steps leave, instead of an empty band. */
+  .ml__strip:is([data-kind='move'], [data-kind='check']) { display: grid; gap: 0.35rem; padding-top: 0.6rem; }
+  .ml__strip ol { gap: 0.25rem; }
+  .ml__strip li { display: flex; align-items: center; justify-content: center; gap: 1px; height: 1.75rem; border-radius: 7px; }
+  .ml__strip li span { position: static; }
+  .ml__strip li svg { width: 11px; height: 11px; flex: none; }
+  /* Check's rows sit a little closer and Replay's tiles stand a little taller, so all four steps come out near the
+     height of Find and none leaves a void inside the device. */
+  .ml__checks li { padding: 0.6rem 0; }
+  .ml__tile { aspect-ratio: 1 / 1.2; }
   .ml__tiles { grid-template-columns: repeat(auto-fit, minmax(max(16%, 2.75rem), 1fr)); }
   .ml__bar-top { padding: .8rem 1rem; }
 }

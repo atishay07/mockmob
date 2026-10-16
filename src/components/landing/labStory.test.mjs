@@ -4,7 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { SESSION, REPAIR, labStory, clock, signed, PAPER_PACE_SEC, marksLedger, repairRecordLine } from './labStory.mjs';
+import { SESSION, REPAIR, labStory, clock, signed, PAPER_PACE_SEC, marksLedger, repairRecordLine, nextMove, weakChapters, chapterRecord } from './labStory.mjs';
 
 const story = labStory();
 
@@ -147,4 +147,20 @@ test('each SWOT quadrant has one strong line and its count for phones', () => {
   assert.deepEqual([q.weakness.line, q.weakness.figure, q.weakness.unit], ['Right, then changed', '2 answers', 'cost 12 marks']);
   assert.deepEqual([q.opportunity.line, q.opportunity.figure, q.opportunity.unit], ['Cash flow', '9 of 14', 'right in 3 papers']);
   assert.deepEqual([q.threat.line, q.threat.figure, q.threat.unit], ['Partnership', '3 of 3', 'mocks lost marks']);
+});
+
+test('one sample student, one next move: the SWOT, the tour and the Score Recovery Lab agree', () => {
+  const move = nextMove();
+  assert.equal(story.swot.plan[0].label, move.label);
+  assert.equal(move.chapter, 'Partnership');
+  assert.deepEqual([...move.lost], [...story.swot.partnershipLost]);
+  // The tour's weak chapters print the SWOT's counts for the same chapters, and the move's chapter goes first.
+  const rows = weakChapters();
+  assert.equal(rows[0].chapter, move.chapter);
+  const byName = Object.fromEntries(rows.map((r) => [r.chapter, `${r.right} of ${r.of}`]));
+  for (const q of story.swot.quadrants.filter((x) => ['Ratios', 'Cash flow'].includes(x.title))) assert.equal(byName[q.title], q.figure);
+  assert.ok(!rows.some((r) => /retirement/i.test(r.chapter)), 'one chapter name for the weakest chapter');
+  // The Find step's closing line: Partnership's lost marks are a share of the session's missed marks.
+  const lost = chapterRecord(move.chapter);
+  assert.ok(lost.lost > 0 && lost.lost <= marksLedger().gap);
 });

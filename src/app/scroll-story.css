@@ -34,9 +34,11 @@
 }
 /* The stage's empty bands never catch a tap meant for the page around it (the slack margins below
    let the next section slide under them); the content itself takes pointers as usual. */
-/* The track is taller than its stage, and on phones the page after a short story slides up under the track's
-   foot (the negative slack margins below). The track paints over that page, so it takes no pointers either:
-   only the stage's content does. */
+/* The story is positioned and taller than its content, and on phones the page after a short story slides up
+   under its foot (the negative slack margins below). Positioned boxes paint over the plain page that follows, so
+   the story's own box and its track take no pointers either: only the stage's content does, and a link in the
+   paragraph after a story (the tour's "Also on this page") takes a tap wherever it sits in the window. */
+.ss[data-pinned='true'],
 .ss[data-pinned='true'] .ss__track,
 .ss[data-pinned='true'] .ss__stage { pointer-events: none; }
 .ss[data-pinned='true'] .ss__stage > * { pointer-events: auto; }

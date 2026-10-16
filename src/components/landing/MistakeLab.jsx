@@ -16,7 +16,7 @@ import { pipReact } from '@/components/brand/pipEvents';
 import { useReadableRegion } from './useReadableRegion';
 import ScrollStory from './ScrollStory';
 import { durations } from '@/lib/motion/tokens.g.js';
-import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, clock, marksLedger, nextMove } from './labStory.mjs';
+import { SESSION as STORY, MARK as MARKS, PAPER_PACE_SEC, chapterRecord, clock, marksLedger, nextMove } from './labStory.mjs';
 
 // The story's rows in the replay's terms ('skip' for a blank), with the clock times of every change.
 const SESSION = STORY.map((r) => ({
@@ -33,6 +33,9 @@ const PACE = clock(PAPER_PACE_SEC);
 const LEDGER = marksLedger();
 // The sample student's one next move, the same one the Lab's SWOT puts first and the tour's Ask Mobi gives.
 const MOVE = nextMove();
+// The Find step's closing line: where the missed marks gather, by chapter. The rows above it already say how each
+// question was lost, so this line adds the chapter that the next move then takes on.
+const MOVE_LOST = chapterRecord(MOVE.chapter);
 // The replay opens on Q3, wrong from its first pick: the Lab above already walked through the changed answers.
 const FIRST_PICK = STORY.findIndex((r) => r.verdict === 'wrong' && !r.change);
 const qList = (qs) => (qs.length > 1 ? `${qs.slice(0, -1).map((n) => `Q${n}`).join(', ')} and Q${qs.at(-1)}` : `Q${qs[0]}`);
@@ -85,7 +88,7 @@ const STRIP = {
 function SessionStrip({ kind }) {
   const { label, lit } = STRIP[kind];
   return (
-    <div className="ml__strip" aria-hidden="true">
+    <div className="ml__strip" data-kind={kind} aria-hidden="true">
       <p>{label}</p>
       <ol>
         {SESSION.map((t) => (
@@ -277,7 +280,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
                 </li>
               ))}
             </ul>
-            <p className="ml__headline">{LEDGER.headline}</p>
+            <p className="ml__headline">{MOVE_LOST.lost} of the {LEDGER.gap} marks went on {MOVE.chapter}: {qList(MOVE_LOST.qs)}.</p>
             <SessionStrip kind="leak" />
           </section>
 
@@ -289,7 +292,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
               <p className="ml__why">Why this: {MOVE.why}</p>
               <p className="ml__where">While you practise: {MOVE.rule.charAt(0).toLowerCase() + MOVE.rule.slice(1)}</p>
             </div>
-            <p className="ml__note">From your last {MOVE.lost.length} Accountancy mocks. Each mock you finish makes the next move sharper.</p>
+            <p className="ml__note">Each mock you finish makes the next move sharper.</p>
             <SessionStrip kind="move" />
           </section>
 
