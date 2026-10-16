@@ -219,3 +219,74 @@ Journals are under `C:\Users\atish\.claude\projects\C--Users-atish-Desktop-mockm
 4. Read the journals of wave-0935pm (wf_967ff020-5e0) and app-ux-social-now (wf_0fd124eb-6d5) to see what finished.
 5. Relaunch the unfinished tracks in priority order (batch 4, then web UX+social, then landing, then app walk and v12, then app UX+social), with RAM rules and staged waves.
 6. Tell the owner, in a few lines, what is live, what ships next, and when.
+
+
+---
+
+## 11. EXACT STOP POINT (safe stop by the main session, 16 Oct about 11:55 pm, at 95% usage). START HERE.
+
+All workflows were stopped deliberately. All agent processes (dev servers, headless Chrome, Gradle, emulator, staging site) were killed, leaving 6.7 GB free. Every interrupted worktree was committed as a "STOP POINT" commit. **Nothing is running. Nothing is half-applied in production.** This section overrides section 4 where they differ.
+
+### Track A: Website batch 4. VERIFIED, READY TO SHIP (do this first)
+- **Where:** `wt-batch4b`, branch `deploy/batch-1016d`, HEAD **965860e5**. The tree is clean. Independent verifier: **PASS** (lint, 8 suites, build).
+- **Stopped at:** after the verifier, before the production migrations and the push.
+- **Next, exactly:**
+  1. Fetch. Confirm origin/main is still 8a0141ba and that 965860e5 contains it (fast-forward).
+  2. Apply these migrations to production, in this order, each under the grant with a pre-check, apply, post-check and a STATUS entry. Each has an undo file in supabase/undo, and each was dry-run on staging per the merge report.
+     - 20261016170100_webhook_event_lease (payments, needed before Razorpay goes live)
+     - 20261016110000_study_weekdays
+     - 20261016140000_ai_reply_report
+     - 20261016120100_funnel_product_steps (renamed; collision fixed)
+
+     Skip, because they are already live: 20261016141000_questions_private_to_browser_roles (closed by session cc0bf1af; verify that anon cannot select public.questions) and 20261016170200_server_only_functions_drift (already applied tonight). The full list of the 10 migrations not on main, and the dry-run evidence, are in the results labelled b4:merge and b4:verifier in journal wf_967ff020-5e0. Read them before applying.
+  3. Merge db/status-1016e (HEAD ea40b6ad, STATUS entries for tonight's DB work) into deploy/batch-1016d. Push to main. Verify Vercel READY, runtime errors, and a smoke of /, /pricing, /progress, /profile, the colleges search.
+  4. Non-blockers to note in STATUS:
+     - /privacy hides the stream and AI-report sections until APP_STREAM_AND_REPORT_LIVE is set true in src/lib/appReleaseGates.mjs. Flip it in the same deploy as an app that has those features.
+     - The app's college_search.dart may still have the old "bcom" behaviour; verify against ui/owner-1016.
+     - Weekday chips look oval at 320 px.
+
+### Track B: Website motion/UX pass + the Mob (server + web). Gate in progress
+- **Where:** wt-webux2, branch web/ux-social-1016, HEAD **9abc71e5**. That is a STOP POINT commit holding the interrupted wux:fixer's partial edits (20 files), on top of:
+  - 9d28148b (T0 token: count-up 720 to 420 ms);
+  - dbb80d00 (WP-A motion);
+  - 1485a42e (WP-B touch, one volt);
+  - 3cf9c751 (WP-C Mistake Lab truth);
+  - e49f347b (the Mob server + web, behind MOB_ENABLED, off).
+- **Stopped at:** the fixer was mid-way through the gate critic's majors. The verifier never ran. The production build has not been run on this branch.
+- **Open majors (label wux:critic in journal wf_967ff020-5e0):**
+  1. Every Mob dialog opens at x=0, y=0 instead of centred.
+  2. The Mob copy promises "never shows who didn't sit" while the member list does show it.
+  3. No comparison or hand-back after both members finish a shared paper (ResultPageClient has no Mob reference).
+  4. Two lime (volt) actions per viewport on /mob.
+  5. The same double-volt on Practice, Review and Progress at 1440 (sidebar Start plus page Start).
+- **Next, exactly:** an Opus fixer reviews 9abc71e5's partial edits against those 5 majors (keep the correct ones, finish the rest), runs lint, test:app, test:recovery, test:learning, npx next build --webpack, and commits. Then a Sonnet verifier on a dev server (390 and 1440, Night and Day). On a pass, merge onto main after Track A and push. The Mob stays OFF (MOB_ENABLED) until the owner answers D-S1 to D-S4 in pass-1016e/SOCIAL-SPEC.md. Its migration is applied on staging only; apply it to production only after the owner's OK.
+
+### Track C: Landing. Needs a fix round
+- **Where:** wt-land2, branch web/land2-1015, HEAD **a5f3710b** (a STOP POINT commit with 2 previously untracked files from round 9 tooling; check them and drop them if they are scripts or captures) over 326a1c74 (the round 9 fixes).
+- **Stopped at:** round 9 was scored at **80/100** (below round 8's 84), so the page was not shipped. The defects are in journal wf_432183b4-4cb, label land:critic-r9.
+- **Next, exactly:** an Opus fixer handles every r9 high and medium. Keep: unlimited mocks at heading level, no "never repeats", server-rendered counts. Then an Opus critic round 10, target 88 or more. Then rebase on the newest main, a gate, and ship. Show the owner first if he is around.
+
+### Track D: App v12. Built, not walked
+- **Where:** wt-owner, branch ui/owner-1016, HEAD **f5d848bf** (clean). APK v12 preview from this HEAD was sent to the owner (debug-signed).
+- **Stopped at:** the emulator walk (label app:walk) was mid-run when stopped. **No walk results were recorded. Treat it as not started.** The emulator and the staging site are now stopped.
+- **Next, exactly:**
+  1. Restart the rig per tmp/rig-1016e/RIG-READY.md: the staging site from wt-rig-site on 3101, the Supabase relay on 3102, AVD mockmob_budget at -memory 3072, a profile build with dart_defines/phone-relay.json.
+  2. Walk L01-L39 with screenshots, including the upgrade over v10.1 and the real-flow checks: a quick practice, a short mock, the Lab, Repair + Check it held against staging, Revise, colleges "BCOM".
+  3. Fix by area, re-walk the failures, then release v12 (version bump and the release command in HANDOFF-2026-10-15-FULL section 5), and send it.
+
+### Track E: App motion/UX pass + the Mob in the app. Integration in progress
+- **Where:** wt-appux2, branch ui/ux-social-1016 (base 0d1ff6b6 from ui/owner-1016), HEAD **dfd705b9**. That is a STOP POINT commit with the interrupted aux:integrate partial edit (1 file), over:
+  - AP-1 (4 commits, the last at 22:56: core motion, Today);
+  - AP-2 (a5665a3b, 863cfa32, plus more: about 80%; AP2-03 not built);
+  - AP-3 (a18fdd30: the 4 most visible items; the rest is outside its files);
+  - the Mob app side (7 commits; 48 tests and 50 goldens pass).
+- **Stopped at:** the integration (whole-app analyze, full unit tests, goldens) was mid-run. The You hub, Today and router suites were NOT re-run after the Mob added lines to them.
+- **Next, exactly:** a Sonnet integrator runs flutter analyze, the full unit tests (-j 1) and goldens, fixes, and commits. Then an emulator walk of the APP-PASS items and the Mob flows, recording motion clips. Then merge into ui/owner-1016 after v12 ships, and release as v13, or fold it into v12 if both pass together. The Mob stays off until the owner answers D-S1 to D-S4.
+
+### Not started (queued)
+- **Higgsfield round 1 idea agents** (section 7; HIGGSFIELD-IDEAS-2026-10-16.md, "How to keep iterating" step 1).
+- **The Mobbin blind A/B** (section 6), once the owner buys Pro and connects the MCP.
+- **Real-flow staging tests:** folded into Track D's walk.
+
+### Order for the next session
+A (ship batch 4), then B and C in parallel (website), and D then E (app; D and E can build in parallel, but only one emulator walk at a time). Stage the waves, check get_usage before each, and reap processes between them.
