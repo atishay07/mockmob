@@ -313,7 +313,7 @@ void main() {
     expect(find.text('The next ones are due on Sat 17 Oct.'), findsOneWidget);
     expect(keyLabelled('Back to Review'), findsOneWidget);
     expect(find.text('About 5 minutes'), findsNothing, reason: 'no questions, no minutes');
-    expect(find.text('Example'), findsNothing, reason: 'a student who has cards is not shown a sample');
+    expect(find.textContaining('Example', findRichText: true), findsNothing, reason: 'a student who has cards is not shown a sample');
   });
 
   testWidgets('the day\'s cap is reached: the website\'s sentence', (tester) async {
@@ -330,7 +330,7 @@ void main() {
     expect(find.text('Questions you get wrong in a paper or a practice set come back here after 1, 3, 7 and 21 days.'), findsOneWidget);
     expect(lanes(tester), ['0', '0', '0', '0']);
     // The empty page teaches: one sample card tagged as an example, and the next action first.
-    expect(find.text('Example'), findsOneWidget);
+    expect(find.textContaining('Example', findRichText: true), findsOneWidget);
     expect(find.text('Question 4, Partnership'), findsOneWidget);
     expect(keyLabelled('Start 10 questions'), findsOneWidget);
   });

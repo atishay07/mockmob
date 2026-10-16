@@ -305,7 +305,7 @@ void main() {
         const SampleRow(leading: SampleRank(1), value: '172 / 250', title: 'Best mock', note: 'Your subject and the date show here.'),
         size: const Size(390, 200),
       );
-      expect(find.text(SampleRow.tag), findsOneWidget);
+      expect(find.textContaining(SampleRow.tag, findRichText: true), findsOneWidget);
       expect(tester.getSemantics(find.byType(SampleRow)).label, startsWith('Example. Best mock'));
     });
   });

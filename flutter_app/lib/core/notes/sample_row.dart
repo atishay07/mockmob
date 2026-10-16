@@ -55,12 +55,20 @@ class SampleRow extends StatelessWidget {
                       children: [
                         Text(title, style: type.labelLarge.copyWith(color: colors.ink2)),
                         const SizedBox(height: MmSpace.s2),
-                        Text(note, style: type.caption.copyWith(color: colors.ink3)),
+                        // The tag sits with the note, in the column that can give way, so a narrow row
+                        // wraps the note and never overflows.
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(text: note),
+                              TextSpan(text: '  $tag', style: const TextStyle(fontWeight: FontWeight.w600)),
+                            ],
+                          ),
+                          style: type.caption.copyWith(color: colors.ink3),
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(width: MmSpace.s8),
-                  Text(tag, style: type.caption.copyWith(color: colors.ink3)),
                 ],
               ),
             ),
