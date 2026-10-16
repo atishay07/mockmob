@@ -7,10 +7,13 @@ import Link from 'next/link';
 import { ringLine, togetherLine, trapLine } from '@/lib/mob/model.mjs';
 import { MobRing } from './MobRing';
 import { useMob } from './useMob';
+import { useMobEnabled } from './MobFlag';
 import './mob.css';
 
 export function MobResultRow({ mobPaper }) {
-  const mob = useMob(mobPaper ? 'mob-paper' : null);
+  // Mob off (flag unset): no request, whatever the attempt says.
+  const mobOn = useMobEnabled();
+  const mob = useMob(mobPaper && mobOn ? 'mob-paper' : null);
   const data = mob.mob;
   if (!mobPaper || mob.status !== 'ready' || !data) return null;
   const { week } = data;
