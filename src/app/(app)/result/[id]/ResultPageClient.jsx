@@ -275,7 +275,7 @@ export default function ResultPageClient({ previewId = null }) {
       });
       setReported((current) => ({ ...current, [qid]: true }));
     } catch (e) {
-      setReportError(e.message || 'Failed to report question.');
+      setReportError(e.message || 'Could not send your report. Try again.');
     } finally {
       setReporting((current) => {
         const next = { ...current };

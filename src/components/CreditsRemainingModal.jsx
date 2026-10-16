@@ -125,13 +125,13 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
           </div>
           <div className="mmx-credits__runs">
             <div>
-              <span>Quick practice, {QUICK_COST} credits</span>
+              <span>Quick practice, {QUICK_COST} practice credits</span>
               <strong>
                 {quickRuns} run{quickRuns === 1 ? '' : 's'}
               </strong>
             </div>
             <div>
-              <span>Full mock, {FULL_COST} credits</span>
+              <span>Full mock, {FULL_COST} practice credits</span>
               <strong>
                 {fullRuns} run{fullRuns === 1 ? '' : 's'}
               </strong>

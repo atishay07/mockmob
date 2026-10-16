@@ -262,7 +262,7 @@ export default function AIRivalArena() {
       <div className="grid gap-6">
         <header className="grid gap-5 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
           <div>
-            <div className="mono-label text-volt">MockMob / Shadow Benchmark</div>
+            <div className="mono-label text-volt">Shadow Benchmark</div>
             <h1 className="mt-2 max-w-3xl font-display text-[clamp(30px,5vw,58px)] font-black leading-[1.01] text-zinc-50">
               Check your pace against a practice rival.
             </h1>
@@ -301,8 +301,8 @@ export default function AIRivalArena() {
                   >
                     {cardAccess.allowed ? <Swords size={18} /> : <Lock size={18} />}
                   </div>
-                  <span className="rounded-full border border-white/10 bg-black/30 px-2 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-zinc-400">
-                    {profile.creditCost > 0 ? creditCount(profile.creditCost, 'ai') : profile.freeAllowed ? 'free daily' : 'paid basic'}
+                  <span className="rounded-full border border-white/10 bg-black/30 px-2 py-1 text-xs font-semibold text-zinc-400">
+                    {profile.creditCost > 0 ? creditCount(profile.creditCost, 'ai') : profile.freeAllowed ? 'free today' : 'Pro'}
                   </span>
                 </div>
                 <h2 className="mt-4 font-display text-xl font-black text-zinc-50">{profile.name}</h2>
@@ -344,7 +344,7 @@ export default function AIRivalArena() {
               )}
             </div>
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">Questions</span>
+              <span className="text-xs font-semibold text-zinc-500">Questions</span>
               {[5, 10, 15, 20].map((count) => (
                 <button
                   key={count}
@@ -386,8 +386,8 @@ function RivalShell({ children, usage }) {
     <div className="arena-dark-island mx-auto w-full max-w-7xl">
       <div className="rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,rgba(18,18,16,0.96),rgba(7,8,7,0.96))] p-4 shadow-[0_28px_100px_rgba(0,0,0,0.45)] md:p-6">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-          <div className="inline-flex items-center gap-2 rounded-full border border-volt/25 bg-volt/10 px-3 py-1 font-mono text-[10px] font-extrabold uppercase tracking-[0.14em] text-volt">
-            <Zap size={13} /> Daily pressure loop
+          <div className="inline-flex items-center gap-2 rounded-full border border-volt/25 bg-volt/10 px-3 py-1 text-xs font-semibold text-volt">
+            <Zap size={13} /> Daily check
           </div>
           <div className="flex flex-wrap gap-2">
             <UsagePill label="AI credits" value={total} />
@@ -424,10 +424,10 @@ function BattleScreen({ battle, question, index, answers, timeLeftMs, onSelect, 
 
       <section className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 md:p-5">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <div className="font-mono text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-500">
+          <div className="text-xs font-semibold text-zinc-500">
             Question {index + 1} of {total} / {displaySubject(question.subject)}
           </div>
-          <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-zinc-400">
+          <span className="rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs font-semibold text-zinc-400">
             {question.chapter || question.difficulty || 'CUET'}
           </span>
         </div>
@@ -495,9 +495,9 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
   const [copied, setCopied] = useState(false);
   const won = result.result === 'win';
   const tied = result.result === 'tie';
-  const title = won ? 'You cleared the benchmark.' : tied ? 'Dead heat.' : 'The benchmark exposed a leak.';
+  const title = won ? 'You cleared the benchmark.' : tied ? 'You tied the benchmark.' : 'The benchmark found a gap.';
   const share = result.shareCard || {};
-  const shareText = `${share.headline || title} Score ${share.score ?? result.user.score} vs ${share.rivalScore ?? result.rival.score} against ${battle.profile.name}. Next move: ${result.outro?.nextMove || result.nextMoveHint || 'review the benchmark leak.'}`;
+  const shareText = `${share.headline || title} Score ${share.score ?? result.user.score} vs ${share.rivalScore ?? result.rival.score} against ${battle.profile.name}. Next move: ${result.outro?.nextMove || result.nextMoveHint || 'review the gap this benchmark found.'}`;
 
   return (
     <div className="grid gap-6">
@@ -510,7 +510,7 @@ function ResultScreen({ result, battle, onRematch, onLobby, starting }) {
           </p>
         </div>
         <div className="rounded-2xl border border-volt/25 bg-volt/10 p-5 text-center">
-          <div className="font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-volt">{share.rankTitle || 'Rival card'}</div>
+          <div className="text-xs font-semibold text-volt">{share.rankTitle || 'Your result'}</div>
           <div className="mt-2 font-display text-4xl font-black text-zinc-50">{result.user.score}-{result.rival.score}</div>
           <div className="mt-1 text-xs font-semibold text-zinc-400">{battle.profile.name}</div>
         </div>
@@ -605,7 +605,7 @@ function ErrorStrip({ message }) {
 function MiniStat({ label, value }) {
   return (
     <div className="rounded-lg border border-white/10 bg-black/25 px-3 py-2">
-      <div className="font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-zinc-500">{label}</div>
+      <div className="text-xs font-semibold text-zinc-500">{label}</div>
       <div className="mt-1 font-display text-sm font-black text-zinc-100">{value}</div>
     </div>
   );
@@ -614,7 +614,7 @@ function MiniStat({ label, value }) {
 function Metric({ label, value, icon }) {
   return (
     <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-      <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">
+      <div className="flex items-center gap-2 text-xs font-semibold text-zinc-500">
         {icon} {label}
       </div>
       <div className="mt-2 font-display text-2xl font-black text-zinc-50">{value}</div>
@@ -624,7 +624,7 @@ function Metric({ label, value, icon }) {
 
 function UsagePill({ label, value }) {
   return (
-    <span className="inline-flex min-h-8 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-zinc-300">
+    <span className="inline-flex min-h-8 items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 text-xs font-semibold text-zinc-300">
       <Coins size={12} /> {label}: <span className="text-volt">{value}</span>
     </span>
   );
@@ -651,24 +651,24 @@ function getClientAccess({ rivalId, profile, isPaid, usage }) {
 }
 
 function lockMessage(access) {
-  if (access.kind === 'daily_used') return 'Free Daily Benchmark is used for today. Upgrade for more pressure checks.';
+  if (access.kind === 'daily_used') return 'Today’s free benchmark is used. Pro adds more.';
   if (access.kind === 'paused') return 'AI features are paused for now. Your AI credits have not been used.';
   if (access.kind === 'credits') return usesLine({ what: 'This benchmark', cost: access.required || 1, pool: 'ai', balance: access.balance ?? null });
-  if (access.kind === 'plan') return 'This benchmark is Premium.';
+  if (access.kind === 'plan') return 'This benchmark needs Pro.';
   return 'Benchmark unavailable.';
 }
 
 function serverStartError(data) {
   if (data?.message) return data.message;
-  if (data?.planRequired) return 'This benchmark is Premium. Upgrade to unlock it.';
-  if (data?.error === 'free_daily_rival_used') return 'Free Daily Benchmark is used for today. Upgrade for more pressure checks.';
+  if (data?.planRequired) return 'This benchmark needs Pro.';
+  if (data?.error === 'free_daily_rival_used') return 'Today’s free benchmark is used. Pro adds more.';
   if (data?.error === 'insufficient_credits') return usesLine({ what: 'This benchmark', cost: data.required || 1, pool: 'ai', balance: data.balance ?? null });
   if (data?.error === 'no_subjects_configured') return 'Add subjects in Profile before starting a benchmark.';
-  if (data?.error === 'no_questions_available') return 'No complete question set is available for this benchmark. Try another subject or a shorter diagnostic mock.';
+  if (data?.error === 'no_questions_available') return 'No complete question set is available for this benchmark. Try another subject or a shorter mock.';
   if (data?.error === 'battle_insert_failed') {
-    return "Couldn't start this benchmark. Try Daily Benchmark or refresh.";
+    return 'Could not start this benchmark. Try the daily benchmark or refresh.';
   }
-  return 'Could not start this benchmark. Try Daily Benchmark or refresh.';
+  return 'Could not start this benchmark. Try the daily benchmark or refresh.';
 }
 
 function formatFreeRival(usage) {

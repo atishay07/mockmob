@@ -17,9 +17,9 @@ function DiffTag({ difficulty }) {
   const style = DIFF_STYLE[difficulty] ?? DIFF_STYLE.medium;
   return (
     <span style={{
-      padding: '2px 8px', borderRadius: '4px', fontSize: '9px',
-      fontFamily: 'var(--font-mono)', fontWeight: 700, letterSpacing: '0.12em',
-      textTransform: 'uppercase', background: style.bg, color: style.color,
+      padding: '2px 8px', borderRadius: '4px', fontSize: '12px',
+      fontWeight: 600,
+      textTransform: 'capitalize', background: style.bg, color: style.color,
     }}>
       {difficulty}
     </span>
@@ -59,7 +59,7 @@ function ModCard({ question, onAction, toast }) {
       setDecision(action);
       window.setTimeout(() => onAction(question.id, action), 500);
     } catch (e) {
-      toast.error(`Failed to ${action} question: ${e.message}`);
+      toast.error(`Could not ${action} the question: ${e.message}`);
       setLoading(false);
       return;
     }
@@ -136,7 +136,7 @@ function ModCard({ question, onAction, toast }) {
             </div>
             <div>{reportMeta.note || 'Reported from answer analysis.'}</div>
             {reportMeta.verdict && (
-              <div className="mt-1 text-xs text-amber-200/70 font-mono uppercase tracking-[0.12em]">
+              <div className="mt-1 text-xs text-amber-200/70">
                 Result verdict: {reportMeta.verdict}
               </div>
             )}
@@ -145,14 +145,14 @@ function ModCard({ question, onAction, toast }) {
 
         <div className="flex flex-wrap gap-4 text-xs text-zinc-500 font-mono">
           {question.author_id && <span>BY: {String(question.author_id).slice(0, 12)}…</span>}
-          {question.createdAt && <span>{new Date(question.createdAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>}
+          {question.createdAt && <span>{new Date(question.createdAt).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit', hour12: true })}</span>}
           {question.verification_state && <span>STATE: {question.verification_state}</span>}
         </div>
       </div>
 
       <div className="border-t border-white/6 p-4 flex flex-wrap items-center justify-end gap-2 bg-white/[0.01]">
         {decision ? (
-          <span className={`text-xs font-mono tracking-[0.15em] uppercase ${decision === 'approve' ? 'text-green-300' : 'text-red-300'}`}>
+          <span className={`text-xs font-semibold ${decision === 'approve' ? 'text-green-300' : 'text-red-300'}`}>
             {decision === 'approve' ? 'Approved' : 'Rejected'}
           </span>
         ) : (
@@ -197,8 +197,8 @@ export default function ModerationPageClient() {
       const data = await apiGet('/api/questions/pending');
       setQueue(Array.isArray(data) ? data : []);
     } catch (e) {
-      setError(e.message ?? 'Failed to load moderation queue');
-      toast.error(e.message ?? 'Failed to load moderation queue');
+      setError(e.message ?? 'Could not load the moderation queue.');
+      toast.error(e.message ?? 'Could not load the moderation queue.');
     } finally {
       setLoading(false);
     }
@@ -215,8 +215,8 @@ export default function ModerationPageClient() {
         setError(null);
       } catch (e) {
         if (!alive) return;
-        setError(e.message ?? 'Failed to load moderation queue');
-        toast.error(e.message ?? 'Failed to load moderation queue');
+        setError(e.message ?? 'Could not load the moderation queue.');
+        toast.error(e.message ?? 'Could not load the moderation queue.');
       } finally {
         if (alive) setLoading(false);
       }
@@ -246,7 +246,7 @@ export default function ModerationPageClient() {
   return (
     <div className="w-full max-w-3xl mx-auto view">
       <div className="mb-6">
-        <div className="eyebrow mb-2">{'Moderator mode'}</div>
+        <div className="eyebrow mb-2">{'Moderator view'}</div>
         <h1 className="display-md">Moderation <span className="text-volt italic">Queue</span></h1>
         <p className="text-sm text-zinc-500 mt-2">Review community submissions, publish the good ones, and keep the bank trustworthy.</p>
       </div>
@@ -271,7 +271,7 @@ export default function ModerationPageClient() {
 
       <div className="flex justify-end mb-4">
         <button onClick={load} disabled={loading} className="btn-outline sm" style={{ borderRadius: '999px' }}>
-          {loading ? 'Refreshing…' : 'Refresh Queue'}
+          {loading ? 'Refreshing…' : 'Refresh queue'}
         </button>
       </div>
 
@@ -287,7 +287,7 @@ export default function ModerationPageClient() {
           eyebrow="Queue clear"
           title="Nothing waiting for review"
           message={`No questions are pending right now.${approved + rejected > 0 ? ` You reviewed ${approved + rejected} this session.` : ''}`}
-          actionLabel="Refresh Queue"
+          actionLabel="Refresh queue"
           onAction={load}
         />
       )}

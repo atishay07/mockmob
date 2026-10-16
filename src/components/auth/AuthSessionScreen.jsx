@@ -9,11 +9,11 @@ export const AUTH_SESSION_QUIET_CLASS = 'auth-session-quiet inline-flex min-h-[4
 
 export function AuthSessionScreen({
   title = 'Securing your session',
-  message = 'Checking your MockMob profile...',
+  message = 'Checking your MockMob profile…',
   error = '',
   actionHref = '/login',
-  actionLabel = 'Back to login',
-  errorTitle = 'Login needs attention',
+  actionLabel = 'Back to sign in',
+  errorTitle = 'Sign-in needs attention',
   onAction = null,
   // A question for the student (for example "Continue to MockMob"): shown instead of the
   // progress bar, and the screen stops announcing itself as busy.

@@ -322,7 +322,7 @@ export default function DashboardPageClient() {
     if (capability.state !== 'available') return { text: 'Unavailable', tone: 'muted' };
     if (isPremium) return { text: 'Included', tone: 'included' };
     if (capability.entitlement === 'access') return { text: 'Needs access', tone: 'locked' };
-    return { text: `${TEST_MODES[id].creditCost} credits`, tone: 'cost' };
+    return { text: `${TEST_MODES[id].creditCost} ${TEST_MODES[id].creditCost === 1 ? 'credit' : 'credits'}`, tone: 'cost' };
   };
   const minutes = (() => {
     const seconds = quoteMatches && quote.durationSec ? quote.durationSec : mode.fixedDurationSec || quoteCount * (mode.durationPerQuestionSec || 60);
@@ -349,7 +349,7 @@ export default function DashboardPageClient() {
     ? !quote.launchable ? (quote.reasonCode === 'access_required' ? 'Needs Pro' : 'Not available')
       : isPremium ? 'Included'
         : quote.creditCost === 0 ? 'Free today'
-          : `${quote.creditCost} credits`
+          : `${quote.creditCost} ${quote.creditCost === 1 ? 'credit' : 'credits'}`
     : modeBadge(effectiveModeId).text;
 
   function launch() {
@@ -359,7 +359,7 @@ export default function DashboardPageClient() {
     setIsLaunching(true);
     launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
     setLaunchSuccess(`Launching ${mode.label}…`);
-    toast.success('Entering the arena…');
+    toast.success('Starting your session…');
     const tonight = new URLSearchParams();
     for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
     router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
@@ -552,7 +552,7 @@ export default function DashboardPageClient() {
               <div><dt>Time</dt><dd>{approximate ? 'About ' : ''}{minutes} min</dd></div>
               <div><dt>Marking</dt><dd>+5 / −1</dd></div>
               <div data-emph="true"><dt>Cost</dt><dd>{costLabel}</dd></div>
-              {!isPremium ? <div data-balance="true"><dt>Your credits</dt><dd>{balance.toLocaleString('en-IN')}</dd></div> : null}
+              {!isPremium ? <div data-balance="true"><dt>Your practice credits</dt><dd>{balance.toLocaleString('en-IN')}</dd></div> : null}
             </dl>
             <p className="pr-summary__reason" role="status" aria-live="polite" tabIndex={-1}>
               {quoteStatus === 'loading' && 'Checking access, credits and questions…'}
@@ -564,7 +564,7 @@ export default function DashboardPageClient() {
             </p>
             <StartRule sheet={startSheet} />
             {quoteStatus === 'ready' && quoteMatches && !quote.launchable && quote.upgradeHref ? (
-              <Link href={quote.upgradeHref} className="btn-outline md pr-summary__cta">{shortfall ? `Need ${shortfall} more credits` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link>
+              <Link href={quote.upgradeHref} className="btn-outline md pr-summary__cta">{shortfall ? `Need ${shortfall} more practice ${shortfall === 1 ? 'credit' : 'credits'}` : quote.reasonCode === 'access_required' ? 'See Pro' : 'See options'}</Link>
             ) : <Button variant="volt" size="md" className="pr-summary__cta" disabled={isLaunching || !quoteLaunchable} onClick={launch}>
               <AppIcon name="practice" size={18} />{startLabel}
             </Button>}
@@ -645,7 +645,7 @@ export default function DashboardPageClient() {
         </section>
 
         <section className="pr-panel" aria-labelledby="pr-bank">
-          <div className="pr-panel__head"><h2 id="pr-bank">Feed the bank</h2></div>
+          <div className="pr-panel__head"><h2 id="pr-bank">Add a question</h2></div>
           <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn practice credits for Quick practice and Full mock.</p>
           <Link href="/upload" className="pr-link pr-link--strong"><AppIcon name="contribute" size={16} />Upload a question</Link>
           {submissions.length > 0 && (

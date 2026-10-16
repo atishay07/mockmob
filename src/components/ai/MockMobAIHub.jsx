@@ -430,7 +430,7 @@ function ToolsSection({ onNavigate }) {
             <p className="text-xs leading-5 text-zinc-400">
               {wallet.state === 'paused'
                 ? 'New top-ups are paused. Purchased credits are preserved and do not expire.'
-                : 'AI credits are separate from Practice credits.'}
+                : 'AI credits are separate from practice credits.'}
               {practice ? ` ${practice.label}: ${practice.balance}.` : ''}
             </p>
           </>
@@ -440,7 +440,7 @@ function ToolsSection({ onNavigate }) {
       <div className="pp-rules">
         <div><b>Free, no credits</b><span>Your marks ledger, top chapters, weekly summary, answers about your marks, the next step, DU eligibility and cutoffs. Pro adds every ranked chapter, pace and changed-answer detail.</span></div>
         <div><b>Costs 1 AI credit</b><span>An optional written reply that goes beyond your record. A reply that fails costs nothing; the credit returns automatically.</span></div>
-        <div><b>Your allowance</b><span>10 AI credits a month on Free, 50 on Pro. Separate from Practice credits.</span></div>
+        <div><b>Your allowance</b><span>10 AI credits a month on Free, 50 on Pro. Separate from practice credits.</span></div>
       </div>
 
       <div className="grid gap-2">

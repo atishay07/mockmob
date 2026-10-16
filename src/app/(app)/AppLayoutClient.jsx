@@ -190,7 +190,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   if (status !== 'authenticated' || (pathname.startsWith('/moderation') && !isModerator)) {
     return (
       <AuthSessionScreen
-        message={status === 'authenticated' ? 'Checking your access...' : 'Loading your session...'}
+        message={status === 'authenticated' ? 'Checking your access…' : 'Loading your session…'}
       />
     );
   }
@@ -409,7 +409,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             <div className="mt-5 flex items-center justify-between gap-3">
               <button
                 type="button"
-                className="inline-flex min-h-11 items-center rounded-full border border-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-zinc-400 transition hover:border-white/20 hover:text-white disabled:opacity-35"
+                className="inline-flex min-h-11 items-center rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-zinc-400 transition hover:border-white/20 hover:text-white disabled:opacity-35"
                 disabled={tourStep === 0}
                 onClick={() => setTourStep((step) => Math.max(0, step - 1))}
               >

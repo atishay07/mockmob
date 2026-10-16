@@ -16,7 +16,7 @@ function loadRazorpayCheckout() {
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
     script.onload = () => resolve(true);
-    script.onerror = () => reject(new Error('Unable to load Razorpay checkout'));
+    script.onerror = () => reject(new Error('Checkout could not load. Try again.'));
     document.body.appendChild(script);
   });
 }
@@ -28,7 +28,7 @@ async function postJson(url, payload) {
     body: JSON.stringify(payload),
   });
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.error || 'Payment request failed');
+  if (!response.ok) throw new Error(data.error || 'Could not start the payment. Try again.');
   return data;
 }
 
@@ -49,7 +49,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
 
       const authData = await authResponse.json().catch(() => ({}));
       const user = authData?.user;
-      if (!user?.id) throw new Error('Login required before buying AI credits');
+      if (!user?.id) throw new Error('Sign in before buying AI credits.');
 
       await loadRazorpayCheckout();
 
@@ -93,7 +93,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
             onSuccess?.(verified);
           } catch (error) {
             setStatus('error');
-            setMessage(error.message || 'Could not verify payment.');
+            setMessage(error.message || 'Could not confirm the payment.');
           }
         },
         modal: {

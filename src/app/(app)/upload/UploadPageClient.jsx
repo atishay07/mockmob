@@ -22,14 +22,14 @@ export default function UploadPageClient() {
 
   // ---------- bulk helpers ----------
   function validateBulk(arr) {
-    if (!Array.isArray(arr)) return { ok: [], errors: ['Root JSON must be an array'] };
+    if (!Array.isArray(arr)) return { ok: [], errors: ['The file must contain a list of questions.'] };
     const okItems = [], errors = [];
     arr.forEach((q, idx) => {
       const e = [];
       if (typeof q.subject !== 'string') e.push('subject missing');
       if (typeof q.chapter !== 'string') e.push('chapter missing');
       if (typeof q.body !== 'string' && typeof q.question !== 'string') e.push('body missing');
-      if (!Array.isArray(q.options) || q.options.length < 2) e.push('options must be array ≥2');
+      if (!Array.isArray(q.options) || q.options.length < 2) e.push('Each question needs a list of at least two options.');
       if (!q.correct_answer && !Number.isInteger(q.correctIndex)) e.push('correct_answer missing');
       if (e.length) errors.push(`Row ${idx}: ${e.join(', ')}`);
       else okItems.push(q);
@@ -41,11 +41,11 @@ export default function UploadPageClient() {
     setBulkError(null); setBulkOk(null); setBulkReport(null);
     let parsed;
     try { parsed = JSON.parse(bulkRaw); }
-    catch { setBulkError('Invalid JSON — check syntax and try again'); return; }
+    catch { setBulkError('That text is not valid JSON. Check it and try again.'); return; }
 
     const { ok: valid, errors } = validateBulk(parsed);
     if (!valid.length) {
-      setBulkError(`Nothing valid to submit (${errors.length} error(s))`);
+      setBulkError(`Nothing valid to submit (${errors.length} ${errors.length === 1 ? 'error' : 'errors'})`);
       setBulkReport({ submitted: 0, errors });
       return;
     }
@@ -72,7 +72,7 @@ export default function UploadPageClient() {
     }
     setSubmitting(false);
     setBulkReport({ submitted, errors: submitErrors });
-    if (submitted > 0) setBulkOk(`${submitted} question(s) sent to moderation.`);
+    if (submitted > 0) setBulkOk(`${submitted} ${submitted === 1 ? 'question' : 'questions'} sent to moderation.`);
   };
 
   return (
@@ -86,7 +86,7 @@ export default function UploadPageClient() {
             style={{ width: 'auto', padding: '0 20px', height: '40px' }}
             onClick={() => setTab(t)}
           >
-            {t === 'single' ? 'Single' : 'Bulk (JSON)'}
+            {t === 'single' ? 'Single' : 'Bulk import'}
           </button>
         ))}
       </div>
@@ -183,7 +183,7 @@ export default function UploadPageClient() {
                 onClick={handleBulkSubmit}
                 disabled={submitting || !bulkRaw.trim()}
               >
-                {submitting ? 'Submitting…' : 'Validate & Submit'}
+                {submitting ? 'Submitting…' : 'Check and submit'}
               </Button>
             </div>
           </div>

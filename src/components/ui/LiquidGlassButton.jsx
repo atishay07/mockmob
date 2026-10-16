@@ -5,7 +5,7 @@ import { cva } from 'class-variance-authority';
 const liquidGlassButtonVariants = cva(
   [
     'group relative isolate inline-flex items-center justify-center gap-2 overflow-hidden rounded-xl border',
-    'font-display font-bold uppercase tracking-[0.08em] transition-all duration-300',
+    'font-display font-bold transition-all duration-300',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-volt/50',
     'disabled:pointer-events-none disabled:opacity-50',
     "before:pointer-events-none before:absolute before:inset-0 before:z-0 before:rounded-[inherit] before:content-['']",

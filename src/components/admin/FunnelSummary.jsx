@@ -58,12 +58,12 @@ export default function FunnelSummary({ summary, enabled, notSetUp, failed }) {
 
         {!enabled ? (
           <p className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-zinc-300">
-            Counting is off. Set FUNNEL_ENABLED to true in the server environment to start counting.
+            Counting is off. Turn the funnel counter on in the server settings to start.
           </p>
         ) : null}
         {notSetUp ? (
           <p className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-zinc-300">
-            The counter table does not exist yet. Apply the funnel_daily migration, then counts appear here.
+            The counter has not been set up yet. Once it is, counts appear here.
           </p>
         ) : null}
         {failed ? (

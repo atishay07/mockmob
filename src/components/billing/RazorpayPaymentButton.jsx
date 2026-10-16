@@ -20,7 +20,7 @@ function loadRazorpayCheckout() {
     script.src = 'https://checkout.razorpay.com/v1/checkout.js';
     script.async = true;
     script.onload = () => resolve(true);
-    script.onerror = () => reject(new Error('Unable to load Razorpay checkout'));
+    script.onerror = () => reject(new Error('Checkout could not load. Try again.'));
     document.body.appendChild(script);
   });
 }
@@ -33,7 +33,7 @@ async function postJson(url, payload) {
   });
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
-    const error = new Error(data.error || 'Payment request failed');
+    const error = new Error(data.error || 'Could not start the payment. Try again.');
     error.code = data.code || null;
     throw error;
   }
@@ -159,7 +159,7 @@ export function RazorpayPaymentButton({
       const authData = await authResponse.json();
       const user = authData?.user;
       if (!user?.id) {
-        throw new Error('Login required before payment');
+        throw new Error('Sign in before paying.');
       }
 
       if (user.isPremium) {
