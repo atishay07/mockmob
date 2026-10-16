@@ -8,7 +8,7 @@ import {
   roadFigures, sessionsUntil, suggestedMockTarget, stripColumns, boardsSpan, snapExamDay, parseRoadInput, roadOut, validOwnDate, cuetYear, mondayOf,
 } from '../../src/lib/today/road.mjs';
 import { buildMove, alternatives, openMistakes, repairMinutes, firstWeekDay, clock } from '../../src/lib/today/move.mjs';
-import { weekMarks, weekCaption, dayList } from '../../src/lib/today/week.mjs';
+import { weekMarks, weekCaption, dayList, weekReceipt } from '../../src/lib/today/week.mjs';
 
 const TODAY = '2026-10-17'; // a Saturday
 const NOW = Date.parse('2026-10-17T15:00:00Z'); // 8:30 PM IST
@@ -275,4 +275,34 @@ test('change length: practice sets its count, a repair takes as many as fit, nev
   assert.equal(fitMove(repair, 10).label, 'mistakes to repair first');
   assert.equal(fitMove(repair, 30).number, 8);
   assert.equal(fitMove(repair, 30).key.minutes, 30);
+});
+
+test('first week path: the first full mock waits for day 5, then is the move; smart practice before it for Pro', () => {
+  const day = (n) => rhythm({ counts: { sessions: 4, repairs: 1 }, milestones: [{ id: 'first_scored_session', achievedAt: new Date(NOW - (n - 1) * 86400000).toISOString() }] });
+  const input = (n) => base({ papers: [paper({ wrong: 0 }), paper({ id: 'p6' }), paper({ id: 'p5' })], rhythm: day(n), facts: facts({ sessions: 4, mocks: 0, timedMocks: 0 }) });
+  assert.equal(buildMove(input(3)).id, 'practice');
+  assert.equal(buildMove({ ...input(3), premium: true }).id, 'smart');
+  assert.equal(buildMove({ ...input(3), premium: true }).overline, 'Day 3 of your first week');
+  const five = buildMove({ ...input(5), premium: true });
+  assert.equal(five.id, 'firstMock');
+  assert.equal(five.overline, 'Day 5 of your first week');
+});
+
+test('weekly receipt: only repairs saved this week, counted, never credited with a gain; absent otherwise', () => {
+  const dayKey = (at) => new Date(Date.parse(at) + 19800000).toISOString().slice(0, 10);
+  const rows = [
+    { attemptId: 'a1', repairedAt: '2026-10-16T10:00:00Z' },
+    { attemptId: 'a1', repairedAt: '2026-10-12T05:00:00Z' },
+    { attemptId: 'a2', repairedAt: '2026-10-17T12:00:00Z' },
+    { attemptId: 'a3', repairedAt: '2026-10-11T12:00:00Z' },
+  ];
+  const r = weekReceipt({ repairs: rows, weekStart: '2026-10-12', dayKey });
+  assert.equal(r.count, 3);
+  assert.equal(r.text, 'Repaired this week: 3 mistakes from 2 papers.');
+  assert.equal(r.strong, 'Each was a 6-mark swing, 18 in all.');
+  assert.doesNotMatch(`${r.text} ${r.strong}`, /gain|improv|because|saved you/i);
+  const one = weekReceipt({ repairs: [rows[0]], weekStart: '2026-10-12', dayKey });
+  assert.equal(`${one.text} ${one.strong}`, 'Repaired this week: 1 mistake. It was a 6-mark swing.');
+  assert.equal(weekReceipt({ repairs: [rows[3]], weekStart: '2026-10-12', dayKey }), null);
+  assert.equal(weekReceipt({ repairs: null, weekStart: '2026-10-12', dayKey }), null);
 });

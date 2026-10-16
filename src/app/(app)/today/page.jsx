@@ -129,7 +129,7 @@ export default function Today() {
             <TodayRows papers={data.papers} userId={userId} subjectName={subjectName} />
           </div>
           <div className="today-grid__side">
-            <TodayWeek rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} onRetry={data.retryWeek} />
+            <TodayWeek rhythm={data.rhythm} goal={data.goal} everSessions={everSessions} mobiFree={!(move?.art === 'mobi') && phase !== 'failed'} mob={mob} repairs={data.repairRows} onRetry={data.retryWeek} />
             <TodayRoad road={data.road} goal={data.goal} rhythm={data.rhythm} facts={data.facts} onGoalSaved={data.retryWeek} />
           </div>
         </div>

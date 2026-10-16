@@ -49,9 +49,12 @@ export function useToday(userId) {
   const road = useRead('/api/me/road', userId);
   const revise = useRead('/api/me/revise', userId, { map: reviseDue });
   const facts = useRead('/api/me/timed-mock', userId, { key: all });
-  const repaired = useRead('/api/me/repair-record?limit=100', userId, { map: repairedMap });
+  // One read: repairs per paper for the move (F17), and the rows with their times for the weekly receipt.
+  const record = useRead('/api/me/repair-record?limit=100', userId, { map: (b) => ({ byAttempt: repairedMap(b), rows: Array.isArray(b?.repairs) ? b.repairs : [] }) });
+  const repaired = { ...record, data: record.data?.byAttempt ?? null };
+  const repairRows = record.status === 'ready' ? record.data.rows : null;
   const retryPlan = useCallback(() => setPlanKey((n) => n + 1), []);
   const retryAll = useCallback(() => setAll((n) => n + 1), []);
   const retryWeek = useCallback(() => setRhythmKey((n) => n + 1), []);
-  return { plan, papers, rhythm, goal, road, revise, facts, repaired, minutes, setMinutes, retryPlan, retryWeek, retryAll };
+  return { plan, papers, rhythm, goal, road, revise, facts, repaired, repairRows, minutes, setMinutes, retryPlan, retryWeek, retryAll };
 }

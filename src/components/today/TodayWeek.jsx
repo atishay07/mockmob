@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import MobiReact from '@/components/brand/MobiReact';
 import { weekCheerKey, weekGoalAct, mobCheerKey, mobRingAct } from '@/lib/mobiScreens';
-import { weekCaption, weekMarks, marksWords, todayKeyIn } from '@/lib/today/week.mjs';
+import { weekCaption, weekMarks, marksWords, todayKeyIn, weekReceipt } from '@/lib/today/week.mjs';
 
 const read = (key) => { try { return window.localStorage.getItem(key) === '1'; } catch { return false; } };
 const remember = (key) => { try { window.localStorage.setItem(key, '1'); } catch { /* it may cheer again on this device */ } };
@@ -27,7 +27,7 @@ function Mark({ m, i }) {
  * `rhythm`, `goal`: the reads ({ status, data }). `everSessions`: saved sessions (0 = day one). `mobiFree`: no other
  * Mobi is on screen (the move card is not showing one). `mob`: the Mob state, for the ring-complete moment.
  */
-export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree = true, mob = null, onRetry }) {
+export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree = true, mob = null, repairs = null, onRetry }) {
   const r = rhythm.data;
   const today = useMemo(() => (r ? todayKeyIn(r.timeZone) : null), [r]);
   const firstDay = useMemo(() => {
@@ -36,6 +36,8 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
   }, [r, today]);
   const marks = useMemo(() => (r ? weekMarks({ rhythm: r, today, weekdays: goal.data?.weekdays || null, firstDay }) : []), [r, today, goal.data, firstDay]);
   const caption = r ? weekCaption({ rhythm: r, marks, today, everSessions, pausedUntil: goal.data?.pausedUntil || null }) : null;
+  // The weekly receipt: only repairs the record holds for this week; absent when there are none (FEATURE-ADOPTION 5).
+  const receipt = useMemo(() => (r ? weekReceipt({ repairs, weekStart: r.weekStart, dayKey: (at) => todayKeyIn(r.timeZone, Date.parse(at)) }) : null), [r, repairs]);
 
   // The cheer: decided once when the week arrives, remembered once it has been shown.
   const [moment, setMoment] = useState(null);
@@ -75,7 +77,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
   const label = `This week, ${r.studyDays} of ${r.daysGoal} study days. ${marksWords(marks)}.`;
   return (
     <section className="tw" aria-labelledby="tw-h">
-      <Link className="tw__link" href="/progress" aria-label={`${label} ${caption.text} ${caption.strong} Open your weeks.`}>
+      <Link className="tw__link" href="/progress" aria-label={`${label} ${caption.text} ${caption.strong}${receipt ? ` ${receipt.text} ${receipt.strong}` : ''} Open your weeks.`}>
         <header className="tw__head">
           <h2 id="tw-h" className="tg__h">This week</h2>
           <p className="tw__fig" aria-hidden="true"><b>{r.studyDays}</b><span className="tw__of">of {r.daysGoal}</span><span className="tw__unit">study days</span></p>
@@ -87,6 +89,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
             {moment?.mob ? <>{moment.mob} </> : null}{caption.text} <b>{caption.strong}</b>
           </p>
         </div>
+        {receipt ? <p className="tw__receipt" aria-hidden="true">{receipt.text} <b>{receipt.strong}</b></p> : null}
       </Link>
     </section>
   );

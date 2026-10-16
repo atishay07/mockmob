@@ -73,6 +73,28 @@ export function weekCaption({ rhythm, marks, today, everSessions = null, pausedU
   return { text: `Tonight is counted.`, strong: `${left} more to meet ${goal}.` };
 }
 
+/**
+ * The weekly receipt (FEATURE-ADOPTION 5): what the student's repairs this week add up to, counted only from saved
+ * repairs (GET /api/me/repair-record rows: { attemptId, repairedAt }). It claims no cause and no marks gained: a
+ * repair is counted, never credited with a result. Null when there is nothing honest to show (no repair this week,
+ * or the record did not load), so the line is simply absent.
+ * `dayKey(iso)` turns a repair time into the rhythm's own day key; `weekStart` is this week's Monday key.
+ */
+export function weekReceipt({ repairs, weekStart, dayKey }) {
+  if (!Array.isArray(repairs) || !weekStart || typeof dayKey !== 'function') return null;
+  const mine = repairs.filter((r) => r?.repairedAt && dayKey(r.repairedAt) >= weekStart);
+  if (!mine.length) return null;
+  const papers = new Set(mine.map((r) => r.attemptId).filter(Boolean)).size;
+  const n = mine.length;
+  return {
+    count: n,
+    papers,
+    text: `Repaired this week: ${n} ${n === 1 ? 'mistake' : 'mistakes'}${papers > 1 ? ` from ${papers} papers` : ''}.`,
+    // Every paper is marked +5 and −1, so a wrong answer is 6 marks away from a right one. Arithmetic, not a gain.
+    strong: n === 1 ? 'It was a 6-mark swing.' : `Each was a 6-mark swing, ${n * 6} in all.`,
+  };
+}
+
 export const todayKeyIn = (timeZone, now = Date.now()) => {
   try {
     const key = new Intl.DateTimeFormat('en-CA', { timeZone, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(now));

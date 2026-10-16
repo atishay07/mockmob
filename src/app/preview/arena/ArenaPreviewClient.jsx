@@ -204,10 +204,13 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       }
       return json(window.__previewRoad);
     }
-    // Repairs per paper (GET /api/me/repair-record). ?repaired=all has every mistake of the newest paper repaired.
+    // Repairs per paper (GET /api/me/repair-record). ?repaired=all has every mistake of the newest paper repaired;
+    // ?repaired=week has three repairs made today on two older papers (Today's weekly receipt).
     if (url.pathname === '/api/me/repair-record' && method === 'GET') {
-      const all = fixture.get('repaired') === 'all';
-      return json({ repairs: all ? [0, 1, 2, 3].map((k) => ({ attemptId: 'fxp5', questionId: `q${k}`, chapter: 'Partnership Fundamentals', subject: 'accountancy', foundAt: null, repairedAt: new Date().toISOString(), checkedState: 'pending', retriedAt: null })) : [] });
+      const kind = fixture.get('repaired');
+      const row = (attemptId, k) => ({ attemptId, questionId: `q${k}`, chapter: 'Partnership Fundamentals', subject: 'accountancy', foundAt: null, repairedAt: new Date().toISOString(), checkedState: 'pending', retriedAt: null });
+      if (kind === 'week') return json({ repairs: [row('fxp4', 0), row('fxp4', 1), row('fxp3', 2)] });
+      return json({ repairs: kind === 'all' ? [0, 1, 2, 3].map((k) => row('fxp5', k)) : [] });
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);

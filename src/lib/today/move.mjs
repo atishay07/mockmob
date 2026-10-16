@@ -11,8 +11,8 @@
 //   6. firstRepair  a paper with open mistakes and no Repair ever: Fix one (first week, day 1)
 //   7. revise       Revise has questions due today: Keep (first week, day 2)
 //   8. repair       the newest paper has open mistakes: Fix them
-//   9. firstMock    3 or more sessions and no timed mock: the first full mock (first week, days 5 to 7)
-//  10. smart        first week, no mock yet, 1 or 2 sessions: smart practice (first week, days 3 and 4)
+//   9. firstMock    no full mock yet: days 5 to 7 of the first week, or 3 or more sessions after it
+//  10. smart        first week before day 5, no mock yet, Pro: smart practice (first week, days 3 and 4)
 //  11. practice     the plan's own practice, aimed at the chapter with the most marks open
 // and `done` replaces 8 to 11 once tonight's planned session is recorded (Find, Fix, Keep never waits on it).
 //
@@ -177,8 +177,11 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   }
   if (open > 0) return repairMove('repair', weekLine || 'Tonight’s move');
 
+  // The first full mock: in the first week it comes on days 5 to 7 (the path: check and Repair, Revise, smart
+  // practice, then the mock); after the first week, once 3 sessions are saved without one.
   const paper = shortestTimedPaper();
-  if (paper && whole(facts?.mocks) && facts.mocks === 0 && sessions >= 3) {
+  const mockDue = firstWeek ? firstWeek >= 5 : sessions >= 3;
+  if (paper && whole(facts?.mocks) && facts.mocks === 0 && mockDue) {
     return {
       id: 'firstMock', overline: weekLine || 'Tonight’s move', number: paper.questions, label: `questions in ${paper.minutes} minutes`,
       why: `Your first full mock, timed like the real paper. It ${FIRST_TIMED_COPY.unlocks}`,
@@ -187,7 +190,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     };
   }
   // Smart practice is a Pro mode; a free account gets the same aim through the practice move below.
-  if (premium && firstWeek && whole(facts?.mocks) && facts.mocks === 0 && sessions < 3) {
+  if (premium && firstWeek && firstWeek < 5 && whole(facts?.mocks) && facts.mocks === 0) {
     const subject = last?.subject || null;
     return {
       id: 'smart', overline: weekLine, number: 15, label: 'questions from your weak chapters',

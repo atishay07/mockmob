@@ -106,6 +106,9 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .tw__mobi .mobi-react { --mobi-size: 52px !important; }
 .app-shell .tw__caption { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
 .app-shell .tw__caption b { color: var(--a-ink); font-weight: 600; }
+/* The weekly receipt: a quiet second line under the caption, a hairline apart; present only when repairs exist. */
+.app-shell .tw__receipt { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid var(--a-line); font-size: 14px; line-height: 1.45; color: var(--a-ink-2); }
+.app-shell .tw__receipt b { color: var(--a-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 .app-shell .tw__fig--wait, .app-shell .tw__caption--wait span { display: inline-block; width: 92px; height: 22px; border-radius: 8px; background: var(--a-raised-2); }
 .app-shell .tw__caption--wait span { width: 70%; height: 14px; }
 
