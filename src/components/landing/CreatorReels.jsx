@@ -63,12 +63,26 @@ function Embed({ item }) {
   // The press that opened it replaced nothing, but the original link is the one control that always works:
   // focus goes there so a keyboard user lands inside the opened row.
   useEffect(() => { openRef.current?.focus({ preventScroll: true }); }, [item.code]);
+  // Instagram answers in a second or two; past 6 s the line offers the original instead of a blank frame.
   useEffect(() => {
-    const timer = window.setTimeout(() => setState((s) => (s === 'loading' ? 'delayed' : s)), 10000);
+    const timer = window.setTimeout(() => setState((s) => (s === 'loading' ? 'delayed' : s)), 6000);
     return () => window.clearTimeout(timer);
   }, [item.code]);
+  // While the open reel is on screen the phone's action bar steps aside (hero-depth.css), so it never covers the
+  // reel or its "Open the original" link. It comes back once the reel is closed or scrolled away.
+  const frameRef = useRef(null);
+  useEffect(() => {
+    const frame = frameRef.current;
+    const root = frame?.closest('.mm.lp');
+    if (!frame || !root || typeof IntersectionObserver === 'undefined') return undefined;
+    const watch = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) root.dataset.reelOpen = 'true'; else delete root.dataset.reelOpen;
+    }, { threshold: 0 });
+    watch.observe(frame);
+    return () => { watch.disconnect(); delete root.dataset.reelOpen; };
+  }, [item.code]);
   return (
-    <div className="rl__frame" data-embed-state={state}>
+    <div className="rl__frame" data-embed-state={state} ref={frameRef}>
       <iframe
         src={embedSrc(item)}
         title={label}
@@ -81,7 +95,7 @@ function Embed({ item }) {
       />
       {state !== 'loaded' ? (
         <p className="rl__status" role="status" aria-live="polite">
-          {state === 'loading' ? 'Loading from Instagram…' : state === 'delayed' ? 'Still loading. You can open it on Instagram instead.' : 'This one didn’t load. Open it on Instagram instead.'}
+          {state === 'loading' ? `Loading the ${item.kind === 'reel' ? 'reel' : 'post'} from Instagram.` : state === 'delayed' ? 'Still loading. You can open it on Instagram instead.' : 'This one didn’t load. Open it on Instagram instead.'}
         </p>
       ) : null}
       <a ref={openRef} href={permalink(item)} target="_blank" rel="noopener noreferrer" className="rl__open">

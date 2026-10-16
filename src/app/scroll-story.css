@@ -79,9 +79,14 @@
   .ss[data-pinned='true'] .ss-fill--y { animation-name: ss-fill-y; }
 }
 
-/* Phones: the bottom action bar steps aside while a story holds the screen; focus brings it back. */
-@media (max-width: 899px) {
-  .mm.lp .mm-dock { transition: opacity 150ms ease, transform 200ms var(--mm-ease-out, ease-out); }
-  .mm.lp:has(.ss[data-live='true']) .mm-dock:not(:focus-within) { opacity: 0; transform: translateY(calc(100% + 2rem)); pointer-events: none; }
+/* Phones (portrait): the landing's action bar stays up through a held story (HeroDockGate), so the stage keeps a
+   dock-high band free at its foot (--lp-dock-room: the bar's measured height on its floor plus 12 px of air,
+   HeroDockGate) and nothing in a scene sits under the bar. */
+@media (max-width: 899px) and (orientation: portrait) {
+  .mm.lp .ss { --ss-bottom: var(--lp-dock-room, calc(5.25rem + env(safe-area-inset-bottom, 0px))); }
+  /* That band is only needed while the story holds the screen: once it lets go, the page after it comes up into
+     the band (it is empty: the stage takes no pointers there), so the gap after a story stays the usual one. */
+  .mm.lp .ss[data-pinned='true'] { --ss-foot-give: calc(var(--ss-bottom) - 0.9rem); margin-bottom: calc(var(--ss-foot-give) * -1); }
+  .mm.lp .ss--centre[data-pinned='true'] { margin-bottom: calc((var(--ss-slack, 0px) + var(--ss-foot-give)) * -1); }
 }
 @media (prefers-reduced-motion: reduce) { .mm.lp .mm-dock { transition: none; } }

@@ -33,7 +33,7 @@ const SCENES = [
   { key: 'changes', tab: 'Changes', title: 'Every answer you changed, on the clock.',
     body: 'Your first pick, what you changed it to and when, and the marks each change won or cost.',
     take: `${S.changes.length} changes. Net ${signed(S.net)} marks.` },
-  { key: 'repair', tab: 'Repair', title: 'Repair the reason, not just the answer.',
+  { key: 'repair', tab: 'Repair', title: 'Repair the reason behind the miss.',
     body: 'Written from the official key. If the AI’s own working disagrees with the key, you get no repair and no charge.',
     bodyPhone: 'Written from the official key, never a guess.',
     take: `Your pick ${REPAIR.picked}, the key ${REPAIR.key}, and the rule that tells them apart.` },

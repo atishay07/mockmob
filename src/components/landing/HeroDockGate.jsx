@@ -6,18 +6,20 @@ import MobiReact from '@/components/brand/MobiReact';
 import { MobileDock } from '@/components/MobileDock';
 import { useVisitor } from './useWayIn';
 
-// The landing's phone action bar waits its turn. On the first screen the hero's own buttons and the demo
-// question already offer "try a question", so the bar stays down until the hero buttons (.lp-cta) have
-// scrolled away, and steps aside again while the demo (#try-practice) holds the screen. While the DU
-// teaser's chips hold the screen, its own live count bar is the action at the bottom, so the dock yields
-// (data-yield='elig') and that bar takes its slot (hero-depth.css). It rises on the app's out curve and
-// leaves on the leave curve (hero-depth.css). Focus inside the bar always shows it. Without
-// IntersectionObserver it simply shows. The state is written straight to data attributes, so scrolling never
+// The landing's phone action bar follows one rule: it rises once the hero is behind the reader (the hero's own
+// buttons, .lp-cta, and the five-question sample, #try-practice, have both scrolled away) and then stays up, through
+// every held story and the DU form, until the close band's actions take over (CloseActions, landing-close.css).
+// The held stories keep a dock-high band free at the foot of their stage for it (scroll-story.css), so it never
+// covers a scene, and the bar's Start free replaces the top bar's for that whole stretch: the primary key sits in
+// one place and does not jump between the top and the bottom as sections pass. It only steps aside for the reader's
+// own actions: the menu open, or a reel playing in place (CreatorReels). A short hold (SETTLE_MS) before it rises
+// keeps a scroll that stops at the hero's edge from flicking it up and down. Focus inside the bar always shows it.
+// Without IntersectionObserver it simply shows. The state is written straight to data attributes, so scrolling never
 // re-renders anything.
 const NAV = 64;
 const DOCK = 96;
 const DEMO_MIN_PX = 96;
-const ELIG_MIN_PX = 120;
+const SETTLE_MS = 160;
 
 export function HeroDockGate({ children }) {
   const gate = useRef(null);
@@ -27,38 +29,63 @@ export function HeroDockGate({ children }) {
     if (!node) return undefined;
     const cta = document.querySelector('.lp-hero .lp-cta');
     const demo = document.getElementById('try-practice');
-    const elig = document.querySelector('#du-eligibility .du-teaser__pick');
     const show = (on) => { node.dataset.shown = on ? 'true' : 'false'; };
     if (typeof IntersectionObserver === 'undefined' || (!cta && !demo)) { show(true); return undefined; }
-    const state = { cta: Boolean(cta), demo: Boolean(demo), elig: false };
+    const state = { cta: Boolean(cta), demo: Boolean(demo) };
+    let rise = 0;
     const update = () => {
-      show(!state.cta && !state.demo && !state.elig);
-      if (state.elig && !state.cta && !state.demo) node.dataset.yield = 'elig';
-      else delete node.dataset.yield;
+      window.clearTimeout(rise);
+      const up = !state.cta && !state.demo;
+      // Down at once (the hero's own keys are back on screen); up after a short settle.
+      if (!up) show(false);
+      else if (node.dataset.shown !== 'true') rise = window.setTimeout(() => show(true), SETTLE_MS);
     };
-    const band = `-${NAV}px 0px -${DOCK}px 0px`;
     const ctaWatch = new IntersectionObserver((entries) => {
       state.cta = entries[entries.length - 1].isIntersecting;
       update();
-    }, { rootMargin: band, threshold: 0 });
+    }, { rootMargin: `-${NAV}px 0px -${DOCK}px 0px`, threshold: 0 });
     // The demo counts as on screen while a real part of it shows (it reaches DEMO_MIN_PX into the band between
     // the nav and the bar), not a sliver at an edge.
     const demoWatch = new IntersectionObserver((entries) => {
       state.demo = entries[entries.length - 1].isIntersecting;
       update();
     }, { rootMargin: `-${NAV + DEMO_MIN_PX}px 0px -${DOCK + DEMO_MIN_PX}px 0px`, threshold: 0 });
-    // The teaser's chips (the box its live bar sticks in) count once a real part of them is above the dock.
-    const eligWatch = new IntersectionObserver((entries) => {
-      state.elig = entries[entries.length - 1].isIntersecting;
-      update();
-    }, { rootMargin: `-${NAV}px 0px -${DOCK + ELIG_MIN_PX}px 0px`, threshold: 0 });
     if (cta) ctaWatch.observe(cta);
     if (demo) demoWatch.observe(demo);
-    if (elig) eligWatch.observe(elig);
-    return () => { ctaWatch.disconnect(); demoWatch.disconnect(); eligWatch.disconnect(); delete node.dataset.yield; };
+    return () => { window.clearTimeout(rise); ctaWatch.disconnect(); demoWatch.disconnect(); };
   }, []);
 
   return <div ref={gate} className="lp-dockgate" data-shown="false">{children}</div>;
+}
+
+/**
+ * The top bar's Start free steps back to the quiet key while an in-page volt key holds the screen: the hero's own
+ * keys, the sample's own next step once a subject is picked (#try-practice[data-drill]), the pricing plans, and the
+ * close band. One
+ * volt key on screen at a time; the top bar's key is the fallback, not a second voice. Written to
+ * data-volt-held on the landing root, so scrolling never re-renders anything.
+ */
+function useNavKeyYields() {
+  useEffect(() => {
+    const root = document.querySelector('.mm.lp');
+    if (!root || typeof IntersectionObserver === 'undefined') return undefined;
+    const holders = [document.querySelector('.lp-hero .lp-cta'), document.getElementById('try-practice'), document.querySelector('.lp-plans'), document.querySelector('.lp-close__act')].filter(Boolean);
+    const seen = new Set();
+    const write = () => {
+      const held = [...seen].some((el) => el.id !== 'try-practice' || el.dataset.drill);
+      if (held) root.dataset.voltHeld = 'true'; else delete root.dataset.voltHeld;
+    };
+    const watch = new IntersectionObserver((entries) => {
+      for (const entry of entries) { if (entry.isIntersecting) seen.add(entry.target); else seen.delete(entry.target); }
+      write();
+    }, { rootMargin: `-${NAV}px 0px 0px 0px`, threshold: 0 });
+    holders.forEach((el) => watch.observe(el));
+    // The sample starts or ends while on screen: its data-drill changes without any scroll.
+    const drill = holders.find((el) => el.id === 'try-practice');
+    const flip = drill ? new MutationObserver(write) : null;
+    if (drill) flip.observe(drill, { attributes: true, attributeFilter: ['data-drill'] });
+    return () => { watch.disconnect(); flip?.disconnect(); delete root.dataset.voltHeld; };
+  }, []);
 }
 
 // What Mobi does in the dock as each section takes the screen: a once act, or a held one with how long he holds
@@ -111,7 +138,7 @@ export function DockMobi({ label, state, children }) {
     if (!root || !gate || typeof IntersectionObserver === 'undefined') return undefined;
     const narrow = matchMedia('(max-width: 899px)');
     const s = { visible: false, greeted: false, away: false, section: '' };
-    const docked = () => gate.dataset.shown === 'true' && !root.querySelector('.ss[data-live="true"]');
+    const docked = () => gate.dataset.shown === 'true';
     const arrive = () => {
       if (!narrow.matches) return;
       if (!s.greeted) { s.greeted = true; play('hello', 0, true); } else play('appear', 0, true);
@@ -121,9 +148,9 @@ export function DockMobi({ label, state, children }) {
       if (visible && !s.visible && !s.away) arrive();
       s.visible = visible;
     };
-    // The dock rises and falls by data-shown (HeroDockGate) and by a held story going live (data-live).
+    // The dock rises and falls by data-shown (HeroDockGate).
     const watch = new MutationObserver(sync);
-    watch.observe(root, { subtree: true, attributes: true, attributeFilter: ['data-shown', 'data-live'] });
+    watch.observe(gate, { attributes: true, attributeFilter: ['data-shown'] });
 
     // The section across the middle of the window is the one on screen.
     const sections = [...root.querySelectorAll('main > section')];
@@ -189,8 +216,30 @@ export function DockMobi({ label, state, children }) {
  *   signed in        "Welcome back"       [Go to practice]
  * The sample's state arrives live (useSampleState.js), so the dock changes without a reload.
  */
+/**
+ * The band the held stories keep free for the dock (scroll-story.css) is the dock's own height on its floor plus
+ * 12 px of air, measured, so a dock with a label line ("Save your answers") gets the room it needs too.
+ */
+function useDockRoom() {
+  useEffect(() => {
+    const root = document.querySelector('.mm.lp');
+    const dock = document.querySelector('.lp-dockgate .mm-dock');
+    if (!root || !dock || typeof ResizeObserver === 'undefined') return undefined;
+    const write = () => {
+      const floor = parseFloat(getComputedStyle(dock).bottom) || 0;
+      if (dock.offsetHeight > 0) root.style.setProperty('--lp-dock-room', `${Math.ceil(dock.offsetHeight + floor + 12)}px`);
+    };
+    const watch = new ResizeObserver(write);
+    watch.observe(dock);
+    write();
+    return () => { watch.disconnect(); root.style.removeProperty('--lp-dock-room'); };
+  }, []);
+}
+
 export function LandingDock() {
   const { kind, signupHref, homeHref, homeText } = useVisitor();
+  useNavKeyYields();
+  useDockRoom();
   // A label only where it carries state: a returning member, or a visitor with answers worth saving.
   const label = kind === 'member' ? 'Welcome back' : kind === 'sampled' ? 'Save your answers' : '';
   return (

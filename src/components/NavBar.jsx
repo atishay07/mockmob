@@ -181,18 +181,15 @@ export function NavBar() {
           {LINKS.map((link) => (
             <Link key={link.href} href={link.href} onClick={closeMenu}>
               {link.label}
-              <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
             </Link>
           ))}
           <Link href="/about" onClick={closeMenu}>
             About
-            <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
           </Link>
           {isAuthenticated ? (
             <>
               <Link href="/profile" onClick={closeMenu}>
                 Profile
-                <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
               </Link>
               <button
                 type="button"
@@ -210,7 +207,6 @@ export function NavBar() {
             <>
               <Link href="/login" onClick={closeMenu}>
                 Log in
-                <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />
               </Link>
               <Link href={signupHref} onClick={closeMenu} className="mm-btn mm-btn--primary mm-nav__sheet-key">
                 Start free

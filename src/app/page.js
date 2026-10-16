@@ -106,7 +106,7 @@ const TOUR = [
   { id: 'arena', label: 'Practice', line: 'Drills and full mocks on the exam clock', title: 'Practise the way the exam runs.',
     body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
     points: ['Quick drills and full mocks', 'NTA-style screen and Smart Practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
-  { id: 'repair', label: 'Mistake Repair', line: 'Fix why you got it wrong, not just the answer', title: 'Fix why you missed it, not just the answer.',
+  { id: 'repair', label: 'Mistake Repair', line: 'Fix why you got it wrong', title: 'Fix why you missed it.',
     body: 'After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the official key.',
     points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'Then a 10-minute next step and 5 fresh questions to test the fix.', href: '/signup', cta: 'Try Mistake Repair',
     elsewhere: { href: '#inside-the-lab', step: 2, above: true } },
@@ -119,7 +119,7 @@ const TOUR = [
   { id: 'radar', label: 'Weak chapters', line: 'The chapter to fix first', title: 'Know which chapter to fix first.',
     body: 'A score is just a number. MockMob traces every miss back to its chapter, so tonight’s session has a target. Pro adds pace and changed-answer detail for every chapter.',
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Your weakest chapters, free after every mock.', href: '/analytics', cta: 'See your weak chapters' },
-  { id: 'prepos', label: 'Ask MockMob', line: 'Ask what to do tonight', title: 'Ask what to do tonight. Get one clear step.',
+  { id: 'prepos', label: 'Ask MockMob', line: 'Ask what to do tonight', title: 'Ask MockMob what to do tonight.',
     body: 'Ask MockMob reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in your weak chapters.',
     points: ['Questions about your own record are free', 'AI credits each month: 10 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'Questions about your own record are free.', href: '/mentor', cta: 'Ask about your record' },
   { id: 'compass', label: 'DU Compass', line: 'Your shortlist against real DU cutoffs', title: 'Test your DU shortlist against real cutoffs.',
@@ -204,7 +204,7 @@ export default function LandingPage() {
               73 DU programmes belong to the DU section, so neither is repeated here. */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="What MockMob gives you">
-              <a href="#exam-experience"><b>Two exam screens</b>: MockMob, and NTA style with Pro.</a>
+              <a href="#exam-experience"><b>Two exam screens</b>: MockMob’s own, plus the NTA-style one with Pro.</a>
               <a href="#your-prep"><b>One full CUET mock</b>: 50 questions in 60 minutes.</a>
             </nav>
           </div>
@@ -361,8 +361,8 @@ export default function LandingPage() {
         <section className="lp-sec" id="pricing">
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
-              <h2 className="lp-h2">Start free. Go Pro when you want more room.</h2>
-              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `Free keeps practice and your progress open. Pro is one payment of ₹${OFFER.oneTime.rupees}, not a subscription.`}</p>
+              <h2 className="lp-h2">{OFFER.purchasable === 'monthly' ? `Free to practise, ₹${OFFER.monthly.rupees} a month for Pro.` : `Free to practise, ₹${OFFER.oneTime.rupees} once for Pro.`}</h2>
+              <p className="lp-sub">{OFFER.purchasable === 'monthly' ? 'Free keeps practice and your progress open. Cancel Pro any month and keep what you paid for.' : 'Free keeps practice and your progress open. Pro is one payment, not a subscription.'}</p>
             </div>
             {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. Start free
                 keeps the volt key it has everywhere else on the page; See Pro is the secondary key. */}
@@ -427,7 +427,7 @@ export default function LandingPage() {
       </main>
       <MarketingFooter />
       <PipGuide />
-      {/* The phone bar waits until the hero's buttons have gone, steps aside while the demo, the DU teaser or the close band's actions hold the screen, and carries Mobi. Its keys follow the visitor: new, answered some, signed in. */}
+      {/* The phone bar rises once the hero's buttons and the sample have gone, stays up to the close band, and carries Mobi. Its keys follow the visitor: new, answered some, signed in. */}
       <noscript><style>{'.lp-dockgate .mm-dock{opacity:1!important;transform:none!important;pointer-events:auto!important}'}</style></noscript>
       <LandingDock />
     </div>

@@ -240,10 +240,11 @@ function TourStage({ slides, elsewhere = [], step, pinned, reduced, goTo: storyG
           {/* Plain text controls: the demos' stop control (autoplay over 5 s needs one), then the way back and on. */}
           <div className="ft__controls">
             <button type="button" className="ft__play" aria-label={reduced ? 'Autoplay is off' : paused ? 'Play the demos' : 'Pause the demos'} disabled={reduced} onClick={() => { setPlaying(paused); setKeyboardHold(false); }}>{playLabel}</button>
-            <Elsewhere links={elsewhere} className="ft__more--bar" />
             <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature">Previous</button>
             <button type="button" className="ft__next" onClick={event => goTo(active + 1, { keyboard: event.detail === 0 })} aria-label={'Next feature: ' + next?.label}>Next: <b>{next?.label}</b></button>
           </div>
+          {/* Desktop: the tools shown elsewhere on the page, as their own sentence under the controls. */}
+          <Elsewhere links={elsewhere} className="ft__more--bar" />
         </div>
       </div>
     </div>

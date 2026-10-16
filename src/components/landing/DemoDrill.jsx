@@ -64,6 +64,15 @@ export function DemoDrill() {
   const answered = picked !== null;
   const playing = Boolean(subject && question);
 
+  // Once a subject is picked the card holds the hero's next step: the stage says so (data-drill: playing or done),
+  // and the hero's own Start free and the top bar's key step back to quiet keys (hero-depth.css, HeroDockGate).
+  useEffect(() => {
+    const stage = rootRef.current?.closest('.lp-stage');
+    if (!stage) return undefined;
+    if (playing) stage.dataset.drill = done ? 'done' : 'playing'; else delete stage.dataset.drill;
+    return undefined;
+  }, [playing, done]);
+
   // Fetch the questions while the visitor reads the hero, so a pick starts at once.
   useEffect(() => {
     const idle = window.requestIdleCallback

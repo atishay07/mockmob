@@ -84,16 +84,17 @@
     .lp-statement__w {
       animation: lp-word linear both;
       animation-timeline: --lp-statement;
-      /* Each word lights in its own slice of the section's pass through the viewport. */
-      animation-range-start: cover calc(18% + var(--p) * 34%);
-      animation-range-end: cover calc(24% + var(--p) * 34%);
+      /* Each word lights in its own slice of the section's way in: the last word is lit by the time the sentence
+         reaches the middle of the window, so a reader who stops with it on screen reads it lit. */
+      animation-range-start: cover calc(6% + var(--p) * 26%);
+      animation-range-end: cover calc(11% + var(--p) * 26%);
     }
   }
 }
-/* The unlit words stay readable (at least 3:1 against the page in both themes), so a reader who stops mid-scroll
-   still reads the whole sentence; the scrub lights them the rest of the way. */
-.lp-statement { --lp-word-dim: 0.42; }
-[data-theme='light'] .lp-statement { --lp-word-dim: 0.52; }
+/* The unlit words stay readable at AA (4.5:1 against the page in both themes: 5.3:1 at Night, 5.0:1 at Day), so a
+   reader who stops mid-scroll still reads the whole sentence; the scrub lights them the rest of the way. */
+.lp-statement { --lp-word-dim: 0.52; }
+[data-theme='light'] .lp-statement { --lp-word-dim: 0.65; }
 @keyframes lp-word { from { opacity: var(--lp-word-dim, 0.42); } to { opacity: 1; } }
 
 /* ---------- 4. Phones: the statement holds the screen while it plays ----------
@@ -174,16 +175,17 @@
    The headline's lines never strand one word. */
 .lp-title__line { text-wrap: balance; }
 
-/* ---------- 6. The phone action bar waits its turn (HeroDockGate) ----------
-   On the first screen the hero's buttons and the demo already offer the question, so the bar stays down until
-   the buttons have scrolled away and steps aside while the demo holds the screen. It rises on the app's out
-   curve and leaves on the leave curve; focus inside it always brings it back. Reduced motion just swaps. */
+/* ---------- 6. The phone action bar: one rule (HeroDockGate) ----------
+   Down while the hero's buttons or the sample hold the screen; up from there to the close band, through the held
+   stories (they keep a dock-high band free at their foot, scroll-story.css) and the DU form. It steps aside only for
+   the reader's own actions: the menu open, or a reel playing in place (data-reel-open, CreatorReels). It rises on
+   the app's out curve and leaves on the leave curve; focus inside it always brings it back. Reduced motion swaps. */
 @media (max-width: 899px) {
   html[data-theme] .mm.lp .lp-dockgate .mm-dock {
     transition: opacity var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), transform var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   }
   html[data-theme] .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
-  html[data-theme] .mm.lp:has(.ss[data-live='true']) .lp-dockgate .mm-dock:not(:focus-within),
+  html[data-theme] .mm.lp[data-reel-open='true'] .lp-dockgate .mm-dock:not(:focus-within),
   html[data-theme] .mm.lp:has(#mm-nav-sheet) .lp-dockgate .mm-dock:not(:focus-within) {
     opacity: 0;
     transform: translateY(calc(100% + 2rem));
@@ -192,11 +194,16 @@
     transition-timing-function: var(--mm-ease-leave, cubic-bezier(0.5, 0, 0.75, 0));
   }
 }
-/* One Start free on screen: while the dock is up (shown, no held story live, no menu, not yet at the close),
-   the bar's own key steps out in 150ms and the menu button stays; it comes back (its 380ms rise) when the dock
-   leaves. The two keys never show together. */
+/* Landscape phones have no height to spare under a held story: there the bar steps aside while one is live. */
+@media (max-width: 899px) and (orientation: landscape) and (max-height: 520px) {
+  html[data-theme] .mm.lp:has(.ss[data-live='true']) .lp-dockgate .mm-dock:not(:focus-within) { opacity: 0; transform: translateY(calc(100% + 2rem)); pointer-events: none; }
+}
+/* One Start free on screen: while the dock is up (shown, no menu, not yet at the close), the top bar's own key
+   steps out in 150ms and the menu button stays; it comes back (its 380ms rise) when the dock leaves. The two keys
+   never show together, and since the dock stays up from the hero to the close, the key changes place twice on the
+   whole page: down to the dock after the hero, back up at the close. */
 @media (max-width: 899px) {
-  html[data-theme] .mm.lp:has(.lp-dockgate[data-shown='true']):not(:has(.ss[data-live='true'])):not(:has(#mm-nav-sheet)):not([data-close-in='true']) .mm-nav[data-start='in'] .mm-nav__cta {
+  html[data-theme] .mm.lp:has(.lp-dockgate[data-shown='true']):not([data-reel-open='true']):not(:has(#mm-nav-sheet)):not([data-close-in='true']) .mm-nav[data-start='in'] .mm-nav__cta {
     animation: none;
     opacity: 0;
     visibility: hidden;
@@ -204,19 +211,41 @@
     transition: opacity 150ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), visibility 0s linear 150ms;
   }
 }
+@media (max-width: 899px) and (orientation: landscape) and (max-height: 520px) {
+  html[data-theme] .mm.lp:has(.ss[data-live='true']) .mm-nav[data-start='in'] .mm-nav__cta { opacity: 1; visibility: visible; pointer-events: auto; }
+}
+/* The top bar's key goes quiet while an in-page volt key holds the screen (data-volt-held, HeroDockGate): the
+   sample's own next step, the pricing plans or the close. It keeps its place and its label; only the volt goes. */
+html[data-theme] .mm.lp[data-volt-held='true'] .mm-nav .mm-nav__cta {
+  background: var(--paper-raised);
+  color: var(--ink);
+  box-shadow: 0 var(--btn-edge) 0 var(--line-strong), var(--sh-1);
+  transition: background-color 200ms var(--mm-ease-out, ease-out), color 200ms var(--mm-ease-out, ease-out), box-shadow 200ms var(--mm-ease-out, ease-out);
+}
+/* Phones: the pricing plans' own Start free holds the screen, so the dock's key goes quiet the same way. */
+@media (max-width: 899px) {
+  html[data-theme] .mm.lp[data-volt-held='true'] .lp-dockgate .mm-dock .mm-btn--primary {
+    background: var(--paper-raised);
+    color: var(--ink);
+    box-shadow: 0 var(--btn-edge) 0 var(--line-strong), var(--sh-1);
+    transition: background-color 200ms var(--mm-ease-out, ease-out), color 200ms var(--mm-ease-out, ease-out), box-shadow 200ms var(--mm-ease-out, ease-out);
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  html[data-theme] .mm.lp[data-volt-held='true'] .mm-nav .mm-nav__cta:hover { background: var(--surface-hover); box-shadow: 0 var(--btn-edge) 0 var(--line-strong), var(--sh-2); }
+}
+/* Once a subject is picked, the sample card carries the hero's next step, so the hero's own Start free steps back
+   to the secondary key beside "Back to your questions" / "Another subject". The result card keeps the one volt
+   Start free. */
+html[data-theme] .mm.lp:has(#try-practice[data-drill]) .lp-hero .lp-keys .lp-key--go {
+  background: var(--paper-raised);
+  color: var(--ink);
+  box-shadow: 0 var(--btn-edge) 0 rgb(var(--tint) / 0.22), var(--sh-1);
+}
 @media (prefers-reduced-motion: reduce) {
   html[data-theme] .mm.lp .lp-dockgate .mm-dock { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
 }
 html[data-motion='reduced'] .mm.lp .lp-dockgate .mm-dock { transition: opacity var(--mm-dur-reduced-fade, 120ms) linear; }
-
-/* ---------- 7. The eligibility bar takes the dock's slot ----------
-   While the DU teaser's chips hold the screen, its live count bar (sticky, du.css) is the one action at the
-   bottom: HeroDockGate lowers the dock (data-yield='elig') and the bar settles into the dock's place, on the
-   same safe-area floor, so one bar shows, never two stacked over the second row of chips. */
-@media (max-width: 899px) {
-  .mm.lp .du-teaser .du-live { transition: bottom var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)); }
-  .mm.lp:has(.lp-dockgate[data-yield='elig']) .du-teaser .du-live { bottom: calc(0.55rem + env(safe-area-inset-bottom, 0px)); }
-}
 
 /* ---------- 8. Mobi rides in the phone dock (DockMobi, HeroDockGate.jsx) ----------
    He stands in the dock's left slot, his antenna just over the glass, and answers the page: he hops in when the

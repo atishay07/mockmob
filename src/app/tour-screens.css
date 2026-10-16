@@ -123,8 +123,18 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 .ts__bubble--ai .ts__ai-head b { color: var(--ts-ink); font-size: .8125rem; }
 .ts__bubble--ai .ts__ai-head small { font-size: .75rem; }
 .ts__bubble--ai .ts__replies { display: flex; flex-wrap: wrap; gap: .35rem; margin: .6rem 0 0; }
-.ts__replies span { display: inline-flex; align-items: center; gap: .3rem; padding: .3rem .65rem; border-radius: 99px; border: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink); }
-.ts__replies span[data-main='true'] { border-color: var(--ts-volt); border-width: 1.5px; color: var(--ts-ink); }
+/* The suggested replies are drawn as part of the picture: plain words at weight 600, no pill or outline, so they
+   never read as keys a visitor could press. */
+.ts__bubble--ai .ts__replies { gap: .9rem; }
+.ts__replies span { display: inline-flex; align-items: center; font: 600 .75rem var(--font-body); color: var(--ts-ink2); cursor: default; }
+.ts__replies span[data-main='true'] { color: var(--ts-ink); }
+/* The Practice options are a real link to the live sample (TourScreens.jsx): the whole list, with a hover lift on
+   the options and the page's focus ring. */
+.ts__live { display: block; color: inherit; text-decoration: none; border-radius: 12px; }
+.ts__live:focus-visible { outline: 2px solid var(--focus-ring, var(--ts-volt)); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .ts__live:hover .ts__opts li:not([data-picked='true']) { border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.06); }
+}
 
 /* 6. Compass */
 .ts__compass { list-style: none; margin: 0; padding: 0; display: grid; gap: .7rem; }

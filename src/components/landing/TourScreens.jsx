@@ -80,15 +80,19 @@ export function PracticeScreen({ play }) {
     <Frame title="Accountancy full mock" step={step} right={<span className="ts__timer">{clock}</span>}>
       <p className="ts__meta">Question 22 of 50</p>
       <p className="ts__q">A partner’s capital account shows a debit balance. Where does it go in the balance sheet?</p>
-      <ul className="ts__opts">
-        {PRACTICE_OPTS.map((text, i) => (
-          <li key={text} data-in={on(step > i)} data-picked={on(i === 1 && step >= 5)}>
-            <b>{'ABCD'[i]}</b><span>{text}</span>
-            {i === 1 ? <span className="ts__tap" data-on={on(step === 5)} aria-hidden="true" /> : null}
-            {i === 1 && step >= 5 ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
-          </li>
-        ))}
-      </ul>
+      {/* The options look pressable, so a press does something real: it takes the reader to the live sample at the
+          top of the page (DemoJump), where the same kind of question is answered for real. */}
+      <a href="#try-practice" className="ts__live" aria-label="Answer a real question like this in the five-question sample">
+        <ul className="ts__opts">
+          {PRACTICE_OPTS.map((text, i) => (
+            <li key={text} data-in={on(step > i)} data-picked={on(i === 1 && step >= 5)}>
+              <b>{'ABCD'[i]}</b><span>{text}</span>
+              {i === 1 ? <span className="ts__tap" data-on={on(step === 5)} aria-hidden="true" /> : null}
+              {i === 1 && step >= 5 ? <Check size={15} className="ts__tick" aria-hidden="true" /> : null}
+            </li>
+          ))}
+        </ul>
+      </a>
       <div className="ts__progress" aria-hidden="true"><i style={{ '--p': step >= 6 ? '44%' : '42%' }} /></div>
       <p className="ts__meta ts__meta--row"><span>{step >= 6 ? 22 : 21} of 50 answered</span><span data-on={on(step >= 6)} className="ts__saved">Saved</span></p>
     </Frame>

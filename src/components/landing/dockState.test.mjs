@@ -52,3 +52,20 @@ test('the dock keeps its three states and never falls back to a small linked lin
   // The sample's own key is offered only to a visitor who has not tried it.
   assert.match(dock, /kind === 'new' \? <a href="#try-practice"/);
 });
+
+test('one dock rule: up from the hero to the close, never retired by a held story in portrait', () => {
+  const gate = readFileSync(new URL('./HeroDockGate.jsx', import.meta.url), 'utf8');
+  const depth = readFileSync(new URL('../../app/hero-depth.css', import.meta.url), 'utf8');
+  const story = readFileSync(new URL('../../app/scroll-story.css', import.meta.url), 'utf8');
+  // The gate watches only the hero's keys and the sample; the DU form no longer lowers it.
+  assert.ok(!gate.includes('du-teaser__pick'));
+  assert.ok(!gate.includes("ss[data-live"));
+  // A live held story lowers the dock only in landscape, where there is no height to spare.
+  const portraitHide = depth.split('\n').filter((line) => line.includes(":has(.ss[data-live='true'])") && line.includes('.mm-dock'));
+  assert.ok(portraitHide.length === 1);
+  assert.ok(depth.includes('(orientation: landscape) and (max-height: 520px)'));
+  // Held stories keep the dock's band free at their foot on phones.
+  assert.match(story, /\.mm\.lp \.ss \{ --ss-bottom: var\(--lp-dock-room/);
+  // An in-page volt key quiets the top bar's key.
+  assert.ok(depth.includes("[data-volt-held='true'] .mm-nav .mm-nav__cta"));
+});
