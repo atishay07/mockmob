@@ -30,7 +30,7 @@ export default function AppErrorsSummary({ summary, days, enabled, notSetUp, fai
         ) : null}
         {notSetUp ? (
           <p className="rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm text-zinc-300">
-            Not set up yet. Apply the app_errors migration, then errors appear here.
+            Not set up yet. Once it is, errors appear here.
           </p>
         ) : null}
         {failed ? (

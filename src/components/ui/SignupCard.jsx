@@ -173,7 +173,7 @@ export function SignupCard({ mode = 'signup' }) {
         </label>
         {otpSent && (
           <label className="auth-field auth-field--code">
-            <span>Login code</span>
+            <span>Sign-in code</span>
             <input
               ref={codeInputRef}
               className="input"
@@ -190,7 +190,7 @@ export function SignupCard({ mode = 'signup' }) {
           </label>
         )}
         <button type="submit" className="mm-btn mm-btn--primary" disabled={submitDisabled}>
-          {emailLoading ? (otpSent ? 'Checking the code…' : 'Sending…') : otpSent ? 'Verify code and continue' : 'Email me a login code'}
+          {emailLoading ? (otpSent ? 'Checking the code…' : 'Sending…') : otpSent ? 'Verify code and continue' : 'Email me a sign-in code'}
         </button>
         {/* The only primary action says why it is waiting, instead of sitting dim with no reason. */}
         {!emailLoading && !otpSent && !email.trim() ? <small className="auth-card__why">Enter your email to continue.</small> : null}

@@ -90,7 +90,7 @@ export function UploadForm() {
 
   return <div className="con-page student-page student-page--upload">
     <ArenaHead eyebrow="Contribute" title="A good question helps the next person." lede="Write an original question with a clear answer and reasoning. It stays out of practice until its checks pass." />
-    <p className="con-note">No credit reward is promised for a submission. <Link href="/my-uploads">Track your uploads ↗</Link></p>
+    <p className="con-note">No credit reward is promised for a submission. <Link href="/my-uploads">Track your uploads</Link></p>
     {catalogState === 'error' && <ErrorState message="Subjects did not load. Your draft is still here." onRetry={() => setRetry((count) => count + 1)} />}
     <form ref={formNode} onSubmit={submit} className="con-form" noValidate>
       <div className="con-pair">

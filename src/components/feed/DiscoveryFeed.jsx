@@ -129,7 +129,7 @@ export function DiscoveryFeed() {
         </div>
         <aside className="ex-aside" aria-label="Make practice count">
           <span className="mono-label">Tonight’s rule</span><h2>Answer first.<br />Then ask why.</h2><p>A wrong answer with a clear reason is worth coming back to. Keep those questions close.</p>
-          <Link href="/saved" className="ex-route">Open saved questions <span aria-hidden="true">↗</span></Link><Link href="/review" className="ex-route">Review your timed sessions <span aria-hidden="true">↗</span></Link>
+          <Link href="/saved" className="ex-route">Open saved questions</Link><Link href="/review" className="ex-route">Review your timed sessions</Link>
           {Number.isFinite(solved) && <p className="ex-record"><b>{solved}</b> questions solved in your recorded untimed practice. <Link href="/progress">See progress</Link></p>}
           <p className="ex-footnote">Community votes help organise the feed. They do not certify an answer.</p>
         </aside>

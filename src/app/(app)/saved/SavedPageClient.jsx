@@ -129,7 +129,7 @@ export default function SavedPageClient() {
     try {
       const res = await fetch('/api/bookmarks', { cache: 'no-store' });
       const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || 'Failed to load saved questions');
+      if (!res.ok) throw new Error(data.error || 'Could not load your saved questions.');
       const list = Array.isArray(data.questions) ? data.questions : [];
       setQuestions(list);
       setCount(Number.isFinite(data.count) ? data.count : list.length);

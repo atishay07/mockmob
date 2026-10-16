@@ -357,7 +357,7 @@ export default function DashboardPageClient() {
     setIsLaunching(true);
     launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
     setLaunchSuccess(`Launching ${mode.label}…`);
-    toast.success('Entering the arena…');
+    toast.success('Starting your session…');
     const tonight = new URLSearchParams();
     for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
     router.push(`${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`);
@@ -640,7 +640,7 @@ export default function DashboardPageClient() {
         </section>
 
         <section className="pr-panel" aria-labelledby="pr-bank">
-          <div className="pr-panel__head"><h2 id="pr-bank">Feed the bank</h2></div>
+          <div className="pr-panel__head"><h2 id="pr-bank">Add a question</h2></div>
           <p className="pr-panel__lead">Upload a question. If it passes moderation, you earn practice credits for Quick practice and Full mock.</p>
           <Link href="/upload" className="pr-link pr-link--strong"><AppIcon name="contribute" size={16} />Upload a question</Link>
           {submissions.length > 0 && (
