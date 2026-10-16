@@ -21,7 +21,7 @@ import { verifyAnswerIntegrity } from './answer_integrity.js';
 import { isPassageLinkedQuestion } from './nta_question_selector.js';
 import { contentTokens, jaccard, ntaKeyDispute, ntaQuarantine, NEAR_DUPLICATE_STEM_JACCARD } from './nta_item_checks.js';
 import { plainOptionTexts } from './option_text.js';
-import { optionHash } from './cohort_picks.js';
+import { optionHash, optionKeyText } from './cohort_picks.js';
 
 export const CHECK_VERSION = 1;
 /** One question, four options (answer integrity requires four). */
@@ -42,6 +42,8 @@ export const CHECK_REASONS = Object.freeze({
   invalid_pick: 'Pick one of the four options.',
 });
 export const checkReasonMessage = (code) => CHECK_REASONS[code] || CHECK_REASONS.check_unavailable;
+/** Sent with `invalid_pick` when the question id is not the one offered for this repair (the pick itself may be fine). */
+export const NOT_OFFERED_MESSAGE = 'That is not the question that was offered for this repair. Open the check again.';
 
 const text = (value) => (value == null ? '' : String(value).replace(/\s+/g, ' ').trim());
 const lower = (value) => text(value).toLowerCase();
@@ -162,6 +164,27 @@ export function checkIsStillOffered(selection, checkQuestionId) {
  * the stored index of the option shown in place i; markCheck keeps that mapping, so any order is still marked correctly.
  */
 export const storedOrder = (count = CHECK_OPTION_COUNT) => Array.from({ length: count }, (_, i) => i);
+
+/**
+ * The pick is matched by what an option SAYS, not by where it sits. When a check question is offered, the hash of each
+ * option's text (letters the bank prefixes stripped, whitespace and case folded) is stored on the offer, in the order the
+ * student sees it. At marking time the student's pick (a display position) is turned into that hash and found again in the
+ * row as it stands now, so a row whose options were re-ordered or re-keyed between the offer and the answer still marks the
+ * option the student actually chose. Returns null when the options cannot be matched one to one (an option's text was
+ * edited, or two options say the same thing): the caller then treats the question as withdrawn.
+ */
+export function optionTextHashes(row) {
+  return plainOptionTexts(row?.options).map((t) => createHash('sha256').update(optionKeyText(text(t)), 'utf8').digest('hex').slice(0, 16));
+}
+
+/** order[i] = the stored index of the option shown in place i, from the offered hashes; null when they no longer map one to one. */
+export function orderFromHashes(row, hashes) {
+  const now = optionTextHashes(row);
+  if (!Array.isArray(hashes) || hashes.length !== CHECK_OPTION_COUNT || now.length !== CHECK_OPTION_COUNT) return null;
+  if (new Set(now).size !== now.length || new Set(hashes).size !== hashes.length) return null;
+  const order = hashes.map((h) => now.indexOf(h));
+  return order.every((i) => i >= 0) ? order : null;
+}
 
 /** The question as the student sees it before answering: stem and options in the bank's order, NO key, no explanation. */
 export function checkQuestionView(row, order) {

@@ -63,6 +63,8 @@ html[data-theme='light'] .mr-chk__opts li[data-picked] .rp-options__letter { col
 .mr-chk__skel b { height: 46px; border: 1px solid var(--a-line, #253026); background: transparent; border-radius: 12px; }
 /* The submit row has its own place from the start (44 px, the button's size), so the question does not push anything down. */
 .mr-chk__skel u { display: block; height: 44px; width: 150px; margin-top: 4px; border-radius: 12px; background: color-mix(in oklab, var(--a-ink, #f2f4ec) 8%, transparent); text-decoration: none; }
+/* On a phone the note beside the submit button wraps under it (44 px button + 8 px + one line = 70 px), so the skeleton keeps that row too. */
+@media (max-width: 480px) { .mr-chk__skel u { margin-bottom: 26px; } }
 
 /* The answer: the verdict first, in words, then the explanation, the rule when it was missed, the Revise line. */
 .mr-chk__result { display: grid; gap: 14px; min-width: 0; padding-top: 4px; }
@@ -78,6 +80,8 @@ html[data-theme='light'] .mr-chk__opts li[data-picked] .rp-options__letter { col
 
 /* Ask Mobi about Q3: it follows the explanation of the mistake, outlined, never the primary action, with its own price under it. */
 .mr-askq { display: grid; gap: 8px; justify-items: start; }
+/* Until the wallet is read the place of the Ask link is held (its 44 px), with nothing in it: no link and no price that could be taken back. */
+.mr-askq__hold { display: block; height: 44px; width: 1px; }
 .mr-block.mr-askq > p { max-width: 62ch; font-size: 12px; line-height: 1.5; color: var(--a-ink-3, #93a08f); }
 .mr-block.mr-askq > .mr-askq__off { font-size: 13px; color: var(--a-ink-2, #bcc5b9); }
 .mr-ask {

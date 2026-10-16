@@ -159,7 +159,8 @@ export default function RepairCheck({ attemptId, questionId, check, style }) {
                   {sending ? <><span className="mr-chk__ring" aria-hidden="true" />{CHECK_COPY.marking}</> : view.error && view.canRetry ? CHECK_COPY.retryMark : CHECK_COPY.submit}
                 </button>
               )}
-              <span className="mr-chk__fine">{pick === null && !view.refetch ? `Pick one option. ${CHECK_COPY.firstCounts}` : CHECK_COPY.firstCounts}</span>
+              {/* A withdrawn question has no first answer to count: the only thing on offer is another question. */}
+              {view.refetch ? null : <span className="mr-chk__fine">{pick === null ? `Pick one option. ${CHECK_COPY.firstCounts}` : CHECK_COPY.firstCounts}</span>}
             </div>
           ) : null}
           {view.error ? <p className="mr-chk__err" role="alert">{view.error}</p> : null}

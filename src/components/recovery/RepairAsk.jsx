@@ -18,6 +18,7 @@ export default function RepairAsk({ attemptId, questionId, number = null, askHre
   const price = usesLine({ what: CHECK_COPY.askCost, cost: 1, pool: 'ai', balance: wallet.wallet?.known ? wallet.wallet.total : null });
   const offer = askOffer(wallet.wallet, price);
   const href = safeAskHref(askHref, attemptId, questionId);
+  if (offer.pending) return <div className="mr-block mr-askq" data-pending aria-hidden="true" style={style}><span className="mr-askq__hold" /></div>;
   return (
     <div className="mr-block mr-askq" data-stagger style={style}>
       {offer.ask ? (

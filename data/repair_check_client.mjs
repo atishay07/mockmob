@@ -131,7 +131,8 @@ export function leadLine(basis) {
  */
 export function askOffer(wallet, price) {
   const state = wallet?.state;
-  if (!state) return { ask: true, line: price };
+  // Not read yet: neither the link nor the price. The screen holds the place and shows nothing that could be taken back.
+  if (!state) return { ask: false, pending: true, line: null };
   if (state === 'available') return { ask: true, line: price };
   if (state === 'empty') return { ask: false, line: CHECK_COPY.askEmpty };
   if (wallet.known === false && state !== 'paused') return { ask: false, line: CHECK_COPY.askUnreadable };

@@ -37,6 +37,16 @@ function harness(over = {}) {
     loadSeen: async (args) => { calls.push(['seen', args.userId]); if (over.seenError) throw new Error('db'); return new Set(state.seen); },
     loadExcluded: async () => { calls.push(['excluded']); if (over.excludedError) throw new Error('db'); return new Set(over.excluded ?? []); },
     verifyPublished: async (ids) => { calls.push(['verify', ids]); return new Map(ids.filter((id) => state.published.has(id)).map((id) => [id, state.rows.get(id)])); },
+    claimOffer: async ({ offer, replaces }) => {
+      calls.push(['offer', offer.checkQuestionId, replaces]);
+      if (over.offerError) throw new Error('db');
+      if (state.receipt.check) return { ok: false, existing: null };
+      const now = state.receipt.offered?.checkQuestionId ?? null;
+      if (now !== replaces) return { ok: false, existing: state.receipt.offered || null };
+      state.receipt = { ...state.receipt, offered: offer }; return { ok: true };
+    },
+    recordSeen: async ({ questionId }) => { calls.push(['seenwrite', questionId]); if (over.seenWriteError) throw new Error('db'); state.seen.add(questionId); },
+    patchOffer: async ({ patch }) => { calls.push(['offerpatch']); state.receipt = { ...state.receipt, offered: { ...state.receipt.offered, ...patch } }; },
     claimCheck: async ({ check }) => {
       calls.push(['claim']);
       if (over.claimError) throw new Error('db');
@@ -48,7 +58,13 @@ function harness(over = {}) {
     recordProgress: async (args) => { calls.push(['progress', args]); if (over.progressError) throw new Error('db'); },
     scheduleRevise: async (args) => { calls.push(['revise', args]); if (over.reviseError) throw new Error('db'); if (over.reviseMissing) return null; return { count: args.rows.length, dueDay: args.rows[0].due_day }; },
   };
-  return { deps, calls, state, open: (extra = {}) => openCheck({ user, attemptId: 'a1', questionId: 'q_mistake', deps, ...extra }), answer: (extra = {}) => answerCheck({ user, attemptId: 'a1', questionId: 'q_mistake', checkQuestionId: 'q_concept', pick: 0, requestId: REQ, deps, ...extra }) };
+  return { deps, calls, state, over, open: (extra = {}) => openCheck({ user, attemptId: 'a1', questionId: 'q_mistake', deps, ...extra }), // The client opens the check (which offers a question) before it answers. `answer` does the same, once and unlogged, unless
+    // the test says otherwise (offer: false) or the receipt has no repair.
+    answer: async (extra = {}) => {
+      const { offer = true, ...rest } = extra;
+      if (offer && state.receipt?.repair && !state.receipt.offered && !over.noPreOffer) { const before = calls.length; await openCheck({ user, attemptId: 'a1', questionId: 'q_mistake', deps }); calls.length = before; }
+      return answerCheck({ user, attemptId: 'a1', questionId: 'q_mistake', checkQuestionId: 'q_concept', pick: 0, requestId: REQ, deps, ...rest });
+    } };
 }
 const kinds = (calls) => calls.map((c) => c[0]);
 const displayOf = (stored, text) => stored.options.find((o) => o.text === text).index;
@@ -196,7 +212,8 @@ test('POST is idempotent: the same request again, a new request id and any other
   const newRequest = await h.answer({ pick: 2, requestId: REQ2 });
   assert.deepEqual(newRequest.body.result, r1.body.result);
   const otherQuestion = await h.answer({ pick: 1, checkQuestionId: 'q_topic', requestId: REQ2 });
-  assert.deepEqual(otherQuestion.body.result, r1.body.result, 'one check per repair');
+  assert.equal(otherQuestion.http, 422, 'one check per repair: only the answered question is accepted again');
+  assert.equal(otherQuestion.body.error, 'invalid_pick');
   assert.equal(writes(), before, 'no claim, progress, Revise or patch on a replay');
   assert.equal(h.state.claimed, 1);
   // And GET after the answer shows the stored result, with the same options in the order the student saw.
@@ -232,17 +249,16 @@ test('POST validation: ids, request id and pick are checked before any read', as
   assert.equal((await harness({ receipt: null }).answer()).body.error, 'repair_first');
 });
 
-test('POST: a question that is no longer offerable (seen since, held, invented, refused by the gate) is refused as check_changed and nothing is written', async () => {
-  for (const [label, over, id] of [
-    ['seen since the offer', { seen: ['q_seen', 'q_concept'] }, 'q_concept'],
-    ['held since the offer', { excluded: ['q_concept'] }, 'q_concept'],
-    ['never a candidate', {}, 'q_invented'],
-    ['a family-mate of the mistake', {}, 'q_family'],
-    ['the gate refused it', { published: ['q_topic'] }, 'q_concept'],
-    ['the mistake itself', {}, 'q_mistake'],
+test('POST: the offered question withdrawn after the offer (held, refused by the gate, options edited) is check_changed and nothing is written', async () => {
+  for (const [label, change] of [
+    ['held since the offer', (h) => { h.over.excluded = ['q_concept']; }],
+    ['the gate refused it since', (h) => { h.state.published.delete('q_concept'); }],
+    ['an option was edited', (h) => { const row = h.state.rows.get('q_concept'); h.state.rows.set('q_concept', { ...row, options: row.options.map((o, i) => (i === 1 ? { ...o, text: 'Something else entirely' } : o)) }); }],
   ]) {
-    const h = harness(over);
-    const r = await h.answer({ checkQuestionId: id });
+    const h = harness();
+    await h.open();
+    change(h);
+    const r = await h.answer();
     assert.equal(r.http, 409, label);
     assert.equal(r.body.error, 'check_changed', label);
     assert.equal(r.body.message, contract.reasons.check_changed);
@@ -260,6 +276,7 @@ test('POST marks against today\'s key: a key corrected after the offer scores by
   assert.equal(r.body.result.key.text, 'Drawings and the closing capital');
   // A row that no longer passes answer integrity is refused, not scored.
   const broken = harness();
+  await broken.open();
   broken.state.rows.set('q_concept', { ...broken.state.rows.get('q_concept'), options: broken.state.rows.get('q_concept').options.slice(0, 3) });
   const refused = await broken.answer();
   assert.equal(refused.http, 409);

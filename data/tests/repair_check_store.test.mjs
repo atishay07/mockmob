@@ -1,55 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createCheckStore } from '../../src/services/recovery/repairCheckStore.js';
-
-// A fake of the slice of the Supabase client the store uses: chainable filters over in-memory tables, with errors injected
-// per table. Every call is logged, so a test can see what was read and what was written.
-function fakeDb(tables, { errors = {} } = {}) {
-  const log = [];
-  const value = (row, path) => (path.includes('->') ? path.split('->').reduce((o, k) => (o == null ? undefined : o[k]), row) : row[path]);
-  const like = (text, pattern) => new RegExp(`^${String(pattern).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/%/g, '.*')}$`).test(String(text ?? ''));
-  class Query {
-    constructor(table) { this.table = table; this.filters = []; this.op = 'select'; this.opts = {}; }
-    select() { return this; }
-    eq(k, v) { this.filters.push([`eq ${k}`, (r) => value(r, k) === v, k, v]); return this; }
-    in(k, list) { this.filters.push([`in ${k}`, (r) => list.includes(value(r, k)), k, list]); return this; }
-    like(k, p) { this.filters.push([`like ${k}`, (r) => like(value(r, k), p), k, p]); return this; }
-    gte(k, v) { this.filters.push([`gte ${k}`, (r) => Number(value(r, k) ?? 0) >= v, k, v]); return this; }
-    or(expr) { this.orExpr = expr; return this; }
-    is(k, v) { this.filters.push([`is ${k}`, (r) => (v === null ? value(r, k) == null : value(r, k) === v), k, v]); return this; }
-    order() { return this; }
-    limit(n) { this.max = n; return this; }
-    range(a, b) { this.from = a; this.to = b; return this; }
-    update(patch) { this.op = 'update'; this.patch = patch; return this; }
-    upsert(rows, opts) { this.op = 'upsert'; this.rows = rows; this.opts = opts || {}; return this; }
-    maybeSingle() { this.single = true; return this; }
-    then(resolve, reject) { return Promise.resolve(this.run()).then(resolve, reject); }
-    run() {
-      log.push({ table: this.table, op: this.op, filters: this.filters.map((f) => [f[0], f[3]]), orExpr: this.orExpr, patch: this.patch, rows: this.rows, opts: this.opts });
-      if (errors[this.table] && (errors[this.table].ops || ['select', 'update', 'upsert']).includes(this.op)) return { data: null, error: errors[this.table].error };
-      const all = tables[this.table] || (tables[this.table] = []);
-      if (this.op === 'upsert') {
-        const key = this.opts.onConflict.split(',');
-        for (const row of this.rows) {
-          const at = all.findIndex((r) => key.every((k) => r[k] === row[k]));
-          if (at < 0) all.push({ ...row });
-          else if (!this.opts.ignoreDuplicates) all[at] = { ...all[at], ...row };
-        }
-        return { data: null, error: null };
-      }
-      let rows = all.filter((r) => this.filters.every((f) => f[1](r)));
-      if (this.op === 'update') {
-        if (this.beforeUpdate) this.beforeUpdate();
-        for (const r of rows) Object.assign(r, this.patch);
-        return { data: rows.map((r) => ({ operation_key: r.operation_key })), error: null };
-      }
-      if (this.from !== undefined) rows = rows.slice(this.from, this.to + 1);
-      if (this.max) rows = rows.slice(0, this.max);
-      return this.single ? { data: rows[0] ?? null, error: null } : { data: rows, error: null };
-    }
-  }
-  return { log, from: (table) => new Query(table), tables };
-}
+import { fakeDb } from './fake_check_db.mjs';
 
 const store = (tables, over = {}) => { const db = fakeDb(tables, over.db); return { db, store: createCheckStore({ db, recordProgress: over.recordProgress || (async () => {}), readable: over.readable || (async (rows) => rows.filter((r) => r.status === 'live')) }) }; };
 const missingTable = { code: '42P01', message: 'relation "x" does not exist' };
@@ -234,14 +186,15 @@ test('never seen: saved questions, questions shown in a learning episode and que
 
 test('never seen: the new lookups fail closed too, and a table missing in this environment adds nothing', async () => {
   for (const table of ['question_bookmarks', 'learning_question_exposure', 'learning_family_exposure']) {
+    const candidates = [{ id: 'a', family_id: 'fam_a' }];
     const { store: broken } = store({}, { db: { errors: { [table]: { error: { code: 'XX000', message: 'boom' } } } } });
-    await assert.rejects(() => broken.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: ['a'], attempt }), /unavailable/, table);
+    await assert.rejects(() => broken.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: ['a'], attempt, candidates }), /unavailable/, table);
     const { store: missing } = store({ attempts: [{ user_id: 'u1', subject: 'accountancy', questions_snapshot: [{ id: 'a_old' }] }] }, { db: { errors: { [table]: { error: missingTable } } } });
-    assert.equal((await missing.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: ['a'], attempt })).has('a_old'), true, `${table} missing`);
+    assert.equal((await missing.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: ['a'], attempt, candidates })).has('a_old'), true, `${table} missing`);
   }
 });
 
-test('never seen: interactions are append-only, so every page is read (a cap would let a seen question through)', async () => {
+test('never seen: interactions are append-only; a question viewed many times is found past the first page, and later questions are still reached', async () => {
   const rows = Array.from({ length: 1200 }, (_, i) => ({ id: i, user_id: 'u1', question_id: i < 1100 ? 'busy' : 'late', interaction_type: 'seen' }));
   const { store: s } = store({ question_interactions: rows });
   const seen = await s.loadSeen({ userId: 'u1', subject: 'accountancy', candidateIds: ['busy', 'late', 'fresh'], attempt });

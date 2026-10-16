@@ -205,7 +205,8 @@ test('Ask Mobi is about the mistake and says so: its number is in the label and 
 test("the repair promises Ask Mobi's credit only while written replies can be bought; paused, empty or unreadable says nothing is charged and offers no link", () => {
   const price = 'One written reply uses 1 AI credit. You have 68.';
   assert.deepEqual(askOffer({ state: 'available', known: true, total: 68 }, price), { ask: true, line: price });
-  assert.deepEqual(askOffer(null, price), { ask: true, line: price }, 'before the wallet is read the price is the plain price');
+  assert.deepEqual(askOffer(null, price), { ask: false, pending: true, line: null }, 'before the wallet is read there is neither a link nor a price, so nothing appears and is then taken back');
+  assert.deepEqual(askOffer(undefined, price), { ask: false, pending: true, line: null });
   const paused = askOffer({ state: 'paused', known: true, total: 68 }, price);
   assert.equal(paused.ask, false); assert.equal(paused.line, 'Written replies are paused right now. Nothing is charged.');
   const empty = askOffer({ state: 'empty', known: true, total: 0 }, price);
@@ -230,4 +231,22 @@ test('the Ask screen: a handed-over question with written replies unavailable sa
   assert.match(hub, /blocked \? 'Ask about my record' : 'Ask something else'/, 'the way out drops the question');
   assert.match(hub, /\{blockedQuestion \? null : <form className="pp-composer"/, 'no greyed-out composer for a question that cannot be asked');
   assert.match(hub, /\{blockedQuestion \? null : <div className="pp-ask__switch"/);
+});
+
+test('UI details: no first-answer note on a withdrawn question, the skeleton keeps the phone actions row, no Ask link before the wallet is read, no stripes or arrow', () => {
+  const check = read('src/components/recovery/RepairCheck.jsx');
+  assert.match(check, /\{view\.refetch \? null : <span className="mr-chk__fine">/, 'a withdrawn question has no first answer to count');
+  const css = read('src/components/recovery/repair-check.css');
+  assert.match(css, /@media \(max-width: 480px\) \{ \.mr-chk__skel u \{ margin-bottom: 26px; \} \}/, 'the 70 px actions row is held at phone width');
+  const ask = read('src/components/recovery/RepairAsk.jsx');
+  assert.match(ask, /if \(offer\.pending\) return <div className="mr-block mr-askq" data-pending aria-hidden="true"/);
+  assert.ok(ask.indexOf('offer.pending') < ask.indexOf('<Link'), 'the pending state is decided before any link is built');
+  const repairCss = read('src/components/recovery/mistake-repair.css');
+  assert.doesNotMatch(repairCss, /\.mr-contrast \{[^}]*border-left/, 'no quote stripe on the repair panel');
+  const hubCss = read('src/components/ai/prepos.css');
+  assert.doesNotMatch(hubCss, /\.pp-ask__service \{[^}]*border-left/, 'no accent stripe on the written-reply notice');
+  assert.doesNotMatch(read('src/components/recovery/result.css'), /.rp-q[data-verdict[^}]*border-left/, 'no side stripe on the question card that holds the repair');
+  const repair = read('src/components/recovery/MistakeRepair.jsx');
+  assert.doesNotMatch(repair, /ArrowRight/, 'no arrow on Next mistake');
+  assert.match(repair, /Next mistake: Q\{next\.number\}<\/button>/);
 });

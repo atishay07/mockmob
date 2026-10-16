@@ -3,7 +3,7 @@
 // match the answer key before any repair is shown; a mismatch holds the question for review instead.
 import { useContext, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Wrench, Check, ArrowRight, Copy, KeyRound, ChevronRight } from 'lucide-react';
+import { Wrench, Check, Copy, KeyRound, ChevronRight } from 'lucide-react';
 import {
   REPAIR_OUTCOMES, hasExplanation, isKeyReview, repairBlocks, marksAtStake, foldedQuestionLine,
   checkChip, REPAIR_COPY, REPAIR_LOADING, recordLines,
@@ -285,7 +285,7 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, n
 
   // `next` is computed by the page from the mistakes not yet handled, never counting this one.
   const nextButton = next
-    ? <button type="button" className="mr-next-btn" onClick={next.go}>Next mistake: Q{next.number} <ArrowRight size={16} aria-hidden="true" /></button>
+    ? <button type="button" className="mr-next-btn" onClick={next.go}>Next mistake: Q{next.number}</button>
     : onFinish ? <button type="button" className="mr-next-btn" onClick={onFinish}>{RUN_COPY.finish}</button> : null;
   const mobi = nta ? null : <RepairMobi status={state.status} slow={slow} stepKey={`${attemptId}/${questionId}`} visible={isCurrent} />;
 

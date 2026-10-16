@@ -64,7 +64,8 @@
         "askHref": "/mentor?tab=ask&q=att_1:q_1",
         "notes": [
           "options are in the bank's own order (A to D as stored), because bank explanations name option letters; `pick` on POST is the index shown here (0 to 3)",
-          "there is no key, no explanation and no marks field before the answer"
+          "there is no key, no explanation and no marks field before the answer",
+          "the first GET records the offer on the repair (the question and the hash of each option's text in the order shown) and writes one `seen` interaction for the question before it is sent; a reload shows the same question in the same order. From then on the question counts as seen for every other check, for practice and for learning, answered or not"
         ]
       }
     },
@@ -115,6 +116,7 @@
       },
       "reviseWhenTableMissing": { "scheduled": false, "reason": "unavailable", "nextAt": null },
       "notes": [
+        "`pick` is the position the student saw; the server maps it through the offered option-text hashes, so a bank row re-ordered or re-keyed after the offer still marks the option the student chose. An option whose text was edited makes the question withdrawn (409 check_changed).",
         "`replayed` is true when the answer was already stored: the same requestId again, or any later POST for the same repair. The stored result comes back unchanged and nothing is written twice. The first answer counts.",
         "`revise` is written for the mistake always and for the check question when it was missed; never when the table revise_cards does not exist (then scheduled:false).",
         "no credit is reserved, charged or released by this route"
@@ -124,6 +126,7 @@
       "401": { "ok": false, "error": "Unauthorized" },
       "422 invalid_request": "attemptId, questionId, checkQuestionId strings; pick an integer; requestId matching the pattern",
       "422 invalid_pick": { "ok": false, "error": "invalid_pick", "message": "Pick one of the four options." },
+      "422 invalid_pick (not offered)": { "ok": false, "error": "invalid_pick", "message": "That is not the question that was offered for this repair. Open the check again.", "note": "checkQuestionId is not the question offered for this repair, or nothing was offered yet; nothing is written" },
       "409 repair_first": { "ok": false, "error": "repair_first" },
       "409 check_changed": { "ok": false, "error": "check_changed", "message": "That question was withdrawn before it was marked. Nothing was recorded." },
       "429": { "ok": false, "error": "rate_limited" }

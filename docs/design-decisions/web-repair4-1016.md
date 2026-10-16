@@ -118,3 +118,57 @@ After: `mockmob-next/tmp/repair4/fix1/` (`{m390,d1440}-{dark,light}-` plus `read
   screen's blocked state and the order of Ask before the check in the repair.
 - Headless Chrome (CDP) on `/preview/arena`, port 3141, console errors: none. Row heights at 390 px measured 46/46/46/46 before
   and after marking. Skeleton width 720 px at 1440 matches the question's.
+
+## Follow-ups (16 Oct, after the regate)
+
+Branch `web/repair4-1016`. The deferred items from "Not fixed, and why" above, closed with tests (`test:recovery`), and the UI minors.
+
+### Server
+
+- **(a) Only the offered question.** The first GET records the offer on the repair's committed receipt (`receipt.offered`: the
+  question id, the hash of each option's text in the order shown, whether its seen row is written). POST accepts only that id (or,
+  once answered, the answered id): any other id gets 422 `invalid_pick` with a message that says it is not the offered question,
+  before anything is read about it, and nothing is written. The write is conditional (no answer yet, and no offer or the offer that
+  was read), so two requests racing to offer end with one offer, and an answer is never overwritten. A reload shows the same
+  question in the same order. If the offered question is later withdrawn (held, gate-refused, options edited) the next GET replaces
+  the offer with a fresh question, and POST for the old one is `check_changed`.
+- **(b) Offered counts as seen.** Offering writes one `seen` row to `question_interactions` before the question leaves the server
+  (a failed write shows nothing, 503, nothing charged). That table is already read by this check, practice and learning, so a
+  previewed question is never offered again by another repair or as fresh content; the offering repair itself is exempt for its own
+  question. Test: two mistakes in one chapter, the first offered but never answered, the second is not given it.
+- **(c) A failed progress write.** The question was already seen at offer time, so the failed write cannot put it back in the fresh
+  pool. Test: progress write rejects, the question is answered, another repair is not offered it.
+- **(d) Pick by option text hash.** The offer stores the hash of each option's text (bank letters stripped, whitespace and case
+  folded) in display order. POST turns the student's display position into that hash and finds it in the row as it stands now, so a
+  row re-ordered or re-keyed after the offer still marks the option the student chose and the key is the current key text. An option
+  whose text was edited, or a set that no longer maps one to one, is `check_changed`; such a row is never offered. The answered
+  options keep the order the student saw. Tests: key moved to the last place and re-lettered, right and wrong picks, reload order.
+- **(e) The seen lookup, bounded.** Measured with the fake client on a heavy student (300-question chapter, 100 attempts of 60
+  questions, 40 sessions, 5,500 interaction rows, 6,000 family-exposure rows): before 21 reads, 7,772 rows, 6,500 KB, and a
+  family met only through the 6,000th exposure row was missed (the old read stopped at 5,000 rows, so it failed open); after 20 reads,
+  378 rows, 629 KB, and that family is found. How: attempts give their ids through the small `details` column and their full
+  snapshots only for the newest 5 (was all 100); family exposure is read for the chapter's own families (not "the first 5,000
+  rows"); interaction history is read last and only for questions nothing else shows as seen, keyset paged by question id; the
+  reads of one lookup run in parallel. Nothing was dropped from what counts as seen. No migration was needed (the existing
+  `(question_id, user_id, interaction_type)` index serves the interaction read).
+- Unverified: PostgREST accepting `.is('receipt->offered', null)` and `.eq('receipt->offered->>checkQuestionId', id)` on a real
+  database, like the existing `.is('receipt->check', null)`; needs one real-database run before relying on it.
+
+### UI (checked at 390x844 and 1440x900, Night and Day, real pointer clicks, headless Chrome over CDP on port 3141; captures in `mockmob-next/tmp/repair4/followups/`)
+
+| Item | Before | After | Rule |
+| --- | --- | --- | --- |
+| Skeleton actions row at 390 | tail below the last row 56 px, ready 82 px (26 px shift) | 82 and 82 at 390, 56 and 56 at 1440 | 30, no layout shift (S-series loading states) |
+| Ask link before the wallet is read | link and price shown, then removed when the wallet was paused | nothing but a held 44 px until read: observed states with a paused wallet never include the link | 18, 24: nothing shown that is then taken back |
+| "Your first answer counts." on a withdrawn question | shown beside "Get another question" | absent; only the new-question button | 18, 35 |
+| Left stripe on the repair panel | 3 px coloured border on every result question card (wrong, right, skipped), 2 px rail on the contrast line | none; the verdict is already written in each card ("Wrong -1", "Right +5", "Blank 0") | no side stripes, never colour alone |
+| Stripe on "One written reply" notice | 2 px accent rail, one-sided radius | full hairline border, normal radius | same |
+| Arrow on "Next mistake" | arrow icon | text only | no arrows on buttons |
+
+Evidence IDs: T006 and T008 (no unbacked price: nothing is shown for Ask until the wallet is known), the rules numbered above in
+`AGENT_RULES.md`. Not changed (pre-existing, other screens): arrows on "Repair Q42" and "Practise ..." on the result page.
+
+### Verification
+
+eslint clean on every touched file. `test:recovery` 257 of 257 (246 before, plus 11 follow-up tests and the updated flow, store and
+client tests), `test:app` 268 of 268, `test:learning` 301 of 301. Browser console errors: none in any of the four size and theme runs.

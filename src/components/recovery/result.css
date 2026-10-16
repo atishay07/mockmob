@@ -157,9 +157,7 @@
 .rp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .rp-empty { padding: 24px; text-align: center; color: var(--a-ink-3); border: 1px dashed var(--a-line-strong); border-radius: 14px; }
 .rp-q { border-radius: 16px; border: 1px solid var(--a-line, #253026); background: var(--a-raised, #131a16); scroll-margin-top: 84px; overflow: hidden; }
-.rp-q[data-verdict='wrong'] { border-left: 3px solid var(--a-bad-text, #ff9d92); }
-.rp-q[data-verdict='correct'] { border-left: 3px solid var(--a-good-text, #b6e36e); }
-.rp-q[data-verdict='skipped'] { border-left: 3px solid var(--a-line-strong, #384736); }
+/* No side stripe on a question card: its verdict is written in its own header (Wrong, Right, Skipped with the marks), never colour alone. */
 .rp-q__h { font: inherit; }
 .rp-q__bar { width: 100%; display: grid; grid-template-columns: 32px minmax(0, 1fr) 20px; gap: 12px; align-items: start; padding: 14px 16px; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
 .rp-q__bar:hover { background: var(--a-hover); }
