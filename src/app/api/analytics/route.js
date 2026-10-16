@@ -117,7 +117,7 @@ export async function GET(request) {
       .slice(0, 2);
     const recommendations = [
       weakest ? `Revise ${weakest.chapter} first; current accuracy is ${weakest.acc}%.` : 'Take two more mocks to unlock chapter recommendations.',
-      strongest ? `Keep ${strongest.chapter} warm with a short mixed drill.` : 'Mix subjects to build a stronger radar profile.',
+      strongest ? `Keep ${strongest.chapter} warm with a short mixed drill.` : 'Mix subjects so every chapter gets a fair reading.',
       latestScore < 60 ? 'Prioritize accuracy before speed in the next sprint.' : 'Add timed drills to convert accuracy into rank speed.',
       secondWeakest ? `Pair ${weakest.chapter} with ${secondWeakest.chapter} in one 20-question repair set.` : 'Use a mixed 15-question drill after your next full mock.',
       completionRate < 85 ? 'Reduce skips first; attempt confidence is currently limiting your real score.' : 'Your completion rate is strong. Push difficulty one level higher for the next drill.',
