@@ -378,15 +378,16 @@ class CostliestBlock extends StatelessWidget {
           const SizedBox(height: MmSpace.s16),
           Divider(height: 1, thickness: 1, color: colors.line),
           const SizedBox(height: MmSpace.s12),
-          _Notice(text: notice!, onTap: onNotice),
+          ResultNotice(text: notice!, onTap: onNotice),
         ],
       ],
     );
   }
 }
 
-class _Notice extends StatelessWidget {
-  const _Notice({required this.text, this.onTap});
+/// One line with a warning glyph: a key under re-check, or a corrected key.
+class ResultNotice extends StatelessWidget {
+  const ResultNotice({super.key, required this.text, this.onTap});
 
   final String text;
   final VoidCallback? onTap;

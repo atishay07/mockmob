@@ -103,6 +103,20 @@ class SummarySection extends StatelessWidget {
   }
 }
 
+/// The answer map alone, for the "Every answer" fold of the result (RESULT-1017 4.6): ten to a row, numbered like
+/// the exam hall's sheet, every bubble opening its question. No Mobi: the result has none (F11).
+class ResultAnswersMap extends StatelessWidget {
+  const ResultAnswersMap({super.key, required this.model, required this.onOpen, this.onPeek});
+
+  final RecapModel model;
+  final ValueChanged<int> onOpen;
+  final ValueChanged<int>? onPeek;
+
+  @override
+  Widget build(BuildContext context) =>
+      _AnswersMap(model: model, mobi: null, mobiPose: MobiPose.read, onOpen: onOpen, arrival: false, onPeek: onPeek);
+}
+
 /// The paper's answers as one map on the page itself, ten to a row and numbered like the sheet in
 /// the exam hall: no dark panel, so on Daylight it is ink on the warm page and on Night it is
 /// bubbles on the ground. The recap's printed sheet is the object; here the result is simply read

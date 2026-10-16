@@ -19,9 +19,11 @@ import 'answer_row.dart';
 import 'lab_ledger_section.dart';
 import 'lab_older_note.dart';
 
-/// Held, keys unavailable and corrected keys: said plainly, never a silent rewrite.
-List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {required VoidCallback onRetry}) {
-  final corrected = data.detail?.answerReviews.values.where((r) => r.isCorrected).length ?? 0;
+/// Held, keys unavailable and corrected keys: said plainly, never a silent rewrite. The result's head says a
+/// corrected key in its own notice line, so it passes [corrected] false.
+List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {required VoidCallback onRetry, bool corrected = true}) {
+  final showCorrected = corrected;
+  final correctedCount = showCorrected ? (data.detail?.answerReviews.values.where((r) => r.isCorrected).length ?? 0) : 0;
   return [
     if (m.keysUnavailable) ...[
       const SizedBox(height: MmSpace.s20),
@@ -31,9 +33,9 @@ List<Widget> annotations(BuildContext context, RecapModel m, RecapData data, {re
       const SizedBox(height: MmSpace.s20),
       InlineBanner(message: ResultCopy.loadFailed, tone: BannerTone.error, actionLabel: ResultCopy.tryAgain, onAction: onRetry),
     ],
-    if (corrected > 0) ...[
+    if (correctedCount > 0) ...[
       const SizedBox(height: MmSpace.s20),
-      InlineBanner(message: ResultCopy.corrected(corrected), tone: BannerTone.info),
+      InlineBanner(message: ResultCopy.corrected(correctedCount), tone: BannerTone.info),
     ],
   ];
 }

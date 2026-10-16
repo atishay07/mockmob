@@ -29,6 +29,7 @@ import 'data/default_subject.dart' show publicIdOf;
 import 'data/practice_catalog.dart';
 import 'data/practice_notes.dart';
 import 'data/result_actions.dart';
+import 'model/finish_reaction.dart' show FinishMarks;
 import 'model/practice_result_model.dart';
 import 'model/session_analysis.dart';
 import 'widgets/numbered_sheet.dart';
