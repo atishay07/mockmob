@@ -26,6 +26,17 @@ test('the dock holds Today, Practice, Review and Colleges; Learn and Explore mov
     assert.ok(sheet.includes(id), `${id} is still listed in the More sheet`);
   }
   assert.ok(STUDY_NAV.some((tab) => tab.id === 'learn'), 'Learn stays in the Study group');
+  // The More sheet lists the places that are not in the dock, so its Study group opens on Learn (NAV-1017 10, check 4);
+  // the desktop sidebar still draws every group in full.
+  assert.match(layout, /const sheetGroups = navGroups\.map\(\(group\) => \(\{ \.\.\.group, items: group\.items\.filter\(\(tab\) => !dockIds\.has\(tab\.id\)\) \}\)\)/);
+  assert.match(layout, /<AppearanceSwitch \/>\s*\{sheetGroups\.map/);
+  const dockIds = new Set(MOBILE_STUDY_NAV.map((tab) => tab.id));
+  const sheetStudy = STUDY_NAV.filter((tab) => !dockIds.has(tab.id)).map((tab) => tab.id);
+  assert.deepEqual(sheetStudy, ['learn', 'explore', 'saved', 'progress']);
+  // And Learn has a second home on the Practice page, while the lessons are on.
+  const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
+  assert.match(practice, /\{studyEnabled && \([\s\S]{0,200}<h2 id="pr-concepts">Concepts<\/h2>[\s\S]{0,300}href="\/learn"/);
+  assert.match(read('src/app/(app)/dashboard/page.js'), /studyEnabled=\{process\.env\.STUDY_CONTENT_ENABLED === 'true'\}/);
 });
 
 test('the Start key is a sibling of the nav, so the nav keeps five tabs', () => {
@@ -147,6 +158,25 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
           }
           assert.equal(new Set(looks).size, 1, looks.join('\n'));
           assert.match(looks[0], /rgb\(210, 240, 0\)/, 'the volt key (A1)');
+        });
+        await t.test(`${theme} a real pointer on each tab goes to its place, and on the key opens the Start sheet`, async () => {
+          await page.viewport(390, 844, 1);
+          for (const [label, target] of [['Review', 'review'], ['Colleges', 'compass'], ['Today', 'today'], ['Practice', 'dashboard']]) {
+            await page.goto(view(label === 'Practice' ? 'today' : 'dashboard'), '.arena-dock nav a');
+            const at = await page.eval(`(() => { const a = [...document.querySelectorAll('.arena-dock nav a')].find((n) => n.textContent.trim() === ${JSON.stringify(label)}); const r = a.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2; return { x, y, hit: a.contains(document.elementFromPoint(x, y)) }; })()`);
+            assert.equal(at.hit, true, `${label} is not covered`);
+            await page.click(at.x, at.y);
+            const t0 = Date.now();
+            while (Date.now() - t0 < 30000 && !(await page.eval(`location.search.includes('view=${target}&') && Boolean(document.querySelector('.arena-dock nav a[aria-current="page"]'))`))) await new Promise((r) => setTimeout(r, 200));
+            assert.ok(await page.eval(`location.search.includes('view=${target}&')`), `${label} went to ${target}`);
+            await new Promise((r) => setTimeout(r, 600));
+            assert.equal(await page.eval(`document.querySelector('.arena-dock nav a[aria-current="page"] span')?.textContent.trim()`), label);
+          }
+          const key = await page.eval(`(() => { const k = document.querySelector('[data-start-key="bar"]'); const r = k.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2; return { x, y, hit: k.contains(document.elementFromPoint(x, y)) }; })()`);
+          assert.equal(key.hit, true, 'the key is not covered');
+          await page.click(key.x, key.y);
+          await page.waitFor('#start-sheet[open]', 10000);
+          await page.key('Escape', 'Escape', 27);
         });
         await t.test(`${theme} More rises from the dock and closes on Escape`, async () => {
           await page.viewport(390, 844, 1);

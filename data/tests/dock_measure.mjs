@@ -53,11 +53,14 @@ export const MEASURE_CLEARANCE = String.raw`(async () => {
   return { contentEnd, mainBottom: r.bottom, dockTop: dock.getBoundingClientRect().top, atEnd: root.scrollTop + innerHeight >= root.scrollHeight - 2, innerHeight };
 })()`;
 
-// Volt-filled action keys inside the viewport: the Start keys and the keys a page marks as its own action (.btn-volt,
-// data-page-primary). Selected chips and segments that use volt as a state are not action keys and are not counted.
+// Volt-filled action keys inside the viewport: every button and link whose own fill is volt (the Start keys, .btn-volt,
+// a page's data-page-primary key, or any key styled volt some other way). Selected chips and segments that use volt as a
+// state are radios, checkboxes or aria-pressed/aria-selected toggles, not action keys, and are not counted.
 export const COUNT_VOLT_FILLS = String.raw`(() => {
   const volt = (c) => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return false; const [r, g, b, a = 1] = m[1].split(/[ ,/]+/).filter(Boolean).map(Number); return a > 0.9 && r > 190 && g > 225 && b < 60; };
-  return [...document.querySelectorAll('[data-start-key], .btn-volt, [data-page-primary]')].filter((el) => {
+  const isState = (el) => el.matches('[aria-pressed], [aria-selected], [aria-checked], [role="radio"], [role="tab"], [role="option"], label, input');
+  return [...document.querySelectorAll('button, a[href], [role="button"], [data-start-key], .btn-volt, [data-page-primary]')].filter((el) => {
+    if (isState(el)) return false;
     const r = el.getBoundingClientRect(); const s = getComputedStyle(el);
     if (!r.width || !r.height || s.visibility === 'hidden' || s.display === 'none' || Number(s.opacity) < 0.5) return false;
     if (r.bottom <= 0 || r.top >= innerHeight || r.right <= 0 || r.left >= innerWidth) return false;

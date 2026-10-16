@@ -290,8 +290,12 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   const showStudy=studyEnabled || previewRoute==='/learn';
   const navGroups = arenaNavigation(isModerator, { mob: mobEnabled || Boolean(previewLinks?.mob) }).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
-  // The phone dock's four places (NAV-1017 section 8). Learn and Explore live in the More sheet's Study group.
+  // The phone dock's four places (NAV-1017 section 8). The More sheet lists every other place, so its Study group opens
+  // on Learn, then Explore, Saved and Progress; the dock's places are one tap away right under it and are not repeated.
+  // The desktop sidebar keeps the full groups.
   const mobileTabs = MOBILE_STUDY_NAV;
+  const dockIds = new Set(mobileTabs.map((tab) => tab.id));
+  const sheetGroups = navGroups.map((group) => ({ ...group, items: group.items.filter((tab) => !dockIds.has(tab.id)) })).filter((group) => group.items.length);
   const allTabs = navGroups.flatMap((group) => group.items);
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
   const renderNavLink = (tab, onNavigate) => (
@@ -442,7 +446,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               </div>
             </div>
             <AppearanceSwitch />
-            {navGroups.map((group) => (
+            {sheetGroups.map((group) => (
               <nav key={group.label} className="arena-nav-group" aria-label={group.label}>
                 <p className="arena-nav-label">{group.label}</p>
                 {group.items.map((tab) => renderNavLink(tab, () => setMobileMenuOpen(false)))}
