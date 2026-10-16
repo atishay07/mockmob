@@ -11,6 +11,7 @@ import { SCREEN_MOMENTS } from '@/lib/mobiScreens';
 import { helloToday } from '@/lib/mobiRation';
 import { useMobiGate } from '@/lib/mobiHooks';
 import { useCountUpState } from '@/lib/motion/useCountUp';
+import { useInView } from '@/lib/motion/useInView';
 import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { practiceForMinutes } from '@/../data/learning_engine';
@@ -19,18 +20,19 @@ const TIMES = [10, 20, 30];
 const TIME_OPTIONS = TIMES.map((n) => ({ value: n, label: `${n} min` }));
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
-// The planned minutes, rolling from the old choice to the new one. It first shows the real value.
+// The planned minutes, rolling from the old choice to the new one (the countUp token, 420 ms). It first shows the real value.
 function MinutesRoll({ value }) {
-  const { value: rolled, ink } = useCountUpState(value, { duration: 520, memoryKey: 'na-planned-minutes' });
+  const { value: rolled, ink } = useCountUpState(value, { memoryKey: 'na-planned-minutes' });
   return <span className="na__mins"><span aria-hidden="true" className="mk-num" data-ink={ink || undefined}>{rolled}</span><span className="sr-only">{value}</span> minutes</span>;
 }
 
 // The plan's first sentence: what the session is. The engine's later sentences explain its rules.
 const firstSentence = (text = '') => { const at = text.indexOf('. '); return at === -1 ? text : text.slice(0, at + 1); };
 
-// A number that counts up to its real value (the app's number memory); the real value is read out.
+// A number that counts up to its real value (the app's number memory); the real value is read out. Only the first view
+// ever climbs from 0; after that it rolls from the remembered figure, and an unchanged figure does not roll (MOTION.md 1.1).
 function Rolled({ value, memoryKey }) {
-  const { value: rolled, ink } = useCountUpState(value, { from: 0, duration: 900, memoryKey });
+  const { value: rolled, ink } = useCountUpState(value, { from: 0, memoryKey });
   return <><span aria-hidden="true" className="mk-num" data-ink={ink || undefined}>{rolled}</span><span className="sr-only">{value}</span></>;
 }
 
@@ -87,6 +89,8 @@ function heroTitle(plan, top, planned) {
   return review ? `${count} questions, then a look at what you missed.` : `${count} questions against the clock.`;
 }
 
+// Compact: the shell's Start key is the volt on every page that shows this card (Progress, Review, Radar), so the card's
+// key is always the outline one, and it names the step ("Start 10 practice questions"), not a bare "Start" (AGENT_RULES 7).
 // `quiet` (compact only): the page already has its one primary action, so this step is a ruled row with an outline key.
 // `moment` (Today): a real moment the page saw, { act, title, line }, e.g. the week's study-day goal met (lib/mobiScreens.js).
 // It takes the companion's idle slot once the plan is on screen; a failure, the wait and a time choice still come first.
@@ -98,6 +102,9 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
   const [planKey, setPlanKey] = useState(null);
   const [listening,setListening]=useState(false);
   const listenTimer=useRef(0);
+  // While the plan's key is on screen (and not behind the phone's tab bar), the hero says so; the shell's Start key then
+  // steps back to an outline (start.css), so one volt action shows at a time (AGENT_RULES 7).
+  const [ctaRef, ctaShown] = useInView({ once: false, threshold: 0.6, rootMargin: '0px 0px -84px 0px' });
   const planned = minutes ?? plan?.minutes ?? null;
   const refreshing = Boolean(plan) && minutes !== planKey;
   useEffect(() => () => window.clearTimeout(listenTimer.current), []);
@@ -143,8 +150,8 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
           <div className="na__body"><p className="na__reason" role="status">Loading your next step…</p></div>
         ) : (
           <>
-            <div className="na__body"><b className="na__title"><span className="na__lead">Your next step: </span>{plan.primary.title}</b><p className="na__reason">{firstSentence(plan.primary.reason)}</p></div>
-            <Link className={`${quiet ? 'btn-outline' : 'btn-volt'} md na__cta mk-press`} href={plan.primary.href}>Start</Link>
+            <div className="na__body"><b className="na__title"><span className="na__lead">Your next step: </span>{firstSentence(plan.primary.reason)}</b></div>
+            <Link className="btn-outline md na__cta mk-press" href={plan.primary.href}>{plan.primary.title}</Link>
           </>
         )}
       </section>
@@ -168,7 +175,7 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
 
   // Tonight's plan leads the page (the install prompt sits at the foot of Today, below the fold).
   return (<>
-    <section className="na na--hero" aria-label="Tonight’s plan">
+    <section className="na na--hero" aria-label="Tonight’s plan" data-cta-shown={ctaShown || undefined}>
       {companion ? <ArenaCompanion act={companion.act} pose="attentive" title={companion.title}>{companion.line}</ArenaCompanion> : null}
       <div className="na__grid">
         <div className="na__plan">
@@ -189,7 +196,7 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
               {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link>{step.purpose ? <p>{step.purpose}</p> : null}<small>About {step.estimatedMinutes} min{step.done ? `, ${step.done}` : ''}</small></div></li>)}</ol> : null}
               <div className="na__actions">
                 {recorded ? <Link className="btn-volt md na__cta mk-press" href={`/result/${plan.tonight.sessionId}`}>Review that session</Link> : null}
-                <Link className={`${recorded ? 'btn-outline' : 'btn-volt'} md na__cta mk-press`} href={startHref} aria-busy={refreshing || undefined} data-stale={refreshing || undefined} onClick={refreshing ? (event) => event.preventDefault() : undefined}>{plan.primary.title}</Link>
+                <Link ref={ctaRef} className={`${recorded ? 'btn-outline' : 'btn-volt'} md na__cta mk-press`} href={startHref} aria-busy={refreshing || undefined} data-stale={refreshing || undefined} onClick={refreshing ? (event) => event.preventDefault() : undefined}>{plan.primary.title}</Link>
                 {plan.sequence?.[1] && <Link className="na__alt" href={plan.sequence[1].href}>Skip ahead a step</Link>}
                 {plan.sequence?.length > 0 && <Link className="na__alt" href="/dashboard?mode=full">Take a mock</Link>}
                 {plan.alternatives.map(a => <Link key={a.kind} className="na__alt" href={a.href}>{a.title}</Link>)}

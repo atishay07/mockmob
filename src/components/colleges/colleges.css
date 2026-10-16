@@ -57,7 +57,7 @@
   display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer;
   color: var(--a-accent-text); font: 700 14px/1.2 var(--font-body); text-decoration: none; text-underline-offset: 3px;
 }
-.app-shell .mc-head .mc-link { min-width: 44px; justify-content: flex-end; } /* the short 'Edit' still gets a 44px target, its word flush with the card edge */
+.app-shell .mc-head .mc-link { min-width: 44px; padding-inline: 10px; margin-inline-end: -10px; justify-content: flex-end; white-space: nowrap; } /* 'Edit colleges' says what it edits out of context (rule 11); the padding widens the 44 px target while the word stays flush with the card edge */
 .app-shell .mc-link:focus-visible, .app-shell .mc-more:focus-visible, .app-shell .mc-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) and (pointer: fine) { .app-shell .mc-link:hover, .app-shell .mc-more:hover { text-decoration: underline; } }
 .app-shell .mc-more { display: inline-flex; align-items: center; min-height: 44px; color: var(--a-accent-text); font: 700 14px/1.2 var(--font-body); text-decoration: none; text-underline-offset: 3px; }
