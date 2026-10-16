@@ -1,4 +1,4 @@
-import '../../core/copy/copy.dart' show formatDayMonthShort;
+import '../../core/copy/copy.dart' show formatDayMonthShort, formatTime12;
 
 /// The words of the Account sheet that are its own. The credit tiles, the theme switch and sign
 /// out are shared with You (`CreditsCopy`, `YouCopy`), so the same words are said once. Sentence
@@ -15,6 +15,9 @@ abstract final class AccountCopy {
 
   /// Under the Pro tag: "until 12 Jan".
   static String proUntil(DateTime until) => 'until ${formatDayMonthShort(until)}';
+
+  /// Under the credit tiles when they show the figures kept from the last time the phone was online.
+  static String savedAt(DateTime at) => 'Saved ${formatTime12(at)}';
 
   static const credits = 'Credits';
   static const appearance = 'Appearance';

@@ -7,13 +7,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/json_helpers.dart';
+import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show MmChip, MmSurface;
 import 'package:mockmob/features/credits/credits_copy.dart';
 import 'package:mockmob/features/credits/credits_screen.dart';
 import 'package:mockmob/features/credits/data/credit_figures.dart';
+import 'package:mockmob/features/credits/data/credits_data.dart' show MeCreditsRepository, meCreditsProvider;
 import 'package:mockmob/features/credits/data/credits_models.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -30,7 +33,59 @@ Map<String, dynamic> _fixture() =>
 RemoteState<CreditsOverview> _loaded([Map<String, dynamic>? body]) =>
     RemoteState(value: CreditsOverview.fromJson(body ?? _fixture()), fetchedAt: DateTime(2026, 10, 15, 21));
 
+/// The older AI wallet read, driven by the test: [land] is a network read finishing.
+class _Wallet extends CreditsRepository {
+  @override
+  RemoteState<AiCredits> build() => const RemoteState();
+
+  void land(DateTime at, {bool cache = false}) => state = RemoteState(value: const AiCredits(state: 'available'), fetchedAt: at, fromCache: cache);
+}
+
+/// The overview read with no database and no network, counting forced reads.
+class _Overview extends MeCreditsRepository {
+  int reads = 0;
+
+  @override
+  bool get autoLoad => false;
+
+  @override
+  Future<void> refresh({bool force = false}) async => reads++;
+}
+
 void main() {
+  group('a charge elsewhere reaches the overview', () {
+    late _Wallet wallet;
+    late _Overview overview;
+    late ProviderContainer c;
+
+    setUp(() {
+      wallet = _Wallet();
+      overview = _Overview();
+      c = ProviderContainer(overrides: [
+        creditsRepositoryProvider.overrideWith(() => wallet),
+        meCreditsProvider.overrideWith(() => overview),
+      ]);
+      addTearDown(c.dispose);
+      c.read(meCreditsProvider);
+    });
+
+    test('a second network read of the wallet (Ask Mobi after a reply) reads the overview again', () async {
+      wallet.land(DateTime(2026, 10, 16, 21, 0));
+      await Future<void>.delayed(Duration.zero);
+      expect(overview.reads, 0, reason: 'the first read of the wallet is not a charge');
+      wallet.land(DateTime(2026, 10, 16, 21, 2));
+      await Future<void>.delayed(Duration.zero);
+      expect(overview.reads, 1);
+    });
+
+    test('a wallet served from the cache does not', () async {
+      wallet.land(DateTime(2026, 10, 16, 21, 0));
+      wallet.land(DateTime(2026, 10, 16, 21, 1), cache: true);
+      await Future<void>.delayed(Duration.zero);
+      expect(overview.reads, 0);
+    });
+  });
+
   group('the contract fixture (parity with the server and the website)', () {
     test('parses to the two pools, the plan and the history, newest first', () {
       final o = CreditsOverview.fromJson(_fixture());

@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/models/json_helpers.dart';
+import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
 import '../../../core/repositories/remote_state.dart';
 import 'credits_models.dart';
@@ -11,6 +14,18 @@ import 'credits_models.dart';
 /// the history. Cached like the other reads, so Credits and the hub open with the last figures
 /// while the server answers. The balances are never made up: with nothing read they stay null.
 class MeCreditsRepository extends JsonRemoteNotifier<CreditsOverview> {
+  @override
+  RemoteState<CreditsOverview> build() {
+    // Ask Mobi and repairs refresh the older AI wallet after a charge. The figures everywhere
+    // (Account sheet, You, Credits) read this overview first, so a new wallet read from the
+    // network reads this one again: the balance shown after a reply is the balance after it.
+    ref.listen(creditsRepositoryProvider, (previous, next) {
+      final landed = next.fetchedAt != null && !next.fromCache && next.fetchedAt != previous?.fetchedAt;
+      if (landed && previous?.fetchedAt != null) unawaited(refresh(force: true));
+    });
+    return super.build();
+  }
+
   @override
   String get cacheKey => 'me-credits';
 

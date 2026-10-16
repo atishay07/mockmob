@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/features/credits/data/credits_models.dart' show CreditsOverview;
@@ -92,14 +93,14 @@ Future<void> _pumpApp(
 
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [
+      overrides: _lastWins([
         authSnapshotProvider.overrideWithBuild((ref, n) => auth),
         creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
         meCreditsProvider.overrideWith(() => FakeMeCredits(credits ?? creditsState(practice: 24, ai: 18))),
         appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
         supportMailerProvider.overrideWithValue(mailer ?? _Mailer()),
         ...extra,
-      ],
+      ]),
       child: Consumer(
         builder: (context, ref, _) => MaterialApp.router(
           routerConfig: router,
@@ -113,6 +114,15 @@ Future<void> _pumpApp(
     ),
   );
   await tester.pumpAndSettle();
+}
+
+/// A container refuses two overrides of one provider; the test's own come last and win.
+List<Override> _lastWins(List<Override> all) {
+  final byOrigin = <Object?, Override>{};
+  for (final o in all) {
+    byOrigin[o.origin] = o;
+  }
+  return byOrigin.values.toList();
 }
 
 Future<void> _openSheet(WidgetTester tester) async {
@@ -233,6 +243,22 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(AccountSheet), findsOneWidget);
   });
+  testWidgets('the theme switch and Sign out are on screen the moment the sheet opens, with no scrolling', (tester) async {
+    await _pumpApp(tester);
+    await _openSheet(tester);
+    final screen = tester.view.physicalSize / tester.view.devicePixelRatio;
+    for (final f in [find.text('Match phone'), find.text('Sign out')]) {
+      final rect = tester.getRect(f);
+      expect(rect.top, greaterThanOrEqualTo(0));
+      expect(rect.bottom, lessThanOrEqualTo(screen.height), reason: 'visible without a scroll');
+    }
+    // Sign out is pinned under the rows: it does not move when the rows scroll.
+    final before = tester.getTopLeft(find.text('Sign out'));
+    await tester.drag(find.text(AccountCopy.rowPrivacy), const Offset(0, -200));
+    await tester.pumpAndSettle();
+    expect(tester.getTopLeft(find.text('Sign out')), before);
+  });
+
   testWidgets('Study days is not in the sheet: it lives on You', (tester) async {
     await _pumpApp(tester);
     await _openSheet(tester);
@@ -265,6 +291,47 @@ void main() {
     await _openSheet(tester);
     expect(find.text(AccountCopy.planPro), findsOneWidget);
     expect(find.text('until 12 Jan'), findsOneWidget);
+  });
+
+  testWidgets('credits kept from the last online read say when they were saved', (tester) async {
+    final fresh = creditsState(practice: 24, ai: 18);
+    await _pumpApp(
+      tester,
+      credits: RemoteState(
+        value: fresh.value,
+        fetchedAt: DateTime(2026, 10, 12, 21, 15),
+        error: const ApiError(kind: ApiErrorKind.network, code: 'network'),
+      ),
+    );
+    await _openSheet(tester);
+    expect(find.text('Saved 9:15 PM'), findsOneWidget);
+    expect(find.text(CreditsCopy.tryAgain), findsNothing);
+  });
+
+  testWidgets('credits that did not load say so and offer Try again', (tester) async {
+    final fake = FakeMeCredits(const RemoteState<CreditsOverview>(error: ApiError(kind: ApiErrorKind.network, code: 'network')));
+    await _pumpApp(tester, extra: [meCreditsProvider.overrideWith(() => fake)]);
+    await _openSheet(tester);
+    expect(find.text(CreditsCopy.notLoaded), findsWidgets);
+    final onOpen = fake.refreshes;
+    await tester.tap(find.text(CreditsCopy.tryAgain));
+    await tester.pumpAndSettle();
+    expect(fake.refreshes, onOpen + 1);
+  });
+
+  testWidgets('opening the sheet reads the balances again', (tester) async {
+    final fake = FakeMeCredits(creditsState(practice: 24, ai: 18));
+    await _pumpApp(tester, extra: [meCreditsProvider.overrideWith(() => fake)]);
+    expect(fake.refreshes, 0);
+    await _openSheet(tester);
+    expect(fake.refreshes, 1);
+  });
+
+  testWidgets('fresh credits show no status line', (tester) async {
+    await _pumpApp(tester);
+    await _openSheet(tester);
+    expect(find.textContaining('Saved '), findsNothing);
+    expect(find.text(CreditsCopy.tryAgain), findsNothing);
   });
 
   group('the Notifications row', () {

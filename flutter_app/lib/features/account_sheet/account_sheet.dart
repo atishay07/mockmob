@@ -16,7 +16,8 @@ import '../../core/auth/auth_state.dart';
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/account/account_avatar.dart';
-import '../credits/credits.dart' show CreditsPaths, creditFiguresProvider;
+import '../credits/credits.dart' show CreditsCopy, CreditsPaths, creditFiguresProvider;
+import '../credits/data/credits_data.dart' show meCreditsProvider;
 import '../credits/credits_screen.dart' show PlanTag;
 import '../credits/widgets/credit_tile.dart' show CreditTiles;
 import '../you/account/sign_out_key.dart';
@@ -30,9 +31,14 @@ import '../you/you_providers.dart' show supportMailerProvider;
 import 'account_copy.dart';
 import 'notifications_row.dart';
 
-/// Opens the Account sheet over everything (the root navigator), so it covers the bar too.
+/// Opens the Account sheet over everything (the root navigator), so it covers the bar too. Sign
+/// out is the sheet's pinned footer: the rows scroll above it, and the key never leaves the screen.
 Future<void> showAccountSheet(BuildContext context) {
-  return showMmSheet<void>(context: context, builder: (context) => const AccountSheet());
+  return showMmSheet<void>(
+    context: context,
+    builder: (context) => const AccountSheet(),
+    footer: (context) => const SignOutKey(),
+  );
 }
 
 /// Where the rows lead. Each path is an existing screen.
@@ -54,6 +60,17 @@ class AccountSheet extends ConsumerStatefulWidget {
 }
 
 class _AccountSheetState extends ConsumerState<AccountSheet> {
+  @override
+  void initState() {
+    super.initState();
+    // Credits are spent in other screens (a mock, a repair, Ask Mobi): read both balances again
+    // each time the sheet opens, so the numbers here are the ones the server holds now. The
+    // tiles show the last figures meanwhile.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(ref.read(meCreditsProvider.notifier).refresh());
+    });
+  }
+
   /// Closes the sheet and opens [path] over the app, so Back from that screen lands where the
   /// student was, not in a half-open sheet.
   void _open(String path) {
@@ -87,6 +104,7 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
           _Caption(AccountCopy.credits),
           const SizedBox(height: MmSpace.s12),
           CreditTiles(figures: figures, mobi: true, flat: true, keyPrefix: 'account', onOpen: () => _open(AccountSheetPaths.credits)),
+          const _CreditsStatus(),
           const SizedBox(height: MmSpace.s24),
           _Caption(AccountCopy.appearance),
           const SizedBox(height: MmSpace.s12),
@@ -139,11 +157,37 @@ class _AccountSheetState extends ConsumerState<AccountSheet> {
               ),
             ],
           ),
-          const SizedBox(height: MmSpace.s24),
-          const SignOutKey(),
         ],
       ),
     );
+  }
+}
+
+/// Under the tiles: "Saved 9:14 PM" while they show the figures kept from the last time the phone
+/// was online, and a quiet Try again when the read failed and nothing is kept (the tiles then read
+/// "Not loaded"). Nothing at all while the figures are fresh.
+class _CreditsStatus extends ConsumerWidget {
+  const _CreditsStatus();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final mine = ref.watch(meCreditsProvider);
+    final colors = context.mmColors;
+    final Widget? line;
+    if (mine.isStale && mine.fetchedAt != null) {
+      line = Padding(
+        padding: const EdgeInsets.only(top: MmSpace.s8),
+        child: Text(AccountCopy.savedAt(mine.fetchedAt!.toLocal()), style: context.mmType.caption.copyWith(color: colors.ink2)),
+      );
+    } else if (mine.isFailedEmpty) {
+      line = Align(
+        alignment: Alignment.centerLeft,
+        child: KeyButton.quiet(label: CreditsCopy.tryAgain, onPressed: () => unawaited(ref.read(meCreditsProvider.notifier).refresh(force: true))),
+      );
+    } else {
+      line = null;
+    }
+    return line ?? const SizedBox.shrink();
   }
 }
 
