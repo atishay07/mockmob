@@ -3,6 +3,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/gestures.dart' show DragStartBehavior;
+import 'package:flutter/physics.dart' show SpringSimulation, Tolerance;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart' show CustomSemanticsAction, OrdinalSortKey;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -117,6 +118,16 @@ class BarGeometry {
   /// The slot whose centre is nearest [x].
   int nearestSlot(double x) => ((x - pad) / slot - 0.5).round().clamp(0, kBarSlots - 1);
 }
+
+/// A spring for a 0-to-1 value of the bar (the lift, a settle, the gel, the stretch) that stops
+/// once it is within a five-hundredth of rest: the default tolerance (a thousandth, at a
+/// thousandth per second) kept the bar ticking for half a second of motion nobody can see.
+SpringSimulation _spring(SpringDescription spring, double from, double to, {double velocity = 0}) =>
+    SpringSimulation(spring, from, to, velocity, tolerance: const Tolerance(distance: 0.002, velocity: 0.05), snapToEnd: true);
+
+/// The same for a lens edge, in dp: it stops within 0.05 dp (a seventh of a pixel) of its slot.
+SpringSimulation _edgeSpring(SpringDescription spring, double from, double to, {double velocity = 0}) =>
+    SpringSimulation(spring, from, to, velocity, tolerance: const Tolerance(distance: 0.05, velocity: 2), snapToEnd: true);
 
 /// Starts, follows and settles a drag up from Start that opens the Start sheet out of the key.
 abstract interface class StartDragTarget {
@@ -536,7 +547,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
   void _liftLens() {
     if (_reduced) return;
     _dropPending = false;
-    _lift.animateWith(Motion.spring(Springs.lensLift, _lift.value, 1, velocity: _lift.velocity));
+    _lift.animateWith(_spring(Springs.lensLift, _lift.value, 1, velocity: _lift.velocity));
   }
 
   /// The lens sinks back into the glass now, or once its trailing edge has nearly landed.
@@ -554,7 +565,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       _lift.value = 0;
       return;
     }
-    _lift.animateWith(Motion.spring(Springs.lensDrop, _lift.value, 0, velocity: _lift.velocity));
+    _lift.animateWith(_spring(Springs.lensDrop, _lift.value, 0, velocity: _lift.velocity));
   }
 
   void _glideTo(int slot, {double velocity = 0, bool flick = false}) {
@@ -583,8 +594,8 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     // A flick lands with a little bounce, carrying the finger's speed; a tap never overshoots.
     final leadSpring = flick ? Springs.edgeLead : MmBottomBar.tapLead;
     final trailSpring = flick ? Springs.edgeTrail : MmBottomBar.tapTrail;
-    lead.animateWith(Motion.spring(leadSpring, lead.value, leadTo, velocity: velocity != 0 ? velocity : lead.velocity));
-    trail.animateWith(Motion.spring(trailSpring, trail.value, trailTo, velocity: velocity != 0 ? velocity * 0.6 : trail.velocity));
+    lead.animateWith(_edgeSpring(leadSpring, lead.value, leadTo, velocity: velocity != 0 ? velocity : lead.velocity));
+    trail.animateWith(_edgeSpring(trailSpring, trail.value, trailTo, velocity: velocity != 0 ? velocity * 0.6 : trail.velocity));
   }
 
   /// Makes [branch] the active one: the old icon goes back to its outline, the lens travels, the
@@ -630,7 +641,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     }
     _on[branch].animateTo(1, curve: Motion.glide);
     _settle[branch].value = 0.9;
-    _settle[branch].animateWith(Motion.spring(MmBottomBar.iconSettle, 0.9, 1));
+    _settle[branch].animateWith(_spring(MmBottomBar.iconSettle, 0.9, 1));
   }
 
   /// An icon's magnification under a lifted lens: up to 1.10 at the lens's centre, nothing a
@@ -696,8 +707,8 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       _right.value = r;
       return;
     }
-    _left.animateWith(Motion.spring(Springs.smooth, _left.value, l, velocity: _left.velocity));
-    _right.animateWith(Motion.spring(Springs.smooth, _right.value, r, velocity: _right.velocity));
+    _left.animateWith(_edgeSpring(Springs.smooth, _left.value, l, velocity: _left.velocity));
+    _right.animateWith(_edgeSpring(Springs.smooth, _right.value, r, velocity: _right.velocity));
   }
 
   void _tabTap(int branch) {
@@ -833,7 +844,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     }
     _press.reverse();
     // It springs back with one small wobble (not after a drag, which springs back by itself).
-    _gel.animateWith(Motion.spring(Springs.dock, _gel.value, 0, velocity: _dragging ? 0 : -6));
+    _gel.animateWith(_spring(Springs.dock, _gel.value, 0, velocity: _dragging ? 0 : -6));
   }
 
   double get _openDistance => (MediaQuery.sizeOf(context).height * 0.5).clamp(280.0, 460.0);
@@ -873,7 +884,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       _stretch.value = 0;
       return;
     }
-    _stretch.animateWith(Motion.spring(Springs.smooth, _stretch.value, 0));
+    _stretch.animateWith(_spring(Springs.smooth, _stretch.value, 0));
   }
 
   void _startDragEnd(DragEndDetails d) {

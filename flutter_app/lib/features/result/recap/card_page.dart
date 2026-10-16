@@ -69,40 +69,18 @@ class _RecapCardPageState extends State<RecapCardPage> {
   /// The extra room the last build applied, so the overflow test can leave it out.
   double _extra = 0;
 
-  /// The page bounces (GLASS-1017 5.9), so a swipe past either end is read from the finger: the
-  /// distance it travels while the page is beyond its end (positive past the bottom, negative
-  /// past the top). A clamping parent's overscroll still counts. The swipe pages the moment the
-  /// finger lifts, not after the bounce settles.
   bool _onScroll(ScrollNotification n) {
     if (n.depth != 0) return false;
     _track(n.metrics);
     if (n is ScrollStartNotification) _overscroll = 0;
     if (n is OverscrollNotification && n.dragDetails != null) _overscroll += n.overscroll;
-    if (n is ScrollUpdateNotification) {
-      final drag = n.dragDetails;
-      final m = n.metrics;
-      if (drag != null) {
-        final pushed = -drag.delta.dy;
-        final pastEnd = m.pixels > m.maxScrollExtent || (m.pixels >= m.maxScrollExtent && pushed > 0);
-        final pastStart = m.pixels < m.minScrollExtent || (m.pixels <= m.minScrollExtent && pushed < 0);
-        if (pastEnd || pastStart) {
-          _overscroll += pushed;
-        } else {
-          _overscroll = 0;
-        }
-      } else {
-        _swipeDone();
-      }
+    if (n is ScrollEndNotification) {
+      final o = _overscroll;
+      _overscroll = 0;
+      if (o > RecapCardPage.swipeDistance) widget.onNext?.call();
+      if (o < -RecapCardPage.swipeDistance) widget.onBack?.call();
     }
-    if (n is ScrollEndNotification) _swipeDone();
     return false;
-  }
-
-  void _swipeDone() {
-    final o = _overscroll;
-    _overscroll = 0;
-    if (o > RecapCardPage.swipeDistance) widget.onNext?.call();
-    if (o < -RecapCardPage.swipeDistance) widget.onBack?.call();
   }
 
   bool _onMetrics(ScrollMetricsNotification n) {
@@ -166,7 +144,7 @@ class _RecapCardPageState extends State<RecapCardPage> {
               final content = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: _staggered(widget.children));
               final free = box.maxHeight.isFinite ? box.maxHeight - widget.topPadding - MmSpace.s24 : 0.0;
               return CustomScrollView(
-                physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                physics: const AlwaysScrollableScrollPhysics(parent: ClampingScrollPhysics()),
                 slivers: [
                   SliverPadding(
                     padding: EdgeInsets.only(top: widget.topPadding, bottom: MmSpace.s24 + _extra),

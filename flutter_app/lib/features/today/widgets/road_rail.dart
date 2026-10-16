@@ -333,7 +333,7 @@ class _RoadRailState extends State<RoadRail> with SingleTickerProviderStateMixin
                       ListView.builder(
                         controller: _scroll,
                         scrollDirection: Axis.horizontal,
-                        physics: const BouncingScrollPhysics(),
+                        physics: const ClampingScrollPhysics(),
                         itemExtent: RoadRail.column,
                         itemCount: math.max(weeks.length, _heldColumns ?? 0),
                         itemBuilder: (context, i) {
