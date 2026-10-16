@@ -8,6 +8,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/my_colleges.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
+import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
+import 'package:mockmob/features/social/data/mob_repository.dart' show mobRepositoryProvider;
 import 'package:mockmob/features/tools/data/my_colleges_repository.dart';
 
 /// Serves `assets/...` straight from the project folder, so widgets that use `Image.asset`
@@ -54,6 +56,10 @@ Future<void> pumpMockmob(
         // list that has not loaded, unless the test passes its own.
         if (!overrides.any((o) => identical(o.origin, myCollegesRepositoryProvider)))
           myCollegesRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<MyColleges>()),
+        // The Mob entry on the You hub reads the server through the phone's database: nothing has been read
+        // (it draws nothing) unless the test passes its own.
+        if (!overrides.any((o) => identical(o.origin, mobRepositoryProvider)))
+          mobRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<MobRead>()),
         ...overrides,
       ],
       child: DefaultAssetBundle(
