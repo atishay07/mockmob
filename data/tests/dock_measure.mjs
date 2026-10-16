@@ -44,8 +44,12 @@ export const MEASURE_DOCK = String.raw`(() => {
 // is the dock clearance) ends above the dock's top edge.
 export const MEASURE_CLEARANCE = String.raw`(async () => {
   const root = document.scrollingElement;
-  root.scrollTo({ top: root.scrollHeight, behavior: 'instant' });
-  await new Promise((r) => setTimeout(r, 300));
+  // Pages keep growing as their sections load and reveal, so scroll to the end until the height holds still.
+  for (let i = 0, last = -1; i < 12 && root.scrollHeight !== last; i += 1) {
+    last = root.scrollHeight;
+    root.scrollTo({ top: root.scrollHeight, behavior: 'instant' });
+    await new Promise((r) => setTimeout(r, 400));
+  }
   const dock = document.querySelector('.arena-dock');
   const main = document.getElementById('app-main');
   const r = main.getBoundingClientRect();

@@ -78,6 +78,9 @@ test('slot widths stay at or above 44 px at every phone width (NAV-1017 6.1 form
 const BASE = process.env.DOCK_BASE_URL;
 const view = (name, extra = '') => `${BASE}/preview/arena?view=${name}&plan=free&data=ready${extra}`;
 const near = (a, b, tol = 0.5) => Math.abs(a - b) <= tol;
+// The dock is in the server HTML before React hydrates it; a click before then does nothing. Wait for React's props.
+const HYDRATED = `(() => { const el = document.querySelector('.arena-dock nav button'); return Boolean(el && Object.keys(el).some((k) => k.startsWith('__reactProps'))); })()`;
+const hydrate = async (page) => { const t0 = Date.now(); while (Date.now() - t0 < 30000 && !(await page.eval(HYDRATED))) await new Promise((r) => setTimeout(r, 150)); };
 
 test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE_URL to a running server to measure the dock' }, async (t) => {
   const { launch } = await import('./cdp_chrome.mjs');
@@ -163,6 +166,7 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
           await page.viewport(390, 844, 1);
           for (const [label, target] of [['Review', 'review'], ['Colleges', 'compass'], ['Today', 'today'], ['Practice', 'dashboard']]) {
             await page.goto(view(label === 'Practice' ? 'today' : 'dashboard'), '.arena-dock nav a');
+            await hydrate(page);
             const at = await page.eval(`(() => { const a = [...document.querySelectorAll('.arena-dock nav a')].find((n) => n.textContent.trim() === ${JSON.stringify(label)}); const r = a.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2; return { x, y, hit: a.contains(document.elementFromPoint(x, y)) }; })()`);
             assert.equal(at.hit, true, `${label} is not covered`);
             await page.click(at.x, at.y);
@@ -181,6 +185,7 @@ test('DOM measurement in headless Chrome', { skip: BASE ? false : 'set DOCK_BASE
         await t.test(`${theme} More rises from the dock and closes on Escape`, async () => {
           await page.viewport(390, 844, 1);
           await page.goto(view('dashboard'), '.arena-dock nav a');
+          await hydrate(page);
           const at = await page.eval(`(() => { const b = [...document.querySelectorAll('.arena-dock nav button')].find((n) => n.textContent.trim() === 'More'); const r = b.getBoundingClientRect(); const x = r.left + r.width / 2, y = r.top + r.height / 2; return { x, y, hit: b.contains(document.elementFromPoint(x, y)) }; })()`);
           assert.equal(at.hit, true);
           await page.click(at.x, at.y);

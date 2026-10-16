@@ -213,8 +213,8 @@
     grid-template-columns: 52px minmax(0, 1fr) auto;
     align-items: center;
     gap: 10px;
-    width: calc(100% - 24px);
-    max-width: 560px;
+    /* The dock's own width and gutters (16 px, 8 px below 360 px; at most 440), so the two stack edge to edge. */
+    width: min(calc(100% - 32px), 440px);
     min-height: 62px;
     margin: 0 auto;
     padding: 7px 7px 7px 10px;
@@ -238,6 +238,7 @@
       backdrop-filter: blur(22px) saturate(1.45);
     }
   }
+  @media (max-width: 359px) { .app-shell .pr .pr-dock { width: calc(100% - 16px); } }
   html[data-theme='light'] .app-shell .pr .pr-dock { box-shadow: 0 16px 36px -18px rgb(20 32 14 / 0.38); }
   .app-shell .pr .pr-dock[data-shown] {
     opacity: 1;
