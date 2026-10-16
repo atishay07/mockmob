@@ -86,7 +86,7 @@ export function PlanCard() {
         </>
       ) : (
         <>
-          {lapsed ? <p className="plan-card__lead">Your monthly Pro has ended{until ? <> on <strong>{fmt(until)}</strong></> : null} and no further payment will be taken. Your history and saved questions stay.</p> : ended ? <p className="plan-card__lead">Your Pro access ended on <strong>{fmt(until)}</strong>. Your history and saved questions stay.</p> : null}
+          {lapsed ? <p className="plan-card__lead">Your monthly Pro has ended and no further payment will be taken.{until ? <> It ended on <strong>{fmt(until)}</strong>.</> : null} Your history and saved questions stay.</p> : ended ? <p className="plan-card__lead">Your Pro access ended on <strong>{fmt(until)}</strong>. Your history and saved questions stay.</p> : null}
           <p className="plan-card__lead">Free uses practice credits: Quick practice costs 10 practice credits and Full mock costs 50.</p>
           <div className="plan-card__row"><CreditAmount kind="practice" amount={balance} display={rolled} unitLabel="practice credits" /></div>
           <Link href="/pricing" className="plan-card__cta"><AppIcon name="pricing" size={16} />{ended || lapsed ? 'See Pro to renew' : 'See Pro'}</Link>
