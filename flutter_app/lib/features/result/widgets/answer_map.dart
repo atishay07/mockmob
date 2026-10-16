@@ -15,7 +15,9 @@ import '../sheet/sheet_geometry.dart';
 /// until the finger lifts.
 ///
 /// When [arrival] is set (the result has just been opened) one soft ripple runs across the
-/// bubbles in paper order, then two coral rings pulse on the first wrong answer, once. Reduced
+/// bubbles in paper order (420 ms), then one quiet ink2 ring on the first wrong answer (380 ms),
+/// once: 800 ms in all, never alarming; the mistake keeps its static coral cross (APP-PASS AP2-06,
+/// M21; PRODUCT-EXPERIENCE: no punitive moments). Reduced
 /// motion: no ripple and no pop, the tap and the label still work. Painted in one overlay inside
 /// a RepaintBoundary, so only that layer repaints.
 class AnswerMap extends StatefulWidget {
@@ -34,15 +36,20 @@ class AnswerMap extends StatefulWidget {
   final ValueChanged<int>? onPeek;
 
   /// The whole arrival: a ripple of [rippleSpan] ms across the grid, each ring living [ringLife]
-  /// ms, then two coral pulses [pulseGap] ms apart.
-  static const Duration total = Duration(milliseconds: 1750);
-  static const double rippleSpan = 620;
-  static const double ringLife = 380;
-  static const double pulseStart = 960;
-  static const double pulseGap = 300;
-  static const double pulseLife = 440;
+  /// ms (420 ms, inside Motion.drawIn), then one ink2 ring on the first wrong answer for [pulseLife] ms.
+  static const Duration total = Duration(milliseconds: 800);
+  static const double rippleSpan = 180;
+  static const double ringLife = 240;
+  static const double pulseStart = 420;
+  static const double pulseLife = 380;
 
-  /// Which bubble the two coral pulses land on: the first wrong answer, or null with none.
+  /// How many rings the first wrong answer gets: one.
+  static const int pulseCount = 1;
+
+  /// The gap between rings, were there more than one (there is one).
+  static const double pulseGap = 0;
+
+  /// Which bubble the ring lands on: the first wrong answer, or null with none.
   static int? firstWrong(List<BubbleState> cells) {
     final i = cells.indexOf(BubbleState.wrong);
     return i < 0 ? null : i;
@@ -361,20 +368,20 @@ class _MapPainter extends CustomPainter {
           ..color = colors.ink2.withValues(alpha: 0.5 * (1 - q)),
       );
     }
-    // Then two coral rings on the first wrong answer.
+    // Then one quiet ring on the first wrong answer, in ink2 (its coral cross says wrong).
     final first = AnswerMap.firstWrong(cells);
     if (first != null) {
-      for (var k = 0; k < 2; k++) {
+      for (var k = 0; k < AnswerMap.pulseCount; k++) {
         final q = (ms - AnswerMap.pulseStart - k * AnswerMap.pulseGap) / AnswerMap.pulseLife;
         if (q <= 0 || q >= 1) continue;
         final e = Curves.easeOutCubic.transform(q);
         canvas.drawCircle(
           geo.center(first),
-          r * (1.1 + 1.0 * e),
+          r * (1.1 + 0.7 * e),
           Paint()
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 2.2 * (1 - 0.5 * e)
-            ..color = colors.wrongMark.withValues(alpha: 0.85 * (1 - e)),
+            ..strokeWidth = 1.6 * (1 - 0.4 * e)
+            ..color = colors.ink2.withValues(alpha: 0.7 * (1 - e)),
         );
       }
     }

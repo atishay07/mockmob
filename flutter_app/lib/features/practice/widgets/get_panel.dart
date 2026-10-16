@@ -295,7 +295,7 @@ class _InkedCheck extends StatelessWidget {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, _) {
-        final t = Curves.easeOutBack.transform(((controller.value - 0.62) / 0.38).clamp(0.0, 1.0));
+        final t = Motion.out.transform(((controller.value - 0.62) / 0.38).clamp(0.0, 1.0));
         return Transform.scale(
           scale: t,
           child: Opacity(

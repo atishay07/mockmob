@@ -613,7 +613,7 @@ class _InkedCheck extends StatelessWidget {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.4, end: 1),
       duration: Motion.of(context, const Duration(milliseconds: 120)),
-      curve: Curves.easeOutBack,
+      curve: Motion.out,
       builder: (context, t, child) => Opacity(opacity: t.clamp(0.0, 1.0), child: Transform.scale(scale: t, child: child)),
       child: const Icon(LucideIcons.check, size: 18),
     );

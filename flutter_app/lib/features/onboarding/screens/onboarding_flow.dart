@@ -47,6 +47,9 @@ class OnboardingFlow extends ConsumerStatefulWidget {
   /// Opens straight on the stored step instead of Welcome (goldens, tests).
   final bool startInDeck;
 
+  /// When a row-completing answer's second tick lands after the tap's: as its ink lands.
+  static const Duration inkedTickDelay = Duration(milliseconds: 260);
+
   @override
   ConsumerState<OnboardingFlow> createState() => _OnboardingFlowState();
 }
@@ -291,7 +294,15 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
       // on every answer is a buzz on a budget motor). The seal has its own, firmer one.
       if (_inDeck && before != null && !(after.sealed && !before.sealed)) {
         final inked = kOnboardingDeck.sheetSteps.any((s) => after.isDone(s.id) && !before.isDone(s.id));
-        if (inked) ref.read(hapticsProvider).selection();
+        // Tick then tock: the tap's own tick is at 0 ms (ChoiceTile); this one waits for the ink
+        // to land in the bubble (260 ms), and only when the answer completes a row (APP-PASS
+        // AP2-08, M22: two clicks in one frame read as one buzz).
+        if (inked) {
+          final haptics = ref.read(hapticsProvider);
+          Future<void>.delayed(OnboardingFlow.inkedTickDelay, () {
+            if (mounted) haptics.selection();
+          });
+        }
       }
       final cue = mobiCueFor(before, after);
       if (cue != null) _perform(cue);

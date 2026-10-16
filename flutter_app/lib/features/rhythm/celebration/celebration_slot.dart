@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/motion/mm_light.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/art/scene_art.dart';
@@ -167,8 +168,9 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
         clipBehavior: Clip.none,
         children: [
           // The pool is the light event of a first with no ring; with a ring the sweep is, and a
-          // second light would make two.
-          if (mobi && lead == null)
+          // second light would make two. Daylight has no bloom (MmLight.glows; a lamp radial is
+          // invisible on paper and muddies it), so the pool is a Night light only (APP-PASS AP2-05).
+          if (mobi && lead == null && MmLight.glows(context))
             Positioned(
               right: -MmSpace.s24 - MmSpace.s4,
               top: -MmSpace.s32,
@@ -181,7 +183,7 @@ class _CelebrationMomentState extends State<CelebrationMoment> with TickerProvid
                     scale: Tween<double>(begin: 0.7, end: 1).animate(CurvedAnimation(parent: _bloom, curve: Motion.out)),
                     child: DecoratedBox(
                       decoration: BoxDecoration(
-                        gradient: RadialGradient(colors: [colors.lamp.withValues(alpha: colors.isNight ? 0.24 : 0.20), colors.lamp.withValues(alpha: 0)]),
+                        gradient: RadialGradient(colors: [colors.lamp.withValues(alpha: 0.24), colors.lamp.withValues(alpha: 0)]),
                       ),
                     ),
                   ),

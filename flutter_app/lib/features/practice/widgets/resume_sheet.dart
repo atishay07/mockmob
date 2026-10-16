@@ -169,7 +169,7 @@ class _SheetPainter extends CustomPainter {
         final start = ResumeSheet.startOf(rank++, inkedCount);
         final t = ((progress.value - start) / 0.3).clamp(0.0, 1.0);
         if (t > 0) {
-          final r = (d / 2) * Curves.easeOutBack.transform(t).clamp(0.0, 1.15);
+          final r = (d / 2) * Motion.out.transform(t);
           canvas.drawCircle(c, r, fill);
           if (t >= 1) canvas.drawCircle(c, d / 2 - 0.5, rim);
         }

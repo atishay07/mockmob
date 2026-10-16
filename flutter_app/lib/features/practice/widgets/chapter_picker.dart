@@ -92,8 +92,8 @@ class ChapterField extends StatelessWidget {
   }
 }
 
-/// The chosen count against the most one session takes ("3 of 12"): it pops (scales from 1.3 to 1
-/// on a soft ease) each time it changes, never on first show. Nothing under reduced motion.
+/// The chosen count against the most one session takes ("3 of 12"): it rolls (the new figure rises
+/// into place as it fades in, no scale) each time it changes, never on first show. Nothing under reduced motion.
 class _CountBadge extends StatelessWidget {
   const _CountBadge({required this.count, required this.style});
 
@@ -109,9 +109,13 @@ class _CountBadge extends StatelessWidget {
       child: AnimatedSwitcher(
         duration: duration,
         layoutBuilder: (current, previous) => Stack(alignment: Alignment.centerRight, children: [...previous, ?current]),
-        transitionBuilder: (child, a) => ScaleTransition(
-          scale: Tween<double>(begin: 1.3, end: 1).chain(CurveTween(curve: Curves.easeOutBack)).animate(a),
-          child: FadeTransition(opacity: a, child: child),
+        // The count rolls (the new figure rises a little into place as it fades in), no scale and
+        // no overshoot: numbers never wobble (APP-PASS AP2-07, M14; standards s10 item 6, T-105).
+        transitionBuilder: (child, a) => ClipRect(
+          child: SlideTransition(
+            position: Tween<Offset>(begin: const Offset(0, 0.45), end: Offset.zero).chain(CurveTween(curve: Motion.out)).animate(a),
+            child: FadeTransition(opacity: a, child: child),
+          ),
         ),
         child: Text(PracticeCopy.chaptersChosen(count, maxChapters), key: ValueKey(count), style: style),
       ),
@@ -231,7 +235,7 @@ class _ChapterChipState extends State<_ChapterChip> with SingleTickerProviderSta
     return FadeTransition(
       opacity: _c,
       child: ScaleTransition(
-        scale: Tween<double>(begin: 0.85, end: 1).chain(CurveTween(curve: Curves.easeOutBack)).animate(_c),
+        scale: Tween<double>(begin: 0.85, end: 1).chain(CurveTween(curve: Motion.out)).animate(_c),
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 300),
           child: MmPressable(

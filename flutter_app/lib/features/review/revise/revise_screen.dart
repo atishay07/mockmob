@@ -9,6 +9,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/api/api_error.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/mistake_lab_traps.dart';
+import '../../../core/motion/mm_light.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -429,8 +430,12 @@ class _CapChoice extends StatelessWidget {
   }
 }
 
-/// The four boxes with their counts and when each comes back. After a recall the lanes the card
-/// left and entered pulse once; the counts always match the server's moves.
+/// The four boxes with their counts and when each comes back. After a recall the eye can follow
+/// the card (APP-PASS AP2-04, M08; rule 31; MOTION.md 1.2 T1; standards s8 R-153): a 6 dp volt dot
+/// (olive rim on Day) flies from the lane it left to the lane it entered on a low arc (280 ms,
+/// Motion.emphasized, no tail); the from-lane's count rolls down and the to-lane's rolls up
+/// (300 ms); the to-lane's top edge inks a 2 dp line (220 ms) that fades after 600 ms. The counts
+/// always match the server's moves. Reduced motion: the counts change in place, no dot.
 class _Lanes extends StatelessWidget {
   const _Lanes({
     required this.boxes,
@@ -446,92 +451,183 @@ class _Lanes extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    final m = moved;
+    final reduced = Motion.reduced(context);
+    final flies = m != null && m.from != m.to && !reduced;
+    final row = IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < 4; i++) ...[
+            if (i > 0) const SizedBox(width: _LaneFlight.gap),
+            Expanded(
+              child: Semantics(
+                container: true,
+                label: ReviseCopy.laneSpoken(
+                  i + 1,
+                  boxes[i],
+                  labels.boxes[i + 1],
+                ),
+                child: ExcludeSemantics(
+                  child: MmSurface.inset(
+                    padding: const EdgeInsets.fromLTRB(
+                      MmSpace.s8,
+                      MmSpace.s12,
+                      MmSpace.s8,
+                      MmSpace.s12,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _RollCount(
+                          count: boxes[i],
+                          // Keyed by the recall, so each recall rolls the two lanes it touched once.
+                          roll: m == null || reduced || m.from == m.to
+                              ? 0
+                              : (m.to == i ? 1 : (m.from == i ? -1 : 0)),
+                          recall: m?.n ?? 0,
+                          style: type.title.copyWith(
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                        ),
+                        const SizedBox(height: MmSpace.s2),
+                        Text(
+                          ReviseCopy.box(i + 1),
+                          style: type.label.copyWith(color: colors.ink2),
+                        ),
+                        const SizedBox(height: MmSpace.s2),
+                        Text(
+                          labels.boxes[i + 1] ?? '',
+                          style: type.caption.copyWith(color: colors.ink3),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
     return Semantics(
       container: true,
       label: ReviseCopy.cardsByBox,
       // Four tiles of one height, whatever their days wrap to.
-      child: IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            for (var i = 0; i < 4; i++) ...[
-              if (i > 0) const SizedBox(width: MmSpace.s8),
-              Expanded(
-                child: Semantics(
-                  container: true,
-                  label: ReviseCopy.laneSpoken(
-                    i + 1,
-                    boxes[i],
-                    labels.boxes[i + 1],
-                  ),
-                  child: ExcludeSemantics(
-                    child: _Pulse(
-                      pulse:
-                          moved != null && (moved!.from == i || moved!.to == i)
-                          ? moved!.n
-                          : 0,
-                      child: MmSurface.inset(
-                        padding: const EdgeInsets.fromLTRB(
-                          MmSpace.s8,
-                          MmSpace.s12,
-                          MmSpace.s8,
-                          MmSpace.s12,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${boxes[i]}',
-                              style: type.title.copyWith(
-                                fontFeatures: const [
-                                  FontFeature.tabularFigures(),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: MmSpace.s2),
-                            Text(
-                              ReviseCopy.box(i + 1),
-                              style: type.label.copyWith(color: colors.ink2),
-                            ),
-                            const SizedBox(height: MmSpace.s2),
-                            Text(
-                              labels.boxes[i + 1] ?? '',
-                              style: type.caption.copyWith(color: colors.ink3),
-                            ),
-                          ],
+      child: !flies
+          ? row
+          : Stack(
+              clipBehavior: Clip.none,
+              children: [
+                row,
+                Positioned.fill(
+                  child: IgnorePointer(
+                    child: TweenAnimationBuilder<double>(
+                      key: ValueKey(m.n),
+                      tween: Tween(begin: 0, end: _LaneFlight.total),
+                      duration: Duration(milliseconds: _LaneFlight.total.round()),
+                      builder: (context, ms, _) => CustomPaint(
+                        painter: _LaneFlight(
+                          from: m.from,
+                          to: m.to,
+                          ms: ms,
+                          dot: MmLight.particleFill(context),
+                          rim: MmLight.particleRim(context),
+                          edge: colors.isNight ? colors.volt : colors.accentText,
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ],
-        ),
-      ),
+              ],
+            ),
     );
   }
 }
 
-/// A lane's one pulse when a card leaves or enters it (200 ms, scale 1.06 back to 1). The key is
-/// the recall's number, so each recall pulses once; reduced motion lands every change at once.
-class _Pulse extends StatelessWidget {
-  const _Pulse({required this.pulse, required this.child});
+/// The card's flight between two lanes and the to-lane's inked edge, painted over the row.
+class _LaneFlight extends CustomPainter {
+  _LaneFlight({
+    required this.from,
+    required this.to,
+    required this.ms,
+    required this.dot,
+    required this.rim,
+    required this.edge,
+  });
 
-  final int pulse;
-  final Widget child;
+  final int from;
+  final int to;
+  final double ms;
+  final Color dot;
+  final Paint? rim;
+  final Color edge;
+
+  static const double gap = MmSpace.s8;
+  static const double flight = 280;
+  static const double ink = 220;
+  static const double hold = 600;
+  static const double fade = 200;
+  static const double total = flight + ink + hold + fade;
+
+  /// Where the dot is at flight progress [t] (0..1) between lane centres [a] and [b] along the top
+  /// edge: a low arc, its highest point 14 dp above the edge.
+  static Offset dotAt(double t, double a, double b) {
+    final e = Motion.emphasized.transform(t.clamp(0.0, 1.0));
+    return Offset(a + (b - a) * e, -14 * 4 * e * (1 - e));
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final lane = (size.width - 3 * gap) / 4;
+    double centre(int i) => i * (lane + gap) + lane / 2;
+    if (ms < flight) {
+      final p = dotAt(ms / flight, centre(from), centre(to)) + const Offset(0, 6);
+      canvas.drawCircle(p, 3, Paint()..color = dot);
+      final r = rim;
+      if (r != null) canvas.drawCircle(p, 3, r);
+      return;
+    }
+    final inked = Motion.out.transform(((ms - flight) / ink).clamp(0.0, 1.0));
+    final gone = ((ms - flight - ink - hold) / fade).clamp(0.0, 1.0);
+    final alpha = 1 - Motion.out.transform(gone);
+    if (alpha <= 0) return;
+    final left = to * (lane + gap) + MmSpace.s12;
+    final width = (lane - 2 * MmSpace.s12) * inked;
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(Rect.fromLTWH(left, 0, width, 2), const Radius.circular(1)),
+      Paint()..color = edge.withValues(alpha: edge.a * alpha),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_LaneFlight old) => old.ms != ms || old.from != from || old.to != to || old.dot != dot || old.edge != edge;
+}
+
+/// A lane's count. When a recall moves a card it rolls: up into place on the lane the card
+/// entered ([roll] 1), down on the lane it left (-1), 300 ms on Motion.out; 0 changes in place.
+class _RollCount extends StatelessWidget {
+  const _RollCount({required this.count, required this.roll, required this.recall, required this.style});
+
+  final int count;
+  final int roll;
+  final int recall;
+  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
-    if (pulse == 0 || Motion.reduced(context)) return child;
+    final text = Text('$count', style: style);
+    if (roll == 0) return text;
     return TweenAnimationBuilder<double>(
-      key: ValueKey(pulse),
-      tween: Tween(begin: 1.06, end: 1),
-      duration: const Duration(milliseconds: 200),
+      key: ValueKey(recall),
+      tween: Tween(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 300),
       curve: Motion.out,
-      builder: (context, scale, child) =>
-          Transform.scale(scale: scale, child: child),
-      child: child,
+      builder: (context, t, child) => Opacity(
+        opacity: (0.2 + 0.8 * t).clamp(0.0, 1.0),
+        child: Transform.translate(offset: Offset(0, roll * 10 * (1 - t)), child: child),
+      ),
+      child: text,
     );
   }
 }

@@ -260,7 +260,7 @@ class _SealPainter extends CustomPainter {
     if (p <= 0) return;
     final c = size.center(Offset.zero);
     final r = size.shortestSide / 2;
-    final disc = Curves.easeOutBack.transform((p / 0.45).clamp(0.0, 1.0));
+    final disc = Motion.out.transform((p / 0.45).clamp(0.0, 1.0));
     canvas
       ..drawCircle(c + const Offset(0, 4), r * disc * 0.92, Paint()..color = colors.voltGlow.withValues(alpha: colors.voltGlow.a * 0.6))
       ..drawCircle(c, r * disc, Paint()..color = colors.volt);
