@@ -457,3 +457,22 @@ All paths are in `mockmob-next/docs`.
 ## 13. EXACT STOP POINT (filled in at the safe stop)
 
 (See below, appended by the main session at the stop.)
+
+### Section 13, written at the stop (17 Oct about 3:55 am IST, usage at 96%)
+
+All workflows were stopped on purpose. The emulator, the staging site and relay, the dev servers, headless Chrome, Gradle and Flutter testers were all killed (6.3 GB free after). Every interrupted worktree was committed as a "STOP POINT" commit. **Nothing is half-applied in production.** Live main is still **e192c59e**.
+
+| Track | Worktree, branch | Head at the stop | Next, exactly |
+|---|---|---|---|
+| **A. Ship the website UX pass** | wt-ship17, deploy/ux-1017 | **42b0d75b** merges web/ux-social-1016 (94c172e6, verifier PASS) onto main e192c59e. On top sits 079e8338, a STOP POINT that only adds a stray `dev3250.log`: delete it in a commit. | The merge agent never finished its checks. Rerun lint, test:app/recovery/learning/auth/billing and `npx next build --webpack`, then smoke Today, Practice, a result, Review, Progress, /leaderboard ("Your standing" must survive) and Pricing at 390 and 1440, Night and Day. Then **push to main** and verify Vercel. |
+| **B. Six website redesign packets** | none created yet (wt-p-* do not exist) | n/a | Launch them from deploy/ux-1017 **after A ships**, exactly as in section 4: result, start (with the server-side fine-tune scope, F12, F10), today, dock, mob split, retire 41 subjects. Then integrate, an Opus critic, an Opus fixer, a Sonnet verifier, push. Script to copy: `web-build-1017-wf_608e70c8-074.js` (path in section 4). |
+| **C. Landing** | wt-land2, web/land2-1015 | **d483939d**, a STOP POINT holding the round-11 fixer's partial edits (21 files) over d6e1ad65 (round-10 fixes) | Critic r10 scored **74** (`mockmob-next/tmp/resume-1017/C_critic-r10.json`), with a truth defect: delayed fresh checks and the Score Recovery Lab are presented as live while `data/capabilities.js` blocks recovery. An Opus fixer reviews d483939d against the r10 defects, finishes, and removes "41 subjects". Then an Opus critic round 12; ship only at 88+. |
+| **D. App v12** | wt-owner, ui/owner-1016 | **f5d848bf** (clean; includes the Business Studies briefcase) | Walk 1A done: 14 pass, 5 fail (L01, L03, L09, L13, L33; `tmp/resume-1017/D_walk-1A.json`, shots `tmp/app-walk-1017/1A`). Walk 1B never ran. Restart the rig (RIG-READY.md; the v12 profile build is already installed on the AVD), walk L16-L28, L30, L34-L39, fix all failures by area, re-walk, release v12. |
+| **E. App UX pass integration** | wt-appux2, ui/ux-social-1016 | **2787be0a**, a STOP POINT with the integrator's partial edits (about 100 files) over dfd705b9 | A Sonnet integrator reviews the partial edits, then analyze, the full unit tests (-j 1) and goldens. Merge into ui/owner-1016 after v12, as the base for **v13**. |
+| **F. App v13** (the owner's priority: "the app feels like the old app") | branch from ui/owner-1016 after D and E | n/a | Build from NAV A1 (refine the active-tab bubble), GLASS, RESULT, TODAY, START (app parts) and the Mob app side (SOCIAL-SPEC section 15). Keep the Practice cards' blue light and texture. Emulator walk against F1-F18 and L01-L39, then release. |
+| **G. Content wave 3** | wt-wave3, content/wave3-1017 | **725c0e65** (clean) | Run the missing scoring steps listed in section 4 with session agents (Haiku solvers and judges; Sonnet expert pass), merge the scores, dry run, then apply the 8+ rows (owner already said yes for 8+). Keep Hindi off. |
+
+**Also open:**
+- the repair diagnostic log level and the "not_in_passage" trap label;
+- the AGENTS.md USD 25 line;
+- Review F17 (the saved repair plus the mock date on each mistake).
