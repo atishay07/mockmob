@@ -77,7 +77,7 @@ function AnswerMobi({ result }) {
   const { celebrations } = useMobiPrefs();
   const act = reviseAnswerAct(result);
   if (!allowed || celebrations !== 'full' || !act) return null;
-  return <span className="rvs-result__mobi"><MobiReact act={act} size={52} facing="left" /></span>;
+  return <span className="rvs-result__mobi"><MobiReact act={act} size={52} /></span>;
 }
 
 function Card({ item, number, total, result, busy, error, onChoose, onNext, last }) {
@@ -114,8 +114,9 @@ function Card({ item, number, total, result, busy, error, onChoose, onNext, last
       {answered ? (
         <div className="rvs-result" data-correct={result.correct || undefined} role="status">
           <div className="rvs-result__head">
-            <p className="rvs-result__line">{result.correct ? <Check size={18} strokeWidth={2.4} aria-hidden="true" /> : <X size={18} strokeWidth={2.4} aria-hidden="true" />}{result.line}</p>
+            {/* Mobi stands right beside the line he reacts to (as on the end card), never at the far end of the row. */}
             <AnswerMobi result={result} />
+            <p className="rvs-result__line">{result.correct ? <Check size={18} strokeWidth={2.4} aria-hidden="true" /> : <X size={18} strokeWidth={2.4} aria-hidden="true" />}{result.line}</p>
           </div>
           {result.explanation ? <p className="rvs-result__why">{result.explanation}</p> : null}
         </div>

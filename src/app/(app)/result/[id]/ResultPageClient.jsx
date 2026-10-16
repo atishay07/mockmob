@@ -207,7 +207,7 @@ export default function ResultPageClient({ previewId = null }) {
     if (status === 'explained') setAckedAt(Date.now());
   }, []);
 
-  if (error)    return <div className="container-narrow student-page student-page--result pt-8"><ErrorState mascot message="This session did not load. Try again to see your recorded result." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
+  if (error)    return <div className="container-narrow student-page student-page--result pt-8"><ErrorState scene="unreachable" title="This session did not load" message="Your recorded result is safe. Try again to see it." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
   if (!attempt || !analysis) return <PageSpinner label="Loading your recorded result…" />;
 
   const { marks, timing } = analysis;

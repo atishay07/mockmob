@@ -41,6 +41,20 @@ export function previewInsights(names = { accountancy: 'Accountancy' }) {
   return { ok: true, insights, findings: readout(insights, { limit: 4 }) };
 }
 
+// The Score by session chart and the record's header read the same three attempts, so the range line
+// ("3 sessions ... from <date> to <date>") and the chart's sessions always agree. Shaped like /api/analytics.
+export function previewAnalytics() {
+  const chronological = [...ATTEMPTS].sort((a, b) => a.completedAt - b.completedAt);
+  const totals = ATTEMPTS.reduce((t, a) => ({ correct: t.correct + (a.correct || 0), wrong: t.wrong + (a.wrong || 0), unattempted: t.unattempted + (a.unattempted || 0) }), { correct: 0, wrong: 0, unattempted: 0 });
+  const answered = totals.correct + totals.wrong + totals.unattempted;
+  return {
+    totalAttempts: ATTEMPTS.length, totals, scoring: { device: 0 },
+    timeline: chronological.map((a, i) => ({ test: `T${i + 1}`, score: a.score, at: a.completedAt, scoring: 'server' })),
+    subjects: [{ id: 'accountancy', name: 'Accountancy', tests: ATTEMPTS.length, avg: Math.round(ATTEMPTS.reduce((n, a) => n + a.score, 0) / ATTEMPTS.length), accuracy: answered ? Math.round((totals.correct / answered) * 100) : 0 }],
+    weakChapters: [],
+  };
+}
+
 // Compass Pro fixture: four practised papers with plausible, clearly illustrative mixes.
 // `pattern` repeats r (right), w (wrong), b (blank). Never shown outside /preview/arena.
 const pattern = (subject, mix, n) => ({ subject, details: Array.from({ length: n }, (_, i) => ({ qid: `${subject}-${i}`, isCorrect: mix[i % mix.length] === 'r' ? true : mix[i % mix.length] === 'w' ? false : null })) });

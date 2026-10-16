@@ -145,7 +145,7 @@ html[data-theme='light'] :is(.rpl, .rpl-strip) {
 .rpl-bar[data-r='right'] .rpl-bar__fill { fill: var(--rpl-right); }
 .rpl-bar[data-r='wrong'] .rpl-bar__fill { fill: var(--rpl-wrong); }
 .rpl-bar[data-r='held'] .rpl-bar__fill { stroke: var(--a-line-strong, #384736); stroke-width: 1; }
-.rpl-bar__q { font: 700 10px/1 var(--font-display, inherit); fill: var(--rpl-label); pointer-events: none; font-variant-numeric: tabular-nums; }
+.rpl-bar__q { font: 700 12px/1 var(--font-display, inherit); fill: var(--rpl-label); pointer-events: none; font-variant-numeric: tabular-nums; }
 .rpl-bar:is([data-r='blank'], [data-r='held']) .rpl-bar__q { fill: var(--rpl-label-blank); }
 .rpl-bar__ring { fill: none; stroke: transparent; stroke-width: 2; }
 .rpl-bar[data-sel] .rpl-bar__ring { stroke: var(--a-ink, #f2f4ec); }
@@ -161,7 +161,7 @@ html[data-theme='light'] .rpl-bar[data-hover] .rpl-bar__fill { filter: brightnes
 .rpl-end line { stroke: var(--a-ink, #f2f4ec); stroke-width: 1.5; }
 .rpl-end rect { fill: var(--a-ink, #f2f4ec); }
 .rpl-away path { fill: none; stroke: var(--a-ink-3, #93a08f); stroke-width: 1; }
-.rpl-away text { font: 600 10.5px/1 var(--font-body, inherit); fill: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
+.rpl-away text { font: 600 12px/1 var(--font-body, inherit); fill: var(--a-ink-2, #bcc5b9); font-variant-numeric: tabular-nums; }
 
 /* What moves with the clock. */
 .rpl-veil { fill: var(--rpl-veil); pointer-events: none; }
@@ -258,7 +258,9 @@ html[data-theme='light'] .rpl-sw[data-g='other_wrong'] { background: #7a1d15; }
      the step's own text column, inside the Lab's padding. A negative margin here pushed it 4px off the screen. */
   .rpl-stage { padding: 12px 12px 8px; border-radius: 14px; }
   /* Chips stay on one line and scroll inside their own row; the page itself never scrolls sideways. */
-  .rpl-chips { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 -12px 0 0; padding: 2px 12px 2px 2px; }
+  .rpl-chips { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; margin: 0 -12px 0 0; padding: 2px 36px 2px 2px;
+    /* An edge fade says the row goes on; the end padding lets the last chip scroll clear of it. */
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); }
   .rpl-chips::-webkit-scrollbar { display: none; }
   .rpl-chip { flex: none; }
   .rpl-clock__time { font-size: 24px; }

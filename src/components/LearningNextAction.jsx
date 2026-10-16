@@ -4,9 +4,12 @@
 import { useEffect, useRef, useState, useId } from 'react';
 import Link from 'next/link';
 import { api, apiGet } from '@/lib/fetcher';
-import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
+import { StatusIcon } from '@/components/ui/Glyph';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
-import InstallPractice from './InstallPractice';
+import { ErrorState } from '@/components/ui/Skeleton';
+import { SCREEN_MOMENTS } from '@/lib/mobiScreens';
+import { helloToday } from '@/lib/mobiRation';
+import { useMobiGate } from '@/lib/mobiHooks';
 import { useCountUpState } from '@/lib/motion/useCountUp';
 import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -41,8 +44,8 @@ function NextWhy({ plan, top, planned }) {
         <span className="na__why-art" aria-hidden="true"><SubjectObject id={top.subject} size={120} lit life={false} /></span>
         <div className="na__why-text">
           <b className="na__why-chapter">{top.subjectName}</b>
-          <p className="na__why-marks"><strong><Rolled value={top.open} memoryKey="na-open-marks" /></strong><span>marks open in this chapter</span></p>
-          <p className="na__why-detail">{[top.wrong ? `${top.wrong} wrong` : '', top.skip ? `${top.skip} left blank` : ''].filter(Boolean).join(' and ')} of {plural(top.n, 'question')}, over {plural(top.sessions, 'session')}.</p>
+          <p className="na__why-marks"><strong><Rolled value={top.open} memoryKey="na-open-marks" /></strong><span>marks these misses were worth</span></p>
+          <p className="na__why-detail">{[top.wrong ? `${top.wrong} wrong` : '', top.skip ? `${top.skip} left blank` : ''].filter(Boolean).join(' and ')} of {plural(top.n, 'question')}, over {plural(top.sessions, 'session')}. That is 5 marks each{top.wrong ? '; each wrong answer also cost −1 on its paper' : ''}.</p>
           <Link className="pr-link na__why-link" href="/mentor?tab=record">See your full record</Link>
         </div>
       </aside>
@@ -67,6 +70,16 @@ function NextWhy({ plan, top, planned }) {
 }
 
 // The card's headline says why the step matters; the start key below says what to do.
+function chosenLine(minutes) {
+  const { count, review } = practiceForMinutes(minutes);
+  return review ? `The set fits it: ${count} questions, then ${review} minutes on what you missed.` : `The set fits it: ${count} questions, about a minute each.`;
+}
+
+function daypartHello() {
+  const h = new Date().getHours();
+  return h < 12 ? 'Good morning.' : h < 17 ? 'Good afternoon.' : 'Good evening.';
+}
+
 function heroTitle(plan, top, planned) {
   if (plan.primary.kind !== 'ordinary_practice') return plan.primary.reason || plan.primary.title;
   if (top) return `${top.chapter} is where most marks are open.`;
@@ -77,7 +90,7 @@ function heroTitle(plan, top, planned) {
 // `quiet` (compact only): the page already has its one primary action, so this step is a ruled row with an outline key.
 // `moment` (Today): a real moment the page saw, { act, title, line }, e.g. the week's study-day goal met (lib/mobiScreens.js).
 // It takes the companion's idle slot once the plan is on screen; a failure, the wait and a time choice still come first.
-export default function LearningNextAction({ compact = false, why = null, quiet = false, moment = null }) {
+export default function LearningNextAction({ compact = false, why = null, quiet = false, moment = null, onError = null }) {
   const tonightKey = `tonight-plan-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   const [plan, setPlan] = useState(null), [minutes, setMinutes] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0),[choosing,setChoosing]=useState(false);
   // The minutes the held plan was asked for. A new choice keeps the plan on screen (the card never collapses to a
@@ -89,6 +102,9 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
   const refreshing = Boolean(plan) && minutes !== planKey;
   useEffect(() => () => window.clearTimeout(listenTimer.current), []);
   // Mobi tilts his head when you choose a time: an answer to the tap, then he settles.
+  // The first visit of the day earns a hello (asked once, after mount, so the server render has no figure).
+  const hello = useMobiGate(() => (compact ? false : helloToday('today')), false);
+  const [chosen, setChosen] = useState(null);
   const listen = () => { setListening(false); window.clearTimeout(listenTimer.current); window.requestAnimationFrame(() => { setListening(true); listenTimer.current = window.setTimeout(() => setListening(false), 950); }); };
   useEffect(() => {
     let alive = true;
@@ -96,9 +112,12 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
     return () => { alive = false; };
   }, [minutes, retryCount]);
   const retry = () => { setPlan(null); setError(''); setRetryCount(n => n + 1); };
+  // A page that owns the failure (Progress) hears about it; the card then shows nothing of its own.
+  const failed = Boolean(error) && !plan;
+  useEffect(() => { if (failed && onError) onError(); }, [failed, onError]);
   const chooseTime=async n=>{
     if(choosing || n===(minutes ?? plan?.minutes))return;
-    listen();
+    listen(); setChosen(n);
     if(!plan?.study?.preferences){setError('');setMinutes(n);return;}
     setChoosing(true);setError('');
     try{
@@ -117,7 +136,7 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
 
   if (compact) {
     return (
-      <section className={`na na--compact${quiet ? ' na--quiet' : ''}`} aria-label="Your next step">
+      failed && onError ? null : <section className={`na na--compact${quiet ? ' na--quiet' : ''}`} aria-label="Your next step">
         {error ? (
           <div className="na__body"><p className="na__reason" role="alert">{error}</p><button type="button" className="pr-link" onClick={retry}>Try again</button></div>
         ) : !plan ? (
@@ -132,28 +151,39 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
     );
   }
 
-  // Tonight's plan leads the page; the install prompt waits under it.
+  // Mobi on Today only for a real moment (lib/mobiScreens.js SCREEN_MOMENTS.today): the first visit of the day, the
+  // week's goal met, a time just chosen. A failed plan has its own one figure (ErrorState). Otherwise no figure at all.
+  const recorded = plan?.tonight?.state === 'recorded';
+  const companion = error || !plan ? null
+    : chosen ? { act: listening ? SCREEN_MOMENTS.today.timeChosen : 'idle', title: `${chosen} minutes it is.`, line: chosenLine(chosen) }
+    : moment ? moment
+    : hello ? { act: SCREEN_MOMENTS.today.firstVisitToday, title: daypartHello(), line: recorded ? 'Tonight’s practice is already on your record.' : 'Tonight’s plan is set from your last sessions.' }
+    : null;
+
+  // Tonight's plan leads the page (the install prompt sits at the foot of Today, below the fold).
   return (<>
     <section className="na na--hero" aria-label="Tonight’s plan">
-      <ArenaCompanion act={error ? 'oops' : !plan ? 'think' : listening ? 'tilt' : moment?.act || 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Try your record again.' : !plan ? 'Reading your record.' : moment?.title || 'Pick the time you have.'}>{error ? 'Review still has your saved sessions.' : !plan ? 'Tonight’s plan is a moment away.' : moment?.line || 'The set fits it, one question a minute.'}</ArenaCompanion>
+      {companion ? <ArenaCompanion act={companion.act} pose="attentive" title={companion.title}>{companion.line}</ArenaCompanion> : null}
       <div className="na__grid">
         <div className="na__plan">
-          {plan && !error ? <h2 className="na__title na__title--hero">{heroTitle(plan, top, planned)}</h2> : null}
+          {plan && !error ? <h2 className="na__title na__title--hero">{recorded ? 'Tonight’s practice is recorded.' : heroTitle(plan, top, planned)}</h2> : null}
           <fieldset className="na__time">
             <legend className="na__time-label">Tonight’s plan{planned ? <>, <MinutesRoll value={planned} /></> : null}</legend>
             <SegmentedControl size="sm" label="Time for practice" value={minutes ?? plan?.minutes} busy={choosing} onChange={chooseTime} options={TIME_OPTIONS} />
           </fieldset>
           {error ? (
-            <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error}<span className="na__acts"><button type="button" className="pr-link" onClick={retry}>Try again</button><Link className="pr-link" href="/review">Open Review</Link></span></div></div>
+            // One shared failed state: one Mobi, one sentence, one Try again (Review is one tap away in the menu).
+            <ErrorState mascot title={plan ? 'Your time was not saved' : 'Tonight’s plan did not load'} message={plan ? 'Your plan is unchanged. Try again, or pick the time later.' : 'Your saved sessions are safe in Review. Try again in a moment.'} onRetry={retry} />
           ) : !plan ? (
             <div className="na__skeleton" role="status" aria-label="Loading tonight’s plan"><i /><i /><i /></div>
           ) : (
             <>
-              {plan.tonight?.state === 'recorded' ? <div className="pr-alert" data-tone="good" role="status"><AppIcon name="check" size={18} /><div><b>Tonight’s practice is recorded.</b> <Link className="pr-link" href={`/result/${plan.tonight.sessionId}`}>Review that session</Link>{plan.tonight.reviewMinutes ? <p>Your 30-minute plan also has 10 minutes of review.</p> : null}</div></div> : null}
+              {recorded ? <p className="na__done" role="status"><StatusIcon kind="success" size={18} /><span>{plan.tonight.reviewMinutes ? `Tonight’s plan still has ${plan.tonight.reviewMinutes} minutes of review. Open the session to see what you missed.` : 'Open the session to see what you missed, or practise more below.'}</span></p> : null}
               {plan.primary.kind === 'ordinary_practice' && top ? <p className="na__reason">{firstSentence(plan.primary.reason)}</p> : null}
               {plan.sequence?.length > 1 ? <ol className="study-sequence" aria-label="Your study session">{plan.sequence.map((step,index)=><li key={`${step.kind}-${index}`}><span aria-hidden="true">{index+1}</span><div><Link href={step.href}>{step.title}</Link>{step.purpose ? <p>{step.purpose}</p> : null}<small>About {step.estimatedMinutes} min{step.done ? `, ${step.done}` : ''}</small></div></li>)}</ol> : null}
               <div className="na__actions">
-                <Link className="btn-volt md na__cta mk-press" href={startHref} aria-busy={refreshing || undefined} data-stale={refreshing || undefined} onClick={refreshing ? (event) => event.preventDefault() : undefined}>{plan.primary.title}</Link>
+                {recorded ? <Link className="btn-volt md na__cta mk-press" href={`/result/${plan.tonight.sessionId}`}>Review that session</Link> : null}
+                <Link className={`${recorded ? 'btn-outline' : 'btn-volt'} md na__cta mk-press`} href={startHref} aria-busy={refreshing || undefined} data-stale={refreshing || undefined} onClick={refreshing ? (event) => event.preventDefault() : undefined}>{plan.primary.title}</Link>
                 {plan.sequence?.[1] && <Link className="na__alt" href={plan.sequence[1].href}>Skip ahead a step</Link>}
                 {plan.sequence?.length > 0 && <Link className="na__alt" href="/dashboard?mode=full">Take a mock</Link>}
                 {plan.alternatives.map(a => <Link key={a.kind} className="na__alt" href={a.href}>{a.title}</Link>)}
@@ -165,6 +195,6 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
         {plan && !error ? <NextWhy plan={plan} top={top} planned={planned || plan.minutes} /> : null}
       </div>
     </section>
-    <InstallPractice /></>
+    </>
   );
 }

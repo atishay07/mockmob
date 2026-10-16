@@ -1751,3 +1751,7 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
 /* Chosen segments and checks are flat volt in the arena: no keycap edge under them. */
 .app-shell :is(.ctl-seg__lens, .ctl-seg:not([data-lens='on']) .ctl-seg__opt[aria-checked='true'], .ctl-pop__option[aria-selected='true'] .ctl-pop__check) { box-shadow: none; }
 .app-shell .student-page--today .pr-head p { max-width: 66ch; }
+
+/* Today, done state: the recorded line is plain text with a check, not a box inside the card. */
+.na__done { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 0; font-size: 0.9375rem; line-height: 1.5; color: var(--a-ink-2); }
+.na__done svg { flex-shrink: 0; margin-top: 2px; color: var(--a-accent-text, currentColor); }

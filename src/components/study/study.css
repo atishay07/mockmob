@@ -55,12 +55,8 @@
 .sx-prefs .sx-check:has(input:checked) { background:var(--a-volt-wash); border-color:var(--a-select); }
 .sx-option:has(input:checked) { border-color:var(--a-select); background:var(--a-volt-wash); }
 @media (max-width:639px) { .sx-memory-card { padding:18px 14px; } .sx-actions .btn-volt { white-space:normal; text-align:center; } }
-.sx-flow { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 1px; background: var(--a-line); border: 1px solid var(--a-line); border-radius: 14px; overflow: hidden; }
-@media (min-width: 640px) { .sx-flow { grid-template-columns: repeat(3, 1fr); } }
-.sx-flow li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; background: var(--a-raised); }
-.sx-flow svg { flex-shrink: 0; margin-top: 2px; color: var(--a-accent-text); }
-.sx-flow b { display: block; font-family: var(--font-display); }
-.sx-flow small { display: block; color: var(--a-ink-2); font-size: 0.8125rem; line-height: 1.4; margin-top: 2px; }
+.sx-flow { margin: 14px 0 0; max-width: 62ch; color: var(--a-ink-2); font-size: 0.9375rem; line-height: 1.55; }
+.sx-flow b { font-weight: 650; color: var(--a-ink, inherit); }
 .sx-hero { margin-top: 20px; padding: 18px; border-radius: 16px; background: var(--a-volt-wash); border: 1px solid var(--a-volt-line); display: grid; gap: 14px; grid-template-columns: auto 1fr; align-items: start; }
 .sx-hero__icon { color: var(--a-accent-text); margin-top: 2px; }
 .sx-hero h2 { font-size: 1.25rem; line-height: 1.25; }

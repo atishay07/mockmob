@@ -26,7 +26,7 @@
 .rp-stat__value { white-space: nowrap; flex-shrink: 0; }
 .rp-q__meta [data-verdict='held'] { color: var(--a-warn-text, #e0b93f); }
 .rp .srl-qchips button, .rp .rp-filters button, .rp .rp-report, .rp .rp-links a, .rp .srl-queue__item { min-height: 44px; }
-.rp-stats dd small { font: 500 12px/1 var(--font-mono, monospace); color: var(--a-ink-3, #93a08f); }
+.rp-stats dd small { font: 500 12px/1 var(--font-body, inherit); font-variant-numeric: tabular-nums; color: var(--a-ink-3, #93a08f); }
 .rp-stats [data-kind='right'] dd { color: var(--a-good-text, #b6e36e); }
 .rp-stats [data-kind='wrong'] dd { color: var(--a-bad-text, #ff9d92); }
 .rp-strip { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }

@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/components/AuthProvider';
-import { Icon } from '@/components/ui/Icons';
 import { recoveryReleased } from '@/../data/capabilities';
 
 export function LandingActions({ mode = 'hero' }) {
@@ -16,7 +15,6 @@ export function LandingActions({ mode = 'hero' }) {
       <div className="mm-actions">
         <Link href={primaryHref} className="mm-btn mm-btn--primary">
           {primaryText}
-          <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
         </Link>
       </div>
     );
@@ -27,7 +25,6 @@ export function LandingActions({ mode = 'hero' }) {
       {/* The five questions are on this page: an in-page jump never needs the route prefetched. */}
       <Link href={isAuthenticated ? primaryHref : '/#try-practice'} prefetch={isAuthenticated ? undefined : false} className="mm-btn mm-btn--primary">
         {isAuthenticated ? primaryText : 'Try five questions'}
-        <Icon name="arrow" className="mm-btn__icon" aria-hidden="true" />
       </Link>
       <Link href={isAuthenticated ? '/#try-practice' : primaryHref} prefetch={isAuthenticated ? false : undefined} className="mm-btn mm-btn--secondary">
         {isAuthenticated ? 'Try five questions' : primaryText}

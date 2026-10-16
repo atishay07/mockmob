@@ -157,7 +157,7 @@ function Ribbon({ ribbon, armed }) {
             >
               <span className="rc-wk__fill" aria-hidden="true" />
             </button>
-            <span className="rc-wk__label" aria-hidden="true" data-current={w.current ? 'true' : 'false'}>{w.current ? 'This week' : shortDate(w.key)}</span>
+            <span className="rc-wk__label" aria-hidden="true" data-current={w.current ? 'true' : 'false'}>{w.current ? (ribbon.length < 4 ? `This week, ${w.days} of ${w.goal} days` : 'This week') : shortDate(w.key)}</span>
           </li>
         ))}
       </ol>
@@ -223,7 +223,8 @@ function pickMobi(rhythm, { cheered, hello, counted, hour }) {
 // action that earns the next study day sits right under the count), before the weeks and the paths.
 // `quietMet` (Today): the page's companion is saying the met week right now, so the card leaves out its own
 // "Week met" sentence; the ring and the day dots already show it.
-export default function RhythmCard({ compact = false, mobi = !compact, between = null, quietMet = false }) {
+// `onError`: the page shows the failure itself (Progress's one page-level error), so the card reports it and steps aside.
+export default function RhythmCard({ compact = false, mobi = !compact, between = null, quietMet = false, onError = null }) {
   const { reduced } = useMobiPrefs();
   const [wakeLine, setWakeLine] = useState('');
   const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null });
@@ -254,6 +255,9 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
     return () => { alive = false; };
   }, [attempt, mobi]);
 
+  const failed = state.status === 'error';
+  useEffect(() => { if (failed && onError) onError(); }, [failed, onError]);
+
   const rhythm = state.rhythm;
   const cheered = state.cheered;
   const weekKey = rhythm?.weekStart;
@@ -268,7 +272,7 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
   const paths = useMemo(() => (rhythm ? buildPaths(rhythm) : []), [rhythm]);
 
   if (state.status === 'error') {
-    if (compact) return null;
+    if (compact || onError) return null;
     return (
       <>
         <section className="rc rc--note" aria-label="Your study days">
@@ -297,13 +301,14 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
   const card = (
     <section ref={ref} className={`rc${compact ? ' rc--compact' : ''}`} aria-label="Your study days" data-met={met ? 'true' : 'false'}>
       <header className="rc__head">
+        {/* Mobi stands at the start of the line he speaks to, not out in the right margin. */}
+        {pick && !compact ? <MobiReact act={pick.act} size={76} mood={pick.mood} interactive label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
         <div>
           <h2 className="rc__title">{compact ? 'This week' : 'Your study days'}</h2>
           {status ? <p className="rc__status" role={hello ? 'status' : undefined}>{status}</p> : null}
           {pick?.kind === 'sleep' ? (wakeLine ? <p className="rc__status" role="status">{wakeLine}</p> : null) : pick?.line && !hello ? <p className="rc__status" role="status">{pick.line}</p> : null}
         </div>
         {/* Today already holds Mobi in its plan card, so its slim weekly card keeps him out: once per screen. */}
-        {pick && !compact ? <MobiReact act={pick.act} size={76} mood={pick.mood} interactive label={pick.kind === 'sleep' ? 'Mobi, asleep. Tap to wake him.' : undefined} onTap={(a) => { if (a === 'wake') setWakeLine(pick.wakeLine); }} onDone={pick.kind === 'proud' && !cheered ? markCheered : undefined} /> : null}
       </header>
 
       <div className="rc__top">

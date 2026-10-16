@@ -1330,10 +1330,8 @@ body:has(.mm.lp) {
 }
 .lp-stage .mm-drill__ghost span {
   font-family: var(--font-display);
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: 0.8125rem;
+  font-weight: 600;
 }
 .lp-stage .mm-drill__ghost i {
   display: block;

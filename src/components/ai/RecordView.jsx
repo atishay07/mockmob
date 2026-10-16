@@ -71,8 +71,8 @@ function ProLock({ what, onNavigate }) {
 
 // Radar passes `afterLedger` (its trend and subjects on narrow screens, right under the marks), `afterFindings`
 // (Across your mocks), `oneLock` (the free plan's two Pro rows said once, at the end) and `emptyAction={false}`
-// (its page already offers the next step). The Mentor record tab passes none of them and is unchanged.
-export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true }) {
+// (its page already offers the next step) and `chaptersFirst` (the ranked chapters straight under the next step). The Mentor record tab passes none of them and is unchanged.
+export default function RecordView({ state, onNavigate, pro = false, afterLedger = null, afterFindings = null, oneLock = false, emptyAction = true, chaptersFirst = false }) {
   const [showThin, setShowThin] = useState(false);
   const [changesRef, changesSeen] = useInView({ threshold: 0.4 });
   const { status, insights, findings } = state;
@@ -103,9 +103,41 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
   const blank = ledger.openSkipped / 5;
   const maxChange = Math.max(changes.marksGained, changes.marksLost, 1);
 
+  const chaptersSection = (
+      <section aria-labelledby="pp-c">
+        <h3 id="pp-c" className="pp-h">Chapters, by marks left open</h3>
+        {chapters.ranked.length ? <p className="pp-note">Worth counts 5 marks for each wrong or blank answer, what a right answer would have added. Each wrong answer also cost −1 on its paper.</p> : null}
+        {chapters.ranked.length === 0 ? (
+          <p className="pp-note">No chapter has {MIN_CHAPTER_SAMPLE}+ answered questions with misses yet, so none is ranked. Rankings need a few questions per chapter to mean anything.</p>
+        ) : (
+          <ul className="pp-chapters">
+            {chapters.ranked.slice(0, pro ? 8 : FREE_CHAPTERS).map((c) => (
+              <li key={c.key}>
+                <div className="pp-chapters__top"><b>{c.chapter}</b><span>{c.subjectName}</span></div>
+                <Stack right={c.right} wrong={c.wrong} skip={c.skip} label={`${c.right} right, ${c.wrong} wrong, ${c.skip} blank`} />
+                <div className="pp-chapters__meta"><span>{c.right} right, {c.wrong} wrong, {c.skip} blank</span><span>Worth {c.open} marks, from {c.n} questions</span></div>
+              </li>
+            ))}
+          </ul>
+        )}
+        {!pro && chapters.ranked.length > FREE_CHAPTERS && <ProLock what={`${chapters.ranked.length - FREE_CHAPTERS} more ranked chapters are part of Pro.`} onNavigate={onNavigate} />}
+        {pro && chapters.thin.length > 0 && (
+          <>
+            <button type="button" className="pp-toggle" aria-expanded={showThin} onClick={() => setShowThin((v) => !v)}>
+              {showThin ? 'Hide' : 'Show'} {chapters.thin.length} chapter{chapters.thin.length === 1 ? '' : 's'} with too few questions to rank
+            </button>
+            {showThin && <ul className="pp-thin">{chapters.thin.slice(0, 8).map((c) => <li key={c.key}>{c.chapter}, {c.subjectName}: {c.right} of {c.n} right</li>)}</ul>}
+          </>
+        )}
+      </section>
+  );
+
   return (
     <div className="pp-record">
       <p className="pp-note">Based on {insights.sessions} session{insights.sessions === 1 ? '' : 's'} and {insights.questions} questions, {day(insights.window.first)} to {day(insights.window.last)}. Free to read, no credits used.</p>
+
+      {/* Weak chapters answers its own question first: which chapters, ranked, then the marks behind them. */}
+      {chaptersFirst ? chaptersSection : null}
 
       <Ledger userId={state.userId} ledger={ledger} accuracy={accuracy} right={right} wrong={wrong} blank={blank} />
 
@@ -132,31 +164,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
 
       {afterFindings}
 
-      <section aria-labelledby="pp-c">
-        <h3 id="pp-c" className="pp-h">Chapters, by marks left open</h3>
-        {chapters.ranked.length === 0 ? (
-          <p className="pp-note">No chapter has {MIN_CHAPTER_SAMPLE}+ answered questions with misses yet, so none is ranked. Rankings need a few questions per chapter to mean anything.</p>
-        ) : (
-          <ul className="pp-chapters">
-            {chapters.ranked.slice(0, pro ? 8 : FREE_CHAPTERS).map((c) => (
-              <li key={c.key}>
-                <div className="pp-chapters__top"><b>{c.chapter}</b><span>{c.subjectName}</span></div>
-                <Stack right={c.right} wrong={c.wrong} skip={c.skip} label={`${c.right} right, ${c.wrong} wrong, ${c.skip} blank`} />
-                <div className="pp-chapters__meta"><span>{c.right} right, {c.wrong} wrong, {c.skip} blank</span><span>{c.open} marks open from {c.n} questions</span></div>
-              </li>
-            ))}
-          </ul>
-        )}
-        {!pro && chapters.ranked.length > FREE_CHAPTERS && <ProLock what={`${chapters.ranked.length - FREE_CHAPTERS} more ranked chapters are part of Pro.`} onNavigate={onNavigate} />}
-        {pro && chapters.thin.length > 0 && (
-          <>
-            <button type="button" className="pp-toggle" aria-expanded={showThin} onClick={() => setShowThin((v) => !v)}>
-              {showThin ? 'Hide' : 'Show'} {chapters.thin.length} chapter{chapters.thin.length === 1 ? '' : 's'} with too few questions to rank
-            </button>
-            {showThin && <ul className="pp-thin">{chapters.thin.slice(0, 8).map((c) => <li key={c.key}>{c.chapter}, {c.subjectName}: {c.right} of {c.n} right</li>)}</ul>}
-          </>
-        )}
-      </section>
+      {chaptersFirst ? null : chaptersSection}
 
       {oneLock && !pro ? null : <section aria-labelledby="pp-a">
         <h3 id="pp-a" className="pp-h">Changed answers</h3>

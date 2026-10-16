@@ -56,7 +56,8 @@ export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', 
             <span data-tone={plan === 'Pro' ? 'pro' : undefined}>{plan === 'Pro' ? 'Pro plan' : 'Free plan'}</span>
           </p>
         </div>
-        <Avatar name={user?.name || user?.email} size="lg" className="acct-sheet__avatar" />
+        {/* The header already shows your initials; with Mobi greeting here, a second avatar would only repeat it. */}
+        {mobi ? null : <Avatar name={user?.name || user?.email} size="lg" className="acct-sheet__avatar" />}
       </div>
 
       <div className="acct-sheet__subjects">

@@ -105,15 +105,22 @@ export function timeLinesFor(time) {
   if (time.right && time.right.n >= LAB_RULES.timeMedianMin && Number.isFinite(time.right.medianMs)) {
     lines.push(fill(CT.median, { time: medianLabel(time.right.medianMs), n: time.right.n }));
   }
-  if (Number.isInteger(time.timed) && time.timed >= LAB_RULES.timeChangesMin) {
+  const k = time.strike;
+  const strikeShown = Boolean(k && Number.isInteger(k.n) && k.n >= LAB_RULES.timeStrikeMin);
+  const changesShown = Number.isInteger(time.timed) && time.timed >= LAB_RULES.timeChangesMin;
+  // Two "None of ..." lines in a row say one thing: nobody wavered here. They fold into one sentence, both denominators kept.
+  if (changesShown && strikeShown && time.changed === 0 && k.struck === 0) {
+    lines.push(fill(CT.quiet, { n: time.timed, k: k.n }));
+    return lines;
+  }
+  if (changesShown) {
     const c = time.changed;
     const m = time.movedOff;
     let line = fill(c === 0 ? CT.changes.none : c === 1 ? CT.changes.one : CT.changes.many, { c, n: time.timed });
     if (c > 0) line += fill(m === 0 ? CT.moved.none : m === 1 && c === 1 ? CT.moved.single : m === 1 ? CT.moved.one : CT.moved.many, { m });
     lines.push(line);
   }
-  const k = time.strike;
-  if (k && Number.isInteger(k.n) && k.n >= LAB_RULES.timeStrikeMin) {
+  if (strikeShown) {
     lines.push(fill(k.struck === 0 ? CT.struck.none : k.struck === 1 ? CT.struck.one : CT.struck.many, { s: k.struck, n: k.n }));
   }
   return lines;

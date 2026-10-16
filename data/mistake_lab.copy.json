@@ -165,6 +165,7 @@
         "one": " 1 of them moved off the key.",
         "many": " {m} of them moved off the key."
       },
+      "quiet": "None of the {n} timed students changed their answer here, and none of the {k} crossed out the key.",
       "struck": {
         "none": "None of the {n} students crossed out the key here.",
         "one": "1 of {n} students crossed out the key here.",

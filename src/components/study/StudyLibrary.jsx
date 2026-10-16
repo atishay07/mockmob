@@ -93,14 +93,10 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
     <section className="sx-hero" aria-labelledby="sx-hero-title">
       {hero.action ? <CardStack count={q.dueCount || q.newCount} leaving={leaving} /> : <hero.icon size={22} aria-hidden="true" className="sx-hero__icon" />}
       <div className="sx-hero__body"><h2 id="sx-hero-title">{hero.title}</h2><p>{hero.text}</p></div>
-      {hero.action ? <button className="btn-volt md" type="button" onClick={hero.action} disabled={busy || !catalog.recallEnabled}>{hero.cta}<ArrowRight size={16} aria-hidden="true" /></button>
-        : <Link className="btn-volt md" href={hero.href} onClick={hero.unitId ? e => open(e, hero.unitId) : undefined}>{hero.cta}<ArrowRight size={16} aria-hidden="true" /></Link>}
+      {hero.action ? <button className="btn-volt md" type="button" onClick={hero.action} disabled={busy || !catalog.recallEnabled}>{hero.cta}</button>
+        : <Link className="btn-volt md" href={hero.href} onClick={hero.unitId ? e => open(e, hero.unitId) : undefined}>{hero.cta}</Link>}
     </section>
-    <ol className="sx-flow" aria-label="How each concept works">
-      <li><BookOpenText size={18} aria-hidden="true" /><div><b>Learn</b><small>5 to 7 min, worked examples and quick checks</small></div></li>
-      <li><Brain size={18} aria-hidden="true" /><div><b>Lock it in</b><small>2 to 3 min, answer from memory; reviews are scheduled for you</small></div></li>
-      <li><Target size={18} aria-hidden="true" /><div><b>Apply</b><small>Practice questions with marks, then mocks</small></div></li>
-    </ol>
+    <p className="sx-flow">Each concept takes three steps. <b>Learn</b> it in 5 to 7 minutes with worked examples and quick checks. <b>Lock it in</b> from memory in 2 to 3 minutes; the reviews are scheduled for you. <b>Apply</b> it on practice questions with marks, then in mocks.</p>
 
     {active && q.dueCount ? <p className="sx-small">Also: {q.dueCount} {q.dueCount === 1 ? 'card is' : 'cards are'} due. <button type="button" className="sx-link" onClick={startReview} disabled={busy}>Review them</button></p> : null}
     {error ? <div className="sx-alert" role="alert"><p>{error.text}</p></div> : null}

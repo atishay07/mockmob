@@ -182,7 +182,13 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
         </div>
       ) : null}
 
-      {fine.length ? (
+      {/* The provenance notes (how marks and the cohort lines were counted) fold into one disclosure under the cohort lines. */}
+      {fine.length > 1 ? (
+        <details className="ml-fines ml-fines--fold">
+          <summary>How we counted</summary>
+          {fine.map((line) => <p key={line} className="ml-fine">{line}</p>)}
+        </details>
+      ) : fine.length ? (
         <div className="ml-fines">
           {fine.map((line) => <p key={line} className="ml-fine">{line}</p>)}
         </div>

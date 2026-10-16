@@ -13,6 +13,8 @@
 .sv-meter__text b { color: var(--a-ink); font: 800 18px var(--font-display); letter-spacing: -0.01em; }
 
 .sv-first { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: 13.5px; color: var(--a-ink-2); }
+.sv-first { transition: opacity 0.3s ease; }
+.sv-first[data-faded] { opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s linear 0.3s; }
 
 .sv-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
 .sv-chip { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink-2); font: 700 13px var(--font-display); cursor: pointer; }

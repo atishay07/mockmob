@@ -13,7 +13,7 @@ import { CURRENT_OFFER } from '@/../data/capabilities';
 import creditsContract from '@/../data/tests/fixtures/credits/contract_credits_v1.json';
 import { learningPlan, createEpisode, advanceEpisode, publicEpisode } from '@/../data/learning_engine';
 import { studyMilestones, tonightMetadata, tonightCompletion } from '@/../data/study_progress';
-import { previewCompass, previewInsights } from './previewRecord';
+import { previewAnalytics, previewCompass, previewInsights } from './previewRecord';
 import { computeRhythm } from '@/lib/server/rhythm';
 import { projectWallet, unreadableWallet, walletWindow } from '@/services/credits/aiWalletState';
 import MockMobAIHub from '@/components/ai/MockMobAIHub';
@@ -257,9 +257,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     if (url.pathname === '/api/analytics') {
       if (state === 'empty') return json({ totalAttempts: 0, totals: { correct: 0, wrong: 0, unattempted: 0 }, scoring: { device: 0 }, timeline: [], subjects: [], weakChapters: [] });
-      return json({ totalAttempts: 3, totals: { correct: 12, wrong: 12, unattempted: 2 }, scoring: { device: 0 },
-        timeline: [{ test: 'Oct 1', score: 41 }, { test: 'Oct 4', score: 52 }, { test: 'Oct 9', score: 49 }],
-        subjects: [{ id: 'accountancy', name: 'Accountancy', tests: 3, avg: 47, accuracy: 50 }], weakChapters: [] });
+      return json(previewAnalytics());
     }
     // The Rule book and Across your mocks (GET /api/me/rules), the rule for the next mock (GET and POST /api/me/playbook).
     // ?rules=few|new|down for the other states; &save=fail refuses the next choice; &across= as on the result page.

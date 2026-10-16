@@ -142,7 +142,7 @@ html[data-theme='light'] .ml {
 }
 
 /* ---------- How others answered (inside an opened answer) ---------- */
-.ml-others { display: grid; gap: 4px; }
+.ml-others { display: grid; gap: 6px; padding-top: 12px; }
 .ml-others p { margin: 0; }
 .ml-others__label { display: flex; align-items: center; gap: 6px; font: 600 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
 .ml-others__label svg { color: var(--a-accent-text, #d2f000); }
@@ -200,3 +200,15 @@ html[data-motion='reduced'] .ml-seg[data-lift] { transform: none; }
 .ml-row { border: 0; border-top: 1px solid var(--a-line, #253026); border-radius: 0; background: transparent; }
 .ml-row > button, .ml-row__head { border-radius: 0; }
 .ml-remark { padding: 14px 0; border-radius: 0; background: transparent; border-block: 1px solid var(--a-line, #253026); }
+
+/* "How we counted": the notes behind the lines, one tap away instead of a stack of small print. */
+.ml-fines--fold { gap: 0; }
+.ml-fines--fold > summary { display: flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; list-style: none; font: 600 14px var(--font-body); color: var(--a-ink-2, #bcc5b9); }
+.ml-fines--fold > summary::-webkit-details-marker { display: none; }
+.ml-fines--fold > summary::after { content: ""; width: 7px; height: 7px; border-right: 1.75px solid currentColor; border-bottom: 1.75px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform 0.2s ease; }
+.ml-fines--fold[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+.ml-fines--fold > summary:hover { color: var(--a-ink, #f4f5f0); }
+.ml-fines--fold > summary:focus-visible { outline: 2px solid var(--focus-ring, var(--a-volt, #d2f000)); outline-offset: 2px; border-radius: 6px; }
+.ml-fines--fold[open] { display: grid; }
+.ml-fines--fold .ml-fine { font-size: 13px; padding-bottom: 6px; }
+@media (prefers-reduced-motion: reduce) { .ml-fines--fold > summary::after { transition: none; } }

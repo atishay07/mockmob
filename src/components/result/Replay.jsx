@@ -26,9 +26,9 @@ function geometry(wide) {
   const barH = wide ? 28 : 22;
   const dotY = barY + barH;
   const tickY = dotY + 7;
-  return Object.freeze({ barY, barH, dotY, tickY, rowH: tickY + 7, rowHAway: tickY + 21, font: wide ? 11 : 10 });
+  return Object.freeze({ barY, barH, dotY, tickY, rowH: tickY + 7, rowHAway: tickY + 24, font: 12 });
 }
-const LABEL_MIN = 24; // a bar is labelled "Q17" when it is 24 px or wider (4.5)
+const LABEL_MIN = 28; // a bar is labelled "Q17" when it is 28 px or wider (4.5), room for the 12 px label
 
 // ---------- Reduced motion, as one store: the OS setting or the app's own motion preference ----------
 function readReduced() {

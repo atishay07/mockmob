@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { publicOffer } from '@/lib/payments/offer';
-import { ArrowRight, Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
+import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, Target, GraduationCap, ShieldCheck, BookOpenText } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
@@ -15,6 +15,7 @@ import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { HeroDockGate, DockMobi } from '@/components/landing/HeroDockGate';
 import { Reveal } from '@/components/landing/Reveal';
 import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
+import { QuestionBankLine } from '@/components/landing/QuestionBankLine';
 import { EligibilityTeaser } from '@/components/du/EligibilityTeaser';
 import { CollegeDestinations } from '@/components/landing/CollegeDestinations';
 import { ExamComparator } from '@/components/landing/ExamComparator';
@@ -147,11 +148,7 @@ export default function LandingPage() {
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             <div className="lp-hero__copy">
-              <div className="lp-hero__greeting"><a href="#try-practice" className="lp-pill" data-hero style={{ '--h': 0 }}>
-                <span className="lp-pill__dot" aria-hidden="true" />
-                CUET UG 2027
-                <ArrowRight size={14} aria-hidden="true" />
-              </a><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
+              <div className="lp-hero__greeting"><p className="lp-hero__for" data-hero style={{ '--h': 0 }}>For CUET UG 2027</p><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
               <h1 className="lp-title">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
                 <span className="lp-title__line">CUET 2027.</span>
@@ -162,6 +159,7 @@ export default function LandingPage() {
               <p className="lp-lead" data-hero style={{ '--h': 1 }}>
                 {recoveryReleased() ? 'Find the missing step. Practise it. Check it on fresh questions. Built for CUET Commerce and English.' : 'Take a timed mock. See where every mark went. Know what to practise tonight.'}
               </p>
+              <QuestionBankLine className="lp-bank" data-hero style={{ '--h': 1 }} />
               <div className="lp-cta" data-hero style={{ '--h': 2 }}>
                 <LandingActions />
               </div>
@@ -172,13 +170,12 @@ export default function LandingPage() {
               </ul>
               <Link href="/cuet-cutoff-calculator" className="lp-link lp-hero__tool" data-hero style={{ '--h': 4 }}>
                 Free DU eligibility and cutoff calculator
-                <ArrowRight size={16} aria-hidden="true" />
               </Link>
-              <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day<ArrowRight size={15} aria-hidden="true" /></a>
+              <a href="#exam-experience" className="lp-hero__exam-link"><Monitor size={16} aria-hidden="true" />Meet the exam before exam day</a>
             </div>
 
             <div className="lp-stage" id="try-practice" data-hero style={{ '--h': 2 }}>
-              <div className="lp-stage__heading"><span><span className="lp-stage__live" />Your first question starts here</span><span>No signup</span></div>
+              <div className="lp-stage__heading"><span>Your first question starts here</span><span>No signup</span></div>
               <div className="lp-stage__card">
                 <DemoDrill />
               </div>
@@ -280,7 +277,7 @@ export default function LandingPage() {
                   <p className="lp-cpro__badge">Compass Pro</p>
                   <h3 className="lp-h3">Your practice, mapped to the colleges you want.</h3>
                   <p>Turn your recorded practice into a paper-by-paper range. Compare it with your DU shortlist and see which paper has the most room to improve.</p>
-                  <Link href="/pricing" className="lp-link">See what Pro includes<ArrowRight size={16} aria-hidden="true" /></Link>
+                  <Link href="/pricing" className="lp-link">See what Pro includes</Link>
                 </div>
                 <ul className="lp-cpro__list">
                   <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, shown as a range.</span></li>
@@ -312,7 +309,7 @@ export default function LandingPage() {
                 <h3 className="lp-h3">Not sure which CUET subjects to pick?</h3>
                 <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
               </div>
-              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--primary">Plan my subjects<ArrowRight size={17} aria-hidden="true" /></Link>
+              <Link href="/cuet-subject-combination" className="mm-btn mm-btn--primary">Plan my subjects</Link>
             </Reveal>
             <CollegeDestinations />
           </div>
@@ -379,7 +376,7 @@ export default function LandingPage() {
                   <li><Check size={16} aria-hidden="true" />Everything in Free</li>
                   {proPlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
                 </ul>
-                <Link href="/pricing" className="mm-btn mm-btn--primary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}<ArrowRight size={18} aria-hidden="true" /></Link>
+                <Link href="/pricing" className="mm-btn mm-btn--primary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}</Link>
               </div>
             </Reveal>
           </div>

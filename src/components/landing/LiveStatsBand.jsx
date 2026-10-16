@@ -100,8 +100,8 @@ export function LiveStatsBand({ offer = null } = {}) {
         value={bankSize}
         fallback="…"
         failed={failed}
-        label="questions to practise"
-        note="Each one scored the CUET way: +5 right, −1 wrong."
+        label="questions in one bank"
+        note="Every mock draws from this bank, so there is no set number of mocks. Scored +5 right, −1 wrong."
         animate={seen}
       />
       <Figure

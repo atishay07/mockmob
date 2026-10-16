@@ -66,6 +66,13 @@ test('crossed-out key line: hidden under 20 students with strike data, shown at 
   assert.deepEqual(only({ n: 20, struck: 0 }), ['None of the 20 students crossed out the key here.']);
 });
 
+test('nobody changed and nobody crossed out: one sentence, both denominators', () => {
+  const lines = timeLinesFor({ right: null, timed: 24, changed: 0, movedOff: 0, strike: { n: 22, struck: 0 } });
+  assert.deepEqual(lines, ['None of the 24 timed students changed their answer here, and none of the 22 crossed out the key.']);
+  const one = timeLinesFor({ right: null, timed: 24, changed: 0, movedOff: 0, strike: { n: 22, struck: 3 } });
+  assert.deepEqual(one, ['None of the 24 timed students changed their answer here.', '3 of 22 students crossed out the key here.']);
+});
+
 test('no time numbers, no lines: the opened answer is exactly what slice 1 gave', () => {
   assert.deepEqual(timeLinesFor(undefined), []);
   assert.deepEqual(timeLinesFor(null), []);

@@ -5,17 +5,17 @@
 // Review: the open-question count over what was answered (the anchor) and the one session to open first, the ways
 // into Revise and Rules, then the sessions. Progress: this week out of the goal, the next step, then the record.
 // No boxes inside boxes and no arrows on rows: the whole row is the control.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import LearningNextAction from './LearningNextAction';
 import ArenaHead from './arena/ArenaHead';
 import { StatusIcon } from './ui/Glyph';
+import { ErrorState } from './ui/Skeleton';
 import { SubjectObject } from './brand/SubjectObject';
 import ArenaCompanion, { OneMobi } from './brand/ArenaCompanion';
 import SceneVignette from './scenes/SceneVignette';
 import { useWaitStage } from '@/lib/mobiHooks';
-import { oopsRun } from '@/lib/mobiRation';
 import StudyProgress from './study/StudyProgress';
 import RulesEntry from './rules/RulesEntry';
 import RhythmCard from './RhythmCard';
@@ -98,10 +98,12 @@ function SessionRow({ a, fresh = false, index = 0 }) {
 export default function RecoveryOverview({ view }) {
   const [data, setData] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0);
   const [changes, setChanges] = useState(null);
-  const [shrug, setShrug] = useState(false); // a failed read shrugs once per run, not on every retry
   const wait = useWaitStage(!data && !error);
-  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your record did not load.'); setShrug(oopsRun(`record:${view}`)); } }); return () => { alive = false; }; }, [retryCount, view]);
-  const retry = () => { setData(null); setError(''); setRetryCount(n => n + 1); };
+  useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your record did not load.'); } }); return () => { alive = false; }; }, [retryCount, view]);
+  // Progress: the week and the plan load on their own; either failing joins the record's one error state.
+  const [partFailed, setPartFailed] = useState(false);
+  const partFail = useCallback(() => setPartFailed(true), []);
+  const retry = () => { setData(null); setError(''); setPartFailed(false); setRetryCount(n => n + 1); };
   const review = data?.ordinaryReview || [];
   const toReview = review.reduce((s, a) => s + (a.mistakes || 0), 0);
   const answered = review.reduce((s, a) => s + (a.total || 0), 0);
@@ -128,9 +130,10 @@ export default function RecoveryOverview({ view }) {
 
   const status = (
     <>
-      {error ? <div className="pr-alert rv-alert" data-tone="error" role="alert"><StatusIcon kind="error" /><div>{error} <button type="button" className="pr-link" onClick={retry}>Try again</button></div></div> : null}
+      {/* A failed read is one shared state (the one used on Weak chapters): one figure, one sentence, one Try again. */}
+      {error ? <ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again. Your saved sessions are safe." onRetry={retry} /> : null}
       {!data && !error ? <div className="rv-skel" role="status" aria-label="Loading your record"><i /><i /><i /></div> : null}
-      {!data ? <ArenaCompanion compact act={error ? (shrug ? 'oops' : 'idle') : wait === 'long' ? 'loading' : 'idle'} pose={error ? 'encouraging' : 'attentive'} title={error ? 'Your record can wait a moment.' : 'Opening your saved record.'}>{error ? 'Try again when you are ready.' : 'Your sessions and checks will appear here.'}</ArenaCompanion> : null}
+      {!data && !error ? <ArenaCompanion compact act={wait === 'long' ? 'loading' : 'idle'} pose="attentive" title="Opening your saved record.">Your sessions and checks will appear here.</ArenaCompanion> : null}
     </>
   );
   const noteList = notes.length ? <div className="rv-notes" role="group" aria-label="Recorded milestones">{notes.map(m => { const line = milestoneLine(m); return <p key={m.kind} className="rv-note"><b>{line.title}</b><span>{line.detail ? <>{line.detail} </> : null}<Link className="pr-link" href={line.href}>{line.link}</Link></span></p>; })}</div> : null;
@@ -177,7 +180,9 @@ export default function RecoveryOverview({ view }) {
   return (
     <section className="pr ov rv rv--progress"><OneMobi>
       <ArenaHead title="Your study days and checks." lede="This week first, then what your sessions, recovery checks and playbook show." />
-      <RhythmCard between={<LearningNextAction compact />} />
+      {/* One failed read on this page (week, plan or record) is one page-level error with one retry that reloads all three. */}
+      {partFailed && !error ? <ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again. Your saved sessions are safe." onRetry={retry} /> : null}
+      {!partFailed && !error ? <RhythmCard key={retryCount} onError={partFail} between={<LearningNextAction compact onError={partFail} />} /> : null}
       {status}
       {data ? (
         <section className="rv-sec" aria-labelledby="ov-record">

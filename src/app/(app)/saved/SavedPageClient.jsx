@@ -28,6 +28,9 @@ import './saved.css';
 const FREE_LIMIT = 25;
 const UNDO_MS = 8000;
 const FIRST_SAVE_KEY = 'mm:saved-first:v1';
+// Set by Explore when a bookmark POST is confirmed (see QuestionCard). Kept for one visit, ten minutes at most.
+const JUST_SAVED_KEY = 'mm:just-saved:v1';
+const JUST_SAVED_MS = 10 * 60 * 1000;
 
 const subjectName = (id) => SUBJECTS.find((s) => s.id === id)?.name || (id ? String(id) : 'Other');
 
@@ -135,8 +138,14 @@ export default function SavedPageClient() {
       setCount(Number.isFinite(data.count) ? data.count : list.length);
       setStatus('ready');
       if (list.length) {
+        // Only a real save earns the line: Explore marks the save it just confirmed, and this
+        // screen plays the moment once, when the student arrives with that saved question here.
         try {
-          if (!window.localStorage.getItem(FIRST_SAVE_KEY)) { window.localStorage.setItem(FIRST_SAVE_KEY, '1'); setFirstSave(true); }
+          const raw = window.sessionStorage.getItem(JUST_SAVED_KEY);
+          window.sessionStorage.removeItem(JUST_SAVED_KEY);
+          const just = raw ? JSON.parse(raw) : null;
+          const fresh = just && Date.now() - Number(just.at) < JUST_SAVED_MS && list.some((q) => q.id === just.id);
+          if (fresh && !window.localStorage.getItem(FIRST_SAVE_KEY)) { window.localStorage.setItem(FIRST_SAVE_KEY, '1'); setFirstSave('shown'); }
         } catch { /* Without storage the hop simply does not play. */ }
       }
     } catch (e) {
@@ -266,7 +275,8 @@ export default function SavedPageClient() {
       {showMeter ? <SlotMeter count={count} limit={FREE_LIMIT} pop={pop} /> : null}
 
       {firstSave && questions.length ? (
-        <p className="sv-first" role="status"><MobiReact act={mobiMoment('saveConfirmed')} size={44} onDone={() => window.setTimeout(() => setFirstSave(false), 5000)} /><span>Saved. It stays here until you remove it.</span></p>
+        // After the moment the line fades but keeps its height, so the list below never jumps.
+        <p className="sv-first" role="status" data-faded={firstSave === 'faded' || undefined}><MobiReact act={mobiMoment('saveConfirmed')} size={44} onDone={() => window.setTimeout(() => setFirstSave('faded'), 5000)} /><span>Saved. It stays here until you remove it.</span></p>
       ) : null}
 
       {questions.length === 0 ? (

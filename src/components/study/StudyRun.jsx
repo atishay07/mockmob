@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Check, X, BookOpenText, Target, RotateCcw } from 'lucide-react';
+import { ArrowLeft, Check, X, BookOpenText, Target, RotateCcw } from 'lucide-react';
 import { ReadingBlock, AnswerForm, Feedback, ResultOptions, HearButton, usePronounce, Passage } from './StudyBlocks';
 import { isMotionReduced } from '@/lib/motion/draw';
 import { flyAway, rightIndex, softClick } from './studyFeel';
@@ -94,7 +94,7 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
       <h1 ref={heading} tabIndex={-1} className="sx-focus">{item.title && (isLesson || item.type === 'reading') ? item.title : item.prompt}</h1>
       {item.type === 'reading' ? <>
         <ReadingBlock block={item} speak={speak} />
-        <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'continue' })} disabled={busy}>{step === total ? 'Finish lesson' : run.steps?.[run.cursor+1]?.kind === 'knowledge_check' ? 'Try a quick check' : 'Next: '+(run.steps?.[run.cursor+1]?.title || 'continue')}<ArrowRight size={16} aria-hidden="true" /></button></div>
+        <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'continue' })} disabled={busy}>{step === total ? 'Finish lesson' : run.steps?.[run.cursor+1]?.kind === 'knowledge_check' ? 'Try a quick check' : 'Next: '+(run.steps?.[run.cursor+1]?.title || 'continue')}</button></div>
       </> : <>
         {item.context ? (item.context.length > 160 ? <Passage passage={{ label: 'Read this', sentences: item.context.split(/(?<=[.!?])\s+/) }} /> : <blockquote className="sx-context">{item.context}</blockquote>) : null}
         {item.title && item.prompt && (isLesson || item.type === 'reading') ? <p className="sx-prompt">{item.prompt}</p> : null}
@@ -104,7 +104,7 @@ export default function StudyRun({ run: initial, api, onOpenRun, onExit }) {
           <Feedback feedback={run.feedback} fresh={fresh} compact={options} />
           {!isLesson && item.type === 'reveal' ? <fieldset className="sx-ratings"><legend>How well did you remember it?</legend>
             {RATINGS.map(r => <button key={r.value} type="button" data-picked={picked === r.value || undefined} onClick={() => { setPicked(r.value); send({ type: 'rate', rating: r.value }); }} disabled={busy}><b>{r.label}</b><small>{r.hint}</small></button>)}
-          </fieldset> : <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'continue' })} disabled={busy}>{step === total ? (isLesson ? 'Finish lesson' : 'Finish review') : 'Next'}<ArrowRight size={16} aria-hidden="true" /></button></div>}
+          </fieldset> : <div className="sx-actions sx-actions--sticky"><button className="btn-volt md" type="button" onClick={() => send({ type: 'continue' })} disabled={busy}>{step === total ? (isLesson ? 'Finish lesson' : 'Finish review') : 'Next'}</button></div>}
           {!isLesson && unit && item.unitId ? <p className="sx-small"><Link className="sx-link" href={`/learn/${item.unitId}`}>Reread the lesson for this card</Link></p> : null}
         </> : item.type === 'reveal' ? <>
           <p className="sx-hint">Say or write your answer first, then check it.</p>
@@ -147,7 +147,7 @@ function LessonDone({ run, api, onOpenRun }) {
       <p className="sx-small">Your lesson’s recall cards are ready. Answer from memory, then we’ll bring them back when they’re due. Included, no AI credits.</p>
       {!info ? <p className="sx-small" role="status">Checking your review cards…</p>
         : available ? <><p>Answer {available} {available === 1 ? 'card' : 'cards'} from this lesson from memory, about {Math.max(2, Math.ceil(available * 0.6))} minutes. Each answer sets when you’ll see that card again, so the idea is still there on exam day.</p>
-          <button className="btn-volt md" type="button" onClick={lockIn} disabled={busy}>Lock it in with {available} {available === 1 ? 'card' : 'cards'}<ArrowRight size={16} aria-hidden="true" /></button></>
+          <button className="btn-volt md" type="button" onClick={lockIn} disabled={busy}>Lock it in with {available} {available === 1 ? 'card' : 'cards'}</button></>
         : info.recall?.unseen ? <p>You’ve started today’s {info.recall.newCardsPerDay} new cards. This lesson’s {info.recall.unseen} cards will be ready tomorrow, and Today will remind you.</p>
         : <p>All of this lesson’s cards are already in your reviews. They’ll come back when they’re due.</p>}
       {error ? <p className="sx-alert" role="alert">{error.text}</p> : null}
@@ -179,8 +179,8 @@ function ReviewDone({ run }) {
     {reviewed.length ? <ul className="sx-reviewed">{reviewed.map((r, i) => <li key={`${r.cardId}-${i}`} className={r.rating === 1 ? 'is-wrong' : 'is-right'}>{r.rating === 1 ? <X size={16} aria-label="Forgot" /> : <Check size={16} aria-label="Remembered" />}<span>{r.title}</span><small>Next {whenDue(r.due)}</small></li>)}</ul> : null}
     {forgot.length ? <div className="sx-next"><h2 className="sx-h3">Revisit what slipped</h2><p>{forgot.length === 1 ? 'One card' : `${forgot.length} cards`} didn’t come back. Rereading the lesson before the next review usually helps.</p>
       <div className="sx-actions">{[...new Set(forgot.map(f => f.unitId))].map(id => { const u = units.find(x => x.id === id); return <Link key={id} className="sx-secondary" href={`/learn/${id}`}><BookOpenText size={16} aria-hidden="true" />{u ? u.title : 'Open the lesson'}</Link>; })}</div></div> : null}
-    {focus ? <div className="sx-next"><h2 className="sx-h3">Next: apply it</h2><p>Use it on exam-style {focus.chapter} questions with marks. Access and cost are shown before you start.</p><Link className="btn-volt md" href={practiceHref(focus.subject, focus.chapter)}>Practise {focus.chapter}<ArrowRight size={16} aria-hidden="true" /></Link></div>
-      : <div className="sx-next"><h2 className="sx-h3">Next</h2><p>Continue with today’s plan, or learn a new concept.</p><div className="sx-actions"><Link className="btn-volt md" href="/today">Back to Today<ArrowRight size={16} aria-hidden="true" /></Link><Link className="sx-secondary" href="/learn">Learn something new</Link></div></div>}
+    {focus ? <div className="sx-next"><h2 className="sx-h3">Next: apply it</h2><p>Use it on exam-style {focus.chapter} questions with marks. Access and cost are shown before you start.</p><Link className="btn-volt md" href={practiceHref(focus.subject, focus.chapter)}>Practise {focus.chapter}</Link></div>
+      : <div className="sx-next"><h2 className="sx-h3">Next</h2><p>Continue with today’s plan, or learn a new concept.</p><div className="sx-actions"><Link className="btn-volt md" href="/today">Back to Today</Link><Link className="sx-secondary" href="/learn">Learn something new</Link></div></div>}
     <p className="sx-small">Ratings schedule reviews; they don’t measure exam marks. {units.length === 1 ? `${subjectName(units[0].subject)} practice and mocks give your marks.` : 'Practice and mocks give your marks.'}</p>
   </section>;
 }

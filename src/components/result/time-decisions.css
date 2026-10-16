@@ -73,3 +73,11 @@
   font: 600 14px/1.4 var(--font-body, inherit); color: var(--a-accent-text, #d2f000);
 }
 .td-more:focus-visible { outline: 2px solid var(--a-focus, #d2f000); outline-offset: 3px; border-radius: 4px; }
+
+/* Divided rows, not boxes inside the Lab card: a hairline between rows, the hover tint marks the row you are on. */
+.td-long, .td-changes { gap: 0; }
+.td-long__row, .td-changes__row { border: 0; border-radius: 0; background: transparent; border-top: 1px solid var(--a-line, #253026); padding-inline: 4px; }
+.td-long > li:first-child > .td-long__row, .td-changes > li:first-child > .td-changes__row { border-top: 0; }
+.td-long__row:hover, .td-changes__row:hover { background: color-mix(in srgb, var(--a-ink, #f2f4ec) 4%, transparent); }
+.td-parts li { border: 0; padding: 0 12px 0 0; border-radius: 0; }
+.td-parts li + li { padding-left: 12px; border-left: 1px solid var(--a-line, #253026); }

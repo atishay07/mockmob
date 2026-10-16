@@ -81,8 +81,13 @@ export default function AnalyticsPageClient() {
   if (error) return <div className="container-std pt-8"><ErrorState scene="unreachable" title="Your record did not load" message="Check your connection and try again." onRetry={() => { setData(null); setError(null); setRetryCount((count) => count + 1); }} /></div>;
   if (authStatus === 'loading' || !data) {
     return (
-      <div className="container-std pb-20">
-        <div className="mb-8"><div className="h-10 w-72 skeleton mb-2" /></div>
+      <div className="rd view" aria-busy="true">
+        <header className="rd-head">
+          <div>
+            <h1 className="display-md">Where your marks are going</h1>
+            <p role="status">Reading your sessions…</p>
+          </div>
+        </header>
         <SkeletonCard className="h-[200px]" lines={5} />
       </div>
     );
@@ -147,7 +152,7 @@ export default function AnalyticsPageClient() {
         return (
           <div className="rd-cols">
             <div className="pp-arena rd-main">
-              <RecordView state={record} pro={pro} oneLock emptyAction={false} afterLedger={narrowSide} afterFindings={across} onNavigate={(href) => { window.location.assign(href); }} />
+              <RecordView state={record} pro={pro} oneLock chaptersFirst emptyAction={false} afterLedger={narrowSide} afterFindings={across} onNavigate={(href) => { window.location.assign(href); }} />
               {record.status !== 'ready' ? across : null}
             </div>
             {!inline ? <aside className="rd-side" aria-label="Score by session and by subject">{side}</aside> : null}

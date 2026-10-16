@@ -1,7 +1,7 @@
 "use client";
 import { useRef, useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, ArrowRight, Check, Printer, Clock } from 'lucide-react';
+import { ArrowLeft, Check, Printer, Clock } from 'lucide-react';
 import { SubjectIcon } from '@/components/ui/Glyph';
 import { BLOCK_LABEL, STATUS, friendlyError, practiceHref, subjectName, whenDue } from './studyCopy';
 
@@ -34,8 +34,8 @@ export default function LessonOverview({ unit, api, onOpenRun, onBack }) {
     {status !== 'new' ? <p className="sx-status" data-status={status}>{STATUS[status]?.label}{memory.due ? `, ${memory.due} due now` : ''}</p> : null}
     {error ? <div className="sx-alert" role="alert"><p>{error.text}</p></div> : null}
     <div className="sx-actions">
-      {primary.href ? <Link className="btn-volt md" href={primary.href}>{primary.label}<ArrowRight size={16} aria-hidden="true" /></Link>
-        : <button className="btn-volt md" type="button" onClick={() => start(primary.run)} disabled={busy}>{primary.label}<ArrowRight size={16} aria-hidden="true" /></button>}
+      {primary.href ? <Link className="btn-volt md" href={primary.href}>{primary.label}</Link>
+        : <button className="btn-volt md" type="button" onClick={() => start(primary.run)} disabled={busy}>{primary.label}</button>}
       {p.read && primary.run !== 'learn' ? <button className="sx-secondary" type="button" onClick={() => start('learn')} disabled={busy}>Read the lesson again</button> : null}
       {primary.run === 'recall' || primary.run === 'learn' ? <Link className="sx-quiet" href={practiceHref(unit.subject, unit.chapter)}>Practise this chapter</Link> : null}
     </div>

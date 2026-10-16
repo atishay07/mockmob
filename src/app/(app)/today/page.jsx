@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import LearningNextAction from '@/components/LearningNextAction';
+import InstallPractice from '@/components/InstallPractice';
 import RecordGlimpse from '@/components/ai/RecordGlimpse';
 import RhythmCard from '@/components/RhythmCard';
 import { TodayColleges } from '@/components/colleges/MyColleges';
@@ -30,7 +31,7 @@ function useWeekGoal(userId) {
       const act = weekGoalAct({ met: r.metThisWeek, cheered });
       if (!act) return;
       try { window.localStorage.setItem(weekCheerKey(r.weekStart), '1'); } catch { /* he may cheer again on this device */ }
-      setMoment({ act, title: `Week goal met: ${r.studyDays} of ${r.daysGoal} study days.`, line: 'Pick the time you have tonight. The set fits it, one question a minute.' });
+      setMoment({ act, title: `Week goal met: ${r.studyDays} of ${r.daysGoal} study days.`, line: 'Every day you planned this week is a study day. Anything more tonight is extra.' });
     }).catch(() => {});
     return () => { alive = false; };
   }, [userId]);
@@ -60,6 +61,8 @@ export default function Today() {
           <TodayColleges userId={user?.id} />
           <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} link={!top} />
         </div>
+        {/* The browser offers install a few seconds after load; at the foot of the page it never pushes the plan down. */}
+        <InstallPractice />
       </section>
     </div>
   );

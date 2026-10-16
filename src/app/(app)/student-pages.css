@@ -153,6 +153,9 @@
 .app-shell .ui-state { display: grid; gap: 6px; padding: 18px 20px; border-radius: 16px; border: 1px solid var(--a-line); background: var(--a-raised); color: var(--a-ink-2); }
 .app-shell .ui-state--error { grid-template-columns: auto minmax(0, 1fr); gap: 12px; border-color: color-mix(in srgb, var(--a-bad-text) 45%, var(--a-line)); }
 .app-shell .ui-state--error svg { margin-top: 2px; color: var(--a-bad-text); }
+/* The failed-state Mobi sits clear of its words: never closer than 16px to the heading. */
+.app-shell .ui-state--error:has(.pip-state) { column-gap: 16px; align-items: start; }
+.app-shell .ui-state.ui-state--error .pip-state { width: 74px; height: auto; min-height: 74px; margin: 0; }
 .app-shell .ui-state--empty { justify-items: start; border-style: dashed; border-color: var(--a-line-strong); padding: 22px; }
 .app-shell .ui-state b { font: 700 16px var(--font-display); color: var(--a-ink); }
 .app-shell .ui-state p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); max-width: 60ch; }
@@ -190,10 +193,10 @@
 .app-shell .rc--note p { margin: 0; font-size: 14px; color: var(--a-ink-2); }
 .app-shell .rc__skeleton { display: block; width: 100%; height: 72px; border-radius: 14px; background: linear-gradient(90deg, var(--a-sunken), var(--a-raised-2), var(--a-sunken)); background-size: 200% 100%; animation: rc-sheen 1.6s ease-in-out infinite; }
 @keyframes rc-sheen { from { background-position: 120% 0; } to { background-position: -20% 0; } }
-.app-shell .rc__head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; min-width: 0; }
+.app-shell .rc__head { display: flex; align-items: center; justify-content: flex-start; gap: 14px; min-width: 0; }
 .app-shell .rc__title { margin: 0; font: 700 clamp(17px, 2.4vw, 20px)/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
 .app-shell .rc__status { margin: 4px 0 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); max-width: 46ch; }
-.app-shell .rc__head .mobi-react { margin-bottom: -6px; }
+.app-shell .rc__head .mobi-react { flex: none; margin: -6px 0 -6px -6px; }
 .app-shell .rc__top { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(14px, 3vw, 26px); align-items: center; }
 .app-shell .rc__week { display: grid; gap: 8px; min-width: 0; }
 .app-shell .rc__streak { margin: 0; font-size: 13px; color: var(--a-ink-3); }
