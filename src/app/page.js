@@ -49,7 +49,7 @@ import './hero-v3.css';
 import './landing-rest.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
-  'Quick Practice and Full Mock on Practice credits',
+  '100 practice credits to start: a Quick Practice uses 10, a Full Mock 50',
   'Weekly progress tracking',
   '25 saved questions',
   'Leaderboard',
@@ -151,20 +151,20 @@ export default function LandingPage() {
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             {/* Everything the reader needs is in the server HTML and visible at first paint: no entrance hides the
-                words or the keys. The headline carries the page: "CUET 2027" in volt as its first line. Mobi has three
+                words or the keys. The headline carries the page in one ink, with no line above it (the exam year runs on in
+                the lead). Mobi has three
                 places on this page, each with a reason: on the sample card at desktop (he greets you beside the
                 question), in the phone dock once the hero's keys have gone, and reacting to your own sample answers.
                 The one thing that moves here is the turning line, which turns a set number of times and rests. */}
             <div className="lp-hero__copy">
               <div className="lp-hero__head">
                 <h1 className="lp-title">
-                  <span className="lp-title__exam">CUET 2027</span>
                   <span className="lp-title__line">Your lost marks went somewhere.</span>
                   <span className="lp-title__line">MockMob shows you where.</span>
                 </h1>
               </div>
               <TypeLine lead="Down to" phrases={['the chapter.', 'the minute.', 'the changed answer.', 'the reason.']} label="the chapter, the minute, the changed answer and the reason." />
-              <p className="lp-lead">Then it picks the chapter for tonight and keeps your DU shortlist in sight.</p>
+              <p className="lp-lead">Then it picks the chapter for tonight and keeps your DU shortlist in sight, all the way to CUET 2027.</p>
               <div className="lp-cta">
                 <HeroKeys />
               </div>
@@ -236,18 +236,18 @@ export default function LandingPage() {
         <section className="lp-sec lp-sec--cinema lp-sh-host" id="inside-the-lab" aria-labelledby="inside-the-lab-title">
           {/* Without JavaScript the held stories (ScrollStory) simply scroll as plain sections. */}
           <noscript><style>{'.ss .ss__track{height:auto!important}.ss .ss__stage{position:static!important;height:auto!important}'}</style></noscript>
-          <SectionHeading titleId="inside-the-lab-title" className="lp-cinema-head" name="Mistake Lab."
+          <SectionHeading titleId="inside-the-lab-title" className="lp-cinema-head"
             title="Every mark, traced back to a moment."
-            sub="A score tells you how it went. The Lab shows why: the minutes, the second thoughts, the reason behind each miss, and the plan for the next mock."
+            sub="A score tells you how it went. The Mistake Lab shows why: the minutes, the second thoughts, the reason behind each miss, and the plan for the next mock."
             mini="Inside the Mistake Lab" />
           <LabCinema />
         </section>
 
         {/* --------------------------- FEATURE TOUR -------------------------- */}
         <section className="lp-sec lp-sec--tour lp-sh-host" id="your-prep" aria-labelledby="your-prep-title">
-          <SectionHeading titleId="your-prep-title" title={<>What’s inside <em>MockMob</em>.</>}
+          <SectionHeading titleId="your-prep-title" title="What’s inside MockMob."
             sub="Practice, repair, replay and the plan that ties them together."
-            mini={<>What’s inside <em>MockMob</em></>} />
+            mini="What’s inside MockMob" />
           <div className="mm-wrap">
             <FeatureTour slides={TOUR} />
           </div>
@@ -255,8 +255,8 @@ export default function LandingPage() {
 
         {/* ------------------------- SCORE RECOVERY LAB --------------------- */}
         <section className="lp-sec lp-sh-host" id="score-recovery-lab" aria-labelledby="score-recovery-lab-title">
-          <SectionHeading titleId="score-recovery-lab-title" name="Score Recovery Lab." title="Fix it once. Check it holds."
-            sub="Replay the session, repair the leak, then prove it on fresh questions days later."
+          <SectionHeading titleId="score-recovery-lab-title" title="Fix it once. Check it holds."
+            sub="The Score Recovery Lab replays the session, repairs the leak, then proves the fix on fresh questions days later."
             mini="Score Recovery Lab" />
           <div className="mm-wrap">
             <MistakeLab recoveryState={CAPABILITIES.recovery.state} recoveryReason={CAPABILITIES.recovery.reason} />
@@ -268,9 +268,9 @@ export default function LandingPage() {
           <section className="lp-sec" id="compass">
             <div className="mm-wrap">
               <div className="lp-head lp-head--left">
-                <h2 className="lp-h2"><span className="lp-h2__name">DU Compass.</span> <span className="lp-h2__rest">Put your shortlist beside the numbers.</span></h2>
+                <h2 className="lp-h2">Put your shortlist beside the numbers.</h2>
                 <p className="lp-sub">
-                  Slide a score and see which colleges it would have cleared in 2026, by category and round.
+                  Slide a score in DU Compass and see which colleges it would have cleared in 2026, by category and round.
                 </p>
               </div>
               <Reveal delay={100}><CompassLadder data={SHOWCASE} /></Reveal>
@@ -278,8 +278,8 @@ export default function LandingPage() {
                   defined features on hairlines, one text link), not a card. */}
               <aside className="lp-cpro" aria-labelledby="compass-pro-title">
                 <div className="lp-cpro__copy">
-                  <h3 className="lp-h3" id="compass-pro-title"><span className="lp-h2__name">Compass Pro.</span> <span className="lp-h2__rest">Your practice, mapped to the colleges you want.</span></h3>
-                  <p>Turn your recorded practice into a paper-by-paper range. Compare it with your DU shortlist and see which paper has the most room to improve.</p>
+                  <h3 className="lp-h3" id="compass-pro-title">Your practice, mapped to the colleges you want.</h3>
+                  <p>Compass Pro turns your recorded practice into a paper-by-paper range. Compare it with your DU shortlist and see which paper has the most room to improve.</p>
                   <Link href="/pricing" className="lp-textlink">See what Pro includes</Link>
                 </div>
                 <dl className="lp-cpro__list">
@@ -297,20 +297,20 @@ export default function LandingPage() {
         <section className="lp-sec" id="du-eligibility">
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
-              <h2 className="lp-h2"><span className="lp-h2__name">Which DU courses fit your subjects?</span> <span className="lp-h2__rest">Tick them and see.</span></h2>
+              <h2 className="lp-h2">Which DU courses fit your subjects?</h2>
               <p className="lp-sub">
-                Every DU programme your subjects open under the 2026 rules, then the college cutoffs in your category. Free, no sign-up.
+                Tick your subjects to see every DU programme they open under the 2026 rules, then the college cutoffs in your category. Free, no sign-up.
               </p>
             </div>
             <Reveal>
               <EligibilityTeaser />
             </Reveal>
-            {/* Combo Planner: a row between two hairlines, not a card. The teaser above holds the section's
-                primary key, so this one is secondary. */}
+            {/* Combo Planner: a row between two hairlines, not a card. Volt is kept for Start free and Pro, so this key
+                and the teaser's above are secondary. */}
             <aside className="lp-combo" aria-labelledby="combo-title">
               <div>
-                <h3 className="lp-h3" id="combo-title"><span className="lp-h2__name">Combo Planner.</span> <span className="lp-h2__rest">Not sure which CUET subjects to pick?</span></h3>
-                <p>Choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
+                <h3 className="lp-h3" id="combo-title">Not sure which CUET subjects to pick?</h3>
+                <p>In the Combo Planner, choose your DU goals and available subjects. Compare five-paper combinations against the published 2026 rules before you fill the CUET form.</p>
               </div>
               <Link href="/cuet-subject-combination" className="mm-btn mm-btn--secondary">Plan my subjects</Link>
             </aside>
@@ -331,8 +331,8 @@ export default function LandingPage() {
         <section className="lp-sec" id="on-instagram">
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
-              <h2 className="lp-h2"><span className="lp-h2__name">MockMob on Instagram.</span> <span className="lp-h2__rest">Featured by CUET creators.</span></h2>
-              <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their audiences. Press Watch to see a reel right here.</p>
+              <h2 className="lp-h2">Featured by CUET creators.</h2>
+              <p className="lp-sub">DU seniors and admissions creators have put MockMob in front of their Instagram audiences. Press Watch to see a reel right here.</p>
             </div>
             <Reveal delay={100}><CreatorReels items={rankedReels()} profileUrl={INSTAGRAM.url} handle={INSTAGRAM.handle} asOf={STATS_AS_OF} /></Reveal>
           </div>
@@ -343,7 +343,7 @@ export default function LandingPage() {
           <section className="lp-sec" id="wall-of-love">
             <div className="mm-wrap">
               <div className="lp-head lp-head--left">
-                <h2 className="lp-h2"><span className="lp-h2__name">Wall of love.</span> <span className="lp-h2__rest">What students say.</span></h2>
+                <h2 className="lp-h2">What students say.</h2>
               </div>
               <Reveal delay={100}><WallOfLove voices={WALL_VOICES} /></Reveal>
             </div>
@@ -354,7 +354,7 @@ export default function LandingPage() {
         <section className="lp-sec" id="pricing">
           <div className="mm-wrap">
             <div className="lp-head lp-head--left">
-              <h2 className="lp-h2"><span className="lp-h2__name">Start free.</span> <span className="lp-h2__rest">Go Pro when you want more room.</span></h2>
+              <h2 className="lp-h2">Start free. Go Pro when you want more room.</h2>
               <p className="lp-sub">{OFFER.purchasable === 'monthly' ? `Pro is ₹${OFFER.monthly.rupees} a month. Cancel any month and keep what you paid for.` : `Free keeps practice and your progress open. Pro is one payment of ₹${OFFER.oneTime.rupees}, not a subscription.`}</p>
             </div>
             {/* Two plain columns split by one hairline. Pro is set apart by the size of its price, not a frame. */}
@@ -385,7 +385,7 @@ export default function LandingPage() {
         <section className="lp-sec lp-sec--band lp-faq" aria-labelledby="faq-title">
           <div className="mm-wrap">
             <div className="lp-faq__grid">
-              <h2 className="lp-h2" id="faq-title"><span className="lp-h2__name">Questions.</span> <span className="lp-h2__rest">Before your first mock.</span></h2>
+              <h2 className="lp-h2" id="faq-title">Questions before your first mock.</h2>
               <div className="mm-faqs">
                 {faqs.map(({ question, answer }) => (
                   <details key={question} className="mm-faq">

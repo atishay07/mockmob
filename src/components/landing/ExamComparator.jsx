@@ -63,8 +63,8 @@ export function ExamComparator() {
     <section className="lp-sec lp-exam-section" id="exam-experience" aria-labelledby="exam-title">
       <div className="mm-wrap">
         <div className="lp-exam-intro">
-          <div><h2 className="lp-h2" id="exam-title">Practise on a calm screen. <span className="lp-h2__rest">Rehearse on the NTA-style one.</span></h2>
-            <p className="lp-sub">MockMob’s own screen keeps practice quiet. As exam day nears, switch to the NTA-style screen, with Pro, and rehearse how it will look. The questions are the same on both.</p></div>
+          <div><h2 className="lp-h2" id="exam-title">Practise on a calm screen, then rehearse on the NTA-style one.</h2>
+            <p className="lp-sub">MockMob’s own screen uses calmer colours and plain labels, and lets you strike out options you have ruled out. As exam day nears, switch to the NTA-style screen, with Pro, and rehearse how it will look. The questions are the same on both.</p></div>
           <div className="lp-exam-switch" role="group" aria-label="Preview interface">
             <button type="button" aria-pressed={!classic} onClick={() => setMode('mockmob')}>MockMob</button>
             <button type="button" aria-pressed={classic} onClick={() => setMode('nta')}>NTA style (Pro)</button>
@@ -83,13 +83,14 @@ export function ExamComparator() {
                 </label>)}
               </fieldset>
               <div className="lp-exam__actions">
-                <button type="button" className="lp-exam__review" onClick={() => next(true)}>Mark for Review & Next</button>
-                <button type="button" onClick={() => setAnswers((a) => { const copy = { ...a }; delete copy[index]; return copy; })}>Clear response</button>
-                <button type="button" className="lp-exam__save" onClick={() => next(false)}>Save & Next</button>
+                {/* The two screens' own labels: NTA's long forms, MockMob's plain ones (TestPageClient). */}
+                <button type="button" className="lp-exam__review" onClick={() => next(true)}>{classic ? 'Mark for Review & Next' : 'Mark for review'}</button>
+                <button type="button" onClick={() => setAnswers((a) => { const copy = { ...a }; delete copy[index]; return copy; })}>{classic ? 'Clear response' : 'Clear'}</button>
+                <button type="button" className="lp-exam__save" onClick={() => next(false)}>{classic ? 'Save & Next' : 'Next'}</button>
               </div>
             </div>
             <aside className="lp-exam__palette" aria-label="Preview question palette">
-              <div className="lp-exam__palette-heading"><h4>Question Palette</h4><span>{Object.keys(answers).length}/5 answered</span></div>
+              <div className="lp-exam__palette-heading"><h4>{classic ? 'Question Palette' : 'Questions'}</h4><span>{Object.keys(answers).length}/5 answered</span></div>
               {/* Five live cells, 45 decorative ones, one cell geometry. The button is the hit
                   target and focus ring; the inner cell carries the exam shape, so NTA's clipped
                   shapes can never clip the ring. */}
@@ -103,7 +104,7 @@ export function ExamComparator() {
           <div className="lp-exam__foot"><p role="status">{notice}</p><button type="button" onClick={reset}><RotateCcw size={14} />Reset preview</button></div>
         </div>
         <div className="lp-exam-bottom"><p>Your review marks carry over when you switch.</p>
-          <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--primary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}</Link></div>
+          <Link href={user?.isPremium ? `/dashboard?mode=nta&interface=${mode}` : '/pricing'} className="mm-btn mm-btn--secondary">{user?.isPremium ? 'Set up an NTA mock' : 'See Pro'}</Link></div>
       </div>
     </section>
   );

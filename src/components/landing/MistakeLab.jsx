@@ -187,11 +187,11 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
     if (index === 0) { setRevealed(reduced ? SESSION.length : 0); setPicked(reduced ? 3 : null); }
   };
 
-  const shown = SESSION.slice(0, revealed);
-  const marks = shown.reduce((sum, tile) => sum + MARK[tile.final], 0);
-  const right = shown.filter((tile) => tile.final === 'right').length;
-  const wrong = shown.filter((tile) => tile.final === 'wrong').length;
-  const blank = shown.filter((tile) => tile.final === 'skip').length;
+  // The session's result is printed whole from the start (never a 0 / 50 counting up); only the tiles deal in.
+  const marks = SESSION.reduce((sum, tile) => sum + MARK[tile.final], 0);
+  const right = SESSION.filter((tile) => tile.final === 'right').length;
+  const wrong = SESSION.filter((tile) => tile.final === 'wrong').length;
+  const blank = SESSION.filter((tile) => tile.final === 'skip').length;
   const tilePicked = picked === null ? null : SESSION[picked];
 
   return (
@@ -236,7 +236,7 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
           <span className="ml__reading-region" ref={readingRef} aria-hidden="true" />
           {/* 1. Replay */}
           <section className="ml__panel" data-active={step === 0} aria-hidden={step !== 0} inert={step !== 0 ? true : undefined} aria-label="Replay the session">
-            <div className="ml__score" aria-live={running ? 'off' : 'polite'}>
+            <div className="ml__score">
               <span className="ml__marks"><b>{marks}</b><small>/ 50 marks</small></span>
               <span className="ml__counts"><b data-k="right">{right} right</b>, <b data-k="wrong">{wrong} wrong</b>, {blank} blank</span>
             </div>

@@ -181,24 +181,26 @@ export function ReplayScreen({ play }) {
 
 // ---------- 4. Radar ----------
 const RADAR_T = [...lineUp(6), 400];
+// Across several mocks (one CUET paper is one subject), each chapter with its count of right answers, so a bar is
+// never a bare percentage from a handful of questions.
 const RADAR_ROWS = [
-  ['Partner retirement', 'Accountancy', 38],
-  ['Money and banking', 'Economics', 52],
-  ['Reading passages', 'English', 61],
-  ['Business environment', 'Business Studies', 68],
-  ['Ratio analysis', 'Accountancy', 76],
-  ['Cash flow', 'Accountancy', 84],
+  ['Partner retirement', 'Accountancy', 5, 13],
+  ['Money and banking', 'Economics', 11, 21],
+  ['Reading passages', 'English', 14, 23],
+  ['Business environment', 'Business Studies', 13, 19],
+  ['Ratio analysis', 'Accountancy', 16, 21],
+  ['Cash flow', 'Accountancy', 21, 25],
 ];
 export function RadarScreen({ play }) {
   const step = useSteps(play, RADAR_T);
   return (
-    <Frame title="Weak chapters after one mock" step={step}>
+    <Frame title="Weak chapters across your last mocks" step={step}>
       <ul className="ts__bars">
-        {RADAR_ROWS.map(([chapter, subject, pct], i) => (
-          <li key={chapter} data-in={on(step > i)} data-low={on(pct < 50)}>
+        {RADAR_ROWS.map(([chapter, subject, right, of], i) => (
+          <li key={chapter} data-in={on(step > i)} data-low={on(right / of < 0.5)}>
             <span className="ts__bars-name"><b>{chapter}</b><small>{subject}</small>{i === 0 ? <span className="ts__flag" data-in={on(step >= 7)}>Fix first</span> : null}</span>
-            <span className="ts__bars-track" aria-hidden="true"><i style={{ '--w': `${pct}%` }} /></span>
-            <em>{pct}%</em>
+            <span className="ts__bars-track" aria-hidden="true"><i style={{ '--w': `${(right / of) * 100}%` }} /></span>
+            <em>{right} of {of}</em>
           </li>
         ))}
       </ul>

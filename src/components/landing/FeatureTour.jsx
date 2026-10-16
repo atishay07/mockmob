@@ -6,6 +6,7 @@ import { createDemoPlayback } from '@/../data/demo_playback.mjs';
 import { DemoPlaybackContext, TOUR_SCREENS } from './TourScreens';
 import ScrollStory from './ScrollStory';
 import { undrawn } from './undrawn';
+import { fitRowEnd, revealTab } from './tabScroll';
 
 export const TOUR_ADVANCE_MS = 4800;
 
@@ -74,8 +75,9 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
     track.scrollTo({ left: slide.offsetLeft, behavior: smooth && !reduced ? 'smooth' : 'auto' });
   }, [reduced]);
 
-  // Keep the current chapter chip centred without moving the document's vertical scroll (the row scrolls
-  // itself; instant under reduced motion). The row's edges fade only where more chips wait beyond them.
+  // Keep the current tab wholly in view, 24px clear of the row's edge, without moving the document's vertical
+  // scroll (the row scrolls itself, only as far as it must; instant under reduced motion). The row's edges fade
+  // only where more tabs wait beyond them.
   const [fade, setFade] = useState('none');
   const readFade = useCallback(() => {
     const nav = navRef.current;
@@ -89,14 +91,16 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
   useEffect(() => {
     const nav = navRef.current;
     const item = nav?.querySelector('[data-chapter="' + active + '"]');
-    if (nav && item && !undrawn(nav) && nav.scrollWidth > nav.clientWidth + 2) nav.scrollTo({ left: item.offsetLeft - (nav.clientWidth - item.offsetWidth) / 2, behavior: reduced ? 'auto' : 'smooth' });
+    if (!nav || !item || undrawn(nav)) return;
+    revealTab(nav, active, { smooth: !reduced });
   }, [active, reduced]);
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return undefined;
-    readFade();
+    const fit = () => { if (!undrawn(nav)) fitRowEnd(nav); readFade(); };
+    fit();
     if (typeof ResizeObserver === 'undefined') return undefined;
-    const observer = new ResizeObserver(readFade);
+    const observer = new ResizeObserver(fit);
     observer.observe(nav);
     return () => observer.disconnect();
   }, [readFade]);

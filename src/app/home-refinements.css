@@ -144,7 +144,7 @@ button.lp-exam__num:active .lp-exam__cell { transform: scale(.94); }
 .lp-exam[data-interface='nta'] .lp-exam__numbers { --cell-h: 25px; gap: 6px; }
 .lp-exam[data-interface='nta'] .lp-exam__num { border-radius: 3px; }
 .lp-exam[data-interface='nta'] button.lp-exam__num::before { inset: -10px -3px; }
-.lp-exam[data-interface='nta'] .lp-exam__cell { font-size: .6875rem; }
+.lp-exam[data-interface='nta'] .lp-exam__cell { font-size: .75rem; }
 .lp-exam[data-interface='nta'] .lp-exam__num--rest .lp-exam__cell { opacity: 1; }
 .lp-exam[data-interface='nta'] [data-state='unseen'] { background: linear-gradient(#fff, #e4e4e4); color: #555; border-color: #b3b3b3; }
 .lp-exam[data-interface='nta'] .lp-exam__num[aria-current] { outline-color: #285f85; }

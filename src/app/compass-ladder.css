@@ -1,6 +1,6 @@
 /* Compass ladder (.cl): controls follow the page theme; the ladder is a product screen, so it stays dark. */
 .cl { display: grid; gap: 1.75rem; align-items: start; }
-@media (min-width: 960px) { .cl { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(2rem, 4.5vw, 4.5rem); } }
+@media (min-width: 960px) { .cl { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: var(--sp-6, 2rem) clamp(2rem, 4.5vw, 4.5rem); } }
 .cl__controls { display: grid; gap: var(--sp-5, 1.5rem); min-width: 0; }
 /* Phones: the ladder answers the score, so it comes straight after the slider; the sentence and the keys follow it. */
 @media (max-width: 959px) {
@@ -10,24 +10,30 @@
   .cl__summary { order: 2; }
   .cl__cta { order: 3; }
 }
-/* Filters: text tabs, the chosen one in --ink with a 2px rule under it. No pills, no wash. */
+/* Filters: text tabs, the chosen one in --ink with a 2px rule under it. No pills, no wash. The programme row runs
+   the ladder's full width at every size (first in the grid). On a phone it scrolls sideways and fades 24px at an
+   edge only while more names wait beyond it (data-fade, set from the row's scroll). */
 .cl__tabs {
   display: flex;
   gap: var(--sp-5, 1.5rem);
   margin-inline: calc(var(--gutter, 1.25rem) * -1);
-  padding-inline: var(--gutter, 1.25rem);
+  padding-inline: var(--gutter, 1.25rem) calc(var(--gutter, 1.25rem) + var(--row-end-pad, 0px));
+  scroll-padding-inline: 1.5rem;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
   border-bottom: 1px solid var(--line);
+  --cl-fade-l: #000;
+  --cl-fade-r: #000;
+  -webkit-mask-image: linear-gradient(90deg, var(--cl-fade-l), #000 24px, #000 calc(100% - 24px), var(--cl-fade-r));
+  mask-image: linear-gradient(90deg, var(--cl-fade-l), #000 24px, #000 calc(100% - 24px), var(--cl-fade-r));
 }
+.cl__tabs:is([data-fade='start'], [data-fade='both']) { --cl-fade-l: transparent; }
+.cl__tabs:is([data-fade='end'], [data-fade='both']) { --cl-fade-r: transparent; }
 .cl__tabs::-webkit-scrollbar { display: none; }
-/* One row at every width: it scrolls sideways when the names do not fit, fading at its right edge (the padding lets
-   the last name scroll clear of the fade), so "Political Science (Hons.)" never drops to a line of its own. */
 .cl__tabs > button { flex: none; white-space: nowrap; }
-@media (min-width: 640px) {
-  .cl__tabs { margin-inline: 0; padding-inline: 0 3rem; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 3rem), transparent); }
-}
+@media (min-width: 640px) { .cl__tabs { margin-inline: 0; padding-inline: 0 var(--row-end-pad, 0px); } }
+@media (min-width: 960px) { .cl__tabs { grid-column: 1 / -1; gap: var(--sp-6, 2rem); } }
 .cl__row { display: flex; flex-wrap: wrap; gap: var(--sp-3, 0.75rem) var(--sp-7, 3rem); }
 .cl__seg { display: flex; gap: var(--sp-5, 1.5rem); }
 :is(.cl__tabs, .cl__seg, .cl__try) button {

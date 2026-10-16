@@ -117,7 +117,7 @@ html[data-theme='light'] .ml__stage { box-shadow: 0 20px 40px -24px rgba(32, 26,
 .ml__strip p { margin: 0; font-size: 0.75rem; font-weight: 600; color: #9aa795; }
 .ml__strip ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 0.4rem; }
 .ml__strip li { position: relative; display: grid; place-items: center; height: 2.6rem; border-radius: 10px; border: 1px solid rgba(244, 245, 240, 0.12); background: rgba(244, 245, 240, 0.03); color: #8f9a8b; opacity: 0.4; }
-.ml__strip li span { position: absolute; top: 3px; left: 6px; font: 700 0.625rem var(--font-body); font-variant-numeric: tabular-nums; }
+.ml__strip li span { position: absolute; top: 3px; left: 6px; font: 700 0.75rem var(--font-body); font-variant-numeric: tabular-nums; }
 .ml__strip li[data-lit='true'] { opacity: 1; }
 .ml__strip li[data-lit='true'][data-state='right'] { border-color: rgba(210, 240, 0, 0.5); background: rgba(210, 240, 0, 0.1); color: #d2f000; }
 .ml__strip li[data-lit='true'][data-state='wrong'] { border-color: rgba(255, 157, 146, 0.5); background: rgba(255, 122, 107, 0.1); color: #ffb6a9; }

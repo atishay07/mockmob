@@ -18,6 +18,10 @@ function parts(date) {
 }
 const WORDS = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
 const dayLabel = (date) => { const p = parts(date); return p ? `${p.day} ${p.month} ${p.year}` : ''; };
+// An Instagram shortcode is the post's id in base 64, and ids grow with time: the order two posts went up.
+const CODE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+const codeId = (code) => [...String(code)].reduce((n, c) => n * 64n + BigInt(Math.max(0, CODE.indexOf(c))), 0n);
+const postOrder = (a, b) => { const x = codeId(a); const y = codeId(b); return x < y ? -1 : x > y ? 1 : 0; };
 const shortDay = (date) => { const p = parts(date); return p ? `${p.day} ${p.month}` : ''; };
 
 // "26 and 28 April 2026" for a run of posts in one month; otherwise each date in full.
@@ -123,13 +127,15 @@ function PostsRow({ posts, activeCode, onToggle }) {
         <p className="rl__about">{posts.length === 1 ? 'One post' : `${WORDS[posts.length] || posts.length} posts`} from {datesLine(posts.map((p) => p.date))}, on the account that runs this site.</p>
       </div>
       <div className="rl__act rl__act--many">
-        {[...posts].sort((a, b) => a.date.localeCompare(b.date)).map((post) => {
+        {[...posts].sort((a, b) => a.date.localeCompare(b.date) || postOrder(a.code, b.code)).map((post) => {
           const on = post.code === activeCode;
-          // Each key names its post by day ('28 April'); two posts on one day are told apart by order (1 and 2).
-          const sameDay = posts.filter((p) => p.date === post.date);
-          const name = `${shortDay(post.date)}${sameDay.length > 1 ? ` (${sameDay.indexOf(post) + 1})` : ''}`;
+          // Each key names its post by day ('28 April'); a second post that day is '28 April, later' (shortcodes
+          // order the posts by when they went up).
+          const sameDay = posts.filter((p) => p.date === post.date).sort((a, b) => postOrder(a.code, b.code));
+          const later = sameDay.indexOf(post) > 0;
+          const name = `${shortDay(post.date)}${later ? ', later' : ''}`;
           return (
-            <button key={post.code} type="button" className="rl__watch" aria-expanded={on} aria-label={`${on ? 'Close' : 'Watch'} MockMob’s post of ${dayLabel(post.date)}${sameDay.length > 1 ? `, post ${sameDay.indexOf(post) + 1} of that day` : ''}${on ? '' : ' here'}`} onClick={() => onToggle(post.code)}>
+            <button key={post.code} type="button" className="rl__watch" aria-expanded={on} aria-label={`${on ? 'Close' : 'Watch'} MockMob’s ${later ? 'later ' : sameDay.length > 1 ? 'first ' : ''}post of ${dayLabel(post.date)}${on ? '' : ' here'}`} onClick={() => onToggle(post.code)}>
               {on ? 'Close' : name}
             </button>
           );

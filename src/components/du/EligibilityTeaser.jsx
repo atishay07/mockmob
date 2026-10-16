@@ -176,7 +176,7 @@ export function EligibilityTeaser() {
             ) : null}
           </>
         )}
-        <Link href={href} className="mm-btn mm-btn--primary">
+        <Link href={href} className="mm-btn mm-btn--secondary">
           See programmes and past cutoffs
         </Link>
         <p className="du-teaser__fine">Built from DU’s official 2026 documents.</p>

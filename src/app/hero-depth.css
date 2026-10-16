@@ -130,7 +130,8 @@
     }
     /* Object k lifts while its quarter of the words lights: 4% + 21% k to 24% + 21% k (the last ends at 87%). */
     :root:not([data-motion='reduced']) .lp-statement .lp-shelf .subj-obj--alive .subj-obj__float {
-      animation-name: subj-obj-float, lp-shelf-rise, lp-shelf-out;
+      /* The first slot was the idle float; it stays empty so the lineup only moves with the scroll. */
+      animation-name: none, lp-shelf-rise, lp-shelf-out;
       animation-range: normal, contain calc(4% + var(--k, 0) * 21%) contain calc(24% + var(--k, 0) * 21%), exit 0% exit 100%;
     }
     :root:not([data-motion='reduced']) .lp-statement .lp-shelf :is(.subj-obj__occl, .subj-obj__contact) {
@@ -182,7 +183,8 @@
     transition: opacity var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)), transform var(--mm-dur-enter, 360ms) var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
   }
   html[data-theme] .mm.lp .lp-dockgate[data-shown='false'] .mm-dock:not(:focus-within),
-  html[data-theme] .mm.lp:has(.ss[data-live='true']) .lp-dockgate .mm-dock:not(:focus-within) {
+  html[data-theme] .mm.lp:has(.ss[data-live='true']) .lp-dockgate .mm-dock:not(:focus-within),
+  html[data-theme] .mm.lp:has(#mm-nav-sheet) .lp-dockgate .mm-dock:not(:focus-within) {
     opacity: 0;
     transform: translateY(calc(100% + 2rem));
     pointer-events: none;

@@ -50,10 +50,10 @@
 .mm.lp .lp-hero--v3 [data-hero] { animation: none; }
 
 /* ---------- Headline ----------
-   One family, one weight, one size: "CUET 2027" is the headline's first line, set in volt (the accent-text
-   green on Day, where volt cannot be read on paper), not a label above it. Tracking at the -0.04em floor, lines
-   set nearly solid. On phones it is the page's display step (--t-display, 40 px at 390, the same as the close line
-   and the Pro price), held under 11.9cqi so "went somewhere." (8.26em) always fits one line on a narrow phone. */
+   One family, one weight, one size, one ink: no coloured year or label above it (the year runs on in the lead).
+   Tracking at the -0.04em floor, lines set nearly solid. On phones it is the page's display step (--t-display,
+   40 px at 390, the same as the close line and the Pro price), held under 11.9cqi so "went somewhere." (8.26em)
+   always fits one line on a narrow phone. Wider, it steps 48, 56 and 64 px: scale steps, never a fluid size. */
 .mm.lp .lp-hero--v3 .lp-title {
   margin: 0;
   font-size: clamp(2rem, min(var(--t-display), 11.9cqi), 3rem);
@@ -61,14 +61,9 @@
   line-height: 0.95;
   letter-spacing: -0.04em;
 }
-@media (min-width: 761px) {
-  .mm.lp .lp-hero--v3 .lp-title { font-size: clamp(3rem, min(11.8cqi, 8.4svh), 4.5rem); }
-}
-.mm.lp .lp-hero--v3 .lp-title__exam {
-  display: block;
-  color: var(--accent-text);
-  font-variant-numeric: lining-nums;
-}
+@media (min-width: 761px) { .mm.lp .lp-hero--v3 .lp-title { font-size: 3rem; } }
+@media (min-width: 1100px) and (min-height: 700px) { .mm.lp .lp-hero--v3 .lp-title { font-size: 3.5rem; } }
+@media (min-width: 1360px) and (min-height: 760px) { .mm.lp .lp-hero--v3 .lp-title { font-size: 4rem; } }
 
 /* Mobi has no seat in the headline: on phones and tablets the dock carries him once the hero's keys have gone,
    and from 960px he stands on the sample card (see "Mobi on the sample card" below). */
@@ -86,7 +81,10 @@
   white-space: nowrap;
 }
 @media (min-width: 761px) {
-  .mm.lp .lp-hero--v3 .lp-type { font-size: clamp(1.5rem, 5.2cqi, 2.125rem); }
+  .mm.lp .lp-hero--v3 .lp-type { font-size: 1.5rem; }
+}
+@media (min-width: 1100px) {
+  .mm.lp .lp-hero--v3 .lp-type { font-size: 1.875rem; }
 }
 /* The slot is a window: a leaving phrase rolls out of its top edge and the next rolls in from below, so the two
    never sit on top of each other in full. The padding gives descenders room inside the clip. */

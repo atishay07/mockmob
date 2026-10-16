@@ -11,7 +11,7 @@
 // the finished screen with the same marks. Only opacity and transform move. All numbers come from
 // labStory.mjs (one sample Accountancy mock), so the scenes cannot disagree with each other or with
 // the replay further down the page. Words on the screens are the product's own.
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Check, Minus, ShieldCheck, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -38,8 +38,8 @@ const SCENES = [
     bodyPhone: 'Written from the official key, never a guess.',
     take: `Your pick ${REPAIR.picked}, the key ${REPAIR.key}, and the rule that tells them apart.` },
   { key: 'swot', tab: 'SWOT', title: 'Leave every mock with a plan.',
-    body: 'A SWOT after every mock, built from your own answers, times and earlier mocks, with the sets to do next. Free, no credits.',
-    bodyPhone: 'A SWOT after every mock, from your own answers and times. Free, no credits.',
+    body: 'A SWOT after every mock, built from your own answers, times and earlier mocks, with the sets to do next. The SWOT is free and uses no credits.',
+    bodyPhone: 'A SWOT after every mock, from your own answers and times. It is free and uses no credits.',
     take: `Partnership cost marks in each of your last ${S.swot.partnershipLost.length} mocks. That is the first set.` },
 ];
 
@@ -197,12 +197,21 @@ function NetStrip() {
 const optionText = (letter) => REPAIR.options.find(([l]) => l === letter)?.[1];
 const BRIEF = REPAIR.blocks.filter((b) => b.short);
 
-function RepairPanel({ on }) {
+function RepairPanel({ on, pause }) {
   const record = repairRecordLine();
   const [open, setOpen] = useState(false);
   const [wasOn, setWasOn] = useState(on);
   // A scene that goes off stage starts closed again the next time it comes on.
   if (wasOn !== on) { setWasOn(on); if (!on) setOpen(false); }
+  // While the full repair is open the story keeps this scene, so the reader can scroll through every word of it;
+  // closing it (or scrolling out of the story) gives the scroll back to the scenes.
+  const held = useRef(false);
+  useEffect(() => {
+    if (!pause || held.current === open) return;
+    held.current = open;
+    pause(open);
+  }, [open, pause]);
+  useEffect(() => () => { if (held.current) pause?.(false); }, [pause]);
   return (
     <div className="lcp lcp--repair" data-open={open ? 'true' : 'false'}>
       <div className="lcr-head">
@@ -313,14 +322,14 @@ function ScreenBar({ label }) {
         <span className="lcd-bar__subject">
           <span>Accountancy<small>Sample mock</small></span>
         </span>
-        <b>{S.facts.marks}<small> / {S.facts.outOf}</small></b>
+        <b>{S.facts.marks}<small> / {S.facts.outOf} marks</small></b>
       </div>
       {label ? <p className="lcd-bar__tab">{label}</p> : null}
     </div>
   );
 }
 
-function Stage({ step, pinned, reduced, goTo }) {
+function Stage({ step, pinned, reduced, goTo, pause }) {
   const ready = pinned && !reduced;
   return (
     <div className="mm-wrap lc__grid" data-ready={ready ? 'true' : 'false'}>
@@ -365,7 +374,7 @@ function Stage({ step, pinned, reduced, goTo }) {
             </div>
             <figure className="lc-scene__screen" aria-label={`${tab} screen from a sample Accountancy mock`}>
               <div className="lc-scene__mini" aria-hidden="true"><ScreenBar label={tab} /></div>
-              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on} /></div>
+              <div className="lc-scene__fit" data-ss-fit="0.62"><Panel on={on} pause={pinned ? pause : undefined} /></div>
             </figure>
           </article>
         );

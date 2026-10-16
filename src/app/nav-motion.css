@@ -52,15 +52,19 @@ html[data-motion='reduced'] .mm-nav__sheet--in > *, html[data-motion='reduced'] 
    While the hero's own buttons are on screen the bar does not repeat them. Once they have scrolled away a compact
    key rises into the top bar (phones and desktop): "Start free", or "Go to practice" for a signed-in visitor.
    On phones the bar has no room for it beside the day and night switch, so the switch moves into the menu
-   while the key is there. On desktop the key's place is kept, so nothing beside it shifts. A signed-in visitor on
-   desktop always has the key (it is their way in, not a pitch). Opacity and transform only. */
+   while the key is there. On desktop the key is in the bar from the first paint, so the bar's right edge always meets the content column
+   and nothing pops in on scroll. Opacity and transform only. */
 /* The bar's compact key: a 40px face on a 2px edge, so face and edge together sit on the bar's midline; the
    invisible ::after keeps the touch target at 44px. */
 .mm-nav[data-start] .mm-nav__cta { --btn-edge: 2px; display: inline-flex; min-height: 40px; padding-block: 0; padding-inline: 0.9rem; font-size: 0.875rem; }
 .mm-nav[data-start] .mm-nav__cta::after { content: ''; position: absolute; inset: -2px 0; }
 @keyframes mm-start-in { from { opacity: 0; translate: 0 -6px; scale: 0.92; } to { opacity: 1; translate: 0 0; scale: 1; } }
 @media (max-width: 899px) {
+  /* Phones: the key's face is the full 44px touch target. */
+  .mm-nav[data-start] .mm-nav__cta { min-height: 44px; }
   .mm-nav[data-start='out'] .mm-nav__cta { display: none; }
+  /* With the menu open, its own full-width key is the one Start free on screen (the dock steps aside too). */
+  .mm-nav[data-start]:has(#mm-nav-sheet) .mm-nav__cta { visibility: hidden; }
   .mm-nav[data-start='in'] .mm-nav__cta { animation: mm-start-in 380ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)) both; }
   .mm-nav[data-start='in'] .mm-nav__end > .mm-theme-toggle { display: none; }
   .mm-nav[data-start='in'] .mm-nav__sheet-theme {
@@ -77,7 +81,6 @@ html[data-motion='reduced'] .mm-nav__sheet--in > *, html[data-motion='reduced'] 
 }
 @media (min-width: 900px) {
   .mm-nav[data-start] .mm-nav__cta { transition: transform 420ms var(--mk-spring, cubic-bezier(.34, 1.56, .64, 1)), box-shadow 240ms ease, background-color 150ms ease, opacity 240ms ease, translate 300ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)), scale 300ms var(--mk-settle, cubic-bezier(.23, 1, .32, 1)), visibility 0s; }
-  .mm-nav[data-start='out']:not([data-member]) .mm-nav__cta { opacity: 0; visibility: hidden; pointer-events: none; translate: 0 -6px; scale: 0.94; transition-property: opacity, translate, scale, visibility; transition-duration: 160ms, 160ms, 160ms, 0s; transition-delay: 0s, 0s, 0s, 160ms; }
 }
 @media (prefers-reduced-motion: reduce) {
   .mm-nav[data-start] .mm-nav__cta { animation: none; transition: none; }

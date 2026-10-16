@@ -51,10 +51,10 @@
      --t-label     14         600  buttons, tabs, captions, table text
      --t-fine      13         400  disclosures and source lines only
    Spacing runs on 4 px: 4 8 12 16 24 32 48 64 96 128 (--sp-1 to --sp-10). A section opens with a hairline,
-   then its h2 (two clauses: the name in --ink, the rest in --ink-3, same size and weight), --head-gap, the lede,
+   then its h2 (one ink; only the statement and the close set a second clause in --ink-3), --head-gap, the lede,
    --head-after, then its content. Sections pad --sec-top above and --sec-bottom (8 px more) below. */
 .mm.lp {
-  --t-display: clamp(2.5rem, 1.6rem + 3.8vw, 4.5rem);
+  --t-display: 2.5rem; /* 40, then 56 and 72 px: scale steps, never a fluid size (see below) */
   --t-headline: clamp(2rem, 1.25rem + 3vw, 3.5rem);
   --t-statement: clamp(2rem, 1.1rem + 3.6vw, 4rem);
   --t-title: clamp(1.375rem, 1.1rem + 1vw, 1.875rem);
@@ -97,6 +97,8 @@
   --measure-lede: 52ch;
   --measure-body: 62ch;
 }
+@media (min-width: 761px) { .mm.lp { --t-display: 3.5rem; } }
+@media (min-width: 1200px) { .mm.lp { --t-display: 4.5rem; } }
 html:has(.lp) {
   font-size: 16px;
   color-scheme: dark;
@@ -205,8 +207,9 @@ body:has(.mm.lp) {
 }
 
 /* ---------- Type (the page system above) ----------
-   A section opening is an h2 and a lede, nothing above them. The h2 carries the section's name as its first
-   clause in --ink and its promise as the second in --ink-3, same size and weight (.lp-h2__name, .lp-h2__rest).
+   A section opening is an h2 and a lede, nothing above them. The h2 is one plain line in --ink; a product's name
+   is said in the lede, not as a coloured first clause. Only the close keeps two clauses (.lp-h2__name in --ink,
+   .lp-h2__rest in --ink-3, same size and weight), so the device marks the page's ending instead of every section.
    From 1100 px the head is two columns: the h2 on the left seven, the lede on the right five, sitting on the
    h2's last line. */
 
@@ -510,7 +513,12 @@ body:has(.mm.lp) {
 .lp .mm-foot { font-size: var(--t-body); }
 .lp .mm-foot__blurb { font-size: var(--t-body); }
 .lp .mm-foot .mm-foot__cols h3 { font-family: var(--font-body); font-size: var(--t-label); font-weight: 600; color: var(--chalk-2); }
-.lp .mm-foot li a { font-size: var(--t-label); }
+.lp .mm-foot li a { font-size: var(--t-label); line-height: 1.35; }
+/* Phones: the link groups sit two to a row under the brand block, not one 1,400px column. */
+@media (max-width: 639px) {
+  .lp .mm-foot__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--sp-5, 1.5rem); }
+  .lp .mm-foot__cols > :first-child { grid-column: 1 / -1; }
+}
 .lp .mm-foot__base { font-size: var(--t-fine); }
 .lp .mm-foot__key {
   padding: 0;

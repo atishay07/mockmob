@@ -91,7 +91,7 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 
 /* 4. Radar */
 .ts__bars { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
-.ts__bars li { display: grid; grid-template-columns: minmax(0, 1fr) 64px 34px; align-items: center; gap: .55rem; }
+.ts__bars li { display: grid; grid-template-columns: minmax(0, 1fr) 56px 3.25rem; align-items: center; gap: .55rem; }
 .ts__bars-name { display: flex; flex-wrap: wrap; align-items: center; column-gap: .4rem; min-width: 0; }
 .ts__bars-name b { flex-basis: 100%; font-size: .8125rem; }
 .ts__bars-name small { font-size: .6875rem; color: var(--ts-ink2); }
@@ -99,7 +99,7 @@ html[data-theme='light'] .ts { box-shadow: 0 20px 40px -24px rgba(32,26,14,.32);
 .ts__bars-track i { display: block; height: 100%; width: var(--w); border-radius: inherit; background: var(--ts-volt); transform-origin: left; transition: transform var(--mm-dur-sweep, 700ms) var(--ts-ease) 60ms; }
 .ts__bars li[data-low='true'] .ts__bars-track i { background: var(--ts-bad); }
 .ts__bars li[data-in='false'] .ts__bars-track i { transform: scaleX(0); }
-.ts__bars em { font: 700 .75rem var(--font-body); font-style: normal; text-align: right; color: var(--ts-ink2); }
+.ts__bars em { font: 700 .75rem var(--font-body); font-style: normal; font-variant-numeric: tabular-nums; white-space: nowrap; text-align: right; color: var(--ts-ink2); }
 .ts__flag { color: var(--ts-bad); font: 700 .75rem var(--font-body); }
 
 /* 5. PrepOS */
