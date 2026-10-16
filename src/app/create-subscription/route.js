@@ -4,6 +4,7 @@ import { getRazorpayClient, getRazorpayKeyId } from '@/lib/payments/razorpay';
 import { getPaymentPlan, getPlanCheckoutAmount, isLiveOneTimeAccessPlan, mappedPlanOffer } from '@/lib/payments/plans';
 import { resolveCreatorCode } from '@/lib/referrals/offers';
 import { Database } from '@/../data/db';
+import { countStepOnce } from '@/lib/server/funnelOnceStore';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -123,6 +124,9 @@ export async function POST(request) {
       referralStatus: attributedReferral?.status || referral?.status || 'none',
       referralReason: attributedReferral?.reason || referral?.reason || null,
     });
+
+    // Aggregate funnel: this student opened checkout (once per person; no-op while FUNNEL_ENABLED is off).
+    countStepOnce(userId, 'checkout_opened', request.headers);
 
     return NextResponse.json({
       keyId: getRazorpayKeyId(),

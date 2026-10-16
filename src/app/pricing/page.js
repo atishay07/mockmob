@@ -10,7 +10,9 @@ import { JsonLd } from '@/components/JsonLd';
 import { Icon } from '@/components/ui/Icons';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
+import { headers } from 'next/headers';
 import { auth } from '@/lib/auth';
+import { countStepOnce } from '@/lib/server/funnelOnceStore';
 import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { publicInventory } from '@/lib/server/inventory';
@@ -192,6 +194,8 @@ function ComparisonValue({ value, pro = false }) {
 
 export default async function PricingPage() {
   const session = await auth();
+  // Aggregate funnel: a signed-in student viewed pricing (once per person; no-op while FUNNEL_ENABLED is off).
+  if (session?.user?.id) countStepOnce(session.user.id, 'pricing_viewed', await headers().catch(() => null));
   const currentUser = session?.user?.id ? await Database.getUserById(session.user.id) : null;
   const isCurrentUserPremium = Boolean(currentUser?.isPremium);
   const offer = publicOffer();

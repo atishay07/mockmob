@@ -3,6 +3,7 @@ import { Database } from '@/../data/db';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { repairMistake } from '@/services/recovery/mistakeRepair';
 import { actionFromHref } from '@/lib/server/actionFields';
+import { countStepOnce } from '@/lib/server/funnelOnceStore';
 
 // Owner decision D1 (14 Oct 2026): the project is on Vercel Hobby with Fluid compute, which allows up to 300 s, so
 // 90 s is available. The repair plans its model work to finish by about 78 s (REPAIR_BUDGET in
@@ -24,6 +25,8 @@ export async function POST(request) {
   const user = await Database.getUserById(session.user.id);
   if (!user) return Response.json({ ok: false, error: 'user_not_found' }, { status: 404, headers });
   const { http, body: result } = await repairMistake({ user, attemptId: body.attemptId, questionId: body.questionId, requestId: body.requestId, startedAt });
+  // Aggregate funnel: a repair the student received (new or reopened), once per person.
+  if (http === 200 && result?.ok && ['explained', 'stored'].includes(result.status)) countStepOnce(session.user.id, 'first_repair', request.headers);
   const out = result && typeof result.practiceHref === 'string' ? { ...result, practiceAction: actionFromHref(result.practiceHref) } : result;
   return Response.json(out, { status: http, headers });
 }
