@@ -16,12 +16,13 @@ export function MobTodayCard({ userId, mob: given = null }) {
   const data = mob.mob;
   if (!userId || mob.status !== 'ready' || !data) return null;
   const { week, nudge } = data;
-  const sit = !week.youSat && !week.closed && week.size > 1;
+  const sit = !week.youSat && !week.closed && week.size > 1 && week.paper.blocked !== 'free_used';
+  const several = (data.mobs || []).length > 1;
   return (
     <section className="mob-today" aria-labelledby="mob-today-h">
       <MobRing compact size={week.size} sat={week.sat} week={week.start} />
       <div className="mob-today__text">
-        <h2 id="mob-today-h" className="mob-h2">Your Mob</h2>
+        <h2 id="mob-today-h" className="mob-h2">{several ? `Your ${data.subjectName} Mob` : 'Your Mob'}</h2>
         <p className="mob-note">{ringLine(week.sat, week.size)}.</p>
         {nudge.received ? <p className="mob-note">{nudgeLine(nudge.received.fromName)}</p> : null}
         {sit && canAfford(week.paper.cost)

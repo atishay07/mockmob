@@ -1,4 +1,5 @@
 // Small words and times for the Mob screens: 12-hour IST, relative where it helps, no arrows, no exclamation marks.
+import { istDateTime } from '@/lib/mob/model.mjs';
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 /** "42s", "1m 11s", "2m". Whole seconds, as the paper clock shows them. */
@@ -26,3 +27,9 @@ export const changedLabel = (n) => (n === 1 ? 'Changed once' : `Changed ${n} tim
 
 /** The right way to say what a pick was: letter plus a word, so colour is never the only signal. */
 export const verdictWord = (row) => (row.picked === null ? 'No answer' : row.right === true ? 'Right' : row.right === false ? 'Wrong' : '');
+
+/** "Closes Tue 20 Oct, 1:30 PM" for an extra paper, in IST, 12-hour. */
+export const closesAtLine = (iso) => (istDateTime(iso) ? `Closes ${istDateTime(iso)}` : '');
+
+/** Chapter of an extra paper, or the plain name of the whole subject. */
+export const extraTitle = (extra) => `${extra.chapter || 'Whole subject'}, ${extra.count} questions`;

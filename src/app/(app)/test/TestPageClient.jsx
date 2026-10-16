@@ -876,9 +876,16 @@ function TestRunner() {
     <div className="container-narrow max-w-3xl pt-10">
       <ErrorState message="No subject selected" />
       <div className="mt-4">
-        <Button variant="outline" onClick={() => router.push('/dashboard')}>
-          <Icon name="home" /> Back to dashboard
-        </Button>
+        {/* A Mob paper that could not start leads back to the Mob, where the reason and the next step already are. */}
+        {searchParams.get('mob') === '1' ? (
+          <Button variant="outline" onClick={() => router.push('/mob')}>
+            <Icon name="home" /> Back to your Mob
+          </Button>
+        ) : (
+          <Button variant="outline" onClick={() => router.push('/dashboard')}>
+            <Icon name="home" /> Back to dashboard
+          </Button>
+        )}
       </div>
     </div>
   );

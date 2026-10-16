@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
 import { useAuth } from '@/components/AuthProvider';
 import { loginPathFor } from '@/lib/auth-redirect';
-import { ERRORS, COLOUR_COUNT, checkName, cleanName, inviteExpiryLine, normalizeCode } from '@/lib/mob/model.mjs';
+import { ERRORS, COLOUR_COUNT, checkName, cleanName, initialOf, inviteExpiryLine, normalizeCode } from '@/lib/mob/model.mjs';
 import { mobFetch } from './useMob';
 import './mob.css';
 
@@ -35,6 +35,8 @@ export default function JoinMob({ code: rawCode }) {
   const [name, setName] = useState('');
   const [colour, setColour] = useState(0);
   const [error, setError] = useState(null);
+  const [errorCode, setErrorCode] = useState(null);
+  const [editing, setEditing] = useState(false);
   const [joining, setJoining] = useState(false);
   const nameId = useId();
 
@@ -67,14 +69,17 @@ export default function JoinMob({ code: rawCode }) {
   };
   const join = async () => {
     setError(null);
+    setErrorCode(null);
     const checked = checkName(name);
-    if (!checked.ok) { setError(ERRORS.NAME_INVALID[1]); return; }
+    if (!checked.ok) { setEditing(true); setError(ERRORS.NAME_INVALID[1]); setErrorCode('NAME_INVALID'); return; }
     setJoining(true);
     const r = await mobFetch('/api/mob/join', { method: 'POST', body: { code, name: checked.name, colour } });
     setJoining(false);
     if (r.ok) { forgetJoin(); router.replace('/mob'); return; }
     if (r.code === 'INVITE_INVALID' || r.code === 'INVITE_EXPIRED') { forgetJoin(); setInvite({ status: 'invalid', data: null, message: null }); return; }
-    setError(r.code === 'ALREADY_IN_MOB' ? 'already' : r.message);
+    setErrorCode(r.code);
+    if (r.code?.startsWith('NAME')) setEditing(true);
+    setError(r.message);
   };
 
   const signedIn = authStatus === 'authenticated' && Boolean(user?.id);
@@ -99,10 +104,10 @@ export default function JoinMob({ code: rawCode }) {
         ) : null}
         {invite.status === 'valid' && info ? (
           <>
-            <h1 className="mob-join__h1">You&apos;re invited to a Mob.</h1>
+            <h1 className="mob-join__h1">{signedIn && info.inviter ? `${info.inviter} invited you to this week's 10-question ${info.subjectName} paper.` : "You're invited to a Mob."}</h1>
             <p className="mob-note">A small group sitting one 10-question {info.subjectName} paper each week. {info.size} of 5 seats taken.</p>
             <ul className="mob-join__facts">
-              <li>Same 10 questions for everyone, about 12 minutes.</li>
+              <li>Same 10 questions for everyone, about 12 minutes. The paper is free of credits.</li>
               <li>You see who sat, never who didn&apos;t. Scores stay private unless you choose.</li>
             </ul>
             {!signedIn ? (
@@ -113,32 +118,42 @@ export default function JoinMob({ code: rawCode }) {
             ) : (
               <section className="glass mob-card mob-form" aria-labelledby="mob-join-h">
                 <h2 id="mob-join-h" className="mob-h2">Join as</h2>
-                <div className="mob-field">
-                  <label className="mob-label" htmlFor={nameId}>Your name in the Mob</label>
-                  <input id={nameId} className="mob-input" value={name} maxLength={18} onChange={(e) => setName(e.target.value)} aria-describedby={`${nameId}-hint`} aria-invalid={error && error !== 'already' ? true : undefined} />
-                  <p id={`${nameId}-hint`} className="mob-hint">Only your Mob sees it. 2 to 18 letters.</p>
+                <div className="mob-joinas">
+                  <span className="mob-disc" data-colour={colour} aria-hidden="true">{initialOf(name || '?')}</span>
+                  <b className="mob-joinas__name">{cleanName(name) || 'Your name'}</b>
+                  <button type="button" className="mob-link" onClick={() => setEditing((v) => !v)} aria-expanded={editing}>{editing ? 'Done' : 'Change name or colour'}</button>
                 </div>
-                <fieldset className="mob-colours">
-                  <legend className="mob-label">Colour</legend>
-                  <div className="mob-colours__row">
-                    {Array.from({ length: COLOUR_COUNT }, (_, i) => (
-                      <label key={i} className="mob-colour" title={COLOUR_NAMES[i]}>
-                        <input type="radio" name="mob-join-colour" value={i} checked={colour === i} onChange={() => setColour(i)} />
-                        <span className="mob-disc mob-disc--pick" data-colour={i} aria-hidden="true" />
-                        <span className="sr-only">{COLOUR_NAMES[i]}</span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-                <button type="button" className="mob-volt" onClick={join} disabled={joining}>{joining ? 'Joining' : 'Join'}</button>
-                {error === 'already' ? (
-                  <p className="mob-notice" role="status">You are already in a Mob. <Link className="mob-link" href="/mob">Open your Mob</Link></p>
+                {editing ? (
+                  <>
+                    <div className="mob-field">
+                      <label className="mob-label" htmlFor={nameId}>Your name in the Mob</label>
+                      <input id={nameId} className="mob-input" value={name} maxLength={18} autoComplete="given-name" onChange={(e) => setName(e.target.value)} aria-describedby={`${nameId}-hint`} aria-invalid={errorCode?.startsWith('NAME') ? true : undefined} />
+                      <p id={`${nameId}-hint`} className="mob-hint">Only your Mob sees it. 2 to 18 letters.</p>
+                    </div>
+                    <fieldset className="mob-colours">
+                      <legend className="mob-label">Colour</legend>
+                      <div className="mob-colours__row">
+                        {Array.from({ length: COLOUR_COUNT }, (_, i) => (
+                          <label key={i} className="mob-colour" title={COLOUR_NAMES[i]}>
+                            <input type="radio" name="mob-join-colour" value={i} checked={colour === i} onChange={() => setColour(i)} />
+                            <span className="mob-disc mob-disc--pick" data-colour={i} aria-hidden="true" />
+                            <span className="sr-only">{COLOUR_NAMES[i]}</span>
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
+                  </>
+                ) : null}
+                <button type="button" className="mob-volt" onClick={join} disabled={joining} aria-busy={joining || undefined}>{joining ? 'Joining' : 'Join'}</button>
+                {errorCode === 'MOB_LIMIT' || errorCode === 'MOB_LIMIT_PRO' || errorCode === 'ALREADY_IN_MOB' ? (
+                  <p className="mob-notice" role="status">{error} <Link className="mob-link" href="/mob">Open your Mob</Link>{errorCode === 'MOB_LIMIT' ? <> <Link className="mob-link" href="/pricing">See Pro</Link></> : null}</p>
                 ) : <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>}
               </section>
             )}
             <p className="mob-hint">MockMob never asks for your contacts. You can leave any time. {inviteExpiryLine(info.expiresAt)}.</p>
           </>
         ) : null}
+
       </div>
     </main>
   );

@@ -39,13 +39,15 @@ const UNSCOPED = new Set(['/api/mob', '/api/mob/join']);
 /**
  * status: idle | loading | ready | error | disabled. mob: the server's view or null (not in a Mob).
  * run(path, body, { method, name }) -> the reply; a reply in the GET shape replaces the view and becomes the Mob on screen.
- * select(id) shows another of your Mobs. compare({ week, extra }) and history() read the Pro views for the Mob on screen.
+ * select(id) shows another of your Mobs. { mobId } pins the first read to one Mob (a Mob paper's result). compare({ week, extra }) and history() read the Pro views for the Mob on screen.
  */
-export function useMob(userId) {
+export function useMob(userId, { mobId: pinned = null } = {}) {
   const [state, setState] = useState({ status: 'idle', mob: null, error: null });
   const [busy, setBusy] = useState(null);
   const alive = useRef(true);
-  const current = useRef(null);
+  const pinnedId = typeof pinned === 'string' && UUID_RE.test(pinned) ? pinned : null;
+  const current = useRef(pinnedId);
+  const pin = useRef(pinnedId !== null); // a pinned Mob (a result's) is shown, never remembered as the choice
   // Set on every mount: React's development double mount runs the cleanup once, and a ref left false would drop every
   // reply (the view would sit at loading).
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
@@ -53,7 +55,7 @@ export function useMob(userId) {
   const adopt = useCallback((mob) => {
     current.current = mob?.id || null;
     // Remember the choice only when there is a choice to remember.
-    writeSelected(mob && (mob.mobs || []).length > 1 ? mob.id : null);
+    if (!pin.current) writeSelected(mob && (mob.mobs || []).length > 1 ? mob.id : null);
   }, []);
 
   const load = useCallback(async (mobId) => {
