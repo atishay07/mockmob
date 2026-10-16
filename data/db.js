@@ -1673,8 +1673,28 @@ export const Database = {
   // LEADERBOARD
   // =====================================================================
   async getLeaderboard() {
-    // Denormalized aggregate: one row per user with >= 1 attempt.
-    // PostgREST caps a response at 1000 rows, so page through every attempt.
+    // One group-by query in the database (mm_leaderboard): one row per user with >= 1 attempt, with name and
+    // image joined. Only a missing function (migration not applied yet) falls back to the old paging below.
+    const { data: ranked, error: rankedError } = await supabaseAdmin().rpc('mm_leaderboard');
+    if (!rankedError) {
+      return (ranked || []).map(r => {
+        const tests = Number(r.tests) || 0;
+        const totalScore = Number(r.total_score) || 0;
+        return {
+          userId: r.user_id,
+          name: r.name || 'Unknown User',
+          image: r.image || null,
+          tests,
+          totalScore,
+          avg: tests ? Math.round(totalScore / tests) : 0,
+        };
+      }).sort((a, b) => b.totalScore - a.totalScore);
+    }
+    const missing = rankedError.code === 'PGRST202' || rankedError.code === '42883'
+      || /could not find the function|does not exist/i.test(String(rankedError.message || ''));
+    if (!missing) throw rankedError;
+
+    // Fallback: denormalized aggregate. PostgREST caps a response at 1000 rows, so page through every attempt.
     const attempts = [];
     const PAGE = 1000;
     for (let from = 0; ; from += PAGE) {
