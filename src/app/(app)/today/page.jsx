@@ -5,6 +5,7 @@ import InstallPractice from '@/components/InstallPractice';
 import RecordGlimpse from '@/components/ai/RecordGlimpse';
 import RhythmCard from '@/components/RhythmCard';
 import { TodayColleges } from '@/components/colleges/MyColleges';
+import TodayCompass from '@/components/du/TodayCompass';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { useAuth } from '@/components/AuthProvider';
 import { useInsights } from '@/components/ai/useInsights';
@@ -57,6 +58,7 @@ export default function Today() {
           lede={day ? <><time className="today-date">{day}.</time> {lede}</> : lede} />
         <LearningNextAction why={top} moment={weekGoal} />
         <div className="today-record">
+          <TodayCompass />
           <RhythmCard compact quietMet={Boolean(weekGoal)} />
           <TodayColleges userId={user?.id} />
           <RecordGlimpse state={insights} skip={top ? ['chapter'] : []} link={!top} />

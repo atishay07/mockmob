@@ -1,0 +1,40 @@
+/* ==========================================================================
+   TODAY: ADMISSION COMPASS  scope: .app-shell
+   One plain section in Today's record (the page's only card is tonight's plan): a hairline, a heading, one
+   line with the real count, the first college with its 2026 cutoff, and one outlined key. Tokens only
+   (--a-*), so Night and Day match. The 44 px key answers a press in 100 ms (transform only) and is still
+   under reduced motion. The loading bar keeps the line's height, so nothing jumps when the count arrives.
+   ========================================================================== */
+
+.app-shell .tcp { display: grid; gap: 14px; align-items: center; min-width: 0; margin: 0; padding: 24px 0; border-top: 1px solid var(--a-line); }
+.app-shell .tcp__text { display: grid; gap: 6px; min-width: 0; }
+.app-shell .tcp__h { margin: 0; font: 800 17px/1.2 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.app-shell .tcp__line { margin: 0; max-width: 68ch; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
+.app-shell .tcp__n { font-variant-numeric: tabular-nums; font-weight: 800; color: var(--a-ink); }
+.app-shell .tcp__near { margin: 0; max-width: 68ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); overflow-wrap: anywhere; }
+.app-shell .tcp__near span { display: block; margin-top: 2px; font-variant-numeric: tabular-nums; }
+.app-shell .tcp__near b { font-weight: 650; color: var(--a-ink-2); }
+.app-shell .tcp__bar { display: block; width: 62%; max-width: 360px; height: 12px; margin-block: 5px 4px; border-radius: 6px; background: var(--a-line); opacity: 0.8; }
+
+.app-shell .tcp__key {
+  justify-self: start; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px;
+  border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
+  font: 700 14px/1.2 var(--font-display); text-decoration: none; touch-action: manipulation;
+  transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease);
+}
+.app-shell .tcp__key:active { transform: scale(0.98); }
+.app-shell .tcp__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .app-shell .tcp__key:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
+
+/* With room, the key sits at the right of the words instead of under them. */
+@media (min-width: 720px) {
+  .app-shell .tcp { grid-template-columns: minmax(0, 1fr) auto; column-gap: 24px; }
+  .app-shell .tcp__key { justify-self: end; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .tcp__key { transition: none; }
+  .app-shell .tcp__key:active { transform: none; }
+}
+html[data-motion='reduced'] .app-shell .tcp__key { transition: none; }
+html[data-motion='reduced'] .app-shell .tcp__key:active { transform: none; }
