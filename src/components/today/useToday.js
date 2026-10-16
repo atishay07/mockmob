@@ -41,15 +41,17 @@ export function useToday(userId) {
   const [planKey, setPlanKey] = useState(0);
   const [minutes, setMinutes] = useState(null);
   const [rhythmKey, setRhythmKey] = useState(0);
-  const plan = useRead(`/api/learning/plan${minutes ? `?minutes=${minutes}` : ''}`, userId, { key: planKey });
-  const papers = useRead('/api/attempts/summary?limit=20', userId, { map: (b) => (Array.isArray(b?.items) ? b.items : []) });
-  const rhythm = useRead('/api/me/rhythm', userId, { key: rhythmKey });
+  const [all, setAll] = useState(0); // a retry of the failed card reads everything again
+  const plan = useRead(`/api/learning/plan${minutes ? `?minutes=${minutes}` : ''}`, userId, { key: planKey * 1000 + all });
+  const papers = useRead('/api/attempts/summary?limit=20', userId, { map: (b) => (Array.isArray(b?.items) ? b.items : []), key: all });
+  const rhythm = useRead('/api/me/rhythm', userId, { key: rhythmKey * 1000 + all });
   const goal = useRead('/api/me/goal', userId, { key: rhythmKey });
   const road = useRead('/api/me/road', userId);
   const revise = useRead('/api/me/revise', userId, { map: reviseDue });
-  const facts = useRead('/api/me/timed-mock', userId);
+  const facts = useRead('/api/me/timed-mock', userId, { key: all });
   const repaired = useRead('/api/me/repair-record?limit=100', userId, { map: repairedMap });
   const retryPlan = useCallback(() => setPlanKey((n) => n + 1), []);
+  const retryAll = useCallback(() => setAll((n) => n + 1), []);
   const retryWeek = useCallback(() => setRhythmKey((n) => n + 1), []);
-  return { plan, papers, rhythm, goal, road, revise, facts, repaired, minutes, setMinutes, retryPlan, retryWeek };
+  return { plan, papers, rhythm, goal, road, revise, facts, repaired, minutes, setMinutes, retryPlan, retryWeek, retryAll };
 }

@@ -50,7 +50,7 @@ export default function Today() {
   }, [planLoading]);
   const [triedAt, setTriedAt] = useState('');
   const [retried, setRetried] = useState(false);
-  const retry = useCallback(() => { setRetried(true); data.retryPlan(); }, [data]);
+  const retry = useCallback(() => { setRetried(true); data.retryAll(); }, [data]);
   useEffect(() => {
     if (data.plan.status !== 'error' || !retried) return undefined;
     const t = window.setTimeout(() => setTriedAt(clock(Date.now())), 0);
@@ -88,7 +88,7 @@ export default function Today() {
   const base = useMemo(() => buildMove({
     plan: data.plan.data,
     planFailed: data.plan.status === 'error',
-    papers: data.papers.status === 'ready' ? data.papers.data : data.papers.status === 'error' ? [] : null,
+    papers: data.papers.status === 'ready' ? data.papers.data : null,
     rhythm: data.rhythm.data,
     revise: data.revise.status === 'ready' ? data.revise.data : null,
     facts,
@@ -104,7 +104,9 @@ export default function Today() {
     const fitted = chosen ? fitMove(base, chosen) : base;
     return { ...fitted, base, subjectName: fitted.subject ? subjectName(fitted.subject) : '', mockHref: firstTimedMockHref(facts?.subject || fitted.subject || null) };
   }, [base, chosen, facts]);
-  const phase = !move ? (data.plan.status === 'error' && data.papers.status === 'error' ? 'failed' : 'loading') : move.id === 'failed' ? 'failed' : 'ready';
+  // Failed only once every read the move needs has settled without one; while any is still on its way it is loading.
+  const settled = [data.plan, data.papers, data.rhythm, data.facts].every((r) => r.status !== 'loading');
+  const phase = move && move.id !== 'failed' ? 'ready' : move?.id === 'failed' || settled ? 'failed' : 'loading';
   const mobUnsat = mob.status === 'ready' && mob.mob?.week && !mob.mob.week.youSat && !mob.mob.week.closed && mob.mob.week.size > 1;
   const alts = useMemo(() => (move && move.id !== 'failed' ? buildAlternatives({
     move, papers: data.papers.data, revise: data.revise.data, facts, repaired: data.repaired.data, mobUnsat, subjectName,
