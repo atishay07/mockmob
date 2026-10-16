@@ -26,7 +26,7 @@ export const MAX_SUBJECTS = 6;
 const art = (name, width, height, footX, footWidth, ground, object) => Object.freeze({ name, width, height, footX, footWidth, ground, object });
 export const SUBJECT_ART = Object.freeze({
   accountancy: art('accountancy', 512, 335, 0.54, 0.80, 0.92, 'A desk calculator on a ledger page'),
-  business: art('business', 456, 512, 0.50, 0.88, 0.955, 'A brass stamp with an ink pad'),
+  business: art('business', 512, 435, 0.55, 0.80, 0.96, 'An open briefcase with a growth chart, coins and a calculator'),
   economics: art('economics', 403, 512, 0.50, 0.88, 0.96, 'A kitchen scale with an onion'),
   english: art('english', 512, 316, 0.48, 0.80, 0.88, 'A folded newspaper and a fountain pen'),
   generaltest: art('generaltest', 512, 406, 0.50, 0.86, 0.93, 'A puzzle cube and a compass'),

@@ -60,7 +60,7 @@ const render = (name, width, height, footX, footWidth, ground, widths, object, p
 
 export const SUBJECT_RENDERS = Object.freeze({
   accountancy: render('accountancy', 1024, 666, 0.54, 0.8, 0.92, [256, 512, 1024], 'A desk calculator on a ledger page', 0, LIGHT.ACCOUNTANCY),
-  business: render('business', 685, 769, 0.5, 0.88, 0.955, [256, 512, 685], 'A brass stamp with an ink pad', 0.137, LIGHT.BUSINESS),
+  business: render('business', 685, 582, 0.55, 0.8, 0.96, [256, 512, 685], 'An open briefcase with a growth chart, coins and a calculator', 0.137, LIGHT.BUSINESS),
   economics: render('economics', 792, 1006, 0.5, 0.88, 0.96, [256, 512, 792], 'A kitchen scale with an onion', 0.274, LIGHT.ECONOMICS),
   english: render('english', 1024, 631, 0.48, 0.8, 0.88, [256, 512, 1024], 'A folded newspaper and a fountain pen', 0.411, LIGHT.ENGLISH),
   generaltest: render('generaltest', 911, 722, 0.5, 0.86, 0.93, [256, 512, 911], 'A puzzle cube and a compass', 0.548, LIGHT.GENERAL_TEST),
