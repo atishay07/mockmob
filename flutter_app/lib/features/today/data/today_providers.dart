@@ -232,6 +232,11 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
   final plan = ref.watch(planRepositoryProvider(todayPlanMinutes));
   final rhythm = ref.watch(rhythmSnapshotProvider);
   final week = ref.watch(rhythmVisibleProvider) ? rhythm.week : null;
+  // The strip's slot is held from the first frame (L03): while the rhythm choices are still being
+  // read (rhythm is on unless the student turned it off) and while the week has not landed. A
+  // first read that failed keeps the slot and says so; a later read fills it in place.
+  final rhythmOn = ref.watch(rhythmVisibleProvider) || !ref.watch(rhythmPrefsProvider.select((p) => p.loaded));
+  final weekFailed = week == null && rhythmOn && rhythm.isFailedEmpty;
   final records = ref.watch(repairLocalRecordsProvider).value ?? const [];
   final repaired = <String, Set<String>>{};
   for (final r in records) {
@@ -267,7 +272,8 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
             met: week.met,
             dates: [for (final d in week.days) d.date?.day],
           ),
-    weekLoading: week == null && ref.watch(rhythmVisibleProvider) && rhythm.isInitialLoading,
+    weekLoading: week == null && rhythmOn && !weekFailed,
+    weekFailed: weekFailed,
     returning: rhythm.rhythm?.returning ?? false,
     draft: ref.watch(todayDraftProvider).value,
     unopened: [

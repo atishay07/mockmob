@@ -14,6 +14,7 @@ import 'package:mockmob/features/today/logic/move_builder.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/move_hero.dart' show MoveHeroCard;
 
 import '../../golden/today/today_golden_support.dart' show PhoneFrame, kPhoneInsets, todayOverrides;
 import '../../helpers/fonts.dart';
@@ -169,7 +170,9 @@ void main() {
     testWidgets('on a tall screen the card shows its own key and no capsule is added', (tester) async {
       await pump(tester, buildToday(ashaInputs()), size: const Size(384, 1100));
       expect(bar(), findsNothing);
-      expect(find.byType(KeyButton), findsNWidgets(2), reason: 'the card has its primary and its quiet alternative');
+      // The road under the card has quiet text keys of its own (Week, Change days); the card has
+      // its primary and its quiet alternative.
+      expect(find.descendant(of: find.byType(MoveHeroCard), matching: find.byType(KeyButton)), findsNWidgets(2), reason: 'the card has its primary and its quiet alternative');
     });
 
     testWidgets('scrolling the card key into the clear hands over to it: one primary at a time', (tester) async {

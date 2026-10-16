@@ -142,6 +142,18 @@ const TodayWeek saturdayWeek = TodayWeek(
   dates: [12, 13, 14, 15, 16, 17, 18],
 );
 
+/// A plan read that came back saying the record could not be read (L01, S6).
+LearningPlan unavailablePlan() =>
+    LearningPlan.fromJson({'primary': {'kind': 'ordinary_practice', 'title': 'Practise'}, 'minutes': 10, 'recordState': 'unavailable'});
+
+/// Rhythm read with no weekly goal set yet.
+const TodayWeek noGoalWeek = TodayWeek(
+  studied: [true, false, false, false, false, false, false],
+  todayIndex: 1,
+  label: '1 study day',
+  dates: [12, 13, 14, 15, 16, 17, 18],
+);
+
 LearningPlan readyPlan({int minutes = 10}) =>
     LearningPlan.fromJson({'primary': {'kind': 'ordinary_practice', 'title': 'Practise'}, 'minutes': minutes, 'recordState': 'ready'});
 
@@ -159,6 +171,10 @@ TodayInputs ashaInputs({
   Duration attemptsAge = const Duration(minutes: 70),
   Duration planAge = const Duration(minutes: 70),
   TodayWeek week = tuesdayWeek,
+  bool weekFailed = false,
+  bool? attemptsStale,
+  DateTime? lastTriedAt,
+  LearningPlan? plan,
 }) {
   final at = now ?? tuesdayEvening;
   return TodayInputs(
@@ -167,11 +183,12 @@ TodayInputs ashaInputs({
     subjects: const ['accountancy', 'business_studies', 'economics', 'english'],
     attempts: attempts ?? ashaRecord(at),
     attemptsFetchedAt: at.subtract(attemptsAge),
-    attemptsStale: offline,
-    plan: readyPlan(),
+    attemptsStale: attemptsStale ?? offline,
+    plan: plan ?? readyPlan(),
     planFetchedAt: at.subtract(planAge),
     planStale: offline,
-    week: week,
+    week: weekFailed ? null : week,
+    weekFailed: weekFailed,
     returning: returning,
     draft: draft,
     unopened: unopened,
@@ -180,5 +197,6 @@ TodayInputs ashaInputs({
     profile: profile,
     offline: offline,
     selectedMinutes: selectedMinutes,
+    lastTriedAt: lastTriedAt,
   );
 }

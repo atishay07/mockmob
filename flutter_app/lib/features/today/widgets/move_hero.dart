@@ -207,7 +207,12 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                 ],
                 if (m.basisLine != null) ...[
                   const SizedBox(height: MmSpace.s8),
-                  Text(m.basisLine!, style: type.caption.copyWith(color: colors.ink3)),
+                  // "Tried again at 10:41 PM. Still not loading.": a new time cross-fades in, so a
+                  // repeated Try again visibly ran (L01).
+                  MmOverlapSwitcher.fade(
+                    alignment: Alignment.topLeft,
+                    child: Text(m.basisLine!, key: ValueKey(m.basisLine), style: type.caption.copyWith(color: colors.ink3)),
+                  ),
                 ],
               ],
             ),

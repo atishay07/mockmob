@@ -15,11 +15,12 @@ import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../tools/tools_paths.dart';
 import '../copy.dart';
 import '../logic/today_model.dart';
 import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
-import '../widgets/college_ladder.dart';
+import '../widgets/colleges_card.dart';
 import '../widgets/move_hero.dart';
 import '../widgets/resume_hero.dart';
 import '../widgets/road_section.dart';
@@ -38,6 +39,8 @@ class TodayCallbacks {
     this.onWeek,
     this.onChooseColleges,
     this.onRefresh,
+    this.road,
+    this.onCollegesRetry,
   });
 
   final void Function(TodayAction action) onAction;
@@ -47,6 +50,12 @@ class TodayCallbacks {
   final VoidCallback? onWeek;
   final VoidCallback? onChooseColleges;
   final Future<void> Function()? onRefresh;
+
+  /// Where the road's tuners and flag save (the screen wires the rhythm and the road plan).
+  final RoadActions? road;
+
+  /// Your colleges did not load: read the list again.
+  final VoidCallback? onCollegesRetry;
 }
 
 class TodayBody extends StatefulWidget {
@@ -58,6 +67,8 @@ class TodayBody extends StatefulWidget {
     this.weeklyEnding,
     this.insights,
     this.roadFooter,
+    this.colleges = const CollegesCardInfo(),
+    this.insightsLoading = false,
     this.mobiController,
     this.retrying = false,
     this.skeletonDelay = const Duration(milliseconds: 400),
@@ -73,6 +84,12 @@ class TodayBody extends StatefulWidget {
   /// The integrator's slot for the record finding (the Insights card, `findings[0]` with Show
   /// me). Placed under the hero; absent when null.
   final Widget? insights;
+
+  /// The record card's finding is still being read: its slot is held at its height (L03).
+  final bool insightsLoading;
+
+  /// What the Your colleges card knows beyond the road (the list's state, what Compass opens).
+  final CollegesCardInfo colleges;
 
   /// A quiet line under the road to May (the CUET tools link); absent when null.
   final Widget? roadFooter;
@@ -484,7 +501,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final hero = widget.view.hero;
     final cb = widget.callbacks;
     return switch (hero) {
-      null => TodaySkeleton(delay: widget.skeletonDelay),
+      null => TodaySkeleton(delay: widget.skeletonDelay, onRetry: cb.onRefresh == null ? null : () => unawaited(cb.onRefresh!())),
       MoveHero() => MoveHeroCard(
           key: _moveKey,
           move: hero,
@@ -539,6 +556,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         onWeek: callbacks.onWeek,
         aim: view.hero is MoveHero ? _moveKey : null,
         bleed: _bleed,
+        onRefresh: () => callbacks.onAction(const TodayAction(TodayCopy.tryAgain, RetryLoad())),
+        refreshing: widget.retrying,
       ),
       // Header to the first block (SPACING.md 3.1, audit T3): the hero starts high enough that its
       // key is above the bar on a 640 dp phone.
@@ -553,7 +572,19 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           delay: const Duration(milliseconds: 200),
           child: AlsoSlots(slots: view.also, onAction: callbacks.onAction, offline: view.offline, retrying: widget.retrying),
         ),
-      if (insights != null) ...[const SizedBox(height: MmSpace.s16), TodayEnter(delay: const Duration(milliseconds: 220), child: insights)],
+      // The record card's slot is held at its height while its finding is read, so it never
+      // arrives late above the fold (L03); a read with no finding closes the slot with an ease.
+      if (insights != null) ...[
+        const SizedBox(height: MmSpace.s16),
+        AnimatedSize(
+          duration: Motion.of(context, Motion.card),
+          curve: Motion.out,
+          alignment: Alignment.topCenter,
+          child: widget.insightsLoading && view.hero != null
+              ? const InsightsSlot()
+              : TodayEnter(delay: const Duration(milliseconds: 220), child: insights),
+        ),
+      ],
       ?widget.weeklyEnding,
       // Section to section: 32, then the section's own hairline rule and heading (audit T8).
       if (view.road != null) ...[
@@ -563,6 +594,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
           child: RoadSection(
             key: _roadKey,
             road: view.road!,
+            actions: callbacks.road,
             onChooseColleges: callbacks.onChooseColleges,
             onWeek: callbacks.onWeek,
             onOpen: callbacks.onTarget,
@@ -578,7 +610,18 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       // Your colleges: the last block, on its own (IA 5.2), reading the shared My colleges list.
       if (view.road != null) ...[
         const SizedBox(height: MmSpace.group),
-        TodayEnter(delay: const Duration(milliseconds: 360), child: CollegeLadder(road: view.road!, onChoose: callbacks.onChooseColleges)),
+        TodayEnter(
+          delay: const Duration(milliseconds: 360),
+          child: CollegesCard(
+            road: view.road!,
+            info: widget.colleges,
+            onChoose: callbacks.onChooseColleges,
+            onSeeAll: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
+            onCompass: () => callbacks.onTarget(const GoTo('${ToolsPaths.compass}?from=today')),
+            onRow: (r) => callbacks.onTarget(GoTo('${ToolsPaths.programme(r.programmeId!)}?college=${Uri.encodeQueryComponent(r.college)}&from=today')),
+            onRetry: callbacks.onCollegesRetry,
+          ),
+        ),
       ],
     ];
     // The cue lives in the page, in the gap under the hero (design critic 16 Oct, finding 2): it
@@ -589,7 +632,11 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       final cue = MoreBelowSlot(
         cue: _moreCue,
         onTap: _toRoad,
-        label: road.phase == RoadPhase.countdown ? TodayCopy.moreBelowCount(weeks: road.weeks, days: road.daysToWindow) : TodayCopy.moreBelow,
+        label: road.phase != RoadPhase.countdown
+            ? TodayCopy.moreBelow
+            : road.board != null
+                ? TodayCopy.moreBelowCount(weeks: road.board!.weeksToExam, days: road.board!.daysToExam)
+                : TodayCopy.moreBelowCount(weeks: road.weeks, days: road.daysToWindow),
       );
       if (after.isNotEmpty && after.first is SizedBox) {
         after[0] = cue;

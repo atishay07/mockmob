@@ -24,6 +24,13 @@ void main() {
     expect(buildHeader(loading).week, isNull);
   });
 
+  test('a first rhythm read that failed keeps the slot (L03), never with a week in hand', () {
+    final failed = TodayInputs(now: ashaInputs().now, weekFailed: true);
+    expect(buildHeader(failed).weekFailed, isTrue);
+    expect(buildHeader(failed).weekLoading, isFalse);
+    expect(buildHeader(TodayInputs(now: ashaInputs().now, week: tuesdayWeek, weekFailed: true)).weekFailed, isFalse);
+  });
+
   testWidgets('the skeleton is exactly as tall as the loaded strip, at 1x and 1.3x', (tester) async {
     // The key is not a standing line: it folds in on a first look (and is measured below).
     StudyWeekLegendMemory.session.markSeen();
@@ -49,6 +56,18 @@ void main() {
       await tester.pump();
       final skeleton = tester.getSize(find.byType(WeekLedgerSkeleton)).height;
       expect((skeleton - loaded).abs(), lessThan(1), reason: 'scale $scale: loaded $loaded, skeleton $skeleton');
+      // The failed slot (L03) holds the same height, so a later read fills it in place.
+      await pumpMockmob(
+        tester,
+        PhoneFrame(child: SingleChildScrollView(child: const WeekLedgerSkeleton(bleed: 8, failed: true))),
+        size: const Size(360, 800),
+        textScale: scale,
+        disableAnimations: true,
+        overrides: todayOverrides,
+      );
+      await tester.pump();
+      final failedSlot = tester.getSize(find.byType(WeekLedgerSkeleton)).height;
+      expect((failedSlot - loaded).abs(), lessThan(1), reason: 'scale $scale: loaded $loaded, failed slot $failedSlot');
     }
   });
 }

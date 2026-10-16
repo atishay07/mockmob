@@ -1,10 +1,10 @@
-// "Your colleges" (ui-blitz/today.md 2.5): the student's picks on one closing-score scale, so the
-// gaps between them read at a glance, then the numbered rows with each score. The scale's range
-// is fitted to the picks (50 below the lowest, rounded, up to 1000) with a tick every 50; each
-// pick is its number on a stem at its closing score, the dream pick a volt chip. No bubbles:
-// the answer-bubble motif stays with the week and the evidence, where it carries state. Today has no honest CUET
-// score for the student (a short check is never projected to one), so nothing places the
-// student on this scale: it shows the targets against each other and against 1000.
+// "Your colleges" on Today (IA 5.2, app-today-1016 section 10): the last block, after Recent
+// papers. With colleges it shows the first three of My colleges on one closing-score scale, so the
+// gaps between them read at a glance, then the rows with each Round 1 figure; a row opens that
+// programme in Admission Compass and "See all" goes to the Colleges tab. Without colleges it says
+// what the student's subjects open and offers Choose colleges (the chooser over Today, L25) and
+// Open Compass. Neither key is volt: the hero keeps the page's one primary. Today has no honest
+// CUET score for the student, so nothing places the student on this scale.
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -13,7 +13,6 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../tools/my_colleges/my_colleges_copy.dart';
-import '../../tools/my_colleges/my_colleges_parts.dart' show MyCollegesMoreLine;
 import '../copy.dart';
 import '../logic/today_model.dart';
 import 'section_heading.dart';
@@ -22,70 +21,157 @@ import 'today_reveal.dart';
 import 'today_tones.dart';
 import 'today_type.dart';
 
-class CollegeLadder extends StatelessWidget {
-  const CollegeLadder({super.key, required this.road, this.onChoose});
+/// Where the card's list stands.
+enum CollegesCardStatus { loading, failed, ready }
+
+/// What the card knows beyond the road: the list's state and what the subjects open in Compass.
+class CollegesCardInfo {
+  const CollegesCardInfo({this.status = CollegesCardStatus.ready, this.open, this.total});
+
+  final CollegesCardStatus status;
+
+  /// DU programmes open to the student's subjects, of [total]; null when not known yet.
+  final int? open, total;
+}
+
+class CollegesCard extends StatelessWidget {
+  const CollegesCard({
+    super.key,
+    required this.road,
+    this.info = const CollegesCardInfo(),
+    this.onChoose,
+    this.onSeeAll,
+    this.onCompass,
+    this.onRow,
+    this.onRetry,
+  });
 
   final RoadModel road;
+  final CollegesCardInfo info;
+
+  /// Opens the My colleges chooser over Today.
   final VoidCallback? onChoose;
+
+  /// The Colleges tab.
+  final VoidCallback? onSeeAll;
+
+  /// Admission Compass.
+  final VoidCallback? onCompass;
+
+  /// A row: that programme in Compass.
+  final void Function(LadderRung rung)? onRow;
+
+  /// The list did not load: read it again.
+  final VoidCallback? onRetry;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final rungs = road.ladder;
+    final status = rungs.isNotEmpty ? CollegesCardStatus.ready : info.status;
     final heading = TodaySectionHeading(
-      title: TodayCopy.ladderTitle,
-      trailing: onChoose != null && rungs.isNotEmpty ? KeyButton.quiet(label: TodayCopy.changeColleges, onPressed: onChoose) : null,
+      title: TodayCopy.collegesTitle,
+      trailing: onSeeAll != null && rungs.isNotEmpty ? KeyButton.quiet(label: TodayCopy.seeAllColleges, onPressed: onSeeAll) : null,
     );
-    if (rungs.isEmpty) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          heading,
-          const SizedBox(height: MmSpace.s4),
-          Text(TodayCopy.ladderEmpty, style: type.body.copyWith(color: colors.ink2)),
-          if (onChoose != null) ...[
-            const SizedBox(height: MmSpace.s12),
-            KeyButton.secondary(label: TodayCopy.chooseColleges, onPressed: onChoose),
+    final Widget body;
+    switch (status) {
+      case CollegesCardStatus.loading:
+        // Three rows at their loaded height, so the page does not move when the list arrives.
+        body = const Column(
+          key: ValueKey('colleges-loading'),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [SizedBox(height: MmSpace.s8), MmSkeletonRows(rows: 3)],
+        );
+      case CollegesCardStatus.failed:
+        body = Column(
+          key: const ValueKey('colleges-failed'),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: MmSpace.s4),
+            Text(TodayCopy.collegesFailed, style: type.body.copyWith(color: colors.ink2)),
+            if (onRetry != null) ...[
+              const SizedBox(height: MmSpace.s12),
+              Wrap(children: [KeyButton.secondary(label: TodayCopy.tryAgain, onPressed: onRetry)]),
+            ],
           ],
-        ],
-      );
+        );
+      case CollegesCardStatus.ready when rungs.isEmpty:
+        final known = info.open != null && info.total != null && info.total! > 0;
+        body = Column(
+          key: const ValueKey('colleges-none'),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const SizedBox(height: MmSpace.s4),
+            Text(
+              known ? TodayCopy.collegesOpenCount(info.open!, info.total!) : TodayCopy.collegesOpenUnknown,
+              style: type.body.copyWith(color: colors.ink2),
+            ),
+            const SizedBox(height: MmSpace.s12),
+            Wrap(
+              spacing: MmSpace.s8,
+              runSpacing: MmSpace.s4,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                if (onChoose != null) KeyButton.secondary(label: TodayCopy.chooseCollegesShort, onPressed: onChoose),
+                if (onCompass != null) KeyButton.quiet(label: TodayCopy.openCompass, onPressed: onCompass),
+              ],
+            ),
+          ],
+        );
+      case CollegesCardStatus.ready:
+        final scores = [for (final r in rungs) double.tryParse(r.score)];
+        // One scale only when every pick is a number on the same 1000 scale.
+        final scaled = scores.every((s) => s != null) && rungs.every((r) => r.outOf == null || r.outOf == 1000);
+        body = Column(
+          key: const ValueKey('colleges-some'),
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (scaled) ...[
+              const SizedBox(height: MmSpace.s12),
+              _Scale(scores: [for (final s in scores) s!], dream: [for (final r in rungs) r.dream]),
+            ],
+            const SizedBox(height: MmSpace.s8),
+            for (final (i, r) in rungs.indexed)
+              _Rung(index: i, rung: r, onTap: onRow == null || r.programmeId == null ? null : () => onRow!(r)),
+            const SizedBox(height: MmSpace.s4),
+            Text(TodayCopy.ladderCaption(road.category), style: type.caption.copyWith(color: colors.ink3)),
+          ],
+        );
     }
-    final scores = [for (final r in rungs) double.tryParse(r.score)];
-    // One scale only when every pick is a number on the same 1000 scale.
-    final scaled = scores.every((s) => s != null) && rungs.every((r) => r.outOf == null || r.outOf == 1000);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         heading,
-        Text(TodayCopy.ladderCaption(road.category), style: type.caption.copyWith(color: colors.ink3)),
-        if (scaled) ...[
-          const SizedBox(height: MmSpace.s16),
-          _Scale(scores: [for (final s in scores) s!], dream: [for (final r in rungs) r.dream]),
-        ],
-        const SizedBox(height: MmSpace.s8),
-        for (final (i, r) in rungs.indexed) _Rung(index: i, rung: r),
-        // The ladder is the first three of My colleges: the rest are one tap away.
-        const MyCollegesMoreLine(),
+        MmSizeEase(
+          duration: Motion.of(context, Motion.card),
+          curve: Motion.out,
+          alignment: Alignment.topCenter,
+          child: MmOverlapSwitcher.fade(alignment: Alignment.topLeft, child: body),
+        ),
       ],
     );
   }
 }
 
 class _Rung extends StatelessWidget {
-  const _Rung({required this.index, required this.rung});
+  const _Rung({required this.index, required this.rung, this.onTap});
 
   final int index;
   final LadderRung rung;
+
+  /// Opens the programme in Compass; null leaves the row as text.
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
     final r = rung;
-    return Semantics(
+    final label = '${r.college}, ${r.course}. ${r.score.isEmpty ? MyCollegesCopy.noFigure : 'Closed at ${r.score}${r.outOf == null ? '' : ' of ${r.outOf}'}'}${r.dream ? '. Your dream pick' : ''}';
+    final row = Semantics(
       container: true,
-      label: '${r.college}, ${r.course}. ${r.score.isEmpty ? MyCollegesCopy.noFigure : 'Closed at ${r.score}${r.outOf == null ? '' : ' of ${r.outOf}'}'}${r.dream ? '. Your dream pick' : ''}',
+      label: label,
       excludeSemantics: true,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
@@ -136,6 +222,15 @@ class _Rung extends StatelessWidget {
           ],
         ),
       ),
+    );
+    if (onTap == null) return row;
+    return MmPressable(
+      onTap: onTap,
+      semanticsLabel: label,
+      pressedScale: 0.99,
+      haptic: MmPressHaptic.selection,
+      focusRadius: MmRadius.smallAll,
+      builder: (context, pressed, _) => ConstrainedBox(constraints: const BoxConstraints(minHeight: 56), child: row),
     );
   }
 }

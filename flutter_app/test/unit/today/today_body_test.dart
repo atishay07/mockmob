@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
-import 'package:mockmob/core/domain/cuet_dates.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
@@ -153,25 +152,33 @@ void main() {
     expect(events, contains('minutes:20'));
   });
 
-  testWidgets('the road lists every stop with its dates under the timeline', (tester) async {
+  testWidgets('the road keeps every stop: a chip per stop, and its full dates in the readout once chosen', (tester) async {
     await pumpToday(tester, buildToday(ashaInputs()));
     final road = find.text(TodayCopy.roadTitle);
     await tester.scrollUntilVisible(road, 300, scrollable: find.byType(Scrollable).first);
-    for (final stop in buildToday(ashaInputs()).road!.stops) {
-      expect(find.text(stop.title), findsOneWidget, reason: stop.title);
-      expect(find.text(stop.when), findsOneWidget, reason: '${stop.title} states its dates');
-      if (stop.note != null) expect(find.text(stop.note!), findsOneWidget);
+    final stops = buildToday(ashaInputs()).road!.stops;
+    for (final stop in stops) {
+      final chip = find.textContaining('${stop.title},');
+      expect(chip, findsOneWidget, reason: stop.title);
+      if (stop.kind == RoadStopKind.exam) continue;
+      await tester.ensureVisible(chip);
+      await tester.tap(chip);
+      await tester.pumpAndSettle();
+      expect(find.textContaining(stop.when), findsWidgets, reason: '${stop.title} states its dates');
     }
-    expect(find.text(CuetDates.registrationMonths), findsOneWidget);
   });
 
-  testWidgets('when every road date is still expected, the word is said once above the stops, not on each row', (tester) async {
+  testWidgets('a date that is still expected says so where its dates are shown', (tester) async {
     final view = buildToday(ashaInputs());
     await pumpToday(tester, view);
     await tester.scrollUntilVisible(find.text(TodayCopy.roadTitle), 300, scrollable: find.byType(Scrollable).first);
     expect(view.road!.stops.where((s) => s.expected).length, 3);
-    expect(find.text(TodayCopy.expectedDates), findsOneWidget);
-    expect(find.text(TodayCopy.expectedTag), findsNothing);
+    final boards = view.road!.stops.firstWhere((s) => s.kind == RoadStopKind.boards);
+    final chip = find.textContaining('${boards.title},');
+    await tester.ensureVisible(chip);
+    await tester.tap(chip);
+    await tester.pumpAndSettle();
+    expect(find.textContaining('${boards.when}, expected.'), findsOneWidget);
   });
 
   testWidgets('a mix of expected and published dates tags only the expected stops', (tester) async {
@@ -198,7 +205,7 @@ void main() {
     await pumpToday(tester, buildToday(ashaInputs(now: DateTime.utc(2027, 5, 10, 8))));
     await tester.scrollUntilVisible(find.text(TodayCopy.windowOpen), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(TodayCopy.windowOpen), findsOneWidget);
-    expect(find.text(TodayCopy.ladderTitle), findsOneWidget, reason: 'the college ladder stays');
+    expect(find.text(TodayCopy.collegesTitle), findsOneWidget, reason: 'the colleges card stays');
   });
 
   testWidgets('once the exam window has closed Today shows no road and no CSAS wording', (tester) async {
@@ -206,13 +213,13 @@ void main() {
     expect(view.road, isNull);
     await pumpToday(tester, view);
     expect(find.text(TodayCopy.roadTitle), findsNothing);
-    expect(find.text(TodayCopy.ladderTitle), findsNothing);
+    expect(find.text(TodayCopy.collegesTitle), findsNothing);
     expect(find.textContaining('CSAS'), findsNothing);
   });
 
   testWidgets('the college ladder caption uses plain words, not portal names', (tester) async {
     await pumpToday(tester, buildToday(ashaInputs()));
-    await tester.scrollUntilVisible(find.text(TodayCopy.ladderTitle), 300, scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(find.text(TodayCopy.ladderCaption('UR')), 300, scrollable: find.byType(Scrollable).first);
     expect(find.textContaining('CSAS'), findsNothing);
     expect(find.textContaining('admission.uod'), findsNothing);
     expect(find.text(TodayCopy.ladderCaption('UR')), findsOneWidget);

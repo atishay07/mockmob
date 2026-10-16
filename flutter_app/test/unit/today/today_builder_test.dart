@@ -37,9 +37,11 @@ void main() {
     final cases = <(String, TodayInputs, NextMoveState)>[
       ('nothing loaded and the read failed', TodayInputs(now: now, attemptsFailed: true), NextMoveState.historyUnavailable),
       (
-        'the plan says the record is unavailable',
+        // L01: with the papers in hand a plan that says the record is unavailable never fails the
+        // card; the move is built from the papers (move_builder_partial_test.dart).
+        'the plan says the record is unavailable, the papers are on the phone',
         TodayInputs(now: now, attempts: ashaRecord(now), plan: LearningPlan.fromJson({'primary': {}, 'recordState': 'unavailable'})),
-        NextMoveState.historyUnavailable,
+        NextMoveState.ready,
       ),
       ('no attempts yet', ashaInputs(attempts: const []), NextMoveState.newUser),
       (

@@ -2,23 +2,29 @@
 // seven weekday columns at the loaded strip's heights (48 dp count row, 62 dp rail, and the rail's
 // growth with large text), so nothing on Today jumps when the week arrives. The key is not a
 // standing line any more (it unfolds on a first look), so the skeleton keeps no row for it.
+// When the first read failed and nothing is cached, the slot stays at the same height, still, with
+// a line saying so (L03): a later read fills it in place instead of adding a section.
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../copy.dart';
 import 'week_ledger.dart';
 
 class WeekLedgerSkeleton extends StatelessWidget {
-  const WeekLedgerSkeleton({super.key, this.bleed = 0});
+  const WeekLedgerSkeleton({super.key, this.bleed = 0, this.failed = false});
 
   final double bleed;
+
+  /// The first read failed: no shimmer, and the count row says so.
+  final bool failed;
 
   @override
   Widget build(BuildContext context) {
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
     return SkeletonGroup(
-      label: 'Loading this week',
-      shimmer: true,
+      label: failed ? TodayCopy.weekFailed : 'Loading this week',
+      shimmer: !failed,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
         child: Column(
@@ -27,15 +33,26 @@ class WeekLedgerSkeleton extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: bleed + MmSpace.s4),
-              child: const SizedBox(
+              child: SizedBox(
                 height: 48,
-                child: Row(
-                  children: [
-                    Skeleton.line(width: 120, height: 16),
-                    Spacer(),
-                    Skeleton.line(width: 88, height: 12),
-                  ],
-                ),
+                child: failed
+                    ? Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          TodayCopy.weekFailed,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: context.mmType.caption.copyWith(color: context.mmColors.ink2),
+                          textScaler: scaler,
+                        ),
+                      )
+                    : const Row(
+                        children: [
+                          Skeleton.line(width: 120, height: 16),
+                          Spacer(),
+                          Skeleton.line(width: 88, height: 12),
+                        ],
+                      ),
               ),
             ),
             const SizedBox(height: MmSpace.s4),

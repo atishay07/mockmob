@@ -96,6 +96,55 @@ class RoadBoard {
 
   int get weeksToExam => daysToExam ~/ 7;
 
+  /// The same board counted to [day] instead (the exam flag while it is dragged): the days, the
+  /// study days and the mock pace follow, nothing else changes.
+  RoadBoard withExam(DateTime day, {required bool own}) {
+    final days = DateTime(day.year, day.month, day.day).difference(DateTime(today.year, today.month, today.day)).inDays;
+    return RoadBoard(
+      today: today,
+      examDate: day,
+      ownDate: own,
+      daysToExam: days < 0 ? 0 : days,
+      mocksTaken: mocksTaken,
+      mockTarget: mockTarget,
+      lastMockAt: lastMockAt,
+      studyDaysLeft: goal == null || days <= 0 ? null : sessionsUntil(today, day, daysPerWeek: goal!),
+      goal: goal,
+      weekDone: weekDone,
+      weekGoal: weekGoal,
+    );
+  }
+
+  /// The same board at another study-days goal (the pace strip while it is dragged).
+  RoadBoard withGoal(int? next) => RoadBoard(
+        today: today,
+        examDate: examDate,
+        ownDate: ownDate,
+        daysToExam: daysToExam,
+        mocksTaken: mocksTaken,
+        mockTarget: mockTarget,
+        lastMockAt: lastMockAt,
+        studyDaysLeft: next == null || daysToExam <= 0 ? null : sessionsUntil(today, examDate, daysPerWeek: next),
+        goal: next,
+        weekDone: weekDone,
+        weekGoal: weekGoal,
+      );
+
+  /// The same board with another mock target (the mock ruler while it moves).
+  RoadBoard withTarget(int? target) => RoadBoard(
+        today: today,
+        examDate: examDate,
+        ownDate: ownDate,
+        daysToExam: daysToExam,
+        mocksTaken: mocksTaken,
+        mockTarget: target,
+        lastMockAt: lastMockAt,
+        studyDaysLeft: studyDaysLeft,
+        goal: goal,
+        weekDone: weekDone,
+        weekGoal: weekGoal,
+      );
+
   /// Mocks still to take for the target, or null without one.
   int? get mocksLeft {
     final target = mockTarget, taken = mocksTaken;

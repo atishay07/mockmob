@@ -12,9 +12,12 @@ import '../../tools/data/my_colleges_actions.dart';
 
 /// One college on the student's ladder, with its real CSAS 2026 Round 1 closing score.
 class LadderPick {
-  const LadderPick({required this.college, required this.course, this.closingScore, this.outOf});
+  const LadderPick({required this.college, required this.course, this.closingScore, this.outOf, this.programmeId});
 
   final String college;
+
+  /// The DU programme (Compass opens it), when known.
+  final String? programmeId;
 
   /// "B.Com (Hons)".
   final String course;
@@ -104,7 +107,7 @@ List<LadderPick> ladderOfList(List<MyCollege> colleges, String category) {
   for (final c in colleges) {
     final course = DuCatalog.course(c.programmeId);
     final figure = course?.offeringAt(c.college)?.scoreFor(category);
-    picks.add(LadderPick(college: c.college, course: course?.short ?? c.programme, closingScore: figure, outOf: figure == null ? null : DuCatalog.scale));
+    picks.add(LadderPick(college: c.college, course: course?.short ?? c.programme, closingScore: figure, outOf: figure == null ? null : DuCatalog.scale, programmeId: c.programmeId));
   }
   return picks;
 }

@@ -7,7 +7,10 @@ import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/alternatives_sheet.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/length_pill.dart';
+import 'package:mockmob/features/today/widgets/colleges_card.dart';
+import 'package:mockmob/features/today/widgets/road_rail.dart';
 import 'package:mockmob/features/today/widgets/road_section.dart';
+import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/features/today/screens/why_sheet.dart';
 import 'package:mockmob/features/today/logic/why_model.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
@@ -40,7 +43,45 @@ Widget _road(TodayInputs inputs) => Builder(
         color: context.mmColors.ground,
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s32),
-          child: RoadSection(road: buildRoad(inputs)!, onChooseColleges: () {}),
+          child: RoadSection(road: buildRoad(inputs)!, actions: noopRoadActions, onChooseColleges: () {}),
+        ),
+      ),
+    );
+
+/// The road whose saves fail as a phone without a connection does.
+Widget _roadFailing(TodayInputs inputs) => Builder(
+      builder: (context) => ColoredBox(
+        color: context.mmColors.ground,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s32),
+          child: RoadSection(
+            road: buildRoad(inputs)!,
+            actions: RoadActions(
+              savePace: (_) async => throw const ApiError(kind: ApiErrorKind.network, code: 'network'),
+              setExamDate: (_) async {},
+              setMockTarget: (_) async {},
+            ),
+          ),
+        ),
+      ),
+    );
+
+/// Taps the pace strip at stop [n] and lets its save run.
+Future<void> _tapPace(WidgetTester tester, int n) async {
+  final r = tester.getRect(find.byKey(const ValueKey('road-pace')));
+  await tester.tapAt(Offset(r.left + r.width * ((n - 0.5) / 7), r.center.dy));
+  await tester.pump(const Duration(milliseconds: 450));
+  await tester.pump();
+  await tester.pump(const Duration(milliseconds: 300));
+}
+
+/// Your colleges on the ground, as Today ends.
+Widget _colleges(RoadModel road, CollegesCardInfo info) => Builder(
+      builder: (context) => ColoredBox(
+        color: context.mmColors.ground,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(MmSpace.cardGutter, MmSpace.s16, MmSpace.cardGutter, MmSpace.s32),
+          child: CollegesCard(road: road, info: info, onChoose: () {}, onSeeAll: () {}, onCompass: () {}, onRow: (_) {}),
         ),
       ),
     );
@@ -149,6 +190,53 @@ void main() {
   todayGolden(
     'today_fail_offline_nocache',
     () => _view(TodayInputs(now: now, firstName: 'Asha', attemptsFailed: true, readProblem: LoadProblem.offline, offline: true, week: tuesdayWeek)),
+  );
+  // L01: nothing in hand, online, the server busy: the named cause, Try again, Practise anyway.
+  todayGolden(
+    'today_fail_busy',
+    () => _view(TodayInputs(now: now, firstName: 'Asha', attemptsFailed: true, readProblem: LoadProblem.busy, week: tuesdayWeek)),
+    size: const Size(390, 844),
+  );
+  // L01 S7: the papers are the phone's copy because a refresh failed online; the move stays and
+  // the header line runs Try again.
+  todayGolden('today_refresh_failed_header', () => _view(ashaInputs(attemptsStale: true)), size: const Size(390, 844));
+  // L05: the road at 390, scrolled into view in the full page.
+  screenGolden('today_road_rail', () => _road(ashaInputs()), size: const Size(390, 1000), dock: false);
+  screenGolden('today_road_rail_text130', () => _road(ashaInputs()), size: const Size(390, 1100), dock: false, textScale: 1.3);
+  // L03: the week's first read failed with nothing cached: its slot stays, saying so, so a later
+  // read fills it in place instead of adding a section.
+  todayGolden('today_week_failed', () => _view(ashaInputs(weekFailed: true)), size: const Size(390, 844));
+  todayGolden('today_partial_plan_failed', () => _view(ashaInputs(plan: unavailablePlan())), size: const Size(390, 844));
+  screenGolden('today_road_rail_360', () => _road(ashaInputs()), size: const Size(360, 1000), dock: false);
+  // L05: a November week selected: the readout says it in words.
+  screenGolden(
+    'today_road_week_selected',
+    () => _road(ashaInputs()),
+    size: const Size(390, 1000),
+    dock: false,
+    act: (tester) async {
+      final rail = tester.getRect(find.byType(RoadRail));
+      await tester.tapAt(Offset(rail.left + RoadRail.column * 4.5, rail.top + 90));
+      await tester.pump(const Duration(milliseconds: 400));
+    },
+  );
+  // L05: no weekly goal yet: one open pip a week, the pace strip asks for a number.
+  screenGolden('today_road_no_goal', () => _road(ashaInputs(week: noGoalWeek)), size: const Size(390, 1000), dock: false);
+  // L05 step 8: offline, a pace change springs back and names the cause.
+  screenGolden(
+    'today_road_save_failed',
+    () => _roadFailing(ashaInputs()),
+    size: const Size(390, 1000),
+    dock: false,
+    act: (tester) => _tapPace(tester, 6),
+  );
+  // IA 5.2: Your colleges, with picks and without.
+  screenGolden('today_colleges_card_some', () => _colleges(buildRoad(ashaInputs())!, const CollegesCardInfo()), size: const Size(390, 520), dock: false);
+  screenGolden(
+    'today_colleges_card_none',
+    () => _colleges(buildRoad(ashaInputs(profile: null))!, const CollegesCardInfo(open: 35, total: 73)),
+    size: const Size(390, 360),
+    dock: false,
   );
   todayGolden(
     'today_repaired',

@@ -95,6 +95,7 @@ class TodayInputs {
     this.planStale = false,
     this.week,
     this.weekLoading = false,
+    this.weekFailed = false,
     this.returning = false,
     this.draft,
     this.unopened = const [],
@@ -135,6 +136,10 @@ class TodayInputs {
 
   /// The rhythm is visible and its first read has not landed: Today shows the strip as a skeleton.
   final bool weekLoading;
+
+  /// The rhythm is visible, its first read failed and nothing is cached: the strip's slot stays,
+  /// saying so, so a later read that lands fills it in place instead of adding a section (L03).
+  final bool weekFailed;
 
   /// The server's `returning` (3 or more days away).
   final bool returning;

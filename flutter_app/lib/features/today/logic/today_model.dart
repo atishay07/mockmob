@@ -273,9 +273,12 @@ class SheetRow {
 }
 
 class LadderRung {
-  const LadderRung({required this.college, required this.course, required this.score, this.outOf, this.dream = false});
+  const LadderRung({required this.college, required this.course, required this.score, this.outOf, this.dream = false, this.programmeId});
 
   final String college;
+
+  /// The DU programme behind the row, so a tap opens it in Compass; null for an older setup.
+  final String? programmeId;
   final String course;
   final String score;
   final int? outOf;
@@ -319,7 +322,12 @@ class RoadModel {
     this.goal,
     this.weekNeeds,
     this.board,
+    this.plannedDays,
   });
+
+  /// The weekdays the student plans to study (0 = Monday), when the plan matches the goal: the
+  /// pace strip keeps these picks when the count changes.
+  final Set<int>? plannedDays;
 
   /// The student's own board under the road: their exam date, mocks, study days left and this
   /// week, each tappable (road_board.dart).
@@ -376,7 +384,7 @@ class WeekModel {
 }
 
 class HeaderModel {
-  const HeaderModel({required this.dateLine, required this.greeting, this.week, this.weekLoading = false, this.updatedLine, this.mobi});
+  const HeaderModel({required this.dateLine, required this.greeting, this.week, this.weekLoading = false, this.weekFailed = false, this.updatedLine, this.refreshable = false, this.mobi});
 
   final String dateLine;
   final String greeting;
@@ -386,8 +394,14 @@ class HeaderModel {
   /// skeleton so nothing below it jumps when the week lands.
   final bool weekLoading;
 
+  /// The rhythm's first read failed: the strip's slot is held with a line saying so (L03).
+  final bool weekFailed;
+
   /// "Updated 9:40 PM" when Today shows cached data.
   final String? updatedLine;
+
+  /// The updated line names a refresh that failed online: a tap on it reads again (S7).
+  final bool refreshable;
 
   /// Mobi beside the greeting, or null when the hero already has him.
   final HeaderMobiCue? mobi;

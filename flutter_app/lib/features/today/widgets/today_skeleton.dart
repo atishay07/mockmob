@@ -9,6 +9,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -18,9 +19,14 @@ import 'hero_stage.dart';
 const double heroSkeletonHeight = 496;
 
 class TodaySkeleton extends StatefulWidget {
-  const TodaySkeleton({super.key, this.delay = const Duration(milliseconds: 400)});
+  const TodaySkeleton({super.key, this.delay = const Duration(milliseconds: 400), this.onRetry, this.slowAfter = const Duration(seconds: 8)});
 
   final Duration delay;
+
+  /// After [slowAfter] with nothing in hand, the skeleton says the connection looks slow and
+  /// offers Try again (L01, state S2), which starts the read again.
+  final VoidCallback? onRetry;
+  final Duration slowAfter;
 
   @override
   State<TodaySkeleton> createState() => _TodaySkeletonState();
@@ -28,29 +34,43 @@ class TodaySkeleton extends StatefulWidget {
 
 class _TodaySkeletonState extends State<TodaySkeleton> {
   Timer? _timer;
+  Timer? _slowTimer;
   late bool _visible = widget.delay == Duration.zero;
+  bool _slow = false;
 
   @override
   void initState() {
     super.initState();
     if (!_visible) _timer = Timer(widget.delay, () => mounted ? setState(() => _visible = true) : null);
+    _slowTimer = Timer(widget.slowAfter, () => mounted ? setState(() => _slow = true) : null);
   }
 
   @override
   void dispose() {
     _timer?.cancel();
+    _slowTimer?.cancel();
     super.dispose();
+  }
+
+  void _retry() {
+    // The line goes while the read runs again, and comes back if it is still slow.
+    setState(() => _slow = false);
+    _slowTimer?.cancel();
+    _slowTimer = Timer(widget.slowAfter, () => mounted ? setState(() => _slow = true) : null);
+    widget.onRetry?.call();
   }
 
   @override
   Widget build(BuildContext context) {
     if (!_visible) return const SizedBox(height: heroSkeletonHeight);
-    return SkeletonGroup(
-      label: TodayCopy.loading,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          HeroStage(
+    // Two groups, so the slow line and its key between them stay readable and reachable (a group
+    // speaks only its label).
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        SkeletonGroup(
+          label: TodayCopy.loading,
+          child: HeroStage(
             lit: false,
             child: SizedBox(
               height: heroSkeletonHeight,
@@ -90,13 +110,52 @@ class _TodaySkeletonState extends State<TodaySkeleton> {
               ),
             ),
           ),
-          const SizedBox(height: MmRhythm.section),
-          // "Recent papers" and its rows, on the ground as the loaded section is.
-          const Skeleton.line(width: 132, height: 22),
-          const SizedBox(height: MmRhythm.tight),
-          const MmSkeletonRows(rows: 3),
-        ],
-      ),
+        ),
+          // Eight seconds and still nothing: say so, and offer the read again (S2).
+          AnimatedSize(
+            duration: Motion.of(context, Motion.card),
+            curve: Motion.out,
+            alignment: Alignment.topCenter,
+            child: !_slow || widget.onRetry == null
+                ? const SizedBox(width: double.infinity)
+                : Padding(
+                    padding: const EdgeInsets.only(top: MmSpace.s8),
+                    child: Row(
+                      children: [
+                        Expanded(child: Text(TodayCopy.stillLoading, style: context.mmType.caption.copyWith(color: context.mmColors.ink2))),
+                        KeyButton.quiet(label: TodayCopy.tryAgain, onPressed: _retry),
+                      ],
+                    ),
+                  ),
+          ),
+        const SizedBox(height: MmRhythm.section),
+        // "Recent papers" and its rows, on the ground as the loaded section is.
+        const SkeletonGroup(
+          label: TodayCopy.loading,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Skeleton.line(width: 132, height: 22),
+              SizedBox(height: MmRhythm.tight),
+              MmSkeletonRows(rows: 3),
+            ],
+          ),
+        ),
+      ],
     );
   }
+}
+
+/// The record card's place while its finding is read (L03): the card's one-finding height at 1x,
+/// so the page under it does not move when the card arrives.
+class InsightsSlot extends StatelessWidget {
+  const InsightsSlot({super.key});
+
+  static const double height = 168;
+
+  @override
+  Widget build(BuildContext context) => const SkeletonGroup(
+        label: TodayCopy.loading,
+        child: Skeleton(height: height, radius: MmRadius.panel),
+      );
 }

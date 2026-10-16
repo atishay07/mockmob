@@ -41,7 +41,9 @@ TodayView buildToday(TodayInputs i) {
     greeting: plain.greeting,
     week: plain.week,
     weekLoading: plain.weekLoading,
+    weekFailed: plain.weekFailed,
     updatedLine: plain.updatedLine,
+    refreshable: plain.refreshable,
     mobi: _headerMobi(i, hero),
   );
   // An ended mock that could not be recorded only offers a picker; tonight's move under it is
@@ -95,9 +97,15 @@ HeaderModel buildHeader(TodayInputs i) {
     greeting: TodayCopy.greeting(clock.hour, i.firstName),
     week: week == null ? null : _week(i, week),
     weekLoading: week == null && i.weekLoading,
+    weekFailed: week == null && !i.weekLoading && i.weekFailed,
     updatedLine: _updatedLine(i),
+    refreshable: _refreshFailed(i),
   );
 }
+
+/// The papers on screen are the phone's copy because a refresh failed while online (L01, S7): the
+/// header says so and its line runs Try again.
+bool _refreshFailed(TodayInputs i) => !i.offline && i.attemptsStale && i.attempts != null && i.attemptsFetchedAt != null;
 
 /// Which column of the week is today, from the same clock as the date line. The rhythm module's
 /// own flag is kept only when it agrees: a week read before midnight (or on another week's
@@ -137,7 +145,12 @@ String? _updatedLine(TodayInputs i) {
   // the phone while the plan is read again, so the newer time would call days-old papers fresh.
   final oldest = times.reduce((a, b) => a.isBefore(b) ? a : b);
   final at = i.clock(oldest);
-  return i.offline ? TodayCopy.updatedOffline(at) : TodayCopy.updatedAt(at);
+  if (i.offline) return TodayCopy.updatedOffline(at);
+  if (_refreshFailed(i)) {
+    final tried = i.lastTriedAt;
+    return tried == null ? TodayCopy.updatedNotRefreshed(at) : TodayCopy.updatedTried(at, i.clock(tried));
+  }
+  return TodayCopy.updatedAt(at);
 }
 
 String _draftLabel(TodayDraft d) => d.isMock ? (d.mockNumber == null ? 'Your mock' : 'Mock ${d.mockNumber}') : 'Your practice';

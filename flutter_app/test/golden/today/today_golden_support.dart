@@ -10,6 +10,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/road_section.dart' show RoadActions;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -24,7 +25,11 @@ const AuthSnapshot ashaAuth = AuthSnapshot(status: AuthStatus.signedIn, userId: 
 
 List<Override> get todayOverrides => [authSnapshotProvider.overrideWithBuild((ref, notifier) => ashaAuth)];
 
-TodayCallbacks get noopCallbacks => TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {});
+/// Saves that return at once: the road's tuners show as they do in the app.
+RoadActions get noopRoadActions => RoadActions(savePace: (_) async {}, setExamDate: (_) async {}, setMockTarget: (_) async {});
+
+TodayCallbacks get noopCallbacks =>
+    TodayCallbacks(onAction: (_) {}, onTarget: (_) {}, onMinutes: (_) {}, onShowMe: (_) {}, onWeek: () {}, road: noopRoadActions);
 
 /// Today as the shell shows it: phone insets, the bar floating over the content with its scrim,
 /// the content's bottom padding raised by the bar's clearance ([MmBarInsets]), and the live

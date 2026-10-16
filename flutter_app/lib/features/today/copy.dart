@@ -30,6 +30,9 @@ abstract final class TodayCopy {
   static String updatedAt(DateTime time) => 'Updated ${formatTime12(time)}';
   static const String offlineSuffix = 'You are offline.';
   static String updatedOffline(DateTime time) => 'Updated ${formatTime12(time)}. You are offline.';
+  static String updatedNotRefreshed(DateTime time) => 'Updated ${formatTime12(time)}. Could not refresh.';
+  static String updatedTried(DateTime time, DateTime tried) => 'Updated ${formatTime12(time)}. Tried ${formatTime12(tried)}, still not loading.';
+  static const String refreshSemantics = 'Try again';
 
   // Hero overlines.
   static String moveOverline(DateTime now) => "${tonightOrTodayTitle(now)}'s move";
@@ -305,8 +308,18 @@ abstract final class TodayCopy {
   static const String railThisB = 'week';
   static const String railExam = 'CUET UG';
   static const String railOwnDate = 'Your date';
+  static const String railRegistration = 'Registration';
+  static const String railBoards = 'Boards';
+  static const String railMobiSemantics = 'Mobi, on this week. Shows the next stop.';
   static String railWeekSemantics(DateTime start, int planned, int mocks, int weeksAway) =>
       'Week of ${formatDayMonth(start)}, ${plural(planned, 'study day')} planned${mocks > 0 ? ', planned mock' : ''}, ${weeksAway == 0 ? 'this week' : '${plural(weeksAway, 'week')} from now'}';
+
+  /// The readout's second line for a week a stop begins in: the stop's months (from
+  /// `CuetDates`), ", expected", then "18 weeks from now."
+  static String readStop(String when, bool expected, int weeksAway) =>
+      '$when${expected ? ', expected' : ''}. ${weeksAway == 1 ? 'Next week' : '$weeksAway weeks from now'}.';
+  static String chipSemantics(String title, String when, bool expected, int weeks) =>
+      '${chipIn(title, weeks)}. $when${expected ? ', expected' : ''}.';
 
   /// Jump chips under the rail.
   static String chipIn(String title, int weeks) => weeks < 1 ? '$title, this week' : '$title, in ${plural(weeks, 'week')}';
@@ -320,6 +333,9 @@ abstract final class TodayCopy {
   static String paceRest(Iterable<int> days) => '${dayList(days)}.';
   static String paceFailed(String sentence, int old) => '$sentence Your days stay at $old.';
   static const String changeDays = 'Change days';
+
+  /// The week strip's slot when its first read failed (L03): the slot stays, saying so.
+  static const String weekFailed = 'This week did not load. Pull down to try again.';
   static String paceSemantics(int n, Iterable<int> days) => '${plural(n, 'day')} a week, ${dayList(days)}';
 
   // Mocks line under the tuners.
@@ -332,6 +348,28 @@ abstract final class TodayCopy {
   }
   static const String mocksTitle = 'Full mocks before your date';
   static const String mocksChange = 'Change';
+  static String takenWords(int taken) => '$taken taken';
+  static String mocksSuggested(int taken, int suggested) => '$taken taken. Suggested: $suggested. Move the ruler to set it.';
+  static const String mocksUnread = 'Your mocks did not load yet.';
+  static const String mocksSaved = 'Saved on this phone.';
+  static const String mocksFailed = 'Could not save your target. Try again.';
+  static const String mocksOpenSemantics = 'Opens your mocks.';
+  static String mocksSemantics(int target, int taken) => '$target, $taken taken';
+
+  // The exam flag on the rail (8.6).
+  static const String railExamTwo = 'CUET\nUG';
+  static const String railOwnDateTwo = 'Your\ndate';
+  static const String flagSemantics = 'Your exam date';
+  static String flagValue(DateTime day, int weeksAway) => '${formatDayMonth(day)} ${day.year}, ${plural(weeksAway < 0 ? 0 : weeksAway, 'week')} away';
+  static String railExamSemantics(DateTime day, {required bool own}) =>
+      own ? 'Your date, ${formatDayMonth(day)}' : 'CUET UG expected from ${formatDayMonth(day)}';
+  static String readYourDate(String day) => 'Your date: $day';
+  static String readDragLine(int weeks, int? studyDays, int? goal) => studyDays == null || goal == null
+      ? plural(weeks, 'week')
+      : '${plural(weeks, 'week')}, ${plural(studyDays, 'study day')} at $goal a week';
+  static String dateReceipt(String day, {required bool saved}) => saved ? 'Your date: $day. Saved on this phone.' : 'Your date: $day.';
+  static const String dateFailed = 'Could not save your date. Try again.';
+  static const String useExpectedDate = 'Use the expected date';
   static String daysToWindowLabel(int days) => '${days == 1 ? 'day' : 'days'} to the expected\nCUET window, ${CuetDates.windowMonth}';
   static String weeksLabel(int weeks) => '${weeks == 1 ? 'week' : 'weeks'} to the expected\nCUET window, ${CuetDates.windowMonth}';
   static String weeksToBoardsUnit(int weeks) => weeks == 1 ? 'week before\nboards begin' : 'weeks before\nboards begin';
@@ -381,6 +419,15 @@ abstract final class TodayCopy {
   /// A college-portal category in words a student says (the shared mapping in core).
   static String categoryWords(String? category) => fmt.categoryWords(category);
   static const String ladderTitle = 'My colleges';
+
+  // Your colleges on Today (IA 5.2).
+  static const String collegesTitle = 'Your colleges';
+  static const String seeAllColleges = 'See all';
+  static const String chooseCollegesShort = 'Choose colleges';
+  static const String openCompass = 'Open Compass';
+  static const String collegesFailed = 'Your colleges did not load.';
+  static String collegesOpenCount(int open, int total) => '$open of $total DU programmes open to your subjects.';
+  static const String collegesOpenUnknown = 'See which DU programmes your subjects open.';
   static const String dreamTag = 'Dream';
   static const String chooseColleges = 'Choose your colleges';
   static const String changeColleges = 'Change';

@@ -92,6 +92,7 @@ RoadModel? buildRoad(TodayInputs i) {
     weeksToBoards: toBoards > 0 ? toBoards ~/ 7 : 0,
     studyDays: sessions,
     goal: goal,
+    plannedDays: week?.planned,
     category: profile?.category,
     ladder: [
       for (var k = 0; k < picks.length; k++)
@@ -101,6 +102,7 @@ RoadModel? buildRoad(TodayInputs i) {
           score: _score(picks[k].closingScore),
           outOf: picks[k].outOf,
           dream: k == 0,
+          programmeId: picks[k].programmeId,
         ),
     ],
   );

@@ -10,6 +10,7 @@ import '../../../core/mascot/mascot.dart' show MobiBubble, MobiSpeech, MobiTail;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/account/account_avatar.dart' show AccountLeading;
+import '../copy.dart';
 import '../logic/today_model.dart';
 import 'header_mobi.dart';
 import 'today_entrance.dart';
@@ -17,7 +18,12 @@ import 'week_ledger.dart';
 import 'week_ledger_skeleton.dart';
 
 class TodayHeader extends StatefulWidget {
-  const TodayHeader({super.key, required this.header, this.onWeek, this.aim, this.bleed = 0});
+  const TodayHeader({super.key, required this.header, this.onWeek, this.aim, this.bleed = 0, this.onRefresh, this.refreshing = false});
+
+  /// A refresh failed online (S7): the date and greeting run Try again, the icon turning while
+  /// the read runs.
+  final VoidCallback? onRefresh;
+  final bool refreshing;
 
   /// How far the masthead's box reaches past the content edge on each side: the week rail's day
   /// columns use it to be 48 dp wide on a 360 dp phone (see [WeekLedger.bleed]). Everything drawn
@@ -70,6 +76,8 @@ class _TodayHeaderState extends State<TodayHeader> {
               dateLine: header.dateLine,
               updatedLine: header.updatedLine,
               greeting: header.greeting,
+              onRefresh: header.refreshable ? widget.onRefresh : null,
+              refreshing: widget.refreshing,
               trailing: header.mobi == null
                   ? null
                   : HeaderMobi(cue: header.mobi!, aim: aim, speech: _speech),
@@ -84,9 +92,9 @@ class _TodayHeaderState extends State<TodayHeader> {
             delay: const Duration(milliseconds: 60),
             child: WeekLedger(week: week, onTap: onWeek, bleed: widget.bleed),
           ),
-        ] else if (header.weekLoading) ...[
+        ] else if (header.weekLoading || header.weekFailed) ...[
           const SizedBox(height: MmSpace.s12),
-          WeekLedgerSkeleton(bleed: widget.bleed),
+          WeekLedgerSkeleton(bleed: widget.bleed, failed: header.weekFailed),
         ],
       ],
     );
@@ -102,7 +110,12 @@ class _GreetingRow extends StatelessWidget {
     required this.greeting,
     this.updatedLine,
     this.trailing,
+    this.onRefresh,
+    this.refreshing = false,
   });
+
+  final VoidCallback? onRefresh;
+  final bool refreshing;
 
   final String dateLine;
 
@@ -121,7 +134,10 @@ class _GreetingRow extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Column(
+            child: _Refreshable(
+              onRefresh: onRefresh,
+              label: updatedLine,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -143,10 +159,10 @@ class _GreetingRow extends StatelessWidget {
                             key: const ValueKey('updated'),
                             children: [
                               Icon(
-                                LucideIcons.cloudOff,
+                                onRefresh == null ? LucideIcons.cloudOff : LucideIcons.rotateCw,
                                 size: 14,
                                 color: colors.ink2,
-                              ),
+                              ).spinning(refreshing && onRefresh != null),
                               const SizedBox(width: MmSpace.s6),
                               Flexible(
                                 child: Text(
@@ -176,6 +192,7 @@ class _GreetingRow extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
           ),
           if (trailing != null) ...[
             const SizedBox(width: MmSpace.s12),
@@ -221,4 +238,62 @@ class _SpeechRoom extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The header's text, tappable while a refresh has failed: the whole date and greeting block is
+/// the target (at least 48 dp tall), so the line needs no key of its own.
+class _Refreshable extends StatelessWidget {
+  const _Refreshable({required this.child, this.onRefresh, this.label});
+
+  final Widget child;
+  final VoidCallback? onRefresh;
+  final String? label;
+
+  @override
+  Widget build(BuildContext context) {
+    final tap = onRefresh;
+    if (tap == null) return child;
+    return Semantics(
+      button: true,
+      label: '${label ?? ''} ${TodayCopy.refreshSemantics}',
+      child: GestureDetector(behavior: HitTestBehavior.opaque, onTap: tap, child: ExcludeSemantics(child: child)),
+    );
+  }
+}
+
+extension on Icon {
+  /// Turns while [on] (a read is running), still otherwise.
+  Widget spinning(bool on) => on ? _Spin(child: this) : this;
+}
+
+class _Spin extends StatefulWidget {
+  const _Spin({required this.child});
+
+  final Widget child;
+
+  @override
+  State<_Spin> createState() => _SpinState();
+}
+
+class _SpinState extends State<_Spin> with SingleTickerProviderStateMixin {
+  late final AnimationController _c = AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (Motion.reduced(context)) {
+      _c.stop();
+    } else if (!_c.isAnimating) {
+      _c.repeat();
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => RotationTransition(turns: _c, child: widget.child);
 }
