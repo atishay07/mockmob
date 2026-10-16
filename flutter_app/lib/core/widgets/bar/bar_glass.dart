@@ -12,7 +12,8 @@ typedef BarShape = RRect Function(Size size);
 /// The bar's and the capsule's glass, in three tiers (DOCK.md section 4):
 ///
 /// * Full: one `BackdropFilter.grouped` per surface inside the shell's `BackdropGroup`, clipped
-///   to the surface's own shape: a 24 sigma blur over a 1.15 saturation lift (HIGH's "juicy"
+///   to the surface's own shape: a 32 sigma blur ([MmBar.blurSigma], up from 24 after the
+///   owner's "can be made a bit stronger", L33) over a 1.15 saturation lift (HIGH's "juicy"
 ///   frost), under a warm tint at 60% (Night) or 68% (Daylight).
 /// * Lite: no live blur; a thicker tint and the noise tile.
 /// * Off: solid, with a hairline.
@@ -31,7 +32,7 @@ class BarGlass extends StatefulWidget {
 
   /// The live blur and its saturation lift.
   static final ui.ImageFilter filter = ui.ImageFilter.compose(
-    outer: ui.ImageFilter.blur(sigmaX: MmElevation.sigmaDock, sigmaY: MmElevation.sigmaDock),
+    outer: ui.ImageFilter.blur(sigmaX: MmBar.blurSigma, sigmaY: MmBar.blurSigma),
     inner: const ui.ColorFilter.matrix(_saturate115),
   );
 

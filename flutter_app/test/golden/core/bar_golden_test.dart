@@ -222,10 +222,10 @@ void main() {
     _Shot(branch: 0, startPressed: true),
   ]);
 
-  // app-ia 4.5: the six slots at 360 and 412 dp, expanded and compact, each with the ruler of
+  // app-ia 4.5: the six slots at 360, 390 and 412 dp, expanded and compact, each with the ruler of
   // 4.2 drawn over it (icon centres, the pill centre, the label line, every slot centre) and
   // then clean.
-  for (final width in const [360.0, 412.0]) {
+  for (final width in const [360.0, 390.0, 412.0]) {
     _barSheet('bar_six_${width.toInt()}', [
       _Shot(branch: 0, width: width, ruler: true),
       _Shot(branch: 3, width: width, badges: const BarBadges(reviewCount: 3, collegesDot: true)),

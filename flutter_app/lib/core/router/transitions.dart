@@ -290,7 +290,7 @@ class MmPageTransitionsBuilder extends PageTransitionsBuilder {
 /// The tab switch (DOCK.md section 5.4, MOTION.md C1): the outgoing branch fades out in about 90 ms
 /// on exit (the incoming one is already rising by 60 ms: no blank frame), drifting 6 dp against the travel; then the incoming branch fades in over 200 ms on
 /// glide, sliding 10 dp in from the side the bar's lens travelled toward (transforms only). The
-/// bar's visual order (Today, Practice, Start, Review, You) keeps branch order, so the branch
+/// bar's visual order (Today, Practice, Start, Review, Colleges, You) keeps branch order, so the branch
 /// index gives the direction. The branches stay mounted, like an `IndexedStack`, so
 /// each keeps its own navigation state; only the two involved are painted, and only for the
 /// switch. Under reduced motion it is a 120 ms fade.

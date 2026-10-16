@@ -124,6 +124,21 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
       );
   }
 
+  /// Whether the next system back may leave the app: only the second press on Today.
+  bool get _backLeavesApp => shell.currentIndex == 0 && _exitArmed;
+
+  /// Android 14's predictive back (the manifest opts in) asks the framework, ahead of any press,
+  /// whether Flutter will handle back; when it says no, Android closes the app itself and
+  /// [_onBack] never runs. Each branch navigator answers "no" from its root whenever its history
+  /// changes (a tab switch builds one), and that answer bubbled past the shell's [PopScope] and
+  /// reached the engine, so Back on Practice closed the app on a phone while every test passed
+  /// (L04). Under the shell the answer is "yes" until [_backLeavesApp].
+  bool _onNavigation(NavigationNotification notification) {
+    if (notification.canHandlePop || _backLeavesApp) return false;
+    const NavigationNotification(canHandlePop: true).dispatch(context);
+    return true;
+  }
+
   void _disarmExit() {
     _exitTimer?.cancel();
     _exitTimer = null;
@@ -393,7 +408,10 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
           padding: media.padding.copyWith(bottom: media.padding.bottom + clearance),
           viewPadding: media.viewPadding.copyWith(bottom: media.viewPadding.bottom + clearance),
         ),
-        child: NotificationListener<ScrollNotification>(onNotification: _onScroll, child: shell),
+        child: NotificationListener<NavigationNotification>(
+          onNotification: _onNavigation,
+          child: NotificationListener<ScrollNotification>(onNotification: _onScroll, child: shell),
+        ),
       ),
     );
 
@@ -453,7 +471,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
 
     return PopScope(
       // Only the second press on Today reaches Android (which closes the app).
-      canPop: shell.currentIndex == 0 && _exitArmed,
+      canPop: _backLeavesApp,
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _onBack();
       },

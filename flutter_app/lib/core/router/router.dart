@@ -192,14 +192,6 @@ String? toolsHubRedirect(BuildContext context, GoRouterState state) {
   return path == AppRoutes.tools || path == '${AppRoutes.tools}/' ? AppRoutes.colleges : null;
 }
 
-/// `/colleges/cutoff` until the Colleges area's Check a score sheet exists: Compass holds the
-/// same calculator, so the score and category carry over to it.
-String? collegesCutoffStandIn(BuildContext context, GoRouterState state) {
-  final q = state.uri.queryParameters;
-  final query = {'score': ?q['score'], 'category': ?q['category']};
-  return query.isEmpty ? AppRoutes.toolsCompass : Uri(path: AppRoutes.toolsCompass, queryParameters: query).toString();
-}
-
 List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
   GoRoute page(
     String path,
@@ -294,7 +286,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
         // Colleges (app-ia-1016.md 5.1): My colleges, Admission Compass and the CUET tools.
         StatefulShellBranch(routes: [
           tabRoot(AppRoutes.colleges, collegesScreen, routes: [
-            GoRoute(path: 'cutoff', redirect: collegesCutoffStandIn),
+            // Check a score (`?score=&category=`): a sheet over the tab (app-ia-1016.md 5.3).
+            sheet('cutoff', collegesCutoffScreen),
           ]),
         ]),
         // You: the student's study. Its own pages and the account pages (reached from the

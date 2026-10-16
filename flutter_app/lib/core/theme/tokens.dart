@@ -101,6 +101,10 @@ abstract final class MmBar {
   /// Padding inside the bar, every side.
   static const double pad = 6;
 
+  /// The bar's and the capsule's live blur (L33: stronger than the sheets' and the shared
+  /// dock sigma of 24, so what scrolls under the bar reads as frost, never as text).
+  static const double blurSigma = 32;
+
   /// The six slots, all the same width (Start included).
   static const int slots = 6;
 

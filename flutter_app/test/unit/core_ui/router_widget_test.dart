@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemChannels;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -386,6 +387,49 @@ void main() {
     await _settle(tester);
     expect(again, isTrue);
     expect(_location(container), '/today');
+  });
+
+  // Android 14's predictive back: when the framework says it will not handle back, Android closes
+  // the app without asking Flutter, so handlePopRoute alone (above) never saw the owner's bug.
+  _test('the engine is told Flutter handles back on every tab until the second press on Today (L04)', (tester) async {
+    final told = <bool>[];
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(SystemChannels.platform, (call) async {
+      if (call.method == 'SystemNavigator.setFrameworkHandlesBack') told.add(call.arguments as bool);
+      return null;
+    });
+    addTearDown(() => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(SystemChannels.platform, null));
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+
+    final container = await _pump(tester);
+    expect(told, isNotEmpty);
+    expect(told.last, isTrue, reason: 'on Today the first press only arms closing');
+
+    for (final tab in ['Practice', 'Review', 'Colleges', 'You']) {
+      await tester.tap(_tab(tab));
+      await _settle(tester);
+      expect(told.last, isTrue, reason: 'Back on $tab goes to Today; Android must not close the app');
+      final handled = await tester.binding.handlePopRoute();
+      await _settle(tester);
+      expect(handled, isTrue);
+      expect(_location(container), AppRoutes.today, reason: 'Back on $tab');
+      expect(told.last, isTrue);
+    }
+
+    await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(told.last, isFalse, reason: 'armed: the second press is Android closing the app');
+    await tester.pump(const Duration(seconds: 3));
+    await _settle(tester);
+    expect(told.last, isTrue, reason: 'past the window, back only arms again');
+  });
+
+  _test('the avatar opens the account sheet from all five tab roots (L16, D5)', (tester) async {
+    final container = await _pump(tester);
+    for (final root in AppRoutes.tabRoots) {
+      _router(container).go(root);
+      await _settle(tester);
+      expect(find.byType(AccountAvatarButton), findsOneWidget, reason: 'one avatar on $root');
+    }
   });
 
   _test('a sheet route opens over the shell and dismisses with back', (tester) async {

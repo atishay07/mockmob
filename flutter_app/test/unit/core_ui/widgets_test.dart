@@ -88,7 +88,8 @@ void main() {
 
       await tester.tap(find.text('You'));
       await tester.pump();
-      expect(taps, [2, 3]);
+      // Colleges is branch 3; You is branch 4 (app-ia-1016.md 8.1).
+      expect(taps, [2, 4]);
       expect(driver.selections, 2);
     });
 
@@ -106,7 +107,7 @@ void main() {
       expect(driver.selections, 0);
     });
 
-    testWidgets('Start reports its 60 by 40 key rect for the morph', (tester) async {
+    testWidgets('Start reports its pill, the lens rect of its slot, for the morph (app-ia 4.2)', (tester) async {
       final starts = <Rect>[];
       await pumpMockmob(
         tester,
@@ -116,8 +117,10 @@ void main() {
       await tester.tap(find.text('Start'));
       await tester.pump(const Duration(milliseconds: 400));
       expect(starts, hasLength(1));
-      expect(starts.single.width, closeTo(60, 1));
-      expect(starts.single.height, closeTo(40, 1));
+      // 384 dp: the bar is 352 wide, each slot (352 - 12) / 6, the pill a slot less 4 and 52 tall.
+      final geo = BarGeometry(384);
+      expect(starts.single.width, closeTo(geo.lensWidth, 0.5));
+      expect(starts.single.height, closeTo(MmBar.height - 2 * MmBar.pad, 0.5));
     });
 
     testWidgets('labels clamp the text scale at 1.2 and stay on one line', (tester) async {

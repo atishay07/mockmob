@@ -111,6 +111,11 @@ void main() {
       expect(MmBar.compactShift, 15);
     });
 
+    test('the glass blurs harder than the shared dock and the sheets (L33)', () {
+      expect(MmBar.blurSigma, 32);
+      expect(MmBar.blurSigma, greaterThan(MmElevation.sigmaDock));
+    });
+
     test('the nearest tab is never Start', () {
       final geo = BarGeometry(360);
       for (var x = 0.0; x < geo.width; x += 2) {
@@ -382,17 +387,19 @@ void main() {
           final slot = branchToSlot(kind.index);
           final slotLeft = bar.left + geo.slotLeft(slot);
           final slotRight = slotLeft + geo.slotWidth(slot);
-          expect(icon.size, const Size(24, 24), reason: '$kind never scales with text, $why');
-          expect(icon.left, greaterThanOrEqualTo(slotLeft), reason: '$kind, $why');
-          expect(icon.right, lessThanOrEqualTo(slotRight), reason: '$kind, $why');
+          // Slots are a third of a dp wide at some widths, so compare to a hundredth.
+          expect(icon.width, closeTo(24, 0.01), reason: '$kind never scales with text, $why');
+          expect(icon.height, closeTo(24, 0.01), reason: '$kind never scales with text, $why');
+          expect(icon.left, greaterThanOrEqualTo(slotLeft - 0.01), reason: '$kind, $why');
+          expect(icon.right, lessThanOrEqualTo(slotRight + 0.01), reason: '$kind, $why');
           expect(icon.top, greaterThanOrEqualTo(painted.top + 4), reason: '$kind inside the glass, $why');
           expect(icon.bottom, lessThanOrEqualTo(painted.bottom - 4), reason: '$kind inside the glass, $why');
           if (!compact) {
             final name = kBarTabs[kind.index].label;
             final label = tester.getRect(find.text(name));
-            expect(label.left, greaterThanOrEqualTo(slotLeft), reason: '$name, $why');
-            expect(label.right, lessThanOrEqualTo(slotRight), reason: '$name, $why');
-            expect(label.top, greaterThanOrEqualTo(icon.bottom), reason: '$name, $why');
+            expect(label.left, greaterThanOrEqualTo(slotLeft - 0.01), reason: '$name, $why');
+            expect(label.right, lessThanOrEqualTo(slotRight + 0.01), reason: '$name, $why');
+            expect(label.top, greaterThanOrEqualTo(icon.bottom - 0.01), reason: '$name, $why');
             expect(label.bottom, lessThanOrEqualTo(painted.bottom), reason: '$name, $why');
           }
         }
@@ -582,7 +589,7 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('semantic order runs Today, Practice, Start, Review, You', (tester) async {
+    testWidgets('semantic order runs Today, Practice, Start, Review, Colleges, You', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, _bar());
       final labels = <String>[];

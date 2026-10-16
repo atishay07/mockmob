@@ -13,9 +13,9 @@ import 'bar_icons.dart';
 /// word every tab label's, and its pill the lens's (L31). It is an action, not a place; it opens
 /// the Start sheet. No breathing: "something to resume" is the capsule's job, in words.
 ///
-/// Pressed, it sinks to 0.94 in 100 ms, its volt deepens 16% toward `voltEdge` and a soft volt
-/// glow gathers round it (anticipation); on release it overshoots a little before it settles
-/// (a negative [pressed]) and an ink ring spreads out of it (380 ms). Dragged up it stretches
+/// Pressed, it sinks to 0.94 in 100 ms and its volt deepens 16% toward `voltEdge`; on release it
+/// overshoots a little before it settles (a negative [pressed]) and an ink ring spreads out of it
+/// (380 ms). No glow and no halo: the pill is flat volt with a 1 dp rim, like a pressed key. Dragged up it stretches
 /// tall and narrow ([stretch], volume kept), anchored at its foot. Once per open session its
 /// word slides from Start to Resume and back in the same label box ([labelShift]); the pill never
 /// widens. Compact, the pill shrinks with the lens to 40 tall, the glyph moves down 15 dp and the
@@ -208,27 +208,9 @@ class _StartKeyPainter extends CustomPainter {
     final h = rect.height * scale * sy;
     rect = Rect.fromLTWH(foot.dx - w / 2, foot.dy - (rect.height - rect.height * scale) / 2 - h, w, h);
     final rrect = RRect.fromRectAndRadius(rect, Radius.circular(math.min(rect.height, rect.width) / 2));
-    final glow = pressed.clamp(0.0, 1.0);
+    final deepen = pressed.clamp(0.0, 1.0);
 
-    // The bar's one lit element: a 14% volt glow pooled 6 dp beneath the key (Night only).
-    if (night) {
-      canvas.drawRRect(
-        rrect.shift(const Offset(0, 6)),
-        Paint()
-          ..color = volt.withValues(alpha: 0.14)
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, Shadow.convertRadiusToSigma(14)),
-      );
-    }
-    if (glow > 0) {
-      // Anticipation: a soft halo gathers round the key while a finger is on it (both themes).
-      canvas.drawRRect(
-        rrect.inflate(3 + 4 * glow),
-        Paint()
-          ..color = volt.withValues(alpha: (night ? 0.30 : 0.38) * glow)
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, Shadow.convertRadiusToSigma(10)),
-      );
-    }
-    canvas.drawRRect(rrect, Paint()..color = Color.lerp(volt, voltEdge, 0.16 * glow)!);
+    canvas.drawRRect(rrect, Paint()..color = Color.lerp(volt, voltEdge, 0.16 * deepen)!);
     // A 1 dp rim a shade deeper, so the key reads as ink pressed into the bar.
     canvas.drawRRect(
       rrect.deflate(0.5),

@@ -259,13 +259,17 @@ void main() {
       final expanded = ValueNotifier(false);
       addTearDown(expanded.dispose);
       await tester.pumpWidget(_app(bar(expanded)));
-      final rest = _scaleOf(tester, find.text('Start'));
+      final rest = tester.getCenter(find.byIcon(kStartGlyph)).dy;
       final compact = ValueNotifier(true);
       addTearDown(compact.dispose);
       await tester.pumpWidget(const SizedBox());
       await tester.pumpWidget(_app(bar(compact)));
       expect(labelOpacity(tester), 0);
-      expect(_scaleOf(tester, find.text('Start')) / rest, closeTo(14 / 15, 0.002), reason: 'the word goes from 15 to 14 with the key');
+      // Start is laid out like a tab (L31): its word fades with the tab labels and its glyph moves
+      // down with the tab icons, from the first frame.
+      final startWord = tester.widget<FadeTransition>(find.ancestor(of: find.text('Start'), matching: find.byType(FadeTransition)).first);
+      expect(startWord.opacity.value, 0);
+      expect(tester.getCenter(find.byIcon(kStartGlyph)).dy - rest, closeTo(MmBar.compactShift, 0.01));
     });
 
     testWidgets('collapses over 240 ms and expands over 300 ms, labels first out', (tester) async {
