@@ -1,0 +1,666 @@
+{
+ "batch": "general_test__w3b4",
+ "subject": "general_test",
+ "questions": [
+  {
+   "id": "b7d2c05e-3a9f-4e18-a46d-8c1f0e5b2d97",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "A cubical water tank has each edge measuring 6 metres. How many litres of water does it hold when full? (1 cubic metre = 1,000 litres)",
+   "options": [
+    {
+     "key": "A",
+     "text": "21,600 litres"
+    },
+    {
+     "key": "B",
+     "text": "216,000 litres"
+    },
+    {
+     "key": "C",
+     "text": "2,160 litres"
+    },
+    {
+     "key": "D",
+     "text": "36,000 litres"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "The volume of a cube is edge x edge x edge = 6 x 6 x 6 = 216 cubic metres. Using 1 cubic metre = 1,000 litres, the capacity is 216 x 1,000 = 216,000 litres. Leaving out the conversion gives a unit error, not a valid answer.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Mensuration (volume)",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "0a5e8c3d-6f14-4b72-8d9a-e3b7c1f06a48",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "A boat takes 5 hours to travel 30 km upstream and 3 hours to return 30 km downstream to the starting point. What is the speed of the boat in still water?",
+   "options": [
+    {
+     "key": "A",
+     "text": "4 km/h"
+    },
+    {
+     "key": "B",
+     "text": "16 km/h"
+    },
+    {
+     "key": "C",
+     "text": "2 km/h"
+    },
+    {
+     "key": "D",
+     "text": "8 km/h"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Upstream speed = 30 / 5 = 6 km/h and downstream speed = 30 / 3 = 10 km/h. The speed in still water is the average of the two, (6 + 10) / 2 = 8 km/h. The stream speed is (10 - 6) / 2 = 2 km/h, which is a different quantity.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Time, speed and distance (boats and streams)",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "f1b96e27-c4a0-4d5e-9f38-2a7d6b0e1c59",
+   "subject": "general_test",
+   "unit": "Quantitative Reasoning",
+   "chapter": "Quantitative Reasoning",
+   "type": "single_mcq",
+   "stem": "A sum of money amounts to Rs 9,680 in 2 years at 10% per annum, compounded annually. What is the sum invested?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 8,800"
+    },
+    {
+     "key": "B",
+     "text": "Rs 7,920"
+    },
+    {
+     "key": "C",
+     "text": "Rs 9,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs 8,000"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Amount = P x (1 + 10/100)^2 = P x 1.21, so P = 9,680 / 1.21 = Rs 8,000. Dividing by 1.1 only once gives Rs 8,800, which accounts for just one year of interest.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT section, Quantitative Reasoning: Simple and compound interest",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "6d3c9a1f-7e28-4b06-a1d5-9f4c0e8b2a73",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "What is the HCF of 84 and 126?",
+   "options": [
+    {
+     "key": "A",
+     "text": "14"
+    },
+    {
+     "key": "B",
+     "text": "84"
+    },
+    {
+     "key": "C",
+     "text": "21"
+    },
+    {
+     "key": "D",
+     "text": "42"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "84 = 2^2 x 3 x 7 and 126 = 2 x 3^2 x 7. The HCF takes the lowest power of each common prime, giving 2 x 3 x 7 = 42. The LCM would use the highest powers instead.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT section, Numerical Ability: HCF and LCM",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "e2a7f4b9-0d35-4c6e-8b12-4d9f1a6c3e05",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "Three bells ring at intervals of 12 minutes, 18 minutes and 20 minutes. All three ring together at 9:00 am. At what time will they next ring together?",
+   "options": [
+    {
+     "key": "A",
+     "text": "12:30 pm"
+    },
+    {
+     "key": "B",
+     "text": "11:00 am"
+    },
+    {
+     "key": "C",
+     "text": "12:00 noon"
+    },
+    {
+     "key": "D",
+     "text": "12:20 pm"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The next joint ringing comes after the LCM of 12, 18 and 20. Since 12 = 2^2 x 3, 18 = 2 x 3^2 and 20 = 2^2 x 5, the LCM is 2^2 x 3^2 x 5 = 180 minutes, or 3 hours. Adding 3 hours to 9:00 am gives 12:00 noon.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Numerical Ability: HCF and LCM",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "93c1e08b-5f7a-4d2c-b6e4-7a0d3c9f1b26",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "Simplify: 2 1/3 ÷ 1 3/4 × 3/8",
+   "options": [
+    {
+     "key": "A",
+     "text": "1"
+    },
+    {
+     "key": "B",
+     "text": "1/2"
+    },
+    {
+     "key": "C",
+     "text": "1/4"
+    },
+    {
+     "key": "D",
+     "text": "2/3"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "Convert to improper fractions: 2 1/3 = 7/3 and 1 3/4 = 7/4. Then 7/3 ÷ 7/4 = 7/3 x 4/7 = 4/3, and 4/3 x 3/8 = 12/24 = 1/2. Dividing by a fraction is the same as multiplying by its reciprocal.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Fractions and decimals",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "58f0d4c2-a9e6-4b17-8c3f-1e5a7d2b9c40",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "What is the value of 0.6 x 0.05 + 0.3 ÷ 0.1?",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.33"
+    },
+    {
+     "key": "B",
+     "text": "3.3"
+    },
+    {
+     "key": "C",
+     "text": "3.03"
+    },
+    {
+     "key": "D",
+     "text": "0.303"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "0.6 x 0.05 = 0.03, because 6 x 5 = 30 and the two decimal places give 0.030. Also 0.3 ÷ 0.1 = 3, since 0.1 fits into 0.3 three times. The sum is 0.03 + 3 = 3.03.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Fractions and decimals",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "ad4b7e13-2c60-4f9a-9e85-6c1b3f0d8a72",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "What is the value of √1.44 + √0.0225?",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.05"
+    },
+    {
+     "key": "B",
+     "text": "1.5"
+    },
+    {
+     "key": "C",
+     "text": "1.35"
+    },
+    {
+     "key": "D",
+     "text": "1.2"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "√1.44 = 1.2 because 1.2 x 1.2 = 1.44. √0.0225 = 0.15 because 0.15 x 0.15 = 0.0225. The sum is 1.2 + 0.15 = 1.35.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Squares and square roots",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "2f6e9c85-b1d4-4a37-8f0e-d5a2c7b1e963",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "If x + 1/x = 5, what is the value of x² + 1/x²?",
+   "options": [
+    {
+     "key": "A",
+     "text": "25"
+    },
+    {
+     "key": "B",
+     "text": "21"
+    },
+    {
+     "key": "C",
+     "text": "27"
+    },
+    {
+     "key": "D",
+     "text": "23"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "Square both sides: (x + 1/x)² = x² + 2 + 1/x². So x² + 1/x² = 5² - 2 = 25 - 2 = 23. Forgetting the middle term 2 gives 25.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Squares and square roots (algebraic identities)",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "c8b13a7f-4e92-4d10-a6c5-0f8e2b9d7a14",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "Which of the following numbers is divisible by 9?",
+   "options": [
+    {
+     "key": "A",
+     "text": "4,614"
+    },
+    {
+     "key": "B",
+     "text": "4,619"
+    },
+    {
+     "key": "C",
+     "text": "4,617"
+    },
+    {
+     "key": "D",
+     "text": "4,620"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "A number is divisible by 9 if the sum of its digits is divisible by 9. For 4,617 the digit sum is 4 + 6 + 1 + 7 = 18, which is divisible by 9. The other options have digit sums 15, 20 and 12, so none of them pass the test.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Divisibility rules",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "741e0d6b-93f8-4c25-b7a1-e6d3f5c09b58",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "What fraction of 1 kilogram is 350 grams? Give the answer in its simplest form.",
+   "options": [
+    {
+     "key": "A",
+     "text": "7/10"
+    },
+    {
+     "key": "B",
+     "text": "3/20"
+    },
+    {
+     "key": "C",
+     "text": "1/3"
+    },
+    {
+     "key": "D",
+     "text": "7/20"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "1 kilogram = 1,000 grams, so the fraction is 350/1,000. Dividing the numerator and the denominator by 50 gives 7/20. Since 350/1,000 and 7/20 are equal, the simplest form is the one that matches the options.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Percentages and fractions",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "e0d5a92c-18b7-4f3e-9c64-3a8f1d7e2b05",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "A rectangular field is 250 m long and 200 m wide. What is its area in hectares? (1 hectare = 10,000 m²)",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.5 hectare"
+    },
+    {
+     "key": "B",
+     "text": "50 hectares"
+    },
+    {
+     "key": "C",
+     "text": "5 hectares"
+    },
+    {
+     "key": "D",
+     "text": "0.05 hectare"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Area = 250 x 200 = 50,000 m². Dividing by 10,000 m² per hectare gives 5 hectares. Treating 1 hectare as 1,000 m² gives 50 hectares, which is a unit slip.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Unit conversion",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "5a9c3f71-d2e6-4b8a-8f14-0b6e9d1c7a32",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following in ascending order of their values: (A) 0.375 (B) 3/7 (C) 5/12 (D) 0.4. Choose the correct sequence from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (D), (C), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (A), (C), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C), (D), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (C), (D), (A)"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "As decimals: 0.375, 3/7 ≈ 0.4286, 5/12 ≈ 0.4167 and 0.4. In ascending order the sequence is (A) 0.375, (D) 0.4, (C) 0.4167, (B) 0.4286. Writing each value to the same number of decimal places settles the comparison.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Fractions, decimals and ordering",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "b62f8e0d-7c4a-4e95-a3d1-9e5b2f6c0d81",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "single_mcq",
+   "stem": "Evaluate: (-2)³ x (-3)² - 4² ÷ (-8)",
+   "options": [
+    {
+     "key": "A",
+     "text": "-74"
+    },
+    {
+     "key": "B",
+     "text": "70"
+    },
+    {
+     "key": "C",
+     "text": "-66"
+    },
+    {
+     "key": "D",
+     "text": "-70"
+    }
+   ],
+   "correct_key": "D",
+   "explanation": "(-2)³ = -8 and (-3)² = 9, so the product is -72. Next, 4² ÷ (-8) = 16 ÷ (-8) = -2. Subtracting -2 gives -72 - (-2) = -70. Powers come first, then division, then subtraction.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Simplification (BODMAS and integers)",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "3d1e7c96-f0a8-4b24-9d5e-c4a8b0f23e67",
+   "subject": "general_test",
+   "unit": "Numerical Ability",
+   "chapter": "Numerical Ability",
+   "type": "statement_based",
+   "stem": "Consider the statements: (A) 2^10 = 1024. (B) √0.49 = 0.7. (C) The LCM of 6, 8 and 12 is 24. (D) 15% of 240 is 32. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A) and (D) only"
+    }
+   ],
+   "correct_key": "A",
+   "explanation": "2^10 = 1,024, so (A) is correct. 0.7 x 0.7 = 0.49, so (B) is correct. The LCM of 6, 8 and 12 is 24, so (C) is correct. 15% of 240 = 36, not 32, so (D) is false and the answer is (A), (B) and (C) only.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "hard",
+   "ncert_ref": "CUET GAT section, Numerical Ability: Squares, roots, percentages and LCM",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "cc704589-53b7-4f63-8da8-e2a3d2d05712",
+   "subject": "general_test",
+   "unit": "General Mental Ability",
+   "chapter": "General Mental Ability",
+   "type": "single_mcq",
+   "stem": "Find the letter that replaces the question mark in the series: A, C, F, J, O, ?",
+   "options": [
+    {
+     "key": "A",
+     "text": "S"
+    },
+    {
+     "key": "B",
+     "text": "T"
+    },
+    {
+     "key": "C",
+     "text": "U"
+    },
+    {
+     "key": "D",
+     "text": "V"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "The gaps between the letters' positions in the alphabet increase by one each time: A(1), C(3), F(6), J(10), O(15). The next gap is 6, so the next position is 15 + 6 = 21, which is U.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT syllabus, General Mental Ability: Number and letter series",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "c7a53dc5-7fcd-4abe-b119-dcf3a7faeecc",
+   "subject": "general_test",
+   "unit": "General Mental Ability",
+   "chapter": "General Mental Ability",
+   "type": "single_mcq",
+   "stem": "Four of the following numbers belong to one group. Which number does not belong?",
+   "options": [
+    {
+     "key": "A",
+     "text": "9"
+    },
+    {
+     "key": "B",
+     "text": "16"
+    },
+    {
+     "key": "C",
+     "text": "24"
+    },
+    {
+     "key": "D",
+     "text": "49"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "9, 16 and 49 are perfect squares (3², 4², 7²). 24 is not a perfect square, so it is the odd one out.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT syllabus, General Mental Ability: Odd one out (number properties)",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "12fbdaab-5d8a-4b16-978b-55747e7b0529",
+   "subject": "general_test",
+   "unit": "General Mental Ability",
+   "chapter": "General Mental Ability",
+   "type": "single_mcq",
+   "stem": "Compass : Direction :: Barometer : ?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Temperature"
+    },
+    {
+     "key": "B",
+     "text": "Pressure"
+    },
+    {
+     "key": "C",
+     "text": "Humidity"
+    },
+    {
+     "key": "D",
+     "text": "Rainfall"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "A compass is the instrument used to measure direction. A barometer is the instrument used to measure atmospheric pressure, so the analogy is Pressure.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "easy",
+   "ncert_ref": "CUET GAT syllabus, General Mental Ability: Analogies (instrument and quantity measured)",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "645bed97-917e-45b9-a975-d2fa08619ddd",
+   "subject": "general_test",
+   "unit": "General Mental Ability",
+   "chapter": "General Mental Ability",
+   "type": "single_mcq",
+   "stem": "In a certain code, '+' means '×', '×' means '÷', '÷' means '−' and '−' means '+'. Using this code, what is the value of 18 + 6 × 3 ÷ 2 − 1? Solve from left to right.",
+   "options": [
+    {
+     "key": "A",
+     "text": "33"
+    },
+    {
+     "key": "B",
+     "text": "34"
+    },
+    {
+     "key": "C",
+     "text": "35"
+    },
+    {
+     "key": "D",
+     "text": "36"
+    }
+   ],
+   "correct_key": "C",
+   "explanation": "Replace each symbol: 18 + 6 becomes 18 × 6 = 108. Then × 3 becomes ÷ 3, giving 36. Then ÷ 2 becomes − 2, giving 34. Finally − 1 becomes + 1, giving 35.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT syllabus, General Mental Ability: Mathematical operations (symbol substitution)",
+   "source": "claude-authored-2026-10-17-w3"
+  },
+  {
+   "id": "17afca30-b3fa-40a5-98be-b3189fbb00b4",
+   "subject": "general_test",
+   "unit": "General Mental Ability",
+   "chapter": "General Mental Ability",
+   "type": "single_mcq",
+   "stem": "If each letter of the word CHART is replaced by its position in the English alphabet (A = 1, B = 2 and so on) and the numbers are added, what is the total?",
+   "options": [
+    {
+     "key": "A",
+     "text": "48"
+    },
+    {
+     "key": "B",
+     "text": "50"
+    },
+    {
+     "key": "C",
+     "text": "52"
+    },
+    {
+     "key": "D",
+     "text": "55"
+    }
+   ],
+   "correct_key": "B",
+   "explanation": "C = 3, H = 8, A = 1, R = 18 and T = 20. Their sum is 3 + 8 + 1 + 18 + 20 = 50.",
+   "passage_text": null,
+   "set_id": null,
+   "difficulty_label": "medium",
+   "ncert_ref": "CUET GAT syllabus, General Mental Ability: Alphabet position and letter coding",
+   "source": "claude-authored-2026-10-17-w3"
+  }
+ ]
+}

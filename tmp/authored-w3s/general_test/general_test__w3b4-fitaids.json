@@ -1,0 +1,218 @@
+{
+ "batch": "general_test__w3b4",
+ "subject": "general_test",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "General Knowledge and Current Affairs",
+    "chapters": [
+     "General Knowledge",
+     "Current Affairs"
+    ]
+   },
+   {
+    "unit": "General Mental Ability",
+    "chapters": [
+     "General Mental Ability"
+    ]
+   },
+   {
+    "unit": "Numerical Ability",
+    "chapters": [
+     "Numerical Ability"
+    ]
+   },
+   {
+    "unit": "Quantitative Reasoning",
+    "chapters": [
+     "Quantitative Reasoning",
+     "Basic Mathematical Concepts",
+     "Statistical Data Analysis"
+    ]
+   },
+   {
+    "unit": "Logical and Analytical Reasoning",
+    "chapters": [
+     "Logical & Analytical Reasoning"
+    ]
+   },
+   {
+    "unit": "General Science and Environment Literacy",
+    "chapters": [
+     "General Science and Environment Literacy"
+    ]
+   }
+  ],
+  "excluded_chapters": []
+ },
+ "rows": {
+  "b7d2c05e-3a9f-4e18-a46d-8c1f0e5b2d97": {
+   "engine_unit_options": [
+    "Quantitative Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 34,
+   "read_seconds": 18
+  },
+  "0a5e8c3d-6f14-4b72-8d9a-e3b7c1f06a48": {
+   "engine_unit_options": [
+    "Quantitative Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 40,
+   "read_seconds": 20
+  },
+  "f1b96e27-c4a0-4d5e-9f38-2a7d6b0e1c59": {
+   "engine_unit_options": [
+    "Quantitative Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "6d3c9a1f-7e28-4b06-a1d5-9f4c0e8b2a73": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 12,
+   "read_seconds": 12
+  },
+  "e2a7f4b9-0d35-4c6e-8b12-4d9f1a6c3e05": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "93c1e08b-5f7a-4d2c-b6e4-7a0d3c9f1b26": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 12,
+   "read_seconds": 12
+  },
+  "58f0d4c2-a9e6-4b17-8c3f-1e5a7d2b9c40": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 16,
+   "read_seconds": 13
+  },
+  "ad4b7e13-2c60-4f9a-9e85-6c1b3f0d8a72": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 12,
+   "read_seconds": 12
+  },
+  "2f6e9c85-b1d4-4a37-8f0e-d5a2c7b1e963": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 18,
+   "read_seconds": 13
+  },
+  "c8b13a7f-4e92-4d10-a6c5-0f8e2b9d7a14": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 13,
+   "read_seconds": 12
+  },
+  "741e0d6b-93f8-4c25-b7a1-e6d3f5c09b58": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 19,
+   "read_seconds": 14
+  },
+  "e0d5a92c-18b7-4f3e-9c64-3a8f1d7e2b05": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "5a9c3f71-d2e6-4b8a-8f14-0b6e9d1c7a32": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 42,
+   "read_seconds": 21
+  },
+  "b62f8e0d-7c4a-4e95-a3d1-9e5b2f6c0d81": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 12,
+   "read_seconds": 12
+  },
+  "3d1e7c96-f0a8-4b24-9d5e-c4a8b0f23e67": {
+   "engine_unit_options": [
+    "Numerical Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 55,
+   "read_seconds": 25
+  },
+  "cc704589-53b7-4f63-8da8-e2a3d2d05712": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 21,
+   "read_seconds": 14
+  },
+  "c7a53dc5-7fcd-4abe-b119-dcf3a7faeecc": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 18,
+   "read_seconds": 13
+  },
+  "12fbdaab-5d8a-4b16-978b-55747e7b0529": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 11,
+   "read_seconds": 11
+  },
+  "645bed97-917e-45b9-a975-d2fa08619ddd": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 43,
+   "read_seconds": 21
+  },
+  "17afca30-b3fa-40a5-98be-b3189fbb00b4": {
+   "engine_unit_options": [
+    "General Mental Ability"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 38,
+   "read_seconds": 20
+  }
+ }
+}

@@ -1,0 +1,218 @@
+{
+ "batch": "general_test__w3b2",
+ "subject": "general_test",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "General Knowledge and Current Affairs",
+    "chapters": [
+     "General Knowledge",
+     "Current Affairs"
+    ]
+   },
+   {
+    "unit": "General Mental Ability",
+    "chapters": [
+     "General Mental Ability"
+    ]
+   },
+   {
+    "unit": "Numerical Ability",
+    "chapters": [
+     "Numerical Ability"
+    ]
+   },
+   {
+    "unit": "Quantitative Reasoning",
+    "chapters": [
+     "Quantitative Reasoning",
+     "Basic Mathematical Concepts",
+     "Statistical Data Analysis"
+    ]
+   },
+   {
+    "unit": "Logical and Analytical Reasoning",
+    "chapters": [
+     "Logical & Analytical Reasoning"
+    ]
+   },
+   {
+    "unit": "General Science and Environment Literacy",
+    "chapters": [
+     "General Science and Environment Literacy"
+    ]
+   }
+  ],
+  "excluded_chapters": []
+ },
+ "rows": {
+  "4650a47a-f12a-4916-975a-1e2bbd999de5": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 71,
+   "read_seconds": 30
+  },
+  "0468e07c-fb05-430c-850b-73aa1a93e4c9": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 67,
+   "read_seconds": 28
+  },
+  "c6f4c6ab-0a24-49a8-ba45-23a3104b8826": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 55,
+   "read_seconds": 25
+  },
+  "f6ac091e-cd92-418c-99f8-bf273c9fec50": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 33,
+   "read_seconds": 18
+  },
+  "5d4111c6-388a-4181-9870-48f2433614c7": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 22,
+   "read_seconds": 15
+  },
+  "fa2c18d3-01f9-4649-b00e-a9e8ff238ad0": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 14,
+   "read_seconds": 12
+  },
+  "06136942-8436-4390-a2b3-5b8fe1fe0e55": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 22,
+   "read_seconds": 15
+  },
+  "6f4b8986-14b3-429a-a6b3-5be84ad78968": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 20,
+   "read_seconds": 14
+  },
+  "ccfced58-510d-48ef-abb4-96e5bef0c79c": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 16,
+   "read_seconds": 13
+  },
+  "4c35a04e-9361-4752-b43a-1d8dcd390199": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 20,
+   "read_seconds": 14
+  },
+  "78eb3759-1464-4e8b-bc15-a4c44426e185": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 11,
+   "read_seconds": 11
+  },
+  "774478bb-024f-426b-9322-d3efb4995839": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 21,
+   "read_seconds": 14
+  },
+  "e4bffc63-34a2-454c-a824-04a67523ea3c": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 26,
+   "read_seconds": 16
+  },
+  "27a22460-7b41-4d9e-bfa1-d1423c8ddeb4": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "29d9c92f-3fce-40f7-b1ea-c4c56f07ab15": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 95,
+   "read_seconds": 37
+  },
+  "e6889e85-b985-4243-ad3a-4c642d6af9c3": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 21,
+   "read_seconds": 14
+  },
+  "03df7dbd-0b5a-44c3-bd70-35e0fe87db04": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 12,
+   "read_seconds": 12
+  },
+  "190d65d3-c340-4f52-9200-f993ae17254d": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 21,
+   "read_seconds": 14
+  },
+  "134b88cc-ad0d-4e64-a43d-e913e5c50b8b": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 16,
+   "read_seconds": 13
+  },
+  "527b4906-0de1-4107-96da-3b6fbd53111f": {
+   "engine_unit_options": [
+    "General Knowledge and Current Affairs"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 17,
+   "read_seconds": 13
+  }
+ }
+}

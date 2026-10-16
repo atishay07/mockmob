@@ -1,0 +1,456 @@
+{
+ "batch": "chemistry__w3b1-blind",
+ "subject": "chemistry",
+ "questions": [
+  {
+   "id": "b4b8360e-d316-4b1a-b9b1-183816cbecc8",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The IUPAC name of (CH3)2CH-CH(OH)-CH3 is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "3-Methylbutan-2-ol"
+    },
+    {
+     "key": "B",
+     "text": "2-Methylbutan-3-ol"
+    },
+    {
+     "key": "C",
+     "text": "2-Methylpentan-2-ol"
+    },
+    {
+     "key": "D",
+     "text": "3-Methylbutan-1-ol"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ef23884f-5078-44c2-9b85-99f1e94374d7",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which alcohol gives an immediate turbidity when shaken with Lucas reagent (concentrated HCl with anhydrous ZnCl2) at room temperature?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Butan-1-ol"
+    },
+    {
+     "key": "B",
+     "text": "Butan-2-ol"
+    },
+    {
+     "key": "C",
+     "text": "2-Methylpropan-1-ol"
+    },
+    {
+     "key": "D",
+     "text": "2-Methylpropan-2-ol"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d862ff6c-f6be-4dfd-8dc3-ff22bb40da51",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Propene is treated with diborane (B2H6) in tetrahydrofuran, and the intermediate is then oxidised with alkaline hydrogen peroxide. The major organic product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Propan-2-ol"
+    },
+    {
+     "key": "B",
+     "text": "Propane"
+    },
+    {
+     "key": "C",
+     "text": "Propan-1-ol"
+    },
+    {
+     "key": "D",
+     "text": "Propanal"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "97fb26ff-9b4f-4e06-9282-e26477186a35",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which of the following is the most acidic compound?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ethanol"
+    },
+    {
+     "key": "B",
+     "text": "Water"
+    },
+    {
+     "key": "C",
+     "text": "Phenol"
+    },
+    {
+     "key": "D",
+     "text": "Cyclohexanol"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b7040276-8080-4b60-b1d7-408c21275d48",
+   "subject": "chemistry",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) Reimer-Tiemann reaction (B) Kolbe's reaction (C) Williamson synthesis (D) Hydroboration-oxidation of propene. List-II: (I) Propan-1-ol (II) Salicylaldehyde (III) Salicylic acid (IV) Methoxyethane. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ca00177e-6d6f-442c-bf3c-c6cc46a80694",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "2-Methylbutan-2-ol is heated with excess concentrated sulphuric acid. Which alkene is the major product?",
+   "options": [
+    {
+     "key": "A",
+     "text": "2-Methylbut-1-ene"
+    },
+    {
+     "key": "B",
+     "text": "3-Methylbut-1-ene"
+    },
+    {
+     "key": "C",
+     "text": "2-Methylbutane"
+    },
+    {
+     "key": "D",
+     "text": "2-Methylbut-2-ene"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e4daafaf-3af8-4cad-a9d2-a1f41b1826ea",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Ethylmagnesium bromide reacts with methanal (formaldehyde), and the product is hydrolysed with dilute acid. The alcohol formed is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ethanol"
+    },
+    {
+     "key": "B",
+     "text": "Propan-2-ol"
+    },
+    {
+     "key": "C",
+     "text": "Butan-2-ol"
+    },
+    {
+     "key": "D",
+     "text": "Propan-1-ol"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "1d013847-e124-44e4-b400-a5a55ad558cb",
+   "subject": "chemistry",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following in order of increasing acidity: (A) p-Nitrophenol (B) Ethanol (C) Phenol (D) Water.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (C), (D), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (D), (C), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(D), (B), (C), (A)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (C), (D), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "89809a17-0fba-4ab6-8195-07e43d6a51f8",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the dehydration of ethanol with concentrated sulphuric acid. I. At about 443 K, ethene is the major product. II. At about 413 K, diethyl ether is the major product. III. At 443 K, diethyl ether is the major product. Which statements are correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "I and III only"
+    },
+    {
+     "key": "B",
+     "text": "II and III only"
+    },
+    {
+     "key": "C",
+     "text": "I, II and III"
+    },
+    {
+     "key": "D",
+     "text": "I and II only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ec1be2ad-e341-40cf-a70c-d057c972d3d5",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Phenol is treated with bromine water at room temperature without any catalyst. The major organic product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "4-Bromophenol"
+    },
+    {
+     "key": "B",
+     "text": "2-Bromophenol"
+    },
+    {
+     "key": "C",
+     "text": "2,4,6-Tribromophenol"
+    },
+    {
+     "key": "D",
+     "text": "Bromobenzene"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f526f37e-b6e4-4ffb-afeb-da6369a0a985",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "2-Methyl-2-methoxypropane, (CH3)3C-O-CH3, is treated with one equivalent of cold concentrated HI. Which pair of products is formed?",
+   "options": [
+    {
+     "key": "A",
+     "text": "(CH3)3C-OH and CH3I"
+    },
+    {
+     "key": "B",
+     "text": "(CH3)3C-OH and CH3OH"
+    },
+    {
+     "key": "C",
+     "text": "(CH3)3C-I and CH3I"
+    },
+    {
+     "key": "D",
+     "text": "(CH3)3C-I and CH3OH"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3e145f1e-c334-4a36-9480-c00b019ed495",
+   "subject": "chemistry",
+   "type": "statement_based",
+   "stem": "Consider the following statements about alcohols, phenols and ethers. I. Ethanol boils at a higher temperature than methoxymethane, although both have molecular mass 46. II. Phenol is a stronger acid than ethanol. III. Phenol liberates carbon dioxide from sodium bicarbonate solution. Which statements are correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "II and III only"
+    },
+    {
+     "key": "B",
+     "text": "I and III only"
+    },
+    {
+     "key": "C",
+     "text": "I and II only"
+    },
+    {
+     "key": "D",
+     "text": "I, II and III"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6a4e7b4f-47b5-425d-8887-7778fc06e6ee",
+   "subject": "chemistry",
+   "type": "assertion_reason",
+   "stem": "Assertion (A): 2-Methylpropan-2-ol is dehydrated more readily than ethanol under the same acidic conditions. Reason (R): The tertiary carbocation formed from 2-methylpropan-2-ol is stabilised by hyperconjugation and by the electron-releasing inductive effect of three alkyl groups.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both A and R are true, and R is the correct explanation of A"
+    },
+    {
+     "key": "B",
+     "text": "Both A and R are true, but R is not the correct explanation of A"
+    },
+    {
+     "key": "C",
+     "text": "A is true, but R is false"
+    },
+    {
+     "key": "D",
+     "text": "A is false, but R is true"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c53fecad-2f57-4258-be11-13c1ba1da7bb",
+   "subject": "chemistry",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) Propan-1-ol with pyridinium chlorochromate (PCC) (B) Propan-1-ol with acidified potassium dichromate (C) Propan-2-ol with acidified potassium dichromate (D) Ethanol heated with excess concentrated H2SO4 at about 443 K. List-II: (I) Propanone (II) Propanoic acid (III) Propanal (IV) Ethene. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "48c754fd-ca11-4ac5-befa-c26c2d651416",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "1-Methylcyclohexene is treated with diborane in tetrahydrofuran, and the intermediate is oxidised with alkaline hydrogen peroxide. Which is the major product?",
+   "options": [
+    {
+     "key": "A",
+     "text": "2-Methylcyclohexan-1-ol"
+    },
+    {
+     "key": "B",
+     "text": "1-Methylcyclohexan-1-ol"
+    },
+    {
+     "key": "C",
+     "text": "Cyclohexylmethanol"
+    },
+    {
+     "key": "D",
+     "text": "2-Methylcyclohexanone"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a4538d76-6c2a-4f95-82b7-eb792559e888",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Methyl tert-butyl ether, (CH3)3C-O-CH3, is to be made by the Williamson synthesis. Which pair of reagents gives the best yield?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Sodium methoxide and 2-chloro-2-methylpropane"
+    },
+    {
+     "key": "B",
+     "text": "Sodium methoxide and iodomethane"
+    },
+    {
+     "key": "C",
+     "text": "Sodium 2-methylpropan-2-olate and iodomethane"
+    },
+    {
+     "key": "D",
+     "text": "Sodium 2-methylpropan-2-olate and 2-chloro-2-methylpropane"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "705cf90e-079e-4dc2-99b2-3b305b1a4151",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "2-Methylpropene is treated with water in the presence of a dilute acid catalyst. Which alcohol is the major product?",
+   "options": [
+    {
+     "key": "A",
+     "text": "2-Methylpropan-1-ol"
+    },
+    {
+     "key": "B",
+     "text": "Butan-2-ol"
+    },
+    {
+     "key": "C",
+     "text": "Propan-2-ol"
+    },
+    {
+     "key": "D",
+     "text": "2-Methylpropan-2-ol"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a81ff47e-8241-4c92-9afe-2ac6106b901f",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which of the following compounds is optically active?",
+   "options": [
+    {
+     "key": "A",
+     "text": "2-Chlorobutane"
+    },
+    {
+     "key": "B",
+     "text": "2-Chloropropane"
+    },
+    {
+     "key": "C",
+     "text": "2-Chloro-2-methylpropane"
+    },
+    {
+     "key": "D",
+     "text": "1-Chlorobutane"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

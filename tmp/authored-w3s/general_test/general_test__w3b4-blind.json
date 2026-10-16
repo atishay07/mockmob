@@ -1,0 +1,506 @@
+{
+ "batch": "general_test__w3b4-blind",
+ "subject": "general_test",
+ "questions": [
+  {
+   "id": "b7d2c05e-3a9f-4e18-a46d-8c1f0e5b2d97",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "A cubical water tank has each edge measuring 6 metres. How many litres of water does it hold when full? (1 cubic metre = 1,000 litres)",
+   "options": [
+    {
+     "key": "A",
+     "text": "21,600 litres"
+    },
+    {
+     "key": "B",
+     "text": "216,000 litres"
+    },
+    {
+     "key": "C",
+     "text": "2,160 litres"
+    },
+    {
+     "key": "D",
+     "text": "36,000 litres"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0a5e8c3d-6f14-4b72-8d9a-e3b7c1f06a48",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "A boat takes 5 hours to travel 30 km upstream and 3 hours to return 30 km downstream to the starting point. What is the speed of the boat in still water?",
+   "options": [
+    {
+     "key": "A",
+     "text": "4 km/h"
+    },
+    {
+     "key": "B",
+     "text": "16 km/h"
+    },
+    {
+     "key": "C",
+     "text": "2 km/h"
+    },
+    {
+     "key": "D",
+     "text": "8 km/h"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f1b96e27-c4a0-4d5e-9f38-2a7d6b0e1c59",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "A sum of money amounts to Rs 9,680 in 2 years at 10% per annum, compounded annually. What is the sum invested?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 8,800"
+    },
+    {
+     "key": "B",
+     "text": "Rs 7,920"
+    },
+    {
+     "key": "C",
+     "text": "Rs 9,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs 8,000"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6d3c9a1f-7e28-4b06-a1d5-9f4c0e8b2a73",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "What is the HCF of 84 and 126?",
+   "options": [
+    {
+     "key": "A",
+     "text": "14"
+    },
+    {
+     "key": "B",
+     "text": "84"
+    },
+    {
+     "key": "C",
+     "text": "21"
+    },
+    {
+     "key": "D",
+     "text": "42"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e2a7f4b9-0d35-4c6e-8b12-4d9f1a6c3e05",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Three bells ring at intervals of 12 minutes, 18 minutes and 20 minutes. All three ring together at 9:00 am. At what time will they next ring together?",
+   "options": [
+    {
+     "key": "A",
+     "text": "12:30 pm"
+    },
+    {
+     "key": "B",
+     "text": "11:00 am"
+    },
+    {
+     "key": "C",
+     "text": "12:00 noon"
+    },
+    {
+     "key": "D",
+     "text": "12:20 pm"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "93c1e08b-5f7a-4d2c-b6e4-7a0d3c9f1b26",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Simplify: 2 1/3 ÷ 1 3/4 × 3/8",
+   "options": [
+    {
+     "key": "A",
+     "text": "1"
+    },
+    {
+     "key": "B",
+     "text": "1/2"
+    },
+    {
+     "key": "C",
+     "text": "1/4"
+    },
+    {
+     "key": "D",
+     "text": "2/3"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "58f0d4c2-a9e6-4b17-8c3f-1e5a7d2b9c40",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "What is the value of 0.6 x 0.05 + 0.3 ÷ 0.1?",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.33"
+    },
+    {
+     "key": "B",
+     "text": "3.3"
+    },
+    {
+     "key": "C",
+     "text": "3.03"
+    },
+    {
+     "key": "D",
+     "text": "0.303"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ad4b7e13-2c60-4f9a-9e85-6c1b3f0d8a72",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "What is the value of √1.44 + √0.0225?",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.05"
+    },
+    {
+     "key": "B",
+     "text": "1.5"
+    },
+    {
+     "key": "C",
+     "text": "1.35"
+    },
+    {
+     "key": "D",
+     "text": "1.2"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2f6e9c85-b1d4-4a37-8f0e-d5a2c7b1e963",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "If x + 1/x = 5, what is the value of x² + 1/x²?",
+   "options": [
+    {
+     "key": "A",
+     "text": "25"
+    },
+    {
+     "key": "B",
+     "text": "21"
+    },
+    {
+     "key": "C",
+     "text": "27"
+    },
+    {
+     "key": "D",
+     "text": "23"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c8b13a7f-4e92-4d10-a6c5-0f8e2b9d7a14",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which of the following numbers is divisible by 9?",
+   "options": [
+    {
+     "key": "A",
+     "text": "4,614"
+    },
+    {
+     "key": "B",
+     "text": "4,619"
+    },
+    {
+     "key": "C",
+     "text": "4,617"
+    },
+    {
+     "key": "D",
+     "text": "4,620"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "741e0d6b-93f8-4c25-b7a1-e6d3f5c09b58",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "What fraction of 1 kilogram is 350 grams? Give the answer in its simplest form.",
+   "options": [
+    {
+     "key": "A",
+     "text": "7/10"
+    },
+    {
+     "key": "B",
+     "text": "3/20"
+    },
+    {
+     "key": "C",
+     "text": "1/3"
+    },
+    {
+     "key": "D",
+     "text": "7/20"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e0d5a92c-18b7-4f3e-9c64-3a8f1d7e2b05",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "A rectangular field is 250 m long and 200 m wide. What is its area in hectares? (1 hectare = 10,000 m²)",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.5 hectare"
+    },
+    {
+     "key": "B",
+     "text": "50 hectares"
+    },
+    {
+     "key": "C",
+     "text": "5 hectares"
+    },
+    {
+     "key": "D",
+     "text": "0.05 hectare"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "5a9c3f71-d2e6-4b8a-8f14-0b6e9d1c7a32",
+   "subject": "general_test",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following in ascending order of their values: (A) 0.375 (B) 3/7 (C) 5/12 (D) 0.4. Choose the correct sequence from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (D), (C), (B)"
+    },
+    {
+     "key": "B",
+     "text": "(D), (A), (C), (B)"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C), (D), (B)"
+    },
+    {
+     "key": "D",
+     "text": "(B), (C), (D), (A)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b62f8e0d-7c4a-4e95-a3d1-9e5b2f6c0d81",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Evaluate: (-2)³ x (-3)² - 4² ÷ (-8)",
+   "options": [
+    {
+     "key": "A",
+     "text": "-74"
+    },
+    {
+     "key": "B",
+     "text": "70"
+    },
+    {
+     "key": "C",
+     "text": "-66"
+    },
+    {
+     "key": "D",
+     "text": "-70"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3d1e7c96-f0a8-4b24-9d5e-c4a8b0f23e67",
+   "subject": "general_test",
+   "type": "statement_based",
+   "stem": "Consider the statements: (A) 2^10 = 1024. (B) √0.49 = 0.7. (C) The LCM of 6, 8 and 12 is 24. (D) 15% of 240 is 32. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A), (B) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (C) and (D) only"
+    },
+    {
+     "key": "C",
+     "text": "(B), (C) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A) and (D) only"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "cc704589-53b7-4f63-8da8-e2a3d2d05712",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Find the letter that replaces the question mark in the series: A, C, F, J, O, ?",
+   "options": [
+    {
+     "key": "A",
+     "text": "S"
+    },
+    {
+     "key": "B",
+     "text": "T"
+    },
+    {
+     "key": "C",
+     "text": "U"
+    },
+    {
+     "key": "D",
+     "text": "V"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c7a53dc5-7fcd-4abe-b119-dcf3a7faeecc",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Four of the following numbers belong to one group. Which number does not belong?",
+   "options": [
+    {
+     "key": "A",
+     "text": "9"
+    },
+    {
+     "key": "B",
+     "text": "16"
+    },
+    {
+     "key": "C",
+     "text": "24"
+    },
+    {
+     "key": "D",
+     "text": "49"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "12fbdaab-5d8a-4b16-978b-55747e7b0529",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Compass : Direction :: Barometer : ?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Temperature"
+    },
+    {
+     "key": "B",
+     "text": "Pressure"
+    },
+    {
+     "key": "C",
+     "text": "Humidity"
+    },
+    {
+     "key": "D",
+     "text": "Rainfall"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "645bed97-917e-45b9-a975-d2fa08619ddd",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "In a certain code, '+' means '×', '×' means '÷', '÷' means '−' and '−' means '+'. Using this code, what is the value of 18 + 6 × 3 ÷ 2 − 1? Solve from left to right.",
+   "options": [
+    {
+     "key": "A",
+     "text": "33"
+    },
+    {
+     "key": "B",
+     "text": "34"
+    },
+    {
+     "key": "C",
+     "text": "35"
+    },
+    {
+     "key": "D",
+     "text": "36"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "17afca30-b3fa-40a5-98be-b3189fbb00b4",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "If each letter of the word CHART is replaced by its position in the English alphabet (A = 1, B = 2 and so on) and the numbers are added, what is the total?",
+   "options": [
+    {
+     "key": "A",
+     "text": "48"
+    },
+    {
+     "key": "B",
+     "text": "50"
+    },
+    {
+     "key": "C",
+     "text": "52"
+    },
+    {
+     "key": "D",
+     "text": "55"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

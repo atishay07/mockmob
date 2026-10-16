@@ -1,0 +1,456 @@
+{
+ "batch": "physics__w3b3-blind",
+ "subject": "physics",
+ "questions": [
+  {
+   "id": "14640fcc-4496-4528-84bb-930a5d17bbae",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A metal has work function 2.0 eV. Using h = 4.14 x 10^-15 eV s, the threshold frequency of the metal is approximately:",
+   "options": [
+    {
+     "key": "A",
+     "text": "4.83 x 10^14 Hz"
+    },
+    {
+     "key": "B",
+     "text": "2.07 x 10^14 Hz"
+    },
+    {
+     "key": "C",
+     "text": "8.28 x 10^14 Hz"
+    },
+    {
+     "key": "D",
+     "text": "3.0 x 10^8 Hz"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b99f8b77-0523-4011-8194-f9f00c0c1ecb",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In a graph of stopping potential V0 against frequency f of the incident light in the photoelectric effect, the slope of the straight line is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "h/e"
+    },
+    {
+     "key": "B",
+     "text": "e/h"
+    },
+    {
+     "key": "C",
+     "text": "h/(2e)"
+    },
+    {
+     "key": "D",
+     "text": "phi/e"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3238f380-53b1-4775-b76b-5576a417e983",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Light of photon energy 4.0 eV falls on a metal surface, and the stopping potential for the emitted electrons is 1.5 V. The work function of the metal is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2.5 eV"
+    },
+    {
+     "key": "B",
+     "text": "5.5 eV"
+    },
+    {
+     "key": "C",
+     "text": "1.5 eV"
+    },
+    {
+     "key": "D",
+     "text": "4.0 eV"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ff1c150d-b69e-4daf-8ea1-753dcc7ca034",
+   "subject": "physics",
+   "type": "statement_based",
+   "stem": "Light of frequency above the threshold falls on a photosensitive metal. Statement I: Increasing the intensity of the light increases the saturation photocurrent. Statement II: Increasing the intensity of the light increases the maximum kinetic energy of the emitted photoelectrons.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both I and II are true, and II is the correct explanation of I"
+    },
+    {
+     "key": "B",
+     "text": "Both I and II are true, but II is not the correct explanation of I"
+    },
+    {
+     "key": "C",
+     "text": "I is true, but II is false"
+    },
+    {
+     "key": "D",
+     "text": "I is false, but II is true"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2c39441e-d740-4186-869a-98f8013dca61",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "A proton and an alpha particle are accelerated from rest through the same potential difference. The ratio of the de Broglie wavelength of the proton to that of the alpha particle is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2 root 2"
+    },
+    {
+     "key": "B",
+     "text": "1/(2 root 2)"
+    },
+    {
+     "key": "C",
+     "text": "2"
+    },
+    {
+     "key": "D",
+     "text": "1/2"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3840357a-d19c-49f6-aa10-173701a99c42",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "An electron and a proton have the same kinetic energy. The ratio of the de Broglie wavelength of the electron to that of the proton is closest to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "42.9"
+    },
+    {
+     "key": "B",
+     "text": "1/42.9"
+    },
+    {
+     "key": "C",
+     "text": "1836"
+    },
+    {
+     "key": "D",
+     "text": "1"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3613d550-a4c8-426a-b3ab-2737252b2959",
+   "subject": "physics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) Threshold frequency (B) Stopping potential (C) Work function (D) Slope of the V0 versus f graph. List-II: (I) phi = h f0 (II) h/e (III) V0 = (hf - phi)/e (IV) f0 = phi/h. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2dd3f1b3-dd5a-4465-83a7-b8da3eb6449f",
+   "subject": "physics",
+   "type": "assertion_reason",
+   "stem": "Assertion (A): No photoelectrons are emitted below the threshold frequency, however intense the light is. Reason (R): Each photon carries energy hf, and emission depends on the energy of a single photon, not on the number of photons.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both A and R are true, and R is the correct explanation of A"
+    },
+    {
+     "key": "B",
+     "text": "Both A and R are true, but R is not the correct explanation of A"
+    },
+    {
+     "key": "C",
+     "text": "A is true, but R is false"
+    },
+    {
+     "key": "D",
+     "text": "A is false, but R is true"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f2018a0d-8361-4072-b88f-fa2b356c2a4b",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In Rutherford's alpha-particle scattering experiment, most alpha particles pass through a thin gold foil with little or no deflection. This shows that:",
+   "options": [
+    {
+     "key": "A",
+     "text": "The atom is mostly empty space, with its positive charge concentrated in a tiny nucleus"
+    },
+    {
+     "key": "B",
+     "text": "Alpha particles are electrically neutral"
+    },
+    {
+     "key": "C",
+     "text": "The gold foil is an insulator"
+    },
+    {
+     "key": "D",
+     "text": "Electrons are heavier than alpha particles"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c1e4cf45-80e1-46e1-93d0-c86e37752d8b",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In the Bohr model of the hydrogen atom, the ratio of the total energy E2 of the electron in the n = 2 orbit to its total energy E1 in the n = 1 orbit is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1/4"
+    },
+    {
+     "key": "B",
+     "text": "4"
+    },
+    {
+     "key": "C",
+     "text": "1/2"
+    },
+    {
+     "key": "D",
+     "text": "2"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3d3a5b97-0249-4275-9f58-5fd7ab90a3d3",
+   "subject": "physics",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) Lyman series (B) Balmer series (C) Paschen series (D) Brackett series. List-II: (I) Lower level n = 4 (II) Lower level n = 3 (III) Lower level n = 1 (IV) Lower level n = 2. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0ac2e9bd-113f-4e47-bbb4-becf5cfbd80d",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Using the Rydberg constant R = 1.1 x 10^7 m^-1, the wavelength of the photon emitted when a hydrogen electron falls from n = 3 to n = 2 is approximately:",
+   "options": [
+    {
+     "key": "A",
+     "text": "655 nm"
+    },
+    {
+     "key": "B",
+     "text": "486 nm"
+    },
+    {
+     "key": "C",
+     "text": "122 nm"
+    },
+    {
+     "key": "D",
+     "text": "365 nm"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "447cb804-4233-4e18-bd61-d45642719b58",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "What energy is required to remove the electron completely from the ground state of a singly ionised helium ion (He+, Z = 2)? Use the hydrogen-like formula E_n = -13.6 Z^2 / n^2 eV.",
+   "options": [
+    {
+     "key": "A",
+     "text": "13.6 eV"
+    },
+    {
+     "key": "B",
+     "text": "27.2 eV"
+    },
+    {
+     "key": "C",
+     "text": "54.4 eV"
+    },
+    {
+     "key": "D",
+     "text": "3.4 eV"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c37ac200-ac31-42a5-b383-c0a8150a1771",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In Young's double-slit experiment, λ = 600 nm, the screen distance D = 1.0 m and the slit separation d = 0.5 mm. What is the fringe width?",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.6 mm"
+    },
+    {
+     "key": "B",
+     "text": "1.2 mm"
+    },
+    {
+     "key": "C",
+     "text": "2.4 mm"
+    },
+    {
+     "key": "D",
+     "text": "1.8 mm"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "According to Huygens' principle, how is the new position of a wavefront obtained from its previous position?",
+   "options": [
+    {
+     "key": "A",
+     "text": "By joining the source to the point of observation with a straight line"
+    },
+    {
+     "key": "B",
+     "text": "As the envelope of secondary wavelets drawn from every point of the previous wavefront"
+    },
+    {
+     "key": "C",
+     "text": "As the surface on which all rays meet at a single focus"
+    },
+    {
+     "key": "D",
+     "text": "As the locus of points where the path difference between two slits is zero"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "dc2ce9a0-e395-4cd7-8eb0-65f3f42725fe",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Sound from a room is heard clearly around a corner, but light from a lamp casts a sharp shadow behind the same corner. The best explanation is that:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Light is a transverse wave while sound is longitudinal, so light cannot bend around corners"
+    },
+    {
+     "key": "B",
+     "text": "Sound travels much faster than light in air"
+    },
+    {
+     "key": "C",
+     "text": "Sound wavelengths are comparable to the size of doorways and walls, whereas light wavelengths are far smaller"
+    },
+    {
+     "key": "D",
+     "text": "Light has a much higher frequency than sound, so it is absorbed at the corner"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0e2ae512-b283-4e41-80ef-31ef6ac18fd1",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "Two coherent light sources produce an interference pattern. Their individual intensities are in the ratio 4 : 1. What is the ratio of the maximum to the minimum intensity in the pattern?",
+   "options": [
+    {
+     "key": "A",
+     "text": "3 : 1"
+    },
+    {
+     "key": "B",
+     "text": "9 : 1"
+    },
+    {
+     "key": "C",
+     "text": "4 : 1"
+    },
+    {
+     "key": "D",
+     "text": "5 : 1"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ac790a10-fd25-4723-8101-0ef4ac18fde3",
+   "subject": "physics",
+   "type": "single_mcq",
+   "stem": "In a single-slit diffraction experiment, the slit width is 0.3 mm, the wavelength is 600 nm and the screen is 1.5 m away. What is the distance of the first dark fringe from the centre of the central maximum?",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.5 mm"
+    },
+    {
+     "key": "B",
+     "text": "6 mm"
+    },
+    {
+     "key": "C",
+     "text": "0.3 mm"
+    },
+    {
+     "key": "D",
+     "text": "3 mm"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

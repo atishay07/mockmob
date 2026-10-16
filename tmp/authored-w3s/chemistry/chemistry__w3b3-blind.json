@@ -1,0 +1,456 @@
+{
+ "batch": "chemistry__w3b3-blind",
+ "subject": "chemistry",
+ "questions": [
+  {
+   "id": "c7164d89-271f-4f8d-8340-124aa636b7a2",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which pair correctly gives the sugar and a nitrogenous base found in RNA?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ribose and uracil"
+    },
+    {
+     "key": "B",
+     "text": "Deoxyribose and thymine"
+    },
+    {
+     "key": "C",
+     "text": "Ribose and thymine"
+    },
+    {
+     "key": "D",
+     "text": "Deoxyribose and uracil"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4ea4ceb5-ceb7-42eb-98f1-e189af38ba84",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "A DNA double helix has one strand written 5'-ATGC-3'. What is the sequence of the complementary strand, written 5' to 3'?",
+   "options": [
+    {
+     "key": "A",
+     "text": "5'-TACG-3'"
+    },
+    {
+     "key": "B",
+     "text": "5'-GCAT-3'"
+    },
+    {
+     "key": "C",
+     "text": "5'-CGTA-3'"
+    },
+    {
+     "key": "D",
+     "text": "5'-ATGC-3'"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "839dd482-8e96-4b1e-8db6-c26e551ba4bb",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which reagents are used in the Hell-Volhard-Zelinsky reaction to convert a carboxylic acid into an alpha-bromo acid?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Br2 with FeBr3 catalyst"
+    },
+    {
+     "key": "B",
+     "text": "Br2 with aqueous NaOH"
+    },
+    {
+     "key": "C",
+     "text": "Br2 with a little red phosphorus"
+    },
+    {
+     "key": "D",
+     "text": "NaBr with concentrated H2SO4"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "82d50c33-6e77-4fdc-9955-8d6d3d80977a",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Ethanal is treated with dilute aqueous NaOH at room temperature. Which product is formed?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ethanol and sodium acetate"
+    },
+    {
+     "key": "B",
+     "text": "Butan-2-one"
+    },
+    {
+     "key": "C",
+     "text": "Propan-2-ol"
+    },
+    {
+     "key": "D",
+     "text": "3-Hydroxybutanal"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "2b8ad4d9-5b84-4089-ba12-bb46cb8fe0d9",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which reagents are used for the Wolff-Kishner reduction of a carbonyl compound to a methylene group?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Hydrazine followed by heating with KOH in ethylene glycol"
+    },
+    {
+     "key": "B",
+     "text": "Zn-Hg with concentrated HCl"
+    },
+    {
+     "key": "C",
+     "text": "LiAlH4 in dry ether"
+    },
+    {
+     "key": "D",
+     "text": "H2 with Pd/BaSO4"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9bc6d44a-b09b-4b8c-8e22-919b7fe6928b",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which carbonyl compound is most reactive towards nucleophilic addition, for example with HCN?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Acetaldehyde"
+    },
+    {
+     "key": "B",
+     "text": "Formaldehyde"
+    },
+    {
+     "key": "C",
+     "text": "Acetone"
+    },
+    {
+     "key": "D",
+     "text": "Benzophenone"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "617d4704-0bf0-41bb-b895-e2a6504032ab",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Ethanal is warmed with excess iodine in aqueous NaOH. Which yellow precipitate is formed?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Chloroform (CHCl3)"
+    },
+    {
+     "key": "B",
+     "text": "Diiodomethane (CH2I2)"
+    },
+    {
+     "key": "C",
+     "text": "Iodoform (CHI3)"
+    },
+    {
+     "key": "D",
+     "text": "Carbon tetrachloride (CCl4)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "d90fb3b0-ebc2-4edf-a790-e8d6df73df18",
+   "subject": "chemistry",
+   "type": "assertion_reason",
+   "stem": "Assertion: Chlorobenzene is far less reactive than ethyl chloride towards nucleophilic substitution. Reason: In chlorobenzene the C-Cl bond has partial double-bond character due to resonance, making it shorter and stronger. Choose the correct option.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both Assertion and Reason are true but Reason does not explain Assertion"
+    },
+    {
+     "key": "B",
+     "text": "Assertion is true but Reason is false"
+    },
+    {
+     "key": "C",
+     "text": "Assertion is false but Reason is true"
+    },
+    {
+     "key": "D",
+     "text": "Both Assertion and Reason are true and Reason correctly explains Assertion"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "cf7799f2-09c0-4d5e-9f13-b4cd060ef821",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which order of reactivity of alkyl halides in an SN2 reaction is correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "RI > RBr > RCl > RF"
+    },
+    {
+     "key": "B",
+     "text": "RF > RCl > RBr > RI"
+    },
+    {
+     "key": "C",
+     "text": "RCl > RBr > RI > RF"
+    },
+    {
+     "key": "D",
+     "text": "RBr > RI > RCl > RF"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "53f31015-3913-4213-a0b1-fad4126639d6",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Methylmagnesium iodide, prepared from CH3I and magnesium in dry ether, is treated with ethanal. The product after dilute acid hydrolysis is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ethanol"
+    },
+    {
+     "key": "B",
+     "text": "Propan-2-ol"
+    },
+    {
+     "key": "C",
+     "text": "Propan-1-ol"
+    },
+    {
+     "key": "D",
+     "text": "Butan-2-ol"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "59a100d2-d92b-48ae-8b1c-773b76b35021",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Benzenediazonium chloride is warmed with cuprous chloride dissolved in hydrochloric acid. The major organic product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Benzene"
+    },
+    {
+     "key": "B",
+     "text": "Phenol"
+    },
+    {
+     "key": "C",
+     "text": "Chlorobenzene"
+    },
+    {
+     "key": "D",
+     "text": "Benzonitrile"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "b0613d9b-0bdd-4048-b9ed-d22916eadcf8",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Benzenediazonium chloride is added to phenol in cold alkaline solution (pH about 9 to 10). The main product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Aniline"
+    },
+    {
+     "key": "B",
+     "text": "Benzoic acid"
+    },
+    {
+     "key": "C",
+     "text": "Nitrobenzene"
+    },
+    {
+     "key": "D",
+     "text": "p-Hydroxyazobenzene"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6c9e8e40-c2e3-4240-946d-3e669d70a831",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which amine gives a yellow, oily N-nitrosoamine when treated with sodium nitrite and hydrochloric acid at low temperature?",
+   "options": [
+    {
+     "key": "A",
+     "text": "(CH3)2NH"
+    },
+    {
+     "key": "B",
+     "text": "CH3NH2"
+    },
+    {
+     "key": "C",
+     "text": "(CH3)3N"
+    },
+    {
+     "key": "D",
+     "text": "C6H5NH2"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "846628da-e0bf-4947-b26c-5566653aee0a",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The ground-state electronic configuration of chromium (atomic number 24) is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "[Ar] 3d⁴ 4s²"
+    },
+    {
+     "key": "B",
+     "text": "[Ar] 3d⁵ 4s¹"
+    },
+    {
+     "key": "C",
+     "text": "[Ar] 3d⁶"
+    },
+    {
+     "key": "D",
+     "text": "[Ar] 3d³ 4s³"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "a405bec0-826f-44c5-9f84-2e908a39344b",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The spin-only magnetic moment of the Ti³⁺ ion (atomic number 22), in Bohr magnetons, is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "1.73"
+    },
+    {
+     "key": "B",
+     "text": "0 (diamagnetic)"
+    },
+    {
+     "key": "C",
+     "text": "2.83"
+    },
+    {
+     "key": "D",
+     "text": "3.87"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "89b11133-4e7e-4f99-8cb2-d2d84288ccc6",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "The spin-only magnetic moment of the free Fe²⁺ ion (atomic number 26), in Bohr magnetons, is closest to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "2.83"
+    },
+    {
+     "key": "B",
+     "text": "3.87"
+    },
+    {
+     "key": "C",
+     "text": "5.92"
+    },
+    {
+     "key": "D",
+     "text": "4.90"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c59ca92c-e396-4036-822d-1ef3fecdeda2",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "Which of the following aqueous ions is colourless?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ti³⁺"
+    },
+    {
+     "key": "B",
+     "text": "V³⁺"
+    },
+    {
+     "key": "C",
+     "text": "Sc³⁺"
+    },
+    {
+     "key": "D",
+     "text": "Fe²⁺"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "50a574d4-8098-483b-bac5-a7d1b5bd6741",
+   "subject": "chemistry",
+   "type": "single_mcq",
+   "stem": "When potassium permanganate is reduced in a neutral aqueous solution, the manganese product is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Mn²⁺"
+    },
+    {
+     "key": "B",
+     "text": "MnO₂"
+    },
+    {
+     "key": "C",
+     "text": "MnO₄²⁻"
+    },
+    {
+     "key": "D",
+     "text": "Mn³⁺"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

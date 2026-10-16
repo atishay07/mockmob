@@ -1,0 +1,238 @@
+{
+ "batch": "chemistry__w3b2",
+ "subject": "chemistry",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Solutions",
+    "chapters": [
+     "Solutions"
+    ]
+   },
+   {
+    "unit": "Electrochemistry",
+    "chapters": [
+     "Electrochemistry"
+    ]
+   },
+   {
+    "unit": "Chemical Kinetics",
+    "chapters": [
+     "Chemical Kinetics"
+    ]
+   },
+   {
+    "unit": "d and f Block Elements",
+    "chapters": [
+     "d- and f-Block Elements"
+    ]
+   },
+   {
+    "unit": "Coordination Compounds",
+    "chapters": [
+     "Coordination Compounds"
+    ]
+   },
+   {
+    "unit": "Haloalkanes and Haloarenes",
+    "chapters": [
+     "Haloalkanes & Haloarenes"
+    ]
+   },
+   {
+    "unit": "Alcohols, Phenols and Ethers",
+    "chapters": [
+     "Alcohols, Phenols & Ethers"
+    ]
+   },
+   {
+    "unit": "Aldehydes, Ketones and Carboxylic Acids",
+    "chapters": [
+     "Aldehydes, Ketones & Carboxylic Acids"
+    ]
+   },
+   {
+    "unit": "Amines",
+    "chapters": [
+     "Amines"
+    ]
+   },
+   {
+    "unit": "Biomolecules",
+    "chapters": [
+     "Biomolecules"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Solid State",
+   "Surface Chemistry",
+   "Isolation of Elements",
+   "p-Block Elements",
+   "Polymers",
+   "Chemistry in Everyday Life"
+  ]
+ },
+ "rows": {
+  "d1014b9a-bb78-438f-ae1c-c711299f60ca": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 43,
+   "read_seconds": 21
+  },
+  "15079cee-dbc7-4b31-9fc5-782e04f607ec": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 69,
+   "read_seconds": 29
+  },
+  "6928e09c-a736-4373-857b-20d2758a68a8": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 17,
+   "read_seconds": 13
+  },
+  "cc5ce6c8-e0fe-4cc4-afbd-1c9d4b8ee681": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 74,
+   "read_seconds": 30
+  },
+  "3410ab43-0000-42de-9de9-ff459717856b": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 14,
+   "read_seconds": 12
+  },
+  "d35538dc-eb46-472f-a5b6-ab3d1b3ab56d": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 82,
+   "read_seconds": 33
+  },
+  "8b780340-7494-4816-b7a4-370acc255ad6": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 75,
+   "read_seconds": 31
+  },
+  "e993c092-300c-4155-8a22-2b5228c43b87": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 12,
+   "read_seconds": 12
+  },
+  "310ed34a-d49c-40d1-8e25-31332657a600": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 24,
+   "read_seconds": 15
+  },
+  "7c42a42d-94d1-4237-b7bb-6ee28fc3beb0": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 59,
+   "read_seconds": 26
+  },
+  "60786e7a-49b8-49ee-91fc-afd1448ed480": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 46,
+   "read_seconds": 22
+  },
+  "6cc86979-a621-452b-8fee-72c94cb600a8": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 41,
+   "read_seconds": 20
+  },
+  "4ac72883-303e-4876-81ab-9e68dadf5eee": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 19,
+   "read_seconds": 14
+  },
+  "63dbe2f6-beff-4336-a8e9-435a3e28fe04": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 17,
+   "read_seconds": 13
+  },
+  "d8db492b-6214-4323-88f7-e2a41b266896": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 54,
+   "read_seconds": 24
+  },
+  "fdcc5566-3c7d-47ca-94e3-9e157d3a3a25": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 30,
+   "read_seconds": 17
+  },
+  "2de1f429-c8fc-4cd4-9cef-cca018462809": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 37,
+   "read_seconds": 19
+  },
+  "5202c447-997b-416b-9bee-314fa03afe31": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 56,
+   "read_seconds": 25
+  },
+  "487ce9df-afd7-4553-a1f2-bd61a468fe32": {
+   "engine_unit_options": [
+    "Biomolecules"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 22,
+   "read_seconds": 15
+  }
+ }
+}

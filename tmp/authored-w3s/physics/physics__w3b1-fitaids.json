@@ -1,0 +1,224 @@
+{
+ "batch": "physics__w3b1",
+ "subject": "physics",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Electrostatics",
+    "chapters": [
+     "Electric Charges & Fields",
+     "Electrostatic Potential & Capacitance"
+    ]
+   },
+   {
+    "unit": "Current Electricity",
+    "chapters": [
+     "Current Electricity"
+    ]
+   },
+   {
+    "unit": "Magnetic Effects of Current and Magnetism",
+    "chapters": [
+     "Moving Charges & Magnetism",
+     "Magnetism & Matter"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Induction and Alternating Currents",
+    "chapters": [
+     "Electromagnetic Induction",
+     "Alternating Current"
+    ]
+   },
+   {
+    "unit": "Electromagnetic Waves",
+    "chapters": [
+     "Electromagnetic Waves"
+    ]
+   },
+   {
+    "unit": "Optics",
+    "chapters": [
+     "Ray Optics & Optical Instruments",
+     "Wave Optics"
+    ]
+   },
+   {
+    "unit": "Dual Nature of Matter and Radiation",
+    "chapters": [
+     "Dual Nature of Radiation & Matter"
+    ]
+   },
+   {
+    "unit": "Atoms and Nuclei",
+    "chapters": [
+     "Atoms",
+     "Nuclei"
+    ]
+   },
+   {
+    "unit": "Electronic Devices",
+    "chapters": [
+     "Semiconductor Electronics"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Communication Systems"
+  ]
+ },
+ "rows": {
+  "8e7aff9c-f05f-4057-9522-f15da970e0d7": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 43,
+   "read_seconds": 21
+  },
+  "9891beba-0610-4b37-9d91-7185798e2470": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 33,
+   "read_seconds": 18
+  },
+  "8047d343-60de-4479-a898-a502de89b2e4": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 45,
+   "read_seconds": 22
+  },
+  "17dddc0d-85f8-4438-aba7-5c65c48991b0": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 57,
+   "read_seconds": 25
+  },
+  "c1e3486d-b7db-4a63-aaf1-597489351bfb": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 48,
+   "read_seconds": 23
+  },
+  "aea26296-5917-40a2-9a7c-d9cf913a5363": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "d06e022d-f926-4494-9d39-1a979e20b2e5": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 40,
+   "read_seconds": 20
+  },
+  "22940911-16a7-4f7e-be0f-515fa516f89f": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 59,
+   "read_seconds": 26
+  },
+  "91ad1938-d1fc-4ea4-a0d3-95d96326e2ef": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 35,
+   "read_seconds": 19
+  },
+  "255e305e-85cc-4d30-a824-239c53989517": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 55,
+   "read_seconds": 25
+  },
+  "06fb3fe8-7f7f-463d-a602-1a5953423084": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 69,
+   "read_seconds": 29
+  },
+  "22bb7974-074f-4e40-a1b4-5d3b55052192": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 67,
+   "read_seconds": 28
+  },
+  "62c2ce5f-251f-4b6b-a2c2-be45de07dfc3": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 68,
+   "read_seconds": 29
+  },
+  "0f01b716-922a-4b3f-9b32-ed8ab40dc7e8": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 51,
+   "read_seconds": 23
+  },
+  "a04b8ad0-2dee-416b-9e0d-631bd2f3f25b": {
+   "engine_unit_options": [
+    "Current Electricity"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 47,
+   "read_seconds": 22
+  },
+  "c62678e0-eb15-4186-811e-45a6452e528e": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 39,
+   "read_seconds": 20
+  },
+  "b1dbbe04-24d4-49ee-83b0-ef74ef7d95f4": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 35,
+   "read_seconds": 19
+  },
+  "4e338fa8-83d5-427e-83be-2c4b18735148": {
+   "engine_unit_options": [
+    "Magnetic Effects of Current and Magnetism"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 57,
+   "read_seconds": 25
+  }
+ }
+}

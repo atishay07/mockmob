@@ -1,0 +1,230 @@
+{
+ "batch": "chemistry__w3b1",
+ "subject": "chemistry",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "Solutions",
+    "chapters": [
+     "Solutions"
+    ]
+   },
+   {
+    "unit": "Electrochemistry",
+    "chapters": [
+     "Electrochemistry"
+    ]
+   },
+   {
+    "unit": "Chemical Kinetics",
+    "chapters": [
+     "Chemical Kinetics"
+    ]
+   },
+   {
+    "unit": "d and f Block Elements",
+    "chapters": [
+     "d- and f-Block Elements"
+    ]
+   },
+   {
+    "unit": "Coordination Compounds",
+    "chapters": [
+     "Coordination Compounds"
+    ]
+   },
+   {
+    "unit": "Haloalkanes and Haloarenes",
+    "chapters": [
+     "Haloalkanes & Haloarenes"
+    ]
+   },
+   {
+    "unit": "Alcohols, Phenols and Ethers",
+    "chapters": [
+     "Alcohols, Phenols & Ethers"
+    ]
+   },
+   {
+    "unit": "Aldehydes, Ketones and Carboxylic Acids",
+    "chapters": [
+     "Aldehydes, Ketones & Carboxylic Acids"
+    ]
+   },
+   {
+    "unit": "Amines",
+    "chapters": [
+     "Amines"
+    ]
+   },
+   {
+    "unit": "Biomolecules",
+    "chapters": [
+     "Biomolecules"
+    ]
+   }
+  ],
+  "excluded_chapters": [
+   "Solid State",
+   "Surface Chemistry",
+   "Isolation of Elements",
+   "p-Block Elements",
+   "Polymers",
+   "Chemistry in Everyday Life"
+  ]
+ },
+ "rows": {
+  "b4b8360e-d316-4b1a-b9b1-183816cbecc8": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 10,
+   "read_seconds": 11
+  },
+  "ef23884f-5078-44c2-9b85-99f1e94374d7": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "d862ff6c-f6be-4dfd-8dc3-ff22bb40da51": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 27,
+   "read_seconds": 16
+  },
+  "97fb26ff-9b4f-4e06-9282-e26477186a35": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 13,
+   "read_seconds": 12
+  },
+  "b7040276-8080-4b60-b1d7-408c21275d48": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 53,
+   "read_seconds": 24
+  },
+  "ca00177e-6d6f-442c-bf3c-c6cc46a80694": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 18,
+   "read_seconds": 13
+  },
+  "e4daafaf-3af8-4cad-a9d2-a1f41b1826ea": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 22,
+   "read_seconds": 15
+  },
+  "1d013847-e124-44e4-b400-a5a55ad558cb": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 32,
+   "read_seconds": 18
+  },
+  "89809a17-0fba-4ab6-8195-07e43d6a51f8": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 64,
+   "read_seconds": 27
+  },
+  "ec1be2ad-e341-40cf-a70c-d057c972d3d5": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 21,
+   "read_seconds": 14
+  },
+  "f526f37e-b6e4-4ffb-afeb-da6369a0a985": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 29,
+   "read_seconds": 17
+  },
+  "3e145f1e-c334-4a36-9480-c00b019ed495": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 61,
+   "read_seconds": 26
+  },
+  "6a4e7b4f-47b5-425d-8887-7778fc06e6ee": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 79,
+   "read_seconds": 32
+  },
+  "c53fecad-2f57-4258-be11-13c1ba1da7bb": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 69,
+   "read_seconds": 29
+  },
+  "48c754fd-ca11-4ac5-befa-c26c2d651416": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 25,
+   "read_seconds": 16
+  },
+  "a4538d76-6c2a-4f95-82b7-eb792559e888": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 36,
+   "read_seconds": 19
+  },
+  "705cf90e-079e-4dc2-99b2-3b305b1a4151": {
+   "engine_unit_options": [
+    "Alcohols, Phenols and Ethers"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "a81ff47e-8241-4c92-9afe-2ac6106b901f": {
+   "engine_unit_options": [
+    "Haloalkanes and Haloarenes"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 12,
+   "read_seconds": 12
+  }
+ }
+}

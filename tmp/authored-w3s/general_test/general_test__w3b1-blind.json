@@ -1,0 +1,481 @@
+{
+ "batch": "general_test__w3b1-blind",
+ "subject": "general_test",
+ "questions": [
+  {
+   "id": "5e3b444f-ec85-4577-a7c0-33efbda8bdb0",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Statements: All doctors are graduates. Some graduates are teachers. Conclusions: I. Some doctors are teachers. II. Some teachers are doctors. Which conclusion(s) follow?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only conclusion I follows"
+    },
+    {
+     "key": "B",
+     "text": "Only conclusion II follows"
+    },
+    {
+     "key": "C",
+     "text": "Both conclusions I and II follow"
+    },
+    {
+     "key": "D",
+     "text": "Neither conclusion I nor II follows"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9bebf5e8-f031-4b06-9d58-f8367fd84a68",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Brush : Painter :: Pen : ?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Paper"
+    },
+    {
+     "key": "B",
+     "text": "Writer"
+    },
+    {
+     "key": "C",
+     "text": "Ink"
+    },
+    {
+     "key": "D",
+     "text": "Notebook"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0d4b69da-b95d-4c26-a1bc-264acb7c6188",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which one of the following does not belong to the group?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Sparrow"
+    },
+    {
+     "key": "B",
+     "text": "Crow"
+    },
+    {
+     "key": "C",
+     "text": "Crocodile"
+    },
+    {
+     "key": "D",
+     "text": "Pigeon"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e0c08075-b58b-4d3f-af73-dd797c293080",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "If TABLE is coded as UBCMF, how is CHAIR coded?",
+   "options": [
+    {
+     "key": "A",
+     "text": "DIBJS"
+    },
+    {
+     "key": "B",
+     "text": "DJBIS"
+    },
+    {
+     "key": "C",
+     "text": "CIBJS"
+    },
+    {
+     "key": "D",
+     "text": "DIBJR"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e70bd8ee-73e0-4803-8b89-733d48f131aa",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Ramesh has a son, Vikas, and a daughter, Gita. Vikas is married to Neha. How is Neha related to Gita?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Sister-in-law"
+    },
+    {
+     "key": "B",
+     "text": "Aunt"
+    },
+    {
+     "key": "C",
+     "text": "Cousin"
+    },
+    {
+     "key": "D",
+     "text": "Niece"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "456934c8-38ec-409e-bbc0-48a263b34226",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Find the next term in the series: 2, 6, 12, 20, 30, ?",
+   "options": [
+    {
+     "key": "A",
+     "text": "38"
+    },
+    {
+     "key": "B",
+     "text": "40"
+    },
+    {
+     "key": "C",
+     "text": "42"
+    },
+    {
+     "key": "D",
+     "text": "44"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "75349543-7db7-44e5-b720-222dc0f55ff2",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Riya is facing north. She turns right twice, turning 90 degrees each time. Which direction is she facing now?",
+   "options": [
+    {
+     "key": "A",
+     "text": "North"
+    },
+    {
+     "key": "B",
+     "text": "East"
+    },
+    {
+     "key": "C",
+     "text": "South"
+    },
+    {
+     "key": "D",
+     "text": "West"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3",
+   "subject": "general_test",
+   "type": "sequence_ordering",
+   "stem": "Arrange the following words in the order they would appear in a dictionary, from first to last: Tiger, Tablet, Table, Tail, Tab.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Tab, Table, Tablet, Tail, Tiger"
+    },
+    {
+     "key": "B",
+     "text": "Tab, Tail, Table, Tablet, Tiger"
+    },
+    {
+     "key": "C",
+     "text": "Table, Tab, Tablet, Tail, Tiger"
+    },
+    {
+     "key": "D",
+     "text": "Tab, Table, Tail, Tablet, Tiger"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e09818d8-3a95-4c58-bddd-a28479403f5d",
+   "subject": "general_test",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) 2, 4, 8, 16 (B) 1, 4, 9, 16 (C) 1, 1, 2, 3 (D) 5, 10, 15, 20. List-II: (I) Squares of natural numbers (II) Constant ratio of 2 (III) Fibonacci sequence (IV) Constant difference of 5. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e8db991e-fd05-4e8d-9157-36a719ad405d",
+   "subject": "general_test",
+   "type": "match_the_following",
+   "stem": "Match List-I with List-II. List-I: (A) All A are B (B) No A is B (C) Some A are B (D) All B are A. List-II: (I) A and B overlap partially (II) A and B are disjoint (III) A lies entirely within B (IV) B lies entirely within A. Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+    },
+    {
+     "key": "B",
+     "text": "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+    },
+    {
+     "key": "C",
+     "text": "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)"
+    },
+    {
+     "key": "D",
+     "text": "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "19c49938-f37a-419f-975a-03e609b82cdc",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Five persons P, Q, R, S and T sit around a circular table, equidistant from each other and all facing the centre. P sits immediately to the right of Q. S sits second to the left of P. R does not sit next to S. Which person sits next to both Q and R?",
+   "options": [
+    {
+     "key": "A",
+     "text": "S"
+    },
+    {
+     "key": "B",
+     "text": "T"
+    },
+    {
+     "key": "C",
+     "text": "P"
+    },
+    {
+     "key": "D",
+     "text": "Q"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c2041ae3-9c59-4149-bdbc-3b863ca761f5",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Five persons P, Q, R, S and T sit in a single row facing north. Left and right are taken as seen by an observer facing the row. T sits at one of the two ends. P sits second to the right of T. Q sits immediately to the right of R. Who sits second to the left of Q?",
+   "options": [
+    {
+     "key": "A",
+     "text": "R"
+    },
+    {
+     "key": "B",
+     "text": "S"
+    },
+    {
+     "key": "C",
+     "text": "P"
+    },
+    {
+     "key": "D",
+     "text": "T"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "bd7ed369-d22b-4366-a731-45bd7dce9242",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "In a class of 40 students, Neha ranks 12th from the top. Rohit ranks 5 places below Neha. What is Rohit's rank from the bottom?",
+   "options": [
+    {
+     "key": "A",
+     "text": "22nd"
+    },
+    {
+     "key": "B",
+     "text": "23rd"
+    },
+    {
+     "key": "C",
+     "text": "24th"
+    },
+    {
+     "key": "D",
+     "text": "25th"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "7edd9bb1-56a1-431d-b322-59c335b4c8a0",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "If 15 March 2026 falls on a Sunday, what day of the week will 15 April 2026 be?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Tuesday"
+    },
+    {
+     "key": "B",
+     "text": "Wednesday"
+    },
+    {
+     "key": "C",
+     "text": "Thursday"
+    },
+    {
+     "key": "D",
+     "text": "Friday"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6e38970a-7eca-45b6-80f6-ebf5c9125a91",
+   "subject": "general_test",
+   "type": "statement_based",
+   "stem": "Statement: The school has announced that all classes will be held online from tomorrow. Assumptions: I. Students have access to devices and a working internet connection. II. The school will reopen for physical classes next month. Which assumption is implicit in the statement?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only assumption I is implicit"
+    },
+    {
+     "key": "B",
+     "text": "Only assumption II is implicit"
+    },
+    {
+     "key": "C",
+     "text": "Both assumptions I and II are implicit"
+    },
+    {
+     "key": "D",
+     "text": "Neither assumption is implicit"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "3d61c8af-814f-4665-a3d5-f8d26a01e25a",
+   "subject": "general_test",
+   "type": "statement_based",
+   "stem": "Statement: Several guests at a wedding feast fell ill after eating food from the same caterer. Courses of action: I. The health department should inspect the caterer's kitchen and food storage. II. All wedding feasts in the city should be banned for a year. III. The guests should be asked to avoid weddings. Which course(s) of action follow?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only I follows"
+    },
+    {
+     "key": "B",
+     "text": "Only II follows"
+    },
+    {
+     "key": "C",
+     "text": "Only I and III follow"
+    },
+    {
+     "key": "D",
+     "text": "I, II and III follow"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "9bf44c6e-60a3-4d29-90b1-afcdbf800ab4",
+   "subject": "general_test",
+   "type": "statement_based",
+   "stem": "Statement: Only those students who score above 90 per cent are selected for the advanced programme. Ravi was selected for the advanced programme. Conclusions: I. Ravi scored above 90 per cent. II. All students who score above 90 per cent are selected for the advanced programme.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only conclusion I follows"
+    },
+    {
+     "key": "B",
+     "text": "Only conclusion II follows"
+    },
+    {
+     "key": "C",
+     "text": "Both conclusions I and II follow"
+    },
+    {
+     "key": "D",
+     "text": "Neither conclusion I nor II follows"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f05bce07-08b2-491b-937f-d70bca9926c5",
+   "subject": "general_test",
+   "type": "sequence_ordering",
+   "stem": "Ajay is taller than Bina. Bina is taller than Chirag. Divya is shorter than Chirag but taller than Esha. Arrange the five persons from the tallest to the shortest.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Ajay, Chirag, Bina, Divya, Esha"
+    },
+    {
+     "key": "B",
+     "text": "Bina, Ajay, Chirag, Divya, Esha"
+    },
+    {
+     "key": "C",
+     "text": "Ajay, Bina, Chirag, Divya, Esha"
+    },
+    {
+     "key": "D",
+     "text": "Ajay, Bina, Divya, Chirag, Esha"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "72c5b422-6100-4243-87c5-e6da84a6f8c7",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Statements: Some pens are inks. All inks are liquids. No liquid is a solid. Conclusions: I. Some pens are not solids. II. No pen is a solid. III. Some liquids are pens. Which conclusions follow?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Only conclusion I follows"
+    },
+    {
+     "key": "B",
+     "text": "Only conclusion III follows"
+    },
+    {
+     "key": "C",
+     "text": "Conclusions I and III follow"
+    },
+    {
+     "key": "D",
+     "text": "Conclusions I, II and III follow"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}

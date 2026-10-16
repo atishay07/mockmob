@@ -1,0 +1,210 @@
+{
+ "batch": "general_test__w3b1",
+ "subject": "general_test",
+ "allowed": {
+  "types": [
+   "single_mcq",
+   "match_the_following",
+   "sequence_ordering",
+   "statement_based",
+   "assertion_reason",
+   "passage_set_item"
+  ],
+  "units": [
+   {
+    "unit": "General Knowledge and Current Affairs",
+    "chapters": [
+     "General Knowledge",
+     "Current Affairs"
+    ]
+   },
+   {
+    "unit": "General Mental Ability",
+    "chapters": [
+     "General Mental Ability"
+    ]
+   },
+   {
+    "unit": "Numerical Ability",
+    "chapters": [
+     "Numerical Ability"
+    ]
+   },
+   {
+    "unit": "Quantitative Reasoning",
+    "chapters": [
+     "Quantitative Reasoning",
+     "Basic Mathematical Concepts",
+     "Statistical Data Analysis"
+    ]
+   },
+   {
+    "unit": "Logical and Analytical Reasoning",
+    "chapters": [
+     "Logical & Analytical Reasoning"
+    ]
+   },
+   {
+    "unit": "General Science and Environment Literacy",
+    "chapters": [
+     "General Science and Environment Literacy"
+    ]
+   }
+  ],
+  "excluded_chapters": []
+ },
+ "rows": {
+  "5e3b444f-ec85-4577-a7c0-33efbda8bdb0": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 43,
+   "read_seconds": 21
+  },
+  "9bebf5e8-f031-4b06-9d58-f8367fd84a68": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 11,
+   "read_seconds": 11
+  },
+  "0d4b69da-b95d-4c26-a1bc-264acb7c6188": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 15,
+   "read_seconds": 13
+  },
+  "e0c08075-b58b-4d3f-af73-dd797c293080": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 14,
+   "read_seconds": 12
+  },
+  "e70bd8ee-73e0-4803-8b89-733d48f131aa": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 24,
+   "read_seconds": 15
+  },
+  "456934c8-38ec-409e-bbc0-48a263b34226": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 17,
+   "read_seconds": 13
+  },
+  "75349543-7db7-44e5-b720-222dc0f55ff2": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 23,
+   "read_seconds": 15
+  },
+  "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 42,
+   "read_seconds": 21
+  },
+  "e09818d8-3a95-4c58-bddd-a28479403f5d": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 69,
+   "read_seconds": 29
+  },
+  "e8db991e-fd05-4e8d-9157-36a719ad405d": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 75,
+   "read_seconds": 31
+  },
+  "19c49938-f37a-419f-975a-03e609b82cdc": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 58,
+   "read_seconds": 26
+  },
+  "c2041ae3-9c59-4149-bdbc-3b863ca761f5": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 64,
+   "read_seconds": 27
+  },
+  "bd7ed369-d22b-4366-a731-45bd7dce9242": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 29,
+   "read_seconds": 17
+  },
+  "7edd9bb1-56a1-431d-b322-59c335b4c8a0": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 22,
+   "read_seconds": 15
+  },
+  "6e38970a-7eca-45b6-80f6-ebf5c9125a91": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 64,
+   "read_seconds": 27
+  },
+  "3d61c8af-814f-4665-a3d5-f8d26a01e25a": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 74,
+   "read_seconds": 30
+  },
+  "9bf44c6e-60a3-4d29-90b1-afcdbf800ab4": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 66,
+   "read_seconds": 28
+  },
+  "f05bce07-08b2-491b-937f-d70bca9926c5": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 49,
+   "read_seconds": 23
+  },
+  "72c5b422-6100-4243-87c5-e6da84a6f8c7": {
+   "engine_unit_options": [
+    "Logical and Analytical Reasoning"
+   ],
+   "chapter_status": "in_blueprint",
+   "reading_words": 54,
+   "read_seconds": 24
+  }
+ }
+}

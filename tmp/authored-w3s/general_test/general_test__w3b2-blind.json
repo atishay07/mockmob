@@ -1,0 +1,506 @@
+{
+ "batch": "general_test__w3b2-blind",
+ "subject": "general_test",
+ "questions": [
+  {
+   "id": "4650a47a-f12a-4916-975a-1e2bbd999de5",
+   "subject": "general_test",
+   "type": "sequence_ordering",
+   "stem": "Five books, P, Q, R, S and T, are placed on a shelf from left to right. S is at the left end. P is immediately to the right of R. Q is to the right of P but not next to P. Which arrangement from left to right is correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "S, R, P, Q, T"
+    },
+    {
+     "key": "B",
+     "text": "S, R, P, T, Q"
+    },
+    {
+     "key": "C",
+     "text": "S, P, R, T, Q"
+    },
+    {
+     "key": "D",
+     "text": "R, S, P, T, Q"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "0468e07c-fb05-430c-850b-73aa1a93e4c9",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "What is the total number of students in a class? Statement I: The ratio of boys to girls is 3 : 2. Statement II: There are 18 boys in the class. Which option is correct?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Statement I alone is sufficient"
+    },
+    {
+     "key": "B",
+     "text": "Statement II alone is sufficient, but statement I alone is not"
+    },
+    {
+     "key": "C",
+     "text": "Both statements together are sufficient, but neither statement alone is sufficient"
+    },
+    {
+     "key": "D",
+     "text": "Either statement alone is sufficient"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "c6f4c6ab-0a24-49a8-ba45-23a3104b8826",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Ravi starts from point O and walks 4 m north. He turns left and walks 3 m. He turns left again and walks 4 m. He then turns right and walks 6 m. In which direction, and how far, is Ravi from O?",
+   "options": [
+    {
+     "key": "A",
+     "text": "9 m west"
+    },
+    {
+     "key": "B",
+     "text": "13 m west"
+    },
+    {
+     "key": "C",
+     "text": "9 m east"
+    },
+    {
+     "key": "D",
+     "text": "3 m west"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "f6ac091e-cd92-418c-99f8-bf273c9fec50",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "After 4 o'clock, at what time do the hour hand and the minute hand of a clock first coincide?",
+   "options": [
+    {
+     "key": "A",
+     "text": "4 : 20"
+    },
+    {
+     "key": "B",
+     "text": "4 : 21 9/11"
+    },
+    {
+     "key": "C",
+     "text": "4 : 22 6/11"
+    },
+    {
+     "key": "D",
+     "text": "4 : 24"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "5d4111c6-388a-4181-9870-48f2433614c7",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which Schedule of the Constitution of India lists the languages recognised by the Constitution?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Fifth Schedule"
+    },
+    {
+     "key": "B",
+     "text": "Seventh Schedule"
+    },
+    {
+     "key": "C",
+     "text": "Eighth Schedule"
+    },
+    {
+     "key": "D",
+     "text": "Tenth Schedule"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "fa2c18d3-01f9-4649-b00e-a9e8ff238ad0",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which Indian state has the largest geographical area?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Madhya Pradesh"
+    },
+    {
+     "key": "B",
+     "text": "Maharashtra"
+    },
+    {
+     "key": "C",
+     "text": "Uttar Pradesh"
+    },
+    {
+     "key": "D",
+     "text": "Rajasthan"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "06136942-8436-4390-a2b3-5b8fe1fe0e55",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Who wrote the lyrics of the National Anthem of India, 'Jana Gana Mana'?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Bankim Chandra Chattopadhyay"
+    },
+    {
+     "key": "B",
+     "text": "Rabindranath Tagore"
+    },
+    {
+     "key": "C",
+     "text": "Sarojini Naidu"
+    },
+    {
+     "key": "D",
+     "text": "Muhammad Iqbal"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "6f4b8986-14b3-429a-a6b3-5be84ad78968",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "On which date is National Youth Day celebrated in India every year?",
+   "options": [
+    {
+     "key": "A",
+     "text": "15 August"
+    },
+    {
+     "key": "B",
+     "text": "2 October"
+    },
+    {
+     "key": "C",
+     "text": "26 January"
+    },
+    {
+     "key": "D",
+     "text": "12 January"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "ccfced58-510d-48ef-abb4-96e5bef0c79c",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which festival is widely known as the 'Festival of Lights' in India?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Diwali"
+    },
+    {
+     "key": "B",
+     "text": "Holi"
+    },
+    {
+     "key": "C",
+     "text": "Onam"
+    },
+    {
+     "key": "D",
+     "text": "Baisakhi"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "4c35a04e-9361-4752-b43a-1d8dcd390199",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Bharatanatyam, one of the classical dance forms of India, is traditionally associated with which state?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Kerala"
+    },
+    {
+     "key": "B",
+     "text": "Odisha"
+    },
+    {
+     "key": "C",
+     "text": "Tamil Nadu"
+    },
+    {
+     "key": "D",
+     "text": "Manipur"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "78eb3759-1464-4e8b-bc15-a4c44426e185",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The SI unit of electrical resistance is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Farad"
+    },
+    {
+     "key": "B",
+     "text": "Henry"
+    },
+    {
+     "key": "C",
+     "text": "Tesla"
+    },
+    {
+     "key": "D",
+     "text": "Ohm"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "774478bb-024f-426b-9322-d3efb4995839",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which vitamin does the human skin synthesise when it is exposed to sunlight?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Vitamin D"
+    },
+    {
+     "key": "B",
+     "text": "Vitamin A"
+    },
+    {
+     "key": "C",
+     "text": "Vitamin K"
+    },
+    {
+     "key": "D",
+     "text": "Vitamin C"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e4bffc63-34a2-454c-a824-04a67523ea3c",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "The words 'socialist' and 'secular' were added to the Preamble of the Constitution of India by which amendment?",
+   "options": [
+    {
+     "key": "A",
+     "text": "24th Amendment"
+    },
+    {
+     "key": "B",
+     "text": "44th Amendment"
+    },
+    {
+     "key": "C",
+     "text": "73rd Amendment"
+    },
+    {
+     "key": "D",
+     "text": "42nd Amendment"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "27a22460-7b41-4d9e-bfa1-d1423c8ddeb4",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Under which Article of the Constitution of India can the President proclaim a National Emergency?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Article 352"
+    },
+    {
+     "key": "B",
+     "text": "Article 356"
+    },
+    {
+     "key": "C",
+     "text": "Article 360"
+    },
+    {
+     "key": "D",
+     "text": "Article 370"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "29d9c92f-3fce-40f7-b1ea-c4c56f07ab15",
+   "subject": "general_test",
+   "type": "statement_based",
+   "stem": "Consider the following statements about the Constitution of India.\n(A) The right to property was removed from Part III (Fundamental Rights) by the 44th Amendment.\n(B) Directive Principles of State Policy are enforceable by courts.\n(C) Dr. B. R. Ambedkar described Article 32 as the heart and soul of the Constitution.\n(D) Fundamental Duties are listed in Part IVA of the Constitution.\nWhich of the statements given above are correct? Choose the correct answer from the options given below.",
+   "options": [
+    {
+     "key": "A",
+     "text": "(A) and (C) only"
+    },
+    {
+     "key": "B",
+     "text": "(A), (C) and (D)"
+    },
+    {
+     "key": "C",
+     "text": "(B) and (D) only"
+    },
+    {
+     "key": "D",
+     "text": "(A), (B) and (C)"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "e6889e85-b985-4243-ad3a-4c642d6af9c3",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which mountain pass connects the Kashmir Valley with Ladakh along the Srinagar-Leh highway?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Nathu La"
+    },
+    {
+     "key": "B",
+     "text": "Shipki La"
+    },
+    {
+     "key": "C",
+     "text": "Zoji La"
+    },
+    {
+     "key": "D",
+     "text": "Bomdi La"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "03df7dbd-0b5a-44c3-bd70-35e0fe87db04",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which is the longest river of Peninsular India?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Krishna"
+    },
+    {
+     "key": "B",
+     "text": "Narmada"
+    },
+    {
+     "key": "C",
+     "text": "Godavari"
+    },
+    {
+     "key": "D",
+     "text": "Kaveri"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "190d65d3-c340-4f52-9200-f993ae17254d",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Which of the following is a direct tax levied in India?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Goods and Services Tax"
+    },
+    {
+     "key": "B",
+     "text": "Customs duty"
+    },
+    {
+     "key": "C",
+     "text": "Excise duty"
+    },
+    {
+     "key": "D",
+     "text": "Income tax"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "134b88cc-ad0d-4e64-a43d-e913e5c50b8b",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "Alexander Fleming is associated with the discovery of:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Penicillin"
+    },
+    {
+     "key": "B",
+     "text": "Insulin"
+    },
+    {
+     "key": "C",
+     "text": "The smallpox vaccine"
+    },
+    {
+     "key": "D",
+     "text": "The polio vaccine"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "527b4906-0de1-4107-96da-3b6fbd53111f",
+   "subject": "general_test",
+   "type": "single_mcq",
+   "stem": "When zinc metal reacts with dilute hydrochloric acid, the gas evolved is:",
+   "options": [
+    {
+     "key": "A",
+     "text": "Oxygen"
+    },
+    {
+     "key": "B",
+     "text": "Hydrogen"
+    },
+    {
+     "key": "C",
+     "text": "Carbon dioxide"
+    },
+    {
+     "key": "D",
+     "text": "Chlorine"
+    }
+   ],
+   "passage_text": null
+  }
+ ]
+}
