@@ -36,6 +36,7 @@ const PASSAGE_CHAPTERS = new Set([
 ]);
 const MIN_REAL_PASSAGE_WORDS = 70;
 const MIN_REAL_PASSAGE_SENTENCES = 3;
+const MIN_REAL_VERSE_LINES = 8;
 
 const PLACEHOLDER_PATTERNS = [
   /\b(lorem ipsum|todo|insert question|replace this|dummy question|sample question)\b/i,
@@ -170,8 +171,7 @@ export function getQuestionText(row) {
   return textValue(firstPresent(row, ['question', 'body', 'q', 'prompt', 'stem']));
 }
 
-export function getPassageText(row) {
-  return textValue(firstPresent(row, [
+const PASSAGE_FIELDS = [
     'passageText',
     'passage_text',
     'passage.text',
@@ -186,7 +186,10 @@ export function getPassageText(row) {
     'passageGroup.text',
     'passageGroup.passage_text',
     'passage_groups.passage_text',
-  ]));
+];
+
+export function getPassageText(row) {
+  return textValue(firstPresent(row, PASSAGE_FIELDS));
 }
 
 export function getPassageTitle(row) {
@@ -229,12 +232,18 @@ export function isPassageLinkedQuestion(row) {
   );
 }
 
+// A real passage is long enough and reads as sentences. A Devanagari sentence ends with a danda (U+0964 or U+0965), so those count as full stops.
+// Verse (Hindi unseen poetry) is set in lines and often has few full stops: it counts as a real block when the stored text keeps at
+// least MIN_REAL_VERSE_LINES lines, which a prose passage of two or three paragraphs does not reach.
 export function hasRealPassageBlock(row) {
   const passageText = getPassageText(row);
   if (!passageText) return false;
   const wordCount = passageText.split(/\s+/).filter(Boolean).length;
-  const sentenceCount = (passageText.match(/[.!?](?:\s|$)/g) || []).length;
-  return wordCount >= MIN_REAL_PASSAGE_WORDS && sentenceCount >= MIN_REAL_PASSAGE_SENTENCES;
+  if (wordCount < MIN_REAL_PASSAGE_WORDS) return false;
+  const sentenceCount = (passageText.match(/[.!?।॥](?:\s|$)/g) || []).length;
+  if (sentenceCount >= MIN_REAL_PASSAGE_SENTENCES) return true;
+  const raw = String(firstPresent(row, PASSAGE_FIELDS) || '');
+  return raw.split(/\r?\n/).filter((line) => line.trim()).length >= MIN_REAL_VERSE_LINES;
 }
 
 function isEnglishTheoryAssertionWithoutContext(row, subject) {

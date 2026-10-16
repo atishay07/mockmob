@@ -11,6 +11,9 @@ import { getCanonicalSubject } from '../canonical_syllabus.js';
 const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'nta_blueprints');
 const read = (file) => JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
 const index = read('index.json');
+// Subjects with a blueprint that are not public yet (Hindi): checked like every other blueprint, but never served.
+const pending = index.pendingSubjects || {};
+const blueprintFile = (subject) => index.subjects[subject] || pending[subject];
 const sources = read('_sources.json').sources;
 const typeDefs = read('_types.json').types;
 
@@ -22,9 +25,16 @@ test('there is one blueprint per supported subject', () => {
   assert.deepEqual(Object.keys(index.subjects).sort(), [...CUET_PUBLIC_ALLOWED_SUBJECTS].sort());
 });
 
-for (const subject of CUET_PUBLIC_ALLOWED_SUBJECTS) {
+test('a pending (not yet public) subject is never also a public one, and its blueprint file exists', () => {
+  for (const subject of Object.keys(pending)) {
+    assert.ok(!CUET_PUBLIC_ALLOWED_SUBJECTS.includes(subject), `${subject} is public: move it to index.subjects`);
+    assert.ok(fs.existsSync(path.join(dir, pending[subject])), `${subject}: ${pending[subject]} exists`);
+  }
+});
+
+for (const subject of [...CUET_PUBLIC_ALLOWED_SUBJECTS, ...Object.keys(pending)]) {
   test(`${subject} blueprint is internally consistent`, () => {
-    const bp = read(index.subjects[subject]);
+    const bp = read(blueprintFile(subject));
     assert.equal(bp.subject, subject);
     assert.equal(bp.internalSubject, toInternalSubjectId(subject));
     assert.equal(bp.exam.totalQuestions, 50);

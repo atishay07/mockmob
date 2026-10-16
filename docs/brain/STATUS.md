@@ -1,3 +1,11 @@
+## 17 October 2026, about 3 am IST - Authored wave 3 prepared (branch content/wave3-1017, local, not pushed; nothing published, no database written)
+
+- 294 drafts (general_test 97, physics 74, chemistry 74, hindi 49; source claude-authored-2026-10-17-w3) passed one blind Haiku check each (6 rejected). A second checker (Opus) solved a stratified 45 and then the whole of gat-02, hin-02 and hin-01 (107 rows) without the key: no wrong key, but 7 of the 45 had a defect (15.6 percent), so 3 batches were re-checked in full. Defects, repairs and advisories: docs/brain/reports/authored-w3/wave3-audit-2026-10-17.json. Repairs (28 rows) are text-only: Hindi chapter names, one passage typo, two explanations, three listed-order keys.
+- Wave 3 did NOT go through the wave 1 and 2 scoring: no 5 blind solvers, no two agent judges, no three CUET-fit judges, no expert pass, so no score entries exist and the NTA engine admits none of the 294. Verdict values on the rows are haiku_blind_verified (187) and opus_audited (107), not ready or repaired.
+- Dry run against production (select-only): 294 rows (chemistry 74, gat 97, hindi 49, physics 74), 5 Hindi passage groups, 0 existing ids, no missing columns; the one blocker is the missing score entries.
+- Hindi: blueprint data/nta_blueprints/hindi.json (from the 2026 Hindi 102 syllabus PDF, which lists only Reading Comprehension and Verbal Ability; Kavya Khand, Gadya Khand, Anuvad and Rachnatmak Lekhan are excluded). Registered in the engine and in index.json pendingSubjects; Hindi is still not a public subject, so no route serves it. Two engine gates were Latin-only and refused every Hindi passage and match item; fixed (danda counts as a full stop, verse kept in lines counts, सूची-II is read as List-II).
+- Tests: test:nta 188, test:recovery 352, test:authored-publish 93 of 94 (the failing one, "merging wave 2 again reproduces the committed tables byte for byte", fails the same way on origin/main on Windows: CRLF against LF), authored_w3 15.
+
 ## 17 October 2026, about 12:25 am IST - Batch 1016d production migrations applied (before its deploy)
 
 - Applied by Claude (session cc0bf1af) under the standing database grant, in this order, each with a pre-check and a post-check on production (isrxrxzjocewrdureyhp); each was dry-run on staging per the batch merge report and has an undo in supabase/undo:

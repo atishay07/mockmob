@@ -147,10 +147,11 @@ function lastHeading(value, pattern, before = value.length) {
 
 function listSegments(stem) {
   const value = text(stem);
-  const listTwo = lastHeading(value, /list\s*[-–]?\s*(?:ii|2)\b/gi);
+  // "List" or, in a Hindi stem, "सूची" (सूची-I, सूची-II).
+  const listTwo = lastHeading(value, /(?:list|सूची)\s*[-–]?\s*(?:ii|2)\b/gi);
   if (listTwo < 0) return null;
-  const listOne = lastHeading(value, /list\s*[-–]?\s*(?:i|1)\b(?!i)/gi, listTwo);
-  const end = value.slice(listTwo).search(/choose the correct|select the correct|which of the following/i);
+  const listOne = lastHeading(value, /(?:list|सूची)\s*[-–]?\s*(?:i|1)\b(?!i)/gi, listTwo);
+  const end = value.slice(listTwo).search(/choose the correct|select the correct|which of the following|सही (?:विकल्प|उत्तर) चुनिए/i);
   return {
     left: value.slice(listOne >= 0 && listOne < listTwo ? listOne : 0, listTwo),
     right: end > 0 ? value.slice(listTwo, listTwo + end) : value.slice(listTwo),
