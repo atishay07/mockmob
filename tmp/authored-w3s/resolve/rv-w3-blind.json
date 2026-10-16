@@ -1,0 +1,406 @@
+{
+  "batch": "rv-w3",
+  "subject": "mixed",
+  "questions": [
+    {
+      "id": "6bbde2ac-85d2-4b61-a2e7-25ad64d121d3",
+      "subject": "general_test",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following words in the order they would appear in a dictionary, from first to last: (A) Tiger (B) Tablet (C) Table (D) Tail (E) Tab. Choose the correct sequence from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(E), (C), (B), (D), (A)"
+        },
+        {
+          "key": "B",
+          "text": "(E), (D), (C), (B), (A)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (E), (B), (D), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(E), (C), (D), (B), (A)"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "f05bce07-08b2-491b-937f-d70bca9926c5",
+      "subject": "general_test",
+      "type": "sequence_ordering",
+      "stem": "Lata is taller than Mohan. Kiran is taller than Lata. Neha is shorter than Mohan but taller than Om. Arrange the following five persons from the tallest to the shortest: (A) Neha (B) Lata (C) Om (D) Kiran (E) Mohan. Choose the correct sequence from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(D), (B), (A), (E), (C)"
+        },
+        {
+          "key": "B",
+          "text": "(B), (D), (E), (A), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(D), (B), (E), (A), (C)"
+        },
+        {
+          "key": "D",
+          "text": "(D), (E), (B), (A), (C)"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "4650a47a-f12a-4916-975a-1e2bbd999de5",
+      "subject": "general_test",
+      "type": "sequence_ordering",
+      "stem": "Five books (P), (Q), (R), (S) and (T) are placed on a shelf from left to right. S is at the left end. P is immediately to the right of R. Q is to the right of P but not next to P. Which arrangement from left to right is correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "S, R, P, Q, T"
+        },
+        {
+          "key": "B",
+          "text": "S, R, P, T, Q"
+        },
+        {
+          "key": "C",
+          "text": "S, P, R, T, Q"
+        },
+        {
+          "key": "D",
+          "text": "R, S, P, T, Q"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "0468e07c-fb05-430c-850b-73aa1a93e4c9",
+      "subject": "general_test",
+      "type": "single_mcq",
+      "stem": "What is the total number of students in a class? Statement I: The ratio of boys to girls is 3 : 2. Statement II: There are 18 boys in the class. Which option is correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statement I alone is sufficient"
+        },
+        {
+          "key": "B",
+          "text": "Statement II alone is sufficient"
+        },
+        {
+          "key": "C",
+          "text": "Both statements together are sufficient"
+        },
+        {
+          "key": "D",
+          "text": "Even both statements together are not sufficient"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "3d1e7c96-f0a8-4b24-9d5e-c4a8b0f23e67",
+      "subject": "general_test",
+      "type": "statement_based",
+      "stem": "Consider the statements: (A) 2^10 = 1024. (B) √0.49 = 0.7. (C) The LCM of 6, 8 and 12 is 24. (D) 15% of 240 is 32. Choose the correct answer from the options given below.",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B) and (C) only"
+        },
+        {
+          "key": "B",
+          "text": "(A), (C) and (D) only"
+        },
+        {
+          "key": "C",
+          "text": "(A) and (B) only"
+        },
+        {
+          "key": "D",
+          "text": "(B), (C) and (D) only"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "afbe82bd-a14e-4f5d-bfd6-a25d30ed0864",
+      "subject": "general_test",
+      "type": "single_mcq",
+      "stem": "Each row of numbers follows the same rule. Row 1: 2, 3, 6. Row 2: 4, 5, 20. Row 3: 7, 2, ?. What number replaces the question mark?",
+      "options": [
+        {
+          "key": "A",
+          "text": "9"
+        },
+        {
+          "key": "B",
+          "text": "14"
+        },
+        {
+          "key": "C",
+          "text": "16"
+        },
+        {
+          "key": "D",
+          "text": "21"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "c397d567-7836-4f84-a2ff-2e3913967ac9",
+      "subject": "general_test",
+      "type": "statement_based",
+      "stem": "Statements: P > Q ≥ R; S < R; T ≥ P. Conclusions: (I) T > S. (II) S > Q. (III) P > R. Which conclusions follow?",
+      "options": [
+        {
+          "key": "A",
+          "text": "I only"
+        },
+        {
+          "key": "B",
+          "text": "I and III only"
+        },
+        {
+          "key": "C",
+          "text": "II and III only"
+        },
+        {
+          "key": "D",
+          "text": "I, II and III"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "c1e3486d-b7db-4a63-aaf1-597489351bfb",
+      "subject": "physics",
+      "type": "single_mcq",
+      "stem": "The galvanometer in a balanced Wheatstone bridge shows zero deflection. Which statement explains this?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The current through the galvanometer is maximum"
+        },
+        {
+          "key": "B",
+          "text": "The current drawn from the battery drops to zero"
+        },
+        {
+          "key": "C",
+          "text": "The galvanometer has an infinitely large resistance"
+        },
+        {
+          "key": "D",
+          "text": "Both galvanometer terminals are at equal potential"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "fe0417ed-5791-41de-82df-dc27964ca5bb",
+      "subject": "physics",
+      "type": "single_mcq",
+      "stem": "How is the new position of a wavefront obtained from its previous position in Huygens' principle?",
+      "options": [
+        {
+          "key": "A",
+          "text": "By joining the source to the point of observation with a straight line"
+        },
+        {
+          "key": "B",
+          "text": "As the surface on which all the rays meet at a single focus point"
+        },
+        {
+          "key": "C",
+          "text": "As the locus of points where the path difference at two slits is zero"
+        },
+        {
+          "key": "D",
+          "text": "As the envelope of secondary wavelets from points of the old wavefront"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "fc6098bd-ef63-4d76-8a35-0568d11957ae",
+      "subject": "physics",
+      "type": "sequence_ordering",
+      "stem": "Arrange the following electromagnetic waves in order of increasing wavelength, shortest wavelength first.\n(A) Radio waves\n(B) Visible light\n(C) Gamma rays\n(D) Microwaves\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A), (B), (C), (D)"
+        },
+        {
+          "key": "B",
+          "text": "(A), (D), (B), (C)"
+        },
+        {
+          "key": "C",
+          "text": "(C), (D), (B), (A)"
+        },
+        {
+          "key": "D",
+          "text": "(C), (B), (D), (A)"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "d72339f5-bbbc-48ea-9e57-12b89e48e029",
+      "subject": "physics",
+      "type": "match_the_following",
+      "stem": "Match List-I (electromagnetic wave) with List-II (use).\nList-I: (A) Infrared, (B) Ultraviolet, (C) X-rays, (D) Microwaves\nList-II: (I) Sterilising water and killing bacteria, (II) Radiographs of bones, (III) Thermal imaging and TV remote controls, (IV) Radar and satellite communication\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "f526f37e-b6e4-4ffb-afeb-da6369a0a985",
+      "subject": "chemistry",
+      "type": "single_mcq",
+      "stem": "2-Methoxy-2-methylpropane, (CH3)3C-O-CH3, is treated with one equivalent of cold concentrated HI. Which pair of products is formed?",
+      "options": [
+        {
+          "key": "A",
+          "text": "(CH3)3C-OH and CH3I"
+        },
+        {
+          "key": "B",
+          "text": "(CH3)3C-OH and CH3OH"
+        },
+        {
+          "key": "C",
+          "text": "(CH3)3C-I and CH3I"
+        },
+        {
+          "key": "D",
+          "text": "(CH3)3C-I and CH3OH"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "7c42a42d-94d1-4237-b7bb-6ee28fc3beb0",
+      "subject": "chemistry",
+      "type": "single_mcq",
+      "stem": "Sucrose is a non-reducing sugar. Which feature of its structure explains this?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Its glucose unit keeps a free aldehyde group at C-1, but it is sterically hindered"
+        },
+        {
+          "key": "B",
+          "text": "It exists only as the open-chain form of fructose, which is a non-reducing ketose"
+        },
+        {
+          "key": "C",
+          "text": "The glycosidic bond ties up both anomeric carbons, so neither ring can open to a carbonyl"
+        },
+        {
+          "key": "D",
+          "text": "It has no hydroxyl groups, so it cannot reduce Fehling's or Tollens' reagent"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "d8db492b-6214-4323-88f7-e2a41b266896",
+      "subject": "chemistry",
+      "type": "single_mcq",
+      "stem": "In the alpha-helix, the secondary structure of a protein is stabilised mainly by which interaction?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Disulfide bonds between the side chains of cysteine residues"
+        },
+        {
+          "key": "B",
+          "text": "Ionic bonds between side chains such as arginine and aspartate"
+        },
+        {
+          "key": "C",
+          "text": "Van der Waals forces between side chains of neighbouring helices"
+        },
+        {
+          "key": "D",
+          "text": "Hydrogen bonds between backbone C=O and N-H groups within the same chain"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "2b8ad4d9-5b84-4089-ba12-bb46cb8fe0d9",
+      "subject": "chemistry",
+      "type": "single_mcq",
+      "stem": "Which reagents are used for the Wolff-Kishner reduction of a carbonyl compound to a methylene group?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Hydrazine, then KOH heated in ethylene glycol"
+        },
+        {
+          "key": "B",
+          "text": "Amalgamated zinc (Zn-Hg) with concentrated HCl"
+        },
+        {
+          "key": "C",
+          "text": "LiAlH4 in dry ether, then aqueous work-up"
+        },
+        {
+          "key": "D",
+          "text": "H2 over Pd on BaSO4 with partial poisoning"
+        }
+      ],
+      "passage_text": null
+    },
+    {
+      "id": "8ead33c1-64fa-464c-a683-af9dafe41340",
+      "subject": "chemistry",
+      "type": "single_mcq",
+      "stem": "In aqueous solution Cu⁺ disproportionates, while Cu²⁺ is stable. The main reason is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "The very high hydration enthalpy of Cu²⁺ outweighs the second ionisation enthalpy of Cu"
+        },
+        {
+          "key": "B",
+          "text": "The hydration enthalpy of Cu⁺ is larger than that of Cu²⁺ in aqueous solution"
+        },
+        {
+          "key": "C",
+          "text": "Cu⁺ has a half-filled d subshell, which makes it unstable in water"
+        },
+        {
+          "key": "D",
+          "text": "The second ionisation enthalpy of copper is lower than its first ionisation enthalpy"
+        }
+      ],
+      "passage_text": null
+    }
+  ]
+}
