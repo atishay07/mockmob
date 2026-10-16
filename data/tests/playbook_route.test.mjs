@@ -122,7 +122,7 @@ test('the routes authenticate with auth(request), refuse bad input, and rate-lim
     assert.match(src, /status: 401/);
     assert.match(src, /'Cache-Control': 'no-store'/);
   }
-  assert.match(pb, /checkRateLimit\(request, \{ route: '\/api\/me\/playbook'/);
+  assert.match(pb, /checkPersistentRateLimit\(request, \{ route: '\/api\/me\/playbook'/);
   // The old note list leaves the rule rows out.
   const recovery = readFileSync(resolve(root, 'src/app/api/recovery/route.js'), 'utf8');
   assert.match(recovery, /\.not\('strategy','like','rule:%'\)/);

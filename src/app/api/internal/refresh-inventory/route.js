@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'node:crypto';
+import { sameSecret as same } from '@/lib/server/secretCompare';
 import { refreshInventorySnapshot } from '@/lib/server/inventory';
 import { supabaseAdmin } from '@/lib/supabase';
 import { refreshStaleNtaIndexes, describeNtaIndexRun } from '@/../data/nta_index';
@@ -11,12 +11,6 @@ export const maxDuration = 300;
 // The function may run 300 s (maxDuration). The NTA index pass stops starting subjects at 250 s after the
 // request began, which leaves 50 s for the subject in flight (one subject is a few seconds).
 const NTA_INDEX_DEADLINE_FROM_START_MS = 250000;
-
-function same(a, b) {
-  const x = Buffer.from(String(a || ''));
-  const y = Buffer.from(String(b || ''));
-  return x.length > 0 && x.length === y.length && timingSafeEqual(x, y);
-}
 
 function authorised(request) {
   const cron = process.env.CRON_SECRET;

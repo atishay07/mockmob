@@ -1,4 +1,4 @@
-import { timingSafeEqual } from 'node:crypto';
+import { sameSecret as same } from '@/lib/server/secretCompare';
 import { supabaseAdmin } from '@/lib/supabase';
 import { refreshStaleNtaIndexes, describeNtaIndexRun, NTA_INDEX_SUBJECTS } from '@/../data/nta_index';
 import { isFullBankReadBlocked } from '@/../data/full_bank_guard';
@@ -7,12 +7,6 @@ import { toInternalSubjectId } from '@/../data/cuet_controls';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 export const maxDuration = 300;
-
-function same(a, b) {
-  const x = Buffer.from(String(a || ''));
-  const y = Buffer.from(String(b || ''));
-  return x.length > 0 && x.length === y.length && timingSafeEqual(x, y);
-}
 
 function authorised(request) {
   const cron = process.env.CRON_SECRET;

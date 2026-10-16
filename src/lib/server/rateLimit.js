@@ -3,69 +3,30 @@ import 'server-only';
 import { getClientIp } from './requestDiagnostics';
 import { createHash } from 'node:crypto';
 import { supabaseAdmin } from '@/lib/supabase';
-
-export async function checkPersistentRateLimit(request, options) {
-  if (process.env.PERSISTENT_LIMITS_ENABLED !== 'true') return checkRateLimit(request, options);
-  const bucket = createHash('sha256').update([options.route,options.identityOnly ? '' : getClientIp(request),...(options.keyParts || [])].join(':')).digest('hex');
-  try {
-    const { data,error } = await supabaseAdmin().rpc('take_rate_limit',{p_bucket:bucket,p_limit:options.limit,p_window_ms:options.windowMs || 60000});
-    return {allowed:!error && data === true,limit:options.limit,remaining:0,retryAfterSeconds:60};
-  } catch {return {allowed:false,limit:options.limit,remaining:0,retryAfterSeconds:60};}
-}
+import { takeFromMemory, takePersistent } from './rateLimitCore';
 
 const buckets = new Map();
-const MAX_BUCKETS = 5000;
 
-function prune(now) {
-  if (buckets.size <= MAX_BUCKETS) return;
-  for (const [key, bucket] of buckets.entries()) {
-    if (bucket.resetAt <= now) buckets.delete(key);
-    if (buckets.size <= MAX_BUCKETS) return;
-  }
+// In-memory limit: counts per server instance, so it is a speed bump rather than a shared budget.
+export function checkRateLimit(request, { route, limit, windowMs = 60_000, keyParts = [] }) {
+  const key = [route, getClientIp(request), ...keyParts.map((part) => String(part || '').slice(0, 80))].join(':');
+  return takeFromMemory(buckets, key, { limit, windowMs });
 }
 
-export function checkRateLimit(request, {
-  route,
-  limit,
-  windowMs = 60_000,
-  keyParts = [],
-}) {
-  const now = Date.now();
-  prune(now);
-
-  const key = [
-    route,
-    getClientIp(request),
-    ...keyParts.map((part) => String(part || '').slice(0, 80)),
-  ].join(':');
-
-  const bucket = buckets.get(key);
-  if (!bucket || bucket.resetAt <= now) {
-    buckets.set(key, {
-      count: 1,
-      resetAt: now + windowMs,
-    });
-    return { allowed: true, limit, remaining: limit - 1, resetAt: now + windowMs };
-  }
-
-  if (bucket.count >= limit) {
-    return {
-      allowed: false,
-      limit,
-      remaining: 0,
-      resetAt: bucket.resetAt,
-      retryAfterSeconds: Math.max(1, Math.ceil((bucket.resetAt - now) / 1000)),
-    };
-  }
-
-  bucket.count += 1;
-  buckets.set(key, bucket);
-  return {
-    allowed: true,
-    limit,
-    remaining: Math.max(0, limit - bucket.count),
-    resetAt: bucket.resetAt,
-  };
+// Shared limit kept in the database (take_rate_limit) when PERSISTENT_LIMITS_ENABLED=true; the in-memory limit otherwise.
+// If the database cannot answer, `fallback: 'memory'` keeps the in-memory limit for that call; without it the call is refused.
+// Use 'memory' for free, read-style routes where a database blip should not lock students out, and leave it off where
+// money or a paid model call sits behind the limit.
+export async function checkPersistentRateLimit(request, options) {
+  if (process.env.PERSISTENT_LIMITS_ENABLED !== 'true') return checkRateLimit(request, options);
+  const bucket = createHash('sha256').update([options.route, options.identityOnly ? '' : getClientIp(request), ...(options.keyParts || [])].join(':')).digest('hex');
+  return takePersistent({
+    take: (limit, windowMs) => supabaseAdmin().rpc('take_rate_limit', { p_bucket: bucket, p_limit: limit, p_window_ms: windowMs }),
+    limit: options.limit,
+    windowMs: options.windowMs || 60000,
+    fallback: options.fallback === 'memory' ? () => checkRateLimit(request, options) : null,
+    onFallback: () => console.warn(`[rateLimit] persistent limiter unavailable for ${options.route}; using the in-memory limit for this call`),
+  });
 }
 
 export function rateLimitHeaders(result) {

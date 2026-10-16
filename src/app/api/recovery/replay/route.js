@@ -12,7 +12,7 @@ export async function GET(request) {
   const headers = {'Cache-Control':'no-store'};
   const session = await auth(request);
   if(!session?.user?.id)return Response.json({error:'Unauthorized'},{status:401,headers});
-  if(!(await checkPersistentRateLimit(request,{route:'/api/recovery/replay',limit:30,keyParts:[session.user.id]})).allowed)return Response.json({error:'Please wait before checking again.'},{status:429,headers});
+  if(!(await checkPersistentRateLimit(request,{route:'/api/recovery/replay',limit:30,keyParts:[session.user.id],fallback:'memory'})).allowed)return Response.json({error:'Please wait before checking again.'},{status:429,headers});
   const id=new URL(request.url).searchParams.get('attemptId');
   if(!id || id.length>100)return Response.json({error:'Invalid attempt'},{status:422,headers});
   try{

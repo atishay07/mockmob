@@ -1,16 +1,10 @@
-import { timingSafeEqual } from 'node:crypto';
+import { sameSecret as same } from '@/lib/server/secretCompare';
 import { supabaseAdmin } from '@/lib/supabase';
 import { respondEpisode } from '@/lib/server/learning';
 import { finaliseExpiredSessions, supabaseSessionStore, episodeCheckInput, FINALISE_BATCH } from '@/lib/server/sessionFinaliser';
 import { releaseExpiredAiCredits } from '@/services/credits/releaseExpired';
 
 export const maxDuration = 60;
-
-function same(a, b) {
-  const x = Buffer.from(String(a || ''));
-  const y = Buffer.from(String(b || ''));
-  return x.length > 0 && x.length === y.length && timingSafeEqual(x, y);
-}
 
 function authorised(request) {
   const cron = process.env.CRON_SECRET;

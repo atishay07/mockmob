@@ -7,6 +7,7 @@
 // FIX 18 (Medium):   worker_id is a per-request UUID, not process.pid.
 
 import { supabase } from '@/lib/supabase'
+import { hasInternalSecret } from '@/lib/server/secretCompare'
 import { runRuleChecks } from '@/lib/moderation/rules'
 import { callModerationLLM } from '@/lib/moderation/ai'
 import { assignTier, computeAiScore, EXPOSURE_BUDGETS, EXPLORATION_LANES } from '@/lib/moderation/tiering'
@@ -31,13 +32,12 @@ const JOB_TIMEOUT_MS = 35_000
 // The former single-model moderation path cannot certify or spend on content.
 // Keep its queued jobs intact for the persistent evidence worker.
 export async function POST(request){
-  if(!process.env.INTERNAL_API_SECRET || request.headers.get('x-internal-secret')!==process.env.INTERNAL_API_SECRET)
+  if(!hasInternalSecret(request))
     return Response.json({error:'Forbidden.'},{status:403});
   return Response.json({processed:false,reason:'paused_persistent_evidence_pipeline_required'},{status:503});
 }
 async function legacyModerationProcess(request) {
-  const secret = request.headers.get('x-internal-secret')
-  if (!process.env.INTERNAL_API_SECRET || secret !== process.env.INTERNAL_API_SECRET) {
+  if (!hasInternalSecret(request)) {
     return Response.json({ error: 'Forbidden.' }, { status: 403 })
   }
 

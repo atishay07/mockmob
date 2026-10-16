@@ -2,7 +2,7 @@ import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { supabaseAdmin } from '@/lib/supabase';
 import { improvementEvidence } from '@/../data/recovery';
-import { checkRateLimit } from '@/lib/server/rateLimit';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { eligibilitySnapshot, publicationEligibility } from '@/../data/evidence_registry';
 import { excludeHeldFamilies } from '@/../data/evidence_holds';
 import { learningRecord } from '@/lib/server/learning';
@@ -10,6 +10,8 @@ import { learningRecord } from '@/lib/server/learning';
 export async function GET(request) {
   const session=await auth(request);
   if(!session?.user)return Response.json({error:'Unauthorized'},{status:401});
+  // The record reads every attempt and the current copy of every question in them: the heaviest free read.
+  if(!(await checkPersistentRateLimit(request,{route:'/api/recovery:get',limit:40,keyParts:[session.user.id],fallback:'memory'})).allowed)return Response.json({error:'Too many requests'},{status:429,headers:{'Cache-Control':'no-store','Retry-After':'30'}});
   const allAttempts=await Database.getAttempts(session.user.id);
   const ordinaryReview=allAttempts.map(a=>({id:a.id,subject:a.subject,completedAt:a.completedAt,correct:a.correct,total:a.total,scoringVersion:a.selectionMeta?.scoringVersion || 'historical_device',mistakes:(a.details || []).filter(d=>d.isCorrect!==true).length}));
   const attempts=allAttempts.filter(a=>a.selectionMeta?.scoringVersion==='server_snapshot_v1' && a.selectionMeta?.contentEvidence !== 'legacy_bank');
@@ -50,7 +52,7 @@ export async function GET(request) {
 export async function POST(request) {
   const session=await auth(request);
   if(!session?.user)return Response.json({error:'Unauthorized'},{status:401});
-  if(!checkRateLimit(request,{route:'/api/recovery',limit:20,keyParts:[session.user.id]}).allowed)return Response.json({error:'Too many requests'},{status:429});
+  if(!(await checkPersistentRateLimit(request,{route:'/api/recovery',limit:20,keyParts:[session.user.id],fallback:'memory'})).allowed)return Response.json({error:'Too many requests'},{status:429});
   const body=await request.json().catch(()=>null);
   if(!body || !['two_pass','concept_repair','timed_practice'].includes(body.strategy) || typeof body.reflection!=='string' || body.reflection.length>1000)return Response.json({error:'Invalid reflection'},{status:422});
   const attempt=await Database.getAttemptById(body.attemptId);

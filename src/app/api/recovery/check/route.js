@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { checkRateLimit } from '@/lib/server/rateLimit';
+import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { openCheck, answerCheck } from '@/services/recovery/repairCheck';
 import { buildCheckDeps } from '@/services/recovery/repairCheckDeps';
 
@@ -23,7 +23,7 @@ async function signedIn(request) {
 export async function GET(request) {
   const who = await signedIn(request);
   if (who.response) return who.response;
-  if (!checkRateLimit(request, { route: '/api/recovery/check:get', limit: 40, keyParts: [who.user.id] }).allowed)
+  if (!(await checkPersistentRateLimit(request, { route: '/api/recovery/check:get', limit: 40, keyParts: [who.user.id], fallback: 'memory' })).allowed)
     return Response.json({ ok: false, error: 'rate_limited', message: 'Please wait a moment before the next check.' }, { status: 429, headers });
   const params = new URL(request.url).searchParams;
   const { http, body } = await openCheck({ user: who.user, attemptId: params.get('attemptId'), questionId: params.get('questionId'), deps: buildCheckDeps() });
@@ -34,7 +34,7 @@ export async function GET(request) {
 export async function POST(request) {
   const who = await signedIn(request);
   if (who.response) return who.response;
-  if (!checkRateLimit(request, { route: '/api/recovery/check:post', limit: 20, keyParts: [who.user.id] }).allowed)
+  if (!(await checkPersistentRateLimit(request, { route: '/api/recovery/check:post', limit: 20, keyParts: [who.user.id], fallback: 'memory' })).allowed)
     return Response.json({ ok: false, error: 'rate_limited', message: 'Please wait a moment before the next check.' }, { status: 429, headers });
   const body = await request.json().catch(() => null);
   if (!body || typeof body !== 'object')
