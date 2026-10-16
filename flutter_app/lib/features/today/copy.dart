@@ -171,7 +171,8 @@ abstract final class TodayCopy {
   static const String tryAgain = 'Try again';
   static const String chooseSomethingElse = 'Choose something else';
   static const String hiddenUntilTomorrow = 'Hidden until tomorrow. Your mistakes are still in Review.';
-  static const String connectToStart = 'Needs a connection to start.';
+  /// Under a key that needs the network: the card itself says the phone is offline (L01).
+  static const String connectToStart = 'You are offline. Starting needs a connection.';
   static const String showMe = 'Show me';
 
   /// What the sentence's link opens, for a screen reader.

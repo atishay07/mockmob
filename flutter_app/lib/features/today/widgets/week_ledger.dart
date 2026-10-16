@@ -234,8 +234,15 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
         mainAxisSize: MainAxisSize.min,
         children: [
           // The count row is the control that opens the week sheet; the rail below has controls
-          // of its own, one per day.
-          Padding(
+          // of its own, one per day. The shared key (first view, a long press) takes the count
+          // row's place for its hold and hands it back: it never adds or removes a line, so the
+          // hero under the week never moves when it folds (L03). A folded key is no widget.
+          Stack(
+            alignment: AlignmentDirectional.centerStart,
+            children: [
+              FadeTransition(
+                opacity: ReverseAnimation(_legendCurve),
+                child: Padding(
             padding: EdgeInsets.symmetric(horizontal: bleed),
             child: MmPressable(
             semanticsLabel: [week.count, ?week.outlook, if (tap != null) 'Opens your week'].join('. '),
@@ -290,6 +297,31 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
             ),
             ),
           ),
+              ),
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: AnimatedBuilder(
+                    animation: _legend,
+                    builder: (context, _) => _legend.isDismissed
+                        ? const SizedBox.shrink()
+                        : FadeTransition(
+                            opacity: _legendCurve,
+                            child: SlideTransition(
+                              position: Tween(begin: const Offset(0, 0.12), end: Offset.zero).animate(_legendCurve),
+                              child: Align(
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: MmSpace.s4 + bleed),
+                                  child: StudyWeekKey(days: [for (final d in week.days) d.toBubble()]),
+                                ),
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           // The 48 dp count row already carries its own air above the rail.
           const SizedBox(height: MmSpace.s4),
           _Rail(
@@ -305,24 +337,6 @@ class _WeekLedgerState extends ConsumerState<WeekLedger> with TickerProviderStat
             breathe: _todayOpen ? _breathe : null,
             onDay: _tapDay,
             bleed: bleed,
-          ),
-          // The shared key, only while it is shown (first view, a long press): never a standing
-          // line of small print. A folded key is no widget.
-          AnimatedBuilder(
-            animation: _legend,
-            builder: (context, _) => _legend.isDismissed
-                ? const SizedBox.shrink()
-                : SizeTransition(
-                    sizeFactor: _legendCurve,
-                    alignment: Alignment.topCenter,
-                    child: FadeTransition(
-                      opacity: _legendCurve,
-                      child: Padding(
-                        padding: EdgeInsets.only(top: MmSpace.s8, left: MmSpace.s4 + bleed, right: MmSpace.s4 + bleed),
-                        child: StudyWeekKey(days: [for (final d in week.days) d.toBubble()]),
-                      ),
-                    ),
-                  ),
           ),
         ],
       ),

@@ -47,37 +47,61 @@ class MmBarInsets extends InheritedWidget {
       showing != oldWidget.showing || capsule != oldWidget.capsule || tonightMove != oldWidget.tonightMove;
 }
 
-/// The ground fading in behind the bar (replaces the old `DockScrim`). It runs from 40 dp above
-/// the bar's top (or the capsule's, while it shows) to the screen's bottom: clear at the top,
-/// ground at 85% 16 dp below the bar's top, solid at the bar's bottom edge. The bar's upper half,
-/// where the icons sit, shows content moving behind the glass; its lower half, where the labels
-/// sit, is always over at least 85% ground, so labels keep 4.5:1 over any page.
+/// The ground fading in behind the bar (replaces the old `DockScrim`), from 40 dp above the bar's
+/// top (or the capsule's, while it shows) to the screen's bottom. It follows the glass tier
+/// ([quality], else the inherited `GlassScope`):
+///
+/// * Full: the bar is frosted glass, so the scrim stays out of its way (L33, "content must blur
+///   through it"). Clear down to the bar's top, so the icon half shows the page moving behind the
+///   blur; it thickens through the label half (ground at 55% at mid-bar, 85% at the bar's foot,
+///   under a tint that is already 60 to 68% ground), so the labels keep their contrast; solid in
+///   the gap under the floating bar.
+/// * Lite and Off: no live blur, so the old fade holds: ground at 85% 16 dp below the surface's
+///   top and solid at the bar's bottom edge, so labels keep 4.5:1 over any page.
 class BarScrim extends StatelessWidget {
-  const BarScrim({super.key, required this.bottomInset, this.capsule = false});
+  const BarScrim({super.key, required this.bottomInset, this.capsule = false, this.quality});
 
   /// The gesture inset under the bar.
   final double bottomInset;
   final bool capsule;
 
+  /// Overrides the inherited `GlassScope` (goldens draw every tier).
+  final GlassQuality? quality;
+
   /// The scrim's height for a [bottomInset].
   static double heightFor(double bottomInset, {bool capsule = false}) =>
       40 + MmBar.height + MmBar.lift + bottomInset + (capsule ? MmBar.capsuleClearance : 0);
+
+  /// The scrim's stops and ground alphas, top to bottom, for a scrim [height] tall.
+  static ({List<double> stops, List<double> alphas}) rampFor(GlassQuality quality, {required double height, required double bottomInset}) {
+    final barBottom = height - bottomInset - MmBar.lift;
+    if (quality == GlassQuality.full) {
+      final barTop = barBottom - MmBar.height;
+      final mid = barTop + MmBar.height / 2;
+      return (
+        stops: [0, barTop / height, mid / height, barBottom / height, 1],
+        alphas: const [0, 0, 0.55, 0.85, 1],
+      );
+    }
+    // Stops measured from the top of whichever surface is highest (bar or capsule).
+    const surfaceTop = 40.0;
+    final dense = (surfaceTop + 16) / height;
+    final solid = (barBottom / height).clamp(dense, 1.0);
+    return (stops: [0, dense, solid, 1], alphas: const [0, 0.85, 1, 1]);
+  }
 
   @override
   Widget build(BuildContext context) {
     final ground = context.mmColors.ground;
     final height = heightFor(bottomInset, capsule: capsule);
-    // Stops measured from the top of whichever surface is highest (bar or capsule).
-    final surfaceTop = 40.0;
-    final dense = (surfaceTop + 16) / height;
-    final solid = (height - bottomInset - MmBar.lift) / height;
+    final ramp = rampFor(quality ?? GlassScope.of(context), height: height, bottomInset: bottomInset);
     return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          stops: [0, dense, solid.clamp(dense, 1.0), 1],
-          colors: [ground.withValues(alpha: 0), ground.withValues(alpha: 0.85), ground, ground],
+          stops: ramp.stops,
+          colors: [for (final a in ramp.alphas) ground.withValues(alpha: a)],
         ),
       ),
     );

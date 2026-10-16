@@ -21,12 +21,15 @@ import 'core/widgets/brand/brand_opening.dart' show BrandOpeningHost;
 import 'core/widgets/skeleton.dart' show SkeletonGroup;
 import 'core/sync/sync.dart';
 import 'features/notifications/services/android_permission_requester.dart';
+import 'core/platform/startup_trace.dart';
 
 void main() {
   runZonedGuarded(_start, (error, stack) => _report(error, stack, ErrorKinds.zone));
 }
 
 Future<void> _start() async {
+  // L01: the log's clock for the way to Today's first card (`MMT` lines).
+  StartupTrace.start();
   WidgetsFlutterBinding.ensureInitialized();
   _installErrorHandling();
   // Every loading skeleton carries the soft sweep in the app; tests keep the static default.
@@ -54,6 +57,7 @@ Future<void> _start() async {
   final glass = boot[0] as GlassBoot;
   final intended = boot[1] as IntendedRoute;
 
+  StartupTrace.mark('runApp');
   runApp(
     ProviderScope(
       overrides: [
@@ -69,7 +73,10 @@ Future<void> _start() async {
   );
 
   // The database, notifications and WorkManager are not needed to paint the first frame.
-  WidgetsBinding.instance.addPostFrameCallback((_) => unawaited(_initAfterFirstFrame()));
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    StartupTrace.mark('first frame');
+    unawaited(_initAfterFirstFrame());
+  });
 }
 
 Future<void> _initAfterFirstFrame() async {

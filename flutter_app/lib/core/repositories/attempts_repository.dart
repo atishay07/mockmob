@@ -9,6 +9,7 @@ import '../api/api_error.dart';
 import '../api/api_providers.dart';
 import '../models/attempt.dart';
 import '../models/json_helpers.dart';
+import '../platform/startup_trace.dart';
 import '../storage/app_database.dart';
 import '../storage/storage_providers.dart';
 import 'json_remote_notifier.dart';
@@ -66,6 +67,13 @@ List<Attempt> _parseCachedRows(List<String> rows) {
   return out;
 }
 
+/// The isolate entries are made here, in plain synchronous functions, so each closure holds only
+/// the text it parses: one made inside an async method could carry that method's context (and the
+/// notifier behind it) into the isolate message, which then fails or copies far more than it needs.
+Future<List<Attempt>> _parseCachedRowsInIsolate(List<String> rows) => Isolate.run(() => _parseCachedRows(rows));
+
+Future<_ParsedAttempts> _parseAttemptsInIsolate(String body) => Isolate.run(() => _parseAttempts(body));
+
 /// Large bodies are read in an isolate. When the isolate cannot run (no memory to start one, a
 /// message it cannot send back) the body is read here instead: a phone that cannot spawn an
 /// isolate must not report a good answer as unreadable.
@@ -98,6 +106,7 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
   @override
   Future<CachedValue<List<Attempt>>?> readCache(String userId) async {
     final db = ref.read(appDatabaseProvider);
+    final began = StartupTrace.elapsedMs;
     final rows = await (db.select(db.cachedAttempts)
           ..where((t) => t.userId.equals(userId))
           ..orderBy([(t) => OrderingTerm.desc(t.completedAtMs), (t) => OrderingTerm.desc(t.attemptId)]))
@@ -105,7 +114,9 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
     if (rows.isEmpty) return null;
     final jsons = [for (final r in rows) r.json];
     final chars = jsons.fold<int>(0, (n, j) => n + j.length);
-    final attempts = await _offMain(chars, () => _parseCachedRows(jsons), () => Isolate.run(() => _parseCachedRows(jsons)));
+    final read = StartupTrace.elapsedMs;
+    final attempts = await _offMain(chars, () => _parseCachedRows(jsons), () => _parseCachedRowsInIsolate(jsons));
+    StartupTrace.mark('attempts cache', '${rows.length} rows, $chars chars, read ${read - began} ms, parsed ${StartupTrace.elapsedMs - read} ms');
     if (attempts.isEmpty) return null;
     return CachedValue(attempts, DateTime.fromMillisecondsSinceEpoch(await _listFetchedAtMs(db, userId, rows)));
   }
@@ -123,10 +134,12 @@ class AttemptsRepository extends RemoteNotifier<List<Attempt>> {
   @override
   Future<Fetched<List<Attempt>>> fetchRemote() async {
     final ApiClient api = ref.read(apiClientProvider);
+    final began = StartupTrace.elapsedMs;
     final response = await api.get('/api/attempts', options: const ApiOptions(plainBody: true, receiveTimeout: Duration(seconds: 60)));
     final body = response.text;
+    StartupTrace.mark('attempts network', '${body.length} chars in ${StartupTrace.elapsedMs - began} ms');
     try {
-      final parsed = await _offMain(body.length, () => _parseAttempts(body), () => Isolate.run(() => _parseAttempts(body)));
+      final parsed = await _offMain(body.length, () => _parseAttempts(body), () => _parseAttemptsInIsolate(body));
       return Fetched(parsed.attempts, parsed.jsons);
     } on Object {
       throw const ApiError(kind: ApiErrorKind.unknown, code: 'unusable_response');

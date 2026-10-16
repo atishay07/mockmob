@@ -11,6 +11,7 @@ import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/connectivity/connectivity_monitor.dart' show NetworkStatus;
 import '../../../core/connectivity/connectivity_providers.dart' show networkStatusProvider;
 import '../../../core/motion/motion.dart';
+import '../../../core/platform/startup_trace.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
@@ -221,6 +222,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
       if (next != null && ref.read(attemptsRepositoryProvider).value != null) debugPrint('Today: plan read failed, move built from the papers ($next)');
     });
     final view = ref.watch(todayViewProvider);
+    StartupTrace.mark(view.hero == null ? 'today skeleton' : 'today card', 'offline ${view.offline}');
     final insightsLoading = ref.watch(insightsRepositoryProvider.select((s) => s.value == null && (s.loading || s.error == null)));
     final hasEnding = _endingFor(has: ref.watch(weeklyEndingProvider) != null, painted: view.hero != null);
     return TodayBody(

@@ -27,10 +27,15 @@ enum GlassQuality {
 /// The saved glass settings, read before `runApp` so a saved Lite or Off is right on the first
 /// frame instead of flipping from Full after it.
 class GlassBoot {
-  const GlassBoot({this.chosen = GlassQuality.full, this.autoLite = false});
+  const GlassBoot({this.chosen = GlassQuality.full, this.autoLite = false, this.picked = false});
 
   final GlassQuality chosen;
   final bool autoLite;
+
+  /// The student picked [chosen] in Appearance (rather than it being the default). A picked Full
+  /// is never stepped down to Lite behind their back (L33: Full was set and the bar still read as
+  /// a flat tint).
+  final bool picked;
 
   static Future<GlassBoot> read(AppPrefs prefs, {Future<bool> Function()? lowMemory}) async {
     try {
@@ -44,7 +49,7 @@ class GlassBoot {
         auto = true;
         await prefs.setGlassAutoLite(true);
       }
-      return GlassBoot(chosen: saved ?? GlassQuality.full, autoLite: auto);
+      return GlassBoot(chosen: saved ?? GlassQuality.full, autoLite: saved == GlassQuality.full ? false : auto, picked: saved != null);
     } on Object {
       return const GlassBoot();
     }
@@ -75,6 +80,9 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
   GlassQuality _chosen = GlassQuality.full;
   bool _auto = false;
 
+  /// The student picked [_chosen] in Appearance; see [GlassBoot.picked].
+  bool _picked = false;
+
   /// What the student picked in Appearance.
   GlassQuality get chosen => _chosen;
 
@@ -89,6 +97,7 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
     if (boot != null) {
       _chosen = boot.chosen;
       _auto = boot.autoLite;
+      _picked = boot.picked;
       return _effective;
     }
     _load();
@@ -105,6 +114,7 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
     if (!ref.mounted) return;
     _chosen = boot.chosen;
     _auto = boot.autoLite;
+    _picked = boot.picked;
     state = _effective;
   }
 
@@ -112,6 +122,7 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
     final before = state;
     _chosen = quality;
     _auto = false;
+    _picked = true;
     state = _effective;
     // Lite chosen while already on automatic Lite: the state is the same, the choice is not.
     if (state == before) ref.notifyListeners();
@@ -124,9 +135,10 @@ class GlassQualitySetting extends Notifier<GlassQuality> {
     }
   }
 
-  /// Full to Lite only; never touches a choice of Lite or Off.
+  /// Full to Lite only, and only a Full nobody picked: never touches a choice of Lite or Off, nor
+  /// a Full the student picked in Appearance.
   Future<void> downgrade() async {
-    if (_chosen != GlassQuality.full || _auto) return;
+    if (_chosen != GlassQuality.full || _auto || _picked) return;
     _auto = true;
     state = _effective;
     try {

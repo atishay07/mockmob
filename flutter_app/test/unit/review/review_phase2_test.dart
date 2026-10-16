@@ -238,7 +238,8 @@ void main() {
       expect(title.dx, ReviewSpace.moment, reason: 'the headline is on the moment gutter');
       // The credit line sits directly under the thread, not down by the key.
       final credit = tester.getRect(find.text('Uses 1 AI credit per mistake. You have 9.'));
-      final caption = tester.getRect(find.text(ReviewCopy.lifeCaption));
+      // What the credit buys sits under the thread, the cost right under it (L13).
+      final caption = tester.getRect(find.text(ReviewCopy.repairGives));
       expect(credit.top - caption.bottom, lessThanOrEqualTo(ReviewSpace.group + 4));
       // The block is weighted above the middle of the room: more air under it than over it.
       final first = tester.getRect(find.textContaining('Mock 2, Accountancy'));

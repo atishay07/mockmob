@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../auth/auth_state.dart';
 import '../../haptics/haptics.dart';
 import '../../motion/motion.dart';
+import '../../platform/startup_trace.dart';
 import '../../theme/theme.dart';
 import '../materials/light_field.dart';
 import 'brand_logo.dart';
@@ -813,6 +814,7 @@ class _BrandOpeningHostState extends ConsumerState<BrandOpeningHost> {
     // composed, on the router's launch screen (the opening's own last frame) while the stored
     // session is read. So it never waits on a network call and never shows a wrong screen.
     final authKnown = ref.watch(authSnapshotProvider.select((a) => a.status != AuthStatus.unknown || a.loadFailed));
+    if (authKnown) StartupTrace.mark('auth known');
     return Stack(
       fit: StackFit.expand,
       children: [

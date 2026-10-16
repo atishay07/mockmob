@@ -624,6 +624,16 @@ class TileChoice extends StatelessWidget {
     TileWeight.secondary => 52,
   };
 
+  /// The object row's height for [weight]: one height across a pair, the larger object's.
+  static double rowHeightFor(TileWeight weight) => weight == TileWeight.even ? objectSize : objectFor(TileWeight.primary);
+
+  /// The title's size for [weight].
+  static double titleSizeFor(TileWeight weight) => switch (weight) {
+    TileWeight.even => 17,
+    TileWeight.primary => 19,
+    TileWeight.secondary => 16,
+  };
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -694,12 +704,20 @@ class TileChoice extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
+                          // The object row is one height across a pair (the larger object's), with
+                          // a smaller object standing on its floor, so both titles start on one line
+                          // (L09).
+                          SizedBox(
+                            height: rowHeightFor(weight),
+                            child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Transform.translate(
-                                offset: const Offset(-4, 0),
-                                child: ChoiceGlyph(kind: o.glyph, size: glyphSize, lit: primary, motion: motion),
+                              Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Transform.translate(
+                                  offset: const Offset(-4, 0),
+                                  child: ChoiceGlyph(kind: o.glyph, size: glyphSize, lit: primary, motion: motion),
+                                ),
                               ),
                               // The tag takes what the object leaves: on a 360 dp phone at large text a
                               // "Pro" tag beside the 72 dp object would run past the tile's edge, so it
@@ -717,14 +735,27 @@ class TileChoice extends StatelessWidget {
                                 ),
                               ],
                             ],
+                            ),
                           ),
                           // A weighted pair (the Practice tab) keeps 8 under the object, the sheet's even pair 12.
                           SizedBox(height: weight == TileWeight.even ? MmSpace.s12 : MmSpace.s8),
-                          const Spacer(),
-                          Text(o.title, style: type.cardTitle.copyWith(fontSize: primary ? 19 : (secondary ? 16 : 17))),
+                          // The title hangs from the object, not from the tile's foot: a longer note
+                          // in one tile of a pair used to push its title up off its neighbour's line
+                          // (L09). One strut across the pair puts both titles on one baseline even
+                          // where a weighted pair sets them in two sizes.
+                          Text(
+                            o.title,
+                            style: type.cardTitle.copyWith(fontSize: titleSizeFor(weight)),
+                            strutStyle: StrutStyle.fromTextStyle(
+                              type.cardTitle.copyWith(fontSize: titleSizeFor(weight == TileWeight.even ? TileWeight.even : TileWeight.primary)),
+                              forceStrutHeight: true,
+                            ),
+                          ),
                           const SizedBox(height: 2),
                           _note(context, o.note, type.caption.copyWith(color: colors.ink2), o.noteLines),
                           if (o.facts.isNotEmpty) ...[const SizedBox(height: MmSpace.s8), _facts(o.facts)],
+                          // What the pair's taller tile leaves over gathers at the foot.
+                          const Spacer(),
                         ],
                       ),
                     ),

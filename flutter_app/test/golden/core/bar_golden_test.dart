@@ -125,7 +125,7 @@ class _Scene extends StatelessWidget {
               right: 0,
               bottom: 0,
               height: BarScrim.heightFor(_inset, capsule: capsule),
-              child: BarScrim(bottomInset: _inset, capsule: capsule),
+              child: BarScrim(bottomInset: _inset, capsule: capsule, quality: shot.quality),
             ),
             Positioned(
               left: 0,

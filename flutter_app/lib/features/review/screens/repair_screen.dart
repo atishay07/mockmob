@@ -183,12 +183,13 @@ class _RepairScreenState extends ConsumerState<RepairScreen> {
       scheme: markingSchemeOf(index?.attempt(widget.attemptId)),
       renewDate: reset == null ? null : formatDayMonth(clock.local(reset)),
       earlier: _earlier(run),
-      // What "Check my answer" costs, said before the paid call: the key explanation is free, an
-      // unknown balance never shows as zero.
+      // What "Check my answer" costs and gives, said before the paid call (L13): the key
+      // explanation is free; the cost is said even while the balance loads, and an unknown
+      // balance never shows as zero.
       tryNote: run.keyOnly
           ? ReviewCopy.keyExplanationFree
           : credits?.explanationBalance == null
-              ? null
+              ? ReviewCopy.reasonCostUnknown
               : ReviewCopy.reasonCost(credits!.explanationBalance!),
       actions: MistakeActions(
         onNext: _run.next,

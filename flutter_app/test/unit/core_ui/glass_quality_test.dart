@@ -93,6 +93,24 @@ void main() {
       expect(container.read(glassQualityProvider), GlassQuality.off, reason: 'a choice of Off is never changed');
     });
 
+    test('a Full the student picked is never stepped down behind their back (L33)', () async {
+      final container = ProviderContainer(overrides: [appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore()))]);
+      addTearDown(container.dispose);
+      await container.read(glassQualityProvider.notifier).choose(GlassQuality.full);
+      await container.read(glassQualityProvider.notifier).downgrade();
+      expect(container.read(glassQualityProvider), GlassQuality.full);
+
+      final picked = ProviderContainer(
+        overrides: [
+          appPrefsProvider.overrideWithValue(AppPrefs(MemoryPrefsStore())),
+          glassBootProvider.overrideWithValue(const GlassBoot(picked: true)),
+        ],
+      );
+      addTearDown(picked.dispose);
+      await picked.read(glassQualityProvider.notifier).downgrade();
+      expect(picked.read(glassQualityProvider), GlassQuality.full, reason: 'a saved pick survives a restart');
+    });
+
     test('a saved choice read before the first frame applies at once', () {
       final container = ProviderContainer(
         overrides: [

@@ -195,6 +195,17 @@ abstract final class ReviewCopy {
   static String entryMeaning(int? minutes) => '${minutes == null ? 'Take your time' : 'About $minutes minutes'}. You can stop after any one.';
   static String creditLine(int balance) => 'Uses 1 AI credit per mistake. You have $balance.';
 
+  /// The cost before the balance has loaded: said in full, the balance never shown as zero (L13).
+  static const creditLineUnknown = 'Uses 1 AI credit per mistake.';
+
+  /// What a repair gives for its credit, said on the entry before anything is spent (L13): more
+  /// than the key, which is free everywhere else.
+  static const repairGives =
+      'For each mistake: one more try, then the reason and the trap behind it, then a fresh checked question on the same rule.';
+
+  /// What the entry offers when the run can only read the keys (credits paused or used up).
+  static const keysGive = 'The key explanations are free.';
+
   /// The headline when the wallet covers fewer mistakes than the repair holds.
   static String shortfallHeadline(int needed, int balance) => 'You have ${plural(balance, 'AI credit')}, this repair needs $needed';
   static String startWith(int n) => 'Start with ${plural(n, 'mistake')}';
@@ -227,8 +238,8 @@ abstract final class ReviewCopy {
 
   /// The cost line under "Check my answer". An unknown balance says nothing about the balance and
   /// never counts as zero.
-  static String reasonCost(int balance) => 'The reason uses 1 AI credit. You have $balance.';
-  static const reasonCostUnknown = 'The reason uses 1 AI credit.';
+  static String reasonCost(int balance) => 'The reason, the trap and a fresh check use 1 AI credit. You have $balance.';
+  static const reasonCostUnknown = 'The reason, the trap and a fresh check use 1 AI credit.';
   static const keyExplanationFree = 'The key explanation is free.';
 
   /// The verdict, in words and never in colour alone.

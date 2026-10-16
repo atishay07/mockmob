@@ -137,9 +137,9 @@ void main() {
       'wallet': {'known': known, 'spendable': spendable, 'resetAt': '2026-10-31T18:30:00Z'},
     });
 
-    test('an unknown balance shows no line and never counts as zero', () {
+    test('an unknown balance still says the cost, and never counts as zero', () {
       final plan = EntryPlan.of(3, credits(null, known: false), clock);
-      expect(plan.line, isNull);
+      expect(plan.line, ReviewCopy.creditLineUnknown);
       expect(plan.primary, ReviewCopy.begin);
       expect(plan.keyOnly, isFalse);
     });

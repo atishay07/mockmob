@@ -29,7 +29,9 @@ class EntryPlan {
       return const EntryPlan(headline: ReviewCopy.pausedHeadline, line: ReviewCopy.pausedLine, primary: ReviewCopy.readKeys, keyOnly: true);
     }
     final balance = credits?.explanationBalance;
-    if (balance == null) return const EntryPlan(primary: ReviewCopy.begin);
+    // The cost is said before Begin even while the balance is still loading (L13); the balance
+    // joins it once known and never shows as zero.
+    if (balance == null) return const EntryPlan(line: ReviewCopy.creditLineUnknown, primary: ReviewCopy.begin);
     if (balance <= 0) {
       return EntryPlan(headline: ReviewCopy.outOfCreditsHeadline, line: renew, primary: ReviewCopy.readKeys, keyOnly: true);
     }
@@ -236,7 +238,12 @@ class _RepairEntryViewState extends State<RepairEntryView> with SingleTickerProv
               // The thread, flat on the ground: where each of these is headed.
               LifeRow(stage: reopen ? MistakeStage.repaired : MistakeStage.found, animate: false),
               const SizedBox(height: MmSpace.s12),
-              Text(ReviewCopy.lifeCaption, style: type.small.copyWith(color: colors.ink2)),
+              // What the credit buys, before it is spent (L13): the try, the reason, the trap and
+              // the fresh checked question. A reopened repair is free and keeps the thread's note.
+              Text(
+                reopen ? ReviewCopy.lifeCaption : (widget.plan.keyOnly ? ReviewCopy.keysGive : ReviewCopy.repairGives),
+                style: type.small.copyWith(color: colors.ink2),
+              ),
               // What it costs, in words, directly under the thread.
               if (widget.plan.hasWords && !reopen) ...[
                 const SizedBox(height: MmSpace.s24),
