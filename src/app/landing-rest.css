@@ -78,6 +78,16 @@
   color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
+/* The one line under the counts: what the counts mean for mocks. Body ink, not a caption grey, at the lineup's
+   width, so it reads as a sentence about the numbers above it and not as small print. */
+.mm.lp .lp-shelf__note {
+  max-width: 44ch;
+  margin: var(--sp-5, 1.5rem) 0 0;
+  font-size: var(--t-body, 1rem);
+  line-height: 1.5;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
 @media (min-width: 960px) {
   .mm.lp .lp-statement__grid { grid-template-columns: minmax(0, 1fr); gap: clamp(3rem, 6vw, 5rem); align-items: start; }
   .mm.lp .lp-shelf__row {

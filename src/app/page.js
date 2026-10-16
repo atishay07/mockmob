@@ -50,13 +50,14 @@ import './landing-rest.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   '100 practice credits to start: a Quick practice uses 10, a Full mock 50',
+  'Every mock drawn from the same question bank as Pro',
   '10 AI credits a month, for Ask Mobi beyond your own record',
   'Weekly progress tracking',
   '25 saved questions',
   'Leaderboard',
 ];
 const proPlan = newOfferReleased() ? ['All available recovery pathways', 'Fresh delayed checks and full history', 'Unlimited available practice and reattempts', 'Full, Smart and NTA access', 'Unlimited saved questions'] : [
-  'Unlimited Quick practice and Full mock',
+  'Unlimited Quick practice and Full mocks, a new paper each time',
   'Compass Pro: your practice mapped to your DU shortlist',
   'Smart practice and NTA mode',
   'Every chapter ranked, with pace and changed answers',
@@ -107,8 +108,9 @@ const STUDY_SUBJECTS = new Set(Object.keys(STUDY_RELEASE.units || {}).map(id => 
 // section (FeatureTour.jsx) instead of drawing it twice: the held tour has only the tools shown nowhere else.
 const TOUR = [
   { id: 'arena', label: 'Practice', line: 'Drills and full mocks on the exam clock', title: 'Practise the way the exam runs.',
-    body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend. Same timer, same question palette, same pressure.',
-    points: ['Quick drills and full mocks', 'NTA mode and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
+    body: 'A short drill for a free evening, or a full 50-question, 60-minute mock for the weekend, each a new paper drawn from the question bank. Same timer, same question palette, same pressure.',
+    lede: 'A quick drill or a full 50-question, 60-minute mock, each a new paper from the question bank. Unlimited with Pro.',
+    points: ['Quick drills and full mocks, unlimited with Pro', 'NTA mode and Smart practice with Pro', 'Close the tab mid-test and pick up where you left off'], chip: 'Close the tab mid-test and pick up where you left off.', href: '/dashboard', cta: 'Start practising' },
   { id: 'repair', label: 'Mistake Repair', line: 'Fix why you got it wrong', title: 'Fix why you missed it.',
     body: 'After a wrong answer, see why your pick tempted you, where it breaks and what to remember. Every repair is written from the official key.',
     points: ['If the AI and the key disagree, the question is held back and you pay nothing', 'A 10-minute next step, then 5 fresh questions to test the fix'], chip: 'Then a 10-minute next step and 5 fresh questions to test the fix.', href: '/signup', cta: 'Try Mistake Repair',
@@ -142,6 +144,7 @@ const faqs = [
   { question: 'Can I try it before signing up?', answer: 'Yes. Pick your subject at the top of this page and answer five CUET-style questions, each with the reason behind the answer. No account needed.' },
   { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. DU eligibility and published cutoffs sit alongside.' },
   { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
+  { question: 'How many mocks can I take?', answer: 'With Pro, as many as you like. Every Quick practice and Full mock is a new paper, drawn from the question bank when you start it, so there is no fixed set of papers to run out of. Free starts with 100 practice credits from the same bank: a Quick practice uses 10, a Full mock 50. A question you have answered can come back, more often in subjects with smaller banks.' },
   { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `₹${OFFER.oneTime.rupees} once, for access through ${OFFER.oneTime.expires}. It does not renew and nothing is charged again.` },
   { question: 'Is MockMob affiliated with NTA or DU?', answer: 'No. MockMob is independent. The exam pattern and the DU rules you see here come from what NTA and DU publish.' },
 ];
@@ -202,13 +205,14 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Second hero beat: two facts the page does not say anywhere else, as plain sentences under a hairline,
-              each a link to the part of the page that shows it. The sample already offers five questions, and the
-              73 DU programmes belong to the DU section, so neither is repeated here. */}
+          {/* Second hero beat: two facts, as plain sentences under a hairline, each a link to the part of the page
+              that shows it. The second is the bank: one question bank behind every mock, so a mock is put together
+              when it starts, not taken from a fixed set of papers, and Pro sets no cap on how many (owner, 16 Oct
+              2026). The sample already offers five questions, and the 73 DU programmes belong to the DU section. */}
           <div className="mm-wrap">
             <nav className="lp-proof" aria-label="What MockMob gives you">
               <a href="#exam-experience"><b>Two exam screens</b>: MockMob’s own, plus the NTA-style one with Pro.</a>
-              <a href="#your-prep"><b>One full CUET mock</b>: 50 questions in 60 minutes.</a>
+              <a href="#your-prep"><b>Unlimited mocks with Pro</b>: 50 questions in 60 minutes, built from the question bank each time.</a>
             </nav>
           </div>
         </section>
@@ -237,6 +241,10 @@ export default function LandingPage() {
                   </li>
                 ))}
               </ul>
+              {/* The bank under the counts: a mock is assembled from these questions when it starts, so there is no
+                  fixed set to run out of. Says nothing about repeats: the selector favours questions a student has
+                  not answered but does not promise a question never comes back (data/mock_question_selector.js). */}
+              <p className="lp-shelf__note">A mock is drawn fresh from these questions each time you start one, so there is no fixed set of papers to run out of. Pro puts no cap on how many you take.</p>
             </div>
           </div>
         </section>
