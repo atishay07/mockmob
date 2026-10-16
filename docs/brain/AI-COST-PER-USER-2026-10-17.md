@@ -82,3 +82,11 @@ The rule holds with about a 5x margin.
 - Paid cap: **Rs 5 a month** (USD 0.0568), down from the Rs 10 the branch defaults to. Set it with one UPDATE of the student_user_paid row in runtime_ai_budget right after applying the migration.
 - Free cap: Rs 1 (USD 0.0114).
 - Typical use is about Rs 2 a month, so the cap only stops runaway loops.
+
+## Owner decision, 17 Oct about 3:10 am IST: the global ceiling is removed
+
+- His words: "remove the Rs 2,200 ceiling... The realistic cap is until my API credits run out."
+- Done on production: `update runtime_ai_budget set monthly_cap_usd=1000000 where id='student_ai'`. Effectively no ceiling. A number was kept rather than NULL because the readiness scripts expect a positive value.
+- The per-student caps stay: Rs 5 a month paid (0.0568), Rs 1 a month free (0.0114).
+- The owner gets notified through the low-balance and billing alerts in the OpenAI and Anthropic consoles.
+- AGENTS.md still says "USD 25 per IST month". Update that line in the next website deploy.
