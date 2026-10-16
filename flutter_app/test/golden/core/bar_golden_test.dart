@@ -342,6 +342,31 @@ void main() {
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
 
+    // GLASS-1017 5.5, the strip: Today open, a finger lands on Practice at 0 ms and lifts at
+    // 70 ms. Frames at 0 (rest), 70 (the lens lifted, wider and clearer, Today's icon magnified,
+    // the light under the finger), 150 (travelling, still lifted), 230, 330 (landing, the lift
+    // sinking) and 480 ms (at rest on Practice).
+    testWidgets('bar lift (frames), $tag', (tester) async {
+      await pumpMockmob(tester, const _Scene(shot: _Shot()), brightness: brightness, size: kNightSize);
+      await tester.pump(const Duration(milliseconds: 500));
+      TestGesture? finger;
+      final sheet = await frameSheet(
+        tester,
+        root: find.byType(Scaffold).first,
+        atMs: const [0, 70, 150, 230, 330, 480],
+        crop: const Rect.fromLTWH(0, 853 - _inset - MmBar.lift - MmBar.height - 8, 384, MmBar.height + 16),
+        pixelRatio: _ratio,
+        beforeFrame: (i) async {
+          // A frame at once after each event, so the tickers start at the event, not a frame later.
+          if (i == 1) finger = await tester.startGesture(tester.getCenter(find.text('Practice')));
+          if (i == 2) await finger!.up();
+          if (i == 1 || i == 2) await tester.pump();
+        },
+      );
+      await expectLater(sheet, matchesGoldenFile('goldens/bar_lift_$tag.png'));
+      await tester.pumpAndSettle();
+    });
+
     // The lens from Practice to Review at 0, 40, 80, 130, 200 and 420 ms (top to bottom): the
     // leading edge runs ahead, the trailing edge follows, the old icon empties to its outline
     // (160 ms), and the new one fills (200 ms) only once the lens has nearly arrived (past 70%
