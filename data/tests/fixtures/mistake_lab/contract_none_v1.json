@@ -18,6 +18,7 @@
   },
   "state": "none",
   "heading": "You didn't miss a mark this session.",
+  "hero": null,
   "gap": 0,
   "headline": null,
   "groups": [],
@@ -25,5 +26,6 @@
   "remark": null,
   "cohort": null,
   "fine": [],
+  "method": null,
   "byQuestion": {}
 }

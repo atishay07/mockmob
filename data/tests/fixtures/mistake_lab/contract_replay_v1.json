@@ -8,6 +8,11 @@
   },
   "state": "ready",
   "heading": "You missed 105 marks. Here's where they went.",
+  "hero": {
+    "value": 105,
+    "max": 250,
+    "label": "marks missed, of 250"
+  },
   "gap": 105,
   "headline": {
     "group": "quick_wrong",
@@ -114,12 +119,24 @@
   "remark": {
     "first": 151,
     "final": 146,
+    "max": 245,
     "questions": 5,
-    "text": "Your first picks, re-marked: 151. Your final answers: 146. Changing answers cost 5 marks over 5 questions.",
+    "lost": {
+      "marks": 12,
+      "questions": 2
+    },
+    "won": {
+      "marks": 7,
+      "questions": 2
+    },
+    "net": -5,
+    "text": "Changing answers: lost 12 marks on 2, won back 7 on 2. Net cost 5 marks.",
+    "scores": "First picks: 151 of 245. Final answers: 146 of 245 (1 question under re-check left out of both).",
     "fine": "Same paper, same key, only your first picks swapped in. 1 question under re-check is left out of both."
   },
   "cohort": {
     "line": "4 questions you lost were ones most other students got right: Q12, Q16, Q22 and Q42 (24 marks).",
+    "truth": "Each had answers from 20 or more other students.",
     "numbers": [
       12,
       16,
@@ -135,6 +152,15 @@
   "fine": [
     "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits."
   ],
+  "method": {
+    "label": "How this is counted",
+    "lines": [
+      "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits.",
+      "First picks are re-marked on the same paper with the same key, with only your first picks swapped in.",
+      "33 of the 50 questions in this paper have answers from 10 or more other students.",
+      "Other students' first answers to the same question on MockMob, 21 Apr to 15 Oct 2026. Your own answers are not counted."
+    ]
+  },
   "byQuestion": {
     "q1": {
       "group": null,

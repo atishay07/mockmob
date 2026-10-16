@@ -93,3 +93,27 @@ const byType = Object.freeze({ ...Object.fromEntries(Object.values(VT).map((name
  * class, and a navigation without a type (the first load, the back button, the runner) draws nothing.
  */
 export const VIEW_TRANSITION_PROPS = Object.freeze({ enter: byType, exit: byType, update: byType, default: 'none' });
+
+// The development preview (/preview/arena?view=...) draws every arena page on one route. Its views map
+// to the routes they stand for (ArenaPreviewClient's routeNames), so the preview moves as the real arena.
+const PREVIEW_PATH = '/preview/arena';
+const PREVIEW_ROUTES = Object.freeze({ prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' });
+
+/** The arena path an href stands for: itself, or for a preview URL the route its view draws. */
+export function logicalPath(href) {
+  const path = pathOf(href);
+  if (path !== PREVIEW_PATH) return path;
+  const text = typeof href === 'object' && href ? String(href.search || '') : String(href);
+  const query = text.includes('?') ? text.slice(text.indexOf('?') + 1).split('#')[0] : '';
+  const view = new URLSearchParams(query).get('view') || 'dashboard';
+  return `/${PREVIEW_ROUTES[view] || view}`;
+}
+
+/**
+ * The types for one router navigation, from where the student is to where they are going (both full
+ * URLs or paths). src/instrumentation-client.js adds them inside Next's navigation Transition, so every
+ * navigation (dock, sidebar, More sheet, in-page links, router.push, the back button) moves by the same rule.
+ */
+export function navigationTypesFor(fromHref, toHref) {
+  return transitionTypesFor(logicalPath(fromHref), logicalPath(toHref));
+}

@@ -65,6 +65,22 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'study_goal_history', action: 'delete', match: own(), why: 'goal history' },
   { table: 'study_goals', action: 'delete', match: own(), why: 'weekly goal' },
   { table: 'my_colleges', action: 'delete', match: own(), why: 'saved college list' },
+  // The Mob (SOCIAL-SPEC P9). The users row is kept as a tombstone, so its foreign keys never cascade: each table is
+  // named here, children first. A deleted member leaves the ring; a Mob left with no members can no longer be joined.
+  { table: 'mob_nudge_seen', action: 'delete', match: [{ column: 'to_user' }, { column: 'from_user' }], why: 'Mob nudges seen' },
+  { table: 'mob_nudges', action: 'delete', match: [{ column: 'from_user' }], why: 'Mob nudges sent' },
+  { table: 'mob_sittings', action: 'delete', match: own(), why: 'Mob paper sittings' },
+  { table: 'mob_members', action: 'delete', match: own(), why: 'Mob membership and display name' },
+  { table: 'mob_blocks', action: 'delete', match: [{ column: 'blocker_id' }, { column: 'blocked_id' }], why: 'Mob blocks' },
+  {
+    table: 'mob_invites', action: 'anonymise', match: own('created_by'), why: 'invite links keep no creator',
+    set: [{ column: 'created_by', value: 'null' }],
+  },
+  {
+    table: 'mob_reports', action: 'anonymise', match: [{ column: 'reporter_id' }, { column: 'reported_id' }],
+    why: 'reports keep the reason and the reported name for moderation, with no user link (purged after 180 days)',
+    set: [{ column: 'reporter_id', value: 'null' }, { column: 'reported_id', value: 'null' }],
+  },
   { table: 'usage_events', action: 'delete', match: own(), why: 'analytics events' },
   { table: 'usage_consent', action: 'delete', match: own(), why: 'analytics consent' },
   // Kept for legal/financial reasons, with personal fields minimised.

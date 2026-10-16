@@ -24,6 +24,7 @@ import { buildTimeDecisions, TIME_COPY, spentLabel, TIME_RULES } from '@/../data
 import { AppIcon } from '@/components/ui/Glyph';
 import MobiReact from '@/components/brand/MobiReact';
 import ReaderMobi from '@/components/brand/ReaderMobi';
+import { MobResultRow } from '@/components/mob/MobResultRow';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import '@/components/recovery/result.css';
 import { plainOptionTexts } from '@/../data/option_text';
@@ -321,6 +322,9 @@ export default function ResultPageClient({ previewId = null }) {
           </div>
         ) : null}
       </header>
+
+      {/* The Mob's weekly paper: one quiet row with the ring and the way back to /mob (draws nothing otherwise). */}
+      {attempt.selectionMeta?.mobPaper ? <MobResultRow mobPaper={attempt.selectionMeta.mobPaper} /> : null}
 
       {/* ---------- 2. Mistake Lab: where the marks went (the ledger, from attempt.lab), Find (time and decisions; chapters
            only without the SWOT), Repair, Prove. Directly under the score, as it answers the first question. ---------- */}

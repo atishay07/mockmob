@@ -30,7 +30,7 @@ export const durations = Object.freeze({
   enter: 360,
   fadeThroughOut: 90,
   fadeThroughIn: 210,
-  countUp: 720,
+  countUp: 420,
   shimmerSweep: 1400,
   shimmerRest: 250,
   leave: 180,

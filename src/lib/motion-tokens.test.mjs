@@ -41,7 +41,7 @@ const SPRING_TABLE = {
 test('the shared JSON is byte for byte the app\'s copy (LF), so app and web read one source', () => {
   const bytes = lf(readFileSync(TOKENS_PATH, 'utf8'));
   const sha = createHash('sha256').update(bytes, 'utf8').digest('hex');
-  assert.equal(sha, 'f17b16fa18b302b6ea6b1c1c295dc4cfed2b1af1cea22c84792142bd1fa88157',
+  assert.equal(sha, '6aca08535cf448f711d09521a2bdc75013312776fede46763b45e32c4ac6a957',
     'shared/motion-tokens.json changed: change the app\'s copy in the same commit (they must stay identical), then update this hash');
   assert.equal(Buffer.byteLength(bytes), 4183);
   // When the app lives in the same checkout, its copy is this file.
@@ -156,12 +156,14 @@ test('motion-kit.css adopts the app\'s values and drops the 1.56 overshoot', () 
   assert.match(css, /@keyframes mk-pop \{ from \{ transform: scale\(var\(--mm-enter-scale\)\); opacity: 0; \}/);
   assert.match(css, /@keyframes mk-rise \{ from \{ transform: translate3d\(0, var\(--mm-enter-rise\), 0\); opacity: 0; \}/);
   assert.match(css, /\.mk-pop \{ animation: mk-pop var\(--mm-dur-enter\) var\(--mm-ease-emphasized\)/);
-  assert.match(css, /calc\(min\(var\(--i, 0\), var\(--mm-stagger-cap\)\) \* var\(--mm-dur-stagger-step\)\)/);
+  // One stagger (pass 1016e WA-05): the lead rises on the enter values; the rest are in motion-pass-1016e.test.mjs.
+  assert.match(css, /\.mk-stagger > :nth-child\(1\) \{ animation: mk-rise var\(--mm-dur-enter\) var\(--mm-ease-emphasized\) backwards; \}/);
   assert.match(css, /\.mk-swipe\[data-swipe='settle'\] \{ transition: transform var\(--mm-spring-smooth-dur\) var\(--mm-spring-smooth\); \}/);
-  assert.match(css, /\.mk-swipe\[data-swipe='commit'\] \{ transition: transform var\(--mm-dur-leave\) var\(--mm-ease-leave\)/);
+  // A committed swipe keeps its speed on the lift spring (pass 1016e WA-06); without the Web Animations API it eases out.
+  assert.match(css, /\.mk-swipe\[data-swipe='fling'\] \{ transition: none; \}/);
+  assert.match(css, /\.mk-swipe\[data-swipe='commit'\] \{ transition: transform var\(--mm-dur-ui\) var\(--mm-ease-out\)/);
   assert.match(css, /transform var\(--mm-spring-toggle-dur\) var\(--mm-spring-toggle\)/);
-  // Mobi keeps his life on the celebrate spring; nothing else of his uses the kit's press spring.
-  assert.match(css, /--mr-spring: var\(--mm-spring-celebrate\);/);
+  // Mobi's styles moved to src/components/brand/mobi-figure.css with the vector rig (16 Oct): none of his uses the kit's press spring.
   const mobi = css.slice(css.indexOf('MOBI REACT'), css.indexOf('Theme tiles'));
   assert.ok(!mobi.includes('var(--mk-spring)'));
   // Remembered numbers: rise and fall tints for Night and Day.

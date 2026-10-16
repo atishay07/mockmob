@@ -55,7 +55,7 @@ export function TodayColleges({ userId }) {
     <section className="glass mc-card" aria-labelledby="mc-today-h" data-state={mine.status}>
       <header className="mc-head">
         <h2 id="mc-today-h" className="mc-h2">My colleges</h2>
-        {mine.status === 'ready' && mine.colleges.length ? <Link className="mc-link" href={LIST_HREF}>Edit</Link> : null}
+        {mine.status === 'ready' && mine.colleges.length ? <Link className="mc-link" href={LIST_HREF}>Edit colleges</Link> : null}
       </header>
       {mine.status === 'loading' || mine.status === 'idle' ? <Loading /> : null}
       {mine.status === 'ready' && !mine.colleges.length ? <Empty /> : null}

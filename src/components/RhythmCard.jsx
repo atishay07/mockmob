@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUp } from '@/lib/motion/useCountUp';
+import { recallNumber } from '@/lib/motion/numberMemory';
 import { useInView } from '@/lib/motion/useInView';
 import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { weekMobi } from '@/lib/mobiMoments';
@@ -41,10 +42,19 @@ function arcs(goal) {
   });
 }
 
+// The ring's count shares one number memory between Today and Progress (MOTION.md 1.1): the first view ever climbs
+// from 0 on the countUp token (420 ms); after that it rolls from the figure last shown, and an unchanged week does not
+// roll. It starts once the ring is in view; until then it holds the remembered figure (or 0), so nothing jumps.
+const RING_KEY = 'rc-week-days';
+function RingCount({ value }) {
+  return useCountUp(value, { from: 0, memoryKey: RING_KEY });
+}
+
 function WeekRing({ rhythm, armed, size }) {
   const goal = rhythm.daysGoal;
   const paths = useMemo(() => arcs(goal), [goal]);
-  const shown = useCountUp(armed ? rhythm.studyDays : 0, { duration: 900 });
+  const held = recallNumber(RING_KEY);
+  const shown = armed ? <RingCount value={rhythm.studyDays} /> : (Number.isFinite(Number(held)) ? held : 0);
   return (
     <div className="rc-ring" style={{ '--rc-size': `${size}px` }} role="img" aria-label={`${rhythm.studyDays} of ${goal} study days this week`}>
       <svg viewBox="0 0 120 120" aria-hidden="true" focusable="false">
@@ -74,7 +84,9 @@ function WeekRing({ rhythm, armed, size }) {
 // What a day says about itself. Today always says so, counted or not ("Today, Thu 15, counted").
 const dayWords = (d) => (d.isToday && !d.chip.startsWith('Today') ? `Today, ${d.chip}` : d.chip);
 
-function DayBubbles({ week, armed, picked, onPick }) {
+// `fresh`: a study day was counted since this device last saw the week. Today's dot, now done, takes one more breath
+// (data-breathe, drawn by student-pages.css) once it is on screen: the change answers the session that earned it.
+function DayBubbles({ week, armed, picked, onPick, fresh = false }) {
   return (
     <ul className="rc-days" aria-label="This week, day by day">
       {week.map((d, i) => (
@@ -86,6 +98,7 @@ function DayBubbles({ week, armed, picked, onPick }) {
             data-today={d.isToday ? 'true' : undefined}
             data-picked={picked === i ? 'true' : 'false'}
             data-armed={armed ? 'true' : 'false'}
+            data-breathe={armed && fresh && d.isToday && d.state === 'counted' ? 'true' : undefined}
             style={{ '--rc-i': i }}
             aria-label={dayWords(d)}
             aria-current={d.isToday ? 'date' : undefined}
@@ -201,7 +214,7 @@ function pickMobi(rhythm, { cheered, hello, counted, hour }) {
 export default function RhythmCard({ compact = false, mobi = !compact, between = null, quietMet = false, onError = null }) {
   const { reduced } = useMobiPrefs();
   const [wakeLine, setWakeLine] = useState('');
-  const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null });
+  const [state, setState] = useState({ status: 'loading', rhythm: null, cheered: true, pick: null, fresh: false });
   const [attempt, setAttempt] = useState(0);
   const [picked, setPicked] = useState(null);
   const [ref, inView] = useInView({ threshold: 0.25 });
@@ -223,7 +236,7 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
           counted = seen != null && rhythm.studyDays > Number(seen);
           window.localStorage.setItem(`mm:rhythm-days:${rhythm.weekStart}`, String(rhythm.studyDays));
         } catch { counted = false; }
-        setState({ status: 'ready', rhythm, cheered, pick: mobi ? pickMobi(rhythm, { cheered, hello, counted, hour: new Date().getHours() }) : null });
+        setState({ status: 'ready', rhythm, cheered, pick: mobi ? pickMobi(rhythm, { cheered, hello, counted, hour: new Date().getHours() }) : null, fresh: counted });
       })
       .catch(() => { if (alive) setState({ status: 'error', rhythm: null, cheered: true, pick: null }); });
     return () => { alive = false; };
@@ -287,7 +300,7 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
       <div className="rc__top">
         <WeekRing rhythm={rhythm} armed={armed} size={compact ? 92 : 132} />
         <div className="rc__week">
-          <DayBubbles week={week} armed={armed} picked={picked} onPick={setPicked} />
+          <DayBubbles week={week} armed={armed} picked={picked} onPick={setPicked} fresh={state.fresh} />
           <DayCaption week={week} index={shownIndex} />
           {!compact && streak > 0 ? <p className="rc__streak"><b>{streak}</b> {streak === 1 ? 'week' : 'weeks'} met in a row{rhythm.bestRun > streak ? <>, best run {rhythm.bestRun}</> : null}</p> : null}
         </div>

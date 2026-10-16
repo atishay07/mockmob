@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import { MobFlagProvider } from '@/components/mob/MobFlag';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
@@ -21,6 +22,15 @@ import './explore/explore.css';
 import './arena-support.css';
 import '@/components/study/study.css';
 import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
+import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
+
+// React's <ViewTransition> (Next's experimental.viewTransition): the arena's page transitions. The type
+// of each navigation (place, push, pop, rise, fade, or none on /test) is added by src/instrumentation-client.js
+// from src/lib/motion/placeTransition.js; a React without it renders the page as before, with no transition.
+const ViewTransition = React.ViewTransition;
+function PageTransition({ children }) {
+  return ViewTransition ? <ViewTransition {...VIEW_TRANSITION_PROPS}>{children}</ViewTransition> : children;
+}
 
 const TOUR_STEPS = [
   { title: 'Today', target: 'nav-today', body: 'Your next useful step: what to practise now and what is due for review.' },
@@ -31,7 +41,7 @@ const TOUR_STEPS = [
 // Pip guides the first-run tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
 
-export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false }) {
+export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, status, signOut, refreshSession } = useAuth();
@@ -107,6 +117,86 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [pathname]);
+
+  // The page transition draws the old page's picture where the student last saw it. A forward navigation
+  // puts the new page at its top before the browser takes its picture (so the picture never jumps after);
+  // the old picture is then offset by how far the student had scrolled. The back button keeps the scroll
+  // the router restores.
+  useLayoutEffect(() => {
+    const root = document.documentElement;
+    const fromY = Number(root.dataset.mmVtFromY);
+    const traverse = root.dataset.mmVtNav === 'traverse';
+    delete root.dataset.mmVtFromY;
+    delete root.dataset.mmVtNav;
+    if (!Number.isFinite(fromY)) { root.style.setProperty('--mm-vt-from-y', '0px'); return; }
+    if (!traverse && window.scrollY !== 0) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    root.style.setProperty('--mm-vt-from-y', `${Math.round(window.scrollY) - fromY}px`);
+  }, [activePath]);
+
+  // After a navigation, keyboard and screen reader users start at the new page's heading (S016), as the
+  // app does. The first load keeps the browser's own start, and the runner manages its own focus.
+  const landedPath = useRef(null);
+  useEffect(() => {
+    if (status !== 'authenticated') return undefined;
+    const first = landedPath.current === null;
+    const moved = landedPath.current !== activePath;
+    landedPath.current = activePath;
+    if (first || !moved || isTestRoute) return undefined;
+    // A page whose h1 mounts after its first frame (Practice reads its subjects first) is waited for, briefly: the
+    // heading is focused as soon as it exists, and <main> only if none arrives within about 400 ms.
+    const main = document.getElementById('app-main');
+    if (!main) return undefined;
+    let done = false;
+    let observer = null;
+    let timer = 0;
+    const finish = () => { done = true; observer?.disconnect(); clearTimeout(timer); };
+    const land = (fallback) => {
+      if (done) return;
+      const active = document.activeElement;
+      // A page that put focus on purpose (a search box, a sheet) keeps it.
+      if (active && active !== document.body && active !== main && !active.closest('.arena-sidebar, .arena-bottomnav, .arena-sheet, .arena-topbar')) { finish(); return; }
+      const heading = main.querySelector('h1');
+      if (!heading && !fallback) return;
+      finish();
+      const target = heading || main;
+      if (target !== main && !target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    };
+    const frame = requestAnimationFrame(() => land(false));
+    observer = new MutationObserver(() => land(false));
+    observer.observe(main, { childList: true, subtree: true });
+    timer = setTimeout(() => land(true), 400);
+    return () => { finish(); cancelAnimationFrame(frame); };
+  }, [activePath, status, isTestRoute]);
+
+  // One volt per viewport (AGENT_RULES 7, WB-05): a page marks its own volt key data-page-primary. While one of them is
+  // on screen, #app-main carries data-primary-shown and the Start key in the bar or sidebar steps back (start.css).
+  // Scrolled away, the Start key is the volt again, so a viewport is never left without its one action.
+  useEffect(() => {
+    // <main> exists only once the session is known, so this waits for it.
+    const main = status === 'authenticated' ? document.getElementById('app-main') : null;
+    if (!main || typeof IntersectionObserver !== 'function') return undefined;
+    const shown = new Set();
+    const sync = () => { if (shown.size) main.dataset.primaryShown = ''; else delete main.dataset.primaryShown; };
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) { if (e.isIntersecting) shown.add(e.target); else shown.delete(e.target); }
+      sync();
+    }, { rootMargin: '0px 0px -80px 0px' });
+    let watched = new Set();
+    let frame = 0;
+    const scan = () => {
+      frame = 0;
+      const now = new Set(main.querySelectorAll('[data-page-primary]'));
+      for (const el of watched) if (!now.has(el)) { io.unobserve(el); shown.delete(el); }
+      for (const el of now) if (!watched.has(el)) io.observe(el);
+      watched = now;
+      sync();
+    };
+    const mo = new MutationObserver(() => { if (!frame) frame = requestAnimationFrame(scan); });
+    mo.observe(main, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-page-primary'] });
+    scan();
+    return () => { mo.disconnect(); io.disconnect(); cancelAnimationFrame(frame); delete main.dataset.primaryShown; };
+  }, [activePath, status]);
 
   useEffect(() => {
     if (status !== 'authenticated') return;
@@ -196,7 +286,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   }
 
   const showStudy=studyEnabled || previewRoute==='/learn';
-  const navGroups = arenaNavigation(isModerator).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
+  const navGroups = arenaNavigation(isModerator, { mob: mobEnabled || Boolean(previewLinks?.mob) }).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
   const mobileTabs=showStudy ? MOBILE_STUDY_NAV : navGroups.flatMap(group=>group.items).filter(tab=>['today','dashboard','explore','review'].includes(tab.id));
   const allTabs = navGroups.flatMap((group) => group.items);
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
@@ -311,9 +401,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
       <main id="app-main" tabIndex={-1} className={`app-main ${isTestRoute ? 'app-main--test' : 'px-4 py-6 md:px-5 md:py-8'}`} style={{ flex: 1, position: 'relative' }}>
         <div className="arena-backdrop" aria-hidden="true" />
-        <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
-          {children}
-        </div>
+        <PageTransition>
+          <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
+            <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}>{children}</MobFlagProvider>
+          </div>
+        </PageTransition>
       </main>
       {!isTestRoute && mobileMenuOpen && (
         <>

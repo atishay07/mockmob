@@ -18,6 +18,11 @@
   },
   "state": "basic",
   "heading": "You missed 28 marks. Here's where they went.",
+  "hero": {
+    "value": 28,
+    "max": 60,
+    "label": "marks missed, of 60"
+  },
   "gap": 28,
   "headline": null,
   "groups": [
@@ -55,6 +60,7 @@
   "fine": [
     "This earlier session was scored in your browser, so answer changes and timings are not available. The split shows wrong and blank only."
   ],
+  "method": null,
   "byQuestion": {
     "d3": {
       "group": "wrong",

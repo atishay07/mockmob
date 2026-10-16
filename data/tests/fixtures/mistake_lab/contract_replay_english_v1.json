@@ -8,6 +8,11 @@
   },
   "state": "ready",
   "heading": "You missed 78 marks. Here's where they went.",
+  "hero": {
+    "value": 78,
+    "max": 250,
+    "label": "marks missed, of 250"
+  },
   "gap": 78,
   "headline": null,
   "groups": [
@@ -54,6 +59,12 @@
   "fine": [
     "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits."
   ],
+  "method": {
+    "label": "How this is counted",
+    "lines": [
+      "Time and picks come from your device's record of this paper, checked against your submitted answers. Each lost question is counted once, in the first group it fits."
+    ]
+  },
   "byQuestion": {
     "e3": {
       "group": "other_wrong",

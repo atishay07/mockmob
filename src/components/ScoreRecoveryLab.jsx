@@ -156,6 +156,8 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
   // the change observation sums up what Time and decisions lists in full, so it is left out when that list shows.
   const observations = ledger ? [] : timeRead?.state === 'ready' ? analysis.observations.filter(o => o.id !== 'changes') : analysis.observations;
   const [ref, inView] = useInView();
+  const hero = lab?.hero?.label ? lab.hero
+    : lab?.state !== 'none' && marks.gap > 0 ? { value: marks.gap, label: `${marks.gap === 1 ? 'mark' : 'marks'} missed, of ${marks.max}` } : null;
   const topChapter = chapters.find(c => c.wrong > 0)?.chapter || chapters[0]?.chapter || null;
   const done = mistakes.filter(r => repaired.has(r.q.id)).length;
   const pct = (v) => `${marks.max ? (v / marks.max) * 100 : 0}%`;
@@ -185,8 +187,15 @@ export default function ScoreRecoveryLab({ attempt, analysis, timeRead = null, l
 
   return (
     <section ref={ref} className="srl" data-in={inView || undefined} aria-labelledby="srl-title">
+      {/* The hero (WC-03): "Mistake Lab" as a quiet eyebrow, then the missed marks at the result's own display size, over
+          the paper's maximum. The server sends it (lab.hero); an older server or no lab falls back to the page's marks. */}
       <header className="srl-head">
-        <h2 id="srl-title">{lab?.heading ? lab.heading : marks.gap ? <>You missed {marks.gap} marks. Here’s where they went.</> : 'You didn’t miss a mark this session.'}</h2>
+        <p className="srl-eyebrow">{COPY.labels.name}</p>
+        {hero ? (
+          <h2 id="srl-title" className="srl-hero"><b className="srl-hero__n">{hero.value}</b><span className="srl-hero__label">{hero.label}</span></h2>
+        ) : (
+          <h2 id="srl-title">{lab?.heading ? lab.heading : 'You didn’t miss a mark this session.'}</h2>
+        )}
       </header>
 
       {ledger ? <MarksLedger lab={ledger} attemptId={attempt.id} onJump={onJump} changesId={timeRead?.state === 'ready' ? changesId : null} replay={seeReplay} />

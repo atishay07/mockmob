@@ -12,6 +12,10 @@ const nextConfig = {
   experimental: {
     // Avoid restoring the stale Turbopack graph that crashed the local preview.
     turbopackFileSystemCacheForDev: false,
+    // React <ViewTransition> on route navigations: the arena's page transitions (AppLayoutClient,
+    // src/lib/motion/placeTransition.js, src/instrumentation-client.js). Documented for Next 16.2.4 in
+    // node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/viewTransition.md.
+    viewTransition: true,
   },
   poweredByHeader: false,
   compress: true,

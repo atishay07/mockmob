@@ -129,6 +129,38 @@
 .subj-obj[data-offscreen] .subj-obj__shadow {
   animation-play-state: paused;
 }
+/* In the arena an object floats twice and rests (pass 1016e WA-03, the app's M05: nothing loops on a resting
+   screen; R-047, R-202 budget phones). Both cycles end on the rest pose, so it settles, it never stops mid-air.
+   ObjectLife breathes it once more (data-float 'a' or 'b', a fresh name restarts it from rest) when the pointer
+   comes to it, when it takes focus, or when it comes back into view. The landing keeps its living shelf. */
+.app-shell .subj-obj--alive .subj-obj__float,
+.app-shell .subj-obj--alive .subj-obj__shadow {
+  animation-iteration-count: 2;
+}
+.app-shell .subj-obj--alive[data-float='a'] .subj-obj__float { animation: subj-obj-float-a 7.2s 1 both; }
+.app-shell .subj-obj--alive[data-float='a'] .subj-obj__shadow { animation: subj-obj-float-shadow-a 7.2s 1 both; }
+.app-shell .subj-obj--alive[data-float='b'] .subj-obj__float { animation: subj-obj-float-b 7.2s 1 both; }
+.app-shell .subj-obj--alive[data-float='b'] .subj-obj__shadow { animation: subj-obj-float-shadow-b 7.2s 1 both; }
+@keyframes subj-obj-float-a {
+  0% { transform: translateY(0) rotate(0deg); animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  50% { transform: translateY(-3%) rotate(-1.2deg); animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes subj-obj-float-b {
+  0% { transform: translateY(0) rotate(0deg); animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  50% { transform: translateY(-3%) rotate(-1.2deg); animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes subj-obj-float-shadow-a {
+  0% { transform: scale(1); opacity: 1; animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  50% { transform: scale(0.86); opacity: 0.65; animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes subj-obj-float-shadow-b {
+  0% { transform: scale(1); opacity: 1; animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  50% { transform: scale(0.86); opacity: 0.65; animation-timing-function: cubic-bezier(0.37, 0, 0.63, 1); }
+  100% { transform: scale(1); opacity: 1; }
+}
 @keyframes subj-obj-float {
   0% {
     transform: translateY(0) rotate(0deg);

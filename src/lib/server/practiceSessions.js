@@ -16,7 +16,11 @@ import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-export async function startPractice(userId, input) {
+// `server` carries what only the server may decide; POST /api/sessions never passes it. server.mobPaper (the Mob, set by
+// src/lib/server/mob/service.js) serves the Mob's frozen weekly questions in canonical option order instead of the
+// selector, and stamps selection_meta.mobPaper so the finish can record the sitting. Charges are a quick 10's (D-S2).
+export async function startPractice(userId, input, server = {}) {
+  const mobPaper = server?.mobPaper && Array.isArray(server.mobPaper.questions) ? server.mobPaper : null;
   const db = supabaseAdmin();
   if (input.sessionId) {
     const { data } = await db.from('recovery_sessions').select('*').eq('user_id', userId).eq('id', input.sessionId).maybeSingle();
@@ -48,10 +52,12 @@ export async function startPractice(userId, input) {
   }
   // Mathematics and Computer Science papers have two section-B variants; only NTA mode reads it.
   const ntaVariant = mode.id === 'nta' && /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : '';
-  const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : [])]);
+  const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : []), ...(mobPaper ? ['mob', mobPaper.mobId, mobPaper.weekStart] : [])]);
   const previous = await Database.getAttemptById(id);
   if (previous) throw new Error('SESSION_ALREADY_SUBMITTED');
-  const { questions, meta } = await Database.getQuestions(selection.internalSubject, count, {
+  const { questions, meta } = mobPaper
+    ? { questions: mobPaper.questions, meta: { mode: mode.id, requestedCount: count, finalCount: mobPaper.questions.length, selectedCount: mobPaper.questions.length, selectionStrategy: 'mob_paper' } }
+    : await Database.getQuestions(selection.internalSubject, count, {
     mode: mode.id, userId, count, requestedCount: count, returnMeta: true,
     chapters: chapters.length ? chapters : undefined, difficulty: difficulty || undefined,
     generationKey: input.generationKey, requireEvidence: false, ntaVariant: ntaVariant || undefined,
@@ -72,7 +78,7 @@ export async function startPractice(userId, input) {
   }
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
-    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice' } };
+    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart } } : {}) } };
   if (durableLearningEnabled()) {
     let quota = null;
     if (!user?.isPremium && mode.id === 'quick' && count === 10) quota = 'daily_practice';
@@ -111,8 +117,12 @@ export async function finishPractice(userId, input) {
   // Observations from device-held telemetry are not certified recovery evidence.
   const score = result;
   try {
-    return await Database.addAttempt({ ...score, id: row.id, userId, subject: row.subject,
+    const saved = await Database.addAttempt({ ...score, id: row.id, userId, subject: row.subject,
       questionsSnapshot: row.questions, selectionMeta: { ...row.selection_meta, recovery: result.recovery, ...submitMeta(input, input.events) } });
+    // A finished Mob paper counts for the Mob's ring (never throws; a sitting after Sunday 11:59 PM IST is not recorded).
+    // The durable path (finishSession) is credited when a member next reads the Mob (mob/service.js syncSittings).
+    if (row.selection_meta?.mobPaper) await (await import('./mob/deps')).recordMobSitting(userId, saved).catch(() => null);
+    return saved;
   } catch (error) {
     if (error.code !== '23505') throw error;
     const winner = await Database.getAttemptById(row.id);

@@ -17,9 +17,10 @@ import './prepos.css';
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const dateWords = (ms) => { const d = new Date(ms); return `${d.getDate()} ${MONTHS[d.getMonth()]}`; };
 
-// A mark that counts up to its real value once it is on screen.
-function Mark({ value }) {
-  const rolled = useCountUp(value, { from: 0, duration: 900 });
+// A mark that counts up to its real value once it is on screen: the first time from 0, after that it is
+// remembered (the paper's id), so coming back shows it at once (pass 1016e WA-02, the app's M15).
+function Mark({ id, value }) {
+  const rolled = useCountUp(value, { from: 0, memoryKey: `paper-mark:${id}` });
   return <>{rolled}</>;
 }
 
@@ -53,7 +54,7 @@ function PaperTrend() {
       <ol className="pt__marks">
         {dots.map((d, i) => (
           <li key={d.id} data-newest={i === last ? 'true' : 'false'}>
-            <b>{inView ? <Mark value={d.marks} /> : <span className="pt__hold">{d.marks}</span>}</b>
+            <b>{inView ? <Mark id={d.id} value={d.marks} /> : <span className="pt__hold">{d.marks}</span>}</b>
             <span>{dateWords(d.at)}</span>
             <span className="sr-only">{d.marks} marks on {dateWords(d.at)}</span>
           </li>

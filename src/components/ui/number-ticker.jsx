@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useCountUpState } from "@/lib/motion/useCountUp";
+import { recallNumber } from "@/lib/motion/numberMemory";
 import { useInView } from "@/lib/motion/useInView";
 import { useMobiPrefs } from "@/lib/mobiPrefs";
 
@@ -34,10 +35,13 @@ export function NumberTicker({
   }, [delay, inView]);
 
   const down = direction === "down";
-  const target = (inView && go) || reduced ? (down ? startValue : value) : (down ? value : startValue);
+  // Seen before in this visit: wait at the remembered figure, not at the start, so a return never climbs from 0.
+  const remembered = memoryKey != null ? recallNumber(memoryKey) : undefined;
+  const resting = remembered !== undefined ? remembered : (down ? value : startValue);
+  const target = (inView && go) || reduced ? (down ? startValue : value) : resting;
   // Memory starts with the real value: the 'before it scrolls in' start value must never be remembered.
   const started = (inView && go) || reduced;
-  const { value: rolled, ink } = useCountUpState(target, { decimals: decimalPlaces, duration: 1400, memoryKey: started ? memoryKey : undefined });
+  const { value: rolled, ink } = useCountUpState(target, { decimals: decimalPlaces, memoryKey: started ? memoryKey : undefined });
   const text = Intl.NumberFormat("en-US", {
     minimumFractionDigits: decimalPlaces,
     maximumFractionDigits: decimalPlaces,

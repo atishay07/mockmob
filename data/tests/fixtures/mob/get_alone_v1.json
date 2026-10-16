@@ -1,0 +1,48 @@
+{
+  "mob": {
+    "subject": "accountancy",
+    "subjectName": "Accountancy",
+    "you": {
+      "memberId": "K7Q2M9XR4T1A",
+      "name": "Riya",
+      "colour": 0,
+      "role": "owner",
+      "showScore": false,
+      "nudgesMuted": false
+    },
+    "members": [
+      {
+        "memberId": "K7Q2M9XR4T1A",
+        "name": "Riya",
+        "colour": 0,
+        "you": true,
+        "sat": false,
+        "owner": true
+      }
+    ],
+    "seatsLeft": 4,
+    "week": {
+      "start": "2026-10-12",
+      "closesAt": "2026-10-18T18:29:59.000Z",
+      "closed": false,
+      "paper": {
+        "count": 10,
+        "durationSec": 720,
+        "cost": {
+          "type": "allowance"
+        }
+      },
+      "sat": 0,
+      "size": 1,
+      "youSat": false,
+      "yourResultId": null
+    },
+    "trap": null,
+    "nudge": {
+      "canSend": false,
+      "reason": "not_sat",
+      "received": null
+    },
+    "invite": null
+  }
+}

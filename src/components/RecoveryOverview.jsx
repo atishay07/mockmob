@@ -150,7 +150,7 @@ export default function RecoveryOverview({ view }) {
               <h2 id="rv-lead-h">{toReview ? <><span className="sr-only">{toReview} </span>{toReview === 1 ? 'question' : 'questions'} to review, of {answered} answered</> : `Nothing to review in ${answered} answers`}</h2>
               <p>{openFirst ? <>{openFirst === review[0] ? 'Your newest session' : 'Your newest session with misses'} has {openFirst.mistakes} of its {openFirst.total} {openFirst.total === 1 ? 'question' : 'questions'} to look at.</> : 'Every answer in your saved sessions was right.'}</p>
             </div>
-            {openFirst ? <Link className="btn-volt md rv-lead__go mk-press" href={`/result/${openFirst.id}`}>Open {sessionName(openFirst)}</Link> : null}
+            {openFirst ? <Link className="btn-volt md rv-lead__go mk-press" data-page-primary="" href={`/result/${openFirst.id}`}>Open {sessionName(openFirst)}</Link> : null}
           </section>
         ) : null}
         {noteList}
@@ -164,7 +164,7 @@ export default function RecoveryOverview({ view }) {
               { label: 'Last session', value: when(review[0]?.completedAt) || 'None yet', note: review[0] ? subjectLabel(review[0].subject) : 'No session yet' },
             ]} /> : null}
             {review.length ? <ul className="ov-list rv-list">{review.map((a, i) => <SessionRow key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={i} />)}</ul> : (
-              <div className="rv-empty rv-empty--room"><SceneVignette scene="nothingYet" interactive /><ArenaCompanion mobi={false} title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice</Link></div>
+              <div className="rv-empty rv-empty--room"><SceneVignette scene="nothingYet" interactive /><ArenaCompanion mobi={false} title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" data-page-primary="" href="/dashboard">Choose practice</Link></div>
             )}
           </section>
         ) : null}

@@ -314,7 +314,7 @@
 .sx-ring[data-changed='true'] .sx-ring__badge { animation: mk-pop 380ms var(--mk-spring) 500ms both; }
 
 /* Review call to action: a stack of recall cards that breathes, and the top one leaves on Start. */
-.sx-stack { position: relative; display: block; width: 42px; height: 54px; margin-top: 2px; animation: sx-stack-breathe 4.2s ease-in-out infinite; }
+.sx-stack { position: relative; display: block; width: 42px; height: 54px; margin-top: 2px; animation: sx-stack-breathe 4.2s ease-in-out 2; } /* two breaths, then rest (WA-03) */
 .sx-stack i { position: absolute; inset: 0; border-radius: 9px; border: 1.5px solid var(--a-volt-line); background: var(--a-raised); transform: translate3d(calc(var(--d, 0) * 4px), calc(var(--d, 0) * -4px), 0) rotate(calc(var(--d, 0) * 3deg)); box-shadow: 0 6px 14px -8px rgba(0, 0, 0, 0.5); }
 .sx-stack i:last-child::after { content: ''; position: absolute; left: 9px; right: 9px; top: 15px; height: 2px; border-radius: 2px; background: var(--a-volt-line); box-shadow: 0 8px 0 var(--a-line-strong), 0 16px 0 var(--a-line-strong); }
 .sx-stack[data-leaving='true'] i:last-child { animation: sx-stack-off 520ms cubic-bezier(0.5, 0, 0.75, 0) both; }

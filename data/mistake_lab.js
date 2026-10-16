@@ -250,6 +250,15 @@ function headlineFor(groups, { gap, total, pace, tailQid, rowsById }) {
   return { group: top.id, text };
 }
 
+/**
+ * The re-mark of first picks (WC-02): one net object and its sentences, so the parts and the total cannot disagree.
+ *   lost  the changed questions whose final answer scored less than the first pick: { marks, questions }
+ *   won   the changed questions whose final answer scored more: { marks, questions }
+ *   net   won.marks − lost.marks (negative is a cost), which always equals final − first
+ *   max   the paper's maximum with the held questions left out, the denominator of both re-mark figures
+ * `text` is the net line, `scores` the two figures over `max`. `fine` is the older method sentence, kept for apps
+ * before AP3-03; the web shows it (and every other method sentence) only under "How this is counted" (lab.method).
+ */
 function remarkFor(rows, heldCount) {
   const counted = rows.filter((r) => !r.held);
   const changed = counted.filter((r) => r.changed);
@@ -258,11 +267,29 @@ function remarkFor(rows, heldCount) {
   const markOf = (answer, key) => (answer === null || answer === undefined ? M.blank : answer === key ? M.right : M.wrong);
   const first = counted.reduce((s, r) => s + markOf(r.firstPick, r.keyIndex), 0);
   const final = counted.reduce((s, r) => s + markOf(r.givenIndex, r.keyIndex), 0);
+  const lost = { marks: 0, questions: 0 };
+  const won = { marks: 0, questions: 0 };
+  for (const r of changed) {
+    const delta = markOf(r.givenIndex, r.keyIndex) - markOf(r.firstPick, r.keyIndex);
+    if (delta < 0) { lost.marks -= delta; lost.questions += 1; }
+    else if (delta > 0) { won.marks += delta; won.questions += 1; }
+  }
+  const net = won.marks - lost.marks;
+  const max = counted.length * M.right;
   const k = changed.length;
-  const values = { first: marksNumber(first), final: marksNumber(final), d: Math.abs(first - final), k, questions: form(COPY.remark.questionWord, k) };
-  const text = fill(first > final ? COPY.remark.cost : first < final ? COPY.remark.gained : COPY.remark.even, values);
-  const fine = COPY.remark.fine + (heldCount > 0 ? fill(form(COPY.remark.fineHeld, heldCount), { h: heldCount }) : '');
-  return { first, final, questions: k, text, fine };
+  const R = COPY.remark;
+  const markWord = (n) => fill(form(R.markWord, n), { n });
+  const values = {
+    lost: markWord(lost.marks), lq: lost.questions, lqWord: form(R.questionWord, lost.questions),
+    won: markWord(won.marks), wn: won.marks, wq: won.questions, wqWord: form(R.questionWord, won.questions),
+    d: markWord(Math.abs(net)), k, questions: form(R.questionWord, k),
+  };
+  const template = lost.questions && won.questions ? (net < 0 ? R.net.cost : net > 0 ? R.net.gain : R.net.even)
+    : lost.questions ? R.net.lostOnly : won.questions ? R.net.wonOnly : R.net.none;
+  const held = heldCount > 0 ? fill(form(R.scoresHeld, heldCount), { h: heldCount }) : '';
+  const scores = fill(R.scores, { first: marksNumber(first), final: marksNumber(final), max, held });
+  const fine = R.fine + (heldCount > 0 ? fill(form(R.fineHeld, heldCount), { h: heldCount }) : '');
+  return { first, final, max, questions: k, lost, won, net, text: fill(template, values), scores, fine };
 }
 
 function cohortBlock(cohort, rows, total, slow = null) {
@@ -277,11 +304,26 @@ function cohortBlock(cohort, rows, total, slow = null) {
   const numbers = most.map((r) => r.number).sort((a, b) => a - b);
   const m = most.reduce((s, r) => s + r.lost, 0);
   const line = numbers.length ? fill(form(COPY.cohort.line, numbers.length), { k: numbers.length, list: numberList(numbers), m }) : null;
+  // The one in-flow truth line the cohort line keeps (WC-01): every question it names had 20 or more other students.
+  const truth = numbers.length ? form(COPY.cohort.truth, numbers.length) : null;
   const compared = Object.values(byQid).filter((read) => read && read.n >= LAB_RULES.cohortMin).length;
   const fine = [fill(form(COPY.cohort.coverage, compared), { c: compared, total })];
   if (cohort.since && cohort.until) fine.push(fill(COPY.cohort.source, dateRange(cohort.since, cohort.until)));
   if (slow) fine.push(slow.fine);
-  return { line, numbers, marks: m, fine, ...(slow ? { slow: { line: slow.line, numbers: slow.numbers, questions: slow.questions, right: slow.right } } : {}) };
+  return { line, truth, numbers, marks: m, fine, ...(slow ? { slow: { line: slow.line, numbers: slow.numbers, questions: slow.questions, right: slow.right } } : {}) };
+}
+
+/**
+ * "How this is counted" (WC-01): every method sentence of this Lab in one place, so the body carries only findings.
+ * The web opens it in place under one 44 px row; the app shows the same lines in a sheet. Null when there is none.
+ */
+function methodFor({ ready, remark, cohort }) {
+  const lines = [
+    ...(ready ? [COPY.method.ready] : []),
+    ...(remark ? [COPY.method.remark] : []),
+    ...(cohort?.fine || []),
+  ];
+  return lines.length ? { label: COPY.method.label, lines } : null;
 }
 
 /**
@@ -345,7 +387,8 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
     time: JSON.parse(JSON.stringify(td)),
   });
   if (gap === 0) {
-    return { ...base, state: 'none', heading: COPY.headingNone, gap: 0, headline: null, groups: [], barLabel: null, remark: null, cohort: cohortBlock(cohort, rows, total, slow), fine: [], byQuestion, ...slice2([]) };
+    const none = cohortBlock(cohort, rows, total, slow);
+    return { ...base, state: 'none', heading: COPY.headingNone, hero: null, gap: 0, headline: null, groups: [], barLabel: null, remark: null, cohort: none, fine: [], method: methodFor({ ready: false, remark: null, cohort: none }), byQuestion, ...slice2([]) };
   }
 
   const lostRows = rows.filter((r) => r.lost > 0);
@@ -378,19 +421,27 @@ export function buildMistakeLab({ attempt, answerReviews = {}, cohort = null } =
   for (const r of lostRows) byQuestion[r.qid] = { group: assigned.get(r.qid), others: byQuestion[r.qid]?.others ?? null };
 
   const barLabel = fill(COPY.barLabel, { gap, parts: groups.map((g) => fill(COPY.groups[g.id].bar, { m: g.marks })).join(COPY.listJoin.comma) });
+  // `fine` for a ready paper is the method sentence, kept for apps before AP3-03 (the web reads `method`); for a basic
+  // paper it is the one line on why the split is only wrong and blank, which stays in flow.
   const fine = ready ? [COPY.fineReady] : [fill(COPY.fineBasic, { message: td.message })];
+  const remark = ready ? remarkFor(rows, rows.filter((r) => r.held).length) : null;
+  const cohortRead = cohortBlock(cohort, rows, total, slow);
+  // The hero (WC-03): the missed marks as the Lab's display numeral, over the paper's maximum.
+  const max = total * LAB_RULES.marks.right;
 
   return {
     ...base,
     state: ready ? 'ready' : 'basic',
     heading: fill(form(COPY.heading, gap), { gap }),
+    hero: { value: gap, max, label: fill(form(COPY.hero, gap), { max }) },
     gap,
     headline,
     groups,
     barLabel,
-    remark: ready ? remarkFor(rows, rows.filter((r) => r.held).length) : null,
-    cohort: cohortBlock(cohort, rows, total, slow),
+    remark,
+    cohort: cohortRead,
     fine,
+    method: methodFor({ ready, remark, cohort: cohortRead }),
     byQuestion,
     ...slice2(groups),
   };

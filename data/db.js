@@ -317,6 +317,8 @@ const attemptOut = (r) => r && ({
 
 // Re-export seed for any place still importing it directly.
 export { SEED_QUESTIONS };
+// The session snapshot shape of one question row: the Mob paper (src/lib/server/mob/deps.js) serves frozen ids in it.
+export { questionOut };
 
 // The claim used before the lease column existed. Kept for the window between deploying this code and applying
 // migration 20261016170100 (and for a schema where it is missing): same behaviour as before, no in-flight check.

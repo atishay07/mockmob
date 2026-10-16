@@ -5,10 +5,11 @@ import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { curves, durations } from './tokens.g.js';
 import { inkFor, numberDirection, recallNumber, rememberNumber } from './numberMemory';
 import { cubicAt } from './swap';
+import { planCountUp } from './countUpPlan.js';
 
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
-// The app's count-up curve (MmCountUp): emphasized.
-const emphasized = (t) => cubicAt(curves.emphasized, t);
+// The count-up curve: ease-out (pass 1016e, the app's M15). Usable information never waits on a long tail.
+const easeOut = (t) => cubicAt(curves.out, t);
 
 /**
  * A number that rolls to its new value, with its tint: { value, ink }.
@@ -16,7 +17,8 @@ const emphasized = (t) => cubicAt(curves.emphasized, t);
  * It rolls from whatever it is showing right now, so a change that arrives mid-roll carries on
  * smoothly. The first value is shown as it is, unless `from` is given (then it rolls up from it).
  * The server and the first paint always show the real value: a count never reads as a made-up zero.
- * Reduced motion shows the value at once. It rolls on the app's emphasized curve, 720 ms unless told.
+ * Reduced motion shows the value at once. It rolls on ease-out over the countUp token (420 ms) unless told
+ * (countUpPlan.js holds the rules, with its unit test).
  *
  * With a `memoryKey` it remembers (the app's number memory, see numberMemory.js): coming back to a
  * value it already showed draws it at once with no roll; a new value rolls from the remembered one,
@@ -24,7 +26,7 @@ const emphasized = (t) => cubicAt(curves.emphasized, t);
  * data-ink with the .mk-num class, and the colour settles back over 200 ms). Without a memoryKey,
  * ink is always null. Under reduced motion there is no roll and no tint.
  *
- *   useCountUpState(value, { from, duration = 720, decimals = 0, enabled = true, memoryKey })
+ *   useCountUpState(value, { from, duration = 420, decimals = 0, enabled = true, memoryKey })
  */
 export function useCountUpState(value, { from, duration = durations.countUp, decimals = 0, enabled = true, memoryKey } = {}) {
   const { reduced } = useMobiPrefs();
@@ -46,10 +48,8 @@ export function useCountUpState(value, { from, duration = durations.countUp, dec
     if (key !== null) rememberNumber(key, value);
     if (!Number.isFinite(target)) { shownRef.current = value; setShown(value); setInk(null); return undefined; }
 
-    let origin;
-    if (first) origin = remembered !== undefined && Number.isFinite(Number(remembered)) ? Number(remembered) : (typeof from === 'number' ? from : target);
-    else origin = Number(shownRef.current);
-    if (!enabled || reduced || !Number.isFinite(origin) || origin === target) {
+    const { origin, roll, span } = planCountUp({ value, first, remembered, from, shown: shownRef.current, enabled, reduced, duration });
+    if (!roll) {
       shownRef.current = target;
       setShown(target);
       setInk(null);
@@ -60,14 +60,13 @@ export function useCountUpState(value, { from, duration = durations.countUp, dec
     let raf = 0;
     let timer = 0;
     let begin = 0;
-    const span = Math.max(180, duration);
     shownRef.current = origin;
     setShown(origin);
     setInk(tint);
     const frame = (now) => {
       if (!begin) begin = now;
       const t = Math.min(1, (now - begin) / span);
-      const next = t >= 1 ? target : origin + (target - origin) * emphasized(t);
+      const next = t >= 1 ? target : origin + (target - origin) * easeOut(t);
       shownRef.current = next;
       setShown(next);
       if (t < 1) raf = requestAnimationFrame(frame);
@@ -84,7 +83,7 @@ export function useCountUpState(value, { from, duration = durations.countUp, dec
 /**
  * The rolling value only (see useCountUpState for the rules and the memoryKey option).
  *
- *   useCountUp(value, { from, duration = 720, decimals = 0, enabled = true, memoryKey })
+ *   useCountUp(value, { from, duration = 420, decimals = 0, enabled = true, memoryKey })
  */
 export function useCountUp(value, options) {
   return useCountUpState(value, options).value;

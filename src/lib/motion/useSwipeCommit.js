@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { DRAG, follow, releaseVelocity } from './dragPolicy';
 import { durations, springs } from './tokens.g.js';
+import { isMotionReduced } from './draw';
+import { swipeReleaseFrames } from './swipeRelease.js';
 
 /**
  * Swipe to commit, with vertical scrolling left alone. The gesture only counts as a swipe when
@@ -14,8 +16,10 @@ import { durations, springs } from './tokens.g.js';
  *   <li {...bind}>...</li>
  *
  * The element follows the finger through the CSS variable --mk-swipe-x (no React re-render per
- * move; see .mk-swipe in motion-kit.css) and carries data-swipe="drag | commit | settle": it springs
- * home on the app's smooth spring, or leaves on the leave curve (180 ms) before onCommit fires.
+ * move; see .mk-swipe in motion-kit.css) and carries data-swipe="drag | fling | commit | settle": it springs
+ * home on the app's smooth spring, or keeps the finger's speed and carries on off the row on the lift spring
+ * (swipeRelease.js, the app's M24) before onCommit fires; the caller then folds the gap (fold.js).
+ * Reduced motion commits at once.
  * It only adds a gesture: every action it triggers also needs a button for keyboard users.
  * For a drag that carries the finger's speed into its settle, use useDragCommit.
  */
@@ -23,11 +27,15 @@ export function useSwipeCommit({ onCommit, threshold = 72, ratio = DRAG.claimRat
   const callback = useRef(onCommit);
   const gesture = useRef(null);
   const timer = useRef(0);
+  const flight = useRef(null);
+  const away = useRef(null);
   useEffect(() => { callback.current = onCommit; }, [onCommit]);
-  useEffect(() => () => window.clearTimeout(timer.current), []);
+  useEffect(() => () => { window.clearTimeout(timer.current); flight.current?.cancel(); }, []);
 
   const reset = useCallback((node, state) => {
     if (!node) return;
+    flight.current?.cancel();
+    flight.current = null;
     node.style.setProperty('--mk-swipe-x', '0px');
     if (state) node.dataset.swipe = state; else delete node.dataset.swipe;
   }, []);
@@ -73,14 +81,36 @@ export function useSwipeCommit({ onCommit, threshold = 72, ratio = DRAG.claimRat
     const far = Math.abs(g.dx) >= threshold && allowed(Math.sign(g.dx)) && !(Math.abs(velocity) >= DRAG.commitVelocity && Math.sign(velocity) !== Math.sign(g.dx));
     if (!cancelled && (fling || far)) {
       const dir = (fling ? Math.sign(velocity) : Math.sign(g.dx)) > 0 ? 'right' : 'left';
+      const done = () => { callback.current?.(dir); reset(node, null); };
+      if (isMotionReduced()) { done(); return; }
+      if (typeof node.animate === 'function') {
+        // The row keeps the finger's speed and carries on off the edge on the lift spring: no hang, no drop.
+        // It stays away while the caller folds the gap; if the caller keeps the row (the removal failed and
+        // the swipe is enabled again), it comes back (see the effect below).
+        const { frames, duration } = swipeReleaseFrames({ dx: g.dx, velocity, width: g.width, dir });
+        node.dataset.swipe = 'fling';
+        flight.current = node.animate(frames.map((f) => ({ transform: `translate3d(${f.x}px, 0, 0)`, opacity: f.opacity })), { duration, easing: 'linear', fill: 'forwards' });
+        away.current = node;
+        timer.current = window.setTimeout(() => callback.current?.(dir), duration);
+        return;
+      }
       node.dataset.swipe = 'commit';
       node.style.setProperty('--mk-swipe-x', dir === 'right' ? '140%' : '-140%');
-      timer.current = window.setTimeout(() => { callback.current?.(dir); reset(node, null); }, durations.leave);
+      timer.current = window.setTimeout(done, durations.ui);
     } else {
       reset(node, 'settle');
       timer.current = window.setTimeout(() => reset(node, null), springs.smooth.settleMs);
     }
   }, [directions, reset, threshold]);
+
+  // A row that flew away but is still here once the swipe is allowed again (the removal did not go
+  // through): bring it back, so it is never left invisible.
+  useEffect(() => {
+    if (disabled || !away.current) return;
+    const node = away.current;
+    away.current = null;
+    if (node.isConnected) reset(node, null);
+  }, [disabled, reset]);
 
   const bind = useMemo(() => ({
     className: 'mk-swipe',

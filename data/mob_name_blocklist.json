@@ -1,0 +1,16 @@
+{
+  "about": "Display names a Mob refuses (SOCIAL-SPEC P3). Matching is on the name folded to lower-case letters. 'contains' terms are refused anywhere in the name with spaces, dots, apostrophes and hyphens removed; they are long or unambiguous enough not to sit inside a real name. 'words' are refused only as a whole word of the name, because they are short or are also parts of real names (Randip, Rapeti, Mobina). Moderators extend this list; a member's report is the backstop.",
+  "version": 1,
+  "contains": [
+    "fuck", "shit", "bitch", "bastard", "cunt", "pussy", "whore", "slut", "rapist", "nigg", "fagg", "retard",
+    "porn", "sexy", "boobs", "penis", "vagina", "horny",
+    "chutiya", "chutia", "chootiya", "bhosdi", "bhosad", "madarchod", "maderchod", "behenchod", "bhenchod", "benchod",
+    "harami", "haraami", "kameena", "bhadwa", "bhadva", "jhaat",
+    "mockmob", "moderator", "official", "support", "admin"
+  ],
+  "words": [
+    "ass", "arse", "sex", "fag", "fuk", "dick", "rape", "nude", "mc", "bc", "mf", "wtf", "kill", "die", "hate", "nazi", "hitler", "isis",
+    "randi", "gandu", "gaandu", "kutta", "kutti", "kamina", "lauda", "lavda", "lund", "chodu", "suar", "tatti",
+    "staff", "teacher", "mobi", "claude", "anthropic"
+  ]
+}

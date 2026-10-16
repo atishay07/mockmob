@@ -128,9 +128,9 @@
 .app-shell .pr .pr-mode[aria-pressed='true'] { background: var(--a-volt-wash); }
 .app-shell .pr .pr-mode:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
 .app-shell .pr .pr-mode__radio { position: relative; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--a-line-strong); transition: border-color var(--mm-dur-ui) var(--mm-ease-out), transform var(--mm-press-lift-dur) var(--mm-press-lift); }
-.app-shell .pr .pr-mode__radio::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--a-select); transform: scale(0); transition: transform var(--mm-dur-exit) var(--mm-ease-exit); }
+.app-shell .pr .pr-mode__radio::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--a-select); transform: scale(0.6); opacity: 0; transition: transform calc(var(--mm-dur-exit) * 0.75) var(--mm-ease-exit), opacity calc(var(--mm-dur-exit) * 0.75) var(--mm-ease-exit); }
 .app-shell .pr .pr-mode[aria-pressed='true'] .pr-mode__radio { border-color: var(--a-select); }
-.app-shell .pr .pr-mode[aria-pressed='true'] .pr-mode__radio::after { transform: scale(1); transition: transform var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop); }
+.app-shell .pr .pr-mode[aria-pressed='true'] .pr-mode__radio::after { transform: scale(1); opacity: 1; transition: transform var(--mm-spring-icon-pop-dur) var(--mm-spring-icon-pop), opacity var(--mm-dur-ui) var(--mm-ease-out); }
 .app-shell .pr .pr-mode:active .pr-mode__radio { transform: scale(0.9); }
 .app-shell .pr .pr-mode__text { display: grid; gap: 2px; min-width: 0; }
 .app-shell .pr .pr-mode__name { font-family: var(--font-display); font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }

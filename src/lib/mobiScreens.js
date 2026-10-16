@@ -20,6 +20,7 @@ export const SCREEN_MOMENTS = Object.freeze({
   today: {
     firstVisitToday: 'hello',
     weekGoalMet: mobiMoment('goalMet'),
+    mobRingComplete: mobiMoment('goalMet'),
     planLoading: 'think',
     timeChosen: 'tilt',
     failed: 'oops',
@@ -87,6 +88,17 @@ export function weekGoalAct({ met, cheered } = {}) {
 
 /** The storage key that remembers a week's cheer (shared with RhythmCard). */
 export const weekCheerKey = (weekStart) => `mm:rhythm-cheer:${weekStart}`;
+
+/**
+ * Today's companion when every member of your Mob has sat the week's paper (SOCIAL-SPEC 7: once, on Today only, never
+ * on /mob). Proud once per Mob week on this device; a Mob of one has no ring to complete.
+ */
+export function mobRingAct({ size, sat, cheered } = {}) {
+  return Number.isInteger(size) && size >= 2 && sat === size && !cheered ? SCREEN_MOMENTS.today.mobRingComplete : null;
+}
+
+/** The storage key that remembers a Mob week's cheer. */
+export const mobCheerKey = (weekStart) => `mm:mob-cheer:${weekStart}`;
 
 /**
  * One Mobi in view. Given the boxes of the other Mobis on the page and the viewport height, true

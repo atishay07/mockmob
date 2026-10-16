@@ -8,8 +8,12 @@
 // its groups left to right (each segment 180 ms, 60 ms apart); each legend row fades in 150 ms after its segment.
 // It plays once per attempt (sessionStorage). Opening a row dims the other segments to 40% and lifts its own by
 // 2 px (150 ms). Reduced motion, a later view or no IntersectionObserver: the final state at once, dimming only.
+// Pass 1016e (WC-01 to WC-03): a click on a bar segment opens its row and glides the page to it (300 ms, the glide curve;
+// at once under reduced motion), its segment lifted 2 px. The re-mark is one net line and the two re-mark figures over
+// one denominator. Every method sentence sits under one 44 px row, "How this is counted", that opens in place (200 ms).
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown, Play, Users } from 'lucide-react';
+import { curves, durations } from '@/lib/motion/tokens.g.js';
 import './marks-ledger.css';
 
 const CHIPS_SHOWN = 8; // LAB_RULES.chipsShown in data/mistake_lab.js
@@ -23,6 +27,51 @@ function wasSeen(attemptId) {
 }
 function markSeen(attemptId) {
   try { window.sessionStorage.setItem(seenKey(attemptId), '1'); } catch { /* storage blocked: the split may play again, nothing else changes */ }
+}
+
+// A cubic-bezier easing (the token curves are the four control values), solved for x by Newton steps then bisection.
+function bezier([x1, y1, x2, y2]) {
+  const at = (a, b, t) => ((1 - 3 * b + 3 * a) * t + (3 * b - 6 * a)) * t * t + 3 * a * t;
+  const slope = (a, b, t) => 3 * (1 - 3 * b + 3 * a) * t * t + 2 * (3 * b - 6 * a) * t + 3 * a;
+  return (x) => {
+    if (x <= 0) return 0;
+    if (x >= 1) return 1;
+    let t = x;
+    for (let i = 0; i < 6; i += 1) {
+      const d = slope(x1, x2, t);
+      if (Math.abs(d) < 1e-6) break;
+      t -= (at(x1, x2, t) - x) / d;
+    }
+    if (!(t >= 0 && t <= 1)) {
+      let lo = 0; let hi = 1; t = x;
+      for (let i = 0; i < 20; i += 1) { if (at(x1, x2, t) < x) lo = t; else hi = t; t = (lo + hi) / 2; }
+    }
+    return at(y1, y2, t);
+  };
+}
+const glideEase = bezier(curves.glide);
+
+/**
+ * Brings `el` into view on the glide (300 ms), leaving it alone when it is already fully on screen. The landing spot
+ * honours the element's scroll-margin-top, so a sticky header never covers it. Reduced motion: one jump.
+ */
+function glideTo(el) {
+  if (!el || typeof window === 'undefined') return;
+  const box = el.getBoundingClientRect();
+  const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0;
+  const bottomInset = 96; // the dock and the floating key on phones
+  if (box.top >= margin && box.bottom <= window.innerHeight - bottomInset) return;
+  const from = window.scrollY;
+  const to = Math.max(0, from + box.top - margin);
+  // 'instant' each frame: the page sets scroll-behavior: smooth, which would turn every frame into its own smooth scroll.
+  if (reducedMotion() || Math.abs(to - from) < 2) { window.scrollTo({ top: to, behavior: 'instant' }); return; }
+  const start = performance.now();
+  const step = (now) => {
+    const p = Math.min(1, (now - start) / durations.glide);
+    window.scrollTo({ top: from + (to - from) * glideEase(p), behavior: 'instant' });
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
 }
 
 // 'armed' holds the neutral block until the bar is in view; 'split' plays the split once; 'still' is the final state.
@@ -95,6 +144,15 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
     setOpen((s) => { const next = new Set(s); if (opening) next.add(id); else next.delete(id); return next; });
     setPicked((p) => (opening ? id : p === id ? null : p));
   };
+  // A bar segment: open its row (never close it), lift the segment, and glide to the row. The row's button is the
+  // keyboard and screen-reader way to the same place, so the segment itself stays a pointer shortcut.
+  const rowRefs = useRef(new Map());
+  const [methodOpen, setMethodOpen] = useState(false);
+  const goToGroup = (id) => {
+    setOpen((s) => (s.has(id) ? s : new Set(s).add(id)));
+    setPicked(id);
+    requestAnimationFrame(() => glideTo(rowRefs.current.get(id)));
+  };
 
   const seeChanges = useCallback(() => {
     const el = changesId ? document.getElementById(changesId) : null;
@@ -109,7 +167,10 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
   const labels = lab.labels || {};
   const headlineGroup = lab.headline?.group || null;
   // A paper without a clock record (state basic) gets its one line from the Lab (OlderPaper), not the ledger's fine line.
-  const fine = [...(lab.state === 'basic' && lab.older ? [] : lab.fine || []), ...(lab.cohort?.fine || [])].filter(Boolean);
+  // A ready paper's `fine` and the cohort's `fine` are method sentences, kept in the contract for older apps: the web
+  // shows them only through lab.method.
+  const fine = lab.state === 'basic' && !lab.older ? (lab.fine || []).filter(Boolean) : [];
+  const method = lab.method?.lines?.length ? lab.method : null;
 
   return (
     <div className="ml" data-split={phase} data-state={lab.state}>
@@ -124,6 +185,7 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
         {groups.map((g, i) => (
           <span key={g.id} className="ml-seg" data-g={g.id}
             data-dim={active && active !== g.id ? '' : undefined} data-lift={active === g.id ? '' : undefined}
+            onClick={() => goToGroup(g.id)}
             style={{ flexGrow: Math.max(g.marks, 1), '--n': Math.max(g.count, 1), '--d': i }}>
             {g.count > 1 ? <i className="ml-seg__ticks" aria-hidden="true" /> : null}
           </span>
@@ -135,7 +197,7 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
           const isOpen = open.has(g.id);
           const panelId = `${uid}-${g.id}`;
           return (
-            <li key={g.id} className="ml-row" data-open={isOpen || undefined} data-active={active === g.id || undefined} style={{ '--i': i }}>
+            <li key={g.id} className="ml-row" ref={(el) => { if (el) rowRefs.current.set(g.id, el); else rowRefs.current.delete(g.id); }} data-open={isOpen || undefined} data-active={active === g.id || undefined} style={{ '--i': i }}>
               <button type="button" className="ml-row__btn" aria-expanded={isOpen} aria-controls={panelId}
                 onClick={() => toggle(g.id)}
                 onPointerEnter={(e) => { if (e.pointerType === 'mouse') setPreview(g.id); }}
@@ -164,7 +226,7 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
       {lab.remark?.text ? (
         <div className="ml-remark">
           <p className="ml-remark__text">{withNumbers(lab.remark.text)}</p>
-          {lab.remark.fine ? <p className="ml-fine">{lab.remark.fine}</p> : null}
+          {lab.remark.scores ? <p className="ml-remark__scores">{withNumbers(lab.remark.scores)}</p> : null}
           {changesId && labels.seeChanges ? <button type="button" className="ml-textbtn" onClick={seeChanges}>{labels.seeChanges}</button> : null}
         </div>
       ) : null}
@@ -173,7 +235,7 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
         <div className="ml-cohort">
           <span className="ml-cohort__icon" aria-hidden="true"><Users size={16} strokeWidth={2.2} /></span>
           <div className="ml-cohort__main">
-            {lab.cohort.line ? <p>{withNumbers(lab.cohort.line)}</p> : null}
+            {lab.cohort.line ? <p>{withNumbers(lab.cohort.line)}{lab.cohort.truth ? <> <span className="ml-truth">{lab.cohort.truth}</span></> : null}</p> : null}
             {lab.cohort.line ? <LabChips numbers={lab.cohort.numbers} onJump={onJump} showMore={labels.showMore} /> : null}
             {/* Slice 5: the questions that took over twice as long as the students who got them right (the nightly table). */}
             {lab.cohort.slow ? <p>{withNumbers(lab.cohort.slow.line)}</p> : null}
@@ -182,15 +244,21 @@ export default function MarksLedger({ lab, attemptId, onJump, changesId = null, 
         </div>
       ) : null}
 
-      {/* The provenance notes (how marks and the cohort lines were counted) fold into one disclosure under the cohort lines. */}
-      {fine.length > 1 ? (
-        <details className="ml-fines ml-fines--fold">
-          <summary>How we counted</summary>
-          {fine.map((line) => <p key={line} className="ml-fine">{line}</p>)}
-        </details>
-      ) : fine.length ? (
-        <div className="ml-fines">
-          {fine.map((line) => <p key={line} className="ml-fine">{line}</p>)}
+      {/* A basic paper's one line on why the split is only wrong and blank stays in flow (an older paper says it itself). */}
+      {fine.length ? <p className="ml-fine ml-fine--state">{fine[0]}</p> : null}
+
+      {/* "How this is counted" (WC-01): the method sentences, one 44 px row away, opening in place. */}
+      {method ? (
+        <div className="ml-method" data-open={methodOpen || undefined}>
+          <button type="button" className="ml-method__row" aria-expanded={methodOpen} aria-controls={`${uid}-method`} onClick={() => setMethodOpen((v) => !v)}>
+            <span>{method.label}</span>
+            <ChevronDown className="ml-method__chev" size={16} strokeWidth={2.2} aria-hidden="true" />
+          </button>
+          <div className="ml-method__panel" id={`${uid}-method`} inert={!methodOpen || undefined} aria-hidden={!methodOpen || undefined}>
+            <div className="ml-method__inner">
+              {method.lines.map((line) => <p key={line} className="ml-fine">{line}</p>)}
+            </div>
+          </div>
         </div>
       ) : null}
     </div>

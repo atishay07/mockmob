@@ -38,7 +38,7 @@ function Ledger({ userId, ledger, accuracy, right, wrong, blank }) {
   const change = lookChange(from, now);
   // The number remembers what it showed in this visit: back on this page with the same accuracy it just shows it;
   // a changed one rolls from the old figure, in volt when it rose and dimmed when it fell.
-  const { value: shown, ink } = useCountUpState(now ?? 0, { from: from ?? undefined, duration: 800, memoryKey: `record-accuracy:${userId}` });
+  const { value: shown, ink } = useCountUpState(now ?? 0, { from: from ?? undefined, memoryKey: `record-accuracy:${userId}` });
   useEffect(() => { rememberLook(userId, now); }, [userId, now]);
   return (
     <>

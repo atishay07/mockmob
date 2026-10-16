@@ -147,31 +147,87 @@ test('the re-mark: a hand count of first picks against final answers, held quest
   const lab = labOf(FIX.full_mock_input);
   // First picks: 29 right with no change (+145), Q8 first wrong (-1), Q17 and Q31 first right (+10), Q22 and Q40 first
   // wrong (-2), 8 other wrong answers (-8), blanks 0: 144. Final: 30 right (+150), 11 wrong not held (-11): 139.
+  // Of the 5 changed: Q17 and Q31 went right to wrong (lost 12), two went wrong to right or blank (won back 7), one
+  // went wrong to another wrong (no change in marks). 49 questions count (Q14 is held): 245.
   assert.deepEqual(lab.remark, {
-    first: 144, final: 139, questions: 5,
-    text: 'Your first picks, re-marked: 144. Your final answers: 139. Changing answers cost 5 marks over 5 questions.',
+    first: 144, final: 139, max: 245, questions: 5,
+    lost: { marks: 12, questions: 2 }, won: { marks: 7, questions: 2 }, net: -5,
+    text: 'Changing answers: lost 12 marks on 2, won back 7 on 2. Net cost 5 marks.',
+    scores: 'First picks: 144 of 245. Final answers: 139 of 245 (1 question under re-check left out of both).',
     fine: 'Same paper, same key, only your first picks swapped in. 1 question under re-check is left out of both.',
   });
-  // With no held question, the final answers re-marked equal the paper's own score.
+  // With no held question, the final answers re-marked equal the paper's own score, over the paper's maximum.
   const quick = labOf(FIX.quick_set_input);
   const details = FIX.quick_set_input.attempt.details;
   const score = details.filter((d) => d.isCorrect === true).length * 5 - details.filter((d) => d.isCorrect === false).length;
   assert.equal(quick.remark.final, score);
-  assert.equal(quick.remark.text, 'Your first picks, re-marked: 33. Your final answers: 28. Changing answers cost 5 marks over 1 question.');
+  assert.equal(quick.remark.text, 'Changing answers lost 5 marks on 1 question.');
+  assert.equal(quick.remark.scores, 'First picks: 33 of 50. Final answers: 28 of 50.');
   // No change: no re-mark.
   assert.equal(labOf(FIX.nta_shuffled_input).remark, null);
   // A gain, and an even result.
   const gain = paper([['R', 30, { first: 2 }], ['W', 30], ['R', 30]]);
-  assert.match(buildMistakeLab({ attempt: gain.attempt }).remark.text, /Changing answers gained 6 marks over 1 question\.$/);
+  assert.equal(buildMistakeLab({ attempt: gain.attempt }).remark.text, 'Changing answers won back 6 marks on 1 question.');
   const even = paper([['R', 30, { first: 2 }], ['W', 30, { first: -1 }], ['R', 30]]);
-  assert.equal(buildMistakeLab({ attempt: even.attempt }).remark.text, 'Your first picks, re-marked: 9, the same as your final answers. Your changes on 2 questions evened out.');
+  const evenLab = buildMistakeLab({ attempt: even.attempt });
+  assert.equal(evenLab.remark.text, 'Changing answers: lost 6 marks on 1, won back 6 on 1. They evened out.');
+  assert.equal(evenLab.remark.scores, 'First picks: 9 of 15. Final answers: 9 of 15.');
+  // A change from one wrong option to another moves no marks.
+  const sideways = paper([['W', 30, { first: 2 }], ['R', 30], ['R', 30]]);
+  const side = buildMistakeLab({ attempt: sideways.attempt }).remark;
+  if (side) assert.equal(side.net, 0);
   for (const t of strings([lab.remark, quick.remark])) assert.doesNotMatch(t, /would have|could have|recoverable|potential/i);
+});
+
+test('the re-mark net object: lost minus won is the cost, both figures carry one denominator, on every input', () => {
+  const papers = [
+    ...INPUTS.map((n) => labOf(FIX[n])),
+    buildMistakeLab({ attempt: paper([['R', 30, { first: 2 }], ['W', 30, { first: -1 }], ['W', 30, { first: 3 }], ['B', 30, { first: -1, clear: true }], ['R', 30]]).attempt }),
+  ];
+  let seen = 0;
+  for (const lab of papers) {
+    const r = lab?.remark;
+    if (!r) continue;
+    seen += 1;
+    assert.equal(r.lost.marks - r.won.marks, r.first - r.final, 'lost minus won equals the net cost');
+    assert.equal(r.net, r.final - r.first);
+    assert.ok(r.lost.questions + r.won.questions <= r.questions);
+    const of = [...r.scores.matchAll(/ of (\d+)/g)].map((m) => Number(m[1]));
+    assert.deepEqual(of, [r.max, r.max], 'both re-mark figures carry the same denominator');
+    if (r.lost.questions && r.won.questions) assert.match(r.text, new RegExp(`lost ${r.lost.marks} marks? on ${r.lost.questions}, won back ${r.won.marks} on ${r.won.questions}[.]`));
+  }
+  assert.ok(seen >= 3, `re-marks checked: ${seen}`);
+});
+
+test('How this is counted: every method sentence sits in lab.method, and none of them in the body', () => {
+  const lab = labOf(FIX.full_mock_input, COHORT);
+  assert.equal(lab.method.label, 'How this is counted');
+  assert.deepEqual(lab.method.lines, [
+    LAB_COPY.method.ready,
+    LAB_COPY.method.remark,
+    '33 of the 50 questions in this paper have answers from 10 or more other students.',
+    "Other students' first answers to the same question on MockMob, 21 Apr to 15 Oct 2026. Your own answers are not counted.",
+  ]);
+  // The body: everything the Lab shows in flow. No method sentence, and no "device's record" or "Same paper" wording.
+  const body = strings([lab.heading, lab.hero, lab.headline, lab.groups, lab.barLabel, lab.remark?.text, lab.remark?.scores, lab.cohort?.line, lab.cohort?.truth, lab.cohort?.slow?.line]);
+  for (const line of lab.method.lines) for (const t of body) assert.ok(!t.includes(line), `method sentence in the body: ${line}`);
+  for (const t of body) assert.doesNotMatch(t, /device's record|Same paper, same key|answers from 10 or more other students|Your own answers are not counted/);
+  // The one in-flow truth line after the cohort line.
+  assert.equal(lab.cohort.truth, 'Each had answers from 20 or more other students.');
+  // The hero: the missed marks over the paper's maximum.
+  assert.deepEqual(lab.hero, { value: 112, max: 250, label: 'marks missed, of 250' });
+  // A basic paper has no device record to describe: no method without a cohort, and its one state line stays in flow.
+  const basic = labOf(FIX.no_timeline_input);
+  assert.equal(basic.method, null);
+  assert.equal(basic.fine.length, 1);
+  const none = labOf(FIX.no_missed_input);
+  assert.equal(none.hero, null);
 });
 
 test('negative marks use the minus sign', () => {
   assert.equal(marksNumber(-4), '−4');
   const low = paper([['W', 30, { first: -1 }], ['W', 30], ['W', 30]]);
-  assert.match(buildMistakeLab({ attempt: low.attempt }).remark.text, /re-marked: 3\. Your final answers: −3\./);
+  assert.equal(buildMistakeLab({ attempt: low.attempt }).remark.scores, 'First picks: 3 of 15. Final answers: −3 of 15.');
 });
 
 test('states: basic for a browser-scored paper, an inconsistent record and no timeline; none when nothing was missed', () => {
