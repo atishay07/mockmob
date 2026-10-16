@@ -61,7 +61,7 @@ The 14-day closed test with 12 to 20 testers starts at the first upload, so this
 
 ## 4. CUET_EVIDENCE_SIGNING_KEY: already done, nothing to do
 
-The key is already set in Vercel production (checked by name on 16 Oct; its value was not read). Vercel verified 653 of 666 signed evidence records last night, so it matches the factory's key. The `nta_question_index` table was applied to production at about 14:00 under the standing grant, and the index build runs right after.
+The key is already set in Vercel production (checked by name on 16 Oct; its value was not read). Vercel verified 653 of 666 signed evidence records last night, so it matches the factory's key. The `nta_question_index` table was applied to production at about 14:00 and built, then switched off at 14:55 after a signature mismatch made it reject its own rows (no student was affected). It goes back on once the fix is deployed and checked.
 
 ## Your own testing
 
